@@ -1,0 +1,129 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Ipc/InterProcessComm.h"
+//all Java-adequates from the package:
+package org/vishia/communication/;
+
+
+interface InterProcessCommFactory; nameC=InterProcessCommFactory_i; header=Ipc/InterProcessComm.h;  argIdent=Ipc;
+{ 
+  methods {
+		createAddress-_$, mode: overrideable: Address_InterProcessComm *.. return(String t.. type);
+		createAddress+_Port-_$, mode: overrideable: Address_InterProcessComm *.. return(String t.. type, int %.. port);
+		create-_$, mode: overrideable: InterProcessComm *.. return(String t.r type);
+		create+_Port-_$, mode: overrideable: InterProcessComm *.. return(String t.r type, int %.. port);
+		create+_Addr-_$, mode: overrideable: InterProcessComm *.. return(Address_InterProcessComm *.. addr);
+  }    
+  methods-overrideable {
+    createAddress_InterProcessCommFactory;
+    createAddress_Port_InterProcessCommFactory;
+    create_InterProcessCommFactory;
+    create_Port_InterProcessCommFactory;
+    create_Addr_InterProcessCommFactory;
+	}
+}
+
+
+//Use factory to create instance variable in heap. It is Java-like
+class InterProcessCommFactoryAccessor;  nameC=InterProcessCommFactoryAccessor;
+extends java/lang/Object
+{
+  methods{
+    ctorO-_$: InterProcessCommFactoryAccessor *..return();
+    getInstance-_$, mode=static+noThCxt: InterProcessCommFactory *.. ret();
+  }
+}
+
+//Use the implementation of InterProcessComm_Socket for embedded or static instances, C-thinking.
+final class InterProcessComm_SocketImpl; nameC=InterProcessCommSocket_s; header=Ipc/InterProcessCommSocket.h;  argIdent=Ipc;
+extends java/lang/Object
+{
+  methods {
+    ctorO-_$: InterProcessComm_SocketImpl *.. return(org/vishia/communication/Address_InterProcessComm_Socket *.. addr);
+    ctorO+_i-_$: InterProcessComm_SocketImpl *.. return(org/vishia/communication/Address_InterProcessComm_Socket *.. addr, int %.. port);
+  }    
+
+
+}
+
+
+//in Java used only as marker interface,without methods. In C it is a data class.
+final class Address_InterProcessComm; nameC=Address_InterProcessComm_s; header=Ipc/InterProcessComm.h;  argIdent=AddrIpc;
+extends java/lang/Object
+{ 
+	methods {
+    ctorO-_$: Address_InterProcessComm *.. return();
+		ctorO+_s-_$: Address_InterProcessComm *.. return(String t.. addr);
+		ctorO+_sI-_$: Address_InterProcessComm *.. return(String t.. addr, int %.. port);
+		ctorO+_II-_$: Address_InterProcessComm *.. return(int %.. addr, int %.. port);
+  }    
+}
+
+//in java an existing class, in C it is the same as Address_InterProcessComm.
+final class Address_InterProcessComm_Socket; nameC=Address_InterProcessComm_s; header=Ipc/InterProcessComm.h;  argIdent=AddrIpc;
+extends java/lang/Object
+{ 
+	methods {
+    ctorO-_$: Address_InterProcessComm_Socket *.. return();
+		ctorO+_s-_$: Address_InterProcessComm_Socket *.. return(String t.. addr);
+		ctorO+_sI-_$: Address_InterProcessComm_Socket *.. return(String t.. addr, int %.. port);
+		ctorO+_ssI-_$: Address_InterProcessComm_Socket *.. return(String t.. type, String t.. addr, int %.. port);
+		ctorO+_II-_$: Address_InterProcessComm_Socket *.. return(int %.. addr, int %.. port);
+		setReceiveSocket-_$: void %.. return(int %.. port);
+		setLocalHostPort-_$: void %.. return(int %.. port);
+  }    
+ 
+}
+
+
+interface InterProcessComm; nameC=InterProcessComm_i; header=Ipc/InterProcessComm.h;  argIdent=Ipc;
+{ fields{
+	  int %.S receiverShouldbeBlocking;  //static
+	  int %.S receiverShouldbePolling;  //static
+	}
+  methods {  
+    open-_$, mode= overrideable+noThCxt: int %.. return(Address_InterProcessComm *.. ownAddr, int %.. mode);
+    close-_$, mode= overrideable+noThCxt: int %.. return();
+    send-_$,mode= overrideable+noThCxt: int %.. return(MemC $.. data, int %.. nBytes, Address_InterProcessComm *.. dstAddr);
+    receive-_$,mode= overrideable+noThCxt: MemC $.. return(int *.. success, Address_InterProcessComm *..sender);
+    freeData-_$,mode= overrideable+noThCxt: int %.. return(MemC $.. data);
+    checkConnection-_$,mode= overrideable+noThCxt: int %.. return();
+    capacityToSendWithoutBlocking-_$,mode= overrideable+noThCxt: int %.. return(int %.. nrofBytesToSend);
+    dataAvailable-_$,mode= overrideable+noThCxt: int %.. return();
+    abortReceive-_$,mode= overrideable+noThCxt: int %.. return();
+    getName-_$,mode= overrideable+noThCxt: String t.. return();
+    getOwnAddress-_$,mode= overrideable+noThCxt: Address_InterProcessComm *.. return();
+    equals-_$,mode= overrideable+noThCxt: boolean %.. return(Address_InterProcessComm *.. addr1, Address_InterProcessComm *.. addr2);
+    translateErrorMsg-_$,mode= overrideable+noThCxt: s0 t.. return(int %.. error);
+    flush-_$,mode= overrideable+noThCxt: int %.. return();
+    receiveData-_$,mode= overrideable+noThCxt: MemC $.. return(int[??] P%. success, MemC $.. buffer, Address_InterProcessComm *..sender);
+    getSendBuffer-_$,mode= overrideable+noThCxt: MemC $.. return(int *.. bytes);
+    createAddress+Empty-_$,mode= overrideable+noThCxt: Address_InterProcessComm *.. return();
+    createAddress+_s-_$,mode= overrideable+noThCxt: Address_InterProcessComm *.. return(String t.. addr);
+    //createAddress+_z-_$,mode= overrideable+noThCxt: Address_InterProcessComm *.. return(s0 %.. addr);
+    createAddress+_sI-_$,mode= overrideable+noThCxt: Address_InterProcessComm *.. return(String t.. addr, int %.. port);
+    createAddress+_II-_$,mode= overrideable+noThCxt: Address_InterProcessComm *.. return(int %.. addr, int %.. port);
+	}
+  methods-overrideable {
+    open_InterProcessComm;
+    close_InterProcessComm;
+    send_InterProcessComm;
+    receive_InterProcessComm;
+    freeData_InterProcessComm;
+    checkConnection_InterProcessComm;
+    capacityToSendWithoutBlocking_InterProcessComm;
+    dataAvailable_InterProcessComm;
+    abortReceive_InterProcessComm;
+    getName_InterProcessComm;
+    getOwnAddress_InterProcessComm;
+    equals_InterProcessComm;
+    translateErrorMsg_InterProcessComm;
+    flush_InterProcessComm;
+    receiveData_InterProcessComm;
+    getSendBuffer_InterProcessComm;
+    createAddressEmpty_InterProcessComm;
+    createAddress_s_InterProcessComm;
+    createAddress_sI_InterProcessComm;
+    createAddress_II_InterProcessComm;
+  }
+	
+}

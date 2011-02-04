@@ -1,0 +1,45 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/byteDataJc"
+package org/vishia/byteData/;
+
+class ByteDataAccess; nameC=ByteDataAccessJc; argIdent=ByteD; extends java/lang/Object //intension=P
+{  
+fieldIdents {
+}
+  methods {  
+    addChild-_$: boolean %.. return(org/vishia/byteData/ByteDataAccess *.. child);
+    addChildEmpty-_$: void %.. return(org/vishia/byteData/ByteDataAccess *.. child);
+    addChildFloat-_$: void %.. return(float %.. value);
+    addChildInteger-_$: void %.. return(int %.. nrofBytes,int %.. value);
+    addChildString-_$: void %.. return(java/lang/String t.. value);
+    addChildString+z-_$: void %.. return(s0 t.. value);
+    addChildString+zz-_$: void %.. return(s0 t.. value,s0 t.. encoding);
+    assignData-_$: void %.. return(byte X%. buffer,int %.. length);
+    assignData+i-_$: void %.. return(byte X%. buffer,int %.. length,int %.. index);
+    assignEmpty-_$: void %.. return(byte X%. buffer);
+    ctorO-_$, mode= static: org/vishia/byteData/ByteDataAccess *.. return();
+    getLengthHead-_$: int %.. return();
+    getLengthTotal-_$: int %.. return();
+    setBigEndian-_$: void %.. return(boolean %.. endian);
+    setFloatVal-_$: void %.. return(int %.. ix,float %.. value);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+class RawDataAccess; nameC=RawDataAccessJc; argIdent=ByteD; extends org/vishia/byteData/ByteDataAccess //intension=P
+{  
+fieldIdents {
+}
+  methods {  
+  }
+
+  castTo {
+    org/vishia/byteData/ByteDataAccess: $ "(?).base.super" $;
+    java/lang/Object: $ "(?).base.super.base.object" $;
+  }
+
+}

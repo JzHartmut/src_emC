@@ -1,0 +1,81 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/FileIoJc"
+package java/io/;
+
+class File; nameC=FileJc_s; argIdent=File; extends java/lang/Object
+{  
+  methods {  
+    ctorO-_$, mode=static  : field:{ File *.. return;} (field:{ java.lang.String t.. name; });
+    lastModified-_$, mode=noThCxt : field:{ int %.. return;};
+    length-_$, mode=noThCxt : field:{ int %.. return;};
+    exists-_$, mode=noThCxt : field:{ boolean %.. return;};
+  }
+}
+
+class FileDescriptor; nameC=FileDescriptorJc; argIdent=fd;
+{  
+  fieldIdents {
+    field:{ java/io/FileDescriptor *.s out; }
+  }
+  methods {  
+    ctorO-_$, mode=static  : field:{ int &.. return;} (field:{ java.lang.String t.. name; });
+  }
+  castTo {
+    int access=%: "(?)" ? access=%;
+  }
+	
+}
+
+
+class OutputStream; nameC=OutputStreamJc_s; argIdent=ostr; extends java/lang/Object
+{  
+  methods {  
+    ctorO-_$, mode=static  : field:{ OutputStream *.. return;} (field:{ java.lang.String t.r name; });
+    write-_$: field:{ int %.. return;} (field:{ int %.. char; });
+  }
+}
+
+
+class FileOutputStream; nameC=FileOutputStreamJc_s; argIdent=ostr; extends java/io/OutputStream
+{  
+  methods {  
+    ctorO+_s-_$, mode=static : field:{ FileOutputStream *.. return;} (field:{ java.lang.String t.. name; });
+    ctorO+_f-_$, mode=static : field:{ FileOutputStream *.. return;} (field:{ java.io.File *.. file; });
+    write-_$, defined: java.io.OutputStream, mode: overrideable : field:{ int %.. return;} (field:{ int %.. char; });
+    close-_$, defined: java.io.OutputStream, mode: overrideable : field:{ int %.. return;};
+  }
+	
+}
+
+class FileWriter; nameC=FileWriterJc_s; argIdent=Fwr; extends java/io/OutputStream
+{ fieldIdents {
+    int %.d kFileNotFound;
+		int %.d kFileOpenError;
+	} 
+  methods {  
+    ctorO-_$, mode=static : FileWriter *.. return();
+    open-_$: int %.. return(String t.. name, boolean %.. append);
+    isOpen-_$, mode=noThCxt: boolean %.. return();
+    write-_$: void %.. return(String t.. content);
+    flush-_$: void %.. return();
+    close-_$: void %.. return();
+  }
+	
+}
+
+
+
+class PrintStream; nameC=PrintStreamJc_s; argIdent=P; header=Jc/PrintStreamJc.h;  extends java/io/OutputStream
+{ fieldIdents {
+    OutputStream @.. out;
+	} 
+  methods {  
+    println+_z-_$: void %.. return(s0 t.. line);
+    println+_s-_$: void %.. return(String t.. line);
+    println+_O-_$: void %.. return(Object *.. line);
+    print+_z-_$: void %.. return(s0 t.. input);
+    format+_z-_$: PrintStream *..return(s0 t.. formatString, va_argRaw +.. args); 
+  }
+	
+}
+

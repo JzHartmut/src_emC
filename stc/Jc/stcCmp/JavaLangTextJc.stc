@@ -1,0 +1,37 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/javaLangTextJc"
+package java/text/;
+
+class SimpleDateFormat; nameC=SimpleDateFormatJc_s; argIdent=Dt; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+  int %.d DATE_FIELD;
+}
+  methods {  
+    applyPattern-_$: void %.. return(java/lang/String t.. format);
+    ctorO-_$, mode= static: java/text/SimpleDateFormat *.. return();
+    ctorO+_s-_$, mode= static: java/text/SimpleDateFormat *.. return(java/lang/String t.. format);
+    format-_$, mode= returnNonPersistring: java/lang/String t.r return(org/vishia/bridgeC/OS_TimeStamp %.. time);
+    format+_tu-_$: java/lang/StringBuilder *.. return(org/vishia/bridgeC/OS_TimeStamp %.. time,java/lang/StringBuilder *.. buffer,java/text/FieldPosition *.. position);
+    setTimeZone-_$: void %.. return(java/util/TimeZone *.. timeZone);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+class FieldPosition; nameC=TextFieldPositionJc_s; argIdent=x; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    ctorO-_$, mode= static: java/text/FieldPosition *.. return(int %.. pos);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

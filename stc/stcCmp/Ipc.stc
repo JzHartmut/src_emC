@@ -1,0 +1,146 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "stc/Ipc"
+package org/vishia/communication/;
+
+interface InterProcessCommFactory; nameC=InterProcessCommFactory_i; argIdent=Ipc; //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    create-_$, mode= overrideable: org/vishia/communication/InterProcessComm *.. return(java/lang/String t.r type);
+    create+_Addr-_$, mode= overrideable: org/vishia/communication/InterProcessComm *.. return(org/vishia/communication/Address_InterProcessComm *.. addr);
+    create+_Port-_$, mode= overrideable: org/vishia/communication/InterProcessComm *.. return(java/lang/String t.r type,int %.. port);
+    createAddress-_$, mode= overrideable: org/vishia/communication/Address_InterProcessComm *.. return(java/lang/String t.. type);
+    createAddress+_Port-_$, mode= overrideable: org/vishia/communication/Address_InterProcessComm *.. return(java/lang/String t.. type,int %.. port);
+  }
+
+  methods-overrideable {
+    createAddress_InterProcessCommFactory;
+    createAddress_Port_InterProcessCommFactory;
+    create_InterProcessCommFactory;
+    create_Port_InterProcessCommFactory;
+    create_Addr_InterProcessCommFactory;
+  }
+
+}
+
+class InterProcessCommFactoryAccessor; nameC=InterProcessCommFactoryAccessor; argIdent=null; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    ctorO-_$: org/vishia/communication/InterProcessCommFactoryAccessor *.. return();
+    getInstance-_$, mode= noThCxt+static: org/vishia/communication/InterProcessCommFactory *.. ret();
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+final class InterProcessComm_SocketImpl; nameC=InterProcessCommSocket_s; argIdent=Ipc; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    ctorO-_$: org/vishia/communication/InterProcessComm_SocketImpl *.. return(org/vishia/communication/Address_InterProcessComm_Socket *.. addr);
+    ctorO+_i-_$: org/vishia/communication/InterProcessComm_SocketImpl *.. return(org/vishia/communication/Address_InterProcessComm_Socket *.. addr,int %.. port);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+final class Address_InterProcessComm; nameC=Address_InterProcessComm_s; argIdent=AddrIpc; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    ctorO-_$: org/vishia/communication/Address_InterProcessComm *.. return();
+    ctorO+_s-_$: org/vishia/communication/Address_InterProcessComm *.. return(java/lang/String t.. addr);
+    ctorO+_sI-_$: org/vishia/communication/Address_InterProcessComm *.. return(java/lang/String t.. addr,int %.. port);
+    ctorO+_II-_$: org/vishia/communication/Address_InterProcessComm *.. return(int %.. addr,int %.. port);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+final class Address_InterProcessComm_Socket; nameC=Address_InterProcessComm_s; argIdent=AddrIpc; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    ctorO-_$: org/vishia/communication/Address_InterProcessComm_Socket *.. return();
+    ctorO+_s-_$: org/vishia/communication/Address_InterProcessComm_Socket *.. return(java/lang/String t.. addr);
+    ctorO+_sI-_$: org/vishia/communication/Address_InterProcessComm_Socket *.. return(java/lang/String t.. addr,int %.. port);
+    ctorO+_II-_$: org/vishia/communication/Address_InterProcessComm_Socket *.. return(int %.. addr,int %.. port);
+    ctorO+_ssI-_$: org/vishia/communication/Address_InterProcessComm_Socket *.. return(java/lang/String t.. type,java/lang/String t.. addr,int %.. port);
+    setLocalHostPort-_$: void %.. return(int %.. port);
+    setReceiveSocket-_$: void %.. return(int %.. port);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+interface InterProcessComm; nameC=InterProcessComm_i; argIdent=Ipc; //creationMode=P
+{  
+fieldIdents {
+  int %.S receiverShouldbeBlocking;
+  int %.S receiverShouldbePolling;
+}
+  methods {  
+    abortReceive-_$, mode= noThCxt+overrideable: int %.. return();
+    capacityToSendWithoutBlocking-_$, mode= noThCxt+overrideable: int %.. return(int %.. nrofBytesToSend);
+    checkConnection-_$, mode= noThCxt+overrideable: int %.. return();
+    close-_$, mode= noThCxt+overrideable: int %.. return();
+    createAddress+Empty-_$, mode= noThCxt+overrideable: org/vishia/communication/Address_InterProcessComm *.. return();
+    createAddress+_s-_$, mode= noThCxt+overrideable: org/vishia/communication/Address_InterProcessComm *.. return(java/lang/String t.. addr);
+    createAddress+_sI-_$, mode= noThCxt+overrideable: org/vishia/communication/Address_InterProcessComm *.. return(java/lang/String t.. addr,int %.. port);
+    createAddress+_II-_$, mode= noThCxt+overrideable: org/vishia/communication/Address_InterProcessComm *.. return(int %.. addr,int %.. port);
+    dataAvailable-_$, mode= noThCxt+overrideable: int %.. return();
+    equals-_$, mode= noThCxt+overrideable: boolean %.. return(org/vishia/communication/Address_InterProcessComm *.. addr1,org/vishia/communication/Address_InterProcessComm *.. addr2);
+    flush-_$, mode= noThCxt+overrideable: int %.. return();
+    freeData-_$, mode= noThCxt+overrideable: int %.. return(MemC $.. data);
+    getName-_$, mode= noThCxt+overrideable: java/lang/String t.. return();
+    getOwnAddress-_$, mode= noThCxt+overrideable: org/vishia/communication/Address_InterProcessComm *.. return();
+    getSendBuffer-_$, mode= noThCxt+overrideable: MemC $.. return(int *.. bytes);
+    open-_$, mode= noThCxt+overrideable: int %.. return(org/vishia/communication/Address_InterProcessComm *.. ownAddr,int %.. mode);
+    receive-_$, mode= noThCxt+overrideable: MemC $.. return(int *.. success,org/vishia/communication/Address_InterProcessComm *.. sender);
+    receiveData-_$, mode= noThCxt+overrideable: MemC $.. return(int[??] P%. success,MemC $.. buffer,org/vishia/communication/Address_InterProcessComm *.. sender);
+    send-_$, mode= noThCxt+overrideable: int %.. return(MemC $.. data,int %.. nBytes,org/vishia/communication/Address_InterProcessComm *.. dstAddr);
+    translateErrorMsg-_$, mode= noThCxt+overrideable: s0 t.. return(int %.. error);
+  }
+
+  methods-overrideable {
+    open_InterProcessComm;
+    close_InterProcessComm;
+    send_InterProcessComm;
+    receive_InterProcessComm;
+    freeData_InterProcessComm;
+    checkConnection_InterProcessComm;
+    capacityToSendWithoutBlocking_InterProcessComm;
+    dataAvailable_InterProcessComm;
+    abortReceive_InterProcessComm;
+    getName_InterProcessComm;
+    getOwnAddress_InterProcessComm;
+    equals_InterProcessComm;
+    translateErrorMsg_InterProcessComm;
+    flush_InterProcessComm;
+    receiveData_InterProcessComm;
+    getSendBuffer_InterProcessComm;
+    createAddressEmpty_InterProcessComm;
+    createAddress_s_InterProcessComm;
+    createAddress_sI_InterProcessComm;
+    createAddress_II_InterProcessComm;
+  }
+
+}

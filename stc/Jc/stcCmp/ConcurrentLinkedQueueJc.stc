@@ -1,0 +1,25 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/ConcurrentLinkedQueueJc"
+package org/vishia/bridgeC/;
+
+class ConcurrentLinkedQueue; nameC=ConcurrentLinkedQueueJc_s; argIdent=Clq; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    add-_$: boolean %.. return(void *.. src);
+    contains-_$: boolean %.. return(void *.. obj);
+    ctorO+_Clq-_$, mode= static: org/vishia/bridgeC/ConcurrentLinkedQueue *.. return(org/vishia/bridgeC/ConcurrentLinkedQueue *.. nodeShare);
+    ctorO+_MemC-_$, mode= static: org/vishia/bridgeC/ConcurrentLinkedQueue *.. return(org/vishia/bridgeC/MemC $.. nodePool);
+    isEmpty-_$: boolean %.. return();
+    offer-_$: boolean %.. return(void *.. src);
+    poll-_$: void *.. return();
+    remove-_$: boolean %.. return(void *.. obj);
+    size-_$: int %.. return();
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

@@ -1,0 +1,159 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Fwc/fw_Exception"
+package java/io/;
+
+class Exception; nameC=Exception; argIdent=Exc; //creationMode=P
+{  
+fieldIdents {
+}
+}
+
+class IOException; nameC=IOException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class FileNotFoundException; nameC=FileNotFoundException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class UnsupportedEncodingException; nameC=UnsupportedEncodingException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class RuntimeException; nameC=RuntimeException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class ClassCastException; nameC=ClassCastException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class NullPointerException; nameC=NullPointerException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class IndexOutOfBoundsException; nameC=IndexOutOfBoundsException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class ArrayIndexOutOfBoundsException; nameC=ArrayIndexOutOfBoundsException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class StringIndexOutOfBoundsException; nameC=StringIndexOutOfBoundsException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class ArrayStoreException; nameC=ArrayStoreException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class IllegalArgumentException; nameC=IllegalArgumentException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class NoSuchFieldException; nameC=NoSuchFieldException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class NoSuchMethodException; nameC=NoSuchMethodException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class IllegalStateException; nameC=IllegalStateException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}
+
+class ParseException; nameC=ParseException; argIdent=Exc; extends java/lang/Exception //creationMode=P
+{  
+fieldIdents {
+}
+  castTo {
+    java/lang/Exception: $ "(?).base.super" $;
+  }
+
+}

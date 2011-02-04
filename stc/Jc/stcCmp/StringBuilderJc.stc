@@ -1,0 +1,90 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/StringBuilderJc"
+package java/lang/;
+
+class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    append+_s-_$, mode= returnThis: java/lang/StringBuilder *.. return(java/lang/String t.. param);
+    append+_u-_$, mode= returnThis: java/lang/StringBuilder *.. return(java/lang/StringBuilder *.. param);
+    append+_C-_$, mode= returnThis: java/lang/StringBuilder *.. return(char %.. param);
+    append+_Z-_$, mode= returnThis: java/lang/StringBuilder *.. return(boolean %.. param);
+    append+_I-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param);
+    append+_J-_$, mode= returnThis: java/lang/StringBuilder *.. return(long %.. param);
+    append+_F-_$, mode= returnThis: java/lang/StringBuilder *.. return(float %.. param);
+    append+_D-_$, mode= returnThis: java/lang/StringBuilder *.. return(double %.. param);
+    append+_z-_$, mode= returnThis: java/lang/StringBuilder *.. return(s0 t.. param);
+    append+_zI-_$, mode= returnThis: java/lang/StringBuilder *.. return(s0 t.. param,int %.. param);
+    append+_sII-_$, mode= returnThis: java/lang/StringBuilder *.. return(java/lang/String t.. param,int %.. param,int %.. param);
+    capacity-_$, mode= noThCxt: int %.. return();
+    charAt-_$: char %.. return(int %.. param);
+    ctorO-_$, mode= static: java/lang/StringBuilder *.. return();
+    ctorO+_I-_$, mode= static: java/lang/StringBuilder *.. return(int %.. param);
+    ctorO+_s-_$, mode= static: java/lang/StringBuilder *.. return(java/lang/String t.. param);
+    deleteCharAt-_$: void %.. return(int %.. param);
+    insert+_s-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,java/lang/String t.. param);
+    insert+_C-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,char %.. param);
+    insert+_Z-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,boolean %.. param);
+    insert+_I-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,int %.. param);
+    insert+_I-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,long %.. param);
+    insert+_F-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,float %.. param);
+    insert+_D-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,double %.. param);
+    insert+_z-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,s0 t.. param);
+    insert+_sI-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,java/lang/String t.. param,int %.. param);
+    insert+_zI-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,s0 t.. param,int %.. param);
+    insert+_sII-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,java/lang/String t.. param,int %.. param,int %.. param);
+    insert+_CYII-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. pos,char X.. param,int %.. from,int %.. to);
+    length-_$, mode= noThCxt: int %.. return();
+    replace-_$, mode= returnThis: java/lang/StringBuilder *.. return(int %.. param,int %.. param,java/lang/String t.. param);
+    setCharAt-_$: void %.. return(int %.. param,char %.. param);
+    setLength-_$: void %.. return(int %.. newLength);
+    toString-_$, defined: java/lang/Object.toString, mode= returnNonPersistring: java/lang/String t.r return();
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+    java/lang/StringBuffer: * "?" *;
+  }
+
+  castFrom {
+    java/lang/StringBuffer: * "?" *;
+  }
+
+}
+
+class Integer; nameC=IntegerJc; argIdent=I; //creationMode=P
+{  
+fieldIdents {
+  int %.S MAX_VALUE;
+  int %.S MIN_VALUE;
+}
+  methods {  
+    parseInt-_$, mode= noThCxt+static: int %.. return(java/lang/String t.. value);
+    parseInt+_radix-_$, mode= noThCxt+static: int %.. return(java/lang/String t.. value,int %.. radix);
+  }
+
+}
+
+class CharSequence; nameC=StringJc; argIdent=t; //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    charAt-_$, mode= noThCxt: char %.. return(int %.. index);
+    length-_$, mode= noThCxt: int %.. return();
+    subSequence-_$: java/lang/String t.. return(int %.. start,int %.. end);
+    toString-_$: java/lang/String t.. return();
+  }
+
+  castTo {
+    java/lang/String: t "?" t;
+  }
+
+  castFrom {
+    java/lang/StringBuilder: * "toString_StringBuilderJc(&(?)->base.object, _thCxt)" t;
+    java/lang/String: t "?" t;
+  }
+
+}

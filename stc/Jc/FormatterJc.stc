@@ -1,0 +1,21 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+fileC =  "Jc/FormatterJc"
+package java/util/;
+
+class Formatter; nameC=FormatterJc_s; argIdent=Fo; extends java/lang/Object
+{  
+  methods {  
+
+        ctorO-_$, mode=static  : Formatter *.. return();
+        ctorO+_Sb-_$, mode=static  : Formatter *.. return(StringBuilder *.. buffer);
+        ctorO+_SbLo-_$, mode=static  : Formatter *.. return(StringBuilder *.. buffer, java.util.Locale *.. locale);
+        format-_$: Formatter *.. return(String t.. text, org/vishia/bridgeC/Va_list $.. args);
+				format+_a-_$, mode=noThCxt: Formatter *.. return(s0 t.. text, va_arg ... args );
+  }
+  castTo {
+    org/vishia/bridgeC/OS_TimeStamp access=$: "(?)->val" ? access=*;
+  }
+  
+}
+
+class IllegalFormatConversionException; nameC=IllegalFormatConversionException; argIdent=Exc; extends Exception {}

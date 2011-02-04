@@ -1,0 +1,110 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/FileIoJc"
+package java/io/;
+
+class File; nameC=FileJc_s; argIdent=File; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    ctorO-_$, mode= static: java/io/File *.. return(java/lang/String t.. name);
+    exists-_$, mode= noThCxt: boolean %.. return();
+    lastModified-_$, mode= noThCxt: int %.. return();
+    length-_$, mode= noThCxt: int %.. return();
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+class FileDescriptor; nameC=FileDescriptorJc; argIdent=fd; //creationMode=P
+{  
+fieldIdents {
+  java/io/FileDescriptor *.s out;
+}
+  methods {  
+    ctorO-_$, mode= static: int &.. return(java/lang/String t.. name);
+  }
+
+  castTo {
+    int: % "(?)" %;
+  }
+
+}
+
+class OutputStream; nameC=OutputStreamJc_s; argIdent=ostr; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    ctorO-_$, mode= static: java/io/OutputStream *.. return(java/lang/String t.r name);
+    write-_$: int %.. return(int %.. char);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+class FileOutputStream; nameC=FileOutputStreamJc_s; argIdent=ostr; extends java/io/OutputStream //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    close-_$, mode= overrideable: int %.. return();
+    ctorO+_s-_$, mode= static: java/io/FileOutputStream *.. return(java/lang/String t.. name);
+    ctorO+_f-_$, mode= static: java/io/FileOutputStream *.. return(java/io/File *.. file);
+    write-_$, mode= overrideable: int %.. return(int %.. char);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.super.base.object" $;
+    java/io/OutputStream: $ "(?).base.super" $;
+  }
+
+}
+
+class FileWriter; nameC=FileWriterJc_s; argIdent=Fwr; extends java/io/OutputStream //creationMode=P
+{  
+fieldIdents {
+  int %.d kFileNotFound;
+  int %.d kFileOpenError;
+}
+  methods {  
+    close-_$: void %.. return();
+    ctorO-_$, mode= static: java/io/FileWriter *.. return();
+    flush-_$: void %.. return();
+    isOpen-_$, mode= noThCxt: boolean %.. return();
+    open-_$: int %.. return(java/lang/String t.. name,boolean %.. append);
+    write-_$: void %.. return(java/lang/String t.. content);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.super.base.object" $;
+    java/io/OutputStream: $ "(?).base.super" $;
+  }
+
+}
+
+class PrintStream; nameC=PrintStreamJc_s; argIdent=P; extends java/io/OutputStream //creationMode=P
+{  
+fieldIdents {
+  java/io/OutputStream @.. out;
+}
+  methods {  
+    format+_z-_$: java/io/PrintStream *.. return(s0 t.. formatString,va_argRaw +.. args);
+    print+_z-_$: void %.. return(s0 t.. input);
+    println+_z-_$: void %.. return(s0 t.. line);
+    println+_s-_$: void %.. return(java/lang/String t.. line);
+    println+_O-_$: void %.. return(java/lang/Object *.. line);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.super.base.object" $;
+    java/io/OutputStream: $ "(?).base.super" $;
+  }
+
+}

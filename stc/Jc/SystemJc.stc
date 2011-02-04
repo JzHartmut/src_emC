@@ -1,0 +1,65 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/SystemJc"
+package java/lang/;
+
+//NOTE: This file will be parsed on startup of the Java2C-translator. 
+//It contains all standard types of the package java/lang, which are used frequently, 
+//so there are known already before there are requested.
+
+
+class System; nameC=SystemJc; argIdent=Sys; extends java/lang/Object
+{  
+  fieldIdents {
+    field:{ java/io/PrintStream @.s out; }
+  }
+  
+  methods {  
+    arraycopy-_$ , mode: static:field{ void %.. return;} (field{ java/lang/Object *.. src;}, field{ int %.. posSrc;}, field:{ java/lang/Object *.. dest;}, field:{ int %.. posDest;}, field:{ int %.. posLength;});
+    arraycopy+_v-_$ , mode: static: void %.. return (ByteStringJc B.. src, int %.. posSrc, java/lang/Object *.. dest, int %.. posDest, int %.. posLength);
+    gc-_$, mode: static:field{ void %.. return;};
+    nanoTime-_$, mode: static:field{ long %.. return;};
+  }
+  
+}
+
+
+class Float; nameC=FloatJc; argIdent=F;
+{  
+  methods {  
+		floatToRawIntBits-_$, mode=static+noThCxt: int %.. return (float %.. value);
+		floatToIntBits-_$, mode=static+noThCxt: int %.. return (float %.. value);
+		intBitsToFloat-_$, mode=static+noThCxt: float %..return(int %.. value);
+	}
+  
+}
+
+class Double; nameC=DoubleJc; argIdent=D;
+{  
+  methods {  
+		doubleToRawLongBits-_$, mode=static+noThCxt: long %.. return (double %.. value);
+		doubleToLongBits-_$, mode=static+noThCxt: long %..return(double %.. value); 
+		longBitsToDouble-_$, mode=static+noThCxt: double %..return(long %.. value);
+    toString-_$, mode=static: String t.. return(double%.. value);
+    toString-_$: String t.. return();
+	}
+  
+}
+
+/*
+//Note: do not mix up with org.vishia.reflect.ClassJc, another name is necessary.
+const class Class; nameC=ClassJc1; argIdent=C;  //note: defined in CRuntimeJavalikeClassData.java
+{  
+  methods {  
+    getName-_$: s0 t..return();
+    getEnclosingClass-_$: Class *..return();
+    getDeclaredField-_$: java.lang.reflect.Field *.. return(String t.. name);
+    getDeclaredFields-_$: java.lang.reflect.Field X*.return();
+    isPrimitive-_$: boolean %..return();
+    toString-_$: String t.. return();
+	}
+  
+}
+*/
+
+
+

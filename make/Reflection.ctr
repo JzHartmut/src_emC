@@ -1,0 +1,64 @@
+//********Blockes Reflectiontypes*****************************************
+= uint = int32
+= long = int32
+= short = int16
+= int16BigEndian = int16
+= int32BigEndian = int32
+= floatBigEndian = int32
+= doubleBigEndian = int64
+= OS_SOCKET = int
+= OS_Mutex = int
+= OS_HandleFile = void
+= ObjectRefValuesJc = int32
+= OutputStreamJcREF = ObjectJcREF
+= OS_TimeStruct = OS_TimeStamp
+= MemC = OS_PtrValue
+= va_list = void
+= NodePoolJc = void
+@ Size_Mtbl_t = void
+@ ThreadContextFW_t = ThreadContextFW_s
+@ LogMessageFW_t = LogMessageFW_i
+@ Comm_Inspc_t = Comm_Inspc_s
+@ CmdConsumer_ifcInspc_t = CmdConsumer_ifcInspc_s
+@ Broker_OBM_t = Broker_OBM_s
+
+//! InterProcessCommOrder = ObjectifcBaseJcpp  //interface based on ObjectifcBaseJcpp
+
+//non-to-translate headerfiles:
+- Fwc/Reflection_Fwc.h  //a generated reflection file itself
+- Jc/Reflection_Jc.h    //a generated reflection file itself
+- BlockHeap/Reflection_BlockHeap.h
+- Jc/ObjectRefJc.h      //contains special defines
+- Jc/StringJc.h         
+- Jc/StringBufferJc.h
+
+# NodePoolJc
+# OS_HandleThread
+# OS_HandleEvent
+# OS_ThreadRoutine
+
+# WriteArea_ConcurrentRingBufferJc
+# ITEM_QueueJcREF
+# string
+# FILE
+# iINI_parser
+# MemAreaC
+# MemUnit
+
+# Void_MethodVoid
+# Type_Method_Jc
+# Object__VoidMethod
+# Method_Jcad
+
+# Mtbl_ObjectJc
+# ClassOffset_idxMtblJcARRAY
+# MethodJcARRAY
+# FieldJcArray
+# Type_MethodJc
+
+#BlockHeapJc
+#ObjectJcREF
+#ObjectJcREF_t
+- RunnableJcREF
+- StringBufferJcREF
+- StringBufferJc

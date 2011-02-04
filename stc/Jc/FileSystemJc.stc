@@ -1,0 +1,12 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/FileIOJc"
+package org/vishia/util/;
+
+class FileSystem; nameC=FileSystemJc; argIdent=Fs; extends java/lang/Object
+{  
+  
+  methods {  
+    writeBinFile-_$, mode=static: int %.. return( java.io.File *.. file, byte X%. buffer);
+  }
+  
+}

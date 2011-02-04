@@ -1,0 +1,106 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "InspcJ2c/WorkingThread_Inspc"
+package org/vishia/inspector/example/;
+
+class WorkingThread; nameC=WorkingThread_Inspc_s; argIdent=XX; extends java/lang/Object //creationMode=P
+{  
+    //Innerclass: C_theThreadRun_WorkingThread_Inspc
+    //Innerclass: Data_WorkingThread_Inspc
+    //Innerclass: ThreadMng_WorkingThread_Inspc
+  InnerClass{ 
+    class Data; nameC=Data_WorkingThread_Inspc_s; argIdent=XX; extends java/lang/Object //creationMode=C
+    {  
+        //Innerclass: Data_WorkingThread_Inspc
+        //Innerclass: ThreadMng_WorkingThread_Inspc
+        //Innerclass: WorkingThread_Inspc
+    fieldIdents {
+      int %.. dw;
+      float %.. wFloat;
+      int %.. ww;
+      float %.. yCos;
+      float %.. yOut1;
+      float %.. ySin;
+      float %.. ySin2;
+      float %.. ySin3;
+    }
+      methods {  
+        ctorO-_$, mode= ctor+static: org/vishia/inspector/example/WorkingThread.Data *.. Data_WorkingThread_Inspc_s();
+      }
+
+      castTo {
+        java/lang/Object: $ "(?).base.object" $;
+        org/vishia/inspector/example/WorkingThread: * "(?)->outer" *;
+      }
+
+    }
+
+    nonStaticInner class ThreadMng; nameC=ThreadMng_WorkingThread_Inspc_s; argIdent=XX; extends java/lang/Object //creationMode=C
+    {  
+        //Innerclass: Data_WorkingThread_Inspc
+        //Innerclass: ThreadMng_WorkingThread_Inspc
+        //Innerclass: WorkingThread_Inspc
+    fieldIdents {
+      boolean %.. bRun;
+      //outer=2 ,super=1: org/vishia/inspector/example/WorkingThread.Data(instance=org/vishia/inspector/example/WorkingThread.Data) $.. data;
+      //outer=2 ,super=1: org/vishia/inspector/example/WorkingThread.ThreadMng(instance=org/vishia/inspector/example/WorkingThread.ThreadMng) @.. theThreadMng;
+      //outer=2 ,super=1: org/vishia/inspector/example/WorkingThread.C_theThreadRun(instance=org/vishia/inspector/example/WorkingThread.C_theThreadRun) $.. theThreadRun;
+      java/lang/Thread(instance=java/lang/Thread) $.. thread;
+    }
+      methods {  
+      }
+
+      castTo {
+        java/lang/Object: $ "(?).base.object" $;
+        org/vishia/inspector/example/WorkingThread: * "(?)->outer" *;
+      }
+
+    }
+
+    nonStaticInner anonymous class C_theThreadRun; nameC=C_theThreadRun_WorkingThread_Inspc_s; argIdent=XX; extends java/lang/Object implements java/lang/Runnable //creationMode=Y
+    {  
+        //Innerclass: Data_WorkingThread_Inspc
+        //Innerclass: ThreadMng_WorkingThread_Inspc
+        //Innerclass: WorkingThread_Inspc
+    fieldIdents {
+      //outer=2 ,super=1: org/vishia/inspector/example/WorkingThread.Data(instance=org/vishia/inspector/example/WorkingThread.Data) $.. data;
+      //outer=2 ,super=1: org/vishia/inspector/example/WorkingThread.ThreadMng(instance=org/vishia/inspector/example/WorkingThread.ThreadMng) @.. theThreadMng;
+      //outer=2 ,super=1: org/vishia/inspector/example/WorkingThread.C_theThreadRun(instance=org/vishia/inspector/example/WorkingThread.C_theThreadRun) $.. theThreadRun;
+    }
+      methods {  
+        run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
+      }
+
+      castTo {
+        java/lang/Object: $ "(?).base.RunnableJc.base.object" $;
+        java/lang/Runnable: $ "(?).base.RunnableJc" $;
+        org/vishia/inspector/example/WorkingThread: * "(?)->outer" *;
+      }
+
+    }
+
+  }
+fieldIdents {
+  org/vishia/inspector/example/WorkingThread.Data(instance=org/vishia/inspector/example/WorkingThread.Data) $.. data;
+  org/vishia/inspector/example/WorkingThread.ThreadMng(instance=org/vishia/inspector/example/WorkingThread.ThreadMng) @.. theThreadMng;
+  org/vishia/inspector/example/WorkingThread.C_theThreadRun(instance=org/vishia/inspector/example/WorkingThread.C_theThreadRun) $.. theThreadRun;
+}
+  methods {  
+    ctorO-_$, mode= ctor+static: org/vishia/inspector/example/WorkingThread *.. WorkingThread_Inspc_s();
+    ctorO_C_theThreadRun-_$, mode= ctor+anonymousCtor+nonStaticCtor: org/vishia/inspector/example/WorkingThread.C_theThreadRun *.. C_theThreadRun_WorkingThread_Inspc_s();
+    ctorO_ThreadMng-_$, mode= ctor+nonStaticCtor: org/vishia/inspector/example/WorkingThread.ThreadMng *.. ThreadMng_WorkingThread_Inspc_s();
+    finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
+    start-_$, mode= overrideable: void %.r null();
+    step-_$: void %.r null();
+    terminate-_$, mode= overrideable: void %.r null();
+  }
+
+  methods-overrideable {
+    start_WorkingThread_Inspc;
+    terminate_WorkingThread_Inspc;
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

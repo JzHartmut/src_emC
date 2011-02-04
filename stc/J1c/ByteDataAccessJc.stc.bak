@@ -1,0 +1,146 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "J1c/ByteDataAccessJc"
+package org/vishia/byteData/;
+
+abstract class ByteDataAccess; nameC=ByteDataAccessJc_s; argIdent=XX; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+  int %.d _version_;
+  boolean %.. bBigEndian;
+  boolean %.. bExpand;
+  java/lang/String(instance=java/lang/String) t.. charset;
+  org/vishia/byteData/ByteDataAccess @.. currentChild;
+  byte[??] X%. data;
+  int %.. idxBegin;
+  int %.. idxCurrentChild;
+  int %.. idxCurrentChildEnd;
+  int %.. idxEnd;
+  int %.. idxFirstChild;
+  byte %.d kEndOfElements;
+  int %.d kIdxElementCode;
+  byte %.S kNothing;
+  byte %.d kText;
+  byte %.d kUndefined;
+  org/vishia/byteData/ByteDataAccess @.. parent;
+}
+  methods {  
+    _getLong-_$: long %.r null(int %.. idxInChild,int %.. nrofBytesAndSign);
+    _getString-_$: java/lang/String(instance=java/lang/String) t.r null(int %.. idx,int %.. nrofBytes);
+    _setLong-_$: void %.r null(int %.. idx,int %.. nrofBytes,long %.. val);
+    _setString-_$: void %.r null(int %.. idx,int %.. nrofBytes,java/lang/String(instance=java/lang/String) t.. value,java/lang/String(instance=java/lang/String) t.. sEncoding,boolean %.. preventCtrlChars);
+    addChild-_$: boolean %.r null(org/vishia/byteData/ByteDataAccess *.. child);
+    addChildEmpty-_$: void %.r null(org/vishia/byteData/ByteDataAccess *.. child);
+    addChildFloat-_$: void %.r null(float %.. value);
+    addChildInteger-_$: void %.r null(int %.. nrofBytes,long %.. value);
+    addChildString+_S-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. value);
+    addChildString+_t-_$: void %.r null(java/lang/CharSequence t.r value);
+    addChildString+_tS-_$: void %.r null(java/lang/CharSequence t.r value,java/lang/String(instance=java/lang/String) t.. sEncoding);
+    addChildString+_SSb-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. value,java/lang/String(instance=java/lang/String) t.. sEncoding,boolean %.. preventCtrlChars);
+    addText-_$: int %.r null(java/lang/String(instance=java/lang/String) t.. ss);
+    assignAsChild-_$: void %.r null(org/vishia/byteData/ByteDataAccess *.. parent);
+    assignAtIndex+_iXX-_$: void %.r null(int %.. idxChildInParent,org/vishia/byteData/ByteDataAccess *.. parent);
+    assignAtIndex+_iiXX-_$: void %.r null(int %.. idxChildInParent,int %.. lengthChild,org/vishia/byteData/ByteDataAccess *.. parent);
+    assignCasted_i-_$: void %.r null(org/vishia/byteData/ByteDataAccess *.. src,int %.. offsetCastToInput,int %.. lengthDst);
+    assignData+_iYi-_$, mode= overrideable: void %.r null(byte[??] X%. data,int %.. length);
+    assignData+_iYii-_$, mode= overrideable: void %.r null(byte[??] X%. data,int %.. lengthData,int %.. index);
+    assignDataToFixChilds-_$, mode= overrideable: void %.r null();
+    assignDowncast_i-_$: void %.r null(org/vishia/byteData/ByteDataAccess *.. input);
+    assignEmpty-_$: void %.r null(byte[??] X%. data);
+    copyData-_$: void %.r null(int[??] X%. dst);
+    copyDataFrom-_$: void %.r null(org/vishia/byteData/ByteDataAccess *.. src);
+    correctCurrentChildEnd-_$: void %.r null(int %.. idxEndNew);
+    correctIdxChildEnd-_$: void %.r null(int %.. idxCurrentChildEndNew);
+    ctorO-_$, mode= ctor+static: org/vishia/byteData/ByteDataAccess *.. ByteDataAccessJc_s();
+    detach-_$: void %.r null();
+    elementAt-_$: void %.r null(int %.. indexObjectArray);
+    expandParent-_$: void %.r null();
+    finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
+    getChar-_$: char %.r null(int %.. idx);
+    getChildDouble-_$: double %.r null();
+    getChildFloat-_$: float %.r null();
+    getChildInteger-_$: long %.r null(int %.. nrofBytes);
+    getChildString-_$: java/lang/String(instance=java/lang/String) t.r null(int %.. nrofBytes);
+    getCurrentChild-_$: org/vishia/byteData/ByteDataAccess *.r null();
+    getData-_$: byte[??] X%r null();
+    getDouble-_$: double %.r null(int %.. idx);
+    getFloat+_i-_$: float %.r null(int %.. idx);
+    getFloat+_iii-_$, mode= overrideable: float %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray);
+    getInt16+_i-_$: short %.r null(int %.. idx);
+    getInt16+_iii-_$: int %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray);
+    getInt32+_i-_$: int %.r null(int %.. idx);
+    getInt32+_iii-_$: int %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray);
+    getInt64-_$: long %.r null(int %.. idx);
+    getInt8+_i-_$: byte %.r null(int %.. idx);
+    getInt8+_iii-_$: int %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray);
+    getLength-_$: int %.r null();
+    getLengthCurrentChildElement-_$: int %.r null();
+    getLengthHead-_$: int %.r null();
+    getLengthTotal-_$: int %.r null();
+    getMaxNrofBytes-_$: int %.r null();
+    getMaxNrofBytesForNextChild-_$: int %.r null();
+    getPositionInBuffer-_$: int %.r null();
+    getPositionNextChildInBuffer-_$: int %.r null();
+    getString-_$, mode= overrideable: java/lang/String(instance=java/lang/String) t.r null(int %.. idx,int %.. nmax);
+    getText-_$: java/lang/String(instance=java/lang/String) t.r null();
+    getUint16+_i-_$: int %.r null(int %.. idx);
+    getUint16+_iii-_$, mode= overrideable: int %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray);
+    getUint32+_i-_$: int %.r null(int %.. idx);
+    getUint32+_iii-_$: int %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray);
+    getUint8+_i-_$: int %.r null(int %.. idx);
+    getUint8+_iii-_$, mode= overrideable: int %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray);
+    isTextByte-_$: boolean %.r null(byte %.. nn);
+    next-_$: int %.r null();
+    notifyAddChild-_$, mode= overrideable: void %.r null();
+    removeChild-_$: void %.r null();
+    removeChildren-_$: void %.r null();
+    rewind-_$: void %.r null();
+    setBigEndian-_$, mode= overrideable: void %.r null(boolean %.. val);
+    setDouble-_$: void %.r null(int %.. idx,double %.. value);
+    setFloat+_if-_$: void %.r null(int %.. idx,float %.. value);
+    setFloat+_iiif-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,float %.. val);
+    setIdxCurrentChildEnd-_$: boolean %.r null(int %.. nrofBytes);
+    setIdxtoNextCurrentChild-_$: void %.r null();
+    setInt16+_ii-_$: void %.r null(int %.. idx,int %.. value);
+    setInt16+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
+    setInt32+_ii-_$: void %.r null(int %.. idx,int %.. value);
+    setInt32+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
+    setInt8+_ii-_$: void %.r null(int %.. idx,int %.. value);
+    setInt8+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
+    setLengthCurrentChildElement-_$: void %.r null(int %.. lengthOfCurrentChild);
+    setLengthElement-_$: void %.r null(int %.. length);
+    setString-_$, mode= overrideable: int %.r null(int %.. idx,int %.. nmax,java/lang/String(instance=java/lang/String) t.. ss);
+    setUint16+_ii-_$: void %.r null(int %.. idx,int %.. value);
+    setUint16+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
+    setUint32+_il-_$: void %.r null(int %.. idx,long %.. value);
+    setUint32+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
+    setUint8+_ii-_$: void %.r null(int %.. idx,int %.. value);
+    setUint8+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
+    specifyEmptyDefaultData-_$, mode= overrideable: void %.r null();
+    specifyLengthCurrentChildElement-_$, mode= overrideable: int %.r null();
+    specifyLengthElement-_$, mode= overrideable: int %.r null();
+    specifyLengthElementHead-_$, mode= overrideable: int %.r null();
+    sufficingBytesForNextChild-_$: boolean %.r null(int %.. nrofBytes);
+  }
+
+  methods-overrideable {
+    specifyEmptyDefaultData_ByteDataAccessJc;
+    specifyLengthElementHead_ByteDataAccessJc;
+    specifyLengthElement_ByteDataAccessJc;
+    specifyLengthCurrentChildElement_ByteDataAccessJc;
+    assignData_iYi_ByteDataAccessJc;
+    assignData_iYii_ByteDataAccessJc;
+    assignDataToFixChilds_ByteDataAccessJc;
+    notifyAddChild_ByteDataAccessJc;
+    getString_ByteDataAccessJc;
+    setString_ByteDataAccessJc;
+    setBigEndian_ByteDataAccessJc;
+    getUint16_iii_ByteDataAccessJc;
+    getUint8_iii_ByteDataAccessJc;
+    getFloat_iii_ByteDataAccessJc;
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

@@ -1,0 +1,19 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+fileC = "xyz"
+package org/vishia/bridgeC/;
+
+class ConcurrentLinkedQueue; nameC=ConcurrentLinkedQueueJc_s; header=Jc/ConcurrentLinkedQueueJc.h; argIdent=Clq; extends java/lang/Object
+{  
+  methods {  
+
+		ctorO+_Clq-_$, mode=static  : ConcurrentLinkedQueue *.. return(ConcurrentLinkedQueue *.. nodeShare);
+		ctorO+_MemC-_$, mode=static  : ConcurrentLinkedQueue *.. return(org/vishia/bridgeC/MemC $.. nodePool);
+		add-_$: boolean %.. return(void *.. src);
+		offer-_$: boolean %.. return(void *.. src);
+		poll-_$: void *.. return();
+		contains-_$: boolean %.. return(void *.. obj);
+		remove-_$: boolean %.. return(void *.. obj);
+		isEmpty-_$: boolean %.. return();
+		size-_$: int %.. return();
+	}
+}

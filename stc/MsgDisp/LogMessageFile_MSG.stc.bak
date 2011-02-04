@@ -1,0 +1,95 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "MsgDisp/LogMessageFile_MSG"
+package org/vishia/msgDispatch/;
+
+class LogMessageFile; nameC=LogMessageFile_MSG_s; argIdent=XX; extends java/lang/Object implements org/vishia/msgDispatch/LogMessage //creationMode=P
+{  
+    //Innerclass: Dbg_LogMessageFile_MSG
+  InnerClass{ 
+    final class Dbg; nameC=Dbg_LogMessageFile_MSG_s; argIdent=XX; //creationMode=C
+    {  
+        //Innerclass: Dbg_LogMessageFile_MSG
+        //Innerclass: LogMessageFile_MSG
+    fieldIdents {
+      int %.. cntCloseError;
+      int %.. cntCreateNewBecauseOpenFailed;
+      int %.. cntFilePathIncorrect;
+      int %.. cntOpenFailed;
+      int %.. cntWriteError;
+      //outer=2 ,super=1: int %.d kMsgClose;
+      //outer=2 ,super=1: int %.d kMsgNewFile;
+      //outer=2 ,super=1: int %.d kMsgOpen;
+      //outer=2 ,super=1: int %.d kMsgOpenError;
+    }
+      methods {  
+        ctorM-_$, mode= ctor+static: org/vishia/msgDispatch/LogMessageFile.Dbg *.. Dbg_LogMessageFile_MSG_s();
+      }
+
+      castTo {
+        org/vishia/msgDispatch/LogMessageFile: * "(?)->outer" *;
+      }
+
+    }
+
+  }
+fieldIdents {
+  boolean %.. bNewFile;
+  char[32] Y%. charsFormatTimestampFilename;
+  int %.. cntAllNonFlushedWrite;
+  int %.. cntNonFlushedWrite;
+  int %.. counterMultifile;
+  int %.. currentLengthMultifileNr;
+  java/text/SimpleDateFormat(instance=java/text/SimpleDateFormat) $.. dateFormat;
+  org/vishia/msgDispatch/LogMessageFile.Dbg(instance=org/vishia/msgDispatch/LogMessageFile.Dbg) $.. dbg;
+  java/io/FileWriter(instance=java/io/FileWriter) $.. file;
+  java/text/FieldPosition(instance=java/text/FieldPosition) $.. formatField;
+  java/text/SimpleDateFormat(instance=java/text/SimpleDateFormat) $.. formatTimestamp;
+  org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeEntries;
+  int %.d kMsgClose;
+  int %.d kMsgNewFile;
+  int %.d kMsgOpen;
+  int %.d kMsgOpenError;
+  java/util/Locale @.. localization;
+  int %.. maxCntNonFlushedWrite;
+  int %.. msgIdentOpenClose;
+  org/vishia/msgDispatch/LogMessage @.. msgOpenClose;
+  int %.. nrofHoursPerFile;
+  int %.. nrofSecondsToClose;
+  int %.. nrofSecondsToFlush;
+  org/vishia/bridgeC/ConcurrentLinkedQueue *.. parkedOrders;
+  int %.. posMultifileInFilename;
+  int %.. posTimestampInFilename;
+  java/lang/StringBuilder(instance=java/lang/StringBuilder, fixBufferSize=1000) $B. sBuffer;
+  java/lang/StringBuffer(instance=java/lang/StringBuffer, fixBufferSize=32) $B. sDateformatBuffer;
+  java/lang/StringBuffer(instance=java/lang/StringBuffer, fixBufferSize=120) $B. sFilenameBuffer;
+  java/lang/String(instance=java/lang/String) t.. sFormatTimestampFilename;
+  boolean %.. shouldFlushed;
+  org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. timeClose;
+  org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. timeOpen;
+  org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. timeWrite;
+  java/util/TimeZone @.. timeZone;
+}
+  methods {  
+    close-_$, defined: org/vishia/msgDispatch/LogMessage.close, mode= overrideable: void %.r null();
+    ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/LogMessageFile *.. LogMessageFile_MSG_s(java/lang/String(instance=java/lang/String) t.. sFilename,int %.. nrofSecondsToFlush,int %.. nrofHoursPerFile,java/util/Locale *.. localization,java/util/TimeZone *.. timeZoneP,org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeEntriesP);
+    finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
+    flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush, mode= overrideable: void %.r null();
+    isOnline-_$, defined: org/vishia/msgDispatch/LogMessage.isOnline, mode= overrideable: boolean %.r null();
+    sendMsg+_izv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsg, mode= noThCxt+overrideable: boolean %.r null(int %.. identNumber,s0(instance=s0) %.. text,va_argRaw +.. args);
+    sendMsgTime+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgTime, mode= noThCxt: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,va_argRaw +.. args);
+    sendMsgVaList+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgVaList, mode= overrideable: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
+    setLogMessageOpenClose-_$, mode= overrideable: void %.r null(org/vishia/msgDispatch/LogMessage *.. msg,int %.. msgIdentOpenClose);
+    writeInFile-_$, mode= overrideable: void %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
+  }
+
+  methods-overrideable {
+    setLogMessageOpenClose_LogMessageFile_MSG;
+    writeInFile_LogMessageFile_MSG;
+  }
+
+  castTo {
+    org/vishia/msgDispatch/LogMessage: $ "(?).base.LogMessageFW" $;
+    java/lang/Object: $ "(?).base.LogMessageFW.base.object" $;
+  }
+
+}

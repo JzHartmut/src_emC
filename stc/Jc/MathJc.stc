@@ -1,0 +1,20 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/MathJc"
+package java/lang/;
+
+class Math; nameC=MathJc_s; argIdent=Ma; extends java/lang/Object
+{  
+	fields{
+	  double %.d PI;
+	}
+  methods {  
+		sin, mode=static+noThCxt: double %.. return(double %.. value);
+		cos, mode=static+noThCxt: double %.. return(double %.. value);
+		//sin+f, mode=static+noThCxt: float %.. return(float %.. value);
+		//cos+f, mode=static+noThCxt: double %.. return(float %.. value);
+		pow-_$, mode=static+noThCxt: double %.. return(double %.. value, double %.. exp);
+		random-_$, mode=static+noThCxt: double %.. return();
+  }
+  
+}
+

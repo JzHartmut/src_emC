@@ -1,0 +1,30 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "J1c/LeapSecondsJc"
+package org/vishia/util/;
+
+class LeapSeconds; nameC=LeapSecondsJc_s; argIdent=XX; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+  int[30] Q%. leapSeconds;
+  long[??] X%. millisecondsGPSForLeapSeconds;
+  long[??] X%. millisecondsUTCForLeapSeconds;
+  org/vishia/util/LeapSeconds *.s singleton;
+}
+  methods {  
+    ctorO-_$, mode= ctor+static: org/vishia/util/LeapSeconds *.. LeapSecondsJc_s();
+    dateFromGPS-_$, mode= static: java/util/Date *.r null(long %.. millisecondsGPS);
+    initFix-_$, mode= overrideable: void %.r null();
+    millisecondsGPSfromUTC-_$, mode= static: long %.r null(long %.. millisecondsUTC);
+    secondsGPSfromUTC-_$, mode= static: int %.r null(int %.. secondsUTC_1970);
+    setLeapSeconds-_$, mode= static: void %.r null(int %.. idx,java/util/Date *.. date);
+  }
+
+  methods-overrideable {
+    initFix_LeapSecondsJc;
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

@@ -1,0 +1,19 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/DateJc"
+package org/vishia/bridgeC/;
+
+
+class VaArgBuffer; nameC=VaArgBuffer; argIdent=Vargb;
+{  
+  fieldIdents{
+	  int &.. time_sec;
+		int &.. time_nsec;
+	}
+  methods {  
+		ctor-_$, mode=static+noThCxt  : OS_TimeStamp $.. return();
+		os_getDateTime, mode=static+noThCxt: OS_TimeStamp $.. return();
+		os_delayThread, mode=static+noThCxt: boolean %.. return(int %.. millisec);
+  }
+  
+}
+

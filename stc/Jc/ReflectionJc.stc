@@ -1,0 +1,28 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/ReflectionJc"
+package java/lang/reflect/;
+
+//Note: do not mix up with org.vishia.reflect.ClassJc, another name is necessary.
+const class Field; nameC=FieldJc1; argIdent=Fi; extends java/lang/Object
+{  
+  methods {  
+    ctorO-_$, mode=static  : Field *.. return(String t.. name);
+    getClass-_$, mode:noThCxt: Class *..return();
+    getType-_$, mode:noThCxt: Class *..return();
+    getName-_$, mode:noThCxt: s0 t.. return();
+    getBoolean-_$: boolean %.. return(Object *.. obj);
+    getByte-_$: byte %.. return(Object *.. obj);
+    getShort-_$: short %.. return(Object *.. obj);
+    getInt-_$: int %.. return(Object *.. obj);
+    getLong-_$: long %.. return(Object *.. obj);
+    getFloat-_$: float %.. return(Object *.. obj);
+    getDouble-_$: double %.. return(Object *.. obj);
+    get-_$: Object *.. return(Object *.. obj);
+    getModifier-_$: int %.. return();
+  }
+}
+
+
+class Modifier; nameC=Modifier_reflectJc1; argIdent=M; extends java/lang/Object
+{  
+}

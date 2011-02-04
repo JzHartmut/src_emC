@@ -1,0 +1,21 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/ExceptionJc"
+package java/lang/;
+
+class Exception; nameC=Exception; argIdent=Exc;{}
+class IOException; nameC=IOException; argIdent=Exc; extends Exception {}
+class FileNotFoundException; nameC=FileNotFoundException; argIdent=Exc; extends Exception {}
+class UnsupportedEncodingException; nameC=UnsupportedEncodingException; argIdent=Exc; extends Exception {}
+
+class RuntimeException; nameC=RuntimeException; argIdent=Exc; extends Exception {}
+class ClassCastException; nameC=ClassCastException; argIdent=Exc; extends Exception {}
+class NullPointerException; nameC=NullPointerException; argIdent=Exc; extends Exception {}
+class IndexOutOfBoundsException; nameC=IndexOutOfBoundsException; argIdent=Exc; extends Exception {}
+class ArrayIndexOutOfBoundsException; nameC=ArrayIndexOutOfBoundsException; argIdent=Exc; extends Exception {}
+class StringIndexOutOfBoundsException; nameC=StringIndexOutOfBoundsException; argIdent=Exc; extends Exception {}
+class ArrayStoreException; nameC=ArrayStoreException; argIdent=Exc; extends Exception {}
+class IllegalArgumentException; nameC=IllegalArgumentException; argIdent=Exc; extends Exception {}
+class NoSuchFieldException; nameC=NoSuchFieldException; argIdent=Exc; extends Exception {}
+class NoSuchMethodException; nameC=NoSuchMethodException; argIdent=Exc; extends Exception {}
+class IllegalStateException; nameC=IllegalStateException; argIdent=Exc; extends Exception {}
+class ParseException; nameC=ParseException; argIdent=Exc; extends Exception {}

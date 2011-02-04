@@ -1,0 +1,14 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/TimeZoneJc"
+package java/util/;
+
+class TimeZone; nameC=TimeZoneJc_s; argIdent=Tz; extends java/lang/Object
+{  
+  methods {  
+
+    ctorO-_$, mode=static  : TimeZone *.. return();
+		getTimeZone-_$, mode=static  : TimeZone *.. return(String t.. name);		
+  }
+  
+}
+

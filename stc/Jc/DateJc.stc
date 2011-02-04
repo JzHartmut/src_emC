@@ -1,0 +1,19 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/DateJc"
+package java/util/;
+
+class Date; nameC=DateJc_s; argIdent=Dt; extends java/lang/Object
+{  
+  methods {  
+
+        ctorO-_$, mode=static  : Date *.. return();
+        ctorO+_I-_$, mode=static  : Date *.. return(long %.. milliSecAfter1970);
+        getTime-_$, mode : noThCxt: long %.. return();
+				UTC-_$, mode=static+noThCxt: long %.. return(int %.. year, int %.. month, int %.. date, int %.. hour, int %.. min, int %.. sec);
+  }
+  castTo {
+    org/vishia/bridgeC/OS_TimeStamp access=$: "(?)->val" ? access=*;
+  }
+  
+}
+

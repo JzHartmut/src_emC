@@ -1,0 +1,108 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/ReflectionVishia"
+package org/vishia/reflect/;
+
+class ModifierJc; nameC=Modifier_reflectJc; argIdent=M; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+  int %.S kStaticArray;
+  int %.S kUML_ArrayList;
+  int %.S kUML_LinkedList;
+  int %.S mPrimitiv;
+  int %.S m_Containertype;
+}
+  methods {  
+    isCollection+_ModifierJc, mode= noThCxt+static: boolean %.. return(int %.. modifiervalue);
+    isStaticArray+_ModifierJc, mode= noThCxt+static: boolean %.. return(int %.. modifiervalue);
+    isStaticEmbeddedArray+_ModifierJc, mode= noThCxt+static: boolean %.. return(int %.. modifiervalue);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
+
+final class ClassJc; nameC=ClassJc; argIdent=Fd; //creationMode=P
+{  
+fieldIdents {
+  int %.S REFLECTION_String;
+  int %.S REFLECTION_bitfield;
+  int %.S REFLECTION_bool;
+  int %.S REFLECTION_boolean;
+  int %.S REFLECTION_char;
+  int %.S REFLECTION_double;
+  int %.S REFLECTION_float;
+  int %.S REFLECTION_int;
+  int %.S REFLECTION_int16;
+  int %.S REFLECTION_int32;
+  int %.S REFLECTION_int64;
+  int %.S REFLECTION_int8;
+  int %.S REFLECTION_uint;
+  int %.S REFLECTION_uint16;
+  int %.S REFLECTION_uint32;
+  int %.S REFLECTION_uint64;
+  int %.S REFLECTION_uint8;
+  int %.S REFLECTION_void;
+}
+  methods {  
+    getClass-_$, mode= noThCxt+static: org/vishia/reflect/ClassJc *.. ret(java/lang/Object *.. obj);
+    getDeclaredField-_$, mode= noThCxt: org/vishia/reflect/FieldJc *.. return(java/lang/String t.r name);
+    getDeclaredFields-_$, mode= noThCxt: org/vishia/reflect/FieldJc X$. return();
+    getEnclosingClass-_$, mode= noThCxt: org/vishia/reflect/ClassJc *.. return();
+    getName-_$, mode= noThCxt: s0 t.. return();
+    isPrimitive-_$, mode= noThCxt: boolean %.. return();
+    toString-_$: java/lang/String t.r return();
+  }
+
+}
+
+final class FieldJc; nameC=FieldJc; argIdent=Fd; //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    get-_$, mode= noThCxt: java/lang/Object *.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getArraylength-_$, mode= noThCxt: int %.. return(org/vishia/bridgeC/MemSegmJc %.. obj);
+    getBitfield-_$, mode= noThCxt: short %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getBoolean-_$, mode= noThCxt: boolean %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getByte-_$, mode= noThCxt: byte %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getChar-_$, mode= noThCxt: char %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getClass-_$, mode= noThCxt: org/vishia/reflect/ClassJc *.. return();
+    getDouble-_$, mode= noThCxt: double %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getFloat-_$, mode= noThCxt: float %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getInt-_$, mode= noThCxt: int %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getInt64-_$, mode= noThCxt: long %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getMemoryIdent-_$, mode= noThCxt: int %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getModifiers-_$, mode= noThCxt: int %.. return();
+    getName-_$, mode= noThCxt: s0 t.. return();
+    getObjAndClass-_$, mode= noThCxt: org/vishia/bridgeC/MemSegmJc %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,org/vishia/reflect/ClassJc P%. retClassP,va_argRaw +.. idx);
+    getShort-_$, mode= noThCxt: short %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getStaticArraySize-_$, mode= noThCxt: int %.. return();
+    getString-_$, mode= noThCxt: java/lang/String t.r return(org/vishia/bridgeC/MemSegmJc %.. obj,va_argRaw +.. idx);
+    getType-_$, mode= noThCxt: org/vishia/reflect/ClassJc *.. return();
+    getType-_$, mode= noThCxt: org/vishia/reflect/ClassJc *.. return();
+    set-_$, mode= noThCxt: org/vishia/bridgeC/MemSegmJc %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,java/lang/Object *.. value,va_argRaw +.. idx);
+    setBitfield-_$, mode= noThCxt: short %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,short %.. value,va_argRaw +.. idx);
+    setBoolean-_$, mode= noThCxt: boolean %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,boolean %.. value,va_argRaw +.. idx);
+    setByte-_$, mode= noThCxt: byte %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,byte %.. value,va_argRaw +.. idx);
+    setChar-_$, mode= noThCxt: char %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,char %.. value,va_argRaw +.. idx);
+    setDouble-_$, mode= noThCxt: double %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,double %.. value,va_argRaw +.. idx);
+    setFloat-_$, mode= noThCxt: float %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,float %.. value,va_argRaw +.. idx);
+    setInt-_$, mode= noThCxt: int %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,int %.. value,va_argRaw +.. idx);
+    setInt64-_$, mode= noThCxt: long %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,long %.. value,va_argRaw +.. idx);
+    setShort-_$, mode= noThCxt: short %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,short %.. value,va_argRaw +.. idx);
+    setString-_$, mode= noThCxt: java/lang/String %.. return(org/vishia/bridgeC/MemSegmJc %.. obj,java/lang/String t.r value,va_argRaw +.. idx);
+  }
+
+}
+
+final class MemAccessArrayDebugJc; nameC=MemAccessArrayDebugJc; argIdent=Fd; //creationMode=P
+{  
+fieldIdents {
+}
+  methods {  
+    getSingleton-_$, mode= noThCxt+static: org/vishia/reflect/MemAccessArrayDebugJc *.. return();
+  }
+
+}

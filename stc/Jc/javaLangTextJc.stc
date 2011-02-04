@@ -1,0 +1,26 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "xyz"
+package java/text/;
+
+class SimpleDateFormat; nameC=SimpleDateFormatJc_s; header=Jc/DateJc.h; argIdent=Dt; extends java/lang/Object
+{  
+  fields {
+	  int %.d DATE_FIELD;
+	}
+  methods {  
+
+		ctorO-_$, mode=static  : SimpleDateFormat *.. return();
+		ctorO+_s-_$, mode=static  : SimpleDateFormat *.. return(String t.. format);
+		applyPattern-_$: void %.. return(String t.. format);
+    setTimeZone-_$: void %.. return(java.util.TimeZone *.. timeZone);
+		format-_$, mode=returnNonPersistring  : String t.. return(org/vishia/bridgeC/OS_TimeStamp %.. time);
+		format+_tu-_$ : StringBuilder *.. return (org/vishia/bridgeC/OS_TimeStamp %.. time, StringBuilder *.. buffer, java.text.FieldPosition *.. position);
+	}
+}
+
+class FieldPosition; nameC=TextFieldPositionJc_s; header=Jc/DateJc.h; argIdent=x; extends java/lang/Object
+{  
+  methods {  
+		ctorO-_$, mode=static  : FieldPosition *.. return(int %.. pos);
+	}
+}

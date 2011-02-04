@@ -1,0 +1,26 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/ThreadJc"
+package java/lang/;
+
+class Thread; nameC=ThreadJc_s; argIdent=Thread; extends java/lang/Object implements java/lang/Runnable
+
+
+{  
+  methods {  
+
+        ctorO-_$, mode=static  : field:{ Thread *.. return;};
+        ctorO+_z-_$, mode=static  : Thread *.. return(s0 t.. name);
+        ctorO+_s-_$, mode=static  : Thread *.. return(String t.. name);
+        ctorO+_Runnable-_$, mode=static  : field:{ Thread *.. return;}(field:{ java.lang.Runnable *.. param;});
+        ctorO+_Runnable_s-_$, mode=static  : field:{ Thread *.. return;}(field:{ java.lang.Runnable *.. param;}, field:{ String t.. param;});
+        ctorO+_Runnable_z-_$, mode=static  : field:{ Thread *.. return;}(field:{ java.lang.Runnable *.. param;}, field:{ s0 %.. param;});
+        ctorO+_z-_$, mode=static  : field:{ Thread *.. return;}( field:{ s0 *.. param;});
+        start-_$ : field:{ void %.. return;};
+        run-_$, defined: java.lang.Runnable, mode: overrideable : field:{ void %.. return;};
+        sleep-_$, mode: static : field:{ void %.. return;}(field:{ int %.. parem;});
+  }
+ // methods-overrideable {
+ //   run_RunnableJc;
+ // }
+  
+}

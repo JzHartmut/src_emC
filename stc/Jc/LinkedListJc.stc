@@ -1,0 +1,14 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/LinkedListJc"
+package java/util/;
+
+class LinkedList; nameC=LinkedListJc; argIdent=list; extends java/lang/Object
+{  
+  methods {  
+    ctorO-_$, mode=static+noThCxt  : field:{ LinkedList *.. return;} ();
+    add-_$%F: void %.. return(Object *.. src);
+    remove-_$%F: Object *.. return();
+    remove-_$%F: Object *.. return(int %.. ix);
+		size-_$%F, mode=noThCxt : int %.. return();
+  }
+}
