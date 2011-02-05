@@ -1552,7 +1552,7 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_StringFormatterJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -1562,9 +1562,9 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
    }
  };
 
-extern struct ClassJc_t const reflection_StringFormatterJc_s;
-extern struct ClassJc_t const reflection_StringBuilderJc;
-extern struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const reflection_StringFormatterJc_s;
+extern_C struct ClassJc_t const reflection_StringBuilderJc;
+extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_StringFormatterJc_s_t
 { ObjectArrayJc head; FieldJc data[11];
 } reflection_Fields_StringFormatterJc_s =

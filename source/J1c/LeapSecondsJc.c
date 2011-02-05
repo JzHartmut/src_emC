@@ -287,7 +287,7 @@ const MtblDef_LeapSecondsJc mtblLeapSecondsJc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_LeapSecondsJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -297,8 +297,8 @@ const MtblDef_LeapSecondsJc mtblLeapSecondsJc = {
    }
  };
 
-extern struct ClassJc_t const reflection_LeapSecondsJc_s;
-extern struct ClassJc_t const reflection_LeapSecondsJc_s;
+extern_C struct ClassJc_t const reflection_LeapSecondsJc_s;
+extern_C struct ClassJc_t const reflection_LeapSecondsJc_s;
 const struct Reflection_Fields_LeapSecondsJc_s_t
 { ObjectArrayJc head; FieldJc data[4];
 } reflection_Fields_LeapSecondsJc_s =

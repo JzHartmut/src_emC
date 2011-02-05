@@ -318,7 +318,7 @@ typedef struct Mtbl_WorkingThread_Inspc_t
 class WorkingThread_Inspc : private WorkingThread_Inspc_s
 { public:
 
-  WorkingThread_Inspc(){ init_ObjectJc(&this->base.object, sizeof(WorkingThread_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_WorkingThread_Inspc_s, 0); ctorO_C_theThreadRun_WorkingThread_Inspc(&this->base.object,  null/*_thCxt*/); }
+  WorkingThread_Inspc(){ init_ObjectJc(&this->base.object, sizeof(WorkingThread_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_WorkingThread_Inspc_s, 0); ctorO_WorkingThread_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   virtual void start(){ start_WorkingThread_Inspc_F(this,  null/*_thCxt*/); }
 

@@ -37,7 +37,7 @@
 
 /* NOTE: The types inside OS_PtrValue are not fixed, but the names.
  */
-extern ClassJc const reflection_OS_PtrValue;
+extern_C ClassJc const reflection_OS_PtrValue;
 const struct Reflection_Fields_OS_PtrValue_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -82,7 +82,7 @@ ClassJc const reflection_OS_PtrValue =
 
 /**A StringJc is always a OS_PtrValue, but a extra type is used..
  */
-extern ClassJc const reflection_StringJc;
+extern_C ClassJc const reflection_StringJc;
 const struct Reflection_Fields_StringJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -115,7 +115,7 @@ ClassJc const reflection_StringJc =
 
 /**A StringJc is always a OS_PtrValue, but a extra type is used..
  */
-extern ClassJc const reflection_MemSegmJc;
+extern_C ClassJc const reflection_MemSegmJc;
 const struct Reflection_Fields_MemSegmJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -148,7 +148,7 @@ ClassJc const reflection_MemSegmJc =
 
 /**A int64 consists of 2 int32, the inspector doesn't know the type yet.
  */
-extern ClassJc const reflection_int64;
+extern_C ClassJc const reflection_int64;
 const struct Reflection_Fields_int64_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -192,7 +192,7 @@ ClassJc const reflection_int64 =
 
 /**A int64 consists of 2 int32, the inspector doesn't know the type yet. 
  */
-extern ClassJc const reflection_uint64;
+extern_C ClassJc const reflection_uint64;
 const struct Reflection_Fields_uint64_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -237,7 +237,7 @@ ClassJc const reflection_uint64 =
   //extern struct ClassJc_t const reflection_int16;
 
 
-  extern const struct ClassJc_t reflection_int16_Y;
+  extern_C const struct ClassJc_t reflection_int16_Y;
   const struct Reflection_Fields_int16_Y_t{ ObjectArrayJc head; FieldJc data[2];} reflection_Fields_int16_Y =
   { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int16_Y)
   , { { "head", 0 , &reflection_ObjectArrayJc, 0, 0, 0, &reflection_int16_Y }
@@ -470,5 +470,5 @@ const struct ReflectionFieldJc_t reflectionFieldJc
 
 
 #include <Jc/LocaleJc.h>
-extern ClassJc const reflection_LocaleJc_s;
+//extern_C ClassJc const reflection_LocaleJc_s;
 //DEFINE_REFLECTION_REF(LocaleJc);

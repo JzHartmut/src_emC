@@ -147,7 +147,7 @@ const MtblDef_SpecialCharStringsJc mtblSpecialCharStringsJc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_SpecialCharStringsJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -157,7 +157,7 @@ const MtblDef_SpecialCharStringsJc mtblSpecialCharStringsJc = {
    }
  };
 
-extern struct ClassJc_t const reflection_SpecialCharStringsJc_s;
+extern_C struct ClassJc_t const reflection_SpecialCharStringsJc_s;
 const struct Reflection_Fields_SpecialCharStringsJc_s_t
 { ObjectArrayJc head; FieldJc data[2];
 } reflection_Fields_SpecialCharStringsJc_s =

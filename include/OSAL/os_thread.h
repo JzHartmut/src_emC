@@ -43,10 +43,7 @@
 #include <os_types_def.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+extern_C_BLOCK_
 
 
 
@@ -141,9 +138,6 @@ METHOD_C OS_PtrValue os_getCurrentUserThreadContext();
  */
 METHOD_C int os_setCurrentUserThreadContext(OS_PtrValue mem);
 
-#ifdef __cplusplus
-}  //extern "C"
-#endif
-
+_END_extern_C_BLOCK
 
 #endif //__os_thread_h__

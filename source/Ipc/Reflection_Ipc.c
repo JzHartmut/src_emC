@@ -4,9 +4,12 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "Reflection_Ipc.h"
+#include "Ipc/InterProcessCommSocket.h"
+
 #include "Ipc/InterProcessComm.h"
 
+
+extern_C const ClassJc reflection_Address_InterProcessComm_s;  //the just defined reflection_
 const struct Reflection_Fields_Address_InterProcessComm_s_t
 { ObjectArrayJc head;
   FieldJc data[4];
@@ -62,6 +65,8 @@ const ClassJc reflection_Address_InterProcessComm_s =
 
 
 
+
+extern_C const ClassJc reflection_InterProcessCommFactory_i;  //the just defined reflection_
 const ClassJc reflection_InterProcessCommFactory_i =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory_i, &reflection_ClassJc)
 , "InterProcessCommFactory_i"
@@ -76,6 +81,8 @@ const ClassJc reflection_InterProcessCommFactory_i =
 
 
 
+
+extern_C const ClassJc reflection_InterProcessCommFactoryAccessor;  //the just defined reflection_
 const ClassJc reflection_InterProcessCommFactoryAccessor =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactoryAccessor, &reflection_ClassJc)
 , "InterProcessCommFactoryAccessor"
@@ -90,6 +97,8 @@ const ClassJc reflection_InterProcessCommFactoryAccessor =
 
 
 
+
+extern_C const ClassJc reflection_InterProcessComm_i;  //the just defined reflection_
 const ClassJc reflection_InterProcessComm_i =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm_i, &reflection_ClassJc)
 , "InterProcessComm_i"
@@ -103,5 +112,3 @@ const ClassJc reflection_InterProcessComm_i =
 };
 
 
-
-#include "Ipc/InterProcessCommSocket.h"

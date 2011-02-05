@@ -813,6 +813,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* ythis, MemSegmJc obj
           else
           { //This is a fatal error, because anything in headeres ins't correct. Problem of compilation of fault revisions.
             THROW_s0(RuntimeException, "no significance ObjectifcBaseJcpp at address", (int32)objifc);
+            clazzFromInstance = null;
           }
           if(clazzFromInstance != null) 
           { clazzRet = clazzFromInstance; 

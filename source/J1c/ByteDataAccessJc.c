@@ -2437,7 +2437,7 @@ void finalize_ByteDataAccessJc_F(ObjectJc* othis, ThCxt* _thCxt)
 }
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_ByteDataAccessJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -2447,9 +2447,9 @@ void finalize_ByteDataAccessJc_F(ObjectJc* othis, ThCxt* _thCxt)
    }
  };
 
-extern struct ClassJc_t const reflection_ByteDataAccessJc_s;
-extern struct ClassJc_t const reflection_ByteDataAccessJc_s;
-extern struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
+extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
+extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_ByteDataAccessJc_s_t
 { ObjectArrayJc head; FieldJc data[12];
 } reflection_Fields_ByteDataAccessJc_s =

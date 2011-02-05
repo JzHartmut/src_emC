@@ -870,7 +870,7 @@ class StringPartJc : private StringPartJc_s
 
   virtual StringJc debugString(){  return debugString_StringPartJc_F(this,  null/*_thCxt*/); }
 
-  virtual bool equals(StringJc sCmp){  return equals_S_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
+  virtual bool equals(StringJcpp sCmp){  return equals_S_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
 
   virtual bool found(){  return found_StringPartJc_F(this,  null/*_thCxt*/); }
 

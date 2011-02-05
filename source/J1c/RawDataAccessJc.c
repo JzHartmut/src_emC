@@ -233,7 +233,7 @@ const MtblDef_RawDataAccessJc mtblRawDataAccessJc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ByteDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
  static struct superClasses_RawDataAccessJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];

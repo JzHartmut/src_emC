@@ -99,7 +99,7 @@ typedef enum OS_ReturnCodes_t
  * because this routine is called in a system routine. The text-parameter here should be shown
  * which system routine it is, in conclusion with the error description. 
  */
-typedef void MT_os_Error(int errorCode, const char* description, int value1, int value2);
+C_TYPE typedef void MT_os_Error(int errorCode, const char* description, int value1, int value2);
 
 
 /**Sets a routine, which is called if the OSAL layer or maybe the RTOS itself detects an error of any call,
@@ -107,7 +107,7 @@ typedef void MT_os_Error(int errorCode, const char* description, int value1, int
  * or an exception is thrown to catch the error at user level. This routine should only call on startup of the system.
  * NOTE: An wrapper to call this routine in the OSAL-layer is defined in the OSAL's internal Header ,,os_internal_common.h,,.
  */
-METHOD_C int os_setErrorRoutine(MT_os_Error* routine);
+extern_C int os_setErrorRoutine(MT_os_Error* routine);
 
 
 /**This routine will be called in error situations of the OSAL-Adaption and maybe in the RTOS immediately. 

@@ -38,10 +38,7 @@
 
 #include <os_types_def.h>  //This os-specific header should contain the definition of BIGENDIAN or LITTLEENDIAN
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+extern_C_BLOCK_
 
 #if defined(OSAL_BIGENDIAN)
 
@@ -147,9 +144,6 @@ extern "C" {
 
 #endif
 
-#ifdef __cplusplus
-}  //extern "C"
-#endif
-
+_END_extern_C_BLOCK
 
 #endif //__OSAL_os_endian_h__

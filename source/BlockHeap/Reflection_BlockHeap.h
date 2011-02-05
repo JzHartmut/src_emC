@@ -4,16 +4,16 @@
 #define __Reflection_BlockHeap_h__
 
 #include "Jc/ReflectionJc.h"
-extern const ClassJc reflection_BlockHeapJc;
+extern_C const ClassJc reflection_BlockHeapJc;
 #define REFLECTION_BlockHeapJc &reflection_BlockHeapJc
-extern const ClassJc reflection_ObjectJcREFArray;
+extern_C const ClassJc reflection_ObjectJcREFArray;
 #define REFLECTION_ObjectJcREFArray &reflection_ObjectJcREFArray
-extern const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc reflection_BlockHeapBlockJc;
 #define REFLECTION_BlockHeapBlockJc &reflection_BlockHeapBlockJc
-extern const ClassJc reflection_BlockHeapWholeBlockJc;
+extern_C const ClassJc reflection_BlockHeapWholeBlockJc;
 #define REFLECTION_BlockHeapWholeBlockJc &reflection_BlockHeapWholeBlockJc
-extern const ClassJc reflection_BlockHeapBlockJc_debugArray;
+extern_C const ClassJc reflection_BlockHeapBlockJc_debugArray;
 #define REFLECTION_BlockHeapBlockJc_debugArray &reflection_BlockHeapBlockJc_debugArray
-extern const ClassJc reflection_GarbageCollectorJc;
+extern_C const ClassJc reflection_GarbageCollectorJc;
 #define REFLECTION_GarbageCollectorJc &reflection_GarbageCollectorJc
 #endif // ___h__

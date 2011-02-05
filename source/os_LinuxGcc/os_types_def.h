@@ -103,9 +103,15 @@ typedef int64_t            int64;
 // Für eine reine C-Compilierung ist das Makro leer. Dann erscheint beim Linken nicht das Label nach C- sondern nach C++-Konventionen.
 // Beide Varianten können zweckmäßig sein. Hier ist die C++-Labeling-Variante gewählt.
 #ifdef __cplusplus
-  //#define METHOD_C extern "C"
-  #define METHOD_C
+  #define extern_C extern "C"
+  #define METHOD_C extern "C"
+#define extern_C_BLOCK_ extern "C" { 
+#define _END_extern_C_BLOCK { 
+  //#define METHOD_C
 #else
+  #define extern_C extern
+  #define extern_C_BLOCK_ 
+  #define _END_extern_C_BLOCK 
   #define METHOD_C
 #endif
 

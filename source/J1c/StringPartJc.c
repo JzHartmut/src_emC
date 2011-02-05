@@ -3807,7 +3807,7 @@ const MtblDef_StringPartJc mtblStringPartJc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_StringPartJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -3817,8 +3817,8 @@ const MtblDef_StringPartJc mtblStringPartJc = {
    }
  };
 
-extern struct ClassJc_t const reflection_StringPartJc_s;
-extern struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const reflection_StringPartJc_s;
+extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_StringPartJc_s_t
 { ObjectArrayJc head; FieldJc data[25];
 } reflection_Fields_StringPartJc_s =

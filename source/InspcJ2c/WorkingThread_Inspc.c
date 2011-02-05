@@ -150,7 +150,7 @@ const MtblDef_WorkingThread_Inspc mtblWorkingThread_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -160,10 +160,10 @@ const MtblDef_WorkingThread_Inspc mtblWorkingThread_Inspc = {
    }
  };
 
-extern struct ClassJc_t const reflection_WorkingThread_Inspc_s;
-extern struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
-extern struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
-extern struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
 const struct Reflection_Fields_WorkingThread_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[3];
 } reflection_Fields_WorkingThread_Inspc_s =
@@ -248,7 +248,7 @@ const MtblDef_Data_WorkingThread_Inspc mtblData_WorkingThread_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_Data_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -258,7 +258,7 @@ const MtblDef_Data_WorkingThread_Inspc mtblData_WorkingThread_Inspc = {
    }
  };
 
-extern struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
 const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[8];
 } reflection_Fields_Data_WorkingThread_Inspc_s =
@@ -386,7 +386,7 @@ const MtblDef_ThreadMng_WorkingThread_Inspc mtblThreadMng_WorkingThread_Inspc = 
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_ThreadMng_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -396,11 +396,11 @@ const MtblDef_ThreadMng_WorkingThread_Inspc mtblThreadMng_WorkingThread_Inspc = 
    }
  };
 
-extern struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
-extern struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
-extern struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
-extern struct ClassJc_t const reflection_ThreadJc_s;
-extern struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_ThreadJc_s;
+extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
 const struct Reflection_Fields_ThreadMng_WorkingThread_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[2];
 } reflection_Fields_ThreadMng_WorkingThread_Inspc_s =
@@ -535,7 +535,7 @@ const MtblDef_C_theThreadRun_WorkingThread_Inspc mtblC_theThreadRun_WorkingThrea
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_C_theThreadRun_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -545,7 +545,7 @@ const MtblDef_C_theThreadRun_WorkingThread_Inspc mtblC_theThreadRun_WorkingThrea
    }
  };
 
- extern struct ClassJc_t const reflection_RunnableJc_s;
+ extern_C struct ClassJc_t const reflection_RunnableJc_s;
  static struct ifcClasses_C_theThreadRun_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];

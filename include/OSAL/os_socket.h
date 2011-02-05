@@ -44,9 +44,7 @@
 
 #include <os_endian.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern_C_BLOCK_
 
 /* Konstanten */
 
@@ -285,9 +283,6 @@ METHOD_C int os_shutdown (OS_SOCKET so, int how);
 /**Translates the operation-system-specific error number in a english text. */
 METHOD_C char const* os_translateSocketErrorMsg(int nError);
 
-#ifdef __cplusplus
-}  //extern "C"
-#endif
-
+_END_extern_C_BLOCK
 
 #endif //__os_socket_h__

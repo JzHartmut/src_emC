@@ -4,12 +4,13 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "Reflection_AllJc.h"
 #include "Jc/AbstractListJc.h"
 
-extern const ClassJc reflection_ObjectJc;
-extern const ClassJc reflection_ListMapEntryJc;
-extern const ClassJc reflection_ListMapEntryJc;
+
+extern_C const ClassJc reflection_AbstractCollectionJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
 const struct Reflection_Fields_AbstractCollectionJc_t
 { ObjectArrayJc head;
   FieldJc data[5];
@@ -77,7 +78,9 @@ const ClassJc reflection_AbstractCollectionJc =
 
 #include "Jc/ComparatorJc.h"
 
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_ComparatorJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_ComparatorJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -111,7 +114,9 @@ const ClassJc reflection_ComparatorJc =
 
 #include "Jc/ConcurrentLinkedQueueJc.h"
 
-extern const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
+
+extern_C const ClassJc reflection_Node_ConcurrentLinkedQueueJc;  //the just defined reflection_
+extern_C const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
 const struct Reflection_Fields_Node_ConcurrentLinkedQueueJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -151,10 +156,12 @@ const ClassJc reflection_Node_ConcurrentLinkedQueueJc =
 
 
 
-extern const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
-extern const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
-extern const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
-extern const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
+
+extern_C const ClassJc reflection_ConcurrentLinkedQueueJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
+extern_C const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
+extern_C const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
+extern_C const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
 const struct Reflection_Fields_ConcurrentLinkedQueueJc_s_t
 { ObjectArrayJc head;
   FieldJc data[4];
@@ -212,6 +219,8 @@ const ClassJc reflection_ConcurrentLinkedQueueJc_s =
 
 #include "Jc/DateJc.h"
 
+
+extern_C const ClassJc reflection_DateValuesJc;  //the just defined reflection_
 const struct Reflection_Fields_DateValuesJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -251,7 +260,9 @@ const ClassJc reflection_DateValuesJc =
 
 
 
-extern const ClassJc reflection_OS_TimeStamp;
+
+extern_C const ClassJc reflection_DateJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_TimeStamp;
 const struct Reflection_Fields_DateJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -283,7 +294,9 @@ const ClassJc reflection_DateJc_s =
 
 
 
-extern const ClassJc reflection_StringJc;
+
+extern_C const ClassJc reflection_SimpleDateFormatJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_StringJc;
 const struct Reflection_Fields_SimpleDateFormatJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -323,6 +336,8 @@ const ClassJc reflection_SimpleDateFormatJc_s =
 
 
 
+
+extern_C const ClassJc reflection_TextFieldPositionJc_s;  //the just defined reflection_
 const struct Reflection_Fields_TextFieldPositionJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -356,6 +371,8 @@ const ClassJc reflection_TextFieldPositionJc_s =
 
 #include "Jc/LocaleJc.h"
 
+
+extern_C const ClassJc reflection_LocaleJc_s;  //the just defined reflection_
 const struct Reflection_Fields_LocaleJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -397,7 +414,9 @@ const ClassJc reflection_LocaleJc_s =
 
 #include "Jc/SystemJc.h"
 
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_SystemJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_SystemJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -431,7 +450,9 @@ const ClassJc reflection_SystemJc =
 
 #include "Jc/ObjectJc.h"
 
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_ObjectArrayJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_ObjectArrayJc_t
 { ObjectArrayJc head;
   FieldJc data[4];
@@ -487,7 +508,9 @@ const ClassJc reflection_ObjectArrayJc =
 
 
 
-extern const ClassJc reflection_ObjectArrayJc;
+
+extern_C const ClassJc reflection_int8ARRAY;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectArrayJc;
 const struct Reflection_Fields_int8ARRAY_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -529,10 +552,12 @@ const ClassJc reflection_int8ARRAY =
 
 #include "Jc/LinkedListJc.h"
 
-extern const ClassJc reflection_ObjectJc;
-extern const ClassJc reflection_LinkedListJc;
-extern const ClassJc reflection_ListMapEntryJc;
-extern const ClassJc reflection_ListMapEntryJc;
+
+extern_C const ClassJc reflection_ListItr_LinkedListJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_LinkedListJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
 const struct Reflection_Fields_ListItr_LinkedListJc_t
 { ObjectArrayJc head;
   FieldJc data[6];
@@ -604,7 +629,9 @@ const ClassJc reflection_ListItr_LinkedListJc =
 
 
 
-extern const ClassJc reflection_ListMapEntryJc;
+
+extern_C const ClassJc reflection_LinkedListJcD;  //the just defined reflection_
+extern_C const ClassJc reflection_ListMapEntryJc;
 const struct Reflection_Fields_LinkedListJcD_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -644,7 +671,9 @@ const ClassJc reflection_LinkedListJcD =
 
 
 
-extern const ClassJc reflection_LinkedListJcD;
+
+extern_C const ClassJc reflection_LinkedListJc;  //the just defined reflection_
+extern_C const ClassJc reflection_LinkedListJcD;
 const struct Reflection_Fields_LinkedListJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -680,7 +709,9 @@ const ClassJc reflection_LinkedListJc =
 
 #include "Jc/ListJc.h"
 
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_ListJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_ListJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -712,7 +743,9 @@ const ClassJc reflection_ListJc =
 
 
 
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_IteratorJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_IteratorJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -746,10 +779,12 @@ const ClassJc reflection_IteratorJc =
 
 #include "Jc/ListMapEntryJc.h"
 
-extern const ClassJc reflection_ListMapEntryJc;
-extern const ClassJc reflection_ListMapEntryJc;
-extern const ClassJc reflection_ListMapEntryJc;
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_ListMapEntryJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ListMapEntryJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_ListMapEntryJc_t
 { ObjectArrayJc head;
   FieldJc data[6];
@@ -823,8 +858,10 @@ const ClassJc reflection_ListMapEntryJc =
 
 #include "Jc/ReflectionJc.h"
 
-extern const ClassJc reflection_ClassJc;
-extern const ClassJc reflection_ClassJc;
+
+extern_C const ClassJc reflection_FieldJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ClassJc;
+extern_C const ClassJc reflection_ClassJc;
 const struct Reflection_Fields_FieldJc_t
 { ObjectArrayJc head;
   FieldJc data[7];
@@ -904,6 +941,8 @@ const ClassJc reflection_FieldJc =
 
 
 
+
+extern_C const ClassJc reflection_MethodJc;  //the just defined reflection_
 const struct Reflection_Fields_MethodJc_t
 { ObjectArrayJc head;
   FieldJc data[4];
@@ -959,8 +998,10 @@ const ClassJc reflection_MethodJc =
 
 
 
-extern const ClassJc reflection_ObjectJc;
-extern const ClassJc reflection_MtblHeadJc;
+
+extern_C const ClassJc reflection_ClassJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_MtblHeadJc;
 const struct Reflection_Fields_ClassJc_t
 { ObjectArrayJc head;
   FieldJc data[10];
@@ -1064,7 +1105,9 @@ const ClassJc reflection_ClassJc =
 
 
 
-extern const ClassJc reflection_ClassJc;
+
+extern_C const ClassJc reflection_Reflection__ObjectJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ClassJc;
 const struct Reflection_Fields_Reflection__ObjectJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -1104,9 +1147,11 @@ const ClassJc reflection_Reflection__ObjectJc =
 
 
 
-extern const ClassJc reflection_OS_PtrValue;
-extern const ClassJc reflection_Data_ExtReflectionJc;
-extern const ClassJc reflection_ClassJc;
+
+extern_C const ClassJc reflection_ExtReflectionJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_PtrValue;
+extern_C const ClassJc reflection_Data_ExtReflectionJc;
+extern_C const ClassJc reflection_ClassJc;
 const struct Reflection_Fields_ExtReflectionJc_s_t
 { ObjectArrayJc head;
   FieldJc data[5];
@@ -1170,9 +1215,11 @@ const ClassJc reflection_ExtReflectionJc_s =
 
 
 
-extern const ClassJc reflection_ObjectJc;
-extern const ClassJc reflection_ClassJc;
-extern const ClassJc reflection_ClassJc;
+
+extern_C const ClassJc reflection_Data_ExtReflectionJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_ClassJc;
+extern_C const ClassJc reflection_ClassJc;
 const struct Reflection_Fields_Data_ExtReflectionJc_t
 { ObjectArrayJc head;
   FieldJc data[6];
@@ -1246,6 +1293,8 @@ const ClassJc reflection_Data_ExtReflectionJc =
 
 #include "Jc/ReflMemAccessJc.h"
 
+
+extern_C const ClassJc reflection_Access1TxData_ReflMemAccessJc;  //the just defined reflection_
 const struct Reflection_Fields_Access1TxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
@@ -1293,7 +1342,9 @@ const ClassJc reflection_Access1TxData_ReflMemAccessJc =
 
 
 
-extern const ClassJc reflection_Access1TxData_ReflMemAccessJc;
+
+extern_C const ClassJc reflection_AccessTxData_ReflMemAccessJc;  //the just defined reflection_
+extern_C const ClassJc reflection_Access1TxData_ReflMemAccessJc;
 const struct Reflection_Fields_AccessTxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
@@ -1341,6 +1392,8 @@ const ClassJc reflection_AccessTxData_ReflMemAccessJc =
 
 
 
+
+extern_C const ClassJc reflection_Access1RxData_ReflMemAccessJc;  //the just defined reflection_
 const struct Reflection_Fields_Access1RxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -1380,7 +1433,9 @@ const ClassJc reflection_Access1RxData_ReflMemAccessJc =
 
 
 
-extern const ClassJc reflection_Access1RxData_ReflMemAccessJc;
+
+extern_C const ClassJc reflection_AccessRxData_ReflMemAccessJc;  //the just defined reflection_
+extern_C const ClassJc reflection_Access1RxData_ReflMemAccessJc;
 const struct Reflection_Fields_AccessRxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
@@ -1428,6 +1483,8 @@ const ClassJc reflection_AccessRxData_ReflMemAccessJc =
 
 
 
+
+extern_C const ClassJc reflection_MemAccessDebugJc;  //the just defined reflection_
 const struct Reflection_Fields_MemAccessDebugJc_t
 { ObjectArrayJc head;
   FieldJc data[4];
@@ -1483,7 +1540,9 @@ const ClassJc reflection_MemAccessDebugJc =
 
 
 
-extern const ClassJc reflection_MemAccessDebugJc;
+
+extern_C const ClassJc reflection_MemAccessArrayDebugJc;  //the just defined reflection_
+extern_C const ClassJc reflection_MemAccessDebugJc;
 const struct Reflection_Fields_MemAccessArrayDebugJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -1525,7 +1584,9 @@ const ClassJc reflection_MemAccessArrayDebugJc =
 
 #include "Jc/FileIoJc.h"
 
-extern const ClassJc reflection_OS_FileDescription;
+
+extern_C const ClassJc reflection_FileJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_FileDescription;
 const struct Reflection_Fields_FileJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -1565,6 +1626,8 @@ const ClassJc reflection_FileJc_s =
 
 
 
+
+extern_C const ClassJc reflection_OutputStreamJc_s;  //the just defined reflection_
 const ClassJc reflection_OutputStreamJc_s =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OutputStreamJc_s, &reflection_ClassJc)
 , "OutputStreamJc_s"
@@ -1579,6 +1642,8 @@ const ClassJc reflection_OutputStreamJc_s =
 
 
 
+
+extern_C const ClassJc reflection_FileOutputStreamJc_s;  //the just defined reflection_
 const struct Reflection_Fields_FileOutputStreamJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -1610,6 +1675,8 @@ const ClassJc reflection_FileOutputStreamJc_s =
 
 
 
+
+extern_C const ClassJc reflection_FileWriterJc_s;  //the just defined reflection_
 const struct Reflection_Fields_FileWriterJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -1641,7 +1708,9 @@ const ClassJc reflection_FileWriterJc_s =
 
 
 
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_FileReaderJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_FileReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[5];
@@ -1705,9 +1774,11 @@ const ClassJc reflection_FileReaderJc_s =
 
 
 
-extern const ClassJc reflection_ObjectJc;
-extern const ClassJc reflection_OS_PtrValue;
-extern const ClassJc reflection_FileReaderJc_s;
+
+extern_C const ClassJc reflection_BufferedReaderJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_OS_PtrValue;
+extern_C const ClassJc reflection_FileReaderJc_s;
 const struct Reflection_Fields_BufferedReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[7];
@@ -1789,6 +1860,8 @@ const ClassJc reflection_BufferedReaderJc_s =
 
 #include "Jc/ThreadJc.h"
 
+
+extern_C const ClassJc reflection_RunnableJc_s;  //the just defined reflection_
 const ClassJc reflection_RunnableJc_s =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_RunnableJc_s, &reflection_ClassJc)
 , "RunnableJc_s"
@@ -1803,7 +1876,9 @@ const ClassJc reflection_RunnableJc_s =
 
 
 
-extern const ClassJc reflection_StringJc;
+
+extern_C const ClassJc reflection_ThreadJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_StringJc;
 const struct Reflection_Fields_ThreadJc_s_t
 { ObjectArrayJc head;
   FieldJc data[7];
@@ -1885,8 +1960,10 @@ const ClassJc reflection_ThreadJc_s =
 
 #include "Jc/FormatterJc.h"
 
-extern const ClassJc reflection_StringBuilderJcREF;
-extern const ClassJc reflection_LocaleJcREF;
+
+extern_C const ClassJc reflection_FormatterJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_StringBuilderJcREF;
+extern_C const ClassJc reflection_LocaleJcREF;
 const struct Reflection_Fields_FormatterJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -1928,7 +2005,9 @@ const ClassJc reflection_FormatterJc_s =
 
 #include "Jc/TimeZoneJc.h"
 
-extern const ClassJc reflection_StringJc;
+
+extern_C const ClassJc reflection_TimeZoneJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_StringJc;
 const struct Reflection_Fields_TimeZoneJc_s_t
 { ObjectArrayJc head;
   FieldJc data[3];
@@ -1978,6 +2057,8 @@ const ClassJc reflection_TimeZoneJc_s =
 
 #include "MsgDisp/VaArgBuffer.h"
 
+
+extern_C const ClassJc reflection_VaArgBuffer_Data_s;  //the just defined reflection_
 const struct Reflection_Fields_VaArgBuffer_Data_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -2009,7 +2090,9 @@ const ClassJc reflection_VaArgBuffer_Data_s =
 
 
 
-extern const ClassJc reflection_VaArgBuffer_Data_s;
+
+extern_C const ClassJc reflection_VaArgBuffer;  //the just defined reflection_
+extern_C const ClassJc reflection_VaArgBuffer_Data_s;
 const struct Reflection_Fields_VaArgBuffer_t
 { ObjectArrayJc head;
   FieldJc data[2];

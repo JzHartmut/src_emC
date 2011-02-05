@@ -85,7 +85,7 @@ const MtblDef_Inspector_Inspc mtblInspector_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_Inspector_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -95,10 +95,10 @@ const MtblDef_Inspector_Inspc mtblInspector_Inspc = {
    }
  };
 
-extern struct ClassJc_t const reflection_Inspector_Inspc_s;
-extern struct ClassJc_t const reflection_ClassContent_Inspc_s;
-extern struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
-extern struct ClassJc_t const reflection_Comm_Inspc_s;
+extern_C struct ClassJc_t const reflection_Inspector_Inspc_s;
+extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
+extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
+extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
 const struct Reflection_Fields_Inspector_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[3];
 } reflection_Fields_Inspector_Inspc_s =

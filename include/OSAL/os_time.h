@@ -43,10 +43,7 @@
 
 #include <os_types_def.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+extern_C_BLOCK_
 
 /*@CLASS_C OS_TimeStamp @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -265,9 +262,6 @@ typedef struct MinMaxTime_Fwc_t
 }
 
 
-#ifdef __cplusplus
-}  //extern "C"
-#endif
-
+_END_extern_C_BLOCK
 
 #endif //__os_time_h__

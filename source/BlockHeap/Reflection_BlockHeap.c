@@ -4,17 +4,18 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "Reflection_BlockHeap.h"
 #include "../../include/BlockHeap/BlockHeapJc_admin.h"
 
-extern const ClassJc reflection_BlockHeapBlockJc_debugArray;
-extern const ClassJc reflection_BlockHeapBlockJc;
-extern const ClassJc reflection_BlockHeapBlockJc;
-extern const ClassJc reflection_BlockHeapBlockJc;
-extern const ClassJc reflection_BlockHeapBlockJc;
-extern const ClassJc reflection_ListMapEntryJc;
-extern const ClassJc reflection_ListMapEntryJc;
-extern const ClassJc reflection_LogMessageFW_i;
+
+extern_C const ClassJc reflection_BlockHeapJc;  //the just defined reflection_
+extern_C const ClassJc reflection_BlockHeapBlockJc_debugArray;
+extern_C const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
+extern_C const ClassJc reflection_ListMapEntryJc;
+extern_C const ClassJc reflection_LogMessageFW_i;
 const struct Reflection_Fields_BlockHeapJc_t
 { ObjectArrayJc head;
   FieldJc data[18];
@@ -186,6 +187,8 @@ const ClassJc reflection_BlockHeapJc =
 
 #include "BlockHeapJc_internal.h"
 
+
+extern_C const ClassJc reflection_ObjectJcREFArray;  //the just defined reflection_
 const struct Reflection_Fields_ObjectJcREFArray_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -217,9 +220,11 @@ const ClassJc reflection_ObjectJcREFArray =
 
 
 
-extern const ClassJc reflection_BlockHeapBlockJc;
-extern const ClassJc reflection_ObjectJcREFArray;
-extern const ClassJc reflection_ObjectJc;
+
+extern_C const ClassJc reflection_BlockHeapBlockJc;  //the just defined reflection_
+extern_C const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc reflection_ObjectJcREFArray;
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_BlockHeapBlockJc_t
 { ObjectArrayJc head;
   FieldJc data[8];
@@ -307,7 +312,9 @@ const ClassJc reflection_BlockHeapBlockJc =
 
 
 
-extern const ClassJc reflection_BlockHeapBlockJc;
+
+extern_C const ClassJc reflection_BlockHeapWholeBlockJc;  //the just defined reflection_
+extern_C const ClassJc reflection_BlockHeapBlockJc;
 const struct Reflection_Fields_BlockHeapWholeBlockJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -347,7 +354,9 @@ const ClassJc reflection_BlockHeapWholeBlockJc =
 
 
 
-extern const ClassJc reflection_BlockHeapWholeBlockJc;
+
+extern_C const ClassJc reflection_BlockHeapBlockJc_debugArray;  //the just defined reflection_
+extern_C const ClassJc reflection_BlockHeapWholeBlockJc;
 const struct Reflection_Fields_BlockHeapBlockJc_debugArray_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -379,9 +388,11 @@ const ClassJc reflection_BlockHeapBlockJc_debugArray =
 
 
 
-extern const ClassJc reflection_OS_TimeStamp;
-extern const ClassJc reflection_OS_TimeStamp;
-extern const ClassJc reflection_LogMessageFW_i;
+
+extern_C const ClassJc reflection_GarbageCollectorJc;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_TimeStamp;
+extern_C const ClassJc reflection_OS_TimeStamp;
+extern_C const ClassJc reflection_LogMessageFW_i;
 const struct Reflection_Fields_GarbageCollectorJc_t
 { ObjectArrayJc head;
   FieldJc data[17];

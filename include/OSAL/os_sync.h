@@ -44,10 +44,9 @@
  ************************************************************************************************/
 #ifndef __os_sync_h__
 #define __os_sync_h__
+#include <os_types_def.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern_C_BLOCK_
 
 /**The type of a OS_HandleWaitNotify is represented by a pointer to a not far defined struct. */ 
 typedef struct OS_Mutex_t const* OS_Mutex;
@@ -132,10 +131,7 @@ METHOD_C int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex hMutex);
 METHOD_C int os_notify(OS_HandleWaitNotify waitObject, OS_Mutex hMutex);
 
 
-#ifdef __cplusplus
-}  //extern "C"
-#endif
-
+_END_extern_C_BLOCK
 
 
 #endif  // __os_sync_h__

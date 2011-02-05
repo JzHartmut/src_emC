@@ -248,7 +248,7 @@ const MtblDef_Comm_Inspc mtblComm_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_Comm_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -258,7 +258,7 @@ const MtblDef_Comm_Inspc mtblComm_Inspc = {
    }
  };
 
- extern struct ClassJc_t const reflection_RunnableJc_s;
+ extern_C struct ClassJc_t const reflection_RunnableJc_s;
  static struct ifcClasses_Comm_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -268,11 +268,11 @@ const MtblDef_Comm_Inspc mtblComm_Inspc = {
   }
 };
 
-extern struct ClassJc_t const reflection_Comm_Inspc_s;
-extern struct ClassJc_t const reflection_Address_InterProcessComm_s;
-extern struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
-extern struct ClassJc_t const reflection_InterProcessComm_i;
-extern struct ClassJc_t const reflection_ThreadJc_s;
+extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
+extern_C struct ClassJc_t const reflection_Address_InterProcessComm_s;
+extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
+extern_C struct ClassJc_t const reflection_InterProcessComm_i;
+extern_C struct ClassJc_t const reflection_ThreadJc_s;
 const struct Reflection_Fields_Comm_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[9];
 } reflection_Fields_Comm_Inspc_s =

@@ -71,7 +71,7 @@
   */
 
 
-typedef struct  FieldJc_t
+C_TYPE typedef struct  FieldJc_t
 { //ObjectJc super;
 
   /** The symbolic name of the field*/
@@ -756,7 +756,7 @@ METHOD_C MethodJcARRAY const* ptrConstCasting_MethodJcARRAY(ObjectArrayJc const*
 
 
 
-typedef struct  ClassJc_t
+C_TYPE typedef struct  ClassJc_t
 { ObjectJc object;
 
   /** The typename. If it is a Class represents a primitive type, the name is such as "int", "float", "boolean".*/
@@ -1331,8 +1331,8 @@ typedef enum Mask_ModifierJc_t
   * @param nrofVIRTFN really number of the virtual methods, it must match with the
   *        definition of the reflection of this type.
   */
-//#define TYPEDEF_REFLECTIONJc(TYPE, nrofVIRTFN) typedef struct Reflection__##TYPE##_t{ ClassJc reflection; Void_MethodVoid vTbl[nrofVIRTFN];} Reflection__##TYPE; extern const Reflection__##TYPE reflection__##TYPE;
-#define TYPEDEF_REFLECTIONJc(TYPE) typedef struct Reflection__##TYPE##_t{ ClassJc clazz; Mtbl_##TYPE vtbl;} Reflection__##TYPE; extern const Reflection__##TYPE reflection__##TYPE;
+//#define TYPEDEF_REFLECTIONJc(TYPE, nrofVIRTFN) typedef struct Reflection__##TYPE##_t{ ClassJc reflection; Void_MethodVoid vTbl[nrofVIRTFN];} Reflection__##TYPE; extern_C const Reflection__##TYPE reflection__##TYPE;
+#define TYPEDEF_REFLECTIONJc(TYPE) typedef struct Reflection__##TYPE##_t{ ClassJc clazz; Mtbl_##TYPE vtbl;} Reflection__##TYPE; extern_C const Reflection__##TYPE reflection__##TYPE;
 
 /** Macro to define a users type reflection of a class type,
   * used in the header file of a users type.
@@ -1342,7 +1342,7 @@ typedef enum Mask_ModifierJc_t
   * @param NROFVCALL number of virtual methods of the type, may be 0 if the type is only used in C++.
   */
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-  #define TYPEDEF_REFLECTIONJcpp(TYPE) typedef struct Reflection__##TYPE##_t{ ClassJc clazz; } Reflection__##TYPE; extern const Reflection__##TYPE reflection__##TYPE;
+  #define TYPEDEF_REFLECTIONJcpp(TYPE) typedef struct Reflection__##TYPE##_t{ ClassJc clazz; } Reflection__##TYPE; extern_C const Reflection__##TYPE reflection__##TYPE;
 #else
   #define TYPEDEF_REFLECTIONJcpp(TYPE) TYPEDEF_REFLECTIONJc(TYPE)
 #endif
@@ -1414,7 +1414,7 @@ typedef struct ClassJc_YP_t
 //METHOD_C const ClassJc* get_ClassJc_Y(const ClassJc_Y* ythis, int idx);
 
 
-extern ClassJc_YP const* extReflectionClasses_ReflectionJc[];   
+extern_C ClassJc_YP const* extReflectionClasses_ReflectionJc[];   
 
 
 
@@ -1467,7 +1467,7 @@ inline ClassJcpp const* FieldJcpp::getType() const
 #define reflection__int16Jc reflection__shortJc
 #define reflection__uint8Jc reflection__byteJc
 #define reflection__int8Jc reflection__byteJc
-//extern const struct Reflectionint_t{ ClassJc clazz; } reflectionint;
+//extern_C const struct Reflectionint_t{ ClassJc clazz; } reflectionint;
 
 #define reflection_int16BigEndian reflection__shortJc
 #define reflection_int32BigEndian reflection__intJc
@@ -1476,35 +1476,35 @@ inline ClassJcpp const* FieldJcpp::getType() const
 
 #define reflection__uintJc reflection__intJc
 #define reflection__boolJc reflection__booleanJc
-//extern ClassJc reflection__booleanJc;
+//extern_C ClassJc reflection__booleanJc;
 
 #define reflection__float32Jc reflection__floatJc
-//extern const struct Reflectionfloat_t{ ClassJc clazz; } reflectionfloat;
+//extern_C const struct Reflectionfloat_t{ ClassJc clazz; } reflectionfloat;
 
-extern const ClassJc reflection__longJc;
-extern const ClassJc reflection__intJc;
-extern const ClassJc reflection__shortJc;
-extern const ClassJc reflection__byteJc;
-extern const ClassJc reflection__booleanJc;
-extern const ClassJc reflection__floatJc;
-extern const ClassJc reflection__doubleJc;
-extern const ClassJc reflection__charJc;
-extern const ClassJc reflection_bitfieldJc;
+extern_C const ClassJc reflection__longJc;
+extern_C const ClassJc reflection__intJc;
+extern_C const ClassJc reflection__shortJc;
+extern_C const ClassJc reflection__byteJc;
+extern_C const ClassJc reflection__booleanJc;
+extern_C const ClassJc reflection__floatJc;
+extern_C const ClassJc reflection__doubleJc;
+extern_C const ClassJc reflection__charJc;
+extern_C const ClassJc reflection_bitfieldJc;
 
-extern const ClassJc reflection_ObjectJc;
-extern const ClassJc reflection_StringJc;
-extern const ClassJc reflection_ClassJc;
-extern const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_StringJc;
+extern_C const ClassJc reflection_ClassJc;
+extern_C const ClassJc reflection_BlockHeapBlockJc;
 
-extern const ClassJc reflection_OS_ValuePtr;
+extern_C const ClassJc reflection_OS_ValuePtr;
 #define reflection_MemC reflection_OS_ValuePtr
 #define reflection_MemSegmentJc reflection_OS_ValuePtr
 
 
 /** Reflection_void is a reflection definition for a void pointer.
  */
-extern const ClassJc reflection__voidJc;
-extern const ClassJc reflection__ObjectifcBaseJcpp;
+extern_C const ClassJc reflection__voidJc;
+extern_C const ClassJc reflection__ObjectifcBaseJcpp;
 
 #define reflection__ObjectArrayJc reflection__ObjectJc
 #define reflection__StringJc reflection_StringJc
@@ -1529,12 +1529,12 @@ typedef struct Reflection__ObjectJc_t
   MT_void_Method_void vtbl[5];
 } Reflection__ObjectJc;
 
-extern const Reflection__ObjectJc reflection__ObjectJc;
+extern_C const Reflection__ObjectJc reflection__ObjectJc;
 
 
 #if 0
 /*
-extern const struct ReflectionFieldJc_t
+extern_C const struct ReflectionFieldJc_t
 { ClassJc clazz;
   Mtbl_ObjectJc vtbl;
   DEFINE_ARRAYJc(FieldJc, 2) fields;

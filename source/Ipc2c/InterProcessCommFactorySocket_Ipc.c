@@ -315,7 +315,7 @@ const MtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocke
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_InterProcessCommFactoryAccessor;
+ extern_C struct ClassJc_t const reflection_InterProcessCommFactoryAccessor;
  static struct superClasses_InterProcessCommFactorySocket_Ipc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -325,7 +325,7 @@ const MtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocke
    }
  };
 
- extern struct ClassJc_t const reflection_InterProcessCommFactory_i;
+ extern_C struct ClassJc_t const reflection_InterProcessCommFactory_i;
  static struct ifcClasses_InterProcessCommFactorySocket_Ipc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];

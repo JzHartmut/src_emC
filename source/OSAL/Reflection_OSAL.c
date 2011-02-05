@@ -4,14 +4,11 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "Reflection_OSAL.h"
-#include "os_endian.h"
-
-#include "os_error.h"
-
 #include "os_file.h"
 
-extern const ClassJc reflection_OS_TimeStamp;
+
+extern_C const ClassJc reflection_OS_FileDescription;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_TimeStamp;
 const struct Reflection_Fields_OS_FileDescription_t
 { ObjectArrayJc head;
   FieldJc data[7];
@@ -91,10 +88,18 @@ const ClassJc reflection_OS_FileDescription =
 
 
 
+#include "os_waitnotify.h"
+
+#include "os_AtomicAccess.h"
+
 #include "os_mem.h"
+
+#include "os_endian.h"
 
 #include "os_socket.h"
 
+
+extern_C const ClassJc reflection_OS_SOCKADDR;  //the just defined reflection_
 const struct Reflection_Fields_OS_SOCKADDR_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -134,6 +139,8 @@ const ClassJc reflection_OS_SOCKADDR =
 
 
 
+
+extern_C const ClassJc reflection_OS_SOCKSEL;  //the just defined reflection_
 const struct Reflection_Fields_OS_SOCKSEL_t
 { ObjectArrayJc head;
   FieldJc data[6];
@@ -205,6 +212,8 @@ const ClassJc reflection_OS_SOCKSEL =
 
 
 
+
+extern_C const ClassJc reflection_OS_LINGEROPT;  //the just defined reflection_
 const struct Reflection_Fields_OS_LINGEROPT_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -244,12 +253,12 @@ const ClassJc reflection_OS_LINGEROPT =
 
 
 
-#include "os_sync.h"
-
 #include "os_thread.h"
 
 #include "os_time.h"
 
+
+extern_C const ClassJc reflection_OS_TimeStamp;  //the just defined reflection_
 const struct Reflection_Fields_OS_TimeStamp_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -289,6 +298,8 @@ const ClassJc reflection_OS_TimeStamp =
 
 
 
+
+extern_C const ClassJc reflection_MinMaxTime_Fwc;  //the just defined reflection_
 const struct Reflection_Fields_MinMaxTime_Fwc_t
 { ObjectArrayJc head;
   FieldJc data[11];
@@ -400,6 +411,6 @@ const ClassJc reflection_MinMaxTime_Fwc =
 
 
 
-#include "os_waitnotify.h"
+#include "os_sync.h"
 
-#include "os_AtomicAccess.h"
+#include "os_error.h"

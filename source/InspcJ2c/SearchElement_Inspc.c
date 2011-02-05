@@ -211,7 +211,7 @@ const MtblDef_SearchElement_Inspc mtblSearchElement_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_SearchElement_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -221,8 +221,8 @@ const MtblDef_SearchElement_Inspc mtblSearchElement_Inspc = {
    }
  };
 
-extern struct ClassJc_t const reflection_SearchElement_Inspc_s;
-extern struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const reflection_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
 const struct Reflection_Fields_SearchElement_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[1];
 } reflection_Fields_SearchElement_Inspc_s =
@@ -277,11 +277,11 @@ struct SearchTrc_SearchElement_Inspc_t* ctorM_SearchTrc_SearchElement_Inspc(MemC
 }
 
 
-extern struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
-extern struct ClassJc_t const reflection_ClassJc;
-extern struct ClassJc_t const reflection_FieldJc;
-extern struct ClassJc_t const reflection_MemSegmJc;
-extern struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const reflection_ClassJc;
+extern_C struct ClassJc_t const reflection_FieldJc;
+extern_C struct ClassJc_t const reflection_MemSegmJc;
+extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
 const struct Reflection_Fields_SearchTrc_SearchElement_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[5];
 } reflection_Fields_SearchTrc_SearchElement_Inspc_s =

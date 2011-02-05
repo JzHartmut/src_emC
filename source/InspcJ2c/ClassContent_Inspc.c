@@ -1028,7 +1028,7 @@ const MtblDef_ClassContent_Inspc mtblClassContent_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_ClassContent_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -1038,7 +1038,7 @@ const MtblDef_ClassContent_Inspc mtblClassContent_Inspc = {
    }
  };
 
- extern struct ClassJc_t const reflection_CmdConsumer_ifc_Inspc_s;
+ extern_C struct ClassJc_t const reflection_CmdConsumer_ifc_Inspc_s;
  static struct ifcClasses_ClassContent_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -1048,13 +1048,13 @@ const MtblDef_ClassContent_Inspc mtblClassContent_Inspc = {
   }
 };
 
-extern struct ClassJc_t const reflection_ClassContent_Inspc_s;
-extern struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
-extern struct ClassJc_t const reflection_Datagram_InspcDataExchangeAccess_Inspc_s;
-extern struct ClassJc_t const reflection_Info_InspcDataExchangeAccess_Inspc_s;
-extern struct ClassJc_t const reflection_MemAccessArrayDebugJc;
-extern struct ClassJc_t const reflection_ObjectJc;
-extern struct ClassJc_t const reflection_StringBuilderJc;
+extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
+extern_C struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
+extern_C struct ClassJc_t const reflection_Datagram_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const reflection_Info_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const reflection_MemAccessArrayDebugJc;
+extern_C struct ClassJc_t const reflection_ObjectJc;
+extern_C struct ClassJc_t const reflection_StringBuilderJc;
 const struct Reflection_Fields_ClassContent_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[10];
 } reflection_Fields_ClassContent_Inspc_s =

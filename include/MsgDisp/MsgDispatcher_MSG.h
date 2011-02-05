@@ -428,7 +428,7 @@ typedef struct Mtbl_MsgDispatcher_MSG_t
 
 
 
-#if defined(XXX__CPLUSPLUSJcpp) && defined(__cplusplus)
+#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
 class MsgDispatcher_MSG : private MsgDispatcher_MSG_s
 { public:
@@ -436,8 +436,6 @@ class MsgDispatcher_MSG : private MsgDispatcher_MSG_s
   virtual void close(){ close_MsgDispatcher_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
 
   int32 completeDispatchInThreadBits(int32 dstBits){  return completeDispatchInThreadBits_MsgDispatcher_MSG(this, dstBits,  null/*_thCxt*/); }
-
-  MsgDispatcher_MSG(int32 cycleMillisec){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcher_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcher_MSG_s, 0); ctorO_DispatcherThread_MsgDispatcher_MSG(&this->base.object, cycleMillisec,  null/*_thCxt*/); }
 
   MsgDispatcher_MSG(int32 maxDispatchEntries, int32 maxQueue, int32 maxOutputs, int32 nrofMixedOutputs){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcher_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcher_MSG_s, 0); ctorO_MsgDispatcher_MSG(&this->base.object, maxDispatchEntries, maxQueue, maxOutputs, nrofMixedOutputs,  null/*_thCxt*/); }
 

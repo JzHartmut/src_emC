@@ -1,6 +1,6 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "Jc/FileIoJc"
-package java/io/;
+package org/vishia/util/;
 
 class File; nameC=FileJc_s; argIdent=File; extends java/lang/Object //creationMode=P
 {  

@@ -168,7 +168,7 @@ void execute_ExampleInspector_Inspc(ExampleInspector_Inspc_s* ythis, ThCxt* _thC
 void finalize_ExampleInspector_Inspc_F(ObjectJc* othis, ThCxt* _thCxt)
 { ExampleInspector_Inspc_s* ythis = (ExampleInspector_Inspc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_ExampleInspector_Inspc_F");
-  finalize_ObjectJc_F(&ythis->workingThread.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_WorkingThread_Inspc_F(&ythis->workingThread.base.object, _thCxt); //J2C: finalizing the embedded instance.
   finalize_ObjectJc_F(&ythis->data.base.object, _thCxt); //J2C: finalizing the embedded instance.
   CLEAR_REFJc(ythis->list);
   finalize_ObjectJc_F(&ythis->inspector.base.object, _thCxt); //J2C: finalizing the embedded instance.
@@ -198,7 +198,7 @@ const MtblDef_ExampleInspector_Inspc mtblExampleInspector_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_ExampleInspector_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -208,11 +208,11 @@ const MtblDef_ExampleInspector_Inspc mtblExampleInspector_Inspc = {
    }
  };
 
-extern struct ClassJc_t const reflection_ExampleInspector_Inspc_s;
-extern struct ClassJc_t const reflection_Data_ExampleInspector_Inspc_s;
-extern struct ClassJc_t const reflection_Inspector_Inspc_s;
-extern struct ClassJc_t const reflection_LinkedListJc;
-extern struct ClassJc_t const reflection_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const reflection_ExampleInspector_Inspc_s;
+extern_C struct ClassJc_t const reflection_Data_ExampleInspector_Inspc_s;
+extern_C struct ClassJc_t const reflection_Inspector_Inspc_s;
+extern_C struct ClassJc_t const reflection_LinkedListJc;
+extern_C struct ClassJc_t const reflection_WorkingThread_Inspc_s;
 const struct Reflection_Fields_ExampleInspector_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[12];
 } reflection_Fields_ExampleInspector_Inspc_s =
@@ -372,7 +372,7 @@ const MtblDef_Data_ExampleInspector_Inspc mtblData_ExampleInspector_Inspc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_Data_ExampleInspector_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -382,7 +382,7 @@ const MtblDef_Data_ExampleInspector_Inspc mtblData_ExampleInspector_Inspc = {
    }
  };
 
-extern struct ClassJc_t const reflection_Data_ExampleInspector_Inspc_s;
+extern_C struct ClassJc_t const reflection_Data_ExampleInspector_Inspc_s;
 const struct Reflection_Fields_Data_ExampleInspector_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[8];
 } reflection_Fields_Data_ExampleInspector_Inspc_s =

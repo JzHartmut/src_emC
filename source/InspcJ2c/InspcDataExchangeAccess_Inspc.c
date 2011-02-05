@@ -56,7 +56,7 @@ const MtblDef_InspcDataExchangeAccess_Inspc mtblInspcDataExchangeAccess_Inspc = 
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -346,7 +346,7 @@ const MtblDef_Datagram_InspcDataExchangeAccess_Inspc mtblDatagram_InspcDataExcha
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ByteDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
  static struct superClasses_Datagram_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -561,7 +561,7 @@ const MtblDef_Info_InspcDataExchangeAccess_Inspc mtblInfo_InspcDataExchangeAcces
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ByteDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
  static struct superClasses_Info_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -824,7 +824,7 @@ const MtblDef_SetValue_InspcDataExchangeAccess_Inspc mtblSetValue_InspcDataExcha
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ByteDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
  static struct superClasses_SetValue_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];

@@ -823,7 +823,7 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -833,7 +833,7 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
    }
  };
 
- extern struct ClassJc_t const reflection_LogMessageFW_i;
+ extern_C struct ClassJc_t const reflection_LogMessageFW_i;
  static struct ifcClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
@@ -843,18 +843,18 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
   }
 };
 
-extern struct ClassJc_t const reflection_LogMessageFile_MSG_s;
-extern struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
-extern struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
-extern struct ClassJc_t const reflection_FileWriterJc_s;
-extern struct ClassJc_t const reflection_LocaleJc_s;
-extern struct ClassJc_t const reflection_LogMessageFW_i;
-extern struct ClassJc_t const reflection_OS_TimeStamp;
-extern struct ClassJc_t const reflection_SimpleDateFormatJc_s;
-extern struct ClassJc_t const reflection_StringBuilderJc;
-extern struct ClassJc_t const reflection_StringJc;
-extern struct ClassJc_t const reflection_TextFieldPositionJc_s;
-extern struct ClassJc_t const reflection_TimeZoneJc_s;
+extern_C struct ClassJc_t const reflection_LogMessageFile_MSG_s;
+extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
+extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
+extern_C struct ClassJc_t const reflection_FileWriterJc_s;
+extern_C struct ClassJc_t const reflection_LocaleJc_s;
+extern_C struct ClassJc_t const reflection_LogMessageFW_i;
+extern_C struct ClassJc_t const reflection_OS_TimeStamp;
+extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
+extern_C struct ClassJc_t const reflection_StringBuilderJc;
+extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const reflection_TextFieldPositionJc_s;
+extern_C struct ClassJc_t const reflection_TimeZoneJc_s;
 const struct Reflection_Fields_LogMessageFile_MSG_s_t
 { ObjectArrayJc head; FieldJc data[31];
 } reflection_Fields_LogMessageFile_MSG_s =
@@ -1144,7 +1144,7 @@ struct Dbg_LogMessageFile_MSG_t* ctorM_Dbg_LogMessageFile_MSG(MemC mthis, ThCxt*
 }
 
 
-extern struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
+extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
 const struct Reflection_Fields_Dbg_LogMessageFile_MSG_s_t
 { ObjectArrayJc head; FieldJc data[5];
 } reflection_Fields_Dbg_LogMessageFile_MSG_s =

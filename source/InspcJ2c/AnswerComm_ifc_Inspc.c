@@ -18,7 +18,7 @@ int32 txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, 
   return mtbl->txAnswer(ithis, nrofAnswerBytesPart, bLastTelg, _thCxt);
 }
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_AnswerComm_ifc_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];

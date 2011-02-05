@@ -29,7 +29,7 @@ void setAnswerComm_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct AnswerComm_ifc_
   mtbl->setAnswerComm(ithis, answerComm, _thCxt);
 }
 
- extern struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_CmdConsumer_ifc_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];

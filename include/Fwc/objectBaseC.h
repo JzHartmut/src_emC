@@ -204,9 +204,9 @@ struct Size_Mtbl_t;
 
 
     //always: #if defined(mBackRef_ObjectJc)
-    /** Pointer to the BlockHeapBlock-Control-structure, 
+    /** Pointer to a memory management, which manages this object. old: the BlockHeapBlock-Control-structure, 
      */
-    struct BlockHeapBlockJc_t* blockHeapBlock;
+    struct ObjectJc_t* memoryMng;
     //#endif
 
     int32 dummy; //further using
@@ -232,7 +232,8 @@ struct Size_Mtbl_t;
 
 
 /**Initialization of the basicly data of Object and set all user data to 0.
- * This method should be used for static and embedded instances especially in C environment. 
+ * This method should be used for static and embedded instances especially in C environment
+ * and inside a C++-constructor.
  * @param sizeObj The size of the whole instance, use sizeof(TypeInstance). All data are set to 0.
  *                Don't use this kind of initialization for C++-classes, use sizeof(ObjectJc) for this argument than.
  * @param identObj An identification info, see [[class_ObjectJc.objectIdentSize]] 
