@@ -46,6 +46,7 @@
 
 #include "Fwc/fw_String.h"
 #include "Fwc/fw_MemC.h"
+#include "os_file.h"     //
 
 #include <stdio.h>  //FILE
 
@@ -237,8 +238,11 @@ METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr);
 /**Javalike: prints the Stacktrace at output stream. */
 METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, struct ThreadContextFW_t* _thCxt);
 
-/**Javalike: prints the Stacktrace at output stream. */
-METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, FILE* out);
+/**Javalike: prints the Stacktrace at output stream. 
+ * @since 2011-02: The output stream handle is designated as OS_HandleFile.
+ * @param out channel, where the outputs should written to. 
+ */
+METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out);
 
 /**Special: manifests the content of the stacktrace to a given structure.
  * It means, all information holded in the stack itself via previous pointers from each StacktraceJc-structure

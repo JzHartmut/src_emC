@@ -41,31 +41,36 @@
 #include <os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
-
+#include <string.h>  //strlen
 
 
 METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
 {
-  printStackTraceFile_ExceptionJc(ythis,stdout);
+  printStackTraceFile_ExceptionJc(ythis,null);  //null causes printf instead sprintf, os_fwrite
 }
 
-METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, FILE* out)
+METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out)
 { //DEF__threadContextJc
   int idxStacktraceEntries = 0;
   int nrofStacktraceEntriesMax;
-  char sBuffer[100];
+  char sBuffer[500];
+	int zBuffer;
   //StacktraceElementJcARRAY* stacktraceEntries = ythis->stacktraceEntries;
   StacktraceElementJc* stacktraceEntries = ythis->stacktraceEntries;
   StacktraceJc* stacktrace = ythis->backStacktrace;
   //ExceptionJc* exception = stacktrace->exception;
   const char* sException = getExceptionText_ExceptionJc(ythis->exceptionNr);
 
-  copyToBuffer_StringJc(ythis->exceptionMsg, sBuffer, sizeof(sBuffer));
+  zBuffer = copyToBuffer_StringJc(ythis->exceptionMsg, sBuffer, sizeof(sBuffer));
   if(out == null)
   { printf("\n%s: %s: %i=0x%8.8X \n",sException, sBuffer, ythis->exceptionValue, ythis->exceptionValue);
   }
   else
-  { fprintf(out, "\n%s: %s: %i=0x%8.8X \n",sException, sBuffer, ythis->exceptionValue, ythis->exceptionValue);
+  { os_fwrite(out, sException, strlen(sException));
+	  os_fwrite(out, ": ", 2);
+		os_fwrite(out, sBuffer, zBuffer);
+	  zBuffer = sprintf(sBuffer, ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
+		os_fwrite(out, sBuffer, zBuffer);
   }
   nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
   while(idxStacktraceEntries < nrofStacktraceEntriesMax)
@@ -76,8 +81,9 @@ METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, FILE* out)
     { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
     }
     else
-    { fprintf(out, "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
-    }
+    { zBuffer = sprintf(sBuffer, "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+			os_fwrite(out, sBuffer, zBuffer);
+	  }
   }
 
   while(stacktrace != null)
@@ -87,7 +93,8 @@ METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, FILE* out)
     { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
     }
     else
-    { fprintf(out, "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+    { zBuffer = sprintf(sBuffer, "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+			os_fwrite(out, sBuffer, zBuffer);
     }
     stacktrace = stacktrace->previous;
   }

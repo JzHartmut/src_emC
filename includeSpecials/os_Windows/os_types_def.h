@@ -185,6 +185,9 @@ typedef struct OS_PtrValue_t
  */
 #define CONST_OS_PtrValue(PTR, VAL) { (char*) PTR, (int32)VAL}
 
+/**An instance which contains null-values. */
+extern OS_PtrValue null_OS_PtrValue;
+
 
 
 #define value_OS_PtrValue(THIS) ((THIS).value__)
