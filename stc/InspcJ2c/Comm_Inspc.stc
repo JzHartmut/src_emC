@@ -20,6 +20,7 @@ fieldIdents {
     openComm-_$: boolean %.r null(boolean %.. blocking);
     receiveAndExecute-_$: void %.r null();
     run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
+    sendAnswer-_$: int %.r null(byte[??] X%. bufferAnswerData,int %.. nrofBytesAnswer);
     start-_$: void %.r null();
   }
 

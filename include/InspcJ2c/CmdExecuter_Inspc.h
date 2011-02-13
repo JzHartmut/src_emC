@@ -73,11 +73,11 @@ void finalize_CmdExecuter_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 METHOD_C struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdConsumer_ifc_Inspc_t* commandConsumer, ThCxt* _thCxt);
 
-typedef void MT_completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* outer, ThCxt* _thCxt);
+typedef void MT_completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* outer, ThCxt* _thCxt);
+METHOD_C void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* outer, ThCxt* _thCxt);
+METHOD_C void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 
 typedef bool MT_executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -111,7 +111,7 @@ typedef struct Mtbl_CmdExecuter_Inspc_t
 class CmdExecuter_Inspc : private CmdExecuter_Inspc_s
 { public:
 
-  virtual void completeConstruction(struct Comm_Inspc_t* outer){ completeConstruction_CmdExecuter_Inspc_F(this, outer,  null/*_thCxt*/); }
+  virtual void completeConstruction(struct Comm_Inspc_t* comm){ completeConstruction_CmdExecuter_Inspc_F(this, comm,  null/*_thCxt*/); }
 
   CmdExecuter_Inspc(struct CmdConsumer_ifc_Inspc_t* commandConsumer){ init_ObjectJc(&this->base.object, sizeof(CmdExecuter_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_CmdExecuter_Inspc_s, 0); ctorO_CmdExecuter_Inspc(&this->base.object, commandConsumer,  null/*_thCxt*/); }
 

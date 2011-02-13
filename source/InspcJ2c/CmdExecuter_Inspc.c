@@ -8,9 +8,6 @@
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "InspcJ2c/CmdConsumer_ifc_Inspc.h"  //reference-association: cmdConsumerMtbl
 #include "InspcJ2c/Comm_Inspc.h"  //reference-association: comm
-#include "Ipc/InterProcessComm.h"  //reference-association: ipcMtbl
-#include "Jc/PrintStreamJc.h"  //reference-association: out
-#include "Jc/SystemJc.h"  //reference-association: SystemJc
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -20,11 +17,6 @@
 #ifndef CmdConsumer_ifc_InspcMTBDEF
   #define CmdConsumer_ifc_InspcMTBDEF
   typedef struct CmdConsumer_ifc_InspcMTB_t { struct Mtbl_CmdConsumer_ifc_Inspc_t const* mtbl; struct CmdConsumer_ifc_Inspc_t* ref; } CmdConsumer_ifc_InspcMTB;
-#endif
-
-#ifndef InterProcessCommMTBDEF
-  #define InterProcessCommMTBDEF
-  typedef struct InterProcessCommMTB_t { struct Mtbl_InterProcessComm_t const* mtbl; struct InterProcessComm_t* ref; } InterProcessCommMTB;
 #endif
 
 
@@ -65,21 +57,21 @@ struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdC
 }
 
 
-void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* outer, ThCxt* _thCxt)
+void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("completeConstruction_CmdExecuter_Inspc_F");
   
   { 
     
-    ythis->comm = outer;
+    ythis->comm = comm;
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* outer, ThCxt* _thCxt)
+void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt)
 { Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_CmdExecuter_Inspc);
-  mtbl->completeConstruction(ythis, outer, _thCxt);
+  mtbl->completeConstruction(ythis, comm, _thCxt);
 }
 
 bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
@@ -256,50 +248,28 @@ int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart
     ythis->nrofBytesAnswer = nrofAnswerBytesPart;
     if(!ythis->useTelgHead || ythis->nrofBytesAnswer > sizeofHead_Datagram_InspcDataExchangeAccess_Inspc) 
     { 
-      InterProcessCommMTB ipcMtbl;   /**/
-      
       
       if(bLastTelg && ythis->useTelgHead) 
       { 
         
         markAnswerNrLast_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), _thCxt);//mark as last telg
         
-      }//send:
+      }//send.
       
-      SETMTBJc(ipcMtbl, ythis->comm->ipc, InterProcessComm);
-      ythis->nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), buildFromArrayX_MemC(&((struct int8_Y_t*)(&( ythis->bufferAnswerData)))->head) , ythis->nrofBytesAnswer, ythis->comm->myAnswerAddress);
-      if(ythis->nrofSentBytes < 0) 
+      sendAnswer_Comm_Inspc(ythis->comm, (struct int8_Y_t*)(&( ythis->bufferAnswerData)), ythis->nrofBytesAnswer, _thCxt);//
+      
+      if(bLastTelg) 
       { 
         
-        if(ythis->comm->bEnablePrintfOnComm) 
-        { 
-          
-          print_z_PrintStreamJc(REFJc(out_SystemJc), "\nError InterProcessComm ", _thCxt);
-        }
-        ret = -2;
+        ret = 0;
       }
       else 
-      { 
+      { //:prepare the next telg:
         
-        if(bLastTelg) 
-        { 
-          
-          ret = 0;
-        }
-        else 
-        { //:prepare the next telg:
-          
-          
-          incrAnswerNr_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), _thCxt);
-          ythis->nrofBytesAnswer = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc;
-          ret = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc - ythis->nrofBytesAnswer;
-        }
-      }
-      /**/
-      if(ythis->comm->bEnablePrintfOnComm) 
-      { 
         
-        print_z_PrintStreamJc(REFJc(out_SystemJc), "<", _thCxt);
+        incrAnswerNr_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), _thCxt);
+        ythis->nrofBytesAnswer = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc;
+        ret = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc - ythis->nrofBytesAnswer;
       }
     }
     else 

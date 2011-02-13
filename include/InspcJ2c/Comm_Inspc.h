@@ -84,6 +84,9 @@ METHOD_C void run_Comm_Inspc(ObjectJc* ithis, ThCxt* _thCxt);
 
 METHOD_C void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
 
+/**Sends the answer telg to the sender of the received telegram.*/
+METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* ythis, int8_Y* bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -109,6 +112,8 @@ class Comm_Inspc : private Comm_Inspc_s
   void receiveAndExecute(){ receiveAndExecute_Comm_Inspc(this,  null/*_thCxt*/); }
 
   virtual void run(){ run_Comm_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
+
+  int32 sendAnswer(int8_Y* bufferAnswerData, int32 nrofBytesAnswer){  return sendAnswer_Comm_Inspc(this, bufferAnswerData, nrofBytesAnswer,  null/*_thCxt*/); }
 
   void start(){ start_Comm_Inspc(this,  null/*_thCxt*/); }
 };

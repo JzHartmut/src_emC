@@ -200,16 +200,75 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt)
         ythis->state = 'r';//receive
         
         ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &ythis->nrofBytesReceived[0], buildFromArrayX_MemC(&((struct int8_Y_t*)(&( ythis->rxBuffer)))->head) , ythis->myAnswerAddress);
-        if(ythis->nrofBytesReceived[0] > 0) 
-        { }
-        if(ythis->state == 'r') 
-        { 
-          bool bOk; 
+        if(ythis->nrofBytesReceived[0] < 0) 
+        { //:error situation
+          //:it is possible that a send request has failed because the destination port is not
+          //:able to reach any more. Therefore wait a moment and listen new
           
           
-          bOk = cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), (struct int8_Y_t*)(&( ythis->rxBuffer)), ythis->nrofBytesReceived[0], _thCxt);
+          ythis->state = 'e';//prevent send
+          
+          TRY
+          { 
+            
+            sleep_ThreadJc(/*static*/50, _thCxt);
+          }_TRY
+          CATCH(InterruptedException, exc)
+          
+            { 
+              
+              
+            }
+          END_TRY
+          ythis->state = 'r';//
+          
         }
+        else 
+        { 
+          
+          cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), (struct int8_Y_t*)(&( ythis->rxBuffer)), ythis->nrofBytesReceived[0], _thCxt);//unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);
+          
+        }
+      }//while state !='x'
+      
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sends the answer telg to the sender of the received telegram.*/
+int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* ythis, int8_Y* bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("sendAnswer_Comm_Inspc");
+  
+  { 
+    int32 nrofSentBytes = 0; 
+    InterProcessCommMTB ipcMtbl;   /**/
+    
+    
+    /*no initvalue*/
+    SETMTBJc(ipcMtbl, ythis->ipc, InterProcessComm);
+    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), buildFromArrayX_MemC(&(bufferAnswerData)->head) , nrofBytesAnswer, ythis->myAnswerAddress);
+    if(nrofSentBytes < 0) 
+    { 
+      
+      if(ythis->bEnablePrintfOnComm) 
+      { //:only for debug.
+        
+        
+        print_z_PrintStreamJc(REFJc(out_SystemJc), "\nError InterProcessComm ", _thCxt);
       }
+      nrofSentBytes = -2;
+    }
+    /**/
+    if(ythis->bEnablePrintfOnComm) 
+    { 
+      
+      print_z_PrintStreamJc(REFJc(out_SystemJc), "<", _thCxt);
+    }
+    { STACKTRC_LEAVE;
+      return nrofSentBytes;
+    }
   }
   STACKTRC_LEAVE;
 }

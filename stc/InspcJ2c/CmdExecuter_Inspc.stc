@@ -18,7 +18,7 @@ fieldIdents {
   boolean %.. useTelgHead;
 }
   methods {  
-    completeConstruction-_$, mode= overrideable: void %.r null(org/vishia/inspector/Comm *.. outer);
+    completeConstruction-_$, mode= overrideable: void %.r null(org/vishia/inspector/Comm *.. comm);
     ctorO-_$, mode= ctor+static: org/vishia/inspector/CmdExecuter *.. CmdExecuter_Inspc_s(org/vishia/inspector/CmdConsumer_ifc *.. commandConsumer);
     executeCmd-_$, mode= overrideable: boolean %.r null(byte[??] X%. buffer,int %.. nrofBytesReceived);
     txAnswer+_ib-_$, defined: org/vishia/inspector/AnswerComm_ifc.txAnswer, mode= overrideable: int %.r null(int %.. nrofAnswerBytesPart,boolean %.. bLastTelg);
