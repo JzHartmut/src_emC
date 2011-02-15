@@ -51,11 +51,20 @@ struct Address_InterProcessComm_t* ctorO_Address_InterProcessCommSocket(ObjectJc
 
 struct Address_InterProcessComm_t* ctorO_s0_Address_InterProcessCommSocket(ObjectJc* othis, char const* address);
 
+/**Opens the communication, see open_InterProcessComm(...). */
+int open_InterProcessCommSocket( ObjectJc* xthis, Address_InterProcessComm_s* destAddress, bool isBlocking);
+
+
 //to encapsulate the stucture (prevent further dependencies:
 
 /**The sizeof is calculated from a translator or manual. It is checked in constructor. It may be greater here.*/
 #define sizeof_InterProcessCommSocket_s 2000
 
 METHOD_C struct InterProcessCommSocket_t* ctorO_InterProcessCommSocket(ObjectJc* othis, struct Address_InterProcessComm_t* addr, struct ThreadContextFW_t* _thCxt);
+
+/**The method table is publicated here, to allow direct access. */
+typedef struct MtblDef_InterProcessCommSocket_t { Mtbl_InterProcessComm mtbl; MtblHeadJc end; } MtblDef_InterProcessCommSocket;
+extern MtblDef_InterProcessCommSocket const mtblInterProcessCommSocket;
+
 
 #endif //__InterProcessCommSocket_h__

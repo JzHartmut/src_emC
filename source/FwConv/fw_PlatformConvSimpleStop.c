@@ -84,7 +84,7 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
 void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* stacktrcThCxt)
 {
   printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
-  printStackTraceFile_ExceptionJc(ythis,stdout);
+  printStackTraceFile_ExceptionJc(ythis, null);
   //Exception erzeugen damit der Abstrurz sichtbar wird:
   os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
 }

@@ -68,8 +68,6 @@ const StringJc sSocket_InterProcessCommSocket = CONST_StringJc("Socket:", 7);
 //const char identText_sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
 const char sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
 
-typedef struct MtblDef_InterProcessCommSocket_t { Mtbl_InterProcessComm mtbl; MtblHeadJc end; } MtblDef_InterProcessCommSocket;
- extern MtblDef_InterProcessCommSocket const mtblInterProcessCommSocket;
 
 extern const struct ClassJc_t reflection_InterProcessCommSocket_s; 
 
