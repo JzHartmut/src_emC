@@ -32,7 +32,7 @@
  * @author Hartmut Schorrig
  * @version sf-0.83
  * list of changes:
- * 2010-03-01 Hartmut corr: int32 os_getClockCnt(void) instead int64, it is enaugh and applicate-able to all systems.
+ * 2010-03-01 Hartmut corr: int32_t os_getClockCnt(void) instead int64, it is enaugh and applicate-able to all systems.
  * 2010-02-26 Hartmut new: class MinMaxTime_Fwc os-independt, but useable at lo level.
  * 2010-02-26 Hartmut corr: ctor with return value
  * 2008-02-01: Hartmut creation 
@@ -61,7 +61,7 @@ typedef struct OS_TimeStamp_t
    * Schaltsekunden zählen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
    *  @bytepos=4 
  */
-  int32 time_sec;
+  int32_t time_sec;
   
   /**Zeit innerhalb einer Sekunde in Nanosekunden gezählt.
    * Um schnelle Vorgänge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde häufig nicht ausreichend.
@@ -73,7 +73,7 @@ typedef struct OS_TimeStamp_t
    * *Bit 31: Wenn 0, dann stellt der Sekundenzähler die kalendarisch gezählten Sekunden nach 1970 dar.
    *  @bytepos=0 
    */
-  int32 time_nsec;
+  int32_t time_nsec;
 
   /**Nur die folgenden Bits in nanoseconds werden als Nanosekunden verwendet. */
   #define mNanoSeconds_OS_TimeStamp 0x3FFFFFFF
@@ -153,14 +153,14 @@ int os_setDateTime(OS_TimeStruct const* pDateTime, int isOffset);
 /**Gets a circular time information in milliseconds.
  * @return a relativ value, the value can be used only for differnces.
  */
-int32 os_getMilliTime(void);
-int32 os_milliTime(void); 
+int32_t os_getMilliTime(void);
+int32_t os_milliTime(void); 
 
 /**Gets a circular time information in microseconds.
  * @return a relativ value, the value can be used only for differnces.
  */
-int32 os_getMicroTime(void);
-int32 os_microTime(void);
+int32_t os_getMicroTime(void);
+int32_t os_microTime(void);
  
 /**Gets a circular time information in clocks of the system.
  * @return a relativ value, the value can be used only for differnces.
@@ -169,14 +169,14 @@ int32 os_microTime(void);
  *
  * Example: If the clock counts with 10 nanoseconds, a difference is valid in 20 seconds 
  */
-int32 os_getClockCnt(void);
-//int32 os_getClockTime(void);
+int32_t os_getClockCnt(void);
+//int32_t os_getClockTime(void);
  
 
 /**Delays a thread for a number of milliseconds.
  * @param timeOut sleep time in milliseconds.
  */
-void os_delayThread(uint32 timeOut);
+void os_delayThread(int32_t timeOut);
 #define os_sleep(TIME) os_delayThread(TIME);
 
 
@@ -189,27 +189,27 @@ void os_delayThread(uint32 timeOut);
 
 typedef struct MinMaxTime_Fwc_t
 {
-  int32 ct;
+  int32_t ct;
   
-  uint32 minminCyclTime;
+  uint32_t minminCyclTime;
 
-  uint32 minCyclTime;
+  uint32_t minCyclTime;
 
-  uint32 midCyclTime;
+  uint32_t midCyclTime;
 
-  uint32 maxmaxCyclTime;
+  uint32_t maxmaxCyclTime;
 
-  uint32 maxCyclTime;
+  uint32_t maxCyclTime;
 
-  uint32 minCalcTime;
+  uint32_t minCalcTime;
 
-  uint32 midCalcTime;
+  uint32_t midCalcTime;
 
-  uint32 maxCalcTime;
+  uint32_t maxCalcTime;
 
-  uint32 actCyclTime;
+  uint32_t actCyclTime;
 
-  int32 _lastTime;
+  int32_t _lastTime;
 
 
 }MinMaxTime_Fwc;
@@ -229,8 +229,8 @@ typedef struct MinMaxTime_Fwc_t
 
 
 #define cyclTime_MinMaxTime_Fwc(YTHIS)        \
-{ int32 time = (int32)os_getClockCnt();       \
-  uint32 cyclTime = time - (YTHIS)->_lastTime; \
+{ int32_t time = (int32_t)os_getClockCnt();       \
+  uint32_t cyclTime = time - (YTHIS)->_lastTime; \
   (YTHIS)->ct +=1;  \
   (YTHIS)->actCyclTime = cyclTime;  \
   if(cyclTime > (YTHIS)->maxCyclTime) { (YTHIS)->maxCyclTime = cyclTime; }  \
@@ -241,7 +241,7 @@ typedef struct MinMaxTime_Fwc_t
 
 /**With given time. */
 #define cyclTime_fast_MinMaxTime_Fwc(YTHIS, time)        \
-{ uint32 cyclTime = (time) - (YTHIS)->_lastTime; \
+{ uint32_t cyclTime = (time) - (YTHIS)->_lastTime; \
   (YTHIS)->ct +=1; \
   (YTHIS)->actCyclTime = cyclTime;  \
   if(cyclTime > (YTHIS)->maxCyclTime && cyclTime < ((YTHIS)->midCyclTime >>9)) { (YTHIS)->maxCyclTime = cyclTime; }  \
@@ -255,7 +255,7 @@ typedef struct MinMaxTime_Fwc_t
 
 /**With given time. */
 #define calcTime_fast_MinMaxTime_Fwc(YTHIS, time)        \
-{ uint32 calcTime = (time) - (YTHIS)->_lastTime; \
+{ uint32_t calcTime = (time) - (YTHIS)->_lastTime; \
   if(calcTime > (YTHIS)->maxCalcTime) { (YTHIS)->maxCalcTime = calcTime; }  \
   if(calcTime < (YTHIS)->minCalcTime) { (YTHIS)->minCalcTime = calcTime; }  \
   (YTHIS)->midCalcTime += (calcTime - ((YTHIS)->midCalcTime >>10));            \

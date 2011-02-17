@@ -94,7 +94,7 @@ int32 os_getClockCnt(void)
 }
  
 
-void os_delayThread(ulong milliseconds)
+void os_delayThread(int32_t milliseconds)
 { Sleep(milliseconds);
 }
 

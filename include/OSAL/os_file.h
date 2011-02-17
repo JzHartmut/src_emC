@@ -45,13 +45,13 @@
 
 /**Structure is filled on call of os_getFileDescription(...).
  */ 
-typedef struct OS_FileDescription_t
+C_TYPE typedef struct OS_FileDescription_t
 {
   /**Files which are longer as 2 GByte aren't supported. */
-  int32 fileLength;
+  int32_t fileLength;
 
   /**Some flag bits. Use macros to request it. */
-  int32 flags;
+  int32_t flags;
 
   #define mExist_OS_FileDescription        1
   #define mCanRead_OS_FileDescription      2
@@ -75,11 +75,11 @@ typedef struct OS_FileDescription_t
 	 * If a \0 is written as separator, the usage of a 0-terminated String is possible
 	 * to select the directory path internally. But then the method getAbsolutePath_FileJc()
 	 * returns this 0-character in its String. */ 
-  int16 posNameInPath;
+  int16_t posNameInPath;
 
 	/**Position of the start of given relative path while creating this structure.
 	 * It is 0 if an absolute path is given on call, and if the absolute path isn't built. */
-  int16 posRelatPathInPath;
+  int16_t posRelatPathInPath;
 
   /**absolute path. It is stored in the form like the filesystem needs it. 
    * It means, it may have / or \ as separator and maybe a drive or other prefix.
@@ -103,7 +103,7 @@ typedef struct OS_FileDescription_t
  * @param zFilepath number of chars of the filepath-string. 
  * @return 0 on success, OS_INVALID_PARAMETER if the zFilepath is greater than the (internal buffer + addPathLength).
  */
-int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char const* filepath, int zFilepath);
+extern_C int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char const* filepath, int zFilepath);
 
 
 
@@ -112,7 +112,7 @@ int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char co
  * Filles the properties of the file. 
  * @return 0 if ok, negative number on a system error. But it is ok, if the file doesn't exist.
  */
-int os_getFileDescription(OS_FileDescription* ythis); 
+extern_C int os_getFileDescription(OS_FileDescription* ythis); 
 //int os_getFileDescription(OS_FileDescription* dst, int addPathLength, const char* filepath); 
 
 /**Returns true if the file exists. 
@@ -138,26 +138,26 @@ int os_getFileDescription(OS_FileDescription* ythis);
  * A ,,OS_HandleFile,, may be the FILE* pointer like in Standard C. 
  * It is also possible that it is a simple integer, which is converted to this pointer type.
  */
-typedef struct OS_HandleFile_t* OS_HandleFile;
+C_TYPE typedef struct OS_HandleFile_t* OS_HandleFile;
 
 
 /**Open a file to read. The file should be exist. 
  * @return null if the file doesn't exist. Elsewhere the handle, which is able to use for read.
  */ 
-OS_HandleFile os_fopenToRead(char const* filename); 
+extern_C OS_HandleFile os_fopenToRead(char const* filename); 
 
 /**Open a file to write. This open action follows the convention of java.io.FileOutputStream.ctor(). 
  * If the file should be read simultaneously, the file should be opened to read too with an extra call.
  * The os layer itself may support such actions or not.
  * @return null if the file isn't able to write or create. Elsewhere the handle, which is able to use for write.
  */
-OS_HandleFile os_fopenToWrite(char const* filename, bool append); 
+extern_C OS_HandleFile os_fopenToWrite(char const* filename, bool append); 
 
 
-int os_fclose(OS_HandleFile file);
+extern_C int os_fclose(OS_HandleFile file);
 
 
-int os_fflush(OS_HandleFile file);
+extern_C int os_fflush(OS_HandleFile file);
 
 
 /**Reads bytes from file.
@@ -168,7 +168,7 @@ int os_fflush(OS_HandleFile file);
  *         It is the same convention like java.io.FileInputStream.read(...)
  *         If <=-2, than the writing process was faulty.
  */
-int os_fread(OS_HandleFile file, void* buffer, int maxNrofbytes);
+extern_C int os_fread(OS_HandleFile file, void* buffer, int maxNrofbytes);
 
 
 /**Skips over and discards n bytes of data from the input stream. 
@@ -181,7 +181,7 @@ int os_fread(OS_HandleFile file, void* buffer, int maxNrofbytes);
  * @param nrofbytes - the number of bytes to be skipped. 
  * @return the actual number of bytes skipped. 
  */
-int os_fskip(OS_HandleFile file, int nrofbytes);
+extern_C int os_fskip(OS_HandleFile file, int nrofbytes);
 
 
 /**Writes bytes to file.
@@ -189,14 +189,14 @@ int os_fskip(OS_HandleFile file, int nrofbytes);
  * This method may be delayed (thread switch is possible), if the conditions to write are met, 
  * but the write process requires a delaying. 
  */
-int os_fwrite(OS_HandleFile file, void const* buffer, int nrofbytes);
+extern_C int os_fwrite(OS_HandleFile file, void const* buffer, int nrofbytes);
 
 
 /**Locks or unlocks a region or the whole file.
  * @param cmd ones of lock, sharedLock, checkLock, unlock TODO enum-def
  * @param len number of bytes to lock from the current position, or -1 for file-lock
  */
-int os_flock(OS_HandleFile file, int cmd, int len);
+extern_C int os_flock(OS_HandleFile file, int cmd, int len);
 
 
 

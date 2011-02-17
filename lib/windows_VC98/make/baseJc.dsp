@@ -48,10 +48,10 @@ RSC=rc.exe
 # ADD RSC /l 0x407 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
+# ADD BSC32 /nologo /o"..\baseJc.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\baseJc.lib"
 
 !ELSEIF  "$(CFG)" == "CRuntimeJavalike_Fwclib - Win32 Debug"
 
@@ -331,94 +331,6 @@ SOURCE=..\..\..\source\Jc\TimeZoneJc.c
 # Begin Source File
 
 SOURCE=..\..\..\include\Jc\TimeZoneJc.h
-# End Source File
-# End Group
-# Begin Group "Fwc"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_Exception.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_Exception.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_ExceptionPrintStacktrace.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_formatter.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_Formatter.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_LogMessage.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_LogMessage.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_LogMsgStream.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_MemC.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_MemC.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_Object.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_SimpleC.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_SimpleC.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_String.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_threadContext.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_ThreadContext.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\fw_timeconversions.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_timeconversions.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\fw_Va_list.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\include\Fwc\objectBaseC.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\Fwc\Reflection_Fwc.c
 # End Source File
 # End Group
 # Begin Group "Ipc"

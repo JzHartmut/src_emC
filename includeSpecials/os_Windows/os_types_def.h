@@ -102,6 +102,21 @@
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 
+/**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
+typedef unsigned char        uint8_t;
+typedef unsigned short       uint16_t;
+typedef unsigned long        uint32_t;
+
+typedef char                 char8_t;   //Standard-C-char
+typedef unsigned short       char16_t;  //UTF16-char
+
+typedef signed char          int8_t;
+typedef short                int16_t;
+typedef long                 int32_t;
+typedef __int64              int64_t;
+#define bool8_t char
+#define bool16_t int16_t
+
 /**All types with fix byte-wide should be defined in a platform-valid form. */
 typedef unsigned char        uint8;
 typedef unsigned short       uint16;

@@ -470,17 +470,17 @@ ByteStringJc getBytesEncoding_StringJc(StringJc ythis, StringJc encoding, ThCxt*
 
 int parseInt_radix_IntegerJc(StringJc ythis, int radix)
 { 
-  int unusedChars;
+  int nrofCharsParsed;
   int value;
   int countThis = VAL_StringJc(ythis) & mLength__StringJc; 
   const char* strThis = PTR_StringJc(ythis);
   if(countThis == mLength__StringJc){
     countThis = strlen_Fwc(strThis, mLength__StringJc);
   }
-  value = parseInt_Fwc(strThis, countThis, radix, &unusedChars);
-  if(unusedChars >0){
+  value = parseIntRadix_Fwc(strThis, countThis, radix, &nrofCharsParsed);
+  if(nrofCharsParsed < countThis){
     STACKTRC_ENTRY("parseInt_IntegerJc");
-    THROW_s0(NumberFormatException, " rest:", unusedChars);
+    THROW_s0(NumberFormatException, " rest:", countThis - nrofCharsParsed);
     STACKTRC_LEAVE;
   }
   return value;
@@ -507,7 +507,7 @@ float xxxintBitsToFloat_FloatJc(int32 val)
 
 float parseFloat_FloatJc(StringJc src)
 {
-  //TODO
+  //TODO see parseFloat_Fwc() in simpleC.c
   return 0.0F;
 }
 
@@ -530,7 +530,7 @@ double xxxlongBitsToDouble_DoubleJc(int64 val)
 
 double parseDouble_DoubleJc(StringJc src)
 {
-  //TODO
+  //TODO see parseFloat_Fwc() in simpleC.c
   return 0.0F;
 }
 

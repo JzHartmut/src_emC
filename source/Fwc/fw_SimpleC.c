@@ -35,22 +35,17 @@
  *
  ****************************************************************************/
 #include <Fwc/fw_simpleC.h>
-#include <string.h>
-#include <Fwc/fw_String.h>
-//#include "os_wrapper.h"
-//#include "osSpecifica.h"
-//#include "fw_Exception.h"
 
 /**This algorithm is equal java.util.Arrays.binarySearch(int[] a, int fromIndex, int toIndex, int key)
  * but without rangeCheck of input values.
  * The algoritm works only if the data are sorted and the indices are matching.
  */ 
-int binarySearch_int(int32 const* data, int fromIndex, int toIndex, int32 key)
+int binarySearch_int(int32_t const* data, int fromIndex, int toIndex, int32_t key)
 { int low = fromIndex;
 	int high = toIndex -1;
 	while (low <= high)
   { int mid = (low + high) >> 1;
-	  int32 midVal = data[mid];
+	  int32_t midVal = data[mid];
 	  if (midVal < key)
 		{ low = mid + 1;
 	  }
@@ -65,12 +60,12 @@ int binarySearch_int(int32 const* data, int fromIndex, int toIndex, int32 key)
 }
 
 
-int binarySearch_int64(int64 const* data, int fromIndex, int toIndex, int64 key)
+int binarySearch_int64(int64_t const* data, int fromIndex, int toIndex, int64_t key)
 { int low = fromIndex;
 	int high = toIndex -1;
 	while (low <= high)
   { int mid = (low + high) >> 1;
-	  int64 midVal = data[mid];
+	  int64_t midVal = data[mid];
 	  if (midVal < key)
 		{ low = mid + 1;
 	  }
@@ -94,105 +89,53 @@ int strlen_Fwc(char const* text, int maxNrofChars)
 }
 
 
-
-/********************************************************************************************************** 
- * This method bodies are placed inside MemC.c because simple applications (ExceptionJc.c)
- * call only this method from string, without other dependencies.
+/**Searches a character inside a given string with terminated length.
+ * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
  */
-
-StringJc const null_StringJc = NULL_StringJc;
-
-
-METHOD_C StringJc z_StringJc(const char* src)
-{ StringJc ret;
-  int size = strlen(src);
-
-  set_OS_PtrValue(ret, src, (size & mLength__StringJc)); 
-  return ret;
-}
-
-
-
-StringJc zI_StringJc(char const* src, int len)
-{ StringJc ret;
-  set_OS_PtrValue(ret, src, (len & mLength__StringJc)); 
-  return ret;
+int searchChar_Fwc(char const* text, int maxNrofChars, char cc)
+{ register char const* text1 = text;
+  register char const* text9 = text + maxNrofChars;
+  //optimization: test only one pointer register, which is incremented too
+  while(text1 < text9 && *text1 != cc){ 
+		text1+=1;
+	}
+  if(text1 >= text9) return -1;  //not found
+	else return (text1 - text);    //maybe 0 if the request char is on the first position.
 }
 
 
 
 
-const char* getConstChar_StringJc(const StringJc* ythis)
-{ //int count;
-  //const char* sRet = getCharsAndLength_StringJc(ythis, &count);
-  const char* sRet = PTR_OS_PtrValue(*ythis, char const);
-  return sRet;
+int skipWhitespaces_Fwc(char const* text, int maxNrofChars)
+{ register char const* text1 = text;
+  register char const* text9 = text + maxNrofChars;
+  //optimization: test only one pointer register, which is incremented too
+  while(text1 < text9 && *text1 <= 0x20){ 
+		text1+=1;
+	}
+	return (text1 - text);    //maybe 0 if the request char is on the first position.
 }
 
 
-
-
-/**This method is adequat zI_StringJc, but it dedicated the String as persistent. */
-StringJc toStringFromPersist_zI_StringJc(char const* buffer, int nrofChars)
-{ StringJc ret;
-  set_OS_PtrValue(ret, buffer, (nrofChars & mLength__StringJc)); 
-  return ret;
+int trimRightWhitespaces_Fwc(char const* text, int maxNrofChars)
+{ register char const* text1 = text + maxNrofChars-1;
+  //optimization: test only one pointer register, which is incremented too
+  while(text1 >= text && *text1 <= 0x20){ 
+		text1-=1;
+	}
+	return (text1 - text +1);    //maybe 0 if there are only whitespaces.
 }
 
 
 
 
 
-
-char const* getCharsAndLength_StringJc(StringJc const* ythis, int* length)
-{ char const* chars = PTR_StringJc(*ythis);
-  if(chars == null){
-    *length = 0;
-  } else {
-    int nChars = VAL_StringJc(*ythis) & mLength__StringJc;
-    if(nChars == mLength__StringJc) { nChars = strlen(chars); }
-    *length = nChars;
-  }
-  return(chars);  //may be null
-}
-
-
-
-
-METHOD_C int length_StringJc(StringJc const ythis)
-{ int nChars = VAL_StringJc(ythis) & mLength__StringJc;
-  if(nChars == mLength__StringJc) { nChars = strlen_Fwc(PTR_StringJc(ythis), mLength__StringJc); }
-  return nChars;
-}
-
-
-METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis)
-{ char const* chars = PTR_StringJc(ythis);
-  int nChars = VAL_StringJc(ythis) & mLength__StringJc;
-  if(nChars == mLength__StringJc) { nChars = strlen_Fwc(chars, mLength__StringJc); }
-  return chars[nChars] == 0;
-}
-
-
-
-
-
-METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSizeBuffer)
-{ int nChars = VAL_StringJc(ythis) & mLength__StringJc;
-  const char* str = PTR_StringJc(ythis);
-  if(nChars == mLength__StringJc) { nChars = strlen(str); }
-  if(nChars >= maxSizeBuffer){ nChars = maxSizeBuffer -1; }
-  strncpy(buffer, str, nChars);
-  buffer[nChars] = 0;
-  return( nChars);
-}
-
-
-int parseInt_Fwc(const char* src, int size, int radix, int* retSize)
+int parseIntRadix_Fwc(const char* srcP, int size, int radix, int* parsedChars)
 { int val = 0;
   bool bNegativ;
   int digit;
   char cc;
+	const char* src = srcP;
   int maxDigit = (radix <=10) ? '0' + radix -1 : '9'; 
   int maxHexDigitLower = 'A' + radix - 11; 
   int maxHexDigitUpper = 'a' + radix - 11; 
@@ -208,8 +151,44 @@ int parseInt_Fwc(const char* src, int size, int radix, int* retSize)
     size -=1;
   }
   if(bNegativ){ val = -val; }
-  *retSize = size;
+  if(parsedChars !=null){
+		*parsedChars = src - srcP;
+	}
   return( val);
 }
 
 
+float parseFloat_Fwc(const char* src, int size, int* parsedCharsP)
+{
+	int parsedChars = 0;
+	float ret;
+	int zParsed;
+  ret = (float)parseIntRadix_Fwc(src, size, 10, &zParsed);
+	parsedChars += zParsed;  //maybe 0 if .123 is written
+  src += zParsed; size -= zParsed;
+  if(*src=='.'){
+	  float fracPart = (float)parseIntRadix_Fwc(src+1, size-1, 10, &zParsed);
+		if(zParsed >0){
+			switch(zParsed){
+      case 1: fracPart *= 0.1f; break;
+			case 2: fracPart *= 0.01f; break;
+			case 3: fracPart *= 0.001f; break;
+			case 4: fracPart *= 0.0001f; break;
+			case 5: fracPart *= 1e-5f; break;
+			case 6: fracPart *= 1e-6f; break;
+			case 7: fracPart *= 1e-7f; break;
+			case 8: fracPart *= 1e-8f; break;
+			case 9: fracPart *= 1e-9f; break;
+			case 10: fracPart *= 1e-10f; break;
+      }
+		  ret += fracPart;
+		}
+		parsedChars += zParsed+1;  //maybe 0 if .123 is written
+		src += zParsed+1; size -= zParsed-1;
+	}
+  //TODO exponent
+  if(parsedCharsP !=null){
+		*parsedCharsP = parsedChars;
+	}
+	return ret;
+}

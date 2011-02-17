@@ -32,6 +32,10 @@
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
+ * 2011-02-18 Hartmut chg: parseIntRadix_Fwc(...) instead parseInt_Fwc(...). Renaming because last parameter is parsedChars and not restSize. 
+ *                         It is better to use for simpe-C-applications. The old form isn't represent anywhere.  
+ * 2011-02-18 Hartmut new: method skipWhitespaces_Fwc(...)
+ * 2011-02-18 Hartmut chg: StringJc-methods written in fw_String.c, deleted here
  * 2010-02-20: Hartmut new: OFFSETinTYPE_SimpleC and OFFSETinDATA_SimpleC, but the same functionality is conained in fw_MemC.h, see there.
  * 2008-04-22: JcHartmut some changes in definitions to treat with memory:
  *                       * MemAreaC is shown with 32-bit-integer in debugger, not with char.
@@ -99,7 +103,7 @@ typedef int(* MT_int_Method_int)(int);
   * The size of the array is a free choiced number, appropriate to show the data in debugger.
 */
 typedef struct Int32Array256_t
-{ int32 data[256];
+{ int32_t data[256];
 }Int32Array256;
 
 
@@ -117,9 +121,25 @@ typedef struct Int32Array256_t
  *        is some more less than as in comparision with the strlen-call without any limits.
  * @return the number of chars till \0 or maxNrofChars. 
  */
-int strlen_Fwc(char const* text, int maxNrofChars);
+extern_C int strlen_Fwc(char const* text, int maxNrofChars);
+
+/**Searches a character inside a given string with terminated length.
+ * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
+ */
+extern_C int searchChar_Fwc(char const* text, int maxNrofChars, char cc);
+
+/**Returns the number of chars which are whitespaces starting from text.
+ * Whitespaces are all chars with code <=0x20. It are all control chars from the ASCII and the space. 
+ */
+extern_C int skipWhitespaces_Fwc(char const* text, int maxNrofChars);
 
 
+/**Returns the number of chars which note whitespaces starting from end of text.
+ * Whitespaces from begin or inside the text are not regarded.
+ * Whitespaces are all chars with code <=0x20. It are all control chars from the ASCII and the space. 
+ * @return length of text without right-bounded white-spaces.
+ */
+extern_C int trimRightWhitespaces_Fwc(char const* text, int maxNrofChars);
 
 
 /*@CLASS_C BinarySearch @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -139,8 +159,8 @@ int strlen_Fwc(char const* text, int maxNrofChars);
  * or toIndex if all elements in the range are less than the specified key. 
  * Note that this guarantees that the return value will be >= 0 if and only if the key is found. 
  */ 
-extern_C int binarySearch_int(int32 const* data, int fromIndex, int toIndex, int32 key);
-METHOD_C int binarySearch_int64(int64 const* data, int fromIndex, int toIndex, int64 key);
+extern_C int binarySearch_int(int32_t const* data, int fromIndex, int toIndex, int32_t key);
+extern_C int binarySearch_int64(int64_t const* data, int fromIndex, int toIndex, int64_t key);
 
 #define binarySearch_int_simpleC binarySearch_int
 
@@ -154,13 +174,16 @@ METHOD_C int binarySearch_int64(int64 const* data, int fromIndex, int toIndex, i
  * @param src The String, non 0-terminated, see ,,size,,.
  * @param size The number of chars of the String.
  * @param radix The radix of the number, typical 2, 10 or 16, max 36.
- * @param retSize return-integer with the rest of size, which is non-assignable to a number.
+ * @param parsedChars number of chars which is used to parse the integer. The pointer may be null if not necessary.
  * @return the Number.
  * @throws never. All possible digits where scanned, the rest of non-scanable digits are returned.
  *  At example the String contains "-123.45" it returns -123, and the retSize is 3.
  */
-extern_C int parseInt_Fwc(const char* src, int size, int radix, int* retSize);
+extern_C int parseIntRadix_Fwc(const char* src, int size, int radix, int* parsedChars);
 
+extern_C float parseFloat_Fwc(const char* src, int size, int* parsedChars);
+
+extern_C double parseDouble_Fwc(const char* src, int size, int* parsedChars);
 
 
 #endif  //__simpleC_h__

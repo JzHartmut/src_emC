@@ -115,7 +115,7 @@ extern_C int os_setErrorRoutine(MT_os_Error* routine);
  * If the routine is set. If no, this routine does nothing. It means, it is not the only way of error detection.
  * The other way is to test the return code of os_methods.
  */
-void os_notifyError(int errorCode, const char* description, int value1, int value2);
+extern_C void os_notifyError(int errorCode, const char* description, int value1, int value2);
 
 
 
@@ -129,7 +129,7 @@ void os_notifyError(int errorCode, const char* description, int value1, int valu
  * The implementation of this routine should be done depending from the users requirements or special test requirements
  * to the whole system. It should be hard coded and really stop the execution.
  */
-METHOD_C void os_FatalSysError(int errorCode, const char* description, int value1, int value2);
+extern_C void os_FatalSysError(int errorCode, const char* description, int value1, int value2);
 
 
 /**Stops the execution of a thread because no error handling is possible.
@@ -145,7 +145,7 @@ METHOD_C void os_FatalSysError(int errorCode, const char* description, int value
  * The implementation of this routine should be done depending from the users requirements or special test requirements
  * to the whole system. It should be hard coded and really stop the execution.
  */
-METHOD_C void os_FatalError(int errorCode, const char* description, int value1, int value2);
+extern_C void os_FatalError(int errorCode, const char* description, int value1, int value2);
 
 
 
