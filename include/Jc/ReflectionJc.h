@@ -225,12 +225,38 @@ struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
  * programmed in C or C++ part, the user should be programmed carefully, how it is
  * ordinary in C or C++.
  *
- * @param obj the Object. It shouln't derivated from ObjectJc, it may be any struct or class,
+ * Simple field, also if the field is a reference type:
+ *  intance-->[ ...some fields]  
+ *            [ ...           ]  
+ *            [ this field----]<--<<This reference will be returned.
+ *            [ ...           ] 
+ *
+ * Embedded-array-field, also if the field-elements are a reference types:
+ *  intance-->[ ...some fields  ]  
+ *            [ ...             ]  
+ *            [ [this field is] ]
+ *            [ [an aarry ....] ]
+ *            [ [..element<---]-]--<<This reference will be returned.
+ *            [ [..element    ] ]
+ *            [ ...             ]
+ *
+ * If the field references an array, the address of the field itself is returned.
+ *
+ * @param instance the Object. It need not derivated from ObjectJc, it may be any struct or class,
  *            but the type should matched to the ClassJc description getted with getDeclaringClass_FieldJc(ythis).
- * @param ix -1 if the field isn't a simple array, or the base address should be returned.
- *            0... if the address of a element of the field should be returned.
- *            An index 0... is only admissible for a simple embedded array.
- *            To get the address of elements of a container field, use [[>getAddrElement_FieldJc(...)]]
+ * @param bFieldAddr If it is true, then instance contains the address of the field already. 
+ *            This method is then used only to calculate the address of an element inside the array,
+ *            if it this is an array-kind-element. This functionality is used internally.
+ * @param sVaargs The method can have one or more indices to index an element in the array,
+ *            if ythis is an array-field. The sVaarg-string contains one or more characters "I"
+ *            to designate that the following variable arguments are from type int. This concept of
+ *            processing a variable argument list is established with the Java2C-translator. In Java
+ *            the type of the elements of a variable argument list are well known in Runtime,
+ *            other than its usual in C. This String defines the types. It the type is null or empty,
+ *            no variable arguments are given.
+ * @param vaargs indices for indexing an array element.
+ * @return The address of the field or the address of a element inside the array-kind-field with the given indices.
+ *         Note: To get the address of elements of a container field, use [[>getAddrElement_FieldJc(...)]]
  */
 METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* ythis, MemSegmJc instance, bool bFieldAddr, char const* sVaargs, va_list vaargs);
 
@@ -267,6 +293,14 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* ythis, MemSegmJc inst
  *
  * @param instance the Object. It shouln't derivated from ObjectJc, it may be any struct or class,
  *             but the type should matched to the ClassJc description getted with getDeclaringClass_FieldJc(ythis).
+ * @param sVaargs The method can have one or more indices to index an element in the array,
+ *            if ythis is an array-field. The sVaarg-string contains one or more characters "I"
+ *            to designate that the following variable arguments are from type int. This concept of
+ *            processing a variable argument list is established with the Java2C-translator. In Java
+ *            the type of the elements of a variable argument list are well known in Runtime,
+ *            other than its usual in C. This String defines the types. It the type is null or empty,
+ *            no variable arguments are given.
+ * @param vaargs indices for indexing an array element.
  *  @return if the container is an embedded element, this method returns the same value as getMemoryAddress_FieldJc(...),
  *          but if it is referenced, the referenced address is returned. The bits mContainerReference_Modifier_reflectJc in bitModifiers
  *          are tested to get the result.
@@ -278,9 +312,14 @@ METHOD_C MemSegmJc getContainerAddress_FieldJc(const FieldJc* ythis, MemSegmJc i
 /**Gets the address of the element described with the field of the given object.
  * It regards whether the field is of container type, it regards the index.
  * @param address The address of the reference, it may be the address of a container element.
- * @param idx The index. 
- *          If the index < 0, the address of the whole container is returned.
- *          If the index exceeds the boundaries of the container, null is returned.
+ * @param sVaargs The method can have one or more indices to index an element in the array,
+ *            if ythis is an array-field. The sVaarg-string contains one or more characters "I"
+ *            to designate that the following variable arguments are from type int. This concept of
+ *            processing a variable argument list is established with the Java2C-translator. In Java
+ *            the type of the elements of a variable argument list are well known in Runtime,
+ *            other than its usual in C. This String defines the types. It the type is null or empty,
+ *            no variable arguments are given.
+ * @param vaargs indices for indexing an array element.
  * @returns the address of the reference maybe in a container or the address of the reference immediately, if it isn't a container. 
  *          If the contained instances in the container are embedded in the container, this address is equal with the address of the instance.
  *          If the instances in the container are references, this is the address where the reference to the instance is found.
@@ -293,24 +332,6 @@ METHOD_C MemSegmJc getAddrElement_FieldJc(const FieldJc* ythis, MemSegmJc instan
 
 
 
-
-/**Gets the address of the instance with given address of the reference to it.
- * This method regards the ,,(getModifiers_FieldJc(field) & mAddressing_Modifier_reflectJc),,.
- * @param addrReference Adress of the position in the container, where a reference or the instance is located in memory.
- * @return If the field describes an embedded instance in an container, addrReference itself is returned.
- *         Otherwise the address of the instance, which is contained in the reference is returned.
- */
-METHOD_C MemSegmJc XXXgetAddrReferencedInstance_FieldJc(const FieldJc* ythis, MemSegmJc addrReference);
-
-
-
-
-/**Gets the reference contained in the field of the given object.
- * @param address The address of the reference, it may be the address of a container element.
- * @param idx the index
- * @throws IndexOutOfBoundsException if the idx is fault.
- */
-METHOD_C MemSegmJc xxxgetRefAddr_FieldJc(const FieldJc* ythis, MemSegmJc instance, int idx);
 
 /**Gets the absolute address of the indexed element of a UML-specific container element known as UML_LinkedList.
  * The algorithm should be specified in the users area (extra file.c) because it is UML-Framework-specific.
