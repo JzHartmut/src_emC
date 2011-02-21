@@ -1091,8 +1091,14 @@ int32 getMemoryIdent_FieldJc(FieldJc const* ythis, MemSegmJc instance, char cons
 
 
 int32 getMemoryIdent_V_FieldJc(FieldJc const* ythis, MemSegmJc instance, char const* sVaargs, va_list vaargs)
-{ MemSegmJc ret = getMemoryAddress_FieldJc(ythis, instance, false, sVaargs, vaargs);
-  return (int32)(ADDR_MemSegmJc(ret, void)); 
+{ MemSegmJc adr = getAddrElement_FieldJc(ythis, instance, sVaargs, vaargs);
+  if(ythis->bitModifiers & kReference_Modifier_reflectJc){
+    //the field is a reference field, get the reference value instead the address. The reference value
+    //addresses the real target value.
+    adr = getRef_MemAccessJc(adr);
+  }
+  //returns the address in the memory space of the target. It may be another CPU.
+  return (int32)(ADDR_MemSegmJc(adr, void)); 
 }
 
 
@@ -1122,6 +1128,8 @@ char getChar_FieldJc(const FieldJc* ythis, MemSegmJc obj, char const* sVaargs, .
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
+  //TODO use getAddrElement_FieldJc instead getMemoryAddress_FieldJc to regard whether it may be a complex container.
+  //TODO on all get- and set methods. 
   adr = getMemoryAddress_FieldJc(ythis,obj, false, sVaargs, vaargs);
   if(isReference_ModifierJc(ythis->bitModifiers))
   { adr = getRef_MemAccessJc(adr);
