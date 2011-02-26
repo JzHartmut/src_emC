@@ -42,11 +42,15 @@
 //#include "OSAL/inc/os_file.h"
 
 struct FileJc_t;
+struct int8_Y_t;
 struct ThreadContextFW_t;
 
 /*@CLASS_C FileSystemJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-MemC readBinFile_FileSystemJc(struct FileJc_t* file, MemC buffer);
+extern_C MemC readBinFile_FileSystemJc(struct FileJc_t* file, MemC buffer);
+
+
+extern_C int writeBinFile_FileSystemJc(struct FileJc_t* file, struct int8_Y_t* buffer, struct ThreadContextFW_t* _thCxt);
 
 
 #endif //__Jc_FileSystemJc_h__
