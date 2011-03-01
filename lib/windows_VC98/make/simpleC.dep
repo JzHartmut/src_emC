@@ -1,0 +1,170 @@
+# Microsoft Developer Studio Generated Dependency File, included by simpleC.mak
+
+..\..\..\source\Fwc\fw_Exception.c : \
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\osal\os_error.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_ExceptionPrintStacktrace.c : \
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\osal\os_error.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_formatter.c : \
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_Formatter.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\Fwc\fw_timeconversions.h"\
+	"..\..\..\include\Fwc\fw_Va_list.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_LogMessage.c : \
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_Formatter.h"\
+	"..\..\..\include\Fwc\fw_LogMessage.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\Fwc\fw_timeconversions.h"\
+	"..\..\..\include\Fwc\fw_Va_list.h"\
+	"..\..\..\include\Fwc\objectBaseC.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_LogMsgStream.c : \
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_Formatter.h"\
+	"..\..\..\include\Fwc\fw_LogMessage.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\Fwc\fw_timeconversions.h"\
+	"..\..\..\include\Fwc\fw_Va_list.h"\
+	"..\..\..\include\Fwc\objectBaseC.h"\
+	"..\..\..\include\jc\mathjc.h"\
+	"..\..\..\include\jc\objectjc.h"\
+	"..\..\..\include\jc\reflectionjc.h"\
+	"..\..\..\include\jc\reflmemaccessjc.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_MemC.c : \
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_mem.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_Object.c : \
+	"..\..\..\include\fwc\fw_basic.h"\
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\Fwc\objectBaseC.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_SimpleC.c : \
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_String.c : \
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_threadContext.c : \
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_thread.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\fw_timeconversions.c : \
+	"..\..\..\include\Fwc\fw_timeconversions.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	
+
+..\..\..\source\Fwc\Reflection_Fwc.c : \
+	"..\..\..\include\fwc\fw_basic.h"\
+	"..\..\..\include\Fwc\fw_Exception.h"\
+	"..\..\..\include\Fwc\fw_Formatter.h"\
+	"..\..\..\include\Fwc\fw_LogMessage.h"\
+	"..\..\..\include\Fwc\fw_MemC.h"\
+	"..\..\..\include\Fwc\fw_SimpleC.h"\
+	"..\..\..\include\Fwc\fw_String.h"\
+	"..\..\..\include\Fwc\fw_ThreadContext.h"\
+	"..\..\..\include\Fwc\fw_timeconversions.h"\
+	"..\..\..\include\Fwc\fw_Va_list.h"\
+	"..\..\..\include\Fwc\objectBaseC.h"\
+	"..\..\..\include\jc\mathjc.h"\
+	"..\..\..\include\jc\objectjc.h"\
+	"..\..\..\include\jc\reflectionjc.h"\
+	"..\..\..\include\jc\reflmemaccessjc.h"\
+	"..\..\..\include\osal\os_file.h"\
+	"..\..\..\include\osal\os_time.h"\
+	"..\..\..\include\osal\os_types_def_common.h"\
+	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
+	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
+	

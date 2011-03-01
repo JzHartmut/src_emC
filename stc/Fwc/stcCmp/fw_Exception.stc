@@ -1,6 +1,6 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "Fwc/fw_Exception"
-package java/text/;
+package java/io/;
 
 class Exception; nameC=Exception; argIdent=Exc; //creationMode=P
 {  
