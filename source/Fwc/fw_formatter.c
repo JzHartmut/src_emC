@@ -28,6 +28,10 @@
  *
  * @version 0.93
  * @list of changes:
+ * 2011-02-06: gardening: renaming sText in sFormat, it is a more determined name. 
+ * 2011-02-06: new method format_Formatter_FW(...). 
+ * 2011-02-06: bugfix: format_va_arg_Formatter_FW(...): The variable arguments were not detect correctly. 
+ * 2011-02-06: new: format_va_arg_Formatter_FW(...): The argument zFormat can be 0, then the sFormat is recognized 0-terminated with max, 1000 chars.
  * 2010-06-27: regarding time-conversions
  * 2010-06-27: typeCv-char for normal text is '$' now instead 't'
  * 2009-09-00: 
@@ -233,29 +237,29 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
 int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, int zDst, char const* src, int* zSrc)
 { //int iDst = 0;
   int retError = 0;
-  char const* sTextEnd = src + *zSrc;  //exclusive end
+  char const* sFormatEnd = src + *zSrc;  //exclusive end
   ParseResultPrintfStyle_fwFormatter* dstAct = dst;
   ParseResultPrintfStyle_fwFormatter* dstMax = dst + zDst; //exclusive end address
-  char const* sText1 = src;
+  char const* sFormat1 = src;
   STACKTRC_ENTRY("parsePrinfStyleString_fw_Formatter");
   memset(dst,0, zDst * sizeof(*dst));  //clear all content
-  while(sText1 < sTextEnd && dstAct < dstMax)
-  { if(*sText1 != '%')
-    { const char* sText2;
-      sText2 = strchr(sText1, '%');
-      if(sText2 == null)
-      { sText2 = sTextEnd; //use string to its end.
+  while(sFormat1 < sFormatEnd && dstAct < dstMax)
+  { if(*sFormat1 != '%')
+    { const char* sFormat2;
+      sFormat2 = strchr(sFormat1, '%');
+      if(sFormat2 == null)
+      { sFormat2 = sFormatEnd; //use string to its end.
       }
-      if(dstAct < dstMax && sText2 > sText1)
+      if(dstAct < dstMax && sFormat2 > sFormat1)
       { //any text from actual position to found '%' or to end.
-        dstAct->text.text = sText1;
-        dstAct->text.nrofChars = (int16)(sText2 - sText1);
+        dstAct->text.text = sFormat1;
+        dstAct->text.nrofChars = (int16)(sFormat2 - sFormat1);
         dstAct->text.specifier = '$'; 
         dstAct +=1;       //next array element.
-        sText1 = sText2;  //continue after it.
+        sFormat1 = sFormat2;  //continue after it.
       }
     }
-    if(sText1 < sTextEnd)
+    if(sFormat1 < sFormatEnd)
     { //'%' found
       int nr = 0;
       int nrofChars2 = 0;
@@ -268,52 +272,52 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
       { //THROW_s0(IndexOutOfBoundsException, "to many %-chars (arguments) in text, 2*max=", zDst); 
       }
       ASSERT(dstAct < dstMax);
-      sText1 +=1;   //skip over '%'
-      cFormat = *(sText1++);
+      sFormat1 +=1;   //skip over '%'
+      cFormat = *(sFormat1++);
       while(cFormat >= '0' && cFormat <= '9')
       { nr = 10 * nr + (cFormat - '0');
-        cFormat = *(sText1++);
+        cFormat = *(sFormat1++);
       }
       if(cFormat == '$')
       { //the argument index:
         dstAct->value.indexArg = (int8)nr;
-        cFormat = *(sText1++);
+        cFormat = *(sFormat1++);
         //The width may be following:
         nr = 0;
       }
       if(cFormat == '<')
       { dstAct->value.indexArg = -1; //use the last 
-        cFormat = *(sText1++);
+        cFormat = *(sFormat1++);
       }
       while(cFormat >= '0' && cFormat <= '9')
       { nr = 10 * nr + (cFormat - '0');
-        cFormat = *(sText1++);
+        cFormat = *(sFormat1++);
       }
       pos = strchr("-+ #0", cFormat);   //test of flags
       if(pos != null)
       { flag = cFormat;
-        cFormat = *sText1++;
+        cFormat = *sFormat1++;
       }
       dstAct->value.width = (int8)nr;  //0 if the argument isn't given.
       if(cFormat == '.')
       { //precision
-        cFormat = *sText1++;
+        cFormat = *sFormat1++;
         while(cFormat >= '0' && cFormat <= '9')
         { nrofChars2 = 10 * nrofChars2 + (cFormat - '0');
-          cFormat = *sText1++;
+          cFormat = *sFormat1++;
         }
         dstAct->value.precision = (int8)nrofChars2;
       }
       pos = strchr("lL", cFormat);  //chg: the short control chars from C are absolte.
       if(pos != null)
       { lengthModifier = cFormat;
-        cFormat = *sText1++;
+        cFormat = *sFormat1++;
       }
       dstAct->value.specifier = cFormat;
       if(cFormat == 't'){
-        char timeSpecifier = *sText1;
+        char timeSpecifier = *sFormat1;
         if(strchr("HIklMSLNpzZsQBbhAaCYyjmdeRTrDFc", timeSpecifier) !=null){
-          ++sText1; 
+          ++sFormat1; 
           dstAct->value.timeSpecifier = timeSpecifier;
         } else {
           dstAct->value.timeSpecifier = '?';
@@ -358,7 +362,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
     }
 
   }
-  *zSrc = sText1 - src; //number of chars proceed.
+  *zSrc = sFormat1 - src; //number of chars proceed.
   STACKTRC_LEAVE; return retError < 0 ? retError : dstAct - dst;
 }
 
@@ -378,8 +382,8 @@ int detectTypeArgs_fwFormatter(char* typeArgs, int zTypeArgs, StringJc text)
    * write first in the same text form as possible given in typeArgs, to handle in same way: */
   ParseResultPrintfStyle_fwFormatter parseResult[22]; //NOTE: regard parse Results as text between the values.
   int zText;
-  char const* sText = getCharsAndLength_StringJc(&text, &zText);
-  int nrofArgs = parsePrinfStyleString_fwFormatter(parseResult, ARRAYLEN(parseResult), sText, &zText);
+  char const* sFormat = getCharsAndLength_StringJc(&text, &zText);
+  int nrofArgs = parsePrinfStyleString_fwFormatter(parseResult, ARRAYLEN(parseResult), sFormat, &zText);
   int ii =0; int jj =0; 
   while( ii < nrofArgs && jj < zTypeArgs)
   { if(parseResult[ii].value.specifier != '$')
@@ -509,7 +513,7 @@ typedef struct Char64_t{ char s[64]; } Char64;
  * The addresses of it and the type is hold in the stack. */
 #define maxNrofArgs_Formatter_FW 20
 
-int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char* buffer, int zBuffer, Va_listFW typedArgs)
+int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, char* buffer, int zBuffer, Va_listFW typedArgs)
 {
   va_list vargList = typedArgs.args;
   /**Type char for each arg, the string will be filled either from given, typedArgs,
@@ -529,11 +533,11 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
   //int nrofParseResult;
   //int idxParseResult;
   int iBuffer = 0;
-  char const* sTextEnd = sText + zText;  //exclusive end
-  char const* sText1 = sText;
+  char const* sFormatEnd = sFormat + zFormat;  //exclusive end
+  char const* sFormat1 = sFormat;
   /**A saved back-text. */
-  char const* sTextBack =null;
-  char const* sTextEndBack = null;
+  char const* sFormatBack =null;
+  char const* sFormatEndBack = null;
   /**Two places for converted time. */
   TimeBytes_Fwc timeYsec[2];  
   OS_TimeStamp timeStamp[2];
@@ -544,6 +548,10 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
   bool overflow = 0;
   
   STACKTRC_TENTRY("format_BV_StringJc");
+  if(zFormat <=0){
+    zFormat = strlen_Fwc(sFormat, 1000);
+    sFormatEnd = sFormat + zFormat;
+  }
   //va_start(vargList, args->v[0]);
   //parse the output and control string:
   if(typedArgs.typeArgs !=null){
@@ -551,27 +559,27 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
     strncpy(sTypeArgs, typedArgs.typeArgs, sizeof(sTypeArgs));
   } //else: the 0 will be overwritten by a default selection in parsePrinfStyleString_fwFormatter.
   //
-  //nrofParseResult = parsePrinfStyleString_fwFormatter(parseResult, ARRAYLEN(parseResult), sText, zText);
+  //nrofParseResult = parsePrinfStyleString_fwFormatter(parseResult, ARRAYLEN(parseResult), sFormat, sFormat);
   
-  while(  iBuffer < (zBuffer -1) &&  sText1 < sTextEnd) 
-  { const char* sText2;
+  while(  iBuffer < (zBuffer -1) &&  sFormat1 < sFormatEnd) 
+  { const char* sFormat2;
     int nrofCharsToCopy;
-    sText2 = strchr(sText1, '%');  //search the next control-char for format control
-    if(sText2 == null)
-    { sText2 = sTextEnd; //use string to its end if not found
+    sFormat2 = strchr(sFormat1, '%');  //search the next control-char for format control
+    if(sFormat2 == null)
+    { sFormat2 = sFormatEnd; //use string to its end if not found
     }
-    nrofCharsToCopy = sText2 - sText1;
+    nrofCharsToCopy = sFormat2 - sFormat1;
     if(nrofCharsToCopy > 0)
     { //any text from actual position to found '%' or to end.
       if(nrofCharsToCopy > (zBuffer - iBuffer -1)){
         overflow = true;
         nrofCharsToCopy = (zBuffer - iBuffer -1);
       }
-      strncpy(buffer+iBuffer, sText1, nrofCharsToCopy);
+      strncpy(buffer+iBuffer, sFormat1, nrofCharsToCopy);
       iBuffer += nrofCharsToCopy; //may be reached zBuffer if buffer is full.
-      sText1 = sText2;  //continue after it.
+      sFormat1 = sFormat2;  //continue after it.
     }
-    if(iBuffer < (zBuffer -1) && sText1 < sTextEnd){
+    if(iBuffer < (zBuffer -1) && sFormat1 < sFormatEnd){
       //now evaluate the %-format control char:
       int radixIntConversion = 0;
       char typeCv = '?';  //set to use the appropriate value from the following informations:
@@ -589,9 +597,9 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
       ParseResultPrintfStyle_fwFormatter actParseResult[1];
       //evaluate using the parsing routine, but only for 1 result.
       
-      nrofCharsToCopy = sTextEnd - sText1;  //
-      parsePrinfStyleString_fwFormatter(actParseResult, 1, sText1, &nrofCharsToCopy);  //HINT: zText is not used, because there is only 1 element.
-      sText1 += nrofCharsToCopy;  //return: the number of processed chars.
+      nrofCharsToCopy = sFormatEnd - sFormat1;  //
+      parsePrinfStyleString_fwFormatter(actParseResult, 1, sFormat1, &nrofCharsToCopy);  //HINT: sFormat is not used, because there is only 1 element.
+      sFormat1 += nrofCharsToCopy;  //return: the number of processed chars.
 
       nrofCharsToCopy = 0;
       if(actParseResult->value.indexArg > 0){
@@ -609,8 +617,8 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
       //the macro va_arg returns a value, but the value is located in the stack.
       //the & to reference the value is admissible. The gotten pointer is located in the stack area
       //where the argument is stored.
-      while(ixAddrArgs < nrArg1 -1){
-        //get all arguments in the order of variable argument list:
+      while(ixAddrArgs < nrArg1){
+        //get all arguments in the order of variable argument list till the requested nrArg1
         switch(cTypeArg){
         case 'C': argValues[++ixAddrArgs].c = va_arg(vargList, char_va_list); break;
         case 'Z': argValues[++ixAddrArgs].i32 = va_arg(vargList, bool_va_list); break;
@@ -765,7 +773,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
           case 'Z': typeCv = 'I'; arg32 = timeYsec[ixArgTime].hour; break;
           case 's': typeCv = 'I'; arg32 = timeYsec[ixArgTime].hour; break;
             
-          case 'R': typeCv = '-'; sTextBack = sText1; sTextEndBack = sTextEnd; sText1 = "%<tH:%<tM"; sTextEnd = sText1 + strlen(sText1); break;
+          case 'R': typeCv = '-'; sFormatBack = sFormat1; sFormatEndBack = sFormatEnd; sFormat1 = "%<tH:%<tM"; sFormatEnd = sFormat1 + strlen(sFormat1); break;
           }//switch
         
         } break;
@@ -830,10 +838,10 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
         case '-': break; //do nothing.
       }
     }//if %-char
-    if(sText1 >= sTextEnd && sTextBack != null)
-    { sText1 = sTextBack;
-      sTextEnd = sTextEndBack;
-      sTextBack = null;
+    if(sFormat1 >= sFormatEnd && sFormatBack != null)
+    { sFormat1 = sFormatBack;
+      sFormatEnd = sFormatEndBack;
+      sFormatBack = null;
     }
   
     
@@ -845,5 +853,11 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sText, int zText, char
 }
 
 
+int format_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat, char* buffer, int zBuffer, char const* sTypeArgs, ...)
+{
+  Va_listFW valist = CONST_Va_listFW(sTypeArgs);
+  va_start(valist.args, sTypeArgs);
+  return format_va_arg_Formatter_FW(_thCxt, sFormat, zFormat, buffer, zBuffer, valist);
 
+}
 

@@ -27,6 +27,7 @@
  **copyright***************************************************************************************
  *
  * @changes
+ * 2011-02-06: method format_Formatter_FW(...). It is able to use immediately with variable arguments.
  * 2010-01-21 Hartmut: Timer functionality moved to an extra include file fw_timeconversions.h
  *
  */
@@ -129,7 +130,27 @@ int detectTypeArgs_fwFormatter(char* typeArgs, int zTypeArgs, StringJc text);
 METHOD_C int toString_Integer_FW(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative, struct ThreadContextFW_t* _thCxt);
 
 
-METHOD_C int format_va_arg_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sText, int zText, char* buffer, int zBuffer, Va_listFW vargList);
+/**Produces a String with given format and given values.
+ * @param sFormat the format text. It need not be 0-terminated if zFormat is >=0.
+ * @param zFormat The length of the format text. If 0 or <=0, then the format text will be accepted as 0-terminated with max 1000 character.
+ * @param sBuffer The buffer to write the result into
+ * @param zBuffer length of buffer.  
+ * @param sTypeArg One character per variable argument which defines the type of it. See [[Va_listFW]] in header fw_Va_list.h.
+ * @return Number of written chars in buffer without the terminating 0. A 0 to terminate is written in sBuffer. 
+ */
+extern_C int format_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat
+                                 , char* buffer, int zBuffer, char const* sTypeArg, ...);
+
+/**Produces a String with given format and given values.
+ * @param sFormat the format text. It need not be 0-terminated if zFormat is >=0.
+ * @param zFormat The length of the format text. If 0 or <=0, then the format text will be accepted as 0-terminated with max 1000 character.
+ * @param sBuffer The buffer to write the result into
+ * @param zBuffer length of buffer.  
+ * @param vargList structure of type and value of variable arguments.
+ * @return Number of written chars in buffer without the terminating 0. A 0 to terminate is written in sBuffer. 
+ */
+METHOD_C int format_va_arg_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat
+                                        , char* buffer, int zBuffer, Va_listFW vargList);
 
 
 #include <Fwc/fw_timeconversions.h>
