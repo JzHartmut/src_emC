@@ -1,10 +1,10 @@
-# Microsoft Developer Studio Project File - Name="CRuntimeJavalike_Fwclib" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="CRuntimeJavalike_baseJclib" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=CRuntimeJavalike_Fwclib - Win32 PreProcessor
+CFG=CRuntimeJavalike_baseJclib - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,14 +13,13 @@ CFG=CRuntimeJavalike_Fwclib - Win32 PreProcessor
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "baseJc.mak" CFG="CRuntimeJavalike_Fwclib - Win32 PreProcessor"
+!MESSAGE NMAKE /f "baseJc.mak" CFG="CRuntimeJavalike_baseJclib - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "CRuntimeJavalike_Fwclib - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "CRuntimeJavalike_Fwclib - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE "CRuntimeJavalike_Fwclib - Win32 DebugCpp" (based on "Win32 (x86) Static Library")
-!MESSAGE "CRuntimeJavalike_Fwclib - Win32 PreProcessor" (based on "Win32 (x86) Static Library")
+!MESSAGE "CRuntimeJavalike_baseJclib - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "CRuntimeJavalike_baseJclib - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "CRuntimeJavalike_baseJclib - Win32 DebugCpp" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -30,7 +29,7 @@ CFG=CRuntimeJavalike_Fwclib - Win32 PreProcessor
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "CRuntimeJavalike_Fwclib - Win32 Release"
+!IF  "$(CFG)" == "CRuntimeJavalike_baseJclib - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -43,7 +42,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD BASE RSC /l 0x407 /d "NDEBUG"
 # ADD RSC /l 0x407 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -53,7 +52,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"..\baseJc.lib"
 
-!ELSEIF  "$(CFG)" == "CRuntimeJavalike_Fwclib - Win32 Debug"
+!ELSEIF  "$(CFG)" == "CRuntimeJavalike_baseJclib - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -76,17 +75,17 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"..\baseJcD.lib"
 
-!ELSEIF  "$(CFG)" == "CRuntimeJavalike_Fwclib - Win32 DebugCpp"
+!ELSEIF  "$(CFG)" == "CRuntimeJavalike_baseJclib - Win32 DebugCpp"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "CRuntimeJavalike_Fwclib___Win32_DebugCpp"
-# PROP BASE Intermediate_Dir "CRuntimeJavalike_Fwclib___Win32_DebugCpp"
+# PROP BASE Output_Dir "CRuntimeJavalike_baseJclib___Win32_DebugCpp"
+# PROP BASE Intermediate_Dir "CRuntimeJavalike_baseJclib___Win32_DebugCpp"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir ".."
-# PROP Intermediate_Dir "T:\CRuntimeJavalike_Fwclib\DebugCpp"
+# PROP Intermediate_Dir "T:\CRuntimeJavalike_baseJclib\DebugCpp"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FR /YX /FD /GZ /c
 # ADD CPP /nologo /Zp1 /MT /W4 /Gm /GX /ZI /Od /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FR /YX /FD /GZ /TP /c
@@ -99,37 +98,13 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"..\baseJcppD.lib"
 
-!ELSEIF  "$(CFG)" == "CRuntimeJavalike_Fwclib - Win32 PreProcessor"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "CRuntimeJavalike_Fwclib___Win32_PreProcessor"
-# PROP BASE Intermediate_Dir "CRuntimeJavalike_Fwclib___Win32_PreProcessor"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 1
-# PROP Output_Dir "CRuntimeJavalike_Fwclib___Win32_PreProcessor"
-# PROP Intermediate_Dir "CRuntimeJavalike_Fwclib___Win32_PreProcessor"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FR /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FR /YX /FD /P /GZ /c
-# ADD BASE RSC /l 0x407 /d "_DEBUG"
-# ADD RSC /l 0x407 /d "_DEBUG"
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo /o"..\baseJcD.bsc"
-# ADD BSC32 /nologo /o"..\baseJcD.bsc"
-LIB32=link.exe -lib
-# ADD BASE LIB32 /nologo /out:"..\baseJcD.lib"
-# ADD LIB32 /nologo /out:"..\baseJcD.lib"
-
 !ENDIF 
 
 # Begin Target
 
-# Name "CRuntimeJavalike_Fwclib - Win32 Release"
-# Name "CRuntimeJavalike_Fwclib - Win32 Debug"
-# Name "CRuntimeJavalike_Fwclib - Win32 DebugCpp"
-# Name "CRuntimeJavalike_Fwclib - Win32 PreProcessor"
+# Name "CRuntimeJavalike_baseJclib - Win32 Release"
+# Name "CRuntimeJavalike_baseJclib - Win32 Debug"
+# Name "CRuntimeJavalike_baseJclib - Win32 DebugCpp"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -418,11 +393,31 @@ SOURCE=..\..\..\include\J1c\StringPartJc.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\source\OSAL\Reflection_OSAL.c
+SOURCE=..\..\..\source\FwConv\UmlContainer_Dummy.c
+# End Source File
+# End Group
+# Begin Group "Fwc"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\source\Fwc\fw_LogMessage.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\FwConv\UmlContainer_Dummy.c
+SOURCE=..\..\..\source\Fwc\fw_LogMsgStream.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\Fwc\fw_Object.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\Fwc\Reflection_Fwc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\OSAL\Reflection_OSAL.c
 # End Source File
 # End Group
 # End Group

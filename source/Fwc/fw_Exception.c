@@ -253,6 +253,9 @@ METHOD_C char const* getCallingMethodName_StacktraceThreadContext(StacktraceThre
  */
 #undef test_StacktraceJc
 
+extern_C bool test_StacktraceJc(StacktraceJc* ythis);
+
+
 /**Test the consistence of the stacktrace, useable if errors are searched*/
 bool test_StacktraceJc(StacktraceJc* ythis)
 { bool bCont = true;
@@ -291,7 +294,8 @@ bool test_StacktraceJc(StacktraceJc* ythis)
 
 
 //#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
+//#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
+#if defined(__cplusplus)
 
 StacktraceJcpp::StacktraceJcpp(const char* sName, ThreadContextFW_s* _thCxt)
 { if(_thCxt == null) 

@@ -7,7 +7,7 @@
 #include "Ipc/InterProcessCommSocket.h"
 #include <Jc/ObjectJc.h>
 #include <Jc/StringJc.h>
-
+#include <stdio.h>
 
 char const sign_Mtbl_InterProcessCommFactory[] = "Mtbl_InterProcessCommFactory";
 

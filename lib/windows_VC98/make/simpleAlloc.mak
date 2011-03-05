@@ -38,30 +38,30 @@ INTDIR=.\Release
 OutDir=.\Release
 # End Custom Macros
 
-ALL : "$(OUTDIR)\simpleAlloc.lib"
+ALL : "$(OUTDIR)\simpleAllocJc.lib"
 
 
 CLEAN :
 	-@erase "$(INTDIR)\allocOnlyAtStartup.obj"
 	-@erase "$(INTDIR)\fw_PlatformConvSimpleStop.obj"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(OUTDIR)\simpleAlloc.lib"
+	-@erase "$(OUTDIR)\simpleAllocJc.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Fp"$(INTDIR)\simpleAlloc.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /Zp1 /MTd /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Fp"$(INTDIR)\simpleAlloc.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\simpleAlloc.bsc" 
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"$(OUTDIR)\simpleAlloc.lib" 
+LIB32_FLAGS=/nologo /out:"$(OUTDIR)\simpleAllocJc.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\fw_PlatformConvSimpleStop.obj" \
-	"$(INTDIR)\allocOnlyAtStartup.obj"
+	"$(INTDIR)\allocOnlyAtStartup.obj" \
+	"$(INTDIR)\fw_PlatformConvSimpleStop.obj"
 
-"$(OUTDIR)\simpleAlloc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"$(OUTDIR)\simpleAllocJc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -141,8 +141,8 @@ CPP_PROJ=/nologo /MLd /W4 /Gm /GX /ZI /Od /I "includeEmptyRef" /I "../../../incl
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\simpleAllocJcppD.bsc" 
 BSC32_SBRS= \
-	"$(INTDIR)\fw_PlatformConvSimpleStop.sbr" \
-	"$(INTDIR)\allocOnlyAtStartup.sbr"
+	"$(INTDIR)\allocOnlyAtStartup.sbr" \
+	"$(INTDIR)\fw_PlatformConvSimpleStop.sbr"
 
 "$(OUTDIR)\simpleAllocJcppD.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -152,8 +152,8 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\simpleAllocJcppD.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\fw_PlatformConvSimpleStop.obj" \
-	"$(INTDIR)\allocOnlyAtStartup.obj"
+	"$(INTDIR)\allocOnlyAtStartup.obj" \
+	"$(INTDIR)\fw_PlatformConvSimpleStop.obj"
 
 "$(OUTDIR)\simpleAllocJcppD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -185,8 +185,8 @@ CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od /I "../../../include" /I "../../../inc
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"..\baseJcD.bsc" 
 BSC32_SBRS= \
-	"$(INTDIR)\fw_PlatformConvSimpleStop.sbr" \
-	"$(INTDIR)\allocOnlyAtStartup.sbr"
+	"$(INTDIR)\allocOnlyAtStartup.sbr" \
+	"$(INTDIR)\fw_PlatformConvSimpleStop.sbr"
 
 "..\baseJcD.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -196,8 +196,8 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"..\baseJcD.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\fw_PlatformConvSimpleStop.obj" \
-	"$(INTDIR)\allocOnlyAtStartup.obj"
+	"$(INTDIR)\allocOnlyAtStartup.obj" \
+	"$(INTDIR)\fw_PlatformConvSimpleStop.obj"
 
 "..\baseJcD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
