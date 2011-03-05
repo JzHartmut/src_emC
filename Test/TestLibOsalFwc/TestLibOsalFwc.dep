@@ -170,22 +170,37 @@
 	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
+.\src\File_TestLibOsalFwc.c : \
+	"..\..\include\fwc\fw_formatter.h"\
+	"..\..\include\fwc\fw_readline.h"\
+	"..\..\include\fwc\fw_simplec.h"\
+	"..\..\include\fwc\fw_string.h"\
+	"..\..\include\fwc\fw_timeconversions.h"\
+	"..\..\include\fwc\fw_va_list.h"\
+	"..\..\include\osal\os_file.h"\
+	"..\..\include\osal\os_mem.h"\
+	"..\..\include\osal\os_time.h"\
+	"..\..\include\osal\os_types_def_common.h"\
+	"..\..\includespecials\os_windows\os_types_def.h"\
+	
+
+.\src\Main_TestLibOsalFwc.c : \
+	"..\..\include\osal\os_types_def_common.h"\
+	"..\..\includespecials\os_windows\os_types_def.h"\
+	".\src\Main_TestLibOsalFwc.h"\
+	
+
 ..\..\source\FwConv\fw_PlatformConvSimpleStop.c : \
 	"..\..\include\fwc\fw_exception.h"\
 	"..\..\include\fwc\fw_formatter.h"\
 	"..\..\include\fwc\fw_memc.h"\
-	"..\..\include\fwc\fw_simplec.h"\
 	"..\..\include\fwc\fw_string.h"\
 	"..\..\include\fwc\fw_threadcontext.h"\
 	"..\..\include\fwc\fw_timeconversions.h"\
 	"..\..\include\fwc\fw_va_list.h"\
-	"..\..\include\fwc\objectbasec.h"\
-	"..\..\include\jc\mathjc.h"\
-	"..\..\include\jc\objectjc.h"\
 	"..\..\include\osal\os_error.h"\
 	"..\..\include\osal\os_thread.h"\
 	"..\..\include\osal\os_time.h"\
 	"..\..\include\osal\os_types_def_common.h"\
-	"..\..\includespecials\fwconvc32\fw_platform_conventions.h"\
 	"..\..\includespecials\os_windows\os_types_def.h"\
 	

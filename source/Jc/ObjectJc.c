@@ -539,6 +539,11 @@ int32ARRAY* ctor_int32ARRAY(int32ARRAY* ythis, int nrOfElements)
 }
 
 
+int newIdent_ObjectJc()
+{
+  static int countIdent = 0;  //note: intializing only at startup!
+  return ++countIdent;
+}
 
 
 

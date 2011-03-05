@@ -90,9 +90,3 @@ void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* stackt
 }
 
 
-#include "Jc/ObjectJc.h"
-int newIdent_ObjectJc()
-{
-  static int countIdent = 0;  //note: intializing only at startup!
-  return ++countIdent;
-}

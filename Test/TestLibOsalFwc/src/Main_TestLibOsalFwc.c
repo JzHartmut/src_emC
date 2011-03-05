@@ -45,7 +45,7 @@
  */
 
 
-
+#include "Main_TestLibOsalFwc.h"
 
 void main(int argv, char** argc)
 {
