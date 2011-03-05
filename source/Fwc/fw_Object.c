@@ -35,9 +35,9 @@
  *
  ****************************************************************************/
 
-#include <Fwc/fw_basic.h>
-//#include <Fwc/objectBaseC.h>
-//#include <Fwc/fw_Exception.h>
+//#include <Fwc/fw_basic.h>
+#include <Fwc/objectBaseC.h>
+#include <Fwc/fw_Exception.h>
 
 #include <string.h> //memset
 

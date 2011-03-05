@@ -46,10 +46,12 @@
 
 #include "Fwc/fw_String.h"
 #include "Fwc/fw_MemC.h"
-#include "os_file.h"     //
+//#include "os_file.h"     //
 
-#include <stdio.h>  //FILE
+//#include <stdio.h>  //FILE
 
+
+C_TYPE struct OS_HandleFile_t;
 
 /**Forward declaration of struct to prevent warnings. */
 struct ThreadContextFW_t;
@@ -242,7 +244,7 @@ METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, struct ThreadConte
  * @since 2011-02: The output stream handle is designated as OS_HandleFile.
  * @param out channel, where the outputs should written to. 
  */
-METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out);
+METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, struct OS_HandleFile_t* out);
 
 /**Special: manifests the content of the stacktrace to a given structure.
  * It means, all information holded in the stack itself via previous pointers from each StacktraceJc-structure
@@ -256,7 +258,7 @@ METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile 
 //METHOD_C ExceptionJc* manifest_ExceptionJc(ExceptionJc* ythis, ExceptionJc* dst, struct StacktraceElementJcARRAY_t* dstStacktrace);
 
 /**This routine is called in the THROW processing, if no TRY-level is found. The user should write this method.*/
-METHOD_C void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt);
+extern_C void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt);
 //METHOD_C void uncatchedException(int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_s* stacktrcThCxt);
 
 #define getMessage_ExceptionJc(YTHIS, THC) ((YTHIS)->exceptionMsg)

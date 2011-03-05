@@ -38,7 +38,7 @@
  *************************************************************************************************/
 #ifndef __fw_String_h__
 #define __fw_String_h__
-#include "fw_Platform_conventions.h"
+//#include "fw_Platform_conventions.h"
 #include <os_types_def.h>
 
 /*@DEFINE_C some_forward_types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

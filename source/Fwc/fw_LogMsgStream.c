@@ -46,9 +46,10 @@
 #include <Fwc/objectBaseC.h>
 #include <Fwc/fw_Formatter.h>
 
-//#include "Jc/ObjectJc.h"
+#include "Jc/ObjectJc.h"
 #include <string.h>
 //#include "fw_date.h"
+#include <stdio.h>
 #include <io.h>
 
 typedef struct LogMessageStream_FW_t

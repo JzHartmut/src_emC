@@ -45,12 +45,11 @@
  ****************************************************************************/
 
 #include <Fwc/fw_Formatter.h>
-//#include "fw_Exception.h"       //STACKTRC_...
 #include <Fwc/fw_SimpleC.h>         //ARRAYLEN
-#include <Fwc/fw_Exception.h>
+#include <Fwc/fw_Exception.h>       //STACKTRC_...
 //#include "fw_ThreadContext.h"   //os_getCurrentStacktraceThreadContext()
 #include <string.h>             //strchr(), strlen(), memset()
-
+#include <stdio.h>
 
 char const typedVaArg_VaArgBuffer[] = "typedVariableArgumentList_ObjectJc";
 
@@ -492,14 +491,14 @@ int toString_Double_FW(char* buffer, int zBuffer, double value, char cFormat, in
 
 
 
-typedef struct char8_t { char s[ 8]; } Char8;
-typedef struct char16_t{ char s[16]; } Char16;
-typedef struct char24_t{ char s[24]; } Char24;
-typedef struct char32_t{ char s[32]; } Char32;
-typedef struct char40_t{ char s[40]; } Char40;
-typedef struct char48_t{ char s[48]; } Char48;
-typedef struct char56_t{ char s[56]; } Char56;
-typedef struct char64_t{ char s[64]; } Char64;
+typedef struct Char8_t { char s[ 8]; } Char8;
+typedef struct Char16_t{ char s[16]; } Char16;
+typedef struct Char24_t{ char s[24]; } Char24;
+typedef struct Char32_t{ char s[32]; } Char32;
+typedef struct Char40_t{ char s[40]; } Char40;
+typedef struct Char48_t{ char s[48]; } Char48;
+typedef struct Char56_t{ char s[56]; } Char56;
+typedef struct Char64_t{ char s[64]; } Char64;
 
 //NOTE: The following type is a non-left-value-array by GNU Compiler.
 //typedef char char8[8];

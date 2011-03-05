@@ -7,10 +7,7 @@
 	"..\..\..\include\Fwc\fw_String.h"\
 	"..\..\..\include\Fwc\fw_ThreadContext.h"\
 	"..\..\..\include\osal\os_error.h"\
-	"..\..\..\include\osal\os_file.h"\
-	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
 	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
 	
 
@@ -24,7 +21,6 @@
 	"..\..\..\include\osal\os_file.h"\
 	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
 	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
 	
 
@@ -37,10 +33,8 @@
 	"..\..\..\include\Fwc\fw_ThreadContext.h"\
 	"..\..\..\include\Fwc\fw_timeconversions.h"\
 	"..\..\..\include\Fwc\fw_Va_list.h"\
-	"..\..\..\include\osal\os_file.h"\
 	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
 	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
 	
 
@@ -54,10 +48,8 @@
 	"..\..\..\include\Fwc\fw_timeconversions.h"\
 	"..\..\..\include\Fwc\fw_Va_list.h"\
 	"..\..\..\include\Fwc\objectBaseC.h"\
-	"..\..\..\include\osal\os_file.h"\
 	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
 	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
 	
 
@@ -76,7 +68,6 @@
 	"..\..\..\include\jc\objectjc.h"\
 	"..\..\..\include\jc\reflectionjc.h"\
 	"..\..\..\include\jc\reflmemaccessjc.h"\
-	"..\..\..\include\osal\os_file.h"\
 	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
@@ -88,26 +79,18 @@
 	"..\..\..\include\Fwc\fw_MemC.h"\
 	"..\..\..\include\Fwc\fw_String.h"\
 	"..\..\..\include\Fwc\fw_ThreadContext.h"\
-	"..\..\..\include\osal\os_file.h"\
 	"..\..\..\include\osal\os_mem.h"\
-	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
 	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
 	
 
 ..\..\..\source\Fwc\fw_Object.c : \
-	"..\..\..\include\fwc\fw_basic.h"\
 	"..\..\..\include\Fwc\fw_Exception.h"\
 	"..\..\..\include\Fwc\fw_MemC.h"\
-	"..\..\..\include\Fwc\fw_SimpleC.h"\
 	"..\..\..\include\Fwc\fw_String.h"\
 	"..\..\..\include\Fwc\fw_ThreadContext.h"\
 	"..\..\..\include\Fwc\objectBaseC.h"\
-	"..\..\..\include\osal\os_file.h"\
-	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
 	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
 	
 
@@ -131,11 +114,8 @@
 	"..\..\..\include\Fwc\fw_SimpleC.h"\
 	"..\..\..\include\Fwc\fw_String.h"\
 	"..\..\..\include\Fwc\fw_ThreadContext.h"\
-	"..\..\..\include\osal\os_file.h"\
 	"..\..\..\include\osal\os_thread.h"\
-	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\
 	"..\..\..\includeSpecials\os_Windows\os_types_def.h"\
 	
 
@@ -162,7 +142,6 @@
 	"..\..\..\include\jc\objectjc.h"\
 	"..\..\..\include\jc\reflectionjc.h"\
 	"..\..\..\include\jc\reflmemaccessjc.h"\
-	"..\..\..\include\osal\os_file.h"\
 	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includeSpecials\FwConvC32\fw_Platform_conventions.h"\

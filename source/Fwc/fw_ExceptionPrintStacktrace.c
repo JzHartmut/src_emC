@@ -42,7 +42,8 @@
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
 #include <string.h>  //strlen
-
+#include <os_file.h>
+#include <stdio.h>
 
 METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
 {
