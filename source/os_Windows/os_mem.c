@@ -44,6 +44,8 @@ void* os_allocMem(uint size)
 { void* ptr = LocalAlloc(LMEM_FIXED, size);   //malloc(size);  //
   if(ptr == null)
   { int error = GetLastError();
+  } else {
+    memset(ptr, 0, size);
   }
   return ptr;
 }

@@ -37,13 +37,22 @@
  ****************************************************************************/
 #include <os_file.h>
 
+#define USE_LoLevelFileIo
+
 #include <os_error.h>
 
 
 
 #include <sys/stat.h>
-#include <stdio.h>
 #include <string.h> //memset
+
+
+#ifdef USE_LoLevelFileIo 
+  #include <fcntl.h>
+  #include <io.h>
+#else
+  #include <stdio.h>
+#endif
 
 int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char const* filepath, int zFilepath)
 {
@@ -101,7 +110,12 @@ int os_getFileDescription(OS_FileDescription* ythis)
  * @return null if the file doesn't exist. Elsewhere the handle, which is able to use for read.
  */ 
 OS_HandleFile os_fopenToRead(char const* filename)
-{ return (OS_HandleFile)fopen(filename, "rb");
+{
+  #ifdef USE_LoLevelFileIo 
+    return (OS_HandleFile)open(filename, O_RDONLY);
+  #else
+    return (OS_HandleFile)fopen(filename, "rb");
+  #endif
 }
 
 /**Open a file to write. This open action follows the convention of java.io.FileOutputStream.ctor(). 
@@ -110,21 +124,68 @@ OS_HandleFile os_fopenToRead(char const* filename)
  * @return null if the file isn't able to write or create. Elsewhere the handle, which is able to use for write.
  */
 OS_HandleFile os_fopenToWrite(char const* filename, bool append)
-{ return (OS_HandleFile)fopen(filename, append ? "ab" : "wb");
+{ 
+  #ifdef USE_LoLevelFileIo 
+    return (OS_HandleFile)open(filename, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
+  #else
+    return (OS_HandleFile)fopen(filename, append ? "ab" : "wb");
+  #endif
 }
 
 
 int os_fclose(OS_HandleFile file)
-{ int success = fclose( (FILE*) file);
+{ int success;
+  #ifdef USE_LoLevelFileIo 
+    success = close( (int) file);
+  #else
+    success = fclose( (FILE*) file);
+  #endif
   if(success == 0) { return 0; }
   else { return -1; }
 }
 
 
 int os_fflush(OS_HandleFile file)
-{ fflush((FILE*)file);
+{ 
+  #ifdef USE_LoLevelFileIo 
+    //flush((int)file);
+  #else
+    fflush((FILE*)file);
+  #endif
   return 0;
 }
+
+
+
+OS_HandleFile os_getStdOut()
+{ 
+  #ifdef USE_LoLevelFileIo 
+    return (OS_HandleFile)(1); 
+  #else
+    return(OS_HandleFile)stdout; //stdout is defined as macro in stdio.h as (&_iob[1])
+  #endif
+}
+
+
+OS_HandleFile os_getStdErr()
+{ 
+  #ifdef USE_LoLevelFileIo 
+    return (OS_HandleFile)(2); 
+  #else
+    return(OS_HandleFile)stderr; //stderr is defined as macro in stdio.h as (&_iob[2])
+  #endif
+}
+
+
+OS_HandleFile os_getStdIn()
+{ 
+  #ifdef USE_LoLevelFileIo 
+    return (OS_HandleFile)(0); 
+  #else
+    return(OS_HandleFile)stdin; //stdout is defined as macro in stdio.h as (&_iob[0])
+  #endif
+}
+
 
 
 
@@ -137,10 +198,14 @@ int os_fflush(OS_HandleFile file)
  *         If <=-2, than the writing process was faulty.
  */
 int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
-{ //the description of FileSystem-Segger doesn't contain anything about behaviour at end of file while OS_Read().
-  FILE* file = (FILE*) fileP;
-  int ret = fread(buffer, 1, maxNrofbytes, file);
-  return ret;  //it is maxNrofbytes
+{ int nrofBytes;
+  #ifdef USE_LoLevelFileIo 
+    nrofBytes = read((int)fileP, buffer, maxNrofbytes);
+  #else
+    FILE* file = (FILE*) fileP;
+    nrofBytes = fread(buffer, 1, maxNrofbytes, file);
+  #endif
+  return nrofBytes;  //it is maxNrofbytes
 }
 
 
@@ -155,7 +220,11 @@ int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
  * @return the actual number of bytes skipped. 
  */
 int os_fskip(OS_HandleFile file, int nrofbytes)
-{ return -1; //TODO
+{ 
+  #ifdef USE_LoLevelFileIo 
+  #else
+  #endif
+  return -1; //TODO
 }
 
 /**Writes bytes to file.
@@ -164,7 +233,26 @@ int os_fskip(OS_HandleFile file, int nrofbytes)
  * but the write process requires a delaying. 
  */
 int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytes)
-{ FILE* file = (FILE*) fileP;
-  int ret = fwrite(buffer, 1, nrofbytes, file);
-  return ret;  //it is maxNrofbytes
+{ 
+  int nrofBytes;
+  #ifdef USE_LoLevelFileIo 
+    nrofBytes = write((int)fileP, buffer, nrofbytes);
+  #else
+    FILE* file = (FILE*) fileP;
+    nrofBytes = fwrite(buffer, 1, nrofbytes, file);
+  #endif
+  return nrofBytes;  //it is maxNrofbytes
+}
+
+
+
+int os_ftell(OS_HandleFile fileP)
+{ int pos;
+  #ifdef USE_LoLevelFileIo 
+    pos = tell((int)fileP);
+  #else
+    FILE* file = (FILE*) fileP;
+    pos = ftell(file);
+  #endif
+  return pos;
 }
