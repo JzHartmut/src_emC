@@ -977,7 +977,7 @@ extern const struct ClassJc_t reflection_StringBuilderJc;
 /**This macro defines a C-constant (with {..}) for empty-initializing a StringBuffer instance with its static size.
  * @param OBJP Pointer to the instance itself. It is used to store the OWNADDRESS for the ObjectJc-part.
  */
-#define CONST_StringBuilderJc(OBJP) { CONST_ObjectJc(sizeof(StringBuilderJc), &(OBJP)->base.object, null), 0, sizeof(StringBuilderJc), 0 }
+#define CONST_StringBuilderJc(OBJP) { CONST_ObjectJc(sizeof(StringBuilderJc), &(OBJP)->base.object, null), 0, 0, null }
 
 
 /**This macro defines a C-constant (with {..}) for initializing a StringBuffer instance with an additional size.

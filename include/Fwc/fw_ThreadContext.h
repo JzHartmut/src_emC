@@ -104,7 +104,7 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt);
 METHOD_C MemC getUserBuffer_ThreadContextFw(ThCxt* _thCxt);
 
 
-/**Sets the mode whether the release is necessary. 
+/**Sets the mode whether the release of the buffer in ThreadContext is necessary. 
  */ 
 METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThCxt* _thCxt, bool value);
 

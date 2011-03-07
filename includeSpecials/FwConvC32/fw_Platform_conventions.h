@@ -164,8 +164,8 @@
 /**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.*/
 #define mNonPersists__StringJc            0x00004000
 
-/**If all this Bits are set, the StringJc references a buffer in the thread context..*/
-#define mThreadContext__StringJc               0xFFFF0000
+/**If this Bit is set, the StringJc references a buffer in the thread context..*/
+#define mThreadContext__StringJc               0x00008000
 
 
 

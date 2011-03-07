@@ -375,7 +375,15 @@ ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _
 }
 
 
-
+int setRunMode_ObjectJc(ThCxt* _thCxt)
+{
+  BlockHeapJc* blockHeap = theBlockHeapList;
+  while(blockHeap !=null){
+    setRunMode_BlockHeapJc(blockHeap, null, 0);
+    blockHeap = blockHeap->nextHeap;
+  }
+  return 0;
+}
 
 MemC alloc_s_BlockHeapJc(BlockHeapJc* ythis, int sizeObj, const char* sCallInfo, ThCxt* _thCxt)
 { //STACKTRC_NAME("alloc_BlockHeap")
