@@ -37,7 +37,7 @@
  ****************************************************************************/
 #include <os_file.h>
 
-#define USE_LoLevelFileIo
+//#define USE_LoLevelFileIo
 
 #include <os_error.h>
 

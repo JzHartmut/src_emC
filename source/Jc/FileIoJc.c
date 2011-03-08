@@ -181,6 +181,18 @@ void write_B_FileOutputStreamJc(FileOutputStreamJc_s* ythis, int8 byte, ThCxt* _
 
 
 
+void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContextFW_t* _thCxt)
+{
+  STACKTRC_TENTRY("close_FileWriterJc");
+  if(ythis->file != null)
+  { os_fflush(ythis->file);
+    ythis->file = null;
+  }
+  STACKTRC_LEAVE; 
+
+}
+
+
 void close_FileOutputStreamJc_F(FileOutputStreamJc_s* ythis, struct ThreadContextFW_t* _thCxt)
 {
   STACKTRC_TENTRY("close_FileWriterJc");
