@@ -64,9 +64,9 @@ typedef struct OS_TimeStamp_t
   int32_t time_sec;
   
   /**Zeit innerhalb einer Sekunde in Nanosekunden gezählt.
-   * Um schnelle Vorgänge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde häufig nicht ausreichend.
-   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen über weitere Entfernungen
-   * von max. 100 ns erreicht werden, um Differenzströme zu vermeiden.
+   * Um schnelle Vorgänge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde häufig nicht ausreichend. 
+   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen über weitere Entfernungen 
+   * von max. 100 ns erreicht werden, um Differenzströme zu vermeiden. 
    * Die tatsächliche Auflösung der Zeit hängt von den Hardwaregegebenheiten ab.
    * *Bit 29..0: Nanosekunden
    * *Bit 31: Wenn 1, dann stellt der Sekundenzähler einen Wert dar, der die Schaltsekunden seit 1970 mitzählt.
@@ -137,7 +137,7 @@ OS_TimeStamp* ctorM_OS_TimeStamp(OS_PtrValue mem);
 
 
 /**Gets the systems time. */
-OS_TimeStruct os_getDateTime();
+OS_TimeStruct os_getDateTime(void);
 
 
 /**Sets or adjsuts the time of the system.
@@ -198,7 +198,7 @@ typedef struct MinMaxTime_Fwc_t
   uint32_t midCyclTime;
 
   uint32_t maxmaxCyclTime;
-
+  
   uint32_t maxCyclTime;
 
   uint32_t minCalcTime;
@@ -261,7 +261,12 @@ typedef struct MinMaxTime_Fwc_t
   (YTHIS)->midCalcTime += (calcTime - ((YTHIS)->midCalcTime >>10));            \
 }
 
-
 _END_extern_C_BLOCK
+
+
+/**Regard a special platform variant, which may define macros instead prototypes: */
+#ifdef PLATFORM_os_time_h
+#include "PLATFORM_os_time.h"
+#endif
 
 #endif //__os_time_h__

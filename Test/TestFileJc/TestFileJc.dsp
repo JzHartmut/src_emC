@@ -66,8 +66,8 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /I ".." /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
-# ADD CPP /nologo /Zp1 /W3 /Gm /GX /ZI /Od /X /I "../../includeSpecials/os_Windows" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FAcs /FR /FD /GZ /c
-# SUBTRACT CPP /YX
+# ADD CPP /nologo /Zp1 /W3 /Gm /GX /ZI /Od /I "../../includeSpecials/os_Windows" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FAcs /FR /FD /GZ /c
+# SUBTRACT CPP /X /YX
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /x /d "_DEBUG"
 BSC32=bscmake.exe
@@ -129,6 +129,10 @@ SOURCE=..\..\source\Jc\FileIoJc.c
 # Begin Source File
 
 SOURCE=..\..\source\Jc\FileIoJc.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\source\Jc\LocaleJc.c
 # End Source File
 # Begin Source File
 
@@ -255,6 +259,10 @@ SOURCE=..\..\source\Fwc\fw_ThreadContext.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\source\Fwc\fw_timeconversions.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\source\Fwc\objectBaseC.h
 # End Source File
 # End Group
@@ -264,6 +272,10 @@ SOURCE=..\..\source\Fwc\objectBaseC.h
 # Begin Source File
 
 SOURCE=..\..\source\os_Windows\os_atomic.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\source\os_Windows\os_error.c
 # End Source File
 # Begin Source File
 

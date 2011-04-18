@@ -833,7 +833,7 @@ int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
                   
                   
                   setValue = getShort_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
-                  value = setBitfield_FieldJc(theField, theObject, setValue, "I", idx);
+                  value = (int16)setBitfield_FieldJc(theField, theObject, setValue, "I", idx);
                 }
                 else 
                 { 

@@ -170,7 +170,8 @@ int16 getInt16_MemAccessJc(MemSegmJc addr)
   int memSegment = segment_MemSegmJc(addr);
   int16* src = ADDR_MemSegmJc(addr, int16);
   if(memSegment == 0){
-    return *src;
+    if(src !=null) return *src;
+    else return -1;
   }
   else {
     int16 value = (int16)getInfoDebug_RemoteCpuJc(getInt16_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
@@ -183,7 +184,8 @@ int8 getByte_MemAccessJc(MemSegmJc addr)
   int memSegment = segment_MemSegmJc(addr);
   int8* src = ADDR_MemSegmJc(addr, int8);
   if(memSegment == 0){
-    return *src;
+    if(src !=null) return *src;
+    else return -1;
   }
   else {
     int8 value = (int8)getInfoDebug_RemoteCpuJc(getByte_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
@@ -196,7 +198,7 @@ int32 getValue32Ix_MemAccessJc(MemSegmJc addr, int ix)
   int memSegment = segment_MemSegmJc(addr);
   int32* src = ADDR_MemSegmJc(addr, int32);
   if(memSegment == 0){
-    return src[ix];
+    return src !=null ? src[ix] :-1;
   }
   else {
     int32 value = getInfoDebug_RemoteCpuJc(getInt32_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, ix);

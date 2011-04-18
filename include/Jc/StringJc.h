@@ -1012,11 +1012,32 @@ extern const struct ClassJc_t reflection_StringBuilderJc;
  * which is located in the Stack. See ,,CONST_addSize_StringBuilderJc(...),, 
  * It have to be used if the StringBuilderJc-instance is located in Stack. 
  * The mode bits ,,_mStack_StringBuilderJc,, is set. 
+ * The definition of such an construct is recommended as astruct definition like following:
+ *
+ * struct { StringBuilderJc u; char _[120]; } uBuffer = { CONST_addSize_StringBuilderJc(&uBuffer.buffer, 120), { 0 }};
+ *
+ * The a StringBuilder with immediately buffer for 123 characters and a 0 on end is placed in the stack.
+ * See macro INSTACK_StringBuilderJc(...).
+ * @param OBJP The reference to the StringBuilder-instance itself
+ * @param ADDSIZE size of the char[] after the StringBuilderJc-instance.
  */
 #define CONST_addSizeStack_StringBuilderJc(OBJP, ADDSIZE) { CONST_ObjectJc(sizeof(StringBuilderJc) + (ADDSIZE), &(OBJP)->base.object, null), 0, sizeof((OBJP)->value) + (ADDSIZE) -1, _mStack_StringBuilderJc}
 
 
 
+/**This macro defines a StringBuffer instance with an additional size to locate in the stack.
+ * which is located in the Stack. See ,,CONST_addSize_StringBuilderJc(...),, 
+ * It have to be used if the StringBuilderJc-instance is located in Stack. 
+ * The mode bits ,,_mStack_StringBuilderJc,, is set. 
+ * The definition of such an construct is recommended as astruct definition like following:
+ *
+ * struct { StringBuilderJc b; char _[120]; } uBuffer = { CONST_addSize_StringBuilderJc(&uBuffer.buffer, 120), { 0 }};
+ *
+ * The a StringBuilder with immediately buffer for 123 characters and a 0 on end is placed in the stack.
+ * See macro INSTACK_StringBuilderJc(...).
+ * @param name The name of the StringBuilder-instance
+ * @param chars number of chars inclusive the ending 0-char.
+ */
 #define INSTACK_StringBuilderJc(name, chars) struct { StringBuilderJc u; char _[chars-4]; } buffer = { CONST_addSizeStack_StringBuilderJc(&buffer.u, chars-4), {0}}
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.

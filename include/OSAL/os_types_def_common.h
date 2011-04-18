@@ -79,4 +79,3 @@ extern_C OS_PtrValue null_OS_PtrValue;
 
 #define __os_types_def_common_h__
 #endif  // __os_types_def_common_h__
- 
