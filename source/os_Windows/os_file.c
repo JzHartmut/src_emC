@@ -54,7 +54,7 @@
   #include <stdio.h>
 #endif
 
-int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char const* filepath, int zFilepath)
+int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
 {
   int error = 0;
   int ii;
@@ -77,7 +77,7 @@ int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char co
 
 
 
-int os_getFileDescription(OS_FileDescription* ythis)
+int refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
 {
   
   struct stat statData;
@@ -88,16 +88,16 @@ int os_getFileDescription(OS_FileDescription* ythis)
   if(ok == 0)
   { 
     ythis->fileLength = statData.st_size;
-    ythis->flags = mExist_OS_FileDescription | mCanRead_OS_FileDescription; 
+    ythis->flags = mExist_FileDescription_OSAL | mCanRead_FileDescription_OSAL; 
     { //st_mtime is the time of last changed, seconds after 1970 in UTC. MS-Visual studio: Its a long.
       int32 timeLastChanged = statData.st_mtime;
       setUTC_OS_TimeStamp(ythis->timeChanged, timeLastChanged, 0);
     }
   }
   else
-  { ythis->flags &= ~mExist_OS_FileDescription;
+  { ythis->flags &= ~mExist_FileDescription_OSAL;
   }
-  ythis->flags |= mFileDescriptionTested;
+  ythis->flags |= mTested_FileDescription_OSAL;
   return 0;
 
 }
@@ -246,7 +246,7 @@ int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytes)
 
 
 
-int os_ftell(OS_HandleFile fileP)
+int32_t os_ftell(OS_HandleFile fileP)
 { int pos;
   #ifdef USE_LoLevelFileIo 
     pos = tell((int)fileP);

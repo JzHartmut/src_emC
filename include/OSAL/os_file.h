@@ -47,6 +47,9 @@
 #include <os_time.h>
 #include <os_types_def.h>
 
+struct OS_HandleFile_t;
+
+
 /**The ANSI-C doesn't define the sys/stat.h, only POSIX-Standard. Therefore not all platforms implement this features.
  * This file supplies a commonly useable interface.
  */ 
@@ -54,7 +57,7 @@
 
 /**Structure is filled on call of os_getFileDescription(...).
  */ 
-C_TYPE typedef struct OS_FileDescription_t
+C_TYPE typedef struct FileDescription_OSAL_t
 {
   /**Files which are longer as 2 GByte aren't supported. */
   int32_t fileLength;
@@ -62,15 +65,15 @@ C_TYPE typedef struct OS_FileDescription_t
   /**Some flag bits. Use macros to request it. */
   int32_t flags;
 
-  #define mExist_OS_FileDescription        1
-  #define mCanRead_OS_FileDescription      2
-  #define mCanWrite_OS_FileDescription     4
-  #define mHidden_OS_FileDescription    0x08
-  #define mDirectory_OS_FileDescription 0x10
-  #define mFile_OS_FileDescription      0x20
+  #define mExist_FileDescription_OSAL        1
+  #define mCanRead_FileDescription_OSAL      2
+  #define mCanWrite_FileDescription_OSAL     4
+  #define mHidden_FileDescription_OSAL    0x08
+  #define mDirectory_FileDescription_OSAL 0x10
+  #define mFile_FileDescription_OSAL      0x20
   
-  #define mAbsPathTested             0x10000 
-  #define mFileDescriptionTested     0x20000 
+  #define mAbsPathTested_FileDescription_OSAL 0x10000 
+  #define mTested_FileDescription_OSAL        0x20000 
 
   OS_TimeStamp timeChanged;
   
@@ -92,18 +95,18 @@ C_TYPE typedef struct OS_FileDescription_t
 
   /**absolute path. It is stored in the form like the filesystem needs it. 
    * It means, it may have / or \ as separator and maybe a drive or other prefix.
-	 * The parameter kMaxPathLength_OS_FileDescription for the length have to be defined in the os_types_def.h
+	 * The parameter kMaxPathLength_FileDescription_OSAL for the length have to be defined in the os_types_def.h
 	 */
-  char absPath[kMaxPathLength_OS_FileDescription];   
+  char absPath[kMaxPathLength_FileDescription_OSAL];   
   
-} OS_FileDescription;
+} FileDescription_OSAL;
 
 
 
 
 /**Fills the given instance ythis with the given file path. No os-functionality will be called.
  * @param addPathLength number of additional chars of the file path. It may be 0 normally. 
- *                      The struct OS_FileDescription contains 224 chars for the absolute file path.
+ *                      The struct FileDescription_OSAL contains 224 chars for the absolute file path.
  *                      If this parameter is >0, an additional memory space after the dst spaces should be given.
  * @param filepath path and file of the file. It may be a relativ path. It need not be 0-terminated. 
  *        It need not be persistent.
@@ -112,7 +115,7 @@ C_TYPE typedef struct OS_FileDescription_t
  * @param zFilepath number of chars of the filepath-string. 
  * @return 0 on success, OS_INVALID_PARAMETER if the zFilepath is greater than the (internal buffer + addPathLength).
  */
-extern_C int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char const* filepath, int zFilepath);
+extern_C int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath);
 
 
 
@@ -121,26 +124,58 @@ extern_C int os_initFileDescription(OS_FileDescription* ythis, int addPathLength
  * Filles the properties of the file. 
  * @return 0 if ok, negative number on a system error. But it is ok, if the file doesn't exist.
  */
-extern_C int os_getFileDescription(OS_FileDescription* ythis); 
-//int os_getFileDescription(OS_FileDescription* dst, int addPathLength, const char* filepath); 
+extern_C int refresh_FileDescription_OSAL(FileDescription_OSAL* ythis); 
+//int os_getFileDescription(FileDescription_OSAL* dst, int addPathLength, const char* filepath); 
 
 /**Returns true if the file exists. 
  * The proposition whether the file is existing is valid in the moment of calling [[os_getFileDescription(...)]].
  * It may be possible that the file was deleted meanwhile.
  */
-#define os_exists_FileDescription(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x1) 
+#define exists_FileDescription_OSAL(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x1) 
 
  /**Returns true if the file able to read and it exists. 
  * The proposition whether the file is existing is valid in the moment of calling [[os_getFileDescription(...)]].
  * It may be possible that the file was deleted meanwhile.
  */
-#define os_canRead_FileDescription(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x2) 
+#define canRead_FileDescription_OSAL(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x2) 
 
 /**Returns true if the file is able to write. The file may be existing or not. 
  * This proposition is valid in the moment of calling [[os_getFileDescription(...)]].
  * It may be possible that the file was deleted meanwhile.
  */
-#define os_canWrite_FileDescription(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x4) 
+#define canWrite_FileDescription_OSAL(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x4) 
+
+/**Returns the timestamp of the file. It is the last-modify-timestamp. */
+#define getTimestamp_FileDescription_OSAL(THIS) ( (THIS)->timeChanged )
+
+
+
+
+
+/*@CLASS_C FileLock_OSAL @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+C_TYPE typedef struct FileLock_OSAL_t
+{
+  /**The file which is related to the lock. */
+  struct OS_HandleFile_t* hFile_;
+	/**Any pointer or int-type if any other information is need to relate the file. */
+	void* ptr_;
+	/**The position of lock region. 0 on file-lock. */
+	int32_t position_;
+	/**The size of the lock. -1 = file-lock. */
+	int32_t size_;
+	/**Some flags, see defines. */
+	int32_t flags_;
+#define mValid_FileLock_OSAL   0x0001
+#define mSharded_FileLock_OSAL 0x0010
+}FileLock_OSAL;
+
+
+void init_FileLock_OSAL(FileLock_OSAL* _this, int32_t position, int32_t size, bool shared);
+
+
+
+/*@CLASS_C OS_HandleFile @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 /**Handle to a file. The internal data structure is not known here. 
@@ -208,7 +243,7 @@ extern_C int os_fread(OS_HandleFile file, void* buffer, int maxNrofbytes);
  * @param nrofbytes - the number of bytes to be skipped. 
  * @return the actual number of bytes skipped. 
  */
-extern_C int os_fskip(OS_HandleFile file, int nrofbytes);
+extern_C int os_fskip(OS_HandleFile file, int32_t nrofbytes);
 
 
 /**Writes bytes to file.
@@ -223,13 +258,13 @@ extern_C int os_fwrite(OS_HandleFile file, void const* buffer, int nrofbytes);
  * @param cmd ones of lock, sharedLock, checkLock, unlock TODO enum-def
  * @param len number of bytes to lock from the current position, or -1 for file-lock
  */
-extern_C int os_flock(OS_HandleFile file, int cmd, int len);
+extern_C int os_flock(OS_HandleFile file, FileLock_OSAL* lockObj);
 
 
 /**Tells the current position in the file. 
  * @return the current position. 
  */
-extern_C int os_ftell(OS_HandleFile file);
+extern_C int32_t os_ftell(OS_HandleFile file);
 
 
 

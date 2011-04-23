@@ -219,9 +219,9 @@ extern OS_PtrValue null_OS_PtrValue;
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ptr__ = (char*)(PTR); }
 
 
-/* Maximal length of path in a OS_FileDescription-structure.
+/* Maximal length of path in a FileDescription_OSAL-structure.
  */
-#define kMaxPathLength_OS_FileDescription 480
+#define kMaxPathLength_FileDescription_OSAL 480
 
 /**Include the common definitions in its pure form. */
 #include <os_types_def_common.h>
