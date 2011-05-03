@@ -4,8 +4,6 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "Ipc/InterProcessCommSocket.h"
-
 #include "Ipc/InterProcessComm.h"
 
 
@@ -110,5 +108,6 @@ const ClassJc reflection_InterProcessComm_i =
 , null  //interfaces
 , 0 
 };
+
 
 

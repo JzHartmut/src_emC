@@ -63,12 +63,12 @@ void init_FileJc(FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
   //char ssFileName[120];
   char const* ssFileName;
   int len;
-  int addPathlen = kMaxPathLength_FileJc - kMaxPathLength_OS_FileDescription;
+  int addPathlen = kMaxPathLength_FileJc - kMaxPathLength_FileDescription_OSAL;
   STACKTRC_TENTRY("init_FileJc");
   //len = copyToBuffer_StringJc(sFileName, ssFileName, sizeof(ssFileName));  //not necessary, because may be inpersistent. 
   ssFileName = getCharsAndLength_StringJc(&sFileName, &len);
 
-  os_initFileDescription(&ythis->fileDescription, addPathlen, ssFileName, len);
+  init_FileDescription_OSAL(&ythis->fileDescription, addPathlen, ssFileName, len);
 
 }
 
@@ -85,30 +85,30 @@ void finalize_FileJc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 StringJc getPath_FileJc(FileJc_s const* ythis)
-{ //assume that the os_getFileDescription is called.
+{ //assume that the refresh_FileDescription_OSAL is called.
   //maybe os_initFileDescription TODO
   return z_StringJc(ythis->fileDescription.absPath);
 }
 
 
 int32 lastModified_FileJc(FileJc_s* ythis)
-{ if((ythis->fileDescription.flags & mFileDescriptionTested) == 0){
-    os_getFileDescription(&ythis->fileDescription);
+{ if((ythis->fileDescription.flags & mTested_FileDescription_OSAL) == 0){
+    refresh_FileDescription_OSAL(&ythis->fileDescription);
   }
   return ythis->fileDescription.timeChanged.time_sec;
 }
 
 bool exists_FileJc(FileJc_s* ythis)
-{ if((ythis->fileDescription.flags & mFileDescriptionTested) == 0){
-    os_getFileDescription(&ythis->fileDescription);
+{ if((ythis->fileDescription.flags & mTested_FileDescription_OSAL) == 0){
+    refresh_FileDescription_OSAL(&ythis->fileDescription);
   }
-  return ythis->fileDescription.flags & mExist_OS_FileDescription;
+  return ythis->fileDescription.flags & mExist_FileDescription_OSAL;
 }
 
 
 int32 length_FileJc(FileJc_s* ythis)
-{ if((ythis->fileDescription.flags & mFileDescriptionTested) == 0){
-    os_getFileDescription(&ythis->fileDescription);
+{ if((ythis->fileDescription.flags & mTested_FileDescription_OSAL) == 0){
+    refresh_FileDescription_OSAL(&ythis->fileDescription);
   }
   return ythis->fileDescription.fileLength;
 }

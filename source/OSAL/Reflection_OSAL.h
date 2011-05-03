@@ -4,8 +4,10 @@
 #define __Reflection_OSAL_h__
 
 #include "Jc/ReflectionJc.h"
-extern_C const ClassJc reflection_OS_FileDescription;
-#define REFLECTION_OS_FileDescription &reflection_OS_FileDescription
+extern_C const ClassJc reflection_FileDescription_OSAL;
+#define REFLECTION_FileDescription_OSAL &reflection_FileDescription_OSAL
+extern_C const ClassJc reflection_FileLock_OSAL;
+#define REFLECTION_FileLock_OSAL &reflection_FileLock_OSAL
 extern_C const ClassJc reflection_OS_SOCKADDR;
 #define REFLECTION_OS_SOCKADDR &reflection_OS_SOCKADDR
 extern_C const ClassJc reflection_OS_SOCKSEL;

@@ -12,4 +12,6 @@ extern_C const ClassJc reflection_InterProcessCommFactoryAccessor;
 #define REFLECTION_InterProcessCommFactoryAccessor &reflection_InterProcessCommFactoryAccessor
 extern_C const ClassJc reflection_InterProcessComm_i;
 #define REFLECTION_InterProcessComm_i &reflection_InterProcessComm_i
+extern_C const ClassJc reflection_MtblDef_InterProcessCommSocket;
+#define REFLECTION_MtblDef_InterProcessCommSocket &reflection_MtblDef_InterProcessCommSocket
 #endif // ___h__

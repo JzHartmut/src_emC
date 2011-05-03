@@ -34,9 +34,10 @@
  * @author Hartmut Schorrig
  */
 #ifndef __os_types_def_common_h__
+#define __os_types_def_common_h__
 
 
- //plattformunabhaengige Ergaenzungen
+//plattformunabhaengige Ergaenzungen
 //folgende Typen sind besser schreib- und lesbar
 #define ushort unsigned short int
 #define uint unsigned int

@@ -122,6 +122,7 @@ extern_C int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathL
 
 /**Accesses the file in the file system with the given description. 
  * Filles the properties of the file. 
+ * NOTE: old name: os_getFileDescription
  * @return 0 if ok, negative number on a system error. But it is ok, if the file doesn't exist.
  */
 extern_C int refresh_FileDescription_OSAL(FileDescription_OSAL* ythis); 

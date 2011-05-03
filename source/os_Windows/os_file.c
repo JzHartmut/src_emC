@@ -219,10 +219,11 @@ int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
  * @param nrofbytes - the number of bytes to be skipped. 
  * @return the actual number of bytes skipped. 
  */
-int os_fskip(OS_HandleFile file, int nrofbytes)
+int os_fskip(OS_HandleFile file, int32_t nrofbytes)
 { 
   #ifdef USE_LoLevelFileIo 
   #else
+	  //TODO skipf((FILE*)file, nrofbytes);
   #endif
   return -1; //TODO
 }

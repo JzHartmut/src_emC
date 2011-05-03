@@ -9,7 +9,9 @@
 //#include <stdio.h>
 #include <os_types_def.h>
 #include <os_file.h>
-/*@ CLASS_C ReadLine_Fwc_t @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/*@CLASS_C ReadLine_Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
 typedef struct ReadLine_Fwc_t
 { OS_HandleFile file;
   bool endOfFile;
@@ -29,4 +31,4 @@ extern_C char const* readLine_ReadLine_Fwc(ReadLine_Fwc* ythis);
 
 
 
-#endif __Fwc_fw_readline_h
+#endif //__Fwc_fw_readline_h

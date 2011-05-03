@@ -4,82 +4,88 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "os_file.h"
+#include "../../include/OSAL/os_AtomicAccess.h"
+
+#include "../../include/OSAL/os_endian.h"
+
+#include "../../include/OSAL/os_error.h"
+
+#include "../../include/OSAL/os_file.h"
 
 
-extern_C const ClassJc reflection_OS_FileDescription;  //the just defined reflection_
+extern_C const ClassJc reflection_FileDescription_OSAL;  //the just defined reflection_
 extern_C const ClassJc reflection_OS_TimeStamp;
-const struct Reflection_Fields_OS_FileDescription_t
+const struct Reflection_Fields_FileDescription_OSAL_t
 { ObjectArrayJc head;
   FieldJc data[7];
-} reflection_Fields_OS_FileDescription =
-{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_OS_FileDescription)
+} reflection_Fields_FileDescription_OSAL =
+{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_FileDescription_OSAL)
 , {
     { "fileLength"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_FileDescription*)(0x1000))->fileLength) -(int32)(OS_FileDescription*)0x1000)
+    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->fileLength) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     }
   , { "flags"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_FileDescription*)(0x1000))->flags) -(int32)(OS_FileDescription*)0x1000)
+    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->flags) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     }
   , { "timeChanged"
     , 0   //no Array, no Bitfield
     , &reflection_OS_TimeStamp
     , 0 //bitModifiers
-    , (int16)((int32)(&((OS_FileDescription*)(0x1000))->timeChanged) -(int32)(OS_FileDescription*)0x1000)
+    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->timeChanged) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     }
   , { "ptr1"
     , 0   //no Array, no Bitfield
     , REFLECTION_void
     , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((OS_FileDescription*)(0x1000))->ptr1) -(int32)(OS_FileDescription*)0x1000)
+    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->ptr1) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     }
   , { "posNameInPath"
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_FileDescription*)(0x1000))->posNameInPath) -(int32)(OS_FileDescription*)0x1000)
+    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->posNameInPath) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     }
   , { "posRelatPathInPath"
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_FileDescription*)(0x1000))->posRelatPathInPath) -(int32)(OS_FileDescription*)0x1000)
+    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->posRelatPathInPath) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     }
   , { "absPath"
     , 0   //nrofArrayElements
     , REFLECTION_char
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_FileDescription*)(0x1000))->absPath) -(int32)(OS_FileDescription*)0x1000)
+    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->absPath) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     }
 } };
 
 
-const ClassJc reflection_OS_FileDescription =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OS_FileDescription, &reflection_ClassJc)
-, "OS_FileDescription"
+const ClassJc reflection_FileDescription_OSAL =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FileDescription_OSAL, &reflection_ClassJc)
+, "FileDescription_OSAL"
 , 0
-, sizeof(OS_FileDescription)
-, (FieldJcArray const*)&reflection_Fields_OS_FileDescription  //attributes and associations
+, sizeof(FileDescription_OSAL)
+, (FieldJcArray const*)&reflection_Fields_FileDescription_OSAL  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -88,15 +94,75 @@ const ClassJc reflection_OS_FileDescription =
 
 
 
-#include "os_waitnotify.h"
 
-#include "os_AtomicAccess.h"
+extern_C const ClassJc reflection_FileLock_OSAL;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_HandleFile_t;
+const struct Reflection_Fields_FileLock_OSAL_t
+{ ObjectArrayJc head;
+  FieldJc data[5];
+} reflection_Fields_FileLock_OSAL =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_FileLock_OSAL)
+, {
+    { "hFile_"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_void
+    , 0| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->hFile_) -(int32)(FileLock_OSAL*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FileLock_OSAL
+    }
+  , { "ptr_"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_void
+    , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->ptr_) -(int32)(FileLock_OSAL*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FileLock_OSAL
+    }
+  , { "position_"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->position_) -(int32)(FileLock_OSAL*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FileLock_OSAL
+    }
+  , { "size_"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->size_) -(int32)(FileLock_OSAL*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FileLock_OSAL
+    }
+  , { "flags_"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->flags_) -(int32)(FileLock_OSAL*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FileLock_OSAL
+    }
+} };
 
-#include "os_mem.h"
 
-#include "os_endian.h"
+const ClassJc reflection_FileLock_OSAL =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FileLock_OSAL, &reflection_ClassJc)
+, "FileLock_OSAL"
+, 0
+, sizeof(FileLock_OSAL)
+, (FieldJcArray const*)&reflection_Fields_FileLock_OSAL  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
 
-#include "os_socket.h"
+
+
+#include "../../include/OSAL/os_mem.h"
+
+#include "../../include/OSAL/os_socket.h"
 
 
 extern_C const ClassJc reflection_OS_SOCKADDR;  //the just defined reflection_
@@ -253,9 +319,11 @@ const ClassJc reflection_OS_LINGEROPT =
 
 
 
-#include "os_thread.h"
+#include "../../include/OSAL/os_sync.h"
 
-#include "os_time.h"
+#include "../../include/OSAL/os_thread.h"
+
+#include "../../include/OSAL/os_time.h"
 
 
 extern_C const ClassJc reflection_OS_TimeStamp;  //the just defined reflection_
@@ -316,7 +384,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "minminCyclTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->minminCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -324,7 +392,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "minCyclTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->minCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -332,7 +400,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "midCyclTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->midCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -340,7 +408,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "maxmaxCyclTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxmaxCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -348,7 +416,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "maxCyclTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -356,7 +424,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "minCalcTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->minCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -364,7 +432,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "midCalcTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->midCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -372,7 +440,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "maxCalcTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -380,7 +448,7 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     }
   , { "actCyclTime"
     , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->actCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -411,6 +479,4 @@ const ClassJc reflection_MinMaxTime_Fwc =
 
 
 
-#include "os_sync.h"
-
-#include "os_error.h"
+#include "../../include/OSAL/os_waitnotify.h"

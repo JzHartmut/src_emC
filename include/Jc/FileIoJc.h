@@ -49,9 +49,9 @@ struct StringBuilderJc_t;
 
 typedef struct FileJc_t
 { union{ ObjectJc object; } base;
-  OS_FileDescription fileDescription;
+  FileDescription_OSAL fileDescription;
 
-  char _additionalBuffer_[kMaxPathLength_FileJc - kMaxPathLength_OS_FileDescription];
+  char _additionalBuffer_[kMaxPathLength_FileJc - kMaxPathLength_FileDescription_OSAL];
 } FileJc_s;
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.

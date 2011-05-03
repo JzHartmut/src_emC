@@ -1586,7 +1586,7 @@ const ClassJc reflection_MemAccessArrayDebugJc =
 
 
 extern_C const ClassJc reflection_FileJc_s;  //the just defined reflection_
-extern_C const ClassJc reflection_OS_FileDescription;
+extern_C const ClassJc reflection_FileDescription_OSAL;
 const struct Reflection_Fields_FileJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -1595,7 +1595,7 @@ const struct Reflection_Fields_FileJc_s_t
 , {
     { "fileDescription"
     , 0   //no Array, no Bitfield
-    , &reflection_OS_FileDescription
+    , &reflection_FileDescription_OSAL
     , 0 //bitModifiers
     , (int16)((int32)(&((FileJc_s*)(0x1000))->fileDescription) -(int32)(FileJc_s*)0x1000)
     , 0  //offsetToObjectifcBase

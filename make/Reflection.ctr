@@ -1,5 +1,9 @@
 //********Blockes Reflectiontypes*****************************************
 = uint = int32
+= uint32_t = int32
+= int32_t = int32
+= uint16_t = int16
+= int16_t = int16
 = long = int32
 = short = int16
 = int16BigEndian = int16
@@ -8,6 +12,7 @@
 = doubleBigEndian = int64
 = OS_SOCKET = int
 = OS_Mutex = int
+= OS_HandleFile_t = void
 = OS_HandleFile = void
 = ObjectRefValuesJc = int32
 = OutputStreamJcREF = ObjectJcREF

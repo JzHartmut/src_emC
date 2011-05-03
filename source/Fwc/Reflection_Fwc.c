@@ -6,328 +6,6 @@
 #include <stddef.h>
 #include "Fwc/fw_basic.h"
 
-#include "Fwc/fw_Formatter.h"
-
-
-extern_C const ClassJc reflection_ParseResultPrintfStyle_fwFormatter;  //the just defined reflection_
-const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_t
-{ ObjectArrayJc head;
-  FieldJc data[10];
-} reflection_Fields_ParseResultPrintfStyle_fwFormatter =
-{ CONST_ObjectArrayJc(FieldJc, 10, OBJTYPE_FieldJc, null, &reflection_Fields_ParseResultPrintfStyle_fwFormatter)
-, {
-    { "text-specifier"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.specifier) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "text-dummy"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.dummy) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "text-nrofChars"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.nrofChars) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "text-text"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_char
-    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.text) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "value-specifier"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.specifier) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "value-argument"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.argument) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "value-width"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.width) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "value-precision"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.precision) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "value-indexArg"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.indexArg) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-  , { "value-timeSpecifier"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.timeSpecifier) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ParseResultPrintfStyle_fwFormatter
-    }
-} };
-
-
-const ClassJc reflection_ParseResultPrintfStyle_fwFormatter =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ParseResultPrintfStyle_fwFormatter, &reflection_ClassJc)
-, "ParseResultPr_Style_fwFormatter"
-, 0
-, sizeof(ParseResultPrintfStyle_fwFormatter)
-, (FieldJcArray const*)&reflection_Fields_ParseResultPrintfStyle_fwFormatter  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-#include "Fwc/fw_MemC.h"
-
-#include "Fwc/fw_timeconversions.h"
-
-
-extern_C const ClassJc reflection_TimeBytes_Fwc;  //the just defined reflection_
-const struct Reflection_Fields_TimeBytes_Fwc_t
-{ ObjectArrayJc head;
-  FieldJc data[7];
-} reflection_Fields_TimeBytes_Fwc =
-{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_TimeBytes_Fwc)
-, {
-    { "year"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->year) -(int32)(TimeBytes_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
-    }
-  , { "month"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->month) -(int32)(TimeBytes_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
-    }
-  , { "day"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->day) -(int32)(TimeBytes_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
-    }
-  , { "hour"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->hour) -(int32)(TimeBytes_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
-    }
-  , { "minute"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->minute) -(int32)(TimeBytes_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
-    }
-  , { "sec"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->sec) -(int32)(TimeBytes_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
-    }
-  , { "weekInYear"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int8
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->weekInYear) -(int32)(TimeBytes_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
-    }
-} };
-
-
-const ClassJc reflection_TimeBytes_Fwc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TimeBytes_Fwc, &reflection_ClassJc)
-, "TimeBytes_Fwc"
-, 0
-, sizeof(TimeBytes_Fwc)
-, (FieldJcArray const*)&reflection_Fields_TimeBytes_Fwc  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-#include "Fwc/fw_Va_list.h"
-
-
-extern_C const ClassJc reflection_Va_listFW;  //the just defined reflection_
-const struct Reflection_Fields_Va_listFW_t
-{ ObjectArrayJc head;
-  FieldJc data[2];
-} reflection_Fields_Va_listFW =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_Va_listFW)
-, {
-    { "typeArgs"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_char
-    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((Va_listFW*)(0x1000))->typeArgs) -(int32)(Va_listFW*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_Va_listFW
-    }
-  , { "args"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((Va_listFW*)(0x1000))->args) -(int32)(Va_listFW*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_Va_listFW
-    }
-} };
-
-
-const ClassJc reflection_Va_listFW =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Va_listFW, &reflection_ClassJc)
-, "Va_listFW"
-, 0
-, sizeof(Va_listFW)
-, (FieldJcArray const*)&reflection_Fields_Va_listFW  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-#include "Fwc/fw_LogMessage.h"
-
-
-extern_C const ClassJc reflection_LogMessageFW_i;  //the just defined reflection_
-const ClassJc reflection_LogMessageFW_i =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageFW_i, &reflection_ClassJc)
-, "LogMessageFW_i"
-, 0
-, sizeof(LogMessageFW_i)
-, null  //attributes
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-#include "Fwc/fw_ThreadContext.h"
-
-
-extern_C const ClassJc reflection_ThreadContextFW_s;  //the just defined reflection_
-extern_C const ClassJc reflection_OS_PtrValue;
-extern_C const ClassJc reflection_StacktraceThreadContext_s;
-const struct Reflection_Fields_ThreadContextFW_s_t
-{ ObjectArrayJc head;
-  FieldJc data[5];
-} reflection_Fields_ThreadContextFW_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_ThreadContextFW_s)
-, {
-    { "bufferInThreadContext"
-    , 0   //no Array, no Bitfield
-    , &reflection_OS_PtrValue
-    , 0 //bitModifiers
-    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->bufferInThreadContext) -(int32)(ThreadContextFW_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ThreadContextFW_s
-    }
-  , { "blockHeap"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->blockHeap) -(int32)(ThreadContextFW_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ThreadContextFW_s
-    }
-  , { "mode"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->mode) -(int32)(ThreadContextFW_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ThreadContextFW_s
-    }
-  , { "topmemAddrOfStack"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->topmemAddrOfStack) -(int32)(ThreadContextFW_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ThreadContextFW_s
-    }
-  , { "stacktraceThreadContext"
-    , 0   //no Array, no Bitfield
-    , &reflection_StacktraceThreadContext_s
-    , 0 //bitModifiers
-    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->stacktraceThreadContext) -(int32)(ThreadContextFW_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ThreadContextFW_s
-    }
-} };
-
-
-const ClassJc reflection_ThreadContextFW_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ThreadContextFW_s, &reflection_ClassJc)
-, "ThreadContextFW_s"
-, 0
-, sizeof(ThreadContextFW_s)
-, (FieldJcArray const*)&reflection_Fields_ThreadContextFW_s  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
 #include "Fwc/fw_Exception.h"
 
 
@@ -608,7 +286,199 @@ const ClassJc reflection_StacktraceJc =
 
 
 
-#include "Fwc/fw_String.h"
+#include "Fwc/fw_Formatter.h"
+
+
+extern_C const ClassJc reflection_ParseResultPrintfStyle_fwFormatter;  //the just defined reflection_
+const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_t
+{ ObjectArrayJc head;
+  FieldJc data[10];
+} reflection_Fields_ParseResultPrintfStyle_fwFormatter =
+{ CONST_ObjectArrayJc(FieldJc, 10, OBJTYPE_FieldJc, null, &reflection_Fields_ParseResultPrintfStyle_fwFormatter)
+, {
+    { "text-specifier"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.specifier) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "text-dummy"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.dummy) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "text-nrofChars"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.nrofChars) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "text-text"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_char
+    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.text) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "value-specifier"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.specifier) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "value-argument"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.argument) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "value-width"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.width) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "value-precision"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.precision) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "value-indexArg"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.indexArg) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+  , { "value-timeSpecifier"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.timeSpecifier) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ParseResultPrintfStyle_fwFormatter
+    }
+} };
+
+
+const ClassJc reflection_ParseResultPrintfStyle_fwFormatter =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ParseResultPrintfStyle_fwFormatter, &reflection_ClassJc)
+, "ParseResultPr_Style_fwFormatter"
+, 0
+, sizeof(ParseResultPrintfStyle_fwFormatter)
+, (FieldJcArray const*)&reflection_Fields_ParseResultPrintfStyle_fwFormatter  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+#include "Fwc/fw_LogMessage.h"
+
+
+extern_C const ClassJc reflection_LogMessageFW_i;  //the just defined reflection_
+const ClassJc reflection_LogMessageFW_i =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageFW_i, &reflection_ClassJc)
+, "LogMessageFW_i"
+, 0
+, sizeof(LogMessageFW_i)
+, null  //attributes
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+#include "Fwc/fw_MemC.h"
+
+#include "Fwc/fw_Readline.h"
+
+
+extern_C const ClassJc reflection_ReadLine_Fwc;  //the just defined reflection_
+const struct Reflection_Fields_ReadLine_Fwc_t
+{ ObjectArrayJc head;
+  FieldJc data[5];
+} reflection_Fields_ReadLine_Fwc =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_ReadLine_Fwc)
+, {
+    { "file"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_void
+    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->file) -(int32)(ReadLine_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ReadLine_Fwc
+    }
+  , { "endOfFile"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_bool
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->endOfFile) -(int32)(ReadLine_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ReadLine_Fwc
+    }
+  , { "buffer"
+    , 4096   //nrofArrayElements
+    , REFLECTION_char
+    , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->buffer) -(int32)(ReadLine_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ReadLine_Fwc
+    }
+  , { "posBuffer"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->posBuffer) -(int32)(ReadLine_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ReadLine_Fwc
+    }
+  , { "endBuffer"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->endBuffer) -(int32)(ReadLine_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ReadLine_Fwc
+    }
+} };
+
+
+const ClassJc reflection_ReadLine_Fwc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ReadLine_Fwc, &reflection_ClassJc)
+, "ReadLine_Fwc"
+, 0
+, sizeof(ReadLine_Fwc)
+, (FieldJcArray const*)&reflection_Fields_ReadLine_Fwc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
 
 #include "Fwc/fw_SimpleC.h"
 
@@ -637,6 +507,203 @@ const ClassJc reflection_Int32Array256 =
 , 0
 , sizeof(Int32Array256)
 , (FieldJcArray const*)&reflection_Fields_Int32Array256  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+#include "Fwc/fw_String.h"
+
+#include "Fwc/fw_ThreadContext.h"
+
+
+extern_C const ClassJc reflection_ThreadContextFW_s;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_PtrValue;
+extern_C const ClassJc reflection_StacktraceThreadContext_s;
+const struct Reflection_Fields_ThreadContextFW_s_t
+{ ObjectArrayJc head;
+  FieldJc data[5];
+} reflection_Fields_ThreadContextFW_s =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_ThreadContextFW_s)
+, {
+    { "bufferInThreadContext"
+    , 0   //no Array, no Bitfield
+    , &reflection_OS_PtrValue
+    , 0 //bitModifiers
+    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->bufferInThreadContext) -(int32)(ThreadContextFW_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ThreadContextFW_s
+    }
+  , { "blockHeap"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_void
+    , 0| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->blockHeap) -(int32)(ThreadContextFW_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ThreadContextFW_s
+    }
+  , { "mode"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->mode) -(int32)(ThreadContextFW_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ThreadContextFW_s
+    }
+  , { "topmemAddrOfStack"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_void
+    , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->topmemAddrOfStack) -(int32)(ThreadContextFW_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ThreadContextFW_s
+    }
+  , { "stacktraceThreadContext"
+    , 0   //no Array, no Bitfield
+    , &reflection_StacktraceThreadContext_s
+    , 0 //bitModifiers
+    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->stacktraceThreadContext) -(int32)(ThreadContextFW_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ThreadContextFW_s
+    }
+} };
+
+
+const ClassJc reflection_ThreadContextFW_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ThreadContextFW_s, &reflection_ClassJc)
+, "ThreadContextFW_s"
+, 0
+, sizeof(ThreadContextFW_s)
+, (FieldJcArray const*)&reflection_Fields_ThreadContextFW_s  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+#include "Fwc/fw_timeconversions.h"
+
+
+extern_C const ClassJc reflection_TimeBytes_Fwc;  //the just defined reflection_
+const struct Reflection_Fields_TimeBytes_Fwc_t
+{ ObjectArrayJc head;
+  FieldJc data[7];
+} reflection_Fields_TimeBytes_Fwc =
+{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_TimeBytes_Fwc)
+, {
+    { "year"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->year) -(int32)(TimeBytes_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeBytes_Fwc
+    }
+  , { "month"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->month) -(int32)(TimeBytes_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeBytes_Fwc
+    }
+  , { "day"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->day) -(int32)(TimeBytes_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeBytes_Fwc
+    }
+  , { "hour"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->hour) -(int32)(TimeBytes_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeBytes_Fwc
+    }
+  , { "minute"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->minute) -(int32)(TimeBytes_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeBytes_Fwc
+    }
+  , { "sec"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->sec) -(int32)(TimeBytes_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeBytes_Fwc
+    }
+  , { "weekInYear"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->weekInYear) -(int32)(TimeBytes_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeBytes_Fwc
+    }
+} };
+
+
+const ClassJc reflection_TimeBytes_Fwc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TimeBytes_Fwc, &reflection_ClassJc)
+, "TimeBytes_Fwc"
+, 0
+, sizeof(TimeBytes_Fwc)
+, (FieldJcArray const*)&reflection_Fields_TimeBytes_Fwc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+#include "Fwc/fw_Va_list.h"
+
+
+extern_C const ClassJc reflection_Va_listFW;  //the just defined reflection_
+const struct Reflection_Fields_Va_listFW_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_Va_listFW =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_Va_listFW)
+, {
+    { "typeArgs"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_char
+    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((Va_listFW*)(0x1000))->typeArgs) -(int32)(Va_listFW*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_Va_listFW
+    }
+  , { "args"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_void
+    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((Va_listFW*)(0x1000))->args) -(int32)(Va_listFW*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_Va_listFW
+    }
+} };
+
+
+const ClassJc reflection_Va_listFW =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Va_listFW, &reflection_ClassJc)
+, "Va_listFW"
+, 0
+, sizeof(Va_listFW)
+, (FieldJcArray const*)&reflection_Fields_Va_listFW  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
