@@ -17,6 +17,8 @@ class ExampleInspector; nameC=ExampleInspector_Inspc_s; argIdent=XX; extends jav
       float %.. f2;
       short %.. s1;
       short %.. s2;
+      java/lang/String(instance=java/lang/String) t.. t1;
+      java/lang/String(instance=java/lang/String) t.. t2;
       int %.. x;
       int %.. y;
     }
