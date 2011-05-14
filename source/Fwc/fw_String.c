@@ -47,7 +47,7 @@
 
 //Styleguide: Include the own header first, it should include all necessary depending headers itself. 
 #include <Fwc/fw_String.h>
-#include "fw_Platform_conventions.h"
+//#include "fw_Platform_conventions.h"
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <Fwc/fw_SimpleC.h>

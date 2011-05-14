@@ -20,10 +20,10 @@
 	
 
 ..\..\..\source\os_Windows\os_error.c : \
+	"..\..\..\..\..\..\..\..\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	"..\..\..\include\osal\os_error.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
-	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
 ..\..\..\source\os_Windows\os_file.c : \
@@ -35,32 +35,33 @@
 	
 
 ..\..\..\source\os_Windows\os_mem.c : \
+	"..\..\..\..\..\..\..\..\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	"..\..\..\include\osal\os_mem.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
-	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
 ..\..\..\source\os_Windows\os_mutex.c : \
+	"..\..\..\..\..\..\..\..\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	"..\..\..\include\osal\os_error.h"\
 	"..\..\..\include\osal\os_mem.h"\
 	"..\..\..\include\osal\os_sync.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
 	"..\..\..\source\os_Windows\os_internal.h"\
-	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
 ..\..\..\source\os_Windows\os_socket.c : \
+	"..\..\..\..\..\..\..\..\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	"..\..\..\include\osal\os_endian.h"\
 	"..\..\..\include\osal\os_error.h"\
 	"..\..\..\include\osal\os_socket.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
-	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
 ..\..\..\source\os_Windows\os_sync.c : \
+	"..\..\..\..\..\..\..\..\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	"..\..\..\include\osal\os_error.h"\
 	"..\..\..\include\osal\os_mem.h"\
 	"..\..\..\include\osal\os_sync.h"\
@@ -68,24 +69,23 @@
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
 	"..\..\..\source\os_Windows\os_internal.h"\
-	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
 ..\..\..\source\os_Windows\os_thread.c : \
+	"..\..\..\..\..\..\..\..\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	"..\..\..\include\osal\os_error.h"\
 	"..\..\..\include\osal\os_mem.h"\
 	"..\..\..\include\osal\os_sync.h"\
 	"..\..\..\include\osal\os_thread.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
-	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
 ..\..\..\source\os_Windows\os_time.c : \
+	"..\..\..\..\..\..\..\..\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	"..\..\..\include\osal\os_time.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
-	"d:\progs\msc6\act\microsoft visual studio\vc98\include\basetsd.h"\
 	
 
 ..\..\..\source\Fwc\fw_Exception.c : \
@@ -155,7 +155,6 @@
 	"..\..\..\include\fwc\fw_simplec.h"\
 	"..\..\..\include\fwc\fw_string.h"\
 	"..\..\..\include\osal\os_types_def_common.h"\
-	"..\..\..\includespecials\fwconvc32\fw_platform_conventions.h"\
 	"..\..\..\includespecials\os_windows\os_types_def.h"\
 	
 

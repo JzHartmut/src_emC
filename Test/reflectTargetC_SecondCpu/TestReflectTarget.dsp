@@ -446,10 +446,6 @@ SOURCE=..\..\include\OSAL\os_time.h
 
 SOURCE=..\..\include\OSAL\os_types_def_common.h
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\include\OSAL\os_waitnotify.h
-# End Source File
 # End Group
 # Begin Group "inc_special"
 

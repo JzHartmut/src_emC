@@ -146,26 +146,19 @@
 
 
 
+
+
+
 #define nrofBit_EnhancedRefJc 32
 
 
-/** Right shifted Bits representing the index of the backpointer from an object to the reference
-    inside the type ObjectRefValuesJc in enhanced references.
-  * If this define is setted, the enhanced references are used.
+/**Right shifted Bits representing the index of the backpointer from an object to the reference
+ * inside the type ObjectRefValuesJc in enhanced references.
+ * If this define is setted, the enhanced references are used.
+ * This mask should be the left bits after mThreadContext__StringJc, mNonPersists__StringJc, mLength__StringJc
+ * because Strings are used as enhanced references too!
 */
 #define mRef_EnhancedRefJc              0xffff0000
-
-
-/** Bits of length of constant string, it have to be coordinated with mBackRef_ObjectJcRef*/
-#define mLength__StringJc                 0x00003fff
-
-  //_setCount_StringBufferJc(x, x); //
-
-/**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.*/
-#define mNonPersists__StringJc            0x00004000
-
-/**If this Bit is set, the StringJc references a buffer in the thread context..*/
-#define mThreadContext__StringJc               0x00008000
 
 
 

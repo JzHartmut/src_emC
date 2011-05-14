@@ -41,9 +41,11 @@
 //#include "fw_Platform_conventions.h"
 #include <os_types_def.h>
 
+
 /*@DEFINE_C some_forward_types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 struct MemAreaC_t;
+
 
 /*@CLASS_C ByteStringJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -98,6 +100,16 @@ struct MemAreaC_t;
  * Notation hint: The notation ,,char const*,, is the same as ,,const char*,,, but it expresses more stronly, that it is a const-pointer.
  */  
 #define StringJc OS_PtrValue
+
+
+/**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
+ * NOTE: mLength__StringJc is defined in os_types_def.h
+ */
+#define mNonPersists__StringJc       (mLength__StringJc +1)
+
+/**If this Bit is set, the StringJc references a buffer in the thread context..*/
+#define mThreadContext__StringJc     ((mNonPersists__StringJc)<<1)
+
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
  * The length of the text

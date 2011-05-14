@@ -218,6 +218,13 @@ extern OS_PtrValue null_OS_PtrValue;
 
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ptr__ = (char*)(PTR); }
 
+/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of value__
+ * It have to be a mask with set bits on right side (all last significant bits).
+ * The next 2 bits left are used internally for designation of String.
+ * The following bits left side are used for enhanced references. 
+ * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
+ */
+#define mLength__StringJc                 0x00003fff
 
 /**Maximal length of path in a FileDescription_OSAL-structure.
  * NOTE: old name kMaxPathLength_OS_FileDescription
