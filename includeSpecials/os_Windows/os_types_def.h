@@ -104,8 +104,9 @@
 
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
 typedef unsigned char        uint8_t;
-typedef unsigned short       uint16_t;
-typedef unsigned long        uint32_t;
+typedef unsigned short       u_int16_t;
+typedef unsigned long        uint32_t;    //type identifier faulty, u_int32_t is C99
+typedef unsigned long        u_int32_t;
 
 typedef char                 char8_t;   //Standard-C-char
 typedef unsigned short       char16_t;  //UTF16-char

@@ -303,6 +303,20 @@ METHOD_C void setReflection_ObjectJc(ObjectJc* ythis, struct ClassJc_t const* re
 METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj);
 
 
+/**Checks the consistence of the given instance based on ObjectJc.
+ * An Object should be initialized before it is used. This method should be used in the constructor
+ * of all classes to check whether the initializing is done.
+ * @param size The requested size of the instance.
+ *             The instance is valid if the size saved in the element ,,objectIdentSize,, is >= size.
+ *             A greater instance (derived) is accepted also.
+ * @param clazzReflection instanceof_ObjectJc() will be tested. If this param is null, no test of reflection is done.
+ *             Unsupported feature: If the reflection class of the instance is null, it will be set with this reference.
+ *             But call setReflection_ObjectJc() instead before, because this method may be changed in future. It should only test, not set anything!
+*/
+METHOD_C void checkConsistence_ObjectJc(ObjectJc* ythis, int size, struct ClassJc_t const* clazzReflection, struct ThreadContextFW_t* _thCxt);
+
+
+
 /** gets the size of the Object stored in attribute objectIdentSize. This value helps to step through data
   * particularly by using direct composed plain old data,
   * but the user is responsible for the exactly realisation.

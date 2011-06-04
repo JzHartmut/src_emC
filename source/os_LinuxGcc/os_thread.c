@@ -51,7 +51,7 @@
 #include <stdlib.h>
 #include <string.h>  //memset
 
-
+#define OS_DEFAULT_STACK 10000
 
 /* Compiler switches for some test variants for Stacktrace. */
 
@@ -90,7 +90,7 @@ typedef struct OS_ThreadContext_t
   /**Name of the thread.*/
   const char* name; 
 
-  OS_ValuePtr userThreadContext;
+  OS_PtrValue userThreadContext;
 
 }OS_ThreadContext;
 
@@ -155,7 +155,7 @@ void os_userError(const char* text, int value)
 #define NOT_TlsGetValue
 #ifdef NOT_TlsGetValue
 //#error
-  #include "../src/os_ThreadContextInTable.ci"
+  #include "../OSAL/os_ThreadContextInTable.ci"
   #define setCurrent_OS_ThreadContext(context) (0 == os_setThreadContextInTable(pthread_self(), context))
   #define getCurrent_OS_ThreadContext() os_getThreadContextInTable(pthread_self())
 #elif defined(TEST_ThreadContext_IMMEDIATE)
@@ -305,18 +305,18 @@ void* os_wrapperFunction(OS_ThreadContext* threadContext)
 
 /**@Beschreibung:
  * Mit dieser Funktion wird einen Thread angelegt und gestartet.
- * @Rückgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthält der
- * Rückgabewert einen detaillierten Fehlercode.
+ * @Rï¿½ckgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthï¿½lt der
+ * Rï¿½ckgabewert einen detaillierten Fehlercode.
  * @pHandle Zeiger auf das Thread-Handle.
  * @routine Einsprungadresse des Threads.
- * @pUserData Zeiger auf die Parameter für die Übergabe in der Thread-Routine.
+ * @pUserData Zeiger auf die Parameter fï¿½r die ï¿½bergabe in der Thread-Routine.
  * @pThreadName Name des Threads.
- * @abstactPrio Abstrakt Thread-Priorität (0-255).
- * @stackSize Größe des benötigten Stacks.
+ * @abstactPrio Abstrakt Thread-Prioritï¿½t (0-255).
+ * @stackSize Grï¿½ï¿½e des benï¿½tigten Stacks.
  * @Autor Rodriguez
  * @Datum 30.05.2008
- * @Änderungsübersicht:
- * @Datum/Autor/Änderungen
+ * @ï¿½nderungsï¿½bersicht:
+ * @Datum/Autor/ï¿½nderungen
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
@@ -325,7 +325,7 @@ int os_createThread
   OS_ThreadRoutine routine, 
   void* pUserData, 
   char const* sThreadName, 
-  int abstactPrio, 
+  int abstractPrio, 
   int stackSize )
 {
   //int iWinRet = 0;
@@ -348,9 +348,9 @@ int os_createThread
     stackSize = OS_DEFAULT_STACK;
   }
 
-  if(abstactPrio <= 0 || abstactPrio > 255)
+  if(abstractPrio <= 0 || abstractPrio > 255)
   {
-    abstactPrio = OS_PRIORITY_NORMAL;
+    abstractPrio = 128;
   }
 
   threadContext = new_OS_ThreadContext(sThreadName);
@@ -374,7 +374,7 @@ int os_createThread
     threadContext->handleThread = threadId;
 
 	  // set the thread prio
-	  { long uWinPrio = os_getRealThreadPriority( abstactPrio );
+	  { long uWinPrio = os_getRealThreadPriority( abstractPrio );
 	    //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
         ret_ok = pthread_setschedprio(threadId, uWinPrio);
 
@@ -393,18 +393,18 @@ int os_createThread
 
 
 /**@Beschreibung:
- * Mit dieser Funktion wird eine abstrakte Thread-Priorität in einer betriebssystemspezifischen
- * Thread-Priorität gewandelt.
- * @Rückgabewert Betriebssystemspezifische Threadpriorität.
- * @abstractPrio Abstrakte Threadpriorität (0-255).
+ * Mit dieser Funktion wird eine abstrakte Thread-Prioritï¿½t in einer betriebssystemspezifischen
+ * Thread-Prioritï¿½t gewandelt.
+ * @Rï¿½ckgabewert Betriebssystemspezifische Threadprioritï¿½t.
+ * @abstractPrio Abstrakte Threadprioritï¿½t (0-255).
  * @Autor Rodriguez
  * @Datum 30.05.2008
- * @Änderungsübersicht:
- * @Datum/Autor/Änderungen
+ * @ï¿½nderungsï¿½bersicht:
+ * @Datum/Autor/ï¿½nderungen
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
-long os_getRealThreadPriority(unsigned int abstractPrio)
+int os_getRealThreadPriority(int abstractPrio)
 {
 	long priority = 0;
 
@@ -424,13 +424,13 @@ long os_getRealThreadPriority(unsigned int abstractPrio)
 
 /**@Beschreibung:
  * Mit dieser Funktion wird einen Thread beendet.
- * @Rückgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthält der
- * Rückgabewert einen detaillierten Fehlercode.
+ * @Rï¿½ckgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthï¿½lt der
+ * Rï¿½ckgabewert einen detaillierten Fehlercode.
  * @handle Handle des Ziel-Threads.
  * @Autor Rodriguez
  * @Datum 30.05.2008
- * @Änderungsübersicht:
- * @Datum/Autor/Änderungen
+ * @ï¿½nderungsï¿½bersicht:
+ * @Datum/Autor/ï¿½nderungen
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  */
 //int os_deleteThread(OS_HandleThread handle)
@@ -448,15 +448,15 @@ long os_getRealThreadPriority(unsigned int abstractPrio)
 
 
 /**@Beschreibung:
- * Mit diesem Aufruf wird die Priorität eines beliebigen Threads verändert.
- * @Rückgabewert: 0 beim erfolgreichen Operation,ansonsten enthält der Rückgabewert einen
+ * Mit diesem Aufruf wird die Prioritï¿½t eines beliebigen Threads verï¿½ndert.
+ * @Rï¿½ckgabewert: 0 beim erfolgreichen Operation,ansonsten enthï¿½lt der Rï¿½ckgabewert einen
  * detaillierten Fehlercode.
  * @handle Handle des Ziel-Threads.
- * @abstractPrio Abstrakt Thread-Priorität (0-255).
+ * @abstractPrio Abstrakt Thread-Prioritï¿½t (0-255).
  * @Autor Rodriguez
  * @Datum 30.05.2008
- * @Änderungsübersicht:
- * @Datum/Autor/Änderungen
+ * @ï¿½nderungsï¿½bersicht:
+ * @Datum/Autor/ï¿½nderungen
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
@@ -466,12 +466,12 @@ int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 	return OS_OK;
 }
 
-/**liefert den ThreadContext des laufenden Threads zurück.
+/**liefert den ThreadContext des laufenden Threads zurï¿½ck.
  * @return: Context des laufenden Threads.
  * @Autor Hartmut Schorrig 
  * @Datum 22.10.2008
- * @Änderungsübersicht:
- * @Datum/Autor/Änderungen
+ * @ï¿½nderungsï¿½bersicht:
+ * @Datum/Autor/ï¿½nderungen
  * @since 2008-10-22 / Hartmut Schorrig / Erste Implementierung.
  */
 OS_ThreadContext* os_getCurrentThreadContext_intern()
@@ -510,15 +510,15 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
 
 
 
-OS_ValuePtr os_getCurrentUserThreadContext()
+OS_PtrValue os_getCurrentUserThreadContext()
 { OS_ThreadContext const* threadContext = os_getCurrentThreadContext_intern();
   return threadContext->userThreadContext;
 }
 
-int os_setCurrentUserThreadContext(OS_ValuePtr mem)
+int os_setCurrentUserThreadContext(OS_PtrValue mem)
 { int error = 0;
   OS_ThreadContext* threadContext = os_getCurrentThreadContext_intern();
-  void* userThreadContext = PTR_OS_ValuePtr(threadContext->userThreadContext, void); 
+  void* userThreadContext = PTR_OS_PtrValue(threadContext->userThreadContext, void);
   if( userThreadContext != null)
   { os_userError("os_setCurrentUserThreadContext(), a threadcontext exists. ", (int)userThreadContext);
     error = OS_UNEXPECTED_CALL;
@@ -533,13 +533,13 @@ int os_setCurrentUserThreadContext(OS_ValuePtr mem)
 
 /**@Beschreibung:
  * Diese Funktion liefert die Beschreibung in Klartext einer Fehlermeldung der OS-Funktionen.
- * @Rückgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthält der
- * Rückgabewert einen detaillierten Fehlercode.
+ * @Rï¿½ckgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthï¿½lt der
+ * Rï¿½ckgabewert einen detaillierten Fehlercode.
  * @nError Fehlermeldungsnummer.
  * @Autor Rodriguez
  * @Datum 30.05.2008
- * @Änderungsübersicht:
- * @Datum/Autor/Änderungen
+ * @ï¿½nderungsï¿½bersicht:
+ * @Datum/Autor/ï¿½nderungen
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
@@ -548,22 +548,22 @@ char* os_getTextOfOsError(int nError)
 	switch (nError){
 	case OS_SYSTEM_ERROR:        return "System Fehler.";
 /*
-	case OS_INVALID_PARAMETER:   return "in Parameter war ungültig.";
-	case OS_INVALID_STRING:      return  "Ein String ist nicht innerhalb der vorgegebenen Größe.";
-	case OS_INVALID_HANDLE:      return "Das Objekt-Handle ist ungültig.";
-	case OS_INVALID_STATE:       return "Der Objekt-Sustand ist ungültig für diese Operation.";
-	case OS_TEST_NOT_OK:         return "Testbedingungen nicht erfüllt.";
+	case OS_INVALID_PARAMETER:   return "in Parameter war ungï¿½ltig.";
+	case OS_INVALID_STRING:      return  "Ein String ist nicht innerhalb der vorgegebenen Grï¿½ï¿½e.";
+	case OS_INVALID_HANDLE:      return "Das Objekt-Handle ist ungï¿½ltig.";
+	case OS_INVALID_STATE:       return "Der Objekt-Sustand ist ungï¿½ltig fï¿½r diese Operation.";
+	case OS_TEST_NOT_OK:         return "Testbedingungen nicht erfï¿½llt.";
 	case OS_GOT_TIMEOUT:         return "Der Aufruf wurde nach dem eingestellten Timeout abgebrochen.";
-	case OS_QUEUE_EXIST:         return "Die Message-Queue existiert bereits für diesen Thread.";
+	case OS_QUEUE_EXIST:         return "Die Message-Queue existiert bereits fï¿½r diesen Thread.";
 	case OS_QUEUE_NOT_EXIST:     return "Die Message-Queue dieses Thread existiert nicht.";
 	case OS_RESOURCE_BUSY:       return "In diesem Objekt stehen noch Nachrichten, oder ein Thread wartet.";
-	case OS_QUEUE_FULL:          return "Die Message–Queue ist voll.";
-	case OS_QUEUE_EMPTY:         return "Die Message-Queue enthält keine Nachricht.";
+	case OS_QUEUE_FULL:          return "Die Messageï¿½Queue ist voll.";
+	case OS_QUEUE_EMPTY:         return "Die Message-Queue enthï¿½lt keine Nachricht.";
 	case OS_NAME_EXIST:          return "Der Name existiert bereits.";
 	case OS_NAME_NOT_EXIST:      return "Der angegebene Name existiert im System nicht.";
-	case OS_MAILBOX_FULL:        return "Die Anforderung überschreitet die eingetragene Grenze der Mailbox.";
-	case OS_MAILBOX_EMPTY:       return "Die Mailbox enthält keine Nachricht (wenn timeOut = 0).";
-	case OS_INVALID_POINTER:     return "Zeiger zu Resource ungültig.";
+	case OS_MAILBOX_FULL:        return "Die Anforderung ï¿½berschreitet die eingetragene Grenze der Mailbox.";
+	case OS_MAILBOX_EMPTY:       return "Die Mailbox enthï¿½lt keine Nachricht (wenn timeOut = 0).";
+	case OS_INVALID_POINTER:     return "Zeiger zu Resource ungï¿½ltig.";
 	case OS_UNKNOWN_ERROR:       return "Undefinierte Fehlermeldung.";
 */
 	default:                     return "Unknown error-code.";

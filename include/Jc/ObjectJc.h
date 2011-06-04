@@ -72,7 +72,9 @@
 METHOD_C ObjectJc* ctorM_ObjectJc(MemC mem); //ObjectJc* ythis);
 #define ctor_ObjectJc(MEM) ctorM_ObjectJc(MEM)
 
-/** The default construtor in C-manner. It assumes, that the area is cleared or is initialized already. */
+/**The default construtor in C-manner. It assumes, that the area is cleared or is initialized already. 
+ * @deprecated use init_ObjectJc() instead
+ */
 METHOD_C void ctorc_ObjectJc(ObjectJc* ythis);
 
 /**Allocates an memory area and initialized it with the basicly values of ObjectJc.
@@ -124,20 +126,11 @@ METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
 
 /**Tests wether it is an ObjectJc-based instance or not. The criterium is, the ownAddress inside ObjectJc must be identical with the instance address.
  * @throws an exception if it is not true.
+ * @deprecated
  */
-#define testConsistence_ObjectJc(SRC) { if( (SRC) != null && (SRC) != (SRC)->ownAddress ) THROW(RuntimeException, "no ObjectJc-based instance.", (int)(SRC)); }
+#define XXXtestConsistence_ObjectJc(SRC) { if( (SRC) != null && (SRC) != (SRC)->ownAddress ) THROW(RuntimeException, "no ObjectJc-based instance.", (int)(SRC)); }
 
 
-
-/**Checks the consistence of the given instance based on ObjectJc.
- * @param size The requested size of the instance. 
- *             The instance is valid if the size saved in the element ,,objectIdentSize,, is >= size.
- *             A greater instance (derived) is accepted also.
- * @param clazzReflection instanceof_ObjectJc() will be tested. If this param is null, no test of reflection is done.
- *             Unsupported feature: If the reflection class of the instance is null, it will be set with this reference.
- *             But call setReflection_ObjectJc() instead before, because this method may be changed in future. It should only test, not set anything!
-*/
-METHOD_C void checkConsistence_ObjectJc(ObjectJc* ythis, int size, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt);
 
 /**Supplies the rest of block if the Object is allocated in a block heap, or an empty MemC if there is no rest space. 
  * @param size The requested size (>0) or the requested number of references (<0). 

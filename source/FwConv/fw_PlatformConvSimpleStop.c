@@ -43,10 +43,10 @@
 //#include "ObjectJc.h"
 #include <os_time.h>
 #include <os_error.h>
-#include "Fwc/fw_Exception.h"
+#include <Fwc/fw_Exception.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "fwc/fw_Formatter.h"
+#include <Fwc/fw_Formatter.h>
 #include <os_thread.h>
 
 

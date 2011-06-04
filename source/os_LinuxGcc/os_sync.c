@@ -34,11 +34,11 @@
  *
  ****************************************************************************/
 //the own include file firstly
-#include "OSAL/inc/os_sync.h"
+#include <os_sync.h>
 
 //needed from os_adaption itself
-#include "OSAL/inc/os_error.h"
-#include "OSAL/inc/os_mem.h"
+#include <os_error.h>
+#include <os_mem.h>
 #include "os_internal.h"
 
 //Needed includes from os:

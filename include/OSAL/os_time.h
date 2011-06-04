@@ -49,28 +49,28 @@ extern_C_BLOCK_
 
 /* Strukturen */
 typedef struct OS_TimeStamp_t
-{   /**Sekunden, gezählt seit dem 1. Januar 0:00 Uhr des Jahres 1970.
+{   /**Sekunden, gezï¿½hlt seit dem 1. Januar 0:00 Uhr des Jahres 1970.
    * Das Startjahr ist aus der UNIX-Tradition heraus 1970. Das gibt jedoch ein Problem beim Umlauf auf einen negativen Wert etwa in 2038 
    * und einen Gesamtumlauf etwa in 2106. Das Jahr 2038 wird heute bei einer Anlagenstandzeit von 30 Jahren aus heutiger Zeit geradeso erreicht.
-   * Es wird hier festgelegt, dass der Sekundenbezug immer auf 1970 orientiert ist, dabei aber eine Wiederholung bei Zählerumlauf stattfindet,
+   * Es wird hier festgelegt, dass der Sekundenbezug immer auf 1970 orientiert ist, dabei aber eine Wiederholung bei Zï¿½hlerumlauf stattfindet,
    * Der absolute Zeitpunkt muss auf das aktuellen Zeitraum orientiert sein. Damit liegen negative Werte aus Sicht des Jahres 2038 betrachtet
    * nicht im Jahre 1902..1970, sondern eben 2038..2106. Damit ist diese Kennzeichnung zeitlos verwendbar. 
    *
-   * Für eine Zeitdifferenzbildung ist der Wert vorzeichenbehaftet zu verwenden, daher ist er hier auch vorzeichenbehaftet definiert.
+   * Fï¿½r eine Zeitdifferenzbildung ist der Wert vorzeichenbehaftet zu verwenden, daher ist er hier auch vorzeichenbehaftet definiert.
    *
-   * Schaltsekunden zählen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
+   * Schaltsekunden zï¿½hlen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
    *  @bytepos=4 
  */
   int32_t time_sec;
   
-  /**Zeit innerhalb einer Sekunde in Nanosekunden gezählt.
-   * Um schnelle Vorgänge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde häufig nicht ausreichend. 
-   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen über weitere Entfernungen 
-   * von max. 100 ns erreicht werden, um Differenzströme zu vermeiden. 
-   * Die tatsächliche Auflösung der Zeit hängt von den Hardwaregegebenheiten ab.
+  /**Zeit innerhalb einer Sekunde in Nanosekunden gezï¿½hlt.
+   * Um schnelle Vorgï¿½nge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde hï¿½ufig nicht ausreichend. 
+   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen ï¿½ber weitere Entfernungen 
+   * von max. 100 ns erreicht werden, um Differenzstrï¿½me zu vermeiden. 
+   * Die tatsï¿½chliche Auflï¿½sung der Zeit hï¿½ngt von den Hardwaregegebenheiten ab.
    * *Bit 29..0: Nanosekunden
-   * *Bit 31: Wenn 1, dann stellt der Sekundenzähler einen Wert dar, der die Schaltsekunden seit 1970 mitzählt.
-   * *Bit 31: Wenn 0, dann stellt der Sekundenzähler die kalendarisch gezählten Sekunden nach 1970 dar.
+   * *Bit 31: Wenn 1, dann stellt der Sekundenzï¿½hler einen Wert dar, der die Schaltsekunden seit 1970 mitzï¿½hlt.
+   * *Bit 31: Wenn 0, dann stellt der Sekundenzï¿½hler die kalendarisch gezï¿½hlten Sekunden nach 1970 dar.
    *  @bytepos=0 
    */
   int32_t time_nsec;
@@ -81,7 +81,7 @@ typedef struct OS_TimeStamp_t
   /**If this bit is set, the TimeStamp is imprecise, it is in a phase of correction. */
   #define mCorrection_OS_TimeStamp 0x40000000
 
-  /**Wenn in seconds die Schaltsekunden mitgezählt sind (also keine lineare Abbildung 3600*24 Sekunden pro Tag),
+  /**Wenn in seconds die Schaltsekunden mitgezï¿½hlt sind (also keine lineare Abbildung 3600*24 Sekunden pro Tag),
    * dann soll das folgenden Bit gesezt sein:
    */
   #define mLeapSeconds_OS_TimeStamp 0x80000000
@@ -191,23 +191,23 @@ typedef struct MinMaxTime_Fwc_t
 {
   int32_t ct;
   
-  uint32_t minminCyclTime;
+  u_int32_t minminCyclTime;
 
-  uint32_t minCyclTime;
+  u_int32_t minCyclTime;
 
-  uint32_t midCyclTime;
+  u_int32_t midCyclTime;
 
-  uint32_t maxmaxCyclTime;
+  u_int32_t maxmaxCyclTime;
   
-  uint32_t maxCyclTime;
+  u_int32_t maxCyclTime;
 
-  uint32_t minCalcTime;
+  u_int32_t minCalcTime;
 
-  uint32_t midCalcTime;
+  u_int32_t midCalcTime;
 
-  uint32_t maxCalcTime;
+  u_int32_t maxCalcTime;
 
-  uint32_t actCyclTime;
+  u_int32_t actCyclTime;
 
   int32_t _lastTime;
 

@@ -33,14 +33,14 @@
  * 2007-10-01: JcHartmut creation
  *
  ****************************************************************************/
-#include "os_types_def.h"
-#include "OSAL/inc/os_time.h"
+#include <os_types_def.h>
+#include <os_time.h>
 #include <unistd.h>
 
 #include <sys/timeb.h>
 #include <time.h>
 
-int32 os_milliTime()
+int32_t os_milliTime()
 {
   //struct _timeb systime;
   int32 milliseconds = -1;
@@ -66,7 +66,7 @@ OS_TimeStamp os_getDateTime()
 }
 
 
-int32 os_getMicroTime(void)
+int32_t os_getMicroTime(void)
 {
 	//struct _timeb currTime;
 	//_ftime(&currTime);
@@ -79,7 +79,7 @@ int32 os_getMicroTime(void)
  * The step-width of the return value depends from the CPU-clock.
  * The value should only be used for comparing times.
  */
-int32 os_getClockCnt(void)
+int32_t os_getClockCnt(void)
 {
   //LARGE_INTEGER performanceCount;
   //if(QueryPerformanceCounter(&performanceCount))
@@ -89,7 +89,7 @@ int32 os_getClockCnt(void)
 }
  
 
-void os_delayThread(uint32 milliseconds)
+void os_delayThread(int32_t milliseconds)
 {
   /*
 	struct timespec time;

@@ -1,4 +1,3 @@
-/**
 /************************************************************************************************
  * Copyright/Copyleft:
  *
@@ -46,8 +45,8 @@
 #include <os_file.h>
 #include <os_mem.h>
 #include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_readline.h>
-#include <Fwc/fw_formatter.h>
+#include <Fwc/fw_Readline.h>
+#include <Fwc/fw_Formatter.h>
 
 void testOutConsole()
 {
@@ -61,7 +60,7 @@ void testOutConsole()
 }
 
 
-void testFlush()
+void testReadLine()
 {
   char sbuffer[50];  //small buffer for line number
   int ibuffer;      //current number of chars in buffer
@@ -87,7 +86,8 @@ void testFlush()
 
 void testFile()
 {
-  testFlush();
+  testOutConsole();
+  testReadLine();
 }
 
 

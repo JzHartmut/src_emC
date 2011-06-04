@@ -77,7 +77,7 @@ int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, ch
 
 
 
-int refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
+FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
 {
   
   struct stat statData;
@@ -98,7 +98,7 @@ int refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
   { ythis->flags &= ~mExist_FileDescription_OSAL;
   }
   ythis->flags |= mTested_FileDescription_OSAL;
-  return 0;
+  return ythis;
 
 }
 
@@ -160,7 +160,7 @@ int os_fflush(OS_HandleFile file)
 OS_HandleFile os_getStdOut()
 { 
   #ifdef USE_LoLevelFileIo 
-    return (OS_HandleFile)(1); 
+    return (OS_HandleFile)(1);   //it is the number 1 of the file handle numbers.
   #else
     return(OS_HandleFile)stdout; //stdout is defined as macro in stdio.h as (&_iob[1])
   #endif
@@ -170,7 +170,7 @@ OS_HandleFile os_getStdOut()
 OS_HandleFile os_getStdErr()
 { 
   #ifdef USE_LoLevelFileIo 
-    return (OS_HandleFile)(2); 
+    return (OS_HandleFile)(2);   //it is the number 2 of the file handle numbers.
   #else
     return(OS_HandleFile)stderr; //stderr is defined as macro in stdio.h as (&_iob[2])
   #endif
@@ -180,7 +180,7 @@ OS_HandleFile os_getStdErr()
 OS_HandleFile os_getStdIn()
 { 
   #ifdef USE_LoLevelFileIo 
-    return (OS_HandleFile)(0); 
+    return (OS_HandleFile)(0);  //it is the number 0 of the file handle numbers. 
   #else
     return(OS_HandleFile)stdin; //stdout is defined as macro in stdio.h as (&_iob[0])
   #endif

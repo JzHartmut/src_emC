@@ -5,7 +5,7 @@
  */
 
 //Styleguide: Include the own header first, it should include all necessary depending headers itself. 
-#include <Fwc/fw_readline.h>
+#include <Fwc/fw_Readline.h>
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <Fwc/fw_SimpleC.h>

@@ -78,7 +78,7 @@ void ctor_Object_Jc(ObjectJc* ythis)
 }
 
 
-
+//TODO use init_ObjectJc() instead
 void ctorc_ObjectJc(ObjectJc* ythis)
 { 
   if(ythis->ownAddress != ythis)  //if the ownAddress is already set, it is initalized!
@@ -130,56 +130,6 @@ ObjectJc* ctorO_ii_ObjectJc(ObjectJc* othis, const int size, const int32 typeIns
   STACKTRC_LEAVE; return othis;
 }
 */
-
-
-void checkConsistence_ObjectJc(ObjectJc* ythis, int size, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
-{ STACKTRC_TENTRY("checkConsistence_ObjectJc");
-  { //it is initialized, check it
-    int sizeObj = getSizeInfo_ObjectJc(ythis);
-    if(ythis->ownAddress == null)
-    { //not initialized
-      ctorc_ObjectJc(ythis);
-      setReflection_ObjectJc(ythis, clazzReflection, 0);
-      setSizeAndIdent_ObjectJc(ythis, size, 0);
-    }
-    if(ythis->ownAddress != ythis) THROW_s0(IllegalArgumentException, "faut ownAddress", (int)ythis->ownAddress);
-    if(sizeObj == 0)
-    { //not initialized
-      sizeObj = size;
-    }
-    else if(sizeObj < size) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
-    
-    if(clazzReflection != null)
-    { if(ythis->reflectionClass == null)
-      { ythis->reflectionClass = clazzReflection;
-      }
-      else
-      { //TODO test Reflection, it can be a derived class.
-      }
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-
-void checkConsistenceOrInit_ObjectJc(ObjectJc* ythis, int size, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
-{ STACKTRC_TENTRY("checkConsistence_ObjectJc");
-  if(ythis->ownAddress == null)
-  { //not initialized
-    ctorc_ObjectJc(ythis);
-    setReflection_ObjectJc(ythis, clazzReflection, 0);
-    setSizeAndIdent_ObjectJc(ythis, size, 0);
-  }
-  else
-  { checkConsistence_ObjectJc(ythis, size, clazzReflection,_thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-
-
 
 
 ObjectJc* clone_ObjectJc_F(ObjectJc const* ythis, MemC buffer)

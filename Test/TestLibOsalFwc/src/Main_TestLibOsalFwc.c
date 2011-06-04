@@ -1,4 +1,3 @@
-/**
 /************************************************************************************************
  * Copyright/Copyleft:
  *
@@ -47,9 +46,10 @@
 
 #include "Main_TestLibOsalFwc.h"
 
-void main(int argv, char** argc)
+int main(int argv, char** argc)
 {
   testFile();
+  return 0;
 }
 
 

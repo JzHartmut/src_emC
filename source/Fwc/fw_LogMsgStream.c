@@ -50,7 +50,7 @@
 #include <string.h>
 //#include "fw_date.h"
 #include <stdio.h>
-#include <io.h>
+//#include <io.h>
 
 typedef struct LogMessageStream_FW_t
 {
@@ -97,10 +97,11 @@ extern ClassJc const reflection_LogMessageStream_FW;
 LogMessageFW_i* ctorO_LogMessageStream_FW(ObjectJc* othis, int outChn)
 { extern ClassJc const reflection_LogMessageStream_FW;
   LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)othis;
-  ctorc_ObjectJc(othis);
+  STACKTRC_ENTRY("");
+  checkConsistence_ObjectJc(othis, sizeof(LogMessageStream_FW_s), &reflection_LogMessageStream_FW, _thCxt);
   setReflection_ObjectJc(othis, &reflection_LogMessageStream_FW, 0);
   ythis->outChn = outChn;
-  return &ythis->base.logStateFw;
+  STACKTRC_LEAVE; return &ythis->base.logStateFw;
 }
 
 

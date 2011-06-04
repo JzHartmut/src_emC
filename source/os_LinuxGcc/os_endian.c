@@ -32,7 +32,7 @@
  * 2009-11-24: JcHartmut created as new idea.
  *
  ****************************************************************************/
-#include <OSAL/inc/os_endian.h>
+#include <os_endian.h>
 
 int64 getInt64BigEndian(int64BigEndian* addr)
 { int32 loBig,hiBig, lo, hi;

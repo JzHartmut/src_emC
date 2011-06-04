@@ -121,33 +121,34 @@ extern_C int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathL
 
 
 /**Accesses the file in the file system with the given description. 
- * Filles the properties of the file. 
+ * Filles the properties of the file. It is possible and ok, that the file doesn't exists.
+ * Then the properties are set adequate to that state.
  * NOTE: old name: os_getFileDescription
- * @return 0 if ok, negative number on a system error. But it is ok, if the file doesn't exist.
+ * @return the instance itself to use in concatenated expressions.
  */
-extern_C int refresh_FileDescription_OSAL(FileDescription_OSAL* ythis); 
+extern_C FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis);
 //int os_getFileDescription(FileDescription_OSAL* dst, int addPathLength, const char* filepath); 
 
 /**Returns true if the file exists. 
  * The proposition whether the file is existing is valid in the moment of calling [[os_getFileDescription(...)]].
  * It may be possible that the file was deleted meanwhile.
  */
-#define exists_FileDescription_OSAL(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x1) 
+#define exists_FileDescription_OSAL(YTHIS) ( ((YTHIS)->flags & mTested_FileDescription_OSAL ? YTHIS : refresh_FileDescription_OSAL(YTHIS))->flags & mExist_FileDescription_OSAL)
 
  /**Returns true if the file able to read and it exists. 
  * The proposition whether the file is existing is valid in the moment of calling [[os_getFileDescription(...)]].
  * It may be possible that the file was deleted meanwhile.
  */
-#define canRead_FileDescription_OSAL(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x2) 
+#define canRead_FileDescription_OSAL(YTHIS) ( ((YTHIS)->flags & mTested_FileDescription_OSAL ? YTHIS : refresh_FileDescription_OSAL(YTHIS))->flags & mCanRead_FileDescription_OSAL)
 
 /**Returns true if the file is able to write. The file may be existing or not. 
  * This proposition is valid in the moment of calling [[os_getFileDescription(...)]].
  * It may be possible that the file was deleted meanwhile.
  */
-#define canWrite_FileDescription_OSAL(YTHIS) (os_getFileDescription(YTHIS)->flags & 0x4) 
+#define canWrite_FileDescription_OSAL(YTHIS) ( ((YTHIS)->flags & mTested_FileDescription_OSAL ? YTHIS : refresh_FileDescription_OSAL(YTHIS))->flags & 0x4)
 
 /**Returns the timestamp of the file. It is the last-modify-timestamp. */
-#define getTimestamp_FileDescription_OSAL(THIS) ( (THIS)->timeChanged )
+#define getTimestamp_FileDescription_OSAL(THIS) ( ((YTHIS)->flags & mTested_FileDescription_OSAL ? YTHIS : refresh_FileDescription_OSAL(YTHIS))->timeChanged )
 
 
 
@@ -198,6 +199,14 @@ extern_C OS_HandleFile os_fopenToRead(char const* filename);
  */
 extern_C OS_HandleFile os_fopenToWrite(char const* filename, bool append); 
 
+/**Open a file to read and write (random access).
+ * This open action follows the convention of java.io.RandomAccessFile.ctor().
+ * The os layer itself may support such actions or not. If the file should only opened either for read or for write
+ * use os_fopenToRead() or os_fopenToWrite instead.
+ * @return null if the file isn't able to write or create. Elsewhere the handle, which is able to use for the access.
+ */
+extern_C OS_HandleFile os_fopenToRandomAccess(char const* filename);
+
 /**Returns the channel handle which is related to the standard output of the associated console 
  * of this application.
  *
@@ -245,6 +254,23 @@ extern_C int os_fread(OS_HandleFile file, void* buffer, int maxNrofbytes);
  * @return the actual number of bytes skipped. 
  */
 extern_C int os_fskip(OS_HandleFile file, int32_t nrofbytes);
+
+
+/**Sets the current position to read or write to the given position countered from start of the file.
+ * The offset may be set beyond the end of the file. Setting the offset beyond the end of the file does not change the file length.
+ * The file length will change only by writing after the offset has been set beyond the end of the file.
+ * @param position 0 is the start position.
+ * @return 0 if successfull.
+ */
+extern_C int os_fseek(OS_HandleFile file, int32_t position);
+
+/**Sets the length of the file.
+ * @param newlength If this parameter is greater than the current length, the file will be extended.
+ * The content of the new ranges may be undefined, if there isn't any write operation to it.
+ * This operation reserves space on the file medium.
+ *        If this parameter is less than the current length, the file will be truncated.
+ */
+extern_C int os_fsetLength(OS_HandleFile file, int32_t newlength)
 
 
 /**Writes bytes to file.

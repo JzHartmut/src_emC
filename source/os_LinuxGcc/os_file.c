@@ -34,9 +34,9 @@
  * 2009-06-01: JcHartmut creation
  *
  ****************************************************************************/
-#include "OSAL/inc/os_file.h"
+#include <os_file.h>
 
-#include "OSAL/inc/os_error.h"
+#include <os_error.h>
 
 
 //
@@ -44,7 +44,7 @@
 #include <stdio.h>
 #include <string.h> //memset
 
-int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char const* filepath, int zFilepath)
+int os_initFileDescription(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
 {
   int error = 0;
   ythis->flags = 0; 
@@ -63,29 +63,25 @@ int os_initFileDescription(OS_FileDescription* ythis, int addPathLength, char co
 
 
 
-OS_FileDescription* os_getFileDescription(OS_FileDescription* ythis)
+FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
 {
-  
   struct stat statData;
-
-  
   int ok = stat(ythis->absPath, &statData);
-
   if(ok == 0)
   { 
     ythis->fileLength = statData.st_size;
-    ythis->flags = mExist_OS_FileDescription | mCanRead_OS_FileDescription; 
+    //TODO check read and write ability from stat
+    ythis->flags = mExist_FileDescription_OSAL | mCanRead_FileDescription_OSAL;
     { //st_mtime is the time of last changed, seconds after 1970 in UTC. MS-Visual studio: Its a long.
       int32 timeLastChanged = statData.st_mtime;
       setUTC_OS_TimeStamp(ythis->timeChanged, timeLastChanged, 0);
     }
   }
   else
-  { ythis->flags &= ~mExist_OS_FileDescription;
+  { ythis->flags &= ~mExist_FileDescription_OSAL;
   }
-  ythis->flags |= mFileDescriptionTested;
+  ythis->flags |= mTested_FileDescription_OSAL;
   return ythis;
-
 }
 
 
@@ -123,6 +119,37 @@ int os_fflush(OS_HandleFile file)
 
 
 
+OS_HandleFile os_getStdOut()
+{
+  #ifdef USE_LoLevelFileIo
+    return (OS_HandleFile)(1);  //it is the number 1 of the file handle numbers.
+  #else
+    return(OS_HandleFile)stdout; //stdout is defined as macro in stdio.h
+  #endif
+}
+
+
+OS_HandleFile os_getStdErr()
+{
+  #ifdef USE_LoLevelFileIo
+    return (OS_HandleFile)(2);  //it is the number 2 of the file handle numbers.
+  #else
+    return(OS_HandleFile)stderr; //stderr is defined as macro in stdio.h
+  #endif
+}
+
+
+OS_HandleFile os_getStdIn()
+{
+  #ifdef USE_LoLevelFileIo
+    return (OS_HandleFile)(0);  //it is the number 0 of the file handle numbers.
+  #else
+    return(OS_HandleFile)stdin; //stdout is defined as macro in stdio.h
+  #endif
+}
+
+
+
 /**Reads bytes from file.
  * @return if >=0, than the number of bytes which are read. It is <= maxNrofbytes, depending of available bytes.
  * This method may be delayed (thread switch is possible), if the conditions to read are met, but it needs some time.
@@ -149,7 +176,7 @@ int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
  * @param nrofbytes - the number of bytes to be skipped. 
  * @return the actual number of bytes skipped. 
  */
-int os_fskip(OS_HandleFile file, int nrofbytes)
+int os_fskip(OS_HandleFile file, int32_t nrofbytes)
 { return -1; //TODO
 }
 
