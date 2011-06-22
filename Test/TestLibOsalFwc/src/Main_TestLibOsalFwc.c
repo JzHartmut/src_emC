@@ -48,7 +48,8 @@
 
 int main(int argv, char** argc)
 {
-  testFile();
+  //testFile();
+  testThread();
   return 0;
 }
 

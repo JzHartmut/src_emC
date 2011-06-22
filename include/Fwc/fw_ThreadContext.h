@@ -38,7 +38,7 @@
 #ifndef __fw_ThreadContext_h__
 #define __fw_ThreadContext_h__
 
-#include "fw_MemC.h"
+#include <Fwc/fw_MemC.h>
 
 #ifndef __fw_Exception_h__
   #include "fw_Exception.h"

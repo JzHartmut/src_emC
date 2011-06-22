@@ -270,7 +270,7 @@ extern_C int os_fseek(OS_HandleFile file, int32_t position);
  * This operation reserves space on the file medium.
  *        If this parameter is less than the current length, the file will be truncated.
  */
-extern_C int os_fsetLength(OS_HandleFile file, int32_t newlength)
+extern_C int os_fsetLength(OS_HandleFile file, int32_t newlength);
 
 
 /**Writes bytes to file.

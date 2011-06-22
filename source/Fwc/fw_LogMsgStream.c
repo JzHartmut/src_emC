@@ -50,7 +50,9 @@
 #include <string.h>
 //#include "fw_date.h"
 #include <stdio.h>
-//#include <io.h>
+#ifdef __OS_IS_WINDOWS__  //NOTE: use osal!!!
+  #include <io.h>         //lolevel file-io declared threre.
+#endif
 
 typedef struct LogMessageStream_FW_t
 {

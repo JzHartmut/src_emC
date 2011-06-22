@@ -45,7 +45,8 @@
 #ifndef _Main_TestLibosalFwc_h__
 #define _Main_TestLibosalFwc_h__
 #include <os_types_def.h>
-extern_C void testFile();
+extern_C void testFile(void);
+extern_C void testThread(void);
 
 #endif // _Main_TestLibosalFwc_h__
 
