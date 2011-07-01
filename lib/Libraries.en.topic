@@ -1,0 +1,76 @@
+==CRuntimeJavalike==
+@ident=Jc
+.
+===Libraries of the CRuntimeJavalike===
+@ident=Lib
+The usage of libs ...
+
+====What Libraries====
+@ident=what
+
+=====baseJc=====
+
+The core of the CRuntimeJavalike-routines is generated in a Library named '''baseJc*.lib'''. The '*' means several forms:
+
+* baseJcpp.lib : Release version for C++
+* baseJcppD.lib : Debug version for C++
+* baseJc.lib : Release version for C
+* baseJcD.lib : Debug version for C
+
+If the debug-version of any library is used, the user can step into the routines of the libraries whereby the sources found in ,,CRuntimeJavalike/Source/*,, can be used.
+
+The C-Versions are compiled with Visual-Studio-6, but with C-compilation. The compiler uses the C-Compilation, if the extension of the source-file is ,,.c,, and not ,,.cpp,, and the compiler option /TP is not given. If /TP is given as compiler option, then the ,,*.c,,-sources are compiled as C++. The difference for the library-usage is: Subroutine-labels of C-compiled sources are build only from the name of the routine. The names of the C++-compiled subroutines are more complex, they contain a type-identification of all formal calling arguments too. It means, using of the false library causes linker errors.
+
+It is possible to use the C-libraries in a C++-environment. The routines are present completely in C. While including the CRuntimelibrary-Headerfiles, the Macro ,,METHOD_C,, should be set with ,,"extern C",,. This macro is defined in the <os_types_def.h>. The macro ,,METHOD_C,, is written on any declaration of the methods in the CRuntimeJavalike-Headerfiles. It is is set with "extern C", the C++-compiler recognizes that methods as C-defined and build the label of the subroutine in the C-form.
+
+TODO: It may be useful to compile the C++-lib with setting "extern C" of all c-methods. The C++-lib contains the C-routines and the C++-wrappers of them, whereby the C-lib contains the same C-routines but not the wrappers. On the other hand - there are no disadvantages. 
+
+
+
+=====OSALJc=====
+
+The OSAL lib is not a concept of "Java-like" but it is need and forced by the CRuntimeJavalike-concept. Therefore it is designated with the "Jc" too. The OSAL-lib is named
+
+* OSALJcD - debug version
+* OSALJc - release version
+
+=====simpleAllocJc=====
+
+The concept of CRuntimeJavalike needs a garbage collection mechanism in generally. But most of requirements of the embedded programming are able to deploy without dynamic memory at runtime. Therefore the garbage collector is out of order sometimes.
+
+The simpleAllocJc-library provides the methods, which may be need by usage of a garbage collector, with an empty implementation. 
+
+The method for allocation is implemented using a simple ,,alloc_MemC,,, which is defined in ,,fw_MemC.h,,. This routine calls os_malloc(), which is defined in the OSAL. 
+
+A simple call of malloc(), which is defined as standard for the C-language, don't may satisfy the requirements of embedded programming. In some cases special requirements of the memory usage are given, which are considerable in the os_alloc-concept.  
+
+This lib contains the ,,uncatchtedException(),,-routine too with a simple thread stop. In a embedded system this problem should be resolved in special forms depending on the platform requirements.
+
+All in all this version of library provides simple mechanisms for memory and exception handling, proper to use for test but not proper for really requirements.
+
+
+=====blockHeapJc=====
+
+The Blockheap-lib is able to use in opposite to the simpleAllocJc.lib. In this case the BlockHeap-concept for garbage collection is used.
+
+
+
+====C or C++====
+
+* All method names are build with "extern C", 
+
+* Usage of throw: C-Version uses longjmp internally, whereby the C++-version uses the C++-throw.
+
+
+
+====Compilation Conditions for Microsoft Visual Studio 6====
+
+The libraries are compatible with other Libraries from the environment Visual studio 6 if some compiler options are adequate.
+Especially it is
+
+* Code Generation Use run-time-Library: "Debug Multithread" and "Multithread" is used for the Libraries in the debug- and release-variant. It means that the multiThread-Runtime-libs are used. If the user project uses another setting at this point, linker errors occur because different run-time-libs from Visual Studio are used automatically, which defines the same labels.
+
+* Struct member alignment: "1 Byte" is used for the Libraries.
+
+If the user needs another setting, the libraries can be generated with this settings in the users responsibility. 
+

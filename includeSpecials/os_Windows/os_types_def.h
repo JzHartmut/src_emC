@@ -115,6 +115,7 @@ typedef signed char          int8_t;
 typedef short                int16_t;
 typedef long                 int32_t;
 typedef __int64              int64_t;
+typedef __int64              uint64_t;
 #define bool8_t char
 #define bool16_t int16_t
 
@@ -130,6 +131,7 @@ typedef signed char          int8;
 typedef short                int16;
 typedef long                 int32;
 typedef __int64              int64;
+typedef __int64              uint64;
 #define bool8 char
 #define bool16 int16
 

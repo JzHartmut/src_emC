@@ -1,0 +1,94 @@
+==2008-0905 JcHartmut==
+===StringJc.h===
+*new: ctorO_StringBufferJc(): initializing with an initialized ObjectJc
+*new: ctorM_s0i_StringBufferJc()
+*new: ctorO_s0i_StringBufferJc()
+*new: ctorO_i_StringBufferJc()
+*new: ctorc_i_StringBufferJc()
+*chg: all append_xxx_StringBufferJc() with _threadContext, the C++-versions have no threadContext arg.
+*chg: insert_xxx_StringBuffer(): no _i param sign for the insert position
+
+===StringBufferJc.c===
+adap: see StringJc.h
+
+===DateJc.c===
+adap: see StringJc.h
+
+===ObjectJc.h===
+*new: ctorM_ObjectJc() tut dasselbe wie ctor_ObjectJc() aber Namenskonventionen beachtet
+*new: checkConsistence_ObjectJc(): Überprüft mehr als das Makro testConsistence_ObjectJc
+*new: setIdentAndSize_ObjectJc(): testet ob ident und size zueinander passen (Bitverteilungen). Bisher gab es nur die Möglichkeit, diese Infos in einem int32 zu übergeben.
+*chg: finalize() mit _threadContext
+
+===objectBaseC.h===
+*new: Definitionen für kBitTypeLarge_objectIdentSize_ObjectJc usw. fehlten, passend zu mTypeLarge_objectIdentSize_ObjectJc
+
+===MemC.c==
+* alloc_MemC() löscht den allokierten Bereich, übergibt ihn also mit 0 gefüllt.
+
+===ObjectJc.c===
+* ctorc_ObjectJc initialisiert nur dann, wenn die ownAddress==null ist. Ist dies nicht der Fall, dann wird derzeit nichts ausgeführt. TODO: checkConsistence prüfen!
+*new: checkConsistence_ObjectJc(): Überprüft mehr als das Makro testConsistence_ObjectJc
+*new: setIdentAndSize_ObjectJc(): testet ob ident und size zueinander passen (Bitverteilungen). Bisher gab es nur die Möglichkeit, diese Infos in einem int32 zu übergeben.
+*new: getSizeInfo_ObjectJc(): hat gefehlt
+*new: getIdentInfo_ObjectJc(): neu geschrieben,war an anderer Stelle identsich schon vorhanden .
+*chg: finalize() mit _threadContext
+
+
+==2008-0808 JcHartmut==
+
+===os_sync.c===
+os_notify() ist geändert:
+* Liefert >0, wenn eine Warning passiert, insbesondere wenn eine Semaphore gesetzt wird, die bereits gesetzt ist. Das führte früher auch schonmal zu einer Exception, unnötigerweise.
+* Liefert <0 bei einem echten Fehler, der nie auftreten sollte (mit ASSERT(ok>=0) prüfbar)
+Dieses Schema sollte allgemein durchgehalten werden (OSAL-Design).
+
+===os_thread.h===
+os_notify() ist besser dokumentiert, weil es auch sein Verhalten geändert hat:
+* Liefert >0, wenn eine Warning passiert, insbesondere wenn eine Semaphore gesetzt wird, die bereits gesetzt ist. Das führte früher auch schonmal zu einer Exception, unnötigerweise.
+* Liefert <0 bei einem echten Fehler, der nie auftreten sollte (mit ASSERT(ok>=0) prüfbar)
+Dieses Schema sollte allgemein durchgehalten werden (OSAL-Design).
+
+===gardening===
+Einige Feinkorrekturen ''gardening'' ohne funktionelle relevanz, aber teilweise compilersyntaxwichtig, und für Reflectiongenerierung.
+Für Anwender ergeben sich keine Änderungen.
+*chg: Superclass von ClassJc jetzt nicht super sondern object
+*chg: Mtbl statt Vtbl
+
+*corr: Includeklammern wegen Cheader.zbnf, unwichtigen aber unschönen Error bei genReflections vermeiden
+
+
+==2008-0729 JcHartmut==
+===DateJc.c===
+*ctor_xx_DateJc ergänzt, fehlende Initialisierungen
+*setTimeNanoSeconds_DateJc ergänzt
+
+===time.c===
+time.c, toStringFormat_Fw()
+corr: Liefert nun eine nicht-0-terminierte Ausgaben. Die Zeichenkette muss sich in einen umfassenderen String einpassen lassen!
+bugfix: YY als Jahr (groß, nicht klein)
+new: a als Formatkennung
+corr: Puffer wird bis max. Länge gefüllt, dann Abschneiden.
+
+
+
+
+==2008-0707 NOLABEL JcHartmut==
+*ConcurrentLinkedQueue.h
+**nice: ZeigerTyp eines Items in Makro ITEM_QueueJcREF festgelegt, das Makro ist im h-File definiert. Damit anpassbar ohne Quelländerung.
+**new: ctorMn_ConcurrentLinkedQueueJc und ctorSn_ConcurrentLinkedQueueJc für Übergabe Node-pool gleich zu Anfang, damit kein new intern.
+**corr: "Node_ConcurrentLinkedQueueJc volatile* volatile* firstFreeNode" Zeiger auf Node muss volatile sein!
+
+*Date.h
+**new: Einige Inhalte aus Date_Jc.c übernommen: normalize_DateJc(), compareTo_DateJc(), ctor..._DateJc(), setSystemTime_DateJc()
+**chg: toStringFormat_Fw() benutzt keine Jc-Dinge. Hier wäre eine Abtrennung in andere Source (Jc-independ) möglich.
+
+*MemC.h
+**new: init0p_MemC() initialisiert einen über Zeiger gegebenen Bereich mit angegebener Länge. 
+**new: INIT0p_MemC(PTR) als Makro ruft init0p_MemC auf, sizeof(*type), ganz simpel anwendbar, ersetzt memset(...) 
+**new: address_MemC(mem, offset) als Hilfe zur Adressrechnung, einfacher anwendbar.
+
+*src_Win/os_time.h
+**new: int os_getDateTime(_OS_TimeStruct* pDateTime); wie in spec beschrieben definiert
+**new: _OS_TimeStruct wie in spec beschrieben definiert, aber auch die Makros OS_mNanoSeconds und OS_mLeapSeconds
+**new: int toStringFormat_Fw(...); hier definiert, ist damit unabhängig von einem ..Jc anwendbar (braucht auch nichts daraus.)

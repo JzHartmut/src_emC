@@ -783,7 +783,7 @@ typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcA
     }
 
 
-    virtual StringJc toString(){ STACKTRC_ENTRY("ObjectJcpp::toString"); return toString_ObjectJc_F(static_cast<ObjectJc*>(this), _thCxt); }
+    //virtual StringJc toString(){ STACKTRC_ENTRY("ObjectJcpp::toString"); return toString_ObjectJc_F(static_cast<ObjectJc*>(this), _thCxt); }
 
     virtual void finalize(){}
 

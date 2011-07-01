@@ -1,0 +1,3 @@
+* Some small changes
+** ObjectJc.c in cpp-compilation: toString() commented, because compiler error (TODO if need)
+** Windows-lib-dsps All should be for Multithreading (compiler option)

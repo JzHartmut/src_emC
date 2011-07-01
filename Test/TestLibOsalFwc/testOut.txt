@@ -1,0 +1,95 @@
+1: /************************************************************************************************
+2:  * Copyright/Copyleft:
+3:  *
+4:  * For this software-package the LGPL Lesser General Public License, 
+5:  * published by the Free Software Foundation is valid at first. 
+6:  * This is valid, if no other special licence contract is agreed. It means: 
+7:  * 1. You can use this source without any restriction for any desired purpose.  
+8:  * 2. You can redistribute copies of this source to everybody.  
+9:  * 3. Every user of this source, also the user of redistribute copies with or without payment, 
+10:  *    must accept this license for further using.  
+11:  * 4. But the LPGL ist not appropriate for a whole software product, 
+12:  *    if this source is only a part of them. It means, the user must publish this part of source, 
+13:  *    but don't need to publish the whole source of the own product.  
+14:  * 5. You can study and modify (improve) this source for own using or for redistribution, 
+15:  *    but you have to license the modified sources likewise under this LGPL Lesser General Public License.  
+16:  * 6. You mustn't delete this Copyright/Copyleft inscription in this software package and in all source files. 
+17:  *    If you need only a part of this software-package, you must place this Copyright/Copyleft inscription 
+18:  *    at an easily noticeable position in the adequate file tree. 
+19:  * 7. If you are changing and publishing the content of source files, 
+20:  *    you mustn't delete the Copyright/Copyleft inscription inclusive the first author(s) in the source files. You have to write your changes and your name additionally in the description part for changes in the source files. If you use a part from source files as copy in your own files only, you have to name the author of that part of the sources in your sources. Furthermore you have to declare the usage of sources of the author in your product. 
+21:  * Special licence agreements:
+22:  *
+23:  * If this software or a part of them will be used in a comprehensive software-package 
+24:  * without free publishing of its content or usage, 
+25:  * then a special licence agreement in any other form is possible and necessary. 
+26:  * All developers and users of this software-package should agree to it, 
+27:  * with subscribing a contract, which is stored by both partners in paper-written form. 
+28:  * The state of existence of such a contract doesn't need to be published.
+29:  * But a proper hint to the special licence agreement have to be stored at a position in the file-tree, 
+30:  * which is able to visit from outside, if the content of the files are able to visit from outside too. 
+31:  * If the sources and its usage and the licence is secrecy, it is okay too.
+32:  *
+33:  *
+34:  * @author Hartmut Schorrig, Germany, Pinzberg, www.vishia.org
+35:  *
+36:  **copyright***************************************************************************************
+37:  *
+38:  * @content Test os_file
+39:  * @version 0.94
+40:  * list of changes:
+41:  * 2010-05-23: JcHartmut creation from os_Windows/os_file.c, from the fopen-routines.
+42:  * 
+43:  */
+44: 
+45: #include <os_file.h>
+46: #include <os_mem.h>
+47: #include <Fwc/fw_SimpleC.h>
+48: #include <Fwc/fw_Readline.h>
+49: #include <Fwc/fw_Formatter.h>
+50: 
+51: void testOutConsole()
+52: {
+53: 
+54:   /**NOTE: stdout is macro defined in stdio.h, but if it isn't include, it is able to use locally.*/
+55:   OS_HandleFile stdout = os_getStdOut();
+56:   
+57:   char const* sOutText = "Test Text to console\n";
+58:   int nrofBytesWritten = os_fwrite(stdout, sOutText, strlen_Fwc(sOutText, 100));
+59: 
+60: }
+61: 
+62: 
+63: void testReadLine()
+64: {
+65:   char sbuffer[50];  //small buffer for line number
+66:   int ibuffer;      //current number of chars in buffer
+67:   ReadLine_Fwc* fin = (ReadLine_Fwc*)os_allocMem(sizeof(ReadLine_Fwc));  //use malloc because it may be too much in stack.
+68:   bool bOk = open_ReadLine_Fwc(fin, "src/File_TestLibOsalFwc.c");
+69:   OS_HandleFile fout = os_fopenToWrite("testOut.txt", false);
+70:   char const* sLine;
+71:   int lineNumber = 1;
+72:   while(bOk && (sLine = readLine_ReadLine_Fwc(fin))!=null){
+73:     //prepare the line number. We havn't a printf at osal level.
+74:     ibuffer = format_Formatter_FW(null, "%d: ", 4, sbuffer, sizeof(sbuffer), "I", lineNumber);
+75:     os_fwrite(fout, sbuffer, ibuffer);
+76:     //write the read line:
+77:     os_fwrite(fout, sLine, strlen_Fwc(sLine, 1000));
+78:     os_fwrite(fout, "\n", 1);
+79:     //
+80:     lineNumber +=1;
+81:   }
+82:   os_fclose(fout);
+83: }
+84:   
+85: 
+86: 
+87: void testFile()
+88: {
+89:   testOutConsole();
+90:   testReadLine();
+91: }
+92: 
+93: 
+94: 
+95: 

@@ -42,7 +42,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x407 /d "NDEBUG"
 # ADD RSC /l 0x407 /d "NDEBUG"
@@ -420,6 +420,42 @@ SOURCE=..\..\..\source\Fwc\Reflection_Fwc.c
 # Begin Source File
 
 SOURCE=..\..\..\source\OSAL\Reflection_OSAL.c
+# End Source File
+# End Group
+# Begin Group "Inspc"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\AnswerComm_ifc_Inspc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\ClassContent_Inspc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\CmdConsumer_ifc_Inspc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\CmdExecuter_Inspc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\Comm_Inspc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\InspcDataExchangeAccess_Inspc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\Inspector_Inspc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\InspcJ2c\SearchElement_Inspc.c
 # End Source File
 # End Group
 # End Group
