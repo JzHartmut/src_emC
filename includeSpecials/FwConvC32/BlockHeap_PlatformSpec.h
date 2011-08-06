@@ -130,7 +130,7 @@ struct StringBufferJc_t;
      
 
 #include <Fwc/fw_Exception.h>
-#include <Blockheap/BlockHeapJc.h>
+#include <BlockHeap/BlockHeapJc.h>
 
 
 #endif //__ObjectRefJc__h

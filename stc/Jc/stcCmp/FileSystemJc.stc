@@ -7,6 +7,7 @@ class FileSystem; nameC=FileSystemJc; argIdent=Fs; extends java/lang/Object //cr
 fieldIdents {
 }
   methods {  
+    readBinFile-_$, mode= static: org/vishia/bridgeC/MemC $.. return(java/io/File *.. file,org/vishia/bridgeC/MemC $.. buffer);
     writeBinFile-_$, mode= static: int %.. return(java/io/File *.. file,byte X%. buffer);
   }
 

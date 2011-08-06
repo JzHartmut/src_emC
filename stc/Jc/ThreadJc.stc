@@ -5,8 +5,8 @@ package java/lang/;
 class Thread; nameC=ThreadJc_s; argIdent=Thread; extends java/lang/Object implements java/lang/Runnable
 
 
-{  
-  methods {  
+{
+  methods {
 
         ctorO-_$, mode=static  : field:{ Thread *.. return;};
         ctorO+_z-_$, mode=static  : Thread *.. return(s0 t.. name);
@@ -16,11 +16,12 @@ class Thread; nameC=ThreadJc_s; argIdent=Thread; extends java/lang/Object implem
         ctorO+_Runnable_z-_$, mode=static  : field:{ Thread *.. return;}(field:{ java.lang.Runnable *.. param;}, field:{ s0 %.. param;});
         ctorO+_z-_$, mode=static  : field:{ Thread *.. return;}( field:{ s0 *.. param;});
         start-_$ : field:{ void %.. return;};
+        getName-_$: java.lang.String %..return();
         run-_$, defined: java.lang.Runnable, mode: overrideable : field:{ void %.. return;};
         sleep-_$, mode: static : field:{ void %.. return;}(field:{ int %.. parem;});
   }
  // methods-overrideable {
  //   run_RunnableJc;
  // }
-  
+
 }

@@ -21,7 +21,7 @@ struct SearchTrc_SearchElement_Inspc_t;
 
 
 /* J2C: includes *********************************************************/
-#include "Jc\ReflMemAccessJc.h"  //embedded type in class data
+#include "Jc/ReflMemAccessJc.h"  //embedded type in class data
 
 
 /*@CLASS_C SearchTrc_SearchElement_Inspc @@@@@@@@@@@@@@@@@@@@@@@@*/

@@ -36,7 +36,7 @@
 #include "Ipc/InterProcessCommSocket.h"
 
 #include "Fwc/fw_basic.h"
-#include "Fwc/fw_simpleC.h"
+#include "Fwc/fw_SimpleC.h"
 #include "Fwc/fw_MemC.h"
 #include <Jc/ObjectJc.h>
 #include <os_endian.h>
@@ -473,7 +473,7 @@ int open_InterProcessCommSocket
 
   ythis->adrDest = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,destAddress);
 
-  #if 0 //enthalten in os_socket.h für windows
+  #if 0 //enthalten in os_socket.h fï¿½r windows
   if(!bStartupDone)
   { WSADATA wsa;
     int nError = WSAStartup(0x0002, &wsa);
@@ -1017,7 +1017,7 @@ Address_InterProcessComm_s* ctor_Address_InterProcessComm_Socket_s(MemC mem, int
         //pAddress= new Address_InterProcessComm_Socket_s(sProtocol, sIpAdr, nPort);
       }
       else
-      { printf("ungültige Addresse %s\n", sAdress);
+      { printf("ungï¿½ltige Addresse %s\n", sAdress);
       }
     }
   }

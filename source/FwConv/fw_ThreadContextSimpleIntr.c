@@ -20,15 +20,15 @@
 int currentThread = 0;
 
 /**There may be only 3 interrupt routines and the back loop.*/
-OS_ValuePtr treadContextsOfTheInterruptLevels[4];
+OS_PtrValue treadContextsOfTheInterruptLevels[4];
 
 
-METHOD_C OS_ValuePtr os_getCurrentUserThreadContext()
+METHOD_C OS_PtrValue os_getCurrentUserThreadContext()
 {
   return treadContextsOfTheInterruptLevels[currentThread];
 }
 
-METHOD_C int os_setCurrentUserThreadContext(OS_ValuePtr mem)
+METHOD_C int os_setCurrentUserThreadContext(OS_PtrValue mem)
 {
   treadContextsOfTheInterruptLevels[currentThread] = mem;
   return 0;

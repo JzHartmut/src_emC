@@ -14,6 +14,7 @@ fieldIdents {
     ctorO+_z-_$, mode= static: java/lang/Thread *.. return(s0 *.. param);
     ctorO+_Runnable_s-_$, mode= static: java/lang/Thread *.. return(java/lang/Runnable *.. param,java/lang/String t.. param);
     ctorO+_Runnable_z-_$, mode= static: java/lang/Thread *.. return(java/lang/Runnable *.. param,s0 %.. param);
+    getName-_$: java/lang/String %.. return();
     run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.. return();
     sleep-_$, mode= static: void %.. return(int %.. parem);
     start-_$: void %.. return();
