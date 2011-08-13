@@ -81,16 +81,24 @@ C_TYPE typedef struct  FieldJc_t
   /**Size of the field or size of 1 element if it is an static array. */
   //int16 sizeElement;
 
-  /**Nr of elements of an static array or the bit positions of a bitfield*/
-  int16 nrofArrayElementsOrBitfield_;
+  /**Nr of elements of an static array or the bit positions of a bitfield
+   * If is is a bit field
+   */
+  u_int16_t nrofArrayElementsOrBitfield_;
 
 	/**If the element nrofArrayElementsOrBitfield designates the bits of a bitfield,
-	 * this bits represent the bit Position in the field.
+	 * this bits represent the bit Position in the field. 
+   * It is a number between 0 and 31 for 32-bit-width bit fields or between 0 and upto 4095
+   * for upto 128 int32_t-variables one after another which are all bitfields.
+   * Note that an address calculation in C cannot be done for bitfield variables.
+   * Therefore the last variable before bitfield determines the offset of the bitfield
+   * and all bitfield variables one after another uses this address. Therefore the bit position
+   * should be a more great number.
 	 */
 	#define mBitInBitfield_FieldJc 0x0fff
 	
 	/**If the element nrofArrayElementsOrBitfield designates the bits of a bitfield,
-	 * this bits represent the number of bits of the field.
+	 * this bits represent the number of bits of the field. Value from 1 to 15, or 0 for a 16-bit-biftield.
 	 */
 	#define mNrofBitsInBitfield_FieldJc 0xf000
 
