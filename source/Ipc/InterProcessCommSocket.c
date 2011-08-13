@@ -473,7 +473,7 @@ int open_InterProcessCommSocket
 
   ythis->adrDest = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,destAddress);
 
-  #if 0 //enthalten in os_socket.h f�r windows
+  #if 0 //enthalten in os_socket.h for windows
   if(!bStartupDone)
   { WSADATA wsa;
     int nError = WSAStartup(0x0002, &wsa);
