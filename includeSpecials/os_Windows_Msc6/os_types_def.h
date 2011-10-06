@@ -52,7 +52,7 @@
 #pragma warning(disable:4514) //unreferenced inline function has been removed
 #pragma warning(disable:4512) //assignment operator could not be generated
 #pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4127) //
+#pragma warning(disable:4068) //unknown pragma
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
@@ -118,6 +118,15 @@ typedef __int64              int64_t;
 typedef __int64              uint64_t;
 #define bool8_t char
 #define bool16_t int16_t
+
+
+/**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
+typedef struct int64_hilo_t{ int32_t lo; int32_t hi; } int64_hilo;
+
+/**Union of int64 and its fractions. */
+typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
+
+
 
 /**All types with fix byte-wide should be defined in a platform-valid form. */
 typedef unsigned char        uint8;
@@ -220,6 +229,12 @@ extern OS_PtrValue null_OS_PtrValue;
 #define setValue_OS_PtrValue(THIS, INT) { (THIS).value__ = (INT); }
 
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ptr__ = (char*)(PTR); }
+
+/**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
+#define INLINE_Fwc inline
+//#define INLINE_Fwc static
+
+
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of value__
  * It have to be a mask with set bits on right side (all last significant bits).

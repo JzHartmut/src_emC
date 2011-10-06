@@ -177,7 +177,7 @@ SOURCE=..\..\lib\windows_VC98\simpleAllocJcD.lib
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\lib\windows_VC98\OSALJcD.lib
+SOURCE=..\..\lib\windows_VC98\OsalFwcD.lib
 # End Source File
 # End Group
 # End Target

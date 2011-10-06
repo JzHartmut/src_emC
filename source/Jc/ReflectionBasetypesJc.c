@@ -234,6 +234,92 @@ ClassJc const reflection_uint64 =
 
 
 
+extern_C const ClassJc reflection_int64_hilo;  //the just defined reflection_
+const struct Reflection_Fields_int64_hilo_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_int64_hilo =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int64_hilo)
+, {
+    { "lo"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , -1   //offset in extra file
+    , 0  //offsetToObjectifcBase
+    , &reflection_int64_hilo
+    }
+  , { "hi"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , -1   //offset in extra file
+    , 0  //offsetToObjectifcBase
+    , &reflection_int64_hilo
+    }
+} };
+
+
+const ClassJc reflection_int64_hilo =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_int64_hilo, &reflection_ClassJc)
+, "int64_hilo"
+, 0
+, sizeof(int64_hilo)
+, (FieldJcArray const*)&reflection_Fields_int64_hilo  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_int64_uhilo;  //the just defined reflection_
+extern_C const ClassJc reflection_int64_hilo;
+const struct Reflection_Fields_int64_uhilo_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_int64_uhilo =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int64_uhilo)
+, {
+    { "v"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int64
+    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , -1   //offset in extra file
+    , 0  //offsetToObjectifcBase
+    , &reflection_int64_uhilo
+    }
+  , { "hilo"
+    , 0   //no Array, no Bitfield
+    , &reflection_int64_hilo
+    , 0 //bitModifiers
+    , -1   //offset in extra file
+    , 0  //offsetToObjectifcBase
+    , &reflection_int64_uhilo
+    }
+} };
+
+
+const ClassJc reflection_int64_uhilo =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_int64_uhilo, &reflection_ClassJc)
+, "int64_uhilo"
+, 0
+, sizeof(int64_uhilo)
+, (FieldJcArray const*)&reflection_Fields_int64_uhilo  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+
+
+
   //extern struct ClassJc_t const reflection_int16;
 
 
