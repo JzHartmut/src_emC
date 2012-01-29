@@ -20,6 +20,7 @@ CFG=CRuntimeJavalike_baseJclib - Win32 Release
 !MESSAGE "CRuntimeJavalike_baseJclib - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "CRuntimeJavalike_baseJclib - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE "CRuntimeJavalike_baseJclib - Win32 DebugCpp" (based on "Win32 (x86) Static Library")
+!MESSAGE "CRuntimeJavalike_baseJclib - Win32 ReleaseCpp" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -42,7 +43,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows_Msc6" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows_Msc6" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FR /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x407 /d "NDEBUG"
 # ADD RSC /l 0x407 /d "NDEBUG"
@@ -100,6 +101,31 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"..\baseJcppD.lib"
 
+!ELSEIF  "$(CFG)" == "CRuntimeJavalike_baseJclib - Win32 ReleaseCpp"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "CRuntimeJavalike_baseJclib___Win32_ReleaseCpp"
+# PROP BASE Intermediate_Dir "CRuntimeJavalike_baseJclib___Win32_ReleaseCpp"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "CRuntimeJavalike_baseJclib___Win32_ReleaseCpp"
+# PROP Intermediate_Dir "CRuntimeJavalike_baseJclib___Win32_ReleaseCpp"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows_Msc6" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows_Msc6" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x407 /d "NDEBUG"
+# ADD RSC /l 0x407 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo /o"..\baseJc.bsc"
+# ADD BSC32 /nologo /o"..\baseJc.bsc"
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\baseJc.lib"
+# ADD LIB32 /nologo /out:"..\baseJc.lib"
+
 !ENDIF 
 
 # Begin Target
@@ -107,6 +133,7 @@ LIB32=link.exe -lib
 # Name "CRuntimeJavalike_baseJclib - Win32 Release"
 # Name "CRuntimeJavalike_baseJclib - Win32 Debug"
 # Name "CRuntimeJavalike_baseJclib - Win32 DebugCpp"
+# Name "CRuntimeJavalike_baseJclib - Win32 ReleaseCpp"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"

@@ -29,7 +29,8 @@
  * @version 0.92
  * @content Definition of access for network payload data.
  * list of changes:
- * 2009-11-24: JcHartmut created as new idea.
+ * 2011-11-08; Hartmut use notification int32_t instead int32 etc. It is the C99-standard. 
+ * 2009-11-24: Hartmut created as new idea.
  *
  ****************************************************************************/
 
@@ -61,15 +62,15 @@ extern_C_BLOCK_
 
 
   /**All big-endian-types are define as struct, don't access it immediately. */
-  typedef struct int64BigEndian_t { int32 hiBigEndian__; int32 loBigEndian__; }GNU_PACKED int64BigEndian;
+  typedef struct int64BigEndian_t { int32_t hiBigEndian__; int32_t loBigEndian__; }GNU_PACKED int64BigEndian;
 
-  typedef struct int32BigEndian_t { int32 loBigEndian__; }GNU_PACKED  int32BigEndian;
+  typedef struct int32BigEndian_t { int32_t loBigEndian__; }GNU_PACKED  int32BigEndian;
 
-  typedef struct int16BigEndian_t { int16 loBigEndian__; }GNU_PACKED  int16BigEndian;
+  typedef struct int16BigEndian_t { int16_t loBigEndian__; }GNU_PACKED  int16BigEndian;
 
-  typedef struct floatBigEndian_t { int32 floatBigEndian__; }GNU_PACKED  floatBigEndian;
+  typedef struct floatBigEndian_t { int32_t floatBigEndian__; }GNU_PACKED  floatBigEndian;
 
-  typedef struct doubleBigEndian_t { int32 hiBigEndian__; int32 loBigEndian__; }GNU_PACKED  doubleBigEndian;
+  typedef struct doubleBigEndian_t { int32_t hiBigEndian__; int32_t loBigEndian__; }GNU_PACKED  doubleBigEndian;
 
   typedef struct ptrBigEndian_t { void* ptrBigEndian__; }GNU_PACKED  ptrBigEndian;
 
@@ -87,11 +88,11 @@ extern_C_BLOCK_
    */
 
   /**Use methods, because only 1 access to the memory should be done. */
-  int64 getInt64BigEndian(int64BigEndian* addr);
+  int64_t getInt64BigEndian(int64BigEndian* addr);
   
-  int32 getInt32BigEndian(int32BigEndian* addr);
+  int32_t getInt32BigEndian(int32BigEndian* addr);
   
-  int16 getInt16BigEndian(int16BigEndian* addr);
+  int16_t getInt16BigEndian(int16BigEndian* addr);
 
   float getFloatBigEndian(floatBigEndian* addr);
 
@@ -99,11 +100,11 @@ extern_C_BLOCK_
 
   void* getPtrBigEndian(ptrBigEndian* addr);
 
-  int64 setInt64BigEndian(int64BigEndian* addr, int64 value);
+  int64_t setInt64BigEndian(int64BigEndian* addr, int64_t value);
 
-  int32 setInt32BigEndian(int32BigEndian* addr, int32 value);
+  int32_t setInt32BigEndian(int32BigEndian* addr, int32_t value);
 
-  int16 setInt16BigEndian(int16BigEndian* addr, int16 value);
+  int16_t setInt16BigEndian(int16BigEndian* addr, int16_t value);
 
   float setFloatBigEndian(floatBigEndian* addr, float value);
 

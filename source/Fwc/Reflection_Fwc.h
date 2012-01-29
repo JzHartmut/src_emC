@@ -22,6 +22,10 @@ extern_C const ClassJc reflection_ReadLine_Fwc;
 #define REFLECTION_ReadLine_Fwc &reflection_ReadLine_Fwc
 extern_C const ClassJc reflection_Int32Array256;
 #define REFLECTION_Int32Array256 &reflection_Int32Array256
+extern_C const ClassJc reflection_FloatArray256;
+#define REFLECTION_FloatArray256 &reflection_FloatArray256
+extern_C const ClassJc reflection_FloatArray20;
+#define REFLECTION_FloatArray20 &reflection_FloatArray20
 extern_C const ClassJc reflection_ThreadContextFW_s;
 #define REFLECTION_ThreadContextFW_s &reflection_ThreadContextFW_s
 extern_C const ClassJc reflection_TimeBytes_Fwc;

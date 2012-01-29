@@ -106,6 +106,37 @@ int searchChar_Fwc(char const* text, int maxNrofChars, char cc)
 
 
 
+/**Searches a String inside a given string with terminated length.
+ * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
+ */
+int searchString_Fwc(char const* text, int maxNrofChars, char const* ss, int zs)
+{ register char const* text1 = text;
+  register char const* text2 = text + zs;
+  register char const* text3 = text + 1;
+  register char const* s2 = ss +1;
+  register char const* text9 = text + maxNrofChars;
+  register char cc;
+  //optimization: test only one pointer register, which is incremented too
+  while( text3 <= text9 && text3 < text2){
+    cc = *ss;
+    while(text1 < text9 && *text1 != cc){ 
+		  text1+=1;
+	  }
+    text3 = text1 +1;
+    text2 = text1 + zs;
+    s2 = ss +1;
+    while(text3 < text2 && *text3 == *s2){
+      text3 +=1; 
+      s2 +=1;
+    }
+  }
+  if(text3 > text9) return -1;  //not found
+	else return (text1 - text);    //maybe 0 if the request char is on the first position.
+}
+
+
+
+
 int skipWhitespaces_Fwc(char const* text, int maxNrofChars)
 { register char const* text1 = text;
   register char const* text9 = text + maxNrofChars;

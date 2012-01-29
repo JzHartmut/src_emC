@@ -515,6 +515,72 @@ const ClassJc reflection_Int32Array256 =
 
 
 
+
+extern_C const ClassJc reflection_FloatArray256;  //the just defined reflection_
+const struct Reflection_Fields_FloatArray256_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_FloatArray256 =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FloatArray256)
+, {
+    { "data"
+    , 256   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((FloatArray256*)(0x1000))->data) -(int32)(FloatArray256*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FloatArray256
+    }
+} };
+
+
+const ClassJc reflection_FloatArray256 =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FloatArray256, &reflection_ClassJc)
+, "FloatArray256"
+, 0
+, sizeof(FloatArray256)
+, (FieldJcArray const*)&reflection_Fields_FloatArray256  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_FloatArray20;  //the just defined reflection_
+const struct Reflection_Fields_FloatArray20_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_FloatArray20 =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FloatArray20)
+, {
+    { "data"
+    , 20   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((FloatArray20*)(0x1000))->data) -(int32)(FloatArray20*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FloatArray20
+    }
+} };
+
+
+const ClassJc reflection_FloatArray20 =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FloatArray20, &reflection_ClassJc)
+, "FloatArray20"
+, 0
+, sizeof(FloatArray20)
+, (FieldJcArray const*)&reflection_Fields_FloatArray20  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
 #include "Fwc/fw_String.h"
 
 #include "Fwc/fw_ThreadContext.h"

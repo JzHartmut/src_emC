@@ -111,6 +111,34 @@ typedef struct Int32Array256_t
 
 
 
+/*@CLASS_C FloatArray256 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/** This structure is useable if raw data should be mapped, it may typical used as pointer type.
+  * The size of the array is a free choiced number, appropriate to show the data in debugger.
+*/
+typedef struct FloatArray256_t
+{ float data[256];
+}FloatArray256;
+
+
+
+
+
+
+/*@CLASS_C FloatArray20 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/** This structure is useable if raw data should be mapped, it may typical used as pointer type.
+  * The size of the array is a free choiced number, appropriate to show the data in debugger.
+*/
+typedef struct FloatArray20_t
+{ float data[20];
+}FloatArray20;
+
+
+
+
+
+
 /*@CLASS_C Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**Counts the number of chars till a \0-char. 
@@ -127,6 +155,11 @@ extern_C int strlen_Fwc(char const* text, int maxNrofChars);
  * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
  */
 extern_C int searchChar_Fwc(char const* text, int maxNrofChars, char cc);
+
+/**Searches a String inside a given string with terminated length.
+ * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
+ */
+extern_C int searchString_Fwc(char const* text, int maxNrofChars, char const* ss, int zs);
 
 /**Returns the number of chars which are whitespaces starting from text.
  * Whitespaces are all chars with code <=0x20. It are all control chars from the ASCII and the space. 

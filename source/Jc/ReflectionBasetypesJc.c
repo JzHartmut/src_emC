@@ -245,7 +245,7 @@ const struct Reflection_Fields_int64_hilo_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , -1   //offset in extra file
+    , (int16)(OFFSETinTYPE_MemUnit(int64_hilo, lo))
     , 0  //offsetToObjectifcBase
     , &reflection_int64_hilo
     }
@@ -253,7 +253,7 @@ const struct Reflection_Fields_int64_hilo_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , -1   //offset in extra file
+    , (int16)(OFFSETinTYPE_MemUnit(int64_hilo,hi))
     , 0  //offsetToObjectifcBase
     , &reflection_int64_hilo
     }
@@ -287,7 +287,7 @@ const struct Reflection_Fields_int64_uhilo_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int64
     , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , -1   //offset in extra file
+    , (int16)(OFFSETinTYPE_MemUnit(int64_uhilo,v))
     , 0  //offsetToObjectifcBase
     , &reflection_int64_uhilo
     }
@@ -295,7 +295,7 @@ const struct Reflection_Fields_int64_uhilo_t
     , 0   //no Array, no Bitfield
     , &reflection_int64_hilo
     , 0 //bitModifiers
-    , -1   //offset in extra file
+    , (int16)(OFFSETinTYPE_MemUnit(int64_uhilo,hilo))
     , 0  //offsetToObjectifcBase
     , &reflection_int64_uhilo
     }
