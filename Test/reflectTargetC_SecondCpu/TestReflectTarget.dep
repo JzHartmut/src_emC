@@ -1,0 +1,9 @@
+# Microsoft Developer Studio Generated Dependency File, included by TestReflectTarget.mak
+
+.\genRefl\ReflectionOffset_Dsp.c : \
+	".\src\ExampleData.h"\
+	
+
+.\src\TestSecondCpu.c : \
+	".\src\ExampleData.h"\
+	

@@ -1,0 +1,265 @@
+# Microsoft Developer Studio Generated Dependency File, included by TestReflectTargetLib.mak
+
+..\..\CRuntimeJavalike\source\InspcJ2c\AnswerComm_ifc_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\answercomm_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\ClassContent_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\answercomm_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\classcontent_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdconsumer_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspcdataexchangeaccess_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\searchelement_inspc.h"\
+	"..\..\cruntimejavalike\include\j1c\bytedataaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\fileiojc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\printstreamjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\include\jc\systemjc.h"\
+	"..\..\cruntimejavalike\include\osal\os_file.h"\
+	"..\..\cruntimejavalike\include\osal\os_time.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\CmdConsumer_ifc_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdconsumer_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\CmdExecuter_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\answercomm_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdconsumer_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdexecuter_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\comm_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspcdataexchangeaccess_inspc.h"\
+	"..\..\cruntimejavalike\include\ipc\interprocesscomm.h"\
+	"..\..\cruntimejavalike\include\j1c\bytedataaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\fileiojc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\printstreamjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\include\jc\systemjc.h"\
+	"..\..\cruntimejavalike\include\jc\threadjc.h"\
+	"..\..\cruntimejavalike\include\osal\os_file.h"\
+	"..\..\cruntimejavalike\include\osal\os_thread.h"\
+	"..\..\cruntimejavalike\include\osal\os_time.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\Comm_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\answercomm_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdexecuter_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\comm_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspcdataexchangeaccess_inspc.h"\
+	"..\..\cruntimejavalike\include\ipc\interprocesscomm.h"\
+	"..\..\cruntimejavalike\include\j1c\bytedataaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\fileiojc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\printstreamjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\include\jc\systemjc.h"\
+	"..\..\cruntimejavalike\include\jc\threadjc.h"\
+	"..\..\cruntimejavalike\include\osal\os_file.h"\
+	"..\..\cruntimejavalike\include\osal\os_thread.h"\
+	"..\..\cruntimejavalike\include\osal\os_time.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\InspcDataExchangeAccess_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspcdataexchangeaccess_inspc.h"\
+	"..\..\cruntimejavalike\include\j1c\bytedataaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\arraysjc.h"\
+	"..\..\cruntimejavalike\include\jc\comparatorjc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\Inspector_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\answercomm_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\classcontent_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdconsumer_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdexecuter_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\comm_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspcdataexchangeaccess_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspector_inspc.h"\
+	"..\..\cruntimejavalike\include\j1c\bytedataaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\include\jc\threadjc.h"\
+	"..\..\cruntimejavalike\include\osal\os_thread.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+.\genRefl\ReflectionOffset_Dsp.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	".\src\ExampleData.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\SearchElement_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\searchelement_inspc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
+
+.\src\TestReflectTarget.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\answercomm_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\classcontent_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdconsumer_ifc_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\cmdexecuter_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\comm_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspcdataexchangeaccess_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\inspector_inspc.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\workingthread_inspc.h"\
+	"..\..\cruntimejavalike\include\j1c\bytedataaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\include\jc\threadjc.h"\
+	"..\..\cruntimejavalike\include\osal\os_thread.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	".\src\ExampleData.h"\
+	".\src\TestReflectTarget.h"\
+	
+
+.\src\TestSecondCpu.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\osal\os_atomicaccess.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	".\src\ExampleData.h"\
+	
+
+..\..\CRuntimeJavalike\source\InspcJ2c\WorkingThread_Inspc.c : \
+	"..\..\cruntimejavalike\include\fwc\fw_exception.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_memc.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_simplec.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_string.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_threadcontext.h"\
+	"..\..\cruntimejavalike\include\fwc\fw_va_list.h"\
+	"..\..\cruntimejavalike\include\fwc\objectbasec.h"\
+	"..\..\cruntimejavalike\include\inspcj2c\workingthread_inspc.h"\
+	"..\..\cruntimejavalike\include\jc\mathjc.h"\
+	"..\..\cruntimejavalike\include\jc\objectjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflectionjc.h"\
+	"..\..\cruntimejavalike\include\jc\reflmemaccessjc.h"\
+	"..\..\cruntimejavalike\include\jc\stringjc.h"\
+	"..\..\cruntimejavalike\include\jc\threadjc.h"\
+	"..\..\cruntimejavalike\include\osal\os_thread.h"\
+	"..\..\cruntimejavalike\includespecials\fwconvc32\fw_platform_conventions.h"\
+	"..\..\cruntimejavalike\includespecials\os_windows\os_types_def.h"\
+	
