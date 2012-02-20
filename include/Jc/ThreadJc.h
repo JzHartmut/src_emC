@@ -161,7 +161,7 @@ void finalize_ThreadJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 METHOD_C ThreadJc_s* ctorO_Runnable_s_ThreadJc(ObjectJc* othis, RunnableJc_s* pRunnable,  StringJc pName, ThCxt* _thCxt);
 
-
+#define getName_ThreadJc(THIZ, THCXT) ((THIZ)->name)
 
 METHOD_C void setPriority_ThreadJc(ThreadJc_s* ythis, int newPriority);
 

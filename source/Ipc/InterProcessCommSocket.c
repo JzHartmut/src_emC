@@ -121,12 +121,10 @@ void xxxsetAddress2_Address_InterProcessComm_SocketF(Address_InterProcessComm_s*
 static void set_AddressIPC_OS_SOCKADDR(OS_SOCKADDR* dst, Address_InterProcessComm_s* src)
 {
   uint32 ip = src->address2;
-  //dst->sa_family = AF_INET;
+  setInt16BigEndian(&dst->sin_family, SO_IPNET);
   setInt16BigEndian(&dst->sin_port, (uint16)src->address1);
-  dst->ip.sin_addr[0] = (char)(ip >> 24);
-  dst->ip.sin_addr[1] = (char)(ip >> 16);
-  dst->ip.sin_addr[2] = (char)(ip >> 8);
-  dst->ip.sin_addr[3] = (char)(ip);
+  setInt32BigEndian(&dst->sin_addr.s_addr, ip);
+  dst->sin_zero[0] = dst->sin_zero[1] = 0;
 }
 
 
@@ -134,10 +132,7 @@ static void set_AddressIPC_OS_SOCKADDR(OS_SOCKADDR* dst, Address_InterProcessCom
 static void set_OS_SOCKADDR_AddressIPC(Address_InterProcessComm_s* dst, OS_SOCKADDR* src)
 {
   dst->address1 = getInt16BigEndian(&src->sin_port);
-  dst->address2 = ((((uint32)src->ip.sin_addr[0])<<24) & 0xff000000)
-                | ((((uint32)src->ip.sin_addr[1])<<16) & 0x00ff0000)
-                | ((((uint32)src->ip.sin_addr[2])<<8 ) & 0x0000ff00)
-                | ( ((uint32)src->ip.sin_addr[3])      & 0x000000ff); //NOTE: mask it because conversion from char to int32 produces 0xffffffvv
+  dst->address2 = getInt32BigEndian(&src->sin_addr.s_addr);
 }
 
 
@@ -176,11 +171,6 @@ Address_InterProcessComm_Socket_s* ctorM_zzi_Address_InterProcessComm_Socket_s(M
     int np4 = 0;
                                               //a    b      c     d
     sscanf(sIpAdr, " %d . %d . %d . %d ", &np1, &np2, &np3, &np4);
-
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[0] = (char)np1;
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[1] = (char)np2;
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[2] = (char)np3;
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[3] = (char)np4;
     ythis->address2 = (((uint32)np4)<<24) + (((uint32)np3)<<16) + (((uint32)np2)<<8) + np1;
 
   }

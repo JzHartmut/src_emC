@@ -44,7 +44,7 @@
 #include <stdio.h>
 #include <string.h> //memset
 
-int os_initFileDescription(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
+int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
 {
   int error = 0;
   ythis->flags = 0; 

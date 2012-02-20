@@ -33,7 +33,7 @@
  *          The socket communication is defined as a quasi-standard similar in most of the operation systems,
  *          but few differences prevent a compatible usage. Therefore a wrapper is nice to have.
  *          The implementation of this routines are the wrapper to the special operation system.
- * @version 0.93
+ * @version 1.00
  *
  ****************************************************************************/
 
@@ -43,6 +43,19 @@
 
 
 #include <os_endian.h>
+
+
+/**Version and history:
+ * * 2012-02-20 Hartmut chg: use const* for all references which doesn't change the referred data.
+ *   The implementations should be changed in that way. Recompile necessary.
+ * * 2012-02-10 Hartmut chg: OS_SOCKADDR now linux/BSD-compatible. The applications should be adjusted
+ *   because the names are changed to get compatibility with the linux/BSD-standard. Sorry that this decision
+ *   are not done in the past.
+ * * 2008-00-00 Hartmut improved
+ * * 2008 00-00 Marcos improved
+ * * 2005-00-00 Alfred created
+ */
+static int version = 0x20120220;
 
 extern_C_BLOCK_
 
@@ -92,15 +105,41 @@ typedef enum OS_SocketError_t
 
 
 /**This structure is a os-independent structure for the socket address. 
- * Internally the os-specific type is used in stack and the content is copied to it,
- * if this struct is not compatible with the os-socket-address-struct.
+ * It is compatible with the specification of sockaddr_in in Linux and some other operation systems.
+ * They follow the BSD convention. If the os-specific structure is compatible with this,
+ * the user-defined socket address can be used immediately internally.
+ * But if the os uses another, maybe fine different struct, nevertheless this type should use in the application.
+ * The implementation of the socket routines for the operation system copies the data of this struct
+ * in a stack-local temporary os-specific struct and back again. The application should not be used
+ * that os-specifics.
+ *
+ * Additionally it is regarded that any processor may be addressing only 32-bit-words. Some special processors (DSP)
+ * do so. In that case the same memory layout is produced, but the port and the family is joined to one field.
+ * Usual it is initialized with a constant only. That constant should be set to the proper value which contains
+ * the port and the family (port in lo bytes.).
+ *
+ * The structure uses the int32BigEndian definition to secure that only a big endian value is stored,
+ * see [[inc/os_endian.h]].
  */
-typedef struct _OS_SOCKADDR
-{ /**This value isn't use furthermore for IP-Sockets.*/  
-  int16 sa_family;   //SO_IPNET for all Ip-net-connections.
+typedef struct OS_SOCKADDR_t
+{
+  #ifdef OS_ONLY32Bit
+  /**For processors with only 32 bit addressing, combine 2 16 bits. The memory layout is compatible. */
+  int32BigEndian sin_port;
+  #else
+  /**This value isn't use furthermore for IP-Sockets.*/
+  int16BigEndian sin_family;   //SO_IPNET for all Ip-net-connections.
   int16BigEndian sin_port;
+  #endif
   /**The byte order should be non-changed. Changing of byte order in the implementation! This is not fact yet, only idea. */
-  union ip_t { int8  sin_addr[4]; int32BigEndian addr32; } ip;
+  union ip_t {
+  #ifndef OS_ONLY32Bit
+    int8  b_addr[4];
+  #endif
+    int32BigEndian s_addr; } sin_addr;
+  /**That are 8 fill bytes to regard compatibility to BSD and linux definition.
+   * This bytes should be initialized with 0 and it should be unused.*/
+  int32 sin_zero[2];
 } OS_SOCKADDR;
 
 
@@ -193,8 +232,8 @@ METHOD_C int os_setNonBlocking(OS_SOCKET so, bool bNonBlocking);
 
 /**Forces acception of connection via TCP. The request waits until the connection is established.
  * @param so Socket-Deskriptor.
- * @param dstAddr Rückgabe des Socket-Namens der verbundenen Einheit in einer Struktur vom 
- * @param soTcp Socket-Deskriptor für zustande gekommene Verbindung
+ * @param dstAddr Rï¿½ckgabe des Socket-Namens der verbundenen Einheit in einer Struktur vom 
+ * @param soTcp Socket-Deskriptor fï¿½r zustande gekommene Verbindung
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
 METHOD_C int os_accept(OS_SOCKET so, OS_SOCKADDR* dstAddr, OS_SOCKET* soTcp);
@@ -208,7 +247,7 @@ METHOD_C int os_accept(OS_SOCKET so, OS_SOCKADDR* dstAddr, OS_SOCKET* soTcp);
  *        then the port will be established on all available own IP-addresses. 
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_bind(OS_SOCKET so, OS_SOCKADDR* ownAddr);
+METHOD_C int os_bind(OS_SOCKET so, OS_SOCKADDR const* ownAddr);
 
 
 
@@ -226,7 +265,7 @@ METHOD_C int os_close(OS_SOCKET so);
  * @param dstAddr The requested port and address. 
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_connect(OS_SOCKET so, OS_SOCKADDR* dstAddr);
+METHOD_C int os_connect(OS_SOCKET so, OS_SOCKADDR const* dstAddr);
 
 
 METHOD_C int os_ioctlsocket(OS_SOCKET so, int request, void* arg, int arglen);

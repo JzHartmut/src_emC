@@ -620,7 +620,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
       while(ixAddrArgs < nrArg1){
         //get all arguments in the order of variable argument list till the requested nrArg1
         switch(cTypeArg){
-        case 'C': argValues[++ixAddrArgs].c = va_arg(vargList, char_va_list); break;
+        case 'C': argValues[++ixAddrArgs].c = (char)(va_arg(vargList, char_va_list)); break;
         case 'Z': argValues[++ixAddrArgs].i32 = va_arg(vargList, bool_va_list); break;
         case 'B': argValues[++ixAddrArgs].i32 = va_arg(vargList, int8_va_list); break;
         case 'S': argValues[++ixAddrArgs].i32 = va_arg(vargList, int16_va_list); break;

@@ -96,6 +96,15 @@ typedef long int             int64_t;
 #define bool8_t char
 #define bool16_t int16_t
 
+
+/**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
+typedef struct int64_hilo_t{ int32_t lo; int32_t hi; } int64_hilo;
+
+/**Union of int64 and its fractions. */
+typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
+
+
+
 /**All types with fix byte-wide should be defined in a platform-valid form. */
 typedef unsigned char        uint8;
 typedef unsigned short       uint16;
@@ -120,10 +129,10 @@ typedef long long              int64;
  * weil der GNU-Compiler bei variablen Argumenten die hier genannten Typen jeweils promoted.
  * Verwendung nur in va_arg(..,TYP)-Makro.
  */
-typedef char                 char_va_list;
-typedef bool                 bool_va_list;
-typedef signed char          int8_va_list;
-typedef short                int16_va_list;
+typedef int                 char_va_list;
+typedef int                 bool_va_list;
+typedef int          int8_va_list;
+typedef int                int16_va_list;
 //typedef float                float_va_list;
 typedef double                float_va_list;
 
@@ -196,6 +205,12 @@ extern OS_PtrValue null_OS_PtrValue;
 #define setValue_OS_PtrValue(THIS, INT) { (THIS).value__ = (INT); }
 
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ptr__ = (char*)(PTR); }
+
+/**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
+#define INLINE_Fwc inline
+//#define INLINE_Fwc static
+
+
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of value__
  * It have to be a mask with set bits on right side (all last significant bits).
