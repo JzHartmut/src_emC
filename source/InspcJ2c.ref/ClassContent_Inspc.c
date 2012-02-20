@@ -13,7 +13,7 @@
 #include "Jc/ReflectionJc.h"  //reference-association: ClassJc
 #include "Jc/StringJc.h"  //embedded type in class data
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
-#include "Jc\ReflMemAccessJc.h"  //embedded type in class data
+#include "Jc/ReflMemAccessJc.h"  //embedded type in class data
 
 
 /* J2C: Forward declaration of struct ***********************************************/

@@ -121,7 +121,7 @@ void xxxsetAddress2_Address_InterProcessComm_SocketF(Address_InterProcessComm_s*
 static void set_AddressIPC_OS_SOCKADDR(OS_SOCKADDR* dst, Address_InterProcessComm_s* src)
 {
   uint32 ip = src->address2;
-  setInt16BigEndian(&dst->sin_family, SO_IPNET);
+  dst->sin_family = SO_IPNET;
   setInt16BigEndian(&dst->sin_port, (uint16)src->address1);
   setInt32BigEndian(&dst->sin_addr.s_addr, ip);
   dst->sin_zero[0] = dst->sin_zero[1] = 0;
@@ -369,11 +369,11 @@ InterProcessComm_i* ctor_InterProcessCommSocket(InterProcessCommSocket_s* ythis,
   //put the informations in ownAddress as name of instance, for reports and debugging.
   memset(ythis->sName, 0, sizeof(ythis->sName));
   zName =sprintf (ythis->sName, "%d.%d.%d.%d:%d "
-                     , (ownAddress->address2 >> 24) & 0xff
-                     , (ownAddress->address2 >> 16) & 0xff
-                     , (ownAddress->address2 >> 8) & 0xff
-                     , (ownAddress->address2) & 0xff
-                     , (ownAddress->address1 )
+                     , (int)((ownAddress->address2 >> 24) & 0xff)
+                     , (int)((ownAddress->address2 >> 16) & 0xff)
+                     , (int)((ownAddress->address2 >> 8) & 0xff)
+                     , (int)((ownAddress->address2) & 0xff)
+                     , (int)((ownAddress->address1 ))
                      //, (uint)(((OS_SOCKADDR*)ownAddress->internalData)->ip.sin_addr[0]) & 0xff
                      //, (uint)(((OS_SOCKADDR*)ownAddress->internalData)->ip.sin_addr[1]) & 0xff
                      //, (uint)(((OS_SOCKADDR*)ownAddress->internalData)->ip.sin_addr[2]) & 0xff

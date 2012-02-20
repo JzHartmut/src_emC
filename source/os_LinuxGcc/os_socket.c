@@ -81,7 +81,7 @@ struct sockaddr_in6 {
 
 
 
-#define negativeSign (1<<((sizeof(int)*8)-1))
+#define negativeSign 0x80000000  //(1<<((sizeof(int)*8)-1))
 
 
 /*
@@ -172,7 +172,7 @@ int os_bind(OS_SOCKET so, OS_SOCKADDR const* addr)
 
   int ok = bind(so, ( struct sockaddr const*)addr, socklen);
   if(ok==-1){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 }
@@ -198,7 +198,7 @@ int os_close(OS_SOCKET so)
 {
   int ok = close(so);
   if(ok==-1){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 }
@@ -210,7 +210,7 @@ int os_connect(OS_SOCKET so, OS_SOCKADDR const* dstAddr)
 {
   int ok = connect( so, (struct sockaddr*) &dstAddr, sizeof(*dstAddr));
   if(ok==-1){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 }
@@ -223,7 +223,7 @@ int os_listen(OS_SOCKET so, int backlog)
 {
   int ok = listen( so, backlog);
   if(ok==-1){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 }
@@ -238,7 +238,7 @@ int os_recv(OS_SOCKET so, void* buffer, int len, int flags)
 {
   int ok = recv( so, (char*)buffer, len, flags);
   if(ok < 0){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 
@@ -253,7 +253,7 @@ int os_recvfrom(OS_SOCKET so, void* buffer, int len, int flags, OS_SOCKADDR* fro
   size_t lenAddr = sizeof(*from);
   int ok = recvfrom( so, (char*)buffer, len, flags, (struct sockaddr*) from, &lenAddr);
   if(ok < 0){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 }
@@ -266,7 +266,7 @@ int os_send(OS_SOCKET so, void const* buffer, int len, int flags)
 {
   int ok = send( so, (const char*)buffer, len, flags);
   if(ok < 0){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 }
@@ -280,7 +280,7 @@ int os_sendto(OS_SOCKET so, void const* buffer, int len, int flags, OS_SOCKADDR 
   size_t lenAddr = sizeof(*to);
   int ok = sendto( so, (const char*)buffer, len, flags, (struct sockaddr*) to, lenAddr);
   if(ok < 0){
-      ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+      ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
   }
   return ok;
 }
@@ -329,20 +329,21 @@ int os_shutdown (OS_SOCKET so, int how)
         }
         ok = shutdown( so, how );
         if(ok < 0){
-            ok |= errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
+            ok = errno | negativeSign;  //mark with negative sign! Keep the rest of hex-readable value.
         }
         return ok;
 }
 
 
 
-
+#include <asm-generic/errno.h>
 
 const char* os_translateSocketErrorMsg(int nError)
 {
   const char* sError;
   switch(nError & ~negativeSign)
   {
+    case EPROTONOSUPPORT: sError = "Protocol not supported"; break;
     case 0x7fffffff: sError = "Permission denied."; break;
     default: sError = "unknown socket error";
   } //switch

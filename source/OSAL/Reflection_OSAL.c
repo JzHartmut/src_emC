@@ -96,7 +96,6 @@ const ClassJc reflection_FileDescription_OSAL =
 
 
 extern_C const ClassJc reflection_FileLock_OSAL;  //the just defined reflection_
-extern_C const ClassJc reflection_OS_HandleFile_t;
 const struct Reflection_Fields_FileLock_OSAL_t
 { ObjectArrayJc head;
   FieldJc data[5];
@@ -105,7 +104,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
 , {
     { "hFile_"
     , 0   //no Array, no Bitfield
-    , REFLECTION_void
+    , REFLECTION_int
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->hFile_) -(int32)(FileLock_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -168,23 +167,15 @@ const ClassJc reflection_FileLock_OSAL =
 extern_C const ClassJc reflection_OS_SOCKADDR;  //the just defined reflection_
 const struct Reflection_Fields_OS_SOCKADDR_t
 { ObjectArrayJc head;
-  FieldJc data[2];
+  FieldJc data[1];
 } reflection_Fields_OS_SOCKADDR =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_OS_SOCKADDR)
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_OS_SOCKADDR)
 , {
-    { "sa_family"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKADDR*)(0x1000))->sa_family) -(int32)(OS_SOCKADDR*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_SOCKADDR
-    }
-  , { "sin_port"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKADDR*)(0x1000))->sin_port) -(int32)(OS_SOCKADDR*)0x1000)
+    { "sin_zero"
+    , 2   //nrofArrayElements
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((OS_SOCKADDR*)(0x1000))->sin_zero) -(int32)(OS_SOCKADDR*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_OS_SOCKADDR
     }

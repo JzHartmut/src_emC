@@ -55,7 +55,7 @@
  * * 2008 00-00 Marcos improved
  * * 2005-00-00 Alfred created
  */
-static int version = 0x20120220;
+#define version_os_socket_h 0x20120220;
 
 extern_C_BLOCK_
 
@@ -127,8 +127,12 @@ typedef struct OS_SOCKADDR_t
   /**For processors with only 32 bit addressing, combine 2 16 bits. The memory layout is compatible. */
   int32BigEndian sin_port;
   #else
-  /**This value isn't use furthermore for IP-Sockets.*/
-  int16BigEndian sin_family;   //SO_IPNET for all Ip-net-connections.
+  /**The length of the address. sometimes it isn't use by the network implementation
+   * because the length is given as extra parameter too.
+   */
+  //int8_t sin_len;
+  /**The family of protocoll, usual 2 = SO_IPNET, in socket.h AF_INET. */
+  int16_t sin_family;   //SO_IPNET for all Ip-net-connections.
   int16BigEndian sin_port;
   #endif
   /**The byte order should be non-changed. Changing of byte order in the implementation! This is not fact yet, only idea. */
@@ -139,7 +143,7 @@ typedef struct OS_SOCKADDR_t
     int32BigEndian s_addr; } sin_addr;
   /**That are 8 fill bytes to regard compatibility to BSD and linux definition.
    * This bytes should be initialized with 0 and it should be unused.*/
-  int32 sin_zero[2];
+  int32_t sin_zero[2];
 } OS_SOCKADDR;
 
 

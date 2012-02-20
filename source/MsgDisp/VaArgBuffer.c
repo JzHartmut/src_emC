@@ -109,7 +109,7 @@ void copyFrom_VaArgBuffer(VaArgBuffer* ythis, char const* formatText, Va_listFW 
         switch(*typeArgs)
         { case 'C': *((char_va_list*)dst) = va_arg(src_args, char_va_list); dst += sizeof(char_va_list); break; 
           case 'Z': *((bool_va_list*)dst) = va_arg(src_args, bool_va_list); dst += sizeof(bool_va_list); break; 
-          case 'B': *((int8_va_list*)dst) = va_arg(src_args, int8_va_list); dst += sizeof(int8_va_list); break; 
+          case 'B': *((int8_va_list*)dst) = va_arg(src_args, int8_va_list); dst += sizeof(int8_va_list); break;
           case 'S': *((int16_va_list*)dst) = va_arg(src_args, int16_va_list); dst += sizeof(int16_va_list); break; 
           case 'I': *((int32*)dst) = va_arg(src_args, int32); dst += sizeof(int32); break; 
           case 'J': *((int64*)dst) = va_arg(src_args, int64); dst += sizeof(int64); break; 
