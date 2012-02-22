@@ -91,14 +91,12 @@ int const sizeof_LogMessageStream_FW = sizeof(LogMessageStream_FW_s);
 METHOD_C LogMessageStream_FW_s* castO_LogMessageStream_FW(ObjectJc* zthis);
 
 
-extern ClassJc const reflection_LogMessageStream_FW;
-
+extern_C ClassJc const reflection_LogMessageStream_FW;
 
 
 //LogMessageStream_FW_s* 
 LogMessageFW_i* ctorO_LogMessageStream_FW(ObjectJc* othis, int outChn)
-{ extern ClassJc const reflection_LogMessageStream_FW;
-  LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)othis;
+{ LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)othis;
   STACKTRC_ENTRY("");
   checkConsistence_ObjectJc(othis, sizeof(LogMessageStream_FW_s), &reflection_LogMessageStream_FW, _thCxt);
   setReflection_ObjectJc(othis, &reflection_LogMessageStream_FW, 0);
@@ -276,7 +274,7 @@ Mtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
 };
 
 
-extern ClassJc const reflection_LogMessageFW_i;
+extern_C ClassJc const reflection_LogMessageFW_i;
 
 static struct interfaces_LogMessageStream_FW_t
 { /** Base data of every array */

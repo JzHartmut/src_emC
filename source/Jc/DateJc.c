@@ -43,7 +43,7 @@
 #include "os_time.h"
 #include <Fwc/fw_timeconversions.h>
 
-extern struct ClassJc_t const reflection_DateJc_s;
+extern_C struct ClassJc_t const reflection_DateJc_s;
 
 METHOD_C void normalize_DateJc(DateJc_s* ythis)
 { if( ythis->val.time_nsec > 999999999L)
@@ -192,7 +192,7 @@ METHOD_C void setTimeNanoseconds_DateJc(DateJc_s* ythis, int32 seconds, int32 na
 
 
 
-extern struct ClassJc_t const reflection_SimpleDateFormatJc_s;
+extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
 
 SimpleDateFormatJc_s* ctorO_SimpleDateFormatJc(ObjectJc* othis, ThCxt* _thCxt)
 {
@@ -258,7 +258,7 @@ StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp tim
 }
 
 
-extern struct ClassJc_t const reflection_TextFieldPositionJc_s;
+extern_C struct ClassJc_t const reflection_TextFieldPositionJc_s;
 
 TextFieldPositionJc_s* ctorO_TextFieldPositionJc(ObjectJc* othis, int field, ThCxt* _thCxt)
 {

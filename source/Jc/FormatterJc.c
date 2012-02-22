@@ -38,8 +38,8 @@
 #include <Jc/StringBufferJc.h>
 #include <Fwc/fw_Va_list.h> 
 
-extern ClassJc const reflection_FormatterJc_s;
-extern ClassJc const reflection_StringBufferJc;
+extern_C ClassJc const reflection_FormatterJc_s;
+extern_C ClassJc const reflection_StringBufferJc;
 
 FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContextFW_t* _thCxt)
 {

@@ -72,11 +72,13 @@ LinkedListJc* ctor_LinkedListJc(MemC mem)
 
 }
 
+extern_C ClassJc const reflection_LinkedListJc;
+
+
 LinkedListJc* ctorO_LinkedListJc(ObjectJc* othis)
 { 
   LinkedListJc* ythis = (LinkedListJc*)othis;  //upcasting to the real class.
   int sizeObj = getSizeInfo_ObjectJc(othis);
-  extern ClassJc const reflection_LinkedListJc;
   STACKTRC_ENTRY("ctorO_LinkedListJc");
   setReflection_ObjectJc(othis, &reflection_LinkedListJc, sizeof(LinkedListJc));  
   checkConsistence_ObjectJc(othis, sizeof(LinkedListJc), &reflection_LinkedListJc, _thCxt);  
@@ -408,11 +410,11 @@ METHOD_C void shareEntryPool_LinkedListJc(LinkedListJc* ythis, LinkedListJc* src
 }
 
 
-
+extern_C ClassJc const reflection_ListItr_LinkedListJc;
+  
 
 ListItr_LinkedListJc* ctorO_ListItr_LinkedListJc(struct LinkedListJc_t* outer, ObjectJc* othis, ThCxt* _thCxt)
-{ extern ClassJc const reflection_ListItr_LinkedListJc;
-  ListItr_LinkedListJc* ythis = (ListItr_LinkedListJc*)othis;
+{ ListItr_LinkedListJc* ythis = (ListItr_LinkedListJc*)othis;
   STACKTRC_TENTRY("ctorO_ListItr_LinkedListJc");
   ctorc_ObjectJc(othis);
   checkConsistence_ObjectJc(othis, sizeof(ListItr_LinkedListJc), &reflection_ListItr_LinkedListJc, _thCxt);

@@ -38,7 +38,7 @@
 #include "Jc/ReflectionJc.h"
 #include "string.h" //memset
 #include "os_file.h"
-extern ClassJc const reflection_FileWriterJc_s;
+extern_C ClassJc const reflection_FileWriterJc_s;
 
 /*@CLASS_C FileJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

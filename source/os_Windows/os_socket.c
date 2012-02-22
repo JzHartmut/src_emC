@@ -57,12 +57,12 @@
 
 static void Win_2_OS(SOCKADDR_IN const* sockaddr, OS_SOCKADDR* name)
 {
-   name->sa_family =   sockaddr->sin_family;
+   name->sin_family =   sockaddr->sin_family;
    name->sin_port =    *(int16BigEndian*)&sockaddr->sin_port;    /* internet port number NOTE: it is a int16BigEndian*/
-   name->ip.sin_addr[0] = sockaddr->sin_addr.S_un.S_un_b.s_b1;   /* internet address     */
-   name->ip.sin_addr[1] = sockaddr->sin_addr.S_un.S_un_b.s_b2;   /* internet address     */
-   name->ip.sin_addr[2] = sockaddr->sin_addr.S_un.S_un_b.s_b3;   /* internet address     */
-   name->ip.sin_addr[3] = sockaddr->sin_addr.S_un.S_un_b.s_b4;   /* internet address     */
+   name->sin_addr.b_addr[0] = sockaddr->sin_addr.S_un.S_un_b.s_b1;   /* internet address     */
+   name->sin_addr.b_addr[1] = sockaddr->sin_addr.S_un.S_un_b.s_b2;   /* internet address     */
+   name->sin_addr.b_addr[2] = sockaddr->sin_addr.S_un.S_un_b.s_b3;   /* internet address     */
+   name->sin_addr.b_addr[3] = sockaddr->sin_addr.S_un.S_un_b.s_b4;   /* internet address     */
 }
 
 
@@ -70,10 +70,10 @@ static void OS_2_Win(OS_SOCKADDR const* name, SOCKADDR_IN* sockaddr)
 {
     sockaddr->sin_family =                 AF_INET;
     sockaddr->sin_port =                   name->sin_port.loBigEndian__;  //NOTE it is a int16BigEndian but windows don't know this concept.
-    sockaddr->sin_addr.S_un.S_un_b.s_b1 =  name->ip.sin_addr[0];
-    sockaddr->sin_addr.S_un.S_un_b.s_b2 =  name->ip.sin_addr[1];
-    sockaddr->sin_addr.S_un.S_un_b.s_b3 =  name->ip.sin_addr[2];
-    sockaddr->sin_addr.S_un.S_un_b.s_b4 =  name->ip.sin_addr[3];
+    sockaddr->sin_addr.S_un.S_un_b.s_b1 =  name->sin_addr.b_addr[0];
+    sockaddr->sin_addr.S_un.S_un_b.s_b2 =  name->sin_addr.b_addr[1];
+    sockaddr->sin_addr.S_un.S_un_b.s_b3 =  name->sin_addr.b_addr[2];
+    sockaddr->sin_addr.S_un.S_un_b.s_b4 =  name->sin_addr.b_addr[3];
 }
 
 
@@ -158,7 +158,7 @@ int os_createIpSocket(OS_SOCKET * so)
 }
 
 
-int os_bind(OS_SOCKET so, OS_SOCKADDR* name)
+int os_bind(OS_SOCKET so, OS_SOCKADDR const* name)
 {
 	int iRetVal = 0;
 	SOCKADDR_IN socketaddr;
@@ -236,7 +236,7 @@ int os_close(OS_SOCKET so)
 
 
 
-int os_connect(OS_SOCKET so, OS_SOCKADDR* dstAddr)
+int os_connect(OS_SOCKET so, OS_SOCKADDR const* dstAddr)
 {
 
 	/* No wait loop implemented, that schuld be done in the app level! */
