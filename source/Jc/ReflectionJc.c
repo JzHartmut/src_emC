@@ -37,6 +37,7 @@
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
+ * 2012-04-07 Hartmut new: nrofBytesScalarTypes_ClassJc[], reflection__char16Jc
  * 2010-07-10: Hartmut: Array access to second CPU
  * 2010-02-01: prevent exception on getDeclaredField_ClassJc, instead return null, regarding in searchObject_ClassJc. Reason: better to handle, problems with setjmp on some embedded processors.
  * 2009-12-00: Hartmut improved.
@@ -87,14 +88,14 @@ const ClassJc* simpleTypes[kREFLECTION_LastConstant] =
 , &reflection__floatJc          //0xc
 , &reflection__doubleJc         //0xd
 , &reflection__charJc           //0xe
-, &reflection__boolJc           //0x0f
+, &reflection__char16Jc         //0xf
 , &reflection_StringJc         //0x10
 , null  //0x11
 , null  //0x12
 , null  //0x13
 , null  //0x14
 , null  //0x15
-, null  //0x16
+, &reflection__boolJc           //0x16
 , &reflection_bitfieldJc      //0x17
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 , &reflection__ObjectifcBaseJcpp  //0x18
@@ -158,7 +159,16 @@ const ClassJc* simpleTypes[kREFLECTION_LastConstant] =
 , null  //0x4f
 };
 
-
+//see javaSrc_vishiaBase/org.vishia.reflect.Java2C.nrofBytesScalarTypes.
+const int nrofBytesScalarTypes_ClassJc[] =
+{ 0, 0, 8, 8, 4, 4, 2, 2, 1, 1, 4, 4
+    , 4, 8  //float, double
+    , 1, 2  //char8, char16
+    , 8     //StringJc?
+    , 0,0,0,0,0  //0x11..0x15
+    , 1     //boolean represented with 1 byte
+    , 4     //bitfield supplied with 4 bytes
+  }
 
 
 /**A maximum of 5 external CPUs are supported. */

@@ -32,6 +32,9 @@
  * @author Hartmut Schorrig
  * @version sf-0.83
  * list of changes:
+ * 2012-04-05 Hartmut new: os_getSeconds(): seconds are able to process with a
+ *   32-bit integer. They are supported in most of operation systems. It is the originally unix concept
+ *   for the timestamp. It should be available if measurements of seconds are enough and proper to use.
  * 2010-03-01 Hartmut corr: int32_t os_getClockCnt(void) instead int64, it is enaugh and applicate-able to all systems.
  * 2010-02-26 Hartmut new: class MinMaxTime_Fwc os-independt, but useable at lo level.
  * 2010-02-26 Hartmut corr: ctor with return value
@@ -49,28 +52,28 @@ extern_C_BLOCK_
 
 /* Strukturen */
 typedef struct OS_TimeStamp_t
-{   /**Sekunden, gez�hlt seit dem 1. Januar 0:00 Uhr des Jahres 1970.
+{   /**Sekunden, gez?hlt seit dem 1. Januar 0:00 Uhr des Jahres 1970.
    * Das Startjahr ist aus der UNIX-Tradition heraus 1970. Das gibt jedoch ein Problem beim Umlauf auf einen negativen Wert etwa in 2038 
    * und einen Gesamtumlauf etwa in 2106. Das Jahr 2038 wird heute bei einer Anlagenstandzeit von 30 Jahren aus heutiger Zeit geradeso erreicht.
-   * Es wird hier festgelegt, dass der Sekundenbezug immer auf 1970 orientiert ist, dabei aber eine Wiederholung bei Z�hlerumlauf stattfindet,
+   * Es wird hier festgelegt, dass der Sekundenbezug immer auf 1970 orientiert ist, dabei aber eine Wiederholung bei Z?hlerumlauf stattfindet,
    * Der absolute Zeitpunkt muss auf das aktuellen Zeitraum orientiert sein. Damit liegen negative Werte aus Sicht des Jahres 2038 betrachtet
    * nicht im Jahre 1902..1970, sondern eben 2038..2106. Damit ist diese Kennzeichnung zeitlos verwendbar. 
    *
-   * F�r eine Zeitdifferenzbildung ist der Wert vorzeichenbehaftet zu verwenden, daher ist er hier auch vorzeichenbehaftet definiert.
+   * F?r eine Zeitdifferenzbildung ist der Wert vorzeichenbehaftet zu verwenden, daher ist er hier auch vorzeichenbehaftet definiert.
    *
-   * Schaltsekunden z�hlen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
+   * Schaltsekunden z?hlen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
    *  @bytepos=4 
  */
   int32_t time_sec;
   
-  /**Zeit innerhalb einer Sekunde in Nanosekunden gez�hlt.
-   * Um schnelle Vorg�nge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde h�ufig nicht ausreichend. 
-   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen �ber weitere Entfernungen 
-   * von max. 100 ns erreicht werden, um Differenzstr�me zu vermeiden. 
-   * Die tats�chliche Aufl�sung der Zeit h�ngt von den Hardwaregegebenheiten ab.
+  /**Zeit innerhalb einer Sekunde in Nanosekunden gez?hlt.
+   * Um schnelle Vorg?nge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde h?ufig nicht ausreichend. 
+   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen ?ber weitere Entfernungen 
+   * von max. 100 ns erreicht werden, um Differenzstr?me zu vermeiden. 
+   * Die tats?chliche Aufl?sung der Zeit h?ngt von den Hardwaregegebenheiten ab.
    * *Bit 29..0: Nanosekunden
-   * *Bit 31: Wenn 1, dann stellt der Sekundenz�hler einen Wert dar, der die Schaltsekunden seit 1970 mitz�hlt.
-   * *Bit 31: Wenn 0, dann stellt der Sekundenz�hler die kalendarisch gez�hlten Sekunden nach 1970 dar.
+   * *Bit 31: Wenn 1, dann stellt der Sekundenz?hler einen Wert dar, der die Schaltsekunden seit 1970 mitz?hlt.
+   * *Bit 31: Wenn 0, dann stellt der Sekundenz?hler die kalendarisch gez?hlten Sekunden nach 1970 dar.
    *  @bytepos=0 
    */
   int32_t time_nsec;
@@ -81,7 +84,7 @@ typedef struct OS_TimeStamp_t
   /**If this bit is set, the TimeStamp is imprecise, it is in a phase of correction. */
   #define mCorrection_OS_TimeStamp 0x40000000
 
-  /**Wenn in seconds die Schaltsekunden mitgez�hlt sind (also keine lineare Abbildung 3600*24 Sekunden pro Tag),
+  /**Wenn in seconds die Schaltsekunden mitgez?hlt sind (also keine lineare Abbildung 3600*24 Sekunden pro Tag),
    * dann soll das folgenden Bit gesezt sein:
    */
   #define mLeapSeconds_OS_TimeStamp 0x80000000
@@ -149,6 +152,9 @@ OS_TimeStruct os_getDateTime(void);
  */
 int os_setDateTime(OS_TimeStruct const* pDateTime, int isOffset);
 
+
+/**Gets the seconds after a base year. */
+int32_t os_getSeconds(void);
 
 /**Gets a circular time information in milliseconds.
  * @return a relativ value, the value can be used only for differnces.

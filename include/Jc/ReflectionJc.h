@@ -36,6 +36,7 @@
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
+ * 2012-04-07 Hartmut new: nrofBytesScalarTypes_ClassJc[], reflection__char16Jc
  * 2010-02-07 Hartmut new: reflection_floatBigEndian
  * 2010-01-17: Hartmut corr: for C++. but FieldJcpp, ClassJcpp won't be supported as of now.
  * 2009-11-25: Hartmut:
@@ -874,8 +875,12 @@ typedef enum ScalarTypes_ClassJc_t
 }ScalarTypes_ClassJc;
 
 
-
-
+/**Array contains the number of byte which were used if the scalar types with designation 0..0x17
+ * are stored in a byte structure. 
+ * 
+ * see see javaSrc_vishiaBase/org.vishia.reflect.Java2C.nrofBytesScalarTypes.
+ */
+extern const int nrofBytesScalarTypes_ClassJc[];
 
 
 
@@ -1518,6 +1523,7 @@ extern_C const ClassJc reflection__booleanJc;
 extern_C const ClassJc reflection__floatJc;
 extern_C const ClassJc reflection__doubleJc;
 extern_C const ClassJc reflection__charJc;
+extern_C const ClassJc reflection__char16Jc;
 extern_C const ClassJc reflection_bitfieldJc;
 
 extern_C const ClassJc reflection_ObjectJc;

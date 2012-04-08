@@ -451,6 +451,20 @@ const ClassJc reflection__charJc =
 };
 
 
+const ClassJc reflection__char16Jc =
+{ CONST_ObjectJc(0, &reflection__char16Jc
+, null)
+, "char16"
+, 0 //Position of the data of this class itself, after some superclasses.
+, 2
+, null  //Attributes
+, null  //Methods
+, null  //superclass
+, null  //interfaces
+, mPrimitiv_Modifier_reflectJc
+};
+
+
 const ClassJc reflection__doubleJc =
 { CONST_ObjectJc(0, &reflection__doubleJc
 , null)
