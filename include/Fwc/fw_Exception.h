@@ -55,7 +55,7 @@ C_TYPE struct OS_HandleFile_t;
 
 /**Forward declaration of struct to prevent warnings. */
 struct ThreadContextFW_t;
-
+struct PrintStreamJc_t;
 
 /*@CLASS_C StacktraceElementJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 typedef struct StacktraceElementJc_t
@@ -135,6 +135,7 @@ typedef enum ExceptionIdentsJc_t
 , ident_IllegalArgumentExceptionJc =       0x00000100
 , ident_NumberFormatExceptionJc =          0x00000200
 , ident_IllegalFormatConversionExceptionJc=0x00000400  
+, ident_IllegalAccessExceptionJc =         0x00001000
 , ident_NoSuchElementExceptionJc =         0x00002000
 , ident_IllegalStateExceptionJc =          0x00004000
 , ident_ParseExceptionJc =                 0x00008000  //java.text.ParseException
@@ -168,6 +169,7 @@ typedef enum ExceptionMasksJc_t
 , mask_IllegalArgumentExceptionJc =       0x00001F00
 , mask_NumberFormatExceptionJc =          0x00000200
 , mask_IllegalFormatConversionExceptionJc=0x00000400
+, mask_IllegalAccessExceptionJc =         0x00001000
 , mask_NoSuchElementExceptionJc =         0x00002000
 , mask_IllegalStateExceptionJc =          0x00004000
 , mask_ParseExceptionJc =                 0x00008000
@@ -239,6 +241,8 @@ METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr);
 
 /**Javalike: prints the Stacktrace at output stream. */
 METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, struct ThreadContextFW_t* _thCxt);
+
+METHOD_C void printStackTrace_P_ExceptionJc(ExceptionJc* ythis, struct PrintStreamJc_t* out, struct ThreadContextFW_t* _thCxt);
 
 /**Javalike: prints the Stacktrace at output stream. 
  * @since 2011-02: The output stream handle is designated as OS_HandleFile.

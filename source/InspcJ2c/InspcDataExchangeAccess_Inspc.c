@@ -205,6 +205,7 @@ void setHead_Datagram_InspcDataExchangeAccess_Inspc(Datagram_InspcDataExchangeAc
   { 
     
     setInt16_ii_ByteDataAccessJc(& ((* (ythis)).base.super), knrofBytes_Datagram_InspcDataExchangeAccess_Inspc, sizeofHead_Datagram_InspcDataExchangeAccess_Inspc, _thCxt);
+    setInt16_ii_ByteDataAccessJc(& ((* (ythis)).base.super), knEntrant_Datagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
     setInt32_ii_ByteDataAccessJc(& ((* (ythis)).base.super), kseqnr_Datagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
     setInt16_ii_ByteDataAccessJc(& ((* (ythis)).base.super), kanswerNr_Datagram_InspcDataExchangeAccess_Inspc, 0x1, _thCxt);//int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);
     
@@ -450,15 +451,21 @@ int32 specifyLengthElementHead_Info_InspcDataExchangeAccess_Inspc(ByteDataAccess
   STACKTRC_LEAVE;
 }
 
+
+/**Sets the head data and sets the length of the ByteDataAccess-element.*/
 void setInfoHead_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_Inspc_s* ythis, int32 length, int32 cmd, int32 order, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setInfoHead_Info_InspcDataExchangeAccess_Inspc");
   
   { 
+    int32 lengthInfo; 
+    
     
     setInt16_ii_ByteDataAccessJc(& ((* (ythis)).base.super), 0, length, _thCxt);
     setInt16_ii_ByteDataAccessJc(& ((* (ythis)).base.super), 2, cmd, _thCxt);
-    setInt32_ii_ByteDataAccessJc(& ((* (ythis)).base.super), 4, order, _thCxt);
+    setInt32_ii_ByteDataAccessJc(& ((* (ythis)).base.super), kbyteOrder_Info_InspcDataExchangeAccess_Inspc, order, _thCxt);
+    lengthInfo = length >= sizeofHead_Info_InspcDataExchangeAccess_Inspc ? length : sizeofHead_Info_InspcDataExchangeAccess_Inspc;
+    setLengthElement_ByteDataAccessJc(& ((* (ythis)).base.super), lengthInfo, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -470,6 +477,7 @@ void setLength_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_I
   { 
     
     setInt16_ii_ByteDataAccessJc(& ((* (ythis)).base.super), 0, length, _thCxt);
+    setLengthElement_ByteDataAccessJc(& ((* (ythis)).base.super), length, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -511,6 +519,8 @@ int32 getLenInfo_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess
   STACKTRC_LEAVE;
 }
 
+
+/**Gets the order number of the info block*/
 int32 getOrder_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_Inspc_s* ythis, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getOrder_Info_InspcDataExchangeAccess_Inspc");
@@ -518,7 +528,7 @@ int32 getOrder_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_I
   { 
     
     { STACKTRC_LEAVE;
-      return getInt32_i_ByteDataAccessJc(& ((* (ythis)).base.super), 4, _thCxt);
+      return getInt32_i_ByteDataAccessJc(& ((* (ythis)).base.super), kbyteOrder_Info_InspcDataExchangeAccess_Inspc, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -583,6 +593,10 @@ const ClassJc reflection_Info_InspcDataExchangeAccess_Inspc_s =
 , 0    //modifiers
 , &mtblInfo_InspcDataExchangeAccess_Inspc.mtbl.head
 };
+
+/**Datagram from accessor to Target to set a value.
+It is a derived Info. (?)		
+*/
 
 
 const char sign_Mtbl_SetValue_InspcDataExchangeAccess_Inspc[] = "SetValue_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
@@ -743,6 +757,84 @@ double getDouble_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchan
     { STACKTRC_LEAVE;
       return getDouble_ByteDataAccessJc(& ((* (ythis)).base.super), 8, _thCxt);
     }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sets a byte value. */
+void setByte_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int8 value, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setByte_SetValue_InspcDataExchangeAccess_Inspc");
+  
+  { 
+    
+    _setLong_ByteDataAccessJc(& ((* (ythis)).base.super), 15, 1, value, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sets a byte value. */
+void setShort_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int16 value, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setShort_SetValue_InspcDataExchangeAccess_Inspc");
+  
+  { 
+    
+    _setLong_ByteDataAccessJc(& ((* (ythis)).base.super), 14, 2, value, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sets a byte value. */
+void setInt_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int32 value, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setInt_SetValue_InspcDataExchangeAccess_Inspc");
+  
+  { 
+    
+    _setLong_ByteDataAccessJc(& ((* (ythis)).base.super), 12, 4, value, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sets a byte value. */
+void setLong_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int64 value, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setLong_SetValue_InspcDataExchangeAccess_Inspc");
+  
+  { 
+    
+    _setLong_ByteDataAccessJc(& ((* (ythis)).base.super), 8, 8, value, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sets a byte value. */
+void setFloat_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, float value, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setFloat_SetValue_InspcDataExchangeAccess_Inspc");
+  
+  { 
+    
+    setFloat_if_ByteDataAccessJc(& ((* (ythis)).base.super), 8, value, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sets a byte value. */
+void setDouble_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, double value, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setDouble_SetValue_InspcDataExchangeAccess_Inspc");
+  
+  { 
+    
+    setDouble_ByteDataAccessJc(& ((* (ythis)).base.super), 8, value, _thCxt);
   }
   STACKTRC_LEAVE;
 }

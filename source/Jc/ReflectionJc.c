@@ -162,13 +162,13 @@ const ClassJc* simpleTypes[kREFLECTION_LastConstant] =
 //see javaSrc_vishiaBase/org.vishia.reflect.Java2C.nrofBytesScalarTypes.
 const int nrofBytesScalarTypes_ClassJc[] =
 { 0, 0, 8, 8, 4, 4, 2, 2, 1, 1, 4, 4
-    , 4, 8  //float, double
-    , 1, 2  //char8, char16
-    , 8     //StringJc?
-    , 0,0,0,0,0  //0x11..0x15
-    , 1     //boolean represented with 1 byte
-    , 4     //bitfield supplied with 4 bytes
-  }
+  , 4, 8  //float, double
+  , 1, 2  //char8, char16
+  , 8     //StringJc?
+  , 0,0,0,0,0  //0x11..0x15
+  , 1     //boolean represented with 1 byte
+  , 4     //bitfield supplied with 4 bytes
+};
 
 
 /**A maximum of 5 external CPUs are supported. */

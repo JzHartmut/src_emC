@@ -66,13 +66,33 @@ void start_Inspector_Inspc(Inspector_Inspc_s* ythis, struct ObjectJc_t* rootObj,
 }
 
 
+/**Shutdown the communication, close the thread*/
+void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* ythis, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("shutdown_Inspector_Inspc_F");
+  
+  { 
+    
+    shutdown_Comm_Inspc_F(& (ythis->comm), _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void shutdown_Inspector_Inspc(Inspector_Inspc_s* ythis, ThCxt* _thCxt)
+{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_Inspector_Inspc);
+  mtbl->shutdown(ythis, _thCxt);
+}
+
+
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_Inspector_Inspc mtblInspector_Inspc = {
 { { sign_Mtbl_Inspector_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , start_Inspector_Inspc_F //start
+, shutdown_Inspector_Inspc_F //shutdown
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }

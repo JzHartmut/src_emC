@@ -41,6 +41,12 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
+		indexOf+_s-_$: int %.. return(String t.. s);
+		indexOf+_z-_$: int %.. return(s0 t.. s);
+		indexOf+_sI-_$: int %.. return(String t.. s, int %.. pos);
+		indexOf+_zI-_$: int %.. return(s0 t.. s, int %.. pos);
+		substring+_I-_$: String t.. return(int %.. start);
+		substring-_$: String t.. return(int %.. start, int %.. end);
 		replace-_$,   mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}, field:{   String t.. param;} );                        
 		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
   }

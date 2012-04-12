@@ -65,7 +65,7 @@ typedef struct StringPartJc_t
 typedef struct StringPartJc_X_t { ObjectArrayJc head; StringPartJcREF data[50]; } StringPartJc_X;
 typedef struct StringPartJc_Y_t { ObjectArrayJc head; StringPartJc_s data[50]; } StringPartJc_Y;
 
- extern struct ClassJc_t const reflection_StringPartJc_s;
+ extern_C struct ClassJc_t const reflection_StringPartJc_s;
   
 
 
@@ -77,6 +77,7 @@ typedef struct StringPartJc_Y_t { ObjectArrayJc head; StringPartJc_s data[50]; }
 void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_StringPartJc 0x20110718  /*Version of this class.*/
 #define seekEnd_StringPartJc 1  /*Flag to force setting the start position after the seeking string*/
 #define mSeekBackward__StringPartJc 0x10  /*Flag bit to force seeking backward*/
 #define mSeekToLeft__StringPartJc 0x40  /*Flag bit to force seeking left from start (Backward)*/
@@ -105,6 +106,13 @@ typedef struct StringPartJc_t* MT_assign_S_StringPartJc(StringPartJc_s* ythis, S
 METHOD_C struct StringPartJc_t* assign_S_StringPartJc_F(StringPartJc_s* ythis, StringJc content, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* assign_S_StringPartJc(StringPartJc_s* ythis, StringJc content, ThCxt* _thCxt);
+
+/**Sets the content to the given string, forgets the old content.*/
+typedef struct StringPartJc_t* MT_assignReplaceEnv_StringPartJc(StringPartJc_s* ythis, struct StringBuilderJc_t* input, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringPartJc_t* assignReplaceEnv_StringPartJc_F(StringPartJc_s* ythis, struct StringBuilderJc_t* input, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringPartJc_t* assignReplaceEnv_StringPartJc(StringPartJc_s* ythis, struct StringBuilderJc_t* input, ThCxt* _thCxt);
 
 /**Sets the StringPart with the same String object as the given StringPart, forgets the old content.*/
 typedef struct StringPartJc_t* MT_assign_XX_StringPartJc(StringPartJc_s* ythis, struct StringPartJc_t* src, ThCxt* _thCxt);
@@ -365,7 +373,7 @@ METHOD_C int32 indexOfAnyCharOutsideQuotion_StringPartJc_F(StringPartJc_s* ythis
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 indexOfAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 
-/**Searches the end of a quotion string.*/
+/**Searches the end of a quoted string*/
 typedef int32 MT_indexEndOfQuotion_StringPartJc(StringPartJc_s* ythis, char cEndQuotion, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C int32 indexEndOfQuotion_StringPartJc_F(StringPartJc_s* ythis, char cEndQuotion, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
@@ -588,7 +596,14 @@ METHOD_C struct StringPartJc_t* scanInteger_StringPartJc_F(StringPartJc_s* ythis
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* scanInteger_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
-/**Scans an float expression*/
+/**Scans a float number*/
+typedef struct StringPartJc_t* MT_scanFloatNumber_b_StringPartJc(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringPartJc_t* scanFloatNumber_b_StringPartJc_F(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringPartJc_t* scanFloatNumber_b_StringPartJc(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt);
+
+/**Scans a float number*/
 typedef struct StringPartJc_t* MT_scanFloatNumber_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* scanFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
@@ -748,6 +763,13 @@ METHOD_C void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* ythis,
 /**Replaces up to 20 placeholder with a given content.*/
 METHOD_C StringJc replace_StringPartJc(/*static*/ StringJc src, StringJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
 
+/**Closes the work*/
+typedef void MT_close_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void close_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C void close_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -755,6 +777,7 @@ METHOD_C StringJc replace_StringPartJc(/*static*/ StringJc src, StringJc_Y* plac
 typedef struct Mtbl_StringPartJc_t
 { MtblHeadJc head;
   MT_assign_S_StringPartJc* assign_S;
+  MT_assignReplaceEnv_StringPartJc* assignReplaceEnv;
   MT_assign_XX_StringPartJc* assign_XX;
   MT_assignFromEnd_StringPartJc* assignFromEnd;
   MT_setIgnoreComment_b_StringPartJc* setIgnoreComment_b;
@@ -824,6 +847,7 @@ typedef struct Mtbl_StringPartJc_t
   MT_scanEntry_StringPartJc* scanEntry;
   MT_scanPositivInteger_StringPartJc* scanPositivInteger;
   MT_scanInteger_StringPartJc* scanInteger;
+  MT_scanFloatNumber_b_StringPartJc* scanFloatNumber_b;
   MT_scanFloatNumber_StringPartJc* scanFloatNumber;
   MT_scanHex_StringPartJc* scanHex;
   MT_scanHexOrDecimal_StringPartJc* scanHexOrDecimal;
@@ -846,6 +870,7 @@ typedef struct Mtbl_StringPartJc_t
   MT_getCurrentPart_i_StringPartJc* getCurrentPart_i;
   MT_debugString_StringPartJc* debugString;
   MT_throwIndexOutOfBoundsException_StringPartJc* throwIndexOutOfBoundsException;
+  MT_close_StringPartJc* close;
   Mtbl_ObjectJc ObjectJc;
 } Mtbl_StringPartJc;
 
@@ -858,9 +883,13 @@ class StringPartJc : private StringPartJc_s
 
   virtual StringPartJc& assignFromEnd(struct StringPartJc_t* src){ assignFromEnd_StringPartJc_F(this, src,  null/*_thCxt*/);  return *this; }
 
+  virtual StringPartJc& assignReplaceEnv(struct StringBuilderJc_t* input){ assignReplaceEnv_StringPartJc_F(this, input,  null/*_thCxt*/);  return *this; }
+
   virtual StringPartJc& assign(StringJcpp content){ assign_S_StringPartJc_F(this, content,  null/*_thCxt*/);  return *this; }
 
   virtual StringPartJc& assign(struct StringPartJc_t* src){ assign_XX_StringPartJc_F(this, src,  null/*_thCxt*/);  return *this; }
+
+  virtual void close(){ close_StringPartJc_F(this,  null/*_thCxt*/); }
 
   StringPartJc(StringJcpp content){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_S_StringPartJc(&this->base.object, content,  null/*_thCxt*/); }
 
@@ -979,6 +1008,8 @@ class StringPartJc : private StringPartJc_s
   virtual bool scanEntry(){  return scanEntry_StringPartJc_F(this,  null/*_thCxt*/); }
 
   virtual StringPartJc& scanFloatNumber(){ scanFloatNumber_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
+
+  virtual StringPartJc& scanFloatNumber(bool cleanBuffer){ scanFloatNumber_b_StringPartJc_F(this, cleanBuffer,  null/*_thCxt*/);  return *this; }
 
   virtual StringPartJc& scanHexOrDecimal(int32 maxNrofChars){ scanHexOrDecimal_StringPartJc_F(this, maxNrofChars,  null/*_thCxt*/);  return *this; }
 

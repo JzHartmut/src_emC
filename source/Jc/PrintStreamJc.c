@@ -108,3 +108,7 @@ void println_O_PrintStreamJc(PrintStreamJc* ythis, ObjectJc* text, ThCxt* _thCxt
   println_s_PrintStreamJc(ythis, ss, _thCxt);
 }
 
+void printStackTrace_P_ExceptionJc(ExceptionJc* ythis, struct PrintStreamJc_t* out, struct ThreadContextFW_t* _thCxt)
+{
+
+}

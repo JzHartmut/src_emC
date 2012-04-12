@@ -31,6 +31,8 @@
 #include <Jc/PrintStreamJc.h>
 
 PrintStreamJcREF out_SystemJc = NULL_REFJc; 
+
+PrintStreamJcREF err_SystemJc = NULL_REFJc; 
 //PrintStreamJc_s* out_SystemJc = null;
 
 

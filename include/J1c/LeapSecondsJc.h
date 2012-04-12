@@ -46,7 +46,7 @@ typedef struct LeapSecondsJc_t
 typedef struct LeapSecondsJc_X_t { ObjectArrayJc head; LeapSecondsJcREF data[50]; } LeapSecondsJc_X;
 typedef struct LeapSecondsJc_Y_t { ObjectArrayJc head; LeapSecondsJc_s data[50]; } LeapSecondsJc_Y;
 
- extern struct ClassJc_t const reflection_LeapSecondsJc_s;
+ extern_C struct ClassJc_t const reflection_LeapSecondsJc_s;
   
 
 

@@ -266,6 +266,29 @@ StringJc declarePersist_StringJc(StringJc ythis);
  */
 METHOD_C StringJc copyToThreadCxt_StringJc(StringJc src, struct ThreadContextFW_t* _thCxt);
 
+
+
+/**Gets a zero-terminated String from a given String. 
+ * This routine needs a buffer to copy the string. But if the given String is zero-terminated already,
+ * It is used without copying. In this case some calculation time will be saved.
+ * Only if the given String is not zero-termintated, the given part of string will be copied 
+ * and terminated with a 0-character. 
+ * If the length of the given String is greater then zBuffer-1, either an exception will be thrown 
+ * or the String will be truncated.
+ *  
+ * @param buffer any buffer, where the content of thiz may be copied to.
+ * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
+ * @param exceptionOnLessBuffer true then an exception is thrown if (zBuffer -1) is less then the length of thiz and thiz is not zero-terminated.
+ *   If the string refered with thiz is zero terminated, an exception is never thrown.
+ *   If false, then the string will be truncated. The parameter _thCtx may be null then.
+ * @return The pointer to the zero terminated String. Either it is the String referenced in thiz, or it is buffer. 
+ */
+METHOD_C char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContextFW_t* _thCxt);
+
+
+
+
+
 /* *****************************************************************************************
  * compare methods
  */
@@ -1176,6 +1199,7 @@ METHOD_C char* chars_StringBuilderJc(StringBuilderJc* ythis);
  */
 METHOD_C int copyToBuffer_StringBuilderJc(StringBuilderJc* ythis, char* buffer, int zBuffer);
 
+
 /**Set the truncate mode. In this mode on buffer overflow the text will be truncated, 
  * instead calling an exception. Use [[wasTruncated_StringBuilderJc()]] to check whether a truncate was occured.
  * @param bTruncate true than truncate without exception, false than cause an exception on buffer overflow.
@@ -1269,6 +1293,32 @@ METHOD_C void clear_StringBuilderJc(StringBuilderJc* ythis);
 METHOD_C int capacity_StringBuilderJc(StringBuilderJc* ythis);
 
 
+
+/**Returns a new string that is a substring of this string. 
+ * The substring begins at the specified beginIndex and extends to the character at index endIndex - 1.
+ * Thus the length of the substring is endIndex-beginIndex.
+ * @param startIndex the beginning index, inclusive.
+ * @param endIndex the ending index, exclusive. If -1, than the endIndex is the length of string, 
+ *        This is used to support the Java-form without parameter endIndex. Java causes an excpetion in this case.
+ * @throws IndexOutOfBoundsException - if the beginIndex is negative,
+ * or endIndex is larger than the length of this String object, or beginIndex is larger than endIndex.
+ * @javalike Lightly modified from Java, see [[sunJavadoc/java/lang/String#substring(int, int)]]
+ */
+//METHOD_C StringJc substring_StringBuilderJc(StringBuilderJc* thiz, int beginIndex, int endIndex, struct ThreadContextFW_t* _thCxt);
+#define substring_StringBuilderJc(THIZ, BEGIN, END, _THC) substring_StringJc(toString_StringBuilderJc(&(THIZ)->base.object, _THC), BEGIN, END, _THC)
+
+
+/**Returns a new string that is a substring of this string. 
+ * The substring begins at the specified beginIndex and extends to the length of the given String..
+ * @param BEGIN the beginning index, inclusive.
+ * @throws IndexOutOfBoundsException - if the beginIndex is negative,
+ * @javalike see [[sunJavadoc/java/lang/String#substring(int)]]
+ */
+#define substring_I_StringBuilderJc(THIZ, STR, BEGIN, _THC) substring_StringBuilderJc(THIZ, STR, BEGIN, -1, _THC)
+
+
+
+
 /**Searches the text within the buffer of the StringBuilder.
  * @param str text to search referenced with a StringJc
  * @param fromIndex start position to search.
@@ -1277,7 +1327,8 @@ METHOD_C int capacity_StringBuilderJc(StringBuilderJc* ythis);
  *         Return -1 if the ,,str,, is not contain in this.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#indexOf(java.lang.String, int)]].
  */
-METHOD_C int indexOf_I_StringBuilderJc(const StringBuilderJc* ythis, const StringJc str, int fromIndex, struct ThreadContextFW_t* _thCxt);
+//METHOD_C int indexOf_I_StringBuilderJc(const StringBuilderJc* ythis, const StringJc str, int fromIndex, struct ThreadContextFW_t* _thCxt);
+#define indexOf_I_StringBuilderJc(THIZ, STR, POS, _THC) indexOf_sI_StringJc(toStringNonPersist_StringBuilderJc(&(THIZ)->base.object, _THC), STR, POS)
 
 
 /**Searches the text within the buffer of the StringBuilder.
@@ -1288,6 +1339,48 @@ METHOD_C int indexOf_I_StringBuilderJc(const StringBuilderJc* ythis, const Strin
  * @javalike [[sunJavadoc/java/lang/StringBuilder#indexOf(java.lang.String)]].
  */
 #define indexOf_StringBuilderJc(YTHIS, str, _THC) indexOf_I_StringBuilderJc(YTHIS, str, 0, _THC)
+
+/**Searches the text within the buffer of the StringBuilder.
+ * @param STR text to search
+ * @return position of the first occurence counted from start of this String (first position is 0). 
+ *         The return value is alway ,,>= fromIndex,,, if the ,,str,, is contained in this.
+ *         Return -1 if the ,,str,, is not contain in this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#indexOf(java.lang.String, int)]].
+ */
+//#define indexOf_s_StringBuilderJc(YTHIS, STR, POS, _THC) indexOf_I_StringBuilderJc(YTHIS, STR, 0, _THC)
+#define indexOf_s_StringBuilderJc(THIZ, STR, _THC) indexOf_sI_StringJc(toStringNonPersist_StringBuilderJc(&(THIZ)->base.object, _THC), STR, 0)
+
+/**Searches the text within the buffer of the StringBuilder.
+ * @param STR text to search referenced with a 0-terminated C-string
+ * @return position of the first occurence counted from start of this String (first position is 0). 
+ *         The return value is alway ,,>= fromIndex,,, if the ,,str,, is contained in this.
+ *         Return -1 if the ,,str,, is not contain in this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#indexOf(java.lang.String, int)]].
+ */
+//#define indexOf_z_StringBuilderJc(YTHIS, STR, POS, _THC) indexOf_I_StringBuilderJc(YTHIS, s0_StringJc(STR), 0, _THC)
+#define indexOf_z_StringBuilderJc(THIZ, STR, _THC) indexOf_sI_StringJc(toStringNonPersist_StringBuilderJc(&(THIZ)->base.object, _THC), s0_StringJc(STR), 0)
+
+
+/**Searches the text within the buffer of the StringBuilder.
+ * @param STR text to search
+ * @param POS start search from this position.
+ * @return position of the first occurence counted from start of this String (first position is 0). 
+ *         The return value is alway ,,>= fromIndex,,, if the ,,str,, is contained in this.
+ *         Return -1 if the ,,str,, is not contain in this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#indexOf(java.lang.String, int)]].
+ */
+//#define indexOf_sI_StringBuilderJc(YTHIS, STR, POS, _THC) indexOf_I_StringBuilderJc(YTHIS, STR, POS, _THC)
+#define indexOf_sI_StringBuilderJc(THIZ, STR, POS, _THC) indexOf_sI_StringJc(toStringNonPersist_StringBuilderJc(&(THIZ)->base.object, _THC), STR, POS)
+
+/**Searches the text within the buffer of the StringBuilder.
+ * @param STR text to search referenced with a 0-terminated C-string
+ * @param POS start search from this position.
+ * @return position of the first occurence counted from start of this String (first position is 0). 
+ *         The return value is alway ,,>= fromIndex,,, if the ,,str,, is contained in this.
+ *         Return -1 if the ,,str,, is not contain in this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#indexOf(java.lang.String, int)]].
+ */
+#define indexOf_zI_StringBuilderJc(THIZ, STR, POS, _THC) indexOf_sI_StringJc(toStringNonPersist_StringBuilderJc(&(THIZ)->base.object, _THC), s0_StringJc(STR), POS)
 
 /**Returns the char at position idx.
  * @param index The index. It should be a positiv number and less than the length of the text.

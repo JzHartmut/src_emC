@@ -42,7 +42,7 @@ typedef struct SpecialCharStringsJc_t
 typedef struct SpecialCharStringsJc_X_t { ObjectArrayJc head; SpecialCharStringsJcREF data[50]; } SpecialCharStringsJc_X;
 typedef struct SpecialCharStringsJc_Y_t { ObjectArrayJc head; SpecialCharStringsJc_s data[50]; } SpecialCharStringsJc_Y;
 
- extern struct ClassJc_t const reflection_SpecialCharStringsJc_s;
+ extern_C struct ClassJc_t const reflection_SpecialCharStringsJc_s;
   
 
 

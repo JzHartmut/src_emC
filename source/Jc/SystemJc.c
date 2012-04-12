@@ -42,8 +42,10 @@
  *
  ****************************************************************************/
 #include "Jc/SystemJc.h"
+#include "Jc/StringJc.h"
 #include "Fwc/fw_ThreadContext.h"
 #include "Fwc/fw_Exception.h"
+#include <stdlib.h>  //getenv
 
 
 
@@ -116,4 +118,12 @@ int64 nanoTime_SystemJc(ThCxt* _thCxt)
 { return nanoPerClock_SystemJc * os_getClockCnt();
 }
 
+StringJc getenv_SystemJc(StringJc name, ThCxt* _thCxt)
+{
+  char buffer[24];
+  char const* name0 = gets0_StringJc(name, buffer, sizeof(buffer), false, _thCxt);
+
+  char const* value = getenv(name0);
+  return s0_StringJc(value);
+}
 

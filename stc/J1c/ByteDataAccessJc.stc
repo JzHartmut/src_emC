@@ -37,6 +37,7 @@ fieldIdents {
     addChildString+_tS-_$: void %.r null(java/lang/CharSequence t.r value,java/lang/String(instance=java/lang/String) t.. sEncoding);
     addChildString+_SSb-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. value,java/lang/String(instance=java/lang/String) t.. sEncoding,boolean %.. preventCtrlChars);
     addText-_$: int %.r null(java/lang/String(instance=java/lang/String) t.. ss);
+    assertNotExpandable-_$: boolean %.r null();
     assignAsChild-_$: void %.r null(org/vishia/byteData/ByteDataAccess *.. parent);
     assignAtIndex+_iXX-_$: void %.r null(int %.. idxChildInParent,org/vishia/byteData/ByteDataAccess *.. parent);
     assignAtIndex+_iiXX-_$: void %.r null(int %.. idxChildInParent,int %.. lengthChild,org/vishia/byteData/ByteDataAccess *.. parent);
@@ -93,6 +94,7 @@ fieldIdents {
     notifyAddChild-_$, mode= overrideable: void %.r null();
     removeChild-_$: void %.r null();
     removeChildren-_$: void %.r null();
+    reset-_$: void %.r null(int %.. lengthData);
     rewind-_$: void %.r null();
     setBigEndian-_$, mode= overrideable: void %.r null(boolean %.. val);
     setDouble-_$: void %.r null(int %.. idx,double %.. value);

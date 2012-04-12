@@ -11,6 +11,7 @@ class System; nameC=SystemJc; argIdent=Sys; extends java/lang/Object
 {  
   fieldIdents {
     field:{ java/io/PrintStream @.s out; }
+    field:{ java/io/PrintStream @.s err; }
   }
   
   methods {  
@@ -18,6 +19,7 @@ class System; nameC=SystemJc; argIdent=Sys; extends java/lang/Object
     arraycopy+_v-_$ , mode: static: void %.. return (ByteStringJc B.. src, int %.. posSrc, java/lang/Object *.. dest, int %.. posDest, int %.. posLength);
     gc-_$, mode: static:field{ void %.. return;};
     nanoTime-_$, mode: static:field{ long %.. return;};
+    getenv-_$, mode: static: String t..return(String t.. value);
   }
   
 }

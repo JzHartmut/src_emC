@@ -578,6 +578,8 @@ StringJc toString_String(StringJc* ythis)
 
 
 
+
+
 void set_StringJc(StringJc* ythis, StringJc src)
 { int valueSrc = value_OS_PtrValue(src);
   char const* sSrc = PTR_OS_PtrValue(src, char const);

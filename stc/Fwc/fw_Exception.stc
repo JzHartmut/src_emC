@@ -1,8 +1,17 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
-Structure of translated java-file "Jc/ExceptionJc"
+Structure of translated java-file "Fwc/fw_Exception"
 package java/lang/;
 
-class Exception; nameC=Exception; argIdent=Exc;{}
+class Exception; nameC=ExceptionJc; argIdent=Exc;
+{ methods {  
+    getMessage-_$: java.lang.String t.. return();
+
+    printStackTrace-_$: void %.. return();	
+    printStackTrace+_P-_$: void %.. return(java.io.PrintStream *.. out);	
+  }
+
+}
+
 class IOException; nameC=IOException; argIdent=Exc; extends Exception {}
 class FileNotFoundException; nameC=FileNotFoundException; argIdent=Exc; extends Exception {}
 class UnsupportedEncodingException; nameC=UnsupportedEncodingException; argIdent=Exc; extends Exception {}

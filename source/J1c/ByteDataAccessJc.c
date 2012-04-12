@@ -7,6 +7,7 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "Fwc/fw_Exception.h"  //reference-association: ExceptionJc
+#include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/SystemJc.h"  //reference-association: FloatJc
 
 
@@ -175,7 +176,7 @@ int32 specifyLengthElementHead_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt
 }
 
 
-/**Returns the actual length of the whole element presenting with this class.*/
+/**Returns the actual length of the whole data presenting with this instance.*/
 /*J2C: dynamic call variant of the override-able method: */
 int32 specifyLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt)
 { Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
@@ -242,18 +243,60 @@ void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data,
       
       { throw_s0Jc(ident_RuntimeExceptionJc, "idx have to be >=0", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     }
-    if(lengthData == 0) 
+    ythis->idxBegin = index;
+    if(REFJc(ythis->parent) != null && REFJc(REFJc(ythis->parent)->currentChild) == ythis) 
     { 
       
-      { throw_s0Jc(ident_RuntimeExceptionJc, "length ==0 is not accepted, it may be a argument mistake.", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      CLEAR_REFJc(REFJc(ythis->parent)->currentChild);//the child is invalid because it is new assigned.
+      
     }
-    ythis->bExpand = (lengthData <= 0);
-    ythis->idxBegin = index;
-    ythis->idxCurrentChild = -1;
-    ythis->idxFirstChild = ythis->idxCurrentChildEnd = /*? assignment*/index + mtthis->specifyLengthElementHead(ythis, _thCxt);//-1;         //no length of element is known, it means, no child is appended yet.
+    CLEAR_REFJc(ythis->parent);
+    reset_ByteDataAccessJc(ythis, lengthData, _thCxt);
+    mtthis->assignDataToFixChilds(ythis, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void assignData_iYii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
+  mtbl->assignData_iYii(ythis, data, lengthData, index, _thCxt);
+}
+
+
+/**Resets the view to the buffer*/
+void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthData, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtthis = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
+  
+  STACKTRC_TENTRY("reset_ByteDataAccessJc");
+  
+  { 
+    int32 lengthHeadSpecified; 
     
+    
+    lengthHeadSpecified = mtthis->specifyLengthElementHead(ythis, _thCxt);
+    if(lengthData <= 0) 
+    { 
+      
+      mtthis->specifyEmptyDefaultData(ythis, _thCxt);
+      ythis->bExpand = true;
+    }
+    else 
+    { 
+      
+      ythis->bExpand = lengthData <= 0;//expand if the data have no head.
+      
+    }
+    if(REFJc(ythis->currentChild) != null) 
+    { 
+      
+      detach_ByteDataAccessJc(REFJc(ythis->currentChild), _thCxt);
+      CLEAR_REFJc(ythis->currentChild);
+    }
+    ythis->idxCurrentChild = -1;
+    ythis->idxFirstChild = ythis->idxCurrentChildEnd = /*? assignment*/ythis->idxBegin + lengthHeadSpecified;
     ythis->idxEnd = ythis->bExpand ? ythis->idxFirstChild : lengthData;
-    if(ythis->idxEnd > data->head.length) 
+    if(ythis->idxEnd > ythis->data->head.length) 
     { 
        //J2C: temporary Stringbuffer for String concatenation
       StringBuilderJc* _tempString2_1=null; 
@@ -264,28 +307,13 @@ void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data,
         , append_z_StringBuilderJc(_tempString2_1, "not enough data bytes, requested=", _thCxt)
         , append_I_StringBuilderJc(_tempString2_1, ythis->idxEnd, _thCxt)
         , append_z_StringBuilderJc(_tempString2_1, ", buffer-length=", _thCxt)
-        , append_I_StringBuilderJc(_tempString2_1, data->head.length, _thCxt)
+        , append_I_StringBuilderJc(_tempString2_1, ythis->data->head.length, _thCxt)
         , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
         ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
     }
-    if(REFJc(ythis->parent) != null && REFJc(REFJc(ythis->parent)->currentChild) == ythis) 
-    { 
-      
-      CLEAR_REFJc(REFJc(ythis->parent)->currentChild);//the child is invalid because it is new assigned.
-      
-    }
-    CLEAR_REFJc(ythis->parent);
-    CLEAR_REFJc(ythis->currentChild);
-    mtthis->assignDataToFixChilds(ythis, _thCxt);
   }
   STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-void assignData_iYii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt)
-{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
-  mtbl->assignData_iYii(ythis, data, lengthData, index, _thCxt);
 }
 
 
@@ -661,6 +689,7 @@ void correctIdxChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxCur
       
       ythis->idxEnd = idxCurrentChildEndNew;
     }
+    ASSERT(/*static*/idxCurrentChildEndNew >= ythis->idxFirstChild);
     ythis->idxCurrentChildEnd = idxCurrentChildEndNew;
     if(REFJc(ythis->parent) != null) 
     { 
@@ -706,7 +735,7 @@ int64 getChildInteger_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 nrofByte
     
     
     setIdxtoNextCurrentChild_ByteDataAccessJc(ythis, _thCxt);
-    if(!setIdxCurrentChildEnd_ByteDataAccessJc(ythis, nrofBytes, _thCxt)) 
+    if(!setIdxCurrentChildEnd_ByteDataAccessJc(ythis, abs(/*static*/nrofBytes), _thCxt)) 
     { //:NOTE: to read from idxInChild = 0, build the difference as shown:
       
       int64 value; 
@@ -1237,7 +1266,7 @@ void setLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, in
 }
 
 
-/**Sets the length of the current element, considering all children.*/
+/**Sets the length of the element in this and all {@link #parent} of this.*/
 void setLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 length, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setLengthElement_ByteDataAccessJc");
@@ -2409,6 +2438,20 @@ void elementAt_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 indexObjectArra
         printStackTrace_ExceptionJc(e, _thCxt);
       }
     END_TRY
+  }
+  STACKTRC_LEAVE;
+}
+
+bool assertNotExpandable_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("assertNotExpandable_ByteDataAccessJc");
+  
+  { 
+    
+    ASSERT(/*static*/ythis->idxCurrentChild > 0 && ythis->idxEnd > 0 && !ythis->bExpand);
+    { STACKTRC_LEAVE;
+      return true;
+    }
   }
   STACKTRC_LEAVE;
 }

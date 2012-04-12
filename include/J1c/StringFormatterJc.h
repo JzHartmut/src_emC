@@ -62,7 +62,7 @@ typedef struct StringFormatterJc_t
 typedef struct StringFormatterJc_X_t { ObjectArrayJc head; StringFormatterJcREF data[50]; } StringFormatterJc_X;
 typedef struct StringFormatterJc_Y_t { ObjectArrayJc head; StringFormatterJc_s data[50]; } StringFormatterJc_Y;
 
- extern struct ClassJc_t const reflection_StringFormatterJc_s;
+ extern_C struct ClassJc_t const reflection_StringFormatterJc_s;
   
 
 

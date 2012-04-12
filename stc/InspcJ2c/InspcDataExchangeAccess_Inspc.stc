@@ -32,6 +32,7 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       //outer=2 ,super=1: int %.d kReferenceAddr;
       //outer=2 ,super=1: int %.d kScalarTypes;
       //outer=1 ,super=2: byte %.d kText;
+      //outer=2 ,super=1: int %.d kTypeNoValue;
       //outer=1 ,super=2: byte %.d kUndefined;
       int %.d kanswerNr;
       int %.d kencryption;
@@ -41,6 +42,7 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       //outer=2 ,super=1: int %.d maxNrOfChars;
       //outer=1 ,super=2: org/vishia/byteData/ByteDataAccess @.. parent;
       int %.d sizeofHead;
+      //outer=2 ,super=1: int %.d version;
     }
       methods {  
         ctorO-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.Datagram *.. Datagram_InspcDataExchangeAccess_Inspc_s();
@@ -89,8 +91,10 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       int %.d kAnswerFieldMethod;
       int %.d kAnswerRegisterRepeat;
       int %.d kAnswerValue;
+      int %.d kAnswerValueByIndex;
       //outer=1 ,super=2: byte %.d kEndOfElements;
       int %.d kFailedCommand;
+      int %.d kFailedPath;
       int %.d kFailedRegisterRepeat;
       int %.d kFailedValue;
       int %.d kGetAddressByPath;
@@ -99,6 +103,7 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       int %.d kGetValueByIndex;
       int %.d kGetValueByPath;
       //outer=1 ,super=2: int %.d kIdxElementCode;
+      int %.d kNoRessource;
       //outer=1 ,super=2: byte %.S kNothing;
       int %.d kReference;
       //outer=2 ,super=1: int %.d kReferenceAddr;
@@ -106,10 +111,13 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       //outer=2 ,super=1: int %.d kScalarTypes;
       int %.d kSetValueByPath;
       //outer=1 ,super=2: byte %.d kText;
+      //outer=2 ,super=1: int %.d kTypeNoValue;
       //outer=1 ,super=2: byte %.d kUndefined;
+      int %.d kbyteOrder;
       //outer=2 ,super=1: int %.d maxNrOfChars;
       //outer=1 ,super=2: org/vishia/byteData/ByteDataAccess @.. parent;
       int %.d sizeofHead;
+      //outer=2 ,super=1: int %.d version;
     }
       methods {  
         ctorO-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.Info *.. Info_InspcDataExchangeAccess_Inspc_s();
@@ -156,10 +164,12 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       //outer=2 ,super=1: int %.d kReferenceAddr;
       //outer=2 ,super=1: int %.d kScalarTypes;
       //outer=1 ,super=2: byte %.d kText;
+      //outer=2 ,super=1: int %.d kTypeNoValue;
       //outer=1 ,super=2: byte %.d kUndefined;
       //outer=2 ,super=1: int %.d maxNrOfChars;
       //outer=1 ,super=2: org/vishia/byteData/ByteDataAccess @.. parent;
       int %.d sizeofElement;
+      //outer=2 ,super=1: int %.d version;
     }
       methods {  
         ctorO-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.SetValue *.. SetValue_InspcDataExchangeAccess_Inspc_s();
@@ -171,8 +181,14 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
         getPwdHi-_$: int %.r null();
         getPwdLo-_$: int %.r null();
         getShort-_$: short %.r null();
+        setByte-_$: void %.r null(byte %.. value);
+        setDouble-_$: void %.r null(double %.. value);
+        setFloat-_$: void %.r null(float %.. value);
+        setInt-_$: void %.r null(int %.. value);
+        setLong-_$: void %.r null(long %.. value);
         setPwdHi-_$: void %.r null(int %.. pwd);
         setPwdLo-_$: void %.r null(int %.. pwd);
+        setShort-_$: void %.r null(short %.. value);
         specifyEmptyDefaultData-_$, defined: org/vishia/byteData/ByteDataAccess.specifyEmptyDefaultData: void %.r null();
         specifyLengthElement-_$, defined: org/vishia/byteData/ByteDataAccess.specifyLengthElement: int %.r null();
         specifyLengthElementHead-_$, defined: org/vishia/byteData/ByteDataAccess.specifyLengthElementHead: int %.r null();
@@ -190,7 +206,9 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
 fieldIdents {
   int %.d kReferenceAddr;
   int %.d kScalarTypes;
+  int %.d kTypeNoValue;
   int %.d maxNrOfChars;
+  int %.d version;
 }
   methods {  
     ctorO-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess *.. InspcDataExchangeAccess_Inspc_s();

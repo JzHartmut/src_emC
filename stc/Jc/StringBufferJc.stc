@@ -43,6 +43,12 @@ class StringBuffer; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; ex
 		insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
+		indexOf-_$, mode=noThCxt: int %.. return(String t.. s);
+		indexOf-_$, mode=noThCxt: int %.. return(s0 t.. s);
+		indexOf-_$, mode=noThCxt: int %.. return(String t.. s, int %.. pos);
+		indexOf-_$, mode=noThCxt: int %.. return(s0 t.. s, int %.. pos);
+		substring: String t.. return(int %.. start);
+		substring: String t.. return(int %.. start, int %.. end);
 		replace-_$,   mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}, field:{   String t.. param;} );                        
 		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
   }

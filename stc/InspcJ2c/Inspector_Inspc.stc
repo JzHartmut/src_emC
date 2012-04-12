@@ -8,14 +8,17 @@ fieldIdents {
   org/vishia/inspector/ClassContent(instance=org/vishia/inspector/ClassContent) $.. classContent;
   org/vishia/inspector/CmdExecuter(instance=org/vishia/inspector/CmdExecuter) $.. cmdExecuter;
   org/vishia/inspector/Comm(instance=org/vishia/inspector/Comm) $.. comm;
+  int %.d version;
 }
   methods {  
     ctorO-_$, mode= ctor+static: org/vishia/inspector/Inspector *.. Inspector_Inspc_s(java/lang/String(instance=java/lang/String) t.. commOwnAddr);
+    shutdown-_$, mode= overrideable: void %.r null();
     start-_$, mode= overrideable: void %.r null(java/lang/Object *.. rootObj);
   }
 
   methods-overrideable {
     start_Inspector_Inspc;
+    shutdown_Inspector_Inspc;
   }
 
   castTo {

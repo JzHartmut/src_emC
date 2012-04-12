@@ -53,6 +53,13 @@ int32_t os_milliTime()
 }
 
 
+int32_t os_getSeconds()
+{
+  return 0;
+
+}
+
+
 
 OS_TimeStamp os_getDateTime()
 { //struct _timeb systime;

@@ -498,6 +498,11 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc_F(StringFormatterJc_
     
     ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
     
+    if(nrofBytes > data->head.length) 
+    { 
+      
+      nrofBytes = data->head.length;
+    }
     
     data1 = (int8_Y*)ctorO_ObjectArrayJc((newObj1_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (nrofBytes) * sizeof(int8), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), nrofBytes, sizeof(int8),REFLECTION_int8, 0);
     arraycopy_SystemJc(/*static*/& ((data)->head.object), idx, & ((data1)->head.object), 0, nrofBytes, _thCxt);
@@ -646,7 +651,7 @@ struct StringFormatterJc_t* addHexWord__StringFormatterJc_F(StringFormatterJc_s*
       idx += nrofBytesInWord - 1;
     }
     
-    while(--nrofBytesInWord >= 0)
+    while(--nrofBytesInWord >= 0 && idx < data->head.length)
       { 
         int8 value; 
         

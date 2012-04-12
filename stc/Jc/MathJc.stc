@@ -8,6 +8,9 @@ class Math; nameC=MathJc_s; argIdent=Ma; extends java/lang/Object
 	  double %.d PI;
 	}
   methods {  
+		abs, mode=static+noThCxt: double %.. return(double %.. value);
+		abs, mode=static+noThCxt: float %.. return(float %.. value);
+		abs, mode=static+noThCxt: int %.. return(int %.. value);
 		sin, mode=static+noThCxt: double %.. return(double %.. value);
 		cos, mode=static+noThCxt: double %.. return(double %.. value);
 		//sin+f, mode=static+noThCxt: float %.. return(float %.. value);

@@ -27,6 +27,7 @@ struct SetValue_InspcDataExchangeAccess_Inspc_t;
 /* J2C: includes *********************************************************/
 #include "InspcJ2c/CmdConsumer_ifc_Inspc.h"  //interface
 #include "InspcJ2c/InspcDataExchangeAccess_Inspc.h"  //embedded type in class data
+#include "InspcJ2c/InspcDataInfo_Inspc.h"  //embedded type in class data
 
 
 /*@CLASS_C ClassContent_Inspc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -38,12 +39,12 @@ typedef struct ClassContent_Inspc_t
   struct AnswerComm_ifc_Inspc_t* answerComm;   /*Association to produce the answer of a request*/
   struct MemAccessArrayDebugJc_t* debugRemoteAccess;   /*Yet only a placeholder, used in the C-implementation. */
   int32 nrofAnswerBytes;   /*A debug helper to visit the search activity on access to any reflection element.*/
-  int32 maxNrofAnswerBytes;   /*Max number as parameter of call. */
-  struct Datagram_InspcDataExchangeAccess_Inspc_t* answer;   /**/
-  Info_InspcDataExchangeAccess_Inspc_s answerItem; 
+  Info_InspcDataExchangeAccess_Inspc_s answerItem;   /*Access element for {@link ByteDataAccess} to the answer Item.*/
   struct SbY_uArray_t { StringBufferJc sb; char _b[60]; }uArray;   /*Buffer to prepare a array information in the answer of a telegram. */
   struct SbY_uValue_t { StringBufferJc sb; char _b[156]; }uValue;   /*Buffer to prepare the value in the answer of a telegram. */
   struct SbY_uAnswer_t { StringBufferJc sb; char _b[196]; }uAnswer;   /*Buffer to prepare the answer in the answer of a telegram. */
+  InspcDataInfo_Inspc_s test;   /*java2c=simpleRef. */
+  struct registeredDataAccess_Y { ObjectArrayJc head; InspcDataInfo_Inspc_s data[1024]; }registeredDataAccess;   /*Array of registered data access info items. */
 } ClassContent_Inspc_s;
   
 
@@ -62,7 +63,7 @@ typedef struct ClassContent_Inspc_t
 typedef struct ClassContent_Inspc_X_t { ObjectArrayJc head; ClassContent_InspcREF data[50]; } ClassContent_Inspc_X;
 typedef struct ClassContent_Inspc_Y_t { ObjectArrayJc head; ClassContent_Inspc_s data[50]; } ClassContent_Inspc_Y;
 
- extern struct ClassJc_t const reflection_ClassContent_Inspc_s;
+ extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
   
 
 
@@ -74,6 +75,7 @@ typedef struct ClassContent_Inspc_Y_t { ObjectArrayJc head; ClassContent_Inspc_s
 void finalize_ClassContent_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_ClassContent_Inspc 20120409  /*Version, history and license*/
 
 
 METHOD_C struct ClassContent_Inspc_t* ctorO_ClassContent_Inspc(ObjectJc* othis, ThCxt* _thCxt);
@@ -88,17 +90,24 @@ METHOD_C int32 executeMonitorCmd_XXXXi_ClassContent_Inspc(ObjectJc* ithis, struc
 
 METHOD_C int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-METHOD_C void evaluateFieldGetFields_Fdi_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct FieldJc_t const* field, int32 orderNr, ThCxt* _thCxt);
+METHOD_C void evaluateFieldGetFields_XXFdii_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, struct FieldJc_t const* field, int32 orderNr, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-METHOD_C void evaluateFieldGetFields_SFdiii_ClassContent_Inspc(ClassContent_Inspc_s* ythis, StringJc name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr, ThCxt* _thCxt);
+METHOD_C void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
 METHOD_C int32 cmdGetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
 METHOD_C int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-METHOD_C int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc sVariablePath, ThCxt* _thCxt);
+METHOD_C int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc sVariablePath, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+
+/**Sets the value if accSetValue is not null, fills the {@link #answerItem} with the read value.*/
+METHOD_C bool getSetValue_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
 METHOD_C int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+
+METHOD_C int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+
+METHOD_C int32 cmdGetValueByIndex_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
 METHOD_C void stop_ClassContent_Inspc(ClassContent_Inspc_s* ythis, ThCxt* _thCxt);
 
@@ -124,19 +133,25 @@ class ClassContent_Inspc : private ClassContent_Inspc_s
 
   int32 cmdGetFields(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdGetFields_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
+  int32 cmdGetValueByIndex(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdGetValueByIndex_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
+
   int32 cmdGetValueByPath(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdGetValueByPath_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
+
+  int32 cmdRegisterRepeat(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdRegisterRepeat_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
   int32 cmdSetValueByPath(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdSetValueByPath_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
   ClassContent_Inspc(){ init_ObjectJc(&this->base.object, sizeof(ClassContent_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_ClassContent_Inspc_s, 0); ctorO_ClassContent_Inspc(&this->base.object,  null/*_thCxt*/); }
 
-  void evaluateFieldGetFields(struct FieldJc_t const* field, int32 orderNr){ evaluateFieldGetFields_Fdi_ClassContent_Inspc(this, field, orderNr,  null/*_thCxt*/); }
+  void evaluateFieldGetFields(struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, struct FieldJc_t const* field, int32 orderNr, int32 maxNrofAnswerBytes){ evaluateFieldGetFields_XXFdii_ClassContent_Inspc(this, answer, field, orderNr, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
-  void evaluateFieldGetFields(StringJcpp name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr){ evaluateFieldGetFields_SFdiii_ClassContent_Inspc(this, name, typeField, modifiers, staticArraySize, orderNr,  null/*_thCxt*/); }
+  void evaluateFieldGetFields(struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJcpp name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr, int32 maxNrofAnswerBytes){ evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(this, answer, name, typeField, modifiers, staticArraySize, orderNr, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
   int32 executeMonitorCmd(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return executeMonitorCmd_XXXXi_ClassContent_Inspc(&this->base.CmdConsumer_ifc_Inspc.base.object, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
-  int32 getSetValueByPath(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJcpp sVariablePath){  return getSetValueByPath_ClassContent_Inspc(this, cmd, accSetValue, answer, sVariablePath,  null/*_thCxt*/); }
+  int32 getSetValueByPath(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJcpp sVariablePath, int32 maxNrofAnswerBytes){  return getSetValueByPath_ClassContent_Inspc(this, cmd, accSetValue, answer, sVariablePath, maxNrofAnswerBytes,  null/*_thCxt*/); }
+
+  bool getSetValue(struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, int32 maxNrofAnswerBytes){  return getSetValue_ClassContent_Inspc(this, theField, idx, theObject, accSetValue, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
   void setAnswerComm(struct AnswerComm_ifc_Inspc_t* answerComm){ setAnswerComm_XX_ClassContent_Inspc(&this->base.CmdConsumer_ifc_Inspc.base.object, answerComm,  null/*_thCxt*/); }
 

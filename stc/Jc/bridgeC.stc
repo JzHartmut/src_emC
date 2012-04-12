@@ -4,26 +4,26 @@ Structure of translated java-file "bridgeC.stc.h"
 package org/vishia/bridgeC/;
 
 final class AllocInBlock; nameC=BlockHeapJc; header=BlockHeap/BlockHeapJc.h;  argIdent=Bh; extends java/lang/Object
-{  
+{
   fields {
     int %.d checkGcBlockUsed;
     int %.d checkGcBlockFreed;
     int %.d checkGcFinished; //-_GarbageCollectorJc;
 	}
-  methods {  
+  methods {
     setRunModeAll-_$, mode=static: void %.. return();
-    setLogMessageOutput-_$, mode=static: void %.. return(org/vishia/msgDispatch/LogMessage *.. log, int %.. msgBase);  
+    setLogMessageOutput-_$, mode=static: void %.. return(org/vishia/msgDispatch/LogMessage *.. log, int %.. msgBase);
 		garbageCollection_BlockHeapJc, mode=static: void %.. return(boolean %.. userCall);
 	}
 }
 
 final embedded class OS_TimeStamp; nameC=OS_TimeStamp; header=os_time.h; argIdent=Dt;
-{  
+{
   fields{
 	  int %.. time_sec;
 		int %.. time_nsec;
 	}
-  methods {  
+  methods {
 		ctor-_$, mode=static+noThCxt  : OS_TimeStamp $.. return();
 		ctorM-_$, mode=static+noThCxt  : OS_TimeStamp $.. return();
 		ctorM+current-_$, mode=static+noThCxt  : OS_TimeStamp $.. return(boolean %.. now);
@@ -32,19 +32,20 @@ final embedded class OS_TimeStamp; nameC=OS_TimeStamp; header=os_time.h; argIden
 		INIT+_now-_$, mode=static+noThCxt: void %..return(boolean %.. now);
 		INIT+_time-_$, mode=static+noThCxt  : OS_TimeStamp $.. return(OS_TimeStamp $.. value);
 		os_getDateTime, mode=static+noThCxt: OS_TimeStamp $.. return();
+		os_getSeconds, mode=static+noThCxt: int %..return();
 		os_delayThread, mode=static+noThCxt: boolean %.. return(int %.. millisec);
 		set-_$, mode=noThCxt: OS_TimeStamp $..return(OS_TimeStamp $.. value);
   }
-  
+
 }
 
-final embedded class MemSegmJc; nameC=MemSegmJc; header=Jc\ReflMemAccessJc.h; argIdent=M;
-{  
+final embedded class MemSegmJc; nameC=MemSegmJc; header=Jc/ReflMemAccessJc.h; argIdent=M;
+{
   fields{
 	  int %.. segment;
 		int %.. addr;
 	}
-  methods {  
+  methods {
     INIT-_$, mode=static+noThCxt: void %..return();
     INIT+_AddrSegm-_$, mode=static+noThCxt: MemSegmJc $..return(java/lang/Object *.. addr, byte %.. segment);
     ctorM-_$: void %..return();
@@ -53,9 +54,9 @@ final embedded class MemSegmJc; nameC=MemSegmJc; header=Jc\ReflMemAccessJc.h; ar
 		ADDR-_$, mode=noThCxt  : Object *.. return();
 		obj-_$, mode=noThCxt  : Object *.. return();
 		segment-_$, mode=static+noThCxt  : int %.. return(MemSegmJc $.. this);
-		setAddrSegm-_$, mode=noThCxt: void %..return(Object *.. addr, byte %.. segm); //MemSegmJc *.. dst, 
+		setAddrSegm-_$, mode=noThCxt: void %..return(Object *.. addr, byte %.. segm); //MemSegmJc *.. dst,
 		setNull-_$, mode=noThCxt: MemSegmJc $..return();
   }
-  
+
 }
 

@@ -14,9 +14,11 @@
 #include "Jc/StringJc.h"  //embedded type in class data
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
 #include "Jc/ReflMemAccessJc.h"  //embedded type in class data
+#include "os_time.h"  //reference-association: OS_TimeStamp
 
 
 /* J2C: Forward declaration of struct ***********************************************/
+struct InspcDataInfo_Inspc_t;
 
 
 /* J2C: Method-table-references *********************************************************/
@@ -60,10 +62,26 @@ struct ClassContent_Inspc_t* ctorO_ClassContent_Inspc(ObjectJc* othis, ThCxt* _t
     //J2C: constructor for embedded fix-size-StringBuffer
       init_ObjectJc(&ythis->uAnswer.sb.base.object, sizeof(StringBuilderJc) + 200 - 4, 0);
       ctorO_I_StringBuilderJc(&ythis->uAnswer.sb.base.object, 200, _thCxt);
+    //J2C: constructor for embedded element-ObjectJc
+      init_ObjectJc(&(ythis->test.base.object), sizeof(ythis->test), 0); 
+      ctorO_InspcDataInfo_Inspc(/*static*/&(ythis->test.base.object), _thCxt);
+    /*J2C: newArray*/
+      init_ObjectJc(&ythis->registeredDataAccess.head.object, sizeof_ARRAYJc(InspcDataInfo_Inspc_s, 1024), 0);   //J2C: ctor embedded array.
+      ctorO_ObjectArrayJc(&ythis->registeredDataAccess.head.object, 1024, sizeof(InspcDataInfo_Inspc_s), null, 0);//J2C: constructor for embedded array;
   }
   { 
     
-    ythis->debugRemoteAccess = getSingleton_MemAccessArrayDebugJc();//TODO: Java2C-problem because different array annotations ...
+    ythis->debugRemoteAccess = getSingleton_MemAccessArrayDebugJc();
+    { int32 ii; 
+      for(ii = 0; ii < ythis->registeredDataAccess.head.length; ++ii)
+        { 
+          
+          //J2C: constructor for embedded element-ObjectJc
+          init_ObjectJc(&(ythis->registeredDataAccess.data[ii].base.object), sizeof(ythis->registeredDataAccess.data[ii]), 0); 
+          ctorO_InspcDataInfo_Inspc(/*static*/&(ythis->registeredDataAccess.data[ii].base.object), _thCxt);
+        }//TODO: Java2C-problem because different array annotations ...
+        
+    }//TODO: searchTrc should be used an onw instanc with idx!!!
     
   }
   STACKTRC_LEAVE;
@@ -116,6 +134,8 @@ int32 executeMonitorCmd_XXXXi_ClassContent_Inspc(ObjectJc* ithis, struct Info_In
       case kGetValueByPath_Info_InspcDataExchangeAccess_Inspc: cmdGetValueByPath_ClassContent_Inspc(ythis, cmd, answer, maxNrofAnswerBytes, _thCxt);break;
       case kSetValueByPath_Info_InspcDataExchangeAccess_Inspc: cmdSetValueByPath_ClassContent_Inspc(ythis, cmd, answer, maxNrofAnswerBytes, _thCxt);break;
       case kGetAddressByPath_Info_InspcDataExchangeAccess_Inspc: cmdGetAddressByPath_ClassContent_Inspc(ythis, cmd, answer, maxNrofAnswerBytes, _thCxt);break;
+      case kRegisterRepeat_Info_InspcDataExchangeAccess_Inspc: cmdRegisterRepeat_ClassContent_Inspc(ythis, cmd, answer, maxNrofAnswerBytes, _thCxt);break;
+      case kGetValueByIndex_Info_InspcDataExchangeAccess_Inspc: cmdGetValueByIndex_ClassContent_Inspc(ythis, cmd, answer, maxNrofAnswerBytes, _thCxt);break;
       default: 
       { 
         
@@ -138,7 +158,9 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_I
 { 
   STACKTRC_TENTRY("cmdGetFields_ClassContent_Inspc");
   
-  { 
+  { //:this.maxNrofAnswerBytes = maxNrofAnswerBytes;
+    //:this.answerP = answer;
+    
     int32 ixFieldStart = 0; 
     StringJc sVariablePath = NULL_StringJc;   /**/
     struct ClassJc_t const* clazz = null; 
@@ -148,8 +170,6 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_I
     int32 nrofBytesCmd; 
     
     
-    ythis->maxNrofAnswerBytes = maxNrofAnswerBytes;
-    ythis->answer = answer;
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
@@ -346,7 +366,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_I
             if(outerObj != null) 
             { 
               
-              evaluateFieldGetFields_SFdiii_ClassContent_Inspc(ythis, s0_StringJc("_outer"), outerObj, 0, 0, nOrderNr, _thCxt);
+              evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ythis, answer, s0_StringJc("_outer"), outerObj, 0, 0, nOrderNr, maxNrofAnswerBytes, _thCxt);
             }
           }
           fields = getDeclaredFields_ClassJc(clazz);
@@ -366,7 +386,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_I
                 { 
                   
                   /**Generates one entry per field in the answer telegram. */
-                  evaluateFieldGetFields_Fdi_ClassContent_Inspc(ythis, & (fields->data[ixField]), nOrderNr, _thCxt);
+                  evaluateFieldGetFields_XXFdii_ClassContent_Inspc(ythis, answer, & (fields->data[ixField]), nOrderNr, maxNrofAnswerBytes, _thCxt);
                 }
             }
           }
@@ -389,9 +409,9 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_I
   STACKTRC_LEAVE;
 }
 
-void evaluateFieldGetFields_Fdi_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct FieldJc_t const* field, int32 orderNr, ThCxt* _thCxt)
+void evaluateFieldGetFields_XXFdii_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, struct FieldJc_t const* field, int32 orderNr, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("evaluateFieldGetFields_Fdi_ClassContent_Inspc");
+  STACKTRC_TENTRY("evaluateFieldGetFields_XXFdii_ClassContent_Inspc");
   
   { //:FieldJc field = new FieldJc(fieldP);   //regard container types
     
@@ -405,14 +425,14 @@ void evaluateFieldGetFields_Fdi_ClassContent_Inspc(ClassContent_Inspc_s* ythis, 
     typeField = getType_FieldJc(field);
     modifiers = getModifiers_FieldJc(field);
     staticArraySize = getStaticArraySize_FieldJc(field);
-    evaluateFieldGetFields_SFdiii_ClassContent_Inspc(ythis, name, typeField, modifiers, staticArraySize, orderNr, _thCxt);
+    evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ythis, answer, name, typeField, modifiers, staticArraySize, orderNr, maxNrofAnswerBytes, _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
-void evaluateFieldGetFields_SFdiii_ClassContent_Inspc(ClassContent_Inspc_s* ythis, StringJc name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr, ThCxt* _thCxt)
+void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("evaluateFieldGetFields_SFdiii_ClassContent_Inspc");
+  STACKTRC_TENTRY("evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc");
   
   { 
     int32 modifContainertype; 
@@ -465,7 +485,7 @@ void evaluateFieldGetFields_SFdiii_ClassContent_Inspc(ClassContent_Inspc_s* ythi
       lengthValue = length_StringBuilderJc(& (ythis->uValue.sb));
       lengthAnswer = sizeofHead_Info_InspcDataExchangeAccess_Inspc + lengthName + 1 + lengthType + lengthArray + lengthValue + (hasSubstructure ? 3 : 0);
       lengthAnswer4 = (lengthAnswer + 3) / 4 * 4;
-      if((ythis->nrofAnswerBytes + lengthAnswer4) > ythis->maxNrofAnswerBytes) 
+      if((ythis->nrofAnswerBytes + lengthAnswer4) > maxNrofAnswerBytes) 
       { 
         AnswerComm_ifc_InspcMTB answerCommMtbl;   /*The information doesn't fit in the datagram: Send the last one and clear it.*/
         
@@ -473,8 +493,8 @@ void evaluateFieldGetFields_SFdiii_ClassContent_Inspc(ClassContent_Inspc_s* ythi
         SETMTBJc(answerCommMtbl, ythis->answerComm, AnswerComm_ifc_Inspc);
         answerCommMtbl.mtbl->txAnswer(&(( (answerCommMtbl.ref))->base.object), ythis->nrofAnswerBytes, false, _thCxt);
         ythis->nrofAnswerBytes = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc;
-        removeChildren_ByteDataAccessJc(& ((* (ythis->answer)).base.super), _thCxt);
-        incrAnswerNr_Datagram_InspcDataExchangeAccess_Inspc(ythis->answer, _thCxt);
+        removeChildren_ByteDataAccessJc(& ((* (answer)).base.super), _thCxt);
+        incrAnswerNr_Datagram_InspcDataExchangeAccess_Inspc(answer, _thCxt);
       }
       
       { 
@@ -507,7 +527,7 @@ void evaluateFieldGetFields_SFdiii_ClassContent_Inspc(ClassContent_Inspc_s* ythi
           append_s_StringBuilderJc(& (ythis->uAnswer.sb), substring_StringJc(zI_StringJc("\0\0\0",3), 0, lengthAnswer4 - lengthAnswer, _thCxt), _thCxt);//fill rest with 0
           
         }
-        addChild_ByteDataAccessJc(& ((* (ythis->answer)).base.super), & ((ythis->answerItem).base.super), _thCxt);
+        addChild_ByteDataAccessJc(& ((* (answer)).base.super), & ((ythis->answerItem).base.super), _thCxt);
         sAnswerAdd = toStringNonPersist_StringBuilderJc(& ((ythis->uAnswer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
         addChildString_S_ByteDataAccessJc(& ((ythis->answerItem).base.super), sAnswerAdd, _thCxt);//Prepare the answer item for this field:
         
@@ -530,7 +550,7 @@ int32 cmdGetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
     
     nrofBytesCmd = getLenInfo_Info_InspcDataExchangeAccess_Inspc(cmd, _thCxt);
     sVariablePath = getChildString_ByteDataAccessJc(& ((* (cmd)).base.super), nrofBytesCmd - sizeofHead_Info_InspcDataExchangeAccess_Inspc, _thCxt)/*J2C:non-persistent*/;
-    getSetValueByPath_ClassContent_Inspc(ythis, cmd, null, answer, sVariablePath, _thCxt);
+    getSetValueByPath_ClassContent_Inspc(ythis, cmd, null, answer, sVariablePath, maxNrofAnswerBytes, _thCxt);
     { STACKTRC_LEAVE;
       return 0;
     }
@@ -557,7 +577,7 @@ int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
     addChild_ByteDataAccessJc(& ((* (cmd)).base.super), & ((setValue).base.super), _thCxt);
     nrofBytesPath = nrofBytesCmd - sizeofHead_Info_InspcDataExchangeAccess_Inspc - sizeofElement_SetValue_InspcDataExchangeAccess_Inspc;
     sVariablePath = getChildString_ByteDataAccessJc(& ((* (cmd)).base.super), nrofBytesPath, _thCxt)/*J2C:non-persistent*/;
-    getSetValueByPath_ClassContent_Inspc(ythis, cmd, & (setValue), answer, sVariablePath, _thCxt);
+    getSetValueByPath_ClassContent_Inspc(ythis, cmd, & (setValue), answer, sVariablePath, maxNrofAnswerBytes, _thCxt);
     { STACKTRC_LEAVE;
       return 0;
     }
@@ -565,7 +585,7 @@ int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
   STACKTRC_LEAVE;
 }
 
-int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc sVariablePath, ThCxt* _thCxt)
+int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc sVariablePath, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getSetValueByPath_ClassContent_Inspc");
   
@@ -574,8 +594,7 @@ int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
     struct FieldJc_t const* theField = null;   /**/
     struct FieldJc_t const* theFieldP[1];   /**/
     MemSegmJc theObject = { 0 }; 
-    StringJc sValue = NULL_StringJc;   /**/
-    int32 memSegment = 0; 
+    int32 memSegment = 0;   /**/
     int32 idxOutput = 0; 
     int32 maxIdxOutput = 1200; 
     
@@ -586,7 +605,6 @@ int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
     
     //J2C: constructor for embedded element
     INIT_MemSegmJc(/*static*/theObject);
-    /*no initvalue*/
     memSegment = 0;
     idxOutput = 0;
     maxIdxOutput = 1200;
@@ -603,289 +621,13 @@ int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
       idx = idxP[0];
       if(obj_MemSegmJc(theObject) != null && theField != null) 
       { 
-        struct ClassJc_t const* type; 
-        int32 modifier; 
+        int32 nBytesItem; 
         
         
-        type = getType_FieldJc(theField);
-        modifier = getModifiers_FieldJc(theField);
         addChild_ByteDataAccessJc(& ((* (answer)).base.super), & ((ythis->answerItem).base.super), _thCxt);
-        setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), 0, kAnswerValue_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
-        if(isPrimitive_ClassJc(type)) 
-        { 
-          StringJc sType; 
-          char cType; 
-          
-          
-          sType = z_StringJc(getName_ClassJc(type))/*J2C:non-persistent*/;
-          cType = charAt_StringJc(sType, 0);
-          switch(cType){
-            case 'v': 
-            case 'i': 
-            { //:int
-              
-              int32 value = 0; 
-              
-              
-              /*no initvalue*/
-              if(accSetValue != null) 
-              { 
-                int32 setValue; 
-                
-                
-                setValue = getInt_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
-                value = setInt_FieldJc(theField, theObject, setValue, "I", idx);
-              }
-              else 
-              { 
-                
-                value = getInt_FieldJc(theField, theObject, "I", idx);
-              }
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-              
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);
-              sValue = null_StringJc/*J2C:non-persistent*/;
-            }break;
-            case 'c': 
-            { //:int
-              
-              char value = 0; 
-              
-              
-              /*no initvalue*/
-              if(accSetValue != null) 
-              { 
-                char setValue; 
-                
-                
-                setValue = (char)getByte_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
-                value = setChar_FieldJc(theField, theObject, setValue, "I", idx);
-              }
-              else 
-              { 
-                
-                value = getChar_FieldJc(theField, theObject, "I", idx);
-              }
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-              
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, (int16)value, _thCxt);
-              sValue = null_StringJc/*J2C:non-persistent*/;
-            }break;
-            case 's': 
-            { //:short
-              
-              int32 value = 0; 
-              
-              
-              /*no initvalue*/
-              if(accSetValue != null) 
-              { 
-                int16 setValue; 
-                
-                
-                setValue = getShort_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
-                value = setShort_FieldJc(theField, theObject, setValue, "I", idx);
-              }
-              else 
-              { 
-                
-                value = getShort_FieldJc(theField, theObject, "I", idx);
-              }
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-              
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value, _thCxt);
-              sValue = null_StringJc/*J2C:non-persistent*/;
-            }break;
-            case 'l': 
-            { //:long, it is int64
-              
-              int64 value; 
-              
-              
-              value = getInt64_FieldJc(theField, theObject, "I", idx);
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int_ClassJc, _thCxt);//64);  //Set the number of char-bytes in 1 byte
-              
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);//8
-              
-              sValue = null_StringJc/*J2C:non-persistent*/;
-            }break;
-            case 'f': 
-            { //:float
-              
-              float valuef = 0; 
-              int32 value; 
-              
-              
-              /*no initvalue*/
-              if(accSetValue != null) 
-              { 
-                float setValue; 
-                
-                
-                setValue = (float)getDouble_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
-                valuef = setFloat_FieldJc(theField, theObject, setValue, "I", idx);
-              }
-              else 
-              { 
-                
-                valuef = getFloat_FieldJc(theField, theObject, "I", idx);
-              }
-              value = floatToRawIntBits_FloatJc(/*static*/valuef);
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-              
-              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);
-              sValue = null_StringJc/*J2C:non-persistent*/;
-            }break;
-            case 'd': 
-            { //:double  TODO 'd'
-              
-              double fvalue = 0; 
-              bool fixme = true; 
-              
-              
-              /*no initvalue*/
-              if(accSetValue != null) 
-              { 
-                double setValue; 
-                
-                
-                setValue = getDouble_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
-                fvalue = setDouble_FieldJc(theField, theObject, setValue, "I", idx);
-              }
-              else 
-              { 
-                
-                fvalue = getDouble_FieldJc(theField, theObject, "I", idx);
-              }
-              fixme = true;
-              if(fixme) 
-              { 
-                int32 value; 
-                
-                
-                value = floatToRawIntBits_FloatJc(/*static*/(float)fvalue);
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-                
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);
-              }
-              else 
-              { 
-                int64 value; 
-                
-                
-                value = doubleToLongBits_DoubleJc(/*static*/fvalue);
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-                
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 8, value, _thCxt);
-              }
-              sValue = null_StringJc/*J2C:non-persistent*/;
-            }break;
-            case 'b': switch(charAt_StringJc(sType, 1)){
-              case 'o': 
-              { //:boolean
-                
-                bool value = 0; 
-                int32 value1; 
-                
-                
-                /*no initvalue*/
-                if(accSetValue != null) 
-                { 
-                  bool setValue; 
-                  
-                  
-                  setValue = getShort_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt) != 0;
-                  value = setBoolean_FieldJc(theField, theObject, setValue, "I", idx);
-                }
-                else 
-                { 
-                  
-                  value = getBoolean_FieldJc(theField, theObject, "I", idx);
-                }
-                value1 = value ? 1 : 0;
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-                
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value1, _thCxt);
-                sValue = null_StringJc/*J2C:non-persistent*/;
-              }break;
-              case 'y': 
-              { //:byte
-                
-                int16 value; 
-                
-                
-                value = getByte_FieldJc(theField, theObject, "I", idx);
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-                
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value, _thCxt);
-                sValue = null_StringJc/*J2C:non-persistent*/;
-              }break;
-              case 'i': 
-              { //:bitfield
-                
-                int16 value = 0; 
-                
-                
-                /*no initvalue*/
-                if(accSetValue != null) 
-                { 
-                  int16 setValue; 
-                  
-                  
-                  setValue = getShort_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
-                  value = (int16)setBitfield_FieldJc(theField, theObject, setValue, "I", idx);
-                }
-                else 
-                { 
-                  
-                  value = getBitfield_FieldJc(theField, theObject, "I", idx);
-                }
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);//Set the number of char-bytes in 1 byte
-                
-                addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value, _thCxt);
-                sValue = null_StringJc/*J2C:non-persistent*/;
-              }break;
-              default: 
-              { 
-                
-                sValue = z_StringJc("?unknownPrimitiveType?")/*J2C:non-persistent*/;
-              }
-            }/*switch*/;break;
-            default: 
-            { 
-              
-              sValue = z_StringJc("?unknownPrimType?")/*J2C:non-persistent*/;
-            }
-          }/*switch*/;//switch
-          
-        }
-        else 
-        { //:it is a complex type, not a numeric.
-          
-          
-          sValue = getString_FieldJc(theField, theObject, "I", idx)/*J2C:non-persistent*/;
-        }
-        if(sValue.ptr__!= null) 
-        { 
-          int32 zValue; 
-          int32 zInfo; 
-          
-          
-          zValue = length_StringJc(sValue);
-          if(zValue > maxNrOfChars_InspcDataExchangeAccess_Inspc) 
-          { 
-            
-            zValue = maxNrOfChars_InspcDataExchangeAccess_Inspc;
-            sValue = substring_StringJc(sValue, 0, zValue, _thCxt)/*J2C:non-persistent*/;
-          }
-          zInfo = zValue + 1 + sizeofHead_Info_InspcDataExchangeAccess_Inspc;
-          addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, zValue, _thCxt);//Set the number of char-bytes in 1 byte
-          
-          addChildString_S_ByteDataAccessJc(& ((ythis->answerItem).base.super), sValue, _thCxt);//Set the character String after them.
-          
-        }
-        setLength_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt), _thCxt);//the length of the answerItems in byte.
-        
+        getSetValue_ClassContent_Inspc(ythis, theField, idx, theObject, accSetValue, maxNrofAnswerBytes, _thCxt);
+        nBytesItem = getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt);
+        setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), nBytesItem, kAnswerValue_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
       }
     }_TRY
     CATCH(Exception, exc)
@@ -899,6 +641,392 @@ int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
     END_TRY
     { STACKTRC_LEAVE;
       return 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Sets the value if accSetValue is not null, fills the {@link #answerItem} with the read value.*/
+bool getSetValue_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct SetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getSetValue_ClassContent_Inspc");
+  
+  { 
+    struct ClassJc_t const* type; 
+    int32 modifier; 
+    StringJc sValue = NULL_StringJc; 
+    bool bOk = 0; 
+    int32 actLenTelg; 
+    int32 restLen; 
+    int32 nType = 0; 
+    
+    
+    type = getType_FieldJc(theField);
+    modifier = getModifiers_FieldJc(theField);
+    sValue = null_StringJc/*J2C:non-persistent*/;
+    /*no initvalue*/
+    actLenTelg = getLengthTotal_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt);
+    restLen = maxNrofAnswerBytes - actLenTelg;
+    /*no initvalue*/
+    if(isPrimitive_ClassJc(type)) 
+    { 
+      StringJc sType; 
+      char cType; 
+      
+      
+      sType = z_StringJc(getName_ClassJc(type))/*J2C:non-persistent*/;
+      cType = charAt_StringJc(sType, 0);
+      switch(cType){
+        case 'v': 
+        case 'i': 
+        { //:int
+          
+          
+          bOk = restLen >= 5;
+          if(bOk) 
+          { 
+            int32 value = 0; 
+            
+            
+            /*no initvalue*/
+            if(accSetValue != null) 
+            { 
+              int32 setValue; 
+              
+              
+              setValue = getInt_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
+              value = setInt_FieldJc(theField, theObject, setValue, "I", idx);
+            }
+            else 
+            { 
+              
+              value = getInt_FieldJc(theField, theObject, "I", idx);
+            }
+            nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc;
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+            
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);
+            sValue = null_StringJc/*J2C:non-persistent*/;
+          }
+        }break;
+        case 'c': 
+        { //:int
+          
+          
+          bOk = restLen >= 3;
+          if(bOk) 
+          { 
+            char value = 0; 
+            
+            
+            /*no initvalue*/
+            if(accSetValue != null) 
+            { 
+              char setValue; 
+              
+              
+              setValue = (char)getByte_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
+              value = setChar_FieldJc(theField, theObject, setValue, "I", idx);
+            }
+            else 
+            { 
+              
+              value = getChar_FieldJc(theField, theObject, "I", idx);
+            }
+            nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc;
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+            
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, (int16)value, _thCxt);
+            sValue = null_StringJc/*J2C:non-persistent*/;
+          }
+        }break;
+        case 's': 
+        { //:short
+          
+          
+          bOk = restLen >= 3;
+          if(bOk) 
+          { 
+            int32 value = 0; 
+            
+            
+            /*no initvalue*/
+            if(accSetValue != null) 
+            { 
+              int16 setValue; 
+              
+              
+              setValue = getShort_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
+              value = setShort_FieldJc(theField, theObject, setValue, "I", idx);
+            }
+            else 
+            { 
+              
+              value = getShort_FieldJc(theField, theObject, "I", idx);
+            }
+            nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc;
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+            
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value, _thCxt);
+            sValue = null_StringJc/*J2C:non-persistent*/;
+          }
+        }break;
+        case 'l': 
+        { //:long, it is int64
+          
+          
+          bOk = restLen >= 5;//TODO 9
+          
+          if(bOk) 
+          { 
+            int64 value; 
+            
+            
+            value = getInt64_FieldJc(theField, theObject, "I", idx);
+            nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc;
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//64);  //Set the number of char-bytes in 1 byte
+            
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);//8
+            
+            sValue = null_StringJc/*J2C:non-persistent*/;
+          }
+        }break;
+        case 'f': 
+        { //:float
+          
+          
+          bOk = restLen >= 5;
+          if(bOk) 
+          { 
+            float valuef = 0; 
+            int32 value; 
+            
+            
+            /*no initvalue*/
+            if(accSetValue != null) 
+            { 
+              float setValue; 
+              
+              
+              setValue = (float)getDouble_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
+              valuef = setFloat_FieldJc(theField, theObject, setValue, "I", idx);
+            }
+            else 
+            { 
+              
+              valuef = getFloat_FieldJc(theField, theObject, "I", idx);
+            }
+            value = floatToRawIntBits_FloatJc(/*static*/valuef);
+            nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc;
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+            
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);
+            sValue = null_StringJc/*J2C:non-persistent*/;
+          }
+        }break;
+        case 'd': 
+        { //:double  TODO 'd'
+          
+          
+          bOk = restLen >= 9;
+          if(bOk) 
+          { 
+            double fvalue = 0; 
+            bool fixme = true; 
+            
+            
+            /*no initvalue*/
+            if(accSetValue != null) 
+            { 
+              double setValue; 
+              
+              
+              setValue = getDouble_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
+              fvalue = setDouble_FieldJc(theField, theObject, setValue, "I", idx);
+            }
+            else 
+            { 
+              
+              fvalue = getDouble_FieldJc(theField, theObject, "I", idx);
+            }
+            fixme = true;
+            if(fixme) 
+            { 
+              int32 value; 
+              
+              
+              value = floatToRawIntBits_FloatJc(/*static*/(float)fvalue);
+              nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc;
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+              
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, value, _thCxt);
+            }
+            else 
+            { 
+              int64 value; 
+              
+              
+              value = doubleToLongBits_DoubleJc(/*static*/fvalue);
+              nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc;
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+              
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 8, value, _thCxt);
+            }
+            sValue = null_StringJc/*J2C:non-persistent*/;
+          }
+        }break;
+        case 'b': switch(charAt_StringJc(sType, 1)){
+          case 'o': 
+          { //:boolean
+            
+            
+            bOk = restLen >= 3;
+            if(bOk) 
+            { 
+              bool value = 0; 
+              int32 value1; 
+              
+              
+              /*no initvalue*/
+              if(accSetValue != null) 
+              { 
+                bool setValue; 
+                
+                
+                setValue = getShort_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt) != 0;
+                value = setBoolean_FieldJc(theField, theObject, setValue, "I", idx);
+              }
+              else 
+              { 
+                
+                value = getBoolean_FieldJc(theField, theObject, "I", idx);
+              }
+              value1 = value ? 1 : 0;
+              nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc;
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+              
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value1, _thCxt);
+              sValue = null_StringJc/*J2C:non-persistent*/;
+            }
+          }break;
+          case 'y': 
+          { //:byte
+            
+            
+            bOk = restLen >= 3;
+            if(bOk) 
+            { 
+              int16 value; 
+              
+              
+              value = getByte_FieldJc(theField, theObject, "I", idx);
+              nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc;
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+              
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value, _thCxt);
+              sValue = null_StringJc/*J2C:non-persistent*/;
+            }
+          }break;
+          case 'i': 
+          { //:bitfield
+            
+            
+            bOk = restLen >= 3;
+            if(bOk) 
+            { 
+              int16 value = 0; 
+              
+              
+              /*no initvalue*/
+              if(accSetValue != null) 
+              { 
+                int16 setValue; 
+                
+                
+                setValue = getShort_SetValue_InspcDataExchangeAccess_Inspc(accSetValue, _thCxt);
+                value = setBitfield_FieldJc(theField, theObject, setValue, "I", idx);
+              }
+              else 
+              { 
+                
+                value = getBitfield_FieldJc(theField, theObject, "I", idx);
+              }
+              nType = kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc;
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+              
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 2, value, _thCxt);
+              sValue = null_StringJc/*J2C:non-persistent*/;
+            }
+          }break;
+          default: 
+          { 
+            
+            bOk = restLen >= 1;
+            if(bOk) 
+            { 
+              
+              nType = kTypeNoValue_InspcDataExchangeAccess_Inspc;
+              addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);
+              sValue = null_StringJc/*J2C:non-persistent*/;//"?unknownPrimitiveType?";
+              
+            }
+          }
+        }/*switch*/;break;
+        default: 
+        { 
+          
+          bOk = restLen >= 1;
+          if(bOk) 
+          { 
+            
+            nType = kTypeNoValue_InspcDataExchangeAccess_Inspc;
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);
+            sValue = null_StringJc/*J2C:non-persistent*/;//"?unknownPrimType?";
+            
+          }
+        }
+      }/*switch*/;//switch
+      
+    }
+    else 
+    { //:it is a complex type, not a numeric.
+      
+      StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
+      
+      sValue = _persistring2_1 = persist_StringJc(getString_FieldJc(theField, theObject, "I", idx))/*J2C:non-persistent*/;
+      bOk = true;
+      activateGC_ObjectJc(PTR_StringJc(_persistring2_1), null, _thCxt);
+    }
+    if(sValue.ptr__!= null) 
+    { 
+      int32 zValue; 
+      
+      
+      zValue = length_StringJc(sValue);
+      if(zValue > maxNrOfChars_InspcDataExchangeAccess_Inspc) 
+      { 
+        
+        zValue = maxNrOfChars_InspcDataExchangeAccess_Inspc;
+        sValue = substring_StringJc(sValue, 0, zValue, _thCxt)/*J2C:non-persistent*/;
+      }
+      bOk = restLen >= zValue + 1;
+      if(bOk) 
+      { 
+        int32 zInfo; 
+        
+        
+        zInfo = zValue + 1 + sizeofHead_Info_InspcDataExchangeAccess_Inspc;
+        nType = zValue;
+        addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, nType, _thCxt);//Set the number of char-bytes in 1 byte
+        
+        addChildString_S_ByteDataAccessJc(& ((ythis->answerItem).base.super), sValue, _thCxt);//Set the character String after them.
+        
+      }
+    }
+    /*MemSegmJc adr;*/
+    { STACKTRC_LEAVE;
+      return bOk;
     }
   }
   STACKTRC_LEAVE;
@@ -982,6 +1110,211 @@ int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct
   STACKTRC_LEAVE;
 }
 
+int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("cmdRegisterRepeat_ClassContent_Inspc");
+  
+  { 
+    int32 nrofBytesCmd; 
+    int32 nrofBytesPath; 
+    StringJc sVariablePath;   /**/
+    int32 nOrderNr; 
+    struct FieldJc_t const* theField = null;   /**/
+    struct FieldJc_t const* theFieldP[1];   /**/
+    MemSegmJc theObject = { 0 }; 
+    StringJc sValue = NULL_StringJc;   /**/
+    int32 memSegment = 0; 
+    int32 idxOutput = 0; 
+    int32 maxIdxOutput = 1200; 
+    
+    
+    nrofBytesCmd = getLenInfo_Info_InspcDataExchangeAccess_Inspc(cmd, _thCxt);
+    nrofBytesPath = nrofBytesCmd - sizeofHead_Info_InspcDataExchangeAccess_Inspc;
+    sVariablePath = getChildString_ByteDataAccessJc(& ((* (cmd)).base.super), nrofBytesPath, _thCxt)/*J2C:non-persistent*/;
+    nOrderNr = getOrder_Info_InspcDataExchangeAccess_Inspc(cmd, _thCxt);
+    theField = null;
+    
+    
+    //J2C: constructor for embedded element
+    INIT_MemSegmJc(/*static*/theObject);
+    /*no initvalue*/
+    memSegment = 0;
+    idxOutput = 0;
+    maxIdxOutput = 1200;
+    TRY
+    { 
+      int32 idx = 0; 
+      int32 idxP[1];   /**/
+      
+      
+      /*no initvalue*/
+      
+      set_MemSegmJc(theObject, searchObject_SearchElement_Inspc(/*static*/sVariablePath, ythis->rootObj, &theFieldP[0], &idxP[0], _thCxt));
+      theField = theFieldP[0];
+      idx = idxP[0];
+      addChild_ByteDataAccessJc(& ((* (answer)).base.super), & ((ythis->answerItem).base.super), _thCxt);
+      setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), 0, kAnswerRegisterRepeat_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
+      if(obj_MemSegmJc(theObject) != null && theField != null) 
+      { 
+        struct ClassJc_t const* type; 
+        int32 modifier; 
+        int32 addr; 
+        int32 ixReg = 0; 
+        struct InspcDataInfo_Inspc_t* freeOrder = null; 
+        int32 currentTime; 
+        int32 ixRegLast = 0;   /*Search a free position in the static array: */
+        int32 diffLast = 0; 
+        int32 ixAnswer; 
+        
+        
+        type = getType_FieldJc(theField);
+        modifier = getModifiers_FieldJc(theField);
+        addr = getMemoryIdent_FieldJc(theField, theObject, "I", idxP[0]);
+        ixReg = 0;
+        freeOrder = null;
+        currentTime = os_getSeconds();
+        ixRegLast = 0;
+        diffLast = 0;
+        
+        while(freeOrder == null && ixReg < ythis->registeredDataAccess.head.length)
+          { 
+            struct InspcDataInfo_Inspc_t* order; 
+            int32 lastUsed; 
+            
+            
+            order = & (ythis->registeredDataAccess.data[ixReg]);
+            lastUsed = currentTime - order->lastUsed;
+            if((lastUsed) > 3600) 
+            { 
+              
+              freeOrder = order;
+            }
+            else 
+            { 
+              
+              if(lastUsed > diffLast) 
+              { 
+                
+                diffLast = lastUsed;
+                ixRegLast = ixReg;
+              }
+              ixReg += 1;
+            }
+          }
+        if(freeOrder == null) 
+        { //:no registerItem found which is older than 1 our:
+          
+          
+          ixReg = ixRegLast;//get the oldest one.
+          
+          freeOrder = & (ythis->registeredDataAccess.data[ixReg]);
+        }
+        freeOrder->lastUsed = currentTime;
+        freeOrder->addrValue = theField;
+        set_MemSegmJc(freeOrder->addr, theObject);//freeOrder.timeout_millisec = 5000;  //after 5 seconds, forget it.
+        
+        freeOrder->check += 1;//change it to detect old requests at same index.
+        
+        ixAnswer = ixReg | (freeOrder->check << 12);
+        addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, ixAnswer, _thCxt);
+        getSetValue_ClassContent_Inspc(ythis, theField, idx, theObject, null, maxNrofAnswerBytes, _thCxt);
+        setLength_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt), _thCxt);//the length of the answerItems in byte.
+        
+      }
+      else 
+      { 
+        
+        setCmd_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), kFailedPath_Info_InspcDataExchangeAccess_Inspc, _thCxt);
+      }
+      setLength_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt), _thCxt);//the length of the answerItems in byte.
+      
+    }_TRY
+    CATCH(Exception, exc)
+    
+      { 
+        
+        /**Unexpected ...*/
+        println_z_PrintStreamJc(REFJc(out_SystemJc), "ClassContent-getValueByPath - unexpected:", _thCxt);
+        printStackTrace_ExceptionJc(exc, _thCxt);
+      }
+    END_TRY
+    { STACKTRC_LEAVE;
+      return 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+int32 cmdGetValueByIndex_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("cmdGetValueByIndex_ClassContent_Inspc");
+  
+  { 
+    int32 nrofVariable; 
+    
+    
+    nrofVariable = (getLenInfo_Info_InspcDataExchangeAccess_Inspc(cmd, _thCxt) - sizeofHead_Info_InspcDataExchangeAccess_Inspc) / 4;
+    TRY
+    { 
+      int32 idxOutput = 0; 
+      int32 idx = 0; 
+      bool bOk = true; 
+      int32 nOrderNr; 
+      int32 nBytesItem; 
+      
+      
+      idxOutput = 0;
+      /*no initvalue*/
+      bOk = true;
+      nOrderNr = getOrder_Info_InspcDataExchangeAccess_Inspc(cmd, _thCxt);
+      addChild_ByteDataAccessJc(& ((* (answer)).base.super), & ((ythis->answerItem).base.super), _thCxt);///
+      
+      addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, 0, _thCxt);//TODO more as one telg.
+      
+      
+      while(sufficingBytesForNextChild_ByteDataAccessJc(& ((* (cmd)).base.super), 4, _thCxt))
+        { //:for(idx = 0; bOk && idx < nrofVariable; idx++)
+          
+          int32 idxReq; 
+          int32 idxDataAccess; 
+          int32 check; 
+          struct InspcDataInfo_Inspc_t* order; 
+          
+          
+          idxReq = (int32)getChildInteger_ByteDataAccessJc(& ((* (cmd)).base.super), 4, _thCxt);
+          idxDataAccess = idxReq & 0xfff;
+          check = (idxReq >> 12) & 0xfffff;
+          order = & (ythis->registeredDataAccess.data[idxDataAccess]);
+          if(check == order->check && order->addrValue != null) 
+          { 
+            
+            getSetValue_ClassContent_Inspc(ythis, order->addrValue, 0, order->addr, null, maxNrofAnswerBytes, _thCxt);
+          }
+          else 
+          { //:The ident is faulty. Any ident request should have its answer.
+            
+            
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kTypeNoValue_InspcDataExchangeAccess_Inspc, _thCxt);
+          }
+        }//while
+        
+      nBytesItem = getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt);
+      setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), nBytesItem, kAnswerValueByIndex_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
+    }_TRY
+    CATCH(IllegalAccessException, exc)
+    
+      { 
+        
+        println_z_PrintStreamJc(REFJc(err_SystemJc), "ClassContent - cmdGetValueByIndex; Unexpected IllegalAccessException", _thCxt);
+      }
+    END_TRY
+    { STACKTRC_LEAVE;
+      return 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
 void stop_ClassContent_Inspc(ClassContent_Inspc_s* ythis, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("stop_ClassContent_Inspc");
@@ -1050,8 +1383,8 @@ const MtblDef_ClassContent_Inspc mtblClassContent_Inspc = {
 
 extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
 extern_C struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
-extern_C struct ClassJc_t const reflection_Datagram_InspcDataExchangeAccess_Inspc_s;
 extern_C struct ClassJc_t const reflection_Info_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const reflection_InspcDataInfo_Inspc_s;
 extern_C struct ClassJc_t const reflection_MemAccessArrayDebugJc;
 extern_C struct ClassJc_t const reflection_ObjectJc;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
@@ -1092,22 +1425,6 @@ const struct Reflection_Fields_ClassContent_Inspc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_ClassContent_Inspc_s
     }
-   , { "maxNrofAnswerBytes"
-    , 0 //nrofArrayElements
-    , REFLECTION_int32
-    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ClassContent_Inspc_s*)(0x1000))->maxNrofAnswerBytes) - (int32)(ClassContent_Inspc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
-    }
-   , { "answer"
-    , 0 //nrofArrayElements
-    , &reflection_Datagram_InspcDataExchangeAccess_Inspc_s
-    , kReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ClassContent_Inspc_s*)(0x1000))->answer) - (int32)(ClassContent_Inspc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
-    }
    , { "answerItem"
     , 0 //nrofArrayElements
     , &reflection_Info_InspcDataExchangeAccess_Inspc_s
@@ -1137,6 +1454,22 @@ const struct Reflection_Fields_ClassContent_Inspc_s_t
     , &reflection_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ClassContent_Inspc_s*)(0x1000))->uAnswer) - (int32)(ClassContent_Inspc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ClassContent_Inspc_s
+    }
+   , { "test"
+    , 0 //nrofArrayElements
+    , &reflection_InspcDataInfo_Inspc_s
+    , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ClassContent_Inspc_s*)(0x1000))->test) - (int32)(ClassContent_Inspc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ClassContent_Inspc_s
+    }
+   , { "registeredDataAccess"
+    , 1024 //nrofArrayElements
+    , &reflection_InspcDataInfo_Inspc_s
+    , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ClassContent_Inspc_s*)(0x1000))->registeredDataAccess) - (int32)(ClassContent_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ClassContent_Inspc_s
     }

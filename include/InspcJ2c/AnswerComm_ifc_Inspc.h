@@ -38,7 +38,7 @@ typedef struct AnswerComm_ifc_Inspc_t
 typedef struct AnswerComm_ifc_Inspc_X_t { ObjectArrayJc head; AnswerComm_ifc_InspcREF data[50]; } AnswerComm_ifc_Inspc_X;
 typedef struct AnswerComm_ifc_Inspc_Y_t { ObjectArrayJc head; AnswerComm_ifc_Inspc_s data[50]; } AnswerComm_ifc_Inspc_Y;
 
- extern struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
+ extern_C struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
   
 
 

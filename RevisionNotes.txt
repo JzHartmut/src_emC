@@ -1,3 +1,376 @@
+==2012-0410 Hartmut==
+* fw_Exception: new IllegalAccessExceptionJc, printStackTrace_P_ExceptionJc(PrintStreamJc_t* out)
+* InspcJ2c, J1c: chg Java version, see there, translated newly
+* StringJc.h new: gets0_StringJc(...) copies in a buffer only if necessary, returns a 0-terminated const char*
+* StringJc.h new: substring_StringBuilderJc() returns a reference to the internal String in its source,
+TODO create class StringBuilderJc in Java if an adequate behavior, TODO flag in StringBuilder for persistence or more global Flag in ThreadContext.
+* StringJc.h new: indexOf_z_StringBuilderJc
+* SystemJc.h new: getEnv_SystemJc(...)
+* os_time new: os_getSeconds(...). seconds are able to process with a
+32-bit integer. They are supported in most of operation systems. It is the originally unix concept
+for the timestamp. It should be available if measurements of seconds are enough and proper to use.
+See srcJava_vishaBase/org.vishia.bridgeC.OS_TimeStamp
+
+>bzr log
+/home/hartmut/vishia/Java2C/sf/Java2C/CRuntimeJavalike>bzr log
+------------------------------------------------------------
+revno: 44
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Mon 2012-04-09 12:57:19 +0200
+message:
+  reflection__char16Jc
+  ReflectionJc new: nrofBytesScalarTypes_ClassJc[], reflection__char16Jc
+  os_time.h new: os_getSeconds(): seconds are able to process with a 32-bit integer. They are supported in most of operation systems. It is the originally unix concept for the timestamp. It should be available if measurements of seconds are enough and proper to use.
+------------------------------------------------------------
+revno: 43
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Thu 2012-02-23 08:49:39 +0100
+message:
+  * Some extern_C missing for reflection_Type. It is important for C++-compilation only.
+  * os_socket.c adapted for Windows-Platform.
+------------------------------------------------------------
+revno: 42
+committer: Hartmut Schorrig <hartmut@linux-c8ks>
+branch nick: CRuntimeJavalike
+timestamp: Tue 2012-02-21 18:29:19 +0100
+message:
+  * bugfixes while testing under linux, now socket communication works
+------------------------------------------------------------
+revno: 41
+committer: Hartmut Schorrig <hartmut@linux-c8ks>
+branch nick: CRuntimeJavalike
+timestamp: Tue 2012-02-21 08:09:44 +0100
+message:
+  *os_socket.h: chg: some ref parameters const
+  *os_LinuxGcc/os_socket.c: chg: now ok, works
+  *os_LinuxGcc/os_types_def.h: chg: some types int16_va_list etc are int really!
+  *ThreadJc.h new: getname_ThreadJc() was missing, it is a macro
+------------------------------------------------------------
+revno: 40
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Mon 2012-02-20 08:40:41 +0100
+message:
+  Some Test files added
+------------------------------------------------------------
+revno: 39
+committer: Hartmut Schorrig <hartmut@linux-c8ks>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2012-02-05 11:20:00 +0100
+message:
+  include uppercase
+------------------------------------------------------------
+revno: 38
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sat 2012-02-04 19:05:31 +0100
+message:
+  addes some more files, generated reflection for test, dep-files from MsC6
+------------------------------------------------------------
+revno: 37
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Mon 2012-01-30 12:18:49 +0100
+message:
+  * Libs (Windows) removed from archive, there are binaries!
+  * fw_SimpleC: new FloatArray256 etc.
+  *  fw_SimpleC: new searchString_Fwc(...) as a basic functionality
+  * some renaming int32 to int32_t (C99-Compatible)
+  * Visual Studio 6 projects improved (Win-Libs)
+  * ReflectionBasetypesJc.c: The offsets of int64_hilo etc. where designated as -1 for 'remote Device', set to OFFSETinTYPE_MemUnit(...) for usage in local programs. TODO is that a problem when it are using in remote devices? If yes, The ReflectionGenerator and Reflection_Jc.c should be improved.
+------------------------------------------------------------
+revno: 36
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Fri 2011-10-07 11:15:15 +0200
+message:
+  * Path includeSpecials/os_Windows renamed to includeSpecials/os_Windows_Msc6 because it is for Visiual Studio 6 compiler
+  * os_types_def.h: additional type int64_hilo to access both parts of a int64 with 32 bit. It is processor specific.
+  * ReflectionBasetypesJc.c: int64_hilo
+------------------------------------------------------------
+revno: 35
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-08-14 08:10:15 +0200
+message:
+  * Windows-Libraries
+------------------------------------------------------------
+revno: 34
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-08-14 07:56:54 +0200
+message:
+  * Windows-Libraries now generates the correct pdb-file stored with the library. It supports debugging step in library with source codes.
+------------------------------------------------------------
+revno: 33
+committer: Hartmut Schorrig <hartmut@linux-c8ks>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-08-07 21:55:48 +0200
+message:
+  * Some minor changes while compiling under linux, case sensitive includefilenames etc.
+  * os_socket.h for linux should be adapted. Only copied from Windows yet with minor adaptions. It is TODO
+------------------------------------------------------------
+revno: 32
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-07-10 16:02:49 +0200
+message:
+  * _bzrCommit.txt was added by mistake. deleted.
+------------------------------------------------------------
+revno: 31
+committer: JcHartmut
+branch nick: CRuntimeJavalike
+timestamp: Sat 2011-07-02 19:25:12 +0200
+message:
+  Objects and temp files deleted, they were added in the last commit
+------------------------------------------------------------
+revno: 30
+committer: Hartmut Schorrig <hartmut@linux-c8ks>
+branch nick: CRuntimeJavalike
+timestamp: Sat 2011-07-02 19:06:13 +0200
+message:
+  * Some small changes
+  ** ObjectJc.c in cpp-compilation: toString() commented, because compiler error (TODO if need)
+  ** Windows-lib-dsps All should be for Multithreading (compiler option)
+------------------------------------------------------------
+revno: 29
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Thu 2011-06-23 13:29:33 +0200
+message:
+  * Some bak files deleted
+  * some files added
+  * TestLibOsalFwc
+------------------------------------------------------------
+revno: 28
+committer: Hartmut Schorrig <hartmut@linux-c8ks>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-06-05 13:54:01 +0200
+message:
+  os_linux, enhancement of os_file.h
+------------------------------------------------------------
+revno: 27
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-05-15 23:28:20 +0200
+message:
+  * remove dependency to fw_Platform_conventions in the OSAL and Csimple lib.
+  The mLength_StringJc should be defined now in os_types_def.h. It depends on processor-word-wide etc.
+------------------------------------------------------------
+revno: 26
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Fri 2011-05-06 22:05:50 +0200
+message:
+  * Add some Test-Projects in Visual Studio 6: The tests should be a part of the CRuntimeJavalike component. A user can verfify the codes and concepts, examples are given. All tests are disposed in the Test/*-directory with sub-dirs. The tests will be evaluated under Linux in the future.
+------------------------------------------------------------
+revno: 25
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Fri 2011-05-06 21:38:15 +0200
+message:
+  * Check and corr: Inspc.java2c.bat
+------------------------------------------------------------
+revno: 24
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Wed 2011-05-04 18:36:22 +0200
+message:
+  * Changes of os_file.h Identifier: Not OS_FileDescription but FileDescription_OSAL,
+  some adaptions
+------------------------------------------------------------
+revno: 23
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-04-24 18:23:16 +0200
+message:
+  * Renaming in os_file.h: More consequent naming conventions. TODO adapt usage.
+------------------------------------------------------------
+revno: 22
+committer: hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Tue 2011-04-19 12:31:13 +0200
+message:
+  * os_AtomicAccess.h: ifdef PLATFORM_os_AtomicAccess_h, then includes PLATFORM_os_AtomicAccess.h: Special cases platform-depending.
+  * os_time.h: ifdef PLATFORM_os_time_h, then includes PLATFORM_os_time_h
+  * ReflMemAccessJc.c: Test nullpointer to prevent crash
+  * ReflectionJc.c: Using of getAddrElement_FieldJc() instead getMemoryAddress_FieldJc to access getInt_FieldJc etc. for correct supporting arrays.
+------------------------------------------------------------
+revno: 21
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Wed 2011-03-09 22:08:48 +0100
+message:
+  Test/TestAtomic and Test/TestFileJc
+------------------------------------------------------------
+revno: 20
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Tue 2011-03-08 21:32:54 +0100
+message:
+  TestStringJc Test-project re-tested under visual studio
+------------------------------------------------------------
+revno: 19
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Mon 2011-03-07 22:36:59 +0100
+message:
+  added get archive from bazaar on launchpad as batch-file
+------------------------------------------------------------
+revno: 18
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-03-06 22:31:52 +0100
+message:
+  Library-association tested.
+  * Now there are 2 libs: OsalFwc and baseJc. Both libs are existing as C- and C++-variant. But most of the methods in the C++-variant are declared with exern "C".
+  * If C++ is used, fw_Exception uses throw. It doesn't use the longjmp! Only the C-Variant uses the longjmp. But it is possible to include the OsalFwc.lib (C-variant) in a C++ environment. Then longjmp have to be used in C++ tool
+------------------------------------------------------------
+revno: 17
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-03-06 20:55:37 +0100
+message:
+  improve dependencies for OSAL/Fwc
+------------------------------------------------------------
+revno: 16
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-03-06 19:16:09 +0100
+message:
+  enhancement os_file: get stdin, stdout, stderr, os_ftell.
+  The Implementation for windows has 2 variants: using fopen etc (FILE*) and the lo-level-functions open, read etc.
+  A test project using Visual Studio6 for the os-library is created. os_file and Formatter-fwc-tested.
+------------------------------------------------------------
+revno: 15
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-03-06 19:10:26 +0100
+message:
+  There was an error in fw_Formatter.c, some enhancements while testing in pactice:
+   *  new method format_Formatter_FW(...).
+   * bugfix: format_va_arg_Formatter_FW(...): The variable arguments were not detect correctly.
+   * new: format_va_arg_Formatter_FW(...): The argument zFormat can be 0, then the sFormat is recognized 0-terminated with max, 1000 chars.
+------------------------------------------------------------
+revno: 14
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-03-06 07:56:07 +0100
+message:
+  the shared memory is not a part of OSAL. It is removed.
+------------------------------------------------------------
+revno: 13
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-03-06 07:54:51 +0100
+message:
+  Some fine corrections to minor depedencies:
+  * fw_Exception.h: shouldn't include os_file.h, forward declaration used
+------------------------------------------------------------
+revno: 12
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Wed 2011-03-02 06:09:54 +0100
+message:
+  Dependency-files from visual Studio added, to detect dependencies while changing includes etc.
+  makefiles also added, they are generated files, but check the relevance
+------------------------------------------------------------
+revno: 11
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-02-27 09:31:54 +0100
+message:
+  FileSystemJc.h: writeBinFile_FileSystemJc forward declared
+  fw_formatter.c: writing Char8_t etc. instead char8_t because conflicts with os_types_def.h
+  fw_Exception.stc: package?
+------------------------------------------------------------
+revno: 10
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Tue 2011-02-22 20:32:09 +0100
+message:
+  *corr: getMemoryIdent_V_FieldJc() regards the reference-property of the field, in the same way as getInt_FieldJc etc.
+  * TODO: All methods getTYPE_FieldJc() should use getAddrElement_FieldJc instead getMemoryAddress_FieldJc to regard container properties. It is not changed yet but it is detected and designated with TODO
+------------------------------------------------------------
+revno: 9
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Tue 2011-02-22 20:02:05 +0100
+message:
+  comment in ReflectionJc.h, Methods getMemoryAddress_FieldJc(), getContainerAddress_FieldJc() and getAddrElement_FieldJc().
+------------------------------------------------------------
+revno: 8
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Fri 2011-02-18 19:06:53 +0100
+message:
+  * Separation of library baseJc and simpleC: The simpleC-lib should contain only routines which runs under any standard-C and does not need any other libs. The OSAL.lib can use this simpleC-lib in its implementation. The order of lib should be well defined using GNU-linker.
+  * Definition of the C99-Standard types int32_t etc and use them in some of files. Reason: compatibility-problems with other sources in a special project. There was used 'int32' for a enum definition of an internal type. That is correct and should be accepted.
+  * New sources in Fwc for readline of files. But this source should not be a part of simpleC, because it uses the OSAL (TODO).
+  * New routines in fwc/simpleC.c to support working with strings. This simple routines are created respectively copied and adapted from older projects because the Standard-C scanf-routine is faulty on Visual Studio 6 and it is not really good. A user may not use the complex StringJc sources, the fwc-routines are lightweight.
+  * Some adaptions in InterProcessComm while using in a special project.
+  #Compilation checked in baseJc.lib, OSAL.lib, Reflectiontest.
+------------------------------------------------------------
+revno: 7
+committer: e09srrh0 <hartmut.schorrig@siemens.com>
+branch nick: CRuntimeJavalike
+timestamp: Wed 2011-02-16 15:20:42 +0100
+message:
+  *new: source/Ipc/InterProcessCommSocket.c/h: mtblInterProcessCommSocket is defined in the headerfile, it can be used directly if it is defined, that the Socket communication is used. write mtblInterProcessCommSocket.mtbl.send(...) instead send_lInterProcessCommSocket(...). Advantage:
+  a) The socket-implementation methods shouldn't be known.
+  b) It can be switched between several InterProcessComm-implementations by changing only 1 identifier in the source.
+  This change is done because older source-adaption, where this concept were used.
+  *corr: source/FwConv/fw_PlatformConvSimpleStop.c: printStackTraceFile_ExceptionJc(...stdout) called with null because adaption.
+------------------------------------------------------------
+revno: 6
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Mon 2011-02-14 17:09:56 +0100
+message:
+  Some oder changes, now present...
+------------------------------------------------------------
+revno: 5
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Mon 2011-02-14 17:07:26 +0100
+message:
+  bugfix for Inspector: If a receive error occurs, it wasn't handled. Instead, faulty bytes were processed in processTelg(). Now the receiveAndExecute() waits 50 ms on receive errors (to prevent thread hanging on permanent errors), and try receiving again after them. The answer is suppressed if a receive error occurs.
+------------------------------------------------------------
+revno: 4
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Mon 2011-02-14 15:50:01 +0100
+message:
+  printStackTraceFile_ExceptionJc works with OS_HandleFile instead FILE* as Parameter: Reason: Not any embedded os supports the standard-C FILE functions. The OSAL-functions should be adapted if CRuntimeJavalike are used anytime.
+------------------------------------------------------------
+revno: 3
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Wed 2011-02-09 20:18:33 +0100
+message:
+  Test C++ with ReflectionTarget Successfull,
+  include/OSAL/os_types_def_common.h created
+------------------------------------------------------------
+revno: 2
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sun 2011-02-06 11:38:27 +0100
+message:
+  extern_C-change for Java2C, new java2c-translation of all java-sources,
+  adapt extern_C in CRuntimeJavalike.sources.
+  Successfull tested Inspector in C++
+------------------------------------------------------------
+revno: 1
+committer: Hartmut <hartmut.schorrig@vishia.de>
+branch nick: CRuntimeJavalike
+timestamp: Sat 2011-02-05 22:20:30 +0100
+message:
+  first bazaar commit
+JavaCmd: cmd execution successfull
+
+
 ==2008-0905 JcHartmut==
 ===StringJc.h===
 *new: ctorO_StringBufferJc(): initializing with an initialized ObjectJc
@@ -16,20 +389,20 @@ adap: see StringJc.h
 
 ===ObjectJc.h===
 *new: ctorM_ObjectJc() tut dasselbe wie ctor_ObjectJc() aber Namenskonventionen beachtet
-*new: checkConsistence_ObjectJc(): Überprüft mehr als das Makro testConsistence_ObjectJc
-*new: setIdentAndSize_ObjectJc(): testet ob ident und size zueinander passen (Bitverteilungen). Bisher gab es nur die Möglichkeit, diese Infos in einem int32 zu übergeben.
+*new: checkConsistence_ObjectJc(): ï¿½berprï¿½ft mehr als das Makro testConsistence_ObjectJc
+*new: setIdentAndSize_ObjectJc(): testet ob ident und size zueinander passen (Bitverteilungen). Bisher gab es nur die Mï¿½glichkeit, diese Infos in einem int32 zu ï¿½bergeben.
 *chg: finalize() mit _threadContext
 
 ===objectBaseC.h===
-*new: Definitionen für kBitTypeLarge_objectIdentSize_ObjectJc usw. fehlten, passend zu mTypeLarge_objectIdentSize_ObjectJc
+*new: Definitionen fï¿½r kBitTypeLarge_objectIdentSize_ObjectJc usw. fehlten, passend zu mTypeLarge_objectIdentSize_ObjectJc
 
 ===MemC.c==
-* alloc_MemC() löscht den allokierten Bereich, übergibt ihn also mit 0 gefüllt.
+* alloc_MemC() lï¿½scht den allokierten Bereich, ï¿½bergibt ihn also mit 0 gefï¿½llt.
 
 ===ObjectJc.c===
-* ctorc_ObjectJc initialisiert nur dann, wenn die ownAddress==null ist. Ist dies nicht der Fall, dann wird derzeit nichts ausgeführt. TODO: checkConsistence prüfen!
-*new: checkConsistence_ObjectJc(): Überprüft mehr als das Makro testConsistence_ObjectJc
-*new: setIdentAndSize_ObjectJc(): testet ob ident und size zueinander passen (Bitverteilungen). Bisher gab es nur die Möglichkeit, diese Infos in einem int32 zu übergeben.
+* ctorc_ObjectJc initialisiert nur dann, wenn die ownAddress==null ist. Ist dies nicht der Fall, dann wird derzeit nichts ausgefï¿½hrt. TODO: checkConsistence prï¿½fen!
+*new: checkConsistence_ObjectJc(): ï¿½berprï¿½ft mehr als das Makro testConsistence_ObjectJc
+*new: setIdentAndSize_ObjectJc(): testet ob ident und size zueinander passen (Bitverteilungen). Bisher gab es nur die Mï¿½glichkeit, diese Infos in einem int32 zu ï¿½bergeben.
 *new: getSizeInfo_ObjectJc(): hat gefehlt
 *new: getIdentInfo_ObjectJc(): neu geschrieben,war an anderer Stelle identsich schon vorhanden .
 *chg: finalize() mit _threadContext
@@ -38,57 +411,57 @@ adap: see StringJc.h
 ==2008-0808 JcHartmut==
 
 ===os_sync.c===
-os_notify() ist geändert:
-* Liefert >0, wenn eine Warning passiert, insbesondere wenn eine Semaphore gesetzt wird, die bereits gesetzt ist. Das führte früher auch schonmal zu einer Exception, unnötigerweise.
-* Liefert <0 bei einem echten Fehler, der nie auftreten sollte (mit ASSERT(ok>=0) prüfbar)
+os_notify() ist geï¿½ndert:
+* Liefert >0, wenn eine Warning passiert, insbesondere wenn eine Semaphore gesetzt wird, die bereits gesetzt ist. Das fï¿½hrte frï¿½her auch schonmal zu einer Exception, unnï¿½tigerweise.
+* Liefert <0 bei einem echten Fehler, der nie auftreten sollte (mit ASSERT(ok>=0) prï¿½fbar)
 Dieses Schema sollte allgemein durchgehalten werden (OSAL-Design).
 
 ===os_thread.h===
-os_notify() ist besser dokumentiert, weil es auch sein Verhalten geändert hat:
-* Liefert >0, wenn eine Warning passiert, insbesondere wenn eine Semaphore gesetzt wird, die bereits gesetzt ist. Das führte früher auch schonmal zu einer Exception, unnötigerweise.
-* Liefert <0 bei einem echten Fehler, der nie auftreten sollte (mit ASSERT(ok>=0) prüfbar)
+os_notify() ist besser dokumentiert, weil es auch sein Verhalten geï¿½ndert hat:
+* Liefert >0, wenn eine Warning passiert, insbesondere wenn eine Semaphore gesetzt wird, die bereits gesetzt ist. Das fï¿½hrte frï¿½her auch schonmal zu einer Exception, unnï¿½tigerweise.
+* Liefert <0 bei einem echten Fehler, der nie auftreten sollte (mit ASSERT(ok>=0) prï¿½fbar)
 Dieses Schema sollte allgemein durchgehalten werden (OSAL-Design).
 
 ===gardening===
-Einige Feinkorrekturen ''gardening'' ohne funktionelle relevanz, aber teilweise compilersyntaxwichtig, und für Reflectiongenerierung.
-Für Anwender ergeben sich keine Änderungen.
+Einige Feinkorrekturen ''gardening'' ohne funktionelle relevanz, aber teilweise compilersyntaxwichtig, und fï¿½r Reflectiongenerierung.
+Fï¿½r Anwender ergeben sich keine ï¿½nderungen.
 *chg: Superclass von ClassJc jetzt nicht super sondern object
 *chg: Mtbl statt Vtbl
 
-*corr: Includeklammern wegen Cheader.zbnf, unwichtigen aber unschönen Error bei genReflections vermeiden
+*corr: Includeklammern wegen Cheader.zbnf, unwichtigen aber unschï¿½nen Error bei genReflections vermeiden
 
 
 ==2008-0729 JcHartmut==
 ===DateJc.c===
-*ctor_xx_DateJc ergänzt, fehlende Initialisierungen
-*setTimeNanoSeconds_DateJc ergänzt
+*ctor_xx_DateJc ergï¿½nzt, fehlende Initialisierungen
+*setTimeNanoSeconds_DateJc ergï¿½nzt
 
 ===time.c===
 time.c, toStringFormat_Fw()
 corr: Liefert nun eine nicht-0-terminierte Ausgaben. Die Zeichenkette muss sich in einen umfassenderen String einpassen lassen!
-bugfix: YY als Jahr (groß, nicht klein)
+bugfix: YY als Jahr (groï¿½, nicht klein)
 new: a als Formatkennung
-corr: Puffer wird bis max. Länge gefüllt, dann Abschneiden.
+corr: Puffer wird bis max. Lï¿½nge gefï¿½llt, dann Abschneiden.
 
 
 
 
 ==2008-0707 NOLABEL JcHartmut==
 *ConcurrentLinkedQueue.h
-**nice: ZeigerTyp eines Items in Makro ITEM_QueueJcREF festgelegt, das Makro ist im h-File definiert. Damit anpassbar ohne Quelländerung.
-**new: ctorMn_ConcurrentLinkedQueueJc und ctorSn_ConcurrentLinkedQueueJc für Übergabe Node-pool gleich zu Anfang, damit kein new intern.
+**nice: ZeigerTyp eines Items in Makro ITEM_QueueJcREF festgelegt, das Makro ist im h-File definiert. Damit anpassbar ohne Quellï¿½nderung.
+**new: ctorMn_ConcurrentLinkedQueueJc und ctorSn_ConcurrentLinkedQueueJc fï¿½r ï¿½bergabe Node-pool gleich zu Anfang, damit kein new intern.
 **corr: "Node_ConcurrentLinkedQueueJc volatile* volatile* firstFreeNode" Zeiger auf Node muss volatile sein!
 
 *Date.h
-**new: Einige Inhalte aus Date_Jc.c übernommen: normalize_DateJc(), compareTo_DateJc(), ctor..._DateJc(), setSystemTime_DateJc()
-**chg: toStringFormat_Fw() benutzt keine Jc-Dinge. Hier wäre eine Abtrennung in andere Source (Jc-independ) möglich.
+**new: Einige Inhalte aus Date_Jc.c ï¿½bernommen: normalize_DateJc(), compareTo_DateJc(), ctor..._DateJc(), setSystemTime_DateJc()
+**chg: toStringFormat_Fw() benutzt keine Jc-Dinge. Hier wï¿½re eine Abtrennung in andere Source (Jc-independ) mï¿½glich.
 
 *MemC.h
-**new: init0p_MemC() initialisiert einen über Zeiger gegebenen Bereich mit angegebener Länge. 
-**new: INIT0p_MemC(PTR) als Makro ruft init0p_MemC auf, sizeof(*type), ganz simpel anwendbar, ersetzt memset(...) 
+**new: init0p_MemC() initialisiert einen ï¿½ber Zeiger gegebenen Bereich mit angegebener Lï¿½nge.
+**new: INIT0p_MemC(PTR) als Makro ruft init0p_MemC auf, sizeof(*type), ganz simpel anwendbar, ersetzt memset(...)
 **new: address_MemC(mem, offset) als Hilfe zur Adressrechnung, einfacher anwendbar.
 
 *src_Win/os_time.h
 **new: int os_getDateTime(_OS_TimeStruct* pDateTime); wie in spec beschrieben definiert
 **new: _OS_TimeStruct wie in spec beschrieben definiert, aber auch die Makros OS_mNanoSeconds und OS_mLeapSeconds
-**new: int toStringFormat_Fw(...); hier definiert, ist damit unabhängig von einem ..Jc anwendbar (braucht auch nichts daraus.)
+**new: int toStringFormat_Fw(...); hier definiert, ist damit unabhï¿½ngig von einem ..Jc anwendbar (braucht auch nichts daraus.)

@@ -45,12 +45,12 @@
 #include <os_file.h>
 #include <stdio.h>
 
-METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
+void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
 {
   printStackTraceFile_ExceptionJc(ythis,null);  //null causes printf instead sprintf, os_fwrite
 }
 
-METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out)
+void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out)
 { //DEF__threadContextJc
   int idxStacktraceEntries = 0;
   int nrofStacktraceEntriesMax;
@@ -101,4 +101,3 @@ METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile 
   }
 
 }
-

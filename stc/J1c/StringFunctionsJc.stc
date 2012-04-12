@@ -1,0 +1,23 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "J1c/StringFunctionsJc"
+package org/vishia/util/;
+
+class StringFunctions; nameC=StringFunctionsJc_s; argIdent=XX; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+  int %.d version;
+}
+  methods {  
+    ctorO-_$, mode= ctor+static: org/vishia/util/StringFunctions *.. StringFunctionsJc_s();
+    parseFloat-_$, mode= static: float %.r null(java/lang/String(instance=java/lang/String) t.. src,int %.. pos,int %.. sizeP,int[??] X%. parsedCharsP);
+    parseIntRadix-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars);
+    parseIntRadixBack-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars);
+    posAfterIdentifier+_tii-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax);
+    posAfterIdentifier+_tiiSS-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars,java/lang/String(instance=java/lang/String) t.. additionalChars);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

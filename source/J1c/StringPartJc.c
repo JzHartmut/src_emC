@@ -7,8 +7,10 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "J1c/SpecialCharStringsJc.h"  //reference-association: SpecialCharStringsJc_s
+#include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
 #include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
+#include "Jc/SystemJc.h"  //reference-association: SystemJc
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -173,6 +175,7 @@ struct StringPartJc_t* assign_S_StringPartJc_F(StringPartJc_s* ythis, StringJc c
     set_StringJc(&(ythis->content), content);
     ythis->startMin = ythis->startLast = /*? assignment*/ythis->start = /*? assignment*/0;
     ythis->endMax = ythis->end = /*? assignment*/ythis->endLast = /*? assignment*/length_StringJc(content);
+    ythis->bStartScan = ythis->bCurrentOk = /*? assignment*/true;
     { STACKTRC_LEAVE;
       return ythis;
     }
@@ -184,6 +187,73 @@ struct StringPartJc_t* assign_S_StringPartJc_F(StringPartJc_s* ythis, StringJc c
 struct StringPartJc_t* assign_S_StringPartJc(StringPartJc_s* ythis, StringJc content, ThCxt* _thCxt)
 { Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringPartJc);
   return mtbl->assign_S(ythis, content, _thCxt);
+}
+
+
+/**Sets the content to the given string, forgets the old content.*/
+struct StringPartJc_t* assignReplaceEnv_StringPartJc_F(StringPartJc_s* ythis, struct StringBuilderJc_t* input, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("assignReplaceEnv_StringPartJc_F");
+  
+  { 
+    int32 pos1 = 0; 
+    int32 zInput; 
+    
+    StringJc _persistring1_1=NULL_StringJc; //J2C: temporary persistent Strings
+    
+    pos1 = 0;
+    zInput = length_StringBuilderJc(input);
+    
+    while((pos1 = /*? assignment*/indexOf_zI_StringBuilderJc(input, "$", pos1, _thCxt)) >= 0)
+      { 
+        int32 posident = 0; 
+        int32 posidentend = 0; 
+        int32 pos9 = 0; 
+        StringJc sEnv; 
+        
+        
+        /*no initvalue*/
+        /*no initvalue*/
+        /*no initvalue*/
+        if(charAt_StringBuilderJc(input, pos1 + 1, _thCxt) == '(') 
+        { 
+          
+          posident = pos1 + 2;
+          posidentend = indexOf_zI_StringBuilderJc(input, ")", posident, _thCxt);
+          pos9 = posidentend + 1;//after )
+          
+        }
+        else 
+        { 
+          
+          posident = pos1 + 1;
+          posidentend = pos9 = /*? assignment*/posAfterIdentifier_tii_StringFunctionsJc(/*static*/toString_StringBuilderJc(&(input)->base.object, _thCxt), posident, zInput, _thCxt);
+        }
+        sEnv = getenv_SystemJc(/*static*/substring_StringBuilderJc(input, posident, posidentend, _thCxt), _thCxt)/*J2C:non-persistent*/;
+        if(sEnv.ptr__== null) 
+        { 
+          
+          sEnv = z_StringJc("")/*J2C:non-persistent*/;
+        }
+        replace_StringBuilderJc(input, pos1, pos9, sEnv, _thCxt);
+        zInput = length_StringBuilderJc(input);
+      }
+    set_StringJc(&(ythis->content), _persistring1_1 = toStringPersist_StringBuilderJc(& ((* (input)).base.object)/*J2cT1*/, _thCxt));
+    ythis->startMin = ythis->startLast = /*? assignment*/ythis->start = /*? assignment*/0;
+    ythis->endMax = ythis->end = /*? assignment*/ythis->endLast = /*? assignment*/length_StringJc(ythis->content);
+    ythis->bStartScan = ythis->bCurrentOk = /*? assignment*/true;
+    { STACKTRC_LEAVE;
+      activateGC_ObjectJc(PTR_StringJc(_persistring1_1), null, _thCxt);
+      return ythis;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringPartJc_t* assignReplaceEnv_StringPartJc(StringPartJc_s* ythis, struct StringBuilderJc_t* input, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringPartJc);
+  return mtbl->assignReplaceEnv(ythis, input, _thCxt);
 }
 
 
@@ -705,7 +775,8 @@ struct StringPartJc_t* lentoIdentifier_SS_StringPartJc_F(StringPartJc_s* ythis, 
       ythis->bFound = false;
     }
     else 
-    { 
+    { //:TODO use StringFunctions.lenIdentifier
+      
       char cc; 
       
       
@@ -1591,7 +1662,7 @@ int32 indexOfAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* ythis, StringJc 
 }
 
 
-/**Searches the end of a quotion string.*/
+/**Searches the end of a quoted string*/
 int32 indexEndOfQuotion_StringPartJc_F(StringPartJc_s* ythis, char cEndQuotion, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("indexEndOfQuotion_StringPartJc_F");
@@ -2766,7 +2837,35 @@ struct StringPartJc_t* scanInteger_StringPartJc(StringPartJc_s* ythis, ThCxt* _t
 }
 
 
-/**Scans an float expression*/
+/**Scans a float number*/
+struct StringPartJc_t* scanFloatNumber_b_StringPartJc_F(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtthis = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringPartJc);
+  
+  STACKTRC_TENTRY("scanFloatNumber_b_StringPartJc_F");
+  
+  { 
+    
+    if(cleanBuffer) 
+    { 
+      
+      ythis->idxLastFloatNumber = -1;
+    }
+    mtthis->scanFloatNumber(ythis, _thCxt);
+    { STACKTRC_LEAVE;
+      return ythis;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringPartJc_t* scanFloatNumber_b_StringPartJc(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringPartJc);
+  return mtbl->scanFloatNumber_b(ythis, cleanBuffer, _thCxt);
+}
+
+
+/**Scans a float number*/
 struct StringPartJc_t* scanFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt)
 { Mtbl_StringPartJc const* mtthis = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringPartJc);
   
@@ -2814,7 +2913,7 @@ struct StringPartJc_t* scanFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThC
         if(ythis->bCurrentOk) 
         { 
           
-          if(charAt_StringJc(ythis->content, ythis->start) == '.') 
+          if(ythis->start < ythis->endMax && charAt_StringJc(ythis->content, ythis->start) == '.') 
           { 
             
             bFractionalFollowed = true;
@@ -2827,7 +2926,7 @@ struct StringPartJc_t* scanFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThC
         mtthis->seek_i(ythis, 1, _thCxt);//over .
         
         
-        while(mtthis->getCurrentChar(ythis, _thCxt) == '0')
+        while(ythis->start < ythis->endMax && mtthis->getCurrentChar(ythis, _thCxt) == '0')
           { 
             
             mtthis->seek_i(ythis, 1, _thCxt);
@@ -2857,7 +2956,7 @@ struct StringPartJc_t* scanFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThC
         
         
         nPosExponent = ythis->start;
-        if((cc = /*? assignment*/charAt_StringJc(ythis->content, ythis->start)) == 'e' || cc == 'E') 
+        if(nPosExponent < ythis->endMax && (cc = /*? assignment*/charAt_StringJc(ythis->content, ythis->start)) == 'e' || cc == 'E') 
         { 
           
           mtthis->seek_i(ythis, 1, _thCxt);
@@ -3155,7 +3254,7 @@ double getLastScannedFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _t
         return ythis->nLastFloatNumber.data[ythis->idxLastFloatNumber--];
       }
     }
-    else { throw_s0Jc(ident_ParseExceptionJc, "no integer number scanned.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    else { throw_s0Jc(ident_ParseExceptionJc, "no float number scanned.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
   }
   STACKTRC_LEAVE;
 }
@@ -3697,13 +3796,38 @@ StringJc replace_StringPartJc(/*static*/ StringJc src, StringJc_Y* placeholder, 
 }
 
 
+/**Closes the work*/
+void close_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("close_StringPartJc_F");
+  
+  { 
+    
+    set_StringJc(&(ythis->content), null_StringJc);
+    set_StringJc(&(ythis->sLastString), null_StringJc);
+    ythis->startMin = ythis->startLast = /*? assignment*/ythis->start = /*? assignment*/ythis->startScan = /*? assignment*/0;
+    ythis->endMax = ythis->end = /*? assignment*/ythis->endLast = /*? assignment*/0;
+    ythis->nLineCt = 0;
+    ythis->bCurrentOk = ythis->bFound = /*? assignment*/false;
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void close_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringPartJc);
+  mtbl->close(ythis, _thCxt);
+}
+
+
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringPartJc mtblStringPartJc = {
 { { sign_Mtbl_StringPartJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((92 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((95 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , assign_S_StringPartJc_F //assign_S
+, assignReplaceEnv_StringPartJc_F //assignReplaceEnv
 , assign_XX_StringPartJc_F //assign_XX
 , assignFromEnd_StringPartJc_F //assignFromEnd
 , setIgnoreComment_b_StringPartJc_F //setIgnoreComment_b
@@ -3773,6 +3897,7 @@ const MtblDef_StringPartJc mtblStringPartJc = {
 , scanEntry_StringPartJc_F //scanEntry
 , scanPositivInteger_StringPartJc_F //scanPositivInteger
 , scanInteger_StringPartJc_F //scanInteger
+, scanFloatNumber_b_StringPartJc_F //scanFloatNumber_b
 , scanFloatNumber_StringPartJc_F //scanFloatNumber
 , scanHex_StringPartJc_F //scanHex
 , scanHexOrDecimal_StringPartJc_F //scanHexOrDecimal
@@ -3795,6 +3920,7 @@ const MtblDef_StringPartJc mtblStringPartJc = {
 , getCurrentPart_i_StringPartJc_F //getCurrentPart_i
 , debugString_StringPartJc_F //debugString
 , throwIndexOutOfBoundsException_StringPartJc_F //throwIndexOutOfBoundsException
+, close_StringPartJc_F //close
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }

@@ -6,6 +6,7 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include "Fwc/fw_Exception.h"  //reference-association: ExceptionJc
 #include "InspcJ2c/CmdExecuter_Inspc.h"  //reference-association: cmdExecuterMtbl
 #include "Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactoryAccessor
 #include "Jc/PrintStreamJc.h"  //reference-association: out
@@ -166,6 +167,15 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
             }
         }
       }
+    
+    synchronized_ObjectJc(& ((* (ythis)).base.RunnableJc.base.object)); {
+      
+      { 
+        
+        ythis->state = 'z';
+        notify_ObjectJc(& ((* (ythis)).base.RunnableJc.base.object), _thCxt);
+      }
+    } endSynchronized_ObjectJc(& ((* (ythis)).base.RunnableJc.base.object));
   }
   STACKTRC_LEAVE;
 }
@@ -199,36 +209,61 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt)
         
         ythis->state = 'r';//receive
         
-        ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &ythis->nrofBytesReceived[0], buildFromArrayX_MemC(&((struct int8_Y_t*)(&( ythis->rxBuffer)))->head) , ythis->myAnswerAddress);
-        if(ythis->nrofBytesReceived[0] < 0) 
-        { //:error situation
-          //:it is possible that a send request has failed because the destination port is not
-          //:able to reach any more. Therefore wait a moment and listen new
-          
-          
-          ythis->state = 'e';//prevent send
-          
-          TRY
-          { 
-            
-            sleep_ThreadJc(/*static*/50, _thCxt);
-          }_TRY
-          CATCH(InterruptedException, exc)
-          
-            { 
-              
-              
-            }
-          END_TRY
-          ythis->state = 'r';//
-          
-        }
-        else 
+        TRY
         { 
           
-          cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), (struct int8_Y_t*)(&( ythis->rxBuffer)), ythis->nrofBytesReceived[0], _thCxt);//unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);
-          
-        }
+          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &ythis->nrofBytesReceived[0], buildFromArrayX_MemC(&((struct int8_Y_t*)(&( ythis->rxBuffer)))->head) , ythis->myAnswerAddress);
+          if(ythis->state != 'x') 
+          { 
+            
+            if(ythis->nrofBytesReceived[0] < 0) 
+            { //:error situation
+              //:it is possible that a send request has failed because the destination port is not
+              //:able to reach any more. Therefore wait a moment and listen new
+              
+              
+              ythis->state = 'e';//prevent send
+              
+              TRY
+              { 
+                
+                sleep_ThreadJc(/*static*/50, _thCxt);
+              }_TRY
+              CATCH(InterruptedException, exc)
+              
+                { 
+                  
+                  
+                }
+              END_TRY
+              ythis->state = 'r';//
+              
+            }
+            else 
+            { 
+              
+              cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), (struct int8_Y_t*)(&( ythis->rxBuffer)), ythis->nrofBytesReceived[0], _thCxt);//unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);
+              
+            }
+          }
+        }_TRY
+        CATCH(Exception, exc)
+        
+          { 
+            StringJc msg = CONST_z_StringJc("org.vishia.inspector.Comm - unexpected Exception; ");   /**/
+            
+            struct _stringBuilder_t{ StringBuilderJc u; char _b[100-4]; }_stringBuilder = { CONST_addSizeStack_StringBuilderJc(&_stringBuilder.u, 100-4), {0}};
+            
+            msg = 
+              ( setLength_StringBuilderJc(&_stringBuilder.u, 0, _thCxt)
+              , append_z_StringBuilderJc(&_stringBuilder.u, "org.vishia.inspector.Comm - unexpected Exception; ", _thCxt)
+              , append_s_StringBuilderJc(&_stringBuilder.u, getMessage_ExceptionJc(exc, _thCxt), _thCxt)
+              , toStringNonPersist_StringBuilderJc(&(&_stringBuilder.u)->base.object, _thCxt)
+              )/*J2C:non-persistent*/;
+            println_s_PrintStreamJc(REFJc(err_SystemJc), msg, _thCxt);
+            printStackTrace_P_ExceptionJc(exc, REFJc(err_SystemJc), _thCxt);
+          }
+        END_TRY
       }//while state !='x'
       
   }
@@ -274,12 +309,62 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* ythis, int8_Y* bufferAnswerData, int32
 }
 
 
+/**Shutdown the communication, close the thread*/
+void shutdown_Comm_Inspc_F(Comm_Inspc_s* ythis, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("shutdown_Comm_Inspc_F");
+  
+  { 
+    struct InterProcessComm_t* ipcMtbl; 
+    
+    
+    /***/
+    ythis->state = 'x';
+    ipcMtbl = ythis->ipc;
+    ((Mtbl_InterProcessComm const*)getMtbl_ObjectJc(&(ipcMtbl)->base.object, sign_Mtbl_InterProcessComm) )->close(&((ipcMtbl)->base.object));//breaks waiting in receive socket
+    
+    
+    while(ythis->state != 'z')
+      { 
+        
+        
+        synchronized_ObjectJc(& ((* (ythis)).base.RunnableJc.base.object)); {
+          
+          { 
+            
+            TRY
+            { 
+              
+              wait_ObjectJc(& ((* (ythis)).base.RunnableJc.base.object), 100, _thCxt);
+            }_TRY
+            CATCH(InterruptedException, exc)
+            
+              { 
+                
+                
+              }
+            END_TRY
+          }
+        } endSynchronized_ObjectJc(& ((* (ythis)).base.RunnableJc.base.object));
+      }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void shutdown_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt)
+{ Mtbl_Comm_Inspc const* mtbl = (Mtbl_Comm_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_Comm_Inspc);
+  mtbl->shutdown(ythis, _thCxt);
+}
+
+
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_Comm_Inspc mtblComm_Inspc = {
 { { sign_Mtbl_Comm_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
+, shutdown_Comm_Inspc_F //shutdown
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }

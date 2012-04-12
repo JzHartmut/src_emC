@@ -204,7 +204,7 @@ const MtblDef_RawDataAccessJc mtblRawDataAccessJc = {
   , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , { { sign_Mtbl_ByteDataAccessJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((14 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    , (struct Size_Mtbl_t*)((15 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }
   , specifyEmptyDefaultData_RawDataAccessJc_F //specifyEmptyDefaultData
   , specifyLengthElementHead_RawDataAccessJc_F //specifyLengthElementHead

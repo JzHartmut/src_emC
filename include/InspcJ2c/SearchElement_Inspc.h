@@ -51,7 +51,7 @@ typedef struct SearchTrc_SearchElement_Inspc_t
 typedef struct SearchTrc_SearchElement_Inspc_X_t { ObjectArrayJc head; SearchTrc_SearchElement_InspcREF data[50]; } SearchTrc_SearchElement_Inspc_X;
 typedef struct SearchTrc_SearchElement_Inspc_Y_t { ObjectArrayJc head; SearchTrc_SearchElement_Inspc_s data[50]; } SearchTrc_SearchElement_Inspc_Y;
 
- extern struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
+ extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
   
 
 
@@ -102,7 +102,7 @@ typedef struct SearchElement_Inspc_t
 typedef struct SearchElement_Inspc_X_t { ObjectArrayJc head; SearchElement_InspcREF data[50]; } SearchElement_Inspc_X;
 typedef struct SearchElement_Inspc_Y_t { ObjectArrayJc head; SearchElement_Inspc_s data[50]; } SearchElement_Inspc_Y;
 
- extern struct ClassJc_t const reflection_SearchElement_Inspc_s;
+ extern_C struct ClassJc_t const reflection_SearchElement_Inspc_s;
   
 
 

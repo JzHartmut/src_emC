@@ -14,6 +14,7 @@ fieldIdents {
   byte[1500] Y%. rxBuffer;
   char %.. state;
   java/lang/Thread *.. thread;
+  int %.d version;
 }
   methods {  
     ctorO-_$, mode= ctor+static: org/vishia/inspector/Comm *.. Comm_Inspc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/inspector/CmdExecuter *.. cmdExecuter);
@@ -21,7 +22,12 @@ fieldIdents {
     receiveAndExecute-_$: void %.r null();
     run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
     sendAnswer-_$: int %.r null(byte[??] X%. bufferAnswerData,int %.. nrofBytesAnswer);
+    shutdown-_$, mode= overrideable: void %.r null();
     start-_$: void %.r null();
+  }
+
+  methods-overrideable {
+    shutdown_Comm_Inspc;
   }
 
   castTo {

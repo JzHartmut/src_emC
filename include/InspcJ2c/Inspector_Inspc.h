@@ -49,7 +49,7 @@ typedef struct Inspector_Inspc_t
 typedef struct Inspector_Inspc_X_t { ObjectArrayJc head; Inspector_InspcREF data[50]; } Inspector_Inspc_X;
 typedef struct Inspector_Inspc_Y_t { ObjectArrayJc head; Inspector_Inspc_s data[50]; } Inspector_Inspc_Y;
 
- extern struct ClassJc_t const reflection_Inspector_Inspc_s;
+ extern_C struct ClassJc_t const reflection_Inspector_Inspc_s;
   
 
 
@@ -61,6 +61,7 @@ typedef struct Inspector_Inspc_Y_t { ObjectArrayJc head; Inspector_Inspc_s data[
 void finalize_Inspector_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_Inspector_Inspc 0x20111118  /*Version and history*/
 
 
 /*** */
@@ -73,6 +74,13 @@ METHOD_C void start_Inspector_Inspc_F(Inspector_Inspc_s* ythis, struct ObjectJc_
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void start_Inspector_Inspc(Inspector_Inspc_s* ythis, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
 
+/**Shutdown the communication, close the thread*/
+typedef void MT_shutdown_Inspector_Inspc(Inspector_Inspc_s* ythis, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* ythis, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C void shutdown_Inspector_Inspc(Inspector_Inspc_s* ythis, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -80,6 +88,7 @@ METHOD_C void start_Inspector_Inspc(Inspector_Inspc_s* ythis, struct ObjectJc_t*
 typedef struct Mtbl_Inspector_Inspc_t
 { MtblHeadJc head;
   MT_start_Inspector_Inspc* start;
+  MT_shutdown_Inspector_Inspc* shutdown;
   Mtbl_ObjectJc ObjectJc;
 } Mtbl_Inspector_Inspc;
 
@@ -91,6 +100,8 @@ class Inspector_Inspc : private Inspector_Inspc_s
 { public:
 
   Inspector_Inspc(StringJcpp commOwnAddr){ init_ObjectJc(&this->base.object, sizeof(Inspector_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_Inspector_Inspc_s, 0); ctorO_Inspector_Inspc(&this->base.object, commOwnAddr,  null/*_thCxt*/); }
+
+  virtual void shutdown(){ shutdown_Inspector_Inspc_F(this,  null/*_thCxt*/); }
 
   virtual void start(struct ObjectJc_t* rootObj){ start_Inspector_Inspc_F(this, rootObj,  null/*_thCxt*/); }
 };

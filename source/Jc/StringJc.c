@@ -103,6 +103,28 @@ char const* getCharsAndCount_StringJc(const StringJc* ythis, int* count)
 
 
 
+char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContextFW_t* _thCxt)
+{
+  int len;
+  char const* str = getCharsAndCount_StringJc(&thiz, &len);
+  if(str[len] == 0){ return str;
+  } else {
+    if(len >= zBuffer){
+      if(exceptionOnLessBuffer){
+        STACKTRC_TENTRY("substring_StringJc");
+        THROW_s0(IndexOutOfBoundsException, "String too long", len); 
+        STACKTRC_LEAVE;
+      } else {
+        len = zBuffer -1;
+      }
+    }
+    memcpy(buffer, str, len);
+    buffer[len] = 0;
+    return buffer;
+  }
+}
+
+
 
 
 void clear_StringJc(StringJc* ythis)
@@ -308,7 +330,6 @@ METHOD_C StringJc substring_StringJc(StringJc ythis, int beginIndex, int endInde
 
   STACKTRC_LEAVE; return( ret);
 }
-
 
 
 METHOD_C int indexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex)

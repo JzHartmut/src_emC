@@ -43,7 +43,7 @@ typedef struct RawDataAccessJc_t
 typedef struct RawDataAccessJc_X_t { ObjectArrayJc head; RawDataAccessJcREF data[50]; } RawDataAccessJc_X;
 typedef struct RawDataAccessJc_Y_t { ObjectArrayJc head; RawDataAccessJc_s data[50]; } RawDataAccessJc_Y;
 
- extern struct ClassJc_t const reflection_RawDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_RawDataAccessJc_s;
   
 
 

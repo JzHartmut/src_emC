@@ -30,13 +30,13 @@ typedef struct Comm_Inspc_t
 { 
   union { ObjectJc object; RunnableJc_s RunnableJc;} base; 
   struct CmdExecuter_Inspc_t* cmdExecuter;   /**/
-  char state; 
+  char state;   /*State of function.*/
   bool bEnablePrintfOnComm; 
   struct InterProcessComm_t* ipc;   /**/
   int32 ctErrorTelg; 
   struct ThreadJc_t* thread;   /**/
   int32 nrofBytesReceived[1];   /**/
-  struct rxBuffer_Y { ObjectArrayJc head; int8 data[1500]; }rxBuffer;   /*Use a static receive buffer. It is important for C-applications. */
+  struct rxBuffer_Y_Comm { ObjectArrayJc head; int8 data[1500]; }rxBuffer;   /*Use a static receive buffer. It is important for C-applications. */
   struct Address_InterProcessComm_t* myAnswerAddress;   /**/
 } Comm_Inspc_s;
   
@@ -56,7 +56,7 @@ typedef struct Comm_Inspc_t
 typedef struct Comm_Inspc_X_t { ObjectArrayJc head; Comm_InspcREF data[50]; } Comm_Inspc_X;
 typedef struct Comm_Inspc_Y_t { ObjectArrayJc head; Comm_Inspc_s data[50]; } Comm_Inspc_Y;
 
- extern struct ClassJc_t const reflection_Comm_Inspc_s;
+ extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
   
 
 
@@ -68,6 +68,7 @@ typedef struct Comm_Inspc_Y_t { ObjectArrayJc head; Comm_Inspc_s data[50]; } Com
 void finalize_Comm_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_Comm_Inspc 0x20111118  /*Version and history*/
 
 
 /**Creates the communication for the inspector.*/
@@ -87,12 +88,20 @@ METHOD_C void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
 /**Sends the answer telg to the sender of the received telegram.*/
 METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* ythis, int8_Y* bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt);
 
+/**Shutdown the communication, close the thread*/
+typedef void MT_shutdown_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void shutdown_Comm_Inspc_F(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C void shutdown_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Mtbl_Comm_Inspc[]; //marker for methodTable check
 typedef struct Mtbl_Comm_Inspc_t
 { MtblHeadJc head;
+  MT_shutdown_Comm_Inspc* shutdown;
   Mtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
   Mtbl_RunnableJc RunnableJc;
@@ -114,6 +123,8 @@ class Comm_Inspc : private Comm_Inspc_s
   virtual void run(){ run_Comm_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
 
   int32 sendAnswer(int8_Y* bufferAnswerData, int32 nrofBytesAnswer){  return sendAnswer_Comm_Inspc(this, bufferAnswerData, nrofBytesAnswer,  null/*_thCxt*/); }
+
+  virtual void shutdown(){ shutdown_Comm_Inspc_F(this,  null/*_thCxt*/); }
 
   void start(){ start_Comm_Inspc(this,  null/*_thCxt*/); }
 };

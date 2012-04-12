@@ -60,7 +60,7 @@ typedef struct C_theThreadRun_WorkingThread_Inspc_t
 typedef struct C_theThreadRun_WorkingThread_Inspc_X_t { ObjectArrayJc head; C_theThreadRun_WorkingThread_InspcREF data[50]; } C_theThreadRun_WorkingThread_Inspc_X;
 typedef struct C_theThreadRun_WorkingThread_Inspc_Y_t { ObjectArrayJc head; C_theThreadRun_WorkingThread_Inspc_s data[50]; } C_theThreadRun_WorkingThread_Inspc_Y;
 
- extern struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
   
 
 
@@ -138,7 +138,7 @@ typedef struct Data_WorkingThread_Inspc_t
 typedef struct Data_WorkingThread_Inspc_X_t { ObjectArrayJc head; Data_WorkingThread_InspcREF data[50]; } Data_WorkingThread_Inspc_X;
 typedef struct Data_WorkingThread_Inspc_Y_t { ObjectArrayJc head; Data_WorkingThread_Inspc_s data[50]; } Data_WorkingThread_Inspc_Y;
 
- extern struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
   
 
 
@@ -204,7 +204,7 @@ typedef struct ThreadMng_WorkingThread_Inspc_t
 typedef struct ThreadMng_WorkingThread_Inspc_X_t { ObjectArrayJc head; ThreadMng_WorkingThread_InspcREF data[50]; } ThreadMng_WorkingThread_Inspc_X;
 typedef struct ThreadMng_WorkingThread_Inspc_Y_t { ObjectArrayJc head; ThreadMng_WorkingThread_Inspc_s data[50]; } ThreadMng_WorkingThread_Inspc_Y;
 
- extern struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
   
 
 
@@ -268,7 +268,7 @@ typedef struct WorkingThread_Inspc_t
 typedef struct WorkingThread_Inspc_X_t { ObjectArrayJc head; WorkingThread_InspcREF data[50]; } WorkingThread_Inspc_X;
 typedef struct WorkingThread_Inspc_Y_t { ObjectArrayJc head; WorkingThread_Inspc_s data[50]; } WorkingThread_Inspc_Y;
 
- extern struct ClassJc_t const reflection_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const reflection_WorkingThread_Inspc_s;
   
 
 

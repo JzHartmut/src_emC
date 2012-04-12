@@ -46,7 +46,7 @@ typedef struct Datagram_InspcDataExchangeAccess_Inspc_t
 typedef struct Datagram_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; Datagram_InspcDataExchangeAccess_InspcREF data[50]; } Datagram_InspcDataExchangeAccess_Inspc_X;
 typedef struct Datagram_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; Datagram_InspcDataExchangeAccess_Inspc_s data[50]; } Datagram_InspcDataExchangeAccess_Inspc_Y;
 
- extern struct ClassJc_t const reflection_Datagram_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const reflection_Datagram_InspcDataExchangeAccess_Inspc_s;
   
 
 
@@ -172,7 +172,7 @@ typedef struct Info_InspcDataExchangeAccess_Inspc_t
 typedef struct Info_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; Info_InspcDataExchangeAccess_InspcREF data[50]; } Info_InspcDataExchangeAccess_Inspc_X;
 typedef struct Info_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; Info_InspcDataExchangeAccess_Inspc_s data[50]; } Info_InspcDataExchangeAccess_Inspc_Y;
 
- extern struct ClassJc_t const reflection_Info_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const reflection_Info_InspcDataExchangeAccess_Inspc_s;
   
 
 
@@ -184,6 +184,7 @@ typedef struct Info_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; Info
 void finalize_Info_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define kbyteOrder_Info_InspcDataExchangeAccess_Inspc 4
 #define sizeofHead_Info_InspcDataExchangeAccess_Inspc 8
 #define kGetFields_Info_InspcDataExchangeAccess_Inspc 0x10  /*Aufforderung zur Rückgabe einer Liste aller Attribute und Assoziationen des adressierten Objektes.*/
 #define kGetFieldsFurther_Info_InspcDataExchangeAccess_Inspc 0x12  /**/
@@ -192,11 +193,14 @@ void finalize_Info_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCx
 #define kAnswerRegisterRepeat_Info_InspcDataExchangeAccess_Inspc 0x123
 #define kFailedRegisterRepeat_Info_InspcDataExchangeAccess_Inspc 0x124
 #define kGetValueByIndex_Info_InspcDataExchangeAccess_Inspc 0x25
+#define kAnswerValueByIndex_Info_InspcDataExchangeAccess_Inspc 0x125  /** <pre>*/
 #define kAnswerValue_Info_InspcDataExchangeAccess_Inspc 0x26
 #define kFailedValue_Info_InspcDataExchangeAccess_Inspc 0x27
 #define kGetValueByPath_Info_InspcDataExchangeAccess_Inspc 0x30
 #define kGetAddressByPath_Info_InspcDataExchangeAccess_Inspc 0x32
 #define kSetValueByPath_Info_InspcDataExchangeAccess_Inspc 0x35
+#define kFailedPath_Info_InspcDataExchangeAccess_Inspc 0xfe
+#define kNoRessource_Info_InspcDataExchangeAccess_Inspc 0xfd
 #define kFailedCommand_Info_InspcDataExchangeAccess_Inspc 0xff
 #define kReference_Info_InspcDataExchangeAccess_Inspc 0xdf
 
@@ -210,6 +214,7 @@ METHOD_C int32 specifyLengthElement_Info_InspcDataExchangeAccess_Inspc(ByteDataA
 
 METHOD_C int32 specifyLengthElementHead_Info_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
 
+/**Sets the head data and sets the length of the ByteDataAccess-element.*/
 METHOD_C void setInfoHead_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_Inspc_s* ythis, int32 length, int32 cmd, int32 order, ThCxt* _thCxt);
 
 METHOD_C void setLength_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_Inspc_s* ythis, int32 length, ThCxt* _thCxt);
@@ -220,6 +225,7 @@ METHOD_C int32 getCmd_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeA
 
 METHOD_C int32 getLenInfo_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_Inspc_s* ythis, ThCxt* _thCxt);
 
+/**Gets the order number of the info block*/
 METHOD_C int32 getOrder_Info_InspcDataExchangeAccess_Inspc(Info_InspcDataExchangeAccess_Inspc_s* ythis, ThCxt* _thCxt);
 
 
@@ -286,7 +292,7 @@ typedef struct SetValue_InspcDataExchangeAccess_Inspc_t
 typedef struct SetValue_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; SetValue_InspcDataExchangeAccess_InspcREF data[50]; } SetValue_InspcDataExchangeAccess_Inspc_X;
 typedef struct SetValue_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; SetValue_InspcDataExchangeAccess_Inspc_s data[50]; } SetValue_InspcDataExchangeAccess_Inspc_Y;
 
- extern struct ClassJc_t const reflection_SetValue_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const reflection_SetValue_InspcDataExchangeAccess_Inspc_s;
   
 
 
@@ -328,6 +334,24 @@ METHOD_C float getFloat_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDat
 
 METHOD_C double getDouble_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, ThCxt* _thCxt);
 
+/**Sets a byte value. */
+METHOD_C void setByte_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int8 value, ThCxt* _thCxt);
+
+/**Sets a byte value. */
+METHOD_C void setShort_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int16 value, ThCxt* _thCxt);
+
+/**Sets a byte value. */
+METHOD_C void setInt_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int32 value, ThCxt* _thCxt);
+
+/**Sets a byte value. */
+METHOD_C void setLong_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, int64 value, ThCxt* _thCxt);
+
+/**Sets a byte value. */
+METHOD_C void setFloat_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, float value, ThCxt* _thCxt);
+
+/**Sets a byte value. */
+METHOD_C void setDouble_SetValue_InspcDataExchangeAccess_Inspc(SetValue_InspcDataExchangeAccess_Inspc_s* ythis, double value, ThCxt* _thCxt);
+
 METHOD_C void specifyEmptyDefaultData_SetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
 
 METHOD_C int32 specifyLengthElement_SetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
@@ -368,9 +392,21 @@ class SetValue_InspcDataExchangeAccess_Inspc : private SetValue_InspcDataExchang
 
   int16 getShort(){  return getShort_SetValue_InspcDataExchangeAccess_Inspc(this,  null/*_thCxt*/); }
 
+  void setByte(int8 value){ setByte_SetValue_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
+
+  void setDouble(double value){ setDouble_SetValue_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
+
+  void setFloat(float value){ setFloat_SetValue_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
+
+  void setInt(int32 value){ setInt_SetValue_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
+
+  void setLong(int64 value){ setLong_SetValue_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
+
   void setPwdHi(int32 pwd){ setPwdHi_SetValue_InspcDataExchangeAccess_Inspc(this, pwd,  null/*_thCxt*/); }
 
   void setPwdLo(int32 pwd){ setPwdLo_SetValue_InspcDataExchangeAccess_Inspc(this, pwd,  null/*_thCxt*/); }
+
+  void setShort(int16 value){ setShort_SetValue_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
 
   void specifyEmptyDefaultData(){ specifyEmptyDefaultData_SetValue_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
 
@@ -406,7 +442,7 @@ typedef struct InspcDataExchangeAccess_Inspc_t
 typedef struct InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; InspcDataExchangeAccess_InspcREF data[50]; } InspcDataExchangeAccess_Inspc_X;
 typedef struct InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcDataExchangeAccess_Inspc_s data[50]; } InspcDataExchangeAccess_Inspc_Y;
 
- extern struct ClassJc_t const reflection_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const reflection_InspcDataExchangeAccess_Inspc_s;
   
 
 
@@ -418,8 +454,10 @@ typedef struct InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcData
 void finalize_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_InspcDataExchangeAccess_Inspc 20120409  /*Version, history and license*/
 #define maxNrOfChars_InspcDataExchangeAccess_Inspc 0xc8  /*Values between 0..199 determines the length of string.*/
 #define kReferenceAddr_InspcDataExchangeAccess_Inspc 0xdf  /*A reference is the memory-address of an element in C-language*/
+#define kTypeNoValue_InspcDataExchangeAccess_Inspc 0xde  /*This type identification designates that the value is not available.*/
 #define kScalarTypes_InspcDataExchangeAccess_Inspc 0xe0  /*Scalar types started with 0xe0,*/
 
 

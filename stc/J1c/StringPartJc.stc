@@ -37,11 +37,14 @@ fieldIdents {
   int %.. startLast;
   int %.. startMin;
   int %.. startScan;
+  int %.d version;
 }
   methods {  
     assign+_S-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. content);
     assign+_XX-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null(org/vishia/util/StringPart *.. src);
     assignFromEnd-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null(org/vishia/util/StringPart *.. src);
+    assignReplaceEnv-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null(java/lang/StringBuilder *.. input);
+    close-_$, mode= overrideable: void %.r null();
     ctorO-_$, mode= ctor+static: org/vishia/util/StringPart *.. StringPartJc_s();
     ctorO+_S-_$, mode= ctor+static: org/vishia/util/StringPart *.. StringPartJc_s(java/lang/String(instance=java/lang/String) t.. content);
     ctorO+_XX-_$, mode= ctor+static: org/vishia/util/StringPart *.. StringPartJc_s(org/vishia/util/StringPart *.. src);
@@ -102,6 +105,7 @@ fieldIdents {
     scanDigits-_$, mode= overrideable: long %.r null(boolean %.. bHex,int %.. maxNrofChars);
     scanEntry-_$, mode= overrideable: boolean %.r null();
     scanFloatNumber-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null();
+    scanFloatNumber+_b-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null(boolean %.. cleanBuffer);
     scanHex-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null(int %.. maxNrofChars);
     scanHexOrDecimal-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null(int %.. maxNrofChars);
     scanIdentifier-_$, mode= overrideable+returnThis: org/vishia/util/StringPart *.r null();
@@ -140,6 +144,7 @@ fieldIdents {
 
   methods-overrideable {
     assign_S_StringPartJc;
+    assignReplaceEnv_StringPartJc;
     assign_XX_StringPartJc;
     assignFromEnd_StringPartJc;
     setIgnoreComment_b_StringPartJc;
@@ -209,6 +214,7 @@ fieldIdents {
     scanEntry_StringPartJc;
     scanPositivInteger_StringPartJc;
     scanInteger_StringPartJc;
+    scanFloatNumber_b_StringPartJc;
     scanFloatNumber_StringPartJc;
     scanHex_StringPartJc;
     scanHexOrDecimal_StringPartJc;
@@ -231,6 +237,7 @@ fieldIdents {
     getCurrentPart_i_StringPartJc;
     debugString_StringPartJc;
     throwIndexOutOfBoundsException_StringPartJc;
+    close_StringPartJc;
   }
 
   castTo {

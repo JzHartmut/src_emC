@@ -62,6 +62,8 @@ struct PrintStreamJc_t;
 
 extern PrintStreamJcREF out_SystemJc;
 
+extern PrintStreamJcREF err_SystemJc;
+
 METHOD_C void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, int length, ThCxt* _thCxt); 
 
 METHOD_C void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPos, int length, ThCxt* _thCxt); 
@@ -76,6 +78,8 @@ METHOD_C void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, 
  * NOTE: description original Java made by Sun
 */
 METHOD_C void gc_SystemJc(ThCxt* _thCxt);
+
+METHOD_C StringJc getenv_SystemJc(StringJc name, ThCxt* _thCxt);
 
 
 /**Returns a value, which presents a nanotime-Counter. */
