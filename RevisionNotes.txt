@@ -1,15 +1,6 @@
 ==2012-0410 Hartmut==
-* fw_Exception: new IllegalAccessExceptionJc, printStackTrace_P_ExceptionJc(PrintStreamJc_t* out)
-* InspcJ2c, J1c: chg Java version, see there, translated newly
-* StringJc.h new: gets0_StringJc(...) copies in a buffer only if necessary, returns a 0-terminated const char*
-* StringJc.h new: substring_StringBuilderJc() returns a reference to the internal String in its source,
-TODO create class StringBuilderJc in Java if an adequate behavior, TODO flag in StringBuilder for persistence or more global Flag in ThreadContext.
-* StringJc.h new: indexOf_z_StringBuilderJc
-* SystemJc.h new: getEnv_SystemJc(...)
-* os_time new: os_getSeconds(...). seconds are able to process with a
-32-bit integer. They are supported in most of operation systems. It is the originally unix concept
-for the timestamp. It should be available if measurements of seconds are enough and proper to use.
-See srcJava_vishaBase/org.vishia.bridgeC.OS_TimeStamp
+
+
 
 >bzr log
 /home/hartmut/vishia/Java2C/sf/Java2C/CRuntimeJavalike>bzr log

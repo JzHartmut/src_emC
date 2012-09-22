@@ -155,7 +155,7 @@ void os_userError(const char* text, int value)
 #define NOT_TlsGetValue
 #ifdef NOT_TlsGetValue
 //#error
-  #include "../OSAL/os_ThreadContextInTable.ci"
+  #include "../../source/OSAL/os_ThreadContextInTable.ci"
   #define setCurrent_OS_ThreadContext(context) (0 == os_setThreadContextInTable(pthread_self(), context))
   #define getCurrent_OS_ThreadContext() os_getThreadContextInTable(pthread_self())
 #elif defined(TEST_ThreadContext_IMMEDIATE)

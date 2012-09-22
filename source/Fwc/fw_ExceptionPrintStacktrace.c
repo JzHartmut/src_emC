@@ -31,6 +31,7 @@
  * @author Hartmut Schorrig, www.vishia.org
  * @version 0.91
  * list of changes:
+ * 2012-04-10 Hartmut new: printStackTrace_P_ExceptionJc(PrintStreamJc_t* out)
  * 2011-01-07: Hartmut: create form fw_Exception.c: Separated implementation, better able to change
  *
  ****************************************************************************/

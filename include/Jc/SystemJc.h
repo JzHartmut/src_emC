@@ -26,11 +26,12 @@
  *
  **copyright***************************************************************************************
  *
- * @version 0.91
+ * @version 0.96
  * @content Defintion of routines javalike java.lang.System and related
  * @author Hartmut Schorrig, www.vishia.org
  *
  * list of changes:
+ * 2012-04-10 new: getEnv_SystemJc(...)
  * 2009-10-15: new: println_s_PrintStreamJc(...), println_sb_PrintStreamJc(...)
  * 2006-05-00: Hartmut creation
  *

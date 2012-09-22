@@ -98,8 +98,8 @@ int32 parseIntRadix_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@128340*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@128340*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
     
     
     val = 0;
@@ -167,8 +167,8 @@ int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, i
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@128340*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@128340*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
     int32 multPosition = 1; 
     
     
@@ -257,7 +257,7 @@ float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 siz
         switch(zParsed->data[0]){
           case 1: fracPart *= 0.1F;break;
           case 2: fracPart *= 0.01F;break;
-          case 3: fracPart *= 0.0010F;break;
+          case 3: fracPart *= 0.001F;break;
           case 4: fracPart *= 1.0E-4F;break;
           case 5: fracPart *= 9.999999999999999E-6F;break;
           case 6: fracPart *= 1.0E-6F;break;

@@ -28,7 +28,7 @@
  *
  * @author Hartmut Schorrig, 
  *
- * @version 0.93
+ * @version 0.96
  * @content Definition of String processing Java-like
  *   Note: The included file Fwc/fw_String.h contains the definition of the type StringJc
  *   and basicly access macros. If any routines from the Fwc-Level (Framework C)
@@ -39,6 +39,10 @@
  *   and the CLASS_C StringBuilderJc.
  *
  * list of changes:
+ * 2012-04-10 Hartmut new: gets0_StringJc(...) copies in a buffer only if necessary, returns a 0-terminated const char*
+ *   new: substring_StringBuilderJc() returns a reference to the internal String in its source,
+ *  TODO create class StringBuilderJc in Java if an adequate behavior, TODO flag in StringBuilder for persistence or more global Flag in ThreadContext.
+ *   new: indexOf_z_StringBuilderJc()
  * 2010-04-04 Hartmut: Fully revised. A description of working with Strings in german language were written
  *        see www.vishia.org/Jc/String_Jc.html         
  *   chg: The class StringBufferJc is now named 'StringBuilderJc', it is adequate java.lang.StringBuilder.
@@ -136,7 +140,7 @@ METHOD_C void clear_StringJc(StringJc* ythis);
   *
   * If the src-text in not persistent, a new buffer will be created calling [[new_StringBuilderJc(...)]].
   * Note, that that operation causes an exception if no dynamically memory for the new_StringBuilderJc(...) operation
-  * is available. Because the routine tests whether the text is persistent, it shóuld be used
+  * is available. Because the routine tests whether the text is persistent, it shï¿½uld be used
   * in a system without dynamically memory always, to increase the software-safety by runtime-test.
   *
   * If the string references any buffer in the block heap,
@@ -1294,17 +1298,21 @@ METHOD_C int capacity_StringBuilderJc(StringBuilderJc* ythis);
 
 
 
-/**Returns a new string that is a substring of this string. 
+/**Returns a new string that is a substring from the content in the StringBuilder.
  * The substring begins at the specified beginIndex and extends to the character at index endIndex - 1.
  * Thus the length of the substring is endIndex-beginIndex.
+ *
+ * This method is a macro which calls [[substring_StringJc(...)]] from [[toString_StringBuilderJc(...)]].
+ * No additional data are created in stack or heap (proper for C usage).
+ * The StringBuilder (this) is designated as persistent after this call. It means that
+ *
  * @param startIndex the beginning index, inclusive.
  * @param endIndex the ending index, exclusive. If -1, than the endIndex is the length of string, 
  *        This is used to support the Java-form without parameter endIndex. Java causes an excpetion in this case.
  * @throws IndexOutOfBoundsException - if the beginIndex is negative,
  * or endIndex is larger than the length of this String object, or beginIndex is larger than endIndex.
- * @javalike Lightly modified from Java, see [[sunJavadoc/java/lang/String#substring(int, int)]]
+ * @javalike Lightly modified from Java, see [[sunJavadoc/java/lang/StringBuilder#substring(int, int)]]
  */
-//METHOD_C StringJc substring_StringBuilderJc(StringBuilderJc* thiz, int beginIndex, int endIndex, struct ThreadContextFW_t* _thCxt);
 #define substring_StringBuilderJc(THIZ, BEGIN, END, _THC) substring_StringJc(toString_StringBuilderJc(&(THIZ)->base.object, _THC), BEGIN, END, _THC)
 
 
@@ -1751,7 +1759,7 @@ METHOD_C StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, cha
  *           an persistent String in a new allocated buffer anytime.
  *           If dynamically memory is present, the persistence is possible using [[set_StringJc(...)]].
  * @see [[toStringPersist_StringBuilderJc()]] and [[toStringNonPersist_StringBuilderJc()]].
- */ 
+ */ ///
 #define toString_StringBuilderJc(YTHIS, _THC) ( ((StringBuilderJc*)(YTHIS))->_mode |= _mStringBuilt_StringBuilderJc, toStringNonPersist_StringBuilderJc(YTHIS, _THC))
 
 

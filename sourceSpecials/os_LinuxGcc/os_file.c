@@ -92,7 +92,12 @@ FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
  * @return null if the file doesn't exist. Elsewhere the handle, which is able to use for read.
  */ 
 OS_HandleFile os_fopenToRead(char const* filename)
-{ return (OS_HandleFile)fopen(filename, "rb");
+{
+#ifdef USE_LoLevelFileIo
+  return (OS_HandleFile)open(filename, O_RDONLY);
+#else
+  return (OS_HandleFile)fopen(filename, "rb");
+#endif
 }
 
 /**Open a file to write. This open action follows the convention of java.io.FileOutputStream.ctor(). 
@@ -101,19 +106,34 @@ OS_HandleFile os_fopenToRead(char const* filename)
  * @return null if the file isn't able to write or create. Elsewhere the handle, which is able to use for write.
  */
 OS_HandleFile os_fopenToWrite(char const* filename, bool append)
-{ return (OS_HandleFile)fopen(filename, append ? "ab" : "wb");
+{
+#ifdef USE_LoLevelFileIo
+  return (OS_HandleFile)open(filename, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
+#else
+  return (OS_HandleFile)fopen(filename, append ? "ab" : "wb");
+#endif
 }
 
 
 int os_fclose(OS_HandleFile file)
-{ int success = fclose( (FILE*) file);
+{
+#ifdef USE_LoLevelFileIo
+  int success = close( (int) file);
+    #else
+  int success = fclose( (FILE*) file);
+#endif
   if(success == 0) { return 0; }
   else { return -1; }
 }
 
 
 int os_fflush(OS_HandleFile file)
-{ fflush((FILE*)file);
+{
+#ifdef USE_LoLevelFileIo
+  //TODO
+#else
+  fflush((FILE*)file);
+#endif
   return 0;
 }
 
@@ -160,8 +180,12 @@ OS_HandleFile os_getStdIn()
  */
 int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
 { //the description of FileSystem-Segger doesn't contain anything about behaviour at end of file while OS_Read().
+#ifdef USE_LoLevelFileIo
+  int ret = read((int)fileP, buffer, maxNrofbytes);
+#else
   FILE* file = (FILE*) fileP;
   int ret = fread(buffer, 1, maxNrofbytes, file);
+#endif
   return ret;  //it is maxNrofbytes
 }
 
@@ -177,7 +201,12 @@ int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
  * @return the actual number of bytes skipped. 
  */
 int os_fskip(OS_HandleFile file, int32_t nrofbytes)
-{ return -1; //TODO
+{
+#ifdef USE_LoLevelFileIo
+  return -1; //TODO
+  #else
+  return -1; //TODO
+#endif
 }
 
 /**Writes bytes to file.
@@ -186,7 +215,12 @@ int os_fskip(OS_HandleFile file, int32_t nrofbytes)
  * but the write process requires a delaying. 
  */
 int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytes)
-{ FILE* file = (FILE*) fileP;
+{
+#ifdef USE_LoLevelFileIo
+  int ret = write((int)fileP, buffer, nrofbytes);
+#else
+  FILE* file = (FILE*) fileP;
   int ret = fwrite(buffer, 1, nrofbytes, file);
+#endif
   return ret;  //it is maxNrofbytes
 }

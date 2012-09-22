@@ -82,7 +82,7 @@
 
 
 
-//#define ASSERT(COND) assertJc(COND)
+#define ASSERT_Fwc(COND) assertJc(COND)
 
 
 

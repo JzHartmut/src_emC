@@ -231,9 +231,19 @@ extern OS_PtrValue null_OS_PtrValue;
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ptr__ = (char*)(PTR); }
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
-#define INLINE_Fwc inline
-//#define INLINE_Fwc static
+#ifdef __cplusplus
+  #define INLINE_Fwc inline
+#else
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
+  #define INLINE_Fwc static
+#endif
 
+#ifdef __cplusplus
+  #define CONSTMember_Fwc
+#else
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
+  #define CONSTMember_Fwc const
+#endif
 
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of value__
@@ -250,6 +260,6 @@ extern OS_PtrValue null_OS_PtrValue;
 #define kMaxPathLength_FileDescription_OSAL 480
 
 /**Include the common definitions in its pure form. */
-#include <os_types_def_common.h>
+#include <OSAL/os_types_def_common.h>
 
 #endif  //__os_types_def_h__
