@@ -39,6 +39,8 @@
 
 #include <os_types_def.h>
 
+struct Event_Fwc;
+
 /**It is a template: 
 typedef struct StateNAME_Fwc_t
 {
@@ -57,7 +59,7 @@ typedef struct StateBase_FwcX_t{
 
 #define consumed_StateBase_Fwc 0x1
 #define runToComplete_StateBase_Fwc 0x2
-#define stateError_StateBase_Fwc 0x80
+//#define stateError_StateBase_Fwc 0x80
 
 
 #define INIT_StateBase_Fwc(enclState, stateId, env) {enclState, stateId, env}
@@ -84,7 +86,6 @@ typedef struct StateBase_FwcX_t{
  * It calls switchState_TYPEstate() for the given state.
  * @param RET int-variable which stores the return value. 
  *   It contains the bits [[consumed_StateBase_Fwc]] or [[runToComplete_StateBase_Fwc]]
- *   or [[stateError_StateBase_Fwc]] as result of the inside called trans(Event) method
  *   and the called {@link #entry(int)} method. 
  * @param TYPEstate same parameter as TYPEstate of the [[TYPEDEF_StateTopBase_Fwc(...)]]
  *   or [[TYPEDEF_StateComboBase_Fwc]] definition of the state types. 
@@ -92,6 +93,7 @@ typedef struct StateBase_FwcX_t{
  *   routine which is called intern.
  * @param THIZ reference to the state 
  */
+//int _PROCESS_StateComboBase_Fwc(/*TYPEstate, */ StateTop* THIZ, struct Event_Fwc_t* EVENT) { 
 #define PROCESS_StateComboBase_Fwc(RET, TYPEstate, THIZ, EVENT) { \
   int _CONT_;  \
   int catastrophicalCount =  (THIZ)->super.maxStateSwitchesInLoop;   \
@@ -100,11 +102,6 @@ typedef struct StateBase_FwcX_t{
     _CONT_ = switchState_##TYPEstate(THIZ, EVENT);  \
     if((_CONT_ & consumed_StateBase_Fwc) != 0){ \
       EVENT = null; \
-    } \
-    if((_CONT_ & stateError_StateBase_Fwc) != 0){ \
-      int faultState = (THIZ)->super.stateAct; \
-      (THIZ)->super.stateAct = 0;  /*prevent hang forever.*/ \
-      logErrorState__StateComboBase_Fwc(THIZ, faultState); \
     } \
   } while((_CONT_ & runToComplete_StateBase_Fwc) !=0 && --catastrophicalCount >=0);\
   if(catastrophicalCount <0) { \
@@ -208,6 +205,85 @@ typedef struct StateBaseData_Fwc_t{ STRUCT_StateBaseData_Fwc(); } StateBaseData_
 
 /**Entry in the given state. This method can only be used for simple...*/
 #define entry_StateBaseConst_Fwc(THIZ, CONT) ( (THIZ)->enclState->super.stateData->stateAct = (THIZ)->stateId, CONT )
+
+
+
+
+
+
+
+
+
+
+/**The const data of a simple state contains:
+ * * StateData      stateData:  reference to the variable data of the state
+ * * EnclosingState enclState:  reference to the composite state of this state
+ * * entry, exit, trans:        The routines of this state
+ * * stateId:                   The identification number of the state
+ * * Environment env:           reference to the user data, the environment  
+ */
+#define STRUCT_StateBaseConstPtr_Fwc(EnclosingState, EnumState, Environment) \
+  struct EnclosingState##Const_t const* enclState; \
+  Mentry_##Environment##_StateM_Fwc* entry; \
+  Mexit_##Environment##_StateM_Fwc* exit; \
+  Mtrans_##Environment##_StateM_Fwc* trans; \
+  EnumState CONSTMember_Fwc stateId 
+  
+  //struct StateData##_t* stateData; \
+  //struct Environment##_t* env
+
+/**Set of type definitions for a composite state.
+ * The following types will be defined:
+ * * Type of the entry, exit and trans methods.
+ * * Type of the composite state.
+ * * Type of the simple inner states.
+ * ? entry method first param ? struct TYPEstate##_StateConst_t* thiz, 
+ */
+#define TYPEDEF_StateComboBaseConstPtr_Fwc(TYPEstate, EnumState, EnclosingState, EnumEnclosingState, Environment) \
+  struct EnclosingState##Const_t; \
+  struct TYPEstate##_StateConst_t; \
+  struct Environment##_t; \
+  struct TYPEstate##_StateConstData_t; \
+  \
+  typedef int Mentry_##Environment##_StateM_Fwc(struct Environment##_t* env, int cont); \
+  typedef struct EnclosingState##Const_t const* Mexit_##Environment##_StateM_Fwc(struct Environment##_t* env); \
+  typedef int Mtrans_##Environment##_StateM_Fwc(struct Environment##_t* env, struct Event_Fwc* event); \
+  \
+  typedef struct TYPEstate##_ComboStateConstPtr_t \
+  { STRUCT_StateBaseConstPtr_Fwc(EnclosingState, EnumEnclosingState, Environment); \
+    EnumState stateAct; \
+  } TYPEstate##_ComboStateConstPtr; \
+  typedef struct TYPEstate##_StateConstPtr_t \
+  { STRUCT_StateBaseConstPtr_Fwc(TYPEstate, EnumState, Environment); \
+  } TYPEstate##_StateConstPtr; \
+  \
+  typedef struct TYPEstate##_StateData_t \
+  { TYPEstate##_StateConstPtr const* constState; \
+    STRUCT_StateBaseData_Fwc(); \
+  } TYPEstate##_StateData; \
+  typedef struct TYPEstate##_CompStateData_t \
+  { TYPEstate##_ComboStateConstPtr const* constState; \
+    STRUCT_StateBaseData_Fwc(); \
+    struct TYPEstate##_StateConstData_t* actState; \
+  } TYPEstate##_CompStateData; \
+  \
+  typedef struct TYPEstate##_CompStateConstData_t \
+  { TYPEstate##_ComboStateConstPtr const* constState; /*the constant instance-independent. */ \
+    TYPEstate##_StateData* stateData;   \
+    struct Environment##_t* env;   \
+  } TYPEstate##_CompStateConstData; \
+  typedef struct TYPEstate##_StateConstData_t \
+  { TYPEstate##_StateConstPtr const* constState;      /*the constant instance-independent. */\
+    TYPEstate##_CompStateData* stateData;   \
+    struct Environment##_t* env;   \
+  } TYPEstate##_StateConstData; \
+  
+
+#define CONST_StateTopBasePtr_Fwc(stateData, env) { stateData, null, 0, env}
+
+#define CONST_StateComboBasePtr_Fwc(enclState, stateId, stateData, env) {stateData, enclState, stateId, env }
+
+#define CONST_StateBasePtr_Fwc(stateData, enclState, stateId, env) {stateData, enclState, stateId, env }
 
 
 
