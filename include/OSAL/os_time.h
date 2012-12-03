@@ -201,6 +201,8 @@ typedef struct MinMaxTime_Fwc_t
 
   u_int32_t minCyclTime;
 
+  u_int32_t actCyclTime;
+
   u_int32_t midCyclTime;
 
   u_int32_t maxmaxCyclTime;
@@ -212,8 +214,6 @@ typedef struct MinMaxTime_Fwc_t
   u_int32_t midCalcTime;
 
   u_int32_t maxCalcTime;
-
-  u_int32_t actCyclTime;
 
   int32_t _lastTime;
 
@@ -262,10 +262,27 @@ typedef struct MinMaxTime_Fwc_t
 /**With given time. */
 #define calcTime_fast_MinMaxTime_Fwc(YTHIS, time)        \
 { uint32_t calcTime = (time) - (YTHIS)->_lastTime; \
+  (YTHIS)->actCalcTime = calcTime;  \
   if(calcTime > (YTHIS)->maxCalcTime) { (YTHIS)->maxCalcTime = calcTime; }  \
   if(calcTime < (YTHIS)->minCalcTime) { (YTHIS)->minCalcTime = calcTime; }  \
   (YTHIS)->midCalcTime += (calcTime - ((YTHIS)->midCalcTime >>10));            \
 }
+
+/**Stores middle value of difference time in any variable, without min and max. 
+ * @param VAR variable to store middle time 
+ */
+#define mesTimeMid_I_MinMaxTime_Fwc(YTHIS, time, VAR)        \
+{ uint32_t calcTime = (time) - (YTHIS)->_lastTime; \
+  VAR += calcTime - (VAR >>10);            \
+}
+
+/**Stores difference time in any variable, without min and max. 
+ * @param VAR variable to store middle time 
+ */
+#define mesTime_I_MinMaxTime_Fwc(YTHIS, time, VAR)        \
+{ VAR = (time) - (YTHIS)->_lastTime; \
+}
+
 
 _END_extern_C_BLOCK
 

@@ -26,6 +26,9 @@ NULL=
 NULL=nul
 !ENDIF 
 
+CPP=cl.exe
+RSC=rc.exe
+
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
 OUTDIR=.\Release
@@ -34,7 +37,7 @@ INTDIR=.\Release
 OutDir=.\Release
 # End Custom Macros
 
-ALL : "$(OUTDIR)\OsalFwc.lib" "$(OUTDIR)\OsalFwc.bsc"
+ALL : "..\OsalFwc.lib" "$(OUTDIR)\OsalFwc.bsc"
 
 
 CLEAN :
@@ -78,61 +81,19 @@ CLEAN :
 	-@erase "$(INTDIR)\os_thread.sbr"
 	-@erase "$(INTDIR)\os_time.obj"
 	-@erase "$(INTDIR)\os_time.sbr"
+	-@erase "$(INTDIR)\Reflection_OSAL.obj"
+	-@erase "$(INTDIR)\Reflection_OSAL.sbr"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\OsalFwc.bsc"
-	-@erase "$(OUTDIR)\OsalFwc.lib"
+	-@erase "..\OsalFwc.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
-CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FAcs /Fa"$(INTDIR)\\" /FR"$(INTDIR)\\" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-RSC=rc.exe
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows_Msc6" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FAcs /Fa"$(INTDIR)\\" /FR"$(INTDIR)\\" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\OsalFwc.bsc" 
 BSC32_SBRS= \
-	"$(INTDIR)\os_atomic.sbr" \
-	"$(INTDIR)\os_common.sbr" \
-	"$(INTDIR)\os_endian.sbr" \
-	"$(INTDIR)\os_error.sbr" \
-	"$(INTDIR)\os_file.sbr" \
-	"$(INTDIR)\os_mem.sbr" \
-	"$(INTDIR)\os_mutex.sbr" \
-	"$(INTDIR)\os_socket.sbr" \
-	"$(INTDIR)\os_sync.sbr" \
-	"$(INTDIR)\os_thread.sbr" \
-	"$(INTDIR)\os_time.sbr" \
 	"$(INTDIR)\fw_Exception.sbr" \
 	"$(INTDIR)\fw_ExceptionPrintStacktrace.sbr" \
 	"$(INTDIR)\fw_formatter.sbr" \
@@ -141,7 +102,19 @@ BSC32_SBRS= \
 	"$(INTDIR)\fw_SimpleC.sbr" \
 	"$(INTDIR)\fw_String.sbr" \
 	"$(INTDIR)\fw_threadContext.sbr" \
-	"$(INTDIR)\fw_timeconversions.sbr"
+	"$(INTDIR)\fw_timeconversions.sbr" \
+	"$(INTDIR)\os_time.sbr" \
+	"$(INTDIR)\os_atomic.sbr" \
+	"$(INTDIR)\os_endian.sbr" \
+	"$(INTDIR)\os_error.sbr" \
+	"$(INTDIR)\os_file.sbr" \
+	"$(INTDIR)\os_mem.sbr" \
+	"$(INTDIR)\os_mutex.sbr" \
+	"$(INTDIR)\os_socket.sbr" \
+	"$(INTDIR)\os_sync.sbr" \
+	"$(INTDIR)\os_thread.sbr" \
+	"$(INTDIR)\os_common.sbr" \
+	"$(INTDIR)\Reflection_OSAL.sbr"
 
 "$(OUTDIR)\OsalFwc.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -149,19 +122,8 @@ BSC32_SBRS= \
 <<
 
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"$(OUTDIR)\OsalFwc.lib" 
+LIB32_FLAGS=/nologo /out:"..\OsalFwc.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\os_atomic.obj" \
-	"$(INTDIR)\os_common.obj" \
-	"$(INTDIR)\os_endian.obj" \
-	"$(INTDIR)\os_error.obj" \
-	"$(INTDIR)\os_file.obj" \
-	"$(INTDIR)\os_mem.obj" \
-	"$(INTDIR)\os_mutex.obj" \
-	"$(INTDIR)\os_socket.obj" \
-	"$(INTDIR)\os_sync.obj" \
-	"$(INTDIR)\os_thread.obj" \
-	"$(INTDIR)\os_time.obj" \
 	"$(INTDIR)\fw_Exception.obj" \
 	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
 	"$(INTDIR)\fw_formatter.obj" \
@@ -170,9 +132,21 @@ LIB32_OBJS= \
 	"$(INTDIR)\fw_SimpleC.obj" \
 	"$(INTDIR)\fw_String.obj" \
 	"$(INTDIR)\fw_threadContext.obj" \
-	"$(INTDIR)\fw_timeconversions.obj"
+	"$(INTDIR)\fw_timeconversions.obj" \
+	"$(INTDIR)\os_time.obj" \
+	"$(INTDIR)\os_atomic.obj" \
+	"$(INTDIR)\os_endian.obj" \
+	"$(INTDIR)\os_error.obj" \
+	"$(INTDIR)\os_file.obj" \
+	"$(INTDIR)\os_mem.obj" \
+	"$(INTDIR)\os_mutex.obj" \
+	"$(INTDIR)\os_socket.obj" \
+	"$(INTDIR)\os_sync.obj" \
+	"$(INTDIR)\os_thread.obj" \
+	"$(INTDIR)\os_common.obj" \
+	"$(INTDIR)\Reflection_OSAL.obj"
 
-"$(OUTDIR)\OsalFwc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"..\OsalFwc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -182,7 +156,7 @@ LIB32_OBJS= \
 OUTDIR=T:\CRuntimeJavalike\lib\OSALJcD
 INTDIR=T:\CRuntimeJavalike\lib\OSALJcD
 
-ALL : "..\OSALJcD.lib" "..\OsalFwcD.bsc"
+ALL : "..\OsalFwcD.lib" "..\OsalFwcD.bsc"
 
 
 CLEAN :
@@ -206,10 +180,11 @@ CLEAN :
 	-@erase "$(INTDIR)\os_sync.obj"
 	-@erase "$(INTDIR)\os_thread.obj"
 	-@erase "$(INTDIR)\os_time.obj"
+	-@erase "$(INTDIR)\Reflection_OSAL.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
 	-@erase "..\OsalFwcD.bsc"
-	-@erase "..\OSALJcD.lib"
+	-@erase "..\OsalFwcD.lib"
 	-@erase "T:\CRuntimeJavalike\lib\OsalFwcD\fw_Exception.sbr"
 	-@erase "T:\CRuntimeJavalike\lib\OsalFwcD\fw_ExceptionPrintStacktrace.sbr"
 	-@erase "T:\CRuntimeJavalike\lib\OsalFwcD\fw_formatter.sbr"
@@ -230,58 +205,15 @@ CLEAN :
 	-@erase "T:\CRuntimeJavalike\lib\OsalFwcD\os_sync.sbr"
 	-@erase "T:\CRuntimeJavalike\lib\OsalFwcD\os_thread.sbr"
 	-@erase "T:\CRuntimeJavalike\lib\OsalFwcD\os_time.sbr"
+	-@erase "T:\CRuntimeJavalike\lib\OsalFwcD\Reflection_OSAL.sbr"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP=cl.exe
-CPP_PROJ=/nologo /Zp1 /MTd /W4 /Gm /GX /ZI /Od /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FAcs /Fa"$(INTDIR)\\" /FR"T:\CRuntimeJavalike\lib\OsalFwcD/" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-RSC=rc.exe
+CPP_PROJ=/nologo /Zp1 /MTd /W4 /Gm /GX /ZI /Od /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows_Msc6" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FAcs /Fa"$(INTDIR)\\" /FR"T:\CRuntimeJavalike\lib\OsalFwcD/" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"..\OsalFwcD.bsc" 
 BSC32_SBRS= \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_atomic.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_common.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_endian.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_error.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_file.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_mem.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_mutex.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_socket.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_sync.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_thread.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\os_time.sbr" \
 	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_Exception.sbr" \
 	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_ExceptionPrintStacktrace.sbr" \
 	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_formatter.sbr" \
@@ -290,7 +222,19 @@ BSC32_SBRS= \
 	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_SimpleC.sbr" \
 	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_String.sbr" \
 	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_threadContext.sbr" \
-	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_timeconversions.sbr"
+	"T:\CRuntimeJavalike\lib\OsalFwcD\fw_timeconversions.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_time.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_atomic.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_endian.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_error.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_file.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_mem.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_mutex.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_socket.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_sync.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_thread.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\os_common.sbr" \
+	"T:\CRuntimeJavalike\lib\OsalFwcD\Reflection_OSAL.sbr"
 
 "..\OsalFwcD.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -298,19 +242,8 @@ BSC32_SBRS= \
 <<
 
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"..\OSALJcD.lib" 
+LIB32_FLAGS=/nologo /out:"..\OsalFwcD.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\os_atomic.obj" \
-	"$(INTDIR)\os_common.obj" \
-	"$(INTDIR)\os_endian.obj" \
-	"$(INTDIR)\os_error.obj" \
-	"$(INTDIR)\os_file.obj" \
-	"$(INTDIR)\os_mem.obj" \
-	"$(INTDIR)\os_mutex.obj" \
-	"$(INTDIR)\os_socket.obj" \
-	"$(INTDIR)\os_sync.obj" \
-	"$(INTDIR)\os_thread.obj" \
-	"$(INTDIR)\os_time.obj" \
 	"$(INTDIR)\fw_Exception.obj" \
 	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
 	"$(INTDIR)\fw_formatter.obj" \
@@ -319,9 +252,21 @@ LIB32_OBJS= \
 	"$(INTDIR)\fw_SimpleC.obj" \
 	"$(INTDIR)\fw_String.obj" \
 	"$(INTDIR)\fw_threadContext.obj" \
-	"$(INTDIR)\fw_timeconversions.obj"
+	"$(INTDIR)\fw_timeconversions.obj" \
+	"$(INTDIR)\os_time.obj" \
+	"$(INTDIR)\os_atomic.obj" \
+	"$(INTDIR)\os_endian.obj" \
+	"$(INTDIR)\os_error.obj" \
+	"$(INTDIR)\os_file.obj" \
+	"$(INTDIR)\os_mem.obj" \
+	"$(INTDIR)\os_mutex.obj" \
+	"$(INTDIR)\os_socket.obj" \
+	"$(INTDIR)\os_sync.obj" \
+	"$(INTDIR)\os_thread.obj" \
+	"$(INTDIR)\os_common.obj" \
+	"$(INTDIR)\Reflection_OSAL.obj"
 
-"..\OSALJcD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"..\OsalFwcD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -378,10 +323,12 @@ CLEAN :
 	-@erase "$(INTDIR)\os_thread.sbr"
 	-@erase "$(INTDIR)\os_time.obj"
 	-@erase "$(INTDIR)\os_time.sbr"
-	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(INTDIR)\vc60.pdb"
+	-@erase "$(INTDIR)\Reflection_OSAL.obj"
+	-@erase "$(INTDIR)\Reflection_OSAL.sbr"
 	-@erase "$(OUTDIR)\OSALD.bsc"
 	-@erase "$(OUTDIR)\OsalFwcppD.lib"
+	-@erase "..\OsalFwcppD.idb"
+	-@erase "..\OsalFwcppD.pdb"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -389,8 +336,68 @@ CLEAN :
 "$(INTDIR)" :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
-CPP=cl.exe
-CPP_PROJ=/nologo /Zp1 /MTd /W4 /Gm /GX /ZI /Od /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FR"$(INTDIR)\\" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /TP /c 
+CPP_PROJ=/nologo /Zp1 /MTd /W4 /Gm /GX /ZI /Od /I "includeEmptyRef" /I "../../../include" /I "../../../include/OSAL" /I "../../../includeSpecials/os_Windows_Msc6" /I "../../../includeSpecials/FwConvC32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FR"$(INTDIR)\\" /Fo"$(INTDIR)\\" /Fd"..\OsalFwcppD.pdb" /FD /GZ /TP /c 
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\OSALD.bsc" 
+BSC32_SBRS= \
+	"$(INTDIR)\fw_Exception.sbr" \
+	"$(INTDIR)\fw_ExceptionPrintStacktrace.sbr" \
+	"$(INTDIR)\fw_formatter.sbr" \
+	"$(INTDIR)\fw_MemC.sbr" \
+	"$(INTDIR)\fw_Readline.sbr" \
+	"$(INTDIR)\fw_SimpleC.sbr" \
+	"$(INTDIR)\fw_String.sbr" \
+	"$(INTDIR)\fw_threadContext.sbr" \
+	"$(INTDIR)\fw_timeconversions.sbr" \
+	"$(INTDIR)\os_time.sbr" \
+	"$(INTDIR)\os_atomic.sbr" \
+	"$(INTDIR)\os_endian.sbr" \
+	"$(INTDIR)\os_error.sbr" \
+	"$(INTDIR)\os_file.sbr" \
+	"$(INTDIR)\os_mem.sbr" \
+	"$(INTDIR)\os_mutex.sbr" \
+	"$(INTDIR)\os_socket.sbr" \
+	"$(INTDIR)\os_sync.sbr" \
+	"$(INTDIR)\os_thread.sbr" \
+	"$(INTDIR)\os_common.sbr" \
+	"$(INTDIR)\Reflection_OSAL.sbr"
+
+"$(OUTDIR)\OSALD.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
+    $(BSC32) @<<
+  $(BSC32_FLAGS) $(BSC32_SBRS)
+<<
+
+LIB32=link.exe -lib
+LIB32_FLAGS=/nologo /out:"$(OUTDIR)\OsalFwcppD.lib" 
+LIB32_OBJS= \
+	"$(INTDIR)\fw_Exception.obj" \
+	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
+	"$(INTDIR)\fw_formatter.obj" \
+	"$(INTDIR)\fw_MemC.obj" \
+	"$(INTDIR)\fw_Readline.obj" \
+	"$(INTDIR)\fw_SimpleC.obj" \
+	"$(INTDIR)\fw_String.obj" \
+	"$(INTDIR)\fw_threadContext.obj" \
+	"$(INTDIR)\fw_timeconversions.obj" \
+	"$(INTDIR)\os_time.obj" \
+	"$(INTDIR)\os_atomic.obj" \
+	"$(INTDIR)\os_endian.obj" \
+	"$(INTDIR)\os_error.obj" \
+	"$(INTDIR)\os_file.obj" \
+	"$(INTDIR)\os_mem.obj" \
+	"$(INTDIR)\os_mutex.obj" \
+	"$(INTDIR)\os_socket.obj" \
+	"$(INTDIR)\os_sync.obj" \
+	"$(INTDIR)\os_thread.obj" \
+	"$(INTDIR)\os_common.obj" \
+	"$(INTDIR)\Reflection_OSAL.obj"
+
+"$(OUTDIR)\OsalFwcppD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+    $(LIB32) @<<
+  $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
+<<
+
+!ENDIF 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -422,67 +429,6 @@ CPP_PROJ=/nologo /Zp1 /MTd /W4 /Gm /GX /ZI /Od /I "includeEmptyRef" /I "../../..
    $(CPP_PROJ) $< 
 <<
 
-RSC=rc.exe
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\OSALD.bsc" 
-BSC32_SBRS= \
-	"$(INTDIR)\os_atomic.sbr" \
-	"$(INTDIR)\os_common.sbr" \
-	"$(INTDIR)\os_endian.sbr" \
-	"$(INTDIR)\os_error.sbr" \
-	"$(INTDIR)\os_file.sbr" \
-	"$(INTDIR)\os_mem.sbr" \
-	"$(INTDIR)\os_mutex.sbr" \
-	"$(INTDIR)\os_socket.sbr" \
-	"$(INTDIR)\os_sync.sbr" \
-	"$(INTDIR)\os_thread.sbr" \
-	"$(INTDIR)\os_time.sbr" \
-	"$(INTDIR)\fw_Exception.sbr" \
-	"$(INTDIR)\fw_ExceptionPrintStacktrace.sbr" \
-	"$(INTDIR)\fw_formatter.sbr" \
-	"$(INTDIR)\fw_MemC.sbr" \
-	"$(INTDIR)\fw_Readline.sbr" \
-	"$(INTDIR)\fw_SimpleC.sbr" \
-	"$(INTDIR)\fw_String.sbr" \
-	"$(INTDIR)\fw_threadContext.sbr" \
-	"$(INTDIR)\fw_timeconversions.sbr"
-
-"$(OUTDIR)\OSALD.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
-    $(BSC32) @<<
-  $(BSC32_FLAGS) $(BSC32_SBRS)
-<<
-
-LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"$(OUTDIR)\OsalFwcppD.lib" 
-LIB32_OBJS= \
-	"$(INTDIR)\os_atomic.obj" \
-	"$(INTDIR)\os_common.obj" \
-	"$(INTDIR)\os_endian.obj" \
-	"$(INTDIR)\os_error.obj" \
-	"$(INTDIR)\os_file.obj" \
-	"$(INTDIR)\os_mem.obj" \
-	"$(INTDIR)\os_mutex.obj" \
-	"$(INTDIR)\os_socket.obj" \
-	"$(INTDIR)\os_sync.obj" \
-	"$(INTDIR)\os_thread.obj" \
-	"$(INTDIR)\os_time.obj" \
-	"$(INTDIR)\fw_Exception.obj" \
-	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
-	"$(INTDIR)\fw_formatter.obj" \
-	"$(INTDIR)\fw_MemC.obj" \
-	"$(INTDIR)\fw_Readline.obj" \
-	"$(INTDIR)\fw_SimpleC.obj" \
-	"$(INTDIR)\fw_String.obj" \
-	"$(INTDIR)\fw_threadContext.obj" \
-	"$(INTDIR)\fw_timeconversions.obj"
-
-"$(OUTDIR)\OsalFwcppD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
-    $(LIB32) @<<
-  $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
-<<
-
-!ENDIF 
-
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
 !IF EXISTS("OsalFwc.dep")
@@ -494,7 +440,7 @@ LIB32_OBJS= \
 
 
 !IF "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release" || "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Debug" || "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 DebugCpp"
-SOURCE=..\..\..\source\os_Windows\os_atomic.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_atomic.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -519,32 +465,7 @@ SOURCE=..\..\..\source\os_Windows\os_atomic.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\OSAL\os_common.c
-
-!IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
-
-
-"$(INTDIR)\os_common.obj"	"$(INTDIR)\os_common.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Debug"
-
-
-"$(INTDIR)\os_common.obj"	"T:\CRuntimeJavalike\lib\OsalFwcD\os_common.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 DebugCpp"
-
-
-"$(INTDIR)\os_common.obj"	"$(INTDIR)\os_common.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\..\source\os_Windows\os_endian.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_endian.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -569,7 +490,7 @@ SOURCE=..\..\..\source\os_Windows\os_endian.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_error.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_error.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -594,7 +515,7 @@ SOURCE=..\..\..\source\os_Windows\os_error.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_file.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_file.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -619,7 +540,7 @@ SOURCE=..\..\..\source\os_Windows\os_file.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_mem.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_mem.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -644,7 +565,7 @@ SOURCE=..\..\..\source\os_Windows\os_mem.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_mutex.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_mutex.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -669,7 +590,7 @@ SOURCE=..\..\..\source\os_Windows\os_mutex.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_socket.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_socket.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -694,7 +615,7 @@ SOURCE=..\..\..\source\os_Windows\os_socket.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_sync.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_sync.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -719,7 +640,7 @@ SOURCE=..\..\..\source\os_Windows\os_sync.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_thread.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_thread.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -744,7 +665,7 @@ SOURCE=..\..\..\source\os_Windows\os_thread.c
 
 !ENDIF 
 
-SOURCE=..\..\..\source\os_Windows\os_time.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_time.c
 
 !IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
 
@@ -989,6 +910,56 @@ SOURCE=..\..\..\source\Fwc\fw_timeconversions.c
 
 
 "$(INTDIR)\fw_timeconversions.obj"	"$(INTDIR)\fw_timeconversions.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\..\source\OSAL\os_common.c
+
+!IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
+
+
+"$(INTDIR)\os_common.obj"	"$(INTDIR)\os_common.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Debug"
+
+
+"$(INTDIR)\os_common.obj"	"T:\CRuntimeJavalike\lib\OsalFwcD\os_common.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 DebugCpp"
+
+
+"$(INTDIR)\os_common.obj"	"$(INTDIR)\os_common.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\..\source\OSAL\Reflection_OSAL.c
+
+!IF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Release"
+
+
+"$(INTDIR)\Reflection_OSAL.obj"	"$(INTDIR)\Reflection_OSAL.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 Debug"
+
+
+"$(INTDIR)\Reflection_OSAL.obj"	"T:\CRuntimeJavalike\lib\OsalFwcD\Reflection_OSAL.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "CRuntimeJavalike_OSALlib - Win32 DebugCpp"
+
+
+"$(INTDIR)\Reflection_OSAL.obj"	"$(INTDIR)\Reflection_OSAL.sbr" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

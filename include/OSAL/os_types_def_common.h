@@ -61,6 +61,7 @@
   #define METHOD_C extern "C"
   #define extern_C_BLOCK_ extern "C" { 
   #define _END_extern_C_BLOCK } 
+  #define INLINE_C inline
   //#define METHOD_C
 #else
   #define extern_C extern
@@ -68,10 +69,11 @@
   #define METHOD_C
   #define extern_C_BLOCK_ 
   #define _END_extern_C_BLOCK 
+  #define INLINE_C static
 #endif
 
 
-
+#define _INIT0_ = {0}
 
 /**An instance which contains null-values. */
 extern_C OS_PtrValue null_OS_PtrValue;

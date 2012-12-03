@@ -115,51 +115,47 @@ LIB32=link.exe -lib
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_atomic.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_atomic.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\OSAL\os_common.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_endian.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_endian.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_error.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_error.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_file.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_file.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_internal.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_internal.h
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_mem.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_mem.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_mutex.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_mutex.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_socket.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_socket.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_sync.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_sync.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_thread.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\source\os_Windows\os_thread.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\source\os_Windows\os_time.c
+SOURCE=..\..\..\sourceSpecials\os_Windows_Msc6\os_time.c
 # End Source File
 # End Group
 # Begin Group "Fwc"
@@ -200,6 +196,18 @@ SOURCE=..\..\..\source\Fwc\fw_threadContext.c
 # Begin Source File
 
 SOURCE=..\..\..\source\Fwc\fw_timeconversions.c
+# End Source File
+# End Group
+# Begin Group "OS_common"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\source\OSAL\os_common.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\source\OSAL\Reflection_OSAL.c
 # End Source File
 # End Group
 # End Group
