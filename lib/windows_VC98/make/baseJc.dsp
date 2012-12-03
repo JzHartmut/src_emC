@@ -478,6 +478,10 @@ SOURCE=..\..\..\source\InspcJ2c\InspcDataExchangeAccess_Inspc.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\source\InspcJ2c\InspcDataInfo_Inspc.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\source\InspcJ2c\Inspector_Inspc.c
 # End Source File
 # Begin Source File
