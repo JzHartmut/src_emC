@@ -186,9 +186,9 @@ void finalize_Info_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCx
 
 #define kbyteOrder_Info_InspcDataExchangeAccess_Inspc 4
 #define sizeofHead_Info_InspcDataExchangeAccess_Inspc 8
-#define kGetFields_Info_InspcDataExchangeAccess_Inspc 0x10  /*Aufforderung zur Rückgabe einer Liste aller Attribute und Assoziationen des adressierten Objektes.*/
+#define kGetFields_Info_InspcDataExchangeAccess_Inspc 0x10  /*Aufforderung zur Rueckgabe einer Liste aller Attribute und Assoziationen des adressierten Objektes.*/
 #define kGetFieldsFurther_Info_InspcDataExchangeAccess_Inspc 0x12  /**/
-#define kAnswerFieldMethod_Info_InspcDataExchangeAccess_Inspc 0x14  /*Antwort auf Aufforderung zur Rückgabe einer Liste von Attributen, Assoziationen oder Methoden.*/
+#define kAnswerFieldMethod_Info_InspcDataExchangeAccess_Inspc 0x14  /*Antwort auf Aufforderung zur Rueckgabe einer Liste von Attributen, Assoziationen oder Methoden.*/
 #define kRegisterRepeat_Info_InspcDataExchangeAccess_Inspc 0x23
 #define kAnswerRegisterRepeat_Info_InspcDataExchangeAccess_Inspc 0x123
 #define kFailedRegisterRepeat_Info_InspcDataExchangeAccess_Inspc 0x124
@@ -199,6 +199,11 @@ void finalize_Info_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCx
 #define kGetValueByPath_Info_InspcDataExchangeAccess_Inspc 0x30
 #define kGetAddressByPath_Info_InspcDataExchangeAccess_Inspc 0x32
 #define kSetValueByPath_Info_InspcDataExchangeAccess_Inspc 0x35
+#define kGetMsg_Info_InspcDataExchangeAccess_Inspc 0x40  /*Request to get all messages.*/
+#define kAnswerMsg_Info_InspcDataExchangeAccess_Inspc 0x140
+#define kRemoveMsg_Info_InspcDataExchangeAccess_Inspc 0x41  /*Remove gotten messages*/
+#define kAnswerRemoveMsgOk_Info_InspcDataExchangeAccess_Inspc 0x141
+#define kAnswerRemoveMsgNok_Info_InspcDataExchangeAccess_Inspc 0x241
 #define kFailedPath_Info_InspcDataExchangeAccess_Inspc 0xfe
 #define kNoRessource_Info_InspcDataExchangeAccess_Inspc 0xfd
 #define kFailedCommand_Info_InspcDataExchangeAccess_Inspc 0xff

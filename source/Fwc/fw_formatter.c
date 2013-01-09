@@ -51,7 +51,7 @@
 #include <Fwc/fw_Formatter.h>
 #include <Fwc/fw_SimpleC.h>         //ARRAYLEN
 #include <Fwc/fw_Exception.h>       //STACKTRC_...
-//#include "fw_ThreadContext.h"   //os_getCurrentStacktraceThreadContext()
+#include <Fwc/fw_ThreadContext.h>   //os_getCurrentStacktraceThreadContext()
 #include <string.h>             //strchr(), strlen(), memset()
 #include <stdio.h>
 

@@ -157,7 +157,8 @@ typedef enum ExceptionIdentsJc_t
 
 typedef enum ExceptionMasksJc_t
 {
-  mask_ExceptionJc                 = 0xffffffff
+  mask_ExceptionJcJc                 = 0xffffffff
+, mask_ExceptionJc                 = 0xffffffff
 , mask_RuntimeExceptionJc          = 0x0000ffff
 , mask_ClassCastExceptionJc        = 0x00000002
 , mask_NullPointerExceptionJc      = 0x00000004
@@ -523,7 +524,7 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
  * All other elements are not used here.
  * There are not necessary here, but used in macro definitions.
  */
-#include "Fwc/fw_ThreadContext.h"
+//#include "Fwc/fw_ThreadContext.h"
 
 /* OLD:A ThreadContext is necessarry, but it is not defined here.
  * It have to be contained for the Stacktrace theme: 

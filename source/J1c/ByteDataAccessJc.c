@@ -379,6 +379,7 @@ void detach_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt)
     { 
       
       detach_ByteDataAccessJc(REFJc(ythis->currentChild), _thCxt);
+      CLEAR_REFJc(ythis->currentChild);
     }
     ythis->data = null;
     CLEAR_REFJc(ythis->parent);
@@ -506,7 +507,7 @@ bool addChild_ByteDataAccessJc(ByteDataAccessJc_s* ythis, struct ByteDataAccessJ
     childMtb.mtbl->assignData_iYii( (childMtb.ref), ythis->data, ythis->bExpand ? -1 : ythis->idxEnd, ythis->idxCurrentChild, _thCxt);
     childMtb.mtbl->setBigEndian( (childMtb.ref), ythis->bBigEndian, _thCxt);
     SETREFJc(child->parent, ythis, ByteDataAccessJc_s);
-    SETREFJc(ythis->currentChild, child, ByteDataAccessJc_s);
+    //SETREFJc(ythis->currentChild, child, ByteDataAccessJc_s);
     correctIdxChildEnd_ByteDataAccessJc(ythis, child->idxCurrentChildEnd, _thCxt);
     { STACKTRC_LEAVE;
       return ythis->bExpand;

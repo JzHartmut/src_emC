@@ -89,7 +89,10 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       //outer=1 ,super=2: int %.. idxEnd;
       //outer=1 ,super=2: int %.. idxFirstChild;
       int %.d kAnswerFieldMethod;
+      int %.d kAnswerMsg;
       int %.d kAnswerRegisterRepeat;
+      int %.d kAnswerRemoveMsgNok;
+      int %.d kAnswerRemoveMsgOk;
       int %.d kAnswerValue;
       int %.d kAnswerValueByIndex;
       //outer=1 ,super=2: byte %.d kEndOfElements;
@@ -100,6 +103,7 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       int %.d kGetAddressByPath;
       int %.d kGetFields;
       int %.d kGetFieldsFurther;
+      int %.d kGetMsg;
       int %.d kGetValueByIndex;
       int %.d kGetValueByPath;
       //outer=1 ,super=2: int %.d kIdxElementCode;
@@ -108,6 +112,7 @@ class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argIdent=X
       int %.d kReference;
       //outer=2 ,super=1: int %.d kReferenceAddr;
       int %.d kRegisterRepeat;
+      int %.d kRemoveMsg;
       //outer=2 ,super=1: int %.d kScalarTypes;
       int %.d kSetValueByPath;
       //outer=1 ,super=2: byte %.d kText;

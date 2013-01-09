@@ -36,7 +36,7 @@ typedef struct Comm_Inspc_t
   int32 ctErrorTelg; 
   struct ThreadJc_t* thread;   /**/
   int32 nrofBytesReceived[1];   /**/
-  struct rxBuffer_Y_Comm { ObjectArrayJc head; int8 data[1500]; }rxBuffer;   /*Use a static receive buffer. It is important for C-applications. */
+  struct rxBuffer_Y { ObjectArrayJc head; int8 data[1500]; }rxBuffer;   /*Use a static receive buffer. It is important for C-applications. */
   struct Address_InterProcessComm_t* myAnswerAddress;   /**/
 } Comm_Inspc_s;
   

@@ -10,10 +10,10 @@
 #include "InspcJ2c/AnswerComm_ifc_Inspc.h"  //reference-association: answerCommMtbl
 #include "InspcJ2c/SearchElement_Inspc.h"  //reference-association: SearchElement_Inspc_s
 #include "Jc/PrintStreamJc.h"  //reference-association: out
+#include "Jc/ReflMemAccessJc.h"  //embedded type in class data
 #include "Jc/ReflectionJc.h"  //reference-association: MemAccessArrayDebugJc
 #include "Jc/StringJc.h"  //embedded type in class data
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
-#include "Jc/ReflMemAccessJc.h"  //embedded type in class data
 #include "os_time.h"  //reference-association: OS_TimeStamp
 
 
@@ -345,9 +345,10 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_I
           }//adds the answer to the telegram:
           
           addChild_ByteDataAccessJc(& ((* (answer)).base.super), & ((ythis->answerItem).base.super), _thCxt);
-          setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), lengthAnswer4 + sizeofHead_Info_InspcDataExchangeAccess_Inspc, kAnswerFieldMethod_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
           sAnswer = toStringNonPersist_StringBuilderJc(& ((ythis->uAnswer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-          addChildString_S_ByteDataAccessJc(& ((ythis->answerItem).base.super), sAnswer, _thCxt);//
+          addChildString_S_ByteDataAccessJc(& ((ythis->answerItem).base.super), sAnswer, _thCxt);//Note: first add the string, then set the head because the setInfoHead adjusts the length of head child.
+          
+          setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), lengthAnswer4 + sizeofHead_Info_InspcDataExchangeAccess_Inspc, kAnswerFieldMethod_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);//
           
         }
         else if(clazz != null) 
@@ -393,7 +394,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct Info_I
         }
       }
     }_TRY
-    CATCH(Exception, exc)
+    CATCH(ExceptionJc, exc)
     
       { 
         
@@ -629,8 +630,19 @@ int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
         nBytesItem = getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt);
         setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), nBytesItem, kAnswerValue_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
       }
+      else 
+      { //:Info failed value to return. Note: If nothing is returned, the calling doesn't know that problem
+        //:and the whole telegram may not be sent. It would cause a timeout. Bugfix on 2013-01-10
+        
+        int32 nBytesItem; 
+        
+        
+        addChild_ByteDataAccessJc(& ((* (answer)).base.super), & ((ythis->answerItem).base.super), _thCxt);
+        nBytesItem = getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt);
+        setInfoHead_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), nBytesItem, kFailedPath_Info_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
+      }
     }_TRY
-    CATCH(Exception, exc)
+    CATCH(ExceptionJc, exc)
     
       { 
         
@@ -1094,7 +1106,7 @@ int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct
       setLength_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt), _thCxt);//the length of the answerItems in byte.
       
     }_TRY
-    CATCH(Exception, exc)
+    CATCH(ExceptionJc, exc)
     
       { 
         
@@ -1229,7 +1241,7 @@ int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
       setLength_Info_InspcDataExchangeAccess_Inspc(& (ythis->answerItem), getLength_ByteDataAccessJc(& ((ythis->answerItem).base.super), _thCxt), _thCxt);//the length of the answerItems in byte.
       
     }_TRY
-    CATCH(Exception, exc)
+    CATCH(ExceptionJc, exc)
     
       { 
         

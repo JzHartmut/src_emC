@@ -247,7 +247,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt)
             }
           }
         }_TRY
-        CATCH(Exception, exc)
+        CATCH(ExceptionJc, exc)
         
           { 
             StringJc msg = CONST_z_StringJc("org.vishia.inspector.Comm - unexpected Exception; ");   /**/

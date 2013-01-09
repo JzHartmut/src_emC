@@ -38,7 +38,7 @@
 #include <os_types_def.h>
 #include <os_mem.h>
 #include "Fwc/fw_Exception.h"
-//#include "fw_ThreadContext.h"
+#include <Fwc/fw_ThreadContext.h>
 //#include <fw_Platform_conventions.h> //mLength_StringJc
 #include <string.h>
 
