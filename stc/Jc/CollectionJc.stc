@@ -1,0 +1,12 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/CollectionJc"
+package java/util/;
+
+interface Collection; nameC=CollectionJc; argIdent=cl; extends java/lang/Object
+{  
+  methods {  
+    add-_$%F: void %.. return(Object *.. src);
+    remove-_$%F: Object *.. return(Object *.. item);
+    size-_$%F, mode=noThCxt : int %.. return();
+  }
+}

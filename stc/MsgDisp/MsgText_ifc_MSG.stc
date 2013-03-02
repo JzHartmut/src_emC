@@ -1,0 +1,52 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "MsgDisp/MsgText_ifc_MSG"
+package org/vishia/msgDispatch/;
+
+final interface MsgText_ifc; nameC=MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/Object //creationMode=F
+{  
+    //Innerclass: MsgConfigItem_MsgText_ifc_MSG
+  InnerClass{ 
+    class MsgConfigItem; nameC=MsgConfigItem_MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/Object //creationMode=C
+    {  
+    fieldIdents {
+      java/lang/String(instance=java/lang/String) t.. dst;
+      int %.. identNr;
+      int %.. identNrLast;
+      java/lang/String(instance=java/lang/String) t.. identText;
+      java/lang/String(instance=java/lang/String) t.. text;
+      char %.. type_;
+    }
+      methods {  
+        set_type-_$, mode= overrideable: void %.r null(java/lang/String(instance=java/lang/String) t.. src);
+      }
+
+      methods-overrideable {
+        set_type_MsgConfigItem_MsgText_ifc_MSG;
+      }
+
+      castTo {
+        org/vishia/msgDispatch/MsgText_ifc: * "(?)->outer" *;
+        java/lang/Object: $ "(?).base.object" $;
+      }
+
+    }
+
+  }
+fieldIdents {
+  int %.. version;
+}
+  methods {  
+    getListItems-_$, mode= overrideable: java/util/Collection *.r null();
+    getMsgText-_$, mode= overrideable: s0(instance=s0) %.r null(int %.. ident);
+  }
+
+  methods-overrideable {
+    getMsgText_MsgText_ifc_MSG;
+    getListItems_MsgText_ifc_MSG;
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

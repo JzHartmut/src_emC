@@ -1,0 +1,13 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/FileIoJc"
+package java/nio/;
+
+class ByteBuffer; nameC=ByteBufferJc_s; argIdent=u; extends java/lang/Object
+{  
+  methods {  
+    ctorO-_$, mode=static  : field:{ File *.. return;} (field:{ java.lang.String t.. name; });
+    lastModified-_$, mode=noThCxt : field:{ int %.. return;};
+    length-_$, mode=noThCxt : field:{ int %.. return;};
+    exists-_$, mode=noThCxt : field:{ boolean %.. return;};
+  }
+}

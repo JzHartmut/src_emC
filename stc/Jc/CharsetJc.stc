@@ -1,0 +1,17 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/FileIoJc"
+package java/nio/charset/;
+
+
+class Charset; nameC=CharsetJc; argIdent=cs;
+{  
+  methods {  
+    ctorO-_$, mode=static  : field:{ int &.. return;} ();
+    forName-_$, mode=static: Charset %..return(s0 t.. value);
+  }
+  castTo {
+    int access=%: "(?)" ? access=%;
+  }
+	
+}
+
