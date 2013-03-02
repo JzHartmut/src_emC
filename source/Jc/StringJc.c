@@ -90,23 +90,10 @@ const ReflectionStringBuilderJc reflectionStringBuilderJc
   */
 
 
-
-/**reads the nrofChars and the reference into local variable. Static subroutine for inner organisation:*/
-char const* getCharsAndCount_StringJc(const StringJc* ythis, int* count)
-{ char const* chars = PTR_StringJc(*ythis);
-  int nChars = value_OS_PtrValue(*ythis);
-  if(nChars == mLength__StringJc) { nChars = strlen(chars); }
-
-  *count = nChars;
-  return( chars);
-}
-
-
-
 char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContextFW_t* _thCxt)
 {
   int len;
-  char const* str = getCharsAndCount_StringJc(&thiz, &len);
+  char const* str = getCharsAndLength_StringJc(&thiz, &len);
   if(str[len] == 0){ return str;
   } else {
     if(len >= zBuffer){
@@ -337,7 +324,7 @@ METHOD_C int indexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex)
   int nChars = value_OS_PtrValue(ythis) & mLength__StringJc;
   //STACKTRC_TENTRY("StringJc.indexOf(int,int)");
   if(nChars == mLength__StringJc) { nChars = strlen(chars); }
-  //const char* chars = getCharsAndCount_StringJc(ythis, &nChars);
+  //const char* chars = getCharsAndLength_StringJc(ythis, &nChars);
   if(fromIndex <0)
   { //STACKTRC_LEAVE; 
     return( -1);
@@ -361,9 +348,9 @@ int indexOf_sI_StringJc(StringJc ythis, StringJc str, int fromIndex)
 { int nChars;
   //STACKTRC_TENTRY("StringJc._Si_StringJc");
   { 
-    const char* chars = getCharsAndCount_StringJc(&ythis, &nChars);
+    const char* chars = getCharsAndLength_StringJc(&ythis, &nChars);
     int nCharsSearch;
-    const char* charsSearch = getCharsAndCount_StringJc(&str, &nCharsSearch);
+    const char* charsSearch = getCharsAndLength_StringJc(&str, &nCharsSearch);
     if(fromIndex <0)
     { //STACKTRC_LEAVE; 
       fromIndex = 0; //In java it is so too.
@@ -392,7 +379,7 @@ int lastIndexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex )
 { const char* chars;
   int nChars;
   //STACKTRC_TENTRY("StringJc.indexOf(int,int)");
-  chars = getCharsAndCount_StringJc(&ythis, &nChars);
+  chars = getCharsAndLength_StringJc(&ythis, &nChars);
   { int ii;
     if(fromIndex >= nChars)
     { fromIndex = nChars -1; }

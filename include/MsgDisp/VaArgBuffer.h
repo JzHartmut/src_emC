@@ -73,6 +73,8 @@ METHOD_C void clean_VaArgBuffer(VaArgBuffer* ythis, ThCxt* _thCxt);
 
 METHOD_C Va_listFW get_va_list_VaArgBuffer(VaArgBuffer* ythis, ThCxt* _thCxt);
 
+METHOD_C void setArg_VaArgBuffer(VaArgBuffer* thiz, int32_t ix, int32_t val, ThCxt* _thCxt);
+
 
 #endif //__VaArgBuffer_h__
 

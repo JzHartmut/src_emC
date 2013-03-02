@@ -140,3 +140,25 @@ METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSi
   return( nChars);
 }
 
+
+
+
+
+
+
+char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int const zBuffer)
+{
+  int len;
+  char const* str = getCharsAndLength_StringJc(&thiz, &len);
+  if(str[len] == 0){ return str;
+  } else {
+    if(len >= zBuffer){
+      len = zBuffer -2;
+      buffer[len-1] = '?';
+    }
+    memcpy(buffer, str, len);
+    buffer[len] = 0;
+    return buffer;
+  }
+}
+

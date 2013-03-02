@@ -503,6 +503,10 @@ typedef struct int32_Y_t{ ObjectArrayJc head; int32 data[50]; } int32_Y;
 
 typedef struct int64_Y_t{ ObjectArrayJc head; int64 data[50]; } int64_Y;
 
+typedef struct float_Y_t{ ObjectArrayJc head; int64 data[50]; } float_Y;
+
+typedef struct double_Y_t{ ObjectArrayJc head; int64 data[50]; } double_Y;
+
 typedef struct bool_Y_t{ ObjectArrayJc head; bool data[50]; } bool_Y;
 
 typedef struct char_Y_t{ ObjectArrayJc head; char data[50]; } char_Y;

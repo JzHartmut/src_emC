@@ -81,7 +81,7 @@ typedef struct Dbg_LogMessageFile_MSG_t
 typedef struct Dbg_LogMessageFile_MSG_X_t { ObjectArrayJc head; Dbg_LogMessageFile_MSGREF data[50]; } Dbg_LogMessageFile_MSG_X;
 typedef struct Dbg_LogMessageFile_MSG_Y_t { ObjectArrayJc head; Dbg_LogMessageFile_MSG_s data[50]; } Dbg_LogMessageFile_MSG_Y;
 
- extern struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
+ extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
   
 
 
@@ -163,7 +163,7 @@ typedef struct LogMessageFile_MSG_t
 typedef struct LogMessageFile_MSG_X_t { ObjectArrayJc head; LogMessageFile_MSGREF data[50]; } LogMessageFile_MSG_X;
 typedef struct LogMessageFile_MSG_Y_t { ObjectArrayJc head; LogMessageFile_MSG_s data[50]; } LogMessageFile_MSG_Y;
 
- extern struct ClassJc_t const reflection_LogMessageFile_MSG_s;
+ extern_C struct ClassJc_t const reflection_LogMessageFile_MSG_s;
   
 
 
@@ -175,6 +175,7 @@ typedef struct LogMessageFile_MSG_Y_t { ObjectArrayJc head; LogMessageFile_MSG_s
 void finalize_LogMessageFile_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_LogMessageFile_MSG 20120402  /*Version, history and license.*/
 #define kMsgOpen_LogMessageFile_MSG 0
 #define kMsgNewFile_LogMessageFile_MSG 1
 #define kMsgOpenError_LogMessageFile_MSG 2

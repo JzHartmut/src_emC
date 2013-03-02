@@ -352,6 +352,61 @@ struct StringFormatterJc_t* add_S_StringFormatterJc(StringFormatterJc_s* ythis, 
 }
 
 
+/**Adds the given str at the current position but replaces line feed characters by given one.*/
+struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatterJc_s* ythis, StringJc str, StringJc replaceLinefeed, int32 maxChars, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("addReplaceLinefeed_StringFormatterJc_F");
+  
+  { 
+    int32 postr = -1; 
+    
+    
+    if(maxChars > length_StringJc(str)) 
+    { 
+      
+      maxChars = length_StringJc(str);
+    }
+    if(length_StringJc(replaceLinefeed) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    mtthis->prepareBufferPos(ythis, maxChars, _thCxt);
+    postr = -1;
+    
+    while(--maxChars >= 0)
+      { 
+        char cc; 
+        int32 replace1; 
+        
+        
+        cc = charAt_StringJc(str, ++postr);
+        replace1 = indexOf_C_StringJc(zI_StringJc("\n\r\f",3), cc);
+        if(replace1 >= 0) 
+        { 
+          
+          cc = charAt_StringJc(replaceLinefeed, replace1);
+        }
+        if(cc <= 0x20) 
+        { 
+          
+          cc = charAt_StringJc(replaceLinefeed, 3);
+        }
+        setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, cc, _thCxt);
+      }//buffer.replace(this.pos, pos + nrofChars, str);
+      //pos += nrofChars;
+    
+    { STACKTRC_LEAVE;
+      return ythis;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc(StringFormatterJc_s* ythis, StringJc str, StringJc replaceLinefeed, int32 maxChars, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addReplaceLinefeed(ythis, str, replaceLinefeed, maxChars, _thCxt);
+}
+
+
 /**Adds at the current position a char[].*/
 struct StringFormatterJc_t* add_cY_StringFormatterJc_F(StringFormatterJc_s* ythis, char_Y* str, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
@@ -1514,7 +1569,7 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 { { sign_Mtbl_StringFormatterJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((29 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((30 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , getContent_StringFormatterJc_F //getContent
 , setDecimalSeparator_StringFormatterJc_F //setDecimalSeparator
@@ -1524,6 +1579,7 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 , length_StringFormatterJc_F //length
 , getPos_StringFormatterJc_F //getPos
 , add_S_StringFormatterJc_F //add_S
+, addReplaceLinefeed_StringFormatterJc_F //addReplaceLinefeed
 , add_cY_StringFormatterJc_F //add_cY
 , insert_S_StringFormatterJc_F //insert_S
 , overwrite_StringFormatterJc_F //overwrite

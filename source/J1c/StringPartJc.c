@@ -3002,13 +3002,13 @@ struct StringPartJc_t* scanFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThC
         double result; 
         
         
-        result = (double)nInteger;
+        result = nInteger;
         if(nFractional > 0) 
         { 
           double fFrac; 
           
           
-          fFrac = (double)nFractional;
+          fFrac = nFractional;
           
           while(fFrac >= 1.0)
             { 
@@ -3634,6 +3634,32 @@ StringJc getCurrentPart_i_StringPartJc(StringPartJc_s* ythis, int32 maxLength, T
 }
 
 
+/**Retrurn the part from start to end independent of the current positions.*/
+StringJc getPart_StringPartJc_F(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getPart_StringPartJc_F");
+  
+  { 
+    
+    if((fromPos + nrofChars) > length_StringJc(ythis->content)) 
+    { 
+      
+      nrofChars = length_StringJc(ythis->content) - fromPos;
+    }
+    { STACKTRC_LEAVE;
+      return subSequence_StringJc(ythis->content, fromPos, fromPos + nrofChars, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+StringJc getPart_StringPartJc(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringPartJc);
+  return mtbl->getPart(ythis, fromPos, nrofChars, _thCxt);
+}
+
+
 /**Returns the actual part of the string*/
 StringJc toString_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt)
 { StringPartJc_s* ythis = (StringPartJc_s*)ithis;
@@ -3824,7 +3850,7 @@ void close_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringPartJc mtblStringPartJc = {
 { { sign_Mtbl_StringPartJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((95 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((96 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , assign_S_StringPartJc_F //assign_S
 , assignReplaceEnv_StringPartJc_F //assignReplaceEnv
@@ -3918,6 +3944,7 @@ const MtblDef_StringPartJc mtblStringPartJc = {
 , getCurrentPart_StringPartJc_F //getCurrentPart
 , getLastPart_StringPartJc_F //getLastPart
 , getCurrentPart_i_StringPartJc_F //getCurrentPart_i
+, getPart_StringPartJc_F //getPart
 , debugString_StringPartJc_F //debugString
 , throwIndexOutOfBoundsException_StringPartJc_F //throwIndexOutOfBoundsException
 , close_StringPartJc_F //close

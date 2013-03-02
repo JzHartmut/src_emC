@@ -45,6 +45,8 @@
 #ifndef __fw_SysConventions_h__
 #define __fw_SysConventions_h__
 
+#error This is an old version.
+
 #include <os_types_def.h>
 
 

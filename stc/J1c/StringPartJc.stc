@@ -67,6 +67,7 @@ fieldIdents {
     getLastScannedString-_$, mode= overrideable: java/lang/String(instance=java/lang/String) t.r null();
     getLen-_$, mode= overrideable: int %.r null();
     getLineCt-_$, mode= overrideable: int %.r null();
+    getPart-_$, mode= overrideable: java/lang/CharSequence t.r null(int %.. fromPos,int %.. nrofChars);
     indexEndOfQuotion-_$, mode= overrideable: int %.r null(char %.. cEndQuotion,int %.. fromWhere,int %.. maxToTest);
     indexOf+_c-_$, mode= overrideable: int %.r null(char %.. ch);
     indexOf+_S-_$, mode= overrideable: int %.r null(java/lang/String(instance=java/lang/String) t.. sCmp);
@@ -235,6 +236,7 @@ fieldIdents {
     getCurrentPart_StringPartJc;
     getLastPart_StringPartJc;
     getCurrentPart_i_StringPartJc;
+    getPart_StringPartJc;
     debugString_StringPartJc;
     throwIndexOutOfBoundsException_StringPartJc;
     close_StringPartJc;

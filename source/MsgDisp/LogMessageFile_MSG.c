@@ -10,12 +10,12 @@
 #include "Jc/FormatterJc.h"  //embedded type in block
 #include "Jc/LocaleJc.h"  //reference-association: LocaleJc_s
 #include "Jc/TimeZoneJc.h"  //reference-association: TimeZoneJc_s
-#include "MsgDisp/MsgDispatcher_MSG.h"  //reference-association: parkedEntry
+#include "MsgDisp/MsgDispatcherCore_MSG.h"  //reference-association: parkedEntry
 #include "MsgDisp/VaArgBuffer.h"  //reference-association: values
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct Entry_MsgDispatcher_MSG_t;
+struct Entry_MsgDispatcherCore_MSG_t;
 
 
 /* J2C: Method-table-references *********************************************************/
@@ -352,7 +352,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               sTimeFileOpen = toStringNonPersist_StringBuilderJc(& ((ythis->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
               replace_StringBuilderJc(& (ythis->sFilenameBuffer.sb), ythis->posTimestampInFilename, ythis->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
             }
-            if(ythis->bNewFile && ythis->posMultifileInFilename >= 0) 
+            else if(ythis->bNewFile && ythis->posMultifileInFilename >= 0) 
             { 
               struct SbY_bufferFormat_t { StringBufferJc sb; char _b[16]; }bufferFormat = { 0 };   /*Build a new filename, after nrofHoursPerFile, but also first, with counted number (multiFile)*/
               StringJc sCounterMultifile;   /**/
@@ -367,6 +367,12 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               sCounterMultifile = toStringNonPersist_StringBuilderJc(& ((bufferFormat.sb).base.object), _thCxt)/*J2C:non-persistent*/;
               replace_StringBuilderJc(& (ythis->sFilenameBuffer.sb), ythis->posMultifileInFilename, ythis->posMultifileInFilename + ythis->currentLengthMultifileNr, sCounterMultifile, _thCxt);
               ythis->currentLengthMultifileNr = length_StringJc(sCounterMultifile);
+            }
+            else 
+            { 
+              
+              ythis->bNewFile = false;//reopen the existing one.
+              
             }
             error = open_FileWriterJc(& (ythis->file), toStringNonPersist_StringBuilderJc(& ((ythis->sFilenameBuffer.sb).base.object), _thCxt), !ythis->bNewFile, _thCxt);
             if(error >= 0) 
@@ -427,14 +433,14 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
       
       if(ythis->parkedOrders != null) 
       { 
-        struct Entry_MsgDispatcher_MSG_t* parkedEntry = null; 
+        struct Entry_MsgDispatcherCore_MSG_t* parkedEntry = null; 
         
         
         /*no initvalue*/
         do 
           { 
             
-            parkedEntry = ((/*J2C:cast from void*/Entry_MsgDispatcher_MSG_s*)(poll_ConcurrentLinkedQueueJc(ythis->parkedOrders, _thCxt)));
+            parkedEntry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(ythis->parkedOrders, _thCxt)));
             if(parkedEntry != null) 
             { 
               
@@ -456,10 +462,10 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
       
       if(ythis->freeEntries != null) 
       { 
-        struct Entry_MsgDispatcher_MSG_t* entry; 
+        struct Entry_MsgDispatcherCore_MSG_t* entry; 
         
         
-        entry = ((/*J2C:cast from void*/Entry_MsgDispatcher_MSG_s*)(poll_ConcurrentLinkedQueueJc(ythis->freeEntries, _thCxt)));
+        entry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(ythis->freeEntries, _thCxt)));
         if(entry == null) 
         { 
           

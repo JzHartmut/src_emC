@@ -65,7 +65,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../includeSpecials/os_Windows" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../includeSpecials/os_Windows_Msc6" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -73,7 +73,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /subsystem:console /incremental:no /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -122,67 +122,6 @@ SOURCE=..\..\source\Fwc\fw_threadContext.c
 # Begin Source File
 
 SOURCE=..\..\source\Fwc\fw_timeconversions.c
-# End Source File
-# End Group
-# Begin Group "OSAL"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_atomic.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_endian.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_error.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_file.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_fileLoLevel.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-# PROP Exclude_From_Build 1
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_internal.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_mem.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_mutex.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_socket.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_sync.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_thread.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\source\os_Windows\os_time.c
 # End Source File
 # End Group
 # Begin Group "Jc"
@@ -275,6 +214,54 @@ SOURCE=..\..\source\Fwc\Reflection_Fwc.c
 # Begin Source File
 
 SOURCE=..\..\source\OSAL\Reflection_OSAL.c
+# End Source File
+# End Group
+# Begin Group "Win-OSAL"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_atomic.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_endian.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_error.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_file.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_internal.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mem.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mutex.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_socket.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_sync.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_thread.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_time.c
 # End Source File
 # End Group
 # End Group

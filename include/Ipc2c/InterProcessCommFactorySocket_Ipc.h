@@ -45,7 +45,7 @@ typedef struct InterProcessCommFactorySocket_Ipc_t
 typedef struct InterProcessCommFactorySocket_Ipc_X_t { ObjectArrayJc head; InterProcessCommFactorySocket_IpcREF data[50]; } InterProcessCommFactorySocket_Ipc_X;
 typedef struct InterProcessCommFactorySocket_Ipc_Y_t { ObjectArrayJc head; InterProcessCommFactorySocket_Ipc_s data[50]; } InterProcessCommFactorySocket_Ipc_Y;
 
- extern struct ClassJc_t const reflection_InterProcessCommFactorySocket_Ipc_s;
+ extern_C struct ClassJc_t const reflection_InterProcessCommFactorySocket_Ipc_s;
   
 
 

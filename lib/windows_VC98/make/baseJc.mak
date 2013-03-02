@@ -194,9 +194,9 @@ BSC32_SBRS= \
 	"$(INTDIR)\CmdExecuter_Inspc.sbr" \
 	"$(INTDIR)\Comm_Inspc.sbr" \
 	"$(INTDIR)\InspcDataExchangeAccess_Inspc.sbr" \
+	"$(INTDIR)\InspcDataInfo_Inspc.sbr" \
 	"$(INTDIR)\Inspector_Inspc.sbr" \
-	"$(INTDIR)\SearchElement_Inspc.sbr" \
-	"$(INTDIR)\InspcDataInfo_Inspc.sbr"
+	"$(INTDIR)\SearchElement_Inspc.sbr"
 
 "..\baseJc.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -252,9 +252,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\CmdExecuter_Inspc.obj" \
 	"$(INTDIR)\Comm_Inspc.obj" \
 	"$(INTDIR)\InspcDataExchangeAccess_Inspc.obj" \
+	"$(INTDIR)\InspcDataInfo_Inspc.obj" \
 	"$(INTDIR)\Inspector_Inspc.obj" \
-	"$(INTDIR)\SearchElement_Inspc.obj" \
-	"$(INTDIR)\InspcDataInfo_Inspc.obj"
+	"$(INTDIR)\SearchElement_Inspc.obj"
 
 "..\baseJc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -426,9 +426,9 @@ BSC32_SBRS= \
 	"$(INTDIR)\CmdExecuter_Inspc.sbr" \
 	"$(INTDIR)\Comm_Inspc.sbr" \
 	"$(INTDIR)\InspcDataExchangeAccess_Inspc.sbr" \
+	"$(INTDIR)\InspcDataInfo_Inspc.sbr" \
 	"$(INTDIR)\Inspector_Inspc.sbr" \
-	"$(INTDIR)\SearchElement_Inspc.sbr" \
-	"$(INTDIR)\InspcDataInfo_Inspc.sbr"
+	"$(INTDIR)\SearchElement_Inspc.sbr"
 
 "..\baseJcD.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -484,9 +484,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\CmdExecuter_Inspc.obj" \
 	"$(INTDIR)\Comm_Inspc.obj" \
 	"$(INTDIR)\InspcDataExchangeAccess_Inspc.obj" \
+	"$(INTDIR)\InspcDataInfo_Inspc.obj" \
 	"$(INTDIR)\Inspector_Inspc.obj" \
-	"$(INTDIR)\SearchElement_Inspc.obj" \
-	"$(INTDIR)\InspcDataInfo_Inspc.obj"
+	"$(INTDIR)\SearchElement_Inspc.obj"
 
 "..\baseJcD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -664,9 +664,9 @@ BSC32_SBRS= \
 	"$(INTDIR)\browse\CmdExecuter_Inspc.sbr" \
 	"$(INTDIR)\browse\Comm_Inspc.sbr" \
 	"$(INTDIR)\browse\InspcDataExchangeAccess_Inspc.sbr" \
+	"$(INTDIR)\browse\InspcDataInfo_Inspc.sbr" \
 	"$(INTDIR)\browse\Inspector_Inspc.sbr" \
-	"$(INTDIR)\browse\SearchElement_Inspc.sbr" \
-	"$(INTDIR)\browse\InspcDataInfo_Inspc.sbr"
+	"$(INTDIR)\browse\SearchElement_Inspc.sbr"
 
 "$(OUTDIR)\baseJcppD.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -722,9 +722,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\CmdExecuter_Inspc.obj" \
 	"$(INTDIR)\Comm_Inspc.obj" \
 	"$(INTDIR)\InspcDataExchangeAccess_Inspc.obj" \
+	"$(INTDIR)\InspcDataInfo_Inspc.obj" \
 	"$(INTDIR)\Inspector_Inspc.obj" \
-	"$(INTDIR)\SearchElement_Inspc.obj" \
-	"$(INTDIR)\InspcDataInfo_Inspc.obj"
+	"$(INTDIR)\SearchElement_Inspc.obj"
 
 "$(OUTDIR)\baseJcppD.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -849,9 +849,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\CmdExecuter_Inspc.obj" \
 	"$(INTDIR)\Comm_Inspc.obj" \
 	"$(INTDIR)\InspcDataExchangeAccess_Inspc.obj" \
+	"$(INTDIR)\InspcDataInfo_Inspc.obj" \
 	"$(INTDIR)\Inspector_Inspc.obj" \
-	"$(INTDIR)\SearchElement_Inspc.obj" \
-	"$(INTDIR)\InspcDataInfo_Inspc.obj"
+	"$(INTDIR)\SearchElement_Inspc.obj"
 
 "..\baseJc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<

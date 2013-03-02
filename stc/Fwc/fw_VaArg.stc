@@ -9,10 +9,12 @@ class VaArgBuffer; nameC=VaArgBuffer; argIdent=Vargb;
 	  int &.. time_sec;
 		int &.. time_nsec;
 	}
+  
   methods {  
-		ctor-_$, mode=static+noThCxt  : OS_TimeStamp $.. return();
-		os_getDateTime, mode=static+noThCxt: OS_TimeStamp $.. return();
-		os_delayThread, mode=static+noThCxt: boolean %.. return(int %.. millisec);
+//		ctor-_$, mode=static+noThCxt  : OS_TimeStamp $.. return();
+//		os_getDateTime, mode=static+noThCxt: OS_TimeStamp $.. return();
+//		os_delayThread, mode=static+noThCxt: boolean %.. return(int %.. millisec);
+    setArg-_$: void %..return(byte %.. ix, int %.. value);
   }
   
 }

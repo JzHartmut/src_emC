@@ -6,6 +6,7 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/StringJc.h"  //embedded type in class data
 
 
@@ -98,8 +99,8 @@ int32 parseIntRadix_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
     
     
     val = 0;
@@ -167,8 +168,8 @@ int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, i
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@a8e5ac*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
     int32 multPosition = 1; 
     
     
@@ -240,7 +241,7 @@ float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 siz
     }
     
     zParsed = (int32_Y*)ctorO_ObjectArrayJc((newObj1_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (1) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 1, sizeof(int32),REFLECTION_int32, 0);
-    ret = (float)parseIntRadix_StringFunctionsJc(/*static*/src, pos, size, 10, zParsed, _thCxt);
+    ret = parseIntRadix_StringFunctionsJc(/*static*/src, pos, size, 10, zParsed, _thCxt);
     parsedChars += zParsed->data[0];//maybe 0 if .123 is written
     
     ixsrc = pos + zParsed->data[0];
@@ -250,14 +251,14 @@ float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 siz
       float fracPart; 
       
       
-      fracPart = (float)parseIntRadix_StringFunctionsJc(/*static*/src, ixsrc + 1, size - 1, 10, zParsed, _thCxt);
+      fracPart = parseIntRadix_StringFunctionsJc(/*static*/src, ixsrc + 1, size - 1, 10, zParsed, _thCxt);
       if(zParsed->data[0] > 0) 
       { 
         
         switch(zParsed->data[0]){
           case 1: fracPart *= 0.1F;break;
           case 2: fracPart *= 0.01F;break;
-          case 3: fracPart *= 0.001F;break;
+          case 3: fracPart *= 0.0010F;break;
           case 4: fracPart *= 1.0E-4F;break;
           case 5: fracPart *= 9.999999999999999E-6F;break;
           case 6: fracPart *= 1.0E-6F;break;
@@ -281,6 +282,105 @@ float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 siz
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, null, _thCxt);
       return ret;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Compares two Strings or StringBuilder-content or any other CharSequence.*/
+int32 compare_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("compare_StringFunctionsJc");
+  
+  { 
+    int32 z; 
+    
+    
+    z = min_MathJc(/*static*/length_StringJc(s1), length_StringJc(s2));
+    { int32 ii; 
+      for(ii = 0; ii < z; ++ii)
+        { 
+          char c1; 
+          char c2; 
+          
+          
+          c1 = charAt_StringJc(s1, ii);
+          c2 = charAt_StringJc(s2, ii);
+          if(c1 != c2) 
+          { 
+            
+            if(c1 < c2) 
+            { 
+              
+              { STACKTRC_LEAVE;
+              return -1;
+            }
+            }
+            else if(c1 > c2) 
+            { 
+              
+              { STACKTRC_LEAVE;
+              return 1;
+            }
+            }
+          }
+        }//all chars till z are equal.
+        
+    }
+    if(z < length_StringJc(s1)) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return 1;
+      }
+    }//s1 is greater because longer
+    
+    else if(z < length_StringJc(s2)) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return -1;
+      }
+    }//s1 is shorter because it determines the shorter length.
+    
+    else { STACKTRC_LEAVE;
+      return 0;
+    }//are equal
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Compares two Strings or StringBuilder-content or any other CharSequence.*/
+bool equals_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("equals_tt_StringFunctionsJc");
+  
+  { 
+    int32 zz; 
+    
+    
+    zz = length_StringJc(s1);
+    if(zz != length_StringJc(s2)) { STACKTRC_LEAVE;
+      return false;
+    }
+    else 
+    { 
+      
+      { int32 ii; 
+        for(ii = 0; ii < zz; ++ii)
+          { 
+            
+            if(charAt_StringJc(s1, ii) != charAt_StringJc(s2, ii)) { STACKTRC_LEAVE;
+            return false;
+          }
+          }
+      }
+      { STACKTRC_LEAVE;
+        return true;
+      }
     }
   }
   STACKTRC_LEAVE;

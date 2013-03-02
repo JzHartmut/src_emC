@@ -54,7 +54,7 @@ typedef struct StringFunctionsJc_Y_t { ObjectArrayJc head; StringFunctionsJc_s d
 void finalize_StringFunctionsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringFunctionsJc 0x20120219  /*Version, history and license*/
+#define version_StringFunctionsJc 20120822  /*Version, history and license.*/
 
 
 /**Default constructor. */
@@ -75,6 +75,12 @@ METHOD_C int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int
 /**Parses a given String and convert it to the float number.*/
 METHOD_C float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32_Y* parsedCharsP, ThCxt* _thCxt);
 
+/**Compares two Strings or StringBuilder-content or any other CharSequence.*/
+METHOD_C int32 compare_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt);
+
+/**Compares two Strings or StringBuilder-content or any other CharSequence.*/
+METHOD_C bool equals_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -91,7 +97,11 @@ typedef struct Mtbl_StringFunctionsJc_t
 class StringFunctionsJc : private StringFunctionsJc_s
 { public:
 
+  int32 compare(StringJc s1, StringJc s2){  return compare_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+
   StringFunctionsJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctionsJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctionsJc_s, 0); ctorO_StringFunctionsJc(&this->base.object,  null/*_thCxt*/); }
+
+  bool equals(StringJc s1, StringJc s2){  return equals_tt_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 
   float parseFloat(StringJcpp src, int32 pos, int32 sizeP, int32_Y* parsedCharsP){  return parseFloat_StringFunctionsJc(src, pos, sizeP, parsedCharsP,  null/*_thCxt*/); }
 

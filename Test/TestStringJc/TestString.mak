@@ -63,7 +63,6 @@ CLEAN :
 	-@erase "$(INTDIR)\os_endian.obj"
 	-@erase "$(INTDIR)\os_error.obj"
 	-@erase "$(INTDIR)\os_file.obj"
-	-@erase "$(INTDIR)\os_fileLoLevel.obj"
 	-@erase "$(INTDIR)\os_mem.obj"
 	-@erase "$(INTDIR)\os_mutex.obj"
 	-@erase "$(INTDIR)\os_socket.obj"
@@ -107,7 +106,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\os_endian.obj" \
 	"$(INTDIR)\os_error.obj" \
 	"$(INTDIR)\os_file.obj" \
-	"$(INTDIR)\os_fileLoLevel.obj" \
 	"$(INTDIR)\os_mem.obj" \
 	"$(INTDIR)\os_mutex.obj" \
 	"$(INTDIR)\os_socket.obj" \
@@ -234,13 +232,12 @@ CLEAN :
 	-@erase "$(INTDIR)\vc60.pdb"
 	-@erase "$(OUTDIR)\TestString.bsc"
 	-@erase "$(OUTDIR)\TestString.exe"
-	-@erase "$(OUTDIR)\TestString.ilk"
 	-@erase "$(OUTDIR)\TestString.pdb"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od /I "../../includeSpecials/os_Windows" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TestString.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
+CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od /I "../../includeSpecials/os_Windows_Msc6" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TestString.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\TestString.bsc" 
 BSC32_SBRS= \
@@ -290,7 +287,7 @@ BSC32_SBRS= \
 <<
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /subsystem:console /incremental:yes /pdb:"$(OUTDIR)\TestString.pdb" /debug /machine:I386 /out:"$(OUTDIR)\TestString.exe" /pdbtype:sept 
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /subsystem:console /incremental:no /pdb:"$(OUTDIR)\TestString.pdb" /debug /machine:I386 /out:"$(OUTDIR)\TestString.exe" /pdbtype:sept 
 LINK32_OBJS= \
 	"$(INTDIR)\fw_Exception.obj" \
 	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
@@ -537,199 +534,6 @@ SOURCE=..\..\source\Fwc\fw_timeconversions.c
 
 
 "$(INTDIR)\fw_timeconversions.obj"	"$(INTDIR)\fw_timeconversions.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_atomic.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_atomic.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_atomic.obj"	"$(INTDIR)\os_atomic.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_endian.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_endian.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_endian.obj"	"$(INTDIR)\os_endian.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_error.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_error.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_error.obj"	"$(INTDIR)\os_error.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_file.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_file.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_file.obj"	"$(INTDIR)\os_file.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_fileLoLevel.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_fileLoLevel.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_mem.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_mem.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_mem.obj"	"$(INTDIR)\os_mem.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_mutex.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_mutex.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_mutex.obj"	"$(INTDIR)\os_mutex.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_socket.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_socket.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_socket.obj"	"$(INTDIR)\os_socket.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_sync.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_sync.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_sync.obj"	"$(INTDIR)\os_sync.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_thread.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_thread.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_thread.obj"	"$(INTDIR)\os_thread.sbr" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ENDIF 
-
-SOURCE=..\..\source\os_Windows\os_time.c
-
-!IF  "$(CFG)" == "TestString - Win32 Release"
-
-
-"$(INTDIR)\os_time.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
-
-
-"$(INTDIR)\os_time.obj"	"$(INTDIR)\os_time.sbr" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -1036,6 +840,186 @@ SOURCE=..\..\source\OSAL\Reflection_OSAL.c
 
 
 "$(INTDIR)\Reflection_OSAL.obj"	"$(INTDIR)\Reflection_OSAL.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_atomic.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_atomic.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_atomic.obj"	"$(INTDIR)\os_atomic.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_endian.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_endian.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_endian.obj"	"$(INTDIR)\os_endian.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_error.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_error.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_error.obj"	"$(INTDIR)\os_error.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_file.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_file.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_file.obj"	"$(INTDIR)\os_file.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mem.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_mem.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_mem.obj"	"$(INTDIR)\os_mem.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mutex.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_mutex.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_mutex.obj"	"$(INTDIR)\os_mutex.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_socket.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_socket.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_socket.obj"	"$(INTDIR)\os_socket.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_sync.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_sync.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_sync.obj"	"$(INTDIR)\os_sync.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_thread.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_thread.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_thread.obj"	"$(INTDIR)\os_thread.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_time.c
+
+!IF  "$(CFG)" == "TestString - Win32 Release"
+
+
+"$(INTDIR)\os_time.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestString - Win32 Debug"
+
+
+"$(INTDIR)\os_time.obj"	"$(INTDIR)\os_time.sbr" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

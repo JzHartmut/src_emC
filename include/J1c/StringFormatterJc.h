@@ -74,6 +74,7 @@ typedef struct StringFormatterJc_Y_t { ObjectArrayJc head; StringFormatterJc_s d
 void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_StringFormatterJc 20130118  /*Version, history and license.*/
 #define mNrofBytesInWord_StringFormatterJc 0x1f
 #define mBytesInWordBigEndian_StringFormatterJc 0x20  /*If this bit is set in mode, the byte with the lower index is interpreted as higher part of word*/
 #define k1_StringFormatterJc 1  /*The constant determine the number of digits representing a (hex) value and the decision, use first byte left or right side.*/
@@ -162,6 +163,13 @@ typedef struct StringFormatterJc_t* MT_add_S_StringFormatterJc(StringFormatterJc
 METHOD_C struct StringFormatterJc_t* add_S_StringFormatterJc_F(StringFormatterJc_s* ythis, StringJc str, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringFormatterJc_t* add_S_StringFormatterJc(StringFormatterJc_s* ythis, StringJc str, ThCxt* _thCxt);
+
+/**Adds the given str at the current position but replaces line feed characters by given one.*/
+typedef struct StringFormatterJc_t* MT_addReplaceLinefeed_StringFormatterJc(StringFormatterJc_s* ythis, StringJc str, StringJc replaceLinefeed, int32 maxChars, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatterJc_s* ythis, StringJc str, StringJc replaceLinefeed, int32 maxChars, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc(StringFormatterJc_s* ythis, StringJc str, StringJc replaceLinefeed, int32 maxChars, ThCxt* _thCxt);
 
 /**Adds at the current position a char[].*/
 typedef struct StringFormatterJc_t* MT_add_cY_StringFormatterJc(StringFormatterJc_s* ythis, char_Y* str, ThCxt* _thCxt);
@@ -324,6 +332,7 @@ typedef struct Mtbl_StringFormatterJc_t
   MT_length_StringFormatterJc* length;
   MT_getPos_StringFormatterJc* getPos;
   MT_add_S_StringFormatterJc* add_S;
+  MT_addReplaceLinefeed_StringFormatterJc* addReplaceLinefeed;
   MT_add_cY_StringFormatterJc* add_cY;
   MT_insert_S_StringFormatterJc* insert_S;
   MT_overwrite_StringFormatterJc* overwrite;
@@ -376,6 +385,8 @@ class StringFormatterJc : private StringFormatterJc_s
   virtual struct StringFormatterJc_t* addHex(int64 value, int32 nrofDigits){  return addHex_StringFormatterJc_F(this, value, nrofDigits,  null/*_thCxt*/); }
 
   virtual struct StringFormatterJc_t* addIntPicture(int64 nr, StringJcpp sPict){  return addIntPicture_StringFormatterJc_F(this, nr, sPict,  null/*_thCxt*/); }
+
+  virtual struct StringFormatterJc_t* addReplaceLinefeed(StringJc str, StringJc replaceLinefeed, int32 maxChars){  return addReplaceLinefeed_StringFormatterJc_F(this, str, replaceLinefeed, maxChars,  null/*_thCxt*/); }
 
   virtual struct StringFormatterJc_t* addStringLine(int8_Y* data, int32 idx, int32 nrofBytes, StringJcpp charsetName){  return addStringLine_StringFormatterJc_F(this, data, idx, nrofBytes, charsetName,  null/*_thCxt*/); }
 

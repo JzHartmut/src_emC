@@ -83,6 +83,8 @@ METHOD_C void gc_SystemJc(ThCxt* _thCxt);
 METHOD_C StringJc getenv_SystemJc(StringJc name, ThCxt* _thCxt);
 
 
+#define currentTimeMillis_SystemJc() os_milliTime();
+
 /**Returns a value, which presents a nanotime-Counter. */
 int64 nanoTime_SystemJc(ThCxt* _thCxt);
 

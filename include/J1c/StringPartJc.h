@@ -77,7 +77,7 @@ typedef struct StringPartJc_Y_t { ObjectArrayJc head; StringPartJc_s data[50]; }
 void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringPartJc 0x20110718  /*Version of this class.*/
+#define version_StringPartJc 20130119  /*Version of this class.*/
 #define seekEnd_StringPartJc 1  /*Flag to force setting the start position after the seeking string*/
 #define mSeekBackward__StringPartJc 0x10  /*Flag bit to force seeking backward*/
 #define mSeekToLeft__StringPartJc 0x40  /*Flag bit to force seeking left from start (Backward)*/
@@ -740,6 +740,13 @@ METHOD_C StringJc getCurrentPart_i_StringPartJc_F(StringPartJc_s* ythis, int32 m
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C StringJc getCurrentPart_i_StringPartJc(StringPartJc_s* ythis, int32 maxLength, ThCxt* _thCxt);
 
+/**Retrurn the part from start to end independent of the current positions.*/
+typedef StringJc MT_getPart_StringPartJc(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C StringJc getPart_StringPartJc_F(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C StringJc getPart_StringPartJc(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
+
 /**Returns the actual part of the string*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C StringJc toString_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt);
@@ -868,6 +875,7 @@ typedef struct Mtbl_StringPartJc_t
   MT_getCurrentPart_StringPartJc* getCurrentPart;
   MT_getLastPart_StringPartJc* getLastPart;
   MT_getCurrentPart_i_StringPartJc* getCurrentPart_i;
+  MT_getPart_StringPartJc* getPart;
   MT_debugString_StringPartJc* debugString;
   MT_throwIndexOutOfBoundsException_StringPartJc* throwIndexOutOfBoundsException;
   MT_close_StringPartJc* close;
@@ -934,6 +942,8 @@ class StringPartJc : private StringPartJc_s
   virtual int32 getLen(){  return getLen_StringPartJc_F(this,  null/*_thCxt*/); }
 
   virtual int32 getLineCt(){  return getLineCt_StringPartJc_F(this,  null/*_thCxt*/); }
+
+  virtual StringJc getPart(int32 fromPos, int32 nrofChars){  return getPart_StringPartJc_F(this, fromPos, nrofChars,  null/*_thCxt*/); }
 
   virtual int32 indexEndOfQuotion(char cEndQuotion, int32 fromWhere, int32 maxToTest){  return indexEndOfQuotion_StringPartJc_F(this, cEndQuotion, fromWhere, maxToTest,  null/*_thCxt*/); }
 

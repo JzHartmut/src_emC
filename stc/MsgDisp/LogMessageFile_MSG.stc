@@ -20,6 +20,7 @@ class LogMessageFile; nameC=LogMessageFile_MSG_s; argIdent=XX; extends java/lang
       //outer=2 ,super=1: int %.d kMsgNewFile;
       //outer=2 ,super=1: int %.d kMsgOpen;
       //outer=2 ,super=1: int %.d kMsgOpenError;
+      //outer=2 ,super=1: int %.d version;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/msgDispatch/LogMessageFile.Dbg *.. Dbg_LogMessageFile_MSG_s();
@@ -68,6 +69,7 @@ fieldIdents {
   org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. timeOpen;
   org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. timeWrite;
   java/util/TimeZone @.. timeZone;
+  int %.d version;
 }
   methods {  
     close-_$, defined: org/vishia/msgDispatch/LogMessage.close, mode= overrideable: void %.r null();

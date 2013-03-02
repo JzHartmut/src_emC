@@ -23,6 +23,7 @@ fieldIdents {
   int %.. pos;
   java/lang/String(instance=java/lang/String) t.s sNeg;
   java/lang/String(instance=java/lang/String) t.s spaces;
+  int %.d version;
 }
   methods {  
     add+_S-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(java/lang/String(instance=java/lang/String) t.. str);
@@ -39,6 +40,7 @@ fieldIdents {
     addHexWord-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,short %.. mode);
     addHexWord_-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,short %.. mode);
     addIntPicture-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(long %.. nr,java/lang/String(instance=java/lang/String) t.. sPict);
+    addReplaceLinefeed-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence t.. str,java/lang/CharSequence t.. replaceLinefeed,int %.. maxChars);
     addStringLine-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,int %.. nrofBytes,java/lang/String(instance=java/lang/String) t.. charsetName);
     addint-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(long %.. nr,java/lang/String(instance=java/lang/String) t.. sPict);
     ctorO-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s();
@@ -72,6 +74,7 @@ fieldIdents {
     length_StringFormatterJc;
     getPos_StringFormatterJc;
     add_S_StringFormatterJc;
+    addReplaceLinefeed_StringFormatterJc;
     add_cY_StringFormatterJc;
     insert_S_StringFormatterJc;
     overwrite_StringFormatterJc;

@@ -48,6 +48,8 @@ METHOD_C double random_MathJc(); //ThCxt* _thCxt);
 /**The sinus with double argument, uses C-standard math.h. */
 #define sin_MathJc(X) sin(X)
 
+#define min_MathJc(X,Y) ((X)<(Y) ? (X) : (Y))
+#define max_NathJc(X,Y) ((X)>(Y) ? (X) : (Y))
 
 
 

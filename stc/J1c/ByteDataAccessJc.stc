@@ -9,7 +9,6 @@ fieldIdents {
   boolean %.. bBigEndian;
   boolean %.. bExpand;
   java/lang/String(instance=java/lang/String) t.. charset;
-  org/vishia/byteData/ByteDataAccess @.. currentChild;
   byte[??] X%. data;
   int %.. idxBegin;
   int %.. idxCurrentChild;
@@ -50,10 +49,10 @@ fieldIdents {
     copyData-_$: void %.r null(int[??] X%. dst);
     copyDataFrom-_$: void %.r null(org/vishia/byteData/ByteDataAccess *.. src);
     correctCurrentChildEnd-_$: void %.r null(int %.. idxEndNew);
-    correctIdxChildEnd-_$: void %.r null(int %.. idxCurrentChildEndNew);
     ctorO-_$, mode= ctor+static: org/vishia/byteData/ByteDataAccess *.. ByteDataAccessJc_s();
     detach-_$: void %.r null();
     elementAt-_$: void %.r null(int %.. indexObjectArray);
+    expand-_$: void %.r null(int %.. idxCurrentChildEndNew);
     expandParent-_$: void %.r null();
     finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
     getChar-_$: char %.r null(int %.. idx);
@@ -61,7 +60,6 @@ fieldIdents {
     getChildFloat-_$: float %.r null();
     getChildInteger-_$: long %.r null(int %.. nrofBytes);
     getChildString-_$: java/lang/String(instance=java/lang/String) t.r null(int %.. nrofBytes);
-    getCurrentChild-_$: org/vishia/byteData/ByteDataAccess *.r null();
     getData-_$: byte[??] X%r null();
     getDouble-_$: double %.r null(int %.. idx);
     getFloat+_i-_$: float %.r null(int %.. idx);
@@ -108,7 +106,6 @@ fieldIdents {
     setInt32+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
     setInt8+_ii-_$: void %.r null(int %.. idx,int %.. value);
     setInt8+_iiii-_$: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
-    setLengthCurrentChildElement-_$: void %.r null(int %.. lengthOfCurrentChild);
     setLengthElement-_$: void %.r null(int %.. length);
     setString-_$, mode= overrideable: int %.r null(int %.. idx,int %.. nmax,java/lang/String(instance=java/lang/String) t.. ss);
     setUint16+_ii-_$: void %.r null(int %.. idx,int %.. value);

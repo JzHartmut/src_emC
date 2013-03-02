@@ -47,6 +47,8 @@
 //#include "Fwc/fw_Exception.h"
 //#include <stdarg.h>
 #include <string.h>
+#include <Fwc/fw_ThreadContext.h>
+
 
 extern struct ClassJc_t const reflection_LogMessageFW_i;
 
@@ -84,6 +86,7 @@ bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis, int32 identNumber
   ASSERT(mtbl != null && mtbl->head.sign == sign_Mtbl_LogMessageFW);
   //if(mtbl == null) THROW_s0(IllegalArgumentException, "Method-table not found",0);
   //if(mtbl->sign != &sign_Mtbl_LogMessageFW) THROW_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
+  //sText = getCharConst_StringJc(text, uText, sizeof(uText));  //get the char const* from text.
   bRet = mtbl->sendMsgVaList(ythis,identNumber, timestamp, text, args, _thCxt);
   //STACKTRC_LEAVE; 
   return bRet;

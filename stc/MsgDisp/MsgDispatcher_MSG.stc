@@ -2,136 +2,41 @@
 Structure of translated java-file "MsgDisp/MsgDispatcher_MSG"
 package org/vishia/msgDispatch/;
 
-class MsgDispatcher; nameC=MsgDispatcher_MSG_s; argIdent=XX; extends java/lang/Object implements org/vishia/msgDispatch/LogMessage //creationMode=P
+class MsgDispatcher; nameC=MsgDispatcher_MSG_s; argIdent=XX; extends org/vishia/msgDispatch/MsgDispatcherCore //creationMode=P
 {  
     //Innerclass: DispatcherThread_MsgDispatcher_MSG
-    //Innerclass: Entry_MsgDispatcher_MSG
-    //Innerclass: Output_MsgDispatcher_MSG
-    //Innerclass: TestCnt_MsgDispatcher_MSG
   InnerClass{ 
-    final class Entry; nameC=Entry_MsgDispatcher_MSG_s; argIdent=XX; //creationMode=C
-    {  
-        //Innerclass: DispatcherThread_MsgDispatcher_MSG
-        //Innerclass: Entry_MsgDispatcher_MSG
-        //Innerclass: Output_MsgDispatcher_MSG
-        //Innerclass: TestCnt_MsgDispatcher_MSG
-        //Innerclass: MsgDispatcher_MSG
-    fieldIdents {
-      int %.. dst;
-      int %.. ident;
-      //outer=2 ,super=1: int %.d mAdd;
-      //outer=2 ,super=1: int %.d mConsole;
-      //outer=2 ,super=1: int %.d mConsoleQueued;
-      //outer=2 ,super=1: int %.d mDispatchBits;
-      //outer=2 ,super=1: int %.d mDispatchInCallingThread;
-      //outer=2 ,super=1: int %.d mDispatchInDispatcherThread;
-      //outer=2 ,super=1: int %.d mRemove;
-      //outer=2 ,super=1: int %.d mSet;
-      s0(instance=s0) %.. text;
-      org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. timestamp;
-      org/vishia/bridgeC/VaArgBuffer(instance=org/vishia/bridgeC/VaArgBuffer) $.. values;
-    }
-      methods {  
-        _sizeof-_$, mode= static: int %.r null();
-        ctorM-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcher.Entry *.. Entry_MsgDispatcher_MSG_s();
-      }
-
-      castTo {
-        org/vishia/msgDispatch/MsgDispatcher: * "(?)->outer" *;
-      }
-
-    }
-
-    final class TestCnt; nameC=TestCnt_MsgDispatcher_MSG_s; argIdent=XX; extends java/lang/Object //creationMode=C
-    {  
-        //Innerclass: DispatcherThread_MsgDispatcher_MSG
-        //Innerclass: Entry_MsgDispatcher_MSG
-        //Innerclass: Output_MsgDispatcher_MSG
-        //Innerclass: TestCnt_MsgDispatcher_MSG
-        //Innerclass: MsgDispatcher_MSG
-    fieldIdents {
-      //outer=2 ,super=1: int %.d mAdd;
-      //outer=2 ,super=1: int %.d mConsole;
-      //outer=2 ,super=1: int %.d mConsoleQueued;
-      //outer=2 ,super=1: int %.d mDispatchBits;
-      //outer=2 ,super=1: int %.d mDispatchInCallingThread;
-      //outer=2 ,super=1: int %.d mDispatchInDispatcherThread;
-      //outer=2 ,super=1: int %.d mRemove;
-      //outer=2 ,super=1: int %.d mSet;
-      int %.. noOutput;
-      int %.. tomuchMsgPerThread;
-    }
-      methods {  
-        ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcher.TestCnt *.. TestCnt_MsgDispatcher_MSG_s();
-      }
-
-      castTo {
-        org/vishia/msgDispatch/MsgDispatcher: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base.object" $;
-      }
-
-    }
-
-    final class Output; nameC=Output_MsgDispatcher_MSG_s; argIdent=XX; //creationMode=C
-    {  
-        //Innerclass: DispatcherThread_MsgDispatcher_MSG
-        //Innerclass: Entry_MsgDispatcher_MSG
-        //Innerclass: Output_MsgDispatcher_MSG
-        //Innerclass: TestCnt_MsgDispatcher_MSG
-        //Innerclass: MsgDispatcher_MSG
-    fieldIdents {
-      boolean %.. dstInDispatcherThread;
-      //outer=2 ,super=1: int %.d mAdd;
-      //outer=2 ,super=1: int %.d mConsole;
-      //outer=2 ,super=1: int %.d mConsoleQueued;
-      //outer=2 ,super=1: int %.d mDispatchBits;
-      //outer=2 ,super=1: int %.d mDispatchInCallingThread;
-      //outer=2 ,super=1: int %.d mDispatchInDispatcherThread;
-      //outer=2 ,super=1: int %.d mRemove;
-      //outer=2 ,super=1: int %.d mSet;
-      java/lang/String(instance=java/lang/String) t.. name;
-      org/vishia/msgDispatch/LogMessage @.. outputIfc;
-    }
-      methods {  
-        ctorM-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcher.Output *.. Output_MsgDispatcher_MSG_s();
-        finalize-_$, mode= overrideable: void %.. void();
-      }
-
-      castTo {
-        org/vishia/msgDispatch/MsgDispatcher: * "(?)->outer" *;
-      }
-
-    }
-
     nonStaticInner class DispatcherThread; nameC=DispatcherThread_MsgDispatcher_MSG_s; argIdent=XX; extends java/lang/Thread //creationMode=C
     {  
         //Innerclass: DispatcherThread_MsgDispatcher_MSG
-        //Innerclass: Entry_MsgDispatcher_MSG
-        //Innerclass: Output_MsgDispatcher_MSG
-        //Innerclass: TestCnt_MsgDispatcher_MSG
         //Innerclass: MsgDispatcher_MSG
     fieldIdents {
-      //outer=2 ,super=1: int %.. actNrofListIdents;
+      //outer=2 ,super=2: int %.. actNrofListIdents;
+      //outer=2 ,super=2: int %.. ctLostMessages;
       int %.. cycleMillisec;
-      //outer=2 ,super=1: org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeOrders;
-      //outer=2 ,super=1: int[??] X%. listBitDst;
-      //outer=2 ,super=1: int[??] X%. listIdents;
-      //outer=2 ,super=1: org/vishia/bridgeC/ConcurrentLinkedQueue *.. listOrders;
-      //outer=2 ,super=1: int %.d mAdd;
-      //outer=2 ,super=1: int %.d mConsole;
-      //outer=2 ,super=1: int %.d mConsoleQueued;
-      //outer=2 ,super=1: int %.d mDispatchBits;
-      //outer=2 ,super=1: int %.d mDispatchInCallingThread;
-      //outer=2 ,super=1: int %.d mDispatchInDispatcherThread;
-      //outer=2 ,super=1: int %.. mDstMixedOutputs;
-      //outer=2 ,super=1: int %.. mDstOneOutput;
-      //outer=2 ,super=1: int %.d mRemove;
-      //outer=2 ,super=1: int %.d mSet;
+      //outer=2 ,super=1: org/vishia/msgDispatch/MsgDispatcherCore.Entry(instance=org/vishia/msgDispatch/MsgDispatcherCore.Entry) $.. entryMsgBufferOverflow;
+      //outer=2 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeOrders;
+      //outer=2 ,super=2: int[??] X%. listBitDst;
+      //outer=2 ,super=2: int[??] X%. listIdents;
+      //outer=2 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. listOrders;
+      //outer=2 ,super=2: int %.d mAdd;
+      //outer=2 ,super=2: int %.d mConsole;
+      //outer=2 ,super=2: int %.d mConsoleQueued;
+      //outer=2 ,super=2: int %.d mDispatchBits;
+      //outer=2 ,super=2: int %.d mDispatchInCallingThread;
+      //outer=2 ,super=2: int %.d mDispatchInDispatcherThread;
+      //outer=2 ,super=2: int %.. mDstMixedOutputs;
+      //outer=2 ,super=2: int %.. mDstOneOutput;
+      //outer=2 ,super=2: int %.d mRemove;
+      //outer=2 ,super=2: int %.d mSet;
       //outer=2 ,super=1: int %.. maxDst;
-      //outer=2 ,super=1: int %.. nrofMixedOutputs;
+      //outer=2 ,super=2: org/vishia/msgDispatch/MsgText_ifc @.. msgText;
+      //outer=2 ,super=2: int %.. nrofMixedOutputs;
       //outer=2 ,super=1: org/vishia/msgDispatch/LogMessage *.. outputConsole;
-      //outer=2 ,super=1: org/vishia/msgDispatch/MsgDispatcher.Output[??] X$. outputs;
-      //outer=2 ,super=1: org/vishia/msgDispatch/MsgDispatcher.TestCnt(instance=org/vishia/msgDispatch/MsgDispatcher.TestCnt) $.. testCnt;
+      //outer=2 ,super=2: org/vishia/msgDispatch/MsgDispatcherCore.Output[??] X$. outputs;
+      //outer=2 ,super=2: java/lang/Runnable @.. runNoEntryMessage;
+      //outer=2 ,super=2: org/vishia/msgDispatch/MsgDispatcherCore.TestCnt(instance=org/vishia/msgDispatch/MsgDispatcherCore.TestCnt) $.. testCnt;
+      //outer=2 ,super=1: int %.d version;
     }
       methods {  
         run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
@@ -148,54 +53,54 @@ class MsgDispatcher; nameC=MsgDispatcher_MSG_s; argIdent=XX; extends java/lang/O
 
   }
 fieldIdents {
-  int %.. actNrofListIdents;
-  org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeOrders;
-  int[??] X%. listBitDst;
-  int[??] X%. listIdents;
-  org/vishia/bridgeC/ConcurrentLinkedQueue *.. listOrders;
-  int %.d mAdd;
-  int %.d mConsole;
-  int %.d mConsoleQueued;
-  int %.d mDispatchBits;
-  int %.d mDispatchInCallingThread;
-  int %.d mDispatchInDispatcherThread;
-  int %.. mDstMixedOutputs;
-  int %.. mDstOneOutput;
-  int %.d mRemove;
-  int %.d mSet;
+  //outer=1 ,super=2: int %.. actNrofListIdents;
+  //outer=1 ,super=2: int %.. ctLostMessages;
+  org/vishia/msgDispatch/MsgDispatcherCore.Entry(instance=org/vishia/msgDispatch/MsgDispatcherCore.Entry) $.. entryMsgBufferOverflow;
+  //outer=1 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeOrders;
+  //outer=1 ,super=2: int[??] X%. listBitDst;
+  //outer=1 ,super=2: int[??] X%. listIdents;
+  //outer=1 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. listOrders;
+  //outer=1 ,super=2: int %.d mAdd;
+  //outer=1 ,super=2: int %.d mConsole;
+  //outer=1 ,super=2: int %.d mConsoleQueued;
+  //outer=1 ,super=2: int %.d mDispatchBits;
+  //outer=1 ,super=2: int %.d mDispatchInCallingThread;
+  //outer=1 ,super=2: int %.d mDispatchInDispatcherThread;
+  //outer=1 ,super=2: int %.. mDstMixedOutputs;
+  //outer=1 ,super=2: int %.. mDstOneOutput;
+  //outer=1 ,super=2: int %.d mRemove;
+  //outer=1 ,super=2: int %.d mSet;
   int %.. maxDst;
-  int %.. nrofMixedOutputs;
+  //outer=1 ,super=2: org/vishia/msgDispatch/MsgText_ifc @.. msgText;
+  //outer=1 ,super=2: int %.. nrofMixedOutputs;
   org/vishia/msgDispatch/LogMessage *.. outputConsole;
-  org/vishia/msgDispatch/MsgDispatcher.Output[??] X$. outputs;
-  org/vishia/msgDispatch/MsgDispatcher.TestCnt(instance=org/vishia/msgDispatch/MsgDispatcher.TestCnt) $.. testCnt;
+  //outer=1 ,super=2: org/vishia/msgDispatch/MsgDispatcherCore.Output[??] X$. outputs;
+  //outer=1 ,super=2: java/lang/Runnable @.. runNoEntryMessage;
+  //outer=1 ,super=2: org/vishia/msgDispatch/MsgDispatcherCore.TestCnt(instance=org/vishia/msgDispatch/MsgDispatcherCore.TestCnt) $.. testCnt;
+  int %.d version;
 }
   methods {  
-    close-_$, defined: org/vishia/msgDispatch/LogMessage.close, mode= overrideable: void %.r null();
+    close-_$, defined: org/vishia/msgDispatch/LogMessage.close: void %.r null();
     completeDispatchInThreadBits-_$: int %.r null(int %.. dstBits);
-    ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcher *.. MsgDispatcher_MSG_s(int %.. maxDispatchEntries,int %.. maxQueue,int %.. maxOutputs,int %.. nrofMixedOutputs);
+    ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcher *.. MsgDispatcher_MSG_s(int %.. maxDispatchEntries,int %.. maxQueue,int %.. maxOutputs,int %.. nrofMixedOutputs,int %.. msgIdentQueueOverflow,java/lang/Runnable *.. runNoEntryMessage);
     ctorO_DispatcherThread-_$, mode= ctor+nonStaticCtor: org/vishia/msgDispatch/MsgDispatcher.DispatcherThread *.. DispatcherThread_MsgDispatcher_MSG_s(int %.. cycleMillisec);
-    dispatchMsg-_$: int %.r null(int %.. dstBits,boolean %.. bDispatchInDispatcherThread,int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.r args);
     dispatchQueuedMsg-_$: int %.r null();
-    flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush, mode= overrideable: void %.r null();
+    flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush: void %.r null();
     getSharedFreeEntries-_$: org/vishia/bridgeC/ConcurrentLinkedQueue *.r null();
     insertIdent-_$: int %.r null(int %.. idx,int %.. fromIdent,int %.. toIdent);
-    isOnline-_$, defined: org/vishia/msgDispatch/LogMessage.isOnline, mode= overrideable: boolean %.r null();
     reportOutput-_$: boolean %.r null(java/io/FileWriter *.. file);
-    searchDispatchBits-_$: int %.r null(int %.. ident);
-    sendMsg+_izv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsg, mode= noThCxt: boolean %.r null(int %.. identNumber,s0(instance=s0) %.. text,va_argRaw +.. args);
-    sendMsgTime+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgTime, mode= noThCxt: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,va_argRaw +.. args);
-    sendMsgVaList+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgVaList: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
     setDefaults-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. fileOut);
     setOutputFromString-_$: java/lang/String(instance=java/lang/String) t.r null(java/lang/String(instance=java/lang/String) t.. ctrl,java/lang/StringBuffer *.. errorBuffer);
     setOutputRange-_$: int %.r null(int %.. fromIdent,int %.. toIdent,int %.. dst,int %.. mode,int %.. level);
-    setOutputRoutine-_$: void %.r null(int %.. dstIdx,java/lang/String(instance=java/lang/String) t.. name,boolean %.. bQueued,org/vishia/msgDispatch/LogMessage *.. dst);
+    setOutputRoutine-_$: void %.r null(int %.. dstIdx,java/lang/String(instance=java/lang/String) t.. name,boolean %.. bQueued,boolean %.. bText,org/vishia/msgDispatch/LogMessage *.. dst);
     stop-_$: void %.r null();
     tickAndFlushOrClose-_$: void %.r null();
   }
 
   castTo {
-    org/vishia/msgDispatch/LogMessage: $ "(?).base.LogMessageFW" $;
-    java/lang/Object: $ "(?).base.LogMessageFW.base.object" $;
+    org/vishia/msgDispatch/LogMessage: $ "(?).base.super.base.LogMessageFW" $;
+    org/vishia/msgDispatch/MsgDispatcherCore: $ "(?).base.super" $;
+    java/lang/Object: $ "(?).base.super.base.LogMessageFW.base.object" $;
   }
 
 }

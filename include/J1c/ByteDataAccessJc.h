@@ -47,8 +47,7 @@ typedef struct ByteDataAccessJc_t
   int32 idxCurrentChildEnd;   /*Index of the currents child end.*/
   bool bBigEndian;   /*Flag is set or get data in big endian or little endian (if false)*/
   ByteDataAccessJcREF parent;   /*The parent XmlBinCodeElement, necessary only for add() and expand().*/
-  ByteDataAccessJcREF currentChild;   /*The child on end to add() something*/
-  StringJc charset;   /*The charset.*/
+  StringJc charset;   /*The child on end to add() something*/
 } ByteDataAccessJc_s;
   
 
@@ -195,7 +194,7 @@ METHOD_C void notifyAddChild_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* 
 METHOD_C void correctCurrentChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxEndNew, ThCxt* _thCxt);
 
 /**Increments the idxEnd if a new child is added*/
-METHOD_C void correctIdxChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxCurrentChildEndNew, ThCxt* _thCxt);
+METHOD_C void expand_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxCurrentChildEndNew, ThCxt* _thCxt);
 
 /**Expands the end index of the parent, it means the management*/
 METHOD_C void expandParent_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt);
@@ -267,9 +266,6 @@ METHOD_C int32 getPositionNextChildInBuffer_ByteDataAccessJc(ByteDataAccessJc_s*
 METHOD_C int32 getLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt);
 
 /**Sets the length of the current child element after calling next().*/
-METHOD_C void setLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthOfCurrentChild, ThCxt* _thCxt);
-
-/**Sets the length of the element in this and all {@link #parent} of this.*/
 METHOD_C void setLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 length, ThCxt* _thCxt);
 
 /**Returns true if the current child element represents a TEXT(), direct ASCII chars,*/
@@ -413,8 +409,6 @@ METHOD_C void elementAt_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 indexO
 
 METHOD_C bool assertNotExpandable_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt);
 
-METHOD_C struct ByteDataAccessJc_t* getCurrentChild_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt);
-
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -497,8 +491,6 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
 
   void correctCurrentChildEnd(int32 idxEndNew){ correctCurrentChildEnd_ByteDataAccessJc(this, idxEndNew,  null/*_thCxt*/); }
 
-  void correctIdxChildEnd(int32 idxCurrentChildEndNew){ correctIdxChildEnd_ByteDataAccessJc(this, idxCurrentChildEndNew,  null/*_thCxt*/); }
-
   ByteDataAccessJc(){ init_ObjectJc(&this->base.object, sizeof(ByteDataAccessJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_ByteDataAccessJc_s, 0); ctorO_ByteDataAccessJc(&this->base.object,  null/*_thCxt*/); }
 
   void detach(){ detach_ByteDataAccessJc(this,  null/*_thCxt*/); }
@@ -506,6 +498,8 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
   void elementAt(int32 indexObjectArray){ elementAt_ByteDataAccessJc(this, indexObjectArray,  null/*_thCxt*/); }
 
   void expandParent(){ expandParent_ByteDataAccessJc(this,  null/*_thCxt*/); }
+
+  void expand(int32 idxCurrentChildEndNew){ expand_ByteDataAccessJc(this, idxCurrentChildEndNew,  null/*_thCxt*/); }
 
   char getChar(int32 idx){  return getChar_ByteDataAccessJc(this, idx,  null/*_thCxt*/); }
 
@@ -516,8 +510,6 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
   int64 getChildInteger(int32 nrofBytes){  return getChildInteger_ByteDataAccessJc(this, nrofBytes,  null/*_thCxt*/); }
 
   StringJc getChildString(int32 nrofBytes){  return getChildString_ByteDataAccessJc(this, nrofBytes,  null/*_thCxt*/); }
-
-  struct ByteDataAccessJc_t* getCurrentChild(){  return getCurrentChild_ByteDataAccessJc(this,  null/*_thCxt*/); }
 
   int8_Y* getData(){  return getData_ByteDataAccessJc(this,  null/*_thCxt*/); }
 
@@ -610,8 +602,6 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
   void setInt8(int32 idx, int32 value){ setInt8_ii_ByteDataAccessJc(this, idx, value,  null/*_thCxt*/); }
 
   void setInt8(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setInt8_iiii_ByteDataAccessJc(this, idxBytes, idxArray, lengthArray, val,  null/*_thCxt*/); }
-
-  void setLengthCurrentChildElement(int32 lengthOfCurrentChild){ setLengthCurrentChildElement_ByteDataAccessJc(this, lengthOfCurrentChild,  null/*_thCxt*/); }
 
   void setLengthElement(int32 length){ setLengthElement_ByteDataAccessJc(this, length,  null/*_thCxt*/); }
 

@@ -69,6 +69,10 @@
   #define bool int
   #define false 0
   #define true (!false)
+
+  //see stdlib.h
+  //#define min(X,Y) ((X)<(Y) ? (X) : (Y))
+  //#define max(X,Y) ((X)>(Y) ? (X) : (Y))
 #endif
 
 

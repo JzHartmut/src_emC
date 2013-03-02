@@ -427,6 +427,18 @@ METHOD_C StringJc substring_StringJc(StringJc ythis, int beginIndex, int endInde
 #define substring_I_StringJc(STR, BEGIN, _THC) substring_StringJc(STR, BEGIN, -1, _THC)
 
 
+/**Returns a new string that is a substring of this string. 
+ * The substring begins at the specified beginIndex and extends to the character at index endIndex - 1.
+ * Thus the length of the substring is endIndex-beginIndex.
+ * @param startIndex the beginning index, inclusive.
+ * @param endIndex the ending index, exclusive. If -1, than the endIndex is the length of string, 
+ *        This is used to support the Java-form without parameter endIndex. Java causes an excpetion in this case.
+ * @throws IndexOutOfBoundsException - if the beginIndex is negative,
+ * or endIndex is larger than the length of this String object, or beginIndex is larger than endIndex.
+ * @javalike Lightly modified from Java, see [[sunJavadoc/java/lang/String#substring(int, int)]]
+ */
+#define subSequence_StringJc(STR, BEGIN, END, _THC) substring_StringJc(STR, BEGIN, END, _THC)
+
 
 
 

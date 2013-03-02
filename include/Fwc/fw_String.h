@@ -209,7 +209,7 @@ METHOD_C StringJc zI_StringJc(char const* src, int len);
 #define isNull_StringJc(STR) (PTR_OS_PtrValue(STR, void*)==null)
 
 
-
+#define isEmpty_s0_Fwc(TEXT) ((TEXT)==null || *(TEXT)==0)
 
 
 /**Returns the length. If the source stores the value mLength__StringJc in its value-element,
@@ -231,6 +231,32 @@ METHOD_C int length_StringJc(StringJc const ythis);
  * @return number of chars copied. It is the number of valid chars in buffer always.
 */
 METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSizeBuffer);
+
+
+
+/**Gets a zero-terminated String from a given String. 
+ * This routine uses a buffer to copy the string. This buffer is used only if the given String is not zero-terminated already.
+ * If the String is zero-terminated in its original StringJc-reference, it is used without copying. 
+ * In that case some calculation time will be saved.
+ * Only if the given String is not zero-termintated, the given part of string will be copied 
+ * and terminated with a 0-character. 
+ *
+ * If the length of the given String is greater then zBuffer-1, it is truncated.
+ * In this case the last character in the buffer is replaced with a '?'.
+ * Usual the length of the string may be limitated, the application may provide a buffer with enough size. 
+ * The application can check whether ,,strlen(buffer) == sizeof(buffer)-1 && buffer[strlen(buffer)] =='?',,. 
+ * In that case the String may be truncated. Otherwise an outputted String may be recognized as truncated.
+ *
+ * See also [[gets0_StringJc(...)]]
+ *  
+ * @param buffer any buffer, where the content of thiz may be copied to.
+ * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
+ * @return The pointer to the zero terminated String. Either it is the String referenced in thiz, or it is buffer. 
+ */
+METHOD_C char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int const zBuffer);
+
+
+
 
 /** Set this as reference to a text as a light copy. It means, no back reference is stored
   * if a garbage collector is used. This method should be only used, if the dst is temporary.
@@ -263,7 +289,6 @@ METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSi
  * @return the pointer to the chars. It may be null if the StringJc contains a null-reference.
  */
 METHOD_C char const* getCharsAndLength_StringJc(StringJc const* ythis, int* length);
-
 
 
 

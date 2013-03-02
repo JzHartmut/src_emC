@@ -17,6 +17,12 @@ class Math; nameC=MathJc_s; argIdent=Ma; extends java/lang/Object
 		//cos+f, mode=static+noThCxt: double %.. return(float %.. value);
 		pow-_$, mode=static+noThCxt: double %.. return(double %.. value, double %.. exp);
 		random-_$, mode=static+noThCxt: double %.. return();
+    min, mode=static+noThCxt: int %..return(int %.. value, int %.. value); 
+    min, mode=static+noThCxt: float %..return(float %.. value, float %.. value); 
+    min, mode=static+noThCxt: double %..return(double %.. value, double %.. value); 
+    max, mode=static+noThCxt: int %..return(int %.. value, int %.. value); 
+    max, mode=static+noThCxt: float %..return(float %.. value, float %.. value); 
+    max, mode=static+noThCxt: double %..return(double %.. value, double %.. value); 
   }
   
 }

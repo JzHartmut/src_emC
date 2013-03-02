@@ -54,15 +54,15 @@ So the definition of byte positions are made only on one source. The C/C++ is pr
 
 <h2>children, currentChild, addChild</h2>
 Children are used to evaluate or write different data structures after a known structure.
-The children may be from several derivated types of this class.
+The children may be from several derived types of this class.
 With children and children inside children a tree of different data can be built or evaluated.
 
 If no child is added yet, the indices have the following values:
 <ul>
 <li>idxCurrentChild = -1.
-<li>idxCurrentChildEnd = index after known (named head-) data.
+<li>idxCurrentChildEnd = index after known (head-) data.
 </ul>
-A call of {@link next()} sets the indices to a possible but not yet defined current child:
+Deprecated: A call of {@link #next()} sets the indices to a possible but not yet defined current child:
 <ul>
 <li>idxCurrentChild = the index after the last known child or known (head-) data.
 It is idxCurrentChildEnd from state before.
@@ -71,14 +71,14 @@ The -2 is used to mark call of next().
 </ul>
 A call of {@link addChild()} or its adequate addChildXY() sets the indices to the given current child:
 <ul>
-<li>idxCurrentChild = the index after known (head-) data, the index of the child.
+<li>idxCurrentChild = the index after known (first head-) data, the index of the child.
 <li>idxCurrentChildEnd = idxCurrentChild + {@link specifyLengthElement()} if this method returns >=0.
 <li>idxCurrentChildEnd = idxCurrentChild + {@link specifyLengthElementHead()} if this method returns >=0.
 <li>idxCurrentChildEnd = -1, because the length of the child is not known yet if both methods return -1.
 </ul>
 The length of the current Child may be set while evaluating the child's data.
-The user should be call {@link setLengthElement(int)} with the child
-or {@link setLengthCurrentChildElement(int)} with the parent, respectively with this.
+The user should call {@link #setLengthElement(int)} with the child
+or {@link #setLengthCurrentChildElement(int)} with the parent, respectively with this.
 <ul>
 <li>idxCurrentChild = is still the index of the child.
 <li>idxCurrentChildEnd = idxCurrentChild + given length.
@@ -103,8 +103,8 @@ followed object model diagram, <br>
 +-------------+     |idxEnd:int                     |---parent-------+ setted in addChild()
 | derivated   |     |-------------------------------|
 | user        |---|>|specifyLengthElement()         |
-| classes     |     |specifyLengthElementHead()     |--currentChild--+ the actual child element
-+-------------+     |specifyLengthCurrentChild()    |<---------------+
+| classes     |     |specifyLengthElementHead()     |
++-------------+     |specifyLengthCurrentChild()    |
 +-------------------------------+
 </pre>
 
@@ -134,8 +134,7 @@ struct ByteDataAccessJc_t* ctorO_ByteDataAccessJc(ObjectJc* othis, ThCxt* _thCxt
     ythis->idxCurrentChild = -1;//to mark start.
     
     ythis->idxCurrentChildEnd = 0;
-    CLEAR_REFJc(ythis->parent);
-    CLEAR_REFJc(ythis->currentChild);//charset = Charset.forName("ISO-8859-1");  //NOTE: String(..., Charset) is only support from Java 6
+    CLEAR_REFJc(ythis->parent);//currentChild = null;
     
     set_StringJc(&(ythis->charset), z_StringJc("ISO-8859-1"));
   }
@@ -244,12 +243,7 @@ void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data,
       { throw_s0Jc(ident_RuntimeExceptionJc, "idx have to be >=0", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     }
     ythis->idxBegin = index;
-    if(REFJc(ythis->parent) != null && REFJc(REFJc(ythis->parent)->currentChild) == ythis) 
-    { 
-      
-      CLEAR_REFJc(REFJc(ythis->parent)->currentChild);//the child is invalid because it is new assigned.
-      
-    }
+    /*if(parent!= null && parent.currentChild == this)*/
     CLEAR_REFJc(ythis->parent);
     reset_ByteDataAccessJc(ythis, lengthData, _thCxt);
     mtthis->assignDataToFixChilds(ythis, _thCxt);
@@ -287,12 +281,7 @@ void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthData, ThCxt* 
       ythis->bExpand = lengthData <= 0;//expand if the data have no head.
       
     }
-    if(REFJc(ythis->currentChild) != null) 
-    { 
-      
-      detach_ByteDataAccessJc(REFJc(ythis->currentChild), _thCxt);
-      CLEAR_REFJc(ythis->currentChild);
-    }
+    /*if(currentChild !=null){*/
     ythis->idxCurrentChild = -1;
     ythis->idxFirstChild = ythis->idxCurrentChildEnd = /*? assignment*/ythis->idxBegin + lengthHeadSpecified;
     ythis->idxEnd = ythis->bExpand ? ythis->idxFirstChild : lengthData;
@@ -357,12 +346,6 @@ void removeChildren_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt)
       ythis->idxEnd = ythis->idxFirstChild;
     }
     ythis->idxCurrentChild = -1;
-    if(REFJc(ythis->currentChild) != null) 
-    { 
-      
-      detach_ByteDataAccessJc(REFJc(ythis->currentChild), _thCxt);
-      CLEAR_REFJc(ythis->currentChild);
-    }
   }
   STACKTRC_LEAVE;
 }
@@ -375,13 +358,9 @@ void detach_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt)
   
   { 
     
-    if(REFJc(ythis->currentChild) != null) 
-    { 
-      
-      detach_ByteDataAccessJc(REFJc(ythis->currentChild), _thCxt);
-      CLEAR_REFJc(ythis->currentChild);
-    }
+    /*if(currentChild !=null){*/
     ythis->data = null;
+    /*if(parent !=null && parent.currentChild == this){*/
     CLEAR_REFJc(ythis->parent);
     ythis->idxBegin = ythis->idxEnd = /*? assignment*/0;
     ythis->idxFirstChild = ythis->idxCurrentChild = /*? assignment*/ythis->idxCurrentChildEnd = /*? assignment*/0;
@@ -506,9 +485,10 @@ bool addChild_ByteDataAccessJc(ByteDataAccessJc_s* ythis, struct ByteDataAccessJ
     SETMTBJc(childMtb, child, ByteDataAccessJc);
     childMtb.mtbl->assignData_iYii( (childMtb.ref), ythis->data, ythis->bExpand ? -1 : ythis->idxEnd, ythis->idxCurrentChild, _thCxt);
     childMtb.mtbl->setBigEndian( (childMtb.ref), ythis->bBigEndian, _thCxt);
-    SETREFJc(child->parent, ythis, ByteDataAccessJc_s);
-    //SETREFJc(ythis->currentChild, child, ByteDataAccessJc_s);
-    correctIdxChildEnd_ByteDataAccessJc(ythis, child->idxCurrentChildEnd, _thCxt);
+    SETREFJc(child->parent, ythis, ByteDataAccessJc_s);//this.currentChild = child;
+    
+    expand_ByteDataAccessJc(ythis, child->idxCurrentChildEnd, _thCxt);//NOTE: Problem the child.idxEnd is not set yet.
+    
     { STACKTRC_LEAVE;
       return ythis->bExpand;
     }
@@ -606,7 +586,7 @@ bool setIdxCurrentChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 nro
         activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
       }
     }
-    correctIdxChildEnd_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);//also of all parents
+    expand_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);//also of all parents
     
     { STACKTRC_LEAVE;
       return ythis->bExpand;
@@ -678,9 +658,9 @@ void correctCurrentChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 id
 
 
 /**Increments the idxEnd if a new child is added*/
-void correctIdxChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxCurrentChildEndNew, ThCxt* _thCxt)
+void expand_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxCurrentChildEndNew, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("correctIdxChildEnd_ByteDataAccessJc");
+  STACKTRC_TENTRY("expand_ByteDataAccessJc");
   
   { 
     
@@ -695,7 +675,7 @@ void correctIdxChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxCur
     if(REFJc(ythis->parent) != null) 
     { 
       
-      correctIdxChildEnd_ByteDataAccessJc(REFJc(ythis->parent), idxCurrentChildEndNew, _thCxt);
+      expand_ByteDataAccessJc(REFJc(ythis->parent), idxCurrentChildEndNew, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -825,7 +805,7 @@ void addChildInteger_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 nrofBytes
     //NOTE: to read from idxInChild = 0, build the difference as shown:
     
     _setLong_ByteDataAccessJc(ythis, ythis->idxCurrentChild - ythis->idxBegin, nrofBytes, value, _thCxt);
-    correctIdxChildEnd_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);
+    expand_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);
     activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -852,7 +832,7 @@ void addChildFloat_ByteDataAccessJc(ByteDataAccessJc_s* ythis, float value, ThCx
     //NOTE: to read from idxInChild = 0, build the difference as shown:
     
     setFloat_if_ByteDataAccessJc(ythis, ythis->idxCurrentChild - ythis->idxBegin, value, _thCxt);
-    correctIdxChildEnd_ByteDataAccessJc(ythis, ythis->idxCurrentChild + 4, _thCxt);
+    expand_ByteDataAccessJc(ythis, ythis->idxCurrentChild + 4, _thCxt);
     activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -905,7 +885,7 @@ void addChildString_SSb_ByteDataAccessJc(ByteDataAccessJc_s* ythis, StringJc val
     //NOTE: to read from idxInChild = 0, build the difference as shown:
     
     _setString_ByteDataAccessJc(ythis, ythis->idxCurrentChild - ythis->idxBegin, nrofBytes, value, sEncoding, preventCtrlChars, _thCxt);
-    correctIdxChildEnd_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);
+    expand_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);
     activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -969,7 +949,7 @@ void addChildString_tS_ByteDataAccessJc(ByteDataAccessJc_s* ythis, StringJc valu
           ythis->data->data[ythis->idxCurrentChild + ii] = charByte;
         }
     }
-    correctIdxChildEnd_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);
+    expand_ByteDataAccessJc(ythis, ythis->idxCurrentChild + nrofBytes, _thCxt);
     activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -1251,23 +1231,6 @@ int32 getLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, T
 
 
 /**Sets the length of the current child element after calling next().*/
-void setLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthOfCurrentChild, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setLengthCurrentChildElement_ByteDataAccessJc");
-  
-  { 
-    
-    if(REFJc(ythis->currentChild) != null) 
-    { 
-      
-      setLengthElement_ByteDataAccessJc(REFJc(ythis->currentChild), lengthOfCurrentChild, _thCxt);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Sets the length of the element in this and all {@link #parent} of this.*/
 void setLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 length, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setLengthElement_ByteDataAccessJc");
@@ -1275,7 +1238,7 @@ void setLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 length, 
   { //:if(!bExpand && )
     
     
-    correctIdxChildEnd_ByteDataAccessJc(ythis, ythis->idxBegin + length, _thCxt);
+    expand_ByteDataAccessJc(ythis, ythis->idxBegin + length, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -1765,13 +1728,13 @@ int32 getInt32_i_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idx, ThCxt* _
     if(ythis->bBigEndian) 
     { 
       
-      val = (((int32)ythis->data->data[ythis->idxBegin + idx]) << 24) | ((((int32)ythis->data->data[ythis->idxBegin + idx + 1]) << 16) & 0xff0000) | ((((int32)ythis->data->data[ythis->idxBegin + idx + 2]) << 8) & 0xff00) | ((((int32)ythis->data->data[ythis->idxBegin + idx + 3])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = ((ythis->data->data[ythis->idxBegin + idx]) << 24) | (((ythis->data->data[ythis->idxBegin + idx + 1]) << 16) & 0xff0000) | (((ythis->data->data[ythis->idxBegin + idx + 2]) << 8) & 0xff00) | (((ythis->data->data[ythis->idxBegin + idx + 3])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
       
     }
     else 
     { 
       
-      val = (((int32)ythis->data->data[ythis->idxBegin + idx + 3]) << 24) | ((((int32)ythis->data->data[ythis->idxBegin + idx + 2]) << 16) & 0xff0000) | ((((int32)ythis->data->data[ythis->idxBegin + idx + 1]) << 8) & 0xff00) | ((((int32)ythis->data->data[ythis->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = ((ythis->data->data[ythis->idxBegin + idx + 3]) << 24) | (((ythis->data->data[ythis->idxBegin + idx + 2]) << 16) & 0xff0000) | (((ythis->data->data[ythis->idxBegin + idx + 1]) << 8) & 0xff00) | (((ythis->data->data[ythis->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
       
     }
     { STACKTRC_LEAVE;
@@ -1808,13 +1771,13 @@ int32 getUint16_i_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idx, ThCxt* 
     if(ythis->bBigEndian) 
     { 
       
-      val = ((((int32)ythis->data->data[ythis->idxBegin + idx]) << 8) & 0xff00) | ((((int32)ythis->data->data[ythis->idxBegin + idx + 1])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((ythis->data->data[ythis->idxBegin + idx]) << 8) & 0xff00) | (((ythis->data->data[ythis->idxBegin + idx + 1])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
       
     }
     else 
     { 
       
-      val = ((((int32)ythis->data->data[ythis->idxBegin + idx + 1]) << 8) & 0xff00) | ((((int32)ythis->data->data[ythis->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((ythis->data->data[ythis->idxBegin + idx + 1]) << 8) & 0xff00) | (((ythis->data->data[ythis->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
       
     }
     { STACKTRC_LEAVE;
@@ -1838,13 +1801,13 @@ int16 getInt16_i_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idx, ThCxt* _
     if(ythis->bBigEndian) 
     { 
       
-      val = ((((int16)ythis->data->data[ythis->idxBegin + idx]) << 8) & 0xff00) | ((((int16)ythis->data->data[ythis->idxBegin + idx + 1])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((ythis->data->data[ythis->idxBegin + idx]) << 8) & 0xff00) | (((ythis->data->data[ythis->idxBegin + idx + 1])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
       
     }
     else 
     { 
       
-      val = ((((int16)ythis->data->data[ythis->idxBegin + idx + 1]) << 8) & 0xff00) | ((((int16)ythis->data->data[ythis->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((ythis->data->data[ythis->idxBegin + idx + 1]) << 8) & 0xff00) | (((ythis->data->data[ythis->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
       
     }
     { STACKTRC_LEAVE;
@@ -2457,25 +2420,11 @@ bool assertNotExpandable_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thC
   STACKTRC_LEAVE;
 }
 
-struct ByteDataAccessJc_t* getCurrentChild_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getCurrentChild_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return REFJc(ythis->currentChild);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
 
 void finalize_ByteDataAccessJc_F(ObjectJc* othis, ThCxt* _thCxt)
 { ByteDataAccessJc_s* ythis = (ByteDataAccessJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_ByteDataAccessJc_F");
   CLEAR_REFJc(ythis->parent);
-  CLEAR_REFJc(ythis->currentChild);
   finalize_ObjectJc_F(&ythis->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
@@ -2495,9 +2444,9 @@ extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
 extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_ByteDataAccessJc_s_t
-{ ObjectArrayJc head; FieldJc data[12];
+{ ObjectArrayJc head; FieldJc data[11];
 } reflection_Fields_ByteDataAccessJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_ByteDataAccessJc_s)
+{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &reflection_Fields_ByteDataAccessJc_s)
 , {
      { "data"
     , 0 //nrofArrayElements
@@ -2568,14 +2517,6 @@ const struct Reflection_Fields_ByteDataAccessJc_s_t
     , &reflection_ByteDataAccessJc_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ByteDataAccessJc_s*)(0x1000))->parent) - (int32)(ByteDataAccessJc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessJc_s
-    }
-   , { "currentChild"
-    , 0 //nrofArrayElements
-    , &reflection_ByteDataAccessJc_s
-    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessJc_s*)(0x1000))->currentChild) - (int32)(ByteDataAccessJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessJc_s
     }

@@ -14,7 +14,8 @@ class System; nameC=SystemJc; argIdent=Sys; extends java/lang/Object
     field:{ java/io/PrintStream @.s err; }
   }
   
-  methods {  
+  methods {
+    currentTimeMillis-_$, mode=static+noThCxt: int %..return();  
     arraycopy-_$ , mode: static:field{ void %.. return;} (field{ java/lang/Object *.. src;}, field{ int %.. posSrc;}, field:{ java/lang/Object *.. dest;}, field:{ int %.. posDest;}, field:{ int %.. posLength;});
     arraycopy+_v-_$ , mode: static: void %.. return (ByteStringJc B.. src, int %.. posSrc, java/lang/Object *.. dest, int %.. posDest, int %.. posLength);
     gc-_$, mode: static:field{ void %.. return;};
