@@ -115,7 +115,11 @@ extern_C int os_setErrorRoutine(MT_os_Error* routine);
  * If the routine is set. If no, this routine does nothing. It means, it is not the only way of error detection.
  * The other way is to test the return code of os_methods.
  */
-extern_C void os_notifyError(int errorCode, const char* description, int value1, int value2);
+
+#define os_notifyError(errorCode, description, value1, value2) \
+do { os_notifyError_FileLine(errorCode, description, value1, value2, __FILE__, __LINE__); } while(0)
+
+extern_C void os_notifyError_FileLine(int errorCode, const char* description, int value1, int value2, char const* file, int line);
 
 
 

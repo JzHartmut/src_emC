@@ -156,10 +156,12 @@ extern_C FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL
 
 /*@CLASS_C FileLock_OSAL @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+struct OS_HandleFile_t;
+
 C_TYPE typedef struct FileLock_OSAL_t
 {
   /**The file which is related to the lock. */
-  struct OS_HandleFile_t* hFile_;
+  OS_HandleFile_t* hFile_;
 	/**Any pointer or int-type if any other information is need to relate the file. */
 	void* ptr_;
 	/**The position of lock region. 0 on file-lock. */

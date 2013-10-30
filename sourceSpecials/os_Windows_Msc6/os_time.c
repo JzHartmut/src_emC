@@ -36,6 +36,9 @@
 #include <os_types_def.h>
 #include <os_time.h>
 
+#undef INT32
+#undef UINT32
+
 #include <wtypes.h>
 #include <winbase.h>
 #include <sys/timeb.h>

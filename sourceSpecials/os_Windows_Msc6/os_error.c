@@ -41,8 +41,8 @@
 
 #include <os_error.h>
 #undef boolean
-#include <wtypes.h>
-#include <winbase.h>
+//#include <wtypes.h>
+//#include <winbase.h>
 #include <stdio.h>
 
 MT_os_Error* users_os_Error = null;
@@ -55,13 +55,17 @@ int os_setErrorRoutine(MT_os_Error* routine)
 
 
 
-void os_notifyError(int errorCode, const char* description, int value1, int value2)
+void os_notifyError_FileLine(int errorCode, const char* description, int value1, int value2, char const* file, int line)
 { if(users_os_Error != null)
   { //call the users routine:
     users_os_Error(errorCode, description, value1, value2);
   }
   else
   { //If no user routine is known, the error should be detect by the return code of the os-routines.
+    if(description == null){
+      description = "";
+    }
+    printf("Error %d: %s, %d, %d in file %s: %d", errorCode, description, value1, value2, file, line);
   }  
 }
 

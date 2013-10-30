@@ -43,6 +43,8 @@
 
 
 #undef boolean
+#undef INT32
+#undef UINT32
 #include <wtypes.h>
 #include <winbase.h>
 #include <stdio.h>

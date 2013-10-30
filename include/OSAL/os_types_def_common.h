@@ -75,10 +75,19 @@
 
 #define _INIT0_ = {0}
 
+/**Presaves NaN for positiv values >0.01 */
+#define DIVP01(divident, divisor) (divisor > 0.01f ? divident/divisor : divident/0.01f);
+
+
+/**Presaves NaN for values >0.01 */
+#define DIV01(divident, divisor) (fabsf(divisor) > 0.01f ? divident/divisor : divident/0.01f);
+
+
 /**An instance which contains null-values. */
 extern_C OS_PtrValue null_OS_PtrValue;
 
-
+/**This Define is used to prevent reflection generation from any part of struct. */
+#define ReflectionHidden 
 
 #define __os_types_def_common_h__
 #endif  // __os_types_def_common_h__

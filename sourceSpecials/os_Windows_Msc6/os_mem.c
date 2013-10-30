@@ -35,6 +35,9 @@
  ****************************************************************************/
 #include <os_mem.h>
 
+#undef INT32
+#undef UINT32
+
 #include <wtypes.h>
 #include <winbase.h>
 

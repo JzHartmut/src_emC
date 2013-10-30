@@ -70,6 +70,7 @@ typedef int(* MT_int_Method_int)(int);
 /**Calculates on compile time the number of elements of given array instance.
  * @param ARRAY a instance of an array type.
  */
+#define ARRAYLEN_SimpleC(ARRAY) (sizeof(ARRAY)/sizeof(ARRAY[0]))
 #define ARRAYLEN(ARRAY) (sizeof(ARRAY)/sizeof(ARRAY[0]))
 
 /**Calculates the offset of an element within the given structure type.

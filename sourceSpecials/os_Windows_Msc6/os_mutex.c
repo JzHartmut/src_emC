@@ -45,6 +45,9 @@
 #include <os_error.h>
 #include <os_mem.h>
 #include "os_internal.h"
+
+#undef INT32
+#undef UINT32
 #include <windows.h>
 #include <stdio.h>
 

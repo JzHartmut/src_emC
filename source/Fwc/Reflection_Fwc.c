@@ -4,8 +4,6 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "Fwc/fw_basic.h"
-
 #include "Fwc/fw_Exception.h"
 
 
@@ -425,8 +423,8 @@ const struct Reflection_Fields_ReadLine_Fwc_t
 , {
     { "file"
     , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , REFLECTION_int
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->file) -(int32)(ReadLine_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ReadLine_Fwc

@@ -489,6 +489,10 @@ SOURCE=..\..\..\source\InspcJ2c\Inspector_Inspc.c
 SOURCE=..\..\..\source\InspcJ2c\SearchElement_Inspc.c
 # End Source File
 # End Group
+# Begin Group "Ipc2c"
+
+# PROP Default_Filter ""
+# End Group
 # End Group
 # Begin Group "Headerfiles"
 

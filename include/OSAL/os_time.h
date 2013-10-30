@@ -205,13 +205,15 @@ typedef struct MinMaxTime_Fwc_t
 
   u_int32_t midCyclTime;
 
-  u_int32_t maxmaxCyclTime;
-  
   u_int32_t maxCyclTime;
 
+  u_int32_t maxmaxCyclTime;
+  
   u_int32_t minCalcTime;
 
   u_int32_t midCalcTime;
+
+  u_int32_t actCalcTime;
 
   u_int32_t maxCalcTime;
 

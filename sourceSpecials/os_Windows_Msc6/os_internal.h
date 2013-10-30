@@ -4,6 +4,8 @@
 #undef BOOL
 #undef PBOOL
 #undef boolean
+#undef INT32
+#undef UINT32
 
 #include <wtypes.h>
 #include <Winbase.h>

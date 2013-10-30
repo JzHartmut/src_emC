@@ -123,6 +123,9 @@ METHOD_C char const* getCallingMethodName_StacktraceThreadContext(StacktraceThre
 #endif
 
 
+/**Bit definitions of all error bits. 
+ * HINT: An enum is used to prevent double definitions of same masks.
+ */
 typedef enum ExceptionIdentsJc_t
 { ident_ExceptionJc                = 0x00000000
 , ident_RuntimeExceptionJc         = 0x00000001
@@ -142,9 +145,10 @@ typedef enum ExceptionIdentsJc_t
 
 , ident_NoSuchFieldExceptionJc =           0x00010000
 , ident_InterruptedExceptionJc =           0x00020000
+, ident_UnsupportedEncodingExceptionJc =   0x00100000
 , ident_IOExceptionJc =                    0x01000000  
 , ident_FileNotFoundExceptionJc =          0x02000000  
-, ident_UnsupportedEncodingExceptionJc =   0x40000000
+#define ident_OutOfMemoryErrorJc           0x80000000  //prevent enum definition warning
 }ExceptionIdentsJc;
 
 
@@ -154,7 +158,9 @@ typedef enum ExceptionIdentsJc_t
 
 
 
-
+/**Bit definitions of all Masks for error bits. 
+ * HINT: An enum is used to prevent double definitions of same masks.
+ */
 typedef enum ExceptionMasksJc_t
 {
   mask_ExceptionJcJc                 = 0xffffffff
@@ -162,6 +168,7 @@ typedef enum ExceptionMasksJc_t
 , mask_RuntimeExceptionJc          = 0x0000ffff
 , mask_ClassCastExceptionJc        = 0x00000002
 , mask_NullPointerExceptionJc      = 0x00000004
+, mask_NoMemoryExceptionJc        = 0x00000008
 
 , mask_IndexOutOfBoundsExceptionJc =      0x00000070
 , mask_ArrayIndexOutOfBoundsExceptionJc = 0x00000020
@@ -177,9 +184,10 @@ typedef enum ExceptionMasksJc_t
 
 , mask_NoSuchFieldExceptionJc =           0x00010000
 , mask_InterruptedExceptionJc =           0x00020000
-, mask_IOExceptionJc =                    0xFF000000  
+, mask_UnsupportedEncodingExceptionJc =   0x00100000
+, mask_IOExceptionJc =                    0x3F000000  
 , mask_FileNotFoundExceptionJc =          0x02000000  
-, mask_UnsupportedEncodingExceptionJc =   0x40000000
+#define mask_OutOfMemoryErrorJc           0x80000000  //prevent enum definition warning
 }ExceptionMasksJc;
 
 
@@ -292,8 +300,10 @@ typedef struct TryObjectJc_t
   /**The exceptionNr is always contained in exc, but here doubled because it is set to 0 */
   int32 exceptionNr;
   #ifndef __TRYCPPJc
-    jmp_buf longjmpBuffer;
-    int32 jmpBufferDummies[64];  //because Hynet has an internal problem.
+    #ifdef ReflectionHidden 
+      jmp_buf longjmpBuffer;
+      int32 jmpBufferDummies[64];  //because Hynet has an internal problem.
+    #endif
   #endif
 
 }TryObjectJc;

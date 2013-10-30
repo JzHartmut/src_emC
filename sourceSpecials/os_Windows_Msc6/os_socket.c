@@ -38,6 +38,8 @@
 
 #include "os_socket.h"
 #include "os_error.h"
+#undef INT32
+#undef UINT32
 #include <Winsock2.h>
 
 
