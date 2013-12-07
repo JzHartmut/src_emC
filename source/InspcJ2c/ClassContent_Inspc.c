@@ -1225,8 +1225,10 @@ int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct I
         freeOrder->addrValue = theField;
         set_MemSegmJc(freeOrder->addr, theObject);//freeOrder.timeout_millisec = 5000;  //after 5 seconds, forget it.
         
-        freeOrder->check += 1;//change it to detect old requests at same index.
-        
+        //don't start by 0 on reset of the target!
+        //- freeOrder->check += 1;//change it to detect old requests at same index.
+        freeOrder->check = (int16_t)(currentTime);
+
         ixAnswer = ixReg | (freeOrder->check << 12);
         addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 4, ixAnswer, _thCxt);
         getSetValue_ClassContent_Inspc(ythis, theField, idx, theObject, null, maxNrofAnswerBytes, _thCxt);
@@ -1306,7 +1308,7 @@ int32 cmdGetValueByIndex_ClassContent_Inspc(ClassContent_Inspc_s* ythis, struct 
           { //:The ident is faulty. Any ident request should have its answer.
             
             
-            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kTypeNoValue_InspcDataExchangeAccess_Inspc, _thCxt);
+            addChildInteger_ByteDataAccessJc(& ((ythis->answerItem).base.super), 1, kInvalidIndex_InspcDataExchangeAccess_Inspc, _thCxt);
           }
         }//while
         

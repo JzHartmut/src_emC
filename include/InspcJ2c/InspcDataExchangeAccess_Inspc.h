@@ -463,6 +463,7 @@ void finalize_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 #define maxNrOfChars_InspcDataExchangeAccess_Inspc 0xc8  /*Values between 0..199 determines the length of string.*/
 #define kReferenceAddr_InspcDataExchangeAccess_Inspc 0xdf  /*A reference is the memory-address of an element in C-language*/
 #define kTypeNoValue_InspcDataExchangeAccess_Inspc 0xde  /*This type identification designates that the value is not available.*/
+#define kInvalidIndex_InspcDataExchangeAccess_Inspc 0xde  /*This type identification designates that the index to access by index is invalid.*/
 #define kScalarTypes_InspcDataExchangeAccess_Inspc 0xe0  /*Scalar types started with 0xe0,*/
 
 
