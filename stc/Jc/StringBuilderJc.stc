@@ -89,6 +89,7 @@ class CharSequence; nameC=StringJc; header=Jc/StringJc.h; argIdent=t;
   }
    castFrom {
     t "?" String t;
+    t "?" s0 t;
     t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
   }
 

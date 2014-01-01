@@ -104,7 +104,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
 , {
     { "hFile_"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->hFile_) -(int32)(FileLock_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -361,9 +361,9 @@ const ClassJc reflection_OS_TimeStamp =
 extern_C const ClassJc reflection_MinMaxTime_Fwc;  //the just defined reflection_
 const struct Reflection_Fields_MinMaxTime_Fwc_t
 { ObjectArrayJc head;
-  FieldJc data[11];
+  FieldJc data[12];
 } reflection_Fields_MinMaxTime_Fwc =
-{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &reflection_Fields_MinMaxTime_Fwc)
+{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_MinMaxTime_Fwc)
 , {
     { "ct"
     , 0   //no Array, no Bitfield
@@ -389,6 +389,14 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     , 0  //offsetToObjectifcBase
     , &reflection_MinMaxTime_Fwc
     }
+  , { "actCyclTime"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->actCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_MinMaxTime_Fwc
+    }
   , { "midCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
@@ -397,19 +405,19 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     , 0  //offsetToObjectifcBase
     , &reflection_MinMaxTime_Fwc
     }
-  , { "maxmaxCyclTime"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxmaxCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
-    }
   , { "maxCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_MinMaxTime_Fwc
+    }
+  , { "maxmaxCyclTime"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxmaxCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_MinMaxTime_Fwc
     }
@@ -429,19 +437,19 @@ const struct Reflection_Fields_MinMaxTime_Fwc_t
     , 0  //offsetToObjectifcBase
     , &reflection_MinMaxTime_Fwc
     }
+  , { "actCalcTime"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->actCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_MinMaxTime_Fwc
+    }
   , { "maxCalcTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
-    }
-  , { "actCyclTime"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->actCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_MinMaxTime_Fwc
     }

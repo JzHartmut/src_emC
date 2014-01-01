@@ -135,7 +135,7 @@ typedef struct MsgDispatcher_MSG_Y_t { ObjectArrayJc head; MsgDispatcher_MSG_s d
 void finalize_MsgDispatcher_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_MsgDispatcher_MSG 0x20120113  /*Version and history:*/
+#define version_MsgDispatcher_MSG 0x20120302  /*Version, history and license.*/
 
 
 /**Initializes the instance.*/

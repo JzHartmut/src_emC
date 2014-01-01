@@ -24,17 +24,21 @@ struct StringBuilderJc_t;
 
 /**This class is a base class to control the access to binary data.
 The binary data may typically used or produced from a part of software written in C or C++.
-There the binary data are struct-constructs.
+There the binary data are struct-constructs. Another example - build of datagram structures.
 <br>
-It is able to support several kinds of struct constructs:<ul>
-<li>Simple <code>struct</code> are adequate mapped with a derivated class of this class,
-using the protected commonly access methods like {@link _getInt(int, int)} with predefined indexes
+This class is a base class which should be derived for user's necessities.
+The methods {@link #getInt16(int)} etc. are protected. That should prevent erratic free accesses to data
+at application level. A derived class of this class structures the software for byte data access.
+<br><br>
+It is able to support several kinds of structured data access:<ul>
+<li>Simple C-like <code>struct</code> are adequate mapped with a simple derived class of this class,
+using the protected commonly access methods like {@link #_getLong(int, int)} with predefined indexes
 in special methods like getValueXyz().</li>
 <li>Complex <code>struct</code> with nested <code>struct</code> inside are mapped
-with one derivated class per <code>struct</code>, define one reference per nested struct
-and overwriting the method {@link assignDataToFixChilds()}</li>
-<li>Base <code>struct</code> inside a <code>struct</code> (inherition in C) can be mapped with
-extra derivated classes for the base struct and usind the
+with one derived class per <code>struct</code>, define one reference per nested struct
+and overwriting the method {@link #assignDataToFixChilds()}</li>
+<li>Base <code>struct</code> inside a <code>struct</code> (inheritance in C) can be mapped with
+extra derived classes for the base struct and usind the
 {@link assignCasted_i(ByteDataAccess, int)}-method.</li>
 <li>A pack of data with several struct may be mapped using the {@addChild(ByteDataAccess)}-method.
 Thereby a parent should be defined, and the structs of the pack are children of this parent.
@@ -131,9 +135,40 @@ struct ByteDataAccessJc_t* ctorO_ByteDataAccessJc(ObjectJc* othis, ThCxt* _thCxt
     ythis->bExpand = false;
     ythis->idxBegin = 0;
     ythis->idxEnd = 0;
+    ythis->idxFirstChild = 0;
     ythis->idxCurrentChild = -1;//to mark start.
     
     ythis->idxCurrentChildEnd = 0;
+    CLEAR_REFJc(ythis->parent);//currentChild = null;
+    
+    set_StringJc(&(ythis->charset), z_StringJc("ISO-8859-1"));
+  }
+  STACKTRC_LEAVE;
+  return ythis;
+}
+
+
+
+/*Constructor */
+struct ByteDataAccessJc_t* ctorO_ii_ByteDataAccessJc(ObjectJc* othis, int32 sizeHead, int32 sizeData, ThCxt* _thCxt)
+{ ByteDataAccessJc_s* ythis = (ByteDataAccessJc_s*)othis;  //upcasting to the real class.
+  STACKTRC_TENTRY("ctorO_ByteDataAccessJc");
+  checkConsistence_ObjectJc(othis, sizeof(ByteDataAccessJc_s), null, _thCxt);  
+  setReflection_ObjectJc(othis, &reflection_ByteDataAccessJc_s, sizeof(ByteDataAccessJc_s));  
+  //j2c: Initialize all class variables:
+  {
+  }
+  { 
+    
+    ythis->data = null;
+    ythis->bBigEndian = false;
+    ythis->bExpand = false;
+    ythis->idxBegin = 0;
+    ythis->idxEnd = sizeData;
+    ythis->idxFirstChild = sizeHead;
+    ythis->idxCurrentChild = -1;//to mark start.
+    
+    ythis->idxCurrentChildEnd = kInitializedWithLength_ByteDataAccessJc;
     CLEAR_REFJc(ythis->parent);//currentChild = null;
     
     set_StringJc(&(ythis->charset), z_StringJc("ISO-8859-1"));
@@ -228,11 +263,11 @@ void assignData_iYi_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, in
 }
 
 
-/**Assigns new data to this element at given index in data*/
-void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt)
+/**Assigns new data to this element at given index in data.*/
+void assignData_iYiii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthHead, int32 lengthData, int32 index, ThCxt* _thCxt)
 { Mtbl_ByteDataAccessJc const* mtthis = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
   
-  STACKTRC_TENTRY("assignData_iYii_ByteDataAccessJc_F");
+  STACKTRC_TENTRY("assignData_iYiii_ByteDataAccessJc_F");
   
   { 
     
@@ -245,8 +280,28 @@ void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data,
     ythis->idxBegin = index;
     /*if(parent!= null && parent.currentChild == this)*/
     CLEAR_REFJc(ythis->parent);
-    reset_ByteDataAccessJc(ythis, lengthData, _thCxt);
+    reset_ByteDataAccessJc(ythis, lengthHead, lengthData, _thCxt);
     mtthis->assignDataToFixChilds(ythis, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void assignData_iYiii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthHead, int32 lengthData, int32 index, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
+  mtbl->assignData_iYiii(ythis, data, lengthHead, lengthData, index, _thCxt);
+}
+
+
+/**Assigns data without a given length of head*/
+void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtthis = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
+  
+  STACKTRC_TENTRY("assignData_iYii_ByteDataAccessJc_F");
+  
+  { 
+    
+    mtthis->assignData_iYiii(ythis, data, -1, lengthData, index, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -259,7 +314,7 @@ void assignData_iYii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, i
 
 
 /**Resets the view to the buffer*/
-void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthData, ThCxt* _thCxt)
+void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthHead, int32 lengthData, ThCxt* _thCxt)
 { Mtbl_ByteDataAccessJc const* mtthis = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_ByteDataAccessJc);
   
   STACKTRC_TENTRY("reset_ByteDataAccessJc");
@@ -268,7 +323,7 @@ void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthData, ThCxt* 
     int32 lengthHeadSpecified; 
     
     
-    lengthHeadSpecified = mtthis->specifyLengthElementHead(ythis, _thCxt);
+    lengthHeadSpecified = lengthHead < 0 ? mtthis->specifyLengthElementHead(ythis, _thCxt) : lengthHead;
     if(lengthData <= 0) 
     { 
       
@@ -284,7 +339,7 @@ void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthData, ThCxt* 
     /*if(currentChild !=null){*/
     ythis->idxCurrentChild = -1;
     ythis->idxFirstChild = ythis->idxCurrentChildEnd = /*? assignment*/ythis->idxBegin + lengthHeadSpecified;
-    ythis->idxEnd = ythis->bExpand ? ythis->idxFirstChild : lengthData;
+    ythis->idxEnd = ythis->bExpand ? ythis->idxFirstChild : ythis->idxBegin + lengthData;
     if(ythis->idxEnd > ythis->data->head.length) 
     { 
        //J2C: temporary Stringbuffer for String concatenation
@@ -439,10 +494,23 @@ void assignAtIndex_iXX_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 idxChil
   
   { 
     int32 lengthHead; 
+    int32 lengthData = 0; 
     
     
     lengthHead = getLengthHead_ByteDataAccessJc(ythis, _thCxt);
-    mtthis->assignData_iYii(ythis, parent->data, parent->idxEnd, parent->idxBegin + idxChildInParent, _thCxt);
+    /*no initvalue*/
+    if(ythis->idxCurrentChildEnd == kInitializedWithLength_ByteDataAccessJc) 
+    { 
+      
+      lengthData = ythis->idxEnd;
+    }
+    else 
+    { 
+      
+      lengthData = -1;//unknown
+      
+    }
+    mtthis->assignData_iYiii(ythis, parent->data, lengthHead, lengthData, parent->idxBegin + idxChildInParent, _thCxt);
     mtthis->setBigEndian(ythis, parent->bBigEndian, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -475,20 +543,63 @@ bool addChild_ByteDataAccessJc(ByteDataAccessJc_s* ythis, struct ByteDataAccessJ
   STACKTRC_TENTRY("addChild_ByteDataAccessJc");
   
   { 
+    int32 sizeChildHead = 0; 
+    int32 sizeChild = 0; 
     ByteDataAccessJcMTB childMtb;   /**/
+    int32 sizeChild1 = 0; 
+    int32 idxEndNew; 
     
     
     mtthis->notifyAddChild(ythis, _thCxt);
+    /*no initvalue*/
+    /*no initvalue*/
+    if(child->idxCurrentChildEnd == kInitializedWithLength_ByteDataAccessJc) 
+    { //:initialized child with its local length:
+      
+      
+      sizeChildHead = child->idxFirstChild;
+      sizeChild = child->idxEnd;
+    }
+    else 
+    { //:uninitialized child with length, or reused child:
+      
+      
+      sizeChildHead = sizeChild = /*? assignment*/-1;
+    }
     child->bBigEndian = ythis->bBigEndian;
     child->bExpand = ythis->bExpand;
     setIdxtoNextCurrentChild_ByteDataAccessJc(ythis, _thCxt);
     SETMTBJc(childMtb, child, ByteDataAccessJc);
-    childMtb.mtbl->assignData_iYii( (childMtb.ref), ythis->data, ythis->bExpand ? -1 : ythis->idxEnd, ythis->idxCurrentChild, _thCxt);
+    /*no initvalue*/
+    if(sizeChild <= sizeChildHead) 
+    { //:especially -1, the size is unknown.
+      
+      
+      if(ythis->bExpand) 
+      { 
+        
+        sizeChild1 = -1;
+      }//initialize with specifyLength()
+      
+      else 
+      { 
+        
+        sizeChild1 = ythis->idxEnd - ythis->idxCurrentChild;
+      }//the child fills the parent.
+      
+    }
+    else 
+    { 
+      
+      sizeChild1 = sizeChild;//given size is valid.
+      
+    }
+    childMtb.mtbl->assignData_iYiii( (childMtb.ref), ythis->data, sizeChildHead, sizeChild1, ythis->idxCurrentChild, _thCxt);
     childMtb.mtbl->setBigEndian( (childMtb.ref), ythis->bBigEndian, _thCxt);
     SETREFJc(child->parent, ythis, ByteDataAccessJc_s);//this.currentChild = child;
     
-    expand_ByteDataAccessJc(ythis, child->idxCurrentChildEnd, _thCxt);//NOTE: Problem the child.idxEnd is not set yet.
-    
+    idxEndNew = child->idxEnd > child->idxCurrentChildEnd ? child->idxEnd : child->idxCurrentChildEnd;
+    expand_ByteDataAccessJc(ythis, idxEndNew, _thCxt);
     { STACKTRC_LEAVE;
       return ythis->bExpand;
     }

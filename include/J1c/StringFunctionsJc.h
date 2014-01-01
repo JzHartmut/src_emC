@@ -54,7 +54,7 @@ typedef struct StringFunctionsJc_Y_t { ObjectArrayJc head; StringFunctionsJc_s d
 void finalize_StringFunctionsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringFunctionsJc 20120822  /*Version, history and license.*/
+#define version_StringFunctionsJc 20130810  /*Version, history and license.*/
 
 
 /**Default constructor. */
@@ -67,7 +67,12 @@ METHOD_C int32 posAfterIdentifier_tii_StringFunctionsJc(/*static*/ StringJc src,
 METHOD_C int32 posAfterIdentifier_tiiSS_StringFunctionsJc(/*static*/ StringJc src, int32 start, int32 endMax, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
 
 /**Parses a given String and convert it to the integer number.*/
-METHOD_C int32 parseIntRadix_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, ThCxt* _thCxt);
+METHOD_C int32 parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+
+METHOD_C int32 parseIntRadix_SiiiiY_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, ThCxt* _thCxt);
+
+/**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
+METHOD_C int64 parseLong_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
 
 /**Parses a given String backward and convert it to the integer number.*/
 METHOD_C int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, ThCxt* _thCxt);
@@ -76,10 +81,51 @@ METHOD_C int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int
 METHOD_C float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32_Y* parsedCharsP, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
-METHOD_C int32 compare_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt);
+METHOD_C int32 compare_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt);
+
+/**Compares two CharSequence (Strings, StringBuilder-content etc.*/
+METHOD_C int32 compare_titii_StringFunctionsJc(/*static*/ StringJc s1, int32 from1, StringJc s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
 METHOD_C bool equals_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt);
+
+METHOD_C bool equals_tiit_StringFunctionsJc(/*static*/ StringJc s1, int32 from, int32 to, StringJc s2, ThCxt* _thCxt);
+
+/**Checks whether the given CharSequence starts with a CharSequence.*/
+METHOD_C bool startsWith_tt_StringFunctionsJc(/*static*/ StringJc sq, StringJc start, ThCxt* _thCxt);
+
+/**Checks whether the given CharSequence starts with a CharSequence.*/
+METHOD_C bool startsWith_tiit_StringFunctionsJc(/*static*/ StringJc sq, int32 from, int32 to, StringJc start, ThCxt* _thCxt);
+
+/**Checks whether the given CharSequence ends with a CharSequence.*/
+METHOD_C bool endsWith_StringFunctionsJc(/*static*/ StringJc sq, StringJc end, ThCxt* _thCxt);
+
+/**Returns false if at least one char was found in text which is not a whitespace.*/
+METHOD_C bool isEmptyOrOnlyWhitespaces_StringFunctionsJc(/*static*/ StringJc text, ThCxt* _thCxt);
+
+/**Searches the first occurrence of the given CharSequence in a CharSequence.*/
+METHOD_C int32 indexOf_tiic_StringFunctionsJc(/*static*/ StringJc sq, int32 fromIndex, int32 to, char ch, ThCxt* _thCxt);
+
+/**Searches the first occurrence of the given Character in a CharSequence.*/
+METHOD_C int32 indexOf_tci_StringFunctionsJc(/*static*/ StringJc sq, char ch, int32 fromIndex, ThCxt* _thCxt);
+
+/**Searches the last occurrence of the given char in a CharSequence.*/
+METHOD_C int32 lastIndexOf_tc_StringFunctionsJc(/*static*/ StringJc sq, char ch, ThCxt* _thCxt);
+
+/**Searches the last occurrence of the given char in a CharSequence.*/
+METHOD_C int32 lastIndexOf_tiic_StringFunctionsJc(/*static*/ StringJc sq, int32 from, int32 to, char ch, ThCxt* _thCxt);
+
+/**Checks whether the given CharSequence contains the other given CharSequence.*/
+METHOD_C int32 indexOf_tiit_StringFunctionsJc(/*static*/ StringJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
+
+/**Searches the first occurrence of the given CharSequence in a CharSequence.*/
+METHOD_C int32 indexOf_tti_StringFunctionsJc(/*static*/ StringJc sq, StringJc str, int32 fromIndex, ThCxt* _thCxt);
+
+/**Checks whether the given CharSequence contains the other given CharSequence.*/
+METHOD_C int32 lastIndexOf_tiit_StringFunctionsJc(/*static*/ StringJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
+
+/**Resolves the given String containing some transcription chars (usual backslash)*/
+METHOD_C StringJc convertTranscription_StringFunctionsJc(/*static*/ StringJc src, char transcriptChar, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -97,21 +143,53 @@ typedef struct Mtbl_StringFunctionsJc_t
 class StringFunctionsJc : private StringFunctionsJc_s
 { public:
 
-  int32 compare(StringJc s1, StringJc s2){  return compare_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+  int32 compare(StringJc s1, int32 from1, StringJc s2, int32 from2, int32 nrofChars){  return compare_titii_StringFunctionsJc(s1, from1, s2, from2, nrofChars,  null/*_thCxt*/); }
+
+  int32 compare(StringJc s1, StringJc s2){  return compare_tt_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+
+  StringJc convertTranscription(StringJc src, char transcriptChar){  return convertTranscription_StringFunctionsJc(src, transcriptChar,  null/*_thCxt*/); }
 
   StringFunctionsJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctionsJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctionsJc_s, 0); ctorO_StringFunctionsJc(&this->base.object,  null/*_thCxt*/); }
 
+  bool endsWith(StringJc sq, StringJc end){  return endsWith_StringFunctionsJc(sq, end,  null/*_thCxt*/); }
+
+  bool equals(StringJc s1, int32 from, int32 to, StringJc s2){  return equals_tiit_StringFunctionsJc(s1, from, to, s2,  null/*_thCxt*/); }
+
   bool equals(StringJc s1, StringJc s2){  return equals_tt_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+
+  int32 indexOf(StringJc sq, char ch, int32 fromIndex){  return indexOf_tci_StringFunctionsJc(sq, ch, fromIndex,  null/*_thCxt*/); }
+
+  int32 indexOf(StringJc sq, int32 fromIndex, int32 to, char ch){  return indexOf_tiic_StringFunctionsJc(sq, fromIndex, to, ch,  null/*_thCxt*/); }
+
+  int32 indexOf(StringJc sq, int32 fromIndex, int32 to, StringJc str){  return indexOf_tiit_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+
+  int32 indexOf(StringJc sq, StringJc str, int32 fromIndex){  return indexOf_tti_StringFunctionsJc(sq, str, fromIndex,  null/*_thCxt*/); }
+
+  bool isEmptyOrOnlyWhitespaces(StringJc text){  return isEmptyOrOnlyWhitespaces_StringFunctionsJc(text,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(StringJc sq, char ch){  return lastIndexOf_tc_StringFunctionsJc(sq, ch,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(StringJc sq, int32 from, int32 to, char ch){  return lastIndexOf_tiic_StringFunctionsJc(sq, from, to, ch,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(StringJc sq, int32 fromIndex, int32 to, StringJc str){  return lastIndexOf_tiit_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
 
   float parseFloat(StringJcpp src, int32 pos, int32 sizeP, int32_Y* parsedCharsP){  return parseFloat_StringFunctionsJc(src, pos, sizeP, parsedCharsP,  null/*_thCxt*/); }
 
   int32 parseIntRadixBack(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars){  return parseIntRadixBack_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
 
-  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars){  return parseIntRadix_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
+  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJcpp spaceChars){  return parseIntRadix_SiiiiYS_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
+
+  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars){  return parseIntRadix_SiiiiY_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
+
+  int64 parseLong(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJcpp spaceChars){  return parseLong_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
 
   int32 posAfterIdentifier(StringJc src, int32 start, int32 endMax, StringJcpp additionalStartChars, StringJcpp additionalChars){  return posAfterIdentifier_tiiSS_StringFunctionsJc(src, start, endMax, additionalStartChars, additionalChars,  null/*_thCxt*/); }
 
   int32 posAfterIdentifier(StringJc src, int32 start, int32 endMax){  return posAfterIdentifier_tii_StringFunctionsJc(src, start, endMax,  null/*_thCxt*/); }
+
+  bool startsWith(StringJc sq, int32 from, int32 to, StringJc start){  return startsWith_tiit_StringFunctionsJc(sq, from, to, start,  null/*_thCxt*/); }
+
+  bool startsWith(StringJc sq, StringJc start){  return startsWith_tt_StringFunctionsJc(sq, start,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

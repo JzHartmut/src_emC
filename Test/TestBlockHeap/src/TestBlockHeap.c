@@ -28,7 +28,8 @@ void alloc1(LogMessageFW_MREF log)
    */
   log.mtbl->sendMsg(log.ref, 3, "activateGarbageCollectorAccess for all blocks.", "");
   for(ix=0; ix<ARRAYLEN(data); ++ix) {
-    activateGarbageCollectorAccess_BlockHeapJc(data[ix], null);
+    //activateGarbageCollectorAccess_BlockHeapJc(data[ix], null);
+    activateGC_ObjectJc(data[ix], null, _thCxt);
   }
   /**The GC frees all blocks. */
   log.mtbl->sendMsg(log.ref, 2, "run GC, it should freed all:", "");
@@ -64,7 +65,8 @@ void allocListNode(LogMessageFW_MREF log)
    */
   log.mtbl->sendMsg(log.ref, 3, "activateGarbageCollectorAccess for all blocks.", "");
   for(ix=0; ix<ARRAYLEN(data); ++ix) {
-    activateGarbageCollectorAccess_BlockHeapJc(data[ix], null);
+    //xxx activateGarbageCollectorAccess_BlockHeapJc(data[ix], null);
+    activateGC_ObjectJc(data[ix], null, _thCxt);
   }
   /**The GC frees all blocks. */
   log.mtbl->sendMsg(log.ref, 2, "run GC, it should freed all:", "");

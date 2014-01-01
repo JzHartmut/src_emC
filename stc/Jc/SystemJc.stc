@@ -48,6 +48,18 @@ class Double; nameC=DoubleJc; argIdent=D;
   
 }
 
+
+
+class Comparable; nameC=ComparableJc; header=Jc/ObjectJc.h; argIdent=C;
+{
+  methods{
+   compareTo-_$, mode=noThCxt: boolean %.. return(java/lang/Object *.. cmp);
+ }
+
+}
+
+
+
 /*
 //Note: do not mix up with org.vishia.reflect.ClassJc, another name is necessary.
 const class Class; nameC=ClassJc1; argIdent=C;  //note: defined in CRuntimeJavalikeClassData.java

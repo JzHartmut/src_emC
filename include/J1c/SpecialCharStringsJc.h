@@ -82,7 +82,7 @@ class SpecialCharStringsJc : private SpecialCharStringsJc_s
 
   SpecialCharStringsJc(){ init_ObjectJc(&this->base.object, sizeof(SpecialCharStringsJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_SpecialCharStringsJc_s, 0); ctorO_SpecialCharStringsJc(&this->base.object,  null/*_thCxt*/); }
 
-  StringJc resolveCircumScription(StringJcpp src){  return resolveCircumScription_SpecialCharStringsJc(src,  null/*_thCxt*/); }
+  StringJc resolveCircumScription(StringJc src){  return resolveCircumScription_SpecialCharStringsJc(src,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

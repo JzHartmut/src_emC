@@ -8,6 +8,10 @@ fieldIdents {
   boolean %.. bInsert;
   java/lang/StringBuilder @.. buffer;
   char %.. cDecimalSeparator;
+  java/text/SimpleDateFormat(instance=java/text/SimpleDateFormat) @.. dateFormatNewer;
+  java/text/SimpleDateFormat(instance=java/text/SimpleDateFormat) @.. dateFormatOlder;
+  java/text/SimpleDateFormat(instance=java/text/SimpleDateFormat) @.. dateFormatToday;
+  java/text/SimpleDateFormat(instance=java/text/SimpleDateFormat) @.. dateFormatYear;
   short %.d k1;
   short %.S k2left;
   short %.d k2right;
@@ -21,6 +25,10 @@ fieldIdents {
   byte %.d mNrofBytesInWord;
   long[9] Q%S n10a;
   int %.. pos;
+  java/lang/String(instance=java/lang/String) t.. sDatePrefixNewer;
+  java/lang/String(instance=java/lang/String) t.. sDatePrefixOlder;
+  java/lang/String(instance=java/lang/String) t.. sDatePrefixToday;
+  java/lang/String(instance=java/lang/String) t.. sDatePrefixYear;
   java/lang/String(instance=java/lang/String) t.s sNeg;
   java/lang/String(instance=java/lang/String) t.s spaces;
   int %.d version;
@@ -43,12 +51,15 @@ fieldIdents {
     addReplaceLinefeed-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence t.. str,java/lang/CharSequence t.. replaceLinefeed,int %.. maxChars);
     addStringLine-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,int %.. nrofBytes,java/lang/String(instance=java/lang/String) t.. charsetName);
     addint-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(long %.. nr,java/lang/String(instance=java/lang/String) t.. sPict);
+    convertTimestampToday-_$, mode= overrideable: java/lang/String(instance=java/lang/String) t.r null(long %.. timestamp);
     ctorO-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s();
     ctorO+_i-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(int %.. length);
     ctorO+_S-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/String(instance=java/lang/String) t.. str);
     ctorO+_Sb-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/StringBuilder *.. buffer);
     end-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null();
     finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
+    floatToText-_$, mode= static: java/lang/CharSequence t.r null(float %.. val,int %.. nrofChars);
+    getBuffer-_$, mode= overrideable: java/lang/CharSequence t.r null();
     getContent-_$, mode= overrideable: java/lang/String(instance=java/lang/String) t.r null();
     getPos-_$, mode= overrideable: int %.r null();
     insert-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null();
@@ -67,6 +78,7 @@ fieldIdents {
 
   methods-overrideable {
     getContent_StringFormatterJc;
+    getBuffer_StringFormatterJc;
     setDecimalSeparator_StringFormatterJc;
     reset_StringFormatterJc;
     end_StringFormatterJc;
@@ -96,6 +108,7 @@ fieldIdents {
     addIntPicture_StringFormatterJc;
     strPicture_StringFormatterJc;
     addFloatPicture_StringFormatterJc;
+    convertTimestampToday_StringFormatterJc;
   }
 
   castTo {

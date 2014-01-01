@@ -7,8 +7,7 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "J1c/StringPartJc.h"  //new object
-#include "Jc/DateJc.h"  //reference-association: format
-#include "Jc/StringJc.h"  //embedded type in class data
+#include "Jc/DateJc.h"  //new object
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
 
 
@@ -55,10 +54,23 @@ struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thC
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
+      
     ythis->pos = 0;
     ythis->bInsert = false;
     ythis->cDecimalSeparator = '.';
+    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    activateGC_ObjectJc(newObj0_1, null, _thCxt);
+    activateGC_ObjectJc(newObj0_2, null, _thCxt);
+    activateGC_ObjectJc(newObj0_3, null, _thCxt);
+    activateGC_ObjectJc(newObj0_4, null, _thCxt);
   }
   { 
     ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
@@ -79,10 +91,23 @@ struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 len
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
+      
     ythis->pos = 0;
     ythis->bInsert = false;
     ythis->cDecimalSeparator = '.';
+    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    activateGC_ObjectJc(newObj0_1, null, _thCxt);
+    activateGC_ObjectJc(newObj0_2, null, _thCxt);
+    activateGC_ObjectJc(newObj0_3, null, _thCxt);
+    activateGC_ObjectJc(newObj0_4, null, _thCxt);
   }
   { 
     ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
@@ -103,10 +128,23 @@ struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc 
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
+      
     ythis->pos = 0;
     ythis->bInsert = false;
     ythis->cDecimalSeparator = '.';
+    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    activateGC_ObjectJc(newObj0_1, null, _thCxt);
+    activateGC_ObjectJc(newObj0_2, null, _thCxt);
+    activateGC_ObjectJc(newObj0_3, null, _thCxt);
+    activateGC_ObjectJc(newObj0_4, null, _thCxt);
   }
   { 
     ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
@@ -127,10 +165,23 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
+      
     ythis->pos = 0;
     ythis->bInsert = false;
     ythis->cDecimalSeparator = '.';
+    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    activateGC_ObjectJc(newObj0_1, null, _thCxt);
+    activateGC_ObjectJc(newObj0_2, null, _thCxt);
+    activateGC_ObjectJc(newObj0_3, null, _thCxt);
+    activateGC_ObjectJc(newObj0_4, null, _thCxt);
   }
   { 
     
@@ -182,6 +233,27 @@ StringJc getContent_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCx
 StringJc getContent_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
   return mtbl->getContent(ythis, _thCxt);
+}
+
+
+/**Gets the accumulated content.*/
+StringJc getBuffer_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getBuffer_StringFormatterJc_F");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return toString_StringBuilderJc(&(REFJc(ythis->buffer))->base.object, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+StringJc getBuffer_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->getBuffer(ythis, _thCxt);
 }
 
 
@@ -374,7 +446,7 @@ struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatt
     while(--maxChars >= 0)
       { 
         char cc; 
-        int32 replace1; 
+        int32 replace1 = "\n\r\f"/*J2C: no cast found from s0=char const*: ClassData@11bd80c*/; 
         
         
         cc = charAt_StringJc(str, ++postr);
@@ -1234,7 +1306,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 src, Strin
     nrofCharsForSignUnused = 0;
     bLeftZeroSuppress = false;
     
-    spPict = ctorO_S_StringPartJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringPartJc_s, 0, _thCxt)), pict, _thCxt);
+    spPict = ctorO_t_StringPartJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringPartJc_s, 0, _thCxt)), pict, _thCxt);
     posSignInPicture = indexOfAnyChar_S_StringPartJc_F(spPict, sNeg_StringFormatterJc, _thCxt);
     if(posSignInPicture >= 0) 
     { 
@@ -1554,11 +1626,123 @@ int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* ythis, float src, S
   return mtbl->addFloatPicture(ythis, src, pict, _thCxt);
 }
 
+StringJc convertTimestampToday_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 timestamp, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("convertTimestampToday_StringFormatterJc_F");
+  
+  { 
+    int64 dateNow; 
+    int64 diffTime; 
+    StringJc sDate = NULL_StringJc; 
+    
+    
+    dateNow = currentTimeMillis_SystemJc();
+    diffTime = dateNow - timestamp;
+    /*no initvalue*/
+    if(diffTime < -10 * 3600000) 
+    { 
+       //J2C: temporary Stringbuffer for String concatenation
+      StringBuilderJc* _tempString2_1=null; 
+      
+      sDate = 
+        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixNewer, _thCxt)
+        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatNewer), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
+        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        )/*J2C:non-persistent*/;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
+    }
+    else if(diffTime < 18 * 3600000) 
+    { //:files today
+      
+       //J2C: temporary Stringbuffer for String concatenation
+      StringBuilderJc* _tempString2_1=null; 
+      
+      sDate = 
+        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixToday, _thCxt)
+        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatToday), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
+        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        )/*J2C:non-persistent*/;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
+    }
+    else if(diffTime < 320 * 24 * 3600000) 
+    { 
+       //J2C: temporary Stringbuffer for String concatenation
+      StringBuilderJc* _tempString2_1=null; 
+      
+      sDate = 
+        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixYear, _thCxt)
+        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatYear), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
+        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        )/*J2C:non-persistent*/;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
+    }
+    else 
+    { 
+       //J2C: temporary Stringbuffer for String concatenation
+      StringBuilderJc* _tempString2_1=null; 
+      
+      sDate = 
+        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixOlder, _thCxt)
+        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatOlder), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
+        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        )/*J2C:non-persistent*/;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
+    }
+    { STACKTRC_LEAVE;
+      return sDate;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+StringJc convertTimestampToday_StringFormatterJc(StringFormatterJc_s* ythis, int64 timestamp, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->convertTimestampToday(ythis, timestamp, _thCxt);
+}
+
+StringJc floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("floatToText_StringFormatterJc");
+  
+  { 
+    StringJc ret = "?"/*J2C: no cast found from s0=char const*: ClassData@11bd80c*/; 
+    
+    
+    ret = z_StringJc("?")/*J2C:non-persistent*/;
+    if(val < 0.001F) 
+    { 
+      StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
+      
+      ret = _persistring2_1 = persist_StringJc(format_a_StringJc(/*static*/s0_StringJc("%1.6f"), "F", val, _thCxt))/*J2C:non-persistent*/;
+      activateGC_ObjectJc(PTR_StringJc(_persistring2_1), null, _thCxt);
+    }
+    
+    ;
+    { STACKTRC_LEAVE;
+      return ret;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
 
 void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 { StringFormatterJc_s* ythis = (StringFormatterJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_StringFormatterJc_F");
   CLEAR_REFJc(ythis->buffer);
+  CLEAR_REFJc(ythis->dateFormatNewer);
+  CLEAR_REFJc(ythis->dateFormatToday);
+  CLEAR_REFJc(ythis->dateFormatYear);
+  CLEAR_REFJc(ythis->dateFormatOlder);
   finalize_ObjectJc_F(&ythis->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
@@ -1569,9 +1753,10 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 { { sign_Mtbl_StringFormatterJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((30 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((32 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , getContent_StringFormatterJc_F //getContent
+, getBuffer_StringFormatterJc_F //getBuffer
 , setDecimalSeparator_StringFormatterJc_F //setDecimalSeparator
 , reset_StringFormatterJc_F //reset
 , end_StringFormatterJc_F //end
@@ -1601,6 +1786,7 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 , addIntPicture_StringFormatterJc_F //addIntPicture
 , strPicture_StringFormatterJc_F //strPicture
 , addFloatPicture_StringFormatterJc_F //addFloatPicture
+, convertTimestampToday_StringFormatterJc_F //convertTimestampToday
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }
@@ -1624,12 +1810,13 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
  };
 
 extern_C struct ClassJc_t const reflection_StringFormatterJc_s;
+extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_StringFormatterJc_s_t
-{ ObjectArrayJc head; FieldJc data[11];
+{ ObjectArrayJc head; FieldJc data[19];
 } reflection_Fields_StringFormatterJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &reflection_Fields_StringFormatterJc_s)
+{ CONST_ObjectArrayJc(FieldJc, 19, OBJTYPE_FieldJc, null, &reflection_Fields_StringFormatterJc_s)
 , {
      { "buffer"
     , 0 //nrofArrayElements
@@ -1660,6 +1847,70 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , REFLECTION_char
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->cDecimalSeparator) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "sDatePrefixNewer"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixNewer) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "dateFormatNewer"
+    , 0 //nrofArrayElements
+    , &reflection_SimpleDateFormatJc_s
+    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->dateFormatNewer) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "sDatePrefixToday"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixToday) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "dateFormatToday"
+    , 0 //nrofArrayElements
+    , &reflection_SimpleDateFormatJc_s
+    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->dateFormatToday) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "sDatePrefixYear"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixYear) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "dateFormatYear"
+    , 0 //nrofArrayElements
+    , &reflection_SimpleDateFormatJc_s
+    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->dateFormatYear) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "sDatePrefixOlder"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixOlder) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "dateFormatOlder"
+    , 0 //nrofArrayElements
+    , &reflection_SimpleDateFormatJc_s
+    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->dateFormatOlder) - (int32)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_StringFormatterJc_s
     }

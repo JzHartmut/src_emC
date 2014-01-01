@@ -39,11 +39,11 @@ void main()
    * In this example the blockheap-management structure is given as static data blockHeap, defined above.
    */
   init_ObjectJc(&blockHeap.base.object, sizeof(BlockHeapJc), 0);
-  MemC memHeap = alloc_MemC(0x4000);            //alloc the space for all blocks of this heap.
-  int sizeBlock = 0x400;                        //The block-size.
-  int sizeSmallBlock = 0x7c;                    //Small block size. 8 Blocks per normal block.
-  ctorO_BlockHeapJc(&blockHeap.base.object, memHeap, sizeBlock, sizeSmallBlock);
-  
+  { MemC memHeap = alloc_MemC(0x4000);            //alloc the space for all blocks of this heap.
+    int sizeBlock = 0x400;                        //The block-size.
+    int sizeSmallBlock = 0x7c;                    //Small block size. 8 Blocks per normal block.
+    ctorO_BlockHeapJc(&blockHeap.base.object, memHeap, sizeBlock, sizeSmallBlock);
+  }
   //setLogMessageStreamput_BlockHeapJc(log, 2000, _thCxt);
   
   /**This heap is used in this thread. */

@@ -47,18 +47,24 @@ CLEAN :
 	-@erase "$(INTDIR)\ConcurrentLinkedQueueJc.obj"
 	-@erase "$(INTDIR)\DateJc.obj"
 	-@erase "$(INTDIR)\fw_Exception.obj"
+	-@erase "$(INTDIR)\fw_ExceptionPrintStacktrace.obj"
 	-@erase "$(INTDIR)\fw_Formatter.obj"
 	-@erase "$(INTDIR)\fw_LogMessage.obj"
-	-@erase "$(INTDIR)\fw_LogMsgConsole.obj"
+	-@erase "$(INTDIR)\fw_LogMsgStream.obj"
 	-@erase "$(INTDIR)\fw_MemC.obj"
 	-@erase "$(INTDIR)\fw_Object.obj"
 	-@erase "$(INTDIR)\fw_PlatformConvSimpleStop.obj"
 	-@erase "$(INTDIR)\fw_SimpleC.obj"
+	-@erase "$(INTDIR)\fw_String.obj"
 	-@erase "$(INTDIR)\fw_threadContext.obj"
 	-@erase "$(INTDIR)\fw_timeconversions.obj"
 	-@erase "$(INTDIR)\LinkedListJc.obj"
+	-@erase "$(INTDIR)\LocaleJc.obj"
 	-@erase "$(INTDIR)\ObjectJc.obj"
 	-@erase "$(INTDIR)\os_atomic.obj"
+	-@erase "$(INTDIR)\os_common.obj"
+	-@erase "$(INTDIR)\os_error.obj"
+	-@erase "$(INTDIR)\os_file.obj"
 	-@erase "$(INTDIR)\os_mem.obj"
 	-@erase "$(INTDIR)\os_mutex.obj"
 	-@erase "$(INTDIR)\os_thread.obj"
@@ -66,6 +72,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Reflection_AllJc.obj"
 	-@erase "$(INTDIR)\Reflection_BlockHeap.obj"
 	-@erase "$(INTDIR)\Reflection_Fwc.obj"
+	-@erase "$(INTDIR)\Reflection_OSAL.obj"
 	-@erase "$(INTDIR)\ReflectionBaseTypesJc.obj"
 	-@erase "$(INTDIR)\ReflectionJc.obj"
 	-@erase "$(INTDIR)\StringBufferJc.obj"
@@ -87,21 +94,24 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"$(OUTDIR)\TestBlockHeap.pdb" /machine:I386 /out:"$(OUTDIR)\TestBlockHeap.exe" 
 LINK32_OBJS= \
+	"$(INTDIR)\ConcurrentLinkedQueueJc.obj" \
 	"$(INTDIR)\DateJc.obj" \
+	"$(INTDIR)\LinkedListJc.obj" \
 	"$(INTDIR)\ObjectJc.obj" \
 	"$(INTDIR)\ReflectionJc.obj" \
 	"$(INTDIR)\StringBufferJc.obj" \
 	"$(INTDIR)\StringJc.obj" \
 	"$(INTDIR)\TestBlockHeap.obj" \
 	"$(INTDIR)\TestBlockHeapMain.obj" \
+	"$(INTDIR)\TestListMap.obj" \
 	"$(INTDIR)\fw_Exception.obj" \
 	"$(INTDIR)\fw_Formatter.obj" \
 	"$(INTDIR)\fw_LogMessage.obj" \
-	"$(INTDIR)\fw_LogMsgConsole.obj" \
 	"$(INTDIR)\fw_MemC.obj" \
 	"$(INTDIR)\fw_Object.obj" \
 	"$(INTDIR)\fw_SimpleC.obj" \
 	"$(INTDIR)\fw_threadContext.obj" \
+	"$(INTDIR)\fw_timeconversions.obj" \
 	"$(INTDIR)\os_atomic.obj" \
 	"$(INTDIR)\os_mem.obj" \
 	"$(INTDIR)\os_mutex.obj" \
@@ -115,10 +125,14 @@ LINK32_OBJS= \
 	"$(INTDIR)\BlockHeapJc_GarbageCol.obj" \
 	"$(INTDIR)\BlockHeapJc_References.obj" \
 	"$(INTDIR)\Reflection_BlockHeap.obj" \
-	"$(INTDIR)\TestListMap.obj" \
-	"$(INTDIR)\LinkedListJc.obj" \
-	"$(INTDIR)\fw_timeconversions.obj" \
-	"$(INTDIR)\ConcurrentLinkedQueueJc.obj"
+	"$(INTDIR)\fw_LogMsgStream.obj" \
+	"$(INTDIR)\fw_String.obj" \
+	"$(INTDIR)\os_error.obj" \
+	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
+	"$(INTDIR)\os_file.obj" \
+	"$(INTDIR)\os_common.obj" \
+	"$(INTDIR)\Reflection_OSAL.obj" \
+	"$(INTDIR)\LocaleJc.obj"
 
 "$(OUTDIR)\TestBlockHeap.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -127,10 +141,10 @@ LINK32_OBJS= \
 
 !ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
 
-OUTDIR=T:\Jc\TestBlockHeap_C
-INTDIR=T:\Jc\TestBlockHeap_C
+OUTDIR=.\..\..\..\..\tmp_javac\TestBlockHeap_C
+INTDIR=.\..\..\..\..\tmp_javac\TestBlockHeap_C
 # Begin Custom Macros
-OutDir=T:\Jc\TestBlockHeap_C
+OutDir=.\..\..\..\..\tmp_javac\TestBlockHeap_C
 # End Custom Macros
 
 ALL : "$(OUTDIR)\TestBlockHeap.exe" "$(OUTDIR)\TestBlockHeap.bsc"
@@ -149,12 +163,14 @@ CLEAN :
 	-@erase "$(INTDIR)\DateJc.sbr"
 	-@erase "$(INTDIR)\fw_Exception.obj"
 	-@erase "$(INTDIR)\fw_Exception.sbr"
+	-@erase "$(INTDIR)\fw_ExceptionPrintStacktrace.obj"
+	-@erase "$(INTDIR)\fw_ExceptionPrintStacktrace.sbr"
 	-@erase "$(INTDIR)\fw_Formatter.obj"
 	-@erase "$(INTDIR)\fw_Formatter.sbr"
 	-@erase "$(INTDIR)\fw_LogMessage.obj"
 	-@erase "$(INTDIR)\fw_LogMessage.sbr"
-	-@erase "$(INTDIR)\fw_LogMsgConsole.obj"
-	-@erase "$(INTDIR)\fw_LogMsgConsole.sbr"
+	-@erase "$(INTDIR)\fw_LogMsgStream.obj"
+	-@erase "$(INTDIR)\fw_LogMsgStream.sbr"
 	-@erase "$(INTDIR)\fw_MemC.obj"
 	-@erase "$(INTDIR)\fw_MemC.sbr"
 	-@erase "$(INTDIR)\fw_Object.obj"
@@ -163,16 +179,26 @@ CLEAN :
 	-@erase "$(INTDIR)\fw_PlatformConvSimpleStop.sbr"
 	-@erase "$(INTDIR)\fw_SimpleC.obj"
 	-@erase "$(INTDIR)\fw_SimpleC.sbr"
+	-@erase "$(INTDIR)\fw_String.obj"
+	-@erase "$(INTDIR)\fw_String.sbr"
 	-@erase "$(INTDIR)\fw_threadContext.obj"
 	-@erase "$(INTDIR)\fw_threadContext.sbr"
 	-@erase "$(INTDIR)\fw_timeconversions.obj"
 	-@erase "$(INTDIR)\fw_timeconversions.sbr"
 	-@erase "$(INTDIR)\LinkedListJc.obj"
 	-@erase "$(INTDIR)\LinkedListJc.sbr"
+	-@erase "$(INTDIR)\LocaleJc.obj"
+	-@erase "$(INTDIR)\LocaleJc.sbr"
 	-@erase "$(INTDIR)\ObjectJc.obj"
 	-@erase "$(INTDIR)\ObjectJc.sbr"
 	-@erase "$(INTDIR)\os_atomic.obj"
 	-@erase "$(INTDIR)\os_atomic.sbr"
+	-@erase "$(INTDIR)\os_common.obj"
+	-@erase "$(INTDIR)\os_common.sbr"
+	-@erase "$(INTDIR)\os_error.obj"
+	-@erase "$(INTDIR)\os_error.sbr"
+	-@erase "$(INTDIR)\os_file.obj"
+	-@erase "$(INTDIR)\os_file.sbr"
 	-@erase "$(INTDIR)\os_mem.obj"
 	-@erase "$(INTDIR)\os_mem.sbr"
 	-@erase "$(INTDIR)\os_mutex.obj"
@@ -187,6 +213,8 @@ CLEAN :
 	-@erase "$(INTDIR)\Reflection_BlockHeap.sbr"
 	-@erase "$(INTDIR)\Reflection_Fwc.obj"
 	-@erase "$(INTDIR)\Reflection_Fwc.sbr"
+	-@erase "$(INTDIR)\Reflection_OSAL.obj"
+	-@erase "$(INTDIR)\Reflection_OSAL.sbr"
 	-@erase "$(INTDIR)\ReflectionBaseTypesJc.obj"
 	-@erase "$(INTDIR)\ReflectionBaseTypesJc.sbr"
 	-@erase "$(INTDIR)\StringBufferJc.obj"
@@ -209,24 +237,27 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /Zp1 /MLd /W3 /Gm /GX /ZI /Od /X /I ".." /I "../FwConvNoBheapC" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/os_Windows" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FAcs /Fa"$(INTDIR)\\" /FR"$(INTDIR)\\" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
+CPP_PROJ=/nologo /Zp1 /MLd /W3 /Gm /GX /ZI /Od /I "../../includeSpecials/os_Windows_Msc6" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FAcs /Fa"$(INTDIR)\\" /FR"$(INTDIR)\\" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\TestBlockHeap.bsc" 
 BSC32_SBRS= \
+	"$(INTDIR)\ConcurrentLinkedQueueJc.sbr" \
 	"$(INTDIR)\DateJc.sbr" \
+	"$(INTDIR)\LinkedListJc.sbr" \
 	"$(INTDIR)\ObjectJc.sbr" \
 	"$(INTDIR)\StringBufferJc.sbr" \
 	"$(INTDIR)\StringJc.sbr" \
 	"$(INTDIR)\TestBlockHeap.sbr" \
 	"$(INTDIR)\TestBlockHeapMain.sbr" \
+	"$(INTDIR)\TestListMap.sbr" \
 	"$(INTDIR)\fw_Exception.sbr" \
 	"$(INTDIR)\fw_Formatter.sbr" \
 	"$(INTDIR)\fw_LogMessage.sbr" \
-	"$(INTDIR)\fw_LogMsgConsole.sbr" \
 	"$(INTDIR)\fw_MemC.sbr" \
 	"$(INTDIR)\fw_Object.sbr" \
 	"$(INTDIR)\fw_SimpleC.sbr" \
 	"$(INTDIR)\fw_threadContext.sbr" \
+	"$(INTDIR)\fw_timeconversions.sbr" \
 	"$(INTDIR)\os_atomic.sbr" \
 	"$(INTDIR)\os_mem.sbr" \
 	"$(INTDIR)\os_mutex.sbr" \
@@ -240,10 +271,14 @@ BSC32_SBRS= \
 	"$(INTDIR)\BlockHeapJc_GarbageCol.sbr" \
 	"$(INTDIR)\BlockHeapJc_References.sbr" \
 	"$(INTDIR)\Reflection_BlockHeap.sbr" \
-	"$(INTDIR)\TestListMap.sbr" \
-	"$(INTDIR)\LinkedListJc.sbr" \
-	"$(INTDIR)\fw_timeconversions.sbr" \
-	"$(INTDIR)\ConcurrentLinkedQueueJc.sbr"
+	"$(INTDIR)\fw_LogMsgStream.sbr" \
+	"$(INTDIR)\fw_String.sbr" \
+	"$(INTDIR)\os_error.sbr" \
+	"$(INTDIR)\fw_ExceptionPrintStacktrace.sbr" \
+	"$(INTDIR)\os_file.sbr" \
+	"$(INTDIR)\os_common.sbr" \
+	"$(INTDIR)\Reflection_OSAL.sbr" \
+	"$(INTDIR)\LocaleJc.sbr"
 
 "$(OUTDIR)\TestBlockHeap.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -253,20 +288,23 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"$(OUTDIR)\TestBlockHeap.pdb" /map:"$(INTDIR)\TestBlockHeap.map" /debug /machine:I386 /out:"$(OUTDIR)\TestBlockHeap.exe" /pdbtype:sept /libpath:"D:\Progs\MSC6\act\Microsoft Visual Studio\VC98\Lib" 
 LINK32_OBJS= \
+	"$(INTDIR)\ConcurrentLinkedQueueJc.obj" \
 	"$(INTDIR)\DateJc.obj" \
+	"$(INTDIR)\LinkedListJc.obj" \
 	"$(INTDIR)\ObjectJc.obj" \
 	"$(INTDIR)\StringBufferJc.obj" \
 	"$(INTDIR)\StringJc.obj" \
 	"$(INTDIR)\TestBlockHeap.obj" \
 	"$(INTDIR)\TestBlockHeapMain.obj" \
+	"$(INTDIR)\TestListMap.obj" \
 	"$(INTDIR)\fw_Exception.obj" \
 	"$(INTDIR)\fw_Formatter.obj" \
 	"$(INTDIR)\fw_LogMessage.obj" \
-	"$(INTDIR)\fw_LogMsgConsole.obj" \
 	"$(INTDIR)\fw_MemC.obj" \
 	"$(INTDIR)\fw_Object.obj" \
 	"$(INTDIR)\fw_SimpleC.obj" \
 	"$(INTDIR)\fw_threadContext.obj" \
+	"$(INTDIR)\fw_timeconversions.obj" \
 	"$(INTDIR)\os_atomic.obj" \
 	"$(INTDIR)\os_mem.obj" \
 	"$(INTDIR)\os_mutex.obj" \
@@ -280,10 +318,14 @@ LINK32_OBJS= \
 	"$(INTDIR)\BlockHeapJc_GarbageCol.obj" \
 	"$(INTDIR)\BlockHeapJc_References.obj" \
 	"$(INTDIR)\Reflection_BlockHeap.obj" \
-	"$(INTDIR)\TestListMap.obj" \
-	"$(INTDIR)\LinkedListJc.obj" \
-	"$(INTDIR)\fw_timeconversions.obj" \
-	"$(INTDIR)\ConcurrentLinkedQueueJc.obj"
+	"$(INTDIR)\fw_LogMsgStream.obj" \
+	"$(INTDIR)\fw_String.obj" \
+	"$(INTDIR)\os_error.obj" \
+	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
+	"$(INTDIR)\os_file.obj" \
+	"$(INTDIR)\os_common.obj" \
+	"$(INTDIR)\Reflection_OSAL.obj" \
+	"$(INTDIR)\LocaleJc.obj"
 
 "$(OUTDIR)\TestBlockHeap.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -292,10 +334,10 @@ LINK32_OBJS= \
 
 !ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
 
-OUTDIR=T:\Jc\TestBlockHeap
-INTDIR=T:\Jc\TestBlockHeap
+OUTDIR=.\..\..\..\..\tmp_javac\TestBlockHeap_cpp
+INTDIR=.\..\..\..\..\tmp_javac\TestBlockHeap_cpp
 # Begin Custom Macros
-OutDir=T:\Jc\TestBlockHeap
+OutDir=.\..\..\..\..\tmp_javac\TestBlockHeap_cpp
 # End Custom Macros
 
 ALL : "$(OUTDIR)\TestBlockHeap.exe" "$(OUTDIR)\TestBlockHeap.bsc"
@@ -314,12 +356,14 @@ CLEAN :
 	-@erase "$(INTDIR)\DateJc.sbr"
 	-@erase "$(INTDIR)\fw_Exception.obj"
 	-@erase "$(INTDIR)\fw_Exception.sbr"
+	-@erase "$(INTDIR)\fw_ExceptionPrintStacktrace.obj"
+	-@erase "$(INTDIR)\fw_ExceptionPrintStacktrace.sbr"
 	-@erase "$(INTDIR)\fw_Formatter.obj"
 	-@erase "$(INTDIR)\fw_Formatter.sbr"
 	-@erase "$(INTDIR)\fw_LogMessage.obj"
 	-@erase "$(INTDIR)\fw_LogMessage.sbr"
-	-@erase "$(INTDIR)\fw_LogMsgConsole.obj"
-	-@erase "$(INTDIR)\fw_LogMsgConsole.sbr"
+	-@erase "$(INTDIR)\fw_LogMsgStream.obj"
+	-@erase "$(INTDIR)\fw_LogMsgStream.sbr"
 	-@erase "$(INTDIR)\fw_MemC.obj"
 	-@erase "$(INTDIR)\fw_MemC.sbr"
 	-@erase "$(INTDIR)\fw_Object.obj"
@@ -328,16 +372,26 @@ CLEAN :
 	-@erase "$(INTDIR)\fw_PlatformConvSimpleStop.sbr"
 	-@erase "$(INTDIR)\fw_SimpleC.obj"
 	-@erase "$(INTDIR)\fw_SimpleC.sbr"
+	-@erase "$(INTDIR)\fw_String.obj"
+	-@erase "$(INTDIR)\fw_String.sbr"
 	-@erase "$(INTDIR)\fw_threadContext.obj"
 	-@erase "$(INTDIR)\fw_threadContext.sbr"
 	-@erase "$(INTDIR)\fw_timeconversions.obj"
 	-@erase "$(INTDIR)\fw_timeconversions.sbr"
 	-@erase "$(INTDIR)\LinkedListJc.obj"
 	-@erase "$(INTDIR)\LinkedListJc.sbr"
+	-@erase "$(INTDIR)\LocaleJc.obj"
+	-@erase "$(INTDIR)\LocaleJc.sbr"
 	-@erase "$(INTDIR)\ObjectJc.obj"
 	-@erase "$(INTDIR)\ObjectJc.sbr"
 	-@erase "$(INTDIR)\os_atomic.obj"
 	-@erase "$(INTDIR)\os_atomic.sbr"
+	-@erase "$(INTDIR)\os_common.obj"
+	-@erase "$(INTDIR)\os_common.sbr"
+	-@erase "$(INTDIR)\os_error.obj"
+	-@erase "$(INTDIR)\os_error.sbr"
+	-@erase "$(INTDIR)\os_file.obj"
+	-@erase "$(INTDIR)\os_file.sbr"
 	-@erase "$(INTDIR)\os_mem.obj"
 	-@erase "$(INTDIR)\os_mem.sbr"
 	-@erase "$(INTDIR)\os_mutex.obj"
@@ -352,6 +406,8 @@ CLEAN :
 	-@erase "$(INTDIR)\Reflection_BlockHeap.sbr"
 	-@erase "$(INTDIR)\Reflection_Fwc.obj"
 	-@erase "$(INTDIR)\Reflection_Fwc.sbr"
+	-@erase "$(INTDIR)\Reflection_OSAL.obj"
+	-@erase "$(INTDIR)\Reflection_OSAL.sbr"
 	-@erase "$(INTDIR)\ReflectionBaseTypesJc.obj"
 	-@erase "$(INTDIR)\ReflectionBaseTypesJc.sbr"
 	-@erase "$(INTDIR)\StringBufferJc.obj"
@@ -374,24 +430,27 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od /I ".." /I "../../CRuntimeJavalike/FwConvCpp" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/os_Windows" /I "../../CRuntimeJavalike" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TestBlockHeap.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /TP /c 
+CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od /I ".." /I "../../CRuntimeJavalike/FwConvCpp" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/includeSpecials/os_Windows" /I "../../CRuntimeJavalike" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TestBlockHeap.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /TP /c 
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\TestBlockHeap.bsc" 
 BSC32_SBRS= \
+	"$(INTDIR)\ConcurrentLinkedQueueJc.sbr" \
 	"$(INTDIR)\DateJc.sbr" \
+	"$(INTDIR)\LinkedListJc.sbr" \
 	"$(INTDIR)\ObjectJc.sbr" \
 	"$(INTDIR)\StringBufferJc.sbr" \
 	"$(INTDIR)\StringJc.sbr" \
 	"$(INTDIR)\TestBlockHeap.sbr" \
 	"$(INTDIR)\TestBlockHeapMain.sbr" \
+	"$(INTDIR)\TestListMap.sbr" \
 	"$(INTDIR)\fw_Exception.sbr" \
 	"$(INTDIR)\fw_Formatter.sbr" \
 	"$(INTDIR)\fw_LogMessage.sbr" \
-	"$(INTDIR)\fw_LogMsgConsole.sbr" \
 	"$(INTDIR)\fw_MemC.sbr" \
 	"$(INTDIR)\fw_Object.sbr" \
 	"$(INTDIR)\fw_SimpleC.sbr" \
 	"$(INTDIR)\fw_threadContext.sbr" \
+	"$(INTDIR)\fw_timeconversions.sbr" \
 	"$(INTDIR)\os_atomic.sbr" \
 	"$(INTDIR)\os_mem.sbr" \
 	"$(INTDIR)\os_mutex.sbr" \
@@ -405,10 +464,14 @@ BSC32_SBRS= \
 	"$(INTDIR)\BlockHeapJc_GarbageCol.sbr" \
 	"$(INTDIR)\BlockHeapJc_References.sbr" \
 	"$(INTDIR)\Reflection_BlockHeap.sbr" \
-	"$(INTDIR)\TestListMap.sbr" \
-	"$(INTDIR)\LinkedListJc.sbr" \
-	"$(INTDIR)\fw_timeconversions.sbr" \
-	"$(INTDIR)\ConcurrentLinkedQueueJc.sbr"
+	"$(INTDIR)\fw_LogMsgStream.sbr" \
+	"$(INTDIR)\fw_String.sbr" \
+	"$(INTDIR)\os_error.sbr" \
+	"$(INTDIR)\fw_ExceptionPrintStacktrace.sbr" \
+	"$(INTDIR)\os_file.sbr" \
+	"$(INTDIR)\os_common.sbr" \
+	"$(INTDIR)\Reflection_OSAL.sbr" \
+	"$(INTDIR)\LocaleJc.sbr"
 
 "$(OUTDIR)\TestBlockHeap.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -418,20 +481,23 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"$(OUTDIR)\TestBlockHeap.pdb" /debug /machine:I386 /out:"$(OUTDIR)\TestBlockHeap.exe" /pdbtype:sept 
 LINK32_OBJS= \
+	"$(INTDIR)\ConcurrentLinkedQueueJc.obj" \
 	"$(INTDIR)\DateJc.obj" \
+	"$(INTDIR)\LinkedListJc.obj" \
 	"$(INTDIR)\ObjectJc.obj" \
 	"$(INTDIR)\StringBufferJc.obj" \
 	"$(INTDIR)\StringJc.obj" \
 	"$(INTDIR)\TestBlockHeap.obj" \
 	"$(INTDIR)\TestBlockHeapMain.obj" \
+	"$(INTDIR)\TestListMap.obj" \
 	"$(INTDIR)\fw_Exception.obj" \
 	"$(INTDIR)\fw_Formatter.obj" \
 	"$(INTDIR)\fw_LogMessage.obj" \
-	"$(INTDIR)\fw_LogMsgConsole.obj" \
 	"$(INTDIR)\fw_MemC.obj" \
 	"$(INTDIR)\fw_Object.obj" \
 	"$(INTDIR)\fw_SimpleC.obj" \
 	"$(INTDIR)\fw_threadContext.obj" \
+	"$(INTDIR)\fw_timeconversions.obj" \
 	"$(INTDIR)\os_atomic.obj" \
 	"$(INTDIR)\os_mem.obj" \
 	"$(INTDIR)\os_mutex.obj" \
@@ -445,10 +511,14 @@ LINK32_OBJS= \
 	"$(INTDIR)\BlockHeapJc_GarbageCol.obj" \
 	"$(INTDIR)\BlockHeapJc_References.obj" \
 	"$(INTDIR)\Reflection_BlockHeap.obj" \
-	"$(INTDIR)\TestListMap.obj" \
-	"$(INTDIR)\LinkedListJc.obj" \
-	"$(INTDIR)\fw_timeconversions.obj" \
-	"$(INTDIR)\ConcurrentLinkedQueueJc.obj"
+	"$(INTDIR)\fw_LogMsgStream.obj" \
+	"$(INTDIR)\fw_String.obj" \
+	"$(INTDIR)\os_error.obj" \
+	"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" \
+	"$(INTDIR)\os_file.obj" \
+	"$(INTDIR)\os_common.obj" \
+	"$(INTDIR)\Reflection_OSAL.obj" \
+	"$(INTDIR)\LocaleJc.obj"
 
 "$(OUTDIR)\TestBlockHeap.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -498,7 +568,7 @@ LINK32_OBJS= \
 
 
 !IF "$(CFG)" == "TestBlockHeap - Win32 Release" || "$(CFG)" == "TestBlockHeap - Win32 Debug_C" || "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
-SOURCE=..\..\CRuntimeJavalike\Jc\ConcurrentLinkedQueueJc.c
+SOURCE=..\..\source\Jc\ConcurrentLinkedQueueJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -523,7 +593,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\ConcurrentLinkedQueueJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\DateJc.c
+SOURCE=..\..\source\Jc\DateJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -548,7 +618,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\DateJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\LinkedListJc.c
+SOURCE=..\..\source\Jc\LinkedListJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -573,7 +643,32 @@ SOURCE=..\..\CRuntimeJavalike\Jc\LinkedListJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ObjectJc.c
+SOURCE=..\..\source\Jc\LocaleJc.c
+
+!IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
+
+
+"$(INTDIR)\LocaleJc.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
+
+
+"$(INTDIR)\LocaleJc.obj"	"$(INTDIR)\LocaleJc.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
+
+
+"$(INTDIR)\LocaleJc.obj"	"$(INTDIR)\LocaleJc.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\source\Jc\ObjectJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -598,7 +693,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\ObjectJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionJc.c
+SOURCE=..\..\source\Jc\ReflectionJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -613,7 +708,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\StringBufferJc.c
+SOURCE=..\..\source\Jc\StringBufferJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -638,7 +733,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\StringBufferJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\StringJc.c
+SOURCE=..\..\source\Jc\StringJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -738,7 +833,7 @@ SOURCE=.\src\TestListMap.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Exception.c
+SOURCE=..\..\source\Fwc\fw_Exception.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -763,7 +858,32 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Exception.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Formatter.c
+SOURCE=..\..\source\Fwc\fw_ExceptionPrintStacktrace.c
+
+!IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
+
+
+"$(INTDIR)\fw_ExceptionPrintStacktrace.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
+
+
+"$(INTDIR)\fw_ExceptionPrintStacktrace.obj"	"$(INTDIR)\fw_ExceptionPrintStacktrace.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
+
+
+"$(INTDIR)\fw_ExceptionPrintStacktrace.obj"	"$(INTDIR)\fw_ExceptionPrintStacktrace.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\source\Fwc\fw_Formatter.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -788,7 +908,7 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Formatter.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_LogMessage.c
+SOURCE=..\..\source\Fwc\fw_LogMessage.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -813,32 +933,32 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_LogMessage.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_LogMsgConsole.c
+SOURCE=..\..\source\Fwc\fw_LogMsgStream.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
 
-"$(INTDIR)\fw_LogMsgConsole.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\fw_LogMsgStream.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
 
 
-"$(INTDIR)\fw_LogMsgConsole.obj"	"$(INTDIR)\fw_LogMsgConsole.sbr" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\fw_LogMsgStream.obj"	"$(INTDIR)\fw_LogMsgStream.sbr" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
 
 
-"$(INTDIR)\fw_LogMsgConsole.obj"	"$(INTDIR)\fw_LogMsgConsole.sbr" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\fw_LogMsgStream.obj"	"$(INTDIR)\fw_LogMsgStream.sbr" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_MemC.c
+SOURCE=..\..\source\Fwc\fw_MemC.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -863,7 +983,7 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_MemC.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Object.c
+SOURCE=..\..\source\Fwc\fw_Object.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -888,7 +1008,7 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Object.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_SimpleC.c
+SOURCE=..\..\source\Fwc\fw_SimpleC.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -913,7 +1033,32 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_SimpleC.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_threadContext.c
+SOURCE=..\..\source\Fwc\fw_String.c
+
+!IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
+
+
+"$(INTDIR)\fw_String.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
+
+
+"$(INTDIR)\fw_String.obj"	"$(INTDIR)\fw_String.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
+
+
+"$(INTDIR)\fw_String.obj"	"$(INTDIR)\fw_String.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\source\Fwc\fw_threadContext.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -938,7 +1083,7 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_threadContext.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_timeconversions.c
+SOURCE=..\..\source\Fwc\fw_timeconversions.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -963,7 +1108,7 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\fw_timeconversions.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_atomic.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_atomic.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -988,7 +1133,82 @@ SOURCE=..\..\CRuntimeJavalike\os_Windows\os_atomic.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_mem.c
+SOURCE=..\..\source\OSAL\os_common.c
+
+!IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
+
+
+"$(INTDIR)\os_common.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
+
+
+"$(INTDIR)\os_common.obj"	"$(INTDIR)\os_common.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
+
+
+"$(INTDIR)\os_common.obj"	"$(INTDIR)\os_common.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_error.c
+
+!IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
+
+
+"$(INTDIR)\os_error.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
+
+
+"$(INTDIR)\os_error.obj"	"$(INTDIR)\os_error.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
+
+
+"$(INTDIR)\os_error.obj"	"$(INTDIR)\os_error.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_file.c
+
+!IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
+
+
+"$(INTDIR)\os_file.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
+
+
+"$(INTDIR)\os_file.obj"	"$(INTDIR)\os_file.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
+
+
+"$(INTDIR)\os_file.obj"	"$(INTDIR)\os_file.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mem.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1013,7 +1233,7 @@ SOURCE=..\..\CRuntimeJavalike\os_Windows\os_mem.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_mutex.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mutex.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1038,7 +1258,7 @@ SOURCE=..\..\CRuntimeJavalike\os_Windows\os_mutex.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_thread.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_thread.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1063,7 +1283,7 @@ SOURCE=..\..\CRuntimeJavalike\os_Windows\os_thread.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_time.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_time.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1088,7 +1308,7 @@ SOURCE=..\..\CRuntimeJavalike\os_Windows\os_time.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\Reflection_AllJc.c
+SOURCE=..\..\source\Jc\Reflection_AllJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1113,7 +1333,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\Reflection_AllJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\Reflection_Fwc.c
+SOURCE=..\..\source\Fwc\Reflection_Fwc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1138,7 +1358,32 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\Reflection_Fwc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionBaseTypesJc.c
+SOURCE=..\..\source\OSAL\Reflection_OSAL.c
+
+!IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
+
+
+"$(INTDIR)\Reflection_OSAL.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 Debug_C"
+
+
+"$(INTDIR)\Reflection_OSAL.obj"	"$(INTDIR)\Reflection_OSAL.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ELSEIF  "$(CFG)" == "TestBlockHeap - Win32 DebugCpp"
+
+
+"$(INTDIR)\Reflection_OSAL.obj"	"$(INTDIR)\Reflection_OSAL.sbr" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+!ENDIF 
+
+SOURCE=..\..\source\Jc\ReflectionBaseTypesJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1163,7 +1408,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionBaseTypesJc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\FwConv\fw_PlatformConvSimpleStop.c
+SOURCE=..\..\source\FwConv\fw_PlatformConvSimpleStop.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1188,7 +1433,7 @@ SOURCE=..\..\CRuntimeJavalike\FwConv\fw_PlatformConvSimpleStop.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_Alloc.c
+SOURCE=..\..\source\BlockHeap\BlockHeapJc_Alloc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1213,7 +1458,7 @@ SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_Alloc.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_GarbageCol.c
+SOURCE=..\..\source\BlockHeap\BlockHeapJc_GarbageCol.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1238,7 +1483,7 @@ SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_GarbageCol.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_References.c
+SOURCE=..\..\source\BlockHeap\BlockHeapJc_References.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -1263,7 +1508,7 @@ SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_References.c
 
 !ENDIF 
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\Reflection_BlockHeap.c
+SOURCE=..\..\source\BlockHeap\Reflection_BlockHeap.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 

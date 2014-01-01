@@ -61,13 +61,13 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "T:\Jc\TestBlockHeap_C"
-# PROP Intermediate_Dir "T:\Jc\TestBlockHeap_C"
+# PROP Output_Dir "..\..\..\..\tmp_javac\TestBlockHeap_C"
+# PROP Intermediate_Dir "..\..\..\..\tmp_javac\TestBlockHeap_C"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /I ".." /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
-# ADD CPP /nologo /Zp1 /W3 /Gm /GX /ZI /Od /X /I ".." /I "../FwConvNoBheapC" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/os_Windows" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FAcs /FR /FD /GZ /c
-# SUBTRACT CPP /YX
+# ADD CPP /nologo /Zp1 /W3 /Gm /GX /ZI /Od /I "../../includeSpecials/os_Windows_Msc6" /I "../../includeSpecials/FwConvC32" /I "../../include/OSAL" /I "../../include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FAcs /FR /FD /GZ /c
+# SUBTRACT CPP /X /YX
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /x /d "_DEBUG"
 BSC32=bscmake.exe
@@ -87,11 +87,11 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "T:\Jc\TestBlockHeap"
-# PROP Intermediate_Dir "T:\Jc\TestBlockHeap"
+# PROP Output_Dir "..\..\..\..\tmp_javac\TestBlockHeap_cpp"
+# PROP Intermediate_Dir "..\..\..\..\tmp_javac\TestBlockHeap_cpp"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /I ".." /I "../../CRuntimeJavalike/FwConvCpp" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/os_Windows" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I ".." /I "../../CRuntimeJavalike/FwConvCpp" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/os_Windows" /I "../../CRuntimeJavalike" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /I ".." /I "../../CRuntimeJavalike/FwConvCpp" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/includeSpecials/os_Windows" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I ".." /I "../../CRuntimeJavalike/FwConvCpp" /I "../../CRuntimeJavalike/OSAL/inc" /I "../../CRuntimeJavalike/includeSpecials/os_Windows" /I "../../CRuntimeJavalike" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -116,47 +116,51 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\AbstractListJc.h
+SOURCE=..\..\include\Jc\AbstractListJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ConcurrentLinkedQueueJc.c
+SOURCE=..\..\source\Jc\ConcurrentLinkedQueueJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ConcurrentLinkedQueueJc.h
+SOURCE=..\..\include\Jc\ConcurrentLinkedQueueJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\DateJc.c
+SOURCE=..\..\source\Jc\DateJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\DateJc.h
+SOURCE=..\..\include\Jc\DateJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\LinkedListJc.c
+SOURCE=..\..\source\Jc\LinkedListJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\LinkedListJc.h
+SOURCE=..\..\include\Jc\LinkedListJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ListMapEntryJc.h
+SOURCE=..\..\include\Jc\ListMapEntryJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ObjectJc.c
+SOURCE=..\..\source\Jc\LocaleJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ObjectJc.h
+SOURCE=..\..\source\Jc\ObjectJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionJc.c
+SOURCE=..\..\include\Jc\ObjectJc.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\source\Jc\ReflectionJc.c
 
 !IF  "$(CFG)" == "TestBlockHeap - Win32 Release"
 
@@ -175,19 +179,19 @@ SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\StringBufferJc.c
+SOURCE=..\..\source\Jc\StringBufferJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\StringJc.c
+SOURCE=..\..\source\Jc\StringJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\StringJc.h
+SOURCE=..\..\include\Jc\StringJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\StringJc_intern.h
+SOURCE=..\..\include\Jc\StringJc_intern.h
 # End Source File
 # End Group
 # Begin Group "Test"
@@ -219,71 +223,79 @@ SOURCE=.\src\TestListMap.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Exception.c
+SOURCE=..\..\source\Fwc\fw_Exception.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Exception.h
+SOURCE=..\..\include\Fwc\fw_Exception.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Formatter.c
+SOURCE=..\..\source\Fwc\fw_ExceptionPrintStacktrace.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Formatter.h
+SOURCE=..\..\source\Fwc\fw_Formatter.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_LogMessage.c
+SOURCE=..\..\include\Fwc\fw_Formatter.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_LogMessage.h
+SOURCE=..\..\source\Fwc\fw_LogMessage.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_LogMsgConsole.c
+SOURCE=..\..\include\Fwc\fw_LogMessage.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_MemC.c
+SOURCE=..\..\source\Fwc\fw_LogMsgStream.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_MemC.h
+SOURCE=..\..\source\Fwc\fw_MemC.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_Object.c
+SOURCE=..\..\include\Fwc\fw_MemC.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_SimpleC.c
+SOURCE=..\..\source\Fwc\fw_Object.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_SimpleC.h
+SOURCE=..\..\source\Fwc\fw_SimpleC.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_String.h
+SOURCE=..\..\include\Fwc\fw_SimpleC.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_threadContext.c
+SOURCE=..\..\source\Fwc\fw_String.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_ThreadContext.h
+SOURCE=..\..\include\Fwc\fw_String.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\fw_timeconversions.c
+SOURCE=..\..\source\Fwc\fw_threadContext.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\objectBaseC.h
+SOURCE=..\..\include\Fwc\fw_ThreadContext.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\source\Fwc\fw_timeconversions.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\include\Fwc\objectBaseC.h
 # End Source File
 # End Group
 # Begin Group "OSAL"
@@ -291,23 +303,35 @@ SOURCE=..\..\CRuntimeJavalike\Fwc\objectBaseC.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_atomic.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_atomic.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_mem.c
+SOURCE=..\..\source\OSAL\os_common.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_mutex.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_error.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_thread.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_file.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\os_Windows\os_time.c
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mem.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_mutex.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_thread.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sourceSpecials\os_Windows_Msc6\os_time.c
 # End Source File
 # End Group
 # Begin Group "Reflection"
@@ -315,15 +339,19 @@ SOURCE=..\..\CRuntimeJavalike\os_Windows\os_time.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\Reflection_AllJc.c
+SOURCE=..\..\source\Jc\Reflection_AllJc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Fwc\Reflection_Fwc.c
+SOURCE=..\..\source\Fwc\Reflection_Fwc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionBaseTypesJc.c
+SOURCE=..\..\source\OSAL\Reflection_OSAL.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\source\Jc\ReflectionBaseTypesJc.c
 # End Source File
 # End Group
 # Begin Group "FwConv"
@@ -331,7 +359,7 @@ SOURCE=..\..\CRuntimeJavalike\Jc\ReflectionBaseTypesJc.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\FwConv\fw_PlatformConvSimpleStop.c
+SOURCE=..\..\source\FwConv\fw_PlatformConvSimpleStop.c
 # End Source File
 # End Group
 # Begin Group "BlockHeap"
@@ -339,35 +367,35 @@ SOURCE=..\..\CRuntimeJavalike\FwConv\fw_PlatformConvSimpleStop.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc.h
+SOURCE=..\..\include\BlockHeap\BlockHeapJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_admin.h
+SOURCE=..\..\include\BlockHeap\BlockHeapJc_admin.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_Alloc.c
+SOURCE=..\..\source\BlockHeap\BlockHeapJc_Alloc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_GarbageCol.c
+SOURCE=..\..\source\BlockHeap\BlockHeapJc_GarbageCol.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_internal.h
+SOURCE=..\..\include\BlockHeap\BlockHeapJc_internal.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\BlockHeapJc_References.c
+SOURCE=..\..\source\BlockHeap\BlockHeapJc_References.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\Reflection_BlockHeap.c
+SOURCE=..\..\source\BlockHeap\Reflection_BlockHeap.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\CRuntimeJavalike\BlockHeap\Reflection_BlockHeap.h
+SOURCE=..\..\include\BlockHeap\Reflection_BlockHeap.h
 # End Source File
 # End Group
 # End Group

@@ -1652,8 +1652,8 @@ const struct Reflection_Fields_FileOutputStreamJc_s_t
 , {
     { "file"
     , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , REFLECTION_int
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileOutputStreamJc_s*)(0x1000))->file) -(int32)(FileOutputStreamJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileOutputStreamJc_s
@@ -1685,8 +1685,8 @@ const struct Reflection_Fields_FileWriterJc_s_t
 , {
     { "file"
     , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , REFLECTION_int
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileWriterJc_s*)(0x1000))->file) -(int32)(FileWriterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileWriterJc_s
@@ -1727,8 +1727,8 @@ const struct Reflection_Fields_FileReaderJc_s_t
     }
   , { "file_"
     , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , REFLECTION_int
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->file_) -(int32)(FileReaderJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileReaderJc_s

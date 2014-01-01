@@ -6,7 +6,8 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Jc/StringJc.h"  //embedded type in class data
+#include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
+#include "Jc/StringJc.h"  //string assignment
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -55,14 +56,14 @@ StringJc resolveCircumScription_SpecialCharStringsJc(/*static*/ StringJc src, Th
   STACKTRC_TENTRY("resolveCircumScription_SpecialCharStringsJc");
   
   { 
-    StringJc sResult = NULL_StringJc; 
+    StringJc sResult; 
     char cSwitch = '\\'; 
     int32 posSwitch; 
     
     
     /*no initvalue*/
     cSwitch = '\\';
-    posSwitch = indexOf_C_StringJc(src, cSwitch);
+    posSwitch = indexOf_tci_StringFunctionsJc(/*static*/src, cSwitch, 0, _thCxt);
     if(posSwitch < 0) 
     { 
       

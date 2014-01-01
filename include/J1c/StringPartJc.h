@@ -13,36 +13,142 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
+struct Part_StringPartJc_t;
 struct StringBuilderJc_t;
 struct StringPartJc_t;
+struct StringPartScanJc_t;
 
 
 /* J2C: includes *********************************************************/
+#include "Jc/ObjectJc.h"  //interface
 #include "Jc/StringJc.h"  //embedded type in class data
+
+
+/*@CLASS_C Part_StringPartJc @@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef struct Part_StringPartJc_t
+{ 
+  union { ObjectJc object; StringJc StringJc;} base; 
+  struct StringPartJc_t* outer;  //J2C: Reference to outer class, implicit in Java
+  int32 b1;   /*Absolute positions of part of chars*/
+  int32 e1;   /*Absolute positions of part of chars*/
+} Part_StringPartJc_s;
+  
+
+#define sizeof_Part_StringPartJc_s sizeof(Part_StringPartJc_s)
+
+
+/**J2c: Definitions of the enhanced reference. It's conditinally because it may be defined in a included header before. */
+#ifndef Part_StringPartJcREFDEF
+  //J2C: definition of enhanced reference where it was need firstly: 
+  #define Part_StringPartJcREFDEF
+  struct Part_StringPartJc_t;
+  DEFINE_EnhancedRefJc(Part_StringPartJc);
+#endif
+
+/**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
+typedef struct Part_StringPartJc_X_t { ObjectArrayJc head; Part_StringPartJcREF data[50]; } Part_StringPartJc_X;
+typedef struct Part_StringPartJc_Y_t { ObjectArrayJc head; Part_StringPartJc_s data[50]; } Part_StringPartJc_Y;
+
+ extern_C struct ClassJc_t const reflection_Part_StringPartJc_s;
+  
+
+
+/**CONST_Type useable as initializer for embedded/stack-instances*/
+#define CONST_Part_StringPartJc(OBJP) { CONST_ObjectJc(sizeof(Part_StringPartJc_s), OBJP, &reflection_Part_StringPartJc_s), 0 }
+
+/**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
+ * It should be called by the user if the instance is removed. */
+void finalize_Part_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
+
+
+
+
+/**A subsequence*/
+METHOD_C struct Part_StringPartJc_t* ctorO_Part_StringPartJc(struct StringPartJc_t* outer, ObjectJc* othis, int32 from, int32 to, ThCxt* _thCxt);
+
+typedef char MT_charAt_Part_StringPartJc(Part_StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C char charAt_Part_StringPartJc_F(Part_StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C char charAt_Part_StringPartJc(Part_StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
+
+typedef int32 MT_length_Part_StringPartJc(Part_StringPartJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C int32 length_Part_StringPartJc_F(Part_StringPartJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C int32 length_Part_StringPartJc(Part_StringPartJc_s* ythis, ThCxt* _thCxt);
+
+typedef StringJc MT_subSequence_Part_StringPartJc(Part_StringPartJc_s* ythis, int32 from, int32 end, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C StringJc subSequence_Part_StringPartJc_F(Part_StringPartJc_s* ythis, int32 from, int32 end, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C StringJc subSequence_Part_StringPartJc(Part_StringPartJc_s* ythis, int32 from, int32 end, ThCxt* _thCxt);
+
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C StringJc toString_Part_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C StringJc toString_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
+
+/**Builds a new Part without leading and trailing white spaces.*/
+typedef struct Part_StringPartJc_t* MT_trim_Part_StringPartJc(Part_StringPartJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct Part_StringPartJc_t* trim_Part_StringPartJc_F(Part_StringPartJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s* ythis, ThCxt* _thCxt);
+
+
+/* J2C: Method table contains all dynamic linked (virtual) methods
+ * of the class and all super classes and interfaces. */
+ extern const char sign_Mtbl_Part_StringPartJc[]; //marker for methodTable check
+typedef struct Mtbl_Part_StringPartJc_t
+{ MtblHeadJc head;
+  MT_charAt_Part_StringPartJc* charAt;
+  MT_length_Part_StringPartJc* length;
+  MT_subSequence_Part_StringPartJc* subSequence;
+  MT_trim_Part_StringPartJc* trim;
+  Mtbl_ObjectJc ObjectJc;
+  //Method table of interfaces:
+  Mtbl_StringJc StringJc;
+} Mtbl_Part_StringPartJc;
+
+
+
+#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
+/* J2C: The C++-class-definition. */
+class Part_StringPartJc : private Part_StringPartJc_s
+{ public:
+
+  virtual char charAt(int32 index){  return charAt_Part_StringPartJc_F(this, index,  null/*_thCxt*/); }
+
+  virtual int32 length(){  return length_Part_StringPartJc_F(this,  null/*_thCxt*/); }
+
+  virtual StringJc subSequence(int32 from, int32 end){  return subSequence_Part_StringPartJc_F(this, from, end,  null/*_thCxt*/); }
+
+  virtual StringJc toString(){  return toString_Part_StringPartJc_F(&this->base.object,  null/*_thCxt*/); }
+
+  virtual struct Part_StringPartJc_t* trim(){  return trim_Part_StringPartJc_F(this,  null/*_thCxt*/); }
+};
+
+#endif /*__CPLUSPLUSJcpp*/
+
 
 
 /*@CLASS_C StringPartJc @@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct StringPartJc_t
 { 
-  union { ObjectJc object; } base; 
-  int32 start;   /*The actual start position of the valid part.*/
+  union { ObjectJc object; StringJc StringJc;ComparableJc ComparableJc;CloseableJc CloseableJc;} base; 
+  int32 begin;   /*The actual start position of the valid part.*/
   int32 end;   /*The actual exclusive end position of the valid part.*/
-  int32 startMin;   /*The leftest possible start position*/
+  int32 begiMin;   /*The most left possible start position*/
   int32 endMax;   /*The rightest possible exclusive end position*/
   StringJc content;   /*The referenced string*/
-  int32 nLineCt;   /*The line number, counted by founded \n */
   bool bCurrentOk;   /*false if current scanning is not match*/
   bool bStartScan;   /*If true, than all idxLastScanned..*/
-  int32 startLast;   /*Borders of the last part before calling of scan__(), seek__(), lento__()*/
+  int32 beginLast;   /*Borders of the last part before calling of scan__(), seek__(), lento__()*/
   int32 endLast;   /*Borders of the last part before calling of scan__(), seek__(), lento__()*/
-  int32 startScan;   /*Position of scanStart() or after scanOk() as start of next scan operations. */
   bool bFound;   /*True if the last operation of lento__(), seek etc. has found anything. See {@link #found()}. */
-  struct nLastIntegerNumber_Y { ObjectArrayJc head; int64 data[5]; }nLastIntegerNumber;   /*Last scanned integer number.*/
-  int32 idxLastIntegerNumber;   /*current index of the last scanned integer number. -1=nothing scanned. 0..4=valid*/
-  struct nLastFloatNumber_Y { ObjectArrayJc head; double data[5]; }nLastFloatNumber;   /*Last scanned float number*/
-  int32 idxLastFloatNumber;   /*current index of the last scanned float number. -1=nothing scanned. 0..4=valid*/
-  StringJc sLastString;   /*Last scanned string. */
   int32 bitMode;   /*Some mode bits */
   StringJc sCommentStart;   /*The string defined the start of comment inside a text.*/
   StringJc sCommentEnd;   /*The string defined the end of comment inside a text.*/
@@ -77,7 +183,7 @@ typedef struct StringPartJc_Y_t { ObjectArrayJc head; StringPartJc_s data[50]; }
 void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringPartJc 20130119  /*Version of this class.*/
+#define version_StringPartJc 20131027  /*Version, history and license.*/
 #define seekEnd_StringPartJc 1  /*Flag to force setting the start position after the seeking string*/
 #define mSeekBackward__StringPartJc 0x10  /*Flag bit to force seeking backward*/
 #define mSeekToLeft__StringPartJc 0x40  /*Flag bit to force seeking left from start (Backward)*/
@@ -91,21 +197,21 @@ void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern const char cEndOfText_StringPartJc;   /*The char used to code end of text. */
 
 
-/**Interface to report something, only level Report.fineDebug is used.*/
+/**Creates a new empty StringPart without an associated String. See method set() to assign a String.*/
 METHOD_C struct StringPartJc_t* ctorO_StringPartJc(ObjectJc* othis, ThCxt* _thCxt);
 
 /**Creates a new StringPart, with the given content from a String*/
-METHOD_C struct StringPartJc_t* ctorO_S_StringPartJc(ObjectJc* othis, StringJc content, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* ctorO_t_StringPartJc(ObjectJc* othis, StringJc src, ThCxt* _thCxt);
 
-/**Creates a new StringPart with the same String as the given StringPart*/
-METHOD_C struct StringPartJc_t* ctorO_XX_StringPartJc(ObjectJc* othis, struct StringPartJc_t* src, ThCxt* _thCxt);
+/**Builds a StringPart which uses the designated part of the given src.*/
+METHOD_C struct StringPartJc_t* ctorO_tii_StringPartJc(ObjectJc* othis, StringJc src, int32 start, int32 end, ThCxt* _thCxt);
 
 /**Sets the content to the given string, forgets the old content*/
-typedef struct StringPartJc_t* MT_assign_S_StringPartJc(StringPartJc_s* ythis, StringJc content, ThCxt* _thCxt);
+typedef struct StringPartJc_t* MT_assign_t_StringPartJc(StringPartJc_s* ythis, StringJc ref, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* assign_S_StringPartJc_F(StringPartJc_s* ythis, StringJc content, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* assign_t_StringPartJc_F(StringPartJc_s* ythis, StringJc ref, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* assign_S_StringPartJc(StringPartJc_s* ythis, StringJc content, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* assign_t_StringPartJc(StringPartJc_s* ythis, StringJc ref, ThCxt* _thCxt);
 
 /**Sets the content to the given string, forgets the old content.*/
 typedef struct StringPartJc_t* MT_assignReplaceEnv_StringPartJc(StringPartJc_s* ythis, struct StringBuilderJc_t* input, ThCxt* _thCxt);
@@ -184,14 +290,19 @@ METHOD_C int32 getLineCt_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 getLineCt_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
-/**Gets the length of the valid part*/
-typedef int32 MT_getLen_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
+typedef char MT_charAt_StringPartJc(StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C int32 getLen_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
+METHOD_C char charAt_StringPartJc_F(StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C int32 getLen_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
+METHOD_C char charAt_StringPartJc(StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
 
-/**Returns the valid lenght of the acutual part*/
+/**Returns a volatile CharSequence from the range inside the current part.*/
+typedef struct Part_StringPartJc_t* MT_subSequence_StringPartJc(StringPartJc_s* ythis, int32 from, int32 to, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct Part_StringPartJc_t* subSequence_StringPartJc_F(StringPartJc_s* ythis, int32 from, int32 to, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct Part_StringPartJc_t* subSequence_StringPartJc(StringPartJc_s* ythis, int32 from, int32 to, ThCxt* _thCxt);
+
 typedef int32 MT_length_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C int32 length_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
@@ -212,7 +323,7 @@ METHOD_C struct StringPartJc_t* lento_i_StringPartJc_F(StringPartJc_s* ythis, in
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* lento_i_StringPartJc(StringPartJc_s* ythis, int32 len, ThCxt* _thCxt);
 
-/**Sets the endposition of the part of string to exclusively the char cc.*/
+/**Sets the end position of the part of string to exclusively the char cc.*/
 typedef struct StringPartJc_t* MT_lento_c_StringPartJc(StringPartJc_s* ythis, char cc, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* lento_c_StringPartJc_F(StringPartJc_s* ythis, char cc, ThCxt* _thCxt);
@@ -227,11 +338,11 @@ METHOD_C struct StringPartJc_t* lento_S_StringPartJc_F(StringPartJc_s* ythis, St
 METHOD_C struct StringPartJc_t* lento_S_StringPartJc(StringPartJc_s* ythis, StringJc ss, ThCxt* _thCxt);
 
 /**Sets the endposition of the part of string to exclusively the given string.*/
-typedef struct StringPartJc_t* MT_lento_Si_StringPartJc(StringPartJc_s* ythis, StringJc ss, int32 mode, ThCxt* _thCxt);
+typedef struct StringPartJc_t* MT_lento_ti_StringPartJc(StringPartJc_s* ythis, StringJc ss, int32 mode, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* lento_Si_StringPartJc_F(StringPartJc_s* ythis, StringJc ss, int32 mode, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* lento_ti_StringPartJc_F(StringPartJc_s* ythis, StringJc ss, int32 mode, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* lento_Si_StringPartJc(StringPartJc_s* ythis, StringJc ss, int32 mode, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* lento_ti_StringPartJc(StringPartJc_s* ythis, StringJc ss, int32 mode, ThCxt* _thCxt);
 
 /**Sets the endposition of the part of string to the end of the identifier which is beginning on start.*/
 typedef struct StringPartJc_t* MT_lentoIdentifier_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
@@ -254,7 +365,7 @@ METHOD_C struct StringPartJc_t* lentoAnyNonEscapedChar_StringPartJc_F(StringPart
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* lentoAnyNonEscapedChar_StringPartJc(StringPartJc_s* ythis, StringJc sCharsEnd, int32 maxToTest, ThCxt* _thCxt);
 
-/**Sets the len to the first position of any given char, but not if the char is escaped.*/
+/**Sets the length of the valid part to the first position of the given String,*/
 typedef struct StringPartJc_t* MT_lentoNonEscapedString_StringPartJc(StringPartJc_s* ythis, StringJc sEnd, int32 maxToTest, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* lentoNonEscapedString_StringPartJc_F(StringPartJc_s* ythis, StringJc sEnd, int32 maxToTest, ThCxt* _thCxt);
@@ -282,19 +393,12 @@ METHOD_C struct StringPartJc_t* skipWhitespaceAndComment_StringPartJc_F(StringPa
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* skipWhitespaceAndComment_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
-/**Displaces the start of the part to the first char it is no whitespace or comment.*/
+/**Displaces the begin of the part to the first char it is no whitespace or comment.*/
 typedef struct StringPartJc_t* MT_seekNoWhitespaceOrComments_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* seekNoWhitespaceOrComments_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* seekNoWhitespaceOrComments_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/****/
-typedef bool MT_isFound_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool isFound_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool isFound_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
 /**Returns true, if the last called seek__(), lento__() or skipWhitespaceAndComment()*/
 typedef bool MT_found_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
@@ -303,40 +407,33 @@ METHOD_C bool found_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C bool found_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
-/**Displaces the start of the part to the leftest possible start.*/
+/**Displaces the begin of the part to the leftest possible begin.*/
 typedef struct StringPartJc_t* MT_seekBegin_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* seekBegin_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* seekBegin_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
-/**Searchs the given String inside the valid part, posits the start of the part to the begin of the searched string.*/
+/**Searchs the given String inside the valid part, posits the begin of the part to the begin of the searched string.*/
 typedef struct StringPartJc_t* MT_seek_Si_StringPartJc(StringPartJc_s* ythis, StringJc sSeek, int32 mode, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* seek_Si_StringPartJc_F(StringPartJc_s* ythis, StringJc sSeek, int32 mode, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* seek_Si_StringPartJc(StringPartJc_s* ythis, StringJc sSeek, int32 mode, ThCxt* _thCxt);
 
-/**Searchs the given String inside the valid part, posits the start of the part to the begin of the searched string.*/
+/**Searchs the given String inside the valid part, posits the begin of the part to the begin of the searched string.*/
 typedef struct StringPartJc_t* MT_seekAnyString_StringPartJc(StringPartJc_s* ythis, StringJc_Y* strings, int32_Y* nrofFoundString, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* seekAnyString_StringPartJc_F(StringPartJc_s* ythis, StringJc_Y* strings, int32_Y* nrofFoundString, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* seekAnyString_StringPartJc(StringPartJc_s* ythis, StringJc_Y* strings, int32_Y* nrofFoundString, ThCxt* _thCxt);
 
-/**Searchs the given character inside the valid part, posits the start of the part to the begin of the searched char.*/
+/**Searchs the given character inside the valid part, posits the begin of the part to the begin of the searched char.*/
 typedef struct StringPartJc_t* MT_seek_ci_StringPartJc(StringPartJc_s* ythis, char cSeek, int32 mode, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringPartJc_t* seek_ci_StringPartJc_F(StringPartJc_s* ythis, char cSeek, int32 mode, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* seek_ci_StringPartJc(StringPartJc_s* ythis, char cSeek, int32 mode, ThCxt* _thCxt);
-
-/**Searchs the given String inside the valid part, posits the start of the part after the end of the searched string.*/
-typedef struct StringPartJc_t* MT_xxxseekEnd_StringPartJc(StringPartJc_s* ythis, StringJc sSeek, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* xxxseekEnd_StringPartJc_F(StringPartJc_s* ythis, StringJc sSeek, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* xxxseekEnd_StringPartJc(StringPartJc_s* ythis, StringJc sSeek, ThCxt* _thCxt);
 
 /**Posits the start of the part after all of the chars given in the parameter string.*/
 typedef struct StringPartJc_t* MT_seekNoChar_StringPartJc(StringPartJc_s* ythis, StringJc sChars, ThCxt* _thCxt);
@@ -345,12 +442,18 @@ METHOD_C struct StringPartJc_t* seekNoChar_StringPartJc_F(StringPartJc_s* ythis,
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* seekNoChar_StringPartJc(StringPartJc_s* ythis, StringJc sChars, ThCxt* _thCxt);
 
-/**Returns the position of one of the chars in sChars within the part, started inside the part with fromIndex,*/
 typedef int32 MT_indexOfAnyChar_Sii_StringPartJc(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C int32 indexOfAnyChar_Sii_StringPartJc_F(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 indexOfAnyChar_Sii_StringPartJc(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
+
+/**Returns the position of one of the chars in sChars within the part, started inside the part with fromIndex,*/
+typedef int32 MT_indexOfAnyChar_Siiccc_StringPartJc(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C int32 indexOfAnyChar_Siiccc_StringPartJc_F(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C int32 indexOfAnyChar_Siiccc_StringPartJc(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt);
 
 /**Returns the last position of one of the chars in sChars*/
 typedef int32 MT_lastIndexOfAnyChar_StringPartJc(StringPartJc_s* ythis, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
@@ -379,6 +482,13 @@ typedef int32 MT_indexEndOfQuotion_StringPartJc(StringPartJc_s* ythis, char cEnd
 METHOD_C int32 indexEndOfQuotion_StringPartJc_F(StringPartJc_s* ythis, char cEndQuotion, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 indexEndOfQuotion_StringPartJc(StringPartJc_s* ythis, char cEndQuotion, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
+
+/**Searches the end of a quoted string*/
+typedef int32 MT_indexEndOfQuotation_StringPartJc(StringPartJc_s* ythis, char cEndQuotion, char transcriptChar, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C int32 indexEndOfQuotation_StringPartJc_F(StringPartJc_s* ythis, char cEndQuotion, char transcriptChar, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C int32 indexEndOfQuotation_StringPartJc(StringPartJc_s* ythis, char cEndQuotion, char transcriptChar, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 
 /**Returns the position of one of the chars in sChars within the part,*/
 typedef int32 MT_indexOfAnyChar_S_StringPartJc(StringPartJc_s* ythis, StringJc sChars, ThCxt* _thCxt);
@@ -492,6 +602,12 @@ METHOD_C struct StringPartJc_t* trimComment_StringPartJc_F(StringPartJc_s* ythis
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringPartJc_t* trimComment_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
+typedef int32 MT_compareTo_StringPartJc(StringPartJc_s* ythis, StringJc str2, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C int32 compareTo_StringPartJc_F(StringPartJc_s* ythis, StringJc str2, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C int32 compareTo_StringPartJc(StringPartJc_s* ythis, StringJc str2, ThCxt* _thCxt);
+
 /**Returns the position of the char within the part,*/
 typedef int32 MT_indexOf_c_StringPartJc(StringPartJc_s* ythis, char ch, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -507,25 +623,25 @@ METHOD_C int32 indexOf_ci_StringPartJc_F(StringPartJc_s* ythis, char ch, int32 f
 METHOD_C int32 indexOf_ci_StringPartJc(StringPartJc_s* ythis, char ch, int32 fromIndex, ThCxt* _thCxt);
 
 /**Returns the position of the string within the part*/
-typedef int32 MT_indexOf_S_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
+typedef int32 MT_indexOf_t_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C int32 indexOf_S_StringPartJc_F(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
+METHOD_C int32 indexOf_t_StringPartJc_F(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C int32 indexOf_S_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
+METHOD_C int32 indexOf_t_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
 
 /**Returns the position of the string within the part*/
-typedef int32 MT_indexOf_Sii_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, int32 fromIndex, int32 maxToTest, ThCxt* _thCxt);
+typedef int32 MT_indexOf_tii_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, int32 fromIndex, int32 maxToTest, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C int32 indexOf_Sii_StringPartJc_F(StringPartJc_s* ythis, StringJc sCmp, int32 fromIndex, int32 maxToTest, ThCxt* _thCxt);
+METHOD_C int32 indexOf_tii_StringPartJc_F(StringPartJc_s* ythis, StringJc sCmp, int32 fromIndex, int32 maxToTest, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C int32 indexOf_Sii_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, int32 fromIndex, int32 maxToTest, ThCxt* _thCxt);
+METHOD_C int32 indexOf_tii_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, int32 fromIndex, int32 maxToTest, ThCxt* _thCxt);
 
 /**Compares the Part of string with the given string*/
-typedef bool MT_equals_S_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
+typedef bool MT_equals_t_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool equals_S_StringPartJc_F(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
+METHOD_C bool equals_t_StringPartJc_F(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool equals_S_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
+METHOD_C bool equals_t_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
 
 /**compares the Part of string with the given string.*/
 typedef bool MT_startsWith_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
@@ -534,148 +650,12 @@ METHOD_C bool startsWith_StringPartJc_F(StringPartJc_s* ythis, StringJc sCmp, Th
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C bool startsWith_StringPartJc(StringPartJc_s* ythis, StringJc sCmp, ThCxt* _thCxt);
 
-/**scan next content, test the requested String.*/
-typedef struct StringPartJc_t* MT_scan_StringPartJc(StringPartJc_s* ythis, StringJc sTestP, ThCxt* _thCxt);
+/**This routine provides the this-pointer as StringPartScan in a concatenation of StringPartBase-invocations.*/
+typedef struct StringPartScanJc_t* MT_scan_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scan_StringPartJc_F(StringPartJc_s* ythis, StringJc sTestP, ThCxt* _thCxt);
+METHOD_C struct StringPartScanJc_t* scan_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scan_StringPartJc(StringPartJc_s* ythis, StringJc sTestP, ThCxt* _thCxt);
-
-/**Test the result of scanning and set the scan Pos Ok, if current scanning was ok*/
-typedef bool MT_scanOk_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool scanOk_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool scanOk_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/*** */
-typedef struct StringPartJc_t* MT_scanQuotion_SSSY_StringPartJc(StringPartJc_s* ythis, StringJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanQuotion_SSSY_StringPartJc_F(StringPartJc_s* ythis, StringJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanQuotion_SSSY_StringPartJc(StringPartJc_s* ythis, StringJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, ThCxt* _thCxt);
-
-/*** */
-typedef struct StringPartJc_t* MT_scanQuotion_SSSYi_StringPartJc(StringPartJc_s* ythis, StringJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanQuotion_SSSYi_StringPartJc_F(StringPartJc_s* ythis, StringJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanQuotion_SSSYi_StringPartJc(StringPartJc_s* ythis, StringJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest, ThCxt* _thCxt);
-
-/**Scans if it is a integer number, contains exclusively of digits 0..9*/
-typedef int64 MT_scanDigits_StringPartJc(StringPartJc_s* ythis, bool bHex, int32 maxNrofChars, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C int64 scanDigits_StringPartJc_F(StringPartJc_s* ythis, bool bHex, int32 maxNrofChars, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C int64 scanDigits_StringPartJc(StringPartJc_s* ythis, bool bHex, int32 maxNrofChars, ThCxt* _thCxt);
-
-/*** */
-typedef struct StringPartJc_t* MT_scanStart_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanStart_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanStart_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-typedef bool MT_scanEntry_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool scanEntry_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool scanEntry_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/**Scanns a integer number as positiv value without sign.*/
-typedef struct StringPartJc_t* MT_scanPositivInteger_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanPositivInteger_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanPositivInteger_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/**Scans an integer expression with possible sign char '-' at first.*/
-typedef struct StringPartJc_t* MT_scanInteger_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanInteger_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanInteger_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/**Scans a float number*/
-typedef struct StringPartJc_t* MT_scanFloatNumber_b_StringPartJc(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanFloatNumber_b_StringPartJc_F(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanFloatNumber_b_StringPartJc(StringPartJc_s* ythis, bool cleanBuffer, ThCxt* _thCxt);
-
-/**Scans a float number*/
-typedef struct StringPartJc_t* MT_scanFloatNumber_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanFloatNumber_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/**Scans a sequence of hex chars a hex number*/
-typedef struct StringPartJc_t* MT_scanHex_StringPartJc(StringPartJc_s* ythis, int32 maxNrofChars, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanHex_StringPartJc_F(StringPartJc_s* ythis, int32 maxNrofChars, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanHex_StringPartJc(StringPartJc_s* ythis, int32 maxNrofChars, ThCxt* _thCxt);
-
-/**Scans a integer number possible as hex, or decimal number.*/
-typedef struct StringPartJc_t* MT_scanHexOrDecimal_StringPartJc(StringPartJc_s* ythis, int32 maxNrofChars, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanHexOrDecimal_StringPartJc_F(StringPartJc_s* ythis, int32 maxNrofChars, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanHexOrDecimal_StringPartJc(StringPartJc_s* ythis, int32 maxNrofChars, ThCxt* _thCxt);
-
-/*** */
-typedef struct StringPartJc_t* MT_scanIdentifier_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanIdentifier_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanIdentifier_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/*** */
-typedef struct StringPartJc_t* MT_scanIdentifier_SS_StringPartJc(StringPartJc_s* ythis, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringPartJc_t* scanIdentifier_SS_StringPartJc_F(StringPartJc_s* ythis, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringPartJc_t* scanIdentifier_SS_StringPartJc(StringPartJc_s* ythis, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
-
-/**Returns the last scanned integer number*/
-typedef int64 MT_getLastScannedIntegerNumber_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C int64 getLastScannedIntegerNumber_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C int64 getLastScannedIntegerNumber_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/**Returns the last scanned float number.*/
-typedef double MT_getLastScannedFloatNumber_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C double getLastScannedFloatNumber_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C double getLastScannedFloatNumber_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-typedef StringJc MT_getLastScannedString_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc getLastScannedString_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc getLastScannedString_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
-
-/**Gets a String with translitaration.*/
-typedef StringJc MT_getCircumScriptionToAnyChar_StringPartJc(StringPartJc_s* ythis, StringJc sCharsEnd, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc getCircumScriptionToAnyChar_StringPartJc_F(StringPartJc_s* ythis, StringJc sCharsEnd, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc getCircumScriptionToAnyChar_StringPartJc(StringPartJc_s* ythis, StringJc sCharsEnd, ThCxt* _thCxt);
-
-typedef StringJc MT_getCircumScriptionToAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* ythis, StringJc sCharsEnd, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc getCircumScriptionToAnyCharOutsideQuotion_StringPartJc_F(StringPartJc_s* ythis, StringJc sCharsEnd, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc getCircumScriptionToAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* ythis, StringJc sCharsEnd, ThCxt* _thCxt);
-
-typedef StringJc MT_getCircumScriptionToAnyChar_p_StringPartJc(StringPartJc_s* ythis, StringJc sCharsEnd, bool bOutsideQuotion, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc getCircumScriptionToAnyChar_p_StringPartJc_F(StringPartJc_s* ythis, StringJc sCharsEnd, bool bOutsideQuotion, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc getCircumScriptionToAnyChar_p_StringPartJc(StringPartJc_s* ythis, StringJc sCharsEnd, bool bOutsideQuotion, ThCxt* _thCxt);
+METHOD_C struct StringPartScanJc_t* scan_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
 /**Gets the current position, useable for rewind*/
 typedef int64 MT_getCurrentPosition_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
@@ -692,11 +672,11 @@ METHOD_C void setCurrentPosition_StringPartJc_F(StringPartJc_s* ythis, int64 pos
 METHOD_C void setCurrentPosition_StringPartJc(StringPartJc_s* ythis, int64 pos, ThCxt* _thCxt);
 
 /**Gets a substring inside the maximal part*/
-typedef StringJc MT_substring_StringPartJc(StringPartJc_s* ythis, int32 pos, int32 posendP, ThCxt* _thCxt);
+typedef struct Part_StringPartJc_t* MT_substring_StringPartJc(StringPartJc_s* ythis, int32 pos, int32 posendP, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc substring_StringPartJc_F(StringPartJc_s* ythis, int32 pos, int32 posendP, ThCxt* _thCxt);
+METHOD_C struct Part_StringPartJc_t* substring_StringPartJc_F(StringPartJc_s* ythis, int32 pos, int32 posendP, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc substring_StringPartJc(StringPartJc_s* ythis, int32 pos, int32 posendP, ThCxt* _thCxt);
+METHOD_C struct Part_StringPartJc_t* substring_StringPartJc(StringPartJc_s* ythis, int32 pos, int32 posendP, ThCxt* _thCxt);
 
 /**Gets the next chars from current Position.*/
 typedef StringJc MT_getCurrent_StringPartJc(StringPartJc_s* ythis, int32 nChars, ThCxt* _thCxt);
@@ -720,11 +700,11 @@ METHOD_C int32 getCurrentColumn_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _th
 METHOD_C int32 getCurrentColumn_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
 /**Returns the actual part of the string.*/
-typedef StringJc MT_getCurrentPart_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
+typedef struct Part_StringPartJc_t* MT_getCurrentPart_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc getCurrentPart_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
+METHOD_C struct Part_StringPartJc_t* getCurrentPart_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc getCurrentPart_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
+METHOD_C struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
 /**Returns the last part of the string before any seek or scan operation.*/
 typedef StringJc MT_getLastPart_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
@@ -741,13 +721,25 @@ METHOD_C StringJc getCurrentPart_i_StringPartJc_F(StringPartJc_s* ythis, int32 m
 METHOD_C StringJc getCurrentPart_i_StringPartJc(StringPartJc_s* ythis, int32 maxLength, ThCxt* _thCxt);
 
 /**Retrurn the part from start to end independent of the current positions.*/
-typedef StringJc MT_getPart_StringPartJc(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
+typedef struct Part_StringPartJc_t* MT_getPart_StringPartJc(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc getPart_StringPartJc_F(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
+METHOD_C struct Part_StringPartJc_t* getPart_StringPartJc_F(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc getPart_StringPartJc(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
+METHOD_C struct Part_StringPartJc_t* getPart_StringPartJc(StringPartJc_s* ythis, int32 fromPos, int32 nrofChars, ThCxt* _thCxt);
 
-/**Returns the actual part of the string*/
+typedef char MT_absCharAt_StringPartJc(StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C char absCharAt_StringPartJc_F(StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C char absCharAt_StringPartJc(StringPartJc_s* ythis, int32 index, ThCxt* _thCxt);
+
+/**Returns a String from absolute range.*/
+typedef StringJc MT_absSubString_StringPartJc(StringPartJc_s* ythis, int32 from, int32 to, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C StringJc absSubString_StringPartJc_F(StringPartJc_s* ythis, int32 from, int32 to, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C StringJc absSubString_StringPartJc(StringPartJc_s* ythis, int32 from, int32 to, ThCxt* _thCxt);
+
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C StringJc toString_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
@@ -767,9 +759,6 @@ METHOD_C void throwIndexOutOfBoundsException_StringPartJc_F(StringPartJc_s* ythi
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* ythis, StringJc sMsg, ThCxt* _thCxt);
 
-/**Replaces up to 20 placeholder with a given content.*/
-METHOD_C StringJc replace_StringPartJc(/*static*/ StringJc src, StringJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
-
 /**Closes the work*/
 typedef void MT_close_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -777,13 +766,16 @@ METHOD_C void close_StringPartJc_F(StringPartJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void close_StringPartJc(StringPartJc_s* ythis, ThCxt* _thCxt);
 
+/**Replaces up to 20 placeholder with a given content.*/
+METHOD_C StringJc replace_StringPartJc(/*static*/ StringJc src, StringJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Mtbl_StringPartJc[]; //marker for methodTable check
 typedef struct Mtbl_StringPartJc_t
 { MtblHeadJc head;
-  MT_assign_S_StringPartJc* assign_S;
+  MT_assign_t_StringPartJc* assign_t;
   MT_assignReplaceEnv_StringPartJc* assignReplaceEnv;
   MT_assign_XX_StringPartJc* assign_XX;
   MT_assignFromEnd_StringPartJc* assignFromEnd;
@@ -795,13 +787,14 @@ typedef struct Mtbl_StringPartJc_t
   MT_setBeginMaxPart_StringPartJc* setBeginMaxPart;
   MT_fromEnd_StringPartJc* fromEnd;
   MT_getLineCt_StringPartJc* getLineCt;
-  MT_getLen_StringPartJc* getLen;
+  MT_charAt_StringPartJc* charAt;
+  MT_subSequence_StringPartJc* subSequence;
   MT_length_StringPartJc* length;
   MT_lengthMaxPart_StringPartJc* lengthMaxPart;
   MT_lento_i_StringPartJc* lento_i;
   MT_lento_c_StringPartJc* lento_c;
   MT_lento_S_StringPartJc* lento_S;
-  MT_lento_Si_StringPartJc* lento_Si;
+  MT_lento_ti_StringPartJc* lento_ti;
   MT_lentoIdentifier_StringPartJc* lentoIdentifier;
   MT_lentoIdentifier_SS_StringPartJc* lentoIdentifier_SS;
   MT_lentoAnyNonEscapedChar_StringPartJc* lentoAnyNonEscapedChar;
@@ -810,19 +803,19 @@ typedef struct Mtbl_StringPartJc_t
   MT_seekNoWhitespace_StringPartJc* seekNoWhitespace;
   MT_skipWhitespaceAndComment_StringPartJc* skipWhitespaceAndComment;
   MT_seekNoWhitespaceOrComments_StringPartJc* seekNoWhitespaceOrComments;
-  MT_isFound_StringPartJc* isFound;
   MT_found_StringPartJc* found;
   MT_seekBegin_StringPartJc* seekBegin;
   MT_seek_Si_StringPartJc* seek_Si;
   MT_seekAnyString_StringPartJc* seekAnyString;
   MT_seek_ci_StringPartJc* seek_ci;
-  MT_xxxseekEnd_StringPartJc* xxxseekEnd;
   MT_seekNoChar_StringPartJc* seekNoChar;
   MT_indexOfAnyChar_Sii_StringPartJc* indexOfAnyChar_Sii;
+  MT_indexOfAnyChar_Siiccc_StringPartJc* indexOfAnyChar_Siiccc;
   MT_lastIndexOfAnyChar_StringPartJc* lastIndexOfAnyChar;
   MT_indexOfAnyString_StringPartJc* indexOfAnyString;
   MT_indexOfAnyCharOutsideQuotion_StringPartJc* indexOfAnyCharOutsideQuotion;
   MT_indexEndOfQuotion_StringPartJc* indexEndOfQuotion;
+  MT_indexEndOfQuotation_StringPartJc* indexEndOfQuotation;
   MT_indexOfAnyChar_S_StringPartJc* indexOfAnyChar_S;
   MT_indexOfNoChar_Si_StringPartJc* indexOfNoChar_Si;
   MT_indexOfNoChar_S_StringPartJc* indexOfNoChar_S;
@@ -839,33 +832,14 @@ typedef struct Mtbl_StringPartJc_t
   MT_lenBacktoNoChar_StringPartJc* lenBacktoNoChar;
   MT_trim_StringPartJc* trim;
   MT_trimComment_StringPartJc* trimComment;
+  MT_compareTo_StringPartJc* compareTo;
   MT_indexOf_c_StringPartJc* indexOf_c;
   MT_indexOf_ci_StringPartJc* indexOf_ci;
-  MT_indexOf_S_StringPartJc* indexOf_S;
-  MT_indexOf_Sii_StringPartJc* indexOf_Sii;
-  MT_equals_S_StringPartJc* equals_S;
+  MT_indexOf_t_StringPartJc* indexOf_t;
+  MT_indexOf_tii_StringPartJc* indexOf_tii;
+  MT_equals_t_StringPartJc* equals_t;
   MT_startsWith_StringPartJc* startsWith;
   MT_scan_StringPartJc* scan;
-  MT_scanOk_StringPartJc* scanOk;
-  MT_scanQuotion_SSSY_StringPartJc* scanQuotion_SSSY;
-  MT_scanQuotion_SSSYi_StringPartJc* scanQuotion_SSSYi;
-  MT_scanDigits_StringPartJc* scanDigits;
-  MT_scanStart_StringPartJc* scanStart;
-  MT_scanEntry_StringPartJc* scanEntry;
-  MT_scanPositivInteger_StringPartJc* scanPositivInteger;
-  MT_scanInteger_StringPartJc* scanInteger;
-  MT_scanFloatNumber_b_StringPartJc* scanFloatNumber_b;
-  MT_scanFloatNumber_StringPartJc* scanFloatNumber;
-  MT_scanHex_StringPartJc* scanHex;
-  MT_scanHexOrDecimal_StringPartJc* scanHexOrDecimal;
-  MT_scanIdentifier_StringPartJc* scanIdentifier;
-  MT_scanIdentifier_SS_StringPartJc* scanIdentifier_SS;
-  MT_getLastScannedIntegerNumber_StringPartJc* getLastScannedIntegerNumber;
-  MT_getLastScannedFloatNumber_StringPartJc* getLastScannedFloatNumber;
-  MT_getLastScannedString_StringPartJc* getLastScannedString;
-  MT_getCircumScriptionToAnyChar_StringPartJc* getCircumScriptionToAnyChar;
-  MT_getCircumScriptionToAnyCharOutsideQuotion_StringPartJc* getCircumScriptionToAnyCharOutsideQuotion;
-  MT_getCircumScriptionToAnyChar_p_StringPartJc* getCircumScriptionToAnyChar_p;
   MT_getCurrentPosition_StringPartJc* getCurrentPosition;
   MT_setCurrentPosition_StringPartJc* setCurrentPosition;
   MT_substring_StringPartJc* substring;
@@ -876,10 +850,16 @@ typedef struct Mtbl_StringPartJc_t
   MT_getLastPart_StringPartJc* getLastPart;
   MT_getCurrentPart_i_StringPartJc* getCurrentPart_i;
   MT_getPart_StringPartJc* getPart;
+  MT_absCharAt_StringPartJc* absCharAt;
+  MT_absSubString_StringPartJc* absSubString;
   MT_debugString_StringPartJc* debugString;
   MT_throwIndexOutOfBoundsException_StringPartJc* throwIndexOutOfBoundsException;
   MT_close_StringPartJc* close;
   Mtbl_ObjectJc ObjectJc;
+  //Method table of interfaces:
+  Mtbl_StringJc StringJc;
+  Mtbl_ComparableJc ComparableJc;
+  Mtbl_CloseableJc CloseableJc;
 } Mtbl_StringPartJc;
 
 
@@ -889,41 +869,43 @@ typedef struct Mtbl_StringPartJc_t
 class StringPartJc : private StringPartJc_s
 { public:
 
+  virtual char absCharAt(int32 index){  return absCharAt_StringPartJc_F(this, index,  null/*_thCxt*/); }
+
+  virtual StringJc absSubString(int32 from, int32 to){  return absSubString_StringPartJc_F(this, from, to,  null/*_thCxt*/); }
+
   virtual StringPartJc& assignFromEnd(struct StringPartJc_t* src){ assignFromEnd_StringPartJc_F(this, src,  null/*_thCxt*/);  return *this; }
 
   virtual StringPartJc& assignReplaceEnv(struct StringBuilderJc_t* input){ assignReplaceEnv_StringPartJc_F(this, input,  null/*_thCxt*/);  return *this; }
 
-  virtual StringPartJc& assign(StringJcpp content){ assign_S_StringPartJc_F(this, content,  null/*_thCxt*/);  return *this; }
-
   virtual StringPartJc& assign(struct StringPartJc_t* src){ assign_XX_StringPartJc_F(this, src,  null/*_thCxt*/);  return *this; }
+
+  virtual StringPartJc& assign(StringJc ref){ assign_t_StringPartJc_F(this, ref,  null/*_thCxt*/);  return *this; }
+
+  virtual char charAt(int32 index){  return charAt_StringPartJc_F(this, index,  null/*_thCxt*/); }
 
   virtual void close(){ close_StringPartJc_F(this,  null/*_thCxt*/); }
 
-  StringPartJc(StringJcpp content){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_S_StringPartJc(&this->base.object, content,  null/*_thCxt*/); }
+  virtual int32 compareTo(StringJc str2){  return compareTo_StringPartJc_F(this, str2,  null/*_thCxt*/); }
 
   StringPartJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_StringPartJc(&this->base.object,  null/*_thCxt*/); }
 
-  StringPartJc(struct StringPartJc_t* src){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_XX_StringPartJc(&this->base.object, src,  null/*_thCxt*/); }
+  StringPartJc(StringJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_t_StringPartJc(&this->base.object, src,  null/*_thCxt*/); }
+
+  StringPartJc(StringJc src, int32 start, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_tii_StringPartJc(&this->base.object, src, start, end,  null/*_thCxt*/); }
 
   virtual StringJc debugString(){  return debugString_StringPartJc_F(this,  null/*_thCxt*/); }
 
-  virtual bool equals(StringJcpp sCmp){  return equals_S_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
+  virtual bool equals(StringJc sCmp){  return equals_t_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
 
   virtual bool found(){  return found_StringPartJc_F(this,  null/*_thCxt*/); }
 
   virtual StringPartJc& fromEnd(){ fromEnd_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
 
-  virtual StringJc getCircumScriptionToAnyCharOutsideQuotion(StringJcpp sCharsEnd){  return getCircumScriptionToAnyCharOutsideQuotion_StringPartJc_F(this, sCharsEnd,  null/*_thCxt*/); }
-
-  virtual StringJc getCircumScriptionToAnyChar(StringJcpp sCharsEnd){  return getCircumScriptionToAnyChar_StringPartJc_F(this, sCharsEnd,  null/*_thCxt*/); }
-
-  virtual StringJc getCircumScriptionToAnyChar_p(StringJcpp sCharsEnd, bool bOutsideQuotion){  return getCircumScriptionToAnyChar_p_StringPartJc_F(this, sCharsEnd, bOutsideQuotion,  null/*_thCxt*/); }
-
   virtual char getCurrentChar(){  return getCurrentChar_StringPartJc_F(this,  null/*_thCxt*/); }
 
   virtual int32 getCurrentColumn(){  return getCurrentColumn_StringPartJc_F(this,  null/*_thCxt*/); }
 
-  virtual StringJc getCurrentPart(){  return getCurrentPart_StringPartJc_F(this,  null/*_thCxt*/); }
+  virtual struct Part_StringPartJc_t* getCurrentPart(){  return getCurrentPart_StringPartJc_F(this,  null/*_thCxt*/); }
 
   virtual StringJc getCurrentPart(int32 maxLength){  return getCurrentPart_i_StringPartJc_F(this, maxLength,  null/*_thCxt*/); }
 
@@ -933,17 +915,11 @@ class StringPartJc : private StringPartJc_s
 
   virtual StringJc getLastPart(){  return getLastPart_StringPartJc_F(this,  null/*_thCxt*/); }
 
-  virtual double getLastScannedFloatNumber(){  return getLastScannedFloatNumber_StringPartJc_F(this,  null/*_thCxt*/); }
-
-  virtual int64 getLastScannedIntegerNumber(){  return getLastScannedIntegerNumber_StringPartJc_F(this,  null/*_thCxt*/); }
-
-  virtual StringJc getLastScannedString(){  return getLastScannedString_StringPartJc_F(this,  null/*_thCxt*/); }
-
-  virtual int32 getLen(){  return getLen_StringPartJc_F(this,  null/*_thCxt*/); }
-
   virtual int32 getLineCt(){  return getLineCt_StringPartJc_F(this,  null/*_thCxt*/); }
 
-  virtual StringJc getPart(int32 fromPos, int32 nrofChars){  return getPart_StringPartJc_F(this, fromPos, nrofChars,  null/*_thCxt*/); }
+  virtual struct Part_StringPartJc_t* getPart(int32 fromPos, int32 nrofChars){  return getPart_StringPartJc_F(this, fromPos, nrofChars,  null/*_thCxt*/); }
+
+  virtual int32 indexEndOfQuotation(char cEndQuotion, char transcriptChar, int32 fromWhere, int32 maxToTest){  return indexEndOfQuotation_StringPartJc_F(this, cEndQuotion, transcriptChar, fromWhere, maxToTest,  null/*_thCxt*/); }
 
   virtual int32 indexEndOfQuotion(char cEndQuotion, int32 fromWhere, int32 maxToTest){  return indexEndOfQuotion_StringPartJc_F(this, cEndQuotion, fromWhere, maxToTest,  null/*_thCxt*/); }
 
@@ -953,21 +929,21 @@ class StringPartJc : private StringPartJc_s
 
   virtual int32 indexOfAnyChar(StringJcpp sChars, int32 fromWhere, int32 maxToTest){  return indexOfAnyChar_Sii_StringPartJc_F(this, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
 
+  virtual int32 indexOfAnyChar(StringJcpp sChars, int32 fromWhere, int32 maxToTest, char transcriptChar, char quotationStartChar, char quotationEndChar){  return indexOfAnyChar_Siiccc_StringPartJc_F(this, sChars, fromWhere, maxToTest, transcriptChar, quotationStartChar, quotationEndChar,  null/*_thCxt*/); }
+
   virtual int32 indexOfAnyString(StringJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32_Y* nrofFoundString, StringJc_Y* foundString){  return indexOfAnyString_StringPartJc_F(this, listStrings, fromWhere, maxToTest, nrofFoundString, foundString,  null/*_thCxt*/); }
 
   virtual int32 indexOfNoChar(StringJcpp sChars){  return indexOfNoChar_S_StringPartJc_F(this, sChars,  null/*_thCxt*/); }
 
   virtual int32 indexOfNoChar(StringJcpp sChars, int32 fromWhere){  return indexOfNoChar_Si_StringPartJc_F(this, sChars, fromWhere,  null/*_thCxt*/); }
 
-  virtual int32 indexOf(StringJcpp sCmp){  return indexOf_S_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
-
-  virtual int32 indexOf(StringJcpp sCmp, int32 fromIndex, int32 maxToTest){  return indexOf_Sii_StringPartJc_F(this, sCmp, fromIndex, maxToTest,  null/*_thCxt*/); }
-
   virtual int32 indexOf(char ch){  return indexOf_c_StringPartJc_F(this, ch,  null/*_thCxt*/); }
 
   virtual int32 indexOf(char ch, int32 fromIndex){  return indexOf_ci_StringPartJc_F(this, ch, fromIndex,  null/*_thCxt*/); }
 
-  virtual bool isFound(){  return isFound_StringPartJc_F(this,  null/*_thCxt*/); }
+  virtual int32 indexOf(StringJc sCmp){  return indexOf_t_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
+
+  virtual int32 indexOf(StringJc sCmp, int32 fromIndex, int32 maxToTest){  return indexOf_tii_StringPartJc_F(this, sCmp, fromIndex, maxToTest,  null/*_thCxt*/); }
 
   virtual int32 lastIndexOfAnyChar(StringJcpp sChars, int32 fromWhere, int32 maxToTest){  return lastIndexOfAnyChar_StringPartJc_F(this, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
 
@@ -1005,43 +981,15 @@ class StringPartJc : private StringPartJc_s
 
   virtual StringPartJc& lento(StringJcpp ss){ lento_S_StringPartJc_F(this, ss,  null/*_thCxt*/);  return *this; }
 
-  virtual StringPartJc& lento(StringJcpp ss, int32 mode){ lento_Si_StringPartJc_F(this, ss, mode,  null/*_thCxt*/);  return *this; }
-
   virtual StringPartJc& lento(char cc){ lento_c_StringPartJc_F(this, cc,  null/*_thCxt*/);  return *this; }
 
   virtual StringPartJc& lento(int32 len){ lento_i_StringPartJc_F(this, len,  null/*_thCxt*/);  return *this; }
 
-  StringJc replace(StringJcpp src, StringJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
+  virtual StringPartJc& lento(StringJc ss, int32 mode){ lento_ti_StringPartJc_F(this, ss, mode,  null/*_thCxt*/);  return *this; }
 
-  virtual int64 scanDigits(bool bHex, int32 maxNrofChars){  return scanDigits_StringPartJc_F(this, bHex, maxNrofChars,  null/*_thCxt*/); }
+  StringJc replace(StringJc src, StringJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
 
-  virtual bool scanEntry(){  return scanEntry_StringPartJc_F(this,  null/*_thCxt*/); }
-
-  virtual StringPartJc& scanFloatNumber(){ scanFloatNumber_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanFloatNumber(bool cleanBuffer){ scanFloatNumber_b_StringPartJc_F(this, cleanBuffer,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanHexOrDecimal(int32 maxNrofChars){ scanHexOrDecimal_StringPartJc_F(this, maxNrofChars,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanHex(int32 maxNrofChars){ scanHex_StringPartJc_F(this, maxNrofChars,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanIdentifier(StringJcpp additionalStartChars, StringJcpp additionalChars){ scanIdentifier_SS_StringPartJc_F(this, additionalStartChars, additionalChars,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanIdentifier(){ scanIdentifier_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanInteger(){ scanInteger_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
-
-  virtual bool scanOk(){  return scanOk_StringPartJc_F(this,  null/*_thCxt*/); }
-
-  virtual StringPartJc& scanPositivInteger(){ scanPositivInteger_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanQuotion(StringJcpp sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult){ scanQuotion_SSSY_StringPartJc_F(this, sQuotionmarkStart, sQuotionMarkEnd, sResult,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanQuotion(StringJcpp sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest){ scanQuotion_SSSYi_StringPartJc_F(this, sQuotionmarkStart, sQuotionMarkEnd, sResult, maxToTest,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scanStart(){ scanStart_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& scan(StringJcpp sTestP){ scan_StringPartJc_F(this, sTestP,  null/*_thCxt*/);  return *this; }
+  virtual struct StringPartScanJc_t* scan(){  return scan_StringPartJc_F(this,  null/*_thCxt*/); }
 
   virtual StringPartJc& seekAnyString(StringJc_Y* strings, int32_Y* nrofFoundString){ seekAnyString_StringPartJc_F(this, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
 
@@ -1077,9 +1025,11 @@ class StringPartJc : private StringPartJc_s
 
   virtual struct StringPartJc_t* skipWhitespaceAndComment(){  return skipWhitespaceAndComment_StringPartJc_F(this,  null/*_thCxt*/); }
 
-  virtual bool startsWith(StringJcpp sCmp){  return startsWith_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
+  virtual bool startsWith(StringJc sCmp){  return startsWith_StringPartJc_F(this, sCmp,  null/*_thCxt*/); }
 
-  virtual StringJc substring(int32 pos, int32 posendP){  return substring_StringPartJc_F(this, pos, posendP,  null/*_thCxt*/); }
+  virtual struct Part_StringPartJc_t* subSequence(int32 from, int32 to){  return subSequence_StringPartJc_F(this, from, to,  null/*_thCxt*/); }
+
+  virtual struct Part_StringPartJc_t* substring(int32 pos, int32 posendP){  return substring_StringPartJc_F(this, pos, posendP,  null/*_thCxt*/); }
 
   virtual void throwIndexOutOfBoundsException(StringJcpp sMsg){ throwIndexOutOfBoundsException_StringPartJc_F(this, sMsg,  null/*_thCxt*/); }
 
@@ -1088,8 +1038,6 @@ class StringPartJc : private StringPartJc_s
   virtual StringPartJc& trimComment(){ trimComment_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
 
   virtual StringPartJc& trim(){ trim_StringPartJc_F(this,  null/*_thCxt*/);  return *this; }
-
-  virtual StringPartJc& xxxseekEnd(StringJcpp sSeek){ xxxseekEnd_StringPartJc_F(this, sSeek,  null/*_thCxt*/);  return *this; }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

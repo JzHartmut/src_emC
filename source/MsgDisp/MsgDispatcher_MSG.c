@@ -8,7 +8,7 @@
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "Fwc/fw_Exception.h"  //reference-association: ExceptionJc
 #include "Fwc/fw_LogMessage.h"  //reference-association: LogMessageStream_FW
-#include "J1c/StringPartJc.h"  //embedded type in block
+#include "J1c/StringPartScanJc.h"  //embedded type in block
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/ConcurrentLinkedQueueJc.h"  //reference-association: freeOrders
 #include "Jc/FileIoJc.h"  //reference-association: FileDescriptorJc
@@ -326,7 +326,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
   
   { 
     StringJc sError = NULL_StringJc; 
-    StringPartJc_s spCtrl = { 0 };   /**/
+    StringPartScanJc_s spCtrl = { 0 };   /**/
     bool continueAll = true; 
     
     
@@ -339,10 +339,10 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
     
     //J2C: constructor for embedded element-ObjectJc
     init_ObjectJc(&(spCtrl.base.object), sizeof(spCtrl), 0); 
-    ctorO_S_StringPartJc(/*static*/&(spCtrl.base.object), ctrl, _thCxt);
-    setIgnoreWhitespaces_StringPartJc_F(& (spCtrl), true, _thCxt);
-    setIgnoreComment_SS_StringPartJc_F(& (spCtrl), s0_StringJc("/*"), s0_StringJc("*/"), _thCxt);
-    setIgnoreEndlineComment_S_StringPartJc_F(& (spCtrl), s0_StringJc("//"), _thCxt);
+    ctorO_t_StringPartScanJc(/*static*/&(spCtrl.base.object), ctrl, _thCxt);
+    setIgnoreWhitespaces_StringPartJc_F(& ((spCtrl).base.super), true, _thCxt);
+    setIgnoreComment_SS_StringPartJc_F(& ((spCtrl).base.super), s0_StringJc("/*"), s0_StringJc("*/"), _thCxt);
+    setIgnoreEndlineComment_S_StringPartJc_F(& ((spCtrl).base.super), s0_StringJc("//"), _thCxt);
     continueAll = true;
     TRY
     { 
@@ -356,8 +356,8 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
           /*no initvalue*/
           /*no initvalue*/
           if(
-          ( seekNoWhitespaceOrComments_StringPartJc_F(& (spCtrl), _thCxt)
-          , length_StringPartJc_F(& (spCtrl), _thCxt)
+          ( seekNoWhitespaceOrComments_StringPartJc_F(& ((spCtrl).base.super), _thCxt)
+          , length_StringPartJc_F(& ((spCtrl).base.super), _thCxt)
           ) == 0) 
           { 
             
@@ -365,25 +365,25 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
             
           }
           else if(
-          ( scanInteger_StringPartJc_F(& (spCtrl), _thCxt)
-          , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+          ( scanInteger_StringPartScanJc_F(& (spCtrl), _thCxt)
+          , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
           )) 
           { 
             
-            fromIdent = (int32)getLastScannedIntegerNumber_StringPartJc_F(& (spCtrl), _thCxt);
+            fromIdent = (int32)getLastScannedIntegerNumber_StringPartScanJc_F(& (spCtrl), _thCxt);
             toIdent = -1;
             if(
-            ( scan_StringPartJc_F(& (spCtrl), s0_StringJc(".."), _thCxt)
-            , scanInteger_StringPartJc_F(& (spCtrl), _thCxt)
-            , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+            ( scan_t_StringPartScanJc_F(& (spCtrl), ((/*J2C:cast$ from char const**/StringJc)("..")), _thCxt)
+            , scanInteger_StringPartScanJc_F(& (spCtrl), _thCxt)
+            , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
             )) 
             { 
               
-              toIdent = (int32)getLastScannedIntegerNumber_StringPartJc_F(& (spCtrl), _thCxt);
+              toIdent = (int32)getLastScannedIntegerNumber_StringPartScanJc_F(& (spCtrl), _thCxt);
             }
             if(!
-            ( scan_StringPartJc_F(& (spCtrl), s0_StringJc(":"), _thCxt)
-            , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+            ( scan_t_StringPartScanJc_F(& (spCtrl), ((/*J2C:cast$ from char const**/StringJc)(":")), _thCxt)
+            , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
             )) 
             { 
               
@@ -398,18 +398,18 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
                 toIdent = fromIdent;
               }
               if(
-              ( scanHexOrDecimal_StringPartJc_F(& (spCtrl), 8, _thCxt)
-              , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+              ( scanHexOrDecimal_StringPartScanJc_F(& (spCtrl), 8, _thCxt)
+              , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
               )) 
               { 
                 int32 dst; 
                 
                 
-                dst = (int32)getLastScannedIntegerNumber_StringPartJc_F(& (spCtrl), _thCxt);
+                dst = (int32)getLastScannedIntegerNumber_StringPartScanJc_F(& (spCtrl), _thCxt);
                 setOutputRange_MsgDispatcher_MSG(ythis, fromIdent, toIdent, dst, mSet_MsgDispatcherCore_MSG, 3, _thCxt);
                 if(!
-                ( scan_StringPartJc_F(& (spCtrl), s0_StringJc(";"), _thCxt)
-                , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+                ( scan_t_StringPartScanJc_F(& (spCtrl), ((/*J2C:cast$ from char const**/StringJc)(";")), _thCxt)
+                , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
                 )) 
                 { 
                   
@@ -431,24 +431,24 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
                     
                     sOutput = null_StringJc/*J2C:non-persistent*/;
                     if(
-                  ( scan_StringPartJc_F(& (spCtrl), s0_StringJc("+"), _thCxt)
-                  , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+                  ( scan_t_StringPartScanJc_F(& (spCtrl), ((/*J2C:cast$ from char const**/StringJc)("+")), _thCxt)
+                  , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
                   )) 
                     { 
                       
                       mode = mAdd_MsgDispatcherCore_MSG;
                     }
                     else if(
-                  ( scan_StringPartJc_F(& (spCtrl), s0_StringJc("-"), _thCxt)
-                  , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+                  ( scan_t_StringPartScanJc_F(& (spCtrl), ((/*J2C:cast$ from char const**/StringJc)("-")), _thCxt)
+                  , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
                   )) 
                     { 
                       
                       mode = mRemove_MsgDispatcherCore_MSG;
                     }
                     else if(
-                  ( scan_StringPartJc_F(& (spCtrl), s0_StringJc(";"), _thCxt)
-                  , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+                  ( scan_t_StringPartScanJc_F(& (spCtrl), ((/*J2C:cast$ from char const**/StringJc)(";")), _thCxt)
+                  , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
                   )) 
                     { 
                       
@@ -467,14 +467,16 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
                     { 
                       
                       if(
-                    ( scanIdentifier_StringPartJc_F(& (spCtrl), _thCxt)
-                    , scanOk_StringPartJc_F(& (spCtrl), _thCxt)
+                    ( scanIdentifier_StringPartScanJc_F(& (spCtrl), _thCxt)
+                    , scanOk_StringPartScanJc_F(& (spCtrl), _thCxt)
                     )) 
                       { 
-                        StringJc _persistring9_1=NULL_StringJc; //J2C: temporary persistent Strings
+                        StringJc _temp9_1; //J2C: temporary references for concatenation
                         
-                        sOutput = _persistring9_1 = persist_StringJc(getLastScannedString_StringPartJc_F(& (spCtrl), _thCxt))/*J2C:non-persistent*/;
-                        activateGC_ObjectJc(PTR_StringJc(_persistring9_1), null, _thCxt);
+                        sOutput = 
+                      ( _temp9_1= getLastScannedString_StringPartScanJc_F(& (spCtrl), _thCxt)
+                      , toString_StringJc(_temp9_1, _thCxt)
+                      )/*J2C:non-persistent*/;
                       }
                       else 
                       { 
@@ -560,7 +562,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, Strin
       
         ( append_s_StringBuilderJc(errorBuffer, sError, _thCxt)
         , append_z_StringBuilderJc(errorBuffer, " at:", _thCxt)
-        , append_s_StringBuilderJc(errorBuffer, getCurrent_StringPartJc_F(& (spCtrl), nrofCharsRest, _thCxt), _thCxt)
+        , append_s_StringBuilderJc(errorBuffer, getCurrent_StringPartJc_F(& ((spCtrl).base.super), nrofCharsRest, _thCxt), _thCxt)
         );
     }
     { STACKTRC_LEAVE;

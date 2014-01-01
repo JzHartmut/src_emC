@@ -83,11 +83,15 @@ void finalize_ByteDataAccessJc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern const int8 kNothing_ByteDataAccessJc;   /*Definition of the code of no information, return from next()*/
 #define kText_ByteDataAccessJc 1  /*Aussage: es ist ein String (XML: text()), kein Tag im String*/
 #define kUndefined_ByteDataAccessJc -0x3f  /*coding: the value is undefined*/
+#define kInitializedWithLength_ByteDataAccessJc -3  /*Designation whether a instance is initialized with a local length.*/
 #define kIdxElementCode_ByteDataAccessJc 0  /*Index in the data, position of element code*/
 
 
 /**Constructs a new empty instance. Use assign() to work with it. */
 METHOD_C struct ByteDataAccessJc_t* ctorO_ByteDataAccessJc(ObjectJc* othis, ThCxt* _thCxt);
+
+/**Constructs a new empty instance*/
+METHOD_C struct ByteDataAccessJc_t* ctorO_ii_ByteDataAccessJc(ObjectJc* othis, int32 sizeHead, int32 sizeData, ThCxt* _thCxt);
 
 /**Conversion of characters in range 0x80..0xbf */
 METHOD_C int32 getLengthHead_ByteDataAccessJc(ByteDataAccessJc_s* ythis, ThCxt* _thCxt);
@@ -127,7 +131,14 @@ METHOD_C void assignData_iYi_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void assignData_iYi_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 length, ThCxt* _thCxt);
 
-/**Assigns new data to this element at given index in data*/
+/**Assigns new data to this element at given index in data.*/
+typedef void MT_assignData_iYiii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthHead, int32 lengthData, int32 index, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void assignData_iYiii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthHead, int32 lengthData, int32 index, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C void assignData_iYiii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthHead, int32 lengthData, int32 index, ThCxt* _thCxt);
+
+/**Assigns data without a given length of head*/
 typedef void MT_assignData_iYii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt);
@@ -135,7 +146,7 @@ METHOD_C void assignData_iYii_ByteDataAccessJc_F(ByteDataAccessJc_s* ythis, int8
 METHOD_C void assignData_iYii_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt);
 
 /**Resets the view to the buffer*/
-METHOD_C void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthData, ThCxt* _thCxt);
+METHOD_C void reset_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int32 lengthHead, int32 lengthData, ThCxt* _thCxt);
 
 /**Initializes a top level, the data are considered as non initalized.*/
 METHOD_C void assignEmpty_ByteDataAccessJc(ByteDataAccessJc_s* ythis, int8_Y* data, ThCxt* _thCxt);
@@ -420,6 +431,7 @@ typedef struct Mtbl_ByteDataAccessJc_t
   MT_specifyLengthElement_ByteDataAccessJc* specifyLengthElement;
   MT_specifyLengthCurrentChildElement_ByteDataAccessJc* specifyLengthCurrentChildElement;
   MT_assignData_iYi_ByteDataAccessJc* assignData_iYi;
+  MT_assignData_iYiii_ByteDataAccessJc* assignData_iYiii;
   MT_assignData_iYii_ByteDataAccessJc* assignData_iYii;
   MT_assignDataToFixChilds_ByteDataAccessJc* assignDataToFixChilds;
   MT_notifyAddChild_ByteDataAccessJc* notifyAddChild;
@@ -481,6 +493,8 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
 
   virtual void assignData(int8_Y* data, int32 lengthData, int32 index){ assignData_iYii_ByteDataAccessJc_F(this, data, lengthData, index,  null/*_thCxt*/); }
 
+  virtual void assignData(int8_Y* data, int32 lengthHead, int32 lengthData, int32 index){ assignData_iYiii_ByteDataAccessJc_F(this, data, lengthHead, lengthData, index,  null/*_thCxt*/); }
+
   void assignDowncast_i(struct ByteDataAccessJc_t* input){ assignDowncast_i_ByteDataAccessJc(this, input,  null/*_thCxt*/); }
 
   void assignEmpty(int8_Y* data){ assignEmpty_ByteDataAccessJc(this, data,  null/*_thCxt*/); }
@@ -492,6 +506,8 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
   void correctCurrentChildEnd(int32 idxEndNew){ correctCurrentChildEnd_ByteDataAccessJc(this, idxEndNew,  null/*_thCxt*/); }
 
   ByteDataAccessJc(){ init_ObjectJc(&this->base.object, sizeof(ByteDataAccessJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_ByteDataAccessJc_s, 0); ctorO_ByteDataAccessJc(&this->base.object,  null/*_thCxt*/); }
+
+  ByteDataAccessJc(int32 sizeHead, int32 sizeData){ init_ObjectJc(&this->base.object, sizeof(ByteDataAccessJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_ByteDataAccessJc_s, 0); ctorO_ii_ByteDataAccessJc(&this->base.object, sizeHead, sizeData,  null/*_thCxt*/); }
 
   void detach(){ detach_ByteDataAccessJc(this,  null/*_thCxt*/); }
 
@@ -575,7 +591,7 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
 
   void removeChildren(){ removeChildren_ByteDataAccessJc(this,  null/*_thCxt*/); }
 
-  void reset(int32 lengthData){ reset_ByteDataAccessJc(this, lengthData,  null/*_thCxt*/); }
+  void reset(int32 lengthHead, int32 lengthData){ reset_ByteDataAccessJc(this, lengthHead, lengthData,  null/*_thCxt*/); }
 
   void rewind(){ rewind_ByteDataAccessJc(this,  null/*_thCxt*/); }
 

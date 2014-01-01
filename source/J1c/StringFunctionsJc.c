@@ -6,11 +6,13 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Jc/MathJc.h"  //reference-association: MathJc_s
+#include "J1c/SpecialCharStringsJc.h"  //reference-association: SpecialCharStringsJc_s
+#include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data
 
 
 /* J2C: Forward declaration of struct ***********************************************/
+struct StringBuilderJc_t;
 
 /**This class contains static String functions without any other dependency.
 In C the functions are contained in the Fwc/fw_String.c.
@@ -87,9 +89,9 @@ int32 posAfterIdentifier_tiiSS_StringFunctionsJc(/*static*/ StringJc src, int32 
 
 
 /**Parses a given String and convert it to the integer number.*/
-int32 parseIntRadix_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, ThCxt* _thCxt)
+int32 parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("parseIntRadix_StringFunctionsJc");
+  STACKTRC_TENTRY("parseIntRadix_SiiiiYS_StringFunctionsJc");
   
   { 
     int32 val = 0; 
@@ -99,8 +101,6 @@ int32 parseIntRadix_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
     
     
     val = 0;
@@ -115,8 +115,6 @@ int32 parseIntRadix_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32
       size = sizeP;
     }
     maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
-    maxHexDigitLower = ((/*J2C:cast% from char*/int32)('A' + radix - 11));
-    maxHexDigitUpper = ((/*J2C:cast% from char*/int32)('a' + radix - 11));
     if(charAt_StringJc(srcP, ixSrc) == '-') 
     { 
       
@@ -130,12 +128,118 @@ int32 parseIntRadix_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32
       bNegativ = false;
     }
     
-    while(size > 0 && (digit = /*? assignment*/(cc = /*? assignment*/charAt_StringJc(srcP, ixSrc)) - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix))))
+    while(--size >= 0)
       { 
         
-        val = radix * val + digit;
-        ixSrc += 1;
-        size -= 1;
+        cc = charAt_StringJc(srcP, ixSrc);
+        if(spaceChars.ptr__!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        { 
+          
+          ixSrc += 1;
+        }
+        else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
+        { 
+          
+          val = radix * val + digit;
+          ixSrc += 1;
+        }
+        else 
+        { 
+          
+          break;
+        }
+      }
+    if(bNegativ) 
+    { 
+      
+      val = -val;
+    }
+    if(parsedChars != null) 
+    { 
+      
+      parsedChars->data[0] = ixSrc - pos;
+    }
+    { STACKTRC_LEAVE;
+      return (val);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+int32 parseIntRadix_SiiiiY_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("parseIntRadix_SiiiiY_StringFunctionsJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/srcP, pos, sizeP, radix, parsedChars, null_StringJc, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
+int64 parseLong_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("parseLong_StringFunctionsJc");
+  
+  { 
+    int64 val = 0; 
+    bool bNegativ = 0; 
+    int32 digit = 0; 
+    char cc = 0; 
+    int32 ixSrc; 
+    int32 size; 
+    int32 maxDigit; 
+    
+    
+    val = 0;
+    /*no initvalue*/
+    /*no initvalue*/
+    /*no initvalue*/
+    ixSrc = pos;
+    size = length_StringJc(srcP) - pos;
+    if(size > sizeP) 
+    { 
+      
+      size = sizeP;
+    }
+    maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
+    if(charAt_StringJc(srcP, ixSrc) == '-') 
+    { 
+      
+      ixSrc += 1;
+      size -= 1;
+      bNegativ = true;
+    }
+    else 
+    { 
+      
+      bNegativ = false;
+    }
+    
+    while(--size >= 0)
+      { 
+        
+        cc = charAt_StringJc(srcP, ixSrc);
+        if(spaceChars.ptr__!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        { 
+          
+          ixSrc += 1;
+        }
+        else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
+        { 
+          
+          val = radix * val + digit;
+          ixSrc += 1;
+        }
+        else 
+        { 
+          
+          break;
+        }
       }
     if(bNegativ) 
     { 
@@ -168,8 +272,8 @@ int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, i
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@f5cbda*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@85f086*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@85f086*/; 
     int32 multPosition = 1; 
     
     
@@ -241,7 +345,7 @@ float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 siz
     }
     
     zParsed = (int32_Y*)ctorO_ObjectArrayJc((newObj1_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (1) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 1, sizeof(int32),REFLECTION_int32, 0);
-    ret = parseIntRadix_StringFunctionsJc(/*static*/src, pos, size, 10, zParsed, _thCxt);
+    ret = parseIntRadix_SiiiiY_StringFunctionsJc(/*static*/src, pos, size, 10, zParsed, _thCxt);
     parsedChars += zParsed->data[0];//maybe 0 if .123 is written
     
     ixsrc = pos + zParsed->data[0];
@@ -251,16 +355,16 @@ float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 siz
       float fracPart; 
       
       
-      fracPart = parseIntRadix_StringFunctionsJc(/*static*/src, ixsrc + 1, size - 1, 10, zParsed, _thCxt);
+      fracPart = parseIntRadix_SiiiiY_StringFunctionsJc(/*static*/src, ixsrc + 1, size - 1, 10, zParsed, _thCxt);
       if(zParsed->data[0] > 0) 
       { 
         
         switch(zParsed->data[0]){
           case 1: fracPart *= 0.1F;break;
           case 2: fracPart *= 0.01F;break;
-          case 3: fracPart *= 0.0010F;break;
+          case 3: fracPart *= 0.001F;break;
           case 4: fracPart *= 1.0E-4F;break;
-          case 5: fracPart *= 9.999999999999999E-6F;break;
+          case 5: fracPart *= 1.0E-5F;break;
           case 6: fracPart *= 1.0E-6F;break;
           case 7: fracPart *= 1.0E-7F;break;
           case 8: fracPart *= 1.0E-8F;break;
@@ -289,65 +393,109 @@ float parseFloat_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 siz
 
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
-int32 compare_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt)
+int32 compare_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("compare_StringFunctionsJc");
+  STACKTRC_TENTRY("compare_tt_StringFunctionsJc");
   
   { 
+    
+    { STACKTRC_LEAVE;
+      return compare_titii_StringFunctionsJc(/*static*/s1, 0, s2, 0, MAX_VALUE_IntegerJc, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Compares two CharSequence (Strings, StringBuilder-content etc.*/
+int32 compare_titii_StringFunctionsJc(/*static*/ StringJc s1, int32 from1, StringJc s2, int32 from2, int32 nrofChars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("compare_titii_StringFunctionsJc");
+  
+  { 
+    int32 i1; 
+    int32 i2; 
     int32 z; 
+    int32 returnEq = 0; 
     
     
-    z = min_MathJc(/*static*/length_StringJc(s1), length_StringJc(s2));
-    { int32 ii; 
-      for(ii = 0; ii < z; ++ii)
+    i1 = from1 - 1;
+    i2 = from2 - 1;
+    z = nrofChars + from1;
+    returnEq = 0;
+    if(z > length_StringJc(s1)) 
+    { 
+      int32 nrofChars1; 
+      int32 z2; 
+      
+      
+      z = length_StringJc(s1);
+      nrofChars1 = z - from1;
+      z2 = from2 + nrofChars1;
+      if(z2 == length_StringJc(s2)) 
+      { 
+        
+        returnEq = 0;
+      }//both have the same length after shorten.
+      
+      else if(z2 > length_StringJc(s2)) 
+      { 
+        int32 nrofChars2; 
+        
+        
+        nrofChars2 = length_StringJc(s2) - from2;
+        z = from1 + nrofChars2;//reduce length because s2
+        
+        returnEq = 1;//returns 1 if equal because s2 is shorter
+        
+      }
+      else 
+      { 
+        
+        returnEq = -1;
+      }//returns -1 if equal because s1 is shorter
+      
+    }
+    else if((from2 + nrofChars) > length_StringJc(s2)) 
+    { //:s2 is shorter than the requested or adjusted length:
+      
+      
+      z = (length_StringJc(s2) - from2) + from1;
+      returnEq = 1;//returns 1 if equal because s2 is shorter
+      
+    }
+    
+    while(++i1 < z)
+      { 
+        char c1; 
+        char c2; 
+        
+        
+        c1 = charAt_StringJc(s1, i1);
+        c2 = charAt_StringJc(s2, ++i2);
+        if(c1 != c2) 
         { 
-          char c1; 
-          char c2; 
           
-          
-          c1 = charAt_StringJc(s1, ii);
-          c2 = charAt_StringJc(s2, ii);
-          if(c1 != c2) 
+          if(c1 < c2) 
           { 
             
-            if(c1 < c2) 
-            { 
-              
-              { STACKTRC_LEAVE;
-              return -1;
-            }
-            }
-            else if(c1 > c2) 
-            { 
-              
-              { STACKTRC_LEAVE;
-              return 1;
-            }
-            }
+            { STACKTRC_LEAVE;
+            return -1;
           }
-        }//all chars till z are equal.
-        
+          }
+          else if(c1 > c2) 
+          { 
+            
+            { STACKTRC_LEAVE;
+            return 1;
+          }
+          }
+        }
+      }//all chars till z are equal.
+      
+    { STACKTRC_LEAVE;
+      return returnEq;
     }
-    if(z < length_StringJc(s1)) 
-    { 
-      
-      { STACKTRC_LEAVE;
-        return 1;
-      }
-    }//s1 is greater because longer
-    
-    else if(z < length_StringJc(s2)) 
-    { 
-      
-      { STACKTRC_LEAVE;
-        return -1;
-      }
-    }//s1 is shorter because it determines the shorter length.
-    
-    else { STACKTRC_LEAVE;
-      return 0;
-    }//are equal
-    
   }
   STACKTRC_LEAVE;
 }
@@ -359,10 +507,23 @@ bool equals_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _th
   STACKTRC_TENTRY("equals_tt_StringFunctionsJc");
   
   { 
+    
+    { STACKTRC_LEAVE;
+      return equals_tiit_StringFunctionsJc(/*static*/s1, 0, length_StringJc(s1), s2, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+bool equals_tiit_StringFunctionsJc(/*static*/ StringJc s1, int32 from, int32 to, StringJc s2, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("equals_tiit_StringFunctionsJc");
+  
+  { 
     int32 zz; 
     
     
-    zz = length_StringJc(s1);
+    zz = to - from;
     if(zz != length_StringJc(s2)) { STACKTRC_LEAVE;
       return false;
     }
@@ -373,7 +534,7 @@ bool equals_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _th
         for(ii = 0; ii < zz; ++ii)
           { 
             
-            if(charAt_StringJc(s1, ii) != charAt_StringJc(s2, ii)) { STACKTRC_LEAVE;
+            if(charAt_StringJc(s1, from + ii) != charAt_StringJc(s2, ii)) { STACKTRC_LEAVE;
             return false;
           }
           }
@@ -381,6 +542,426 @@ bool equals_tt_StringFunctionsJc(/*static*/ StringJc s1, StringJc s2, ThCxt* _th
       { STACKTRC_LEAVE;
         return true;
       }
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether the given CharSequence starts with a CharSequence.*/
+bool startsWith_tt_StringFunctionsJc(/*static*/ StringJc sq, StringJc start, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("startsWith_tt_StringFunctionsJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return compare_titii_StringFunctionsJc(/*static*/sq, 0, start, 0, length_StringJc(start), _thCxt) == 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether the given CharSequence starts with a CharSequence.*/
+bool startsWith_tiit_StringFunctionsJc(/*static*/ StringJc sq, int32 from, int32 to, StringJc start, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("startsWith_tiit_StringFunctionsJc");
+  
+  { 
+    int32 zstart; 
+    
+    
+    zstart = length_StringJc(start);
+    if((to - from) < zstart) { STACKTRC_LEAVE;
+      return false;
+    }
+    { STACKTRC_LEAVE;
+      return compare_titii_StringFunctionsJc(/*static*/sq, from, start, 0, zstart, _thCxt) == 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether the given CharSequence ends with a CharSequence.*/
+bool endsWith_StringFunctionsJc(/*static*/ StringJc sq, StringJc end, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("endsWith_StringFunctionsJc");
+  
+  { 
+    int32 z; 
+    
+    
+    z = length_StringJc(end);
+    if(z > length_StringJc(sq)) { STACKTRC_LEAVE;
+      return false;
+    }
+    else { STACKTRC_LEAVE;
+      return compare_titii_StringFunctionsJc(/*static*/sq, length_StringJc(sq) - z, end, 0, z, _thCxt) == 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Returns false if at least one char was found in text which is not a whitespace.*/
+bool isEmptyOrOnlyWhitespaces_StringFunctionsJc(/*static*/ StringJc text, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("isEmptyOrOnlyWhitespaces_StringFunctionsJc");
+  
+  { 
+    char cc = 0; 
+    int32 zz; 
+    int32 ii = -1; 
+    
+    
+    /*no initvalue*/
+    zz = length_StringJc(text);
+    ii = -1;
+    
+    while(++ii < zz)
+      { 
+        
+        cc = charAt_StringJc(text, ii);
+        if(indexOf_C_StringJc(zI_StringJc(" \t\n\r",4), cc) < 0) 
+        { 
+          
+          { STACKTRC_LEAVE;
+          return false;
+        }
+        }//other character than whitespace
+        
+      }
+    { STACKTRC_LEAVE;
+      return true;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Searches the first occurrence of the given CharSequence in a CharSequence.*/
+int32 indexOf_tiic_StringFunctionsJc(/*static*/ StringJc sq, int32 fromIndex, int32 to, char ch, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("indexOf_tiic_StringFunctionsJc");
+  
+  { 
+    int32 zsq; 
+    int32 max; 
+    int32 ii; 
+    
+    
+    zsq = length_StringJc(sq);
+    max = to > zsq ? zsq : to;
+    ii = fromIndex - 1;
+    if(fromIndex < 0) 
+    { 
+      
+      ii = -1;
+    }
+    else if(fromIndex >= max) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return -1;
+      }
+    }
+    
+    while(++ii < max)
+      { 
+        
+        if(charAt_StringJc(sq, ii) == ch) 
+        { 
+          
+          { STACKTRC_LEAVE;
+          return ii;
+        }
+        }
+      }
+    { STACKTRC_LEAVE;
+      return -1;
+    }//not found;
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Searches the first occurrence of the given Character in a CharSequence.*/
+int32 indexOf_tci_StringFunctionsJc(/*static*/ StringJc sq, char ch, int32 fromIndex, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("indexOf_tci_StringFunctionsJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return indexOf_tiic_StringFunctionsJc(/*static*/sq, fromIndex, MAX_VALUE_IntegerJc, ch, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Searches the last occurrence of the given char in a CharSequence.*/
+int32 lastIndexOf_tc_StringFunctionsJc(/*static*/ StringJc sq, char ch, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("lastIndexOf_tc_StringFunctionsJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return lastIndexOf_tiic_StringFunctionsJc(/*static*/sq, 0, MAX_VALUE_IntegerJc, ch, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Searches the last occurrence of the given char in a CharSequence.*/
+int32 lastIndexOf_tiic_StringFunctionsJc(/*static*/ StringJc sq, int32 from, int32 to, char ch, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("lastIndexOf_tiic_StringFunctionsJc");
+  
+  { 
+    int32 zsq; 
+    int32 ii; 
+    
+    
+    zsq = length_StringJc(sq);
+    ii = to > zsq ? zsq : to;
+    
+    while(--ii >= from)
+      { 
+        
+        if(charAt_StringJc(sq, ii) == ch) 
+        { 
+          
+          { STACKTRC_LEAVE;
+          return ii;
+        }
+        }
+      }
+    { STACKTRC_LEAVE;
+      return -1;
+    }//not found;
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether the given CharSequence contains the other given CharSequence.*/
+int32 indexOf_tiit_StringFunctionsJc(/*static*/ StringJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("indexOf_tiit_StringFunctionsJc");
+  
+  { 
+    int32 zsq; 
+    int32 max; 
+    int32 ii; 
+    char ch; 
+    
+    
+    zsq = length_StringJc(sq);
+    max = (to >= zsq ? zsq : to) - length_StringJc(str) + 1;
+    ii = fromIndex - 1;
+    if(fromIndex < 0) 
+    { 
+      
+      ii = -1;
+    }
+    else if(fromIndex >= max) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return -1;
+      }
+    }
+    ch = charAt_StringJc(str, 0);
+    
+    while(++ii < max)
+      { 
+        
+        if(charAt_StringJc(sq, ii) == ch) 
+        { //:search first char of str
+          
+          int32 s1 = 0; 
+          
+          
+          s1 = 0;
+          { int32 jj; 
+            for(jj = ii + 1; jj < ii + length_StringJc(str); ++jj)
+              { 
+                
+                if(charAt_StringJc(sq, jj) != charAt_StringJc(str, ++s1)) 
+                { 
+                  
+                  s1 = -1;//designate: not found
+                  
+                  break;
+                }
+              }
+          }
+          if(s1 >= 0) { STACKTRC_LEAVE;
+          return ii;
+        }//found.
+          
+        }
+      }
+    { STACKTRC_LEAVE;
+      return -1;
+    }//not found;
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Searches the first occurrence of the given CharSequence in a CharSequence.*/
+int32 indexOf_tti_StringFunctionsJc(/*static*/ StringJc sq, StringJc str, int32 fromIndex, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("indexOf_tti_StringFunctionsJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return indexOf_tiit_StringFunctionsJc(/*static*/sq, fromIndex, MAX_VALUE_IntegerJc, str, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether the given CharSequence contains the other given CharSequence.*/
+int32 lastIndexOf_tiit_StringFunctionsJc(/*static*/ StringJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("lastIndexOf_tiit_StringFunctionsJc");
+  
+  { 
+    int32 zsq; 
+    int32 max; 
+    char ch; 
+    
+    
+    zsq = length_StringJc(sq);
+    max = (to >= zsq ? zsq : to) - length_StringJc(str) + 1;
+    if(fromIndex >= max) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return -1;
+      }
+    }
+    ch = charAt_StringJc(str, 0);
+    
+    while(--max >= fromIndex)
+      { 
+        
+        if(charAt_StringJc(sq, max) == ch) 
+        { 
+          int32 s1 = 0; 
+          
+          
+          s1 = 0;
+          { int32 jj; 
+            for(jj = max + 1; jj < max + length_StringJc(str); ++jj)
+              { 
+                
+                if(charAt_StringJc(sq, jj) != charAt_StringJc(str, ++s1)) 
+                { 
+                  
+                  s1 = -1;//designate: not found
+                  
+                  break;
+                }
+              }
+          }
+          if(s1 > 0) { STACKTRC_LEAVE;
+          return max;
+        }//found.
+          
+        }
+      }
+    { STACKTRC_LEAVE;
+      return -1;
+    }//not found;
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Resolves the given String containing some transcription chars (usual backslash)*/
+StringJc convertTranscription_StringFunctionsJc(/*static*/ StringJc src, char transcriptChar, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("convertTranscription_StringFunctionsJc");
+  
+  { 
+    StringJc sResult; 
+    int32 posSwitch; 
+    
+    
+    /*no initvalue*/
+    posSwitch = indexOf_tiic_StringFunctionsJc(/*static*/src, 0, length_StringJc(src), transcriptChar, _thCxt);
+    if(posSwitch < 0) 
+    { 
+      
+      sResult = src/*J2C:non-persistent*/;
+    }
+    else 
+    { //:escape character is found before end
+      
+      struct StringBuilderJc_t* sbReturn = null; 
+      
+      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
+      
+      
+      sbReturn = ctorO_s_StringBuilderJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), src, _thCxt);
+      
+      while(posSwitch >= 0)
+        { 
+          char cNext; 
+          int32 iChangedChar = 0; 
+          
+          StringJc _temp3_1; //J2C: temporary references for concatenation
+          
+          if(posSwitch < length_StringBuilderJc(sbReturn) - 1) 
+          { 
+            
+            deleteCharAt_StringBuilderJc(sbReturn, posSwitch, _thCxt);
+          }
+          cNext = charAt_StringBuilderJc(sbReturn, posSwitch, _thCxt);
+          /*no initvalue*/
+          if((iChangedChar = /*? assignment*/indexOf_C_StringJc(zI_StringJc("snrtfb",6), cNext)) >= 0) 
+          { 
+            
+            setCharAt_StringBuilderJc(sbReturn, posSwitch, charAt_StringJc(zI_StringJc(" \n\r\t\f\b",6), iChangedChar), _thCxt);
+          }
+          else if(cNext == 'a') 
+          { //: \a means end of file, coded inside with 4 = EOT (end of transmission).
+            
+            
+            setCharAt_StringBuilderJc(sbReturn, posSwitch, cStartOfText_SpecialCharStringsJc, _thCxt);
+          }
+          else if(cNext == 'e') 
+          { //: \e means end of file, coded inside with 4 = EOT (end of transmission).
+            
+            
+            setCharAt_StringBuilderJc(sbReturn, posSwitch, cEndOfText_SpecialCharStringsJc, _thCxt);
+          }
+          else 
+          { }
+          posSwitch = 
+          ( _temp3_1= toString_StringBuilderJc(& ((* (sbReturn)).base.object), _thCxt)
+          , indexOf_CI_StringJc(_temp3_1, transcriptChar, posSwitch + 1)
+          );
+        }
+      sResult = toString_StringBuilderJc(&(sbReturn)->base.object, _thCxt)/*J2C:non-persistent*/;
+      activateGC_ObjectJc(newObj2_1, null, _thCxt);
+    }
+    { STACKTRC_LEAVE;
+      return sResult;
     }
   }
   STACKTRC_LEAVE;

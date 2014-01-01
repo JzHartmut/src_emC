@@ -24,6 +24,12 @@ struct StringFormatterJc_t;
  * The inclusion of all that header files isn't necessary, to prevent circular inclusion.
  * It is adequate a struct pointer forward declaration.
  */
+#ifndef SimpleDateFormatJcREFDEF
+  //J2C: definition of enhanced reference where it was need firstly: 
+  #define SimpleDateFormatJcREFDEF
+  struct SimpleDateFormatJc_t;
+  DEFINE_EnhancedRefJc(SimpleDateFormatJc);
+#endif
 #ifndef StringBuilderJcREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define StringBuilderJcREFDEF
@@ -33,6 +39,7 @@ struct StringFormatterJc_t;
 
 
 /* J2C: includes *********************************************************/
+#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /*@CLASS_C StringFormatterJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -44,6 +51,14 @@ typedef struct StringFormatterJc_t
   int32 pos;   /*The position of actual writing.*/
   bool bInsert;   /*True than add inserts, false than it overwrites. */
   char cDecimalSeparator; 
+  StringJc sDatePrefixNewer; 
+  SimpleDateFormatJcREF dateFormatNewer; 
+  StringJc sDatePrefixToday; 
+  SimpleDateFormatJcREF dateFormatToday; 
+  StringJc sDatePrefixYear; 
+  SimpleDateFormatJcREF dateFormatYear; 
+  StringJc sDatePrefixOlder; 
+  SimpleDateFormatJcREF dateFormatOlder; 
 } StringFormatterJc_s;
   
 
@@ -74,7 +89,7 @@ typedef struct StringFormatterJc_Y_t { ObjectArrayJc head; StringFormatterJc_s d
 void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringFormatterJc 20130118  /*Version, history and license.*/
+#define version_StringFormatterJc 20130331  /*Version, history and license.*/
 #define mNrofBytesInWord_StringFormatterJc 0x1f
 #define mBytesInWordBigEndian_StringFormatterJc 0x20  /*If this bit is set in mode, the byte with the lower index is interpreted as higher part of word*/
 #define k1_StringFormatterJc 1  /*The constant determine the number of digits representing a (hex) value and the decision, use first byte left or right side.*/
@@ -114,6 +129,13 @@ typedef StringJc MT_getContent_StringFormatterJc(StringFormatterJc_s* ythis, ThC
 METHOD_C StringJc getContent_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C StringJc getContent_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt);
+
+/**Gets the accumulated content.*/
+typedef StringJc MT_getBuffer_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C StringJc getBuffer_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C StringJc getBuffer_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt);
 
 /**Sets an deviant decimal separator for floating point digigs, country-specific. */
 typedef void MT_setDecimalSeparator_StringFormatterJc(StringFormatterJc_s* ythis, char sep, ThCxt* _thCxt);
@@ -318,6 +340,14 @@ METHOD_C int32 addFloatPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, f
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* ythis, float src, StringJc pict, ThCxt* _thCxt);
 
+typedef StringJc MT_convertTimestampToday_StringFormatterJc(StringFormatterJc_s* ythis, int64 timestamp, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C StringJc convertTimestampToday_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 timestamp, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C StringJc convertTimestampToday_StringFormatterJc(StringFormatterJc_s* ythis, int64 timestamp, ThCxt* _thCxt);
+
+METHOD_C StringJc floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -325,6 +355,7 @@ METHOD_C int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* ythis, flo
 typedef struct Mtbl_StringFormatterJc_t
 { MtblHeadJc head;
   MT_getContent_StringFormatterJc* getContent;
+  MT_getBuffer_StringFormatterJc* getBuffer;
   MT_setDecimalSeparator_StringFormatterJc* setDecimalSeparator;
   MT_reset_StringFormatterJc* reset;
   MT_end_StringFormatterJc* end;
@@ -354,6 +385,7 @@ typedef struct Mtbl_StringFormatterJc_t
   MT_addIntPicture_StringFormatterJc* addIntPicture;
   MT_strPicture_StringFormatterJc* strPicture;
   MT_addFloatPicture_StringFormatterJc* addFloatPicture;
+  MT_convertTimestampToday_StringFormatterJc* convertTimestampToday;
   Mtbl_ObjectJc ObjectJc;
 } Mtbl_StringFormatterJc;
 
@@ -398,6 +430,8 @@ class StringFormatterJc : private StringFormatterJc_s
 
   virtual struct StringFormatterJc_t* addint(int64 nr, StringJcpp sPict){  return addint_StringFormatterJc_F(this, nr, sPict,  null/*_thCxt*/); }
 
+  virtual StringJc convertTimestampToday(int64 timestamp){  return convertTimestampToday_StringFormatterJc_F(this, timestamp,  null/*_thCxt*/); }
+
   StringFormatterJc(StringJcpp str){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_S_StringFormatterJc(&this->base.object, str,  null/*_thCxt*/); }
 
   StringFormatterJc(struct StringBuilderJc_t* buffer){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_Sb_StringFormatterJc(&this->base.object, buffer,  null/*_thCxt*/); }
@@ -407,6 +441,10 @@ class StringFormatterJc : private StringFormatterJc_s
   StringFormatterJc(int32 length){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_i_StringFormatterJc(&this->base.object, length,  null/*_thCxt*/); }
 
   virtual struct StringFormatterJc_t* end(){  return end_StringFormatterJc_F(this,  null/*_thCxt*/); }
+
+  StringJc floatToText(float val, int32 nrofChars){  return floatToText_StringFormatterJc(val, nrofChars,  null/*_thCxt*/); }
+
+  virtual StringJc getBuffer(){  return getBuffer_StringFormatterJc_F(this,  null/*_thCxt*/); }
 
   virtual StringJc getContent(){  return getContent_StringFormatterJc_F(this,  null/*_thCxt*/); }
 

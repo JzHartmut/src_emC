@@ -2,6 +2,16 @@
 Structure of translated java-file "Jc/FileIoJc"
 package java/io/;
 
+
+class Closeable; nameC=CloseableJc; header=Jc/ObjectJc.h; argIdent=C;
+{
+  methods{
+   close-_$, mode=noThCxt: void %.. return();
+ }
+
+}
+
+
 class File; nameC=FileJc_s; argIdent=File; extends java/lang/Object
 {  
   methods {  

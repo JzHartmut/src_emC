@@ -88,13 +88,21 @@
 
 
 
-/**
-* In C-language all c-like Methods are C-Methods, no additional marking.
-*/
-//see os_types_def.h
-//#undef METHOD_C
-//#define METHOD_C
-//#define METHOD_C extern "c"
+
+/*@DEFINE BlockHeapJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**Usage of the BlockHeap management or not and define the size of a block.
+ * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
+ */
+#undef USE_BlockHeapJc
+#undef SIZEBLOCK_BlockHeapJc
+//#define SIZEBLOCK_BlockHeapJc 0x400
+
+#define NO_DYNAMICALLY_MEMORY
+
+/**unused...TODO*/
+//#define SMALL_DYNAMICALLY_MEMORY
+//#define USE_DYNAMICALLY_MEMORY
 
 
 /*@DEFINE EnhancedRefJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
