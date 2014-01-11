@@ -238,9 +238,7 @@ ConcurrentLinkedQueueJc_s* ctorMn_ConcurrentLinkedQueueJc(MemC rawMem, MemC memN
 
 void ctorcMn_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, MemC memNodes) 
 { INIT0p_MemC(ythis);
-  initNodePool_ConcurrentLinkedQueueJcF(ythis, memNodes);
-  ythis->head = new_Node_ConcurrentLinkedQueueJcF(ythis, null, null);
-  ythis->tail = ythis->head;
+  initNodePool_ConcurrentLinkedQueueJc(ythis, memNodes);
 }
 
 /**
@@ -267,9 +265,7 @@ ConcurrentLinkedQueueJc_s* ctorSn_ConcurrentLinkedQueueJc(MemC rawMem, Concurren
 
 void ctorcSn_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, ConcurrentLinkedQueueJc_s* srcNodeShare) 
 { INIT0p_MemC(ythis);
-  shareNodePool_ConcurrentLinkedQueueJcF(ythis, srcNodeShare);
-  ythis->head = new_Node_ConcurrentLinkedQueueJcF(ythis, null, null);
-  ythis->tail = ythis->head;
+  shareNodePool_ConcurrentLinkedQueueJc(ythis, srcNodeShare);
 }
 
 
@@ -531,7 +527,7 @@ int size_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis)
 
 
 
-METHOD_C void initNodePool_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, MemC mem)
+METHOD_C void initNodePool_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, MemC mem)
 { int nrofEntries;
   STACKTRC_ENTRY("newPool_ListMapEntryJc");
   if(PTR_MemC(mem, void) == null)
@@ -551,17 +547,21 @@ METHOD_C void initNodePool_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* y
     //the last entry has entries->rigth_Map = 0xffffffff!
     actNode->next = NOTEXISTING_Node_ConcurrentLinkedQueueJc;
   }
+  ythis->head = new_Node_ConcurrentLinkedQueueJcF(ythis, null, null);
+  ythis->tail = ythis->head;
   STACKTRC_LEAVE;
 }
 
 
 
-METHOD_C void shareNodePool_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, ConcurrentLinkedQueueJc_s* srcShare)
+METHOD_C void shareNodePool_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, ConcurrentLinkedQueueJc_s* srcShare)
 { /*NOTE: the srcShare have to be that linkedlist holding the entryPool.
    * It may be possible to use a always shared List for reference of entry pool,
    * but the user should use the original List.
    */
   ythis->refFreeNodePool = srcShare->refFreeNodePool; 
+  ythis->head = new_Node_ConcurrentLinkedQueueJcF(ythis, null, null);
+  ythis->tail = ythis->head;
 }
 
 

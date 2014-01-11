@@ -101,6 +101,8 @@ struct MemAreaC_t;
  */  
 #define StringJc OS_PtrValue
 
+extern char const sign_Mtbl_StringJc[]; 
+
 
 /**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
  * NOTE: mLength__StringJc is defined in os_types_def.h

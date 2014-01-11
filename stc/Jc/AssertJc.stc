@@ -1,0 +1,14 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Jc/AssertJc"
+package org/vishia/util/;
+
+class Assert; nameC=AssertJc_s; argIdent=Lo; extends java/lang/Object
+{  
+  methods {  
+
+        stop-_$, mode=static: void &.. return();
+        assert-_$, mode=static: void &.. return(boolean &.. cond);
+  }
+  
+}
+

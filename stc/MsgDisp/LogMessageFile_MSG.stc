@@ -57,7 +57,7 @@ fieldIdents {
   int %.. nrofHoursPerFile;
   int %.. nrofSecondsToClose;
   int %.. nrofSecondsToFlush;
-  org/vishia/bridgeC/ConcurrentLinkedQueue *.. parkedOrders;
+  org/vishia/bridgeC/ConcurrentLinkedQueue(instance=org/vishia/bridgeC/ConcurrentLinkedQueue) $.. parkedOrders;
   int %.. posMultifileInFilename;
   int %.. posTimestampInFilename;
   java/lang/StringBuilder(instance=java/lang/StringBuilder, fixBufferSize=1000) $B. sBuffer;

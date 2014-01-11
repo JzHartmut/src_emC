@@ -77,21 +77,21 @@ const char sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG[] = "MsgConfigItem_MsgText_if
 
 typedef struct MtblDef_MsgConfigItem_MsgText_ifc_MSG_t { Mtbl_MsgConfigItem_MsgText_ifc_MSG mtbl; MtblHeadJc end; } MtblDef_MsgConfigItem_MsgText_ifc_MSG;
  extern MtblDef_MsgConfigItem_MsgText_ifc_MSG const mtblMsgConfigItem_MsgText_ifc_MSG;
-void set_type_MsgConfigItem_MsgText_ifc_MSG_F(MsgConfigItem_MsgText_ifc_MSG_s* ythis, StringJc src, ThCxt* _thCxt)
+void set_type_MsgConfigItem_MsgText_ifc_MSG_F(MsgConfigItem_MsgText_ifc_MSG_s* thiz, StringJc src, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("set_type_MsgConfigItem_MsgText_ifc_MSG_F");
   
   { 
     
-    ythis->type_ = charAt_StringJc(src, 0);
+    thiz->type_ = charAt_StringJc(src, 0);
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* ythis, StringJc src, ThCxt* _thCxt)
-{ Mtbl_MsgConfigItem_MsgText_ifc_MSG const* mtbl = (Mtbl_MsgConfigItem_MsgText_ifc_MSG const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG);
-  mtbl->set_type(ythis, src, _thCxt);
+void set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* thiz, StringJc src, ThCxt* _thCxt)
+{ Mtbl_MsgConfigItem_MsgText_ifc_MSG const* mtbl = (Mtbl_MsgConfigItem_MsgText_ifc_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG);
+  mtbl->set_type(thiz, src, _thCxt);
 }
 
 

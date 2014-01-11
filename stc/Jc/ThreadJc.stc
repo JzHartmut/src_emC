@@ -15,6 +15,8 @@ class Thread; nameC=ThreadJc_s; argIdent=Thread; extends java/lang/Object implem
         ctorO+_Runnable_s-_$, mode=static  : field:{ Thread *.. return;}(field:{ java.lang.Runnable *.. param;}, field:{ String t.. param;});
         ctorO+_Runnable_z-_$, mode=static  : field:{ Thread *.. return;}(field:{ java.lang.Runnable *.. param;}, field:{ s0 %.. param;});
         ctorO+_z-_$, mode=static  : field:{ Thread *.. return;}( field:{ s0 *.. param;});
+        currentThread-_$, mode=static: Thread *.. return();
+        getId-_$, mode=noThCxt: int %..return();
         start-_$ : field:{ void %.. return;};
         getName-_$: java.lang.String %..return();
         run-_$, defined: java.lang.Runnable, mode: overrideable : field:{ void %.. return;};

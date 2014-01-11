@@ -62,6 +62,8 @@ char const sign_Mtbl_ObjectJc[] = "sign_Mtbl_ObjectJc";
 char const signEnd_Mtbl_ObjectJc[] = "signEnd_Mtbl_ObjectJc";
 
 
+
+
 ObjectJc* ctorM_ObjectJc(MemC mem) //ObjectJc* ythis)
 { ObjectJc* ythis = PTR_MemC(mem, ObjectJc);
   init0p_MemC(ythis, sizeof(ObjectJc));  //note: ctorc don't initialze with 0.

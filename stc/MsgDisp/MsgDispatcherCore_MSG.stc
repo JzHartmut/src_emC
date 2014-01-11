@@ -107,7 +107,9 @@ class MsgDispatcherCore; nameC=MsgDispatcherCore_MSG_s; argIdent=XX; extends jav
 fieldIdents {
   int %.. actNrofListIdents;
   int %.. ctLostMessages;
+  org/vishia/msgDispatch/MsgDispatcherCore.Entry(instance=org/vishia/msgDispatch/MsgDispatcherCore.Entry) $.. entryMsgBufferOverflow;
   org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeOrders;
+  long %.. idThreadForDispatching;
   int[??] X%. listBitDst;
   int[??] X%. listIdents;
   org/vishia/bridgeC/ConcurrentLinkedQueue *.. listOrders;
@@ -131,7 +133,8 @@ fieldIdents {
   methods {  
     close-_$, defined: org/vishia/msgDispatch/LogMessage.close, mode= overrideable: void %.r null();
     ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcherCore *.. MsgDispatcherCore_MSG_s(int %.. maxQueue,int %.. nrofMixedOutputs,java/lang/Runnable *.. runNoEntryMessage);
-    dispatchMsg-_$: int %.r null(int %.. dstBits,boolean %.. bDispatchInDispatcherThread,int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.r args);
+    dispatchMsg-_$: int %.r null(int %.. dstBits,boolean %.. bDispatchInDispatcherThread,boolean %.. bDispatchAlways,int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.r args);
+    dispatchQueuedMsg-_$: int %.r null();
     finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
     flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush, mode= overrideable: void %.r null();
     isOnline-_$, defined: org/vishia/msgDispatch/LogMessage.isOnline: boolean %.r null();
@@ -139,7 +142,13 @@ fieldIdents {
     sendMsg+_izv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsg, mode= noThCxt: boolean %.r null(int %.. identNumber,s0(instance=s0) %.. text,va_argRaw +.. args);
     sendMsgTime+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgTime, mode= noThCxt: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,va_argRaw +.. args);
     sendMsgVaList+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgVaList: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
+    setIdThreadForMsgDispatching-_$, mode= overrideable: void %.r null(long %.. idThread);
     setMsgTextConverter-_$: void %.r null(org/vishia/msgDispatch/MsgText_ifc *.. converter);
+    tickAndFlushOrClose-_$: void %.r null();
+  }
+
+  methods-overrideable {
+    setIdThreadForMsgDispatching_MsgDispatcherCore_MSG;
   }
 
   castTo {

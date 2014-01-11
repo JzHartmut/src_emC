@@ -67,11 +67,11 @@ METHOD_C struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _th
 METHOD_C void setLeapSeconds_LeapSecondsJc(/*static*/ int32 idx, struct DateJc_t* date, ThCxt* _thCxt);
 
 /**initializes the table of leap seconds with fix dates.*/
-typedef void MT_initFix_LeapSecondsJc(LeapSecondsJc_s* ythis, ThCxt* _thCxt);
+typedef void MT_initFix_LeapSecondsJc(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void initFix_LeapSecondsJc_F(LeapSecondsJc_s* ythis, ThCxt* _thCxt);
+METHOD_C void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void initFix_LeapSecondsJc(LeapSecondsJc_s* ythis, ThCxt* _thCxt);
+METHOD_C void initFix_LeapSecondsJc(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 
 /**Returns a Date object from given GPS-seconds.*/
 METHOD_C struct DateJc_t* dateFromGPS_LeapSecondsJc(/*static*/ int64 millisecondsGPS, ThCxt* _thCxt);

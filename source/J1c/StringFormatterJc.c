@@ -49,24 +49,24 @@ StringJc sNeg_StringFormatterJc = CONST_z_StringJc("+-%");
 
 /*Constructor */
 struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thCxt)
-{ StringFormatterJc_s* ythis = (StringFormatterJc_s*)othis;  //upcasting to the real class.
+{ StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
       
-    ythis->pos = 0;
-    ythis->bInsert = false;
-    ythis->cDecimalSeparator = '.';
-    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
-    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
-    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
-    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
-    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    thiz->pos = 0;
+    thiz->bInsert = false;
+    thiz->cDecimalSeparator = '.';
+    set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(thiz->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(thiz->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(thiz->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
     activateGC_ObjectJc(newObj0_1, null, _thCxt);
     activateGC_ObjectJc(newObj0_2, null, _thCxt);
     activateGC_ObjectJc(newObj0_3, null, _thCxt);
@@ -75,35 +75,35 @@ struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thC
   { 
     ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
     
-    SETREFJc(ythis->buffer, ctorO_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), _thCxt), StringBuilderJc);
+    SETREFJc(thiz->buffer, ctorO_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), _thCxt), StringBuilderJc);
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 
 /*Constructor */
 struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 length, ThCxt* _thCxt)
-{ StringFormatterJc_s* ythis = (StringFormatterJc_s*)othis;  //upcasting to the real class.
+{ StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
       
-    ythis->pos = 0;
-    ythis->bInsert = false;
-    ythis->cDecimalSeparator = '.';
-    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
-    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
-    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
-    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
-    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    thiz->pos = 0;
+    thiz->bInsert = false;
+    thiz->cDecimalSeparator = '.';
+    set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(thiz->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(thiz->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(thiz->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
     activateGC_ObjectJc(newObj0_1, null, _thCxt);
     activateGC_ObjectJc(newObj0_2, null, _thCxt);
     activateGC_ObjectJc(newObj0_3, null, _thCxt);
@@ -112,35 +112,35 @@ struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 len
   { 
     ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
     
-    SETREFJc(ythis->buffer, ctorO_I_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), length, _thCxt), StringBuilderJc);
+    SETREFJc(thiz->buffer, ctorO_I_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), length, _thCxt), StringBuilderJc);
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 
 /*Constructor */
 struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc str, ThCxt* _thCxt)
-{ StringFormatterJc_s* ythis = (StringFormatterJc_s*)othis;  //upcasting to the real class.
+{ StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
       
-    ythis->pos = 0;
-    ythis->bInsert = false;
-    ythis->cDecimalSeparator = '.';
-    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
-    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
-    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
-    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
-    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    thiz->pos = 0;
+    thiz->bInsert = false;
+    thiz->cDecimalSeparator = '.';
+    set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(thiz->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(thiz->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(thiz->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
     activateGC_ObjectJc(newObj0_1, null, _thCxt);
     activateGC_ObjectJc(newObj0_2, null, _thCxt);
     activateGC_ObjectJc(newObj0_3, null, _thCxt);
@@ -149,35 +149,35 @@ struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc 
   { 
     ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
     
-    SETREFJc(ythis->buffer, ctorO_s_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), str, _thCxt), StringBuilderJc);
+    SETREFJc(thiz->buffer, ctorO_s_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), str, _thCxt), StringBuilderJc);
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 
 /*Constructor */
 struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, ThCxt* _thCxt)
-{ StringFormatterJc_s* ythis = (StringFormatterJc_s*)othis;  //upcasting to the real class.
+{ StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
       
-    ythis->pos = 0;
-    ythis->bInsert = false;
-    ythis->cDecimalSeparator = '.';
-    set_StringJc(&(ythis->sDatePrefixNewer), z_StringJc(""));
-    SETREFJc(ythis->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixToday), z_StringJc("today"));
-    SETREFJc(ythis->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixYear), z_StringJc(""));
-    SETREFJc(ythis->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
-    set_StringJc(&(ythis->sDatePrefixOlder), z_StringJc(""));
-    SETREFJc(ythis->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    thiz->pos = 0;
+    thiz->bInsert = false;
+    thiz->cDecimalSeparator = '.';
+    set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(thiz->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(thiz->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(thiz->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
     activateGC_ObjectJc(newObj0_1, null, _thCxt);
     activateGC_ObjectJc(newObj0_2, null, _thCxt);
     activateGC_ObjectJc(newObj0_3, null, _thCxt);
@@ -185,24 +185,24 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
   }
   { 
     
-    SETREFJc(ythis->buffer, buffer, StringBuilderJc);
+    SETREFJc(thiz->buffer, buffer, StringBuilderJc);
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 
 /**Same as getContent, overwrites Object.toString().*/
 StringJc toString_StringFormatterJc_F(ObjectJc* ithis, ThCxt* _thCxt)
-{ StringFormatterJc_s* ythis = (StringFormatterJc_s*)ithis;
+{ StringFormatterJc_s* thiz = (StringFormatterJc_s*)ithis;
   
   STACKTRC_TENTRY("toString_StringFormatterJc_F");
   
   { 
     
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(& ((*(REFJc(ythis->buffer))).base.object)/*J2cT1*/, _thCxt);
+      return toString_StringBuilderJc(& ((*(REFJc(thiz->buffer))).base.object)/*J2cT1*/, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -216,113 +216,113 @@ StringJc toString_StringFormatterJc(ObjectJc* ithis, ThCxt* _thCxt)
 
 
 /**Gets the accumulated content.*/
-StringJc getContent_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+StringJc getContent_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getContent_StringFormatterJc_F");
   
   { 
     
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(& ((*(REFJc(ythis->buffer))).base.object)/*J2cT1*/, _thCxt);
+      return toString_StringBuilderJc(& ((*(REFJc(thiz->buffer))).base.object)/*J2cT1*/, _thCxt);
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-StringJc getContent_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->getContent(ythis, _thCxt);
+StringJc getContent_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->getContent(thiz, _thCxt);
 }
 
 
 /**Gets the accumulated content.*/
-StringJc getBuffer_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+struct CharSequenceJc_t* getBuffer_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getBuffer_StringFormatterJc_F");
   
   { 
     
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(&(REFJc(ythis->buffer))->base.object, _thCxt);
+      return toString_StringBuilderJc(&(REFJc(thiz->buffer))->base.object, _thCxt)/*J2C-error testAndChangeAccess: t**/;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-StringJc getBuffer_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->getBuffer(ythis, _thCxt);
+struct CharSequenceJc_t* getBuffer_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->getBuffer(thiz, _thCxt);
 }
 
 
 /**Sets an deviant decimal separator for floating point digigs, country-specific. */
-void setDecimalSeparator_StringFormatterJc_F(StringFormatterJc_s* ythis, char sep, ThCxt* _thCxt)
+void setDecimalSeparator_StringFormatterJc_F(StringFormatterJc_s* thiz, char sep, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setDecimalSeparator_StringFormatterJc_F");
   
   { 
     
-    ythis->cDecimalSeparator = sep;
+    thiz->cDecimalSeparator = sep;
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void setDecimalSeparator_StringFormatterJc(StringFormatterJc_s* ythis, char sep, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  mtbl->setDecimalSeparator(ythis, sep, _thCxt);
+void setDecimalSeparator_StringFormatterJc(StringFormatterJc_s* thiz, char sep, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  mtbl->setDecimalSeparator(thiz, sep, _thCxt);
 }
 
 
 /**Resets the internal buffer*/
-struct StringFormatterJc_t* reset_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+struct StringFormatterJc_t* reset_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("reset_StringFormatterJc_F");
   
   { 
     
-    ythis->pos = 0;
-    setLength_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, _thCxt);
+    thiz->pos = 0;
+    setLength_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, _thCxt);
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* reset_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->reset(ythis, _thCxt);
+struct StringFormatterJc_t* reset_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->reset(thiz, _thCxt);
 }
 
 
 /**Sets the current position to the end of the string. */
-struct StringFormatterJc_t* end_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+struct StringFormatterJc_t* end_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("end_StringFormatterJc_F");
   
   { 
     
-    ythis->pos = length_StringBuilderJc(REFJc(ythis->buffer));
+    thiz->pos = length_StringBuilderJc(REFJc(thiz->buffer));
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* end_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->end(ythis, _thCxt);
+struct StringFormatterJc_t* end_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->end(thiz, _thCxt);
 }
 
 
 /**Sets the current write position to the given position. */
-struct StringFormatterJc_t* pos_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 newPos, ThCxt* _thCxt)
+struct StringFormatterJc_t* pos_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("pos_StringFormatterJc_F");
   
@@ -331,74 +331,74 @@ struct StringFormatterJc_t* pos_StringFormatterJc_F(StringFormatterJc_s* ythis, 
     
     
     if(newPos < 0) { throw_s0Jc(ident_IndexOutOfBoundsExceptionJc, "negativ position not supported", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-    ythis->pos = newPos;
-    pos1 = length_StringBuilderJc(REFJc(ythis->buffer));
+    thiz->pos = newPos;
+    pos1 = length_StringBuilderJc(REFJc(thiz->buffer));
     
-    while(pos1 < ythis->pos)
+    while(pos1 < thiz->pos)
       { 
         
-        append_C_StringBuilderJc(REFJc(ythis->buffer), ' ', _thCxt);
+        append_C_StringBuilderJc(REFJc(thiz->buffer), ' ', _thCxt);
         pos1 += 1;
       }
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* pos_StringFormatterJc(StringFormatterJc_s* ythis, int32 newPos, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->pos(ythis, newPos, _thCxt);
+struct StringFormatterJc_t* pos_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->pos(thiz, newPos, _thCxt);
 }
 
 
 /**returns the current length of string. */
-int32 length_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+int32 length_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("length_StringFormatterJc_F");
   
   { 
     
     { STACKTRC_LEAVE;
-      return length_StringBuilderJc(REFJc(ythis->buffer));
+      return length_StringBuilderJc(REFJc(thiz->buffer));
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-int32 length_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->length(ythis, _thCxt);
+int32 length_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->length(thiz, _thCxt);
 }
 
 
 /**returns the current position for add in buffer.*/
-int32 getPos_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+int32 getPos_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getPos_StringFormatterJc_F");
   
   { 
     
     { STACKTRC_LEAVE;
-      return ythis->pos;
+      return thiz->pos;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-int32 getPos_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->getPos(ythis, _thCxt);
+int32 getPos_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->getPos(thiz, _thCxt);
 }
 
 
 /**Adds at the current position a string.*/
-struct StringFormatterJc_t* add_S_StringFormatterJc_F(StringFormatterJc_s* ythis, StringJc str, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* add_S_StringFormatterJc_F(StringFormatterJc_s* thiz, StringJc str, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("add_S_StringFormatterJc_F");
   
@@ -407,26 +407,26 @@ struct StringFormatterJc_t* add_S_StringFormatterJc_F(StringFormatterJc_s* ythis
     
     
     nrofChars = length_StringJc(str);
-    mtthis->prepareBufferPos(ythis, nrofChars, _thCxt);
-    replace_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, ythis->pos + nrofChars, str, _thCxt);
-    ythis->pos += nrofChars;
+    mtthis->prepareBufferPos(thiz, nrofChars, _thCxt);
+    replace_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + nrofChars, str, _thCxt);
+    thiz->pos += nrofChars;
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* add_S_StringFormatterJc(StringFormatterJc_s* ythis, StringJc str, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->add_S(ythis, str, _thCxt);
+struct StringFormatterJc_t* add_S_StringFormatterJc(StringFormatterJc_s* thiz, StringJc str, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->add_S(thiz, str, _thCxt);
 }
 
 
 /**Adds the given str at the current position but replaces line feed characters by given one.*/
-struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatterJc_s* ythis, StringJc str, StringJc replaceLinefeed, int32 maxChars, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* str, struct CharSequenceJc_t* replaceLinefeed, int32 maxChars, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addReplaceLinefeed_StringFormatterJc_F");
   
@@ -434,54 +434,56 @@ struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatt
     int32 postr = -1; 
     
     
-    if(maxChars > length_StringJc(str)) 
+    if(maxChars > length_CharSequenceJc(str)) 
     { 
       
-      maxChars = length_StringJc(str);
+      maxChars = length_CharSequenceJc(str);
     }
-    if(length_StringJc(replaceLinefeed) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-    mtthis->prepareBufferPos(ythis, maxChars, _thCxt);
+    if(length_CharSequenceJc(replaceLinefeed) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    mtthis->prepareBufferPos(thiz, maxChars, _thCxt);
     postr = -1;
     
     while(--maxChars >= 0)
       { 
         char cc; 
-        int32 replace1 = "\n\r\f"/*J2C: no cast found from s0=char const*: ClassData@11bd80c*/; 
+        int32 replace1 = 0; 
         
         
-        cc = charAt_StringJc(str, ++postr);
-        replace1 = indexOf_C_StringJc(zI_StringJc("\n\r\f",3), cc);
+        cc = charAt_CharSequenceJc(str, ++postr);
+        /*no initvalue*/
+        replace1 = indexOf_C_StringJc(zI_StringJc("\n\r\f",3), cc);//NOTE: smallbug in Java2C
+        
         if(replace1 >= 0) 
         { 
           
-          cc = charAt_StringJc(replaceLinefeed, replace1);
+          cc = charAt_CharSequenceJc(replaceLinefeed, replace1);
         }
         if(cc <= 0x20) 
         { 
           
-          cc = charAt_StringJc(replaceLinefeed, 3);
+          cc = charAt_CharSequenceJc(replaceLinefeed, 3);
         }
-        setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, cc, _thCxt);
+        setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, cc, _thCxt);
       }//buffer.replace(this.pos, pos + nrofChars, str);
       //pos += nrofChars;
     
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc(StringFormatterJc_s* ythis, StringJc str, StringJc replaceLinefeed, int32 maxChars, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addReplaceLinefeed(ythis, str, replaceLinefeed, maxChars, _thCxt);
+struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* str, struct CharSequenceJc_t* replaceLinefeed, int32 maxChars, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addReplaceLinefeed(thiz, str, replaceLinefeed, maxChars, _thCxt);
 }
 
 
 /**Adds at the current position a char[].*/
-struct StringFormatterJc_t* add_cY_StringFormatterJc_F(StringFormatterJc_s* ythis, char_Y* str, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* add_cY_StringFormatterJc_F(StringFormatterJc_s* thiz, char_Y* str, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("add_cY_StringFormatterJc_F");
   
@@ -496,98 +498,98 @@ struct StringFormatterJc_t* add_cY_StringFormatterJc_F(StringFormatterJc_s* ythi
         
         nrofChars -= 1;
       }
-    mtthis->prepareBufferPos(ythis, nrofChars, _thCxt);
+    mtthis->prepareBufferPos(thiz, nrofChars, _thCxt);
     { int32 ii; 
       for(ii = 0; ii < nrofChars; ii++)
         { 
           
-          setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, str->data[ii], _thCxt);
-          ythis->pos += 1;
+          setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, str->data[ii], _thCxt);
+          thiz->pos += 1;
         }
     }
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* add_cY_StringFormatterJc(StringFormatterJc_s* ythis, char_Y* str, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->add_cY(ythis, str, _thCxt);
+struct StringFormatterJc_t* add_cY_StringFormatterJc(StringFormatterJc_s* thiz, char_Y* str, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->add_cY(thiz, str, _thCxt);
 }
 
 
 /**Inserts a String at current position with shifting the actual content to right.*/
-struct StringFormatterJc_t* insert_S_StringFormatterJc_F(StringFormatterJc_s* ythis, StringJc str, ThCxt* _thCxt)
+struct StringFormatterJc_t* insert_S_StringFormatterJc_F(StringFormatterJc_s* thiz, StringJc str, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("insert_S_StringFormatterJc_F");
   
   { 
     
-    insert_s_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, str, _thCxt);
-    ythis->pos += length_StringJc(str);
+    insert_s_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, str, _thCxt);
+    thiz->pos += length_StringJc(str);
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* insert_S_StringFormatterJc(StringFormatterJc_s* ythis, StringJc str, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->insert_S(ythis, str, _thCxt);
+struct StringFormatterJc_t* insert_S_StringFormatterJc(StringFormatterJc_s* thiz, StringJc str, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->insert_S(thiz, str, _thCxt);
 }
 
 
 /**sets the overwrite mode. It is the default. In this mode add will overwrite the current content. */
-struct StringFormatterJc_t* overwrite_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+struct StringFormatterJc_t* overwrite_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("overwrite_StringFormatterJc_F");
   
   { 
     
-    ythis->bInsert = false;
+    thiz->bInsert = false;
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* overwrite_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->overwrite(ythis, _thCxt);
+struct StringFormatterJc_t* overwrite_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->overwrite(thiz, _thCxt);
 }
 
 
 /**sets the insert mode. In this mode add will shift the content at pos to right. */
-struct StringFormatterJc_t* insert_StringFormatterJc_F(StringFormatterJc_s* ythis, ThCxt* _thCxt)
+struct StringFormatterJc_t* insert_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("insert_StringFormatterJc_F");
   
   { 
     
-    ythis->bInsert = true;
+    thiz->bInsert = true;
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* insert_StringFormatterJc(StringFormatterJc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->insert(ythis, _thCxt);
+struct StringFormatterJc_t* insert_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->insert(thiz, _thCxt);
 }
 
 
 /**sets the insert or overwrite mode, returns the current mode before change.*/
-bool setInsertMode_StringFormatterJc_F(StringFormatterJc_s* ythis, bool insert, ThCxt* _thCxt)
+bool setInsertMode_StringFormatterJc_F(StringFormatterJc_s* thiz, bool insert, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setInsertMode_StringFormatterJc_F");
   
@@ -595,8 +597,8 @@ bool setInsertMode_StringFormatterJc_F(StringFormatterJc_s* ythis, bool insert, 
     bool bInsertRet; 
     
     
-    bInsertRet = ythis->bInsert;
-    ythis->bInsert = insert;
+    bInsertRet = thiz->bInsert;
+    thiz->bInsert = insert;
     { STACKTRC_LEAVE;
       return bInsertRet;
     }
@@ -605,15 +607,15 @@ bool setInsertMode_StringFormatterJc_F(StringFormatterJc_s* ythis, bool insert, 
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-bool setInsertMode_StringFormatterJc(StringFormatterJc_s* ythis, bool insert, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->setInsertMode(ythis, insert, _thCxt);
+bool setInsertMode_StringFormatterJc(StringFormatterJc_s* thiz, bool insert, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->setInsertMode(thiz, insert, _thCxt);
 }
 
 
 /**Adds a line of ascii representation of bytes*/
-struct StringFormatterJc_t* addStringLine_StringFormatterJc_F(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int32 nrofBytes, StringJc charsetName, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addStringLine_StringFormatterJc_F(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int32 nrofBytes, StringJc charsetName, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addStringLine_StringFormatterJc_F");
   
@@ -660,27 +662,27 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc_F(StringFormatterJc_
     END_TRY//not replace in buffer:
     
     strLength = length_StringJc(str);
-    mtthis->prepareBufferPos(ythis, strLength, _thCxt);
-    replace_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, ythis->pos + strLength, str, _thCxt);
-    ythis->pos += strLength;
+    mtthis->prepareBufferPos(thiz, strLength, _thCxt);
+    replace_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + strLength, str, _thCxt);
+    thiz->pos += strLength;
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, null, _thCxt);
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addStringLine_StringFormatterJc(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int32 nrofBytes, StringJc charsetName, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addStringLine(ythis, data, idx, nrofBytes, charsetName, _thCxt);
+struct StringFormatterJc_t* addStringLine_StringFormatterJc(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int32 nrofBytes, StringJc charsetName, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addStringLine(thiz, data, idx, nrofBytes, charsetName, _thCxt);
 }
 
 
 /**Adds at the current position a line of hex numbers.*/
-struct StringFormatterJc_t* addHexLine_StringFormatterJc_F(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int32 nrofBytes, int16 mode, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addHexLine_StringFormatterJc_F(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int32 nrofBytes, int16 mode, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addHexLine_StringFormatterJc_F");
   
@@ -693,7 +695,7 @@ struct StringFormatterJc_t* addHexLine_StringFormatterJc_F(StringFormatterJc_s* 
     
     nrofBytesInWord = mode & mNrofBytesInWord_StringFormatterJc;
     nrofWords = nrofBytes / nrofBytesInWord;
-    mtthis->prepareBufferPos(ythis, 2 * nrofBytes + nrofWords, _thCxt);
+    mtthis->prepareBufferPos(thiz, 2 * nrofBytes + nrofWords, _thCxt);
     nrofBytes1 = nrofBytes;
     idx1 = idx;
     
@@ -704,58 +706,58 @@ struct StringFormatterJc_t* addHexLine_StringFormatterJc_F(StringFormatterJc_s* 
         { //:the last hex word is smaller as given in mode:
           
           
-          mtthis->addHexWord_(ythis, data, idx1, (int16)((mode & mBytesInWordBigEndian_StringFormatterJc) + nrofBytes1), _thCxt);
+          mtthis->addHexWord_(thiz, data, idx1, (int16)((mode & mBytesInWordBigEndian_StringFormatterJc) + nrofBytes1), _thCxt);
           nrofBytes1 = 0;
         }
         else 
         { //:normal operation
           
           
-          mtthis->addHexWord_(ythis, data, idx1, mode, _thCxt);
-          setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, ' ', _thCxt);
+          mtthis->addHexWord_(thiz, data, idx1, mode, _thCxt);
+          setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, ' ', _thCxt);
           nrofBytes1 -= nrofBytesInWord;
           idx1 += nrofBytesInWord;
         }
       }
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addHexLine_StringFormatterJc(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int32 nrofBytes, int16 mode, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addHexLine(ythis, data, idx, nrofBytes, mode, _thCxt);
+struct StringFormatterJc_t* addHexLine_StringFormatterJc(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int32 nrofBytes, int16 mode, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addHexLine(thiz, data, idx, nrofBytes, mode, _thCxt);
 }
 
 
 /**Adds a hexa line with left address and ascii*/
-struct StringFormatterJc_t* addHexWord_StringFormatterJc_F(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addHexWord_StringFormatterJc_F(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addHexWord_StringFormatterJc_F");
   
   { 
     
-    mtthis->prepareBufferPos(ythis, 2 * (mode & mNrofBytesInWord_StringFormatterJc), _thCxt);
+    mtthis->prepareBufferPos(thiz, 2 * (mode & mNrofBytesInWord_StringFormatterJc), _thCxt);
     { STACKTRC_LEAVE;
-      return mtthis->addHexWord_(ythis, data, idx, mode, _thCxt);
+      return mtthis->addHexWord_(thiz, data, idx, mode, _thCxt);
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addHexWord_StringFormatterJc(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addHexWord(ythis, data, idx, mode, _thCxt);
+struct StringFormatterJc_t* addHexWord_StringFormatterJc(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addHexWord(thiz, data, idx, mode, _thCxt);
 }
 
 
 /**Adds a number as one word readed from data in hexa form, internal routine without prepareBufferPos*/
-struct StringFormatterJc_t* addHexWord__StringFormatterJc_F(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
+struct StringFormatterJc_t* addHexWord__StringFormatterJc_F(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addHexWord__StringFormatterJc_F");
   
@@ -798,34 +800,34 @@ struct StringFormatterJc_t* addHexWord__StringFormatterJc_F(StringFormatterJc_s*
                 
                 digit = (char)(digit + (int8)('a') - (int8)('9') - 1);
               }
-              setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, digit, _thCxt);
+              setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, digit, _thCxt);
               value <<= 4;
             }
         }
       }
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addHexWord__StringFormatterJc(StringFormatterJc_s* ythis, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addHexWord_(ythis, data, idx, mode, _thCxt);
+struct StringFormatterJc_t* addHexWord__StringFormatterJc(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addHexWord_(thiz, data, idx, mode, _thCxt);
 }
 
 
 /**Adds a number containing in a long variable in hexa form*/
-struct StringFormatterJc_t* addHex_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 value, int32 nrofDigits, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addHex_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 value, int32 nrofDigits, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addHex_StringFormatterJc_F");
   
   { 
     
-    mtthis->prepareBufferPos(ythis, nrofDigits, _thCxt);
+    mtthis->prepareBufferPos(thiz, nrofDigits, _thCxt);
     
     { //:show last significant byte at right position, like normal variable or register look
       
@@ -845,28 +847,28 @@ struct StringFormatterJc_t* addHex_StringFormatterJc_F(StringFormatterJc_s* ythi
               
               digit = (char)(digit + (int8)('a') - (int8)('9') - 1);
             }
-            setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, digit, _thCxt);
+            setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, digit, _thCxt);
             nrofShift -= 4;
           }
       }
     }
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addHex_StringFormatterJc(StringFormatterJc_s* ythis, int64 value, int32 nrofDigits, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addHex(ythis, value, nrofDigits, _thCxt);
+struct StringFormatterJc_t* addHex_StringFormatterJc(StringFormatterJc_s* thiz, int64 value, int32 nrofDigits, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addHex(thiz, value, nrofDigits, _thCxt);
 }
 
 
 /**Adds a number containing in a long variable in hexa form*/
-struct StringFormatterJc_t* addBinary_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 value, StringJc sPicture, StringJc sBitCharLo, StringJc sBitCharHi, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addBinary_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 value, StringJc sPicture, StringJc sBitCharLo, StringJc sBitCharHi, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addBinary_StringFormatterJc_F");
   
@@ -888,7 +890,7 @@ struct StringFormatterJc_t* addBinary_StringFormatterJc_F(StringFormatterJc_s* y
         }
     }
     mask = 1 << (nrofDigits - 1);
-    mtthis->prepareBufferPos(ythis, length_StringJc(sPicture), _thCxt);
+    mtthis->prepareBufferPos(thiz, length_StringJc(sPicture), _thCxt);
     { int32 ii; 
       for(ii = 0; ii < length_StringJc(sPicture); ii++)
         { 
@@ -904,39 +906,39 @@ struct StringFormatterJc_t* addBinary_StringFormatterJc_F(StringFormatterJc_s* y
             
             bit = value & mask;
             cc = bit != 0 ? charAt_StringJc(sBitCharHi, ii) : charAt_StringJc(sBitCharLo, ii);
-            setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, cc, _thCxt);
+            setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, cc, _thCxt);
             mask = (mask >> 1) & 0x7fffffff;
           }
           else 
           { 
             
-            setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, cBitPos, _thCxt);
+            setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, cBitPos, _thCxt);
           }
         }
     }
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addBinary_StringFormatterJc(StringFormatterJc_s* ythis, int32 value, StringJc sPicture, StringJc sBitCharLo, StringJc sBitCharHi, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addBinary(ythis, value, sPicture, sBitCharLo, sBitCharHi, _thCxt);
+struct StringFormatterJc_t* addBinary_StringFormatterJc(StringFormatterJc_s* thiz, int32 value, StringJc sPicture, StringJc sBitCharLo, StringJc sBitCharHi, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addBinary(thiz, value, sPicture, sBitCharLo, sBitCharHi, _thCxt);
 }
 
 
 /**ensures, that the space in buffer started on pos is writeable with setCharAt.*/
-void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 nrofChars, ThCxt* _thCxt)
+void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 nrofChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("prepareBufferPos_StringFormatterJc_F");
   
   { //:if(true || bInsert)
     
     
-    if(ythis->bInsert && ythis->pos < length_StringBuilderJc(REFJc(ythis->buffer))) 
+    if(thiz->bInsert && thiz->pos < length_StringBuilderJc(REFJc(thiz->buffer))) 
     { 
       
       
@@ -946,13 +948,13 @@ void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 nrof
           if(nrofChars >= length_StringJc(spaces_StringFormatterJc)) 
           { 
             
-            insert_s_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, spaces_StringFormatterJc, _thCxt);
+            insert_s_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, spaces_StringFormatterJc, _thCxt);
             nrofChars -= length_StringJc(spaces_StringFormatterJc);
           }
           else 
           { 
             
-            insert_sII_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, spaces_StringFormatterJc, 0, nrofChars, _thCxt);
+            insert_sII_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, spaces_StringFormatterJc, 0, nrofChars, _thCxt);
             nrofChars = 0;
           }
         }//buffer.insert(pos, spaces, 0, nrofChars);
@@ -963,7 +965,7 @@ void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 nrof
       int32 nrofCharsToEnd; 
       
       
-      nrofCharsToEnd = length_StringBuilderJc(REFJc(ythis->buffer)) - ythis->pos;
+      nrofCharsToEnd = length_StringBuilderJc(REFJc(thiz->buffer)) - thiz->pos;
       ASSERT(/*static*/nrofCharsToEnd >= 0);
       nrofChars -= nrofCharsToEnd;//nrofChars may be < 0 if the range of overwrite is inside the exiting string.
       
@@ -975,13 +977,13 @@ void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 nrof
           if(nrofChars >= length_StringJc(spaces_StringFormatterJc)) 
           { 
             
-            append_s_StringBuilderJc(REFJc(ythis->buffer), spaces_StringFormatterJc, _thCxt);
+            append_s_StringBuilderJc(REFJc(thiz->buffer), spaces_StringFormatterJc, _thCxt);
             nrofChars -= length_StringJc(spaces_StringFormatterJc);
           }
           else 
           { 
             
-            append_sII_StringBuilderJc(REFJc(ythis->buffer), spaces_StringFormatterJc, 0, nrofChars, _thCxt);
+            append_sII_StringBuilderJc(REFJc(thiz->buffer), spaces_StringFormatterJc, 0, nrofChars, _thCxt);
             nrofChars = 0;
           }
         }
@@ -991,40 +993,40 @@ void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 nrof
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void prepareBufferPos_StringFormatterJc(StringFormatterJc_s* ythis, int32 nrofChars, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  mtbl->prepareBufferPos(ythis, nrofChars, _thCxt);
+void prepareBufferPos_StringFormatterJc(StringFormatterJc_s* thiz, int32 nrofChars, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  mtbl->prepareBufferPos(thiz, nrofChars, _thCxt);
 }
 
 
 /**Adds a number in form 12ab'cd34, it is typical to show 4-byte-values at example addresses.*/
-struct StringFormatterJc_t* addHex44_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 value, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addHex44_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 value, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addHex44_StringFormatterJc_F");
   
   { 
     
-    mtthis->addHex(ythis, (value >> 16) & 0xffff, 4, _thCxt);
-    insert_C_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, '\'', _thCxt);
-    mtthis->addHex(ythis, (value) & 0xffff, 4, _thCxt);
+    mtthis->addHex(thiz, (value >> 16) & 0xffff, 4, _thCxt);
+    insert_C_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, '\'', _thCxt);
+    mtthis->addHex(thiz, (value) & 0xffff, 4, _thCxt);
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addHex44_StringFormatterJc(StringFormatterJc_s* ythis, int64 value, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addHex44(ythis, value, _thCxt);
+struct StringFormatterJc_t* addHex44_StringFormatterJc(StringFormatterJc_s* thiz, int64 value, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addHex44(thiz, value, _thCxt);
 }
 
 
 /**adds a double value in a fix point representation without exponent.*/
-struct StringFormatterJc_t* addFloat_StringFormatterJc_F(StringFormatterJc_s* ythis, double value, int32 digitsBeforePoint, int32 digitsAfterPoint, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addFloat_StringFormatterJc_F(StringFormatterJc_s* thiz, double value, int32 digitsBeforePoint, int32 digitsAfterPoint, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addFloat_StringFormatterJc_F");
   
@@ -1038,24 +1040,24 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc_F(StringFormatterJc_s* yt
     
     
     nrofCharsInPicture = digitsBeforePoint + digitsAfterPoint + 2;
-    mtthis->prepareBufferPos(ythis, nrofCharsInPicture, _thCxt);
+    mtthis->prepareBufferPos(thiz, nrofCharsInPicture, _thCxt);
     if(value < 0) 
     { 
       
-      setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, '-', _thCxt);
+      setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, '-', _thCxt);
       value = -value;
     }
     else 
     { 
       
-      setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, ' ', _thCxt);
+      setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, ' ', _thCxt);
     }
     sValue = toString_DoubleJc(/*static*/value, _thCxt)/*J2C:non-persistent*/;
     posPointInValue = indexOf_C_StringJc(sValue, '.');
-    if(ythis->cDecimalSeparator != '.') 
+    if(thiz->cDecimalSeparator != '.') 
     { 
       
-      sValue = replace_StringJc(sValue, '.', ythis->cDecimalSeparator, _thCxt)/*J2C:non-persistent*/;
+      sValue = replace_StringJc(sValue, '.', thiz->cDecimalSeparator, _thCxt)/*J2C:non-persistent*/;
     }//int posPoint = pos + digitsBeforePoint;
     
     nrofSpacesBefore = digitsBeforePoint - posPointInValue;
@@ -1070,7 +1072,7 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc_F(StringFormatterJc_s* yt
     while(nrofSpacesBefore > 0)
       { 
         
-        setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, ' ', _thCxt);
+        setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, ' ', _thCxt);
         nrofSpacesBefore -= 1;
       }//int digitsAfterPointInValue =sValue.length() - posPointInValue -1;
       //if(digitsAfterPointInValue > digitsAfterPoint){ digitsAfterPointInValue = digitsAfterPoint;}
@@ -1081,28 +1083,28 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc_F(StringFormatterJc_s* yt
       
       nrofValueChars = nrofValueChars - (-nrofSpacesBefore) - 2;//crash situation: write only the beginn of the digit
       
-      replace_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, ythis->pos + 2, s0_StringJc("##"), _thCxt);
-      ythis->pos += 2;
+      replace_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + 2, s0_StringJc("##"), _thCxt);
+      thiz->pos += 2;
     }
-    replace_StringBuilderJc(REFJc(ythis->buffer), ythis->pos, ythis->pos + nrofValueChars, substring_StringJc(sValue, 0, nrofValueChars, _thCxt), _thCxt);
-    ythis->pos += nrofValueChars;
+    replace_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + nrofValueChars, substring_StringJc(sValue, 0, nrofValueChars, _thCxt), _thCxt);
+    thiz->pos += nrofValueChars;
     
     while(--nrofZeroAfter >= 0)
       { 
         
-        setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, '0', _thCxt);
+        setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, '0', _thCxt);
       }
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addFloat_StringFormatterJc(StringFormatterJc_s* ythis, double value, int32 digitsBeforePoint, int32 digitsAfterPoint, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addFloat(ythis, value, digitsBeforePoint, digitsAfterPoint, _thCxt);
+struct StringFormatterJc_t* addFloat_StringFormatterJc(StringFormatterJc_s* thiz, double value, int32 digitsBeforePoint, int32 digitsAfterPoint, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addFloat(thiz, value, digitsBeforePoint, digitsAfterPoint, _thCxt);
 }
 
 
@@ -1159,30 +1161,30 @@ StringJc addHexLn_StringFormatterJc(/*static*/ int8_Y* data, int32 length, int32
   STACKTRC_LEAVE;
 }
 
-struct StringFormatterJc_t* add_c_StringFormatterJc_F(StringFormatterJc_s* ythis, char ch, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* add_c_StringFormatterJc_F(StringFormatterJc_s* thiz, char ch, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("add_c_StringFormatterJc_F");
   
   { 
     
-    mtthis->prepareBufferPos(ythis, 1, _thCxt);
-    setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, ch, _thCxt);
+    mtthis->prepareBufferPos(thiz, 1, _thCxt);
+    setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, ch, _thCxt);
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* add_c_StringFormatterJc(StringFormatterJc_s* ythis, char ch, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->add_c(ythis, ch, _thCxt);
+struct StringFormatterJc_t* add_c_StringFormatterJc(StringFormatterJc_s* thiz, char ch, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->add_c(thiz, ch, _thCxt);
 }
 
-struct StringFormatterJc_t* addDate_StringFormatterJc_F(StringFormatterJc_s* ythis, struct DateJc_t* date, struct SimpleDateFormatJc_t* format, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addDate_StringFormatterJc_F(StringFormatterJc_s* thiz, struct DateJc_t* date, struct SimpleDateFormatJc_t* format, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addDate_StringFormatterJc_F");
   
@@ -1192,91 +1194,91 @@ struct StringFormatterJc_t* addDate_StringFormatterJc_F(StringFormatterJc_s* yth
     StringJc _persistring1_1=NULL_StringJc; //J2C: temporary persistent Strings
     
     sDate = _persistring1_1 = persist_StringJc(format_SimpleDateFormatJc(format, (date)->val, _thCxt))/*J2C:non-persistent*/;
-    mtthis->add_S(ythis, sDate, _thCxt);
+    mtthis->add_S(thiz, sDate, _thCxt);
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(PTR_StringJc(_persistring1_1), null, _thCxt);
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addDate_StringFormatterJc(StringFormatterJc_s* ythis, struct DateJc_t* date, struct SimpleDateFormatJc_t* format, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addDate(ythis, date, format, _thCxt);
+struct StringFormatterJc_t* addDate_StringFormatterJc(StringFormatterJc_s* thiz, struct DateJc_t* date, struct SimpleDateFormatJc_t* format, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addDate(thiz, date, format, _thCxt);
 }
 
-struct StringFormatterJc_t* setAt_StringFormatterJc_F(StringFormatterJc_s* ythis, int32 pos, char ch, ThCxt* _thCxt)
+struct StringFormatterJc_t* setAt_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 pos, char ch, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setAt_StringFormatterJc_F");
   
   { 
     
-    setCharAt_StringBuilderJc(REFJc(ythis->buffer), pos, ch, _thCxt);
+    setCharAt_StringBuilderJc(REFJc(thiz->buffer), pos, ch, _thCxt);
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* setAt_StringFormatterJc(StringFormatterJc_s* ythis, int32 pos, char ch, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->setAt(ythis, pos, ch, _thCxt);
+struct StringFormatterJc_t* setAt_StringFormatterJc(StringFormatterJc_s* thiz, int32 pos, char ch, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->setAt(thiz, pos, ch, _thCxt);
 }
 
 
 /**Sets a integer value at current position, use the picture to determine the number of characters etc.*/
-struct StringFormatterJc_t* addint_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 nr, StringJc sPict, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addint_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 nr, StringJc sPict, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addint_StringFormatterJc_F");
   
   { 
     
-    mtthis->strPicture(ythis, nr, sPict, s0_StringJc("+-.."), '.', _thCxt);
+    mtthis->strPicture(thiz, nr, sPict, s0_StringJc("+-.."), '.', _thCxt);
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addint_StringFormatterJc(StringFormatterJc_s* ythis, int64 nr, StringJc sPict, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addint(ythis, nr, sPict, _thCxt);
+struct StringFormatterJc_t* addint_StringFormatterJc(StringFormatterJc_s* thiz, int64 nr, StringJc sPict, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addint(thiz, nr, sPict, _thCxt);
 }
 
 
 /***/
-struct StringFormatterJc_t* addIntPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 nr, StringJc sPict, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+struct StringFormatterJc_t* addIntPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 nr, StringJc sPict, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addIntPicture_StringFormatterJc_F");
   
   { 
     
-    mtthis->strPicture(ythis, nr, sPict, s0_StringJc("+-.."), '.', _thCxt);
+    mtthis->strPicture(thiz, nr, sPict, s0_StringJc("+-.."), '.', _thCxt);
     { STACKTRC_LEAVE;
-      return ythis;
+      return thiz;
     }
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* addIntPicture_StringFormatterJc(StringFormatterJc_s* ythis, int64 nr, StringJc sPict, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addIntPicture(ythis, nr, sPict, _thCxt);
+struct StringFormatterJc_t* addIntPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 nr, StringJc sPict, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addIntPicture(thiz, nr, sPict, _thCxt);
 }
 
 
 /**This algorithm is taken over from C++ routines in strpict.cpp written by JcHartmut in 1993..1999.*/
-bool strPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 src, StringJc pict, StringJc posNegPointExp, char cFracSep, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, StringJc pict, StringJc posNegPointExp, char cFracSep, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("strPicture_StringFormatterJc_F");
   
@@ -1306,8 +1308,8 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 src, Strin
     nrofCharsForSignUnused = 0;
     bLeftZeroSuppress = false;
     
-    spPict = ctorO_t_StringPartJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringPartJc_s, 0, _thCxt)), pict, _thCxt);
-    posSignInPicture = indexOfAnyChar_S_StringPartJc_F(spPict, sNeg_StringFormatterJc, _thCxt);
+    spPict = ctorO_Cs_StringPartJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringPartJc_s, 0, _thCxt)), pict/*J2C-error testAndChangeAccess: t**/, _thCxt);
+    posSignInPicture = indexOfAnyChar_S_StringPartJc(spPict, sNeg_StringFormatterJc, _thCxt);
     if(posSignInPicture >= 0) 
     { 
       
@@ -1416,7 +1418,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 src, Strin
       if(nDigits > n2Digit) n2Digit = nDigits;//Anzahl auszugeb. Digits oder Leerstellen
       
     }
-    mtthis->prepareBufferPos(ythis, nrofChars - (n3Digit - n2Digit) - nrofCharsForSignUnused, _thCxt);
+    mtthis->prepareBufferPos(thiz, nrofChars - (n3Digit - n2Digit) - nrofCharsForSignUnused, _thCxt);
     /*no initvalue*/
     ii = 0;
     for(ii = 0; ii < nrofChars; ii++)
@@ -1539,7 +1541,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 src, Strin
         { //:cc=0 means, the char shouls not be written.
           
           
-          setCharAt_StringBuilderJc(REFJc(ythis->buffer), ythis->pos++, cc, _thCxt);
+          setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, cc, _thCxt);
         }
       }//for
       
@@ -1552,15 +1554,15 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 src, Strin
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-bool strPicture_StringFormatterJc(StringFormatterJc_s* ythis, int64 src, StringJc pict, StringJc posNegPointExp, char cFracSep, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->strPicture(ythis, src, pict, posNegPointExp, cFracSep, _thCxt);
+bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc pict, StringJc posNegPointExp, char cFracSep, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->strPicture(thiz, src, pict, posNegPointExp, cFracSep, _thCxt);
 }
 
 
 /**Writes a float value in technical representation with exponent as short char a..T*/
-int32 addFloatPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, float src, StringJc pict, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
+int32 addFloatPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, float src, StringJc pict, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
   STACKTRC_TENTRY("addFloatPicture_StringFormatterJc_F");
   
@@ -1612,7 +1614,7 @@ int32 addFloatPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, float src,
       
       srcLong = 0;
     }
-    mtthis->strPicture(ythis, srcLong, pict, s0_StringJc("+-.@"), charAt_StringJc(cFrac, nExp), _thCxt);
+    mtthis->strPicture(thiz, srcLong, pict, s0_StringJc("+-.@"), charAt_StringJc(cFrac, nExp), _thCxt);
     { STACKTRC_LEAVE;
       return (length_StringJc(pict));
     }
@@ -1621,108 +1623,25 @@ int32 addFloatPicture_StringFormatterJc_F(StringFormatterJc_s* ythis, float src,
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* ythis, float src, StringJc pict, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->addFloatPicture(ythis, src, pict, _thCxt);
+int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* thiz, float src, StringJc pict, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->addFloatPicture(thiz, src, pict, _thCxt);
 }
 
-StringJc convertTimestampToday_StringFormatterJc_F(StringFormatterJc_s* ythis, int64 timestamp, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("convertTimestampToday_StringFormatterJc_F");
-  
-  { 
-    int64 dateNow; 
-    int64 diffTime; 
-    StringJc sDate = NULL_StringJc; 
-    
-    
-    dateNow = currentTimeMillis_SystemJc();
-    diffTime = dateNow - timestamp;
-    /*no initvalue*/
-    if(diffTime < -10 * 3600000) 
-    { 
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
-      
-      sDate = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixNewer, _thCxt)
-        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatNewer), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-        )/*J2C:non-persistent*/;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }
-    else if(diffTime < 18 * 3600000) 
-    { //:files today
-      
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
-      
-      sDate = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixToday, _thCxt)
-        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatToday), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-        )/*J2C:non-persistent*/;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }
-    else if(diffTime < 320 * 24 * 3600000) 
-    { 
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
-      
-      sDate = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixYear, _thCxt)
-        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatYear), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-        )/*J2C:non-persistent*/;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }
-    else 
-    { 
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
-      
-      sDate = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_s_StringBuilderJc(_tempString2_1, ythis->sDatePrefixOlder, _thCxt)
-        , append_s_StringBuilderJc(_tempString2_1, format_SimpleDateFormatJc(REFJc(ythis->dateFormatOlder), ((/*J2C:cast$ from int64*/OS_TimeStamp)(timestamp)), _thCxt), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-        )/*J2C:non-persistent*/;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }
-    { STACKTRC_LEAVE;
-      return sDate;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-StringJc convertTimestampToday_StringFormatterJc(StringFormatterJc_s* ythis, int64 timestamp, ThCxt* _thCxt)
-{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->convertTimestampToday(ythis, timestamp, _thCxt);
-}
-
-StringJc floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, ThCxt* _thCxt)
+struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("floatToText_StringFormatterJc");
   
   { 
-    StringJc ret = "?"/*J2C: no cast found from s0=char const*: ClassData@11bd80c*/; 
+    struct CharSequenceJc_t* ret = s0_StringJc("?"); 
     
     
-    ret = z_StringJc("?")/*J2C:non-persistent*/;
+    ret = s0_StringJc("?")/*J2C-error testAndChangeAccess: t**/;
     if(val < 0.001F) 
     { 
       StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
       
-      ret = _persistring2_1 = persist_StringJc(format_a_StringJc(/*static*/s0_StringJc("%1.6f"), "F", val, _thCxt))/*J2C:non-persistent*/;
+      ret = _persistring2_1 = persist_StringJc(format_a_StringJc(/*static*/s0_StringJc("%1.6f"), "F", val, _thCxt))/*J2C-error testAndChangeAccess: t**/;
       activateGC_ObjectJc(PTR_StringJc(_persistring2_1), null, _thCxt);
     }
     
@@ -1736,14 +1655,14 @@ StringJc floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, Th
 
 
 void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
-{ StringFormatterJc_s* ythis = (StringFormatterJc_s*)othis;  //upcasting to the real class.
+{ StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_StringFormatterJc_F");
-  CLEAR_REFJc(ythis->buffer);
-  CLEAR_REFJc(ythis->dateFormatNewer);
-  CLEAR_REFJc(ythis->dateFormatToday);
-  CLEAR_REFJc(ythis->dateFormatYear);
-  CLEAR_REFJc(ythis->dateFormatOlder);
-  finalize_ObjectJc_F(&ythis->base.object, _thCxt); //J2C: finalizing the superclass.
+  CLEAR_REFJc(thiz->buffer);
+  CLEAR_REFJc(thiz->dateFormatNewer);
+  CLEAR_REFJc(thiz->dateFormatToday);
+  CLEAR_REFJc(thiz->dateFormatYear);
+  CLEAR_REFJc(thiz->dateFormatOlder);
+  finalize_ObjectJc_F(&thiz->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
 
@@ -1753,7 +1672,7 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 { { sign_Mtbl_StringFormatterJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((32 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((31 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , getContent_StringFormatterJc_F //getContent
 , getBuffer_StringFormatterJc_F //getBuffer
@@ -1786,7 +1705,6 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 , addIntPicture_StringFormatterJc_F //addIntPicture
 , strPicture_StringFormatterJc_F //strPicture
 , addFloatPicture_StringFormatterJc_F //addFloatPicture
-, convertTimestampToday_StringFormatterJc_F //convertTimestampToday
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }

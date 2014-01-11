@@ -50,7 +50,7 @@ struct TestCnt_MsgDispatcherCore_MSG_t;
 /* J2C: includes *********************************************************/
 #include "Fwc/fw_LogMessage.h"  //interface
 #include "Jc/StringJc.h"  //embedded type in class data
-#include "MsgDisp/VaArgBuffer.h"  //embedded type in class data
+#include <MsgDisp/VaArgBuffer.h>  //embedded type in class data
 #include "os_time.h"  //embedded type in class data
 
 
@@ -90,7 +90,7 @@ typedef struct Entry_MsgDispatcherCore_MSG_Y_t { ObjectArrayJc head; Entry_MsgDi
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_Entry_MsgDispatcherCore_MSG_F(Entry_MsgDispatcherCore_MSG_s* ythis, ThCxt* _thCxt);
+void finalize_Entry_MsgDispatcherCore_MSG_F(Entry_MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt);
 
 
 
@@ -213,7 +213,7 @@ typedef struct Output_MsgDispatcherCore_MSG_Y_t { ObjectArrayJc head; Output_Msg
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_Output_MsgDispatcherCore_MSG_F(Output_MsgDispatcherCore_MSG_s* ythis, ThCxt* _thCxt);
+void finalize_Output_MsgDispatcherCore_MSG_F(Output_MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt);
 
 
 
@@ -240,9 +240,11 @@ typedef struct MsgDispatcherCore_MSG_t
   int32 nrofMixedOutputs;   /*Number of Bits in {@link mDispatchWithBits}, it is the number of destinations dispatched via bit mask. */
   int32 mDstMixedOutputs;   /*Calculated mask of bits which are able to mix. */
   int32 mDstOneOutput;   /*Calculated mask of bits which are one index. */
+  int64 idThreadForDispatching; 
   TestCnt_MsgDispatcherCore_MSG_s testCnt; 
   struct ConcurrentLinkedQueueJc_t* listOrders;   /*List of messages to process in the dispatcher thread.*/
   struct ConcurrentLinkedQueueJc_t* freeOrders;   /*List of entries for messages to use*/
+  Entry_MsgDispatcherCore_MSG_s entryMsgBufferOverflow; 
   int32 actNrofListIdents;   /*List of idents, its current length. */
   int32_Y* listIdents;   /*List of idents, a array with lengthListIdents elements.*/
   int32_Y* listBitDst;   /*List of destination bits for the idents.*/
@@ -294,10 +296,17 @@ void finalize_MsgDispatcherCore_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 /**Initializes the instance.*/
 METHOD_C struct MsgDispatcherCore_MSG_t* ctorO_MsgDispatcherCore_MSG(ObjectJc* othis, int32 maxQueue, int32 nrofMixedOutputs, struct RunnableJc_t* runNoEntryMessage, ThCxt* _thCxt);
 
-METHOD_C void setMsgTextConverter_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* ythis, struct MsgText_ifc_MSG_t* converter, ThCxt* _thCxt);
+/**Sets the capability that messages which are create in the dispatcher thread are output immediately*/
+typedef void MT_setIdThreadForMsgDispatching_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int64 idThread, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void setIdThreadForMsgDispatching_MsgDispatcherCore_MSG_F(MsgDispatcherCore_MSG_s* thiz, int64 idThread, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C void setIdThreadForMsgDispatching_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int64 idThread, ThCxt* _thCxt);
+
+METHOD_C void setMsgTextConverter_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, struct MsgText_ifc_MSG_t* converter, ThCxt* _thCxt);
 
 /**Searches and returns the bits where a message is dispatch to.*/
-METHOD_C int32 searchDispatchBits_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* ythis, int32 ident, ThCxt* _thCxt);
+METHOD_C int32 searchDispatchBits_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 ident, ThCxt* _thCxt);
 
 /**Sends a message*/
 METHOD_C bool sendMsg_izv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...);
@@ -322,8 +331,14 @@ METHOD_C void flush_MsgDispatcherCore_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void flush_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
 
+/**Dispatches the queues messages, after them calls {@link LogMessage#flush()} for all queued outputs.*/
+METHOD_C void tickAndFlushOrClose_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt);
+
+/**Dispatches all messages, which are stored in the queue.*/
+METHOD_C int32 dispatchQueuedMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt);
+
 /**Dispatches a message*/
-METHOD_C int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* ythis, int32 dstBits, bool bDispatchInDispatcherThread, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
+METHOD_C int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dstBits, bool bDispatchInDispatcherThread, bool bDispatchAlways, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -331,6 +346,7 @@ METHOD_C int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* ythis,
  extern const char sign_Mtbl_MsgDispatcherCore_MSG[]; //marker for methodTable check
 typedef struct Mtbl_MsgDispatcherCore_MSG_t
 { MtblHeadJc head;
+  MT_setIdThreadForMsgDispatching_MsgDispatcherCore_MSG* setIdThreadForMsgDispatching;
   Mtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
   Mtbl_LogMessageFW LogMessageFW;
@@ -347,7 +363,9 @@ class MsgDispatcherCore_MSG : private MsgDispatcherCore_MSG_s
 
   MsgDispatcherCore_MSG(int32 maxQueue, int32 nrofMixedOutputs, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcherCore_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcherCore_MSG_s, 0); ctorO_MsgDispatcherCore_MSG(&this->base.object, maxQueue, nrofMixedOutputs, runNoEntryMessage,  null/*_thCxt*/); }
 
-  int32 dispatchMsg(int32 dstBits, bool bDispatchInDispatcherThread, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args){  return dispatchMsg_MsgDispatcherCore_MSG(this, dstBits, bDispatchInDispatcherThread, identNumber, creationTime, text, args,  null/*_thCxt*/); }
+  int32 dispatchMsg(int32 dstBits, bool bDispatchInDispatcherThread, bool bDispatchAlways, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args){  return dispatchMsg_MsgDispatcherCore_MSG(this, dstBits, bDispatchInDispatcherThread, bDispatchAlways, identNumber, creationTime, text, args,  null/*_thCxt*/); }
+
+  int32 dispatchQueuedMsg(){  return dispatchQueuedMsg_MsgDispatcherCore_MSG(this,  null/*_thCxt*/); }
 
   virtual void flush(){ flush_MsgDispatcherCore_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
 
@@ -361,7 +379,11 @@ class MsgDispatcherCore_MSG : private MsgDispatcherCore_MSG_s
 
   bool sendMsg(int32 identNumber, char const* text, char const* args, ...){  return sendMsg_izv_MsgDispatcherCore_MSG(&this->base.LogMessageFW, identNumber, text, args); }
 
+  virtual void setIdThreadForMsgDispatching(int64 idThread){ setIdThreadForMsgDispatching_MsgDispatcherCore_MSG_F(this, idThread,  null/*_thCxt*/); }
+
   void setMsgTextConverter(struct MsgText_ifc_MSG_t* converter){ setMsgTextConverter_MsgDispatcherCore_MSG(this, converter,  null/*_thCxt*/); }
+
+  void tickAndFlushOrClose(){ tickAndFlushOrClose_MsgDispatcherCore_MSG(this,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

@@ -63,11 +63,11 @@ void finalize_MsgConfigItem_MsgText_ifc_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 
-typedef void MT_set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* ythis, StringJc src, ThCxt* _thCxt);
+typedef void MT_set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* thiz, StringJc src, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void set_type_MsgConfigItem_MsgText_ifc_MSG_F(MsgConfigItem_MsgText_ifc_MSG_s* ythis, StringJc src, ThCxt* _thCxt);
+METHOD_C void set_type_MsgConfigItem_MsgText_ifc_MSG_F(MsgConfigItem_MsgText_ifc_MSG_s* thiz, StringJc src, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* ythis, StringJc src, ThCxt* _thCxt);
+METHOD_C void set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* thiz, StringJc src, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

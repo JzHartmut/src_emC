@@ -137,7 +137,7 @@ typedef struct ThreadJc_s_Y_t { ObjectArrayJc head; ThreadJc_s data[50]; } Threa
 extern struct ClassJc_t const reflection_ThreadJc_s;
   
 
-
+#define getId_ThreadJc(THIZ) ((int)((THIZ)->hThread))
 
 
 #define CONST_Runnable_ThreadJc(RUNNABLE) {CONST_ObjectJc(), "", 0, RUNNABLE, 2000, 5}

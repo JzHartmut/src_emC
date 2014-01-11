@@ -24,7 +24,7 @@ struct StringBuilderJc_t;
 
 /* J2C: includes *********************************************************/
 #include "Jc/ThreadJc.h"  //superclass
-#include "MsgDisp/MsgDispatcherCore_MSG.h"  //embedded type in class data
+#include "MsgDisp/MsgDispatcherCore_MSG.h"  //superclass
 
 
 /*@CLASS_C DispatcherThread_MsgDispatcher_MSG @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -104,7 +104,6 @@ typedef struct MsgDispatcher_MSG_t
   union { ObjectJc object; MsgDispatcherCore_MSG_s super;} base; 
   struct LogMessageFW_t* outputConsole;   /*A console output is standard everytime..*/
   int32 maxDst; 
-  Entry_MsgDispatcherCore_MSG_s entryMsgBufferOverflow; 
 } MsgDispatcher_MSG_s;
   
 
@@ -142,42 +141,36 @@ void finalize_MsgDispatcher_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDispatchEntries, int32 maxQueue, int32 maxOutputs, int32 nrofMixedOutputs, int32 msgIdentQueueOverflow, struct RunnableJc_t* runNoEntryMessage, ThCxt* _thCxt);
 
 /**Gets the internal free entries for sharing with an other log output,*/
-METHOD_C struct ConcurrentLinkedQueueJc_t* getSharedFreeEntries_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, ThCxt* _thCxt);
+METHOD_C struct ConcurrentLinkedQueueJc_t* getSharedFreeEntries_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, ThCxt* _thCxt);
 
-METHOD_C void setDefaults_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, StringJc fileOut, ThCxt* _thCxt);
+METHOD_C void setDefaults_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc fileOut, ThCxt* _thCxt);
 
 /**inserts an ident range after given position:*/
-METHOD_C int32 insertIdent_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, int32 idx, int32 fromIdent, int32 toIdent, ThCxt* _thCxt);
+METHOD_C int32 insertIdent_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 idx, int32 fromIdent, int32 toIdent, ThCxt* _thCxt);
 
 /**Sets a destination interface to a index for dispatching.*/
-METHOD_C void setOutputRoutine_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, int32 dstIdx, StringJc name, bool bQueued, bool bText, struct LogMessageFW_t* dst, ThCxt* _thCxt);
+METHOD_C void setOutputRoutine_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 dstIdx, StringJc name, bool bQueued, bool bText, struct LogMessageFW_t* dst, ThCxt* _thCxt);
 
 /**Sets the output dispatch bits for the given message number range.*/
-METHOD_C int32 setOutputRange_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, int32 fromIdent, int32 toIdent, int32 dst, int32 mode, int32 level, ThCxt* _thCxt);
+METHOD_C int32 setOutputRange_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 fromIdent, int32 toIdent, int32 dst, int32 mode, int32 level, ThCxt* _thCxt);
 
 /**Sets the output from a String content.*/
-METHOD_C StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, StringJc ctrl, struct StringBuilderJc_t* errorBuffer, ThCxt* _thCxt);
+METHOD_C StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc ctrl, struct StringBuilderJc_t* errorBuffer, ThCxt* _thCxt);
 
 /**Writes the msg dispatching outputs in file.*/
-METHOD_C bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, struct FileWriterJc_t* file, ThCxt* _thCxt);
+METHOD_C bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriterJc_t* file, ThCxt* _thCxt);
 
 /**Completes a destination bit mask with the information, whether any destinations are used*/
-METHOD_C int32 completeDispatchInThreadBits_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, int32 dstBits, ThCxt* _thCxt);
-
-/**Dispatches all messages, which are stored in the queue.*/
-METHOD_C int32 dispatchQueuedMsg_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, ThCxt* _thCxt);
+METHOD_C int32 completeDispatchInThreadBits_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 dstBits, ThCxt* _thCxt);
 
 /**It's a debug helper. The method is empty, but it is a mark to set a breakpoint. */
-METHOD_C void stop_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, ThCxt* _thCxt);
+METHOD_C void stop_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, ThCxt* _thCxt);
 
 /**close and flush forces the dispatching of the messages in the queue.*/
 METHOD_C void close_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
 
 /**flush forces the dispatching of the messages in the queue.*/
 METHOD_C void flush_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
-
-/**Outputs the queued messages calling {@link LogMessage#flush()} for all queued outputs.*/
-METHOD_C void tickAndFlushOrClose_MsgDispatcher_MSG(MsgDispatcher_MSG_s* ythis, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -201,8 +194,6 @@ class MsgDispatcher_MSG : private MsgDispatcher_MSG_s
 
   MsgDispatcher_MSG(int32 maxDispatchEntries, int32 maxQueue, int32 maxOutputs, int32 nrofMixedOutputs, int32 msgIdentQueueOverflow, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcher_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcher_MSG_s, 0); ctorO_MsgDispatcher_MSG(&this->base.object, maxDispatchEntries, maxQueue, maxOutputs, nrofMixedOutputs, msgIdentQueueOverflow, runNoEntryMessage,  null/*_thCxt*/); }
 
-  int32 dispatchQueuedMsg(){  return dispatchQueuedMsg_MsgDispatcher_MSG(this,  null/*_thCxt*/); }
-
   void flush(){ flush_MsgDispatcher_MSG(&this->base.super.base.LogMessageFW,  null/*_thCxt*/); }
 
   struct ConcurrentLinkedQueueJc_t* getSharedFreeEntries(){  return getSharedFreeEntries_MsgDispatcher_MSG(this,  null/*_thCxt*/); }
@@ -220,8 +211,6 @@ class MsgDispatcher_MSG : private MsgDispatcher_MSG_s
   void setOutputRoutine(int32 dstIdx, StringJcpp name, bool bQueued, bool bText, struct LogMessageFW_t* dst){ setOutputRoutine_MsgDispatcher_MSG(this, dstIdx, name, bQueued, bText, dst,  null/*_thCxt*/); }
 
   void stop(){ stop_MsgDispatcher_MSG(this,  null/*_thCxt*/); }
-
-  void tickAndFlushOrClose(){ tickAndFlushOrClose_MsgDispatcher_MSG(this,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

@@ -103,6 +103,8 @@ typedef struct ConcurrentLinkedQueueJc_t
  */
 #define SIZEOF_Node_ConcurrentLinkedQueueJc (2*sizeof(void*))
 
+/**Creates a uninitialized instance. */
+METHOD_C ConcurrentLinkedQueueJc_s* ctorO_init_ConcurrentLinkedQueueJc(ObjectJc* othis, bool init, ThCxt* _thCxt);
 
 /**Creates a ,,ConcurrentLinkedQueue,, that is initially empty but with a node pool
  */
@@ -134,14 +136,14 @@ void ctorcSn_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, Concurren
  * @params mem A mem pool. All bytes are used as nodes. The mem pool is initalized in the routine. 
                No intializing before is neccessary 
  */
-METHOD_C void initNodePool_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, MemC mem);
+METHOD_C void initNodePool_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, MemC mem);
 
 
 /**shares the pool of nodes with the given other container.
  * The other container should initialized with [[initNodePool_ConcurrentLinkedQueueJc]] before
  * or it is also shared calling [[shareNodePool_ConcurrentLinkedQueueJc]] before.
  */
-METHOD_C void shareNodePool_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, ConcurrentLinkedQueueJc_s* srcNodeShare);
+METHOD_C void shareNodePool_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, ConcurrentLinkedQueueJc_s* srcNodeShare);
 
 
 

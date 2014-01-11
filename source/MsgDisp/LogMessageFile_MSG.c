@@ -6,7 +6,6 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Jc/ConcurrentLinkedQueueJc.h"  //new object
 #include "Jc/FormatterJc.h"  //embedded type in block
 #include "Jc/LocaleJc.h"  //reference-association: LocaleJc_s
 #include "Jc/TimeZoneJc.h"  //reference-association: TimeZoneJc_s
@@ -33,47 +32,50 @@ typedef struct MtblDef_LogMessageFile_MSG_t { Mtbl_LogMessageFile_MSG mtbl; Mtbl
 
 /*Constructor */
 struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc sFilename, int32 nrofSecondsToFlush, int32 nrofHoursPerFile, struct LocaleJc_t* localization, struct TimeZoneJc_t* timeZoneP, struct ConcurrentLinkedQueueJc_t* freeEntriesP, ThCxt* _thCxt)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)othis;  //upcasting to the real class.
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_LogMessageFile_MSG");
   checkConsistence_ObjectJc(othis, sizeof(LogMessageFile_MSG_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_LogMessageFile_MSG_s, sizeof(LogMessageFile_MSG_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded fix-size-StringBuffer
-      init_ObjectJc(&ythis->sFilenameBuffer.sb.base.object, sizeof(StringBuilderJc) + 120 - 4, 0);
-      ctorO_I_StringBuilderJc(&ythis->sFilenameBuffer.sb.base.object, 120, _thCxt);
+      init_ObjectJc(&thiz->sFilenameBuffer.sb.base.object, sizeof(StringBuilderJc) + 120 - 4, 0);
+      ctorO_I_StringBuilderJc(&thiz->sFilenameBuffer.sb.base.object, 120, _thCxt);
     //J2C: constructor for embedded fix-size-StringBuffer
-      init_ObjectJc(&ythis->sDateformatBuffer.sb.base.object, sizeof(StringBuilderJc) + 32 - 4, 0);
-      ctorO_I_StringBuilderJc(&ythis->sDateformatBuffer.sb.base.object, 32, _thCxt);
+      init_ObjectJc(&thiz->sDateformatBuffer.sb.base.object, sizeof(StringBuilderJc) + 32 - 4, 0);
+      ctorO_I_StringBuilderJc(&thiz->sDateformatBuffer.sb.base.object, 32, _thCxt);
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->formatTimestamp.base.object), sizeof(ythis->formatTimestamp), 0); 
-      ctorO_SimpleDateFormatJc(/*static*/&(ythis->formatTimestamp.base.object), _thCxt);
-    ythis->counterMultifile = 0;
+      init_ObjectJc(&(thiz->formatTimestamp.base.object), sizeof(thiz->formatTimestamp), 0); 
+      ctorO_SimpleDateFormatJc(/*static*/&(thiz->formatTimestamp.base.object), _thCxt);
+    thiz->counterMultifile = 0;
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->formatField.base.object), sizeof(ythis->formatField), 0); 
-      ctorO_TextFieldPositionJc(/*static*/&(ythis->formatField.base.object), DATE_FIELD_SimpleDateFormatJc, _thCxt);
+      init_ObjectJc(&(thiz->formatField.base.object), sizeof(thiz->formatField), 0); 
+      ctorO_TextFieldPositionJc(/*static*/&(thiz->formatField.base.object), DATE_FIELD_SimpleDateFormatJc, _thCxt);
     /*J2C: newArray*/
-      init_ObjectJc(&ythis->charsFormatTimestampFilename.head.object, sizeof_ARRAYJc(char, 32), 0);   //J2C: ctor embedded array.
-      ctorO_ObjectArrayJc(&ythis->charsFormatTimestampFilename.head.object, 32, sizeof(char), null, 0);//J2C: constructor for embedded array;
+      init_ObjectJc(&thiz->charsFormatTimestampFilename.head.object, sizeof_ARRAYJc(char, 32), 0);   //J2C: ctor embedded array.
+      ctorO_ObjectArrayJc(&thiz->charsFormatTimestampFilename.head.object, 32, sizeof(char), null, 0);//J2C: constructor for embedded array;
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->file.base.object), sizeof(ythis->file), 0); 
-      ctorO_FileWriterJc(/*static*/&(ythis->file.base.object), _thCxt);
+      init_ObjectJc(&(thiz->file.base.object), sizeof(thiz->file), 0); 
+      ctorO_FileWriterJc(/*static*/&(thiz->file.base.object), _thCxt);
     //J2C: constructor for embedded element
-      INIT_OS_TimeStamp(/*static*/ythis->timeOpen);
-    ythis->bNewFile = true;
+      INIT_OS_TimeStamp(/*static*/thiz->timeOpen);
+    thiz->bNewFile = true;
     //J2C: constructor for embedded element
-      INIT_OS_TimeStamp(/*static*/ythis->timeWrite);
+      INIT_OS_TimeStamp(/*static*/thiz->timeWrite);
     //J2C: constructor for embedded element
-      INIT_OS_TimeStamp(/*static*/ythis->timeClose);
-    ythis->shouldFlushed = false;
+      INIT_OS_TimeStamp(/*static*/thiz->timeClose);
+    thiz->shouldFlushed = false;
     //J2C: constructor for embedded element-MemC
-      ctorM_Dbg_LogMessageFile_MSG(/*static*/build_MemC(&ythis->dbg, sizeof(ythis->dbg)), _thCxt);
+      ctorM_Dbg_LogMessageFile_MSG(/*static*/build_MemC(&thiz->dbg, sizeof(thiz->dbg)), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->dateFormat.base.object), sizeof(ythis->dateFormat), 0); 
-      ctorO_s_SimpleDateFormatJc(/*static*/&(ythis->dateFormat.base.object), s0_StringJc("yyyy-MM-dd HH:mm:ss,SSS; "), _thCxt);
+      init_ObjectJc(&(thiz->parkedOrders.base.object), sizeof(thiz->parkedOrders), 0); 
+      ctorO_init_ConcurrentLinkedQueueJc(/*static*/&(thiz->parkedOrders.base.object), false, _thCxt);
+    //J2C: constructor for embedded element-ObjectJc
+      init_ObjectJc(&(thiz->dateFormat.base.object), sizeof(thiz->dateFormat), 0); 
+      ctorO_s_SimpleDateFormatJc(/*static*/&(thiz->dateFormat.base.object), s0_StringJc("yyyy-MM-dd HH:mm:ss,SSS; "), _thCxt);
     //J2C: constructor for embedded fix-size-StringBuffer
-      init_ObjectJc(&ythis->sBuffer.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
-      ctorO_I_StringBuilderJc(&ythis->sBuffer.sb.base.object, 1000, _thCxt);
+      init_ObjectJc(&thiz->sBuffer.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
+      ctorO_I_StringBuilderJc(&thiz->sBuffer.sb.base.object, 1000, _thCxt);
   }
   { 
     StringJc sTimestampInFilename = NULL_StringJc; 
@@ -84,138 +86,133 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
     if(localization == null) 
     { 
       
-      SETREFJc(ythis->localization, & (ROOT_LocaleJc), LocaleJc_s);
+      SETREFJc(thiz->localization, & (ROOT_LocaleJc), LocaleJc_s);
     }
     else 
     { 
       
-      SETREFJc(ythis->localization, localization, LocaleJc_s);
+      SETREFJc(thiz->localization, localization, LocaleJc_s);
     }
-    SETREFJc(ythis->timeZone, timeZoneP == null ? getTimeZone_TimeZoneJc(/*static*/s0_StringJc("GMT"), _thCxt) : timeZoneP, TimeZoneJc_s);
-    setTimeZone_SimpleDateFormatJc(& (ythis->dateFormat), REFJc(ythis->timeZone), _thCxt);
-    setTimeZone_SimpleDateFormatJc(& (ythis->formatTimestamp), REFJc(ythis->timeZone), _thCxt);
+    SETREFJc(thiz->timeZone, timeZoneP == null ? getTimeZone_TimeZoneJc(/*static*/s0_StringJc("GMT"), _thCxt) : timeZoneP, TimeZoneJc_s);
+    setTimeZone_SimpleDateFormatJc(& (thiz->dateFormat), REFJc(thiz->timeZone), _thCxt);
+    setTimeZone_SimpleDateFormatJc(& (thiz->formatTimestamp), REFJc(thiz->timeZone), _thCxt);
     /*no initvalue*/
-    ythis->freeEntries = freeEntriesP;
+    thiz->freeEntries = freeEntriesP;
     if(freeEntriesP != null) 
     { 
-      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
       
-      ythis->parkedOrders = ctorO_Clq_ConcurrentLinkedQueueJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_ConcurrentLinkedQueueJc_s, 0, _thCxt)), freeEntriesP, _thCxt);
-      activateGC_ObjectJc(newObj2_1, null, _thCxt);
+      shareNodePool_ConcurrentLinkedQueueJc(& (thiz->parkedOrders), freeEntriesP);
     }
     else 
-    { 
-      
-      ythis->parkedOrders = null;
-    }
+    { }
     /*no initvalue*/
     if(nrofSecondsToFlush > 0) 
     { 
       
-      ythis->nrofSecondsToFlush = nrofSecondsToFlush;
-      ythis->nrofSecondsToClose = -1;
+      thiz->nrofSecondsToFlush = nrofSecondsToFlush;
+      thiz->nrofSecondsToClose = -1;
     }
     else 
     { 
       
-      ythis->nrofSecondsToClose = -nrofSecondsToFlush;//use positive value!
+      thiz->nrofSecondsToClose = -nrofSecondsToFlush;//use positive value!
       
-      ythis->nrofSecondsToFlush = -1;
+      thiz->nrofSecondsToFlush = -1;
     }
-    ythis->nrofHoursPerFile = nrofHoursPerFile;
-    ythis->posTimestampInFilename = indexOf_C_StringJc(sFilename, '$');
-    if(ythis->posTimestampInFilename >= 0) 
+    thiz->nrofHoursPerFile = nrofHoursPerFile;
+    thiz->posTimestampInFilename = indexOf_C_StringJc(sFilename, '$');
+    if(thiz->posTimestampInFilename >= 0) 
     { 
       
-      pos2TimestampInFilename = indexOf_CI_StringJc(sFilename, '$', ythis->posTimestampInFilename + 1);
+      pos2TimestampInFilename = indexOf_CI_StringJc(sFilename, '$', thiz->posTimestampInFilename + 1);
       if(pos2TimestampInFilename > 0) 
       { 
         int32 nrofCharsTimestampInFilename; 
         
         
-        sTimestampInFilename = substring_StringJc(sFilename, ythis->posTimestampInFilename + 1, pos2TimestampInFilename, _thCxt)/*J2C:non-persistent*/;
+        sTimestampInFilename = substring_StringJc(sFilename, thiz->posTimestampInFilename + 1, pos2TimestampInFilename, _thCxt)/*J2C:non-persistent*/;
         nrofCharsTimestampInFilename = length_StringJc(sTimestampInFilename);
         /*Store the format String localy in this class. It's not depend from outside memory management. */
-        getChars_StringJc(sTimestampInFilename, 0, nrofCharsTimestampInFilename, (struct char_Y_t*)(&( ythis->charsFormatTimestampFilename)), 0, _thCxt);//charsFormatTimestampFilename.append(sTimestampInFilename);
+        getChars_StringJc(sTimestampInFilename, 0, nrofCharsTimestampInFilename, (struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, _thCxt);//charsFormatTimestampFilename.append(sTimestampInFilename);
         
         /*Represent the StringBuilder with a String.*/
-        set_StringJc(&(ythis->sFormatTimestampFilename), declarePersist_StringJc(new_CYI_StringJc(/*static*/(struct char_Y_t*)(&( ythis->charsFormatTimestampFilename)), 0, nrofCharsTimestampInFilename, _thCxt)));//sFormatTimestampFilename = charsFormatTimestampFilename.toString();
+        set_StringJc(&(thiz->sFormatTimestampFilename), declarePersist_StringJc(new_CYI_StringJc(/*static*/(struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, nrofCharsTimestampInFilename, _thCxt)));//sFormatTimestampFilename = charsFormatTimestampFilename.toString();
         
       }
       else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "second $ to delimit timestamp in filename missing.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };//, this.posTimestampInFilename);
       
-      applyPattern_SimpleDateFormatJc(& (ythis->formatTimestamp), ythis->sFormatTimestampFilename, _thCxt);
-      append_s_StringBuilderJc(& (ythis->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, ythis->posTimestampInFilename, _thCxt), _thCxt);
+      applyPattern_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->sFormatTimestampFilename, _thCxt);
+      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt), _thCxt);
       if(indexOf_C_StringJc(sFilename, '*') >= 0) 
       { //:The current timeStamp should be applied only here, it is the startup of the application.
         
         StringJc sTimeFileOpen;   /**/
         
         
-        set_OS_TimeStamp(ythis->timeOpen, os_getDateTime());
-        setLength_StringBuilderJc(& (ythis->sDateformatBuffer.sb), 0, _thCxt);//clear it.
+        set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
+        setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);//clear it.
         
-        format_tu_SimpleDateFormatJc(& (ythis->formatTimestamp), ythis->timeOpen, & (ythis->sDateformatBuffer.sb), & (ythis->formatField), _thCxt);
-        sTimeFileOpen = toStringNonPersist_StringBuilderJc(& ((ythis->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-        append_s_StringBuilderJc(& (ythis->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
-        ythis->posTimestampInFilename = -1;//don't replace the time stamp a second one.
+        format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
+        sTimeFileOpen = toStringNonPersist_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
+        thiz->posTimestampInFilename = -1;//don't replace the time stamp a second one.
         
       }
       else 
       { //:use the format string only as placeholder
         
         
-        append_s_StringBuilderJc(& (ythis->sFilenameBuffer.sb), ythis->sFormatTimestampFilename, _thCxt);
+        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->sFormatTimestampFilename, _thCxt);
       }
-      append_s_StringBuilderJc(& (ythis->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt), _thCxt);
+      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt), _thCxt);
     }
     else 
     { //:no timeStamp in filename given, not used.
       
       
-      append_s_StringBuilderJc(& (ythis->sFilenameBuffer.sb), sFilename, _thCxt);
-      ythis->bNewFile = false;//append on existing file.
+      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sFilename, _thCxt);
+      thiz->bNewFile = false;//append on existing file.
       
     }
     /**Determines the position of an asterisk*/
-    ythis->posMultifileInFilename = 
-      ( _temp1_1= toStringNonPersist_StringBuilderJc(& ((ythis->sFilenameBuffer.sb).base.object), _thCxt)
+    thiz->posMultifileInFilename = 
+      ( _temp1_1= toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt)
       , indexOf_C_StringJc(_temp1_1, '*')
       );//may be -1, than not used.
     
-    ythis->currentLengthMultifileNr = 1;//initial the '*' is to replace.
+    thiz->currentLengthMultifileNr = 1;//initial the '*' is to replace.
     
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 
 /**Sets a log output if a open or close action is done*/
-void setLogMessageOpenClose_LogMessageFile_MSG_F(LogMessageFile_MSG_s* ythis, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt)
+void setLogMessageOpenClose_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setLogMessageOpenClose_LogMessageFile_MSG_F");
   
   { 
     
-    SETREFJc(ythis->msgOpenClose, msg, LogMessageFW_i);
-    ythis->msgIdentOpenClose = msgIdentOpenClose;
+    SETREFJc(thiz->msgOpenClose, msg, LogMessageFW_i);
+    thiz->msgIdentOpenClose = msgIdentOpenClose;
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* ythis, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt)
-{ Mtbl_LogMessageFile_MSG const* mtbl = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFile_MSG);
-  mtbl->setLogMessageOpenClose(ythis, msg, msgIdentOpenClose, _thCxt);
+void setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt)
+{ Mtbl_LogMessageFile_MSG const* mtbl = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
+  mtbl->setLogMessageOpenClose(thiz, msg, msgIdentOpenClose, _thCxt);
 }
 
 
 /**Sends a message*/
 bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)ithis;
-  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFile_MSG);
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
+  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
   
   STACKTRC_ENTRY("sendMsg_izv_LogMessageFile_MSG_F");
   
@@ -226,7 +223,7 @@ bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, 
     
     va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
-      return mtthis->LogMessageFW.sendMsgVaList(& ((* (ythis)).base.LogMessageFW)/*J2cT1*/, identNumber, os_getDateTime(), text, vaArgs, _thCxt);
+      return mtthis->LogMessageFW.sendMsgVaList(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, os_getDateTime(), text, vaArgs, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -241,8 +238,8 @@ bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, ch
 
 /**Sends a message*/
 bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)ithis;
-  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFile_MSG);
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
+  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
   
   STACKTRC_ENTRY("sendMsgTime_iDtzv_LogMessageFile_MSG");
   
@@ -253,7 +250,7 @@ bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumb
     
     va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
-      return mtthis->LogMessageFW.sendMsgVaList(& ((* (ythis)).base.LogMessageFW)/*J2cT1*/, identNumber, creationTime, text, vaArgs, _thCxt);
+      return mtthis->LogMessageFW.sendMsgVaList(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, creationTime, text, vaArgs, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -262,8 +259,8 @@ bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumb
 
 /**Sends a message*/
 bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)ithis;
-  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFile_MSG);
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
+  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
   
   STACKTRC_TENTRY("sendMsgVaList_iDtzv_LogMessageFile_MSG_F");
   
@@ -273,8 +270,8 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
     
     
     /*no initvalue*/
-    SETMTBJc(msgOpenClose, REFJc(ythis->msgOpenClose), LogMessageFW);
-    if(!ythis->bNewFile && ythis->nrofHoursPerFile != 0) 
+    SETMTBJc(msgOpenClose, REFJc(thiz->msgOpenClose), LogMessageFW);
+    if(!thiz->bNewFile && thiz->nrofHoursPerFile != 0) 
     { 
       OS_TimeStamp timeTest = { 0 };   /*Test whether the filename is used longer as nrofHoursPerFile.*/
       int32 secDiff = 0; 
@@ -286,29 +283,29 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
       INIT_OS_TimeStamp(/*static*/timeTest);
       /*no initvalue*/
       set_OS_TimeStamp(timeTest, os_getDateTime());
-      secDiff = timeTest.time_sec - ythis->timeOpen.time_sec;
-      secDiffTest = ythis->nrofHoursPerFile > 0 ? 3600 * ythis->nrofHoursPerFile : -ythis->nrofHoursPerFile;
+      secDiff = timeTest.time_sec - thiz->timeOpen.time_sec;
+      secDiffTest = thiz->nrofHoursPerFile > 0 ? 3600 * thiz->nrofHoursPerFile : -thiz->nrofHoursPerFile;
       if(secDiff >= secDiffTest) 
       { 
         
-        if(isOpen_FileWriterJc(& (ythis->file))) 
+        if(isOpen_FileWriterJc(& (thiz->file))) 
         { //:printf("\nclose log-file\n");
           
           
-          close_FileWriterJc(& (ythis->file), _thCxt);//catch(IOException exc){  }
+          close_FileWriterJc(& (thiz->file), _thCxt);//catch(IOException exc){  }
           
         }
         /*indicate, that a new filename should be used. */
-        ythis->bNewFile = true;
+        thiz->bNewFile = true;
       }
     }
-    if(!isOpen_FileWriterJc(& (ythis->file))) 
+    if(!isOpen_FileWriterJc(& (thiz->file))) 
     { 
       bool canOpen = 0;   /*file open because data are to write: */
       
       
       /*no initvalue*/
-      if(ythis->nrofSecondsToClose > 0) 
+      if(thiz->nrofSecondsToClose > 0) 
       { 
         OS_TimeStamp timeTest = { 0 }; 
         int32 secDiff; 
@@ -318,8 +315,8 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
         //J2C: constructor for embedded element
         INIT_OS_TimeStamp(/*static*/timeTest);
         set_OS_TimeStamp(timeTest, os_getDateTime());
-        secDiff = timeTest.time_sec - ythis->timeClose.time_sec;
-        canOpen = (secDiff >= ythis->nrofSecondsToClose);
+        secDiff = timeTest.time_sec - thiz->timeClose.time_sec;
+        canOpen = (secDiff >= thiz->nrofSecondsToClose);
       }
       else 
       { 
@@ -339,20 +336,20 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
             int32 error;   /**/
             
             
-            if(ythis->bNewFile && ythis->posTimestampInFilename >= 0) 
+            if(thiz->bNewFile && thiz->posTimestampInFilename >= 0) 
             { 
               StringJc sTimeFileOpen;   /**/
               
               
               /**Build a new filename, after nrofHoursPerFile, but also first. */
-              set_OS_TimeStamp(ythis->timeOpen, os_getDateTime());
-              setLength_StringBuilderJc(& (ythis->sDateformatBuffer.sb), 0, _thCxt);//clear it.
+              set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
+              setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);//clear it.
               
-              format_tu_SimpleDateFormatJc(& (ythis->formatTimestamp), ythis->timeOpen, & (ythis->sDateformatBuffer.sb), & (ythis->formatField), _thCxt);
-              sTimeFileOpen = toStringNonPersist_StringBuilderJc(& ((ythis->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBuilderJc(& (ythis->sFilenameBuffer.sb), ythis->posTimestampInFilename, ythis->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
+              format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
+              sTimeFileOpen = toStringNonPersist_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
             }
-            else if(ythis->bNewFile && ythis->posMultifileInFilename >= 0) 
+            else if(thiz->bNewFile && thiz->posMultifileInFilename >= 0) 
             { 
               struct SbY_bufferFormat_t { StringBufferJc sb; char _b[16]; }bufferFormat = { 0 };   /*Build a new filename, after nrofHoursPerFile, but also first, with counted number (multiFile)*/
               StringJc sCounterMultifile;   /**/
@@ -363,28 +360,28 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 20 - 4, 0);
               ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 20, _thCxt);
               /***/
-              append_I_StringBuilderJc(& (bufferFormat.sb), ++ythis->counterMultifile, _thCxt);
+              append_I_StringBuilderJc(& (bufferFormat.sb), ++thiz->counterMultifile, _thCxt);
               sCounterMultifile = toStringNonPersist_StringBuilderJc(& ((bufferFormat.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBuilderJc(& (ythis->sFilenameBuffer.sb), ythis->posMultifileInFilename, ythis->posMultifileInFilename + ythis->currentLengthMultifileNr, sCounterMultifile, _thCxt);
-              ythis->currentLengthMultifileNr = length_StringJc(sCounterMultifile);
+              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posMultifileInFilename, thiz->posMultifileInFilename + thiz->currentLengthMultifileNr, sCounterMultifile, _thCxt);
+              thiz->currentLengthMultifileNr = length_StringJc(sCounterMultifile);
             }
             else 
             { 
               
-              ythis->bNewFile = false;//reopen the existing one.
+              thiz->bNewFile = false;//reopen the existing one.
               
             }
-            error = open_FileWriterJc(& (ythis->file), toStringNonPersist_StringBuilderJc(& ((ythis->sFilenameBuffer.sb).base.object), _thCxt), !ythis->bNewFile, _thCxt);
+            error = open_FileWriterJc(& (thiz->file), toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt), !thiz->bNewFile, _thCxt);
             if(error >= 0) 
             { 
               
               isOpen = true;
-              ythis->bNewFile = false;
+              thiz->bNewFile = false;
               if(msgOpenClose.ref!= null) 
               { 
                 
                 /** */
-                msgOpenClose.mtbl->sendMsg( (msgOpenClose.ref), ythis->msgIdentOpenClose + kMsgOpen_LogMessageFile_MSG, "open %s", "s", toStringNonPersist_StringBuilderJc(& ((ythis->sFilenameBuffer.sb).base.object), _thCxt));
+                msgOpenClose.mtbl->sendMsg( (msgOpenClose.ref), thiz->msgIdentOpenClose + kMsgOpen_LogMessageFile_MSG, "open %s", "s", toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt));
               }
             }
             else 
@@ -394,7 +391,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               { //:System.err.println("file path incorrect");
                 
                 
-                ythis->dbg.cntFilePathIncorrect += 1;
+                thiz->dbg.cntFilePathIncorrect += 1;
               }
               else 
               { 
@@ -402,13 +399,13 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
                 if(!shouldOpenWithNewName) 
                 { 
                   
-                  ythis->bNewFile = true;
+                  thiz->bNewFile = true;
                   shouldOpenWithNewName = true;
-                  ythis->dbg.cntCreateNewBecauseOpenFailed += 1;
+                  thiz->dbg.cntCreateNewBecauseOpenFailed += 1;
                   if(msgOpenClose.ref!= null) 
                   { 
                     
-                    sendMsg_z_LogMessageFW( (msgOpenClose.ref), ythis->msgIdentOpenClose + kMsgNewFile_LogMessageFile_MSG, "new File", _thCxt);
+                    sendMsg_z_LogMessageFW( (msgOpenClose.ref), thiz->msgIdentOpenClose + kMsgNewFile_LogMessageFile_MSG, "new File", _thCxt);
                   }
                 }
                 else 
@@ -416,11 +413,11 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
                   
                   /**Don't try again if it is tried already. */
                   shouldOpenWithNewName = false;
-                  ythis->dbg.cntOpenFailed += 1;
+                  thiz->dbg.cntOpenFailed += 1;
                   if(msgOpenClose.ref!= null) 
                   { 
                     
-                    sendMsg_z_LogMessageFW( (msgOpenClose.ref), ythis->msgIdentOpenClose + kMsgOpenError_LogMessageFile_MSG, "fatalOpenError", _thCxt);
+                    sendMsg_z_LogMessageFW( (msgOpenClose.ref), thiz->msgIdentOpenClose + kMsgOpenError_LogMessageFile_MSG, "fatalOpenError", _thCxt);
                   }
                 }
               }
@@ -428,44 +425,40 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
           }while(!isOpen && shouldOpenWithNewName);
       }
     }
-    if(isOpen_FileWriterJc(& (ythis->file))) 
+    if(isOpen_FileWriterJc(& (thiz->file))) 
     { 
+      struct Entry_MsgDispatcherCore_MSG_t* parkedEntry = null; 
       
-      if(ythis->parkedOrders != null) 
-      { 
-        struct Entry_MsgDispatcherCore_MSG_t* parkedEntry = null; 
-        
-        
-        /*no initvalue*/
-        do 
+      
+      /*no initvalue*/
+      do 
+        { 
+          
+          parkedEntry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(& (thiz->parkedOrders), _thCxt)));
+          if(parkedEntry != null) 
           { 
             
-            parkedEntry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(ythis->parkedOrders, _thCxt)));
-            if(parkedEntry != null) 
-            { 
-              
-              /**There are parked outputs, now output it. */
-              mtthis->writeInFile(ythis, parkedEntry->ident, parkedEntry->timestamp, parkedEntry->text, get_va_list_VaArgBuffer(& (parkedEntry->values), _thCxt), _thCxt);
-              clean_VaArgBuffer(& (parkedEntry->values), _thCxt);
-              parkedEntry->ident = 0;
-              offer_ConcurrentLinkedQueueJc(ythis->freeEntries, parkedEntry, _thCxt);
-            }
-          }while(parkedEntry != null);
-      }
+            /**There are parked outputs, now output it. */
+            mtthis->writeInFile(thiz, parkedEntry->ident, parkedEntry->timestamp, parkedEntry->text, get_va_list_VaArgBuffer(& (parkedEntry->values), _thCxt), _thCxt);
+            clean_VaArgBuffer(& (parkedEntry->values), _thCxt);
+            parkedEntry->ident = 0;
+            offer_ConcurrentLinkedQueueJc(thiz->freeEntries, parkedEntry, _thCxt);
+          }
+        }while(parkedEntry != null);
       /**Output the current message. */
-      mtthis->writeInFile(ythis, identNumber, creationTime, text, args, _thCxt);
+      mtthis->writeInFile(thiz, identNumber, creationTime, text, args, _thCxt);
       sent = true;
     }
     else 
     { //:file can't open,
       
       
-      if(ythis->freeEntries != null) 
+      if(thiz->freeEntries != null) 
       { 
         struct Entry_MsgDispatcherCore_MSG_t* entry; 
         
         
-        entry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(ythis->freeEntries, _thCxt)));
+        entry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(thiz->freeEntries, _thCxt)));
         if(entry == null) 
         { 
           
@@ -481,7 +474,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
           entry->text = text;
           set_OS_TimeStamp(entry->timestamp, creationTime);
           copyFrom_VaArgBuffer(& (entry->values), text, args, _thCxt);
-          offer_ConcurrentLinkedQueueJc(ythis->parkedOrders, entry, _thCxt);
+          offer_ConcurrentLinkedQueueJc(& (thiz->parkedOrders), entry, _thCxt);
           /**Storing message in queue is adequate to send. */
           sent = true;
         }
@@ -509,13 +502,13 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNu
 
 /**This method can be called after a cyclic time less than the nrofSecondsToFlush,*/
 void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)ithis;
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   
   STACKTRC_TENTRY("flush_LogMessageFile_MSG_F");
   
   { 
     
-    if(ythis->nrofSecondsToClose > 0 && isOpen_FileWriterJc(& (ythis->file))) 
+    if(thiz->nrofSecondsToClose > 0 && isOpen_FileWriterJc(& (thiz->file))) 
     { 
       int32 secDiff = 0; 
       OS_TimeStamp timeTest1 = { 0 }; 
@@ -525,28 +518,28 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
       
       //J2C: constructor for embedded element
       INIT_now_OS_TimeStamp(/*static*/timeTest1, true);
-      secDiff = timeTest1.time_sec - ythis->timeWrite.time_sec;
-      if(secDiff >= ythis->nrofSecondsToClose) 
+      secDiff = timeTest1.time_sec - thiz->timeWrite.time_sec;
+      if(secDiff >= thiz->nrofSecondsToClose) 
       { 
         
-        close_FileWriterJc(& (ythis->file), _thCxt);//catch(IOException exc){ dbg.cntCloseError +=1; }
+        close_FileWriterJc(& (thiz->file), _thCxt);//catch(IOException exc){ dbg.cntCloseError +=1; }
         
-        if(ythis->maxCntNonFlushedWrite < ythis->cntNonFlushedWrite) 
+        if(thiz->maxCntNonFlushedWrite < thiz->cntNonFlushedWrite) 
         { 
           
           /**Gets the maximum. */
-          ythis->maxCntNonFlushedWrite = ythis->cntNonFlushedWrite;
+          thiz->maxCntNonFlushedWrite = thiz->cntNonFlushedWrite;
         }
-        ythis->shouldFlushed = false;
-        set_OS_TimeStamp(ythis->timeClose, timeTest1);
-        if(REFJc(ythis->msgOpenClose) != null) 
+        thiz->shouldFlushed = false;
+        set_OS_TimeStamp(thiz->timeClose, timeTest1);
+        if(REFJc(thiz->msgOpenClose) != null) 
         { 
           
-          sendMsg_z_LogMessageFW(REFJc(ythis->msgOpenClose), ythis->msgIdentOpenClose + kMsgClose_LogMessageFile_MSG, "close", _thCxt);
+          sendMsg_z_LogMessageFW(REFJc(thiz->msgOpenClose), thiz->msgIdentOpenClose + kMsgClose_LogMessageFile_MSG, "close", _thCxt);
         }
       }
     }
-    if(ythis->nrofSecondsToFlush > 0 && ythis->shouldFlushed) 
+    if(thiz->nrofSecondsToFlush > 0 && thiz->shouldFlushed) 
     { 
       int32 secDiff = 0; 
       OS_TimeStamp timeTest = { 0 }; 
@@ -556,29 +549,29 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
       
       //J2C: constructor for embedded element
       INIT_now_OS_TimeStamp(/*static*/timeTest, true);
-      secDiff = timeTest.time_sec - ythis->timeOpen.time_sec;
-      if(secDiff >= ythis->nrofSecondsToFlush) 
+      secDiff = timeTest.time_sec - thiz->timeOpen.time_sec;
+      if(secDiff >= thiz->nrofSecondsToFlush) 
       { 
         
         TRY
         { 
           
-          flush_FileWriterJc(& (ythis->file), _thCxt);
+          flush_FileWriterJc(& (thiz->file), _thCxt);
         }_TRY
         CATCH(IOException, exc)
         
           { 
             
-            ythis->dbg.cntCloseError += 1;
+            thiz->dbg.cntCloseError += 1;
           }
         END_TRY
-        if(ythis->maxCntNonFlushedWrite < ythis->cntNonFlushedWrite) 
+        if(thiz->maxCntNonFlushedWrite < thiz->cntNonFlushedWrite) 
         { 
           
           /**Gets the maximum. */
-          ythis->maxCntNonFlushedWrite = ythis->cntNonFlushedWrite;
+          thiz->maxCntNonFlushedWrite = thiz->cntNonFlushedWrite;
         }
-        ythis->shouldFlushed = false;
+        thiz->shouldFlushed = false;
       }
     }
   }
@@ -593,14 +586,14 @@ void flush_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
 
 
 /**Tests*/
-void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* ythis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
+void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("writeInFile_LogMessageFile_MSG_F");
   
-  { 
-    struct SbY_bufferFormat_t { StringBufferJc sb; char _b[996]; }bufferFormat = { 0 };   /**/
-    FormatterJc_s formatter = { 0 };   /**/
-    StringJc textFormatted = NULL_StringJc; 
+  { //:@Java4C.
+    
+    struct SbY_bufferFormat_t { StringBufferJc sb; char _b[996]; }bufferFormat = { 0 }; 
+    StringJc formattedText = NULL_StringJc; 
     struct SbY_bufferTimestamp_t { StringBufferJc sb; char _b[26]; }bufferTimestamp = { 0 };   /**/
     char const* sComGo = 0;   /*Comming or Going-identification as String, negative identNumer = going message. */
     
@@ -609,53 +602,73 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* ythis, int32 identNu
     //J2C: constructor for embedded fix-size-StringBuffer
     init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 1000, _thCxt);
-    
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(formatter.base.object), sizeof(formatter), 0); 
-    ctorO_SbLo_FormatterJc(/*static*/&(formatter.base.object), & (bufferFormat.sb), REFJc(ythis->localization), _thCxt);
     /*no initvalue*/
-    TRY
+    if(size_Va_listFW(args) > 0) 
+    { 
+      FormatterJc_s formatter = { 0 };   /**/
+      
+      
+      
+      //J2C: constructor for embedded element-ObjectJc
+      init_ObjectJc(&(formatter.base.object), sizeof(formatter), 0); 
+      ctorO_SbLo_FormatterJc(/*static*/&(formatter.base.object), & (bufferFormat.sb), REFJc(thiz->localization), _thCxt);
+      TRY
+      { 
+        
+        format_FormatterJc(& (formatter), s0_StringJc(text), (args), _thCxt);
+      }_TRY
+      CATCH(IllegalFormatConversionException, exc)
+      
+        { 
+          
+          
+            ( append_z_StringBuilderJc(& (bufferFormat.sb), "error in text format: ", _thCxt)
+            , append_z_StringBuilderJc(& (bufferFormat.sb), text, _thCxt)
+            );
+        }
+      CATCH(IllegalFormatConversionException, exc)
+      
+        { 
+          
+          
+            ( append_z_StringBuilderJc(& (bufferFormat.sb), "error-precision in text format: ", _thCxt)
+            , append_z_StringBuilderJc(& (bufferFormat.sb), text, _thCxt)
+            );
+        }
+      CATCH(IllegalFormatConversionException, exc)
+      
+        { 
+          
+          
+            ( append_z_StringBuilderJc(& (bufferFormat.sb), "error-argument in text format: ", _thCxt)
+            , append_z_StringBuilderJc(& (bufferFormat.sb), text, _thCxt)
+            );
+        }
+      CATCH(ExceptionJc, exc)
+      
+        { 
+          
+          
+            ( append_z_StringBuilderJc(& (bufferFormat.sb), "error-unknown in text format: ", _thCxt)
+            , append_z_StringBuilderJc(& (bufferFormat.sb), text, _thCxt)
+            );
+        }
+      END_TRY
+      formattedText = toString_StringBuilderJc(&(bufferFormat.sb).base.object, _thCxt)/*J2C:non-persistent*/;//XX
+      
+    }
+    else 
     { 
       
-      format_FormatterJc(& (formatter), s0_StringJc(text), (args), _thCxt);
-    }_TRY
-    CATCH(IllegalFormatConversionException, exc)
-    
-      { 
-         //J2C: temporary Stringbuffer for String concatenation
-        StringBuilderJc* _tempString1_1=null; 
-        
-        append_s_StringBuilderJc(& (bufferFormat.sb), 
-          ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-          , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-          , append_z_StringBuilderJc(_tempString1_1, "error in text format: ", _thCxt)
-          , append_z_StringBuilderJc(_tempString1_1, text, _thCxt)
-          , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-          ), _thCxt);
-        activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-      }
-    CATCH(IllegalFormatPrecisionException, exc)
-    
-      { 
-         //J2C: temporary Stringbuffer for String concatenation
-        StringBuilderJc* _tempString1_1=null; 
-        
-        append_s_StringBuilderJc(& (bufferFormat.sb), 
-          ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-          , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-          , append_z_StringBuilderJc(_tempString1_1, "error-precision in text format: ", _thCxt)
-          , append_z_StringBuilderJc(_tempString1_1, text, _thCxt)
-          , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-          ), _thCxt);
-        activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-      }
-    END_TRY
+      formattedText = z_StringJc(text)/*J2C:non-persistent*/;//without args, don't try to format! The text may contain format characters.
+      
+    }
     
     //J2C: constructor for embedded fix-size-StringBuffer
     init_ObjectJc(&bufferTimestamp.sb.base.object, sizeof(StringBuilderJc) + 30 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferTimestamp.sb.base.object, 30, _thCxt);
-    format_tu_SimpleDateFormatJc(& (ythis->dateFormat), creationTime, & (bufferTimestamp.sb), & (ythis->formatField), _thCxt);
-    setLength_StringBuilderJc(& (ythis->sBuffer.sb), 0, _thCxt);
+    format_tu_SimpleDateFormatJc(& (thiz->dateFormat), creationTime, & (bufferTimestamp.sb), & (thiz->formatField), _thCxt);
+    setLength_StringBuilderJc(& (thiz->sBuffer.sb), 0, _thCxt);
     /*no initvalue*/
     if(identNumber >= 0) 
     { 
@@ -669,48 +682,48 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* ythis, int32 identNu
       identNumber = -identNumber;
     }
     
-      ( append_u_StringBuilderJc(& (ythis->sBuffer.sb), & (bufferTimestamp.sb), _thCxt)
-      , append_z_StringBuilderJc(& (ythis->sBuffer.sb), "; ", _thCxt)
-      , append_I_StringBuilderJc(& (ythis->sBuffer.sb), identNumber, _thCxt)
-      , append_z_StringBuilderJc(& (ythis->sBuffer.sb), ";", _thCxt)
-      , append_z_StringBuilderJc(& (ythis->sBuffer.sb), sComGo, _thCxt)
-      , append_z_StringBuilderJc(& (ythis->sBuffer.sb), ";", _thCxt)
-      , append_u_StringBuilderJc(& (ythis->sBuffer.sb), & (bufferFormat.sb), _thCxt)
-      , append_z_StringBuilderJc(& (ythis->sBuffer.sb), "\r\n", _thCxt)
+      ( append_u_StringBuilderJc(& (thiz->sBuffer.sb), & (bufferTimestamp.sb), _thCxt)
+      , append_z_StringBuilderJc(& (thiz->sBuffer.sb), "; ", _thCxt)
+      , append_I_StringBuilderJc(& (thiz->sBuffer.sb), identNumber, _thCxt)
+      , append_z_StringBuilderJc(& (thiz->sBuffer.sb), ";", _thCxt)
+      , append_z_StringBuilderJc(& (thiz->sBuffer.sb), sComGo, _thCxt)
+      , append_z_StringBuilderJc(& (thiz->sBuffer.sb), ";", _thCxt)
+      , append_s_StringBuilderJc(& (thiz->sBuffer.sb), formattedText, _thCxt)
+      , append_z_StringBuilderJc(& (thiz->sBuffer.sb), "\r\n", _thCxt)
       );
     TRY
     { 
       
       /**The StringBuilder-instance exists only one time, to prevent dynamically memory.*/
-      write_FileWriterJc(& (ythis->file), toStringNonPersist_StringBuilderJc(& ((ythis->sBuffer.sb).base.object), _thCxt), _thCxt);
+      write_FileWriterJc(& (thiz->file), toStringNonPersist_StringBuilderJc(& ((thiz->sBuffer.sb).base.object), _thCxt), _thCxt);
       /**The file should closed only after nrofSecondsToFlush,*/
-      if(ythis->nrofSecondsToFlush == 0) 
+      if(thiz->nrofSecondsToFlush == 0) 
       { //:file.close();
         
         
-        flush_FileWriterJc(& (ythis->file), _thCxt);
+        flush_FileWriterJc(& (thiz->file), _thCxt);
       }
-      else if(!ythis->shouldFlushed) 
+      else if(!thiz->shouldFlushed) 
       { 
         
         /**The first write after a flush or in new file, get and store the time. */
-        set_OS_TimeStamp(ythis->timeWrite, os_getDateTime());
-        ythis->cntNonFlushedWrite = 1;
-        ythis->shouldFlushed = true;
+        set_OS_TimeStamp(thiz->timeWrite, os_getDateTime());
+        thiz->cntNonFlushedWrite = 1;
+        thiz->shouldFlushed = true;
       }
       else 
       { 
         
         /**A second write in non-flushed file. */
-        ythis->cntAllNonFlushedWrite += 1;
-        ythis->cntNonFlushedWrite += 1;
+        thiz->cntAllNonFlushedWrite += 1;
+        thiz->cntNonFlushedWrite += 1;
       }
     }_TRY
     CATCH(IOException, exc)
     
       { 
         
-        ythis->dbg.cntWriteError += 1;
+        thiz->dbg.cntWriteError += 1;
       }
     END_TRY
   }
@@ -718,15 +731,15 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* ythis, int32 identNu
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* ythis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
-{ Mtbl_LogMessageFile_MSG const* mtbl = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFile_MSG);
-  mtbl->writeInFile(ythis, identNumber, creationTime, text, args, _thCxt);
+void writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
+{ Mtbl_LogMessageFile_MSG const* mtbl = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
+  mtbl->writeInFile(thiz, identNumber, creationTime, text, args, _thCxt);
 }
 
 
 /**Closes the file and forces usage of a new file on next open.*/
 void close_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)ithis;
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   
   STACKTRC_TENTRY("close_LogMessageFile_MSG_F");
   
@@ -735,10 +748,10 @@ void close_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
     
     { 
       
-      close_FileWriterJc(& (ythis->file), _thCxt);//catch(IOException exc){ dbg.cntCloseError +=1; }
+      close_FileWriterJc(& (thiz->file), _thCxt);//catch(IOException exc){ dbg.cntCloseError +=1; }
       
     }
-    ythis->bNewFile = true;
+    thiz->bNewFile = true;
   }
   STACKTRC_LEAVE;
 }
@@ -750,7 +763,7 @@ void close_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
 }
 
 bool isOnline_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)ithis;
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   
   STACKTRC_TENTRY("isOnline_LogMessageFile_MSG_F");
   
@@ -771,19 +784,20 @@ bool isOnline_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
 
 
 void finalize_LogMessageFile_MSG_F(ObjectJc* othis, ThCxt* _thCxt)
-{ LogMessageFile_MSG_s* ythis = (LogMessageFile_MSG_s*)othis;  //upcasting to the real class.
+{ LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_LogMessageFile_MSG_F");
-  finalize_ObjectJc_F(&ythis->sFilenameBuffer.sb.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  finalize_ObjectJc_F(&ythis->sDateformatBuffer.sb.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  finalize_ObjectJc_F(&ythis->formatTimestamp.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  finalize_ObjectJc_F(&ythis->formatField.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  finalize_ObjectJc_F(&ythis->file.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  CLEAR_REFJc(ythis->msgOpenClose);
-  finalize_ObjectJc_F(&ythis->dateFormat.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  CLEAR_REFJc(ythis->localization);
-  CLEAR_REFJc(ythis->timeZone);
-  finalize_ObjectJc_F(&ythis->sBuffer.sb.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  finalize_ObjectJc_F(&ythis->base.object, _thCxt); //J2C: finalizing the superclass.
+  finalize_ObjectJc_F(&thiz->sFilenameBuffer.sb.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_ObjectJc_F(&thiz->sDateformatBuffer.sb.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_ObjectJc_F(&thiz->formatTimestamp.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_ObjectJc_F(&thiz->formatField.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_ObjectJc_F(&thiz->file.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  CLEAR_REFJc(thiz->msgOpenClose);
+  finalize_ObjectJc_F(&thiz->parkedOrders.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_ObjectJc_F(&thiz->dateFormat.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  CLEAR_REFJc(thiz->localization);
+  CLEAR_REFJc(thiz->timeZone);
+  finalize_ObjectJc_F(&thiz->sBuffer.sb.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_ObjectJc_F(&thiz->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
 
@@ -1069,7 +1083,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
    , { "parkedOrders"
     , 0 //nrofArrayElements
     , &reflection_ConcurrentLinkedQueueJc_s
-    , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
+    , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->parkedOrders) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_LogMessageFile_MSG_s
@@ -1137,7 +1151,7 @@ const char sign_Mtbl_Dbg_LogMessageFile_MSG[] = "Dbg_LogMessageFile_MSG"; //to m
 
 /*Constructor *//**J2C: autogenerated as default constructor. */
 struct Dbg_LogMessageFile_MSG_t* ctorM_Dbg_LogMessageFile_MSG(MemC mthis, ThCxt* _thCxt)
-{ Dbg_LogMessageFile_MSG_s* ythis = PTR_MemC(mthis, Dbg_LogMessageFile_MSG_s);  //reference casting to the real class.
+{ Dbg_LogMessageFile_MSG_s* thiz = PTR_MemC(mthis, Dbg_LogMessageFile_MSG_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_Dbg_LogMessageFile_MSG");
   if(sizeof(Dbg_LogMessageFile_MSG_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
@@ -1146,7 +1160,7 @@ struct Dbg_LogMessageFile_MSG_t* ctorM_Dbg_LogMessageFile_MSG(MemC mthis, ThCxt*
   }/*J2C:No body for constructor*/
 
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 

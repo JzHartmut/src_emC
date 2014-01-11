@@ -14,8 +14,9 @@ class MsgDispatcher; nameC=MsgDispatcher_MSG_s; argIdent=XX; extends org/vishia/
       //outer=2 ,super=2: int %.. actNrofListIdents;
       //outer=2 ,super=2: int %.. ctLostMessages;
       int %.. cycleMillisec;
-      //outer=2 ,super=1: org/vishia/msgDispatch/MsgDispatcherCore.Entry(instance=org/vishia/msgDispatch/MsgDispatcherCore.Entry) $.. entryMsgBufferOverflow;
+      //outer=2 ,super=2: org/vishia/msgDispatch/MsgDispatcherCore.Entry(instance=org/vishia/msgDispatch/MsgDispatcherCore.Entry) $.. entryMsgBufferOverflow;
       //outer=2 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeOrders;
+      //outer=2 ,super=2: long %.. idThreadForDispatching;
       //outer=2 ,super=2: int[??] X%. listBitDst;
       //outer=2 ,super=2: int[??] X%. listIdents;
       //outer=2 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. listOrders;
@@ -55,8 +56,9 @@ class MsgDispatcher; nameC=MsgDispatcher_MSG_s; argIdent=XX; extends org/vishia/
 fieldIdents {
   //outer=1 ,super=2: int %.. actNrofListIdents;
   //outer=1 ,super=2: int %.. ctLostMessages;
-  org/vishia/msgDispatch/MsgDispatcherCore.Entry(instance=org/vishia/msgDispatch/MsgDispatcherCore.Entry) $.. entryMsgBufferOverflow;
+  //outer=1 ,super=2: org/vishia/msgDispatch/MsgDispatcherCore.Entry(instance=org/vishia/msgDispatch/MsgDispatcherCore.Entry) $.. entryMsgBufferOverflow;
   //outer=1 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeOrders;
+  //outer=1 ,super=2: long %.. idThreadForDispatching;
   //outer=1 ,super=2: int[??] X%. listBitDst;
   //outer=1 ,super=2: int[??] X%. listIdents;
   //outer=1 ,super=2: org/vishia/bridgeC/ConcurrentLinkedQueue *.. listOrders;
@@ -84,7 +86,6 @@ fieldIdents {
     completeDispatchInThreadBits-_$: int %.r null(int %.. dstBits);
     ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcher *.. MsgDispatcher_MSG_s(int %.. maxDispatchEntries,int %.. maxQueue,int %.. maxOutputs,int %.. nrofMixedOutputs,int %.. msgIdentQueueOverflow,java/lang/Runnable *.. runNoEntryMessage);
     ctorO_DispatcherThread-_$, mode= ctor+nonStaticCtor: org/vishia/msgDispatch/MsgDispatcher.DispatcherThread *.. DispatcherThread_MsgDispatcher_MSG_s(int %.. cycleMillisec);
-    dispatchQueuedMsg-_$: int %.r null();
     flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush: void %.r null();
     getSharedFreeEntries-_$: org/vishia/bridgeC/ConcurrentLinkedQueue *.r null();
     insertIdent-_$: int %.r null(int %.. idx,int %.. fromIdent,int %.. toIdent);
@@ -94,7 +95,6 @@ fieldIdents {
     setOutputRange-_$: int %.r null(int %.. fromIdent,int %.. toIdent,int %.. dst,int %.. mode,int %.. level);
     setOutputRoutine-_$: void %.r null(int %.. dstIdx,java/lang/String(instance=java/lang/String) t.. name,boolean %.. bQueued,boolean %.. bText,org/vishia/msgDispatch/LogMessage *.. dst);
     stop-_$: void %.r null();
-    tickAndFlushOrClose-_$: void %.r null();
   }
 
   castTo {

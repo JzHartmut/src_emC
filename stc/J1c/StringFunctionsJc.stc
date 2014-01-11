@@ -8,30 +8,30 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    compare+_tt-_$, mode= static: int %.r null(java/lang/CharSequence t.. s1,java/lang/CharSequence t.. s2);
-    compare+_titii-_$, mode= static: int %.r null(java/lang/CharSequence t.. s1,int %.. from1,java/lang/CharSequence t.. s2,int %.. from2,int %.. nrofChars);
-    convertTranscription-_$, mode= static: java/lang/CharSequence t.r null(java/lang/CharSequence t.. src,char %.. transcriptChar);
+    compare+_CsCs-_$, mode= static: int %.r null(java/lang/CharSequence *.. s1,java/lang/CharSequence *.. s2);
+    compare+_CsiCsii-_$, mode= static: int %.r null(java/lang/CharSequence *.. s1,int %.. from1,java/lang/CharSequence *.. s2,int %.. from2,int %.. nrofChars);
+    convertTranscription-_$, mode= static: java/lang/CharSequence *.r null(java/lang/CharSequence *.. src,char %.. transcriptChar);
     ctorO-_$, mode= ctor+static: org/vishia/util/StringFunctions *.. StringFunctionsJc_s();
-    endsWith-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. sq,java/lang/CharSequence t.. end);
-    equals+_tt-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. s1,java/lang/CharSequence t.. s2);
-    equals+_tiit-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. s1,int %.. from,int %.. to,java/lang/CharSequence t.. s2);
-    indexOf+_tci-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,char %.. ch,int %.. fromIndex);
-    indexOf+_tti-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,java/lang/CharSequence t.. str,int %.. fromIndex);
-    indexOf+_tiic-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,char %.. ch);
-    indexOf+_tiit-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence t.. str);
-    isEmptyOrOnlyWhitespaces-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. text);
-    lastIndexOf+_tc-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,char %.. ch);
-    lastIndexOf+_tiic-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. from,int %.. to,char %.. ch);
-    lastIndexOf+_tiit-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence t.. str);
+    endsWith-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. sq,java/lang/CharSequence *.. end);
+    equals+_CsCs-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. s1,java/lang/CharSequence *.. s2);
+    equals+_CsiiCs-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. s1,int %.. from,int %.. to,java/lang/CharSequence *.. s2);
+    indexOf+_Csci-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,char %.. ch,int %.. fromIndex);
+    indexOf+_CsCsi-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,java/lang/CharSequence *.. str,int %.. fromIndex);
+    indexOf+_Csiic-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. fromIndex,int %.. to,char %.. ch);
+    indexOf+_CsiiCs-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence *.. str);
+    isEmptyOrOnlyWhitespaces-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. text);
+    lastIndexOf+_Csc-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,char %.. ch);
+    lastIndexOf+_Csiic-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. from,int %.. to,char %.. ch);
+    lastIndexOf+_CsiiCs-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence *.. str);
     parseFloat-_$, mode= static: float %.r null(java/lang/String(instance=java/lang/String) t.. src,int %.. pos,int %.. sizeP,int[??] X%. parsedCharsP);
-    parseIntRadix+_SiiiiY-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars);
+    parseIntRadix+_SiiiiY-_$, mode= noThCxt+static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars);
     parseIntRadix+_SiiiiYS-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars,java/lang/String(instance=java/lang/String) t.. spaceChars);
     parseIntRadixBack-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars);
     parseLong-_$, mode= static: long %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars,java/lang/String(instance=java/lang/String) t.. spaceChars);
-    posAfterIdentifier+_tii-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax);
-    posAfterIdentifier+_tiiSS-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars,java/lang/String(instance=java/lang/String) t.. additionalChars);
-    startsWith+_tt-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. sq,java/lang/CharSequence t.. start);
-    startsWith+_tiit-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. sq,int %.. from,int %.. to,java/lang/CharSequence t.. start);
+    posAfterIdentifier+_Csii-_$, mode= static: int %.r null(java/lang/CharSequence *.. src,int %.. start,int %.. endMax);
+    posAfterIdentifier+_CsiiSS-_$, mode= static: int %.r null(java/lang/CharSequence *.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars,java/lang/String(instance=java/lang/String) t.. additionalChars);
+    startsWith+_CsCs-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. sq,java/lang/CharSequence *.. start);
+    startsWith+_CsiiCs-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. sq,int %.. from,int %.. to,java/lang/CharSequence *.. start);
   }
 
   castTo {

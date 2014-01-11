@@ -80,19 +80,26 @@ METHOD_C void setBigEndian_b_RawDataAccessJc_F(ByteDataAccessJc_s* ithis, bool v
 METHOD_C void setBigEndian_b_RawDataAccessJc(ByteDataAccessJc_s* ithis, bool value, ThCxt* _thCxt);
 
 /**Gets a integer value from any offset started from Object_Jc*/
-METHOD_C int32 getIntVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, int32 nrofBytes, ThCxt* _thCxt);
+METHOD_C int32 getIntVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt);
 
 /**Gets a float value from any offset started from Object_Jc*/
-METHOD_C float getFloatVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, ThCxt* _thCxt);
+METHOD_C float getFloatVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, ThCxt* _thCxt);
 
 /**Gets a double value from any offset started from Object_Jc*/
-METHOD_C double getDoubleVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, ThCxt* _thCxt);
+#define getDoubleVal_RawDataAccessJc(THIZ, idx) \
+(longBitsToDouble_DoubleJc(/*static*/_getLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), idx, 8, _thCxt)))
 
-METHOD_C void setIntVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, int32 nrofBytes, int64 value, ThCxt* _thCxt);
+/*** */
+#define setIntVal_RawDataAccessJc(THIZ, idx, nrofBytes, value) \
+\
+{ \
+  \
+  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), idx, nrofBytes, value, _thCxt);\
+}
 
-METHOD_C void setFloatVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, float value, ThCxt* _thCxt);
+METHOD_C void setFloatVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, float value, ThCxt* _thCxt);
 
-METHOD_C void setDoubleVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, double value, ThCxt* _thCxt);
+METHOD_C void setDoubleVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, double value, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -112,7 +119,7 @@ class RawDataAccessJc : private RawDataAccessJc_s
 
   RawDataAccessJc(){ init_ObjectJc(&this->base.object, sizeof(RawDataAccessJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_RawDataAccessJc_s, 0); ctorO_RawDataAccessJc(&this->base.object,  null/*_thCxt*/); }
 
-  double getDoubleVal(int32 idx){  return getDoubleVal_RawDataAccessJc(this, idx,  null/*_thCxt*/); }
+  double getDoubleVal(int32 idx){  return getDoubleVal_RawDataAccessJc(this, idx); }
 
   float getFloatVal(int32 idx){  return getFloatVal_RawDataAccessJc(this, idx,  null/*_thCxt*/); }
 
@@ -124,7 +131,7 @@ class RawDataAccessJc : private RawDataAccessJc_s
 
   void setFloatVal(int32 idx, float value){ setFloatVal_RawDataAccessJc(this, idx, value,  null/*_thCxt*/); }
 
-  void setIntVal(int32 idx, int32 nrofBytes, int64 value){ setIntVal_RawDataAccessJc(this, idx, nrofBytes, value,  null/*_thCxt*/); }
+  void setIntVal(int32 idx, int32 nrofBytes, int64 value){ setIntVal_RawDataAccessJc(this, idx, nrofBytes, value); }
 
   virtual void specifyEmptyDefaultData(){ specifyEmptyDefaultData_RawDataAccessJc_F(&this->base.super,  null/*_thCxt*/); }
 

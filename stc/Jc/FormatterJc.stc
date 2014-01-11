@@ -19,3 +19,8 @@ class Formatter; nameC=FormatterJc_s; argIdent=Fo; extends java/lang/Object
 }
 
 class IllegalFormatConversionException; nameC=IllegalFormatConversionException; argIdent=Exc; extends Exception {}
+
+//use same error bits for the other format exceptions:
+class MissingFormatArgumentException; nameC=IllegalFormatConversionException; argIdent=Exc; extends Exception {}
+
+class IllegalFormatPrecisionException; nameC=IllegalFormatConversionException; argIdent=Exc; extends Exception {}

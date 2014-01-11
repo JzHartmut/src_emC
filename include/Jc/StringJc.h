@@ -897,6 +897,33 @@ class  StringJcpp: public StringJc
 
 #endif //__CPLUSPLUSJcpp
 
+/*@CLASS_C CharSequenceJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef struct CharSequenceJc_t
+{ ObjectJc object;
+} CharSequenceJc;
+
+
+extern struct ClassJc_t const reflection_CharSequenceJc;
+
+typedef struct CharSequenceJc_Y_t{ ObjectArrayJc head;  CharSequenceJc* data[50]; } CharSequenceJc_Y; 
+
+typedef int MT_length_CharSequenceJc(CharSequenceJc* ythis, ThCxt* _thCxt);
+typedef int MT_charAt_CharSequenceJc(CharSequenceJc* ythis, int ix, ThCxt* _thCxt);
+typedef int MT_subSequence_CharSequenceJc(CharSequenceJc* ythis, int from, int to, ThCxt* _thCxt);
+
+/**To organize dynamic link method call the jump table of virtual methods is neccessary. */
+typedef struct Mtbl_CharSequenceJc_t
+{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+  MT_length_CharSequenceJc* length;
+  MT_charAt_CharSequenceJc* charAt;
+  MT_subSequence_CharSequenceJc* subSequence;
+} Mtbl_CharSequenceJc;
+
+
+#define length_CharSequenceJc(THIZ, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, &reflection_CharSequenceJc))->length(THIZ, THC)
+#define charAt_CharSequenceJc(THIZ, ix, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, &reflection_CharSequenceJc))->charAt(THIZ, ix, THC)
+#define subSequence_CharSequenceJc(THIZ, from, to, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, &reflection_CharSequenceJc))->subSequence(THIZ, from, to, THC)
 
 
 
@@ -1774,7 +1801,7 @@ METHOD_C StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, cha
  */ ///
 #define toString_StringBuilderJc(YTHIS, _THC) ( ((StringBuilderJc*)(YTHIS))->_mode |= _mStringBuilt_StringBuilderJc, toStringNonPersist_StringBuilderJc(YTHIS, _THC))
 
-
+#define toString_StringJc(STRING) (STRING)
 
 /**Returns the String which represents the content of the StringBuffer.
  *

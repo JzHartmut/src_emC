@@ -889,6 +889,34 @@ METHOD_C StringJc toString_F_FloatJc(float val);
 
 METHOD_C StringJc toHexString_FloatJc(float val);
 
+/*@CLASS_C ComparableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef struct ComparableJc_t
+{ ObjectJc object;
+}ComparableJc;
+
+
+/**To organize dynamic link method call the jump table of virtual methods is neccessary. */
+typedef struct Mtbl_ComparableJc_t
+{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Mtbl_ComparableJc;
+
+extern char const sign_Mtbl_ComparableJc[]; 
+
+
+
+/*@CLASS_C CloseableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef struct CloseableJc_t
+{ ObjectJc object;
+}CloseableJc;
+
+/**To organize dynamic link method call the jump table of virtual methods is neccessary. */
+typedef struct Mtbl_CloseableJc_t
+{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Mtbl_CloseableJc;
+
+extern char const sign_Mtbl_CloseableJc[]; 
 
 
 /*@DEFINE_C standard_includes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

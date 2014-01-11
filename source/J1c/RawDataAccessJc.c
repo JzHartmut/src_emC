@@ -6,7 +6,7 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Jc/SystemJc.h"  //reference-association: FloatJc
+#include "Jc/SystemJc.h"  //reference-association: DoubleJc
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -22,7 +22,7 @@ typedef struct MtblDef_RawDataAccessJc_t { Mtbl_RawDataAccessJc mtbl; MtblHeadJc
 
 /*Constructor */
 struct RawDataAccessJc_t* ctorO_RawDataAccessJc(ObjectJc* othis, ThCxt* _thCxt)
-{ RawDataAccessJc_s* ythis = (RawDataAccessJc_s*)othis;  //upcasting to the real class.
+{ RawDataAccessJc_s* thiz = (RawDataAccessJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_RawDataAccessJc");
   checkConsistence_ObjectJc(othis, sizeof(RawDataAccessJc_s), null, _thCxt);  
   //J2C:super Constructor
@@ -36,12 +36,12 @@ struct RawDataAccessJc_t* ctorO_RawDataAccessJc(ObjectJc* othis, ThCxt* _thCxt)
     
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 void specifyEmptyDefaultData_RawDataAccessJc_F(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ RawDataAccessJc_s* ythis = (RawDataAccessJc_s*)ithis;
+{ RawDataAccessJc_s* thiz = (RawDataAccessJc_s*)ithis;
   
   STACKTRC_TENTRY("specifyEmptyDefaultData_RawDataAccessJc_F");
   
@@ -59,7 +59,7 @@ void specifyEmptyDefaultData_RawDataAccessJc(ByteDataAccessJc_s* ithis, ThCxt* _
 }
 
 int32 specifyLengthElement_RawDataAccessJc_F(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ RawDataAccessJc_s* ythis = (RawDataAccessJc_s*)ithis;
+{ RawDataAccessJc_s* thiz = (RawDataAccessJc_s*)ithis;
   
   STACKTRC_TENTRY("specifyLengthElement_RawDataAccessJc_F");
   
@@ -79,7 +79,7 @@ int32 specifyLengthElement_RawDataAccessJc(ByteDataAccessJc_s* ithis, ThCxt* _th
 }
 
 int32 specifyLengthElementHead_RawDataAccessJc_F(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ RawDataAccessJc_s* ythis = (RawDataAccessJc_s*)ithis;
+{ RawDataAccessJc_s* thiz = (RawDataAccessJc_s*)ithis;
   
   STACKTRC_TENTRY("specifyLengthElementHead_RawDataAccessJc_F");
   
@@ -99,13 +99,13 @@ int32 specifyLengthElementHead_RawDataAccessJc(ByteDataAccessJc_s* ithis, ThCxt*
 }
 
 void setBigEndian_b_RawDataAccessJc_F(ByteDataAccessJc_s* ithis, bool value, ThCxt* _thCxt)
-{ RawDataAccessJc_s* ythis = (RawDataAccessJc_s*)ithis;
+{ RawDataAccessJc_s* thiz = (RawDataAccessJc_s*)ithis;
   
   STACKTRC_TENTRY("setBigEndian_b_RawDataAccessJc_F");
   
   { 
     
-    ((Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&((&ythis->base.super))->base.object, sign_Mtbl_ByteDataAccessJc) )->setBigEndian((&ythis->base.super), value, _thCxt);
+    ((Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&((&thiz->base.super))->base.object, sign_Mtbl_ByteDataAccessJc) )->setBigEndian((&thiz->base.super), value, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -118,14 +118,14 @@ void setBigEndian_b_RawDataAccessJc(ByteDataAccessJc_s* ithis, bool value, ThCxt
 
 
 /**Gets a integer value from any offset started from Object_Jc*/
-int32 getIntVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, int32 nrofBytes, ThCxt* _thCxt)
+int32 getIntVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getIntVal_RawDataAccessJc");
   
   { 
     
     { STACKTRC_LEAVE;
-      return (int32)_getLong_ByteDataAccessJc(& ((* (ythis)).base.super), idx, nrofBytes, _thCxt);
+      return (int32)_getLong_ByteDataAccessJc(& ((* (thiz)).base.super), idx, nrofBytes, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -133,65 +133,39 @@ int32 getIntVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, int32 nrofB
 
 
 /**Gets a float value from any offset started from Object_Jc*/
-float getFloatVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, ThCxt* _thCxt)
+float getFloatVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getFloatVal_RawDataAccessJc");
   
   { 
     
     { STACKTRC_LEAVE;
-      return intBitsToFloat_FloatJc(/*static*/(int32)_getLong_ByteDataAccessJc(& ((* (ythis)).base.super), idx, 4, _thCxt));
+      return intBitsToFloat_FloatJc(/*static*/(int32)_getLong_ByteDataAccessJc(& ((* (thiz)).base.super), idx, 4, _thCxt));
     }
   }
   STACKTRC_LEAVE;
 }
 
-
-/**Gets a double value from any offset started from Object_Jc*/
-double getDoubleVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getDoubleVal_RawDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return longBitsToDouble_DoubleJc(/*static*/_getLong_ByteDataAccessJc(& ((* (ythis)).base.super), idx, 8, _thCxt));
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-void setIntVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, int32 nrofBytes, int64 value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setIntVal_RawDataAccessJc");
-  
-  { 
-    
-    _setLong_ByteDataAccessJc(& ((* (ythis)).base.super), idx, nrofBytes, value, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setFloatVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, float value, ThCxt* _thCxt)
+void setFloatVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, float value, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setFloatVal_RawDataAccessJc");
   
   { //:call of the protected super method.
     
     
-    setFloat_if_ByteDataAccessJc((&ythis->base.super), idx, value, _thCxt);
+    setFloat_if_ByteDataAccessJc((&thiz->base.super), idx, value, _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
-void setDoubleVal_RawDataAccessJc(RawDataAccessJc_s* ythis, int32 idx, double value, ThCxt* _thCxt)
+void setDoubleVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, double value, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setDoubleVal_RawDataAccessJc");
   
   { //:call of the protected super method.
     
     
-    setDouble_ByteDataAccessJc((&ythis->base.super), idx, value, _thCxt);
+    setDouble_ByteDataAccessJc((&thiz->base.super), idx, value, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -204,22 +178,17 @@ const MtblDef_RawDataAccessJc mtblRawDataAccessJc = {
   , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , { { sign_Mtbl_ByteDataAccessJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((14 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    , (struct Size_Mtbl_t*)((9 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }
   , specifyEmptyDefaultData_RawDataAccessJc_F //specifyEmptyDefaultData
   , specifyLengthElementHead_RawDataAccessJc_F //specifyLengthElementHead
   , specifyLengthElement_RawDataAccessJc_F //specifyLengthElement
   , specifyLengthCurrentChildElement_ByteDataAccessJc_F //specifyLengthCurrentChildElement
-  , assignData_iYi_ByteDataAccessJc_F //assignData_iYi
-  , assignData_iYii_ByteDataAccessJc_F //assignData_iYii
   , assignDataToFixChilds_ByteDataAccessJc_F //assignDataToFixChilds
   , notifyAddChild_ByteDataAccessJc_F //notifyAddChild
   , getString_ByteDataAccessJc_F //getString
   , setString_ByteDataAccessJc_F //setString
   , setBigEndian_b_RawDataAccessJc_F //setBigEndian
-  , getUint16_iii_ByteDataAccessJc_F //getUint16_iii
-  , getUint8_iii_ByteDataAccessJc_F //getUint8_iii
-  , getFloat_iii_ByteDataAccessJc_F //getFloat_iii
   , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
       , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
       }

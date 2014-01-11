@@ -75,21 +75,21 @@ class Integer; nameC=IntegerJc; header=Jc/ObjectJc.h; argIdent=I;
 }
 
 //In Java it is an interface for String, StringBuilder, StringBuffer.
-class CharSequence; nameC=StringJc; header=Jc/StringJc.h; argIdent=t;
+class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs;
 {
   methods{
    charAt-_$, mode=noThCxt: char %.. return(int %.. index);
    length-_$, mode=noThCxt: int %.. return();
    subSequence-_$: String t.. return(int %.. start, int %.. end);
-   toString-_$: String t.. return();
+   toString-_$, mode=noThCxt: String t.. return();
  }
  
    castTo {
-    String access=t: "?" ? access=t;
+    String access=t: "s0_CharSequenceJc(?)" ? access=t;
   }
    castFrom {
     t "?" String t;
-    t "?" s0 t;
+    t "s0_StringJc(?)" s0 t;
     t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
   }
 

@@ -55,6 +55,8 @@ typedef struct Va_listFW_t
 
 #define CONST_Va_listFW(args) {args, null}
 
+#define size_Va_listFW(args) (strlen(args.typeArgs)) 
+
 //Va_listFW* ctorM_Va_listFW(MemC mthis, 
 
 
