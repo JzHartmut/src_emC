@@ -13,7 +13,6 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct StringBuilderJc_t;
 
 
 /* J2C: Method-table-references *********************************************************/
@@ -67,7 +66,6 @@ If no child is added yet, the indices have the following values:
 <li>idxCurrentChild = -1.
 <li>idxCurrentChildEnd = index after known (head-) data.
 </ul>
-Deprecated: A call of {@link #next()} sets the indices to a possible but not yet defined current child:
 <ul>
 <li>idxCurrentChild = the index after the last known child or known (head-) data.
 It is idxCurrentChildEnd from state before.
@@ -138,10 +136,10 @@ struct ByteDataAccessJc_t* ctorO_ByteDataAccessJc(ObjectJc* othis, ThCxt* _thCxt
     thiz->idxBegin = 0;
     thiz->idxEnd = 0;
     thiz->idxFirstChild = 0;
-    thiz->idxCurrentChild = -1;//to mark start.
+    thiz->idxCurrentChild = -1;/*to mark start.*/
     
     thiz->idxCurrentChildEnd = 0;
-    CLEAR_REFJc(thiz->parent);//currentChild = null;
+    CLEAR_REFJc(thiz->parent);/*currentChild = null;*/
     
     set_StringJc(&(thiz->charset), z_StringJc("ISO-8859-1"));
   }
@@ -169,10 +167,10 @@ struct ByteDataAccessJc_t* ctorO_ii_ByteDataAccessJc(ObjectJc* othis, int32 size
     thiz->idxBegin = 0;
     thiz->idxEnd = sizeData;
     thiz->idxFirstChild = sizeHead;
-    thiz->idxCurrentChild = -1;//to mark start.
+    thiz->idxCurrentChild = -1;/*to mark start.*/
     
     thiz->idxCurrentChildEnd = kInitializedWithLength_ByteDataAccessJc;
-    CLEAR_REFJc(thiz->parent);//currentChild = null;
+    CLEAR_REFJc(thiz->parent);/*currentChild = null;*/
     
     set_StringJc(&(thiz->charset), z_StringJc("ISO-8859-1"));
   }
@@ -180,21 +178,6 @@ struct ByteDataAccessJc_t* ctorO_ii_ByteDataAccessJc(ObjectJc* othis, int32 size
   return thiz;
 }
 
-
-
-/**Returns the length of the head*/
-int32 getLengthHead_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getLengthHead_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->idxFirstChild - thiz->idxBegin;
-    }
-  }
-  STACKTRC_LEAVE;
-}
 
 
 /**Sets the elements data to the default empty data.*/
@@ -221,6 +204,26 @@ int32 specifyLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _th
 }
 
 
+/**Notifies, that a child is added*/
+void notifyAddChild_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("notifyAddChild_ByteDataAccessJc_F");
+  
+  { /*:in default, do nothing with this.*/
+    
+    
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void notifyAddChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
+  mtbl->notifyAddChild(thiz, _thCxt);
+}
+
+
 /**Returns the length of a child element at current position specified in  the derivated class.*/
 int32 specifyLengthCurrentChildElement_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
 { 
@@ -240,59 +243,41 @@ int32 specifyLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz
 }
 
 
-/**Assigns new data to this element*/
-void assignData_iYi_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int8_Y* data, int32 length, ThCxt* _thCxt)
+/**This method is called inside all assign...() methods.*/
+void assignDataToFixChilds_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("assignData_iYi_ByteDataAccessJc");
+  STACKTRC_TENTRY("assignDataToFixChilds_ByteDataAccessJc_F");
   
   { 
     
-    if(length == 0) 
-    { 
-      
-      length = -1;//because elsewhere an exception is thrown. At least the head length are present.
-      
-    }
-    assignData_iYii_ByteDataAccessJc(thiz, data, length, 0, _thCxt);
+    
   }
   STACKTRC_LEAVE;
 }
 
+/*J2C: dynamic call variant of the override-able method: */
+void assignDataToFixChilds_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
+  mtbl->assignDataToFixChilds(thiz, _thCxt);
+}
 
-/**Assigns new data to this element at given index in data.*/
-void assignData_iYiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int8_Y* data, int32 lengthHead, int32 lengthData, int32 index, ThCxt* _thCxt)
-{ Mtbl_ByteDataAccessJc const* mtthis = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
-  
-  STACKTRC_TENTRY("assignData_iYiii_ByteDataAccessJc");
+
+/**Sets the big or little endian mode.*/
+void setBigEndian_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, bool val, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setBigEndian_ByteDataAccessJc_F");
   
   { 
     
-    thiz->data = data;
-    if(index < 0) 
-    { 
-      
-      { throw_s0Jc(ident_RuntimeExceptionJc, "idx have to be >=0", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    }
-    thiz->idxBegin = index;
-    /*if(parent!= null && parent.currentChild == this)*/
-    CLEAR_REFJc(thiz->parent);
-    reset_ByteDataAccessJc(thiz, lengthHead, lengthData, _thCxt);
-    mtthis->assignDataToFixChilds(thiz, _thCxt);
+    thiz->bBigEndian = val;
   }
   STACKTRC_LEAVE;
 }
 
-
-/**Assigns data without a given length of head*/
-void assignData_iYii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int8_Y* data, int32 lengthData, int32 index, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("assignData_iYii_ByteDataAccessJc");
-  
-  { 
-    
-    assignData_iYiii_ByteDataAccessJc(thiz, data, -1, lengthData, index, _thCxt);
-  }
-  STACKTRC_LEAVE;
+/*J2C: dynamic call variant of the override-able method: */
+void setBigEndian_ByteDataAccessJc(ByteDataAccessJc_s* thiz, bool val, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
+  mtbl->setBigEndian(thiz, val, _thCxt);
 }
 
 
@@ -316,33 +301,54 @@ void reset_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 lengthHead, int32 le
     else 
     { 
       
-      thiz->bExpand = lengthData <= 0;//expand if the data have no head.
+      thiz->bExpand = lengthData <= 0;/*expand if the data have no head.*/
       
     }
     /*if(currentChild !=null){*/
     thiz->idxCurrentChild = -1;
-    thiz->idxFirstChild = thiz->idxCurrentChildEnd = /*? assignment*/thiz->idxBegin + lengthHeadSpecified;//NOTE: problem in last version? The idxBegin ... idxEnd should be the number of given data.
+    thiz->idxFirstChild = thiz->idxCurrentChildEnd = /*? assignment*/thiz->idxBegin + lengthHeadSpecified;/*NOTE: problem in last version? The idxBegin ... idxEnd should be the number of given data.*/
     
     thiz->idxEnd = thiz->bExpand ? thiz->idxFirstChild : thiz->idxBegin + lengthData;
     if(thiz->idxEnd > thiz->data->head.length) 
     { 
       StringJc msg = CONST_z_StringJc("not enough data bytes, requested="); 
       
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
+      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
       
       msg = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_z_StringBuilderJc(_tempString2_1, "not enough data bytes, requested=", _thCxt)
-        , append_I_StringBuilderJc(_tempString2_1, thiz->idxEnd, _thCxt)
-        , append_z_StringBuilderJc(_tempString2_1, ", buffer-length=", _thCxt)
-        , append_I_StringBuilderJc(_tempString2_1, thiz->data->head.length, _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+        , append_z_StringBuilderJc(_stringBuilderThCxt, "not enough data bytes, requested=", _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->idxEnd, _thCxt)
+        , append_z_StringBuilderJc(_stringBuilderThCxt, ", buffer-length=", _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->data->head.length, _thCxt)
+        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
       { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
     }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Assigns new data to this element at given index in data.*/
+void assignData_iYiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int8_Y* dataP, int32 lengthHead, int32 lengthData, int32 index, ThCxt* _thCxt)
+{ Mtbl_ByteDataAccessJc const* mtthis = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
+  
+  STACKTRC_TENTRY("assignData_iYiii_ByteDataAccessJc");
+  
+  { 
+    
+    thiz->data = dataP;
+    if(index < 0) 
+    { 
+      
+      { throw_s0Jc(ident_RuntimeExceptionJc, "idx have to be >=0", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    }
+    thiz->idxBegin = index;
+    /*if(parent!= null && parent.currentChild == this)*/
+    CLEAR_REFJc(thiz->parent);
+    reset_ByteDataAccessJc(thiz, lengthHead, lengthData, _thCxt);
+    mtthis->assignDataToFixChilds(thiz, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -359,7 +365,7 @@ void assignEmpty_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int8_Y* data, ThCxt*
     TRY
     { 
       
-      assignData_iYii_ByteDataAccessJc(thiz, data, -1, 0, _thCxt);
+      assignData_iYii_ByteDataAccessJc(thiz, data, -1, 0);
     }_TRY
     CATCH(IllegalArgumentException, e)
     
@@ -368,88 +374,8 @@ void assignEmpty_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int8_Y* data, ThCxt*
         
       }
     END_TRY
-    mtthis->specifyEmptyDefaultData(thiz, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Remove all children*/
-void removeChildren_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("removeChildren_ByteDataAccessJc");
-  
-  { 
+    mtthis->specifyEmptyDefaultData(thiz, _thCxt);/*overrideable*/
     
-    thiz->idxCurrentChildEnd = thiz->idxFirstChild;
-    if(thiz->bExpand) 
-    { 
-      
-      thiz->idxEnd = thiz->idxFirstChild;
-    }
-    thiz->idxCurrentChild = -1;
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Remove all connections. Especially for children. */
-void detach_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("detach_ByteDataAccessJc");
-  
-  { 
-    
-    /*if(currentChild !=null){*/
-    thiz->data = null;
-    /*if(parent !=null && parent.currentChild == this){*/
-    CLEAR_REFJc(thiz->parent);
-    thiz->idxBegin = thiz->idxEnd = /*? assignment*/0;
-    thiz->idxFirstChild = thiz->idxCurrentChild = /*? assignment*/thiz->idxCurrentChildEnd = /*? assignment*/0;
-    thiz->bExpand = false;
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Assigns this element to the same position in data, but it is another view.*/
-void assignCasted_i_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc_t* src, int32 offsetCastToInput, int32 lengthDst, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("assignCasted_i_ByteDataAccessJc");
-  
-  { 
-    
-    thiz->bBigEndian = src->bBigEndian;
-    thiz->bExpand = src->bExpand;//assignData(src.data, src.idxBegin + lengthDst + offsetCastToInput, src.idxBegin + offsetCastToInput);
-    
-    assignData_iYii_ByteDataAccessJc(thiz, src->data, src->idxEnd, src->idxBegin + offsetCastToInput, _thCxt);//lengthDst is unsused, not necessary because lengthElementHead is knwon!
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Older form, see protected method {@link assignCasted_i(ByteDataAccess, int )}*/
-void assignDowncast_i_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc_t* input, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("assignDowncast_i_ByteDataAccessJc");
-  
-  { 
-    
-    assignCasted_i_ByteDataAccessJc(thiz, input, 0, -1, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**assigns the element to the current child position of parent,*/
-void assignAsChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc_t* parent, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("assignAsChild_ByteDataAccessJc");
-  
-  { 
-    
-    addChild_ByteDataAccessJc(parent, thiz, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -465,7 +391,7 @@ void assignAtIndex_iiXX_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxChil
     
     thiz->bBigEndian = parent->bBigEndian;
     thiz->bExpand = parent->bExpand;
-    assignData_iYii_ByteDataAccessJc(thiz, parent->data, parent->idxBegin + idxChildInParent + lengthChild, parent->idxBegin + idxChildInParent, _thCxt);
+    assignData_iYii_ByteDataAccessJc(thiz, parent->data, parent->idxBegin + idxChildInParent + lengthChild, parent->idxBegin + idxChildInParent);
     mtthis->setBigEndian(thiz, parent->bBigEndian, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -483,7 +409,7 @@ void assignAtIndex_iXX_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxChild
     int32 lengthData = 0; 
     
     
-    lengthHead = getLengthHead_ByteDataAccessJc(thiz, _thCxt);
+    lengthHead = getLengthHead_ByteDataAccessJc(thiz);
     /*no initvalue*/
     if(thiz->idxCurrentChildEnd == kInitializedWithLength_ByteDataAccessJc) 
     { 
@@ -493,32 +419,13 @@ void assignAtIndex_iXX_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxChild
     else 
     { 
       
-      lengthData = -1;//unknown
+      lengthData = -1;/*unknown*/
       
     }
     assignData_iYiii_ByteDataAccessJc(thiz, parent->data, lengthHead, lengthData, parent->idxBegin + idxChildInParent, _thCxt);
     mtthis->setBigEndian(thiz, parent->bBigEndian, _thCxt);
   }
   STACKTRC_LEAVE;
-}
-
-
-/**This method is called inside all assign...() methods.*/
-void assignDataToFixChilds_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("assignDataToFixChilds_ByteDataAccessJc_F");
-  
-  { 
-    
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-void assignDataToFixChilds_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
-  mtbl->assignDataToFixChilds(thiz, _thCxt);
 }
 
 
@@ -540,14 +447,14 @@ bool addChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc
     /*no initvalue*/
     /*no initvalue*/
     if(child->idxCurrentChildEnd == kInitializedWithLength_ByteDataAccessJc) 
-    { //:initialized child with its local length:
+    { /*:initialized child with its local length:*/
       
       
       sizeChildHead = child->idxFirstChild;
       sizeChild = child->idxEnd;
     }
     else 
-    { //:uninitialized child with length, or reused child:
+    { /*:uninitialized child with length, or reused child:*/
       
       
       sizeChildHead = sizeChild = /*? assignment*/-1;
@@ -558,53 +465,37 @@ bool addChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc
     SETMTBJc(childMtb, child, ByteDataAccessJc);
     /*no initvalue*/
     if(sizeChild <= sizeChildHead) 
-    { //:especially -1, the size is unknown.
+    { /*:especially -1, the size is unknown.*/
       
       
       if(thiz->bExpand) 
       { 
         
         sizeChild1 = -1;
-      }//initialize with specifyLength()
+      }/*initialize with specifyLength()*/
       
       else 
       { 
         
         sizeChild1 = thiz->idxEnd - thiz->idxCurrentChild;
-      }//the child fills the parent.
+      }/*the child fills the parent.*/
       
     }
     else 
     { 
       
-      sizeChild1 = sizeChild;//given size is valid.
+      sizeChild1 = sizeChild;/*given size is valid.*/
       
     }
     assignData_iYiii_ByteDataAccessJc( (childMtb.ref), thiz->data, sizeChildHead, sizeChild1, thiz->idxCurrentChild, _thCxt);
     childMtb.mtbl->setBigEndian( (childMtb.ref), thiz->bBigEndian, _thCxt);
-    SETREFJc(child->parent, thiz, ByteDataAccessJc_s);//this.currentChild = child;
+    SETREFJc(child->parent, thiz, ByteDataAccessJc_s);/*this.currentChild = child;*/
     
     idxEndNew = child->idxEnd > child->idxCurrentChildEnd ? child->idxEnd : child->idxCurrentChildEnd;
     expand_ByteDataAccessJc(thiz, idxEndNew, _thCxt);
     { STACKTRC_LEAVE;
       return thiz->bExpand;
     }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**remove the current child to assign another current child instead of the first one.*/
-void removeChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("removeChild_ByteDataAccessJc");
-  
-  { 
-    
-    if(thiz->bExpand) { throw_s0Jc(ident_RuntimeExceptionJc, "don't call it in expand mode", 0, &_thCxt->stacktraceThreadContext, __LINE__); };//revert the current child.
-    
-    thiz->idxCurrentChildEnd = thiz->idxCurrentChild;
-    thiz->idxCurrentChild = -1;
   }
   STACKTRC_LEAVE;
 }
@@ -618,8 +509,8 @@ void setIdxtoNextCurrentChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* 
   { 
     
     if(thiz->idxCurrentChildEnd >= thiz->idxCurrentChild) 
-    { //:This is the standard case.
-      //:NOTE: idxCurrentChild = -1 is assert if no child is added before.
+    { /*:This is the standard case.*/
+      /*:NOTE: idxCurrentChild = -1 is assert if no child is added before.*/
       
       
       thiz->idxCurrentChild = thiz->idxCurrentChildEnd;
@@ -629,10 +520,10 @@ void setIdxtoNextCurrentChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* 
     else 
     { 
       
-      { throw_s0Jc(ident_RuntimeExceptionJc, "unexpected idxCurrentChildEnd", 0, &_thCxt->stacktraceThreadContext, __LINE__); };//its a programming error.
+      { throw_s0Jc(ident_RuntimeExceptionJc, "unexpected idxCurrentChildEnd", 0, &_thCxt->stacktraceThreadContext, __LINE__); };/*its a programming error.*/
       
     }
-    thiz->idxCurrentChildEnd = -1;//the child content is not checked, this index will be set if setLengthCurrentChildElement() is called.
+    thiz->idxCurrentChildEnd = -1;/*the child content is not checked, this index will be set if setLengthCurrentChildElement() is called.*/
     
   }
   STACKTRC_LEAVE;
@@ -653,83 +544,43 @@ bool setIdxCurrentChildEnd_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 nrof
       { 
         StringJc msg = CONST_z_StringJc("data length to small:"); 
         
-         //J2C: temporary Stringbuffer for String concatenation
-        StringBuilderJc* _tempString3_1=null; 
+        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
         
         msg = 
-          ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
-          , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
-          , append_z_StringBuilderJc(_tempString3_1, "data length to small:", _thCxt)
-          , append_I_StringBuilderJc(_tempString3_1, (thiz->idxCurrentChild + nrofBytes), _thCxt)
-          , toString_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
+          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->idxCurrentChild + nrofBytes), _thCxt)
+          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
           )/*J2C:non-persistent*/;
         { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-        activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
       }
     }
     else 
     { 
       
       if(thiz->idxEnd < thiz->idxCurrentChildEnd) 
-      { //:not expand, but the nrof data are to few
+      { /*:not expand, but the nrof data are to few*/
         
         StringJc msg = CONST_z_StringJc("to few user data:"); 
         
-         //J2C: temporary Stringbuffer for String concatenation
-        StringBuilderJc* _tempString3_1=null; 
+        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
         
         msg = 
-          ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
-          , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
-          , append_z_StringBuilderJc(_tempString3_1, "to few user data:", _thCxt)
-          , append_I_StringBuilderJc(_tempString3_1, (thiz->idxCurrentChild + nrofBytes), _thCxt)
-          , toString_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
+          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, "to few user data:", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->idxCurrentChild + nrofBytes), _thCxt)
+          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
           )/*J2C:non-persistent*/;
         { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-        activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
       }
     }
-    expand_ByteDataAccessJc(thiz, thiz->idxCurrentChild + nrofBytes, _thCxt);//also of all parents
+    expand_ByteDataAccessJc(thiz, thiz->idxCurrentChild + nrofBytes, _thCxt);/*also of all parents*/
     
     { STACKTRC_LEAVE;
       return thiz->bExpand;
     }
   }
   STACKTRC_LEAVE;
-}
-
-
-/**Adds a child Element at current end of data to write data.*/
-void addChildEmpty_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc_t* child, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("addChildEmpty_ByteDataAccessJc");
-  
-  { 
-    
-    addChild_ByteDataAccessJc(thiz, child, _thCxt);
-    ((Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&(child)->base.object, sign_Mtbl_ByteDataAccessJc) )->specifyEmptyDefaultData(child, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Notifies, that a child is added*/
-void notifyAddChild_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("notifyAddChild_ByteDataAccessJc_F");
-  
-  { //:in default, do nothing with this.
-    
-    
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-void notifyAddChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
-  mtbl->notifyAddChild(thiz, _thCxt);
 }
 
 
@@ -768,7 +619,7 @@ void expand_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxCurrentChildEndN
   { 
     
     if(thiz->bExpand) 
-    { //:do it only in expand mode
+    { /*:do it only in expand mode*/
       
       
       thiz->idxEnd = idxCurrentChildEndNew;
@@ -815,12 +666,12 @@ int64 getChildInteger_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 nrofBytes
 { 
   STACKTRC_TENTRY("getChildInteger_ByteDataAccessJc");
   
-  { //:NOTE: there is no instance for this child, but it is the current child anyway.
+  { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
     
     setIdxtoNextCurrentChild_ByteDataAccessJc(thiz, _thCxt);
     if(!setIdxCurrentChildEnd_ByteDataAccessJc(thiz, abs(/*static*/nrofBytes), _thCxt)) 
-    { //:NOTE: to read from idxInChild = 0, build the difference as shown:
+    { /*:NOTE: to read from idxInChild = 0, build the difference as shown:*/
       
       int64 value; 
       
@@ -841,12 +692,12 @@ float getChildFloat_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getChildFloat_ByteDataAccessJc");
   
-  { //:NOTE: there is no instance for this child, but it is the current child anyway.
+  { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
     
     setIdxtoNextCurrentChild_ByteDataAccessJc(thiz, _thCxt);
     if(!setIdxCurrentChildEnd_ByteDataAccessJc(thiz, 4, _thCxt)) 
-    { //:NOTE: to read from idxInChild = 0, build the difference as shown:
+    { /*:NOTE: to read from idxInChild = 0, build the difference as shown:*/
       
       int32 intRepresentation; 
       
@@ -867,12 +718,12 @@ double getChildDouble_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getChildDouble_ByteDataAccessJc");
   
-  { //:NOTE: there is no instance for this child, but it is the current child anyway.
+  { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
     
     setIdxtoNextCurrentChild_ByteDataAccessJc(thiz, _thCxt);
     if(!setIdxCurrentChildEnd_ByteDataAccessJc(thiz, 8, _thCxt)) 
-    { //:NOTE: to read from idxInChild = 0, build the difference as shown:
+    { /*:NOTE: to read from idxInChild = 0, build the difference as shown:*/
       
       int64 intRepresentation; 
       
@@ -900,20 +751,17 @@ void addChildInteger_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 nrofBytes,
     { 
       StringJc msg = CONST_z_StringJc("data length to small:"); 
       
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
+      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
       
       msg = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_z_StringBuilderJc(_tempString2_1, "data length to small:", _thCxt)
-        , append_I_StringBuilderJc(_tempString2_1, (thiz->idxCurrentChild + nrofBytes), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+        , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->idxCurrentChild + nrofBytes), _thCxt)
+        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
       { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }//NOTE: there is no instance for this child, but it is the current child anyway.
-    //NOTE: to read from idxInChild = 0, build the difference as shown:
+    }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
+    /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
     _setLong_ByteDataAccessJc(thiz, thiz->idxCurrentChild - thiz->idxBegin, nrofBytes, value, _thCxt);
     expand_ByteDataAccessJc(thiz, thiz->idxCurrentChild + nrofBytes, _thCxt);
@@ -934,22 +782,19 @@ void addChildFloat_ByteDataAccessJc(ByteDataAccessJc_s* thiz, float value, ThCxt
     { 
       StringJc msg = CONST_z_StringJc("data length to small:"); 
       
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
+      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
       
       msg = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_z_StringBuilderJc(_tempString2_1, "data length to small:", _thCxt)
-        , append_I_StringBuilderJc(_tempString2_1, (thiz->idxCurrentChild + 4), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+        , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->idxCurrentChild + 4), _thCxt)
+        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
       { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }//NOTE: there is no instance for this child, but it is the current child anyway.
-    //NOTE: to read from idxInChild = 0, build the difference as shown:
+    }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
+    /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
-    setFloat_if_ByteDataAccessJc(thiz, thiz->idxCurrentChild - thiz->idxBegin, value, _thCxt);
+    setFloat_if_ByteDataAccessJc(thiz, thiz->idxCurrentChild - thiz->idxBegin, value);
     expand_ByteDataAccessJc(thiz, thiz->idxCurrentChild + 4, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -961,12 +806,12 @@ StringJc getChildString_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 nrofByt
 { 
   STACKTRC_TENTRY("getChildString_ByteDataAccessJc");
   
-  { //:NOTE: there is no instance for this child, but it is the current child anyway.
+  { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
     
     setIdxtoNextCurrentChild_ByteDataAccessJc(thiz, _thCxt);
     if(!setIdxCurrentChildEnd_ByteDataAccessJc(thiz, nrofBytes, _thCxt)) 
-    { //:NOTE: to read from idxInChild = 0, build the difference as shown:
+    { /*:NOTE: to read from idxInChild = 0, build the difference as shown:*/
       
       
       { STACKTRC_LEAVE;
@@ -994,20 +839,17 @@ void addChildString_SSb_ByteDataAccessJc(ByteDataAccessJc_s* thiz, StringJc valu
     { 
       StringJc msg = CONST_z_StringJc("data length to small:"); 
       
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
+      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
       
       msg = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_z_StringBuilderJc(_tempString2_1, "data length to small:", _thCxt)
-        , append_I_StringBuilderJc(_tempString2_1, (thiz->idxCurrentChild + nrofBytes), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+        , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->idxCurrentChild + nrofBytes), _thCxt)
+        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
       { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }//NOTE: there is no instance for this child, but it is the current child anyway.
-    //NOTE: to read from idxInChild = 0, build the difference as shown:
+    }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
+    /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
     _setString_ByteDataAccessJc(thiz, thiz->idxCurrentChild - thiz->idxBegin, nrofBytes, value, sEncoding, preventCtrlChars, _thCxt);
     expand_ByteDataAccessJc(thiz, thiz->idxCurrentChild + nrofBytes, _thCxt);
@@ -1031,20 +873,17 @@ void addChildString_SS_ByteDataAccessJc(ByteDataAccessJc_s* thiz, StringJc value
     { 
       StringJc msg = CONST_z_StringJc("data length to small:"); 
       
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
+      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
       
       msg = 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_z_StringBuilderJc(_tempString2_1, "data length to small:", _thCxt)
-        , append_I_StringBuilderJc(_tempString2_1, (thiz->idxCurrentChild + nrofBytes), _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+        , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->idxCurrentChild + nrofBytes), _thCxt)
+        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
       { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }//NOTE: there is no instance for this child, but it is the current child anyway.
-    //NOTE: to read from idxInChild = 0, build the difference as shown:
+    }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
+    /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
     { int32 ii; 
       for(ii = 0; ii < nrofBytes; ++ii)
@@ -1057,123 +896,6 @@ void addChildString_SS_ByteDataAccessJc(ByteDataAccessJc_s* thiz, StringJc value
         }
     }
     expand_ByteDataAccessJc(thiz, thiz->idxCurrentChild + nrofBytes, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Adds a child with String value.*/
-void addChildString_S_ByteDataAccessJc(ByteDataAccessJc_s* thiz, StringJc value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("addChildString_S_ByteDataAccessJc");
-  
-  { 
-    
-    TRY
-    { 
-      
-      addChildString_SS_ByteDataAccessJc(thiz, value, null_StringJc, _thCxt);
-    }_TRY
-    CATCH(UnsupportedEncodingException, exc)
-    
-      { 
-        
-        { throw_EJc(ident_RuntimeExceptionJc, exc, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-      }
-    END_TRY//it isn't able.
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Writes a String into data with given color.*/
-int32 addText_ByteDataAccessJc(ByteDataAccessJc_s* thiz, StringJc ss, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("addText_ByteDataAccessJc");
-  
-  { 
-    
-    if(REFJc(thiz->parent) != null || thiz->idxBegin == 0) 
-    { 
-      ByteStringJc chars;   /**/
-      int32 srcLen; 
-      int32 dataLen; 
-      
-      
-      chars = getBytes_StringJc(ss, _thCxt);
-      srcLen = length_ByteStringJc(chars);
-      dataLen = thiz->data->head.length;
-      { int32 ii; 
-        for(ii = 0; ii < srcLen; ii++)
-          { 
-            int8 cc; 
-            
-            
-            cc = ((/*J2C:cast% from ByteStringJc*/int8)(data_ByteStringJc(chars)[ii]));
-            if(cc < 0x20) cc = ((/*J2C:cast% from int32*/int8)(0x3f));//'?' in ASCII
-            
-            if(thiz->idxEnd >= dataLen) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "element to long", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-            thiz->data->data[thiz->idxEnd++] = cc;
-          }
-      }
-      expandParent_ByteDataAccessJc(thiz, _thCxt);
-      { STACKTRC_LEAVE;
-        return (thiz->idxEnd - thiz->idxBegin);
-      }//current nr of bytes
-      
-    }
-    else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "inadmissable add-operation", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**starts the calling loop of next().*/
-void rewind_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("rewind_ByteDataAccessJc");
-  
-  { 
-    
-    thiz->idxCurrentChild = -1;
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Sets the data index to the position after the current child element and returns its code.<br>*/
-int32 next_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("next_ByteDataAccessJc");
-  
-  { 
-    int8 eWhat = 0; 
-    
-    
-    /*no initvalue*/
-    setIdxtoNextCurrentChild_ByteDataAccessJc(thiz, _thCxt);
-    thiz->idxCurrentChildEnd = -2;//the child content is not known, this index will be set if setLengthCurrentChildElement() is called.
-    
-    if(thiz->idxCurrentChild >= thiz->idxEnd) 
-    { 
-      
-      eWhat = kEndOfElements_ByteDataAccessJc;//no more data
-      
-    }
-    else 
-    { 
-      
-      eWhat = thiz->data->data[thiz->idxCurrentChild];
-      if(isTextByte_ByteDataAccessJc(/*static*/eWhat, _thCxt)) 
-      { 
-        
-        eWhat = kText_ByteDataAccessJc;
-      }
-    }
-    { STACKTRC_LEAVE;
-      return eWhat;
-    }
   }
   STACKTRC_LEAVE;
 }
@@ -1202,7 +924,7 @@ int32 getMaxNrofBytesForNextChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThC
 { 
   STACKTRC_TENTRY("getMaxNrofBytesForNextChild_ByteDataAccessJc");
   
-  { //:if(idxCurrentChild == -1)
+  { /*:if(idxCurrentChild == -1)*/
     
     
     
@@ -1210,96 +932,6 @@ int32 getMaxNrofBytesForNextChild_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThC
     if(thiz->idxCurrentChildEnd < thiz->idxCurrentChild) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "length of current child is undefined.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       return thiz->idxEnd - thiz->idxCurrentChildEnd;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**returns the number number of bytes there are max available from position of the current child.*/
-int32 getMaxNrofBytes_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getMaxNrofBytes_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->data->head.length - thiz->idxBegin;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Returns the length of the existing actual element.*/
-int32 getLength_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getLength_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->idxEnd - thiz->idxBegin;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Returns the length of the data.*/
-int32 getLengthTotal_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getLengthTotal_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->idxEnd;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Returns the data buffer itself*/
-int8_Y* getData_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getData_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->data;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Returns the position of the Element data in the assigned buffer.*/
-int32 getPositionInBuffer_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getPositionInBuffer_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->idxBegin;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Returns the position of the current child in the assigned buffer.*/
-int32 getPositionNextChildInBuffer_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getPositionNextChildInBuffer_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->idxCurrentChildEnd;
     }
   }
   STACKTRC_LEAVE;
@@ -1315,8 +947,8 @@ int32 getLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz, Th
   { 
     
     if(thiz->idxCurrentChildEnd > thiz->idxCurrentChild) 
-    { //:a get method, especially getText() was called,
-      //:so the end of the child is known yet, use it!
+    { /*:a get method, especially getText() was called,*/
+      /*:so the end of the child is known yet, use it!*/
       
       
       { STACKTRC_LEAVE;
@@ -1324,7 +956,7 @@ int32 getLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz, Th
       }
     }
     else 
-    { //:only the user can define the length.
+    { /*:only the user can define the length.*/
       
       
       { STACKTRC_LEAVE;
@@ -1336,93 +968,10 @@ int32 getLengthCurrentChildElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz, Th
 }
 
 
-/**Sets the length of the current child element after calling next().*/
-void setLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 length, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setLengthElement_ByteDataAccessJc");
-  
-  { //:if(!bExpand && )
-    
-    
-    expand_ByteDataAccessJc(thiz, thiz->idxBegin + length, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Returns true if the current child element represents a TEXT(), direct ASCII chars,*/
-bool isTextByte_ByteDataAccessJc(/*static*/ int8 nn, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("isTextByte_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return (nn >= 0x20);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Returns the current string or null on end*/
-StringJc getText_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getText_ByteDataAccessJc");
-  
-  { 
-    
-    if(thiz->idxCurrentChild >= thiz->idxEnd) { STACKTRC_LEAVE;
-      return null_StringJc;
-    }
-    else 
-    { 
-      int8 nn; 
-      
-      
-      nn = thiz->data->data[thiz->idxCurrentChild];
-      if(isTextByte_ByteDataAccessJc(/*static*/nn, _thCxt)) 
-      { 
-        char cc = '?'; 
-        struct StringBuilderJc_t* ss = null; 
-        
-        ObjectJc *newObj3_1=null; //J2C: temporary Objects for new operations
-        
-        thiz->idxCurrentChildEnd = thiz->idxCurrentChild;
-        cc = '?';
-        
-        ss = ctorO_I_StringBuilderJc(/*static*/(newObj3_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), 20, _thCxt);
-        
-        while(thiz->idxCurrentChildEnd < thiz->idxEnd && isTextByte_ByteDataAccessJc(/*static*/nn = /*? assignment*/thiz->data->data[thiz->idxCurrentChildEnd], _thCxt))
-          { 
-            
-            if(nn < 0) cc = '?';//{ cc=convertHiChars(nn);}  //range between 0x80..0xbf
-            
-            else cc = (char)(nn);//convert 0x20...7F to character
-            
-            append_C_StringBuilderJc(ss, cc, _thCxt);//konvert to Unicode
-            
-            thiz->idxCurrentChildEnd += 1;
-          }
-        { STACKTRC_LEAVE;
-          activateGC_ObjectJc(newObj3_1, PTR_StringJc(toString_StringBuilderJc(& ((* (ss)).base.object), _thCxt)), _thCxt);
-          return toString_StringBuilderJc(& ((* (ss)).base.object), _thCxt);
-        }
-      }
-      else { STACKTRC_LEAVE;
-        return null_StringJc;
-      }//no Text
-      
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
 /**Returns a String from the given position inside the actual element .*/
-StringJc getString_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, int32 idx, int32 nmax, ThCxt* _thCxt)
+StringJc getString_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 nmax, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("getString_ByteDataAccessJc_F");
+  STACKTRC_TENTRY("getString_ByteDataAccessJc");
   
   { 
     StringJc sRet = NULL_StringJc; 
@@ -1444,7 +993,7 @@ StringJc getString_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, int32 idx, int32
     END_TRY
     pos0 = indexOf_C_StringJc(sRet, ((char)(0)));
     if(pos0 > 0) 
-    { //:The data are zero terminated!
+    { /*:The data are zero terminated!*/
       
       
       sRet = substring_StringJc(sRet, 0, pos0, _thCxt)/*J2C:non-persistent*/;
@@ -1456,17 +1005,11 @@ StringJc getString_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, int32 idx, int32
   STACKTRC_LEAVE;
 }
 
-/*J2C: dynamic call variant of the override-able method: */
-StringJc getString_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 nmax, ThCxt* _thCxt)
-{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
-  return mtbl->getString(thiz, idx, nmax, _thCxt);
-}
-
 
 /**Sets a String to the the given position inside the actual element .*/
-int32 setString_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, int32 idx, int32 nmax, StringJc ss, ThCxt* _thCxt)
+int32 setString_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 nmax, StringJc ss, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("setString_ByteDataAccessJc_F");
+  STACKTRC_TENTRY("setString_ByteDataAccessJc");
   
   { 
     ByteStringJc byteRepresentation;   /*Use a */
@@ -1477,7 +1020,7 @@ int32 setString_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, int32 idx, int32 nm
     { 
       
       ss = substring_StringJc(ss, 0, nmax, _thCxt)/*J2C:non-persistent*/;
-    }//truncate.
+    }/*truncate.*/
     
     /*no initvalue*/
     TRY
@@ -1497,7 +1040,7 @@ int32 setString_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, int32 idx, int32 nm
     { 
       
       len = nmax;
-    }//truncate.
+    }/*truncate.*/
     
     arraycopy_v_SystemJc(/*static*/byteRepresentation, 0, & ((thiz->data)->head.object), thiz->idxBegin + idx, len, _thCxt);
     { STACKTRC_LEAVE;
@@ -1505,31 +1048,6 @@ int32 setString_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, int32 idx, int32 nm
     }
   }
   STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-int32 setString_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 nmax, StringJc ss, ThCxt* _thCxt)
-{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
-  return mtbl->setString(thiz, idx, nmax, ss, _thCxt);
-}
-
-
-/**Sets the big or little endian mode.*/
-void setBigEndian_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, bool val, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setBigEndian_ByteDataAccessJc_F");
-  
-  { 
-    
-    thiz->bBigEndian = val;
-  }
-  STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-void setBigEndian_ByteDataAccessJc(ByteDataAccessJc_s* thiz, bool val, ThCxt* _thCxt)
-{ Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
-  mtbl->setBigEndian(thiz, val, _thCxt);
 }
 
 
@@ -1581,11 +1099,11 @@ int64 _getLong_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxInChild, int3
       { 
         
         val |= thiz->data->data[idx] & 0xff;
-        if(--nByteCnt <= 0) break;//TRICKY: break in mid of loop, no shift operation.
+        if(--nByteCnt <= 0) break;/*TRICKY: break in mid of loop, no shift operation.*/
         
         val <<= 8;
         idx += idxStep;
-      }while(true);//see break;
+      }while(true);/*see break;*/
     
     if(bSigned) 
     { 
@@ -1601,7 +1119,7 @@ int64 _getLong_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxInChild, int3
         
         
         bitsSign = 0xffffffffffffffff << (posSign);
-        val |= bitsSign;//supplement the rest bits of long with the sign value,it's negativ.
+        val |= bitsSign;/*supplement the rest bits of long with the sign value,it's negativ.*/
         
       }
     }
@@ -1642,7 +1160,7 @@ void _setLong_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 nrofBy
         if(--nrofBytes <= 0) break;
         val >>= 8;
         idx += idxStep;
-      }while(true);//see break;
+      }while(true);/*see break;*/
     
   }
   STACKTRC_LEAVE;
@@ -1710,10 +1228,10 @@ void _setString_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 nrof
           { 
             
             cc = ((/*J2C:cast% from int32*/int8)(0x3f));
-          }//'?' in ASCII
+          }/*'?' in ASCII*/
           
           thiz->data->data[idxData++] = cc;
-        }//fill up the rest of the string with 0-chars.
+        }/*fill up the rest of the string with 0-chars.*/
         
     }
     
@@ -1864,30 +1382,17 @@ int32 getInt32_i_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, ThCxt* _t
     if(thiz->bBigEndian) 
     { 
       
-      val = ((thiz->data->data[thiz->idxBegin + idx]) << 24) | (((thiz->data->data[thiz->idxBegin + idx + 1]) << 16) & 0xff0000) | (((thiz->data->data[thiz->idxBegin + idx + 2]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx + 3])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = ((thiz->data->data[thiz->idxBegin + idx]) << 24) | (((thiz->data->data[thiz->idxBegin + idx + 1]) << 16) & 0xff0000) | (((thiz->data->data[thiz->idxBegin + idx + 2]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx + 3])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     else 
     { 
       
-      val = ((thiz->data->data[thiz->idxBegin + idx + 3]) << 24) | (((thiz->data->data[thiz->idxBegin + idx + 2]) << 16) & 0xff0000) | (((thiz->data->data[thiz->idxBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = ((thiz->data->data[thiz->idxBegin + idx + 3]) << 24) | (((thiz->data->data[thiz->idxBegin + idx + 2]) << 16) & 0xff0000) | (((thiz->data->data[thiz->idxBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     { STACKTRC_LEAVE;
       return val;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-int32 getUint32_i_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getUint32_i_ByteDataAccessJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return getInt32_i_ByteDataAccessJc(thiz, idx, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -1907,13 +1412,13 @@ int32 getUint16_i_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, ThCxt* _
     if(thiz->bBigEndian) 
     { 
       
-      val = (((thiz->data->data[thiz->idxBegin + idx]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx + 1])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((thiz->data->data[thiz->idxBegin + idx]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx + 1])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     else 
     { 
       
-      val = (((thiz->data->data[thiz->idxBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((thiz->data->data[thiz->idxBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     { STACKTRC_LEAVE;
@@ -1937,13 +1442,13 @@ int16 getInt16_i_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, ThCxt* _t
     if(thiz->bBigEndian) 
     { 
       
-      val = (((thiz->data->data[thiz->idxBegin + idx]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx + 1])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((thiz->data->data[thiz->idxBegin + idx]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx + 1])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     else 
     { 
       
-      val = (((thiz->data->data[thiz->idxBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx])) & 0xff);//NOTE: the value has only 8 bits for bitwise or.
+      val = (((thiz->data->data[thiz->idxBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data->data[thiz->idxBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     { STACKTRC_LEAVE;
@@ -2015,20 +1520,18 @@ int32 getUint32_iii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, i
   STACKTRC_TENTRY("getUint32_iii_ByteDataAccessJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getUint16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(idxArray >= lengthArray || idxArray < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "getUint16:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-      return getUint32_i_ByteDataAccessJc(thiz, idxBytes + 4 * idxArray, _thCxt);
+      return getUint32_i_ByteDataAccessJc(thiz, idxBytes + 4 * idxArray);
     }
   }
   STACKTRC_LEAVE;
@@ -2039,19 +1542,17 @@ int32 getInt32_iii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, in
   STACKTRC_TENTRY("getInt32_iii_ByteDataAccessJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getInt32:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(idxArray >= lengthArray || idxArray < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt32:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
       return getInt32_i_ByteDataAccessJc(thiz, idxBytes + 4 * idxArray, _thCxt);
     }
   }
@@ -2063,19 +1564,17 @@ int32 getInt16_iii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, in
   STACKTRC_TENTRY("getInt16_iii_ByteDataAccessJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(idxArray >= lengthArray || idxArray < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
       return getInt16_i_ByteDataAccessJc(thiz, idxBytes + 2 * idxArray, _thCxt);
     }
   }
@@ -2087,19 +1586,17 @@ int32 getInt8_iii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, int
   STACKTRC_TENTRY("getInt8_iii_ByteDataAccessJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getInt8:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(idxArray >= lengthArray || idxArray < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt8:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessJc(thiz, idxBytes + idxArray, _thCxt);
     }
   }
@@ -2111,19 +1608,17 @@ int32 getUint16_iii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, i
   STACKTRC_TENTRY("getUint16_iii_ByteDataAccessJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getUint16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(idxArray >= lengthArray || idxArray < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "getUint16:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
       return getUint16_i_ByteDataAccessJc(thiz, idxBytes + 2 * idxArray, _thCxt);
     }
   }
@@ -2135,19 +1630,17 @@ int32 getUint8_iii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, in
   STACKTRC_TENTRY("getUint8_iii_ByteDataAccessJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getUint8:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(idxArray >= lengthArray || idxArray < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "getUint8:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessJc(thiz, idxBytes + idxArray, _thCxt);
     }
   }
@@ -2159,53 +1652,19 @@ float getFloat_iii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, in
   STACKTRC_TENTRY("getFloat_iii_ByteDataAccessJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getFloat:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(idxArray >= lengthArray || idxArray < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "getFloat:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
       return getFloat_i_ByteDataAccessJc(thiz, idxBytes + 4 * idxArray, _thCxt);
     }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Set the content of 4 byte from a float variable*/
-void setFloat_if_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, float value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setFloat_if_ByteDataAccessJc");
-  
-  { 
-    int32 intRepresentation; 
-    
-    
-    intRepresentation = floatToRawIntBits_FloatJc(/*static*/value);
-    setInt32_ii_ByteDataAccessJc(thiz, idx, intRepresentation, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Set the content of 8 byte from a double variable*/
-void setDouble_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, double value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setDouble_ByteDataAccessJc");
-  
-  { 
-    int64 intRepresentation; 
-    
-    
-    intRepresentation = doubleToRawLongBits_DoubleJc(/*static*/value);
-    _setLong_ByteDataAccessJc(thiz, idx, 8, intRepresentation, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -2239,41 +1698,13 @@ void setInt32_ii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 val
 }
 
 
-/**Set the content of 1 bytes as a positive nr between 0..255, big- or little-endian.*/
-void setUint8_ii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setUint8_ii_ByteDataAccessJc");
-  
-  { 
-    
-    setInt8_ii_ByteDataAccessJc(thiz, idx, value, _thCxt);//its the same because modulo!
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Set the content of 2 bytes as a positive nr between 0..65535, big- or little-endian.*/
-void setUint16_ii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setUint16_ii_ByteDataAccessJc");
-  
-  { 
-    
-    setInt16_ii_ByteDataAccessJc(thiz, idx, value, _thCxt);//its the same because modulo!
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-
 /**Set the content of 4 bytes as a positive nr between 0..2pow32-1, big- or little-endian.*/
 void setUint32_il_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int64 value, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setUint32_il_ByteDataAccessJc");
   
-  { //:the same algorithm in source, but other action on machine level,
-    //:because value is long!
+  { /*:the same algorithm in source, but other action on machine level,*/
+    /*:because value is long!*/
     
     
     if(thiz->bBigEndian) 
@@ -2321,151 +1752,6 @@ void setInt16_ii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 val
 }
 
 
-/**Set the content of 1 bytes as a positive nr between 0..256.*/
-void setInt8_ii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setInt8_ii_ByteDataAccessJc");
-  
-  { 
-    
-    thiz->data->data[thiz->idxBegin + idx] = (int8)(value & 0xff);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setUint32_iiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setUint32_iiii_ByteDataAccessJc");
-  
-  { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
-    
-    /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "setUint32:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    setUint32_il_ByteDataAccessJc(thiz, idxBytes + 4 * idxArray, val, _thCxt);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setInt32_iiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setInt32_iiii_ByteDataAccessJc");
-  
-  { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
-    
-    /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "setInt32:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    setInt32_ii_ByteDataAccessJc(thiz, idxBytes + 4 * idxArray, val, _thCxt);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setInt16_iiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setInt16_iiii_ByteDataAccessJc");
-  
-  { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
-    
-    /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    setInt16_ii_ByteDataAccessJc(thiz, idxBytes + 2 * idxArray, val, _thCxt);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setInt8_iiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setInt8_iiii_ByteDataAccessJc");
-  
-  { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
-    
-    /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    setInt8_ii_ByteDataAccessJc(thiz, idxBytes + idxArray, val, _thCxt);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setUint16_iiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setUint16_iiii_ByteDataAccessJc");
-  
-  { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
-    
-    /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    setUint16_ii_ByteDataAccessJc(thiz, idxBytes + 2 * idxArray, val, _thCxt);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setUint8_iiii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setUint8_iiii_ByteDataAccessJc");
-  
-  { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
-    
-    /** */
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    setUint8_ii_ByteDataAccessJc(thiz, idxBytes + idxArray, val, _thCxt);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
 /**Copies the data into a byte[]*/
 void copyDataFrom_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc_t* src, ThCxt* _thCxt)
 { 
@@ -2474,20 +1760,18 @@ void copyDataFrom_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAcce
   { 
     int32 len; 
     
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
-    len = getLength_ByteDataAccessJc(src, _thCxt);
+    len = getLength_ByteDataAccessJc(src);
     /** */
-    if(thiz->data->head.length < len) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "copy, dst to small", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, len, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+    if(thiz->data->head.length < len) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "copy, dst to small", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, len, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     arraycopy_SystemJc(/*static*/& ((src->data)->head.object), src->idxBegin, & ((thiz->data)->head.object), thiz->idxBegin, len, _thCxt);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
 }

@@ -6,6 +6,7 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include "Jc/StringJc.h"  //embedded type in class data
 #include "Jc/SystemJc.h"  //reference-association: DoubleJc
 
 
@@ -150,22 +151,19 @@ void setFloatVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, float value
 { 
   STACKTRC_TENTRY("setFloatVal_RawDataAccessJc");
   
-  { //:call of the protected super method.
+  { /*:call of the protected super method.*/
     
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
-    setFloat_if_ByteDataAccessJc((&thiz->base.super), idx, value, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-void setDoubleVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, double value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setDoubleVal_RawDataAccessJc");
-  
-  { //:call of the protected super method.
-    
-    
-    setDouble_ByteDataAccessJc((&thiz->base.super), idx, value, _thCxt);
+    /** */
+    if(idx < 0) /** */
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "setDoubleVal:", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idx, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    setFloat_if_ByteDataAccessJc((&thiz->base.super), idx, value);
   }
   STACKTRC_LEAVE;
 }
@@ -185,10 +183,10 @@ const MtblDef_RawDataAccessJc mtblRawDataAccessJc = {
   , specifyLengthElement_RawDataAccessJc_F //specifyLengthElement
   , specifyLengthCurrentChildElement_ByteDataAccessJc_F //specifyLengthCurrentChildElement
   , assignDataToFixChilds_ByteDataAccessJc_F //assignDataToFixChilds
+  , setBigEndian_b_RawDataAccessJc_F //setBigEndian
   , notifyAddChild_ByteDataAccessJc_F //notifyAddChild
   , getString_ByteDataAccessJc_F //getString
   , setString_ByteDataAccessJc_F //setString
-  , setBigEndian_b_RawDataAccessJc_F //setBigEndian
   , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
       , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
       }

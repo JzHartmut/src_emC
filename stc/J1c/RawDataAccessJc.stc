@@ -30,7 +30,7 @@ fieldIdents {
     getFloatVal-_$: float %.r null(int %.. idx);
     getIntVal-_$: int %.r null(int %.. idx,int %.. nrofBytes);
     setBigEndian+_b-_$, defined: org/vishia/byteData/ByteDataAccess.setBigEndian, mode= overrideable: void %.r null(boolean %.. value);
-    setDoubleVal-_$: void %.r null(int %.. idx,double %.. value);
+    setDoubleVal-_$, mode= noThCxt: void %.r null(int %.. idx,double %.. value);
     setFloatVal-_$: void %.r null(int %.. idx,float %.. value);
     setIntVal-_$, mode= noThCxt: void %.r null(int %.. idx,int %.. nrofBytes,long %.. value);
     specifyEmptyDefaultData-_$, defined: org/vishia/byteData/ByteDataAccess.specifyEmptyDefaultData, mode= overrideable: void %.r null();

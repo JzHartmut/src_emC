@@ -94,12 +94,48 @@ METHOD_C float getFloatVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, T
 \
 { \
   \
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), idx, nrofBytes, value, _thCxt);\
+  TRY\
+  { \
+    \
+    _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), idx, nrofBytes, value, _thCxt);/*test2*/\
+    \
+  }_TRY\
+  CATCH(ExceptionJc, exc)\
+  \
+    { \
+      \
+      { throw_EJc(ident_RuntimeExceptionJc, exc, 0, &_thCxt->stacktraceThreadContext, __LINE__); };/*only test*/\
+      \
+    }\
+  END_TRY\
 }
 
 METHOD_C void setFloatVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, float value, ThCxt* _thCxt);
 
-METHOD_C void setDoubleVal_RawDataAccessJc(RawDataAccessJc_s* thiz, int32 idx, double value, ThCxt* _thCxt);
+#define setDoubleVal_RawDataAccessJc(THIZ, idx, value) \
+\
+{ /*:call of the protected super method.*/\
+  \
+  \
+  /** */\
+  if(idx < 0) /** */\
+  \
+  { \
+    StringJc msg = CONST_z_StringJc("setDoubleVal:"); \
+    \
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
+    \
+    msg = \
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "setDoubleVal:", _thCxt)\
+      , append_I_StringBuilderJc(_stringBuilderThCxt, idx, _thCxt)\
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
+      )/*J2C:non-persistent*/;\
+    /** */\
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
+  }\
+  setDouble_ByteDataAccessJc((&(THIZ)->base.super), idx, value);\
+}
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -127,7 +163,7 @@ class RawDataAccessJc : private RawDataAccessJc_s
 
   virtual void setBigEndian(bool value){ setBigEndian_b_RawDataAccessJc_F(&this->base.super, value,  null/*_thCxt*/); }
 
-  void setDoubleVal(int32 idx, double value){ setDoubleVal_RawDataAccessJc(this, idx, value,  null/*_thCxt*/); }
+  void setDoubleVal(int32 idx, double value){ setDoubleVal_RawDataAccessJc(this, idx, value); }
 
   void setFloatVal(int32 idx, float value){ setFloatVal_RawDataAccessJc(this, idx, value,  null/*_thCxt*/); }
 
