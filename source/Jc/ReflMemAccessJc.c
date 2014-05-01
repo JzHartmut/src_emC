@@ -240,7 +240,7 @@ int16 getBitfield_MemAccessJc(MemSegmJc addr, int posBit, int nrofBit)
     default: THROW_s0(RuntimeException, "unexpected default in switch", nrofBytesSrc);
 		}
 		//shift the bit in position:
-    val >>= posBit & 0xf;
+    val >>= posBit & 0x1f;
 		val &= (1<<nrofBit)-1;  //mask the bits, forex: nrofBit = 1, mask = 1, nrofBit = 2, mask = 4-1 = 0x03
 	} else { //memSegment !=0
 		//NOTE: the maximal length of an bitfield is limited to 16.
@@ -295,27 +295,34 @@ int setBitfield_MemAccessJc(MemSegmJc addr, int setVal, int posBit, int nrofBit 
 		}
 	  setADDR_MemSegmJc(addr, addr1);  //sets the address adjusted with bit position.
 		switch(nrofBytesSrc){
-		case 1: 
+		case 1: { 
+      int mask = ((1<<nrofBit)-1) << (posBit & 0x7);
+      int or = (setVal << (posBit & 0x7)) & mask;
 			val1 = *(int8*)(addr1);
-			val1 &= ~((1<<nrofBit)-1);  //set this bits to 0
-			val1 |= (setVal & ((1<<nrofBit)-1)) << (posBit & 0x7);
+			//val1 &= ~((1<<nrofBit)-1);  //set this bits to 0
+			val1 &= ~mask;  //set this bits to 0
+			val1 |= or;
 			*(int8*)(addr1) = (int8)val1;
 			val1 = *(int8*)(addr1);
-			break;
-		case 2: 
+		} break;
+		case 2: { 
+			int mask = ((1<<nrofBit)-1) << (posBit & 0xf);
+      int or = (setVal << (posBit & 0xf)) & mask;
 			val1 = *(int16*)(addr1);
-			val1 &= ~((1<<nrofBit)-1);  //set this bits to 0
-			val1 |= (setVal & ((1<<nrofBit)-1)) << (posBit & 0xf);
+			val1 &= ~mask;  //set this bits to 0
+			val1 |= or;
 			*(int16*)(addr1) = (int16)val1;
 			val1 = *(int16*)(addr1);
-			break;
-		case 4: 
+	  } break;
+		case 4: {
+      int mask = ((1<<nrofBit)-1) << (posBit & 0x1f);
+      int or = (setVal << (posBit & 0x1f)) & mask;
 			val1 = *(int32*)(addr1);
-			val1 &= ~((1<<nrofBit)-1);  //set this bits to 0
-			val1 |= ((int32)(setVal & ((1<<nrofBit)-1))) << (posBit & 0x1f);
+			val1 &= ~mask;  //set this bits to 0
+			val1 |= or;
 			*(int32*)(addr1) = val1;
 			val1 = *(int32*)(addr1);
-			break;
+		} break;
     default: val1 = 0xbad;  //TODO is it real?
 		}//switch
 		//set the given bits.

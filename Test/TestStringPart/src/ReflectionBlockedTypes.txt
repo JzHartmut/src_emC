@@ -1,7 +1,0 @@
-# xx
-//- Mystruct.h
--StringBuilderJc
--ObjectJcREF
--ObjectJcREF_t
-= Size_Mtbl = int
-@ Size_Mtbl_t = int
