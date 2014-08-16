@@ -6,7 +6,6 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Fwc/fw_Exception.h"  //reference-association: ExceptionJc
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/SystemJc.h"  //reference-association: FloatJc
@@ -126,7 +125,6 @@ struct ByteDataAccessJc_t* ctorO_ByteDataAccessJc(ObjectJc* othis, ThCxt* _thCxt
   setReflection_ObjectJc(othis, &reflection_ByteDataAccessJc_s, sizeof(ByteDataAccessJc_s));  
   //j2c: Initialize all class variables:
   {
-    CLEAR_REFJc(thiz->toStringformatter);
   }
   { 
     
@@ -157,7 +155,6 @@ struct ByteDataAccessJc_t* ctorO_ii_ByteDataAccessJc(ObjectJc* othis, int32 size
   setReflection_ObjectJc(othis, &reflection_ByteDataAccessJc_s, sizeof(ByteDataAccessJc_s));  
   //j2c: Initialize all class variables:
   {
-    CLEAR_REFJc(thiz->toStringformatter);
   }
   { 
     
@@ -188,7 +185,7 @@ void specifyEmptyDefaultData_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _
 }
 
 
-/**Specifies the length of the head data*/
+/**Specifies the length of the head data of this element*/
 /*J2C: dynamic call variant of the override-able method: */
 int32 specifyLengthElementHead_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
 { Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
@@ -196,7 +193,7 @@ int32 specifyLengthElementHead_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt*
 }
 
 
-/**Returns the actual length of the whole data presenting with this instance.*/
+/**Returns the actual length of the whole data presenting with this element.*/
 /*J2C: dynamic call variant of the override-able method: */
 int32 specifyLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt)
 { Mtbl_ByteDataAccessJc const* mtbl = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
@@ -1752,31 +1749,6 @@ void setInt16_ii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, int32 val
 }
 
 
-/**Copies the data into a byte[]*/
-void copyDataFrom_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc_t* src, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("copyDataFrom_ByteDataAccessJc");
-  
-  { 
-    int32 len; 
-    
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
-    
-    len = getLength_ByteDataAccessJc(src);
-    /** */
-    if(thiz->data->head.length < len) /** */
-    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "copy, dst to small", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, len, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-    arraycopy_SystemJc(/*static*/& ((src->data)->head.object), src->idxBegin, & ((thiz->data)->head.object), thiz->idxBegin, len, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
 /**Counts the idxChild by given index, idxChild is ByteCount from idxBegin*/
 void elementAt_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 indexObjectArray, ThCxt* _thCxt)
 { Mtbl_ByteDataAccessJc const* mtthis = (Mtbl_ByteDataAccessJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_ByteDataAccessJc);
@@ -1785,18 +1757,7 @@ void elementAt_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 indexObjectArray
   
   { 
     
-    TRY
-    { 
-      
-      thiz->idxCurrentChild = thiz->idxBegin + mtthis->specifyLengthElementHead(thiz, _thCxt) + mtthis->specifyLengthCurrentChildElement(thiz, _thCxt) * indexObjectArray;
-    }_TRY
-    CATCH(IllegalArgumentException, e)
-    
-      { 
-        
-        printStackTrace_ExceptionJc(e, _thCxt);
-      }
-    END_TRY
+    thiz->idxCurrentChild = thiz->idxBegin + mtthis->specifyLengthElementHead(thiz, _thCxt) + mtthis->specifyLengthCurrentChildElement(thiz, _thCxt) * indexObjectArray;
   }
   STACKTRC_LEAVE;
 }
@@ -1820,7 +1781,6 @@ void finalize_ByteDataAccessJc_F(ObjectJc* othis, ThCxt* _thCxt)
 { ByteDataAccessJc_s* thiz = (ByteDataAccessJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_ByteDataAccessJc_F");
   CLEAR_REFJc(thiz->parent);
-  CLEAR_REFJc(thiz->toStringformatter);
   finalize_ObjectJc_F(&thiz->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
@@ -1838,12 +1798,11 @@ void finalize_ByteDataAccessJc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
 extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
-extern_C struct ClassJc_t const reflection_StringFormatterJc_s;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_ByteDataAccessJc_s_t
-{ ObjectArrayJc head; FieldJc data[12];
+{ ObjectArrayJc head; FieldJc data[11];
 } reflection_Fields_ByteDataAccessJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_ByteDataAccessJc_s)
+{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &reflection_Fields_ByteDataAccessJc_s)
 , {
      { "data"
     , 0 //nrofArrayElements
@@ -1922,14 +1881,6 @@ const struct Reflection_Fields_ByteDataAccessJc_s_t
     , &reflection_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((int32)(&((ByteDataAccessJc_s*)(0x1000))->charset) - (int32)(ByteDataAccessJc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessJc_s
-    }
-   , { "toStringformatter"
-    , 0 //nrofArrayElements
-    , &reflection_StringFormatterJc_s
-    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessJc_s*)(0x1000))->toStringformatter) - (int32)(ByteDataAccessJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessJc_s
     }

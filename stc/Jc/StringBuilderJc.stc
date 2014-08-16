@@ -41,6 +41,8 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
+		delete-_$, mode:returnThis: StringBuilder *.. return(int %.. from, int %.. to);
+		deleteCharAt-_$, mode:returnThis: StringBuilder *.. return(int %.. pos);
 		indexOf+_s-_$: int %.. return(String t.. s);
 		indexOf+_z-_$: int %.. return(s0 t.. s);
 		indexOf+_sI-_$: int %.. return(String t.. s, int %.. pos);
@@ -52,6 +54,7 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
   }
   castTo {
     StringBuffer * "?" *;
+    CharSequence * "?" *;
   }
   castFrom {
      * "?" StringBuffer*;
@@ -74,24 +77,3 @@ class Integer; nameC=IntegerJc; header=Jc/ObjectJc.h; argIdent=I;
   
 }
 
-//In Java it is an interface for String, StringBuilder, StringBuffer.
-class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs;
-{
-  methods{
-   charAt-_$, mode=noThCxt: char %.. return(int %.. index);
-   length-_$, mode=noThCxt: int %.. return();
-   subSequence-_$: String t.. return(int %.. start, int %.. end);
-   toString-_$, mode=noThCxt: String t.. return();
- }
- 
-   castTo {
-    String access=t: "s0_CharSequenceJc(?)" ? access=t;
-  }
-   castFrom {
-    t "?" String t;
-    t "s0_StringJc(?)" s0 t;
-    t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
-  }
-
-}
- 

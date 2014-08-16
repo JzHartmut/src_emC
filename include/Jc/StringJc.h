@@ -909,7 +909,7 @@ extern struct ClassJc_t const reflection_CharSequenceJc;
 typedef struct CharSequenceJc_Y_t{ ObjectArrayJc head;  CharSequenceJc* data[50]; } CharSequenceJc_Y; 
 
 typedef int MT_length_CharSequenceJc(CharSequenceJc* ythis, ThCxt* _thCxt);
-typedef int MT_charAt_CharSequenceJc(CharSequenceJc* ythis, int ix, ThCxt* _thCxt);
+typedef char MT_charAt_CharSequenceJc(CharSequenceJc* ythis, int ix, ThCxt* _thCxt);
 typedef int MT_subSequence_CharSequenceJc(CharSequenceJc* ythis, int from, int to, ThCxt* _thCxt);
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
@@ -920,10 +920,11 @@ typedef struct Mtbl_CharSequenceJc_t
   MT_subSequence_CharSequenceJc* subSequence;
 } Mtbl_CharSequenceJc;
 
+extern char const sign_Mtbl_CharSequenceJc[];
 
-#define length_CharSequenceJc(THIZ, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, &reflection_CharSequenceJc))->length(THIZ, THC)
-#define charAt_CharSequenceJc(THIZ, ix, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, &reflection_CharSequenceJc))->charAt(THIZ, ix, THC)
-#define subSequence_CharSequenceJc(THIZ, from, to, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, &reflection_CharSequenceJc))->subSequence(THIZ, from, to, THC)
+#define length_CharSequenceJc(THIZ, THC)     ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, sign_Mtbl_CharSequenceJc))->length(THIZ, THC)
+#define charAt_CharSequenceJc(THIZ, ix, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, sign_Mtbl_CharSequenceJc))->charAt(THIZ, ix, THC)
+#define subSequence_CharSequenceJc(THIZ, from, to, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, sign_Mtbl_CharSequenceJc))->subSequence(THIZ, from, to, THC)
 
 
 

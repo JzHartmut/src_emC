@@ -4,3 +4,42 @@ package java/lang/;
 
 //Hint: This file will be converted firstly because Object is used. Then this types are known then too.
 
+
+//In Java it is an interface for String, StringBuilder, StringBuffer.
+class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs;
+{
+  methods{
+   charAt-_$: char %.. return(int %.. index);
+   length-_$: int %.. return();
+   subSequence-_$: String t.. return(int %.. start, int %.. end);
+   toString-_$, mode=noThCxt: String t.. return();
+ }
+ 
+   castTo {
+    String access=t: "s0_CharSequenceJc(?)" ? access=t;
+  }
+   castFrom {
+    t "?" String t;
+    t "s0_StringJc(?)" s0 t;
+    //t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
+  }
+
+}
+ 
+
+
+
+
+//In Java it is an interface for Append to any.
+class Appendable; nameC=AppendableJc; header=Jc/StringJc.h; argIdent=Ap;
+{
+  methods{
+   append-_$: Appendable *.. return(CharSequence *.. val);
+   append+I-_$: Appendable *.. return(CharSequence *.. val, int %.. start, int %.. end);
+   append-_$: Appendable *.. return(char &.. val);
+ }
+ 
+
+}
+ 
+

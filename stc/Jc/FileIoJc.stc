@@ -12,6 +12,15 @@ class Closeable; nameC=CloseableJc; header=Jc/ObjectJc.h; argIdent=C;
 }
 
 
+class Flushable; nameC=FlushableJc; argIdent=C;
+{
+  methods{
+   flush-_$, mode=noThCxt: void %.. return();
+ }
+
+}
+
+
 class File; nameC=FileJc_s; argIdent=File; extends java/lang/Object
 {  
   methods {  

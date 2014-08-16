@@ -137,15 +137,16 @@ METHOD_C double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* t
 /**Returns the part of the last scanning yet only from {@link #scanIdentifier()}*/
 METHOD_C struct CharSequenceJc_t* getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
-/**Gets a String with translitaration.*/
+/**Gets a String with transliteration.*/
 METHOD_C struct CharSequenceJc_t* getCircumScriptionToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, ThCxt* _thCxt);
 
+/**Gets a String with transliteration and skip over quotation while searchin.*/
 METHOD_C struct CharSequenceJc_t* getCircumScriptionToAnyCharOutsideQuotion_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, ThCxt* _thCxt);
 
 METHOD_C struct CharSequenceJc_t* getCircumScriptionToAnyChar_p_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, bool bOutsideQuotion, ThCxt* _thCxt);
 
-/**Scans a String with transcription till one of end characters, maybe outside any quotation.*/
-METHOD_C struct StringPartScanJc_t* scanTranscriptionToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, CharSequenceJc_Y* dst, StringJc sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt);
+/**Scans a String with maybe transliterated characters till one of end characters,*/
+METHOD_C struct StringPartScanJc_t* scanToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, CharSequenceJc_Y* dst, StringJc sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt);
 
 /**Closes the work*/
 typedef void MT_close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
@@ -219,7 +220,7 @@ class StringPartScanJc : private StringPartScanJc_s
 
   StringPartScanJc& scanStart(){ scanStart_StringPartScanJc(this,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartScanJc_t* scanTranscriptionToAnyChar(CharSequenceJc_Y* dst, StringJcpp sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar){  return scanTranscriptionToAnyChar_StringPartScanJc(this, dst, sCharsEnd, transcriptChar, quotationStartChar, quotationEndChar,  null/*_thCxt*/); }
+  struct StringPartScanJc_t* scanToAnyChar(CharSequenceJc_Y* dst, StringJcpp sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar){  return scanToAnyChar_StringPartScanJc(this, dst, sCharsEnd, transcriptChar, quotationStartChar, quotationEndChar,  null/*_thCxt*/); }
 
   StringPartScanJc& scan(struct CharSequenceJc_t* sTestP){ scan_StringPartScanJc(this, sTestP,  null/*_thCxt*/);  return *this; }
 };

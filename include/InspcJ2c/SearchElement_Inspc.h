@@ -60,7 +60,7 @@ typedef struct SearchTrc_SearchElement_Inspc_Y_t { ObjectArrayJc head; SearchTrc
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_SearchTrc_SearchElement_Inspc_F(SearchTrc_SearchElement_Inspc_s* ythis, ThCxt* _thCxt);
+void finalize_SearchTrc_SearchElement_Inspc_F(SearchTrc_SearchElement_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 

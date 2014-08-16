@@ -50,7 +50,7 @@ struct TestCnt_MsgDispatcherCore_MSG_t;
 /* J2C: includes *********************************************************/
 #include "Fwc/fw_LogMessage.h"  //interface
 #include "Jc/StringJc.h"  //embedded type in class data
-#include <MsgDisp/VaArgBuffer.h>  //embedded type in class data
+#include "MsgDisp/VaArgBuffer.h"  //embedded type in class data
 #include "os_time.h"  //embedded type in class data
 
 

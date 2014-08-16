@@ -285,20 +285,20 @@ void finalize_WorkingThread_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct WorkingThread_Inspc_t* ctorO_WorkingThread_Inspc(ObjectJc* othis, ThCxt* _thCxt);
 
 /**Start of the thread, should be called initially if the application is built completely. */
-typedef void MT_start_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt);
+typedef void MT_start_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void start_WorkingThread_Inspc_F(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void start_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void start_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void start_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 
 /**Terminate the thread for ever, should be called on termination of the application.*/
-typedef void MT_terminate_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt);
+typedef void MT_terminate_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void terminate_WorkingThread_Inspc_F(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void terminate_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void terminate_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void terminate_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 
-METHOD_C void step_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void step_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

@@ -31,7 +31,9 @@ fieldIdents {
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sCommentEnd;
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sCommentStart;
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sCommentToEol;
+  //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sFile;
   java/lang/CharSequence @.. sLastString;
+  //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s sVersion;
   //outer=1 ,super=2: int %.S seekBack;
   //outer=1 ,super=2: int %.d seekEnd;
   //outer=1 ,super=2: int %.d seekNormal;
@@ -65,7 +67,7 @@ fieldIdents {
     scanQuotion+_CsSSY-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence *.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult);
     scanQuotion+_CsSSYi-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence *.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult,int %.. maxToTest);
     scanStart-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
-    scanTranscriptionToAnyChar-_$: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence[??] X*. dst,java/lang/String(instance=java/lang/String) t.. sCharsEnd,char %.. transcriptChar,char %.. quotationStartChar,char %.. quotationEndChar);
+    scanToAnyChar-_$: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence[??] X*. dst,java/lang/String(instance=java/lang/String) t.. sCharsEnd,char %.. transcriptChar,char %.. quotationStartChar,char %.. quotationEndChar);
   }
 
   methods-overrideable {

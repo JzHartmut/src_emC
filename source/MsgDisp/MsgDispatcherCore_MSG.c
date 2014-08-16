@@ -48,8 +48,8 @@ struct MsgDispatcherCore_MSG_t* ctorO_MsgDispatcherCore_MSG(ObjectJc* othis, int
   { 
     MemC mNodes;   /*A queue in C without dynamically memory management should have a pool of nodes.*/
     
-    ObjectJc *newObj1_1=null, *newObj1_2=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null, *newObj1_2=null; /*J2C: temporary Objects for new operations
+    */
     SETREFJc(thiz->runNoEntryMessage, runNoEntryMessage, RunnableJc_s);
     thiz->nrofMixedOutputs = nrofMixedOutputs;
     if(nrofMixedOutputs < 0 || nrofMixedOutputs > 28) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "max. nrofMixedOutputs", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
@@ -115,9 +115,9 @@ int32 searchDispatchBits_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, in
       ident = -ident;
     }
     idx = binarySearch_int_ii_ArraysJc(/*static*/thiz->listIdents/*J2C-error testAndChangeAccess: XY*/, 0, thiz->actNrofListIdents, ident, _thCxt);
-    if(idx < 0) idx = -idx - 2;//example: nr between idx=2 and 3 returns -4, converted to 2
+    if(idx < 0) idx = -idx - 2;/*example: nr between idx=2 and 3 returns -4, converted to 2*/
     
-    if(idx < 0) idx = 0;//if nr before idx = 0, use properties of msg nr=0
+    if(idx < 0) idx = 0;/*if nr before idx = 0, use properties of msg nr=0*/
     
     bitDst = thiz->listBitDst->data[idx];
     { STACKTRC_LEAVE;
@@ -184,7 +184,7 @@ bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 iden
       int32 dstBitsForDispatcherThread = 0; 
       bool bDispatchAlways; 
       
-      struct ThreadJc_t* _temp2_1; //J2C: temporary references for concatenation
+      struct ThreadJc_t* _temp2_1; /*J2C: temporary references for concatenation */
       
       /*no initvalue*/
       bDispatchAlways = thiz->idThreadForDispatching != 0 && 
@@ -202,7 +202,7 @@ bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 iden
         
         /**No destinations are to use in calling thread. */
         dstBitsForDispatcherThread = dstBits;
-      }//if((dstBits & mDispatchInDispatcherThread) != 0)
+      }/*if((dstBits & mDispatchInDispatcherThread) != 0)*/
       
       if(dstBitsForDispatcherThread != 0) 
       { 
@@ -214,16 +214,18 @@ bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 iden
         { 
           
           /**queue overflow, no entries available*/
-          if(REFJc(thiz->runNoEntryMessage) != null) 
+          if(REFJc(thiz->runNoEntryMessage) != null) /**queue overflow, no entries available*/
+          
           { 
             
+            /**queue overflow, no entries available*/
             ((Mtbl_RunnableJc const*)getMtbl_ObjectJc(&(REFJc(thiz->runNoEntryMessage))->base.object, sign_Mtbl_RunnableJc) )->run(&((REFJc(thiz->runNoEntryMessage))->base.object), _thCxt);
           }
           if(++thiz->ctLostMessages == 0) 
           { 
             
             thiz->ctLostMessages = 1;
-          }//never reaches 0 after incrementation.
+          }/*never reaches 0 after incrementation.*/
           
         }
         else 
@@ -360,24 +362,24 @@ int32 dispatchQueuedMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThC
           entry->ident = 0;
           offer_ConcurrentLinkedQueueJc(thiz->freeOrders, entry, _thCxt);
         }
-      }while(bCont && (--cntDispatchedMsg) >= 0);//The buffer is empty yet.
+      }while(bCont && (--cntDispatchedMsg) >= 0);/*The buffer is empty yet.*/
     
     if(thiz->ctLostMessages > 0) 
-    { //:dispatch the message about overflow of queued message.
+    { /*:dispatch the message about overflow of queued message.*/
       
       int32 dstBits; 
       
       
-      setArg_VaArgBuffer(& (thiz->entryMsgBufferOverflow.values), 0, thiz->ctLostMessages, _thCxt);//Note: In this time after readout the queue till set ctLostMessage to 0 an newly overflow may be occurred.
+      setArg_VaArgBuffer(& (thiz->entryMsgBufferOverflow.values), 0, thiz->ctLostMessages, _thCxt);/*Note: In this time after readout the queue till set ctLostMessage to 0 an newly overflow may be occurred.*/
       
       thiz->ctLostMessages = 0;
       dstBits = searchDispatchBits_MsgDispatcherCore_MSG(thiz, thiz->entryMsgBufferOverflow.ident, _thCxt);
-      set_OS_TimeStamp(thiz->entryMsgBufferOverflow.timestamp, os_getDateTime());///
+      set_OS_TimeStamp(thiz->entryMsgBufferOverflow.timestamp, os_getDateTime());/*/*/
       
       dispatchMsg_MsgDispatcherCore_MSG(thiz, dstBits, true, false, thiz->entryMsgBufferOverflow.ident, thiz->entryMsgBufferOverflow.timestamp, thiz->entryMsgBufferOverflow.text, get_va_list_VaArgBuffer(& (thiz->entryMsgBufferOverflow.values), _thCxt), _thCxt);
     }
     if(cntDispatchedMsg == 0) 
-    { //:printf("MsgDisp: WARNING to much messages in queue\n");
+    { /*:printf("MsgDisp: WARNING to much messages in queue\n");*/
       
       
       /**Count this situation to enable to inspect it. */
@@ -396,9 +398,9 @@ int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dst
 { 
   STACKTRC_TENTRY("dispatchMsg_MsgDispatcherCore_MSG");
   
-  { //:final boolean bDispatchInDispatcherThread = (dstBits & mDispatchInDispatcherThread)!=0;
-    //:assert, that dstBits is positive, because >>=1 and 0-test fails elsewhere.
-    //:The highest Bit has an extra meaning, also extract above.
+  { /*:final boolean bDispatchInDispatcherThread = (dstBits & mDispatchInDispatcherThread)!=0;*/
+    /*:assert, that dstBits is positive, because >>=1 and 0-test fails elsewhere.*/
+    /*:The highest Bit has an extra meaning, also extract above.*/
     
     int32 bitTest = 0x1; 
     int32 idst = 0; 
@@ -436,7 +438,7 @@ int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dst
               if(sTextMsg == null || isEmpty_s0_Fwc(sTextMsg)) 
               { 
                 
-                sTextMsg = text;//replace the input text if a new one is found.
+                sTextMsg = text;/*replace the input text if a new one is found.*/
                 
               }
             }
@@ -444,14 +446,14 @@ int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dst
             if(sent) 
             { 
               
-              dstBits &= ~bitTest;//if sent, reset the associated bit.
+              dstBits &= ~bitTest;/*if sent, reset the associated bit.*/
               
             }
           }
           else 
           { 
             
-            dstBits &= ~bitTest;//reset the associated bit, send isn't possible
+            dstBits &= ~bitTest;/*reset the associated bit, send isn't possible*/
             
             thiz->testCnt.noOutput += 1;
           }

@@ -8,6 +8,7 @@ class Assert; nameC=AssertJc_s; argIdent=Lo; extends java/lang/Object
 
         stop-_$, mode=static: void &.. return();
         assert-_$, mode=static: void &.. return(boolean &.. cond);
+        exceptionInfo-_$, mode=static: java/lang/CharSequence *.r return(s0 t.. value, java/lang/Exception *.. value, byte %.. value, byte %.. value);
   }
   
 }

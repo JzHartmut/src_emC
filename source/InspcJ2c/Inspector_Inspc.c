@@ -19,69 +19,69 @@ typedef struct MtblDef_Inspector_Inspc_t { Mtbl_Inspector_Inspc mtbl; MtblHeadJc
 
 /*Constructor */
 struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt)
-{ Inspector_Inspc_s* ythis = (Inspector_Inspc_s*)othis;  //upcasting to the real class.
+{ Inspector_Inspc_s* thiz = (Inspector_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_Inspector_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(Inspector_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_Inspector_Inspc_s, sizeof(Inspector_Inspc_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->classContent.base.object), sizeof(ythis->classContent), 0); 
-      ctorO_ClassContent_Inspc(/*static*/&(ythis->classContent.base.object), _thCxt);
+      init_ObjectJc(&(thiz->classContent.base.object), sizeof(thiz->classContent), 0); 
+      ctorO_ClassContent_Inspc(/*static*/&(thiz->classContent.base.object), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->cmdExecuter.base.object), sizeof(ythis->cmdExecuter), 0); 
-      ctorO_CmdExecuter_Inspc(/*static*/&(ythis->cmdExecuter.base.object), & ((ythis->classContent).base.CmdConsumer_ifc_Inspc), _thCxt);
+      init_ObjectJc(&(thiz->cmdExecuter.base.object), sizeof(thiz->cmdExecuter), 0); 
+      ctorO_CmdExecuter_Inspc(/*static*/&(thiz->cmdExecuter.base.object), & ((thiz->classContent).base.CmdConsumer_ifc_Inspc), _thCxt);
   }
   { 
     
     //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(ythis->comm.base.object), sizeof(ythis->comm), 0); 
-    ctorO_Comm_Inspc(/*static*/&(ythis->comm.base.object), commOwnAddr, & (ythis->cmdExecuter), _thCxt);
-    completeConstruction_CmdExecuter_Inspc_F(& (ythis->cmdExecuter), & (ythis->comm), _thCxt);
-    setAnswerComm_XX_ClassContent_Inspc(&((& ((ythis->classContent).base.CmdConsumer_ifc_Inspc))->base.object), & ((ythis->cmdExecuter).base.AnswerComm_ifc_Inspc), _thCxt);
+    init_ObjectJc(&(thiz->comm.base.object), sizeof(thiz->comm), 0); 
+    ctorO_Comm_Inspc(/*static*/&(thiz->comm.base.object), commOwnAddr, & (thiz->cmdExecuter), _thCxt);
+    completeConstruction_CmdExecuter_Inspc_F(& (thiz->cmdExecuter), & (thiz->comm), _thCxt);
+    setAnswerComm_XX_ClassContent_Inspc(&((& ((thiz->classContent).base.CmdConsumer_ifc_Inspc))->base.object), & ((thiz->cmdExecuter).base.AnswerComm_ifc_Inspc), _thCxt);
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 
 /**Start the execution. */
-void start_Inspector_Inspc_F(Inspector_Inspc_s* ythis, struct ObjectJc_t* rootObj, ThCxt* _thCxt)
+void start_Inspector_Inspc_F(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_Inspector_Inspc_F");
   
   { 
     
-    setRootObject_ClassContent_Inspc(& (ythis->classContent), rootObj, _thCxt);
-    start_Comm_Inspc(& (ythis->comm), _thCxt);
+    setRootObject_ClassContent_Inspc(& (thiz->classContent), rootObj, _thCxt);
+    start_Comm_Inspc(& (thiz->comm), _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void start_Inspector_Inspc(Inspector_Inspc_s* ythis, struct ObjectJc_t* rootObj, ThCxt* _thCxt)
-{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_Inspector_Inspc);
-  mtbl->start(ythis, rootObj, _thCxt);
+void start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt)
+{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Inspector_Inspc);
+  mtbl->start(thiz, rootObj, _thCxt);
 }
 
 
 /**Shutdown the communication, close the thread*/
-void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* ythis, ThCxt* _thCxt)
+void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_Inspector_Inspc_F");
   
   { 
     
-    shutdown_Comm_Inspc_F(& (ythis->comm), _thCxt);
+    shutdown_Comm_Inspc_F(& (thiz->comm), _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void shutdown_Inspector_Inspc(Inspector_Inspc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_Inspector_Inspc);
-  mtbl->shutdown(ythis, _thCxt);
+void shutdown_Inspector_Inspc(Inspector_Inspc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Inspector_Inspc);
+  mtbl->shutdown(thiz, _thCxt);
 }
 
 

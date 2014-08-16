@@ -28,54 +28,54 @@ typedef struct MtblDef_CmdExecuter_Inspc_t { Mtbl_CmdExecuter_Inspc mtbl; MtblHe
 
 /*Constructor */
 struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdConsumer_ifc_Inspc_t* commandConsumer, ThCxt* _thCxt)
-{ CmdExecuter_Inspc_s* ythis = (CmdExecuter_Inspc_s*)othis;  //upcasting to the real class.
+{ CmdExecuter_Inspc_s* thiz = (CmdExecuter_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_CmdExecuter_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(CmdExecuter_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_CmdExecuter_Inspc_s, sizeof(CmdExecuter_Inspc_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->datagramCmd.base.object), sizeof(ythis->datagramCmd), 0); 
-      ctorO_Datagram_InspcDataExchangeAccess_Inspc(/*static*/&(ythis->datagramCmd.base.object), _thCxt);
+      init_ObjectJc(&(thiz->datagramCmd.base.object), sizeof(thiz->datagramCmd), 0); 
+      ctorO_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/&(thiz->datagramCmd.base.object), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->infoCmd.base.object), sizeof(ythis->infoCmd), 0); 
-      ctorO_Info_InspcDataExchangeAccess_Inspc(/*static*/&(ythis->infoCmd.base.object), _thCxt);
-    ythis->maxNrofAnswerBytes = 1400;
+      init_ObjectJc(&(thiz->infoCmd.base.object), sizeof(thiz->infoCmd), 0); 
+      ctorO_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/&(thiz->infoCmd.base.object), _thCxt);
+    thiz->maxNrofAnswerBytes = 1400;
     /*J2C: newArray*/
-      init_ObjectJc(&ythis->bufferAnswerData.head.object, sizeof_ARRAYJc(int8, 1500), 0);   //J2C: ctor embedded array.
-      ctorO_ObjectArrayJc(&ythis->bufferAnswerData.head.object, 1500, sizeof(int8), null, 0);//J2C: constructor for embedded array;
+      init_ObjectJc(&thiz->bufferAnswerData.head.object, sizeof_ARRAYJc(int8, 1500), 0);   //J2C: ctor embedded array.
+      ctorO_ObjectArrayJc(&thiz->bufferAnswerData.head.object, 1500, sizeof(int8), null, 0);//J2C: constructor for embedded array;
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->myAnswerData.base.object), sizeof(ythis->myAnswerData), 0); 
-      ctorO_iY_Datagram_InspcDataExchangeAccess_Inspc(/*static*/&(ythis->myAnswerData.base.object), (struct int8_Y_t*)(&( ythis->bufferAnswerData)), _thCxt);
+      init_ObjectJc(&(thiz->myAnswerData.base.object), sizeof(thiz->myAnswerData), 0); 
+      ctorO_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/&(thiz->myAnswerData.base.object), (struct int8_Y_t*)(&( thiz->bufferAnswerData)), _thCxt);
   }
   { 
     
-    ythis->cmdConsumer = commandConsumer;
+    thiz->cmdConsumer = commandConsumer;
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
-void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt)
+void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("completeConstruction_CmdExecuter_Inspc_F");
   
   { 
     
-    ythis->comm = comm;
+    thiz->comm = comm;
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt)
-{ Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_CmdExecuter_Inspc);
-  mtbl->completeConstruction(ythis, comm, _thCxt);
+void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt)
+{ Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
+  mtbl->completeConstruction(thiz, comm, _thCxt);
 }
 
-bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
-{ Mtbl_CmdExecuter_Inspc const* mtthis = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_CmdExecuter_Inspc);
+bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
+{ Mtbl_CmdExecuter_Inspc const* mtthis = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
   
   STACKTRC_TENTRY("executeCmd_CmdExecuter_Inspc_F");
   
@@ -90,128 +90,128 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, 
     CmdConsumer_ifc_InspcMTB cmdConsumerMtbl;   /**/
     
     
-    assignData_iYi_ByteDataAccessJc_F(& ((ythis->datagramCmd).base.super), buffer, nrofBytesReceived, _thCxt);
-    nEntrant = getEntrant_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->datagramCmd), _thCxt);
+    assignData_iYi_ByteDataAccessJc(& ((thiz->datagramCmd).base.super), buffer, nrofBytesReceived);
+    nEntrant = getEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
     bOk = true;
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
-    ythis->nrofBytesAnswer = 0;
-    SETMTBJc(cmdConsumerMtbl, ythis->cmdConsumer, CmdConsumer_ifc_Inspc);
-    removeChildren_ByteDataAccessJc(& ((ythis->myAnswerData).base.super), _thCxt);//String test = myAnswerData.toString();
+    thiz->nrofBytesAnswer = 0;
+    SETMTBJc(cmdConsumerMtbl, thiz->cmdConsumer, CmdConsumer_ifc_Inspc);
+    removeChildren_ByteDataAccessJc(& ((thiz->myAnswerData).base.super));/*String test = myAnswerData.toString();*/
     
     if(nEntrant < 0) 
-    { //:a negative number: It is an entrant, the telegram has the common head.
+    { /*:a negative number: It is an entrant, the telegram has the common head.*/
       
       int32 seqNr; 
       int32 encryption; 
       int32 nrofAnswer; 
       
       
-      nrofBytesTelg = getLengthDatagram_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->datagramCmd), _thCxt);
-      nrofBytesProcessed = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc;
-      ythis->useTelgHead = true;//
+      nrofBytesTelg = getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
+      nrofBytesProcessed = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
+      thiz->useTelgHead = true;/**/
       
-      seqNr = getSeqnr_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->datagramCmd), _thCxt);
-      encryption = getEncryption_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->datagramCmd), _thCxt);
-      setHead_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), nEntrant, seqNr, encryption, _thCxt);
-      ythis->nrofBytesAnswer = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc;
+      seqNr = getSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
+      encryption = getEncryption_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
+      setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), nEntrant, seqNr, encryption, _thCxt);
+      thiz->nrofBytesAnswer = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
       
-      while(bOk && nrofBytesTelg >= (nrofBytesProcessed + sizeofHead_Info_InspcDataExchangeAccess_Inspc))
-        { //:The next telg Part will be found after the processed part.
+      while(bOk && nrofBytesTelg >= (nrofBytesProcessed + sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc))
+        { /*:The next telg Part will be found after the processed part.*/
           
           
-          addChild_ByteDataAccessJc(& ((ythis->datagramCmd).base.super), & ((ythis->infoCmd).base.super), _thCxt);
-          partLength = getLenInfo_Info_InspcDataExchangeAccess_Inspc(& (ythis->infoCmd), _thCxt);
-          if(partLength >= sizeofHead_Info_InspcDataExchangeAccess_Inspc && partLength <= (nrofBytesTelg - nrofBytesProcessed)) 
-          { //:valid head data.
+          addChild_ByteDataAccessJc(& ((thiz->datagramCmd).base.super), & ((thiz->infoCmd).base.super), _thCxt);
+          partLength = getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->infoCmd));
+          if(partLength >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc && partLength <= (nrofBytesTelg - nrofBytesProcessed)) 
+          { /*:valid head data.*/
             
             bool lastPart; 
             
             
             lastPart = (nrofBytesProcessed + partLength) == nrofBytesTelg;
-            maxNrofBytesAnswerPart = ythis->maxNrofAnswerBytes - ythis->nrofBytesAnswer;//execute:
+            maxNrofBytesAnswerPart = thiz->maxNrofAnswerBytes - thiz->nrofBytesAnswer;/*execute:*/
             
             TRY
             { 
               
-              nrofBytesAnswerPart = cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (ythis->infoCmd), & (ythis->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
+              nrofBytesAnswerPart = cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
             }_TRY
             CATCH(IllegalArgumentException, exc)
             
               { 
                 
-                nrofBytesAnswerPart = 0;//TODO send a nack
+                nrofBytesAnswerPart = 0;/*TODO send a nack*/
                 
               }
             CATCH(UnsupportedEncodingException, exc)
             
               { 
                 
-                nrofBytesAnswerPart = 0;//TODO send a nack
+                nrofBytesAnswerPart = 0;/*TODO send a nack*/
                 
               }
             END_TRY
           }
           else 
-          { //:invalid head data
+          { /*:invalid head data*/
             
             
             bOk = false;
-            ythis->ctFailedTelgPart += 1;
+            thiz->ctFailedTelgPart += 1;
           }
           nrofBytesProcessed += partLength;
         }
-      nrofAnswer = getLengthTotal_ByteDataAccessJc(& ((ythis->myAnswerData).base.super), _thCxt);
-      if(nrofAnswer > sizeofHead_Datagram_InspcDataExchangeAccess_Inspc) 
-      { //:more as the head:
+      nrofAnswer = getLengthTotal_ByteDataAccessJc(& ((thiz->myAnswerData).base.super));
+      if(nrofAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
+      { /*:more as the head:*/
         
         
-        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (ythis)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
+        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
       }
     }
     else 
-    { //:a positive number: The telegram hasn't the commmon head ,,DataExchangeTelgHead_Inspc,,, it is one command.
-      //:It is the old style of communication, exclusively used until 2010-0216.
+    { /*:a positive number: The telegram hasn't the commmon head ,,DataExchangeTelgHead_Inspc,,, it is one command.*/
+      /*:It is the old style of communication, exclusively used until 2010-0216.*/
       
       int32 nrofAnswer; 
       
       
-      ythis->useTelgHead = false;//dummy head with 2 empty information units.
+      thiz->useTelgHead = false;/*dummy head with 2 empty information units.*/
       
-      setHead_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), 0, 0x80000, 0, _thCxt);
-      setLengthDatagram_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), 8, _thCxt);
-      assignData_iYi_ByteDataAccessJc_F(& ((ythis->infoCmd).base.super), buffer, nrofBytesReceived, _thCxt);
-      setBigEndian_ByteDataAccessJc_F(& ((ythis->infoCmd).base.super), true, _thCxt);
+      setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), 0, 0x80000, 0, _thCxt);
+      setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), 8);
+      assignData_iYi_ByteDataAccessJc(& ((thiz->infoCmd).base.super), buffer, nrofBytesReceived);
+      setBigEndian_ByteDataAccessJc_F(& ((thiz->infoCmd).base.super), true, _thCxt);
       maxNrofBytesAnswerPart = 1400;
       TRY
       { 
         
-        nrofBytesAnswerPart = cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (ythis->infoCmd), & (ythis->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
+        nrofBytesAnswerPart = cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
       }_TRY
       CATCH(IllegalArgumentException, exc)
       
         { 
           
-          nrofBytesAnswerPart = 0;//TODO send a nack
+          nrofBytesAnswerPart = 0;/*TODO send a nack*/
           
         }
       CATCH(UnsupportedEncodingException, exc)
       
         { 
           
-          nrofBytesAnswerPart = 0;//TODO send a nack
+          nrofBytesAnswerPart = 0;/*TODO send a nack*/
           
         }
       END_TRY
-      nrofAnswer = getLengthTotal_ByteDataAccessJc(& ((ythis->myAnswerData).base.super), _thCxt);
-      if(nrofAnswer > sizeofHead_Datagram_InspcDataExchangeAccess_Inspc) 
-      { //:more as the head:
+      nrofAnswer = getLengthTotal_ByteDataAccessJc(& ((thiz->myAnswerData).base.super));
+      if(nrofAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
+      { /*:more as the head:*/
         
         
-        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (ythis)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
+        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
       }
     }
     { STACKTRC_LEAVE;
@@ -222,15 +222,15 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, 
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
-{ Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_CmdExecuter_Inspc);
-  return mtbl->executeCmd(ythis, buffer, nrofBytesReceived, _thCxt);
+bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
+{ Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
+  return mtbl->executeCmd(thiz, buffer, nrofBytesReceived, _thCxt);
 }
 
 
 /**Send the current answer datagram as answer.*/
 int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt)
-{ CmdExecuter_Inspc_s* ythis = (CmdExecuter_Inspc_s*)ithis;
+{ CmdExecuter_Inspc_s* thiz = (CmdExecuter_Inspc_s*)ithis;
   
   STACKTRC_TENTRY("txAnswer_ib_CmdExecuter_Inspc_F");
   
@@ -239,24 +239,24 @@ int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart
     
     
     /*no initvalue*/
-    if(ythis->useTelgHead) 
+    if(thiz->useTelgHead) 
     { 
       
-      setLengthDatagram_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), nrofAnswerBytesPart, _thCxt);
-    }//ythis->answer.nrofSentBytes = txAnswerRawData_Comm_Inspc(ythis, &ythis->answer.myAnswerData, ythis->answer.nrofAnswerBytes, &ythis->myAnswerAddress);
+      setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), nrofAnswerBytesPart);
+    }/*ythis->answer.nrofSentBytes = txAnswerRawData_Comm_Inspc(ythis, &ythis->answer.myAnswerData, ythis->answer.nrofAnswerBytes, &ythis->myAnswerAddress);*/
     
-    ythis->nrofBytesAnswer = nrofAnswerBytesPart;
-    if(!ythis->useTelgHead || ythis->nrofBytesAnswer > sizeofHead_Datagram_InspcDataExchangeAccess_Inspc) 
+    thiz->nrofBytesAnswer = nrofAnswerBytesPart;
+    if(!thiz->useTelgHead || thiz->nrofBytesAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
     { 
       
-      if(bLastTelg && ythis->useTelgHead) 
+      if(bLastTelg && thiz->useTelgHead) 
       { 
         
-        markAnswerNrLast_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), _thCxt);//mark as last telg
+        markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), _thCxt);/*mark as last telg*/
         
-      }//send.
+      }/*send.*/
       
-      sendAnswer_Comm_Inspc(ythis->comm, (struct int8_Y_t*)(&( ythis->bufferAnswerData)), ythis->nrofBytesAnswer, _thCxt);//
+      sendAnswer_Comm_Inspc(thiz->comm, (struct int8_Y_t*)(&( thiz->bufferAnswerData)), thiz->nrofBytesAnswer, _thCxt);/**/
       
       if(bLastTelg) 
       { 
@@ -264,19 +264,19 @@ int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart
         ret = 0;
       }
       else 
-      { //:prepare the next telg:
+      { /*:prepare the next telg:*/
         
         
-        incrAnswerNr_Datagram_InspcDataExchangeAccess_Inspc(& (ythis->myAnswerData), _thCxt);
-        ythis->nrofBytesAnswer = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc;
-        ret = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc - ythis->nrofBytesAnswer;
+        incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), _thCxt);
+        thiz->nrofBytesAnswer = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
+        ret = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc - thiz->nrofBytesAnswer;
       }
     }
     else 
-    { //:nothing to sent.
+    { /*:nothing to sent.*/
       
       
-      ret = sizeofHead_Datagram_InspcDataExchangeAccess_Inspc - ythis->nrofBytesAnswer;
+      ret = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc - thiz->nrofBytesAnswer;
     }
     { STACKTRC_LEAVE;
       return ret;
@@ -350,8 +350,8 @@ const MtblDef_CmdExecuter_Inspc mtblCmdExecuter_Inspc = {
 extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
 extern_C struct ClassJc_t const reflection_CmdConsumer_ifc_Inspc_s;
 extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
-extern_C struct ClassJc_t const reflection_Datagram_InspcDataExchangeAccess_Inspc_s;
-extern_C struct ClassJc_t const reflection_Info_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
 const struct Reflection_Fields_CmdExecuter_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[11];
 } reflection_Fields_CmdExecuter_Inspc_s =
@@ -359,7 +359,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
 , {
      { "datagramCmd"
     , 0 //nrofArrayElements
-    , &reflection_Datagram_InspcDataExchangeAccess_Inspc_s
+    , &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->datagramCmd) - (int32)(CmdExecuter_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -367,7 +367,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     }
    , { "infoCmd"
     , 0 //nrofArrayElements
-    , &reflection_Info_InspcDataExchangeAccess_Inspc_s
+    , &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->infoCmd) - (int32)(CmdExecuter_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -431,7 +431,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     }
    , { "myAnswerData"
     , 0 //nrofArrayElements
-    , &reflection_Datagram_InspcDataExchangeAccess_Inspc_s
+    , &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->myAnswerData) - (int32)(CmdExecuter_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase

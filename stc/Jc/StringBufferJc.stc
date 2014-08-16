@@ -43,19 +43,57 @@ class StringBuffer; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; ex
 		insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
-		indexOf-_$, mode=noThCxt: int %.. return(String t.. s);
-		indexOf-_$, mode=noThCxt: int %.. return(s0 t.. s);
-		indexOf-_$, mode=noThCxt: int %.. return(String t.. s, int %.. pos);
-		indexOf-_$, mode=noThCxt: int %.. return(s0 t.. s, int %.. pos);
-		substring: String t.. return(int %.. start);
-		substring: String t.. return(int %.. start, int %.. end);
+		indexOf+_s-_$: int %.. return(String t.. s);
+		indexOf+_z-_$: int %.. return(s0 t.. s);
+		indexOf+_sI-_$: int %.. return(String t.. s, int %.. pos);
+		indexOf+_zI-_$: int %.. return(s0 t.. s, int %.. pos);
+		substring+_I-_$: String t.. return(int %.. start);
+		substring-_$: String t.. return(int %.. start, int %.. end);
 		replace-_$,   mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}, field:{   String t.. param;} );                        
 		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
   }
   castTo {
-    StringBuilder * "?" *;
+    StringBuffer * "?" *;
   }
   castFrom {
-    * "?" StringBuilder * ;
+     * "?" StringBuffer*;
   }
 }
+
+
+
+
+class Integer; nameC=IntegerJc; header=Jc/ObjectJc.h; argIdent=I;
+{  
+  fields{
+	  int %.S MAX_VALUE;  //static
+	  int %.S MIN_VALUE;  //static
+	}
+  methods {  
+		parseInt+_radix-_$, mode=static+noThCxt: int %.. return (String t.. value, int %.. radix);
+		parseInt-_$, mode=static+noThCxt: int %.. return (String t.. value);
+	}
+  
+}
+
+//In Java it is an interface for String, StringBuilder, StringBuffer.
+class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs;
+{
+  methods{
+   charAt-_$: char %.. return(int %.. index);
+   length-_$: int %.. return();
+   subSequence-_$: String t.. return(int %.. start, int %.. end);
+   toString-_$, mode=noThCxt: String t.. return();
+ }
+ 
+   castTo {
+    String access=t: "s0_CharSequenceJc(?)" ? access=t;
+  }
+  castFrom {
+    t "?" String t;
+    t "s0_StringJc(?)" s0 t;
+    t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
+  }
+
+}
+ 

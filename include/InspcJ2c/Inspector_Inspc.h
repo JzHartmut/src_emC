@@ -68,18 +68,18 @@ void finalize_Inspector_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt);
 
 /**Start the execution. */
-typedef void MT_start_Inspector_Inspc(Inspector_Inspc_s* ythis, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
+typedef void MT_start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void start_Inspector_Inspc_F(Inspector_Inspc_s* ythis, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
+METHOD_C void start_Inspector_Inspc_F(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void start_Inspector_Inspc(Inspector_Inspc_s* ythis, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
+METHOD_C void start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
 
 /**Shutdown the communication, close the thread*/
-typedef void MT_shutdown_Inspector_Inspc(Inspector_Inspc_s* ythis, ThCxt* _thCxt);
+typedef void MT_shutdown_Inspector_Inspc(Inspector_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void shutdown_Inspector_Inspc(Inspector_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void shutdown_Inspector_Inspc(Inspector_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

@@ -74,26 +74,26 @@ void finalize_Comm_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 /**Creates the communication for the inspector.*/
 METHOD_C struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, struct CmdExecuter_Inspc_t* cmdExecuter, ThCxt* _thCxt);
 
-METHOD_C bool openComm_Comm_Inspc(Comm_Inspc_s* ythis, bool blocking, ThCxt* _thCxt);
+METHOD_C bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt);
 
-METHOD_C void start_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void start_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void run_Comm_Inspc(ObjectJc* ithis, ThCxt* _thCxt);
 
-METHOD_C void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 
 /**Sends the answer telg to the sender of the received telegram.*/
-METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* ythis, int8_Y* bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt);
+METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, int8_Y* bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt);
 
 /**Shutdown the communication, close the thread*/
-typedef void MT_shutdown_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+typedef void MT_shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void shutdown_Comm_Inspc_F(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void shutdown_Comm_Inspc(Comm_Inspc_s* ythis, ThCxt* _thCxt);
+METHOD_C void shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

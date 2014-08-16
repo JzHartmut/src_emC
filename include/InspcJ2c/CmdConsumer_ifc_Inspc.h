@@ -14,8 +14,8 @@
 
 /* J2C: Forward declaration of struct ***********************************************/
 struct AnswerComm_ifc_Inspc_t;
-struct Datagram_InspcDataExchangeAccess_Inspc_t;
-struct Info_InspcDataExchangeAccess_Inspc_t;
+struct InspcDatagram_InspcDataExchangeAccess_Inspc_t;
+struct Inspcitem_InspcDataExchangeAccess_Inspc_t;
 
 
 /* J2C: includes *********************************************************/
@@ -59,9 +59,9 @@ void finalize_CmdConsumer_ifc_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 /**Executes a command, writes the answer in the answer datagram.*/
-typedef int32 MT_executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+typedef int32 MT_executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C int32 executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+METHOD_C int32 executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
 /**Sets the aggregation for the answer.*/
 typedef void MT_setAnswerComm_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct AnswerComm_ifc_Inspc_t* answerComm, ThCxt* _thCxt);
@@ -86,7 +86,7 @@ typedef struct Mtbl_CmdConsumer_ifc_Inspc_t
 class CmdConsumer_ifc_Inspc : private CmdConsumer_ifc_Inspc_s
 { public:
 
-  virtual int32 executeMonitorCmd(struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes)=0;
+  virtual int32 executeMonitorCmd(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes)=0;
 
   virtual void setAnswerComm(struct AnswerComm_ifc_Inspc_t* answerComm)=0;
 };

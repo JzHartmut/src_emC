@@ -435,8 +435,10 @@ typedef struct ObjectJcMTB_t
 extern char const sign_Mtbl_ObjectJc[]; 
 extern char const signEnd_Mtbl_ObjectJc[];
 
-/**returns the method table of the given instance. 
+/**returns the method table of the given instance for the given maybe super class or interface. 
  * This routine presumed that the given Object has a correct method table.
+ * This method is used basicly.
+ * If the instance is not type of the required class, null is returned.
  *
  * If the pointer to the method table is worse, either an exception is thrown 
  * because the search process detects any memory content as size of method table, which is worse,
@@ -445,12 +447,13 @@ extern char const signEnd_Mtbl_ObjectJc[];
  * This is useable in safety critical software: If any error in data occurs, 
  * the programm is aborted, the throw may be catched or not, but the software works deterministic.
  *
- * @param sign The address of the sign to the required method table.
+ * @param sign The address of the sign to the required method table for the maybe interface or super class.
+ *    Use  ,,sign_Mtbl_TYPE,,   in the user's software to determine the type. 
+ *    The sign... is defined with the Method table and reflection for any class.
  * @return null or the reference of the method table of the required base class.
- * The Method table may be a derivated table..
- * Wether the method table is derivated or not, it means wether a up-casting is allowed,
- * depends on a derivated class. It should be defined there. This method is used basicly.
- * If the instance is not type of the required class, null is returned.
+ * The Method table may be a derived table depending on sign parameter..
+ * Whether the method table is derived or not, it means wether a up-casting is allowed,
+ * depends on a derived class. 
  */
 METHOD_C MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign);
 

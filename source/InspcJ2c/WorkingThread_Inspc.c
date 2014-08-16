@@ -25,20 +25,20 @@ typedef struct MtblDef_WorkingThread_Inspc_t { Mtbl_WorkingThread_Inspc mtbl; Mt
 
 /*Constructor */
 struct WorkingThread_Inspc_t* ctorO_WorkingThread_Inspc(ObjectJc* othis, ThCxt* _thCxt)
-{ WorkingThread_Inspc_s* ythis = (WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
+{ WorkingThread_Inspc_s* thiz = (WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(WorkingThread_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_WorkingThread_Inspc_s, sizeof(WorkingThread_Inspc_s));  
   //j2c: Initialize all class variables:
-  {ObjectJc *newObj0_1=null; //J2C: temporary Objects for new operations
-      
+  {ObjectJc *newObj0_1=null; /*J2C: temporary Objects for new operations
+      */
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->data.base.object), sizeof(ythis->data), 0); 
-      ctorO_Data_WorkingThread_Inspc(/*static*/&(ythis->data.base.object), _thCxt);
+      init_ObjectJc(&(thiz->data.base.object), sizeof(thiz->data), 0); 
+      ctorO_Data_WorkingThread_Inspc(/*static*/&(thiz->data.base.object), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->theThreadRun.base.object), sizeof(ythis->theThreadRun), 0); 
-      ctorO_C_theThreadRun_WorkingThread_Inspc(ythis, &(ythis->theThreadRun.base.object), _thCxt);
-    SETREFJc(ythis->theThreadMng, ctorO_ThreadMng_WorkingThread_Inspc(ythis, (newObj0_1 = alloc_ObjectJc(sizeof_ThreadMng_WorkingThread_Inspc_s, 0, _thCxt)), _thCxt), ThreadMng_WorkingThread_Inspc_s);
+      init_ObjectJc(&(thiz->theThreadRun.base.object), sizeof(thiz->theThreadRun), 0); 
+      ctorO_C_theThreadRun_WorkingThread_Inspc(thiz, &(thiz->theThreadRun.base.object), _thCxt);
+    SETREFJc(thiz->theThreadMng, ctorO_ThreadMng_WorkingThread_Inspc(thiz, (newObj0_1 = alloc_ObjectJc(sizeof_ThreadMng_WorkingThread_Inspc_s, 0, _thCxt)), _thCxt), ThreadMng_WorkingThread_Inspc_s);
     activateGC_ObjectJc(newObj0_1, null, _thCxt);
   }
   { 
@@ -46,49 +46,49 @@ struct WorkingThread_Inspc_t* ctorO_WorkingThread_Inspc(ObjectJc* othis, ThCxt* 
     
   }
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
 
 /**Start of the thread, should be called initially if the application is built completely. */
-void start_WorkingThread_Inspc_F(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt)
+void start_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_WorkingThread_Inspc_F");
   
   { 
     
-    start_ThreadJc(& (REFJc(ythis->theThreadMng)->thread), -1, _thCxt);
+    start_ThreadJc(& (REFJc(thiz->theThreadMng)->thread), -1, _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void start_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_WorkingThread_Inspc const* mtbl = (Mtbl_WorkingThread_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_WorkingThread_Inspc);
-  mtbl->start(ythis, _thCxt);
+void start_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_WorkingThread_Inspc const* mtbl = (Mtbl_WorkingThread_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_WorkingThread_Inspc);
+  mtbl->start(thiz, _thCxt);
 }
 
 
 /**Terminate the thread for ever, should be called on termination of the application.*/
-void terminate_WorkingThread_Inspc_F(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt)
+void terminate_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("terminate_WorkingThread_Inspc_F");
   
   { 
     
-    REFJc(ythis->theThreadMng)->bRun = false;
+    REFJc(thiz->theThreadMng)->bRun = false;
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void terminate_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt)
-{ Mtbl_WorkingThread_Inspc const* mtbl = (Mtbl_WorkingThread_Inspc const*)getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_WorkingThread_Inspc);
-  mtbl->terminate(ythis, _thCxt);
+void terminate_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_WorkingThread_Inspc const* mtbl = (Mtbl_WorkingThread_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_WorkingThread_Inspc);
+  mtbl->terminate(thiz, _thCxt);
 }
 
-void step_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt)
+void step_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("step_WorkingThread_Inspc");
   
@@ -96,22 +96,22 @@ void step_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt)
     float ww; 
     
     
-    ythis->data.ww += ythis->data.dw;//increasing of angle. Runs wrapping over PI
+    thiz->data.ww += thiz->data.dw;/*increasing of angle. Runs wrapping over PI*/
     
-    ww = (float)(ythis->data.ww * PI_MathJc / 0x80000000);
-    if(ythis->data.ww >= PI_MathJc) 
+    ww = (float)(thiz->data.ww * PI_MathJc / 0x80000000);
+    if(thiz->data.ww >= PI_MathJc) 
     { 
       
-      ythis->data.ww -= ((/*J2C:cast% from double*/int32)(2 * PI_MathJc));//runs in range -Pi .. +PI
+      thiz->data.ww -= ((/*J2C:cast% from double*/int32)(2 * PI_MathJc));/*runs in range -Pi .. +PI*/
       
     }
-    ythis->data.wFloat = ww;//Note: Java knows only the double versions of trigonometric functions.
+    thiz->data.wFloat = ww;/*Note: Java knows only the double versions of trigonometric functions.*/
     
-    ythis->data.ySin = (float)sin(/*static*/ww);
-    ythis->data.ySin2 = (float)sin(/*static*/(float)(2 * ww + PI_MathJc / 2));
-    ythis->data.ySin3 = (float)sin(/*static*/(float)(3 * ww));
-    ythis->data.yCos = (float)cos(/*static*/ww);
-    ythis->data.yOut1 = ythis->data.ySin + ythis->data.ySin2;// + data.ySin3;
+    thiz->data.ySin = (float)sin(/*static*/ww);
+    thiz->data.ySin2 = (float)sin(/*static*/(float)(2 * ww + PI_MathJc / 2));
+    thiz->data.ySin3 = (float)sin(/*static*/(float)(3 * ww));
+    thiz->data.yCos = (float)cos(/*static*/ww);
+    thiz->data.yOut1 = thiz->data.ySin + thiz->data.ySin2;/* + data.ySin3;*/
     
   }
   STACKTRC_LEAVE;
@@ -119,12 +119,12 @@ void step_WorkingThread_Inspc(WorkingThread_Inspc_s* ythis, ThCxt* _thCxt)
 
 
 void finalize_WorkingThread_Inspc_F(ObjectJc* othis, ThCxt* _thCxt)
-{ WorkingThread_Inspc_s* ythis = (WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
+{ WorkingThread_Inspc_s* thiz = (WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_WorkingThread_Inspc_F");
-  finalize_ObjectJc_F(&ythis->data.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  finalize_ObjectJc_F(&ythis->theThreadRun.base.object, _thCxt); //J2C: finalizing the embedded instance.
-  CLEAR_REFJc(ythis->theThreadMng);
-  finalize_ObjectJc_F(&ythis->base.object, _thCxt); //J2C: finalizing the superclass.
+  finalize_ObjectJc_F(&thiz->data.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  finalize_ObjectJc_F(&thiz->theThreadRun.base.object, _thCxt); //J2C: finalizing the embedded instance.
+  CLEAR_REFJc(thiz->theThreadMng);
+  finalize_ObjectJc_F(&thiz->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
 
@@ -215,17 +215,17 @@ typedef struct MtblDef_Data_WorkingThread_Inspc_t { Mtbl_Data_WorkingThread_Insp
 
 /*Constructor *//**J2C: autogenerated as default constructor. */
 struct Data_WorkingThread_Inspc_t* ctorO_Data_WorkingThread_Inspc(ObjectJc* othis, ThCxt* _thCxt)
-{ Data_WorkingThread_Inspc_s* ythis = (Data_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
+{ Data_WorkingThread_Inspc_s* thiz = (Data_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_Data_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(Data_WorkingThread_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_Data_WorkingThread_Inspc_s, sizeof(Data_WorkingThread_Inspc_s));  
   //j2c: Initialize all class variables:
   {
-    ythis->dw = 20000;
+    thiz->dw = 20000;
   }/*J2C:No body for constructor*/
 
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
@@ -350,20 +350,20 @@ typedef struct MtblDef_ThreadMng_WorkingThread_Inspc_t { Mtbl_ThreadMng_WorkingT
 
 /*Constructor *//**J2C: autogenerated as default constructor. */
 struct ThreadMng_WorkingThread_Inspc_t* ctorO_ThreadMng_WorkingThread_Inspc(struct WorkingThread_Inspc_t* outer, ObjectJc* othis, ThCxt* _thCxt)
-{ ThreadMng_WorkingThread_Inspc_s* ythis = (ThreadMng_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
+{ ThreadMng_WorkingThread_Inspc_s* thiz = (ThreadMng_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_ThreadMng_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(ThreadMng_WorkingThread_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_ThreadMng_WorkingThread_Inspc_s, sizeof(ThreadMng_WorkingThread_Inspc_s));  
-  ythis->outer = outer;
+  thiz->outer = outer;
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(ythis->thread.base.object), sizeof(ythis->thread), 0); 
-      ctorO_Runnable_s_ThreadJc(/*static*/&(ythis->thread.base.object), & ((ythis->outer->theThreadRun).base.RunnableJc), s0_StringJc("WorkingThread"), _thCxt);
+      init_ObjectJc(&(thiz->thread.base.object), sizeof(thiz->thread), 0); 
+      ctorO_Runnable_s_ThreadJc(/*static*/&(thiz->thread.base.object), & ((thiz->outer->theThreadRun).base.RunnableJc), s0_StringJc("WorkingThread"), _thCxt);
   }/*J2C:No body for constructor*/
 
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 
@@ -442,15 +442,15 @@ const char sign_Mtbl_C_theThreadRun_WorkingThread_Inspc[] = "C_theThreadRun_Work
 typedef struct MtblDef_C_theThreadRun_WorkingThread_Inspc_t { Mtbl_C_theThreadRun_WorkingThread_Inspc mtbl; MtblHeadJc end; } MtblDef_C_theThreadRun_WorkingThread_Inspc;
  extern MtblDef_C_theThreadRun_WorkingThread_Inspc const mtblC_theThreadRun_WorkingThread_Inspc;
 void run_C_theThreadRun_WorkingThread_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
-{ C_theThreadRun_WorkingThread_Inspc_s* ythis = (C_theThreadRun_WorkingThread_Inspc_s*)ithis;
+{ C_theThreadRun_WorkingThread_Inspc_s* thiz = (C_theThreadRun_WorkingThread_Inspc_s*)ithis;
   
   STACKTRC_TENTRY("run_C_theThreadRun_WorkingThread_Inspc_F");
   
   { 
     
-    REFJc(ythis->outer->theThreadMng)->bRun = true;
+    REFJc(thiz->outer->theThreadMng)->bRun = true;
     
-    while(REFJc(ythis->outer->theThreadMng)->bRun)
+    while(REFJc(thiz->outer->theThreadMng)->bRun)
       { 
         
         TRY
@@ -467,10 +467,10 @@ void run_C_theThreadRun_WorkingThread_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
         END_TRY
         { int32 ii; 
           for(ii = 0; ii < 100; ++ii)
-            { //:runs 100 times the step routine, it is adequate a step-time of 100 us
+            { /*:runs 100 times the step routine, it is adequate a step-time of 100 us*/
               
               
-              step_WorkingThread_Inspc((ythis)->outer, _thCxt);
+              step_WorkingThread_Inspc((thiz)->outer, _thCxt);
             }
         }
       }
@@ -487,17 +487,17 @@ void run_C_theThreadRun_WorkingThread_Inspc(ObjectJc* ithis, ThCxt* _thCxt)
 
 /*Constructor *//**J2C: autogenerated as default constructor. */
 struct C_theThreadRun_WorkingThread_Inspc_t* ctorO_C_theThreadRun_WorkingThread_Inspc(struct WorkingThread_Inspc_t* outer, ObjectJc* othis, ThCxt* _thCxt)
-{ C_theThreadRun_WorkingThread_Inspc_s* ythis = (C_theThreadRun_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
+{ C_theThreadRun_WorkingThread_Inspc_s* thiz = (C_theThreadRun_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_C_theThreadRun_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(C_theThreadRun_WorkingThread_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_C_theThreadRun_WorkingThread_Inspc_s, sizeof(C_theThreadRun_WorkingThread_Inspc_s));  
-  ythis->outer = outer;
+  thiz->outer = outer;
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
 
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 }
 
 

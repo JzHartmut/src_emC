@@ -27,12 +27,6 @@ struct ByteDataAccessJc_t;
   struct ByteDataAccessJc_t;
   DEFINE_EnhancedRefJc(ByteDataAccessJc);
 #endif
-#ifndef StringFormatterJcREFDEF
-  //J2C: definition of enhanced reference where it was need firstly: 
-  #define StringFormatterJcREFDEF
-  struct StringFormatterJc_t;
-  DEFINE_EnhancedRefJc(StringFormatterJc);
-#endif
 
 
 /* J2C: includes *********************************************************/
@@ -54,7 +48,6 @@ typedef struct ByteDataAccessJc_t
   bool bBigEndian;   /*Flag is set or get data in big endian or little endian (if false)*/
   ByteDataAccessJcREF parent;   /*The parent XmlBinCodeElement, necessary only for add() and expand().*/
   StringJc charset;   /*The child on end to add() something*/
-  StringFormatterJcREF toStringformatter;   /*Use especially for test, only used in toString().*/
 } ByteDataAccessJc_s;
   
 
@@ -111,14 +104,14 @@ METHOD_C void specifyEmptyDefaultData_ByteDataAccessJc_F(ByteDataAccessJc_s* thi
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void specifyEmptyDefaultData_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt);
 
-/**Specifies the length of the head data*/
+/**Specifies the length of the head data of this element*/
 typedef int32 MT_specifyLengthElementHead_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C int32 specifyLengthElementHead_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 specifyLengthElementHead_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt);
 
-/**Returns the actual length of the whole data presenting with this instance.*/
+/**Returns the actual length of the whole data presenting with this element.*/
 typedef int32 MT_specifyLengthElement_ByteDataAccessJc(ByteDataAccessJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C int32 specifyLengthElement_ByteDataAccessJc_F(ByteDataAccessJc_s* thiz, ThCxt* _thCxt);
@@ -616,8 +609,28 @@ METHOD_C void setInt16_ii_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 idx, 
   setFloat_if_ByteDataAccessJc((THIZ), idxBytes + 4 * idxArray, val);\
 }
 
-/**Copies the data into a byte[]*/
-METHOD_C void copyDataFrom_ByteDataAccessJc(ByteDataAccessJc_s* thiz, struct ByteDataAccessJc_t* src, ThCxt* _thCxt);
+/**copies the data from another references data into this data.*/
+#define copyDataFrom_ByteDataAccessJc(THIZ, src) \
+\
+{ \
+  int32 len; \
+  \
+  \
+  len = getLength_ByteDataAccessJc(src);\
+  if((THIZ)->data->head.length < len) \
+  { \
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
+    \
+    /** */\
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "copy, dst to small", _thCxt)\
+      , append_I_StringBuilderJc(_stringBuilderThCxt, len, _thCxt)\
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
+      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
+  }\
+  arraycopy_SystemJc(/*static*/& ((src->data)->head.object), src->idxBegin, & (((THIZ)->data)->head.object), (THIZ)->idxBegin, len, _thCxt);\
+}
 
 /**Counts the idxChild by given index, idxChild is ByteCount from idxBegin*/
 METHOD_C void elementAt_ByteDataAccessJc(ByteDataAccessJc_s* thiz, int32 indexObjectArray, ThCxt* _thCxt);
@@ -695,7 +708,7 @@ class ByteDataAccessJc : private ByteDataAccessJc_s
 
   void clearHead(){ clearHead_ByteDataAccessJc(this,  null/*_thCxt*/); }
 
-  void copyDataFrom(struct ByteDataAccessJc_t* src){ copyDataFrom_ByteDataAccessJc(this, src,  null/*_thCxt*/); }
+  void copyDataFrom(struct ByteDataAccessJc_t* src){ copyDataFrom_ByteDataAccessJc(this, src); }
 
   void copyData(int32_Y* dst){ copyData_ByteDataAccessJc(this, dst,  null/*_thCxt*/); }
 

@@ -30,7 +30,7 @@ In the default overwrite mode the add methods do not insert in buffer with shift
 The wording 'add' means, the current position is increment, so the next add()-operation adds
 something behind the previous add()-operation. In the insert mode the content at pos is shifted to right.
 <br>
-Every {@link pos(int)}-operation is successfull. If the buffer in shorter as the required position, spaces will be filled
+Every {@link pos(int)}-operation is successfully. If the buffer in shorter as the required position, spaces will be filled
 onto the required position. So a buffer content can also be filled first right, than left.
 */
 
@@ -39,6 +39,7 @@ const char sign_Mtbl_StringFormatterJc[] = "StringFormatterJc"; //to mark method
 
 typedef struct MtblDef_StringFormatterJc_t { Mtbl_StringFormatterJc mtbl; MtblHeadJc end; } MtblDef_StringFormatterJc;
  extern MtblDef_StringFormatterJc const mtblStringFormatterJc;
+StringJc version_StringFormatterJc = CONST_z_StringJc("2014-08-10");
 const int16 k2left_StringFormatterJc = 2 + mBytesInWordBigEndian_StringFormatterJc;
 const int16 k4left_StringFormatterJc = 4 + mBytesInWordBigEndian_StringFormatterJc;
 const int16 k6left_StringFormatterJc = 6 + mBytesInWordBigEndian_StringFormatterJc;
@@ -54,10 +55,12 @@ struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thC
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
-      
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
+      */
+    thiz->lastNewline = 'x';
     thiz->pos = 0;
     thiz->bInsert = false;
+    set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
     thiz->cDecimalSeparator = '.';
     set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
     SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
@@ -73,9 +76,58 @@ struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thC
     activateGC_ObjectJc(newObj0_4, null, _thCxt);
   }
   { 
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     SETREFJc(thiz->buffer, ctorO_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), _thCxt), StringBuilderJc);
+    CLEAR_REFJc(thiz->lineout);
+    thiz->bShouldLineoutClose = false;
+    activateGC_ObjectJc(newObj1_1, null, _thCxt);
+  }
+  STACKTRC_LEAVE;
+  return thiz;
+}
+
+
+
+/*Constructor */
+struct StringFormatterJc_t* ctorO_ApbSi_StringFormatterJc(ObjectJc* othis, struct AppendableJc_t* lineout, bool shouldClose, StringJc newlineString, int32 defaultBufferLength, ThCxt* _thCxt)
+{ StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
+  STACKTRC_TENTRY("ctorO_StringFormatterJc");
+  checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
+  setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
+  //j2c: Initialize all class variables:
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
+      */
+    thiz->lastNewline = 'x';
+    thiz->pos = 0;
+    thiz->bInsert = false;
+    set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
+    thiz->cDecimalSeparator = '.';
+    set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
+    SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixToday), z_StringJc("today"));
+    SETREFJc(thiz->dateFormatToday, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_2 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc(" HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixYear), z_StringJc(""));
+    SETREFJc(thiz->dateFormatYear, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_3 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("MMM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    set_StringJc(&(thiz->sDatePrefixOlder), z_StringJc(""));
+    SETREFJc(thiz->dateFormatOlder, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_4 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
+    activateGC_ObjectJc(newObj0_1, null, _thCxt);
+    activateGC_ObjectJc(newObj0_2, null, _thCxt);
+    activateGC_ObjectJc(newObj0_3, null, _thCxt);
+    activateGC_ObjectJc(newObj0_4, null, _thCxt);
+  }
+  { 
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
+    SETREFJc(thiz->buffer, ctorO_I_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), defaultBufferLength, _thCxt), StringBuilderJc);
+    set_StringJc(&(thiz->sNewline), newlineString);
+    SETREFJc(thiz->lineout, lineout, AppendableJc);
+    if(shouldClose) 
+    { 
+      
+      ASSERT(/*static*/ instanceof_ObjectJc(((/*J2C:cast from AppendableJc*/ObjectJc*)(lineout)), &reflection_CloseableJc));
+    }
+    thiz->bShouldLineoutClose = shouldClose;
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -91,10 +143,12 @@ struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 len
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
-      
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
+      */
+    thiz->lastNewline = 'x';
     thiz->pos = 0;
     thiz->bInsert = false;
+    set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
     thiz->cDecimalSeparator = '.';
     set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
     SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
@@ -110,9 +164,11 @@ struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 len
     activateGC_ObjectJc(newObj0_4, null, _thCxt);
   }
   { 
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     SETREFJc(thiz->buffer, ctorO_I_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), length, _thCxt), StringBuilderJc);
+    CLEAR_REFJc(thiz->lineout);
+    thiz->bShouldLineoutClose = false;
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -128,10 +184,12 @@ struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc 
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
-      
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
+      */
+    thiz->lastNewline = 'x';
     thiz->pos = 0;
     thiz->bInsert = false;
+    set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
     thiz->cDecimalSeparator = '.';
     set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
     SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
@@ -147,9 +205,11 @@ struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc 
     activateGC_ObjectJc(newObj0_4, null, _thCxt);
   }
   { 
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     SETREFJc(thiz->buffer, ctorO_s_StringBuilderJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), str, _thCxt), StringBuilderJc);
+    CLEAR_REFJc(thiz->lineout);
+    thiz->bShouldLineoutClose = false;
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -165,10 +225,12 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_StringFormatterJc_s, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
-  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; //J2C: temporary Objects for new operations
-      
+  {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
+      */
+    thiz->lastNewline = 'x';
     thiz->pos = 0;
     thiz->bInsert = false;
+    set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
     thiz->cDecimalSeparator = '.';
     set_StringJc(&(thiz->sDatePrefixNewer), z_StringJc(""));
     SETREFJc(thiz->dateFormatNewer, ctorO_s_SimpleDateFormatJc(/*static*/(newObj0_1 = alloc_ObjectJc(sizeof_SimpleDateFormatJc_s, 0, _thCxt)), s0_StringJc("?yy-MM-dd HH:mm:ss"), _thCxt), SimpleDateFormatJc_s);
@@ -186,6 +248,8 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
   { 
     
     SETREFJc(thiz->buffer, buffer, StringBuilderJc);
+    CLEAR_REFJc(thiz->lineout);
+    thiz->bShouldLineoutClose = false;
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -244,7 +308,7 @@ struct CharSequenceJc_t* getBuffer_StringFormatterJc_F(StringFormatterJc_s* thiz
   { 
     
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(&(REFJc(thiz->buffer))->base.object, _thCxt)/*J2C-error testAndChangeAccess: t**/;
+      return REFJc(thiz->buffer);
     }
   }
   STACKTRC_LEAVE;
@@ -322,16 +386,47 @@ struct StringFormatterJc_t* end_StringFormatterJc(StringFormatterJc_s* thiz, ThC
 
 
 /**Sets the current write position to the given position. */
-struct StringFormatterJc_t* pos_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt)
+struct StringFormatterJc_t* pos_i_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("pos_i_StringFormatterJc_F");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return mtthis->pos_ii(thiz, newPos, -1, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringFormatterJc_t* pos_i_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->pos_i(thiz, newPos, _thCxt);
+}
+
+
+/**Sets the current write position to the given position.*/
+struct StringFormatterJc_t* pos_ii_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 newPos, int32 minChars, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("pos_StringFormatterJc_F");
+  STACKTRC_TENTRY("pos_ii_StringFormatterJc_F");
   
   { 
     int32 pos1; 
     
     
-    if(newPos < 0) { throw_s0Jc(ident_IndexOutOfBoundsExceptionJc, "negativ position not supported", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-    thiz->pos = newPos;
+    if(newPos < 0) { throw_s0Jc(ident_IndexOutOfBoundsExceptionJc, "negative position not supported", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    if(minChars >= 0 && thiz->pos + minChars > newPos) 
+    { 
+      
+      thiz->pos += minChars;
+    }
+    else 
+    { 
+      
+      thiz->pos = newPos;
+    }
     pos1 = length_StringBuilderJc(REFJc(thiz->buffer));
     
     while(pos1 < thiz->pos)
@@ -348,9 +443,9 @@ struct StringFormatterJc_t* pos_StringFormatterJc_F(StringFormatterJc_s* thiz, i
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-struct StringFormatterJc_t* pos_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt)
+struct StringFormatterJc_t* pos_ii_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, int32 minChars, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
-  return mtbl->pos(thiz, newPos, _thCxt);
+  return mtbl->pos_ii(thiz, newPos, minChars, _thCxt);
 }
 
 
@@ -434,12 +529,12 @@ struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatt
     int32 postr = -1; 
     
     
-    if(maxChars > length_CharSequenceJc(str)) 
+    if(maxChars > length_CharSequenceJc(str, _thCxt)) 
     { 
       
-      maxChars = length_CharSequenceJc(str);
+      maxChars = length_CharSequenceJc(str, _thCxt);
     }
-    if(length_CharSequenceJc(replaceLinefeed) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    if(length_CharSequenceJc(replaceLinefeed, _thCxt) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     mtthis->prepareBufferPos(thiz, maxChars, _thCxt);
     postr = -1;
     
@@ -449,23 +544,23 @@ struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc_F(StringFormatt
         int32 replace1 = 0; 
         
         
-        cc = charAt_CharSequenceJc(str, ++postr);
+        cc = charAt_CharSequenceJc(str, ++postr, _thCxt);
         /*no initvalue*/
-        replace1 = indexOf_C_StringJc(zI_StringJc("\n\r\f",3), cc);//NOTE: smallbug in Java2C
+        replace1 = indexOf_C_StringJc(zI_StringJc("\n\r\f",3), cc);/*NOTE: smallbug in Java2C*/
         
         if(replace1 >= 0) 
         { 
           
-          cc = charAt_CharSequenceJc(replaceLinefeed, replace1);
+          cc = charAt_CharSequenceJc(replaceLinefeed, replace1, _thCxt);
         }
         if(cc <= 0x20) 
         { 
           
-          cc = charAt_CharSequenceJc(replaceLinefeed, 3);
+          cc = charAt_CharSequenceJc(replaceLinefeed, 3, _thCxt);
         }
         setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, cc, _thCxt);
-      }//buffer.replace(this.pos, pos + nrofChars, str);
-      //pos += nrofChars;
+      }/*buffer.replace(this.pos, pos + nrofChars, str);*/
+      /*pos += nrofChars;*/
     
     { STACKTRC_LEAVE;
       return thiz;
@@ -619,14 +714,14 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc_F(StringFormatterJc_
   
   STACKTRC_TENTRY("addStringLine_StringFormatterJc_F");
   
-  { //:to convert bytes with a given charset, but show bytes < 0x20 with '.', copy it in a independend buffer:
+  { /*:to convert bytes with a given charset, but show bytes < 0x20 with '.', copy it in a independend buffer:*/
     
     int8_Y* data1; 
     StringJc str = NULL_StringJc; 
     int32 strLength; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     if(nrofBytes > data->head.length) 
     { 
       
@@ -643,7 +738,7 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc_F(StringFormatterJc_
           { 
             
             data1->data[ii] = (int8)('.');
-          }//write insteads control chars.
+          }/*write insteads control chars.*/
           
         }
     }
@@ -659,7 +754,7 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc_F(StringFormatterJc_
         
         str = z_StringJc("??encoding error??")/*J2C:non-persistent*/;
       }
-    END_TRY//not replace in buffer:
+    END_TRY/*not replace in buffer:*/
     
     strLength = length_StringJc(str);
     mtthis->prepareBufferPos(thiz, strLength, _thCxt);
@@ -703,14 +798,14 @@ struct StringFormatterJc_t* addHexLine_StringFormatterJc_F(StringFormatterJc_s* 
       { 
         
         if(nrofBytes1 < nrofBytesInWord) 
-        { //:the last hex word is smaller as given in mode:
+        { /*:the last hex word is smaller as given in mode:*/
           
           
           mtthis->addHexWord_(thiz, data, idx1, (int16)((mode & mBytesInWordBigEndian_StringFormatterJc) + nrofBytes1), _thCxt);
           nrofBytes1 = 0;
         }
         else 
-        { //:normal operation
+        { /*:normal operation*/
           
           
           mtthis->addHexWord_(thiz, data, idx1, mode, _thCxt);
@@ -786,7 +881,7 @@ struct StringFormatterJc_t* addHexWord__StringFormatterJc_F(StringFormatterJc_s*
         
         
         value = data->data[idx];
-        idx += incrIdx;//TRICKY may be 1 or -1 dependend on BigEndian
+        idx += incrIdx;/*TRICKY may be 1 or -1 dependend on BigEndian*/
         
         { int32 i; 
           for(i = 0; i < 2; i++)
@@ -829,7 +924,7 @@ struct StringFormatterJc_t* addHex_StringFormatterJc_F(StringFormatterJc_s* thiz
     
     mtthis->prepareBufferPos(thiz, nrofDigits, _thCxt);
     
-    { //:show last significant byte at right position, like normal variable or register look
+    { /*:show last significant byte at right position, like normal variable or register look*/
       
       int32 nrofShift; 
       
@@ -935,7 +1030,7 @@ void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 nrofC
 { 
   STACKTRC_TENTRY("prepareBufferPos_StringFormatterJc_F");
   
-  { //:if(true || bInsert)
+  { /*:if(true || bInsert)*/
     
     
     if(thiz->bInsert && thiz->pos < length_StringBuilderJc(REFJc(thiz->buffer))) 
@@ -957,7 +1052,7 @@ void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 nrofC
             insert_sII_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, spaces_StringFormatterJc, 0, nrofChars, _thCxt);
             nrofChars = 0;
           }
-        }//buffer.insert(pos, spaces, 0, nrofChars);
+        }/*buffer.insert(pos, spaces, 0, nrofChars);*/
         
     }
     else 
@@ -967,11 +1062,11 @@ void prepareBufferPos_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 nrofC
       
       nrofCharsToEnd = length_StringBuilderJc(REFJc(thiz->buffer)) - thiz->pos;
       ASSERT(/*static*/nrofCharsToEnd >= 0);
-      nrofChars -= nrofCharsToEnd;//nrofChars may be < 0 if the range of overwrite is inside the exiting string.
+      nrofChars -= nrofCharsToEnd;/*nrofChars may be < 0 if the range of overwrite is inside the exiting string.*/
       
       
       while(nrofChars > 0)
-        { //:appends necessary space on end. the format methods overwrites this space.
+        { /*:appends necessary space on end. the format methods overwrites this space.*/
           
           
           if(nrofChars >= length_StringJc(spaces_StringFormatterJc)) 
@@ -1058,7 +1153,7 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc_F(StringFormatterJc_s* th
     { 
       
       sValue = replace_StringJc(sValue, '.', thiz->cDecimalSeparator, _thCxt)/*J2C:non-persistent*/;
-    }//int posPoint = pos + digitsBeforePoint;
+    }/*int posPoint = pos + digitsBeforePoint;*/
     
     nrofSpacesBefore = digitsBeforePoint - posPointInValue;
     nrofZeroAfter = digitsAfterPoint - (length_StringJc(sValue) - posPointInValue - 1);
@@ -1074,14 +1169,14 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc_F(StringFormatterJc_s* th
         
         setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, ' ', _thCxt);
         nrofSpacesBefore -= 1;
-      }//int digitsAfterPointInValue =sValue.length() - posPointInValue -1;
-      //if(digitsAfterPointInValue > digitsAfterPoint){ digitsAfterPointInValue = digitsAfterPoint;}
+      }/*int digitsAfterPointInValue =sValue.length() - posPointInValue -1;*/
+      /*if(digitsAfterPointInValue > digitsAfterPoint){ digitsAfterPointInValue = digitsAfterPoint;}*/
     
     if(nrofSpacesBefore < 0) 
-    { //:the number of digits is to large,
+    { /*:the number of digits is to large,*/
       
       
-      nrofValueChars = nrofValueChars - (-nrofSpacesBefore) - 2;//crash situation: write only the beginn of the digit
+      nrofValueChars = nrofValueChars - (-nrofSpacesBefore) - 2;/*crash situation: write only the beginn of the digit*/
       
       replace_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + 2, s0_StringJc("##"), _thCxt);
       thiz->pos += 2;
@@ -1118,8 +1213,8 @@ StringJc addHexLn_StringFormatterJc(/*static*/ int8_Y* data, int32 length, int32
     struct StringFormatterJc_t* buffer = null; 
     StringJc strRet = CONST_z_StringJc(""); 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     idx = idxStart;
     
     buffer = ctorO_StringFormatterJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringFormatterJc_s, 0, _thCxt)), _thCxt);
@@ -1300,8 +1395,8 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
     bool bOvf = 0; 
     char cp = 0; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     /*no initvalue*/
     bNeg = false;
     /*no initvalue*/
@@ -1317,7 +1412,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
       { 
         
         bNeg = true;
-        src = -src;//Zahl negieren
+        src = -src;/*Zahl negieren*/
         
         nrofCharForSign = 1;
       }
@@ -1327,13 +1422,13 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
         if(charAt_StringJc(pict, posSignInPicture) != '-') 
         { 
           
-          nrofCharForSign = 1;//displays the sign always.
+          nrofCharForSign = 1;/*displays the sign always.*/
           
         }
         else 
         { 
           
-          nrofCharForSign = 0;//don't display a sign.
+          nrofCharForSign = 0;/*don't display a sign.*/
           
           nrofCharsForSignUnused = 0;
         }
@@ -1352,20 +1447,20 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
         , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
         ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-    }//if the number is negativ but a sign is not expected, the number will be shown as positiv value.
-    //
-    //----------------------------------------------------------------------
+    }/*if the number is negativ but a sign is not expected, the number will be shown as positiv value.*/
+    /**/
+    /*----------------------------------------------------------------------*/
     
     for(n10i = ARRAYLEN(n10a_StringFormatterJc) - 1; n10i >= 0; n10i--)
-      { //:meistens sind es kleine Zahlen, im Mittel geht es also schneller
-        //:wenn von Hinten aus getestet wird ob die Zahl groesser ist,
-        //:damit weniger Schleifendurchlauefe:
+      { /*:meistens sind es kleine Zahlen, im Mittel geht es also schneller*/
+        /*:wenn von Hinten aus getestet wird ob die Zahl groesser ist,*/
+        /*:damit weniger Schleifendurchlauefe:*/
         
         
         if(src < n10a_StringFormatterJc[n10i]) break;
-      }//n10[n10i] ist die Zahl, die um eine Stelle groeser ist.
+      }/*n10[n10i] ist die Zahl, die um eine Stelle groeser ist.*/
       
-    n10i += 1;//damit ist n10[n10i] die als erste kleinere Zahl.
+    n10i += 1;/*damit ist n10[n10i] die als erste kleinere Zahl.*/
     
     nDigits = ARRAYLEN(n10a_StringFormatterJc) - n10i + 1;
     nrofChars = length_StringJc(pict);
@@ -1384,7 +1479,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
         if(cp <= '2' && cp >= '0') 
         { 
           
-          n2Digit += 1;//210 in Picture: Soll-Platz fuer Digits
+          n2Digit += 1;/*210 in Picture: Soll-Platz fuer Digits*/
           
           n3Digit += 1;
           if(cp == '0') 
@@ -1392,7 +1487,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
             
             n0Digit += 1;
             n1Digit = n2Digit;
-          }//mdst. Stelle auszuschreiben
+          }/*mdst. Stelle auszuschreiben*/
           
           else if(cp == '1') n1Digit = n2Digit;
         }
@@ -1404,10 +1499,10 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
       }
     /*no initvalue*/
     if(nDigits > n3Digit) 
-    { //:Zahl ist nicht darstellbar: stattdessen 99999 darstellen
+    { /*:Zahl ist nicht darstellbar: stattdessen 99999 darstellen*/
       
       
-      bOvf = true;//n3Digit=0;
+      bOvf = true;/*n3Digit=0;*/
       
       n2Digit = n3Digit;
     }
@@ -1415,7 +1510,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
     { 
       
       bOvf = false;
-      if(nDigits > n2Digit) n2Digit = nDigits;//Anzahl auszugeb. Digits oder Leerstellen
+      if(nDigits > n2Digit) n2Digit = nDigits;/*Anzahl auszugeb. Digits oder Leerstellen*/
       
     }
     mtthis->prepareBufferPos(thiz, nrofChars - (n3Digit - n2Digit) - nrofCharsForSignUnused, _thCxt);
@@ -1433,38 +1528,38 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
         if(cp >= '0' && cp <= '9') 
         { 
           
-          if(--n3Digit >= n2Digit) cc = ((char)(0));//keine Ausgabe weil nicht notwendige fuehr. Stellen
+          if(--n3Digit >= n2Digit) cc = ((char)(0));/*keine Ausgabe weil nicht notwendige fuehr. Stellen*/
           
           else 
-          { //:Ausgabe aufgrund n2Digit notwendig
+          { /*:Ausgabe aufgrund n2Digit notwendig*/
             
             
             if(n2Digit > nDigits) 
-            { //:Anzahl auszuschreib. Stellen groesser als Zahl:
+            { /*:Anzahl auszuschreib. Stellen groesser als Zahl:*/
               
               
-              if(n1Digit >= n2Digit) cc = '0';//fuerende Null
+              if(n1Digit >= n2Digit) cc = '0';/*fuerende Null*/
               
               else cc = ' ';
             }
             else 
-            { //:Ziffer bestimmen:
+            { /*:Ziffer bestimmen:*/
               
               
-              n1Digit = 0;//keine fuerenden 0 mehr notwendig
+              n1Digit = 0;/*keine fuerenden 0 mehr notwendig*/
               
               if(bOvf) cc = '#';
               else if(src == 0) 
               { 
                 
-                if(n0Digit >= nDigits) cc = ((char)(0));//nichts ausgeben bei weglassbaren nachfolg. 0
+                if(n0Digit >= nDigits) cc = ((char)(0));/*nichts ausgeben bei weglassbaren nachfolg. 0*/
                 
                 else cc = '0';
               }
               else if(n10i >= ARRAYLEN(n10a_StringFormatterJc)) 
               { 
                 
-                cc = (char)(src + '0');//das ist die Einerstelle
+                cc = (char)(src + '0');/*das ist die Einerstelle*/
                 
               }
               else 
@@ -1473,7 +1568,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
                 
                 
                 src10 = n10a_StringFormatterJc[n10i];
-                n10i += 1;//Dezimalstelle gehoert dazu
+                n10i += 1;/*Dezimalstelle gehoert dazu*/
                 
                 cc = '0';
                 
@@ -1482,7 +1577,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
                     
                     cc += (char)(1);
                     src -= src10;
-                  }//in Schleife subtr. statt Divis.
+                  }/*in Schleife subtr. statt Divis.*/
                   
               }
               nDigits -= 1;
@@ -1495,55 +1590,73 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
           
           /**Any control character found: */
           switch(ixPosNegPointExp){
-            case 0: cc = charAt_StringJc(posNegPointExp, bNeg ? 1 : 0);break;//positiv digit
+            case 0: /**Any control character found: */
+            cc = charAt_StringJc(posNegPointExp, bNeg ? 1 : 0);/**Any control character found: */
+            break;/*positiv digit*/
             
-            case 1: 
+            case 1: /**Any control character found: */
+            
             { 
               
-              if(bNeg) 
-              { //:number is negativ, write a '-' always.
+              /**Any control character found: */
+              if(bNeg) /**Any control character found: */
+              
+              { /*:number is negativ, write a '-' always.*/
                 
                 
+                /**Any control character found: */
                 cc = cp;
               }
-              else 
-              { //:number is positive:
+              else /**Any control character found: */
+              
+              { /*:number is positive:*/
                 
                 
-                if(bLeftZeroSuppress) 
+                /**Any control character found: */
+                if(bLeftZeroSuppress) /**Any control character found: */
+                
                 { 
                   
+                  /**Any control character found: */
                   cc = ((char)(0));
-                }//write nothing if number is positiv and left zeros are suppressed.
+                }/*write nothing if number is positiv and left zeros are suppressed.*/
                 
-                else 
+                else /**Any control character found: */
+                
                 { 
                   
+                  /**Any control character found: */
                   cc = ' ';
-                }//write blank if a negative sign is required in picture and the number is positive.
+                }/*write blank if a negative sign is required in picture and the number is positive.*/
                 
               }
-            }break;
-            case 2: cc = cFracSep;break;//show the given fractional separator if the control-char for fract. separator is found.
+            }/**Any control character found: */
+            break;
+            case 2: /**Any control character found: */
+            cc = cFracSep;/**Any control character found: */
+            break;/*show the given fractional separator if the control-char for fract. separator is found.*/
             
-            case 3: cc = cFracSep == '.' ? ' ' : cFracSep;break;//don't show if 10^0
+            case 3: /**Any control character found: */
+            cc = cFracSep == '.' ? ' ' : cFracSep;/**Any control character found: */
+            break;/*don't show if 10^0*/
             
-            default: { throw_s0Jc(ident_RuntimeExceptionJc, "unexpected case", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+            default: /**Any control character found: */
+            { throw_s0Jc(ident_RuntimeExceptionJc, "unexpected case", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
           }/*switch*/;
         }
         else 
         { 
           
-          cc = cp;//anderes Zeichen aus Picture uebertragen
+          cc = cp;/*anderes Zeichen aus Picture uebertragen*/
           
         }
         if(cc != 0) 
-        { //:cc=0 means, the char shouls not be written.
+        { /*:cc=0 means, the char shouls not be written.*/
           
           
           setCharAt_StringBuilderJc(REFJc(thiz->buffer), thiz->pos++, cc, _thCxt);
         }
-      }//for
+      }/*for*/
       
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, null, _thCxt);
@@ -1566,7 +1679,7 @@ int32 addFloatPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, float src, 
   
   STACKTRC_TENTRY("addFloatPicture_StringFormatterJc_F");
   
-  { //:Exponent der Zahl bestimmen:
+  { /*:Exponent der Zahl bestimmen:*/
     
     StringJc cFrac = CONST_z_StringJc("afpnum.kMGT"); 
     int32 nExp; 
@@ -1582,8 +1695,8 @@ int32 addFloatPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, float src, 
     srcHex = floatToRawIntBits_FloatJc(/*static*/src);
     nExpF = (int8)((srcHex >> 24) & 0x7f);
     if(nExpF > (40 + 0x40)) src = 9.999999E17F;
-    else if(nExpF < (0x40 - 40)) src = 0.0F;//the 0 itself is a 0.
-    //unused(nExpF + *pSrcHex);
+    else if(nExpF < (0x40 - 40)) src = 0.0F;/*the 0 itself is a 0.*/
+    /*unused(nExpF + *pSrcHex);*/
     
     bNeg = (srcHex < 0);
     bIsNull = (srcHex & 0x7f800000) == 0;
@@ -1653,11 +1766,162 @@ struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int
   STACKTRC_LEAVE;
 }
 
+struct StringFormatterJc_t* append_Cs_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("append_Cs_StringFormatterJc_F");
+  
+  { 
+    
+    mtthis->append_Csii(thiz, csq, 0, length_CharSequenceJc(csq, _thCxt), _thCxt);
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringFormatterJc_t* append_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->append_Cs(thiz, csq, _thCxt);
+}
+
+
+/**Appends on char*/
+struct StringFormatterJc_t* append_c_StringFormatterJc_F(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("append_c_StringFormatterJc_F");
+  
+  { 
+    
+    if(REFJc(thiz->lineout) != null && (c == '\n' || c == '\r')) 
+    { 
+      
+      if(thiz->lastNewline != '\r') 
+      { /*:bug: 0d0a0d0a creates only one line:  || c=='\r' && lastNewline != '\n'){*/
+        
+        
+        appendI_AppendableJc(REFJc(thiz->lineout), REFJc(thiz->buffer), 0, thiz->pos, _thCxt);
+        append_AppendableJc(REFJc(thiz->lineout), thiz->sNewline/*J2C-error testAndChangeAccess: t**/, _thCxt);
+        delete_StringBuilderJc(REFJc(thiz->buffer), 0, thiz->pos, _thCxt);
+        thiz->pos = 0;
+      }
+    }
+    else 
+    { 
+      
+      mtthis->add_cY(thiz, c/*J2C-error testAndChangeAccess: %X*/, _thCxt);
+    }
+    thiz->lastNewline = c;/*store anyway the last character.*/
+    
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->append_c(thiz, c, _thCxt);
+}
+
+struct StringFormatterJc_t* append_Csii_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("append_Csii_StringFormatterJc_F");
+  
+  { 
+    
+    { int32 ii; 
+      for(ii = start; ii < end; ++ii)
+        { 
+          char cc; 
+          
+          
+          cc = charAt_CharSequenceJc(csq, ii, _thCxt);
+          mtthis->append_c(thiz, cc, _thCxt);
+        }
+    }
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringFormatterJc_t* append_Csii_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->append_Csii(thiz, csq, start, end, _thCxt);
+}
+
+void flush_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("flush_StringFormatterJc_F");
+  
+  { 
+    
+    if(REFJc(thiz->lineout) != null) 
+    { 
+      
+      append_AppendableJc(REFJc(thiz->lineout), REFJc(thiz->buffer), _thCxt);
+      if( instanceof_ObjectJc(((/*J2C:cast from AppendableJc*/ObjectJc*)(REFJc(thiz->lineout))), &reflection_FlushableJc)) 
+      { 
+        
+        mtthis->flush(thiz, _thCxt);
+      }
+    }
+    mtthis->reset(thiz, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  mtbl->flush(thiz, _thCxt);
+}
+
+void close_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("close_StringFormatterJc_F");
+  
+  { 
+    
+    if(REFJc(thiz->lineout) != null) 
+    { 
+      
+      append_AppendableJc(REFJc(thiz->lineout), REFJc(thiz->buffer), _thCxt);
+      if(thiz->bShouldLineoutClose) 
+      { 
+        
+        mtthis->close(thiz, _thCxt);
+        CLEAR_REFJc(thiz->lineout);
+      }
+    }
+    mtthis->reset(thiz, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+void close_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  mtbl->close(thiz, _thCxt);
+}
+
 
 void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_StringFormatterJc_F");
   CLEAR_REFJc(thiz->buffer);
+  CLEAR_REFJc(thiz->lineout);
   CLEAR_REFJc(thiz->dateFormatNewer);
   CLEAR_REFJc(thiz->dateFormatToday);
   CLEAR_REFJc(thiz->dateFormatYear);
@@ -1672,14 +1936,15 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 { { sign_Mtbl_StringFormatterJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((31 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((37 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , getContent_StringFormatterJc_F //getContent
 , getBuffer_StringFormatterJc_F //getBuffer
 , setDecimalSeparator_StringFormatterJc_F //setDecimalSeparator
 , reset_StringFormatterJc_F //reset
 , end_StringFormatterJc_F //end
-, pos_StringFormatterJc_F //pos
+, pos_i_StringFormatterJc_F //pos_i
+, pos_ii_StringFormatterJc_F //pos_ii
 , length_StringFormatterJc_F //length
 , getPos_StringFormatterJc_F //getPos
 , add_S_StringFormatterJc_F //add_S
@@ -1705,6 +1970,11 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 , addIntPicture_StringFormatterJc_F //addIntPicture
 , strPicture_StringFormatterJc_F //strPicture
 , addFloatPicture_StringFormatterJc_F //addFloatPicture
+, append_Cs_StringFormatterJc_F //append_Cs
+, append_c_StringFormatterJc_F //append_c
+, append_Csii_StringFormatterJc_F //append_Csii
+, flush_StringFormatterJc_F //flush
+, close_StringFormatterJc_F //close
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }
@@ -1713,6 +1983,19 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
   , finalize_StringFormatterJc_F //finalize
   , hashCode_ObjectJc_F //hashCode
   , toString_StringFormatterJc_F //toString
+  }
+  /**J2C: Mtbl-interfaces of StringFormatterJc: */
+, { { sign_Mtbl_AppendableJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    }
+  }
+, { { sign_Mtbl_CloseableJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    }
+  }
+, { { sign_Mtbl_FlushableJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    }
   }
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
@@ -1727,20 +2010,59 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
    }
  };
 
+ extern_C struct ClassJc_t const reflection_AppendableJc;
+ extern_C struct ClassJc_t const reflection_CloseableJc;
+ extern_C struct ClassJc_t const reflection_FlushableJc;
+ static struct ifcClasses_StringFormatterJc_s_t
+ { ObjectArrayJc head;
+   ClassOffset_idxMtblJc data[3];
+ }interfaces_StringFormatterJc_s =
+ { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
+, { {&reflection_AppendableJc, OFFSET_Mtbl(Mtbl_StringFormatterJc, AppendableJc) }
+  , {&reflection_CloseableJc, OFFSET_Mtbl(Mtbl_StringFormatterJc, CloseableJc) }
+  , {&reflection_FlushableJc, OFFSET_Mtbl(Mtbl_StringFormatterJc, FlushableJc) }
+  }
+};
+
 extern_C struct ClassJc_t const reflection_StringFormatterJc_s;
+extern_C struct ClassJc_t const reflection_AppendableJc;
 extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_StringFormatterJc_s_t
-{ ObjectArrayJc head; FieldJc data[19];
+{ ObjectArrayJc head; FieldJc data[24];
 } reflection_Fields_StringFormatterJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 19, OBJTYPE_FieldJc, null, &reflection_Fields_StringFormatterJc_s)
+{ CONST_ObjectArrayJc(FieldJc, 24, OBJTYPE_FieldJc, null, &reflection_Fields_StringFormatterJc_s)
 , {
      { "buffer"
     , 0 //nrofArrayElements
     , &reflection_StringBuilderJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->buffer) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "lineout"
+    , 0 //nrofArrayElements
+    , &reflection_AppendableJc
+    , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->lineout) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "bShouldLineoutClose"
+    , 0 //nrofArrayElements
+    , REFLECTION_bool
+    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->bShouldLineoutClose) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "lastNewline"
+    , 0 //nrofArrayElements
+    , REFLECTION_char
+    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->lastNewline) - (int32)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_StringFormatterJc_s
     }
@@ -1757,6 +2079,14 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , REFLECTION_bool
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->bInsert) - (int32)(StringFormatterJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringFormatterJc_s
+    }
+   , { "sNewline"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->sNewline) - (int32)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_StringFormatterJc_s
     }
@@ -1832,6 +2162,14 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_StringFormatterJc_s
     }
+   , { "version"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&version_StringFormatterJc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
+    , &reflection_StringFormatterJc_s
+    }
    , { "k2left"
     , 0 //nrofArrayElements
     , REFLECTION_int16
@@ -1892,12 +2230,12 @@ const struct Reflection_Fields_StringFormatterJc_s_t
 const ClassJc reflection_StringFormatterJc_s = 
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
 , "StringFormatterJc_s"
-,  0 //position of ObjectJc
+, (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->base.object) - (int32)(StringFormatterJc_s*)0x1000)
 , sizeof(StringFormatterJc_s)
 , (FieldJcArray const*)&reflection_Fields_StringFormatterJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_StringFormatterJc_s //superclass
-, null //interfaces
-, 0    //modifiers
+, (ClassOffset_idxMtblJcARRAY*)&interfaces_StringFormatterJc_s //interfaces
+, mObjectJc_Modifier_reflectJc
 , &mtblStringFormatterJc.mtbl.head
 };

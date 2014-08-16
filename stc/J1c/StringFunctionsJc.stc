@@ -5,25 +5,32 @@ package org/vishia/util/;
 class StringFunctions; nameC=StringFunctionsJc_s; argIdent=XX; extends java/lang/Object //creationMode=P
 {  
 fieldIdents {
+  char %.S cEndOfText;
+  java/lang/String(instance=java/lang/String) t.s indentString;
   int %.d version;
 }
   methods {  
     compare+_CsCs-_$, mode= static: int %.r null(java/lang/CharSequence *.. s1,java/lang/CharSequence *.. s2);
     compare+_CsiCsii-_$, mode= static: int %.r null(java/lang/CharSequence *.. s1,int %.. from1,java/lang/CharSequence *.. s2,int %.. from2,int %.. nrofChars);
-    convertTranscription-_$, mode= static: java/lang/CharSequence *.r null(java/lang/CharSequence *.. src,char %.. transcriptChar);
+    convertTransliteration-_$, mode= static: java/lang/CharSequence *.r null(java/lang/CharSequence *.. src,char %.. transcriptChar);
     ctorO-_$, mode= ctor+static: org/vishia/util/StringFunctions *.. StringFunctionsJc_s();
     endsWith-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. sq,java/lang/CharSequence *.. end);
     equals+_CsCs-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. s1,java/lang/CharSequence *.. s2);
     equals+_CsiiCs-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. s1,int %.. from,int %.. to,java/lang/CharSequence *.. s2);
+    indent2-_$, mode= static: java/lang/String(instance=java/lang/String) t.r null(int %.. indent);
     indexOf+_Csci-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,char %.. ch,int %.. fromIndex);
     indexOf+_CsCsi-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,java/lang/CharSequence *.. str,int %.. fromIndex);
     indexOf+_Csiic-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. fromIndex,int %.. to,char %.. ch);
     indexOf+_CsiiCs-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence *.. str);
+    indexOfAnyChar-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. begin,int %.. end,java/lang/String(instance=java/lang/String) t.. sChars);
     isEmptyOrOnlyWhitespaces-_$, mode= static: boolean %.r null(java/lang/CharSequence *.. text);
     lastIndexOf+_Csc-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,char %.. ch);
     lastIndexOf+_Csiic-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. from,int %.. to,char %.. ch);
     lastIndexOf+_CsiiCs-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence *.. str);
-    parseFloat-_$, mode= static: float %.r null(java/lang/String(instance=java/lang/String) t.. src,int %.. pos,int %.. sizeP,int[??] X%. parsedCharsP);
+    lastIndexOfAnyChar-_$, mode= static: int %.r null(java/lang/CharSequence *.. sq,int %.. from,int %.. to,java/lang/String(instance=java/lang/String) t.. chars);
+    nl_indent2-_$, mode= static: java/lang/String(instance=java/lang/String) t.r null(int %.. indent);
+    parseFloat+_SiiiY-_$, mode= static: float %.r null(java/lang/String(instance=java/lang/String) t.. src,int %.. pos,int %.. sizeP,int[??] X%. parsedCharsP);
+    parseFloat+_SiiciY-_$, mode= static: float %.r null(java/lang/String(instance=java/lang/String) t.. src,int %.. pos,int %.. sizeP,char %.. decimalpoint,int[??] X%. parsedCharsP);
     parseIntRadix+_SiiiiY-_$, mode= noThCxt+static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars);
     parseIntRadix+_SiiiiYS-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars,java/lang/String(instance=java/lang/String) t.. spaceChars);
     parseIntRadixBack-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] X%. parsedChars);

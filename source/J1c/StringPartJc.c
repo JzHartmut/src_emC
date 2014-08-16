@@ -25,6 +25,7 @@ const char sign_Mtbl_StringPartJc[] = "StringPartJc"; //to mark method tables of
 
 typedef struct MtblDef_StringPartJc_t { Mtbl_StringPartJc mtbl; MtblHeadJc end; } MtblDef_StringPartJc;
  extern MtblDef_StringPartJc const mtblStringPartJc;
+StringJc sVersion_StringPartJc = CONST_z_StringJc("2014-01-12");
 const int32 seekToLeft_StringPartJc = mSeekToLeft__StringPartJc + mSeekBackward__StringPartJc;
 const int32 seekBack_StringPartJc = 0x20 + mSeekBackward__StringPartJc;
 const char cStartOfText_StringPartJc = (char)(0x2);
@@ -76,7 +77,7 @@ struct StringPartJc_t* ctorO_Cs_StringPartJc(ObjectJc* othis, struct CharSequenc
   }
   { 
     
-    ctorO_Csii_StringPartJc(othis, src, 0, length_CharSequenceJc(src), _thCxt);
+    ctorO_Csii_StringPartJc(othis, src, 0, length_CharSequenceJc(src, _thCxt), _thCxt);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -112,17 +113,29 @@ struct StringPartJc_t* ctorO_Csii_StringPartJc(ObjectJc* othis, struct CharSeque
 
 
 
+/**Sets the input file for information {@link #getInputfile()}*/
+void setInputfile_StringPartJc(StringPartJc_s* thiz, StringJc file, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setInputfile_StringPartJc");
+  
+  { 
+    
+    set_StringJc(&(thiz->sFile), file);
+  }
+  STACKTRC_LEAVE;
+}
+
+
 /**Sets the content to the given string, forgets the old content*/
 struct StringPartJc_t* assign_Cs_StringPartJc(StringPartJc_s* thiz, struct CharSequenceJc_t* ref, ThCxt* _thCxt)
-{ 
+{ Mtbl_StringPartJc const* mtthis = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
+  
   STACKTRC_TENTRY("assign_Cs_StringPartJc");
   
   { 
     
-    thiz->begiMin = thiz->beginLast = /*? assignment*/thiz->begin = /*? assignment*/0;
-    thiz->endMax = thiz->end = /*? assignment*/thiz->endLast = /*? assignment*/length_CharSequenceJc(ref);
-    thiz->bStartScan = thiz->bCurrentOk = /*? assignment*/true;
     SETREFJc(thiz->content, ref, CharSequenceJc);
+    mtthis->setParttoMax(thiz);
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -160,7 +173,7 @@ struct StringPartJc_t* assignReplaceEnv_StringPartJc(StringPartJc_s* thiz, struc
           
           posident = pos1 + 2;
           posidentend = indexOf_zI_StringBuilderJc(input, ")", posident, _thCxt);
-          pos9 = posidentend + 1;//after )
+          pos9 = posidentend + 1;/*after )*/
           
         }
         else 
@@ -180,7 +193,7 @@ struct StringPartJc_t* assignReplaceEnv_StringPartJc(StringPartJc_s* thiz, struc
       }
     SETREFJc(thiz->content, toString_StringBuilderJc(&(input)->base.object, _thCxt)/*J2C-error testAndChangeAccess: t**/, CharSequenceJc);
     thiz->begiMin = thiz->beginLast = /*? assignment*/thiz->begin = /*? assignment*/0;
-    thiz->endMax = thiz->end = /*? assignment*/thiz->endLast = /*? assignment*/length_CharSequenceJc(REFJc(thiz->content));
+    thiz->endMax = thiz->end = /*? assignment*/thiz->endLast = /*? assignment*/length_CharSequenceJc(REFJc(thiz->content), _thCxt);
     thiz->bStartScan = thiz->bCurrentOk = /*? assignment*/true;
     { STACKTRC_LEAVE;
       return thiz;
@@ -198,14 +211,14 @@ struct StringPartJc_t* assign_XX_StringPartJc(StringPartJc_s* thiz, struct Strin
   { 
     
     if(src == thiz) 
-    { //:set from the own instance: the maxPart is the actual one.
+    { /*:set from the own instance: the maxPart is the actual one.*/
       
       
       thiz->begiMin = thiz->beginLast = /*? assignment*/thiz->begin;
       thiz->endMax = thiz->endLast = /*? assignment*/thiz->end;
     }
     else 
-    { //:set from a other instance, inherit the content.
+    { /*:set from a other instance, inherit the content.*/
       
       
       SETREFJc(thiz->content, REFJc(src->content), CharSequenceJc);
@@ -229,9 +242,9 @@ struct StringPartJc_t* assignFromEnd_StringPartJc(StringPartJc_s* thiz, struct S
     
     SETREFJc(thiz->content, REFJc(src->content), CharSequenceJc);
     thiz->beginLast = thiz->begin;
-    thiz->begiMin = thiz->begin = /*? assignment*/src->end;//from actual end
+    thiz->begiMin = thiz->begin = /*? assignment*/src->end;/*from actual end*/
     
-    thiz->endLast = thiz->endMax = /*? assignment*/thiz->end = /*? assignment*/src->endMax;//from maximal end
+    thiz->endLast = thiz->endMax = /*? assignment*/thiz->end = /*? assignment*/src->endMax;/*from maximal end*/
     
     { STACKTRC_LEAVE;
       return thiz;
@@ -377,26 +390,7 @@ struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**get the Line ct*/
-int32 getLineCt_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("getLineCt_StringPartJc_F");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return 0;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-int32 getLineCt_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
-  return mtbl->getLineCt(thiz, _thCxt);
-}
-
+/**This method returns the characters of the current part.*/
 char charAt_StringPartJc(StringPartJc_s* thiz, int32 index, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("charAt_StringPartJc");
@@ -417,8 +411,8 @@ struct Part_StringPartJc_t* subSequence_StringPartJc(StringPartJc_s* thiz, int32
   STACKTRC_TENTRY("subSequence_StringPartJc");
   
   { 
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-     //J2C: temporary Stringbuffer for String concatenation
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */ //J2C: temporary Stringbuffer for String concatenation
     StringBuilderJc* _tempString1_1=null; 
     
     if(from < 0 || to > (thiz->end - thiz->begin)) { throw_sJc(ident_IllegalArgumentExceptionJc, 
@@ -517,7 +511,7 @@ struct StringPartJc_t* lento_c_StringPartJc(StringPartJc_s* thiz, char cc, ThCxt
     while(++thiz->end < thiz->endLast)
       { 
         
-        if(charAt_CharSequenceJc(REFJc(thiz->content), thiz->end) == cc) 
+        if(charAt_CharSequenceJc(REFJc(thiz->content), thiz->end, _thCxt) == cc) 
         { 
           
           thiz->bFound = true;
@@ -526,7 +520,7 @@ struct StringPartJc_t* lento_c_StringPartJc(StringPartJc_s* thiz, char cc, ThCxt
         }
         }
       }
-    thiz->end = thiz->begin;//not found
+    thiz->end = thiz->begin;/*not found*/
     
     thiz->bFound = false;
     { STACKTRC_LEAVE;
@@ -571,7 +565,7 @@ struct StringPartJc_t* lento_Csi_StringPartJc(StringPartJc_s* thiz, struct CharS
       if((mode & seekEnd_StringPartJc) != 0) 
       { 
         
-        thiz->end += length_CharSequenceJc(ss);
+        thiz->end += length_CharSequenceJc(ss, _thCxt);
       }
     }
     else 
@@ -617,18 +611,18 @@ struct StringPartJc_t* lentoIdentifier_SS_StringPartJc(StringPartJc_s* thiz, Str
       thiz->bFound = false;
     }
     else 
-    { //:TODO use StringFunctions.lenIdentifier
+    { /*:TODO use StringFunctions.lenIdentifier*/
       
       char cc; 
       
       
-      cc = charAt_CharSequenceJc(REFJc(thiz->content), thiz->end);
+      cc = charAt_CharSequenceJc(REFJc(thiz->content), thiz->end, _thCxt);
       if(cc == '_' || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalStartChars.ptr__!= null && indexOf_C_StringJc(additionalStartChars, cc) >= 0)) 
       { 
         
         thiz->end += 1;
         
-        while(thiz->end < thiz->endMax && ((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->content), thiz->end)) == '_' || (cc >= '0' && cc <= '9') || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalChars.ptr__!= null && indexOf_C_StringJc(additionalChars, cc) >= 0)))
+        while(thiz->end < thiz->endMax && ((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->content), thiz->end, _thCxt)) == '_' || (cc >= '0' && cc <= '9') || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalChars.ptr__!= null && indexOf_C_StringJc(additionalChars, cc) >= 0)))
           { 
             
             thiz->end += 1;
@@ -661,8 +655,8 @@ struct StringPartJc_t* lentoAnyNonEscapedChar_StringPartJc(StringPartJc_s* thiz,
       thiz->endLast = thiz->end;
       pos = indexOfAnyChar_Sii_StringPartJc(thiz, sCharsEnd, 0, maxToTest, _thCxt);
       
-      while(pos > thiz->begin + 1 && charAt_CharSequenceJc(REFJc(thiz->content), pos - 1) == cEscape)
-        { //:the escape char is before immediately. It means, the end char is not matched.
+      while(pos > thiz->begin + 1 && charAt_CharSequenceJc(REFJc(thiz->content), pos - 1, _thCxt) == cEscape)
+        { /*:the escape char is before immediately. It means, the end char is not matched.*/
           
           
           pos = indexOfAnyChar_Sii_StringPartJc(thiz, sCharsEnd, pos + 1 - thiz->begin, maxToTest, _thCxt);
@@ -705,8 +699,8 @@ struct StringPartJc_t* lentoNonEscapedString_StringPartJc(StringPartJc_s* thiz, 
       thiz->endLast = thiz->end;
       pos = indexOf_Csii_StringPartJc(thiz, sEnd/*J2C-error testAndChangeAccess: t**/, 0, maxToTest, _thCxt);
       
-      while(pos > thiz->begin + 1 && charAt_CharSequenceJc(REFJc(thiz->content), pos - 1) == cEscape)
-        { //:the escape char is before immediately. It means, the end char is not matched.
+      while(pos > thiz->begin + 1 && charAt_CharSequenceJc(REFJc(thiz->content), pos - 1, _thCxt) == cEscape)
+        { /*:the escape char is before immediately. It means, the end char is not matched.*/
           
           
           pos = indexOf_Csii_StringPartJc(thiz, sEnd/*J2C-error testAndChangeAccess: t**/, pos + 1 - thiz->begin, maxToTest, _thCxt);
@@ -729,6 +723,44 @@ struct StringPartJc_t* lentoNonEscapedString_StringPartJc(StringPartJc_s* thiz, 
     }
   }
   STACKTRC_LEAVE;
+}
+
+
+/**Sets the current Part from the current position to exactly one line.*/
+struct StringPartJc_t* line_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("line_StringPartJc_F");
+  
+  { 
+    int32 posStart; 
+    int32 posEnd; 
+    
+    
+    posStart = lastIndexOfAnyChar_StringFunctionsJc(/*static*/REFJc(thiz->content), thiz->begiMin, thiz->begin, s0_StringJc("\r\n"), _thCxt);
+    if(posStart < 0) 
+    { 
+      
+      posStart = thiz->begiMin;
+    }
+    posEnd = indexOfAnyChar_StringFunctionsJc(/*static*/REFJc(thiz->content), thiz->begin, thiz->endMax, s0_StringJc("\r\n"), _thCxt);
+    if(posEnd < 0) 
+    { 
+      
+      posEnd = thiz->endMax;
+    }
+    thiz->begin = posStart;
+    thiz->end = posEnd;
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringPartJc_t* line_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
+  return mtbl->line(thiz, _thCxt);
 }
 
 
@@ -782,7 +814,7 @@ struct StringPartJc_t* seekNoWhitespace_StringPartJc(StringPartJc_s* thiz, ThCxt
     
     thiz->beginLast = thiz->begin;
     
-    while(thiz->begin < thiz->end && indexOf_C_StringJc(zI_StringJc(" \t\r\n\f",5), charAt_CharSequenceJc(REFJc(thiz->content), thiz->begin)) >= 0)
+    while(thiz->begin < thiz->end && indexOf_C_StringJc(zI_StringJc(" \t\r\n\f",5), charAt_CharSequenceJc(REFJc(thiz->content), thiz->begin, _thCxt)) >= 0)
       { 
         
         thiz->begin += 1;
@@ -850,7 +882,7 @@ struct StringPartJc_t* seekNoWhitespaceOrComments_StringPartJc(StringPartJc_s* t
             seek_ci_StringPartJc(thiz, '\n', seekEnd_StringPartJc, _thCxt);
           }
         }
-      }while(thiz->begin != start0);//:TRICKY: if something is done, repeat all conditions.
+      }while(thiz->begin != start0);/*:TRICKY: if something is done, repeat all conditions.*/
     
     thiz->bFound = (thiz->begin > start00);
     { STACKTRC_LEAVE;
@@ -914,28 +946,28 @@ struct StringPartJc_t* seek_Si_StringPartJc(StringPartJc_s* thiz, StringJc sSeek
       
       
       posAreaEnd = thiz->begin + length_StringJc(sSeek) - 1;
-      if(posAreaEnd > thiz->endMax) posAreaEnd = thiz->endMax;//but not over the end.
+      if(posAreaEnd > thiz->endMax) posAreaEnd = thiz->endMax;/*but not over the end.*/
       
       seekArea1 = thiz->begiMin;
-      seekArea9 = posAreaEnd;//sSeekArea = content.substring(startMin, posAreaEnd );
+      seekArea9 = posAreaEnd;/*sSeekArea = content.substring(startMin, posAreaEnd );*/
       
-      posNotFound = thiz->begin;//if not found, the rightest position of area
+      posNotFound = thiz->begin;/*if not found, the rightest position of area*/
       
     }
     else 
     { 
       
       seekArea1 = thiz->begin;
-      seekArea9 = thiz->end;//sSeekArea = content.substring(begin, end );
+      seekArea9 = thiz->end;/*sSeekArea = content.substring(begin, end );*/
       
-      posNotFound = thiz->end;//if not found, the rightest position of area
+      posNotFound = thiz->end;/*if not found, the rightest position of area*/
       
     }
     /*no initvalue*/
     if((mode & mSeekBackward__StringPartJc) == mSeekBackward__StringPartJc) 
     { 
       
-      pos = lastIndexOf_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->content), seekArea1, seekArea9, sSeek/*J2C-error testAndChangeAccess: t**/, _thCxt);//sSeekArea.lastIndexOf(sSeek);
+      pos = lastIndexOf_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->content), seekArea1, seekArea9, sSeek/*J2C-error testAndChangeAccess: t**/, _thCxt);/*sSeekArea.lastIndexOf(sSeek);*/
       
     }
     else 
@@ -1022,21 +1054,21 @@ struct StringPartJc_t* seek_ci_StringPartJc(StringPartJc_s* thiz, char cSeek, in
       
       
       posAreaEnd = thiz->begin;
-      if(posAreaEnd > thiz->endMax) posAreaEnd = thiz->endMax;//but not over the end.
+      if(posAreaEnd > thiz->endMax) posAreaEnd = thiz->endMax;/*but not over the end.*/
       
       seekArea1 = thiz->begiMin;
-      seekArea9 = posAreaEnd;//sSeekArea = content.substring(startMin, posAreaEnd );
+      seekArea9 = posAreaEnd;/*sSeekArea = content.substring(startMin, posAreaEnd );*/
       
-      posNotFound = thiz->begin;//if not found, the rightest position of area
+      posNotFound = thiz->begin;/*if not found, the rightest position of area*/
       
     }
     else 
     { 
       
       seekArea1 = thiz->begin;
-      seekArea9 = thiz->end;//sSeekArea = content.substring(begin, end );
+      seekArea9 = thiz->end;/*sSeekArea = content.substring(begin, end );*/
       
-      posNotFound = thiz->end;//if not found, the rightest position of area
+      posNotFound = thiz->end;/*if not found, the rightest position of area*/
       
     }
     /*no initvalue*/
@@ -1084,7 +1116,7 @@ struct StringPartJc_t* seekNoChar_StringPartJc(StringPartJc_s* thiz, StringJc sC
     
     thiz->beginLast = thiz->begin;
     
-    while(thiz->begin < thiz->end && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), thiz->begin)) >= 0)thiz->begin += 1;
+    while(thiz->begin < thiz->end && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), thiz->begin, _thCxt)) >= 0)thiz->begin += 1;
     if(thiz->begin < thiz->end) thiz->bFound = true;
     else thiz->bFound = false;
     { STACKTRC_LEAVE;
@@ -1094,6 +1126,8 @@ struct StringPartJc_t* seekNoChar_StringPartJc(StringPartJc_s* thiz, StringJc sC
   STACKTRC_LEAVE;
 }
 
+
+/**Searches any char contained in sChars in the current part*/
 int32 indexOfAnyChar_Sii_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("indexOfAnyChar_Sii_StringPartJc");
@@ -1101,34 +1135,19 @@ int32 indexOfAnyChar_Sii_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int
   { 
     int32 pos; 
     int32 max; 
-    char cc = 0; 
-    int32 nChars; 
+    int32 found; 
     
     
     pos = thiz->begin + fromWhere;
     max = (thiz->end - pos) < maxToTest ? thiz->end : pos + maxToTest;
-    /*no initvalue*/
+    found = indexOfAnyChar_StringFunctionsJc(/*static*/REFJc(thiz->content), pos, max, sChars, _thCxt);
+    if(found < 0) { STACKTRC_LEAVE;
+      return found;
+    }
+    else { STACKTRC_LEAVE;
+      return found - thiz->begin;
+    }/**/
     
-    while(pos < max && indexOf_C_StringJc(sChars, cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->content), pos)) < 0)
-      { //:end char not found:
-        
-        
-        pos += 1;
-      }
-    nChars = pos - thiz->begin;
-    if(pos < max || (pos == max && indexOf_C_StringJc(sChars, cEndOfText_StringPartJc) >= 0)) 
-    { 
-      
-      nChars = pos - thiz->begin;
-    }
-    else 
-    { 
-      
-      nChars = -1;
-    }
-    { STACKTRC_LEAVE;
-      return nChars;
-    }
   }
   STACKTRC_LEAVE;
 }
@@ -1154,7 +1173,7 @@ int32 indexOfAnyChar_Siiccc_StringPartJc(StringPartJc_s* thiz, StringJc sChars, 
         char cc; 
         
         
-        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos);
+        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos, _thCxt);
         if(cc == quotationStartChar && cc != 0) 
         { 
           int32 endQuotion; 
@@ -1197,7 +1216,7 @@ int32 indexOfAnyChar_Siiccc_StringPartJc(StringPartJc_s* thiz, StringJc sChars, 
       
       if(indexOf_C_StringJc(sChars, cEndOfText_StringPartJc) >= 0) { STACKTRC_LEAVE;
         return pos - thiz->begin;
-      }// it is found because cEndOfText is searched too.
+      }/* it is found because cEndOfText is searched too.*/
       
       else { STACKTRC_LEAVE;
         return -1;
@@ -1225,7 +1244,7 @@ int32 lastIndexOfAnyChar_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int
     pos = (thiz->end - thiz->begin) < maxToTest ? thiz->end - 1 : thiz->begin + maxToTest - 1;
     min = thiz->begin + fromWhere;
     
-    while(pos >= min && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), pos)) < 0)
+    while(pos >= min && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), pos, _thCxt)) < 0)
       { 
         
         pos -= 1;
@@ -1256,7 +1275,7 @@ int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSequenceJc_Y* list
     
     pos = thiz->begin + fromWhere;
     max = (thiz->end - pos) < maxToTest ? thiz->end : pos + maxToTest;
-    ASSERT(/*static*/listStrings->head.length < 100);//static size is need
+    ASSERT(/*static*/listStrings->head.length < 100);/*static size is need*/
     
     
     //J2C: constructor for embedded element-ObjectJc
@@ -1270,23 +1289,30 @@ int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSequenceJc_Y* list
       
       
       ii = -1;
+      /**Compose a String with all first chars, to test whether a current char of src is equal. */
       
-      while(++ii < listStrings->head.length)
-        { //:String sString = (String)(iter.next());
+      while(++ii < listStrings->head.length)/**Compose a String with all first chars, to test whether a current char of src is equal. */
+        
+        { /*:String sString = (String)(iter.next());*/
           
           struct CharSequenceJc_t* sString; 
           
           
           sString = listStrings->data[ii];
-          if(charAt_CharSequenceJc(sString, 0) == cEndOfText_StringPartJc) 
+          /**Compose a String with all first chars, to test whether a current char of src is equal. */
+          if(charAt_CharSequenceJc(sString, 0, _thCxt) == cEndOfText_StringPartJc) /**Compose a String with all first chars, to test whether a current char of src is equal. */
+          
           { 
             
+            /**Compose a String with all first chars, to test whether a current char of src is equal. */
             acceptToEndOfText = true;
           }
-          else 
+          else /**Compose a String with all first chars, to test whether a current char of src is equal. */
+          
           { 
             
-            append_C_StringBuilderJc(& (sFirstCharBuffer), charAt_CharSequenceJc(sString, 0), _thCxt);
+            /**Compose a String with all first chars, to test whether a current char of src is equal. */
+            append_C_StringBuilderJc(& (sFirstCharBuffer), charAt_CharSequenceJc(sString, 0, _thCxt), _thCxt);
           }
         }
     }
@@ -1301,7 +1327,8 @@ int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSequenceJc_Y* list
         nrofFoundString1 = -1;
         /**increment over not matching chars, test all first chars: */
         
-        while(pos < max && (nrofFoundString1 = /*? assignment*/indexOf_C_StringJc(sFirstChars, charAt_CharSequenceJc(REFJc(thiz->content), pos))) < 0)pos += 1;
+        while(pos < max && (nrofFoundString1 = /*? assignment*/indexOf_C_StringJc(sFirstChars, charAt_CharSequenceJc(REFJc(thiz->content), pos, _thCxt))) < 0)/**increment over not matching chars, test all first chars: */
+          pos += 1;
         if(pos < max) 
         { 
           int32 ii = -1;   /*a fist matching char is found! test wether or not the whole string is matched.*/
@@ -1310,14 +1337,14 @@ int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSequenceJc_Y* list
           ii = -1;
           
           while(!found && ++ii < listStrings->head.length)
-            { //:String sString = (String)(iter.next());
+            { /*:String sString = (String)(iter.next());*/
               
               struct CharSequenceJc_t* sString; 
               int32 testLen; 
               
               
               sString = listStrings->data[ii];
-              testLen = length_CharSequenceJc(sString);
+              testLen = length_CharSequenceJc(sString, _thCxt);
               if((max - pos) >= testLen && equals_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->content), pos, pos + testLen, sString, _thCxt)) 
               { 
                 
@@ -1332,14 +1359,14 @@ int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSequenceJc_Y* list
                   
                   nrofFoundString->data[0] = ii;
                 }
-              }//else { nrofFoundString1 +=1; }
+              }/*else { nrofFoundString1 +=1; }*/
               
             }
           if(!found) 
           { 
             
             pos += 1;
-          }//check from the next char because no string matches.
+          }/*check from the next char because no string matches.*/
           
         }
       }
@@ -1372,7 +1399,7 @@ int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSequenceJc_Y* list
 }
 
 
-/**Searches any char contented in sChars,*/
+/**Searches any char contained in sChars in the current part*/
 int32 indexOfAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("indexOfAnyCharOutsideQuotion_StringPartJc");
@@ -1392,7 +1419,7 @@ int32 indexOfAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* thiz, StringJc s
         char cc; 
         
         
-        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos);
+        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos, _thCxt);
         if(cc == '\"') 
         { 
           int32 endQuotion; 
@@ -1453,11 +1480,11 @@ int32 indexEndOfQuotion_StringPartJc(StringPartJc_s* thiz, char cEndQuotion, int
         char cc; 
         
         
-        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos++);
+        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos++, _thCxt);
         if(cc == '\\' && (pos + 1) < max) 
         { 
           
-          pos += 1;//on \ overread the next char, test char after them!
+          pos += 1;/*on \ overread the next char, test char after them!*/
           
         }
         else if(cc == cEndQuotion) 
@@ -1494,11 +1521,11 @@ int32 indexEndOfQuotation_StringPartJc(StringPartJc_s* thiz, char cEndQuotion, c
         char cc; 
         
         
-        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos++);
+        cc = charAt_CharSequenceJc(REFJc(thiz->content), pos++, _thCxt);
         if(cc == transcriptChar && cc != 0 && (pos + 1) < max) 
         { 
           
-          pos += 1;//on \ overread the next char, test char after them!
+          pos += 1;/*on \ overread the next char, test char after them!*/
           
         }
         else if(cc == cEndQuotion) 
@@ -1541,7 +1568,7 @@ int32 indexOfNoChar_Si_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int32
     
     pos = thiz->begin + fromWhere;
     
-    while(pos < thiz->end && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), pos)) >= 0)pos += 1;
+    while(pos < thiz->end && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), pos, _thCxt)) >= 0)pos += 1;
     { STACKTRC_LEAVE;
       return (pos >= thiz->end) ? -1 : (pos - thiz->begin);
     }
@@ -1687,7 +1714,7 @@ void lentoAnyStringWithIndent_StringPartJc(StringPartJc_s* thiz, StringJc_Y* str
     int32 pos; 
     
     
-    thiz->endLast = thiz->end;//String sRet; sRet = "";
+    thiz->endLast = thiz->end;/*String sRet; sRet = "";*/
     
     setLength_StringBuilderJc(buffer, 0, _thCxt);
     indentColumn = getCurrentColumn_StringPartJc(thiz, _thCxt);
@@ -1715,7 +1742,7 @@ void lentoAnyStringWithIndent_StringPartJc(StringPartJc_s* thiz, StringJc_Y* str
           pos = indexOf_Csci_StringFunctionsJc(/*static*/REFJc(thiz->content), '\n', startLine, _thCxt);
           if(pos < 0) pos = thiz->end;
           if(pos > thiz->end) 
-          { //:next newline after terminated string, that is the last line.
+          { /*:next newline after terminated string, that is the last line.*/
             
             
             pos = thiz->end;
@@ -1725,12 +1752,12 @@ void lentoAnyStringWithIndent_StringPartJc(StringPartJc_s* thiz, StringJc_Y* str
           { 
             
             pos += 1;
-          }// '\n' including
-          //append the line to output string:
+          }/* '\n' including*/
+          /*append the line to output string:*/
           
           append_s_StringBuilderJc(buffer, subSequence_CharSequenceJc(REFJc(thiz->content), startLine, pos, _thCxt), _thCxt);
           if(!bFinish) 
-          { //:skip over indent.
+          { /*:skip over indent.*/
             
             int32 posIndent; 
             
@@ -1739,7 +1766,7 @@ void lentoAnyStringWithIndent_StringPartJc(StringPartJc_s* thiz, StringJc_Y* str
             posIndent = startLine + indentColumn;
             if(posIndent > thiz->end) posIndent = thiz->end;
             
-            while(startLine < posIndent && indexOf_C_StringJc(sIndentChars, charAt_CharSequenceJc(REFJc(thiz->content), startLine)) >= 0)
+            while(startLine < posIndent && indexOf_C_StringJc(sIndentChars, charAt_CharSequenceJc(REFJc(thiz->content), startLine, _thCxt)) >= 0)
               { 
                 
                 startLine += 1;
@@ -1748,7 +1775,7 @@ void lentoAnyStringWithIndent_StringPartJc(StringPartJc_s* thiz, StringJc_Y* str
             { 
               
               
-              while(indexOf_C_StringJc(zI_StringJc(" \t",2), charAt_CharSequenceJc(REFJc(thiz->content), startLine)) >= 0)
+              while(indexOf_C_StringJc(zI_StringJc(" \t",2), charAt_CharSequenceJc(REFJc(thiz->content), startLine, _thCxt)) >= 0)
                 { 
                   
                   startLine += 1;
@@ -1759,7 +1786,7 @@ void lentoAnyStringWithIndent_StringPartJc(StringPartJc_s* thiz, StringJc_Y* str
     }
     { STACKTRC_LEAVE;
       return;
-    }//buffer.toString();
+    }/*buffer.toString();*/
     
   }
   STACKTRC_LEAVE;
@@ -1885,7 +1912,7 @@ struct StringPartJc_t* lenBacktoNoChar_StringPartJc(StringPartJc_s* thiz, String
     
     thiz->endLast = thiz->end;
     
-    while((--thiz->end) >= thiz->begin && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), thiz->end)) >= 0)
+    while((--thiz->end) >= thiz->begin && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), thiz->end, _thCxt)) >= 0)
       ;
     if(thiz->end < thiz->begin) 
     { 
@@ -1914,7 +1941,8 @@ struct StringPartJc_t* trim_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
       ( seekNoChar_StringPartJc(thiz, s0_StringJc(" \t\n\r"), _thCxt)
       , lenBacktoNoChar_StringPartJc(thiz, s0_StringJc(" \t\n\r"), _thCxt)
       );
-    }
+    }/*end position decreased*/
+    
   }
   STACKTRC_LEAVE;
 }
@@ -2069,7 +2097,7 @@ bool equals_Cs_StringPartJc(StringPartJc_s* thiz, struct CharSequenceJc_t* sCmp,
     
     { STACKTRC_LEAVE;
       return equals_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->content), thiz->begin, thiz->end, sCmp, _thCxt);
-    }//content.substring(start, end).equals(sCmp);
+    }/*content.substring(start, end).equals(sCmp);*/
     
   }
   STACKTRC_LEAVE;
@@ -2101,7 +2129,7 @@ bool startsWith_StringPartJc(StringPartJc_s* thiz, struct CharSequenceJc_t* sCmp
         
         { STACKTRC_LEAVE;
           return equals_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->content), thiz->begin, thiz->end, sCmp, _thCxt);
-        }//content.substring(start, end).equals(sCmp);
+        }/*content.substring(start, end).equals(sCmp);*/
         
       }
     }
@@ -2110,7 +2138,7 @@ bool startsWith_StringPartJc(StringPartJc_s* thiz, struct CharSequenceJc_t* sCmp
       
       { STACKTRC_LEAVE;
         return startsWith_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->content), thiz->begin, thiz->end, sCmp, _thCxt);
-      }//content.substring(start, end).startsWith(sCmp);
+      }/*content.substring(start, end).startsWith(sCmp);*/
       
     }
   }
@@ -2169,13 +2197,13 @@ struct Part_StringPartJc_t* substring_StringPartJc(StringPartJc_s* thiz, int32 p
   { 
     int32 posend = 0; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     /*no initvalue*/
     if(posendP <= 0) 
     { 
       
-      posend = thiz->endMax - posendP;//if posendP is fault, an exception is thrown.
+      posend = thiz->endMax - posendP;/*if posendP is fault, an exception is thrown.*/
       
     }
     else 
@@ -2186,7 +2214,7 @@ struct Part_StringPartJc_t* substring_StringPartJc(StringPartJc_s* thiz, int32 p
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), pos + thiz->begiMin, posend, _thCxt), _thCxt);
       return ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), pos + thiz->begiMin, posend, _thCxt);
-    }//content.substring(pos+begiMin, posend);
+    }/*content.substring(pos+begiMin, posend);*/
     
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
@@ -2202,9 +2230,9 @@ struct CharSequenceJc_t* getCurrent_StringPartJc(StringPartJc_s* thiz, int32 nCh
   { 
     int32 nChars1; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
-    nChars1 = (length_CharSequenceJc(REFJc(thiz->content)) - thiz->begin) < nChars ? length_CharSequenceJc(REFJc(thiz->content)) - thiz->begin : nChars;
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
+    nChars1 = (length_CharSequenceJc(REFJc(thiz->content), _thCxt) - thiz->begin) < nChars ? length_CharSequenceJc(REFJc(thiz->content), _thCxt) - thiz->begin : nChars;
     if(nChars1 == 0) { STACKTRC_LEAVE;
       return s0_StringJc("")/*J2C-error testAndChangeAccess: t**/;
     }
@@ -2224,19 +2252,61 @@ char getCurrentChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
   
   { 
     
-    if(thiz->begin < length_CharSequenceJc(REFJc(thiz->content))) 
+    if(thiz->begin < length_CharSequenceJc(REFJc(thiz->content), _thCxt)) 
     { 
       
       { STACKTRC_LEAVE;
-        return charAt_CharSequenceJc(REFJc(thiz->content), thiz->begin);
+        return charAt_CharSequenceJc(REFJc(thiz->content), thiz->begin, _thCxt);
       }
     }
     else { STACKTRC_LEAVE;
       return '\0';
-    }///**@java2c=StringBuilderInThreadCxt.*/ throw new IndexOutOfBoundsException("end of StringPartBase:" + begin); // return cEndOfText;
+    }/*/**@java2c=StringBuilderInThreadCxt.*/ throw new IndexOutOfBoundsException("end of StringPartBase:" + begin); // return cEndOfText;*/
     
   }
   STACKTRC_LEAVE;
+}
+
+
+/**get the Line ct*/
+int32 XXXgetLineCt_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("XXXgetLineCt_StringPartJc_F");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+int32 XXXgetLineCt_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
+  return mtbl->XXXgetLineCt(thiz, _thCxt);
+}
+
+
+/**Get the Line number and the column of the begin position.*/
+int32 getLineAndColumn_StringPartJc_F(StringPartJc_s* thiz, int32_Y* column, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getLineAndColumn_StringPartJc_F");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return 0;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+int32 getLineAndColumn_StringPartJc(StringPartJc_s* thiz, int32_Y* column, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
+  return mtbl->getLineAndColumn(thiz, column, _thCxt);
 }
 
 
@@ -2245,17 +2315,35 @@ int32 getCurrentColumn_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getCurrentColumn_StringPartJc");
   
-  { 
+  { /*:if((bitMode & mGetColumn_mode)==0){ return -1; }*/
+    /*:else {*/
+    
     int32 pos; 
     
     
     pos = lastIndexOf_Csiic_StringFunctionsJc(/*static*/REFJc(thiz->content), 0, thiz->begin, '\n', _thCxt);
     if(pos < 0) { STACKTRC_LEAVE;
       return thiz->begin;
-    }//first line, no \n before
+    }/*first line, no \n before*/
     
     else { STACKTRC_LEAVE;
       return thiz->begin - pos - 1;
+    }/*}*/
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**This method may be overridden to return the file which is used to build this Stringpart.*/
+StringJc getInputfile_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getInputfile_StringPartJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return thiz->sFile;
     }
   }
   STACKTRC_LEAVE;
@@ -2268,8 +2356,8 @@ struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, Th
   STACKTRC_TENTRY("getCurrentPart_StringPartJc");
   
   { 
-    ObjectJc *newObj1_1=null, *newObj1_2=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null, *newObj1_2=null; /*J2C: temporary Objects for new operations
+    */
     if(thiz->end > thiz->begin) { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->begin, thiz->end, _thCxt), _thCxt);
       return ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->begin, thiz->end, _thCxt);
@@ -2290,8 +2378,8 @@ struct CharSequenceJc_t* getLastPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _
   STACKTRC_TENTRY("getLastPart_StringPartJc");
   
   { 
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     if(thiz->begin > thiz->beginLast) { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->beginLast, thiz->begin, _thCxt), _thCxt);
       return & ((* (ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->beginLast, thiz->begin, _thCxt))).base.CharSequenceJc);
@@ -2313,8 +2401,8 @@ struct CharSequenceJc_t* getCurrentPart_i_StringPartJc(StringPartJc_s* thiz, int
   { 
     int32 max; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     max = (thiz->end - thiz->begin) < maxLength ? thiz->end : thiz->begin + maxLength;
     if(thiz->end > thiz->begin) { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->begin, max, _thCxt), _thCxt);
@@ -2335,12 +2423,12 @@ struct Part_StringPartJc_t* getPart_StringPartJc(StringPartJc_s* thiz, int32 fro
   STACKTRC_TENTRY("getPart_StringPartJc");
   
   { 
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
-    if((fromPos + nrofChars) > length_CharSequenceJc(REFJc(thiz->content))) 
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
+    if((fromPos + nrofChars) > length_CharSequenceJc(REFJc(thiz->content), _thCxt)) 
     { 
       
-      nrofChars = length_CharSequenceJc(REFJc(thiz->content)) - fromPos;
+      nrofChars = length_CharSequenceJc(REFJc(thiz->content), _thCxt) - fromPos;
     }
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, ctorO_Part_StringPartJc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), fromPos, fromPos + nrofChars, _thCxt), _thCxt);
@@ -2361,8 +2449,8 @@ char absCharAt_StringPartJc(StringPartJc_s* thiz, int32 index, ThCxt* _thCxt)
     StringBuilderJc* _tempString1_1=null; 
     
     pos = index;
-    if(pos >= 0 && pos < length_CharSequenceJc(REFJc(thiz->content))) { STACKTRC_LEAVE;
-      return charAt_CharSequenceJc(REFJc(thiz->content), pos);
+    if(pos >= 0 && pos < length_CharSequenceJc(REFJc(thiz->content), _thCxt)) { STACKTRC_LEAVE;
+      return charAt_CharSequenceJc(REFJc(thiz->content), pos, _thCxt);
     }
     else { throw_sJc(ident_IllegalArgumentExceptionJc, 
       ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
@@ -2400,9 +2488,9 @@ StringJc absSubString_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, T
         return s0_StringJc(" ??null?? ");
       }
     }
-    if(pos >= 0 && end1 <= length_CharSequenceJc(REFJc(thiz->content))) 
+    if(pos >= 0 && end1 <= length_CharSequenceJc(REFJc(thiz->content), _thCxt)) 
     { 
-      StringJc _temp2_1; //J2C: temporary references for concatenation
+      StringJc _temp2_1; /*J2C: temporary references for concatenation */
       
       { STACKTRC_LEAVE;
         return 
@@ -2429,7 +2517,7 @@ StringJc toString_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt)
   STACKTRC_TENTRY("toString_StringPartJc_F");
   
   { 
-    struct Part_StringPartJc_t* _temp1_1; //J2C: temporary references for concatenation
+    struct Part_StringPartJc_t* _temp1_1; /*J2C: temporary references for concatenation */
     
     { STACKTRC_LEAVE;
       return 
@@ -2459,7 +2547,7 @@ StringJc debugString_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
     
     StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
-    len = length_CharSequenceJc(REFJc(thiz->content));
+    len = length_CharSequenceJc(REFJc(thiz->content), _thCxt);
     ret = 
       ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
       , append_s_StringBuilderJc(_stringBuilderThCxt, subSequence_CharSequenceJc(REFJc(thiz->content), 0, len > 20 ? 20 : len, _thCxt), _thCxt)
@@ -2486,7 +2574,7 @@ StringJc debugString_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
       )/*J2C:non-persistent*/;
     { STACKTRC_LEAVE;
       return ret;
-    }//java2c: buffer in threadContext
+    }/*java2c: buffer in threadContext*/
     
   }
   STACKTRC_LEAVE;
@@ -2541,19 +2629,19 @@ StringJc replace_StringPartJc(/*static*/ struct CharSequenceJc_t* src, CharSeque
     int32 posPatternStart = 0; 
     int32 posPattern = 0; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
-    len = length_CharSequenceJc(src);
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
+    len = length_CharSequenceJc(src, _thCxt);
     ixPos = 0;
     nrofToken = placeholder->head.length;
     if(nrofToken != value->head.length) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "token and value should have same size, lesser 20", 0, &_thCxt->stacktraceThreadContext, __LINE__); return null_StringJc; };
     if(dst == null) 
     { 
-      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
-      
+      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      */
       dst = ctorO_I_StringBuilderJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), len + 100, _thCxt);
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
-    }//calculate about 53 chars for identifier
+    }/*calculate about 53 chars for identifier*/
     
     
     spPattern = ctorO_Cs_StringPartJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringPartJc_s, 0, _thCxt)), src, _thCxt);
@@ -2563,8 +2651,8 @@ StringJc replace_StringPartJc(/*static*/ struct CharSequenceJc_t* src, CharSeque
       { 
         int32_Y* type; 
         
-        ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
-        
+        ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+        */
         
         type = (int32_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (1) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 1, sizeof(int32),REFLECTION_int32, 0);
         posPattern = indexOfAnyString_StringPartJc(spPattern, placeholder, posPatternStart, length_StringPartJc(spPattern, _thCxt), type, null, _thCxt);
@@ -2576,14 +2664,14 @@ StringJc replace_StringPartJc(/*static*/ struct CharSequenceJc_t* src, CharSeque
           append_s_StringBuilderJc(dst, subSequence_CharSequenceJc(src, posPatternStart, posPattern, _thCxt), _thCxt);
           ixValue = type->data[0];
           append_s_StringBuilderJc(dst, value->data[ixValue], _thCxt);
-          posPatternStart = posPattern + length_CharSequenceJc(placeholder->data[ixValue]);
+          posPatternStart = posPattern + length_CharSequenceJc(placeholder->data[ixValue], _thCxt);
         }
         else 
-        { //:last pattern constant part:
+        { /*:last pattern constant part:*/
           
           
           append_s_StringBuilderJc(dst, subSequence_CharSequenceJc(src, posPatternStart, len, _thCxt), _thCxt);
-          posPatternStart = -1;//mark end
+          posPatternStart = -1;/*mark end*/
           
         }
         activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -2611,9 +2699,14 @@ void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringPartJc mtblStringPartJc = {
 { { sign_Mtbl_StringPartJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((7 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
-, getLineCt_StringPartJc_F //getLineCt
+, setParttoMax_StringPartJc_F //setParttoMax
+, line_StringPartJc_F //line
+, seek_S_StringPartJc_F //seek_S
+, seekEnd_StringPartJc_F //seekEnd
+, XXXgetLineCt_StringPartJc_F //XXXgetLineCt
+, getLineAndColumn_StringPartJc_F //getLineAndColumn
 , close_StringPartJc_F //close
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
@@ -2668,9 +2761,9 @@ extern_C struct ClassJc_t const reflection_StringPartJc_s;
 extern_C struct ClassJc_t const reflection_CharSequenceJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_StringPartJc_s_t
-{ ObjectArrayJc head; FieldJc data[18];
+{ ObjectArrayJc head; FieldJc data[20];
 } reflection_Fields_StringPartJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 18, OBJTYPE_FieldJc, null, &reflection_Fields_StringPartJc_s)
+{ CONST_ObjectArrayJc(FieldJc, 20, OBJTYPE_FieldJc, null, &reflection_Fields_StringPartJc_s)
 , {
      { "begin"
     , 0 //nrofArrayElements
@@ -2760,6 +2853,14 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_StringPartJc_s
     }
+   , { "sFile"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
+    , (int16)((int32)(&((StringPartJc_s*)(0x1000))->sFile) - (int32)(StringPartJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StringPartJc_s
+    }
    , { "sCommentStart"
     , 0 //nrofArrayElements
     , &reflection_StringJc
@@ -2782,6 +2883,14 @@ const struct Reflection_Fields_StringPartJc_s_t
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((int32)(&((StringPartJc_s*)(0x1000))->sCommentToEol) - (int32)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
+    , &reflection_StringPartJc_s
+    }
+   , { "sVersion"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&sVersion_StringPartJc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&sVersion_StringPartJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
     , &reflection_StringPartJc_s
     }
    , { "seekToLeft"
@@ -2855,8 +2964,8 @@ struct Part_StringPartJc_t* ctorO_Part_StringPartJc(struct StringPartJc_t* outer
   }
   { 
     
-    ASSERT(/*static*/from >= 0 && from <= length_CharSequenceJc(REFJc(thiz->outer->content)));
-    ASSERT(/*static*/to >= 0 && to <= length_CharSequenceJc(REFJc(thiz->outer->content)));
+    ASSERT(/*static*/from >= 0 && from <= length_CharSequenceJc(REFJc(thiz->outer->content), _thCxt));
+    ASSERT(/*static*/to >= 0 && to <= length_CharSequenceJc(REFJc(thiz->outer->content), _thCxt));
     ASSERT(/*static*/from <= to);
     thiz->b1 = from;
     thiz->e1 = to;
@@ -2897,8 +3006,8 @@ struct CharSequenceJc_t* subSequence_Part_StringPartJc(Part_StringPartJc_s* thiz
   STACKTRC_TENTRY("subSequence_Part_StringPartJc");
   
   { 
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, ctorO_Part_StringPartJc((thiz)->outer, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->b1 + from, thiz->b1 + thiz->outer->end, _thCxt), _thCxt);
       return & ((* (ctorO_Part_StringPartJc((thiz)->outer, (newObj1_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->b1 + from, thiz->b1 + thiz->outer->end, _thCxt))).base.CharSequenceJc);
@@ -2932,18 +3041,18 @@ struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s* thiz, Th
     int32 e2; 
     struct Part_StringPartJc_t* ret = null; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     b2 = thiz->b1;
     e2 = thiz->e1;
     
-    while(b2 < e2 && indexOf_C_StringJc(zI_StringJc(" \r\n\t",4), charAt_CharSequenceJc(REFJc(thiz->outer->content), b2)) >= 0)
+    while(b2 < e2 && indexOf_C_StringJc(zI_StringJc(" \r\n\t",4), charAt_CharSequenceJc(REFJc(thiz->outer->content), b2, _thCxt)) >= 0)
       { 
         
         b2 += 1;
       }
     
-    while(e2 > b2 && indexOf_C_StringJc(zI_StringJc(" \r\n",3), charAt_CharSequenceJc(REFJc(thiz->outer->content), e2 - 1)) >= 0)
+    while(e2 > b2 && indexOf_C_StringJc(zI_StringJc(" \r\n",3), charAt_CharSequenceJc(REFJc(thiz->outer->content), e2 - 1, _thCxt)) >= 0)
       { 
         
         e2 -= 1;

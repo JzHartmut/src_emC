@@ -28,8 +28,8 @@ struct Comm_Inspc_t;
 typedef struct CmdExecuter_Inspc_t
 { 
   union { ObjectJc object; AnswerComm_ifc_Inspc_s AnswerComm_ifc_Inspc;} base; 
-  Datagram_InspcDataExchangeAccess_Inspc_s datagramCmd;   /*@ java2c=simpleRef. */
-  Info_InspcDataExchangeAccess_Inspc_s infoCmd;   /*@ java2c=simpleRef. */
+  InspcDatagram_InspcDataExchangeAccess_Inspc_s datagramCmd;   /*@ java2c=simpleRef. */
+  Inspcitem_InspcDataExchangeAccess_Inspc_s infoCmd;   /*@ java2c=simpleRef. */
   struct CmdConsumer_ifc_Inspc_t* cmdConsumer;   /**/
   int32 maxNrofAnswerBytes; 
   int32 nrofBytesAnswer; 
@@ -37,7 +37,7 @@ typedef struct CmdExecuter_Inspc_t
   int32 ctFailedTelgPart; 
   struct Comm_Inspc_t* comm;   /**/
   struct bufferAnswerData_Y { ObjectArrayJc head; int8 data[1500]; }bufferAnswerData; 
-  Datagram_InspcDataExchangeAccess_Inspc_s myAnswerData; 
+  InspcDatagram_InspcDataExchangeAccess_Inspc_s myAnswerData; 
   bool useTelgHead;   /*true than the myAnswerdata is of type DataExchangeTelg_Inspc,*/
 } CmdExecuter_Inspc_s;
   
@@ -73,17 +73,17 @@ void finalize_CmdExecuter_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 METHOD_C struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdConsumer_ifc_Inspc_t* commandConsumer, ThCxt* _thCxt);
 
-typedef void MT_completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
+typedef void MT_completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
+METHOD_C void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
+METHOD_C void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 
-typedef bool MT_executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+typedef bool MT_executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+METHOD_C bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* ythis, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+METHOD_C bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 
 /**Send the current answer datagram as answer.*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */

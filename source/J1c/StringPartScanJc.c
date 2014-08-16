@@ -6,9 +6,7 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "J1c/SpecialCharStringsJc.h"  //reference-association: SpecialCharStringsJc_s
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
-#include "Jc/AssertJc.h"  //reference-association: AssertJc_s
 #include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data
@@ -162,7 +160,7 @@ struct StringPartScanJc_t* scanStart_StringPartScanJc(StringPartScanJc_s* thiz, 
   { 
     
     thiz->base.super.bCurrentOk = true;
-    scanOk_StringPartScanJc(thiz, _thCxt);//turn all indicees to ok
+    scanOk_StringPartScanJc(thiz, _thCxt);/*turn all indicees to ok*/
     
     { STACKTRC_LEAVE;
       return thiz;
@@ -184,14 +182,14 @@ bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
       if(thiz->base.super.bStartScan) 
       { 
         
-        thiz->idxLastIntegerNumber = -1;//idxLastFloatNumber = 0;
+        thiz->idxLastIntegerNumber = -1;/*idxLastFloatNumber = 0;*/
         
         thiz->base.super.bStartScan = false;
       }
       if(thiz->base.super.begin == thiz->base.super.end) 
       { 
         
-        thiz->base.super.bCurrentOk = false;//error, because nothing to scan.
+        thiz->base.super.bCurrentOk = false;/*error, because nothing to scan.*/
         
       }
     }
@@ -215,20 +213,20 @@ bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
     if(thiz->base.super.bCurrentOk) 
     { 
       
-      thiz->beginScan = thiz->base.super.beginLast = /*? assignment*/thiz->base.super.begin;//the scanOk-position is the begin of maximal part.
+      thiz->beginScan = thiz->base.super.beginLast = /*? assignment*/thiz->base.super.begin;/*the scanOk-position is the begin of maximal part.*/
       
-      thiz->base.super.bStartScan = true;//set all idxLast... to 0
+      thiz->base.super.bStartScan = true;/*set all idxLast... to 0*/
       
     }
     else 
     { 
       
-      thiz->base.super.begin = thiz->base.super.beginLast = /*? assignment*/thiz->beginScan;//return to the begin
+      thiz->base.super.begin = thiz->base.super.beginLast = /*? assignment*/thiz->beginScan;/*return to the begin*/
       
-    }//if(report != null){ report.report(6," scanOk:" + beginMin + ".." + begin + ":" + (bCurrentOk ? "ok" : "error")); }
+    }/*if(report != null){ report.report(6," scanOk:" + beginMin + ".." + begin + ":" + (bCurrentOk ? "ok" : "error")); }*/
     
     bOk = thiz->base.super.bCurrentOk;
-    thiz->base.super.bCurrentOk = true;//prepare to next try scanning
+    thiz->base.super.bCurrentOk = true;/*prepare to next try scanning*/
     
     { STACKTRC_LEAVE;
       return (bOk);
@@ -246,7 +244,7 @@ struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, struc
   { 
     
     if(thiz->base.super.bCurrentOk) 
-    { //:      but the sTestP may contain only cEndOfText. end of text will be okay than.
+    { /*:      but the sTestP may contain only cEndOfText. end of text will be okay than.*/
       
       struct CharSequenceJc_t* sTest = null; 
       int32 len; 
@@ -265,7 +263,7 @@ struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, struc
       else 
       { 
         
-        len = length_CharSequenceJc(sTestP);
+        len = length_CharSequenceJc(sTestP, _thCxt);
         sTest = sTestP;
       }
       if((thiz->base.super.begin + len) <= thiz->base.super.endMax && equals_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->base.super.content), thiz->base.super.begin, thiz->base.super.begin + len, sTest, _thCxt) && (!bTestToEndOfText || thiz->base.super.begin + len == thiz->base.super.end)) 
@@ -317,10 +315,10 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
         , lentoNonEscapedString_StringPartJc(& ((* (thiz)).base.super), sQuotionMarkEnd, maxToTest, _thCxt)
         );
       if(thiz->base.super.bCurrentOk) 
-      { //:TODO ...ToEndString, now use only 1 char in sQuotionMarkEnd
+      { /*:TODO ...ToEndString, now use only 1 char in sQuotionMarkEnd*/
         
         StringJc _persistring3_1=NULL_StringJc; //J2C: temporary persistent Strings
-        struct Part_StringPartJc_t* _temp3_1; //J2C: temporary references for concatenation
+        struct Part_StringPartJc_t* _temp3_1; /*J2C: temporary references for concatenation */
         
         if(sResult != null) sResult->data[0] = 
           ( _temp3_1= getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)
@@ -369,7 +367,7 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
             char cc; 
             
             
-            cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), pos);
+            cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), pos, _thCxt);
             if(cc >= '0' && cc <= '9') nn = nn * (bHex ? 16 : 10) + (cc - '0');
             else if(bHex && cc >= 'a' && cc <= 'f') nn = nn * 16 + (cc - 'a' + 10);
             else if(bHex && cc >= 'A' && cc <= 'F') nn = nn * 16 + (cc - 'A' + 10);
@@ -388,15 +386,15 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
         thiz->base.super.begin = pos;
         { STACKTRC_LEAVE;
           return nn;
-        }//nLastIntegerNumber = nn;
+        }/*nLastIntegerNumber = nn;*/
         
       }
-      else thiz->base.super.bCurrentOk = false;//scanning failed.
+      else thiz->base.super.bCurrentOk = false;/*scanning failed.*/
       
     }
     { STACKTRC_LEAVE;
       return -1;
-    }//on error
+    }/*on error*/
     
   }
   STACKTRC_LEAVE;
@@ -449,7 +447,7 @@ struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJc_s* thiz
       
       
       bNegativValue = false;
-      if(charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin) == '-') 
+      if(charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt) == '-') 
       { 
         
         bNegativValue = true;
@@ -528,12 +526,12 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
       bNegativValue = false;
       bNegativExponent = false;
       bFractionalFollowed = false;
-      if((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin)) == '-') 
+      if((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == '-') 
       { 
         
         bNegativValue = true;
         seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
-        cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin);
+        cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt);
       }
       if(cc == '.') 
       { 
@@ -548,7 +546,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
         if(thiz->base.super.bCurrentOk) 
         { 
           
-          if(thiz->base.super.begin < thiz->base.super.endMax && charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin) == '.') 
+          if(thiz->base.super.begin < thiz->base.super.endMax && charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt) == '.') 
           { 
             
             bFractionalFollowed = true;
@@ -558,7 +556,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
       if(thiz->base.super.bCurrentOk && bFractionalFollowed) 
       { 
         
-        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);//over .
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);/*over .*/
         
         
         while(thiz->base.super.begin < thiz->base.super.endMax && getCurrentChar_StringPartJc(& ((* (thiz)).base.super), _thCxt) == '0')
@@ -566,7 +564,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
             
             seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
             nDivisorFract *= 10;
-          }//int posFrac = begin;
+          }/*int posFrac = begin;*/
           
         nFractional = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
         if(thiz->base.super.bCurrentOk) 
@@ -574,7 +572,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
         else if(nDivisorFract >= 10) 
         { 
           
-          thiz->base.super.bCurrentOk = true;//it is okay, at ex."9.0" is found. There are no more digits after "0".
+          thiz->base.super.bCurrentOk = true;/*it is okay, at ex."9.0" is found. There are no more digits after "0".*/
           
           nFractional = 0;
         }
@@ -583,7 +581,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
       { 
         
         nFractional = 0;
-      }//nDigitsFrac = 0;}
+      }/*nDigitsFrac = 0;}*/
       
       if(thiz->base.super.bCurrentOk) 
       { 
@@ -591,16 +589,16 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
         
         
         nPosExponent = thiz->base.super.begin;
-        if(nPosExponent < thiz->base.super.endMax && (cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin)) == 'e' || cc == 'E') 
+        if(nPosExponent < thiz->base.super.endMax && (cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == 'e' || cc == 'E') 
         { 
           
           seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
-          if((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin)) == '-') 
+          if((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == '-') 
           { 
             
             bNegativExponent = true;
             seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
-            cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin);
+            cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt);
           }
           if(cc >= '0' && cc <= '9') 
           { 
@@ -613,8 +611,8 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
             }
           }
           else 
-          { //: it isn't an exponent, but a String beginning with 'E' or 'e'.
-            //:This string is not a part of the float number.
+          { /*: it isn't an exponent, but a String beginning with 'E' or 'e'.*/
+            /*:This string is not a part of the float number.*/
             
             
             thiz->base.super.begin = nPosExponent;
@@ -650,7 +648,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
               
               fFrac /= 10.0;
             }
-          fFrac /= nDivisorFract;//number of 0 after . until first digit.
+          fFrac /= nDivisorFract;/*number of 0 after . until first digit.*/
           
           result += fFrac;
         }
@@ -790,7 +788,7 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
       { 
         
         SETREFJc(thiz->sLastString, & ((* (getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))).base.CharSequenceJc), CharSequenceJc);
-        thiz->base.super.begin = thiz->base.super.end;//after identifier.
+        thiz->base.super.begin = thiz->base.super.end;/*after identifier.*/
         
       }
       else 
@@ -798,7 +796,7 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
         
         thiz->base.super.bCurrentOk = false;
       }
-      thiz->base.super.end = thiz->base.super.endLast;//revert the change of length, otherwise end = end of identifier.
+      thiz->base.super.end = thiz->base.super.endLast;/*revert the change of length, otherwise end = end of identifier.*/
       
     }
     { STACKTRC_LEAVE;
@@ -864,7 +862,7 @@ struct CharSequenceJc_t* getLastScannedString_StringPartScanJc(StringPartScanJc_
 }
 
 
-/**Gets a String with translitaration.*/
+/**Gets a String with transliteration.*/
 struct CharSequenceJc_t* getCircumScriptionToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getCircumScriptionToAnyChar_StringPartScanJc");
@@ -878,6 +876,8 @@ struct CharSequenceJc_t* getCircumScriptionToAnyChar_StringPartScanJc(StringPart
   STACKTRC_LEAVE;
 }
 
+
+/**Gets a String with transliteration and skip over quotation while searchin.*/
 struct CharSequenceJc_t* getCircumScriptionToAnyCharOutsideQuotion_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getCircumScriptionToAnyCharOutsideQuotion_StringPartScanJc");
@@ -896,65 +896,40 @@ struct CharSequenceJc_t* getCircumScriptionToAnyChar_p_StringPartScanJc(StringPa
   STACKTRC_TENTRY("getCircumScriptionToAnyChar_p_StringPartScanJc");
   
   { 
-    struct CharSequenceJc_t* sResult = null; 
-    char cEscape = '\\'; 
+    char quotationChar; 
     int32 posEnd; 
-    int32 posEscape; 
     
     
-    /*no initvalue*/
-    if(thiz->base.super.begin == 4910) stop_AssertJc(/*static*/_thCxt);
-    cEscape = '\\';
-    posEnd = (sCharsEnd.ptr__== null) ? thiz->base.super.end : bOutsideQuotion ? indexOfAnyCharOutsideQuotion_StringPartJc(& ((* (thiz)).base.super), sCharsEnd, 0, thiz->base.super.end - thiz->base.super.begin, _thCxt) : indexOfAnyChar_S_StringPartJc(& ((* (thiz)).base.super), sCharsEnd, _thCxt);
-    if(posEnd < 0) posEnd = thiz->base.super.end - thiz->base.super.begin;//int posEscape = indexOf(cEscape);
-    //search the first escape char inside the string.
-    
-    posEscape = indexOf_Csiic_StringFunctionsJc(/*static*/REFJc(thiz->base.super.content), thiz->base.super.begin, thiz->base.super.begin + posEnd, cEscape, _thCxt) - thiz->base.super.begin;
-    if(posEscape < 0) 
-    { //:there is no escape char in the current part to sCharsEnd,
-      //:no extra conversion is necessary.
+    quotationChar = bOutsideQuotion ? '\"' : 0;
+    posEnd = indexOfAnyChar_Siiccc_StringPartJc(& ((* (thiz)).base.super), sCharsEnd, 0, thiz->base.super.end - thiz->base.super.begin, '\\', quotationChar, quotationChar, _thCxt);
+    if(posEnd >= 0) 
+    { 
+      struct CharSequenceJc_t* ret; 
       
       
-      sResult = & ((* (
-        ( lento_i_StringPartJc(& ((* (thiz)).base.super), posEnd, _thCxt)
-        , getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)
-        ))).base.CharSequenceJc);
+      lento_i_StringPartJc(& ((* (thiz)).base.super), posEnd, _thCxt);
+      ret = convertTransliteration_StringFunctionsJc(/*static*/& ((* (getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))).base.CharSequenceJc), '\\', _thCxt);
+      fromEnd_StringPartJc(& ((* (thiz)).base.super), _thCxt);
+      { STACKTRC_LEAVE;
+        return ret;
+      }
     }
     else 
-    { //:escape character is found before end
+    { 
       
-      
-      if(charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin + posEnd - 1) == cEscape) 
-      { //:the escape char is the char immediately before the end char.
-        //:It means, the end char isn't such one and posEnd is faulty.
-        //:Search the really end char:
-        
-        
-        do 
-          { //:search the end char after part of string without escape char
-            
-            
-            posEnd = (sCharsEnd.ptr__== null) ? thiz->base.super.end : indexOfAnyChar_Sii_StringPartJc(& ((* (thiz)).base.super), sCharsEnd, posEscape + 2, MAX_VALUE_IntegerJc, _thCxt);
-            if(posEnd < 0) posEnd = thiz->base.super.end;
-            posEscape = indexOf_ci_StringPartJc(& ((* (thiz)).base.super), cEscape, posEscape + 2, _thCxt);
-          }while((posEscape + 1) == posEnd);
+      { STACKTRC_LEAVE;
+        return s0_StringJc("")/*J2C-error testAndChangeAccess: t**/;
       }
-      lento_i_StringPartJc(& ((* (thiz)).base.super), posEnd, _thCxt);
-      sResult = resolveCircumScription_SpecialCharStringsJc(/*static*/& ((* (getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))).base.CharSequenceJc), _thCxt);
-    }
-    fromEnd_StringPartJc(& ((* (thiz)).base.super), _thCxt);
-    { STACKTRC_LEAVE;
-      return sResult;
     }
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Scans a String with transcription till one of end characters, maybe outside any quotation.*/
-struct StringPartScanJc_t* scanTranscriptionToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, CharSequenceJc_Y* dst, StringJc sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt)
+/**Scans a String with maybe transliterated characters till one of end characters,*/
+struct StringPartScanJc_t* scanToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, CharSequenceJc_Y* dst, StringJc sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("scanTranscriptionToAnyChar_StringPartScanJc");
+  STACKTRC_TENTRY("scanToAnyChar_StringPartScanJc");
   
   { 
     
@@ -963,7 +938,6 @@ struct StringPartScanJc_t* scanTranscriptionToAnyChar_StringPartScanJc(StringPar
       int32 posEnd; 
       
       
-      if(thiz->base.super.begin == 4910) stop_AssertJc(/*static*/_thCxt);
       posEnd = indexOfAnyChar_Siiccc_StringPartJc(& ((* (thiz)).base.super), sCharsEnd, 0, thiz->base.super.end - thiz->base.super.begin, transcriptChar, quotationStartChar, quotationEndChar, _thCxt);
       if(posEnd >= 0) 
       { 
@@ -972,7 +946,7 @@ struct StringPartScanJc_t* scanTranscriptionToAnyChar_StringPartScanJc(StringPar
         if(dst != null) 
         { 
           
-          dst->data[0] = convertTranscription_StringFunctionsJc(/*static*/& ((* (getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))).base.CharSequenceJc), transcriptChar, _thCxt);
+          dst->data[0] = convertTransliteration_StringFunctionsJc(/*static*/& ((* (getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))).base.CharSequenceJc), transcriptChar, _thCxt);
         }
         fromEnd_StringPartJc(& ((* (thiz)).base.super), _thCxt);
       }
@@ -1016,7 +990,6 @@ void finalize_StringPartScanJc_F(ObjectJc* othis, ThCxt* _thCxt)
 { StringPartScanJc_s* thiz = (StringPartScanJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_StringPartScanJc_F");
   CLEAR_REFJc(thiz->sLastString);
-  finalize_StringPartJc_F(&thiz->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
 

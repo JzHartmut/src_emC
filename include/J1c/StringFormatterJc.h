@@ -13,6 +13,7 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
+struct AppendableJc_t;
 struct CharSequenceJc_t;
 struct DateJc_t;
 struct SimpleDateFormatJc_t;
@@ -25,6 +26,12 @@ struct StringFormatterJc_t;
  * The inclusion of all that header files isn't necessary, to prevent circular inclusion.
  * It is adequate a struct pointer forward declaration.
  */
+#ifndef AppendableJcREFDEF
+  //J2C: definition of enhanced reference where it was need firstly: 
+  #define AppendableJcREFDEF
+  struct AppendableJc_t;
+  DEFINE_EnhancedRefJc(AppendableJc);
+#endif
 #ifndef SimpleDateFormatJcREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define SimpleDateFormatJcREFDEF
@@ -40,17 +47,23 @@ struct StringFormatterJc_t;
 
 
 /* J2C: includes *********************************************************/
-#include "Jc/StringJc.h"  //embedded type in class data
+#include "Jc/FileIoJc.h"  //interface
+#include "Jc/ObjectJc.h"  //interface
+#include "Jc/StringJc.h"  //interface
 
 
 /*@CLASS_C StringFormatterJc @@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct StringFormatterJc_t
 { 
-  union { ObjectJc object; } base; 
+  union { ObjectJc object; AppendableJc AppendableJc;CloseableJc CloseableJc;FlushableJc FlushableJc;} base; 
   StringBuilderJcREF buffer; 
+  AppendableJcREF lineout;   /*Destination to output a full line.*/
+  bool bShouldLineoutClose; 
+  char lastNewline;   /*The last written Character on {@link #append(char)}.*/
   int32 pos;   /*The position of actual writing.*/
   bool bInsert;   /*True than add inserts, false than it overwrites. */
+  StringJc sNewline; 
   char cDecimalSeparator; 
   StringJc sDatePrefixNewer; 
   SimpleDateFormatJcREF dateFormatNewer; 
@@ -90,7 +103,7 @@ typedef struct StringFormatterJc_Y_t { ObjectArrayJc head; StringFormatterJc_s d
 void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringFormatterJc 20130331  /*Version, history and license.*/
+ extern StringJc version_StringFormatterJc;   /*Version, history and license.*/
 #define mNrofBytesInWord_StringFormatterJc 0x1f
 #define mBytesInWordBigEndian_StringFormatterJc 0x20  /*If this bit is set in mode, the byte with the lower index is interpreted as higher part of word*/
 #define k1_StringFormatterJc 1  /*The constant determine the number of digits representing a (hex) value and the decision, use first byte left or right side.*/
@@ -108,6 +121,9 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 METHOD_C struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thCxt);
+
+/**Constructs an instance with a linked line-out channel and a StringBuffer of the given length.*/
+METHOD_C struct StringFormatterJc_t* ctorO_ApbSi_StringFormatterJc(ObjectJc* othis, struct AppendableJc_t* lineout, bool shouldClose, StringJc newlineString, int32 defaultBufferLength, ThCxt* _thCxt);
 
 /**Constructs an instance with a StringBuffer of the given length.*/
 METHOD_C struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 length, ThCxt* _thCxt);
@@ -160,11 +176,18 @@ METHOD_C struct StringFormatterJc_t* end_StringFormatterJc_F(StringFormatterJc_s
 METHOD_C struct StringFormatterJc_t* end_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
 
 /**Sets the current write position to the given position. */
-typedef struct StringFormatterJc_t* MT_pos_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt);
+typedef struct StringFormatterJc_t* MT_pos_i_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct StringFormatterJc_t* pos_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt);
+METHOD_C struct StringFormatterJc_t* pos_i_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct StringFormatterJc_t* pos_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt);
+METHOD_C struct StringFormatterJc_t* pos_i_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, ThCxt* _thCxt);
+
+/**Sets the current write position to the given position.*/
+typedef struct StringFormatterJc_t* MT_pos_ii_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, int32 minChars, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringFormatterJc_t* pos_ii_StringFormatterJc_F(StringFormatterJc_s* thiz, int32 newPos, int32 minChars, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringFormatterJc_t* pos_ii_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, int32 minChars, ThCxt* _thCxt);
 
 /**returns the current length of string. */
 typedef int32 MT_length_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
@@ -343,6 +366,37 @@ METHOD_C int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* thiz, floa
 
 METHOD_C struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, ThCxt* _thCxt);
 
+typedef struct StringFormatterJc_t* MT_append_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringFormatterJc_t* append_Cs_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringFormatterJc_t* append_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt);
+
+/**Appends on char*/
+typedef struct StringFormatterJc_t* MT_append_c_StringFormatterJc(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringFormatterJc_t* append_c_StringFormatterJc_F(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt);
+
+typedef struct StringFormatterJc_t* MT_append_Csii_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringFormatterJc_t* append_Csii_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringFormatterJc_t* append_Csii_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt);
+
+typedef void MT_flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void flush_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C void flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
+
+typedef void MT_close_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void close_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C void close_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
+
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -354,7 +408,8 @@ typedef struct Mtbl_StringFormatterJc_t
   MT_setDecimalSeparator_StringFormatterJc* setDecimalSeparator;
   MT_reset_StringFormatterJc* reset;
   MT_end_StringFormatterJc* end;
-  MT_pos_StringFormatterJc* pos;
+  MT_pos_i_StringFormatterJc* pos_i;
+  MT_pos_ii_StringFormatterJc* pos_ii;
   MT_length_StringFormatterJc* length;
   MT_getPos_StringFormatterJc* getPos;
   MT_add_S_StringFormatterJc* add_S;
@@ -380,7 +435,16 @@ typedef struct Mtbl_StringFormatterJc_t
   MT_addIntPicture_StringFormatterJc* addIntPicture;
   MT_strPicture_StringFormatterJc* strPicture;
   MT_addFloatPicture_StringFormatterJc* addFloatPicture;
+  MT_append_Cs_StringFormatterJc* append_Cs;
+  MT_append_c_StringFormatterJc* append_c;
+  MT_append_Csii_StringFormatterJc* append_Csii;
+  MT_flush_StringFormatterJc* flush;
+  MT_close_StringFormatterJc* close;
   Mtbl_ObjectJc ObjectJc;
+  //Method table of interfaces:
+  Mtbl_AppendableJc AppendableJc;
+  Mtbl_CloseableJc CloseableJc;
+  Mtbl_FlushableJc FlushableJc;
 } Mtbl_StringFormatterJc;
 
 
@@ -424,6 +488,16 @@ class StringFormatterJc : private StringFormatterJc_s
 
   virtual struct StringFormatterJc_t* addint(int64 nr, StringJcpp sPict){  return addint_StringFormatterJc_F(this, nr, sPict,  null/*_thCxt*/); }
 
+  virtual struct StringFormatterJc_t* append(struct CharSequenceJc_t* csq){  return append_Cs_StringFormatterJc_F(this, csq,  null/*_thCxt*/); }
+
+  virtual struct StringFormatterJc_t* append(struct CharSequenceJc_t* csq, int32 start, int32 end){  return append_Csii_StringFormatterJc_F(this, csq, start, end,  null/*_thCxt*/); }
+
+  virtual struct StringFormatterJc_t* append(char c){  return append_c_StringFormatterJc_F(this, c,  null/*_thCxt*/); }
+
+  virtual void close(){ close_StringFormatterJc_F(this,  null/*_thCxt*/); }
+
+  StringFormatterJc(struct AppendableJc_t* lineout, bool shouldClose, StringJcpp newlineString, int32 defaultBufferLength){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_ApbSi_StringFormatterJc(&this->base.object, lineout, shouldClose, newlineString, defaultBufferLength,  null/*_thCxt*/); }
+
   StringFormatterJc(StringJcpp str){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_S_StringFormatterJc(&this->base.object, str,  null/*_thCxt*/); }
 
   StringFormatterJc(struct StringBuilderJc_t* buffer){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_Sb_StringFormatterJc(&this->base.object, buffer,  null/*_thCxt*/); }
@@ -435,6 +509,8 @@ class StringFormatterJc : private StringFormatterJc_s
   virtual struct StringFormatterJc_t* end(){  return end_StringFormatterJc_F(this,  null/*_thCxt*/); }
 
   struct CharSequenceJc_t* floatToText(float val, int32 nrofChars){  return floatToText_StringFormatterJc(val, nrofChars,  null/*_thCxt*/); }
+
+  virtual void flush(){ flush_StringFormatterJc_F(this,  null/*_thCxt*/); }
 
   virtual struct CharSequenceJc_t* getBuffer(){  return getBuffer_StringFormatterJc_F(this,  null/*_thCxt*/); }
 
@@ -450,7 +526,9 @@ class StringFormatterJc : private StringFormatterJc_s
 
   virtual struct StringFormatterJc_t* overwrite(){  return overwrite_StringFormatterJc_F(this,  null/*_thCxt*/); }
 
-  virtual struct StringFormatterJc_t* pos(int32 newPos){  return pos_StringFormatterJc_F(this, newPos,  null/*_thCxt*/); }
+  virtual struct StringFormatterJc_t* pos(int32 newPos){  return pos_i_StringFormatterJc_F(this, newPos,  null/*_thCxt*/); }
+
+  virtual struct StringFormatterJc_t* pos(int32 newPos, int32 minChars){  return pos_ii_StringFormatterJc_F(this, newPos, minChars,  null/*_thCxt*/); }
 
   virtual void prepareBufferPos(int32 nrofChars){ prepareBufferPos_StringFormatterJc_F(this, nrofChars,  null/*_thCxt*/); }
 

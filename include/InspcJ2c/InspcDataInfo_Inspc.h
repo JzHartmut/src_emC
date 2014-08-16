@@ -34,7 +34,7 @@ typedef struct InspcDataInfo_Inspc_t
   int8 typeValue;   /*The type of the value, to send in telegram, see kScalarTypes_DataExchangeCmd_OBM.*/
   int8 kindofOrder;   /*The kind of order:*/
   int16 lengthData;   /*If it is a recording order, size of the buffer. */
-  int16 check;   /*The indendificator should be sent from request to safety the correctness of request. */
+  int16 check;   /*The indendificator should be sent from request to safety the correctness of request.*/
 } InspcDataInfo_Inspc_s;
   
 

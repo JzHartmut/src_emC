@@ -16,7 +16,7 @@ const char sign_Mtbl_CmdConsumer_ifc_Inspc[] = "CmdConsumer_ifc_Inspc"; //to mar
 
 /**Executes a command, writes the answer in the answer datagram.*/
 /*J2C: dynamic call variant of the override-able method: */
-int32 executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Info_InspcDataExchangeAccess_Inspc_t* cmd, struct Datagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
+int32 executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
 { Mtbl_CmdConsumer_ifc_Inspc const* mtbl = (Mtbl_CmdConsumer_ifc_Inspc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_CmdConsumer_ifc_Inspc);
   return mtbl->executeMonitorCmd(ithis, cmd, answer, maxNrofAnswerBytes, _thCxt);
 }

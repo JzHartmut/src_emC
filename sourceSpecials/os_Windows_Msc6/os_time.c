@@ -80,7 +80,7 @@ OS_TimeStamp os_getDateTime()
 }
 
 
-int32 os_getMicroTime(void)
+int32 os_microTime(void)
 {
 	struct _timeb currTime;
 	_ftime(&currTime);
@@ -105,6 +105,22 @@ int32 os_getClockCnt(void)
     return -1;
   }
 }
+
+
+float os_measureClock()
+{ float tclock;
+  int startTime, endTime;
+  int time = os_milliTime();
+  int clockstart = os_getClockCnt();
+  while(time == (startTime = os_milliTime()));  //wait till os_milliTime is changed.
+  while((( endTime = os_milliTime()) - startTime) < 1000);  //wait till os_milliTime is changed second.
+  { int32_t clockend = os_getClockCnt();
+    int32_t dclock = clockend - clockstart;    //number of clocks
+    tclock = 1000.0f * (float)(endTime - startTime) / dclock;
+  }
+  return tclock;
+}  
+
  
 
 void os_delayThread(int32_t milliseconds)

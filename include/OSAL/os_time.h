@@ -159,14 +159,14 @@ int32_t os_getSeconds(void);
 /**Gets a circular time information in milliseconds.
  * @return a relativ value, the value can be used only for differnces.
  */
-int32_t os_getMilliTime(void);
 int32_t os_milliTime(void); 
+#define os_getMilliTime() os_milliTime();
 
 /**Gets a circular time information in microseconds.
  * @return a relativ value, the value can be used only for differnces.
  */
-int32_t os_getMicroTime(void);
 int32_t os_microTime(void);
+#define os_getMicroTime() os_microTime();
  
 /**Gets a circular time information in clocks of the system.
  * @return a relativ value, the value can be used only for differnces.
@@ -178,6 +178,15 @@ int32_t os_microTime(void);
 int32_t os_getClockCnt(void);
 //int32_t os_getClockTime(void);
  
+
+/**Measures the duration of 1 clock which is used for [[os_getClockCnt()]].
+ * This routine needs some calculation time, up to 1 second. It should be invoked only on start.
+ * @return Microseconds per clock count. 
+ */ 
+float os_measureClock();
+
+
+
 
 /**Delays a thread for a number of milliseconds.
  * @param timeOut sleep time in milliseconds.

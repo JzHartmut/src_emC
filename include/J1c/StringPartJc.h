@@ -35,7 +35,7 @@ struct StringPartScanJc_t;
 
 /* J2C: includes *********************************************************/
 #include "Jc/ObjectJc.h"  //interface
-#include "Jc/StringJc.h"  //embedded type in class data
+#include "Jc/StringJc.h"  //interface
 
 
 /*@CLASS_C Part_StringPartJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -140,7 +140,8 @@ typedef struct StringPartJc_t
   int32 beginLast;   /*Borders of the last part before calling of scan__(), seek__(), lento__()*/
   int32 endLast;   /*Borders of the last part before calling of scan__(), seek__(), lento__()*/
   bool bFound;   /*True if the last operation of lento__(), seek etc. has found anything. See {@link #found()}. */
-  int32 bitMode;   /*Some mode bits */
+  int32 bitMode;   /*Some mode bits. See all static final int xxx_mode. */
+  StringJc sFile;   /*Bit in mode*/
   StringJc sCommentStart;   /*The string defined the start of comment inside a text.*/
   StringJc sCommentEnd;   /*The string defined the end of comment inside a text.*/
   StringJc sCommentToEol;   /*The string defined the start of comment to end of line*/
@@ -174,7 +175,7 @@ typedef struct StringPartJc_Y_t { ObjectArrayJc head; StringPartJc_s data[50]; }
 void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringPartJc 20131027  /*Version, history and license.*/
+ extern StringJc sVersion_StringPartJc;   /*Version, history and license.*/
 #define seekEnd_StringPartJc 1  /*Flag to force setting the start position after the seeking string*/
 #define mSeekBackward__StringPartJc 0x10  /*Flag bit to force seeking backward*/
 #define mSeekToLeft__StringPartJc 0x40  /*Flag bit to force seeking left from start (Backward)*/
@@ -196,6 +197,9 @@ METHOD_C struct StringPartJc_t* ctorO_Cs_StringPartJc(ObjectJc* othis, struct Ch
 
 /**Builds a StringPart which uses the designated part of the given src.*/
 METHOD_C struct StringPartJc_t* ctorO_Csii_StringPartJc(ObjectJc* othis, struct CharSequenceJc_t* src, int32 start, int32 end, ThCxt* _thCxt);
+
+/**Sets the input file for information {@link #getInputfile()}*/
+METHOD_C void setInputfile_StringPartJc(StringPartJc_s* thiz, StringJc file, ThCxt* _thCxt);
 
 /**Sets the content to the given string, forgets the old content*/
 METHOD_C struct StringPartJc_t* assign_Cs_StringPartJc(StringPartJc_s* thiz, struct CharSequenceJc_t* ref, ThCxt* _thCxt);
@@ -227,16 +231,20 @@ METHOD_C bool setIgnoreWhitespaces_StringPartJc(StringPartJc_s* thiz, bool bSet,
 /**Sets the start of the maximal part to the actual start of the valid part.*/
 METHOD_C struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
+/**Sets the full range of available text.*/
+#define setParttoMax_StringPartJc(THIZ) \
+\
+{ \
+  \
+  (THIZ)->begiMin = (THIZ)->beginLast = /*? assignment*/(THIZ)->begin = /*? assignment*/0;\
+  (THIZ)->endMax = (THIZ)->end = /*? assignment*/(THIZ)->endLast = /*? assignment*/length_CharSequenceJc(REFJc((THIZ)->content), _thCxt);\
+  (THIZ)->bStartScan = (THIZ)->bCurrentOk = /*? assignment*/true;\
+}
+
 /**Sets the start of the part to the exclusively end, set the end to the end of the content.*/
 METHOD_C struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
-/**get the Line ct*/
-typedef int32 MT_getLineCt_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C int32 getLineCt_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C int32 getLineCt_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
-
+/**This method returns the characters of the current part.*/
 METHOD_C char charAt_StringPartJc(StringPartJc_s* thiz, int32 index, ThCxt* _thCxt);
 
 /**Returns a volatile CharSequence from the range inside the current part.*/
@@ -271,6 +279,13 @@ METHOD_C struct StringPartJc_t* lentoAnyNonEscapedChar_StringPartJc(StringPartJc
 /**Sets the length of the valid part to the first position of the given String,*/
 METHOD_C struct StringPartJc_t* lentoNonEscapedString_StringPartJc(StringPartJc_s* thiz, StringJc sEnd, int32 maxToTest, ThCxt* _thCxt);
 
+/**Sets the current Part from the current position to exactly one line.*/
+typedef struct StringPartJc_t* MT_line_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringPartJc_t* line_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringPartJc_t* line_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+
 /**Displaces the start of the part for some chars to left or to right.*/
 METHOD_C struct StringPartJc_t* seek_i_StringPartJc(StringPartJc_s* thiz, int32 nr, ThCxt* _thCxt);
 
@@ -292,6 +307,14 @@ METHOD_C struct StringPartJc_t* seekBegin_StringPartJc(StringPartJc_s* thiz, ThC
 /**Searchs the given String inside the valid part, posits the begin of the part to the begin of the searched string.*/
 METHOD_C struct StringPartJc_t* seek_Si_StringPartJc(StringPartJc_s* thiz, StringJc sSeek, int32 mode, ThCxt* _thCxt);
 
+/**Seeks to the given String, result is left side of the string.*/
+#define seek_S_StringPartJc(THIZ, sSeek) \
+(seek_Si_StringPartJc((THIZ), sSeek, seekNormal_StringPartJc, _thCxt))
+
+/**Seeks to the given String, start position is after the string.*/
+#define seekEnd_StringPartJc(THIZ, sSeek) \
+(seek_Si_StringPartJc((THIZ), sSeek, seekEnd_StringPartJc, _thCxt))
+
 /**Searchs the given String inside the valid part, posits the begin of the part to the begin of the searched string.*/
 METHOD_C struct StringPartJc_t* seekAnyString_StringPartJc(StringPartJc_s* thiz, StringJc_Y* strings, int32_Y* nrofFoundString, ThCxt* _thCxt);
 
@@ -301,6 +324,7 @@ METHOD_C struct StringPartJc_t* seek_ci_StringPartJc(StringPartJc_s* thiz, char 
 /**Posits the start of the part after all of the chars given in the parameter string.*/
 METHOD_C struct StringPartJc_t* seekNoChar_StringPartJc(StringPartJc_s* thiz, StringJc sChars, ThCxt* _thCxt);
 
+/**Searches any char contained in sChars in the current part*/
 METHOD_C int32 indexOfAnyChar_Sii_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 
 /**Returns the position of one of the chars in sChars within the part, started inside the part with fromIndex,*/
@@ -312,7 +336,7 @@ METHOD_C int32 lastIndexOfAnyChar_StringPartJc(StringPartJc_s* thiz, StringJc sC
 /**Returns the position of one of the chars in sChars within the part, started inside the part with fromIndex,*/
 METHOD_C int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSequenceJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32_Y* nrofFoundString, StringJc_Y* foundString, ThCxt* _thCxt);
 
-/**Searches any char contented in sChars,*/
+/**Searches any char contained in sChars in the current part*/
 METHOD_C int32 indexOfAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 
 /**Searches the end of a quoted string*/
@@ -407,8 +431,25 @@ METHOD_C struct CharSequenceJc_t* getCurrent_StringPartJc(StringPartJc_s* thiz, 
 /**Gets the next char at current Position.*/
 METHOD_C char getCurrentChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
+/**get the Line ct*/
+typedef int32 MT_XXXgetLineCt_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C int32 XXXgetLineCt_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C int32 XXXgetLineCt_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+
+/**Get the Line number and the column of the begin position.*/
+typedef int32 MT_getLineAndColumn_StringPartJc(StringPartJc_s* thiz, int32_Y* column, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C int32 getLineAndColumn_StringPartJc_F(StringPartJc_s* thiz, int32_Y* column, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C int32 getLineAndColumn_StringPartJc(StringPartJc_s* thiz, int32_Y* column, ThCxt* _thCxt);
+
 /**Gets the current position in line (column of the text).*/
 METHOD_C int32 getCurrentColumn_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+
+/**This method may be overridden to return the file which is used to build this Stringpart.*/
+METHOD_C StringJc getInputfile_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
 /**Returns the actual part of the string.*/
 METHOD_C struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
@@ -454,7 +495,12 @@ METHOD_C StringJc replace_StringPartJc(/*static*/ struct CharSequenceJc_t* src, 
  extern const char sign_Mtbl_StringPartJc[]; //marker for methodTable check
 typedef struct Mtbl_StringPartJc_t
 { MtblHeadJc head;
-  MT_getLineCt_StringPartJc* getLineCt;
+  MT_setParttoMax_StringPartJc* setParttoMax;
+  MT_line_StringPartJc* line;
+  MT_seek_S_StringPartJc* seek_S;
+  MT_seekEnd_StringPartJc* seekEnd;
+  MT_XXXgetLineCt_StringPartJc* XXXgetLineCt;
+  MT_getLineAndColumn_StringPartJc* getLineAndColumn;
   MT_close_StringPartJc* close;
   Mtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
@@ -469,6 +515,8 @@ typedef struct Mtbl_StringPartJc_t
 /* J2C: The C++-class-definition. */
 class StringPartJc : private StringPartJc_s
 { public:
+
+  virtual int32 XXXgetLineCt(){  return XXXgetLineCt_StringPartJc_F(this,  null/*_thCxt*/); }
 
   char absCharAt(int32 index){  return absCharAt_StringPartJc(this, index,  null/*_thCxt*/); }
 
@@ -514,9 +562,11 @@ class StringPartJc : private StringPartJc_s
 
   struct CharSequenceJc_t* getCurrent(int32 nChars){  return getCurrent_StringPartJc(this, nChars,  null/*_thCxt*/); }
 
+  StringJc getInputfile(){  return getInputfile_StringPartJc(this,  null/*_thCxt*/); }
+
   struct CharSequenceJc_t* getLastPart(){  return getLastPart_StringPartJc(this,  null/*_thCxt*/); }
 
-  virtual int32 getLineCt(){  return getLineCt_StringPartJc_F(this,  null/*_thCxt*/); }
+  virtual int32 getLineAndColumn(int32_Y* column){  return getLineAndColumn_StringPartJc_F(this, column,  null/*_thCxt*/); }
 
   struct Part_StringPartJc_t* getPart(int32 fromPos, int32 nrofChars){  return getPart_StringPartJc(this, fromPos, nrofChars,  null/*_thCxt*/); }
 
@@ -588,6 +638,8 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& lento(int32 len){ lento_i_StringPartJc(this, len,  null/*_thCxt*/);  return *this; }
 
+  virtual struct StringPartJc_t* line(){  return line_StringPartJc_F(this,  null/*_thCxt*/); }
+
   StringJc replace(struct CharSequenceJc_t* src, CharSequenceJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
 
   struct StringPartScanJc_t* scan(){  return scan_StringPartJc(this,  null/*_thCxt*/); }
@@ -596,11 +648,15 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& seekBegin(){ seekBegin_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
+  virtual struct StringPartJc_t* seekEnd(StringJcpp sSeek){  return seekEnd_StringPartJc_F(this, sSeek); }
+
   StringPartJc& seekNoChar(StringJcpp sChars){ seekNoChar_StringPartJc(this, sChars,  null/*_thCxt*/);  return *this; }
 
   StringPartJc& seekNoWhitespaceOrComments(){ seekNoWhitespaceOrComments_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
   StringPartJc& seekNoWhitespace(){ seekNoWhitespace_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+
+  virtual struct StringPartJc_t* seek(StringJcpp sSeek){  return seek_S_StringPartJc_F(this, sSeek); }
 
   StringPartJc& seek(StringJcpp sSeek, int32 mode){ seek_Si_StringPartJc(this, sSeek, mode,  null/*_thCxt*/);  return *this; }
 
@@ -622,7 +678,11 @@ class StringPartJc : private StringPartJc_s
 
   bool setIgnoreWhitespaces(bool bSet){  return setIgnoreWhitespaces_StringPartJc(this, bSet,  null/*_thCxt*/); }
 
+  void setInputfile(StringJcpp file){ setInputfile_StringPartJc(this, file,  null/*_thCxt*/); }
+
   StringPartJc& setLengthMax(){ setLengthMax_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+
+  virtual void setParttoMax(){ setParttoMax_StringPartJc_F(this); }
 
   struct StringPartJc_t* skipWhitespaceAndComment(){  return skipWhitespaceAndComment_StringPartJc(this,  null/*_thCxt*/); }
 

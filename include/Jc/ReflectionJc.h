@@ -869,6 +869,7 @@ typedef enum ScalarTypes_ClassJc_t
   REFLECTION_double_ClassJc     = 0x0d,
   REFLECTION_char_ClassJc       = 0x0e,
   REFLECTION_bool_ClassJc       = 0x0f,
+  REFLECTION_boolean_ClassJc    = 0x0f,
   REFLECTION_String_ClassJc     = 0x10,
   REFLECTION_bitfield_ClassJc   = 0x17,
   REFLECTION_afterlastPrimitive_ClassJc       = 0x18
