@@ -100,10 +100,10 @@ void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt
 {
   int max = array->head.length;
   int8* data;
-  if(toIndex >= max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
+  if(toIndex > max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
     THROW_s0(ArrayIndexOutOfBoundsException, "index error", max);
   data = array->data + fromIndex;
-  while(++fromIndex <= toIndex){
+  while(++fromIndex < toIndex){
     *data++ = (int8)value;
   }
 }

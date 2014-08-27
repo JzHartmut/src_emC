@@ -72,6 +72,15 @@ METHOD_C int binarySearch_int64_ii_ArraysJc(int64_Y const* data, int fromIndex, 
 METHOD_C int binarySearch0_int64_ii_ArraysJc(int64_Y const* data, int fromIndex, int toIndex, int64 key);
 
 
+/**
+ * Writes a value to all field elements.
+ *
+ * @param array to be filled
+ * @param fromIndex the index of the first element (inclusive) to be filled with the specified value
+ * @param toIndex the index of the last element (exclusive) to be filled with the specified value
+ * @param value the value to be stored in all elements of the array
+ * @throws ArrayIndexOutOfBoundsException on index error
+ */
 METHOD_C void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt* _thCxt);
 
 METHOD_C void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, ThCxt* _thCxt);

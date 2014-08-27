@@ -21,14 +21,14 @@ struct Inspcitem_InspcDataExchangeAccess_Inspc_t;
 
 
 /* J2C: includes *********************************************************/
-#include "J1c/ByteDataAccessJc.h"  //superclass
+#include "J1c/ByteDataAccessBaseJc.h"  //superclass
 
 
 /*@CLASS_C InspcDatagram_InspcDataExchangeAccess_Inspc @@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct InspcDatagram_InspcDataExchangeAccess_Inspc_t
 { 
-  union { ObjectJc object; ByteDataAccessJc_s super;} base; 
+  union { ByteDataAccessBaseJc_s super;} base; 
 } InspcDatagram_InspcDataExchangeAccess_Inspc_s;
   
 
@@ -56,7 +56,7 @@ typedef struct InspcDatagram_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc h
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_InspcDatagram_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
+void finalize_InspcDatagram_InspcDataExchangeAccess_Inspc_F(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 #define knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc 0
@@ -69,25 +69,27 @@ void finalize_InspcDatagram_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThC
 #define sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc 16
 
 
-METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorO_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(ObjectJc* othis, int8_Y* buffer, ThCxt* _thCxt);
+METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, int8_Y* buffer, ThCxt* _thCxt);
 
-METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorO_InspcDatagram_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt);
+METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
-METHOD_C void specifyEmptyDefaultData_InspcDatagram_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
-
-METHOD_C int32 specifyLengthElement_InspcDatagram_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
-
-METHOD_C int32 specifyLengthElementHead_InspcDatagram_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
+/**Assigns a datagram.*/
+#define assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ, data, length) \
+\
+{ \
+  \
+  assign_iYii_ByteDataAccessBaseJc((&(THIZ)->base.super), data, length, 0, _thCxt);\
+}
 
 #define setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ, length) \
 \
 { \
   \
-  setInt16_ii_ByteDataAccessJc(& ((* ((THIZ))).base.super), 0, length, _thCxt);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, length, _thCxt);\
 }
 
 #define getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), 0, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, _thCxt))
 
 /**Sets the head for an answer telegram*/
 METHOD_C void setHeadRequest_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, int32 entrant, int32 seqNr, int32 encryption, ThCxt* _thCxt);
@@ -99,24 +101,24 @@ METHOD_C void setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDat
 \
 { \
   \
-  setInt16_ii_ByteDataAccessJc(& ((* ((THIZ))).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
 }
 
 #define getEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
 
 #define getEncryption_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt32_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
+(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
 
 #define setSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ, nr) \
 \
 { \
   \
-  setInt32_ii_ByteDataAccessJc(& ((* ((THIZ))).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
+  setInt32_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
 }
 
 #define getSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt32_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
+(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
 
 /**Mark the datagram as last answer. */
 METHOD_C void markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
@@ -126,21 +128,11 @@ METHOD_C void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcData
 
 /**Gets the number of the answer datagram.*/
 #define getAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt8_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x7f)
+(getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x7f)
 
 /**Gets the information about the last answer datagram. */
 #define lastAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-((getInt8_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x80) == 0x80)
-
-
-/* J2C: Method table contains all dynamic linked (virtual) methods
- * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ByteDataAccessJc ByteDataAccessJc;
-} Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc;
-
+((getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x80) == 0x80)
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -148,9 +140,7 @@ typedef struct Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc_t
 class InspcDatagram_InspcDataExchangeAccess_Inspc : private InspcDatagram_InspcDataExchangeAccess_Inspc_s
 { public:
 
-  InspcDatagram_InspcDataExchangeAccess_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s, 0); ctorO_InspcDatagram_InspcDataExchangeAccess_Inspc(&this->base.object,  null/*_thCxt*/); }
-
-  InspcDatagram_InspcDataExchangeAccess_Inspc(int8_Y* buffer){ init_ObjectJc(&this->base.object, sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s, 0); ctorO_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(&this->base.object, buffer,  null/*_thCxt*/); }
+  void assignDatagram(int8_Y* data, int32 length){ assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, data, length); }
 
   int32 getAnswerNr(){  return getAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(this); }
 
@@ -177,12 +167,6 @@ class InspcDatagram_InspcDataExchangeAccess_Inspc : private InspcDatagram_InspcD
   void setLengthDatagram(int32 length){ setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, length); }
 
   void setSeqnr(int32 nr){ setSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(this, nr); }
-
-  void specifyEmptyDefaultData(){ specifyEmptyDefaultData_InspcDatagram_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
-
-  int32 specifyLengthElementHead(){  return specifyLengthElementHead_InspcDatagram_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
-
-  int32 specifyLengthElement(){  return specifyLengthElement_InspcDatagram_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -193,7 +177,7 @@ class InspcDatagram_InspcDataExchangeAccess_Inspc : private InspcDatagram_InspcD
 
 typedef struct Inspcitem_InspcDataExchangeAccess_Inspc_t
 { 
-  union { ObjectJc object; ByteDataAccessJc_s super;} base; 
+  union { ByteDataAccessBaseJc_s super;} base; 
 } Inspcitem_InspcDataExchangeAccess_Inspc_s;
   
 
@@ -221,7 +205,7 @@ typedef struct Inspcitem_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head;
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
+void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 #define kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc 4
@@ -255,15 +239,9 @@ void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* 
 #define kSpecialValueLast_Inspcitem_InspcDataExchangeAccess_Inspc 0x7fff
 
 
-METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorO_i_Inspcitem_InspcDataExchangeAccess_Inspc(ObjectJc* othis, int32 sizeData, ThCxt* _thCxt);
+METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, int32 sizeData, ThCxt* _thCxt);
 
-METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorO_Inspcitem_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt);
-
-METHOD_C void specifyEmptyDefaultData_Inspcitem_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
-
-METHOD_C int32 specifyLengthElement_Inspcitem_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
-
-METHOD_C int32 specifyLengthElementHead_Inspcitem_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
+METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
 /**Sets the head data and sets the length of the ByteDataAccess-element.*/
 METHOD_C void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz, int32 length, int32 cmd, int32 order, ThCxt* _thCxt);
@@ -272,47 +250,33 @@ METHOD_C void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_Insp
 \
 { \
   \
-  setInt16_ii_ByteDataAccessJc(& ((* ((THIZ))).base.super), 0, length, _thCxt);\
-  setLengthElement_ByteDataAccessJc(& ((* ((THIZ))).base.super), length);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, length, _thCxt);\
+  setLengthElement_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), length);\
 }
 
 #define setCmd_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ, cmd) \
 \
 { \
   \
-  setInt16_ii_ByteDataAccessJc(& ((* ((THIZ))).base.super), 2, cmd, _thCxt);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 2, cmd, _thCxt);\
 }
 
 /**Returns the cmd in a Reflitem*/
 #define getCmd_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), 2, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 2, _thCxt))
 
 #define getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), 0, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, _thCxt))
 
 /**Gets the order number of the info block*/
 #define getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt32_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
-
-
-/* J2C: Method table contains all dynamic linked (virtual) methods
- * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ByteDataAccessJc ByteDataAccessJc;
-} Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc;
-
+(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
 class Inspcitem_InspcDataExchangeAccess_Inspc : private Inspcitem_InspcDataExchangeAccess_Inspc_s
 { public:
-
-  Inspcitem_InspcDataExchangeAccess_Inspc(){ init_ObjectJc(&this->base.object, sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0); ctorO_Inspcitem_InspcDataExchangeAccess_Inspc(&this->base.object,  null/*_thCxt*/); }
-
-  Inspcitem_InspcDataExchangeAccess_Inspc(int32 sizeData){ init_ObjectJc(&this->base.object, sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0); ctorO_i_Inspcitem_InspcDataExchangeAccess_Inspc(&this->base.object, sizeData,  null/*_thCxt*/); }
 
   int32 getCmd(){  return getCmd_Inspcitem_InspcDataExchangeAccess_Inspc(this); }
 
@@ -325,12 +289,6 @@ class Inspcitem_InspcDataExchangeAccess_Inspc : private Inspcitem_InspcDataExcha
   void setInfoHead(int32 length, int32 cmd, int32 order){ setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(this, length, cmd, order,  null/*_thCxt*/); }
 
   void setLength(int32 length){ setLength_Inspcitem_InspcDataExchangeAccess_Inspc(this, length); }
-
-  void specifyEmptyDefaultData(){ specifyEmptyDefaultData_Inspcitem_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
-
-  int32 specifyLengthElementHead(){  return specifyLengthElementHead_Inspcitem_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
-
-  int32 specifyLengthElement(){  return specifyLengthElement_Inspcitem_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -341,7 +299,7 @@ class Inspcitem_InspcDataExchangeAccess_Inspc : private Inspcitem_InspcDataExcha
 
 typedef struct InspcSetValue_InspcDataExchangeAccess_Inspc_t
 { 
-  union { ObjectJc object; ByteDataAccessJc_s super;} base; 
+  union { ByteDataAccessBaseJc_s super;} base; 
 } InspcSetValue_InspcDataExchangeAccess_Inspc_s;
   
 
@@ -369,58 +327,58 @@ typedef struct InspcSetValue_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc h
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_InspcSetValue_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
+void finalize_InspcSetValue_InspcDataExchangeAccess_Inspc_F(InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 #define sizeofElement_InspcSetValue_InspcDataExchangeAccess_Inspc 16
 #define kType_InspcSetValue_InspcDataExchangeAccess_Inspc 7
 
 
-METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt);
+METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
 /**Gets a password for access control.*/
 #define getPwd_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(_getLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 0, 6, _thCxt))
+(_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, 6, _thCxt))
 
 #define setPwd_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, pwd) \
 \
 { \
   \
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 0, 6, pwd, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, 6, pwd, _thCxt);\
 }
 
 #define getType_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int8)_getLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 7, 1, _thCxt))
+((int8)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 7, 1, _thCxt))
 
 #define getByte_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int8)_getLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 15, -1, _thCxt))
+((int8)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, -1, _thCxt))
 
 #define getShort_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int16)_getLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 14, -2, _thCxt))
+((int16)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 14, -2, _thCxt))
 
 /**A long value is provided in the bytes 8..15 in Big endian.*/
 #define getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int32)_getLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 12, -4, _thCxt))
+((int32)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, -4, _thCxt))
 
 /**A long value is provided in the bytes 8..15 in Big endian.*/
 #define getLong_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(_getLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt))
+(_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt))
 
 /**A float value is provided in the bytes 8..11 in Big endian.*/
 #define getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(getFloat_i_ByteDataAccessJc(& ((* ((THIZ))).base.super), 8, _thCxt))
+(getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt))
 
 #define getDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(getDouble_ByteDataAccessJc(& ((* ((THIZ))).base.super), 8, _thCxt))
+(getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt))
 
 /**Sets a byte value. */
 #define setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_boolean_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_boolean_ClassJc, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
 }
 
 /**Sets a byte value. */
@@ -428,9 +386,9 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetVal
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int8_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int8_ClassJc, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
 }
 
 /**Sets a short value. */
@@ -438,9 +396,9 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetVal
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 14, 2, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 14, 2, value, _thCxt);\
 }
 
 /**Sets a int32 value. */
@@ -448,9 +406,9 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetVal
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
 }
 
 /**Sets a long value (int64). */
@@ -458,9 +416,9 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetVal
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int64_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 8, 8, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int64_ClassJc, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, 8, value, _thCxt);\
 }
 
 /**Sets a float value. */
@@ -468,9 +426,9 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetVal
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);\
-  setFloat_if_ByteDataAccessJc(& ((* ((THIZ))).base.super), 12, value);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);\
+  setFloat_if_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, value);\
 }
 
 /**Sets a float value given by a int image. */
@@ -478,9 +436,9 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetVal
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
 }
 
 /**Sets a double value. */
@@ -488,34 +446,16 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetVal
 \
 { \
   \
-  clearData_ByteDataAccessJc(& ((* ((THIZ))).base.super), _thCxt);\
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc, _thCxt);\
-  setDouble_ByteDataAccessJc(& ((* ((THIZ))).base.super), 8, value);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc, _thCxt);\
+  setDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, value);\
 }
-
-METHOD_C void specifyEmptyDefaultData_InspcSetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
-
-METHOD_C int32 specifyLengthElement_InspcSetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
-
-METHOD_C int32 specifyLengthElementHead_InspcSetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt);
-
-
-/* J2C: Method table contains all dynamic linked (virtual) methods
- * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ByteDataAccessJc ByteDataAccessJc;
-} Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc;
-
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
 class InspcSetValue_InspcDataExchangeAccess_Inspc : private InspcSetValue_InspcDataExchangeAccess_Inspc_s
 { public:
-
-  InspcSetValue_InspcDataExchangeAccess_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InspcSetValue_InspcDataExchangeAccess_Inspc_s, 0); ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   int8 getByte(){  return getByte_InspcSetValue_InspcDataExchangeAccess_Inspc(this); }
 
@@ -550,12 +490,6 @@ class InspcSetValue_InspcDataExchangeAccess_Inspc : private InspcSetValue_InspcD
   void setPwd(int32 pwd){ setPwd_InspcSetValue_InspcDataExchangeAccess_Inspc(this, pwd); }
 
   void setShort(int32 value){ setShort_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
-
-  void specifyEmptyDefaultData(){ specifyEmptyDefaultData_InspcSetValue_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
-
-  int32 specifyLengthElementHead(){  return specifyLengthElementHead_InspcSetValue_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
-
-  int32 specifyLengthElement(){  return specifyLengthElement_InspcSetValue_InspcDataExchangeAccess_Inspc(&this->base.super,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -566,7 +500,7 @@ class InspcSetValue_InspcDataExchangeAccess_Inspc : private InspcSetValue_InspcD
 
 typedef struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t
 { 
-  union { ObjectJc object; Inspcitem_InspcDataExchangeAccess_Inspc_s super;} base; 
+  union { Inspcitem_InspcDataExchangeAccess_Inspc_s super;} base; 
 } InspcSetValueData_InspcDataExchangeAccess_Inspc_s;
   
 
@@ -594,26 +528,26 @@ typedef struct InspcSetValueData_InspcDataExchangeAccess_Inspc_Y_t { ObjectArray
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_InspcSetValueData_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
+void finalize_InspcSetValueData_InspcDataExchangeAccess_Inspc_F(InspcSetValueData_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
 
 
 #define sizeofElement_InspcSetValueData_InspcDataExchangeAccess_Inspc 32
 
 
-METHOD_C struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetValueData_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt);
+METHOD_C struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValueData_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
 #define setAddress_InspcSetValueData_InspcDataExchangeAccess_Inspc(THIZ, address) \
 \
 { \
   \
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super.base.super), 8, 4, address, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super.base.super), 8, 4, address, _thCxt);\
 }
 
 #define setPosition_InspcSetValueData_InspcDataExchangeAccess_Inspc(THIZ, position) \
 \
 { \
   \
-  _setLong_ByteDataAccessJc(& ((* ((THIZ))).base.super.base.super), 12, 4, position, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super.base.super), 12, 4, position, _thCxt);\
 }
 
 METHOD_C void setBool_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_InspcDataExchangeAccess_Inspc_s* thiz, int32 value, ThCxt* _thCxt);
@@ -640,22 +574,10 @@ METHOD_C void setLong_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetVa
 }
 
 
-/* J2C: Method table contains all dynamic linked (virtual) methods
- * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc Inspcitem_InspcDataExchangeAccess_Inspc;
-} Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc;
-
-
-
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
 class InspcSetValueData_InspcDataExchangeAccess_Inspc : private InspcSetValueData_InspcDataExchangeAccess_Inspc_s
 { public:
-
-  InspcSetValueData_InspcDataExchangeAccess_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InspcSetValueData_InspcDataExchangeAccess_Inspc_s, 0); ctorO_InspcSetValueData_InspcDataExchangeAccess_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   void setAddress(int32 address){ setAddress_InspcSetValueData_InspcDataExchangeAccess_Inspc(this, address); }
 

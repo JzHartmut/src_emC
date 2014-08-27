@@ -18,6 +18,7 @@ class Arrays; nameC=ArraysJc; argIdent=A; extends java/lang/Object
     fill+_F-_$, mode=static: void%.. return(float X%. value, int %.. from, int %.. to, float %.. value);
     fill+_D-_$, mode=static: void%.. return(double X%. value,int %.. from, int %.. to, double %.. value);
     fill+_O-_$, mode=static: void%.. return(Object X*. value,int %.. from, int %.. to, Object *.. value);
+    fill+_aB-_$, mode=static: void%.. return(byte X%. array, byte %.. value);
     binarySearch+_int_ii-_$, mode=static: int%.. return(int Y.. array, int %.. from, int%.. to, int%.. key);
     binarySearch+_int-_$, mode=static: int%.. return(int Y.. array, int%.. key);
     binarySearch+_int64-_$, mode=static: int%.. return(long Y.. array, long%.. key);

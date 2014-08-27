@@ -6,7 +6,6 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/ReflectionJc.h"  //reference-association: ClassJc
 
 
@@ -81,32 +80,28 @@ const ClassJc reflection_InspcDataExchangeAccess_Inspc_s =
 };
 
 /**Preparing the header of a datagram.
-*
+
 */
 
 
 const char sign_Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc[] = "InspcDatagram_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_InspcDatagram_InspcDataExchangeAccess_Inspc_t { Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc mtbl; MtblHeadJc end; } MtblDef_InspcDatagram_InspcDataExchangeAccess_Inspc;
- extern MtblDef_InspcDatagram_InspcDataExchangeAccess_Inspc const mtblInspcDatagram_InspcDataExchangeAccess_Inspc;
 
 /*Constructor */
-struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorO_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(ObjectJc* othis, int8_Y* buffer, ThCxt* _thCxt)
-{ InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = (InspcDatagram_InspcDataExchangeAccess_Inspc_s*)othis;  //upcasting to the real class.
-  Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc const* mtthis = &mtblInspcDatagram_InspcDataExchangeAccess_Inspc.mtbl;
-  STACKTRC_TENTRY("ctorO_InspcDatagram_InspcDataExchangeAccess_Inspc");
-  checkConsistence_ObjectJc(othis, sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s), null, _thCxt);  
+struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, int8_Y* buffer, ThCxt* _thCxt)
+{ InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcDatagram_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
+  int sizeObj = size_MemC(mthis);
+  STACKTRC_TENTRY("ctor_InspcDatagram_InspcDataExchangeAccess_Inspc");
+  if(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
-  ctorO_ByteDataAccessJc(/*static*/othis, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s, sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s));  
+  ctorM_i_ByteDataAccessBaseJc(/*static*/mthis, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
   {
   }
   { 
     
-    ctorO_InspcDatagram_InspcDataExchangeAccess_Inspc(othis, _thCxt);
-    assignEmpty_ByteDataAccessJc(& ((* (thiz)).base.super), buffer, _thCxt);
-    mtthis->ByteDataAccessJc.setBigEndian(& ((* (thiz)).base.super), true, _thCxt);
+    assign_iYii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), buffer, -1, 0, _thCxt);
+    setBigEndian_ByteDataAccessBaseJc((&thiz->base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -115,65 +110,24 @@ struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorO_iY_InspcDatagram_Ins
 
 
 /*Constructor */
-struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorO_InspcDatagram_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt)
-{ InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = (InspcDatagram_InspcDataExchangeAccess_Inspc_s*)othis;  //upcasting to the real class.
-  Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc const* mtthis = &mtblInspcDatagram_InspcDataExchangeAccess_Inspc.mtbl;
-  STACKTRC_TENTRY("ctorO_InspcDatagram_InspcDataExchangeAccess_Inspc");
-  checkConsistence_ObjectJc(othis, sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s), null, _thCxt);  
+struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt)
+{ InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcDatagram_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
+  int sizeObj = size_MemC(mthis);
+  STACKTRC_TENTRY("ctor_InspcDatagram_InspcDataExchangeAccess_Inspc");
+  if(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
-  ctorO_ByteDataAccessJc(/*static*/othis, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s, sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s));  
+  ctorM_i_ByteDataAccessBaseJc(/*static*/mthis, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
   {
   }
   { 
     
-    mtthis->ByteDataAccessJc.setBigEndian(& ((* (thiz)).base.super), true, _thCxt);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
 }
 
-
-void specifyEmptyDefaultData_InspcDatagram_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = (InspcDatagram_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyEmptyDefaultData_InspcDatagram_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    fill_B_ArraysJc(/*static*/thiz->base.super.data, 0, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, (int8)0, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-int32 specifyLengthElement_InspcDatagram_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = (InspcDatagram_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyLengthElement_InspcDatagram_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return getInt16_i_ByteDataAccessJc(& ((* (thiz)).base.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-int32 specifyLengthElementHead_InspcDatagram_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = (InspcDatagram_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyLengthElementHead_InspcDatagram_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
-    }
-  }
-  STACKTRC_LEAVE;
-}
 
 
 /**Sets the head for an answer telegram*/
@@ -183,14 +137,14 @@ void setHeadRequest_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_In
   
   { 
     
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
-    setInt32_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
-    setInt8_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
-    setInt8_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
     
-    setInt32_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -203,14 +157,14 @@ void setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_Ins
   
   { 
     
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
-    setInt32_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
-    setInt8_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x1);
-    setInt8_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x1);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
     
-    setInt32_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -225,9 +179,9 @@ void markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_
     int32 nr; 
     
     
-    nr = getInt8_i_ByteDataAccessJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
+    nr = getInt8_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
     nr |= 0x80;
-    setInt8_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
   }
   STACKTRC_LEAVE;
 }
@@ -242,51 +196,21 @@ void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_Insp
     int32 nr; 
     
     
-    nr = getInt8_i_ByteDataAccessJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
+    nr = getInt8_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
     nr = (nr & 0x7f) + 1;
     ASSERT(/*static*/(nr & 0x80) == 0);
-    setInt8_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
   }
   STACKTRC_LEAVE;
 }
 
-
-
-/**J2C: Reflections and Method-table *************************************************/
-const MtblDef_InspcDatagram_InspcDataExchangeAccess_Inspc mtblInspcDatagram_InspcDataExchangeAccess_Inspc = {
-{ { sign_Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-  }
-, { { sign_Mtbl_ByteDataAccessJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((7 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-    }
-  , specifyEmptyDefaultData_InspcDatagram_InspcDataExchangeAccess_Inspc //specifyEmptyDefaultData
-  , specifyLengthElementHead_InspcDatagram_InspcDataExchangeAccess_Inspc //specifyLengthElementHead
-  , specifyLengthElement_InspcDatagram_InspcDataExchangeAccess_Inspc //specifyLengthElement
-  , notifyAddChild_ByteDataAccessJc_F //notifyAddChild
-  , specifyLengthCurrentChildElement_ByteDataAccessJc_F //specifyLengthCurrentChildElement
-  , assignDataToFixChilds_ByteDataAccessJc_F //assignDataToFixChilds
-  , setBigEndian_ByteDataAccessJc_F //setBigEndian
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-      }
-    , clone_ObjectJc_F //clone
-    , equals_ObjectJc_F //equals
-    , finalize_ByteDataAccessJc_F //finalize
-    , hashCode_ObjectJc_F //hashCode
-    , toString_ObjectJc_F //toString
-    }
-  }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
-
-
- extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
  static struct superClasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ByteDataAccessJc_s, OFFSET_Mtbl(Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc, ByteDataAccessJc) }
+ , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Mtbl*/ }
    }
  };
 
@@ -300,44 +224,41 @@ const ClassJc reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s =
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
-, &mtblInspcDatagram_InspcDataExchangeAccess_Inspc.mtbl.head
 };
 
 /**This is the header of an information entry.
-* <pre>
+<pre>
 Inspcitem::= <@0+2#?SIZE> <@2+2#?cmd> <@4+4#?order> .
 </pre>
-* An information entry contains this header and may be some childs.
-* The childs may be simple integer or String childs getting and setting
-* with the methodes to add
-* {@link ByteDataAccess#addChildInteger(int, long)} or {@link ByteDataAccess#addChildString(String)}.
-* and the methods to get
-* {@link ByteDataAccess#getChildInteger(int)} or {@link ByteDataAccess#getChildString(int)}.
-* The childs may be described by a named-here class, forex {@link InspcSetValue}
-* <br><br>
-* The structure of an information entry may be described with XML, where the XML is only
-* a medium to show the structures, for example:
-* <pre>
-* <Info bytes="16" order="345"><StringValue length="7">Example</StringValue></Info>
-* </pre>
-* In this case 8 Bytes are added after the head. The length stored in the head is 16.
-* The <StringValue...> consists of a length byte, following by ASCII-character.
+An information entry contains this header and may be some childs.
+The childs may be simple integer or String childs getting and setting
+with the methodes to add
+{@link ByteDataAccess#addChildInteger(int, long)} or {@link ByteDataAccess#addChildString(String)}.
+and the methods to get
+{@link ByteDataAccess#getChildInteger(int)} or {@link ByteDataAccess#getChildString(int)}.
+The childs may be described by a named-here class, forex {@link InspcSetValue}
+<br><br>
+The structure of an information entry may be described with XML, where the XML is only
+a medium to show the structures, for example:
+<pre>
+<Info bytes="16" order="345"><StringValue length="7">Example</StringValue></Info>
+</pre>
+In this case 8 Bytes are added after the head. The length stored in the head is 16.
+The <StringValue...> consists of a length byte, following by ASCII-character.
 */
 
 
 const char sign_Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc[] = "Inspcitem_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_Inspcitem_InspcDataExchangeAccess_Inspc_t { Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc mtbl; MtblHeadJc end; } MtblDef_Inspcitem_InspcDataExchangeAccess_Inspc;
- extern MtblDef_Inspcitem_InspcDataExchangeAccess_Inspc const mtblInspcitem_InspcDataExchangeAccess_Inspc;
 
 /*Constructor */
-struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorO_i_Inspcitem_InspcDataExchangeAccess_Inspc(ObjectJc* othis, int32 sizeData, ThCxt* _thCxt)
-{ Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = (Inspcitem_InspcDataExchangeAccess_Inspc_s*)othis;  //upcasting to the real class.
-  STACKTRC_TENTRY("ctorO_Inspcitem_InspcDataExchangeAccess_Inspc");
-  checkConsistence_ObjectJc(othis, sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s), null, _thCxt);  
+struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, int32 sizeData, ThCxt* _thCxt)
+{ Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, Inspcitem_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
+  int sizeObj = size_MemC(mthis);
+  STACKTRC_TENTRY("ctor_Inspcitem_InspcDataExchangeAccess_Inspc");
+  if(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
-  ctorO_ii_ByteDataAccessJc(/*static*/othis, sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, sizeData, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s));  
+  ctorM_ii_ByteDataAccessBaseJc(/*static*/mthis, sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, sizeData, _thCxt);
   //j2c: Initialize all class variables:
   {
   }
@@ -352,13 +273,13 @@ struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorO_i_Inspcitem_InspcDataExc
 
 
 /*Constructor */
-struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorO_Inspcitem_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt)
-{ Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = (Inspcitem_InspcDataExchangeAccess_Inspc_s*)othis;  //upcasting to the real class.
-  STACKTRC_TENTRY("ctorO_Inspcitem_InspcDataExchangeAccess_Inspc");
-  checkConsistence_ObjectJc(othis, sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s), null, _thCxt);  
+struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt)
+{ Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, Inspcitem_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
+  int sizeObj = size_MemC(mthis);
+  STACKTRC_TENTRY("ctor_Inspcitem_InspcDataExchangeAccess_Inspc");
+  if(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
-  ctorO_ii_ByteDataAccessJc(/*static*/othis, sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, -1, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s));  
+  ctorM_i_ByteDataAccessBaseJc(/*static*/mthis, sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
   {
   }
@@ -370,46 +291,6 @@ struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorO_Inspcitem_InspcDataExcha
   return thiz;
 }
 
-
-void specifyEmptyDefaultData_Inspcitem_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = (Inspcitem_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyEmptyDefaultData_Inspcitem_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-int32 specifyLengthElement_Inspcitem_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = (Inspcitem_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyLengthElement_Inspcitem_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return getInt16_i_ByteDataAccessJc(& ((* (thiz)).base.super), 0, _thCxt);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-int32 specifyLengthElementHead_Inspcitem_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = (Inspcitem_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyLengthElementHead_Inspcitem_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc;
-    }
-  }
-  STACKTRC_LEAVE;
-}
 
 
 /**Sets the head data and sets the length of the ByteDataAccess-element.*/
@@ -421,53 +302,23 @@ void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_InspcDataExch
     int32 lengthInfo; 
     
     
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), 0, length, _thCxt);
-    setInt16_ii_ByteDataAccessJc(& ((* (thiz)).base.super), 2, cmd, _thCxt);
-    setInt32_ii_ByteDataAccessJc(& ((* (thiz)).base.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, order, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 0, length, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 2, cmd, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, order, _thCxt);
     lengthInfo = length >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc ? length : sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc;
-    setLengthElement_ByteDataAccessJc(& ((* (thiz)).base.super), lengthInfo);/*adjust the length in the access.*/
+    setLengthElement_ByteDataAccessBaseJc(& ((* (thiz)).base.super), lengthInfo);/*adjust the length in the access.*/
     
   }
   STACKTRC_LEAVE;
 }
 
-
-
-/**J2C: Reflections and Method-table *************************************************/
-const MtblDef_Inspcitem_InspcDataExchangeAccess_Inspc mtblInspcitem_InspcDataExchangeAccess_Inspc = {
-{ { sign_Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-  }
-, { { sign_Mtbl_ByteDataAccessJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((7 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-    }
-  , specifyEmptyDefaultData_Inspcitem_InspcDataExchangeAccess_Inspc //specifyEmptyDefaultData
-  , specifyLengthElementHead_Inspcitem_InspcDataExchangeAccess_Inspc //specifyLengthElementHead
-  , specifyLengthElement_Inspcitem_InspcDataExchangeAccess_Inspc //specifyLengthElement
-  , notifyAddChild_ByteDataAccessJc_F //notifyAddChild
-  , specifyLengthCurrentChildElement_ByteDataAccessJc_F //specifyLengthCurrentChildElement
-  , assignDataToFixChilds_ByteDataAccessJc_F //assignDataToFixChilds
-  , setBigEndian_ByteDataAccessJc_F //setBigEndian
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-      }
-    , clone_ObjectJc_F //clone
-    , equals_ObjectJc_F //equals
-    , finalize_ByteDataAccessJc_F //finalize
-    , hashCode_ObjectJc_F //hashCode
-    , toString_ObjectJc_F //toString
-    }
-  }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
-
-
- extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
  static struct superClasses_Inspcitem_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ByteDataAccessJc_s, OFFSET_Mtbl(Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc, ByteDataAccessJc) }
+ , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Mtbl*/ }
    }
  };
 
@@ -481,7 +332,6 @@ const ClassJc reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s =
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
-, &mtblInspcitem_InspcDataExchangeAccess_Inspc.mtbl.head
 };
 
 /**ReflItem which contains a value.
@@ -494,107 +344,34 @@ InspcSetValue::= <@0+6#?pwd> <@7+1#?type> [<@8+4 empty> <@12+4#?long> | ...].
 
 const char sign_Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc[] = "InspcSetValue_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_InspcSetValue_InspcDataExchangeAccess_Inspc_t { Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc mtbl; MtblHeadJc end; } MtblDef_InspcSetValue_InspcDataExchangeAccess_Inspc;
- extern MtblDef_InspcSetValue_InspcDataExchangeAccess_Inspc const mtblInspcSetValue_InspcDataExchangeAccess_Inspc;
 
 /*Constructor */
-struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt)
-{ InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz = (InspcSetValue_InspcDataExchangeAccess_Inspc_s*)othis;  //upcasting to the real class.
-  Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc const* mtthis = &mtblInspcSetValue_InspcDataExchangeAccess_Inspc.mtbl;
-  STACKTRC_TENTRY("ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc");
-  checkConsistence_ObjectJc(othis, sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s), null, _thCxt);  
+struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt)
+{ InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcSetValue_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
+  int sizeObj = size_MemC(mthis);
+  STACKTRC_TENTRY("ctor_InspcSetValue_InspcDataExchangeAccess_Inspc");
+  if(sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
-  ctorO_ii_ByteDataAccessJc(/*static*/othis, 0, sizeofElement_InspcSetValue_InspcDataExchangeAccess_Inspc, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_InspcSetValue_InspcDataExchangeAccess_Inspc_s, sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s));  
+  ctorM_i_ByteDataAccessBaseJc(/*static*/mthis, sizeofElement_InspcSetValue_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
   {
   }
   { 
     
-    mtthis->ByteDataAccessJc.setBigEndian(& ((* (thiz)).base.super), true, _thCxt);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
 }
 
 
-void specifyEmptyDefaultData_InspcSetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz = (InspcSetValue_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyEmptyDefaultData_InspcSetValue_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    
-  }
-  STACKTRC_LEAVE;
-}
-
-int32 specifyLengthElement_InspcSetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz = (InspcSetValue_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyLengthElement_InspcSetValue_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return sizeofElement_InspcSetValue_InspcDataExchangeAccess_Inspc;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-int32 specifyLengthElementHead_InspcSetValue_InspcDataExchangeAccess_Inspc(ByteDataAccessJc_s* ithis, ThCxt* _thCxt)
-{ InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz = (InspcSetValue_InspcDataExchangeAccess_Inspc_s*)ithis;
-  
-  STACKTRC_TENTRY("specifyLengthElementHead_InspcSetValue_InspcDataExchangeAccess_Inspc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return sizeofElement_InspcSetValue_InspcDataExchangeAccess_Inspc;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-
-/**J2C: Reflections and Method-table *************************************************/
-const MtblDef_InspcSetValue_InspcDataExchangeAccess_Inspc mtblInspcSetValue_InspcDataExchangeAccess_Inspc = {
-{ { sign_Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-  }
-, { { sign_Mtbl_ByteDataAccessJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((7 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-    }
-  , specifyEmptyDefaultData_InspcSetValue_InspcDataExchangeAccess_Inspc //specifyEmptyDefaultData
-  , specifyLengthElementHead_InspcSetValue_InspcDataExchangeAccess_Inspc //specifyLengthElementHead
-  , specifyLengthElement_InspcSetValue_InspcDataExchangeAccess_Inspc //specifyLengthElement
-  , notifyAddChild_ByteDataAccessJc_F //notifyAddChild
-  , specifyLengthCurrentChildElement_ByteDataAccessJc_F //specifyLengthCurrentChildElement
-  , assignDataToFixChilds_ByteDataAccessJc_F //assignDataToFixChilds
-  , setBigEndian_ByteDataAccessJc_F //setBigEndian
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-      }
-    , clone_ObjectJc_F //clone
-    , equals_ObjectJc_F //equals
-    , finalize_ByteDataAccessJc_F //finalize
-    , hashCode_ObjectJc_F //hashCode
-    , toString_ObjectJc_F //toString
-    }
-  }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
-
-
- extern_C struct ClassJc_t const reflection_ByteDataAccessJc_s;
+ extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
  static struct superClasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ByteDataAccessJc_s, OFFSET_Mtbl(Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc, ByteDataAccessJc) }
+ , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Mtbl*/ }
    }
  };
 
@@ -608,7 +385,6 @@ const ClassJc reflection_InspcSetValue_InspcDataExchangeAccess_Inspc_s =
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
-, &mtblInspcSetValue_InspcDataExchangeAccess_Inspc.mtbl.head
 };
 
 /**An item to set values with an index.
@@ -621,24 +397,21 @@ uses @{@link Inspcitem}, {@link InspcSetValue}
 
 const char sign_Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc[] = "InspcSetValueData_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_InspcSetValueData_InspcDataExchangeAccess_Inspc_t { Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc mtbl; MtblHeadJc end; } MtblDef_InspcSetValueData_InspcDataExchangeAccess_Inspc;
- extern MtblDef_InspcSetValueData_InspcDataExchangeAccess_Inspc const mtblInspcSetValueData_InspcDataExchangeAccess_Inspc;
 
 /*Constructor */
-struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t* ctorO_InspcSetValueData_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt)
-{ InspcSetValueData_InspcDataExchangeAccess_Inspc_s* thiz = (InspcSetValueData_InspcDataExchangeAccess_Inspc_s*)othis;  //upcasting to the real class.
-  Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc const* mtthis = &mtblInspcSetValueData_InspcDataExchangeAccess_Inspc.mtbl;
-  STACKTRC_TENTRY("ctorO_InspcSetValueData_InspcDataExchangeAccess_Inspc");
-  checkConsistence_ObjectJc(othis, sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s), null, _thCxt);  
+struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValueData_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt)
+{ InspcSetValueData_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcSetValueData_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
+  int sizeObj = size_MemC(mthis);
+  STACKTRC_TENTRY("ctor_InspcSetValueData_InspcDataExchangeAccess_Inspc");
+  if(sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
-  ctorO_i_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/othis, sizeofElement_InspcSetValueData_InspcDataExchangeAccess_Inspc, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_InspcSetValueData_InspcDataExchangeAccess_Inspc_s, sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s));  
+  ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/mthis, sizeofElement_InspcSetValueData_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
   {
   }
   { 
     
-    mtthis->Inspcitem_InspcDataExchangeAccess_Inspc.ByteDataAccessJc.setBigEndian(& ((* (thiz)).base.super.base.super), true, _thCxt);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -654,10 +427,9 @@ void setBool_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int8)value);
   }
   STACKTRC_LEAVE;
@@ -672,10 +444,9 @@ void setShort_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setShort_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int16)value);
   }
   STACKTRC_LEAVE;
@@ -690,10 +461,9 @@ void setByte_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setByte_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int8)value);
   }
   STACKTRC_LEAVE;
@@ -708,10 +478,9 @@ void setInt_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_In
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setInt_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
   }
   STACKTRC_LEAVE;
@@ -726,10 +495,9 @@ void setFloat_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
   }
   STACKTRC_LEAVE;
@@ -744,10 +512,9 @@ void setFloatIntImage_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetVa
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setFloatIntImage_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
   }
   STACKTRC_LEAVE;
@@ -762,10 +529,9 @@ void setDouble_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
   }
   STACKTRC_LEAVE;
@@ -780,48 +546,13 @@ void setLong_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
     
     
     
-    //J2C: constructor for embedded element-ObjectJc
-    init_ObjectJc(&(setValue.base.object), sizeof(setValue), 0); 
-    ctorO_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/&(setValue.base.object), _thCxt);
-    assignAtIndex_iXX_ByteDataAccessJc(& ((setValue).base.super), 16, & ((* (thiz)).base.super.base.super), _thCxt);
+    //J2C: constructor for embedded element-MemC
+    ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setLong_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
   }
   STACKTRC_LEAVE;
 }
-
-
-
-/**J2C: Reflections and Method-table *************************************************/
-const MtblDef_InspcSetValueData_InspcDataExchangeAccess_Inspc mtblInspcSetValueData_InspcDataExchangeAccess_Inspc = {
-{ { sign_Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-  }
-, { { sign_Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-    }
-  , { { sign_Mtbl_ByteDataAccessJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((7 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-      }
-    , specifyEmptyDefaultData_Inspcitem_InspcDataExchangeAccess_Inspc //specifyEmptyDefaultData
-    , specifyLengthElementHead_Inspcitem_InspcDataExchangeAccess_Inspc //specifyLengthElementHead
-    , specifyLengthElement_Inspcitem_InspcDataExchangeAccess_Inspc //specifyLengthElement
-    , notifyAddChild_ByteDataAccessJc_F //notifyAddChild
-    , specifyLengthCurrentChildElement_ByteDataAccessJc_F //specifyLengthCurrentChildElement
-    , assignDataToFixChilds_ByteDataAccessJc_F //assignDataToFixChilds
-    , setBigEndian_ByteDataAccessJc_F //setBigEndian
-    , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-        , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-        }
-      , clone_ObjectJc_F //clone
-      , equals_ObjectJc_F //equals
-      , finalize_ByteDataAccessJc_F //finalize
-      , hashCode_ObjectJc_F //hashCode
-      , toString_ObjectJc_F //toString
-      }
-    }
-  }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
-
 
  extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
  static struct superClasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s_t
@@ -829,7 +560,7 @@ const MtblDef_InspcSetValueData_InspcDataExchangeAccess_Inspc mtblInspcSetValueD
    ClassOffset_idxMtblJc data[1];
  }superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, OFFSET_Mtbl(Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc, Inspcitem_InspcDataExchangeAccess_Inspc) }
+ , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Mtbl*/ }
    }
  };
 
@@ -843,5 +574,4 @@ const ClassJc reflection_InspcSetValueData_InspcDataExchangeAccess_Inspc_s =
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
-, &mtblInspcSetValueData_InspcDataExchangeAccess_Inspc.mtbl.head
 };
