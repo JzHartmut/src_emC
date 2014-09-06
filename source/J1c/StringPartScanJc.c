@@ -258,7 +258,7 @@ struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, struc
       if(bTestToEndOfText) 
       { 
         
-        sTest = subSequence_CharSequenceJc(sTestP, 0, len, _thCxt)/*J2C-error testAndChangeAccess: t**/;
+        sTest = ((/*J2C:cast from StringJc*/CharSequenceJc*)(subSequence_CharSequenceJc(sTestP, 0, len, _thCxt)/*J2C-error testAndChangeAccess: t**/));
       }
       else 
       { 
@@ -322,7 +322,7 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
         
         if(sResult != null) sResult->data[0] = 
           ( _temp3_1= getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)
-          , _persistring3_1 = persist_StringJc(toString_Part_StringPartJc(& ((* (_temp3_1)).base.object)/*J2cT1*/, _thCxt))
+          , _persistring3_1 = persist_StringJc(toString_Part_StringPartJc(& ((* (_temp3_1)).base.CharSequenceJc.base.object)/*J2cT1*/, _thCxt))
           )/*J2C:non-persistent*/;
         
           ( fromEnd_StringPartJc(& ((* (thiz)).base.super), _thCxt)
@@ -728,7 +728,7 @@ struct StringPartScanJc_t* scanHexOrDecimal_StringPartScanJc(StringPartScanJc_s*
       
       
       /*no initvalue*/
-      if(equals_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->base.super.content), thiz->base.super.begin, thiz->base.super.begin + 2, s0_StringJc("0x")/*J2C-error testAndChangeAccess: t**/, _thCxt)) 
+      if(equals_CsiiCs_StringFunctionsJc(/*static*/REFJc(thiz->base.super.content), thiz->base.super.begin, thiz->base.super.begin + 2, ((/*J2C:cast from char const**/CharSequenceJc*)("0x"/*J2C-error testAndChangeAccess: t**/)), _thCxt)) 
       { 
         
         seek_i_StringPartJc(& ((* (thiz)).base.super), 2, _thCxt);
@@ -918,7 +918,7 @@ struct CharSequenceJc_t* getCircumScriptionToAnyChar_p_StringPartScanJc(StringPa
     { 
       
       { STACKTRC_LEAVE;
-        return s0_StringJc("")/*J2C-error testAndChangeAccess: t**/;
+        return ((/*J2C:cast from char const**/CharSequenceJc*)(""/*J2C-error testAndChangeAccess: t**/));
       }
     }
   }
@@ -990,6 +990,7 @@ void finalize_StringPartScanJc_F(ObjectJc* othis, ThCxt* _thCxt)
 { StringPartScanJc_s* thiz = (StringPartScanJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_StringPartScanJc_F");
   CLEAR_REFJc(thiz->sLastString);
+  finalize_StringPartJc_F(&thiz->base.object, _thCxt); //J2C: finalizing the superclass.
   STACKTRC_LEAVE;
 }
 
@@ -1017,6 +1018,15 @@ const MtblDef_StringPartScanJc mtblStringPartScanJc = {
     /**J2C: Mtbl-interfaces of StringPartScanJc: */
   , { { sign_Mtbl_CharSequenceJc//J2C: Head of methodtable.
       , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+      }
+    , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
+        , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+        }
+      , clone_ObjectJc_F //clone
+      , equals_ObjectJc_F //equals
+      , finalize_StringPartScanJc_F //finalize
+      , hashCode_ObjectJc_F //hashCode
+      , toString_CharSequenceJc //toString
       }
     }
   , { { sign_Mtbl_ComparableJc//J2C: Head of methodtable.
@@ -1091,7 +1101,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
    , { "sLastString"
     , 0 //nrofArrayElements
     , &reflection_CharSequenceJc
-    , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
+    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((StringPartScanJc_s*)(0x1000))->sLastString) - (int32)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_StringPartScanJc_s

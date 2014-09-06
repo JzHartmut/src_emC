@@ -5,6 +5,8 @@
 #ifndef __InspcJ2c_CmdExecuter_Inspc_h__
 #define __InspcJ2c_CmdExecuter_Inspc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
@@ -36,7 +38,8 @@ typedef struct CmdExecuter_Inspc_t
   int32 nrofSentBytes; 
   int32 ctFailedTelgPart; 
   struct Comm_Inspc_t* comm;   /**/
-  struct bufferAnswerData_Y { ObjectArrayJc head; int8 data[1500]; }bufferAnswerData; 
+  int8 data_bufferAnswerData[1500]; 
+  PtrVal_int8 bufferAnswerData; 
   InspcDatagram_InspcDataExchangeAccess_Inspc_s myAnswerData; 
   bool useTelgHead;   /*true than the myAnswerdata is of type DataExchangeTelg_Inspc,*/
 } CmdExecuter_Inspc_s;
@@ -79,11 +82,12 @@ METHOD_C void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 
-typedef bool MT_executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+/**Executes the given command received with this datagram*/
+typedef bool MT_executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+METHOD_C bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+METHOD_C bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 
 /**Send the current answer datagram as answer.*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -115,7 +119,7 @@ class CmdExecuter_Inspc : private CmdExecuter_Inspc_s
 
   CmdExecuter_Inspc(struct CmdConsumer_ifc_Inspc_t* commandConsumer){ init_ObjectJc(&this->base.object, sizeof(CmdExecuter_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_CmdExecuter_Inspc_s, 0); ctorO_CmdExecuter_Inspc(&this->base.object, commandConsumer,  null/*_thCxt*/); }
 
-  virtual bool executeCmd(int8_Y* buffer, int32 nrofBytesReceived){  return executeCmd_CmdExecuter_Inspc_F(this, buffer, nrofBytesReceived,  null/*_thCxt*/); }
+  virtual bool executeCmd(PtrVal_int8 buffer, int32 nrofBytesReceived){  return executeCmd_CmdExecuter_Inspc_F(this, buffer, nrofBytesReceived,  null/*_thCxt*/); }
 
   virtual int32 txAnswer(int32 nrofAnswerBytesPart, bool bLastTelg){  return txAnswer_ib_CmdExecuter_Inspc_F(&this->base.AnswerComm_ifc_Inspc.base.object, nrofAnswerBytesPart, bLastTelg,  null/*_thCxt*/); }
 };

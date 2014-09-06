@@ -5,6 +5,8 @@
 #ifndef __J1c_StringPartJc_h__
 #define __J1c_StringPartJc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
@@ -402,6 +404,9 @@ METHOD_C int32 indexOf_c_StringPartJc(StringPartJc_s* thiz, char ch, ThCxt* _thC
 METHOD_C int32 indexOf_ci_StringPartJc(StringPartJc_s* thiz, char ch, int32 fromIndex, ThCxt* _thCxt);
 
 /**Returns the position of the string within the part*/
+METHOD_C int32 indexOf_S_StringPartJc(StringPartJc_s* thiz, StringJc sCmp, ThCxt* _thCxt);
+
+/**Returns the position of the string within the part*/
 METHOD_C int32 indexOf_Cs_StringPartJc(StringPartJc_s* thiz, struct CharSequenceJc_t* sCmp, ThCxt* _thCxt);
 
 /**Returns the position of the string within the part*/
@@ -591,6 +596,8 @@ class StringPartJc : private StringPartJc_s
   int32 indexOf(struct CharSequenceJc_t* sCmp){  return indexOf_Cs_StringPartJc(this, sCmp,  null/*_thCxt*/); }
 
   int32 indexOf(struct CharSequenceJc_t* sCmp, int32 fromIndex, int32 maxToTest){  return indexOf_Csii_StringPartJc(this, sCmp, fromIndex, maxToTest,  null/*_thCxt*/); }
+
+  int32 indexOf(StringJcpp sCmp){  return indexOf_S_StringPartJc(this, sCmp,  null/*_thCxt*/); }
 
   int32 indexOf(char ch){  return indexOf_c_StringPartJc(this, ch,  null/*_thCxt*/); }
 

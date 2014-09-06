@@ -6,6 +6,8 @@
 #include "Jc/ReflectionJc.h"
 extern_C const ClassJc reflection_AbstractCollectionJc;
 #define REFLECTION_AbstractCollectionJc &reflection_AbstractCollectionJc
+extern_C const ClassJc reflection_CharsetJc;
+#define REFLECTION_CharsetJc &reflection_CharsetJc
 extern_C const ClassJc reflection_ComparatorJc;
 #define REFLECTION_ComparatorJc &reflection_ComparatorJc
 extern_C const ClassJc reflection_Node_ConcurrentLinkedQueueJc;
@@ -28,6 +30,10 @@ extern_C const ClassJc reflection_ObjectArrayJc;
 #define REFLECTION_ObjectArrayJc &reflection_ObjectArrayJc
 extern_C const ClassJc reflection_int8ARRAY;
 #define REFLECTION_int8ARRAY &reflection_int8ARRAY
+extern_C const ClassJc reflection_ComparableJc;
+#define REFLECTION_ComparableJc &reflection_ComparableJc
+extern_C const ClassJc reflection_CloseableJc;
+#define REFLECTION_CloseableJc &reflection_CloseableJc
 extern_C const ClassJc reflection_ListItr_LinkedListJc;
 #define REFLECTION_ListItr_LinkedListJc &reflection_ListItr_LinkedListJc
 extern_C const ClassJc reflection_LinkedListJcD;

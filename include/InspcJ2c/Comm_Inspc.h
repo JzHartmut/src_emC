@@ -5,6 +5,8 @@
 #ifndef __InspcJ2c_Comm_Inspc_h__
 #define __InspcJ2c_Comm_Inspc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
@@ -36,7 +38,8 @@ typedef struct Comm_Inspc_t
   int32 ctErrorTelg; 
   struct ThreadJc_t* thread;   /**/
   int32 nrofBytesReceived[1];   /**/
-  struct rxBuffer_Y { ObjectArrayJc head; int8 data[1500]; }rxBuffer;   /*Use a static receive buffer. It is important for C-applications. */
+  int8 data_rxBuffer[1500];   /*Use a static receive buffer. It is important for C-applications. */
+  PtrVal_int8 rxBuffer;   /*For C: store the reference and length of the SimpleArray in the next structure. */
   struct Address_InterProcessComm_t* myAnswerAddress;   /**/
 } Comm_Inspc_s;
   
@@ -86,7 +89,7 @@ METHOD_C void run_Comm_Inspc(ObjectJc* ithis, ThCxt* _thCxt);
 METHOD_C void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 
 /**Sends the answer telg to the sender of the received telegram.*/
-METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, int8_Y* bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt);
+METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt);
 
 /**Shutdown the communication, close the thread*/
 typedef void MT_shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
@@ -122,7 +125,7 @@ class Comm_Inspc : private Comm_Inspc_s
 
   virtual void run(){ run_Comm_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
 
-  int32 sendAnswer(int8_Y* bufferAnswerData, int32 nrofBytesAnswer){  return sendAnswer_Comm_Inspc(this, bufferAnswerData, nrofBytesAnswer,  null/*_thCxt*/); }
+  int32 sendAnswer(PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer){  return sendAnswer_Comm_Inspc(this, bufferAnswerData, nrofBytesAnswer,  null/*_thCxt*/); }
 
   virtual void shutdown(){ shutdown_Comm_Inspc_F(this,  null/*_thCxt*/); }
 

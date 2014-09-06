@@ -261,8 +261,8 @@ int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, i
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@20d547f8*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@20d547f8*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@2576a288*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@2576a288*/; 
     int32 multPosition = 1; 
     
     
@@ -791,28 +791,91 @@ int32 lastIndexOfAnyChar_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s
     int32 zsq; 
     int32 ii; 
     
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     zsq = length_CharSequenceJc(sq, _thCxt);
     ii = to > zsq ? zsq : to;
     if(from < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "StringFunctions.lastIndexOfAnyChar - form <0; ", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, from, _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "StringFunctions.lastIndexOfAnyChar - form <0; ", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, from, _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     
     while(--ii >= from && indexOf_C_StringJc(chars, charAt_CharSequenceJc(sq, ii, _thCxt)) < 0)
       { }/*pre-decrement.*/
       
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
       return ii >= from ? ii + 1 : -1;
     }/*not found;*/
     
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether the given CharSequence contains the other given CharSequence.*/
+int32 indexOf_CsiiS_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("indexOf_CsiiS_StringFunctionsJc");
+  
+  { 
+    int32 zsq; 
+    int32 max; 
+    int32 ii; 
+    char ch; 
+    
+    
+    zsq = length_CharSequenceJc(sq, _thCxt);
+    max = (to >= zsq ? zsq : to) - length_StringJc(str) + 1;
+    ii = fromIndex - 1;
+    if(fromIndex < 0) 
+    { 
+      
+      ii = -1;
+    }
+    else if(fromIndex >= max) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return -1;
+      }
+    }
+    ch = charAt_StringJc(str, 0);
+    
+    while(++ii < max)
+      { 
+        
+        if(charAt_CharSequenceJc(sq, ii, _thCxt) == ch) 
+        { /*:search first char of str*/
+          
+          int32 s1 = 0; 
+          
+          
+          s1 = 0;
+          { int32 jj; 
+            for(jj = ii + 1; jj < ii + length_StringJc(str); ++jj)
+              { 
+                
+                if(charAt_CharSequenceJc(sq, jj, _thCxt) != charAt_StringJc(str, ++s1)) 
+                { 
+                  
+                  s1 = -1;/*designate: not found*/
+                  
+                  break;
+                }
+              }
+          }
+          if(s1 >= 0) { STACKTRC_LEAVE;
+          return ii;
+        }/*found.*/
+          
+        }
+      }
+    { STACKTRC_LEAVE;
+      return -1;
+    }/*not found;*/
+    
   }
   STACKTRC_LEAVE;
 }
@@ -895,6 +958,65 @@ int32 indexOf_CsCsi_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, st
     { STACKTRC_LEAVE;
       return indexOf_CsiiCs_StringFunctionsJc(/*static*/sq, fromIndex, MAX_VALUE_IntegerJc, str, _thCxt);
     }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether the given CharSequence contains the given String.*/
+int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("lastIndexOf_CsiiS_StringFunctionsJc");
+  
+  { 
+    int32 zsq; 
+    int32 max; 
+    char ch; 
+    
+    
+    zsq = length_CharSequenceJc(sq, _thCxt);
+    max = (to >= zsq ? zsq : to) - length_StringJc(str) + 1;
+    if(fromIndex >= max) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return -1;
+      }
+    }
+    ch = charAt_StringJc(str, 0);
+    
+    while(--max >= fromIndex)
+      { 
+        
+        if(charAt_CharSequenceJc(sq, max, _thCxt) == ch) 
+        { 
+          int32 s1 = 0; 
+          
+          
+          s1 = 0;
+          { int32 jj; 
+            for(jj = max + 1; jj < max + length_StringJc(str); ++jj)
+              { 
+                
+                if(charAt_CharSequenceJc(sq, jj, _thCxt) != charAt_StringJc(str, ++s1)) 
+                { 
+                  
+                  s1 = -1;/*designate: not found*/
+                  
+                  break;
+                }
+              }
+          }
+          if(s1 > 0) { STACKTRC_LEAVE;
+          return max;
+        }/*found.*/
+          
+        }
+      }
+    { STACKTRC_LEAVE;
+      return -1;
+    }/*not found;*/
+    
   }
   STACKTRC_LEAVE;
 }
@@ -984,7 +1106,7 @@ struct CharSequenceJc_t* convertTransliteration_StringFunctionsJc(/*static*/ str
       ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
       */
       
-      sbReturn = ctorO_s_StringBuilderJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), s0_CharSequenceJc(src/*J2C-error testAndChangeAccess: *t*/), _thCxt);
+      sbReturn = ctorO_c_StringBuilderJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), src, _thCxt);
       
       while(posSwitch >= 0)
         { 
@@ -1024,7 +1146,7 @@ struct CharSequenceJc_t* convertTransliteration_StringFunctionsJc(/*static*/ str
           , indexOf_CI_StringJc(_temp3_1, transcriptChar, posSwitch + 1)
           );
         }
-      sResult = toString_StringBuilderJc(&(sbReturn)->base.object, _thCxt)/*J2C-error testAndChangeAccess: t**/;
+      sResult = sbReturn;
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
     }
     { STACKTRC_LEAVE;

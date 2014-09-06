@@ -51,7 +51,7 @@ class StringPart; nameC=StringPartJc_s; argIdent=XX; extends java/lang/Object im
 
       castTo {
         java/lang/CharSequence: $ "(?).base.CharSequenceJc" $;
-        java/lang/Object: $ "(?).base.object" $;
+        java/lang/Object: $ "(?).base.CharSequenceJc.base.object" $;
         org/vishia/util/StringPart: * "(?)->outer" *;
       }
 
@@ -120,6 +120,7 @@ fieldIdents {
     indexEndOfQuotation-_$: int %.r null(char %.. cEndQuotion,char %.. transcriptChar,int %.. fromWhere,int %.. maxToTest);
     indexEndOfQuotion-_$: int %.r null(char %.. cEndQuotion,int %.. fromWhere,int %.. maxToTest);
     indexOf+_c-_$: int %.r null(char %.. ch);
+    indexOf+_S-_$: int %.r null(java/lang/String(instance=java/lang/String) t.. sCmp);
     indexOf+_Cs-_$: int %.r null(java/lang/CharSequence *.. sCmp);
     indexOf+_ci-_$: int %.r null(char %.. ch,int %.. fromIndex);
     indexOf+_Csii-_$: int %.r null(java/lang/CharSequence *.. sCmp,int %.. fromIndex,int %.. maxToTest);
@@ -198,7 +199,7 @@ fieldIdents {
     java/lang/CharSequence: $ "(?).base.CharSequenceJc" $;
     java/io/Closeable: $ "(?).base.CloseableJc" $;
     java/lang/Comparable: $ "(?).base.ComparableJc" $;
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base.CharSequenceJc.base.object" $;
   }
 
 }

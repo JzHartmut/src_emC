@@ -5,16 +5,18 @@
 #ifndef __J1c_ByteDataAccessBaseJc_h__
 #define __J1c_ByteDataAccessBaseJc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
-#include "Jc/StringJc.h"        //used often
+//#include "Jc/StringJc.h"        //used often
 
-#include "Fwc/fw_Exception.h"   //basic concept
+//#include "Fwc/fw_Exception.h"   //basic concept
 
 
 /* J2C: Forward declaration of struct ***********************************************/
 struct ByteDataAccessBaseJc_t;
-struct ByteDataAccessJc_t;
+struct CharsetJc_t;
 
 
 /* J2C: Enhanced references *********************************************************
@@ -31,7 +33,6 @@ struct ByteDataAccessJc_t;
 
 
 /* J2C: includes *********************************************************/
-#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /*@CLASS_C ByteDataAccessBaseJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -39,8 +40,7 @@ struct ByteDataAccessJc_t;
 typedef struct ByteDataAccessBaseJc_t
 { 
   int32 sizeHead;   /*Number of Memory locations (usual bytes) for the head of this instance's Type.*/
-  int8_Y* data;   /*The array containing the binary data.*/
-  int32 zdata;   /*The size of the data. In Java it should be equal data.length usual. This element is important for C-usage because data is a simple byte pointer in C. */
+  PtrVal_int8 data;   /*The array containing the binary data.*/
   int32 idxBegin;   /*Index of the beginning of the actual element in data*/
   int32 idxEnd;   /*Index of the end of the actual element in data*/
   int32 idxCurrentChild;   /*Index within the data at position of the current child element.*/
@@ -48,7 +48,7 @@ typedef struct ByteDataAccessBaseJc_t
   bool bExpand;   /*True if the {@link #idxEnd} should be increment on adding children. */
   bool bBigEndian;   /*Flag is set or get data in big endian or little endian (if false)*/
   ByteDataAccessBaseJcREF parent;   /*The parent element, necessary only for add() and expand().*/
-  StringJc charset;   /*The charset to build Strings.*/
+  struct CharsetJc_t* charset;   /*The charset to build Strings.*/
 } ByteDataAccessBaseJc_s;
   
 
@@ -96,6 +96,8 @@ METHOD_C struct ByteDataAccessBaseJc_t* ctorM_ii_ByteDataAccessBaseJc(MemC mthis
   (THIZ)->bBigEndian = val;\
 }
 
+METHOD_C void setCharset_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc value, ThCxt* _thCxt);
+
 /**This method is package private because it is only used for the methodes of ByteDataAccess (with virtual methods).*/
 #define setSizeHead_ByteDataAccessBaseJc(THIZ, size) \
 \
@@ -129,7 +131,7 @@ METHOD_C void _setLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 
 METHOD_C void expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxCurrentChildEndNew, ThCxt* _thCxt);
 
 /**Assigns new data to this element at given index in data.*/
-METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int8_Y* dataP, int32 lengthData, int32 index, ThCxt* _thCxt);
+METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 dataP, int32 lengthData, int32 index, ThCxt* _thCxt);
 
 #define assign_iYi_ByteDataAccessBaseJc(THIZ, dataP, lengthData) \
 \
@@ -142,7 +144,7 @@ METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 \
 { \
   \
-  assign_iYii_ByteDataAccessBaseJc((THIZ), dataP, dataP->head.length, 0, _thCxt);\
+  assign_iYii_ByteDataAccessBaseJc((THIZ), dataP, dataP.value__, 0, _thCxt);\
 }
 
 /**Initializes a top level, the data are considered as non initalized.*/
@@ -150,7 +152,7 @@ METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 \
 { \
   \
-  fill_aB_ArraysJc(/*static*/data, (int8)0, _thCxt);\
+  fill_aB_ArraysJc(/*static*/data/*J2C-error testAndChangeAccess: MX*/, (int8)0, _thCxt);\
   assign_iYii_ByteDataAccessBaseJc((THIZ), data, -1, 0, _thCxt);\
 }
 
@@ -186,7 +188,7 @@ METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 }
 
 /**Returns the data buffer itself*/
-METHOD_C int8_Y* getData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt);
+METHOD_C PtrVal_int8 getData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt);
 
 /**starts the calling loop of next().*/
 #define rewind_ByteDataAccessBaseJc(THIZ) \
@@ -224,7 +226,7 @@ METHOD_C bool getBigEndian_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, Th
 \
 { \
   \
-  fill_B_ArraysJc(/*static*/(THIZ)->data, (THIZ)->idxBegin, (THIZ)->idxBegin + (THIZ)->sizeHead, (int8)0, _thCxt);\
+  fill_mB_ArraysJc(/*static*/(THIZ)->data, (THIZ)->idxBegin, (THIZ)->idxBegin + (THIZ)->sizeHead, (int8)0, _thCxt);\
 }
 
 /**Sets all data of this element to 0.*/
@@ -232,7 +234,7 @@ METHOD_C bool getBigEndian_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, Th
 \
 { \
   \
-  fill_B_ArraysJc(/*static*/(THIZ)->data, (THIZ)->idxBegin, (THIZ)->idxEnd, (int8)0, _thCxt);\
+  fill_mB_ArraysJc(/*static*/(THIZ)->data, (THIZ)->idxBegin, (THIZ)->idxEnd, (int8)0, _thCxt);\
 }
 
 /**returns true if the given number of bytes is sufficing in the data from position of next child.*/
@@ -338,27 +340,7 @@ METHOD_C int32 getPositionInBuffer_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* 
 METHOD_C int32 getPositionNextChildInBuffer_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt);
 
 /**copies the data from another references data into this data.*/
-#define copyDataFrom_ByteDataAccessBaseJc(THIZ, src) \
-\
-{ \
-  int32 len; \
-  \
-  \
-  len = getLength_ByteDataAccessJc(src);\
-  if((THIZ)->data->head.length < len) \
-  { \
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
-    \
-    /** */\
-    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "copy, dst to small", _thCxt)\
-      , append_I_StringBuilderJc(_stringBuilderThCxt, len, _thCxt)\
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
-  }\
-  arraycopy_SystemJc(/*static*/& ((src->data)->head.object), src->idxBegin, & (((THIZ)->data)->head.object), (THIZ)->idxBegin, len, _thCxt);\
-}
+METHOD_C void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* src, ThCxt* _thCxt);
 
 /**copies some data to a int[], primarily to debug a content.*/
 METHOD_C void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, ThCxt* _thCxt);
@@ -369,13 +351,10 @@ METHOD_C bool assertNotExpandable_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* t
 METHOD_C void setIdxtoNextCurrentChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt);
 
 /**Returns a String from the given position inside the actual element .*/
-METHOD_C StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nmax, ThCxt* _thCxt);
+METHOD_C StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt);
 
 /**Sets a String to the the given position inside the actual element .*/
 METHOD_C int32 setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nmax, StringJc ss, ThCxt* _thCxt);
-
-/**sets the content inside the acutal element with the character bytes from the given String.*/
-METHOD_C StringJc _getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt);
 
 /**sets the content inside the actual element with the character bytes from the given String.*/
 METHOD_C void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, StringJc value, StringJc sEncoding, bool preventCtrlChars, ThCxt* _thCxt);
@@ -451,7 +430,7 @@ METHOD_C void setInt32_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 \
 { \
   \
-  (THIZ)->data->data[(THIZ)->idxBegin + idx] = (int8)(value & 0xff);\
+  (THIZ)->data.ptr__[(THIZ)->idxBegin + idx] = (int8)(value & 0xff);\
 }
 
 /**Set the content of 1 bytes as a positive nr between 0..255, big- or little-endian.*/
@@ -478,35 +457,21 @@ METHOD_C void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
   \
 }
 
+METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, int32 idxArray, ThCxt* _thCxt);
+
 #define setUint32_iiii_ByteDataAccessBaseJc(THIZ, idxBytes, idxArray, lengthArray, val) \
 \
 { \
-  StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
   \
-  /** */\
-  if(idxArray >= lengthArray || idxArray < 0) /** */\
-  { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-    ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-    , append_z_StringBuilderJc(_stringBuilderThCxt, "setUint32:", _thCxt)\
-    , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
-    , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
-    ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
+  if(idxArray >= lengthArray || idxArray < 0) throwexc_ByteDataAccessBaseJc((THIZ), s0_StringJc("setUint32:"), idxArray, _thCxt);\
   setUint32_il_ByteDataAccessBaseJc((THIZ), idxBytes + 4 * idxArray, val, _thCxt);\
 }
 
 #define setInt32_iiii_ByteDataAccessBaseJc(THIZ, idxBytes, idxArray, lengthArray, val) \
 \
 { \
-  StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
   \
-  /** */\
-  if(idxArray >= lengthArray || idxArray < 0) /** */\
-  { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-    ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-    , append_z_StringBuilderJc(_stringBuilderThCxt, "setInt32:", _thCxt)\
-    , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
-    , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
-    ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
+  if(idxArray >= lengthArray || idxArray < 0) throwexc_ByteDataAccessBaseJc((THIZ), s0_StringJc("setInt32:"), idxArray, _thCxt);\
   setInt32_ii_ByteDataAccessBaseJc((THIZ), idxBytes + 4 * idxArray, val, _thCxt);\
 }
 
@@ -515,9 +480,7 @@ METHOD_C void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 { \
   StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
   \
-  /** */\
-  if(idxArray >= lengthArray || idxArray < 0) /** */\
-  { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
     , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
     , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
@@ -531,9 +494,7 @@ METHOD_C void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 { \
   StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
   \
-  /** */\
-  if(idxArray >= lengthArray || idxArray < 0) /** */\
-  { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
     , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
     , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
@@ -547,9 +508,7 @@ METHOD_C void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 { \
   StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
   \
-  /** */\
-  if(idxArray >= lengthArray || idxArray < 0) /** */\
-  { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
     , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
     , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
@@ -563,9 +522,7 @@ METHOD_C void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 { \
   StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
   \
-  /** */\
-  if(idxArray >= lengthArray || idxArray < 0) /** */\
-  { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
     , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
     , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
@@ -579,9 +536,7 @@ METHOD_C void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 { \
   StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
   \
-  /** */\
-  if(idxArray >= lengthArray || idxArray < 0) /** */\
-  { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
     , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
     , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
@@ -603,8 +558,6 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 { public:
 
   int64 _getLong(int32 idxInChild, int32 nrofBytesAndSign){  return _getLong_ByteDataAccessBaseJc(this, idxInChild, nrofBytesAndSign,  null/*_thCxt*/); }
-
-  StringJc _getString(int32 idx, int32 nrofBytes){  return _getString_ByteDataAccessBaseJc(this, idx, nrofBytes,  null/*_thCxt*/); }
 
   void _setLong(int32 idx, int32 nrofBytes, int64 val){ _setLong_ByteDataAccessBaseJc(this, idx, nrofBytes, val,  null/*_thCxt*/); }
 
@@ -630,19 +583,19 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   bool assertNotExpandable(){  return assertNotExpandable_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
-  void assignAt(int32 idxChildInParent, struct ByteDataAccessJc_t* parent){ assignAt_iXX_ByteDataAccessBaseJc(this, idxChildInParent, parent); }
+  void assignAt(int32 idxChildInParent, struct ByteDataAccessBaseJc_t* parent){ assignAt_iXX_ByteDataAccessBaseJc(this, idxChildInParent, parent); }
 
-  void assignAt(int32 idxChildInParent, int32 lengthChild, struct ByteDataAccessJc_t* parent){ assignAt_iiXX_ByteDataAccessBaseJc(this, idxChildInParent, lengthChild, parent); }
+  void assignAt(int32 idxChildInParent, int32 lengthChild, struct ByteDataAccessBaseJc_t* parent){ assignAt_iiXX_ByteDataAccessBaseJc(this, idxChildInParent, lengthChild, parent); }
 
-  void assignCasted_i(struct ByteDataAccessJc_t* src, int32 offsetCastToInput, int32 lengthDst){ assignCasted_i_ByteDataAccessBaseJc(this, src, offsetCastToInput, lengthDst); }
+  void assignCasted_i(struct ByteDataAccessBaseJc_t* src, int32 offsetCastToInput, int32 lengthDst){ assignCasted_i_ByteDataAccessBaseJc(this, src, offsetCastToInput, lengthDst); }
 
-  void assignClear(int8_Y* data){ assignClear_ByteDataAccessBaseJc(this, data); }
+  void assignClear(PtrVal_int8 data){ assignClear_ByteDataAccessBaseJc(this, data); }
 
-  void assign(int8_Y* dataP){ assign_iY_ByteDataAccessBaseJc(this, dataP); }
+  void assign(PtrVal_int8 dataP){ assign_iY_ByteDataAccessBaseJc(this, dataP); }
 
-  void assign(int8_Y* dataP, int32 lengthData){ assign_iYi_ByteDataAccessBaseJc(this, dataP, lengthData); }
+  void assign(PtrVal_int8 dataP, int32 lengthData){ assign_iYi_ByteDataAccessBaseJc(this, dataP, lengthData); }
 
-  void assign(int8_Y* dataP, int32 lengthData, int32 index){ assign_iYii_ByteDataAccessBaseJc(this, dataP, lengthData, index,  null/*_thCxt*/); }
+  void assign(PtrVal_int8 dataP, int32 lengthData, int32 index){ assign_iYii_ByteDataAccessBaseJc(this, dataP, lengthData, index,  null/*_thCxt*/); }
 
   void clearData(){ clearData_ByteDataAccessBaseJc(this); }
 
@@ -650,7 +603,7 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   void clear(int32 lengthData){ clear_ByteDataAccessBaseJc(this, lengthData,  null/*_thCxt*/); }
 
-  void copyDataFrom(struct ByteDataAccessJc_t* src){ copyDataFrom_ByteDataAccessBaseJc(this, src); }
+  void copyDataFrom(struct ByteDataAccessBaseJc_t* src){ copyDataFrom_ByteDataAccessBaseJc(this, src,  null/*_thCxt*/); }
 
   void copyData(int32_Y* dst){ copyData_ByteDataAccessBaseJc(this, dst,  null/*_thCxt*/); }
 
@@ -672,7 +625,7 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   StringJc getChildString(int32 nrofBytes){  return getChildString_ByteDataAccessBaseJc(this, nrofBytes,  null/*_thCxt*/); }
 
-  int8_Y* getData(){  return getData_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
+  PtrVal_int8 getData(){  return getData_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
   double getDouble(int32 idx){  return getDouble_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
 
@@ -708,7 +661,7 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   int32 getPositionNextChildInBuffer(){  return getPositionNextChildInBuffer_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
-  StringJc getString(int32 idx, int32 nmax){  return getString_ByteDataAccessBaseJc(this, idx, nmax,  null/*_thCxt*/); }
+  StringJc getString(int32 idx, int32 nrofBytes){  return getString_ByteDataAccessBaseJc(this, idx, nrofBytes,  null/*_thCxt*/); }
 
   int32 getUint16(int32 idx){  return getUint16_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
 
@@ -729,6 +682,8 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
   void rewind(){ rewind_ByteDataAccessBaseJc(this); }
 
   void setBigEndian(bool val){ setBigEndian_ByteDataAccessBaseJc(this, val); }
+
+  void setCharset(StringJcpp value){ setCharset_ByteDataAccessBaseJc(this, value,  null/*_thCxt*/); }
 
   void setDouble(int32 idx, double value){ setDouble_ByteDataAccessBaseJc(this, idx, value); }
 
@@ -771,6 +726,8 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
   void setUint8(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setUint8_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
   bool sufficingBytesForNextChild(int32 nrofBytes){  return sufficingBytesForNextChild_ByteDataAccessBaseJc(this, nrofBytes,  null/*_thCxt*/); }
+
+  void throwexc(StringJcpp text, int32 idxArray){ throwexc_ByteDataAccessBaseJc(this, text, idxArray,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

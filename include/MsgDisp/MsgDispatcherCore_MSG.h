@@ -5,6 +5,8 @@
 #ifndef __MsgDisp_MsgDispatcherCore_MSG_h__
 #define __MsgDisp_MsgDispatcherCore_MSG_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often

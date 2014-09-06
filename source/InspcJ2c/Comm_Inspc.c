@@ -56,9 +56,8 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
   //j2c: Initialize all class variables:
   {
     init0_MemC(build_MemC(&thiz->nrofBytesReceived, 1 * sizeof(int32))); //J2C: init the embedded simple array;
-    /*J2C: newArray*/
-      init_ObjectJc(&thiz->rxBuffer.head.object, sizeof_ARRAYJc(int8, 1500), 0);   //J2C: ctor embedded array.
-      ctorO_ObjectArrayJc(&thiz->rxBuffer.head.object, 1500, sizeof(int8), null, 0);//J2C: constructor for embedded array;
+    init0_MemC(build_MemC(&thiz->data_rxBuffer, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
+    thiz->rxBuffer.ptr__ = & thiz->data_rxBuffer[0]; thiz->rxBuffer.value__ = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
   }
   { 
     InterProcessCommFactoryMTB ipcFactory;   /*use the existent factory, it is determined by linker or classLoader, which it is.*/
@@ -214,7 +213,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
         TRY
         { 
           
-          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], buildFromArrayX_MemC(&((struct int8_Y_t*)(&( thiz->rxBuffer)))->head) , thiz->myAnswerAddress);
+          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ptr__, thiz->rxBuffer.value__ ), thiz->myAnswerAddress);
           if(thiz->state != 'x') 
           { 
             
@@ -244,7 +243,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
             else 
             { 
               
-              cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), (struct int8_Y_t*)(&( thiz->rxBuffer)), thiz->nrofBytesReceived[0], _thCxt);/*unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);*/
+              cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), thiz->rxBuffer, thiz->nrofBytesReceived[0], _thCxt);/*unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);*/
               
             }
           }
@@ -255,6 +254,9 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
             struct CharSequenceJc_t* msg;   /**/
             
             
+            msg = exceptionInfo_AssertJc(/*static*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);
+            println_O_PrintStreamJc(REFJc(err_SystemJc), & ((* (msg)).base.object), _thCxt);
+            printStackTrace_P_ExceptionJc(exc, REFJc(err_SystemJc), _thCxt);
           }
         END_TRY
       }/*while state !='x'*/
@@ -265,7 +267,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 
 
 /**Sends the answer telg to the sender of the received telegram.*/
-int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, int8_Y* bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt)
+int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("sendAnswer_Comm_Inspc");
   
@@ -276,7 +278,7 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, int8_Y* bufferAnswerData, int32 
     
     /*no initvalue*/
     SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
-    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), buildFromArrayX_MemC(&(bufferAnswerData)->head) , nrofBytesAnswer, thiz->myAnswerAddress);
+    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), build_MemC(bufferAnswerData.ptr__, bufferAnswerData.value__ ), nrofBytesAnswer, thiz->myAnswerAddress);
     if(nrofSentBytes < 0) 
     { 
       
@@ -413,9 +415,9 @@ extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
 extern_C struct ClassJc_t const reflection_InterProcessComm_i;
 extern_C struct ClassJc_t const reflection_ThreadJc_s;
 const struct Reflection_Fields_Comm_Inspc_s_t
-{ ObjectArrayJc head; FieldJc data[9];
+{ ObjectArrayJc head; FieldJc data[10];
 } reflection_Fields_Comm_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 9, OBJTYPE_FieldJc, null, &reflection_Fields_Comm_Inspc_s)
+{ CONST_ObjectArrayJc(FieldJc, 10, OBJTYPE_FieldJc, null, &reflection_Fields_Comm_Inspc_s)
 , {
      { "cmdExecuter"
     , 0 //nrofArrayElements
@@ -473,10 +475,18 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_Comm_Inspc_s
     }
-   , { "rxBuffer"
+   , { "data_rxBuffer"
     , 1500 //nrofArrayElements
     , REFLECTION_int8
-    , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((Comm_Inspc_s*)(0x1000))->data_rxBuffer) - (int32)(Comm_Inspc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_Comm_Inspc_s
+    }
+   , { "rxBuffer"
+    , 0 //nrofArrayElements
+    , REFLECTION_int8
+    , 1 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kPtrVal_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Comm_Inspc_s*)(0x1000))->rxBuffer) - (int32)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_Comm_Inspc_s

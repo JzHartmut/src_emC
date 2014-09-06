@@ -5,6 +5,8 @@
 #ifndef __J1c_StringPartScanJc_h__
 #define __J1c_StringPartScanJc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often

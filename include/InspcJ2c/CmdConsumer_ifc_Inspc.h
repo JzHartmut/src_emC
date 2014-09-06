@@ -5,6 +5,8 @@
 #ifndef __InspcJ2c_CmdConsumer_ifc_Inspc_h__
 #define __InspcJ2c_CmdConsumer_ifc_Inspc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often

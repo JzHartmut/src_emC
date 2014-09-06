@@ -109,6 +109,19 @@ void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt
 }
 
 
+void fill_mB_ArraysJc(PtrVal_int8 array, int fromIndex, int toIndex, int value, ThCxt* _thCxt)
+{
+  int max = array.value__;
+  int8* data;
+  if(toIndex > max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
+    THROW_s0(ArrayIndexOutOfBoundsException, "index error", max);
+  data = array.ptr__ + fromIndex;
+  while(++fromIndex < toIndex){
+    *data++ = (int8)value;
+  }
+}
+
+
 void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, ThCxt* _thCxt)
 {
   int max = array->head.length;

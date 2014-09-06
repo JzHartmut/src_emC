@@ -6,7 +6,7 @@ package java/lang/;
 
 
 //In Java it is an interface for String, StringBuilder, StringBuffer.
-class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs;
+class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs; extends java/lang/Object
 {
   methods{
    charAt-_$: char %.. return(int %.. index);
@@ -15,12 +15,12 @@ class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs;
    toString-_$, mode=noThCxt: String t.. return();
  }
  
-   castTo {
-    String access=t: "s0_CharSequenceJc(?)" ? access=t;
+  castTo {
+    //String access=t: "s0_CharSequenceJc(?)" ? access=t;
   }
    castFrom {
-    t "?" String t;
-    t "s0_StringJc(?)" s0 t;
+    //t "?" String t;
+    //t "s0_StringJc(?)" s0 t;
     //t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
   }
 
@@ -37,6 +37,7 @@ class Appendable; nameC=AppendableJc; header=Jc/StringJc.h; argIdent=Ap;
    append-_$: Appendable *.. return(CharSequence *.. val);
    append+I-_$: Appendable *.. return(CharSequence *.. val, int %.. start, int %.. end);
    append-_$: Appendable *.. return(char &.. val);
+   append+_t-_$: Appendable *..return(String t.. value);
  }
  
 

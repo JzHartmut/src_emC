@@ -5,6 +5,8 @@
 #ifndef __InspcJ2c_InspcDataExchangeAccess_Inspc_h__
 #define __InspcJ2c_InspcDataExchangeAccess_Inspc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
@@ -69,7 +71,7 @@ void finalize_InspcDatagram_InspcDataExchangeAccess_Inspc_F(InspcDatagram_InspcD
 #define sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc 16
 
 
-METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, int8_Y* buffer, ThCxt* _thCxt);
+METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, PtrVal_int8 buffer, ThCxt* _thCxt);
 
 METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
@@ -140,7 +142,7 @@ METHOD_C void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcData
 class InspcDatagram_InspcDataExchangeAccess_Inspc : private InspcDatagram_InspcDataExchangeAccess_Inspc_s
 { public:
 
-  void assignDatagram(int8_Y* data, int32 length){ assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, data, length); }
+  void assignDatagram(PtrVal_int8 data, int32 length){ assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, data, length); }
 
   int32 getAnswerNr(){  return getAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(this); }
 

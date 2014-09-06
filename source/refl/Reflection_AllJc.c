@@ -76,6 +76,42 @@ const ClassJc reflection_AbstractCollectionJc =
 
 #include "Jc/ArraysJc.h"
 
+#include "Jc/CharsetJc.h"
+
+
+extern_C const ClassJc reflection_CharsetJc;  //the just defined reflection_
+extern_C const ClassJc reflection_StringJc;
+const struct Reflection_Fields_CharsetJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_CharsetJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_CharsetJc)
+, {
+    { "name"
+    , 0   //no Array, no Bitfield
+    , &reflection_StringJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((CharsetJc*)(0x1000))->name) -(int32)(CharsetJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_CharsetJc
+    }
+} };
+
+
+const ClassJc reflection_CharsetJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_CharsetJc, &reflection_ClassJc)
+, "CharsetJc"
+, 0
+, sizeof(CharsetJc)
+, (FieldJcArray const*)&reflection_Fields_CharsetJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
 #include "Jc/ComparatorJc.h"
 
 
@@ -546,6 +582,74 @@ const ClassJc reflection_int8ARRAY =
 , null  //superclass
 , null  //interfaces
 , 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_ComparableJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_ComparableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_ComparableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ComparableJc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((ComparableJc*)(0x1000))->object) -(int32)(ComparableJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ComparableJc
+    }
+} };
+
+
+const ClassJc reflection_ComparableJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ComparableJc, &reflection_ClassJc)
+, "ComparableJc"
+, 0
+, sizeof(ComparableJc)
+, (FieldJcArray const*)&reflection_Fields_ComparableJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
+
+extern_C const ClassJc reflection_CloseableJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_CloseableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_CloseableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_CloseableJc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((CloseableJc*)(0x1000))->object) -(int32)(CloseableJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_CloseableJc
+    }
+} };
+
+
+const ClassJc reflection_CloseableJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_CloseableJc, &reflection_ClassJc)
+, "CloseableJc"
+, 0
+, sizeof(CloseableJc)
+, (FieldJcArray const*)&reflection_Fields_CloseableJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
 };
 
 

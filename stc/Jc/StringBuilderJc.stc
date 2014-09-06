@@ -8,6 +8,7 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		ctorO-_$, mode=static  : field:{ StringBuilder *.. return;};
 		ctorO+_I-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ int %.. param;});
 		ctorO+_s-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ String t.. param;});
+		ctorO+_c-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ CharSequence *.. param;});
 		charAt-_$ : field:{ char %.. return;}(field:{ int %.. param;});
 		length-_$, mode=noThCxt : field:{ int %.. return;};
 		setLength-_$: void %.. return(int %.. newLength);

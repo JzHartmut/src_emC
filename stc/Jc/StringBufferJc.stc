@@ -2,54 +2,55 @@
 Structure of translated java-file "Jc/StringBufferJc"
 package java/lang/;
 
-class StringBuffer; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; extends java/lang/Object
+class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; extends java/lang/Object
 
 
 {  
   methods {  
-		ctorO-_$, mode=static  : field:{ StringBuilder *.. return;};
-		ctorO+_I-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ int %.. param;});
-		ctorO+_s-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ String t.. param;});
+		ctorO-_$, mode=static  : field:{ StringBuffer *.. return;};
+		ctorO+_I-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ int %.. param;});
+		ctorO+_s-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ String t.. param;});
+		ctorO+_c-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ CharSequence *.. param;});
 		charAt-_$ : field:{ char %.. return;}(field:{ int %.. param;});
 		length-_$, mode=noThCxt : field:{ int %.. return;};
 		setLength-_$: void %.. return(int %.. newLength);
 		capacity-_$, mode=noThCxt : field:{ int %.. return;};
 		setCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;}, field:{ char %.. param;});
 		deleteCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;});
-		append+_s-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   String t.. param;});                                                                           
-		append+_sII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;});                         
-		append+_u-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   StringBuilder *.. param;});                                                                     
-		append+_C-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   char %.. param;}  );                                                                           
-		append+_Z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   boolean %.. param;}  );                                                                           
-		//append+_B-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   byte %.. param;}   );                                                                           
-		//append+_S-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   short %.. param;}   );                                                                           
-		append+_I-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}   );                                                                           
-		append+_J-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   long %.. param;}   );                                                                           
-		append+_F-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   float %.. param;} );                                                                           
-		append+_D-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   double %.. param;} );                                                                           
-		append+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   s0 t.. param;});                                                                               
-		append+_zI-_$,mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   s0 t.. param;}, field:{ int %.. param;});                                                       
-		insert+_s-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  String t.. param;});
-		insert+_sI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  String t.. param;} , field:{  int %.. param;});                                                  
-		insert+_C-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  char %.. param;}  );                                                  
-		insert+_Z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  boolean %.. param;}  );                                                  
-		//insert+_B-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  byte %.. param;}   );                                                  
-		//insert+_S-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  short %.. param;}   );                                                  
-		insert+_I-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}   ); 
-		insert+_I-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  long %.. param;}   );                                                  
-		insert+_F-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  float %.. param;} );                                                  
-		insert+_D-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  double %.. param;} );                                                  
-		insert+_sII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;} );
-		insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
-		insert+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
-		insert+_zI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
+		append+_s-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   String t.. param;});                                                                           
+		append+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;});                         
+		append+_u-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   StringBuffer *.. param;});                                                                     
+		append+_C-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   char %.. param;}  );                                                                           
+		append+_Z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   boolean %.. param;}  );                                                                           
+		//append+_B-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   byte %.. param;}   );                                                                           
+		//append+_S-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   short %.. param;}   );                                                                           
+		append+_I-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}   );                                                                           
+		append+_J-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   long %.. param;}   );                                                                           
+		append+_F-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   float %.. param;} );                                                                           
+		append+_D-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   double %.. param;} );                                                                           
+		append+_z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   s0 t.. param;});                                                                               
+		append+_zI-_$,mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   s0 t.. param;}, field:{ int %.. param;});                                                       
+		insert+_s-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  String t.. param;});
+		insert+_sI-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  String t.. param;} , field:{  int %.. param;});                                                  
+		insert+_C-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  char %.. param;}  );                                                  
+		insert+_Z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  boolean %.. param;}  );                                                  
+		//insert+_B-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  byte %.. param;}   );                                                  
+		//insert+_S-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  short %.. param;}   );                                                  
+		insert+_I-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}   ); 
+		insert+_I-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  long %.. param;}   );                                                  
+		insert+_F-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  float %.. param;} );                                                  
+		insert+_D-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  double %.. param;} );                                                  
+		insert+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;} );
+		insert+_CYII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
+		insert+_z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
+		insert+_zI-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
 		indexOf+_s-_$: int %.. return(String t.. s);
 		indexOf+_z-_$: int %.. return(s0 t.. s);
 		indexOf+_sI-_$: int %.. return(String t.. s, int %.. pos);
 		indexOf+_zI-_$: int %.. return(s0 t.. s, int %.. pos);
 		substring+_I-_$: String t.. return(int %.. start);
 		substring-_$: String t.. return(int %.. start, int %.. end);
-		replace-_$,   mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}, field:{   String t.. param;} );                        
+		replace-_$,   mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}, field:{   String t.. param;} );                        
 		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
   }
   castTo {
@@ -76,24 +77,3 @@ class Integer; nameC=IntegerJc; header=Jc/ObjectJc.h; argIdent=I;
   
 }
 
-//In Java it is an interface for String, StringBuilder, StringBuffer.
-class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs;
-{
-  methods{
-   charAt-_$: char %.. return(int %.. index);
-   length-_$: int %.. return();
-   subSequence-_$: String t.. return(int %.. start, int %.. end);
-   toString-_$, mode=noThCxt: String t.. return();
- }
- 
-   castTo {
-    String access=t: "s0_CharSequenceJc(?)" ? access=t;
-  }
-  castFrom {
-    t "?" String t;
-    t "s0_StringJc(?)" s0 t;
-    t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
-  }
-
-}
- 

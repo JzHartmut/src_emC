@@ -85,6 +85,7 @@
 struct ThreadContextFW_t;
 
 struct StringBuilderJc_t;
+struct CharsetJc_t;
 
 /*@CLASS_C StringJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -205,6 +206,27 @@ METHOD_C StringJc new_BYIICharset_StringJc(int8_Y* bytes, int offset, int length
  *
  */
 METHOD_C StringJc new_vIICharset_StringJc(ByteStringJc bytes, int offset, int length, StringJc charsetName, struct ThreadContextFW_t* _thCxt);
+
+
+/**Constructs a new String by decoding the specified subarray of bytes using the specified charset. 
+ * The length of the new String is a function of the charset, and hence may not be equal to the length of the subarray. 
+ *
+ * The behavior of this constructor when the given bytes are not valid in the given charset is unspecified. 
+ * The CharsetDecoder class should be used when more control over the decoding process is required. 
+ *
+ * @param bytes - The bytes to be decoded into characters
+ * @param offset - The index of the first byte to decode
+ * @param length - The number of bytes to decode
+ * @param charsetName - The name of a supported charset 
+ * @throws UnsupportedEncodingException - If the named charset is not supported 
+ * @throws IndexOutOfBoundsException - If the offset and length arguments index characters outside the bounds of the bytes array
+ * @since JDK1.1 
+ * @javalike [[sunJavadoc/java/lang/String#String(byte[], int, int, java.lang.String)|String(byte[] bytes, int offset, int length, String charsetName)]]
+ *           Note: The actual implementation doesn't support encoding. The method may be improved to convert from any charset
+ *           to the internal used 8-byte non-UTF8 charset. Internally anytime a char has 8 bit.
+ *
+ */
+METHOD_C StringJc new_mBYIIEncoding_StringJc(PtrVal_int8 bytes, int offset, int length, struct CharsetJc_t* charset, struct ThreadContextFW_t* _thCxt);
 
 
 /**Returns the StringJc to the text which is stored in the given char-array.
@@ -899,8 +921,12 @@ class  StringJcpp: public StringJc
 
 /*@CLASS_C CharSequenceJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+
+/**A CharSequence is a possibility to access characters which are given in any structure, via method calls. 
+ * In Java it is the interface "java.lang.CharSequence". The C-adequat provides a method table for access methods.
+ */ 
 typedef struct CharSequenceJc_t
-{ ObjectJc object;
+{ union { ObjectJc object; } base; 
 } CharSequenceJc;
 
 

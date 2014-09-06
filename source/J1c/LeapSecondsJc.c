@@ -59,8 +59,8 @@ struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _thCxt)
   checkConsistence_ObjectJc(othis, sizeof(LeapSecondsJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_LeapSecondsJc_s, sizeof(LeapSecondsJc_s));  
   //j2c: Initialize all class variables:
-  {ObjectJc *newObj0_1=null, *newObj0_2=null; //J2C: temporary Objects for new operations
-      
+  {ObjectJc *newObj0_1=null, *newObj0_2=null; /*J2C: temporary Objects for new operations
+      */
     init0_MemC(build_MemC(&thiz->leapSeconds, 30 * sizeof(int32))); //J2C: init the embedded simple array;
     thiz->millisecondsUTCForLeapSeconds = (int64_Y*)ctorO_ObjectArrayJc((newObj0_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (30) * sizeof(int64), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 30, sizeof(int64),REFLECTION_int64, 0);  //J2C: assign a new ObjectArrayJc. ;
     thiz->millisecondsGPSForLeapSeconds = (int64_Y*)ctorO_ObjectArrayJc((newObj0_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (30) * sizeof(int64), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 30, sizeof(int64),REFLECTION_int64, 0);  //J2C: assign a new ObjectArrayJc. ;
@@ -83,27 +83,24 @@ void setLeapSeconds_LeapSecondsJc(/*static*/ int32 idx, struct DateJc_t* date, T
   STACKTRC_TENTRY("setLeapSeconds_LeapSecondsJc");
   
   { 
-     //J2C: temporary Stringbuffer for String concatenation
-    StringBuilderJc* _tempString1_1=null; 
+    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
     
     if(singleton_LeapSecondsJc == null) 
     { 
-      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
-      
+      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      */
       singleton_LeapSecondsJc = ctorO_LeapSecondsJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_LeapSecondsJc_s, 0, _thCxt)), _thCxt);
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
     }
     if(idx < 0 || idx > ARRAYLEN(singleton_LeapSecondsJc->leapSeconds)) { throw_sJc(ident_IllegalArgumentExceptionJc, 
-      ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString1_1)
-      , append_z_StringBuilderJc(_tempString1_1, "The number of leap seconds should be not greater than", _thCxt)
-      , append_I_StringBuilderJc(_tempString1_1, (ARRAYLEN(singleton_LeapSecondsJc->leapSeconds) - 1), _thCxt)
-      , toString_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)
+      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+      , append_z_StringBuilderJc(_stringBuilderThCxt, "The number of leap seconds should be not greater than", _thCxt)
+      , append_I_StringBuilderJc(_stringBuilderThCxt, (ARRAYLEN(singleton_LeapSecondsJc->leapSeconds) - 1), _thCxt)
+      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     singleton_LeapSecondsJc->leapSeconds[idx] = idx;
     singleton_LeapSecondsJc->millisecondsUTCForLeapSeconds->data[idx] = getTime_DateJc(date);
     singleton_LeapSecondsJc->millisecondsGPSForLeapSeconds->data[idx] = idx + getTime_DateJc(date);
-    activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -119,7 +116,7 @@ void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt)
     
     
     idx = -1;
-    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/72, 6, 30, 23, 59, 59);//0
+    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/72, 6, 30, 23, 59, 59);/*0*/
     
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/72, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/73, 12, 31, 23, 59, 59);
@@ -130,7 +127,7 @@ void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt)
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/78, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/79, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/81, 6, 30, 23, 59, 59);
-    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/82, 6, 30, 23, 59, 59);//10
+    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/82, 6, 30, 23, 59, 59);/*10*/
     
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/83, 6, 30, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/85, 6, 30, 23, 59, 59);
@@ -141,18 +138,18 @@ void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt)
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/93, 6, 30, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/94, 6, 30, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/95, 12, 31, 23, 59, 59);
-    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/97, 6, 30, 23, 59, 59);//20
+    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/97, 6, 30, 23, 59, 59);/*20*/
     
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/98, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/105, 12, 31, 23, 59, 59);
-    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/108, 12, 31, 23, 59, 59);//NOTE: the next dates are guessed:
+    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/108, 12, 31, 23, 59, 59);/*NOTE: the next dates are guessed:*/
     
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/111, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/113, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/116, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/119, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/122, 12, 31, 23, 59, 59);
-    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/125, 12, 31, 23, 59, 59);//29
+    thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*static*/125, 12, 31, 23, 59, 59);/*29*/
     
     for(idx = 0; idx < ARRAYLEN(thiz->leapSeconds); idx++)
       { 
@@ -179,18 +176,18 @@ struct DateJc_t* dateFromGPS_LeapSecondsJc(/*static*/ int64 millisecondsGPS, ThC
   { 
     int32 idx; 
     
-    ObjectJc *newObj1_1=null; //J2C: temporary Objects for new operations
-    
+    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    */
     if(singleton_LeapSecondsJc == null) 
     { 
-      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
-      
+      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      */
       singleton_LeapSecondsJc = ctorO_LeapSecondsJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_LeapSecondsJc_s, 0, _thCxt)), _thCxt);
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
     }
     idx = binarySearch_int64_ArraysJc(/*static*/singleton_LeapSecondsJc->millisecondsGPSForLeapSeconds/*J2C-error testAndChangeAccess: XY*/, millisecondsGPS, _thCxt);
     if(idx < 0) 
-    { //:normal: no leap seconds
+    { /*:normal: no leap seconds*/
       
       
       idx = -idx - 1;
@@ -215,14 +212,14 @@ int64 millisecondsGPSfromUTC_LeapSecondsJc(/*static*/ int64 millisecondsUTC, ThC
     
     if(singleton_LeapSecondsJc == null) 
     { 
-      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
-      
+      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      */
       singleton_LeapSecondsJc = ctorO_LeapSecondsJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_LeapSecondsJc_s, 0, _thCxt)), _thCxt);
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
     }
     idx = binarySearch_int64_ArraysJc(/*static*/singleton_LeapSecondsJc->millisecondsUTCForLeapSeconds/*J2C-error testAndChangeAccess: XY*/, millisecondsUTC, _thCxt);
     if(idx < 0) 
-    { //:normal: no leap seconds
+    { /*:normal: no leap seconds*/
       
       
       idx = -idx - 1;
@@ -246,14 +243,14 @@ int32 secondsGPSfromUTC_LeapSecondsJc(/*static*/ int32 secondsUTC_1970, ThCxt* _
     
     if(singleton_LeapSecondsJc == null) 
     { 
-      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
-      
+      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      */
       singleton_LeapSecondsJc = ctorO_LeapSecondsJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_LeapSecondsJc_s, 0, _thCxt)), _thCxt);
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
     }
     idx = binarySearch_int64_ArraysJc(/*static*/singleton_LeapSecondsJc->millisecondsGPSForLeapSeconds/*J2C-error testAndChangeAccess: XY*/, (int64)secondsUTC_1970 * 1000, _thCxt);
     if(idx < 0) 
-    { //:normal: no leap seconds
+    { /*:normal: no leap seconds*/
       
       
       idx = -idx - 1;

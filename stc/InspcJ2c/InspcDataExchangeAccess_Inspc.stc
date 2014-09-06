@@ -19,8 +19,8 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
     fieldIdents {
       //outer=1 ,super=2: boolean %.. bBigEndian;
       //outer=1 ,super=2: boolean %.. bExpand;
-      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. charset;
-      //outer=1 ,super=2: byte[??] X%. data;
+      //outer=1 ,super=2: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=2: byte[??] M%. data;
       //outer=1 ,super=2: int %.. idxBegin;
       //outer=1 ,super=2: int %.. idxCurrentChild;
       //outer=1 ,super=2: int %.. idxCurrentChildEnd;
@@ -42,12 +42,11 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: int %.. sizeHead;
       int %.d sizeofHead;
       //outer=2 ,super=1: int %.d version;
-      //outer=1 ,super=2: int %.. zdata;
     }
       methods {  
-        assignDatagram-_$, mode= noThCxt: void %.r null(byte[??] X%. data,int %.. length);
+        assignDatagram-_$, mode= noThCxt: void %.r null(byte[??] M%. data,int %.. length);
         ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. InspcDatagram_InspcDataExchangeAccess_Inspc_s();
-        ctorM+_iY-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. InspcDatagram_InspcDataExchangeAccess_Inspc_s(byte[??] X%. buffer);
+        ctorM+_iY-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. InspcDatagram_InspcDataExchangeAccess_Inspc_s(byte[??] M%. buffer);
         getAnswerNr-_$, mode= noThCxt: int %.r null();
         getEncryption-_$, mode= noThCxt: int %.r null();
         getEntrant-_$, mode= noThCxt: int %.r null();
@@ -80,8 +79,8 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
     fieldIdents {
       //outer=1 ,super=2: boolean %.. bBigEndian;
       //outer=1 ,super=2: boolean %.. bExpand;
-      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. charset;
-      //outer=1 ,super=2: byte[??] X%. data;
+      //outer=1 ,super=2: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=2: byte[??] M%. data;
       //outer=1 ,super=2: int %.. idxBegin;
       //outer=1 ,super=2: int %.. idxCurrentChild;
       //outer=1 ,super=2: int %.. idxCurrentChildEnd;
@@ -124,7 +123,6 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: int %.. sizeHead;
       int %.d sizeofHead;
       //outer=2 ,super=1: int %.d version;
-      //outer=1 ,super=2: int %.. zdata;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. Inspcitem_InspcDataExchangeAccess_Inspc_s();
@@ -154,8 +152,8 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
     fieldIdents {
       //outer=1 ,super=2: boolean %.. bBigEndian;
       //outer=1 ,super=2: boolean %.. bExpand;
-      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. charset;
-      //outer=1 ,super=2: byte[??] X%. data;
+      //outer=1 ,super=2: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=2: byte[??] M%. data;
       //outer=1 ,super=2: int %.. idxBegin;
       //outer=1 ,super=2: int %.. idxCurrentChild;
       //outer=1 ,super=2: int %.. idxCurrentChildEnd;
@@ -171,7 +169,6 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: int %.. sizeHead;
       int %.d sizeofElement;
       //outer=2 ,super=1: int %.d version;
-      //outer=1 ,super=2: int %.. zdata;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. InspcSetValue_InspcDataExchangeAccess_Inspc_s();
@@ -211,8 +208,8 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
     fieldIdents {
       //outer=1 ,super=3: boolean %.. bBigEndian;
       //outer=1 ,super=3: boolean %.. bExpand;
-      //outer=1 ,super=3: java/lang/String(instance=java/lang/String) t.. charset;
-      //outer=1 ,super=3: byte[??] X%. data;
+      //outer=1 ,super=3: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=3: byte[??] M%. data;
       //outer=1 ,super=3: int %.. idxBegin;
       //outer=1 ,super=3: int %.. idxCurrentChild;
       //outer=1 ,super=3: int %.. idxCurrentChildEnd;
@@ -227,7 +224,6 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=3: int %.. sizeHead;
       int %.d sizeofElement;
       //outer=2 ,super=1: int %.d version;
-      //outer=1 ,super=3: int %.. zdata;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValueData *.. InspcSetValueData_InspcDataExchangeAccess_Inspc_s();

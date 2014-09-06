@@ -78,7 +78,7 @@ fieldIdents {
     java/lang/CharSequence: $ "(?).base.super.base.CharSequenceJc" $;
     java/io/Closeable: $ "(?).base.super.base.CloseableJc" $;
     java/lang/Comparable: $ "(?).base.super.base.ComparableJc" $;
-    java/lang/Object: $ "(?).base.super.base.object" $;
+    java/lang/Object: $ "(?).base.super.base.CharSequenceJc.base.object" $;
     org/vishia/util/StringPart: $ "(?).base.super" $;
   }
 

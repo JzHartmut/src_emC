@@ -1403,7 +1403,7 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
     nrofCharsForSignUnused = 0;
     bLeftZeroSuppress = false;
     
-    spPict = ctorO_Cs_StringPartJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringPartJc_s, 0, _thCxt)), pict/*J2C-error testAndChangeAccess: t**/, _thCxt);
+    spPict = ctorO_Cs_StringPartJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_StringPartJc_s, 0, _thCxt)), ((/*J2C:cast from StringJc*/CharSequenceJc*)(pict/*J2C-error testAndChangeAccess: t**/)), _thCxt);
     posSignInPicture = indexOfAnyChar_S_StringPartJc(spPict, sNeg_StringFormatterJc, _thCxt);
     if(posSignInPicture >= 0) 
     { 
@@ -1436,17 +1436,14 @@ bool strPicture_StringFormatterJc_F(StringFormatterJc_s* thiz, int64 src, String
     }
     else if(src < 0) 
     { 
-       //J2C: temporary Stringbuffer for String concatenation
-      StringBuilderJc* _tempString2_1=null; 
+      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
       
       { throw_sJc(ident_IllegalArgumentExceptionJc, 
-        ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-        , append_z_StringBuilderJc(_tempString2_1, "value should be only positive: ", _thCxt)
-        , append_J_StringBuilderJc(_tempString2_1, src, _thCxt)
-        , toString_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
+        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+        , append_z_StringBuilderJc(_stringBuilderThCxt, "value should be only positive: ", _thCxt)
+        , append_J_StringBuilderJc(_stringBuilderThCxt, src, _thCxt)
+        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
     }/*if the number is negativ but a sign is not expected, the number will be shown as positiv value.*/
     /**/
     /*----------------------------------------------------------------------*/
@@ -1746,15 +1743,15 @@ struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int
   STACKTRC_TENTRY("floatToText_StringFormatterJc");
   
   { 
-    struct CharSequenceJc_t* ret = s0_StringJc("?"); 
+    struct CharSequenceJc_t* ret = "?"/*J2C: no cast found from s0=char const*: ClassData@246b5488*/; 
     
     
-    ret = s0_StringJc("?")/*J2C-error testAndChangeAccess: t**/;
+    ret = ((/*J2C:cast from char const**/CharSequenceJc*)("?"/*J2C-error testAndChangeAccess: t**/));
     if(val < 0.001F) 
     { 
       StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
       
-      ret = _persistring2_1 = persist_StringJc(format_a_StringJc(/*static*/s0_StringJc("%1.6f"), "F", val, _thCxt))/*J2C-error testAndChangeAccess: t**/;
+      ret = ((/*J2C:cast from StringJc*/CharSequenceJc*)(_persistring2_1 = persist_StringJc(format_a_StringJc(/*static*/s0_StringJc("%1.6f"), "F", val, _thCxt))/*J2C-error testAndChangeAccess: t**/));
       activateGC_ObjectJc(PTR_StringJc(_persistring2_1), null, _thCxt);
     }
     
@@ -1804,7 +1801,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc_F(StringFormatterJc_s* th
         
         
         appendI_AppendableJc(REFJc(thiz->lineout), REFJc(thiz->buffer), 0, thiz->pos, _thCxt);
-        append_AppendableJc(REFJc(thiz->lineout), thiz->sNewline/*J2C-error testAndChangeAccess: t**/, _thCxt);
+        append_t_AppendableJc(REFJc(thiz->lineout), thiz->sNewline, _thCxt);
         delete_StringBuilderJc(REFJc(thiz->buffer), 0, thiz->pos, _thCxt);
         thiz->pos = 0;
       }

@@ -12,6 +12,7 @@ class Arrays; nameC=ArraysJc; argIdent=A; extends java/lang/Object
   methods {  
     fill+_C-_$, mode=static: void%.. return(char X%. value,  int %.. from, int %.. to, char %.. value);
     fill+_B-_$, mode=static: void%.. return(byte X%. value,  int %.. from, int %.. to, byte %.. value);
+    fill+_mB-_$, mode=static: void%.. return(byte M%. value,  int %.. from, int %.. to, byte %.. value);
     fill+_S-_$, mode=static: void%.. return(short X%. value, int %.. from, int %.. to, short %.. value);
     fill+_I-_$, mode=static: void%.. return(int X%. value,   int %.. from, int %.. to, int %.. value);
     fill+_J-_$, mode=static: void%.. return(long X%. value,  int %.. from, int %.. to, long %.. value);

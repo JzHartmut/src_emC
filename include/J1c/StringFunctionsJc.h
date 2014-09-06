@@ -5,6 +5,8 @@
 #ifndef __J1c_StringFunctionsJc_h__
 #define __J1c_StringFunctionsJc_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
@@ -128,10 +130,16 @@ METHOD_C int32 lastIndexOf_Csc_StringFunctionsJc(/*static*/ struct CharSequenceJ
 METHOD_C int32 lastIndexOfAnyChar_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 from, int32 to, StringJc chars, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
+METHOD_C int32 indexOf_CsiiS_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
+
+/**Checks whether the given CharSequence contains the other given CharSequence.*/
 METHOD_C int32 indexOf_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given CharSequence in a CharSequence.*/
 METHOD_C int32 indexOf_CsCsi_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, struct CharSequenceJc_t* str, int32 fromIndex, ThCxt* _thCxt);
+
+/**Checks whether the given CharSequence contains the given String.*/
+METHOD_C int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
 METHOD_C int32 lastIndexOf_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str, ThCxt* _thCxt);
@@ -185,6 +193,8 @@ class StringFunctionsJc : private StringFunctionsJc_s
 
   int32 indexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str){  return indexOf_CsiiCs_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
 
+  int32 indexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJcpp str){  return indexOf_CsiiS_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+
   int32 indexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, char ch){  return indexOf_Csiic_StringFunctionsJc(sq, fromIndex, to, ch,  null/*_thCxt*/); }
 
   bool isEmptyOrOnlyWhitespaces(struct CharSequenceJc_t* text){  return isEmptyOrOnlyWhitespaces_StringFunctionsJc(text,  null/*_thCxt*/); }
@@ -194,6 +204,8 @@ class StringFunctionsJc : private StringFunctionsJc_s
   int32 lastIndexOf(struct CharSequenceJc_t* sq, char ch){  return lastIndexOf_Csc_StringFunctionsJc(sq, ch,  null/*_thCxt*/); }
 
   int32 lastIndexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str){  return lastIndexOf_CsiiCs_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJcpp str){  return lastIndexOf_CsiiS_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
 
   int32 lastIndexOf(struct CharSequenceJc_t* sq, int32 from, int32 to, char ch){  return lastIndexOf_Csiic_StringFunctionsJc(sq, from, to, ch,  null/*_thCxt*/); }
 

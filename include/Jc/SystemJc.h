@@ -69,6 +69,8 @@ METHOD_C void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int d
 
 METHOD_C void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPos, int length, ThCxt* _thCxt); 
 
+METHOD_C void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int dstPos, int length, ThCxt* _thCxt); 
+
 
 /**Runs the garbage collector. 
  *

@@ -673,6 +673,25 @@ StringJc new_BYIICharset_StringJc(int8_Y* bytes, int offset, int length, StringJ
 
 
 
+/* Implementation notes: The functionallity of conversion from a given charset is ignored yet.
+   Only the copiing of  bytes is done.
+ */
+StringJc new_mBYIIEncoding_StringJc(PtrVal_int8 bytes, int offset, int length, struct CharsetJc_t* charset, ThCxt* _thCxt)
+{ //StringBuilderJc* sbuffer;
+  StringJc ret = CONST_StringJc((char*)(bytes.ptr__+offset), length);  //The string refers to the bytes.
+  STACKTRC_TENTRY("new_bYiiCharset_StringJc");
+  /*
+  sbuffer = new_StringBuilderJc(length, _thCxt);
+  { int zBuffer; char* buffer = getCharsAndSize_StringBuilderJc(sbuffer, &zBuffer);
+    memcpy(buffer, bytes->data + offset, length);
+  }
+  ret = toString_StringBuilderJc(&sbuffer->base.object, _thCxt);
+  */
+  STACKTRC_LEAVE; return ret;
+}
+
+
+
 StringJc new_CY_StringJc(char_Y* chars, ThCxt* _thCxt)
 {
   StringJc ret; 

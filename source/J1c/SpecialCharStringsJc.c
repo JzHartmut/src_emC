@@ -11,7 +11,7 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct StringBuilderJc_t;
+struct StringBufferJc_t;
 
 /**This class helps to handle with special chars in Strings.
 In Java all Strings are encoded with UTF-16. But in Files the encoding is mostly implemented
@@ -70,55 +70,55 @@ struct CharSequenceJc_t* resolveCircumScription_SpecialCharStringsJc(/*static*/ 
       sResult = src;
     }
     else 
-    { //:escape character is found before end
+    { /*:escape character is found before end*/
       
-      struct StringBuilderJc_t* sbReturn = null; 
+      struct StringBufferJc_t* sbReturn = null; 
       
-      ObjectJc *newObj2_1=null; //J2C: temporary Objects for new operations
-      StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
+      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      */StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
       
       
-      sbReturn = ctorO_s_StringBuilderJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), s0_CharSequenceJc(src/*J2C-error testAndChangeAccess: *t*/), _thCxt);
+      sbReturn = ctorO_c_StringBufferJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBufferJc, 0, _thCxt)), src, _thCxt);
       
       while(posSwitch >= 0)
         { 
           char cNext; 
           int32 iChangedChar = 0; 
           
-          StringJc _temp3_1; //J2C: temporary references for concatenation
+          StringJc _temp3_1; /*J2C: temporary references for concatenation */
           
-          if(posSwitch < length_StringBuilderJc(sbReturn) - 1) 
+          if(posSwitch < length_StringBufferJc(sbReturn) - 1) 
           { 
             
-            deleteCharAt_StringBuilderJc(sbReturn, posSwitch, _thCxt);
+            deleteCharAt_StringBufferJc(sbReturn, posSwitch, _thCxt);
           }
-          cNext = charAt_StringBuilderJc(sbReturn, posSwitch, _thCxt);
+          cNext = charAt_StringBufferJc(sbReturn, posSwitch, _thCxt);
           /*no initvalue*/
           if((iChangedChar = /*? assignment*/indexOf_C_StringJc(zI_StringJc("snrtfb",6), cNext)) >= 0) 
           { 
             
-            setCharAt_StringBuilderJc(sbReturn, posSwitch, charAt_StringJc(zI_StringJc(" \n\r\t\f\b",6), iChangedChar), _thCxt);
+            setCharAt_StringBufferJc(sbReturn, posSwitch, charAt_StringJc(zI_StringJc(" \n\r\t\f\b",6), iChangedChar), _thCxt);
           }
           else if(cNext == 'a') 
-          { //: \a means end of file, coded inside with 4 = EOT (end of transmission).
+          { /*: \a means end of file, coded inside with 4 = EOT (end of transmission).*/
             
             
-            setCharAt_StringBuilderJc(sbReturn, posSwitch, cStartOfText_SpecialCharStringsJc, _thCxt);
+            setCharAt_StringBufferJc(sbReturn, posSwitch, cStartOfText_SpecialCharStringsJc, _thCxt);
           }
           else if(cNext == 'e') 
-          { //: \e means end of file, coded inside with 4 = EOT (end of transmission).
+          { /*: \e means end of file, coded inside with 4 = EOT (end of transmission).*/
             
             
-            setCharAt_StringBuilderJc(sbReturn, posSwitch, cEndOfText_SpecialCharStringsJc, _thCxt);
+            setCharAt_StringBufferJc(sbReturn, posSwitch, cEndOfText_SpecialCharStringsJc, _thCxt);
           }
           else 
           { }
           posSwitch = 
-          ( _temp3_1= toString_StringBuilderJc(& ((* (sbReturn)).base.object), _thCxt)
+          ( _temp3_1= toString_StringBufferJc(& ((* (sbReturn)).base.object), _thCxt)
           , indexOf_CI_StringJc(_temp3_1, cSwitch, posSwitch + 1)
           );
         }
-      sResult = _persistring2_1 = toStringPersist_StringBuilderJc(& ((* (sbReturn)).base.object), _thCxt)/*J2C-error testAndChangeAccess: t**/;
+      sResult = ((/*J2C:cast from StringJc*/CharSequenceJc*)(_persistring2_1 = persist_StringJc(toString_StringBufferJc(& ((* (sbReturn)).base.object), _thCxt))/*J2C-error testAndChangeAccess: t**/));
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
       activateGC_ObjectJc(PTR_StringJc(_persistring2_1), null, _thCxt);
     }

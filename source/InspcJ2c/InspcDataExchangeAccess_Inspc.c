@@ -88,7 +88,7 @@ const char sign_Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc[] = "InspcDatag
 
 
 /*Constructor */
-struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, int8_Y* buffer, ThCxt* _thCxt)
+struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, PtrVal_int8 buffer, ThCxt* _thCxt)
 { InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcDatagram_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_InspcDatagram_InspcDataExchangeAccess_Inspc");

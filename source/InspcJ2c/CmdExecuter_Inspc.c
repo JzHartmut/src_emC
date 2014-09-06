@@ -40,11 +40,10 @@ struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdC
     //J2C: constructor for embedded element-MemC
       ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->infoCmd, sizeof(thiz->infoCmd)), _thCxt);
     thiz->maxNrofAnswerBytes = 1400;
-    /*J2C: newArray*/
-      init_ObjectJc(&thiz->bufferAnswerData.head.object, sizeof_ARRAYJc(int8, 1500), 0);   //J2C: ctor embedded array.
-      ctorO_ObjectArrayJc(&thiz->bufferAnswerData.head.object, 1500, sizeof(int8), null, 0);//J2C: constructor for embedded array;
+    init0_MemC(build_MemC(&thiz->data_bufferAnswerData, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
+    thiz->bufferAnswerData.ptr__ = & thiz->data_bufferAnswerData[0]; thiz->bufferAnswerData.value__ = sizeof( thiz->data_bufferAnswerData) / sizeof(thiz->data_bufferAnswerData[0]);
     //J2C: constructor for embedded element-MemC
-      ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->myAnswerData, sizeof(thiz->myAnswerData)), (struct int8_Y_t*)(&( thiz->bufferAnswerData)), _thCxt);
+      ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->myAnswerData, sizeof(thiz->myAnswerData)), thiz->bufferAnswerData, _thCxt);
   }
   { 
     
@@ -72,7 +71,9 @@ void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Co
   mtbl->completeConstruction(thiz, comm, _thCxt);
 }
 
-bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
+
+/**Executes the given command received with this datagram*/
+bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
 { Mtbl_CmdExecuter_Inspc const* mtthis = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
   
   STACKTRC_TENTRY("executeCmd_CmdExecuter_Inspc_F");
@@ -99,7 +100,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, i
     thiz->nrofBytesAnswer = 0;
     SETMTBJc(cmdConsumerMtbl, thiz->cmdConsumer, CmdConsumer_ifc_Inspc);
     removeChildren_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super));
-    fill_B_ArraysJc(/*static*/(struct int8_Y_t*)(&( thiz->bufferAnswerData)), 0, thiz->bufferAnswerData.head.length, (int8)0, _thCxt);/*String test = myAnswerData.toString();*/
+    fill_mB_ArraysJc(/*static*/thiz->bufferAnswerData, 0, thiz->bufferAnswerData.value__, (int8)0, _thCxt);/*String test = myAnswerData.toString();*/
     
     if(nEntrant < 0) 
     { /*:a negative number: It is an entrant, the telegram has the common head.*/
@@ -221,7 +222,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, i
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, int8_Y* buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
+bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
 { Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
   return mtbl->executeCmd(thiz, buffer, nrofBytesReceived, _thCxt);
 }
@@ -255,7 +256,7 @@ int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart
         
       }/*send.*/
       
-      sendAnswer_Comm_Inspc(thiz->comm, (struct int8_Y_t*)(&( thiz->bufferAnswerData)), thiz->nrofBytesAnswer, _thCxt);/**/
+      sendAnswer_Comm_Inspc(thiz->comm, thiz->bufferAnswerData, thiz->nrofBytesAnswer, _thCxt);/**/
       
       if(bLastTelg) 
       { 
@@ -352,9 +353,9 @@ extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
 extern_C struct ClassJc_t const reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s;
 extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
 const struct Reflection_Fields_CmdExecuter_Inspc_s_t
-{ ObjectArrayJc head; FieldJc data[11];
+{ ObjectArrayJc head; FieldJc data[12];
 } reflection_Fields_CmdExecuter_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &reflection_Fields_CmdExecuter_Inspc_s)
+{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_CmdExecuter_Inspc_s)
 , {
      { "datagramCmd"
     , 0 //nrofArrayElements
@@ -420,10 +421,18 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_CmdExecuter_Inspc_s
     }
-   , { "bufferAnswerData"
+   , { "data_bufferAnswerData"
     , 1500 //nrofArrayElements
     , REFLECTION_int8
-    , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->data_bufferAnswerData) - (int32)(CmdExecuter_Inspc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_CmdExecuter_Inspc_s
+    }
+   , { "bufferAnswerData"
+    , 0 //nrofArrayElements
+    , REFLECTION_int8
+    , 1 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kPtrVal_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->bufferAnswerData) - (int32)(CmdExecuter_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_CmdExecuter_Inspc_s

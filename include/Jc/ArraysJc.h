@@ -83,6 +83,8 @@ METHOD_C int binarySearch0_int64_ii_ArraysJc(int64_Y const* data, int fromIndex,
  */
 METHOD_C void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt* _thCxt);
 
+METHOD_C void fill_mB_ArraysJc(PtrVal_int8 array, int fromIndex, int toIndex, int value, ThCxt* _thCxt);
+
 METHOD_C void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, ThCxt* _thCxt);
 
 

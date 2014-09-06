@@ -193,22 +193,38 @@ typedef float                float32;
  */
 #define OS_intPTR int
 
-/**This class provides basic working with memory allocation and its associated amount of bytes.
- * The Problem in C is: a Pointer to memory is not interpretable. It is a void* mostly.
- * How many bytes are there, it is unknown.
- *
- * The struct MemJc contains both:
- * * The pointer to the data as pointer to memory layout.
- * * The size of data in memory.
- * But there is no type info.
+
+
+/**This macro defines a struct with a pointer to the given type and a integer number.
+ * Usual it can be used to describe exactly an 1-dimensional array. The integer number is the number of elements,
+ * the size in memory is (sizeof(TYPE) * numberOfElements). 
+ * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
+#define PtrVal_TYPE(TYPE) struct PtrVal_##TYPE##_t { TYPE* ptr__; int32 value__; } PtrVal_##TYPE
+
+/**Defines the struct type PtrVal_MemUnit.
+ * This type provides basic working with memory allocation.
+ * The Problem in C is: a Pointer to memory does not contain the information about the amount of memory.
+ * It is a simple pointer only, often a void*. How many bytes are there, it is unknown.
+ * The struct MemC contains the pointer to memory as MemUnit type and the amount of memory.
+ * This struct is based on the 
+ * A PtrVal_MemUnit struct contains both:
+ * * The pointer to the data as memory address unit.
+ * * The size of data in memory.
+ */
+typedef PtrVal_TYPE(MemUnit);
+
+/**Compatibility with older typedef of OS_PtrValue. */
+#define OS_PtrValue PtrVal_MemUnit 
+
+/*
 typedef struct OS_PtrValue_t
 { char* ptr__;           //use type char* instead void* to see a character string in debug.
   int32 value__;
   //struct MemAreaC_t* ptr__;
   //union{ struct MemAreaC_t* memArea; char* str; } ptr__;
 }OS_PtrValue;
-
+*/
 
 /**A const definition takes 2 arguments, but the type of them depends from operation system.
  * @param VAL a value from a int-type
@@ -250,7 +266,7 @@ extern OS_PtrValue null_OS_PtrValue;
 #endif
 
 
-/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of value__
+/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
  * It have to be a mask with set bits on right side (all last significant bits).
  * The next 2 bits left are used internally for designation of String.
  * The following bits left side are used for enhanced references. 

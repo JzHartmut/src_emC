@@ -104,7 +104,17 @@ struct ThreadContextFW_t;
 /*@CLASS_C MemC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-#define MemC OS_PtrValue
+/**Defines the struct type MemC as the same as PtrVal_MemUnit.
+ * This type provides basic working with memory allocation.
+ * The Problem in C is: a Pointer to memory does not contain the information about the amount of memory.
+ * It is a simple pointer only, often a void*. How many bytes are there, it is unknown.
+ * The struct MemC contains the pointer to memory as MemUnit type and the amount of memory.
+ * This struct is based on the 
+ * A PtrVal_MemUnit struct contains both:
+ * * The pointer to the data as memory address unit.
+ * * The size of data in memory.
+ */
+#define MemC PtrVal_MemUnit
 
 /**A const definition of a MemC using as initializer for static or stack variables.
  * In standard-C only useable for global static variables, if SIZE or PTR are not constants itself.
@@ -127,6 +137,9 @@ struct ThreadContextFW_t;
  * @param TYPE the type of the pointer, without *. forex: "void"
  */
 #define PTR_MemC(MEMC, TYPE) PTR_OS_PtrValue(MEMC, TYPE)
+
+
+#define bytePtr_MemC(MEMC) PTR_OS_PtrValue(MEMC, int8*)
 
 #define isNull_MemC(MEMC) (PTR_OS_PtrValue(MEMC, void)==null)
 
@@ -171,8 +184,6 @@ METHOD_C void init0p_MemC(void* ptr, int size);
  * This is a helper method to supply a MemC argument in a method call.
  */
 METHOD_C MemC build_MemC(void* address, int size);
-
-
 
 
 /**Checks wether the size info in MemC is greater or equal given size, throws an IllegalArgumentException if there isn't so.
@@ -226,6 +237,26 @@ MemC alloc0_MemC(int size);
 
 /**Kompatibilität: */
 #define os_init0MemC init0_MemC
+
+
+
+
+/*@CLASS_C PtrVal @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**Defines Struct_charPtr_Value.
+ */
+typedef PtrVal_TYPE(int8);
+
+typedef PtrVal_TYPE(int16);
+
+typedef PtrVal_TYPE(int32);
+
+typedef PtrVal_TYPE(int64);
+
+typedef PtrVal_TYPE(float);
+
+typedef PtrVal_TYPE(double);
+
 
 
 

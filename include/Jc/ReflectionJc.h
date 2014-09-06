@@ -1233,17 +1233,17 @@ typedef enum  Modifier_reflectJc_t
 
     /**outside java definition:
      * The <code>int</code> value representing the isUML_List()-Property.
+     * It is set if a Reference is a multiple aggregation realized with a array container
+     * using the ObjectArrayJc structure.
+     */
+, kPtrVal_Modifier_reflectJc          =    0x00300000  
+
+    /**outside java definition:
+     * The <code>int</code> value representing the isUML_List()-Property.
      * It is set if a Reference is a multiple aggregation realized with a list container
      * using the MapJc interface.
      */
 , kMapJc_Modifier_reflectJc           =    0x00400000
-
-    /**outside java definition:
-     * The <code>int</code> value representing the isStaticArray-Property.
-     * It is set if multiple elements are after another imediately,
-     * The number of elements is hold in the FieldJc.nrofArrayElements
-     */
-, kStaticArray_Modifier_reflectJc     =    0x00800000   //do not change, compatibility with older data
 
     /**outside java definition:
      * The <code>int</code> value representing the isUML_List()-Property.
@@ -1254,6 +1254,14 @@ typedef enum  Modifier_reflectJc_t
 , kUML_LinkedList_Modifier_reflectJc  =    0x00500000
 
     /**outside java definition:
+     * The <code>int</code> value representing the isUML_Map()-Property.
+     * It is set if a Reference is a multiple aggregation realized with a list container.
+     * The realisation of the list may be user specific for a UML framework, therefore the access to the elements
+     * is made with the user definable UML_MapJc methods.
+     */
+, kUML_Map_Modifier_reflectJc          =   0x00600000
+
+    /**outside java definition:
      * The <code>int</code> value representing the isUML_Array()-Property.
      * It is set if a Reference is a multiple aggregation realized with a list container.
      * The realisation of the list may be user specific for a UML framework, therefore the access to the elements
@@ -1262,12 +1270,11 @@ typedef enum  Modifier_reflectJc_t
 , kUML_ArrayList_Modifier_reflectJc    =   0x00700000
 
     /**outside java definition:
-     * The <code>int</code> value representing the isUML_Map()-Property.
-     * It is set if a Reference is a multiple aggregation realized with a list container.
-     * The realisation of the list may be user specific for a UML framework, therefore the access to the elements
-     * is made with the user definable UML_MapJc methods.
+     * The <code>int</code> value representing the isStaticArray-Property.
+     * It is set if multiple elements are after another imediately,
+     * The number of elements is hold in the FieldJc.nrofArrayElements
      */
-, kUML_Map_Modifier_reflectJc          =   0x00600000
+, kStaticArray_Modifier_reflectJc     =    0x00800000   //do not change, compatibility with older data
 
     /**Mode of addressing of complex elements. This mode is regarded to the elements of a container,
      * if the field represents a container. 
