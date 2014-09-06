@@ -481,6 +481,96 @@ const ClassJc reflection_ReadLine_Fwc =
 #include "Fwc/fw_SimpleC.h"
 
 
+extern_C const ClassJc reflection_U_intfloat;  //the just defined reflection_
+const struct Reflection_Fields_U_intfloat_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_U_intfloat =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_U_intfloat)
+, {
+    { "f"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((U_intfloat*)(0x1000))->f) -(int32)(U_intfloat*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_U_intfloat
+    }
+  , { "i"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((U_intfloat*)(0x1000))->i) -(int32)(U_intfloat*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_U_intfloat
+    }
+} };
+
+
+const ClassJc reflection_U_intfloat =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_U_intfloat, &reflection_ClassJc)
+, "U_intfloat"
+, 0
+, sizeof(U_intfloat)
+, (FieldJcArray const*)&reflection_Fields_U_intfloat  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_U_ptr;  //the just defined reflection_
+const struct Reflection_Fields_U_ptr_t
+{ ObjectArrayJc head;
+  FieldJc data[3];
+} reflection_Fields_U_ptr =
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_U_ptr)
+, {
+    { "f"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((U_ptr*)(0x1000))->f) -(int32)(U_ptr*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_U_ptr
+    }
+  , { "i"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((U_ptr*)(0x1000))->i) -(int32)(U_ptr*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_U_ptr
+    }
+  , { "addr"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((U_ptr*)(0x1000))->addr) -(int32)(U_ptr*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_U_ptr
+    }
+} };
+
+
+const ClassJc reflection_U_ptr =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_U_ptr, &reflection_ClassJc)
+, "U_ptr"
+, 0
+, sizeof(U_ptr)
+, (FieldJcArray const*)&reflection_Fields_U_ptr  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
 extern_C const ClassJc reflection_Int32Array256;  //the just defined reflection_
 const struct Reflection_Fields_Int32Array256_t
 { ObjectArrayJc head;

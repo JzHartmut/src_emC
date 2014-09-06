@@ -36,7 +36,7 @@
  ****************************************************************************/
 #ifndef __MathJc_h__
 #define __MathJc_h__
-
+#include <os_types_def.h>
 #include <math.h>
 
 #define PI_MathJc 3.141592653589793

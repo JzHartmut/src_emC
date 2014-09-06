@@ -282,9 +282,9 @@ typedef struct MinMaxTime_Fwc_t
 /**Stores middle value of difference time in any variable, without min and max. 
  * @param VAR variable to store middle time 
  */
-#define mesTimeMid_I_MinMaxTime_Fwc(YTHIS, time, VAR)        \
-{ uint32_t calcTime = (time) - (YTHIS)->_lastTime; \
-  VAR += calcTime - (VAR >>10);            \
+#define mesTimeMid_I_MinMaxTime_Fwc(YTHIS, time, VAR, VARMID)        \
+{ VAR = (time) - (YTHIS)->_lastTime; \
+  VARMID += VAR - (VARMID >>10);            \
 }
 
 /**Stores difference time in any variable, without min and max. 

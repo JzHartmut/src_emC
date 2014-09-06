@@ -196,7 +196,7 @@ METHOD_C void sleep_ThreadJc(int32 milliseconds, ThCxt* _thCxt);
 
 
 /** javalike:*/
-METHOD_C ThreadJc_s* currentThread_ThreadJc();
+METHOD_C ThreadJc_s* currentThread_ThreadJc(ThCxt* _thCxt);
 
 /* Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */

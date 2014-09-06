@@ -89,5 +89,20 @@ extern_C OS_PtrValue null_OS_PtrValue;
 /**This Define is used to prevent reflection generation from any part of struct. */
 #define ReflectionHidden 
 
-#define __os_types_def_common_h__
+/*@CLASS_C PtrVal @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**Defines Struct_charPtr_Value.
+ */
+typedef PtrVal_TYPE(int8);
+
+typedef PtrVal_TYPE(int16);
+
+typedef PtrVal_TYPE(int32);
+
+typedef PtrVal_TYPE(int64);
+
+typedef PtrVal_TYPE(float);
+
+typedef PtrVal_TYPE(double);
+
 #endif  // __os_types_def_common_h__

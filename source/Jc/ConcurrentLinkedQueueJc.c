@@ -269,6 +269,17 @@ void ctorcSn_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, Concurren
 }
 
 
+
+
+METHOD_C ConcurrentLinkedQueueJc_s* ctorO_init_ConcurrentLinkedQueueJc(ObjectJc* othis, bool init, ThCxt* _thCxt)
+{
+  ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
+  STACKTRC_TENTRY("ctorO_Clq_ConcurrentLinkedQueueJc");
+  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&reflection_ConcurrentLinkedQueueJc_s*/, _thCxt); 
+  return ythis; 
+}
+
+
     /**
      * Creates a <tt>ConcurrentLinkedQueue</tt>
      * initially containing the elements of the given collection,

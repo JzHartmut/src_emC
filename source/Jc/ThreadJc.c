@@ -119,6 +119,13 @@ static int root_ThreadJc(void* data)
 }
 
 
+
+ThreadJc_s* currentThread_ThreadJc(ThCxt* _thCxt)
+{ return null;  //TODO
+}
+
+
+
 void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt)
 {
   int ok;

@@ -53,6 +53,19 @@
 #include <os_types_def.h>
 
 
+
+typedef union U_intfloat_t{
+  float f; int32_t i;
+} U_intfloat;
+
+
+
+typedef union U_ptr_t{
+  float* f; int32_t* i; int32_t addr;
+} U_ptr;
+
+
+
 /*@DEFINE_C specialDefines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /** This type represents a pointer to a void name(void) - method.
@@ -198,6 +211,34 @@ extern_C int binarySearch_int64(int64_t const* data, int fromIndex, int toIndex,
 
 #define binarySearch_int_simpleC binarySearch_int
 
+
+/**Binary search algorithm for universal purpose as macro.
+ * Before this algoritm is used, the following line should be defined in the source:
+
+ #define BINARY_SEARCH_ARRAY_Fwc(INDEX) myArray[INDEX]->maybeElement
+ 
+ * with them the following macro accesses the index.
+ * The macro should be used in a C-function-definition:
+
+ int myBinarySearch(int fromIndex, int toIndex) BINARY_SEARCH_Fwc(fromIndex, toIndex)
+ */
+#define BINARY_SEARCH_Fwc(key, fromIndex, toIndex)  \
+{ int low = fromIndex;                         \
+	int high = toIndex -1;                       \
+	while (low <= high) {                        \
+    int mid = (low + high) >> 1;               \
+	  long midVal = getValue_BINARY_SEARCH_ARRAY_Fwc(mid);\
+	  if (midVal < key)                          \
+		{ low = mid + 1;\
+	  }\
+    else if (midVal > key)\
+		{ high = mid - 1;\
+	  } else\
+		{ return mid; /* key found */ \
+    }\
+	}\
+	return -(low + 1);  /* key not found*/ \
+}
 
 
 
