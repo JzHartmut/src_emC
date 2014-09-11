@@ -13,6 +13,7 @@
 
 #include "Fwc/fw_Exception.h"   //basic concept
 
+#include "Jc/ArraysJc.h"
 
 /* J2C: Forward declaration of struct ***********************************************/
 struct InspcDataExchangeAccess_Inspc_t;
