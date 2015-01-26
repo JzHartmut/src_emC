@@ -29,14 +29,13 @@ typedef struct InspcDataInfo_Inspc_t
 { 
   union { ObjectJc object; } base; 
   int32 lastUsed;   /*Timeout of using.*/
-  MemSegmJc addr; 
-  struct FieldJc_t const* addrValue;   /*Address and Segment of the value. */
-  int8 sizeofValue;   /*Nr of bytes to read and transfer. */
-  int8 dummy; 
+  MemSegmJc addr;   /*The address and maybe segment in address space of the variable. */
+  struct FieldJc_t const* reflectionField;   /*Address and Segment of the value. */
+  int8 sizeofValue;   /*Nr of bytes of the type to read and transfer. */
   int8 typeValue;   /*The type of the value, to send in telegram, see kScalarTypes_DataExchangeCmd_OBM.*/
-  int8 kindofOrder;   /*The kind of order:*/
   int16 lengthData;   /*If it is a recording order, size of the buffer. */
-  int16 check;   /*The indendificator should be sent from request to safety the correctness of request.*/
+  int32 check;   /*This check code should be sent from request to safety the correctness of request.*/
+  int32 secondOfCreation;   /*Timestamp seconds after 1970 of creation*/
 } InspcDataInfo_Inspc_s;
   
 

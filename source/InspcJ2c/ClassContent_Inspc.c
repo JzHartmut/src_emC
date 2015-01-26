@@ -1222,10 +1222,11 @@ int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct In
           freeOrder = & (thiz->registeredDataAccess.data[ixReg]);
         }
         freeOrder->lastUsed = currentTime;
-        freeOrder->addrValue = theField;
+        freeOrder->secondOfCreation = currentTime;
+        freeOrder->reflectionField = theField;
         set_MemSegmJc(freeOrder->addr, theObject);/*don't start by 0 on reset of the target! date-20131208*/
         
-        freeOrder->check = (int16)(currentTime);
+        freeOrder->check = currentTime & 0xfffff;
         ixAnswer = ixReg | (freeOrder->check << 12);
         addChildInteger_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), 4, ixAnswer, _thCxt);
         getSetValue_ClassContent_Inspc(thiz, theField, idx, theObject, null, maxNrofAnswerBytes, _thCxt);
@@ -1296,10 +1297,10 @@ int32 cmdGetValueByIndex_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct I
           idxDataAccess = idxReq & 0xfff;
           check = (idxReq >> 12) & 0xfffff;
           order = & (thiz->registeredDataAccess.data[idxDataAccess]);
-          if(check == order->check && order->addrValue != null) 
+          if(check == order->check && order->reflectionField != null) 
           { 
             
-            getSetValue_ClassContent_Inspc(thiz, order->addrValue, 0, order->addr, null, maxNrofAnswerBytes, _thCxt);
+            getSetValue_ClassContent_Inspc(thiz, order->reflectionField, 0, order->addr, null, maxNrofAnswerBytes, _thCxt);
           }
           else 
           { /*:The ident is faulty. Any ident request should have its answer.*/

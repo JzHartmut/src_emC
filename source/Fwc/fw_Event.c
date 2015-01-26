@@ -26,36 +26,49 @@
  *
  **copyright***************************************************************************************
  *
- * @content Definition of memory access routines. 
- * This routines are implemented in a operation system specific way. 
+ * @content Definition of event handling. 
  *
  * @author Hartmut Schorrig
- * @version sf-0.83
- * list of changes:
- * 2008-02-01: Hartmut creation 
+ * @version
+ * 2012-09-09: Hartmut creation from Java org.vishia.util.Event 
  *
  ************************************************************************************************/
-#ifndef __os_mem_h__
-#define __os_mem_h__
-#include <os_types_def.h>
 
-/**Allocates memory from a memory pool (heap) of the operation system. */
-METHOD_C void* os_allocMem(uint size);
-
-
-/**Releases the memory, give back to operation system.
- * @param pMemory pointer to the memory, it should be the same pointer which is returned from os_allocMem(). 
- * @return 0 if success. negativ: an error.
- */
-METHOD_C int os_freeMem(void* pMemory);
-
-
-/**Checks the heap for size.
- * @return number of bytes/memory words which are able to alloc as large block.
- */
-METHOD_C int os_availMem();
+#include <Fwc/fw_Event.h>
+#include <Fwc/fw_SimpleC.h>
+#include <string.h>
 
 
 
+void ctor_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int sizeMemAdditional) 
+{ int bytes = sizeof(EventQueueSimple_Fwc) + sizeMemAdditional;  //sizeAdditional is number of bytes respecitvely mem locations.
+  memset(thiz, 0, bytes);  
+  thiz->zEvents = (sizeMemAdditional / sizeof(int)) + ARRAYLEN_SimpleC(thiz->events);
+}
 
-#endif  //__os_mem_h__
+
+bool offer_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int event)
+{
+  int ixWrNew = thiz->ixWrEvent +1;
+  if(ixWrNew >= thiz->zEvents) { ixWrNew = 0; } //wrap
+  if(ixWrNew != thiz->ixRdEvent) {
+    thiz->events[thiz->ixWrEvent] = event;
+    thiz->ixWrEvent = ixWrNew;  //Note: if there are exactly 1 writing and one reading thread, it is safe to store the ixWr after set event.
+    return true;
+  } else {
+    //next write would set ixWr == ixRd, it means the queue is empty, respectively it is written too much.
+    return false;
+  }
+}
+
+
+
+int read_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz)
+{ if(thiz->ixRdEvent != thiz->ixWrEvent) {
+    return thiz->events[thiz->ixRdEvent++];  //Note: Post-increment. ixRdEvent refers the next current one.
+  } 
+  else{
+    return 0;  //no event.
+  }
+}
+

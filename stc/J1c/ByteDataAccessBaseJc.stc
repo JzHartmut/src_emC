@@ -9,22 +9,25 @@ fieldIdents {
   boolean %.. bExpand;
   java/nio/charset/Charset *.. charset;
   byte[??] M%. data;
-  int %.. idxBegin;
-  int %.. idxCurrentChild;
-  int %.. idxCurrentChildEnd;
-  int %.. idxEnd;
+  int %.. ixBegin;
+  int %.. ixChild;
+  int %.. ixChildEnd;
+  int %.. ixEnd;
   org/vishia/byteData/ByteDataAccessBase @.. parent;
   java/lang/String(instance=java/lang/String) t.s sVersion;
   int %.. sizeHead;
 }
   methods {  
+    _expand-_$: void %.r null(int %.. idxCurrentChildEndNew);
     _getLong-_$: long %.r null(int %.. idxInChild,int %.. nrofBytesAndSign);
+    _reset-_$: void %.r null(int %.. lengthData);
     _setLong-_$: void %.r null(int %.. idx,int %.. nrofBytes,long %.. val);
+    _setSizeHead-_$, mode= noThCxt: void %.r null(int %.. size);
     _setString-_$: void %.r null(int %.. idx,int %.. nrofBytes,java/lang/String(instance=java/lang/String) t.. value,java/lang/String(instance=java/lang/String) t.. sEncoding,boolean %.. preventCtrlChars);
-    addChild+_XX-_$: boolean %.r null(org/vishia/byteData/ByteDataAccessBase *.. child);
-    addChild+_XXi-_$: boolean %.r null(org/vishia/byteData/ByteDataAccessBase *.. child,int %.. sizeChild);
-    addChildAt+_iXX-_$: boolean %.r null(int %.. idxChild,org/vishia/byteData/ByteDataAccessBase *.. child);
-    addChildAt+_iXXi-_$: boolean %.r null(int %.. idxChild,org/vishia/byteData/ByteDataAccessBase *.. child,int %.. sizeChild);
+    addChild+_XX-_$: void %.r null(org/vishia/byteData/ByteDataAccessBase *.. child);
+    addChild+_XXi-_$: void %.r null(org/vishia/byteData/ByteDataAccessBase *.. child,int %.. sizeChild);
+    addChildAt+_iXX-_$: void %.r null(int %.. idxChild,org/vishia/byteData/ByteDataAccessBase *.. child);
+    addChildAt+_iXXi-_$: void %.r null(int %.. idxChild,org/vishia/byteData/ByteDataAccessBase *.. child,int %.. sizeChild);
     addChildFloat-_$: void %.r null(float %.. value);
     addChildInteger-_$: void %.r null(int %.. nrofBytes,long %.. value);
     addChildString+_S-_$, mode= noThCxt: void %.r null(java/lang/String(instance=java/lang/String) t.r value);
@@ -38,7 +41,6 @@ fieldIdents {
     assignAt+_iiXX-_$, mode= noThCxt: void %.r null(int %.. idxChildInParent,int %.. lengthChild,org/vishia/byteData/ByteDataAccessBase *.. parent);
     assignCasted_i-_$, mode= noThCxt: void %.r null(org/vishia/byteData/ByteDataAccessBase *.. src,int %.. offsetCastToInput,int %.. lengthDst);
     assignClear-_$, mode= noThCxt: void %.r null(byte[??] M%. data);
-    clear-_$: void %.r null(int %.. lengthData);
     clearData-_$, mode= noThCxt: void %.r null();
     clearHead-_$, mode= noThCxt: void %.r null();
     copyData-_$: void %.r null(int[??] X%. dst);
@@ -47,7 +49,6 @@ fieldIdents {
     ctorM+_i-_$, mode= ctor+static: org/vishia/byteData/ByteDataAccessBase *.. ByteDataAccessBaseJc_s(int %.. sizeHead);
     ctorM+_ii-_$, mode= ctor+static: org/vishia/byteData/ByteDataAccessBase *.. ByteDataAccessBaseJc_s(int %.. sizeHead,int %.. sizeData);
     detach-_$, mode= noThCxt: void %.r null();
-    expand-_$: void %.r null(int %.. idxCurrentChildEndNew);
     finalize-_$, mode= overrideable: void %.. void();
     getBigEndian-_$: boolean %.r null();
     getChar-_$: char %.r null(int %.. idx);
@@ -88,8 +89,8 @@ fieldIdents {
     setDouble-_$, mode= noThCxt: void %.r null(int %.. idx,double %.. value);
     setFloat+_if-_$, mode= noThCxt: void %.r null(int %.. idx,float %.. value);
     setFloat+_iiif-_$, mode= noThCxt: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,float %.. val);
-    setIdxCurrentChildEnd-_$: boolean %.r null(int %.. nrofBytes);
-    setIdxtoNextCurrentChild-_$: void %.r null();
+    setIdxCurrentChildEnd-_$: void %.r null(int %.. nrofBytes);
+    setIdxtoNextCurrentChild-_$: void %.r null(int %.. sizeChild);
     setInt16+_ii-_$: void %.r null(int %.. idx,int %.. value);
     setInt16+_iiii-_$, mode= noThCxt: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
     setInt32+_ii-_$: void %.r null(int %.. idx,int %.. value);
@@ -97,7 +98,6 @@ fieldIdents {
     setInt8+_ii-_$, mode= noThCxt: void %.r null(int %.. idx,int %.. value);
     setInt8+_iiii-_$, mode= noThCxt: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
     setLengthElement-_$, mode= noThCxt: void %.r null(int %.. length);
-    setSizeHead-_$, mode= noThCxt: void %.r null(int %.. size);
     setString-_$: int %.r null(int %.. idx,int %.. nmax,java/lang/String(instance=java/lang/String) t.. ss);
     setUint16+_ii-_$, mode= noThCxt: void %.r null(int %.. idx,int %.. value);
     setUint16+_iiii-_$, mode= noThCxt: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);

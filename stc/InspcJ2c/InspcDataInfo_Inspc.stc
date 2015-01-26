@@ -6,12 +6,11 @@ class InspcDataInfo; nameC=InspcDataInfo_Inspc_s; argIdent=XX; extends java/lang
 {  
 fieldIdents {
   org/vishia/bridgeC/MemSegmJc(instance=org/vishia/bridgeC/MemSegmJc) $.. addr;
-  org/vishia/reflect/FieldJc *.. addrValue;
-  short %.. check;
-  byte %.. dummy;
-  byte %.. kindofOrder;
+  int %.. check;
   int %.. lastUsed;
   short %.. lengthData;
+  org/vishia/reflect/FieldJc *.. reflectionField;
+  int %.. secondOfCreation;
   byte %.. sizeofValue;
   byte %.. typeValue;
   int %.d version;

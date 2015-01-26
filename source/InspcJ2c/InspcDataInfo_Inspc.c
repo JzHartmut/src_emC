@@ -10,10 +10,13 @@
 
 /* J2C: Forward declaration of struct ***********************************************/
 
-/**This class contains the description to access one variable in memory
-to get a value not by path but by a ident. The structure stores the type, memory address
+/**This class contains the description to access to one variable in memory
+to get a value not by path but by a handle. The structure stores the type, memory address
 and some access info. In Java the memory address is the Object reference where the Field is located.
 In C it is adapted in the same kind to support Java2C-translation.
+<br><br>
+Note that this struct in C should be used less memory because it is an array element of a large array (1024..4096).
+Note that the length of integer should regard 4-byte-boundary for special processors which does not support a integer on any boundary.
 @author Hartmut Schorrig
 
 */
@@ -74,9 +77,9 @@ extern_C struct ClassJc_t const reflection_InspcDataInfo_Inspc_s;
 extern_C struct ClassJc_t const reflection_FieldJc;
 extern_C struct ClassJc_t const reflection_MemSegmJc;
 const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
-{ ObjectArrayJc head; FieldJc data[9];
+{ ObjectArrayJc head; FieldJc data[8];
 } reflection_Fields_InspcDataInfo_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 9, OBJTYPE_FieldJc, null, &reflection_Fields_InspcDataInfo_Inspc_s)
+{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_InspcDataInfo_Inspc_s)
 , {
      { "lastUsed"
     , 0 //nrofArrayElements
@@ -94,11 +97,11 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_InspcDataInfo_Inspc_s
     }
-   , { "addrValue"
+   , { "reflectionField"
     , 0 //nrofArrayElements
     , &reflection_FieldJc
     , kReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((InspcDataInfo_Inspc_s*)(0x1000))->addrValue) - (int32)(InspcDataInfo_Inspc_s*)0x1000)
+    , (int16)((int32)(&((InspcDataInfo_Inspc_s*)(0x1000))->reflectionField) - (int32)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_InspcDataInfo_Inspc_s
     }
@@ -110,27 +113,11 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_InspcDataInfo_Inspc_s
     }
-   , { "dummy"
-    , 0 //nrofArrayElements
-    , REFLECTION_int8
-    , 1 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((InspcDataInfo_Inspc_s*)(0x1000))->dummy) - (int32)(InspcDataInfo_Inspc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
-    }
    , { "typeValue"
     , 0 //nrofArrayElements
     , REFLECTION_int8
     , 1 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InspcDataInfo_Inspc_s*)(0x1000))->typeValue) - (int32)(InspcDataInfo_Inspc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
-    }
-   , { "kindofOrder"
-    , 0 //nrofArrayElements
-    , REFLECTION_int8
-    , 1 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((InspcDataInfo_Inspc_s*)(0x1000))->kindofOrder) - (int32)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_InspcDataInfo_Inspc_s
     }
@@ -144,9 +131,17 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     }
    , { "check"
     , 0 //nrofArrayElements
-    , REFLECTION_int16
-    , 2 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
+    , REFLECTION_int32
+    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InspcDataInfo_Inspc_s*)(0x1000))->check) - (int32)(InspcDataInfo_Inspc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InspcDataInfo_Inspc_s
+    }
+   , { "secondOfCreation"
+    , 0 //nrofArrayElements
+    , REFLECTION_int32
+    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InspcDataInfo_Inspc_s*)(0x1000))->secondOfCreation) - (int32)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_InspcDataInfo_Inspc_s
     }

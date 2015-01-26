@@ -39,7 +39,7 @@
 
 #include <os_types_def.h>
 
-struct Event_Fwc;
+struct Event_Fwc_t;
 
 /**It is a template: 
 typedef struct StateNAME_Fwc_t

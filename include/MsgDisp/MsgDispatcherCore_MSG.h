@@ -284,7 +284,7 @@ typedef struct MsgDispatcherCore_MSG_Y_t { ObjectArrayJc head; MsgDispatcherCore
 void finalize_MsgDispatcherCore_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_MsgDispatcherCore_MSG 20130302  /*version, history and license:*/
+#define version_MsgDispatcherCore_MSG 20130302  /*version, history and license.*/
 #define mDispatchInDispatcherThread_MsgDispatcherCore_MSG 0x80000000  /*If this bit is set in the bitmask for dispatching, the dispatching should be done*/
 #define mDispatchInCallingThread_MsgDispatcherCore_MSG 0x40000000  /*If this bit is set in the bitmask for dispatching, the dispatching should only be done*/
 #define mDispatchBits_MsgDispatcherCore_MSG 0x3fffffff  /*Only this bits are used to indicate the destination via some Bits*/
