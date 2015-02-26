@@ -24,6 +24,17 @@ struct Entry_MsgDispatcherCore_MSG_t;
 #endif
 
 
+/**This class is a LogMessage output which writes the messages into a file.
+<br>Capability:
+<ul>
+<li>The file will be flushed or closed after a given time. Therefore it is possible to read the file with another tool.
+<li>It is possible to define a name with a timestamp part. Then new files will be created with a timestamp in the name
+<li>etc. todo
+</ul>
+@author Hartmut Schorrig
+
+*/
+
 
 const char sign_Mtbl_LogMessageFile_MSG[] = "LogMessageFile_MSG"; //to mark method tables of all implementations
 
@@ -81,7 +92,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
     StringJc sTimestampInFilename = NULL_StringJc; 
     int32 pos2TimestampInFilename = 0; 
     
-    StringJc _temp1_1; //J2C: temporary references for concatenation
+    StringJc _temp1_1; /*J2C: temporary references for concatenation */
     
     if(localization == null) 
     { 
@@ -115,7 +126,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
     else 
     { 
       
-      thiz->nrofSecondsToClose = -nrofSecondsToFlush;//use positive value!
+      thiz->nrofSecondsToClose = -nrofSecondsToFlush;/*use positive value!*/
       
       thiz->nrofSecondsToFlush = -1;
     }
@@ -133,54 +144,54 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
         sTimestampInFilename = substring_StringJc(sFilename, thiz->posTimestampInFilename + 1, pos2TimestampInFilename, _thCxt)/*J2C:non-persistent*/;
         nrofCharsTimestampInFilename = length_StringJc(sTimestampInFilename);
         /*Store the format String localy in this class. It's not depend from outside memory management. */
-        getChars_StringJc(sTimestampInFilename, 0, nrofCharsTimestampInFilename, (struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, _thCxt);//charsFormatTimestampFilename.append(sTimestampInFilename);
+        getChars_StringJc(sTimestampInFilename, 0, nrofCharsTimestampInFilename, (struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, _thCxt);/*charsFormatTimestampFilename.append(sTimestampInFilename);*/
         
         /*Represent the StringBuilder with a String.*/
-        set_StringJc(&(thiz->sFormatTimestampFilename), declarePersist_StringJc(new_CYI_StringJc(/*static*/(struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, nrofCharsTimestampInFilename, _thCxt)));//sFormatTimestampFilename = charsFormatTimestampFilename.toString();
+        set_StringJc(&(thiz->sFormatTimestampFilename), declarePersist_StringJc(new_CYI_StringJc(/*static*/(struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, nrofCharsTimestampInFilename, _thCxt)));/*sFormatTimestampFilename = charsFormatTimestampFilename.toString();*/
         
       }
-      else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "second $ to delimit timestamp in filename missing.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };//, this.posTimestampInFilename);
+      else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "second $ to delimit timestamp in filename missing.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };/*, this.posTimestampInFilename);*/
       
       applyPattern_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->sFormatTimestampFilename, _thCxt);
-      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt), _thCxt);
+      append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt), _thCxt);
       if(indexOf_C_StringJc(sFilename, '*') >= 0) 
-      { //:The current timeStamp should be applied only here, it is the startup of the application.
+      { /*:The current timeStamp should be applied only here, it is the startup of the application.*/
         
         StringJc sTimeFileOpen;   /**/
         
         
         set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
-        setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);//clear it.
+        setLength_StringBufferJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
         
         format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
-        sTimeFileOpen = toStringNonPersist_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
-        thiz->posTimestampInFilename = -1;//don't replace the time stamp a second one.
+        sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+        append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
+        thiz->posTimestampInFilename = -1;/*don't replace the time stamp a second one.*/
         
       }
       else 
-      { //:use the format string only as placeholder
+      { /*:use the format string only as placeholder*/
         
         
-        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->sFormatTimestampFilename, _thCxt);
+        append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), thiz->sFormatTimestampFilename, _thCxt);
       }
-      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt), _thCxt);
+      append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt), _thCxt);
     }
     else 
-    { //:no timeStamp in filename given, not used.
+    { /*:no timeStamp in filename given, not used.*/
       
       
-      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sFilename, _thCxt);
-      thiz->bNewFile = false;//append on existing file.
+      append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), sFilename, _thCxt);
+      thiz->bNewFile = false;/*append on existing file.*/
       
     }
     /**Determines the position of an asterisk*/
     thiz->posMultifileInFilename = 
-      ( _temp1_1= toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt)
+      ( _temp1_1= toString_StringBufferJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt)
       , indexOf_C_StringJc(_temp1_1, '*')
-      );//may be -1, than not used.
+      );/*may be -1, than not used.*/
     
-    thiz->currentLengthMultifileNr = 1;//initial the '*' is to replace.
+    thiz->currentLengthMultifileNr = 1;/*initial the '*' is to replace.*/
     
   }
   STACKTRC_LEAVE;
@@ -289,10 +300,10 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
       { 
         
         if(isOpen_FileWriterJc(& (thiz->file))) 
-        { //:printf("\nclose log-file\n");
+        { /*:printf("\nclose log-file\n");*/
           
           
-          close_FileWriterJc(& (thiz->file), _thCxt);//catch(IOException exc){  }
+          close_FileWriterJc(& (thiz->file), _thCxt);/*catch(IOException exc){  }*/
           
         }
         /*indicate, that a new filename should be used. */
@@ -343,11 +354,11 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               
               /**Build a new filename, after nrofHoursPerFile, but also first. */
               set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
-              setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);//clear it.
+              setLength_StringBufferJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
               
               format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
-              sTimeFileOpen = toStringNonPersist_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
+              sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+              replace_StringBufferJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
             }
             else if(thiz->bNewFile && thiz->posMultifileInFilename >= 0) 
             { 
@@ -362,16 +373,16 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               /***/
               append_I_StringBuilderJc(& (bufferFormat.sb), ++thiz->counterMultifile, _thCxt);
               sCounterMultifile = toStringNonPersist_StringBuilderJc(& ((bufferFormat.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posMultifileInFilename, thiz->posMultifileInFilename + thiz->currentLengthMultifileNr, sCounterMultifile, _thCxt);
+              replace_StringBufferJc(& (thiz->sFilenameBuffer.sb), thiz->posMultifileInFilename, thiz->posMultifileInFilename + thiz->currentLengthMultifileNr, sCounterMultifile, _thCxt);
               thiz->currentLengthMultifileNr = length_StringJc(sCounterMultifile);
             }
             else 
             { 
               
-              thiz->bNewFile = false;//reopen the existing one.
+              thiz->bNewFile = false;/*reopen the existing one.*/
               
             }
-            error = open_FileWriterJc(& (thiz->file), toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt), !thiz->bNewFile, _thCxt);
+            error = open_FileWriterJc(& (thiz->file), toString_StringBufferJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt), !thiz->bNewFile, _thCxt);
             if(error >= 0) 
             { 
               
@@ -381,14 +392,14 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               { 
                 
                 /** */
-                msgOpenClose.mtbl->sendMsg( (msgOpenClose.ref), thiz->msgIdentOpenClose + kMsgOpen_LogMessageFile_MSG, "open %s", "s", toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt));
+                msgOpenClose.mtbl->sendMsg( (msgOpenClose.ref), thiz->msgIdentOpenClose + kMsgOpen_LogMessageFile_MSG, "open %s", "s", toString_StringBufferJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt));
               }
             }
             else 
             { 
               
               if(false && error == kFileNotFound_FileWriterJc) 
-              { //:System.err.println("file path incorrect");
+              { /*:System.err.println("file path incorrect");*/
                 
                 
                 thiz->dbg.cntFilePathIncorrect += 1;
@@ -450,7 +461,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
       sent = true;
     }
     else 
-    { //:file can't open,
+    { /*:file can't open,*/
       
       
       if(thiz->freeEntries != null) 
@@ -522,7 +533,7 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
       if(secDiff >= thiz->nrofSecondsToClose) 
       { 
         
-        close_FileWriterJc(& (thiz->file), _thCxt);//catch(IOException exc){ dbg.cntCloseError +=1; }
+        close_FileWriterJc(& (thiz->file), _thCxt);/*catch(IOException exc){ dbg.cntCloseError +=1; }*/
         
         if(thiz->maxCntNonFlushedWrite < thiz->cntNonFlushedWrite) 
         { 
@@ -590,7 +601,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
 { 
   STACKTRC_TENTRY("writeInFile_LogMessageFile_MSG_F");
   
-  { //:@Java4C.
+  { /*:@Java4C.*/
     
     struct SbY_bufferFormat_t { StringBufferJc sb; char _b[996]; }bufferFormat = { 0 }; 
     StringJc formattedText = NULL_StringJc; 
@@ -654,13 +665,13 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
             );
         }
       END_TRY
-      formattedText = toString_StringBuilderJc(&(bufferFormat.sb).base.object, _thCxt)/*J2C:non-persistent*/;//XX
+      formattedText = toString_StringBuilderJc(&(bufferFormat.sb).base.object, _thCxt)/*J2C:non-persistent*/;/*XX*/
       
     }
     else 
     { 
       
-      formattedText = z_StringJc(text)/*J2C:non-persistent*/;//without args, don't try to format! The text may contain format characters.
+      formattedText = z_StringJc(text)/*J2C:non-persistent*/;/*without args, don't try to format! The text may contain format characters.*/
       
     }
     
@@ -697,25 +708,33 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
       /**The StringBuilder-instance exists only one time, to prevent dynamically memory.*/
       write_FileWriterJc(& (thiz->file), toStringNonPersist_StringBuilderJc(& ((thiz->sBuffer.sb).base.object), _thCxt), _thCxt);
       /**The file should closed only after nrofSecondsToFlush,*/
-      if(thiz->nrofSecondsToFlush == 0) 
-      { //:file.close();
+      if(thiz->nrofSecondsToFlush == 0) /**The file should closed only after nrofSecondsToFlush,*/
+      
+      { /*:file.close();*/
         
         
+        /**The file should closed only after nrofSecondsToFlush,*/
         flush_FileWriterJc(& (thiz->file), _thCxt);
       }
-      else if(!thiz->shouldFlushed) 
+      else /**The file should closed only after nrofSecondsToFlush,*/
+      if(!thiz->shouldFlushed) /**The file should closed only after nrofSecondsToFlush,*/
+      
       { 
         
         /**The first write after a flush or in new file, get and store the time. */
         set_OS_TimeStamp(thiz->timeWrite, os_getDateTime());
+        /**The file should closed only after nrofSecondsToFlush,*/
         thiz->cntNonFlushedWrite = 1;
+        /**The file should closed only after nrofSecondsToFlush,*/
         thiz->shouldFlushed = true;
       }
-      else 
+      else /**The file should closed only after nrofSecondsToFlush,*/
+      
       { 
         
         /**A second write in non-flushed file. */
         thiz->cntAllNonFlushedWrite += 1;
+        /**The file should closed only after nrofSecondsToFlush,*/
         thiz->cntNonFlushedWrite += 1;
       }
     }_TRY
@@ -748,7 +767,7 @@ void close_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
     
     { 
       
-      close_FileWriterJc(& (thiz->file), _thCxt);//catch(IOException exc){ dbg.cntCloseError +=1; }
+      close_FileWriterJc(& (thiz->file), _thCxt);/*catch(IOException exc){ dbg.cntCloseError +=1; }*/
       
     }
     thiz->bNewFile = true;
@@ -871,6 +890,7 @@ extern_C struct ClassJc_t const reflection_LocaleJc_s;
 extern_C struct ClassJc_t const reflection_LogMessageFW_i;
 extern_C struct ClassJc_t const reflection_OS_TimeStamp;
 extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
+extern_C struct ClassJc_t const reflection_StringBufferJc;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 extern_C struct ClassJc_t const reflection_TextFieldPositionJc_s;
@@ -882,7 +902,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
 , {
      { "sFilenameBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &reflection_StringBufferJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sFilenameBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -890,7 +910,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "sDateformatBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &reflection_StringBufferJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sDateformatBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase

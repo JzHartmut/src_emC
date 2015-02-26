@@ -152,6 +152,38 @@ struct StringPartScanJc_t* ctorO_StringPartScanJc(ObjectJc* othis, ThCxt* _thCxt
 
 
 
+/**Skips over white spaces. It calls {@link StringPart#seekNoWhitespace()} and return this. */
+struct StringPartScanJc_t* scanSkipSpace_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("scanSkipSpace_StringPartScanJc");
+  
+  { 
+    
+    seekNoWhitespace_StringPartJc(& ((* (thiz)).base.super), _thCxt);
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Skips over white spaces and comments. It calls {@link StringPart#seekNoWhitespaceOrComments()} and return this. */
+struct StringPartScanJc_t* scanSkipComment_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("scanSkipComment_StringPartScanJc");
+  
+  { 
+    
+    seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base.super), _thCxt);
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
 /*** */
 struct StringPartScanJc_t* scanStart_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
@@ -182,7 +214,7 @@ bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
       if(thiz->base.super.bStartScan) 
       { 
         
-        thiz->idxLastIntegerNumber = -1;/*idxLastFloatNumber = 0;*/
+        thiz->idxLastIntegerNumber = -1;/*idxLastFloatNumber = -1;*/
         
         thiz->base.super.bStartScan = false;
       }
@@ -389,8 +421,12 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
         }/*nLastIntegerNumber = nn;*/
         
       }
-      else thiz->base.super.bCurrentOk = false;/*scanning failed.*/
-      
+      else 
+      { 
+        
+        thiz->base.super.bCurrentOk = false;/*scanning failed.*/
+        
+      }
     }
     { STACKTRC_LEAVE;
       return -1;
@@ -499,7 +535,7 @@ struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPartScanJc_s
 }
 
 
-/**Scans a float number*/
+/**Scans a float / double number*/
 struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanFloatNumber_StringPartScanJc");
@@ -508,52 +544,79 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
     
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
-      int64 nInteger = 0; 
-      int64 nFractional = 0; 
-      int32 nDivisorFract = 1; 
-      int32 nExponent = 0; 
-      char cc = 0; 
       bool bNegativValue = false; 
-      bool bNegativExponent = false; 
-      bool bFractionalFollowed = false; 
+      char cc = 0; 
+      int64 nInteger; 
       
       
-      nInteger = 0;
-      nFractional = 0;
-      nDivisorFract = 1;
-      /*no initvalue*/
-      /*no initvalue*/
       bNegativValue = false;
-      bNegativExponent = false;
-      bFractionalFollowed = false;
+      /*no initvalue*/
       if((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == '-') 
       { 
         
         bNegativValue = true;
         seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
-        cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt);
       }
-      if(cc == '.') 
+      nInteger = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
+      if(thiz->base.super.bCurrentOk) 
       { 
         
-        nInteger = 0;
-        bFractionalFollowed = true;
-      }
-      else 
-      { 
-        
-        nInteger = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
-        if(thiz->base.super.bCurrentOk) 
+        if(bNegativValue) 
         { 
           
-          if(thiz->base.super.begin < thiz->base.super.endMax && charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt) == '.') 
+          nInteger = -nInteger;
+        }
+        scanFractionalNumber_StringPartScanJc(thiz, nInteger, _thCxt);/*if(!scanFractionalNumber(nInteger).scanOk()){*/
+        
+        if(!thiz->base.super.bCurrentOk) 
+        { /*:only integer number found, store as float number. It is ok.*/
+          
+          
+          thiz->base.super.bCurrentOk = true;
+          if(thiz->idxLastFloatNumber < thiz->nLastFloatNumber.head.length - 2) 
           { 
             
-            bFractionalFollowed = true;
+            thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = (double)nInteger;
           }
+          else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned floats", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
         }
       }
-      if(thiz->base.super.bCurrentOk && bFractionalFollowed) 
+    }
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Scans the fractional part of a float / double number*/
+struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJc_s* thiz, int64 nInteger, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("scanFractionalNumber_StringPartScanJc");
+  
+  { 
+    
+    if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
+    { 
+      int64 nFractional = 0; 
+      int32 nDivisorFract = 1; 
+      int32 nExponent = 0; 
+      char cc = 0; 
+      bool bNegativExponent = false; 
+      double result = 0; 
+      int32 begin0; 
+      int32 nPosExponent; 
+      
+      
+      nFractional = 0;
+      nDivisorFract = 1;
+      nExponent = 0;
+      /*no initvalue*/
+      bNegativExponent = false;
+      /*no initvalue*/
+      begin0 = thiz->base.super.begin;
+      if(thiz->base.super.begin < thiz->base.super.endMax && charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt) == '.') 
       { 
         
         seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);/*over .*/
@@ -566,7 +629,8 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
             nDivisorFract *= 10;
           }/*int posFrac = begin;*/
           
-        nFractional = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
+        nFractional = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);/*set bCurrentOk = false if there are no digits.*/
+        
         if(thiz->base.super.bCurrentOk) 
         { }
         else if(nDivisorFract >= 10) 
@@ -577,62 +641,42 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
           nFractional = 0;
         }
       }
-      else 
+      nPosExponent = thiz->base.super.begin;
+      if(thiz->base.super.bCurrentOk && nPosExponent < thiz->base.super.endMax && ((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == 'e' || cc == 'E')) 
       { 
         
-        nFractional = 0;
-      }/*nDigitsFrac = 0;}*/
-      
-      if(thiz->base.super.bCurrentOk) 
-      { 
-        int32 nPosExponent; 
-        
-        
-        nPosExponent = thiz->base.super.begin;
-        if(nPosExponent < thiz->base.super.endMax && (cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == 'e' || cc == 'E') 
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
+        if((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == '-') 
         { 
           
+          bNegativExponent = true;
           seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
-          if((cc = /*? assignment*/charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt)) == '-') 
+          cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt);
+        }
+        if(cc >= '0' && cc <= '9') 
+        { 
+          
+          nExponent = (int32)scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);/*set bCurrentOk if there are no digits*/
+          
+          if(!thiz->base.super.bCurrentOk) 
           { 
             
-            bNegativExponent = true;
-            seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
-            cc = charAt_CharSequenceJc(REFJc(thiz->base.super.content), thiz->base.super.begin, _thCxt);
-          }
-          if(cc >= '0' && cc <= '9') 
-          { 
-            
-            nExponent = (int32)scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
-            if(!thiz->base.super.bCurrentOk) 
-            { 
-              
-              nExponent = 0;
-            }
-          }
-          else 
-          { /*: it isn't an exponent, but a String beginning with 'E' or 'e'.*/
-            /*:This string is not a part of the float number.*/
-            
-            
-            thiz->base.super.begin = nPosExponent;
             nExponent = 0;
+            ASSERT(/*static*/false);/*0..9 was tested!*/
+            
           }
         }
         else 
-        { 
+        { /*: it isn't an exponent, but a String beginning with 'E' or 'e'.*/
+          /*:This string is not a part of the float number.*/
           
+          
+          thiz->base.super.begin = nPosExponent;
           nExponent = 0;
         }
       }
-      else 
-      { 
-        
-        nExponent = 0;
-      }
-      if(thiz->base.super.bCurrentOk) 
-      { 
-        double result; 
+      if(thiz->base.super.begin > begin0) 
+      { /*:either fractional or exponent found*/
         
         
         result = nInteger;
@@ -652,11 +696,6 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
           
           result += fFrac;
         }
-        if(bNegativValue) 
-        { 
-          
-          result = -result;
-        }
         if(nExponent != 0) 
         { 
           
@@ -673,6 +712,12 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
           thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = result;
         }
         else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned floats", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      }
+      else 
+      { /*:whetter '.' nor 'E' found:*/
+        
+        
+        thiz->base.super.bCurrentOk = false;
       }
     }
     { STACKTRC_LEAVE;

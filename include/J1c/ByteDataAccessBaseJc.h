@@ -13,6 +13,8 @@
 
 #include "Fwc/fw_Exception.h"   //basic concept
 
+//TODO manually:
+#include <Jc/ArraysJc.h>
 
 /* J2C: Forward declaration of struct ***********************************************/
 struct ByteDataAccessBaseJc_t;
@@ -48,7 +50,7 @@ typedef struct ByteDataAccessBaseJc_t
   bool bExpand;   /*True if the {@link #ixEnd} should not be set to the {@link #sizeHead} on removing children. */
   bool bBigEndian;   /*Flag is set or get data in big endian or little endian (if false)*/
   ByteDataAccessBaseJcREF parent;   /*The parent element, necessary only for add() and expand().*/
-  struct CharsetJc_t* charset;   /*The charset to build Strings.*/
+  struct CharsetJc_t* charset;   /*The charset to build Strings. */
 } ByteDataAccessBaseJc_s;
   
 
@@ -128,7 +130,7 @@ METHOD_C int64 _getLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32
 METHOD_C void _setLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, int64 val, ThCxt* _thCxt);
 
 /**Increments the idxEnd if a new child is added*/
-METHOD_C void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxCurrentChildEndNew, ThCxt* _thCxt);
+METHOD_C void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixChildEndNew, ThCxt* _thCxt);
 
 /**Assigns new data to this element at given index in data.*/
 METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 dataP, int32 lengthData, int32 index, ThCxt* _thCxt);
@@ -248,8 +250,14 @@ METHOD_C void addChild_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, st
 
 METHOD_C void addChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt);
 
+METHOD_C void addChildEmpty_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt);
+
+METHOD_C void addChildEmpty_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt);
+
+/**Adds a child at any position*/
 METHOD_C void addChildAt_iXXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxChild, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt);
 
+/**Adds a child at any position with its head size.*/
 METHOD_C void addChildAt_iXX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxChild, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt);
 
 /**Adds a child for 1 integer value without a child instance, and sets the value as integer.*/
@@ -303,6 +311,7 @@ METHOD_C StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* th
   /*:revert the current child.*/\
   \
   \
+  ASSERT(/*static*/(THIZ)->ixChild >= (THIZ)->sizeHead);\
   (THIZ)->ixChildEnd = (THIZ)->ixChild;\
   (THIZ)->ixChild = -1;\
 }
@@ -348,8 +357,11 @@ METHOD_C void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_
 
 METHOD_C bool assertNotExpandable_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt);
 
-/**sets the idxCurrentChild to the known idxCurrentChildEnd.*/
+/**Prepares a new child for this*/
 METHOD_C void setIdxtoNextCurrentChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 sizeChild, ThCxt* _thCxt);
+
+/**Prepares a new child with unknown length for this*/
+METHOD_C void setIdxtoNextCurrentChildLengthUnknown_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt);
 
 /**Returns a String from the given position inside the actual element .*/
 METHOD_C StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt);
@@ -546,10 +558,10 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
   setFloat_if_ByteDataAccessBaseJc((THIZ), idxBytes + 4 * idxArray, val);\
 }
 
-/**Increments the idxEnd and the idxCurrentChildEnd if a new child is added*/
+/**Increments the idxEnd and the ixChildEnd if a new child is added*/
 METHOD_C void correctCurrentChildEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxEndNew, ThCxt* _thCxt);
 
-/**sets the idxCurrentChildEnd and idxEnd*/
+/**sets the ixChildEnd and idxEnd*/
 METHOD_C void setIdxCurrentChildEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, ThCxt* _thCxt);
 
 
@@ -558,7 +570,7 @@ METHOD_C void setIdxCurrentChildEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s*
 class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 { public:
 
-  void _expand(int32 idxCurrentChildEndNew){ _expand_ByteDataAccessBaseJc(this, idxCurrentChildEndNew,  null/*_thCxt*/); }
+  void _expand(int32 ixChildEndNew){ _expand_ByteDataAccessBaseJc(this, ixChildEndNew,  null/*_thCxt*/); }
 
   int64 _getLong(int32 idxInChild, int32 nrofBytesAndSign){  return _getLong_ByteDataAccessBaseJc(this, idxInChild, nrofBytesAndSign,  null/*_thCxt*/); }
 
@@ -573,6 +585,10 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
   void addChildAt(int32 idxChild, struct ByteDataAccessBaseJc_t* child){ addChildAt_iXX_ByteDataAccessBaseJc(this, idxChild, child,  null/*_thCxt*/); }
 
   void addChildAt(int32 idxChild, struct ByteDataAccessBaseJc_t* child, int32 sizeChild){ addChildAt_iXXi_ByteDataAccessBaseJc(this, idxChild, child, sizeChild,  null/*_thCxt*/); }
+
+  void addChildEmpty(struct ByteDataAccessBaseJc_t* child){ addChildEmpty_XX_ByteDataAccessBaseJc(this, child,  null/*_thCxt*/); }
+
+  void addChildEmpty(struct ByteDataAccessBaseJc_t* child, int32 sizeChild){ addChildEmpty_XXi_ByteDataAccessBaseJc(this, child, sizeChild,  null/*_thCxt*/); }
 
   void addChildFloat(float value){ addChildFloat_ByteDataAccessBaseJc(this, value,  null/*_thCxt*/); }
 
@@ -695,6 +711,8 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
   void setFloat(int32 idxBytes, int32 idxArray, int32 lengthArray, float val){ setFloat_iiif_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
   void setIdxCurrentChildEnd(int32 nrofBytes){ setIdxCurrentChildEnd_ByteDataAccessBaseJc(this, nrofBytes,  null/*_thCxt*/); }
+
+  void setIdxtoNextCurrentChildLengthUnknown(){ setIdxtoNextCurrentChildLengthUnknown_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
   void setIdxtoNextCurrentChild(int32 sizeChild){ setIdxtoNextCurrentChild_ByteDataAccessBaseJc(this, sizeChild,  null/*_thCxt*/); }
 

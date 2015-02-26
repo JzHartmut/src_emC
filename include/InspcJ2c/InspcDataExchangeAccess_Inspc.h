@@ -13,7 +13,6 @@
 
 #include "Fwc/fw_Exception.h"   //basic concept
 
-#include "Jc/ArraysJc.h"
 
 /* J2C: Forward declaration of struct ***********************************************/
 struct InspcDataExchangeAccess_Inspc_t;
@@ -214,7 +213,6 @@ void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(Inspcitem_InspcDataExcha
 #define kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc 4
 #define sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc 8
 #define kGetFields_Inspcitem_InspcDataExchangeAccess_Inspc 0x10  /*Aufforderung zur Rueckgabe einer Liste aller Attribute und Assoziationen des adressierten Objektes.*/
-#define kGetFieldsFurther_Inspcitem_InspcDataExchangeAccess_Inspc 0x12  /**/
 #define kAnswerFieldMethod_Inspcitem_InspcDataExchangeAccess_Inspc 0x14  /*Antwort auf Aufforderung zur Rueckgabe einer Liste von Attributen, Assoziationen oder Methoden.*/
 #define kRegisterRepeat_Inspcitem_InspcDataExchangeAccess_Inspc 0x23
 #define kAnswerRegisterRepeat_Inspcitem_InspcDataExchangeAccess_Inspc 0x123
@@ -237,9 +235,6 @@ void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(Inspcitem_InspcDataExcha
 #define kFailedPath_Inspcitem_InspcDataExchangeAccess_Inspc 0xfe
 #define kNoRessource_Inspcitem_InspcDataExchangeAccess_Inspc 0xfd
 #define kFailedCommand_Inspcitem_InspcDataExchangeAccess_Inspc 0xff
-#define kReference_Inspcitem_InspcDataExchangeAccess_Inspc 0xdf
-#define kSpecialValueStart_Inspcitem_InspcDataExchangeAccess_Inspc 0x7000
-#define kSpecialValueLast_Inspcitem_InspcDataExchangeAccess_Inspc 0x7fff
 
 
 METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, int32 sizeData, ThCxt* _thCxt);

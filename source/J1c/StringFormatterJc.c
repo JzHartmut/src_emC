@@ -492,6 +492,36 @@ int32 getPos_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 
 
 /**Adds at the current position a string.*/
+struct StringFormatterJc_t* add_Cs_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* str, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  
+  STACKTRC_TENTRY("add_Cs_StringFormatterJc_F");
+  
+  { 
+    int32 nrofChars; 
+    
+    
+    nrofChars = length_CharSequenceJc(str, _thCxt);
+    mtthis->prepareBufferPos(thiz, nrofChars, _thCxt);
+    delete_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + nrofChars, _thCxt);
+    insert_cYii_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, str, 0, nrofChars, _thCxt);/*buffer.replace(this.pos, pos + nrofChars, str);*/
+    
+    thiz->pos += nrofChars;
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+struct StringFormatterJc_t* add_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* str, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->add_Cs(thiz, str, _thCxt);
+}
+
+
+/**Adds at the current position a string.*/
 struct StringFormatterJc_t* add_S_StringFormatterJc_F(StringFormatterJc_s* thiz, StringJc str, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
@@ -503,7 +533,9 @@ struct StringFormatterJc_t* add_S_StringFormatterJc_F(StringFormatterJc_s* thiz,
     
     nrofChars = length_StringJc(str);
     mtthis->prepareBufferPos(thiz, nrofChars, _thCxt);
-    replace_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + nrofChars, str, _thCxt);
+    delete_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, thiz->pos + nrofChars, _thCxt);
+    insert_sII_StringBuilderJc(REFJc(thiz->buffer), thiz->pos, str, 0, nrofChars, _thCxt);/*buffer.replace(this.pos, pos + nrofChars, str);*/
+    
     thiz->pos += nrofChars;
     { STACKTRC_LEAVE;
       return thiz;
@@ -1743,7 +1775,7 @@ struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int
   STACKTRC_TENTRY("floatToText_StringFormatterJc");
   
   { 
-    struct CharSequenceJc_t* ret = "?"/*J2C: no cast found from s0=char const*: ClassData@246b5488*/; 
+    struct CharSequenceJc_t* ret = "?"/*J2C: no cast found from s0=char const*: ClassData@42716598*/; 
     
     
     ret = ((/*J2C:cast from char const**/CharSequenceJc*)("?"/*J2C-error testAndChangeAccess: t**/));
@@ -1933,7 +1965,7 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 { { sign_Mtbl_StringFormatterJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((37 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((38 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , getContent_StringFormatterJc_F //getContent
 , getBuffer_StringFormatterJc_F //getBuffer
@@ -1944,6 +1976,7 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 , pos_ii_StringFormatterJc_F //pos_ii
 , length_StringFormatterJc_F //length
 , getPos_StringFormatterJc_F //getPos
+, add_Cs_StringFormatterJc_F //add_Cs
 , add_S_StringFormatterJc_F //add_S
 , addReplaceLinefeed_StringFormatterJc_F //addReplaceLinefeed
 , add_cY_StringFormatterJc_F //add_cY

@@ -7,6 +7,7 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "J1c/SpecialCharStringsJc.h"  //reference-association: SpecialCharStringsJc_s
+#include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data
 
@@ -261,8 +262,8 @@ int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, i
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@2576a288*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@2576a288*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@266e63d9*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@266e63d9*/; 
     int32 multPosition = 1; 
     
     
@@ -388,6 +389,88 @@ float parseFloat_SiiciY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, in
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, null, _thCxt);
       return ret;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Compares two CharSequence (Strings, StringBuilder-content etc.*/
+int32 comparePos_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("comparePos_CsCs_StringFunctionsJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return comparePos_CsiCsii_StringFunctionsJc(/*static*/s1, 0, s2, 0, -1, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Compares two CharSequence (Strings, StringBuilder-content etc.)*/
+int32 comparePos_CsiCsii_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("comparePos_CsiCsii_StringFunctionsJc");
+  
+  { 
+    int32 i1; 
+    int32 i2; 
+    int32 z1; 
+    int32 z2; 
+    int32 zChars; 
+    char c1 = 0; 
+    char c2 = 0; 
+    
+    
+    i1 = from1;
+    i2 = from2;
+    z1 = length_CharSequenceJc(s1, _thCxt);
+    z2 = length_CharSequenceJc(s2, _thCxt);
+    if(nrofChars == 0) { STACKTRC_LEAVE;
+      return 0;
+    }/*NOTE: following while compares at least one char*/
+    
+    zChars = nrofChars >= 0 ? min(/*static*/nrofChars, min(/*static*/z1 - i1, z2 - i2)) : min(/*static*/z1 - i1, z2 - i2);
+    /*no initvalue*/
+    /*no initvalue*/
+    do 
+      { 
+        
+        c1 = charAt_CharSequenceJc(s1, i1++, _thCxt);
+        c2 = charAt_CharSequenceJc(s2, i2++, _thCxt);
+      }while(c1 == c2 && --zChars > 0);
+    if(zChars == 0) 
+    { /*:all characters compared, maybe difference in length.*/
+      
+      
+      if(i2 < z2) { STACKTRC_LEAVE;
+        return -(i1 - from1 + 1);
+      }/*s2 is longer, s1 is less.*/
+      
+      else if(i1 < z1) { STACKTRC_LEAVE;
+        return i1 - from1 + 1;
+      }/*positive value: s1 is greater because i1 < z2, is longer and c1==c2*/
+      
+      else { STACKTRC_LEAVE;
+        return 0;
+      }/*both equal, comparison to end.*/
+      
+    }
+    else 
+    { /*:not all possible characters compared, difference in character*/
+      
+      
+      if(c1 < c2) { STACKTRC_LEAVE;
+        return -(i1 - from1);
+      }/*c1 !=c2, then compare the last characters. <0 because s1 is lesser.*/
+      
+      else { STACKTRC_LEAVE;
+        return (i1 - from1);
+      }/*note: == i2 - from2, s2 is lesser.*/
+      
     }
   }
   STACKTRC_LEAVE;

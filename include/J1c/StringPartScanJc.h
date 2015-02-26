@@ -86,6 +86,12 @@ METHOD_C struct StringPartScanJc_t* ctorO_Cs_StringPartScanJc(ObjectJc* othis, s
 
 METHOD_C struct StringPartScanJc_t* ctorO_StringPartScanJc(ObjectJc* othis, ThCxt* _thCxt);
 
+/**Skips over white spaces. It calls {@link StringPart#seekNoWhitespace()} and return this. */
+METHOD_C struct StringPartScanJc_t* scanSkipSpace_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
+
+/**Skips over white spaces and comments. It calls {@link StringPart#seekNoWhitespaceOrComments()} and return this. */
+METHOD_C struct StringPartScanJc_t* scanSkipComment_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
+
 /*** */
 METHOD_C struct StringPartScanJc_t* scanStart_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
@@ -115,8 +121,11 @@ METHOD_C struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJ
 /**Scans a float number*/
 METHOD_C struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPartScanJc_s* thiz, bool cleanBuffer, ThCxt* _thCxt);
 
-/**Scans a float number*/
+/**Scans a float / double number*/
 METHOD_C struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
+
+/**Scans the fractional part of a float / double number*/
+METHOD_C struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJc_s* thiz, int64 nInteger, ThCxt* _thCxt);
 
 /**Scans a sequence of hex chars a hex number*/
 METHOD_C struct StringPartScanJc_t* scanHex_StringPartScanJc(StringPartScanJc_s* thiz, int32 maxNrofChars, ThCxt* _thCxt);
@@ -202,6 +211,8 @@ class StringPartScanJc : private StringPartScanJc_s
 
   StringPartScanJc& scanFloatNumber(bool cleanBuffer){ scanFloatNumber_b_StringPartScanJc(this, cleanBuffer,  null/*_thCxt*/);  return *this; }
 
+  StringPartScanJc& scanFractionalNumber(int64 nInteger){ scanFractionalNumber_StringPartScanJc(this, nInteger,  null/*_thCxt*/);  return *this; }
+
   StringPartScanJc& scanHexOrDecimal(int32 maxNrofChars){ scanHexOrDecimal_StringPartScanJc(this, maxNrofChars,  null/*_thCxt*/);  return *this; }
 
   StringPartScanJc& scanHex(int32 maxNrofChars){ scanHex_StringPartScanJc(this, maxNrofChars,  null/*_thCxt*/);  return *this; }
@@ -219,6 +230,10 @@ class StringPartScanJc : private StringPartScanJc_s
   StringPartScanJc& scanQuotion(struct CharSequenceJc_t* sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult){ scanQuotion_CsSSY_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult,  null/*_thCxt*/);  return *this; }
 
   StringPartScanJc& scanQuotion(struct CharSequenceJc_t* sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest){ scanQuotion_CsSSYi_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult, maxToTest,  null/*_thCxt*/);  return *this; }
+
+  struct StringPartScanJc_t* scanSkipComment(){  return scanSkipComment_StringPartScanJc(this,  null/*_thCxt*/); }
+
+  struct StringPartScanJc_t* scanSkipSpace(){  return scanSkipSpace_StringPartScanJc(this,  null/*_thCxt*/); }
 
   StringPartScanJc& scanStart(){ scanStart_StringPartScanJc(this,  null/*_thCxt*/);  return *this; }
 

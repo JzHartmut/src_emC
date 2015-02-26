@@ -18,7 +18,7 @@ fieldIdents {
   int %.. sizeHead;
 }
   methods {  
-    _expand-_$: void %.r null(int %.. idxCurrentChildEndNew);
+    _expand-_$: void %.r null(int %.. ixChildEndNew);
     _getLong-_$: long %.r null(int %.. idxInChild,int %.. nrofBytesAndSign);
     _reset-_$: void %.r null(int %.. lengthData);
     _setLong-_$: void %.r null(int %.. idx,int %.. nrofBytes,long %.. val);
@@ -28,6 +28,8 @@ fieldIdents {
     addChild+_XXi-_$: void %.r null(org/vishia/byteData/ByteDataAccessBase *.. child,int %.. sizeChild);
     addChildAt+_iXX-_$: void %.r null(int %.. idxChild,org/vishia/byteData/ByteDataAccessBase *.. child);
     addChildAt+_iXXi-_$: void %.r null(int %.. idxChild,org/vishia/byteData/ByteDataAccessBase *.. child,int %.. sizeChild);
+    addChildEmpty+_XX-_$: void %.r null(org/vishia/byteData/ByteDataAccessBase *.. child);
+    addChildEmpty+_XXi-_$: void %.r null(org/vishia/byteData/ByteDataAccessBase *.. child,int %.. sizeChild);
     addChildFloat-_$: void %.r null(float %.. value);
     addChildInteger-_$: void %.r null(int %.. nrofBytes,long %.. value);
     addChildString+_S-_$, mode= noThCxt: void %.r null(java/lang/String(instance=java/lang/String) t.r value);
@@ -91,6 +93,7 @@ fieldIdents {
     setFloat+_iiif-_$, mode= noThCxt: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,float %.. val);
     setIdxCurrentChildEnd-_$: void %.r null(int %.. nrofBytes);
     setIdxtoNextCurrentChild-_$: void %.r null(int %.. sizeChild);
+    setIdxtoNextCurrentChildLengthUnknown-_$: void %.r null();
     setInt16+_ii-_$: void %.r null(int %.. idx,int %.. value);
     setInt16+_iiii-_$, mode= noThCxt: void %.r null(int %.. idxBytes,int %.. idxArray,int %.. lengthArray,int %.. val);
     setInt32+_ii-_$: void %.r null(int %.. idx,int %.. value);

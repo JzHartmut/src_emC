@@ -1081,6 +1081,12 @@ METHOD_C MethodJc const* getDeclaredMethod_ClassJc(ClassJc const* ythis, char co
 
 METHOD_C ClassJc const* getEnclosingClass_ClassJc(ClassJc const* ythis);
 
+/**Returns the type of the super class for this class or null. */
+METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz);
+
+/**Returns the field which describes the access to the super class data for this class or null. */
+METHOD_C FieldJc const* getSuperField_ClassJc(ClassJc const* thiz);
+
 /**gets the Name of the class. It is a static method, because the argument class may be a constant for simple types.
  * @param class Either the class object or a constant to design simple types, see REFLECTION_xxx.
  */

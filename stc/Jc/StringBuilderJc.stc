@@ -39,7 +39,8 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		insert+_F-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  float %.. param;} );                                                  
 		insert+_D-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  double %.. param;} );                                                  
 		insert+_sII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;} );
-		insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
+    insert+_cYii-_$, mode:returnThis: void %..return(int %.. value, java/lang/CharSequence *.. value, byte %.. value, int %.. value);
+    insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
 		delete-_$, mode:returnThis: StringBuilder *.. return(int %.. from, int %.. to);

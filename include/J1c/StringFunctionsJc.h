@@ -89,6 +89,12 @@ METHOD_C float parseFloat_SiiiY_StringFunctionsJc(/*static*/ StringJc src, int32
 METHOD_C float parseFloat_SiiciY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32_Y* parsedCharsP, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.*/
+METHOD_C int32 comparePos_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2, ThCxt* _thCxt);
+
+/**Compares two CharSequence (Strings, StringBuilder-content etc.)*/
+METHOD_C int32 comparePos_CsiCsii_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
+
+/**Compares two CharSequence (Strings, StringBuilder-content etc.*/
 METHOD_C int32 compare_CsiCsii_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
@@ -168,6 +174,10 @@ typedef struct Mtbl_StringFunctionsJc_t
 /* J2C: The C++-class-definition. */
 class StringFunctionsJc : private StringFunctionsJc_s
 { public:
+
+  int32 comparePos(struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2){  return comparePos_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+
+  int32 comparePos(struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars){  return comparePos_CsiCsii_StringFunctionsJc(s1, from1, s2, from2, nrofChars,  null/*_thCxt*/); }
 
   int32 compare(struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2){  return compare_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 

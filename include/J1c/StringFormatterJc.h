@@ -206,6 +206,13 @@ METHOD_C int32 getPos_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thC
 METHOD_C int32 getPos_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
 
 /**Adds at the current position a string.*/
+typedef struct StringFormatterJc_t* MT_add_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* str, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct StringFormatterJc_t* add_Cs_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* str, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct StringFormatterJc_t* add_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* str, ThCxt* _thCxt);
+
+/**Adds at the current position a string.*/
 typedef struct StringFormatterJc_t* MT_add_S_StringFormatterJc(StringFormatterJc_s* thiz, StringJc str, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringFormatterJc_t* add_S_StringFormatterJc_F(StringFormatterJc_s* thiz, StringJc str, ThCxt* _thCxt);
@@ -414,6 +421,7 @@ typedef struct Mtbl_StringFormatterJc_t
   MT_pos_ii_StringFormatterJc* pos_ii;
   MT_length_StringFormatterJc* length;
   MT_getPos_StringFormatterJc* getPos;
+  MT_add_Cs_StringFormatterJc* add_Cs;
   MT_add_S_StringFormatterJc* add_S;
   MT_addReplaceLinefeed_StringFormatterJc* addReplaceLinefeed;
   MT_add_cY_StringFormatterJc* add_cY;
@@ -481,6 +489,8 @@ class StringFormatterJc : private StringFormatterJc_s
   virtual struct StringFormatterJc_t* addReplaceLinefeed(struct CharSequenceJc_t* str, struct CharSequenceJc_t* replaceLinefeed, int32 maxChars){  return addReplaceLinefeed_StringFormatterJc_F(this, str, replaceLinefeed, maxChars,  null/*_thCxt*/); }
 
   virtual struct StringFormatterJc_t* addStringLine(int8_Y* data, int32 idx, int32 nrofBytes, StringJcpp charsetName){  return addStringLine_StringFormatterJc_F(this, data, idx, nrofBytes, charsetName,  null/*_thCxt*/); }
+
+  virtual struct StringFormatterJc_t* add(struct CharSequenceJc_t* str){  return add_Cs_StringFormatterJc_F(this, str,  null/*_thCxt*/); }
 
   virtual struct StringFormatterJc_t* add(StringJcpp str){  return add_S_StringFormatterJc_F(this, str,  null/*_thCxt*/); }
 

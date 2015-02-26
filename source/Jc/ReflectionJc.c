@@ -338,10 +338,18 @@ MethodJc const* getDeclaredMethod_ClassJc(ClassJc const* ythis, char const* sNam
 
 
 
-METHOD_C ClassJc const* getSuperclass_ClassJc(ClassJc const* ythis)
+METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* ythis)
 {
   if(ythis->superClasses == null) return null;
-  else return ythis->superClasses->data[0].clazz;
+  else return ythis->superClasses->data[0].clazz; //Note: C++ knows more superclasses, this is for Java-like and C
+}
+
+
+
+METHOD_C FieldJc const* getSuperField_ClassJc(ClassJc const* thiz)
+{
+  if(thiz->superClasses == null) return null;
+  else return &thiz->attributes->data[0];    //TODO should do so for C
 }
 
 

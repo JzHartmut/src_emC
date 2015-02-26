@@ -233,9 +233,9 @@ Inspcitem::= <@0+2#?SIZE> <@2+2#?cmd> <@4+4#?order> .
 An information entry contains this header and may be some childs.
 The childs may be simple integer or String childs getting and setting
 with the methodes to add
-{@link ByteDataAccess#addChildInteger(int, long)} or {@link ByteDataAccess#addChildString(String)}.
+{@link ByteDataAccessBase#addChildInteger(int, long)} or {@link ByteDataAccessBase#addChildString(String)}.
 and the methods to get
-{@link ByteDataAccess#getChildInteger(int)} or {@link ByteDataAccess#getChildString(int)}.
+{@link ByteDataAccessBase#getChildInteger(int)} or {@link ByteDataAccessBase#getChildString(int)}.
 The childs may be described by a named-here class, forex {@link InspcSetValue}
 <br><br>
 The structure of an information entry may be described with XML, where the XML is only

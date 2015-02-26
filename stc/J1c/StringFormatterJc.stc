@@ -38,6 +38,7 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
+    add+_Cs-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence *.. str);
     add+_S-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(java/lang/String(instance=java/lang/String) t.. str);
     add+_cY-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(char[??] X%. str);
     add+_c-_$, mode= overrideable: org/vishia/util/StringFormatter *.r null(char %.. ch);
@@ -96,6 +97,7 @@ fieldIdents {
     pos_ii_StringFormatterJc;
     length_StringFormatterJc;
     getPos_StringFormatterJc;
+    add_Cs_StringFormatterJc;
     add_S_StringFormatterJc;
     addReplaceLinefeed_StringFormatterJc;
     add_cY_StringFormatterJc;

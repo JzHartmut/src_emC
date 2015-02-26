@@ -57,6 +57,7 @@ fieldIdents {
     scanEntry-_$: boolean %.r null();
     scanFloatNumber-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
     scanFloatNumber+_b-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(boolean %.. cleanBuffer);
+    scanFractionalNumber-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(long %.. nInteger);
     scanHex-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(int %.. maxNrofChars);
     scanHexOrDecimal-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(int %.. maxNrofChars);
     scanIdentifier-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
@@ -66,6 +67,8 @@ fieldIdents {
     scanPositivInteger-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
     scanQuotion+_CsSSY-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence *.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult);
     scanQuotion+_CsSSYi-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence *.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult,int %.. maxToTest);
+    scanSkipComment-_$: org/vishia/util/StringPartScan *.r null();
+    scanSkipSpace-_$: org/vishia/util/StringPartScan *.r null();
     scanStart-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
     scanToAnyChar-_$: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence[??] X*. dst,java/lang/String(instance=java/lang/String) t.. sCharsEnd,char %.. transcriptChar,char %.. quotationStartChar,char %.. quotationEndChar);
   }

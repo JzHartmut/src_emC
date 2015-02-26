@@ -45,10 +45,12 @@ final const class ClassJc; nameC=ClassJc; header=Jc/ReflectionJc.h; argIdent=Fd;
   //Note: some methods are the same as java.lang.Class see SystemJc.stc because ClassJc is a wrapper around Class
   methods {  
     getClass-_$, mode=static+noThCxt: ClassJc *.. ret(Object *.. obj);
-    getName-_$, mode=noThCxt: s0 t..return();
-    getEnclosingClass-_$, mode=noThCxt: ClassJc *..return();
+    getName-_$, mode=noThCxt: s0 t.. return();
+    getSuperClass-_$, mode=noThCxt: ClassJc *.. return();
+    getEnclosingClass-_$, mode=noThCxt: ClassJc *.. return();
     getDeclaredField-_$, mode=noThCxt: org.vishia.reflect.FieldJc *.. return(String t.r name);
     getDeclaredFields-_$, mode=noThCxt: org.vishia.reflect.FieldJc X$. return();
+    getSuperField-_$, mode=noThCxt: FieldJc *.. return();
     isPrimitive-_$, mode=noThCxt: boolean %..return();
     toString-_$: String t.r return();
 	}

@@ -130,7 +130,16 @@ MemSegmJc searchObject_SearchElement_Inspc(/*static*/ StringJc sPath, struct Obj
               }
               sElement = null_StringJc/*J2C:non-persistent*/;/*clear_StringJc(&sElement);*/
               
-              field = getDeclaredField_ClassJc(clazz, sName);
+              if(equals_StringJc(sName, s0_StringJc("super"))) 
+              { 
+                
+                field = getSuperField_ClassJc(clazz);
+              }
+              else 
+              { 
+                
+                field = getDeclaredField_ClassJc(clazz, sName);
+              }
               sName = null_StringJc/*J2C:non-persistent*/;/*clear_StringJc(&sName);*/
               
               if(field != null && (posSep > 0 && length_StringJc(sPath) > (posSep + 1))) 

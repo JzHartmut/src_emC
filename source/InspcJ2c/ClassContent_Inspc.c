@@ -252,8 +252,8 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
         set_MemSegmJc(memObj, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &fieldP[0], &idxP[0], _thCxt));
         idx = idxP[0];
         field = fieldP[0];
-        found = obj_MemSegmJc(memObj) != null;
-        if(found) 
+        found = obj_MemSegmJc(memObj) != null && field != null;
+        if(found && field !=null) 
         { 
           
           /**Field is found. */
@@ -358,15 +358,17 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
           
           
           if(obj_MemSegmJc(memObj) != null && segment_MemSegmJc(/*static*/memObj) == 0) 
-          { 
-            struct ClassJc_t const* outerObj;   /*Check whether an outer class exists. */
+          { /*:Note: outer classes are designated in Java with this$0 etc. as Field already.*/
+            /*:ClassJc superObj = clazz.getEnclosingClass();*/
+            
+            struct ClassJc_t const* superType;   /*Check whether an outer class exists. */
             
             
-            outerObj = getEnclosingClass_ClassJc(clazz);
-            if(outerObj != null) 
+            superType = getSuperClass_ClassJc(clazz);
+            if(superType != null) 
             { 
               
-              evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(thiz, answer, s0_StringJc("_outer"), outerObj, 0, 0, nOrderNr, maxNrofAnswerBytes, _thCxt);
+              evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(thiz, answer, s0_StringJc("super"), superType, 0, 0, nOrderNr, maxNrofAnswerBytes, _thCxt);
             }
           }
           fields = getDeclaredFields_ClassJc(clazz);
@@ -474,65 +476,100 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
     }
     
     { 
-      int32 lengthArray; 
       int32 lengthValue; 
-      int32 lengthAnswer;   /*calculate the length of the answer before writing. */
-      int32 lengthAnswer4; 
       
       
-      setLength_StringBuilderJc(& (thiz->uValue.sb), 0, _thCxt);
-      lengthArray = length_StringBuilderJc(& (thiz->uArray.sb));
+      setLength_StringBuilderJc(& (thiz->uValue.sb), 0, _thCxt);/*int lengthArray = uArray.length();*/
+      
       lengthValue = length_StringBuilderJc(& (thiz->uValue.sb));
-      lengthAnswer = sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc + lengthName + 1 + lengthType + lengthArray + lengthValue + (hasSubstructure ? 3 : 0);
-      lengthAnswer4 = (lengthAnswer + 3) / 4 * 4;
-      if((thiz->nrofAnswerBytes + lengthAnswer4) > maxNrofAnswerBytes) 
-      { 
-        AnswerComm_ifc_InspcMTB answerCommMtbl;   /*The information doesn't fit in the datagram: Send the last one and clear it.*/
-        
-        
-        SETMTBJc(answerCommMtbl, thiz->answerComm, AnswerComm_ifc_Inspc);
-        answerCommMtbl.mtbl->txAnswer(&(( (answerCommMtbl.ref))->base.object), thiz->nrofAnswerBytes, false, _thCxt);
-        thiz->nrofAnswerBytes = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
-        removeChildren_ByteDataAccessBaseJc(& ((* (answer)).base.super));
-        incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(answer, _thCxt);
-      }
+      /**calculate the length of the answer before writing. */
       
       { 
+        int32 lengthAnswer; 
+        int32 lengthAnswer4; 
+        int32 zChildAnswer; 
+        int32 lengthAnswerTelg; 
+        int32 lengthData; 
         StringJc sAnswerAdd;   /*sAnswer contains one entry for the telegram*/
         
+        PtrVal_int8 _temp3_2; /*J2C: temporary references for concatenation */
         
+        /**calculate the length of the answer before writing. */
         setLength_StringBuilderJc(& (thiz->uAnswer.sb), 0, _thCxt);
+        /**calculate the length of the answer before writing. */
         append_s_StringBuilderJc(& (thiz->uAnswer.sb), name, _thCxt);
+        /**calculate the length of the answer before writing. */
         append_u_StringBuilderJc(& (thiz->uAnswer.sb), & (thiz->uArray.sb), _thCxt);
+        /**calculate the length of the answer before writing. */
         append_C_StringBuilderJc(& (thiz->uAnswer.sb), ':', _thCxt);
+        /**calculate the length of the answer before writing. */
         append_s_StringBuilderJc(& (thiz->uAnswer.sb), type, _thCxt);
-        if(lengthValue > 0) 
+        /**calculate the length of the answer before writing. */
+        if(lengthValue > 0) /**calculate the length of the answer before writing. */
+        
         { 
           
+          /**calculate the length of the answer before writing. */
           append_C_StringBuilderJc(& (thiz->uAnswer.sb), '=', _thCxt);
+          /**calculate the length of the answer before writing. */
           append_u_StringBuilderJc(& (thiz->uAnswer.sb), & (thiz->uValue.sb), _thCxt);
         }
-        if(hasSubstructure) 
+        /**calculate the length of the answer before writing. */
+        if(hasSubstructure) /**calculate the length of the answer before writing. */
+        
         { /*:answerItem->data [answerPos] = '*';*/
           /*:answerPos +=1;*/
           
           
+          /**calculate the length of the answer before writing. */
           append_z_StringBuilderJc(& (thiz->uAnswer.sb), "...", _thCxt);
-        }
-        ASSERT(/*static*/length_StringBuilderJc(& (thiz->uAnswer.sb)) + sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc == lengthAnswer);/*should be the same.*/
+        }/*assert(uAnswer.length() + InspcDataExchangeAccess.Inspcitem.sizeofHead == lengthAnswer);  //should be the same.*/
         
-        if(lengthAnswer4 > lengthAnswer) 
+        lengthAnswer = length_StringBuilderJc(& (thiz->uAnswer.sb));
+        lengthAnswer4 = (lengthAnswer + 3) / 4 * 4;
+        /**calculate the length of the answer before writing. */
+        if(lengthAnswer4 > lengthAnswer) /**calculate the length of the answer before writing. */
+        
         { 
           
+          /**calculate the length of the answer before writing. */
           append_s_StringBuilderJc(& (thiz->uAnswer.sb), substring_StringJc(zI_StringJc("\0\0\0",3), 0, lengthAnswer4 - lengthAnswer, _thCxt), _thCxt);/*fill rest with 0*/
           
         }
+        zChildAnswer = sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc + length_StringBuilderJc(& (thiz->uAnswer.sb));
+        lengthAnswerTelg = getLengthTotal_ByteDataAccessBaseJc(& ((* (answer)).base.super), _thCxt);
+        lengthData = 
+          (_temp3_2= getData_ByteDataAccessBaseJc(& ((* (answer)).base.super), _thCxt)
+          , _temp3_2.value__
+          );
+        /**calculate the length of the answer before writing. */
+        if(lengthAnswerTelg + zChildAnswer > lengthData) /**calculate the length of the answer before writing. */
+        
+        { /*:if(!answer.sufficingBytesForNextChild(zChildAnswer)) {*/
+          
+          AnswerComm_ifc_InspcMTB answerCommMtbl;   /*The information doesn't fit in the datagram: Send the last one and clear it.*/
+          
+          
+          SETMTBJc(answerCommMtbl, thiz->answerComm, AnswerComm_ifc_Inspc);
+          /**calculate the length of the answer before writing. */
+          answerCommMtbl.mtbl->txAnswer(&(( (answerCommMtbl.ref))->base.object), thiz->nrofAnswerBytes, false, _thCxt);
+          /**calculate the length of the answer before writing. */
+          thiz->nrofAnswerBytes = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
+          /**calculate the length of the answer before writing. */
+          removeChildren_ByteDataAccessBaseJc(& ((* (answer)).base.super));
+          /**calculate the length of the answer before writing. */
+          incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(answer, _thCxt);
+        }
+        /**calculate the length of the answer before writing. */
         addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
         sAnswerAdd = toStringNonPersist_StringBuilderJc(& ((thiz->uAnswer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+        /**calculate the length of the answer before writing. */
         addChildString_S_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), sAnswerAdd);/*Prepare the answer item for this field:*/
         
-        setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), lengthAnswer4, kAnswerFieldMethod_Inspcitem_InspcDataExchangeAccess_Inspc, orderNr, _thCxt);
-        thiz->nrofAnswerBytes += lengthAnswer4;
+        /**calculate the length of the answer before writing. */
+        setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), zChildAnswer, kAnswerFieldMethod_Inspcitem_InspcDataExchangeAccess_Inspc, orderNr, _thCxt);
+        /**calculate the length of the answer before writing. */
+        thiz->nrofAnswerBytes += zChildAnswer;
       }
     }
   }
