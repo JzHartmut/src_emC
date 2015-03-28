@@ -1,15 +1,15 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "InspcJ2c/CmdExecuter_Inspc"
-package org/vishia/inspector/;
+package org/vishia/inspectorTarget/;
 
-class CmdExecuter; nameC=CmdExecuter_Inspc_s; argIdent=XX; extends java/lang/Object implements org/vishia/inspector/AnswerComm_ifc //creationMode=P
+class CmdExecuter; nameC=CmdExecuter_Inspc_s; argIdent=XX; extends java/lang/Object implements org/vishia/inspectorTarget/AnswerComm_ifc //creationMode=P
 {  
 fieldIdents {
   byte[??] M%. bufferAnswerData;
-  org/vishia/inspector/CmdConsumer_ifc *.. cmdConsumer;
-  org/vishia/inspector/Comm *.. comm;
+  org/vishia/inspectorTarget/CmdConsumer_ifc *.. cmdConsumer;
+  org/vishia/inspectorTarget/Comm *.. comm;
   int %.. ctFailedTelgPart;
-  byte[1500] Q%. data_bufferAnswerData;
+  byte[1400] Q%. data_bufferAnswerData;
   org/vishia/communication/InspcDataExchangeAccess.InspcDatagram(instance=org/vishia/communication/InspcDataExchangeAccess.InspcDatagram) $.. datagramCmd;
   org/vishia/communication/InspcDataExchangeAccess.Inspcitem(instance=org/vishia/communication/InspcDataExchangeAccess.Inspcitem) $.. infoCmd;
   int %.. maxNrofAnswerBytes;
@@ -19,10 +19,10 @@ fieldIdents {
   boolean %.. useTelgHead;
 }
   methods {  
-    completeConstruction-_$, mode= overrideable: void %.r null(org/vishia/inspector/Comm *.. comm);
-    ctorO-_$, mode= ctor+static: org/vishia/inspector/CmdExecuter *.. CmdExecuter_Inspc_s(org/vishia/inspector/CmdConsumer_ifc *.. commandConsumer);
+    completeConstruction-_$, mode= overrideable: void %.r null(org/vishia/inspectorTarget/Comm *.. comm);
+    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/CmdExecuter *.. CmdExecuter_Inspc_s(org/vishia/inspectorTarget/CmdConsumer_ifc *.. commandConsumer);
     executeCmd-_$, mode= overrideable: boolean %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived);
-    txAnswer+_ib-_$, defined: org/vishia/inspector/AnswerComm_ifc.txAnswer, mode= overrideable: int %.r null(int %.. nrofAnswerBytesPart,boolean %.. bLastTelg);
+    txAnswer+_ib-_$, defined: org/vishia/inspectorTarget/AnswerComm_ifc.txAnswer, mode= overrideable: int %.r null(int %.. nrofAnswerBytesPart,boolean %.. bLastTelg);
   }
 
   methods-overrideable {
@@ -31,7 +31,7 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/inspector/AnswerComm_ifc: $ "(?).base.AnswerComm_ifc_Inspc" $;
+    org/vishia/inspectorTarget/AnswerComm_ifc: $ "(?).base.AnswerComm_ifc_Inspc" $;
     java/lang/Object: $ "(?).base.AnswerComm_ifc_Inspc.base.object" $;
   }
 

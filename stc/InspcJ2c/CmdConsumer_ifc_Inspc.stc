@@ -1,6 +1,6 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "InspcJ2c/CmdConsumer_ifc_Inspc"
-package org/vishia/inspector/;
+package org/vishia/inspectorTarget/;
 
 interface CmdConsumer_ifc; nameC=CmdConsumer_ifc_Inspc_s; argIdent=XX; extends java/lang/Object //creationMode=F
 {  
@@ -8,7 +8,7 @@ fieldIdents {
 }
   methods {  
     executeMonitorCmd-_$, mode= overrideable: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
-    setAnswerComm-_$, mode= overrideable: void %.r null(org/vishia/inspector/AnswerComm_ifc *.. answerComm);
+    setAnswerComm-_$, mode= overrideable: void %.r null(org/vishia/inspectorTarget/AnswerComm_ifc *.. answerComm);
   }
 
   methods-overrideable {

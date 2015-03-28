@@ -1,6 +1,6 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "InspcJ2c/AnswerComm_ifc_Inspc"
-package org/vishia/inspector/;
+package org/vishia/inspectorTarget/;
 
 interface AnswerComm_ifc; nameC=AnswerComm_ifc_Inspc_s; argIdent=XX; extends java/lang/Object //creationMode=F
 {  

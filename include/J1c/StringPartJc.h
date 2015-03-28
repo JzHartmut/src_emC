@@ -309,6 +309,12 @@ METHOD_C struct StringPartJc_t* seekBegin_StringPartJc(StringPartJc_s* thiz, ThC
 /**Searchs the given String inside the valid part, posits the begin of the part to the begin of the searched string.*/
 METHOD_C struct StringPartJc_t* seek_Si_StringPartJc(StringPartJc_s* thiz, StringJc sSeek, int32 mode, ThCxt* _thCxt);
 
+/**Seeks back form the current end to the end of the given String starting from the end of the current part.*/
+METHOD_C struct StringPartJc_t* seekBack_StringPartJc(StringPartJc_s* thiz, StringJc sSeek, ThCxt* _thCxt);
+
+/**Seeks back from the current end to one of the characters contained in chars, starting from the end of the current part.*/
+METHOD_C struct StringPartJc_t* seekBackToAnyChar_StringPartJc(StringPartJc_s* thiz, StringJc chars, ThCxt* _thCxt);
+
 /**Seeks to the given String, result is left side of the string.*/
 #define seek_S_StringPartJc(THIZ, sSeek) \
 (seek_Si_StringPartJc((THIZ), sSeek, seekNormal_StringPartJc, _thCxt))
@@ -376,6 +382,12 @@ METHOD_C struct StringPartJc_t* lentoAnyCharOutsideQuotion_StringPartJc(StringPa
 
 /**Sets the length of the current part to the end of the quotion*/
 METHOD_C struct StringPartJc_t* lentoQuotionEnd_StringPartJc(StringPartJc_s* thiz, char sEndQuotion, int32 maxToTest, ThCxt* _thCxt);
+
+/**Sets the length of the current part to the end of the current line.*/
+METHOD_C struct StringPartJc_t* lentoLineEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+
+/**Increments the begin of the current part over maybe found whitespaces*/
+METHOD_C struct StringPartJc_t* trimWhiteSpaces_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
 /**Sets the length of the current part to any char content in sChars (terminate chars).*/
 METHOD_C struct StringPartJc_t* lentoAnyChar_S_StringPartJc(StringPartJc_s* thiz, StringJc sChars, ThCxt* _thCxt);
@@ -633,6 +645,8 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& lentoIdentifier(){ lentoIdentifier_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
+  StringPartJc& lentoLineEnd(){ lentoLineEnd_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+
   StringPartJc& lentoNonEscapedString(StringJcpp sEnd, int32 maxToTest){ lentoNonEscapedString_StringPartJc(this, sEnd, maxToTest,  null/*_thCxt*/);  return *this; }
 
   StringPartJc& lentoQuotionEnd(char sEndQuotion, int32 maxToTest){ lentoQuotionEnd_StringPartJc(this, sEndQuotion, maxToTest,  null/*_thCxt*/);  return *this; }
@@ -652,6 +666,10 @@ class StringPartJc : private StringPartJc_s
   struct StringPartScanJc_t* scan(){  return scan_StringPartJc(this,  null/*_thCxt*/); }
 
   StringPartJc& seekAnyString(StringJc_Y* strings, int32_Y* nrofFoundString){ seekAnyString_StringPartJc(this, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
+
+  struct StringPartJc_t* seekBackToAnyChar(StringJcpp chars){  return seekBackToAnyChar_StringPartJc(this, chars,  null/*_thCxt*/); }
+
+  StringPartJc& seekBack(StringJcpp sSeek){ seekBack_StringPartJc(this, sSeek,  null/*_thCxt*/);  return *this; }
 
   StringPartJc& seekBegin(){ seekBegin_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
@@ -704,6 +722,8 @@ class StringPartJc : private StringPartJc_s
   virtual StringJc toString(){  return toString_StringPartJc_F(&this->base.object,  null/*_thCxt*/); }
 
   StringPartJc& trimComment(){ trimComment_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+
+  StringPartJc& trimWhiteSpaces(){ trimWhiteSpaces_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
   StringPartJc& trim(){ trim_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 };

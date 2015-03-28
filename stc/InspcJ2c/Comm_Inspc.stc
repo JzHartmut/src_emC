@@ -1,12 +1,12 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "InspcJ2c/Comm_Inspc"
-package org/vishia/inspector/;
+package org/vishia/inspectorTarget/;
 
 class Comm; nameC=Comm_Inspc_s; argIdent=XX; extends java/lang/Object implements java/lang/Runnable //creationMode=P
 {  
 fieldIdents {
   boolean %.. bEnablePrintfOnComm;
-  org/vishia/inspector/CmdExecuter *.. cmdExecuter;
+  org/vishia/inspectorTarget/CmdExecuter *.. cmdExecuter;
   int %.. ctErrorTelg;
   byte[1500] Q%. data_rxBuffer;
   org/vishia/communication/InterProcessComm *.. ipc;
@@ -18,7 +18,7 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/inspector/Comm *.. Comm_Inspc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/inspector/CmdExecuter *.. cmdExecuter);
+    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/Comm *.. Comm_Inspc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/inspectorTarget/CmdExecuter *.. cmdExecuter);
     openComm-_$: boolean %.r null(boolean %.. blocking);
     receiveAndExecute-_$: void %.r null();
     run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();

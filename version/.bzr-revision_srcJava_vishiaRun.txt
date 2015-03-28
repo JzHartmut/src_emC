@@ -1,0 +1,70 @@
+------------------------------------------------------------
+revno: 146
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sun 2015-03-29 09:56:26 +0200
+message:
+  *inspcetorTarget/ClassContent: bugfix: The argument 'maxNrofAnswerBytes' of all cmd execution methods is not used furthermore.  The current length in the answer is stored in the ByteDataAccess indices already. The algorithm to determine the length in the answer datagram with extra count is erroneously. Don't use it. TODO remove this argument.
+------------------------------------------------------------
+revno: 145
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Fri 2015-03-27 21:10:36 +0100
+message:
+  InspcMng: getFields on end of telegram, in test.
+------------------------------------------------------------
+revno: 144
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sat 2015-03-21 23:50:28 +0100
+message:
+  * Inspector: package renaming. Now: inspectorTarget: all classes which runs on a target, also translated to C. inspcPC with 2 sub packages for PC-side
+------------------------------------------------------------
+revno: 143
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sat 2015-03-21 23:23:04 +0100
+message:
+  * inspcAccessor improved
+------------------------------------------------------------
+revno: 142
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sat 2015-03-21 00:02:29 +0100
+message:
+  * Inspc:  requestFields redesigned
+------------------------------------------------------------
+revno: 141
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sat 2015-03-14 11:45:10 +0100
+message:
+  InspcTargetAccessor: bugfixes timing
+------------------------------------------------------------
+revno: 140
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Mon 2015-03-09 23:00:55 +0100
+message:
+  improving
+------------------------------------------------------------
+revno: 139
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sun 2015-03-08 23:23:10 +0100
+message:
+  improvements
+------------------------------------------------------------
+revno: 138
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sun 2015-03-08 11:38:57 +0100
+message:
+  adaptions
+------------------------------------------------------------
+revno: 137
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaRun
+timestamp: Sun 2015-02-22 23:29:23 +0100
+message:
+  * Some adaptions because ByteDataAccessBase

@@ -20,11 +20,11 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: boolean %.. bBigEndian;
       //outer=1 ,super=2: boolean %.. bExpand;
       //outer=1 ,super=2: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=2: org/vishia/byteData/ByteDataAccessBase @.. currChild;
       //outer=1 ,super=2: byte[??] M%. data;
       //outer=1 ,super=2: int %.. ixBegin;
-      //outer=1 ,super=2: int %.. ixChild;
-      //outer=1 ,super=2: int %.. ixChildEnd;
       //outer=1 ,super=2: int %.. ixEnd;
+      //outer=1 ,super=2: int %.. ixNextChild;
       //outer=2 ,super=1: int %.d kInvalidIndex;
       //outer=2 ,super=1: int %.d kReferenceAddr;
       //outer=2 ,super=1: int %.d kScalarTypes;
@@ -38,10 +38,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       int %.d kspare14;
       //outer=2 ,super=1: int %.d maxNrOfChars;
       //outer=1 ,super=2: org/vishia/byteData/ByteDataAccessBase @.. parent;
-      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s sVersion;
       //outer=1 ,super=2: int %.. sizeHead;
       int %.d sizeofHead;
-      //outer=2 ,super=1: int %.d version;
+      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
         assignDatagram-_$, mode= noThCxt: void %.r null(byte[??] M%. data,int %.. length);
@@ -64,7 +63,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
+        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
+        java/lang/Object: $ "(?).base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -80,11 +81,11 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: boolean %.. bBigEndian;
       //outer=1 ,super=2: boolean %.. bExpand;
       //outer=1 ,super=2: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=2: org/vishia/byteData/ByteDataAccessBase @.. currChild;
       //outer=1 ,super=2: byte[??] M%. data;
       //outer=1 ,super=2: int %.. ixBegin;
-      //outer=1 ,super=2: int %.. ixChild;
-      //outer=1 ,super=2: int %.. ixChildEnd;
       //outer=1 ,super=2: int %.. ixEnd;
+      //outer=1 ,super=2: int %.. ixNextChild;
       int %.d kAnswerFieldMethod;
       int %.d kAnswerMsg;
       int %.d kAnswerRegisterRepeat;
@@ -115,10 +116,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       int %.d kbyteOrder;
       //outer=2 ,super=1: int %.d maxNrOfChars;
       //outer=1 ,super=2: org/vishia/byteData/ByteDataAccessBase @.. parent;
-      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s sVersion;
       //outer=1 ,super=2: int %.. sizeHead;
       int %.d sizeofHead;
-      //outer=2 ,super=1: int %.d version;
+      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. Inspcitem_InspcDataExchangeAccess_Inspc_s();
@@ -133,7 +133,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
+        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
+        java/lang/Object: $ "(?).base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -149,11 +151,11 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: boolean %.. bBigEndian;
       //outer=1 ,super=2: boolean %.. bExpand;
       //outer=1 ,super=2: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=2: org/vishia/byteData/ByteDataAccessBase @.. currChild;
       //outer=1 ,super=2: byte[??] M%. data;
       //outer=1 ,super=2: int %.. ixBegin;
-      //outer=1 ,super=2: int %.. ixChild;
-      //outer=1 ,super=2: int %.. ixChildEnd;
       //outer=1 ,super=2: int %.. ixEnd;
+      //outer=1 ,super=2: int %.. ixNextChild;
       //outer=2 ,super=1: int %.d kInvalidIndex;
       //outer=2 ,super=1: int %.d kReferenceAddr;
       //outer=2 ,super=1: int %.d kScalarTypes;
@@ -161,10 +163,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=2 ,super=1: int %.d kTypeNoValue;
       //outer=2 ,super=1: int %.d maxNrOfChars;
       //outer=1 ,super=2: org/vishia/byteData/ByteDataAccessBase @.. parent;
-      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s sVersion;
       //outer=1 ,super=2: int %.. sizeHead;
       int %.d sizeofElement;
-      //outer=2 ,super=1: int %.d version;
+      //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. InspcSetValue_InspcDataExchangeAccess_Inspc_s();
@@ -189,7 +190,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
+        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
+        java/lang/Object: $ "(?).base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -205,21 +208,20 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=3: boolean %.. bBigEndian;
       //outer=1 ,super=3: boolean %.. bExpand;
       //outer=1 ,super=3: java/nio/charset/Charset *.. charset;
+      //outer=1 ,super=3: org/vishia/byteData/ByteDataAccessBase @.. currChild;
       //outer=1 ,super=3: byte[??] M%. data;
       //outer=1 ,super=3: int %.. ixBegin;
-      //outer=1 ,super=3: int %.. ixChild;
-      //outer=1 ,super=3: int %.. ixChildEnd;
       //outer=1 ,super=3: int %.. ixEnd;
+      //outer=1 ,super=3: int %.. ixNextChild;
       //outer=2 ,super=1: int %.d kInvalidIndex;
       //outer=2 ,super=1: int %.d kReferenceAddr;
       //outer=2 ,super=1: int %.d kScalarTypes;
       //outer=2 ,super=1: int %.d kTypeNoValue;
       //outer=2 ,super=1: int %.d maxNrOfChars;
       //outer=1 ,super=3: org/vishia/byteData/ByteDataAccessBase @.. parent;
-      //outer=1 ,super=3: java/lang/String(instance=java/lang/String) t.s sVersion;
       //outer=1 ,super=3: int %.. sizeHead;
       int %.d sizeofElement;
-      //outer=2 ,super=1: int %.d version;
+      //outer=1 ,super=3: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValueData *.. InspcSetValueData_InspcDataExchangeAccess_Inspc_s();
@@ -238,8 +240,10 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super.base.super" $;
+        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
         org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base.super" $;
+        java/lang/Object: $ "(?).base.super.base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }

@@ -153,7 +153,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "second $ to delimit timestamp in filename missing.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };/*, this.posTimestampInFilename);*/
       
       applyPattern_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->sFormatTimestampFilename, _thCxt);
-      append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt), _thCxt);
+      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt), _thCxt);
       if(indexOf_C_StringJc(sFilename, '*') >= 0) 
       { /*:The current timeStamp should be applied only here, it is the startup of the application.*/
         
@@ -165,7 +165,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
         
         format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
         sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-        append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
+        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
         thiz->posTimestampInFilename = -1;/*don't replace the time stamp a second one.*/
         
       }
@@ -173,21 +173,21 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       { /*:use the format string only as placeholder*/
         
         
-        append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), thiz->sFormatTimestampFilename, _thCxt);
+        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->sFormatTimestampFilename, _thCxt);
       }
-      append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt), _thCxt);
+      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt), _thCxt);
     }
     else 
     { /*:no timeStamp in filename given, not used.*/
       
       
-      append_s_StringBufferJc(& (thiz->sFilenameBuffer.sb), sFilename, _thCxt);
+      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sFilename, _thCxt);
       thiz->bNewFile = false;/*append on existing file.*/
       
     }
     /**Determines the position of an asterisk*/
     thiz->posMultifileInFilename = 
-      ( _temp1_1= toString_StringBufferJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt)
+      ( _temp1_1= toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt)
       , indexOf_C_StringJc(_temp1_1, '*')
       );/*may be -1, than not used.*/
     
@@ -358,7 +358,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               
               format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
               sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBufferJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
+              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
             }
             else if(thiz->bNewFile && thiz->posMultifileInFilename >= 0) 
             { 
@@ -373,7 +373,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               /***/
               append_I_StringBuilderJc(& (bufferFormat.sb), ++thiz->counterMultifile, _thCxt);
               sCounterMultifile = toStringNonPersist_StringBuilderJc(& ((bufferFormat.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBufferJc(& (thiz->sFilenameBuffer.sb), thiz->posMultifileInFilename, thiz->posMultifileInFilename + thiz->currentLengthMultifileNr, sCounterMultifile, _thCxt);
+              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posMultifileInFilename, thiz->posMultifileInFilename + thiz->currentLengthMultifileNr, sCounterMultifile, _thCxt);
               thiz->currentLengthMultifileNr = length_StringJc(sCounterMultifile);
             }
             else 
@@ -382,7 +382,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               thiz->bNewFile = false;/*reopen the existing one.*/
               
             }
-            error = open_FileWriterJc(& (thiz->file), toString_StringBufferJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt), !thiz->bNewFile, _thCxt);
+            error = open_FileWriterJc(& (thiz->file), toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt), !thiz->bNewFile, _thCxt);
             if(error >= 0) 
             { 
               
@@ -392,7 +392,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               { 
                 
                 /** */
-                msgOpenClose.mtbl->sendMsg( (msgOpenClose.ref), thiz->msgIdentOpenClose + kMsgOpen_LogMessageFile_MSG, "open %s", "s", toString_StringBufferJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt));
+                msgOpenClose.mtbl->sendMsg( (msgOpenClose.ref), thiz->msgIdentOpenClose + kMsgOpen_LogMessageFile_MSG, "open %s", "s", toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt));
               }
             }
             else 
@@ -902,7 +902,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
 , {
      { "sFilenameBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBufferJc
+    , &reflection_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sFilenameBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase

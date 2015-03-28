@@ -14,15 +14,127 @@
 
 /* J2C: Forward declaration of struct ***********************************************/
 
-/**This class is the base class for ByteDataAccess. It works without dynamic methods proper for C usage.
+/**This class is a base class to control the access to binary data.
+The binary data may typically used or produced from a part of software written in C or C++.
+Therewith the binary data are struct-constructs. Another example - build of datagram structures.
+<br>
+This class is a base class which should be derived for user's necessities.
+The methods {@link #getInt16(int)} etc. are protected. That should prevent erratic free accesses to data
+on application level. A derived class of this class structures the software for byte data access.
+<br><br>
+It is able to support several kinds of structured data access:<ul>
+<li>Simple C-like <code>struct</code> are adequate mapped with a simple derived class of this class,
+using the protected commonly access methods like {@link #_getLong(int, int)} with predefined indexes
+in special methods like getValueXyz().
+<li>Complex <code>struct</code> with nested <code>struct</code> inside are mapped
+with one derived class per <code>struct</code>, define one reference per nested struct
+<li>Base <code>struct</code> inside a <code>struct</code> (inheritance in C) can be mapped with
+extra derived classes for the base struct and usind the
+{@link #assignCasted_i(ByteDataAccessBase, int, int)}-method.
+<li>A pack of data with several struct may be mapped using the {@link #addChild(ByteDataAccessBase)}-method.
+Thereby a parent should be defined, and the structs of the pack are children of this parent.
+That structures need not be from the same type.
+<li>packs of struct with parent are able to nesting, it is able to construct as a tree of pack of structures.
+The parent of the pack is the tree node. It is likewise a XML tree.
+The data may be also transformed to a XML data representation
+or the data structure may be explained with a XML tree, but they are not
+XML data straight.
+</ul>
+This application possibilities show a capable of development system to access binary data.
+The other, hand made way was calculate with indices of the byte[idx] specially user programmed.
+This class helps to make such complex index calculation needlessly.
+One struct at C level corresponds with one derivated class of ByteDataAccessBase.
+But last also a generation of the java code from C/C++-header files containing the structs is able to.
+So the definition of byte positions are made only on one source. The C/C++ is primary thereby.
+
+<br>
+The UML structure of such an class in a environment may be shown with the
+followed object model diagram, <br>
+<code> <+>---> </code>is a composition,
+<code> <>---> </code>is a aggregation, <code> <|---- </code>is a inherition.
+<pre>
++-------------------------------+                 +----------+
+| ByteDataAccessBase(sizeHead)  |----data-------->| byte[]   |
+|-------------------------------|                 |          |
+|- idxBegin:int                 |                 | d a t a  |
+|- idxNextChild:int             |                 +----------+
++-------------+     |- idxEnd:int                   |
+| derivated   |     |-------------------------------|<---------------+ a known parent
+| user        |---|>|+ addChild(child)              |---parent-------+ set in addChild()
+| classes     |     |+ addChildFloat()              |
++-------------+     |% getInt32()                   |----currChild---+
+|                               |<---------------+
++-------------------------------+
+</pre>
+
+This class is the base class for ByteDataAccess. It works without dynamic methods proper for C usage.
 All variables are package private because they should be changed only with methods of this class.
-Only the derived Class {@link ByteDataAccess} uses the variables direct.
+<br><br>
+<h2>Initialization and instances</h2>
+The root instance of data should be initialized with
+<pre>
+MyByteDataAccessRoot accessRoot = new MyByteDataAccessRoot();
+//... invokes super.ByteDataAccessBase(lengthHead);
+accessRoot.assign(myData, dataLength);
+</pre>
+Any instances which represents a sub structure in data can be created as re-useable instances, which can be added
+as child of the root instance or as child of any already added child on demand:
+<pre>
+MySubStruct subStruct = new SubStruct();  //an instance for accessing
+....
+accessRoot.addChild(subStruct);         //adds on current position.
+int value = subStruct.getValuexyz();    //now can access the data.
+....  //later on code:
+accessOther.accChild(subStruct);        //reuse the instance for access
+int value = subStruct.getValueAbc();    //access other data.
+</pre>
+
+
+
+<br>
+<h2>children, currentChild, addChild</h2>
+Children are used to evaluate or write different data structures after a known structure.
+The children may be from several derived types of this class.
+With children and children inside children a tree of different data can be built or evaluated.
+<ul>
+<li>{@link #addChild(ByteDataAccessBase)}: adds a child with its head size
+<li>{@link #addChild(ByteDataAccessBase, int)}: adds a child with a given length
+<li>{@link #addChildEmpty(ByteDataAccessBase)}: adds a child with its head size for writing, set all data to 0.
+<li>{@link #addChildEmpty(ByteDataAccessBase, int)}: same with given size of child.
+<li>{@link #addChildFloat(float)}, {@link #addChildInteger(int, long)}: writes the value and increments the #ixChildEnd after it.
+<li>{@link #addChildString(CharSequence)}, {@link #addChildString(CharSequence, String)}: writes the String.
+<li>{@link #getChildFloat()}, {@link #getChildDouble()}, {@link #getChildInteger(int)}: reads the value at {@link #ixNextChild}
+and increments the {@link #ixNextChild}.
+<li>{@link #getChildString(int)} reads a String and increments the {@link #ixNextChild}
+<li>{@link #addChildAt(int, ByteDataAccessBase)}, {@link #addChildAt(int, ByteDataAccessBase, int)}: Used if the byte structure
+is known. Adds a child not at #ixNextChild but at the given position.
+</ul>
+Mechanism and indices see {@link #addChild(ByteDataAccessBase, int)}.
+
+
+<h2>Expand, check</h2>
+If an instance is set for read, a given number of valid data bytes are known. The data should be assigned with
+<ul>
+<li>{@link #assign(byte[], int)} with given length, not expandable
+<li>{@link #assignClear(byte[])} as empty instance, the data are cleared in its whole length.
+<li>{@link #assign(byte[], int)} with 0 as length argument as instance which only knows the head data, but the data are not cleared.
+<li>{@link #assign(byte[], int, int)} at a defined position in the data.
+</ul>
+The property expandable or non expandable is set from the given number of valid data. If an instance of this is set to non expandable,
+an exception is thrown if a children is added after the given length. If an instance is designated as 'expandable' the end index
+#ixEnd is increased by adding children till the length of data as its maximal value.
+<br><br>
+With the operations {@link #sufficingBytesForNextChild(int)} or {@link #getMaxNrofBytes()} it can be tested whether a child can be added
+with its known length.
+<br>
+
+
 */
 
 
 const char sign_Mtbl_ByteDataAccessBaseJc[] = "ByteDataAccessBaseJc"; //to mark method tables of all implementations
 
-StringJc sVersion_ByteDataAccessBaseJc = CONST_z_StringJc("2014-08-26");
+StringJc version_ByteDataAccessBaseJc = CONST_z_StringJc("2015-03-08");
 
 /*Constructor */
 struct ByteDataAccessBaseJc_t* ctorM_i_ByteDataAccessBaseJc(MemC mthis, int32 sizeHead, ThCxt* _thCxt)
@@ -61,9 +173,7 @@ struct ByteDataAccessBaseJc_t* ctorM_ii_ByteDataAccessBaseJc(MemC mthis, int32 s
     thiz->sizeHead = sizeHead;
     thiz->ixBegin = 0;
     thiz->ixEnd = sizeData;
-    thiz->ixChild = -1;/*to mark start.*/
-    
-    thiz->ixChildEnd = sizeHead;
+    thiz->ixNextChild = sizeHead;
     CLEAR_REFJc(thiz->parent);
   }
   STACKTRC_LEAVE;
@@ -78,46 +188,6 @@ void setCharset_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc valu
   { 
     
     thiz->charset = forName_CharsetJc(/*static*/value, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Resets the view to the buffer*/
-void _reset_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 lengthData, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("_reset_ByteDataAccessBaseJc");
-  
-  { 
-    
-    ASSERT(/*static*/thiz->sizeHead >= 0);
-    thiz->bExpand = lengthData <= 0;/*expand if the data have no head.*/
-    
-    thiz->ixChild = -1;
-    thiz->ixChildEnd = thiz->ixBegin + thiz->sizeHead;/*lengthData is inclusively head. maybe checl lengthData, >=sizeHead or 0.*/
-    
-    thiz->ixEnd = thiz->bExpand ? thiz->ixBegin + thiz->sizeHead : thiz->ixBegin + lengthData;
-    
-    { /*:@Java4C.Exclude*/
-      
-      
-      if(thiz->ixEnd > thiz->data.value__) 
-      { 
-        StringJc msg = CONST_z_StringJc("not enough data bytes, requested="); 
-        
-        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
-        
-        msg = 
-          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-          , append_z_StringBuilderJc(_stringBuilderThCxt, "not enough data bytes, requested=", _thCxt)
-          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->ixEnd, _thCxt)
-          , append_z_StringBuilderJc(_stringBuilderThCxt, ", buffer-length=", _thCxt)
-          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->data.value__, _thCxt)
-          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
-          )/*J2C:non-persistent*/;
-        { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
-      }
-    }
   }
   STACKTRC_LEAVE;
 }
@@ -239,32 +309,76 @@ void _setLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int3
 }
 
 
-/**Increments the idxEnd if a new child is added*/
-void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixChildEndNew, ThCxt* _thCxt)
+/**Increments the {@link #ixNextChild} and/or increments the ixEnd of this and all parents.*/
+void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChildNew, int32 ixEndNew, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("_expand_ByteDataAccessBaseJc");
   
   { 
     
-    if(thiz->ixEnd < ixChildEndNew) 
+    ASSERT(/*static*/ixEndNew >= thiz->ixBegin + thiz->sizeHead);
+    if(thiz->ixEnd < ixEndNew) 
     { /*:do it only in expand mode*/
       
       
-      thiz->ixEnd = ixChildEndNew;
+      if(!thiz->bExpand) 
+      { 
+        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+        
+        { throw_sJc(ident_IllegalArgumentExceptionJc, 
+          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, "child too long, not expanded buffer, size= ", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->ixEnd, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, ", ixChildEndNew= ", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, ixEndNew, _thCxt)
+          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+          ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      }
+      if(ixEndNew > thiz->data.value__) 
+      { 
+        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+        
+        { throw_sJc(ident_IllegalArgumentExceptionJc, 
+          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, "child long as data, data.length= ", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->data.value__, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, ", ixChildEndNew= ", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, ixEndNew, _thCxt)
+          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+          ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      }
+      thiz->ixEnd = ixEndNew;
     }
-    ASSERT(/*static*/ixChildEndNew >= thiz->ixBegin + thiz->sizeHead);
-    thiz->ixChildEnd = ixChildEndNew;
+    if(thiz->ixNextChild < ixNextChildNew) 
+    { 
+      
+      if(ixNextChildNew > thiz->ixEnd) 
+      { 
+        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+        
+        { throw_sJc(ident_IllegalArgumentExceptionJc, 
+          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, "next child pos after ixend = ", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->ixEnd, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, ", ixNextChilNew= ", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, ixNextChildNew, _thCxt)
+          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+          ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      }
+      thiz->ixNextChild = ixNextChildNew;
+    }
     if(REFJc(thiz->parent) != null) 
     { 
       
-      _expand_ByteDataAccessBaseJc(REFJc(thiz->parent), ixChildEndNew, _thCxt);
+      _expand_ByteDataAccessBaseJc(REFJc(thiz->parent), ixEndNew, ixEndNew, _thCxt);/*all parents nextChild set to end of child*/
+      
     }
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Assigns new data to this element at given index in data.*/
+/**Assigns new data to this element at given index in data*/
 void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 dataP, int32 lengthData, int32 index, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("assign_iYii_ByteDataAccessBaseJc");
@@ -272,10 +386,39 @@ void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 
   { 
     
     ASSERT(/*static*/index >= 0 && thiz->sizeHead >= 0);
+    detach_ByteDataAccessBaseJc(thiz, _thCxt);
     thiz->data = dataP;
     thiz->ixBegin = index;
     CLEAR_REFJc(thiz->parent);
-    _reset_ByteDataAccessBaseJc(thiz, lengthData, _thCxt);
+    CLEAR_REFJc(thiz->currChild);
+    thiz->bExpand = lengthData < thiz->sizeHead;/*expand if the data have no head.*/
+    
+    thiz->ixNextChild = thiz->ixBegin + thiz->sizeHead;/*lengthData is inclusively head. maybe checl lengthData, >=sizeHead or 0.*/
+    
+    thiz->ixEnd = thiz->bExpand ? thiz->ixBegin + thiz->sizeHead : thiz->ixBegin + lengthData;
+    
+    { /*:@Java4C.Exclude*/
+      
+      
+      if(thiz->ixEnd > thiz->data.value__) 
+      { 
+        StringJc msg = CONST_z_StringJc("not enough data bytes, requested="); 
+        
+        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+        
+        msg = 
+          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, "not enough data bytes, requested=", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->ixEnd, _thCxt)
+          , append_z_StringBuilderJc(_stringBuilderThCxt, ", buffer-length=", _thCxt)
+          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->data.value__, _thCxt)
+          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+          )/*J2C:non-persistent*/;
+        { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      }
+    }
+    
+    { }
   }
   STACKTRC_LEAVE;
 }
@@ -305,6 +448,21 @@ int32 getLengthHead_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _t
     
     { STACKTRC_LEAVE;
       return thiz->sizeHead;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Returns the length of the element with all yet added children.*/
+int32 getLengthCurrent_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getLengthCurrent_ByteDataAccessBaseJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return thiz->ixNextChild - thiz->ixBegin;
     }
   }
   STACKTRC_LEAVE;
@@ -348,8 +506,26 @@ int32 getMaxNrofBytes_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* 
   
   { 
     
-    { STACKTRC_LEAVE;
+    if(thiz->bExpand) { STACKTRC_LEAVE;
       return thiz->data.value__ - thiz->ixBegin;
+    }
+    else { STACKTRC_LEAVE;
+      return thiz->ixEnd - thiz->ixBegin;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Checks whether a given size is possible as {@link #setLengthElement(int)} for the given instance.*/
+bool checkLengthElement_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 size, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("checkLengthElement_ByteDataAccessBaseJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return size >= thiz->sizeHead && getMaxNrofBytes_ByteDataAccessBaseJc(thiz, _thCxt) >= size;
     }
   }
   STACKTRC_LEAVE;
@@ -394,47 +570,46 @@ int32 getMaxNrofBytesForNextChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* t
   
   { 
     
-    if(thiz->ixChildEnd < thiz->ixChild) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "length of current child is undefined.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
-      return thiz->ixEnd - thiz->ixChildEnd;
+      return (thiz->bExpand ? thiz->data.value__ : thiz->ixEnd) - thiz->ixNextChild;
     }
   }
   STACKTRC_LEAVE;
 }
 
 
-/**adds a child Element after the current child or as first child after head.*/
+/**Adds a child Element after the current child or as first child after head.*/
 void addChild_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChild_XXi_ByteDataAccessBaseJc");
   
   { 
     
+    if(REFJc(child->parent) != null && REFJc(REFJc(child->parent)->currChild) == child) 
+    { 
+      
+      CLEAR_REFJc(REFJc(child->parent)->currChild);/*detatch the child from its old parent if it is currently referred.*/
+      
+    }
     ASSERT(/*static*/sizeChild == 0 || sizeChild >= child->sizeHead);
     ASSERT(/*static*/child->sizeHead >= 0);
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, sizeChild == 0 ? child->sizeHead : sizeChild, _thCxt);
+    child->ixBegin = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, sizeChild == 0 ? child->sizeHead : sizeChild, _thCxt);
     child->bBigEndian = thiz->bBigEndian;
     child->bExpand = thiz->bExpand;
     child->data = thiz->data;
     SETREFJc(child->parent, thiz, ByteDataAccessBaseJc_s);
     child->charset = thiz->charset;
-    child->ixBegin = thiz->ixChild;
-    child->ixChildEnd = child->ixBegin + child->sizeHead;/*the child does not contain grand children.*/
+    child->ixNextChild = child->ixBegin + child->sizeHead;/*the child does not contain grand children.*/
     
-    child->ixChild = -1;
-    child->ixEnd = thiz->bExpand ? child->ixChildEnd : thiz->ixEnd;/*use the full data range maybe for child.*/
+    child->ixEnd = thiz->ixEnd;/*bExpand ? child.ixNextChild : this.ixEnd;  //use the full data range maybe for child.*/
     
-    ASSERT(/*static*/child->ixEnd <= thiz->data.value__);
-    if(thiz->bExpand) 
-    { 
-      
-      _expand_ByteDataAccessBaseJc(thiz, child->ixEnd, _thCxt);
-    }/*return bExpand;*/
-    
+    SETREFJc(thiz->currChild, child, ByteDataAccessBaseJc_s);
   }
   STACKTRC_LEAVE;
 }
 
+
+/**Adds a child with its given head size without additional data space.*/
 void addChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChild_XX_ByteDataAccessBaseJc");
@@ -486,16 +661,21 @@ void addChildAt_iXXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 id
     
     ASSERT(/*static*/child->sizeHead >= 0);
     ASSERT(/*static*/sizeChild >= child->sizeHead);
+    if(REFJc(child->parent) != null && REFJc(REFJc(child->parent)->currChild) == child) 
+    { 
+      
+      CLEAR_REFJc(REFJc(child->parent)->currChild);
+    }/*detatch*/
+    
     child->data = thiz->data;
     idxBegin = thiz->ixBegin + idxChild;
     child->ixBegin = idxBegin;
     child->ixEnd = idxBegin + sizeChild;
-    child->ixChildEnd = idxBegin + child->sizeHead;
-    child->ixChild = -1;
+    child->ixNextChild = idxBegin + child->sizeHead;
     child->bBigEndian = thiz->bBigEndian;
     child->bExpand = thiz->bExpand;
     SETREFJc(child->parent, thiz, ByteDataAccessBaseJc_s);
-    _expand_ByteDataAccessBaseJc(thiz, child->ixEnd, _thCxt);/*return bExpand;*/
+    _expand_ByteDataAccessBaseJc(thiz, child->ixNextChild, child->ixEnd, _thCxt);/*return bExpand;*/
     
   }
   STACKTRC_LEAVE;
@@ -521,10 +701,12 @@ void addChildInteger_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nr
   STACKTRC_TENTRY("addChildInteger_ByteDataAccessBaseJc");
   
   { 
+    int32 ixChild1; 
+    
     
     ASSERT(/*static*/nrofBytes > 0);
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
-    if(thiz->data.value__ < thiz->ixChild + nrofBytes) 
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
+    if(thiz->data.value__ < ixChild1 + nrofBytes) 
     { 
       StringJc msg = CONST_z_StringJc("data length to small:"); 
       
@@ -533,28 +715,30 @@ void addChildInteger_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nr
       msg = 
         ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
         , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
-        , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->ixChild + nrofBytes), _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, (ixChild1 + nrofBytes), _thCxt)
         , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
       { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
     /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
-    _setLong_ByteDataAccessBaseJc(thiz, thiz->ixChild - thiz->ixBegin, nrofBytes, value, _thCxt);
+    _setLong_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, nrofBytes, value, _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Adds a child for 1 integer value without a child instance, and sets the value as integer.*/
+/**Adds a child for 1 float value without a child instance, and sets the value as float.*/
 void addChildFloat_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, float value, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildFloat_ByteDataAccessBaseJc");
   
   { 
+    int32 ixChild1; 
     
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 4, _thCxt);
-    if(thiz->data.value__ < thiz->ixChild + 4) 
+    
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 4, _thCxt);
+    if(thiz->data.value__ < ixChild1 + 4) 
     { 
       StringJc msg = CONST_z_StringJc("data length to small:"); 
       
@@ -563,14 +747,14 @@ void addChildFloat_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, float valu
       msg = 
         ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
         , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
-        , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->ixChild + 4), _thCxt)
+        , append_I_StringBuilderJc(_stringBuilderThCxt, (ixChild1 + 4), _thCxt)
         , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
       { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
     /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
-    setFloat_if_ByteDataAccessBaseJc(thiz, thiz->ixChild - thiz->ixBegin, value);
+    setFloat_if_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, value);
   }
   STACKTRC_LEAVE;
 }
@@ -583,12 +767,12 @@ void addChildString_SSb_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, Strin
   
   { 
     int32 nrofBytes; 
+    int32 ixChild1; 
     
     
     nrofBytes = length_StringJc(value);
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);/*NOTE: there is no instance for this child, but it is the current child anyway.*/
-    
-    _setString_ByteDataAccessBaseJc(thiz, thiz->ixChild - thiz->ixBegin, nrofBytes, value, sEncoding, preventCtrlChars, _thCxt);
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
+    _setString_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, nrofBytes, value, sEncoding, preventCtrlChars, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -601,11 +785,11 @@ void addChildString_SS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
   
   { 
     int32 nrofBytes; 
+    int32 ixChild1; 
     
     
     nrofBytes = length_StringJc(valueCs);
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);/*NOTE: there is no instance for this child, but it is the current child anyway.*/
-    
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     { int32 ii; 
       for(ii = 0; ii < nrofBytes; ++ii)
         { 
@@ -613,8 +797,62 @@ void addChildString_SS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
           
           
           charByte = (int8)(charAt_StringJc(valueCs, ii));
-          thiz->data.ptr__[thiz->ixChild + ii] = charByte;
+          thiz->data.ptr__[ixChild1 + ii] = charByte;
         }
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Adds a child for 1 short value without a child instance, returns the value as short.*/
+int16 getChildInt16_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getChildInt16_ByteDataAccessBaseJc");
+  
+  { 
+    int32 ixChild1; 
+    
+    
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 2, _thCxt);
+    { STACKTRC_LEAVE;
+      return getInt16_i_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Adds a child for 1 short value without a child instance, returns the value as short.*/
+int32 getChildUint16_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getChildUint16_ByteDataAccessBaseJc");
+  
+  { 
+    int32 ixChild1; 
+    
+    
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 2, _thCxt);
+    { STACKTRC_LEAVE;
+      return getUint16_i_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Adds a child for 1 short value without a child instance, returns the value as short.*/
+int16 getChildUint8_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getChildUint8_ByteDataAccessBaseJc");
+  
+  { 
+    int32 ixChild1; 
+    
+    
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 1, _thCxt);
+    { STACKTRC_LEAVE;
+      return getUint8_i_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -629,21 +867,15 @@ int64 getChildInteger_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 n
   { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
     int32 bytes1; 
+    int32 ixChild1; 
+    int64 value; 
     
     
     bytes1 = nrofBytes < 0 ? -nrofBytes : nrofBytes;
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, bytes1, _thCxt);
-    setIdxCurrentChildEnd_ByteDataAccessBaseJc(thiz, bytes1, _thCxt);
-    
-    { /*:NOTE: to read from idxInChild = 0, build the difference as shown:*/
-      
-      int64 value; 
-      
-      
-      value = _getLong_ByteDataAccessBaseJc(thiz, thiz->ixChild - thiz->ixBegin, nrofBytes, _thCxt);
-      { STACKTRC_LEAVE;
-        return value;
-      }
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, bytes1, _thCxt);
+    value = _getLong_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, nrofBytes, _thCxt);
+    { STACKTRC_LEAVE;
+      return value;
     }
   }
   STACKTRC_LEAVE;
@@ -657,18 +889,14 @@ float getChildFloat_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _t
   
   { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
+    int32 ixChild1; 
+    int32 intRepresentation; 
     
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 4, _thCxt);
     
-    { /*:NOTE: to read from idxInChild = 0, build the difference as shown:*/
-      
-      int32 intRepresentation; 
-      
-      
-      intRepresentation = (int32)_getLong_ByteDataAccessBaseJc(thiz, thiz->ixChild - thiz->ixBegin, 4, _thCxt);
-      { STACKTRC_LEAVE;
-        return intBitsToFloat_FloatJc(/*static*/intRepresentation);
-      }
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 4, _thCxt);
+    intRepresentation = (int32)_getLong_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, 4, _thCxt);
+    { STACKTRC_LEAVE;
+      return intBitsToFloat_FloatJc(/*static*/intRepresentation);
     }
   }
   STACKTRC_LEAVE;
@@ -682,18 +910,14 @@ double getChildDouble_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* 
   
   { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
+    int32 ixChild1; 
+    int64 intRepresentation; 
     
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 8, _thCxt);
     
-    { /*:NOTE: to read from idxInChild = 0, build the difference as shown:*/
-      
-      int64 intRepresentation; 
-      
-      
-      intRepresentation = _getLong_ByteDataAccessBaseJc(thiz, thiz->ixChild - thiz->ixBegin, 8, _thCxt);
-      { STACKTRC_LEAVE;
-        return longBitsToDouble_DoubleJc(/*static*/intRepresentation);
-      }
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 8, _thCxt);
+    intRepresentation = _getLong_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, 8, _thCxt);
+    { STACKTRC_LEAVE;
+      return longBitsToDouble_DoubleJc(/*static*/intRepresentation);
     }
   }
   STACKTRC_LEAVE;
@@ -707,14 +931,69 @@ StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32
   
   { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
+    int32 ixChild1; 
+    
     
     ASSERT(/*static*/nrofBytes >= 0);
-    setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
-    setIdxCurrentChildEnd_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);/*NOTE: to read from idxInChild = 0, build the difference as shown:*/
-    
+    ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     { STACKTRC_LEAVE;
-      return getString_ByteDataAccessBaseJc(thiz, thiz->ixChild - thiz->ixBegin, nrofBytes, _thCxt);
+      return getString_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, nrofBytes, _thCxt);
     }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Shorten the evaluated content of the data to the position of the given child*/
+void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("removeChild_XX_ByteDataAccessBaseJc");
+  
+  { 
+    
+    if(REFJc(child->parent) != thiz) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "programming error - child is not parent of this.", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    thiz->ixNextChild = child->ixBegin;/*set end index to the child's start*/
+    
+    if(thiz->bExpand) 
+    { 
+      
+      thiz->ixEnd = thiz->ixNextChild;
+    }
+    if(REFJc(thiz->currChild) != null) 
+    { 
+      
+      detach_ByteDataAccessBaseJc(REFJc(thiz->currChild), _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Remove all connections. Especially for children. */
+void detach_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("detach_ByteDataAccessBaseJc");
+  
+  { 
+    
+    if(REFJc(thiz->parent) != null && REFJc(REFJc(thiz->parent)->currChild) == thiz) 
+    { 
+      
+      CLEAR_REFJc(REFJc(thiz->parent)->currChild);/*detach in parent*/
+      
+    }
+    if(REFJc(thiz->currChild) != null) 
+    { 
+      
+      detach_ByteDataAccessBaseJc(REFJc(thiz->currChild), _thCxt);
+      CLEAR_REFJc(thiz->currChild);/*necessary if currentChild don't refers this parent because any error before.*/
+      
+    }
+    thiz->data.ptr__ = & null[0]; thiz->data.value__ = sizeof( null) / sizeof(null[0]);
+    CLEAR_REFJc(thiz->parent);
+    thiz->ixBegin = thiz->ixEnd = /*? assignment*/0;
+    thiz->ixNextChild = 0;
+    thiz->bExpand = false;
   }
   STACKTRC_LEAVE;
 }
@@ -735,7 +1014,7 @@ int32 getPositionInBuffer_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThC
 }
 
 
-/**Returns the position of the current child in the assigned buffer.*/
+/**Returns the position of a next child which can be added in the assigned buffer.*/
 int32 getPositionNextChildInBuffer_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getPositionNextChildInBuffer_ByteDataAccessBaseJc");
@@ -743,8 +1022,9 @@ int32 getPositionNextChildInBuffer_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* 
   { 
     
     { STACKTRC_LEAVE;
-      return thiz->ixChildEnd;
-    }
+      return thiz->ixNextChild;
+    }/*//*/
+    
   }
   STACKTRC_LEAVE;
 }
@@ -797,69 +1077,6 @@ void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, T
           dst->data[iDst++] = (int32)_getLong_ByteDataAccessBaseJc(thiz, idx, 4, _thCxt);
         }
     }
-  }
-  STACKTRC_LEAVE;
-}
-
-bool assertNotExpandable_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("assertNotExpandable_ByteDataAccessBaseJc");
-  
-  { 
-    
-    ASSERT(/*static*/thiz->ixChild > 0 && thiz->ixEnd > 0 && !thiz->bExpand);
-    { STACKTRC_LEAVE;
-      return true;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Prepares a new child for this*/
-void setIdxtoNextCurrentChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 sizeChild, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setIdxtoNextCurrentChild_ByteDataAccessBaseJc");
-  
-  { 
-    
-    ASSERT(/*static*/sizeChild >= 0);
-    ASSERT(/*static*/thiz->ixChildEnd >= thiz->ixChild);/*ixChild maybe -1, but it should be lesser or equal.*/
-    
-    ASSERT(/*static*/thiz->ixChildEnd >= 0);/*==0 os possible on an empty element without head.*/
-    
-    thiz->ixChild = thiz->ixChildEnd;
-    thiz->ixChildEnd = thiz->ixChild + sizeChild;
-    if(thiz->bExpand) 
-    { 
-      
-      _expand_ByteDataAccessBaseJc(thiz, thiz->ixChildEnd, _thCxt);
-    }
-    if(thiz->data.value__ < thiz->ixChildEnd) 
-    { 
-      
-      { throw_s0Jc(ident_IllegalArgumentExceptionJc, "ByteDataAccess: less data", thiz->ixChildEnd, &_thCxt->stacktraceThreadContext, __LINE__); };
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Prepares a new child with unknown length for this*/
-void setIdxtoNextCurrentChildLengthUnknown_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setIdxtoNextCurrentChildLengthUnknown_ByteDataAccessBaseJc");
-  
-  { 
-    
-    ASSERT(/*static*/thiz->ixChildEnd >= thiz->ixChild);/*ixChild maybe -1, but it should be lesser or equal.*/
-    
-    ASSERT(/*static*/thiz->ixChildEnd >= 0);/*==0 os possible on an empty element without head.*/
-    
-    thiz->ixChild = thiz->ixChildEnd;/*size of child is not given:*/
-    
-    thiz->ixChildEnd = -1;/*it should be set after calling of next*/
-    
   }
   STACKTRC_LEAVE;
 }
@@ -1206,16 +1423,21 @@ int8 getInt8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThC
 
 
 /**Returns the content of 1 bytes as a positive or negative nr between -128..127*/
-int32 getUint8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt)
+int16 getUint8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getUint8_i_ByteDataAccessBaseJc");
   
   { 
-    int32 val = 0; 
+    int16 val = 0; 
     
     
     /*no initvalue*/
-    val = thiz->data.ptr__[thiz->ixBegin + idx] & 0xff;
+    val = thiz->data.ptr__[thiz->ixBegin + idx];
+    if(val < 0) 
+    { 
+      
+      val += ((/*J2C:cast% from int32*/int16)(0x100));
+    }
     { STACKTRC_LEAVE;
       return val;
     }
@@ -1466,56 +1688,64 @@ void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, 
 }
 
 
-/**Increments the idxEnd and the ixChildEnd if a new child is added*/
-void correctCurrentChildEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxEndNew, ThCxt* _thCxt)
+/**Prepares a new child for this*/
+int32 setIdxtoNextCurrentChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 sizeChild, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("correctCurrentChildEnd_ByteDataAccessBaseJc");
+  STACKTRC_TENTRY("setIdxtoNextCurrentChild_ByteDataAccessBaseJc");
   
   { 
+    int32 ixChild1; 
     
-    if(thiz->ixEnd < idxEndNew) 
-    { 
-      
-      thiz->ixEnd = idxEndNew;
-    }
-    if(thiz->ixChildEnd < idxEndNew) 
-    { 
-      
-      thiz->ixChildEnd = idxEndNew;
-    }
-    if(REFJc(thiz->parent) != null) 
-    { 
-      
-      correctCurrentChildEnd_ByteDataAccessBaseJc(REFJc(thiz->parent), idxEndNew, _thCxt);
+    
+    ASSERT(/*static*/sizeChild >= 0);
+    ASSERT(/*static*/thiz->ixNextChild >= 0);/*==0 os possible on an empty element without head.*/
+    
+    ixChild1 = thiz->ixNextChild;
+    thiz->ixNextChild += sizeChild;
+    _expand_ByteDataAccessBaseJc(thiz, thiz->ixNextChild, thiz->ixNextChild, _thCxt);/*expand always the ixChildEnd*/
+    
+    { STACKTRC_LEAVE;
+      return ixChild1;
     }
   }
   STACKTRC_LEAVE;
 }
 
-
-/**sets the ixChildEnd and idxEnd*/
-void setIdxCurrentChildEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, ThCxt* _thCxt)
+int32 ixBegin_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("setIdxCurrentChildEnd_ByteDataAccessBaseJc");
+  STACKTRC_TENTRY("ixBegin_ByteDataAccessBaseJc");
   
   { 
     
-    if(thiz->data.value__ < thiz->ixChild + nrofBytes) 
-    { 
-      StringJc msg = CONST_z_StringJc("data length to small:"); 
-      
-      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
-      
-      msg = 
-        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-        , append_z_StringBuilderJc(_stringBuilderThCxt, "data length to small:", _thCxt)
-        , append_I_StringBuilderJc(_stringBuilderThCxt, (thiz->ixChild + nrofBytes), _thCxt)
-        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
-        )/*J2C:non-persistent*/;
-      { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    { STACKTRC_LEAVE;
+      return thiz->ixBegin;
     }
-    _expand_ByteDataAccessBaseJc(thiz, thiz->ixChild + nrofBytes, _thCxt);/*also of all parents*/
+  }
+  STACKTRC_LEAVE;
+}
+
+int32 ixNextChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("ixNextChild_ByteDataAccessBaseJc");
+  
+  { 
     
+    { STACKTRC_LEAVE;
+      return thiz->ixNextChild;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+int32 ixEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("ixEnd_ByteDataAccessBaseJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return thiz->ixEnd;
+    }
   }
   STACKTRC_LEAVE;
 }
@@ -1524,9 +1754,20 @@ void setIdxCurrentChildEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, in
 void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { STACKTRC_TENTRY("finalize_ByteDataAccessBaseJc_F");
   CLEAR_REFJc(thiz->parent);
+  CLEAR_REFJc(thiz->currChild);
   STACKTRC_LEAVE;
 }
 
+
+ extern_C struct ClassJc_t const reflection_InfoFormattedAppendJc_s;
+ static struct ifcClasses_ByteDataAccessBaseJc_s_t
+ { ObjectArrayJc head;
+   ClassOffset_idxMtblJc data[1];
+ }interfaces_ByteDataAccessBaseJc_s =
+ { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
+, { {&reflection_InfoFormattedAppendJc_s, OFFSET_Mtbl(Mtbl_ByteDataAccessBaseJc, InfoFormattedAppendJc) }
+  }
+};
 
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
@@ -1561,19 +1802,11 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
-   , { "ixChild"
+   , { "ixNextChild"
     , 0 //nrofArrayElements
     , REFLECTION_int32
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixChild) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
-    }
-   , { "ixChildEnd"
-    , 0 //nrofArrayElements
-    , REFLECTION_int32
-    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixChildEnd) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixNextChild) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -1609,6 +1842,14 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
+   , { "currChild"
+    , 0 //nrofArrayElements
+    , &reflection_ByteDataAccessBaseJc_s
+    , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
+    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->currChild) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ByteDataAccessBaseJc_s
+    }
    , { "charset"
     , 0 //nrofArrayElements
     , &reflection_CharsetJc
@@ -1617,12 +1858,12 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
-   , { "sVersion"
+   , { "version"
     , 0 //nrofArrayElements
     , &reflection_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
-    , 0 //compiler problem, not a constant,TODO: (int16)(&sVersion_ByteDataAccessBaseJc) //lo part of memory address of static member
-    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&sVersion_ByteDataAccessBaseJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
+    , 0 //compiler problem, not a constant,TODO: (int16)(&version_ByteDataAccessBaseJc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_ByteDataAccessBaseJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
     , &reflection_ByteDataAccessBaseJc_s
     }
 } };
@@ -1634,6 +1875,6 @@ const ClassJc reflection_ByteDataAccessBaseJc_s =
 , (FieldJcArray const*)&reflection_Fields_ByteDataAccessBaseJc_s
 , null //method
 , null //superclass
-, null //interfaces
+, (ClassOffset_idxMtblJcARRAY*)&interfaces_ByteDataAccessBaseJc_s //interfaces
 , 0    //modifiers
 };

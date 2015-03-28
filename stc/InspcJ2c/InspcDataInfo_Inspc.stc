@@ -1,6 +1,6 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "InspcJ2c/InspcDataInfo_Inspc"
-package org/vishia/inspector/;
+package org/vishia/inspectorTarget/;
 
 class InspcDataInfo; nameC=InspcDataInfo_Inspc_s; argIdent=XX; extends java/lang/Object //creationMode=P
 {  
@@ -16,7 +16,7 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/inspector/InspcDataInfo *.. InspcDataInfo_Inspc_s();
+    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/InspcDataInfo *.. InspcDataInfo_Inspc_s();
   }
 
   castTo {

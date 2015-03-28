@@ -1775,7 +1775,7 @@ struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int
   STACKTRC_TENTRY("floatToText_StringFormatterJc");
   
   { 
-    struct CharSequenceJc_t* ret = "?"/*J2C: no cast found from s0=char const*: ClassData@42716598*/; 
+    struct CharSequenceJc_t* ret = "?"/*J2C: no cast found from s0=char const*: ClassData@5203b97*/; 
     
     
     ret = ((/*J2C:cast from char const**/CharSequenceJc*)("?"/*J2C-error testAndChangeAccess: t**/));

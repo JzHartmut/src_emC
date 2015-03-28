@@ -997,6 +997,54 @@ struct StringPartJc_t* seek_Si_StringPartJc(StringPartJc_s* thiz, StringJc sSeek
 }
 
 
+/**Seeks back form the current end to the end of the given String starting from the end of the current part.*/
+struct StringPartJc_t* seekBack_StringPartJc(StringPartJc_s* thiz, StringJc sSeek, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("seekBack_StringPartJc");
+  
+  { 
+    int32 pos; 
+    
+    
+    pos = lastIndexOf_CsiiS_StringFunctionsJc(/*static*/REFJc(thiz->content), thiz->begin, thiz->end, sSeek, _thCxt);
+    if(pos < 0) thiz->bFound = false;
+    else 
+    { 
+      
+      thiz->begin = pos + length_StringJc(sSeek);
+    }
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Seeks back from the current end to one of the characters contained in chars, starting from the end of the current part.*/
+struct StringPartJc_t* seekBackToAnyChar_StringPartJc(StringPartJc_s* thiz, StringJc chars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("seekBackToAnyChar_StringPartJc");
+  
+  { 
+    int32 pos; 
+    
+    
+    pos = lastIndexOfAnyChar_StringFunctionsJc(/*static*/REFJc(thiz->content), thiz->begin, thiz->end, chars, _thCxt);
+    if(pos < 0) thiz->bFound = false;
+    else 
+    { 
+      
+      thiz->begin = pos;
+    }
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
 /**Searchs the given String inside the valid part, posits the begin of the part to the begin of the searched string.*/
 struct StringPartJc_t* seekAnyString_StringPartJc(StringPartJc_s* thiz, StringJc_Y* strings, int32_Y* nrofFoundString, ThCxt* _thCxt)
 { 
@@ -1852,6 +1900,38 @@ struct StringPartJc_t* lentoQuotionEnd_StringPartJc(StringPartJc_s* thiz, char s
 }
 
 
+/**Sets the length of the current part to the end of the current line.*/
+struct StringPartJc_t* lentoLineEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("lentoLineEnd_StringPartJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return lentoAnyChar_S_StringPartJc(thiz, s0_StringJc("\n\r\f"), _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Increments the begin of the current part over maybe found whitespaces*/
+struct StringPartJc_t* trimWhiteSpaces_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("trimWhiteSpaces_StringPartJc");
+  
+  { 
+    
+    seekNoWhitespace_StringPartJc(thiz, _thCxt);
+    lenBacktoNoChar_StringPartJc(thiz, s0_StringJc(" \t\r\n\f"), _thCxt);
+    { STACKTRC_LEAVE;
+      return thiz;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
 /**Sets the length of the current part to any char content in sChars (terminate chars).*/
 struct StringPartJc_t* lentoAnyChar_S_StringPartJc(StringPartJc_s* thiz, StringJc sChars, ThCxt* _thCxt)
 { 
@@ -1909,13 +1989,17 @@ struct StringPartJc_t* lenBacktoNoChar_StringPartJc(StringPartJc_s* thiz, String
     
     thiz->endLast = thiz->end;
     
-    while((--thiz->end) >= thiz->begin && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), thiz->end, _thCxt)) >= 0)
-      ;
-    if(thiz->end < thiz->begin) 
+    while(thiz->end > thiz->begin && indexOf_C_StringJc(sChars, charAt_CharSequenceJc(REFJc(thiz->content), thiz->end - 1, _thCxt)) >= 0)
+      { 
+        
+        thiz->end = thiz->end - 1;
+      }
+    if(thiz->end <= thiz->begin) 
     { 
       
       thiz->end = thiz->begin;
-      thiz->bFound = false;
+      thiz->bFound = false;/*all chars skipped to left.*/
+      
     }
     else thiz->bFound = true;
     { STACKTRC_LEAVE;

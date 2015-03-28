@@ -1,17 +1,17 @@
 <?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
 Structure of translated java-file "InspcJ2c/Inspector_Inspc"
-package org/vishia/inspector/;
+package org/vishia/inspectorTarget/;
 
 class Inspector; nameC=Inspector_Inspc_s; argIdent=XX; extends java/lang/Object //creationMode=P
 {  
 fieldIdents {
-  org/vishia/inspector/ClassContent(instance=org/vishia/inspector/ClassContent) $.. classContent;
-  org/vishia/inspector/CmdExecuter(instance=org/vishia/inspector/CmdExecuter) $.. cmdExecuter;
-  org/vishia/inspector/Comm(instance=org/vishia/inspector/Comm) $.. comm;
+  org/vishia/inspectorTarget/ClassContent(instance=org/vishia/inspectorTarget/ClassContent) $.. classContent;
+  org/vishia/inspectorTarget/CmdExecuter(instance=org/vishia/inspectorTarget/CmdExecuter) $.. cmdExecuter;
+  org/vishia/inspectorTarget/Comm(instance=org/vishia/inspectorTarget/Comm) $.. comm;
   int %.d version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/inspector/Inspector *.. Inspector_Inspc_s(java/lang/String(instance=java/lang/String) t.. commOwnAddr);
+    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/Inspector *.. Inspector_Inspc_s(java/lang/String(instance=java/lang/String) t.. commOwnAddr);
     shutdown-_$, mode= overrideable: void %.r null();
     start-_$, mode= overrideable: void %.r null(java/lang/Object *.. rootObj);
   }

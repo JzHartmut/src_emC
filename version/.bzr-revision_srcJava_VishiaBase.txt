@@ -1,0 +1,78 @@
+------------------------------------------------------------
+revno: 579
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sun 2015-03-29 09:45:48 +0200
+message:
+  * ByteDataAccessBase: some adjustments for Java2C-translation.
+------------------------------------------------------------
+revno: 578
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Fri 2015-03-27 21:01:48 +0100
+message:
+  * ByteDataAccessBase: some docu and improvements
+  * JZcmd: some improvements
+  * FileAccessorLocalJava7, FileRemote: Hartmut now children in {@link WalkFileTreeVisitor.CurrDirChildren} is deactivate because not used before. A seldom error of twice instances for the same children of a directory was watched.
+------------------------------------------------------------
+revno: 577
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sun 2015-03-15 21:21:20 +0100
+message:
+  improved
+------------------------------------------------------------
+revno: 576
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sat 2015-03-14 11:43:21 +0100
+message:
+  * FileRemote: handling of selection improved
+  * StateComposite: deletion of events, bugfixes
+------------------------------------------------------------
+revno: 575
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Mon 2015-03-09 23:00:29 +0100
+message:
+  * ByteDataAccessBase impoved, bugfixes
+------------------------------------------------------------
+revno: 574
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sun 2015-03-08 23:21:52 +0100
+message:
+  * InfoFormattedAppend new
+  * ByteDataAccessBase improved
+------------------------------------------------------------
+revno: 573
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sun 2015-03-08 11:37:18 +0100
+message:
+  * IndexMultiTable:  bugfix false instanceof check, sub-tables has not worked.
+  * FileLocalAccessorCopyStateM: bugfix check of abort dir and abort all
+  * ByteDataAccessBase improved
+------------------------------------------------------------
+revno: 572
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sun 2015-03-01 22:36:10 +0100
+message:
+  * states: some renaming. StateMGen used for profession first time test.
+------------------------------------------------------------
+revno: 571
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sun 2015-03-01 12:25:06 +0100
+message:
+  states improved
+------------------------------------------------------------
+revno: 570
+committer: hartmut <hartmut@Labor-NB>
+branch nick: srcJava_vishiaBase
+timestamp: Sat 2015-02-28 22:14:32 +0100
+message:
+  * ByteDataAccessBase: some docu
+  * states: join transition 
+  * StringPart: new: {@link #lentoLineEnd()}, {@link #seekBack(String)}, {@link #seekBackToAnyChar(String)} more simple for calling in a JZcmd script.

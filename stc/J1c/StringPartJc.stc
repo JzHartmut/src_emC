@@ -150,6 +150,7 @@ fieldIdents {
     lentoAnyStringWithIndent-_$: void %.r null(java/lang/String[??] Xt. strings,java/lang/String(instance=java/lang/String) t.. sIndentChars,int %.. maxToTest,java/lang/StringBuilder *.. buffer);
     lentoIdentifier-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
     lentoIdentifier+_SS-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. additionalStartChars,java/lang/String(instance=java/lang/String) t.. additionalChars);
+    lentoLineEnd-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
     lentoNonEscapedString-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sEnd,int %.. maxToTest);
     lentoQuotionEnd-_$, mode= returnThis: org/vishia/util/StringPart *.r null(char %.. sEndQuotion,int %.. maxToTest);
     line-_$, mode= overrideable: org/vishia/util/StringPart *.r null();
@@ -160,6 +161,8 @@ fieldIdents {
     seek+_Si-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek,int %.. mode);
     seek+_ci-_$, mode= returnThis: org/vishia/util/StringPart *.r null(char %.. cSeek,int %.. mode);
     seekAnyString-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String[??] Xt. strings,int[??] X%. nrofFoundString);
+    seekBack-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek);
+    seekBackToAnyChar-_$: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. chars);
     seekBegin-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
     seekEnd-_$, mode= noThCxt+overrideable: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek);
     seekNoChar-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sChars);
@@ -183,6 +186,7 @@ fieldIdents {
     toString-_$, defined: java/lang/Object.toString, mode= overrideable: java/lang/String(instance=java/lang/String) t.r null();
     trim-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
     trimComment-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
+    trimWhiteSpaces-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
   }
 
   methods-overrideable {

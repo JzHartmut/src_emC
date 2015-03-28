@@ -1,0 +1,41 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "J1c/InfoFormattedAppendJc"
+package org/vishia/util/;
+
+interface InfoFormattedAppend; nameC=InfoFormattedAppendJc_s; argIdent=XX; extends java/lang/Object //creationMode=F
+{  
+    //Innerclass: PrepareToString_InfoFormattedAppendJc
+  InnerClass{ 
+    class PrepareToString; nameC=PrepareToString_InfoFormattedAppendJc_s; argIdent=XX; extends java/lang/Object //creationMode=C
+    {  
+    fieldIdents {
+      java/lang/String(instance=java/lang/String) t.. ret;
+      //outer=2 ,super=1: java/lang/String(instance=java/lang/String) t.s version;
+    }
+      methods {  
+      }
+
+      castTo {
+        org/vishia/util/InfoFormattedAppend: * "(?)->outer" *;
+        java/lang/Object: $ "(?).base.object" $;
+      }
+
+    }
+
+  }
+fieldIdents {
+  java/lang/String(instance=java/lang/String) t.s version;
+}
+  methods {  
+    infoFormattedAppend-_$, mode= overrideable: void %.r null(org/vishia/util/StringFormatter *.. u);
+  }
+
+  methods-overrideable {
+    infoFormattedAppend_InfoFormattedAppendJc;
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

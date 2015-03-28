@@ -40,8 +40,7 @@ typedef struct ClassContent_Inspc_t
   struct ObjectJc_t* rootObj;   /*The Object from which the user-given path starts to search.*/
   struct AnswerComm_ifc_Inspc_t* answerComm;   /*Association to produce the answer of a request*/
   struct MemAccessArrayDebugJc_t* debugRemoteAccess;   /*Yet only a placeholder, used in the C-implementation. */
-  int32 nrofAnswerBytes;   /*A debug helper to visit the search activity on access to any reflection element.*/
-  Inspcitem_InspcDataExchangeAccess_Inspc_s answerItem;   /*Access element for {@link ByteDataAccessBase} to the answer Item.*/
+  Inspcitem_InspcDataExchangeAccess_Inspc_s answerItem;   /*A debug helper to visit the search activity on access to any reflection element.*/
   struct SbY_uArray_t { StringBufferJc sb; char _b[60]; }uArray;   /*Buffer to prepare a array information in the answer of a telegram. */
   struct SbY_uValue_t { StringBufferJc sb; char _b[156]; }uValue;   /*Buffer to prepare the value in the answer of a telegram. */
   struct SbY_uAnswer_t { StringBufferJc sb; char _b[196]; }uAnswer;   /*Buffer to prepare the answer in the answer of a telegram. */

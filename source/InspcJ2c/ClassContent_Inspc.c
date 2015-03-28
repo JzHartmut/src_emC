@@ -49,7 +49,6 @@ struct ClassContent_Inspc_t* ctorO_ClassContent_Inspc(ObjectJc* othis, ThCxt* _t
   setReflection_ObjectJc(othis, &reflection_ClassContent_Inspc_s, sizeof(ClassContent_Inspc_s));  
   //j2c: Initialize all class variables:
   {
-    thiz->nrofAnswerBytes = 0;
     //J2C: constructor for embedded element-MemC
       ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->answerItem, sizeof(thiz->answerItem)), _thCxt);
     //J2C: constructor for embedded fix-size-StringBuffer
@@ -127,7 +126,6 @@ int32 executeMonitorCmd_XXXXi_ClassContent_Inspc(ObjectJc* ithis, struct Inspcit
     
     nOrder = getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
     nCmd = getCmd_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
-    thiz->nrofAnswerBytes = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
     switch(nCmd){
       case kGetFields_Inspcitem_InspcDataExchangeAccess_Inspc: cmdGetFields_ClassContent_Inspc(thiz, cmd, answer, maxNrofAnswerBytes, _thCxt);break;
       case kGetValueByPath_Inspcitem_InspcDataExchangeAccess_Inspc: cmdGetValueByPath_ClassContent_Inspc(thiz, cmd, answer, maxNrofAnswerBytes, _thCxt);break;
@@ -139,7 +137,6 @@ int32 executeMonitorCmd_XXXXi_ClassContent_Inspc(ObjectJc* ithis, struct Inspcit
       { 
         
         /**Unknown command - answer is: kFailedCommand.*/
-        thiz->nrofAnswerBytes += sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc;
         addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
         setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, kFailedCommand_Inspcitem_InspcDataExchangeAccess_Inspc, nOrder, _thCxt);
       }
@@ -147,8 +144,7 @@ int32 executeMonitorCmd_XXXXi_ClassContent_Inspc(ObjectJc* ithis, struct Inspcit
     
     { STACKTRC_LEAVE;
       return 0;
-    }/*nrofAnswerBytes;*/
-    
+    }
   }
   STACKTRC_LEAVE;
 }
@@ -172,24 +168,12 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
-    thiz->nrofAnswerBytes = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
     nCmd = getCmd_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
     nrofBytesCmd = getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
-    TRY
-    { 
-      
-      sVariablePath = getChildString_ByteDataAccessBaseJc(& ((* (cmd)).base.super), nrofBytesCmd - 8, _thCxt)/*J2C:non-persistent*/;
-    }_TRY
-    CATCH(UnsupportedEncodingException, exc)
-    
-      { 
-        
-        sVariablePath = z_StringJc("")/*J2C:non-persistent*/;
-      }
-    END_TRY
+    sVariablePath = getChildString_ByteDataAccessBaseJc(& ((* (cmd)).base.super), nrofBytesCmd - 8, _thCxt)/*J2C:non-persistent*/;
     ixFieldStart = 0;
     /**Check whether its a question to collection size: */
     idxCollectionQuest = indexOf_s_StringJc(sVariablePath, s0_StringJc("<?>"));
@@ -249,11 +233,12 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
         
         
         /**Search the field in its object, the referenced instance of the field is requested: */
-        set_MemSegmJc(memObj, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &fieldP[0], &idxP[0], _thCxt));
+        set_MemSegmJc(memObj, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &fieldP[0], &idxP[0], _thCxt));/*Note for Java2C: set should be used because memObj is an embedded instance.*/
+        
         idx = idxP[0];
         field = fieldP[0];
         found = obj_MemSegmJc(memObj) != null && field != null;
-        if(found && field !=null) 
+        if(found) 
         { 
           
           /**Field is found. */
@@ -309,6 +294,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
         nOrderNr = getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
         if(bQuestCollectionSize) 
         { /*:the size of an container is requested:*/
+          /*:NOTE: it is not the root instance, only for the root instance the field ==null*/
           
           int32 nSize; 
           bool hasSubstructure; 
@@ -318,6 +304,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
           StringJc sAnswer;   /**/
           
           
+          ASSERT(/*static*/field != null);
           nSize = getArraylength_FieldJc(field, memObj);
           hasSubstructure = (modifiers & mPrimitiv_Modifier_reflectJc) == 0;
           setLength_StringBuilderJc(& (thiz->uAnswer.sb), 0, _thCxt);
@@ -394,14 +381,30 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
           }
         }
       }
+      else 
+      { 
+        int32 order; 
+        
+        
+        addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);/*answerItem.setCmd(InspcDataExchangeAccess.Inspcitem.kFailedPath);*/
+        
+        order = getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
+        setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, kFailedPath_Inspcitem_InspcDataExchangeAccess_Inspc, order, _thCxt);
+      }
     }_TRY
     CATCH(ExceptionJc, exc)
     
       { 
+        int32 order; 
+        
         
         /**Unexpected ...*/
         println_z_PrintStreamJc(REFJc(out_SystemJc), "ClassContent-getFields - unexpected:", _thCxt);
         printStackTrace_ExceptionJc(exc, _thCxt);
+        addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);/*answerItem.setCmd(InspcDataExchangeAccess.Inspcitem.kFailedPath);*/
+        
+        order = getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
+        setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, kFailedPath_Inspcitem_InspcDataExchangeAccess_Inspc, order, _thCxt);
       }
     END_TRY
     { STACKTRC_LEAVE;
@@ -476,13 +479,11 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
     }
     
     { 
-      int32 lengthValue; 
+      int32 lengthValue = 0; 
       
       
-      setLength_StringBuilderJc(& (thiz->uValue.sb), 0, _thCxt);/*int lengthArray = uArray.length();*/
-      
-      lengthValue = length_StringBuilderJc(& (thiz->uValue.sb));
-      /**calculate the length of the answer before writing. */
+      setLength_StringBuilderJc(& (thiz->uValue.sb), 0, _thCxt);
+      lengthValue = 0;
       
       { 
         int32 lengthAnswer; 
@@ -492,84 +493,60 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
         int32 lengthData; 
         StringJc sAnswerAdd;   /*sAnswer contains one entry for the telegram*/
         
-        PtrVal_int8 _temp3_2; /*J2C: temporary references for concatenation */
+        PtrVal_int8 _temp3_1; /*J2C: temporary references for concatenation */
         
-        /**calculate the length of the answer before writing. */
         setLength_StringBuilderJc(& (thiz->uAnswer.sb), 0, _thCxt);
-        /**calculate the length of the answer before writing. */
         append_s_StringBuilderJc(& (thiz->uAnswer.sb), name, _thCxt);
-        /**calculate the length of the answer before writing. */
         append_u_StringBuilderJc(& (thiz->uAnswer.sb), & (thiz->uArray.sb), _thCxt);
-        /**calculate the length of the answer before writing. */
         append_C_StringBuilderJc(& (thiz->uAnswer.sb), ':', _thCxt);
-        /**calculate the length of the answer before writing. */
         append_s_StringBuilderJc(& (thiz->uAnswer.sb), type, _thCxt);
-        /**calculate the length of the answer before writing. */
-        if(lengthValue > 0) /**calculate the length of the answer before writing. */
-        
+        if(lengthValue > 0) 
         { 
           
-          /**calculate the length of the answer before writing. */
           append_C_StringBuilderJc(& (thiz->uAnswer.sb), '=', _thCxt);
-          /**calculate the length of the answer before writing. */
           append_u_StringBuilderJc(& (thiz->uAnswer.sb), & (thiz->uValue.sb), _thCxt);
         }
-        /**calculate the length of the answer before writing. */
-        if(hasSubstructure) /**calculate the length of the answer before writing. */
-        
+        if(hasSubstructure) 
         { /*:answerItem->data [answerPos] = '*';*/
           /*:answerPos +=1;*/
           
           
-          /**calculate the length of the answer before writing. */
           append_z_StringBuilderJc(& (thiz->uAnswer.sb), "...", _thCxt);
         }/*assert(uAnswer.length() + InspcDataExchangeAccess.Inspcitem.sizeofHead == lengthAnswer);  //should be the same.*/
         
         lengthAnswer = length_StringBuilderJc(& (thiz->uAnswer.sb));
         lengthAnswer4 = (lengthAnswer + 3) / 4 * 4;
-        /**calculate the length of the answer before writing. */
-        if(lengthAnswer4 > lengthAnswer) /**calculate the length of the answer before writing. */
-        
+        if(lengthAnswer4 > lengthAnswer) 
         { 
           
-          /**calculate the length of the answer before writing. */
           append_s_StringBuilderJc(& (thiz->uAnswer.sb), substring_StringJc(zI_StringJc("\0\0\0",3), 0, lengthAnswer4 - lengthAnswer, _thCxt), _thCxt);/*fill rest with 0*/
           
         }
         zChildAnswer = sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc + length_StringBuilderJc(& (thiz->uAnswer.sb));
         lengthAnswerTelg = getLengthTotal_ByteDataAccessBaseJc(& ((* (answer)).base.super), _thCxt);
         lengthData = 
-          (_temp3_2= getData_ByteDataAccessBaseJc(& ((* (answer)).base.super), _thCxt)
-          , _temp3_2.value__
+          (_temp3_1= getData_ByteDataAccessBaseJc(& ((* (answer)).base.super), _thCxt)
+          , _temp3_1.value__
           );
-        /**calculate the length of the answer before writing. */
-        if(lengthAnswerTelg + zChildAnswer > lengthData) /**calculate the length of the answer before writing. */
-        
+        if(lengthAnswerTelg + zChildAnswer > lengthData) 
         { /*:if(!answer.sufficingBytesForNextChild(zChildAnswer)) {*/
           
           AnswerComm_ifc_InspcMTB answerCommMtbl;   /*The information doesn't fit in the datagram: Send the last one and clear it.*/
+          int32 nrofAnswer; 
           
           
           SETMTBJc(answerCommMtbl, thiz->answerComm, AnswerComm_ifc_Inspc);
-          /**calculate the length of the answer before writing. */
-          answerCommMtbl.mtbl->txAnswer(&(( (answerCommMtbl.ref))->base.object), thiz->nrofAnswerBytes, false, _thCxt);
-          /**calculate the length of the answer before writing. */
-          thiz->nrofAnswerBytes = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
-          /**calculate the length of the answer before writing. */
+          nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((* (answer)).base.super), _thCxt);
+          answerCommMtbl.mtbl->txAnswer(&(( (answerCommMtbl.ref))->base.object), nrofAnswer, false, _thCxt);/*for next usage, send is done:*/
+          
           removeChildren_ByteDataAccessBaseJc(& ((* (answer)).base.super));
-          /**calculate the length of the answer before writing. */
           incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(answer, _thCxt);
         }
-        /**calculate the length of the answer before writing. */
         addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
         sAnswerAdd = toStringNonPersist_StringBuilderJc(& ((thiz->uAnswer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-        /**calculate the length of the answer before writing. */
         addChildString_S_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), sAnswerAdd);/*Prepare the answer item for this field:*/
         
-        /**calculate the length of the answer before writing. */
         setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), zChildAnswer, kAnswerFieldMethod_Inspcitem_InspcDataExchangeAccess_Inspc, orderNr, _thCxt);
-        /**calculate the length of the answer before writing. */
-        thiz->nrofAnswerBytes += zChildAnswer;
       }
     }
   }
@@ -652,7 +629,8 @@ int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct In
       
       /*no initvalue*/
       
-      set_MemSegmJc(theObject, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &theFieldP[0], &idxP[0], _thCxt));
+      set_MemSegmJc(theObject, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &theFieldP[0], &idxP[0], _thCxt));/*Note for Java2C: set should be used because memObj is an embedded instance.*/
+      
       theField = theFieldP[0];
       idx = idxP[0];
       if(obj_MemSegmJc(theObject) != null && theField != null) 
@@ -705,16 +683,22 @@ bool getSetValue_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct FieldJc_t
     StringJc sValue = NULL_StringJc; 
     bool bOk = 0; 
     int32 actLenTelg; 
+    int32 maxLen; 
     int32 restLen; 
     int32 nType = 0; 
     
+    PtrVal_int8 _temp1_1; /*J2C: temporary references for concatenation */
     
     type = getType_FieldJc(theField);
     modifier = getModifiers_FieldJc(theField);
     sValue = null_StringJc/*J2C:non-persistent*/;
     /*no initvalue*/
     actLenTelg = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), _thCxt);
-    restLen = maxNrofAnswerBytes - actLenTelg;
+    maxLen = 
+      (_temp1_1= getData_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), _thCxt)
+      , _temp1_1.value__
+      );
+    restLen = maxLen - actLenTelg;
     /*no initvalue*/
     if(isPrimitive_ClassJc(type)) 
     { 
@@ -1120,7 +1104,8 @@ int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct 
       
       /*no initvalue*/
       
-      set_MemSegmJc(theObject, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &theFieldP[0], &idxP[0], _thCxt));
+      set_MemSegmJc(theObject, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &theFieldP[0], &idxP[0], _thCxt));/*Note for Java2C: set should be used because memObj is an embedded instance.*/
+      
       theField = theFieldP[0];
       idx = idxP[0];
       addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
@@ -1198,7 +1183,8 @@ int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct In
       
       /*no initvalue*/
       
-      set_MemSegmJc(theObject, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &theFieldP[0], &idxP[0], _thCxt));
+      set_MemSegmJc(theObject, searchObject_SearchElement_Inspc(/*static*/sVariablePath, thiz->rootObj, &theFieldP[0], &idxP[0], _thCxt));/*Note for Java2C: set should be used because memObj is an embedded instance.*/
+      
       theField = theFieldP[0];
       idx = idxP[0];
       addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
@@ -1438,9 +1424,9 @@ extern_C struct ClassJc_t const reflection_MemAccessArrayDebugJc;
 extern_C struct ClassJc_t const reflection_ObjectJc;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 const struct Reflection_Fields_ClassContent_Inspc_s_t
-{ ObjectArrayJc head; FieldJc data[10];
+{ ObjectArrayJc head; FieldJc data[9];
 } reflection_Fields_ClassContent_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 10, OBJTYPE_FieldJc, null, &reflection_Fields_ClassContent_Inspc_s)
+{ CONST_ObjectArrayJc(FieldJc, 9, OBJTYPE_FieldJc, null, &reflection_Fields_ClassContent_Inspc_s)
 , {
      { "rootObj"
     , 0 //nrofArrayElements
@@ -1463,14 +1449,6 @@ const struct Reflection_Fields_ClassContent_Inspc_s_t
     , &reflection_MemAccessArrayDebugJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ClassContent_Inspc_s*)(0x1000))->debugRemoteAccess) - (int32)(ClassContent_Inspc_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
-    }
-   , { "nrofAnswerBytes"
-    , 0 //nrofArrayElements
-    , REFLECTION_int32
-    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ClassContent_Inspc_s*)(0x1000))->nrofAnswerBytes) - (int32)(ClassContent_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ClassContent_Inspc_s
     }

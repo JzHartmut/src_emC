@@ -118,7 +118,7 @@ typedef struct LogMessageFile_MSG_t
 { 
   union { ObjectJc object; LogMessageFW_i LogMessageFW;} base; 
   struct SbY_sFilenameBuffer_t { StringBufferJc sb; char _b[116]; }sFilenameBuffer;   /**/
-  struct SbY_sDateformatBuffer_t { StringBufferJc sb; char _b[28]; }sDateformatBuffer;   /*StringBuffer to store the converted timeStamp for file time. */
+  struct SbY_sDateformatBuffer_t { StringBufferJc sb; char _b[28]; }sDateformatBuffer;   /*StringBuilder to store the converted timeStamp for file time.*/
   StringJc sFormatTimestampFilename;   /*TODO  */
   SimpleDateFormatJc_s formatTimestamp; 
   int32 counterMultifile;   /*Actual counter of multiFile*/

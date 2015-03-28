@@ -38,8 +38,8 @@ typedef struct CmdExecuter_Inspc_t
   int32 nrofSentBytes; 
   int32 ctFailedTelgPart; 
   struct Comm_Inspc_t* comm;   /**/
-  int8 data_bufferAnswerData[1500]; 
-  PtrVal_int8 bufferAnswerData; 
+  int8 data_bufferAnswerData[1400];   /*Buffer for the answer telegram*/
+  PtrVal_int8 bufferAnswerData;   /*This reference is used to refer the answer buffer*/
   InspcDatagram_InspcDataExchangeAccess_Inspc_s myAnswerData; 
   bool useTelgHead;   /*true than the myAnswerdata is of type DataExchangeTelg_Inspc,*/
 } CmdExecuter_Inspc_s;

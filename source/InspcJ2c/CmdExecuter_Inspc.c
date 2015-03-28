@@ -40,7 +40,7 @@ struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdC
     //J2C: constructor for embedded element-MemC
       ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->infoCmd, sizeof(thiz->infoCmd)), _thCxt);
     thiz->maxNrofAnswerBytes = 1400;
-    init0_MemC(build_MemC(&thiz->data_bufferAnswerData, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
+    init0_MemC(build_MemC(&thiz->data_bufferAnswerData, 1400 * sizeof(int8))); //J2C: init the embedded simple array;
     thiz->bufferAnswerData.ptr__ = & thiz->data_bufferAnswerData[0]; thiz->bufferAnswerData.value__ = sizeof( thiz->data_bufferAnswerData) / sizeof(thiz->data_bufferAnswerData[0]);
     //J2C: constructor for embedded element-MemC
       ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->myAnswerData, sizeof(thiz->myAnswerData)), thiz->bufferAnswerData, _thCxt);
@@ -81,19 +81,15 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
   { 
     int32 nEntrant; 
     bool bOk = true; 
-    int32 nrofBytesProcessed = 0; 
     int32 nrofBytesTelg = 0; 
     int32 partLength = 0; 
     int32 maxNrofBytesAnswerPart = 0; 
-    int32 nrofBytesAnswerPart = 0; 
     CmdConsumer_ifc_InspcMTB cmdConsumerMtbl;   /**/
     
     
     assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd), buffer, nrofBytesReceived);
     nEntrant = getEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
     bOk = true;
-    /*no initvalue*/
-    /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
@@ -105,13 +101,17 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
     if(nEntrant < 0) 
     { /*:a negative number: It is an entrant, the telegram has the common head.*/
       
+      int32 nrofBytesAccess; 
       int32 seqNr; 
       int32 encryption; 
       int32 nrofAnswer; 
       
       
       nrofBytesTelg = getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
-      nrofBytesProcessed = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
+      nrofBytesAccess = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), _thCxt);
+      ASSERT(/*static*/nrofBytesTelg == nrofBytesReceived);
+      ASSERT(/*static*/nrofBytesTelg == nrofBytesAccess);/*nrofBytesProcessed = datagramCmd.sizeofHead;*/
+      
       thiz->useTelgHead = true;/**/
       
       seqNr = getSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
@@ -119,38 +119,39 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
       setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), nEntrant, seqNr, encryption, _thCxt);
       thiz->nrofBytesAnswer = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
       
-      while(bOk && nrofBytesTelg >= (nrofBytesProcessed + sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc))
-        { /*:The next telg Part will be found after the processed part.*/
+      while(bOk && sufficingBytesForNextChild_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
+        { /*:nrofBytesTelg >= (nrofBytesProcessed + InspcDataExchangeAccess.Inspcitem.sizeofHead)){*/
+          /*:The next telg Part will be found after the processed part.*/
           
           
           addChild_XX_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), & ((thiz->infoCmd).base.super), _thCxt);
           partLength = getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->infoCmd));
-          if(partLength >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc && partLength <= (nrofBytesTelg - nrofBytesProcessed)) 
-          { /*:valid head data.*/
+          if(partLength >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc && checkLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), partLength, _thCxt)) 
+          { /*:partLength <= (nrofBytesTelg - nrofBytesProcessed)){*/
+            /*:valid head data.*/
             
-            bool lastPart; 
             
+            setLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), partLength);/*this child has the given length.*/
             
-            lastPart = (nrofBytesProcessed + partLength) == nrofBytesTelg;
             maxNrofBytesAnswerPart = thiz->maxNrofAnswerBytes - thiz->nrofBytesAnswer;/*execute:*/
             
             TRY
             { 
               
-              nrofBytesAnswerPart = cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
+              cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
             }_TRY
             CATCH(IllegalArgumentException, exc)
             
-              { 
+              { /*:TODO send a nack*/
                 
-                nrofBytesAnswerPart = 0;/*TODO send a nack*/
+                
                 
               }
             CATCH(UnsupportedEncodingException, exc)
             
-              { 
+              { /*:TODO send a nack*/
                 
-                nrofBytesAnswerPart = 0;/*TODO send a nack*/
+                
                 
               }
             END_TRY
@@ -161,8 +162,8 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
             
             bOk = false;
             thiz->ctFailedTelgPart += 1;
-          }
-          nrofBytesProcessed += partLength;
+          }/*nrofBytesProcessed += partLength;*/
+          
         }
       nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super), _thCxt);
       if(nrofAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
@@ -189,20 +190,20 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
       TRY
       { 
         
-        nrofBytesAnswerPart = cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
+        cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, _thCxt);
       }_TRY
       CATCH(IllegalArgumentException, exc)
       
-        { 
+        { /*:TODO send a nack*/
           
-          nrofBytesAnswerPart = 0;/*TODO send a nack*/
+          
           
         }
       CATCH(UnsupportedEncodingException, exc)
       
-        { 
+        { /*:TODO send a nack*/
           
-          nrofBytesAnswerPart = 0;/*TODO send a nack*/
+          
           
         }
       END_TRY
@@ -422,7 +423,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , &reflection_CmdExecuter_Inspc_s
     }
    , { "data_bufferAnswerData"
-    , 1500 //nrofArrayElements
+    , 1400 //nrofArrayElements
     , REFLECTION_int8
     , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->data_bufferAnswerData) - (int32)(CmdExecuter_Inspc_s*)0x1000)

@@ -62,7 +62,7 @@ fieldIdents {
   int %.. posTimestampInFilename;
   java/lang/StringBuilder(instance=java/lang/StringBuilder, fixBufferSize=1000) $B. sBuffer;
   java/lang/StringBuffer(instance=java/lang/StringBuffer, fixBufferSize=32) $B. sDateformatBuffer;
-  java/lang/StringBuffer(instance=java/lang/StringBuffer, fixBufferSize=120) $B. sFilenameBuffer;
+  java/lang/StringBuilder(instance=java/lang/StringBuilder, fixBufferSize=120) $B. sFilenameBuffer;
   java/lang/String(instance=java/lang/String) t.. sFormatTimestampFilename;
   boolean %.. shouldFlushed;
   org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. timeClose;
