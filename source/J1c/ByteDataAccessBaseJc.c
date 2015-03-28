@@ -989,7 +989,7 @@ void detach_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
       CLEAR_REFJc(thiz->currChild);/*necessary if currentChild don't refers this parent because any error before.*/
       
     }
-    thiz->data.ptr__ = & null[0]; thiz->data.value__ = sizeof( null) / sizeof(null[0]);
+    thiz->data.ptr__ = null; thiz->data.value__ = 0;
     CLEAR_REFJc(thiz->parent);
     thiz->ixBegin = thiz->ixEnd = /*? assignment*/0;
     thiz->ixNextChild = 0;
@@ -1759,15 +1759,6 @@ void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt
 }
 
 
- extern_C struct ClassJc_t const reflection_InfoFormattedAppendJc_s;
- static struct ifcClasses_ByteDataAccessBaseJc_s_t
- { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
- }interfaces_ByteDataAccessBaseJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_InfoFormattedAppendJc_s, OFFSET_Mtbl(Mtbl_ByteDataAccessBaseJc, InfoFormattedAppendJc) }
-  }
-};
 
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
@@ -1875,6 +1866,6 @@ const ClassJc reflection_ByteDataAccessBaseJc_s =
 , (FieldJcArray const*)&reflection_Fields_ByteDataAccessBaseJc_s
 , null //method
 , null //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_ByteDataAccessBaseJc_s //interfaces
+, null //(ClassOffset_idxMtblJcARRAY*)&interfaces_ByteDataAccessBaseJc_s //interfaces
 , 0    //modifiers
 };
