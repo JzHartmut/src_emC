@@ -4,6 +4,10 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
+#include "os_types_def_common.h"
+
+
+
 #include "os_AtomicAccess.h"
 
 #include "os_endian.h"
@@ -71,7 +75,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     }
   , { "absPath"
     , 0   //nrofArrayElements
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->absPath) -(int32)(FileDescription_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -105,7 +109,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
     { "hFile_"
     , 0   //no Array, no Bitfield
     , REFLECTION_int
-    , (4<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->hFile_) -(int32)(FileLock_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileLock_OSAL
@@ -230,7 +234,7 @@ const struct Reflection_Fields_OS_SOCKSEL_t
     }
   , { "se_1reserved"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((OS_SOCKSEL*)(0x1000))->se_1reserved) -(int32)(OS_SOCKSEL*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -279,7 +283,7 @@ const struct Reflection_Fields_OS_LINGEROPT_t
 , {
     { "linger_on"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((OS_LINGEROPT*)(0x1000))->linger_on) -(int32)(OS_LINGEROPT*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -287,7 +291,7 @@ const struct Reflection_Fields_OS_LINGEROPT_t
     }
   , { "linger_time"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((OS_LINGEROPT*)(0x1000))->linger_time) -(int32)(OS_LINGEROPT*)0x1000)
     , 0  //offsetToObjectifcBase

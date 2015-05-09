@@ -55,6 +55,8 @@
  * This macros can be set to the C-form in C++ too, then all labels are created in the C++-manner. 
  * Then all sources should be compiled with C++, use only C++-libraries. 
  */
+//NOTE: This part cannot be parsed by Cheader.zbnf because it defines the special keywords itself.
+#ifndef __NoReflection__
 #ifdef __cplusplus
   #define extern_C extern "C"
   #define C_TYPE extern "C"
@@ -71,7 +73,7 @@
   #define _END_extern_C_BLOCK 
   #define INLINE_C static
 #endif
-
+#endif//__NoReflection__
 
 #define _INIT0_ = {0}
 
@@ -104,5 +106,10 @@ typedef PtrVal_TYPE(int64);
 typedef PtrVal_TYPE(float);
 
 typedef PtrVal_TYPE(double);
+
+/*@CLASS_C float_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+typedef struct float_complex_t{
+  float re, im;
+} float_complex;
 
 #endif  // __os_types_def_common_h__

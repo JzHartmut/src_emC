@@ -20,6 +20,10 @@ extern_C const ClassJc reflection_LogMessageFW_i;
 #define REFLECTION_LogMessageFW_i &reflection_LogMessageFW_i
 extern_C const ClassJc reflection_ReadLine_Fwc;
 #define REFLECTION_ReadLine_Fwc &reflection_ReadLine_Fwc
+extern_C const ClassJc reflection_U_intfloat;
+#define REFLECTION_U_intfloat &reflection_U_intfloat
+extern_C const ClassJc reflection_U_ptr;
+#define REFLECTION_U_ptr &reflection_U_ptr
 extern_C const ClassJc reflection_Int32Array256;
 #define REFLECTION_Int32Array256 &reflection_Int32Array256
 extern_C const ClassJc reflection_FloatArray256;

@@ -4,6 +4,8 @@
 #define __Reflection_OSAL_h__
 
 #include "Jc/ReflectionJc.h"
+extern_C const ClassJc reflection_float_complex;
+#define REFLECTION_float_complex &reflection_float_complex
 extern_C const ClassJc reflection_FileDescription_OSAL;
 #define REFLECTION_FileDescription_OSAL &reflection_FileDescription_OSAL
 extern_C const ClassJc reflection_FileLock_OSAL;

@@ -32,7 +32,7 @@ const struct Reflection_Fields_StacktraceElementJc_t
     }
   , { "line"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->line) -(int32)(StacktraceElementJc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -83,7 +83,7 @@ const struct Reflection_Fields_StacktraceThreadContext_s_t
     }
   , { "maxNrofEntrie_tacktraceBuffer"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((StacktraceThreadContext_s*)(0x1000))->maxNrofEntriesStacktraceBuffer) -(int32)(StacktraceThreadContext_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -159,7 +159,7 @@ const struct Reflection_Fields_ExceptionJc_t
     }
   , { "nrofStacktraceEntries"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ExceptionJc*)(0x1000))->nrofStacktraceEntries) -(int32)(ExceptionJc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -320,7 +320,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_t
     }
   , { "text-text"
     , 0   //no Array, no Bitfield
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.text) -(int32)(ParseResultPrintfStyle_fwFormatter*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -439,7 +439,7 @@ const struct Reflection_Fields_ReadLine_Fwc_t
     }
   , { "buffer"
     , 4096   //nrofArrayElements
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->buffer) -(int32)(ReadLine_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -447,7 +447,7 @@ const struct Reflection_Fields_ReadLine_Fwc_t
     }
   , { "posBuffer"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->posBuffer) -(int32)(ReadLine_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -455,7 +455,7 @@ const struct Reflection_Fields_ReadLine_Fwc_t
     }
   , { "endBuffer"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->endBuffer) -(int32)(ReadLine_Fwc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -835,7 +835,7 @@ const struct Reflection_Fields_Va_listFW_t
 , {
     { "typeArgs"
     , 0   //no Array, no Bitfield
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Va_listFW*)(0x1000))->typeArgs) -(int32)(Va_listFW*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -961,7 +961,7 @@ const struct Reflection_Fields_MtblHeadJc_t
 , {
     { "sign"
     , 0   //no Array, no Bitfield
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MtblHeadJc*)(0x1000))->sign) -(int32)(MtblHeadJc*)0x1000)
     , 0  //offsetToObjectifcBase

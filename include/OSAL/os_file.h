@@ -47,8 +47,7 @@
 #include <os_time.h>
 #include <os_types_def.h>
 
-struct OS_HandleFile_t;
-
+struct FileLock_OSAL_t;
 
 /**The ANSI-C doesn't define the sys/stat.h, only POSIX-Standard. Therefore not all platforms implement this features.
  * This file supplies a commonly useable interface.
@@ -154,30 +153,6 @@ extern_C FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL
 
 
 
-/*@CLASS_C FileLock_OSAL @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-struct OS_HandleFile_t;
-
-C_TYPE typedef struct FileLock_OSAL_t
-{
-  /**The file which is related to the lock. */
-  struct OS_HandleFile_t* hFile_;
-	/**Any pointer or int-type if any other information is need to relate the file. */
-	void* ptr_;
-	/**The position of lock region. 0 on file-lock. */
-	int32_t position_;
-	/**The size of the lock. -1 = file-lock. */
-	int32_t size_;
-	/**Some flags, see defines. */
-	int32_t flags_;
-#define mValid_FileLock_OSAL   0x0001
-#define mSharded_FileLock_OSAL 0x0010
-}FileLock_OSAL;
-
-
-void init_FileLock_OSAL(FileLock_OSAL* _this, int32_t position, int32_t size, bool shared);
-
-
 
 /*@CLASS_C OS_HandleFile @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -186,6 +161,7 @@ void init_FileLock_OSAL(FileLock_OSAL* _this, int32_t position, int32_t size, bo
  * A ,,OS_HandleFile,, may be the FILE* pointer like in Standard C. 
  * It is also possible that it is a simple integer, which is converted to this pointer type.
  */
+struct OS_HandleFile_t;
 C_TYPE typedef struct OS_HandleFile_t* OS_HandleFile;
 
 
@@ -287,13 +263,36 @@ extern_C int os_fwrite(OS_HandleFile file, void const* buffer, int nrofbytes);
  * @param cmd ones of lock, sharedLock, checkLock, unlock TODO enum-def
  * @param len number of bytes to lock from the current position, or -1 for file-lock
  */
-extern_C int os_flock(OS_HandleFile file, FileLock_OSAL* lockObj);
+extern_C int os_flock(OS_HandleFile file, struct FileLock_OSAL_t* lockObj);
 
 
 /**Tells the current position in the file. 
  * @return the current position. 
  */
 extern_C int32_t os_ftell(OS_HandleFile file);
+
+
+/*@CLASS_C FileLock_OSAL @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+C_TYPE typedef struct FileLock_OSAL_t
+{
+  /**The file which is related to the lock. */
+  OS_HandleFile hFile_;
+	/**Any pointer or int-type if any other information is need to relate the file. */
+	void* ptr_;
+	/**The position of lock region. 0 on file-lock. */
+	int32_t position_;
+	/**The size of the lock. -1 = file-lock. */
+	int32_t size_;
+	/**Some flags, see defines. */
+	int32_t flags_;
+#define mValid_FileLock_OSAL   0x0001
+#define mSharded_FileLock_OSAL 0x0010
+}FileLock_OSAL;
+
+
+void init_FileLock_OSAL(FileLock_OSAL* _this, int32_t position, int32_t size, bool shared);
 
 
 
