@@ -62,7 +62,7 @@ typedef struct StringFormatterJc_t
   StringBuilderJcREF buffer; 
   AppendableJcREF lineout;   /*Destination to output a full line.*/
   bool bShouldLineoutClose; 
-  char lastNewline;   /*The last written Character on {@link #append(char)}.*/
+  char secondNewline;   /*The last written Character on {@link #append(char)}.*/
   int32 pos;   /*The position of actual writing.*/
   bool bInsert;   /*True than add inserts, false than it overwrites. */
   StringJc sNewline; 
@@ -375,19 +375,21 @@ METHOD_C int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* thiz, floa
 
 METHOD_C struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, ThCxt* _thCxt);
 
+/**It invokes {@link #append(char)} for any char.Therewith a \n and \r is handled specially.*/
 typedef struct StringFormatterJc_t* MT_append_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringFormatterJc_t* append_Cs_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringFormatterJc_t* append_Cs_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt);
 
-/**Appends on char*/
+/**Appends one character and flushes a line on end-line character.*/
 typedef struct StringFormatterJc_t* MT_append_c_StringFormatterJc(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringFormatterJc_t* append_c_StringFormatterJc_F(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt);
 
+/**It invokes {@link #append(char)} for any char.Therewith a \n and \r is handled specially.*/
 typedef struct StringFormatterJc_t* MT_append_Csii_StringFormatterJc(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C struct StringFormatterJc_t* append_Csii_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt);
@@ -399,6 +401,13 @@ typedef void MT_flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt
 METHOD_C void flush_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
+
+/**Flushes the stored content in the lineout and adds the given sNewline*/
+typedef int32 MT_flushLine_StringFormatterJc(StringFormatterJc_s* thiz, StringJc sNewline, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C int32 flushLine_StringFormatterJc_F(StringFormatterJc_s* thiz, StringJc sNewline, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C int32 flushLine_StringFormatterJc(StringFormatterJc_s* thiz, StringJc sNewline, ThCxt* _thCxt);
 
 typedef void MT_close_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -449,6 +458,7 @@ typedef struct Mtbl_StringFormatterJc_t
   MT_append_c_StringFormatterJc* append_c;
   MT_append_Csii_StringFormatterJc* append_Csii;
   MT_flush_StringFormatterJc* flush;
+  MT_flushLine_StringFormatterJc* flushLine;
   MT_close_StringFormatterJc* close;
   Mtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
@@ -521,6 +531,8 @@ class StringFormatterJc : private StringFormatterJc_s
   virtual struct StringFormatterJc_t* end(){  return end_StringFormatterJc_F(this,  null/*_thCxt*/); }
 
   struct CharSequenceJc_t* floatToText(float val, int32 nrofChars){  return floatToText_StringFormatterJc(val, nrofChars,  null/*_thCxt*/); }
+
+  virtual int32 flushLine(StringJcpp sNewline){  return flushLine_StringFormatterJc_F(this, sNewline,  null/*_thCxt*/); }
 
   virtual void flush(){ flush_StringFormatterJc_F(this,  null/*_thCxt*/); }
 

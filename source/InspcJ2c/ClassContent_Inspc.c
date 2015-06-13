@@ -539,8 +539,8 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
           nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((* (answer)).base.super), _thCxt);
           answerCommMtbl.mtbl->txAnswer(&(( (answerCommMtbl.ref))->base.object), nrofAnswer, false, _thCxt);/*for next usage, send is done:*/
           
-          removeChildren_ByteDataAccessBaseJc(& ((* (answer)).base.super));
-          incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(answer, _thCxt);
+          removeChildren_ByteDataAccessBaseJc(& ((* (answer)).base.super));/*Note: txAnswer increments already: answer.incrAnswerNr();*/
+          
         }
         addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
         sAnswerAdd = toStringNonPersist_StringBuilderJc(& ((thiz->uAnswer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
@@ -591,7 +591,8 @@ int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct In
     nrofBytesPath = nrofBytesCmd - sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc - sizeofElement_InspcSetValue_InspcDataExchangeAccess_Inspc;
     sVariablePath = getChildString_ByteDataAccessBaseJc(& ((* (cmd)).base.super), nrofBytesPath, _thCxt)/*J2C:non-persistent*/;
     getSetValueByPath_ClassContent_Inspc(thiz, cmd, & (setValue), answer, sVariablePath, maxNrofAnswerBytes, _thCxt);
-    detach_ByteDataAccessBaseJc(&setValue.base.super, _thCxt); //because it is a stack instance
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*because it is a stack instance.*/
+    
     { STACKTRC_LEAVE;
       return 0;
     }

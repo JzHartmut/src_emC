@@ -262,8 +262,8 @@ int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, i
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@266e63d9*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@266e63d9*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@3eabff46*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@3eabff46*/; 
     int32 multPosition = 1; 
     
     
@@ -585,6 +585,8 @@ int32 compare_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, str
   STACKTRC_LEAVE;
 }
 
+
+/**Compares two charsequences*/
 bool equals_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from, int32 to, struct CharSequenceJc_t* s2, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("equals_CsiiCs_StringFunctionsJc");
@@ -592,6 +594,14 @@ bool equals_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int
   { 
     int32 zz; 
     
+    
+    if(s1 == null || s2 == null) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return s1 == s2;
+      }
+    }/*equals is both null too*/
     
     zz = to - from;
     if(zz != length_CharSequenceJc(s2, _thCxt)) { STACKTRC_LEAVE;
@@ -626,7 +636,7 @@ bool equals_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, struc
   { 
     
     { STACKTRC_LEAVE;
-      return equals_CsiiCs_StringFunctionsJc(/*static*/s1, 0, length_CharSequenceJc(s1, _thCxt), s2, _thCxt);
+      return s1 == null ? s2 == null : equals_CsiiCs_StringFunctionsJc(/*static*/s1, 0, length_CharSequenceJc(s1, _thCxt), s2, _thCxt);
     }
   }
   STACKTRC_LEAVE;

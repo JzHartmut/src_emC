@@ -48,8 +48,8 @@
 #include <os_types_def.h>
 	
 
-#define __CPLUSPLUSJcpp
-//#undef __CPLUSPLUSJcpp
+//#define __CPLUSPLUSJcpp
+#undef __CPLUSPLUSJcpp
 
 
 
@@ -63,11 +63,11 @@
   * but destructors of local stack instances in skipped subroutines are ignored.
   * It must be secured that no critical destructors are used, or a FINALLY is used there.
   */
-#ifdef __cplusplus
-  #define __TRYCPPJc
-#else
+//#ifdef __cplusplus
+  //#define __TRYCPPJc
+//#else
   #undef __TRYCPPJc
-#endif
+//#endif
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
  * Because a forgotten STACKTRC_LEAVE-macro call won't be detected else,

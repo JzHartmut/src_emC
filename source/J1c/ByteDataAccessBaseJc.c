@@ -30,7 +30,7 @@ in special methods like getValueXyz().
 with one derived class per <code>struct</code>, define one reference per nested struct
 <li>Base <code>struct</code> inside a <code>struct</code> (inheritance in C) can be mapped with
 extra derived classes for the base struct and usind the
-{@link #assignCasted_i(ByteDataAccessBase, int, int)}-method.
+{@link #assignCasted(ByteDataAccessBase, int, int)}-method.
 <li>A pack of data with several struct may be mapped using the {@link #addChild(ByteDataAccessBase)}-method.
 Thereby a parent should be defined, and the structs of the pack are children of this parent.
 That structures need not be from the same type.
@@ -71,7 +71,7 @@ This class is the base class for ByteDataAccess. It works without dynamic method
 All variables are package private because they should be changed only with methods of this class.
 <br><br>
 <h2>Initialization and instances</h2>
-The root instance of data should be initialized with
+The root instance to access to data should be initialized with
 <pre>
 MyByteDataAccessRoot accessRoot = new MyByteDataAccessRoot();
 //... invokes super.ByteDataAccessBase(lengthHead);
@@ -85,10 +85,11 @@ MySubStruct subStruct = new SubStruct();  //an instance for accessing
 accessRoot.addChild(subStruct);         //adds on current position.
 int value = subStruct.getValuexyz();    //now can access the data.
 ....  //later on code:
-accessOther.accChild(subStruct);        //reuse the instance for access
+accessOther.addChild(subStruct);        //reuse the instance for access
 int value = subStruct.getValueAbc();    //access other data.
 </pre>
-
+The instances of this derived class are helper to access to the data, they are not container for the data.
+The data are stored in a <code>byte[]</code>-array
 
 
 <br>
@@ -113,14 +114,24 @@ Mechanism and indices see {@link #addChild(ByteDataAccessBase, int)}.
 
 
 <h2>Expand, check</h2>
-If an instance is set for read, a given number of valid data bytes are known. The data should be assigned with
+If an instance is set for read or change, a given number of valid data bytes are known. The instance is marked as 'non expandable', see
+The data should be assigned with
 <ul>
 <li>{@link #assign(byte[], int)} with given length, not expandable
+<li>{@link #assign(byte[], int, int)} at a defined position in the data usefull for special cases.
+With the given length >= the sizehead of the {@link ByteDataAccessBase#ByteDataAccessBase(int)}
+the internal flag {@link #bExpand} is set to false.
+</ul>
+If an instance is set for write, the maximal number of bytes is limited by the size of data (byte[]).
+The data should be assigned with:
+<ul>
 <li>{@link #assignClear(byte[])} as empty instance, the data are cleared in its whole length.
 <li>{@link #assign(byte[], int)} with 0 as length argument as instance which only knows the head data, but the data are not cleared.
-<li>{@link #assign(byte[], int, int)} at a defined position in the data.
 </ul>
-The property expandable or non expandable is set from the given number of valid data. If an instance of this is set to non expandable,
+In both cases the internal flag {@link #bExpand} is set to true. It means that the {@link #ixEnd()} which is set initially to the {@link #sizeHead}
+is increased if a child is added.
+<br><br>
+If an instance of this is set to non expandable,
 an exception is thrown if a children is added after the given length. If an instance is designated as 'expandable' the end index
 #ixEnd is increased by adding children till the length of data as its maximal value.
 <br><br>
@@ -128,7 +139,12 @@ With the operations {@link #sufficingBytesForNextChild(int)} or {@link #getMaxNr
 with its known length.
 <br>
 
-
+<h2>Examples</h2>
+See
+<ul>
+<li>{@link org.vishia.byteData.test.TestByteDataAccessBase}
+<li>{@link org.vishia.byteData.test.ExampleStringOrInt}
+</ul>
 */
 
 
@@ -173,6 +189,7 @@ struct ByteDataAccessBaseJc_t* ctorM_ii_ByteDataAccessBaseJc(MemC mthis, int32 s
     thiz->sizeHead = sizeHead;
     thiz->ixBegin = 0;
     thiz->ixEnd = sizeData;
+    thiz->bExpand = false;
     thiz->ixNextChild = sizeHead;
     CLEAR_REFJc(thiz->parent);
   }
@@ -180,17 +197,6 @@ struct ByteDataAccessBaseJc_t* ctorM_ii_ByteDataAccessBaseJc(MemC mthis, int32 s
   return thiz;
 }
 
-
-void setCharset_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc value, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("setCharset_ByteDataAccessBaseJc");
-  
-  { 
-    
-    thiz->charset = forName_CharsetJc(/*static*/value, _thCxt);
-  }
-  STACKTRC_LEAVE;
-}
 
 
 /**Returns the content of 1 to 8 bytes inside the actual element as a long number,*/
@@ -419,6 +425,36 @@ void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 
     }
     
     { }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Returns true if the instance is set as expandable, see {@link #assign(byte[], int)}*/
+bool isExpandable_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("isExpandable_ByteDataAccessBaseJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return thiz->bExpand;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Returns the given head size, which is set on constructor respectively which is a determined value of an derived instance of this.*/
+int32 sizeHead_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("sizeHead_ByteDataAccessBaseJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return thiz->sizeHead;
+    }
   }
   STACKTRC_LEAVE;
 }
@@ -1757,7 +1793,6 @@ void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt
   CLEAR_REFJc(thiz->currChild);
   STACKTRC_LEAVE;
 }
-
 
 
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;

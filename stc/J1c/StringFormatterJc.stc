@@ -22,7 +22,6 @@ fieldIdents {
   short %.d k6right;
   short %.S k8left;
   short %.d k8right;
-  char %.. lastNewline;
   java/lang/Appendable @.. lineout;
   byte %.d mBytesInWordBigEndian;
   byte %.d mNrofBytesInWord;
@@ -34,6 +33,7 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.. sDatePrefixYear;
   java/lang/String(instance=java/lang/String) t.s sNeg;
   java/lang/String(instance=java/lang/String) t.. sNewline;
+  char %.. secondNewline;
   java/lang/String(instance=java/lang/String) t.s spaces;
   java/lang/String(instance=java/lang/String) t.s version;
 }
@@ -69,6 +69,7 @@ fieldIdents {
     finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
     floatToText-_$, mode= static: java/lang/CharSequence *.r null(float %.. val,int %.. nrofChars);
     flush-_$, mode= overrideable: void %.r null();
+    flushLine-_$, mode= overrideable: int %.r null(java/lang/String(instance=java/lang/String) t.. sNewline);
     getBuffer-_$, mode= overrideable: java/lang/CharSequence *.r null();
     getContent-_$, mode= overrideable: java/lang/String(instance=java/lang/String) t.r null();
     getPos-_$, mode= overrideable: int %.r null();
@@ -125,6 +126,7 @@ fieldIdents {
     append_c_StringFormatterJc;
     append_Csii_StringFormatterJc;
     flush_StringFormatterJc;
+    flushLine_StringFormatterJc;
     close_StringFormatterJc;
   }
 

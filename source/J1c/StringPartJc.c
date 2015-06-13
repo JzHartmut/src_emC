@@ -2256,7 +2256,7 @@ struct StringPartScanJc_t* scan_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt
   { 
     
     { STACKTRC_LEAVE;
-      return (StringPartScanJc)thiz;
+      return ((/*J2C:cast from StringPartScanJc_s*/StringPartScanJc_s*)((StringPartScanJc)thiz));
     }
   }
   STACKTRC_LEAVE;

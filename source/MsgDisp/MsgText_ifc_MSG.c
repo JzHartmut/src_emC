@@ -39,27 +39,12 @@ struct CollectionJc_t* getListItems_MsgText_ifc_MSG(ObjectJc* ithis, ThCxt* _thC
    }
  };
 
-extern_C struct ClassJc_t const reflection_MsgText_ifc_MSG_s;
-const struct Reflection_Fields_MsgText_ifc_MSG_s_t
-{ ObjectArrayJc head; FieldJc data[1];
-} reflection_Fields_MsgText_ifc_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_MsgText_ifc_MSG_s)
-, {
-     { "version"
-    , 0 //nrofArrayElements
-    , REFLECTION_int32
-    , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((MsgText_ifc_MSG_s*)(0x1000))->version) - (int32)(MsgText_ifc_MSG_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_MsgText_ifc_MSG_s
-    }
-} };
 const ClassJc reflection_MsgText_ifc_MSG_s = 
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
 , "MsgText_ifc_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(MsgText_ifc_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_MsgText_ifc_MSG_s
+, null //attributes and associations
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_MsgText_ifc_MSG_s //superclass
 , null //interfaces

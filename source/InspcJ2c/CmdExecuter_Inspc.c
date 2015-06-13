@@ -243,6 +243,8 @@ int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart
     if(thiz->useTelgHead) 
     { 
       
+      incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), _thCxt);/*start answer from 1*/
+      
       setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), nrofAnswerBytesPart);
     }/*ythis->answer.nrofSentBytes = txAnswerRawData_Comm_Inspc(ythis, &ythis->answer.myAnswerData, ythis->answer.nrofAnswerBytes, &ythis->myAnswerAddress);*/
     
@@ -268,7 +270,6 @@ int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart
       { /*:prepare the next telg:*/
         
         
-        incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), _thCxt);
         thiz->nrofBytesAnswer = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
         ret = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc - thiz->nrofBytesAnswer;
       }

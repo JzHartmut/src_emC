@@ -57,7 +57,7 @@ struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thC
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
       */
-    thiz->lastNewline = 'x';
+    thiz->secondNewline = '\0';
     thiz->pos = 0;
     thiz->bInsert = false;
     set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
@@ -98,7 +98,7 @@ struct StringFormatterJc_t* ctorO_ApbSi_StringFormatterJc(ObjectJc* othis, struc
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
       */
-    thiz->lastNewline = 'x';
+    thiz->secondNewline = '\0';
     thiz->pos = 0;
     thiz->bInsert = false;
     set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
@@ -145,7 +145,7 @@ struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 len
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
       */
-    thiz->lastNewline = 'x';
+    thiz->secondNewline = '\0';
     thiz->pos = 0;
     thiz->bInsert = false;
     set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
@@ -186,7 +186,7 @@ struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc 
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
       */
-    thiz->lastNewline = 'x';
+    thiz->secondNewline = '\0';
     thiz->pos = 0;
     thiz->bInsert = false;
     set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
@@ -227,7 +227,7 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
   //j2c: Initialize all class variables:
   {ObjectJc *newObj0_1=null, *newObj0_2=null, *newObj0_3=null, *newObj0_4=null; /*J2C: temporary Objects for new operations
       */
-    thiz->lastNewline = 'x';
+    thiz->secondNewline = '\0';
     thiz->pos = 0;
     thiz->bInsert = false;
     set_StringJc(&(thiz->sNewline), z_StringJc("\n"));
@@ -1775,7 +1775,7 @@ struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int
   STACKTRC_TENTRY("floatToText_StringFormatterJc");
   
   { 
-    struct CharSequenceJc_t* ret = "?"/*J2C: no cast found from s0=char const*: ClassData@5203b97*/; 
+    struct CharSequenceJc_t* ret = "?"/*J2C: no cast found from s0=char const*: ClassData@5c9c62da*/; 
     
     
     ret = ((/*J2C:cast from char const**/CharSequenceJc*)("?"/*J2C-error testAndChangeAccess: t**/));
@@ -1795,6 +1795,8 @@ struct CharSequenceJc_t* floatToText_StringFormatterJc(/*static*/ float val, int
   STACKTRC_LEAVE;
 }
 
+
+/**It invokes {@link #append(char)} for any char.Therewith a \n and \r is handled specially.*/
 struct StringFormatterJc_t* append_Cs_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
@@ -1817,7 +1819,7 @@ struct StringFormatterJc_t* append_Cs_StringFormatterJc(StringFormatterJc_s* thi
 }
 
 
-/**Appends on char*/
+/**Appends one character and flushes a line on end-line character.*/
 struct StringFormatterJc_t* append_c_StringFormatterJc_F(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
@@ -1826,25 +1828,47 @@ struct StringFormatterJc_t* append_c_StringFormatterJc_F(StringFormatterJc_s* th
   { 
     
     if(REFJc(thiz->lineout) != null && (c == '\n' || c == '\r')) 
-    { 
+    { /*:on one of the line end characters*/
       
-      if(thiz->lastNewline != '\r') 
-      { /*:bug: 0d0a0d0a creates only one line:  || c=='\r' && lastNewline != '\n'){*/
+      
+      if(c != thiz->secondNewline || thiz->pos > 0) 
+      { /*:if a content is given or c is the first newline character.          // != '\r' ){   //bug: 0d0a0d0a creates only one line:  || c=='\r' && lastNewline != '\n'){*/
         
         
-        appendI_AppendableJc(REFJc(thiz->lineout), REFJc(thiz->buffer), 0, thiz->pos, _thCxt);
-        append_t_AppendableJc(REFJc(thiz->lineout), thiz->sNewline, _thCxt);
-        delete_StringBuilderJc(REFJc(thiz->buffer), 0, thiz->pos, _thCxt);
-        thiz->pos = 0;
+        mtthis->flushLine(thiz, thiz->sNewline, _thCxt);
+        if(thiz->sNewline.ptr__== null) 
+        { 
+          charMTB _mtb4_1; /*J2C: temporary references for concatenation */
+          
+          append_AppendableJc(REFJc(thiz->lineout)
+            , ( _mtb4_1.ref = & (c)
+              , _mtb4_1.mtbl = (Mtbl_char const*)getMtbl_ObjectJc(&_mtb4_1.ref->base.object, sign_Mtbl_char)
+              , _mtb4_1)
+            , _thCxt);/*append the found newline character either 0d or 0a like given.*/
+          
+        }
+        thiz->secondNewline = c == '\r' ? '\n' : '\r';/*the other one.*/
+        
+      }
+      else if(thiz->sNewline.ptr__== null) 
+      { /*:c is the secondNewline character, pos is 0*/
+        
+        charMTB _mtb3_1; /*J2C: temporary references for concatenation */
+        
+        append_AppendableJc(REFJc(thiz->lineout)
+          , ( _mtb3_1.ref = & (c)
+            , _mtb3_1.mtbl = (Mtbl_char const*)getMtbl_ObjectJc(&_mtb3_1.ref->base.object, sign_Mtbl_char)
+            , _mtb3_1)
+          , _thCxt);/*append it if a special newline is not given.*/
+        
       }
     }
     else 
     { 
       
-      mtthis->add_cY(thiz, c/*J2C-error testAndChangeAccess: %X*/, _thCxt);
+      mtthis->add_cY(thiz, c/*J2C-error testAndChangeAccess: %X*/, _thCxt);/*normal character, add it.*/
+      
     }
-    thiz->lastNewline = c;/*store anyway the last character.*/
-    
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -1858,6 +1882,8 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
   return mtbl->append_c(thiz, c, _thCxt);
 }
 
+
+/**It invokes {@link #append(char)} for any char.Therewith a \n and \r is handled specially.*/
 struct StringFormatterJc_t* append_Csii_StringFormatterJc_F(StringFormatterJc_s* thiz, struct CharSequenceJc_t* csq, int32 start, int32 end, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
@@ -1916,6 +1942,45 @@ void flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
   mtbl->flush(thiz, _thCxt);
 }
 
+
+/**Flushes the stored content in the lineout and adds the given sNewline*/
+int32 flushLine_StringFormatterJc_F(StringFormatterJc_s* thiz, StringJc sNewline, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("flushLine_StringFormatterJc_F");
+  
+  { 
+    int32 chars; 
+    
+    
+    chars = thiz->pos;
+    if(thiz->pos > 0) 
+    { /*:some content is given*/
+      
+      
+      appendI_AppendableJc(REFJc(thiz->lineout), REFJc(thiz->buffer), 0, thiz->pos, _thCxt);/*it would be copy characters after pos to 0. But that's wrong here:*/
+      
+      setLength_StringBuilderJc(REFJc(thiz->buffer), 0, _thCxt);/*clean*/
+      
+      thiz->pos = 0;
+    }
+    if(sNewline.ptr__!= null) 
+    { 
+      
+      append_t_AppendableJc(REFJc(thiz->lineout), sNewline, _thCxt);
+    }
+    { STACKTRC_LEAVE;
+      return chars;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+/*J2C: dynamic call variant of the override-able method: */
+int32 flushLine_StringFormatterJc(StringFormatterJc_s* thiz, StringJc sNewline, ThCxt* _thCxt)
+{ Mtbl_StringFormatterJc const* mtbl = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
+  return mtbl->flushLine(thiz, sNewline, _thCxt);
+}
+
 void close_StringFormatterJc_F(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { Mtbl_StringFormatterJc const* mtthis = (Mtbl_StringFormatterJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFormatterJc);
   
@@ -1965,7 +2030,7 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 { { sign_Mtbl_StringFormatterJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((38 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((39 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
 , getContent_StringFormatterJc_F //getContent
 , getBuffer_StringFormatterJc_F //getBuffer
@@ -2004,6 +2069,7 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
 , append_c_StringFormatterJc_F //append_c
 , append_Csii_StringFormatterJc_F //append_Csii
 , flush_StringFormatterJc_F //flush
+, flushLine_StringFormatterJc_F //flushLine
 , close_StringFormatterJc_F //close
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
@@ -2088,11 +2154,11 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_StringFormatterJc_s
     }
-   , { "lastNewline"
+   , { "secondNewline"
     , 0 //nrofArrayElements
     , REFLECTION_char
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->lastNewline) - (int32)(StringFormatterJc_s*)0x1000)
+    , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->secondNewline) - (int32)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_StringFormatterJc_s
     }

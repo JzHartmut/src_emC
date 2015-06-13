@@ -803,7 +803,7 @@ struct StringPartScanJc_t* scanHexOrDecimal_StringPartScanJc(StringPartScanJc_s*
 }
 
 
-/*** */
+/**Scans an identifier with start characters A..Z, a..z, _ and all characters 0..9 inside.*/
 struct StringPartScanJc_t* scanIdentifier_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanIdentifier_StringPartScanJc");
@@ -818,7 +818,7 @@ struct StringPartScanJc_t* scanIdentifier_StringPartScanJc(StringPartScanJc_s* t
 }
 
 
-/*** */
+/**Scans an identifier with start characters A..Z, a..z, _ and all characters 0..9 inside,*/
 struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s* thiz, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanIdentifier_SS_StringPartScanJc");
@@ -1010,8 +1010,9 @@ struct StringPartScanJc_t* scanToAnyChar_StringPartScanJc(StringPartScanJc_s* th
 
 
 /**Closes the work*/
-void close_StringPartScanJc_F(StringPartScanJc_s* thiz, ThCxt* _thCxt)
-{ 
+void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt)
+{ StringPartScanJc_s* thiz = (StringPartScanJc_s*)ithis;
+  
   STACKTRC_TENTRY("close_StringPartScanJc_F");
   
   { 
@@ -1025,9 +1026,9 @@ void close_StringPartScanJc_F(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_StringPartScanJc const* mtbl = (Mtbl_StringPartScanJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartScanJc);
-  mtbl->close(thiz, _thCxt);
+void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_StringPartJc);
+  mtbl->close((StringPartJc_s*)ithis, _thCxt);
 }
 
 
@@ -1045,12 +1046,18 @@ void finalize_StringPartScanJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringPartScanJc mtblStringPartScanJc = {
 { { sign_Mtbl_StringPartScanJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
-, close_StringPartScanJc_F //close
 , { { sign_Mtbl_StringPartJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    , (struct Size_Mtbl_t*)((7 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }
+  , setParttoMax_StringPartJc_F //setParttoMax
+  , line_StringPartJc_F //line
+  , seek_S_StringPartJc_F //seek_S
+  , seekEnd_StringPartJc_F //seekEnd
+  , XXXgetLineCt_StringPartJc_F //XXXgetLineCt
+  , getLineAndColumn_StringPartJc_F //getLineAndColumn
+  , close_StringPartScanJc_F //close
   , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
       , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
       }
@@ -1058,7 +1065,7 @@ const MtblDef_StringPartScanJc mtblStringPartScanJc = {
     , equals_ObjectJc_F //equals
     , finalize_StringPartScanJc_F //finalize
     , hashCode_ObjectJc_F //hashCode
-    , toString_ObjectJc_F //toString
+    , toString_StringPartJc_F //toString
     }
     /**J2C: Mtbl-interfaces of StringPartScanJc: */
   , { { sign_Mtbl_CharSequenceJc//J2C: Head of methodtable.
@@ -1071,7 +1078,7 @@ const MtblDef_StringPartScanJc mtblStringPartScanJc = {
       , equals_ObjectJc_F //equals
       , finalize_StringPartScanJc_F //finalize
       , hashCode_ObjectJc_F //hashCode
-      , toString_CharSequenceJc //toString
+      , toString_StringPartJc_F //toString
       }
     }
   , { { sign_Mtbl_ComparableJc//J2C: Head of methodtable.

@@ -919,6 +919,34 @@ typedef struct Mtbl_CloseableJc_t
 extern char const sign_Mtbl_CloseableJc[]; 
 
 
+/*@CLASS_C FlushableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef struct FlushableJc_t
+{ ObjectJc object;
+}FlushableJc;
+
+/**To organize dynamic link method call the jump table of virtual methods is neccessary. */
+typedef struct Mtbl_FlushableJc_t
+{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Mtbl_FlushableJc;
+
+extern char const sign_Mtbl_FlushableJc[]; 
+
+
+/*@CLASS_C AppendableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef struct AppendableJc_t
+{ ObjectJc object;
+}AppendableJc;
+
+/**To organize dynamic link method call the jump table of virtual methods is neccessary. */
+typedef struct Mtbl_AppendableJc_t
+{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Mtbl_AppendableJc;
+
+extern char const sign_Mtbl_AppendableJc[]; 
+
+
 /*@DEFINE_C standard_includes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**It should able to work with Stacktrace. */

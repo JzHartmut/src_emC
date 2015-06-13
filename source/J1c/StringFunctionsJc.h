@@ -100,6 +100,7 @@ METHOD_C int32 compare_CsiCsii_StringFunctionsJc(/*static*/ struct CharSequenceJ
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
 METHOD_C int32 compare_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2, ThCxt* _thCxt);
 
+/**Compares two charsequences*/
 METHOD_C bool equals_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from, int32 to, struct CharSequenceJc_t* s2, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/

@@ -5,6 +5,8 @@
 #ifndef __MsgDisp_MsgText_ifc_MSG_h__
 #define __MsgDisp_MsgText_ifc_MSG_h__
 
+#include "Fwc/fw_MemC.h"        //basic concept
+
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
@@ -98,7 +100,6 @@ class MsgConfigItem_MsgText_ifc_MSG : private MsgConfigItem_MsgText_ifc_MSG_s
 typedef struct MsgText_ifc_MSG_t
 { 
   union { ObjectJc object; } base; 
-  int32 version; 
 } MsgText_ifc_MSG_s;
   
 
@@ -129,6 +130,7 @@ typedef struct MsgText_ifc_MSG_Y_t { ObjectArrayJc head; MsgText_ifc_MSG_s data[
 void finalize_MsgText_ifc_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#define version_MsgText_ifc_MSG 20120822  /*version, history and license:*/
 
 
 /**Returns a message text to the given ident number*/
