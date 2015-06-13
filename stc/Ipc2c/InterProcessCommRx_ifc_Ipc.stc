@@ -1,0 +1,21 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "Ipc2c/InterProcessCommRx_ifc_Ipc"
+package org/vishia/communication/;
+
+interface InterProcessCommRx_ifc; nameC=InterProcessCommRx_ifc_Ipc_s; argIdent=XX; extends java/lang/Object //creationMode=F
+{  
+fieldIdents {
+}
+  methods {  
+    execRxData-_$, mode= overrideable: void %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived);
+  }
+
+  methods-overrideable {
+    execRxData_InterProcessCommRx_ifc_Ipc;
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}
