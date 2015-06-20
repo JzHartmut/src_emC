@@ -135,9 +135,9 @@ typedef struct Address_InterProcessComm_t* MT_createAddress_Port_InterProcessCom
    @return Instance of interface InterProcessComm or null on error.
 
  */
-typedef struct InterProcessComm_t* MT_create_InterProcessCommFactory(ObjectJc* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
+typedef struct InterProcessComm_t* MT_create_InterProcessCommFactory(ObjectJc const* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
 
-typedef struct InterProcessComm_t* MT_create_Port_InterProcessCommFactory(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 port, ThCxt* _thCxt);
+typedef struct InterProcessComm_t* MT_create_Port_InterProcessCommFactory(ObjectJc const* ithis, StringJc protocolAndOwnAddr, int32 port, ThCxt* _thCxt);
 
 typedef struct InterProcessComm_t* MT_create_Addr_InterProcessCommFactory(ObjectJc* ithis, Address_InterProcessComm_s* ownAddress, ThCxt* _thCxt);
 
@@ -647,5 +647,32 @@ class InterProcessCommOrder : public InterProcessComm
 };
 
 #endif //defined(__CPLUSGEN) && defined(__cplusplus)
+
+
+/*@CLASS_C InterProcessCommSet_Ipc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**This is a ready-to-use set for an InterProcessComm communication with receive buffer etc. 
+ * The data can be gotten via some factory methods.
+ * Use &this->ipc for interprocessComm - routines.
+ */
+typedef struct InterProcessCommSet_Ipc_t
+{
+  union { ObjectJc object; /*RunnableJc_s RunnableJc; */} base; 
+  
+  struct InterProcessComm_t* ipc;   /**/
+  int32 ctErrorTelg; 
+  struct ThreadJc_t* thread;   /**/
+  int32 nrofBytesReceived[1];   /**/
+  int8 data_rxBuffer[1500];   /*Use a static receive buffer. It is important for C-applications. */
+  PtrVal_int8 rxBuffer;   /*For C: store the reference and length of the SimpleArray in the next structure. */
+  struct Address_InterProcessComm_t* myAnswerAddress;   /**/
+
+
+
+}InterProcessCommSet_Ipc;
+
+
+
 
 #endif  /* __InterProcessComm_h__ */

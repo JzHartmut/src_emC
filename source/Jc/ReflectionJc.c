@@ -273,7 +273,7 @@ METHOD_C ClassJc const* getEnclosingClass_ClassJc(ClassJc const* ythis)
  */
 FieldJcArray const* getDeclaredFields_ClassJc(const ClassJc* ythis)
 { FieldJcArray const* fields;
-  if( ((int)(ythis)) < kREFLECTION_LastConstant )
+  if( ((uint64)(ythis)) < kREFLECTION_LastConstant ) //2015-06 regard 64-bit-addresses and >0x7fffffff
   { ythis = simpleTypes[(int)(ythis)];
   }
   //ythis is the real class:

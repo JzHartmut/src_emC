@@ -41,7 +41,7 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    close-_$, defined: org/vishia/util/StringPart.close, mode= overrideable: void %.r null();
+    close-_$, mode= overrideable: void %.r null();
     ctorO-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s();
     ctorO+_Cs-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s(java/lang/CharSequence *.. src);
     ctorO+_Csii-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s(java/lang/CharSequence *.. src,int %.. begin,int %.. end);
@@ -71,6 +71,10 @@ fieldIdents {
     scanSkipSpace-_$: org/vishia/util/StringPartScan *.r null();
     scanStart-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
     scanToAnyChar-_$: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence[??] X*. dst,java/lang/String(instance=java/lang/String) t.. sCharsEnd,char %.. transcriptChar,char %.. quotationStartChar,char %.. quotationEndChar);
+  }
+
+  methods-overrideable {
+    close_StringPartScanJc;
   }
 
   castTo {

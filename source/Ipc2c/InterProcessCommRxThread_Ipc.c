@@ -117,7 +117,7 @@ bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
       
       
       sError = z_StringJc(ipcMtbl.mtbl->translateErrorMsg(&(( (ipcMtbl.ref))->base.object), ok))/*J2C:non-persistent*/;
-      format_z_PrintStreamJc(REFJc(out_SystemJc), "\nopen fails: error, %d = %s\n", "Is", -ok, sError, _thCxt);
+      format_z_PrintStreamJc(REFJc(out_SystemJc), "\nopen fails: error, %d = %s\n", "Is", ok & 0x80000000, sError, _thCxt);
     }
     if(thiz->bEnablePrintfOnComm) 
     { /*:only for debug:*/

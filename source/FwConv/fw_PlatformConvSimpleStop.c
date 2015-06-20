@@ -43,11 +43,12 @@
 //#include "ObjectJc.h"
 #include <os_time.h>
 #include <os_error.h>
+#include <os_thread.h>
 #include <Fwc/fw_Exception.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <Fwc/fw_Formatter.h>
-#include <os_thread.h>
+#include <os_time.h>
 
 
 
@@ -73,7 +74,11 @@ void os_FatalSysError(int errorCode, const char* description, int value1, int va
 void os_FatalError(int errorCode, const char* description, int value1, int value2)
 {
   printf("Fatal error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
-  *((int*)0) = 0;
+  while(true)
+  { printf("ERROR STOP  \n");
+    os_delayThread(2000);
+  }
+  //*((int*)0) = 0;
   
 }
 

@@ -2,7 +2,7 @@
 Structure of translated java-file "MsgDisp/MsgText_ifc_MSG"
 package org/vishia/msgDispatch/;
 
-interface MsgText_ifc; nameC=MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/Object //creationMode=F
+final interface MsgText_ifc; nameC=MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/Object //creationMode=F
 {  
     //Innerclass: MsgConfigItem_MsgText_ifc_MSG
   InnerClass{ 
@@ -15,7 +15,6 @@ interface MsgText_ifc; nameC=MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/O
       java/lang/String(instance=java/lang/String) t.. identText;
       java/lang/String(instance=java/lang/String) t.. text;
       char %.. type_;
-      //outer=2 ,super=1: int %.d version;
     }
       methods {  
         set_type-_$, mode= overrideable: void %.r null(java/lang/String(instance=java/lang/String) t.. src);
@@ -34,7 +33,7 @@ interface MsgText_ifc; nameC=MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/O
 
   }
 fieldIdents {
-  int %.d version;
+  int %.. version;
 }
   methods {  
     getListItems-_$, mode= overrideable: java/util/Collection *.r null();

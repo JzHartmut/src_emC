@@ -625,6 +625,56 @@ typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcA
 
 
 
+/*@DEFINE_C Ifc_impl_method1_ObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**This macro helps to define a variable, the reflections and the method table for a given interface
+ * with its one implementing method. The implementing method should be defined as simpe C method 
+ * with the appropriate signature. Use this macro to define an instance of the interface 
+ * with an anonymous derived class (Java slang) to use it as reference to deal with the overridden methods.
+ * Write for example
+ * ,,IfcImp_ObjectJc(MyIfcType, variableName, methodName);,,
+ *
+ * The macro defines 3 variable:
+ * * mtbl_NAME: The method table of the interface type with the given method.
+ * * reflection_NAME: Reflection for the given variable refers the mtbl_NAME.
+ * * NAME: The variable itself intialized with the reflection.
+ *
+ * * All 3 generated variable are const, therefore assigned to a const segment by linking. There are static global,
+ * therefore only a unique NAME of this compilation unit is necessary. Note that the reference of the variable
+ * can be forwarding to other parts of code.
+ *
+ * @param TYPE Type name of the interface without suffix _s. It should be given: ,,struct TYPE_t{...}TYPE_s;
+ * @param NAME any name.
+ * @param METHOD Only the name of the method which implements the only 1 interface method.
+ * @since 2015-06-14. It is the concequently usage of ObjectJc overridden methods, prepared for C usage.  
+ */
+#define Ifc_impl_method1_ObjectJc(TYPE, NAME, METHOD) \
+Mtbl_##TYPE static const mtbl_##NAME = \
+{ { sign_Mtbl_##TYPE   /*J2C: Head of methodtable. */ \
+    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) \
+  }  \
+, METHOD  \
+, { { sign_Mtbl_ObjectJc          \
+    , (struct Size_Mtbl_t*)((1 + 4 +2) * sizeof(void*)) \
+    } \
+  , clone_ObjectJc_F, equals_ObjectJc_F, finalize_ObjectJc_F, hashCode_ObjectJc_F, toString_ObjectJc_F \
+  }\
+};\
+\
+ClassJc static const reflection_##NAME = \
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_##NAME, &reflection_ClassJc) \
+, "NAME" \
+, 0 \
+, sizeof(TYPE##_s) \
+, null, null, null, null, 0, &mtbl_##NAME.head \
+}; \
+\
+TYPE##_s static NAME = CONST_ObjectJc(0, &NAME, &reflection_##NAME);
+
+
+
+
 /*@CLASS_CPP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 

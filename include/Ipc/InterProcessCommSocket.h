@@ -43,13 +43,22 @@
 
 //extern Mtbl_InterProcessComm const mtbl_InterProcessCommSocket;
 
-InterProcessComm_i* create_InterProcessCommSocket(struct Address_InterProcessComm_t* ownAddress);
+
+/*@CLASS_C Address_InterProcessComm_Socket @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 struct Address_InterProcessComm_t* ctor_s0ii_Address_InterProcessComm_Socket_s(ObjectJc* othis, MemC rawMem, char const* protocol, int32 ipAddr, int nPort);
 
 struct Address_InterProcessComm_t* ctorO_Address_InterProcessCommSocket(ObjectJc* othis, char const* protocol, int32 ipAddr, int nPort);
 
 struct Address_InterProcessComm_t* ctorO_s0_Address_InterProcessCommSocket(ObjectJc* othis, char const* address);
+
+
+
+/*@CLASS_C InterProcessComm_Socket @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**Allocates and creates an instance of [[InterProcessComm]] which is a socket communication.
+ */
+InterProcessComm_i* create_InterProcessCommSocket(struct Address_InterProcessComm_t* ownAddress);
 
 /**Opens the communication, see open_InterProcessComm(...). */
 int open_InterProcessCommSocket( ObjectJc* xthis, Address_InterProcessComm_s* destAddress, bool isBlocking);
@@ -66,5 +75,11 @@ METHOD_C struct InterProcessCommSocket_t* ctorO_InterProcessCommSocket(ObjectJc*
 typedef struct MtblDef_InterProcessCommSocket_t { Mtbl_InterProcessComm mtbl; MtblHeadJc end; } MtblDef_InterProcessCommSocket;
 extern MtblDef_InterProcessCommSocket const mtblInterProcessCommSocket;
 
+
+
+
+/**Creates a set of InterProcessComm with sockets. 
+ */
+InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* protocol, int32 ipAddr, int nPort);
 
 #endif //__InterProcessCommSocket_h__

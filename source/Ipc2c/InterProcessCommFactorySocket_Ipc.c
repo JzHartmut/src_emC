@@ -39,8 +39,8 @@ struct InterProcessCommFactorySocket_Ipc_t* ctorO_InterProcessCommFactorySocket_
 
 
 /**Destroy a instance of InterProcessComm.*/
-struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt)
-{ InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
+struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(ObjectJc const* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt)
+{ InterProcessCommFactorySocket_Ipc_s const* thiz = (InterProcessCommFactorySocket_Ipc_s const*)ithis;
   Mtbl_InterProcessCommFactorySocket_Ipc const* mtthis = (Mtbl_InterProcessCommFactorySocket_Ipc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_InterProcessCommFactorySocket_Ipc);
   
   STACKTRC_TENTRY("create_S_InterProcessCommFactorySocket_Ipc_F");
@@ -65,7 +65,7 @@ struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc(ObjectJc* 
 
 
 /**Creates a InterProcessComm from a parameter String*/
-struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt)
+struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(ObjectJc const* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
   
   STACKTRC_TENTRY("create_Si_InterProcessCommFactorySocket_Ipc_F");

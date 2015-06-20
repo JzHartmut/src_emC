@@ -96,7 +96,9 @@ Address_InterProcessComm_s* ctorO_ssI_Address_InterProcessComm(ObjectJc* othis, 
     ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[2] = (char)np3;
     ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[3] = (char)np4;
     */
-    ythis->address2 = (((uint32)np4)<<24) + (((uint32)np3)<<16) + (((uint32)np2)<<8) + np1;
+    //ythis->address2 = (((uint32)np4)<<24) + (((uint32)np3)<<16) + (((uint32)np2)<<8) + np1;
+    //Note: The IPv4-Address is stored as int32, the left is the high byte of integer unless little or big endian!
+    ythis->address2 = (((uint32)np1)<<24) + (((uint32)np2)<<16) + (((uint32)np3)<<8) + np4;
 
   }
   STACKTRC_LEAVE; return ythis;
