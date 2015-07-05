@@ -27,6 +27,10 @@ void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObject
 extern_C ClassJc const reflection_FBaccess_Inspc;
 
 
+/**Constructs and starts the Inspector service for Function Block access with allocated memory from thizo. 
+ * @param rootNode The root node for all FB access. Should be given and intialized.
+ * @param rootInspc The root struct for all access. It can be the same as rootNode, it can be another struct. Should be given and initialized. 
+ */
 FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNode, ObjectJc* rootInspc)
 {
   STACKTRC_ENTRY("ctor_FBaccess_Inspc");
@@ -51,12 +55,15 @@ FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNod
 
 void free_FBaccess_Inspc(FBaccess_Inspc* thiz)
 {
-
+  STACKTRC_ENTRY("ctor_FBaccess_Inspc");
+  shutdown_Inspector_Inspc(&thiz->theInspector, _thCxt);
+  free(thiz->rootNode);
   free(thiz);
+  STACKTRC_LEAVE;
 }
 
 
-void ptrNode_FBaccess_Inspc(FBaccess_Inspc* thiz, FBaccessNode_Inspc** p_node)
+void ptrRootNode_FBaccess_Inspc(FBaccess_Inspc* thiz, FBaccessNode_Inspc** p_node)
 { *p_node = thiz->rootNode;
 }
 

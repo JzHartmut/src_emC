@@ -235,7 +235,7 @@ FieldJcArray* new_FieldJcArray(int size)
 
 
 const char* getName_ClassJc(ClassJc const* ythis)
-{ if( ((int)(ythis)) < kREFLECTION_LastConstant )
+{ if( ((uint64)(ythis)) < kREFLECTION_LastConstant )
   { ythis = simpleTypes[(int)(ythis)];
   }
   return ythis->name;
@@ -254,7 +254,7 @@ METHOD_C bool isPrimitive_ClassJc(ClassJc const* ythis)
 
 METHOD_C int32 getModifiers_ClassJc(ClassJc const* ythis)
 {
-  if( ((int)(ythis)) < kREFLECTION_LastConstant )
+  if( ((uint64)(ythis)) < kREFLECTION_LastConstant )
   { ythis = simpleTypes[(int)(ythis)];
   }
   return ythis->modifiers;
@@ -401,7 +401,7 @@ int32 invoke_MethodJcSi(const MethodJc* ythis, MemSegmJc objP, int32ARRAY* param
  */
 ClassJc const* getType_FieldJc(FieldJc const* ythis)
 { ClassJc const* type = ythis->type_;
-  if( ((int)(type)) < kREFLECTION_LastConstant )
+  if( ((uint64)(type)) < kREFLECTION_LastConstant )
   { type = simpleTypes[(int)(type)];
   }
   return type;

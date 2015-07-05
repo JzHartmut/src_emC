@@ -499,6 +499,212 @@ int newIdent_ObjectJc()
 
 
 
+const Reflection__ObjectJc reflection__ObjectJc
+=
+{
+  { CONST_ObjectJc(0  , &reflection__ObjectJc.clazz, null)
+  , "ObjectJc"
+  , 0 //Position of the data of this class itself, after some superclasses.
+  , sizeof(int32)
+  , null  //Attributes
+  , null  //Methods
+  , null  //superclass
+  , null  //interfaces
+  , 0 //modifiers
+  }
+, { (MT_void_Method_void)clone_ObjectJc_F
+  , (MT_void_Method_void)equals_ObjectJc_F
+  , (MT_void_Method_void)finalize_ObjectJc_F
+  , (MT_void_Method_void)hashCode_ObjectJc_F
+  , (MT_void_Method_void)toString_ObjectJc_F
+  }
+};
+
+
+
+
+const ClassJc xxxreflection_ObjectJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &xxxreflection_ObjectJc, null)
+, "ObjectJc"
+, 0
+, sizeof(ObjectJc)
+, null  //attributes
+, null  //method
+, null  //superclass
+, null  //interfaces
+, mObjectJc_Modifier_reflectJc  //modifiers
+};
+
+
+
+
+#include "Jc/ObjectJc.h"
+
+
+extern_C const ClassJc reflection_ObjectArrayJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_ObjectArrayJc_t
+{ ObjectArrayJc head;
+  FieldJc data[4];
+} reflection_Fields_ObjectArrayJc =
+{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectArrayJc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((ObjectArrayJc*)(0x1000))->object) -(int32)(ObjectArrayJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectArrayJc
+    }
+  , { "sizeElement"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ObjectArrayJc*)(0x1000))->sizeElement) -(int32)(ObjectArrayJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectArrayJc
+    }
+  , { "mode"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ObjectArrayJc*)(0x1000))->mode) -(int32)(ObjectArrayJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectArrayJc
+    }
+  , { "length"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ObjectArrayJc*)(0x1000))->length) -(int32)(ObjectArrayJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectArrayJc
+    }
+} };
+
+
+const ClassJc reflection_ObjectArrayJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectArrayJc, &reflection_ClassJc)
+, "ObjectArrayJc"
+, 0
+, sizeof(ObjectArrayJc)
+, (FieldJcArray const*)&reflection_Fields_ObjectArrayJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
+
+extern_C const ClassJc reflection_int8ARRAY;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectArrayJc;
+const struct Reflection_Fields_int8ARRAY_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_int8ARRAY =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int8ARRAY)
+, {
+    { "head"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectArrayJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((int8ARRAY*)(0x1000))->head) -(int32)(int8ARRAY*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_int8ARRAY
+    }
+  , { "data"
+    , 256   //nrofArrayElements
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((int8ARRAY*)(0x1000))->data) -(int32)(int8ARRAY*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_int8ARRAY
+    }
+} };
+
+
+const ClassJc reflection_int8ARRAY =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_int8ARRAY, &reflection_ClassJc)
+, "int8ARRAY"
+, 0
+, sizeof(int8ARRAY)
+, (FieldJcArray const*)&reflection_Fields_int8ARRAY  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_ComparableJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_ComparableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_ComparableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ComparableJc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((ComparableJc*)(0x1000))->object) -(int32)(ComparableJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ComparableJc
+    }
+} };
+
+
+const ClassJc reflection_ComparableJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ComparableJc, &reflection_ClassJc)
+, "ComparableJc"
+, 0
+, sizeof(ComparableJc)
+, (FieldJcArray const*)&reflection_Fields_ComparableJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
+
+extern_C const ClassJc reflection_CloseableJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_CloseableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_CloseableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_CloseableJc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((CloseableJc*)(0x1000))->object) -(int32)(CloseableJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_CloseableJc
+    }
+} };
+
+
+const ClassJc reflection_CloseableJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_CloseableJc, &reflection_ClassJc)
+, "CloseableJc"
+, 0
+, sizeof(CloseableJc)
+, (FieldJcArray const*)&reflection_Fields_CloseableJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
 
 
 

@@ -8,17 +8,22 @@ struct ObjectJc_t;
 typedef struct FBaccessNode_Inspc_t* P_FBaccessNode_Inspc;
 typedef struct FBaccess_Inspc_t* P_FBaccess_Inspc;
 
+
+
+
+
+
 /**Allocates memory for one node of a instance tree. 
  * 
  * @param thizp The initialized instance will be returned here. Reference to output variable
  * @param nrofObjects size of the array which stores references to other nodes or user instances
  */
-void alloc_FBaccessNode_Inspc(struct FBaccess_InspcNode_t** thizp, int nrofObjects);
+void alloc_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t** thizp, int nrofObjects);
 
 struct FBaccessNode_Inspc_t* ctor_FBaccessNode_Inspc(struct ObjectJc_t* thizo, int nrofObjects);
 
 
-void free_FBaccessNode_Inspc(struct FBaccess_Inspc_t* thiz);
+void free_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz);
 
 void registerReflection_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, struct ObjectJc_t* obj);
 
@@ -46,13 +51,16 @@ void alloc_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects);
  */
 void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, struct ObjectJc_t* rootInspc);
 
+/**Constructs and starts the Inspector service for Function Block access with allocated memory from thizo. 
+ * @param rootNode The root node for all FB access. Should be given and intialized.
+ * @param rootInspc The root struct for all access. It can be the same as rootNode, it can be another struct. Should be given and initialized. 
+ */
 struct FBaccess_Inspc_t* ctor_FBaccess_Inspc(struct ObjectJc_t* thizo, struct FBaccessNode_Inspc_t* rootNode, struct ObjectJc_t* rootInspc);
 
 void free_FBaccess_Inspc(struct FBaccess_Inspc_t* thiz);
 
-//#define ptrNode_FBaccess_Inspc(THIZ, NODEP) { *(NODEP) = &((THIZ)->data); } 
-void ptrNode_FBaccess_Inspc(struct FBaccess_Inspc_t* thiz, struct FBaccessNode_Inspc_t** p_node);
-//void ptr_FBaccess_Inspc(struct FBaccess_Inspc_t* thiz);
+/**Returns the reference to the root node from the Inspc service. */
+void ptrRootNode_FBaccess_Inspc(struct FBaccess_Inspc_t* thiz, struct FBaccessNode_Inspc_t** p_node);
 
 
 

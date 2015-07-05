@@ -512,43 +512,6 @@ const ClassJc reflection__ObjectifcBaseJcpp =
 };
 #endif
 
-const Reflection__ObjectJc reflection__ObjectJc
-=
-{
-  { CONST_ObjectJc(0  , &reflection__ObjectJc.clazz, null)
-  , "ObjectJc"
-  , 0 //Position of the data of this class itself, after some superclasses.
-  , sizeof(int32)
-  , null  //Attributes
-  , null  //Methods
-  , null  //superclass
-  , null  //interfaces
-  , 0 //modifiers
-  }
-, { (MT_void_Method_void)clone_ObjectJc_F
-  , (MT_void_Method_void)equals_ObjectJc_F
-  , (MT_void_Method_void)finalize_ObjectJc_F
-  , (MT_void_Method_void)hashCode_ObjectJc_F
-  , (MT_void_Method_void)toString_ObjectJc_F
-  }
-};
-
-
-
-
-const ClassJc xxxreflection_ObjectJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &xxxreflection_ObjectJc, null)
-, "ObjectJc"
-, 0
-, sizeof(ObjectJc)
-, null  //attributes
-, null  //method
-, null  //superclass
-, null  //interfaces
-, mObjectJc_Modifier_reflectJc  //modifiers
-};
-
-
 #if 0
 const struct ReflectionFieldJc_t reflectionFieldJc
 =

@@ -20,8 +20,8 @@ typedef struct OS_Mutex_t{
   /**The owner of the mutex. Not necessary in Windows because Win_API check it.*/
   //struct OS_ThreadContext_t const* threadOwner;
   
-  /**The system use an handle mostly. */
-  HANDLE handle;
+  /**The system use an handle mostly. It is 32 or 64 bit (on 64-bit-Windows-Version).*/
+  HANDLE winHandleMutex;
 } OS_Mutex_s;
 
 
@@ -36,8 +36,8 @@ typedef struct OS_HandleWaitNotify_t
   /**null if nobody waits. elsewhere the queue of waiting threads.*/
   /**The owner of the mutex. */
   struct OS_ThreadContext_t const* threadWait;
-  /**The system use an handle mostly. */
-  HANDLE handle;
+  /**The system use an handle. */
+  HANDLE winHandleWaitNotify;
 } OS_HandleWaitNotify_s;
 
 

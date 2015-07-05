@@ -60,8 +60,11 @@
 /* EXTERNALS *************************************************************************************/
 
 
-/* PROTOTYPES ************************************************************************************/
 
+/**Creates a mutex object.
+ * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
+ * The mutex Object contains the necessary data for example a HANDLE etc.
+ */
 int os_createMutex(char const* pName, OS_Mutex* pMutex)
 {
 
@@ -80,16 +83,16 @@ int os_createMutex(char const* pName, OS_Mutex* pMutex)
     }
 	  mutex = (struct OS_Mutex_t*)(malloc(zMutex));
     memset(mutex, 0, zMutex);
-    mutex->handle  = hIOMutex;
+    mutex->winHandleMutex  = hIOMutex;
     *pMutex = mutex;
     return OS_OK;
 }
 
 
 int os_deleteMutex(OS_Mutex mutex)
-{ HANDLE handle = mutex->handle;
+{ HANDLE winHandleMutex = mutex->winHandleMutex;
   os_freeMem((void*)mutex);
-  if ( CloseHandle( handle ) == 0 ) 
+  if ( CloseHandle( winHandleMutex ) == 0 ) 
   {
     DWORD err = GetLastError();
     os_notifyError(-1, "os_deleteMutex: ERROR: CloseHandle failed with Win err=%d\n", err,0 );
@@ -110,7 +113,7 @@ int os_lockMutex(OS_Mutex mutexP)
 {
 	DWORD WinRet;
   OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.  	
-    WinRet = WaitForSingleObject( (HANDLE)mutex->handle, INFINITE );
+    WinRet = WaitForSingleObject( mutex->winHandleMutex, INFINITE );
     if (WinRet == WAIT_FAILED)
     {	DWORD err = GetLastError();
       os_notifyError( -1, "os_waitMutex: ERROR: WaitForSingleObject failed with Win err=%d\n", err, 0 );
@@ -148,7 +151,7 @@ int os_unlockMutex(OS_Mutex mutexP)
     //because anther thread may be locked immediately and will found an empty threadOwner!
     mutex->threadOwner = null;
   */
-  if ( ReleaseMutex( (HANDLE)mutex->handle ) == 0 )
+  if ( ReleaseMutex( mutex->winHandleMutex ) == 0 )
   { int32 err;
     //revert infos because the unlock isn't valid! It is important for debug
     //mutex->threadOwner = threadOwner;

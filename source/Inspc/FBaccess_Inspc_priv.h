@@ -13,17 +13,21 @@ typedef struct FBaccessNode_Inspc_t
 { ObjectJc super;
   //struct ObjectJc_t* obj[10];
 
+  /**Reference to the instances or sub nodes. */
   void* data[100];
   
 #ifndef __NoReflection__
+  /**Instance of the Reflection definition of this node. It is not for a user instance. It is this node. */ 
   ClassJc clazz;
-
+  /**All fields of this node, it refers either the reflection class of the instances or the clazz of a sub node. 
+   * Note: The FieldsJC_Y definition contains less (10) fields staticly, whereby it is dynamicly possible.
+   */ 
   FieldJc_Y fields;
+  /**Rest to 100 fields in sum. */
   FieldJc _addFields[90];
 #endif//__NoReflection__
 
 } FBaccessNode_Inspc;
-
 
 
 typedef struct FBaccess_Inspc_t

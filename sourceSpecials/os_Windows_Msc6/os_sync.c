@@ -69,7 +69,7 @@ int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** wa
   }
   else
   { OS_HandleWaitNotify_s* waitObject = (OS_HandleWaitNotify_s*)os_allocMem(sizeof(OS_HandleWaitNotify_s));
-    waitObject->handle = semaphor;
+    waitObject->winHandleWaitNotify = semaphor;
     waitObject->threadWait = null;
     *waitObjectP = waitObject;
   }
@@ -80,9 +80,9 @@ int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** wa
 /**removes a object for wait-notify.
  */
 int os_removeWaitNotifyObject(struct OS_HandleWaitNotify_t const* waitObj)
-{ HANDLE handle = waitObj->handle;
+{ HANDLE winHandleWaitNotify = waitObj->winHandleWaitNotify;
   os_freeMem((void*)waitObj);
-  if ( CloseHandle( handle ) == 0 ) 
+  if ( CloseHandle( winHandleWaitNotify ) == 0 ) 
   {
     DWORD err = GetLastError();
     os_notifyError(-1, "os_removeWaitNotifyObj: ERROR: CloseHandle failed with Win err=%d\n", err, 0);
@@ -123,7 +123,7 @@ int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutex, uint32
   //ab hier kann die Bedingungen geändert werden und notify wird gerufen, 
   //notify increments the semaphore, so that wait returns immediately. 
   //Here normally a thread change should be done:
-  error = WaitForSingleObject(waitObj->handle, milliseconds);
+  error = WaitForSingleObject(waitObj->winHandleWaitNotify, milliseconds);
   if(error == WAIT_FAILED)
   { error = GetLastError();
   }
@@ -171,7 +171,7 @@ int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutex)
     { int ok;
       //unlock, because ReleaseSemaphore() mustn_t call in a critical section, threadchange possible 
       os_unlockMutex(mutex);
-      ok = ReleaseSemaphore(waitObj->handle, 1, &prevCount);
+      ok = ReleaseSemaphore(waitObj->winHandleWaitNotify, 1, &prevCount);
       if(ok == 0) 
       { //If the function fails, the return value is zero. To get extended error information, call GetLastError.
         error = -((int)GetLastError()); 

@@ -48,7 +48,7 @@
 
 extern_C_BLOCK_
 
-/**The type of a OS_HandleWaitNotify is represented by a pointer to a not far defined struct. */ 
+/**The type of a OS_Mutex is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
 typedef struct OS_Mutex_t const* OS_Mutex;
 
 
@@ -56,13 +56,14 @@ typedef struct OS_Mutex_t const* OS_Mutex;
 //#include "fw_MemC.h"
 
 
-/**The type of a OS_HandleWaitNotify is represented by a pointer to a not far defined struct. */ 
+/**The type of a OS_HandleWaitNotify is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
 typedef struct OS_HandleWaitNotify_t const* OS_HandleWaitNotify;
 
 
 
 /**Creates a mutex object.
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
+ * The mutex Object contains the necessary data for example a HANDLE etc.
  */
 int os_createMutex(char const* name, OS_Mutex* pMutexID);
  
