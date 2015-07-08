@@ -80,6 +80,6 @@ extern MtblDef_InterProcessCommSocket const mtblInterProcessCommSocket;
 
 /**Creates a set of InterProcessComm with sockets. 
  */
-InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* protocol, int32 ipAddr, int nPort);
+//to remove: InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* protocol, int32 ipAddr, int nPort);
 
 #endif //__InterProcessCommSocket_h__

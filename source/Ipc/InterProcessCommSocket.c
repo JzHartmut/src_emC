@@ -1015,7 +1015,7 @@ Address_InterProcessComm_s* ctor_Address_InterProcessComm_Socket_s(MemC mem, int
 }
 
 
-
+/* to remove
 InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* protocol, int32 ipAddr, int nPort)
 {
   STACKTRC_ENTRY("create_Set_InterProcessCommSocket_Ipc");
@@ -1025,7 +1025,7 @@ InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* proto
   ObjectJc* oAnsweraddr = alloc_ObjectJc(sizeof_Address_InterProcessComm_s, 0, _thCxt); 
   thiz->myAnswerAddress = ctorO_II_Address_InterProcessComm(oAnsweraddr, type, ipAddr, nPort, _thCxt);
   Address_InterProcessComm* ownAddr = ctorO_II_Address_InterProcessComm(alloc_ObjectJc(sizeof_Address_InterProcessComm_s, 0, _thCxt), type, ipAddr, nPort, _thCxt);
-  //thiz->myAnswerAddress = createAddressSocket_InterProcessCommFactorySocket_Ipc_F(/*static*/null_StringJc, protocolAndOwnAddr, nPort, _thCxt);
+  //thiz->myAnswerAddress = createAddressSocket_InterProcessCommFactorySocket_Ipc_F(null_StringJc, protocolAndOwnAddr, nPort, _thCxt);
   ObjectJc* oipc = alloc_ObjectJc(sizeof_InterProcessCommSocket_s, 0, _thCxt);
   thiz->ipc = &ctorO_InterProcessCommSocket(oipc, ownAddr, _thCxt)->ifc.InterProcessComm;
   
@@ -1035,7 +1035,7 @@ InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* proto
   return thiz;
 }
 
-
+*/
 
 
 

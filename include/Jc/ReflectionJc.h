@@ -1545,9 +1545,9 @@ extern_C const ClassJc reflection_StringJc;
 extern_C const ClassJc reflection_ClassJc;
 extern_C const ClassJc reflection_BlockHeapBlockJc;
 
-extern_C const ClassJc reflection_OS_ValuePtr;
-#define reflection_MemC reflection_OS_ValuePtr
-#define reflection_MemSegmentJc reflection_OS_ValuePtr
+extern_C const ClassJc reflection_OS_PtrValue;
+#define reflection_MemC reflection_OS_PtrValue
+#define reflection_MemSegmentJc reflection_OS_PtrValue
 
 
 /** Reflection_void is a reflection definition for a void pointer.

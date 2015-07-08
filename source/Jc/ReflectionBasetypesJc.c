@@ -64,7 +64,7 @@ const struct Reflection_Fields_OS_PtrValue_t
 } };
 
 
-ClassJc const reflection_OS_PtrValue =
+extern_C ClassJc const reflection_OS_PtrValue =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OS_PtrValue, null)
 , "OS_PtrValue"
 , 0     //posObjectJc

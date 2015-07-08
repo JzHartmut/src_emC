@@ -650,29 +650,29 @@ class InterProcessCommOrder : public InterProcessComm
 
 
 /*@CLASS_C InterProcessCommSet_Ipc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
+//Only idea, remove it!
 
 /**This is a ready-to-use set for an InterProcessComm communication with receive buffer etc. 
  * The data can be gotten via some factory methods.
  * Use &this->ipc for interprocessComm - routines.
- */
+ * /
 typedef struct InterProcessCommSet_Ipc_t
 {
-  union { ObjectJc object; /*RunnableJc_s RunnableJc; */} base; 
+  union { ObjectJc object; } base; 
   
-  struct InterProcessComm_t* ipc;   /**/
+  struct InterProcessComm_t* ipc;   
   int32 ctErrorTelg; 
-  struct ThreadJc_t* thread;   /**/
-  int32 nrofBytesReceived[1];   /**/
-  int8 data_rxBuffer[1500];   /*Use a static receive buffer. It is important for C-applications. */
-  PtrVal_int8 rxBuffer;   /*For C: store the reference and length of the SimpleArray in the next structure. */
-  struct Address_InterProcessComm_t* myAnswerAddress;   /**/
+  struct ThreadJc_t* thread;   
+  int32 nrofBytesReceived[1];   
+  int8 data_rxBuffer[1500];   //Use a static receive buffer. It is important for C-applications. 
+  PtrVal_int8 rxBuffer;   //For C: store the reference and length of the SimpleArray in the next structure. 
+  struct Address_InterProcessComm_t* myAnswerAddress;   /
 
 
 
 }InterProcessCommSet_Ipc;
 
-
+*/
 
 
 #endif  /* __InterProcessComm_h__ */
