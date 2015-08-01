@@ -54,12 +54,8 @@ fieldIdents {
     ctorO_C_threadRoutine-_$, mode= ctor+anonymousCtor+nonStaticCtor: org/vishia/communication/InterProcessCommRxThread.C_threadRoutine *.. C_threadRoutine_InterProcessCommRxThread_Ipc_s();
     openComm-_$: boolean %.r null(boolean %.. blocking);
     receiveAndExecute-_$: void %.r null();
-    runThread-_$, mode= overrideable: void %.r null();
+    runThread-_$: void %.r null();
     start-_$: void %.r null();
-  }
-
-  methods-overrideable {
-    runThread_InterProcessCommRxThread_Ipc;
   }
 
   castTo {
