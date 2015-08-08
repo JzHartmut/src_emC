@@ -32,7 +32,7 @@ typedef struct InspcDataInfo_Inspc_t
   MemSegmJc addr;   /*The address and maybe segment in address space of the variable. */
   struct FieldJc_t const* reflectionField;   /*Address and Segment of the value. */
   int8 sizeofValue;   /*Nr of bytes of the type to read and transfer. */
-  int8 typeValue;   /*The type of the value, to send in telegram, see kScalarTypes_DataExchangeCmd_OBM.*/
+  int8 typeValue;   /*The type of the value, to send in telegram, It is the definitions in*/
   int16 lengthData;   /*If it is a recording order, size of the buffer. */
   int32 check;   /*This check code should be sent from request to safety the correctness of request.*/
   int32 secondOfCreation;   /*Timestamp seconds after 1970 of creation*/

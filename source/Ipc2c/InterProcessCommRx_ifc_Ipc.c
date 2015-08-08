@@ -6,10 +6,12 @@
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include "Jc/StringJc.h"  //embedded type in class data
 
 
 const char sign_Mtbl_InterProcessCommRx_ifc_Ipc[] = "InterProcessCommRx_ifc_Ipc"; //to mark method tables of all implementations
 
+StringJc version_InterProcessCommRx_ifc_Ipc = CONST_z_StringJc("2015-06-13");
 /*J2C: dynamic call variant of the override-able method: */
 void execRxData_InterProcessCommRx_ifc_Ipc(ObjectJc* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
 { Mtbl_InterProcessCommRx_ifc_Ipc const* mtbl = (Mtbl_InterProcessCommRx_ifc_Ipc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_InterProcessCommRx_ifc_Ipc);
@@ -26,12 +28,28 @@ void execRxData_InterProcessCommRx_ifc_Ipc(ObjectJc* ithis, PtrVal_int8 buffer, 
    }
  };
 
+extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc_s;
+extern_C struct ClassJc_t const reflection_StringJc;
+const struct Reflection_Fields_InterProcessCommRx_ifc_Ipc_s_t
+{ ObjectArrayJc head; FieldJc data[1];
+} reflection_Fields_InterProcessCommRx_ifc_Ipc_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessCommRx_ifc_Ipc_s)
+, {
+     { "version"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&version_InterProcessCommRx_ifc_Ipc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_InterProcessCommRx_ifc_Ipc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
+    , &reflection_InterProcessCommRx_ifc_Ipc_s
+    }
+} };
 const ClassJc reflection_InterProcessCommRx_ifc_Ipc_s = 
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
 , "InterProcessCommRx_ifc_Ipc_s"
 ,  0 //position of ObjectJc
 , sizeof(InterProcessCommRx_ifc_Ipc_s)
-, null //attributes and associations
+, (FieldJcArray const*)&reflection_Fields_InterProcessCommRx_ifc_Ipc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommRx_ifc_Ipc_s //superclass
 , null //interfaces

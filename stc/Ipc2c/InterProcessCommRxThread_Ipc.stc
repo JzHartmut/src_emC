@@ -21,6 +21,7 @@ class InterProcessCommRxThread; nameC=InterProcessCommRxThread_Ipc_s; argIdent=X
       //outer=2 ,super=1: char %.. state;
       //outer=2 ,super=1: java/lang/Thread *.. thread;
       //outer=2 ,super=1: org/vishia/communication/InterProcessCommRxThread.C_threadRoutine(instance=org/vishia/communication/InterProcessCommRxThread.C_threadRoutine) $.. threadRoutine;
+      //outer=2 ,super=1: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
         run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
@@ -47,6 +48,7 @@ fieldIdents {
   char %.. state;
   java/lang/Thread *.. thread;
   org/vishia/communication/InterProcessCommRxThread.C_threadRoutine(instance=org/vishia/communication/InterProcessCommRxThread.C_threadRoutine) $.. threadRoutine;
+  java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
     create-_$, mode= static: org/vishia/communication/InterProcessCommRxThread *.r null(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/communication/InterProcessCommRx_ifc *.. execRxData);

@@ -168,6 +168,7 @@ const int nrofBytesScalarTypes_ClassJc[] =
   , 0,0,0,0,0  //0x11..0x15
   , 1     //boolean represented with 1 byte
   , 4     //bitfield supplied with 4 bytes
+  ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 
 };
 
 

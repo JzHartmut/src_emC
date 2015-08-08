@@ -37,6 +37,7 @@ struct ObjectJc_t;
 typedef struct ClassContent_Inspc_t
 { 
   union { ObjectJc object; CmdConsumer_ifc_Inspc_s CmdConsumer_ifc_Inspc;} base; 
+  int8 __TEST__[20]; 
   struct ObjectJc_t* rootObj;   /*The Object from which the user-given path starts to search.*/
   struct AnswerComm_ifc_Inspc_t* answerComm;   /*Association to produce the answer of a request*/
   struct MemAccessArrayDebugJc_t* debugRemoteAccess;   /*Yet only a placeholder, used in the C-implementation. */
@@ -76,7 +77,7 @@ typedef struct ClassContent_Inspc_Y_t { ObjectArrayJc head; ClassContent_Inspc_s
 void finalize_ClassContent_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_ClassContent_Inspc 20150125  /*Version, history and license.*/
+ extern StringJc version_ClassContent_Inspc;   /*Version, history and license.*/
 
 
 METHOD_C struct ClassContent_Inspc_t* ctorO_ClassContent_Inspc(ObjectJc* othis, ThCxt* _thCxt);
@@ -95,20 +96,36 @@ METHOD_C void evaluateFieldGetFields_XXFdii_ClassContent_Inspc(ClassContent_Insp
 
 METHOD_C void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-METHOD_C int32 cmdGetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+METHOD_C int32 cmdGetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, ThCxt* _thCxt);
 
-METHOD_C int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+METHOD_C int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, ThCxt* _thCxt);
 
-METHOD_C int32 getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, StringJc sVariablePath, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+/**Gets or sets a value by given path of reflection.*/
+METHOD_C void getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 nOrderNr, StringJc sVariablePath, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, ThCxt* _thCxt);
 
 /**Sets the value if accSetValue is not null, fills the {@link #answerItem} with the read value.*/
-METHOD_C bool getSetValue_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+METHOD_C int16 getSetValue_ClassContent_Inspc(/*static*/ struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, bool bStoreTypeInAnswer, ThCxt* _thCxt);
 
 METHOD_C int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
 METHOD_C int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-METHOD_C int32 cmdGetValueByIndex_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+/**Registers a path for repeated access*/
+METHOD_C int32 registerHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, StringJc sVariablePath, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, ThCxt* _thCxt);
+
+METHOD_C int32 cmdGetValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
+
+/**Gets a value which is registered before by {@link #registerHandle(String, org.vishia.communication.InspcDataExchangeAccess.Inspcitem)}*/
+METHOD_C int16 getValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 handle, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, ThCxt* _thCxt);
+
+/**Gets the value described by this handle as float value*/
+METHOD_C float getFloatValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 handle, ThCxt* _thCxt);
+
+/**Gets the value described by this handle as int32 value*/
+METHOD_C int32 getIntValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 handle, ThCxt* _thCxt);
+
+/**Converts the given Field of Reflection to the type byte.*/
+METHOD_C int16 getTypeFromField_ClassContent_Inspc(/*static*/ struct FieldJc_t const* theField, ThCxt* _thCxt);
 
 METHOD_C void stop_ClassContent_Inspc(ClassContent_Inspc_s* thiz, ThCxt* _thCxt);
 
@@ -134,13 +151,13 @@ class ClassContent_Inspc : private ClassContent_Inspc_s
 
   int32 cmdGetFields(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdGetFields_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
-  int32 cmdGetValueByIndex(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdGetValueByIndex_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
+  int32 cmdGetValueByHandle(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdGetValueByHandle_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
-  int32 cmdGetValueByPath(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdGetValueByPath_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
+  int32 cmdGetValueByPath(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer){  return cmdGetValueByPath_ClassContent_Inspc(this, cmd, answer,  null/*_thCxt*/); }
 
   int32 cmdRegisterRepeat(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdRegisterRepeat_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
-  int32 cmdSetValueByPath(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return cmdSetValueByPath_ClassContent_Inspc(this, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
+  int32 cmdSetValueByPath(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer){  return cmdSetValueByPath_ClassContent_Inspc(this, cmd, answer,  null/*_thCxt*/); }
 
   ClassContent_Inspc(){ init_ObjectJc(&this->base.object, sizeof(ClassContent_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_ClassContent_Inspc_s, 0); ctorO_ClassContent_Inspc(&this->base.object,  null/*_thCxt*/); }
 
@@ -150,9 +167,19 @@ class ClassContent_Inspc : private ClassContent_Inspc_s
 
   int32 executeMonitorCmd(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return executeMonitorCmd_XXXXi_ClassContent_Inspc(&this->base.CmdConsumer_ifc_Inspc.base.object, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
-  int32 getSetValueByPath(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, StringJcpp sVariablePath, int32 maxNrofAnswerBytes){  return getSetValueByPath_ClassContent_Inspc(this, cmd, accSetValue, answer, sVariablePath, maxNrofAnswerBytes,  null/*_thCxt*/); }
+  float getFloatValueByHandle(int32 handle){  return getFloatValueByHandle_ClassContent_Inspc(this, handle,  null/*_thCxt*/); }
 
-  bool getSetValue(struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, int32 maxNrofAnswerBytes){  return getSetValue_ClassContent_Inspc(this, theField, idx, theObject, accSetValue, maxNrofAnswerBytes,  null/*_thCxt*/); }
+  int32 getIntValueByHandle(int32 handle){  return getIntValueByHandle_ClassContent_Inspc(this, handle,  null/*_thCxt*/); }
+
+  void getSetValueByPath(int32 nOrderNr, StringJcpp sVariablePath, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem){ getSetValueByPath_ClassContent_Inspc(this, nOrderNr, sVariablePath, accSetValue, answerItem,  null/*_thCxt*/); }
+
+  int16 getSetValue(struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, bool bStoreTypeInAnswer){  return getSetValue_ClassContent_Inspc(theField, idx, theObject, accSetValue, answerItem, bStoreTypeInAnswer,  null/*_thCxt*/); }
+
+  int16 getTypeFromField(struct FieldJc_t const* theField){  return getTypeFromField_ClassContent_Inspc(theField,  null/*_thCxt*/); }
+
+  int16 getValueByHandle(int32 handle, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem){  return getValueByHandle_ClassContent_Inspc(this, handle, answerItem,  null/*_thCxt*/); }
+
+  int32 registerHandle(StringJcpp sVariablePath, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem){  return registerHandle_ClassContent_Inspc(this, sVariablePath, answerItem,  null/*_thCxt*/); }
 
   void setAnswerComm(struct AnswerComm_ifc_Inspc_t* answerComm){ setAnswerComm_XX_ClassContent_Inspc(&this->base.CmdConsumer_ifc_Inspc.base.object, answerComm,  null/*_thCxt*/); }
 

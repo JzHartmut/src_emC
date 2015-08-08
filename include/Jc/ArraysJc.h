@@ -87,5 +87,9 @@ METHOD_C void fill_mB_ArraysJc(PtrVal_int8 array, int fromIndex, int toIndex, in
 
 METHOD_C void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, ThCxt* _thCxt);
 
+/**Fill an array given with a PtrVal for the full length. */
+#define fillArray_mB_ArraysJc(ARRAY, VALUE, THCXT) fill_mB_ArraysJc(ARRAY, 0, (ARRAY).value__, VALUE, THCXT);
+
+
 
 #endif  //__ArraysJc_h__

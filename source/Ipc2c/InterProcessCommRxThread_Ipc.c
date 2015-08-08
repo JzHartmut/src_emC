@@ -36,11 +36,21 @@ struct CharSequenceJc_t;
 #endif
 
 
+/**This class provides a bundle with InterProcessCommuniation and a receive thread for it.
+On received telegrams it invokes the {@link InterProcessCommRx_ifc#execRxData(byte[], int)}
+which's instance is given by construction. The InterProcessComm can be used to send telegrams too,
+using this{@link #ipc}.
+
+@author Hartmut Schorrig
+
+*/
+
 
 const char sign_Mtbl_InterProcessCommRxThread_Ipc[] = "InterProcessCommRxThread_Ipc"; //to mark method tables of all implementations
 
 typedef struct MtblDef_InterProcessCommRxThread_Ipc_t { Mtbl_InterProcessCommRxThread_Ipc mtbl; MtblHeadJc end; } MtblDef_InterProcessCommRxThread_Ipc;
  extern MtblDef_InterProcessCommRxThread_Ipc const mtblInterProcessCommRxThread_Ipc;
+StringJc version_InterProcessCommRxThread_Ipc = CONST_z_StringJc("2015-06-13");
 
 /*Constructor */
 struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(ObjectJc* othis, StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt)
@@ -117,7 +127,7 @@ bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
       
       
       sError = z_StringJc(ipcMtbl.mtbl->translateErrorMsg(&(( (ipcMtbl.ref))->base.object), ok))/*J2C:non-persistent*/;
-      format_z_PrintStreamJc(REFJc(out_SystemJc), "\nopen fails: error, %d = %s\n", "Is", ok & 0x80000000, sError, _thCxt);
+      format_z_PrintStreamJc(REFJc(out_SystemJc), "\nopen fails: error, %d = %s\n", "Is", ok & 0x7fffffff, sError, _thCxt);
     }
     if(thiz->bEnablePrintfOnComm) 
     { /*:only for debug:*/
@@ -316,11 +326,12 @@ extern_C struct ClassJc_t const reflection_Address_InterProcessComm_s;
 extern_C struct ClassJc_t const reflection_C_threadRoutine_InterProcessCommRxThread_Ipc_s;
 extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc_s;
 extern_C struct ClassJc_t const reflection_InterProcessComm_i;
+extern_C struct ClassJc_t const reflection_StringJc;
 extern_C struct ClassJc_t const reflection_ThreadJc_s;
 const struct Reflection_Fields_InterProcessCommRxThread_Ipc_s_t
-{ ObjectArrayJc head; FieldJc data[11];
+{ ObjectArrayJc head; FieldJc data[12];
 } reflection_Fields_InterProcessCommRxThread_Ipc_s =
-{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessCommRxThread_Ipc_s)
+{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessCommRxThread_Ipc_s)
 , {
      { "execRxData"
     , 0 //nrofArrayElements
@@ -408,6 +419,14 @@ const struct Reflection_Fields_InterProcessCommRxThread_Ipc_s_t
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InterProcessCommRxThread_Ipc_s*)(0x1000))->threadRoutine) - (int32)(InterProcessCommRxThread_Ipc_s*)0x1000)
     , 0  //offsetToObjectifcBase
+    , &reflection_InterProcessCommRxThread_Ipc_s
+    }
+   , { "version"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&version_InterProcessCommRxThread_Ipc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_InterProcessCommRxThread_Ipc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
     , &reflection_InterProcessCommRxThread_Ipc_s
     }
 } };

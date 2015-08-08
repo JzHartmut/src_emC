@@ -103,7 +103,7 @@ METHOD_C struct C_threadRoutine_InterProcessCommRxThread_Ipc_t* ctorO_C_threadRo
 typedef struct InterProcessCommRxThread_Ipc_t
 { 
   union { ObjectJc object; } base; 
-  struct InterProcessCommRx_ifc_Ipc_t* execRxData;   /**/
+  struct InterProcessCommRx_ifc_Ipc_t* execRxData;   /*Reference to the execute routine on receiving data. */
   char state;   /*State of function.*/
   bool bEnablePrintfOnComm; 
   struct InterProcessComm_t* ipc;   /**/
@@ -144,6 +144,7 @@ typedef struct InterProcessCommRxThread_Ipc_Y_t { ObjectArrayJc head; InterProce
 void finalize_InterProcessCommRxThread_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+ extern StringJc version_InterProcessCommRxThread_Ipc;   /*Version, history and license.*/
 
 
 /**Creates the communication for the inspector.*/

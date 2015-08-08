@@ -5,6 +5,7 @@ package org/vishia/inspectorTarget/;
 final class ClassContent; nameC=ClassContent_Inspc_s; argIdent=XX; extends java/lang/Object implements org/vishia/inspectorTarget/CmdConsumer_ifc //creationMode=P
 {  
 fieldIdents {
+  byte[20] Q%. __TEST__;
   org/vishia/inspectorTarget/AnswerComm_ifc *.. answerComm;
   org/vishia/communication/InspcDataExchangeAccess.Inspcitem(instance=org/vishia/communication/InspcDataExchangeAccess.Inspcitem) $.. answerItem;
   org/vishia/reflect/MemAccessArrayDebugJc *.. debugRemoteAccess;
@@ -14,21 +15,26 @@ fieldIdents {
   java/lang/StringBuilder(instance=java/lang/StringBuilder, fixBufferSize=200) $B. uAnswer;
   java/lang/StringBuilder(instance=java/lang/StringBuilder, fixBufferSize=64) $B. uArray;
   java/lang/StringBuilder(instance=java/lang/StringBuilder, fixBufferSize=160) $B. uValue;
-  int %.d version;
+  java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
     cmdGetAddressByPath-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
     cmdGetFields-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
-    cmdGetValueByIndex-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
-    cmdGetValueByPath-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
+    cmdGetValueByHandle-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
+    cmdGetValueByPath-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer);
     cmdRegisterRepeat-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
-    cmdSetValueByPath-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
+    cmdSetValueByPath-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer);
     ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/ClassContent *.. ClassContent_Inspc_s();
     evaluateFieldGetFields+_XXFdii-_$: void %.r null(org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,org/vishia/reflect/FieldJc *.. field,int %.. orderNr,int %.. maxNrofAnswerBytes);
     evaluateFieldGetFields+_XXSFdiiii-_$: void %.r null(org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,java/lang/String(instance=java/lang/String) t.. name,org/vishia/reflect/ClassJc *.. typeField,int %.. modifiers,int %.. staticArraySize,int %.. orderNr,int %.. maxNrofAnswerBytes);
     executeMonitorCmd+_XXXXi-_$, defined: org/vishia/inspectorTarget/CmdConsumer_ifc.executeMonitorCmd: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
-    getSetValue-_$: boolean %.r null(org/vishia/reflect/FieldJc *.. theField,int %.. idx,org/vishia/bridgeC/MemSegmJc(instance=org/vishia/bridgeC/MemSegmJc) $.. theObject,org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. accSetValue,int %.. maxNrofAnswerBytes);
-    getSetValueByPath-_$: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. accSetValue,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,java/lang/String(instance=java/lang/String) t.. sVariablePath,int %.. maxNrofAnswerBytes);
+    getFloatValueByHandle-_$: float %.r null(int %.. handle);
+    getIntValueByHandle-_$: int %.r null(int %.. handle);
+    getSetValue-_$, mode= static: short %.r null(org/vishia/reflect/FieldJc *.. theField,int %.. idx,org/vishia/bridgeC/MemSegmJc(instance=org/vishia/bridgeC/MemSegmJc) $.. theObject,org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. accSetValue,org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. answerItem,boolean %.. bStoreTypeInAnswer);
+    getSetValueByPath-_$: void %.r null(int %.. nOrderNr,java/lang/String(instance=java/lang/String) t.. sVariablePath,org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. accSetValue,org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. answerItem);
+    getTypeFromField-_$, mode= static: short %.r null(org/vishia/reflect/FieldJc *.. theField);
+    getValueByHandle-_$: short %.r null(int %.. handle,org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. answerItem);
+    registerHandle-_$: int %.r null(java/lang/String(instance=java/lang/String) t.. sVariablePath,org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. answerItem);
     setAnswerComm+_XX-_$, defined: org/vishia/inspectorTarget/CmdConsumer_ifc.setAnswerComm: void %.r null(org/vishia/inspectorTarget/AnswerComm_ifc *.. answerComm);
     setRootObject-_$: void %.r null(java/lang/Object *.. rootObj);
     stop-_$: void %.r null();

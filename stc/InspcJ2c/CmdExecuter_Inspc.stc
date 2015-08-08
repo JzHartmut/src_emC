@@ -17,6 +17,7 @@ fieldIdents {
   int %.. nrofBytesAnswer;
   int %.. nrofSentBytes;
   boolean %.. useTelgHead;
+  java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
     completeConstruction-_$, mode= overrideable: void %.r null(org/vishia/inspectorTarget/Comm *.. comm);

@@ -13,3 +13,13 @@ class Assert; nameC=AssertJc_s; argIdent=Lo; extends java/lang/Object
   
 }
 
+
+
+
+class RetOrException; nameC=RetOrExceptionJc;
+{
+  methods{
+    illegalArgument+_I-_$, mode=static: int %.. return(boolean %.. bExc, int %.. val, String t.. excText);
+  }
+}
+

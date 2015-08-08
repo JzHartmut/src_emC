@@ -9,17 +9,21 @@ package java/util/;
 class Arrays; nameC=ArraysJc; argIdent=A; extends java/lang/Object
 {  
   
-  methods {  
-    fill+_C-_$, mode=static: void%.. return(char X%. value,  int %.. from, int %.. to, char %.. value);
-    fill+_B-_$, mode=static: void%.. return(byte X%. value,  int %.. from, int %.. to, byte %.. value);
-    fill+_mB-_$, mode=static: void%.. return(byte M%. value,  int %.. from, int %.. to, byte %.. value);
-    fill+_S-_$, mode=static: void%.. return(short X%. value, int %.. from, int %.. to, short %.. value);
-    fill+_I-_$, mode=static: void%.. return(int X%. value,   int %.. from, int %.. to, int %.. value);
-    fill+_J-_$, mode=static: void%.. return(long X%. value,  int %.. from, int %.. to, long %.. value);
-    fill+_F-_$, mode=static: void%.. return(float X%. value, int %.. from, int %.. to, float %.. value);
-    fill+_D-_$, mode=static: void%.. return(double X%. value,int %.. from, int %.. to, double %.. value);
-    fill+_O-_$, mode=static: void%.. return(Object X*. value,int %.. from, int %.. to, Object *.. value);
-    fill+_aB-_$, mode=static: void%.. return(byte X%. array, byte %.. value);
+  methods {
+    //The fill(from, to) methods from Java
+    fill+_C-_$, mode=static: void%.. return(char X%. array,  int %.. from, int %.. to, char %.. value);
+    fill+_B-_$, mode=static: void%.. return(byte X%. array,  int %.. from, int %.. to, byte %.. value);
+    fill+_mB-_$, mode=static: void%.. return(byte M%. array,  int %.. from, int %.. to, byte %.. value);
+    fill+_S-_$, mode=static: void%.. return(short X%. array, int %.. from, int %.. to, short %.. value);
+    fill+_I-_$, mode=static: void%.. return(int X%. array,   int %.. from, int %.. to, int %.. value);
+    fill+_J-_$, mode=static: void%.. return(long X%. array,  int %.. from, int %.. to, long %.. value);
+    fill+_F-_$, mode=static: void%.. return(float X%. array, int %.. from, int %.. to, float %.. value);
+    fill+_D-_$, mode=static: void%.. return(double X%. array,int %.. from, int %.. to, double %.. value);
+    fill+_O-_$, mode=static: void%.. return(Object X*. array,int %.. from, int %.. to, Object *.. value);
+    
+    //The fill methods for the whole array
+    fill+Array_aB-_$, mode=static: void%.. return(byte X%. array, byte %.. value);
+    fill+Array_mB-_$, mode=static: void%.. return(byte M%. array, byte %.. value); //For arrays declared with PtrVal, only for bytes
     binarySearch+_int_ii-_$, mode=static: int%.. return(int Y.. array, int %.. from, int%.. to, int%.. key);
     binarySearch+_int-_$, mode=static: int%.. return(int Y.. array, int%.. key);
     binarySearch+_int64-_$, mode=static: int%.. return(long Y.. array, long%.. key);

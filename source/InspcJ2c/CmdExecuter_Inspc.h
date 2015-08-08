@@ -72,6 +72,7 @@ typedef struct CmdExecuter_Inspc_Y_t { ObjectArrayJc head; CmdExecuter_Inspc_s d
 void finalize_CmdExecuter_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+ extern StringJc version_CmdExecuter_Inspc;   /*Version, history and license.*/
 
 
 METHOD_C struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdConsumer_ifc_Inspc_t* commandConsumer, ThCxt* _thCxt);
@@ -89,7 +90,7 @@ METHOD_C bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_i
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 
-/**Send the current answer datagram as answer.*/
+/**Send the current answer datagram as answer*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */

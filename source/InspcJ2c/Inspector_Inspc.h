@@ -19,6 +19,19 @@ struct Inspector_Inspc_t;
 struct ObjectJc_t;
 
 
+/* J2C: Enhanced references *********************************************************
+ * In this part all here used enhanced references are defined conditionally.
+ * The inclusion of all that header files isn't necessary, to prevent circular inclusion.
+ * It is adequate a struct pointer forward declaration.
+ */
+#ifndef Inspector_InspcREFDEF
+  //J2C: definition of enhanced reference where it was need firstly: 
+  #define Inspector_InspcREFDEF
+  struct Inspector_Inspc_t;
+  DEFINE_EnhancedRefJc(Inspector_Inspc);
+#endif
+
+
 /* J2C: includes *********************************************************/
 #include "InspcJ2c/ClassContent_Inspc.h"  //embedded type in class data
 #include "InspcJ2c/CmdExecuter_Inspc.h"  //embedded type in class data
@@ -30,7 +43,7 @@ struct ObjectJc_t;
 typedef struct Inspector_Inspc_t
 { 
   union { ObjectJc object; } base; 
-  ClassContent_Inspc_s classContent; 
+  ClassContent_Inspc_s classContent;   /*The sub module ClassContent should be accessible from outside to offer methods of it in the application itself.*/
   CmdExecuter_Inspc_s cmdExecuter;   /*The main cmd executer. There may be more as one {@link CmdConsumer_ifc} */
   Comm_Inspc_s comm;   /*The communication class. */
 } Inspector_Inspc_s;
@@ -63,11 +76,15 @@ typedef struct Inspector_Inspc_Y_t { ObjectArrayJc head; Inspector_Inspc_s data[
 void finalize_Inspector_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_Inspector_Inspc 0x20111118  /*Version and history*/
+ extern StringJc version_Inspector_Inspc;   /*Version and history*/
+ extern Inspector_InspcREF singleton_Inspector_Inspc; 
 
 
 /*** */
 METHOD_C struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt);
+
+/**Returns the first instance of the Inspector in this application*/
+METHOD_C struct Inspector_Inspc_t* get_Inspector_Inspc(/*static*/ ThCxt* _thCxt);
 
 /**Start the execution. */
 typedef void MT_start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
@@ -102,6 +119,8 @@ class Inspector_Inspc : private Inspector_Inspc_s
 { public:
 
   Inspector_Inspc(StringJcpp commOwnAddr){ init_ObjectJc(&this->base.object, sizeof(Inspector_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_Inspector_Inspc_s, 0); ctorO_Inspector_Inspc(&this->base.object, commOwnAddr,  null/*_thCxt*/); }
+
+  struct Inspector_Inspc_t* get(){  return get_Inspector_Inspc( null/*_thCxt*/); }
 
   virtual void shutdown(){ shutdown_Inspector_Inspc_F(this,  null/*_thCxt*/); }
 

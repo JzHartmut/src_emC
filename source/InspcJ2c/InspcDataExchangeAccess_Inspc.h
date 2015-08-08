@@ -15,6 +15,8 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
+struct ByteDataAccessBaseJc_t;
+struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t;
 struct InspcDataExchangeAccess_Inspc_t;
 struct InspcDatagram_InspcDataExchangeAccess_Inspc_t;
 struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t;
@@ -93,10 +95,10 @@ METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagr
 #define getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
 (getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, _thCxt))
 
-/**Sets the head for an answer telegram*/
+/**Sets the head for an request telegram*/
 METHOD_C void setHeadRequest_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, int32 entrant, int32 seqNr, int32 encryption, ThCxt* _thCxt);
 
-/**Sets the head for an request telegram*/
+/**Sets the head for an answer telegram*/
 METHOD_C void setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, int32 entrant, int32 seqNr, int32 encryption, ThCxt* _thCxt);
 
 #define setEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ, nr) \
@@ -214,16 +216,17 @@ void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(Inspcitem_InspcDataExcha
 #define sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc 8
 #define kGetFields_Inspcitem_InspcDataExchangeAccess_Inspc 0x10  /*Aufforderung zur Rueckgabe einer Liste aller Attribute und Assoziationen des adressierten Objektes.*/
 #define kAnswerFieldMethod_Inspcitem_InspcDataExchangeAccess_Inspc 0x14  /*Antwort auf Aufforderung zur Rueckgabe einer Liste von Attributen, Assoziationen oder Methoden.*/
-#define kRegisterRepeat_Inspcitem_InspcDataExchangeAccess_Inspc 0x23
-#define kAnswerRegisterRepeat_Inspcitem_InspcDataExchangeAccess_Inspc 0x123
-#define kFailedRegisterRepeat_Inspcitem_InspcDataExchangeAccess_Inspc 0x124
-#define kGetValueByIndex_Inspcitem_InspcDataExchangeAccess_Inspc 0x25
-#define kAnswerValueByIndex_Inspcitem_InspcDataExchangeAccess_Inspc 0x125  /** <pre>*/
-#define kAnswerValue_Inspcitem_InspcDataExchangeAccess_Inspc 0x26
+#define kRegisterHandle_Inspcitem_InspcDataExchangeAccess_Inspc 0x23
+#define kAnswerRegisterHandle_Inspcitem_InspcDataExchangeAccess_Inspc 0x23  /*Answer cmd to {@link #kRegisterHandle}.*/
+#define kFailedRegisterRepeat_Inspcitem_InspcDataExchangeAccess_Inspc 0x24
+#define kGetValueByHandle_Inspcitem_InspcDataExchangeAccess_Inspc 0x25
+#define kAnswerValueByHandle_Inspcitem_InspcDataExchangeAccess_Inspc 0x25  /*Answer cmd to {@link #kGetValueByHandle}.*/
+#define kAnswerValue_Inspcitem_InspcDataExchangeAccess_Inspc 0x26  /*Answer cmd to {@link #kGetValueByPath}.*/
 #define kFailedValue_Inspcitem_InspcDataExchangeAccess_Inspc 0x27
+#define kFailedHandle_Inspcitem_InspcDataExchangeAccess_Inspc 0x28  /*Answer cmd for a {@link #kGetValueByHandle} which is a faulty handle.*/
 #define kGetValueByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x30
 #define kGetAddressByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x32
-#define kSetValueByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x35
+#define kSetValueByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x35  /*Sets a value with given path*/
 #define kSetStringByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x36  /*Sets a string value.*/
 #define kGetMsg_Inspcitem_InspcDataExchangeAccess_Inspc 0x40  /*Request to get all messages.*/
 #define kAnswerMsg_Inspcitem_InspcDataExchangeAccess_Inspc 0x140
@@ -237,7 +240,8 @@ void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(Inspcitem_InspcDataExcha
 #define kFailedCommand_Inspcitem_InspcDataExchangeAccess_Inspc 0xff
 
 
-METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, int32 sizeData, ThCxt* _thCxt);
+/**Constructor for derived items with other head size.*/
+METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, int32 sizeHeadDerived, ThCxt* _thCxt);
 
 METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
@@ -604,6 +608,75 @@ class InspcSetValueData_InspcDataExchangeAccess_Inspc : private InspcSetValueDat
 
 
 
+/*@CLASS_C InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc @@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t
+{ 
+  union { Inspcitem_InspcDataExchangeAccess_Inspc_s super;} base; 
+} InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s;
+  
+
+#define sizeof_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s)
+
+
+/**J2c: Definitions of the enhanced reference. It's conditinally because it may be defined in a included header before. */
+#ifndef InspcAnswerValueByHandle_InspcDataExchangeAccess_InspcREFDEF
+  //J2C: definition of enhanced reference where it was need firstly: 
+  #define InspcAnswerValueByHandle_InspcDataExchangeAccess_InspcREFDEF
+  struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t;
+  DEFINE_EnhancedRefJc(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc);
+#endif
+
+/**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
+typedef struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; InspcAnswerValueByHandle_InspcDataExchangeAccess_InspcREF data[50]; } InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_X;
+typedef struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s data[50]; } InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_Y;
+
+ extern_C struct ClassJc_t const reflection_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s;
+  
+
+
+/**CONST_Type useable as initializer for embedded/stack-instances*/
+#define CONST_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s), OBJP, &reflection_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s), 0 }
+
+/**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
+ * It should be called by the user if the instance is removed. */
+void finalize_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_F(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
+
+
+#define sizeofElement_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc 12
+
+
+METHOD_C struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* ctorM_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
+
+METHOD_C struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* ctorM_XX_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(MemC mthis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* src, ThCxt* _thCxt);
+
+METHOD_C int32 getIxHandleFrom_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
+
+METHOD_C int32 getIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
+
+METHOD_C void setIxHandleFrom_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s* thiz, int32 val, ThCxt* _thCxt);
+
+METHOD_C void setIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s* thiz, int32 val, ThCxt* _thCxt);
+
+
+#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
+/* J2C: The C++-class-definition. */
+class InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc : private InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s
+{ public:
+
+  int32 getIxHandleFrom(){  return getIxHandleFrom_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(this,  null/*_thCxt*/); }
+
+  int32 getIxHandleTo(){  return getIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(this,  null/*_thCxt*/); }
+
+  void setIxHandleFrom(int32 val){ setIxHandleFrom_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(this, val,  null/*_thCxt*/); }
+
+  void setIxHandleTo(int32 val){ setIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(this, val,  null/*_thCxt*/); }
+};
+
+#endif /*__CPLUSPLUSJcpp*/
+
+
+
 /*@CLASS_C InspcDataExchangeAccess_Inspc @@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct InspcDataExchangeAccess_Inspc_t
@@ -639,16 +712,28 @@ typedef struct InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcData
 void finalize_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_InspcDataExchangeAccess_Inspc 20120409  /*Version, history and license.*/
+ extern StringJc version_InspcDataExchangeAccess_Inspc;   /*Version, history and license.*/
 #define maxNrOfChars_InspcDataExchangeAccess_Inspc 0xc8  /*Values between 0..199 determines the length of string.*/
-#define kReferenceAddr_InspcDataExchangeAccess_Inspc 0xdf  /*A reference is the memory-address of an element in C-language*/
+#define kLengthAndString_InspcDataExchangeAccess_Inspc 0xc9  /*The value is a string uptp 200 character which's length is stored in the first byte. */
+#define kReferenceAddr64_InspcDataExchangeAccess_Inspc 0xdc  /*A memory-address of an element in C-language*/
+#define kInvalidHandle_InspcDataExchangeAccess_Inspc 0xdd  /*This type identification designates that the index to access by index is invalid.*/
 #define kTypeNoValue_InspcDataExchangeAccess_Inspc 0xde  /*This type identification designates that the value is not available.*/
-#define kInvalidIndex_InspcDataExchangeAccess_Inspc 0xdd  /*This type identification designates that the index to access by index is invalid.*/
+#define kReferenceAddr_InspcDataExchangeAccess_Inspc 0xdf  /*A reference is the memory-address of an element in C-language*/
 #define kScalarTypes_InspcDataExchangeAccess_Inspc 0xe0  /*Scalar types started with 0xe0,*/
+ extern const int32 nrofBytesSpecialTypes_InspcDataExchangeAccess_Inspc[24]; 
 
 
 /**Default constructor. */
 METHOD_C struct InspcDataExchangeAccess_Inspc_t* ctorO_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt);
+
+/**Returns the number of bytes for any value which is designated*/
+METHOD_C int32 nrofBytesForType_InspcDataExchangeAccess_Inspc(/*static*/ int16 type, ThCxt* _thCxt);
+
+/**Returns the byte given value with the designated type as float value with conversion*/
+METHOD_C float getFloatChild_InspcDataExchangeAccess_Inspc(/*static*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt);
+
+/**Returns the byte given value with the designated type as int32 value with conversion*/
+METHOD_C int32 getIntChild_InspcDataExchangeAccess_Inspc(/*static*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -667,6 +752,12 @@ class InspcDataExchangeAccess_Inspc : private InspcDataExchangeAccess_Inspc_s
 { public:
 
   InspcDataExchangeAccess_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InspcDataExchangeAccess_Inspc_s, 0); ctorO_InspcDataExchangeAccess_Inspc(&this->base.object,  null/*_thCxt*/); }
+
+  float getFloatChild(int16 type, struct ByteDataAccessBaseJc_t* access){  return getFloatChild_InspcDataExchangeAccess_Inspc(type, access,  null/*_thCxt*/); }
+
+  int32 getIntChild(int16 type, struct ByteDataAccessBaseJc_t* access){  return getIntChild_InspcDataExchangeAccess_Inspc(type, access,  null/*_thCxt*/); }
+
+  int32 nrofBytesForType(int16 type){  return nrofBytesForType_InspcDataExchangeAccess_Inspc(type,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

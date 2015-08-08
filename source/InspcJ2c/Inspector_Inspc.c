@@ -16,6 +16,8 @@ const char sign_Mtbl_Inspector_Inspc[] = "Inspector_Inspc"; //to mark method tab
 
 typedef struct MtblDef_Inspector_Inspc_t { Mtbl_Inspector_Inspc mtbl; MtblHeadJc end; } MtblDef_Inspector_Inspc;
  extern MtblDef_Inspector_Inspc const mtblInspector_Inspc;
+StringJc version_Inspector_Inspc = CONST_z_StringJc("2015-08-05");
+Inspector_InspcREF singleton_Inspector_Inspc = { 0, null };
 
 /*Constructor */
 struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt)
@@ -39,11 +41,31 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
     ctorO_Comm_Inspc(/*static*/&(thiz->comm.base.object), commOwnAddr, & (thiz->cmdExecuter), _thCxt);
     completeConstruction_CmdExecuter_Inspc_F(& (thiz->cmdExecuter), & (thiz->comm), _thCxt);
     setAnswerComm_XX_ClassContent_Inspc(&((& ((thiz->classContent).base.CmdConsumer_ifc_Inspc))->base.object), & ((thiz->cmdExecuter).base.AnswerComm_ifc_Inspc), _thCxt);
+    if(REFJc(singleton_Inspector_Inspc) == null) 
+    { 
+      
+      SETREFJc(singleton_Inspector_Inspc, thiz, Inspector_Inspc_s);
+    }
   }
   STACKTRC_LEAVE;
   return thiz;
 }
 
+
+
+/**Returns the first instance of the Inspector in this application*/
+struct Inspector_Inspc_t* get_Inspector_Inspc(/*static*/ ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("get_Inspector_Inspc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return REFJc(singleton_Inspector_Inspc);
+    }
+  }
+  STACKTRC_LEAVE;
+}
 
 
 /**Start the execution. */
@@ -119,10 +141,12 @@ extern_C struct ClassJc_t const reflection_Inspector_Inspc_s;
 extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
 extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
 extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
+extern_C struct ClassJc_t const reflection_Inspector_Inspc_s;
+extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_Inspector_Inspc_s_t
-{ ObjectArrayJc head; FieldJc data[3];
+{ ObjectArrayJc head; FieldJc data[5];
 } reflection_Fields_Inspector_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_Inspector_Inspc_s)
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_Inspector_Inspc_s)
 , {
      { "classContent"
     , 0 //nrofArrayElements
@@ -146,6 +170,22 @@ const struct Reflection_Fields_Inspector_Inspc_s_t
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Inspector_Inspc_s*)(0x1000))->comm) - (int32)(Inspector_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
+    , &reflection_Inspector_Inspc_s
+    }
+   , { "version"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&version_Inspector_Inspc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_Inspector_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
+    , &reflection_Inspector_Inspc_s
+    }
+   , { "singleton"
+    , 0 //nrofArrayElements
+    , &reflection_Inspector_Inspc_s
+    , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&singleton_Inspector_Inspc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&singleton_Inspector_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
     , &reflection_Inspector_Inspc_s
     }
 } };

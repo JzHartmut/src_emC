@@ -9,6 +9,7 @@
 #include "InspcJ2c/CmdConsumer_ifc_Inspc.h"  //reference-association: cmdConsumerMtbl
 #include "InspcJ2c/Comm_Inspc.h"  //reference-association: comm
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
+#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -26,6 +27,7 @@ const char sign_Mtbl_CmdExecuter_Inspc[] = "CmdExecuter_Inspc"; //to mark method
 
 typedef struct MtblDef_CmdExecuter_Inspc_t { Mtbl_CmdExecuter_Inspc mtbl; MtblHeadJc end; } MtblDef_CmdExecuter_Inspc;
  extern MtblDef_CmdExecuter_Inspc const mtblCmdExecuter_Inspc;
+StringJc version_CmdExecuter_Inspc = CONST_z_StringJc("2015-08-05");
 
 /*Constructor */
 struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdConsumer_ifc_Inspc_t* commandConsumer, ThCxt* _thCxt)
@@ -229,7 +231,7 @@ bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer,
 }
 
 
-/**Send the current answer datagram as answer.*/
+/**Send the current answer datagram as answer*/
 int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt)
 { CmdExecuter_Inspc_s* thiz = (CmdExecuter_Inspc_s*)ithis;
   
@@ -354,10 +356,11 @@ extern_C struct ClassJc_t const reflection_CmdConsumer_ifc_Inspc_s;
 extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
 extern_C struct ClassJc_t const reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s;
 extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_CmdExecuter_Inspc_s_t
-{ ObjectArrayJc head; FieldJc data[12];
+{ ObjectArrayJc head; FieldJc data[13];
 } reflection_Fields_CmdExecuter_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_CmdExecuter_Inspc_s)
+{ CONST_ObjectArrayJc(FieldJc, 13, OBJTYPE_FieldJc, null, &reflection_Fields_CmdExecuter_Inspc_s)
 , {
      { "datagramCmd"
     , 0 //nrofArrayElements
@@ -453,6 +456,14 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->useTelgHead) - (int32)(CmdExecuter_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
+    , &reflection_CmdExecuter_Inspc_s
+    }
+   , { "version"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&version_CmdExecuter_Inspc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_CmdExecuter_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
     , &reflection_CmdExecuter_Inspc_s
     }
 } };

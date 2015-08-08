@@ -11,4 +11,6 @@ struct CharSequenceJc_t;
 METHOD_C struct CharSequenceJc_t* exceptionInfo_B_AssertJc(char const* text, ExceptionJc* exc, int firstLevel, int nrofLevels, bool bWithExceptiontext, ThCxt* _thCxt);
 
 
+#define illegalArgument_I_RetOrExceptionJc(COND, VAL, TXT, THCXT) (COND ? (VAL) : (VAL))
+
 #endif  // __AssertJc_h__

@@ -5,6 +5,7 @@ package org/vishia/communication/;
 interface InterProcessCommRx_ifc; nameC=InterProcessCommRx_ifc_Ipc_s; argIdent=XX; extends java/lang/Object //creationMode=F
 {  
 fieldIdents {
+  java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
     execRxData-_$, mode= overrideable: void %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived);

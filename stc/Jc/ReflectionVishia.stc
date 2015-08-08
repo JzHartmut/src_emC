@@ -41,6 +41,7 @@ final const class ClassJc; nameC=ClassJc; header=Jc/ReflectionJc.h; argIdent=Fd;
 	  int %.S REFLECTION_boolean;
 	  int %.S REFLECTION_String;
 	  int %.S REFLECTION_bitfield;
+	  int[32] Q%S nrofBytesScalarTypes;
   }
   //Note: some methods are the same as java.lang.Class see SystemJc.stc because ClassJc is a wrapper around Class
   methods {  

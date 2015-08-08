@@ -52,6 +52,7 @@ typedef struct InterProcessCommRx_ifc_Ipc_Y_t { ObjectArrayJc head; InterProcess
 void finalize_InterProcessCommRx_ifc_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+ extern StringJc version_InterProcessCommRx_ifc_Ipc;   /*Version, history and license.*/
 
 
 typedef void MT_execRxData_InterProcessCommRx_ifc_Ipc(ObjectJc* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
