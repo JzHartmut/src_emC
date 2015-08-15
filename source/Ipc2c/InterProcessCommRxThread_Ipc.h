@@ -147,18 +147,29 @@ void finalize_InterProcessCommRxThread_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern StringJc version_InterProcessCommRxThread_Ipc;   /*Version, history and license.*/
 
 
-/**Creates the communication for the inspector.*/
+/**Creates the communication but does not open it yet*/
 METHOD_C struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(ObjectJc* othis, StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt);
 
+/**Static method to create invokes the constructor.*/
 METHOD_C struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*static*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt);
+
+/**Create any destination address for the given InterprocessComm implementation.*/
+METHOD_C struct Address_InterProcessComm_t* createDstAddr_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, StringJc sAddr, ThCxt* _thCxt);
 
 METHOD_C bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, bool blocking, ThCxt* _thCxt);
 
-METHOD_C void start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
+/**Start opens the InterProcessComm and starts the receiver thread.*/
+METHOD_C bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
+
+/**Send a telegram to the given dst*/
+METHOD_C int32 send_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, PtrVal_int8 data, int32 nrofBytesToSend, struct Address_InterProcessComm_t* dstAddr, ThCxt* _thCxt);
 
 METHOD_C void runThread_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
 
 METHOD_C void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
+
+/**Shutdown the communication, close the thread*/
+METHOD_C void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -176,6 +187,8 @@ typedef struct Mtbl_InterProcessCommRxThread_Ipc_t
 class InterProcessCommRxThread_Ipc : private InterProcessCommRxThread_Ipc_s
 { public:
 
+  struct Address_InterProcessComm_t* createDstAddr(StringJcpp sAddr){  return createDstAddr_InterProcessCommRxThread_Ipc(this, sAddr,  null/*_thCxt*/); }
+
   struct InterProcessCommRxThread_Ipc_t* create(StringJcpp ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData){  return create_InterProcessCommRxThread_Ipc(ownAddrIpc, execRxData,  null/*_thCxt*/); }
 
   InterProcessCommRxThread_Ipc(StringJcpp ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData){ init_ObjectJc(&this->base.object, sizeof(InterProcessCommRxThread_Ipc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommRxThread_Ipc_s, 0); ctorO_InterProcessCommRxThread_Ipc(&this->base.object, ownAddrIpc, execRxData,  null/*_thCxt*/); }
@@ -186,7 +199,11 @@ class InterProcessCommRxThread_Ipc : private InterProcessCommRxThread_Ipc_s
 
   void runThread(){ runThread_InterProcessCommRxThread_Ipc(this,  null/*_thCxt*/); }
 
-  void start(){ start_InterProcessCommRxThread_Ipc(this,  null/*_thCxt*/); }
+  int32 send(PtrVal_int8 data, int32 nrofBytesToSend, struct Address_InterProcessComm_t* dstAddr){  return send_InterProcessCommRxThread_Ipc(this, data, nrofBytesToSend, dstAddr,  null/*_thCxt*/); }
+
+  void shutdown(){ shutdown_InterProcessCommRxThread_Ipc(this,  null/*_thCxt*/); }
+
+  bool start(){  return start_InterProcessCommRxThread_Ipc(this,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

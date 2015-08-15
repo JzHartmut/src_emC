@@ -625,52 +625,89 @@ typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcA
 
 
 
-/*@DEFINE_C Ifc_impl_method1_ObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE_C IFC_IMPL_dataMETHOD1_ObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-/**This macro helps to define a variable, the reflections and the method table for a given interface
- * with its one implementing method. The implementing method should be defined as simpe C method 
- * with the appropriate signature. Use this macro to define an instance of the interface 
- * with an anonymous derived class (Java slang) to use it as reference to deal with the overridden methods.
- * Write for example
- * ,,IfcImp_ObjectJc(MyIfcType, variableName, methodName);,,
+/**This macro helps to define the reflections and the method table for a given abstract class
+ * which has the following definition in Java ...
+ * ,,public abstract class TYPE
+ * ,,{ @Java4C.SimpleRef public Object data;
+ * ,,  public abstract void METHOD(...);
+ * ,,}
+ * It is a universal approach with one data reference to any data and one method whith a specific signature.
+ * The given abstract class should be defined in C language usual with Java2C-translation or maybe manual written. 
+ * Especially the definition of the structure
+ * ,,typedef struct TYPE_t 
+ * ,,{ union { ObjectJc object; } base; 
+ * ,,  struct ObjectJc_t* data;   
+ * ,,} TYPE_s;
+ * and the method table
+ * ,,extern const char sign_Mtbl_InterProcessCommRx_ifc_Ipc[]; //marker for methodTable check
+ * ,,typedef struct Mtbl_TYPE_t
+ * ,,{ MtblHeadJc head;
+ * ,,  MT_METHOD* execRxData;
+ * ,,  Mtbl_ObjectJc ObjectJc;
+ * ,,} Mtbl_TYPE;
+ * should be given. Whereby TYPE and METHOD are any proper definitions.
  *
- * The macro defines 3 variable:
- * * mtbl_NAME: The method table of the interface type with the given method.
- * * reflection_NAME: Reflection for the given variable refers the mtbl_NAME.
- * * NAME: The variable itself intialized with the reflection.
+ * The implementing method should be defined as simpe C method 
+ * with the appropriate signature. Use this macro to define the reflection with method table which is used
+ * as ''derived anonymous class'' (Java slang) based on the given TYPE. It is to deal with the overridden method.
  *
- * * All 3 generated variable are const, therefore assigned to a const segment by linking. There are static global,
- * therefore only a unique NAME of this compilation unit is necessary. Note that the reference of the variable
+ * An instance of this can be defined then with
+ * ,,TYPE_s myImpl = CONST_ObjectJc(0, &myImpl, &reflection_METHOD);
+ * This type has the reflection with reference to the implementing method but the data of the struct definition.
+ * 
+ * The macro defines 2 const variable:
+ * * mtbl_METHOD: The method table of the interface type with the given method.
+ * * reflection_METHOD: Reflection for the given variable refers the mtbl_METHOD.
+ *
+ * All 2 generated variable are const, therefore assigned to a const segment by linking. There are static global,
+ * therefore only a unique name in this compilation unit is necessary. Note that the reference of the variable
  * can be forwarding to other parts of code.
  *
  * @param TYPE Type name of the interface without suffix _s. It should be given: ,,struct TYPE_t{...}TYPE_s;
- * @param NAME any name.
- * @param METHOD Only the name of the method which implements the only 1 interface method.
+ * @param METHOD Only the name of the method which implements the only 1 interface method. 
+ *    This METHOD name is used both as name for the Mtbl_ and Reflection. The METHOD should match to the method definiton
+  
  * @since 2015-06-14. It is the concequently usage of ObjectJc overridden methods, prepared for C usage.  
  */
-#define Ifc_impl_method1_ObjectJc(TYPE, NAME, METHOD) \
-Mtbl_##TYPE static const mtbl_##NAME = \
-{ { sign_Mtbl_##TYPE   /*J2C: Head of methodtable. */ \
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) \
-  }  \
-, METHOD  \
-, { { sign_Mtbl_ObjectJc          \
-    , (struct Size_Mtbl_t*)((1 + 4 +2) * sizeof(void*)) \
+#define IFC_IMPL_dataMETHOD1_ObjectJc(TYPE, METHOD) \
+Mtbl_##TYPE static const mtbl_##METHOD = \
+{ { sign_Mtbl_##TYPE , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) } \
+, METHOD \
+, { { sign_Mtbl_ObjectJc, (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) } \
+  , clone_ObjectJc_F, equals_ObjectJc_F, finalize_ObjectJc_F, hashCode_ObjectJc_F \
+  , toString_ObjectJc_F \
+  } \
+} /*, { signEnd_Mtbl_ObjectJc, null } }*/; \
+\
+\
+extern_C struct ClassJc_t const reflection_##METHOD; \
+static const struct Reflection_Fields_##METHOD_t  \
+{ ObjectArrayJc head; FieldJc data[1]; } reflection_Fields_##METHOD = \
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_##METHOD) \
+, { { "data" \
+    , 0  \
+    , &reflection_ObjectJc \
+    , kReference_Modifier_reflectJc  \
+    , (int16)((int32)(&((TYPE##_s*)(0x1000))->data) - (int32)(TYPE##_s*)0x1000) \
+    , 0   \
+    , &reflection_##METHOD \
     } \
-  , clone_ObjectJc_F, equals_ObjectJc_F, finalize_ObjectJc_F, hashCode_ObjectJc_F, toString_ObjectJc_F \
-  }\
-};\
-\
-ClassJc static const reflection_##NAME = \
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_##NAME, &reflection_ClassJc) \
-, "NAME" \
-, 0 \
+} }; \
+static const ClassJc reflection_##METHOD =  \
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc)  \
+, #METHOD \
+,  0  \
 , sizeof(TYPE##_s) \
-, null, null, null, null, 0, &mtbl_##NAME.head \
-}; \
-\
-TYPE##_s static NAME = CONST_ObjectJc(0, &NAME, &reflection_##NAME);
+, (FieldJcArray const*)&reflection_Fields_##METHOD \
+, null /*methods*/  \
+, null /*superclasses */  \
+, null  \
+, 0     \
+, &mtbl_##METHOD.head   \
+};
 
 
 

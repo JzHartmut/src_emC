@@ -14,6 +14,12 @@
 #include "Fwc/fw_Exception.h"   //basic concept
 
 
+/* J2C: Forward declaration of struct ***********************************************/
+struct Address_InterProcessComm_t;
+struct InterProcessCommRx_ifc_Ipc_t;
+struct ObjectJc_t;
+
+
 /* J2C: includes *********************************************************/
 
 
@@ -22,6 +28,7 @@
 typedef struct InterProcessCommRx_ifc_Ipc_t
 { 
   union { ObjectJc object; } base; 
+  struct ObjectJc_t* data;   /*This data pointer can be set by any application*/
 } InterProcessCommRx_ifc_Ipc_s;
   
 
@@ -55,9 +62,15 @@ void finalize_InterProcessCommRx_ifc_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern StringJc version_InterProcessCommRx_ifc_Ipc;   /*Version, history and license.*/
 
 
-typedef void MT_execRxData_InterProcessCommRx_ifc_Ipc(ObjectJc* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+/**Default constructor. */
+METHOD_C struct InterProcessCommRx_ifc_Ipc_t* ctorO_InterProcessCommRx_ifc_Ipc(ObjectJc* othis, ThCxt* _thCxt);
+
+/**Callback routine for received data.*/
+typedef void MT_execRxData_InterProcessCommRx_ifc_Ipc(InterProcessCommRx_ifc_Ipc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C void execRxData_InterProcessCommRx_ifc_Ipc_F(InterProcessCommRx_ifc_Ipc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void execRxData_InterProcessCommRx_ifc_Ipc(ObjectJc* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
+METHOD_C void execRxData_InterProcessCommRx_ifc_Ipc(InterProcessCommRx_ifc_Ipc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -76,7 +89,9 @@ typedef struct Mtbl_InterProcessCommRx_ifc_Ipc_t
 class InterProcessCommRx_ifc_Ipc : private InterProcessCommRx_ifc_Ipc_s
 { public:
 
-  virtual void execRxData(PtrVal_int8 buffer, int32 nrofBytesReceived)=0;
+  InterProcessCommRx_ifc_Ipc(){ init_ObjectJc(&this->base.object, sizeof(InterProcessCommRx_ifc_Ipc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommRx_ifc_Ipc_s, 0); ctorO_InterProcessCommRx_ifc_Ipc(&this->base.object,  null/*_thCxt*/); }
+
+  virtual void execRxData(PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender){ execRxData_InterProcessCommRx_ifc_Ipc_F(this, buffer, nrofBytesReceived, sender,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

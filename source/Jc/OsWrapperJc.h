@@ -53,6 +53,18 @@
 #include <os_waitnotify.h>
 #include <Fwc/fw_ThreadContext.h>
 
+/**Version and History.
+ * 2015-08-16 JcHartmut: There is a mistake while creating a new [[synchronized(...)]]:
+ *  The new id for a ObjectJc::idSyncHandles was stored before the handleMutex was set in the referred struct.
+ *  That is not a problem on a single core processor because there is no reason to swith the thread context in this time.
+ *  But on multicore processing it is possible that a second core runs a thread similar and uses the new stored idSyncHandles
+ *  while the handleMutex is not set yet. Then a Nullpointer is given for [[os_lockMutex(...)]] and it crashed.
+ *  A fast workarround is: wait 1 ms if the handleMutex==null to give time to finish the creation in the other thread.
+ *  Correct fix is: firstly finish the structure for idSyncHandles, then set it to Object::idSyncHandles with an atomic testAndSet.
+ *  If it is set already (from another thread in the same time), delete the own created structure data and use the alredy set data instead.
+ */
+#define VERSION_OsWrapperJc 0x20150816
+
 /**Because only a int16 value is used in Object_Jc for wait and threading, but some operation systems uses 32 bit-handles,
  * a translation of handle to index is necessary. This type stores several types of OS_Handle.
  */
@@ -67,7 +79,7 @@ typedef struct HandleItem_t
 
 
   //struct OS_HandleMutex_t const* handleMutex;
-  OS_Mutex handleMutex;
+  struct OS_Mutex_t* handleMutex;
   /**a next index if a queueu is necessarry. TODO using?*/
   int16 idxNext_xxx;
 

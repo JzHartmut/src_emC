@@ -52,12 +52,15 @@ fieldIdents {
 }
   methods {  
     create-_$, mode= static: org/vishia/communication/InterProcessCommRxThread *.r null(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/communication/InterProcessCommRx_ifc *.. execRxData);
+    createDstAddr-_$: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. sAddr);
     ctorO-_$, mode= ctor+static: org/vishia/communication/InterProcessCommRxThread *.. InterProcessCommRxThread_Ipc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/communication/InterProcessCommRx_ifc *.. execRxData);
     ctorO_C_threadRoutine-_$, mode= ctor+anonymousCtor+nonStaticCtor: org/vishia/communication/InterProcessCommRxThread.C_threadRoutine *.. C_threadRoutine_InterProcessCommRxThread_Ipc_s();
     openComm-_$: boolean %.r null(boolean %.. blocking);
     receiveAndExecute-_$: void %.r null();
     runThread-_$: void %.r null();
-    start-_$: void %.r null();
+    send-_$: int %.r null(byte[??] M%. data,int %.. nrofBytesToSend,org/vishia/communication/Address_InterProcessComm *.. dstAddr);
+    shutdown-_$: void %.r null();
+    start-_$: boolean %.r null();
   }
 
   castTo {

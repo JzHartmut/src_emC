@@ -2,18 +2,13 @@
 Structure of translated java-file "Ipc2c/InterProcessCommRxExec_Ipc"
 package org/vishia/communication/;
 
-class InterProcessCommRxExec; nameC=InterProcessCommRxExec_Ipc_s; argIdent=XX; extends java/lang/Object implements org/vishia/communication/InterProcessCommRx_ifc //creationMode=P
+class InterProcessCommRxExec; nameC=InterProcessCommRxExec_Ipc_s; argIdent=XX; //creationMode=P
 {  
 fieldIdents {
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/communication/InterProcessCommRxExec *.. InterProcessCommRxExec_Ipc_s();
-    execRxData+_iYi-_$, defined: org/vishia/communication/InterProcessCommRx_ifc.execRxData, mode= overrideable: void %.r null(byte[??] X%. buffer,int %.. nrofBytesReceived);
-  }
-
-  castTo {
-    org/vishia/communication/InterProcessCommRx_ifc: $ "(?).base.InterProcessCommRx_ifc_Ipc" $;
-    java/lang/Object: $ "(?).base.InterProcessCommRx_ifc_Ipc.base.object" $;
+    ctorM-_$, mode= ctor+static: org/vishia/communication/InterProcessCommRxExec *.. InterProcessCommRxExec_Ipc_s();
+    execRxData-_$, mode= overrideable: void %.r null(byte[??] X%. buffer,int %.. nrofBytesReceived,org/vishia/communication/Address_InterProcessComm *.. sender);
   }
 
 }

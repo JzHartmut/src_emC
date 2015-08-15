@@ -26,12 +26,25 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessComm(ObjectJc* othis, ThCx
 
 METHOD_C Address_InterProcessComm_s* ctorO_s_Address_InterProcessComm(ObjectJc* othis, StringJc addr, ThCxt* _thCxt)
 {
-  Address_InterProcessComm_s* ythis = (Address_InterProcessComm_s*) othis;
+  Address_InterProcessComm_s* thiz = (Address_InterProcessComm_s*) othis;
   STACKTRC_TENTRY("ctorO_Address_InterProcessComm");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm_s, sizeof(Address_InterProcessComm_s));  
-  //TODO scanf
-  STACKTRC_LEAVE; return ythis;
+  int sizeAddr;
+  char const* charsAddr = getCharsAndLength_StringJc(&addr, &sizeAddr);
+  if (charsAddr == null || sizeAddr == 0)
+  { //no address specification
+    thiz->address1 = thiz->address2 = 0;
+  }
+  else
+  { int np1 = 0, np2 = 0, np3 = 0, np4 = 0;
+    int port = 0;
+    sscanf(charsAddr, "%d . %d . %d . %d : %d", &np1, &np2, &np3, &np4, &port);
+    //Note: The IPv4-Address is stored as int32, the left is the high byte of integer unless little or big endian!
+    thiz->address2 = (((uint32)np1)<<24) + (((uint32)np2)<<16) + (((uint32)np3)<<8) + np4;
+    thiz->address1 = port;
+  }
+  STACKTRC_LEAVE; return thiz;
 }
 
 Address_InterProcessComm_s* ctorO_sI_Address_InterProcessComm(ObjectJc* othis, StringJc addr, int32 port, ThCxt* _thCxt)
@@ -81,22 +94,8 @@ Address_InterProcessComm_s* ctorO_ssI_Address_InterProcessComm(ObjectJc* othis, 
     ythis->address2 = 0; //kReceiveFromAll_OS_SOCKADDR;
   }
   else
-  { //((OS_SOCKADDR*)ythis->internalData)->sin_addr.S_un.S_addr =  inet_addr(sIpAdr); //INADDR_ANY;
-    //convert a.b.c.d    to     d.c.b.a, and then to number
-    int np1 = 0;
-    int np2 = 0;
-    int np3 = 0;
-    int np4 = 0;
-                                              //a    b      c     d
+  { int np1 = 0, np2 = 0, np3 = 0, np4 = 0;
     sscanf(charsAddr, " %d . %d . %d . %d ", &np1, &np2, &np3, &np4);
-
-    /*
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[0] = (char)np1;
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[1] = (char)np2;
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[2] = (char)np3;
-    ((OS_SOCKADDR*)ythis->internalData)->ip.sin_addr[3] = (char)np4;
-    */
-    //ythis->address2 = (((uint32)np4)<<24) + (((uint32)np3)<<16) + (((uint32)np2)<<8) + np1;
     //Note: The IPv4-Address is stored as int32, the left is the high byte of integer unless little or big endian!
     ythis->address2 = (((uint32)np1)<<24) + (((uint32)np2)<<16) + (((uint32)np3)<<8) + np4;
 

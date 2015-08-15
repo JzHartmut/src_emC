@@ -463,7 +463,7 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* ythis, MemSegmJc inst
         default: sizeElement = type->nSize; //TODO check ASSERT(false), check primitive, should be embedded
         }//switch
         //an index must not be given on a non-embedded container. Check it to prevent software errors.
-        ASSERT(isStaticEmbeddedArray_ModifierJc(ythis->bitModifiers)); 
+        //ASSERT(isStaticEmbeddedArray_ModifierJc(ythis->bitModifiers)); 
       }
     }
     if(bFieldAddr){

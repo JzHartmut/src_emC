@@ -65,7 +65,7 @@
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
-int os_createMutex(char const* pName, OS_Mutex* pMutex)
+int os_createMutex(char const* pName, struct OS_Mutex_t** pMutex)
 {
 
     HANDLE    hIOMutex;
@@ -89,7 +89,7 @@ int os_createMutex(char const* pName, OS_Mutex* pMutex)
 }
 
 
-int os_deleteMutex(OS_Mutex mutex)
+int os_deleteMutex(struct OS_Mutex_t* mutex)
 { HANDLE winHandleMutex = mutex->winHandleMutex;
   os_freeMem((void*)mutex);
   if ( CloseHandle( winHandleMutex ) == 0 ) 
@@ -109,10 +109,9 @@ int os_deleteMutex(OS_Mutex mutex)
 }
 
 
-int os_lockMutex(OS_Mutex mutexP)
+int os_lockMutex(OS_Mutex_s* mutex)
 {
 	DWORD WinRet;
-  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.  	
     WinRet = WaitForSingleObject( mutex->winHandleMutex, INFINITE );
     if (WinRet == WAIT_FAILED)
     {	DWORD err = GetLastError();
@@ -137,9 +136,8 @@ int os_lockMutex(OS_Mutex mutexP)
 }
 
 
-int os_unlockMutex(OS_Mutex mutexP)
+int os_unlockMutex(struct OS_Mutex_t* mutex)
 {
-  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //non const
   /*
     struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();
     struct OS_ThreadContext_t const* threadOwner = mutex->threadOwner;

@@ -99,7 +99,7 @@ int os_removeWaitNotifyObject(struct OS_HandleWaitNotify_t const* waitObj)
 }
 
 
-int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutex, uint32 milliseconds)
+int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex, uint32 milliseconds)
 { //HANDLE semaphor = (HANDLE)handle;
   int error;
   struct OS_HandleWaitNotify_t* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
@@ -142,7 +142,7 @@ int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutex, uint32
 
 /** Notifies all waiting thread to continue.
  */
-int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex hMutex)
+int os_notifyAll(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex)
 {
   return -1;
 
@@ -151,7 +151,7 @@ int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex hMutex)
 
 /** Notifies only one waiting thread to continue.
  */
-int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutex)
+int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex)
 { struct OS_HandleWaitNotify_t* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
   LONG prevCount;
   bool shouldNotify;

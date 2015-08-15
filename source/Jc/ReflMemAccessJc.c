@@ -401,7 +401,7 @@ MemSegmJc getRef_MemAccessJc(MemSegmJc addr)
   int memSegment = segment_MemSegmJc(addr);
   void** src = ADDR_MemSegmJc(addr, void*);
   if(memSegment == 0){
-    void* addr = *src;
+    void* addr = src == null ? null : *src;
     MemSegmJc ret = CONST_MemSegmJc(addr, memSegment);
     return ret;
   }

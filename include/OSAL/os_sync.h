@@ -48,9 +48,19 @@
 
 extern_C_BLOCK_
 
-/**The type of a OS_Mutex is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
-typedef struct OS_Mutex_t const* OS_Mutex;
+/**Version and History.
+ * 2015-08-16 JcHartmut: The definition of OS_Mutex as pointer type is wrong, because it is not obvious what's that in C.
+ *                       Therefore it is replaced by the struct OS_Mutex_t like usual for such. It is a reference (memory address) in any case.
+ * 2006-00-00 JcHartmut created.
+ */
+static const int version_OS_sync = 0x20150816
 
+
+
+
+/**The type of a OS_Mutex is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
+struct OS_Mutex_t;
+//typedef struct OS_Mutex_t* OS_Mutex;
 
 #include <os_types_def.h>
 //#include "fw_MemC.h"
@@ -65,12 +75,12 @@ typedef struct OS_HandleWaitNotify_t const* OS_HandleWaitNotify;
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
-int os_createMutex(char const* name, OS_Mutex* pMutexID);
+int os_createMutex(char const* name, struct OS_Mutex_t** pMutexID);
  
  
 /**Deletes a mutex object.
  */
-int os_deleteMutex(OS_Mutex mutexID);
+int os_deleteMutex(struct OS_Mutex_t* mutexID);
  
  
 /**locks a mutex. 
@@ -78,7 +88,7 @@ int os_deleteMutex(OS_Mutex mutexID);
  * * If the same thread tries to lock a mutex, it is okay. 
  * * Another thread waits until the owner thread calls os_unlockMutex(...).
  */
-int os_lockMutex(OS_Mutex mutexID);
+int os_lockMutex(struct OS_Mutex_t* mutexID);
 
 
 /**Unlocks the mutex. It is possible that a thread switch occurs, 
@@ -87,7 +97,7 @@ int os_lockMutex(OS_Mutex mutexID);
  * The same thread which calls os_lockMutex(...) should call os_unlockMutex(...).
  * If another thread unlocks, it is an error and an exception may be thrown.
  */
-int os_unlockMutex(OS_Mutex mutexID);
+int os_unlockMutex(struct OS_Mutex_t* mutexID);
 
 
 
@@ -116,7 +126,7 @@ METHOD_C int os_removeWaitNotifyObject(OS_HandleWaitNotify waitObject);
 /** Waits for a notification.
  */
 
-METHOD_C int os_wait(OS_HandleWaitNotify waitObject, OS_Mutex hMutex, uint32 milliseconds);
+METHOD_C int os_wait(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex, uint32 milliseconds);
 
 
 /** Notifies all waiting thread to continue.
@@ -124,12 +134,12 @@ METHOD_C int os_wait(OS_HandleWaitNotify waitObject, OS_Mutex hMutex, uint32 mil
              >0 if notified with warning (possible notified but nobody waits).
              <0 if an system error occurs. This should not occur in a tested system.
  */
-METHOD_C int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex hMutex);
+METHOD_C int os_notifyAll(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex);
 
 
 /** Notifies only one waiting thread to continue.
  */
-METHOD_C int os_notify(OS_HandleWaitNotify waitObject, OS_Mutex hMutex);
+METHOD_C int os_notify(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex);
 
 
 _END_extern_C_BLOCK

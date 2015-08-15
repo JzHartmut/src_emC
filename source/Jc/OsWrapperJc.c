@@ -216,6 +216,12 @@ void synchronized(ObjectJc* obj)
   }
   else
   { handle = getHandleEntry(obj->idSyncHandles);
+    //its possible that another thread has written the idSyncHandles just now
+    //but the handleMutex is not set yet.
+    //the wait a short time:
+    if(handle->handleMutex == null){
+      os_delayThread(1);
+    }
   }
   os_lockMutex(handle->handleMutex);
 }

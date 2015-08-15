@@ -425,10 +425,10 @@ typedef struct Mtbl_InterProcessComm_t
   MT_getSendBuffer_InterProcessComm* getSendBuffer;
 
   MT_createAddressEmpty_InterProcessComm* createAddressEmpty;
-  MT_createAddress_s_InterProcessComm* createAddressEmpty_s;
+  MT_createAddress_s_InterProcessComm* createAddress_s;
   //MT_createAddress_z_InterProcessComm* createAddressEmpty_z;
-  MT_createAddress_sI_InterProcessComm* createAddressEmpty_si;
-  MT_createAddress_I_InterProcessComm* createAddressEmpty_i;
+  MT_createAddress_sI_InterProcessComm* createAddress_si;
+  MT_createAddress_I_InterProcessComm* createAddress_i;
 } Mtbl_InterProcessComm;
 
 

@@ -109,7 +109,7 @@ OS_ThreadContext* ThreadPool[OS_maxNrofThreads] = {0};
 uint uThreadCounter = 0;               
 
 /* Thread protection to access the handle pool.  */
-OS_Mutex uThreadPoolSema = 0;              
+struct OS_Mutex_t* uThreadPoolSema = 0;              
 
 bool bLibIsInitialized = false;
 

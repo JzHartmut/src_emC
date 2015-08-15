@@ -43,6 +43,8 @@ using this{@link #ipc}.
 
 @author Hartmut Schorrig
 
+
+
 */
 
 
@@ -78,8 +80,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
     SETMTBJc(ipcMtbl, ipcFactory.mtbl->create(&(( (ipcFactory.ref))->base.object), ownAddrIpc, _thCxt), InterProcessComm);
     thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base.RunnableJc), s0_StringJc("IpcRx"), _thCxt);
-    start_ThreadJc(thiz->thread, -1, _thCxt);/*set it to class ref.*/
+    thiz->thread = ctorO_Runnable_s_ThreadJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
     
     thiz->ipc =  (ipcMtbl.ref);
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
@@ -89,6 +90,8 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
 }
 
 
+
+/**Static method to create invokes the constructor.*/
 struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*static*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("create_InterProcessCommRxThread_Ipc");
@@ -103,6 +106,21 @@ struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*sta
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj1_1, obj, _thCxt);
       return obj;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Create any destination address for the given InterprocessComm implementation.*/
+struct Address_InterProcessComm_t* createDstAddr_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, StringJc sAddr, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("createDstAddr_InterProcessCommRxThread_Ipc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return ((Mtbl_InterProcessComm const*)getMtbl_ObjectJc(&(thiz->ipc)->base.object, sign_Mtbl_InterProcessComm) )->createAddress_s(&((thiz->ipc)->base.object), sAddr);
     }
   }
   STACKTRC_LEAVE;
@@ -152,13 +170,40 @@ bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
   STACKTRC_LEAVE;
 }
 
-void start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
+
+/**Start opens the InterProcessComm and starts the receiver thread.*/
+bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_InterProcessCommRxThread_Ipc");
   
   { 
+    bool bOk; 
     
-    start_ThreadJc(thiz->thread, -1, _thCxt);
+    
+    bOk = openComm_InterProcessCommRxThread_Ipc(thiz, true, _thCxt);
+    if(bOk) 
+    { 
+      
+      start_ThreadJc(thiz->thread, -1, _thCxt);
+    }
+    { STACKTRC_LEAVE;
+      return bOk;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Send a telegram to the given dst*/
+int32 send_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, PtrVal_int8 data, int32 nrofBytesToSend, struct Address_InterProcessComm_t* dstAddr, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("send_InterProcessCommRxThread_Ipc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return ((Mtbl_InterProcessComm const*)getMtbl_ObjectJc(&(thiz->ipc)->base.object, sign_Mtbl_InterProcessComm) )->send(&((thiz->ipc)->base.object), build_MemC(data.ptr__, data.value__ ), nrofBytesToSend, dstAddr);
+    }
   }
   STACKTRC_LEAVE;
 }
@@ -173,7 +218,6 @@ void runThread_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz
     while(thiz->state != 'x')
       { 
         
-        openComm_InterProcessCommRxThread_Ipc(thiz, true, _thCxt);
         if(thiz->state == 'o') 
         { 
           
@@ -270,7 +314,7 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
             else 
             { 
               
-              execRxDataMtbl.mtbl->execRxData(&(( (execRxDataMtbl.ref))->base.object), thiz->rxBuffer, thiz->nrofBytesReceived[0], _thCxt);/*unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);*/
+              execRxDataMtbl.mtbl->execRxData( (execRxDataMtbl.ref), thiz->rxBuffer, thiz->nrofBytesReceived[0], thiz->myAnswerAddress, _thCxt);/*unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);*/
               
             }
           }
@@ -288,6 +332,65 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
         END_TRY
       }/*while state !='x'*/
       
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Shutdown the communication, close the thread*/
+void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("shutdown_InterProcessCommRxThread_Ipc");
+  
+  { 
+    InterProcessCommMTB ipcMtbl;   /**/
+    
+    
+    if(thiz->state == 'e') { STACKTRC_LEAVE;
+      return;
+    }/*nothing to do, error.*/
+    
+    thiz->state = 'x';
+    SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
+    ipcMtbl.mtbl->close(&(( (ipcMtbl.ref))->base.object));/*breaks waiting in receive socket*/
+    
+    
+    while(thiz->state != 'z')
+      { 
+        
+        
+        synchronized_ObjectJc(& ((* (thiz)).base.object)); {
+          
+          { 
+            
+            TRY
+            { 
+              
+              wait_ObjectJc(& ((* (thiz)).base.object), 100, _thCxt);
+            }_TRY
+            CATCH(InterruptedException, exc)
+            
+              { 
+                
+                
+              }
+            END_TRY
+          }
+        } endSynchronized_ObjectJc(& ((* (thiz)).base.object));
+      }
+    TRY
+    { 
+      
+      sleep_ThreadJc(/*static*/1000, _thCxt);/*wait a second.*/
+      
+    }_TRY
+    CATCH(InterruptedException, exc)
+    
+      { 
+        
+        
+      }
+    END_TRY
   }
   STACKTRC_LEAVE;
 }
