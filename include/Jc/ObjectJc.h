@@ -82,6 +82,9 @@ METHOD_C void ctorc_ObjectJc(ObjectJc* ythis);
  * * The element ownAddress is set
  * * The element reflectionClass is set to null.  
  * * All other elements are set initially.
+ *
+ * To free the ObjectJc use [[free_ObjectJc(...)]] because it should work with the same memory management. Don't use low level functions.
+ *
  * This routine assumes, that dynamically memory is present. 
  * In long-running-realtime-applications a dynamic-memory-management may be spurious
  * in the running phase, but maybe possible at startupt time.
@@ -100,6 +103,10 @@ METHOD_C void ctorc_ObjectJc(ObjectJc* ythis);
  * @throws RuntimeException if a memory space can't allocate.
 */
 METHOD_C ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _thCxt);
+
+
+/**Freeze an Object allocated with [[alloc_ObjectJc(...)]]. */
+METHOD_C void free_ObjectJc(ObjectJc* thiz);
 
 
 /**Submits the responsibility to the instance to a garbage collector. 
@@ -121,6 +128,12 @@ METHOD_C void activateGC_ObjectJc(void const* object, void const* exclObject, Th
  * 
  */
 METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
+
+
+/**Checks whether a reference refers a valid ObjectJc. A valid ObjectJc has a mark: Its own address
+ * is stored in the Object. 
+ */
+#define isValidObjectJc(THIZ) ( (THIZ)->base.object.ownAddress == THIZ)
 
 
 
@@ -278,6 +291,9 @@ METHOD_C ObjectArrayJc* ctorO_ObjectArrayJc(ObjectJc* objthis, int size, int nBy
  * @throws RuntimeException if no memory is allocatable.
  */
 METHOD_C ObjectArrayJc* new_ObjectArrayJc(int size, int bytesPerElement, struct ClassJc_t const* reflection, int32 typeInstanceIdent);
+
+
+#define free_ObjectArrayJc(THIZ){ free_ObjectJc(&(THIZ)->object); }
 
 
 /**returns the address of the first element of the array. The type depends on the derived declaration. 
@@ -642,13 +658,16 @@ typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcA
  * ,,  struct ObjectJc_t* data;   
  * ,,} TYPE_s;
  * and the method table
- * ,,extern const char sign_Mtbl_InterProcessCommRx_ifc_Ipc[]; //marker for methodTable check
+ * ,,extern const char sign_Mtbl_TYPE[]; //marker for methodTable check
  * ,,typedef struct Mtbl_TYPE_t
  * ,,{ MtblHeadJc head;
- * ,,  MT_METHOD* execRxData;
+ * ,,  MT_METHOD_TYPE* METHOD;
  * ,,  Mtbl_ObjectJc ObjectJc;
  * ,,} Mtbl_TYPE;
- * should be given. Whereby TYPE and METHOD are any proper definitions.
+ * should be given. Whereby ,,TYPE,, and ,,METHOD,, are any proper definitions. 
+ * The ,,MT_METHOD_TYPE,, is the function-Type of the method which should be matched to the user defined method.
+ * It is for example:
+ * ,,typedef void MT_METHOD_TYPE(TYPE_s* thiz, int arg1, float arg2, ThCxt* _thCxt);
  *
  * The implementing method should be defined as simpe C method 
  * with the appropriate signature. Use this macro to define the reflection with method table which is used
@@ -710,6 +729,9 @@ static const ClassJc reflection_##METHOD =  \
 };
 
 
+//TODO check usage of existing fields:
+//extern const struct Reflection_Fields_##TYPE##_s_t reflection_Fields_##TYPE##_s; \
+//  , (FieldJcArray const*)&reflection_Fields_##TYPE##_s \
 
 
 /*@CLASS_CPP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

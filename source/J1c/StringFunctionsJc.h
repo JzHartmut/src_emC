@@ -65,94 +65,109 @@ void finalize_StringFunctionsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 /**Default constructor. */
 METHOD_C struct StringFunctionsJc_t* ctorO_StringFunctionsJc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Returns the position of the end of an identifier.*/
-METHOD_C int32 posAfterIdentifier_CsiiSS_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* src, int32 start, int32 endMax, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
+METHOD_C int32 indexWhitespace_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32 start, int32 endMax, ThCxt* _thCxt);
+
+METHOD_C int32 indexNoWhitespace_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32 start, int32 endMax, ThCxt* _thCxt);
+
+/**Searches the position of the first identifier character starting from the given position.*/
+METHOD_C int32 indexIdentifier_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32 start, int32 endMax, StringJc additionalStartChars, ThCxt* _thCxt);
+
+/**Returns the position after the end of an identifier.*/
+METHOD_C int32 indexAfterIdentifier_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32 start, int32 endMax, StringJc additionalChars, ThCxt* _thCxt);
 
 /**Returns the position of the end of an identifier.*/
-METHOD_C int32 posAfterIdentifier_Csii_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* src, int32 start, int32 endMax, ThCxt* _thCxt);
+METHOD_C int32 posAfterIdentifier_CsiiSS_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32 start, int32 endMax, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
+
+/**Returns the position of the end of an identifier.*/
+METHOD_C int32 posAfterIdentifier_Csii_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32 start, int32 endMax, ThCxt* _thCxt);
 
 /**Parses a given String and convert it to the integer number.*/
-METHOD_C int32 parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+METHOD_C int32 parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
 
+/*** */
 #define parseIntRadix_SiiiiY_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars) \
 (parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/srcP, pos, sizeP, radix, parsedChars, null_StringJc, _thCxt))
 
 /**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
-METHOD_C int64 parseLong_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+METHOD_C int64 parseLong_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
 
 /**Parses a given String backward and convert it to the integer number.*/
-METHOD_C int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, ThCxt* _thCxt);
+METHOD_C int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt);
 
-METHOD_C float parseFloat_SiiiY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32_Y* parsedCharsP, ThCxt* _thCxt);
+/*** */
+METHOD_C float parseFloat_SiiiY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt);
 
 /**Parses a given String and convert it to the float number.*/
-METHOD_C float parseFloat_SiiciY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32_Y* parsedCharsP, ThCxt* _thCxt);
+METHOD_C float parseFloat_SiiciY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.*/
-METHOD_C int32 comparePos_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2, ThCxt* _thCxt);
+METHOD_C int32 comparePos_CsCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, CharSequenceJc_Ref s2, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.)*/
-METHOD_C int32 comparePos_CsiCsii_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
+METHOD_C int32 comparePos_CsiCsii_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, int32 from1, CharSequenceJc_Ref s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.*/
-METHOD_C int32 compare_CsiCsii_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
+METHOD_C int32 compare_CsiCsii_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, int32 from1, CharSequenceJc_Ref s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
-METHOD_C int32 compare_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2, ThCxt* _thCxt);
+METHOD_C int32 compare_CsCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, CharSequenceJc_Ref s2, ThCxt* _thCxt);
 
 /**Compares two charsequences*/
-METHOD_C bool equals_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, int32 from, int32 to, struct CharSequenceJc_t* s2, ThCxt* _thCxt);
+METHOD_C bool equals_CsiiCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, int32 from, int32 to, CharSequenceJc_Ref s2, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
-METHOD_C bool equals_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2, ThCxt* _thCxt);
+METHOD_C bool equals_CsCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, CharSequenceJc_Ref s2, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence starts with a CharSequence.*/
-METHOD_C bool startsWith_CsCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, struct CharSequenceJc_t* start, ThCxt* _thCxt);
+METHOD_C bool startsWith_CsCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, CharSequenceJc_Ref start, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence starts with a CharSequence.*/
-METHOD_C bool startsWith_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 from, int32 to, struct CharSequenceJc_t* start, ThCxt* _thCxt);
+METHOD_C bool startsWith_CsiiCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 from, int32 to, CharSequenceJc_Ref start, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence ends with a CharSequence.*/
-METHOD_C bool endsWith_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, struct CharSequenceJc_t* end, ThCxt* _thCxt);
+METHOD_C bool endsWith_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, CharSequenceJc_Ref end, ThCxt* _thCxt);
 
 /**Returns false if at least one char was found in text which is not a whitespace.*/
-METHOD_C bool isEmptyOrOnlyWhitespaces_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* text, ThCxt* _thCxt);
+METHOD_C bool isEmptyOrOnlyWhitespaces_StringFunctionsJc(/*static*/ CharSequenceJc_Ref text, ThCxt* _thCxt);
 
-/**Searches the first occurrence of the given CharSequence in a CharSequence.*/
-METHOD_C int32 indexOf_Csiic_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, char ch, ThCxt* _thCxt);
+/**Searches the first occurrence of the given character in a CharSequence.*/
+METHOD_C int32 indexOf_Csiic_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 fromIndex, int32 to, char ch, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given Character in a CharSequence.*/
-METHOD_C int32 indexOf_Csci_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, char ch, int32 fromIndex, ThCxt* _thCxt);
+METHOD_C int32 indexOf_Csci_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, char ch, int32 fromIndex, ThCxt* _thCxt);
+
+/**Searches the first occurrence of the given Character in a CharSequence.*/
+METHOD_C int32 indexOf_Csc_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, char ch, ThCxt* _thCxt);
 
 /**Searches any char inside sChars in the given Charsequence*/
-METHOD_C int32 indexOfAnyChar_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 begin, int32 end, StringJc sChars, ThCxt* _thCxt);
+METHOD_C int32 indexOfAnyChar_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 begin, int32 end, StringJc sChars, ThCxt* _thCxt);
 
 /**Searches the last occurrence of the given char in a CharSequence.*/
-METHOD_C int32 lastIndexOf_Csiic_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 from, int32 to, char ch, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_Csiic_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 from, int32 to, char ch, ThCxt* _thCxt);
 
 /**Searches the last occurrence of the given char in a CharSequence.*/
-METHOD_C int32 lastIndexOf_Csc_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, char ch, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_Csc_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, char ch, ThCxt* _thCxt);
 
 /**Searches the last occurrence of the given char in a CharSequence.*/
-METHOD_C int32 lastIndexOfAnyChar_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 from, int32 to, StringJc chars, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOfAnyChar_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 from, int32 to, StringJc chars, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
-METHOD_C int32 indexOf_CsiiS_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
+METHOD_C int32 indexOf_CsiiS_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
-METHOD_C int32 indexOf_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str, ThCxt* _thCxt);
+METHOD_C int32 indexOf_CsiiCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 fromIndex, int32 to, CharSequenceJc_Ref str, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given CharSequence in a CharSequence.*/
-METHOD_C int32 indexOf_CsCsi_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, struct CharSequenceJc_t* str, int32 fromIndex, ThCxt* _thCxt);
+METHOD_C int32 indexOf_CsCsi_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, CharSequenceJc_Ref str, int32 fromIndex, ThCxt* _thCxt);
+
+/**Searches the first occurrence of the given CharSequence in a CharSequence.*/
+METHOD_C int32 indexOf_CsCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, CharSequenceJc_Ref str, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the given String.*/
-METHOD_C int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
-METHOD_C int32 lastIndexOf_CsiiCs_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str, ThCxt* _thCxt);
-
-/**Resolves the given String containing some transcription chars (usual backslash)*/
-METHOD_C struct CharSequenceJc_t* convertTransliteration_StringFunctionsJc(/*static*/ struct CharSequenceJc_t* src, char transcriptChar, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_CsiiCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int32 fromIndex, int32 to, CharSequenceJc_Ref str, ThCxt* _thCxt);
 
 /**Returns a String with 2*indent spaces for indentation.*/
 METHOD_C StringJc indent2_StringFunctionsJc(/*static*/ int32 indent, ThCxt* _thCxt);
@@ -176,71 +191,81 @@ typedef struct Mtbl_StringFunctionsJc_t
 class StringFunctionsJc : private StringFunctionsJc_s
 { public:
 
-  int32 comparePos(struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2){  return comparePos_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+  int32 comparePos(CharSequenceJc_Ref s1, CharSequenceJc_Ref s2){  return comparePos_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 
-  int32 comparePos(struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars){  return comparePos_CsiCsii_StringFunctionsJc(s1, from1, s2, from2, nrofChars,  null/*_thCxt*/); }
+  int32 comparePos(CharSequenceJc_Ref s1, int32 from1, CharSequenceJc_Ref s2, int32 from2, int32 nrofChars){  return comparePos_CsiCsii_StringFunctionsJc(s1, from1, s2, from2, nrofChars,  null/*_thCxt*/); }
 
-  int32 compare(struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2){  return compare_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+  int32 compare(CharSequenceJc_Ref s1, CharSequenceJc_Ref s2){  return compare_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 
-  int32 compare(struct CharSequenceJc_t* s1, int32 from1, struct CharSequenceJc_t* s2, int32 from2, int32 nrofChars){  return compare_CsiCsii_StringFunctionsJc(s1, from1, s2, from2, nrofChars,  null/*_thCxt*/); }
-
-  struct CharSequenceJc_t* convertTransliteration(struct CharSequenceJc_t* src, char transcriptChar){  return convertTransliteration_StringFunctionsJc(src, transcriptChar,  null/*_thCxt*/); }
+  int32 compare(CharSequenceJc_Ref s1, int32 from1, CharSequenceJc_Ref s2, int32 from2, int32 nrofChars){  return compare_CsiCsii_StringFunctionsJc(s1, from1, s2, from2, nrofChars,  null/*_thCxt*/); }
 
   StringFunctionsJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctionsJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctionsJc_s, 0); ctorO_StringFunctionsJc(&this->base.object,  null/*_thCxt*/); }
 
-  bool endsWith(struct CharSequenceJc_t* sq, struct CharSequenceJc_t* end){  return endsWith_StringFunctionsJc(sq, end,  null/*_thCxt*/); }
+  bool endsWith(CharSequenceJc_Ref sq, CharSequenceJc_Ref end){  return endsWith_StringFunctionsJc(sq, end,  null/*_thCxt*/); }
 
-  bool equals(struct CharSequenceJc_t* s1, struct CharSequenceJc_t* s2){  return equals_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
+  bool equals(CharSequenceJc_Ref s1, CharSequenceJc_Ref s2){  return equals_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 
-  bool equals(struct CharSequenceJc_t* s1, int32 from, int32 to, struct CharSequenceJc_t* s2){  return equals_CsiiCs_StringFunctionsJc(s1, from, to, s2,  null/*_thCxt*/); }
+  bool equals(CharSequenceJc_Ref s1, int32 from, int32 to, CharSequenceJc_Ref s2){  return equals_CsiiCs_StringFunctionsJc(s1, from, to, s2,  null/*_thCxt*/); }
 
   StringJc indent2(int32 indent){  return indent2_StringFunctionsJc(indent,  null/*_thCxt*/); }
 
-  int32 indexOfAnyChar(struct CharSequenceJc_t* sq, int32 begin, int32 end, StringJcpp sChars){  return indexOfAnyChar_StringFunctionsJc(sq, begin, end, sChars,  null/*_thCxt*/); }
+  int32 indexAfterIdentifier(CharSequenceJc_Ref src, int32 start, int32 endMax, StringJcpp additionalChars){  return indexAfterIdentifier_StringFunctionsJc(src, start, endMax, additionalChars,  null/*_thCxt*/); }
 
-  int32 indexOf(struct CharSequenceJc_t* sq, struct CharSequenceJc_t* str, int32 fromIndex){  return indexOf_CsCsi_StringFunctionsJc(sq, str, fromIndex,  null/*_thCxt*/); }
+  int32 indexIdentifier(CharSequenceJc_Ref src, int32 start, int32 endMax, StringJcpp additionalStartChars){  return indexIdentifier_StringFunctionsJc(src, start, endMax, additionalStartChars,  null/*_thCxt*/); }
 
-  int32 indexOf(struct CharSequenceJc_t* sq, char ch, int32 fromIndex){  return indexOf_Csci_StringFunctionsJc(sq, ch, fromIndex,  null/*_thCxt*/); }
+  int32 indexNoWhitespace(CharSequenceJc_Ref src, int32 start, int32 endMax){  return indexNoWhitespace_StringFunctionsJc(src, start, endMax,  null/*_thCxt*/); }
 
-  int32 indexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str){  return indexOf_CsiiCs_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+  int32 indexOfAnyChar(CharSequenceJc_Ref sq, int32 begin, int32 end, StringJcpp sChars){  return indexOfAnyChar_StringFunctionsJc(sq, begin, end, sChars,  null/*_thCxt*/); }
 
-  int32 indexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJcpp str){  return indexOf_CsiiS_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+  int32 indexOf(CharSequenceJc_Ref sq, CharSequenceJc_Ref str){  return indexOf_CsCs_StringFunctionsJc(sq, str,  null/*_thCxt*/); }
 
-  int32 indexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, char ch){  return indexOf_Csiic_StringFunctionsJc(sq, fromIndex, to, ch,  null/*_thCxt*/); }
+  int32 indexOf(CharSequenceJc_Ref sq, CharSequenceJc_Ref str, int32 fromIndex){  return indexOf_CsCsi_StringFunctionsJc(sq, str, fromIndex,  null/*_thCxt*/); }
 
-  bool isEmptyOrOnlyWhitespaces(struct CharSequenceJc_t* text){  return isEmptyOrOnlyWhitespaces_StringFunctionsJc(text,  null/*_thCxt*/); }
+  int32 indexOf(CharSequenceJc_Ref sq, char ch){  return indexOf_Csc_StringFunctionsJc(sq, ch,  null/*_thCxt*/); }
 
-  int32 lastIndexOfAnyChar(struct CharSequenceJc_t* sq, int32 from, int32 to, StringJcpp chars){  return lastIndexOfAnyChar_StringFunctionsJc(sq, from, to, chars,  null/*_thCxt*/); }
+  int32 indexOf(CharSequenceJc_Ref sq, char ch, int32 fromIndex){  return indexOf_Csci_StringFunctionsJc(sq, ch, fromIndex,  null/*_thCxt*/); }
 
-  int32 lastIndexOf(struct CharSequenceJc_t* sq, char ch){  return lastIndexOf_Csc_StringFunctionsJc(sq, ch,  null/*_thCxt*/); }
+  int32 indexOf(CharSequenceJc_Ref sq, int32 fromIndex, int32 to, CharSequenceJc_Ref str){  return indexOf_CsiiCs_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
 
-  int32 lastIndexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, struct CharSequenceJc_t* str){  return lastIndexOf_CsiiCs_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+  int32 indexOf(CharSequenceJc_Ref sq, int32 fromIndex, int32 to, StringJcpp str){  return indexOf_CsiiS_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
 
-  int32 lastIndexOf(struct CharSequenceJc_t* sq, int32 fromIndex, int32 to, StringJcpp str){  return lastIndexOf_CsiiS_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+  int32 indexOf(CharSequenceJc_Ref sq, int32 fromIndex, int32 to, char ch){  return indexOf_Csiic_StringFunctionsJc(sq, fromIndex, to, ch,  null/*_thCxt*/); }
 
-  int32 lastIndexOf(struct CharSequenceJc_t* sq, int32 from, int32 to, char ch){  return lastIndexOf_Csiic_StringFunctionsJc(sq, from, to, ch,  null/*_thCxt*/); }
+  int32 indexWhitespace(CharSequenceJc_Ref src, int32 start, int32 endMax){  return indexWhitespace_StringFunctionsJc(src, start, endMax,  null/*_thCxt*/); }
+
+  bool isEmptyOrOnlyWhitespaces(CharSequenceJc_Ref text){  return isEmptyOrOnlyWhitespaces_StringFunctionsJc(text,  null/*_thCxt*/); }
+
+  int32 lastIndexOfAnyChar(CharSequenceJc_Ref sq, int32 from, int32 to, StringJcpp chars){  return lastIndexOfAnyChar_StringFunctionsJc(sq, from, to, chars,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(CharSequenceJc_Ref sq, char ch){  return lastIndexOf_Csc_StringFunctionsJc(sq, ch,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(CharSequenceJc_Ref sq, int32 fromIndex, int32 to, CharSequenceJc_Ref str){  return lastIndexOf_CsiiCs_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(CharSequenceJc_Ref sq, int32 fromIndex, int32 to, StringJcpp str){  return lastIndexOf_CsiiS_StringFunctionsJc(sq, fromIndex, to, str,  null/*_thCxt*/); }
+
+  int32 lastIndexOf(CharSequenceJc_Ref sq, int32 from, int32 to, char ch){  return lastIndexOf_Csiic_StringFunctionsJc(sq, from, to, ch,  null/*_thCxt*/); }
 
   StringJc nl_indent2(int32 indent){  return nl_indent2_StringFunctionsJc(indent,  null/*_thCxt*/); }
 
-  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, char decimalpoint, int32_Y* parsedCharsP){  return parseFloat_SiiciY_StringFunctionsJc(src, pos, sizeP, decimalpoint, parsedCharsP,  null/*_thCxt*/); }
+  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP){  return parseFloat_SiiciY_StringFunctionsJc(src, pos, sizeP, decimalpoint, parsedCharsP,  null/*_thCxt*/); }
 
-  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, int32_Y* parsedCharsP){  return parseFloat_SiiiY_StringFunctionsJc(src, pos, sizeP, parsedCharsP,  null/*_thCxt*/); }
+  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, int32* parsedChars){  return parseFloat_SiiiY_StringFunctionsJc(src, pos, sizeP, parsedChars,  null/*_thCxt*/); }
 
-  int32 parseIntRadixBack(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars){  return parseIntRadixBack_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
+  int32 parseIntRadixBack(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadixBack_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
 
-  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJcpp spaceChars){  return parseIntRadix_SiiiiYS_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
+  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseIntRadix_SiiiiYS_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
 
-  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars){  return parseIntRadix_SiiiiY_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars); }
+  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadix_SiiiiY_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars); }
 
-  int64 parseLong(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32_Y* parsedChars, StringJcpp spaceChars){  return parseLong_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
+  int64 parseLong(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseLong_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
 
-  int32 posAfterIdentifier(struct CharSequenceJc_t* src, int32 start, int32 endMax, StringJcpp additionalStartChars, StringJcpp additionalChars){  return posAfterIdentifier_CsiiSS_StringFunctionsJc(src, start, endMax, additionalStartChars, additionalChars,  null/*_thCxt*/); }
+  int32 posAfterIdentifier(CharSequenceJc_Ref src, int32 start, int32 endMax, StringJcpp additionalStartChars, StringJcpp additionalChars){  return posAfterIdentifier_CsiiSS_StringFunctionsJc(src, start, endMax, additionalStartChars, additionalChars,  null/*_thCxt*/); }
 
-  int32 posAfterIdentifier(struct CharSequenceJc_t* src, int32 start, int32 endMax){  return posAfterIdentifier_Csii_StringFunctionsJc(src, start, endMax,  null/*_thCxt*/); }
+  int32 posAfterIdentifier(CharSequenceJc_Ref src, int32 start, int32 endMax){  return posAfterIdentifier_Csii_StringFunctionsJc(src, start, endMax,  null/*_thCxt*/); }
 
-  bool startsWith(struct CharSequenceJc_t* sq, struct CharSequenceJc_t* start){  return startsWith_CsCs_StringFunctionsJc(sq, start,  null/*_thCxt*/); }
+  bool startsWith(CharSequenceJc_Ref sq, CharSequenceJc_Ref start){  return startsWith_CsCs_StringFunctionsJc(sq, start,  null/*_thCxt*/); }
 
-  bool startsWith(struct CharSequenceJc_t* sq, int32 from, int32 to, struct CharSequenceJc_t* start){  return startsWith_CsiiCs_StringFunctionsJc(sq, from, to, start,  null/*_thCxt*/); }
+  bool startsWith(CharSequenceJc_Ref sq, int32 from, int32 to, CharSequenceJc_Ref start){  return startsWith_CsiiCs_StringFunctionsJc(sq, from, to, start,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

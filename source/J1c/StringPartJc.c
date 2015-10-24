@@ -128,14 +128,13 @@ void setInputfile_StringPartJc(StringPartJc_s* thiz, StringJc file, ThCxt* _thCx
 
 /**Sets the content to the given string, forgets the old content*/
 struct StringPartJc_t* assign_Cs_StringPartJc(StringPartJc_s* thiz, struct CharSequenceJc_t* ref, ThCxt* _thCxt)
-{ Mtbl_StringPartJc const* mtthis = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
-  
+{ 
   STACKTRC_TENTRY("assign_Cs_StringPartJc");
   
   { 
     
     SETREFJc(thiz->content, ref, CharSequenceJc);
-    mtthis->setParttoMax(thiz);
+    setParttoMax_StringPartJc(thiz);
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -724,9 +723,9 @@ struct StringPartJc_t* lentoNonEscapedString_StringPartJc(StringPartJc_s* thiz, 
 
 
 /**Sets the current Part from the current position to exactly one line.*/
-struct StringPartJc_t* line_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
+struct StringPartJc_t* line_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("line_StringPartJc_F");
+  STACKTRC_TENTRY("line_StringPartJc");
   
   { 
     int32 posStart; 
@@ -752,12 +751,6 @@ struct StringPartJc_t* line_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
     }
   }
   STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-struct StringPartJc_t* line_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
-  return mtbl->line(thiz, _thCxt);
 }
 
 
@@ -998,9 +991,9 @@ struct StringPartJc_t* seek_Si_StringPartJc(StringPartJc_s* thiz, StringJc sSeek
 
 
 /**Seeks back form the current end to the end of the given String starting from the end of the current part.*/
-struct StringPartJc_t* seekBack_StringPartJc(StringPartJc_s* thiz, StringJc sSeek, ThCxt* _thCxt)
+struct StringPartJc_t* seekBackward_StringPartJc(StringPartJc_s* thiz, StringJc sSeek, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("seekBack_StringPartJc");
+  STACKTRC_TENTRY("seekBackward_StringPartJc");
   
   { 
     int32 pos; 
@@ -2256,7 +2249,7 @@ struct StringPartScanJc_t* scan_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt
   { 
     
     { STACKTRC_LEAVE;
-      return ((/*J2C:cast from StringPartScanJc_s*/StringPartScanJc_s*)((StringPartScanJc)thiz));
+      return (StringPartScanJc)thiz;
     }
   }
   STACKTRC_LEAVE;
@@ -2367,27 +2360,6 @@ char getCurrentChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
     
   }
   STACKTRC_LEAVE;
-}
-
-
-/**get the Line ct*/
-int32 XXXgetLineCt_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("XXXgetLineCt_StringPartJc_F");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return 0;
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-/*J2C: dynamic call variant of the override-able method: */
-int32 XXXgetLineCt_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartJc);
-  return mtbl->XXXgetLineCt(thiz, _thCxt);
 }
 
 
@@ -2795,13 +2767,8 @@ void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringPartJc mtblStringPartJc = {
 { { sign_Mtbl_StringPartJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((7 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
-, setParttoMax_StringPartJc_F //setParttoMax
-, line_StringPartJc_F //line
-, seek_S_StringPartJc_F //seek_S
-, seekEnd_StringPartJc_F //seekEnd
-, XXXgetLineCt_StringPartJc_F //XXXgetLineCt
 , getLineAndColumn_StringPartJc_F //getLineAndColumn
 , close_StringPartJc_F //close
 , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.

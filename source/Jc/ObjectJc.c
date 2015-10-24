@@ -436,17 +436,18 @@ ObjectArrayJc* ctorO_ObjectArrayJc(ObjectJc* othis, int size, int nBytesPerEleme
 
 
 METHOD_C ObjectArrayJc* new_ObjectArrayJc(int SIZE, int BYTESELEMENT, struct ClassJc_t const* REFLECTION, int32 typeInstanceIdent)
-{ int nrOfBytes = sizeof(ObjectArrayJc) + SIZE * BYTESELEMENT;
+{ int nrofBytes = sizeof(ObjectArrayJc) + SIZE * BYTESELEMENT;
   ObjectArrayJc* nthis;
   ObjectJc* othis;
   STACKTRC_ENTRY("new_ObjectArrayJc");
-  othis = alloc_ObjectJc( sizeof(ObjectArrayJc) + (SIZE) * (BYTESELEMENT), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt);
+  othis = alloc_ObjectJc( nrofBytes, typeInstanceIdent, _thCxt);
   nthis = ctorO_ObjectArrayJc(othis, SIZE, BYTESELEMENT, REFLECTION, typeInstanceIdent);
   STACKTRC_LEAVE;
   return nthis;
   //return &address->object;
-
 }
+
+
 
 
 MemUnit* getAddrSizeof_ObjectArrayJc(ObjectArrayJc* ythis, int32* size)

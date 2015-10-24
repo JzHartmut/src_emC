@@ -61,12 +61,12 @@ struct ThreadContextFW_t;
  */
 #define addOffset_MemAreaC(BASE, OFFSET) ( (struct MemAreaC_t*) (((MemUnit*)(BASE)) + (OFFSET)) )
 
-/**Offset between 2 memory locations, from BASE to BASE2.
- * @param BASE a pointer from type struct MemAreaC_t*. The type will be tested by compiling.
- * @param BASE2 a pointer from type struct MemAreaC_t*. The type will be tested by compiling.
- * @return number of memory address locations from BASE to BASE2
+/**Offset between 2 memory locations, from BASE to INSIDE.
+ * @param BASE a pointer to an instance.
+ * @param INSIDE  a pointer inside any data of the instance
+ * @return number of memory address steps from BASE to INSIDE
  */
-#define offset_MemAreaC(BASE, BASE2) ((MemUnit*)(BASE2) - (MemUnit*)(BASE))
+#define offset_MemAreaC(BASE, INSIDE) ((MemUnit*)(INSIDE) - (MemUnit*)(BASE))
 
 #define inRange_MemAreaC(ADDR, START, END) ( (void const*)(ADDR) >= (void const*)(START) && (void const*)(ADDR) < (void const*)(END)) 
 

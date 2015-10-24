@@ -2,12 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-void alloc_FBaccess_Inspc(FBaccess_Inspc** thizp, int nrofObjects){
-  allocSetRoot_FBaccess_Inspc(thizp, nrofObjects, null);
+void alloc_FBaccess_Inspc_vorlaeufig_in_Simulink(FBaccess_Inspc** thizp, int nrofObjects){
+  allocSetRoot_FBaccess_Inspc(thizp, nrofObjects, null,"UDP:0.0.0.0:60094");
 }
 
-void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, ObjectJc* rootInspc)
+void alloc_FBaccess_Inspc(FBaccess_Inspc** thizp, int nrofObjects, const char* sIp){
+  allocSetRoot_FBaccess_Inspc(thizp, nrofObjects, null,sIp);
+}
+
+void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, ObjectJc* rootInspc, const char* sIp)
 {
   FBaccess_Inspc* thiz = (FBaccess_Inspc*)malloc(sizeof(FBaccess_Inspc));
   memset(thiz, 0, sizeof(FBaccess_Inspc));
@@ -18,7 +21,7 @@ void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObject
   ctor_FBaccessNode_Inspc(&rootNode->super, nrofObjects);
 
   if(rootInspc == null){ rootInspc = &rootNode->super; }
-  ctor_FBaccess_Inspc(&thiz->super, rootNode, rootInspc);  //the rootNode is the root for the Inspector per default.  
+  ctor_FBaccess_Inspc(&thiz->super, rootNode, rootInspc,sIp);  //the rootNode is the root for the Inspector per default.  
    
   *thizp = thiz;
 
@@ -31,15 +34,15 @@ extern_C ClassJc const reflection_FBaccess_Inspc;
  * @param rootNode The root node for all FB access. Should be given and intialized.
  * @param rootInspc The root struct for all access. It can be the same as rootNode, it can be another struct. Should be given and initialized. 
  */
-FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNode, ObjectJc* rootInspc)
+FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNode, ObjectJc* rootInspc, const char* sIp)
 {
   STACKTRC_ENTRY("ctor_FBaccess_Inspc");
-  char sIp[30];
+  //char sIp[30];
   FBaccess_Inspc* thiz = (FBaccess_Inspc*) thizo; 
   initReflection_ObjectJc(thizo, thizo, sizeof(FBaccess_Inspc_t), &reflection_FBaccess_Inspc, 0xf0);
   thiz->rootNode = rootNode;
 
-  strcpy(sIp, "UDP:0.0.0.0:60094");
+  //strcpy(sIp, "UDP:0.0.0.0:60092");
   
 
   init_ObjectJc(&thiz->theInspector.base.object, sizeof(thiz->theInspector), 0);

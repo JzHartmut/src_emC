@@ -88,7 +88,6 @@ fieldIdents {
   int %.S seekToLeft;
 }
   methods {  
-    XXXgetLineCt-_$, mode= overrideable: int %.r null();
     absCharAt-_$: char %.r null(int %.. index);
     absSubString-_$: java/lang/String(instance=java/lang/String) t.r null(int %.. from,int %.. to);
     assign+_Cs-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/CharSequence *.. ref);
@@ -153,18 +152,17 @@ fieldIdents {
     lentoLineEnd-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
     lentoNonEscapedString-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sEnd,int %.. maxToTest);
     lentoQuotionEnd-_$, mode= returnThis: org/vishia/util/StringPart *.r null(char %.. sEndQuotion,int %.. maxToTest);
-    line-_$, mode= overrideable: org/vishia/util/StringPart *.r null();
+    line-_$: org/vishia/util/StringPart *.r null();
     replace-_$, mode= static: java/lang/String(instance=java/lang/String) t.r null(java/lang/CharSequence *.. src,java/lang/CharSequence[??] X*. placeholder,java/lang/String[??] Xt. value,java/lang/StringBuilder *.. dst);
     scan-_$: org/vishia/util/StringPartScan *.r null();
     seek+_i-_$, mode= returnThis: org/vishia/util/StringPart *.r null(int %.. nr);
-    seek+_S-_$, mode= noThCxt+overrideable: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek);
+    seek+_S-_$, mode= noThCxt: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek);
     seek+_Si-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek,int %.. mode);
     seek+_ci-_$, mode= returnThis: org/vishia/util/StringPart *.r null(char %.. cSeek,int %.. mode);
     seekAnyString-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String[??] Xt. strings,int[??] X%. nrofFoundString);
-    seekBack-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek);
     seekBackToAnyChar-_$: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. chars);
+    seekBackward-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek);
     seekBegin-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
-    seekEnd-_$, mode= noThCxt+overrideable: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sSeek);
     seekNoChar-_$, mode= returnThis: org/vishia/util/StringPart *.r null(java/lang/String(instance=java/lang/String) t.. sChars);
     seekNoWhitespace-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
     seekNoWhitespaceOrComments-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
@@ -177,7 +175,7 @@ fieldIdents {
     setIgnoreWhitespaces-_$: boolean %.r null(boolean %.. bSet);
     setInputfile-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. file);
     setLengthMax-_$, mode= returnThis: org/vishia/util/StringPart *.r null();
-    setParttoMax-_$, mode= noThCxt+overrideable: void %.r null();
+    setParttoMax-_$, mode= noThCxt: void %.r null();
     skipWhitespaceAndComment-_$: org/vishia/util/StringPart *.r null();
     startsWith-_$: boolean %.r null(java/lang/CharSequence *.. sCmp);
     subSequence-_$: org/vishia/util/StringPart.Part *.r null(int %.. from,int %.. to);
@@ -190,11 +188,6 @@ fieldIdents {
   }
 
   methods-overrideable {
-    setParttoMax_StringPartJc;
-    line_StringPartJc;
-    seek_S_StringPartJc;
-    seekEnd_StringPartJc;
-    XXXgetLineCt_StringPartJc;
     getLineAndColumn_StringPartJc;
     close_StringPartJc;
   }

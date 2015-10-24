@@ -53,7 +53,7 @@ extern_C_BLOCK_
  *                       Therefore it is replaced by the struct OS_Mutex_t like usual for such. It is a reference (memory address) in any case.
  * 2006-00-00 JcHartmut created.
  */
-static const int version_OS_sync = 0x20150816
+static const int version_OS_sync = 0x20150816;
 
 
 

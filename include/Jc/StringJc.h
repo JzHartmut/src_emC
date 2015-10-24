@@ -930,6 +930,13 @@ typedef struct CharSequenceJc_t
 } CharSequenceJc;
 
 
+typedef union CharSequenceJc_Ref_t
+{ StringJc string;
+  CharSequenceJc* ref;
+}CharSequenceJc_Ref;
+
+
+
 extern struct ClassJc_t const reflection_CharSequenceJc;
 
 typedef struct CharSequenceJc_Y_t{ ObjectArrayJc head;  CharSequenceJc* data[50]; } CharSequenceJc_Y; 
@@ -948,9 +955,15 @@ typedef struct Mtbl_CharSequenceJc_t
 
 extern char const sign_Mtbl_CharSequenceJc[];
 
-#define length_CharSequenceJc(THIZ, THC)     ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, sign_Mtbl_CharSequenceJc))->length(THIZ, THC)
-#define charAt_CharSequenceJc(THIZ, ix, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, sign_Mtbl_CharSequenceJc))->charAt(THIZ, ix, THC)
-#define subSequence_CharSequenceJc(THIZ, from, to, THC) ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ)->object, sign_Mtbl_CharSequenceJc))->subSequence(THIZ, from, to, THC)
+
+/**A CharSequence may be any ObjectJc which implements the CharSequence' methods but it may be a StringJc too (a String in Java).
+ * A StringJc is not provided as ObjectJc but as a simple pointer and length information to the constant String.
+ * This methods tests whether it is a StringJc or an ObjectJc. 
+ */
+  
+#define length_CharSequenceJc(THIZ, THC)   ( isValidObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->length(THIZ.ref, THC) : length_StringJc((THIZ).string) )
+#define charAt_CharSequenceJc(THIZ, ix, THC) ( isValidObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->charAt(THIZ.ref, ix, THC) : charAt_StringJc((THIZ).string, ix ) )
+#define subSequence_CharSequenceJc(THIZ, from, to, THC) ( isValidObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->subSequence(THIZ.ref, from, to, THC): substring_StringJc((THIZ).string, from, to, THC ) )
 
 
 

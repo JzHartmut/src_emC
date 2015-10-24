@@ -73,6 +73,13 @@ ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _
 }
 
 
+void free_ObjectJc(ObjectJc* thiz) {
+  MemC mem = build_MemC(thiz, getSizeInfo_ObjectJc(thiz));
+  free_MemC(mem);
+}
+
+
+
 /**A BlockHeap isn't use. The reference to BlockHeap inside an ObjectJc is null anytime.
  * Therefore this class is empty. It shuould be exist, because the linker need the label.
  */

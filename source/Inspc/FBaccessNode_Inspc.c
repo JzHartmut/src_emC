@@ -15,7 +15,8 @@ void alloc_FBaccessNode_Inspc(FBaccessNode_Inspc** thizp, int nrofObjects)
 
 }
 
-extern_C struct ClassJc_t const reflection_FBaccessNode_Inspc;
+//Note: don't use reflection here to prevent dependency to the whole inspector in an own mex64 file.
+//extern_C struct ClassJc_t const reflection_FBaccessNode_Inspc;
 
 FBaccessNode_Inspc* ctor_FBaccessNode_Inspc(ObjectJc* thizo, int nrofObjects)
 {

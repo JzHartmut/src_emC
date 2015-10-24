@@ -319,7 +319,7 @@ METHOD_C void checkConsistence_ObjectJc(ObjectJc* ythis, int size, struct ClassJ
 
 /** gets the size of the Object stored in attribute objectIdentSize. This value helps to step through data
   * particularly by using direct composed plain old data,
-  * but the user is responsible for the exactly realisation.
+  * but the user is responsible for the exactly realization.
   */
 METHOD_C int getSizeInfo_ObjectJc(ObjectJc const* ythis);
 

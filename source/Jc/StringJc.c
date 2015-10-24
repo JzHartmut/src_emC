@@ -89,6 +89,7 @@ const ReflectionStringBuilderJc reflectionStringBuilderJc
   * That are all methods which do not copy strings, only compare, convert to char* etc.
   */
 
+char const sign_Mtbl_CharSequenceJc[] = "sign_Mtbl_CharSequenceJc";
 
 char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContextFW_t* _thCxt)
 {

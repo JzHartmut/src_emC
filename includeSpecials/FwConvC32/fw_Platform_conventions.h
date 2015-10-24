@@ -81,8 +81,8 @@
 #endif	
 
 
-
-#define ASSERT_Fwc(COND) assertJc(COND)
+//NOTE: ASSERF_Fwc defined in fw_assert.h now.
+//#define ASSERT_Fwc(COND) assertJc(COND)
 
 
 

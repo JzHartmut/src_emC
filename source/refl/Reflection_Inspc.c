@@ -4,6 +4,8 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
+#include "Inspc/FBaccess_Inspc.h"
+
 #include "Inspc/FBaccess_Inspc_priv.h"
 
 
@@ -96,6 +98,65 @@ const ClassJc reflection_FBaccess_Inspc =
 , null  //superclass
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
+#include "Inspc/InspcGetValue.h"
+
+
+extern_C const ClassJc reflection_InspcGetValue_Inspc;  //the just defined reflection_
+const struct Reflection_Fields_InspcGetValue_Inspc_t
+{ ObjectArrayJc head;
+  FieldJc data[4];
+} reflection_Fields_InspcGetValue_Inspc =
+{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_InspcGetValue_Inspc)
+, {
+    { "variableSimulink"
+    , 32   //nrofArrayElements
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InspcGetValue_Inspc*)(0x1000))->variableSimulink) -(int32)(InspcGetValue_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InspcGetValue_Inspc
+    }
+  , { "triggerPathChanged"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((InspcGetValue_Inspc*)(0x1000))->triggerPathChanged) -(int32)(InspcGetValue_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InspcGetValue_Inspc
+    }
+  , { "path"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InspcGetValue_Inspc*)(0x1000))->path) -(int32)(InspcGetValue_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InspcGetValue_Inspc
+    }
+  , { "ident"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((InspcGetValue_Inspc*)(0x1000))->ident) -(int32)(InspcGetValue_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InspcGetValue_Inspc
+    }
+} };
+
+
+const ClassJc reflection_InspcGetValue_Inspc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InspcGetValue_Inspc, &reflection_ClassJc)
+, "InspcGetValue_Inspc"
+, 0
+, sizeof(InspcGetValue_Inspc)
+, (FieldJcArray const*)&reflection_Fields_InspcGetValue_Inspc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
 };
 
 

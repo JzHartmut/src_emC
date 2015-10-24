@@ -587,8 +587,11 @@ typedef struct  FieldJc_Y_t
 { /** Base data of every array */
   //ObjectArrayJc array;
   ObjectArrayJc head;
+  
+  #define zFieldsInHead_FieldJc_Y 10
+
   /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
-  FieldJc data[10];
+  FieldJc data[zFieldsInHead_FieldJc_Y];
 }FieldJc_Y;
 
 
