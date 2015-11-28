@@ -293,9 +293,7 @@ bool test_StacktraceJc(StacktraceJc* ythis)
 
 
 
-//#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-//#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-#if defined(__cplusplus)
+#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 
 StacktraceJcpp::StacktraceJcpp(const char* sName, ThreadContextFW_s* _thCxt)
 { if(_thCxt == null) 

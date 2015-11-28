@@ -1,0 +1,102 @@
+
+/*This file is generated from Header2Reflection. */
+#define protected public  //only active inside this compilation unit
+#define private public    //  to enable the access to all elements.
+#include <Jc/ReflectionJc.h>
+#include <stddef.h>
+#include "InputValues_Inspc.h"
+
+
+extern_C const ClassJc reflection_InputValues_Inspc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_ClassJc;
+extern_C const ClassJc reflection_FieldJc_Y;
+extern_C const ClassJc reflection_FieldJc;
+const struct Reflection_Fields_InputValues_Inspc_t
+{ ObjectArrayJc head;
+  FieldJc data[5];
+} reflection_Fields_InputValues_Inspc =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_InputValues_Inspc)
+, {
+    { "base"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->base) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "x"
+    , 12   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->x) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "errorCfg"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->errorCfg) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "nameRefl"
+    , 32   //nrofArrayElements
+    , REFLECTION_char
+    , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->nameRefl) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "names"
+    , 12   //nrofArrayElements
+    , REFLECTION_char
+    , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->names) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  #ifdef __dontuse__  //manual changed
+  , { "clazz"
+    , 0   //no Array, no Bitfield
+    , &reflection_ClassJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->clazz) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "fields"
+    , 0   //no Array, no Bitfield
+    , &reflection_FieldJc_Y
+    , 0 //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->fields) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "_fields"
+    , 0   //nrofArrayElements
+    , &reflection_FieldJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->_fields) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  #endif //dont use
+} };
+
+
+const ClassJc reflection_InputValues_Inspc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InputValues_Inspc, &reflection_ClassJc)
+, "InputValues_Inspc"
+, 0
+, sizeof(InputValues_Inspc)
+, (FieldJcArray const*)&reflection_Fields_InputValues_Inspc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+

@@ -493,6 +493,47 @@ const ClassJc  reflection_bitfieldJc =
 
 
 
+#include "OSAL/os_types_def_common.h"
+
+
+const struct Reflection_Fields_float_complex_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_float_complex =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_float_complex)
+, {
+    { "re"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(0)
+    , 0  //offsetToObjectifcBase
+    , &reflection_float_complex
+    }
+  , { "im"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(sizeof(float))
+    , 0  //offsetToObjectifcBase
+    , &reflection_float_complex
+    }
+} };
+
+
+const ClassJc reflection_float_complex =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_float_complex, &reflection_ClassJc)
+, "float_complex"
+, 0
+, sizeof(float_complex)
+, (FieldJcArray const*)&reflection_Fields_float_complex  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
 
 
 

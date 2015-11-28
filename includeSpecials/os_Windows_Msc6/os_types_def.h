@@ -105,12 +105,6 @@
 // Folgender Schalter ist gesetzt zur Auswahl des Compilers MSC6. Damit können spezifische Compilereigenschaften mittels bedingter Compilierung berücksichtigt werden.
 #define __COMPILER_IS_MSC6__
 
-// Folgender Schalter ist gesetzt zur Auswahl der C++-Compilierung. In einigen Quellen kann es einen Unterschied geben, wenn eine C-Abbildung der Quellen
-// berücksichtigt werden muss. Das standardgemäß definierte Makro __cplusplus ist nicht immer für dieses Zweck verwendbar, da auch der Einsatz der C++-Compilierung
-// für eine C-Abbildung erfolgen kann. Wenn die Gesamt-Source (beispielsweise ein Headerfile) gegebenenfalls auch als C-Abbildung
-// compiliert werden muss, dann müssen alle Teile, die nur unter C++ lauffähig sind, mit diesem Schalter bedingt compiliert werden.
-#define __CPLUSGEN
-
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 
@@ -185,6 +179,37 @@ typedef float                float32;
 // Folgendes Define wird nach einer Struktur insbesondere für GNU-Compiler verwendet. Es ist für MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
+
+
+/**Prevent process a NaN-value (not a number).
+ * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
+ * @param value the value to check and return in normal case
+ * @param valueinstead This value is returned if value==nan
+ * @param check a left-value (variable) which will be increment in the nan-situation for check. 
+ * @return valueinstead or value.
+ */
+#define NNAN(value, valueinstead, check) (value < 1000000000.0f ? value : ((check) +=1, valueinstead))
+
+
+/**Condition if value is not NAN
+ * @param value to test
+ * @param check a left-value (variable) which will be increment in the nan-situation for check. 
+ */
+#define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
+
+extern "C" int stopNAN();
+
+/**Prevent process a NaN-value maybe only in debug mode.
+ * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
+ * It calls stopNAN especially for debug at PC
+ * @param value the value to check and return
+ * @return value anytime.
+ */
+#define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
+
+
+
+
 
 /**Ein EventHandle ist unter Windows ein HANDLE und dort als void* definiert. 
  * Der Anwender soll aber keine windows.h und ähnliches einziehen sollen (zuviel Müll), 
@@ -286,6 +311,24 @@ extern OS_PtrValue null_OS_PtrValue;
  * NOTE: old name kMaxPathLength_OS_FileDescription
  */
 #define kMaxPathLength_FileDescription_OSAL 480
+
+
+
+#define fmaxf(A, B) ( (A) > (B) ? (A) : (B) )
+#define fminf(A, B) ( (A) < (B) ? (A) : (B) )
+
+#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
+#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
+
+#ifdef __cplusplus
+#define max(A, B) ( (A) > (B) ? (A) : (B) )
+#define min(A, B) ( (A) < (B) ? (A) : (B) )
+#endif
+/**Yet in simulink an untyped input/output handle which is a pointer can only be stored as double.
+ * use conversion:
+ *  SIMUPTR ptr = *(SIMUPTR*)&reference; //reference is any Type* reference.
+ */
+typedef double SIMUPTR;
 
 /**Include the common definitions in its pure form. */
 #include <OSAL/os_types_def_common.h>

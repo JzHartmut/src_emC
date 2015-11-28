@@ -4,8 +4,8 @@ if exist T:\tmp set TMP=T:\tmp\Jc
 if exist D:\tmp set TMP=D:\tmp\Jc
 if not exist %TMP% mkdir %TMP%
 
-set INPUT= -i:TimeSignals_ZSim.h
-set OUTPUT=.\TimeSignals_ZSim_Refl
+set INPUT= -i:TimeSignals_Inspc.h
+set OUTPUT=.\TimeSignals_Inspc_Refl
 
 REM either use local zbnfjax folder or the setZBNFJAX_HOME.bat should be able to locate in the PATH.
 if exist ..\..\..\zbnfjax set ZBNFJAX_HOME=..\..\zbnfjax

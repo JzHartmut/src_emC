@@ -60,7 +60,7 @@ int32 indexWhitespace_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32
       end = endMax;
     }
     /*no initvalue*/
-    if((cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != ' ' && cc != '\r' && cc != '\n' && cc != '\t' && cc != '\f') 
+    while( pos < end && (cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != ' ' && cc != '\r' && cc != '\n' && cc != '\t' && cc != '\f') 
     { 
       
       pos += 1;
@@ -90,7 +90,7 @@ int32 indexNoWhitespace_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int
       end = endMax;
     }
     /*no initvalue*/
-    if((cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) == ' ' || cc == '\r' || cc == '\n' || cc == '\t' || cc == '\f') 
+    while( pos < end && ((cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) == ' ' || cc == '\r' || cc == '\n' || cc == '\t' || cc == '\f')) 
     { 
       
       pos += 1;
@@ -122,7 +122,7 @@ int32 indexIdentifier_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32
       end = endMax;
     }
     /*no initvalue*/
-    if(pos < end && (cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != '_' && (cc < 'A' || cc > 'Z') && (cc < 'a' || cc > 'z') && (additionalStartChars.ptr__== null || indexOf_C_StringJc(additionalStartChars, cc) < 0)) 
+    while(pos < end && (cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != '_' && (cc < 'A' || cc > 'Z') && (cc < 'a' || cc > 'z') && (additionalStartChars.ptr__== null || indexOf_C_StringJc(additionalStartChars, cc) < 0)) 
     { 
       
       pos += 1;

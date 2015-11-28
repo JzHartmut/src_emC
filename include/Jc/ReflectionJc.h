@@ -959,6 +959,11 @@ extern const int nrofBytesScalarTypes_ClassJc[];
 
 
 
+/**The float_complex is defined in os_types_def_common.h. The reflection are defined in ReflectionBastTypesJc.c. */
+extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
+
+
+
 /** Constant Definition of a ClassJc-instance usefull for simple plain old data
   * without special defined methods. A superclass ObjectJc is not specified.
   * It doesn#t mean that the data can't base on ObjectJc, but the access is not able
