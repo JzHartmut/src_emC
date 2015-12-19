@@ -130,12 +130,6 @@ METHOD_C void activateGC_ObjectJc(void const* object, void const* exclObject, Th
 METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
 
 
-/**Checks whether a reference refers a valid ObjectJc. A valid ObjectJc has a mark: Its own address
- * is stored in the Object. 
- */
-#define isValidObjectJc(THIZ) ( (THIZ)->base.object.ownAddress == THIZ)
-
-
 
 /**Tests wether it is an ObjectJc-based instance or not. The criterium is, the ownAddress inside ObjectJc must be identical with the instance address.
  * @throws an exception if it is not true.

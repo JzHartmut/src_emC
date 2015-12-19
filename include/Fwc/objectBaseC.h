@@ -302,6 +302,23 @@ METHOD_C void setReflection_ObjectJc(ObjectJc* ythis, struct ClassJc_t const* re
  */
 METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj);
 
+/**Checks whether a reference refers a valid ObjectJc. A valid ObjectJc has a mark: Its own address
+ * is stored in the Object.
+ * @param THIZ any Object reference which contains { union { ObjectJc object; } base;  
+ */
+#define isValid_ObjectJc(THIZ) ( (THIZ)->base.object.ownAddress == THIZ)
+
+
+
+/**Checks whether a reference refers a valid ObjectJc. A valid ObjectJc has a mark: Its own address
+ * is stored in the Object.
+ * @param THIZ any Object reference which contains { union { ObjectJc object; } base;  
+ */
+#define isNotInitialized_ObjectJc(THIZ) ( (THIZ)->base.object.ownAddress == null && (THIZ)->base.object.objectIdentSize == 0)
+
+
+
+
 
 /**Checks the consistence of the given instance based on ObjectJc.
  * An Object should be initialized before it is used. This method should be used in the constructor

@@ -961,9 +961,9 @@ extern char const sign_Mtbl_CharSequenceJc[];
  * This methods tests whether it is a StringJc or an ObjectJc. 
  */
   
-#define length_CharSequenceJc(THIZ, THC)   ( isValidObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->length(THIZ.ref, THC) : length_StringJc((THIZ).string) )
-#define charAt_CharSequenceJc(THIZ, ix, THC) ( isValidObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->charAt(THIZ.ref, ix, THC) : charAt_StringJc((THIZ).string, ix ) )
-#define subSequence_CharSequenceJc(THIZ, from, to, THC) ( isValidObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->subSequence(THIZ.ref, from, to, THC): substring_StringJc((THIZ).string, from, to, THC ) )
+#define length_CharSequenceJc(THIZ, THC)   ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->length(THIZ.ref, THC) : length_StringJc((THIZ).string) )
+#define charAt_CharSequenceJc(THIZ, ix, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->charAt(THIZ.ref, ix, THC) : charAt_StringJc((THIZ).string, ix ) )
+#define subSequence_CharSequenceJc(THIZ, from, to, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSequenceJc*)getMtbl_ObjectJc(&(THIZ).ref->base.object, sign_Mtbl_CharSequenceJc))->subSequence(THIZ.ref, from, to, THC): substring_StringJc((THIZ).string, from, to, THC ) )
 
 
 
