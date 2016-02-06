@@ -10,13 +10,11 @@
 extern_C const ClassJc reflection_InputValues_Inspc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 extern_C const ClassJc reflection_ClassJc;
-extern_C const ClassJc reflection_FieldJc_Y;
-extern_C const ClassJc reflection_FieldJc;
 const struct Reflection_Fields_InputValues_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[5];
+  FieldJc data[7];
 } reflection_Fields_InputValues_Inspc =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_InputValues_Inspc)
+{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_InputValues_Inspc)
 , {
     { "base"
     , 0   //no Array, no Bitfield
@@ -26,17 +24,17 @@ const struct Reflection_Fields_InputValues_Inspc_t
     , 0  //offsetToObjectifcBase
     , &reflection_InputValues_Inspc
     }
-  , { "x"
-    , 12   //nrofArrayElements
-    , REFLECTION_float
+  , { "val"
+    , 240   //nrofArrayElements
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->x) -(int32)(InputValues_Inspc*)0x1000)
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->val) -(int32)(InputValues_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_InputValues_Inspc
     }
   , { "errorCfg"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->errorCfg) -(int32)(InputValues_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -44,46 +42,36 @@ const struct Reflection_Fields_InputValues_Inspc_t
     }
   , { "nameRefl"
     , 32   //nrofArrayElements
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->nameRefl) -(int32)(InputValues_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_InputValues_Inspc
     }
+  , { "nrofElements"
+    , 12   //nrofArrayElements
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->nrofElements) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "dataType"
+    , 12   //nrofArrayElements
+    , &reflection_ClassJc
+    , 0| mReference_Modifier_reflectJc |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->dataType) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
   , { "names"
     , 12   //nrofArrayElements
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->names) -(int32)(InputValues_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_InputValues_Inspc
     }
-  #ifdef __dontuse__  //manual changed
-  , { "clazz"
-    , 0   //no Array, no Bitfield
-    , &reflection_ClassJc
-    , 0 //bitModifiers
-    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->clazz) -(int32)(InputValues_Inspc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_InputValues_Inspc
-    }
-  , { "fields"
-    , 0   //no Array, no Bitfield
-    , &reflection_FieldJc_Y
-    , 0 //bitModifiers
-    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->fields) -(int32)(InputValues_Inspc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_InputValues_Inspc
-    }
-  , { "_fields"
-    , 0   //nrofArrayElements
-    , &reflection_FieldJc
-    , 0 //bitModifiers
-    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->_fields) -(int32)(InputValues_Inspc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_InputValues_Inspc
-    }
-  #endif //dont use
 } };
 
 

@@ -19,13 +19,20 @@ typedef struct InputValues_Inspc_t
   /**Input buffer for at least 12 different value (cluster), maybe a single float, or a float_comlex, or a vector up to 6 elements.
    * Correct view organized in the reflection. 
    */
-  float x[12][6];
+  int32 val[240];
+
+  /**Size of 1 element internally. The x[240] is x[12][20] really. Use 1 dimension to inspect. */
+  #define kSizeX_InputValues_Inspc 20
 
   /**Zähler falls irgendwas in config-File nicht stimmt, sollte auf 0 stehen. */
   int errorCfg;
 
   /**Instance name in Reflection Node Tree. */
   char nameRefl[32];
+
+  int32 nrofElements[12];
+
+  int8 dataType[12];
 
   /**Parametrized signal identifier. */
   char names[12][32];

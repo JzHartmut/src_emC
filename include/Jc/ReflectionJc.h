@@ -874,6 +874,8 @@ typedef enum ScalarTypes_ClassJc_t
   REFLECTION_bool_ClassJc       = 0x0f,
   REFLECTION_boolean_ClassJc    = 0x0f,
   REFLECTION_String_ClassJc     = 0x10,
+  REFLECTION_complexfloat_ClassJc  = 0x14,
+  REFLECTION_complexdouble_ClassJc = 0x15,
   REFLECTION_bitfield_ClassJc   = 0x17,
   REFLECTION_afterlastPrimitive_ClassJc       = 0x18
 }ScalarTypes_ClassJc;
@@ -919,6 +921,8 @@ extern const int nrofBytesScalarTypes_ClassJc[];
 #define REFLECTION_bool               ((struct ClassJc_t const*) REFLECTION_bool_ClassJc  )
 #define REFLECTION_boolean            ((struct ClassJc_t const*) REFLECTION_bool_ClassJc )
 #define REFLECTION_BOOL               ((struct ClassJc_t const*) REFLECTION_bool_ClassJc )
+#define REFLECTION_complexfloat       ((struct ClassJc_t const*) REFLECTION_complexfloat_ClassJc  )
+#define REFLECTION_complexdouble      ((struct ClassJc_t const*) REFLECTION_complexdouble_ClassJc )
 #define REFLECTION_BITFIELD           ((struct ClassJc_t const*) REFLECTION_bitfield_ClassJc )
 
 #define REFLECTION_s32                ((struct ClassJc_t const*) REFLECTION_int32_ClassJc )

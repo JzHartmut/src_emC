@@ -727,6 +727,19 @@ bool getBigEndian_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thC
   STACKTRC_LEAVE;
 }
 
+bool isInUse_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("isInUse_ByteDataAccessBaseJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return thiz->data != null;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
 
 /**returns true if the given number of bytes is sufficing in the data from position of next child.*/
 bool sufficingBytesForNextChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, ThCxt* _thCxt)
@@ -762,7 +775,7 @@ int32 getMaxNrofBytesForNextChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* t
 
 
 /**Adds a child Element after the current child or as first child after head.*/
-void addChild_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt)
+bool addChild_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChild_XXi_ByteDataAccessBaseJc");
   
@@ -776,7 +789,7 @@ void addChild_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
     ASSERT(/*static*/child->sizeHead >= 0);
     ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, sizeChild == 0 ? child->sizeHead : sizeChild, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
-      return;
+      return false;
     }
     child->ixBegin = ixChild1;
     child->bBigEndian = thiz->bBigEndian;
@@ -790,47 +803,70 @@ void addChild_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
     child->ixEnd = thiz->ixEnd;/*bExpand ? child.ixNextChild : this.ixEnd;  //use the full data range maybe for child.*/
     
     SETREFJc(thiz->currChild, child, ByteDataAccessBaseJc_s);
+    { STACKTRC_LEAVE;
+      return true;
+    }
   }
   STACKTRC_LEAVE;
 }
 
 
 /**Adds a child with its given head size without additional data space.*/
-void addChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
+bool addChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChild_XX_ByteDataAccessBaseJc");
   
   { 
     
-    addChild_XXi_ByteDataAccessBaseJc(thiz, child, child->sizeHead, _thCxt);
+    { STACKTRC_LEAVE;
+      return addChild_XXi_ByteDataAccessBaseJc(thiz, child, child->sizeHead, _thCxt);
+    }
   }
   STACKTRC_LEAVE;
 }
 
-void addChildEmpty_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
+bool addChildEmpty_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildEmpty_XX_ByteDataAccessBaseJc");
   
   { 
     
-    addChild_XX_ByteDataAccessBaseJc(thiz, child, _thCxt);/*first add the child*/
-    
-    clearHead_ByteDataAccessBaseJc(child);/*then clears its data.*/
-    
+    if(addChild_XX_ByteDataAccessBaseJc(thiz, child, _thCxt)) 
+    { /*:first add the child*/
+      
+      
+      clearHead_ByteDataAccessBaseJc(child);/*then clears its data.*/
+      
+      { STACKTRC_LEAVE;
+        return true;
+      }
+    }
+    else { STACKTRC_LEAVE;
+      return false;
+    }
   }
   STACKTRC_LEAVE;
 }
 
-void addChildEmpty_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt)
+bool addChildEmpty_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildEmpty_XXi_ByteDataAccessBaseJc");
   
   { 
     
-    addChild_XXi_ByteDataAccessBaseJc(thiz, child, sizeChild, _thCxt);/*first add the child*/
-    
-    clearData_ByteDataAccessBaseJc(child);/*then clears its data.*/
-    
+    if(addChild_XXi_ByteDataAccessBaseJc(thiz, child, sizeChild, _thCxt)) 
+    { /*:first add the child*/
+      
+      
+      clearData_ByteDataAccessBaseJc(child);/*then clears its data.*/
+      
+      { STACKTRC_LEAVE;
+        return true;
+      }
+    }
+    else { STACKTRC_LEAVE;
+      return false;
+    }
   }
   STACKTRC_LEAVE;
 }
@@ -883,7 +919,7 @@ void addChildAt_iXX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
 
 
 /**Adds a child for 1 integer value without a child instance, and sets the value as integer.*/
-void addChildInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, int32 value, ThCxt* _thCxt)
+bool addChildInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, int32 value, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildInt_ByteDataAccessBaseJc");
   
@@ -894,18 +930,21 @@ void addChildInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBy
     ASSERT(/*static*/nrofBytes > 0);
     ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
-      return;
+      return false;
     }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
     /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
     _setInt_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, nrofBytes, value, _thCxt);
+    { STACKTRC_LEAVE;
+      return true;
+    }
   }
   STACKTRC_LEAVE;
 }
 
 
 /**Adds a child for 1 integer value without a child instance, and sets the value as integer.*/
-void addChildInteger_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, int64 value, ThCxt* _thCxt)
+bool addChildInteger_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, int64 value, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildInteger_ByteDataAccessBaseJc");
   
@@ -916,18 +955,21 @@ void addChildInteger_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nr
     ASSERT(/*static*/nrofBytes > 0);
     ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
-      return;
+      return false;
     }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
     /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
     _setLong_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, nrofBytes, value, _thCxt);
+    { STACKTRC_LEAVE;
+      return true;
+    }
   }
   STACKTRC_LEAVE;
 }
 
 
 /**Adds a child for 1 float value without a child instance, and sets the value as float.*/
-void addChildFloat_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, float value, ThCxt* _thCxt)
+bool addChildFloat_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, float value, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildFloat_ByteDataAccessBaseJc");
   
@@ -937,18 +979,21 @@ void addChildFloat_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, float valu
     
     ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, 4, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
-      return;
+      return false;
     }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
     /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
     setFloat_if_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, value);
+    { STACKTRC_LEAVE;
+      return true;
+    }
   }
   STACKTRC_LEAVE;
 }
 
 
 /**Adds a child with String value.*/
-void addChildString_SSb_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc value, StringJc sEncoding, bool preventCtrlChars, ThCxt* _thCxt)
+bool addChildString_SSb_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc value, StringJc sEncoding, bool preventCtrlChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildString_SSb_ByteDataAccessBaseJc");
   
@@ -960,18 +1005,21 @@ void addChildString_SSb_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, Strin
     nrofBytes = length_StringJc(value);
     ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
-      return;
+      return false;
     }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
     /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
     _setString_ByteDataAccessBaseJc(thiz, ixChild1 - thiz->ixBegin, nrofBytes, value, sEncoding, preventCtrlChars, _thCxt);
+    { STACKTRC_LEAVE;
+      return true;
+    }
   }
   STACKTRC_LEAVE;
 }
 
 
 /**Adds a child with String value.*/
-void addChildString_SS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc valueCs, StringJc sEncoding, ThCxt* _thCxt)
+bool addChildString_SS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc valueCs, StringJc sEncoding, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildString_SS_ByteDataAccessBaseJc");
   
@@ -983,7 +1031,7 @@ void addChildString_SS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
     nrofBytes = length_StringJc(valueCs);
     ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
-      return;
+      return false;
     }/*NOTE: there is no instance for this child, but it is the current child anyway.*/
     /*NOTE: to read from idxInChild = 0, build the difference as shown:*/
     
@@ -996,6 +1044,9 @@ void addChildString_SS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
           charByte = (int8)(charAt_StringJc(valueCs, ii));
           thiz->data.ptr__[ixChild1 + ii] = charByte;
         }
+    }
+    { STACKTRC_LEAVE;
+      return true;
     }
   }
   STACKTRC_LEAVE;
@@ -1238,7 +1289,7 @@ void detach_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
       CLEAR_REFJc(thiz->currChild);/*necessary if currentChild don't refers this parent because any error before.*/
       
     }
-    thiz->data.ptr__ = null; thiz->data.value__ = 0;
+    thiz->data.ptr__ = & null[0]; thiz->data.value__ = sizeof( null) / sizeof(null[0]);
     CLEAR_REFJc(thiz->parent);
     thiz->ixBegin = thiz->ixEnd = /*? assignment*/0;
     thiz->ixNextChild = 0;
@@ -2013,6 +2064,16 @@ void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt
 }
 
 
+ extern_C struct ClassJc_t const reflection_InfoFormattedAppendJc_s;
+ static struct ifcClasses_ByteDataAccessBaseJc_s_t
+ { ObjectArrayJc head;
+   ClassOffset_idxMtblJc data[1];
+ }interfaces_ByteDataAccessBaseJc_s =
+ { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
+, { {&reflection_InfoFormattedAppendJc_s, OFFSET_Mtbl(Mtbl_ByteDataAccessBaseJc, InfoFormattedAppendJc) }
+  }
+};
+
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
 extern_C struct ClassJc_t const reflection_CharsetJc;
@@ -2127,6 +2188,6 @@ const ClassJc reflection_ByteDataAccessBaseJc_s =
 , (FieldJcArray const*)&reflection_Fields_ByteDataAccessBaseJc_s
 , null //method
 , null //superclass
-, null //(ClassOffset_idxMtblJcARRAY*)&interfaces_ByteDataAccessBaseJc_s //interfaces
+, (ClassOffset_idxMtblJcARRAY*)&interfaces_ByteDataAccessBaseJc_s //interfaces
 , 0    //modifiers
 };

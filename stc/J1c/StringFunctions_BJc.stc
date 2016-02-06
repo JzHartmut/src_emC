@@ -1,0 +1,21 @@
+<?Java2C-stc www.vishia.org version="0.94" encoding="UTF8" ?>
+Structure of translated java-file "J1c/StringFunctions_BJc"
+package org/vishia/util/;
+
+class StringFunctions_B; nameC=StringFunctions_BJc_s; argIdent=XX; extends java/lang/Object //creationMode=P
+{  
+fieldIdents {
+  java/lang/String(instance=java/lang/String) t.s sWhiteSpaces;
+  java/lang/String(instance=java/lang/String) t.s version;
+}
+  methods {  
+    checkSameChars-_$, mode= static: boolean %.r null(va_argRaw +.. src);
+    ctorO-_$, mode= ctor+static: org/vishia/util/StringFunctions_B *.. StringFunctions_BJc_s();
+    removeIndentReplaceNewline-_$, mode= static: java/lang/CharSequence *.r null(java/lang/CharSequence *.. src,int %.. indent,java/lang/String(instance=java/lang/String) t.. indentChars,int %.. tabSize,java/lang/String(instance=java/lang/String) t.. sNewline,boolean %.. bSkipSpaces);
+  }
+
+  castTo {
+    java/lang/Object: $ "(?).base.object" $;
+  }
+
+}

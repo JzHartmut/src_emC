@@ -97,7 +97,7 @@ typedef struct OsWrapperJc_t
    * It is upgradable later to a intelligent management.
    * TODO: Blocks of about 32..128 HandleItem allocated, a block managment. It will be simple.
    */
-  HandleItem handleItemsJc[128];  // 1 kByte
+  HandleItem handleItemsJc[1024];  // some kByte
 
   /**This handle addresses the next free handles, all free handles are queued. */
   HandleItem freeHandle;

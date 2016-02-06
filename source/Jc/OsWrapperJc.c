@@ -90,6 +90,7 @@ HandleItem* getFreeHandleEntry(int16* idx)
   theHandleItem = data_OsWrapperJc.freeHandle.handle.nextFree;
   if(theHandleItem == kNoFreeHandleItem)
   { *idx = -1;  //TODO passenden Win-error
+    return null;
   }
   else
   { HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
@@ -102,9 +103,9 @@ HandleItem* getFreeHandleEntry(int16* idx)
       }
       *idx = (int16)(idxHandle);
     }
+    memset(theHandleItem, 0, sizeof(*theHandleItem));
+    return theHandleItem;
   }
-  memset(theHandleItem, 0, sizeof(*theHandleItem));  
-  return theHandleItem;
 }
 
 
@@ -200,6 +201,7 @@ void synchronized(ObjectJc* obj)
   HandleItem* handle;
   if(obj->idSyncHandles == kNoSyncHandles_ObjectJc)
   { handle = getFreeHandleEntry(&obj->idSyncHandles);
+    if (handle !=null)
     { char name[9];
       int error;
       strcpy(name, "JcW__000");
@@ -213,6 +215,9 @@ void synchronized(ObjectJc* obj)
         THROW_s0(RuntimeException, "error os_createMutex", error);
       }
     }
+    else {
+      //no handles available 
+    }
   }
   else
   { handle = getHandleEntry(obj->idSyncHandles);
@@ -223,7 +228,12 @@ void synchronized(ObjectJc* obj)
       os_delayThread(1);
     }
   }
-  os_lockMutex(handle->handleMutex);
+  if (handle != null){
+    os_lockMutex(handle->handleMutex);
+  }
+  else {
+    //TODO no handles found, yet: without mutex
+  }
 }
 
 

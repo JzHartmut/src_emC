@@ -79,6 +79,8 @@ void free_FBaccess_Inspc(struct FBaccess_Inspc_t* thiz);
 /**Returns the reference to the root node from the Inspc service. */
 void ptrRootNode_FBaccess_Inspc(struct FBaccess_Inspc_t* thiz, struct FBaccessNode_Inspc_t** p_node);
 
+/**Set the simulation time in the main structure. */
+void setTime_FBaccess_Inspc(struct FBaccess_Inspc_t* thiz, double seconds);
 
 
 #endif //__FBaccess_Inspc_h__

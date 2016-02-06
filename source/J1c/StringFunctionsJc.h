@@ -57,7 +57,7 @@ typedef struct StringFunctionsJc_Y_t { ObjectArrayJc head; StringFunctionsJc_s d
 void finalize_StringFunctionsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
-#define version_StringFunctionsJc 20130810  /*Version, history and license.*/
+ extern StringJc version_StringFunctionsJc;   /*Version, history and license.*/
  extern const char cEndOfText_StringFunctionsJc;   /*The char used to code end of text*/
  extern StringJc indentString_StringFunctionsJc; 
 
@@ -80,25 +80,6 @@ METHOD_C int32 posAfterIdentifier_CsiiSS_StringFunctionsJc(/*static*/ CharSequen
 
 /**Returns the position of the end of an identifier.*/
 METHOD_C int32 posAfterIdentifier_Csii_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32 start, int32 endMax, ThCxt* _thCxt);
-
-/**Parses a given String and convert it to the integer number.*/
-METHOD_C int32 parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
-
-/*** */
-#define parseIntRadix_SiiiiY_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars) \
-(parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/srcP, pos, sizeP, radix, parsedChars, null_StringJc, _thCxt))
-
-/**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
-METHOD_C int64 parseLong_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
-
-/**Parses a given String backward and convert it to the integer number.*/
-METHOD_C int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt);
-
-/*** */
-METHOD_C float parseFloat_SiiiY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt);
-
-/**Parses a given String and convert it to the float number.*/
-METHOD_C float parseFloat_SiiciY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.*/
 METHOD_C int32 comparePos_CsCs_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, CharSequenceJc_Ref s2, ThCxt* _thCxt);
@@ -246,18 +227,6 @@ class StringFunctionsJc : private StringFunctionsJc_s
   int32 lastIndexOf(CharSequenceJc_Ref sq, int32 from, int32 to, char ch){  return lastIndexOf_Csiic_StringFunctionsJc(sq, from, to, ch,  null/*_thCxt*/); }
 
   StringJc nl_indent2(int32 indent){  return nl_indent2_StringFunctionsJc(indent,  null/*_thCxt*/); }
-
-  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP){  return parseFloat_SiiciY_StringFunctionsJc(src, pos, sizeP, decimalpoint, parsedCharsP,  null/*_thCxt*/); }
-
-  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, int32* parsedChars){  return parseFloat_SiiiY_StringFunctionsJc(src, pos, sizeP, parsedChars,  null/*_thCxt*/); }
-
-  int32 parseIntRadixBack(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadixBack_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
-
-  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseIntRadix_SiiiiYS_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
-
-  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadix_SiiiiY_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars); }
-
-  int64 parseLong(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseLong_StringFunctionsJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
 
   int32 posAfterIdentifier(CharSequenceJc_Ref src, int32 start, int32 endMax, StringJcpp additionalStartChars, StringJcpp additionalChars){  return posAfterIdentifier_CsiiSS_StringFunctionsJc(src, start, endMax, additionalStartChars, additionalChars,  null/*_thCxt*/); }
 

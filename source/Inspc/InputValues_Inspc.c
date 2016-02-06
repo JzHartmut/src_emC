@@ -36,15 +36,40 @@ void ctor_InputValues_Inspc(InputValues_Inspc* thiz)
       nrofFields = ix;  //set lastly with the highest number of active field.
     }
     FieldJc* field = &thiz->fields.data[ix];
-    field->type_ = REFLECTION_float;
-    field->position = offset_MemAreaC(thiz, &thiz->x[ix]);
+    if(name[0] == '*') {  //access to the content of a pointer.
+      name = name+1;  //without '*'
+      field->type_ = REFLECTION_uint32;
+      field->nrofArrayElementsOrBitfield_ = 128;
+      field->bitModifiers = kStaticArray_Modifier_reflectJc | kReference_Modifier_reflectJc;
+    } else {
+      field->type_ = ((struct ClassJc_t const*)thiz->dataType[ix]); //REFLECTION_float;
+      if(thiz->nrofElements[ix] == 1) {
+        field->nrofArrayElementsOrBitfield_ = 0;
+      } else {
+        field->nrofArrayElementsOrBitfield_ = thiz->nrofElements[ix];
+        field->bitModifiers = kStaticArray_Modifier_reflectJc;
+      } 
+      /*
+      if(thiz->nrofElements[ix] == 1 && thiz->dataType[ix] != 'F') {
+        field->nrofArrayElementsOrBitfield_ = 0;
+        field->bitModifiers = 0;
+      } else if(thiz->dataType[ix] == 'F') { //Float complex
+        field->nrofArrayElementsOrBitfield_ = 2 * thiz->nrofElements[ix];
+        field->bitModifiers = kStaticArray_Modifier_reflectJc;
+      } else {
+        field->nrofArrayElementsOrBitfield_ = thiz->nrofElements[ix];
+        field->bitModifiers = kStaticArray_Modifier_reflectJc;
+      }
+      */
+    }
+    field->position = offset_MemAreaC(thiz, &thiz->val[kSizeX_InputValues_Inspc * ix]);
     strncpy(field->name, name, sizeof(field->name)-1);
   }
-  FieldJc* field = &thiz->fields.data[++nrofFields];
+  FieldJc* field = &thiz->fields.data[++nrofFields];  //reference to thiz
   field->type_ = &reflection_InputValues_Inspc;  
   field->position = 0;
   strncpy(field->name, "thiz$InputValues_Inspc", sizeof(field->name)-1);
-  thiz->fields.head.length = nrofFields +1;
+  thiz->fields.head.length = nrofFields +1;  //data fields + reference to thiz
 }
 
 

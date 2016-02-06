@@ -27,7 +27,9 @@ void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObject
 
 }
 
+//Note: defined in the FBaccess_Inspc_refl.c
 extern_C ClassJc const reflection_FBaccess_Inspc;
+extern_C ClassJc const reflection_SimulationTime_Inspc;
 
 
 /**Constructs and starts the Inspector service for Function Block access with allocated memory from thizo. 
@@ -41,7 +43,7 @@ FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNod
   FBaccess_Inspc* thiz = (FBaccess_Inspc*) thizo; 
   initReflection_ObjectJc(thizo, thizo, sizeof(FBaccess_Inspc_t), &reflection_FBaccess_Inspc, 0xf0);
   thiz->rootNode = rootNode;
-
+  registerRefl_FBaccessNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimulationTime_Inspc);
   //strcpy(sIp, "UDP:0.0.0.0:60092");
   
 
@@ -70,4 +72,11 @@ void ptrRootNode_FBaccess_Inspc(FBaccess_Inspc* thiz, FBaccessNode_Inspc** p_nod
 { *p_node = thiz->rootNode;
 }
 
+
+void setTime_FBaccess_Inspc(FBaccess_Inspc* thiz, double seconds) {
+  if(thiz !=null && thiz->rootNode !=null) {
+    thiz->simTime.timeSim = seconds;
+    thiz->simTime.timeShort = (int32)(seconds * 1000);  //1 ms step, time may be seconds of simulation.
+  }
+}
 

@@ -3,6 +3,7 @@
 #include <Jc/FileIoJc.h>
 #include <Jc/StringJc.h>
 #include <J1c/StringFunctionsJc.h>
+#include <J1c/StringFunctions_CJc.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -106,7 +107,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
   STACKTRC_TENTRY("parseLine_TimeSignals_Inspc");
   int posColon = indexOf_CI_StringJc(line, ':', posStart);
   if(posColon > 0){ //time found.
-    float time = parseFloat_SiiciY_StringFunctionsJc(line, posStart, posColon, '.', null, _thCxt);
+    float time = parseFloat_SiiciY_StringFunctions_CJc(line, posStart, posColon, '.', null, _thCxt);
     posNext = posColon +1;
     int maxWhileNext = 100;
     while(maxWhileNext >=0 && posNext >0) { //search value asignments, posNext is position after separator for values.
@@ -148,7 +149,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
               int32 nrofCharsParsed;
               do {
                 posValue = indexNoWhitespace_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posValue, -1, _thCxt );
-                float value = parseFloat_SiiciY_StringFunctionsJc(line, posValue, 99999, '.', &nrofCharsParsed, _thCxt);
+                float value = parseFloat_SiiciY_StringFunctions_CJc(line, posValue, 99999, '.', &nrofCharsParsed, _thCxt);
                 if(nrofCharsParsed > 0  //a value scanned?
                   && entry !=null       //an entry found? on not found entry parse the values but don't store.
                   ) {

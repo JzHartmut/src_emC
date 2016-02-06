@@ -8,7 +8,20 @@
 
 
 
+typedef struct SimulationTime_Inspc_t
+{
+  int32 timeShort;
 
+  double timeSim;
+
+} SimulationTime_Inspc;
+
+
+
+/**Struktur einer Node für Reflection in einem Simulationssystem. 
+ * Attention: If this struct was changed, all dynamic libraries should recompiled which uses it!!! 
+ * Especially it are all libs which contains 'FPaccessNode_RegisterRefl_Inspc.c'. That may be much.
+ */
 typedef struct FBaccessNode_Inspc_t
 { ObjectJc super;
   //struct ObjectJc_t* obj[10];
@@ -33,6 +46,7 @@ typedef struct FBaccessNode_Inspc_t
 typedef struct FBaccess_Inspc_t
 { ObjectJc super;
   FBaccessNode_Inspc* rootNode;
+  SimulationTime_Inspc simTime;
   Inspector_Inspc_s theInspector;
 } FBaccess_Inspc;
 

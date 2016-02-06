@@ -24,6 +24,7 @@ const char sign_Mtbl_StringFunctionsJc[] = "StringFunctionsJc"; //to mark method
 
 typedef struct MtblDef_StringFunctionsJc_t { Mtbl_StringFunctionsJc mtbl; MtblHeadJc end; } MtblDef_StringFunctionsJc;
  extern MtblDef_StringFunctionsJc const mtblStringFunctionsJc;
+StringJc version_StringFunctionsJc = CONST_z_StringJc("2015-11-07");
 const char cEndOfText_StringFunctionsJc = (char)(0x3);
 StringJc indentString_StringFunctionsJc = CONST_z_StringJc("\n                                                                                                    ");
 
@@ -60,11 +61,12 @@ int32 indexWhitespace_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32
       end = endMax;
     }
     /*no initvalue*/
-    while( pos < end && (cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != ' ' && cc != '\r' && cc != '\n' && cc != '\t' && cc != '\f') 
-    { 
-      
-      pos += 1;
-    }
+    
+    while(pos < end && (cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != ' ' && cc != '\r' && cc != '\n' && cc != '\t' && cc != '\f')
+      { 
+        
+        pos += 1;
+      }
     { STACKTRC_LEAVE;
       return pos;
     }
@@ -90,11 +92,12 @@ int32 indexNoWhitespace_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int
       end = endMax;
     }
     /*no initvalue*/
-    while( pos < end && ((cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) == ' ' || cc == '\r' || cc == '\n' || cc == '\t' || cc == '\f')) 
-    { 
-      
-      pos += 1;
-    }
+    
+    while(pos < end && ((cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) == ' ' || cc == '\r' || cc == '\n' || cc == '\t' || cc == '\f'))
+      { 
+        
+        pos += 1;
+      }
     { STACKTRC_LEAVE;
       return pos;
     }
@@ -122,11 +125,12 @@ int32 indexIdentifier_StringFunctionsJc(/*static*/ CharSequenceJc_Ref src, int32
       end = endMax;
     }
     /*no initvalue*/
-    while(pos < end && (cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != '_' && (cc < 'A' || cc > 'Z') && (cc < 'a' || cc > 'z') && (additionalStartChars.ptr__== null || indexOf_C_StringJc(additionalStartChars, cc) < 0)) 
-    { 
-      
-      pos += 1;
-    }
+    
+    while(pos < end && (cc = /*? assignment*/charAt_CharSequenceJc(src, pos, _thCxt)) != '_' && (cc < 'A' || cc > 'Z') && (cc < 'a' || cc > 'z') && (additionalStartChars.ptr__== null || indexOf_C_StringJc(additionalStartChars, cc) < 0))
+      { 
+        
+        pos += 1;
+      }
     { STACKTRC_LEAVE;
       return pos < end ? pos : -1;
     }
@@ -208,309 +212,6 @@ int32 posAfterIdentifier_Csii_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sr
     
     { STACKTRC_LEAVE;
       return posAfterIdentifier_CsiiSS_StringFunctionsJc(/*static*/src, start, endMax, null_StringJc, null_StringJc, _thCxt);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Parses a given String and convert it to the integer number.*/
-int32 parseIntRadix_SiiiiYS_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("parseIntRadix_SiiiiYS_StringFunctionsJc");
-  
-  { 
-    int32 val = 0; 
-    bool bNegativ = 0; 
-    int32 digit = 0; 
-    char cc = 0; 
-    int32 ixSrc; 
-    int32 size; 
-    int32 maxDigit; 
-    
-    
-    val = 0;
-    /*no initvalue*/
-    /*no initvalue*/
-    /*no initvalue*/
-    ixSrc = pos;
-    size = length_StringJc(srcP) - pos;
-    if(size > sizeP) 
-    { 
-      
-      size = sizeP;
-    }
-    maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
-    if(size > 0 && charAt_StringJc(srcP, ixSrc) == '-') 
-    { 
-      
-      ixSrc += 1;
-      size -= 1;
-      bNegativ = true;
-    }
-    else 
-    { 
-      
-      bNegativ = false;
-    }
-    
-    while(--size >= 0)
-      { 
-        
-        cc = charAt_StringJc(srcP, ixSrc);
-        if(spaceChars.ptr__!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
-        { 
-          
-          ixSrc += 1;
-        }
-        else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
-        { 
-          
-          val = radix * val + digit;
-          ixSrc += 1;
-        }
-        else 
-        { 
-          
-          break;
-        }
-      }
-    if(bNegativ) 
-    { 
-      
-      val = -val;
-    }
-    if(parsedChars != null) 
-    { 
-      
-      parsedChars[0] = ixSrc - pos;
-    }
-    { STACKTRC_LEAVE;
-      return (val);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
-int64 parseLong_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("parseLong_StringFunctionsJc");
-  
-  { 
-    int64 val = 0; 
-    bool bNegativ = 0; 
-    int32 digit = 0; 
-    char cc = 0; 
-    int32 ixSrc; 
-    int32 size; 
-    int32 maxDigit; 
-    
-    
-    val = 0;
-    /*no initvalue*/
-    /*no initvalue*/
-    /*no initvalue*/
-    ixSrc = pos;
-    size = length_StringJc(srcP) - pos;
-    if(size > sizeP) 
-    { 
-      
-      size = sizeP;
-    }
-    maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
-    if(charAt_StringJc(srcP, ixSrc) == '-') 
-    { 
-      
-      ixSrc += 1;
-      size -= 1;
-      bNegativ = true;
-    }
-    else 
-    { 
-      
-      bNegativ = false;
-    }
-    
-    while(--size >= 0)
-      { 
-        
-        cc = charAt_StringJc(srcP, ixSrc);
-        if(spaceChars.ptr__!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
-        { 
-          
-          ixSrc += 1;
-        }
-        else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
-        { 
-          
-          val = radix * val + digit;
-          ixSrc += 1;
-        }
-        else 
-        { 
-          
-          break;
-        }
-      }
-    if(bNegativ) 
-    { 
-      
-      val = -val;
-    }
-    if(parsedChars != null) 
-    { 
-      
-      parsedChars[0] = ixSrc - pos;
-    }
-    { STACKTRC_LEAVE;
-      return (val);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Parses a given String backward and convert it to the integer number.*/
-int32 parseIntRadixBack_StringFunctionsJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("parseIntRadixBack_StringFunctionsJc");
-  
-  { 
-    int32 val = 0; 
-    bool bNegativ = 0; 
-    int32 digit = 0; 
-    char cc = 0; 
-    int32 ixSrc; 
-    int32 size; 
-    int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@19b35853*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@19b35853*/; 
-    int32 multPosition = 1; 
-    
-    
-    val = 0;
-    /*no initvalue*/
-    /*no initvalue*/
-    /*no initvalue*/
-    ixSrc = pos;
-    size = length_StringJc(srcP) - pos;
-    if(size > sizeP) 
-    { 
-      
-      size = sizeP;
-    }
-    maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
-    maxHexDigitLower = ((/*J2C:cast% from char*/int32)('A' + radix - 11));
-    maxHexDigitUpper = ((/*J2C:cast% from char*/int32)('a' + radix - 11));
-    multPosition = 1;
-    
-    while(size > 0 && ixSrc >= 0 && (digit = /*? assignment*/(cc = /*? assignment*/charAt_StringJc(srcP, ixSrc)) - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix))))
-      { 
-        
-        val += multPosition * digit;
-        multPosition *= radix;
-        ixSrc -= 1;
-        size -= 1;
-      }
-    if(size > 0 && ixSrc >= 0 && charAt_StringJc(srcP, ixSrc) == '-') 
-    { 
-      
-      ixSrc -= 1;
-      size -= 1;
-      val = -val;
-    }
-    if(parsedChars != null) 
-    { 
-      
-      parsedChars[0] = pos - ixSrc;
-    }
-    { STACKTRC_LEAVE;
-      return (val);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/*** */
-float parseFloat_SiiiY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("parseFloat_SiiiY_StringFunctionsJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return parseFloat_SiiciY_StringFunctionsJc(/*static*/src, pos, sizeP, '.', parsedChars, _thCxt);
-    }
-  }
-  STACKTRC_LEAVE;
-}
-
-
-/**Parses a given String and convert it to the float number.*/
-float parseFloat_SiiciY_StringFunctionsJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt)
-{ 
-  STACKTRC_TENTRY("parseFloat_SiiciY_StringFunctionsJc");
-  
-  { 
-    int32 parsedChars = 0; 
-    float ret = 0; 
-    int32 restlen; 
-    int32 zParsed[1]; 
-    int32 ixsrc; 
-    
-    
-    parsedChars = 0;
-    /*no initvalue*/
-    restlen = length_StringJc(src) - pos;
-    if(restlen > sizeP) 
-    { 
-      
-      restlen = sizeP;
-    }
-    
-    ret = parseIntRadix_SiiiiY_StringFunctionsJc(/*static*/src, pos, restlen, 10, &zParsed[0]);
-    parsedChars += zParsed[0];/*maybe 0 if .123 is written*/
-    
-    ixsrc = pos + zParsed[0];
-    restlen -= zParsed[0];
-    if(ixsrc < (restlen + pos) && charAt_StringJc(src, ixsrc) == decimalpoint) 
-    { 
-      float fracPart; 
-      
-      
-      fracPart = parseIntRadix_SiiiiY_StringFunctionsJc(/*static*/src, ixsrc + 1, restlen - 1, 10, &zParsed[0]);
-      if(zParsed[0] > 0) 
-      { 
-        
-        switch(zParsed[0]){
-          case 1: fracPart *= 0.1F;break;
-          case 2: fracPart *= 0.01F;break;
-          case 3: fracPart *= 0.001F;break;
-          case 4: fracPart *= 1.0E-4F;break;
-          case 5: fracPart *= 1.0E-5F;break;
-          case 6: fracPart *= 1.0E-6F;break;
-          case 7: fracPart *= 1.0E-7F;break;
-          case 8: fracPart *= 1.0E-8F;break;
-          case 9: fracPart *= 1.0E-9F;break;
-          case 10: fracPart *= 1.0E-10F;break;
-        }/*switch*/;
-        ret += fracPart;
-      }
-      parsedChars += zParsed[0] + 1;/*maybe 0 if .123 is written*/
-      
-      restlen -= zParsed[0] - 1;
-    }/*TODO exponent*/
-    
-    if(parsedCharsP != null) 
-    { 
-      
-      parsedCharsP[0] = parsedChars;
-    }
-    { STACKTRC_LEAVE;
-      return ret;
     }
   }
   STACKTRC_LEAVE;
@@ -615,6 +316,23 @@ int32 compare_CsiCsii_StringFunctionsJc(/*static*/ CharSequenceJc_Ref s1, int32 
     i2 = from2 - 1;
     z = nrofChars + from1;
     returnEq = 0;
+    if(s1.ref== null) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return s2.ref== null ? 0 : -1;
+      }
+    }/*equal if both are null*/
+    
+    else if(s2.ref== null) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return 1;
+      }
+    }/*s1 is greater.*/
+    /**/
+    
     if(z > length_CharSequenceJc(s1, _thCxt)) 
     { 
       int32 nrofChars1; 
@@ -1242,7 +960,7 @@ int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int3
           
           s1 = 0;
           { int32 jj; 
-            for(jj = max + 1; jj < max + length_StringJc(str); ++jj)
+            for(jj = max + 1; jj < max + length_StringJc(str) - 1; ++jj)
               { 
                 
                 if(charAt_CharSequenceJc(sq, jj, _thCxt) != charAt_StringJc(str, ++s1)) 
@@ -1254,7 +972,7 @@ int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ CharSequenceJc_Ref sq, int3
                 }
               }
           }
-          if(s1 > 0) { STACKTRC_LEAVE;
+          if(s1 >= 0) { STACKTRC_LEAVE;
           return max;
         }/*found.*/
           
@@ -1403,11 +1121,19 @@ const MtblDef_StringFunctionsJc mtblStringFunctionsJc = {
 extern_C struct ClassJc_t const reflection_StringFunctionsJc_s;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_StringFunctionsJc_s_t
-{ ObjectArrayJc head; FieldJc data[2];
+{ ObjectArrayJc head; FieldJc data[3];
 } reflection_Fields_StringFunctionsJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_StringFunctionsJc_s)
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_StringFunctionsJc_s)
 , {
-     { "cEndOfText"
+     { "version"
+    , 0 //nrofArrayElements
+    , &reflection_StringJc
+    , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
+    , 0 //compiler problem, not a constant,TODO: (int16)(&version_StringFunctionsJc) //lo part of memory address of static member
+    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_StringFunctionsJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
+    , &reflection_StringFunctionsJc_s
+    }
+   , { "cEndOfText"
     , 0 //nrofArrayElements
     , REFLECTION_char
     , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
