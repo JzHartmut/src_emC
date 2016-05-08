@@ -15,25 +15,12 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct CharSequenceJc_t;
 struct StringPartScanJc_t;
-
-
-/* J2C: Enhanced references *********************************************************
- * In this part all here used enhanced references are defined conditionally.
- * The inclusion of all that header files isn't necessary, to prevent circular inclusion.
- * It is adequate a struct pointer forward declaration.
- */
-#ifndef CharSequenceJcREFDEF
-  //J2C: definition of enhanced reference where it was need firstly: 
-  #define CharSequenceJcREFDEF
-  struct CharSequenceJc_t;
-  DEFINE_EnhancedRefJc(CharSequenceJc);
-#endif
 
 
 /* J2C: includes *********************************************************/
 #include "J1c/StringPartJc.h"  //superclass
+#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /*@CLASS_C StringPartScanJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -43,10 +30,11 @@ typedef struct StringPartScanJc_t
   union { ObjectJc object; StringPartJc_s super;} base; 
   int32 beginScan;   /*Position of scanStart() or after scanOk() as begin of next scan operations. */
   struct nLastIntegerNumber_Y { ObjectArrayJc head; int64 data[5]; }nLastIntegerNumber;   /*Buffer for last scanned integer numbers.*/
+  struct nLastIntegerSign_Y { ObjectArrayJc head; bool data[5]; }nLastIntegerSign;   /*Buffer for last scanned signs of integer numbers.*/
   int32 idxLastIntegerNumber;   /*current index of the last scanned integer number. -1=nothing scanned. 0..4=valid*/
   struct nLastFloatNumber_Y { ObjectArrayJc head; double data[5]; }nLastFloatNumber;   /*Last scanned float number*/
   int32 idxLastFloatNumber;   /*current index of the last scanned float number. -1=nothing scanned. 0..4=valid*/
-  CharSequenceJcREF sLastString;   /*Last scanned string. */
+  CharSeqJc sLastString;   /*Last scanned string. */
 } StringPartScanJc_s;
   
 
@@ -80,9 +68,9 @@ void finalize_StringPartScanJc_F(ObjectJc* othis, ThCxt* _thCxt);
 #define version_StringPartScanJc 20131027  /*Version, history and license.*/
 
 
-METHOD_C struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, struct CharSequenceJc_t* src, int32 begin, int32 end, ThCxt* _thCxt);
+METHOD_C struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, CharSeqJc src, int32 begin, int32 end, ThCxt* _thCxt);
 
-METHOD_C struct StringPartScanJc_t* ctorO_Cs_StringPartScanJc(ObjectJc* othis, struct CharSequenceJc_t* src, ThCxt* _thCxt);
+METHOD_C struct StringPartScanJc_t* ctorO_Cs_StringPartScanJc(ObjectJc* othis, CharSeqJc src, ThCxt* _thCxt);
 
 METHOD_C struct StringPartScanJc_t* ctorO_StringPartScanJc(ObjectJc* othis, ThCxt* _thCxt);
 
@@ -101,13 +89,13 @@ METHOD_C bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt
 METHOD_C bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
 /**scan next content, test the requested String.*/
-METHOD_C struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, struct CharSequenceJc_t* sTestP, ThCxt* _thCxt);
+METHOD_C struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sTestP, ThCxt* _thCxt);
 
 /*** */
-METHOD_C struct StringPartScanJc_t* scanQuotion_CsSSY_StringPartScanJc(StringPartScanJc_s* thiz, struct CharSequenceJc_t* sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, ThCxt* _thCxt);
+METHOD_C struct StringPartScanJc_t* scanQuotion_CsSSY_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, ThCxt* _thCxt);
 
 /*** */
-METHOD_C struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_s* thiz, struct CharSequenceJc_t* sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest, ThCxt* _thCxt);
+METHOD_C struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest, ThCxt* _thCxt);
 
 /**Scans if it is a integer number, contains exclusively of digits 0..9*/
 METHOD_C int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 maxNrofChars, ThCxt* _thCxt);
@@ -124,8 +112,8 @@ METHOD_C struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPar
 /**Scans a float / double number*/
 METHOD_C struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
-/**Scans the fractional part of a float / double number*/
-METHOD_C struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJc_s* thiz, int64 nInteger, ThCxt* _thCxt);
+/**Scans the fractional part of a float / double number with given integer part and sign.*/
+METHOD_C struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJc_s* thiz, int64 nInteger, bool bNegative, ThCxt* _thCxt);
 
 /**Scans a sequence of hex chars a hex number*/
 METHOD_C struct StringPartScanJc_t* scanHex_StringPartScanJc(StringPartScanJc_s* thiz, int32 maxNrofChars, ThCxt* _thCxt);
@@ -139,6 +127,9 @@ METHOD_C struct StringPartScanJc_t* scanIdentifier_StringPartScanJc(StringPartSc
 /**Scans an identifier with start characters A..Z, a..z, _ and all characters 0..9 inside,*/
 METHOD_C struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s* thiz, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
 
+/**Returns the last scanned integer sign*/
+METHOD_C bool getLastScannedIntegerSign_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
+
 /**Returns the last scanned integer number*/
 METHOD_C int64 getLastScannedIntegerNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
@@ -146,24 +137,14 @@ METHOD_C int64 getLastScannedIntegerNumber_StringPartScanJc(StringPartScanJc_s* 
 METHOD_C double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
 /**Returns the part of the last scanning yet only from {@link #scanIdentifier()}*/
-METHOD_C struct CharSequenceJc_t* getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
-
-/**Gets a String with transliteration.*/
-METHOD_C struct CharSequenceJc_t* getCircumScriptionToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, ThCxt* _thCxt);
-
-/**Gets a String with transliteration and skip over quotation while searchin.*/
-METHOD_C struct CharSequenceJc_t* getCircumScriptionToAnyCharOutsideQuotion_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, ThCxt* _thCxt);
-
-METHOD_C struct CharSequenceJc_t* getCircumScriptionToAnyChar_p_StringPartScanJc(StringPartScanJc_s* thiz, StringJc sCharsEnd, bool bOutsideQuotion, ThCxt* _thCxt);
-
-/**Scans a String with maybe transliterated characters till one of end characters,*/
-METHOD_C struct StringPartScanJc_t* scanToAnyChar_StringPartScanJc(StringPartScanJc_s* thiz, CharSequenceJc_Y* dst, StringJc sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar, ThCxt* _thCxt);
+METHOD_C CharSeqJc getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
 /**Closes the work*/
+typedef void MT_close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt);
+METHOD_C void close_StringPartScanJc_F(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt);
+METHOD_C void close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -171,6 +152,7 @@ METHOD_C void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt);
  extern const char sign_Mtbl_StringPartScanJc[]; //marker for methodTable check
 typedef struct Mtbl_StringPartScanJc_t
 { MtblHeadJc head;
+  MT_close_StringPartScanJc* close;
   Mtbl_StringPartJc StringPartJc;
 } Mtbl_StringPartScanJc;
 
@@ -181,25 +163,21 @@ typedef struct Mtbl_StringPartScanJc_t
 class StringPartScanJc : private StringPartScanJc_s
 { public:
 
-  virtual void close(){ close_StringPartScanJc_F(&this->base.super,  null/*_thCxt*/); }
+  virtual void close(){ close_StringPartScanJc_F(this,  null/*_thCxt*/); }
 
-  StringPartScanJc(struct CharSequenceJc_t* src){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_Cs_StringPartScanJc(&this->base.object, src,  null/*_thCxt*/); }
+  StringPartScanJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_Cs_StringPartScanJc(&this->base.object, src,  null/*_thCxt*/); }
 
-  StringPartScanJc(struct CharSequenceJc_t* src, int32 begin, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_Csii_StringPartScanJc(&this->base.object, src, begin, end,  null/*_thCxt*/); }
+  StringPartScanJc(CharSeqJc src, int32 begin, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_Csii_StringPartScanJc(&this->base.object, src, begin, end,  null/*_thCxt*/); }
 
   StringPartScanJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_StringPartScanJc(&this->base.object,  null/*_thCxt*/); }
-
-  struct CharSequenceJc_t* getCircumScriptionToAnyCharOutsideQuotion(StringJcpp sCharsEnd){  return getCircumScriptionToAnyCharOutsideQuotion_StringPartScanJc(this, sCharsEnd,  null/*_thCxt*/); }
-
-  struct CharSequenceJc_t* getCircumScriptionToAnyChar(StringJcpp sCharsEnd){  return getCircumScriptionToAnyChar_StringPartScanJc(this, sCharsEnd,  null/*_thCxt*/); }
-
-  struct CharSequenceJc_t* getCircumScriptionToAnyChar_p(StringJcpp sCharsEnd, bool bOutsideQuotion){  return getCircumScriptionToAnyChar_p_StringPartScanJc(this, sCharsEnd, bOutsideQuotion,  null/*_thCxt*/); }
 
   double getLastScannedFloatNumber(){  return getLastScannedFloatNumber_StringPartScanJc(this,  null/*_thCxt*/); }
 
   int64 getLastScannedIntegerNumber(){  return getLastScannedIntegerNumber_StringPartScanJc(this,  null/*_thCxt*/); }
 
-  struct CharSequenceJc_t* getLastScannedString(){  return getLastScannedString_StringPartScanJc(this,  null/*_thCxt*/); }
+  bool getLastScannedIntegerSign(){  return getLastScannedIntegerSign_StringPartScanJc(this,  null/*_thCxt*/); }
+
+  CharSeqJc getLastScannedString(){  return getLastScannedString_StringPartScanJc(this,  null/*_thCxt*/); }
 
   int64 scanDigits(bool bHex, int32 maxNrofChars){  return scanDigits_StringPartScanJc(this, bHex, maxNrofChars,  null/*_thCxt*/); }
 
@@ -209,7 +187,7 @@ class StringPartScanJc : private StringPartScanJc_s
 
   StringPartScanJc& scanFloatNumber(bool cleanBuffer){ scanFloatNumber_b_StringPartScanJc(this, cleanBuffer,  null/*_thCxt*/);  return *this; }
 
-  StringPartScanJc& scanFractionalNumber(int64 nInteger){ scanFractionalNumber_StringPartScanJc(this, nInteger,  null/*_thCxt*/);  return *this; }
+  StringPartScanJc& scanFractionalNumber(int64 nInteger, bool bNegative){ scanFractionalNumber_StringPartScanJc(this, nInteger, bNegative,  null/*_thCxt*/);  return *this; }
 
   StringPartScanJc& scanHexOrDecimal(int32 maxNrofChars){ scanHexOrDecimal_StringPartScanJc(this, maxNrofChars,  null/*_thCxt*/);  return *this; }
 
@@ -225,9 +203,9 @@ class StringPartScanJc : private StringPartScanJc_s
 
   StringPartScanJc& scanPositivInteger(){ scanPositivInteger_StringPartScanJc(this,  null/*_thCxt*/);  return *this; }
 
-  StringPartScanJc& scanQuotion(struct CharSequenceJc_t* sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult){ scanQuotion_CsSSY_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult,  null/*_thCxt*/);  return *this; }
+  StringPartScanJc& scanQuotion(CharSeqJc sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult){ scanQuotion_CsSSY_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult,  null/*_thCxt*/);  return *this; }
 
-  StringPartScanJc& scanQuotion(struct CharSequenceJc_t* sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest){ scanQuotion_CsSSYi_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult, maxToTest,  null/*_thCxt*/);  return *this; }
+  StringPartScanJc& scanQuotion(CharSeqJc sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest){ scanQuotion_CsSSYi_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult, maxToTest,  null/*_thCxt*/);  return *this; }
 
   struct StringPartScanJc_t* scanSkipComment(){  return scanSkipComment_StringPartScanJc(this,  null/*_thCxt*/); }
 
@@ -235,9 +213,7 @@ class StringPartScanJc : private StringPartScanJc_s
 
   StringPartScanJc& scanStart(){ scanStart_StringPartScanJc(this,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartScanJc_t* scanToAnyChar(CharSequenceJc_Y* dst, StringJcpp sCharsEnd, char transcriptChar, char quotationStartChar, char quotationEndChar){  return scanToAnyChar_StringPartScanJc(this, dst, sCharsEnd, transcriptChar, quotationStartChar, quotationEndChar,  null/*_thCxt*/); }
-
-  StringPartScanJc& scan(struct CharSequenceJc_t* sTestP){ scan_StringPartScanJc(this, sTestP,  null/*_thCxt*/);  return *this; }
+  StringPartScanJc& scan(CharSeqJc sTestP){ scan_StringPartScanJc(this, sTestP,  null/*_thCxt*/);  return *this; }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

@@ -349,8 +349,9 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, 6, pwd, _thCxt);\
 }
 
+/**Returns the type stored in byte 7 in range 0...255.*/
 #define getType_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int8)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 7, 1, _thCxt))
+((int16)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 7, 1, _thCxt))
 
 #define getByte_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
 ((int8)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, -1, _thCxt))
@@ -360,15 +361,51 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
 
 /**A long value is provided in the bytes 8..15 in Big endian.*/
 #define getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int32)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, -4, _thCxt))
+\
+{ \
+  \
+  switch((int16)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
+    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
+    return (int32)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
+    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
+    return (int32)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
+    default: \
+    return (int32)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
+    \
+  }/*switch*/;\
+}
 
 /**A long value is provided in the bytes 8..15 in Big endian.*/
 #define getLong_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt))
+\
+{ \
+  \
+  switch((int16)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
+    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
+    return (int32)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
+    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
+    return (int32)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
+    default: \
+    return _getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
+    \
+  }/*switch*/;\
+}
 
 /**A float value is provided in the bytes 8..11 in Big endian.*/
 #define getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt))
+\
+{ \
+  \
+  switch((int16)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
+    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
+    return (float)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
+    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
+    return getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
+    default: \
+    return (float)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
+    \
+  }/*switch*/;\
+}
 
 #define getDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
 (getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt))
@@ -473,7 +510,7 @@ class InspcSetValue_InspcDataExchangeAccess_Inspc : private InspcSetValue_InspcD
 
   int16 getShort(){  return getShort_InspcSetValue_InspcDataExchangeAccess_Inspc(this); }
 
-  int8 getType(){  return getType_InspcSetValue_InspcDataExchangeAccess_Inspc(this); }
+  int16 getType(){  return getType_InspcSetValue_InspcDataExchangeAccess_Inspc(this); }
 
   void setBool(int32 value){ setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 

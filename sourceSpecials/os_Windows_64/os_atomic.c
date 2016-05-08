@@ -33,7 +33,10 @@
  * 2007-10-01: JcHartmut creation
  *
  ****************************************************************************/
+
 #include <os_AtomicAccess.h>
+
+
 
 /**Implementation compareAndSet_AtomicInteger:
  * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
@@ -82,14 +85,16 @@ CMPXCHG - Compare and Exchange
  * compare the value at *x to oldval, swap with
  * newval if successful
  */
+
 int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update) {
-  int lastValue;
+  int32 lastValue;
   /* The cmpxchg instruction sets the memory location edx with ecx if it is equal eax.
    * In this case eax is equal the content of [edx].
    * if the value at memory location is not equal eax, than no change is done,
    * but eax is loaded with the content of memory location at [edx].
    * In this case eax is not equal with the expect value.
    */
+  /* 
   _asm {
     mov eax, expect
     mov ecx, update
@@ -98,16 +103,20 @@ int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int3
     lock cmpxchg dword ptr [edx], ecx
     mov lastValue, eax
   }
-
+  */
+  //TODO simple algorithm without atomic, because the 64-bit-Platform does not support _asm. TODO 
+  lastValue = *reference;
+  if(lastValue == expect) {
+    *reference = update;
+  }
   return lastValue;
 }
-
 
 /**Implementation compareAndSet_AtomicReference:
  * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
  * Here a simple way.
  */
-bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
+METHOD_C bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
   return found == expect;
@@ -139,3 +148,4 @@ bool compareAndSet_AtomicReference(void* volatile* reference, void* expect, void
   int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
   return found == (int32)expect;
 }
+

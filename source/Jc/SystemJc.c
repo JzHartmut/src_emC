@@ -117,7 +117,7 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int ds
   if(srcPos < 0 || srcPos > srclen) THROW_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
   if(dstPos < 0 || dstPos > dst.value__) THROW_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
   if(srcPos +length > srclen || dstPos +length > dst.value__) THROW_s0(IndexOutOfBoundsException, "length failed", length);
-  if(1 != sizeof(*dst.ptr__)) THROW_s0(ArrayStoreException, "dstPos failed", dstPos);
+  if(1 != sizeof(*dst.ref)) THROW_s0(ArrayStoreException, "dstPos failed", dstPos);
   { int sizeElement = 1; 
     int nrofBytes = sizeElement * length;
     int srcPosBytes = sizeElement * srcPos;
@@ -127,9 +127,9 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int ds
     int dstMaxNrofBytes = dst.value__;
     if(sizeElement < 0) THROW_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
     if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW_s0(ArrayStoreException, "dst-consistence failed", (int)(dst.ptr__));
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW_s0(ArrayStoreException, "dst-consistence failed", (int)(dst.ref));
     //all is tested.
-    { MemUnit* dst1 = (MemUnit*)(dst.ptr__);   
+    { MemUnit* dst1 = (MemUnit*)(dst.ref);   
       MemUnit* src1 = (MemUnit*)srcPtr;
       memmove( dst1 +dstPosBytes, src1 +srcPosBytes, nrofBytes); 
     }

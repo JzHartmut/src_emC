@@ -1006,6 +1006,7 @@ typedef struct Mtbl_ComparableJc_t
 
 extern char const sign_Mtbl_ComparableJc[]; 
 
+extern_C const struct ClassJc_t reflection_ComparableJc; 
 
 
 /*@CLASS_C CloseableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -1021,6 +1022,8 @@ typedef struct Mtbl_CloseableJc_t
 
 extern char const sign_Mtbl_CloseableJc[]; 
 
+extern_C const struct ClassJc_t reflection_CloseableJc; 
+
 
 /*@CLASS_C FlushableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -1035,19 +1038,37 @@ typedef struct Mtbl_FlushableJc_t
 
 extern char const sign_Mtbl_FlushableJc[]; 
 
+extern_C const struct ClassJc_t reflection_FlushableJc; 
 
 /*@CLASS_C AppendableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct AppendableJc_t
-{ ObjectJc object;
+{ union{ ObjectJc object; } base;
 }AppendableJc;
+
+
+typedef AppendableJc* MT_append_c_AppendableJc(AppendableJc* thiz, char c, ThCxt* _thCxt);
+
+typedef AppendableJc* MT_append_C_AppendableJc(AppendableJc* thiz, CharSeqJc cs, ThCxt* _thCxt);
+
+typedef AppendableJc* MT_append_CI_AppendableJc(AppendableJc* thiz, CharSeqJc cs, int from, int to, ThCxt* _thCxt);
+
+
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
 typedef struct Mtbl_AppendableJc_t
-{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+{ MtblHeadJc head;
+  MT_append_c_AppendableJc* append_c;
+  MT_append_C_AppendableJc* append_C;
+  MT_append_CI_AppendableJc* append_CI;
+  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+
+
 } Mtbl_AppendableJc;
 
 extern char const sign_Mtbl_AppendableJc[]; 
+
+extern_C const struct ClassJc_t reflection_AppendableJc; 
 
 
 /*@DEFINE_C standard_includes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

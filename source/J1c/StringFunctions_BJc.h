@@ -15,7 +15,6 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct CharSequenceJc_t;
 struct StringFunctions_BJc_t;
 
 
@@ -65,9 +64,7 @@ void finalize_StringFunctions_BJc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* _thCxt);
 
 /**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters.*/
-METHOD_C CharSequenceJc_Ref removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSequenceJc_Ref src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt);
-
-METHOD_C bool checkSameChars_StringFunctions_BJc(/*static*/ char const* src, ..., ThCxt* _thCxt);
+METHOD_C CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -85,11 +82,9 @@ typedef struct Mtbl_StringFunctions_BJc_t
 class StringFunctions_BJc : private StringFunctions_BJc_s
 { public:
 
-  bool checkSameChars(char const* src, ...){  return checkSameChars_StringFunctions_BJc(src,  null/*_thCxt*/); }
-
   StringFunctions_BJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctions_BJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctions_BJc_s, 0); ctorO_StringFunctions_BJc(&this->base.object,  null/*_thCxt*/); }
 
-  CharSequenceJc_Ref removeIndentReplaceNewline(CharSequenceJc_Ref src, int32 indent, StringJcpp indentChars, int32 tabSize, StringJcpp sNewline, bool bSkipSpaces){  return removeIndentReplaceNewline_StringFunctions_BJc(src, indent, indentChars, tabSize, sNewline, bSkipSpaces,  null/*_thCxt*/); }
+  CharSeqJc removeIndentReplaceNewline(CharSeqJc src, int32 indent, StringJcpp indentChars, int32 tabSize, StringJcpp sNewline, bool bSkipSpaces){  return removeIndentReplaceNewline_StringFunctions_BJc(src, indent, indentChars, tabSize, sNewline, bSkipSpaces,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

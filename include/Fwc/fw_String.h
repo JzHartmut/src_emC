@@ -101,8 +101,21 @@ struct MemAreaC_t;
  */  
 #define StringJc OS_PtrValue
 
+
+typedef OS_PtrValue CharSeqJc;
+
+
 extern char const sign_Mtbl_StringJc[]; 
 
+/**Designation of the String as CharSeqJc. In this case the reference refers a CharSeqJc and the length
+ * should be gotten by invocation of 
+ */
+#define kIsCharSequence_StringJc (mLength__StringJc -1)
+
+/**Designation of the String as StringBuilderJc-instance. In this case the reference refers a StringBuilderJc and the length
+ * should be gotten by invocation of length_StringBuilderJc(ref)
+ */
+#define kIsStringBuilder_StringJc (mLength__StringJc -2)
 
 /**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
  * NOTE: mLength__StringJc is defined in os_types_def.h

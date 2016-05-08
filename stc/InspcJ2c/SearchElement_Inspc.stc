@@ -17,6 +17,7 @@ class SearchElement; nameC=SearchElement_Inspc_s; argIdent=XX; extends java/lang
       org/vishia/bridgeC/MemSegmJc(instance=org/vishia/bridgeC/MemSegmJc) $.. objWhereFieldIsFound;
       //outer=2 ,super=1: org/vishia/inspectorTarget/SearchElement.SearchTrc[16] Q$s searchTrc;
       org/vishia/reflect/ClassJc *.. typeOfField;
+      //outer=2 ,super=1: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
         ctorM-_$, mode= ctor+static: org/vishia/inspectorTarget/SearchElement.SearchTrc *.. SearchTrc_SearchElement_Inspc_s();
@@ -31,6 +32,7 @@ class SearchElement; nameC=SearchElement_Inspc_s; argIdent=XX; extends java/lang
   }
 fieldIdents {
   org/vishia/inspectorTarget/SearchElement.SearchTrc[16] Q$s searchTrc;
+  java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
     ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/SearchElement *.. SearchElement_Inspc_s();

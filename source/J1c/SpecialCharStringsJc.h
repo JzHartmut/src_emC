@@ -15,7 +15,6 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct CharSequenceJc_t;
 struct SpecialCharStringsJc_t;
 
 
@@ -65,7 +64,7 @@ void finalize_SpecialCharStringsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct SpecialCharStringsJc_t* ctorO_SpecialCharStringsJc(ObjectJc* othis, ThCxt* _thCxt);
 
 /**Resolves the given String containing some switch chars in form of backslash*/
-METHOD_C struct CharSequenceJc_t* resolveCircumScription_SpecialCharStringsJc(/*static*/ struct CharSequenceJc_t* src, ThCxt* _thCxt);
+METHOD_C CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*static*/ CharSeqJc src, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -85,7 +84,7 @@ class SpecialCharStringsJc : private SpecialCharStringsJc_s
 
   SpecialCharStringsJc(){ init_ObjectJc(&this->base.object, sizeof(SpecialCharStringsJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_SpecialCharStringsJc_s, 0); ctorO_SpecialCharStringsJc(&this->base.object,  null/*_thCxt*/); }
 
-  struct CharSequenceJc_t* resolveCircumScription(struct CharSequenceJc_t* src){  return resolveCircumScription_SpecialCharStringsJc(src,  null/*_thCxt*/); }
+  CharSeqJc resolveCircumScription(CharSeqJc src){  return resolveCircumScription_SpecialCharStringsJc(src,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

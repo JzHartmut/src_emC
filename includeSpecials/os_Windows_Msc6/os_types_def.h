@@ -145,8 +145,10 @@ typedef unsigned short       char16;  //UTF16-char
 typedef signed char          int8;
 typedef short                int16;
 typedef long                 int32;
-typedef __int64              int64;
-typedef unsigned __int64     uint64;
+#define int64 __int64
+#define uint64 __int64
+//typedef __int64              int64;
+//typedef unsigned __int64     uint64;
 #define bool8 char
 #define bool16 int16
 
@@ -233,7 +235,7 @@ extern "C" int stopNAN();
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
  * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
-#define PtrVal_TYPE(TYPE) struct PtrVal_##TYPE##_t { TYPE* ptr__; int32 value__; } PtrVal_##TYPE
+#define PtrVal_TYPE(TYPE) struct PtrVal_##TYPE##_t { TYPE* ref; int32 value__; } PtrVal_##TYPE
 
 /**Defines the struct type PtrVal_MemUnit.
  * This type provides basic working with memory allocation.
@@ -272,16 +274,16 @@ extern OS_PtrValue null_OS_PtrValue;
 
 #define value_OS_PtrValue(THIS) ((THIS).value__)
 
-#define PTR_OS_PtrValue(THIS, TYPE) ((TYPE*)(THIS).ptr__)
+#define PTR_OS_PtrValue(THIS, TYPE) ((TYPE*)(THIS).ref)
 
-#define set_OS_PtrValue(THIS, PTR, INT) { (THIS).ptr__ = (char*)(PTR); (THIS).value__ = (INT); } //(char* )
+#define set_OS_PtrValue(THIS, PTR, INT) { (THIS).ref = (char*)(PTR); (THIS).value__ = (INT); } //(char* )
 
 //NOTE: use a local variable to prevent twice call if SRC is a complex expression.
-#define copy_OS_PtrValue(THIS, SRC) { OS_PtrValue const* src__ = &(SRC); (THIS).ptr__ = src__->ptr__; (THIS).value__ = src__->value__; }
+#define copy_OS_PtrValue(THIS, SRC) { OS_PtrValue const* src__ = &(SRC); (THIS).ref = src__->ref; (THIS).value__ = src__->value__; }
 
 #define setValue_OS_PtrValue(THIS, INT) { (THIS).value__ = (INT); }
 
-#define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ptr__ = (char*)(PTR); }
+#define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ref = (char*)(PTR); }
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus

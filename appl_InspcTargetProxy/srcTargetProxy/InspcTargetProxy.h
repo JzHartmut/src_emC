@@ -14,16 +14,18 @@
 struct Inspector_Inspc_t;
 
 
-typedef union
+typedef union TestUnion_t
 {
-	int32 value;
+	int32 val1, val2;
 	struct
 	{
-    int32 b0:3;
-		int32 b3:11;
-		int32 b14:5;  //uses bit 18..14, over 16-bit-border.
-		int32 b19:1;
-    int32 :12;
+    int32 b00000007:3;
+		int32 b00003ff8:11;
+		int32 b0007c000:5;  //uses bit 18..14, over 16-bit-border.
+		int32 b00080000:1;
+    int32 b7FF00000:11; 
+    //one bit missing but the compiler uses the next word...
+    int32 c00000007:3;
 	};
 }TestUnion;
 

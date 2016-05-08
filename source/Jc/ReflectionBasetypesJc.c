@@ -267,6 +267,11 @@ const ClassJc reflection_int8ARRAY =
 
 
 
+
+
+
+
+
 extern_C const ClassJc reflection_ComparableJc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_ComparableJc_t
@@ -301,6 +306,40 @@ const ClassJc reflection_ComparableJc =
 
 
 
+extern_C const ClassJc reflection_AppendableJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_AppendableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_AppendableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ComparableJc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((AppendableJc*)(0x1000))->base.object) -(int32)(AppendableJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_AppendableJc
+    }
+} };
+
+
+const ClassJc reflection_AppendableJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AppendableJc, &reflection_ClassJc)
+, "AppendableJc"
+, 0
+, sizeof(AppendableJc)
+, (FieldJcArray const*)&reflection_Fields_AppendableJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
+
 extern_C const ClassJc reflection_CloseableJc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_CloseableJc_t
@@ -326,6 +365,39 @@ const ClassJc reflection_CloseableJc =
 , 0
 , sizeof(CloseableJc)
 , (FieldJcArray const*)&reflection_Fields_CloseableJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
+extern_C const ClassJc reflection_FlushableJc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_FlushableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_FlushableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_CloseableJc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((FlushableJc*)(0x1000))->object) -(int32)(CloseableJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_FlushableJc
+    }
+} };
+
+
+const ClassJc reflection_FlushableJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FlushableJc, &reflection_ClassJc)
+, "FlushableJc"
+, 0
+, sizeof(FlushableJc)
+, (FieldJcArray const*)&reflection_Fields_FlushableJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -786,7 +858,7 @@ const struct Reflection_Fields_OS_PtrValue_t
     , 0 //nrofArrayElements
     , REFLECTION_void
     , (1<<kBitPrimitiv_Modifier_reflectJc)| kReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((OS_PtrValue*)(0x1000))->ptr__) - (int32)(OS_PtrValue*)0x1000)
+    , (int16)((int32)(&((OS_PtrValue*)(0x1000))->ref) - (int32)(OS_PtrValue*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_OS_PtrValue
     }
@@ -1265,6 +1337,44 @@ const ClassJc reflection_float_complex =
 , 0
 , sizeof(float_complex)
 , (FieldJcArray const*)&reflection_Fields_float_complex  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+const struct Reflection_Fields_double_complex_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_double_complex =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_double_complex)
+, {
+    { "re"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_double
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(0)
+    , 0  //offsetToObjectifcBase
+    , &reflection_double_complex
+    }
+  , { "im"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_double
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(sizeof(double))
+    , 0  //offsetToObjectifcBase
+    , &reflection_double_complex
+    }
+} };
+
+
+const ClassJc reflection_double_complex =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_double_complex, &reflection_ClassJc)
+, "double_complex"
+, 0
+, sizeof(double_complex)
+, (FieldJcArray const*)&reflection_Fields_double_complex  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces

@@ -13,7 +13,7 @@
 
 #include "Fwc/fw_Exception.h"   //basic concept
 
-
+#include "Jc/ArraysJc.h"
 /* J2C: Forward declaration of struct ***********************************************/
 struct ByteDataAccessBaseJc_t;
 struct CharsetJc_t;
@@ -138,7 +138,7 @@ METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, Ptr
 \
 { \
   \
-  if(dataP == null) \
+  if(dataP.ref == null) \
   { \
     \
     detach_ByteDataAccessBaseJc((THIZ), _thCxt);\
@@ -184,10 +184,10 @@ METHOD_C void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, Ptr
 \
 { \
   \
-  assign_iYii_ByteDataAccessBaseJc((THIZ), src->data, src->ixEnd, src->ixBegin + offsetCastToInput, _thCxt);\
-  (THIZ)->bExpand = src->bExpand;\
-  (THIZ)->bBigEndian = src->bBigEndian;\
-  (THIZ)->bExc = src->bExc;\
+  assign_iYii_ByteDataAccessBaseJc((THIZ), (src)->data, (src)->ixEnd, (src)->ixBegin + offsetCastToInput, _thCxt);\
+  (THIZ)->bExpand = (src)->bExpand;\
+  (THIZ)->bBigEndian = (src)->bBigEndian;\
+  (THIZ)->bExc = (src)->bExc;\
   if(lengthDst > 0) \
   { \
     \
@@ -475,7 +475,7 @@ METHOD_C void setInt32_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int
 \
 { \
   \
-  (THIZ)->data.ptr__[(THIZ)->ixBegin + idx] = (int8)(value & 0xff);\
+  (THIZ)->data.ref[(THIZ)->ixBegin + idx] = (int8)(value & 0xff);\
 }
 
 /**Set the content of 1 bytes as a positive nr between 0..255, big- or little-endian.*/

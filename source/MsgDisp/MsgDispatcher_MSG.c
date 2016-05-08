@@ -330,12 +330,12 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
     if(errorBuffer != null) 
     { 
       
-      setLength_StringBufferJc(errorBuffer, 0, _thCxt);
+      setLength_StringBuilderJc(errorBuffer, 0, _thCxt);
     }
     
     //J2C: constructor for embedded element-ObjectJc
     init_ObjectJc(&(spCtrl.base.object), sizeof(spCtrl), 0); 
-    ctorO_Cs_StringPartScanJc(/*static*/&(spCtrl.base.object), ((/*J2C:cast from StringJc*/CharSequenceJc*)(ctrl/*J2C-error testAndChangeAccess: t**/)), _thCxt);
+    ctorO_Cs_StringPartScanJc(/*static*/&(spCtrl.base.object), ((/*J2C:cast from StringJc*/CharSequenceJc_Ref)(ctrl/*J2C-error testAndChangeAccess: t**/)), _thCxt);
     setIgnoreWhitespaces_StringPartJc(& ((spCtrl).base.super), true, _thCxt);
     setIgnoreComment_SS_StringPartJc(& ((spCtrl).base.super), s0_StringJc("/*"), s0_StringJc("*/"), _thCxt);
     setIgnoreEndlineComment_S_StringPartJc(& ((spCtrl).base.super), s0_StringJc("//"), _thCxt);

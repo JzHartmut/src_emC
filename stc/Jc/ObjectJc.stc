@@ -6,25 +6,24 @@ package java/lang/;
 
 
 //In Java it is an interface for String, StringBuilder, StringBuffer.
-class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs; extends java/lang/Object
-{
-  methods{
-   charAt-_$: char %.. return(int %.. index);
-   length-_$: int %.. return();
-   subSequence-_$: String t.. return(int %.. start, int %.. end);
-   toString-_$, mode=noThCxt: String t.. return();
- }
- 
-  castTo {
-    //String access=t: "s0_CharSequenceJc(?)" ? access=t;
-  }
-   castFrom {
-    //t "?" String t;
-    //t "s0_StringJc(?)" s0 t;
-    //t "toString_StringBuilderJc(&(?)->base.object, _thCxt)" StringBuilder*;
-  }
-
-}
+//xxx class CharSequence; nameC=CharSeqJc; header=Jc/StringJc.h; argIdent=Cs;
+//xxx {
+//xxx   methods{
+//xxx    charAt-_$: char %.. return(int %.. index);
+//xxx    length-_$: int %.. return();
+//xxx    subSequence-_$: String t.. return(int %.. start, int %.. end);
+//xxx    toString-_$, mode=noThCxt: String t.. return();
+//xxx  }
+//xxx  
+//xxx   castTo {
+//xxx     //String access=t: "s0_CharSequenceJc(?)" ? access=t;
+//xxx   }
+//xxx    castFrom {
+//xxx     t "?" String t;
+//xxx     t "s0_StringJc(?)" s0 t;
+//xxx   }
+//xxx 
+//xxx }
  
 
 
@@ -34,10 +33,10 @@ class CharSequence; nameC=CharSequenceJc; header=Jc/StringJc.h; argIdent=Cs; ext
 class Appendable; nameC=AppendableJc; header=Jc/StringJc.h; argIdent=Ap;
 {
   methods{
-   append-_$: Appendable *.. return(CharSequence *.. val);
-   append+I-_$: Appendable *.. return(CharSequence *.. val, int %.. start, int %.. end);
-   append-_$: Appendable *.. return(char &.. val);
-   append+_t-_$: Appendable *..return(String t.. value);
+   append+_C-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val);
+   append+_CI-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val, int %.. start, int %.. end);
+   append+_c-_$, mode=overrideable: Appendable *.. return(char %.. val);
+   //append+_t-_$, mode=overrideable: Appendable *..return(String t.. value);
  }
  
 

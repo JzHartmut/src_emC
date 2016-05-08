@@ -44,10 +44,12 @@
 #include <os_sync.h>
 #include <os_error.h>
 #include <os_mem.h>
-#include "os_internal.h"
 
 #undef INT32
 #undef UINT32
+#undef int64
+#undef uint64
+#include "os_internal.h"
 #include <windows.h>
 #include <stdio.h>
 

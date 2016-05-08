@@ -223,6 +223,19 @@ struct Size_Mtbl_t;
 */
 #define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
 
+
+
+/** Macro for constant initialization with a IDENT and a given reflection class.
+  * Use it to initialize global or stack variables in form:
+  * ,,Type myData = { INITIALIZER_ObjectJc( myData, 123, &reflection_Type) };,,
+  * ,,Type myData2 = { INITIALIZER_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
+  * @param OBJ the variable to initialize itself to store its address and gets its size. 
+  * @param IDENT may be 0, see attribute ,,objectIdentSize,,. The size bits will be completed. 
+  * @param REFLECTION maybe null, the reflection class of the constant object.
+  * @since 2016-04: the better form.
+*/
+#define INITIALIZER_ObjectJc(OBJ, REFLECTION, IDENT) {sizeof(OBJ) | IDENT, &(OBJ), 0, kNoSyncHandles_ObjectJc, REFLECTION }
+
 #define NULL_ObjectJc {0}
 
 /**This macro defines a C-constant (with {..}) for initializing any instance which is derived from Object immediately.
@@ -304,9 +317,9 @@ METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
 
 /**Checks whether a reference refers a valid ObjectJc. A valid ObjectJc has a mark: Its own address
  * is stored in the Object.
- * @param THIZ any Object reference which contains { union { ObjectJc object; } base;  
+ * @param THIZ any reference which may refer an ObjectJc. The reference can be null. If it is not null it have to be refer to a valid data space;  
  */
-#define isValid_ObjectJc(THIZ) ( (THIZ)->base.object.ownAddress == THIZ)
+#define isValid_ObjectJc(THIZ) ( (THIZ) !=null && ((ObjectJc const*)(THIZ))->ownAddress == (THIZ))
 
 
 

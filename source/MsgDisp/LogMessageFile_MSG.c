@@ -161,10 +161,10 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
         
         
         set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
-        setLength_StringBufferJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
+        setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
         
         format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
-        sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+        sTimeFileOpen = toString_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
         append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
         thiz->posTimestampInFilename = -1;/*don't replace the time stamp a second one.*/
         
@@ -354,10 +354,10 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               
               /**Build a new filename, after nrofHoursPerFile, but also first. */
               set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
-              setLength_StringBufferJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
+              setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
               
               format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
-              sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+              sTimeFileOpen = toString_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
               replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
             }
             else if(thiz->bNewFile && thiz->posMultifileInFilename >= 0) 
@@ -890,7 +890,7 @@ extern_C struct ClassJc_t const reflection_LocaleJc_s;
 extern_C struct ClassJc_t const reflection_LogMessageFW_i;
 extern_C struct ClassJc_t const reflection_OS_TimeStamp;
 extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
-extern_C struct ClassJc_t const reflection_StringBufferJc;
+//extern_C struct ClassJc_t const reflection_StringBufferJc;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 extern_C struct ClassJc_t const reflection_TextFieldPositionJc_s;
@@ -910,7 +910,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "sDateformatBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBufferJc
+    , &reflection_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sDateformatBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase

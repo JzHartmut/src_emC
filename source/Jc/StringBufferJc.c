@@ -678,7 +678,7 @@ StringJc new_BYIICharset_StringJc(int8_Y* bytes, int offset, int length, StringJ
  */
 StringJc new_mBYIIEncoding_StringJc(PtrVal_int8 bytes, int offset, int length, struct CharsetJc_t* charset, ThCxt* _thCxt)
 { //StringBuilderJc* sbuffer;
-  StringJc ret = CONST_StringJc((char*)(bytes.ptr__+offset), length);  //The string refers to the bytes.
+  StringJc ret = CONST_StringJc((char*)(bytes.ref+offset), length);  //The string refers to the bytes.
   STACKTRC_TENTRY("new_bYiiCharset_StringJc");
   /*
   sbuffer = new_StringBuilderJc(length, _thCxt);
@@ -1167,7 +1167,13 @@ StringJc toString_DoubleJc(double value, ThCxt* _thCxt)
 
 
 
-
+StringJc from_StringBuilder_CharSeqJc(struct StringBuilderJc_t const * buffer)
+{
+  StringJc ret;
+  ret.ref = (char*)buffer;
+  ret.value__ = kIsCharSequence_StringJc | mNonPersists__StringJc;
+  return ret;
+}
 
 
 
@@ -1211,6 +1217,48 @@ StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int index, dou
   int nChars;
   nChars = sprintf(buffer, "%d", value);
   return replace_zI_StringBuilderJc(ythis, index, 0, buffer, nChars, _thCxt);
+}
+
+
+
+
+StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* ythis, int offset, CharSeqJc value, int start, int end, struct ThreadContextFW_t* _thCxt)
+{
+  int countNew;
+  char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
+  int size = (ythis->size < 0 ? -ythis->size : ythis->size); //size of the buffer
+  int count = ythis->_count;
+  int nInsert = end - start;  //nr of chars to insert netto
+  STACKTRC_TENTRY("insert_cYii_StringBuilderJc");
+  if(ythis->_mode & _mStringBuilt_StringBuilderJc){
+    THROW_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
+  }
+  countNew = count + nInsert;
+  if(countNew > size)
+  { //in opposite to Java the StringBuffer is not increased, no dynamically memory management.
+    //TODO perhaps test whether it is possible
+		if(ythis->_mode & _mNoException_StringBuilderJc){
+		  ythis->_mode |= _mTruncated_StringBuilderJc;
+			nInsert = size - count;
+			countNew = size;
+		} else {
+			THROW_s0(RuntimeException, "StringBuffer too many chars", countNew);
+    }
+  }
+  { int nRest = count - end;  //nr of chars from end of replace area to actual end
+    if(nRest > 0) memmove(buffer + end + nInsert, buffer + end, nRest);  //moves in both directions
+  }
+  //The area to replace is free.
+  //Read characters and insert
+  { int ix;
+    for( ix = start; ix < end; ++ix) {
+      char cc = charAt_CharSeqJc(value, ix, _thCxt);
+      buffer[offset + ix] = cc;
+    }
+  }
+  _setCount_StringBuilderJc(ythis, countNew); //ythis->count = countNew;
+
+  STACKTRC_LEAVE; return( ythis);
 }
 
 

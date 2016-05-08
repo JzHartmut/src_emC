@@ -57,7 +57,7 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
   {
     init0_MemC(build_MemC(&thiz->nrofBytesReceived, 1 * sizeof(int32))); //J2C: init the embedded simple array;
     init0_MemC(build_MemC(&thiz->data_rxBuffer, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
-    thiz->rxBuffer.ptr__ = & thiz->data_rxBuffer[0]; thiz->rxBuffer.value__ = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
+    thiz->rxBuffer.ref = & thiz->data_rxBuffer[0]; thiz->rxBuffer.value__ = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
   }
   { 
     InterProcessCommFactoryMTB ipcFactory;   /*use the existent factory, it is determined by linker or classLoader, which it is.*/
@@ -213,7 +213,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
         TRY
         { 
           
-          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ptr__, thiz->rxBuffer.value__ ), thiz->myAnswerAddress);
+          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ref, thiz->rxBuffer.value__ ), thiz->myAnswerAddress);
           if(thiz->state != 'x') 
           { 
             
@@ -278,7 +278,7 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, in
     
     /*no initvalue*/
     SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
-    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), build_MemC(bufferAnswerData.ptr__, bufferAnswerData.value__ ), nrofBytesAnswer, thiz->myAnswerAddress);
+    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), build_MemC(bufferAnswerData.ref, bufferAnswerData.value__ ), nrofBytesAnswer, thiz->myAnswerAddress);
     if(nrofSentBytes < 0) 
     { 
       

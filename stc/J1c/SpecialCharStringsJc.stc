@@ -10,7 +10,7 @@ fieldIdents {
 }
   methods {  
     ctorO-_$, mode= ctor+static: org/vishia/util/SpecialCharStrings *.. SpecialCharStringsJc_s();
-    resolveCircumScription-_$, mode= static: java/lang/CharSequence *.r null(java/lang/CharSequence *.. src);
+    resolveCircumScription-_$, mode= static: java/lang/CharSequence(instance=java/lang/CharSequence) $.r null(java/lang/CharSequence(instance=java/lang/CharSequence) $.. src);
   }
 
   castTo {

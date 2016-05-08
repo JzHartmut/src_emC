@@ -102,9 +102,15 @@ char const* getCharsAndLength_StringJc(StringJc const* ythis, int* length)
   if(chars == null){
     *length = 0;
   } else {
-    int nChars = VAL_StringJc(*ythis) & mLength__StringJc;
-    if(nChars == mLength__StringJc) { nChars = strlen_Fwc(chars, mLength__StringJc); }
-    *length = nChars;
+    int val = VAL_StringJc(*ythis);
+    int nChars = val & mLength__StringJc;
+    if(nChars == kIsCharSequence_StringJc) {
+      //TODO
+
+    } else {
+      if(nChars == mLength__StringJc) { nChars = strlen_Fwc(chars, mLength__StringJc); }
+      *length = nChars;
+    }
   }
   return(chars);  //may be null
 }

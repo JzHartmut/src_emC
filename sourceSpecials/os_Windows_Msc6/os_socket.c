@@ -40,6 +40,9 @@
 #include "os_error.h"
 #undef INT32
 #undef UINT32
+#undef int64
+#undef uint64
+
 #include <Winsock2.h>
 
 

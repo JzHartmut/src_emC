@@ -9,7 +9,9 @@
 #include "InspcJ2c/CmdConsumer_ifc_Inspc.h"  //reference-association: cmdConsumerMtbl
 #include "InspcJ2c/Comm_Inspc.h"  //reference-association: comm
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
+#include "Jc/PrintStreamJc.h"  //reference-association: err
 #include "Jc/StringJc.h"  //embedded type in class data
+#include "Jc/SystemJc.h"  //reference-association: SystemJc
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -43,7 +45,7 @@ struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdC
       ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->infoCmd, sizeof(thiz->infoCmd)), _thCxt);
     thiz->maxNrofAnswerBytes = 1400;
     init0_MemC(build_MemC(&thiz->data_bufferAnswerData, 1400 * sizeof(int8))); //J2C: init the embedded simple array;
-    thiz->bufferAnswerData.ptr__ = & thiz->data_bufferAnswerData[0]; thiz->bufferAnswerData.value__ = sizeof( thiz->data_bufferAnswerData) / sizeof(thiz->data_bufferAnswerData[0]);
+    thiz->bufferAnswerData.ref = & thiz->data_bufferAnswerData[0]; thiz->bufferAnswerData.value__ = sizeof( thiz->data_bufferAnswerData) / sizeof(thiz->data_bufferAnswerData[0]);
     //J2C: constructor for embedded element-MemC
       ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->myAnswerData, sizeof(thiz->myAnswerData)), thiz->bufferAnswerData, _thCxt);
   }
@@ -144,16 +146,16 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
             }_TRY
             CATCH(IllegalArgumentException, exc)
             
-              { /*:TODO send a nack*/
+              { 
                 
-                
+                println_z_PrintStreamJc(REFJc(err_SystemJc), "CmdExecuter - Exception", _thCxt);/*TODO send a nack*/
                 
               }
             CATCH(UnsupportedEncodingException, exc)
             
-              { /*:TODO send a nack*/
+              { 
                 
-                
+                println_z_PrintStreamJc(REFJc(err_SystemJc), "CmdExecuter - Exception2", _thCxt);/*TODO send a nack*/
                 
               }
             END_TRY

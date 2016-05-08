@@ -93,8 +93,8 @@ const ClassJc* simpleTypes[kREFLECTION_LastConstant] =
 , null  //0x11
 , null  //0x12
 , null  //0x13
-, null  //0x14
-, null  //0x15
+, &reflection_float_complex    //0x14
+, &reflection_double_complex  //0x15
 , &reflection__boolJc           //0x16
 , &reflection_bitfieldJc      //0x17
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)

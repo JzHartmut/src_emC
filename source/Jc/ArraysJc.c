@@ -115,7 +115,7 @@ void fill_mB_ArraysJc(PtrVal_int8 array, int fromIndex, int toIndex, int value, 
   int8* data;
   if(toIndex > max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
     THROW_s0(ArrayIndexOutOfBoundsException, "index error", max);
-  data = array.ptr__ + fromIndex;
+  data = array.ref + fromIndex;
   while(++fromIndex < toIndex){
     *data++ = (int8)value;
   }

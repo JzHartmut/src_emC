@@ -7,11 +7,11 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
-#include "Jc/StringJc.h"  //new object
+#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct StringBufferJc_t;
+struct StringBuilderJc_t;
 
 /**This class helps to handle with special chars in Strings.
 In Java all Strings are encoded with UTF-16. But in Files the encoding is mostly implemented
@@ -51,19 +51,19 @@ struct SpecialCharStringsJc_t* ctorO_SpecialCharStringsJc(ObjectJc* othis, ThCxt
 
 
 /**Resolves the given String containing some switch chars in form of backslash*/
-struct CharSequenceJc_t* resolveCircumScription_SpecialCharStringsJc(/*static*/ struct CharSequenceJc_t* src, ThCxt* _thCxt)
+CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*static*/ CharSeqJc src, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("resolveCircumScription_SpecialCharStringsJc");
   
   { 
-    struct CharSequenceJc_t* sResult = null; 
+    CharSeqJc sResult = { 0 }; 
     char cSwitch = '\\'; 
     int32 posSwitch; 
     
     
     /*no initvalue*/
     cSwitch = '\\';
-    posSwitch = indexOf_Csci_StringFunctionsJc(/*static*/src, cSwitch, 0, _thCxt);
+    posSwitch = indexOf_Csci_StringFunctionsJc(/*static*/src, cSwitch, (int32/*FieldData.testAndChangeAccess TODO correct?*/)0, _thCxt);
     if(posSwitch < 0) 
     { 
       
@@ -72,13 +72,13 @@ struct CharSequenceJc_t* resolveCircumScription_SpecialCharStringsJc(/*static*/ 
     else 
     { /*:escape character is found before end*/
       
-      struct StringBufferJc_t* sbReturn = null; 
+      struct StringBuilderJc_t* sbReturn = null; 
       
       ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
       */StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
       
       
-      sbReturn = ctorO_c_StringBufferJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBufferJc, 0, _thCxt)), src, _thCxt);
+      sbReturn = ctorO_s_StringBuilderJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), src, _thCxt);
       
       while(posSwitch >= 0)
         { 
@@ -87,38 +87,38 @@ struct CharSequenceJc_t* resolveCircumScription_SpecialCharStringsJc(/*static*/ 
           
           StringJc _temp3_1; /*J2C: temporary references for concatenation */
           
-          if(posSwitch < length_StringBufferJc(sbReturn) - 1) 
+          if(posSwitch < length_StringBuilderJc(sbReturn) - 1) 
           { 
             
-            deleteCharAt_StringBufferJc(sbReturn, posSwitch, _thCxt);
+            deleteCharAt_StringBuilderJc(sbReturn, posSwitch, _thCxt);
           }
-          cNext = charAt_StringBufferJc(sbReturn, posSwitch, _thCxt);
+          cNext = charAt_StringBuilderJc(sbReturn, posSwitch, _thCxt);
           /*no initvalue*/
           if((iChangedChar = /*? assignment*/indexOf_C_StringJc(zI_StringJc("snrtfb",6), cNext)) >= 0) 
           { 
             
-            setCharAt_StringBufferJc(sbReturn, posSwitch, charAt_StringJc(zI_StringJc(" \n\r\t\f\b",6), iChangedChar), _thCxt);
+            setCharAt_StringBuilderJc(sbReturn, posSwitch, charAt_StringJc(zI_StringJc(" \n\r\t\f\b",6), iChangedChar), _thCxt);
           }
           else if(cNext == 'a') 
           { /*: \a means end of file, coded inside with 4 = EOT (end of transmission).*/
             
             
-            setCharAt_StringBufferJc(sbReturn, posSwitch, cStartOfText_SpecialCharStringsJc, _thCxt);
+            setCharAt_StringBuilderJc(sbReturn, posSwitch, cStartOfText_SpecialCharStringsJc, _thCxt);
           }
           else if(cNext == 'e') 
           { /*: \e means end of file, coded inside with 4 = EOT (end of transmission).*/
             
             
-            setCharAt_StringBufferJc(sbReturn, posSwitch, cEndOfText_SpecialCharStringsJc, _thCxt);
+            setCharAt_StringBuilderJc(sbReturn, posSwitch, cEndOfText_SpecialCharStringsJc, _thCxt);
           }
           else 
           { }
           posSwitch = 
-          ( _temp3_1= toString_StringBufferJc(& ((* (sbReturn)).base.object), _thCxt)
+          ( _temp3_1= toString_StringBuilderJc(& ((* (sbReturn)).base.object), _thCxt)
           , indexOf_CI_StringJc(_temp3_1, cSwitch, posSwitch + 1)
           );
         }
-      sResult = ((/*J2C:cast from StringJc*/CharSequenceJc*)(_persistring2_1 = persist_StringJc(toString_StringBufferJc(& ((* (sbReturn)).base.object), _thCxt))/*J2C-error testAndChangeAccess: t**/));
+      sResult = _persistring2_1 = toStringPersist_StringBuilderJc(& ((* (sbReturn)).base.object), _thCxt);
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
       activateGC_ObjectJc(PTR_StringJc(_persistring2_1), null, _thCxt);
     }
@@ -133,12 +133,14 @@ struct CharSequenceJc_t* resolveCircumScription_SpecialCharStringsJc(/*static*/ 
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_SpecialCharStringsJc mtblSpecialCharStringsJc = {
-{ { sign_Mtbl_SpecialCharStringsJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_SpecialCharStringsJc //J2C: Head of methodtable of SpecialCharStringsJc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class ObjectJc
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize

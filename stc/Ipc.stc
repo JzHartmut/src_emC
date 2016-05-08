@@ -7,6 +7,7 @@ package org/vishia/communication/;
 interface InterProcessCommFactory; nameC=InterProcessCommFactory_i; header=Ipc/InterProcessComm.h;  argIdent=Ipc;
 { 
   methods {
+    ctorM-_$: void %.. return();
 		createAddress-_$, mode: overrideable: Address_InterProcessComm *.. return(String t.. type);
 		createAddress+_Port-_$, mode: overrideable: Address_InterProcessComm *.. return(String t.. type, int %.. port);
 		create-_$, mode: overrideable: InterProcessComm *.. return(String t.r type);

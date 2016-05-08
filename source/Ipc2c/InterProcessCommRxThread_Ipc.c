@@ -36,10 +36,17 @@ struct CharSequenceJc_t;
 #endif
 
 
-/**This class provides a bundle with InterProcessCommuniation and a receive thread for it.
-On received telegrams it invokes the {@link InterProcessCommRx_ifc#execRxData(byte[], int)}
-which's instance is given by construction. The InterProcessComm can be used to send telegrams too,
-using this{@link #ipc}.
+/**This class provides a bundle with an InterProcessCommuniation and a receive thread.
+On received telegrams it invokes the {@link InterProcessCommRx_ifc#execRxData(byte[], int, Address_InterProcessComm)}
+which's instance should be given by construction.
+<ul>
+<li>Use the static method {@link #create(String, InterProcessCommRx_ifc)} or the constructor to create the instance
+with the given receive port and the given callback on received data.
+<li>Invoke {@link #start()} to open the communication and start the receive thread. It returns false on failures, true on success.
+<li>Invoke {@link #shutdown()} to close and finish the receive thread.
+<li>Use {@link #createDstAddr(String)} to create a destination address for the given InterProcessComm for sending activities.
+<li>Use {@link #send(byte[], int, Address_InterProcessComm)} to send.
+</ul>
 
 @author Hartmut Schorrig
 
@@ -64,7 +71,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
   {
     init0_MemC(build_MemC(&thiz->nrofBytesReceived, 1 * sizeof(int32))); //J2C: init the embedded simple array;
     init0_MemC(build_MemC(&thiz->data_rxBuffer, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
-    thiz->rxBuffer.ptr__ = & thiz->data_rxBuffer[0]; thiz->rxBuffer.value__ = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
+    thiz->rxBuffer.ref = & thiz->data_rxBuffer[0]; thiz->rxBuffer.value__ = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->threadRoutine.base.object), sizeof(thiz->threadRoutine), 0); 
       ctorO_C_threadRoutine_InterProcessCommRxThread_Ipc(thiz, &(thiz->threadRoutine.base.object), _thCxt);
@@ -202,7 +209,7 @@ int32 send_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, Pt
   { 
     
     { STACKTRC_LEAVE;
-      return ((Mtbl_InterProcessComm const*)getMtbl_ObjectJc(&(thiz->ipc)->base.object, sign_Mtbl_InterProcessComm) )->send(&((thiz->ipc)->base.object), build_MemC(data.ptr__, data.value__ ), nrofBytesToSend, dstAddr);
+      return ((Mtbl_InterProcessComm const*)getMtbl_ObjectJc(&(thiz->ipc)->base.object, sign_Mtbl_InterProcessComm) )->send(&((thiz->ipc)->base.object), build_MemC(data.ref, data.value__ ), nrofBytesToSend, dstAddr);
     }
   }
   STACKTRC_LEAVE;
@@ -284,7 +291,7 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
         TRY
         { 
           
-          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ptr__, thiz->rxBuffer.value__ ), thiz->myAnswerAddress);
+          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ref, thiz->rxBuffer.value__ ), thiz->myAnswerAddress);
           if(thiz->state != 'x') 
           { 
             
@@ -322,7 +329,7 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
         CATCH(ExceptionJc, exc)
         
           { 
-            struct CharSequenceJc_t* msg;   /**/
+            CharSequenceJc_Ref msg;   /**/
             
             
             msg = exceptionInfo_AssertJc(/*static*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);

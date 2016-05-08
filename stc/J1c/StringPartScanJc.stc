@@ -15,7 +15,7 @@ fieldIdents {
   //outer=1 ,super=2: int %.. bitMode;
   //outer=1 ,super=2: char %.S cEndOfText;
   //outer=1 ,super=2: char %.S cStartOfText;
-  //outer=1 ,super=2: java/lang/CharSequence @.. content;
+  //outer=1 ,super=2: java/lang/CharSequence(instance=java/lang/CharSequence) $.. content;
   //outer=1 ,super=2: int %.. end;
   //outer=1 ,super=2: int %.. endLast;
   //outer=1 ,super=2: int %.. endMax;
@@ -28,11 +28,12 @@ fieldIdents {
   //outer=1 ,super=2: int %.d mSkipOverWhitespace_mode;
   double[5] Y%. nLastFloatNumber;
   long[5] Y%. nLastIntegerNumber;
+  boolean[5] Y%. nLastIntegerSign;
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sCommentEnd;
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sCommentStart;
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sCommentToEol;
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.. sFile;
-  java/lang/CharSequence @.. sLastString;
+  java/lang/CharSequence(instance=java/lang/CharSequence) $.. sLastString;
   //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s sVersion;
   //outer=1 ,super=2: int %.S seekBack;
   //outer=1 ,super=2: int %.d seekEnd;
@@ -41,23 +42,20 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    close-_$, defined: org/vishia/util/StringPart.close, mode= overrideable: void %.r null();
+    close-_$, mode= overrideable: void %.r null();
     ctorO-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s();
-    ctorO+_Cs-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s(java/lang/CharSequence *.. src);
-    ctorO+_Csii-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s(java/lang/CharSequence *.. src,int %.. begin,int %.. end);
-    finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
-    getCircumScriptionToAnyChar-_$: java/lang/CharSequence *.r null(java/lang/String(instance=java/lang/String) t.. sCharsEnd);
-    getCircumScriptionToAnyCharOutsideQuotion-_$: java/lang/CharSequence *.r null(java/lang/String(instance=java/lang/String) t.. sCharsEnd);
-    getCircumScriptionToAnyChar_p-_$: java/lang/CharSequence *.r null(java/lang/String(instance=java/lang/String) t.. sCharsEnd,boolean %.. bOutsideQuotion);
+    ctorO+_Cs-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s(java/lang/CharSequence(instance=java/lang/CharSequence) $.. src);
+    ctorO+_Csii-_$, mode= ctor+static: org/vishia/util/StringPartScan *.. StringPartScanJc_s(java/lang/CharSequence(instance=java/lang/CharSequence) $.. src,int %.. begin,int %.. end);
     getLastScannedFloatNumber-_$: double %.r null();
     getLastScannedIntegerNumber-_$: long %.r null();
-    getLastScannedString-_$: java/lang/CharSequence *.r null();
-    scan-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence *.. sTestP);
+    getLastScannedIntegerSign-_$: boolean %.r null();
+    getLastScannedString-_$: java/lang/CharSequence(instance=java/lang/CharSequence) $.r null();
+    scan-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence(instance=java/lang/CharSequence) $.. sTestP);
     scanDigits-_$: long %.r null(boolean %.. bHex,int %.. maxNrofChars);
     scanEntry-_$: boolean %.r null();
     scanFloatNumber-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
     scanFloatNumber+_b-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(boolean %.. cleanBuffer);
-    scanFractionalNumber-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(long %.. nInteger);
+    scanFractionalNumber-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(long %.. nInteger,boolean %.. bNegative);
     scanHex-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(int %.. maxNrofChars);
     scanHexOrDecimal-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(int %.. maxNrofChars);
     scanIdentifier-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
@@ -65,19 +63,22 @@ fieldIdents {
     scanInteger-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
     scanOk-_$: boolean %.r null();
     scanPositivInteger-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
-    scanQuotion+_CsSSY-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence *.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult);
-    scanQuotion+_CsSSYi-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence *.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult,int %.. maxToTest);
+    scanQuotion+_CsSSY-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence(instance=java/lang/CharSequence) $.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult);
+    scanQuotion+_CsSSYi-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence(instance=java/lang/CharSequence) $.. sQuotionmarkStart,java/lang/String(instance=java/lang/String) t.. sQuotionMarkEnd,java/lang/String[??] Xt. sResult,int %.. maxToTest);
     scanSkipComment-_$: org/vishia/util/StringPartScan *.r null();
     scanSkipSpace-_$: org/vishia/util/StringPartScan *.r null();
     scanStart-_$, mode= returnThis: org/vishia/util/StringPartScan *.r null();
-    scanToAnyChar-_$: org/vishia/util/StringPartScan *.r null(java/lang/CharSequence[??] X*. dst,java/lang/String(instance=java/lang/String) t.. sCharsEnd,char %.. transcriptChar,char %.. quotationStartChar,char %.. quotationEndChar);
+  }
+
+  methods-overrideable {
+    close_StringPartScanJc;
   }
 
   castTo {
-    java/lang/CharSequence: $ "(?).base.super.base.CharSequenceJc" $;
+    java/lang/CharSequence: $ "(?).base.super.base.CharSeqJc" $;
     java/io/Closeable: $ "(?).base.super.base.CloseableJc" $;
     java/lang/Comparable: $ "(?).base.super.base.ComparableJc" $;
-    java/lang/Object: $ "(?).base.super.base.CharSequenceJc.base.object" $;
+    java/lang/Object: $ "(?).base.super.base.object" $;
     org/vishia/util/StringPart: $ "(?).base.super" $;
   }
 

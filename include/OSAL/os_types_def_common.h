@@ -112,4 +112,9 @@ typedef struct float_complex_t{
   float re, im;
 } float_complex;
 
+/*@CLASS_C double_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+typedef struct double_complex_t{
+  double re, im;
+} double_complex;
+
 #endif  // __os_types_def_common_h__

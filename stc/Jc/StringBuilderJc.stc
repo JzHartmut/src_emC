@@ -8,13 +8,14 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		ctorO-_$, mode=static  : field:{ StringBuilder *.. return;};
 		ctorO+_I-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ int %.. param;});
 		ctorO+_s-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ String t.. param;});
-		ctorO+_c-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ CharSequence *.. param;});
+		ctorO+_s-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ CharSequence t.. param;});
 		charAt-_$ : field:{ char %.. return;}(field:{ int %.. param;});
 		length-_$, mode=noThCxt : field:{ int %.. return;};
 		setLength-_$: void %.. return(int %.. newLength);
 		capacity-_$, mode=noThCxt : field:{ int %.. return;};
 		setCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;}, field:{ char %.. param;});
 		deleteCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;});
+		append+_c-_$, mode:returnThis: StringBuilder *.. return(java/lang/CharSequence t.. value);
 		append+_s-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   String t.. param;});                                                                           
 		append+_sII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;});                         
 		append+_u-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   StringBuilder *.. param;});                                                                     
@@ -28,6 +29,7 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		append+_D-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   double %.. param;} );                                                                           
 		append+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   s0 t.. param;});                                                                               
 		append+_zI-_$,mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   s0 t.. param;}, field:{ int %.. param;});                                                       
+		append-_$: StringBuilder *.. return(java/lang/CharSequence *.r value);
 		insert+_s-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  String t.. param;});
 		insert+_sI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  String t.. param;} , field:{  int %.. param;});                                                  
 		insert+_C-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  char %.. param;}  );                                                  
@@ -39,7 +41,7 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		insert+_F-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  float %.. param;} );                                                  
 		insert+_D-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  double %.. param;} );                                                  
 		insert+_sII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;} );
-    insert+_cYii-_$, mode:returnThis: void %..return(int %.. value, java/lang/CharSequence *.. value, byte %.. value, int %.. value);
+    insert+_cYii-_$, mode:returnThis: StringBuilder *..return(int %.. value, java/lang/CharSequence t.. value, byte %.. value, int %.. value);
     insert+_CYII-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuilder *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
@@ -55,8 +57,8 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
   }
   castTo {
-    StringBuffer * "?" *;
-    CharSequence * "?" *;
+    StringBuffer * "?" *;  //In C it is the same.
+    CharSequence t "from_StringBuilder_CharSeqJc(?)" *;  //access to src as reference with *
   }
   castFrom {
      * "?" StringBuffer*;

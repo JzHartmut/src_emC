@@ -11,7 +11,11 @@
 
 /* J2C: Forward declaration of struct ***********************************************/
 
-/**This is the base class of a callback for interprocessCommunication.
+/**This is the base class of a callback for {@link InterProcessCommRxThread}.
+It is used to implement the callback on received data.
+For C-Usage an anonymous implementation can be build with the macro <code>IFC_IMPL_dataMETHOD1_ObjectJc(TYPE, METHOD)</code>
+with a simple given C implementation of the {@link #execRxData(byte[], int, Address_InterProcessComm)} method.
+
 @author Hartmut Schorrig
 
 */

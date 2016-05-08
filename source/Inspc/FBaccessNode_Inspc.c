@@ -22,11 +22,10 @@ FBaccessNode_Inspc* ctor_FBaccessNode_Inspc(ObjectJc* thizo, int nrofObjects)
 {
   STACKTRC_ENTRY("ctor_FBaccessNode_Inspc");
   FBaccessNode_Inspc* thiz = (FBaccessNode_Inspc*) thizo; 
-  //initReflection_ObjectJc(thizo, thizo, sizeof(FBaccessNode_Inspc_t), &reflection_FBaccessNode_Inspc, 0xf0);
-  //use the own saved reflection to describe this struct
+  //clazz is the container for reflections to register. This class hasn't standard reflections.
+  strcpy(thiz->clazz.name, "AccessNode_Inspc");
   initReflection_ObjectJc(thizo, thizo, sizeof(FBaccessNode_Inspc_t), &thiz->clazz, 0xf0);
 
-  strcpy(thiz->clazz.name, "AccessNode_Inspc");
   thiz->fields.head.sizeElement = sizeof(void*);
   thiz->clazz.attributes = &thiz->fields;
   STACKTRC_LEAVE;

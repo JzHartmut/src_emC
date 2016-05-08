@@ -3,20 +3,19 @@ Structure of translated java-file "Jc/StringBufferJc"
 package java/lang/;
 
 class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; extends java/lang/Object
-
-
 {  
   methods {  
 		ctorO-_$, mode=static  : field:{ StringBuffer *.. return;};
 		ctorO+_I-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ int %.. param;});
 		ctorO+_s-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ String t.. param;});
-		ctorO+_c-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ CharSequence *.. param;});
+		ctorO+_s-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ CharSequence t.. param;});
 		charAt-_$ : field:{ char %.. return;}(field:{ int %.. param;});
 		length-_$, mode=noThCxt : field:{ int %.. return;};
 		setLength-_$: void %.. return(int %.. newLength);
 		capacity-_$, mode=noThCxt : field:{ int %.. return;};
 		setCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;}, field:{ char %.. param;});
 		deleteCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;});
+		append+_c-_$, mode:returnThis: StringBuffer *.. return(java/lang/CharSequence t.. value);
 		append+_s-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   String t.. param;});                                                                           
 		append+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;});                         
 		append+_u-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   StringBuffer *.. param;});                                                                     
@@ -42,6 +41,7 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
 		insert+_F-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  float %.. param;} );                                                  
 		insert+_D-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  double %.. param;} );                                                  
 		insert+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;} );
+    insert+_cYii-_$, mode:returnThis: StringBuffer *..return(int %.. value, java/lang/CharSequence t.. value, byte %.. value, int %.. value);
 		insert+_CYII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
@@ -56,6 +56,7 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
   }
   castTo {
     StringBuffer * "?" *;
+    CharSequence t "from_StringBuffer_CharSeqJc(?)" *;  //access to src as reference with *
   }
   castFrom {
      * "?" StringBuffer*;

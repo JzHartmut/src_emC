@@ -54,7 +54,7 @@ int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 
     int32 maxDigit; 
     
     
-    val = 0;
+    val = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
@@ -69,8 +69,8 @@ int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 
     if(size > 0 && charAt_StringJc(srcP, ixSrc) == '-') 
     { 
       
-      ixSrc += 1;
-      size -= 1;
+      ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
       bNegativ = true;
     }
     else 
@@ -83,16 +83,16 @@ int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 
       { 
         
         cc = charAt_StringJc(srcP, ixSrc);
-        if(spaceChars.ptr__!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        if(spaceChars.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
         { 
           
-          ixSrc += 1;
+          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
         }
         else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
         { 
           
           val = radix * val + digit;
-          ixSrc += 1;
+          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
         }
         else 
         { 
@@ -133,7 +133,7 @@ int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 s
     int32 maxDigit; 
     
     
-    val = 0;
+    val = (int64/*FieldData.testAndChangeAccess TODO correct?*/)0;
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
@@ -148,8 +148,8 @@ int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 s
     if(charAt_StringJc(srcP, ixSrc) == '-') 
     { 
       
-      ixSrc += 1;
-      size -= 1;
+      ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
       bNegativ = true;
     }
     else 
@@ -162,16 +162,16 @@ int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 s
       { 
         
         cc = charAt_StringJc(srcP, ixSrc);
-        if(spaceChars.ptr__!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        if(spaceChars.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
         { 
           
-          ixSrc += 1;
+          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
         }
         else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
         { 
           
           val = radix * val + digit;
-          ixSrc += 1;
+          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
         }
         else 
         { 
@@ -210,12 +210,12 @@ int32 parseIntRadixBack_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos,
     int32 ixSrc; 
     int32 size; 
     int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@78e64a7f*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@78e64a7f*/; 
+    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@56277446*/; 
+    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@56277446*/; 
     int32 multPosition = 1; 
     
     
-    val = 0;
+    val = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
     /*no initvalue*/
     /*no initvalue*/
     /*no initvalue*/
@@ -229,21 +229,21 @@ int32 parseIntRadixBack_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos,
     maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
     maxHexDigitLower = ((/*J2C:cast% from char*/int32)('A' + radix - 11));
     maxHexDigitUpper = ((/*J2C:cast% from char*/int32)('a' + radix - 11));
-    multPosition = 1;
+    multPosition = (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
     
     while(size > 0 && ixSrc >= 0 && (digit = /*? assignment*/(cc = /*? assignment*/charAt_StringJc(srcP, ixSrc)) - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix))))
       { 
         
         val += multPosition * digit;
         multPosition *= radix;
-        ixSrc -= 1;
-        size -= 1;
+        ixSrc -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+        size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
       }
     if(size > 0 && ixSrc >= 0 && charAt_StringJc(srcP, ixSrc) == '-') 
     { 
       
-      ixSrc -= 1;
-      size -= 1;
+      ixSrc -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
       val = -val;
     }
     if(parsedChars != null) 
@@ -299,8 +299,8 @@ float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, 
     if(restlen > 0 && charAt_StringJc(src, poscurr) == '-') 
     { 
       
-      poscurr += 1;
-      restlen -= 1;
+      poscurr += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      restlen -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
       bNegative = true;
     }
     else 
@@ -309,7 +309,7 @@ float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, 
       bNegative = false;
     }
     
-    ret = parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/src, poscurr, restlen, 10, &zParsed[0], null_StringJc, _thCxt);/*parses only a positive number.*/
+    ret = (float/*FieldData.testAndChangeAccess TODO correct?*/)parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/src, poscurr, restlen, (int32/*FieldData.testAndChangeAccess TODO correct?*/)10, &zParsed[0], null_StringJc, _thCxt);/*parses only a positive number.*/
     
     poscurr += zParsed[0];/*maybe 0 if .123 is written*/
     
@@ -319,7 +319,7 @@ float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, 
       float fracPart; 
       
       
-      fracPart = parseIntRadix_SiiiiY_StringFunctions_CJc(/*static*/src, poscurr + 1, restlen - 1, 10, &zParsed[0]);
+      fracPart = (float/*FieldData.testAndChangeAccess TODO correct?*/)parseIntRadix_SiiiiY_StringFunctions_CJc(/*static*/src, poscurr + 1, restlen - 1, (int32/*FieldData.testAndChangeAccess TODO correct?*/)10, &zParsed[0]);
       if(zParsed[0] > 0) 
       { 
         
@@ -362,12 +362,14 @@ float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, 
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringFunctions_CJc mtblStringFunctions_CJc = {
-{ { sign_Mtbl_StringFunctions_CJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_StringFunctions_CJc //J2C: Head of methodtable of StringFunctions_CJc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class ObjectJc
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize

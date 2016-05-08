@@ -299,18 +299,20 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
       int32 dTime = 1000 * (endTime.time_sec - ythis->startTime.time_sec)
                   + ((nanoSeconds_OS_TimeStamp(endTime) - nanoSeconds_OS_TimeStamp(ythis->startTime))/1000000);
       flushFullReportBuffer(&theGarbageCollectorJc, 1, _thCxt);
-      mlog.mtbl->sendMsgTime(mlog.ref,ythis->kIdentMsgBase + identMsgReport_BlockHeapJc
-      , endTime
-      , "GC-result, %d millisec: size/free/used/nonGc = %d / %d / %d / %d, freed=%d"
-      , "IIIIII"
-      , dTime
-      , ythis->idxBlock
-      , theGarbageCollectorJc.ctFreeBlocks
-      , theGarbageCollectorJc.ctUsedBlocks
-      , theGarbageCollectorJc.ctNonGcBlocks
-      , theGarbageCollectorJc.ctFreedBlocks
-      );
-      flush_LogMessageFW(theGarbageCollectorJc.log, _thCxt);
+      if(ythis->log !=null) {
+        mlog.mtbl->sendMsgTime(mlog.ref,ythis->kIdentMsgBase + identMsgReport_BlockHeapJc
+        , endTime
+        , "GC-result, %d millisec: size/free/used/nonGc = %d / %d / %d / %d, freed=%d"
+        , "IIIIII"
+        , dTime
+        , ythis->idxBlock
+        , theGarbageCollectorJc.ctFreeBlocks
+        , theGarbageCollectorJc.ctUsedBlocks
+        , theGarbageCollectorJc.ctNonGcBlocks
+        , theGarbageCollectorJc.ctFreedBlocks
+        );
+        flush_LogMessageFW(theGarbageCollectorJc.log, _thCxt);
+      }
       ythis->idxBlock = 0;
       ythis->testedHeap = ythis->testedHeap->nextHeap;  //null at end
       if(ythis->testedHeap != null)

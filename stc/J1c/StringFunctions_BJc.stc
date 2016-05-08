@@ -9,9 +9,8 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    checkSameChars-_$, mode= static: boolean %.r null(va_argRaw +.. src);
     ctorO-_$, mode= ctor+static: org/vishia/util/StringFunctions_B *.. StringFunctions_BJc_s();
-    removeIndentReplaceNewline-_$, mode= static: java/lang/CharSequence *.r null(java/lang/CharSequence *.. src,int %.. indent,java/lang/String(instance=java/lang/String) t.. indentChars,int %.. tabSize,java/lang/String(instance=java/lang/String) t.. sNewline,boolean %.. bSkipSpaces);
+    removeIndentReplaceNewline-_$, mode= static: java/lang/CharSequence(instance=java/lang/CharSequence) t.r null(java/lang/CharSequence(instance=java/lang/CharSequence) t.. src,int %.. indent,java/lang/String(instance=java/lang/String) t.. indentChars,int %.. tabSize,java/lang/String(instance=java/lang/String) t.. sNewline,boolean %.. bSkipSpaces);
   }
 
   castTo {

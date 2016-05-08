@@ -1,0 +1,23 @@
+
+==Revision description CRuntimeJavalike==
+.
+===2016-05-08===
+
+* fw_String.h, StringJc.h: CharSeqJc
+* objectBaseC.h: new: [[INITIALIZER_ObjectJc(...)]] instead now deprecated CONST_ObjectJc(...)
+* objectBaseC.h: chg: [[isValid_ObjectJc(...)]] enhanced, now checks whether THIZ is not null
+* ObjectJc.h: new: reflection_FlushableJc etc. now declared, 
+* ObjectJc.h: new: Mtbl_AppendableJc
+* StringJc.h: new all methods from StringBufferJc now defined with StringBuilderJc, in C it is the same, both admissable.
+
+* os_types_def_common.h: new type double_complex
+* os_types_def.h: Now the definition of PtrVal_TYPE(TYPE) has named the element ,,ref,, instead ,,ptr__,,. It is compatible with an enhanced reference or method-table-reference.
+
+* fw_String.c: arsAndLength_StringJc(...) not ready yet regards CharSeqJc
+
+* InspcJ2c, Ipc2c, J1c: new translated from Java
+* ArraysJc.c, : adapted OS_PtrValue .ref insteand .ptr__
+
+* ReflMemAccessJc: bugfix access to bitfields
+
+* os_mem.c etc, all in os_Windows_Msc6: now regards definition of int64

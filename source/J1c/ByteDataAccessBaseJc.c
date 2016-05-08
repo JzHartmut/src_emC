@@ -249,7 +249,7 @@ int64 _getLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChi
     do 
       { 
         
-        val |= thiz->data.ptr__[idx] & 0xff;
+        val |= thiz->data.ref[idx] & 0xff;
         if(--nByteCnt <= 0) break;/*TRICKY: break in mid of loop, no shift operation.*/
         
         val <<= 8;
@@ -329,7 +329,7 @@ int32 _getInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChil
     do 
       { 
         
-        val |= thiz->data.ptr__[idx] & 0xff;
+        val |= thiz->data.ref[idx] & 0xff;
         if(--nByteCnt <= 0) break;/*TRICKY: break in mid of loop, no shift operation.*/
         
         val <<= 8;
@@ -393,7 +393,7 @@ void _setLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int3
     do 
       { 
         
-        thiz->data.ptr__[idx1] = (int8)(val1);
+        thiz->data.ref[idx1] = (int8)(val1);
         if(--nrofBytes1 <= 0) break;
         val1 >>= 8;
         idx1 += idxStep;
@@ -435,7 +435,7 @@ void _setInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32
     do 
       { 
         
-        thiz->data.ptr__[idx1] = (int8)(val1);
+        thiz->data.ref[idx1] = (int8)(val1);
         if(--nrofBytes1 <= 0) break;
         val1 >>= 8;
         idx1 += idxStep;
@@ -734,7 +734,7 @@ bool isInUse_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
   { 
     
     { STACKTRC_LEAVE;
-      return thiz->data != null;
+      return thiz->data.ref != null;
     }
   }
   STACKTRC_LEAVE;
@@ -1042,7 +1042,7 @@ bool addChildString_SS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
           
           
           charByte = (int8)(charAt_StringJc(valueCs, ii));
-          thiz->data.ptr__[ixChild1 + ii] = charByte;
+          thiz->data.ref[ixChild1 + ii] = charByte;
         }
     }
     { STACKTRC_LEAVE;
@@ -1289,7 +1289,7 @@ void detach_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
       CLEAR_REFJc(thiz->currChild);/*necessary if currentChild don't refers this parent because any error before.*/
       
     }
-    thiz->data.ptr__ = & null[0]; thiz->data.value__ = sizeof( null) / sizeof(null[0]);
+    thiz->data.ref = null; thiz->data.value__ = 0;
     CLEAR_REFJc(thiz->parent);
     thiz->ixBegin = thiz->ixEnd = /*? assignment*/0;
     thiz->ixNextChild = 0;
@@ -1398,7 +1398,7 @@ StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx,
     idxEnd1 = idxData + nrofBytes;
     ASSERT(/*static*/idxEnd1 <= thiz->ixEnd && idxEnd1 <= thiz->data.value__);
     
-    while(thiz->data.ptr__[--idxEnd1] == 0 && idxEnd1 > idxData)
+    while(thiz->data.ref[--idxEnd1] == 0 && idxEnd1 > idxData)
       ;/*skip 0 character on end*/
       
     len = idxEnd1 + 1 - idxData;
@@ -1472,7 +1472,7 @@ void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
     idxData = idx + thiz->ixBegin;
     idxEnd = idxData + nrofBytes;
     /*no initvalue*/
-    if(sEncoding.ptr__== null) 
+    if(sEncoding.ref== null) 
     { 
       
       sEncoding = z_StringJc("ISO-8859-1")/*J2C:non-persistent*/;
@@ -1497,7 +1497,7 @@ void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
             cc = ((/*J2C:cast% from int32*/int8)(0x3f));
           }/*'?' in ASCII*/
           
-          thiz->data.ptr__[idxData++] = cc;
+          thiz->data.ref[idxData++] = cc;
         }/*fill up the rest of the string with 0-chars.*/
         
     }
@@ -1505,7 +1505,7 @@ void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
     while(idxData < idxEnd)
       { 
         
-        thiz->data.ptr__[idxData++] = 0;
+        thiz->data.ref[idxData++] = 0;
       }
   }
   STACKTRC_LEAVE;
@@ -1594,13 +1594,13 @@ int32 getInt32_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, T
     if(thiz->bBigEndian) 
     { 
       
-      val = ((thiz->data.ptr__[thiz->ixBegin + idx]) << 24) | (((thiz->data.ptr__[thiz->ixBegin + idx + 1]) << 16) & 0xff0000) | (((thiz->data.ptr__[thiz->ixBegin + idx + 2]) << 8) & 0xff00) | (((thiz->data.ptr__[thiz->ixBegin + idx + 3])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
+      val = ((thiz->data.ref[thiz->ixBegin + idx]) << 24) | (((thiz->data.ref[thiz->ixBegin + idx + 1]) << 16) & 0xff0000) | (((thiz->data.ref[thiz->ixBegin + idx + 2]) << 8) & 0xff00) | (((thiz->data.ref[thiz->ixBegin + idx + 3])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     else 
     { 
       
-      val = ((thiz->data.ptr__[thiz->ixBegin + idx + 3]) << 24) | (((thiz->data.ptr__[thiz->ixBegin + idx + 2]) << 16) & 0xff0000) | (((thiz->data.ptr__[thiz->ixBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data.ptr__[thiz->ixBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
+      val = ((thiz->data.ref[thiz->ixBegin + idx + 3]) << 24) | (((thiz->data.ref[thiz->ixBegin + idx + 2]) << 16) & 0xff0000) | (((thiz->data.ref[thiz->ixBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data.ref[thiz->ixBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     { STACKTRC_LEAVE;
@@ -1637,13 +1637,13 @@ int32 getUint16_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, 
     if(thiz->bBigEndian) 
     { 
       
-      val = (((thiz->data.ptr__[thiz->ixBegin + idx]) << 8) & 0xff00) | (((thiz->data.ptr__[thiz->ixBegin + idx + 1])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
+      val = (((thiz->data.ref[thiz->ixBegin + idx]) << 8) & 0xff00) | (((thiz->data.ref[thiz->ixBegin + idx + 1])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     else 
     { 
       
-      val = (((thiz->data.ptr__[thiz->ixBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data.ptr__[thiz->ixBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
+      val = (((thiz->data.ref[thiz->ixBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data.ref[thiz->ixBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     { STACKTRC_LEAVE;
@@ -1667,13 +1667,13 @@ int16 getInt16_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, T
     if(thiz->bBigEndian) 
     { 
       
-      val = (((thiz->data.ptr__[thiz->ixBegin + idx]) << 8) & 0xff00) | (((thiz->data.ptr__[thiz->ixBegin + idx + 1])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
+      val = (((thiz->data.ref[thiz->ixBegin + idx]) << 8) & 0xff00) | (((thiz->data.ref[thiz->ixBegin + idx + 1])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     else 
     { 
       
-      val = (((thiz->data.ptr__[thiz->ixBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data.ptr__[thiz->ixBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
+      val = (((thiz->data.ref[thiz->ixBegin + idx + 1]) << 8) & 0xff00) | (((thiz->data.ref[thiz->ixBegin + idx])) & 0xff);/*NOTE: the value has only 8 bits for bitwise or.*/
       
     }
     { STACKTRC_LEAVE;
@@ -1694,7 +1694,7 @@ char getChar_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt
     
     
     /*no initvalue*/
-    val = (char)thiz->data.ptr__[thiz->ixBegin + idx];
+    val = (char)thiz->data.ref[thiz->ixBegin + idx];
     { STACKTRC_LEAVE;
       return val;
     }
@@ -1713,7 +1713,7 @@ int8 getInt8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThC
     
     
     /*no initvalue*/
-    val = thiz->data.ptr__[thiz->ixBegin + idx];
+    val = thiz->data.ref[thiz->ixBegin + idx];
     { STACKTRC_LEAVE;
       return val;
     }
@@ -1732,7 +1732,7 @@ int16 getUint8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, T
     
     
     /*no initvalue*/
-    val = thiz->data.ptr__[thiz->ixBegin + idx];
+    val = thiz->data.ref[thiz->ixBegin + idx];
     if(val < 0) 
     { 
       
@@ -1896,18 +1896,18 @@ void setInt32_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, i
     if(thiz->bBigEndian) 
     { 
       
-      thiz->data.ptr__[thiz->ixBegin + idx] = (int8)((value >> 24) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 1] = (int8)((value >> 16) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 2] = (int8)((value >> 8) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 3] = (int8)(value & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx] = (int8)((value >> 24) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 1] = (int8)((value >> 16) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 2] = (int8)((value >> 8) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 3] = (int8)(value & 0xff);
     }
     else 
     { 
       
-      thiz->data.ptr__[thiz->ixBegin + idx + 3] = (int8)((value >> 24) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 2] = (int8)((value >> 16) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 1] = (int8)((value >> 8) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx] = (int8)(value & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 3] = (int8)((value >> 24) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 2] = (int8)((value >> 16) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 1] = (int8)((value >> 8) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx] = (int8)(value & 0xff);
     }
   }
   STACKTRC_LEAVE;
@@ -1926,18 +1926,18 @@ void setUint32_il_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, 
     if(thiz->bBigEndian) 
     { 
       
-      thiz->data.ptr__[thiz->ixBegin + idx] = (int8)((value >> 24) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 1] = (int8)((value >> 16) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 2] = (int8)((value >> 8) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 3] = (int8)(value & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx] = (int8)((value >> 24) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 1] = (int8)((value >> 16) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 2] = (int8)((value >> 8) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 3] = (int8)(value & 0xff);
     }
     else 
     { 
       
-      thiz->data.ptr__[thiz->ixBegin + idx + 3] = (int8)((value >> 24) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 2] = (int8)((value >> 16) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 1] = (int8)((value >> 8) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx] = (int8)(value & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 3] = (int8)((value >> 24) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 2] = (int8)((value >> 16) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 1] = (int8)((value >> 8) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx] = (int8)(value & 0xff);
     }
   }
   STACKTRC_LEAVE;
@@ -1954,14 +1954,14 @@ void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, i
     if(thiz->bBigEndian) 
     { 
       
-      thiz->data.ptr__[thiz->ixBegin + idx] = (int8)((value >> 8) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx + 1] = (int8)(value & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx] = (int8)((value >> 8) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 1] = (int8)(value & 0xff);
     }
     else 
     { 
       
-      thiz->data.ptr__[thiz->ixBegin + idx + 1] = (int8)((value >> 8) & 0xff);
-      thiz->data.ptr__[thiz->ixBegin + idx] = (int8)(value & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx + 1] = (int8)((value >> 8) & 0xff);
+      thiz->data.ref[thiz->ixBegin + idx] = (int8)(value & 0xff);
     }
   }
   STACKTRC_LEAVE;
@@ -2064,15 +2064,6 @@ void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt
 }
 
 
- extern_C struct ClassJc_t const reflection_InfoFormattedAppendJc_s;
- static struct ifcClasses_ByteDataAccessBaseJc_s_t
- { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
- }interfaces_ByteDataAccessBaseJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_InfoFormattedAppendJc_s, OFFSET_Mtbl(Mtbl_ByteDataAccessBaseJc, InfoFormattedAppendJc) }
-  }
-};
 
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
 extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
@@ -2188,6 +2179,6 @@ const ClassJc reflection_ByteDataAccessBaseJc_s =
 , (FieldJcArray const*)&reflection_Fields_ByteDataAccessBaseJc_s
 , null //method
 , null //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_ByteDataAccessBaseJc_s //interfaces
+, null //(ClassOffset_idxMtblJcARRAY*)&interfaces_ByteDataAccessBaseJc_s //interfaces
 , 0    //modifiers
 };

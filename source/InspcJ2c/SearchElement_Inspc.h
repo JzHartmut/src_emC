@@ -116,6 +116,7 @@ typedef struct SearchElement_Inspc_Y_t { ObjectArrayJc head; SearchElement_Inspc
 void finalize_SearchElement_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
+ extern StringJc version_SearchElement_Inspc;   /*Version, history and license.*/
  extern SearchTrc_SearchElement_Inspc_s searchTrc_SearchElement_Inspc[16];   /*Only for debugging: Stores the trace while searching any element.*/
 
 

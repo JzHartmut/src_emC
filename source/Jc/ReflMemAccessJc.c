@@ -43,6 +43,7 @@
  *
  * @author Hartmut Schorrig www.vishia.org
  * list of changes:
+ * 2016-03-13 Hartmut chg: bugfix access to bitfields
  * 2010-07-13 Hartmut new: MemAccessDebugJc, for debugging the path to an external CPU
  * 2010-01-16 Hartmut created, expandation of memory access for Reflection
  *
@@ -51,7 +52,7 @@
 #include <Fwc/fw_SimpleC.h>
 #include <string.h>
 #include <Jc/ObjectJc.h>
-
+#include <os_AtomicAccess.h>
 
 
 MemSegmJc null_MemSegmJc = CONST_OS_PtrValue(0, null);
@@ -207,6 +208,7 @@ int32 getValue32Ix_MemAccessJc(MemSegmJc addr, int ix)
 
 }
 
+
 int16 getBitfield_MemAccessJc(MemSegmJc addr, int posBit, int nrofBit)
 {
   int memSegment = segment_MemSegmJc(addr);
@@ -216,34 +218,46 @@ int16 getBitfield_MemAccessJc(MemSegmJc addr, int posBit, int nrofBit)
   STACKTRC_ENTRY("getBitfield_MemAccessJc");
 
   if(memSegment == 0){
-		//TODO use algorithm from setBitField_MemAccessJc to decide nrofBytesSrc
-    int nrofBytesSrc;
-	  //adjust the address of bits depending of the bit position.
-		//if the bit position overlaps 1 Byte, int16 or int32 are necessary. TODO
-	  if( (addr1 & 0xfffffffc) == addr1 && (posBit & 0xffe0) == ((posBit + nrofBit -1) & 0xffe0)){
-		  //typically: All the bits are in the same 32-bit-range.
-      addr1 += (posBit >>3) & 0xfffc;  //32-bit-step
-      setADDR_MemSegmJc(addr, addr1);
-      nrofBytesSrc = 4;
-	  } else if( (intPTR)(addr1 & 0xfffffffe) == addr1 && (posBit & 0xfff0) == ((posBit + nrofBit -1) & 0xfff0)){
-		  //typically: Address at 2-alignment and All the bits are in the same 16-bit-range.
-      addr1 += (posBit >>3) & 0xfffe;  //32-bit-step
-      setADDR_MemSegmJc(addr, addr1);
-      nrofBytesSrc = 2;
-	  } else {
-      nrofBytesSrc = 1;
-	  }
-    switch(nrofBytesSrc){
-		case 1: val = *(int8*)(addr1); break;
-		case 2: val = *(int16*)(addr1); break;
-		case 4: val = *(int32*)(addr1); break;
-    default: THROW_s0(RuntimeException, "unexpected default in switch", nrofBytesSrc);
-		}
-		//shift the bit in position:
-    val >>= posBit & 0x1f;
+    int32 posBitUsed = -1;
+		//adjust the address of bits depending of the bit position.
+    //posBit is any position of the bit based on addr. It can be >32, >64 etc. because bitfields can be larger.
+		//nrofBit should be <=32.
+    //check whether all bits are located in the same int16, same int32 or in different int16 locations.
+    if(BYTE_IN_MemUnit <=2 && (posBit & 0xfff0) == ((posBit + nrofBit -1) & 0xfff0)) {
+			//all bits are arranged in the same int16:
+			int offset = (posBit >>3) & 0xfffe;  //offset for byte address count, 2.byte-aligned
+			offset /= BYTE_IN_MemUnit;   //If the address counts 16 bit, correct the offset.
+			addr1 += offset;  //increment the address adequat posBit. Regard 1 address step are 8 bits.
+			posBitUsed = posBit & 0xf;  //
+			val = *(int16*)(addr1);
+		  //shift the bit in position:
+      val >>= posBitUsed;
+		} else if(BYTE_IN_MemUnit <=4 && (posBit & 0xffe0) == ((posBit + nrofBit -1) & 0xffe0)){ 
+			int offset = (posBit >>3) & 0xfffc;  //offset for byte address count, 4-byte-aligned.
+			offset /= BYTE_IN_MemUnit;   //If the address counts 16 or 32 bit, correct the offset.
+			addr1 += offset;  //32-bit-step
+			posBitUsed = posBit & 0x1f;  //
+      val = *(int32*)(addr1);
+		  //shift the bit in position:
+      val >>= posBitUsed;
+		} else {
+      //The bits are dispersed over 2 int32 parts. That may not possible for 32 bit processors, depending on the compiler. 
+      //It is a mistake of reflection generating. For 64 bit Processors it is possible if the bitfield uses 64 bit.
+      //If the compiler dispereses bit fields over 2 int words, the algorithm is correct for 32 bit processors.
+      //Read 2 times 32 bit to support all bit field positions. 
+      int offset = (posBit >>3) & 0xfff8;  //offset for byte address count, 4-byte-aligned.
+			offset /= BYTE_IN_MemUnit;   //If the address counts 16 or 32 bit, correct the offset.
+			addr1 += offset;  //32-bit-step
+			posBitUsed = posBit & 0x3f;  //
+      val = *(int32*)(addr1);
+      int64 val2 = *(int32*)(addr1 + (4 / BYTE_IN_MemUnit));
+      val2 = val2<<32 | val;
+      val = (int32)(val2 >>= posBitUsed);
+    }
 		val &= (1<<nrofBit)-1;  //mask the bits, forex: nrofBit = 1, mask = 1, nrofBit = 2, mask = 4-1 = 0x03
 	} else { //memSegment !=0
-		//NOTE: the maximal length of an bitfield is limited to 16.
+		//NOTE: don't correct the addr because it is unknown whether the 2CPU has byte or int32-addressing!
+    //NOTE: the maximal length of an bitfield is limited to 16.
 		//NOTE don't use a bitfield to assemble this informations, because the assignment of the bits is platform-depending.
     int32 info = (posBit  << bitPosBitsInBitfieldAccess_RemoteCpuJc ) & mPosBitsInBitfieldAccess_RemoteCpuJc
 			         | (nrofBit << bitNrofBitsInBitfieldAccess_RemoteCpuJc) & mNrofBitsInBitfieldAccess_RemoteCpuJc
@@ -261,76 +275,71 @@ int16 getBitfield_MemAccessJc(MemSegmJc addr, int posBit, int nrofBit)
 int setBitfield_MemAccessJc(MemSegmJc addr, int setVal, int posBit, int nrofBit )
 {
   int memSegment = segment_MemSegmJc(addr);
-	int32 addr1 = (int32)ADDR_MemSegmJc(addr, void);    //NOTE: the addr may be in a remote CPU
+	OS_intPTR addr1 = (OS_intPTR)ADDR_MemSegmJc(addr, void);    //NOTE: the addr may be in a remote CPU
 	int32 val1;
   
   if(memSegment == 0){
     int32 posBitUsed = -1;
-
-		int nrofBytesSrc;
 		//adjust the address of bits depending of the bit position.
-		if((posBit & 0xfff8) == ((posBit + nrofBit -1) & 0xfff8)){
-			//all bits are arranged in the same byte, the processor supports byte addressing:
-			addr1 += (posBit >>3);
-			posBitUsed = posBit & 0x7;
-			nrofBytesSrc = 1;
-		} else if((posBit & 0xfff0) == ((posBit + nrofBit -1) & 0xfff0)){
-			//all bits are arranged in the same byte, the processor supports byte addressing:
-			addr1 += (posBit >>3);
-			posBitUsed = posBit & 0xf;
-			if((addr1 & 0x1) != 0){
-				//even address, don't use 16-bit-access!
-				//only if the user builds an unaligned structure. Then it is supported. No special case!
-				nrofBytesSrc = 2;
-			}
-			nrofBytesSrc = 2;
-		} else { 
-		
-			//if( (int32)(addr1 & 0xfffffffc) == addr1 && (posBit & 0xffe0) == ((posBit + nrofBit -1) & 0xffe0)){
-			//typically: All the bits are in the same 32-bit-range.
-			int offset = (posBit >>3) & 0xfffc;
-			offset /= BYTE_IN_MemUnit;   //special for DSP! But use DSP-characteristics, TODO.
-			addr1 += offset;  //32-bit-step
-			nrofBytesSrc = 4;
-		}
-	  setADDR_MemSegmJc(addr, addr1);  //sets the address adjusted with bit position.
-		switch(nrofBytesSrc){
-		case 1: { 
-      int mask = ((1<<nrofBit)-1) << (posBit & 0x7);
-      int or = (setVal << (posBit & 0x7)) & mask;
-			val1 = *(int8*)(addr1);
-			//val1 &= ~((1<<nrofBit)-1);  //set this bits to 0
-			val1 &= ~mask;  //set this bits to 0
-			val1 |= or;
-			*(int8*)(addr1) = (int8)val1;
-			val1 = *(int8*)(addr1);
-		} break;
-		case 2: { 
-			int mask = ((1<<nrofBit)-1) << (posBit & 0xf);
-      int or = (setVal << (posBit & 0xf)) & mask;
+    //posBit is any position of the bit based on addr. It can be >32, >64 etc. because bitfields can be larger.
+		//nrofBit should be <=32.
+    //check whether all bits are located in the same int16, same int32 or in different int16 locations.
+    if(false && BYTE_IN_MemUnit <=2 && (posBit & 0xfff0) == ((posBit + nrofBit -1) & 0xfff0)) {
+			//NOTE: there is not a compareAndSwap for 16 bit!
+      //all bits are arranged in the same int16:
+			int offset = (posBit >>3) & 0xfffe;  //offset for byte address count, 2.byte-aligned
+			offset /= BYTE_IN_MemUnit;   //If the address counts 16 bit, correct the offset.
+			addr1 += offset;  //increment the address adequat posBit. Regard 1 address step are 8 bits.
+			posBitUsed = posBit & 0xf;  //
+
+			int mask = ((1<<nrofBit)-1) << (posBitUsed);
+      int or = (setVal << (posBitUsed)) & mask;
 			val1 = *(int16*)(addr1);
 			val1 &= ~mask;  //set this bits to 0
 			val1 |= or;
 			*(int16*)(addr1) = (int16)val1;
 			val1 = *(int16*)(addr1);
-	  } break;
-		case 4: {
-      int mask = ((1<<nrofBit)-1) << (posBit & 0x1f);
-      int or = (setVal << (posBit & 0x1f)) & mask;
-			val1 = *(int32*)(addr1);
-			val1 &= ~mask;  //set this bits to 0
-			val1 |= or;
-			*(int32*)(addr1) = val1;
-			val1 = *(int32*)(addr1);
-		} break;
-    default: val1 = 0xbad;  //TODO is it real?
-		}//switch
-		//set the given bits.
-		//rewrite the bits. NOTE: use compareAndSetAtomicInteger!
-		
-		//shift the bit in position:
-		val1 >>= posBit & 0xf;
-		val1 &= (1<<nrofBit)-1;  //mask the bits, forex: nrofBit = 1, mask = 1, nrofBit = 2, mask = 4-1 = 0x03
+		  //shift the bit in position:
+      val1 >>= posBitUsed;
+  		val1 &= (1<<nrofBit)-1;  //mask the bits, forex: nrofBit = 1, mask = 1, nrofBit = 2, mask = 4-1 = 0x03
+		} else if(BYTE_IN_MemUnit <=4 && (posBit & 0xffe0) == ((posBit + nrofBit -1) & 0xffe0)){ 
+			int offset = (posBit >>3) & 0xfffc;  //offset for byte address count, 4-byte-aligned.
+			offset /= BYTE_IN_MemUnit;   //If the address counts 16 or 32 bit, correct the offset.
+			addr1 += offset;  //32-bit-step
+			posBitUsed = posBit & 0x1f;  //
+
+      int32 mask = ((1<<nrofBit)-1) << (posBitUsed);
+      int32 or = (setVal << (posBitUsed)) & mask;
+			int32* addr2 = (int32*) addr1;
+      int32 val0;
+      int ctCatastrophic = 999;  //terminate a while-loop
+      { val0 = *addr2;
+			  val1 = val0 & ~mask;  //set this bits to 0
+			  val1 |= or;
+      } while(--ctCatastrophic >=0 && !compareAndSet_AtomicInteger(addr2, val0, val1));  //repeat if memory was changed. 
+			if(ctCatastrophic < 0) {
+        val1 = 0xbad;
+      } else {
+        val1 = *(int32*)(addr1);  //read the value after operation.
+      }
+		  //shift the bit in position:
+      val1 >>= posBitUsed;
+  		val1 &= (1<<nrofBit)-1;  //mask the bits, forex: nrofBit = 1, mask = 1, nrofBit = 2, mask = 4-1 = 0x03
+		} else {
+      //The bits are dispersed over 2 int32 parts. That may not possible for 32 bit processors, depending on the compiler. 
+      //It is a mistake of reflection generating. For 64 bit Processors it is possible if the bitfield uses 64 bit.
+      //If the compiler dispereses bit fields over 2 int words, the algorithm is correct for 32 bit processors.
+      //Read 2 times 32 bit to support all bit field positions. 
+      //TODO don't set yet. only read. Not supported yet.
+      int offset = (posBit >>3) & 0xfff8;  //offset for byte address count, 4-byte-aligned.
+			offset /= BYTE_IN_MemUnit;   //If the address counts 16 or 32 bit, correct the offset.
+			addr1 += offset;  //32-bit-step
+			posBitUsed = posBit & 0x3f;  //
+      val1 = *(int32*)(addr1);
+      int64 val2 = *(int32*)(addr1 + (4 / BYTE_IN_MemUnit));
+      val2 = val2<<32 | val1;
+      val1 = 0xbad; //(int32)(val2 >>= posBitUsed);
+    }
 	}
   else { //memSegment !=0
 		//NOTE: the maximal length of an bitfield is limited to 16.
