@@ -18,7 +18,6 @@
 struct Part_StringPartJc_t;
 struct StringBuilderJc_t;
 struct StringPartJc_t;
-struct StringPartScanJc_t;
 
 
 /* J2C: includes *********************************************************/
@@ -69,11 +68,11 @@ void finalize_Part_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 /**A subsequence*/
 METHOD_C struct Part_StringPartJc_t* ctorO_Part_StringPartJc(struct StringPartJc_t* outer, ObjectJc* othis, int32 from, int32 to, ThCxt* _thCxt);
 
-METHOD_C char charAt_Part_StringPartJc(Part_StringPartJc_s* thiz, int32 index, ThCxt* _thCxt);
+METHOD_C char charAt_i_Part_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt);
 
-METHOD_C int32 length_Part_StringPartJc(Part_StringPartJc_s* thiz, ThCxt* _thCxt);
+METHOD_C int32 length_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
 
-METHOD_C CharSeqJc subSequence_Part_StringPartJc(Part_StringPartJc_s* thiz, int32 from, int32 end, ThCxt* _thCxt);
+METHOD_C CharSeqJc subSequence_ii_Part_StringPartJc(ObjectJc* ithis, int32 from, int32 end, ThCxt* _thCxt);
 
 METHOD_C StringJc toString_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
 
@@ -98,13 +97,13 @@ typedef struct Mtbl_Part_StringPartJc_t
 class Part_StringPartJc : private Part_StringPartJc_s
 { public:
 
-  char charAt(int32 index){  return charAt_Part_StringPartJc(this, index,  null/*_thCxt*/); }
+  char charAt(int32 index){  return charAt_i_Part_StringPartJc(&this->base/*:ifc*/.CharSeqJc.base.object, index,  null/*_thCxt*/); }
 
-  int32 length(){  return length_Part_StringPartJc(this,  null/*_thCxt*/); }
+  int32 length(){  return length_Part_StringPartJc(&this->base/*:ifc*/.CharSeqJc.base.object,  null/*_thCxt*/); }
 
-  CharSeqJc subSequence(int32 from, int32 end){  return subSequence_Part_StringPartJc(this, from, end,  null/*_thCxt*/); }
+  CharSeqJc subSequence(int32 from, int32 end){  return subSequence_ii_Part_StringPartJc(&this->base/*:ifc*/.CharSeqJc.base.object, from, end,  null/*_thCxt*/); }
 
-  StringJc toString(){  return toString_Part_StringPartJc(&this->base.object,  null/*_thCxt*/); }
+  StringJc toString(){  return toString_Part_StringPartJc(&this->base/*J2C_super:*/.object,  null/*_thCxt*/); }
 
   struct Part_StringPartJc_t* trim(){  return trim_Part_StringPartJc(this,  null/*_thCxt*/); }
 };
@@ -121,7 +120,7 @@ typedef struct StringPartJc_t
   int32 begin;   /*The actual start position of the valid part.*/
   int32 end;   /*The actual exclusive end position of the valid part.*/
   int32 begiMin;   /*The most left possible start position*/
-  int32 endMax;   /*The rightest possible exclusive end position*/
+  int32 endMax;   /*The most right possible exclusive end position*/
   CharSeqJc content;   /*The referenced string. It is a CharSequence for enhanced using.    */
   bool bCurrentOk;   /*false if current scanning is not match*/
   bool bStartScan;   /*If true, than all idxLastScanned..*/
@@ -225,7 +224,7 @@ METHOD_C struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thi
 { \
   \
   (THIZ)->begiMin = (THIZ)->beginLast = /*? assignment*/(THIZ)->begin = /*? assignment*/0;\
-  (THIZ)->endMax = (THIZ)->end = /*? assignment*/(THIZ)->endLast = /*? assignment*/length_CharSeqJc((THIZ)->content, _thCxt);\
+  (THIZ)->endMax = (THIZ)->end = /*? assignment*/(THIZ)->endLast = /*? assignment*/length_CharSeqJc((THIZ)->content/*J1cT2*/, _thCxt);\
   (THIZ)->bStartScan = (THIZ)->bCurrentOk = /*? assignment*/true;\
 }
 
@@ -233,12 +232,14 @@ METHOD_C struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thi
 METHOD_C struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
 /**This method returns the characters of the current part.*/
-METHOD_C char charAt_StringPartJc(StringPartJc_s* thiz, int32 index, ThCxt* _thCxt);
+METHOD_C char charAt_i_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt);
 
 /**Returns a volatile CharSequence from the range inside the current part.*/
-METHOD_C struct Part_StringPartJc_t* subSequence_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, ThCxt* _thCxt);
+METHOD_C CharSeqJc subSequence_ii_StringPartJc(ObjectJc* ithis, int32 from, int32 to, ThCxt* _thCxt);
 
-METHOD_C int32 length_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+METHOD_C void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, ThCxt* _thCxt);
+
+METHOD_C int32 length_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
 
 /**Returns the lenght of the maximal part from current position*/
 METHOD_C int32 lengthMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
@@ -408,9 +409,6 @@ METHOD_C bool equals_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt
 /**compares the Part of string with the given string.*/
 METHOD_C bool startsWith_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCxt);
 
-/**This routine provides the this-pointer as StringPartScan in a concatenation of StringPartBase-invocations.*/
-METHOD_C struct StringPartScanJc_t* scan_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
-
 /**Gets the current position, useable for rewind*/
 METHOD_C int64 getCurrentPosition_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
@@ -511,7 +509,7 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& assign(struct StringPartJc_t* src){ assign_XX_StringPartJc(this, src,  null/*_thCxt*/);  return *this; }
 
-  char charAt(int32 index){  return charAt_StringPartJc(this, index,  null/*_thCxt*/); }
+  char charAt(int32 index){  return charAt_i_StringPartJc(&this->base/*:ifc*/.CharSeqJc.base.object, index,  null/*_thCxt*/); }
 
   virtual void close(){ close_StringPartJc_F(this,  null/*_thCxt*/); }
 
@@ -587,7 +585,7 @@ class StringPartJc : private StringPartJc_s
 
   int32 lengthMaxPart(){  return lengthMaxPart_StringPartJc(this,  null/*_thCxt*/); }
 
-  int32 length(){  return length_StringPartJc(this,  null/*_thCxt*/); }
+  int32 length(){  return length_StringPartJc(&this->base/*:ifc*/.CharSeqJc.base.object,  null/*_thCxt*/); }
 
   StringPartJc& lentoAnyCharOutsideQuotion(StringJcpp sChars, int32 maxToTest){ lentoAnyCharOutsideQuotion_StringPartJc(this, sChars, maxToTest,  null/*_thCxt*/);  return *this; }
 
@@ -626,8 +624,6 @@ class StringPartJc : private StringPartJc_s
   struct StringPartJc_t* line(){  return line_StringPartJc(this,  null/*_thCxt*/); }
 
   StringJc replace(CharSeqJc src, CharSeqJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
-
-  struct StringPartScanJc_t* scan(){  return scan_StringPartJc(this,  null/*_thCxt*/); }
 
   StringPartJc& seekAnyString(StringJc_Y* strings, int32_Y* nrofFoundString){ seekAnyString_StringPartJc(this, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
 
@@ -675,13 +671,15 @@ class StringPartJc : private StringPartJc_s
 
   bool startsWith(CharSeqJc sCmp){  return startsWith_StringPartJc(this, sCmp,  null/*_thCxt*/); }
 
-  struct Part_StringPartJc_t* subSequence(int32 from, int32 to){  return subSequence_StringPartJc(this, from, to,  null/*_thCxt*/); }
+  CharSeqJc subSequence(int32 from, int32 to){  return subSequence_ii_StringPartJc(&this->base/*:ifc*/.CharSeqJc.base.object, from, to,  null/*_thCxt*/); }
 
   struct Part_StringPartJc_t* substring(int32 pos, int32 posendP){  return substring_StringPartJc(this, pos, posendP,  null/*_thCxt*/); }
 
   void throwIndexOutOfBoundsException(StringJcpp sMsg){ throwIndexOutOfBoundsException_StringPartJc(this, sMsg,  null/*_thCxt*/); }
 
-  virtual StringJc toString(){  return toString_StringPartJc_F(&this->base.object,  null/*_thCxt*/); }
+  void throwSubSeqFaulty(int32 from, int32 to){ throwSubSeqFaulty_StringPartJc(this, from, to,  null/*_thCxt*/); }
+
+  virtual StringJc toString(){  return toString_StringPartJc_F(&this->base/*J2C_super:*/.object,  null/*_thCxt*/); }
 
   StringPartJc& trimComment(){ trimComment_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 

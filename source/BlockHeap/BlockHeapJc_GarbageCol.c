@@ -73,7 +73,7 @@ void activateGC_ObjectJc(void const* objP, void const* exclAddr, ThCxt* _thCxt)
       //TODO don't call deduce, but test whether the exclAddr is in block range. calc-time!
       BlockHeapBlockJc* blockExcl = searchBlockHeapBlock_BlockHeapJc(exclAddr, &heap);
       if(blockExcl != block) { 
-        block->typeOrMaxRef |= mConsideredInGarbage_Type_Object;
+        activateGC_BlockHeapBlockJc(block);
       } else {
         //do nothing, because the block is returned.
       }

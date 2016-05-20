@@ -169,7 +169,12 @@ struct ThreadContextFW_t;
 METHOD_C MemC alloc_MemC(int size);
 
 /**frees a allocated memory. It is the opposite method to alloc_MemC(). */
-METHOD_C int free_MemC(MemC mem);
+//METHOD_C int free_MemC(MemC mem);
+
+/**frees an allocated memory. It is the opposite method to alloc_MemC(). 
+ * But only the memory address is necessary.
+ */
+METHOD_C int free_MemC(void const* addr);
 
 /**Initializes the given mem area with 0. This method substitutes the using of memset(ptr, 0, size) of standard-C. */
 METHOD_C MemC init0_MemC(MemC mem);

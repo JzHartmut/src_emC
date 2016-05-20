@@ -47,7 +47,7 @@ METHOD_C void* os_allocMem(uint size);
  * @param pMemory pointer to the memory, it should be the same pointer which is returned from os_allocMem(). 
  * @return 0 if success. negativ: an error.
  */
-METHOD_C int os_freeMem(void* pMemory);
+METHOD_C int os_freeMem(void const* pMemory);
 
 
 /**Checks the heap for size.

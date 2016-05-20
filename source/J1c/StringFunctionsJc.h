@@ -155,6 +155,9 @@ METHOD_C int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ CharSeqJc sq, int3
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
 METHOD_C int32 lastIndexOf_CsiiCs_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 fromIndex, int32 to, CharSeqJc str, ThCxt* _thCxt);
 
+/**Returns the position of one of the chars in sChars within the part, started inside the part with fromIndex,*/
+METHOD_C int32 indexOfAnyString_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 from, int32 to, CharSeqJc_Y* listStrings, int32_Y* nrofFoundString, StringJc_Y* foundString, ThCxt* _thCxt);
+
 /**Returns a String with 2*indent spaces for indentation.*/
 METHOD_C StringJc indent2_StringFunctionsJc(/*static*/ int32 indent, ThCxt* _thCxt);
 
@@ -203,6 +206,8 @@ class StringFunctionsJc : private StringFunctionsJc_s
   int32 indexNoWhitespace(CharSeqJc src, int32 start, int32 endMax){  return indexNoWhitespace_StringFunctionsJc(src, start, endMax,  null/*_thCxt*/); }
 
   int32 indexOfAnyChar(CharSeqJc sq, int32 begin, int32 end, StringJcpp sChars){  return indexOfAnyChar_StringFunctionsJc(sq, begin, end, sChars,  null/*_thCxt*/); }
+
+  int32 indexOfAnyString(CharSeqJc sq, int32 from, int32 to, CharSeqJc_Y* listStrings, int32_Y* nrofFoundString, StringJc_Y* foundString){  return indexOfAnyString_StringFunctionsJc(sq, from, to, listStrings, nrofFoundString, foundString,  null/*_thCxt*/); }
 
   int32 indexOf(CharSeqJc sq, CharSeqJc str){  return indexOf_CsCs_StringFunctionsJc(sq, str,  null/*_thCxt*/); }
 

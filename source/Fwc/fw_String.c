@@ -73,6 +73,19 @@ StringJc zI_StringJc(char const* src, int len)
 }
 
 
+CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
+{ CharSeqJc ret;
+  set_OS_PtrValue(ret, othiz, kIsCharSequence_StringJc); 
+  return ret;
+}
+
+
+CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t* othiz)
+{ CharSeqJc ret;
+  set_OS_PtrValue(ret, othiz, kIsStringBuilder_StringJc); 
+  return ret;
+}
+
 
 
 const char* getConstChar_StringJc(const StringJc* ythis)

@@ -43,6 +43,7 @@
  ****************************************************************************/
 #include "Jc/PrintStreamJc.h"
 #include "Jc/FileIoJc.h"
+#include <Jc/StringJc.h>
 #include "Fwc/fw_ThreadContext.h"
 #include "Fwc/fw_Exception.h"
 
@@ -88,6 +89,34 @@ void println_s_PrintStreamJc(PrintStreamJc* ythis, StringJc text, ThCxt* _thCxt)
   buffer[nrofChars] = 0;  //zero terminated, the rest of buffer is undefined.
   printf("%s\n", buffer);
   STACKTRC_LEAVE;
+}
+
+
+void println_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt)
+{ int length = text.value__;
+  if(length < kIsStringBuilder_StringJc) println_s_PrintStreamJc(ythis, text, _thCxt);
+  else {
+    char buffer[500];  //no more space in stack!
+    int nrofChars = 0;
+    STACKTRC_TENTRY("println_s_PrintStreamJc");
+    ObjectJc* othiz = PTR_OS_PtrValue(text, ObjectJc);
+    Mtbl_CharSeqJc* mtbl = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+    if(mtbl !=null){
+      int nrofChars = mtbl->length(othiz, _thCxt);
+      int ix = 0;
+      if(nrofChars >= sizeof(buffer)) { nrofChars = sizeof(buffer)-1; }
+      while(--nrofChars >=0) {
+        char cc = mtbl->charAt(othiz, ix, _thCxt);
+        buffer[ix] = cc;
+        ix +=1; 
+      }
+      buffer[ix] = 0;
+    } else {
+      buffer[nrofChars] = 0;  //zero terminated, the rest of buffer is undefined.
+    }
+    printf("%s\n", buffer);
+    STACKTRC_LEAVE;
+  }
 }
 
 

@@ -537,6 +537,8 @@ const ClassJc xxxreflection_ObjectJc =
 };
 
 
+char const sign_Mtbl_ComparableJc[] = "Mtbl_ComparableJc";
+
 char const sign_Mtbl_FlushableJc[] = "Mtbl_FlushableJc";
 
 char const sign_Mtbl_CloseableJc[] = "Mtbl_CloseableJc";

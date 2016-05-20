@@ -262,6 +262,25 @@ StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
 
 
 
+//Used for Mtbl for interface CharSeqJc
+static int32 length_StringBuilderJc_F(ObjectJc* thiz, ThCxt* _thCxt){ return ((StringBuilderJc*)thiz)->_count; }
+
+static char charAt_StringBuilderJc_F(ObjectJc* othiz, int32 ix, ThCxt* _thCxt){ 
+  StringBuilderJc* thiz = (StringBuilderJc*)othiz;
+  char const* chars = chars_StringBuilderJc(thiz);
+  if(ix < 0 || ix >= thiz->_count) { THROW_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
+  else return chars[ix]; 
+}
+
+static CharSeqJc subSequence_StringBuilderJc_F(ObjectJc* othiz, int32 from, int32 to, ThCxt* _thCxt)
+{ StringBuilderJc* thiz = (StringBuilderJc*)othiz;
+  CharSeqJc ret = {0};
+  if(from > 0 && from <= to && to <= thiz->_count) {
+    ret.ref = null; //TODO
+  } 
+  else THROW_s0(IndexOutOfBoundsException, "faulty indices", to); 
+  return ret;
+}
 
 
 /**common method for creating and initilizing buffers in threadcontext. 
@@ -279,7 +298,7 @@ static void* getThreadBuffer_StringBuilderJc(bool bCpp, ThCxt* _thCxt)
   #endif
   STACKTRC_TENTRY("threadBuffer_StringBuilderJc");
   {
-    MemC mBuffer = getUserBuffer_ThreadContextFw(_thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContextFw(0, _thCxt);
     /**Check whether the buffer is in use, TODO... */
     int sizeBufferThreadContext = size_MemC(mBuffer);
     int sizeStringBuffer = sizeBufferThreadContext/2 - sizeStringBuilderJcpp;
@@ -1336,19 +1355,42 @@ StringBuilderJcpp* new_StringBuilderJcpp(int size)
 #endif
 
 
-typedef struct MtblDef_StringBufferJc_t { Mtbl_ObjectJc ObjectJc; MtblHeadJc end; } MtblDef_StringBufferJc;
+typedef struct Mtbl_StringBufferJc_t 
+{ MtblHeadJc head;
+  Mtbl_ObjectJc ObjectJc; 
+  //Method table of interfaces:
+  Mtbl_CharSeqJc CharSeqJc;
+} Mtbl_StringBufferJc;
+
+
+typedef struct MtblDef_StringBufferJc_t { Mtbl_StringBufferJc mtbl; MtblHeadJc end; } MtblDef_StringBufferJc;
+
  extern MtblDef_StringBufferJc const mtblStringBufferJc;
+
+static const char sign_Mtbl_StringBufferJc[] = "StringBufferJc"; //to mark method tables of all implementations
 
 
 const MtblDef_StringBufferJc mtblStringBufferJc = {
-{ { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((5) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ 
+  { sign_Mtbl_StringBufferJc //J2C: Head of methodtable of Part_StringPartJc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-  , clone_ObjectJc_F //clone
-  , equals_ObjectJc_F //equals
-  , finalize_ObjectJc_F //finalize
-  , hashCode_ObjectJc_F //hashCode
-  , toStringNonPersist_StringBuilderJc //toString
+, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    }
+    , clone_ObjectJc_F //clone
+    , equals_ObjectJc_F //equals
+    , finalize_ObjectJc_F //finalize
+    , hashCode_ObjectJc_F //hashCode
+    , toStringNonPersist_StringBuilderJc //toString
+  }
+, { { sign_Mtbl_CharSeqJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((5 +1) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    }
+    , length_StringBuilderJc_F 
+    , charAt_StringBuilderJc_F
+    , subSequence_StringBuilderJc_F
+  }  
 } 
 , { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
@@ -1408,7 +1450,7 @@ const ClassJc reflection_StringBuilderJc =
 , null  //superclass
 , null  //interfaces
 , 0 
-, &mtblStringBufferJc.ObjectJc.head
+, &mtblStringBufferJc.mtbl.head
 };
 
 

@@ -49,6 +49,11 @@
 
 typedef struct ThreadContextFW_t
 { 
+  /**A memory area referenced in the thread context. This area is either initially created or created on demand
+   * with a default size. It can be used especially for String values or other instances
+   * which are used only in the tread, returned.
+   * Normally only one instance can be used in the thread context.
+   */
   MemC bufferInThreadContext;
 
   
@@ -101,7 +106,7 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt);
  * This mechanism should be threadsafe, therefor the buffer is stored not globally but thread specific.
  * The user is responsible for handling the buffers in its thread. 
  */ 
-METHOD_C MemC getUserBuffer_ThreadContextFw(ThCxt* _thCxt);
+METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt);
 
 
 /**Sets the mode whether the release of the buffer in ThreadContext is necessary. 
@@ -111,10 +116,10 @@ METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThCxt* _thCxt, bool value);
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(ThCxt* _thCxt);
+METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt);
 
 
-
+//METHOD_C void free(void const* addr);
 
 
 

@@ -60,7 +60,7 @@ MemC alloc0_MemC(int size)
 }
 
 
-int free_MemC(MemC mem)
+int XXXfree_MemC(MemC mem)
 { return os_freeMem(PTR_MemC(mem, void));
 }
 

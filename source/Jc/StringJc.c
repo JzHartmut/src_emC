@@ -120,7 +120,7 @@ void clear_StringJc(StringJc* ythis)
 
   clearBackRefJc(ythis);
   if((VAL_StringJc(*ythis) & mThreadContext__StringJc) == mThreadContext__StringJc){
-    releaseUserBuffer_ThreadContextFw(_thCxt);
+    releaseUserBuffer_ThreadContextFw(PTR_StringJc(*ythis), _thCxt);
   }
   INIT_StringJc(*ythis, null, 0);
   STACKTRC_LEAVE;

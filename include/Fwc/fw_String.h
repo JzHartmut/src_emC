@@ -40,7 +40,8 @@
 #define __fw_String_h__
 //#include "fw_Platform_conventions.h"
 #include <os_types_def.h>
-
+struct ObjectJc_t;
+struct StringBuilderJc_t;
 
 /*@DEFINE_C some_forward_types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -100,9 +101,6 @@ struct MemAreaC_t;
  * Notation hint: The notation ,,char const*,, is the same as ,,const char*,,, but it expresses more stronly, that it is a const-pointer.
  */  
 #define StringJc OS_PtrValue
-
-
-typedef OS_PtrValue CharSeqJc;
 
 
 extern char const sign_Mtbl_StringJc[]; 
@@ -346,5 +344,17 @@ METHOD_C char const* getCharsAndLength_StringJc(StringJc const* ythis, int* leng
  * using [[copyToBuffer_StringJc(...)]] to get a zero-terminated pointer to the text.
  */
 METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis);
+
+
+
+/*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+typedef OS_PtrValue CharSeqJc;
+//this not, too complex: typedef union CharSeqJc_t { struct ObjectJc_t* o; OS_PtrValue s; } CharSeqJc;
+
+CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz);
+
+CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t* othiz);
+
 
 #endif //__fw_String_h__

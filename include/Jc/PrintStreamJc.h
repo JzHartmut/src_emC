@@ -55,11 +55,13 @@ typedef struct PrintStreamJc_t
 
 METHOD_C void println_z_PrintStreamJc(PrintStreamJc* ythis, const char* text, ThCxt* _thCxt);
 METHOD_C void println_s_PrintStreamJc(PrintStreamJc* ythis, StringJc text, ThCxt* _thCxt);
+METHOD_C void println_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt);
 METHOD_C void println_u_PrintStreamJc(PrintStreamJc* ythis, struct StringBuilderJc_t* text, ThCxt* _thCxt);
 METHOD_C void println_O_PrintStreamJc(PrintStreamJc* ythis, ObjectJc* text, ThCxt* _thCxt);
 
 METHOD_C void print_z_PrintStreamJc(PrintStreamJc* ythis, const char* text, ThCxt* _thCxt);
 METHOD_C void print_s_PrintStreamJc(PrintStreamJc* ythis, StringJc text, ThCxt* _thCxt);
+METHOD_C void print_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt);
 METHOD_C void print_u_PrintStreamJc(PrintStreamJc* ythis, struct StringBuilderJc_t* text, ThCxt* _thCxt);
 METHOD_C void print_O_PrintStreamJc(PrintStreamJc* ythis, ObjectJc* text, ThCxt* _thCxt);
 

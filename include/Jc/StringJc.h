@@ -929,7 +929,11 @@ class  StringJcpp: public StringJc
  *          struct myStringArray_t{ ObjectArrayJc head; StringJc data[17]; } myStringArray; 
  */
 //typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; CharSeqJc data[50]; } CharSeqJc_Y;
-#define CharSeqJc_Y StringJc_Y
+//#define CharSeqJc_Y StringJc_Y
+
+typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; StringJc data[50]; } CharSeqJc_Y;
+
+
 
 /**Reference type definition for enhanced references. */
 /*Note: The define is necessary, because a reference type definition may be defined in any using header.*/
@@ -962,19 +966,20 @@ typedef union CharSeqJc_Ref_t
 //#define CharSeqJc_Ref StringJc
 
 
-extern struct ClassJc_t const reflection_CharSeqJc;
+extern_C struct ClassJc_t const reflection_CharSeqJc;
 
 
-typedef int MT_length_CharSeqJc(CharSeqJc const ythis, ThCxt* _thCxt);
-typedef char MT_charAt_CharSeqJc(CharSeqJc const ythis, int ix, ThCxt* _thCxt);
-typedef CharSeqJc MT_subSequence_CharSeqJc(CharSeqJc const ythis, int from, int to, ThCxt* _thCxt);
+typedef int32 MT_length_CharSeqJc(ObjectJc* ithiz, ThCxt* _thCxt);
+typedef char MT_charAt_CharSeqJc(ObjectJc* ithiz, int32 ix, ThCxt* _thCxt);
+typedef CharSeqJc MT_subSequence_CharSeqJc(ObjectJc* ithiz, int32 from, int32 to, ThCxt* _thCxt);
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
 typedef struct Mtbl_CharSeqJc_t
-{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+{ MtblHeadJc head;
   MT_length_CharSeqJc* length;
   MT_charAt_CharSeqJc* charAt;
   MT_subSequence_CharSeqJc* subSequence;
+  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
 } Mtbl_CharSeqJc;
 
 extern char const sign_Mtbl_CharSeqJc[];
@@ -987,9 +992,10 @@ extern char const sign_Mtbl_CharSeqJc[];
  * This methods tests whether it is a StringJc or an ObjectJc. 
  */
   
-#define length_CharSeqJc(THIZ, THC)   ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->length(THIZ, THC) : length_StringJc(THIZ) )
-#define charAt_CharSeqJc(THIZ, ix, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->charAt(THIZ, ix, THC) : charAt_StringJc(THIZ, ix ) )
-#define subSequence_CharSeqJc(THIZ, from, to, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->subSequence(THIZ, from, to, THC): substring_StringJc(THIZ, from, to, THC ) )
+#define length_CharSeqJc(THIZ, THC)   ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->length((ObjectJc*)(THIZ).ref, THC) : length_StringJc(THIZ) )
+#define charAt_CharSeqJc(THIZ, ix, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->charAt((ObjectJc*)(THIZ).ref, ix, THC) : charAt_StringJc(THIZ, ix ) )
+#define subSequence_CharSeqJc(THIZ, from, to, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->subSequence((ObjectJc*)(THIZ).ref, from, to, THC): substring_StringJc(THIZ, from, to, THC ) )
+#define toString_CharSeqJc(THIZ) (THIZ)
 
 #define SET_CharSeqJc(DST, SRC) { if(isValid_ObjectJc((SRC).ref)) { SETREFJc((DST), (SRC).ref, CharSeqJc); } else {  (DST) = (SRC); } }
 CharSeqJc from_StringBuilder_CharSeqJc(struct StringBuilderJc_t const*);

@@ -932,7 +932,6 @@ extern const int nrofBytesScalarTypes_ClassJc[];
 #define REFLECTION_s08                ((struct ClassJc_t const*) REFLECTION_int8_ClassJc  )
 #define REFLECTION_u08                ((struct ClassJc_t const*) REFLECTION_uint8_ClassJc )
 #define REFLECTION_StringJc           ((struct ClassJc_t const*) REFLECTION_String_ClassJc )
-
 /*
 #define REFLECTION_bool               ((struct ClassJc_t const*) 0x0f )
 #define REFLECTION_bool               ((struct ClassJc_t const*) 0x0f )
@@ -1557,6 +1556,7 @@ extern_C const ClassJc reflection_bitfieldJc;
 
 extern_C const ClassJc reflection_ObjectJc;
 extern_C const ClassJc reflection_StringJc;
+extern_C struct ClassJc_t const reflection_CharSeqJc;
 extern_C const ClassJc reflection_ClassJc;
 extern_C const ClassJc reflection_BlockHeapBlockJc;
 

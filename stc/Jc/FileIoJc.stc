@@ -91,6 +91,7 @@ class PrintStream; nameC=PrintStreamJc_s; argIdent=P; header=Jc/PrintStreamJc.h;
   methods {  
     println+_z-_$: void %.. return(s0 t.. line);
     println+_s-_$: void %.. return(String t.. line);
+    println+_c-_$: void %.. return(java/lang/CharSequence t.r value);
     println+_O-_$: void %.. return(Object *.. line);
     print+_z-_$: void %.. return(s0 t.. input);
     format+_z-_$: PrintStream *..return(s0 t.. formatString, va_argRaw +.. args); 

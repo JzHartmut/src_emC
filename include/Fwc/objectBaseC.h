@@ -217,6 +217,14 @@ struct Size_Mtbl_t;
 #define Object_Jc_t ObjectJc_t
 
 
+/**Allocates an ObjectJc in the thread buffer. Such an instance must be used immediately, then it is similar to an embedded instance in the stack. 
+ * It can be returned and used in the calling enviroment immediately or return. That is the difference to a embedded instance in the stack.
+ * Only one instance can be located in the thread context. It is over-written if another instance is created in the thread context.
+ */
+ObjectJc* allocInThreadCxt_ObjectJc(int size, struct ThreadContextFW_t* _thCxt);
+
+
+
 /** Macro for constant initialisation with a typesize and a given reflection class.
   * @param TYPESIZEOF see attribute ,,objectIdentSize,,.
   * @param REFLECTION the reflection class of the constant object. It may be ,,null,, also.

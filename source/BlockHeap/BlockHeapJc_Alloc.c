@@ -581,18 +581,19 @@ METHOD_C void free_BlockHeapJc(BlockHeapJc* ythis, BlockHeapBlockJc* block, ThCx
 
 
 
-METHOD_C void free_sBlockHeapJc(MemC obj, ThCxt* _thCxt)
+METHOD_C bool free_sBlockHeapJc(void const* obj, ThCxt* _thCxt)
 {
   BlockHeapJc* heap = null;
   BlockHeapBlockJc* block;
   
-  block = searchBlockHeapBlock_BlockHeapJc(PTR_MemC(obj, void), &heap);
+  block = searchBlockHeapBlock_BlockHeapJc(obj, &heap);
   if(heap != null)
   { free_BlockHeapJc(heap, block, _thCxt);
+    return true;
   }
   else
   { //not a block from BlockHeap, use free
-    //TODO test siezof ... free(objP);
+    return false;
   }
 }
 

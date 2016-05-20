@@ -923,6 +923,19 @@ ClassJc const reflection_StringJc =
 , null  //Mtbl
 };
 
+ClassJc const reflection_CharSeqJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringJc, null)
+, "CharSeqJc"
+, 0     //posObjectJc
+, sizeof(StringJc)
+, (FieldJcArray const*)&reflection_Fields_StringJc  //same as StringJc: attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0x0  //modifiers
+, null  //Mtbl
+};
+
 /**A StringJc is always a OS_PtrValue, but a extra type is used..
  */
 extern_C ClassJc const reflection_MemSegmJc;

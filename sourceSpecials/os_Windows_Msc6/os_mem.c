@@ -57,8 +57,8 @@ void* os_allocMem(uint size)
 
 
 
-int os_freeMem(void* ptr)
-{ void* ok = GlobalFree(ptr);   //malloc(size);
+int os_freeMem(void const* ptr)
+{ void* ok = GlobalFree((void*)ptr);   //malloc(size);
   if(ok == NULL)
   { return 0;
   }

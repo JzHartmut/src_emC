@@ -66,21 +66,15 @@ ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis)
  */
 METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt)
 { MemC lastBuffer;
-  if(_thCxt == null)
-  { MemC memThreadContext = os_getCurrentUserThreadContext();  //this should not be occuring.
-    _thCxt = PTR_MemC(memThreadContext, ThreadContextFW_s);
-  }
+  if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   lastBuffer = _thCxt->bufferInThreadContext;
   _thCxt->bufferInThreadContext = newBuffer;
   return lastBuffer;  //NOTE: the user is responsible for saving its content.
 }
 
-METHOD_C MemC getUserBuffer_ThreadContextFw(ThCxt* _thCxt)
+METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt)
 { MemC buffer;
-  if(_thCxt == null)
-  { MemC memThreadContext = os_getCurrentUserThreadContext();  //this should not be occuring.
-    _thCxt = PTR_MemC(memThreadContext, ThreadContextFW_s);
-  }
+  if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   if(_thCxt->mode & mCheckBufferUsed_Mode_ThCxt){
     if(_thCxt->mode & mBufferUsed_Mode_ThCxt){
       THROW_s0(IllegalStateException, "Thread buffer not free", 0);
@@ -126,12 +120,14 @@ METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThCxt* ythis, bool value)
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(ThCxt* ythis)
-{ bool ret = (ythis->mode & mBufferUsed_Mode_ThCxt) != 0;
+METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* ythis)
+{ if(ythis == null) {
+    ythis = getCurrent_ThreadContextFW();
+  }
+  bool ret = (ythis->mode & mBufferUsed_Mode_ThCxt) != 0;
   ythis->mode &= ~mCheckBufferUsed_Mode_ThCxt;
   return ret;
 }
-
 
 
 

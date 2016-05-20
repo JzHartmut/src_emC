@@ -138,6 +138,12 @@ METHOD_C struct ObjectJc_t* allocObject_IIs_BlockHeapJc(struct BlockHeapJc_t* yt
  */
 METHOD_C void xxxactivateGarbageCollectorAccess_BlockHeapJc(void const* addr, void const* exclAddr);
 
+
+#define activateGC_BlockHeapBlockJc(block) { \
+  block->typeOrMaxRef |= mConsideredInGarbage_Type_Object; }
+    
+
+
 /**searches the block in any BlockHeap and returns the base address of the block. 
  * @param address Any address inside the block or any other address of any Object. null is admissible too.
  * @param retHeap Pointer to the return-pointer instance, 
@@ -151,8 +157,13 @@ METHOD_C struct BlockHeapBlockJc_t* searchBlockHeapBlock_BlockHeapJc(void const*
  */
 METHOD_C struct BlockHeapBlockJc_t* deduceBlockHeapBlock_BlockheapJc(void const* address);
 
-
-METHOD_C void free_sBlockHeapJc(MemC, ThCxt* _thCxt);
+/**Try to free a block in the block heap. 
+ * The block should be unused in any case. Either a block was allocated without [[activateGC_BlockHeapBlockJc(...)]]
+ * Then it have to be freed with this algorithm. Or this method is invoked inside the garbage collection after test.
+ * @param addr if it refers inside any block in the block heap, free that block.
+ * @return true if addr is a block, false if nothing was freed.
+ */
+METHOD_C bool free_sBlockHeapJc(void const* addr, ThCxt* _thCxt);
 
 METHOD_C void free_BlockHeapJc(struct BlockHeapJc_t* ythis, struct BlockHeapBlockJc_t* block, ThCxt* _thCxt);
 

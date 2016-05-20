@@ -441,8 +441,7 @@ struct StringFormatterJc_t* add_Cs_StringFormatterJc(StringFormatterJc_s* thiz, 
     nrofChars = length_CharSeqJc(str, _thCxt);
     prepareBufferPos_StringFormatterJc(thiz, nrofChars, _thCxt);
     delete_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + nrofChars, _thCxt);
-    insert_cYii_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, str, 0, nrofChars, _thCxt);/*buffer.replace(this.pos, pos + nrofChars, str);*/
-    
+    insert_cYii_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, str, 0, nrofChars, _thCxt);
     thiz->pos += nrofChars;
     { STACKTRC_LEAVE;
       return thiz;

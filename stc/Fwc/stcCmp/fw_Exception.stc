@@ -19,7 +19,7 @@ class IOException; nameC=IOException; argIdent=Exc; extends java/lang/Exception 
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -29,7 +29,7 @@ class FileNotFoundException; nameC=FileNotFoundException; argIdent=Exc; extends 
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -39,7 +39,7 @@ class UnsupportedEncodingException; nameC=UnsupportedEncodingException; argIdent
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -49,7 +49,7 @@ class RuntimeException; nameC=RuntimeException; argIdent=Exc; extends java/lang/
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -59,7 +59,7 @@ class ClassCastException; nameC=ClassCastException; argIdent=Exc; extends java/l
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -69,7 +69,7 @@ class NullPointerException; nameC=NullPointerException; argIdent=Exc; extends ja
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -79,7 +79,7 @@ class IndexOutOfBoundsException; nameC=IndexOutOfBoundsException; argIdent=Exc; 
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -89,7 +89,7 @@ class ArrayIndexOutOfBoundsException; nameC=ArrayIndexOutOfBoundsException; argI
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -99,7 +99,7 @@ class StringIndexOutOfBoundsException; nameC=StringIndexOutOfBoundsException; ar
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -109,7 +109,7 @@ class ArrayStoreException; nameC=ArrayStoreException; argIdent=Exc; extends java
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -119,7 +119,7 @@ class IllegalArgumentException; nameC=IllegalArgumentException; argIdent=Exc; ex
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -129,7 +129,7 @@ class NoSuchFieldException; nameC=NoSuchFieldException; argIdent=Exc; extends ja
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -139,7 +139,7 @@ class NoSuchMethodException; nameC=NoSuchMethodException; argIdent=Exc; extends 
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -149,7 +149,7 @@ class IllegalStateException; nameC=IllegalStateException; argIdent=Exc; extends 
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
@@ -159,7 +159,7 @@ class ParseException; nameC=ParseException; argIdent=Exc; extends java/lang/Exce
 fieldIdents {
 }
   castTo {
-    java/lang/Exception: $ "(?).base.super" $;
+    java/lang/Exception: $ "(?).base/*J2C_super:*/.super" $;
   }
 
 }
