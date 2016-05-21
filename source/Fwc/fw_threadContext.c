@@ -41,6 +41,7 @@
 #include <Fwc/fw_ThreadContext.h>
 #include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
+#include <fw_assert.h>
 #include <os_thread.h>
 
 #include <string.h>
@@ -67,27 +68,128 @@ ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis)
 METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt)
 { MemC lastBuffer;
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
-  lastBuffer = _thCxt->bufferInThreadContext;
-  _thCxt->bufferInThreadContext = newBuffer;
+  lastBuffer = _thCxt->bufferAlloc;
+  _thCxt->bufferAlloc = newBuffer;
+  _thCxt->addrFree = PTR_MemC(newBuffer, MemUnit);
+  _thCxt->bitAddrUsed = 0;
+  memset(_thCxt->addrFree, 0, sizeof(_thCxt->addrFree));
   return lastBuffer;  //NOTE: the user is responsible for saving its content.
 }
 
+
+
+
 METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt)
-{ MemC buffer;
+{ ASSERT_s0_Fwc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
-  if(_thCxt->mode & mCheckBufferUsed_Mode_ThCxt){
-    if(_thCxt->mode & mBufferUsed_Mode_ThCxt){
-      THROW_s0(IllegalStateException, "Thread buffer not free", 0);
+  if(_thCxt->bufferAlloc.ref == null) {
+    setUserBuffer_ThreadContextFw(alloc_MemC(2000), _thCxt);
+  }
+  { MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
+    int sizeFree = endBuffer - _thCxt->addrFree;
+    int mask = 0x1;
+    int ix = 0;
+    int ixLastUsed = -1;
+    if(size ==0){  //special arguments
+      size = sizeFree;
+    } else if(size == -1) {
+      size = sizeFree/2; 
     }
-    _thCxt->mode |= mBufferUsed_Mode_ThCxt;
+    while(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) {
+      if((_thCxt->bitAddrUsed & mask) ==0) {
+        //free found
+        int maskCheck = ~(mask -1);  //all high bits. 1=:0xffffffff 2:=0xfffffffe
+        if((_thCxt->bitAddrUsed & maskCheck)==0) {
+          //this and all higher bits are 0 too. Then the rest of buffer in thread context is to use:
+          if(size <= sizeFree) {
+            MemUnit* addr = _thCxt->addrFree;
+            MemC ret = CONST_MemC(addr, size);
+            _thCxt->addrFree += size;
+            _thCxt->bitAddrUsed |= 1 << ix;
+            set_MemC(_thCxt->addrUsed[ix], addr,size);  //store the found range.
+            return ret; //NOTE: the user is responsible for saving its content.
+          } 
+        } else if(size_MemC(_thCxt->addrUsed[ix]) == (uint)size) {
+          //a free block inside with exactly the same size, reuse it.
+          _thCxt->bitAddrUsed |= mask;
+          return _thCxt->addrUsed[ix];  
+        }
+      }
+      ix +=1; mask <<=1;
+    }
   }
-  buffer = _thCxt->bufferInThreadContext;
-  if(PTR_MemC(buffer, void) == null)
-  { buffer = alloc_MemC(2000);
-    _thCxt->bufferInThreadContext = buffer;  //NOTE: struct-copy to save.
+  { //The algorithm has returned if a buffer was found.
+    //This line is reached only if nothing is found.
+    THROW_s0(IllegalStateException, "nothing free in ThreadContext", size);
+    return null_MemC;
   }
-  return buffer;  //NOTE: the user is responsible for saving its content.
+
+
+
+
+
+/*
+    int mask = 0xffffffff;
+    int ix = 0;
+    //search for the last block after them all are free. don't use a free block between -?TODO
+    while( (_thCxt->bitAddrUsed & mask) !=0) { //the while breaks at least if mask ==0 after 32 shift in any case.
+      ix +=1; mask <<=1;                       //shifts 0 from right to left.
+    }
+    if(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) { //found
+      MemUnit* addr = _thCxt->addrFree;
+      MemC ret = CONST_MemC(addr, size);
+      _thCxt->addrFree += size;
+      _thCxt->bitAddrUsed |= 1 << ix;
+      set_MemC(_thCxt->addrUsed[ix], addr,size);  //store the found range.
+      return ret; //NOTE: the user is responsible for saving its content.
+    } else {
+      THROW_s0(IllegalStateException, "To much allocation blocks in ThreadContext", 0);
+      return null_MemC;
+    }
+  } 
+  else {
+    THROW_s0(IllegalStateException, "Nothing free", 0);
+    return null_MemC;
+  }
+*/
 }
+
+
+
+/**Releases the buffer in ThreadContext. 
+ */ 
+METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt)
+{ if(_thCxt == null) {
+    _thCxt = getCurrent_ThreadContextFW();
+  }
+  bool released = false;
+  int mask = 0x1;
+  int ix = 0;
+  int ixLastUsed = -1;
+  while(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) {
+    if((_thCxt->bitAddrUsed & mask) !=0) {
+      void const* addr = PTR_MemC(_thCxt->addrUsed[ix], void const);
+      if(addr == data) {
+        _thCxt->bitAddrUsed &= ~mask;  //reset bit
+        int maskCheck = ~(mask -1);  //all higher bits.
+        if( (_thCxt->bitAddrUsed & maskCheck) ==0) {
+          //all higher ranges are not used:
+          int nrFree = ARRAYLEN_SimpleC(_thCxt->addrUsed) - (ixLastUsed+1); 
+          _thCxt->addrFree =  _thCxt->addrUsed[ixLastUsed+1].ref;
+          memset(&_thCxt->addrUsed[ixLastUsed+1], 0, nrFree * sizeof(_thCxt->addrUsed[0]));  //now delete unnecessary infos.
+        }
+        released = true;
+        ix = 32766;  //break; 
+      } else {
+        ixLastUsed = ix;  //the last used block.
+      }
+    }
+    ix +=1; mask <<=1;
+  }
+  return released;
+}
+
+
 
 
 
@@ -116,19 +218,6 @@ METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThCxt* ythis, bool value)
   else      { ythis->mode &= ~mCheckBufferUsed_Mode_ThCxt; }
   return ret;
 }
-
-
-/**Releases the buffer in ThreadContext. 
- */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* ythis)
-{ if(ythis == null) {
-    ythis = getCurrent_ThreadContextFW();
-  }
-  bool ret = (ythis->mode & mBufferUsed_Mode_ThCxt) != 0;
-  ythis->mode &= ~mCheckBufferUsed_Mode_ThCxt;
-  return ret;
-}
-
 
 
 

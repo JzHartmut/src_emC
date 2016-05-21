@@ -41,6 +41,7 @@
 
 
 extern_C const ClassJc reflection_ObjectJc;  //the just defined reflection_
+/*
 extern_C const ClassJc reflection_ClassJc;
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_ObjectJc_t
@@ -162,7 +163,7 @@ const ClassJc reflection_MtblHeadJc =
 };
 
 
-
+*/
 
 #include "Jc/ObjectJc.h"
 

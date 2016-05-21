@@ -42,6 +42,9 @@
 //#include <fw_Platform_conventions.h> //mLength_StringJc
 #include <string.h>
 
+MemC null_MemC = NULL_MemC();
+
+
 METHOD_C MemC alloc_MemC(int size)
 { MemC mem;
   void* addr = os_allocMem(size);

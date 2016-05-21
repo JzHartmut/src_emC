@@ -122,8 +122,6 @@ struct ThreadContextFW_t;
 #define CONST_MemC(PTR, SIZE) CONST_OS_PtrValue(PTR, SIZE)
 
 
-#define NULL_MemC() CONST_OS_PtrValue(null, 0)
-
 
 /**gets the size. 
  * It's an uint value because the operator sizeof() returns an uint also, and typically it is compared one another.
@@ -133,25 +131,37 @@ struct ThreadContextFW_t;
 //#define getPtr_MemC(MEMC, TYPE) PTR_OS_PtrValue(MEMC, TYPE)
 
 
-/**Gets the pointer from a given MemC.
- * @param TYPE the type of the pointer, without *. forex: "void"
+/**Macro to get the pointer from a given MemC. It casts the pointer to the given type.
+ * , #define PTR_MemC(MEMC, TYPE) ((TYPE*)(MEMC).ref)
+ * @param TYPE the type of the pointer, without *. for example: "void" to return a void*
+ * @return the pointer
  */
 #define PTR_MemC(MEMC, TYPE) PTR_OS_PtrValue(MEMC, TYPE)
 
+#define NULL_MemC() CONST_OS_PtrValue(null, 0);
 
 #define bytePtr_MemC(MEMC) PTR_OS_PtrValue(MEMC, int8*)
 
 #define isNull_MemC(MEMC) (PTR_OS_PtrValue(MEMC, void)==null)
 
 //@deprecated, NOTE: better to use PTR_MemC
-#define start_MemC(THIS) PTR_OS_PtrValue(THIS, struct MemAreaC)
+#define start_MemC(THIS) PTR_OS_PtrValue(THIS, struct MemAreaC_t)
 
+//@deprecated, NOTE: better to use END_MemC, don't use MemAreaC_t 
 #define end_MemC(THIS) (addOffset_MemAreaC(value_OS_PtrValue(THIS), size_MemC(THIS)))
+
+/**Returns the exclusively end address of THIS MemC as MemUnit* reference for address calculation. */
+#define END_MemC(THIS) ( PTR_MemC(THIS, MemUnit) + size_MemC(THIS) )
+
+
+
 
 #define set_MemC(THIS, PTR, INT) set_OS_PtrValue(THIS, PTR, INT)
 
 #define setNull_MemC(THIS) set_OS_PtrValue(THIS, null, 0)
 
+//TODO /**An Instance which contains {0, 0} */
+extern MemC null_MemC;
 
 /**Sets the size and offset.
  * The offset should be either 0 (if the MemC contains not an BlockHeapBlockJc-location) or it should be a negativ number.

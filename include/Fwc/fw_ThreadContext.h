@@ -51,13 +51,27 @@ typedef struct ThreadContextFW_t
 { 
   /**A memory area referenced in the thread context. This area is either initially created or created on demand
    * with a default size. It can be used especially for String values or other instances
-   * which are used only in the tread, returned.
-   * Normally only one instance can be used in the thread context.
+   * which are used only in the tread, returned by reference and immediately used and freed.
    */
-  MemC bufferInThreadContext;
+  MemC bufferAlloc;
 
+  /**Up to 10 used addresses for allocated buffers in thread context.
+   * The positions in this array refers to the bits from 0...9 in [[ThreadContextFW_s.bitAddrUsed]].
+   * If the bit is set, this is the associated memory location for a allocated buffer.
+   * If the bit is 0 but higher bits are set, this is the gap in the buffer for a freed block. 
+   * That block is reused if an [[ThreadContextFW_s.getUserBuffer_ThreadContextFw(...)]] is called with exactly the same size.
+   * That is usual if more as one time a block is allocated and freed in a loop.
+   * If the element contains {0,0} than it is not a gap, and the whole memory till end of [[ThreadContextFW_s.bufferAlloc]] is available. 
+   */
+  MemC addrUsed[10];
+
+  /**If the bit from 0..9 is set, the address is in use. 0: freed. */
+  int32 bitAddrUsed;
+
+  /**The free address of [[ThreadContextFW_s.bufferAlloc]]. It is equal the start address if all is free.*/
+  MemUnit* addrFree;
   
-  /**It is the heap, where allocations are provided in this thread. */
+  /**It is the heap, where block heap allocations are provided in this thread. */
   struct BlockHeapJc_t* blockHeap;
 
   int32 mode;
@@ -73,6 +87,7 @@ typedef struct ThreadContextFW_t
    */
   void* topmemAddrOfStack;
   
+  /**Data of the Stacktrace if this concept is used. */
   StacktraceThreadContext_s stacktraceThreadContext;
   /*NOTE: The element stacktraceThreadContext have to be the last because some additional StackEntryJc may be added on end.*/
 
@@ -102,9 +117,15 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt);
 /**Gets a buffer in ThreadContext. 
  * This is a special simple way to handle with memory, if no everlastingly allocation is admissible,
  * but a buffer should filled and returned inside called routines. 
- * The buffer may be given outside such routines using setUserBuffer_ThreadContextFw().
- * This mechanism should be threadsafe, therefor the buffer is stored not globally but thread specific.
- * The user is responsible for handling the buffers in its thread. 
+ * It is possible to allocate a buffer more as one time but at maximum 10 buffers are possible.
+ * That is enough to build string etc. for logging messages, paths etc.
+ * A buffer can be allocate, freed with [[ThreadContextFW_s.releaseUserBuffer_ThreadContextFw(...)]] and allocate with the same size again.
+ * Then the same position is reused. 
+ *
+ * The algorithm used the fields [[ThreadContextFW_s.addrUsed]] etc.
+ *
+ * The buffer may be given by [[ThreadContextFW_s.setUserBuffer_ThreadContextFw(...)]] or it is allocated on demand on first usage.
+ * Because the buffer is stored not globally but thread specific this mechanism is threadsafe, .
  */ 
 METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt);
 

@@ -17,7 +17,7 @@ int free_MemC(void const* addr)
     }
     _thCxt->mode |= mBufferUsed_Mode_ThCxt;
   }
-  buffer = _thCxt->bufferInThreadContext;
+  buffer = _thCxt->bufferAlloc;
   MemUnit const* bufferStart = PTR_MemC(buffer, MemUnit);
   MemUnit const* bufferEnd = bufferStart + size_MemC(buffer);
   if(ptr >= bufferStart && ptr < bufferEnd) {
