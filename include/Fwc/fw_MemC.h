@@ -88,10 +88,12 @@ struct ThreadContextFW_t;
  */
 #define OFFSETinTYPE_MemUnit(TYPE, ELEMENT)  ( (MemUnit*)( &( ((TYPE*)0x1000)->ELEMENT) )  - (MemUnit*)0x1000)
 
-/**Calculates the offset of an element within the referenced structure data.
+/**Macro to calculates the offset of an element within the referenced structure data.
  */
 #define OFFSETinDATA_MemUnit(PTR, ELEMENT)  ( (MemUnit*)( &( (PTR)->ELEMENT) )  - (MemUnit*)(PTR))
 
+
+#define OFFSET_MemUnit(P1, P2) ((MemUnit*)(P2) - (MemUnit*)(P1)) 
 
 /**Adds a offset to a memory address. 
  * @param BASE a pointer from any type.
@@ -101,10 +103,12 @@ struct ThreadContextFW_t;
 #define addOffset_MemUnit(BASE, OFFSET) (((MemUnit*)(BASE)) + (OFFSET))
 
 
-/*@CLASS_C MemC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE_C MemC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-/**Defines the struct type MemC as the same as PtrVal_MemUnit.
+
+
+/**MemC: The Type ,,MemC,, is a ,,PtrVal_TYPE(MemUnit),, which is defined in the ,,os_types_def.h,,
  * This type provides basic working with memory allocation.
  * The Problem in C is: a Pointer to memory does not contain the information about the amount of memory.
  * It is a simple pointer only, often a void*. How many bytes are there, it is unknown.
@@ -113,8 +117,20 @@ struct ThreadContextFW_t;
  * A PtrVal_MemUnit struct contains both:
  * * The pointer to the data as memory address unit.
  * * The size of data in memory.
+ *
+ * The ,,PtrVal_TYPE(MemUnit),, is specificly defined for any operation system or runtime environment.
+ * It contains a pointer to memory represented as ,,MemUnit*,, pointer and a size, number of MemUnit elements.
+ * Because of the definition of ,,PtrVal_TYPE(MemUnit),, an instance of MemC is usually returned by value
+ * in processor registers, therefore optimized in runtime. 
+ * For that  its definition is contained in the ,,os_types_def.h,, which can be optimized to the processor properties.
+ *
+ * Note that the following struct definition is only a place holder for documentation. Use the following macros and functions.
  */
+//typedef struct _MemC_t { int __doNotuse_onlyDocuHelper__; }_MemC;
+
+/**Defines the type. */
 #define MemC PtrVal_MemUnit
+
 
 /**A const definition of a MemC using as initializer for static or stack variables.
  * In standard-C only useable for global static variables, if SIZE or PTR are not constants itself.
@@ -138,10 +154,24 @@ struct ThreadContextFW_t;
  */
 #define PTR_MemC(MEMC, TYPE) PTR_OS_PtrValue(MEMC, TYPE)
 
+
+/**Macro for a value which contains {null, 0} for immediately initializing. 
+ * Application example:
+ * , MemC myMemc = NULL_MemC();  //initialized with {null, 0}
+ */
 #define NULL_MemC() CONST_OS_PtrValue(null, 0);
 
+/**Macro to get the int8* pointer from a memory location. 
+ * Note: That is not a MemUnit in any case, only if it is a byte address processor (most processors).
+ */
 #define bytePtr_MemC(MEMC) PTR_OS_PtrValue(MEMC, int8*)
 
+/**Macro to check whether the reference to the memory is a null reference.
+ * The SIZE is not tested.
+ * Application example:
+ * , if(! isNull_MemC(myMemC)) { ... } 
+ * @return true if it is a null reference, else false.
+ */
 #define isNull_MemC(MEMC) (PTR_OS_PtrValue(MEMC, void)==null)
 
 //@deprecated, NOTE: better to use PTR_MemC
@@ -150,39 +180,47 @@ struct ThreadContextFW_t;
 //@deprecated, NOTE: better to use END_MemC, don't use MemAreaC_t 
 #define end_MemC(THIS) (addOffset_MemAreaC(value_OS_PtrValue(THIS), size_MemC(THIS)))
 
-/**Returns the exclusively end address of THIS MemC as MemUnit* reference for address calculation. */
+/**Macro to return the exclusively end address of THIS MemC as MemUnit* reference for address calculation. 
+ * Application example:
+ * , MemUnit* startAddr = PTR_MemC(myMemC, MemUnit);
+ * , MemUnit* endAddr = END_MemC(myMemC);  
+ * , MemUnit* myAddr = (MemUnit*)&anyData;
+ * , if(myAddr >= startAddr && myAddr < endAddr) { .... //it is inside 
+ */
 #define END_MemC(THIS) ( PTR_MemC(THIS, MemUnit) + size_MemC(THIS) )
 
 
 
+/**Macro to set a given embedded instance to the given values. 
+ * @param PTR pointer to any memory location with any type.
+ * @param SIZE number of [[class_MemUnit]] for this memory area.
+ */
+#define set_MemC(THIS, PTR, SIZE) set_OS_PtrValue(THIS, PTR, SIZE)
 
-#define set_MemC(THIS, PTR, INT) set_OS_PtrValue(THIS, PTR, INT)
-
+/**Macro to set an given embedded instance to 0. */
 #define setNull_MemC(THIS) set_OS_PtrValue(THIS, null, 0)
 
-//TODO /**An Instance which contains {0, 0} */
+/**An Instance which contains {0, 0} 
+ * Application example:
+ * , return null_MemC;
+ */
 extern MemC null_MemC;
 
-/**Sets the size and offset.
- * The offset should be either 0 (if the MemC contains not an BlockHeapBlockJc-location) or it should be a negativ number.
- * If the offset is 0, the size is only limited to 31 or 15 bits (15 bit for simple 16-bit-controller).
- * If the offset is negativ, the SIZE must not exceed the number of associated bits.
- * But it is not checked here, because this macro is not used in user space,
- * but typicall used only at implementation layer of the os system adapter.
- */
-//#define setSizeAndOffset_MemC(THIS, SIZE, OFFSET) ((THIS).size_ = (SIZE) + ((OFFSET)<<16))
-
-
-/**allocates memory in a stanard way. This method substitures the using of malloc() from standard-C-libraries.
+/**Allocates memory in a stanard way. This method substitures the using of malloc() from standard-C-libraries.
  * It is possible to implement this method in a platform/framework specific way different to the given C-libraries. 
  */
 METHOD_C MemC alloc_MemC(int size);
 
-/**frees a allocated memory. It is the opposite method to alloc_MemC(). */
-//METHOD_C int free_MemC(MemC mem);
+/**frees an allocated memory. This is the old form before 2016-05 which uses the MemC instance to free.
+ * Not it is a macro for compatibility which invokes ,,free_MemC(PTR_MemC(mem, void)),,
+ * It is deprecated since 2016-05, now only the address is necessary.
+ * It is the opposite method to alloc_MemC(). */
+#define freeM_MemC(mem) free_MemC(PTR_MemC(mem, void))  
 
 /**frees an allocated memory. It is the opposite method to alloc_MemC(). 
- * But only the memory address is necessary.
+ * * since 2016-05: Only the memory address is necessary.
+ * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContextFW_s.getUserBuffer_ThreadContextFw(...)]]
+ * Therefore it is implemented in [[CRJ/sourceSpecials/FwConv/free_ThreadHeapAndBlockHeap.c]] which regards all of this areas of memory.  
  */
 METHOD_C int free_MemC(void const* addr);
 
@@ -230,7 +268,7 @@ METHOD_C struct MemAreaC_t* address_MemC(MemC mem, int offset, int nrofBytes);
  * It is a copy of the content after insertAddr+ nrofBytes.
  *
  * Using this method no pointer arithmetic and memmove, memset is necessary. It prevents errors.
- * @param mem A area of memory, address and size.
+ * @param mem An area of memory, address and size.
  * @param insertAddr address inside the area of memory, on which the nrofBytes should inserted.
  * @param nrofBytes number of bytes to insert.
  */ 

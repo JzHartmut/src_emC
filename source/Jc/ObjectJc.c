@@ -262,10 +262,16 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
 { MtblHeadJc const* head = null; //nullpointer-return possible
   ClassJc const* reflection;
   STACKTRC_ENTRY("getMtbl_ObjectJc");
-  ASSERT(ythis->ownAddress == ythis);
+  if(ythis->ownAddress != ythis){ 
+    THROW_s0(IllegalArgumentException, "Object head faulty", (int)ythis);
+    STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
+  }
   reflection = ythis->reflectionClass;
   if( reflection != null) { 
-    ASSERT(reflection->object.reflectionClass == &reflection_ClassJc);
+    if(reflection->object.reflectionClass != &reflection_ClassJc){
+      THROW_s0(IllegalArgumentException, "Object reflection faulty", (int)ythis);
+      STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
+    }
     head = ythis->reflectionClass->mtbl;  
     if(head != null)//nullpointer exception outside possible.
     {
@@ -285,6 +291,15 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
 }
 
 
+
+int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
+{ MtblHeadJc const* headSign = getMtbl_ObjectJc(thiz, sign);
+  if(headSign !=null){
+    MtblHeadJc const* headBase = thiz->reflectionClass->mtbl;
+    return OFFSET_MemUnit(headBase, headSign);
+  } 
+  else return -1;  //no Mtbl found.
+}
 
 
 bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection)

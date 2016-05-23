@@ -250,7 +250,7 @@ class ListItr_LinkedListJcpp: public ListIteratorJcpp, private ListItr_LinkedLis
   public: virtual bool hasNext(){ return hasNext_ListItr_LinkedListJcF(this); }
   public: virtual ObjectJc* next(){ return next_ListItr_LinkedListJcF(this); }
   public: virtual void remove(){ remove_ListItr_LinkedListJcF(this); }
-  public: virtual operator IteratorJc*(){ return (IteratorJc*)(&this->object); } 
+  public: virtual IteratorJc* iter(){ return (IteratorJc*)(&this->object); } 
 
 
   public: virtual bool hasPrevious()     { return false; }

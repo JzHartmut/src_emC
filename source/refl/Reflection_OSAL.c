@@ -4,9 +4,6 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "os_types_def_common.h"
-
-
 
 #include "os_AtomicAccess.h"
 
@@ -108,7 +105,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
 , {
     { "hFile_"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->hFile_) -(int32)(FileLock_OSAL*)0x1000)
     , 0  //offsetToObjectifcBase

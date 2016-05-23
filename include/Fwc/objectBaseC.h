@@ -495,6 +495,7 @@ extern char const signEnd_Mtbl_ObjectJc[];
  */
 METHOD_C MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign);
 
+int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign);
 
 /**Builds a method table reference. */
 METHOD_C ObjectJcMTB XXXmtblRef_ObjectJc(ObjectJc const* ythis, char const* sign);

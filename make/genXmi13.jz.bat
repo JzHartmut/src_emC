@@ -21,11 +21,13 @@ Fileset inputHeader =
 );
 
 
-Filepath xmlHeader = D:/vishia.tmp/Jc/CRuntimeJavalike/xmlHeader;
+Filepath xmlHeader1 = D:/vishia.tmp/Jc/CRuntimeJavalike/xmlHeader;
+Filepath xmlHeader = T:/tmp/Jc/CRuntimeJavalike/xmlHeader;
 
 
 
 main(){
+  
   zmake ../../../Java2C.doc/CRuntimeJavalike.doc/rpy/CRuntimeJavalike.xmi := cheader2XMI(..:&inputHeader, tmpxml=xmlHeader);
   onerror{
     <+out>ERROR: <&error><.+n>

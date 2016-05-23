@@ -1,5 +1,5 @@
 @echo off
-set TMP=..\tmp
+set TMP=D:\tmp
 if exist T:\tmp set TMP=T:\tmp\Jc
 if not exist %TMP% mkdir %TMP%
 

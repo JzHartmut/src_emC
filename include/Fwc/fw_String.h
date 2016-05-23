@@ -110,6 +110,10 @@ extern char const sign_Mtbl_StringJc[];
  */
 #define kIsCharSequence_StringJc (mLength__StringJc -1)
 
+
+#define mIsCharSeqJcMtbl_StringJc (mLength__StringJc & 0xfffff000)
+
+
 /**Designation of the String as StringBuilderJc-instance. In this case the reference refers a StringBuilderJc and the length
  * should be gotten by invocation of length_StringBuilderJc(ref)
  */
@@ -351,6 +355,8 @@ METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis);
 
 typedef OS_PtrValue CharSeqJc;
 //this not, too complex: typedef union CharSeqJc_t { struct ObjectJc_t* o; OS_PtrValue s; } CharSeqJc;
+
+extern char const sign_Mtbl_CharSeqJc[];
 
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz);
 

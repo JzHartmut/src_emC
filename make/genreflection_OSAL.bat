@@ -12,7 +12,7 @@ if exist %OUTPUT%.c del /F /Q %OUTPUT%.c
 
 
 set INPUT=
-set INPUT=%INPUT% -i:../include/OSAL:os_types_def_common.h
+::set INPUT=%INPUT% -i:../include/OSAL:os_types_def_common.h
 set INPUT=%INPUT% -i:../include/OSAL:os_AtomicAccess.h
 set INPUT=%INPUT% -i:../include/OSAL:os_endian.h
 set INPUT=%INPUT% -i:../include/OSAL:os_error.h
