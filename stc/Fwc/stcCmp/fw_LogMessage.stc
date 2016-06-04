@@ -7,13 +7,13 @@ class LogMessage; nameC=LogMessageFW_i; argIdent=Log; extends java/lang/Object /
 fieldIdents {
 }
   methods {  
-    close-_$, mode= overrideable: void %.. return();
-    flush-_$, mode= overrideable: void %.. return();
-    isOnline-_$, mode= overrideable: boolean %.. return();
-    sendMsg-_$, mode= noThCxt+overrideable: void %.. return(int %.. identNr,s0 t.. text,va_argRaw $.. va_argRaw);
+    close-_$, mode=overrideable: void %.. return();
+    flush-_$, mode=overrideable: void %.. return();
+    isOnline-_$, mode=overrideable: boolean %.. return();
+    sendMsg-_$, mode=noThCxt+overrideable: void %.. return(int %.. identNr,s0 t.. text,va_argRaw $.. va_argRaw);
     sendMsg+_z-_$: void %.. return(int %.. identNr,s0 t.. text);
-    sendMsgTime-_$, mode= noThCxt+overrideable: void %.. return(int %.. identNr,org/vishia/bridgeC/OS_TimeStamp $.. timestamp,s0 t.. text,va_argRaw $.. va_argRaw);
-    sendMsgVaList-_$, mode= overrideable: void %.. return(int %.. identNr,org/vishia/bridgeC/OS_TimeStamp $.. timestamp,s0 t.. text,org/vishia/bridgeC/Va_list $.. args);
+    sendMsgTime-_$, mode=noThCxt+overrideable: void %.. return(int %.. identNr,org/vishia/bridgeC/OS_TimeStamp $.. timestamp,s0 t.. text,va_argRaw $.. va_argRaw);
+    sendMsgVaList-_$, mode=overrideable: void %.. return(int %.. identNr,org/vishia/bridgeC/OS_TimeStamp $.. timestamp,s0 t.. text,org/vishia/bridgeC/Va_list $.. args);
   }
 
   methods-overrideable {
@@ -36,7 +36,7 @@ class LogMessageStream; nameC=LogMessageStream_FW; argIdent=Log; extends java/la
 fieldIdents {
 }
   methods {  
-    create-_$, mode= static: org/vishia/msgDispatch/LogMessage *.. return(int %.. outChn);
+    create-_$, mode=static: org/vishia/msgDispatch/LogMessage *.. return(int %.. outChn);
   }
 
   castTo {

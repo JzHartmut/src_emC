@@ -84,7 +84,7 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
   if(val >=0){
     val |= mIsCharSeqJcMtbl_StringJc;
   } else {
-    val = kIsCharSequence_StringJc;
+    val = kIsCharSeqJc_StringJc;
   }
   set_OS_PtrValue(ret, othiz, val); 
   return ret;
@@ -96,7 +96,6 @@ CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t* othiz)
   set_OS_PtrValue(ret, othiz, kIsStringBuilder_StringJc); 
   return ret;
 }
-
 
 
 const char* getConstChar_StringJc(const StringJc* ythis)
@@ -128,7 +127,7 @@ char const* getCharsAndLength_StringJc(StringJc const* ythis, int* length)
   } else {
     int val = VAL_StringJc(*ythis);
     int nChars = val & mLength__StringJc;
-    if(nChars == kIsCharSequence_StringJc) {
+    if(nChars == kIsCharSeqJc_StringJc) {
       //TODO
 
     } else {
@@ -158,30 +157,41 @@ METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis)
 
 
 
+INLINE_Fwc Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz)
+{
+  int nChars = VAL_StringJc(thiz) & mLength__StringJc;
+  ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+  MtblHeadJc const* head;
+  Mtbl_CharSeqJc const* mc;
+  if(nChars == kIsCharSeqJc_StringJc) {
+    head = getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+  } else {
+    int offsetMtbl =  nChars & ~mIsCharSeqJcMtbl_StringJc;
+    head = othiz->reflectionClass->mtbl;
+    MemUnit* head2 = addOffset_MemUnit(head, offsetMtbl);  //add offset in mtbl
+    head = (MtblHeadJc const*) head2;
+  }
+  ASSERT_s0_Fwc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)ythis);
+  mc = (Mtbl_CharSeqJc const*) head;
+  return mc;
+
+}
 
 
-METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSizeBuffer)
+
+
+
+METHOD_C int copyToBuffer_StringJc(const StringJc thiz, char* buffer, int maxSizeBuffer)
 { STACKTRC_ENTRY("copyToBuffer_StringJc");
-  int nChars = VAL_StringJc(ythis) & mLength__StringJc;
+  int nChars = VAL_StringJc(thiz) & mLength__StringJc;
   if(nChars == kIsStringBuilder_StringJc) {
-    StringBuilderJc* sb = PTR_OS_PtrValue(ythis, StringBuilderJc);
+    StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
     return copyToBuffer_StringBuilderJc(sb, buffer, maxSizeBuffer);
   } 
   else if(nChars & mIsCharSeqJcMtbl_StringJc) {
-    ObjectJc* othiz = PTR_OS_PtrValue(ythis, ObjectJc);
-    MtblHeadJc const* head;
-    Mtbl_CharSeqJc const* mc;
+    Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz);
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
     int iChars;
-    if(nChars == kIsCharSequence_StringJc) {
-      head = getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
-    } else {
-      int offsetMtbl =  nChars & ~mIsCharSeqJcMtbl_StringJc;
-      head = othiz->reflectionClass->mtbl;
-      MemUnit* head2 = addOffset_MemUnit(head, offsetMtbl);  //add offset in mtbl
-      head = (MtblHeadJc const*) head2;
-    }
-    ASSERT_s0_Fwc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)ythis);
-    mc = (Mtbl_CharSeqJc const*) head;
     nChars = mc->length(othiz, _thCxt);  
     if(nChars >= maxSizeBuffer){ nChars = maxSizeBuffer -1; }
     for(iChars = 0; iChars < nChars; ++iChars) {
@@ -190,7 +200,7 @@ METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSi
     }
   }  
   else { 
-    const char* str = PTR_StringJc(ythis);
+    const char* str = PTR_StringJc(thiz);
     if(nChars == mLength__StringJc) { nChars = strlen_Fwc(str, mLength__StringJc); }
     if(nChars >= maxSizeBuffer){ nChars = maxSizeBuffer -1; }
     strncpy(buffer, str, nChars);
@@ -198,6 +208,43 @@ METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSi
   buffer[nChars] = 0;
   STACKTRC_LEAVE;
   return( nChars);
+}
+
+
+
+StringJc toString_CharSeqJc(CharSeqJc thiz)
+{
+  STACKTRC_ENTRY("toString_CharSeqJc");
+  int val = value_OS_PtrValue(thiz);
+  if(val == kIsStringBuilder_StringJc) {
+    StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
+    char const* buffer = chars_StringBuilderJc(sb);
+    int nChars = length_StringBuilderJc(sb);
+    StringJc ret = CONST_StringJc(buffer, nChars);
+    STACKTRC_LEAVE; return ret;
+  }
+  else if(val & mIsCharSeqJcMtbl_StringJc) {
+    Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz);
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    int iChars;
+    int nChars = mc->length(othiz, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContextFw(nChars+1, _thCxt);
+    int sizeBufferThreadContext = size_MemC(mBuffer);
+    if(nChars >= sizeBufferThreadContext){ 
+      nChars = sizeBufferThreadContext-1;   //limit it.
+    }
+    char* buffer = PTR_MemC(mBuffer, char);
+    for(iChars = 0; iChars < nChars; ++iChars) {
+      char cc = mc->charAt(othiz, iChars, _thCxt);
+      buffer[iChars] = cc;
+    }
+    buffer[iChars] = 0;
+    StringJc ret = CONST_StringJc(buffer, nChars);
+    STACKTRC_LEAVE; return ret;
+  } else {
+    //it is a String
+    STACKTRC_LEAVE; return thiz;
+  } 
 }
 
 

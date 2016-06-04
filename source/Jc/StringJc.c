@@ -465,7 +465,7 @@ ByteStringJc getBytesEncoding_StringJc(StringJc ythis, StringJc encoding, ThCxt*
   for(iChar = 0; iChar < length; ++iChar){
     //nothing to do yet
   }
-  return ythis;
+  return *(ByteStringJc*)&ythis;
 }
 
 

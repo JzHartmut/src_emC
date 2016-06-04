@@ -1190,7 +1190,7 @@ StringJc from_StringBuilder_CharSeqJc(struct StringBuilderJc_t const * buffer)
 {
   StringJc ret;
   ret.ref = (char*)buffer;
-  ret.value__ = kIsCharSequence_StringJc | mNonPersists__StringJc;
+  ret.value__ = kIsCharSeqJc_StringJc | mNonPersists__StringJc;
   return ret;
 }
 

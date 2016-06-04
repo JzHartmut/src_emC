@@ -100,31 +100,39 @@ struct MemAreaC_t;
  *
  * Notation hint: The notation ,,char const*,, is the same as ,,const char*,,, but it expresses more stronly, that it is a const-pointer.
  */  
-#define StringJc OS_PtrValue
+typedef PtrVal_TYPE(StringJc, char const);
 
 
 extern char const sign_Mtbl_StringJc[]; 
 
-/**Designation of the String as CharSeqJc. In this case the reference refers a CharSeqJc and the length
+/**Designation of the String as CharSeqJc without a method table offset. In this case the reference refers a CharSeqJc and the length
  * should be gotten by invocation of 
+ * If mLength is defined with 0x3fff the value is 0x03ffe. mLength is defined os- and platform-depended in os_types_def.h
  */
-#define kIsCharSequence_StringJc (mLength__StringJc -1)
+#define kIsCharSeqJc_StringJc (mLength__StringJc -1)
 
 
+/**Designation of the String as CharSeqJc maybe with a method table offset. In this case the reference refers a CharSeqJc and the length
+ * should be gotten by invocation of 
+ * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
+ */
 #define mIsCharSeqJcMtbl_StringJc (mLength__StringJc & 0xfffff000)
 
 
 /**Designation of the String as StringBuilderJc-instance. In this case the reference refers a StringBuilderJc and the length
  * should be gotten by invocation of length_StringBuilderJc(ref)
+ * If mLength is defined with 0x3fff the value is 0x03ffd. mLength is defined os- and platform-depended in os_types_def.h
  */
 #define kIsStringBuilder_StringJc (mLength__StringJc -2)
 
 /**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
- * NOTE: mLength__StringJc is defined in os_types_def.h
+ * If mLength is defined with 0x3fff the value is 0x04000. mLength is defined os- and platform-depended in os_types_def.h
  */
 #define mNonPersists__StringJc       (mLength__StringJc +1)
 
-/**If this Bit is set, the StringJc references a buffer in the thread context..*/
+/**If this Bit is set, the StringJc references a buffer in the thread context..
+ * If mLength is defined with 0x3fff the value is 0x08000. mLength is defined os- and platform-depended in os_types_def.h
+ */
 #define mThreadContext__StringJc     ((mNonPersists__StringJc)<<1)
 
 
@@ -353,7 +361,8 @@ METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis);
 
 /*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-typedef OS_PtrValue CharSeqJc;
+#define CharSeqJc StringJc
+//typedef OS_PtrValue CharSeqJc;
 //this not, too complex: typedef union CharSeqJc_t { struct ObjectJc_t* o; OS_PtrValue s; } CharSeqJc;
 
 extern char const sign_Mtbl_CharSeqJc[];

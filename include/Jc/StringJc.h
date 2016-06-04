@@ -995,7 +995,17 @@ extern char const sign_Mtbl_CharSeqJc[];
 #define length_CharSeqJc(THIZ, THC)   ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->length((ObjectJc*)(THIZ).ref, THC) : length_StringJc(THIZ) )
 #define charAt_CharSeqJc(THIZ, ix, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->charAt((ObjectJc*)(THIZ).ref, ix, THC) : charAt_StringJc(THIZ, ix ) )
 #define subSequence_CharSeqJc(THIZ, from, to, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->subSequence((ObjectJc*)(THIZ).ref, from, to, THC): substring_StringJc(THIZ, from, to, THC ) )
-#define toString_CharSeqJc(THIZ) (THIZ)
+
+/**Converts a given CharSeqJc to a String. Reads all Chars and stores it in a buffer in ThreadContext. 
+ * * If thiz is a really StringJc, it returns thiz.
+ * * If thiz contains a StringBuilderJc-Reference (marked with [[StringJc#kIsStringBuilder_StringJc]]) 
+ * then the pointer to the content of the StringBuilder is returned. It means the String may not persistent. 
+ * Use [[toStringPersist_StringBuilderJc(...)]] to build a persistent String.
+ * * If thiz contains a reference to any Object which implements CharSequence then a new buffer is build in the thread context. 
+ * The characters are read with invocation of [[charAt_CharSeqJc(...)]] and written in the buffer. Therewith the string is prepared already.
+ * The returned string is persistent, but not permanent.
+ */
+METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 #define SET_CharSeqJc(DST, SRC) { if(isValid_ObjectJc((SRC).ref)) { SETREFJc((DST), (SRC).ref, CharSeqJc); } else {  (DST) = (SRC); } }
 CharSeqJc from_StringBuilder_CharSeqJc(struct StringBuilderJc_t const*);

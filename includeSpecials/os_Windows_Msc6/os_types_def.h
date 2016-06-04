@@ -235,7 +235,7 @@ extern "C" int stopNAN();
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
  * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
-#define PtrVal_TYPE(TYPE) struct PtrVal_##TYPE##_t { TYPE* ref; int32 value__; } PtrVal_##TYPE
+#define PtrVal_TYPE(TYPENAME, TYPE) struct TYPENAME##_t { TYPE* ref; int32 value__; } TYPENAME
 
 /**Defines the struct type PtrVal_MemUnit.
  * This type provides basic working with memory allocation.
@@ -247,7 +247,7 @@ extern "C" int stopNAN();
  * * The pointer to the data as memory address unit.
  * * The size of data in memory.
  */
-typedef PtrVal_TYPE(MemUnit);
+typedef PtrVal_TYPE(PtrVal_MemUnit, MemUnit);
 
 /**Compatibility with older typedef of OS_PtrValue. */
 #define OS_PtrValue PtrVal_MemUnit 

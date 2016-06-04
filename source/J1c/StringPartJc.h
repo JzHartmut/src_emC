@@ -303,7 +303,7 @@ METHOD_C struct StringPartJc_t* seekBackToAnyChar_StringPartJc(StringPartJc_s* t
 (seek_Si_StringPartJc((THIZ), sSeek, seekNormal_StringPartJc, _thCxt))
 
 /**Searchs the given String inside the valid part, posits the begin of the part to the begin of the searched string.*/
-METHOD_C struct StringPartJc_t* seekAnyString_StringPartJc(StringPartJc_s* thiz, StringJc_Y* strings, int32_Y* nrofFoundString, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* seekAnyString_StringPartJc(StringPartJc_s* thiz, StringJc_Y* strings, int32* nrofFoundString, ThCxt* _thCxt);
 
 /**Searchs the given character inside the valid part, posits the begin of the part to the begin of the searched char.*/
 METHOD_C struct StringPartJc_t* seek_ci_StringPartJc(StringPartJc_s* thiz, char cSeek, int32 mode, ThCxt* _thCxt);
@@ -321,7 +321,7 @@ METHOD_C int32 indexOfAnyChar_Siiccc_StringPartJc(StringPartJc_s* thiz, StringJc
 METHOD_C int32 lastIndexOfAnyChar_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
 
 /**Returns the position of one of the chars in sChars within the part, started inside the part with fromIndex,*/
-METHOD_C int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSeqJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32_Y* nrofFoundString, StringJc_Y* foundString, ThCxt* _thCxt);
+METHOD_C int32 indexOfAnyString_StringPartJc(StringPartJc_s* thiz, CharSeqJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32* nrofFoundString, StringJc* foundString, ThCxt* _thCxt);
 
 /**Searches any char contained in sChars in the current part*/
 METHOD_C int32 indexOfAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* thiz, StringJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt);
@@ -473,7 +473,7 @@ METHOD_C void close_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt);
 METHOD_C void close_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
 /**Replaces up to 20 placeholder with a given content.*/
-METHOD_C StringJc replace_StringPartJc(/*static*/ CharSeqJc src, CharSeqJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
+METHOD_C StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -561,7 +561,7 @@ class StringPartJc : private StringPartJc_s
 
   int32 indexOfAnyChar(StringJcpp sChars, int32 fromWhere, int32 maxToTest, char transcriptChar, char quotationStartChar, char quotationEndChar){  return indexOfAnyChar_Siiccc_StringPartJc(this, sChars, fromWhere, maxToTest, transcriptChar, quotationStartChar, quotationEndChar,  null/*_thCxt*/); }
 
-  int32 indexOfAnyString(CharSeqJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32_Y* nrofFoundString, StringJc_Y* foundString){  return indexOfAnyString_StringPartJc(this, listStrings, fromWhere, maxToTest, nrofFoundString, foundString,  null/*_thCxt*/); }
+  int32 indexOfAnyString(CharSeqJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32* nrofFoundString, StringJc* foundString){  return indexOfAnyString_StringPartJc(this, listStrings, fromWhere, maxToTest, nrofFoundString, foundString,  null/*_thCxt*/); }
 
   int32 indexOfNoChar(StringJcpp sChars){  return indexOfNoChar_S_StringPartJc(this, sChars,  null/*_thCxt*/); }
 
@@ -625,7 +625,7 @@ class StringPartJc : private StringPartJc_s
 
   StringJc replace(CharSeqJc src, CharSeqJc_Y* placeholder, StringJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
 
-  StringPartJc& seekAnyString(StringJc_Y* strings, int32_Y* nrofFoundString){ seekAnyString_StringPartJc(this, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seekAnyString(StringJc_Y* strings, int32* nrofFoundString){ seekAnyString_StringPartJc(this, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
 
   struct StringPartJc_t* seekBackToAnyChar(StringJcpp chars){  return seekBackToAnyChar_StringPartJc(this, chars,  null/*_thCxt*/); }
 

@@ -143,7 +143,7 @@ typedef struct InterProcessComm_t* MT_create_Addr_InterProcessCommFactory(Object
 
 
 
-extern char const sign_Mtbl_InterProcessCommFactory[];
+extern_C char const sign_Mtbl_InterProcessCommFactory[];
 
 
 
@@ -390,7 +390,7 @@ typedef struct Address_InterProcessComm_t* MT_createAddress_I_InterProcessComm(O
 /**This is a marker text. The content of text isn't important, but all implementations should use the same address
  * (value of field sign in Mtbl_LogMessageFW).
  */
-extern char const sign_Mtbl_InterProcessComm[];
+extern_C char const sign_Mtbl_InterProcessComm[];
 
 
 
