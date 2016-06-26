@@ -501,7 +501,7 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign);
 METHOD_C ObjectJcMTB XXXmtblRef_ObjectJc(ObjectJc const* ythis, char const* sign);
 
 
-#define SETMTBJc(DST, REF, TYPE) { (DST).ref = REF; (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
+#define SETMTBJc(DST, REF, TYPE) { (DST).ref = (TYPE*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
 
 /**Macro to get the method table from a given reference. 
  * @param REF A reference to any type which is based on Object. It should hava a ,,union{ ... ObjectJc object; } base;,,

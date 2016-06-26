@@ -54,8 +54,9 @@ typedef struct PrintStreamJc_t
 #endif 
 
 METHOD_C void println_z_PrintStreamJc(PrintStreamJc* ythis, const char* text, ThCxt* _thCxt);
-METHOD_C void println_s_PrintStreamJc(PrintStreamJc* ythis, StringJc text, ThCxt* _thCxt);
 METHOD_C void println_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt);
+#define println_s_PrintStreamJc(THIZ, STR, THCXT) println_c_PrintStreamJc(THIZ, (STR).c, THCXT)
+METHOD_C void XXXprintln_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt);
 METHOD_C void println_u_PrintStreamJc(PrintStreamJc* ythis, struct StringBuilderJc_t* text, ThCxt* _thCxt);
 METHOD_C void println_O_PrintStreamJc(PrintStreamJc* ythis, ObjectJc* text, ThCxt* _thCxt);
 

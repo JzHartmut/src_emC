@@ -63,7 +63,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out)
   //ExceptionJc* exception = stacktrace->exception;
   const char* sException = getExceptionText_ExceptionJc(ythis->exceptionNr);
 
-  zBuffer = copyToBuffer_StringJc(ythis->exceptionMsg, sBuffer, sizeof(sBuffer));
+  zBuffer = copyToBuffer_CharSeqJc(ythis->exceptionMsg.c, 0, -1, sBuffer, sizeof(sBuffer));
   if(out == null)
   { printf("\n%s: %s: %i=0x%8.8X \n",sException, sBuffer, ythis->exceptionValue, ythis->exceptionValue);
   }

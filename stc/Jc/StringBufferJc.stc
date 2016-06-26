@@ -8,7 +8,7 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
 		ctorO-_$, mode=static  : field:{ StringBuffer *.. return;};
 		ctorO+_I-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ int %.. param;});
 		ctorO+_s-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ String t.. param;});
-		ctorO+_s-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ CharSequence t.. param;});
+		ctorO+_cs-_$, mode=static  : field:{ StringBuffer *.. return;}(field:{ CharSequence c.. param;});
 		charAt-_$ : field:{ char %.. return;}(field:{ int %.. param;});
 		length-_$, mode=noThCxt : field:{ int %.. return;};
 		setLength-_$: void %.. return(int %.. newLength);
@@ -56,7 +56,7 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
   }
   castTo {
     StringBuffer * "?" *;
-    CharSequence t "from_StringBuffer_CharSeqJc(?)" *;  //access to src as reference with *
+    CharSequence c "fromStringBuilderJc_CharSeqJc(?)" *;  //access to src as reference with *
   }
   castFrom {
      * "?" StringBuffer*;

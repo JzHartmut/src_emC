@@ -225,7 +225,7 @@ void finalize_FileReaderJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 FileReaderJc_s* ctorO_FileReaderJc(ObjectJc* othis, OS_HandleFile file, ThCxt* _thCxt);
 
-int open_FileReaderJcF(FileReaderJc_s* ythis, StringJc sFileName, ThCxt* _thCxt);
+int open_FileReaderJcF(FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _thCxt);
 
 bool isOpen_FileReaderJcF(FileReaderJc_s* ythis);
 

@@ -115,8 +115,8 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int ds
   int8* srcPtr = data_ByteStringJc(src);
   STACKTRC_TENTRY("arraycopy_SystemJc");
   if(srcPos < 0 || srcPos > srclen) THROW_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
-  if(dstPos < 0 || dstPos > dst.value__) THROW_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
-  if(srcPos +length > srclen || dstPos +length > dst.value__) THROW_s0(IndexOutOfBoundsException, "length failed", length);
+  if(dstPos < 0 || dstPos > value_OS_PtrValue(dst)) THROW_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
+  if(srcPos +length > srclen || dstPos +length > value_OS_PtrValue(dst)) THROW_s0(IndexOutOfBoundsException, "length failed", length);
   if(1 != sizeof(*dst.ref)) THROW_s0(ArrayStoreException, "dstPos failed", dstPos);
   { int sizeElement = 1; 
     int nrofBytes = sizeElement * length;
@@ -124,7 +124,7 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int ds
     int dstPosBytes = sizeElement * dstPos;
     //TODO test whehter it is in the size of ObjectJc, use objectIdentSize
     int srcMaxNrofBytes = srclen;
-    int dstMaxNrofBytes = dst.value__;
+    int dstMaxNrofBytes = value_OS_PtrValue(dst);
     if(sizeElement < 0) THROW_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
     if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
     if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW_s0(ArrayStoreException, "dst-consistence failed", (int)(dst.ref));

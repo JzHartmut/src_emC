@@ -931,7 +931,7 @@ class  StringJcpp: public StringJc
 //typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; CharSeqJc data[50]; } CharSeqJc_Y;
 //#define CharSeqJc_Y StringJc_Y
 
-typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; StringJc data[50]; } CharSeqJc_Y;
+typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; CharSeqJc data[50]; } CharSeqJc_Y;
 
 
 
@@ -985,16 +985,30 @@ typedef struct Mtbl_CharSeqJc_t
 extern char const sign_Mtbl_CharSeqJc[];
 
 
+int length_CharSeqJc_(CharSeqJc thiz);
+
+
+
 /**A CharSequence may be any ObjectJc which implements the CharSequence' methods but it may be a StringJc too (a String in Java).
  * A StringJc is not provided as ObjectJc but as a simple pointer and length information to the constant String. 
  * A CharSeqJcREF is provided as a OS_PtrValue which's ref refers the CharSeqJc instance, the value is used for enhanced references.
  * THIZ is a OS_PtrValue in both cases. 
  * This methods tests whether it is a StringJc or an ObjectJc. 
  */
-  
-#define length_CharSeqJc(THIZ, THC)   ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->length((ObjectJc*)(THIZ).ref, THC) : length_StringJc(THIZ) )
-#define charAt_CharSeqJc(THIZ, ix, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->charAt((ObjectJc*)(THIZ).ref, ix, THC) : charAt_StringJc(THIZ, ix ) )
-#define subSequence_CharSeqJc(THIZ, from, to, THC) ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->subSequence((ObjectJc*)(THIZ).ref, from, to, THC): substring_StringJc(THIZ, from, to, THC ) )
+#define length_CharSeqJc(THIZ, THC)  ((((THIZ).val) & mLength__StringJc) < kMaxLength_StringJc ? ((THIZ).val & mLength__StringJc) : length_CharSeqJc_(THIZ)) 
+
+
+#define XXXlength_CharSeqJc(THIZ, THC)   ( isValid_ObjectJc((THIZ).ref) ?  ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->length((ObjectJc*)(THIZ).ref, THC) : length_StringJc(THIZ) )
+
+#define charAt_CharSeqJc(THIZ, ix, THC) ( \
+  (((THIZ).val) & mLength__StringJc) <= kMaxLength_StringJc  \
+  ? PTR_OS_PtrValue(THIZ, char const)[ix]  \
+  : ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->charAt((ObjectJc*)(THIZ).ref, ix, THC) )
+
+#define subSequence_CharSeqJc(THIZ, from, to, THC) (\
+  isValid_ObjectJc((THIZ).ref) \
+  ? ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->subSequence((ObjectJc*)(THIZ).ref, from, to, THC) \
+  : substring_StringJc(*(StringJc*)&(THIZ), from, to, THC ).c )
 
 /**Converts a given CharSeqJc to a String. Reads all Chars and stores it in a buffer in ThreadContext. 
  * * If thiz is a really StringJc, it returns thiz.
@@ -1008,7 +1022,6 @@ extern char const sign_Mtbl_CharSeqJc[];
 METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 #define SET_CharSeqJc(DST, SRC) { if(isValid_ObjectJc((SRC).ref)) { SETREFJc((DST), (SRC).ref, CharSeqJc); } else {  (DST) = (SRC); } }
-CharSeqJc from_StringBuilder_CharSeqJc(struct StringBuilderJc_t const*);
 
 //#define from_StringBuilder_CharSeqJc from_StringBuilder_CharSeqJc
 
@@ -1263,8 +1276,27 @@ METHOD_C StringBuilderJc* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, str
  *           or if the allocation is done with enaugh space for the instance itself (than the text is stored immediately)
  *           or if the instance is embedded and has immediate space for the text after it, like described in [[CONST_addSize_StringBuilderJc(...)]].
  */
-METHOD_C StringBuilderJc* ctorO_s_StringBuilderJc(ObjectJc* othis, StringJc src, struct ThreadContextFW_t* _thCxt);
+#define ctorO_s_StringBuilderJc(THIZ, SRC, THCXT) ctorO_cs_StringBuilderJc(THIZ, (SRC).c, THCXT)
+//METHOD_C StringBuilderJc* ctorO_s_StringBuilderJc(ObjectJc* othis, StringJc src, struct ThreadContextFW_t* _thCxt);
 #define ctorO_s_StringBufferJc ctorO_s_StringBuilderJc
+
+
+
+/**Initalizes the given Instance with the content of src.
+ * @param othis The initialized ObjectJc of the instance. 
+ *              If the Object conaints enaugh space for str (field ,,ObjectJc.objectIdentSize,,),
+ *              than the buffer will be assigned immediately after the StringBuilderJc-instance.
+ * @param src the initializing content. If the length of src is less or equal the space of the othis for buffer, that buffer will be used.
+ *            Elsewhere a buffer will be allocated in the heap.  
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#StringBuilder(java.lang.String)]] with the difference, that the immediate buffer is supported here.
+ *           Java allocates the buffer in heap anytime. The other difference is: A reallocation of buffer is not supported. It means, 
+ *           if str is only the start content and an append will be called, it does fail here if the ctor allocates the space for buffer itself.
+ *           It does not fail, if the space is allocated in the [[BlockHeap]] and the block-size is enaugh (the block size is constant),
+ *           or if the allocation is done with enaugh space for the instance itself (than the text is stored immediately)
+ *           or if the instance is embedded and has immediate space for the text after it, like described in [[CONST_addSize_StringBuilderJc(...)]].
+ */
+METHOD_C StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, struct ThreadContextFW_t* _thCxt);
+#define ctorO_cs_StringBufferJc ctorO_cs_StringBuilderJc
 
 
 
@@ -1328,11 +1360,13 @@ METHOD_C char* chars_StringBuilderJc(StringBuilderJc* ythis);
 /**Copies the text in the given buffer. Use the set mode of ,,setTruncateMode_StringBuilderJc(..),, 
  * to desire, whether an exception is thrown or the text will be truncated if the zBuffer is less.
  * @param buffer any buffer, where the content of ythis is copied to.
+ * @param start start character in the string in the StringBuilderJc.
+ * @param end exclusive end position in string in the StringBuilderJc. If -1 then the whole string till end should be copied.
  * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
  *                It means, the ,,length_StringBuilderJc(ythis),, should less as zBuffer, not equal.
  * @return number of chars without the terminating 0-char. The max value is ,,zBuffer -1,,.
  */
-METHOD_C int copyToBuffer_StringBuilderJc(StringBuilderJc* ythis, char* buffer, int zBuffer);
+METHOD_C int copyToBuffer_StringBuilderJc(StringBuilderJc* ythis, int start, int end, char* buffer, int zBuffer);
 
 
 /**Set the truncate mode. In this mode on buffer overflow the text will be truncated, 
@@ -1765,6 +1799,11 @@ METHOD_C StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int o
  */
 METHOD_C StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* ythis, int offset, CharSeqJc value, int start, int end, struct ThreadContextFW_t* _thCxt);
 
+
+/**Handle append(CharSequence) in the same way like append(String). distinghuish on runtime. */
+#define append_c_StringBuilderJc(THIZ, VAL, THCXT) insert_cYii_StringBuilderJc(THIZ, -1, VAL, 0, -1, THCXT) 
+
+
 /**Appends a text at the end.
  * @param src ,,char const*,, text. The maximal detected length of the text is mLength__StringJc. Use it only for "literal".
  * @return this
@@ -1793,8 +1832,6 @@ METHOD_C StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* ythis, in
 METHOD_C StringBuilderJc* append_s_StringBuilderJc(StringBuilderJc* ythis, StringJc src, struct ThreadContextFW_t* _thCxt);
 #define append_s_StringBufferJc append_s_StringBuilderJc
 
-/**Handle append(CharSequence) in the same way like append(String). distinghuish on runtime. */
-#define append_c_StringBuilderJc append_s_StringBuilderJc
 #define append_c_StringBufferJc append_c_StringBuilderJc
 
 /**Appends a text at the end.

@@ -3,19 +3,19 @@ Structure of translated java-file "Jc/FileIoJc"
 package java/io/;
 
 
-class Closeable; nameC=CloseableJc; header=Jc/ObjectJc.h; argIdent=C;
+interface Closeable; nameC=CloseableJc; header=Jc/ObjectJc.h; argIdent=C;
 {
   methods{
-   close-_$, mode=noThCxt: void %.. return();
+   close-_$: void %.. return();
  }
 
 }
 
 
-class Flushable; nameC=FlushableJc; argIdent=C;
+interface Flushable; nameC=FlushableJc; argIdent=C;
 {
   methods{
-   flush-_$, mode=noThCxt: void %.. return();
+   flush-_$: void %.. return();
  }
 
 }

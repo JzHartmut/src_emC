@@ -995,7 +995,7 @@ METHOD_C StringJc toHexString_FloatJc(float val);
 /*@CLASS_C ComparableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct ComparableJc_t
-{ ObjectJc object;
+{ struct { ObjectJc object;} base;
 }ComparableJc;
 
 
@@ -1012,15 +1012,22 @@ extern_C const struct ClassJc_t reflection_ComparableJc;
 /*@CLASS_C CloseableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct CloseableJc_t
-{ ObjectJc object;
+{ struct { ObjectJc object;} base;
 }CloseableJc;
+
+typedef bool MT_close_CloseableJc(ObjectJc* thiz, ThCxt* _thCxt);
+
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
 typedef struct Mtbl_CloseableJc_t
-{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+{ MtblHeadJc head;
+  MT_close_CloseableJc* close;
+  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
 } Mtbl_CloseableJc;
 
 extern char const sign_Mtbl_CloseableJc[]; 
+
+#define close_CloseableJc(THIZ, THCXT) ((Mtbl_CloseableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_CloseableJc))->close(THIZ, THCXT)
 
 extern_C const struct ClassJc_t reflection_CloseableJc; 
 
@@ -1028,39 +1035,51 @@ extern_C const struct ClassJc_t reflection_CloseableJc;
 /*@CLASS_C FlushableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct FlushableJc_t
-{ ObjectJc object;
-}FlushableJc;
+{ struct { ObjectJc object;} base;
+} FlushableJc;
+
+typedef void MT_flush_FlushableJc(ObjectJc* thiz, ThCxt* _thCxt);
+
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
 typedef struct Mtbl_FlushableJc_t
-{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+{ MtblHeadJc head;
+  MT_flush_FlushableJc* flush;
+  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
 } Mtbl_FlushableJc;
 
 extern char const sign_Mtbl_FlushableJc[]; 
+
+#define flush_FlushableJc(THIZ, THCXT) ((Mtbl_FlushableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_FlushableJc))->flush(THIZ, THCXT)
+
 
 extern_C const struct ClassJc_t reflection_FlushableJc; 
 
 /*@CLASS_C AppendableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**Interface Appendable.
+ * NOTE: It is defined in the Headerfile ObjectJc.h because it is based on ObjectJc and its reflection are defined in ReflectionBaseTypesJc.c
+ * which includes only ObjectJc. It is respected as base type.
+ */
 typedef struct AppendableJc_t
-{ union{ ObjectJc object; } base;
+{ struct { ObjectJc object;} base;
 }AppendableJc;
 
 
-typedef AppendableJc* MT_append_c_AppendableJc(AppendableJc* thiz, char c, ThCxt* _thCxt);
+typedef AppendableJc* MT_append_C_AppendableJc(ObjectJc* thiz, char c, ThCxt* _thCxt);
 
-typedef AppendableJc* MT_append_C_AppendableJc(AppendableJc* thiz, CharSeqJc cs, ThCxt* _thCxt);
+typedef AppendableJc* MT_append_cs_AppendableJc(ObjectJc* thiz, CharSeqJc cs, ThCxt* _thCxt);
 
-typedef AppendableJc* MT_append_CI_AppendableJc(AppendableJc* thiz, CharSeqJc cs, int from, int to, ThCxt* _thCxt);
+typedef AppendableJc* MT_append_csI_AppendableJc(ObjectJc* thiz, CharSeqJc cs, int from, int to, ThCxt* _thCxt);
 
 
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
 typedef struct Mtbl_AppendableJc_t
 { MtblHeadJc head;
-  MT_append_c_AppendableJc* append_c;
   MT_append_C_AppendableJc* append_C;
-  MT_append_CI_AppendableJc* append_CI;
+  MT_append_cs_AppendableJc* append_cs;
+  MT_append_csI_AppendableJc* append_csI;
   Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
 
 
@@ -1069,6 +1088,10 @@ typedef struct Mtbl_AppendableJc_t
 extern char const sign_Mtbl_AppendableJc[]; 
 
 extern_C const struct ClassJc_t reflection_AppendableJc; 
+
+#define append_C_AppendableJc(THIZ, SRC, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_C((ObjectJc*)(THIZ), SRC, THCXT)
+#define append_cs_AppendableJc(THIZ, SRC, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_cs((ObjectJc*)(THIZ), SRC, THCXT)
+#define append_csI_AppendableJc(THIZ, SRC, FROM, TO, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_csI((ObjectJc*)(THIZ), SRC, FROM, TO, THCXT)
 
 
 /*@DEFINE_C standard_includes @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

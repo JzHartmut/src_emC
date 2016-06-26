@@ -8,7 +8,7 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		ctorO-_$, mode=static  : field:{ StringBuilder *.. return;};
 		ctorO+_I-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ int %.. param;});
 		ctorO+_s-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ String t.. param;});
-		ctorO+_s-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ CharSequence t.. param;});
+		ctorO+_cs-_$, mode=static  : field:{ StringBuilder *.. return;}(field:{ CharSequence c.. param;});
 		charAt-_$ : field:{ char %.. return;}(field:{ int %.. param;});
 		length-_$, mode=noThCxt : field:{ int %.. return;};
 		setLength-_$: void %.. return(int %.. newLength);
@@ -58,7 +58,7 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
   }
   castTo {
     StringBuffer * "?" *;  //In C it is the same.
-    CharSequence t "from_StringBuilder_CharSeqJc(?)" *;  //access to src as reference with *
+    CharSequence c "fromStringBuilderJc_CharSeqJc(?)" *;  //access to src as reference with *
   }
   castFrom {
      * "?" StringBuffer*;

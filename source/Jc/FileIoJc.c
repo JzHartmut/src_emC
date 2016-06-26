@@ -225,7 +225,7 @@ int open_FileWriterJc(FileWriterJc_s* ythis, StringJc fileName, bool append, ThC
   //char const* openmode;
   char bufferFilename[200];
   STACKTRC_TENTRY("open_FileWriterJc");
-  copyToBuffer_StringJc(fileName, bufferFilename, sizeof(bufferFilename));
+  copyToBuffer_CharSeqJc(fileName.c, 0, -1, bufferFilename, sizeof(bufferFilename));
   { char cc; int ii =0; char* ptr = bufferFilename;
     while(ii < sizeof(bufferFilename) && (cc = *ptr++) != 0)
     { if(cc == '/') 
@@ -302,7 +302,7 @@ FileReaderJc_s* ctorO_FileReaderJc(ObjectJc* othis, OS_HandleFile file, ThCxt* _
 }
 
 
-int open_FileReaderJcF(FileReaderJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
+int open_FileReaderJcF(FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _thCxt)
 { //char const* sFileName1; int zFileName;
   char ssFileName[120];
   int len;
@@ -311,7 +311,7 @@ int open_FileReaderJcF(FileReaderJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
   if(ythis->file_ != null)
   { THROW_s0(IllegalArgumentException, "fault time of call, file is opened", ythis->lenFile_);
   }
-  len = copyToBuffer_StringJc(sFileName, ssFileName, sizeof(ssFileName)); 
+  len = copyToBuffer_CharSeqJc(sFileName, 0, -1, ssFileName, sizeof(ssFileName)); 
   for(ii=0; ii<len; ii++){ if(ssFileName[ii] == '/'){ ssFileName[ii] = '\\'; } }
   ythis->file_ = os_fopenToRead(ssFileName);
   if(ythis->file_ != null)

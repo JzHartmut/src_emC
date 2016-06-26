@@ -95,17 +95,17 @@ extern_C OS_PtrValue null_OS_PtrValue;
 
 /**Defines Struct_charPtr_Value.
  */
-typedef PtrVal_TYPE(PtrVal_int8, int8);
+typedef OS_PtrVal_DEF(PtrVal_int8, int8);
 
-typedef PtrVal_TYPE(PtrVal_int16, int16);
+typedef OS_PtrVal_DEF(PtrVal_int16, int16);
 
-typedef PtrVal_TYPE(PtrVal_int32, int32);
+typedef OS_PtrVal_DEF(PtrVal_int32, int32);
 
-typedef PtrVal_TYPE(PtrVal_int64, int64);
+typedef OS_PtrVal_DEF(PtrVal_int64, int64);
 
-typedef PtrVal_TYPE(PtrVal_float, float);
+typedef OS_PtrVal_DEF(PtrVal_float, float);
 
-typedef PtrVal_TYPE(PtrVal_double, double);
+typedef OS_PtrVal_DEF(PtrVal_double, double);
 
 /*@CLASS_C float_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 typedef struct float_complex_t{

@@ -299,9 +299,9 @@ bool endsWith_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp
   */
 METHOD_C StringJc substring_StringJc(StringJc ythis, int beginIndex, int endIndex, ThCxt* _thCxt)
 { StringJc ret = NULL_StringJc;
-  int valueThis = value_OS_PtrValue(ythis);
+  int valueThis = VAL_StringJc(ythis);
   int count = valueThis & mLength__StringJc;
-  const char* chars = PTR_OS_PtrValue(ythis, char const);
+  const char* chars = PTR_StringJc(ythis);
   STACKTRC_TENTRY("substring_StringJc");
   
   if(count == mLength__StringJc) { count = strlen(chars);}
@@ -321,8 +321,8 @@ METHOD_C StringJc substring_StringJc(StringJc ythis, int beginIndex, int endInde
 
 
 METHOD_C int indexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex)
-{ const char* chars = PTR_OS_PtrValue(ythis, char const);
-  int nChars = value_OS_PtrValue(ythis) & mLength__StringJc;
+{ const char* chars = PTR_StringJc(ythis);
+  int nChars = VAL_StringJc(ythis) & mLength__StringJc;
   //STACKTRC_TENTRY("StringJc.indexOf(int,int)");
   if(nChars == mLength__StringJc) { nChars = strlen(chars); }
   //const char* chars = getCharsAndLength_StringJc(ythis, &nChars);

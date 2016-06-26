@@ -76,6 +76,77 @@ struct MemAreaC_t;
 
 
 
+/*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**A CharSeqJc is a combination of a pointer with a 16- or 32-bit value designation.
+ * The pointer can be 
+ * * either any [[CRJO:_class_ObjectJc]] which is based on the CharSeqJc-interface definition
+ * * or espcically a [[CRJS:_class_StringBuilderJc]]
+ * * or it is a ,,char const*,, which refers a String.
+ * The value is 
+ * * 0x0000 ... 0x2fff: either the same how defined in [[CRJS:_class_StringJc]], then it contains the length of the String
+ * * 0x3ffe: or it is designated with the bits to designate the CharSeqJc as StringBuilderJc
+ * * 0x3fff: or it is designated with the bits to designate the CharSeqJc as any instance of ObjectJc.
+ * * 0x3000 ... 0x3ffd: In this case the bits with mask 0xfff contains the index to the method table of CharSeqJc inside the whole method table of the ObjectJc
+ * The values are based on [[CRJS:_mLength__StringJc]] == 0x3fff for a 32-bit-system.
+ */ 
+typedef OS_PtrVal_DEF(CharSeqJc, void const);
+//typedef OS_PtrValue CharSeqJc;
+//this not, too complex: typedef union CharSeqJc_t { struct ObjectJc_t* o; OS_PtrValue s; } CharSeqJc;
+
+/**A pointer to StringJc structure containing null-values.
+ * NOTE: a pointer is necessary because a const problem occurs otherwise.
+ */
+extern CharSeqJc const null_CharSeqJc;
+
+#define NULL_CharSeqJc { null, 0}
+
+extern char const sign_Mtbl_CharSeqJc[];
+
+/**Designation of the String as CharSeqJc without a method table offset. In this case the reference refers a CharSeqJc and the length
+ * should be gotten by invocation of 
+ * If mLength is defined with 0x3fff the value is 0x03ffe. mLength is defined os- and platform-depended in os_types_def.h
+ */
+#define kIsCharSeqJc_CharSeqJc (mLength__StringJc -1)
+
+
+/**Designation of the String as CharSeqJc maybe with a method table offset. In this case the reference refers a CharSeqJc and the length
+ * should be gotten by invocation of 
+ * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
+ */
+#define mIsCharSeqJcMtbl_CharSeqJc (mLength__StringJc & ~(mLength__StringJc >>2))
+
+/**Designation of the String as StringBuilderJc-instance. In this case the reference refers a StringBuilderJc and the length
+ * should be gotten by invocation of length_StringBuilderJc(ref)
+ * If mLength is defined with 0x3fff the value is 0x03ffd. mLength is defined os- and platform-depended in os_types_def.h
+ */
+#define kIsStringBuilder_CharSeqJc (mLength__StringJc -2)
+
+
+CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz);
+
+CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t const* othiz);
+
+#define PTR_CharSeqJc(THIZ) PTR_OS_PtrValue(THIZ, ObjectJc const)
+
+#define VAL_CharSeqJc(THIZ) value_OS_PtrValue(THIZ)
+
+#define isStringJc_CharSeqJc(THIZ) ((value_OS_PtrValue(THIZ) & mLength__StringJc) <= kMaxLength_StringJc)
+
+
+/**Copy the content to a buffer of the user.
+ * The text will be terminated with 0 always. If the src text is to long. it will be truncated.
+ * If the returned length == maxSizeBuffer-1, it is not determined whether the text is truncated or not.
+ * Note: if the src-text (ythis) contains 0-characters in its active area, they will be copied too as normal chars.
+ * 
+ * @param buffer The destination buffer as char[]
+ * @param start start character in the CharSeqJc.
+ * @param end exclusive end position in CharSeqJc. If -1 then the whole CharSeqJc till end should be copied.
+ * @param maxSizeBuffer The number of bytes in Buffer.The max number of chars copied is maxSizeBuffer -1
+ * @return number of chars copied. It is the number of valid chars in buffer always.
+*/
+METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
+
 /*@CLASS_C Fw_String @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
@@ -100,30 +171,21 @@ struct MemAreaC_t;
  *
  * Notation hint: The notation ,,char const*,, is the same as ,,const char*,,, but it expresses more stronly, that it is a const-pointer.
  */  
-typedef PtrVal_TYPE(StringJc, char const);
+typedef union StringJc_t { OS_PtrVal_DEF(s, char const); CharSeqJc c; } StringJc;
+
 
 
 extern char const sign_Mtbl_StringJc[]; 
 
-/**Designation of the String as CharSeqJc without a method table offset. In this case the reference refers a CharSeqJc and the length
- * should be gotten by invocation of 
- * If mLength is defined with 0x3fff the value is 0x03ffe. mLength is defined os- and platform-depended in os_types_def.h
+
+/**The limit for the length of a StringJc. It is derived from the platform-specific definition of ,,mLength__StringJc,, 
+ * contained in the platform-specific ,,os_types_def.h,,. If the ,,mLength_StringJc,, is defined with ,,0x3fff,,
+ * then this value is ,,0x2fff,,.
+ * 
+ * If a ,,StringJc,, is designated with this value for the ,,mLength__StringJc,, bits, then the length should be gotten 
+ * on demand. The [[length_StringJc(...)]] regards that.  
  */
-#define kIsCharSeqJc_StringJc (mLength__StringJc -1)
-
-
-/**Designation of the String as CharSeqJc maybe with a method table offset. In this case the reference refers a CharSeqJc and the length
- * should be gotten by invocation of 
- * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
- */
-#define mIsCharSeqJcMtbl_StringJc (mLength__StringJc & 0xfffff000)
-
-
-/**Designation of the String as StringBuilderJc-instance. In this case the reference refers a StringBuilderJc and the length
- * should be gotten by invocation of length_StringBuilderJc(ref)
- * If mLength is defined with 0x3fff the value is 0x03ffd. mLength is defined os- and platform-depended in os_types_def.h
- */
-#define kIsStringBuilder_StringJc (mLength__StringJc -2)
+#define kMaxLength_StringJc ((mLength__StringJc & ~(mLength__StringJc >>2))-1)
 
 /**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
  * If mLength is defined with 0x3fff the value is 0x04000. mLength is defined os- and platform-depended in os_types_def.h
@@ -173,7 +235,7 @@ extern char const sign_Mtbl_StringJc[];
   *            The Bit ,,mNonPersists__StringJc,, may be set. The user is responsible to the persistence.
   * @return void, don't use inside an expression.
   */
-#define INIT_StringJc(DST, src, val) set_OS_PtrValue(DST, src, val)
+#define INIT_StringJc(DST, src, val) set_OS_PtrValue((DST).s, src, val)
 
 
 /** Initialize a StringJc instance with an other given StringJc.
@@ -231,31 +293,20 @@ METHOD_C StringJc zI_StringJc(char const* src, int len);
  * @param STR StringJc-instance to test. The macro uses the instance directly.
  * @return true only if the text-reference is ,,null,,. false if it is an empty or non-empty text.
  */
-#define isNull_StringJc(STR) (PTR_OS_PtrValue(STR, void*)==null)
+#define isNull_StringJc(STR) (PTR_OS_PtrValue((STR).s, void*)==null)
 
 
 #define isEmpty_s0_Fwc(TEXT) ((TEXT)==null || *(TEXT)==0)
 
 
-/**Returns the length. If the source stores the value mLength__StringJc in its value-element,
+/**Returns the length. If the source stores the value kMaxLength__StringJc in its value-element,
  * the length is got calling ,,strlen(ptr),,. Otherwise the length is the value-element,
- * mask with mLength__StringJc, independent of the text. The text may contain 0-chars
+ * mask with mLength__StringJc, independent of the string itself. Note that the string may contain 0-chars
  * inside the given length.
- * @return The length of the text.
+ * @return The length of the string.
  */
 METHOD_C int length_StringJc(StringJc const ythis);
 
-
-/**Copy the content to a buffer of the user.
- * The text will be terminated with 0 always. If the src text is to long. it will be truncated.
- * If the returned length == maxSizeBuffer-1, it is not determined whether the text is truncated or not.
- * Note: if the src-text (ythis) contains 0-characters in its active area, they will be copied too as normal chars.
- * 
- * @param buffer The destination buffer as char[]
- * @param maxSizeBuffer The number of bytes in Buffer.The max number of chars copied is maxSizeBuffer -1
- * @return number of chars copied. It is the number of valid chars in buffer always.
-*/
-METHOD_C int copyToBuffer_StringJc(const StringJc ythis, char* buffer, int maxSizeBuffer);
 
 
 
@@ -322,7 +373,7 @@ METHOD_C char const* getCharsAndLength_StringJc(StringJc const* ythis, int* leng
  * see ,,getCharsAndCount_StringJc(...),,. 
  * @return memory address of the text itself. The type is ,,char const*,,.
  */
-#define PTR_StringJc(YTHIS) PTR_OS_PtrValue(YTHIS, char const)
+#define PTR_StringJc(THIZ) PTR_OS_PtrValue((THIZ).s, char const)
 
 
 /**Returns the value which is stored in the SRC.
@@ -336,7 +387,7 @@ METHOD_C char const* getCharsAndLength_StringJc(StringJc const* ythis, int* leng
  *         than the referenced text may be not persistent. It may be located especially in the stack or in the thread context.
  *         If this bit is not set, than the StringJc should dedicated as persistent.
  */ 
-#define VAL_StringJc(YTHIS) value_OS_PtrValue(YTHIS)
+#define VAL_StringJc(THIZ) value_OS_PtrValue((THIZ).s)
 
 
 
@@ -358,18 +409,6 @@ METHOD_C char const* getCharsAndLength_StringJc(StringJc const* ythis, int* leng
 METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis);
 
 
-
-/*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-#define CharSeqJc StringJc
-//typedef OS_PtrValue CharSeqJc;
-//this not, too complex: typedef union CharSeqJc_t { struct ObjectJc_t* o; OS_PtrValue s; } CharSeqJc;
-
-extern char const sign_Mtbl_CharSeqJc[];
-
-CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz);
-
-CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t* othiz);
 
 
 #endif //__fw_String_h__

@@ -285,7 +285,7 @@ const struct Reflection_Fields_ComparableJc_t
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
-    , (int16)((int32)(&((ComparableJc*)(0x1000))->object) -(int32)(ComparableJc*)0x1000)
+    , (int16)((int32)(&((ComparableJc*)(0x1000))->base.object) -(int32)(ComparableJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ComparableJc
     }
@@ -353,7 +353,7 @@ const struct Reflection_Fields_CloseableJc_t
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
-    , (int16)((int32)(&((CloseableJc*)(0x1000))->object) -(int32)(CloseableJc*)0x1000)
+    , (int16)((int32)(&((CloseableJc*)(0x1000))->base.object) -(int32)(CloseableJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_CloseableJc
     }
@@ -386,7 +386,7 @@ const struct Reflection_Fields_FlushableJc_t
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
-    , (int16)((int32)(&((FlushableJc*)(0x1000))->object) -(int32)(CloseableJc*)0x1000)
+    , (int16)((int32)(&((FlushableJc*)(0x1000))->base.object) -(int32)(CloseableJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FlushableJc
     }
@@ -855,7 +855,7 @@ const struct Reflection_Fields_OS_PtrValue_t
 } reflection_Fields_OS_PtrValue =
 { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_OS_PtrValue)
 , {
-    { "ptr__"
+    { "ref"
     , 0 //nrofArrayElements
     , REFLECTION_void
     , (1<<kBitPrimitiv_Modifier_reflectJc)| kReference_Modifier_reflectJc //bitModifiers
@@ -863,11 +863,11 @@ const struct Reflection_Fields_OS_PtrValue_t
     , 0  //offsetToObjectifcBase
     , &reflection_OS_PtrValue
     }
-  , { "value__"
+  , { "val"
     , 0 //nrofArrayElements
     , REFLECTION_void
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_PtrValue*)(0x1000))->value__) - (int32)(OS_PtrValue*)0x1000)
+    , (int16)((int32)(&((OS_PtrValue*)(0x1000))->val) - (int32)(OS_PtrValue*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_OS_PtrValue
     }

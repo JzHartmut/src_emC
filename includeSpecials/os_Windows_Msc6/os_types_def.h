@@ -235,7 +235,7 @@ extern "C" int stopNAN();
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
  * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
-#define PtrVal_TYPE(TYPENAME, TYPE) struct TYPENAME##_t { TYPE* ref; int32 value__; } TYPENAME
+#define OS_PtrVal_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
 
 /**Defines the struct type PtrVal_MemUnit.
  * This type provides basic working with memory allocation.
@@ -247,15 +247,15 @@ extern "C" int stopNAN();
  * * The pointer to the data as memory address unit.
  * * The size of data in memory.
  */
-typedef PtrVal_TYPE(PtrVal_MemUnit, MemUnit);
+typedef OS_PtrVal_DEF(PtrVal_MemUnit, MemUnit);
 
 /**Compatibility with older typedef of OS_PtrValue. */
 #define OS_PtrValue PtrVal_MemUnit 
 
 /*
 typedef struct OS_PtrValue_t
-{ char* ptr__;           //use type char* instead void* to see a character string in debug.
-  int32 value__;
+{ char* ref;           //use type char* instead void* to see a character string in debug.
+  int32 val;
   //struct MemAreaC_t* ptr__;
   //union{ struct MemAreaC_t* memArea; char* str; } ptr__;
 }OS_PtrValue;
@@ -272,16 +272,16 @@ extern OS_PtrValue null_OS_PtrValue;
 
 
 
-#define value_OS_PtrValue(THIS) ((THIS).value__)
+#define value_OS_PtrValue(THIS) ((THIS).val)
 
 #define PTR_OS_PtrValue(THIS, TYPE) ((TYPE*)(THIS).ref)
 
-#define set_OS_PtrValue(THIS, PTR, INT) { (THIS).ref = (char*)(PTR); (THIS).value__ = (INT); } //(char* )
+#define set_OS_PtrValue(THIS, PTR, INT) { (THIS).ref = (char*)(PTR); (THIS).val = (INT); } //(char* )
 
 //NOTE: use a local variable to prevent twice call if SRC is a complex expression.
-#define copy_OS_PtrValue(THIS, SRC) { OS_PtrValue const* src__ = &(SRC); (THIS).ref = src__->ref; (THIS).value__ = src__->value__; }
+#define copy_OS_PtrValue(THIS, SRC) { OS_PtrValue const* src__ = &(SRC); (THIS).ref = src__->ref; (THIS).val = src__->val; }
 
-#define setValue_OS_PtrValue(THIS, INT) { (THIS).value__ = (INT); }
+#define setValue_OS_PtrValue(THIS, INT) { (THIS).val = (INT); }
 
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ref = (char*)(PTR); }
 
@@ -301,10 +301,10 @@ extern OS_PtrValue null_OS_PtrValue;
 #endif
 
 
-/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of value__
+/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
  * It have to be a mask with set bits on right side (all last significant bits).
  * The next 2 bits left are used internally for designation of String.
- * The following bits left side are used for enhanced references. 
+ * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc. 
  * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */
 #define mLength__StringJc                 0x00003fff

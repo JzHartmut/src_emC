@@ -81,42 +81,14 @@ void format_z_PrintStreamJc(PrintStreamJc* ythis, const char* text, char const* 
 }
 
 
-void println_s_PrintStreamJc(PrintStreamJc* ythis, StringJc text, ThCxt* _thCxt)
+void println_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt)
 { char buffer[500];  //no more space in stack!
   int nrofChars;
   STACKTRC_TENTRY("println_s_PrintStreamJc");
-  nrofChars = copyToBuffer_StringJc(text, buffer, sizeof(buffer)-1);
+  nrofChars = copyToBuffer_CharSeqJc(text, 0, -1, buffer, sizeof(buffer)-1);
   buffer[nrofChars] = 0;  //zero terminated, the rest of buffer is undefined.
   printf("%s\n", buffer);
   STACKTRC_LEAVE;
-}
-
-
-void println_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt)
-{ int length = text.value__;
-  if(length < kIsStringBuilder_StringJc) println_s_PrintStreamJc(ythis, text, _thCxt);
-  else {
-    char buffer[500];  //no more space in stack!
-    int nrofChars = 0;
-    STACKTRC_TENTRY("println_s_PrintStreamJc");
-    ObjectJc* othiz = PTR_OS_PtrValue(text, ObjectJc);
-    Mtbl_CharSeqJc* mtbl = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
-    if(mtbl !=null){
-      int nrofChars = mtbl->length(othiz, _thCxt);
-      int ix = 0;
-      if(nrofChars >= sizeof(buffer)) { nrofChars = sizeof(buffer)-1; }
-      while(--nrofChars >=0) {
-        char cc = mtbl->charAt(othiz, ix, _thCxt);
-        buffer[ix] = cc;
-        ix +=1; 
-      }
-      buffer[ix] = 0;
-    } else {
-      buffer[nrofChars] = 0;  //zero terminated, the rest of buffer is undefined.
-    }
-    printf("%s\n", buffer);
-    STACKTRC_LEAVE;
-  }
 }
 
 

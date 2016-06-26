@@ -6,6 +6,7 @@ package java/lang/;
 
 
 //In Java it is an interface for String, StringBuilder, StringBuffer.
+//Note: it is defined in CRuntimeJavalikeClassData.java
 //xxx class CharSequence; nameC=CharSeqJc; header=Jc/StringJc.h; argIdent=Cs;
 //xxx {
 //xxx   methods{
@@ -30,13 +31,12 @@ package java/lang/;
 
 
 //In Java it is an interface for Append to any.
-class Appendable; nameC=AppendableJc; header=Jc/StringJc.h; argIdent=Ap;
+interface Appendable; nameC=AppendableJc; header=Jc/ObjectJc.h; argIdent=Ap;
 {
   methods{
-   append+_C-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val);
-   append+_CI-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val, int %.. start, int %.. end);
-   append+_c-_$, mode=overrideable: Appendable *.. return(char %.. val);
-   //append+_t-_$, mode=overrideable: Appendable *..return(String t.. value);
+   append+_cs-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val);
+   append+_csI-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val, int %.. start, int %.. end);
+   append+_C-_$, mode=overrideable: Appendable *.. return(char %.. val);
  }
  
 
