@@ -2,7 +2,7 @@
 Structure of translated java-file "Fwc/fw_LogMessage"
 package org/vishia/msgDispatch/;
 
-class LogMessage; nameC=LogMessageFW_i; argIdent=Log; extends java/lang/Object //creationMode=P
+class LogMessage; nameC=LogMessageFW_s; argIdent=Log; extends java/lang/Object //creationMode=P
 {  
 fieldIdents {
 }

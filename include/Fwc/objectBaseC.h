@@ -63,6 +63,10 @@ struct Size_Mtbl_t;
 
   /**Object is the superclass of all superclasses. In C-like manner it is a struct
    * at begin of any class-like struct.
+   *
+   * The headerfile <Fwc/objectBaseC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources
+   * which does not use concepts of ,,ObjectJc,, but should know this embedded struct. 
+   * Some definitions and methods are common use-able, that methods are contained here too. 
    */
   typedef struct  ObjectJc_t
   {
@@ -225,9 +229,10 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, struct ThreadContextFW_t* _thCxt);
 
 
 
-/** Macro for constant initialisation with a typesize and a given reflection class.
-  * @param TYPESIZEOF see attribute ,,objectIdentSize,,.
-  * @param REFLECTION the reflection class of the constant object. It may be ,,null,, also.
+/**Macro for constant initialisation with a typesize and a given reflection class.
+ * @param TYPESIZEOF see attribute ,,objectIdentSize,,.
+ * @param REFLECTION the reflection class of the constant object. It may be ,,null,, also.
+ * @deprecated use [[INITIALIZER_ObjectJc(...)]] instead
 */
 #define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
 
@@ -237,19 +242,21 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, struct ThreadContextFW_t* _thCxt);
   * Use it to initialize global or stack variables in form:
   * ,,Type myData = { INITIALIZER_ObjectJc( myData, 123, &reflection_Type) };,,
   * ,,Type myData2 = { INITIALIZER_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
-  * @param OBJ the variable to initialize itself to store its address and gets its size. 
+  * @param INSTANCE the variable to initialize itself to store its address and gets its size. 
   * @param IDENT may be 0, see attribute ,,objectIdentSize,,. The size bits will be completed. 
   * @param REFLECTION maybe null, the reflection class of the constant object.
   * @since 2016-04: the better form.
 */
-#define INITIALIZER_ObjectJc(OBJ, REFLECTION, IDENT) {sizeof(OBJ) | IDENT, &(OBJ), 0, kNoSyncHandles_ObjectJc, REFLECTION }
+#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) {sizeof(INSTANCE) | IDENT, &(INSTANCE), 0, kNoSyncHandles_ObjectJc, REFLECTION }
 
+/**Initializer for any instance with {0}. Should be used on stack variable especially before they are handled with a ctor...(...).*/
 #define NULL_ObjectJc {0}
 
-/**This macro defines a C-constant (with {..}) for initializing any instance which is derived from Object immediately.
+/**This macro provides an initializer ,,{...},, for any instance which is derived from Object immediately.
+ * Hint: use ,,{INITIALIZER_ObjectJc(...), more data}. 
  * @param OBJ The instance itself. It is used to store the OWNADDRESS and to build sizeof(OBJ) for the ObjectJc-part.
  */
-#define CONST_Instance_ObjectJc(OBJ) { CONST_ObjectJc(sizeof(OBJ), &(OBJ), null), 0 }
+#define CONST_Instance_ObjectJc(INSTANCE) { INITIALIZER_ObjectJc(INSTANCE, null, 0) }
 
 
 /**Initialization of the basicly data of Object and set all user data to 0.
@@ -258,10 +265,10 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, struct ThreadContextFW_t* _thCxt);
  * @param sizeObj The size of the whole instance, use sizeof(TypeInstance). All data are set to 0.
  *                Don't use this kind of initialization for C++-classes, use sizeof(ObjectJc) for this argument than.
  * @param identObj An identification info, see [[class_ObjectJc.objectIdentSize]] 
- * return ythis
+ * return thiz
 */
 /*NOTE: don't use a void* instead ObjectJc*, because a qualified casting have to be done using in C++ from inheriting classes. */
-METHOD_C ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj);
+METHOD_C ObjectJc* init_ObjectJc(ObjectJc* thiz, int sizeObj, int identObj);
 
 
 
@@ -497,11 +504,14 @@ METHOD_C MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* s
 
 int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign);
 
+METHOD_C MtblHeadJc const* checkMtbl_ObjectJcTT(ObjectJc const* ythis, int ix, char const* sign, struct ThreadContextFW_t* _thCxt);
+
+
 /**Builds a method table reference. */
 METHOD_C ObjectJcMTB XXXmtblRef_ObjectJc(ObjectJc const* ythis, char const* sign);
 
 
-#define SETMTBJc(DST, REF, TYPE) { (DST).ref = (TYPE*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
+#define SETMTBJc(DST, REF, TYPE) { (DST).ref = (TYPE##_s*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
 
 /**Macro to get the method table from a given reference. 
  * @param REF A reference to any type which is based on Object. It should hava a ,,union{ ... ObjectJc object; } base;,,

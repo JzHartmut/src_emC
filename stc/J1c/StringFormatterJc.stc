@@ -38,7 +38,7 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    add+_Cs-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence(instance=java/lang/CharSequence) t.. str);
+    add+_Cs-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence c.. str);
     add+_S-_$: org/vishia/util/StringFormatter *.r null(java/lang/String(instance=java/lang/String) t.. str);
     add+_c-_$: org/vishia/util/StringFormatter *.r null(char %.. ch);
     add+_cY-_$: org/vishia/util/StringFormatter *.r null(char[??] X%. str);
@@ -48,29 +48,28 @@ fieldIdents {
     addFloatPicture-_$: int %.r null(float %.. src,java/lang/String(instance=java/lang/String) t.. pict);
     addHex-_$: org/vishia/util/StringFormatter *.r null(long %.. value,int %.. nrofDigits);
     addHex44-_$: org/vishia/util/StringFormatter *.r null(long %.. value);
-    addHexLine-_$, mode= returnThis: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,int %.. nrofBytes,short %.. mode);
-    addHexLn-_$, mode= static: java/lang/String(instance=java/lang/String) t.r null(byte[??] X%. data,int %.. length,int %.. idxStart);
+    addHexLine-_$, mode=returnThis: org/vishia/util/StringFormatter *.t null(byte[??] X%. data,int %.. idx,int %.. nrofBytes,short %.. mode);
+    addHexLn-_$, mode=static: java/lang/String(instance=java/lang/String) t.r null(byte[??] X%. data,int %.. length,int %.. idxStart);
     addHexWord-_$: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,short %.. mode);
     addHexWord_-_$: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,short %.. mode);
     addIntPicture-_$: org/vishia/util/StringFormatter *.r null(long %.. nr,java/lang/String(instance=java/lang/String) t.. sPict);
-    addReplaceLinefeed-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence(instance=java/lang/CharSequence) t.. str,java/lang/CharSequence(instance=java/lang/CharSequence) t.. replaceLinefeed,int %.. maxChars);
+    addReplaceLinefeed-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence c.. str,java/lang/CharSequence c.. replaceLinefeed,int %.. maxChars);
     addStringLine-_$: org/vishia/util/StringFormatter *.r null(byte[??] X%. data,int %.. idx,int %.. nrofBytes,java/lang/String(instance=java/lang/String) t.. charsetName);
     addint-_$: org/vishia/util/StringFormatter *.r null(long %.. nr,java/lang/String(instance=java/lang/String) t.. sPict);
-    append+_Cs-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence(instance=java/lang/CharSequence) t.. csq);
+    append+_Cs-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence c.. csq);
     append+_c-_$: org/vishia/util/StringFormatter *.r null(char %.. c);
-    append+_Csii-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence(instance=java/lang/CharSequence) t.. csq,int %.. start,int %.. end);
+    append+_Csii-_$: org/vishia/util/StringFormatter *.r null(java/lang/CharSequence c.. csq,int %.. start,int %.. end);
     close-_$: void %.r null();
-    ctorO-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s();
-    ctorO+_i-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(int %.. length);
-    ctorO+_S-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/String(instance=java/lang/String) t.. str);
-    ctorO+_Sb-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/StringBuilder *.. buffer);
-    ctorO+_ApbSi-_$, mode= ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/Appendable *.. lineout,boolean %.. shouldClose,java/lang/String(instance=java/lang/String) t.. newlineString,int %.. defaultBufferLength);
+    ctorO-_$, mode=ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s();
+    ctorO+_i-_$, mode=ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(int %.. length);
+    ctorO+_S-_$, mode=ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/String(instance=java/lang/String) t.. str);
+    ctorO+_Sb-_$, mode=ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/StringBuilder *.. buffer);
+    ctorO+_ApbSi-_$, mode=ctor+static: org/vishia/util/StringFormatter *.. StringFormatterJc_s(java/lang/Appendable *.. lineout,boolean %.. shouldClose,java/lang/String(instance=java/lang/String) t.. newlineString,int %.. defaultBufferLength);
     end-_$: org/vishia/util/StringFormatter *.r null();
-    finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
-    floatToText-_$, mode= static: java/lang/CharSequence(instance=java/lang/CharSequence) t.r null(float %.. val,int %.. nrofChars);
+    finalize-_$, defined: java/lang/Object.finalize, mode=overrideable: void %.. void();
     flush-_$: void %.r null();
     flushLine-_$: int %.r null(java/lang/String(instance=java/lang/String) t.. sNewline);
-    getBuffer-_$: java/lang/CharSequence(instance=java/lang/CharSequence) t.r null();
+    getBuffer-_$: java/lang/CharSequence c.r null();
     getContent-_$: java/lang/String(instance=java/lang/String) t.r null();
     getPos-_$: int %.r null();
     insert-_$: org/vishia/util/StringFormatter *.r null();
@@ -89,10 +88,10 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Appendable: $ "(?).base.AppendableJc" $;
-    java/io/Closeable: $ "(?).base.CloseableJc" $;
-    java/io/Flushable: $ "(?).base.FlushableJc" $;
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Appendable: $ "(?).base/*J2C:ifc*/.AppendableJc" $;
+    java/io/Closeable: $ "(?).base/*J2C:ifc*/.CloseableJc" $;
+    java/io/Flushable: $ "(?).base/*J2C:ifc*/.FlushableJc" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

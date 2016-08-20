@@ -66,7 +66,7 @@ void finalize_LeapSecondsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _thCxt);
 
 /**Sets the leap seconds for a given timestamp*/
-METHOD_C void setLeapSeconds_LeapSecondsJc(/*static*/ int32 idx, struct DateJc_t* date, ThCxt* _thCxt);
+METHOD_C void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc_t* date, ThCxt* _thCxt);
 
 /**initializes the table of leap seconds with fix dates.*/
 typedef void MT_initFix_LeapSecondsJc(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
@@ -76,11 +76,11 @@ METHOD_C void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 METHOD_C void initFix_LeapSecondsJc(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 
 /**Returns a Date object from given GPS-seconds.*/
-METHOD_C struct DateJc_t* dateFromGPS_LeapSecondsJc(/*static*/ int64 millisecondsGPS, ThCxt* _thCxt);
+METHOD_C struct DateJc_t* dateFromGPS_LeapSecondsJc(/*J2C:static method*/ int64 millisecondsGPS, ThCxt* _thCxt);
 
-METHOD_C int64 millisecondsGPSfromUTC_LeapSecondsJc(/*static*/ int64 millisecondsUTC, ThCxt* _thCxt);
+METHOD_C int64 millisecondsGPSfromUTC_LeapSecondsJc(/*J2C:static method*/ int64 millisecondsUTC, ThCxt* _thCxt);
 
-METHOD_C int32 secondsGPSfromUTC_LeapSecondsJc(/*static*/ int32 secondsUTC_1970, ThCxt* _thCxt);
+METHOD_C int32 secondsGPSfromUTC_LeapSecondsJc(/*J2C:static method*/ int32 secondsUTC_1970, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

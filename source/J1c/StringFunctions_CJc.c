@@ -40,37 +40,36 @@ struct StringFunctions_CJc_t* ctorO_StringFunctions_CJc(ObjectJc* othis, ThCxt* 
 
 
 /**Parses a given String and convert it to the integer number.*/
-int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
+int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*J2C:static method*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("parseIntRadix_SiiiiYS_StringFunctions_CJc");
   
   { 
-    int32 val = 0; 
-    bool bNegativ = 0; 
-    int32 digit = 0; 
-    char cc = 0; 
-    int32 ixSrc; 
-    int32 size; 
-    int32 maxDigit; 
     
     
-    val = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
-    /*no initvalue*/
-    /*no initvalue*/
-    /*no initvalue*/
-    ixSrc = pos;
-    size = length_StringJc(srcP) - pos;
+    int32  val = 0;
+    
+    bool  bNegativ;/*no initvalue*/
+    
+    int32  digit;/*no initvalue*/
+    
+    char  cc;/*no initvalue*/
+    
+    int32  ixSrc = pos;
+    
+    int32  size = length_StringJc(srcP) - pos;
     if(size > sizeP) 
     { 
       
       size = sizeP;
     }
-    maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
+    
+    int32  maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
     if(size > 0 && charAt_StringJc(srcP, ixSrc) == '-') 
     { 
       
-      ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
-      size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      ixSrc += 1;
+      size -= 1;
       bNegativ = true;
     }
     else 
@@ -83,16 +82,16 @@ int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 
       { 
         
         cc = charAt_StringJc(srcP, ixSrc);
-        if(spaceChars.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        if(spaceChars.c.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
         { 
           
-          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+          ixSrc += 1;
         }
         else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
         { 
           
           val = radix * val + digit;
-          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+          ixSrc += 1;
         }
         else 
         { 
@@ -119,37 +118,36 @@ int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 
 
 
 /**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
-int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
+int64 parseLong_StringFunctions_CJc(/*J2C:static method*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("parseLong_StringFunctions_CJc");
   
   { 
-    int64 val = 0; 
-    bool bNegativ = 0; 
-    int32 digit = 0; 
-    char cc = 0; 
-    int32 ixSrc; 
-    int32 size; 
-    int32 maxDigit; 
     
     
-    val = (int64/*FieldData.testAndChangeAccess TODO correct?*/)0;
-    /*no initvalue*/
-    /*no initvalue*/
-    /*no initvalue*/
-    ixSrc = pos;
-    size = length_StringJc(srcP) - pos;
+    int64  val = 0;
+    
+    bool  bNegativ;/*no initvalue*/
+    
+    int32  digit;/*no initvalue*/
+    
+    char  cc;/*no initvalue*/
+    
+    int32  ixSrc = pos;
+    
+    int32  size = length_StringJc(srcP) - pos;
     if(size > sizeP) 
     { 
       
       size = sizeP;
     }
-    maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
+    
+    int32  maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
     if(charAt_StringJc(srcP, ixSrc) == '-') 
     { 
       
-      ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
-      size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      ixSrc += 1;
+      size -= 1;
       bNegativ = true;
     }
     else 
@@ -162,16 +160,16 @@ int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 s
       { 
         
         cc = charAt_StringJc(srcP, ixSrc);
-        if(spaceChars.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        if(spaceChars.c.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
         { 
           
-          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+          ixSrc += 1;
         }
         else if((digit = /*? assignment*/cc - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix)))) 
         { 
           
           val = radix * val + digit;
-          ixSrc += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+          ixSrc += 1;
         }
         else 
         { 
@@ -198,52 +196,51 @@ int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 s
 
 
 /**Parses a given String backward and convert it to the integer number.*/
-int32 parseIntRadixBack_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt)
+int32 parseIntRadixBack_StringFunctions_CJc(/*J2C:static method*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("parseIntRadixBack_StringFunctions_CJc");
   
   { 
-    int32 val = 0; 
-    bool bNegativ = 0; 
-    int32 digit = 0; 
-    char cc = 0; 
-    int32 ixSrc; 
-    int32 size; 
-    int32 maxDigit; 
-    int32 maxHexDigitLower = 'A'/*J2C: no cast found from char=char: ClassData@56277446*/; 
-    int32 maxHexDigitUpper = 'a'/*J2C: no cast found from char=char: ClassData@56277446*/; 
-    int32 multPosition = 1; 
     
     
-    val = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
-    /*no initvalue*/
-    /*no initvalue*/
-    /*no initvalue*/
-    ixSrc = pos;
-    size = length_StringJc(srcP) - pos;
+    int32  val = 0;
+    
+    bool  bNegativ;/*no initvalue*/
+    
+    int32  digit;/*no initvalue*/
+    
+    char  cc;/*no initvalue*/
+    
+    int32  ixSrc = pos;
+    
+    int32  size = length_StringJc(srcP) - pos;
     if(size > sizeP) 
     { 
       
       size = sizeP;
     }
-    maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
-    maxHexDigitLower = ((/*J2C:cast% from char*/int32)('A' + radix - 11));
-    maxHexDigitUpper = ((/*J2C:cast% from char*/int32)('a' + radix - 11));
-    multPosition = (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+    
+    int32  maxDigit = ((/*J2C:cast% from char*/int32)((radix <= 10) ? '0' + radix - 1 : '9'));
+    
+    int32  maxHexDigitLower = ((/*J2C:cast% from char*/int32)('A' + radix - 11));
+    
+    int32  maxHexDigitUpper = ((/*J2C:cast% from char*/int32)('a' + radix - 11));
+    
+    int32  multPosition = 1;
     
     while(size > 0 && ixSrc >= 0 && (digit = /*? assignment*/(cc = /*? assignment*/charAt_StringJc(srcP, ixSrc)) - '0') >= 0 && (cc <= maxDigit || (radix > 10 && (cc >= 'A' && (digit = /*? assignment*/(cc - 'A' + 10)) <= radix || cc >= 'a' && (digit = /*? assignment*/(cc - 'a' + 10)) <= radix))))
       { 
         
         val += multPosition * digit;
         multPosition *= radix;
-        ixSrc -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
-        size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+        ixSrc -= 1;
+        size -= 1;
       }
     if(size > 0 && ixSrc >= 0 && charAt_StringJc(srcP, ixSrc) == '-') 
     { 
       
-      ixSrc -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
-      size -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      ixSrc -= 1;
+      size -= 1;
       val = -val;
     }
     if(parsedChars != null) 
@@ -260,14 +257,14 @@ int32 parseIntRadixBack_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos,
 
 
 /*** */
-float parseFloat_SiiiY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt)
+float parseFloat_SiiiY_StringFunctions_CJc(/*J2C:static method*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("parseFloat_SiiiY_StringFunctions_CJc");
   
   { 
     
     { STACKTRC_LEAVE;
-      return parseFloat_SiiciY_StringFunctions_CJc(/*static*/src, pos, sizeP, '.', parsedChars, _thCxt);
+      return parseFloat_SiiciY_StringFunctions_CJc(/*J2C:static method call*/src, pos, sizeP, '.', parsedChars, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -275,32 +272,31 @@ float parseFloat_SiiiY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, i
 
 
 /**Parses a given String and convert it to the float number.*/
-float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt)
+float parseFloat_SiiciY_StringFunctions_CJc(/*J2C:static method*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("parseFloat_SiiciY_StringFunctions_CJc");
   
   { 
-    float ret = 0; 
-    int32 poscurr; 
-    int32 restlen; 
-    bool bNegative = 0; 
-    int32 zParsed[1]; 
+    ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+    */
     
+    float  ret;/*no initvalue*/
     
-    /*no initvalue*/
-    poscurr = pos;
-    restlen = length_StringJc(src) - pos;
+    int32  poscurr = pos;
+    
+    int32  restlen = length_StringJc(src) - pos;
     if(sizeP >= 0 && restlen > sizeP) 
     { 
       
       restlen = sizeP;
     }
-    /*no initvalue*/
+    
+    bool  bNegative;/*no initvalue*/
     if(restlen > 0 && charAt_StringJc(src, poscurr) == '-') 
     { 
       
-      poscurr += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
-      restlen -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+      poscurr += 1;
+      restlen -= 1;
       bNegative = true;
     }
     else 
@@ -309,17 +305,17 @@ float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, 
       bNegative = false;
     }
     
-    ret = (float/*FieldData.testAndChangeAccess TODO correct?*/)parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/src, poscurr, restlen, (int32/*FieldData.testAndChangeAccess TODO correct?*/)10, &zParsed[0], null_StringJc, _thCxt);/*parses only a positive number.*/
+    int32*  zParsed; /*J2C:modeAccess=P: simple VariableRef*/
+    ret = parseIntRadix_SiiiiYS_StringFunctions_CJc(/*J2C:static method call*/src, poscurr, restlen, 10, zParsed, null_StringJc /*J2C: mem assignment*/, _thCxt);/*parses only a positive number.*/
     
     poscurr += zParsed[0];/*maybe 0 if .123 is written*/
     
     restlen -= zParsed[0];
     if(poscurr < (restlen + pos) && charAt_StringJc(src, poscurr) == decimalpoint) 
     { 
-      float fracPart; 
       
       
-      fracPart = (float/*FieldData.testAndChangeAccess TODO correct?*/)parseIntRadix_SiiiiY_StringFunctions_CJc(/*static*/src, poscurr + 1, restlen - 1, (int32/*FieldData.testAndChangeAccess TODO correct?*/)10, &zParsed[0]);
+      float  fracPart = parseIntRadix_SiiiiY_StringFunctions_CJc(/*J2C:static method call*/src, poscurr + 1, restlen - 1, 10, zParsed);
       if(zParsed[0] > 0) 
       { 
         
@@ -352,6 +348,7 @@ float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, 
       ret = -ret;
     }
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(newObj2_1, null, _thCxt);
       return ret;
     }
   }
@@ -369,7 +366,7 @@ const MtblDef_StringFunctions_CJc mtblStringFunctions_CJc = {
 , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
-    //J2C: Dynamic methods of the class ObjectJc
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize

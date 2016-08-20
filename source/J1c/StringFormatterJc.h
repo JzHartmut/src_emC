@@ -50,14 +50,14 @@ struct StringFormatterJc_t;
 /* J2C: includes *********************************************************/
 #include "Jc/FileIoJc.h"  //interface
 #include "Jc/ObjectJc.h"  //interface
-#include "Jc/StringJc.h"  //interface
+#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /*@CLASS_C StringFormatterJc @@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct StringFormatterJc_t
 { 
-  union { ObjectJc object; AppendableJc AppendableJc;CloseableJc CloseableJc;FlushableJc FlushableJc;} base; 
+  union { ObjectJc object; AppendableJc_s AppendableJc;CloseableJc CloseableJc;FlushableJc FlushableJc;} base; 
   StringBuilderJcREF buffer; 
   AppendableJcREF lineout;   /*Destination to output a full line.*/
   bool bShouldLineoutClose; 
@@ -219,7 +219,7 @@ METHOD_C struct StringFormatterJc_t* addHex44_StringFormatterJc(StringFormatterJ
 METHOD_C struct StringFormatterJc_t* addFloat_StringFormatterJc(StringFormatterJc_s* thiz, double value, int32 digitsBeforePoint, int32 digitsAfterPoint, ThCxt* _thCxt);
 
 /**Adds a line with representation of byte content in a fixed nice format.*/
-METHOD_C StringJc addHexLn_StringFormatterJc(/*static*/ int8_Y* data, int32 length, int32 idxStart, ThCxt* _thCxt);
+METHOD_C StringJc addHexLn_StringFormatterJc(/*J2C:static method*/ int8_Y* data, int32 length, int32 idxStart, ThCxt* _thCxt);
 
 METHOD_C struct StringFormatterJc_t* addDate_StringFormatterJc(StringFormatterJc_s* thiz, struct DateJc_t* date, struct SimpleDateFormatJc_t* format, ThCxt* _thCxt);
 
@@ -236,8 +236,6 @@ METHOD_C bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src,
 
 /**Writes a float value in technical representation with exponent as short char a..T*/
 METHOD_C int32 addFloatPicture_StringFormatterJc(StringFormatterJc_s* thiz, float src, StringJc pict, ThCxt* _thCxt);
-
-METHOD_C CharSeqJc floatToText_StringFormatterJc(/*static*/ float val, int32 nrofChars, ThCxt* _thCxt);
 
 /**It invokes {@link #append(char)} for any char.Therewith a \n and \r is handled specially.*/
 METHOD_C struct StringFormatterJc_t* append_Cs_StringFormatterJc(StringFormatterJc_s* thiz, CharSeqJc csq, ThCxt* _thCxt);
@@ -331,8 +329,6 @@ class StringFormatterJc : private StringFormatterJc_s
 
   struct StringFormatterJc_t* end(){  return end_StringFormatterJc(this,  null/*_thCxt*/); }
 
-  CharSeqJc floatToText(float val, int32 nrofChars){  return floatToText_StringFormatterJc(val, nrofChars,  null/*_thCxt*/); }
-
   int32 flushLine(StringJcpp sNewline){  return flushLine_StringFormatterJc(this, sNewline,  null/*_thCxt*/); }
 
   void flush(){ flush_StringFormatterJc(this,  null/*_thCxt*/); }
@@ -367,7 +363,7 @@ class StringFormatterJc : private StringFormatterJc_s
 
   bool strPicture(int64 src, StringJcpp pict, StringJcpp posNegPointExp, char cFracSep){  return strPicture_StringFormatterJc(this, src, pict, posNegPointExp, cFracSep,  null/*_thCxt*/); }
 
-  StringJc toString(){  return toString_StringFormatterJc(&this->base.object,  null/*_thCxt*/); }
+  StringJc toString(){  return toString_StringFormatterJc(&this->base/*J2C_super:*/.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

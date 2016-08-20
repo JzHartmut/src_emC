@@ -20,7 +20,6 @@ struct StringPartScanJc_t;
 
 /* J2C: includes *********************************************************/
 #include "J1c/StringPartJc.h"  //superclass
-#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /*@CLASS_C StringPartScanJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -140,11 +139,10 @@ METHOD_C double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* t
 METHOD_C CharSeqJc getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
 /**Closes the work*/
-typedef void MT_close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void close_StringPartScanJc_F(StringPartScanJc_s* thiz, ThCxt* _thCxt);
+METHOD_C void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
+METHOD_C void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -152,7 +150,6 @@ METHOD_C void close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
  extern const char sign_Mtbl_StringPartScanJc[]; //marker for methodTable check
 typedef struct Mtbl_StringPartScanJc_t
 { MtblHeadJc head;
-  MT_close_StringPartScanJc* close;
   Mtbl_StringPartJc StringPartJc;
 } Mtbl_StringPartScanJc;
 
@@ -163,7 +160,7 @@ typedef struct Mtbl_StringPartScanJc_t
 class StringPartScanJc : private StringPartScanJc_s
 { public:
 
-  virtual void close(){ close_StringPartScanJc_F(this,  null/*_thCxt*/); }
+  virtual void close(){ close_StringPartScanJc_F(&this->base/*J2C_super:*/.super,  null/*_thCxt*/); }
 
   StringPartScanJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_Cs_StringPartScanJc(&this->base.object, src,  null/*_thCxt*/); }
 

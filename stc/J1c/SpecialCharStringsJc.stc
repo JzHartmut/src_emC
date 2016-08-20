@@ -9,12 +9,12 @@ fieldIdents {
   char %.S cStartOfText;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/util/SpecialCharStrings *.. SpecialCharStringsJc_s();
-    resolveCircumScription-_$, mode= static: java/lang/CharSequence(instance=java/lang/CharSequence) $.r null(java/lang/CharSequence(instance=java/lang/CharSequence) $.. src);
+    ctorO-_$, mode=ctor+static: org/vishia/util/SpecialCharStrings *.. SpecialCharStringsJc_s();
+    resolveCircumScription-_$, mode=static+ReturnInThreadCxt: java/lang/CharSequence c.! null(java/lang/CharSequence c.. src);
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

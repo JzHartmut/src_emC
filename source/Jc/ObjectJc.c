@@ -296,10 +296,25 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 { MtblHeadJc const* headSign = getMtbl_ObjectJc(thiz, sign);
   if(headSign !=null){
     MtblHeadJc const* headBase = thiz->reflectionClass->mtbl;
-    return OFFSET_MemUnit(headBase, headSign);
+    return OFFSET_MemUnit(headBase, headSign) / sizeof(sign);
   } 
   else return -1;  //no Mtbl found.
 }
+
+
+
+MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
+{ switch(error) {
+  case 1: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis, null);
+  case 2: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis, null);
+  case 3: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis, null);
+  default: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)ythis, null);
+  }
+}
+
+
+
+
 
 
 bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection)

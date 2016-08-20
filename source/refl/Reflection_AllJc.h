@@ -26,14 +26,6 @@ extern_C const ClassJc reflection_LocaleJc_s;
 #define REFLECTION_LocaleJc_s &reflection_LocaleJc_s
 extern_C const ClassJc reflection_SystemJc;
 #define REFLECTION_SystemJc &reflection_SystemJc
-extern_C const ClassJc reflection_ObjectArrayJc;
-#define REFLECTION_ObjectArrayJc &reflection_ObjectArrayJc
-extern_C const ClassJc reflection_int8ARRAY;
-#define REFLECTION_int8ARRAY &reflection_int8ARRAY
-extern_C const ClassJc reflection_ComparableJc;
-#define REFLECTION_ComparableJc &reflection_ComparableJc
-extern_C const ClassJc reflection_CloseableJc;
-#define REFLECTION_CloseableJc &reflection_CloseableJc
 extern_C const ClassJc reflection_ListItr_LinkedListJc;
 #define REFLECTION_ListItr_LinkedListJc &reflection_ListItr_LinkedListJc
 extern_C const ClassJc reflection_LinkedListJcD;
@@ -46,18 +38,10 @@ extern_C const ClassJc reflection_IteratorJc;
 #define REFLECTION_IteratorJc &reflection_IteratorJc
 extern_C const ClassJc reflection_ListMapEntryJc;
 #define REFLECTION_ListMapEntryJc &reflection_ListMapEntryJc
-extern_C const ClassJc reflection_FieldJc;
-#define REFLECTION_FieldJc &reflection_FieldJc
-extern_C const ClassJc reflection_MethodJc;
-#define REFLECTION_MethodJc &reflection_MethodJc
-extern_C const ClassJc reflection_ClassJc;
-#define REFLECTION_ClassJc &reflection_ClassJc
-extern_C const ClassJc reflection_Reflection__ObjectJc;
-#define REFLECTION_Reflection__ObjectJc &reflection_Reflection__ObjectJc
-extern_C const ClassJc reflection_ExtReflectionJc_s;
-#define REFLECTION_ExtReflectionJc_s &reflection_ExtReflectionJc_s
-extern_C const ClassJc reflection_Data_ExtReflectionJc;
-#define REFLECTION_Data_ExtReflectionJc &reflection_Data_ExtReflectionJc
+extern_C const ClassJc reflection_HandleItem;
+#define REFLECTION_HandleItem &reflection_HandleItem
+extern_C const ClassJc reflection_OsWrapperJc_s;
+#define REFLECTION_OsWrapperJc_s &reflection_OsWrapperJc_s
 extern_C const ClassJc reflection_Access1TxData_ReflMemAccessJc;
 #define REFLECTION_Access1TxData_ReflMemAccessJc &reflection_Access1TxData_ReflMemAccessJc
 extern_C const ClassJc reflection_AccessTxData_ReflMemAccessJc;

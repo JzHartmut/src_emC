@@ -68,6 +68,8 @@ typedef union U_ptr_t{
 
 /*@DEFINE_C specialDefines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**specialDefines: ...*/
+
 /** This type represents a pointer to a void name(void) - method.
   * It is needed on some locations in software.
   */

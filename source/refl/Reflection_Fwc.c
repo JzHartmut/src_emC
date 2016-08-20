@@ -394,12 +394,12 @@ const ClassJc reflection_ParseResultPrintfStyle_fwFormatter =
 #include "Fwc/fw_LogMessage.h"
 
 
-extern_C const ClassJc reflection_LogMessageFW_i;  //the just defined reflection_
-const ClassJc reflection_LogMessageFW_i =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageFW_i, &reflection_ClassJc)
-, "LogMessageFW_i"
+extern_C const ClassJc reflection_LogMessageFW_s;  //the just defined reflection_
+const ClassJc reflection_LogMessageFW_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageFW_s, &reflection_ClassJc)
+, "LogMessageFW_s"
 , 0
-, sizeof(LogMessageFW_i)
+, sizeof(LogMessageFW_s)
 , null  //attributes
 , null  //method
 , null  //superclass
@@ -668,8 +668,6 @@ const ClassJc reflection_FloatArray20 =
 };
 
 
-
-#include "Fwc/fw_String.h"
 
 #include "Fwc/fw_ThreadContext.h"
 

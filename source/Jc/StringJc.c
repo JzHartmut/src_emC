@@ -89,6 +89,43 @@ const ReflectionStringBuilderJc reflectionStringBuilderJc
   * That are all methods which do not copy strings, only compare, convert to char* etc.
   */
 
+
+
+
+int _length_CharSeqJc(CharSeqJc thiz, int length, ThCxt* _thCxt){
+  if(length == kMaxLength_StringJc) return strlen_Fwc(PTR_OS_PtrValue(thiz, char const), kMaxLength_StringJc);
+  else if(length < kIsStringBuilder_CharSeqJc) {
+    //It contains the index to the method table inside the given reflection.
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)checkMtbl_ObjectJc(othiz, length & mMtbl_CharSeqJc, sign_Mtbl_CharSeqJc, _thCxt);
+    return mthiz->length(othiz, _thCxt) ;
+  }
+  else if(length == kIsCharSeqJc_CharSeqJc) {
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+    return mthiz->length(othiz, _thCxt) ;
+  }
+  else return -1;
+}
+
+
+char _charAt_CharSeqJc(CharSeqJc thiz, int length, int pos, ThCxt* _thCxt){
+  if(length > kMaxLength_StringJc && length < kIsStringBuilder_CharSeqJc) {
+    //It contains the index to the method table inside the given reflection.
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)checkMtbl_ObjectJc(othiz, length & mMtbl_CharSeqJc, sign_Mtbl_CharSeqJc, _thCxt);
+    return mthiz->charAt(othiz, pos, _thCxt) ;
+  }
+  else if(length == kIsCharSeqJc_CharSeqJc) {
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+    return mthiz->charAt(othiz, pos, _thCxt) ;
+  }
+  else return -1;
+}
+
+
+
 char const sign_Mtbl_CharSeqJc[] = "sign_Mtbl_CharSeqJc";
 
 char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContextFW_t* _thCxt)

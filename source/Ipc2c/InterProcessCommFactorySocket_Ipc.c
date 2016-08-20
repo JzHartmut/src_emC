@@ -25,7 +25,7 @@ struct InterProcessCommFactorySocket_Ipc_t* ctorM_InterProcessCommFactorySocket_
   STACKTRC_TENTRY("ctor_InterProcessCommFactorySocket_Ipc");
   if(sizeof(InterProcessCommFactorySocket_Ipc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
-  ctorM_InterProcessCommFactory(/*static*/mthis, _thCxt);
+  ctorM_InterProcessCommFactory(/*J2C:static method call*/mthis, _thCxt);
   //j2c: Initialize all class variables:
   {
   }
@@ -45,10 +45,9 @@ struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(ObjectJc
   STACKTRC_TENTRY("create_S_InterProcessCommFactorySocket_Ipc_F");
   
   { 
-    struct InterProcessComm_t* obj; 
     
     
-    obj = mtthis->InterProcessCommFactory.create_Port(&((& ((* (thiz)).base.super))->base.object), protocolAndOwnAddr, -1, _thCxt);
+    struct InterProcessComm_t*  obj = mtthis->InterProcessCommFactory.create_Port(&((& ((* (thiz)).base/*J2C_super:*/.super))->base.object), protocolAndOwnAddr, -1, _thCxt);
     { STACKTRC_LEAVE;
       return obj;
     }
@@ -70,12 +69,11 @@ struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(ObjectJ
   STACKTRC_TENTRY("create_Si_InterProcessCommFactorySocket_Ipc_F");
   
   { 
-    struct InterProcessComm_t* ipc = null; 
-    int32 posSocketAddr = -1; 
     
     
-    /*no initvalue*/
-    posSocketAddr = -1;
+    struct InterProcessComm_t*  ipc;/*no initvalue*/
+    
+    int32  posSocketAddr = -1;
     if(startsWith_StringJc(protocolAndOwnAddr, s0_StringJc("UDP:"))) 
     { 
       
@@ -88,13 +86,12 @@ struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(ObjectJ
     }
     if(posSocketAddr >= 0) 
     { 
-      struct Address_InterProcessComm_t* ownAddr; 
-      
-      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      ObjectJc *newObj3_1=null; /*J2C: temporary Objects for new operations
       */
-      ownAddr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*static*/null_StringJc, protocolAndOwnAddr, nPort, _thCxt);
-      ipc = ((/*J2C:cast from InterProcessCommSocket_s*/InterProcessComm_i*)(ctorO_InterProcessCommSocket(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_InterProcessCommSocket_s, 0, _thCxt)), ((/*J2C:cast from Address_InterProcessComm_s*/Address_InterProcessComm_s*)(ownAddr)), _thCxt)));
-      activateGC_ObjectJc(newObj2_1, null, _thCxt);
+      
+      struct Address_InterProcessComm_t*  ownAddr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*J2C:static method call*/null_StringJc /*J2C: mem assignment*/, protocolAndOwnAddr, nPort, _thCxt);
+      ipc = ((/*J2C:cast from InterProcessCommSocket_s*/InterProcessComm_i*)(ctorO_InterProcessCommSocket(/*J2C:static method call*/(newObj3_1 = alloc_ObjectJc(sizeof_InterProcessCommSocket_s, 0, _thCxt)), ((/*J2C:cast from Address_InterProcessComm_s*/Address_InterProcessComm_s*)(ownAddr)), _thCxt)));
+      activateGC_ObjectJc(newObj3_1, null, _thCxt);
     }
     else 
     { 
@@ -121,16 +118,14 @@ struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(Ob
   
   { 
     
-    if( instanceof_ObjectJc(& ((* (addr)).base.object), &reflection_Address_InterProcessComm_s)) 
+    if( instanceof_ObjectJc(& ((* (addr)).base/*J2C_super:*/.object), &reflection_Address_InterProcessComm_s)) 
     { 
-      struct InterProcessCommSocket_t* obj = null; 
-      
-      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      ObjectJc *newObj3_1=null; /*J2C: temporary Objects for new operations
       */
       
-      obj = ctorO_InterProcessCommSocket(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_InterProcessCommSocket_s, 0, _thCxt)), ((/*J2C:cast from Address_InterProcessComm_s*/Address_InterProcessComm_s*)(addr)), _thCxt);
+      struct InterProcessCommSocket_t*  obj = ctorO_InterProcessCommSocket(/*J2C:static method call*/(newObj3_1 = alloc_ObjectJc(sizeof_InterProcessCommSocket_s, 0, _thCxt)), ((/*J2C:cast from Address_InterProcessComm_s*/Address_InterProcessComm_s*)(addr)), _thCxt);
       { STACKTRC_LEAVE;
-        activateGC_ObjectJc(newObj2_1, obj, _thCxt);
+        activateGC_ObjectJc(newObj3_1, obj, _thCxt);
         return ((/*J2C:cast from InterProcessCommSocket_s*/InterProcessComm_i*)(obj));
       }
     }
@@ -157,33 +152,29 @@ struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocke
   STACKTRC_TENTRY("createAddress_Si_InterProcessCommFactorySocket_Ipc_F");
   
   { 
-    struct Address_InterProcessComm_t* addr = null; 
     
     
-    /*no initvalue*/
+    struct Address_InterProcessComm_t*  addr;/*no initvalue*/
     if(startsWith_StringJc(protocolAndOwnAddr, s0_StringJc("Socket:"))) 
     { 
-      StringJc sAddr; 
       
       
-      sAddr = substring_I_StringJc(protocolAndOwnAddr, 7, _thCxt)/*J2C:non-persistent*/;
-      addr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*static*/null_StringJc, protocolAndOwnAddr, nPort, _thCxt);
+      StringJc sAddr ; sAddr = substring_I_StringJc(protocolAndOwnAddr, 7, _thCxt)/*J2C:non-persistent*/;
+      addr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*J2C:static method call*/null_StringJc /*J2C: mem assignment*/, protocolAndOwnAddr, nPort, _thCxt);
     }
     else if(startsWith_StringJc(protocolAndOwnAddr, s0_StringJc("UDP:"))) 
     { 
-      StringJc sAddr; 
       
       
-      sAddr = substring_I_StringJc(protocolAndOwnAddr, 4, _thCxt)/*J2C:non-persistent*/;
-      addr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*static*/null_StringJc, protocolAndOwnAddr, nPort, _thCxt);
+      StringJc sAddr ; sAddr = substring_I_StringJc(protocolAndOwnAddr, 4, _thCxt)/*J2C:non-persistent*/;
+      addr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*J2C:static method call*/null_StringJc /*J2C: mem assignment*/, protocolAndOwnAddr, nPort, _thCxt);
     }
     else if(startsWith_StringJc(protocolAndOwnAddr, s0_StringJc("TCP:"))) 
     { 
-      StringJc sAddr; 
       
       
-      sAddr = substring_I_StringJc(protocolAndOwnAddr, 4, _thCxt)/*J2C:non-persistent*/;
-      addr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*static*/null_StringJc, protocolAndOwnAddr, nPort, _thCxt);
+      StringJc sAddr ; sAddr = substring_I_StringJc(protocolAndOwnAddr, 4, _thCxt)/*J2C:non-persistent*/;
+      addr = createAddressSocket_InterProcessCommFactorySocket_Ipc(/*J2C:static method call*/null_StringJc /*J2C: mem assignment*/, protocolAndOwnAddr, nPort, _thCxt);
     }
     else 
     { 
@@ -212,10 +203,9 @@ struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket
   STACKTRC_TENTRY("createAddress_S_InterProcessCommFactorySocket_Ipc_F");
   
   { 
-    struct Address_InterProcessComm_t* obj; 
     
     
-    obj = mtthis->InterProcessCommFactory.createAddress_Port(&((& ((* (thiz)).base.super))->base.object), protocolAndAddr, -1, _thCxt);
+    struct Address_InterProcessComm_t*  obj = mtthis->InterProcessCommFactory.createAddress_Port(&((& ((* (thiz)).base/*J2C_super:*/.super))->base.object), protocolAndAddr, -1, _thCxt);
     { STACKTRC_LEAVE;
       return obj;
     }
@@ -229,52 +219,48 @@ struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket
   return mtbl->createAddress(ithis, protocolAndAddr, _thCxt);
 }
 
-struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySocket_Ipc(/*static*/ StringJc type, StringJc addr, int32 nPort, ThCxt* _thCxt)
+struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySocket_Ipc(/*J2C:static method*/ StringJc type, StringJc addr, int32 nPort, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("createAddressSocket_InterProcessCommFactorySocket_Ipc");
   
   { 
-    struct Address_InterProcessComm_t* addrSocket = null; 
-    
-    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
-    if(type.ptr__== null) 
+    if(type.ref== null) 
     { 
-      int32 posAddr; 
       
       
-      posAddr = indexOf_C_StringJc(addr, ':');
+      int32  posAddr = indexOf_C_StringJc(addr, ':');
       type = substring_StringJc(addr, 0, posAddr, _thCxt)/*J2C:non-persistent*/;
       addr = substring_I_StringJc(addr, posAddr + 1, _thCxt)/*J2C:non-persistent*/;
     }
-    ASSERT(/*static*/length_StringJc(addr) > 0);
+    ASSERT(/*J2C:static method call*/length_StringJc(addr) > 0);
     if(nPort <= 0) 
     { 
-      int32 posPort; 
+      StringJc _temp3_1; /*J2C: temporary references for concatenation */
       
-      StringJc _temp2_1; /*J2C: temporary references for concatenation */
       
-      posPort = indexOf_C_StringJc(addr, ':');
+      int32  posPort = indexOf_C_StringJc(addr, ':');
       if(posPort < 0) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "param addr needs a port in form \"URL:port\" where port is a number or hexNumber with \"0x\"-prefix.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
       if(
-        ( _temp2_1= substring_I_StringJc(addr, posPort + 1, _thCxt)
-        , startsWith_StringJc(_temp2_1, s0_StringJc("0x"))
+        ( _temp3_1= substring_I_StringJc(addr, posPort + 1, _thCxt)
+        , startsWith_StringJc(_temp3_1, s0_StringJc("0x"))
         )) 
       { 
         
-        nPort = parseInt_radix_IntegerJc(/*static*/substring_I_StringJc(addr, posPort + 3, _thCxt), 16);
+        nPort = parseInt_radix_IntegerJc(/*J2C:static method call*/substring_I_StringJc(addr, posPort + 3, _thCxt), 16);
       }
       else 
       { 
         
-        nPort = parseInt_IntegerJc(/*static*/substring_I_StringJc(addr, posPort + 1, _thCxt));
+        nPort = parseInt_IntegerJc(/*J2C:static method call*/substring_I_StringJc(addr, posPort + 1, _thCxt));
       }
       addr = substring_StringJc(addr, 0, posPort, _thCxt)/*J2C:non-persistent*/;
     }
     
-    addrSocket = ctorO_ssI_Address_InterProcessComm(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_Address_InterProcessComm_s, 0, _thCxt)), type, addr, nPort, _thCxt);
+    struct Address_InterProcessComm_t*  addrSocket = ctorO_ssI_Address_InterProcessComm(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_Address_InterProcessComm_s, 0, _thCxt)), type, addr, nPort, _thCxt);
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(newObj1_1, addrSocket, _thCxt);
+      activateGC_ObjectJc(newObj2_1, addrSocket, _thCxt);
       return ((/*J2C:cast from Address_InterProcessComm_s*/Address_InterProcessComm_s*)(addrSocket));
     }
   }

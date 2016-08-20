@@ -27,7 +27,7 @@ const struct Reflection_Fields_AbstractCollectionJc_t
     }
   , { "modCount"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((AbstractCollectionJc*)(0x1000))->modCount) -(int32)(AbstractCollectionJc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -382,7 +382,7 @@ const struct Reflection_Fields_TextFieldPositionJc_s_t
 , {
     { "x"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((TextFieldPositionJc_s*)(0x1000))->x) -(int32)(TextFieldPositionJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -484,7 +484,6 @@ const ClassJc reflection_SystemJc =
 
 
 
-
 #include "Jc/LinkedListJc.h"
 
 
@@ -533,7 +532,7 @@ const struct Reflection_Fields_ListItr_LinkedListJc_t
     }
   , { "nextIndex"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ListItr_LinkedListJc*)(0x1000))->nextIndex) -(int32)(ListItr_LinkedListJc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -541,7 +540,7 @@ const struct Reflection_Fields_ListItr_LinkedListJc_t
     }
   , { "expectedModCount"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ListItr_LinkedListJc*)(0x1000))->expectedModCount) -(int32)(ListItr_LinkedListJc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -583,7 +582,7 @@ const struct Reflection_Fields_LinkedListJcD_t
     }
   , { "size"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((LinkedListJcD*)(0x1000))->size) -(int32)(LinkedListJcD*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -789,6 +788,108 @@ const ClassJc reflection_ListMapEntryJc =
 , 0 
 };
 
+
+
+#include "Jc/OsWrapperJc.h"
+
+
+extern_C const ClassJc reflection_HandleItem;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_Mutex_t;
+const struct Reflection_Fields_HandleItem_t
+{ ObjectArrayJc head;
+  FieldJc data[3];
+} reflection_Fields_HandleItem =
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_HandleItem)
+, {
+    { "handleMutex"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , 0| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((HandleItem*)(0x1000))->handleMutex) -(int32)(HandleItem*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_HandleItem
+    }
+  , { "idxNext_xxx"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((HandleItem*)(0x1000))->idxNext_xxx) -(int32)(HandleItem*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_HandleItem
+    }
+  , { "reserve"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((HandleItem*)(0x1000))->reserve) -(int32)(HandleItem*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_HandleItem
+    }
+} };
+
+
+const ClassJc reflection_HandleItem =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_HandleItem, &reflection_ClassJc)
+, "HandleItem"
+, 0
+, sizeof(HandleItem)
+, (FieldJcArray const*)&reflection_Fields_HandleItem  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_OsWrapperJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_HandleItem;
+extern_C const ClassJc reflection_HandleItem;
+const struct Reflection_Fields_OsWrapperJc_s_t
+{ ObjectArrayJc head;
+  FieldJc data[3];
+} reflection_Fields_OsWrapperJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_OsWrapperJc_s)
+, {
+    { "handleItemsJc"
+    , 1024   //nrofArrayElements
+    , &reflection_HandleItem
+    , 0 |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((OsWrapperJc_s*)(0x1000))->handleItemsJc) -(int32)(OsWrapperJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_OsWrapperJc_s
+    }
+  , { "freeHandle"
+    , 0   //no Array, no Bitfield
+    , &reflection_HandleItem
+    , 0 //bitModifiers
+    , (int16)((int32)(&((OsWrapperJc_s*)(0x1000))->freeHandle) -(int32)(OsWrapperJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_OsWrapperJc_s
+    }
+  , { "nrofHandle"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((OsWrapperJc_s*)(0x1000))->nrofHandle) -(int32)(OsWrapperJc_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_OsWrapperJc_s
+    }
+} };
+
+
+const ClassJc reflection_OsWrapperJc_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OsWrapperJc_s, &reflection_ClassJc)
+, "OsWrapperJc_s"
+, 0
+, sizeof(OsWrapperJc_s)
+, (FieldJcArray const*)&reflection_Fields_OsWrapperJc_s  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
 
 
 
@@ -1052,7 +1153,7 @@ const struct Reflection_Fields_MemAccessArrayDebugJc_t
 , {
     { "ix"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MemAccessArrayDebugJc*)(0x1000))->ix) -(int32)(MemAccessArrayDebugJc*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1104,7 +1205,7 @@ const struct Reflection_Fields_FileJc_s_t
     }
   , { "_additionalBuffer_"
     , 0   //nrofArrayElements
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileJc_s*)(0x1000))->_additionalBuffer_) -(int32)(FileJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1153,7 +1254,7 @@ const struct Reflection_Fields_FileOutputStreamJc_s_t
 , {
     { "file"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileOutputStreamJc_s*)(0x1000))->file) -(int32)(FileOutputStreamJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1186,7 +1287,7 @@ const struct Reflection_Fields_FileWriterJc_s_t
 , {
     { "file"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileWriterJc_s*)(0x1000))->file) -(int32)(FileWriterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1228,7 +1329,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     }
   , { "file_"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->file_) -(int32)(FileReaderJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1252,7 +1353,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     }
   , { "modCount_"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int
+    , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->modCount_) -(int32)(FileReaderJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1556,6 +1657,8 @@ const ClassJc reflection_TimeZoneJc_s =
 
 
 
+#include "Jc/StringJc_intern.h"
+
 #include "MsgDisp/VaArgBuffer.h"
 
 
@@ -1602,7 +1705,7 @@ const struct Reflection_Fields_VaArgBuffer_t
 , {
     { "sType"
     , 16   //nrofArrayElements
-    , REFLECTION_char
+    , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((VaArgBuffer*)(0x1000))->sType) -(int32)(VaArgBuffer*)0x1000)
     , 0  //offsetToObjectifcBase

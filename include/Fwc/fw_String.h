@@ -43,8 +43,6 @@
 struct ObjectJc_t;
 struct StringBuilderJc_t;
 
-/*@DEFINE_C some_forward_types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
 struct MemAreaC_t;
 
 
@@ -76,23 +74,31 @@ struct MemAreaC_t;
 
 
 
-/*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**A CharSeqJc is a combination of a pointer with a 16- or 32-bit value designation.
+/**CharSeqJc: A CharSeqJc is a combination of a pointer with a 16- or 32-bit value designation.
+ * It based on 
  * The pointer can be 
- * * either any [[CRJO:_class_ObjectJc]] which is based on the CharSeqJc-interface definition
- * * or espcically a [[CRJS:_class_StringBuilderJc]]
+ * ,typedef OS_PtrVal_DEF(CharSeqJc, void const);
+ * which creates os-specific (see [[!../os_types_def.html]]):
+ * ,struct CharSeqJc_t { void const* ref; int32 val; } CharSeqJc;
+ * This header division in ,,Fwc/fw_String.h,, defines and describes the basic functionality able to use without the ObjectJc.h definitions.
+ * The header file ,,Jc/StringJc.h,,, see [[class_CharSeqJc_]] contains that definitions which have dependencies to the [[CRJO:_class_ObjectJc]]-class
+ * 
+ * The ,,ref,, can be:
+ * * either any [[!ObjectJc.html#class_ObjectJc]] which is based on the CharSeqJc-interface definition
+ * * or espcically a [[class_StringBuilderJc]]
  * * or it is a ,,char const*,, which refers a String.
  * The value is 
- * * 0x0000 ... 0x2fff: either the same how defined in [[CRJS:_class_StringJc]], then it contains the length of the String
+ * * 0x0000 ... 0x2fff: either the same how defined in [[class_StringJc]], then it contains the length of the String
+ * * 0x3000 ... 0x3ffd: In this case the bits with mask 0xfff contains the index to the method table of CharSeqJc inside the whole method table of the ObjectJc
  * * 0x3ffe: or it is designated with the bits to designate the CharSeqJc as StringBuilderJc
  * * 0x3fff: or it is designated with the bits to designate the CharSeqJc as any instance of ObjectJc.
- * * 0x3000 ... 0x3ffd: In this case the bits with mask 0xfff contains the index to the method table of CharSeqJc inside the whole method table of the ObjectJc
  * The values are based on [[CRJS:_mLength__StringJc]] == 0x3fff for a 32-bit-system.
  */ 
+
+
 typedef OS_PtrVal_DEF(CharSeqJc, void const);
-//typedef OS_PtrValue CharSeqJc;
-//this not, too complex: typedef union CharSeqJc_t { struct ObjectJc_t* o; OS_PtrValue s; } CharSeqJc;
 
 /**A pointer to StringJc structure containing null-values.
  * NOTE: a pointer is necessary because a const problem occurs otherwise.
@@ -123,10 +129,6 @@ extern char const sign_Mtbl_CharSeqJc[];
 #define kIsStringBuilder_CharSeqJc (mLength__StringJc -2)
 
 
-CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz);
-
-CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t const* othiz);
-
 #define PTR_CharSeqJc(THIZ) PTR_OS_PtrValue(THIZ, ObjectJc const)
 
 #define VAL_CharSeqJc(THIZ) value_OS_PtrValue(THIZ)
@@ -147,10 +149,10 @@ CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t const* othiz);
 */
 METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
 
-/*@CLASS_C Fw_String @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE_C StringJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-/**CLASS_C_Description: The ,,struct StringJc,, is the same as ,,struct OS_PtrValue,,. A StringJc consists of a reference and the number of chars.
+/**StringJc: The ,,struct StringJc,, is the same as ,,struct OS_PtrValue,,. A StringJc consists of a reference and the number of chars.
  * But the value may contain also an index for enhanced referencing. 
  * Therefore the value is mask with some special bit definitions:
  * * mLength__StringJc: mask for bits for length. The bits are arranged in the low-bits always. 
@@ -178,6 +180,9 @@ typedef union StringJc_t { OS_PtrVal_DEF(s, char const); CharSeqJc c; } StringJc
 extern char const sign_Mtbl_StringJc[]; 
 
 
+#define mMtbl_CharSeqJc (mLength__StringJc >>2)
+
+
 /**The limit for the length of a StringJc. It is derived from the platform-specific definition of ,,mLength__StringJc,, 
  * contained in the platform-specific ,,os_types_def.h,,. If the ,,mLength_StringJc,, is defined with ,,0x3fff,,
  * then this value is ,,0x2fff,,.
@@ -185,7 +190,7 @@ extern char const sign_Mtbl_StringJc[];
  * If a ,,StringJc,, is designated with this value for the ,,mLength__StringJc,, bits, then the length should be gotten 
  * on demand. The [[length_StringJc(...)]] regards that.  
  */
-#define kMaxLength_StringJc ((mLength__StringJc & ~(mLength__StringJc >>2))-1)
+#define kMaxLength_StringJc ((mLength__StringJc & ~mMtbl_CharSeqJc)-1)
 
 /**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
  * If mLength is defined with 0x3fff the value is 0x04000. mLength is defined os- and platform-depended in os_types_def.h
@@ -206,7 +211,7 @@ extern char const sign_Mtbl_StringJc[];
  * @param TEXT should be a text-literal only. If it references a char-array, 
  *             a problem with persistence may existing.
  */
-#define CONST_z_StringJc(TEXT) { TEXT, mLength__StringJc}
+#define CONST_z_StringJc(TEXT) { TEXT, kMaxLength_StringJc}
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
  * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.

@@ -38,22 +38,21 @@ struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* 
 
 
 /**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters.*/
-CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt)
+CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("removeIndentReplaceNewline_StringFunctions_BJc");
   
   { 
-    int32 zText; 
-    char cEnd = '\n'; 
-    int32 posEnd1; 
-    int32 posEnd2; 
     
     
-    zText = length_CharSeqJc(src, _thCxt);
-    cEnd = '\n';
-    posEnd1 = indexOf_Csci_StringFunctionsJc(/*static*/src, cEnd, (int32/*FieldData.testAndChangeAccess TODO correct?*/)0, _thCxt);
-    posEnd2 = indexOf_Csci_StringFunctionsJc(/*static*/src, '\r', (int32/*FieldData.testAndChangeAccess TODO correct?*/)0, _thCxt);
-    if(posEnd1 < 0 && posEnd2 < 0 && (!bSkipSpaces || zText > 0 && indexOf_C_StringJc(sWhiteSpaces_StringFunctions_BJc, charAt_CharSeqJc(src, (int32/*FieldData.testAndChangeAccess TODO correct?*/)0, _thCxt)) < 0)) 
+    int32  zText = length_CharSeqJc(src/*J1cT2*/, _thCxt);
+    
+    char  cEnd = '\n';
+    
+    int32  posEnd1 = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/src, cEnd, 0, _thCxt);
+    
+    int32  posEnd2 = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/src, '\r', 0, _thCxt);
+    if(posEnd1 < 0 && posEnd2 < 0 && (!bSkipSpaces || zText > 0 && indexOf_C_StringJc(sWhiteSpaces_StringFunctions_BJc, charAt_CharSeqJc(src/*J1cT2*/, 0, _thCxt)) < 0)) 
     { 
       
       { STACKTRC_LEAVE;
@@ -63,21 +62,19 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc sr
     }
     else 
     { 
-      struct StringBuilderJc_t* b = null; 
-      bool bSkipSpaces1; 
-      int32 posLine = 0; 
-      
-      ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+      ObjectJc *newObj3_1=null; /*J2C: temporary Objects for new operations
       */
       
-      b = ctorO_I_StringBuilderJc(/*static*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), zText, _thCxt);
-      bSkipSpaces1 = bSkipSpaces;
-      posLine = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
+      struct StringBuilderJc_t*  b = ctorO_I_StringBuilderJc(/*J2C:static method call*/(newObj3_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), zText, _thCxt);
+      
+      bool  bSkipSpaces1 = bSkipSpaces;
+      
+      int32  posLine = 0;
       do 
         { 
           
-          posEnd1 = indexOf_Csci_StringFunctionsJc(/*static*/src, cEnd, posLine, _thCxt);
-          posEnd2 = indexOf_Csci_StringFunctionsJc(/*static*/src, '\r', posLine, _thCxt);/*a \r\n (Windows standard) or only \r (Macintosh standard) in the script is the end of line too.*/
+          posEnd1 = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/src, cEnd, posLine, _thCxt);
+          posEnd2 = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/src, '\r', posLine, _thCxt);/*a \r\n (Windows standard) or only \r (Macintosh standard) in the script is the end of line too.*/
           
           if(posEnd2 >= 0 && (posEnd2 < posEnd1 || posEnd1 < 0)) 
           { 
@@ -93,10 +90,10 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc sr
             { 
               
               
-              while(posLine < posEnd1 && indexOf_C_StringJc(sWhiteSpaces_StringFunctions_BJc, charAt_CharSeqJc(src, posLine, _thCxt)) >= 0)
+              while(posLine < posEnd1 && indexOf_C_StringJc(sWhiteSpaces_StringFunctions_BJc, charAt_CharSeqJc(src/*J1cT2*/, posLine, _thCxt)) >= 0)
                 { 
                   
-                  posLine += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+                  posLine += 1;
                 }
               if(posLine < posEnd1) 
               { /*:anything found in the line:*/
@@ -108,47 +105,46 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc sr
             if(posLine < posEnd1) 
             { 
               
-              append_c_StringBuilderJc(b, subSequence_CharSeqJc(src, posLine, posEnd1, _thCxt), _thCxt);
+              append_c_StringBuilderJc(b, subSequence_CharSeqJc(src/*J1cT2*/, posLine, posEnd1, _thCxt), _thCxt);
             }
             if(!bSkipSpaces1) 
             { /*:don't append a newline if skipSpaces is still active. Then only spaces were found.*/
               
               
-              append_s_StringBuilderJc(b, sNewline, _thCxt);/*use the newline from argument.*/
+              append_c_StringBuilderJc(b, sNewline.c, _thCxt);/*use the newline from argument.*/
               
             }/*skip over posEnd1, skip over the other end line character if found.*/
             
             if(++posEnd1 < zText) 
             { 
-              int32 indentCt; 
-              char cc = ((char)(0)); 
-              
               
               if(cEnd == '\r') 
               { 
                 
-                if(charAt_CharSeqJc(src, posEnd1, _thCxt) == '\n') 
+                if(charAt_CharSeqJc(src/*J1cT2*/, posEnd1, _thCxt) == '\n') 
                 { 
                   
-                  posEnd1 += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+                  posEnd1 += 1;
                 }
               }/*skip over both \r\n*/
               
               else 
               { 
                 
-                if(charAt_CharSeqJc(src, posEnd1, _thCxt) == '\r') 
+                if(charAt_CharSeqJc(src/*J1cT2*/, posEnd1, _thCxt) == '\r') 
                 { 
                   
-                  posEnd1 += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+                  posEnd1 += 1;
                 }
               }/*skip over both \n\r*/
               /*posEnd1 refers the start of the next line.*/
               
-              indentCt = indent;
-              cc = (char/*FieldData.testAndChangeAccess TODO correct?*/)((char)(0));
               
-              while(indentCt > 0 && posEnd1 < zText && ((cc = /*? assignment*/charAt_CharSeqJc(src, posEnd1, _thCxt)) == ' ' || cc == '\t' || indexOf_C_StringJc(indentChars, cc) >= 0))
+              int32  indentCt = indent;
+              
+              char  cc = ((char)(0));
+              
+              while(indentCt > 0 && posEnd1 < zText && ((cc = /*? assignment*/charAt_CharSeqJc(src/*J1cT2*/, posEnd1, _thCxt)) == ' ' || cc == '\t' || indexOf_C_StringJc(indentChars, cc) >= 0))
                 { 
                   
                   if(cc == '\t') 
@@ -159,15 +155,15 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc sr
                     { /*:skip over '\t' only if matches to the indent.*/
                       
                       
-                      posEnd1 += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+                      posEnd1 += 1;
                     }
                   }
                   else 
                   { 
                     
-                    posEnd1 += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;/*skip over all indentation chars*/
+                    posEnd1 += 1;/*skip over all indentation chars*/
                     
-                    indentCt -= (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+                    indentCt -= 1;
                   }
                 }
               if(indexOf_C_StringJc(indentChars, cc) >= 0) 
@@ -175,10 +171,10 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc sr
                 
                 
                 
-                while(posEnd1 < zText && charAt_CharSeqJc(src, posEnd1, _thCxt) == cc)
+                while(posEnd1 < zText && charAt_CharSeqJc(src/*J1cT2*/, posEnd1, _thCxt) == cc)
                   { 
                     
-                    posEnd1 += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;/*skip over all equal indentation chars.*/
+                    posEnd1 += 1;/*skip over all equal indentation chars.*/
                     
                   }
               }/*line starts after :::: which starts before indentation end*/
@@ -191,13 +187,13 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc sr
           { /*:the rest till end.*/
             
             
-            append_c_StringBuilderJc(b, subSequence_CharSeqJc(src, posLine, zText, _thCxt), _thCxt);
+            append_c_StringBuilderJc(b, subSequence_CharSeqJc(src/*J1cT2*/, posLine, zText, _thCxt), _thCxt);
           }
         }while(posEnd1 >= 0);/*output all lines.*/
       
       { STACKTRC_LEAVE;
-        activateGC_ObjectJc(newObj2_1, b, _thCxt);
-        return from_StringBuilder_CharSeqJc(b)/*J2C-error testAndChangeAccess: ct*/;
+        activateGC_ObjectJc(newObj3_1, b, _thCxt);
+        return fromStringBuilderJc_CharSeqJc(b);
       }
     }
   }
@@ -215,7 +211,7 @@ const MtblDef_StringFunctions_BJc mtblStringFunctions_BJc = {
 , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
     , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
-    //J2C: Dynamic methods of the class ObjectJc
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize

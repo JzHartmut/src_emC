@@ -58,7 +58,7 @@ typedef struct  LogMessageFW_t
 { 
   /**The implementation classes based on ObjectJc. Necessary for check.*/
   union{ ObjectJc object; } base;
-}LogMessageFW_i;  //_i means an struct useable as interface
+}LogMessageFW_s;  //_i means an struct useable as interface
 
 
 typedef struct LogMessageFW_MREF_t { struct LogMessageFW_t* ref; struct Mtbl_LogMessageFW_t const* mtbl; } LogMessageFW_MREF;
@@ -80,7 +80,7 @@ typedef enum ELevel_Message_ifcFW_t
 /**The constructor is only called as super constructor in all implementing classes. 
  * It is empty.
  */
-METHOD_C LogMessageFW_i* ctorO_LogMessageFW(ObjectJc* othis, ThCxt* _thCxt);
+METHOD_C LogMessageFW_s* ctorO_LogMessageFW(ObjectJc* othis, ThCxt* _thCxt);
 
 /**C-routine to send a message to a log system without additional parameter.
  * @param identNumber The identnumber idents the source and kind of message.
@@ -135,22 +135,22 @@ METHOD_C bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis
 
 
 /**C-routine to flush messages. This routine uses the method table to call the users implementation. */
-void flush_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt);
+void flush_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt);
 
 /**C-routine to close the message transfer.  This routine uses the method table to call the users implementation. */
-void close_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt);
+void close_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt);
 
 /**C-routine to check the message transfer.  This routine uses the method table to call the users implementation. */
-bool isOnline_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt);
+bool isOnline_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt);
 
 /**C-routine to flush messages. This is a default implementation to use in users method table. */
-void flush_LogMessageFW_F(LogMessageFW_i* ythis, ThCxt* _thCxt);
+void flush_LogMessageFW_F(LogMessageFW_s* ythis, ThCxt* _thCxt);
 
 /**C-routine to close the message transfer. This is a default implementation to use in users method table. */
-void close_LogMessageFW_F(LogMessageFW_i* ythis, ThCxt* _thCxt);
+void close_LogMessageFW_F(LogMessageFW_s* ythis, ThCxt* _thCxt);
 
 /**C-routine to check the message transfer. This is a default implementation to use in users method table. */
-bool isOnline_LogMessageFW_F(LogMessageFW_i* ythis, ThCxt* _thCxt);
+bool isOnline_LogMessageFW_F(LogMessageFW_s* ythis, ThCxt* _thCxt);
 
 
 
@@ -309,7 +309,7 @@ class LogMessageFW
   public: virtual void sendMsgVaList(int32 ident, OS_TimeStamp timestamp, const char* text, const char* typeArgs, va_list args);
 
   /**This method should be overridden. It may return null, if only the C++-Interface should used. */
-  public: virtual LogMessageFW_i* provide_LogMessageFW_i()=0; 
+  public: virtual LogMessageFW_s* provide_LogMessageFW_i()=0; 
 
   /**The standard implementation of this routine calls the C-routine. They uses the C-Method table for virtual call.*/
   public: virtual void flush();
@@ -330,14 +330,16 @@ class LogMessageFW
 
 #endif  //__CPLUSGEN
 
-/*@DEFINE standard implementations @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE LogMessageConsole @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**LogMessageConsole: Methods
+ */
 
 /**Initializes a file output.
  * @param othis reference to the instance, the size should be known in the ObjectJc-base. ObjectJc should be initialized already.
  *        If this parameter is null, an instance will be created in heap.
  */
-METHOD_C LogMessageFW_i* ctorO_LogMessageConsole(ObjectJc* othis);
+METHOD_C LogMessageFW_s* ctorO_LogMessageConsole(ObjectJc* othis);
 
 /**Initializes a file output.
  * @param othis reference to the instance, the size should be known in the ObjectJc-base. ObjectJc should be initialized already.
@@ -349,7 +351,7 @@ METHOD_C LogMessageFW_i* ctorO_LogMessageConsole(ObjectJc* othis);
  *        The value 0 means: flush any message immediately.
  * @param nrofHoursPerFile: After this time a new file will be created 
  */
-METHOD_C LogMessageFW_i* xxxctorO_LogMessageFile(ObjectJc* othis
+METHOD_C LogMessageFW_s* xxxctorO_LogMessageFile(ObjectJc* othis
 , StringJc sFileName
 , int nrofSecondsToFlush
 , int nrofHoursPerFile
@@ -358,8 +360,8 @@ METHOD_C LogMessageFW_i* xxxctorO_LogMessageFile(ObjectJc* othis
 /**
  * @param outChn The output channel for low-level-File-IO, 2 is stdout, 3 is error-output.
  */
-LogMessageFW_i* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt);
-LogMessageFW_i* create_LogMessageConsole(ThCxt* _thCxt);
+LogMessageFW_s* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt);
+LogMessageFW_s* create_LogMessageConsole(ThCxt* _thCxt);
 
 extern int* out_FileDescriptorJc;
 
@@ -381,7 +383,7 @@ extern struct Mtbl_LogMessageStream_FW_t const mtbl_LogMessageStream_FW;
 /**The MsgDispatcher is defined and implemented in another files. But here an additional access routine is defined,
  */
 struct MsgDispatcher_MSG_t;
-LogMessageFW_i* xxxconvertFromMsgDispatcher_LogMessageFW(struct MsgDispatcher_MSG_t* src, ThCxt* _thCxt);
+LogMessageFW_s* xxxconvertFromMsgDispatcher_LogMessageFW(struct MsgDispatcher_MSG_t* src, ThCxt* _thCxt);
 
 int _prepareOutputText_LogMessageFW
 ( char* buffer, int zBuffer

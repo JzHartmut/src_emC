@@ -92,7 +92,7 @@ typedef struct Mtbl_DispatcherThread_MsgDispatcher_MSG_t
 class DispatcherThread_MsgDispatcher_MSG : private DispatcherThread_MsgDispatcher_MSG_s
 { public:
 
-  virtual void run(){ run_DispatcherThread_MsgDispatcher_MSG_F(&this->base.super.base.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_DispatcherThread_MsgDispatcher_MSG_F(&this->base/*J2C_super:*/.super.base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -169,10 +169,10 @@ METHOD_C int32 completeDispatchInThreadBits_MsgDispatcher_MSG(MsgDispatcher_MSG_
 METHOD_C void stop_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, ThCxt* _thCxt);
 
 /**close and flush forces the dispatching of the messages in the queue.*/
-METHOD_C void close_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_MsgDispatcher_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /**flush forces the dispatching of the messages in the queue.*/
-METHOD_C void flush_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_MsgDispatcher_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -190,13 +190,13 @@ typedef struct Mtbl_MsgDispatcher_MSG_t
 class MsgDispatcher_MSG : private MsgDispatcher_MSG_s
 { public:
 
-  void close(){ close_MsgDispatcher_MSG(&this->base.super.base.LogMessageFW,  null/*_thCxt*/); }
+  void close(){ close_MsgDispatcher_MSG(&this->base/*J2C_super:*/.super.base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
   int32 completeDispatchInThreadBits(int32 dstBits){  return completeDispatchInThreadBits_MsgDispatcher_MSG(this, dstBits,  null/*_thCxt*/); }
 
   MsgDispatcher_MSG(int32 maxDispatchEntries, int32 maxQueue, int32 maxOutputs, int32 nrofMixedOutputs, int32 msgIdentQueueOverflow, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcher_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcher_MSG_s, 0); ctorO_MsgDispatcher_MSG(&this->base.object, maxDispatchEntries, maxQueue, maxOutputs, nrofMixedOutputs, msgIdentQueueOverflow, runNoEntryMessage,  null/*_thCxt*/); }
 
-  void flush(){ flush_MsgDispatcher_MSG(&this->base.super.base.LogMessageFW,  null/*_thCxt*/); }
+  void flush(){ flush_MsgDispatcher_MSG(&this->base/*J2C_super:*/.super.base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
   struct ConcurrentLinkedQueueJc_t* getSharedFreeEntries(){  return getSharedFreeEntries_MsgDispatcher_MSG(this,  null/*_thCxt*/); }
 

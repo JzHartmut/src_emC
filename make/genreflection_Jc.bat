@@ -9,21 +9,21 @@ set INPUT=
 set INPUT=%INPUT% -i:../include:Jc/AbstractListJc.h
 set INPUT=%INPUT% -i:../include:Jc/ArraysJc.h
 set INPUT=%INPUT% -i:../include:Jc/CharsetJc.h
-//set INPUT=%INPUT% -i:../include:Jc/byteDataJc.h
+::set INPUT=%INPUT% -i:../include:Jc/byteDataJc.h
 set INPUT=%INPUT% -i:../include:Jc/ComparatorJc.h
 set INPUT=%INPUT% -i:../include:Jc/ConcurrentLinkedQueueJc.h
-//set INPUT=%INPUT% -i:../include:Jc/ConcurrentRingBufferJc.h
+::set INPUT=%INPUT% -i:../include:Jc/ConcurrentRingBufferJc.h
 set INPUT=%INPUT% -i:../include:Jc/DateJc.h
 set INPUT=%INPUT% -i:../include:Jc/LocaleJc.h
 set INPUT=%INPUT% -i:../include:Jc/SystemJc.h
-set INPUT=%INPUT% -i:../include:Jc/ObjectJc.h
+::set INPUT=%INPUT% -i:../include:Jc/ObjectJc.h
 set INPUT=%INPUT% -i:../include:Jc/LinkedListJc.h
 set INPUT=%INPUT% -i:../include:Jc/ListIteratorJc.h
 set INPUT=%INPUT% -i:../include:Jc/ListJc.h
 set INPUT=%INPUT% -i:../include:Jc/ListMapEntryJc.h
 set INPUT=%INPUT% -i:../include:Jc/StringJc.h
-set INPUT=%INPUT% -i:../include:Jc/OsWrapperJc.h
-set INPUT=%INPUT% -i:../include:Jc/ReflectionJc.h
+set INPUT=%INPUT% -i:../source:Jc/OsWrapperJc.h
+::set INPUT=%INPUT% -i:../include:Jc/ReflectionJc.h
 set INPUT=%INPUT% -i:../include:Jc/ReflMemAccessJc.h
 set INPUT=%INPUT% -i:../include:Jc/StringBufferJc.h
 set INPUT=%INPUT% -i:../include:Jc/FileIoJc.h
@@ -31,11 +31,11 @@ set INPUT=%INPUT% -i:../include:Jc/ObjectRefJc.h
 set INPUT=%INPUT% -i:../include:Jc/ThreadJc.h
 set INPUT=%INPUT% -i:../include:Jc/FormatterJc.h
 set INPUT=%INPUT% -i:../include:Jc/TimeZoneJc.h
-set INPUT=%INPUT% -i:../include:Jc/StringJc_intern.h
+set INPUT=%INPUT% -i:../source:Jc/StringJc_intern.h
 
-set INPUT=%INPUT% -i:../include:MsgDisp/VaArgBuffer.h
+set INPUT=%INPUT% -i:../source:MsgDisp/VaArgBuffer.h
 
-java -cp ../../zbnfjax/zbnf.jar org.vishia.header2Reflection.CmdHeader2Reflection -out.c:../source/refl/Reflection_AllJc.c -c_only %INPUT% -b:Reflection.ctr -z:../../zbnfjax/zbnf/Cheader.zbnf --report:%TMP%/genReflection.rpt --rlevel:334
+java -cp ../../zbnfjax/zbnf.jar org.vishia.header2Reflection.CmdHeader2Reflection -out.c:../source/refl/Reflection_AllJc.c -c_only %INPUT% -b:ReflectionJc.ctr -z:../../zbnfjax/zbnf/Cheader.zbnf --report:%TMP%/genReflection.rpt --rlevel:334
 if errorlevel 1 goto :error
 goto :ende
 

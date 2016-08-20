@@ -63,23 +63,23 @@ void finalize_StringFunctions_CJc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct StringFunctions_CJc_t* ctorO_StringFunctions_CJc(ObjectJc* othis, ThCxt* _thCxt);
 
 /**Parses a given String and convert it to the integer number.*/
-METHOD_C int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+METHOD_C int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*J2C:static method*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
 
 /*** */
 #define parseIntRadix_SiiiiY_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars) \
-(parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/srcP, pos, sizeP, radix, parsedChars, null_StringJc, _thCxt))
+(parseIntRadix_SiiiiYS_StringFunctions_CJc(/*J2C:static method call*/srcP, pos, sizeP, radix, parsedChars, null_StringJc /*J2C: mem assignment*/, _thCxt))
 
 /**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
-METHOD_C int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+METHOD_C int64 parseLong_StringFunctions_CJc(/*J2C:static method*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
 
 /**Parses a given String backward and convert it to the integer number.*/
-METHOD_C int32 parseIntRadixBack_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt);
+METHOD_C int32 parseIntRadixBack_StringFunctions_CJc(/*J2C:static method*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt);
 
 /*** */
-METHOD_C float parseFloat_SiiiY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt);
+METHOD_C float parseFloat_SiiiY_StringFunctions_CJc(/*J2C:static method*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt);
 
 /**Parses a given String and convert it to the float number.*/
-METHOD_C float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt);
+METHOD_C float parseFloat_SiiciY_StringFunctions_CJc(/*J2C:static method*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

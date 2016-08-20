@@ -64,7 +64,7 @@ void finalize_SpecialCharStringsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct SpecialCharStringsJc_t* ctorO_SpecialCharStringsJc(ObjectJc* othis, ThCxt* _thCxt);
 
 /**Resolves the given String containing some switch chars in form of backslash*/
-METHOD_C CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*static*/ CharSeqJc src, ThCxt* _thCxt);
+METHOD_C CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*J2C:static method*/ CharSeqJc src, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

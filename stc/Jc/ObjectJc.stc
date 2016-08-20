@@ -31,11 +31,11 @@ package java/lang/;
 
 
 //In Java it is an interface for Append to any.
-interface Appendable; nameC=AppendableJc; header=Jc/ObjectJc.h; argIdent=Ap;
+interface Appendable; nameC=AppendableJc_s; header=Jc/ObjectJc.h; argIdent=Ap;
 {
   methods{
-   append+_cs-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val);
-   append+_csI-_$, mode=overrideable: Appendable *.. return(CharSequence t.. val, int %.. start, int %.. end);
+   append+_cs-_$, mode=overrideable: Appendable *.. return(CharSequence c.. val);
+   append+_csI-_$, mode=overrideable: Appendable *.. return(CharSequence c.. val, int %.. start, int %.. end);
    append+_C-_$, mode=overrideable: Appendable *.. return(char %.. val);
  }
  

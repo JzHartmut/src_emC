@@ -27,7 +27,7 @@
  **copyright***************************************************************************************
  *
  * @content This source contains routines to implement the LogMessage interface at C-level.
- * The LogMessageFW_i interface is an abstract C-like class. The not-abstract C-routines are contained here.
+ * The LogMessageFW_s interface is an abstract C-like class. The not-abstract C-routines are contained here.
  * The iLogMessageFW interface is the C++ incarnation of the same interface, its non-abstract routines are implemented here.
  * Additional some helper routines for the MsgDispatcher_MSG are found here.       
  *
@@ -52,8 +52,8 @@
 
 extern struct ClassJc_t const reflection_LogMessageFW_i;
 
-LogMessageFW_i* ctorO_LogMessageFW(ObjectJc* othis, ThCxt* _thCxt)
-{ return (LogMessageFW_i*)othis;
+LogMessageFW_s* ctorO_LogMessageFW(ObjectJc* othis, ThCxt* _thCxt)
+{ return (LogMessageFW_s*)othis;
 }
 
 
@@ -96,7 +96,7 @@ bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis, int32 identNumber
 
 
 /**This routine calls the virtual (dynamic called) C-routine. */
-void flush_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt)
+void flush_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
 {
   //this method checks the correctness of the instance data
   //and throws an exception if there is a memory overwritten error or initialization error:
@@ -122,7 +122,7 @@ void flush_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt)
 
 
 /**This routine calls the virtual (dynamic called) C-routine. */
-void close_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt)
+void close_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
 {
   //this method checks the correctness of the instance data
   //and throws an exception if there is a memory overwritten error or initialization error:
@@ -148,7 +148,7 @@ void close_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt)
 
 
 /**This routine calls the virtual (dynamic called) C-routine. */
-bool isOnline_LogMessageFW(LogMessageFW_i* ythis, ThCxt* _thCxt)
+bool isOnline_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
 {
   //this method checks the correctness of the instance data
   //and throws an exception if there is a memory overwritten error or initialization error:
@@ -249,18 +249,18 @@ bool xxxsendMsg_S_LogMessageFW(struct LogMessageFW_t* ythis, int identNumber, St
 
 
 /**C-routine to flush messages. This is a default implementation to use in users method table. */
-void flush_LogMessageFW_F(LogMessageFW_i* ythis, ThCxt* _thCxt)
+void flush_LogMessageFW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 { //do noting.
 }
 
 /**C-routine to close the message transfer. This is a default implementation to use in users method table. */
-void close_LogMessageFW_F(LogMessageFW_i* ythis, ThCxt* _thCxt)
+void close_LogMessageFW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 { //do noting.
 }
 
 
 /**C-routine to check the message transfer. This is a default implementation to use in users method table. */
-bool isOnline_LogMessageFW_F(LogMessageFW_i* ythis, ThCxt* _thCxt)
+bool isOnline_LogMessageFW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 { //do noting.
   return true; //everytime online.
 }
@@ -313,7 +313,7 @@ int _prepareOutputText_LogMessageFW
 
 void LogMessageFW::sendMsgVaList(int32 ident, OS_TimeStamp timestamp, const char* text, const char* typeArgs, va_list args)
 { Va_listFW typedArgs;
-  LogMessageFW_i* ithis = provide_LogMessageFW_i();
+  LogMessageFW_s* ithis = provide_LogMessageFW_i();
   typedArgs.typeArgs = typeArgs; //the type info
   typedArgs.args = args;         //the va_list
   sendMsgVaList_LogMessageFW(ithis, ident, timestamp, text, typedArgs, null); 
@@ -324,7 +324,7 @@ void LogMessageFW::sendMsgVaList(int32 ident, OS_TimeStamp timestamp, const char
 /**Standardimplementation calls the C-variant of close(). 
  */
 void LogMessageFW::close()
-{ LogMessageFW_i* ithis = provide_LogMessageFW_i();
+{ LogMessageFW_s* ithis = provide_LogMessageFW_i();
   close_LogMessageFW(ithis, null);
 }
 
@@ -332,7 +332,7 @@ void LogMessageFW::close()
 /**Standardimplementation calls the C-variant of flush(). 
  */
 void LogMessageFW::flush()
-{ LogMessageFW_i* ithis = provide_LogMessageFW_i();
+{ LogMessageFW_s* ithis = provide_LogMessageFW_i();
   flush_LogMessageFW(ithis, null);
 }
 
@@ -340,7 +340,7 @@ void LogMessageFW::flush()
 /**Standardimplementation calls the C-variant of isOnline(). 
  */
 bool LogMessageFW::isOnline()
-{ LogMessageFW_i* ithis = provide_LogMessageFW_i();
+{ LogMessageFW_s* ithis = provide_LogMessageFW_i();
   return isOnline_LogMessageFW(ithis, null);
 }
 

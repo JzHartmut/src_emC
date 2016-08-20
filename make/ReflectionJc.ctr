@@ -13,7 +13,8 @@
 = floatBigEndian = int32
 = doubleBigEndian = int64
 = OS_SOCKET = int
-= OS_Mutex = int
+= OS_Mutex = void
+= OS_Mutex_t = void
 = OS_HandleFile_t = int32
 = OS_HandleFile = int32
 = ObjectRefValuesJc = int32
@@ -24,10 +25,9 @@
 = NodePoolJc = void
 @ Size_Mtbl_t = void
 @ ThreadContextFW_t = ThreadContextFW_s
-@ LogMessageFW_t = LogMessageFW_i
+@ LogMessageFW_t = LogMessageFW_s
 @ Comm_Inspc_t = Comm_Inspc_s
 @ CmdConsumer_ifcInspc_t = CmdConsumer_ifcInspc_s
-@ Broker_OBM_t = Broker_OBM_s
 
 //! InterProcessCommOrder = ObjectifcBaseJcpp  //interface based on ObjectifcBaseJcpp
 

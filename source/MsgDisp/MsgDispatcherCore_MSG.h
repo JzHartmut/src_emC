@@ -100,7 +100,7 @@ void finalize_Entry_MsgDispatcherCore_MSG_F(Entry_MsgDispatcherCore_MSG_s* thiz,
 /**Default constructor. */
 METHOD_C struct Entry_MsgDispatcherCore_MSG_t* ctorM_Entry_MsgDispatcherCore_MSG(MemC mthis, ThCxt* _thCxt);
 
-METHOD_C int32 _sizeof_Entry_MsgDispatcherCore_MSG(/*static*/ ThCxt* _thCxt);
+METHOD_C int32 _sizeof_Entry_MsgDispatcherCore_MSG(/*J2C:static method*/ ThCxt* _thCxt);
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -238,7 +238,7 @@ class Output_MsgDispatcherCore_MSG : private Output_MsgDispatcherCore_MSG_s
 
 typedef struct MsgDispatcherCore_MSG_t
 { 
-  union { ObjectJc object; LogMessageFW_i LogMessageFW;} base; 
+  union { ObjectJc object; LogMessageFW_s LogMessageFW;} base; 
   int32 nrofMixedOutputs;   /*Number of Bits in {@link mDispatchWithBits}, it is the number of destinations dispatched via bit mask. */
   int32 mDstMixedOutputs;   /*Calculated mask of bits which are able to mix. */
   int32 mDstOneOutput;   /*Calculated mask of bits which are one index. */
@@ -311,27 +311,27 @@ METHOD_C void setMsgTextConverter_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s*
 METHOD_C int32 searchDispatchBits_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 ident, ThCxt* _thCxt);
 
 /**Sends a message*/
-METHOD_C bool sendMsg_izv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...);
+METHOD_C bool sendMsg_izv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...);
 
 /**Sends a message*/
-METHOD_C bool sendMsgTime_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
+METHOD_C bool sendMsgTime_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
 
 /**Sends a message*/
-METHOD_C bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
+METHOD_C bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 
-METHOD_C bool isOnline_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C bool isOnline_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /**This routine may be overridden by the inherited class (usual {@link MsgDispatcher} to support closing.*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void close_MsgDispatcherCore_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_MsgDispatcherCore_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void close_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /**This routine may be overridden by the inherited class (usual {@link MsgDispatcher} to support flushing*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void flush_MsgDispatcherCore_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_MsgDispatcherCore_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void flush_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /**Dispatches the queues messages, after them calls {@link LogMessage#flush()} for all queued outputs.*/
 METHOD_C void tickAndFlushOrClose_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt);
@@ -361,7 +361,7 @@ typedef struct Mtbl_MsgDispatcherCore_MSG_t
 class MsgDispatcherCore_MSG : private MsgDispatcherCore_MSG_s
 { public:
 
-  virtual void close(){ close_MsgDispatcherCore_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
+  virtual void close(){ close_MsgDispatcherCore_MSG_F(&this->base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
   MsgDispatcherCore_MSG(int32 maxQueue, int32 nrofMixedOutputs, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcherCore_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcherCore_MSG_s, 0); ctorO_MsgDispatcherCore_MSG(&this->base.object, maxQueue, nrofMixedOutputs, runNoEntryMessage,  null/*_thCxt*/); }
 
@@ -369,17 +369,17 @@ class MsgDispatcherCore_MSG : private MsgDispatcherCore_MSG_s
 
   int32 dispatchQueuedMsg(){  return dispatchQueuedMsg_MsgDispatcherCore_MSG(this,  null/*_thCxt*/); }
 
-  virtual void flush(){ flush_MsgDispatcherCore_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
+  virtual void flush(){ flush_MsgDispatcherCore_MSG_F(&this->base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
-  bool isOnline(){  return isOnline_MsgDispatcherCore_MSG(&this->base.LogMessageFW,  null/*_thCxt*/); }
+  bool isOnline(){  return isOnline_MsgDispatcherCore_MSG(&this->base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
   int32 searchDispatchBits(int32 ident){  return searchDispatchBits_MsgDispatcherCore_MSG(this, ident,  null/*_thCxt*/); }
 
-  bool sendMsgTime(int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...){  return sendMsgTime_iDtzv_MsgDispatcherCore_MSG(&this->base.LogMessageFW, identNumber, creationTime, text, args); }
+  bool sendMsgTime(int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...){  return sendMsgTime_iDtzv_MsgDispatcherCore_MSG(&this->base/*J2C:ifc*/.LogMessageFW, identNumber, creationTime, text, args); }
 
-  bool sendMsgVaList(int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args){  return sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(&this->base.LogMessageFW, identNumber, creationTime, text, args,  null/*_thCxt*/); }
+  bool sendMsgVaList(int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args){  return sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(&this->base/*J2C:ifc*/.LogMessageFW, identNumber, creationTime, text, args,  null/*_thCxt*/); }
 
-  bool sendMsg(int32 identNumber, char const* text, char const* args, ...){  return sendMsg_izv_MsgDispatcherCore_MSG(&this->base.LogMessageFW, identNumber, text, args); }
+  bool sendMsg(int32 identNumber, char const* text, char const* args, ...){  return sendMsg_izv_MsgDispatcherCore_MSG(&this->base/*J2C:ifc*/.LogMessageFW, identNumber, text, args); }
 
   virtual void setIdThreadForMsgDispatching(int64 idThread){ setIdThreadForMsgDispatching_MsgDispatcherCore_MSG_F(this, idThread,  null/*_thCxt*/); }
 

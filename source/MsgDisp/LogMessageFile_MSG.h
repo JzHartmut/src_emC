@@ -116,14 +116,14 @@ class Dbg_LogMessageFile_MSG : private Dbg_LogMessageFile_MSG_s
 
 typedef struct LogMessageFile_MSG_t
 { 
-  union { ObjectJc object; LogMessageFW_i LogMessageFW;} base; 
-  struct SbY_sFilenameBuffer_t { StringBufferJc sb; char _b[116]; }sFilenameBuffer;   /**/
-  struct SbY_sDateformatBuffer_t { StringBufferJc sb; char _b[28]; }sDateformatBuffer;   /*StringBuilder to store the converted timeStamp for file time.*/
+  union { ObjectJc object; LogMessageFW_s LogMessageFW;} base; 
+  struct { StringBufferJc sb;  char _b[116]; }sFilenameBuffer;   /**/
+  struct { StringBufferJc sb;  char _b[28]; }sDateformatBuffer;   /*StringBuilder to store the converted timeStamp for file time.*/
   StringJc sFormatTimestampFilename;   /*TODO  */
   SimpleDateFormatJc_s formatTimestamp; 
   int32 counterMultifile;   /*Actual counter of multiFile*/
   TextFieldPositionJc_s formatField; 
-  struct charsFormatTimestampFilename_Y { ObjectArrayJc head; char data[32]; }charsFormatTimestampFilename;   /*xxxjava2c=simpleArray. */
+  struct charsFormatTimestampFilename_Y { ObjectArrayJc head; char data[32]; }charsFormatTimestampFilename; 
   int32 posTimestampInFilename; 
   int32 posMultifileInFilename;   /** If it is -1, no multiFile designation is used.*/
   int32 currentLengthMultifileNr; 
@@ -147,7 +147,7 @@ typedef struct LogMessageFile_MSG_t
   SimpleDateFormatJc_s dateFormat;   /*The date format is fix.*/
   LocaleJcREF localization; 
   TimeZoneJcREF timeZone; 
-  struct SbY_sBuffer_t { StringBufferJc sb; char _b[996]; }sBuffer;   /*Buffer for the current line to assign. Don't use dynamic memory! */
+  struct { StringBufferJc sb;  char _b[996]; }sBuffer;   /*Buffer for the current line to assign. Don't use dynamic memory! */
 } LogMessageFile_MSG_s;
   
 
@@ -197,24 +197,24 @@ METHOD_C void setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* th
 
 /**Sends a message*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...);
+METHOD_C bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...);
+METHOD_C bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...);
 
 /**Sends a message*/
-METHOD_C bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
+METHOD_C bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
 
 /**Sends a message*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
+METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
+METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 
 /**This method can be called after a cyclic time less than the nrofSecondsToFlush,*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void flush_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /**Tests*/
 typedef void MT_writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
@@ -225,14 +225,14 @@ METHOD_C void writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, int32 i
 
 /**Closes the file and forces usage of a new file on next open.*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void close_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void close_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool isOnline_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C bool isOnline_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool isOnline_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C bool isOnline_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -254,19 +254,19 @@ typedef struct Mtbl_LogMessageFile_MSG_t
 class LogMessageFile_MSG : private LogMessageFile_MSG_s
 { public:
 
-  virtual void close(){ close_LogMessageFile_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
+  virtual void close(){ close_LogMessageFile_MSG_F(&this->base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
   LogMessageFile_MSG(StringJcpp sFilename, int32 nrofSecondsToFlush, int32 nrofHoursPerFile, struct LocaleJc_t* localization, struct TimeZoneJc_t* timeZoneP, struct ConcurrentLinkedQueueJc_t* freeEntriesP){ init_ObjectJc(&this->base.object, sizeof(LogMessageFile_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_LogMessageFile_MSG_s, 0); ctorO_LogMessageFile_MSG(&this->base.object, sFilename, nrofSecondsToFlush, nrofHoursPerFile, localization, timeZoneP, freeEntriesP,  null/*_thCxt*/); }
 
-  virtual void flush(){ flush_LogMessageFile_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
+  virtual void flush(){ flush_LogMessageFile_MSG_F(&this->base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
-  virtual bool isOnline(){  return isOnline_LogMessageFile_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
+  virtual bool isOnline(){  return isOnline_LogMessageFile_MSG_F(&this->base/*J2C:ifc*/.LogMessageFW,  null/*_thCxt*/); }
 
-  bool sendMsgTime(int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...){  return sendMsgTime_iDtzv_LogMessageFile_MSG(&this->base.LogMessageFW, identNumber, creationTime, text, args); }
+  bool sendMsgTime(int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...){  return sendMsgTime_iDtzv_LogMessageFile_MSG(&this->base/*J2C:ifc*/.LogMessageFW, identNumber, creationTime, text, args); }
 
-  virtual bool sendMsgVaList(int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args){  return sendMsgVaList_iDtzv_LogMessageFile_MSG_F(&this->base.LogMessageFW, identNumber, creationTime, text, args,  null/*_thCxt*/); }
+  virtual bool sendMsgVaList(int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args){  return sendMsgVaList_iDtzv_LogMessageFile_MSG_F(&this->base/*J2C:ifc*/.LogMessageFW, identNumber, creationTime, text, args,  null/*_thCxt*/); }
 
-  virtual bool sendMsg(int32 identNumber, char const* text, char const* args, ...){  return sendMsg_izv_LogMessageFile_MSG_F(&this->base.LogMessageFW, identNumber, text, args); }
+  virtual bool sendMsg(int32 identNumber, char const* text, char const* args, ...){  return sendMsg_izv_LogMessageFile_MSG_F(&this->base/*J2C:ifc*/.LogMessageFW, identNumber, text, args); }
 
   virtual void setLogMessageOpenClose(struct LogMessageFW_t* msg, int32 msgIdentOpenClose){ setLogMessageOpenClose_LogMessageFile_MSG_F(this, msg, msgIdentOpenClose,  null/*_thCxt*/); }
 

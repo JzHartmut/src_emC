@@ -64,27 +64,27 @@ void finalize_StringFunctionsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 /**Default constructor. */
 METHOD_C struct StringFunctionsJc_t* ctorO_StringFunctionsJc(ObjectJc* othis, ThCxt* _thCxt);
 
-METHOD_C int32 indexWhitespace_StringFunctionsJc(/*static*/ CharSeqJc src, int32 start, int32 endMax, ThCxt* _thCxt);
+METHOD_C int32 indexWhitespace_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src, int32 start, int32 endMax, ThCxt* _thCxt);
 
-METHOD_C int32 indexNoWhitespace_StringFunctionsJc(/*static*/ CharSeqJc src, int32 start, int32 endMax, ThCxt* _thCxt);
+METHOD_C int32 indexNoWhitespace_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src, int32 start, int32 endMax, ThCxt* _thCxt);
 
 /**Searches the position of the first identifier character starting from the given position.*/
-METHOD_C int32 indexIdentifier_StringFunctionsJc(/*static*/ CharSeqJc src, int32 start, int32 endMax, StringJc additionalStartChars, ThCxt* _thCxt);
+METHOD_C int32 indexIdentifier_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src, int32 start, int32 endMax, StringJc additionalStartChars, ThCxt* _thCxt);
 
 /**Returns the position after the end of an identifier.*/
-METHOD_C int32 indexAfterIdentifier_StringFunctionsJc(/*static*/ CharSeqJc src, int32 start, int32 endMax, StringJc additionalChars, ThCxt* _thCxt);
+METHOD_C int32 indexAfterIdentifier_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src, int32 start, int32 endMax, StringJc additionalChars, ThCxt* _thCxt);
 
 /**Returns the position of the end of an identifier.*/
-METHOD_C int32 posAfterIdentifier_CsiiSS_StringFunctionsJc(/*static*/ CharSeqJc src, int32 start, int32 endMax, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
+METHOD_C int32 posAfterIdentifier_CsiiSS_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src, int32 start, int32 endMax, StringJc additionalStartChars, StringJc additionalChars, ThCxt* _thCxt);
 
 /**Returns the position of the end of an identifier.*/
-METHOD_C int32 posAfterIdentifier_Csii_StringFunctionsJc(/*static*/ CharSeqJc src, int32 start, int32 endMax, ThCxt* _thCxt);
+METHOD_C int32 posAfterIdentifier_Csii_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src, int32 start, int32 endMax, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.*/
-METHOD_C int32 comparePos_CsCs_StringFunctionsJc(/*static*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
+METHOD_C int32 comparePos_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.)*/
-METHOD_C int32 comparePos_CsiCsii_StringFunctionsJc(/*static*/ CharSeqJc s1, int32 from1, CharSeqJc s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
+METHOD_C int32 comparePos_CsiCsii_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, int32 from1, CharSeqJc s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
 
 typedef bool MT_test_StringFunctionsJc(StringFunctionsJc_s* thiz, StringJc s, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -93,76 +93,76 @@ METHOD_C bool test_StringFunctionsJc_F(StringFunctionsJc_s* thiz, StringJc s, Th
 METHOD_C bool test_StringFunctionsJc(StringFunctionsJc_s* thiz, StringJc s, ThCxt* _thCxt);
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.*/
-METHOD_C int32 compare_CsiCsii_StringFunctionsJc(/*static*/ CharSeqJc s1, int32 from1, CharSeqJc s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
+METHOD_C int32 compare_CsiCsii_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, int32 from1, CharSeqJc s2, int32 from2, int32 nrofChars, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
-METHOD_C int32 compare_CsCs_StringFunctionsJc(/*static*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
+METHOD_C int32 compare_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
 
 /**Compares two charsequences*/
-METHOD_C bool equals_CsiiCs_StringFunctionsJc(/*static*/ CharSeqJc s1, int32 from, int32 to, CharSeqJc s2, ThCxt* _thCxt);
+METHOD_C bool equals_CsiiCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, int32 from, int32 to, CharSeqJc s2, ThCxt* _thCxt);
 
 /**Compares two Strings or StringBuilder-content or any other CharSequence.*/
-METHOD_C bool equals_CsCs_StringFunctionsJc(/*static*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
+METHOD_C bool equals_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence starts with a CharSequence.*/
-METHOD_C bool startsWith_CsCs_StringFunctionsJc(/*static*/ CharSeqJc sq, CharSeqJc start, ThCxt* _thCxt);
+METHOD_C bool startsWith_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, CharSeqJc start, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence starts with a CharSequence.*/
-METHOD_C bool startsWith_CsiiCs_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 from, int32 to, CharSeqJc start, ThCxt* _thCxt);
+METHOD_C bool startsWith_CsiiCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 from, int32 to, CharSeqJc start, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence ends with a CharSequence.*/
-METHOD_C bool endsWith_StringFunctionsJc(/*static*/ CharSeqJc sq, CharSeqJc end, ThCxt* _thCxt);
+METHOD_C bool endsWith_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, CharSeqJc end, ThCxt* _thCxt);
 
 /**Returns false if at least one char was found in text which is not a whitespace.*/
-METHOD_C bool isEmptyOrOnlyWhitespaces_StringFunctionsJc(/*static*/ CharSeqJc text, ThCxt* _thCxt);
+METHOD_C bool isEmptyOrOnlyWhitespaces_StringFunctionsJc(/*J2C:static method*/ CharSeqJc text, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given character in a CharSequence.*/
-METHOD_C int32 indexOf_Csiic_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 fromIndex, int32 to, char ch, ThCxt* _thCxt);
+METHOD_C int32 indexOf_Csiic_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 fromIndex, int32 to, char ch, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given Character in a CharSequence.*/
-METHOD_C int32 indexOf_Csci_StringFunctionsJc(/*static*/ CharSeqJc sq, char ch, int32 fromIndex, ThCxt* _thCxt);
+METHOD_C int32 indexOf_Csci_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, char ch, int32 fromIndex, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given Character in a CharSequence.*/
-METHOD_C int32 indexOf_Csc_StringFunctionsJc(/*static*/ CharSeqJc sq, char ch, ThCxt* _thCxt);
+METHOD_C int32 indexOf_Csc_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, char ch, ThCxt* _thCxt);
 
 /**Searches any char inside sChars in the given Charsequence*/
-METHOD_C int32 indexOfAnyChar_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 begin, int32 end, StringJc sChars, ThCxt* _thCxt);
+METHOD_C int32 indexOfAnyChar_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 begin, int32 end, CharSeqJc sChars, ThCxt* _thCxt);
 
 /**Searches the last occurrence of the given char in a CharSequence.*/
-METHOD_C int32 lastIndexOf_Csiic_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 from, int32 to, char ch, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_Csiic_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 from, int32 to, char ch, ThCxt* _thCxt);
 
 /**Searches the last occurrence of the given char in a CharSequence.*/
-METHOD_C int32 lastIndexOf_Csc_StringFunctionsJc(/*static*/ CharSeqJc sq, char ch, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_Csc_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, char ch, ThCxt* _thCxt);
 
 /**Searches the last occurrence of the given char in a CharSequence.*/
-METHOD_C int32 lastIndexOfAnyChar_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 from, int32 to, StringJc chars, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOfAnyChar_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 from, int32 to, CharSeqJc chars, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
-METHOD_C int32 indexOf_CsiiS_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
+METHOD_C int32 indexOf_CsiiS_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
-METHOD_C int32 indexOf_CsiiCs_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 fromIndex, int32 to, CharSeqJc str, ThCxt* _thCxt);
+METHOD_C int32 indexOf_CsiiCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 fromIndex, int32 to, CharSeqJc str, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given CharSequence in a CharSequence.*/
-METHOD_C int32 indexOf_CsCsi_StringFunctionsJc(/*static*/ CharSeqJc sq, CharSeqJc str, int32 fromIndex, ThCxt* _thCxt);
+METHOD_C int32 indexOf_CsCsi_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, CharSeqJc str, int32 fromIndex, ThCxt* _thCxt);
 
 /**Searches the first occurrence of the given CharSequence in a CharSequence.*/
-METHOD_C int32 indexOf_CsCs_StringFunctionsJc(/*static*/ CharSeqJc sq, CharSeqJc str, ThCxt* _thCxt);
+METHOD_C int32 indexOf_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, CharSeqJc str, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the given String.*/
-METHOD_C int32 lastIndexOf_CsiiS_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_CsiiS_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 fromIndex, int32 to, StringJc str, ThCxt* _thCxt);
 
 /**Checks whether the given CharSequence contains the other given CharSequence.*/
-METHOD_C int32 lastIndexOf_CsiiCs_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 fromIndex, int32 to, CharSeqJc str, ThCxt* _thCxt);
+METHOD_C int32 lastIndexOf_CsiiCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 fromIndex, int32 to, CharSeqJc str, ThCxt* _thCxt);
 
-/**Returns the position of one of the chars in sChars within the part, started inside the part with fromIndex,*/
-METHOD_C int32 indexOfAnyString_StringFunctionsJc(/*static*/ CharSeqJc sq, int32 from, int32 to, CharSeqJc_Y* listStrings, int32* nrofFoundString, StringJc* foundString, ThCxt* _thCxt);
+/**Returns the position of one of the strings in listStrings within the given sq, maybe started inside the sq with from,*/
+METHOD_C int32 indexOfAnyString_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int32 from, int32 to, CharSeqJc_Y* listStrings, int32* nrofFoundString, StringJc* foundString, ThCxt* _thCxt);
 
 /**Returns a String with 2*indent spaces for indentation.*/
-METHOD_C StringJc indent2_StringFunctionsJc(/*static*/ int32 indent, ThCxt* _thCxt);
+METHOD_C StringJc indent2_StringFunctionsJc(/*J2C:static method*/ int32 indent, ThCxt* _thCxt);
 
 /**Returns a String with a newline \n character and 2*indent spaces for indentation.*/
-METHOD_C StringJc nl_indent2_StringFunctionsJc(/*static*/ int32 indent, ThCxt* _thCxt);
+METHOD_C StringJc nl_indent2_StringFunctionsJc(/*J2C:static method*/ int32 indent, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -205,7 +205,7 @@ class StringFunctionsJc : private StringFunctionsJc_s
 
   int32 indexNoWhitespace(CharSeqJc src, int32 start, int32 endMax){  return indexNoWhitespace_StringFunctionsJc(src, start, endMax,  null/*_thCxt*/); }
 
-  int32 indexOfAnyChar(CharSeqJc sq, int32 begin, int32 end, StringJcpp sChars){  return indexOfAnyChar_StringFunctionsJc(sq, begin, end, sChars,  null/*_thCxt*/); }
+  int32 indexOfAnyChar(CharSeqJc sq, int32 begin, int32 end, CharSeqJc sChars){  return indexOfAnyChar_StringFunctionsJc(sq, begin, end, sChars,  null/*_thCxt*/); }
 
   int32 indexOfAnyString(CharSeqJc sq, int32 from, int32 to, CharSeqJc_Y* listStrings, int32* nrofFoundString, StringJc* foundString){  return indexOfAnyString_StringFunctionsJc(sq, from, to, listStrings, nrofFoundString, foundString,  null/*_thCxt*/); }
 
@@ -227,7 +227,7 @@ class StringFunctionsJc : private StringFunctionsJc_s
 
   bool isEmptyOrOnlyWhitespaces(CharSeqJc text){  return isEmptyOrOnlyWhitespaces_StringFunctionsJc(text,  null/*_thCxt*/); }
 
-  int32 lastIndexOfAnyChar(CharSeqJc sq, int32 from, int32 to, StringJcpp chars){  return lastIndexOfAnyChar_StringFunctionsJc(sq, from, to, chars,  null/*_thCxt*/); }
+  int32 lastIndexOfAnyChar(CharSeqJc sq, int32 from, int32 to, CharSeqJc chars){  return lastIndexOfAnyChar_StringFunctionsJc(sq, from, to, chars,  null/*_thCxt*/); }
 
   int32 lastIndexOf(CharSeqJc sq, char ch){  return lastIndexOf_Csc_StringFunctionsJc(sq, ch,  null/*_thCxt*/); }
 

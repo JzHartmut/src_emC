@@ -24,13 +24,13 @@ class InterProcessCommRxThread; nameC=InterProcessCommRxThread_Ipc_s; argIdent=X
       //outer=2 ,super=1: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
-        run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
+        run-_$, defined: java/lang/Runnable.run, mode=overrideable: void %.r null();
       }
 
       castTo {
         org/vishia/communication/InterProcessCommRxThread: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base.RunnableJc.base.object" $;
-        java/lang/Runnable: $ "(?).base.RunnableJc" $;
+        java/lang/Object: $ "(?).base/*:ifc*/.RunnableJc.base/*J2C_super:*/.object" $;
+        java/lang/Runnable: $ "(?).base/*:ifc*/.RunnableJc" $;
       }
 
     }
@@ -51,10 +51,10 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    create-_$, mode= static: org/vishia/communication/InterProcessCommRxThread *.r null(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/communication/InterProcessCommRx_ifc *.. execRxData);
+    create-_$, mode=static: org/vishia/communication/InterProcessCommRxThread *.r null(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/communication/InterProcessCommRx_ifc *.. execRxData);
     createDstAddr-_$: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. sAddr);
-    ctorO-_$, mode= ctor+static: org/vishia/communication/InterProcessCommRxThread *.. InterProcessCommRxThread_Ipc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/communication/InterProcessCommRx_ifc *.. execRxData);
-    ctorO_C_threadRoutine-_$, mode= ctor+anonymousCtor+nonStaticCtor: org/vishia/communication/InterProcessCommRxThread.C_threadRoutine *.. C_threadRoutine_InterProcessCommRxThread_Ipc_s();
+    ctorO-_$, mode=ctor+static: org/vishia/communication/InterProcessCommRxThread *.. InterProcessCommRxThread_Ipc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/communication/InterProcessCommRx_ifc *.. execRxData);
+    ctorO_C_threadRoutine-_$, mode=ctor+anonymousCtor+nonStaticCtor: org/vishia/communication/InterProcessCommRxThread.C_threadRoutine *.. C_threadRoutine_InterProcessCommRxThread_Ipc_s();
     openComm-_$: boolean %.r null(boolean %.. blocking);
     receiveAndExecute-_$: void %.r null();
     runThread-_$: void %.r null();
@@ -64,7 +64,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

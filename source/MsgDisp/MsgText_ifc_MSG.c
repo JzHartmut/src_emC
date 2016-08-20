@@ -83,13 +83,16 @@ void set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* thi
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_MsgConfigItem_MsgText_ifc_MSG mtblMsgConfigItem_MsgText_ifc_MSG = {
-{ { sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG //J2C: Head of methodtable of MsgConfigItem_MsgText_ifc_MSG
+  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
+  //J2C: Dynamic methods of the class :MsgConfigItem_MsgText_ifc_MSG:
 , set_type_MsgConfigItem_MsgText_ifc_MSG_F //set_type
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
