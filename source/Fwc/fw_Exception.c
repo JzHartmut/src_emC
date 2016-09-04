@@ -46,6 +46,11 @@
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
 
+void stop_DebugutilJc(ThreadContextFW_s* _thCxt){
+}
+
+
+
 const char* exceptionTexts[33]=
 { "RuntimeException"  //0x0001
 , "ClassCastException"   //0x0002

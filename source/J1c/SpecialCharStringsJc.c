@@ -71,9 +71,10 @@ CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*J2C:static method*/ Char
     else 
     { /*:escape character is found before end*/
       
+      ObjectJc *newObj3_1=null; /*J2C: temporary Objects for new operations
+      */
       
-      
-      struct StringBuilderJc_t*  sbReturn = ctorO_cs_StringBuilderJc(/*J2C:static method call*/allocInThreadCxt_ObjectJc(sizeof(StringBuilderJc), _thCxt), src, _thCxt);
+      struct StringBuilderJc_t*  sbReturn = ctorO_cs_StringBuilderJc(/*J2C:static method call*/(newObj3_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), src, _thCxt);
       
       while(posSwitch >= 0)
         { 
@@ -109,6 +110,7 @@ CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*J2C:static method*/ Char
           posSwitch = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/fromStringBuilderJc_CharSeqJc(sbReturn), cSwitch, posSwitch + 1, _thCxt);
         }
       { STACKTRC_LEAVE;
+        activateGC_ObjectJc(newObj3_1, sbReturn, _thCxt);
         return fromStringBuilderJc_CharSeqJc(sbReturn);
       }
     }
@@ -175,7 +177,7 @@ const ClassJc reflection_SpecialCharStringsJc_s =
 , "SpecialCharStringsJc_s"
 ,  0 //position of ObjectJc
 , sizeof(SpecialCharStringsJc_s)
-, (FieldJcArray const*)&reflection_Fields_SpecialCharStringsJc_s
+, (FieldJc_Y const*)&reflection_Fields_SpecialCharStringsJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_SpecialCharStringsJc_s //superclass
 , null //interfaces

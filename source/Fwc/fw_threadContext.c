@@ -79,7 +79,7 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt)
 
 
 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt)
+METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _thCxt)
 { ASSERT_s0_Fwc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   if(_thCxt->bufferAlloc.ref == null) {
@@ -106,13 +106,14 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt)
             MemC ret = CONST_MemC(addr, size);
             _thCxt->addrFree += size;
             _thCxt->bitAddrUsed |= 1 << ix;
-            set_MemC(_thCxt->addrUsed[ix], addr,size);  //store the found range.
+            _thCxt->addrUsed[ix].sign = sign;
+            set_MemC(_thCxt->addrUsed[ix].used, addr,size);  //store the found range.
             return ret; //NOTE: the user is responsible for saving its content.
           } 
-        } else if(size_MemC(_thCxt->addrUsed[ix]) == (uint)size) {
+        } else if(size_MemC(_thCxt->addrUsed[ix].used) == (uint)size) {
           //a free block inside with exactly the same size, reuse it.
           _thCxt->bitAddrUsed |= mask;
-          return _thCxt->addrUsed[ix];  
+          return _thCxt->addrUsed[ix].used;  
         }
       }
       ix +=1; mask <<=1;
@@ -168,14 +169,15 @@ METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt)
   int ixLastUsed = -1;
   while(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) {
     if((_thCxt->bitAddrUsed & mask) !=0) {
-      void const* addr = PTR_MemC(_thCxt->addrUsed[ix], void const);
+      void const* addr = PTR_MemC(_thCxt->addrUsed[ix].used, void const);
       if(addr == data) {
+        _thCxt->addrUsed[ix].sign = 0;
         _thCxt->bitAddrUsed &= ~mask;  //reset bit
         int maskCheck = ~(mask -1);  //all higher bits.
         if( (_thCxt->bitAddrUsed & maskCheck) ==0) {
           //all higher ranges are not used:
           int nrFree = ARRAYLEN_SimpleC(_thCxt->addrUsed) - (ixLastUsed+1); 
-          _thCxt->addrFree =  _thCxt->addrUsed[ixLastUsed+1].ref;
+          _thCxt->addrFree =  _thCxt->addrUsed[ixLastUsed+1].used.ref;
           memset(&_thCxt->addrUsed[ixLastUsed+1], 0, nrFree * sizeof(_thCxt->addrUsed[0]));  //now delete unnecessary infos.
         }
         released = true;

@@ -149,11 +149,21 @@ extern char const sign_Mtbl_CharSeqJc[];
 */
 METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
 
+//see fromObjectJc_CharSeqJc(...) for further methods.
+
 /*@DEFINE_C StringJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-/**StringJc: The ,,struct StringJc,, is the same as ,,struct OS_PtrValue,,. A StringJc consists of a reference and the number of chars.
- * But the value may contain also an index for enhanced referencing. 
+/**StringJc: The type ,,StringJc,, is the same as ,,OS_PtrValue,, from the OSAL level (Operation System Adaption Layer). 
+ * That type is designed to represent a structure, which is returned by value in 2 registers.
+ * Because it is defined in the compiler- and system-specific headerfile ,,os_types_def.h,,,
+ * it can and should be adapted to the target system conditions independently of user programming.
+ *
+ * Because the feature of representation of a struct in registers, the usage of return per value 
+ * and typically call per value for the type StringJc is possible and proper.
+ *
+ * A StringJc consists of a reference ,,char const*,, and a ,,int val,, value, which contains the number of characters.
+ * The value can contain some mask bits, and also an index for enhanced referencing. 
  * Therefore the value is mask with some special bit definitions:
  * * mLength__StringJc: mask for bits for length. The bits are arranged in the low-bits always. 
  * * mNonPersists__StringJc: 
@@ -170,6 +180,13 @@ METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, ch
  * It is stored in machine code commonly in a const memory area and can be referenced by a ,,char const*,,. 
  * Where a instance of ,,StringJc,, references such an text. The type ,,StringJc,, consists of the pointer to the text, its length
  * and some other bits, especially the ''persistent''-bit.
+ *
+ * The headerfile ,,Fwc/fw_String.h,, defines the type and some basicly functionalities
+ * to use a StringJc-instance in a low independent level to refer a text..
+ * This headerfile against that defines the typically String functionality,
+ * which followes the [[sunJavadoc/java/lang/String]] class-functinality. 
+ * But some enhancements are given, because the string processing in fast real time embedded systems
+ * may work without dynamically memory too.
  *
  * Notation hint: The notation ,,char const*,, is the same as ,,const char*,,, but it expresses more stronly, that it is a const-pointer.
  */  

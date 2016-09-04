@@ -253,7 +253,7 @@ StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
     //for this aim. But the user must not store this reference in a non predictable way.It should be used only locally.
     //if there are conflicts, the user gets to know from this because the content of buffer is changed.
     //Normally the content is assembled in a buffer and than transported to any other location, especially to console via printf.
-    { buffer = threadBuffer_StringBuilderJc(_thCxt);
+    { buffer = threadBuffer_StringBuilderJc(0, _thCxt);
     }
   #endif
   STACKTRC_LEAVE; return( buffer);
@@ -287,7 +287,7 @@ static CharSeqJc subSequence_StringBuilderJc_F(ObjectJc* othiz, int32 from, int3
  * It is static, don't use outside.
  * @return pointer to StringBuilderJc or StringBuilderJcpp, therefore the return type is void*. Cast it outside.
  */
-static void* getThreadBuffer_StringBuilderJc(bool bCpp, ThCxt* _thCxt)
+static void* getThreadBuffer_StringBuilderJc(bool bCpp, char const* sign, ThCxt* _thCxt)
 { 
   StringBuilderJc* sBuffer;
   #if defined(__cplusplus) && defined(__CPLUSPLUSJcpp)
@@ -298,7 +298,7 @@ static void* getThreadBuffer_StringBuilderJc(bool bCpp, ThCxt* _thCxt)
   #endif
   STACKTRC_TENTRY("threadBuffer_StringBuilderJc");
   {
-    MemC mBuffer = getUserBuffer_ThreadContextFw(0, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContextFw(0, sign, _thCxt);
     /**Check whether the buffer is in use, TODO... */
     int sizeBufferThreadContext = size_MemC(mBuffer);
     int sizeStringBuffer = sizeBufferThreadContext/2 - sizeStringBuilderJcpp;
@@ -340,14 +340,14 @@ static void* getThreadBuffer_StringBuilderJc(bool bCpp, ThCxt* _thCxt)
 
 
 
-StringBuilderJc* threadBuffer_StringBuilderJc(ThCxt* _thCxt)
-{ return (StringBuilderJc*)getThreadBuffer_StringBuilderJc(false, _thCxt);
+StringBuilderJc* threadBuffer_StringBuilderJc(char const* sign, ThCxt* _thCxt)
+{ return (StringBuilderJc*)getThreadBuffer_StringBuilderJc(false, sign, _thCxt);
 }
 
-StringBuilderJc* threadBuffer_s_StringBuilderJc(CharSeqJc src, ThCxt* _thCxt)
+StringBuilderJc* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign, ThCxt* _thCxt)
 { StringBuilderJc* buffer;
   STACKTRC_TENTRY("threadBuffer_s_StringBuilderJc");
-  buffer = (StringBuilderJc*)getThreadBuffer_StringBuilderJc(false, _thCxt);
+  buffer = (StringBuilderJc*)getThreadBuffer_StringBuilderJc(false, sign, _thCxt);
   append_s_StringBuilderJc(buffer, src, _thCxt);
   STACKTRC_LEAVE; return buffer;
 }
@@ -543,7 +543,7 @@ METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc* ythis, Th
   StringBuilderJc* builderThCxt;
   STACKTRC_TENTRY("toStringInThreadCxt_StringBuilderJc");
   src = toStringNonPersist_StringBuilderJc(&ythis->base.object, _thCxt);
-  builderThCxt = threadBuffer_s_StringBuilderJc(src.c, _thCxt);
+  builderThCxt = threadBuffer_s_StringBuilderJc(src.c, "toStringStringBuilder", _thCxt);
   ret = toString_StringBuilderJc(&builderThCxt->base.object, _thCxt);
   STACKTRC_LEAVE; return ret;
 }
@@ -665,7 +665,7 @@ StringJc copyToThreadCxt_StringJc(StringJc src, ThCxt* _thCxt)
   StringJc ret;
   StringBuilderJc* builderThCxt;
   STACKTRC_TENTRY("copyToThreadCxt_StringJc");
-  builderThCxt = threadBuffer_s_StringBuilderJc(src.c, _thCxt);
+  builderThCxt = threadBuffer_s_StringBuilderJc(src.c, "copytoThCxtStringStringBuilder", _thCxt);
   ret = toString_StringBuilderJc(&builderThCxt->base.object, _thCxt);
   STACKTRC_LEAVE; return ret;
 }
@@ -804,7 +804,7 @@ StringJc format_A_StringJc(StringJc format, Va_listFW vargList, ThCxt* _thCxt)
   StringBuilderJc* uBuffer;
   StringJc ret;
   STACKTRC_TENTRY("format_A_StringJc");
-  uBuffer = threadBuffer_StringBuilderJc(_thCxt);
+  uBuffer = threadBuffer_StringBuilderJc("format_A_StringJc", _thCxt);
   buffer = getCharsAndSize_StringBuilderJc(uBuffer, &zBuffer);
   nrofChars = format_va_arg_Formatter_FW(_thCxt, sFormat, zFormat, buffer, zBuffer, vargList);
   //sbuffer->count = nrofChars;
@@ -832,7 +832,7 @@ StringJc replace_StringJc(StringJc ythis, char oldChar, char newChar, ThCxt* _th
   { if(strThis[ii] == oldChar)
     { if(sbuffer == null) {
         int maxBuffer;
-        sbuffer = threadBuffer_s_StringBuilderJc(ythis.c, _thCxt);
+        sbuffer = threadBuffer_s_StringBuilderJc(ythis.c, "replace_StringJc", _thCxt);
         buffer = getCharsAndSize_StringBuilderJc(sbuffer, &maxBuffer);
         if(maxBuffer < max){
           THROW_s0(StringIndexOutOfBoundsException, "input string to long", max);
@@ -1204,7 +1204,7 @@ StringJc toString_DoubleJc(double value, ThCxt* _thCxt)
   { int size;
     char* buffer;
     int count;
-    sbuffer = threadBuffer_StringBuilderJc(_thCxt);
+    sbuffer = threadBuffer_StringBuilderJc("toString_DoubleJc", _thCxt);
     buffer = getCharsAndSize_StringBuilderJc(sbuffer, &size); 
     count = sprintf(buffer, "%d", value);
     _setCount_StringBuilderJc(sbuffer, count); //

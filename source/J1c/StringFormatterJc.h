@@ -120,6 +120,11 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern const int64 n10a_StringFormatterJc[9];   /*Array with power of 10 to detect the exponent size of a long value. */
  extern StringJc sNeg_StringFormatterJc; 
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_StringFormatterJc();
+
+
+
 
 METHOD_C struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thCxt);
 

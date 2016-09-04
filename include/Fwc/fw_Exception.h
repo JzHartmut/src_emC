@@ -51,11 +51,16 @@
 //#include <stdio.h>  //FILE
 
 
+
 C_TYPE struct OS_HandleFile_t;
 
 /**Forward declaration of struct to prevent warnings. */
 struct ThreadContextFW_t;
 struct PrintStreamJc_t;
+
+
+void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+
 
 /*@CLASS_C StacktraceElementJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 typedef struct StacktraceElementJc_t

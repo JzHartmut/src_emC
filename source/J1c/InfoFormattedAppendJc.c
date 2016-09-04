@@ -20,7 +20,7 @@ See also {@link InfoAppend}.
 
 const char sign_Mtbl_InfoFormattedAppendJc[] = "InfoFormattedAppendJc"; //to mark method tables of all implementations
 
-StringJc version_InfoFormattedAppendJc = CONST_z_StringJc("2015-03-08");
+StringJc version_InfoFormattedAppendJc = CONST_z_StringJc("2015-03-08"); //J2C:static StringJc
 /*J2C: dynamic call variant of the override-able method: */
 void infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct StringFormatterJc_t* u, ThCxt* _thCxt)
 { Mtbl_InfoFormattedAppendJc const* mtbl = (Mtbl_InfoFormattedAppendJc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_InfoFormattedAppendJc);
@@ -58,7 +58,7 @@ const ClassJc reflection_InfoFormattedAppendJc_s =
 , "InfoFormattedAppendJc_s"
 ,  0 //position of ObjectJc
 , sizeof(InfoFormattedAppendJc_s)
-, (FieldJcArray const*)&reflection_Fields_InfoFormattedAppendJc_s
+, (FieldJc_Y const*)&reflection_Fields_InfoFormattedAppendJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InfoFormattedAppendJc_s //superclass
 , null //interfaces
@@ -130,7 +130,7 @@ const ClassJc reflection_PrepareToString_InfoFormattedAppendJc_s =
 , "PrepareToString_In_ppendJc_s"
 ,  0 //position of ObjectJc
 , sizeof(PrepareToString_InfoFormattedAppendJc_s)
-, (FieldJcArray const*)&reflection_Fields_PrepareToString_InfoFormattedAppendJc_s
+, (FieldJc_Y const*)&reflection_Fields_PrepareToString_InfoFormattedAppendJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_PrepareToString_InfoFormattedAppendJc_s //superclass
 , null //interfaces

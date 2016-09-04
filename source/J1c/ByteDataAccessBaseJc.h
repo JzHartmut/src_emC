@@ -82,6 +82,11 @@ void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt
 
  extern StringJc version_ByteDataAccessBaseJc;   /*The version, history and license.*/
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_ByteDataAccessBaseJc();
+
+
+
 
 /**Any instance of ByteDataAccessBase is associated to a determined derived instance which has defined head size.*/
 METHOD_C struct ByteDataAccessBaseJc_t* ctorM_i_ByteDataAccessBaseJc(MemC mthis, int32 sizeHead, ThCxt* _thCxt);
@@ -519,71 +524,86 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
 #define setInt16_iiii_ByteDataAccessBaseJc(THIZ, idxBytes, idxArray, lengthArray, val) \
 \
 { \
-  StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
+   /*J2C: temporary Stringbuffer for String concatenation*/\
+  StringBuilderJc* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-    ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-    , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
-    , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
-    , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
+    ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
+    , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
+    , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
+    , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)\
+    , toStringMarkPersist_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)\
     ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
   setInt16_ii_ByteDataAccessBaseJc((THIZ), idxBytes + 2 * idxArray, val, _thCxt);\
+  activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);\
 }
 
 #define setInt8_iiii_ByteDataAccessBaseJc(THIZ, idxBytes, idxArray, lengthArray, val) \
 \
 { \
-  StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
+   /*J2C: temporary Stringbuffer for String concatenation*/\
+  StringBuilderJc* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-    ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-    , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
-    , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
-    , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
+    ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
+    , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
+    , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
+    , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)\
+    , toStringMarkPersist_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)\
     ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
   setInt8_ii_ByteDataAccessBaseJc((THIZ), idxBytes + idxArray, val);\
+  activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);\
 }
 
 #define setUint16_iiii_ByteDataAccessBaseJc(THIZ, idxBytes, idxArray, lengthArray, val) \
 \
 { \
-  StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
+   /*J2C: temporary Stringbuffer for String concatenation*/\
+  StringBuilderJc* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-    ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-    , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
-    , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
-    , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
+    ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
+    , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
+    , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
+    , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)\
+    , toStringMarkPersist_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)\
     ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
   setUint16_ii_ByteDataAccessBaseJc((THIZ), idxBytes + 2 * idxArray, val);\
+  activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);\
 }
 
 #define setUint8_iiii_ByteDataAccessBaseJc(THIZ, idxBytes, idxArray, lengthArray, val) \
 \
 { \
-  StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
+   /*J2C: temporary Stringbuffer for String concatenation*/\
+  StringBuilderJc* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-    ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-    , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
-    , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
-    , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
+    ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
+    , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
+    , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
+    , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)\
+    , toStringMarkPersist_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)\
     ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
   setUint8_ii_ByteDataAccessBaseJc((THIZ), idxBytes + idxArray, val);\
+  activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);\
 }
 
 #define setFloat_iiif_ByteDataAccessBaseJc(THIZ, idxBytes, idxArray, lengthArray, val) \
 \
 { \
-  StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);\
+   /*J2C: temporary Stringbuffer for String concatenation*/\
+  StringBuilderJc* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
-    ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)\
-    , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)\
-    , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)\
-    , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)\
+    ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
+    , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
+    , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
+    , append_I_StringBuilderJc(_tempString1_1, idxArray, _thCxt)\
+    , toStringMarkPersist_StringBuilderJc(&(_tempString1_1)->base.object, _thCxt)\
     ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };\
   setFloat_if_ByteDataAccessBaseJc((THIZ), idxBytes + 4 * idxArray, val);\
+  activateGC_ObjectJc(&_tempString1_1->base.object, null, _thCxt);\
 }
 
 /**Prepares a new child for this*/

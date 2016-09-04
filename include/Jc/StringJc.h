@@ -954,7 +954,7 @@ typedef struct StringJc_CharSeqJc_t
  * @throws IllegalArgumentException if thiz is a StringJc and ,,dst_StringJc,, is not given.
  * If exception handling is not present then the return values are null instead the exception.
  */
-CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_StringJc, ThCxt* _thCxt);
+METHOD_C CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_StringJc, ThCxt* _thCxt);
 
 
 
@@ -1036,6 +1036,8 @@ METHOD_C int length_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt);
  * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the 
  */
 METHOD_C char charAt_CharSeqJc(CharSeqJc thiz, int pos, ThCxt* _thCxt);
+
+
 
 #define subSequence_CharSeqJc(THIZ, from, to, THC) (\
   isValid_ObjectJc((THIZ).ref) \
@@ -1358,7 +1360,7 @@ METHOD_C StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc sr
  * @return the empty instance in thread-context-buffer. 
  *          This instance is designated ''locate in threadBuffer'' using the mode-bit ,,_mThread_StringBuilderJc,,.
  */
-METHOD_C StringBuilderJc* threadBuffer_StringBuilderJc(struct ThreadContextFW_t* _thCxt);
+METHOD_C StringBuilderJc* threadBuffer_StringBuilderJc(char const* sign, struct ThreadContextFW_t* _thCxt);
 #define threadBuffer_StringBufferJc threadBuffer_StringBuilderJc
 
 /**Initializes the StringBuilderJc-instance in the Thread Context with the given String

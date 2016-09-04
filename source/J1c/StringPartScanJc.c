@@ -1086,7 +1086,7 @@ const ClassJc reflection_StringPartScanJc_s =
 , "StringPartScanJc_s"
 ,  0 //position of ObjectJc
 , sizeof(StringPartScanJc_s)
-, (FieldJcArray const*)&reflection_Fields_StringPartScanJc_s
+, (FieldJc_Y const*)&reflection_Fields_StringPartScanJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_StringPartScanJc_s //superclass
 , null //interfaces

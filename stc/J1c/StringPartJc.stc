@@ -44,9 +44,9 @@ class StringPart; nameC=StringPartJc_s; argIdent=XX; extends java/lang/Object im
       methods {  
         charAt+_i-_$, defined: java/lang/CharSequence.charAt: char %.r null(int %.. index);
         length-_$, defined: java/lang/CharSequence.length: int %.r null();
-        subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence, mode=ReturnInThreadCxt: java/lang/CharSequence c.! null(int %.. from,int %.. end);
+        subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. from,int %.. end);
         toString-_$, defined: java/lang/Object.toString: java/lang/String(instance=java/lang/String) t.r null();
-        trim-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.! null();
+        trim-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null();
       }
 
       castTo {
@@ -96,6 +96,7 @@ fieldIdents {
     assignFromEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null(org/vishia/util/StringPart *.. src);
     assignReplaceEnv-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/StringBuilder *.. input);
     charAt+_i-_$, defined: java/lang/CharSequence.charAt: char %.r null(int %.. index);
+    checkCharAt-_$, mode=noThCxt: boolean %.r null(int %.. pos,java/lang/String(instance=java/lang/String) t.. chars);
     close-_$, mode=overrideable: void %.r null();
     compareTo-_$: int %.r null(java/lang/CharSequence c.. str2);
     ctorO-_$, mode=ctor+static: org/vishia/util/StringPart *.. StringPartJc_s();
@@ -104,18 +105,19 @@ fieldIdents {
     ctorO_Part-_$, mode=ctor+nonStaticCtor: org/vishia/util/StringPart.Part *.. Part_StringPartJc_s(int %.. from,int %.. to);
     debugString-_$: java/lang/String(instance=java/lang/String) t.r null();
     equals+_Cs-_$: boolean %.r null(java/lang/CharSequence c.. sCmp);
+    firstlineMaxpart-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     found-_$: boolean %.r null();
     fromEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
-    getCurrent-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.! null(int %.. nChars);
+    getCurrent-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. nChars);
     getCurrentChar-_$: char %.r null();
     getCurrentColumn-_$: int %.r null();
-    getCurrentPart-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.! null();
-    getCurrentPart+_i-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.! null(int %.. maxLength);
+    getCurrentPart-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null();
+    getCurrentPart+_i-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. maxLength);
     getCurrentPosition-_$: long %.r null();
     getInputfile-_$: java/lang/String(instance=java/lang/String) t.r null();
-    getLastPart-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.! null();
+    getLastPart-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null();
     getLineAndColumn-_$, mode=overrideable: int %.r null(int[??] X%. column);
-    getPart-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.! null(int %.. fromPos,int %.. nrofChars);
+    getPart-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null(int %.. fromPos,int %.. nrofChars);
     indexEndOfQuotation-_$: int %.r null(char %.. cEndQuotion,char %.. transcriptChar,int %.. fromWhere,int %.. maxToTest);
     indexEndOfQuotion-_$: int %.r null(char %.. cEndQuotion,int %.. fromWhere,int %.. maxToTest);
     indexOf+_c-_$: int %.r null(char %.. ch);
@@ -134,7 +136,7 @@ fieldIdents {
     lenBacktoNoChar-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. sChars);
     length-_$, defined: java/lang/CharSequence.length: int %.r null();
     lengthMaxPart-_$: int %.r null();
-    lento+_i-_$, mode=returnThis: org/vishia/util/StringPart *.t null(int %.. len);
+    lento+_i-_$, mode=noThCxt+returnThis: org/vishia/util/StringPart *.t null(int %.. len);
     lento+_c-_$, mode=returnThis: org/vishia/util/StringPart *.t null(char %.. cc);
     lento+_Cs-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. ss);
     lento+_Csi-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. ss,int %.. mode);
@@ -150,20 +152,26 @@ fieldIdents {
     lentoIdentifier+_CsCs-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. additionalStartChars,java/lang/CharSequence c.. additionalChars);
     lentoLineEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     lentoNonEscapedString-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. sEnd,int %.. maxToTest);
+    lentoPos-_$, mode=returnThis: org/vishia/util/StringPart *.t null(int %.. len);
     lentoQuotionEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null(char %.. sEndQuotion,int %.. maxToTest);
     line-_$: org/vishia/util/StringPart *.r null();
+    nextlineMaxpart-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     replace-_$, mode=static: java/lang/String(instance=java/lang/String) t.r null(java/lang/CharSequence c.. src,java/lang/CharSequence[??] Xc. placeholder,java/lang/CharSequence[??] Xc. value,java/lang/StringBuilder *.. dst);
     seek+_i-_$, mode=returnThis: org/vishia/util/StringPart *.t null(int %.. nr);
     seek+_Cs-_$, mode=noThCxt: org/vishia/util/StringPart *.r null(java/lang/CharSequence c.. sSeek);
     seek+_Csi-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. sSeek,int %.. mode);
     seek+_ci-_$, mode=returnThis: org/vishia/util/StringPart *.t null(char %.. cSeek,int %.. mode);
+    seekAnyChar-_$: org/vishia/util/StringPart *.r null(java/lang/CharSequence c.. chars);
     seekAnyString-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence[??] Xc. strings,int[??] P%. nrofFoundString);
     seekBackToAnyChar-_$: org/vishia/util/StringPart *.r null(java/lang/CharSequence c.. chars);
     seekBackward-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. sSeek);
     seekBegin-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
+    seekNextLine-_$: org/vishia/util/StringPart *.r null();
     seekNoChar-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. sChars);
     seekNoWhitespace-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     seekNoWhitespaceOrComments-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
+    seekPos-_$: org/vishia/util/StringPart *.r null(int %.. nr);
+    seekPosBack-_$: org/vishia/util/StringPart *.r null(int %.. nr);
     setBeginMaxPart-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     setCurrentPosition-_$: void %.r null(long %.. pos);
     setIgnoreComment+_b-_$: boolean %.r null(boolean %.. bSet);
@@ -173,14 +181,14 @@ fieldIdents {
     setIgnoreWhitespaces-_$: boolean %.r null(boolean %.. bSet);
     setInputfile-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. file);
     setLengthMax-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
-    setParttoMax-_$, mode=noThCxt: void %.r null();
+    setParttoMax-_$, mode=noThCxt+returnThis: org/vishia/util/StringPart *.t null();
     skipWhitespaceAndComment-_$: org/vishia/util/StringPart *.r null();
     startsWith-_$: boolean %.r null(java/lang/CharSequence c.. sCmp);
-    subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence, mode=ReturnInThreadCxt: java/lang/CharSequence c.! null(int %.. from,int %.. to);
-    substring-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.! null(int %.. pos,int %.. posendP);
+    subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. from,int %.. to);
+    substring-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null(int %.. pos,int %.. posendP);
     throwIndexOutOfBoundsException-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. sMsg);
     throwSubSeqFaulty-_$: void %.r null(int %.. from,int %.. to);
-    toString-_$, defined: java/lang/Object.toString, mode=overrideable+ReturnInThreadCxt: java/lang/String(instance=java/lang/String) t.! null();
+    toString-_$, defined: java/lang/Object.toString, mode=overrideable+ReturnInThreadCxt: java/lang/String(instance=java/lang/String) t.k null();
     trim-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     trimComment-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     trimWhiteSpaces-_$, mode=returnThis: org/vishia/util/StringPart *.t null();

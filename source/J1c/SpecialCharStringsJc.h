@@ -59,6 +59,11 @@ void finalize_SpecialCharStringsJc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern const char cStartOfText_SpecialCharStringsJc;   /*The char used to code start of text. */
  extern const char cEndOfText_SpecialCharStringsJc;   /*The char used to code end of text. */
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_SpecialCharStringsJc();
+
+
+
 
 /**Default constructor. */
 METHOD_C struct SpecialCharStringsJc_t* ctorO_SpecialCharStringsJc(ObjectJc* othis, ThCxt* _thCxt);

@@ -225,7 +225,7 @@ struct Size_Mtbl_t;
  * It can be returned and used in the calling enviroment immediately or return. That is the difference to a embedded instance in the stack.
  * Only one instance can be located in the thread context. It is over-written if another instance is created in the thread context.
  */
-ObjectJc* allocInThreadCxt_ObjectJc(int size, struct ThreadContextFW_t* _thCxt);
+ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadContextFW_t* _thCxt);
 
 
 

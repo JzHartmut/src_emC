@@ -60,6 +60,11 @@ void finalize_StringFunctionsJc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern const char cEndOfText_StringFunctionsJc;   /*The char used to code end of text*/
  extern StringJc indentString_StringFunctionsJc; 
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_StringFunctionsJc();
+
+
+
 
 /**Default constructor. */
 METHOD_C struct StringFunctionsJc_t* ctorO_StringFunctionsJc(ObjectJc* othis, ThCxt* _thCxt);

@@ -83,7 +83,8 @@ void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc
   STACKTRC_TENTRY("setLeapSeconds_LeapSecondsJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(singleton_LeapSecondsJc == null) 
     { 
@@ -93,14 +94,16 @@ void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc
       activateGC_ObjectJc(newObj3_1, null, _thCxt);
     }
     if(idx < 0 || idx > ARRAYLEN_SimpleC(singleton_LeapSecondsJc->leapSeconds)) { throw_sJc(ident_IllegalArgumentExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "The number of leap seconds should be not greater than", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, (ARRAYLEN_SimpleC(singleton_LeapSecondsJc->leapSeconds) - 1), _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "The number of leap seconds should be not greater than", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, (ARRAYLEN_SimpleC(singleton_LeapSecondsJc->leapSeconds) - 1), _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     singleton_LeapSecondsJc->leapSeconds[idx] = idx;
     singleton_LeapSecondsJc->millisecondsUTCForLeapSeconds->data[idx] = getTime_DateJc(date);
     singleton_LeapSecondsJc->millisecondsGPSForLeapSeconds->data[idx] = idx + getTime_DateJc(date);
+    activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -338,7 +341,7 @@ const ClassJc reflection_LeapSecondsJc_s =
 , "LeapSecondsJc_s"
 ,  0 //position of ObjectJc
 , sizeof(LeapSecondsJc_s)
-, (FieldJcArray const*)&reflection_Fields_LeapSecondsJc_s
+, (FieldJc_Y const*)&reflection_Fields_LeapSecondsJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_LeapSecondsJc_s //superclass
 , null //interfaces

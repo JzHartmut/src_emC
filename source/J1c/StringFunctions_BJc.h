@@ -59,6 +59,11 @@ void finalize_StringFunctions_BJc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern StringJc version_StringFunctions_BJc;   /*Version, history and license.*/
  extern StringJc sWhiteSpaces_StringFunctions_BJc; 
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_StringFunctions_BJc();
+
+
+
 
 /**Default constructor. */
 METHOD_C struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* _thCxt);

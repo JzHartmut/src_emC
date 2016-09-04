@@ -303,6 +303,7 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 
 
 
+
 MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
 { switch(error) {
   case 1: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis, null);
@@ -312,6 +313,19 @@ MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCx
   }
 }
 
+
+
+MtblHeadJc const* XXXXXXXXcheckMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
+{ ClassJc const* reflection = ythis->reflectionClass;
+  MtblHeadJc const* head0, *head;
+  if( reflection == null) THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: reflection not given", (int)ythis, null);
+  if(reflection->object.reflectionClass != &reflection_ClassJc) THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis, null);
+  head0 = ythis->reflectionClass->mtbl;  
+  if(head0 == null) THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis, null);
+  head = (MtblHeadJc const*)(((MemUnit const*) (head0)) + ix * sizeof(head0->sign)); 
+  if(head->sign == sign) return head;
+  else THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis, null);
+}
 
 
 

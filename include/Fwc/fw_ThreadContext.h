@@ -44,6 +44,13 @@
   #include "fw_Exception.h"
 #endif
 
+
+typedef struct AddrUsed_ThreadContextFW_t
+{ char const* sign;
+  MemC used;
+} AddrUsed_ThreadContextFW;
+
+
 /*@CLASS_C ThreadContextFW @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
@@ -63,7 +70,7 @@ typedef struct ThreadContextFW_t
    * That is usual if more as one time a block is allocated and freed in a loop.
    * If the element contains {0,0} than it is not a gap, and the whole memory till end of [[ThreadContextFW_s.bufferAlloc]] is available. 
    */
-  MemC addrUsed[10];
+  AddrUsed_ThreadContextFW addrUsed[10];
 
   /**If the bit from 0..9 is set, the address is in use. 0: freed. */
   int32 bitAddrUsed;
@@ -126,8 +133,10 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt);
  *
  * The buffer may be given by [[ThreadContextFW_s.setUserBuffer_ThreadContextFw(...)]] or it is allocated on demand on first usage.
  * Because the buffer is stored not globally but thread specific this mechanism is threadsafe, .
+ * @param size in MemUnit
+ * @param sign a number to support debugging which part of code has allocated, use a unified number if possible.
  */ 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt);
+METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _thCxt);
 
 
 /**Sets the mode whether the release of the buffer in ThreadContext is necessary. 
@@ -141,8 +150,6 @@ METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt)
 
 
 //METHOD_C void free(void const* addr);
-
-
 
 METHOD_C bool xxxoptimizeString_ThCxt(ThCxt* ythis, bool value);
 

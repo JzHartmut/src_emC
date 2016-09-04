@@ -118,6 +118,11 @@ void finalize_InfoFormattedAppendJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
  extern StringJc version_InfoFormattedAppendJc;   /*The version, history and license.*/
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_InfoFormattedAppendJc();
+
+
+
 
 typedef void MT_infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct StringFormatterJc_t* u, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */

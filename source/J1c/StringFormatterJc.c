@@ -46,14 +46,14 @@ const char sign_Mtbl_StringFormatterJc[] = "StringFormatterJc"; //to mark method
 
 typedef struct MtblDef_StringFormatterJc_t { Mtbl_StringFormatterJc mtbl; MtblHeadJc end; } MtblDef_StringFormatterJc;
  extern MtblDef_StringFormatterJc const mtblStringFormatterJc;
-StringJc version_StringFormatterJc = CONST_z_StringJc("2014-08-10");
+StringJc version_StringFormatterJc = CONST_z_StringJc("2014-08-10"); //J2C:static StringJc
 const int16 k2left_StringFormatterJc = 2 + mBytesInWordBigEndian_StringFormatterJc;
 const int16 k4left_StringFormatterJc = 4 + mBytesInWordBigEndian_StringFormatterJc;
 const int16 k6left_StringFormatterJc = 6 + mBytesInWordBigEndian_StringFormatterJc;
 const int16 k8left_StringFormatterJc = 8 + mBytesInWordBigEndian_StringFormatterJc;
-StringJc spaces_StringFormatterJc = CONST_z_StringJc("                                                          ");
+StringJc spaces_StringFormatterJc = CONST_z_StringJc("                                                          "); //J2C:static StringJc
 const int64 n10a_StringFormatterJc[9] = { 1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10};
-StringJc sNeg_StringFormatterJc = CONST_z_StringJc("+-%");
+StringJc sNeg_StringFormatterJc = CONST_z_StringJc("+-%"); //J2C:static StringJc
 
 /*Constructor */
 struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thCxt)
@@ -1079,7 +1079,7 @@ StringJc addHexLn_StringFormatterJc(/*J2C:static method*/ int8_Y* data, int32 le
     
     while(idx < (idxStart + length))
       { 
-         //J2C: temporary Stringbuffer for String concatenation
+         /*J2C: temporary Stringbuffer for String concatenation*/
         StringBuilderJc* _tempString3_1=null; 
         
         
@@ -1098,7 +1098,7 @@ StringJc addHexLn_StringFormatterJc(/*J2C:static method*/ int8_Y* data, int32 le
         , append_s_StringBuilderJc(_tempString3_1, strRet.c, _thCxt)
         , append_s_StringBuilderJc(_tempString3_1, getContent_StringFormatterJc(buffer, _thCxt).c, _thCxt)
         , append_z_StringBuilderJc(_tempString3_1, "\n", _thCxt)
-        , toString_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
+        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
         reset_StringFormatterJc(buffer, _thCxt);
         idx = idxLineEnd;
@@ -1230,14 +1230,17 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
     }
     else if(src < 0) 
     { 
-      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+       /*J2C: temporary Stringbuffer for String concatenation*/
+      StringBuilderJc* _tempString3_1=null; 
       
       { throw_sJc(ident_IllegalArgumentExceptionJc, 
-        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-        , append_z_StringBuilderJc(_stringBuilderThCxt, "value should be only positive: ", _thCxt)
-        , append_J_StringBuilderJc(_stringBuilderThCxt, src, _thCxt)
-        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+        ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
+        , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
+        , append_z_StringBuilderJc(_tempString3_1, "value should be only positive: ", _thCxt)
+        , append_J_StringBuilderJc(_tempString3_1, src, _thCxt)
+        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
         ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }/*if the number is negativ but a sign is not expected, the number will be shown as positiv value.*/
     /**/
     /*----------------------------------------------------------------------*/
@@ -1972,7 +1975,7 @@ const ClassJc reflection_StringFormatterJc_s =
 , "StringFormatterJc_s"
 , (int16)((int32)(&((StringFormatterJc_s*)(0x1000))->base.object) - (int32)(StringFormatterJc_s*)0x1000)
 , sizeof(StringFormatterJc_s)
-, (FieldJcArray const*)&reflection_Fields_StringFormatterJc_s
+, (FieldJc_Y const*)&reflection_Fields_StringFormatterJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_StringFormatterJc_s //superclass
 , (ClassOffset_idxMtblJcARRAY*)&interfaces_StringFormatterJc_s //interfaces

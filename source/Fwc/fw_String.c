@@ -359,7 +359,7 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
     int iChars;
     int nChars = mc->length(othiz, _thCxt);
-    MemC mBuffer = getUserBuffer_ThreadContextFw(nChars+1, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContextFw(nChars+1, "toString_CharSeqJc", _thCxt);
     int sizeBufferThreadContext = size_MemC(mBuffer);
     if(nChars >= sizeBufferThreadContext){ 
       nChars = sizeBufferThreadContext-1;   //limit it.

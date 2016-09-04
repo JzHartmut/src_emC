@@ -252,7 +252,7 @@ void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp time
 StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, ThCxt* _thCxt)
 { StringBuilderJc* buffer;
   STACKTRC_TENTRY("format_SimpleDateFormatJc");
-  buffer = threadBuffer_StringBuilderJc(_thCxt);
+  buffer = threadBuffer_StringBuilderJc("format_SimpleDateFormatJc", _thCxt);
   format_tu_SimpleDateFormatJc(ythis, timeStamp, buffer, null,_thCxt);
   STACKTRC_LEAVE; return toString_StringBuilderJc(&buffer->base.object, _thCxt);
 }

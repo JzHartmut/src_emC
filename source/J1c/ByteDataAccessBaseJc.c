@@ -151,7 +151,7 @@ See
 
 const char sign_Mtbl_ByteDataAccessBaseJc[] = "ByteDataAccessBaseJc"; //to mark method tables of all implementations
 
-StringJc version_ByteDataAccessBaseJc = CONST_z_StringJc("2015-03-08");
+StringJc version_ByteDataAccessBaseJc = CONST_z_StringJc("2015-03-08"); //J2C:static StringJc
 
 /*Constructor */
 struct ByteDataAccessBaseJc_t* ctorM_i_ByteDataAccessBaseJc(MemC mthis, int32 sizeHead, ThCxt* _thCxt)
@@ -448,16 +448,19 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
     ASSERT(/*J2C:static method call*/ixEndNew < 0 || ixEndNew >= thiz->ixBegin + thiz->sizeHead);
     if(ixEndNew > thiz->data.val) 
     { 
-      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+       /*J2C: temporary Stringbuffer for String concatenation*/
+      StringBuilderJc* _tempString3_1=null; 
       
       { throw_sJc(ident_IllegalArgumentExceptionJc, 
-        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-        , append_z_StringBuilderJc(_stringBuilderThCxt, "child long as data, data.length= ", _thCxt)
-        , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->data.val, _thCxt)
-        , append_z_StringBuilderJc(_stringBuilderThCxt, ", ixChildEndNew= ", _thCxt)
-        , append_I_StringBuilderJc(_stringBuilderThCxt, ixEndNew, _thCxt)
-        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+        ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
+        , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
+        , append_z_StringBuilderJc(_tempString3_1, "child long as data, data.length= ", _thCxt)
+        , append_I_StringBuilderJc(_tempString3_1, thiz->data.val, _thCxt)
+        , append_z_StringBuilderJc(_tempString3_1, ", ixChildEndNew= ", _thCxt)
+        , append_I_StringBuilderJc(_tempString3_1, ixEndNew, _thCxt)
+        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
         ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }
     if(thiz->bExpand) 
     { 
@@ -505,16 +508,19 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
       
       if(ixNextChildNew > thiz->ixEnd) 
       { 
-        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+         /*J2C: temporary Stringbuffer for String concatenation*/
+        StringBuilderJc* _tempString4_1=null; 
         
         { throw_sJc(ident_IllegalArgumentExceptionJc, 
-          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-          , append_z_StringBuilderJc(_stringBuilderThCxt, "next child pos after ixend = ", _thCxt)
-          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->ixEnd, _thCxt)
-          , append_z_StringBuilderJc(_stringBuilderThCxt, ", ixNextChilNew= ", _thCxt)
-          , append_I_StringBuilderJc(_stringBuilderThCxt, ixNextChildNew, _thCxt)
-          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+          ( _tempString4_1 = new_StringBuilderJc(-1, _thCxt)
+          , setStringConcatBuffer_StringBuilderJc(_tempString4_1)
+          , append_z_StringBuilderJc(_tempString4_1, "next child pos after ixend = ", _thCxt)
+          , append_I_StringBuilderJc(_tempString4_1, thiz->ixEnd, _thCxt)
+          , append_z_StringBuilderJc(_tempString4_1, ", ixNextChilNew= ", _thCxt)
+          , append_I_StringBuilderJc(_tempString4_1, ixNextChildNew, _thCxt)
+          , toStringMarkPersist_StringBuilderJc(&(_tempString4_1)->base.object, _thCxt)
           ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+        activateGC_ObjectJc(&_tempString4_1->base.object, null, _thCxt);
       }
       thiz->ixNextChild = ixNextChildNew;
     }
@@ -547,18 +553,21 @@ void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 
       
       if(thiz->ixEnd > thiz->data.val) 
       { 
-        StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+         /*J2C: temporary Stringbuffer for String concatenation*/
+        StringBuilderJc* _tempString4_1=null; 
         
         
         StringJc msg ; msg = 
-          ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-          , append_z_StringBuilderJc(_stringBuilderThCxt, "not enough data bytes, requested=", _thCxt)
-          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->ixEnd, _thCxt)
-          , append_z_StringBuilderJc(_stringBuilderThCxt, ", buffer-length=", _thCxt)
-          , append_I_StringBuilderJc(_stringBuilderThCxt, thiz->data.val, _thCxt)
-          , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+          ( _tempString4_1 = new_StringBuilderJc(-1, _thCxt)
+          , setStringConcatBuffer_StringBuilderJc(_tempString4_1)
+          , append_z_StringBuilderJc(_tempString4_1, "not enough data bytes, requested=", _thCxt)
+          , append_I_StringBuilderJc(_tempString4_1, thiz->ixEnd, _thCxt)
+          , append_z_StringBuilderJc(_tempString4_1, ", buffer-length=", _thCxt)
+          , append_I_StringBuilderJc(_tempString4_1, thiz->data.val, _thCxt)
+          , toStringMarkPersist_StringBuilderJc(&(_tempString4_1)->base.object, _thCxt)
           )/*J2C:non-persistent*/;
         { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+        activateGC_ObjectJc(&_tempString4_1->base.object, null, _thCxt);
       }
     }
     
@@ -1315,14 +1324,17 @@ void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
     int32  len = getLength_ByteDataAccessBaseJc(src, _thCxt);
     if(thiz->data.val < len) 
     { 
-      StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+       /*J2C: temporary Stringbuffer for String concatenation*/
+      StringBuilderJc* _tempString3_1=null; 
       
       { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-        ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-        , append_z_StringBuilderJc(_stringBuilderThCxt, "copy, dst to small", _thCxt)
-        , append_I_StringBuilderJc(_stringBuilderThCxt, len, _thCxt)
-        , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+        ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
+        , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
+        , append_z_StringBuilderJc(_tempString3_1, "copy, dst to small", _thCxt)
+        , append_I_StringBuilderJc(_tempString3_1, len, _thCxt)
+        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
         ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }/*//TODO System.arraycopy(src.data,src.idxBegin,data,idxBegin,len);*/
     
   }
@@ -1709,15 +1721,18 @@ int32 getUint32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
   STACKTRC_TENTRY("getUint32_iii_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "getUint16:", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "getUint16:", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getUint32_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray, _thCxt);
     }
   }
@@ -1729,15 +1744,18 @@ int32 getInt32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getInt32_iii_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt32:", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "getInt32:", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt32_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray, _thCxt);
     }
   }
@@ -1749,15 +1767,18 @@ int32 getInt16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getInt16_iii_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt16:", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "getInt16:", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt16_i_ByteDataAccessBaseJc(thiz, idxBytes + 2 * idxArray, _thCxt);
     }
   }
@@ -1769,15 +1790,18 @@ int32 getInt8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxBy
   STACKTRC_TENTRY("getInt8_iii_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "getInt8:", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "getInt8:", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessBaseJc(thiz, idxBytes + idxArray, _thCxt);
     }
   }
@@ -1789,15 +1813,18 @@ int32 getUint16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
   STACKTRC_TENTRY("getUint16_iii_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "getUint16:", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "getUint16:", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getUint16_i_ByteDataAccessBaseJc(thiz, idxBytes + 2 * idxArray, _thCxt);
     }
   }
@@ -1809,15 +1836,18 @@ int32 getUint8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getUint8_iii_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "getUint8:", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "getUint8:", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessBaseJc(thiz, idxBytes + idxArray, _thCxt);
     }
   }
@@ -1829,15 +1859,18 @@ float getFloat_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getFloat_iii_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_z_StringBuilderJc(_stringBuilderThCxt, "getFloat:", _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_z_StringBuilderJc(_tempString2_1, "getFloat:", _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
     { STACKTRC_LEAVE;
+      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getFloat_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray, _thCxt);
     }
   }
@@ -1931,16 +1964,19 @@ void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, 
   STACKTRC_TENTRY("throwexc_ByteDataAccessBaseJc");
   
   { 
-    StringBuilderJc* _stringBuilderThCxt = threadBuffer_StringBuilderJc(_thCxt);
+     /*J2C: temporary Stringbuffer for String concatenation*/
+    StringBuilderJc* _tempString2_1=null; 
     
     
     StringJc textExc ; textExc = 
-      ( setLength_StringBuilderJc(_stringBuilderThCxt, 0, _thCxt)
-      , append_s_StringBuilderJc(_stringBuilderThCxt, text.c, _thCxt)
-      , append_I_StringBuilderJc(_stringBuilderThCxt, idxArray, _thCxt)
-      , toString_StringBuilderJc(&(_stringBuilderThCxt)->base.object, _thCxt)
+      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
+      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
+      , append_s_StringBuilderJc(_tempString2_1, text.c, _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
+      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       )/*J2C:non-persistent*/;
     { throw_sJc(ident_IndexOutOfBoundsExceptionJc, textExc, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -2132,7 +2168,7 @@ const ClassJc reflection_ByteDataAccessBaseJc_s =
 , "ByteDataAccessBaseJc_s"
 ,  0 //position of ObjectJc
 , sizeof(ByteDataAccessBaseJc_s)
-, (FieldJcArray const*)&reflection_Fields_ByteDataAccessBaseJc_s
+, (FieldJc_Y const*)&reflection_Fields_ByteDataAccessBaseJc_s
 , null //method
 , null //superclass
 , null //interfaces
