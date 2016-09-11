@@ -76,6 +76,7 @@
 //#include "Jc/ReflectionJc.h"
 #include <string.h>
 #include <stdarg.h>
+#include <fw_assert.h>
 
 //compatibility
 #define StringBufferJc StringBuilderJc
@@ -1496,6 +1497,24 @@ METHOD_C void clear_StringBuilderJc(StringBuilderJc* ythis);
  * @javalike [[sunJavadoc/java/lang/StringBuilder#capacity()]].
  */
 METHOD_C int capacity_StringBuilderJc(StringBuilderJc* ythis);
+
+
+
+/**
+ * return the size of the StringBuilder with its immediate following text
+ * or -1 if the text is referenced.
+ */
+INLINE_Fwc int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int size){
+  ASSERT_s0_Fwc(size < abs(thiz->size), "faulty size", size);
+  if(thiz->size > 0) {
+    thiz->size = size;
+    return sizeof(StringBuilderJc)  - sizeof(thiz->value) + size;
+  } else {
+    //buffer referenced. 
+    thiz->size = -size;
+    return -1;
+  }
+}
 
 
 

@@ -254,7 +254,7 @@ StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp tim
   STACKTRC_TENTRY("format_SimpleDateFormatJc");
   buffer = threadBuffer_StringBuilderJc("format_SimpleDateFormatJc", _thCxt);
   format_tu_SimpleDateFormatJc(ythis, timeStamp, buffer, null,_thCxt);
-  STACKTRC_LEAVE; return toString_StringBuilderJc(&buffer->base.object, _thCxt);
+  STACKTRC_LEAVE; return toStringMarkPersist_StringBuilderJc(&buffer->base.object, _thCxt);
 }
 
 

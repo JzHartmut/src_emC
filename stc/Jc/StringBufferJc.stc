@@ -52,7 +52,7 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
 		substring+_I-_$: String t.. return(int %.. start);
 		substring-_$: String t.. return(int %.. start, int %.. end);
 		replace-_$,   mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}, field:{   String t.. param;} );                        
-		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
+		toString-_$, defined=java.lang.Object:    field:{ String t.r return;};
   }
   castTo {
     StringBuffer * "?" *;

@@ -44,9 +44,9 @@ class StringPart; nameC=StringPartJc_s; argIdent=XX; extends java/lang/Object im
       methods {  
         charAt+_i-_$, defined: java/lang/CharSequence.charAt: char %.r null(int %.. index);
         length-_$, defined: java/lang/CharSequence.length: int %.r null();
-        subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. from,int %.. end);
+        subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence: java/lang/CharSequence c.k null(int %.. from,int %.. end);
         toString-_$, defined: java/lang/Object.toString: java/lang/String(instance=java/lang/String) t.r null();
-        trim-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null();
+        trim-_$: org/vishia/util/StringPart.Part *.k null();
       }
 
       castTo {
@@ -108,16 +108,16 @@ fieldIdents {
     firstlineMaxpart-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     found-_$: boolean %.r null();
     fromEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
-    getCurrent-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. nChars);
+    getCurrent-_$: java/lang/CharSequence c.k null(int %.. nChars);
     getCurrentChar-_$: char %.r null();
     getCurrentColumn-_$: int %.r null();
-    getCurrentPart-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null();
-    getCurrentPart+_i-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. maxLength);
+    getCurrentPart-_$: org/vishia/util/StringPart.Part *.k null();
+    getCurrentPart+_i-_$: java/lang/CharSequence c.k null(int %.. maxLength);
     getCurrentPosition-_$: long %.r null();
     getInputfile-_$: java/lang/String(instance=java/lang/String) t.r null();
-    getLastPart-_$, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null();
+    getLastPart-_$: java/lang/CharSequence c.k null();
     getLineAndColumn-_$, mode=overrideable: int %.r null(int[??] X%. column);
-    getPart-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null(int %.. fromPos,int %.. nrofChars);
+    getPart-_$: org/vishia/util/StringPart.Part *.k null(int %.. fromPos,int %.. nrofChars);
     indexEndOfQuotation-_$: int %.r null(char %.. cEndQuotion,char %.. transcriptChar,int %.. fromWhere,int %.. maxToTest);
     indexEndOfQuotion-_$: int %.r null(char %.. cEndQuotion,int %.. fromWhere,int %.. maxToTest);
     indexOf+_c-_$: int %.r null(char %.. ch);
@@ -184,11 +184,11 @@ fieldIdents {
     setParttoMax-_$, mode=noThCxt+returnThis: org/vishia/util/StringPart *.t null();
     skipWhitespaceAndComment-_$: org/vishia/util/StringPart *.r null();
     startsWith-_$: boolean %.r null(java/lang/CharSequence c.. sCmp);
-    subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence, mode=ReturnInThreadCxt: java/lang/CharSequence c.k null(int %.. from,int %.. to);
-    substring-_$, mode=ReturnInThreadCxt: org/vishia/util/StringPart.Part *.k null(int %.. pos,int %.. posendP);
+    subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence: java/lang/CharSequence c.k null(int %.. from,int %.. to);
+    substring-_$: org/vishia/util/StringPart.Part *.k null(int %.. pos,int %.. posendP);
     throwIndexOutOfBoundsException-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. sMsg);
     throwSubSeqFaulty-_$: void %.r null(int %.. from,int %.. to);
-    toString-_$, defined: java/lang/Object.toString, mode=overrideable+ReturnInThreadCxt: java/lang/String(instance=java/lang/String) t.k null();
+    toString-_$, defined: java/lang/Object.toString, mode=overrideable: java/lang/String(instance=java/lang/String) t.k null();
     trim-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     trimComment-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     trimWhiteSpaces-_$, mode=returnThis: org/vishia/util/StringPart *.t null();

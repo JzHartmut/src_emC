@@ -479,6 +479,8 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
     }
     if(ythis->_mode & _mThread_StringBuilderJc){
       nonPersistent |= mThreadContext__StringJc;
+      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, ythis->_count+1);
+      reduceLastUserBuffer_ThreadContextFw(ythis, sizeInThCxt, _thCxt);
     }
     /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
      * Elsewhere the String is not persistant. That is okay mostly. 
@@ -809,6 +811,8 @@ StringJc format_A_StringJc(StringJc format, Va_listFW vargList, ThCxt* _thCxt)
   nrofChars = format_va_arg_Formatter_FW(_thCxt, sFormat, zFormat, buffer, zBuffer, vargList);
   //sbuffer->count = nrofChars;
   _setCount_StringBuilderJc(uBuffer, nrofChars);  
+  int sizeBufferInThCxt = _reduceCapacity_StringBuilderJc(uBuffer, nrofChars+1);  
+  reduceLastUserBuffer_ThreadContextFw(uBuffer, sizeBufferInThCxt, _thCxt);
   INIT_StringJc(ret, buffer, nrofChars | mThreadContext__StringJc);
   STACKTRC_LEAVE; return ret;
 }
@@ -1085,7 +1089,14 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int start, 
   if(ythis->_mode & _mStringBuilt_StringBuilderJc){
     THROW_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
   }
-  int nAdd = to > from ? (to -from) : length_CharSeqJc(add, _thCxt) -from;
+  int nAdd;
+  int zadd = length_CharSeqJc(add, _thCxt);
+  if(from < 0 || from > zadd) {
+    nAdd = 0;
+  } else {
+    nAdd = to < from ? zadd -from : (to -from);
+    if(nAdd > zadd){ nAdd = zadd; }
+  }
   nInsert = nAdd - (end - start); //nr of chars to insert netto, may be positive or negative.
   countNew = count + nInsert;
   if(countNew > size)
@@ -1106,7 +1117,8 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int start, 
   }
   //The area to replace is free.
   { int iDst = 0;
-    int iAdd; for(iAdd = from; iAdd < to; ++iAdd) {
+    int end = from + nAdd;
+    int iAdd; for(iAdd = from; iAdd < end; ++iAdd) {
       char cc = charAt_CharSeqJc(add, iAdd, _thCxt);
       buffer[start+iDst] = cc;
       iDst +=1;
@@ -1268,25 +1280,26 @@ StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offset, 
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   int size = (thiz->size < 0 ? -thiz->size : thiz->size); //size of the buffer
   int count = thiz->_count;
-  int nInsert = end - start;  //nr of chars to insert netto
   STACKTRC_TENTRY("insert_cYii_StringBuilderJc");
+  int nInsert;
   int endmax = length_CharSeqJc(add, _thCxt);
   if(offset < 0) { //check offset
     offset = thiz->_count + offset +1; //-1: it is _count
   }
   if(offset <0){ offset = 0; }
   //check end
-  if(end < 0){
-    end = endmax - end +1;  //-1 result in endmax
+  if(end < 0){  // -1: till endmax, -2  endmax -1 etc.
+    end = endmax + end +1;  //-1 result in endmax
   }
   if(end <0) {
     end = 0; 
   } else if(end > endmax){
-    return thiz;  //do nothing, nothing to append
+    STACKTRC_LEAVE; return thiz;  //do nothing, nothing to append
   }
   if(thiz->_mode & _mStringBuilt_StringBuilderJc){
     THROW_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
   }
+  nInsert = end - start;  //nr of chars to insert netto
   countNew = count + nInsert;
   if(countNew > size)
   { //in opposite to Java the StringBuffer is not increased, no dynamically memory management.
@@ -1305,7 +1318,7 @@ StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offset, 
   //The area to replace is free.
   //Read characters and insert
 
-  copyToBuffer_CharSeqJc(add, start, end, buffer + offset, thiz->size - offset);
+  copyToBuffer_CharSeqJc(add, start, end, buffer + offset, size - offset);
   _setCount_StringBuilderJc(thiz, countNew); //thiz->count = countNew;
 
   STACKTRC_LEAVE; return( thiz);

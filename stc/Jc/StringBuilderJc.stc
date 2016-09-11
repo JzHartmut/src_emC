@@ -54,7 +54,7 @@ class StringBuilder; nameC=StringBuilderJc; argIdent=Sb; header=Jc/StringJc.h; e
 		substring+_I-_$: String t.. return(int %.. start);
 		substring-_$: String t.. return(int %.. start, int %.. end);
 		replace-_$,   mode:returnThis:  field:{ StringBuilder *.. return;} (int %.. from, int %.. to, java/lang/CharSequence c.. add );                        
-		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
+		toString-_$, defined=java.lang.Object:    field:{ String t.r return;};
   }
   castTo {
     StringBuffer * "?" *;  //In C it is the same.

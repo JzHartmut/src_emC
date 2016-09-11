@@ -89,7 +89,6 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _
     int sizeFree = endBuffer - _thCxt->addrFree;
     int mask = 0x1;
     int ix = 0;
-    int ixLastUsed = -1;
     if(size ==0){  //special arguments
       size = sizeFree;
     } else if(size == -1) {
@@ -107,6 +106,7 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _
             _thCxt->addrFree += size;
             _thCxt->bitAddrUsed |= 1 << ix;
             _thCxt->addrUsed[ix].sign = sign;
+            _thCxt->ixLastAddrUsed = ix;
             set_MemC(_thCxt->addrUsed[ix].used, addr,size);  //store the found range.
             return ret; //NOTE: the user is responsible for saving its content.
           } 
@@ -124,36 +124,22 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _
     THROW_s0(IllegalStateException, "nothing free in ThreadContext", size);
     return null_MemC;
   }
-
-
-
-
-
-/*
-    int mask = 0xffffffff;
-    int ix = 0;
-    //search for the last block after them all are free. don't use a free block between -?TODO
-    while( (_thCxt->bitAddrUsed & mask) !=0) { //the while breaks at least if mask ==0 after 32 shift in any case.
-      ix +=1; mask <<=1;                       //shifts 0 from right to left.
-    }
-    if(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) { //found
-      MemUnit* addr = _thCxt->addrFree;
-      MemC ret = CONST_MemC(addr, size);
-      _thCxt->addrFree += size;
-      _thCxt->bitAddrUsed |= 1 << ix;
-      set_MemC(_thCxt->addrUsed[ix], addr,size);  //store the found range.
-      return ret; //NOTE: the user is responsible for saving its content.
-    } else {
-      THROW_s0(IllegalStateException, "To much allocation blocks in ThreadContext", 0);
-      return null_MemC;
-    }
-  } 
-  else {
-    THROW_s0(IllegalStateException, "Nothing free", 0);
-    return null_MemC;
-  }
-*/
 }
+
+
+
+METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThCxt* _thCxt)
+{ if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
+  if(size & 0x7) { size += 8-(size & 0x7); }
+  //MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
+  AddrUsed_ThreadContextFW* e = &_thCxt->addrUsed[_thCxt->ixLastAddrUsed]; 
+  if(e->used.ref == ptr) {
+    //ASSERT_s0_Fwc(e->used.ref == ptr , "reduceLastUserBuffer_ThreadContextFw: faulty ptr", (int32)ptr);
+    _thCxt->addrFree = (MemUnit*) ptr + size;
+    e->used.val = size;
+  }
+}
+
 
 
 
@@ -164,13 +150,15 @@ METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt)
     _thCxt = getCurrent_ThreadContextFW();
   }
   bool released = false;
-  int mask = 0x1;
-  int ix = 0;
+  //try to free the last used position, often it is successfully.
+  int ix = _thCxt->ixLastAddrUsed >=0 ? _thCxt->ixLastAddrUsed : 0;
+  int mask = 0x1 << ix;
   int ixLastUsed = -1;
   while(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) {
     if((_thCxt->bitAddrUsed & mask) !=0) {
-      void const* addr = PTR_MemC(_thCxt->addrUsed[ix].used, void const);
-      if(addr == data) {
+      void const* addr = PTR_MemC(_thCxt->addrUsed[ix].used, MemUnit const);
+      void const* endAddr = END_MemC(_thCxt->addrUsed[ix].used);
+      if(data >= addr && data < endAddr) {
         _thCxt->addrUsed[ix].sign = 0;
         _thCxt->bitAddrUsed &= ~mask;  //reset bit
         int maskCheck = ~(mask -1);  //all higher bits.
@@ -186,7 +174,11 @@ METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt)
         ixLastUsed = ix;  //the last used block.
       }
     }
-    ix +=1; mask <<=1;
+    if(ix == _thCxt->ixLastAddrUsed) { 
+      //not successfully, start from 0, forgot ixLastAddrUsed. 
+      ix = 0; _thCxt->ixLastAddrUsed = -1; mask = 0x1; 
+    }
+    else { ix +=1; mask <<=1; }
   }
   return released;
 }
