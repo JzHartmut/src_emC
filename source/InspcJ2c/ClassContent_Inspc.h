@@ -39,13 +39,13 @@ typedef struct ClassContent_Inspc_t
 { 
   union { ObjectJc object; CmdConsumer_ifc_Inspc_s CmdConsumer_ifc_Inspc;} base; 
   int8 __TEST__[20]; 
-  struct ObjectJc_t* rootObj;   /*The Object from which the user-given path starts to search.*/
-  struct AnswerComm_ifc_Inspc_t* answerComm;   /*Association to produce the answer of a request*/
+  struct ObjectJc_t* rootObj;   /*The Object from which the user-given path starts to search. */
+  struct AnswerComm_ifc_Inspc_t* answerComm;   /*Association to produce the answer of a request. It is possible to send more as one answer telegram. */
   struct MemAccessArrayDebugJc_t* debugRemoteAccess;   /*Yet only a placeholder, used in the C-implementation. */
-  Inspcitem_InspcDataExchangeAccess_Inspc_s answerItem;   /*A debug helper to visit the search activity on access to any reflection element.*/
-  struct SbY_uArray_t { StringBufferJc sb; char _b[60]; }uArray;   /*Buffer to prepare a array information in the answer of a telegram. */
-  struct SbY_uValue_t { StringBufferJc sb; char _b[156]; }uValue;   /*Buffer to prepare the value in the answer of a telegram. */
-  struct SbY_uAnswer_t { StringBufferJc sb; char _b[196]; }uAnswer;   /*Buffer to prepare the answer in the answer of a telegram. */
+  Inspcitem_InspcDataExchangeAccess_Inspc_s answerItem;   /*A debug helper to visit the search activity on access to any reflection element. */
+  struct { StringBufferJc sb;  char _b[60]; }uArray;   /*Buffer to prepare a array information in the answer of a telegram. */
+  struct { StringBufferJc sb;  char _b[156]; }uValue;   /*Buffer to prepare the value in the answer of a telegram. */
+  struct { StringBufferJc sb;  char _b[196]; }uAnswer;   /*Buffer to prepare the answer in the answer of a telegram. */
   InspcDataInfo_Inspc_s test;   /*java2c=simpleRef. */
   struct handles_Y { ObjectArrayJc head; InspcDataInfo_Inspc_s data[1024]; }handles;   /*Array of registered data access info items. */
 } ClassContent_Inspc_s;
@@ -80,10 +80,16 @@ void finalize_ClassContent_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
  extern StringJc version_ClassContent_Inspc;   /*Version, history and license.*/
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_ClassContent_Inspc();
+
+
+
 
 METHOD_C struct ClassContent_Inspc_t* ctorO_ClassContent_Inspc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Sets the Object which is the root for all data.*/
+/**Sets the Object which is the root for all data.
+*/
 METHOD_C void setRootObject_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
 
 /**sets all aggregations which are unknown on constuctor. */
@@ -91,7 +97,8 @@ METHOD_C void setAnswerComm_XX_ClassContent_Inspc(ObjectJc* ithis, struct Answer
 
 METHOD_C int32 executeMonitorCmd_XXXXi_ClassContent_Inspc(ObjectJc* ithis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-/**The information doesn't fit in the datagram: Send the last one and clear it.*/
+/**The information doesn't fit in the datagram: Send the last one and clear it. 
+*/
 METHOD_C void txAnswerAndPrepareNewTelg_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, ThCxt* _thCxt);
 
 METHOD_C int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
@@ -104,17 +111,23 @@ METHOD_C int32 cmdGetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, 
 
 METHOD_C int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, ThCxt* _thCxt);
 
-/**Gets or sets a value by given path of reflection.*/
+/**Gets or sets a value by given path of reflection.
+Combination of get and set value by path. Both requests answers the current value. Therefore the functionality is similar.
+
+*/
 METHOD_C void getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 nOrderNr, StringJc sVariablePath, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, ThCxt* _thCxt);
 
-/**Sets the value if accSetValue is not null, fills the {@link #answerItem} with the read value.*/
-METHOD_C int16 getSetValue_ClassContent_Inspc(/*static*/ struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, bool bStoreTypeInAnswer, ThCxt* _thCxt);
+/**Sets the value if accSetValue is not null, fills the {@link #answerItem} with the read value.
+Fills with or without type byte.
+*/
+METHOD_C int16 getSetValue_ClassContent_Inspc(/*J2C:static method*/ struct FieldJc_t const* theField, int32 idx, MemSegmJc theObject, struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* accSetValue, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, bool bStoreTypeInAnswer, ThCxt* _thCxt);
 
 METHOD_C int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
 METHOD_C int32 cmdRegisterRepeat_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-/**Registers a path for repeated access*/
+/**Registers a path for repeated access
+*/
 METHOD_C int32 registerHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, StringJc sVariablePath, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem, ThCxt* _thCxt);
 
 METHOD_C void addAnswerItemValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* answItem, int32 sizeExpected, ThCxt* _thCxt);
@@ -123,17 +136,36 @@ METHOD_C void completeAnswerItemByHandle_ClassContent_Inspc(ClassContent_Inspc_s
 
 METHOD_C int32 cmdGetValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-/**Gets a value which is registered before by {@link #registerHandle(String, org.vishia.communication.InspcDataExchangeAccess.Inspcitem)}*/
+/**Gets a value which is registered before by {@link #registerHandle(String, org.vishia.communication.InspcDataExchangeAccess.Inspcitem)}
+This is the core routine for {@link #cmdGetValueByHandle(org.vishia.communication.InspcDataExchangeAccess.Inspcitem, org.vishia.communication.InspcDataExchangeAccess.InspcDatagram, int)}
+which needs writing to the answer datagram. If this routine is used directly, inside this target, this routine can be used
+with following pattern: <pre>
+byte[] answerBuffer = new byte[20]; //buffer for the answer
+InspcDataExchangeAccess.Inspcitem answItem = new InspcDataExchangeAccess.Inspcitem();
+answItem.assignClear(answerBuffer);
+short type = inspector.classContent.getValueByHandle(handle, answItem);
+//The result is written to the answerBuffer, the answItem is the helper only.
+answItem.assign(answerBuffer); //assign newly but yet to read the content.
+int value = InspcDataExchangeAccess.getIntChild(type, answItem);
+</pre>
+See {@link #getFloatValueByHandle(int)}, {@link #getIntValueByHandle(int)} which uses this routine.
+
+*/
 METHOD_C int16 getValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 handle, struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* answItem, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 index, int32 nOrderNr, ThCxt* _thCxt);
 
-/**Gets the value described by this handle as float value*/
+/**Gets the value described by this handle as float value. This method is offered to get a value by an internal
+access via reflection.
+*/
 METHOD_C float getFloatValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 handle, ThCxt* _thCxt);
 
-/**Gets the value described by this handle as int32 value*/
+/**Gets the value described by this handle as int32 value. This method is offered to get a value by an internal
+access via reflection.
+*/
 METHOD_C int32 getIntValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 handle, ThCxt* _thCxt);
 
-/**Converts the given Field of Reflection to the type byte.*/
-METHOD_C int16 getTypeFromField_ClassContent_Inspc(/*static*/ struct FieldJc_t const* theField, ThCxt* _thCxt);
+/**Converts the given Field of Reflection to the type byte.
+*/
+METHOD_C int16 getTypeFromField_ClassContent_Inspc(/*J2C:static method*/ struct FieldJc_t const* theField, ThCxt* _thCxt);
 
 METHOD_C void stop_ClassContent_Inspc(ClassContent_Inspc_s* thiz, ThCxt* _thCxt);
 

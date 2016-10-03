@@ -16,7 +16,7 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/InspcDataInfo *.. InspcDataInfo_Inspc_s();
+    ctorO-_$, mode=ctor+static: org/vishia/inspectorTarget/InspcDataInfo *.. InspcDataInfo_Inspc_s();
   }
 
   castTo {

@@ -50,7 +50,8 @@ fieldIdents {
     getLastScannedIntegerNumber-_$: long %.r null();
     getLastScannedIntegerSign-_$: boolean %.r null();
     getLastScannedString-_$: java/lang/CharSequence c.r null();
-    scan-_$, mode=returnThis: org/vishia/util/StringPartScan *.t null(java/lang/CharSequence c.. sTestP);
+    scan-_$: org/vishia/util/StringPartScan *.r null();
+    scan+_Cs-_$, mode=returnThis: org/vishia/util/StringPartScan *.t null(java/lang/CharSequence c.. sTestP);
     scanDigits-_$: long %.r null(boolean %.. bHex,int %.. maxNrofChars);
     scanEntry-_$: boolean %.r null();
     scanFloatNumber-_$, mode=returnThis: org/vishia/util/StringPartScan *.t null();
@@ -72,10 +73,10 @@ fieldIdents {
 
   castTo {
     java/lang/CharSequence: c "fromObjectJc_CharSeqJc(&(?).base.object)" $;
-    java/io/Closeable: $ "(?).base/*J2C_super:*/.super.base/*J2C:ifc*/.CloseableJc" $;
-    java/lang/Comparable: $ "(?).base/*J2C_super:*/.super.base/*J2C:ifc*/.ComparableJc" $;
-    java/lang/Object: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.object" $;
-    org/vishia/util/StringPart: $ "(?).base/*J2C_super:*/.super" $;
+    java/io/Closeable: $ "(?).base.super.base.CloseableJc" $;
+    java/lang/Comparable: $ "(?).base.super.base.ComparableJc" $;
+    java/lang/Object: $ "(?).base.super.base.object" $;
+    org/vishia/util/StringPart: $ "(?).base.super" $;
   }
 
 }

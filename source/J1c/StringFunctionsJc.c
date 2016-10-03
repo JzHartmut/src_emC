@@ -13,7 +13,7 @@
 
 /* J2C: Forward declaration of struct ***********************************************/
 
-/**This class contains static String functions without any other dependency.
+/**This class contains static String functions without any other dependency. 
 In C the functions are contained in the Fwc/fw_String.c.
 @author Hartmut Schorrig
 
@@ -269,11 +269,11 @@ int32 comparePos_CsiCsii_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, i
       
       else if(i1 < z1) { STACKTRC_LEAVE;
         return i1 - from1 + 1;
-      }/*positive value: s1 is greater because i1 < z2, is longer and c1==c2*/
+      }/*positive value: s1 is greater because i1 < z2, is longer and c1==c2 */
       
       else { STACKTRC_LEAVE;
         return 0;
-      }/*both equal, comparison to end.*/
+      }/*both equal, comparison to end. */
       
     }
     else 
@@ -438,7 +438,7 @@ int32 compare_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeq
 }
 
 
-/**Compares two charsequences*/
+/**Compares two charsequences. It is similar String.equals(String), but works with CharSequence and accepts null-pointer.*/
 bool equals_CsiiCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, int32 from, int32 to, CharSeqJc s2, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("equals_CsiiCs_StringFunctionsJc");
@@ -1102,7 +1102,7 @@ int32 indexOfAnyString_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int
         }
     }
     
-    StringJc sFirstChars ; sFirstChars = toString_StringBufferJc(& ((sFirstCharBuffer).base/*J2C_super:*/.object), _thCxt)/*J2C:non-persistent*/;
+    StringJc sFirstChars ; sFirstChars = toString_StringBufferJc(& ((sFirstCharBuffer).base.object), _thCxt)/*J2C:non-persistent*/;
     
     bool  found = false;
     
@@ -1155,7 +1155,7 @@ int32 indexOfAnyString_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int
         }
       }
     if(pos > to || (pos == to && !acceptToEndOfText)) 
-    { /*:nothing found*/
+    { /*:nothing found */
       
       
       pos = -1;
@@ -1216,6 +1216,175 @@ StringJc nl_indent2_StringFunctionsJc(/*J2C:static method*/ int32 indent, ThCxt*
     }
     else { STACKTRC_LEAVE;
       return indentString_StringFunctionsJc;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Returns the number of bytes to the UTF start byte.*/
+int32 nrofBytesUTF8_StringFunctionsJc(/*J2C:static method*/ int8 b, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("nrofBytesUTF8_StringFunctionsJc");
+  
+  { 
+    
+    if(b >= 0) { STACKTRC_LEAVE;
+      return 1;
+    }
+    if((b & 0xe0) == 0xc0) { STACKTRC_LEAVE;
+      return 2;
+    }
+    if((b & 0xf0) == 0xe0) { STACKTRC_LEAVE;
+      return 3;
+    }
+    if((b & 0xf8) == 0xf0) { STACKTRC_LEAVE;
+      return 4;
+    }
+    if((b & 0xfc) == 0xf8) { STACKTRC_LEAVE;
+      return 5;
+    }
+    if((b & 0xfe) == 0xfc) { STACKTRC_LEAVE;
+      return 6;
+    }
+    if(b == 0xfe) { STACKTRC_LEAVE;
+      return 7;
+    }
+    if(b == 0xff) { STACKTRC_LEAVE;
+      return 8;
+    }
+    else { STACKTRC_LEAVE;
+      return 0;
+    }/*all codes 80..BF = 10xxxxxx*/
+    
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Converts the current bytes in a byte[] from UTF-8 in a UTF16-character.*/
+int16 byte2UTF8_StringFunctionsJc(/*J2C:static method*/ int8_Y* src, int32_Y* ixSrc, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("byte2UTF8_StringFunctionsJc");
+  
+  { 
+    
+    
+    int8  b = src->data[ixSrc->data[0]];
+    if(b >= 0) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return (int16 /*J2C_cast*/)b;
+      }
+    }/**/
+    
+    if((b & 0xc0) == 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }/**/
+    
+    
+    int8  b2 = src->data[ixSrc->data[0]];
+    if((b2 & 0xc0) != 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }
+    ixSrc->data[0] += 1;
+    
+    int32  cc = b;
+    cc <<= 6;
+    cc |= b2 & 0x3f;
+    if((b & 0xe0) == 0xc0) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return (int16 /*J2C_cast*/)(cc & 0x7ff);
+      }/*remove 3 MSB from b.*/
+      
+    }/**/
+    
+    
+    int8  b3 = src->data[ixSrc->data[0]];
+    if((b3 & 0xc0) != 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }
+    ixSrc->data[0] += 1;
+    cc <<= 6;
+    cc |= b3 & 0x3f;
+    if((b & 0xf0) == 0xe0) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return (int16 /*J2C_cast*/)(cc & 0xffff);
+      }/*remove 3 MSB from b.*/
+      
+    }/**/
+    /*That is an higher UTF character than UTF16-range:*/
+    
+    
+    int8  b4 = src->data[ixSrc->data[0]];
+    if((b4 & 0xc0) != 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }
+    ixSrc->data[0] += 1;
+    if((b & 0xf8) == 0xf0) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return (int16 /*J2C_cast*/)(0xfffd);
+      }
+    }/*    */
+    
+    
+    int8  b5 = src->data[ixSrc->data[0]];
+    ixSrc->data[0] += 1;
+    if((b5 & 0xc0) != 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }
+    if((b & 0xfc) == 0xf8) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return (int16 /*J2C_cast*/)(0xfffd);
+      }
+    }/*    */
+    
+    
+    int8  b6 = src->data[ixSrc->data[0]];
+    if((b6 & 0xc0) != 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }
+    ixSrc->data[0] += 1;
+    if((b & 0xfe) == 0xfc) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return (int16 /*J2C_cast*/)(0xfffd);
+      }
+    }/*    */
+    
+    
+    int8  b7 = src->data[ixSrc->data[0]];
+    if((b7 & 0xc0) != 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }
+    ixSrc->data[0] += 1;
+    if((b & 0xff) == 0xfe) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return (int16 /*J2C_cast*/)(0xfffd);
+      }
+    }/*    */
+    
+    ASSERT(/*J2C:static method call*/b == 0xff);
+    
+    int8  b8 = src->data[ixSrc->data[0]++];
+    if((b8 & 0xc0) != 0x80) { STACKTRC_LEAVE;
+      return 0;
+    }
+    ixSrc->data[0] += 1;
+    { STACKTRC_LEAVE;
+      return (int16 /*J2C_cast*/)(0xfffd);
     }
   }
   STACKTRC_LEAVE;

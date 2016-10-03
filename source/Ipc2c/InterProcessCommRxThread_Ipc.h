@@ -88,7 +88,7 @@ typedef struct Mtbl_C_threadRoutine_InterProcessCommRxThread_Ipc_t
 class C_threadRoutine_InterProcessCommRxThread_Ipc : private C_threadRoutine_InterProcessCommRxThread_Ipc_s
 { public:
 
-  virtual void run(){ run_C_threadRoutine_InterProcessCommRxThread_Ipc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_C_threadRoutine_InterProcessCommRxThread_Ipc_F(&this->base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -104,7 +104,7 @@ typedef struct InterProcessCommRxThread_Ipc_t
 { 
   union { ObjectJc object; } base; 
   struct InterProcessCommRx_ifc_Ipc_t* execRxData;   /*Reference to the execute routine on receiving data. */
-  char state;   /*State of function.*/
+  char state;   /*State of function.*/
   bool bEnablePrintfOnComm; 
   struct InterProcessComm_t* ipc;   /**/
   int32 ctErrorTelg; 
@@ -144,21 +144,26 @@ typedef struct InterProcessCommRxThread_Ipc_Y_t { ObjectArrayJc head; InterProce
 void finalize_InterProcessCommRxThread_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
- extern StringJc version_InterProcessCommRxThread_Ipc;   /*Version, history and license.*/
+ extern StringJc version_InterProcessCommRxThread_Ipc;   /*Version, history and license.*/
+
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_InterProcessCommRxThread_Ipc();
+
+
 
 
 /**Creates the communication but does not open it yet*/
 METHOD_C struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(ObjectJc* othis, StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt);
 
-/**Static method to create invokes the constructor.*/
-METHOD_C struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*static*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt);
+/**Static method to create invokes the constructor.*/
+METHOD_C struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C:static method*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt);
 
-/**Create any destination address for the given InterprocessComm implementation.*/
+/**Create any destination address for the given InterprocessComm implementation*/
 METHOD_C struct Address_InterProcessComm_t* createDstAddr_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, StringJc sAddr, ThCxt* _thCxt);
 
 METHOD_C bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, bool blocking, ThCxt* _thCxt);
 
-/**Start opens the InterProcessComm and starts the receiver thread.*/
+/**Start opens the InterProcessComm and starts the receiver thread.*/
 METHOD_C bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
 
 /**Send a telegram to the given dst*/

@@ -51,7 +51,7 @@ const ClassJc reflection_MsgText_ifc_MSG_s =
 , 0    //modifiers
 };
 
-/**One item for each message.
+/**One item for each message. 
 From Zbnf: This class is used as setting class for Zbnf2Java, therefore all is public. The identifiers have to be used
 as semantic in the parser script.
 
@@ -173,7 +173,7 @@ const ClassJc reflection_MsgConfigItem_MsgText_ifc_MSG_s =
 , "MsgConfigItem_MsgT_ifc_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(MsgConfigItem_MsgText_ifc_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_MsgConfigItem_MsgText_ifc_MSG_s //superclass
 , null //interfaces

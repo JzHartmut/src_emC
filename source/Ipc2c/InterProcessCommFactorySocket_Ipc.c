@@ -145,7 +145,7 @@ struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc(Obje
 }
 
 
-/**Creates an address information for the InterProcessComm from a parameter String.*/
+/**Creates an address information for the InterProcessComm from a parameter String*/
 struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
   
@@ -195,7 +195,7 @@ struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocke
 }
 
 
-/**Creates an address for InterProcesscommunication with given description.*/
+/**Creates an address for InterProcesscommunication with given description.*/
 struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndAddr, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
   Mtbl_InterProcessCommFactorySocket_Ipc const* mtthis = (Mtbl_InterProcessCommFactorySocket_Ipc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_InterProcessCommFactorySocket_Ipc);
@@ -226,7 +226,7 @@ struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySo
   { 
     ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
-    if(type.ref== null) 
+    if(type.c.ref== null) 
     { 
       
       

@@ -68,7 +68,8 @@ void initStatic_StringFunctions_BJc();
 /**Default constructor. */
 METHOD_C struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters.*/
+/**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters. 
+*/
 METHOD_C CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt);
 
 

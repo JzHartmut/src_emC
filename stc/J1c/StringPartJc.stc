@@ -51,7 +51,7 @@ class StringPart; nameC=StringPartJc_s; argIdent=XX; extends java/lang/Object im
 
       castTo {
         java/lang/CharSequence: c "fromObjectJc_CharSeqJc(&(?).base.object)" $;
-        java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+        java/lang/Object: $ "(?).base.object" $;
         org/vishia/util/StringPart: * "(?)->outer" *;
       }
 
@@ -201,9 +201,9 @@ fieldIdents {
 
   castTo {
     java/lang/CharSequence: c "fromObjectJc_CharSeqJc(&(?).base.object)" $;
-    java/io/Closeable: $ "(?).base/*J2C:ifc*/.CloseableJc" $;
-    java/lang/Comparable: $ "(?).base/*J2C:ifc*/.ComparableJc" $;
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/io/Closeable: $ "(?).base.CloseableJc" $;
+    java/lang/Comparable: $ "(?).base.ComparableJc" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }

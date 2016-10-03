@@ -50,7 +50,7 @@ struct SpecialCharStringsJc_t* ctorO_SpecialCharStringsJc(ObjectJc* othis, ThCxt
 
 
 
-/**Resolves the given String containing some switch chars in form of backslash*/
+/**Resolves the given String containing some switch chars in form of backslash */
 CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*J2C:static method*/ CharSeqJc src, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("resolveCircumScription_SpecialCharStringsJc");

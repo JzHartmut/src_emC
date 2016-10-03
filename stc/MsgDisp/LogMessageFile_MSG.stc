@@ -35,7 +35,7 @@ class LogMessageFile; nameC=LogMessageFile_MSG_s; argIdent=XX; extends java/lang
   }
 fieldIdents {
   boolean %.. bNewFile;
-  char[32] Y%. charsFormatTimestampFilename;
+  char[??] X%. charsFormatTimestampFilename;
   int %.. cntAllNonFlushedWrite;
   int %.. cntNonFlushedWrite;
   int %.. counterMultifile;
@@ -90,8 +90,8 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/msgDispatch/LogMessage: $ "(?).base/*J2C:ifc*/.LogMessageFW" $;
-    java/lang/Object: $ "(?).base/*J2C:ifc*/.LogMessageFW.base/*J2C_super:*/.object" $;
+    org/vishia/msgDispatch/LogMessage: $ "(?).base.LogMessageFW" $;
+    java/lang/Object: $ "(?).base.LogMessageFW.base.object" $;
   }
 
 }

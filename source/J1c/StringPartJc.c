@@ -13,7 +13,7 @@
 
 /* J2C: Forward declaration of struct ***********************************************/
 
-/**The StringPart class represents a flexible valid part of a character string which's spread is changeable.
+/**The StringPart class represents a flexible valid part of a character string which's spread is changeable. 
 It may be seen as an alternative to the standard {@link java.lang.String} for the capability to build a {@link String#substring(int)}.
 <ul>
 <li>1. The substring or Part of the String can be build with some operations, {@link #seek(CharSequence, int)}, {@link #lento(CharSequence)} etc.
@@ -23,8 +23,8 @@ It may be seen as an alternative to the standard {@link java.lang.String} for th
 </ul>
 <b>Calculation time and memory effect</b>:<br>
 The 3. minute affects the calculation time for extensive using of parts of a String. The {@link String#substring(int)} method
-of standard Java till Version 6 builds a substring using and references the stored parent String. It was a cheap operation
-in calculation time.
+of standard Java till Version 6 builds a substring using and references the stored parent String. It was a cheap operation 
+in calculation time. 
 <br><br>
 In Java version 7 this behavior was changed. Up to version 7 a substring builds an new buffer for the substring
 in the heap. The advantage is: If a long String exists firstly, then some substrings are build, and the firstly long String
@@ -33,7 +33,7 @@ only the typical short substrings are stored in the heap. For applications, whic
 long parent String, it saves memory.
 <br><br>
 But if substrings are need extensively from one long String, to search somewhat etc, The creation of new memory for any substring
-may be an expensive operation. This class works with the given String, builds parts of the string with indices,
+may be an expensive operation. This class works with the given String, builds parts of the string with indices, 
 and does not need memory for any sub part.
 <br><br>
 
@@ -41,14 +41,14 @@ and does not need memory for any sub part.
 <b>Multithreading, persistence of Strings</b>:<br>
 A StringPart depends of its parent CharSequence. That CharSequence maybe a String, which is persistent. But that CharSequence
 maybe a StringBuilder or any other volatile storage. Changing the CharSequence my disturb operations of the StringPart.
-Therefore the parent CharSequence should be notice. Is it changed?
+Therefore the parent CharSequence should be notice. Is it changed? 
 <br><br>
 If a Part should be stored persistently, one can use a {@link #toString()} method of any returned CharSequence
 for example {@link #getCurrentPart()}.toString(). This builds a persistent String which can be stored and used independent of all others.
 <br><br>
-But if the Part of String is used in the same thread, not stored, and another thread does not disturb the content of the
+But if the Part of String is used in the same thread, not stored, and another thread does not disturb the content of the 
 StringPart's parent CharSequence (which may be usual), the waiver to build a persistent String may save a little bit of calculation time.
-A method which accepts a {@link java.lang.CharSequence} as parameter should not store that in suggestion of persistence.
+A method which accepts a {@link java.lang.CharSequence} as parameter should not store that in suggestion of persistence. 
 For example {@link StringBuilder#append(CharSequence)} uses a non-persistent character sequence and adds it to its own buffer.
 <br><br>
 
@@ -71,9 +71,9 @@ abcdefghijklmnopqrstuvwxyz  Sample of the whole associated String
 =====================     The === indicates the maximal part
 -----------             The --- indicates the valid part before some operation
 +++++             The +++ indicates the valid part after some operation
-</pre>
-The actual part of the string is changeable, without building a new substring.
-So some operations of seeking and scanning are offered.
+</pre> 
+The actual part of the string is changeable, without building a new substring. 
+So some operations of seeking and scanning are offered. 
 <br><br>
 <b>Types of Methods</b>:<br>
 <ul>
@@ -89,7 +89,7 @@ from there, seek changes the length. Seek returns this, so concatenation of meth
 <li>{@link #seekNoWhitespace()}, {@link #seekNoWhitespaceOrComments()}: skip over all white spaces, maybe over comments
 <li>{@link #seekNoChar(CharSequence)} skip over all given characters
 <li>{@link #seekBegin()} Expands the spread starting from the most left position (the <i>maximal part</i>)
-</ul>
+</ul>  
 <li>lento: changes the end of the actual string part.
 <ul>
 <li>{@link #lento(int)}: set a length of the valid part
@@ -100,7 +100,7 @@ from there, seek changes the length. Seek returns this, so concatenation of meth
 <li>#lentoAnyStringWithIndent(CharSequence[], CharSequence, int, StringBuilder): regards indentation typically for source files.
 <li>#lentoIdentifier(), #lentoIdentifier(CharSequence, CharSequence): accepts identifier
 </ul>
-<li>{@link #firstlineMaxpart()}, {@link #nextlineMaxpart()}: line processing. Each line can be individually evaluated or scanned.
+<li>{@link #firstlineMaxpart()}, {@link #nextlineMaxpart()}: line processing. Each line can be individually evaluated or scanned.   
 <li>get: Gets an content without changing.
 <ul>
 <li>#getCurrentPart(): The valid part as CharSequence, use toString() to transform to a persistent String.
@@ -113,8 +113,8 @@ from there, seek changes the length. Seek returns this, so concatenation of meth
 </ul>
 <li>See {@link StringPartScan}  for further scan functions.
 <li>See {@link StringPartAppend}, {@link StringPartFromFileLines} for complete processing.
-<li>See {@link StringFunctions} for basic operations.
-</ul>
+<li>See {@link StringFunctions} for basic operations.  
+</ul>            
 */
 
 
@@ -122,7 +122,7 @@ const char sign_Mtbl_StringPartJc[] = "StringPartJc"; //to mark method tables of
 
 typedef struct MtblDef_StringPartJc_t { Mtbl_StringPartJc mtbl; MtblHeadJc end; } MtblDef_StringPartJc;
  extern MtblDef_StringPartJc const mtblStringPartJc;
-StringJc sVersion_StringPartJc = CONST_z_StringJc("2016-08-28"); //J2C:static StringJc
+StringJc sVersion_StringPartJc = CONST_z_StringJc("2016-09-04"); //J2C:static StringJc
 const int32 seekToLeft_StringPartJc = mSeekToLeft__StringPartJc + mSeekBackward__StringPartJc;
 const int32 seekBack_StringPartJc = 0x20 + mSeekBackward__StringPartJc;
 const char cStartOfText_StringPartJc = (char /*J2C_cast*/)(0x2);
@@ -224,7 +224,7 @@ void setInputfile_StringPartJc(StringPartJc_s* thiz, StringJc file, ThCxt* _thCx
 }
 
 
-/**Sets the content to the given string, forgets the old content*/
+/**Sets the content to the given string, forgets the old content. Initialy the whole string is valid.*/
 struct StringPartJc_t* assign_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc ref, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("assign_Cs_StringPartJc");
@@ -241,7 +241,7 @@ struct StringPartJc_t* assign_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc re
 }
 
 
-/**Sets the content to the given string, forgets the old content.*/
+/**Sets the content to the given string, forgets the old content. */
 struct StringPartJc_t* assignReplaceEnv_StringPartJc(StringPartJc_s* thiz, struct StringBuilderJc_t* input, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("assignReplaceEnv_StringPartJc");
@@ -329,7 +329,7 @@ struct StringPartJc_t* assign_XX_StringPartJc(StringPartJc_s* thiz, struct Strin
 }
 
 
-/**Sets the content of the StringPart , forgets the old content*/
+/**Sets the content of the StringPart , forgets the old content. The same string like in src is associated.*/
 struct StringPartJc_t* assignFromEnd_StringPartJc(StringPartJc_s* thiz, struct StringPartJc_t* src, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("assignFromEnd_StringPartJc");
@@ -559,7 +559,7 @@ int32 length_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
 }
 
 
-/**Returns the lenght of the maximal part from current position*/
+/**Returns the lenght of the maximal part from current position. Returns also 0 if no string is valid.*/
 int32 lengthMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lengthMaxPart_StringPartJc");
@@ -798,7 +798,7 @@ struct StringPartJc_t* lentoAnyNonEscapedChar_StringPartJc(StringPartJc_s* thiz,
 }
 
 
-/**Sets the length of the valid part to the first position of the given String,*/
+/**Sets the length of the valid part to the first position of the given String, */
 struct StringPartJc_t* lentoNonEscapedString_StringPartJc(StringPartJc_s* thiz, CharSeqJc sEnd, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoNonEscapedString_StringPartJc");
@@ -904,9 +904,8 @@ struct StringPartJc_t* nextlineMaxpart_StringPartJc(StringPartJc_s* thiz, ThCxt*
   
   { 
     
-    thiz->begiMin = thiz->begin = /*? assignment*/thiz->endMax;
+    thiz->begiMin = thiz->begin = /*? assignment*/thiz->endMax;/*char test111 = charAt(0);*/
     
-    char  test111 = charAt_i_StringPartJc((&(* (thiz)).base.object)/*J2cT1*/, 0, _thCxt);
     thiz->endMax = thiz->end = /*? assignment*/length_CharSeqJc(thiz->content/*J1cT2*/, _thCxt);
     if(thiz->begiMin == thiz->endMax) 
     { 
@@ -1002,7 +1001,7 @@ struct StringPartJc_t* seek_i_StringPartJc(StringPartJc_s* thiz, int32 nr, ThCxt
 }
 
 
-/**Sets the begin of the current part relative to the given number of character.*/
+/**Sets the begin of the current part relative to the given number of character. */
 struct StringPartJc_t* seekPos_StringPartJc(StringPartJc_s* thiz, int32 nr, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("seekPos_StringPartJc");
@@ -1030,7 +1029,7 @@ struct StringPartJc_t* seekPos_StringPartJc(StringPartJc_s* thiz, int32 nr, ThCx
 }
 
 
-/**Sets the begin of the current part backward from end.*/
+/**Sets the begin of the current part backward from end. */
 struct StringPartJc_t* seekPosBack_StringPartJc(StringPartJc_s* thiz, int32 nr, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("seekPosBack_StringPartJc");
@@ -1580,7 +1579,7 @@ int32 indexOfAnyChar_Csiiccc_StringPartJc(StringPartJc_s* thiz, CharSeqJc sChars
 }
 
 
-/**Returns the last position of one of the chars in sChars*/
+/**Returns the last position of one of the chars in sChars */
 int32 lastIndexOfAnyChar_StringPartJc(StringPartJc_s* thiz, CharSeqJc sChars, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lastIndexOfAnyChar_StringPartJc");
@@ -1695,7 +1694,7 @@ int32 indexOfAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* thiz, CharSeqJc 
 }
 
 
-/**Searches the end of a quoted string*/
+/**Searches the end of a quoted string. In Generally, a backslash skips over the next char*/
 int32 indexEndOfQuotion_StringPartJc(StringPartJc_s* thiz, char cEndQuotion, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("indexEndOfQuotion_StringPartJc");
@@ -1734,7 +1733,7 @@ int32 indexEndOfQuotion_StringPartJc(StringPartJc_s* thiz, char cEndQuotion, int
 }
 
 
-/**Searches the end of a quoted string*/
+/**Searches the end of a quoted string. In Generally, a backslash skips over the next char*/
 int32 indexEndOfQuotation_StringPartJc(StringPartJc_s* thiz, char cEndQuotion, char transcriptChar, int32 fromWhere, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("indexEndOfQuotation_StringPartJc");
@@ -1822,7 +1821,7 @@ int32 indexOfNoChar_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc sChars, ThCx
 }
 
 
-/**Sets the length of the current part to any char content in sChars (terminate chars).*/
+/**Sets the length of the current part to any char content in sChars (terminate chars). */
 struct StringPartJc_t* lentoAnyChar_Csi_StringPartJc(StringPartJc_s* thiz, CharSeqJc sChars, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoAnyChar_Csi_StringPartJc");
@@ -1837,7 +1836,7 @@ struct StringPartJc_t* lentoAnyChar_Csi_StringPartJc(StringPartJc_s* thiz, CharS
 }
 
 
-/**Sets the length of the current part to any char content in sChars (terminate chars).*/
+/**Sets the length of the current part to any char content in sChars (terminate chars). */
 struct StringPartJc_t* lentoAnyChar_Csii_StringPartJc(StringPartJc_s* thiz, CharSeqJc sChars, int32 maxToTest, int32 mode, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoAnyChar_Csii_StringPartJc");
@@ -1877,7 +1876,7 @@ struct StringPartJc_t* lentoAnyChar_Csii_StringPartJc(StringPartJc_s* thiz, Char
 }
 
 
-/**Sets the length of the current part to any terminate string given in sString.*/
+/**Sets the length of the current part to any terminate string given in sString. */
 struct StringPartJc_t* lentoAnyString_CsYi_StringPartJc(StringPartJc_s* thiz, CharSeqJc_Y* strings, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoAnyString_CsYi_StringPartJc");
@@ -1892,7 +1891,7 @@ struct StringPartJc_t* lentoAnyString_CsYi_StringPartJc(StringPartJc_s* thiz, Ch
 }
 
 
-/**Sets the length of the current part to any terminate string given in sString.*/
+/**Sets the length of the current part to any terminate string given in sString. */
 struct StringPartJc_t* lentoAnyString_CsYii_StringPartJc(StringPartJc_s* thiz, CharSeqJc_Y* strings, int32 maxToTest, int32 mode, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoAnyString_CsYii_StringPartJc");
@@ -1931,7 +1930,7 @@ struct StringPartJc_t* lentoAnyString_CsYii_StringPartJc(StringPartJc_s* thiz, C
 }
 
 
-/**Sets the length of the current part to any terminate string given in sString.*/
+/**Sets the length of the current part to any terminate string given in sString. */
 void lentoAnyStringWithIndent_StringPartJc(StringPartJc_s* thiz, CharSeqJc_Y* strings, CharSeqJc sIndentChars, int32 maxToTest, struct StringBuilderJc_t* buffer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoAnyStringWithIndent_StringPartJc");
@@ -2050,7 +2049,7 @@ struct StringPartJc_t* lentoAnyCharOutsideQuotion_StringPartJc(StringPartJc_s* t
 }
 
 
-/**Sets the length of the current part to the end of the quotion*/
+/**Sets the length of the current part to the end of the quotion. It is not tested here,*/
 struct StringPartJc_t* lentoQuotionEnd_StringPartJc(StringPartJc_s* thiz, char sEndQuotion, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoQuotionEnd_StringPartJc");
@@ -2112,7 +2111,7 @@ struct StringPartJc_t* trimWhiteSpaces_StringPartJc(StringPartJc_s* thiz, ThCxt*
 }
 
 
-/**Sets the length of the current part to any char content in sChars (terminate chars).*/
+/**Sets the length of the current part to any char content in sChars (terminate chars). */
 struct StringPartJc_t* lentoAnyChar_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc sChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("lentoAnyChar_Cs_StringPartJc");
@@ -2128,7 +2127,7 @@ struct StringPartJc_t* lentoAnyChar_Cs_StringPartJc(StringPartJc_s* thiz, CharSe
 }
 
 
-/**Sets the length to the end of the maximal part if the length is 0*/
+/**Sets the length to the end of the maximal part if the length is 0. This method could be called at example*/
 struct StringPartJc_t* len0end_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("len0end_StringPartJc");
@@ -2294,7 +2293,7 @@ int32 indexOf_ci_StringPartJc(StringPartJc_s* thiz, char ch, int32 fromIndex, Th
 }
 
 
-/**Returns the position of the string within the part*/
+/**Returns the position of the string within the part. Returns -1 if the string is not found in the part.*/
 int32 indexOf_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("indexOf_Cs_StringPartJc");
@@ -2314,7 +2313,7 @@ int32 indexOf_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCx
 }
 
 
-/**Returns the position of the string within the part*/
+/**Returns the position of the string within the part. Returns -1 if the string is not found in the part.*/
 int32 XXXindexOf_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("XXXindexOf_StringPartJc");
@@ -2334,7 +2333,7 @@ int32 XXXindexOf_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCx
 }
 
 
-/**Returns the position of the string within the part*/
+/**Returns the position of the string within the part. Returns -1 if the string is not found in the part.*/
 int32 indexOf_Csii_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, int32 fromIndex, int32 maxToTest, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("indexOf_Csii_StringPartJc");
@@ -2420,7 +2419,7 @@ bool startsWith_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCxt
 }
 
 
-/**Gets the current position, useable for rewind*/
+/**Gets the current position, useable for rewind. This method is overwritten*/
 int64 getCurrentPosition_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getCurrentPosition_StringPartJc");
@@ -2522,7 +2521,7 @@ char getCurrentChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Get the Line number and the column of the begin position.*/
+/**Get the Line number and the column of the begin position. */
 int32 getLineAndColumn_StringPartJc_F(StringPartJc_s* thiz, int32_Y* column, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLineAndColumn_StringPartJc_F");
@@ -2651,7 +2650,7 @@ CharSeqJc getCurrentPart_i_StringPartJc(StringPartJc_s* thiz, int32 maxLength, T
 }
 
 
-/**Retrurn the part from start to end independent of the current positions.*/
+/**Retrurn the part from start to end independent of the current positions. */
 struct Part_StringPartJc_t* getPart_StringPartJc(StringPartJc_s* thiz, int32 fromPos, int32 nrofChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getPart_StringPartJc");
@@ -2720,7 +2719,7 @@ StringJc absSubString_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, T
       }
     }
     if(pos >= 0 && end1 <= thiz->endMax) 
-    { /*:@Java4C.ReturnNew*/
+    { /*:@Java4C.ReturnNew  */
       
       
       
@@ -2773,7 +2772,7 @@ StringJc toString_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
 }
 
 
-/**Returns a debug information of the content of the StringPart*/
+/**Returns a debug information of the content of the StringPart. This information is structured in the followed way:*/
 StringJc debugString_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("debugString_StringPartJc");
@@ -2834,7 +2833,7 @@ void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc 
 }
 
 
-/**Closes the work*/
+/**Closes the work. This routine should be called if the StringPart is never used, */
 void close_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("close_StringPartJc_F");
@@ -2915,7 +2914,7 @@ StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* 
         activateGC_ObjectJc(newObj3_1, null, _thCxt);
       }while(posPatternStart >= 0);
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(& ((* (dst)).base/*J2C_super:*/.object)/*J2cT1*/, _thCxt);
+      return toString_StringBuilderJc(& ((* (dst)).base.object)/*J2cT1*/, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -3173,7 +3172,7 @@ const ClassJc reflection_StringPartJc_s =
 The constructor is protected because instances of this class are only created in this class
 or its derived, not by user.
 The CharSequence methods get the characters from the parent CharSequence of the environment class
-StringPartBase.
+StringPartBase. 
 */
 
 

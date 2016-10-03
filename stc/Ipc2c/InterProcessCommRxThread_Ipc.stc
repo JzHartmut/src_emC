@@ -29,8 +29,8 @@ class InterProcessCommRxThread; nameC=InterProcessCommRxThread_Ipc_s; argIdent=X
 
       castTo {
         org/vishia/communication/InterProcessCommRxThread: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base/*:ifc*/.RunnableJc.base/*J2C_super:*/.object" $;
-        java/lang/Runnable: $ "(?).base/*:ifc*/.RunnableJc" $;
+        java/lang/Object: $ "(?).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object" $;
+        java/lang/Runnable: $ "(?).base/*J2C:ifc*/.RunnableJc" $;
       }
 
     }

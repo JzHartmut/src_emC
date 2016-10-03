@@ -17,23 +17,23 @@
 <br>
 Background:
 <ul>
-<li>UTC (= <a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a> )
-follows the caesium atomic clock,
-but it is coordinated with the earth rotation. respectively it follows the simple division
+<li>UTC (= <a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a> ) 
+follows the caesium atomic clock, 
+but it is coordinated with the earth rotation. respectively it follows the simple division 
 of 1 year into 365 * 24* 3600 seconds and 366 * 24 * 3600 seconds in a leap year.
 If leap seconds are occurred, the second count of UTC is the same for 2 seconds.
 <li>In computer systems, often UTC is used, because the unix-time also count simple seconds
 without regarding of leap seconds. Therefore, also the class java.util.Date based on UTC.
-<li>The TAI (= <a href="http://en.wikipedia.org/wiki/International_Atomic_Time">en.wikipedia.org/wiki/International_Atomic_Time</a>
-counts uniformly continuous and faster than the earth rotation.
+<li>The TAI (= <a href="http://en.wikipedia.org/wiki/International_Atomic_Time">en.wikipedia.org/wiki/International_Atomic_Time</a>         
+counts uniformly continuous and faster than the earth rotation. 
 Thats why leap seconds are necessary to adapt the earth-rotation oriented second count (to UTC).
-<li>The time from GPS positioning follows the TAI, with a constant difference of 19 seconds,
+<li>The time from GPS positioning follows the TAI, with a constant difference of 19 seconds, 
 without any leap seconds. Why 19 seconds? It's historical.
 <li>In technical systems a strict uniformly continuous time counter is better to than the UTC.
 </ul>
 
-This class helps to adapt GPS or other strict uniformly continuous time counter to UTC
-and to java.util.Date.
+This class helps to adapt GPS or other strict uniformly continuous time counter to UTC 
+and to java.util.Date. 
 A table of leap seconds may be given outside, because there are not defined yet for the future.
 
 @author Hartmut Schorrig
@@ -77,7 +77,7 @@ struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-/**Sets the leap seconds for a given timestamp*/
+/**Sets the leap seconds for a given timestamp. This routine should be called on startup phase*/
 void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc_t* date, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setLeapSeconds_LeapSecondsJc");

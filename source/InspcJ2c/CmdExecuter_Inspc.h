@@ -38,10 +38,10 @@ typedef struct CmdExecuter_Inspc_t
   int32 nrofSentBytes; 
   int32 ctFailedTelgPart; 
   struct Comm_Inspc_t* comm;   /**/
-  int8 data_bufferAnswerData[1400];   /*Buffer for the answer telegram*/
-  PtrVal_int8 bufferAnswerData;   /*This reference is used to refer the answer buffer*/
+  int8 data_bufferAnswerData[1400];   /*Buffer for the answer telegram. It should be less then the max length of an UDP telegram.*/
+  PtrVal_int8 bufferAnswerData;   /*This reference is used to refer the answer buffer. It is for C usage with the PtrVal type which contains the address and the size*/
   InspcDatagram_InspcDataExchangeAccess_Inspc_s myAnswerData; 
-  bool useTelgHead;   /*true than the myAnswerdata is of type DataExchangeTelg_Inspc,*/
+  bool useTelgHead;   /*true than the myAnswerdata is of type DataExchangeTelg_Inspc, */
 } CmdExecuter_Inspc_s;
   
 
@@ -74,6 +74,11 @@ void finalize_CmdExecuter_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
  extern StringJc version_CmdExecuter_Inspc;   /*Version, history and license.*/
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_CmdExecuter_Inspc();
+
+
+
 
 METHOD_C struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdConsumer_ifc_Inspc_t* commandConsumer, ThCxt* _thCxt);
 
@@ -83,14 +88,21 @@ METHOD_C void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt);
 
-/**Executes the given command received with this datagram*/
+/**Executes the given command received with this datagram
+*/
 typedef bool MT_executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt);
 
-/**Send the current answer datagram as answer*/
+/**Send the current answer datagram as answer. Firstly the {@link InspcDataExchangeAccess.InspcDatagram#incrAnswerNr()}
+was invoked, therewith an answer starts with 1. That increment is important for more as one answer datagrams. 
+The head is initialized only one time with the data from the request telegram, the answerNr is incremented always. 
+The length of the datagram is set to the head using {@link InspcDataExchangeAccess.InspcDatagram#setLengthDatagram(int)}
+
+@see org.vishia.inspectorTarget.AnswerComm_ifc#txAnswer(int, boolean)
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */

@@ -30,11 +30,11 @@ this class provides<ul>
 </ul>
 To merge java.util.Formatter and this class you should assign the same StringBuffer to both classes.
 <br>
-The class contains add...-methods and knows internally a current position.
-The current position can be setted with {@link pos(int)}.
-In the default overwrite mode the add methods do not insert in buffer with shifting the rest to right
-(like StringBuffer.insert()), but they overwrite the content at the currrent position.
-The wording 'add' means, the current position is increment, so the next add()-operation adds
+The class contains add...-methods and knows internally a current position. 
+The current position can be setted with {@link pos(int)}. 
+In the default overwrite mode the add methods do not insert in buffer with shifting the rest to right 
+(like StringBuffer.insert()), but they overwrite the content at the currrent position. 
+The wording 'add' means, the current position is increment, so the next add()-operation adds 
 something behind the previous add()-operation. In the insert mode the content at pos is shifted to right.
 <br>
 Every {@link pos(int)}-operation is successfully. If the buffer in shorter as the required position, spaces will be filled
@@ -264,7 +264,7 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
 
 
 
-/**Same as getContent, overwrites Object.toString().*/
+/**Same as getContent, overwrites Object.toString(). */
 StringJc toString_StringFormatterJc(ObjectJc* ithis, ThCxt* _thCxt)
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)ithis;
   
@@ -273,7 +273,7 @@ StringJc toString_StringFormatterJc(ObjectJc* ithis, ThCxt* _thCxt)
   { 
     
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(& ((*(REFJc  (thiz->buffer))).base/*J2C_super:*/.object)/*J2cT1*/, _thCxt);
+      return toString_StringBuilderJc(& ((*(REFJc  (thiz->buffer))).base.object)/*J2cT1*/, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -288,7 +288,7 @@ StringJc getContent_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
   { 
     
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(& ((*(REFJc  (thiz->buffer))).base/*J2C_super:*/.object)/*J2cT1*/, _thCxt);
+      return toString_StringBuilderJc(& ((*(REFJc  (thiz->buffer))).base.object)/*J2cT1*/, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -323,7 +323,7 @@ void setDecimalSeparator_StringFormatterJc(StringFormatterJc_s* thiz, char sep, 
 }
 
 
-/**Resets the internal buffer*/
+/**Resets the internal buffer. If it is called after usage of the String getting with getContent(),*/
 struct StringFormatterJc_t* reset_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("reset_StringFormatterJc");
@@ -371,7 +371,7 @@ struct StringFormatterJc_t* pos_i_StringFormatterJc(StringFormatterJc_s* thiz, i
 }
 
 
-/**Sets the current write position to the given position.*/
+/**Sets the current write position to the given position. */
 struct StringFormatterJc_t* pos_ii_StringFormatterJc(StringFormatterJc_s* thiz, int32 newPos, int32 minChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("pos_ii_StringFormatterJc");
@@ -641,7 +641,7 @@ bool setInsertMode_StringFormatterJc(StringFormatterJc_s* thiz, bool insert, ThC
 }
 
 
-/**Adds a line of ascii representation of bytes*/
+/**Adds a line of ascii representation of bytes. If the code is less than 0x20 (control chars),*/
 struct StringFormatterJc_t* addStringLine_StringFormatterJc(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int32 nrofBytes, StringJc charsetName, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addStringLine_StringFormatterJc");
@@ -720,7 +720,7 @@ struct StringFormatterJc_t* addHexLine_StringFormatterJc(StringFormatterJc_s* th
       { 
         
         if(nrofBytes1 < nrofBytesInWord) 
-        { /*:the last hex word is smaller as given in mode:*/
+        { /*:the last hex word is smaller as given in mode: */
           
           
           addHexWord__StringFormatterJc(thiz, data, idx1, (int16 /*J2C_cast*/)((mode & mBytesInWordBigEndian_StringFormatterJc) + nrofBytes1), _thCxt);
@@ -760,7 +760,7 @@ struct StringFormatterJc_t* addHexWord_StringFormatterJc(StringFormatterJc_s* th
 }
 
 
-/**Adds a number as one word readed from data in hexa form, internal routine without prepareBufferPos*/
+/**Adds a number as one word readed from data in hexa form, internal routine without prepareBufferPos */
 struct StringFormatterJc_t* addHexWord__StringFormatterJc(StringFormatterJc_s* thiz, int8_Y* data, int32 idx, int16 mode, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addHexWord__StringFormatterJc");
@@ -1013,8 +1013,9 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc(StringFormatterJc_s* thiz
     int32  posPointInValue = indexOf_C_StringJc(sValue, '.');
     if(thiz->cDecimalSeparator != '.') 
     { 
-      
-      sValue = replace_StringJc(sValue, '.', thiz->cDecimalSeparator, _thCxt)/*J2C:non-persistent*/;
+      StringJc _thCxtRef3_1;
+      sValue = ( _thCxtRef3_1 = replace_StringJc(sValue, '.', thiz->cDecimalSeparator, _thCxt))/*J2C:non-persistent*/;
+      releaseUserBuffer_ThreadContextFw(PTR_StringJc(_thCxtRef3_1), _thCxt);
     }/*int posPoint = pos + digitsBeforePoint;*/
     
     
@@ -1117,13 +1118,12 @@ struct StringFormatterJc_t* addDate_StringFormatterJc(StringFormatterJc_s* thiz,
   STACKTRC_TENTRY("addDate_StringFormatterJc");
   
   { 
-    StringJc _persistring2_1=NULL_StringJc; //J2C: temporary persistent Strings
+    StringJc _thCxtRef2_1;
     
-    
-    StringJc sDate ; sDate = _persistring2_1 = persist_StringJc(format_SimpleDateFormatJc(format, (date)->val, _thCxt))/*J2C:non-persistent*/;
+    StringJc sDate ; sDate = ( _thCxtRef2_1 = format_SimpleDateFormatJc(format, (date)->val, _thCxt))/*J2C:non-persistent*/;
     add_S_StringFormatterJc(thiz, sDate, _thCxt);
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(PTR_StringJc(_persistring2_1), null, _thCxt);
+      releaseUserBuffer_ThreadContextFw(PTR_StringJc(_thCxtRef2_1), _thCxt);
       return thiz;
     }
   }
@@ -1543,7 +1543,7 @@ struct StringFormatterJc_t* append_Cs_StringFormatterJc(StringFormatterJc_s* thi
 }
 
 
-/**Appends one character and flushes a line on end-line character.*/
+/**Appends one character and flushes a line on end-line character. */
 struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz, char c, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("append_c_StringFormatterJc");
@@ -1575,7 +1575,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
       { /*:c is the secondNewline character, pos is 0*/
         
         
-        lineoutMtbl.mtbl->append_C(&(( (lineoutMtbl.ref))->base.object), c, _thCxt);/*append it if a special newline is not given.*/
+        lineoutMtbl.mtbl->append_C(&(( (lineoutMtbl.ref))->base.object), c, _thCxt);/*append it if a special newline is not given.   */
         
       }
     }

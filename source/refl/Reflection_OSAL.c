@@ -4,7 +4,6 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-
 #include "os_AtomicAccess.h"
 
 #include "os_endian.h"

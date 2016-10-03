@@ -77,7 +77,8 @@ METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDat
 
 METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagram_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
-/**Assigns a datagram.*/
+/**Assigns a datagram.
+ */
 #define assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ, data, length) \
 \
 { \
@@ -95,10 +96,14 @@ METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagr
 #define getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
 (getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, _thCxt))
 
-/**Sets the head for an request telegram*/
+/**Sets the head for an request telegram. Sets the answer number to 0. 
+Therefore it is for the first answer. All following answers uses {@link #incrAnswerNr()}
+and {@link #markAnswerNrLast()} to change the answer nr.
+*/
 METHOD_C void setHeadRequest_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, int32 entrant, int32 seqNr, int32 encryption, ThCxt* _thCxt);
 
-/**Sets the head for an answer telegram*/
+/**Sets the head for an answer telegram. Sets the answer number initially to 1. 
+*/
 METHOD_C void setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, int32 entrant, int32 seqNr, int32 encryption, ThCxt* _thCxt);
 
 #define setEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ, nr) \
@@ -130,11 +135,12 @@ METHOD_C void markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(Inspc
 /**Increments the number for the answer datagram. */
 METHOD_C void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
 
-/**Gets the number of the answer datagram.*/
+/**Gets the number of the answer datagram. 
+The last datagramm is mask with the bit  */
 #define getAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
 (getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x7f)
 
-/**Gets the information about the last answer datagram. */
+/**Gets the information about the last answer datagram.  */
 #define lastAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
 ((getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x80) == 0x80)
 
@@ -226,11 +232,11 @@ void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(Inspcitem_InspcDataExcha
 #define kFailedHandle_Inspcitem_InspcDataExchangeAccess_Inspc 0x28  /*Answer cmd for a {@link #kGetValueByHandle} which is a faulty handle.*/
 #define kGetValueByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x30
 #define kGetAddressByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x32
-#define kSetValueByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x35  /*Sets a value with given path*/
+#define kSetValueByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x35  /*Sets a value with given path. The item consists of:*/
 #define kSetStringByPath_Inspcitem_InspcDataExchangeAccess_Inspc 0x36  /*Sets a string value.*/
 #define kGetMsg_Inspcitem_InspcDataExchangeAccess_Inspc 0x40  /*Request to get all messages.*/
 #define kAnswerMsg_Inspcitem_InspcDataExchangeAccess_Inspc 0x140
-#define kRemoveMsg_Inspcitem_InspcDataExchangeAccess_Inspc 0x41  /*Remove gotten messages*/
+#define kRemoveMsg_Inspcitem_InspcDataExchangeAccess_Inspc 0x41  /*Remove gotten messages. Any message contains a sequence number. The answer of {@link #kGetMsg} */
 #define kAnswerRemoveMsgOk_Inspcitem_InspcDataExchangeAccess_Inspc 0x141
 #define kAnswerRemoveMsgNok_Inspcitem_InspcDataExchangeAccess_Inspc 0x241
 #define kSetvaluedata_Inspcitem_InspcDataExchangeAccess_Inspc 0x50  /*This item sets a value with a given position:*/
@@ -240,12 +246,14 @@ void finalize_Inspcitem_InspcDataExchangeAccess_Inspc_F(Inspcitem_InspcDataExcha
 #define kFailedCommand_Inspcitem_InspcDataExchangeAccess_Inspc 0xff
 
 
-/**Constructor for derived items with other head size.*/
+/**Constructor for derived items with other head size.
+*/
 METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, int32 sizeHeadDerived, ThCxt* _thCxt);
 
 METHOD_C struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
-/**Sets the head data and sets the length of the ByteDataAccess-element.*/
+/**Sets the head data and sets the length of the ByteDataAccess-element.
+*/
 METHOD_C void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz, int32 length, int32 cmd, int32 order, ThCxt* _thCxt);
 
 #define setLength_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ, length) \
@@ -263,14 +271,18 @@ METHOD_C void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_Insp
   setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 2, cmd, _thCxt);\
 }
 
-/**Returns the cmd in a Reflitem*/
+/**Returns the cmd in a Reflitem. The cmd is coded see {@link #kFailedCommand}, {@link #kAnswerFieldMethod} etc.
+ */
 #define getCmd_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
 (getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 2, _thCxt))
 
 #define getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
 (getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, _thCxt))
 
-/**Gets the order number of the info block*/
+/**Gets the order number of the info block. A sending info is set with the
+{@link #setInfoHead(int, int, int)} with any order identification number which is unified for the target
+in a proper time. The received info returns the same order ident.   
+ */
 #define getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
 (getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
 
@@ -338,7 +350,8 @@ void finalize_InspcSetValue_InspcDataExchangeAccess_Inspc_F(InspcSetValue_InspcD
 
 METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(MemC mthis, ThCxt* _thCxt);
 
-/**Gets a password for access control.*/
+/**Gets a password for access control.
+ */
 #define getPwd_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
 (_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, 6, _thCxt))
 
@@ -349,60 +362,67 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, 6, pwd, _thCxt);\
 }
 
-/**Returns the type stored in byte 7 in range 0...255.*/
+/**Returns the type stored in byte 7 in range 0...255.
+The type is either {@link InspcDataExchangeAccess#kScalarTypes} + one of {@link ClassJc#REFLECTION_float} etc.
+or maybe 0..{@link InspcDataExchangeAccess#kLengthAndString} or {@link InspcDataExchangeAccess#kReferenceAddr}
+ */
 #define getType_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int16)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 7, 1, _thCxt))
+((int16 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 7, 1, _thCxt))
 
 #define getByte_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int8)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, -1, _thCxt))
+((int8 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, -1, _thCxt))
 
 #define getShort_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int16)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 14, -2, _thCxt))
+((int16 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 14, -2, _thCxt))
 
-/**A long value is provided in the bytes 8..15 in Big endian.*/
+/**A long value is provided in the bytes 8..15 in Big endian.
+If only a int value will be used, it were found in the bit 12..15.
+ */
 #define getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
 \
 { \
   \
-  switch((int16)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
+  switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
     case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
-    return (int32)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
+    return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
     case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
-    return (int32)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
+    return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
     default: \
-    return (int32)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
+    return (int32 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
     \
   }/*switch*/;\
 }
 
-/**A long value is provided in the bytes 8..15 in Big endian.*/
+/**A long value is provided in the bytes 8..15 in Big endian.
+ */
 #define getLong_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
 \
 { \
   \
-  switch((int16)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
+  switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
     case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
-    return (int32)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
+    return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
     case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
-    return (int32)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
+    return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
     default: \
     return _getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
     \
   }/*switch*/;\
 }
 
-/**A float value is provided in the bytes 8..11 in Big endian.*/
+/**A float value is provided in the bytes 8..11 in Big endian.
+ */
 #define getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
 \
 { \
   \
-  switch((int16)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
+  switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
     case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
-    return (float)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
+    return (float /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
     case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
     return getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
     default: \
-    return (float)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
+    return (float /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
     \
   }/*switch*/;\
 }
@@ -410,7 +430,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
 #define getDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
 (getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt))
 
-/**Sets a byte value. */
+/**Sets a byte value.  */
 #define setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -420,7 +440,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
 }
 
-/**Sets a byte value. */
+/**Sets a byte value.  */
 #define setByte_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -430,7 +450,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
 }
 
-/**Sets a short value. */
+/**Sets a short value.  */
 #define setShort_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -440,7 +460,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 14, 2, value, _thCxt);\
 }
 
-/**Sets a int32 value. */
+/**Sets a int32 value.  */
 #define setInt_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -450,7 +470,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
 }
 
-/**Sets a long value (int64). */
+/**Sets a long value (int64).  */
 #define setLong_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -460,7 +480,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, 8, value, _thCxt);\
 }
 
-/**Sets a float value. */
+/**Sets a float value.  */
 #define setFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -470,7 +490,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   setFloat_if_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, value);\
 }
 
-/**Sets a float value given by a int image. */
+/**Sets a float value given by a int image.  */
 #define setFloatIntImage_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -480,7 +500,7 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
   _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
 }
 
-/**Sets a double value. */
+/**Sets a double value.  */
 #define setDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
@@ -759,18 +779,29 @@ void finalize_InspcDataExchangeAccess_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 #define kScalarTypes_InspcDataExchangeAccess_Inspc 0xe0  /*Scalar types started with 0xe0,*/
  extern const int32 nrofBytesSpecialTypes_InspcDataExchangeAccess_Inspc[24]; 
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_InspcDataExchangeAccess_Inspc();
+
+
+
 
 /**Default constructor. */
 METHOD_C struct InspcDataExchangeAccess_Inspc_t* ctorO_InspcDataExchangeAccess_Inspc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Returns the number of bytes for any value which is designated*/
-METHOD_C int32 nrofBytesForType_InspcDataExchangeAccess_Inspc(/*static*/ int16 type, ThCxt* _thCxt);
+/**Returns the number of bytes for any value which is designated 
+with 0.. {@link #maxNrOfChars} .. {@link #kScalarTypes} + {@link ClassJc#REFLECTION_int} etc. 
+*/
+METHOD_C int32 nrofBytesForType_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type, ThCxt* _thCxt);
 
-/**Returns the byte given value with the designated type as float value with conversion*/
-METHOD_C float getFloatChild_InspcDataExchangeAccess_Inspc(/*static*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt);
+/**Returns the byte given value with the designated type as float value with conversion. It is proper 
+if an application is attempt to process a float value independent of the value type. 
+*/
+METHOD_C float getFloatChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt);
 
-/**Returns the byte given value with the designated type as int32 value with conversion*/
-METHOD_C int32 getIntChild_InspcDataExchangeAccess_Inspc(/*static*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt);
+/**Returns the byte given value with the designated type as int32 value with conversion. It is proper 
+if an application is attempt to process an int value independent of the value type. 
+*/
+METHOD_C int32 getIntChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

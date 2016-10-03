@@ -88,10 +88,10 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Appendable: $ "(?).base/*J2C:ifc*/.AppendableJc" $;
-    java/io/Closeable: $ "(?).base/*J2C:ifc*/.CloseableJc" $;
-    java/io/Flushable: $ "(?).base/*J2C:ifc*/.FlushableJc" $;
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/lang/Appendable: $ "(?).base.AppendableJc" $;
+    java/io/Closeable: $ "(?).base.CloseableJc" $;
+    java/io/Flushable: $ "(?).base.FlushableJc" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }

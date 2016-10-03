@@ -10,6 +10,7 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
+    byte2UTF8-_$, mode=static: short %.r null(byte[??] X%. src,int[??] X%. ixSrc);
     compare+_CsCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. s1,java/lang/CharSequence c.. s2);
     compare+_CsiCsii-_$, mode=static: int %.r null(java/lang/CharSequence c.. s1,int %.. from1,java/lang/CharSequence c.. s2,int %.. from2,int %.. nrofChars);
     comparePos+_CsCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. s1,java/lang/CharSequence c.. s2);
@@ -39,6 +40,7 @@ fieldIdents {
     lastIndexOf+_CsiiCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence c.. str);
     lastIndexOfAnyChar-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. from,int %.. to,java/lang/CharSequence c.. chars);
     nl_indent2-_$, mode=static: java/lang/String(instance=java/lang/String) t.r null(int %.. indent);
+    nrofBytesUTF8-_$, mode=static: int %.r null(byte %.. b);
     posAfterIdentifier+_Csii-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax);
     posAfterIdentifier+_CsiiSS-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars,java/lang/String(instance=java/lang/String) t.. additionalChars);
     startsWith+_CsCs-_$, mode=static: boolean %.r null(java/lang/CharSequence c.. sq,java/lang/CharSequence c.. start);
@@ -51,7 +53,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }

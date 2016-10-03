@@ -27,7 +27,7 @@ interface MsgText_ifc; nameC=MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/O
 
       castTo {
         org/vishia/msgDispatch/MsgText_ifc: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+        java/lang/Object: $ "(?).base.object" $;
       }
 
     }
@@ -47,7 +47,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }

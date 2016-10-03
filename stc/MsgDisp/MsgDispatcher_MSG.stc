@@ -45,9 +45,9 @@ class MsgDispatcher; nameC=MsgDispatcher_MSG_s; argIdent=XX; extends org/vishia/
 
       castTo {
         org/vishia/msgDispatch/MsgDispatcher: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base/*J2C_super:*/.super.base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object" $;
-        java/lang/Runnable: $ "(?).base/*J2C_super:*/.super.base/*J2C:ifc*/.RunnableJc" $;
-        java/lang/Thread: $ "(?).base/*J2C_super:*/.super" $;
+        java/lang/Object: $ "(?).base.super.base.RunnableJc.base.object" $;
+        java/lang/Runnable: $ "(?).base.super.base.RunnableJc" $;
+        java/lang/Thread: $ "(?).base.super" $;
       }
 
     }
@@ -98,9 +98,9 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/msgDispatch/LogMessage: $ "(?).base/*J2C_super:*/.super.base/*J2C:ifc*/.LogMessageFW" $;
-    org/vishia/msgDispatch/MsgDispatcherCore: $ "(?).base/*J2C_super:*/.super" $;
-    java/lang/Object: $ "(?).base/*J2C_super:*/.super.base/*J2C:ifc*/.LogMessageFW.base/*J2C_super:*/.object" $;
+    org/vishia/msgDispatch/LogMessage: $ "(?).base.super.base.LogMessageFW" $;
+    org/vishia/msgDispatch/MsgDispatcherCore: $ "(?).base.super" $;
+    java/lang/Object: $ "(?).base.super.base.LogMessageFW.base.object" $;
   }
 
 }

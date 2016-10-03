@@ -37,7 +37,7 @@ struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* 
 
 
 
-/**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters.*/
+/**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters. */
 CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("removeIndentReplaceNewline_StringFunctions_BJc");
@@ -113,7 +113,7 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ C
               
               append_c_StringBuilderJc(b, sNewline.c, _thCxt);/*use the newline from argument.*/
               
-            }/*skip over posEnd1, skip over the other end line character if found.*/
+            }/*skip over posEnd1, skip over the other end line character if found. */
             
             if(++posEnd1 < zText) 
             { 

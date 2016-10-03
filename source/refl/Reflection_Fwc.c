@@ -672,15 +672,57 @@ const ClassJc reflection_FloatArray20 =
 #include "Fwc/fw_ThreadContext.h"
 
 
+extern_C const ClassJc reflection_AddrUsed_ThreadContextFW;  //the just defined reflection_
+extern_C const ClassJc reflection_OS_PtrValue;
+const struct Reflection_Fields_AddrUsed_ThreadContextFW_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_AddrUsed_ThreadContextFW =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_AddrUsed_ThreadContextFW)
+, {
+    { "sign"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((AddrUsed_ThreadContextFW*)(0x1000))->sign) -(int32)(AddrUsed_ThreadContextFW*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_AddrUsed_ThreadContextFW
+    }
+  , { "used"
+    , 0   //no Array, no Bitfield
+    , &reflection_OS_PtrValue
+    , 0 //bitModifiers
+    , (int16)((int32)(&((AddrUsed_ThreadContextFW*)(0x1000))->used) -(int32)(AddrUsed_ThreadContextFW*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_AddrUsed_ThreadContextFW
+    }
+} };
+
+
+const ClassJc reflection_AddrUsed_ThreadContextFW =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AddrUsed_ThreadContextFW, &reflection_ClassJc)
+, "AddrUsed_ThreadContextFW"
+, 0
+, sizeof(AddrUsed_ThreadContextFW)
+, (FieldJcArray const*)&reflection_Fields_AddrUsed_ThreadContextFW  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
 extern_C const ClassJc reflection_ThreadContextFW_s;  //the just defined reflection_
 extern_C const ClassJc reflection_OS_PtrValue;
-extern_C const ClassJc reflection_OS_PtrValue;
+extern_C const ClassJc reflection_AddrUsed_ThreadContextFW;
 extern_C const ClassJc reflection_StacktraceThreadContext_s;
 const struct Reflection_Fields_ThreadContextFW_s_t
 { ObjectArrayJc head;
-  FieldJc data[8];
+  FieldJc data[9];
 } reflection_Fields_ThreadContextFW_s =
-{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_ThreadContextFW_s)
+{ CONST_ObjectArrayJc(FieldJc, 9, OBJTYPE_FieldJc, null, &reflection_Fields_ThreadContextFW_s)
 , {
     { "bufferAlloc"
     , 0   //no Array, no Bitfield
@@ -691,8 +733,8 @@ const struct Reflection_Fields_ThreadContextFW_s_t
     , &reflection_ThreadContextFW_s
     }
   , { "addrUsed"
-    , 10   //nrofArrayElements
-    , &reflection_OS_PtrValue
+    , 30   //nrofArrayElements
+    , &reflection_AddrUsed_ThreadContextFW
     , 0 |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->addrUsed) -(int32)(ThreadContextFW_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -714,19 +756,27 @@ const struct Reflection_Fields_ThreadContextFW_s_t
     , 0  //offsetToObjectifcBase
     , &reflection_ThreadContextFW_s
     }
-  , { "blockHeap"
+  , { "ixLastAddrUsed"
     , 0   //no Array, no Bitfield
-    , REFLECTION_void
-    , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->blockHeap) -(int32)(ThreadContextFW_s*)0x1000)
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->ixLastAddrUsed) -(int32)(ThreadContextFW_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ThreadContextFW_s
     }
   , { "mode"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , REFLECTION_int16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->mode) -(int32)(ThreadContextFW_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ThreadContextFW_s
+    }
+  , { "blockHeap"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_void
+    , 0| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ThreadContextFW_s*)(0x1000))->blockHeap) -(int32)(ThreadContextFW_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ThreadContextFW_s
     }

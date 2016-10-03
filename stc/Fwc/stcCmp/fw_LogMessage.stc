@@ -26,7 +26,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }
@@ -40,8 +40,8 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/msgDispatch/LogMessage: $ "(?).base/*J2C:ifc*/.LogMessageFW" $;
-    java/lang/Object: $ "(?).base/*J2C:ifc*/.LogMessageFW.base/*J2C_super:*/.object" $;
+    org/vishia/msgDispatch/LogMessage: $ "(?).base.LogMessageFW" $;
+    java/lang/Object: $ "(?).base.LogMessageFW.base.object" $;
   }
 
 }

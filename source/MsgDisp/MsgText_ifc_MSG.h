@@ -133,7 +133,8 @@ void finalize_MsgText_ifc_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 #define version_MsgText_ifc_MSG 20120822  /*version, history and license:*/
 
 
-/**Returns a message text to the given ident number*/
+/**Returns a message text to the given ident number
+*/
 typedef char const* MT_getMsgText_MsgText_ifc_MSG(ObjectJc* ithis, int32 ident, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C char const* getMsgText_MsgText_ifc_MSG(ObjectJc* ithis, int32 ident, ThCxt* _thCxt);

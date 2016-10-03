@@ -794,7 +794,6 @@ const ClassJc reflection_ListMapEntryJc =
 
 
 extern_C const ClassJc reflection_HandleItem;  //the just defined reflection_
-extern_C const ClassJc reflection_OS_Mutex_t;
 const struct Reflection_Fields_HandleItem_t
 { ObjectArrayJc head;
   FieldJc data[3];
@@ -803,7 +802,7 @@ const struct Reflection_Fields_HandleItem_t
 , {
     { "handleMutex"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int32
+    , REFLECTION_void
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((HandleItem*)(0x1000))->handleMutex) -(int32)(HandleItem*)0x1000)
     , 0  //offsetToObjectifcBase

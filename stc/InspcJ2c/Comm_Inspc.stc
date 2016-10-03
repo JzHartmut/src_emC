@@ -18,12 +18,12 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/Comm *.. Comm_Inspc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/inspectorTarget/CmdExecuter *.. cmdExecuter);
+    ctorO-_$, mode=ctor+static: org/vishia/inspectorTarget/Comm *.. Comm_Inspc_s(java/lang/String(instance=java/lang/String) t.. ownAddrIpc,org/vishia/inspectorTarget/CmdExecuter *.. cmdExecuter);
     openComm-_$: boolean %.r null(boolean %.. blocking);
     receiveAndExecute-_$: void %.r null();
-    run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
+    run-_$, defined: java/lang/Runnable.run, mode=overrideable: void %.r null();
     sendAnswer-_$: int %.r null(byte[??] M%. bufferAnswerData,int %.. nrofBytesAnswer);
-    shutdown-_$, mode= overrideable: void %.r null();
+    shutdown-_$, mode=overrideable: void %.r null();
     start-_$: void %.r null();
   }
 

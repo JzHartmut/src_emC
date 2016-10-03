@@ -59,13 +59,18 @@ typedef struct InterProcessCommRx_ifc_Ipc_Y_t { ObjectArrayJc head; InterProcess
 void finalize_InterProcessCommRx_ifc_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
- extern StringJc version_InterProcessCommRx_ifc_Ipc;   /*Version, history and license.*/
+ extern StringJc version_InterProcessCommRx_ifc_Ipc;   /*Version, history and license.*/
+
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_InterProcessCommRx_ifc_Ipc();
+
+
 
 
 /**Default constructor. */
 METHOD_C struct InterProcessCommRx_ifc_Ipc_t* ctorO_InterProcessCommRx_ifc_Ipc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Callback routine for received data.*/
+/**Callback routine for received data.*/
 typedef void MT_execRxData_InterProcessCommRx_ifc_Ipc(InterProcessCommRx_ifc_Ipc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void execRxData_InterProcessCommRx_ifc_Ipc_F(InterProcessCommRx_ifc_Ipc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);

@@ -16,8 +16,8 @@ const char sign_Mtbl_Inspector_Inspc[] = "Inspector_Inspc"; //to mark method tab
 
 typedef struct MtblDef_Inspector_Inspc_t { Mtbl_Inspector_Inspc mtbl; MtblHeadJc end; } MtblDef_Inspector_Inspc;
  extern MtblDef_Inspector_Inspc const mtblInspector_Inspc;
-StringJc version_Inspector_Inspc = CONST_z_StringJc("2015-08-05");
-Inspector_InspcREF singleton_Inspector_Inspc = { 0, null };
+StringJc version_Inspector_Inspc = CONST_z_StringJc("2015-08-05"); //J2C:static StringJc
+Inspector_InspcREF singleton_Inspector_Inspc = { null, 0 };
 
 /*Constructor */
 struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt)
@@ -29,19 +29,19 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
   {
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->classContent.base.object), sizeof(thiz->classContent), 0); 
-      ctorO_ClassContent_Inspc(/*static*/&(thiz->classContent.base.object), _thCxt);
+      ctorO_ClassContent_Inspc(/*J2C:static method call*/&(thiz->classContent.base.object), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->cmdExecuter.base.object), sizeof(thiz->cmdExecuter), 0); 
-      ctorO_CmdExecuter_Inspc(/*static*/&(thiz->cmdExecuter.base.object), & ((thiz->classContent).base.CmdConsumer_ifc_Inspc), _thCxt);
+      ctorO_CmdExecuter_Inspc(/*J2C:static method call*/&(thiz->cmdExecuter.base.object), & ((thiz->classContent).base.CmdConsumer_ifc_Inspc), _thCxt);
   }
   { 
     
     //J2C: constructor for embedded element-ObjectJc
     init_ObjectJc(&(thiz->comm.base.object), sizeof(thiz->comm), 0); 
-    ctorO_Comm_Inspc(/*static*/&(thiz->comm.base.object), commOwnAddr, & (thiz->cmdExecuter), _thCxt);
+    ctorO_Comm_Inspc(/*J2C:static method call*/&(thiz->comm.base.object), commOwnAddr, & (thiz->cmdExecuter), _thCxt);
     completeConstruction_CmdExecuter_Inspc_F(& (thiz->cmdExecuter), & (thiz->comm), _thCxt);
     setAnswerComm_XX_ClassContent_Inspc(&((& ((thiz->classContent).base.CmdConsumer_ifc_Inspc))->base.object), & ((thiz->cmdExecuter).base.AnswerComm_ifc_Inspc), _thCxt);
-    if(REFJc(singleton_Inspector_Inspc) == null) 
+    if(singleton_Inspector_Inspc.ref== null) 
     { 
       
       SETREFJc(singleton_Inspector_Inspc, thiz, Inspector_Inspc_s);
@@ -53,15 +53,15 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
 
 
 
-/**Returns the first instance of the Inspector in this application*/
-struct Inspector_Inspc_t* get_Inspector_Inspc(/*static*/ ThCxt* _thCxt)
+/**Returns the first instance of the Inspector in this application. Usual only one instance is used,*/
+struct Inspector_Inspc_t* get_Inspector_Inspc(/*J2C:static method*/ ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("get_Inspector_Inspc");
   
   { 
     
     { STACKTRC_LEAVE;
-      return REFJc(singleton_Inspector_Inspc);
+      return REFJc (singleton_Inspector_Inspc);
     }
   }
   STACKTRC_LEAVE;
@@ -88,7 +88,7 @@ void start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, 
 }
 
 
-/**Shutdown the communication, close the thread*/
+/**Shutdown the communication, close the thread. This routine should be called */
 void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_Inspector_Inspc_F");
@@ -110,14 +110,17 @@ void shutdown_Inspector_Inspc(Inspector_Inspc_s* thiz, ThCxt* _thCxt)
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_Inspector_Inspc mtblInspector_Inspc = {
-{ { sign_Mtbl_Inspector_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_Inspector_Inspc //J2C: Head of methodtable of Inspector_Inspc
+  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
+  //J2C: Dynamic methods of the class :Inspector_Inspc:
 , start_Inspector_Inspc_F //start
 , shutdown_Inspector_Inspc_F //shutdown
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
@@ -194,7 +197,7 @@ const ClassJc reflection_Inspector_Inspc_s =
 , "Inspector_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(Inspector_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_Inspector_Inspc_s
+, (FieldJc_Y const*)&reflection_Fields_Inspector_Inspc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_Inspector_Inspc_s //superclass
 , null //interfaces

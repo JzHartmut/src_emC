@@ -28,8 +28,8 @@ typedef struct LeapSecondsJc_t
 { 
   union { ObjectJc object; } base; 
   int32 leapSeconds[30];   /*Array of number of leap seconds. */
-  int64_Y* millisecondsUTCForLeapSeconds;   /*Array of values of seconds after 1970, which are UTC seconds.*/
-  int64_Y* millisecondsGPSForLeapSeconds;   /*Array of values of seconds after 1970, which are leap seconds.*/
+  int64_Y* millisecondsUTCForLeapSeconds;   /*Array of values of seconds after 1970, which are UTC seconds. */
+  int64_Y* millisecondsGPSForLeapSeconds;   /*Array of values of seconds after 1970, which are leap seconds. */
 } LeapSecondsJc_s;
   
 
@@ -60,22 +60,28 @@ typedef struct LeapSecondsJc_Y_t { ObjectArrayJc head; LeapSecondsJc_s data[50];
 void finalize_LeapSecondsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
- extern struct LeapSecondsJc_t* singleton_LeapSecondsJc;   /*All methods are static, but uses internally data of this class.*/
+ extern struct LeapSecondsJc_t* singleton_LeapSecondsJc;   /*All methods are static, but uses internally data of this class. */
 
 
 METHOD_C struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Sets the leap seconds for a given timestamp*/
+/**Sets the leap seconds for a given timestamp. This routine should be called on startup phase
+if a input is available.
+*/
 METHOD_C void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc_t* date, ThCxt* _thCxt);
 
-/**initializes the table of leap seconds with fix dates.*/
+/**initializes the table of leap seconds with fix dates.
+The dates are get from <a href="http://en.wikipedia.org/wiki/Leap_second">http://en.wikipedia.org/wiki/Leap_second</a>
+Dates after 2008 are guessed.
+*/
 typedef void MT_initFix_LeapSecondsJc(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void initFix_LeapSecondsJc(LeapSecondsJc_s* thiz, ThCxt* _thCxt);
 
-/**Returns a Date object from given GPS-seconds.*/
+/**Returns a Date object from given GPS-seconds.
+*/
 METHOD_C struct DateJc_t* dateFromGPS_LeapSecondsJc(/*J2C:static method*/ int64 millisecondsGPS, ThCxt* _thCxt);
 
 METHOD_C int64 millisecondsGPSfromUTC_LeapSecondsJc(/*J2C:static method*/ int64 millisecondsUTC, ThCxt* _thCxt);

@@ -49,29 +49,27 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
-        assignDatagram-_$, mode= noThCxt: void %.r null(byte[??] M%. data,int %.. length);
-        ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. InspcDatagram_InspcDataExchangeAccess_Inspc_s();
-        ctorM+_iY-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. InspcDatagram_InspcDataExchangeAccess_Inspc_s(byte[??] M%. buffer);
-        getAnswerNr-_$, mode= noThCxt: int %.r null();
-        getEncryption-_$, mode= noThCxt: int %.r null();
-        getEntrant-_$, mode= noThCxt: int %.r null();
-        getLengthDatagram-_$, mode= noThCxt: int %.r null();
-        getSeqnr-_$, mode= noThCxt: int %.r null();
+        assignDatagram-_$, mode=noThCxt: void %.r null(byte[??] M%. data,int %.. length);
+        ctorM-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. InspcDatagram_InspcDataExchangeAccess_Inspc_s();
+        ctorM+_iY-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. InspcDatagram_InspcDataExchangeAccess_Inspc_s(byte[??] M%. buffer);
+        getAnswerNr-_$, mode=noThCxt: int %.r null();
+        getEncryption-_$, mode=noThCxt: int %.r null();
+        getEntrant-_$, mode=noThCxt: int %.r null();
+        getLengthDatagram-_$, mode=noThCxt: int %.r null();
+        getSeqnr-_$, mode=noThCxt: int %.r null();
         incrAnswerNr-_$: void %.r null();
-        lastAnswer-_$, mode= noThCxt: boolean %.r null();
+        lastAnswer-_$, mode=noThCxt: boolean %.r null();
         markAnswerNrLast-_$: void %.r null();
-        setEntrant-_$, mode= noThCxt: void %.r null(int %.. nr);
+        setEntrant-_$, mode=noThCxt: void %.r null(int %.. nr);
         setHeadAnswer-_$: void %.r null(int %.. entrant,int %.. seqNr,int %.. encryption);
         setHeadRequest-_$: void %.r null(int %.. entrant,int %.. seqNr,int %.. encryption);
-        setLengthDatagram-_$, mode= noThCxt: void %.r null(int %.. length);
-        setSeqnr-_$, mode= noThCxt: void %.r null(int %.. nr);
+        setLengthDatagram-_$, mode=noThCxt: void %.r null(int %.. length);
+        setSeqnr-_$, mode=noThCxt: void %.r null(int %.. nr);
       }
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
-        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -133,21 +131,19 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
-        ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. Inspcitem_InspcDataExchangeAccess_Inspc_s();
-        ctorM+_i-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. Inspcitem_InspcDataExchangeAccess_Inspc_s(int %.. sizeHeadDerived);
-        getCmd-_$, mode= noThCxt: int %.r null();
-        getLenInfo-_$, mode= noThCxt: int %.r null();
-        getOrder-_$, mode= noThCxt: int %.r null();
-        setCmd-_$, mode= noThCxt: void %.r null(int %.. cmd);
+        ctorM-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. Inspcitem_InspcDataExchangeAccess_Inspc_s();
+        ctorM+_i-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. Inspcitem_InspcDataExchangeAccess_Inspc_s(int %.. sizeHeadDerived);
+        getCmd-_$, mode=noThCxt: int %.r null();
+        getLenInfo-_$, mode=noThCxt: int %.r null();
+        getOrder-_$, mode=noThCxt: int %.r null();
+        setCmd-_$, mode=noThCxt: void %.r null(int %.. cmd);
         setInfoHead-_$: void %.r null(int %.. length,int %.. cmd,int %.. order);
-        setLength-_$, mode= noThCxt: void %.r null(int %.. length);
+        setLength-_$, mode=noThCxt: void %.r null(int %.. length);
       }
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
-        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -185,31 +181,29 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=2: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
-        ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. InspcSetValue_InspcDataExchangeAccess_Inspc_s();
-        getByte-_$, mode= noThCxt: byte %.r null();
-        getDouble-_$, mode= noThCxt: double %.r null();
-        getFloat-_$, mode= noThCxt: float %.r null();
-        getInt-_$, mode= noThCxt: int %.r null();
-        getLong-_$, mode= noThCxt: long %.r null();
-        getPwd-_$, mode= noThCxt: long %.r null();
-        getShort-_$, mode= noThCxt: short %.r null();
-        getType-_$, mode= noThCxt: short %.r null();
-        setBool-_$, mode= noThCxt: void %.r null(int %.. value);
-        setByte-_$, mode= noThCxt: void %.r null(int %.. value);
-        setDouble-_$, mode= noThCxt: void %.r null(double %.. value);
-        setFloat-_$, mode= noThCxt: void %.r null(float %.. value);
-        setFloatIntImage-_$, mode= noThCxt: void %.r null(int %.. value);
-        setInt-_$, mode= noThCxt: void %.r null(int %.. value);
-        setLong-_$, mode= noThCxt: void %.r null(long %.. value);
-        setPwd-_$, mode= noThCxt: void %.r null(int %.. pwd);
-        setShort-_$, mode= noThCxt: void %.r null(int %.. value);
+        ctorM-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. InspcSetValue_InspcDataExchangeAccess_Inspc_s();
+        getByte-_$, mode=noThCxt: byte %.r null();
+        getDouble-_$, mode=noThCxt: double %.r null();
+        getFloat-_$, mode=noThCxt: float %.r null();
+        getInt-_$, mode=noThCxt: int %.r null();
+        getLong-_$, mode=noThCxt: long %.r null();
+        getPwd-_$, mode=noThCxt: long %.r null();
+        getShort-_$, mode=noThCxt: short %.r null();
+        getType-_$, mode=noThCxt: short %.r null();
+        setBool-_$, mode=noThCxt: void %.r null(int %.. value);
+        setByte-_$, mode=noThCxt: void %.r null(int %.. value);
+        setDouble-_$, mode=noThCxt: void %.r null(double %.. value);
+        setFloat-_$, mode=noThCxt: void %.r null(float %.. value);
+        setFloatIntImage-_$, mode=noThCxt: void %.r null(int %.. value);
+        setInt-_$, mode=noThCxt: void %.r null(int %.. value);
+        setLong-_$, mode=noThCxt: void %.r null(long %.. value);
+        setPwd-_$, mode=noThCxt: void %.r null(int %.. pwd);
+        setShort-_$, mode=noThCxt: void %.r null(int %.. value);
       }
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
-        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -246,26 +240,24 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=3: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
-        ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValueData *.. InspcSetValueData_InspcDataExchangeAccess_Inspc_s();
-        setAddress-_$, mode= noThCxt: void %.r null(int %.. address);
+        ctorM-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValueData *.. InspcSetValueData_InspcDataExchangeAccess_Inspc_s();
+        setAddress-_$, mode=noThCxt: void %.r null(int %.. address);
         setBool-_$: void %.r null(int %.. value);
         setByte-_$: void %.r null(int %.. value);
         setDouble-_$: void %.r null(double %.. value);
         setFloat-_$: void %.r null(float %.. value);
         setFloatIntImage-_$: void %.r null(int %.. value);
-        setHead-_$, mode= noThCxt: void %.r null(int %.. order);
+        setHead-_$, mode=noThCxt: void %.r null(int %.. order);
         setInt-_$: void %.r null(int %.. value);
         setLong-_$: void %.r null(long %.. value);
-        setPosition-_$, mode= noThCxt: void %.r null(int %.. position);
+        setPosition-_$, mode=noThCxt: void %.r null(int %.. position);
         setShort-_$: void %.r null(int %.. value);
       }
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super.base.super" $;
-        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
         org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base.super" $;
-        java/lang/Object: $ "(?).base.super.base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -302,8 +294,8 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       //outer=1 ,super=3: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
-        ctorM-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcAnswerValueByHandle *.. InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s();
-        ctorM+_XX-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcAnswerValueByHandle *.. InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. src);
+        ctorM-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcAnswerValueByHandle *.. InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s();
+        ctorM+_XX-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcAnswerValueByHandle *.. InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. src);
         getIxHandleFrom-_$: int %.r null();
         getIxHandleTo-_$: int %.r null();
         setIxHandleFrom-_$: void %.r null(int %.. val);
@@ -312,10 +304,8 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
 
       castTo {
         org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super.base.super" $;
-        org/vishia/util/InfoFormattedAppend: $ "(?).base.super.base.super.base.InfoFormattedAppendJc" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
         org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base.super" $;
-        java/lang/Object: $ "(?).base.super.base.super.base.InfoFormattedAppendJc.base.object" $;
       }
 
     }
@@ -333,10 +323,10 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/communication/InspcDataExchangeAccess *.. InspcDataExchangeAccess_Inspc_s();
-    getFloatChild-_$, mode= static: float %.r null(short %.. type,org/vishia/byteData/ByteDataAccessBase *.. access);
-    getIntChild-_$, mode= static: int %.r null(short %.. type,org/vishia/byteData/ByteDataAccessBase *.. access);
-    nrofBytesForType-_$, mode= static: int %.r null(short %.. type);
+    ctorO-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess *.. InspcDataExchangeAccess_Inspc_s();
+    getFloatChild-_$, mode=static: float %.r null(short %.. type,org/vishia/byteData/ByteDataAccessBase *.. access);
+    getIntChild-_$, mode=static: int %.r null(short %.. type,org/vishia/byteData/ByteDataAccessBase *.. access);
+    nrofBytesForType-_$, mode=static: int %.r null(short %.. type);
   }
 
   castTo {

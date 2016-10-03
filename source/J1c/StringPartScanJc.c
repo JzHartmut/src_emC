@@ -16,7 +16,7 @@
 struct Part_StringPartJc_t;
 
 /**This class extends the capability of StringPartBase for scanning capability.
-In opposite to the {@link StringPart#seek(int)} functionality with several conditions
+In opposite to the {@link StringPart#seek(int)} functionality with several conditions 
 the scan methods does not search till a requested char or string but test the string
 starting from the begin of the valid part. If the test is ok, the begin of the valid part
 is shifted to right behind the scanned string. The result of the scanning process
@@ -27,10 +27,10 @@ abcdefghijklmnopqrstuvwxyz  Sample of the whole associated String
 --------------------    The valid part before scan
 ++++++++++++++    The valid part after scan
 ******                  The successfully scanned part.
-xxxxx             Starting next scan
-</pre>
+xxxxx             Starting next scan      
+</pre> 
 A scan works with the current valid part always.
-<br><br>
+<br><br>  
 <b>concatenated sequence of scans</b>:<br>
 It is possible to concatenate scans, for example
 <pre>
@@ -168,7 +168,7 @@ struct StringPartScanJc_t* scanSkipSpace_StringPartScanJc(StringPartScanJc_s* th
   
   { 
     
-    seekNoWhitespace_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt);
+    seekNoWhitespace_StringPartJc(& ((* (thiz)).base.super), _thCxt);
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -184,7 +184,7 @@ struct StringPartScanJc_t* scanSkipComment_StringPartScanJc(StringPartScanJc_s* 
   
   { 
     
-    seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt);
+    seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base.super), _thCxt);
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -210,6 +210,21 @@ struct StringPartScanJc_t* scanStart_StringPartScanJc(StringPartScanJc_s* thiz, 
   STACKTRC_LEAVE;
 }
 
+
+/**Invocation of scan() for a {@link StringPart} is the same than scanStart().*/
+struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("scan_StringPartScanJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return scanStart_StringPartScanJc(thiz, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
 bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanEntry_StringPartScanJc");
@@ -219,7 +234,7 @@ bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
     if(thiz->base.super.bCurrentOk) 
     { 
       
-      seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt);
+      seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base.super), _thCxt);
       if(thiz->base.super.bStartScan) 
       { 
         
@@ -242,7 +257,7 @@ bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Test the result of scanning and set the scan Pos Ok, if current scanning was ok*/
+/**Test the result of scanning and set the scan Pos Ok, if current scanning was ok. If current scanning*/
 bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanOk_StringPartScanJc");
@@ -277,9 +292,9 @@ bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 
 
 /**scan next content, test the requested String.*/
-struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sTestP, ThCxt* _thCxt)
+struct StringPartScanJc_t* scan_Cs_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sTestP, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("scan_StringPartScanJc");
+  STACKTRC_TENTRY("scan_Cs_StringPartScanJc");
   
   { 
     
@@ -287,7 +302,7 @@ struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, CharS
     { /*:      but the sTestP may contain only cEndOfText. end of text will be okay than.*/
       
       
-      seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt);
+      seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base.super), _thCxt);
       
       CharSeqJc sTest ; sTest;/*no initvalue*/
       
@@ -350,24 +365,26 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
     { 
       
       
-        ( scan_StringPartScanJc(thiz, sQuotionmarkStart, _thCxt)
-        , lentoNonEscapedString_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), sQuotionMarkEnd.c, maxToTest, _thCxt)
+        ( scan_Cs_StringPartScanJc(thiz, sQuotionmarkStart, _thCxt)
+        , lentoNonEscapedString_StringPartJc(& ((* (thiz)).base.super), sQuotionMarkEnd.c, maxToTest, _thCxt)
         );
       if(thiz->base.super.bCurrentOk) 
       { /*:TODO ...ToEndString, now use only 1 char in sQuotionMarkEnd*/
         
         StringJc _persistring4_1=NULL_StringJc; //J2C: temporary persistent Strings
         struct Part_StringPartJc_t* _temp4_1; /*J2C: temporary references for concatenation */
-        struct Part_StringPartJc_t* _thCxtRef4_1;
+        struct Part_StringPartJc_t* _thCxtRef4_1;struct Part_StringPartJc_t* _thCxtRef4_2;
         if(sResult != null) sResult->data[0] = 
-          ( _temp4_1= ( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt))
-          , _persistring4_1 = persist_StringJc(toString_Part_StringPartJc(& ((* (_temp4_1)).base/*J2C_super:*/.object)/*J2cT1*/, _thCxt))
+          ( _temp4_1= ( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))
+          , _persistring4_1 = persist_StringJc(toString_Part_StringPartJc(& ((* (_temp4_1)).base.object)/*J2cT1*/, _thCxt))
           )/*J2C:non-persistent*/;
+        else thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_2 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
         
-          ( fromEnd_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt)
-          , seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), length_StringJc(sQuotionMarkEnd), _thCxt)
+          ( fromEnd_StringPartJc(& ((* (thiz)).base.super), _thCxt)
+          , seekPos_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt)
           );
         releaseUserBuffer_ThreadContextFw(_thCxtRef4_1, _thCxt);
+        releaseUserBuffer_ThreadContextFw(_thCxtRef4_2, _thCxt);
         activateGC_ObjectJc(PTR_StringJc(_persistring4_1), null, _thCxt);
       }
       else thiz->base.super.bCurrentOk = false;
@@ -443,7 +460,7 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
 }
 
 
-/**Scanns a integer number as positiv value without sign.*/
+/**Scanns a integer number as positiv value without sign. */
 struct StringPartScanJc_t* scanPositivInteger_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanPositivInteger_StringPartScanJc");
@@ -491,7 +508,7 @@ struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJc_s* thiz
       { 
         
         bNegativValue = true;
-        seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), 1, _thCxt);
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
       }
       
       int64  value = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
@@ -520,7 +537,7 @@ struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJc_s* thiz
 }
 
 
-/**Scans a float number*/
+/**Scans a float number. The result is stored internally*/
 struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPartScanJc_s* thiz, bool cleanBuffer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanFloatNumber_b_StringPartScanJc");
@@ -541,7 +558,7 @@ struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPartScanJc_s
 }
 
 
-/**Scans a float / double number*/
+/**Scans a float / double number. The result is stored internally*/
 struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanFloatNumber_StringPartScanJc");
@@ -559,7 +576,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
       { 
         
         bNegativValue = true;
-        seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), 1, _thCxt);
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
       }
       
       int64  nInteger = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
@@ -595,7 +612,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
 }
 
 
-/**Scans the fractional part of a float / double number with given integer part and sign.*/
+/**Scans the fractional part of a float / double number with given integer part and sign. */
 struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJc_s* thiz, int64 nInteger, bool bNegative, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanFractionalNumber_StringPartScanJc");
@@ -622,13 +639,13 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
       if(thiz->base.super.begin < thiz->base.super.endMax && charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt) == '.') 
       { 
         
-        seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), 1, _thCxt);/*over .*/
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);/*over .*/
         
         
-        while(thiz->base.super.begin < thiz->base.super.endMax && getCurrentChar_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt) == '0')
+        while(thiz->base.super.begin < thiz->base.super.endMax && getCurrentChar_StringPartJc(& ((* (thiz)).base.super), _thCxt) == '0')
           { 
             
-            seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), 1, _thCxt);
+            seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
             nDivisorFract *= 10;
           }/*int posFrac = begin;*/
           
@@ -649,12 +666,12 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
       if(thiz->base.super.bCurrentOk && nPosExponent < thiz->base.super.endMax && ((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt)) == 'e' || cc == 'E')) 
       { 
         
-        seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), 1, _thCxt);
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
         if((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt)) == '-') 
         { 
           
           bNegativExponent = true;
-          seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), 1, _thCxt);
+          seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
           cc = charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt);
         }
         if(cc >= '0' && cc <= '9') 
@@ -738,7 +755,7 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
 }
 
 
-/**Scans a sequence of hex chars a hex number*/
+/**Scans a sequence of hex chars a hex number. No '0x' or such should be present. */
 struct StringPartScanJc_t* scanHex_StringPartScanJc(StringPartScanJc_s* thiz, int32 maxNrofChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanHex_StringPartScanJc");
@@ -785,7 +802,7 @@ struct StringPartScanJc_t* scanHexOrDecimal_StringPartScanJc(StringPartScanJc_s*
       if(equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + 2, z_StringJc("0x").c, _thCxt)) 
       { 
         
-        seek_i_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), 2, _thCxt);
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 2, _thCxt);
         value = scanDigits_StringPartScanJc(thiz, true, maxNrofChars, _thCxt);
       }
       else 
@@ -838,11 +855,11 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
       
-      lentoIdentifier_CsCs_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), additionalStartChars.c, additionalChars.c, _thCxt);
+      lentoIdentifier_CsCs_StringPartJc(& ((* (thiz)).base.super), additionalStartChars.c, additionalChars.c, _thCxt);
       if(thiz->base.super.bFound) 
       { 
         struct Part_StringPartJc_t* _thCxtRef4_1;
-        thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base/*J2C_super:*/.super), _thCxt)))).base.object);
+        thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
         thiz->base.super.begin = thiz->base.super.end;/*after identifier.*/
         
         releaseUserBuffer_ThreadContextFw(_thCxtRef4_1, _thCxt);
@@ -863,7 +880,7 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
 }
 
 
-/**Returns the last scanned integer sign*/
+/**Returns the last scanned integer sign. It is the result of the methods*/
 bool getLastScannedIntegerSign_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLastScannedIntegerSign_StringPartScanJc");
@@ -883,7 +900,7 @@ bool getLastScannedIntegerSign_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt*
 }
 
 
-/**Returns the last scanned integer number*/
+/**Returns the last scanned integer number. It is the result of the methods*/
 int64 getLastScannedIntegerNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLastScannedIntegerNumber_StringPartScanJc");
@@ -938,7 +955,7 @@ CharSeqJc getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt*
 }
 
 
-/**Closes the work*/
+/**Closes the work. This routine should be called if the StringPart is never used, */
 void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt)
 { StringPartScanJc_s* thiz = (StringPartScanJc_s*)ithis;
   

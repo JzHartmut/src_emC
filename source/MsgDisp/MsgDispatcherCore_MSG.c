@@ -17,8 +17,8 @@
 struct LogMessageFW_t;
 struct ThreadJc_t;
 
-/**This is the core of the message dispatcher. It dispatches only.
-The dispatch table maybe filled with a simplest algorithm.
+/**This is the core of the message dispatcher. It dispatches only. 
+The dispatch table maybe filled with a simplest algorithm. 
 This class is able to use in a simple environment.
 
 @author Hartmut Schorrig
@@ -126,7 +126,7 @@ int32 searchDispatchBits_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, in
 }
 
 
-/**Sends a message*/
+/**Sends a message. See interface.  */
 bool sendMsg_izv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...)
 { MsgDispatcherCore_MSG_s* thiz = (MsgDispatcherCore_MSG_s*)ithis;
   
@@ -137,14 +137,14 @@ bool sendMsg_izv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber,
     
     Va_listFW  vaArgs;va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
-      return sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(& ((* (thiz)).base/*J2C:ifc*/.LogMessageFW)/*J2cT1*/, identNumber, os_getDateTime(), text, vaArgs, _thCxt);
+      return sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, os_getDateTime(), text, vaArgs, _thCxt);
     }
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Sends a message*/
+/**Sends a message. See interface.  */
 bool sendMsgTime_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...)
 { MsgDispatcherCore_MSG_s* thiz = (MsgDispatcherCore_MSG_s*)ithis;
   
@@ -155,14 +155,14 @@ bool sendMsgTime_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identN
     
     Va_listFW  vaArgs;va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
-      return sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(& ((* (thiz)).base/*J2C:ifc*/.LogMessageFW)/*J2cT1*/, identNumber, creationTime, text, vaArgs, _thCxt);
+      return sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, creationTime, text, vaArgs, _thCxt);
     }
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Sends a message*/
+/**Sends a message. See interface.  */
 bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
 { MsgDispatcherCore_MSG_s* thiz = (MsgDispatcherCore_MSG_s*)ithis;
   
@@ -204,12 +204,12 @@ bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 iden
         if(entry == null) 
         { 
           
-          /**queue overflow, no entries available*/
-          if(thiz->runNoEntryMessage.ref!= null) /**queue overflow, no entries available*/
+          /**queue overflow, no entries available. The message can't be displayed*/
+          if(thiz->runNoEntryMessage.ref!= null) /**queue overflow, no entries available. The message can't be displayed*/
           
           { 
             
-            /**queue overflow, no entries available*/
+            /**queue overflow, no entries available. The message can't be displayed*/
             run_RunnableJc(&((REFJc (thiz->runNoEntryMessage))->base.object), _thCxt);
           }
           if(++thiz->ctLostMessages == 0) 
@@ -320,7 +320,7 @@ void tickAndFlushOrClose_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, Th
 }
 
 
-/**Dispatches all messages, which are stored in the queue.*/
+/**Dispatches all messages, which are stored in the queue. */
 int32 dispatchQueuedMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("dispatchQueuedMsg_MsgDispatcherCore_MSG");
@@ -380,7 +380,7 @@ int32 dispatchQueuedMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThC
 }
 
 
-/**Dispatches a message*/
+/**Dispatches a message. This routine is called either in the calling thread of the message*/
 int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dstBits, bool bDispatchInDispatcherThread, bool bDispatchAlways, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("dispatchMsg_MsgDispatcherCore_MSG");
@@ -669,7 +669,7 @@ const ClassJc reflection_MsgDispatcherCore_MSG_s =
 , "MsgDispatcherCore_MSG_s"
 , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->base.object) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
 , sizeof(MsgDispatcherCore_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_MsgDispatcherCore_MSG_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_MsgDispatcherCore_MSG_s //superclass
 , (ClassOffset_idxMtblJcARRAY*)&interfaces_MsgDispatcherCore_MSG_s //interfaces
@@ -769,14 +769,14 @@ const ClassJc reflection_Entry_MsgDispatcherCore_MSG_s =
 , "Entry_MsgDispatche_ore_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(Entry_MsgDispatcherCore_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_Entry_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_Entry_MsgDispatcherCore_MSG_s
 , null //method
 , null //superclass
 , null //interfaces
 , 0    //modifiers
 };
 
-/**This class contains some test-counts for debugging. It is a own class because structuring of attributes.
+/**This class contains some test-counts for debugging. It is a own class because structuring of attributes. 
 @xxxjava2c=noObject.  //NOTE: ctor without ObjectJc not implemented yet.
 */
 
@@ -860,7 +860,7 @@ const ClassJc reflection_TestCnt_MsgDispatcherCore_MSG_s =
 , "TestCnt_MsgDispatc_ore_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(TestCnt_MsgDispatcherCore_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_TestCnt_MsgDispatcherCore_MSG_s //superclass
 , null //interfaces
@@ -868,7 +868,7 @@ const ClassJc reflection_TestCnt_MsgDispatcherCore_MSG_s =
 , &mtblTestCnt_MsgDispatcherCore_MSG.mtbl.head
 };
 
-/**This class contains all infomations for a output. There is an array of this type in MsgDispatcher.
+/**This class contains all infomations for a output. There is an array of this type in MsgDispatcher. 
 */
 
 
@@ -944,7 +944,7 @@ const ClassJc reflection_Output_MsgDispatcherCore_MSG_s =
 , "Output_MsgDispatch_ore_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(Output_MsgDispatcherCore_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_Output_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_Output_MsgDispatcherCore_MSG_s
 , null //method
 , null //superclass
 , null //interfaces

@@ -19,34 +19,34 @@
 The binary data may typically used or produced from a part of software written in C or C++.
 Therewith the binary data are struct-constructs. Another example - build of datagram structures.
 <br>
-This class is a base class which should be derived for user's necessities.
-The methods {@link #getInt16(int)} etc. are protected. That should prevent erratic free accesses to data
+This class is a base class which should be derived for user's necessities. 
+The methods {@link #getInt16(int)} etc. are protected. That should prevent erratic free accesses to data 
 on application level. A derived class of this class structures the software for byte data access.
-<br><br>
+<br><br> 
 It is able to support several kinds of structured data access:<ul>
-<li>Simple C-like <code>struct</code> are adequate mapped with a simple derived class of this class,
-using the protected commonly access methods like {@link #_getLong(int, int)} with predefined indexes
+<li>Simple C-like <code>struct</code> are adequate mapped with a simple derived class of this class, 
+using the protected commonly access methods like {@link #_getLong(int, int)} with predefined indexes 
 in special methods like getValueXyz().
-<li>Complex <code>struct</code> with nested <code>struct</code> inside are mapped
-with one derived class per <code>struct</code>, define one reference per nested struct
-<li>Base <code>struct</code> inside a <code>struct</code> (inheritance in C) can be mapped with
+<li>Complex <code>struct</code> with nested <code>struct</code> inside are mapped 
+with one derived class per <code>struct</code>, define one reference per nested struct 
+<li>Base <code>struct</code> inside a <code>struct</code> (inheritance in C) can be mapped with 
 extra derived classes for the base struct and usind the
 {@link #assignCasted(ByteDataAccessBase, int, int)}-method.
 <li>A pack of data with several struct may be mapped using the {@link #addChild(ByteDataAccessBase)}-method.
-Thereby a parent should be defined, and the structs of the pack are children of this parent.
+Thereby a parent should be defined, and the structs of the pack are children of this parent. 
 That structures need not be from the same type.
-<li>packs of struct with parent are able to nesting, it is able to construct as a tree of pack of structures.
-The parent of the pack is the tree node. It is likewise a XML tree.
+<li>packs of struct with parent are able to nesting, it is able to construct as a tree of pack of structures. 
+The parent of the pack is the tree node. It is likewise a XML tree. 
 The data may be also transformed to a XML data representation
 or the data structure may be explained with a XML tree, but they are not
 XML data straight.
 </ul>
-This application possibilities show a capable of development system to access binary data.
-The other, hand made way was calculate with indices of the byte[idx] specially user programmed.
-This class helps to make such complex index calculation needlessly.
-One struct at C level corresponds with one derivated class of ByteDataAccessBase.
+This application possibilities show a capable of development system to access binary data. 
+The other, hand made way was calculate with indices of the byte[idx] specially user programmed. 
+This class helps to make such complex index calculation needlessly. 
+One struct at C level corresponds with one derivated class of ByteDataAccessBase. 
 But last also a generation of the java code from C/C++-header files containing the structs is able to.
-So the definition of byte positions are made only on one source. The C/C++ is primary thereby.
+So the definition of byte positions are made only on one source. The C/C++ is primary thereby. 
 
 <br>
 The UML structure of such an class in a environment may be shown with the
@@ -61,7 +61,7 @@ followed object model diagram, <br>
 |- idxNextChild:int             |                 +----------+
 +-------------+     |- idxEnd:int                   |
 | derivated   |     |-------------------------------|<---------------+ a known parent
-| user        |---|>|+ addChild(child)              |---parent-------+ set in addChild()
+| user        |---|>|+ addChild(child)              |---parent-------+ set in addChild()                
 | classes     |     |+ addChildFloat()              |
 +-------------+     |% getInt32()                   |----currChild---+
 |                               |<---------------+
@@ -74,14 +74,14 @@ All variables are package private because they should be changed only with metho
 <h2>Initialization and instances</h2>
 The root instance to access to data should be initialized with
 <pre>
-MyByteDataAccessRoot accessRoot = new MyByteDataAccessRoot();
+MyByteDataAccessRoot accessRoot = new MyByteDataAccessRoot(); 
 //... invokes super.ByteDataAccessBase(lengthHead);
 accessRoot.assign(myData, dataLength);
-</pre>
+</pre>  
 Any instances which represents a sub structure in data can be created as re-useable instances, which can be added
 as child of the root instance or as child of any already added child on demand:
 <pre>
-MySubStruct subStruct = new SubStruct();  //an instance for accessing
+MySubStruct subStruct = new SubStruct();  //an instance for accessing 
 ....
 accessRoot.addChild(subStruct);         //adds on current position.
 int value = subStruct.getValuexyz();    //now can access the data.
@@ -89,14 +89,14 @@ int value = subStruct.getValuexyz();    //now can access the data.
 accessOther.addChild(subStruct);        //reuse the instance for access
 int value = subStruct.getValueAbc();    //access other data.
 </pre>
-The instances of this derived class are helper to access to the data, they are not container for the data.
-The data are stored in a <code>byte[]</code>-array
+The instances of this derived class are helper to access to the data, they are not container for the data. 
+The data are stored in a <code>byte[]</code>-array 
 
 
-<br>
+<br>  
 <h2>children, currentChild, addChild</h2>
-Children are used to evaluate or write different data structures after a known structure.
-The children may be from several derived types of this class.
+Children are used to evaluate or write different data structures after a known structure. 
+The children may be from several derived types of this class. 
 With children and children inside children a tree of different data can be built or evaluated.
 <ul>
 <li>{@link #addChild(ByteDataAccessBase)}: adds a child with its head size
@@ -109,9 +109,9 @@ With children and children inside children a tree of different data can be built
 and increments the {@link #ixNextChild}.
 <li>{@link #getChildString(int)} reads a String and increments the {@link #ixNextChild}
 <li>{@link #addChildAt(int, ByteDataAccessBase)}, {@link #addChildAt(int, ByteDataAccessBase, int)}: Used if the byte structure
-is known. Adds a child not at #ixNextChild but at the given position.
+is known. Adds a child not at #ixNextChild but at the given position. 
 </ul>
-Mechanism and indices see {@link #addChild(ByteDataAccessBase, int)}.
+Mechanism and indices see {@link #addChild(ByteDataAccessBase, int)}.   
 
 
 <h2>Expand, check</h2>
@@ -120,7 +120,7 @@ The data should be assigned with
 <ul>
 <li>{@link #assign(byte[], int)} with given length, not expandable
 <li>{@link #assign(byte[], int, int)} at a defined position in the data usefull for special cases.
-With the given length >= the sizehead of the {@link ByteDataAccessBase#ByteDataAccessBase(int)}
+With the given length >= the sizehead of the {@link ByteDataAccessBase#ByteDataAccessBase(int)} 
 the internal flag {@link #bExpand} is set to false.
 </ul>
 If an instance is set for write, the maximal number of bytes is limited by the size of data (byte[]).
@@ -137,15 +137,15 @@ an exception is thrown if a children is added after the given length. If an inst
 #ixEnd is increased by adding children till the length of data as its maximal value.
 <br><br>
 With the operations {@link #sufficingBytesForNextChild(int)} or {@link #getMaxNrofBytes()} it can be tested whether a child can be added
-with its known length.
+with its known length.   
 <br>
 
 <h2>Examples</h2>
-See
+See 
 <ul>
 <li>{@link org.vishia.byteData.test.TestByteDataAccessBase}
 <li>{@link org.vishia.byteData.test.ExampleStringOrInt}
-</ul>
+</ul> 
 */
 
 
@@ -267,7 +267,7 @@ int64 _getLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChi
         
         
         int64  bitsSign = 0xffffffffffffffff << (posSign);
-        val |= bitsSign;/*supplement the rest bits of long with the sign value,it's negativ.*/
+        val |= bitsSign;/*supplement the rest bits of long with the sign value,it's negativ.   */
         
       }
     }
@@ -344,7 +344,7 @@ int32 _getInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChil
         
         
         int64  bitsSign = 0xffffffffffffffff << (posSign);
-        val |= ((/*J2C:cast% from int64*/int32)(bitsSign));/*supplement the rest bits of long with the sign value,it's negativ.*/
+        val |= ((/*J2C:cast% from int64*/int32)(bitsSign));/*supplement the rest bits of long with the sign value,it's negativ.   */
         
       }
     }
@@ -490,10 +490,10 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
       
       
       if(ixEndNew >= 0) 
-      { /*:-1: don't use!*/
+      { /*:-1: don't use! */
         
         
-        thiz->ixEnd = ixEndNew;/*it is valid.*/
+        thiz->ixEnd = ixEndNew;/*it is valid.     */
         
       }
       if(thiz->parent.ref!= null) 
@@ -529,7 +529,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
 }
 
 
-/**Assigns new data to this element at given index in data*/
+/**Assigns new data to this element at given index in data. This method should be used only for an root element.  */
 void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 dataP, int32 lengthData, int32 index, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("assign_iYii_ByteDataAccessBaseJc");
@@ -607,7 +607,7 @@ int32 sizeHead_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Returns the data buffer itself*/
+/**Returns the data buffer itself. The actual total length is getted with getLengthTotal().*/
 PtrVal_int8 getData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getData_ByteDataAccessBaseJc");
@@ -622,7 +622,7 @@ PtrVal_int8 getData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _t
 }
 
 
-/**Returns the length of the head*/
+/**Returns the length of the head. This method returns the size of the head given on construction*/
 int32 getLengthHead_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLengthHead_ByteDataAccessBaseJc");
@@ -637,7 +637,7 @@ int32 getLengthHead_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _t
 }
 
 
-/**Returns the length of the element with all yet added children.*/
+/**Returns the length of the element with all yet added children. */
 int32 getLengthCurrent_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLengthCurrent_ByteDataAccessBaseJc");
@@ -682,7 +682,7 @@ int32 getLengthTotal_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _
 }
 
 
-/**returns the number number of bytes there are max available from position of the current child.*/
+/**returns the number number of bytes there are max available from position of the current child. */
 int32 getMaxNrofBytes_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getMaxNrofBytes_ByteDataAccessBaseJc");
@@ -741,7 +741,7 @@ bool isInUse_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**returns true if the given number of bytes is sufficing in the data from position of next child.*/
+/**returns true if the given number of bytes is sufficing in the data from position of next child. */
 bool sufficingBytesForNextChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("sufficingBytesForNextChild_ByteDataAccessBaseJc");
@@ -758,7 +758,7 @@ bool sufficingBytesForNextChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thi
 }
 
 
-/**returns the maximal number of bytes which are available from position of a next current child.*/
+/**returns the maximal number of bytes which are available from position of a next current child. */
 int32 getMaxNrofBytesForNextChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getMaxNrofBytesForNextChild_ByteDataAccessBaseJc");
@@ -870,7 +870,7 @@ bool addChildEmpty_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct
 }
 
 
-/**Adds a child at any position*/
+/**Adds a child at any position. This method is usefully if the data structure is known and specific elements should be accessed.*/
 void addChildAt_iXXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxChild, struct ByteDataAccessBaseJc_t* child, int32 sizeChild, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildAt_iXXi_ByteDataAccessBaseJc");
@@ -902,7 +902,7 @@ void addChildAt_iXXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 id
 }
 
 
-/**Adds a child at any position with its head size.*/
+/**Adds a child at any position with its head size. */
 void addChildAt_iXX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxChild, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("addChildAt_iXX_ByteDataAccessBaseJc");
@@ -1227,7 +1227,7 @@ StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32
 }
 
 
-/**Shorten the evaluated content of the data to the position of the given child*/
+/**Shorten the evaluated content of the data to the position of the given child. The given child is removed.*/
 void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("removeChild_XX_ByteDataAccessBaseJc");
@@ -1342,7 +1342,7 @@ void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
 }
 
 
-/**copies some data to a int[], primarily to debug a content.*/
+/**copies some data to a int[], primarily to debug a content. */
 void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("copyData_ByteDataAccessBaseJc");
@@ -1478,7 +1478,7 @@ void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
           }/*'?' in ASCII*/
           
           thiz->data.ref[idxData++] = cc;
-        }/*fill up the rest of the string with 0-chars.*/
+        }/*fill up the rest of the string with 0-chars. */
         
     }
     
@@ -1492,7 +1492,7 @@ void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
 }
 
 
-/**Gets a float value from the content of 4 byte*/
+/**Gets a float value from the content of 4 byte. The float value is red*/
 float getFloat_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getFloat_i_ByteDataAccessBaseJc");
@@ -1982,7 +1982,7 @@ void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, 
 }
 
 
-/**Prepares a new child for this*/
+/**Prepares a new child for this. It sets the this.{@link #ixNextChild} to the end of the new child given by argument sizeChild.*/
 int32 setIdxtoNextCurrentChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 sizeChild, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setIdxtoNextCurrentChild_ByteDataAccessBaseJc");

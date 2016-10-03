@@ -15,7 +15,7 @@ to get a value not by path but by a handle. The structure stores the type, memor
 and some access info. In Java the memory address is the Object reference where the Field is located.
 In C it is adapted in the same kind to support Java2C-translation.
 <br><br>
-Note that this struct in C should be used less memory because it is an array element of a large array (1024..4096).
+Note that this struct in C should be used less memory because it is an array element of a large array (1024..4096). 
 Note that the length of integer should regard 4-byte-boundary for special processors which does not support a integer on any boundary.
 @author Hartmut Schorrig
 
@@ -36,7 +36,7 @@ struct InspcDataInfo_Inspc_t* ctorO_InspcDataInfo_Inspc(ObjectJc* othis, ThCxt* 
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element
-      INIT_MemSegmJc(/*static*/thiz->addr);
+      INIT_MemSegmJc(/*J2C:static method call*/thiz->addr);
   }/*J2C:No body for constructor*/
 
   STACKTRC_LEAVE;
@@ -48,12 +48,14 @@ struct InspcDataInfo_Inspc_t* ctorO_InspcDataInfo_Inspc(ObjectJc* othis, ThCxt* 
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_InspcDataInfo_Inspc mtblInspcDataInfo_Inspc = {
-{ { sign_Mtbl_InspcDataInfo_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_InspcDataInfo_Inspc //J2C: Head of methodtable of InspcDataInfo_Inspc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
@@ -151,7 +153,7 @@ const ClassJc reflection_InspcDataInfo_Inspc_s =
 , "InspcDataInfo_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(InspcDataInfo_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_InspcDataInfo_Inspc_s
+, (FieldJc_Y const*)&reflection_Fields_InspcDataInfo_Inspc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcDataInfo_Inspc_s //superclass
 , null //interfaces

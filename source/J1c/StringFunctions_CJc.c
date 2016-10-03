@@ -333,7 +333,7 @@ float parseFloat_CsiiciY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src
         }/*switch*/;
         ret += fracPart;
       }
-      poscurr += zParsed[0] + 1;/*don't forget the decimal point*/
+      poscurr += zParsed[0] + 1;/*don't forget the decimal point  */
       
     }/*TODO exponent*/
     

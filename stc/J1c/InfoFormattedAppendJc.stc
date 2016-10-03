@@ -17,7 +17,7 @@ interface InfoFormattedAppend; nameC=InfoFormattedAppendJc_s; argIdent=XX; exten
 
       castTo {
         org/vishia/util/InfoFormattedAppend: * "(?)->outer" *;
-        java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+        java/lang/Object: $ "(?).base.object" $;
       }
 
     }
@@ -35,7 +35,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }

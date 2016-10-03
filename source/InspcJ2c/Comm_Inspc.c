@@ -16,7 +16,6 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct CharSequenceJc_t;
 
 
 /* J2C: Method-table-references *********************************************************/
@@ -57,23 +56,22 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
   {
     init0_MemC(build_MemC(&thiz->nrofBytesReceived, 1 * sizeof(int32))); //J2C: init the embedded simple array;
     init0_MemC(build_MemC(&thiz->data_rxBuffer, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
-    thiz->rxBuffer.ref = & thiz->data_rxBuffer[0]; thiz->rxBuffer.value__ = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
+    thiz->rxBuffer.ref = & thiz->data_rxBuffer[0]; thiz->rxBuffer.val = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
   }
   { 
-    InterProcessCommFactoryMTB ipcFactory;   /*use the existent factory, it is determined by linker or classLoader, which it is.*/
-    InterProcessCommMTB ipcMtbl;   /*The interProcessCommunication, depends from the factory and the own Address.*/
-    
-    ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
+    ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
     thiz->cmdExecuter = cmdExecuter;
-    SETMTBJc(ipcFactory, getInstance_InterProcessCommFactoryAccessor(), InterProcessCommFactory);
-    SETMTBJc(ipcMtbl, ipcFactory.mtbl->create(&(( (ipcFactory.ref))->base.object), ownAddrIpc, _thCxt), InterProcessComm);
+    
+    InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactoryAccessor(), InterProcessCommFactory);
+    
+    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create(&(( (ipcFactory.ref))->base.object), ownAddrIpc, _thCxt), InterProcessComm);
     thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*static*/(newObj1_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
+    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
     
     thiz->ipc =  (ipcMtbl.ref);
-    activateGC_ObjectJc(newObj1_1, null, _thCxt);
+    activateGC_ObjectJc(newObj2_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -85,12 +83,11 @@ bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt)
   STACKTRC_TENTRY("openComm_Comm_Inspc");
   
   { 
-    int32 ok = 0; 
-    InterProcessCommMTB ipcMtbl;   /**/
     
     
-    /*no initvalue*/
-    SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
+    int32  ok;/*no initvalue*/
+    
+    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
     ok = ipcMtbl.mtbl->open(&(( (ipcMtbl.ref))->base.object), null, ((/*J2C:cast% from bool*/int32)(blocking)));
     thiz->state = (ok >= 0 ? 'o' : 'e');
     if(thiz->bEnablePrintfOnComm) 
@@ -100,12 +97,12 @@ bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt)
       if(ok >= 0) 
       { 
         
-        print_z_PrintStreamJc(REFJc(out_SystemJc), "\nopen OBMA-Communication ok\n", _thCxt);
+        print_z_PrintStreamJc(REFJc (out_SystemJc), "\nopen OBMA-Communication ok\n", _thCxt);
       }
       else 
       { 
         
-        format_z_PrintStreamJc(REFJc(out_SystemJc), "\nopen OBMA-Communication error: %d\n", "I", -ok, _thCxt);
+        format_z_PrintStreamJc(REFJc (out_SystemJc), "\nopen OBMA-Communication error: %d\n", "I", -ok, _thCxt);
       }
     }
     { STACKTRC_LEAVE;
@@ -155,7 +152,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
               TRY
               { 
                 
-                sleep_ThreadJc(/*static*/1000, _thCxt);
+                sleep_ThreadJc(/*J2C:static method call*/1000, _thCxt);
               }_TRY
               CATCH(InterruptedException, exc)
               
@@ -192,14 +189,13 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
   STACKTRC_TENTRY("receiveAndExecute_Comm_Inspc");
   
   { 
-    AnswerComm_ifc_InspcMTB answerCommMtbl;   /*The interface for answer: It is implemented in cmdExecuter. */
-    CmdExecuter_InspcMTB cmdExecuterMtbl;   /**/
-    InterProcessCommMTB ipcMtbl;   /**/
     
     
-    SETMTBJc(answerCommMtbl, & ((* (thiz->cmdExecuter)).base.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
-    SETMTBJc(cmdExecuterMtbl, thiz->cmdExecuter, CmdExecuter_Inspc);
-    SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
+    AnswerComm_ifc_InspcMTB answerCommMtbl ; SETMTBJc(answerCommMtbl, & ((* (thiz->cmdExecuter)).base.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
+    
+    CmdExecuter_InspcMTB cmdExecuterMtbl ; SETMTBJc(cmdExecuterMtbl, thiz->cmdExecuter, CmdExecuter_Inspc);
+    
+    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
     
     while(thiz->state != 'x')
       { /*:x to terminate*/
@@ -213,7 +209,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
         TRY
         { 
           
-          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ref, thiz->rxBuffer.value__ ), thiz->myAnswerAddress);
+          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ref, thiz->rxBuffer.val ), thiz->myAnswerAddress);
           if(thiz->state != 'x') 
           { 
             
@@ -228,7 +224,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
               TRY
               { 
                 
-                sleep_ThreadJc(/*static*/50, _thCxt);
+                sleep_ThreadJc(/*J2C:static method call*/50, _thCxt);
               }_TRY
               CATCH(InterruptedException, exc)
               
@@ -251,12 +247,11 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
         CATCH(ExceptionJc, exc)
         
           { 
-            struct CharSequenceJc_t* msg;   /**/
             
             
-            msg = exceptionInfo_AssertJc(/*static*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);
-            println_O_PrintStreamJc(REFJc(err_SystemJc), & ((* (msg)).base.object), _thCxt);
-            printStackTrace_P_ExceptionJc(exc, REFJc(err_SystemJc), _thCxt);
+            CharSeqJc msg ; msg = exceptionInfo_AssertJc(/*J2C:static method call*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);
+            println_c_PrintStreamJc(REFJc (err_SystemJc), msg/*J2C-error testAndChangeAccess: ct*/, _thCxt);
+            printStackTrace_P_ExceptionJc(exc, REFJc (err_SystemJc), _thCxt);
           }
         END_TRY
       }/*while state !='x'*/
@@ -266,19 +261,18 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Sends the answer telg to the sender of the received telegram.*/
+/**Sends the answer telg to the sender of the received telegram. */
 int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("sendAnswer_Comm_Inspc");
   
   { 
-    int32 nrofSentBytes = 0; 
-    InterProcessCommMTB ipcMtbl;   /**/
     
     
-    /*no initvalue*/
-    SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
-    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), build_MemC(bufferAnswerData.ref, bufferAnswerData.value__ ), nrofBytesAnswer, thiz->myAnswerAddress);
+    int32  nrofSentBytes;/*no initvalue*/
+    
+    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
+    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), build_MemC(bufferAnswerData.ref, bufferAnswerData.val ), nrofBytesAnswer, thiz->myAnswerAddress);
     if(nrofSentBytes < 0) 
     { 
       
@@ -286,7 +280,7 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, in
       { /*:only for debug.*/
         
         
-        print_z_PrintStreamJc(REFJc(out_SystemJc), "\nError InterProcessComm ", _thCxt);
+        print_z_PrintStreamJc(REFJc (out_SystemJc), "\nError InterProcessComm ", _thCxt);
       }
       nrofSentBytes = -2;
     }
@@ -296,7 +290,7 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, in
     { 
       
       /**/
-      print_z_PrintStreamJc(REFJc(out_SystemJc), "<", _thCxt);
+      print_z_PrintStreamJc(REFJc (out_SystemJc), "<", _thCxt);
     }
     { STACKTRC_LEAVE;
       return nrofSentBytes;
@@ -306,19 +300,18 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, in
 }
 
 
-/**Shutdown the communication, close the thread*/
+/**Shutdown the communication, close the thread. This routine should be called */
 void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_Comm_Inspc_F");
   
   { 
-    struct InterProcessComm_t* ipcMtbl; 
-    
     
     /***/
     thiz->state = 'x';
-    ipcMtbl = thiz->ipc;
-    ((Mtbl_InterProcessComm const*)getMtbl_ObjectJc(&(ipcMtbl)->base.object, sign_Mtbl_InterProcessComm) )->close(&((ipcMtbl)->base.object));/*breaks waiting in receive socket*/
+    
+    struct InterProcessComm_t*  ipcMtbl = thiz->ipc;
+    close_InterProcessComm(&((ipcMtbl)->base.object));/*breaks waiting in receive socket*/
     
     
     while(thiz->state != 'z')
@@ -358,27 +351,34 @@ void shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_Comm_Inspc mtblComm_Inspc = {
-{ { sign_Mtbl_Comm_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_Comm_Inspc //J2C: Head of methodtable of Comm_Inspc
+  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
+  //J2C: Dynamic methods of the class :Comm_Inspc:
 , shutdown_Comm_Inspc_F //shutdown
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-  /**J2C: Mtbl-interfaces of Comm_Inspc: */
-, { { sign_Mtbl_RunnableJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The interface's methodtable: 
+  //J2C: Mtbl-interfaces of :Comm_Inspc: */
+, { { sign_Mtbl_RunnableJc //J2C: Head of methodtable of RunnableJc
+    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :RunnableJc:
   , run_Comm_Inspc_F //run
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The superclass's methodtable: 
+  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
     , finalize_ObjectJc_F //finalize
@@ -505,7 +505,7 @@ const ClassJc reflection_Comm_Inspc_s =
 , "Comm_Inspc_s"
 , (int16)((int32)(&((Comm_Inspc_s*)(0x1000))->base.object) - (int32)(Comm_Inspc_s*)0x1000)
 , sizeof(Comm_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_Comm_Inspc_s
+, (FieldJc_Y const*)&reflection_Fields_Comm_Inspc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_Comm_Inspc_s //superclass
 , (ClassOffset_idxMtblJcARRAY*)&interfaces_Comm_Inspc_s //interfaces

@@ -42,9 +42,9 @@ which's instance should be given by construction.
 <li>Use the static method {@link #create(String, InterProcessCommRx_ifc)} or the constructor to create the instance
 with the given receive port and the given callback on received data.
 <li>Invoke {@link #start()} to open the communication and start the receive thread. It returns false on failures, true on success.
-<li>Invoke {@link #shutdown()} to close and finish the receive thread.
+<li>Invoke {@link #shutdown()} to close and finish the receive thread. 
 <li>Use {@link #createDstAddr(String)} to create a destination address for the given InterProcessComm for sending activities.
-<li>Use {@link #send(byte[], int, Address_InterProcessComm)} to send.
+<li>Use {@link #send(byte[], int, Address_InterProcessComm)} to send.  
 </ul>
 
 @author Hartmut Schorrig
@@ -58,7 +58,7 @@ const char sign_Mtbl_InterProcessCommRxThread_Ipc[] = "InterProcessCommRxThread_
 
 typedef struct MtblDef_InterProcessCommRxThread_Ipc_t { Mtbl_InterProcessCommRxThread_Ipc mtbl; MtblHeadJc end; } MtblDef_InterProcessCommRxThread_Ipc;
  extern MtblDef_InterProcessCommRxThread_Ipc const mtblInterProcessCommRxThread_Ipc;
-StringJc version_InterProcessCommRxThread_Ipc = CONST_z_StringJc("2015-06-13");
+StringJc version_InterProcessCommRxThread_Ipc = CONST_z_StringJc("2015-06-13"); //J2C:static StringJc
 
 /*Constructor */
 struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(ObjectJc* othis, StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt)
@@ -70,7 +70,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
   {
     init0_MemC(build_MemC(&thiz->nrofBytesReceived, 1 * sizeof(int32))); //J2C: init the embedded simple array;
     init0_MemC(build_MemC(&thiz->data_rxBuffer, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
-    thiz->rxBuffer.ref = & thiz->data_rxBuffer[0]; thiz->rxBuffer.value__ = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
+    thiz->rxBuffer.ref = & thiz->data_rxBuffer[0]; thiz->rxBuffer.val = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->threadRoutine.base.object), sizeof(thiz->threadRoutine), 0); 
       ctorO_C_threadRoutine_InterProcessCommRxThread_Ipc(thiz, &(thiz->threadRoutine.base.object), _thCxt);
@@ -85,7 +85,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
     InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create(&(( (ipcFactory.ref))->base.object), ownAddrIpc, _thCxt), InterProcessComm);
     thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base/*:ifc*/.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
+    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base/*J2C:ifc*/.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
     
     thiz->ipc =  (ipcMtbl.ref);
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -96,7 +96,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
 
 
 
-/**Static method to create invokes the constructor.*/
+/**Static method to create invokes the constructor.*/
 struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C:static method*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("create_InterProcessCommRxThread_Ipc");
@@ -115,7 +115,7 @@ struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C
 }
 
 
-/**Create any destination address for the given InterprocessComm implementation.*/
+/**Create any destination address for the given InterprocessComm implementation*/
 struct Address_InterProcessComm_t* createDstAddr_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, StringJc sAddr, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("createDstAddr_InterProcessCommRxThread_Ipc");
@@ -172,7 +172,7 @@ bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
 }
 
 
-/**Start opens the InterProcessComm and starts the receiver thread.*/
+/**Start opens the InterProcessComm and starts the receiver thread.*/
 bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_InterProcessCommRxThread_Ipc");
@@ -202,7 +202,7 @@ int32 send_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, Pt
   { 
     
     { STACKTRC_LEAVE;
-      return send_InterProcessComm(&((thiz->ipc)->base.object), build_MemC(data.ref, data.value__ ), nrofBytesToSend, dstAddr);
+      return send_InterProcessComm(&((thiz->ipc)->base.object), build_MemC(data.ref, data.val ), nrofBytesToSend, dstAddr);
     }
   }
   STACKTRC_LEAVE;
@@ -283,7 +283,7 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
         TRY
         { 
           
-          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ref, thiz->rxBuffer.value__ ), thiz->myAnswerAddress);
+          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ref, thiz->rxBuffer.val ), thiz->myAnswerAddress);
           if(thiz->state != 'x') 
           { 
             
@@ -325,7 +325,7 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
             
             CharSeqJc msg ; msg = exceptionInfo_AssertJc(/*J2C:static method call*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);
             println_c_PrintStreamJc(REFJc (err_SystemJc), msg/*J2C-error testAndChangeAccess: ct*/, _thCxt);
-            printStackTrace_P_ExceptionJc(exc, REFJc      (err_SystemJc), _thCxt);
+            printStackTrace_P_ExceptionJc(exc, REFJc (err_SystemJc), _thCxt);
           }
         END_TRY
       }/*while state !='x'*/
@@ -537,7 +537,7 @@ const ClassJc reflection_InterProcessCommRxThread_Ipc_s =
 , "InterProcessCommRx_ead_Ipc_s"
 ,  0 //position of ObjectJc
 , sizeof(InterProcessCommRxThread_Ipc_s)
-, (FieldJcArray const*)&reflection_Fields_InterProcessCommRxThread_Ipc_s
+, (FieldJc_Y const*)&reflection_Fields_InterProcessCommRxThread_Ipc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommRxThread_Ipc_s //superclass
 , null //interfaces
