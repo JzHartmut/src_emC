@@ -32,8 +32,8 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/inspectorTarget/AnswerComm_ifc: $ "(?).base.AnswerComm_ifc_Inspc" $;
-    java/lang/Object: $ "(?).base.AnswerComm_ifc_Inspc.base.object" $;
+    org/vishia/inspectorTarget/AnswerComm_ifc: $ "(?).base/*J2C:ifc*/.AnswerComm_ifc_Inspc" $;
+    java/lang/Object: $ "(?).base/*J2C:ifc*/.AnswerComm_ifc_Inspc.base/*J2C_super:*/.object" $;
   }
 
 }

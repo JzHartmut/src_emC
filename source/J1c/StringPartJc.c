@@ -1897,13 +1897,12 @@ struct StringPartJc_t* lentoAnyString_CsYii_StringPartJc(StringPartJc_s* thiz, C
   STACKTRC_TENTRY("lentoAnyString_CsYii_StringPartJc");
   
   { 
-    ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
-    */
+    
     thiz->endLast = thiz->end;
     
-    StringJc*  foundString; /*J2C:modeAccess=P: simple VariableRef*/
+    StringJc foundString[1] ; foundString; /*J2C:modeAccess=Q*/
     
-    int32  pos = indexOfAnyString_StringPartJc(thiz, strings, 0, maxToTest, null, foundString, _thCxt);
+    int32  pos = indexOfAnyString_StringPartJc(thiz, strings, 0, maxToTest, null, &foundString[0], _thCxt);
     if(pos < 0) 
     { 
       
@@ -1922,7 +1921,6 @@ struct StringPartJc_t* lentoAnyString_CsYii_StringPartJc(StringPartJc_s* thiz, C
       thiz->bFound = true;
     }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(newObj2_1, null, _thCxt);
       return thiz;
     }
   }
@@ -2888,11 +2886,10 @@ StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* 
     int32  posPattern;/*no initvalue*/
     do 
       { 
-        ObjectJc *newObj3_1=null; /*J2C: temporary Objects for new operations
-        */
         
-        int32*  type; /*J2C:modeAccess=P: simple VariableRef*/
-        posPattern = indexOfAnyString_StringFunctionsJc(/*J2C:static method call*/src, posPatternStart, length_CharSeqJc(src/*J1cT2*/, _thCxt), placeholder, type, null, _thCxt);
+        
+        int32 type[1] ; type; /*J2C:modeAccess=Q*/
+        posPattern = indexOfAnyString_StringFunctionsJc(/*J2C:static method call*/src, posPatternStart, length_CharSeqJc(src/*J1cT2*/, _thCxt), placeholder, &type[0], null, _thCxt);
         if(posPattern >= 0) 
         { 
           
@@ -2911,7 +2908,6 @@ StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* 
           posPatternStart = -1;/*mark end*/
           
         }
-        activateGC_ObjectJc(newObj3_1, null, _thCxt);
       }while(posPatternStart >= 0);
     { STACKTRC_LEAVE;
       return toString_StringBuilderJc(& ((* (dst)).base.object)/*J2cT1*/, _thCxt);

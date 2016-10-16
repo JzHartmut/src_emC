@@ -14,7 +14,7 @@
 const char sign_Mtbl_CmdConsumer_ifc_Inspc[] = "CmdConsumer_ifc_Inspc"; //to mark method tables of all implementations
 
 
-/**Executes a command, writes the answer in the answer datagram.*/
+/**Executes a command, writes the answer in the answer datagram. (J2C:wmDef)*/
 /*J2C: dynamic call variant of the override-able method: */
 int32 executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt)
 { Mtbl_CmdConsumer_ifc_Inspc const* mtbl = (Mtbl_CmdConsumer_ifc_Inspc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_CmdConsumer_ifc_Inspc);
@@ -22,7 +22,7 @@ int32 executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Inspcitem_
 }
 
 
-/**Sets the aggregation for the answer.*/
+/**Sets the aggregation for the answer. (J2C:wmDef)*/
 /*J2C: dynamic call variant of the override-able method: */
 void setAnswerComm_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct AnswerComm_ifc_Inspc_t* answerComm, ThCxt* _thCxt)
 { Mtbl_CmdConsumer_ifc_Inspc const* mtbl = (Mtbl_CmdConsumer_ifc_Inspc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_CmdConsumer_ifc_Inspc);

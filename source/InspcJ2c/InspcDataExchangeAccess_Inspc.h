@@ -90,11 +90,11 @@ METHOD_C struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagr
 \
 { \
   \
-  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, length, _thCxt);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 0, length, _thCxt);\
 }
 
 #define getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 0))
 
 /**Sets the head for an request telegram. Sets the answer number to 0. 
 Therefore it is for the first answer. All following answers uses {@link #incrAnswerNr()}
@@ -110,24 +110,24 @@ METHOD_C void setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDat
 \
 { \
   \
-  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
 }
 
 #define getEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc))
 
 #define getEncryption_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
+(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc))
 
 #define setSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ, nr) \
 \
 { \
   \
-  setInt32_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
+  setInt32_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr, _thCxt);\
 }
 
 #define getSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt))
+(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc))
 
 /**Mark the datagram as last answer. */
 METHOD_C void markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt);
@@ -138,11 +138,11 @@ METHOD_C void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcData
 /**Gets the number of the answer datagram. 
 The last datagramm is mask with the bit  */
 #define getAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x7f)
+(getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc) & 0x7f)
 
 /**Gets the information about the last answer datagram.  */
 #define lastAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(THIZ) \
-((getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt) & 0x80) == 0x80)
+((getInt8_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc) & 0x80) == 0x80)
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -260,31 +260,31 @@ METHOD_C void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_Insp
 \
 { \
   \
-  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, length, _thCxt);\
-  setLengthElement_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), length);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 0, length, _thCxt);\
+  setLengthElement_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), length);\
 }
 
 #define setCmd_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ, cmd) \
 \
 { \
   \
-  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 2, cmd, _thCxt);\
+  setInt16_ii_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 2, cmd, _thCxt);\
 }
 
 /**Returns the cmd in a Reflitem. The cmd is coded see {@link #kFailedCommand}, {@link #kAnswerFieldMethod} etc.
  */
 #define getCmd_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 2, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 2))
 
 #define getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, _thCxt))
+(getInt16_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 0))
 
 /**Gets the order number of the info block. A sending info is set with the
 {@link #setInfoHead(int, int, int)} with any order identification number which is unified for the target
 in a proper time. The received info returns the same order ident.   
  */
 #define getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(THIZ) \
-(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
+(getInt32_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc))
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -353,13 +353,13 @@ METHOD_C struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetVal
 /**Gets a password for access control.
  */
 #define getPwd_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, 6, _thCxt))
+(_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 0, 6))
 
 #define setPwd_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, pwd) \
 \
 { \
   \
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 0, 6, pwd, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 0, 6, pwd);\
 }
 
 /**Returns the type stored in byte 7 in range 0...255.
@@ -367,77 +367,38 @@ The type is either {@link InspcDataExchangeAccess#kScalarTypes} + one of {@link 
 or maybe 0..{@link InspcDataExchangeAccess#kLengthAndString} or {@link InspcDataExchangeAccess#kReferenceAddr}
  */
 #define getType_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int16 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 7, 1, _thCxt))
+((int16 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 7, 1))
 
 #define getByte_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int8 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, -1, _thCxt))
+((int8 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 15, -1))
 
 #define getShort_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-((int16 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 14, -2, _thCxt))
+((int16 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 14, -2))
 
 /**A long value is provided in the bytes 8..15 in Big endian.
 If only a int value will be used, it were found in the bit 12..15.
- */
-#define getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-\
-{ \
-  \
-  switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
-    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
-    return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
-    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
-    return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
-    default: \
-    return (int32 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
-    \
-  }/*switch*/;\
-}
+*/
+METHOD_C int32 getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz);
 
 /**A long value is provided in the bytes 8..15 in Big endian.
- */
-#define getLong_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-\
-{ \
-  \
-  switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
-    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
-    return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
-    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
-    return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
-    default: \
-    return _getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
-    \
-  }/*switch*/;\
-}
+*/
+METHOD_C int64 getLong_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz);
 
 /**A float value is provided in the bytes 8..11 in Big endian.
- */
-#define getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-\
-{ \
-  \
-  switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc((THIZ))){\
-    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: \
-    return (float /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt);\
-    case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: \
-    return getFloat_i_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, _thCxt);\
-    default: \
-    return (float /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, -8, _thCxt);/*any integer information.*/\
-    \
-  }/*switch*/;\
-}
+*/
+METHOD_C float getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz);
 
 #define getDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ) \
-(getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, _thCxt))
+(getDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 8))
 
 /**Sets a byte value.  */
 #define setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(THIZ, value) \
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_boolean_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_boolean_ClassJc);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 15, 1, value);\
 }
 
 /**Sets a byte value.  */
@@ -445,9 +406,9 @@ If only a int value will be used, it were found in the bit 12..15.
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int8_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 15, 1, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int8_ClassJc);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 15, 1, value);\
 }
 
 /**Sets a short value.  */
@@ -455,9 +416,9 @@ If only a int value will be used, it were found in the bit 12..15.
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 14, 2, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 14, 2, value);\
 }
 
 /**Sets a int32 value.  */
@@ -465,9 +426,9 @@ If only a int value will be used, it were found in the bit 12..15.
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 12, 4, value);\
 }
 
 /**Sets a long value (int64).  */
@@ -475,9 +436,9 @@ If only a int value will be used, it were found in the bit 12..15.
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int64_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, 8, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int64_ClassJc);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 8, 8, value);\
 }
 
 /**Sets a float value.  */
@@ -485,9 +446,9 @@ If only a int value will be used, it were found in the bit 12..15.
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);\
-  setFloat_if_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, value);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc);\
+  setFloat_if_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 12, value);\
 }
 
 /**Sets a float value given by a int image.  */
@@ -495,9 +456,9 @@ If only a int value will be used, it were found in the bit 12..15.
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc, _thCxt);\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 12, 4, value, _thCxt);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 12, 4, value);\
 }
 
 /**Sets a double value.  */
@@ -505,9 +466,9 @@ If only a int value will be used, it were found in the bit 12..15.
 \
 { \
   \
-  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super));\
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc, _thCxt);\
-  setDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super), 8, value);\
+  clearData_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super));\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), kType_InspcSetValue_InspcDataExchangeAccess_Inspc, 1, kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc);\
+  setDouble_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super), 8, value);\
 }
 
 
@@ -599,14 +560,14 @@ METHOD_C struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSe
 \
 { \
   \
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super.base.super), 8, 4, address, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 8, 4, address);\
 }
 
 #define setPosition_InspcSetValueData_InspcDataExchangeAccess_Inspc(THIZ, position) \
 \
 { \
   \
-  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base.super.base.super), 12, 4, position, _thCxt);\
+  _setLong_ByteDataAccessBaseJc(& ((* ((THIZ))).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 12, 4, position);\
 }
 
 METHOD_C void setBool_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_InspcDataExchangeAccess_Inspc_s* thiz, int32 value, ThCxt* _thCxt);

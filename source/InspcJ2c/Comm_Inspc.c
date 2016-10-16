@@ -8,7 +8,7 @@
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "Fwc/fw_Exception.h"  //reference-association: ExceptionJc
 #include "InspcJ2c/CmdExecuter_Inspc.h"  //reference-association: cmdExecuterMtbl
-#include "Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactoryAccessor
+#include "Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactory_s
 #include "Jc/AssertJc.h"  //reference-association: AssertJc_s
 #include "Jc/PrintStreamJc.h"  //reference-association: out
 #include "Jc/StringJc.h"  //embedded type in class data
@@ -63,12 +63,12 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
     */
     thiz->cmdExecuter = cmdExecuter;
     
-    InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactoryAccessor(), InterProcessCommFactory);
+    InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactory(), InterProcessCommFactory);
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create(&(( (ipcFactory.ref))->base.object), ownAddrIpc, _thCxt), InterProcessComm);
+    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
     thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
+    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base/*J2C:ifc*/.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
     
     thiz->ipc =  (ipcMtbl.ref);
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -166,14 +166,14 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
         }
       }
     
-    synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
+    synchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object)); {
       
       { 
         
         thiz->state = 'z';
-        notify_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), _thCxt);
+        notify_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object), _thCxt);
       }
-    } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
+    } endSynchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object));
   }
   STACKTRC_LEAVE;
 }
@@ -191,7 +191,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
   { 
     
     
-    AnswerComm_ifc_InspcMTB answerCommMtbl ; SETMTBJc(answerCommMtbl, & ((* (thiz->cmdExecuter)).base.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
+    AnswerComm_ifc_InspcMTB answerCommMtbl ; SETMTBJc(answerCommMtbl, & ((* (thiz->cmdExecuter)).base/*J2C:ifc*/.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
     
     CmdExecuter_InspcMTB cmdExecuterMtbl ; SETMTBJc(cmdExecuterMtbl, thiz->cmdExecuter, CmdExecuter_Inspc);
     
@@ -261,7 +261,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Sends the answer telg to the sender of the received telegram. */
+/**Sends the answer telg to the sender of the received telegram.  (J2C:wmDef)*/
 int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("sendAnswer_Comm_Inspc");
@@ -300,32 +300,31 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, in
 }
 
 
-/**Shutdown the communication, close the thread. This routine should be called */
+/**Shutdown the communication, close the thread. This routine should be called  (J2C:wmDef)*/
 void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_Comm_Inspc_F");
   
   { 
     
-    /***/
     thiz->state = 'x';
     
-    struct InterProcessComm_t*  ipcMtbl = thiz->ipc;
-    close_InterProcessComm(&((ipcMtbl)->base.object));/*breaks waiting in receive socket*/
+    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
+    ipcMtbl.mtbl->close(&(( (ipcMtbl.ref))->base.object));/*breaks waiting in receive socket*/
     
     
     while(thiz->state != 'z')
       { 
         
         
-        synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
+        synchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object)); {
           
           { 
             
             TRY
             { 
               
-              wait_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), 100, _thCxt);
+              wait_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object), 100, _thCxt);
             }_TRY
             CATCH(InterruptedException, exc)
             
@@ -335,7 +334,7 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
               }
             END_TRY
           }
-        } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
+        } endSynchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object));
       }
   }
   STACKTRC_LEAVE;
@@ -412,7 +411,7 @@ const MtblDef_Comm_Inspc mtblComm_Inspc = {
 extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
 extern_C struct ClassJc_t const reflection_Address_InterProcessComm_s;
 extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
-extern_C struct ClassJc_t const reflection_InterProcessComm_i;
+extern_C struct ClassJc_t const reflection_InterProcessComm_s;
 extern_C struct ClassJc_t const reflection_ThreadJc_s;
 const struct Reflection_Fields_Comm_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[10];
@@ -445,7 +444,7 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     }
    , { "ipc"
     , 0 //nrofArrayElements
-    , &reflection_InterProcessComm_i
+    , &reflection_InterProcessComm_s
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Comm_Inspc_s*)(0x1000))->ipc) - (int32)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase

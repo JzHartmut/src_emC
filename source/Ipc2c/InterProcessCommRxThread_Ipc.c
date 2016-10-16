@@ -80,9 +80,9 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
     */
     thiz->execRxData = execRxData;
     
-    InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactoryAccessor(), InterProcessCommFactory);
+    InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactory(), InterProcessCommFactory);
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create(&(( (ipcFactory.ref))->base.object), ownAddrIpc, _thCxt), InterProcessComm);
+    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
     thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
     thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base/*J2C:ifc*/.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
@@ -96,7 +96,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
 
 
 
-/**Static method to create invokes the constructor.*/
+/**Static method to create invokes the constructor. (J2C:wmDef)*/
 struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C:static method*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("create_InterProcessCommRxThread_Ipc");
@@ -115,15 +115,17 @@ struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C
 }
 
 
-/**Create any destination address for the given InterprocessComm implementation*/
+/**Create any destination address for the given InterprocessComm implementation.  (J2C:wmDef)*/
 struct Address_InterProcessComm_t* createDstAddr_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, StringJc sAddr, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("createDstAddr_InterProcessCommRxThread_Ipc");
   
   { 
     
+    
+    InterProcessCommMTB mipc ; SETMTBJc(mipc, thiz->ipc, InterProcessComm);
     { STACKTRC_LEAVE;
-      return createAddress_s_InterProcessComm(&((thiz->ipc)->base.object), sAddr);
+      return mipc.mtbl->createAddress_s(&(( (mipc.ref))->base.object), sAddr);
     }
   }
   STACKTRC_LEAVE;
@@ -172,7 +174,7 @@ bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
 }
 
 
-/**Start opens the InterProcessComm and starts the receiver thread.*/
+/**Start opens the InterProcessComm and starts the receiver thread. (J2C:wmDef)*/
 bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_InterProcessCommRxThread_Ipc");
@@ -194,15 +196,17 @@ bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, Th
 }
 
 
-/**Send a telegram to the given dst*/
+/**Send a telegram to the given dst. It delegates to {@link InterProcessComm#send(byte[], int, Address_InterProcessComm)}. (J2C:wmDef)*/
 int32 send_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, PtrVal_int8 data, int32 nrofBytesToSend, struct Address_InterProcessComm_t* dstAddr, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("send_InterProcessCommRxThread_Ipc");
   
   { 
     
+    
+    InterProcessCommMTB mipc ; SETMTBJc(mipc, thiz->ipc, InterProcessComm);
     { STACKTRC_LEAVE;
-      return send_InterProcessComm(&((thiz->ipc)->base.object), build_MemC(data.ref, data.val ), nrofBytesToSend, dstAddr);
+      return mipc.mtbl->send(&(( (mipc.ref))->base.object), build_MemC(data.ref, data.val ), nrofBytesToSend, dstAddr);
     }
   }
   STACKTRC_LEAVE;
@@ -335,7 +339,7 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
 }
 
 
-/**Shutdown the communication, close the thread*/
+/**Shutdown the communication, close the thread. This routine should be called  (J2C:wmDef)*/
 void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_InterProcessCommRxThread_Ipc");
@@ -427,7 +431,7 @@ extern_C struct ClassJc_t const reflection_InterProcessCommRxThread_Ipc_s;
 extern_C struct ClassJc_t const reflection_Address_InterProcessComm_s;
 extern_C struct ClassJc_t const reflection_C_threadRoutine_InterProcessCommRxThread_Ipc_s;
 extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc_s;
-extern_C struct ClassJc_t const reflection_InterProcessComm_i;
+extern_C struct ClassJc_t const reflection_InterProcessComm_s;
 extern_C struct ClassJc_t const reflection_StringJc;
 extern_C struct ClassJc_t const reflection_ThreadJc_s;
 const struct Reflection_Fields_InterProcessCommRxThread_Ipc_s_t
@@ -461,7 +465,7 @@ const struct Reflection_Fields_InterProcessCommRxThread_Ipc_s_t
     }
    , { "ipc"
     , 0 //nrofArrayElements
-    , &reflection_InterProcessComm_i
+    , &reflection_InterProcessComm_s
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InterProcessCommRxThread_Ipc_s*)(0x1000))->ipc) - (int32)(InterProcessCommRxThread_Ipc_s*)0x1000)
     , 0  //offsetToObjectifcBase

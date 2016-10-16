@@ -1504,14 +1504,14 @@ METHOD_C int capacity_StringBuilderJc(StringBuilderJc* ythis);
  * return the size of the StringBuilder with its immediate following text
  * or -1 if the text is referenced.
  */
-INLINE_Fwc int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int size){
+INLINE_Fwc int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int16 size){
   ASSERT_s0_Fwc(size < abs(thiz->size), "faulty size", size);
   if(thiz->size > 0) {
     thiz->size = size;
     return sizeof(StringBuilderJc)  - sizeof(thiz->value) + size;
   } else {
     //buffer referenced. 
-    thiz->size = -size;
+    thiz->size = (int16)(-size);
     return -1;
   }
 }

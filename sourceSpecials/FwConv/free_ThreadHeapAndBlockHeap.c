@@ -1,3 +1,4 @@
+#include <fw_platform_conventions.h>
 #include <Fwc/fw_ThreadContext.h>
 #include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
@@ -24,9 +25,11 @@ int free_MemC(void const* addr)
     releaseUserBuffer_ThreadContextFw(ptr, _thCxt);
     return 3;
   } 
+  #ifdef SIZEBLOCK_BlockHeapJc
   else if(free_sBlockHeapJc(ptr, _thCxt)) { //try to free a block in blockheap
     return 2;
   }
+  #endif
   else   
   {
     //it seems to be a normal allocation.

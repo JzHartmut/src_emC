@@ -68,7 +68,7 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
       }
 
@@ -142,7 +142,7 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
       }
 
@@ -184,9 +184,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
         ctorM-_$, mode=ctor+static: org/vishia/communication/InspcDataExchangeAccess.InspcSetValue *.. InspcSetValue_InspcDataExchangeAccess_Inspc_s();
         getByte-_$, mode=noThCxt: byte %.r null();
         getDouble-_$, mode=noThCxt: double %.r null();
-        getFloat-_$, mode=noThCxt: float %.r null();
-        getInt-_$, mode=noThCxt: int %.r null();
-        getLong-_$, mode=noThCxt: long %.r null();
+        getFloat-_$, mode=noStacktrace+noThCxt: float %.r null();
+        getInt-_$, mode=noStacktrace+noThCxt: int %.r null();
+        getLong-_$, mode=noStacktrace+noThCxt: long %.r null();
         getPwd-_$, mode=noThCxt: long %.r null();
         getShort-_$, mode=noThCxt: short %.r null();
         getType-_$, mode=noThCxt: short %.r null();
@@ -202,7 +202,7 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
       }
 
@@ -255,9 +255,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super.base.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
-        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base.super" $;
+        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base/*J2C_super:*/.super" $;
       }
 
     }
@@ -303,9 +303,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super.base.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
-        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base.super" $;
+        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base/*J2C_super:*/.super" $;
       }
 
     }
@@ -330,7 +330,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

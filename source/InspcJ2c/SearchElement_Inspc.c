@@ -41,7 +41,7 @@ struct SearchElement_Inspc_t* ctorO_SearchElement_Inspc(ObjectJc* othis, ThCxt* 
 
 
 
-/**Searches a Field in a Object with given path. It is the core routine to access data*/
+/**Searches a Field in a Object with given path. It is the core routine to access data (J2C:wmDef)*/
 MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath, struct ObjectJc_t* startObj, struct FieldJc_t const** retField, int32* retIdx, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("searchObject_SearchElement_Inspc");
@@ -147,7 +147,7 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
                 searchTrc_SearchElement_Inspc[idxSearchTrc].clazzWhereFieldIsFound = clazz;
                 searchTrc_SearchElement_Inspc[idxSearchTrc].field = field;
                 
-                struct ClassJc_t const* [1] retClazz; /*J2C:modeAccess=Q*/
+                struct ClassJc_t const* retClazz[1] ; retClazz; /*J2C:modeAccess=Q*/
                 set_MemSegmJc(nextObj, getObjAndClass_FieldJc(field, currentObj, &retClazz[0], "I", idx));
                 clazz = retClazz[0];
                 searchTrc_SearchElement_Inspc[idxSearchTrc].typeOfField = clazz;

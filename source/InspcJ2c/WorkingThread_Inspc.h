@@ -99,7 +99,7 @@ typedef struct Mtbl_C_theThreadRun_WorkingThread_Inspc_t
 class C_theThreadRun_WorkingThread_Inspc : private C_theThreadRun_WorkingThread_Inspc_s
 { public:
 
-  virtual void run(){ run_C_theThreadRun_WorkingThread_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_C_theThreadRun_WorkingThread_Inspc_F(&this->base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

@@ -134,7 +134,7 @@ class CmdExecuter_Inspc : private CmdExecuter_Inspc_s
 
   virtual bool executeCmd(PtrVal_int8 buffer, int32 nrofBytesReceived){  return executeCmd_CmdExecuter_Inspc_F(this, buffer, nrofBytesReceived,  null/*_thCxt*/); }
 
-  virtual int32 txAnswer(int32 nrofAnswerBytesPart, bool bLastTelg){  return txAnswer_ib_CmdExecuter_Inspc_F(&this->base.AnswerComm_ifc_Inspc.base.object, nrofAnswerBytesPart, bLastTelg,  null/*_thCxt*/); }
+  virtual int32 txAnswer(int32 nrofAnswerBytesPart, bool bLastTelg){  return txAnswer_ib_CmdExecuter_Inspc_F(&this->base/*J2C:ifc*/.AnswerComm_ifc_Inspc.base.object, nrofAnswerBytesPart, bLastTelg,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

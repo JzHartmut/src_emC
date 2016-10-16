@@ -8,6 +8,7 @@
 #include "Fwc/fw_MemC.h"        //basic concept
 
 #include "Jc/ObjectJc.h"        //basic concept
+#include "Jc/ArraysJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
 
@@ -127,28 +128,28 @@ big- or little-endian depending on setBigEndian().
 This method is protected because at user level its using is a prone to errors because the idx is free related.
 
 */
-METHOD_C int64 _getLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChild, int32 nrofBytesAndSign, ThCxt* _thCxt);
+METHOD_C int64 _getLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChild, int32 nrofBytesAndSign);
 
 /**Returns the content of 1 to 4 bytes inside the actual element as a int number,
 big- or little-endian depending on setBigEndian().
 This method is protected because at user level its using is a prone to errors because the idx is free related.
 
 */
-METHOD_C int32 _getInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChild, int32 nrofBytesAndSign, ThCxt* _thCxt);
+METHOD_C int32 _getInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxInChild, int32 nrofBytesAndSign);
 
 /**sets the content of 1 to 8 bytes inside the actual element as a long number,
 big- or little-endian depending on setBigEndian().
 This method is protected because at user level its using is a prone to errors because the idx is free related.
 
 */
-METHOD_C void _setLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, int64 val, ThCxt* _thCxt);
+METHOD_C void _setLong_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, int64 val);
 
 /**sets the content of 1 to 4 bytes inside the actual element as a long number,
 big- or little-endian depending on setBigEndian().
 This method is protected because at user level its using is a prone to errors because the idx is free related.
 
 */
-METHOD_C void _setInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, int32 val, ThCxt* _thCxt);
+METHOD_C void _setInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, int32 val);
 
 /**Increments the {@link #ixNextChild} and/or increments the ixEnd of this and all parents.
 It is called if a new child is added inside method addChild(child) and recursively to correct
@@ -252,10 +253,10 @@ in different views.
 \
 { \
   \
-  assign_iYii_ByteDataAccessBaseJc((THIZ), src->data, src->ixEnd, src->ixBegin + offsetCastToInput, _thCxt);\
-  (THIZ)->bExpand = src->bExpand;\
-  (THIZ)->bBigEndian = src->bBigEndian;\
-  (THIZ)->bExc = src->bExc;\
+  assign_iYii_ByteDataAccessBaseJc((THIZ), (src)->data, (src)->ixEnd, (src)->ixBegin + offsetCastToInput, _thCxt);\
+  (THIZ)->bExpand = (src)->bExpand;\
+  (THIZ)->bBigEndian = (src)->bBigEndian;\
+  (THIZ)->bExc = (src)->bExc;\
   if(lengthDst > 0) \
   { \
     \
@@ -632,48 +633,48 @@ METHOD_C void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int3
 according to the IEEE 754 floating-point "single format" bit layout, preserving Not-a-Number (NaN) values,
 like converted from java.lang.Float.intBitsToFloat().
 */
-METHOD_C float getFloat_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C float getFloat_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
-METHOD_C double getDouble_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C double getDouble_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
-METHOD_C int64 getInt64_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C int64 getInt64_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
 /**Returns the content of 4 bytes inside the actual element as a integer number between -2147483648 and 2147483647,
 big- or little-endian depending on setBigEndian().
 
 */
-METHOD_C int32 getInt32_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C int32 getInt32_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
-METHOD_C int32 getUint32_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C int32 getUint32_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
 /**Returns the content of 2 bytes as a positive nr between 0..65535, big-endian
 inside the actual element.
 
 */
-METHOD_C int32 getUint16_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C int32 getUint16_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
 /**Returns the content of 2 bytes as a positive nr between 0..65535 inside the actual element.
 
 */
-METHOD_C int16 getInt16_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C int16 getInt16_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
 /**Returns the content of 1 bytes as ASCII
 inside the actual element.
 
 */
-METHOD_C char getChar_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C char getChar_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
 /**Returns the content of 1 bytes as a positive or negative nr between -128..127
 inside the actual element.
 
 */
-METHOD_C int8 getInt8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C int8 getInt8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
 /**Returns the content of 1 bytes as a positive or negative nr between -128..127
 inside the actual element.
 
 */
-METHOD_C int16 getUint8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, ThCxt* _thCxt);
+METHOD_C int16 getUint8_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx);
 
 METHOD_C int32 getUint32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxBytes, int32 idxArray, int32 lengthArray, ThCxt* _thCxt);
 
@@ -699,7 +700,7 @@ like converted from java.lang.Float.floatToRawIntBits().
   \
   \
   int32  intRepresentation = floatToRawIntBits_FloatJc(/*J2C:static method call*/value);\
-  _setLong_ByteDataAccessBaseJc((THIZ), idx, 4, intRepresentation, _thCxt);\
+  _setLong_ByteDataAccessBaseJc((THIZ), idx, 4, intRepresentation);\
 }
 
 /**Set the content of 8 byte from a double variable. The double value is stored
@@ -712,7 +713,7 @@ like converted from java.lang.Double.doubleToRawLongBits().
   \
   \
   int64  intRepresentation = doubleToRawLongBits_DoubleJc(/*J2C:static method call*/value);\
-  _setLong_ByteDataAccessBaseJc((THIZ), idx, 8, intRepresentation, _thCxt);\
+  _setLong_ByteDataAccessBaseJc((THIZ), idx, 8, intRepresentation);\
 }
 
 /**Set the content of 4 bytes as a integer number between -2147483648 and 2147483647,
@@ -906,13 +907,13 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   void _expand(int32 ixNextChildNew, int32 ixEndNew){ _expand_ByteDataAccessBaseJc(this, ixNextChildNew, ixEndNew,  null/*_thCxt*/); }
 
-  int32 _getInt(int32 idxInChild, int32 nrofBytesAndSign){  return _getInt_ByteDataAccessBaseJc(this, idxInChild, nrofBytesAndSign,  null/*_thCxt*/); }
+  int32 _getInt(int32 idxInChild, int32 nrofBytesAndSign){  return _getInt_ByteDataAccessBaseJc(this, idxInChild, nrofBytesAndSign); }
 
-  int64 _getLong(int32 idxInChild, int32 nrofBytesAndSign){  return _getLong_ByteDataAccessBaseJc(this, idxInChild, nrofBytesAndSign,  null/*_thCxt*/); }
+  int64 _getLong(int32 idxInChild, int32 nrofBytesAndSign){  return _getLong_ByteDataAccessBaseJc(this, idxInChild, nrofBytesAndSign); }
 
-  void _setInt(int32 idx, int32 nrofBytes, int32 val){ _setInt_ByteDataAccessBaseJc(this, idx, nrofBytes, val,  null/*_thCxt*/); }
+  void _setInt(int32 idx, int32 nrofBytes, int32 val){ _setInt_ByteDataAccessBaseJc(this, idx, nrofBytes, val); }
 
-  void _setLong(int32 idx, int32 nrofBytes, int64 val){ _setLong_ByteDataAccessBaseJc(this, idx, nrofBytes, val,  null/*_thCxt*/); }
+  void _setLong(int32 idx, int32 nrofBytes, int64 val){ _setLong_ByteDataAccessBaseJc(this, idx, nrofBytes, val); }
 
   void _setString(int32 idx, int32 nrofBytes, StringJcpp value, StringJcpp sEncoding, bool preventCtrlChars){ _setString_ByteDataAccessBaseJc(this, idx, nrofBytes, value, sEncoding, preventCtrlChars,  null/*_thCxt*/); }
 
@@ -968,7 +969,7 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   bool getBigEndian(){  return getBigEndian_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
-  char getChar(int32 idx){  return getChar_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  char getChar(int32 idx){  return getChar_ByteDataAccessBaseJc(this, idx); }
 
   double getChildDouble(){  return getChildDouble_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
@@ -988,23 +989,23 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   PtrVal_int8 getData(){  return getData_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
-  double getDouble(int32 idx){  return getDouble_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  double getDouble(int32 idx){  return getDouble_ByteDataAccessBaseJc(this, idx); }
 
-  float getFloat(int32 idx){  return getFloat_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  float getFloat(int32 idx){  return getFloat_i_ByteDataAccessBaseJc(this, idx); }
 
   float getFloat(int32 idxBytes, int32 idxArray, int32 lengthArray){  return getFloat_iii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray,  null/*_thCxt*/); }
 
-  int16 getInt16(int32 idx){  return getInt16_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  int16 getInt16(int32 idx){  return getInt16_i_ByteDataAccessBaseJc(this, idx); }
 
   int32 getInt16(int32 idxBytes, int32 idxArray, int32 lengthArray){  return getInt16_iii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray,  null/*_thCxt*/); }
 
-  int32 getInt32(int32 idx){  return getInt32_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  int32 getInt32(int32 idx){  return getInt32_i_ByteDataAccessBaseJc(this, idx); }
 
   int32 getInt32(int32 idxBytes, int32 idxArray, int32 lengthArray){  return getInt32_iii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray,  null/*_thCxt*/); }
 
-  int64 getInt64(int32 idx){  return getInt64_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  int64 getInt64(int32 idx){  return getInt64_ByteDataAccessBaseJc(this, idx); }
 
-  int8 getInt8(int32 idx){  return getInt8_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  int8 getInt8(int32 idx){  return getInt8_i_ByteDataAccessBaseJc(this, idx); }
 
   int32 getInt8(int32 idxBytes, int32 idxArray, int32 lengthArray){  return getInt8_iii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray,  null/*_thCxt*/); }
 
@@ -1026,15 +1027,15 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   StringJc getString(int32 idx, int32 nrofBytes){  return getString_ByteDataAccessBaseJc(this, idx, nrofBytes,  null/*_thCxt*/); }
 
-  int32 getUint16(int32 idx){  return getUint16_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  int32 getUint16(int32 idx){  return getUint16_i_ByteDataAccessBaseJc(this, idx); }
 
   int32 getUint16(int32 idxBytes, int32 idxArray, int32 lengthArray){  return getUint16_iii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray,  null/*_thCxt*/); }
 
-  int32 getUint32(int32 idx){  return getUint32_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  int32 getUint32(int32 idx){  return getUint32_i_ByteDataAccessBaseJc(this, idx); }
 
   int32 getUint32(int32 idxBytes, int32 idxArray, int32 lengthArray){  return getUint32_iii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray,  null/*_thCxt*/); }
 
-  int16 getUint8(int32 idx){  return getUint8_i_ByteDataAccessBaseJc(this, idx,  null/*_thCxt*/); }
+  int16 getUint8(int32 idx){  return getUint8_i_ByteDataAccessBaseJc(this, idx); }
 
   int32 getUint8(int32 idxBytes, int32 idxArray, int32 lengthArray){  return getUint8_iii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray,  null/*_thCxt*/); }
 

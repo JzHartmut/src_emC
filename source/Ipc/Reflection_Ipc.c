@@ -64,12 +64,12 @@ const ClassJc reflection_Address_InterProcessComm_s =
 
 
 
-extern_C const ClassJc reflection_InterProcessCommFactory_i;  //the just defined reflection_
-const ClassJc reflection_InterProcessCommFactory_i =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory_i, &reflection_ClassJc)
+extern_C const ClassJc reflection_InterProcessCommFactory_s;  //the just defined reflection_
+const ClassJc reflection_InterProcessCommFactory_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory_s, &reflection_ClassJc)
 , "InterProcessCommFactory_i"
 , 0
-, sizeof(InterProcessCommFactory_i)
+, sizeof(InterProcessCommFactory_s)
 , null  //attributes
 , null  //method
 , null  //superclass
@@ -80,28 +80,12 @@ const ClassJc reflection_InterProcessCommFactory_i =
 
 
 
-extern_C const ClassJc reflection_InterProcessCommFactoryAccessor;  //the just defined reflection_
-const ClassJc reflection_InterProcessCommFactoryAccessor =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactoryAccessor, &reflection_ClassJc)
-, "InterProcessCommFactoryAccessor"
-, 0
-, sizeof(InterProcessCommFactoryAccessor)
-, null  //attributes
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-
-extern_C const ClassJc reflection_InterProcessComm_i;  //the just defined reflection_
-const ClassJc reflection_InterProcessComm_i =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm_i, &reflection_ClassJc)
+extern_C const ClassJc reflection_InterProcessComm_s;  //the just defined reflection_
+const ClassJc reflection_InterProcessComm_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm_s, &reflection_ClassJc)
 , "InterProcessComm_i"
 , 0
-, sizeof(InterProcessComm_i)
+, sizeof(InterProcessComm_s)
 , null  //attributes
 , null  //method
 , null  //superclass

@@ -44,8 +44,8 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/inspectorTarget/CmdConsumer_ifc: $ "(?).base.CmdConsumer_ifc_Inspc" $;
-    java/lang/Object: $ "(?).base.CmdConsumer_ifc_Inspc.base.object" $;
+    org/vishia/inspectorTarget/CmdConsumer_ifc: $ "(?).base/*J2C:ifc*/.CmdConsumer_ifc_Inspc" $;
+    java/lang/Object: $ "(?).base/*J2C:ifc*/.CmdConsumer_ifc_Inspc.base/*J2C_super:*/.object" $;
   }
 
 }

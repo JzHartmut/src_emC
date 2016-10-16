@@ -104,7 +104,6 @@ METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswe
 /**Shutdown the communication, close the thread. This routine should be called 
 either on shutdown of the whole system or on closing the inspector functionality.
 The inspector functionality can be restarted calling {@link #start(Object)}.
-
 */
 typedef void MT_shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -137,7 +136,7 @@ class Comm_Inspc : private Comm_Inspc_s
 
   void receiveAndExecute(){ receiveAndExecute_Comm_Inspc(this,  null/*_thCxt*/); }
 
-  virtual void run(){ run_Comm_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_Comm_Inspc_F(&this->base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
 
   int32 sendAnswer(PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer){  return sendAnswer_Comm_Inspc(this, bufferAnswerData, nrofBytesAnswer,  null/*_thCxt*/); }
 

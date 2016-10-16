@@ -24,7 +24,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

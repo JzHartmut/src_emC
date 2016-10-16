@@ -51,7 +51,7 @@ struct WorkingThread_Inspc_t* ctorO_WorkingThread_Inspc(ObjectJc* othis, ThCxt* 
 
 
 
-/**Start of the thread, should be called initially if the application is built completely. */
+/**Start of the thread, should be called initially if the application is built completely.  (J2C:wmDef)*/
 void start_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_WorkingThread_Inspc_F");
@@ -70,7 +70,7 @@ void start_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Terminate the thread for ever, should be called on termination of the application.*/
+/**Terminate the thread for ever, should be called on termination of the application. (J2C:wmDef)*/
 void terminate_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("terminate_WorkingThread_Inspc_F");
@@ -363,7 +363,7 @@ struct ThreadMng_WorkingThread_Inspc_t* ctorO_ThreadMng_WorkingThread_Inspc(stru
   {
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->thread.base.object), sizeof(thiz->thread), 0); 
-      ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/&(thiz->thread.base.object), & ((thiz->outer->theThreadRun).base.RunnableJc), s0_StringJc("WorkingThread"), _thCxt);
+      ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/&(thiz->thread.base.object), & ((thiz->outer->theThreadRun).base/*J2C:ifc*/.RunnableJc), s0_StringJc("WorkingThread"), _thCxt);
   }/*J2C:No body for constructor*/
 
   STACKTRC_LEAVE;

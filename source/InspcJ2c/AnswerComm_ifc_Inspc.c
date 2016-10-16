@@ -11,7 +11,7 @@
 const char sign_Mtbl_AnswerComm_ifc_Inspc[] = "AnswerComm_ifc_Inspc"; //to mark method tables of all implementations
 
 
-/**Sends an answer. */
+/**Sends an answer.  (J2C:wmDef)*/
 /*J2C: dynamic call variant of the override-able method: */
 int32 txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt)
 { Mtbl_AnswerComm_ifc_Inspc const* mtbl = (Mtbl_AnswerComm_ifc_Inspc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_AnswerComm_ifc_Inspc);

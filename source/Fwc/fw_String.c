@@ -298,7 +298,7 @@ int length_CharSeqJc_(CharSeqJc thiz)
 
 
 METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer)
-{ STACKTRC_ENTRY("copyToBuffer_CharSeqJc");
+{ //STACKTRC_ENTRY("copyToBuffer_CharSeqJc");
   int nChars = VAL_CharSeqJc(thiz) & mLength__StringJc;
   if(nChars <= kMaxLength_StringJc) {
     //it is a StringJc
@@ -316,13 +316,16 @@ METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, ch
         nrofBytes = maxSizeBuffer;
       }
       memcpy(buffer, str + start, nrofBytes);
+      //STACKTRC_LEAVE; 
       return nrofBytes;
     } else {
+      //STACKTRC_LEAVE; 
       return 0;
     }
   } 
   else if(nChars == kIsStringBuilder_CharSeqJc) {
     StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
+    //STACKTRC_LEAVE; 
     return copyToBuffer_StringBuilderJc(sb, start, end, buffer, maxSizeBuffer);
   } 
   else if(nChars & mIsCharSeqJcMtbl_CharSeqJc) {
@@ -330,14 +333,14 @@ METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, ch
     Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz);
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
     int iChars;
-    nChars = mc->length(othiz, _thCxt);  
+    nChars = mc->length(othiz, null); //_thCxt);  
     if(nChars >= maxSizeBuffer){ nChars = maxSizeBuffer ; }
     for(iChars = 0; iChars < nChars; ++iChars) {
-      char cc = mc->charAt(othiz, iChars, _thCxt);
+      char cc = mc->charAt(othiz, iChars, null); //_thCxt);
       buffer[iChars] = cc;
     }
   }  
-  STACKTRC_LEAVE;
+  //STACKTRC_LEAVE;
   return( nChars);
 }
 

@@ -277,8 +277,7 @@ float parseFloat_CsiiciY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src
   STACKTRC_TENTRY("parseFloat_CsiiciY_StringFunctions_CJc");
   
   { 
-    ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
-    */
+    
     
     float  ret;/*no initvalue*/
     
@@ -305,17 +304,18 @@ float parseFloat_CsiiciY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src
       bNegative = false;
     }
     
-    int32*  zParsed; /*J2C:modeAccess=P: simple VariableRef*/
-    ret = parseIntRadix_CsiiiiYS_StringFunctions_CJc(/*J2C:static method call*/src, poscurr, restlen, 10, zParsed, null_StringJc /*J2C: mem assignment*/, _thCxt);/*parses only a positive number.*/
+    int32 zParsed[1] ; zParsed; /*J2C:modeAccess=Q*/
+    ret = parseIntRadix_CsiiiiYS_StringFunctions_CJc(/*J2C:static method call*/src, poscurr, restlen, 10, &zParsed[0], null_StringJc /*J2C: mem assignment*/, _thCxt);/*parses only a positive number.*/
     
     poscurr += zParsed[0];/*maybe 0 if .123 is written*/
     
-    restlen -= zParsed[0];
-    if(poscurr < (restlen + pos) && charAt_CharSeqJc(src/*J1cT2*/, poscurr, _thCxt) == decimalpoint) 
+    restlen -= zParsed[0];/*if(poscurr < (restlen+pos) && src.charAt(poscurr)==decimalpoint){*/
+    
+    if(restlen > 0 && charAt_CharSeqJc(src/*J1cT2*/, poscurr, _thCxt) == decimalpoint) 
     { 
       
       
-      float  fracPart = parseIntRadix_CsiiiiY_StringFunctions_CJc(/*J2C:static method call*/src, poscurr + 1, restlen - 1, 10, zParsed);
+      float  fracPart = parseIntRadix_CsiiiiY_StringFunctions_CJc(/*J2C:static method call*/src, poscurr + 1, restlen - 1, 10, &zParsed[0]);
       if(zParsed[0] > 0) 
       { 
         
@@ -348,7 +348,6 @@ float parseFloat_CsiiciY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src
       ret = -ret;
     }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(newObj2_1, null, _thCxt);
       return ret;
     }
   }

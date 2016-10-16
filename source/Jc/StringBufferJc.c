@@ -479,7 +479,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
     }
     if(ythis->_mode & _mThread_StringBuilderJc){
       nonPersistent |= mThreadContext__StringJc;
-      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, ythis->_count+1);
+      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
       reduceLastUserBuffer_ThreadContextFw(ythis, sizeInThCxt, _thCxt);
     }
     /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
@@ -811,7 +811,7 @@ StringJc format_A_StringJc(StringJc format, Va_listFW vargList, ThCxt* _thCxt)
   nrofChars = format_va_arg_Formatter_FW(_thCxt, sFormat, zFormat, buffer, zBuffer, vargList);
   //sbuffer->count = nrofChars;
   _setCount_StringBuilderJc(uBuffer, nrofChars);  
-  int sizeBufferInThCxt = _reduceCapacity_StringBuilderJc(uBuffer, nrofChars+1);  
+  int sizeBufferInThCxt = _reduceCapacity_StringBuilderJc(uBuffer, (int16)(nrofChars+1));  
   reduceLastUserBuffer_ThreadContextFw(uBuffer, sizeBufferInThCxt, _thCxt);
   INIT_StringJc(ret, buffer, nrofChars | mThreadContext__StringJc);
   STACKTRC_LEAVE; return ret;

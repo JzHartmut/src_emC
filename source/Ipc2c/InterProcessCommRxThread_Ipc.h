@@ -104,7 +104,7 @@ typedef struct InterProcessCommRxThread_Ipc_t
 { 
   union { ObjectJc object; } base; 
   struct InterProcessCommRx_ifc_Ipc_t* execRxData;   /*Reference to the execute routine on receiving data. */
-  char state;   /*State of function.*/
+  char state;   /*State of function.*/
   bool bEnablePrintfOnComm; 
   struct InterProcessComm_t* ipc;   /**/
   int32 ctErrorTelg; 
@@ -144,7 +144,7 @@ typedef struct InterProcessCommRxThread_Ipc_Y_t { ObjectArrayJc head; InterProce
 void finalize_InterProcessCommRxThread_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
- extern StringJc version_InterProcessCommRxThread_Ipc;   /*Version, history and license.*/
+ extern StringJc version_InterProcessCommRxThread_Ipc;   /*Version, history and license.*/
 
 //!!usage: static init code, invoke that one time in start of main.
 void initStatic_InterProcessCommRxThread_Ipc();
@@ -152,28 +152,45 @@ void initStatic_InterProcessCommRxThread_Ipc();
 
 
 
-/**Creates the communication but does not open it yet*/
+/**Creates the communication but does not open it yet. See {@link #start()}
+The InterProcessComm interface implementation is got depending on
+<ul><li>the ownAddrIpc-string
+<li>the existing InterProcessComm-Implementation, which analyzes the address-string.
+<ul>
+It means, the communication is not determined from this implementation, it depends
+on the parameter of the ownAddrIpc and the possibilities. 
+*/
 METHOD_C struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(ObjectJc* othis, StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt);
 
-/**Static method to create invokes the constructor.*/
+/**Static method to create invokes the constructor.
+*/
 METHOD_C struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C:static method*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt);
 
-/**Create any destination address for the given InterprocessComm implementation*/
+/**Create any destination address for the given InterprocessComm implementation. 
+The Address should be stored in the users space and should be used for {@link #send(byte[], int, Address_InterProcessComm)}
+*/
 METHOD_C struct Address_InterProcessComm_t* createDstAddr_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, StringJc sAddr, ThCxt* _thCxt);
 
 METHOD_C bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, bool blocking, ThCxt* _thCxt);
 
-/**Start opens the InterProcessComm and starts the receiver thread.*/
+/**Start opens the InterProcessComm and starts the receiver thread.
+*/
 METHOD_C bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
 
-/**Send a telegram to the given dst*/
+/**Send a telegram to the given dst. It delegates to {@link InterProcessComm#send(byte[], int, Address_InterProcessComm)}.
+An address should be create using {@link #createDstAddr(String)}.
+*/
 METHOD_C int32 send_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, PtrVal_int8 data, int32 nrofBytesToSend, struct Address_InterProcessComm_t* dstAddr, ThCxt* _thCxt);
 
 METHOD_C void runThread_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
 
 METHOD_C void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
 
-/**Shutdown the communication, close the thread*/
+/**Shutdown the communication, close the thread. This routine should be called 
+either on shutdown of the whole system or on closing the inspector functionality.
+The inspector functionality can be restarted calling {@link #start(Object)}.
+
+*/
 METHOD_C void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt);
 
 
