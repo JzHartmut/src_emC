@@ -62,21 +62,8 @@ StringJc const null_StringJc = NULL_StringJc;
 CharSeqJc const null_CharSeqJc = NULL_CharSeqJc;
 
 
-METHOD_C StringJc z_StringJc(const char* src)
-{ StringJc ret;
-  int size = strlen_Fwc(src, kMaxLength_StringJc);
-
-  set_OS_PtrValue(ret.s, src, (size)); 
-  return ret;
-}
 
 
-
-StringJc zI_StringJc(char const* src, int len)
-{ StringJc ret;
-  set_OS_PtrValue(ret.s, src, (len & mLength__StringJc)); 
-  return ret;
-}
 
 
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)

@@ -50,6 +50,7 @@
 
 //#include <stdio.h>  //FILE
 
+#include <Fwc_fw_UserExceptionHandling.h>
 
 
 C_TYPE struct OS_HandleFile_t;

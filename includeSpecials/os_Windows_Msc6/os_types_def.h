@@ -335,4 +335,6 @@ typedef double SIMUPTR;
 /**Include the common definitions in its pure form. */
 #include <OSAL/os_types_def_common.h>
 
+
+
 #endif  //__os_types_def_h__
