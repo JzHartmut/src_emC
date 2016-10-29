@@ -221,7 +221,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
       
       struct FieldJc_t const*  field;/*no initvalue*/
       
-      MemSegmJc  memObj;//J2C: constructor for embedded element
+      MemSegmJc  memObj = { 0 };//J2C: constructor for embedded element
       INIT_MemSegmJc(/*J2C:static method call*/memObj);
       
       int32  memSegment = 0;
@@ -456,15 +456,27 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
   { 
     
     
-    int32  modifContainertype = modifiers & m_Containertype_Modifier_reflectJc;
-    
-    bool  hasSubstructure = (modifiers & mPrimitiv_Modifier_reflectJc) == 0 || (modifContainertype != 0);
-    
-    StringJc type ; type = z_StringJc(typeField == null ? "unknown" : getName_ClassJc(typeField))/*J2C:non-persistent*/;
+    StringJc type ; type;/*no initvalue*/
+    if(typeField == null) 
+    { 
+      
+      type = z_StringJc("unknown")/*J2C:non-persistent*/;/*modifType = 0;*/
+      
+    }
+    else 
+    { 
+      
+      type = z_StringJc(getName_ClassJc(typeField))/*J2C:non-persistent*/;/*modifType = typeField.getClass().getModifiers();*/
+      
+    }
     
     int32  lengthName = length_StringJc(name);
     
     int32  lengthType = length_StringJc(type);
+    
+    int32  modifContainertype = modifiers & m_Containertype_Modifier_reflectJc;
+    
+    bool  hasSubstructure = !isPrimitive_ClassJc(typeField) || (modifContainertype != 0);
     setLength_StringBuilderJc(& (thiz->uArray.sb), 0, _thCxt);
     if(modifContainertype == kUML_LinkedList_Modifier_reflectJc) 
     { 
@@ -585,7 +597,7 @@ int32 cmdSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct In
     
     int32  nrofBytesCmd = getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(cmd);
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChild_XX_ByteDataAccessBaseJc(& ((* (cmd)).base/*J2C_super:*/.super), & ((setValue).base/*J2C_super:*/.super), _thCxt);
     
@@ -616,7 +628,7 @@ void getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 nOrd
     
     struct FieldJc_t const* theFieldP[1] ; theFieldP; /*J2C:modeAccess=Q*/
     
-    MemSegmJc  theObject;//J2C: constructor for embedded element
+    MemSegmJc  theObject = { 0 };//J2C: constructor for embedded element
     INIT_MemSegmJc(/*J2C:static method call*/theObject);
     TRY
     { 
@@ -1089,7 +1101,7 @@ int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct 
     
     struct FieldJc_t const* theFieldP[1] ; theFieldP; /*J2C:modeAccess=Q*/
     
-    MemSegmJc  theObject;//J2C: constructor for embedded element
+    MemSegmJc  theObject = { 0 };//J2C: constructor for embedded element
     INIT_MemSegmJc(/*J2C:static method call*/theObject);
     /***/
     TRY
@@ -1180,7 +1192,7 @@ int32 registerHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, StringJc sVa
     
     struct FieldJc_t const* theFieldP[1] ; theFieldP; /*J2C:modeAccess=Q*/
     
-    MemSegmJc  theObject;//J2C: constructor for embedded element
+    MemSegmJc  theObject = { 0 };//J2C: constructor for embedded element
     INIT_MemSegmJc(/*J2C:static method call*/theObject);
     
     int32  handle;/*no initvalue*/
@@ -1364,10 +1376,10 @@ int32 cmdGetValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct 
   { 
     
     
-    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answItem;//J2C: constructor for embedded element-MemC
+    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answItem = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&answItem, sizeof(answItem)), _thCxt);
     
-    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answFaultyItem;//J2C: constructor for embedded element-MemC
+    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answFaultyItem = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&answFaultyItem, sizeof(answFaultyItem)), _thCxt);
     
     int32  nrofHandle = (getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(cmd) - sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc) / 4;
@@ -1554,7 +1566,7 @@ float getFloatValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32
     answerBuffer.ref = & answerBuffer1[0]; answerBuffer.val = sizeof( answerBuffer1) / sizeof(answerBuffer1[0]);/*for C: use a PtrVal as argument.*/
     
     
-    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answItem;//J2C: constructor for embedded element-MemC
+    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answItem = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&answItem, sizeof(answItem)), _thCxt);
     assignClear_ByteDataAccessBaseJc(& ((answItem).base/*J2C_super:*/.super.base/*J2C_super:*/.super), answerBuffer);
     
@@ -1587,7 +1599,7 @@ int32 getIntValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 h
     answerBuffer.ref = & answerBuffer1[0]; answerBuffer.val = sizeof( answerBuffer1) / sizeof(answerBuffer1[0]);/*for C: use a PtrVal as argument.*/
     
     
-    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answItem;//J2C: constructor for embedded element-MemC
+    InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s  answItem = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&answItem, sizeof(answItem)), _thCxt);
     assignClear_ByteDataAccessBaseJc(& ((answItem).base/*J2C_super:*/.super.base/*J2C_super:*/.super), answerBuffer);
     

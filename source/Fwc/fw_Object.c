@@ -46,7 +46,7 @@
 ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
 { STACKTRC_ENTRY("init_ObjectJc");
   ASSERT(sizeObj >= sizeof(ObjectJc));
-  memset(ythis, 0, sizeObj);
+  //cc2016-10 memset(ythis, 0, sizeObj);  //don't clear the instance because some references etc. maybe initalized with { ... }
   ythis->ownAddress = ythis;
   ythis->idSyncHandles = kNoSyncHandles_ObjectJc;
   setSizeAndIdent_ObjectJc(ythis, sizeObj, identObj);

@@ -49,7 +49,7 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
   { 
     
     
-    MemSegmJc  currentObj;//J2C: constructor for embedded element
+    MemSegmJc  currentObj = { 0 };//J2C: constructor for embedded element
     INIT_MemSegmJc(/*J2C:static method call*/currentObj);
     
     StringJc sName ; sName = null_StringJc/*J2C:non-persistent*/;
@@ -58,7 +58,7 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
     
     struct ClassJc_t const*  clazz = getClass_ClassJc(/*J2C:static method call*/startObj);
     
-    MemSegmJc  nextObj;//J2C: constructor for embedded element
+    MemSegmJc  nextObj = { 0 };//J2C: constructor for embedded element
     INIT_AddrSegm_MemSegmJc(/*J2C:static method call*/nextObj, startObj, 0);
     
     struct FieldJc_t const*  field = null;

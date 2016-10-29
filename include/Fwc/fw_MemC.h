@@ -135,7 +135,7 @@ struct ThreadContextFW_t;
 /**A const definition of a MemC using as initializer for static or stack variables.
  * In standard-C only useable for global static variables, if SIZE or PTR are not constants itself.
  */
-#define CONST_MemC(PTR, SIZE) CONST_OS_PtrValue(PTR, SIZE)
+#define CONST_MemC(PTR, SIZE) CONST_OS_PtrValue((char*)(PTR), SIZE)
 
 
 

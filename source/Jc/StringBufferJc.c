@@ -1060,42 +1060,42 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int start, 
   if(start < 0) { //-1... counts from end, -1 is the end position.
     start1 = count - (-start) +1; 
     if(start1 < 0){ 
-      start1 = 0; throw_IndexOutOfBoundsException_OSAL("faulty -start", start)
+      start1 = 0; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -start", start)
     }  
   } else if(start > count) { 
-    start1 = count; throw_IndexOutOfBoundsException_OSAL("faulty start", start); 
+    start1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty start", start); 
   } else {
     start1 = start;
   }
   if(end < 0) { //-1... counts from end, -1 is the end position.
     end1 = count - (-end) +1; 
-    if(end1 < start1){ end1 = start1; throw_IndexOutOfBoundsException_OSAL("faulty -end", end)}  
+    if(end1 < start1){ end1 = start1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -end", end)}  
   } else if(end > count) { 
-    end1 = count; throw_IndexOutOfBoundsException_OSAL("faulty end", end); 
+    end1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty end", end); 
   } else if(end == 0) {  //it means, delete 0
     end1 = start1; 
   } else if(end < start1) {
-    end1 = start1; throw_IndexOutOfBoundsException_OSAL("faulty end before start", end);
+    end1 = start1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty end before start", end);
   } else {
     end1 = end;
   }
   if(from < 0) { //-1... counts from end, -1 is the end position.
     from1 = zadd - (-from) +1; 
-    if(from1 < 0){ from1 = 0; throw_IndexOutOfBoundsException_OSAL("faulty -from", from)}  
+    if(from1 < 0){ from1 = 0; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -from", from)}  
   } else if(from > count) { 
-    from1 = count; throw_IndexOutOfBoundsException_OSAL("faulty from", from); 
+    from1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty from", from); 
   } else {
     from1 = from;
   }
   if(to < 0) { //-1... counts from end, -1 is the end position.
     to1 = zadd - (-to) +1; 
     if(to1 < from1){ 
-      to1 = from1; throw_IndexOutOfBoundsException_OSAL("faulty -to", to)
+      to1 = from1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -to", to)
     }  
   } else if(to > zadd) { 
-    to1 = count; throw_IndexOutOfBoundsException_OSAL("faulty to", to); 
+    to1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty to", to); 
   } else if(to < from1) {
-    to1 = from1; throw_IndexOutOfBoundsException_OSAL("faulty to before from", to);
+    to1 = from1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty to before from", to);
   } else {
     to1 = to;
   }

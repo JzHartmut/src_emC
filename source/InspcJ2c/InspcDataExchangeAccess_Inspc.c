@@ -607,7 +607,7 @@ void setBool_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int8 /*J2C_cast*/)value);
@@ -624,7 +624,7 @@ void setShort_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setShort_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int16 /*J2C_cast*/)value);
@@ -641,7 +641,7 @@ void setByte_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setByte_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int8 /*J2C_cast*/)value);
@@ -658,7 +658,7 @@ void setInt_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_In
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setInt_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
@@ -675,7 +675,7 @@ void setFloat_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
@@ -692,7 +692,7 @@ void setFloatIntImage_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetVa
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setFloatIntImage_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
@@ -709,7 +709,7 @@ void setDouble_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
@@ -726,7 +726,7 @@ void setLong_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
   { 
     
     
-    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue;//J2C: constructor for embedded element-MemC
+    InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
     addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
     setLong_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);

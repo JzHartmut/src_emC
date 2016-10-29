@@ -259,7 +259,12 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
 #define CONST_Instance_ObjectJc(INSTANCE) { INITIALIZER_ObjectJc(INSTANCE, null, 0) }
 
 
-/**Initialization of the basicly data of Object and set all user data to 0.
+/**Initialization of the basicly data of ObjectJc.
+ * The instance may have initial data outside of the ObjectJc base on startup. 
+ * The contract is: An instance should be initialized (usual cleared with 0) on allocation or definition.
+ * For static instances use
+ * ,, Type myInstance = {0};
+ * 
  * This method should be used for static and embedded instances especially in C environment
  * and inside a C++-constructor.
  * @param sizeObj The size of the whole instance, use sizeof(TypeInstance). All data are set to 0.

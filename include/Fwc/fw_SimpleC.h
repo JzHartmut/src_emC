@@ -54,7 +54,7 @@
 
 
 
-typedef union U_intfloat_t{
+typedef union U_intfloat_t {
   float f; int32_t i;
 } U_intfloat;
 

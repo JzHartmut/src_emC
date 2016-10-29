@@ -964,7 +964,7 @@ METHOD_C MemSegmJc searchObject_ClassJc(StringJc sPath, ObjectJc* startObj, Fiel
   StringJc sName = NULL_StringJc;
   StringJc sElement = NULL_StringJc;
   ClassJc const* clazz = getClass_ObjectJc(startObj);
-  MemSegmJc nextObj = CONST_OS_PtrValue(startObj, 0);  //the source Object for the next access
+  MemSegmJc nextObj = CONST_OS_PtrValue((char*)startObj, 0);  //the source Object for the next access
   FieldJc const* field = null;
   int idx = -1;
   int posSep;

@@ -262,10 +262,10 @@ typedef struct OS_PtrValue_t
 */
 
 /**A const definition takes 2 arguments, but the type of them depends from operation system.
+ * @param PTR a pointer from a type*-type appropriate to the destination struct
  * @param VAL a value from a int-type
- * @param PTR a pointer from a type*-type.
  */
-#define CONST_OS_PtrValue(PTR, VAL) { (char*) PTR, (int32)VAL}
+#define CONST_OS_PtrValue(PTR, VAL) { PTR, VAL}
 
 /**An instance which contains null-values. */
 extern OS_PtrValue null_OS_PtrValue;
@@ -334,6 +334,13 @@ typedef double SIMUPTR;
 
 /**Include the common definitions in its pure form. */
 #include <OSAL/os_types_def_common.h>
+
+/**This file can be additinally modified by the user to determine how debugging and exception handling should processed. 
+ * Either this file is defined in the users area 
+ * or one of the source paths of CRuntimeJavalike is added to the include path where an exemplare of this file is provided.
+ * See CRuntimeJavalike/sourceSpecials/ExcHandling_No.template or CRuntimeJavalike/sourceSpecials/ExcHandling_Printf.template
+ */ 
+#include <OSAL_UserExceptionAndDebug.h>
 
 
 
