@@ -1,5 +1,5 @@
 2015-08-09 22:54:04  x     _bzr_version.txt                         ::           .174  0823119386 
-2016-10-29 23:20:42  x     _filelist.lst                            ::           .  0  0000000000 
+2016-10-30 20:18:34  x     _filelist.lst                            ::           .  0  0000000000 
 2011-06-23 10:05:52  x     delBak.bat                               ::           . 37  1661871524 
 2011-07-21 18:48:12  x     gitstart.bat                             ::           . 71  0966181374 
 
@@ -188,7 +188,7 @@
 2016-09-10 23:24:21  x     fw_threadContext.c                       ::          8.978  0059623043 
 2011-01-08 09:28:02  x     fw_timeconversions.c                     ::          7.086 -0090530704 
 
-2016-10-29 23:04:39 Dx     === source/Inspc/ =======================================================
+2016-10-30 19:40:14 Dx     === source/Inspc/ =======================================================
 2016-02-15 09:06:03  x     FBaccessNode_Inspc.c                     ::          1.183 -1705513978 
 2015-10-24 22:47:56  x     FBaccessNode_RegisterRefl_Inspc.c        ::          1.414 -1243760847 
 2016-01-05 13:41:40  x     FBaccess_Inspc.c                         ::          2.982 -0000124189 
@@ -204,9 +204,10 @@
 2015-10-28 09:23:57  x     InputValues_Inspc_Refl.h                 ::           .243 -0750968859 
 2015-08-02 22:16:40  x     InspcGetValue.c                          ::           .926 -1974958951 
 2015-08-02 22:16:11  x     InspcGetValue.h                          ::           .911 -1259646365 
+2016-10-30 19:23:42  x     InspcTargetProxyTarget.c                 ::          7.655 -0593347527 
 2016-10-29 10:36:51  x     InspcTargetProxyTelg.c                   ::           .  0  0000000000 
-2016-10-29 19:51:02  x     InspcTargetProxyTelg.h                   ::          7.591  0892843017 
-2016-10-29 23:04:39  x     InspcTargetProxyTelgTarget.c             ::          7.383  2110818265 
+2016-10-30 19:40:14  x     InspcTargetProxyTelg.h                   ::          5.744  0622921082 
+2016-10-30 19:38:27  x     InspcTargetTelg.h                        ::          1.383 -1819793140 
 2016-02-06 10:10:49  x     TimeSignals_Inspc.c                      ::         12.965 -0912308728 
 2015-10-31 09:30:26  x     TimeSignals_Inspc.genrefl.bat            ::           .846 -0449210969 
 2015-11-24 12:41:20  x     TimeSignals_Inspc.h                      ::          2.726  0822097185 
