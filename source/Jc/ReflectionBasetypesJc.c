@@ -307,31 +307,31 @@ const ClassJc reflection_ComparableJc =
 
 
 
-extern_C const ClassJc reflection_AppendableJc;  //the just defined reflection_
+extern_C const ClassJc reflection_AppendableJc_s;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_AppendableJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_AppendableJc =
+} reflection_Fields_AppendableJc_s =
 { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ComparableJc)
 , {
     { "object"
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
-    , (int16)((int32)(&((AppendableJc*)(0x1000))->base.object) -(int32)(AppendableJc*)0x1000)
+    , (int16)((int32)(&((AppendableJc_s*)(0x1000))->base.object) -(int32)(AppendableJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_AppendableJc
+    , &reflection_AppendableJc_s
     }
 } };
 
 
-const ClassJc reflection_AppendableJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AppendableJc, &reflection_ClassJc)
-, "AppendableJc"
+const ClassJc reflection_AppendableJc_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AppendableJc_s, &reflection_ClassJc)
+, "AppendableJc_s"
 , 0
-, sizeof(AppendableJc)
-, (FieldJcArray const*)&reflection_Fields_AppendableJc  //attributes and associations
+, sizeof(AppendableJc_s)
+, (FieldJcArray const*)&reflection_Fields_AppendableJc_s  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces

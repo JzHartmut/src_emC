@@ -75,7 +75,7 @@ ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _
 
 void free_ObjectJc(ObjectJc* thiz) {
   MemC mem = build_MemC(thiz, getSizeInfo_ObjectJc(thiz));
-  free_MemC(mem);
+  freeM_MemC(mem);
 }
 
 

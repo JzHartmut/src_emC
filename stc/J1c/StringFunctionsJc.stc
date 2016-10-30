@@ -10,40 +10,42 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    compare+_CsCs-_$, mode= static: int %.r null(java/lang/CharSequence t.. s1,java/lang/CharSequence t.. s2);
-    compare+_CsiCsii-_$, mode= static: int %.r null(java/lang/CharSequence t.. s1,int %.. from1,java/lang/CharSequence t.. s2,int %.. from2,int %.. nrofChars);
-    comparePos+_CsCs-_$, mode= static: int %.r null(java/lang/CharSequence t.. s1,java/lang/CharSequence t.. s2);
-    comparePos+_CsiCsii-_$, mode= static: int %.r null(java/lang/CharSequence t.. s1,int %.. from1,java/lang/CharSequence t.. s2,int %.. from2,int %.. nrofChars);
-    ctorO-_$, mode= ctor+static: org/vishia/util/StringFunctions *.. StringFunctionsJc_s();
-    endsWith-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. sq,java/lang/CharSequence t.. end);
-    equals+_CsCs-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. s1,java/lang/CharSequence t.. s2);
-    equals+_CsiiCs-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. s1,int %.. from,int %.. to,java/lang/CharSequence t.. s2);
-    indent2-_$, mode= static: java/lang/String(instance=java/lang/String) t.r null(int %.. indent);
-    indexAfterIdentifier-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalChars);
-    indexIdentifier-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars);
-    indexNoWhitespace-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax);
-    indexOf+_Csc-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,char %.. ch);
-    indexOf+_CsCs-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,java/lang/CharSequence t.. str);
-    indexOf+_Csci-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,char %.. ch,int %.. fromIndex);
-    indexOf+_CsCsi-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,java/lang/CharSequence t.. str,int %.. fromIndex);
-    indexOf+_Csiic-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,char %.. ch);
-    indexOf+_CsiiS-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,java/lang/String(instance=java/lang/String) t.. str);
-    indexOf+_CsiiCs-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence t.. str);
-    indexOfAnyChar-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. begin,int %.. end,java/lang/String(instance=java/lang/String) t.. sChars);
-    indexOfAnyString-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. from,int %.. to,java/lang/CharSequence[??] Xt. listStrings,int[??] P%. nrofFoundString,java/lang/String[??] Pt. foundString);
-    indexWhitespace-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax);
-    isEmptyOrOnlyWhitespaces-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. text);
-    lastIndexOf+_Csc-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,char %.. ch);
-    lastIndexOf+_Csiic-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. from,int %.. to,char %.. ch);
-    lastIndexOf+_CsiiS-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,java/lang/String(instance=java/lang/String) t.. str);
-    lastIndexOf+_CsiiCs-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence t.. str);
-    lastIndexOfAnyChar-_$, mode= static: int %.r null(java/lang/CharSequence t.. sq,int %.. from,int %.. to,java/lang/String(instance=java/lang/String) t.. chars);
-    nl_indent2-_$, mode= static: java/lang/String(instance=java/lang/String) t.r null(int %.. indent);
-    posAfterIdentifier+_Csii-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax);
-    posAfterIdentifier+_CsiiSS-_$, mode= static: int %.r null(java/lang/CharSequence t.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars,java/lang/String(instance=java/lang/String) t.. additionalChars);
-    startsWith+_CsCs-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. sq,java/lang/CharSequence t.. start);
-    startsWith+_CsiiCs-_$, mode= static: boolean %.r null(java/lang/CharSequence t.. sq,int %.. from,int %.. to,java/lang/CharSequence t.. start);
-    test-_$, mode= overrideable: boolean %.r null(java/lang/String(instance=java/lang/String) t.. s);
+    byte2UTF8-_$, mode=static: short %.r null(byte[??] X%. src,int[??] X%. ixSrc);
+    compare+_CsCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. s1,java/lang/CharSequence c.. s2);
+    compare+_CsiCsii-_$, mode=static: int %.r null(java/lang/CharSequence c.. s1,int %.. from1,java/lang/CharSequence c.. s2,int %.. from2,int %.. nrofChars);
+    comparePos+_CsCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. s1,java/lang/CharSequence c.. s2);
+    comparePos+_CsiCsii-_$, mode=static: int %.r null(java/lang/CharSequence c.. s1,int %.. from1,java/lang/CharSequence c.. s2,int %.. from2,int %.. nrofChars);
+    ctorO-_$, mode=ctor+static: org/vishia/util/StringFunctions *.. StringFunctionsJc_s();
+    endsWith-_$, mode=static: boolean %.r null(java/lang/CharSequence c.. sq,java/lang/CharSequence c.. end);
+    equals+_CsCs-_$, mode=static: boolean %.r null(java/lang/CharSequence c.. s1,java/lang/CharSequence c.. s2);
+    equals+_CsiiCs-_$, mode=static: boolean %.r null(java/lang/CharSequence c.. s1,int %.. from,int %.. to,java/lang/CharSequence c.. s2);
+    indent2-_$, mode=static: java/lang/String(instance=java/lang/String) t.r null(int %.. indent);
+    indexAfterIdentifier-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalChars);
+    indexIdentifier-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars);
+    indexNoWhitespace-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax);
+    indexOf+_Csc-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,char %.. ch);
+    indexOf+_CsCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,java/lang/CharSequence c.. str);
+    indexOf+_Csci-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,char %.. ch,int %.. fromIndex);
+    indexOf+_CsCsi-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,java/lang/CharSequence c.. str,int %.. fromIndex);
+    indexOf+_Csiic-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. fromIndex,int %.. to,char %.. ch);
+    indexOf+_CsiiS-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. fromIndex,int %.. to,java/lang/String(instance=java/lang/String) t.. str);
+    indexOf+_CsiiCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence c.. str);
+    indexOfAnyChar-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. begin,int %.. end,java/lang/CharSequence c.. sChars);
+    indexOfAnyString-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. from,int %.. to,java/lang/CharSequence[??] Xc. listStrings,int[??] P%. nrofFoundString,java/lang/String[??] Pt. foundString);
+    indexWhitespace-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax);
+    isEmptyOrOnlyWhitespaces-_$, mode=static: boolean %.r null(java/lang/CharSequence c.. text);
+    lastIndexOf+_Csc-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,char %.. ch);
+    lastIndexOf+_Csiic-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. from,int %.. to,char %.. ch);
+    lastIndexOf+_CsiiS-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. fromIndex,int %.. to,java/lang/String(instance=java/lang/String) t.. str);
+    lastIndexOf+_CsiiCs-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. fromIndex,int %.. to,java/lang/CharSequence c.. str);
+    lastIndexOfAnyChar-_$, mode=static: int %.r null(java/lang/CharSequence c.. sq,int %.. from,int %.. to,java/lang/CharSequence c.. chars);
+    nl_indent2-_$, mode=static: java/lang/String(instance=java/lang/String) t.r null(int %.. indent);
+    nrofBytesUTF8-_$, mode=static: int %.r null(byte %.. b);
+    posAfterIdentifier+_Csii-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax);
+    posAfterIdentifier+_CsiiSS-_$, mode=static: int %.r null(java/lang/CharSequence c.. src,int %.. start,int %.. endMax,java/lang/String(instance=java/lang/String) t.. additionalStartChars,java/lang/String(instance=java/lang/String) t.. additionalChars);
+    startsWith+_CsCs-_$, mode=static: boolean %.r null(java/lang/CharSequence c.. sq,java/lang/CharSequence c.. start);
+    startsWith+_CsiiCs-_$, mode=static: boolean %.r null(java/lang/CharSequence c.. sq,int %.. from,int %.. to,java/lang/CharSequence c.. start);
+    test-_$, mode=overrideable: boolean %.r null(java/lang/String(instance=java/lang/String) t.. s);
   }
 
   methods-overrideable {
@@ -51,7 +53,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }

@@ -4,10 +4,12 @@ Structure of translated java-file "Ipc/InterProcessComm.h"
 package org/vishia/communication/;
 
 
-interface InterProcessCommFactory; nameC=InterProcessCommFactory_i; header=Ipc/InterProcessComm.h;  argIdent=Ipc;
+//Use factory to create instance variable in heap. It is Java-like
+class InterProcessCommFactory; nameC=InterProcessCommFactory_s; header=Ipc/InterProcessComm.h;  argIdent=Ipc; extends java/lang/Object
 { 
   methods {
-    ctorM-_$: void %.. return();
+    ctorO-_$, mode=ctor+static: org.vishia.communication.InterProcessCommFactory *.. return();
+    getInstance-_$, mode=static+noThCxt: InterProcessCommFactory *.. ret();
 		createAddress-_$, mode: overrideable: Address_InterProcessComm *.. return(String t.. type);
 		createAddress+_Port-_$, mode: overrideable: Address_InterProcessComm *.. return(String t.. type, int %.. port);
 		create-_$, mode: overrideable: InterProcessComm *.. return(String t.r type);
@@ -24,15 +26,6 @@ interface InterProcessCommFactory; nameC=InterProcessCommFactory_i; header=Ipc/I
 }
 
 
-//Use factory to create instance variable in heap. It is Java-like
-class InterProcessCommFactoryAccessor;  nameC=InterProcessCommFactoryAccessor;
-extends java/lang/Object
-{
-  methods{
-    ctorO-_$: InterProcessCommFactoryAccessor *..return();
-    getInstance-_$, mode=static+noThCxt: InterProcessCommFactory *.. ret();
-  }
-}
 
 //Use the implementation of InterProcessComm_Socket for embedded or static instances, C-thinking.
 final class InterProcessComm_SocketImpl; nameC=InterProcessCommSocket_s; header=Ipc/InterProcessCommSocket.h;  argIdent=Ipc;
@@ -76,7 +69,7 @@ extends java/lang/Object
 }
 
 
-interface InterProcessComm; nameC=InterProcessComm_i; header=Ipc/InterProcessComm.h;  argIdent=Ipc;
+interface InterProcessComm; nameC=InterProcessComm_s; header=Ipc/InterProcessComm.h;  argIdent=Ipc;
 { fields{
 	  int %.S receiverShouldbeBlocking;  //static
 	  int %.S receiverShouldbePolling;  //static

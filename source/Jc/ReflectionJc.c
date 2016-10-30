@@ -65,7 +65,7 @@
 
 
 /*
-FieldJc const* get_FieldJcArray(const FieldJcArray* ythis, int idx)
+FieldJc const* get_FieldJc_Y(const FieldJc_Y* ythis, int idx)
 { return (FieldJc const*)(get_i_ObjectArrayJc(&ythis->array, idx));
 }
 */
@@ -218,13 +218,13 @@ void ctorc_FieldJc(FieldJc* ythis)
 }
 
 
-FieldJcArray* new_FieldJcArray(int size)
+FieldJc_Y* new_FieldJc_Y(int size)
 { 
-  FieldJcArray* ythis = (FieldJcArray*)new_ObjectArrayJc(size, sizeof(FieldJc), null, OBJTYPE_FieldJc);
+  FieldJc_Y* ythis = (FieldJc_Y*)new_ObjectArrayJc(size, sizeof(FieldJc), null, OBJTYPE_FieldJc);
   /*
   int nrofBytes = sizeof(ObjectArrayJc) + size * sizeof(FieldJc);
   MemC rawMem = alloc_MemC(nrofBytes);
-  FieldJcArray* ythis = (FieldJcArray*)ctor_ObjectArrayJc(rawMem);
+  FieldJc_Y* ythis = (FieldJc_Y*)ctor_ObjectArrayJc(rawMem);
   setReflection_ObjectJc(&ythis->head.object, null, OBJTYPE_FieldJc + nrofBytes);
   */
   int idx;
@@ -272,8 +272,8 @@ METHOD_C ClassJc const* getEnclosingClass_ClassJc(ClassJc const* ythis)
 
 /**NOTE: regards that ythis may be a identifier for simple types.
  */
-FieldJcArray const* getDeclaredFields_ClassJc(const ClassJc* ythis)
-{ FieldJcArray const* fields;
+FieldJc_Y const* getDeclaredFields_ClassJc(const ClassJc* ythis)
+{ FieldJc_Y const* fields;
   if( ((uint64)(ythis)) < kREFLECTION_LastConstant ) //2015-06 regard 64-bit-addresses and >0x7fffffff
   { ythis = simpleTypes[(int)(ythis)];
   }
@@ -293,7 +293,7 @@ const FieldJc* getDeclaredField_ClassJc(ClassJc const* ythis, StringJc sName)
   { for(ii=0; !bFound && ii< ythis->attributes->head.length; ii++)
     { //StringJcRef sNameField;
       const char* sNameField;
-      //field = get_FieldJcArray(ythis->attributes,ii);
+      //field = get_FieldJc_Y(ythis->attributes,ii);
       field = &ythis->attributes->data[ii];
       sNameField = getName_FieldJc(field);
       //if(equals_StringJc(&sNameField,sName_ROOT))
@@ -964,7 +964,7 @@ METHOD_C MemSegmJc searchObject_ClassJc(StringJc sPath, ObjectJc* startObj, Fiel
   StringJc sName = NULL_StringJc;
   StringJc sElement = NULL_StringJc;
   ClassJc const* clazz = getClass_ObjectJc(startObj);
-  MemSegmJc nextObj = CONST_OS_PtrValue(startObj, 0);  //the source Object for the next access
+  MemSegmJc nextObj = CONST_OS_PtrValue((char*)startObj, 0);  //the source Object for the next access
   FieldJc const* field = null;
   int idx = -1;
   int posSep;

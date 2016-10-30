@@ -15,6 +15,17 @@ class Assert; nameC=AssertJc_s; argIdent=Lo; extends java/lang/Object
 
 
 
+class Debugutil; nameC=DebugutilJc_s; argIdent=Lo; extends java/lang/Object
+{  
+  methods {  
+
+        stop-_$, mode=static: void &.. return();
+  }
+  
+}
+
+
+
 
 class RetOrException; nameC=RetOrExceptionJc;
 {

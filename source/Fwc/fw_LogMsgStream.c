@@ -64,7 +64,7 @@ typedef struct LogMessageStream_FW_t
   { /**The data based on object, necessary for check. */
     ObjectJc object;
     /**C-Interface-struct for Log-Output. */
-    LogMessageFW_i logStateFw;
+    LogMessageFW_s logStateFw;
   } base;
 
   /**The output channel for low-level-File-IO, 2 is stdout, 3 is error-output. */
@@ -95,7 +95,7 @@ extern_C ClassJc const reflection_LogMessageStream_FW;
 
 
 //LogMessageStream_FW_s* 
-LogMessageFW_i* ctorO_LogMessageStream_FW(ObjectJc* othis, int outChn)
+LogMessageFW_s* ctorO_LogMessageStream_FW(ObjectJc* othis, int outChn)
 { LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)othis;
   STACKTRC_ENTRY("");
   checkConsistence_ObjectJc(othis, sizeof(LogMessageStream_FW_s), &reflection_LogMessageStream_FW, _thCxt);
@@ -105,9 +105,9 @@ LogMessageFW_i* ctorO_LogMessageStream_FW(ObjectJc* othis, int outChn)
 }
 
 
-LogMessageFW_i* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt)
+LogMessageFW_s* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt)
 { ObjectJc* othis;
-  LogMessageFW_i* out;
+  LogMessageFW_s* out;
   STACKTRC_TENTRY("create_LogMessageStream_FW");
   othis = alloc_ObjectJc(sizeof(LogMessageStream_FW_s), 0, _thCxt);
   out = ctorO_LogMessageStream_FW(othis, outChn); 
@@ -217,18 +217,18 @@ bool sendMsg_LogMessageStream_FW
 
 
 
-bool isOnline_LogMessageStream_FW_F(LogMessageFW_i* ythis, ThCxt* _thCxt)
+bool isOnline_LogMessageStream_FW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 { //do noting.
   return true; //everytime online.
 }
 
 
-void flush_LogMessageStream_FW_F(LogMessageFW_i* ythis, ThCxt* _thCxt)
+void flush_LogMessageStream_FW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 { //do noting.
 }
 
 
-void close_LogMessageStream_FW_F(LogMessageFW_i* ythis, ThCxt* _thCxt)
+void close_LogMessageStream_FW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 { //do noting.
 }
 
@@ -274,7 +274,7 @@ Mtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
 };
 
 
-extern_C ClassJc const reflection_LogMessageFW_i;
+extern_C ClassJc const reflection_LogMessageFW_s;
 
 static struct interfaces_LogMessageStream_FW_t
 { /** Base data of every array */
@@ -282,7 +282,7 @@ static struct interfaces_LogMessageStream_FW_t
   ClassOffset_idxMtblJc data[1];
 }interfaces_LogMessageStream_FW =
 { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW_i, OFFSET_Mtbl(struct Mtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
+, { {&reflection_LogMessageFW_s, OFFSET_Mtbl(struct Mtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
   }
 };
 

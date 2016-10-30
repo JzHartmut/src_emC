@@ -11,12 +11,12 @@ fieldIdents {
   org/vishia/util/LeapSeconds *.s singleton;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/util/LeapSeconds *.. LeapSecondsJc_s();
-    dateFromGPS-_$, mode= static: java/util/Date *.r null(long %.. millisecondsGPS);
-    initFix-_$, mode= overrideable: void %.r null();
-    millisecondsGPSfromUTC-_$, mode= static: long %.r null(long %.. millisecondsUTC);
-    secondsGPSfromUTC-_$, mode= static: int %.r null(int %.. secondsUTC_1970);
-    setLeapSeconds-_$, mode= static: void %.r null(int %.. idx,java/util/Date *.. date);
+    ctorO-_$, mode=ctor+static: org/vishia/util/LeapSeconds *.. LeapSecondsJc_s();
+    dateFromGPS-_$, mode=static: java/util/Date *.r null(long %.. millisecondsGPS);
+    initFix-_$, mode=overrideable: void %.r null();
+    millisecondsGPSfromUTC-_$, mode=static: long %.r null(long %.. millisecondsUTC);
+    secondsGPSfromUTC-_$, mode=static: int %.r null(int %.. secondsUTC_1970);
+    setLeapSeconds-_$, mode=static: void %.r null(int %.. idx,java/util/Date *.. date);
   }
 
   methods-overrideable {

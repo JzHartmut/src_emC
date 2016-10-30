@@ -18,7 +18,7 @@ interface MsgText_ifc; nameC=MsgText_ifc_MSG_s; argIdent=XX; extends java/lang/O
       //outer=2 ,super=1: int %.d version;
     }
       methods {  
-        set_type-_$, mode= overrideable: void %.r null(java/lang/String(instance=java/lang/String) t.. src);
+        set_type-_$, mode=overrideable: void %.r null(java/lang/String(instance=java/lang/String) t.. src);
       }
 
       methods-overrideable {
@@ -37,8 +37,8 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    getListItems-_$, mode= overrideable: java/util/Collection *.r null();
-    getMsgText-_$, mode= overrideable: s0(instance=s0) %.r null(int %.. ident);
+    getListItems-_$, mode=overrideable: java/util/Collection *.r null();
+    getMsgText-_$, mode=overrideable: s0(instance=s0) %.r null(int %.. ident);
   }
 
   methods-overrideable {

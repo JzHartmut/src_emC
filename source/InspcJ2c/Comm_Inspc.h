@@ -74,7 +74,14 @@ void finalize_Comm_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 #define version_Comm_Inspc 0x20111118  /*Version and history*/
 
 
-/**Creates the communication for the inspector.*/
+/**Creates the communication for the inspector.
+* The InterProcessComm interface implementation is got depending on
+* <ul><li>the ownAddrIpc-string
+* <li>the existing InterProcessComm-Implementation, which analyzes the address-string.
+* <ul>
+* It means, the communication is not determined from this implementation, it depends
+* on the parameter of the ownAddrIpc and the possibilities. 
+* */
 METHOD_C struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, struct CmdExecuter_Inspc_t* cmdExecuter, ThCxt* _thCxt);
 
 METHOD_C bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt);
@@ -88,10 +95,16 @@ METHOD_C void run_Comm_Inspc(ObjectJc* ithis, ThCxt* _thCxt);
 
 METHOD_C void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 
-/**Sends the answer telg to the sender of the received telegram.*/
+/**Sends the answer telg to the sender of the received telegram. 
+If the receiving process fails, the answer isn't send. This situation can occur only 
+if the preparation of the answer runs in another thread.
+*/
 METHOD_C int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt);
 
-/**Shutdown the communication, close the thread*/
+/**Shutdown the communication, close the thread. This routine should be called 
+either on shutdown of the whole system or on closing the inspector functionality.
+The inspector functionality can be restarted calling {@link #start(Object)}.
+*/
 typedef void MT_shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt);
@@ -123,7 +136,7 @@ class Comm_Inspc : private Comm_Inspc_s
 
   void receiveAndExecute(){ receiveAndExecute_Comm_Inspc(this,  null/*_thCxt*/); }
 
-  virtual void run(){ run_Comm_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_Comm_Inspc_F(&this->base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
 
   int32 sendAnswer(PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer){  return sendAnswer_Comm_Inspc(this, bufferAnswerData, nrofBytesAnswer,  null/*_thCxt*/); }
 

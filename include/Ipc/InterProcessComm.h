@@ -122,24 +122,30 @@ METHOD_C Address_InterProcessComm_s* ctorO_ssI_Address_InterProcessComm(ObjectJc
 
 typedef struct InterProcessCommFactory_t
 { union{ ObjectJc object;} base; 
-}InterProcessCommFactory_i;
+}InterProcessCommFactory_s;
+
+extern_C const struct ClassJc_t reflection_InterProcessCommFactory_s;
+
+InterProcessCommFactory_s* ctorO_InterProcessCommFactory(ObjectJc* othis, ThCxt* _thCxt);
+
+InterProcessCommFactory_s* getInstance_InterProcessCommFactory();
 
 
 
-typedef struct Address_InterProcessComm_t* MT_createAddress_InterProcessCommFactory(ObjectJc* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
+typedef struct Address_InterProcessComm_t* MT_createAddress_InterProcessCommFactory(InterProcessCommFactory_s* thiz, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
 
-typedef struct Address_InterProcessComm_t* MT_createAddress_Port_InterProcessCommFactory(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 port, ThCxt* _thCxt);
+typedef struct Address_InterProcessComm_t* MT_createAddress_Port_InterProcessCommFactory(InterProcessCommFactory_s* thiz, StringJc protocolAndOwnAddr, int32 port, ThCxt* _thCxt);
 
 /**Creates a instance.
    @param protocolAndOwnAddr String desribes the type and address.
    @return Instance of interface InterProcessComm or null on error.
 
  */
-typedef struct InterProcessComm_t* MT_create_InterProcessCommFactory(ObjectJc const* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
+typedef struct InterProcessComm_t* MT_create_InterProcessCommFactory(InterProcessCommFactory_s* thiz, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
 
-typedef struct InterProcessComm_t* MT_create_Port_InterProcessCommFactory(ObjectJc const* ithis, StringJc protocolAndOwnAddr, int32 port, ThCxt* _thCxt);
+typedef struct InterProcessComm_t* MT_create_Port_InterProcessCommFactory(InterProcessCommFactory_s* thiz, StringJc protocolAndOwnAddr, int32 port, ThCxt* _thCxt);
 
-typedef struct InterProcessComm_t* MT_create_Addr_InterProcessCommFactory(ObjectJc* ithis, Address_InterProcessComm_s* ownAddress, ThCxt* _thCxt);
+typedef struct InterProcessComm_t* MT_create_Addr_InterProcessCommFactory(InterProcessCommFactory_s* thiz, Address_InterProcessComm_s* ownAddress, ThCxt* _thCxt);
 
 
 
@@ -156,6 +162,9 @@ typedef struct Mtbl_InterProcessCommFactory_t
   MT_create_InterProcessCommFactory* create;
   MT_create_Port_InterProcessCommFactory* create_Port;
   MT_create_Addr_InterProcessCommFactory* create_Addr;
+
+  Mtbl_ObjectJc ObjectJc;
+
 } Mtbl_InterProcessCommFactory;
 
 
@@ -206,30 +215,7 @@ class FactorySocketInterProcessComm
 
 //#define InterProcessCommFactory FactorySocketInterProcessComm
 
-/*@CLASS_C InterProcessCommFactoryAccessor @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-typedef struct InterProcessCommFactoryAccessor_t
-{ union{ ObjectJc object; InterProcessCommFactory_i InterProcessCommFactory;} base; 
-}InterProcessCommFactoryAccessor;
-
-
-extern struct ClassJc_t const reflection_InterProcessCommFactoryAccessor;
-
-InterProcessCommFactoryAccessor* ctorO_InterProcessCommFactoryAccessor(ObjectJc* othis, ThCxt* _thCxt);
-
-InterProcessCommFactory_i* getInstance_InterProcessCommFactoryAccessor();
-
-extern char const sign_Mtbl_InterProcessCommFactoryAccessor[];
-
-//#define Mtbl_InterProcessCommFactoryAccessor Mtbl_ObjectJc
-
-typedef struct Mtbl_InterProcessCommFactoryAccessor_t
-{ 
-  MtblHeadJc head;
-  
-
-  Mtbl_ObjectJc Object;
-}Mtbl_InterProcessCommFactoryAccessor;
 
 
 /*@CLASS_C InterProcessComm @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -241,13 +227,13 @@ typedef struct Mtbl_InterProcessCommFactoryAccessor_t
  */
 typedef struct InterProcessComm_t
 { union{ ObjectJc object; } base;
-}InterProcessComm_i;
+}InterProcessComm_s;
 
 
-#define InterProcessCommC_s InterProcessComm_i
+#define InterProcessCommC_s InterProcessComm_s
 
 /**Adaption reflection generator CHeader2Reflection does not support build of reflection_InterProcessComm_i. */
-#define reflection_InterProcessComm reflection_InterProcessComm_i 
+#define reflection_InterProcessComm reflection_InterProcessComm_s 
 
 /**not supported, unknown error. It occurs if the os routine failes, but no error is found. */
 #define UnkonwError_InterProcessComm -0x7fff
@@ -259,7 +245,7 @@ typedef struct InterProcessComm_t
 /**This method is declared here, but not implemented. It is a prototype for a users commonly InterProcessComm factory,
  * depend on adress parameter.
  */
-InterProcessComm_i* create_InterProcessComm(struct Address_InterProcessComm_t* ownAddress);
+InterProcessComm_s* create_InterProcessComm(struct Address_InterProcessComm_t* ownAddress);
 
 /**Define to document the blocking parameter by calling open. */
 #define blocking_InterProcessComm true
@@ -578,7 +564,7 @@ class InterProcessComm: /*public InterProcessCommC, */public ObjectifcBaseJcpp
           //operator ==
 
   //public: virtual const char* getLastErrorMsg(){ return ""; }
-  public: virtual InterProcessComm_i* toInterProcessCommC(){ return null; }
+  public: virtual InterProcessComm_s* toInterProcessCommC(){ return null; }
 
   public: virtual const char* translateErrorMsg(int error) = 0;
 

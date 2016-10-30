@@ -57,42 +57,37 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       ctorO_I_StringBuilderJc(&thiz->sDateformatBuffer.sb.base.object, 32, _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->formatTimestamp.base.object), sizeof(thiz->formatTimestamp), 0); 
-      ctorO_SimpleDateFormatJc(/*static*/&(thiz->formatTimestamp.base.object), _thCxt);
+      ctorO_SimpleDateFormatJc(/*J2C:static method call*/&(thiz->formatTimestamp.base.object), _thCxt);
     thiz->counterMultifile = 0;
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->formatField.base.object), sizeof(thiz->formatField), 0); 
-      ctorO_TextFieldPositionJc(/*static*/&(thiz->formatField.base.object), DATE_FIELD_SimpleDateFormatJc, _thCxt);
-    /*J2C: newArray*/
-      init_ObjectJc(&thiz->charsFormatTimestampFilename.head.object, sizeof_ARRAYJc(char, 32), 0);   //J2C: ctor embedded array.
-      ctorO_ObjectArrayJc(&thiz->charsFormatTimestampFilename.head.object, 32, sizeof(char), null, 0);//J2C: constructor for embedded array;
+      ctorO_TextFieldPositionJc(/*J2C:static method call*/&(thiz->formatField.base.object), DATE_FIELD_SimpleDateFormatJc, _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->file.base.object), sizeof(thiz->file), 0); 
-      ctorO_FileWriterJc(/*static*/&(thiz->file.base.object), _thCxt);
+      ctorO_FileWriterJc(/*J2C:static method call*/&(thiz->file.base.object), _thCxt);
     //J2C: constructor for embedded element
-      INIT_OS_TimeStamp(/*static*/thiz->timeOpen);
+      INIT_OS_TimeStamp(/*J2C:static method call*/thiz->timeOpen);
     thiz->bNewFile = true;
     //J2C: constructor for embedded element
-      INIT_OS_TimeStamp(/*static*/thiz->timeWrite);
+      INIT_OS_TimeStamp(/*J2C:static method call*/thiz->timeWrite);
     //J2C: constructor for embedded element
-      INIT_OS_TimeStamp(/*static*/thiz->timeClose);
+      INIT_OS_TimeStamp(/*J2C:static method call*/thiz->timeClose);
     thiz->shouldFlushed = false;
     //J2C: constructor for embedded element-MemC
-      ctorM_Dbg_LogMessageFile_MSG(/*static*/build_MemC(&thiz->dbg, sizeof(thiz->dbg)), _thCxt);
+      ctorM_Dbg_LogMessageFile_MSG(/*J2C:static method call*/build_MemC(&thiz->dbg, sizeof(thiz->dbg)), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->parkedOrders.base.object), sizeof(thiz->parkedOrders), 0); 
-      ctorO_init_ConcurrentLinkedQueueJc(/*static*/&(thiz->parkedOrders.base.object), false, _thCxt);
+      ctorO_init_ConcurrentLinkedQueueJc(/*J2C:static method call*/&(thiz->parkedOrders.base.object), false, _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->dateFormat.base.object), sizeof(thiz->dateFormat), 0); 
-      ctorO_s_SimpleDateFormatJc(/*static*/&(thiz->dateFormat.base.object), s0_StringJc("yyyy-MM-dd HH:mm:ss,SSS; "), _thCxt);
+      ctorO_s_SimpleDateFormatJc(/*J2C:static method call*/&(thiz->dateFormat.base.object), s0_StringJc("yyyy-MM-dd HH:mm:ss,SSS; "), _thCxt);
     //J2C: constructor for embedded fix-size-StringBuffer
       init_ObjectJc(&thiz->sBuffer.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
       ctorO_I_StringBuilderJc(&thiz->sBuffer.sb.base.object, 1000, _thCxt);
   }
   { 
-    StringJc sTimestampInFilename = NULL_StringJc; 
-    int32 pos2TimestampInFilename = 0; 
-    
-    StringJc _temp1_1; /*J2C: temporary references for concatenation */
+    ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
+    */StringJc _temp2_1; /*J2C: temporary references for concatenation */
     
     if(localization == null) 
     { 
@@ -104,10 +99,12 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       
       SETREFJc(thiz->localization, localization, LocaleJc_s);
     }
-    SETREFJc(thiz->timeZone, timeZoneP == null ? getTimeZone_TimeZoneJc(/*static*/s0_StringJc("GMT"), _thCxt) : timeZoneP, TimeZoneJc_s);
-    setTimeZone_SimpleDateFormatJc(& (thiz->dateFormat), REFJc(thiz->timeZone), _thCxt);
-    setTimeZone_SimpleDateFormatJc(& (thiz->formatTimestamp), REFJc(thiz->timeZone), _thCxt);
-    /*no initvalue*/
+    thiz->charsFormatTimestampFilename = (char_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (32) * sizeof(char), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 32, sizeof(char),REFLECTION_char, 0);  //J2C: assign a new ObjectArrayJc. ;
+    SETREFJc(thiz->timeZone, timeZoneP == null ? getTimeZone_TimeZoneJc(/*J2C:static method call*/s0_StringJc("GMT"), _thCxt) : timeZoneP, TimeZoneJc_s);
+    setTimeZone_SimpleDateFormatJc(& (thiz->dateFormat), REFJc (thiz->timeZone), _thCxt);
+    setTimeZone_SimpleDateFormatJc(& (thiz->formatTimestamp), REFJc (thiz->timeZone), _thCxt);
+    
+    StringJc sTimestampInFilename ; sTimestampInFilename;/*no initvalue*/
     thiz->freeEntries = freeEntriesP;
     if(freeEntriesP != null) 
     { 
@@ -116,7 +113,8 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
     }
     else 
     { }
-    /*no initvalue*/
+    
+    int32  pos2TimestampInFilename;/*no initvalue*/
     if(nrofSecondsToFlush > 0) 
     { 
       
@@ -138,34 +136,32 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       pos2TimestampInFilename = indexOf_CI_StringJc(sFilename, '$', thiz->posTimestampInFilename + 1);
       if(pos2TimestampInFilename > 0) 
       { 
-        int32 nrofCharsTimestampInFilename; 
-        
         
         sTimestampInFilename = substring_StringJc(sFilename, thiz->posTimestampInFilename + 1, pos2TimestampInFilename, _thCxt)/*J2C:non-persistent*/;
-        nrofCharsTimestampInFilename = length_StringJc(sTimestampInFilename);
+        
+        int32  nrofCharsTimestampInFilename = length_StringJc(sTimestampInFilename);
         /*Store the format String localy in this class. It's not depend from outside memory management. */
-        getChars_StringJc(sTimestampInFilename, 0, nrofCharsTimestampInFilename, (struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, _thCxt);/*charsFormatTimestampFilename.append(sTimestampInFilename);*/
+        getChars_StringJc(sTimestampInFilename, 0, nrofCharsTimestampInFilename, thiz->charsFormatTimestampFilename, 0, _thCxt);/*charsFormatTimestampFilename.append(sTimestampInFilename);*/
         
         /*Represent the StringBuilder with a String.*/
-        set_StringJc(&(thiz->sFormatTimestampFilename), declarePersist_StringJc(new_CYI_StringJc(/*static*/(struct char_Y_t*)(&( thiz->charsFormatTimestampFilename)), 0, nrofCharsTimestampInFilename, _thCxt)));/*sFormatTimestampFilename = charsFormatTimestampFilename.toString();*/
+        set_StringJc(&(thiz->sFormatTimestampFilename), declarePersist_StringJc(new_CYI_StringJc(/*J2C:static method call*/thiz->charsFormatTimestampFilename, 0, nrofCharsTimestampInFilename, _thCxt)));/*sFormatTimestampFilename = charsFormatTimestampFilename.toString();*/
         
       }
       else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "second $ to delimit timestamp in filename missing.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };/*, this.posTimestampInFilename);*/
       
       applyPattern_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->sFormatTimestampFilename, _thCxt);
-      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt), _thCxt);
+      append_c_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt).c, _thCxt);
       if(indexOf_C_StringJc(sFilename, '*') >= 0) 
       { /*:The current timeStamp should be applied only here, it is the startup of the application.*/
         
-        StringJc sTimeFileOpen;   /**/
-        
         
         set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
-        setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
+        setLength_StringBufferJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
         
         format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
-        sTimeFileOpen = toString_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen, _thCxt);
+        
+        StringJc sTimeFileOpen ; sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+        append_c_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sTimeFileOpen.c, _thCxt);
         thiz->posTimestampInFilename = -1;/*don't replace the time stamp a second one.*/
         
       }
@@ -173,26 +169,27 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       { /*:use the format string only as placeholder*/
         
         
-        append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->sFormatTimestampFilename, _thCxt);
+        append_c_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->sFormatTimestampFilename.c, _thCxt);
       }
-      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt), _thCxt);
+      append_c_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_I_StringJc(sFilename, pos2TimestampInFilename + 1, _thCxt).c, _thCxt);
     }
     else 
     { /*:no timeStamp in filename given, not used.*/
       
       
-      append_s_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sFilename, _thCxt);
+      append_c_StringBuilderJc(& (thiz->sFilenameBuffer.sb), sFilename.c, _thCxt);
       thiz->bNewFile = false;/*append on existing file.*/
       
     }
-    /**Determines the position of an asterisk*/
+    /**Determines the position of an asterisk. It shouldn't done in sFilename-parameter because deleted $$.*/
     thiz->posMultifileInFilename = 
-      ( _temp1_1= toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt)
-      , indexOf_C_StringJc(_temp1_1, '*')
+      ( _temp2_1= toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt)
+      , indexOf_C_StringJc(_temp2_1, '*')
       );/*may be -1, than not used.*/
     
     thiz->currentLengthMultifileNr = 1;/*initial the '*' is to replace.*/
     
+    activateGC_ObjectJc(newObj2_1, null, _thCxt);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -200,14 +197,14 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
 
 
 
-/**Sets a log output if a open or close action is done*/
+/**Sets a log output if a open or close action is done. This is useful especially in test situations.*/
 void setLogMessageOpenClose_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setLogMessageOpenClose_LogMessageFile_MSG_F");
   
   { 
     
-    SETREFJc(thiz->msgOpenClose, msg, LogMessageFW_i);
+    SETREFJc(thiz->msgOpenClose, msg, LogMessageFW_s);
     thiz->msgIdentOpenClose = msgIdentOpenClose;
   }
   STACKTRC_LEAVE;
@@ -220,19 +217,17 @@ void setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, struc
 }
 
 
-/**Sends a message*/
-bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...)
+/**Sends a message. See interface.  */
+bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
   
   STACKTRC_ENTRY("sendMsg_izv_LogMessageFile_MSG_F");
   
   { 
-    Va_listFW vaArgs = { 0 };   /*store the variable arguments in a Va_list to handle for next call.*/
     
     
-    
-    va_start(vaArgs.args, args); vaArgs.typeArgs = args;
+    Va_listFW  vaArgs;va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
       return mtthis->LogMessageFW.sendMsgVaList(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, os_getDateTime(), text, vaArgs, _thCxt);
     }
@@ -241,25 +236,23 @@ bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, 
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...)
+bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...)
 { Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
-  return mtbl->sendMsg((LogMessageFW_i*)ithis, identNumber, text, args);
+  return mtbl->sendMsg((LogMessageFW_s*)ithis, identNumber, text, args);
 }
 
 
-/**Sends a message*/
-bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...)
+/**Sends a message. See interface.  */
+bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
   
   STACKTRC_ENTRY("sendMsgTime_iDtzv_LogMessageFile_MSG");
   
   { 
-    Va_listFW vaArgs = { 0 };   /*store the variable arguments in a Va_list to handle for next call.*/
     
     
-    
-    va_start(vaArgs.args, args); vaArgs.typeArgs = args;
+    Va_listFW  vaArgs;va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
       return mtthis->LogMessageFW.sendMsgVaList(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, creationTime, text, vaArgs, _thCxt);
     }
@@ -268,34 +261,31 @@ bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumb
 }
 
 
-/**Sends a message*/
-bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
+/**Sends a message. See interface.  */
+bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
   
   STACKTRC_TENTRY("sendMsgVaList_iDtzv_LogMessageFile_MSG_F");
   
   { 
-    bool sent = 0; 
-    LogMessageFWMTB msgOpenClose;   /**/
     
     
-    /*no initvalue*/
-    SETMTBJc(msgOpenClose, REFJc(thiz->msgOpenClose), LogMessageFW);
+    bool  sent;/*no initvalue*/
+    
+    LogMessageFWMTB msgOpenClose ; SETMTBJc(msgOpenClose, REFJc (thiz->msgOpenClose), LogMessageFW);
     if(!thiz->bNewFile && thiz->nrofHoursPerFile != 0) 
     { 
-      OS_TimeStamp timeTest = { 0 };   /*Test whether the filename is used longer as nrofHoursPerFile.*/
-      int32 secDiff = 0; 
-      int32 secDiffTest; 
       
       
+      OS_TimeStamp  timeTest;//J2C: constructor for embedded element
+      INIT_OS_TimeStamp(/*J2C:static method call*/timeTest);
       
-      //J2C: constructor for embedded element
-      INIT_OS_TimeStamp(/*static*/timeTest);
-      /*no initvalue*/
+      int32  secDiff;/*no initvalue*/
       set_OS_TimeStamp(timeTest, os_getDateTime());
       secDiff = timeTest.time_sec - thiz->timeOpen.time_sec;
-      secDiffTest = thiz->nrofHoursPerFile > 0 ? 3600 * thiz->nrofHoursPerFile : -thiz->nrofHoursPerFile;
+      
+      int32  secDiffTest = thiz->nrofHoursPerFile > 0 ? 3600 * thiz->nrofHoursPerFile : -thiz->nrofHoursPerFile;
       if(secDiff >= secDiffTest) 
       { 
         
@@ -312,21 +302,18 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
     }
     if(!isOpen_FileWriterJc(& (thiz->file))) 
     { 
-      bool canOpen = 0;   /*file open because data are to write: */
       
       
-      /*no initvalue*/
+      bool  canOpen;/*no initvalue*/
       if(thiz->nrofSecondsToClose > 0) 
       { 
-        OS_TimeStamp timeTest = { 0 }; 
-        int32 secDiff; 
         
         
-        
-        //J2C: constructor for embedded element
-        INIT_OS_TimeStamp(/*static*/timeTest);
+        OS_TimeStamp  timeTest;//J2C: constructor for embedded element
+        INIT_OS_TimeStamp(/*J2C:static method call*/timeTest);
         set_OS_TimeStamp(timeTest, os_getDateTime());
-        secDiff = timeTest.time_sec - thiz->timeClose.time_sec;
+        
+        int32  secDiff = timeTest.time_sec - thiz->timeClose.time_sec;
         canOpen = (secDiff >= thiz->nrofSecondsToClose);
       }
       else 
@@ -336,44 +323,38 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
       }
       if(canOpen) 
       { 
-        bool isOpen = false; 
-        bool shouldOpenWithNewName = false; 
         
         
-        isOpen = false;
-        shouldOpenWithNewName = false;
+        bool  isOpen = false;
+        
+        bool  shouldOpenWithNewName = false;
         do 
           { 
-            int32 error;   /**/
-            
             
             if(thiz->bNewFile && thiz->posTimestampInFilename >= 0) 
             { 
-              StringJc sTimeFileOpen;   /**/
-              
               
               /**Build a new filename, after nrofHoursPerFile, but also first. */
               set_OS_TimeStamp(thiz->timeOpen, os_getDateTime());
-              setLength_StringBuilderJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
+              setLength_StringBufferJc(& (thiz->sDateformatBuffer.sb), 0, _thCxt);/*clear it.*/
               
               format_tu_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->timeOpen, & (thiz->sDateformatBuffer.sb), & (thiz->formatField), _thCxt);
-              sTimeFileOpen = toString_StringBuilderJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen, _thCxt);
+              
+              StringJc sTimeFileOpen ; sTimeFileOpen = toString_StringBufferJc(& ((thiz->sDateformatBuffer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posTimestampInFilename, thiz->posTimestampInFilename + length_StringJc(sTimeFileOpen), sTimeFileOpen.c, _thCxt);
             }
             else if(thiz->bNewFile && thiz->posMultifileInFilename >= 0) 
             { 
-              struct SbY_bufferFormat_t { StringBufferJc sb; char _b[16]; }bufferFormat = { 0 };   /*Build a new filename, after nrofHoursPerFile, but also first, with counted number (multiFile)*/
-              StringJc sCounterMultifile;   /**/
               
               
-              
-              //J2C: constructor for embedded fix-size-StringBuffer
+              struct { StringBufferJc sb;  char _b[16]; } bufferFormat;//J2C: constructor for embedded fix-size-StringBuffer
               init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 20 - 4, 0);
               ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 20, _thCxt);
               /***/
               append_I_StringBuilderJc(& (bufferFormat.sb), ++thiz->counterMultifile, _thCxt);
-              sCounterMultifile = toStringNonPersist_StringBuilderJc(& ((bufferFormat.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posMultifileInFilename, thiz->posMultifileInFilename + thiz->currentLengthMultifileNr, sCounterMultifile, _thCxt);
+              
+              StringJc sCounterMultifile ; sCounterMultifile = toStringNonPersist_StringBuilderJc(& ((bufferFormat.sb).base.object), _thCxt)/*J2C:non-persistent*/;
+              replace_StringBuilderJc(& (thiz->sFilenameBuffer.sb), thiz->posMultifileInFilename, thiz->posMultifileInFilename + thiz->currentLengthMultifileNr, sCounterMultifile.c, _thCxt);
               thiz->currentLengthMultifileNr = length_StringJc(sCounterMultifile);
             }
             else 
@@ -382,7 +363,8 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
               thiz->bNewFile = false;/*reopen the existing one.*/
               
             }
-            error = open_FileWriterJc(& (thiz->file), toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt), !thiz->bNewFile, _thCxt);
+            
+            int32  error = open_FileWriterJc(& (thiz->file), toStringNonPersist_StringBuilderJc(& ((thiz->sFilenameBuffer.sb).base.object), _thCxt), !thiz->bNewFile, _thCxt);
             if(error >= 0) 
             { 
               
@@ -438,10 +420,9 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
     }
     if(isOpen_FileWriterJc(& (thiz->file))) 
     { 
-      struct Entry_MsgDispatcherCore_MSG_t* parkedEntry = null; 
       
       
-      /*no initvalue*/
+      struct Entry_MsgDispatcherCore_MSG_t*  parkedEntry;/*no initvalue*/
       do 
         { 
           
@@ -461,15 +442,14 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
       sent = true;
     }
     else 
-    { /*:file can't open,*/
+    { /*:file can't open, */
       
       
       if(thiz->freeEntries != null) 
       { 
-        struct Entry_MsgDispatcherCore_MSG_t* entry; 
         
         
-        entry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(thiz->freeEntries, _thCxt)));
+        struct Entry_MsgDispatcherCore_MSG_t*  entry = ((/*J2C:cast from void*/Entry_MsgDispatcherCore_MSG_s*)(poll_ConcurrentLinkedQueueJc(thiz->freeEntries, _thCxt)));
         if(entry == null) 
         { 
           
@@ -505,14 +485,14 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 ident
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
+bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
 { Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
-  return mtbl->sendMsgVaList((LogMessageFW_i*)ithis, identNumber, creationTime, text, args, _thCxt);
+  return mtbl->sendMsgVaList((LogMessageFW_s*)ithis, identNumber, creationTime, text, args, _thCxt);
 }
 
 
 /**This method can be called after a cyclic time less than the nrofSecondsToFlush,*/
-void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
+void flush_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   
   STACKTRC_TENTRY("flush_LogMessageFile_MSG_F");
@@ -521,14 +501,12 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
     
     if(thiz->nrofSecondsToClose > 0 && isOpen_FileWriterJc(& (thiz->file))) 
     { 
-      int32 secDiff = 0; 
-      OS_TimeStamp timeTest1 = { 0 }; 
       
       
-      /*no initvalue*/
+      int32  secDiff;/*no initvalue*/
       
-      //J2C: constructor for embedded element
-      INIT_now_OS_TimeStamp(/*static*/timeTest1, true);
+      OS_TimeStamp  timeTest1;//J2C: constructor for embedded element
+      INIT_now_OS_TimeStamp(/*J2C:static method call*/timeTest1, true);
       secDiff = timeTest1.time_sec - thiz->timeWrite.time_sec;
       if(secDiff >= thiz->nrofSecondsToClose) 
       { 
@@ -543,23 +521,21 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
         }
         thiz->shouldFlushed = false;
         set_OS_TimeStamp(thiz->timeClose, timeTest1);
-        if(REFJc(thiz->msgOpenClose) != null) 
+        if(thiz->msgOpenClose.ref!= null) 
         { 
           
-          sendMsg_z_LogMessageFW(REFJc(thiz->msgOpenClose), thiz->msgIdentOpenClose + kMsgClose_LogMessageFile_MSG, "close", _thCxt);
+          sendMsg_z_LogMessageFW(REFJc (thiz->msgOpenClose), thiz->msgIdentOpenClose + kMsgClose_LogMessageFile_MSG, "close", _thCxt);
         }
       }
     }
     if(thiz->nrofSecondsToFlush > 0 && thiz->shouldFlushed) 
     { 
-      int32 secDiff = 0; 
-      OS_TimeStamp timeTest = { 0 }; 
       
       
-      /*no initvalue*/
+      int32  secDiff;/*no initvalue*/
       
-      //J2C: constructor for embedded element
-      INIT_now_OS_TimeStamp(/*static*/timeTest, true);
+      OS_TimeStamp  timeTest;//J2C: constructor for embedded element
+      INIT_now_OS_TimeStamp(/*J2C:static method call*/timeTest, true);
       secDiff = timeTest.time_sec - thiz->timeOpen.time_sec;
       if(secDiff >= thiz->nrofSecondsToFlush) 
       { 
@@ -590,9 +566,9 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void flush_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
+void flush_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
-  mtbl->flush((LogMessageFW_i*)ithis, _thCxt);
+  mtbl->flush((LogMessageFW_s*)ithis, _thCxt);
 }
 
 
@@ -603,26 +579,20 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
   
   { /*:@Java4C.*/
     
-    struct SbY_bufferFormat_t { StringBufferJc sb; char _b[996]; }bufferFormat = { 0 }; 
-    StringJc formattedText = NULL_StringJc; 
-    struct SbY_bufferTimestamp_t { StringBufferJc sb; char _b[26]; }bufferTimestamp = { 0 };   /**/
-    char const* sComGo = 0;   /*Comming or Going-identification as String, negative identNumer = going message. */
     
     
-    
-    //J2C: constructor for embedded fix-size-StringBuffer
+    struct { StringBufferJc sb;  char _b[996]; } bufferFormat;//J2C: constructor for embedded fix-size-StringBuffer
     init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 1000, _thCxt);
-    /*no initvalue*/
+    
+    CharSeqJc formattedText ; formattedText;/*no initvalue*/
     if(size_Va_listFW(args) > 0) 
     { 
-      FormatterJc_s formatter = { 0 };   /**/
       
       
-      
-      //J2C: constructor for embedded element-ObjectJc
+      FormatterJc_s  formatter;//J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(formatter.base.object), sizeof(formatter), 0); 
-      ctorO_SbLo_FormatterJc(/*static*/&(formatter.base.object), & (bufferFormat.sb), REFJc(thiz->localization), _thCxt);
+      ctorO_SbLo_FormatterJc(/*J2C:static method call*/&(formatter.base.object), & (bufferFormat.sb), REFJc (thiz->localization), _thCxt);
       TRY
       { 
         
@@ -665,22 +635,23 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
             );
         }
       END_TRY
-      formattedText = toString_StringBuilderJc(&(bufferFormat.sb).base.object, _thCxt)/*J2C:non-persistent*/;/*XX*/
+      formattedText = fromStringBuilderJc_CharSeqJc(& (bufferFormat.sb));/*XX*/
       
     }
     else 
     { 
       
-      formattedText = z_StringJc(text)/*J2C:non-persistent*/;/*without args, don't try to format! The text may contain format characters.*/
+      formattedText = z_StringJc(text).c;/*without args, don't try to format! The text may contain format characters.    */
       
     }
     
-    //J2C: constructor for embedded fix-size-StringBuffer
+    struct { StringBufferJc sb;  char _b[26]; } bufferTimestamp;//J2C: constructor for embedded fix-size-StringBuffer
     init_ObjectJc(&bufferTimestamp.sb.base.object, sizeof(StringBuilderJc) + 30 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferTimestamp.sb.base.object, 30, _thCxt);
     format_tu_SimpleDateFormatJc(& (thiz->dateFormat), creationTime, & (bufferTimestamp.sb), & (thiz->formatField), _thCxt);
     setLength_StringBuilderJc(& (thiz->sBuffer.sb), 0, _thCxt);
-    /*no initvalue*/
+    
+    char const*  sComGo;/*no initvalue*/
     if(identNumber >= 0) 
     { 
       
@@ -699,7 +670,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
       , append_z_StringBuilderJc(& (thiz->sBuffer.sb), ";", _thCxt)
       , append_z_StringBuilderJc(& (thiz->sBuffer.sb), sComGo, _thCxt)
       , append_z_StringBuilderJc(& (thiz->sBuffer.sb), ";", _thCxt)
-      , append_s_StringBuilderJc(& (thiz->sBuffer.sb), formattedText, _thCxt)
+      , append_c_StringBuilderJc(& (thiz->sBuffer.sb), formattedText, _thCxt)
       , append_z_StringBuilderJc(& (thiz->sBuffer.sb), "\r\n", _thCxt)
       );
     TRY
@@ -757,7 +728,7 @@ void writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, int32 identNumbe
 
 
 /**Closes the file and forces usage of a new file on next open.*/
-void close_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
+void close_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   
   STACKTRC_TENTRY("close_LogMessageFile_MSG_F");
@@ -776,12 +747,12 @@ void close_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void close_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
+void close_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
-  mtbl->close((LogMessageFW_i*)ithis, _thCxt);
+  mtbl->close((LogMessageFW_s*)ithis, _thCxt);
 }
 
-bool isOnline_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
+bool isOnline_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
   
   STACKTRC_TENTRY("isOnline_LogMessageFile_MSG_F");
@@ -796,9 +767,9 @@ bool isOnline_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt)
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-bool isOnline_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
+bool isOnline_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
-  return mtbl->isOnline((LogMessageFW_i*)ithis, _thCxt);
+  return mtbl->isOnline((LogMessageFW_s*)ithis, _thCxt);
 }
 
 
@@ -825,33 +796,40 @@ void finalize_LogMessageFile_MSG_F(ObjectJc* othis, ThCxt* _thCxt)
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
-{ { sign_Mtbl_LogMessageFile_MSG//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_LogMessageFile_MSG //J2C: Head of methodtable of LogMessageFile_MSG
+  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
+  //J2C: Dynamic methods of the class :LogMessageFile_MSG:
 , setLogMessageOpenClose_LogMessageFile_MSG_F //setLogMessageOpenClose
 , writeInFile_LogMessageFile_MSG_F //writeInFile
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_LogMessageFile_MSG_F //finalize
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-  /**J2C: Mtbl-interfaces of LogMessageFile_MSG: */
-, { { sign_Mtbl_LogMessageFW//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((6 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The interface's methodtable: 
+  //J2C: Mtbl-interfaces of :LogMessageFile_MSG: */
+, { { sign_Mtbl_LogMessageFW //J2C: Head of methodtable of LogMessageFW
+    , (struct Size_Mtbl_t*)((6 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :LogMessageFW:
   , sendMsgVaList_iDtzv_LogMessageFile_MSG_F //sendMsgVaList
   , flush_LogMessageFile_MSG_F //flush
   , close_LogMessageFile_MSG_F //close
   , isOnline_LogMessageFile_MSG_F //isOnline
   , sendMsg_izv_LogMessageFile_MSG_F //sendMsg
   , sendMsgTime_iDtzv_LogMessageFile_MSG //sendMsgTime
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The superclass's methodtable: 
+  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
     , finalize_LogMessageFile_MSG_F //finalize
@@ -872,13 +850,13 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
    }
  };
 
- extern_C struct ClassJc_t const reflection_LogMessageFW_i;
+ extern_C struct ClassJc_t const reflection_LogMessageFW_s;
  static struct ifcClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }interfaces_LogMessageFile_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW_i, OFFSET_Mtbl(Mtbl_LogMessageFile_MSG, LogMessageFW) }
+, { {&reflection_LogMessageFW_s, OFFSET_Mtbl(Mtbl_LogMessageFile_MSG, LogMessageFW) }
   }
 };
 
@@ -887,10 +865,10 @@ extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
 extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
 extern_C struct ClassJc_t const reflection_FileWriterJc_s;
 extern_C struct ClassJc_t const reflection_LocaleJc_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW_i;
+extern_C struct ClassJc_t const reflection_LogMessageFW_s;
 extern_C struct ClassJc_t const reflection_OS_TimeStamp;
 extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
-//extern_C struct ClassJc_t const reflection_StringBufferJc;
+extern_C struct ClassJc_t const reflection_StringBufferJc;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 extern_C struct ClassJc_t const reflection_TextFieldPositionJc_s;
@@ -910,7 +888,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "sDateformatBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &reflection_StringBufferJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sDateformatBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -949,9 +927,9 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , &reflection_LogMessageFile_MSG_s
     }
    , { "charsFormatTimestampFilename"
-    , 32 //nrofArrayElements
+    , 0 //nrofArrayElements
     , REFLECTION_char
-    , 4 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , 4 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kReferencedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->charsFormatTimestampFilename) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_LogMessageFile_MSG_s
@@ -1070,7 +1048,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "msgOpenClose"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW_i
+    , &reflection_LogMessageFW_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->msgOpenClose) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1154,7 +1132,7 @@ const ClassJc reflection_LogMessageFile_MSG_s =
 , "LogMessageFile_MSG_s"
 , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->base.object) - (int32)(LogMessageFile_MSG_s*)0x1000)
 , sizeof(LogMessageFile_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_LogMessageFile_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_LogMessageFile_MSG_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_LogMessageFile_MSG_s //superclass
 , (ClassOffset_idxMtblJcARRAY*)&interfaces_LogMessageFile_MSG_s //interfaces
@@ -1236,7 +1214,7 @@ const ClassJc reflection_Dbg_LogMessageFile_MSG_s =
 , "Dbg_LogMessageFile_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(Dbg_LogMessageFile_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_Dbg_LogMessageFile_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_Dbg_LogMessageFile_MSG_s
 , null //method
 , null //superclass
 , null //interfaces

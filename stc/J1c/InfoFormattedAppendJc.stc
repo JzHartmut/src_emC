@@ -27,7 +27,7 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    infoFormattedAppend-_$, mode= overrideable: void %.r null(org/vishia/util/StringFormatter *.. u);
+    infoFormattedAppend-_$, mode=overrideable: void %.r null(org/vishia/util/StringFormatter *.. u);
   }
 
   methods-overrideable {

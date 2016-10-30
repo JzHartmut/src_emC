@@ -18,7 +18,6 @@
 
 
 /* J2C: Forward declaration of struct ***********************************************/
-struct CharSequenceJc_t;
 struct Output_MsgDispatcherCore_MSG_t;
 
 /**The message dispatcher supports to dispatch messages by an ident number to several destinations.
@@ -39,33 +38,31 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
   STACKTRC_TENTRY("ctorO_MsgDispatcher_MSG");
   checkConsistence_ObjectJc(othis, sizeof(MsgDispatcher_MSG_s), null, _thCxt);  
   //J2C:super Constructor
-  ctorO_MsgDispatcherCore_MSG(/*static*/othis, maxQueue, nrofMixedOutputs, runNoEntryMessage, _thCxt);
+  ctorO_MsgDispatcherCore_MSG(/*J2C:static method call*/othis, maxQueue, nrofMixedOutputs, runNoEntryMessage, _thCxt);
   setReflection_ObjectJc(othis, &reflection_MsgDispatcher_MSG_s, sizeof(MsgDispatcher_MSG_s));  
   //j2c: Initialize all class variables:
   {
-    thiz->outputConsole = create_LogMessageStream_FW(/*static*/(* (out_FileDescriptorJc)), _thCxt);
+    thiz->outputConsole = create_LogMessageStream_FW(/*J2C:static method call*/(* (out_FileDescriptorJc)), _thCxt);
     thiz->maxDst = 0;
   }
   { 
-    Entry_MsgDispatcherCore_MSG_Y* entries;   /**/
-    int32 idxEntry = 0; 
-    
-    ObjectJc *newObj1_1=null, *newObj1_2=null; /*J2C: temporary Objects for new operations
+    ObjectJc *newObj2_1=null, *newObj2_2=null; /*J2C: temporary Objects for new operations
     */
     thiz->base.super.entryMsgBufferOverflow.ident = msgIdentQueueOverflow;
     thiz->base.super.entryMsgBufferOverflow.text = "Message queue overflow; nrof msg=%d";
     
-    entries = (Entry_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj1_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxQueue) * sizeof(Entry_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxQueue, sizeof(Entry_MsgDispatcherCore_MSG_s),&reflection_Entry_MsgDispatcherCore_MSG_s, 0);
+    Entry_MsgDispatcherCore_MSG_Y*  entries = (Entry_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxQueue) * sizeof(Entry_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxQueue, sizeof(Entry_MsgDispatcherCore_MSG_s),&reflection_Entry_MsgDispatcherCore_MSG_s, 0);
     { int32 idxEntry; 
       for(idxEntry = 0; idxEntry < entries->head.length; idxEntry++)
         { 
           
           //J2C: constructor for embedded element-MemC
-          ctorM_Entry_MsgDispatcherCore_MSG(/*static*/build_MemC(&entries->data[idxEntry], sizeof(entries->data[idxEntry])), _thCxt);
+          ctorM_Entry_MsgDispatcherCore_MSG(/*J2C:static method call*/build_MemC(&entries->data[idxEntry], sizeof(entries->data[idxEntry])), _thCxt);
         }
     }
-    /*no initvalue*/
-    /**All entries, 1 time allocated, are stored in the freeOrders*/
+    
+    int32  idxEntry;/*no initvalue*/
+    /**All entries, 1 time allocated, are stored in the freeOrders. From there they are taken*/
     for(idxEntry = 0; idxEntry < maxQueue; idxEntry++)
       { 
         
@@ -73,27 +70,27 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
       }
     
     { 
-      ObjectJc *newObj2_1=null, *newObj2_2=null; /*J2C: temporary Objects for new operations
+      ObjectJc *newObj3_1=null, *newObj3_2=null; /*J2C: temporary Objects for new operations
       */
-      thiz->base.super.listIdents = (int32_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
-      thiz->base.super.listBitDst = (int32_Y*)ctorO_ObjectArrayJc((newObj2_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
+      thiz->base.super.listIdents = (int32_Y*)ctorO_ObjectArrayJc((newObj3_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
+      thiz->base.super.listBitDst = (int32_Y*)ctorO_ObjectArrayJc((newObj3_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
       thiz->base.super.listIdents->data[0] = 0;
       thiz->base.super.listIdents->data[1] = MAX_VALUE_IntegerJc;
       thiz->base.super.listBitDst->data[0] = 0;
       thiz->base.super.listBitDst->data[1] = 0xffffffff;/*this value will be unused because MAX_VALUE don't be used.*/
       
       thiz->base.super.actNrofListIdents = 2;
-      activateGC_ObjectJc(newObj2_1, null, _thCxt);
-      activateGC_ObjectJc(newObj2_2, null, _thCxt);
+      activateGC_ObjectJc(newObj3_1, null, _thCxt);
+      activateGC_ObjectJc(newObj3_2, null, _thCxt);
     }
     /*allocate the output array: */
-    thiz->base.super.outputs = (Output_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj1_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxOutputs) * sizeof(Output_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxOutputs, sizeof(Output_MsgDispatcherCore_MSG_s),&reflection_Output_MsgDispatcherCore_MSG_s, 0);  //J2C: assign a new ObjectArrayJc. ;
+    thiz->base.super.outputs = (Output_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxOutputs) * sizeof(Output_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxOutputs, sizeof(Output_MsgDispatcherCore_MSG_s),&reflection_Output_MsgDispatcherCore_MSG_s, 0);  //J2C: assign a new ObjectArrayJc. ;
     { int32 idxDst; 
       for(idxDst = 0; idxDst < maxOutputs; idxDst++)
         { 
           
           //J2C: constructor for embedded element-MemC
-          ctorM_Output_MsgDispatcherCore_MSG(/*static*/build_MemC(&thiz->base.super.outputs->data[idxDst], sizeof(thiz->base.super.outputs->data[idxDst])), _thCxt);
+          ctorM_Output_MsgDispatcherCore_MSG(/*J2C:static method call*/build_MemC(&thiz->base.super.outputs->data[idxDst], sizeof(thiz->base.super.outputs->data[idxDst])), _thCxt);
         }
     }
     /**Set default output to console. */
@@ -102,8 +99,8 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
     setOutputRoutine_MsgDispatcher_MSG(thiz, 1, s0_StringJc("qCON"), true, true, thiz->outputConsole, _thCxt);/*mConsoleQueued*/
     
     setOutputRange_MsgDispatcher_MSG(thiz, 0, MAX_VALUE_IntegerJc, mConsole_MsgDispatcherCore_MSG, mSet_MsgDispatcherCore_MSG, 3, _thCxt);
-    activateGC_ObjectJc(newObj1_1, null, _thCxt);
-    activateGC_ObjectJc(newObj1_2, null, _thCxt);
+    activateGC_ObjectJc(newObj2_1, null, _thCxt);
+    activateGC_ObjectJc(newObj2_2, null, _thCxt);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -111,7 +108,7 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
 
 
 
-/**Gets the internal free entries for sharing with an other log output,*/
+/**Gets the internal free entries for sharing with an other log output, */
 struct ConcurrentLinkedQueueJc_t* getSharedFreeEntries_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getSharedFreeEntries_MsgDispatcher_MSG");
@@ -147,23 +144,22 @@ int32 insertIdent_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 idx, int32 
   STACKTRC_TENTRY("insertIdent_MsgDispatcher_MSG");
   
   { 
-    int32 ident0; 
-    int32 ident3; 
-    int32 idxFrom = 0; 
     
     
-    ident0 = thiz->base.super.listIdents->data[idx];
-    ident3 = thiz->base.super.listIdents->data[idx + 1];
-    /*no initvalue*/
+    int32  ident0 = thiz->base.super.listIdents->data[idx];
+    
+    int32  ident3 = thiz->base.super.listIdents->data[idx + 1];
+    
+    int32  idxFrom;/*no initvalue*/
     if(ident0 < fromIdent && toIdent + 1 < ident3) 
     { 
       
       /**insert two new positions, {..., ident0, fromIdent, toIdent, ident3, ...} :*/
       idxFrom = idx + 1;
-      thiz->base.super.actNrofListIdents += 2;/*copy after idx, src from idx+1, because the content at idx is okay.*/
+      thiz->base.super.actNrofListIdents += 2;/*copy after idx, src from idx+1, because the content at idx is okay. */
       
-      arraycopy_SystemJc(/*static*/& ((thiz->base.super.listIdents)->head.object), idx + 1, & ((thiz->base.super.listIdents)->head.object), idx + 3, thiz->base.super.actNrofListIdents - (idx + 3), _thCxt);
-      arraycopy_SystemJc(/*static*/& ((thiz->base.super.listBitDst)->head.object), idx + 1, & ((thiz->base.super.listBitDst)->head.object), idx + 3, thiz->base.super.actNrofListIdents - (idx + 3), _thCxt);
+      arraycopy_SystemJc(/*J2C:static method call*/& ((thiz->base.super.listIdents)->head.object), idx + 1, & ((thiz->base.super.listIdents)->head.object), idx + 3, thiz->base.super.actNrofListIdents - (idx + 3), _thCxt);
+      arraycopy_SystemJc(/*J2C:static method call*/& ((thiz->base.super.listBitDst)->head.object), idx + 1, & ((thiz->base.super.listBitDst)->head.object), idx + 3, thiz->base.super.actNrofListIdents - (idx + 3), _thCxt);
       thiz->base.super.listIdents->data[idxFrom] = fromIdent;
       thiz->base.super.listIdents->data[idxFrom + 1] = toIdent + 1;
       /**Copy the mask from range ident0.. to the new positions. */
@@ -174,14 +170,14 @@ int32 insertIdent_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 idx, int32 
     { 
       
       /**insert one new positions, {..., ident0, fromIdent, ident3, ...} :*/
-      ASSERT(/*static*/toIdent + 1 == ident3);
+      ASSERT(/*J2C:static method call*/toIdent + 1 == ident3);
       idxFrom = idx + 1;
       thiz->base.super.actNrofListIdents += 1;
-      arraycopy_SystemJc(/*static*/& ((thiz->base.super.listIdents)->head.object), idx + 1, & ((thiz->base.super.listIdents)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
-      arraycopy_SystemJc(/*static*/& ((thiz->base.super.listBitDst)->head.object), idx + 1, & ((thiz->base.super.listBitDst)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
+      arraycopy_SystemJc(/*J2C:static method call*/& ((thiz->base.super.listIdents)->head.object), idx + 1, & ((thiz->base.super.listIdents)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
+      arraycopy_SystemJc(/*J2C:static method call*/& ((thiz->base.super.listBitDst)->head.object), idx + 1, & ((thiz->base.super.listBitDst)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
       thiz->base.super.listIdents->data[idxFrom] = fromIdent;
       /**Copy the mask from range ident0.. to the new positions. */
-      thiz->base.super.listBitDst->data[idxFrom] = thiz->base.super.listBitDst->data[idx];/*listBitDst[idxFrom] |= mask;*/
+      thiz->base.super.listBitDst->data[idxFrom] = thiz->base.super.listBitDst->data[idx];/*listBitDst[idxFrom] |= mask; */
       
     }
     else if(ident0 == fromIdent && toIdent + 1 < ident3) 
@@ -190,8 +186,8 @@ int32 insertIdent_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 idx, int32 
       /**insert one new positions, {..., ident0, toIdent, ident3, ...} :*/
       thiz->base.super.actNrofListIdents += 1;
       idxFrom = idx;
-      arraycopy_SystemJc(/*static*/& ((thiz->base.super.listIdents)->head.object), idx + 1, & ((thiz->base.super.listIdents)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
-      arraycopy_SystemJc(/*static*/& ((thiz->base.super.listBitDst)->head.object), idx + 1, & ((thiz->base.super.listBitDst)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
+      arraycopy_SystemJc(/*J2C:static method call*/& ((thiz->base.super.listIdents)->head.object), idx + 1, & ((thiz->base.super.listIdents)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
+      arraycopy_SystemJc(/*J2C:static method call*/& ((thiz->base.super.listBitDst)->head.object), idx + 1, & ((thiz->base.super.listBitDst)->head.object), idx + 2, thiz->base.super.actNrofListIdents - (idx + 2), _thCxt);
       thiz->base.super.listIdents->data[idx + 1] = toIdent + 1;
       /**Copy the mask from range ident0.. to the new positions. */
       thiz->base.super.listBitDst->data[idx + 1] = thiz->base.super.listBitDst->data[idx];
@@ -199,7 +195,7 @@ int32 insertIdent_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 idx, int32 
     else 
     { 
       
-      ASSERT(/*static*/ident0 == fromIdent && toIdent + 1 == ident3);
+      ASSERT(/*J2C:static method call*/ident0 == fromIdent && toIdent + 1 == ident3);
       idxFrom = idx;/*replace only*/
       
     }
@@ -217,10 +213,9 @@ void setOutputRoutine_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 dstIdx,
   STACKTRC_TENTRY("setOutputRoutine_MsgDispatcher_MSG");
   
   { 
-    int32 mask = 0; 
     
     
-    /*no initvalue*/
+    int32  mask;/*no initvalue*/
     if(dstIdx < 0 || dstIdx > thiz->base.super.outputs->head.length) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "dstIdx fault. Hint: an index, not a mask!", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
     if(thiz->maxDst <= dstIdx) 
     { 
@@ -228,7 +223,7 @@ void setOutputRoutine_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 dstIdx,
       thiz->maxDst = dstIdx + 1;
     }
     /*if(dstIdx >= nrofMixedOutputs)*/
-    SETREFJc(thiz->base.super.outputs->data[dstIdx].outputIfc, dst, LogMessageFW_i);
+    SETREFJc(thiz->base.super.outputs->data[dstIdx].outputIfc, dst, LogMessageFW_s);
     thiz->base.super.outputs->data[dstIdx].dstInDispatcherThread = bQueued;
     thiz->base.super.outputs->data[dstIdx].bUseText = bText;
     set_StringJc(&(thiz->base.super.outputs->data[dstIdx].name), name);
@@ -243,34 +238,33 @@ int32 setOutputRange_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 fromIden
   STACKTRC_TENTRY("setOutputRange_MsgDispatcher_MSG");
   
   { 
-    int32 idx1 = 0;   /*Found index where the idents are arranged in . */
-    int32 idx2 = 0;   /*Found index where the idents are arranged in . */
-    int32 maskSet; 
-    int32 ident2; 
-    int32 idx1Mask = 0;   /*The first index at which the mask is changed. */
-    int32 idx2Mask = 0;   /*The next index after last index which mask is changed. */
     
     
-    /*no initvalue*/
-    /*no initvalue*/
-    maskSet = completeDispatchInThreadBits_MsgDispatcher_MSG(thiz, dst, _thCxt);
+    int32  idx1;/*no initvalue*/
+    
+    int32  idx2;/*no initvalue*/
+    
+    int32  maskSet = completeDispatchInThreadBits_MsgDispatcher_MSG(thiz, dst, _thCxt);
     if(toIdent == MAX_VALUE_IntegerJc) 
     { /*:the range is from ...inclusive to, let the MAX_VALUE outside, because there should be and end entry,*/
       
       
       toIdent = MAX_VALUE_IntegerJc - 1;
     }
-    idx1 = binarySearch_int_ii_ArraysJc(/*static*/thiz->base.super.listIdents/*J2C-error testAndChangeAccess: XY*/, 0, thiz->base.super.actNrofListIdents, fromIdent, _thCxt);
+    idx1 = binarySearch_int_ii_ArraysJc(/*J2C:static method call*/thiz->base.super.listIdents/*J2C-error testAndChangeAccess: XY*/, 0, thiz->base.super.actNrofListIdents, fromIdent, _thCxt);
     if(idx1 < 0) idx1 = -idx1 - 2;/*example: nr between idx=2 and 3 returns -4, converted to 2*/
     
     if(idx1 < 0) idx1 = 0;/*if nr before idx = 0, use properties of msg nr=0*/
     /*at idx1 : ident0  <= fromIdent*/
     
-    ident2 = thiz->base.super.listIdents->data[idx1 + 1];
-    /*no initvalue*/
-    /*no initvalue*/
+    
+    int32  ident2 = thiz->base.super.listIdents->data[idx1 + 1];
+    
+    int32  idx1Mask;/*no initvalue*/
+    
+    int32  idx2Mask;/*no initvalue*/
     if(toIdent < ident2) 
-    { /*:the whole range fromIdent...toIdent is at or between idx1...idx1+1*/
+    { /*:the whole range fromIdent...toIdent is at or between idx1...idx1+1 */
       
       
       idx1Mask = insertIdent_MsgDispatcher_MSG(thiz, idx1, fromIdent, toIdent, _thCxt);
@@ -278,20 +272,19 @@ int32 setOutputRange_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 fromIden
     }
     else 
     { 
-      int32 ident1; 
-      int32 ident3; 
-      int32 mask3; 
       
       
-      ident1 = thiz->base.super.listIdents->data[idx1 + 1];
+      int32  ident1 = thiz->base.super.listIdents->data[idx1 + 1];
       idx1Mask = insertIdent_MsgDispatcher_MSG(thiz, idx1, fromIdent, ident1 - 1, _thCxt);/*inserts after idx1, if necessary*/
       
-      idx2 = binarySearch_int_ii_ArraysJc(/*static*/thiz->base.super.listIdents/*J2C-error testAndChangeAccess: XY*/, 0, thiz->base.super.actNrofListIdents, toIdent + 1, _thCxt);
+      idx2 = binarySearch_int_ii_ArraysJc(/*J2C:static method call*/thiz->base.super.listIdents/*J2C-error testAndChangeAccess: XY*/, 0, thiz->base.super.actNrofListIdents, toIdent + 1, _thCxt);
       if(idx2 < 0) idx2 = -idx2 - 2;/*example: nr between idx=2 and 3 returns -4, converted to 2*/
       /*at idx2 : ident3 <= toIdent //<= ident3*/
       
-      ident3 = thiz->base.super.listIdents->data[idx2 + 1];
-      mask3 = thiz->base.super.listBitDst->data[idx2];
+      
+      int32  ident3 = thiz->base.super.listIdents->data[idx2 + 1];
+      
+      int32  mask3 = thiz->base.super.listBitDst->data[idx2];
       idx2Mask = insertIdent_MsgDispatcher_MSG(thiz, idx2, toIdent + 1, ident3 - 1, _thCxt);/*inserts before idx2+1, if necessary*/
       
     }
@@ -321,39 +314,36 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
   STACKTRC_TENTRY("setOutputFromString_MsgDispatcher_MSG");
   
   { 
-    StringJc sError = NULL_StringJc; 
-    StringPartScanJc_s spCtrl = { 0 };   /**/
-    bool continueAll = true; 
     
     
-    sError = null_StringJc/*J2C:non-persistent*/;
+    StringJc sError ; sError = null_StringJc/*J2C:non-persistent*/;
     if(errorBuffer != null) 
     { 
       
-      setLength_StringBuilderJc(errorBuffer, 0, _thCxt);
+      setLength_StringBufferJc(errorBuffer, 0, _thCxt);
     }
     
-    //J2C: constructor for embedded element-ObjectJc
+    StringPartScanJc_s  spCtrl;//J2C: constructor for embedded element-ObjectJc
     init_ObjectJc(&(spCtrl.base.object), sizeof(spCtrl), 0); 
-    ctorO_Cs_StringPartScanJc(/*static*/&(spCtrl.base.object), ((/*J2C:cast from StringJc*/CharSequenceJc_Ref)(ctrl/*J2C-error testAndChangeAccess: t**/)), _thCxt);
+    ctorO_Cs_StringPartScanJc(/*J2C:static method call*/&(spCtrl.base.object), ctrl.c, _thCxt);
     setIgnoreWhitespaces_StringPartJc(& ((spCtrl).base.super), true, _thCxt);
     setIgnoreComment_SS_StringPartJc(& ((spCtrl).base.super), s0_StringJc("/*"), s0_StringJc("*/"), _thCxt);
     setIgnoreEndlineComment_S_StringPartJc(& ((spCtrl).base.super), s0_StringJc("//"), _thCxt);
-    continueAll = true;
+    
+    bool  continueAll = true;
     TRY
     { 
       
       do 
         { 
-          int32 fromIdent = 0; 
-          int32 toIdent = 0; 
           
           
-          /*no initvalue*/
-          /*no initvalue*/
+          int32  fromIdent;/*no initvalue*/
+          
+          int32  toIdent;/*no initvalue*/
           if(
           ( seekNoWhitespaceOrComments_StringPartJc(& ((spCtrl).base.super), _thCxt)
-          , length_StringPartJc(& ((spCtrl).base.super), _thCxt)
+          , length_StringPartJc(fromObjectJc_CharSeqJc(&(spCtrl).base.object), _thCxt)
           ) == 0) 
           { 
             
@@ -366,19 +356,19 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
           )) 
           { 
             
-            fromIdent = (int32)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
+            fromIdent = (int32 /*J2C_cast*/)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
             toIdent = -1;
             if(
-            ( scan_StringPartScanJc(& (spCtrl), ((/*J2C:cast from char const**/CharSequenceJc*)(".."/*J2C-error testAndChangeAccess: t**/)), _thCxt)
+            ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("..").c, _thCxt)
             , scanInteger_StringPartScanJc(& (spCtrl), _thCxt)
             , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
             )) 
             { 
               
-              toIdent = (int32)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
+              toIdent = (int32 /*J2C_cast*/)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
             }
             if(!
-            ( scan_StringPartScanJc(& (spCtrl), ((/*J2C:cast from char const**/CharSequenceJc*)(":"/*J2C-error testAndChangeAccess: t**/)), _thCxt)
+            ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(":").c, _thCxt)
             , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
             )) 
             { 
@@ -398,13 +388,12 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
               , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
               )) 
               { 
-                int32 dst; 
                 
                 
-                dst = (int32)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
+                int32  dst = (int32 /*J2C_cast*/)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
                 setOutputRange_MsgDispatcher_MSG(thiz, fromIdent, toIdent, dst, mSet_MsgDispatcherCore_MSG, 3, _thCxt);
                 if(!
-                ( scan_StringPartScanJc(& (spCtrl), ((/*J2C:cast from char const**/CharSequenceJc*)(";"/*J2C-error testAndChangeAccess: t**/)), _thCxt)
+                ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(";").c, _thCxt)
                 , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                 )) 
                 { 
@@ -414,20 +403,18 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
               }
               else 
               { 
-                bool continueEntry = true; 
-                int32 mode; 
                 
                 
-                continueEntry = true;
-                mode = mSet_MsgDispatcherCore_MSG;
+                bool  continueEntry = true;
+                
+                int32  mode = mSet_MsgDispatcherCore_MSG;
                 do 
                   { 
-                    StringJc sOutput = NULL_StringJc; 
                     
                     
-                    sOutput = null_StringJc/*J2C:non-persistent*/;
+                    StringJc sOutput ; sOutput = null_StringJc/*J2C:non-persistent*/;
                     if(
-                  ( scan_StringPartScanJc(& (spCtrl), ((/*J2C:cast from char const**/CharSequenceJc*)("+"/*J2C-error testAndChangeAccess: t**/)), _thCxt)
+                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("+").c, _thCxt)
                   , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                   )) 
                     { 
@@ -435,7 +422,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                       mode = mAdd_MsgDispatcherCore_MSG;
                     }
                     else if(
-                  ( scan_StringPartScanJc(& (spCtrl), ((/*J2C:cast from char const**/CharSequenceJc*)("-"/*J2C-error testAndChangeAccess: t**/)), _thCxt)
+                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("-").c, _thCxt)
                   , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                   )) 
                     { 
@@ -443,7 +430,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                       mode = mRemove_MsgDispatcherCore_MSG;
                     }
                     else if(
-                  ( scan_StringPartScanJc(& (spCtrl), ((/*J2C:cast from char const**/CharSequenceJc*)(";"/*J2C-error testAndChangeAccess: t**/)), _thCxt)
+                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(";").c, _thCxt)
                   , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                   )) 
                     { 
@@ -459,7 +446,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                         sError = z_StringJc("\"+\" or \"-\" or \";\" expected")/*J2C:non-persistent*/;
                       }
                     }
-                    if(continueEntry && sError.ptr__== null) 
+                    if(continueEntry && sError.c.ref== null) 
                     { 
                       
                       if(
@@ -467,11 +454,11 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                     , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                     )) 
                       { 
-                        struct CharSequenceJc_t* _temp9_1; /*J2C: temporary references for concatenation */
+                        CharSeqJc _temp10_1; /*J2C: temporary references for concatenation */
                         
                         sOutput = 
-                      ( _temp9_1= getLastScannedString_StringPartScanJc(& (spCtrl), _thCxt)
-                      , toString_CharSequenceJc(& ((* (_temp9_1)).base.object)/*J2cT1*/)
+                      ( _temp10_1= getLastScannedString_StringPartScanJc(& (spCtrl), _thCxt)
+                      , toString_CharSeqJc(_temp10_1/*J1cT2*/)
                       )/*J2C:non-persistent*/;
                       }
                       else 
@@ -479,20 +466,19 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                         
                         sError = z_StringJc("\"DST\" expected, DST should be an identifier.")/*J2C:non-persistent*/;
                       }
-                      if(sError.ptr__== null) 
+                      if(sError.c.ref== null) 
                       { 
-                        int32 bitOutput = -1; 
-                        int32 idxDst = 0; 
                         
+                        ASSERT(/*J2C:static method call*/sOutput.c.ref!= null);
                         
-                        ASSERT(/*static*/sOutput.ptr__!= null);
-                        bitOutput = -1;
-                        idxDst = 0;
+                        int32  bitOutput = -1;
+                        
+                        int32  idxDst = 0;
                         
                         while(idxDst < thiz->base.super.outputs->head.length && bitOutput == -1)
                           { 
                             
-                            if(thiz->base.super.outputs->data[idxDst].name.ptr__!= null && equals_StringJc(thiz->base.super.outputs->data[idxDst].name, sOutput)) 
+                            if(thiz->base.super.outputs->data[idxDst].name.c.ref!= null && equals_StringJc(thiz->base.super.outputs->data[idxDst].name, sOutput)) 
                             { 
                               
                               bitOutput = 1 << idxDst;
@@ -511,7 +497,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                             
                             
                           ( append_z_StringBufferJc(errorBuffer, "Output not found:", _thCxt)
-                          , append_s_StringBufferJc(errorBuffer, sOutput, _thCxt)
+                          , append_c_StringBufferJc(errorBuffer, sOutput.c/*J2C-error testAndChangeAccess: ct*/, _thCxt)
                           );
                           }
                           sError = sOutput/*J2C:non-persistent*/;/*short variant if buffer isn't given.*/
@@ -527,7 +513,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                         }
                       }
                     }
-                  }while(sError.ptr__== null && continueEntry && continueAll);
+                  }while(sError.c.ref== null && continueEntry && continueAll);
               }/*if hexInt else ident;*/
               
             }/*: scanned*/
@@ -539,7 +525,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
             sError = z_StringJc("Number for first message to dispatch expected")/*J2C:non-persistent*/;
             continueAll = false;
           }
-        }while(continueAll && sError.ptr__== null);
+        }while(continueAll && sError.c.ref== null);
     }_TRY
     CATCH(ParseException, exc)
     
@@ -548,18 +534,18 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
         sError = getMessage_ExceptionJc(exc, _thCxt)/*J2C:non-persistent*/;
       }
     END_TRY
-    if(sError.ptr__!= null && errorBuffer != null && length_StringBufferJc(errorBuffer) == 0) 
+    if(sError.c.ref!= null && errorBuffer != null && length_StringBufferJc(errorBuffer) == 0) 
     { 
-      int32 nrofCharsRest;   /*Write the error in the buffer, with fault input string position. */
+      CharSeqJc _thCxtRef3_1;
       
-      
-      nrofCharsRest = capacity_StringBufferJc(errorBuffer) - length_StringJc(sError) - 5;
+      int32  nrofCharsRest = capacity_StringBufferJc(errorBuffer) - length_StringJc(sError) - 5;
       /**Prevent Buffer expansion, use rest size. */
       
-        ( append_s_StringBufferJc(errorBuffer, sError, _thCxt)
+        ( append_c_StringBufferJc(errorBuffer, sError.c/*J2C-error testAndChangeAccess: ct*/, _thCxt)
         , append_z_StringBufferJc(errorBuffer, " at:", _thCxt)
-        , append_StringBufferJc(errorBuffer, getCurrent_StringPartJc(& ((spCtrl).base.super), nrofCharsRest, _thCxt), _thCxt)
+        , append_c_StringBufferJc(errorBuffer, ( _thCxtRef3_1 = getCurrent_StringPartJc(& ((spCtrl).base.super), nrofCharsRest, _thCxt))/*J2C-error testAndChangeAccess: ct*/, _thCxt)
         );
+      releaseUserBuffer_ThreadContextFw(PTR_CharSeqJc(_thCxtRef3_1), _thCxt);
     }
     { STACKTRC_LEAVE;
       return sError;
@@ -569,22 +555,19 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
 }
 
 
-/**Writes the msg dispatching outputs in file.*/
+/**Writes the msg dispatching outputs in file. */
 bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriterJc_t* file, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("reportOutput_MsgDispatcher_MSG");
   
   { 
-    bool bOk = true; 
     
     
-    bOk = true;
+    bool  bOk = true;
     TRY
     { 
-      StringBufferJc line = { 0 };   /**/
       
-      
-      /**A temporary buffer, in C in Stack*/
+      /**A temporary buffer, in C in Stack. Do not use String concatenating, because no dynamically mem!*/
       write_FileWriterJc(file, s0_StringJc("//Syntax-Example\n"), _thCxt);
       write_FileWriterJc(file, s0_StringJc("//  1200..1257: +File +qCON -CON;\n"), _thCxt);
       write_FileWriterJc(file, s0_StringJc("//  4567:File;\n"), _thCxt);
@@ -597,25 +580,24 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
       write_FileWriterJc(file, s0_StringJc("//1234:-File;  \n"), _thCxt);
       write_FileWriterJc(file, s0_StringJc("\n//All existing dst (destinations):\n"), _thCxt);
       
-      //J2C: constructor for embedded element-ObjectJc
+      StringBufferJc  line;//J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(line.base.object), sizeof(line), 0); 
-      ctorO_I_StringBufferJc(/*static*/&(line.base.object), 200, _thCxt);
+      ctorO_I_StringBufferJc(/*J2C:static method call*/&(line.base.object), 200, _thCxt);
       { int32 ii; 
         for(ii = 0; ii < thiz->maxDst; ii++)
           { 
-            struct Output_MsgDispatcherCore_MSG_t* dst; 
-            
             
             setLength_StringBufferJc(& (line), 0, _thCxt);
-            dst = & (thiz->base.super.outputs->data[ii]);
-            if(REFJc(dst->outputIfc) != null) 
+            
+            struct Output_MsgDispatcherCore_MSG_t*  dst = & (thiz->base.super.outputs->data[ii]);
+            if(dst->outputIfc.ref!= null) 
             { 
               
               
               ( append_z_StringBufferJc(& (line), "//", _thCxt)
               , append_I_StringBufferJc(& (line), ii, _thCxt)
               , append_z_StringBufferJc(& (line), ": ", _thCxt)
-              , append_s_StringBufferJc(& (line), dst->name, _thCxt)
+              , append_c_StringBufferJc(& (line), dst->name.c/*J2C-error testAndChangeAccess: ct*/, _thCxt)
               );
               if(dst->dstInDispatcherThread) 
               { 
@@ -631,15 +613,11 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
       { int32 ii; 
         for(ii = 0; ii < thiz->base.super.actNrofListIdents - 1; ii++)
           { 
-            int32 ident1; 
-            int32 ident2; 
-            int32 bitDst; 
-            bool bFirst = true; 
-            int32 maskBitDst = 1; 
             
             
-            ident1 = thiz->base.super.listIdents->data[ii];
-            ident2 = thiz->base.super.listIdents->data[ii + 1] - 1;
+            int32  ident1 = thiz->base.super.listIdents->data[ii];
+            
+            int32  ident2 = thiz->base.super.listIdents->data[ii + 1] - 1;
             setLength_StringBufferJc(& (line), 0, _thCxt);
             append_I_StringBufferJc(& (line), ident1, _thCxt);
             if(ident2 != ident1) 
@@ -652,20 +630,22 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
               );
             }
             append_z_StringBufferJc(& (line), ":", _thCxt);
-            bitDst = thiz->base.super.listBitDst->data[ii];
-            bFirst = true;
-            maskBitDst = 1;
+            
+            int32  bitDst = thiz->base.super.listBitDst->data[ii];
+            
+            bool  bFirst = true;
+            
+            int32  maskBitDst = 1;
             { int32 iDst; 
               for(iDst = 0; iDst < thiz->maxDst; iDst++)
                 { 
                   
                   if((bitDst & maskBitDst) != 0) 
                   { 
-                    struct Output_MsgDispatcherCore_MSG_t* dst; 
                     
                     
-                    dst = & (thiz->base.super.outputs->data[iDst]);
-                    if(REFJc(dst->outputIfc) != null) 
+                    struct Output_MsgDispatcherCore_MSG_t*  dst = & (thiz->base.super.outputs->data[iDst]);
+                    if(dst->outputIfc.ref!= null) 
                     { 
                       
                       if(!bFirst) 
@@ -678,7 +658,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                         
                         bFirst = false;
                       }
-                      append_s_StringBufferJc(& (line), dst->name, _thCxt);
+                      append_c_StringBufferJc(& (line), dst->name.c/*J2C-error testAndChangeAccess: ct*/, _thCxt);
                     }
                   }
                   if(iDst < thiz->base.super.nrofMixedOutputs) 
@@ -689,17 +669,15 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                   }
                   else 
                   { 
-                    int32 idxNonMixedDst;   /*A non mixed output: */
                     
                     
-                    idxNonMixedDst = ((bitDst & thiz->base.super.mDstOneOutput) >> thiz->base.super.nrofMixedOutputs) - 1 + thiz->base.super.nrofMixedOutputs;
+                    int32  idxNonMixedDst = ((bitDst & thiz->base.super.mDstOneOutput) >> thiz->base.super.nrofMixedOutputs) - 1 + thiz->base.super.nrofMixedOutputs;
                     if(idxNonMixedDst >= thiz->base.super.nrofMixedOutputs) 
                     { 
-                      struct Output_MsgDispatcherCore_MSG_t* dst; 
                       
                       
-                      dst = & (thiz->base.super.outputs->data[iDst]);
-                      if(REFJc(dst->outputIfc) != null) 
+                      struct Output_MsgDispatcherCore_MSG_t*  dst = & (thiz->base.super.outputs->data[iDst]);
+                      if(dst->outputIfc.ref!= null) 
                       { 
                         
                         if(!bFirst) 
@@ -712,7 +690,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                           
                           bFirst = false;
                         }
-                        append_s_StringBufferJc(& (line), dst->name, _thCxt);
+                        append_c_StringBufferJc(& (line), dst->name.c/*J2C-error testAndChangeAccess: ct*/, _thCxt);
                       }
                     }
                   }
@@ -746,14 +724,13 @@ int32 completeDispatchInThreadBits_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, 
   STACKTRC_TENTRY("completeDispatchInThreadBits_MsgDispatcher_MSG");
   
   { 
-    int32 dstBitRet; 
-    int32 idst = 0; 
     
     
-    dstBitRet = dstBits;
-    /**Assert: The bits should not be negative, because elsewhere >> shifts a 1-bit into,*/
-    ASSERT(/*static*/dstBits >= 0);
-    idst = 0;
+    int32  dstBitRet = dstBits;
+    /**Assert: The bits should not be negative, because elsewhere >> shifts a 1-bit into, */
+    ASSERT(/*J2C:static method call*/dstBits >= 0);
+    
+    int32  idst = 0;
     
     while(dstBits != 0)
       { 
@@ -796,8 +773,8 @@ void stop_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**close and flush forces the dispatching of the messages in the queue.*/
-void close_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
+/**close and flush forces the dispatching of the messages in the queue. */
+void close_MsgDispatcher_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { MsgDispatcher_MSG_s* thiz = (MsgDispatcher_MSG_s*)ithis;
   
   STACKTRC_TENTRY("close_MsgDispatcher_MSG");
@@ -811,8 +788,8 @@ void close_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
 }
 
 
-/**flush forces the dispatching of the messages in the queue.*/
-void flush_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
+/**flush forces the dispatching of the messages in the queue. */
+void flush_MsgDispatcher_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
 { MsgDispatcher_MSG_s* thiz = (MsgDispatcher_MSG_s*)ithis;
   
   STACKTRC_TENTRY("flush_MsgDispatcher_MSG");
@@ -828,35 +805,43 @@ void flush_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt)
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_MsgDispatcher_MSG mtblMsgDispatcher_MSG = {
-{ { sign_Mtbl_MsgDispatcher_MSG//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_MsgDispatcher_MSG //J2C: Head of methodtable of MsgDispatcher_MSG
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_MsgDispatcherCore_MSG//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_MsgDispatcherCore_MSG //J2C: Head of methodtable of MsgDispatcherCore_MSG
+    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :MsgDispatcherCore_MSG:
   , setIdThreadForMsgDispatching_MsgDispatcherCore_MSG_F //setIdThreadForMsgDispatching
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The superclass's methodtable: 
+  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
     , finalize_MsgDispatcherCore_MSG_F //finalize
     , hashCode_ObjectJc_F //hashCode
     , toString_ObjectJc_F //toString
     }
-    /**J2C: Mtbl-interfaces of MsgDispatcher_MSG: */
-  , { { sign_Mtbl_LogMessageFW//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((6 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The interface's methodtable: 
+    //J2C: Mtbl-interfaces of :MsgDispatcher_MSG: */
+  , { { sign_Mtbl_LogMessageFW //J2C: Head of methodtable of LogMessageFW
+      , (struct Size_Mtbl_t*)((6 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :LogMessageFW:
     , sendMsgVaList_iDtzv_MsgDispatcherCore_MSG //sendMsgVaList
     , flush_MsgDispatcher_MSG //flush
     , close_MsgDispatcher_MSG //close
     , isOnline_MsgDispatcherCore_MSG //isOnline
     , sendMsg_izv_MsgDispatcherCore_MSG //sendMsg
     , sendMsgTime_iDtzv_MsgDispatcherCore_MSG //sendMsgTime
-    , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-        , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+      //J2C: The superclass's methodtable: 
+    , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+        , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
         }
+        //J2C: Dynamic methods of the class :ObjectJc:
       , clone_ObjectJc_F //clone
       , equals_ObjectJc_F //equals
       , finalize_MsgDispatcherCore_MSG_F //finalize
@@ -879,7 +864,7 @@ const MtblDef_MsgDispatcher_MSG mtblMsgDispatcher_MSG = {
  };
 
 extern_C struct ClassJc_t const reflection_MsgDispatcher_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW_i;
+extern_C struct ClassJc_t const reflection_LogMessageFW_s;
 const struct Reflection_Fields_MsgDispatcher_MSG_s_t
 { ObjectArrayJc head; FieldJc data[2];
 } reflection_Fields_MsgDispatcher_MSG_s =
@@ -887,7 +872,7 @@ const struct Reflection_Fields_MsgDispatcher_MSG_s_t
 , {
      { "outputConsole"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW_i
+    , &reflection_LogMessageFW_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcher_MSG_s*)(0x1000))->outputConsole) - (int32)(MsgDispatcher_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -907,7 +892,7 @@ const ClassJc reflection_MsgDispatcher_MSG_s =
 , "MsgDispatcher_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(MsgDispatcher_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_MsgDispatcher_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_MsgDispatcher_MSG_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_MsgDispatcher_MSG_s //superclass
 , null //interfaces
@@ -917,7 +902,7 @@ const ClassJc reflection_MsgDispatcher_MSG_s =
 
 /**Class to organize a dispatcher thread. This class can be used if another cyclic thread is not available
 in the users application space which runs the {@link MsgDispatcher#tickAndFlushOrClose()} cyclically.
-If the user has a cyclic thread, in embedded systems the background loop can be used too,
+If the user has a cyclic thread, in embedded systems the background loop can be used too, 
 then this instance is not necessary. */
 
 
@@ -932,7 +917,7 @@ struct DispatcherThread_MsgDispatcher_MSG_t* ctorO_DispatcherThread_MsgDispatche
   STACKTRC_TENTRY("ctorO_DispatcherThread_MsgDispatcher_MSG");
   checkConsistence_ObjectJc(othis, sizeof(DispatcherThread_MsgDispatcher_MSG_s), null, _thCxt);  
   //J2C:super Constructor
-  ctorO_z_ThreadJc(/*static*/othis, "MsgDisptch", _thCxt);
+  ctorO_z_ThreadJc(/*J2C:static method call*/othis, "MsgDisptch", _thCxt);
   setReflection_ObjectJc(othis, &reflection_DispatcherThread_MsgDispatcher_MSG_s, sizeof(DispatcherThread_MsgDispatcher_MSG_s));  
   thiz->outer = outer;
   //j2c: Initialize all class variables:
@@ -962,7 +947,7 @@ void run_DispatcherThread_MsgDispatcher_MSG_F(ObjectJc* ithis, ThCxt* _thCxt)
         TRY
         { 
           
-          sleep_ThreadJc(/*static*/thiz->cycleMillisec, _thCxt);
+          sleep_ThreadJc(/*J2C:static method call*/thiz->cycleMillisec, _thCxt);
         }_TRY
         CATCH(InterruptedException, exc)
         
@@ -987,29 +972,36 @@ void run_DispatcherThread_MsgDispatcher_MSG(ObjectJc* ithis, ThCxt* _thCxt)
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_DispatcherThread_MsgDispatcher_MSG mtblDispatcherThread_MsgDispatcher_MSG = {
-{ { sign_Mtbl_DispatcherThread_MsgDispatcher_MSG//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_DispatcherThread_MsgDispatcher_MSG //J2C: Head of methodtable of DispatcherThread_MsgDispatcher_MSG
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ThreadJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ThreadJc //J2C: Head of methodtable of ThreadJc
+    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The superclass's methodtable: 
+  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
     , finalize_ObjectJc_F //finalize
     , hashCode_ObjectJc_F //hashCode
     , toString_ObjectJc_F //toString
     }
-    /**J2C: Mtbl-interfaces of DispatcherThread_MsgDispatcher_MSG: */
-  , { { sign_Mtbl_RunnableJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The interface's methodtable: 
+    //J2C: Mtbl-interfaces of :DispatcherThread_MsgDispatcher_MSG: */
+  , { { sign_Mtbl_RunnableJc //J2C: Head of methodtable of RunnableJc
+      , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :RunnableJc:
     , run_DispatcherThread_MsgDispatcher_MSG_F //run
-    , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-        , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+      //J2C: The superclass's methodtable: 
+    , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+        , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
         }
+        //J2C: Dynamic methods of the class :ObjectJc:
       , clone_ObjectJc_F //clone
       , equals_ObjectJc_F //equals
       , finalize_ObjectJc_F //finalize
@@ -1034,7 +1026,7 @@ const MtblDef_DispatcherThread_MsgDispatcher_MSG mtblDispatcherThread_MsgDispatc
 extern_C struct ClassJc_t const reflection_DispatcherThread_MsgDispatcher_MSG_s;
 extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
 extern_C struct ClassJc_t const reflection_Entry_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW_i;
+extern_C struct ClassJc_t const reflection_LogMessageFW_s;
 extern_C struct ClassJc_t const reflection_MsgText_ifc_MSG_s;
 extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
 extern_C struct ClassJc_t const reflection_RunnableJc_s;
@@ -1058,7 +1050,7 @@ const ClassJc reflection_DispatcherThread_MsgDispatcher_MSG_s =
 , "DispatcherThread_M_her_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(DispatcherThread_MsgDispatcher_MSG_s)
-, (FieldJcArray const*)&reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s
+, (FieldJc_Y const*)&reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_DispatcherThread_MsgDispatcher_MSG_s //superclass
 , null //interfaces

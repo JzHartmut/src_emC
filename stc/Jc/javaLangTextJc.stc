@@ -13,7 +13,7 @@ class SimpleDateFormat; nameC=SimpleDateFormatJc_s; header=Jc/DateJc.h; argIdent
 		ctorO+_s-_$, mode=static  : SimpleDateFormat *.. return(String t.. format);
 		applyPattern-_$: void %.. return(String t.. format);
     setTimeZone-_$: void %.. return(java.util.TimeZone *.. timeZone);
-		format-_$, mode=returnNonPersistring  : String t.. return(org/vishia/bridgeC/OS_TimeStamp %.. time);
+		format-_$: String t.k return(org/vishia/bridgeC/OS_TimeStamp %.. time);
 		format+_tu-_$ : StringBuilder *.. return (org/vishia/bridgeC/OS_TimeStamp %.. time, StringBuilder *.. buffer, java.text.FieldPosition *.. position);
 	}
 }

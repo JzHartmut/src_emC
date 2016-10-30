@@ -99,7 +99,7 @@ typedef struct Mtbl_C_theThreadRun_WorkingThread_Inspc_t
 class C_theThreadRun_WorkingThread_Inspc : private C_theThreadRun_WorkingThread_Inspc_s
 { public:
 
-  virtual void run(){ run_C_theThreadRun_WorkingThread_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_C_theThreadRun_WorkingThread_Inspc_F(&this->base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -114,8 +114,8 @@ METHOD_C struct C_theThreadRun_WorkingThread_Inspc_t* ctorO_C_theThreadRun_Worki
 typedef struct Data_WorkingThread_Inspc_t
 { 
   union { ObjectJc object; } base; 
-  int32 dw;   /*Increase of a angle in the step time*/
-  int32 ww;   /*An turning angle in the step time*/
+  int32 dw;   /*Increase of a angle in the step time. It determines the frequency of output signals.*/
+  int32 ww;   /*An turning angle in the step time. The angles value represents the float-range -Math.PI to Math.PI*/
   float wFloat;   /*The angle converted to float. */
   float ySin;   /*Some sine-frequency-values. */
   float ySin2;   /*Some sine-frequency-values. */
@@ -293,7 +293,8 @@ METHOD_C void start_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _t
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void start_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 
-/**Terminate the thread for ever, should be called on termination of the application.*/
+/**Terminate the thread for ever, should be called on termination of the application.
+*/
 typedef void MT_terminate_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void terminate_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt);

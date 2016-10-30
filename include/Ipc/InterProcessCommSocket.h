@@ -58,7 +58,7 @@ struct Address_InterProcessComm_t* ctorO_s0_Address_InterProcessCommSocket(Objec
 
 /**Allocates and creates an instance of [[InterProcessComm]] which is a socket communication.
  */
-InterProcessComm_i* create_InterProcessCommSocket(struct Address_InterProcessComm_t* ownAddress);
+InterProcessComm_s* create_InterProcessCommSocket(struct Address_InterProcessComm_t* ownAddress);
 
 /**Opens the communication, see open_InterProcessComm(...). */
 int open_InterProcessCommSocket( ObjectJc* xthis, Address_InterProcessComm_s* destAddress, bool isBlocking);

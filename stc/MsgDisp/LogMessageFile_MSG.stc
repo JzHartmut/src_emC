@@ -23,7 +23,7 @@ class LogMessageFile; nameC=LogMessageFile_MSG_s; argIdent=XX; extends java/lang
       //outer=2 ,super=1: int %.d version;
     }
       methods {  
-        ctorM-_$, mode= ctor+static: org/vishia/msgDispatch/LogMessageFile.Dbg *.. Dbg_LogMessageFile_MSG_s();
+        ctorM-_$, mode=ctor+static: org/vishia/msgDispatch/LogMessageFile.Dbg *.. Dbg_LogMessageFile_MSG_s();
       }
 
       castTo {
@@ -35,7 +35,7 @@ class LogMessageFile; nameC=LogMessageFile_MSG_s; argIdent=XX; extends java/lang
   }
 fieldIdents {
   boolean %.. bNewFile;
-  char[32] Y%. charsFormatTimestampFilename;
+  char[??] X%. charsFormatTimestampFilename;
   int %.. cntAllNonFlushedWrite;
   int %.. cntNonFlushedWrite;
   int %.. counterMultifile;
@@ -72,16 +72,16 @@ fieldIdents {
   int %.d version;
 }
   methods {  
-    close-_$, defined: org/vishia/msgDispatch/LogMessage.close, mode= overrideable: void %.r null();
-    ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/LogMessageFile *.. LogMessageFile_MSG_s(java/lang/String(instance=java/lang/String) t.. sFilename,int %.. nrofSecondsToFlush,int %.. nrofHoursPerFile,java/util/Locale *.. localization,java/util/TimeZone *.. timeZoneP,org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeEntriesP);
-    finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
-    flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush, mode= overrideable: void %.r null();
-    isOnline-_$, defined: org/vishia/msgDispatch/LogMessage.isOnline, mode= overrideable: boolean %.r null();
-    sendMsg+_izv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsg, mode= noThCxt+overrideable: boolean %.r null(int %.. identNumber,s0(instance=s0) %.. text,va_argRaw +.. args);
-    sendMsgTime+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgTime, mode= noThCxt: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,va_argRaw +.. args);
-    sendMsgVaList+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgVaList, mode= overrideable: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
-    setLogMessageOpenClose-_$, mode= overrideable: void %.r null(org/vishia/msgDispatch/LogMessage *.. msg,int %.. msgIdentOpenClose);
-    writeInFile-_$, mode= overrideable: void %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
+    close-_$, defined: org/vishia/msgDispatch/LogMessage.close, mode=overrideable: void %.r null();
+    ctorO-_$, mode=ctor+static: org/vishia/msgDispatch/LogMessageFile *.. LogMessageFile_MSG_s(java/lang/String(instance=java/lang/String) t.. sFilename,int %.. nrofSecondsToFlush,int %.. nrofHoursPerFile,java/util/Locale *.. localization,java/util/TimeZone *.. timeZoneP,org/vishia/bridgeC/ConcurrentLinkedQueue *.. freeEntriesP);
+    finalize-_$, defined: java/lang/Object.finalize, mode=overrideable: void %.. void();
+    flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush, mode=overrideable: void %.r null();
+    isOnline-_$, defined: org/vishia/msgDispatch/LogMessage.isOnline, mode=overrideable: boolean %.r null();
+    sendMsg+_izv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsg, mode=noThCxt+overrideable: boolean %.r null(int %.. identNumber,s0(instance=s0) %.. text,va_argRaw +.. args);
+    sendMsgTime+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgTime, mode=noThCxt: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,va_argRaw +.. args);
+    sendMsgVaList+_iDtzv-_$, defined: org/vishia/msgDispatch/LogMessage.sendMsgVaList, mode=overrideable: boolean %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
+    setLogMessageOpenClose-_$, mode=overrideable: void %.r null(org/vishia/msgDispatch/LogMessage *.. msg,int %.. msgIdentOpenClose);
+    writeInFile-_$, mode=overrideable: void %.r null(int %.. identNumber,org/vishia/bridgeC/OS_TimeStamp(instance=org/vishia/bridgeC/OS_TimeStamp) $.. creationTime,s0(instance=s0) %.. text,org/vishia/bridgeC/Va_list(instance=org/vishia/bridgeC/Va_list) $.. args);
   }
 
   methods-overrideable {

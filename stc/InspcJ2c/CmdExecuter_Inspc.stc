@@ -20,10 +20,10 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    completeConstruction-_$, mode= overrideable: void %.r null(org/vishia/inspectorTarget/Comm *.. comm);
-    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/CmdExecuter *.. CmdExecuter_Inspc_s(org/vishia/inspectorTarget/CmdConsumer_ifc *.. commandConsumer);
-    executeCmd-_$, mode= overrideable: boolean %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived);
-    txAnswer+_ib-_$, defined: org/vishia/inspectorTarget/AnswerComm_ifc.txAnswer, mode= overrideable: int %.r null(int %.. nrofAnswerBytesPart,boolean %.. bLastTelg);
+    completeConstruction-_$, mode=overrideable: void %.r null(org/vishia/inspectorTarget/Comm *.. comm);
+    ctorO-_$, mode=ctor+static: org/vishia/inspectorTarget/CmdExecuter *.. CmdExecuter_Inspc_s(org/vishia/inspectorTarget/CmdConsumer_ifc *.. commandConsumer);
+    executeCmd-_$, mode=overrideable: boolean %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived);
+    txAnswer+_ib-_$, defined: org/vishia/inspectorTarget/AnswerComm_ifc.txAnswer, mode=overrideable: int %.r null(int %.. nrofAnswerBytesPart,boolean %.. bLastTelg);
   }
 
   methods-overrideable {
@@ -32,8 +32,8 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/inspectorTarget/AnswerComm_ifc: $ "(?).base.AnswerComm_ifc_Inspc" $;
-    java/lang/Object: $ "(?).base.AnswerComm_ifc_Inspc.base.object" $;
+    org/vishia/inspectorTarget/AnswerComm_ifc: $ "(?).base/*J2C:ifc*/.AnswerComm_ifc_Inspc" $;
+    java/lang/Object: $ "(?).base/*J2C:ifc*/.AnswerComm_ifc_Inspc.base/*J2C_super:*/.object" $;
   }
 
 }

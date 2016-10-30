@@ -44,6 +44,13 @@
   #include "fw_Exception.h"
 #endif
 
+
+typedef struct AddrUsed_ThreadContextFW_t
+{ char const* sign;
+  MemC used;
+} AddrUsed_ThreadContextFW;
+
+
 /*@CLASS_C ThreadContextFW @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
@@ -63,25 +70,27 @@ typedef struct ThreadContextFW_t
    * That is usual if more as one time a block is allocated and freed in a loop.
    * If the element contains {0,0} than it is not a gap, and the whole memory till end of [[ThreadContextFW_s.bufferAlloc]] is available. 
    */
-  MemC addrUsed[10];
+  AddrUsed_ThreadContextFW addrUsed[30];
 
-  /**If the bit from 0..9 is set, the address is in use. 0: freed. */
+  /**If the bit from 0..29 is set, the address is in use. 0: freed. */
   int32 bitAddrUsed;
 
   /**The free address of [[ThreadContextFW_s.bufferAlloc]]. It is equal the start address if all is free.*/
   MemUnit* addrFree;
   
+  int16 ixLastAddrUsed;
+
+  int16 mode;
+
+  #define mOptimizeToString_Mode_ThCxt 0x0001
+  
+  #define mBufferUsed_Mode_ThCxt 0x0002
+  
+  #define mCheckBufferUsed_Mode_ThCxt 0x0004
+  
   /**It is the heap, where block heap allocations are provided in this thread. */
   struct BlockHeapJc_t* blockHeap;
 
-  int32 mode;
-
-  #define mOptimizeToString_Mode_ThCxt 0x00000001
-  
-  #define mBufferUsed_Mode_ThCxt 0x00000002
-  
-  #define mCheckBufferUsed_Mode_ThCxt 0x00000004
-  
   /**The known highest address in the stack. It is the address of the _ThCxt* pointer
    * of the first routine, which creates the Thread context.
    */
@@ -126,8 +135,20 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt);
  *
  * The buffer may be given by [[ThreadContextFW_s.setUserBuffer_ThreadContextFw(...)]] or it is allocated on demand on first usage.
  * Because the buffer is stored not globally but thread specific this mechanism is threadsafe, .
+ * @param size in MemUnit
+ * @param sign a number to support debugging which part of code has allocated, use a unified number if possible.
  */ 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, ThCxt* _thCxt);
+METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _thCxt);
+
+/**Reduces the size of the last gotten buffer in thread context.
+ * This routine shall be called immediately after filling the current one buffer, before another buffer is gotten.
+ * This routine is called in toStringNonPersist_StringBuilderJc(). It is success if it is the last gotten buffer.
+ * If ptr does not refer the last gotten buffer this routine does nothing.
+ * Especially if a string is prepared, its length is only given after preparation. Then it is time to set to used size.
+ * @param ptr To check wheterh it is the last gotten buffer.
+ * @param size the used size. The rest till the end of the Thread contect buffer area is now free for further buffer. 
+ */
+METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThCxt* _thCxt);
 
 
 /**Sets the mode whether the release of the buffer in ThreadContext is necessary. 
@@ -141,8 +162,6 @@ METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt)
 
 
 //METHOD_C void free(void const* addr);
-
-
 
 METHOD_C bool xxxoptimizeString_ThCxt(ThCxt* ythis, bool value);
 

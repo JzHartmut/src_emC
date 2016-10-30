@@ -58,28 +58,44 @@ void finalize_StringFunctions_CJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
  extern StringJc version_StringFunctions_CJc;   /*Version, history and license.*/
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_StringFunctions_CJc();
+
+
+
 
 /**Default constructor. */
 METHOD_C struct StringFunctions_CJc_t* ctorO_StringFunctions_CJc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Parses a given String and convert it to the integer number.*/
-METHOD_C int32 parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+/**Parses a given String and convert it to the integer number.
+The String may start with a negative sign ('-') and should contain digits after them.
+The digits for radix > 10 where built by the numbers 'A'..'Z' respectively 'a'..'z',
+known as hexa numbers A..F or a..f. 
+*/
+METHOD_C int32 parseIntRadix_CsiiiiYS_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+
+/***  */
+#define parseIntRadix_CsiiiiY_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars) \
+(parseIntRadix_CsiiiiYS_StringFunctions_CJc(/*J2C:static method call*/srcP, pos, sizeP, radix, parsedChars, null_StringJc /*J2C: mem assignment*/, _thCxt))
+
+/**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.
+*/
+METHOD_C int64 parseLong_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
+
+/**Parses a given String backward and convert it to the integer number.
+The String may start with a negative sign ('-') and should contain digits after them.
+The digits for radix > 10 where built by the numbers 'A'..'Z' respectively 'a'..'z',
+known as hexa numbers A..F or a..f. 
+*/
+METHOD_C int32 parseIntRadixBack_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt);
 
 /*** */
-#define parseIntRadix_SiiiiY_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars) \
-(parseIntRadix_SiiiiYS_StringFunctions_CJc(/*static*/srcP, pos, sizeP, radix, parsedChars, null_StringJc, _thCxt))
+METHOD_C float parseFloat_CsiiiY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt);
 
-/**Adequate method for long values, see {@link #parseIntRadix(String, int, int, int, int[], String)}.*/
-METHOD_C int64 parseLong_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJc spaceChars, ThCxt* _thCxt);
-
-/**Parses a given String backward and convert it to the integer number.*/
-METHOD_C int32 parseIntRadixBack_StringFunctions_CJc(/*static*/ StringJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, ThCxt* _thCxt);
-
-/*** */
-METHOD_C float parseFloat_SiiiY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, int32 sizeP, int32* parsedChars, ThCxt* _thCxt);
-
-/**Parses a given String and convert it to the float number.*/
-METHOD_C float parseFloat_SiiciY_StringFunctions_CJc(/*static*/ StringJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt);
+/**Parses a given String and convert it to the float number.
+An exponent is not regarded yet (TODO).
+*/
+METHOD_C float parseFloat_CsiiciY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -99,17 +115,17 @@ class StringFunctions_CJc : private StringFunctions_CJc_s
 
   StringFunctions_CJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctions_CJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctions_CJc_s, 0); ctorO_StringFunctions_CJc(&this->base.object,  null/*_thCxt*/); }
 
-  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP){  return parseFloat_SiiciY_StringFunctions_CJc(src, pos, sizeP, decimalpoint, parsedCharsP,  null/*_thCxt*/); }
+  float parseFloat(CharSeqJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP){  return parseFloat_CsiiciY_StringFunctions_CJc(src, pos, sizeP, decimalpoint, parsedCharsP,  null/*_thCxt*/); }
 
-  float parseFloat(StringJcpp src, int32 pos, int32 sizeP, int32* parsedChars){  return parseFloat_SiiiY_StringFunctions_CJc(src, pos, sizeP, parsedChars,  null/*_thCxt*/); }
+  float parseFloat(CharSeqJc src, int32 pos, int32 sizeP, int32* parsedChars){  return parseFloat_CsiiiY_StringFunctions_CJc(src, pos, sizeP, parsedChars,  null/*_thCxt*/); }
 
-  int32 parseIntRadixBack(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadixBack_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
+  int32 parseIntRadixBack(CharSeqJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadixBack_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars,  null/*_thCxt*/); }
 
-  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseIntRadix_SiiiiYS_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
+  int32 parseIntRadix(CharSeqJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseIntRadix_CsiiiiYS_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
 
-  int32 parseIntRadix(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadix_SiiiiY_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars); }
+  int32 parseIntRadix(CharSeqJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars){  return parseIntRadix_CsiiiiY_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars); }
 
-  int64 parseLong(StringJcpp srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseLong_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
+  int64 parseLong(CharSeqJc srcP, int32 pos, int32 sizeP, int32 radix, int32* parsedChars, StringJcpp spaceChars){  return parseLong_StringFunctions_CJc(srcP, pos, sizeP, radix, parsedChars, spaceChars,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

@@ -54,7 +54,8 @@ void finalize_AnswerComm_ifc_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 
-/**Sends an answer.*/
+/**Sends an answer. 
+* */
 typedef int32 MT_txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt);

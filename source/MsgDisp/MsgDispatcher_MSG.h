@@ -68,7 +68,8 @@ void finalize_DispatcherThread_MsgDispatcher_MSG_F(ObjectJc* othis, ThCxt* _thCx
 
 
 
-/**Initializes the Thread for dispaching messages.*/
+/**Initializes the Thread for dispaching messages.
+*/
 METHOD_C struct DispatcherThread_MsgDispatcher_MSG_t* ctorO_DispatcherThread_MsgDispatcher_MSG(struct MsgDispatcher_MSG_t* outer, ObjectJc* othis, int32 cycleMillisec, ThCxt* _thCxt);
 
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -139,40 +140,68 @@ void finalize_MsgDispatcher_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 #define version_MsgDispatcher_MSG 0x20120302  /*Version, history and license.*/
 
 
-/**Initializes the instance.*/
+/**Initializes the instance.
+*/
 METHOD_C struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDispatchEntries, int32 maxQueue, int32 maxOutputs, int32 nrofMixedOutputs, int32 msgIdentQueueOverflow, struct RunnableJc_t* runNoEntryMessage, ThCxt* _thCxt);
 
-/**Gets the internal free entries for sharing with an other log output,*/
+/**Gets the internal free entries for sharing with an other log output, 
+at example LogMessageFile.
+*/
 METHOD_C struct ConcurrentLinkedQueueJc_t* getSharedFreeEntries_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, ThCxt* _thCxt);
 
 METHOD_C void setDefaults_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc fileOut, ThCxt* _thCxt);
 
-/**inserts an ident range after given position:*/
+/**inserts an ident range after given position:
+<pre> 1 means any stored ident number, 7 means a number behind,
+i,j means the inserted idents. The idx selects the 1.-ident.
+before: ....1.7......
+after:  ....1.i.j.7..</pre>
+If fromIdent == toIdent, only one position is inserted:
+<pre>
+before: ....1.7....
+after:  ....1.j.7..
+*/
 METHOD_C int32 insertIdent_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 idx, int32 fromIdent, int32 toIdent, ThCxt* _thCxt);
 
-/**Sets a destination interface to a index for dispatching.*/
+/**Sets a destination interface to a index for dispatching.
+*/
 METHOD_C void setOutputRoutine_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 dstIdx, StringJc name, bool bQueued, bool bText, struct LogMessageFW_t* dst, ThCxt* _thCxt);
 
-/**Sets the output dispatch bits for the given message number range.*/
+/**Sets the output dispatch bits for the given message number range.
+*/
 METHOD_C int32 setOutputRange_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 fromIdent, int32 toIdent, int32 dst, int32 mode, int32 level, ThCxt* _thCxt);
 
-/**Sets the output from a String content.*/
+/**Sets the output from a String content.
+Syntax-Example:
+<pre>
+123..512:0x27  //It is a bit mask, all messages from 123 to inclusive 521 are set to channels 0,1,2 and 5  
+1001:+CON.      //Message 1001 is sent additional to CON
+</pre>
+*/
 METHOD_C StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc ctrl, struct StringBufferJc_t* errorBuffer, ThCxt* _thCxt);
 
-/**Writes the msg dispatching outputs in file.*/
+/**Writes the msg dispatching outputs in file. 
+The form is the same which are used for {@link #setOutputFromString(String, StringBuffer)}.
+*/
 METHOD_C bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriterJc_t* file, ThCxt* _thCxt);
 
-/**Completes a destination bit mask with the information, whether any destinations are used*/
+/**Completes a destination bit mask with the information, whether any destinations are used
+in the calling thread or in the dispatcher thread. 
+*/
 METHOD_C int32 completeDispatchInThreadBits_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 dstBits, ThCxt* _thCxt);
 
 /**It's a debug helper. The method is empty, but it is a mark to set a breakpoint. */
 METHOD_C void stop_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, ThCxt* _thCxt);
 
-/**close and flush forces the dispatching of the messages in the queue.*/
-METHOD_C void close_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+/**close and flush forces the dispatching of the messages in the queue. 
+@see org.vishia.util.LogMessage#close()
+*/
+METHOD_C void close_MsgDispatcher_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
-/**flush forces the dispatching of the messages in the queue.*/
-METHOD_C void flush_MsgDispatcher_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+/**flush forces the dispatching of the messages in the queue. 
+@see org.vishia.util.LogMessage#close()
+*/
+METHOD_C void flush_MsgDispatcher_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

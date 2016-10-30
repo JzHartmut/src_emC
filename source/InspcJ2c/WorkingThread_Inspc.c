@@ -11,7 +11,7 @@
 
 /* J2C: Forward declaration of struct ***********************************************/
 
-/**This is a class which does anything to display it with the reflectPro-target.
+/**This is a class which does anything to display it with the reflectPro-target. 
 It creates an own thread and calculates some sine-curve-values.
 @author Hartmut Schorrig.
 
@@ -30,16 +30,16 @@ struct WorkingThread_Inspc_t* ctorO_WorkingThread_Inspc(ObjectJc* othis, ThCxt* 
   checkConsistence_ObjectJc(othis, sizeof(WorkingThread_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_WorkingThread_Inspc_s, sizeof(WorkingThread_Inspc_s));  
   //j2c: Initialize all class variables:
-  {ObjectJc *newObj0_1=null; /*J2C: temporary Objects for new operations
+  {ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
       */
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->data.base.object), sizeof(thiz->data), 0); 
-      ctorO_Data_WorkingThread_Inspc(/*static*/&(thiz->data.base.object), _thCxt);
+      ctorO_Data_WorkingThread_Inspc(/*J2C:static method call*/&(thiz->data.base.object), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->theThreadRun.base.object), sizeof(thiz->theThreadRun), 0); 
       ctorO_C_theThreadRun_WorkingThread_Inspc(thiz, &(thiz->theThreadRun.base.object), _thCxt);
-    SETREFJc(thiz->theThreadMng, ctorO_ThreadMng_WorkingThread_Inspc(thiz, (newObj0_1 = alloc_ObjectJc(sizeof_ThreadMng_WorkingThread_Inspc_s, 0, _thCxt)), _thCxt), ThreadMng_WorkingThread_Inspc_s);
-    activateGC_ObjectJc(newObj0_1, null, _thCxt);
+    SETREFJc(thiz->theThreadMng, ctorO_ThreadMng_WorkingThread_Inspc(thiz, (newObj1_1 = alloc_ObjectJc(sizeof_ThreadMng_WorkingThread_Inspc_s, 0, _thCxt)), _thCxt), ThreadMng_WorkingThread_Inspc_s);
+    activateGC_ObjectJc(newObj1_1, null, _thCxt);
   }
   { 
     
@@ -51,14 +51,14 @@ struct WorkingThread_Inspc_t* ctorO_WorkingThread_Inspc(ObjectJc* othis, ThCxt* 
 
 
 
-/**Start of the thread, should be called initially if the application is built completely. */
+/**Start of the thread, should be called initially if the application is built completely.  (J2C:wmDef)*/
 void start_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_WorkingThread_Inspc_F");
   
   { 
     
-    start_ThreadJc(& (REFJc(thiz->theThreadMng)->thread), -1, _thCxt);
+    start_ThreadJc(& (REFJc    (thiz->theThreadMng)->thread), -1, _thCxt);
   }
   STACKTRC_LEAVE;
 }
@@ -70,14 +70,14 @@ void start_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Terminate the thread for ever, should be called on termination of the application.*/
+/**Terminate the thread for ever, should be called on termination of the application. (J2C:wmDef)*/
 void terminate_WorkingThread_Inspc_F(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("terminate_WorkingThread_Inspc_F");
   
   { 
     
-    REFJc(thiz->theThreadMng)->bRun = false;
+    REFJc    (thiz->theThreadMng)->bRun = false;
   }
   STACKTRC_LEAVE;
 }
@@ -93,24 +93,23 @@ void step_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
   STACKTRC_TENTRY("step_WorkingThread_Inspc");
   
   { 
-    float ww; 
-    
     
     thiz->data.ww += thiz->data.dw;/*increasing of angle. Runs wrapping over PI*/
     
-    ww = (float)(thiz->data.ww * PI_MathJc / 0x80000000);
+    
+    float  ww = (float /*J2C_cast*/)(thiz->data.ww * PI_MathJc / 0x80000000);
     if(thiz->data.ww >= PI_MathJc) 
     { 
       
-      thiz->data.ww -= ((/*J2C:cast% from double*/int32)(2 * PI_MathJc));/*runs in range -Pi .. +PI*/
+      thiz->data.ww -= ((/*J2C:cast% from double*/int32)(2 * PI_MathJc));/*runs in range -Pi .. +PI */
       
     }
     thiz->data.wFloat = ww;/*Note: Java knows only the double versions of trigonometric functions.*/
     
-    thiz->data.ySin = (float)sin(/*static*/ww);
-    thiz->data.ySin2 = (float)sin(/*static*/(float)(2 * ww + PI_MathJc / 2));
-    thiz->data.ySin3 = (float)sin(/*static*/(float)(3 * ww));
-    thiz->data.yCos = (float)cos(/*static*/ww);
+    thiz->data.ySin = (float /*J2C_cast*/)sin(/*J2C:static method call*/ww);
+    thiz->data.ySin2 = (float /*J2C_cast*/)sin(/*J2C:static method call*/(float /*J2C_cast*/)(2 * ww + PI_MathJc / 2));
+    thiz->data.ySin3 = (float /*J2C_cast*/)sin(/*J2C:static method call*/(float /*J2C_cast*/)(3 * ww));
+    thiz->data.yCos = (float /*J2C_cast*/)cos(/*J2C:static method call*/ww);
     thiz->data.yOut1 = thiz->data.ySin + thiz->data.ySin2;/* + data.ySin3;*/
     
   }
@@ -133,14 +132,17 @@ void finalize_WorkingThread_Inspc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_WorkingThread_Inspc mtblWorkingThread_Inspc = {
-{ { sign_Mtbl_WorkingThread_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_WorkingThread_Inspc //J2C: Head of methodtable of WorkingThread_Inspc
+  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
+  //J2C: Dynamic methods of the class :WorkingThread_Inspc:
 , start_WorkingThread_Inspc_F //start
 , terminate_WorkingThread_Inspc_F //terminate
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_WorkingThread_Inspc_F //finalize
@@ -199,7 +201,7 @@ const ClassJc reflection_WorkingThread_Inspc_s =
 , "WorkingThread_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(WorkingThread_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_WorkingThread_Inspc_s
+, (FieldJc_Y const*)&reflection_Fields_WorkingThread_Inspc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_WorkingThread_Inspc_s //superclass
 , null //interfaces
@@ -233,12 +235,14 @@ struct Data_WorkingThread_Inspc_t* ctorO_Data_WorkingThread_Inspc(ObjectJc* othi
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_Data_WorkingThread_Inspc mtblData_WorkingThread_Inspc = {
-{ { sign_Mtbl_Data_WorkingThread_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_Data_WorkingThread_Inspc //J2C: Head of methodtable of Data_WorkingThread_Inspc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
@@ -334,7 +338,7 @@ const ClassJc reflection_Data_WorkingThread_Inspc_s =
 , "Data_WorkingThread_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(Data_WorkingThread_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_Data_WorkingThread_Inspc_s
+, (FieldJc_Y const*)&reflection_Fields_Data_WorkingThread_Inspc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_Data_WorkingThread_Inspc_s //superclass
 , null //interfaces
@@ -359,7 +363,7 @@ struct ThreadMng_WorkingThread_Inspc_t* ctorO_ThreadMng_WorkingThread_Inspc(stru
   {
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->thread.base.object), sizeof(thiz->thread), 0); 
-      ctorO_Runnable_s_ThreadJc(/*static*/&(thiz->thread.base.object), & ((thiz->outer->theThreadRun).base.RunnableJc), s0_StringJc("WorkingThread"), _thCxt);
+      ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/&(thiz->thread.base.object), & ((thiz->outer->theThreadRun).base/*J2C:ifc*/.RunnableJc), s0_StringJc("WorkingThread"), _thCxt);
   }/*J2C:No body for constructor*/
 
   STACKTRC_LEAVE;
@@ -371,12 +375,14 @@ struct ThreadMng_WorkingThread_Inspc_t* ctorO_ThreadMng_WorkingThread_Inspc(stru
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_ThreadMng_WorkingThread_Inspc mtblThreadMng_WorkingThread_Inspc = {
-{ { sign_Mtbl_ThreadMng_WorkingThread_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_ThreadMng_WorkingThread_Inspc //J2C: Head of methodtable of ThreadMng_WorkingThread_Inspc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
@@ -428,7 +434,7 @@ const ClassJc reflection_ThreadMng_WorkingThread_Inspc_s =
 , "ThreadMng_WorkingT_d_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(ThreadMng_WorkingThread_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_ThreadMng_WorkingThread_Inspc_s
+, (FieldJc_Y const*)&reflection_Fields_ThreadMng_WorkingThread_Inspc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_ThreadMng_WorkingThread_Inspc_s //superclass
 , null //interfaces
@@ -448,15 +454,15 @@ void run_C_theThreadRun_WorkingThread_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
   
   { 
     
-    REFJc(thiz->outer->theThreadMng)->bRun = true;
+    REFJc    (thiz->outer->theThreadMng)->bRun = true;
     
-    while(REFJc(thiz->outer->theThreadMng)->bRun)
+    while(REFJc    (thiz->outer->theThreadMng)->bRun)
       { 
         
         TRY
         { 
           
-          sleep_ThreadJc(/*static*/10, _thCxt);
+          sleep_ThreadJc(/*J2C:static method call*/10, _thCxt);
         }_TRY
         CATCH(InterruptedException, exc)
         
@@ -470,7 +476,7 @@ void run_C_theThreadRun_WorkingThread_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
             { /*:runs 100 times the step routine, it is adequate a step-time of 100 us*/
               
               
-              step_WorkingThread_Inspc((thiz)->outer, _thCxt);
+              step_WorkingThread_Inspc((struct WorkingThread_Inspc_t * /*J2C chg access*/)(thiz)->outer, _thCxt);
             }
         }
       }
@@ -505,26 +511,32 @@ struct C_theThreadRun_WorkingThread_Inspc_t* ctorO_C_theThreadRun_WorkingThread_
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_C_theThreadRun_WorkingThread_Inspc mtblC_theThreadRun_WorkingThread_Inspc = {
-{ { sign_Mtbl_C_theThreadRun_WorkingThread_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_C_theThreadRun_WorkingThread_Inspc //J2C: Head of methodtable of C_theThreadRun_WorkingThread_Inspc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-  /**J2C: Mtbl-interfaces of C_theThreadRun_WorkingThread_Inspc: */
-, { { sign_Mtbl_RunnableJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The interface's methodtable: 
+  //J2C: Mtbl-interfaces of :C_theThreadRun_WorkingThread_Inspc: */
+, { { sign_Mtbl_RunnableJc //J2C: Head of methodtable of RunnableJc
+    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :RunnableJc:
   , run_C_theThreadRun_WorkingThread_Inspc_F //run
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The superclass's methodtable: 
+  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
     , finalize_ObjectJc_F //finalize

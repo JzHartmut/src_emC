@@ -20,7 +20,7 @@ class SearchElement; nameC=SearchElement_Inspc_s; argIdent=XX; extends java/lang
       //outer=2 ,super=1: java/lang/String(instance=java/lang/String) t.s version;
     }
       methods {  
-        ctorM-_$, mode= ctor+static: org/vishia/inspectorTarget/SearchElement.SearchTrc *.. SearchTrc_SearchElement_Inspc_s();
+        ctorM-_$, mode=ctor+static: org/vishia/inspectorTarget/SearchElement.SearchTrc *.. SearchTrc_SearchElement_Inspc_s();
       }
 
       castTo {
@@ -35,12 +35,12 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/SearchElement *.. SearchElement_Inspc_s();
-    searchObject-_$, mode= static: org/vishia/bridgeC/MemSegmJc(instance=org/vishia/bridgeC/MemSegmJc) $.r null(java/lang/String(instance=java/lang/String) t.. sPath,java/lang/Object *.. startObj,org/vishia/reflect/FieldJc[??] P*. retField,int[??] P%. retIdx);
+    ctorO-_$, mode=ctor+static: org/vishia/inspectorTarget/SearchElement *.. SearchElement_Inspc_s();
+    searchObject-_$, mode=static: org/vishia/bridgeC/MemSegmJc(instance=org/vishia/bridgeC/MemSegmJc) $.r null(java/lang/String(instance=java/lang/String) t.. sPath,java/lang/Object *.. startObj,org/vishia/reflect/FieldJc[??] P*. retField,int[??] P%. retIdx);
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

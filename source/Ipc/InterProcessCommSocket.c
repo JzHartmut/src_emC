@@ -280,7 +280,7 @@ typedef enum{ kDataBufferSize_InterProcessCommSocket_s = 1500}_eXYZ;
 /**The C-struct with all data. C++ is implemented below based on this struct. */
 typedef struct InterProcessCommSocket_t
 {
-  union{ InterProcessComm_i InterProcessComm; ObjectJc object; } ifc;
+  union{ InterProcessComm_s InterProcessComm; ObjectJc object; } ifc;
   
   Mtbl_InterProcessComm const* mtblInterProcessComm;
 
@@ -357,7 +357,7 @@ static int socketError_InterProcessComm()
 
 
 
-InterProcessComm_i* ctor_InterProcessCommSocket(InterProcessCommSocket_s* ythis, Address_InterProcessComm_Socket_s* ownAddress)
+InterProcessComm_s* ctor_InterProcessCommSocket(InterProcessCommSocket_s* ythis, Address_InterProcessComm_Socket_s* ownAddress)
 //InterProcessCommImplement::InterProcessCommImplement(Address_InterProcessComm_Socket_s* ownAddress)
 {
   int zName;
@@ -414,7 +414,7 @@ InterProcessComm_i* ctor_InterProcessCommSocket(InterProcessCommSocket_s* ythis,
 
 InterProcessCommSocket_s* ctorO_InterProcessCommSocket(ObjectJc* othis, Address_InterProcessComm_s * addr, struct ThreadContextFW_t* _thCxt)
 {
-  //InterProcessComm_i* ret;
+  //InterProcessComm_s* ret;
   InterProcessCommSocket_s* ythis = (InterProcessCommSocket_s*)othis;
   STACKTRC_TENTRY("ctorO_InterProcessCommSocket");
   checkConsistence_ObjectJc(othis, sizeof(InterProcessCommSocket_s), null, _thCxt);  
@@ -813,7 +813,7 @@ void freeData_InterProcessCommSocket(ObjectJc* xthis, MemC dataP)
   }
   else
   { MemC mem = build_MemC(data, -1); //{ -1, (MemAreaC*)data};
-    free_MemC(mem);
+    freeM_MemC(mem);
   }
 }
 
@@ -1042,15 +1042,15 @@ InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* proto
 
 #include "../Ipc2c/InterProcessCommFactorySocket_Ipc.h"
 
-InterProcessCommFactory_i* getInstance_InterProcessCommFactoryAccessor()
+InterProcessCommFactory_s* getInstance_InterProcessCommFactory()
 {
   ObjectJc* oFactory = alloc_ObjectJc(sizeof(InterProcessCommFactorySocket_Ipc_s), 0, null);
   InterProcessCommFactorySocket_Ipc_s* factory = ctorO_InterProcessCommFactorySocket_Ipc(oFactory, null);
-  InterProcessCommFactory_i* iFactory = &factory->base.InterProcessCommFactory;
+  InterProcessCommFactory_s* iFactory = &factory->base.super; //InterProcessCommFactory;
   return  iFactory;
 }
 
-InterProcessComm_i* create_InterProcessCommSocket(Address_InterProcessComm_s* ownAddress)
+InterProcessComm_s* create_InterProcessCommSocket(Address_InterProcessComm_s* ownAddress)
 { MemC mIpc = alloc_MemC(sizeof(InterProcessCommSocket_s));
   return ctor_InterProcessCommSocket(PTR_MemC(mIpc, InterProcessCommSocket_s), ownAddress);
   //InterProcessCommSocket_s* ipc = (InterProcessCommSocket_s*)malloc(sizeof(InterProcessCommSocket_s));

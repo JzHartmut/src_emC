@@ -54,7 +54,7 @@
 
 
 
-typedef union U_intfloat_t{
+typedef union U_intfloat_t {
   float f; int32_t i;
 } U_intfloat;
 
@@ -67,6 +67,8 @@ typedef union U_ptr_t{
 
 
 /*@DEFINE_C specialDefines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**specialDefines: ...*/
 
 /** This type represents a pointer to a void name(void) - method.
   * It is needed on some locations in software.

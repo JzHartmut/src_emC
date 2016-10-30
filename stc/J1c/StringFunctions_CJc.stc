@@ -8,13 +8,13 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/util/StringFunctions_C *.. StringFunctions_CJc_s();
-    parseFloat+_SiiiY-_$, mode= static: float %.r null(java/lang/String(instance=java/lang/String) t.. src,int %.. pos,int %.. sizeP,int[??] P%. parsedChars);
-    parseFloat+_SiiciY-_$, mode= static: float %.r null(java/lang/String(instance=java/lang/String) t.. src,int %.. pos,int %.. sizeP,char %.. decimalpoint,int[??] P%. parsedCharsP);
-    parseIntRadix+_SiiiiY-_$, mode= noThCxt+static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars);
-    parseIntRadix+_SiiiiYS-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars,java/lang/String(instance=java/lang/String) t.. spaceChars);
-    parseIntRadixBack-_$, mode= static: int %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars);
-    parseLong-_$, mode= static: long %.r null(java/lang/String(instance=java/lang/String) t.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars,java/lang/String(instance=java/lang/String) t.. spaceChars);
+    ctorO-_$, mode=ctor+static: org/vishia/util/StringFunctions_C *.. StringFunctions_CJc_s();
+    parseFloat+_CsiiiY-_$, mode=static: float %.r null(java/lang/CharSequence c.. src,int %.. pos,int %.. sizeP,int[??] P%. parsedChars);
+    parseFloat+_CsiiciY-_$, mode=static: float %.r null(java/lang/CharSequence c.. src,int %.. pos,int %.. sizeP,char %.. decimalpoint,int[??] P%. parsedCharsP);
+    parseIntRadix+_CsiiiiY-_$, mode=noThCxt+static: int %.r null(java/lang/CharSequence c.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars);
+    parseIntRadix+_CsiiiiYS-_$, mode=static: int %.r null(java/lang/CharSequence c.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars,java/lang/String(instance=java/lang/String) t.. spaceChars);
+    parseIntRadixBack-_$, mode=static: int %.r null(java/lang/CharSequence c.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars);
+    parseLong-_$, mode=static: long %.r null(java/lang/CharSequence c.. srcP,int %.. pos,int %.. sizeP,int %.. radix,int[??] P%. parsedChars,java/lang/String(instance=java/lang/String) t.. spaceChars);
   }
 
   castTo {

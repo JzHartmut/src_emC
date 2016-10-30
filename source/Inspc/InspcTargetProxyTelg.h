@@ -62,35 +62,25 @@ typedef enum Cmd_InspcTargetProxyTelg_t
 
 
 
-/**This struct describes the common head of any telegram for inspector communication. 16 Byte. */
-typedef struct InspcTelgHead_Inspc_t
-{
-  /**Nr of bytes of this telegram. */
-  int16BigEndian nrofBytes;
 
-  /**The command is a version identificator too. A new version uses new command constants. 
-   * That is used as BOM (Byte Order Mark) too: 
-   * * A big endian command sets its bit15 to 0 anyway. It means the bit 7 in the first byte is 0.
-   * * A little endian command sets its bit 7 to 1. It means the bit 7 in the first byte is 1. 
-   */
-  int16BigEndian cmdTelg;
+#define bitPosBitsInBitfieldAccess_InspcTargetProxyTelg 0
+/**Mask for the bit position in a bitfield. With this 12 bits at least 4096 bits are able to address,
+ * That is 128 int32-words. */
+#define mPosBitsInBitfieldAccess_InspcTargetProxyTelg 0xfff
 
-  #define mLittleEndianCmdTelg_Inspc 0x0080;
+/**The bit position where the 'nrofBits' information is stored in the bitfield. */
+#define bitNrofBitsInBitfieldAccess_InspcTargetProxyTelg 12
 
-  /**A number to support an encryption. For future extensions. */
-  int32BigEndian encryption;
+/**Mask for the nrofBits. With this 4 bits at least 16 bits are able to read as a bitfield member.
+ * 16 is coded with 0. 
+ */
+#define mNrofBitsInBitfieldAccess_InspcTargetProxyTelg 0xf000
 
-  /**The sequence number of this telegram. The request and the answer have the same sequence number. */
-  int32BigEndian seqnr;
-
-  /**A answer number if the answer uses more as one telegram. */
-  int16BigEndian answernr;
-
-  /**Distinction if more as one service is used with the same port of communication. */ 
-  int16BigEndian entrant;
+#define kBitValueInBitfieldAccess_InspcTargetProxyTelg 16
+#define mValueInBitfieldAccess_InspcTargetProxyTelg 0xffff0000
 
 
-} InspcTelgHead_Inspc_s;
+
 
 
 
@@ -99,7 +89,7 @@ typedef struct InspcTelgHead_Inspc_t
  * The first 2 bytes should be the length, after them 2 bytes are the command.
  * All other bytes are special defined here.
  */
-typedef struct ItemProxy2Target_Inspc_t
+typedef struct TelgProxy2Target_Inspc_t
 {
   /**The length is always 12 because that is the fix length. */
   int16BigEndian length;
@@ -107,53 +97,56 @@ typedef struct ItemProxy2Target_Inspc_t
   /**One of the Cmd_InspcTargetProxyTelg_e. */
   int16BigEndian cmd;
 
+  int32BigEndian seqnr;
+
   /**First info. */
   int32BigEndian address;
 
-  /**value to set. */
-  int32BigEndian setValue;
+  /**value to set or address bit fields. */
+  int32BigEndian value;
 
-
-} ItemProxy2Target_Inspc_s;
-
-
-/**This struct describes one item in the telegram from the target. */
-typedef struct ItemTarget2Proxy_Inspc_s_t
-{
-  int16BigEndian length;
-  
-  int16BigEndian cmd;
-
-  int32BigEndian retValue;
-
-} ItemTarget2Proxy_Inspc_s;
-
-
-
-/**This struct describes the telegram from the proxy to the target to send commands. */
-typedef struct TelgProxy2Target_Inspc_t
-{
-  InspcTelgHead_Inspc_s head;
-
-  /**Up to 100 items with commands from Proxy to the target, often only 1 used. 
-   * The max length of a telegram is 1216 with them. 
-   */
-  ItemProxy2Target_Inspc_s items[100];
 
 } TelgProxy2Target_Inspc_s;
 
 
-/**This struct describes the telegram from the target to the proxy to send answers. */
-typedef struct TelgTarget2Proxy_Inspc_t
+/**This struct describes one item in the telegram from the target. */
+typedef struct TelgTarget2Proxy_Inspc_s_t
 {
-  InspcTelgHead_Inspc_s head;
+  /**The length is always 8 because that is the fix length. */
+  int16BigEndian length;
+  
+  int16BigEndian cmd;
 
-  /**Up to 100 items with answers from target to the proxy, often only 1 used. 
-   * The max length of a telegram is 816 with them. 
-   */
-  ItemTarget2Proxy_Inspc_s items[100];
+  int32BigEndian seqnr;
+
+  int32BigEndian retValue;
 
 } TelgTarget2Proxy_Inspc_s;
+
+
+
+
+/**This const array is defined by the reflection generator in the ReflOffset.c file. */
+extern_C const int32* reflectionOffsetArrays[];
+
+
+
+/**This is the prototype for processing the inspector commands in an target.
+ * It uses the generated ...ReflOffset...c.
+ *
+ * The user should programm the access to the communication in a proper way for the target sensitivities (conditions).
+ * @param cmd the command of type Cmd_InspcTargetProxyTelg_e
+ * @param address The address value. It is a 32 bit value usually. A Processor with a 64-bit-Address space may not need this routine.
+ * @param inputVal depends from the command. For bitfield access it is the bit number and length, see [[mPosBitsInBitfieldAccess_InspcTargetProxyTelg]] etc.
+ *    for setFloat and setDouble it is a float value (present in integer image). 
+ * @param mainData The address of the root of all data. That is the only one address which should be known for access.
+ * @param reflectionOffset_MainData Pointer to the const array of offsets which describes the mainData structure, 
+ *    from the generated ...ReflOffset...c-File.
+ * @param reflectionOffsetArrays pointer to the 'Array of all offsets' from the generated ...ReflOffset...c-File.
+ * @return for set and get operations the current value, gotten or after set. It is a int image of a float value on get/set double and float.  
+ */
+int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 address, int32 inputVal, void const* mainData
+, int32 const* reflectionOffset_MainData, int32 const* const* reflectionOffsetArrays);
 
 
 #endif //__InspcTargetProxyTelg_h__

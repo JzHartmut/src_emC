@@ -62,9 +62,9 @@ typedef struct Entry_MsgDispatcherCore_MSG_t
 { 
   int32 ident;   /*Bit31 is set if the state is coming, 0 if it is going. */
   int32 dst;   /*The bits of destination dispatching are ascertained already before it is taken in the queue. */
-  char const* text;   /*The output and format controlling text*/
+  char const* text;   /*The output and format controlling text. In C it should be a reference to a persistent,*/
   OS_TimeStamp timestamp;   /*The time stamp of the message. It is detected before the message is queued. */
-  VaArgBuffer values;   /*Values from variable argument list*/
+  VaArgBuffer values;   /*Values from variable argument list. This is a special structure */
 } Entry_MsgDispatcherCore_MSG_s;
   
 
@@ -100,7 +100,7 @@ void finalize_Entry_MsgDispatcherCore_MSG_F(Entry_MsgDispatcherCore_MSG_s* thiz,
 /**Default constructor. */
 METHOD_C struct Entry_MsgDispatcherCore_MSG_t* ctorM_Entry_MsgDispatcherCore_MSG(MemC mthis, ThCxt* _thCxt);
 
-METHOD_C int32 _sizeof_Entry_MsgDispatcherCore_MSG(/*static*/ ThCxt* _thCxt);
+METHOD_C int32 _sizeof_Entry_MsgDispatcherCore_MSG(/*J2C:static method*/ ThCxt* _thCxt);
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -186,7 +186,7 @@ typedef struct Output_MsgDispatcherCore_MSG_t
 { 
   StringJc name;   /*Short name of the destination, used for {@link #setOutputRange } or {@link #setOutputFromString }*/
   LogMessageFWREF outputIfc;   /*The output interface. */
-  bool dstInDispatcherThread;   /*true if this output is processed in the dispatcher thread,*/
+  bool dstInDispatcherThread;   /*true if this output is processed in the dispatcher thread, */
   bool bUseText;   /*Bit which indicates that the text information field of {@link #sendMsgVaList(int, OS_TimeStamp, String, Va_list)} is used.*/
 } Output_MsgDispatcherCore_MSG_s;
   
@@ -238,20 +238,20 @@ class Output_MsgDispatcherCore_MSG : private Output_MsgDispatcherCore_MSG_s
 
 typedef struct MsgDispatcherCore_MSG_t
 { 
-  union { ObjectJc object; LogMessageFW_i LogMessageFW;} base; 
+  union { ObjectJc object; LogMessageFW_s LogMessageFW;} base; 
   int32 nrofMixedOutputs;   /*Number of Bits in {@link mDispatchWithBits}, it is the number of destinations dispatched via bit mask. */
   int32 mDstMixedOutputs;   /*Calculated mask of bits which are able to mix. */
   int32 mDstOneOutput;   /*Calculated mask of bits which are one index. */
   int64 idThreadForDispatching; 
   TestCnt_MsgDispatcherCore_MSG_s testCnt; 
   struct ConcurrentLinkedQueueJc_t* listOrders;   /*List of messages to process in the dispatcher thread.*/
-  struct ConcurrentLinkedQueueJc_t* freeOrders;   /*List of entries for messages to use*/
+  struct ConcurrentLinkedQueueJc_t* freeOrders;   /*List of entries for messages to use. For C usage it is a List with a fix size.*/
   Entry_MsgDispatcherCore_MSG_s entryMsgBufferOverflow; 
   int32 actNrofListIdents;   /*List of idents, its current length. */
   int32_Y* listIdents;   /*List of idents, a array with lengthListIdents elements.*/
   int32_Y* listBitDst;   /*List of destination bits for the idents.*/
   Output_MsgDispatcherCore_MSG_Y* outputs;   /*up to 30 destinations for output.*/
-  MsgText_ifc_MSGREF msgText;   /*Converter from the ident number to a text*/
+  MsgText_ifc_MSGREF msgText;   /*Converter from the ident number to a text. Maybe null, then unused.*/
   RunnableJcREF runNoEntryMessage; 
   int32 ctLostMessages; 
 } MsgDispatcherCore_MSG_s;
@@ -285,20 +285,32 @@ void finalize_MsgDispatcherCore_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 #define version_MsgDispatcherCore_MSG 20130302  /*version, history and license.*/
-#define mDispatchInDispatcherThread_MsgDispatcherCore_MSG 0x80000000  /*If this bit is set in the bitmask for dispatching, the dispatching should be done*/
-#define mDispatchInCallingThread_MsgDispatcherCore_MSG 0x40000000  /*If this bit is set in the bitmask for dispatching, the dispatching should only be done*/
+#define mDispatchInDispatcherThread_MsgDispatcherCore_MSG 0x80000000  /*If this bit is set in the bitmask for dispatching, the dispatching should be done */
+#define mDispatchInCallingThread_MsgDispatcherCore_MSG 0x40000000  /*If this bit is set in the bitmask for dispatching, the dispatching should only be done */
 #define mDispatchBits_MsgDispatcherCore_MSG 0x3fffffff  /*Only this bits are used to indicate the destination via some Bits*/
-#define mConsole_MsgDispatcherCore_MSG 0x1  /*Mask for dispatch the message to console directly in the calling thread.*/
+#define mConsole_MsgDispatcherCore_MSG 0x1  /*Mask for dispatch the message to console directly in the calling thread. */
 #define mConsoleQueued_MsgDispatcherCore_MSG 0x2  /*queued Console output, it is a fix part of the Message dispatcher. */
 #define mAdd_MsgDispatcherCore_MSG 0xcadd  /*Used for argument mode from {@link #setOutputRange(int, int, int, int, int)} to add an output.*/
 #define mSet_MsgDispatcherCore_MSG 0xc5ed  /*Used for argument mode from {@link #setOutputRange(int, int, int, int, int)} to set an output.*/
 #define mRemove_MsgDispatcherCore_MSG 0xcde1  /*Used for argument mode from {@link #setOutputRange(int, int, int, int, int)} to remove an output.*/
 
 
-/**Initializes the instance.*/
+/**Initializes the instance.
+*/
 METHOD_C struct MsgDispatcherCore_MSG_t* ctorO_MsgDispatcherCore_MSG(ObjectJc* othis, int32 maxQueue, int32 nrofMixedOutputs, struct RunnableJc_t* runNoEntryMessage, ThCxt* _thCxt);
 
-/**Sets the capability that messages which are create in the dispatcher thread are output immediately*/
+/**Sets the capability that messages which are create in the dispatcher thread are output immediately
+though the output channel should be used in the dispatcher thread. The advantage of that capability
+is given 
+<ul>
+<li>Especially on startup for messages of startup. Often the {@link #tickAndFlushOrClose()} is started
+after continue the startup routine but in the same main thread. 
+The startup messages should be seen without delay, especially on problems on startup.
+<li>If some algorithm are done in a main thread, which dispatches the messages too. Then no ressources
+to store message entries are necessary, and the messages comes out immediately, helpfull on debugging.
+It may be typically that algorithm of calculation are executed in the same thread like dispatching.
+</ul>     
+*/
 typedef void MT_setIdThreadForMsgDispatching_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int64 idThread, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void setIdThreadForMsgDispatching_MsgDispatcherCore_MSG_F(MsgDispatcherCore_MSG_s* thiz, int64 idThread, ThCxt* _thCxt);
@@ -307,39 +319,58 @@ METHOD_C void setIdThreadForMsgDispatching_MsgDispatcherCore_MSG(MsgDispatcherCo
 
 METHOD_C void setMsgTextConverter_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, struct MsgText_ifc_MSG_t* converter, ThCxt* _thCxt);
 
-/**Searches and returns the bits where a message is dispatch to.*/
+/**Searches and returns the bits where a message is dispatch to.
+The return value describes what to do with the message.
+*/
 METHOD_C int32 searchDispatchBits_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 ident, ThCxt* _thCxt);
 
-/**Sends a message*/
-METHOD_C bool sendMsg_izv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...);
+/**Sends a message. See interface.  
+*/
+METHOD_C bool sendMsg_izv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...);
 
-/**Sends a message*/
-METHOD_C bool sendMsgTime_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
+/**Sends a message. See interface.  
+*/
+METHOD_C bool sendMsgTime_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
 
-/**Sends a message*/
-METHOD_C bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
+/**Sends a message. See interface.  
+*/
+METHOD_C bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 
-METHOD_C bool isOnline_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C bool isOnline_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
-/**This routine may be overridden by the inherited class (usual {@link MsgDispatcher} to support closing.*/
+/**This routine may be overridden by the inherited class (usual {@link MsgDispatcher} to support closing.
+@see org.vishia.msgDispatch.LogMessage#close()
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void close_MsgDispatcherCore_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_MsgDispatcherCore_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void close_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
-/**This routine may be overridden by the inherited class (usual {@link MsgDispatcher} to support flushing*/
+/**This routine may be overridden by the inherited class (usual {@link MsgDispatcher} to support flushing
+all queued messages.
+@see org.vishia.msgDispatch.LogMessage#close()
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void flush_MsgDispatcherCore_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_MsgDispatcherCore_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void flush_MsgDispatcherCore_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
-/**Dispatches the queues messages, after them calls {@link LogMessage#flush()} for all queued outputs.*/
+/**Dispatches the queues messages, after them calls {@link LogMessage#flush()} for all queued outputs.
+This method can be called in any user thread cyclically. 
+As opposite the {@link DispatcherThread} can be instantiate and {@link DispatcherThread#start()}. 
+That thread calls only this routine in its cycle. 
+*/
 METHOD_C void tickAndFlushOrClose_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt);
 
-/**Dispatches all messages, which are stored in the queue.*/
+/**Dispatches all messages, which are stored in the queue. 
+This routine should be called in a user thread or maybe in the background loop respectively the main thread. 
+This routine is called in {@link #tickAndFlushOrClose()} and in @ {@link #flush()} and link #close()}.
+*/
 METHOD_C int32 dispatchQueuedMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, ThCxt* _thCxt);
 
-/**Dispatches a message*/
+/**Dispatches a message. This routine is called either in the calling thread of the message
+or in the dispatcher thread. 
+*/
 METHOD_C int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dstBits, bool bDispatchInDispatcherThread, bool bDispatchAlways, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 
 

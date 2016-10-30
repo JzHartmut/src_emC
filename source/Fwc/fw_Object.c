@@ -46,7 +46,7 @@
 ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
 { STACKTRC_ENTRY("init_ObjectJc");
   ASSERT(sizeObj >= sizeof(ObjectJc));
-  memset(ythis, 0, sizeObj);
+  //cc2016-10 memset(ythis, 0, sizeObj);  //don't clear the instance because some references etc. maybe initalized with { ... }
   ythis->ownAddress = ythis;
   ythis->idSyncHandles = kNoSyncHandles_ObjectJc;
   setSizeAndIdent_ObjectJc(ythis, sizeObj, identObj);
@@ -185,12 +185,12 @@ struct ClassJc_t const* getClass_ObjectJc(ObjectJc const* ythis)
  * It is static, don't use outside.
  * @return pointer to StringBuilderJc or StringBuilderJcpp, therefore the return type is void*. Cast it outside.
  */
-ObjectJc* allocInThreadCxt_ObjectJc(int size, ThCxt* _thCxt)
+ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, ThCxt* _thCxt)
 { 
   ObjectJc* ret;
   STACKTRC_TENTRY("threadBuffer_StringBuilderJc");
   {
-    MemC mBuffer = getUserBuffer_ThreadContextFw(size, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContextFw(size, sign, _thCxt);
     /**Check whether the buffer is in use, TODO... */
     int sizeBufferThreadContext = size_MemC(mBuffer);
     if(size > sizeBufferThreadContext) THROW_s0(RuntimeException, "to large ObjectJc in ThreadBuffer", size);

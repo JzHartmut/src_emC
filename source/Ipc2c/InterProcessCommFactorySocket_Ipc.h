@@ -28,7 +28,7 @@ struct InterProcessCommFactorySocket_Ipc_t;
 
 typedef struct InterProcessCommFactorySocket_Ipc_t
 { 
-  union { InterProcessCommFactory_i super;} base; 
+  union { ObjectJc object; InterProcessCommFactory_s super;} base; 
 } InterProcessCommFactorySocket_Ipc_s;
   
 
@@ -56,42 +56,67 @@ typedef struct InterProcessCommFactorySocket_Ipc_Y_t { ObjectArrayJc head; Inter
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactorySocket_Ipc_s* thiz, ThCxt* _thCxt);
+void finalize_InterProcessCommFactorySocket_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 
 
-METHOD_C struct InterProcessCommFactorySocket_Ipc_t* ctorM_InterProcessCommFactorySocket_Ipc(MemC mthis, ThCxt* _thCxt);
-
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc(ObjectJc* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
-
-/**Creates a InterProcessComm from a parameter String*/
-/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
-/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
+METHOD_C struct InterProcessCommFactorySocket_Ipc_t* ctorO_InterProcessCommFactorySocket_Ipc(ObjectJc* othis, ThCxt* _thCxt);
 
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, struct Address_InterProcessComm_t* addr, ThCxt* _thCxt);
+METHOD_C struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc(ObjectJc* ithis, struct Address_InterProcessComm_t* addr, ThCxt* _thCxt);
+METHOD_C struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt);
 
-/**Creates an address information for the InterProcessComm from a parameter String.*/
+/**Creates a InterProcessComm from a parameter String. The type depends on this String.
+For example:
+<ul>
+<li>"UDP:192.16.35.3:1234" for UDP via socket. Don't write spaces, set the port after ':'
+</ul> 
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
+METHOD_C struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocket_Ipc(ObjectJc* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
+METHOD_C struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
 
-/**Creates an address for InterProcesscommunication with given description.*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc_F(ObjectJc* ithis, StringJc protocolAndAddr, ThCxt* _thCxt);
+METHOD_C struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, struct Address_InterProcessComm_t* addr, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc(ObjectJc* ithis, StringJc protocolAndAddr, ThCxt* _thCxt);
+METHOD_C struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, struct Address_InterProcessComm_t* addr, ThCxt* _thCxt);
 
-METHOD_C struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySocket_Ipc(/*static*/ StringJc type, StringJc addr, int32 nPort, ThCxt* _thCxt);
+/**Creates an address information for the InterProcessComm from a parameter String. 
+The inner type of the address determines which kind of InterprocessComm is matching for.
+The inner type of the address depends on the given String. 
+Therefore the kind of InterprocessComm is able to choice with a parameter String.
+For example choice between UDP and a Dual-Port-Ram-Communication.
+The maybe special implementation knows some formats and types.
+<ul>
+<li>"UDP:192.16.35.3:1234" for UDP via socket. Don't write spaces, set the port after ':'
+</ul> 
+*/
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt);
+
+/**Creates an address for InterProcesscommunication with given description.
+*/
+/* J2C:Implementation of the method, used for an immediate non-dynamic call: */
+METHOD_C struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndAddr, ThCxt* _thCxt);
+/* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
+METHOD_C struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndAddr, ThCxt* _thCxt);
+
+METHOD_C struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySocket_Ipc(/*J2C:static method*/ StringJc type, StringJc addr, int32 nPort, ThCxt* _thCxt);
+
+
+/* J2C: Method table contains all dynamic linked (virtual) methods
+ * of the class and all super classes and interfaces. */
+ extern const char sign_Mtbl_InterProcessCommFactorySocket_Ipc[]; //marker for methodTable check
+typedef struct Mtbl_InterProcessCommFactorySocket_Ipc_t
+{ MtblHeadJc head;
+  Mtbl_InterProcessCommFactory InterProcessCommFactory;
+} Mtbl_InterProcessCommFactorySocket_Ipc;
+
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -101,15 +126,17 @@ class InterProcessCommFactorySocket_Ipc : private InterProcessCommFactorySocket_
 
   struct Address_InterProcessComm_t* createAddressSocket(StringJcpp type, StringJcpp addr, int32 nPort){  return createAddressSocket_InterProcessCommFactorySocket_Ipc(type, addr, nPort,  null/*_thCxt*/); }
 
-  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndAddr){  return createAddress_S_InterProcessCommFactorySocket_Ipc_F(&this->base.super.base.object, protocolAndAddr,  null/*_thCxt*/); }
+  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndAddr){  return createAddress_S_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndAddr,  null/*_thCxt*/); }
 
-  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndOwnAddr, int32 nPort){  return createAddress_Si_InterProcessCommFactorySocket_Ipc_F(&this->base.super.base.object, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
+  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndOwnAddr, int32 nPort){  return createAddress_Si_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
 
-  virtual struct InterProcessComm_t* create(struct Address_InterProcessComm_t* addr){  return create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(&this->base.super.base.object, addr,  null/*_thCxt*/); }
+  virtual struct InterProcessComm_t* create(struct Address_InterProcessComm_t* addr){  return create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, addr,  null/*_thCxt*/); }
 
-  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr){  return create_S_InterProcessCommFactorySocket_Ipc_F(&this->base.super.base.object, protocolAndOwnAddr,  null/*_thCxt*/); }
+  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr){  return create_S_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndOwnAddr,  null/*_thCxt*/); }
 
-  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr, int32 nPort){  return create_Si_InterProcessCommFactorySocket_Ipc_F(&this->base.super.base.object, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
+  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr, int32 nPort){  return create_Si_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
+
+  InterProcessCommFactorySocket_Ipc(){ init_ObjectJc(&this->base.object, sizeof(InterProcessCommFactorySocket_Ipc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommFactorySocket_Ipc_s, 0); ctorO_InterProcessCommFactorySocket_Ipc(&this->base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

@@ -40,7 +40,7 @@ class MsgDispatcher; nameC=MsgDispatcher_MSG_s; argIdent=XX; extends org/vishia/
       //outer=2 ,super=1: int %.d version;
     }
       methods {  
-        run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
+        run-_$, defined: java/lang/Runnable.run, mode=overrideable: void %.r null();
       }
 
       castTo {
@@ -84,8 +84,8 @@ fieldIdents {
   methods {  
     close-_$, defined: org/vishia/msgDispatch/LogMessage.close: void %.r null();
     completeDispatchInThreadBits-_$: int %.r null(int %.. dstBits);
-    ctorO-_$, mode= ctor+static: org/vishia/msgDispatch/MsgDispatcher *.. MsgDispatcher_MSG_s(int %.. maxDispatchEntries,int %.. maxQueue,int %.. maxOutputs,int %.. nrofMixedOutputs,int %.. msgIdentQueueOverflow,java/lang/Runnable *.. runNoEntryMessage);
-    ctorO_DispatcherThread-_$, mode= ctor+nonStaticCtor: org/vishia/msgDispatch/MsgDispatcher.DispatcherThread *.. DispatcherThread_MsgDispatcher_MSG_s(int %.. cycleMillisec);
+    ctorO-_$, mode=ctor+static: org/vishia/msgDispatch/MsgDispatcher *.. MsgDispatcher_MSG_s(int %.. maxDispatchEntries,int %.. maxQueue,int %.. maxOutputs,int %.. nrofMixedOutputs,int %.. msgIdentQueueOverflow,java/lang/Runnable *.. runNoEntryMessage);
+    ctorO_DispatcherThread-_$, mode=ctor+nonStaticCtor: org/vishia/msgDispatch/MsgDispatcher.DispatcherThread *.. DispatcherThread_MsgDispatcher_MSG_s(int %.. cycleMillisec);
     flush-_$, defined: org/vishia/msgDispatch/LogMessage.flush: void %.r null();
     getSharedFreeEntries-_$: org/vishia/bridgeC/ConcurrentLinkedQueue *.r null();
     insertIdent-_$: int %.r null(int %.. idx,int %.. fromIdent,int %.. toIdent);

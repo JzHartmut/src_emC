@@ -9,8 +9,8 @@ fieldIdents {
   java/lang/String(instance=java/lang/String) t.s version;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/communication/InterProcessCommRx_ifc *.. InterProcessCommRx_ifc_Ipc_s();
-    execRxData-_$, mode= overrideable: void %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived,org/vishia/communication/Address_InterProcessComm *.. sender);
+    ctorO-_$, mode=ctor+static: org/vishia/communication/InterProcessCommRx_ifc *.. InterProcessCommRx_ifc_Ipc_s();
+    execRxData-_$, mode=overrideable: void %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived,org/vishia/communication/Address_InterProcessComm *.. sender);
   }
 
   methods-overrideable {
@@ -18,7 +18,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

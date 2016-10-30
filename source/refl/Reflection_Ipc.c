@@ -8,13 +8,22 @@
 
 
 extern_C const ClassJc reflection_Address_InterProcessComm_s;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_Address_InterProcessComm_s_t
 { ObjectArrayJc head;
-  FieldJc data[4];
+  FieldJc data[5];
 } reflection_Fields_Address_InterProcessComm_s =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_Address_InterProcessComm_s)
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_Address_InterProcessComm_s)
 , {
-    { "address1"
+    { "base-object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((Address_InterProcessComm_s*)(0x1000))->base.object) -(int32)(Address_InterProcessComm_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_Address_InterProcessComm_s
+    }
+  , { "address1"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
@@ -58,55 +67,75 @@ const ClassJc reflection_Address_InterProcessComm_s =
 , null  //method
 , null  //superclass
 , null  //interfaces
-, 0 
+, 0  |mObjectJc_Modifier_reflectJc
 };
 
 
 
 
-extern_C const ClassJc reflection_InterProcessCommFactory_i;  //the just defined reflection_
-const ClassJc reflection_InterProcessCommFactory_i =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory_i, &reflection_ClassJc)
-, "InterProcessCommFactory_i"
+extern_C const ClassJc reflection_InterProcessCommFactory_s;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_InterProcessCommFactory_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_InterProcessCommFactory_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessCommFactory_s)
+, {
+    { "base-object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((InterProcessCommFactory_s*)(0x1000))->base.object) -(int32)(InterProcessCommFactory_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InterProcessCommFactory_s
+    }
+} };
+
+
+const ClassJc reflection_InterProcessCommFactory_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory_s, &reflection_ClassJc)
+, "InterProcessCommFactory_s"
 , 0
-, sizeof(InterProcessCommFactory_i)
-, null  //attributes
+, sizeof(InterProcessCommFactory_s)
+, (FieldJcArray const*)&reflection_Fields_InterProcessCommFactory_s  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
-, 0 
+, 0  |mObjectJc_Modifier_reflectJc
 };
 
 
 
 
-extern_C const ClassJc reflection_InterProcessCommFactoryAccessor;  //the just defined reflection_
-const ClassJc reflection_InterProcessCommFactoryAccessor =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactoryAccessor, &reflection_ClassJc)
-, "InterProcessCommFactoryAccessor"
+extern_C const ClassJc reflection_InterProcessComm_s;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_InterProcessComm_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_InterProcessComm_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessComm_s)
+, {
+    { "base-object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((InterProcessComm_s*)(0x1000))->base.object) -(int32)(InterProcessComm_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InterProcessComm_s
+    }
+} };
+
+
+const ClassJc reflection_InterProcessComm_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm_s, &reflection_ClassJc)
+, "InterProcessComm_s"
 , 0
-, sizeof(InterProcessCommFactoryAccessor)
-, null  //attributes
+, sizeof(InterProcessComm_s)
+, (FieldJcArray const*)&reflection_Fields_InterProcessComm_s  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
-, 0 
-};
-
-
-
-
-extern_C const ClassJc reflection_InterProcessComm_i;  //the just defined reflection_
-const ClassJc reflection_InterProcessComm_i =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm_i, &reflection_ClassJc)
-, "InterProcessComm_i"
-, 0
-, sizeof(InterProcessComm_i)
-, null  //attributes
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
+, 0  |mObjectJc_Modifier_reflectJc
 };
 
 

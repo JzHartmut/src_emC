@@ -7,17 +7,18 @@ class InterProcessCommFactorySocket; nameC=InterProcessCommFactorySocket_Ipc_s; 
 fieldIdents {
 }
   methods {  
-    create+_S-_$, defined: org/vishia/communication/InterProcessCommFactory.create, mode= overrideable: org/vishia/communication/InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndOwnAddr);
-    create+_AddrIpc-_$, defined: org/vishia/communication/InterProcessCommFactory.create_Addr, mode= overrideable: org/vishia/communication/InterProcessComm *.r null(org/vishia/communication/Address_InterProcessComm *.. addr);
-    create+_Si-_$, defined: org/vishia/communication/InterProcessCommFactory.create_Port, mode= overrideable: org/vishia/communication/InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndOwnAddr,int %.. nPort);
-    createAddress+_S-_$, defined: org/vishia/communication/InterProcessCommFactory.createAddress, mode= overrideable: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndAddr);
-    createAddress+_Si-_$, defined: org/vishia/communication/InterProcessCommFactory.createAddress_Port, mode= overrideable: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndOwnAddr,int %.. nPort);
-    createAddressSocket-_$, mode= static: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. type,java/lang/String(instance=java/lang/String) t.. addr,int %.. nPort);
-    ctorM-_$, mode= ctor+static: org/vishia/communication/InterProcessCommFactorySocket *.. InterProcessCommFactorySocket_Ipc_s();
+    create+_S-_$, defined: org/vishia/communication/InterProcessCommFactory.create, mode=overrideable: org/vishia/communication/InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndOwnAddr);
+    create+_AddrIpc-_$, defined: org/vishia/communication/InterProcessCommFactory.create_Addr, mode=overrideable: org/vishia/communication/InterProcessComm *.r null(org/vishia/communication/Address_InterProcessComm *.. addr);
+    create+_Si-_$, defined: org/vishia/communication/InterProcessCommFactory.create_Port, mode=overrideable: org/vishia/communication/InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndOwnAddr,int %.. nPort);
+    createAddress+_S-_$, defined: org/vishia/communication/InterProcessCommFactory.createAddress, mode=overrideable: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndAddr);
+    createAddress+_Si-_$, defined: org/vishia/communication/InterProcessCommFactory.createAddress_Port, mode=overrideable: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. protocolAndOwnAddr,int %.. nPort);
+    createAddressSocket-_$, mode=static: org/vishia/communication/Address_InterProcessComm *.r null(java/lang/String(instance=java/lang/String) t.. type,java/lang/String(instance=java/lang/String) t.. addr,int %.. nPort);
+    ctorO-_$, mode=ctor+static: org/vishia/communication/InterProcessCommFactorySocket *.. InterProcessCommFactorySocket_Ipc_s();
   }
 
   castTo {
-    org/vishia/communication/InterProcessCommFactory: $ "(?).base.super" $;
+    org/vishia/communication/InterProcessCommFactory: $ "(?).base/*J2C_super:*/.super" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.object" $;
   }
 
 }

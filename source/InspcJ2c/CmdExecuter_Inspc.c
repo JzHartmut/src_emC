@@ -29,7 +29,7 @@ const char sign_Mtbl_CmdExecuter_Inspc[] = "CmdExecuter_Inspc"; //to mark method
 
 typedef struct MtblDef_CmdExecuter_Inspc_t { Mtbl_CmdExecuter_Inspc mtbl; MtblHeadJc end; } MtblDef_CmdExecuter_Inspc;
  extern MtblDef_CmdExecuter_Inspc const mtblCmdExecuter_Inspc;
-StringJc version_CmdExecuter_Inspc = CONST_z_StringJc("2015-08-05");
+StringJc version_CmdExecuter_Inspc = CONST_z_StringJc("2015-08-05"); //J2C:static StringJc
 
 /*Constructor */
 struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdConsumer_ifc_Inspc_t* commandConsumer, ThCxt* _thCxt)
@@ -40,14 +40,14 @@ struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdC
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element-MemC
-      ctorM_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->datagramCmd, sizeof(thiz->datagramCmd)), _thCxt);
+      ctorM_InspcDatagram_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&thiz->datagramCmd, sizeof(thiz->datagramCmd)), _thCxt);
     //J2C: constructor for embedded element-MemC
-      ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->infoCmd, sizeof(thiz->infoCmd)), _thCxt);
+      ctorM_Inspcitem_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&thiz->infoCmd, sizeof(thiz->infoCmd)), _thCxt);
     thiz->maxNrofAnswerBytes = 1400;
     init0_MemC(build_MemC(&thiz->data_bufferAnswerData, 1400 * sizeof(int8))); //J2C: init the embedded simple array;
-    thiz->bufferAnswerData.ref = & thiz->data_bufferAnswerData[0]; thiz->bufferAnswerData.value__ = sizeof( thiz->data_bufferAnswerData) / sizeof(thiz->data_bufferAnswerData[0]);
+    thiz->bufferAnswerData.ref = & thiz->data_bufferAnswerData[0]; thiz->bufferAnswerData.val = sizeof( thiz->data_bufferAnswerData) / sizeof(thiz->data_bufferAnswerData[0]);
     //J2C: constructor for embedded element-MemC
-      ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(/*static*/build_MemC(&thiz->myAnswerData, sizeof(thiz->myAnswerData)), thiz->bufferAnswerData, _thCxt);
+      ctorM_iY_InspcDatagram_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&thiz->myAnswerData, sizeof(thiz->myAnswerData)), thiz->bufferAnswerData, _thCxt);
   }
   { 
     
@@ -76,66 +76,63 @@ void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Co
 }
 
 
-/**Executes the given command received with this datagram*/
+/**Executes the given command received with this datagram (J2C:wmDef)*/
 bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
 { Mtbl_CmdExecuter_Inspc const* mtthis = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
   
   STACKTRC_TENTRY("executeCmd_CmdExecuter_Inspc_F");
   
   { 
-    int32 nEntrant; 
-    bool bOk = true; 
-    int32 nrofBytesTelg = 0; 
-    int32 partLength = 0; 
-    int32 maxNrofBytesAnswerPart = 0; 
-    CmdConsumer_ifc_InspcMTB cmdConsumerMtbl;   /**/
-    
     
     assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd), buffer, nrofBytesReceived);
-    nEntrant = getEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
-    bOk = true;
-    /*no initvalue*/
-    /*no initvalue*/
-    /*no initvalue*/
+    
+    int32  nEntrant = getEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
+    
+    bool  bOk = true;
+    
+    int32  nrofBytesTelg;/*no initvalue*/
+    
+    int32  partLength;/*no initvalue*/
+    
+    int32  maxNrofBytesAnswerPart;/*no initvalue*/
     thiz->nrofBytesAnswer = 0;
-    SETMTBJc(cmdConsumerMtbl, thiz->cmdConsumer, CmdConsumer_ifc_Inspc);
-    removeChildren_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super));
-    fill_mB_ArraysJc(/*static*/thiz->bufferAnswerData, 0, thiz->bufferAnswerData.value__, (int8)0, _thCxt);/*String test = myAnswerData.toString();*/
+    
+    CmdConsumer_ifc_InspcMTB cmdConsumerMtbl ; SETMTBJc(cmdConsumerMtbl, thiz->cmdConsumer, CmdConsumer_ifc_Inspc);
+    removeChildren_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base/*J2C_super:*/.super));
+    fill_mB_ArraysJc(/*J2C:static method call*/thiz->bufferAnswerData, 0, thiz->bufferAnswerData.val, (int8 /*J2C_cast*/)0, _thCxt);/*String test = myAnswerData.toString();*/
     
     if(nEntrant < 0) 
     { /*:a negative number: It is an entrant, the telegram has the common head.*/
       
-      int32 nrofBytesAccess; 
-      int32 seqNr; 
-      int32 encryption; 
-      int32 nrofAnswer; 
-      
       
       nrofBytesTelg = getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
-      nrofBytesAccess = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), _thCxt);
-      ASSERT(/*static*/nrofBytesTelg == nrofBytesReceived);
-      ASSERT(/*static*/nrofBytesTelg == nrofBytesAccess);/*nrofBytesProcessed = datagramCmd.sizeofHead;*/
+      
+      int32  nrofBytesAccess = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base/*J2C_super:*/.super), _thCxt);
+      ASSERT(/*J2C:static method call*/nrofBytesTelg == nrofBytesReceived);
+      ASSERT(/*J2C:static method call*/nrofBytesTelg == nrofBytesAccess);/*nrofBytesProcessed = datagramCmd.sizeofHead;*/
       
       thiz->useTelgHead = true;/**/
       
-      seqNr = getSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
-      encryption = getEncryption_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
+      
+      int32  seqNr = getSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
+      
+      int32  encryption = getEncryption_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
       setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), nEntrant, seqNr, encryption, _thCxt);
       thiz->nrofBytesAnswer = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
       
-      while(bOk && sufficingBytesForNextChild_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
+      while(bOk && sufficingBytesForNextChild_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base/*J2C_super:*/.super), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
         { /*:nrofBytesTelg >= (nrofBytesProcessed + InspcDataExchangeAccess.Inspcitem.sizeofHead)){*/
           /*:The next telg Part will be found after the processed part.*/
           
           
-          addChild_XX_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), & ((thiz->infoCmd).base.super), _thCxt);
+          addChild_XX_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base/*J2C_super:*/.super), & ((thiz->infoCmd).base/*J2C_super:*/.super), _thCxt);
           partLength = getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->infoCmd));
-          if(partLength >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc && checkLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), partLength, _thCxt)) 
+          if(partLength >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc && checkLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), partLength, _thCxt)) 
           { /*:partLength <= (nrofBytesTelg - nrofBytesProcessed)){*/
             /*:valid head data.*/
             
             
-            setLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), partLength);/*this child has the given length.*/
+            setLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), partLength);/*this child has the given length.*/
             
             maxNrofBytesAnswerPart = thiz->maxNrofAnswerBytes - thiz->nrofBytesAnswer;/*execute:*/
             
@@ -148,14 +145,14 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
             
               { 
                 
-                println_z_PrintStreamJc(REFJc(err_SystemJc), "CmdExecuter - Exception", _thCxt);/*TODO send a nack*/
+                println_z_PrintStreamJc(REFJc (err_SystemJc), "CmdExecuter - Exception", _thCxt);/*TODO send a nack*/
                 
               }
             CATCH(UnsupportedEncodingException, exc)
             
               { 
                 
-                println_z_PrintStreamJc(REFJc(err_SystemJc), "CmdExecuter - Exception2", _thCxt);/*TODO send a nack*/
+                println_z_PrintStreamJc(REFJc (err_SystemJc), "CmdExecuter - Exception2", _thCxt);/*TODO send a nack*/
                 
               }
             END_TRY
@@ -169,27 +166,26 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
           }/*nrofBytesProcessed += partLength;*/
           
         }
-      nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super), _thCxt);
+      
+      int32  nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base/*J2C_super:*/.super), _thCxt);
       if(nrofAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
       { /*:more as the head:*/
         
         
-        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
+        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base/*J2C:ifc*/.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
       }
     }
     else 
     { /*:a positive number: The telegram hasn't the commmon head ,,DataExchangeTelgHead_Inspc,,, it is one command.*/
       /*:It is the old style of communication, exclusively used until 2010-0216.*/
       
-      int32 nrofAnswer; 
-      
       
       thiz->useTelgHead = false;/*dummy head with 2 empty information units.*/
       
       setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), 0, 0x80000, 0, _thCxt);
       setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), 8);
-      assign_iYi_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), buffer, nrofBytesReceived);
-      setBigEndian_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), true);
+      assign_iYi_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), buffer, nrofBytesReceived);
+      setBigEndian_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), true);
       maxNrofBytesAnswerPart = 1400;
       TRY
       { 
@@ -211,12 +207,13 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
           
         }
       END_TRY
-      nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super), _thCxt);
+      
+      int32  nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base/*J2C_super:*/.super), _thCxt);
       if(nrofAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
       { /*:more as the head:*/
         
         
-        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
+        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base/*J2C:ifc*/.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
       }
     }
     { STACKTRC_LEAVE;
@@ -233,17 +230,16 @@ bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer,
 }
 
 
-/**Send the current answer datagram as answer*/
+/**Send the current answer datagram as answer. Firstly the {@link InspcDataExchangeAccess.InspcDatagram#incrAnswerNr()} (J2C:wmDef)*/
 int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt)
 { CmdExecuter_Inspc_s* thiz = (CmdExecuter_Inspc_s*)ithis;
   
   STACKTRC_TENTRY("txAnswer_ib_CmdExecuter_Inspc_F");
   
   { 
-    int32 ret = 0; 
     
     
-    /*no initvalue*/
+    int32  ret;/*no initvalue*/
     if(thiz->useTelgHead) 
     { 
       
@@ -301,28 +297,35 @@ int32 txAnswer_ib_CmdExecuter_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, 
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_CmdExecuter_Inspc mtblCmdExecuter_Inspc = {
-{ { sign_Mtbl_CmdExecuter_Inspc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_CmdExecuter_Inspc //J2C: Head of methodtable of CmdExecuter_Inspc
+  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
+  //J2C: Dynamic methods of the class :CmdExecuter_Inspc:
 , completeConstruction_CmdExecuter_Inspc_F //completeConstruction
 , executeCmd_CmdExecuter_Inspc_F //executeCmd
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-  /**J2C: Mtbl-interfaces of CmdExecuter_Inspc: */
-, { { sign_Mtbl_AnswerComm_ifc_Inspc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The interface's methodtable: 
+  //J2C: Mtbl-interfaces of :CmdExecuter_Inspc: */
+, { { sign_Mtbl_AnswerComm_ifc_Inspc //J2C: Head of methodtable of AnswerComm_ifc_Inspc
+    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :AnswerComm_ifc_Inspc:
   , txAnswer_ib_CmdExecuter_Inspc_F //txAnswer
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    //J2C: The superclass's methodtable: 
+  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
     , finalize_ObjectJc_F //finalize
@@ -474,7 +477,7 @@ const ClassJc reflection_CmdExecuter_Inspc_s =
 , "CmdExecuter_Inspc_s"
 , (int16)((int32)(&((CmdExecuter_Inspc_s*)(0x1000))->base.object) - (int32)(CmdExecuter_Inspc_s*)0x1000)
 , sizeof(CmdExecuter_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_CmdExecuter_Inspc_s
+, (FieldJc_Y const*)&reflection_Fields_CmdExecuter_Inspc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_CmdExecuter_Inspc_s //superclass
 , (ClassOffset_idxMtblJcARRAY*)&interfaces_CmdExecuter_Inspc_s //interfaces

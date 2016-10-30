@@ -62,21 +62,8 @@ StringJc const null_StringJc = NULL_StringJc;
 CharSeqJc const null_CharSeqJc = NULL_CharSeqJc;
 
 
-METHOD_C StringJc z_StringJc(const char* src)
-{ StringJc ret;
-  int size = strlen_Fwc(src, kMaxLength_StringJc);
-
-  set_OS_PtrValue(ret.s, src, (size)); 
-  return ret;
-}
 
 
-
-StringJc zI_StringJc(char const* src, int len)
-{ StringJc ret;
-  set_OS_PtrValue(ret.s, src, (len & mLength__StringJc)); 
-  return ret;
-}
 
 
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
@@ -162,7 +149,7 @@ METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis)
 
 
 
-INLINE_Fwc Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz)
+Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz)
 {
   int nChars = VAL_CharSeqJc(thiz) & mLength__StringJc;
   ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
@@ -173,14 +160,107 @@ INLINE_Fwc Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz)
   } else {
     int offsetMtbl =  nChars & ~mIsCharSeqJcMtbl_CharSeqJc;
     head = othiz->reflectionClass->mtbl;
-    MemUnit* head2 = addOffset_MemUnit(head, offsetMtbl);  //add offset in mtbl
-    head = (MtblHeadJc const*) head2;
+    head = (MtblHeadJc const*)(&head->sign + offsetMtbl);
+    //MemUnit* head2 = addOffset_MemUnit(head, offsetMtbl);  //add offset in mtbl
+    //head = (MtblHeadJc const*) head2;
   }
   ASSERT_s0_Fwc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)ythis);
   mc = (Mtbl_CharSeqJc const*) head;
   return mc;
 
 }
+
+
+
+extern_C int32 length_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _ThCxt)
+{ StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  return thiz->length; 
+}
+
+char charAt_StringJc_CharSeqJc_F(ObjectJc* ithiz, int32 ix, ThCxt* _thCxt)
+{ StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  if(ix < 0 || ix >= thiz->length) {
+    //THROW
+    return 0;
+  }
+  return thiz->s[ix]; 
+}
+
+CharSeqJc subSequence_StringJc_CharSeqJc_F(ObjectJc* ithiz, int32 from, int32 to, ThCxt* _thCxt)
+{ CharSeqJc ret = {0};
+  return ret;  //TODO
+}
+
+
+bool equals_StringJc_CharSeqJc_F(ObjectJc* ithiz, ObjectJc* second, ThCxt* _thCxt) {
+  StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  return false;  //TODO 
+}
+
+StringJc toString_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
+  StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  StringJc ret = CONST_StringJc(thiz->s, thiz->length);
+  return ret; 
+}
+
+void finalize_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
+}
+
+Mtbl_CharSeqJc mtbl_StringJc_CharSeqJc =
+{ { sign_Mtbl_CharSeqJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((sizeof(Mtbl_CharSeqJc))) //size. NOTE: all elements are standard-pointer-types.
+  }
+  , length_StringJc_CharSeqJc_F 
+  , charAt_StringJc_CharSeqJc_F
+  , subSequence_StringJc_CharSeqJc_F
+  , { {sign_Mtbl_ObjectJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((sizeof(Mtbl_ObjectJc)))
+      }
+    , null
+    , equals_StringJc_CharSeqJc_F  //equals
+    , finalize_StringJc_CharSeqJc_F
+    , null
+    , toString_StringJc_CharSeqJc_F 
+    }
+}; 
+
+
+
+CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_StringJc, ThCxt* _thCxt)
+{ CharSeqJcMTB ret;
+  int val = VAL_CharSeqJc(thiz) & mLength__StringJc;
+  if(val <= kMaxLength_StringJc) {
+    //A String, use the given instance of dst_StringJc
+    if(dst_StringJc !=null) {
+      memset(dst_StringJc, 0, sizeof(StringJc_CharSeqJc));
+      init_ObjectJc(&dst_StringJc->base, sizeof(StringJc_CharSeqJc), 0);
+      dst_StringJc->s = PTR_OS_PtrValue(thiz, char const);
+      dst_StringJc->length = (val == kMaxLength_StringJc) ? strlen_Fwc(dst_StringJc->s, kMaxLength_StringJc) : val;
+      ret.mtbl = null;
+      ret.ref = null;
+
+    } else {
+      ret.mtbl = null;
+      ret.ref = null;
+    }
+  } 
+  else if(val < kIsStringBuilder_CharSeqJc) {
+    //It contains the index to the method table inside the given reflection.
+    ret.ref = PTR_OS_PtrValue(thiz, ObjectJc);
+    ret.mtbl  = (Mtbl_CharSeqJc*)checkMtbl_ObjectJc(ret.ref, val & mMtbl_CharSeqJc, sign_Mtbl_CharSeqJc, _thCxt);
+  }
+  else {
+    //Any Object, may be a StringBuilder too.
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+    ret.mtbl = mthiz;
+    ret.ref = othiz;
+  }
+  return ret;
+}
+
+
+
 
 
 int length_CharSeqJc_(CharSeqJc thiz)
@@ -205,7 +285,7 @@ int length_CharSeqJc_(CharSeqJc thiz)
 
 
 METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer)
-{ STACKTRC_ENTRY("copyToBuffer_CharSeqJc");
+{ //STACKTRC_ENTRY("copyToBuffer_CharSeqJc");
   int nChars = VAL_CharSeqJc(thiz) & mLength__StringJc;
   if(nChars <= kMaxLength_StringJc) {
     //it is a StringJc
@@ -223,13 +303,16 @@ METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, ch
         nrofBytes = maxSizeBuffer;
       }
       memcpy(buffer, str + start, nrofBytes);
+      //STACKTRC_LEAVE; 
       return nrofBytes;
     } else {
+      //STACKTRC_LEAVE; 
       return 0;
     }
   } 
   else if(nChars == kIsStringBuilder_CharSeqJc) {
     StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
+    //STACKTRC_LEAVE; 
     return copyToBuffer_StringBuilderJc(sb, start, end, buffer, maxSizeBuffer);
   } 
   else if(nChars & mIsCharSeqJcMtbl_CharSeqJc) {
@@ -237,14 +320,14 @@ METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, ch
     Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz);
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
     int iChars;
-    nChars = mc->length(othiz, _thCxt);  
+    nChars = mc->length(othiz, null); //_thCxt);  
     if(nChars >= maxSizeBuffer){ nChars = maxSizeBuffer ; }
     for(iChars = 0; iChars < nChars; ++iChars) {
-      char cc = mc->charAt(othiz, iChars, _thCxt);
+      char cc = mc->charAt(othiz, iChars, null); //_thCxt);
       buffer[iChars] = cc;
     }
   }  
-  STACKTRC_LEAVE;
+  //STACKTRC_LEAVE;
   return( nChars);
 }
 
@@ -266,7 +349,7 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
     int iChars;
     int nChars = mc->length(othiz, _thCxt);
-    MemC mBuffer = getUserBuffer_ThreadContextFw(nChars+1, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContextFw(nChars+1, "toString_CharSeqJc", _thCxt);
     int sizeBufferThreadContext = size_MemC(mBuffer);
     if(nChars >= sizeBufferThreadContext){ 
       nChars = sizeBufferThreadContext-1;   //limit it.

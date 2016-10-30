@@ -119,12 +119,19 @@ void finalize_SearchElement_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern StringJc version_SearchElement_Inspc;   /*Version, history and license.*/
  extern SearchTrc_SearchElement_Inspc_s searchTrc_SearchElement_Inspc[16];   /*Only for debugging: Stores the trace while searching any element.*/
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_SearchElement_Inspc();
+
+
+
 
 /**Default constructor. */
 METHOD_C struct SearchElement_Inspc_t* ctorO_SearchElement_Inspc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Searches a Field in a Object with given path*/
-METHOD_C MemSegmJc searchObject_SearchElement_Inspc(/*static*/ StringJc sPath, struct ObjectJc_t* startObj, struct FieldJc_t const** retField, int32* retIdx, ThCxt* _thCxt);
+/**Searches a Field in a Object with given path. It is the core routine to access data
+* with the inspector with the given path.
+* */
+METHOD_C MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath, struct ObjectJc_t* startObj, struct FieldJc_t const** retField, int32* retIdx, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

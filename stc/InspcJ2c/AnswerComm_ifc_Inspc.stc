@@ -7,7 +7,7 @@ interface AnswerComm_ifc; nameC=AnswerComm_ifc_Inspc_s; argIdent=XX; extends jav
 fieldIdents {
 }
   methods {  
-    txAnswer-_$, mode= overrideable: int %.r null(int %.. nrofAnswerBytesPart,boolean %.. bLastTelg);
+    txAnswer-_$, mode=overrideable: int %.r null(int %.. nrofAnswerBytesPart,boolean %.. bLastTelg);
   }
 
   methods-overrideable {
@@ -15,7 +15,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

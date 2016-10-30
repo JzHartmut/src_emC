@@ -16,8 +16,8 @@ extern_C const ClassJc reflection_StacktraceJc;
 #define REFLECTION_StacktraceJc &reflection_StacktraceJc
 extern_C const ClassJc reflection_ParseResultPrintfStyle_fwFormatter;
 #define REFLECTION_ParseResultPrintfStyle_fwFormatter &reflection_ParseResultPrintfStyle_fwFormatter
-extern_C const ClassJc reflection_LogMessageFW_i;
-#define REFLECTION_LogMessageFW_i &reflection_LogMessageFW_i
+extern_C const ClassJc reflection_LogMessageFW_s;
+#define REFLECTION_LogMessageFW_s &reflection_LogMessageFW_s
 extern_C const ClassJc reflection_ReadLine_Fwc;
 #define REFLECTION_ReadLine_Fwc &reflection_ReadLine_Fwc
 extern_C const ClassJc reflection_U_intfloat;
@@ -30,6 +30,8 @@ extern_C const ClassJc reflection_FloatArray256;
 #define REFLECTION_FloatArray256 &reflection_FloatArray256
 extern_C const ClassJc reflection_FloatArray20;
 #define REFLECTION_FloatArray20 &reflection_FloatArray20
+extern_C const ClassJc reflection_AddrUsed_ThreadContextFW;
+#define REFLECTION_AddrUsed_ThreadContextFW &reflection_AddrUsed_ThreadContextFW
 extern_C const ClassJc reflection_ThreadContextFW_s;
 #define REFLECTION_ThreadContextFW_s &reflection_ThreadContextFW_s
 extern_C const ClassJc reflection_TimeBytes_Fwc;

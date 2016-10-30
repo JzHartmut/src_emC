@@ -11,7 +11,6 @@
 
 char const sign_Mtbl_InterProcessCommFactory[] = "Mtbl_InterProcessCommFactory";
 
-char const sign_Mtbl_InterProcessCommFactoryAccessor[] = "Mtbl_InterProcessCommFactoryAccessor";
 
 Address_InterProcessComm_s* ctorO_Address_InterProcessComm(ObjectJc* othis, ThCxt* _thCxt)
 {
@@ -138,9 +137,9 @@ MemC InterProcessComm::receive(int32* nrofBytes, Address_InterProcessComm_s* sen
 
 
 
-InterProcessCommFactoryAccessor* ctorO_InterProcessCommFactoryAccessor(ObjectJc* othis, ThCxt* _thCxt)
+InterProcessCommFactory_s* ctorO_InterProcessCommFactory(ObjectJc* othis, ThCxt* _thCxt)
 {
-  InterProcessCommFactoryAccessor* ythis = (InterProcessCommFactoryAccessor*)othis;
-  checkConsistence_ObjectJc(othis, sizeof(InterProcessCommFactoryAccessor), &reflection_InterProcessCommFactoryAccessor, null);
+  InterProcessCommFactory_s* ythis = (InterProcessCommFactory_s*)othis;
+  checkConsistence_ObjectJc(othis, sizeof(InterProcessCommFactory_s), &reflection_InterProcessCommFactory_s, null);
   return ythis;
 }

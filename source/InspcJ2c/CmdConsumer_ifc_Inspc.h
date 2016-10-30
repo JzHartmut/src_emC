@@ -60,12 +60,28 @@ void finalize_CmdConsumer_ifc_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 
-/**Executes a command, writes the answer in the answer datagram.*/
+/**Executes a command, writes the answer in the answer datagram.
+* <br><br>
+* Rules vor answer:
+* <br><br>
+* The answer-Datagram is given with prepared head. The only one value is the current datagram length
+* which should be set to the head before it is send. But this action is done in the method
+* {@link AnswerComm_ifc#txAnswer(int, boolean)}. 
+* The user should add its {@link InspcDataExchangeAccess.Inspcitem}-elements for the answer there.
+* Only if the datagram is full and a next info have to be add, the current datagram should be send.
+* Therefore the routine {@link AnswerComm_ifc#txAnswer(int, boolean)} should be called
+* with the current number of bytes and <code>false</code> as 2. parameter. A non-filled datagram
+* is not to be sent. It will be send after the last invocation of a command consumer from the
+* activator of this method. In this way more as one answer can be given in one ore more datagrams,
+* while the command datagram may contain more as one command too. 
+* 
+* */
 typedef int32 MT_executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 executeMonitorCmd_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes, ThCxt* _thCxt);
 
-/**Sets the aggregation for the answer.*/
+/**Sets the aggregation for the answer.
+* */
 typedef void MT_setAnswerComm_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct AnswerComm_ifc_Inspc_t* answerComm, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void setAnswerComm_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct AnswerComm_ifc_Inspc_t* answerComm, ThCxt* _thCxt);

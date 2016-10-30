@@ -57,6 +57,10 @@ C_TYPE struct OS_HandleFile_t;
 struct ThreadContextFW_t;
 struct PrintStreamJc_t;
 
+
+void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+
+
 /*@CLASS_C StacktraceElementJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 typedef struct StacktraceElementJc_t
 {
@@ -425,6 +429,8 @@ class StacktraceJcpp: public StacktraceJc
 
 
 
+/**TRYJc: Definitions and methods for the TRY-CATCH-THROW-concept in CRuntimeJavalike.
+ */ 
 /**throws an exception. This method is called directly in a THROW macro. It may be called immediately
  * without an _thCxt if an uncatchable exception occurs.
  * @param stacktrcThCxt if null than the uncatchedException-routine is called.
@@ -517,6 +523,15 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
 
 #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+
+/**Either throws an exception or write an exception information in any logging or debugging system and return with the given value. 
+ * This concept supports both, exception handling and system of return values in exception situation.
+ */
+#define THROWRET(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__); return RETURN; }
+
+#define THROWRET_s0(EXCEPTION, TEXT, VAL, RETURN)  { throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__); return RETURN; }
+
+#define THROWRET_s(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__); return RETURN; }
 
 
 

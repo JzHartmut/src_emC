@@ -116,19 +116,19 @@ class Dbg_LogMessageFile_MSG : private Dbg_LogMessageFile_MSG_s
 
 typedef struct LogMessageFile_MSG_t
 { 
-  union { ObjectJc object; LogMessageFW_i LogMessageFW;} base; 
-  struct SbY_sFilenameBuffer_t { StringBufferJc sb; char _b[116]; }sFilenameBuffer;   /**/
-  struct SbY_sDateformatBuffer_t { StringBufferJc sb; char _b[28]; }sDateformatBuffer;   /*StringBuilder to store the converted timeStamp for file time.*/
+  union { ObjectJc object; LogMessageFW_s LogMessageFW;} base; 
+  struct { StringBufferJc sb;  char _b[116]; }sFilenameBuffer;   /**/
+  struct { StringBufferJc sb;  char _b[28]; }sDateformatBuffer;   /*StringBuilder to store the converted timeStamp for file time. */
   StringJc sFormatTimestampFilename;   /*TODO  */
   SimpleDateFormatJc_s formatTimestamp; 
-  int32 counterMultifile;   /*Actual counter of multiFile*/
+  int32 counterMultifile;   /*Actual counter of multiFile. It is set to 1 before first open, if an asterisk is used in filename.*/
   TextFieldPositionJc_s formatField; 
-  struct charsFormatTimestampFilename_Y { ObjectArrayJc head; char data[32]; }charsFormatTimestampFilename;   /*xxxjava2c=simpleArray. */
+  char_Y* charsFormatTimestampFilename; 
   int32 posTimestampInFilename; 
   int32 posMultifileInFilename;   /** If it is -1, no multiFile designation is used.*/
   int32 currentLengthMultifileNr; 
   FileWriterJc_s file; 
-  OS_TimeStamp timeOpen;   /*All OS:TimeStamp are simple embedded instances in C,*/
+  OS_TimeStamp timeOpen;   /*All OS:TimeStamp are simple embedded instances in C, */
   bool bNewFile; 
   OS_TimeStamp timeWrite; 
   OS_TimeStamp timeClose;   /*The last close time. */
@@ -144,10 +144,10 @@ typedef struct LogMessageFile_MSG_t
   Dbg_LogMessageFile_MSG_s dbg; 
   ConcurrentLinkedQueueJc_s parkedOrders;   /*List of messages to process if the file is able to open.*/
   struct ConcurrentLinkedQueueJc_t* freeEntries;   /*Common pool of entries to save messages.*/
-  SimpleDateFormatJc_s dateFormat;   /*The date format is fix.*/
+  SimpleDateFormatJc_s dateFormat;   /*The date format is fix. */
   LocaleJcREF localization; 
   TimeZoneJcREF timeZone; 
-  struct SbY_sBuffer_t { StringBufferJc sb; char _b[996]; }sBuffer;   /*Buffer for the current line to assign. Don't use dynamic memory! */
+  struct { StringBufferJc sb;  char _b[996]; }sBuffer;   /*Buffer for the current line to assign. Don't use dynamic memory! */
 } LogMessageFile_MSG_s;
   
 
@@ -185,54 +185,64 @@ void finalize_LogMessageFile_MSG_F(ObjectJc* othis, ThCxt* _thCxt);
 #define kMsgClose_LogMessageFile_MSG 3
 
 
-/**Constructs the instance.*/
+/**Constructs the instance. 
+*/
 METHOD_C struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc sFilename, int32 nrofSecondsToFlush, int32 nrofHoursPerFile, struct LocaleJc_t* localization, struct TimeZoneJc_t* timeZoneP, struct ConcurrentLinkedQueueJc_t* freeEntriesP, ThCxt* _thCxt);
 
-/**Sets a log output if a open or close action is done*/
+/**Sets a log output if a open or close action is done. This is useful especially in test situations.
+*/
 typedef void MT_setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void setLogMessageOpenClose_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt);
 
-/**Sends a message*/
+/**Sends a message. See interface.  
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...);
+METHOD_C bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, char const* text, char const* args, ...);
+METHOD_C bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...);
 
-/**Sends a message*/
-METHOD_C bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
+/**Sends a message. See interface.  
+*/
+METHOD_C bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...);
 
-/**Sends a message*/
+/**Sends a message. See interface.  
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
+METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_i* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
+METHOD_C bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 
-/**This method can be called after a cyclic time less than the nrofSecondsToFlush,*/
+/**This method can be called after a cyclic time less than the nrofSecondsToFlush,
+but in the same thread like writing.
+The file will be flushed or closed
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void flush_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void flush_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void flush_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
-/**Tests*/
+/**Tests
+*/
 typedef void MT_writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt);
 
-/**Closes the file and forces usage of a new file on next open.*/
+/**Closes the file and forces usage of a new file on next open.
+*/
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void close_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void close_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C void close_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C bool isOnline_LogMessageFile_MSG_F(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C bool isOnline_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C bool isOnline_LogMessageFile_MSG(LogMessageFW_i* ithis, ThCxt* _thCxt);
+METHOD_C bool isOnline_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

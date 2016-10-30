@@ -9,13 +9,14 @@
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
 #include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
+#include "Jc/StringJc.h"  //embedded type in class data
 
 
 /* J2C: Forward declaration of struct ***********************************************/
 struct Part_StringPartJc_t;
 
 /**This class extends the capability of StringPartBase for scanning capability.
-In opposite to the {@link StringPart#seek(int)} functionality with several conditions
+In opposite to the {@link StringPart#seek(int)} functionality with several conditions 
 the scan methods does not search till a requested char or string but test the string
 starting from the begin of the valid part. If the test is ok, the begin of the valid part
 is shifted to right behind the scanned string. The result of the scanning process
@@ -26,10 +27,10 @@ abcdefghijklmnopqrstuvwxyz  Sample of the whole associated String
 --------------------    The valid part before scan
 ++++++++++++++    The valid part after scan
 ******                  The successfully scanned part.
-xxxxx             Starting next scan
-</pre>
+xxxxx             Starting next scan      
+</pre> 
 A scan works with the current valid part always.
-<br><br>
+<br><br>  
 <b>concatenated sequence of scans</b>:<br>
 It is possible to concatenate scans, for example
 <pre>
@@ -70,7 +71,7 @@ struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, CharSeqJ
   STACKTRC_TENTRY("ctorO_StringPartScanJc");
   checkConsistence_ObjectJc(othis, sizeof(StringPartScanJc_s), null, _thCxt);  
   //J2C:super Constructor
-  ctorO_Csii_StringPartJc(/*static*/othis, src, begin, end, _thCxt);
+  ctorO_Csii_StringPartJc(/*J2C:static method call*/othis, src, begin, end, _thCxt);
   setReflection_ObjectJc(othis, &reflection_StringPartScanJc_s, sizeof(StringPartScanJc_s));  
   //j2c: Initialize all class variables:
   {
@@ -80,11 +81,11 @@ struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, CharSeqJ
     /*J2C: newArray*/
       init_ObjectJc(&thiz->nLastIntegerSign.head.object, sizeof_ARRAYJc(bool, 5), 0);   //J2C: ctor embedded array.
       ctorO_ObjectArrayJc(&thiz->nLastIntegerSign.head.object, 5, sizeof(bool), null, 0);//J2C: constructor for embedded array;
-    thiz->idxLastIntegerNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+    thiz->idxLastIntegerNumber = -1;
     /*J2C: newArray*/
       init_ObjectJc(&thiz->nLastFloatNumber.head.object, sizeof_ARRAYJc(double, 5), 0);   //J2C: ctor embedded array.
       ctorO_ObjectArrayJc(&thiz->nLastFloatNumber.head.object, 5, sizeof(double), null, 0);//J2C: constructor for embedded array;
-    thiz->idxLastFloatNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+    thiz->idxLastFloatNumber = -1;
   }
   { 
     
@@ -102,7 +103,7 @@ struct StringPartScanJc_t* ctorO_Cs_StringPartScanJc(ObjectJc* othis, CharSeqJc 
   STACKTRC_TENTRY("ctorO_StringPartScanJc");
   checkConsistence_ObjectJc(othis, sizeof(StringPartScanJc_s), null, _thCxt);  
   //J2C:super Constructor
-  ctorO_Cs_StringPartJc(/*static*/othis, src, _thCxt);
+  ctorO_Cs_StringPartJc(/*J2C:static method call*/othis, src, _thCxt);
   setReflection_ObjectJc(othis, &reflection_StringPartScanJc_s, sizeof(StringPartScanJc_s));  
   //j2c: Initialize all class variables:
   {
@@ -112,11 +113,11 @@ struct StringPartScanJc_t* ctorO_Cs_StringPartScanJc(ObjectJc* othis, CharSeqJc 
     /*J2C: newArray*/
       init_ObjectJc(&thiz->nLastIntegerSign.head.object, sizeof_ARRAYJc(bool, 5), 0);   //J2C: ctor embedded array.
       ctorO_ObjectArrayJc(&thiz->nLastIntegerSign.head.object, 5, sizeof(bool), null, 0);//J2C: constructor for embedded array;
-    thiz->idxLastIntegerNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+    thiz->idxLastIntegerNumber = -1;
     /*J2C: newArray*/
       init_ObjectJc(&thiz->nLastFloatNumber.head.object, sizeof_ARRAYJc(double, 5), 0);   //J2C: ctor embedded array.
       ctorO_ObjectArrayJc(&thiz->nLastFloatNumber.head.object, 5, sizeof(double), null, 0);//J2C: constructor for embedded array;
-    thiz->idxLastFloatNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+    thiz->idxLastFloatNumber = -1;
   }
   { 
     
@@ -134,7 +135,7 @@ struct StringPartScanJc_t* ctorO_StringPartScanJc(ObjectJc* othis, ThCxt* _thCxt
   STACKTRC_TENTRY("ctorO_StringPartScanJc");
   checkConsistence_ObjectJc(othis, sizeof(StringPartScanJc_s), null, _thCxt);  
   //J2C:super Constructor
-  ctorO_StringPartJc(/*static*/othis, _thCxt);
+  ctorO_StringPartJc(/*J2C:static method call*/othis, _thCxt);
   setReflection_ObjectJc(othis, &reflection_StringPartScanJc_s, sizeof(StringPartScanJc_s));  
   //j2c: Initialize all class variables:
   {
@@ -144,11 +145,11 @@ struct StringPartScanJc_t* ctorO_StringPartScanJc(ObjectJc* othis, ThCxt* _thCxt
     /*J2C: newArray*/
       init_ObjectJc(&thiz->nLastIntegerSign.head.object, sizeof_ARRAYJc(bool, 5), 0);   //J2C: ctor embedded array.
       ctorO_ObjectArrayJc(&thiz->nLastIntegerSign.head.object, 5, sizeof(bool), null, 0);//J2C: constructor for embedded array;
-    thiz->idxLastIntegerNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+    thiz->idxLastIntegerNumber = -1;
     /*J2C: newArray*/
       init_ObjectJc(&thiz->nLastFloatNumber.head.object, sizeof_ARRAYJc(double, 5), 0);   //J2C: ctor embedded array.
       ctorO_ObjectArrayJc(&thiz->nLastFloatNumber.head.object, 5, sizeof(double), null, 0);//J2C: constructor for embedded array;
-    thiz->idxLastFloatNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+    thiz->idxLastFloatNumber = -1;
   }
   { 
     
@@ -209,6 +210,21 @@ struct StringPartScanJc_t* scanStart_StringPartScanJc(StringPartScanJc_s* thiz, 
   STACKTRC_LEAVE;
 }
 
+
+/**Invocation of scan() for a {@link StringPart} is the same than scanStart().*/
+struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("scan_StringPartScanJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return scanStart_StringPartScanJc(thiz, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
 bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanEntry_StringPartScanJc");
@@ -222,7 +238,7 @@ bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
       if(thiz->base.super.bStartScan) 
       { 
         
-        thiz->idxLastIntegerNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;/*idxLastFloatNumber = -1;*/
+        thiz->idxLastIntegerNumber = -1;/*idxLastFloatNumber = -1;*/
         
         thiz->base.super.bStartScan = false;
       }
@@ -241,14 +257,12 @@ bool scanEntry_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Test the result of scanning and set the scan Pos Ok, if current scanning was ok*/
+/**Test the result of scanning and set the scan Pos Ok, if current scanning was ok. If current scanning*/
 bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanOk_StringPartScanJc");
   
   { 
-    bool bOk; 
-    
     
     if(thiz->base.super.bCurrentOk) 
     { 
@@ -265,7 +279,8 @@ bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
       
     }/*if(report != null){ report.report(6," scanOk:" + beginMin + ".." + begin + ":" + (bCurrentOk ? "ok" : "error")); }*/
     
-    bOk = thiz->base.super.bCurrentOk;
+    
+    bool  bOk = thiz->base.super.bCurrentOk;
     thiz->base.super.bCurrentOk = true;/*prepare to next try scanning*/
     
     { STACKTRC_LEAVE;
@@ -277,36 +292,35 @@ bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 
 
 /**scan next content, test the requested String.*/
-struct StringPartScanJc_t* scan_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sTestP, ThCxt* _thCxt)
+struct StringPartScanJc_t* scan_Cs_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sTestP, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("scan_StringPartScanJc");
+  STACKTRC_TENTRY("scan_Cs_StringPartScanJc");
   
   { 
     
     if(thiz->base.super.bCurrentOk) 
     { /*:      but the sTestP may contain only cEndOfText. end of text will be okay than.*/
       
-      CharSeqJc sTest = { 0 }; 
-      int32 len; 
-      bool bTestToEndOfText; 
-      
       
       seekNoWhitespaceOrComments_StringPartJc(& ((* (thiz)).base.super), _thCxt);
-      /*no initvalue*/
-      len = indexOf_Csci_StringFunctionsJc(/*static*/sTestP, cEndOfText_StringPartJc, (int32/*FieldData.testAndChangeAccess TODO correct?*/)0, _thCxt);
-      bTestToEndOfText = (len >= 0);
+      
+      CharSeqJc sTest ; sTest;/*no initvalue*/
+      
+      int32  len = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/sTestP, cEndOfText_StringPartJc, 0, _thCxt);
+      
+      bool  bTestToEndOfText = (len >= 0);
       if(bTestToEndOfText) 
       { 
         
-        sTest = subSequence_CharSeqJc(sTestP, (int32/*FieldData.testAndChangeAccess TODO correct?*/)0, len, _thCxt);
+        sTest = subSequence_CharSeqJc(sTestP/*J1cT2*/, 0, len, _thCxt);
       }
       else 
       { 
         
-        len = length_CharSeqJc(sTestP);
+        len = length_CharSeqJc(sTestP/*J1cT2*/, _thCxt);
         sTest = sTestP;
       }
-      if((thiz->base.super.begin + len) <= thiz->base.super.endMax && equals_CsiiCs_StringFunctionsJc(/*static*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + len, sTest, _thCxt) && (!bTestToEndOfText || thiz->base.super.begin + len == thiz->base.super.end)) 
+      if((thiz->base.super.begin + len) <= thiz->base.super.endMax && equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + len, sTest, _thCxt) && (!bTestToEndOfText || thiz->base.super.begin + len == thiz->base.super.end)) 
       { 
         
         thiz->base.super.begin += len;
@@ -351,24 +365,27 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
     { 
       
       
-        ( scan_StringPartScanJc(thiz, sQuotionmarkStart, _thCxt)
-        , lentoNonEscapedString_StringPartJc(& ((* (thiz)).base.super), sQuotionMarkEnd, maxToTest, _thCxt)
+        ( scan_Cs_StringPartScanJc(thiz, sQuotionmarkStart, _thCxt)
+        , lentoNonEscapedString_StringPartJc(& ((* (thiz)).base.super), sQuotionMarkEnd.c, maxToTest, _thCxt)
         );
       if(thiz->base.super.bCurrentOk) 
       { /*:TODO ...ToEndString, now use only 1 char in sQuotionMarkEnd*/
         
-        StringJc _persistring3_1=NULL_StringJc; //J2C: temporary persistent Strings
-        struct Part_StringPartJc_t* _temp3_1; /*J2C: temporary references for concatenation */
-        
+        StringJc _persistring4_1=NULL_StringJc; //J2C: temporary persistent Strings
+        struct Part_StringPartJc_t* _temp4_1; /*J2C: temporary references for concatenation */
+        struct Part_StringPartJc_t* _thCxtRef4_1;struct Part_StringPartJc_t* _thCxtRef4_2;
         if(sResult != null) sResult->data[0] = 
-          ( _temp3_1= getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)
-          , _persistring3_1 = persist_StringJc(toString_Part_StringPartJc(& ((* (_temp3_1)).base.object)/*J2cT1*/, _thCxt))
+          ( _temp4_1= ( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))
+          , _persistring4_1 = persist_StringJc(toString_Part_StringPartJc(& ((* (_temp4_1)).base.object)/*J2cT1*/, _thCxt))
           )/*J2C:non-persistent*/;
+        else thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_2 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
         
           ( fromEnd_StringPartJc(& ((* (thiz)).base.super), _thCxt)
-          , seek_i_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt)
+          , seekPos_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt)
           );
-        activateGC_ObjectJc(PTR_StringJc(_persistring3_1), null, _thCxt);
+        releaseUserBuffer_ThreadContextFw(_thCxtRef4_1, _thCxt);
+        releaseUserBuffer_ThreadContextFw(_thCxtRef4_2, _thCxt);
+        activateGC_ObjectJc(PTR_StringJc(_persistring4_1), null, _thCxt);
       }
       else thiz->base.super.bCurrentOk = false;
     }
@@ -389,25 +406,23 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
     
     if(thiz->base.super.bCurrentOk) 
     { 
-      int64 nn = 0; 
-      bool bCont = true; 
-      int32 pos; 
-      int32 max; 
       
       
-      nn = (int64/*FieldData.testAndChangeAccess TODO correct?*/)0;
-      bCont = true;
-      pos = thiz->base.super.begin;
-      max = (thiz->base.super.end - pos) < maxNrofChars ? thiz->base.super.end : pos + maxNrofChars;
+      int64  nn = 0;
+      
+      bool  bCont = true;
+      
+      int32  pos = thiz->base.super.begin;
+      
+      int32  max = (thiz->base.super.end - pos) < maxNrofChars ? thiz->base.super.end : pos + maxNrofChars;
       do 
         { 
           
           if(pos < max) 
           { 
-            char cc; 
             
             
-            cc = charAt_CharSeqJc(thiz->base.super.content, pos);
+            char  cc = charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, pos, _thCxt);
             if(cc >= '0' && cc <= '9') nn = nn * (bHex ? 16 : 10) + (cc - '0');
             else if(bHex && cc >= 'a' && cc <= 'f') nn = nn * 16 + (cc - 'a' + 10);
             else if(bHex && cc >= 'A' && cc <= 'F') nn = nn * 16 + (cc - 'A' + 10);
@@ -415,7 +430,7 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
             if(bCont) 
             { 
               
-              pos += (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
+              pos += 1;
             }
           }
           else bCont = false;
@@ -437,7 +452,7 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
       }
     }
     { STACKTRC_LEAVE;
-      return (int64/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+      return -1;
     }/*on error*/
     
   }
@@ -445,7 +460,7 @@ int64 scanDigits_StringPartScanJc(StringPartScanJc_s* thiz, bool bHex, int32 max
 }
 
 
-/**Scanns a integer number as positiv value without sign.*/
+/**Scanns a integer number as positiv value without sign. */
 struct StringPartScanJc_t* scanPositivInteger_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanPositivInteger_StringPartScanJc");
@@ -454,10 +469,9 @@ struct StringPartScanJc_t* scanPositivInteger_StringPartScanJc(StringPartScanJc_
     
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
-      int64 value; 
       
       
-      value = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
+      int64  value = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
       if(thiz->base.super.bCurrentOk) 
       { 
         
@@ -487,18 +501,17 @@ struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJc_s* thiz
     
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
-      bool bNegativValue = false; 
-      int64 value; 
       
       
-      bNegativValue = false;
-      if(charAt_CharSeqJc(thiz->base.super.content, thiz->base.super.begin) == '-') 
+      bool  bNegativValue = false;
+      if(charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt) == '-') 
       { 
         
         bNegativValue = true;
-        seek_i_StringPartJc(& ((* (thiz)).base.super), (int32/*FieldData.testAndChangeAccess TODO correct?*/)1, _thCxt);
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
       }
-      value = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
+      
+      int64  value = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
       if(bNegativValue) 
       { 
         
@@ -524,7 +537,7 @@ struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJc_s* thiz
 }
 
 
-/**Scans a float number*/
+/**Scans a float number. The result is stored internally*/
 struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPartScanJc_s* thiz, bool cleanBuffer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanFloatNumber_b_StringPartScanJc");
@@ -534,7 +547,7 @@ struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPartScanJc_s
     if(cleanBuffer) 
     { 
       
-      thiz->idxLastFloatNumber = (int32/*FieldData.testAndChangeAccess TODO correct?*/)-1;
+      thiz->idxLastFloatNumber = -1;
     }
     scanFloatNumber_StringPartScanJc(thiz, _thCxt);
     { STACKTRC_LEAVE;
@@ -545,7 +558,7 @@ struct StringPartScanJc_t* scanFloatNumber_b_StringPartScanJc(StringPartScanJc_s
 }
 
 
-/**Scans a float / double number*/
+/**Scans a float / double number. The result is stored internally*/
 struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanFloatNumber_StringPartScanJc");
@@ -554,20 +567,19 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
     
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
-      bool bNegativValue = false; 
-      char cc = 0; 
-      int64 nInteger; 
       
       
-      bNegativValue = false;
-      /*no initvalue*/
-      if((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content, thiz->base.super.begin)) == '-') 
+      bool  bNegativValue = false;
+      
+      char  cc;/*no initvalue*/
+      if((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt)) == '-') 
       { 
         
         bNegativValue = true;
-        seek_i_StringPartJc(& ((* (thiz)).base.super), (int32/*FieldData.testAndChangeAccess TODO correct?*/)1, _thCxt);
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
       }
-      nInteger = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
+      
+      int64  nInteger = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);
       if(thiz->base.super.bCurrentOk) 
       { 
         
@@ -586,7 +598,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
           if(thiz->idxLastFloatNumber < thiz->nLastFloatNumber.head.length - 2) 
           { 
             
-            thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = (double)nInteger;
+            thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = (double /*J2C_cast*/)nInteger;
           }
           else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned floats", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
         }
@@ -600,7 +612,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
 }
 
 
-/**Scans the fractional part of a float / double number with given integer part and sign.*/
+/**Scans the fractional part of a float / double number with given integer part and sign. */
 struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJc_s* thiz, int64 nInteger, bool bNegative, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanFractionalNumber_StringPartScanJc");
@@ -609,34 +621,32 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
     
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
-      int64 nFractional = 0; 
-      int32 nDivisorFract = 1; 
-      int32 nExponent = 0; 
-      char cc = 0; 
-      bool bNegativExponent = false; 
-      double result = 0; 
-      int32 begin0; 
-      int32 nPosExponent; 
       
       
-      nFractional = (int64/*FieldData.testAndChangeAccess TODO correct?*/)0;
-      nDivisorFract = (int32/*FieldData.testAndChangeAccess TODO correct?*/)1;
-      nExponent = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
-      /*no initvalue*/
-      bNegativExponent = false;
-      /*no initvalue*/
-      begin0 = thiz->base.super.begin;
-      if(thiz->base.super.begin < thiz->base.super.endMax && charAt_CharSeqJc(thiz->base.super.content, thiz->base.super.begin) == '.') 
+      int64  nFractional = 0;
+      
+      int32  nDivisorFract = 1;
+      
+      int32  nExponent = 0;
+      
+      char  cc;/*no initvalue*/
+      
+      bool  bNegativExponent = false;
+      
+      double  result;/*no initvalue*/
+      
+      int32  begin0 = thiz->base.super.begin;
+      if(thiz->base.super.begin < thiz->base.super.endMax && charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt) == '.') 
       { 
         
-        seek_i_StringPartJc(& ((* (thiz)).base.super), (int32/*FieldData.testAndChangeAccess TODO correct?*/)1, _thCxt);/*over .*/
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);/*over .*/
         
         
         while(thiz->base.super.begin < thiz->base.super.endMax && getCurrentChar_StringPartJc(& ((* (thiz)).base.super), _thCxt) == '0')
           { 
             
-            seek_i_StringPartJc(& ((* (thiz)).base.super), (int32/*FieldData.testAndChangeAccess TODO correct?*/)1, _thCxt);
-            nDivisorFract *= (int32/*FieldData.testAndChangeAccess TODO correct?*/)10;
+            seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
+            nDivisorFract *= 10;
           }/*int posFrac = begin;*/
           
         nFractional = scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);/*set bCurrentOk = false if there are no digits.*/
@@ -648,31 +658,32 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
           
           thiz->base.super.bCurrentOk = true;/*it is okay, at ex."9.0" is found. There are no more digits after "0".*/
           
-          nFractional = (int64/*FieldData.testAndChangeAccess TODO correct?*/)0;
+          nFractional = 0;
         }
       }
-      nPosExponent = thiz->base.super.begin;
-      if(thiz->base.super.bCurrentOk && nPosExponent < thiz->base.super.endMax && ((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content, thiz->base.super.begin)) == 'e' || cc == 'E')) 
+      
+      int32  nPosExponent = thiz->base.super.begin;
+      if(thiz->base.super.bCurrentOk && nPosExponent < thiz->base.super.endMax && ((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt)) == 'e' || cc == 'E')) 
       { 
         
-        seek_i_StringPartJc(& ((* (thiz)).base.super), (int32/*FieldData.testAndChangeAccess TODO correct?*/)1, _thCxt);
-        if((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content, thiz->base.super.begin)) == '-') 
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
+        if((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt)) == '-') 
         { 
           
           bNegativExponent = true;
-          seek_i_StringPartJc(& ((* (thiz)).base.super), (int32/*FieldData.testAndChangeAccess TODO correct?*/)1, _thCxt);
-          cc = charAt_CharSeqJc(thiz->base.super.content, thiz->base.super.begin);
+          seek_i_StringPartJc(& ((* (thiz)).base.super), 1, _thCxt);
+          cc = charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt);
         }
         if(cc >= '0' && cc <= '9') 
         { 
           
-          nExponent = (int32)scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);/*set bCurrentOk if there are no digits*/
+          nExponent = (int32 /*J2C_cast*/)scanDigits_StringPartScanJc(thiz, false, MAX_VALUE_IntegerJc, _thCxt);/*set bCurrentOk if there are no digits*/
           
           if(!thiz->base.super.bCurrentOk) 
           { 
             
-            nExponent = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
-            ASSERT(/*static*/false);/*0..9 was tested!*/
+            nExponent = 0;
+            ASSERT(/*J2C:static method call*/false);/*0..9 was tested!*/
             
           }
         }
@@ -682,27 +693,26 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
           
           
           thiz->base.super.begin = nPosExponent;
-          nExponent = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
+          nExponent = 0;
         }
       }
       if(thiz->base.super.begin > begin0) 
       { /*:either fractional or exponent found*/
         
         
-        result = (double/*FieldData.testAndChangeAccess TODO correct?*/)nInteger;
+        result = nInteger;
         if(nFractional > 0) 
         { 
-          double fFrac; 
           
           
-          fFrac = (double/*FieldData.testAndChangeAccess TODO correct?*/)nFractional;
+          double  fFrac = nFractional;
           
           while(fFrac >= 1.0)
             { 
               
               fFrac /= 10.0;
             }
-          fFrac /= (double/*FieldData.testAndChangeAccess TODO correct?*/)nDivisorFract;/*number of 0 after . until first digit.*/
+          fFrac /= nDivisorFract;/*number of 0 after . until first digit.*/
           
           if(result < 0 || bNegative) 
           { /*:bNegativ is set on negative 0*/
@@ -721,7 +731,7 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
             
             nExponent = -nExponent;
           }
-          result *= pow_MathJc(/*static*/(double/*FieldData.testAndChangeAccess TODO correct?*/)10, (double/*FieldData.testAndChangeAccess TODO correct?*/)nExponent);
+          result *= pow_MathJc(/*J2C:static method call*/10, nExponent);
         }
         if(thiz->idxLastFloatNumber < thiz->nLastFloatNumber.head.length - 2) 
         { 
@@ -745,7 +755,7 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
 }
 
 
-/**Scans a sequence of hex chars a hex number*/
+/**Scans a sequence of hex chars a hex number. No '0x' or such should be present. */
 struct StringPartScanJc_t* scanHex_StringPartScanJc(StringPartScanJc_s* thiz, int32 maxNrofChars, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("scanHex_StringPartScanJc");
@@ -754,10 +764,9 @@ struct StringPartScanJc_t* scanHex_StringPartScanJc(StringPartScanJc_s* thiz, in
     
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
-      int64 value; 
       
       
-      value = scanDigits_StringPartScanJc(thiz, true, maxNrofChars, _thCxt);
+      int64  value = scanDigits_StringPartScanJc(thiz, true, maxNrofChars, _thCxt);
       if(thiz->base.super.bCurrentOk) 
       { 
         
@@ -787,14 +796,13 @@ struct StringPartScanJc_t* scanHexOrDecimal_StringPartScanJc(StringPartScanJc_s*
     
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
-      int64 value = 0; 
       
       
-      /*no initvalue*/
-      if(equals_CsiiCs_StringFunctionsJc(/*static*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + 2, ((/*J2C:cast$ from char const**/CharSeqJc)("0x")), _thCxt)) 
+      int64  value;/*no initvalue*/
+      if(equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + 2, z_StringJc("0x").c, _thCxt)) 
       { 
         
-        seek_i_StringPartJc(& ((* (thiz)).base.super), (int32/*FieldData.testAndChangeAccess TODO correct?*/)2, _thCxt);
+        seek_i_StringPartJc(& ((* (thiz)).base.super), 2, _thCxt);
         value = scanDigits_StringPartScanJc(thiz, true, maxNrofChars, _thCxt);
       }
       else 
@@ -830,7 +838,7 @@ struct StringPartScanJc_t* scanIdentifier_StringPartScanJc(StringPartScanJc_s* t
   { 
     
     { STACKTRC_LEAVE;
-      return scanIdentifier_SS_StringPartScanJc(thiz, null_StringJc, null_StringJc, _thCxt);
+      return scanIdentifier_SS_StringPartScanJc(thiz, null_StringJc /*J2C: mem assignment*/, null_StringJc /*J2C: mem assignment*/, _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -847,13 +855,14 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
       
-      lentoIdentifier_SS_StringPartJc(& ((* (thiz)).base.super), additionalStartChars, additionalChars, _thCxt);
+      lentoIdentifier_CsCs_StringPartJc(& ((* (thiz)).base.super), additionalStartChars.c, additionalChars.c, _thCxt);
       if(thiz->base.super.bFound) 
       { 
-        
-        thiz->sLastString = (CharSeqJc/*FieldData.testAndChangeAccess TODO correct?*/)(* (getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))).base.CharSeqJc;
+        struct Part_StringPartJc_t* _thCxtRef4_1;
+        thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
         thiz->base.super.begin = thiz->base.super.end;/*after identifier.*/
         
+        releaseUserBuffer_ThreadContextFw(_thCxtRef4_1, _thCxt);
       }
       else 
       { 
@@ -871,7 +880,7 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
 }
 
 
-/**Returns the last scanned integer sign*/
+/**Returns the last scanned integer sign. It is the result of the methods*/
 bool getLastScannedIntegerSign_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLastScannedIntegerSign_StringPartScanJc");
@@ -891,7 +900,7 @@ bool getLastScannedIntegerSign_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt*
 }
 
 
-/**Returns the last scanned integer number*/
+/**Returns the last scanned integer number. It is the result of the methods*/
 int64 getLastScannedIntegerNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLastScannedIntegerNumber_StringPartScanJc");
@@ -946,25 +955,26 @@ CharSeqJc getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt*
 }
 
 
-/**Closes the work*/
-void close_StringPartScanJc_F(StringPartScanJc_s* thiz, ThCxt* _thCxt)
-{ 
+/**Closes the work. This routine should be called if the StringPart is never used, */
+void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt)
+{ StringPartScanJc_s* thiz = (StringPartScanJc_s*)ithis;
+  
   STACKTRC_TENTRY("close_StringPartScanJc_F");
   
   { 
     
-    ((Mtbl_StringPartJc const*)getMtbl_ObjectJc(&((&thiz->base.super))->base.object, sign_Mtbl_StringPartJc) )->close((&thiz->base.super), _thCxt);
-    thiz->sLastString = null_CharSeqJc;
-    thiz->beginScan = (int32/*FieldData.testAndChangeAccess TODO correct?*/)0;
+    close_StringPartJc((&thiz->base.super), _thCxt);
+    thiz->sLastString = null_CharSeqJc /*J2C: mem assignment*/;
+    thiz->beginScan = 0;
     thiz->base.super.bCurrentOk = thiz->base.super.bFound = /*? assignment*/false;
   }
   STACKTRC_LEAVE;
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_StringPartScanJc const* mtbl = (Mtbl_StringPartScanJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringPartScanJc);
-  mtbl->close(thiz, _thCxt);
+void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt)
+{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_StringPartJc);
+  mtbl->close((StringPartJc_s*)ithis, _thCxt);
 }
 
 
@@ -972,30 +982,35 @@ void close_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringPartScanJc mtblStringPartScanJc = {
 { { sign_Mtbl_StringPartScanJc //J2C: Head of methodtable of StringPartScanJc
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-  //J2C: Dynamic methods of the class StringPartScanJc
-, close_StringPartScanJc_F //close
   //J2C: The superclass's methodtable: 
 , { { sign_Mtbl_StringPartJc //J2C: Head of methodtable of StringPartJc
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+    , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :StringPartJc:
+  , getLineAndColumn_StringPartJc_F //getLineAndColumn
+  , close_StringPartScanJc_F //close
     //J2C: The superclass's methodtable: 
   , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
       , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
-      //J2C: Dynamic methods of the class ObjectJc
+      //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
     , finalize_ObjectJc_F //finalize
     , hashCode_ObjectJc_F //hashCode
-    , toString_ObjectJc_F //toString
+    , toString_StringPartJc_F //toString
     }
     //J2C: The interface's methodtable: 
-    //J2C: Mtbl-interfaces of StringPartScanJc: */
+    //J2C: Mtbl-interfaces of :StringPartScanJc: */
   , { { sign_Mtbl_CharSeqJc //J2C: Head of methodtable of CharSeqJc
-      , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+      , (struct Size_Mtbl_t*)((3 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
+      //J2C: Dynamic methods of the class :CharSeqJc:
+    , length_StringPartJc //length
+    , charAt_i_StringPartJc //charAt
+    , subSequence_ii_StringPartJc //subSequence
     }
   , { { sign_Mtbl_ComparableJc //J2C: Head of methodtable of ComparableJc
       , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
@@ -1077,7 +1092,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
    , { "sLastString"
     , 0 //nrofArrayElements
     , &reflection_CharSeqJc
-    , kEmbedded_Modifier_reflectJc //bitModifiers
+    , kEnhancedReference_Modifier_reflectJc /*c*/ //bitModifiers
     , (int16)((int32)(&((StringPartScanJc_s*)(0x1000))->sLastString) - (int32)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_StringPartScanJc_s
@@ -1088,7 +1103,7 @@ const ClassJc reflection_StringPartScanJc_s =
 , "StringPartScanJc_s"
 ,  0 //position of ObjectJc
 , sizeof(StringPartScanJc_s)
-, (FieldJcArray const*)&reflection_Fields_StringPartScanJc_s
+, (FieldJc_Y const*)&reflection_Fields_StringPartScanJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_StringPartScanJc_s //superclass
 , null //interfaces

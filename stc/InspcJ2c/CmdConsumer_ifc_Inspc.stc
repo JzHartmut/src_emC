@@ -7,8 +7,8 @@ interface CmdConsumer_ifc; nameC=CmdConsumer_ifc_Inspc_s; argIdent=XX; extends j
 fieldIdents {
 }
   methods {  
-    executeMonitorCmd-_$, mode= overrideable: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
-    setAnswerComm-_$, mode= overrideable: void %.r null(org/vishia/inspectorTarget/AnswerComm_ifc *.. answerComm);
+    executeMonitorCmd-_$, mode=overrideable: int %.r null(org/vishia/communication/InspcDataExchangeAccess.Inspcitem *.. cmd,org/vishia/communication/InspcDataExchangeAccess.InspcDatagram *.. answer,int %.. maxNrofAnswerBytes);
+    setAnswerComm-_$, mode=overrideable: void %.r null(org/vishia/inspectorTarget/AnswerComm_ifc *.. answerComm);
   }
 
   methods-overrideable {
@@ -17,7 +17,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

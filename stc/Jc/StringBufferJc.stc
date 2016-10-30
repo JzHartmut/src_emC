@@ -16,8 +16,8 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
 		setCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;}, field:{ char %.. param;});
 		deleteCharAt-_$ : field:{ void %.. return;}(field:{ int %.. param;});
 		append+_c-_$, mode:returnThis: StringBuffer *.. return(java/lang/CharSequence t.. value);
-		append+_s-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   String t.. param;});                                                                           
-		append+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;});                         
+		append+_s-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   CharSequence t.. param;});                                                                           
+		append+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   CharSequence t.. param;}, field:{  int %.. param;}, field:{  int %.. param;});                         
 		append+_u-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   StringBuffer *.. param;});                                                                     
 		append+_C-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   char %.. param;}  );                                                                           
 		append+_Z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   boolean %.. param;}  );                                                                           
@@ -30,8 +30,8 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
 		append+_z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   s0 t.. param;});                                                                               
 		append+_zI-_$,mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   s0 t.. param;}, field:{ int %.. param;});                                                       
 		append-_$: StringBuffer *.. return(java/lang/CharSequence *.r value);
-		insert+_s-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  String t.. param;});
-		insert+_sI-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  String t.. param;} , field:{  int %.. param;});                                                  
+		insert+_s-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  CharSequence t.. param;});
+		insert+_sI-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  CharSequence t.. param;} , field:{  int %.. param;});                                                  
 		insert+_C-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  char %.. param;}  );                                                  
 		insert+_Z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  boolean %.. param;}  );                                                  
 		//insert+_B-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  byte %.. param;}   );                                                  
@@ -40,19 +40,19 @@ class StringBuffer; nameC=StringBufferJc; argIdent=Sb; header=Jc/StringJc.h; ext
 		insert+_I-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  long %.. param;}   );                                                  
 		insert+_F-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  float %.. param;} );                                                  
 		insert+_D-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  double %.. param;} );                                                  
-		insert+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  String t.. param;}, field:{  int %.. param;}, field:{  int %.. param;} );
+		insert+_sII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  CharSequence t.. param;}, field:{  int %.. param;}, field:{  int %.. param;} );
     insert+_cYii-_$, mode:returnThis: StringBuffer *..return(int %.. value, java/lang/CharSequence t.. value, byte %.. value, int %.. value);
 		insert+_CYII-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. pos;}, field:{ char X.. param;}, field:{  int %.. from;}, field:{  int %.. to;} );
 		insert+_z-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;}    );                                                  
 		insert+_zI-_$, mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  s0 t.. param;} , field:{  int %.. param;}    );                                                  
 		indexOf+_s-_$: int %.. return(String t.. s);
 		indexOf+_z-_$: int %.. return(s0 t.. s);
-		indexOf+_sI-_$: int %.. return(String t.. s, int %.. pos);
+		indexOf+_sI-_$: int %.. return(CharSequence t.. s, int %.. pos);
 		indexOf+_zI-_$: int %.. return(s0 t.. s, int %.. pos);
 		substring+_I-_$: String t.. return(int %.. start);
 		substring-_$: String t.. return(int %.. start, int %.. end);
 		replace-_$,   mode:returnThis:  field:{ StringBuffer *.. return;} (field:{   int %.. param;}, field:{  int %.. param;}, field:{   String t.. param;} );                        
-		toString-_$, defined=java.lang.Object, mode=returnNonPersistring :    field:{ String t.. return;};
+		toString-_$, defined=java.lang.Object:    field:{ String t.r return;};
   }
   castTo {
     StringBuffer * "?" *;

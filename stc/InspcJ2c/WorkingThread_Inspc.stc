@@ -24,11 +24,11 @@ class WorkingThread; nameC=WorkingThread_Inspc_s; argIdent=XX; extends java/lang
       float %.. ySin3;
     }
       methods {  
-        ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/example/WorkingThread.Data *.. Data_WorkingThread_Inspc_s();
+        ctorO-_$, mode=ctor+static: org/vishia/inspectorTarget/example/WorkingThread.Data *.. Data_WorkingThread_Inspc_s();
       }
 
       castTo {
-        java/lang/Object: $ "(?).base.object" $;
+        java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
         org/vishia/inspectorTarget/example/WorkingThread: * "(?)->outer" *;
       }
 
@@ -50,7 +50,7 @@ class WorkingThread; nameC=WorkingThread_Inspc_s; argIdent=XX; extends java/lang
       }
 
       castTo {
-        java/lang/Object: $ "(?).base.object" $;
+        java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
         org/vishia/inspectorTarget/example/WorkingThread: * "(?)->outer" *;
       }
 
@@ -67,12 +67,12 @@ class WorkingThread; nameC=WorkingThread_Inspc_s; argIdent=XX; extends java/lang
       //outer=2 ,super=1: org/vishia/inspectorTarget/example/WorkingThread.C_theThreadRun(instance=org/vishia/inspectorTarget/example/WorkingThread.C_theThreadRun) $.. theThreadRun;
     }
       methods {  
-        run-_$, defined: java/lang/Runnable.run, mode= overrideable: void %.r null();
+        run-_$, defined: java/lang/Runnable.run, mode=overrideable: void %.r null();
       }
 
       castTo {
-        java/lang/Object: $ "(?).base.RunnableJc.base.object" $;
-        java/lang/Runnable: $ "(?).base.RunnableJc" $;
+        java/lang/Object: $ "(?).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object" $;
+        java/lang/Runnable: $ "(?).base/*J2C:ifc*/.RunnableJc" $;
         org/vishia/inspectorTarget/example/WorkingThread: * "(?)->outer" *;
       }
 
@@ -85,13 +85,13 @@ fieldIdents {
   org/vishia/inspectorTarget/example/WorkingThread.C_theThreadRun(instance=org/vishia/inspectorTarget/example/WorkingThread.C_theThreadRun) $.. theThreadRun;
 }
   methods {  
-    ctorO-_$, mode= ctor+static: org/vishia/inspectorTarget/example/WorkingThread *.. WorkingThread_Inspc_s();
-    ctorO_C_theThreadRun-_$, mode= ctor+anonymousCtor+nonStaticCtor: org/vishia/inspectorTarget/example/WorkingThread.C_theThreadRun *.. C_theThreadRun_WorkingThread_Inspc_s();
-    ctorO_ThreadMng-_$, mode= ctor+nonStaticCtor: org/vishia/inspectorTarget/example/WorkingThread.ThreadMng *.. ThreadMng_WorkingThread_Inspc_s();
-    finalize-_$, defined: java/lang/Object.finalize, mode= overrideable: void %.. void();
-    start-_$, mode= overrideable: void %.r null();
+    ctorO-_$, mode=ctor+static: org/vishia/inspectorTarget/example/WorkingThread *.. WorkingThread_Inspc_s();
+    ctorO_C_theThreadRun-_$, mode=ctor+anonymousCtor+nonStaticCtor: org/vishia/inspectorTarget/example/WorkingThread.C_theThreadRun *.. C_theThreadRun_WorkingThread_Inspc_s();
+    ctorO_ThreadMng-_$, mode=ctor+nonStaticCtor: org/vishia/inspectorTarget/example/WorkingThread.ThreadMng *.. ThreadMng_WorkingThread_Inspc_s();
+    finalize-_$, defined: java/lang/Object.finalize, mode=overrideable: void %.. void();
+    start-_$, mode=overrideable: void %.r null();
     step-_$: void %.r null();
-    terminate-_$, mode= overrideable: void %.r null();
+    terminate-_$, mode=overrideable: void %.r null();
   }
 
   methods-overrideable {
@@ -100,7 +100,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base.object" $;
+    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
   }
 
 }

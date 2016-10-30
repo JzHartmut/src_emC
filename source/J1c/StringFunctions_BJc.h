@@ -59,12 +59,18 @@ void finalize_StringFunctions_BJc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern StringJc version_StringFunctions_BJc;   /*Version, history and license.*/
  extern StringJc sWhiteSpaces_StringFunctions_BJc; 
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_StringFunctions_BJc();
+
+
+
 
 /**Default constructor. */
 METHOD_C struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* _thCxt);
 
-/**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters.*/
-METHOD_C CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*static*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt);
+/**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters. 
+*/
+METHOD_C CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods

@@ -79,12 +79,21 @@ void finalize_Inspector_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
  extern StringJc version_Inspector_Inspc;   /*Version and history*/
  extern Inspector_InspcREF singleton_Inspector_Inspc; 
 
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_Inspector_Inspc();
+
+
+
 
 /*** */
 METHOD_C struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt);
 
-/**Returns the first instance of the Inspector in this application*/
-METHOD_C struct Inspector_Inspc_t* get_Inspector_Inspc(/*static*/ ThCxt* _thCxt);
+/**Returns the first instance of the Inspector in this application. Usual only one instance is used,
+* then it is a singleton. More as one instance is possible, then the first instance is the singleton returned here.
+* If the Inspector is not created yet, this method returns null. 
+* 
+* */
+METHOD_C struct Inspector_Inspc_t* get_Inspector_Inspc(/*J2C:static method*/ ThCxt* _thCxt);
 
 /**Start the execution. */
 typedef void MT_start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
@@ -93,7 +102,11 @@ METHOD_C void start_Inspector_Inspc_F(Inspector_Inspc_s* thiz, struct ObjectJc_t
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt);
 
-/**Shutdown the communication, close the thread*/
+/**Shutdown the communication, close the thread. This routine should be called 
+* either on shutdown of the whole system or on closing the inspector functionality.
+* The inspector functionality can be restarted calling {@link #start(Object)}.
+* 
+*/
 typedef void MT_shutdown_Inspector_Inspc(Inspector_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* thiz, ThCxt* _thCxt);

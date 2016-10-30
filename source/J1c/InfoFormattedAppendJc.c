@@ -20,7 +20,7 @@ See also {@link InfoAppend}.
 
 const char sign_Mtbl_InfoFormattedAppendJc[] = "InfoFormattedAppendJc"; //to mark method tables of all implementations
 
-StringJc version_InfoFormattedAppendJc = CONST_z_StringJc("2015-03-08");
+StringJc version_InfoFormattedAppendJc = CONST_z_StringJc("2015-03-08"); //J2C:static StringJc
 /*J2C: dynamic call variant of the override-able method: */
 void infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct StringFormatterJc_t* u, ThCxt* _thCxt)
 { Mtbl_InfoFormattedAppendJc const* mtbl = (Mtbl_InfoFormattedAppendJc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_InfoFormattedAppendJc);
@@ -58,7 +58,7 @@ const ClassJc reflection_InfoFormattedAppendJc_s =
 , "InfoFormattedAppendJc_s"
 ,  0 //position of ObjectJc
 , sizeof(InfoFormattedAppendJc_s)
-, (FieldJcArray const*)&reflection_Fields_InfoFormattedAppendJc_s
+, (FieldJc_Y const*)&reflection_Fields_InfoFormattedAppendJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_InfoFormattedAppendJc_s //superclass
 , null //interfaces
@@ -82,12 +82,14 @@ typedef struct MtblDef_PrepareToString_InfoFormattedAppendJc_t { Mtbl_PrepareToS
 
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_PrepareToString_InfoFormattedAppendJc mtblPrepareToString_InfoFormattedAppendJc = {
-{ { sign_Mtbl_PrepareToString_InfoFormattedAppendJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+{ { sign_Mtbl_PrepareToString_InfoFormattedAppendJc //J2C: Head of methodtable of PrepareToString_InfoFormattedAppendJc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  //J2C: The superclass's methodtable: 
+, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
+    //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
   , finalize_ObjectJc_F //finalize
@@ -128,7 +130,7 @@ const ClassJc reflection_PrepareToString_InfoFormattedAppendJc_s =
 , "PrepareToString_In_ppendJc_s"
 ,  0 //position of ObjectJc
 , sizeof(PrepareToString_InfoFormattedAppendJc_s)
-, (FieldJcArray const*)&reflection_Fields_PrepareToString_InfoFormattedAppendJc_s
+, (FieldJc_Y const*)&reflection_Fields_PrepareToString_InfoFormattedAppendJc_s
 , null //method
 , (ClassOffset_idxMtblJcARRAY*)&superclasses_PrepareToString_InfoFormattedAppendJc_s //superclass
 , null //interfaces

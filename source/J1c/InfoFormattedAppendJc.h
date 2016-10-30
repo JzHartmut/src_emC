@@ -116,7 +116,12 @@ typedef struct InfoFormattedAppendJc_Y_t { ObjectArrayJc head; InfoFormattedAppe
 void finalize_InfoFormattedAppendJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
- extern StringJc version_InfoFormattedAppendJc;   /*The version, history and license.*/
+ extern StringJc version_InfoFormattedAppendJc;   /*The version, history and license. */
+
+//!!usage: static init code, invoke that one time in start of main.
+void initStatic_InfoFormattedAppendJc();
+
+
 
 
 typedef void MT_infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct StringFormatterJc_t* u, ThCxt* _thCxt);
