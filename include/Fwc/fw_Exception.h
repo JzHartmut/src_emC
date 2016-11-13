@@ -39,10 +39,13 @@
  * 2007-07-00: Hartmut creation
  *
  ****************************************************************************/
-
+#ifndef __fw_ThreadContext_h__
+  //include fw_ThreadContext.h firstly, it includes this file internally.
+  //then the guards are defined already.
+  #include "fw_ThreadContext.h"
+#endif
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
-//#include "fw_ThreadContext.h"
 
 #include "Fwc/fw_String.h"
 #include "Fwc/fw_MemC.h"
@@ -59,63 +62,6 @@ struct PrintStreamJc_t;
 
 
 void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
-
-
-/*@CLASS_C StacktraceElementJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-typedef struct StacktraceElementJc_t
-{
-  const char* name;
-  const char* source;
-  int line;
-}StacktraceElementJc;
-
-
-
-/*@CLASS_C StacktraceThreadContext @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-
-/**The max. number of stacktrace entries should be defined as constant. It limits the shown stacktrace depth,
- * but it doesn't limit the useable stacktrace depth. It is a problem of available memory. It should be not to small.
- */
-#define nrofStacktraceEntries_ThreadContexJc 100
-
-struct StacktraceJc_t;
-
-/**This structure is a part of the ThreadContext and contains the necessary values for handling with Stacktrace.
- * A reference to this structure should be known in every routine to handle with Stacktrace.
- * The reference may be the last argument of call of any routine.
- */
-typedef struct StacktraceThreadContext_t
-{
-  /**Pointer to the actual stacktrace entry.
-   * This pointer is used and setted in any routine using the macro STACKthread_ENTRY and STACKthread_LEAVE.
-   */
-  struct StacktraceJc_t* stacktrace;
-
-  /**Pointer to the whole ThreadContext. */
-  //struct ThreadContextFW_t* threadContext;
-
-  /**actual nrofEntries i stacktraceBuffer. */
-  int32 nrofEntriesStacktraceBuffer;
-
-  /**The available number of Stacktrace entries. */
-  int maxNrofEntriesStacktraceBuffer;
-  
-  /**Space for Stacktrace Buffer. */
-  StacktraceElementJc stacktraceBuffer[100]; //CHeader.zbnf??? nrofStacktraceEntries_ThreadContexJc];
-  //struct StacktraceElementJcARRAY_t* stacktraceBuffer;
-
-  
-}StacktraceThreadContext_s;
-
-
-METHOD_C StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis);
-
-/**Returns the method name of the requested level.
- * @param level 0 is actual, 1... are previous levels.
- * @return "" if no previous level is found.
- */
-METHOD_C char const* getCallingMethodName_StacktraceThreadContext(StacktraceThreadContext_s* ythis, int level);
 
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -152,7 +98,8 @@ typedef enum ExceptionIdentsJc_t
 , ident_UnsupportedEncodingExceptionJc =   0x00100000
 , ident_IOExceptionJc =                    0x01000000  
 , ident_FileNotFoundExceptionJc =          0x02000000  
-#define ident_OutOfMemoryErrorJc           0x80000000  //prevent enum definition warning
+, ident_OutOfMemoryErrorJc =               0x40000000
+#define ident_SystemExceptionJc            0x80000000  //prevent enum definition warning
 }ExceptionIdentsJc;
 
 
@@ -191,7 +138,9 @@ typedef enum ExceptionMasksJc_t
 , mask_UnsupportedEncodingExceptionJc =   0x00100000
 , mask_IOExceptionJc =                    0x3F000000  
 , mask_FileNotFoundExceptionJc =          0x02000000  
-#define mask_OutOfMemoryErrorJc           0x80000000  //prevent enum definition warning
+
+, mask_OutOfMemoryErrorJc =               0x40000000  
+#define mask_SystemExceptionJc  0x80000000  //prevent enum definition warning
 }ExceptionMasksJc;
 
 
@@ -456,13 +405,25 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 
 
 #ifdef __TRYCPPJc
+  /**TRY in C++: It is the try statement.
+   * The exceptionNr is initialized with ident_SystemExceptionJc.
+   * That is because a system exception like memory protection exception does not write
+   * to the exceptionnr.
+   */
   #define TRY \
   { TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
     stacktrace.tryObject = &tryObject; \
     stacktrace.entry.line = __LINE__; \
-    tryObject.exceptionNr = 0; \
+    tryObject.exc.exceptionNr = tryObject.exceptionNr = ident_SystemExceptionJc; /*for the reason of system exception*/ \
+    tryObject.exc.exceptionMsg = z_StringJc("System exception"); \
     try
 #else
+  /**TRY in C: it sets the [[longjmpBuffer_TryObjectJc]] via invocation of setjmp(...).
+   * The invocation of setjmp returns 0, so the execution is continued 
+   * in the if(tryObject.exceptionNr==0) { ...branch of execution } 
+   * On a longjmp the execution resumes in the setjmp-statements but returns !=0. 
+   * Therefore the execution is continued in the else if(...) branches which checks the exception.
+   */
   #define TRY \
   { TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
     stacktrace.tryObject = &tryObject; \
@@ -514,15 +475,21 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 
 /**Throws an exception.
  * @param EXCPETION ones of the defines in ExceptionIdentsJc, but without ident_ and Jc. It's the same like Exception class names in Java.
- *        example RuntimeException or IndexOutOfBoundsException
+ *        example RuntimeException or IndexOutOfBoundsException, see ident_IndexOutOfBoundsExceptionJc
  * @param TEXT type StringJc. To get a StringJc from a string literal, write s0_StringJc("my text")
  * @param VAL a int value
  */
-#define THROW(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+#ifndef THROW
+  #define THROW(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+#endif
 
-#define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+#ifndef THROW_s0
+  #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+#endif
 
-#define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+#ifndef THROW_s
+  #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+#endif
 
 /**Either throws an exception or write an exception information in any logging or debugging system and return with the given value. 
  * This concept supports both, exception handling and system of return values in exception situation.

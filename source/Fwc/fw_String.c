@@ -51,6 +51,7 @@
 #include <Jc/StringJc.h>
 #include <Jc/ReflectionJc.h>
 #include <fw_Assert.h>
+#include <Fwc/fw_Exception.h>
 //#include "fw_Platform_conventions.h"
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.

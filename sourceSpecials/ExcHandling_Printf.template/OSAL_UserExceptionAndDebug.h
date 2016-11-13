@@ -1,4 +1,7 @@
 
+#define __TRYCPPJc
+
+
 
 METHOD_C void debug__IndexOutOfBoundsException_OSALUserEXCEPT(char const* msg, int nr);
 

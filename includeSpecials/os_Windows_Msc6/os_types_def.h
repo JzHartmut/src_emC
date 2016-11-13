@@ -64,17 +64,6 @@
 
 
 
-#ifndef __cplusplus
-  //If C-compiling is used, define the C++-keywords for C
-  #define bool int
-  #define false 0
-  #define true (!false)
-
-  //see stdlib.h
-  //#define min(X,Y) ((X)<(Y) ? (X) : (Y))
-  //#define max(X,Y) ((X)>(Y) ? (X) : (Y))
-#endif
-
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
  * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
@@ -135,23 +124,29 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 
 
 /**All types with fix byte-wide should be defined in a platform-valid form. */
-typedef unsigned char        uint8;
-typedef unsigned short       uint16;
-typedef unsigned long        uint32;
-
-typedef char                 char8;   //Standard-C-char
-typedef unsigned short       char16;  //UTF16-char
-
-typedef signed char          int8;
-typedef short                int16;
-typedef long                 int32;
-#define int64 __int64
+#define uint8 unsigned char
+#define uint16 unsigned short
+#define uint32 unsigned long
 #define uint64 __int64
-//typedef __int64              int64;
-//typedef unsigned __int64     uint64;
+#define int8 signed char
+#define int16 short
+#define int32 long
+#define int64 __int64
+//Standard-character and UTF16-character:
+#define char8 char
+#define char16 unsigned short
 #define bool8 char
-#define bool16 int16
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  #define bool int
+  #define false 0
+  #define true (!false)
+#endif
 
+
+  //see stdlib.h
+  //#define min(X,Y) ((X)<(Y) ? (X) : (Y))
+  //#define max(X,Y) ((X)>(Y) ? (X) : (Y)
 
 /**int-type which can represent a standard pointer. */
 #define intPTR uint32

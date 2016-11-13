@@ -36,6 +36,7 @@
  ****************************************************************************/
 
 #include <Jc/ThreadJc.h>
+#include <Fwc/fw_Exception.h>
 
 #include <os_thread.h>
 #include <os_time.h>

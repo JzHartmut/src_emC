@@ -1,5 +1,6 @@
 #include <fw_platform_conventions.h>
 #include <Fwc/fw_ThreadContext.h>
+#include <Fwc/fw_Exception.h>
 #include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
 #include <os_thread.h>

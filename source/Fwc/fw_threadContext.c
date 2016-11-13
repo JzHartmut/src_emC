@@ -39,6 +39,7 @@
  *
  ****************************************************************************/
 #include <Fwc/fw_ThreadContext.h>
+#include <Fwc/fw_Exception.h>
 #include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
 #include <fw_assert.h>
@@ -65,7 +66,7 @@ ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis)
 
 /**Sets a new buffer in Threadcontext.
  */
-METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt)
+METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContextFW_s* _thCxt)
 { MemC lastBuffer;
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   lastBuffer = _thCxt->bufferAlloc;
@@ -79,7 +80,7 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThCxt* _thCxt)
 
 
 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _thCxt)
+METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContextFW_s* _thCxt)
 { ASSERT_s0_Fwc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   if(_thCxt->bufferAlloc.ref == null) {
@@ -128,7 +129,7 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThCxt* _
 
 
 
-METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThCxt* _thCxt)
+METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThreadContextFW_s* _thCxt)
 { if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   if(size & 0x7) { size += 8-(size & 0x7); }
   //MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
@@ -145,7 +146,7 @@ METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThCxt* _
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThCxt* _thCxt)
+METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThreadContextFW_s* _thCxt)
 { if(_thCxt == null) {
     _thCxt = getCurrent_ThreadContextFW();
   }
@@ -206,7 +207,7 @@ ThreadContextFW_s* getCurrent_ThreadContextFW()
 
 
 
-METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThCxt* ythis, bool value)
+METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThreadContextFW_s* ythis, bool value)
 { bool ret = (ythis->mode & mCheckBufferUsed_Mode_ThCxt)!=0;
   if(value) { ythis->mode |= mCheckBufferUsed_Mode_ThCxt; }
   else      { ythis->mode &= ~mCheckBufferUsed_Mode_ThCxt; }
@@ -215,13 +216,13 @@ METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThCxt* ythis, bool value)
 
 
 
-bool xxxoptimizeString_ThCxt(ThCxt* ythis, bool value)
+bool xxxoptimizeString_ThCxt(ThreadContextFW_s* ythis, bool value)
 { bool ret = ythis->mode & mOptimizeToString_Mode_ThCxt;
   if(value) { ythis->mode |= mOptimizeToString_Mode_ThCxt; }
   else      { ythis->mode &= ~mOptimizeToString_Mode_ThCxt; }
   return ret;
 }
 
-bool isOptimizeString_ThCxt(ThCxt* ythis)
+bool isOptimizeString_ThCxt(ThreadContextFW_s* ythis)
 { return ythis->mode & mOptimizeToString_Mode_ThCxt;
 }

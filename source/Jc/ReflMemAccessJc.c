@@ -53,6 +53,7 @@
 #include <string.h>
 #include <Jc/ObjectJc.h>
 #include <os_AtomicAccess.h>
+#include <Fwc/fw_Exception.h>
 
 
 MemSegmJc null_MemSegmJc = CONST_OS_PtrValue(0, null);
