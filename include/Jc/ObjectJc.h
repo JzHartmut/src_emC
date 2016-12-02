@@ -55,7 +55,7 @@
 //#include <ObjectRefJc_PlatformSpec.h>
 #include "Fwc/fw_SimpleC.h"
 #include "Fwc/fw_MemC.h"
-#include "Fwc/fw_ThreadContext.h"  //knowledge of Thcxt, Exception is supplied
+#include "Fwc/fw_Exception.h"  //knowledge of Thcxt, Exception is supplied
 #include "Fwc/objectBaseC.h"
 #include "Fwc/fw_String.h"
 

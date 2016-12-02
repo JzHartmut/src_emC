@@ -58,6 +58,8 @@ void finalize_StringFunctionsJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
  extern StringJc version_StringFunctionsJc;   /*Version, history and license.*/
  extern const char cEndOfText_StringFunctionsJc;   /*The char used to code end of text. It is defined in ASCII as EOT. */
+ extern const char cStartOfText_StringFunctionsJc;   /*The char used to code start of text. */
+ extern const char cNoCidentifier_StringFunctionsJc;   /*The char used to coding any char which is not an identifier character*/
  extern StringJc indentString_StringFunctionsJc; 
 
 //!!usage: static init code, invoke that one time in start of main.

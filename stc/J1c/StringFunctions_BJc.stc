@@ -10,6 +10,7 @@ fieldIdents {
 }
   methods {  
     ctorO-_$, mode=ctor+static: org/vishia/util/StringFunctions_B *.. StringFunctions_BJc_s();
+    firstLine-_$, mode=static: java/lang/String(instance=java/lang/String) t.r null(java/lang/CharSequence c.. src);
     removeIndentReplaceNewline-_$, mode=static: java/lang/CharSequence c.r null(java/lang/CharSequence c.. src,int %.. indent,java/lang/String(instance=java/lang/String) t.. indentChars,int %.. tabSize,java/lang/String(instance=java/lang/String) t.. sNewline,boolean %.. bSkipSpaces);
   }
 

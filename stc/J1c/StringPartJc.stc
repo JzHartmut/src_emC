@@ -2,7 +2,7 @@
 Structure of translated java-file "J1c/StringPartJc"
 package org/vishia/util/;
 
-class StringPart; nameC=StringPartJc_s; argIdent=XX; extends java/lang/Object implements java/lang/CharSequence, java/lang/Comparable, java/io/Closeable //creationMode=P
+class StringPart; nameC=StringPartJc_s; argIdent=XX; extends java/lang/Object implements java/lang/CharSequence, java/lang/Comparable //creationMode=P
 {  
     //Innerclass: Part_StringPartJc
   InnerClass{ 
@@ -19,8 +19,6 @@ class StringPart; nameC=StringPartJc_s; argIdent=XX; extends java/lang/Object im
       //outer=2 ,super=1: int %.. begin;
       //outer=2 ,super=1: int %.. beginLast;
       //outer=2 ,super=1: int %.. bitMode;
-      //outer=2 ,super=1: char %.S cEndOfText;
-      //outer=2 ,super=1: char %.S cStartOfText;
       //outer=2 ,super=1: java/lang/CharSequence c.. content;
       int %.. e1;
       //outer=2 ,super=1: int %.. end;
@@ -66,8 +64,6 @@ fieldIdents {
   int %.. begin;
   int %.. beginLast;
   int %.. bitMode;
-  char %.S cEndOfText;
-  char %.S cStartOfText;
   java/lang/CharSequence c.. content;
   int %.. end;
   int %.. endLast;
@@ -156,7 +152,7 @@ fieldIdents {
     lentoQuotionEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null(char %.. sEndQuotion,int %.. maxToTest);
     line-_$: org/vishia/util/StringPart *.r null();
     nextlineMaxpart-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
-    replace-_$, mode=static: java/lang/String(instance=java/lang/String) t.r null(java/lang/CharSequence c.. src,java/lang/CharSequence[??] Xc. placeholder,java/lang/CharSequence[??] Xc. value,java/lang/StringBuilder *.. dst);
+    replace-_$, mode=static: java/lang/CharSequence c.r null(java/lang/CharSequence c.. src,java/lang/CharSequence[??] Xc. placeholder,java/lang/CharSequence[??] Xc. value,java/lang/StringBuilder *.. dst);
     seek+_i-_$, mode=returnThis: org/vishia/util/StringPart *.t null(int %.. nr);
     seek+_Cs-_$, mode=noThCxt: org/vishia/util/StringPart *.r null(java/lang/CharSequence c.. sSeek);
     seek+_Csi-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. sSeek,int %.. mode);
@@ -201,7 +197,6 @@ fieldIdents {
 
   castTo {
     java/lang/CharSequence: c "fromObjectJc_CharSeqJc(&(?).base.object)" $;
-    java/io/Closeable: $ "(?).base.CloseableJc" $;
     java/lang/Comparable: $ "(?).base.ComparableJc" $;
     java/lang/Object: $ "(?).base.object" $;
   }

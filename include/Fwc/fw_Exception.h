@@ -164,34 +164,15 @@ typedef struct ExceptionJc_t
    */
   int32 exceptionValue;
 
-  /**The stacktrace backward to root as linked chain in the stack started from current stack level.
-   * If this object is transfered to another levels or threads as the actual level because it is saved anywhere,
-   * this reference should be null. Because the stack is not kept.
-   */
-  struct StacktraceJc_t* backStacktrace;
-
-  /**Actual nr of valid entries in stacktraceEntries. Note: The array head contains the maximal size. */
-  int nrofStacktraceEntries;
-
-  /**Reference to the array of stacktrace entries from throw point.
-   * In a originaly CATCHJc-block this reference refers to the array in the stacktrcThCxt.
-   * But if this object is transfered to another levels or threads as the actual level because it is saved anywhere,
-   * the list should be copied in heap and completed with the ,,backStacktrace,, informations.
-   * Because the stacktraceEntries on stacktrcThCxt are not kept if other exceptions are thrown.
-   * Use the method ,,safe_ExceptionJc(),, to do that.
-   */
-  StacktraceElementJc* stacktraceEntries;
-  //struct StacktraceElementJcARRAY_t* stacktraceEntries;
-  //struct{ const char* name; int line;} stacktraceBuffer[20];
 }ExceptionJc;
 
 
 
 
 #ifndef __TRYCPPJc
-  #define NULL_ExceptionJc() { 0, NULL_StringJc, 0, null, 0, null }
+  #define NULL_ExceptionJc() { 0, NULL_StringJc, 0 }
 #else
-  #define NULL_ExceptionJc() { 0, NULL_StringJc, 0, null, 0, null }
+  #define NULL_ExceptionJc() { 0, NULL_StringJc, 0 }
 #endif
 
 /**Gets the exception describing text to the number. 
@@ -210,7 +191,7 @@ METHOD_C void printStackTrace_P_ExceptionJc(ExceptionJc* ythis, struct PrintStre
  * @since 2011-02: The output stream handle is designated as OS_HandleFile.
  * @param out channel, where the outputs should written to. 
  */
-METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, struct OS_HandleFile_t* out);
+METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, struct OS_HandleFile_t* out, ThCxt* _thCxt);
 
 /**Special: manifests the content of the stacktrace to a given structure.
  * It means, all information holded in the stack itself via previous pointers from each StacktraceJc-structure
@@ -268,16 +249,17 @@ typedef struct TryObjectJc_t
 
 
 typedef struct StacktraceJc_t
-{ struct StacktraceJc_t* previous;
-  StacktraceElementJc entry;
-
+{ //struct StacktraceJc_t* previous;
+  //StacktraceElementJc entry;
+  /**The index in the stacktrace entry array for this level. */
+  int ix;
+  /**The number of Entries of the previous level for STACKTRC_LEAVE. */
+  int ixPrev;
   /**Exception-reference if there is an exception, or null */
-  TryObjectJc* tryObject;
+  //TryObjectJc* tryObject;
 }StacktraceJc;
 
 
-/**Its a short form of ThreadContextFW-pointer. */
-#define ThCxt struct ThreadContextFW_t
 
 
 /**This macro defines and initializes the stack variables ,,stacktrace,,.
@@ -292,17 +274,26 @@ typedef struct StacktraceJc_t
   if(_thCxt==null){ _thCxt = getCurrent_ThreadContextFW(); } \
   StacktraceJcpp stacktrace(NAME, _thCxt);\
   stacktrace.entry.source = __FILE__; stacktrace.entry.line = __LINE__; \
-  _thCxt->stacktraceThreadContext.stacktrace = static_cast<StacktraceJc*>(&stacktrace)
+  _thCxt->stacktrc.stacktrace = static_cast<StacktraceJc*>(&stacktrace)
 
 #else
   #define STACKTRC_TENTRY(NAME) \
     StacktraceJc stacktrace; \
     if(_thCxt==null){ _thCxt = getCurrent_ThreadContextFW(); } \
-    stacktrace.previous = _thCxt->stacktraceThreadContext.stacktrace; \
-    stacktrace.entry.name = NAME; stacktrace.entry.source = __FILE__; stacktrace.entry.line = __LINE__; \
-    stacktrace.tryObject = null; \
-    _thCxt->stacktraceThreadContext.stacktrace = &stacktrace;  test_StacktraceJc(&stacktrace)
-    //StacktraceJc* stacktracePtr = (stacktrcThCxt != null) ? stacktrcThCxt->stacktrace = &stacktrace : &stacktrace  
+    stacktrace.ixPrev = _thCxt->stacktrc.zEntries; \
+    if(_thCxt->stacktrc.zEntries < (ARRAYLEN_SimpleC(_thCxt->stacktrc.entries))) { \
+      stacktrace.ix = _thCxt->stacktrc.zEntries; \
+      _thCxt->stacktrc.zEntries+=1; \
+      StacktraceElementJc* stdst = &_thCxt->stacktrc.entries[stacktrace.ix]; \
+      stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  stdst->tryObject = null; \
+    } else { /**do nothing special in this error case. */ \
+      /**But do not create the index in thread context. */ \
+      stacktrace.ix = stacktrace.ixPrev; \
+    } \
+    //stacktrace.tryObject = null; \
+    //stacktrace.previous = _thCxt->stacktrc.stacktrace; \
+    //stacktrace.entry.name = NAME; stacktrace.entry.source = __FILE__; stacktrace.entry.line = __LINE__; \
+    //_thCxt->stacktrc.stacktrace = &stacktrace;  test_StacktraceJc(&stacktrace)
 #endif
 
 /**This macro defines and initializes the stack variable ,,stacktrcThCxt,, and ,,stacktrace,,.
@@ -324,6 +315,12 @@ typedef struct StacktraceJc_t
 #endif
 
 
+/**This macro supplies the ,,_thCxt,,-Variable but stores the __LINE__ before.
+ * A forgotten ,,STACKTRC_LEAVE,, in a last subroutine will be repaire yet also.
+ */
+#define THCXT (_thCxt->stacktrc.entries[stacktrace.ix].line=__LINE__, _thCxt->stacktrc.zEntries = stacktrace.ix +1, _thCxt)
+
+
 
 /**This macro corrects the chained list of stacktrace, it sets the end of the previous stacktrace.
  * Use this macro unconditionally at end of a block using ,,STACKTRC_ENTRY(),, or ,,STACKTRC_XENTRY(),,.
@@ -332,7 +329,9 @@ typedef struct StacktraceJc_t
 #if defined(__CPLUSGEN) && defined(__cplusplus)
   #define STACKTRC_LEAVE
 #else
-  #define STACKTRC_LEAVE _thCxt->stacktraceThreadContext.stacktrace = stacktrace.previous
+  //#define STACKTRC_LEAVE _thCxt->stacktrc.stacktrace = stacktrace.previous
+  //Restore the index in stacktrace.
+  #define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = stacktrace.ixPrev;
 #endif
 
 
@@ -397,9 +396,10 @@ METHOD_C void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, Stacktra
 
 
 
-#define CALLINE (stacktrace.entry.line=__LINE__)
+//#define CALLINE (stacktrace.entry.line=__LINE__)
+#define CALLINE (_thCxt->stacktrc.entries[stacktrace.ix].line=__LINE__)
 
-void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_s* stacktrcThCxt);
+void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_s* stacktrcThCxt);
 
 
 
@@ -412,8 +412,8 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
    */
   #define TRY \
   { TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
-    stacktrace.tryObject = &tryObject; \
-    stacktrace.entry.line = __LINE__; \
+    _thCxt->stacktrc.entries[stacktrace.ix].tryObject = &tryObject; \
+    _thCxt->stacktrc.entries[stacktrace.ix].line = __LINE__; \
     tryObject.exc.exceptionNr = tryObject.exceptionNr = ident_SystemExceptionJc; /*for the reason of system exception*/ \
     tryObject.exc.exceptionMsg = z_StringJc("System exception"); \
     try
@@ -426,8 +426,8 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
    */
   #define TRY \
   { TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
-    stacktrace.tryObject = &tryObject; \
-    stacktrace.entry.line = __LINE__; \
+    _thCxt->stacktrc.entries[stacktrace.ix].tryObject = &tryObject; \
+    _thCxt->stacktrc.entries[stacktrace.ix].line = __LINE__; \
     { tryObject.exceptionNr = setjmp(tryObject.longjmpBuffer); \
       if(tryObject.exceptionNr==0) \
       {
@@ -437,15 +437,20 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 /**Write at end of a TRY-Block the followed macro: */
 #ifdef __TRYCPPJc
   #define _TRY \
-  catch(...) { _endTryJc(&tryObject, &stacktrace, &_thCxt->stacktraceThreadContext); \
-  if(false) {
+  catch(...) { _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null;  \
+  if(tryObject.exc.exceptionNr == 0) { /*if 0, a system has occured:*/ \
+    tryObject.exc.exceptionNr = tryObject.exceptionNr = ident_SystemExceptionJc;  \
+    tryObject.exc.exceptionMsg = z_StringJc("System exception"); \
+  }  \
+  if(false) { /*opens an empty block, closed on the first CATCH macro. */
 
 #else
-  #define _TRY _endTryJc(&tryObject, &stacktrace, &_thCxt->stacktraceThreadContext);
+  #define _TRY _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null;
 #endif
 
 
 #define CATCH(EXCEPTION, EXC_OBJ) \
+    _thCxt->stacktrc.zEntries = stacktrace.ix+1; /*remove the validy of stacktrace entries of the deeper levels. */ \
   } else if((tryObject.exceptionNr & mask_##EXCEPTION##Jc)!= 0/* || tryObject.exceptionNr==ident_##EXCEPTION##Jc*/) \
   { ExceptionJc* EXC_OBJ = &tryObject.exc; tryObject.exceptionNr = 0;  /*do not check it a second time.*/
 
@@ -455,9 +460,11 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 
 
 #define FINALLY \
-  } /*close FINALLY, CATCHJc or TRYJc brace */\
-  } /*close brace of whole catch block*/ \
-  { { /*open to braces because _finishTRY has 2 closing braces.*/
+  /*remove the validy of stacktrace entries of the deeper levels. */ \
+  _thCxt->stacktrc.zEntries = stacktrace.ix+1; \
+} /*close CATCH brace */\
+} /*close brace of whole catch block*/ \
+{ { /*open to braces because _finishTRY has 2 closing braces.*/
 
 
 
@@ -465,11 +472,12 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 #define END_TRY \
   } /*close FINALLY, CATCHJc or TRYJc brace */\
   } /*close brace of whole catch block*/ \
-  if(tryObject.exceptionNr != 0) /*instead else of CATCHJc blocks, notice, FINALLYJc may be assigned after CATCHJc-Blocks. */\
-  { /* delegate exception to previous level*/ \
-    stacktrace.tryObject = null; /*Do not use the own longjmp!!! */ \
-    throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, &_thCxt->stacktraceThreadContext, __LINE__); \
+  if(tryObject.exceptionNr != 0) /*Exception not handled*/ \
+  { /* delegate exception to previous level Do not use the own longjmp!!!*/ \
+    _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null; \
+    throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, &_thCxt->stacktrc, __LINE__); \
   } \
+  _thCxt->stacktrc.zEntries = stacktrace.ix+1; /*remove the validy of stacktrace entries of the deeper levels. */ \
   } /*close brace from beginning TRYJc*/
 
 
@@ -480,25 +488,25 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
  * @param VAL a int value
  */
 #ifndef THROW
-  #define THROW(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+  #define THROW(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__)
 #endif
 
 #ifndef THROW_s0
-  #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+  #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__)
 #endif
 
 #ifndef THROW_s
-  #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__)
+  #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__)
 #endif
 
 /**Either throws an exception or write an exception information in any logging or debugging system and return with the given value. 
  * This concept supports both, exception handling and system of return values in exception situation.
  */
-#define THROWRET(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__); return RETURN; }
+#define THROWRET(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__); return RETURN; }
 
-#define THROWRET_s0(EXCEPTION, TEXT, VAL, RETURN)  { throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__); return RETURN; }
+#define THROWRET_s0(EXCEPTION, TEXT, VAL, RETURN)  { throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__); return RETURN; }
 
-#define THROWRET_s(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktraceThreadContext, __LINE__); return RETURN; }
+#define THROWRET_s(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__); return RETURN; }
 
 
 
@@ -511,7 +519,7 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 
 /**The structure of the user ThreadContext, defined for the framework, 
  * should be known from user using this header, Therefore it is included here.
- * It should be contained an element named ,,stacktraceThreadContext,, 
+ * It should be contained an element named ,,stacktrc,, 
  * of the here defined type ,,StacktraceThreadContext_s,,. 
  * All other elements are not used here.
  * There are not necessary here, but used in macro definitions.
@@ -521,8 +529,8 @@ void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThrea
 /* OLD:A ThreadContext is necessarry, but it is not defined here.
  * It have to be contained for the Stacktrace theme: 
  * struct StacktraceJc_t* stacktrace; Pointer to the actual stacktrace entry.
- * int32 nrofEntriesStacktraceBuffer; actual nrofEntries i stacktraceBuffer
- * struct StacktraceElementJcARRAY_t* stacktraceBuffer; Space for Stacktrace Buffer
+ * int32 nrofEntriesStacktraceBuffer; actual nrofEntries in entries
+ * struct StacktraceElementJcARRAY_t* buffer; Space for Stacktrace Buffer
  * struct StringBufferJc_t* excMsg; Space for a exception message.
  * The include is only necessary because inline dtor of StacktraceJcpp. 
  * Otherwise the forward declaration is sufficing. 

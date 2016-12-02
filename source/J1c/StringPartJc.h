@@ -119,7 +119,7 @@ class Part_StringPartJc : private Part_StringPartJc_s
 
 typedef struct StringPartJc_t
 { 
-  union { ObjectJc object; CharSeqJc CharSeqJc;ComparableJc ComparableJc;CloseableJc CloseableJc;} base; 
+  union { ObjectJc object; CharSeqJc CharSeqJc;ComparableJc ComparableJc;} base; 
   int32 begin;   /*The actual start position of the valid part.*/
   int32 end;   /*The actual exclusive end position of the valid part.*/
   int32 begiMin;   /*The most left possible start position. We speak about the 'maximal Part':*/
@@ -175,8 +175,6 @@ void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 #define mSkipOverWhitespace_mode_StringPartJc 0x1  /*Bit in mode. If this bit ist set, all whitespace are overreaded*/
 #define mSkipOverCommentInsideText_mode_StringPartJc 0x2  /*Bit in mode. If this bit ist set, all comments are overreaded*/
 #define mSkipOverCommentToEol_mode_StringPartJc 0x4  /*Bit in mode. If this bit ist set, all comments are overreaded*/
- extern const char cStartOfText_StringPartJc;   /*The char used to code start of text. */
- extern const char cEndOfText_StringPartJc;   /*The char used to code end of text. */
 
 //!!usage: static init code, invoke that one time in start of main.
 void initStatic_StringPartJc();
@@ -315,7 +313,7 @@ begin is set to 0, end is set to the length() of the content.
   (THIZ)->endMax = (THIZ)->end = /*? assignment*/(THIZ)->endLast = /*? assignment*/length_CharSeqJc((THIZ)->content/*J1cT2*/, _thCxt);\
   (THIZ)->bStartScan = (THIZ)->bCurrentOk = /*? assignment*/true;\
   \
-    return  ((THIZ));\
+    return * ((THIZ));\
 }
 
 /**Sets the start of the part to the exclusively end, set the end to the end of the content.
@@ -334,7 +332,7 @@ METHOD_C struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz, ThCxt
 METHOD_C char charAt_i_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt);
 
 #define checkCharAt_StringPartJc(THIZ, pos, chars) \
-(((THIZ)->begin + pos >= (THIZ)->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc(&(* ((THIZ))).base.object/*J2cT1*/, pos, _thCxt)) >= 0)
+(((THIZ)->begin + pos >= (THIZ)->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc(fromObjectJc_CharSeqJc(&(* ((THIZ))).base.object)/*J2cT1*/, pos, _thCxt)) >= 0)
 
 /**Returns a volatile CharSequence from the range inside the current part.
 If it is not possible an IllegalArgumentException is thrown.
@@ -1012,6 +1010,9 @@ but it may be kept because it is part of class data or part of a statement block
 The associated String is released. It can be recycled by garbage collector.
 If this method is overridden, it should used to close a associated file which is opened 
 for this String processing. The overridden method should call super->close() too.
+<br>
+Note: if only this class is instantiated and the instance will be garbaged, close is not necessary.
+A warning or error "Resource leak" can be switched off. Therefore the interface {@link java.io.Closeable} is not used here.
 */
 typedef void MT_close_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
@@ -1022,7 +1023,7 @@ METHOD_C void close_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 /**Replaces up to 20 placeholder with a given content.
 The method creates a StringBuilder with buffer and a StringPart locally. 
 */
-METHOD_C StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
+METHOD_C CharSeqJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -1036,7 +1037,6 @@ typedef struct Mtbl_StringPartJc_t
   //Method table of interfaces:
   Mtbl_CharSeqJc CharSeqJc;
   Mtbl_ComparableJc ComparableJc;
-  Mtbl_CloseableJc CloseableJc;
 } Mtbl_StringPartJc;
 
 
@@ -1180,7 +1180,7 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& nextlineMaxpart(){ nextlineMaxpart_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
-  StringJc replace(CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
+  CharSeqJc replace(CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
 
   struct StringPartJc_t* seekAnyChar(CharSeqJc chars){  return seekAnyChar_StringPartJc(this, chars,  null/*_thCxt*/); }
 

@@ -7,6 +7,7 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
+#include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data
 
 
@@ -35,6 +36,35 @@ struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* 
   return thiz;
 }
 
+
+
+/**Returns the first line of any text.*/
+StringJc firstLine_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("firstLine_StringFunctions_BJc");
+  
+  { 
+    CharSeqJc _temp2_1; /*J2C: temporary references for concatenation */
+    
+    if(src.ref== null) { STACKTRC_LEAVE;
+      return s0_StringJc("");
+    }
+    
+    int32  pos = indexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/src, 0, MAX_VALUE_IntegerJc, z_StringJc("\n\r").c, _thCxt);
+    if(pos < 0) 
+    { 
+      
+      pos = length_CharSeqJc(src/*J1cT2*/, _thCxt);
+    }
+    { STACKTRC_LEAVE;
+      return 
+      ( _temp2_1= subSequence_CharSeqJc(src/*J1cT2*/, 0, pos, _thCxt)
+      , toString_CharSeqJc(_temp2_1/*J1cT2*/)
+      );
+    }
+  }
+  STACKTRC_LEAVE;
+}
 
 
 /**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters. */

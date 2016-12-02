@@ -68,6 +68,10 @@ void initStatic_StringFunctions_BJc();
 /**Default constructor. */
 METHOD_C struct StringFunctions_BJc_t* ctorO_StringFunctions_BJc(ObjectJc* othis, ThCxt* _thCxt);
 
+/**Returns the first line of any text.
+*/
+METHOD_C StringJc firstLine_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, ThCxt* _thCxt);
+
 /**Cleans a text which may be parsed or such, remove undesired indentation and replace the line end characters. 
 */
 METHOD_C CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt);
@@ -89,6 +93,8 @@ class StringFunctions_BJc : private StringFunctions_BJc_s
 { public:
 
   StringFunctions_BJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctions_BJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctions_BJc_s, 0); ctorO_StringFunctions_BJc(&this->base.object,  null/*_thCxt*/); }
+
+  StringJc firstLine(CharSeqJc src){  return firstLine_StringFunctions_BJc(src,  null/*_thCxt*/); }
 
   CharSeqJc removeIndentReplaceNewline(CharSeqJc src, int32 indent, StringJcpp indentChars, int32 tabSize, StringJcpp sNewline, bool bSkipSpaces){  return removeIndentReplaceNewline_StringFunctions_BJc(src, indent, indentChars, tabSize, sNewline, bSkipSpaces,  null/*_thCxt*/); }
 };

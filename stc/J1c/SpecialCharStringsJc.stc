@@ -5,8 +5,6 @@ package org/vishia/util/;
 class SpecialCharStrings; nameC=SpecialCharStringsJc_s; argIdent=XX; extends java/lang/Object //creationMode=P
 {  
 fieldIdents {
-  char %.S cEndOfText;
-  char %.S cStartOfText;
 }
   methods {  
     ctorO-_$, mode=ctor+static: org/vishia/util/SpecialCharStrings *.. SpecialCharStringsJc_s();

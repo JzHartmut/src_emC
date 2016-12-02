@@ -42,6 +42,7 @@
 #define __fw_ThreadContext_h__
 
 #include <Fwc/fw_MemC.h>
+struct TryObjectJc_t;
 
 #ifndef __fw_Exception_h__
   //it needs some definition from Exception data structures.
@@ -61,6 +62,7 @@ typedef struct StacktraceElementJc_t
   const char* name;
   const char* source;
   int line;
+  struct TryObjectJc_t* tryObject;
 }StacktraceElementJc;
 
 
@@ -84,19 +86,19 @@ typedef struct StacktraceThreadContext_t
   /**Pointer to the actual stacktrace entry.
    * This pointer is used and setted in any routine using the macro STACKthread_ENTRY and STACKthread_LEAVE.
    */
-  struct StacktraceJc_t* stacktrace;
+  //struct StacktraceJc_t* stacktrace;
 
   /**Pointer to the whole ThreadContext. */
   //struct ThreadContextFW_t* threadContext;
 
   /**actual nrofEntries i stacktraceBuffer. */
-  int32 nrofEntriesStacktraceBuffer;
+  int32 zEntries; //nrofEntriesStacktraceBuffer;
 
   /**The available number of Stacktrace entries. */
   int maxNrofEntriesStacktraceBuffer;
   
   /**Space for Stacktrace Buffer. */
-  StacktraceElementJc stacktraceBuffer[100]; //CHeader.zbnf??? nrofStacktraceEntries_ThreadContexJc];
+  StacktraceElementJc entries[100]; //CHeader.zbnf??? nrofStacktraceEntries_ThreadContexJc];
   //struct StacktraceElementJcARRAY_t* stacktraceBuffer;
 
   
@@ -158,13 +160,14 @@ typedef struct ThreadContextFW_t
   void* topmemAddrOfStack;
   
   /**Data of the Stacktrace if this concept is used. */
-  StacktraceThreadContext_s stacktraceThreadContext;
-  /*NOTE: The element stacktraceThreadContext have to be the last because some additional StackEntryJc may be added on end.*/
+  StacktraceThreadContext_s stacktrc;
+  /*NOTE: The element stacktrc have to be the last because some additional StackEntryJc may be added on end.*/
 
 } ThreadContextFW_s;
 
 
 
+/**Its a short form of ThreadContextFW-pointer. */
 #define ThCxt struct ThreadContextFW_t
 
 

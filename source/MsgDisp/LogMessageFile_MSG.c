@@ -147,7 +147,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
         set_StringJc(&(thiz->sFormatTimestampFilename), declarePersist_StringJc(new_CYI_StringJc(/*J2C:static method call*/thiz->charsFormatTimestampFilename, 0, nrofCharsTimestampInFilename, _thCxt)));/*sFormatTimestampFilename = charsFormatTimestampFilename.toString();*/
         
       }
-      else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "second $ to delimit timestamp in filename missing.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };/*, this.posTimestampInFilename);*/
+      else { throw_s0Jc(ident_IllegalArgumentExceptionJc, "second $ to delimit timestamp in filename missing.", 0, &_thCxt->stacktrc, __LINE__); return 0; };/*, this.posTimestampInFilename);*/
       
       applyPattern_SimpleDateFormatJc(& (thiz->formatTimestamp), thiz->sFormatTimestampFilename, _thCxt);
       append_c_StringBuilderJc(& (thiz->sFilenameBuffer.sb), substring_StringJc(sFilename, 0, thiz->posTimestampInFilename, _thCxt).c, _thCxt);
@@ -227,7 +227,7 @@ bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, 
   { 
     
     
-    Va_listFW  vaArgs;va_start(vaArgs.args, args); vaArgs.typeArgs = args;
+    Va_listFW  vaArgs = { 0 };va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
       return mtthis->LogMessageFW.sendMsgVaList(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, os_getDateTime(), text, vaArgs, _thCxt);
     }
@@ -252,7 +252,7 @@ bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumb
   { 
     
     
-    Va_listFW  vaArgs;va_start(vaArgs.args, args); vaArgs.typeArgs = args;
+    Va_listFW  vaArgs = { 0 };va_start(vaArgs.args, args); vaArgs.typeArgs = args;
     { STACKTRC_LEAVE;
       return mtthis->LogMessageFW.sendMsgVaList(& ((* (thiz)).base.LogMessageFW)/*J2cT1*/, identNumber, creationTime, text, vaArgs, _thCxt);
     }
@@ -278,7 +278,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 ident
     { 
       
       
-      OS_TimeStamp  timeTest;//J2C: constructor for embedded element
+      OS_TimeStamp  timeTest = { 0 };//J2C: constructor for embedded element
       INIT_OS_TimeStamp(/*J2C:static method call*/timeTest);
       
       int32  secDiff;/*no initvalue*/
@@ -309,7 +309,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 ident
       { 
         
         
-        OS_TimeStamp  timeTest;//J2C: constructor for embedded element
+        OS_TimeStamp  timeTest = { 0 };//J2C: constructor for embedded element
         INIT_OS_TimeStamp(/*J2C:static method call*/timeTest);
         set_OS_TimeStamp(timeTest, os_getDateTime());
         
@@ -347,7 +347,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 ident
             { 
               
               
-              struct { StringBufferJc sb;  char _b[16]; } bufferFormat;//J2C: constructor for embedded fix-size-StringBuffer
+              struct { StringBufferJc sb;  char _b[16]; } bufferFormat = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
               init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 20 - 4, 0);
               ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 20, _thCxt);
               /***/
@@ -505,7 +505,7 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
       
       int32  secDiff;/*no initvalue*/
       
-      OS_TimeStamp  timeTest1;//J2C: constructor for embedded element
+      OS_TimeStamp  timeTest1 = { 0 };//J2C: constructor for embedded element
       INIT_now_OS_TimeStamp(/*J2C:static method call*/timeTest1, true);
       secDiff = timeTest1.time_sec - thiz->timeWrite.time_sec;
       if(secDiff >= thiz->nrofSecondsToClose) 
@@ -534,7 +534,7 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
       
       int32  secDiff;/*no initvalue*/
       
-      OS_TimeStamp  timeTest;//J2C: constructor for embedded element
+      OS_TimeStamp  timeTest = { 0 };//J2C: constructor for embedded element
       INIT_now_OS_TimeStamp(/*J2C:static method call*/timeTest, true);
       secDiff = timeTest.time_sec - thiz->timeOpen.time_sec;
       if(secDiff >= thiz->nrofSecondsToFlush) 
@@ -581,7 +581,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
     
     
     
-    struct { StringBufferJc sb;  char _b[996]; } bufferFormat;//J2C: constructor for embedded fix-size-StringBuffer
+    struct { StringBufferJc sb;  char _b[996]; } bufferFormat = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
     init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 1000, _thCxt);
     
@@ -590,7 +590,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
     { 
       
       
-      FormatterJc_s  formatter;//J2C: constructor for embedded element-ObjectJc
+      FormatterJc_s  formatter = { 0 };//J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(formatter.base.object), sizeof(formatter), 0); 
       ctorO_SbLo_FormatterJc(/*J2C:static method call*/&(formatter.base.object), & (bufferFormat.sb), REFJc (thiz->localization), _thCxt);
       TRY
@@ -635,6 +635,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
             );
         }
       END_TRY
+      close_FormatterJc(& (formatter), _thCxt);
       formattedText = fromStringBuilderJc_CharSeqJc(& (bufferFormat.sb));/*XX*/
       
     }
@@ -645,7 +646,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
       
     }
     
-    struct { StringBufferJc sb;  char _b[26]; } bufferTimestamp;//J2C: constructor for embedded fix-size-StringBuffer
+    struct { StringBufferJc sb;  char _b[26]; } bufferTimestamp = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
     init_ObjectJc(&bufferTimestamp.sb.base.object, sizeof(StringBuilderJc) + 30 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferTimestamp.sb.base.object, 30, _thCxt);
     format_tu_SimpleDateFormatJc(& (thiz->dateFormat), creationTime, & (bufferTimestamp.sb), & (thiz->formatField), _thCxt);

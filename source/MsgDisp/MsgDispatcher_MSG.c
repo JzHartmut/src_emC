@@ -216,7 +216,7 @@ void setOutputRoutine_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 dstIdx,
     
     
     int32  mask;/*no initvalue*/
-    if(dstIdx < 0 || dstIdx > thiz->base.super.outputs->head.length) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "dstIdx fault. Hint: an index, not a mask!", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    if(dstIdx < 0 || dstIdx > thiz->base.super.outputs->head.length) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "dstIdx fault. Hint: an index, not a mask!", 0, &_thCxt->stacktrc, __LINE__); };
     if(thiz->maxDst <= dstIdx) 
     { 
       
@@ -296,7 +296,7 @@ int32 setOutputRange_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 fromIden
             case mSet_MsgDispatcherCore_MSG: thiz->base.super.listBitDst->data[imask] = maskSet;break;
             case mAdd_MsgDispatcherCore_MSG: thiz->base.super.listBitDst->data[imask] |= maskSet;break;
             case mRemove_MsgDispatcherCore_MSG: thiz->base.super.listBitDst->data[imask] &= ~(maskSet & mDispatchBits_MsgDispatcherCore_MSG);break;
-            default: { throw_s0Jc(ident_IllegalArgumentExceptionJc, "failed mode", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+            default: { throw_s0Jc(ident_IllegalArgumentExceptionJc, "failed mode", 0, &_thCxt->stacktrc, __LINE__); return 0; };
           }/*switch*/;
         }
     }
@@ -323,7 +323,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
       setLength_StringBufferJc(errorBuffer, 0, _thCxt);
     }
     
-    StringPartScanJc_s  spCtrl;//J2C: constructor for embedded element-ObjectJc
+    StringPartScanJc_s  spCtrl = { 0 };//J2C: constructor for embedded element-ObjectJc
     init_ObjectJc(&(spCtrl.base.object), sizeof(spCtrl), 0); 
     ctorO_Cs_StringPartScanJc(/*J2C:static method call*/&(spCtrl.base.object), ctrl.c, _thCxt);
     setIgnoreWhitespaces_StringPartJc(& ((spCtrl).base.super), true, _thCxt);
@@ -547,6 +547,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
         );
       releaseUserBuffer_ThreadContextFw(PTR_CharSeqJc(_thCxtRef3_1), _thCxt);
     }
+    close_StringPartScanJc_F(& ((spCtrl).base.super), _thCxt);
     { STACKTRC_LEAVE;
       return sError;
     }
@@ -580,7 +581,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
       write_FileWriterJc(file, s0_StringJc("//1234:-File;  \n"), _thCxt);
       write_FileWriterJc(file, s0_StringJc("\n//All existing dst (destinations):\n"), _thCxt);
       
-      StringBufferJc  line;//J2C: constructor for embedded element-ObjectJc
+      StringBufferJc  line = { 0 };//J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(line.base.object), sizeof(line), 0); 
       ctorO_I_StringBufferJc(/*J2C:static method call*/&(line.base.object), 200, _thCxt);
       { int32 ii; 

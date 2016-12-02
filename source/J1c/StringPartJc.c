@@ -125,8 +125,6 @@ typedef struct MtblDef_StringPartJc_t { Mtbl_StringPartJc mtbl; MtblHeadJc end; 
 StringJc sVersion_StringPartJc = CONST_z_StringJc("2016-09-04"); //J2C:static StringJc
 const int32 seekToLeft_StringPartJc = mSeekToLeft__StringPartJc + mSeekBackward__StringPartJc;
 const int32 seekBack_StringPartJc = 0x20 + mSeekBackward__StringPartJc;
-const char cStartOfText_StringPartJc = (char /*J2C_cast*/)(0x2);
-const char cEndOfText_StringPartJc = (char /*J2C_cast*/)(0x3);
 
 /*Constructor */
 struct StringPartJc_t* ctorO_StringPartJc(ObjectJc* othis, ThCxt* _thCxt)
@@ -538,7 +536,7 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
       , append_z_StringBuilderJc(_tempString2_1, "StringPartBase.subString - faulty;", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, from, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+      ), 0, &_thCxt->stacktrc, __LINE__); };
     activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -1563,7 +1561,7 @@ int32 indexOfAnyChar_Csiiccc_StringPartJc(StringPartJc_s* thiz, CharSeqJc sChars
     if(bNotFound) 
     { 
       
-      if(indexOf_Csc_StringFunctionsJc(/*J2C:static method call*/sChars, cEndOfText_StringPartJc, _thCxt) >= 0) { STACKTRC_LEAVE;
+      if(indexOf_Csc_StringFunctionsJc(/*J2C:static method call*/sChars, cEndOfText_StringFunctionsJc, _thCxt) >= 0) { STACKTRC_LEAVE;
         return pos - thiz->begin;
       }/* it is found because cEndOfText is searched too.*/
       
@@ -2384,7 +2382,7 @@ bool startsWith_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCxt
   { 
     
     
-    int32  pos_cEndOfText = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/sCmp, cEndOfText_StringPartJc, 0, _thCxt);
+    int32  pos_cEndOfText = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/sCmp, cEndOfText_StringFunctionsJc, 0, _thCxt);
     if(pos_cEndOfText >= 0) 
     { 
       
@@ -2688,7 +2686,7 @@ char absCharAt_StringPartJc(StringPartJc_s* thiz, int32 index, ThCxt* _thCxt)
         , append_z_StringBuilderJc(_tempString3_1, "StringPartBase.charAt - faulty; ", _thCxt)
         , append_I_StringBuilderJc(_tempString3_1, index, _thCxt)
         , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+        ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
       activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }
   }
@@ -2737,7 +2735,7 @@ StringJc absSubString_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, T
         , append_z_StringBuilderJc(_tempString3_1, "StringPartBase.subSequence - faulty; ", _thCxt)
         , append_I_StringBuilderJc(_tempString3_1, from, _thCxt)
         , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return null_StringJc; };
+        ), 0, &_thCxt->stacktrc, __LINE__); return null_StringJc; };
       activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }
   }
@@ -2825,7 +2823,7 @@ void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc 
   
   { 
     
-    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, sMsg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, sMsg, 0, &_thCxt->stacktrc, __LINE__); };
   }
   STACKTRC_LEAVE;
 }
@@ -2854,7 +2852,7 @@ void close_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 
 
 /**Replaces up to 20 placeholder with a given content.*/
-StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt)
+CharSeqJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("replace_StringPartJc");
   
@@ -2869,7 +2867,7 @@ StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* 
     if(nrofToken != value->head.length) 
     { 
       
-      { throw_s0Jc(ident_IllegalArgumentExceptionJc, "token and value should have same size, lesser 20", 0, &_thCxt->stacktraceThreadContext, __LINE__); return null_StringJc; };
+      { throw_s0Jc(ident_IllegalArgumentExceptionJc, "token and value should have same size, lesser 20", 0, &_thCxt->stacktrc, __LINE__); return 0; };
     }
     if(dst == null) 
     { 
@@ -2910,7 +2908,7 @@ StringJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* 
         }
       }while(posPatternStart >= 0);
     { STACKTRC_LEAVE;
-      return toString_StringBuilderJc(& ((* (dst)).base.object)/*J2cT1*/, _thCxt);
+      return fromStringBuilderJc_CharSeqJc(dst);
     }
   }
   STACKTRC_LEAVE;
@@ -2951,10 +2949,6 @@ const MtblDef_StringPartJc mtblStringPartJc = {
     , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
   }
-, { { sign_Mtbl_CloseableJc //J2C: Head of methodtable of CloseableJc
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
-    }
-  }
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
@@ -2970,15 +2964,13 @@ const MtblDef_StringPartJc mtblStringPartJc = {
 
  extern_C struct ClassJc_t const reflection_CharSeqJc;
  extern_C struct ClassJc_t const reflection_ComparableJc;
- extern_C struct ClassJc_t const reflection_CloseableJc;
  static struct ifcClasses_StringPartJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[3];
+   ClassOffset_idxMtblJc data[2];
  }interfaces_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
 , { {&reflection_CharSeqJc, OFFSET_Mtbl(Mtbl_StringPartJc, CharSeqJc) }
   , {&reflection_ComparableJc, OFFSET_Mtbl(Mtbl_StringPartJc, ComparableJc) }
-  , {&reflection_CloseableJc, OFFSET_Mtbl(Mtbl_StringPartJc, CloseableJc) }
   }
 };
 
@@ -2986,9 +2978,9 @@ extern_C struct ClassJc_t const reflection_StringPartJc_s;
 extern_C struct ClassJc_t const reflection_CharSeqJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_StringPartJc_s_t
-{ ObjectArrayJc head; FieldJc data[20];
+{ ObjectArrayJc head; FieldJc data[18];
 } reflection_Fields_StringPartJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 20, OBJTYPE_FieldJc, null, &reflection_Fields_StringPartJc_s)
+{ CONST_ObjectArrayJc(FieldJc, 18, OBJTYPE_FieldJc, null, &reflection_Fields_StringPartJc_s)
 , {
      { "begin"
     , 0 //nrofArrayElements
@@ -3132,22 +3124,6 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&seekBack_StringPartJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&seekBack_StringPartJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringPartJc_s
-    }
-   , { "cStartOfText"
-    , 0 //nrofArrayElements
-    , REFLECTION_char
-    , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
-    , 0 //compiler problem, not a constant,TODO: (int16)(&cStartOfText_StringPartJc) //lo part of memory address of static member
-    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&cStartOfText_StringPartJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringPartJc_s
-    }
-   , { "cEndOfText"
-    , 0 //nrofArrayElements
-    , REFLECTION_char
-    , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
-    , 0 //compiler problem, not a constant,TODO: (int16)(&cEndOfText_StringPartJc) //lo part of memory address of static member
-    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&cEndOfText_StringPartJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
     , &reflection_StringPartJc_s
     }
 } };

@@ -127,7 +127,7 @@ typedef struct TelgTarget2Proxy_Inspc_s_t
 
 
 /**This const array is defined by the reflection generator in the ReflOffset.c file. */
-extern_C const int32* reflectionOffsetArrays[];
+extern_C const int32* const reflectionOffsetArrays[];
 
 
 

@@ -368,7 +368,7 @@ ObjectJc* allocObject_s_sBlockHeapJc(int sizeObj, int identObj, const char* sCal
 ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _thCxt)
 { ObjectJc* othis;
   STACKTRC_TENTRY("alloc_ObjectJc");
-  { const char* sCallingMethodName = getCallingMethodName_StacktraceThreadContext( &_thCxt->stacktraceThreadContext, 1);  
+  { const char* sCallingMethodName = getCallingMethodName_StacktraceThreadContext( &_thCxt->stacktrc, 1);  
     othis = allocObject_s_sBlockHeapJc(size, typeInstanceIdent, sCallingMethodName, _thCxt);
   }
   STACKTRC_LEAVE; return othis;

@@ -50,13 +50,13 @@
 ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis)
 { ThreadContextFW_s* ythis = PTR_MemC(mthis, ThreadContextFW_s);
   int size = size_MemC(mthis);
-  int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktraceThreadContext);
+  int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktrc);
   
   /**The stacktrace-ThreadContext ist the last member. Its size may be different,
    * because the length of the array for stored Stacktrace entries may be different.
    * Calculate this size from the given size in mthis - offset of Stacktrace-ThCxt
    */
-  MemC mStacktraceThreadContext = CONST_MemC(&ythis->stacktraceThreadContext, size - offsStacktraceThCxt);
+  MemC mStacktraceThreadContext = CONST_MemC(&ythis->stacktrc, size - offsStacktraceThCxt);
 
   ythis->topmemAddrOfStack = &mthis; //the highest known address
   ctorM_StacktraceThreadContext(mStacktraceThreadContext);

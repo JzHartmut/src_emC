@@ -50,7 +50,7 @@ struct MsgDispatcherCore_MSG_t* ctorO_MsgDispatcherCore_MSG(ObjectJc* othis, int
     */
     SETREFJc(thiz->runNoEntryMessage, runNoEntryMessage, RunnableJc_s);
     thiz->nrofMixedOutputs = nrofMixedOutputs;
-    if(nrofMixedOutputs < 0 || nrofMixedOutputs > 28) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "max. nrofMixedOutputs", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    if(nrofMixedOutputs < 0 || nrofMixedOutputs > 28) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "max. nrofMixedOutputs", 0, &_thCxt->stacktrc, __LINE__); return 0; };
     thiz->mDstMixedOutputs = (1 << nrofMixedOutputs) - 1;
     thiz->mDstOneOutput = mDispatchBits_MsgDispatcherCore_MSG & ~thiz->mDstMixedOutputs;
     

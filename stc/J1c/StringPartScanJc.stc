@@ -13,8 +13,6 @@ fieldIdents {
   //outer=1 ,super=2: int %.. beginLast;
   int %.. beginScan;
   //outer=1 ,super=2: int %.. bitMode;
-  //outer=1 ,super=2: char %.S cEndOfText;
-  //outer=1 ,super=2: char %.S cStartOfText;
   //outer=1 ,super=2: java/lang/CharSequence c.. content;
   //outer=1 ,super=2: int %.. end;
   //outer=1 ,super=2: int %.. endLast;
@@ -73,7 +71,6 @@ fieldIdents {
 
   castTo {
     java/lang/CharSequence: c "fromObjectJc_CharSeqJc(&(?).base.object)" $;
-    java/io/Closeable: $ "(?).base.super.base.CloseableJc" $;
     java/lang/Comparable: $ "(?).base.super.base.ComparableJc" $;
     java/lang/Object: $ "(?).base.super.base.object" $;
     org/vishia/util/StringPart: $ "(?).base.super" $;

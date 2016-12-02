@@ -6,6 +6,8 @@ class StringFunctions; nameC=StringFunctionsJc_s; argIdent=XX; extends java/lang
 {  
 fieldIdents {
   char %.S cEndOfText;
+  char %.S cNoCidentifier;
+  char %.S cStartOfText;
   java/lang/String(instance=java/lang/String) t.s indentString;
   java/lang/String(instance=java/lang/String) t.s version;
 }

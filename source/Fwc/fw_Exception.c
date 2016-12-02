@@ -96,25 +96,27 @@ const char* exceptionTexts[33]=
 StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis)
 { StacktraceThreadContext_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_s);
 
-  ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN(ythis->stacktraceBuffer);
+  ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN(ythis->entries);
   return ythis;
 }
 
 
-void _endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_s* stacktrcThCxt)
-{ tryObject->exc.backStacktrace = stacktrace; 
-  tryObject->exc.nrofStacktraceEntries = stacktrcThCxt->nrofEntriesStacktraceBuffer; 
-  tryObject->exc.stacktraceEntries = stacktrcThCxt->stacktraceBuffer; 
-  stacktrace->tryObject = null; 
+void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_s* _thCxt)
+{ _thCxt->entries[stacktrace->ix].tryObject = null;
 }
 
 
 void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadContext_s* stacktrcThCxt, int line)
 { //find stack level with try entry:
   if(stacktrcThCxt != null)
-  { StacktraceJc* stacktrace = stacktrcThCxt->stacktrace;
-    //StacktraceElementJcARRAY* stacktraceEntriesInThreadContext = stacktrcThCxt->stacktraceBuffer;
-    StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->stacktraceBuffer;
+  { StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
+    StacktraceElementJc* stacktraceTry;
+    int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
+    do {
+      stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
+    } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
+    #if 0
+    StacktraceJc* stacktrace = stacktrcThCxt->stacktrace;
     int idxStacktraceEntries = 0;
     int idxStacktraceEntriesMax;
     //idxStacktraceEntriesMax = stacktraceEntriesInThreadContext == null ? -1 : stacktraceEntriesInThreadContext->head.length;
@@ -134,21 +136,20 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
     }
     stacktrcThCxt->stacktrace = stacktrace;  //may be null if no TRYJc-level is found.
     stacktrcThCxt->nrofEntriesStacktraceBuffer = idxStacktraceEntries;
+    #endif
     //
-    //the stacktrcThCxt->stacktraceBuffer is filled with the followed levels of Stacktrace,
+    //the stacktrcThCxt->entries is filled with the followed levels of Stacktrace,
     //the stacktrace refers the level of the TRY or it is null.
     //
-    if(stacktrace != null)
+    //if(stacktrace != null && stacktrace->tryObject !=null)
+    if(stacktraceTry->tryObject !=null)
     { //TRY-level is found:
-      ExceptionJc* exception = &stacktrace->tryObject->exc;
-      stacktrace->tryObject->exceptionNr = stacktrace->tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
+      TryObjectJc* tryObject = stacktraceTry->tryObject;
+      ExceptionJc* exception = &tryObject->exc;
+      tryObject->exceptionNr = tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
       exception->exceptionNr = exceptionNr;
       lightCopy_StringJc(&exception->exceptionMsg, msg);
       exception->exceptionValue = value;
-      exception->backStacktrace = stacktrace;
-      exception->nrofStacktraceEntries = idxStacktraceEntries;
-      exception->stacktraceEntries = stacktraceEntriesInThreadContext;
-      //throw exception, use the platform dependend variant.
       #if defined(__TRYCPPJc) //&& defined(__cplusplus)
        throw exceptionNr;
       #else
@@ -162,10 +163,6 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
       exception.exceptionNr = exceptionNr;
       lightCopy_StringJc(&exception.exceptionMsg, msg);
       exception.exceptionValue = value;
-      exception.backStacktrace = stacktrace;  //it is null!
-      exception.nrofStacktraceEntries = idxStacktraceEntries;
-      exception.stacktraceEntries = stacktraceEntriesInThreadContext;
-
       uncatched_ExceptionJc(&exception, stacktrcThCxt);
       exit(255);
     }
@@ -176,10 +173,6 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
     exception.exceptionNr = exceptionNr;
     lightCopy_StringJc(&exception.exceptionMsg, msg);
     exception.exceptionValue = value;
-    exception.backStacktrace = null;
-    exception.nrofStacktraceEntries = 0;
-    exception.stacktraceEntries = 0;
-
     uncatched_ExceptionJc(&exception, stacktrcThCxt);
     exit(255);
   }
@@ -233,22 +226,28 @@ METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr)
  * @param level 0 is actual, 1... are previous levels.
  * @return null if no previous level is found.
  */
-static StacktraceJc* getEntry_StacktraceThreadContext(StacktraceThreadContext_s* ythis, int level)
+
+static StacktraceElementJc* getEntry_StacktraceThreadContext(StacktraceThreadContext_s* ythis, int level)
 { 
+  if(level < ythis->zEntries) {
+    return &ythis->entries[ythis->zEntries - level -1];
+  }
+  else return null;
+  #if 0
   StacktraceJc* entry = ythis->stacktrace;
   while(entry != null && --level >=0)
   { entry = entry->previous;
   }
-  return entry;  
+  return entry; 
+  #endif 
 }
-
 
 
 
 METHOD_C char const* getCallingMethodName_StacktraceThreadContext(StacktraceThreadContext_s* ythis, int level)
 {
-  StacktraceJc* entry = getEntry_StacktraceThreadContext(ythis, level);
-  return (entry == null) ? "" : entry->entry.name; 
+  StacktraceElementJc* entry = getEntry_StacktraceThreadContext(ythis, level);
+  return (entry == null) ? "" : entry->name; 
 }
 
 
@@ -262,6 +261,7 @@ extern_C bool test_StacktraceJc(StacktraceJc* ythis);
 
 
 /**Test the consistence of the stacktrace, useable if errors are searched*/
+#if 0
 bool test_StacktraceJc(StacktraceJc* ythis)
 { bool bCont = true;
   StacktraceJc* stacktrace, *stacktracePrev = null;
@@ -294,7 +294,7 @@ bool test_StacktraceJc(StacktraceJc* ythis)
   }
   return stacktracePrev == null;
 }
-
+#endif
 
 
 

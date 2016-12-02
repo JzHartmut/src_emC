@@ -247,6 +247,10 @@ but it may be kept because it is part of class data or part of a statement block
 The associated String is released. It can be recycled by garbage collector.
 If this method is overridden, it should used to close a associated file which is opened 
 for this String processing. The overridden method should call super->close() too.
+<br>
+<br>
+Note: if only this class is instantiated and the instance will be garbaged, close is not necessary.
+A warning or error "Resource leak" can be switched off. Therefore the interface {@link java.io.Closeable} is not used here.
 */
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
 METHOD_C void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt);

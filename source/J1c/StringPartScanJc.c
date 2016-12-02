@@ -306,21 +306,34 @@ struct StringPartScanJc_t* scan_Cs_StringPartScanJc(StringPartScanJc_s* thiz, Ch
       
       CharSeqJc sTest ; sTest;/*no initvalue*/
       
-      int32  len = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/sTestP, cEndOfText_StringPartJc, 0, _thCxt);
+      int32  len = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/sTestP, cEndOfText_StringFunctionsJc, 0, _thCxt);
+      
+      int32  len2 = indexOf_Csci_StringFunctionsJc(/*J2C:static method call*/sTestP, cNoCidentifier_StringFunctionsJc, 0, _thCxt);
+      
+      bool  bTestToNoCidentifier = (len2 >= 0);
       
       bool  bTestToEndOfText = (len >= 0);
-      if(bTestToEndOfText) 
+      if(bTestToNoCidentifier) 
+      { 
+        
+        sTest = subSequence_CharSeqJc(sTestP/*J1cT2*/, 0, len2, _thCxt);
+        len = len2;
+      }
+      else if(bTestToEndOfText) 
       { 
         
         sTest = subSequence_CharSeqJc(sTestP/*J1cT2*/, 0, len, _thCxt);
-      }
+      }/*only one of the end symbols.*/
+      
       else 
       { 
         
         len = length_CharSeqJc(sTestP/*J1cT2*/, _thCxt);
         sTest = sTestP;
       }
-      if((thiz->base.super.begin + len) <= thiz->base.super.endMax && equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + len, sTest, _thCxt) && (!bTestToEndOfText || thiz->base.super.begin + len == thiz->base.super.end)) 
+      
+      char  cc;/*no initvalue*/
+      if((thiz->base.super.begin + len) <= thiz->base.super.endMax && equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + len, sTest, _thCxt) && (bTestToEndOfText ? thiz->base.super.begin + len == thiz->base.super.end : (bTestToNoCidentifier ? (thiz->base.super.begin + len == thiz->base.super.end) || ((cc = /*? assignment*/charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin + len, _thCxt)) != '_' && !(cc >= '0' && cc <= '9') && !(cc >= 'A' && cc <= 'Z') && !(cc >= 'a' && cc <= 'z')) : true))) 
       { 
         
         thiz->base.super.begin += len;
@@ -481,7 +494,7 @@ struct StringPartScanJc_t* scanPositivInteger_StringPartScanJc(StringPartScanJc_
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = false;
         }
-        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktrc, __LINE__); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -526,7 +539,7 @@ struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJc_s* thiz
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = bNegativValue;
         }
-        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktrc, __LINE__); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -600,7 +613,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
             
             thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = (double /*J2C_cast*/)nInteger;
           }
-          else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned floats", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+          else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned floats", 0, &_thCxt->stacktrc, __LINE__); return 0; };
         }
       }
     }
@@ -738,7 +751,7 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
           
           thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = result;
         }
-        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned floats", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned floats", 0, &_thCxt->stacktrc, __LINE__); return 0; };
       }
       else 
       { /*:whetter '.' nor 'E' found:*/
@@ -776,7 +789,7 @@ struct StringPartScanJc_t* scanHex_StringPartScanJc(StringPartScanJc_s* thiz, in
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = false;
         }
-        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktrc, __LINE__); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -819,7 +832,7 @@ struct StringPartScanJc_t* scanHexOrDecimal_StringPartScanJc(StringPartScanJc_s*
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = false;
         }
-        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+        else { throw_s0Jc(ident_ParseExceptionJc, "to much scanned integers", 0, &_thCxt->stacktrc, __LINE__); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -894,7 +907,7 @@ bool getLastScannedIntegerSign_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt*
         return thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber];
       }
     }
-    else { throw_s0Jc(ident_ParseExceptionJc, "no integer number scanned.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    else { throw_s0Jc(ident_ParseExceptionJc, "no integer number scanned.", 0, &_thCxt->stacktrc, __LINE__); return 0; };
   }
   STACKTRC_LEAVE;
 }
@@ -914,7 +927,7 @@ int64 getLastScannedIntegerNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThC
         return thiz->nLastIntegerNumber.data[thiz->idxLastIntegerNumber--];
       }
     }
-    else { throw_s0Jc(ident_ParseExceptionJc, "no integer number scanned.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    else { throw_s0Jc(ident_ParseExceptionJc, "no integer number scanned.", 0, &_thCxt->stacktrc, __LINE__); return 0; };
   }
   STACKTRC_LEAVE;
 }
@@ -934,7 +947,7 @@ double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCx
         return thiz->nLastFloatNumber.data[thiz->idxLastFloatNumber--];
       }
     }
-    else { throw_s0Jc(ident_ParseExceptionJc, "no float number scanned.", 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+    else { throw_s0Jc(ident_ParseExceptionJc, "no float number scanned.", 0, &_thCxt->stacktrc, __LINE__); return 0; };
   }
   STACKTRC_LEAVE;
 }
@@ -1013,10 +1026,6 @@ const MtblDef_StringPartScanJc mtblStringPartScanJc = {
     , subSequence_ii_StringPartJc //subSequence
     }
   , { { sign_Mtbl_ComparableJc //J2C: Head of methodtable of ComparableJc
-      , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
-      }
-    }
-  , { { sign_Mtbl_CloseableJc //J2C: Head of methodtable of CloseableJc
       , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
     }

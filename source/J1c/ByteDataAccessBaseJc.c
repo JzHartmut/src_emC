@@ -449,7 +449,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
         , append_z_StringBuilderJc(_tempString3_1, ", ixChildEndNew= ", _thCxt)
         , append_I_StringBuilderJc(_tempString3_1, ixEndNew, _thCxt)
         , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+        ), 0, &_thCxt->stacktrc, __LINE__); };
       activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }
     if(thiz->bExpand) 
@@ -509,7 +509,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
           , append_z_StringBuilderJc(_tempString4_1, ", ixNextChilNew= ", _thCxt)
           , append_I_StringBuilderJc(_tempString4_1, ixNextChildNew, _thCxt)
           , toStringMarkPersist_StringBuilderJc(&(_tempString4_1)->base.object, _thCxt)
-          ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+          ), 0, &_thCxt->stacktrc, __LINE__); };
         activateGC_ObjectJc(&_tempString4_1->base.object, null, _thCxt);
       }
       thiz->ixNextChild = ixNextChildNew;
@@ -556,7 +556,7 @@ void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 
           , append_I_StringBuilderJc(_tempString4_1, thiz->data.val, _thCxt)
           , toStringMarkPersist_StringBuilderJc(&(_tempString4_1)->base.object, _thCxt)
           )/*J2C:non-persistent*/;
-        { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+        { throw_sJc(ident_IllegalArgumentExceptionJc, msg, 0, &_thCxt->stacktrc, __LINE__); };
         activateGC_ObjectJc(&_tempString4_1->base.object, null, _thCxt);
       }
     }
@@ -1224,7 +1224,7 @@ void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct By
   
   { 
     
-    if(child->parent.ref!= thiz) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "programming error - child is not parent of this.", 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    if(child->parent.ref!= thiz) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "programming error - child is not parent of this.", 0, &_thCxt->stacktrc, __LINE__); };
     thiz->ixNextChild = child->ixBegin;/*set end index to the child's start*/
     
     if(thiz->bExpand) 
@@ -1323,7 +1323,7 @@ void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
         , append_z_StringBuilderJc(_tempString3_1, "copy, dst to small", _thCxt)
         , append_I_StringBuilderJc(_tempString3_1, len, _thCxt)
         , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+        ), 0, &_thCxt->stacktrc, __LINE__); };
       activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }/*//TODO System.arraycopy(src.data,src.idxBegin,data,idxBegin,len);*/
     
@@ -1690,7 +1690,7 @@ int32 getUint32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
       , append_z_StringBuilderJc(_tempString2_1, "getUint16:", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getUint32_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray);
@@ -1713,7 +1713,7 @@ int32 getInt32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
       , append_z_StringBuilderJc(_tempString2_1, "getInt32:", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt32_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray);
@@ -1736,7 +1736,7 @@ int32 getInt16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
       , append_z_StringBuilderJc(_tempString2_1, "getInt16:", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt16_i_ByteDataAccessBaseJc(thiz, idxBytes + 2 * idxArray);
@@ -1759,7 +1759,7 @@ int32 getInt8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxBy
       , append_z_StringBuilderJc(_tempString2_1, "getInt8:", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessBaseJc(thiz, idxBytes + idxArray);
@@ -1782,7 +1782,7 @@ int32 getUint16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
       , append_z_StringBuilderJc(_tempString2_1, "getUint16:", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getUint16_i_ByteDataAccessBaseJc(thiz, idxBytes + 2 * idxArray);
@@ -1805,7 +1805,7 @@ int32 getUint8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
       , append_z_StringBuilderJc(_tempString2_1, "getUint8:", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessBaseJc(thiz, idxBytes + idxArray);
@@ -1828,7 +1828,7 @@ float getFloat_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
       , append_z_StringBuilderJc(_tempString2_1, "getFloat:", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktraceThreadContext, __LINE__); return 0; };
+      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getFloat_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray);
@@ -1935,7 +1935,7 @@ void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, 
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       )/*J2C:non-persistent*/;
-    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, textExc, 0, &_thCxt->stacktraceThreadContext, __LINE__); };
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, textExc, 0, &_thCxt->stacktrc, __LINE__); };
     activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;

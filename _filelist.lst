@@ -1,5 +1,5 @@
 2015-08-09 22:54:04  x     _bzr_version.txt                         ::           .174  0823119386 
-2016-11-13 21:39:38  x     _filelist.lst                            ::           .  0  0000000000 
+2016-12-02 23:36:07  x     _filelist.lst                            ::           .  0  0000000000 
 2011-06-23 10:05:52  x     delBak.bat                               ::           . 37  1661871524 
 2011-07-21 18:48:12  x     gitstart.bat                             ::           . 71  0966181374 
 
@@ -11,7 +11,7 @@
 
 ============================== include/Fwc/ ========================================================
 2015-01-07 10:34:17  x     fw_Event.h                               ::          4.364  0961305670 
-2016-11-13 09:38:15  x     fw_Exception.h                           ::         21.853  1078612165 
+2016-11-28 08:30:37  x     fw_Exception.h                           ::         22.176 -0303224475 
 2011-03-06 19:10:28  x     fw_Formatter.h                           ::          7.547 -1400729628 
 2016-07-30 01:34:08  x     fw_LogMessage.h                          ::         16.421 -1228002281 
 2016-10-28 22:57:07  x     fw_MemC.h                                ::         13.059 -0031838377 
@@ -19,7 +19,7 @@
 2016-10-29 19:47:47  x     fw_SimpleC.h                             ::         11.290 -1143000933 
 2015-09-21 16:20:44  x     fw_StateMachine.h                        ::           .295  0727035872 
 2016-10-21 23:00:27  x     fw_String.h                              ::         25.599  0524228735 
-2016-11-13 09:58:56  x     fw_ThreadContext.h                       ::         10.539  0638214075 
+2016-11-19 23:27:15  x     fw_ThreadContext.h                       ::         10.625 -1491253941 
 2014-01-10 23:38:45  x     fw_Va_list.h                             ::          2.367  1391122393 
 2011-02-05 22:20:32  x     fw_basic.h                               ::          1.861  1181951135 
 2011-02-05 22:20:32  x     fw_timeconversions.h                     ::          6.553 -0831236770 
@@ -77,7 +77,7 @@
 2010-09-16 21:25:50  x     ListMapEntryJc.h                         ::          7.941  0439894632 
 2011-01-29 09:36:58  x     LocaleJc.h                               ::          2.910  0411129989 
 2014-09-07 21:13:51  x     MathJc.h                                 ::          2.285  0650774277 
-2016-07-30 12:24:03  x     ObjectJc.h                               ::         67.709  0143186522 
+2016-12-01 09:14:48  x     ObjectJc.h                               ::         67.705  0916180299 
 2011-01-29 09:37:08  x     ObjectRefJc.h                            ::           .296  1932668676 
 2016-06-11 23:40:30  x     PrintStreamJc.h                          ::          3.412 -1544534178 
 2016-10-28 22:59:55  x     ReflMemAccessJc.h                        ::         17.098 -2059140598 
@@ -158,7 +158,7 @@
 2012-05-20 14:44:06  x     _bzr_resyncWithTimestamp.bat             ::           .155  0429129842 
 
 ============================== source/BlockHeap/ ===================================================
-2016-05-21 20:30:17  x     BlockHeapJc_Alloc.c                      ::         30.334 -1333111112 
+2016-11-19 22:04:29  x     BlockHeapJc_Alloc.c                      ::         30.319 -1919674244 
 2016-05-21 20:38:08  x     BlockHeapJc_GarbageCol.c                 ::         18.125  1744460660 
 2011-01-29 14:47:10  x     BlockHeapJc_References.c                 ::         15.834 -1530136747 
 2011-01-29 09:44:04  x     BlockHeapJc_internal.h                   ::         12.729 -0657576277 
@@ -170,13 +170,13 @@
 2010-01-23 08:26:32  x     RemoteCpu_Dummy.c                        ::          2.816 -1927194993 
 2011-01-01 12:53:52  x     UmlContainer_Dummy.c                     ::          3.051 -0749795306 
 2016-10-15 21:26:04  x     allocOnlyAtStartup.c                     ::          3.534 -1491276878 
-2015-06-14 09:43:11  x     fw_PlatformConvSimpleStop.c              ::          3.821 -1826170407 
+2016-11-23 22:34:00  x     fw_PlatformConvSimpleStop.c              ::          3.820  1211800085 
 2011-08-14 07:46:18  x     fw_ThreadContextSimpleIntr.c             ::          1.090  0373171495 
 
 ============================== source/Fwc/ =========================================================
 2014-12-07 19:32:05  x     fw_Event.c                               ::          3.064 -1574993833 
-2016-09-04 13:14:21  x     fw_Exception.c                           ::         11.467 -1039669410 
-2016-06-11 23:40:30  x     fw_ExceptionPrintStacktrace.c            ::          4.483 -1793739948 
+2016-11-23 22:56:32  x     fw_Exception.c                           ::         11.117 -2039572840 
+2016-11-23 22:50:35  x     fw_ExceptionPrintStacktrace.c            ::          4.539 -0560627336 
 2012-12-25 15:17:30  x     fw_Formatter.c                           ::         38.169 -0843445957 
 2016-07-24 19:44:24  x     fw_LogMessage.c                          ::         13.202  0770570839 
 2016-07-24 22:16:34  x     fw_LogMsgStream.c                        ::          9.988  0868795250 
@@ -185,7 +185,7 @@
 2011-06-04 21:23:10  x     fw_Readline.c                            ::          2.357  0061846414 
 2011-10-24 15:23:36  x     fw_SimpleC.c                             ::          7.440 -1472064864 
 2016-11-13 09:51:29  x     fw_String.c                              ::         13.711  0912822643 
-2016-11-13 09:54:55  x     fw_threadContext.c                       ::          9.093 -0099057359 
+2016-11-19 22:04:10  x     fw_threadContext.c                       ::          9.063 -0945320019 
 2011-01-08 09:28:02  x     fw_timeconversions.c                     ::          7.086 -0090530704 
 
 ============================== source/Inspc/ =======================================================
@@ -206,7 +206,7 @@
 2015-08-02 22:16:11  x     InspcGetValue.h                          ::           .911 -1259646365 
 2016-10-30 19:23:42  x     InspcTargetProxyTarget.c                 ::          7.655 -0593347527 
 2016-10-29 10:36:51  x     InspcTargetProxyTelg.c                   ::           .  0  0000000000 
-2016-10-30 19:40:14  x     InspcTargetProxyTelg.h                   ::          5.744  0622921082 
+2016-12-01 09:23:12  x     InspcTargetProxyTelg.h                   ::          5.750 -1592440528 
 2016-10-30 19:38:27  x     InspcTargetTelg.h                        ::          1.383 -1819793140 
 2016-02-06 10:10:49  x     TimeSignals_Inspc.c                      ::         12.965 -0912308728 
 2015-10-31 09:30:26  x     TimeSignals_Inspc.genrefl.bat            ::           .846 -0449210969 
@@ -223,8 +223,8 @@
 ============================== source/InspcJ2c/ ====================================================
 2016-10-22 20:01:38  x     AnswerComm_ifc_Inspc.c                   ::          1.765  1277129480 
 2016-10-22 20:01:38  x     AnswerComm_ifc_Inspc.h                   ::          3.184  0901685278 
-2016-10-22 20:01:40  x     ClassContent_Inspc.c                     ::         78.040 -1821026558 
-2016-10-22 20:01:40  x     ClassContent_Inspc.h                     ::         16.799 -1617490707 
+2016-12-02 23:31:20  x     ClassContent_Inspc.c                     ::         78.040 -1821026558 
+2016-12-02 23:31:20  x     ClassContent_Inspc.h                     ::         16.799 -1617490707 
 2016-10-22 20:01:41  x     CmdConsumer_ifc_Inspc.c                  ::          2.450  0589252701 
 2016-10-22 20:01:40  x     CmdConsumer_ifc_Inspc.h                  ::          5.309  0812449571 
 2016-10-22 20:01:41  x     CmdExecuter_Inspc.c                      ::         21.616 -1118544550 
@@ -242,10 +242,10 @@
 2016-10-22 20:01:38  x     WorkingThread_Inspc.c                    ::         24.820 -1392211688 
 2016-10-22 20:01:38  x     WorkingThread_Inspc.h                    ::         14.425 -1765042928 
 
-============================== source/InspcJ2c.ref3/ ===============================================
+============================== source/InspcJ2c.ref/ ================================================
 2016-10-11 23:11:57  x     AnswerComm_ifc_Inspc.c                   ::          1.765  1277129480 
 2016-10-11 23:11:57  x     AnswerComm_ifc_Inspc.h                   ::          3.184  0901685278 
-2016-10-22 18:25:37  x     ClassContent_Inspc.c                     ::         77.968  0518231416 
+2016-10-22 20:01:40  x     ClassContent_Inspc.c                     ::         78.040 -1821026558 
 2016-10-11 23:12:00  x     ClassContent_Inspc.h                     ::         16.799 -1617490707 
 2016-10-11 23:12:00  x     CmdConsumer_ifc_Inspc.c                  ::          2.450  0589252701 
 2016-10-11 23:12:00  x     CmdConsumer_ifc_Inspc.h                  ::          5.309  0812449571 
@@ -253,13 +253,13 @@
 2016-10-11 23:12:00  x     CmdExecuter_Inspc.h                      ::          7.301  1261176265 
 2016-10-16 21:58:49  x     Comm_Inspc.c                             ::         18.320  1291328816 
 2016-10-15 21:27:32  x     Comm_Inspc.h                             ::          6.334 -0933743363 
-2016-10-11 23:11:56  x     InspcDataExchangeAccess_Inspc.c          ::         43.119  2024465684 
+2016-10-22 20:01:38  x     InspcDataExchangeAccess_Inspc.c          ::         43.183 -0398532655 
 2016-10-11 23:11:56  x     InspcDataExchangeAccess_Inspc.h          ::         41.713 -1656430783 
 2016-10-11 23:12:00  x     InspcDataInfo_Inspc.c                    ::          6.840 -0508495832 
 2016-10-11 23:12:00  x     InspcDataInfo_Inspc.h                    ::          3.989 -0285289361 
 2016-10-11 23:12:00  x     Inspector_Inspc.c                        ::          8.894 -1107722480 
 2016-10-11 23:12:00  x     Inspector_Inspc.h                        ::          6.300  0273208425 
-2016-10-11 23:12:00  x     SearchElement_Inspc.c                    ::         14.811 -0940822227 
+2016-10-22 20:01:41  x     SearchElement_Inspc.c                    ::         14.827  1724375189 
 2016-10-11 23:12:00  x     SearchElement_Inspc.h                    ::          6.413 -0830010189 
 2016-10-11 23:11:57  x     WorkingThread_Inspc.c                    ::         24.820 -1392211688 
 2016-10-11 23:11:56  x     WorkingThread_Inspc.h                    ::         14.425 -1765042928 
@@ -272,7 +272,7 @@
 2016-10-15 21:32:43  x     Reflection_Ipc.h                         ::           .859 -0911793307 
 
 ============================== source/Ipc2c/ =======================================================
-2016-10-15 20:56:25  x     InterProcessCommFactorySocket_Ipc.c      ::         15.117 -0900419275 
+2016-12-01 09:15:41  x     InterProcessCommFactorySocket_Ipc.c      ::         15.087  0228503529 
 2016-10-15 20:50:30  x     InterProcessCommFactorySocket_Ipc.h      ::          8.767  0862230318 
 2016-10-15 19:23:03  x     InterProcessCommRxExec_Ipc.c             ::          5.186  1999365049 
 2016-10-15 19:23:03  x     InterProcessCommRxExec_Ipc.h             ::          4.390 -2144981773 
@@ -282,205 +282,57 @@
 2016-10-15 19:23:03  x     InterProcessCommRx_ifc_Ipc.h             ::          4.863 -1247225332 
 
 ============================== source/Ipc2c.ref1/ ==================================================
-2016-06-18 15:49:53  x     InterProcessCommFactorySocket_Ipc.c      ::         12.662 -1977695098 
-2016-02-14 20:00:55  x     InterProcessCommFactorySocket_Ipc.h      ::          7.254  1880592787 
+2016-12-01 09:15:41  x     InterProcessCommFactorySocket_Ipc.c      ::         15.087  0228503529 
+2016-10-15 20:50:30  x     InterProcessCommFactorySocket_Ipc.h      ::          8.767  0862230318 
 2016-06-18 15:49:53  x     InterProcessCommRxExec_Ipc.c             ::          5.181 -1116393334 
-2015-08-13 23:10:59  x     InterProcessCommRxExec_Ipc.h             ::          3.748 -1054744935 
-2016-06-18 15:49:53  x     InterProcessCommRxThread_Ipc.c           ::         26.734  1476109371 
-2016-02-14 20:00:56  x     InterProcessCommRxThread_Ipc.h           ::         10.560 -1800508926 
-2016-06-18 20:17:31  x     InterProcessCommRx_ifc_Ipc.c             ::          4.574 -0838802011 
-2016-02-14 20:03:40  x     InterProcessCommRx_ifc_Ipc.h             ::          4.689 -0897988801 
+2016-10-15 19:23:03  x     InterProcessCommRxExec_Ipc.h             ::          4.390 -2144981773 
+2016-10-15 23:17:28  x     InterProcessCommRxThread_Ipc.c           ::         27.066  1590918186 
+2016-10-22 22:39:35  x     InterProcessCommRxThread_Ipc.h           ::         11.563 -1025547298 
+2016-10-15 19:23:03  x     InterProcessCommRx_ifc_Ipc.c             ::          4.613 -1088137526 
+2016-10-15 19:23:03  x     InterProcessCommRx_ifc_Ipc.h             ::          4.863 -1247225332 
 
 ============================== source/J1c/ =========================================================
-2016-10-16 22:22:50  x     ByteDataAccessBaseJc.c                   ::         69.309 -0081838336 
+2016-11-19 22:05:11  x     ByteDataAccessBaseJc.c                   ::         69.114 -1278794923 
 2016-10-16 22:24:43  x     ByteDataAccessBaseJc.h                   ::         51.263 -0932651150 
 2016-10-16 22:22:54  x     InfoFormattedAppendJc.c                  ::          6.313  2050789409 
 2016-10-16 22:22:54  x     InfoFormattedAppendJc.h                  ::          6.028  1830331161 
-2016-10-16 22:22:54  x     LeapSecondsJc.c                          ::         17.061 -1933576114 
+2016-11-19 22:05:19  x     LeapSecondsJc.c                          ::         17.046  1953596261 
 2016-10-16 22:22:54  x     LeapSecondsJc.h                          ::          5.213 -2038477627 
-2016-10-16 22:22:56  x     SpecialCharStringsJc.c                   ::          7.921  1247268881 
-2016-10-16 22:22:54  x     SpecialCharStringsJc.h                   ::          4.926 -2091354299 
-2016-10-16 22:23:13  x     StringFormatterJc.c                      ::         71.511  1541818339 
-2016-10-16 22:22:54  x     StringFormatterJc.h                      ::         27.767  2114682107 
-2016-10-16 22:23:13  x     StringFunctionsJc.c                      ::         40.989 -2030321345 
-2016-10-16 22:22:56  x     StringFunctionsJc.h                      ::         20.827 -1708280549 
-2016-10-16 22:22:56  x     StringFunctions_BJc.c                    ::         10.684 -1822479587 
-2016-10-16 22:22:56  x     StringFunctions_BJc.h                    ::          3.986 -1887553914 
+2016-12-02 23:28:50  x     SpecialCharStringsJc.c                   ::          6.579  0176712125 
+2016-12-02 23:28:49  x     SpecialCharStringsJc.h                   ::          4.623  0877186697 
+2016-12-02 23:28:51  x     StringFormatterJc.c                      ::         71.610  0388914077 
+2016-12-02 23:28:48  x     StringFormatterJc.h                      ::         27.767  2114682107 
+2016-12-02 23:28:51  x     StringFunctionsJc.c                      ::         42.220  1465873705 
+2016-12-02 23:28:50  x     StringFunctionsJc.h                      ::         21.051 -1736871768 
+2016-12-02 23:28:50  x     StringFunctions_BJc.c                    ::         11.518 -1001577402 
+2016-12-02 23:28:50  x     StringFunctions_BJc.h                    ::          4.232  1499979803 
 2016-10-16 22:23:11  x     StringFunctions_CJc.c                    ::         12.292 -1592097752 
 2016-10-16 22:23:12  x     StringFunctions_CJc.h                    ::          6.472 -0379143865 
-2016-10-16 22:23:12  x     StringPartJc.c                           ::        106.193  0937514910 
-2016-10-16 22:27:47  x     StringPartJc.h                           ::         68.337 -1638445664 
-2016-10-16 22:23:13  x     StringPartScanJc.c                       ::         38.056 -2138167289 
-2016-10-16 22:23:12  x     StringPartScanJc.h                       ::         16.797 -1336207292 
+2016-12-02 23:28:51  x     StringPartJc.c                           ::        104.582 -1269116450 
+2016-12-02 23:28:47  x     StringPartJc.h                           ::         68.364  0214803213 
+2016-12-02 23:28:51  x     StringPartScanJc.c                       ::         38.458 -0942273298 
+2016-12-02 23:28:47  x     StringPartScanJc.h                       ::         17.035  1449590065 
 
-============================== source/J1c.j2corig/ =================================================
-2016-10-03 20:32:49  x     StringPartJc.h                           ::         42.012  1957473271 
-2016-10-03 19:10:27  x     StringPartJc.h.modif                     ::         42.135 -0940893759 
-
-============================== source/J1c.origJava2C/ ==============================================
-2016-09-06 21:03:17  x     ByteDataAccessBaseJc.c                   ::         70.353 -2094040769 
-2016-09-06 21:03:16  x     ByteDataAccessBaseJc.h                   ::         40.742  0785182900 
-2016-09-06 21:03:20  x     InfoFormattedAppendJc.c                  ::          6.302  1785941675 
-2016-09-06 21:03:20  x     InfoFormattedAppendJc.h                  ::          6.027 -0562989420 
-2016-09-06 21:03:20  x     LeapSecondsJc.c                          ::         16.968 -2029680460 
-2016-09-06 21:03:20  x     LeapSecondsJc.h                          ::          4.979  1816163533 
-2016-09-06 21:03:22  x     SpecialCharStringsJc.c                   ::          7.909 -2082817249 
-2016-09-06 21:03:20  x     SpecialCharStringsJc.h                   ::          3.801 -1197116705 
-2016-09-06 21:03:34  x     StringFormatterJc.c                      ::         71.344 -1633205852 
-2016-09-06 21:03:20  x     StringFormatterJc.h                      ::         22.109  1739124243 
-2016-09-06 21:03:34  x     StringFunctionsJc.c                      ::         37.430  0706496608 
-2016-09-06 21:03:22  x     StringFunctionsJc.h                      ::         15.386 -0612948861 
-2016-09-06 21:03:22  x     StringFunctions_BJc.c                    ::         10.682  2006590191 
-2016-09-06 21:03:22  x     StringFunctions_BJc.h                    ::          3.983  0693605706 
-2016-09-06 21:03:31  x     StringFunctions_CJc.c                    ::         12.356  1912318263 
-2016-09-06 21:03:31  x     StringFunctions_CJc.h                    ::          6.000  1013305324 
-2016-09-06 21:03:32  x     StringPartJc.c                           ::        105.736  0669945738 
-2016-09-06 21:03:32  x     StringPartJc.h                           ::         42.236 -0391644406 
-2016-09-06 21:03:33  x     StringPartScanJc.c                       ::         37.399  1580774571 
-2016-09-06 21:03:33  x     StringPartScanJc.h                       ::         12.067 -1109833572 
-
-============================== source/J1c.ref2/ ====================================================
-2016-06-26 23:31:49  x     ByteDataAccessBaseJc.c                   ::         68.608 -1703208129 
-2016-06-26 23:31:49  x     ByteDataAccessBaseJc.h                   ::         39.936  1081333083 
-2016-06-26 23:31:52  x     InfoFormattedAppendJc.c                  ::          6.286 -0906707446 
-2016-06-26 23:31:52  x     InfoFormattedAppendJc.h                  ::          5.915  1335685724 
-2016-06-26 23:31:56  x     LeapSecondsJc.c                          ::         16.829  0163276957 
-2016-06-26 23:31:56  x     LeapSecondsJc.h                          ::          4.979  1816163533 
-2016-06-26 23:31:59  x     SpecialCharStringsJc.c                   ::          7.771 -0388674883 
-2016-06-26 23:31:57  x     SpecialCharStringsJc.h                   ::          3.690  1741845466 
-2016-06-26 23:32:32  x     StringFormatterJc.c                      ::         71.268 -1473667378 
-2016-07-23 23:52:39  x     StringFormatterJc.h                      ::         22.001 -1141959200 
-2016-07-24 14:01:30  x     StringFunctionsJc.c                      ::         37.176  0946171769 
-2016-06-26 23:32:32  x     StringFunctionsJc.c.bak                  ::         37.039 -1558088657 
-2016-07-24 14:01:30  x     StringFunctionsJc.h                      ::         15.278 -0232239563 
-2016-06-26 23:31:59  x     StringFunctionsJc.h.bak                  ::         15.278  1434822253 
-2016-06-26 23:31:59  x     StringFunctions_BJc.c                    ::         10.713  0556070889 
-2016-06-26 23:31:59  x     StringFunctions_BJc.h                    ::          3.873 -1031288887 
-2016-07-24 09:49:45  x     StringFunctions_CJc.c                    ::         12.107  2002521264 
-2016-06-26 23:32:07  x     StringFunctions_CJc.c.bak                ::         11.969 -1666155675 
-2016-07-24 09:49:45  x     StringFunctions_CJc.h                    ::          5.882 -0842604227 
-2016-06-26 23:32:20  x     StringFunctions_CJc.h.bak                ::          5.882 -0842604227 
-2016-07-24 14:01:44  x     StringPartJc.c                           ::         92.823  1238713974 
-2016-07-24 09:53:37  x     StringPartJc.c.bak                       ::         92.420  1321233140 
-2016-07-24 14:01:44  x     StringPartJc.h                           ::         39.746 -1183715844 
-2016-06-26 23:32:16  x     StringPartJc.h.bak                       ::         39.689  1307546765 
-2016-06-26 23:32:21  x     StringPartScanJc.c                       ::         37.398  1854925417 
-2016-06-26 23:32:20  x     StringPartScanJc.h                       ::         12.067 -1109833572 
-2016-06-26 12:03:14  x     StringPartScanJc.h.bak                   ::         12.067 -1109833572 
-
-============================== source/J1c.ref3/ ====================================================
-2016-07-29 23:34:51  x     ByteDataAccessBaseJc.c                   ::         68.610 -1876586273 
-2016-07-24 18:41:04  x     ByteDataAccessBaseJc.h                   ::         39.936  1081333083 
-2016-07-24 18:41:07  x     InfoFormattedAppendJc.c                  ::          6.286 -0906707446 
-2016-07-24 18:41:07  x     InfoFormattedAppendJc.h                  ::          5.915  1335685724 
-2016-07-24 18:41:37  x     LeapSecondsJc.c                          ::         16.829  0163276957 
-2016-07-24 18:41:37  x     LeapSecondsJc.h                          ::          4.979  1816163533 
-2016-07-24 18:41:38  x     SpecialCharStringsJc.c                   ::          7.771 -0388674883 
-2016-07-24 18:41:37  x     SpecialCharStringsJc.h                   ::          3.690  1741845466 
-2016-07-29 23:33:09  x     StringFormatterJc.c                      ::         71.120  0675253734 
-2016-07-24 18:38:37  x     StringFormatterJc.c.bak                  ::         71.120  0675253734 
-2016-07-24 18:41:07  x     StringFormatterJc.h                      ::         22.001 -1141959200 
-2016-07-24 18:41:48  x     StringFunctionsJc.c                      ::         37.176  0946171769 
-2016-07-24 18:41:38  x     StringFunctionsJc.h                      ::         15.278 -0232239563 
-2016-07-24 18:41:38  x     StringFunctions_BJc.c                    ::         10.641  0985339787 
-2016-07-24 18:41:38  x     StringFunctions_BJc.h                    ::          3.873 -1031288887 
-2016-07-24 18:41:45  x     StringFunctions_CJc.c                    ::         12.107  2002521264 
-2016-07-24 18:41:45  x     StringFunctions_CJc.h                    ::          5.882 -0842604227 
-2016-07-24 18:41:47  x     StringPartJc.c                           ::         92.677 -1884389733 
-2016-07-24 18:41:47  x     StringPartJc.h                           ::         39.746 -1183715844 
-2016-07-24 18:41:48  x     StringPartScanJc.c                       ::         37.402  0924823830 
-2016-07-24 18:41:47  x     StringPartScanJc.h                       ::         12.067 -1109833572 
-2016-07-24 16:13:44  x     StringPartScanJc.h.bak                   ::         12.067 -1109833572 
-
-============================== source/J1c.ref4/ ====================================================
-2016-09-04 09:29:58  x     ByteDataAccessBaseJc.c                   ::         70.353 -2094040769 
-2016-09-04 09:29:58  x     ByteDataAccessBaseJc.h                   ::         40.742  0785182900 
-2016-09-04 09:30:01  x     InfoFormattedAppendJc.c                  ::          6.302  1785941675 
-2016-09-04 09:30:01  x     InfoFormattedAppendJc.h                  ::          6.027 -0562989420 
-2016-09-04 09:30:01  x     LeapSecondsJc.c                          ::         16.968 -2029680460 
-2016-09-04 09:30:01  x     LeapSecondsJc.h                          ::          4.979  1816163533 
-2016-09-04 09:06:11  x     LeapSecondsJc.h.bak                      ::          4.979  1816163533 
-2016-09-04 09:30:02  x     SpecialCharStringsJc.c                   ::          7.909 -2082817249 
-2016-09-04 09:30:01  x     SpecialCharStringsJc.h                   ::          3.801 -1197116705 
-2016-09-04 09:30:15  x     StringFormatterJc.c                      ::         71.344 -1633205852 
-2016-09-04 09:30:01  x     StringFormatterJc.h                      ::         22.109  1739124243 
-2016-09-04 09:30:15  x     StringFunctionsJc.c                      ::         37.430  0706496608 
-2016-09-04 09:30:02  x     StringFunctionsJc.h                      ::         15.386 -0612948861 
-2016-09-04 09:30:03  x     StringFunctions_BJc.c                    ::         10.682  2006590191 
-2016-09-04 09:30:03  x     StringFunctions_BJc.h                    ::          3.983  0693605706 
-2016-09-04 09:30:14  x     StringFunctions_CJc.c                    ::         12.356  1912318263 
-2016-09-04 09:30:14  x     StringFunctions_CJc.h                    ::          6.000  1013305324 
-2016-09-04 13:09:56  x     StringPartJc.c                           ::        105.797 -0987144832 
-2016-09-04 09:30:13  x     StringPartJc.c.bak                       ::        106.551  1770476111 
-2016-09-04 13:10:11  x     StringPartJc.h                           ::         42.212  0629850782 
-2016-09-04 09:30:14  x     StringPartJc.h.bak                       ::         42.346 -0135533595 
-2016-09-04 09:30:14  x     StringPartScanJc.c                       ::         37.399  1580774571 
-2016-09-04 09:30:14  x     StringPartScanJc.h                       ::         12.067 -1109833572 
-
-============================== source/J1c.ref5/ ====================================================
-2016-10-02 17:37:24  x     ByteDataAccessBaseJc.c                   ::         71.164 -1043479679 
-2016-10-02 17:37:24  x     ByteDataAccessBaseJc.h                   ::         40.796  0749423169 
-2016-10-02 17:37:26  x     InfoFormattedAppendJc.c                  ::          6.313  2050789409 
-2016-10-02 17:37:26  x     InfoFormattedAppendJc.h                  ::          6.026  1665492861 
-2016-10-02 17:37:27  x     LeapSecondsJc.c                          ::         17.049 -2104123036 
-2016-10-02 17:37:27  x     LeapSecondsJc.h                          ::          4.977  1248258273 
-2016-10-02 17:37:28  x     SpecialCharStringsJc.c                   ::          7.933 -0984024885 
-2016-10-02 17:37:27  x     SpecialCharStringsJc.h                   ::          3.800  1794575786 
-2016-10-02 17:37:37  x     StringFormatterJc.c                      ::         71.706 -2037049347 
-2016-10-02 17:37:26  x     StringFormatterJc.h                      ::         22.002 -0851174136 
-2016-10-02 17:37:37  x     StringFunctionsJc.c                      ::         41.210  0402475293 
-2016-10-02 17:37:28  x     StringFunctionsJc.h                      ::         15.912 -0187911046 
-2016-10-02 17:37:29  x     StringFunctions_BJc.c                    ::         10.694  1381211293 
-2016-10-02 17:37:29  x     StringFunctions_BJc.h                    ::          3.984 -1876542126 
-2016-10-02 17:37:35  x     StringFunctions_CJc.c                    ::         12.421  0117781493 
-2016-10-02 17:37:36  x     StringFunctions_CJc.h                    ::          6.008 -2115241543 
-2016-10-02 17:37:36  x     StringPartJc.c                           ::        106.970 -2065935945 
-2016-10-02 17:48:33  x     StringPartJc.h                           ::         42.129  0394631981 
-2016-10-02 17:37:36  x     StringPartScanJc.c                       ::         38.211 -1401429675 
-2016-10-02 17:37:36  x     StringPartScanJc.h                       ::         12.160  0897238808 
-
-============================== source/J1c.ref6/ ====================================================
-2016-09-04 09:29:58  x     ByteDataAccessBaseJc.c                   ::         70.353 -2094040769 
-2016-09-04 09:29:58  x     ByteDataAccessBaseJc.h                   ::         40.742  0785182900 
-2016-09-04 09:30:01  x     InfoFormattedAppendJc.c                  ::          6.302  1785941675 
-2016-09-04 09:30:01  x     InfoFormattedAppendJc.h                  ::          6.027 -0562989420 
-2016-09-04 09:30:01  x     LeapSecondsJc.c                          ::         16.968 -2029680460 
-2016-09-04 09:30:01  x     LeapSecondsJc.h                          ::          4.979  1816163533 
-2016-09-04 09:30:02  x     SpecialCharStringsJc.c                   ::          7.909 -2082817249 
-2016-09-04 09:30:01  x     SpecialCharStringsJc.h                   ::          3.801 -1197116705 
-2016-09-04 09:30:15  x     StringFormatterJc.c                      ::         71.344 -1633205852 
-2016-09-04 09:30:01  x     StringFormatterJc.h                      ::         22.109  1739124243 
-2016-09-04 09:30:15  x     StringFunctionsJc.c                      ::         37.430  0706496608 
-2016-09-04 09:30:02  x     StringFunctionsJc.h                      ::         15.386 -0612948861 
-2016-09-04 09:30:03  x     StringFunctions_BJc.c                    ::         10.682  2006590191 
-2016-09-04 09:30:03  x     StringFunctions_BJc.h                    ::          3.983  0693605706 
-2016-09-04 09:30:14  x     StringFunctions_CJc.c                    ::         12.356  1912318263 
-2016-09-04 09:30:14  x     StringFunctions_CJc.h                    ::          6.000  1013305324 
-2016-09-04 13:09:56  x     StringPartJc.c                           ::        105.797 -0987144832 
-2016-09-04 13:10:11  x     StringPartJc.h                           ::         42.212  0629850782 
-2016-09-04 09:30:14  x     StringPartScanJc.c                       ::         37.399  1580774571 
-2016-09-04 09:30:14  x     StringPartScanJc.h                       ::         12.067 -1109833572 
-
-============================== source/J1c.refOk/ ===================================================
-2016-10-11 23:11:07  x     ByteDataAccessBaseJc.c                   ::         69.957  0858225166 
+============================== source/J1c.ref/ =====================================================
+2016-11-19 22:05:11  x     ByteDataAccessBaseJc.c                   ::         69.114 -1278794923 
 2016-10-11 23:19:53  x     ByteDataAccessBaseJc.h                   ::         51.264  1845419807 
 2016-10-03 21:44:39  x     InfoFormattedAppendJc.c                  ::          6.313  2050789409 
 2016-10-03 21:44:39  x     InfoFormattedAppendJc.h                  ::          6.028  1830331161 
-2016-10-03 21:44:39  x     LeapSecondsJc.c                          ::         17.061 -1933576114 
+2016-11-19 22:05:19  x     LeapSecondsJc.c                          ::         17.046  1953596261 
 2016-10-03 21:44:39  x     LeapSecondsJc.h                          ::          5.213 -2038477627 
 2016-10-03 21:44:40  x     SpecialCharStringsJc.c                   ::          7.921  1247268881 
 2016-10-03 21:44:39  x     SpecialCharStringsJc.h                   ::          4.926 -2091354299 
-2016-10-03 21:44:48  x     StringFormatterJc.c                      ::         71.511  1541818339 
+2016-11-19 22:05:33  x     StringFormatterJc.c                      ::         71.451 -1308204537 
 2016-10-03 21:44:39  x     StringFormatterJc.h                      ::         27.767  2114682107 
-2016-10-03 21:44:48  x     StringFunctionsJc.c                      ::         40.989 -2030321345 
+2016-11-19 22:05:57  x     StringFunctionsJc.c                      ::         40.974 -0681503598 
 2016-10-03 21:44:40  x     StringFunctionsJc.h                      ::         20.827 -1708280549 
 2016-10-03 21:44:41  x     StringFunctions_BJc.c                    ::         10.684 -1822479587 
 2016-10-03 21:44:41  x     StringFunctions_BJc.h                    ::          3.986 -1887553914 
-2016-10-15 19:23:02  x     StringFunctions_CJc.c                    ::         12.481  0411241777 
+2016-10-16 22:23:11  x     StringFunctions_CJc.c                    ::         12.292 -1592097752 
 2016-10-15 19:23:02  x     StringFunctions_CJc.h                    ::          6.472 -0379143865 
-2016-10-03 21:44:47  x     StringPartJc.c                           ::        106.464 -0827416763 
+2016-11-19 22:06:10  x     StringPartJc.c                           ::        106.118 -2082971770 
 2016-10-03 21:49:00  x     StringPartJc.h                           ::         68.337 -1638445664 
-2016-10-03 21:44:48  x     StringPartScanJc.c                       ::         38.056 -2138167289 
+2016-11-19 22:06:21  x     StringPartScanJc.c                       ::         37.921 -1422672415 
 2016-10-03 21:44:38  x     StringPartScanJc.h                       ::         16.797 -1336207292 
 
 ============================== source/Jc/ ==========================================================
@@ -514,42 +366,26 @@
 2016-11-13 09:51:08  x     TimeZoneJc.c                             ::          2.207  1614119711 
 
 ============================== source/MsgDisp/ =====================================================
-2016-10-03 21:44:35  x     LogMessageFile_MSG.c                     ::         51.175 -0940565927 
-2016-10-03 21:44:34  x     LogMessageFile_MSG.h                     ::         14.676  1739309352 
-2016-10-03 21:44:47  x     MsgDispatcherCore_MSG.c                  ::         38.394  1540344179 
+2016-12-02 23:28:41  x     LogMessageFile_MSG.c                     ::         51.288 -0528886285 
+2016-12-02 23:28:40  x     LogMessageFile_MSG.h                     ::         14.676  1739309352 
+2016-11-19 22:06:53  x     MsgDispatcherCore_MSG.c                  ::         38.379 -1039389428 
 2016-10-03 21:44:35  x     MsgDispatcherCore_MSG.h                  ::         21.583  0732366046 
-2016-10-03 21:44:38  x     MsgDispatcher_MSG.c                      ::         44.384  1745951869 
-2016-10-03 21:44:36  x     MsgDispatcher_MSG.h                      ::         11.463  0372956583 
+2016-12-02 23:28:47  x     MsgDispatcher_MSG.c                      ::         44.433  1082087178 
+2016-12-02 23:28:42  x     MsgDispatcher_MSG.h                      ::         11.463  0372956583 
 2016-10-03 21:44:47  x     MsgText_ifc_MSG.c                        ::          7.761 -0532743235 
 2016-10-03 21:44:35  x     MsgText_ifc_MSG.h                        ::          7.029 -2030072739 
 2013-03-02 19:28:26  x     VaArgBuffer.c                            ::          6.984 -0985212968 
 2013-03-02 19:28:26  x     VaArgBuffer.h                            ::          3.179 -0619982666 
 
-============================== source/MsgDisp.ref1/ ================================================
-2016-07-24 21:47:22  x     LogMessageFile_MSG.c                     ::         51.111 -0254569675 
-2016-07-24 21:35:39  x     LogMessageFile_MSG.c.bak                 ::         51.092  2074238838 
-2016-07-24 21:45:59  x     LogMessageFile_MSG.h                     ::         14.544 -1469509818 
-2016-07-24 20:45:57  x     LogMessageFile_MSG.h.bak                 ::         14.573 -2067751636 
-2016-07-24 20:46:07  x     MsgDispatcherCore_MSG.c                  ::         38.205  1127301265 
-2016-07-24 20:45:57  x     MsgDispatcherCore_MSG.h                  ::         20.056  1603713561 
-2016-07-24 20:46:04  x     MsgDispatcher_MSG.c                      ::         44.414 -0064410635 
-2016-07-24 20:46:00  x     MsgDispatcher_MSG.h                      ::         10.801  0713562131 
-2016-07-24 20:46:07  x     MsgText_ifc_MSG.c                        ::          7.763  1784698674 
-2016-07-24 20:45:57  x     MsgText_ifc_MSG.h                        ::          7.028  0992628302 
-2013-03-02 19:28:26  x     VaArgBuffer.c                            ::          6.984 -0985212968 
-2013-03-02 19:28:26  x     VaArgBuffer.h                            ::          3.179 -0619982666 
-
-============================== source/MsgDisp.ref2/ ================================================
-2016-10-02 18:43:14  x     LogMessageFile_MSG.c                     ::         51.120 -1530634067 
-2016-10-02 13:32:22  x     LogMessageFile_MSG.c.bak                 ::         51.114  0312918511 
-2016-10-02 18:43:14  x     LogMessageFile_MSG.h                     ::         14.369  1595734373 
-2016-10-02 13:32:22  x     LogMessageFile_MSG.h.bak                 ::         14.551 -1194976820 
-2016-10-02 13:32:35  x     MsgDispatcherCore_MSG.c                  ::         38.196  0349921786 
-2016-10-02 13:32:22  x     MsgDispatcherCore_MSG.h                  ::         20.057 -0262756666 
-2016-10-02 13:32:25  x     MsgDispatcher_MSG.c                      ::         44.429 -1012749907 
-2016-10-02 13:32:23  x     MsgDispatcher_MSG.h                      ::         10.799  0515170020 
+============================== source/MsgDisp.ref/ =================================================
+2016-11-19 22:06:40  x     LogMessageFile_MSG.c                     ::         51.160 -0629730326 
+2016-10-03 21:44:34  x     LogMessageFile_MSG.h                     ::         14.676  1739309352 
+2016-11-19 22:06:53  x     MsgDispatcherCore_MSG.c                  ::         38.379 -1039389428 
+2016-10-03 21:44:35  x     MsgDispatcherCore_MSG.h                  ::         21.583  0732366046 
+2016-10-03 21:44:38  x     MsgDispatcher_MSG.c                      ::         44.384  1745951869 
+2016-10-03 21:44:36  x     MsgDispatcher_MSG.h                      ::         11.463  0372956583 
 2016-10-02 13:32:35  x     MsgText_ifc_MSG.c                        ::          7.761 -0532743235 
-2016-10-02 13:32:22  x     MsgText_ifc_MSG.h                        ::          7.028  0992628302 
+2016-10-03 21:44:35  x     MsgText_ifc_MSG.h                        ::          7.029 -2030072739 
 2013-03-02 19:28:26  x     VaArgBuffer.c                            ::          6.984 -0985212968 
 2013-03-02 19:28:26  x     VaArgBuffer.h                            ::          3.179 -0619982666 
 
@@ -560,7 +396,7 @@
 ============================== source/refl/ ========================================================
 2016-10-02 19:15:04  x     Reflection_AllJc.c                       ::         55.813  0008076486 
 2016-10-02 18:39:49  x     Reflection_AllJc.h                       ::          4.428 -1492701228 
-2016-10-02 17:39:28  x     Reflection_Fwc.c                         ::         35.833  1271622559 
+2016-11-23 22:53:30  x     Reflection_Fwc.c                         ::         33.863  1120160805 
 2016-10-02 17:39:28  x     Reflection_Fwc.h                         ::          2.234  0278580234 
 2016-10-02 17:39:43  x     Reflection_Inspc.c                       ::         21.013 -0441730762 
 2016-10-02 17:39:43  x     Reflection_Inspc.h                       ::          1.221 -0869801016 
@@ -630,7 +466,7 @@
 2016-02-14 20:10:49  x     os_mutex.c                               ::          6.425 -0220535384 
 2016-02-14 20:11:33  x     os_socket.c                              ::         20.718  1443759158 
 2015-08-13 20:37:37  x     os_sync.c                                ::          7.326 -0910519233 
-2016-02-14 20:11:46  x     os_thread.c                              ::         25.396 -1512890162 
+2016-11-18 23:11:01  x     os_thread.c                              ::         25.396 -1512890162 
 2016-02-14 20:11:57  x     os_time.c                                ::          4.173  1715548867 
 
 ============================== src_Test/ ==========================================================
@@ -648,13 +484,13 @@
 2013-02-27 21:14:16  x     fw_VaArg.stc                             ::           .553 -1745105336 
 
 ============================== stc/Fwc/stcCmp/ =====================================================
-2016-10-22 20:01:21  x     fw_Exception.stc                         ::          3.463  1771112906 
-2016-10-22 20:01:37  x     fw_LogMessage.stc                        ::          1.644  0055569762 
+2016-12-02 23:31:13  x     fw_Exception.stc                         ::          3.463  1771112906 
+2016-12-02 23:31:20  x     fw_LogMessage.stc                        ::          1.644  0055569762 
 
 ============================== stc/InspcJ2c/ =======================================================
 2016-10-22 20:01:38  x     AnswerComm_ifc_Inspc.stc                 ::           .559  1977160144 
 2015-08-04 12:20:43  x     AnswerComm_ifc_Inspc.stc.bak             ::           .546 -0095304895 
-2016-10-22 20:01:40  x     ClassContent_Inspc.stc                   ::          5.582 -1914581886 
+2016-12-02 23:31:20  x     ClassContent_Inspc.stc                   ::          5.582 -1914581886 
 2016-03-24 22:46:09  x     ClassContent_Inspc.stc.bak               ::          5.549  0006357960 
 2016-10-22 20:01:41  x     CmdConsumer_ifc_Inspc.stc                ::           .854  0847103907 
 2015-08-04 12:20:45  x     CmdConsumer_ifc_Inspc.stc.bak            ::           .842 -2104399695 
@@ -690,19 +526,19 @@
 2016-06-25 23:01:02  x     InfoFormattedAppendJc.stc.bak            ::          1.183 -0750509034 
 2016-10-16 22:22:54  x     LeapSecondsJc.stc                        ::          1.033  0772673898 
 2016-06-25 23:01:12  x     LeapSecondsJc.stc.bak                    ::          1.047  1330227964 
-2016-10-16 22:22:56  x     SpecialCharStringsJc.stc                 ::           .617 -1400268914 
+2016-12-02 23:28:50  x     SpecialCharStringsJc.stc                 ::           .569 -1024516051 
 2016-06-25 23:01:13  x     SpecialCharStringsJc.stc.bak             ::           .649  0686757184 
-2016-10-16 22:23:13  x     StringFormatterJc.stc                    ::          6.600  2060375621 
+2016-12-02 23:28:51  x     StringFormatterJc.stc                    ::          6.600  2060375621 
 2016-06-25 23:01:33  x     StringFormatterJc.stc.bak                ::          6.737 -0772154107 
-2016-10-16 22:23:13  x     StringFunctionsJc.stc                    ::          5.223 -0018676995 
+2016-12-02 23:28:51  x     StringFunctionsJc.stc                    ::          5.275 -1205730108 
 2016-06-25 23:01:33  x     StringFunctionsJc.stc.bak                ::          5.135 -1841816015 
-2016-10-16 22:22:56  x     StringFunctions_BJc.stc                  ::           .863 -1831137586 
+2016-12-02 23:28:50  x     StringFunctions_BJc.stc                  ::           .980  0460417047 
 2016-06-25 23:01:15  x     StringFunctions_BJc.stc.bak              ::           .877  0436957066 
 2016-10-16 22:23:09  x     StringFunctions_CJc.stc                  ::          1.544  2049769090 
 2016-06-25 23:01:23  x     StringFunctions_CJc.stc.bak              ::          1.680  0251090530 
-2016-10-16 22:23:11  x     StringPartJc.stc                         ::         13.989  0797100809 
+2016-12-02 23:28:51  x     StringPartJc.stc                         ::         13.754 -0369755728 
 2016-06-25 23:01:29  x     StringPartJc.stc.bak                     ::         14.036  1347807622 
-2016-10-16 22:23:13  x     StringPartScanJc.stc                     ::          4.934  0477385852 
+2016-12-02 23:28:51  x     StringPartScanJc.stc                     ::          4.784 -0854480482 
 2016-06-25 23:01:30  x     StringPartScanJc.stc.bak                 ::          4.960  1687000600 
 
 ============================== stc/Jc/ =============================================================
@@ -715,7 +551,7 @@
 2016-06-26 23:30:19  x     FileIoJc.stc                             ::          2.957  1755661050 
 2013-02-26 20:27:20  x     FileNioJc.stc                            ::           .517 -0737067667 
 2011-06-05 07:59:46  x     FileSystemJc.stc                         ::           .467  2039121675 
-2014-01-10 22:49:10  x     FormatterJc.stc                          ::          1.159 -2062690513 
+2016-12-02 23:28:23  x     FormatterJc.stc                          ::          1.192 -1670141453 
 2010-12-28 21:31:22  x     LinkedListJc.stc                         ::           .489 -0853339607 
 2010-08-18 23:29:56  x     LocaleJc.stc                             ::           .345 -0551007091 
 2013-02-26 20:37:52  x     MathJc.stc                               ::          1.330 -1490274085 
@@ -732,38 +568,38 @@
 2016-09-10 22:36:52  x     javaLangTextJc.stc                       ::           .977  0002319890 
 
 ============================== stc/Jc/stcCmp/ ======================================================
-2016-10-22 20:01:22  x     ArraysJc.stc                             ::          1.813  0269408370 
+2016-12-02 23:31:14  x     ArraysJc.stc                             ::          1.813  0269408370 
 2015-08-04 12:20:45  x     AssertJc.stc                             ::           .581  1180611591 
 2010-08-01 12:30:58  x     ByteArrayJc.stc                          ::           .417  0911942648 
-2016-10-22 20:01:21  x     CharsetJc.stc                            ::           .499  1617003894 
-2016-10-16 22:22:51  x     CollectionJc.stc                         ::           .505  0407628235 
-2016-10-16 22:22:50  x     ConcurrentLinkedQueueJc.stc              ::          1.238  1242234391 
-2016-10-16 22:22:53  x     DateJc.stc                               ::           .685  1152945500 
-2016-10-22 20:01:41  x     FileIoJc.stc                             ::          3.303 -0216852027 
+2016-12-02 23:31:13  x     CharsetJc.stc                            ::           .499  1617003894 
+2016-12-02 23:28:40  x     CollectionJc.stc                         ::           .505  0407628235 
+2016-12-02 23:28:40  x     ConcurrentLinkedQueueJc.stc              ::          1.238  1242234391 
+2016-12-02 23:28:48  x     DateJc.stc                               ::           .685  1152945500 
+2016-12-02 23:31:13  x     FileIoJc.stc                             ::          3.303 -0216852027 
 2012-02-22 16:25:18  x     FileSystemJc.stc                         ::           .554  0561994238 
-2016-10-03 21:44:35  x     FormatterJc.stc                          ::          1.554  0902817132 
-2016-10-16 22:22:50  x     JavaLangTextJc.stc                       ::          1.209 -1028633785 
+2016-12-02 23:28:41  x     FormatterJc.stc                          ::          1.587  1984828847 
+2016-12-02 23:28:40  x     JavaLangTextJc.stc                       ::          1.209 -1028633785 
 2016-10-03 16:21:58  x     LinkedListJc.stc                         ::           .618 -0086632550 
-2016-10-16 22:22:51  x     LocaleJc.stc                             ::           .436  0696279234 
-2016-10-22 20:01:38  x     MathJc.stc                               ::          1.280 -0995421599 
-2016-10-22 20:01:21  x     ObjectJc.stc                             ::           .563  0329231188 
+2016-12-02 23:28:40  x     LocaleJc.stc                             ::           .436  0696279234 
+2016-12-02 23:28:51  x     MathJc.stc                               ::          1.280 -0995421599 
+2016-12-02 23:31:14  x     ObjectJc.stc                             ::           .563  0329231188 
 2010-12-26 13:02:04  x     ReflectionJc.stc                         ::          1.321  1040425551 
-2016-10-22 20:01:37  x     ReflectionVishia.stc                     ::          5.731 -1809306394 
-2016-10-22 20:01:38  x     RunnableJc.stc                           ::           .431  0395098158 
-2016-10-22 20:01:21  x     StringBufferJc.stc                       ::          4.789  1945433001 
-2016-10-22 20:01:22  x     StringBuilderJc.stc                      ::          5.004 -0582400070 
-2016-10-22 20:01:22  x     SystemJc.stc                             ::          2.053  1451775798 
-2016-10-22 20:01:38  x     ThreadJc.stc                             ::          1.376 -2143229129 
-2016-10-16 22:22:50  x     TimeZoneJc.stc                           ::           .477  1807807872 
-2016-10-22 20:01:37  x     bridgeC.stc                              ::          2.680  0709725433 
+2016-12-02 23:31:20  x     ReflectionVishia.stc                     ::          5.731 -1809306394 
+2016-12-02 23:31:15  x     RunnableJc.stc                           ::           .431  0395098158 
+2016-12-02 23:31:14  x     StringBufferJc.stc                       ::          4.789  1945433001 
+2016-12-02 23:31:14  x     StringBuilderJc.stc                      ::          5.004 -0582400070 
+2016-12-02 23:31:14  x     SystemJc.stc                             ::          2.053  1451775798 
+2016-12-02 23:31:15  x     ThreadJc.stc                             ::          1.376 -2143229129 
+2016-12-02 23:28:40  x     TimeZoneJc.stc                           ::           .477  1807807872 
+2016-12-02 23:31:20  x     bridgeC.stc                              ::          2.680  0709725433 
 2010-12-03 21:10:08  x     byteDataJc.stc                           ::          1.621  1760744617 
 
 ============================== stc/MsgDisp/ ========================================================
-2016-10-03 21:44:35  x     LogMessageFile_MSG.stc                   ::          5.316 -0288537558 
+2016-12-02 23:28:41  x     LogMessageFile_MSG.stc                   ::          5.316 -0288537558 
 2016-07-24 19:55:34  x     LogMessageFile_MSG.stc.bak               ::          5.352 -1267162986 
 2016-10-03 21:44:47  x     MsgDispatcherCore_MSG.stc                ::          7.384 -0991542205 
 2016-07-24 19:55:43  x     MsgDispatcherCore_MSG.stc.bak            ::          7.434  1578033059 
-2016-10-03 21:44:38  x     MsgDispatcher_MSG.stc                    ::          5.999 -0318359485 
+2016-12-02 23:28:47  x     MsgDispatcher_MSG.stc                    ::          5.999 -0318359485 
 2016-07-24 19:55:40  x     MsgDispatcher_MSG.stc.bak                ::          6.155 -0445973089 
 2016-10-03 21:44:47  x     MsgText_ifc_MSG.stc                      ::          1.508  1314794246 
 2016-07-24 19:55:41  x     MsgText_ifc_MSG.stc.bak                  ::          1.536 -1423034570 
