@@ -230,7 +230,7 @@ struct StringPartJc_t* assign_Cs_StringPartJc(StringPartJc_s* thiz, CharSeqJc re
   { 
     
     thiz->content = ref;
-    setParttoMax_StringPartJc(thiz);
+    setParttoMax_StringPartJc(thiz, _thCxt);
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -446,13 +446,28 @@ bool setIgnoreWhitespaces_StringPartJc(StringPartJc_s* thiz, bool bSet, ThCxt* _
 
 
 /**Sets the start of the maximal part to the actual start of the valid part.*/
-struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thiz)
 { 
-  STACKTRC_TENTRY("setBeginMaxPart_StringPartJc");
   
   { 
     
     thiz->begiMin = thiz->begin;
+    
+      return thiz;
+  }
+}
+
+
+/**Sets the full range of available text.*/
+struct StringPartJc_t* setParttoMax_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("setParttoMax_StringPartJc");
+  
+  { 
+    
+    thiz->begiMin = thiz->beginLast = /*? assignment*/thiz->begin = /*? assignment*/0;
+    thiz->endMax = thiz->end = /*? assignment*/thiz->endLast = /*? assignment*/length_CharSeqJc(thiz->content/*J1cT2*/, _thCxt);
+    thiz->bStartScan = thiz->bCurrentOk = /*? assignment*/true;
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -462,9 +477,8 @@ struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt*
 
 
 /**Sets the start of the part to the exclusively end, set the end to the end of the content.*/
-struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz)
 { 
-  STACKTRC_TENTRY("fromEnd_StringPartJc");
   
   { 
     
@@ -472,11 +486,9 @@ struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
     thiz->endLast = thiz->end;
     thiz->begin = thiz->end;
     thiz->end = thiz->endMax;
-    { STACKTRC_LEAVE;
+    
       return thiz;
-    }
   }
-  STACKTRC_LEAVE;
 }
 
 
@@ -491,6 +503,20 @@ char charAt_i_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt)
     { STACKTRC_LEAVE;
       return absCharAt_StringPartJc(thiz, thiz->begin + index, _thCxt);
     }
+  }
+  STACKTRC_LEAVE;
+}
+
+bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("checkCharAt_StringPartJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return (thiz->begin + pos >= thiz->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc((&(* (thiz)).base.object)/*J2cT1*/, pos, _thCxt)) >= 0;
+    }/*char found.*/
+    
   }
   STACKTRC_LEAVE;
 }
@@ -558,20 +584,16 @@ int32 length_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
 
 
 /**Returns the lenght of the maximal part from current position. Returns also 0 if no string is valid.*/
-int32 lengthMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+int32 lengthMaxPart_StringPartJc(StringPartJc_s* thiz)
 { 
-  STACKTRC_TENTRY("lengthMaxPart_StringPartJc");
   
   { 
     
-    if(thiz->endMax > thiz->begin) { STACKTRC_LEAVE;
+    if(thiz->endMax > thiz->begin) 
       return thiz->endMax - thiz->begin;
-    }
-    else { STACKTRC_LEAVE;
+    else 
       return 0;
-    }
   }
-  STACKTRC_LEAVE;
 }
 
 
@@ -913,21 +935,21 @@ struct StringPartJc_t* nextlineMaxpart_StringPartJc(StringPartJc_s* thiz, ThCxt*
     else 
     { 
       
-      if(checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\n"))) 
+      if(checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\n"), _thCxt)) 
       { 
         
         seekPos_StringPartJc(thiz, 1, _thCxt);
-        if(found_StringPartJc(thiz, _thCxt) && checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\r"))) 
+        if(found_StringPartJc(thiz, _thCxt) && checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\r"), _thCxt)) 
         { 
           
           seekPos_StringPartJc(thiz, 1, _thCxt);
         }
       }
-      if(checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\r"))) 
+      if(checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\r"), _thCxt)) 
       { 
         
         seekPos_StringPartJc(thiz, 1, _thCxt);
-        if(found_StringPartJc(thiz, _thCxt) && checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\n"))) 
+        if(found_StringPartJc(thiz, _thCxt) && checkCharAt_StringPartJc(thiz, 0, s0_StringJc("\n"), _thCxt)) 
         { 
           
           seekPos_StringPartJc(thiz, 1, _thCxt);
@@ -2677,17 +2699,11 @@ char absCharAt_StringPartJc(StringPartJc_s* thiz, int32 index, ThCxt* _thCxt)
     }
     else 
     { 
-       /*J2C: temporary Stringbuffer for String concatenation*/
-      StringBuilderJc* _tempString3_1=null; 
       
-      { throw_sJc(ident_IllegalArgumentExceptionJc, 
-        ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
-        , append_z_StringBuilderJc(_tempString3_1, "StringPartBase.charAt - faulty; ", _thCxt)
-        , append_I_StringBuilderJc(_tempString3_1, index, _thCxt)
-        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
-      activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
+      throwIllegalArgumentException_StringPartJc(/*J2C:static method call*/s0_StringJc("StringPartBase.charAt - faulty; "), index, _thCxt);
+      { STACKTRC_LEAVE;
+        return ((char)(0));
+      }
     }
   }
   STACKTRC_LEAVE;
@@ -2726,17 +2742,11 @@ StringJc absSubString_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, T
     }
     else 
     { 
-       /*J2C: temporary Stringbuffer for String concatenation*/
-      StringBuilderJc* _tempString3_1=null; 
       
-      { throw_sJc(ident_IllegalArgumentExceptionJc, 
-        ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
-        , append_z_StringBuilderJc(_tempString3_1, "StringPartBase.subSequence - faulty; ", _thCxt)
-        , append_I_StringBuilderJc(_tempString3_1, from, _thCxt)
-        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, &_thCxt->stacktrc, __LINE__); return null_StringJc; };
-      activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
+      throwIllegalArgumentException_StringPartJc(/*J2C:static method call*/s0_StringJc("StringPartBase.subSequence - faulty; "), from, _thCxt);
+      { STACKTRC_LEAVE;
+        return s0_StringJc("");
+      }
     }
   }
   STACKTRC_LEAVE;
@@ -2828,6 +2838,17 @@ void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc 
   STACKTRC_LEAVE;
 }
 
+void throwIllegalArgumentException_StringPartJc(/*J2C:static method*/ StringJc msg, int32 value, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("throwIllegalArgumentException_StringPartJc");
+  
+  { 
+    
+    { throw_sJc(ident_IllegalArgumentExceptionJc, msg, value, &_thCxt->stacktrc, __LINE__); };
+  }
+  STACKTRC_LEAVE;
+}
+
 
 /**Closes the work. This routine should be called if the StringPart is never used, */
 void close_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
@@ -2867,7 +2888,10 @@ CharSeqJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y*
     if(nrofToken != value->head.length) 
     { 
       
-      { throw_s0Jc(ident_IllegalArgumentExceptionJc, "token and value should have same size, lesser 20", 0, &_thCxt->stacktrc, __LINE__); return 0; };
+      throwIllegalArgumentException_StringPartJc(/*J2C:static method call*/s0_StringJc("token and value should have same size, lesser 20"), nrofToken, _thCxt);
+      { STACKTRC_LEAVE;
+        return src;
+      }
     }
     if(dst == null) 
     { 

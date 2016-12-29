@@ -44,8 +44,11 @@ typedef struct TimeSignals_Inspc_t
   /**Only for 4-byte-alignment.  @refl:hide. */
   int16 dummy1;
   
+  #define zya_TimeSignals_Inspc 6
+  //NOTE: Use value of 6 for array length for better readability + reflection generation, it cannot process symbolics.
   /**Belegung von max. 16 floats bis zu 6-er Vektor oder 3 mal complex stimuliert. Verwendung bei [[step_TimeSignals_Inspc(...)]]*/
-  float ya[16][6];
+  float ya0[6], ya1[6], ya2[6], ya3[6], ya4[6], ya5[6], ya6[6], ya7[6];
+  float ya8[6], ya9[6], ya10[6], ya11[6], ya12[6], ya13[6], ya14[6], ya15[6];
 
   //float_complex dummyFloatComplex;
 
@@ -71,7 +74,8 @@ typedef struct TimeSignals_Inspc_t
   /**Parametrized signal names. */
   char names[16][32];
 
-  int32 isComplex;
+  /**Je 1 bit fuer Ausgang ist complex. */
+  int32 bitsComplexY;
 
   int8 nrElements[16];
 

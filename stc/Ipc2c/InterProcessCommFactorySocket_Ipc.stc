@@ -17,8 +17,8 @@ fieldIdents {
   }
 
   castTo {
-    org/vishia/communication/InterProcessCommFactory: $ "(?).base/*J2C_super:*/.super" $;
-    java/lang/Object: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.object" $;
+    org/vishia/communication/InterProcessCommFactory: $ "(?).base.super" $;
+    java/lang/Object: $ "(?).base.super.base.object" $;
   }
 
 }

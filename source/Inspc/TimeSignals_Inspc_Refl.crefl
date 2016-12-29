@@ -112,9 +112,9 @@ extern_C const ClassJc reflection_ObjectJc;
 extern_C const ClassJc reflection_Entries_TimeSignals_Inspc;
 const struct Reflection_Fields_TimeSignals_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[13];
+  FieldJc data[28];
 } reflection_Fields_TimeSignals_Inspc =
-{ CONST_ObjectArrayJc(FieldJc, 13, OBJTYPE_FieldJc, null, &reflection_Fields_TimeSignals_Inspc)
+{ CONST_ObjectArrayJc(FieldJc, 28, OBJTYPE_FieldJc, null, &reflection_Fields_TimeSignals_Inspc)
 , {
     { "base"
     , 0   //no Array, no Bitfield
@@ -140,11 +140,131 @@ const struct Reflection_Fields_TimeSignals_Inspc_t
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }
-  , { "ya"
-    , 16   //nrofArrayElements
+  , { "ya0"
+    , 6   //nrofArrayElements
     , REFLECTION_float
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya) -(int32)(TimeSignals_Inspc*)0x1000)
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya0) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya1"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya1) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya2"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya2) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya3"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya3) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya4"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya4) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya5"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya5) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya6"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya6) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya7"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya7) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya8"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya8) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya9"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya9) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya10"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya10) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya11"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya11) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya12"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya12) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya13"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya13) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya14"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya14) -(int32)(TimeSignals_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_TimeSignals_Inspc
+    }
+  , { "ya15"
+    , 6   //nrofArrayElements
+    , REFLECTION_float
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->ya15) -(int32)(TimeSignals_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }
@@ -188,11 +308,11 @@ const struct Reflection_Fields_TimeSignals_Inspc_t
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }
-  , { "isComplex"
+  , { "bitsComplexY"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->isComplex) -(int32)(TimeSignals_Inspc*)0x1000)
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->bitsComplexY) -(int32)(TimeSignals_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }

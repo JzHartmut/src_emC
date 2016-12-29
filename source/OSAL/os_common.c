@@ -22,5 +22,5 @@ OS_TimeStamp* ctorM_OS_TimeStamp(OS_PtrValue mem)
 }
 
 
-OS_PtrValue null_OS_PtrValue = CONST_OS_PtrValue(0, null);
+OS_PtrValue null_OS_PtrValue = CONST_OS_PtrValue(0, MemUnit, null);
 

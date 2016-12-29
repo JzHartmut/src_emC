@@ -40,7 +40,7 @@ extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
 void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 {
   memset(thiz->nrElements, 1, sizeof(thiz->nrElements));
-  thiz->isComplex = 0;
+  thiz->bitsComplexY = 0;
   strncpy(thiz->clazz.name, "TimeSignals_Inspc", sizeof(thiz->clazz.name));
   //thiz->fields.head.
   thiz->clazz.nSize = sizeof(*thiz);
@@ -65,7 +65,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
           thiz->nrElements[ix] = 1;
         }
         if(cComplex == 'C') {
-          thiz->isComplex |= 1<<ix; 
+          thiz->bitsComplexY |= 1<<ix; 
         }
         int nPosColon = posColon - thiz->names[ix]; 
         int nrChars = zNames - nPosColon;
@@ -77,8 +77,8 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
       nrofFields = ix;  //set lastly with the highest number of active field.
     }
     FieldJc* field = &thiz->fields.data[ix];
-    field->type_ = (thiz->isComplex & (1<<ix)) ? &reflection_float_complex : REFLECTION_float;
-    field->position = offset_MemAreaC(thiz, &thiz->ya[ix][0]);
+    field->type_ = (thiz->bitsComplexY & (1<<ix)) ? &reflection_float_complex : REFLECTION_float;
+    field->position = offset_MemAreaC(thiz, &thiz->ya0[6*ix]);  //TRICKY: address ya0..ya15
     field->nrofArrayElementsOrBitfield_ = thiz->nrElements[ix];
     strncpy(field->name, name, sizeof(field->name)-1);
   }
@@ -107,17 +107,17 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
   STACKTRC_TENTRY("parseLine_TimeSignals_Inspc");
   int posColon = indexOf_CI_StringJc(line, ':', posStart);
   if(posColon > 0){ //time found.
-    float time = parseFloat_SiiciY_StringFunctions_CJc(line, posStart, posColon, '.', null, _thCxt);
+    float time = parseFloat_CsiiciY_StringFunctions_CJc(line.c, posStart, posColon, '.', null, _thCxt);
     posNext = posColon +1;
     int maxWhileNext = 100;
     while(maxWhileNext >=0 && posNext >0) { //search value asignments, posNext is position after separator for values.
-      int posName = indexNoWhitespace_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posNext, -1, _thCxt );
-      posNext = indexAfterIdentifier_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posName, -1, null_StringJc, _thCxt );
+      int posName = indexNoWhitespace_StringFunctionsJc(line.c, posNext, -1, _thCxt );
+      posNext = indexAfterIdentifier_StringFunctionsJc(line.c, posName, -1, null_StringJc, _thCxt );
       if(posNext > posName && posNext < zLine && charAt_StringJc(line, posNext) == '.') {
         StringJc nameModule = substring_StringJc(line, posName, posNext, _thCxt);
         if(equals_z_StringJc(nameModule, thiz->nameModule)) {
           posName = posNext +1; //name inside moduel.
-          posNext = indexAfterIdentifier_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posName, -1, null_StringJc, _thCxt );
+          posNext = indexAfterIdentifier_StringFunctionsJc(line.c, posName, -1, null_StringJc, _thCxt );
           StringJc name = substring_StringJc(line, posName, posNext, _thCxt);
           int ixName = -1;
           int zNames = ARRAYLEN_SimpleC(thiz->names);
@@ -148,8 +148,8 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
               int ixValue = 0;
               int32 nrofCharsParsed;
               do {
-                posValue = indexNoWhitespace_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posValue, -1, _thCxt );
-                float value = parseFloat_SiiciY_StringFunctions_CJc(line, posValue, 99999, '.', &nrofCharsParsed, _thCxt);
+                posValue = indexNoWhitespace_StringFunctionsJc(line.c, posValue, -1, _thCxt );
+                float value = parseFloat_CsiiciY_StringFunctions_CJc(line.c, posValue, 99999, '.', &nrofCharsParsed, _thCxt);
                 if(nrofCharsParsed > 0  //a value scanned?
                   && entry !=null       //an entry found? on not found entry parse the values but don't store.
                   ) {
@@ -158,7 +158,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
                   entry->ya[ixValue++] = value;
                 }
                 //posNext after value and spaces.
-                posNext = indexNoWhitespace_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posValue + nrofCharsParsed, -1, _thCxt );
+                posNext = indexNoWhitespace_StringFunctionsJc(line.c, posValue + nrofCharsParsed, -1, _thCxt );
                 //don't check ',' it is the separator between names.
                 //if(charAt_StringJc(line, posNext) == ',') {
                 //  posNext = indexNoWhitespace_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posNext + 1, -1, _thCxt );
@@ -218,7 +218,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
         int zLine = length_StringJc(line);
         int32 posStart = indexOf_z_StringJc(line, "%time:");
         if(posStart >=0){
-          posStart = indexNoWhitespace_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posStart+6, -1, _thCxt );
+          posStart = indexNoWhitespace_StringFunctionsJc(line.c, posStart+6, -1, _thCxt );
           if(posStart < zLine && charAt_StringJc(line, posStart)!= '#') { //not a comment line 
             parseLine_TimeSignals_Inspc(thiz, line, posStart, _thCxt);
           }
@@ -257,9 +257,9 @@ void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
       ixChannel = entry->ixChannel;
       if(ixChannel >=0 && ixChannel < 16){ //assert correct work
         int ix;
-        for(ix = 0; ix < ARRAYLEN_SimpleC(thiz->ya[ixChannel]); ++ix)
+        for(ix = 0; ix < zya_TimeSignals_Inspc; ++ix)
         {
-          thiz->ya[ixChannel][ix] = entry->ya[ix];  // vector of [6]
+          thiz->ya0[zya_TimeSignals_Inspc * ixChannel + ix] = entry->ya[ix];  // vector of [6]  TRICKY: address ya0..ya15
         }
         if(entry->ya[0] == 0){
           thiz->yBits &= ~(1 << entry->ixChannel);  //ruecksetzen dieses Bits
@@ -276,7 +276,7 @@ void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
   int16 bits = 0;
   for(ixChannel =15; ixChannel >=0; --ixChannel){ //show floats in bits, always, floats may be changed by reflection.
     bits <<=1;
-    if(thiz->ya[ixChannel][0] !=0){
+    if(thiz->ya0[zya_TimeSignals_Inspc * ixChannel] !=0){
       bits |= 1;
     }
   }

@@ -53,7 +53,7 @@ struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(InterPro
   { 
     
     
-    struct InterProcessComm_t*  obj = mtthis->InterProcessCommFactory.create_Port(& ((* (thiz)).base/*J2C_super:*/.super)/*J2cT1*/, protocolAndOwnAddr, -1, _thCxt);
+    struct InterProcessComm_t*  obj = mtthis->InterProcessCommFactory.create_Port(& ((* (thiz)).base.super)/*J2cT1*/, protocolAndOwnAddr, -1, _thCxt);
     { STACKTRC_LEAVE;
       return obj;
     }
@@ -68,7 +68,7 @@ struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc(InterProce
 }
 
 
-/**Creates a InterProcessComm from a parameter String. The type depends on this String. (J2C:wmDef)*/
+/**Creates a InterProcessComm from a parameter String. The type depends on this String.*/
 struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
   
@@ -151,7 +151,7 @@ struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc(Inte
 }
 
 
-/**Creates an address information for the InterProcessComm from a parameter String.  (J2C:wmDef)*/
+/**Creates an address information for the InterProcessComm from a parameter String. */
 struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
   
@@ -201,7 +201,7 @@ struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocke
 }
 
 
-/**Creates an address for InterProcesscommunication with given description. (J2C:wmDef)*/
+/**Creates an address for InterProcesscommunication with given description.*/
 struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndAddr, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
   Mtbl_InterProcessCommFactorySocket_Ipc const* mtthis = (Mtbl_InterProcessCommFactorySocket_Ipc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_InterProcessCommFactorySocket_Ipc);
@@ -211,7 +211,7 @@ struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket
   { 
     
     
-    struct Address_InterProcessComm_t*  obj = mtthis->InterProcessCommFactory.createAddress_Port(& ((* (thiz)).base/*J2C_super:*/.super)/*J2cT1*/, protocolAndAddr, -1, _thCxt);
+    struct Address_InterProcessComm_t*  obj = mtthis->InterProcessCommFactory.createAddress_Port(& ((* (thiz)).base.super)/*J2cT1*/, protocolAndAddr, -1, _thCxt);
     { STACKTRC_LEAVE;
       return obj;
     }

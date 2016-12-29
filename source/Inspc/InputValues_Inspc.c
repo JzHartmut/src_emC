@@ -41,7 +41,23 @@ void ctor_InputValues_Inspc(InputValues_Inspc* thiz)
       field->type_ = REFLECTION_uint32;
       field->nrofArrayElementsOrBitfield_ = 128;
       field->bitModifiers = kStaticArray_Modifier_reflectJc | kReference_Modifier_reflectJc;
+    } else if(name[0] == '&') {  //access to the content of a pointer.
+      name += 1;  //without '&'
+      if(name[0] == '*') {
+        name +=1; //without '*'
+        //The difference &* vs. * is: on * in Simulink the input value is interpreted as reference. 
+        //on &*: The input value is a reference, a bus. 
+        //The Simulink mex routine is different how to interpret the inputs of the S-function.
+        field->type_ = REFLECTION_uint32;
+        field->nrofArrayElementsOrBitfield_ = 128;
+        field->bitModifiers = kStaticArray_Modifier_reflectJc | kReference_Modifier_reflectJc;
+      } else {
+        field->type_ = &reflection_ObjectJc;
+        field->nrofArrayElementsOrBitfield_ = 0;
+        field->bitModifiers = kReference_Modifier_reflectJc;
+      }
     } else {
+      //The dataType[...] should be stored before invocation of the ctor.
       field->type_ = ((struct ClassJc_t const*)thiz->dataType[ix]); //REFLECTION_float;
       if(thiz->nrofElements[ix] == 1) {
         field->nrofArrayElementsOrBitfield_ = 0;

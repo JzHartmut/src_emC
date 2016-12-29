@@ -7,7 +7,7 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "Fwc/fw_Exception.h"  //reference-association: ExceptionJc
-#include "Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactoryAccessor
+#include "Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactory_s
 #include "Ipc2c/InterProcessCommRx_ifc_Ipc.h"  //reference-association: execRxDataMtbl
 #include "Jc/AssertJc.h"  //reference-association: AssertJc_s
 #include "Jc/PrintStreamJc.h"  //reference-association: out
@@ -85,7 +85,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
     InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
     thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base/*J2C:ifc*/.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
+    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
     
     thiz->ipc =  (ipcMtbl.ref);
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -96,7 +96,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
 
 
 
-/**Static method to create invokes the constructor. (J2C:wmDef)*/
+/**Static method to create invokes the constructor.*/
 struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C:static method*/ StringJc ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("create_InterProcessCommRxThread_Ipc");
@@ -115,7 +115,7 @@ struct InterProcessCommRxThread_Ipc_t* create_InterProcessCommRxThread_Ipc(/*J2C
 }
 
 
-/**Create any destination address for the given InterprocessComm implementation.  (J2C:wmDef)*/
+/**Create any destination address for the given InterprocessComm implementation. */
 struct Address_InterProcessComm_t* createDstAddr_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, StringJc sAddr, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("createDstAddr_InterProcessCommRxThread_Ipc");
@@ -174,7 +174,7 @@ bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
 }
 
 
-/**Start opens the InterProcessComm and starts the receiver thread. (J2C:wmDef)*/
+/**Start opens the InterProcessComm and starts the receiver thread.*/
 bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_InterProcessCommRxThread_Ipc");
@@ -196,7 +196,7 @@ bool start_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, Th
 }
 
 
-/**Send a telegram to the given dst. It delegates to {@link InterProcessComm#send(byte[], int, Address_InterProcessComm)}. (J2C:wmDef)*/
+/**Send a telegram to the given dst. It delegates to {@link InterProcessComm#send(byte[], int, Address_InterProcessComm)}.*/
 int32 send_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, PtrVal_int8 data, int32 nrofBytesToSend, struct Address_InterProcessComm_t* dstAddr, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("send_InterProcessCommRxThread_Ipc");
@@ -252,14 +252,14 @@ void runThread_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz
         }
       }
     
-    synchronized_ObjectJc(& ((* (thiz)).base/*J2C_super:*/.object)); {
+    synchronized_ObjectJc(& ((* (thiz)).base.object)); {
       
       { 
         
         thiz->state = 'z';
-        notify_ObjectJc(& ((* (thiz)).base/*J2C_super:*/.object), _thCxt);
+        notify_ObjectJc(& ((* (thiz)).base.object), _thCxt);
       }
-    } endSynchronized_ObjectJc(& ((* (thiz)).base/*J2C_super:*/.object));
+    } endSynchronized_ObjectJc(& ((* (thiz)).base.object));
   }
   STACKTRC_LEAVE;
 }
@@ -339,7 +339,7 @@ void receiveAndExecute_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
 }
 
 
-/**Shutdown the communication, close the thread. This routine should be called  (J2C:wmDef)*/
+/**Shutdown the communication, close the thread. This routine should be called */
 void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_InterProcessCommRxThread_Ipc");
@@ -360,14 +360,14 @@ void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
       { 
         
         
-        synchronized_ObjectJc(& ((* (thiz)).base/*J2C_super:*/.object)); {
+        synchronized_ObjectJc(& ((* (thiz)).base.object)); {
           
           { 
             
             TRY
             { 
               
-              wait_ObjectJc(& ((* (thiz)).base/*J2C_super:*/.object), 100, _thCxt);
+              wait_ObjectJc(& ((* (thiz)).base.object), 100, _thCxt);
             }_TRY
             CATCH(InterruptedException, exc)
             
@@ -377,7 +377,7 @@ void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
               }
             END_TRY
           }
-        } endSynchronized_ObjectJc(& ((* (thiz)).base/*J2C_super:*/.object));
+        } endSynchronized_ObjectJc(& ((* (thiz)).base.object));
       }
     TRY
     { 

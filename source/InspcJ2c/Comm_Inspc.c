@@ -68,7 +68,7 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
     InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
     thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base/*J2C:ifc*/.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
+    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
     
     thiz->ipc =  (ipcMtbl.ref);
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -166,14 +166,14 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
         }
       }
     
-    synchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object)); {
+    synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
       
       { 
         
         thiz->state = 'z';
-        notify_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object), _thCxt);
+        notify_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), _thCxt);
       }
-    } endSynchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object));
+    } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
   }
   STACKTRC_LEAVE;
 }
@@ -191,7 +191,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
   { 
     
     
-    AnswerComm_ifc_InspcMTB answerCommMtbl ; SETMTBJc(answerCommMtbl, & ((* (thiz->cmdExecuter)).base/*J2C:ifc*/.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
+    AnswerComm_ifc_InspcMTB answerCommMtbl ; SETMTBJc(answerCommMtbl, & ((* (thiz->cmdExecuter)).base.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
     
     CmdExecuter_InspcMTB cmdExecuterMtbl ; SETMTBJc(cmdExecuterMtbl, thiz->cmdExecuter, CmdExecuter_Inspc);
     
@@ -261,7 +261,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 }
 
 
-/**Sends the answer telg to the sender of the received telegram.  (J2C:wmDef)*/
+/**Sends the answer telg to the sender of the received telegram. */
 int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("sendAnswer_Comm_Inspc");
@@ -300,7 +300,7 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, in
 }
 
 
-/**Shutdown the communication, close the thread. This routine should be called  (J2C:wmDef)*/
+/**Shutdown the communication, close the thread. This routine should be called */
 void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_Comm_Inspc_F");
@@ -317,14 +317,14 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
       { 
         
         
-        synchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object)); {
+        synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
           
           { 
             
             TRY
             { 
               
-              wait_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object), 100, _thCxt);
+              wait_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), 100, _thCxt);
             }_TRY
             CATCH(InterruptedException, exc)
             
@@ -334,7 +334,7 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
               }
             END_TRY
           }
-        } endSynchronized_ObjectJc(& ((* (thiz)).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object));
+        } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
       }
   }
   STACKTRC_LEAVE;

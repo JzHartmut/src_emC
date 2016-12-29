@@ -32,7 +32,7 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
       ctorO_ClassContent_Inspc(/*J2C:static method call*/&(thiz->classContent.base.object), _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->cmdExecuter.base.object), sizeof(thiz->cmdExecuter), 0); 
-      ctorO_CmdExecuter_Inspc(/*J2C:static method call*/&(thiz->cmdExecuter.base.object), & ((thiz->classContent).base/*J2C:ifc*/.CmdConsumer_ifc_Inspc), _thCxt);
+      ctorO_CmdExecuter_Inspc(/*J2C:static method call*/&(thiz->cmdExecuter.base.object), & ((thiz->classContent).base.CmdConsumer_ifc_Inspc), _thCxt);
   }
   { 
     
@@ -40,7 +40,7 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
     init_ObjectJc(&(thiz->comm.base.object), sizeof(thiz->comm), 0); 
     ctorO_Comm_Inspc(/*J2C:static method call*/&(thiz->comm.base.object), commOwnAddr, & (thiz->cmdExecuter), _thCxt);
     completeConstruction_CmdExecuter_Inspc_F(& (thiz->cmdExecuter), & (thiz->comm), _thCxt);
-    setAnswerComm_XX_ClassContent_Inspc(&((& ((thiz->classContent).base/*J2C:ifc*/.CmdConsumer_ifc_Inspc))->base.object), & ((thiz->cmdExecuter).base/*J2C:ifc*/.AnswerComm_ifc_Inspc), _thCxt);
+    setAnswerComm_XX_ClassContent_Inspc(&((& ((thiz->classContent).base.CmdConsumer_ifc_Inspc))->base.object), & ((thiz->cmdExecuter).base.AnswerComm_ifc_Inspc), _thCxt);
     if(singleton_Inspector_Inspc.ref== null) 
     { 
       
@@ -53,7 +53,7 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
 
 
 
-/**Returns the first instance of the Inspector in this application. Usual only one instance is used, (J2C:wmDef)*/
+/**Returns the first instance of the Inspector in this application. Usual only one instance is used,*/
 struct Inspector_Inspc_t* get_Inspector_Inspc(/*J2C:static method*/ ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("get_Inspector_Inspc");
@@ -68,7 +68,7 @@ struct Inspector_Inspc_t* get_Inspector_Inspc(/*J2C:static method*/ ThCxt* _thCx
 }
 
 
-/**Start the execution.  (J2C:wmDef)*/
+/**Start the execution. */
 void start_Inspector_Inspc_F(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("start_Inspector_Inspc_F");
@@ -88,7 +88,7 @@ void start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, 
 }
 
 
-/**Shutdown the communication, close the thread. This routine should be called  (J2C:wmDef)*/
+/**Shutdown the communication, close the thread. This routine should be called */
 void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_Inspector_Inspc_F");

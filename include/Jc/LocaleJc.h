@@ -51,7 +51,7 @@ typedef struct LocaleJc_t
   const char* country;
 } LocaleJc_s;
 
-extern const struct ClassJc_t reflection_LocaleJc_s;
+extern_C const struct ClassJc_t reflection_LocaleJc_s;
 
 
 /* Enhanced references *********************************************************/

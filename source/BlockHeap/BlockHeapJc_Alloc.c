@@ -375,6 +375,9 @@ ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _
 }
 
 
+
+
+
 int setRunMode_ObjectJc(ThCxt* _thCxt)
 {
   BlockHeapJc* blockHeap = theBlockHeapList;
@@ -558,7 +561,7 @@ ObjectJc* allocObject_IIs_BlockHeapJc(BlockHeapJc* ythis, int sizeObj, int ident
 
 
   
-METHOD_C void free_BlockHeapJc(BlockHeapJc* ythis, BlockHeapBlockJc* block, ThCxt* _thCxt)
+void free_BlockHeapJc(BlockHeapJc* ythis, BlockHeapBlockJc* block, ThCxt* _thCxt)
 { bool bSuccess;
   int catastrophicRepeatCount = 1000;
   BlockHeapBlockJc* firstFreeBlockCurrent;
@@ -581,7 +584,7 @@ METHOD_C void free_BlockHeapJc(BlockHeapJc* ythis, BlockHeapBlockJc* block, ThCx
 
 
 
-METHOD_C bool free_sBlockHeapJc(void const* obj, ThCxt* _thCxt)
+bool free_sBlockHeapJc(void const* obj, ThCxt* _thCxt)
 {
   BlockHeapJc* heap = null;
   BlockHeapBlockJc* block;

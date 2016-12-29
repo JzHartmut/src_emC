@@ -82,7 +82,7 @@ typedef OS_PtrValue MemSegmJc;
 
 #define isNull_MemSegmJc(THIS) (PTR_OS_PtrValue(THIS, void)==null)
 
-#define CONST_MemSegmJc(ADDR, SEGM) CONST_OS_PtrValue((char*)(ADDR), SEGM) 
+#define CONST_MemSegmJc(ADDR, SEGM) CONST_OS_PtrValue(ADDR, MemUnit, SEGM) 
 
 #define setADDR_MemSegmJc(THIS, ADDR) setPtr_OS_PtrValue(THIS, ADDR)
 

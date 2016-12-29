@@ -91,3 +91,8 @@ void format_a_FormatterJc(FormatterJc_s* ythis, StringJc text, char const* typeA
   format_FormatterJc(ythis, text, typedArgs, _thCxt);
   STACKTRC_LEAVE;
 }
+
+
+void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContextFW_t* _thCxt)
+{
+}

@@ -92,7 +92,7 @@ fieldIdents {
     assignFromEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null(org/vishia/util/StringPart *.. src);
     assignReplaceEnv-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/StringBuilder *.. input);
     charAt+_i-_$, defined: java/lang/CharSequence.charAt: char %.r null(int %.. index);
-    checkCharAt-_$, mode=noThCxt: boolean %.r null(int %.. pos,java/lang/String(instance=java/lang/String) t.. chars);
+    checkCharAt-_$: boolean %.r null(int %.. pos,java/lang/String(instance=java/lang/String) t.. chars);
     close-_$, mode=overrideable: void %.r null();
     compareTo-_$: int %.r null(java/lang/CharSequence c.. str2);
     ctorO-_$, mode=ctor+static: org/vishia/util/StringPart *.. StringPartJc_s();
@@ -103,7 +103,7 @@ fieldIdents {
     equals+_Cs-_$: boolean %.r null(java/lang/CharSequence c.. sCmp);
     firstlineMaxpart-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     found-_$: boolean %.r null();
-    fromEnd-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
+    fromEnd-_$, mode=noStacktrace+noThCxt+returnThis: org/vishia/util/StringPart *.t null();
     getCurrent-_$: java/lang/CharSequence c.k null(int %.. nChars);
     getCurrentChar-_$: char %.r null();
     getCurrentColumn-_$: int %.r null();
@@ -131,7 +131,7 @@ fieldIdents {
     len0end-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     lenBacktoNoChar-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. sChars);
     length-_$, defined: java/lang/CharSequence.length: int %.r null();
-    lengthMaxPart-_$: int %.r null();
+    lengthMaxPart-_$, mode=noStacktrace+noThCxt: int %.r null();
     lento+_i-_$, mode=noThCxt+returnThis: org/vishia/util/StringPart *.t null(int %.. len);
     lento+_c-_$, mode=returnThis: org/vishia/util/StringPart *.t null(char %.. cc);
     lento+_Cs-_$, mode=returnThis: org/vishia/util/StringPart *.t null(java/lang/CharSequence c.. ss);
@@ -168,7 +168,7 @@ fieldIdents {
     seekNoWhitespaceOrComments-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     seekPos-_$: org/vishia/util/StringPart *.r null(int %.. nr);
     seekPosBack-_$: org/vishia/util/StringPart *.r null(int %.. nr);
-    setBeginMaxPart-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
+    setBeginMaxPart-_$, mode=noStacktrace+noThCxt+returnThis: org/vishia/util/StringPart *.t null();
     setCurrentPosition-_$: void %.r null(long %.. pos);
     setIgnoreComment+_b-_$: boolean %.r null(boolean %.. bSet);
     setIgnoreComment+_SS-_$: boolean %.r null(java/lang/String(instance=java/lang/String) t.. sStart,java/lang/String(instance=java/lang/String) t.. sEnd);
@@ -177,11 +177,12 @@ fieldIdents {
     setIgnoreWhitespaces-_$: boolean %.r null(boolean %.. bSet);
     setInputfile-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. file);
     setLengthMax-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
-    setParttoMax-_$, mode=noThCxt+returnThis: org/vishia/util/StringPart *.t null();
+    setParttoMax-_$, mode=returnThis: org/vishia/util/StringPart *.t null();
     skipWhitespaceAndComment-_$: org/vishia/util/StringPart *.r null();
     startsWith-_$: boolean %.r null(java/lang/CharSequence c.. sCmp);
     subSequence+_ii-_$, defined: java/lang/CharSequence.subSequence: java/lang/CharSequence c.k null(int %.. from,int %.. to);
     substring-_$: org/vishia/util/StringPart.Part *.k null(int %.. pos,int %.. posendP);
+    throwIllegalArgumentException-_$, mode=static: void %.r null(java/lang/String(instance=java/lang/String) t.. msg,int %.. value);
     throwIndexOutOfBoundsException-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. sMsg);
     throwSubSeqFaulty-_$: void %.r null(int %.. from,int %.. to);
     toString-_$, defined: java/lang/Object.toString, mode=overrideable: java/lang/String(instance=java/lang/String) t.k null();

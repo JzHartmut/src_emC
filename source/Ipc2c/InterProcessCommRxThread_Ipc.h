@@ -88,7 +88,7 @@ typedef struct Mtbl_C_threadRoutine_InterProcessCommRxThread_Ipc_t
 class C_threadRoutine_InterProcessCommRxThread_Ipc : private C_threadRoutine_InterProcessCommRxThread_Ipc_s
 { public:
 
-  virtual void run(){ run_C_threadRoutine_InterProcessCommRxThread_Ipc_F(&this->base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_C_threadRoutine_InterProcessCommRxThread_Ipc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -103,19 +103,15 @@ METHOD_C struct C_threadRoutine_InterProcessCommRxThread_Ipc_t* ctorO_C_threadRo
 typedef struct InterProcessCommRxThread_Ipc_t
 { 
   union { ObjectJc object; } base; 
-  /**Reference to the execute routine on receiving data. */
-  struct InterProcessCommRx_ifc_Ipc_t* execRxData;   
-  /**State of function.*/
-  char state;   
+  struct InterProcessCommRx_ifc_Ipc_t* execRxData;   /*Reference to the execute routine on receiving data. */
+  char state;   /*State of function.*/
   bool bEnablePrintfOnComm; 
-  struct InterProcessComm_t* ipc;   
+  struct InterProcessComm_t* ipc;   /**/
   int32 ctErrorTelg; 
   struct ThreadJc_t* thread;   /**/
   int32 nrofBytesReceived[1];   /**/
-  /**Use a static receive buffer. It is important for C-applications. */
-  int8 data_rxBuffer[1500];   
-  /*For C: store the reference and length of the SimpleArray in the next structure. */
-  PtrVal_int8 rxBuffer;   
+  int8 data_rxBuffer[1500];   /*Use a static receive buffer. It is important for C-applications. */
+  PtrVal_int8 rxBuffer;   /*For C: store the reference and length of the SimpleArray in the next structure. */
   struct Address_InterProcessComm_t* myAnswerAddress;   /**/
   C_threadRoutine_InterProcessCommRxThread_Ipc_s threadRoutine; 
 } InterProcessCommRxThread_Ipc_s;

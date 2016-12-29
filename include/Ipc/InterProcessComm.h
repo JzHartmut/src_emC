@@ -91,7 +91,7 @@ typedef struct Address_InterProcessComm_t
 #define sizeof_Address_InterProcessComm_s sizeof(Address_InterProcessComm_s)
 
 /**If reflections are available, it should stick to this declaration. */
-extern struct ClassJc_t const reflection_Address_InterProcessComm_s;
+extern_C struct ClassJc_t const reflection_Address_InterProcessComm_s;
 
 /**compatibility. */
 #define Address_InterProcessComm Address_InterProcessComm_s

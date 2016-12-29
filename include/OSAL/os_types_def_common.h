@@ -85,13 +85,31 @@
 #define DIV01(divident, divisor) (fabsf(divisor) > 0.01f ? divident/divisor : divident/0.01f);
 
 
-/**An instance which contains null-values. */
-extern_C OS_PtrValue null_OS_PtrValue;
-
 /**This Define is used to prevent reflection generation from any part of struct. */
 #define ReflectionHidden 
 
 /*@CLASS_C PtrVal @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**Defines the struct type PtrVal_MemUnit.
+ * This type provides basic working with memory allocation.
+ * The Problem in C is: a Pointer to memory does not contain the information about the amount of memory.
+ * It is a simple pointer only, often a void*. How many bytes are there, it is unknown.
+ * The struct MemC contains the pointer to memory as MemUnit type and the amount of memory.
+ * This struct is based on the
+ * A PtrVal_MemUnit struct contains both:
+ * * The pointer to the data as memory address unit.
+ * * The size of data in memory.
+ */
+typedef OS_PtrVal_DEF(PtrVal_MemUnit, MemUnit);
+
+/**Compatibility with older typedef of OS_PtrValue. */
+#define OS_PtrValue PtrVal_MemUnit
+
+
+/**An instance which contains null-values. */
+extern OS_PtrValue null_OS_PtrValue;
+
+
 
 /**Defines Struct_charPtr_Value.
  */
@@ -107,6 +125,21 @@ typedef OS_PtrVal_DEF(PtrVal_float, float);
 
 typedef OS_PtrVal_DEF(PtrVal_double, double);
 
+/*@CLASS_C Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+#define max_Fwc(A, B) ( (A) > (B) ? (A) : (B) )
+#define min_Fwc(A, B) ( (A) < (B) ? (A) : (B) )
+#define abs_Fwc(A) ( (A) <0 ? -(A) : (A) )
+
+//#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
+//#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
+
+//#ifdef __cplusplus
+//#define max(A, B) ( (A) > (B) ? (A) : (B) )
+//#define min(A, B) ( (A) < (B) ? (A) : (B) )
+//#endif
+
 /*@CLASS_C float_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 typedef struct float_complex_t{
   float re, im;
@@ -116,5 +149,36 @@ typedef struct float_complex_t{
 typedef struct double_complex_t{
   double re, im;
 } double_complex;
+
+
+
+
+/**Prevent process a NaN-value (not a number).
+ * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
+ * @param value the value to check and return in normal case
+ * @param valueinstead This value is returned if value==nan
+ * @param check a left-value (variable) which will be increment in the nan-situation for check.
+ * @return valueinstead or value.
+ */
+#define NNAN(value, valueinstead, check) (value < 1000000000.0f ? value : ((check) +=1, valueinstead))
+
+
+/**Condition if value is not NAN
+ * @param value to test
+ * @param check a left-value (variable) which will be increment in the nan-situation for check.
+ */
+#define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
+
+extern_C int stopNAN();
+
+/**Prevent process a NaN-value maybe only in debug mode.
+ * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
+ * It calls stopNAN especially for debug at PC
+ * @param value the value to check and return
+ * @return value anytime.
+ */
+#define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
+
+
 
 #endif  // __os_types_def_common_h__

@@ -71,5 +71,8 @@ METHOD_C void format_FormatterJc(FormatterJc_s* ythis, StringJc text, Va_listFW 
 /**Formats with variable arguments. */
 METHOD_C void format_a_FormatterJc(FormatterJc_s* ythis, StringJc text, char const* typeArgs, ...);
 
+/**Formats with variable arguments. */
+METHOD_C void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContextFW_t* _thCxt);
+
 
 #endif  //__FormatterJc_h__

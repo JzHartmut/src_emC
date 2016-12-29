@@ -479,7 +479,16 @@ ObjectArrayJc* ctorO_ObjectArrayJc(ObjectJc* othis, int size, int nBytesPerEleme
 
 
 
-METHOD_C ObjectArrayJc* new_ObjectArrayJc(int SIZE, int BYTESELEMENT, struct ClassJc_t const* REFLECTION, int32 typeInstanceIdent)
+
+void free_ObjectJc(ObjectJc* thiz)
+{ //TODO
+	//checks which allocated mode is used for the object.
+}
+
+
+
+
+ObjectArrayJc* new_ObjectArrayJc(int SIZE, int BYTESELEMENT, struct ClassJc_t const* REFLECTION, int32 typeInstanceIdent)
 { int nrofBytes = sizeof(ObjectArrayJc) + SIZE * BYTESELEMENT;
   ObjectArrayJc* nthis;
   ObjectJc* othis;

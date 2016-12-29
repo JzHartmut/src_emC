@@ -67,6 +67,11 @@ struct Size_Mtbl_t;
    * The headerfile <Fwc/objectBaseC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources
    * which does not use concepts of ,,ObjectJc,, but should know this embedded struct. 
    * Some definitions and methods are common use-able, that methods are contained here too. 
+   * @since 2016-12: The struct is changed, but the number of bytes are held identically. 
+   * * pointers are 64 bit on pc, use union for own Address.
+   * * instead memoryMng - pointer store a handle, 16 or 8 bit are enough, yet 32 bit.
+   * * dummy for further using is removed.
+   * * notice 64-bit-alignment. 
    */
   typedef struct  ObjectJc_t
   {
@@ -175,22 +180,11 @@ struct Size_Mtbl_t;
       /** This constant is used to shift the type info for small objects. */
       #define kBitTypeLarge_objectIdentSize_ObjectJc 24
 
-  /** The own address of the instance. This information is usefull if the data of the instance
-    * are transfered into another memory space (at example via file transfer).
-    * All pointers inside this instance may be relativ build with this information.
-    */
-    /**The own address of the instance saved in the instance itself. This value may be important
-     * if the data are transmitted in an other system (evaluation of data)
-     * and some references between data are present. The evaluator may be able to found
-     * the correct association between the instances by testing this value.
-     */
-    void const* ownAddress;
-
     /**Posive value of offset to the beginn of block, able to use debugging data manually. 
      * If this Object is part of a BlockHeapBlockJc, bit 15 is set, but the rest is the positive offset to start of heap block.
      * 
      */
-    int16 offsetToStartAddr;
+    int32 offsetToStartAddr :16;
 
     /** identification number for wait/notify and synchronized.
      *  Because most of ObjectJc are not used for synchronized or wait/notify,
@@ -198,22 +192,36 @@ struct Size_Mtbl_t;
      *  defined in os_wrapper.c.
      *  Here only the 2 bytes for a id are provided.
      */
-    int16 idSyncHandles;
+    int32 idSyncHandles : 12;
+
     #define kNoSyncHandles_ObjectJc -1
 
+    /**Up to 15 handles (number) for memory management. 
+     * The operation system should support the access to the correct instance. 
+     */
+    int32 memoryMng : 4;
+
+
+    /**The own address of the instance saved in the instance itself. This value may be important
+     * if the data are transmitted in an other system (evaluation of data)
+     * and some references between data are present. The evaluator may be able to found
+     * the correct association between the instances by testing this value.
+     * NOTE: It is a unnamed union to support 64 bit pointers if the data are transferred and the address should be adapted.
+     */
+    union { void const* ownAddress; int32 ownAddress_i[2]; };
 
     /** The info about this type of the object. The Java-like reflection-concept is used.
+     * NOTE: It is a union to support 64 bit pointers if the data are transferred and the address should be adapted.
     */
-    struct ClassJc_t const* reflectionClass;
+    union { struct ClassJc_t const* reflectionClass; int32 reflectionClass_i[2]; };
 
 
     //always: #if defined(mBackRef_ObjectJc)
     /** Pointer to a memory management, which manages this object. old: the BlockHeapBlock-Control-structure, 
      */
-    struct ObjectJc_t* memoryMng;
+    //struct ObjectJc_t* memoryMng;
     //#endif
 
-    int32 dummy; //further using
 
   }ObjectJc;
 
@@ -234,7 +242,8 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
  * @param REFLECTION the reflection class of the constant object. It may be ,,null,, also.
  * @deprecated use [[INITIALIZER_ObjectJc(...)]] instead
 */
-#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
+#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0, kNoSyncHandles_ObjectJc, 0, { OWNADDRESS }, { REFLECTION } }
+//#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
 
 
 
@@ -247,7 +256,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
   * @param REFLECTION maybe null, the reflection class of the constant object.
   * @since 2016-04: the better form.
 */
-#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) {sizeof(INSTANCE) | IDENT, &(INSTANCE), 0, kNoSyncHandles_ObjectJc, REFLECTION }
+#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) {sizeof(INSTANCE) | IDENT, 0, kNoSyncHandles_ObjectJc, 0, { &(INSTANCE)} , { REFLECTION } }
 
 /**Initializer for any instance with {0}. Should be used on stack variable especially before they are handled with a ctor...(...).*/
 #define NULL_ObjectJc {0}

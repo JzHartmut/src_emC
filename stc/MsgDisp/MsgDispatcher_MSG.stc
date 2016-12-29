@@ -91,7 +91,7 @@ fieldIdents {
     insertIdent-_$: int %.r null(int %.. idx,int %.. fromIdent,int %.. toIdent);
     reportOutput-_$: boolean %.r null(java/io/FileWriter *.. file);
     setDefaults-_$: void %.r null(java/lang/String(instance=java/lang/String) t.. fileOut);
-    setOutputFromString-_$: java/lang/String(instance=java/lang/String) t.r null(java/lang/String(instance=java/lang/String) t.. ctrl,java/lang/StringBuffer *.. errorBuffer);
+    setOutputFromString-_$: java/lang/String(instance=java/lang/String) t.r null(java/lang/String(instance=java/lang/String) t.. ctrl,java/lang/StringBuilder *.. errorBuffer);
     setOutputRange-_$: int %.r null(int %.. fromIdent,int %.. toIdent,int %.. dst,int %.. mode,int %.. level);
     setOutputRoutine-_$: void %.r null(int %.. dstIdx,java/lang/String(instance=java/lang/String) t.. name,boolean %.. bQueued,boolean %.. bText,org/vishia/msgDispatch/LogMessage *.. dst);
     stop-_$: void %.r null();

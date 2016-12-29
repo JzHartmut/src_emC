@@ -393,7 +393,7 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
           )/*J2C:non-persistent*/;
         else thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_2 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
         
-          ( fromEnd_StringPartJc(& ((* (thiz)).base.super), _thCxt)
+          ( fromEnd_StringPartJc(& ((* (thiz)).base.super))
           , seekPos_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt)
           );
         releaseUserBuffer_ThreadContextFw(_thCxtRef4_1, _thCxt);

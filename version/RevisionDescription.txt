@@ -21,3 +21,143 @@
 * ReflMemAccessJc: bugfix access to bitfields
 
 * os_mem.c etc, all in os_Windows_Msc6: now regards definition of int64
+
+
+===2016-05-21===
+
+
+      * Some enhancements for mem in ThreadContext.
+      * Enhancements for CharSeqJc
+      * New translated from Java: StringFunctions, StringPart
+      * fw_ThreadContext: Now the allocation of more as one block in ThreadContext is possible.
+      * fw_assert: new: 0_Fwc(cond, TEXT, VALUE)
+      * fw_MemC.h: Comment
+      * ObjectJc, fw_String: CharSeqJc handling
+      * fw_String.c: Not it depends on ObjectJc and StringBuilderJc to support the newer Concept of StringJc.
+      TODO: Maybe move content to StringJc.c, offer a simple Variante for simple string handling from the last content of fw_String.c.
+    
+      New Concept for StringJc: It can be present a CharSeqJc with Mtbl-offset or a StringBuilderJc.
+      
+===2016-06-05===
+      
+      * os_types_def.h: change of definition of PtrVal_TYPE(...). Now extra parameter for the type name. It is better for search! The better flexibility may be necessary or not, it was not the reason.
+      * fw_String.c: handling of CharSeqJc.
+
+===2016-08-20===
+    * stopAssert_Fwc_while0.c: waits in a while loop and printf("ERROR") in a second-period. It is better to break instead nullPointerException.
+    * fw_String.c: getMtbl_CharSeqJc(...) bugfix. The index is a count of pointer.
+    * fw_String.h: getMtblRef_CharSeqJc(...) new, for faster working with dynamic linked routines for a given CharSeqJc which may be a StringJc too.
+    * StringJc: some methods for CharSeqJc
+    * ObjectJc.h: checkMtbl_ObjectJc(...)
+    * StringBufferJc: some enhancements regarding CharSeqJc
+    * MsgDisp: new translated Java2C, no functional changes
+    * J1c: new translated Java2C, StringPart should run now, in test.
+    * Ipc2C: new translated Java2C
+    * fw_Exception.h: new: THROWRET as a new concept without exception processing.
+    * objectBaseC.h: new concept INITIALIZER_ObjectJc(...) for {...} initializing expression.
+    * objectBaseC.h: SETMTBJc now regards a TYPE##_s because this is the standard for struct names, without _s is the class Name. Therefore some interfaces changed from _i to _s as suffix. Unified. The macro was not used often before.
+    * ReflectionBasetypesJc.c, fw_LogMessage.c, fw_LogMsgStream.c: adapted: use LogMessageFW_s instead LogMessageFW_i, better for unified translation Java2C
+    * ObjectJc.h: contains the definition of ClassJc.h in this file, removed from ReflectionJc.h, because inline definition of checkMtblError_ObjectJc(...). All macro all inlines may use reflection and need only ClassJc therefore. It is better this basic struct is defined in ObjectJc already. No changes necessary in usage because ReflectionJc.h has included ObjectJc already.
+    * Ipc2c: new InterProcessCommRx... methods
+
+===2016-09-11===
+    SignThCxt: new feature for Buffer in Thread Context. stop_DebugutilJc().
+    * fw_Exception: now contains stop_DebugutilJc().
+    * fw_Object, fw_ThreadContext  allocInThreadCxt_ObjectJc(...) and getUserBuffer_ThreadContextFw(...)
+      now with an argument 'sign'. It is stored in a new AddrUsed_ThreadContextFW.sign and it is visible
+      by debugging for a faulty (not freed) buffer in ThreadContext.
+    * J1c: All sources new translated from Java2C with signThCxt
+    * fw_ThreadContext: struct ThreadContextFW_t now contains up to 30 buffer in ThreadContext instead 10.
+      New element ixLastAddrUsed and new routine reduceLastUserBuffer_ThreadContextFw(...).
+      With this the Buffer in ThreadContext concept is pushed.
+    * StringJc.h: _reduceCapacity_StringBuilderJc
+    * StringBufferJc.c: Now toStringNonPersist_StringBuilderJc(...) and format_A_StringJc(...) reduces the capacity in the thread context.
+    * StringBufferJc.c: The method replace_cII_StringBuilderJc(...) was errorneous if argument ,,to,, is negative. Now the method
+      never throws, but does nothing on failed arguments. if ,,to,, is -1 then the argument add is used till end.
+      That is the contract to preserve effort on invocation.
+    * StringBufferJc.c: insert_cYii_StringBuilderJc(...) adequate bugfix as replace_cII_StringBuilderJc(...).
+      TODO: Only one method for all insert/replace/append variants to minimize variations, all others per define with adequate arguments.
+    * stc-Files: The attribute ,,returnNonPersistring,, is removed in syntax because the designation 'k' on the return value is sufficient.
+      That ,,returnNonPersistring,, was not correctly used in the Java2C translator. The 'k' is lesser semantically but the stc files
+      are not thought for frequently editing.
+
+===2016-10-16===
+    Test InspcTargetProxy:
+    * appl_InspcTargetProxy/* removed because it is an extra component. Not part of the normal CRuntimeJavalike.
+    * cleanup InterProcessCommFactory: In Java the InterProcessCommFactoryAccessor was removed and joined with this class.
+      Therewith InterProcessCommFactory was an interface an it is now an abstract class which contains the static 'getInstance'
+      routine. The ctor of this class stores the singleton instance because it is the ctor of the derived implementation class.
+      This concept is now present in C.
+    * Some bugfixes while test
+    * Some comments of Java2C-translator in the translated sources.
+
+===2016-10-21===
+    New concept with Fwc_Fw_UserExceptionHandling.h, bugfixes
+    * fw_Exception.h: The file Fwc_Fw_UserExceptionHandling.h is included. This file will be presumed in the users space
+      to define how to handle exceptions.
+    * replace_cII_StringBuilderJc: fixed. Concept positions: -1 is the end of string, negative counts from end.
+
+===2016-10-29===
+    New concept with OSAL_UserExceptionAndDebug.h, InspcTargetProxy
+    * OSAL_UserExceptionAndDebug.h: Renaming, also for debug. included in os_types_def.h
+    * os_types_def.h: CONST_OS_PtrValue should regard other types too. Adapted in fw_MemC.h etc.
+    * fw_Object.c: Don't clear on init_ObjectJc because the instance may be initialized on startup.
+    * source/Inspc/InspcTargetProxy... new
+    * InspcJ2c/ClassContent etc.: newly translated, changed in Java, change Java2C-translator.
+      Especially the {0} initializing for stack instances was missing before.
+
+===2016-11-13===
+    Gardening fw_ThreadContext.h, fw_Exception.h, solve intedependence of this 2 files.
+    ! All user sources which uses parts from fw_Exception.h but includes only fw_ThreadContext.h should now include <Fwc/fw_Exception.h> up to now.
+    * It is fixed for the most of CRuntimeJavalike sources.
+    * os_types_def.h use define instead typedef, like documentation.
+      
+===2016-12-02===
+    Redesign of the STACKTRC and Fwc/Fw_Exception after documentation.
+
+===2016-12-11===
+os_types_def.h: CONST_OS_PtrValue(...) now has 3 arguments, the TYPE additinally. 
+  Background: The OS_PtrValue can have different pointer types.
+* FormatterJc.h: new Method close(). Necessary because in Java the class has close().
+* StringPartJc: change definition of 
+
+
+
+===2016-12-11===
+Compilation with Gcc in Eclise CDT, some gardenings. Many small changes.
+Real changes:
+* ObjectJc in objectBaseC.h: since 2016-12: The struct is changed, but the number .... (see source), adapted: OsWrapperJc.c
+* fw_threadContext.c bugfix!!: getUserBuffer_ThreadContextFw: init0_MemC: set to 0 on allocation
+* InputValues_Inspc.c: regards an &name on field: Its reflection are contained in the referenced instance via ObjectJc.
+* ReflectionJc.c: If it is a reference to an integer, the indices should be applied
+  inside the referenced field. Not to the obj. The field is not an embedded array of references but a reference to an array. 
+* ReflectionJc.c: Bitfield with max 16 bits, 16 is designated with 0.
+Gardening because gcc-compilation:
+* Some designations with extern_C instead extern: BlockHeapJc_admin.h, InterProcessComm.h. FileIoJc.h, ListJc.h,
+  LocaleJc.h, ObjectJc.h, StringJc.h, ThreadJc.h, TimeZoneJc.h, ReflectionBasetypesJc.c
+* Removed some designations with METHOD_C in implementations: BlockHeapJc_Alloc.c, fw_String.c, LinkedListJc.c  
+Adaption because changes before:
+* CONST_OS_PtrValue with 3, argument since 2016-10: More adapted: fw_MemC.h, ReflMemAccessJc.h
+* FormatterJc.h: close_FormatterJc like in Java. It is a Closeable.
+* CharSeqJc concept, gardening: fw_String.c, TimeSignals_Inspc.c
+* InterProcessCommRxExec_Ipc.c: gardening with PtrVal_int8, changed in Java-source with annotation.
+Changes in methodical, correctness:
+* os_types_def_common.h: With more content, copied from os_types_def.h which are not os-specific.
+* FBaccess_Inspc.c: reflection are included from file FBaccess_Inspc_Refl.crefl
+* TimeSignals_Inspc.c: uses named 1-dimensional array instead 2, better for reflection inspecting of internal content.
+* min_Fwc, max_Fwc instead min and max because the simple function names min and max are used in some standards in different forms.
+  StringFunctionsJc.c
+* Some sources moved from  sourceSpecials/os_Windows_Msc6 to sourceSpecials/osal_Windows32 because there are wrapper 
+  to the windows operation system, not compiler-specific, used for gcc compilation too.
+* os_atomic.c moved from sourceSpecials/os_LinuxGcc to sourceSpecials/hw_Intel_x86_Gcc because it is not os-specific 
+  but hardware- and assembler (gcc) specific. Used for gcc compiler. The pendant for Msc6 is still in sourceSpecials/os_Windows_Msc6
+Java2C-gardening:
+* Java2C new translated with only comment change: AnswerComm_ifc_Inspc.c, ClassContent_Inspc.c etc, all of Inspc-Service.
+* _thCxt->stacktrc instead stacktraceThreadContext renaming because change in fw_ThreadContext.h for Java2C-translated sources
+* Some Sources translated with Java2C with more annotations for inlined: StringPartJc.c
+* stc-Files form Java2C-translation mostly only changed in comment, somewhat because annotation and adaption.
+
+  
+  
+
+

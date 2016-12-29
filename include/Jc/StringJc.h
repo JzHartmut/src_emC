@@ -69,7 +69,8 @@
  ****************************************************************************/
 #ifndef __StringJc_h__
 #define __StringJc_h__
-
+#include <os_types_def.h>
+#include <fw_Platform_Conventions.h>
 #include "Fwc/fw_String.h"    //based on the there defined type StringJc and the access macros.
 #include "Fwc/fw_Va_list.h" 
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
@@ -77,7 +78,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <fw_assert.h>
-
+#include <stdlib.h>  //abs
 //compatibility
 #define StringBufferJc StringBuilderJc
 #define StringBufferJc_t StringBuilderJc_t
@@ -1163,7 +1164,7 @@ typedef struct  StringBuilderJc_t
 #define sizeof_StringBuilderJc sizeof(StringBuilderJc)
 #define sizeof_StringBufferJc sizeof_StringBuilderJc
 
-extern const struct ClassJc_t reflection_StringBuilderJc;
+extern_C const struct ClassJc_t reflection_StringBuilderJc;
 #define reflection_StringBuilderJc_s reflection_StringBuilderJc
 #define reflection_StringBufferJc reflection_StringBuilderJc
 

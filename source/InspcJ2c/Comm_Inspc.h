@@ -136,7 +136,7 @@ class Comm_Inspc : private Comm_Inspc_s
 
   void receiveAndExecute(){ receiveAndExecute_Comm_Inspc(this,  null/*_thCxt*/); }
 
-  virtual void run(){ run_Comm_Inspc_F(&this->base/*J2C:ifc*/.RunnableJc.base.object,  null/*_thCxt*/); }
+  virtual void run(){ run_Comm_Inspc_F(&this->base.RunnableJc.base.object,  null/*_thCxt*/); }
 
   int32 sendAnswer(PtrVal_int8 bufferAnswerData, int32 nrofBytesAnswer){  return sendAnswer_Comm_Inspc(this, bufferAnswerData, nrofBytesAnswer,  null/*_thCxt*/); }
 

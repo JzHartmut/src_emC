@@ -52,7 +52,7 @@ typedef struct ListJc_t
 { ObjectJc object;
 }ListJc;
 
-extern ClassJc const reflection_ListJc;
+extern_C ClassJc const reflection_ListJc;
 
 
 
@@ -113,7 +113,7 @@ typedef struct IteratorJc_t
 { ObjectJc object;
 }IteratorJc;
 
-extern ClassJc const reflection_IteratorJc;
+extern_C ClassJc const reflection_IteratorJc;
 
 
 

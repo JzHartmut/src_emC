@@ -7,115 +7,13 @@
 #include "Fwc/fw_Exception.h"
 
 
-extern_C const ClassJc reflection_StacktraceElementJc;  //the just defined reflection_
-const struct Reflection_Fields_StacktraceElementJc_t
-{ ObjectArrayJc head;
-  FieldJc data[3];
-} reflection_Fields_StacktraceElementJc =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_StacktraceElementJc)
-, {
-    { "name"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_char
-    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->name) -(int32)(StacktraceElementJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StacktraceElementJc
-    }
-  , { "source"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_char
-    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->source) -(int32)(StacktraceElementJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StacktraceElementJc
-    }
-  , { "line"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->line) -(int32)(StacktraceElementJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StacktraceElementJc
-    }
-} };
-
-
-const ClassJc reflection_StacktraceElementJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StacktraceElementJc, &reflection_ClassJc)
-, "StacktraceElementJc"
-, 0
-, sizeof(StacktraceElementJc)
-, (FieldJcArray const*)&reflection_Fields_StacktraceElementJc  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-
-extern_C const ClassJc reflection_StacktraceThreadContext_s;  //the just defined reflection_
-extern_C const ClassJc reflection_StacktraceJc;
-extern_C const ClassJc reflection_StacktraceElementJc;
-const struct Reflection_Fields_StacktraceThreadContext_s_t
-{ ObjectArrayJc head;
-  FieldJc data[3];
-} reflection_Fields_StacktraceThreadContext_s =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_StacktraceThreadContext_s)
-, {
-  { "zEntries"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StacktraceThreadContext_s*)(0x1000))->zEntries) -(int32)(StacktraceThreadContext_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StacktraceThreadContext_s
-    }
-  , { "maxNrofEntrie_tacktraceBuffer"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StacktraceThreadContext_s*)(0x1000))->maxNrofEntriesStacktraceBuffer) -(int32)(StacktraceThreadContext_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StacktraceThreadContext_s
-    }
-  , { "entries"
-    , 100   //nrofArrayElements
-    , &reflection_StacktraceElementJc
-    , 0 |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((StacktraceThreadContext_s*)(0x1000))->entries) -(int32)(StacktraceThreadContext_s*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StacktraceThreadContext_s
-    }
-} };
-
-
-const ClassJc reflection_StacktraceThreadContext_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StacktraceThreadContext_s, &reflection_ClassJc)
-, "StacktraceThreadContext_s"
-, 0
-, sizeof(StacktraceThreadContext_s)
-, (FieldJcArray const*)&reflection_Fields_StacktraceThreadContext_s  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-
 extern_C const ClassJc reflection_ExceptionJc;  //the just defined reflection_
 extern_C const ClassJc reflection_StringJc;
-extern_C const ClassJc reflection_StacktraceJc;
-extern_C const ClassJc reflection_StacktraceElementJc;
 const struct Reflection_Fields_ExceptionJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_ExceptionJc =
-{ CONST_ObjectArrayJc(FieldJc, 6, OBJTYPE_FieldJc, null, &reflection_Fields_ExceptionJc)
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_ExceptionJc)
 , {
     { "exceptionNr"
     , 0   //no Array, no Bitfield
@@ -202,20 +100,25 @@ const ClassJc reflection_TryObjectJc =
 
 
 extern_C const ClassJc reflection_StacktraceJc;  //the just defined reflection_
-extern_C const ClassJc reflection_StacktraceJc;
-extern_C const ClassJc reflection_StacktraceElementJc;
-extern_C const ClassJc reflection_TryObjectJc;
 const struct Reflection_Fields_StacktraceJc_t
 { ObjectArrayJc head;
-  FieldJc data[1];
+  FieldJc data[2];
 } reflection_Fields_StacktraceJc =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_StacktraceJc)
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_StacktraceJc)
 , {
     { "ix"
     , 0   //no Array, no Bitfield
-    , &reflection_StacktraceElementJc
-    , 0 //bitModifiers
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((StacktraceJc*)(0x1000))->ix) -(int32)(StacktraceJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceJc
+    }
+  , { "ixPrev"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((StacktraceJc*)(0x1000))->ixPrev) -(int32)(StacktraceJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_StacktraceJc
     }
@@ -347,16 +250,34 @@ const ClassJc reflection_ParseResultPrintfStyle_fwFormatter =
 
 
 extern_C const ClassJc reflection_LogMessageFW_s;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_LogMessageFW_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_LogMessageFW_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_LogMessageFW_s)
+, {
+    { "base-object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((LogMessageFW_s*)(0x1000))->base.object) -(int32)(LogMessageFW_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_LogMessageFW_s
+    }
+} };
+
+
 const ClassJc reflection_LogMessageFW_s =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageFW_s, &reflection_ClassJc)
 , "LogMessageFW_s"
 , 0
 , sizeof(LogMessageFW_s)
-, null  //attributes
+, (FieldJcArray const*)&reflection_Fields_LogMessageFW_s  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
-, 0 
+, 0  |mObjectJc_Modifier_reflectJc
 };
 
 
@@ -666,6 +587,114 @@ const ClassJc reflection_AddrUsed_ThreadContextFW =
 
 
 
+extern_C const ClassJc reflection_StacktraceElementJc;  //the just defined reflection_
+extern_C const ClassJc reflection_TryObjectJc;
+const struct Reflection_Fields_StacktraceElementJc_t
+{ ObjectArrayJc head;
+  FieldJc data[4];
+} reflection_Fields_StacktraceElementJc =
+{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_StacktraceElementJc)
+, {
+    { "name"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_char
+    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->name) -(int32)(StacktraceElementJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceElementJc
+    }
+  , { "source"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_char
+    , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->source) -(int32)(StacktraceElementJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceElementJc
+    }
+  , { "line"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->line) -(int32)(StacktraceElementJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceElementJc
+    }
+  , { "tryObject"
+    , 0   //no Array, no Bitfield
+    , &reflection_TryObjectJc
+    , 0| mReference_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StacktraceElementJc*)(0x1000))->tryObject) -(int32)(StacktraceElementJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceElementJc
+    }
+} };
+
+
+const ClassJc reflection_StacktraceElementJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StacktraceElementJc, &reflection_ClassJc)
+, "StacktraceElementJc"
+, 0
+, sizeof(StacktraceElementJc)
+, (FieldJcArray const*)&reflection_Fields_StacktraceElementJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_StacktraceThreadContext_s;  //the just defined reflection_
+extern_C const ClassJc reflection_StacktraceElementJc;
+const struct Reflection_Fields_StacktraceThreadContext_s_t
+{ ObjectArrayJc head;
+  FieldJc data[3];
+} reflection_Fields_StacktraceThreadContext_s =
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_StacktraceThreadContext_s)
+, {
+    { "zEntries"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_uint32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((StacktraceThreadContext_s*)(0x1000))->zEntries) -(int32)(StacktraceThreadContext_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceThreadContext_s
+    }
+  , { "maxNrofEntrie_tacktraceBuffer"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((StacktraceThreadContext_s*)(0x1000))->maxNrofEntriesStacktraceBuffer) -(int32)(StacktraceThreadContext_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceThreadContext_s
+    }
+  , { "entries"
+    , 100   //nrofArrayElements
+    , &reflection_StacktraceElementJc
+    , 0 |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((StacktraceThreadContext_s*)(0x1000))->entries) -(int32)(StacktraceThreadContext_s*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_StacktraceThreadContext_s
+    }
+} };
+
+
+const ClassJc reflection_StacktraceThreadContext_s =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StacktraceThreadContext_s, &reflection_ClassJc)
+, "StacktraceThreadContext_s"
+, 0
+, sizeof(StacktraceThreadContext_s)
+, (FieldJcArray const*)&reflection_Fields_StacktraceThreadContext_s  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
 extern_C const ClassJc reflection_ThreadContextFW_s;  //the just defined reflection_
 extern_C const ClassJc reflection_OS_PtrValue;
 extern_C const ClassJc reflection_AddrUsed_ThreadContextFW;
@@ -896,18 +925,41 @@ const ClassJc reflection_Va_listFW =
 
 extern_C const ClassJc reflection_ObjectJc;  //the just defined reflection_
 extern_C const ClassJc reflection_ClassJc;
-extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_ObjectJc_t
 { ObjectArrayJc head;
-  FieldJc data[7];
+  FieldJc data[8];
 } reflection_Fields_ObjectJc =
-{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectJc)
+{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectJc)
 , {
     { "objectIdentSize"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ObjectJc*)(0x1000))->objectIdentSize) -(int32)(ObjectJc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectJc
+    }
+  , { "offsetToStartAddr"
+    , 0x0 //bitfield nrofBits=16, bitPos=0.0
+    , REFLECTION_BITFIELD
+    , kBitfield_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ObjectJc*)(0x1000))->objectIdentSize) -(int32)(ObjectJc*)0x1000) + sizeof(int32)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectJc
+    }
+  , { "idSyncHandles"
+    , 0xc010 //bitfield nrofBits=12, bitPos=1.8
+    , REFLECTION_BITFIELD
+    , kBitfield_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ObjectJc*)(0x1000))->objectIdentSize) -(int32)(ObjectJc*)0x1000) + sizeof(int32)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectJc
+    }
+  , { "memoryMng"
+    , 0x401c //bitfield nrofBits=4, bitPos=2.12
+    , REFLECTION_BITFIELD
+    , kBitfield_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ObjectJc*)(0x1000))->objectIdentSize) -(int32)(ObjectJc*)0x1000) + sizeof(int32)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
@@ -919,19 +971,11 @@ const struct Reflection_Fields_ObjectJc_t
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
-  , { "offsetToStartAddr"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ObjectJc*)(0x1000))->offsetToStartAddr) -(int32)(ObjectJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
-    }
-  , { "idSyncHandles"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ObjectJc*)(0x1000))->idSyncHandles) -(int32)(ObjectJc*)0x1000)
+  , { "ownAddress_i"
+    , 2   //nrofArrayElements
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ObjectJc*)(0x1000))->ownAddress_i) -(int32)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
@@ -943,19 +987,11 @@ const struct Reflection_Fields_ObjectJc_t
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
-  , { "memoryMng"
-    , 0   //no Array, no Bitfield
-    , &reflection_ObjectJc
-    , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ObjectJc*)(0x1000))->memoryMng) -(int32)(ObjectJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
-    }
-  , { "dummy"
-    , 0   //no Array, no Bitfield
+  , { "reflectionClass_i"
+    , 2   //nrofArrayElements
     , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ObjectJc*)(0x1000))->dummy) -(int32)(ObjectJc*)0x1000)
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ObjectJc*)(0x1000))->reflectionClass_i) -(int32)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }

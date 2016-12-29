@@ -211,7 +211,9 @@ const struct Reflection_Fields_ObjectArrayJc_t
 } };
 
 
-const ClassJc reflection_ObjectArrayJc =
+extern_C const ClassJc reflection_ObjectArrayJc;
+
+		const ClassJc reflection_ObjectArrayJc =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectArrayJc, &reflection_ClassJc)
 , "ObjectArrayJc"
 , 0

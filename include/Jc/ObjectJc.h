@@ -242,7 +242,7 @@ typedef struct  ObjectArrayJc_t
   { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
 
 
-extern const struct ClassJc_t reflection_ObjectArrayJc;
+extern_C const struct ClassJc_t reflection_ObjectArrayJc;
 
 /** initializes the data of the array. This includes the head and the associated data. It is the rule or law,
  *  that all data are disposed immediately after the head of array. The data are set to 0.

@@ -151,7 +151,7 @@ See
 
 const char sign_Mtbl_ByteDataAccessBaseJc[] = "ByteDataAccessBaseJc"; //to mark method tables of all implementations
 
-StringJc version_ByteDataAccessBaseJc = CONST_z_StringJc("2015-03-08"); //J2C:static StringJc
+StringJc version_ByteDataAccessBaseJc = CONST_z_StringJc("2016-01-24"); //J2C:static StringJc
 
 /*Constructor */
 struct ByteDataAccessBaseJc_t* ctorM_i_ByteDataAccessBaseJc(MemC mthis, int32 sizeHead, ThCxt* _thCxt)

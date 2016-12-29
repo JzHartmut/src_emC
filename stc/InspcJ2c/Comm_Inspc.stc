@@ -32,8 +32,8 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base/*J2C:ifc*/.RunnableJc.base/*J2C_super:*/.object" $;
-    java/lang/Runnable: $ "(?).base/*J2C:ifc*/.RunnableJc" $;
+    java/lang/Object: $ "(?).base.RunnableJc.base.object" $;
+    java/lang/Runnable: $ "(?).base.RunnableJc" $;
   }
 
 }

@@ -21,7 +21,7 @@ struct FileWriterJc_t;
 struct LogMessageFW_t;
 struct MsgDispatcher_MSG_t;
 struct RunnableJc_t;
-struct StringBufferJc_t;
+struct StringBuilderJc_t;
 
 
 /* J2C: includes *********************************************************/
@@ -178,10 +178,10 @@ Syntax-Example:
 1001:+CON.      //Message 1001 is sent additional to CON
 </pre>
 */
-METHOD_C StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc ctrl, struct StringBufferJc_t* errorBuffer, ThCxt* _thCxt);
+METHOD_C StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc ctrl, struct StringBuilderJc_t* errorBuffer, ThCxt* _thCxt);
 
 /**Writes the msg dispatching outputs in file. 
-The form is the same which are used for {@link #setOutputFromString(String, StringBuffer)}.
+The form is the same which are used for {@link #setOutputFromString(String, StringBuilder)}.
 */
 METHOD_C bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriterJc_t* file, ThCxt* _thCxt);
 
@@ -235,7 +235,7 @@ class MsgDispatcher_MSG : private MsgDispatcher_MSG_s
 
   void setDefaults(StringJcpp fileOut){ setDefaults_MsgDispatcher_MSG(this, fileOut,  null/*_thCxt*/); }
 
-  StringJc setOutputFromString(StringJcpp ctrl, struct StringBufferJc_t* errorBuffer){  return setOutputFromString_MsgDispatcher_MSG(this, ctrl, errorBuffer,  null/*_thCxt*/); }
+  StringJc setOutputFromString(StringJcpp ctrl, struct StringBuilderJc_t* errorBuffer){  return setOutputFromString_MsgDispatcher_MSG(this, ctrl, errorBuffer,  null/*_thCxt*/); }
 
   int32 setOutputRange(int32 fromIdent, int32 toIdent, int32 dst, int32 mode, int32 level){  return setOutputRange_MsgDispatcher_MSG(this, fromIdent, toIdent, dst, mode, level,  null/*_thCxt*/); }
 

@@ -41,7 +41,7 @@ struct InspcDataExchangeAccess_Inspc_t* ctorO_InspcDataExchangeAccess_Inspc(Obje
 
 
 
-/**Returns the number of bytes for any value which is designated  (J2C:wmDef)*/
+/**Returns the number of bytes for any value which is designated */
 int32 nrofBytesForType_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("nrofBytesForType_InspcDataExchangeAccess_Inspc");
@@ -74,7 +74,7 @@ int32 nrofBytesForType_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16
 }
 
 
-/**Returns the byte given value with the designated type as float value with conversion. It is proper  (J2C:wmDef)*/
+/**Returns the byte given value with the designated type as float value with conversion. It is proper */
 float getFloatChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getFloatChild_InspcDataExchangeAccess_Inspc");
@@ -106,7 +106,7 @@ float getFloatChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 ty
 }
 
 
-/**Returns the byte given value with the designated type as int32 value with conversion. It is proper  (J2C:wmDef)*/
+/**Returns the byte given value with the designated type as int32 value with conversion. It is proper */
 int32 getIntChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getIntChild_InspcDataExchangeAccess_Inspc");
@@ -227,7 +227,7 @@ struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_Ins
   }
   { 
     
-    assign_iYii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), buffer, -1, 0, _thCxt);
+    assign_iYii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), buffer, -1, 0, _thCxt);
     setBigEndian_ByteDataAccessBaseJc((&thiz->base.super), true);
   }
   STACKTRC_LEAVE;
@@ -249,7 +249,7 @@ struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagram_InspcD
   }
   { 
     
-    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), true);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -257,48 +257,48 @@ struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagram_InspcD
 
 
 
-/**Sets the head for an request telegram. Sets the answer number to 0.  (J2C:wmDef)*/
+/**Sets the head for an request telegram. Sets the answer number to 0. */
 void setHeadRequest_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, int32 entrant, int32 seqNr, int32 encryption, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setHeadRequest_InspcDatagram_InspcDataExchangeAccess_Inspc");
   
   { 
     
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
-    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
-    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
-    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
     
-    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Sets the head for an answer telegram. Sets the answer number initially to 1.  (J2C:wmDef)*/
+/**Sets the head for an answer telegram. Sets the answer number initially to 1. */
 void setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, int32 entrant, int32 seqNr, int32 encryption, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc");
   
   { 
     
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
-    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
-    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);/*initializes 0 because it will be incremented the first time.*/
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knrofBytes_InspcDatagram_InspcDataExchangeAccess_Inspc, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), knEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc, entrant, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kseqnr_InspcDatagram_InspcDataExchangeAccess_Inspc, seqNr, _thCxt);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);/*initializes 0 because it will be incremented the first time.*/
     
-    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare13_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kspare14_InspcDatagram_InspcDataExchangeAccess_Inspc, 0x0, _thCxt);/*int encryption = (int)(((0x10000 * Math.random())-0x8000) * 0x10000);*/
     
-    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kencryption_InspcDatagram_InspcDataExchangeAccess_Inspc, encryption, _thCxt);
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Mark the datagram as last answer.  (J2C:wmDef)*/
+/**Mark the datagram as last answer. */
 void markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc");
@@ -306,15 +306,15 @@ void markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_
   { 
     
     
-    int32  nr = getInt8_i_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc);
+    int32  nr = getInt8_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc);
     nr |= 0x80;
-    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
   }
   STACKTRC_LEAVE;
 }
 
 
-/**Increments the number for the answer datagram.  (J2C:wmDef)*/
+/**Increments the number for the answer datagram. */
 void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc");
@@ -322,10 +322,10 @@ void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_Insp
   { 
     
     
-    int32  nr = getInt8_i_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc);
+    int32  nr = getInt8_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc);
     nr = (nr & 0x7f) + 1;
     ASSERT(/*J2C:static method call*/(nr & 0x80) == 0);
-    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
+    setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
   }
   STACKTRC_LEAVE;
 }
@@ -419,19 +419,19 @@ struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_Inspcitem_InspcDataExcha
 
 
 
-/**Sets the head data and sets the length of the ByteDataAccess-element. (J2C:wmDef)*/
+/**Sets the head data and sets the length of the ByteDataAccess-element.*/
 void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz, int32 length, int32 cmd, int32 order, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc");
   
   { 
     
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 0, length, _thCxt);
-    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 2, cmd, _thCxt);
-    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, order, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 0, length, _thCxt);
+    setInt16_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 2, cmd, _thCxt);
+    setInt32_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kbyteOrder_Inspcitem_InspcDataExchangeAccess_Inspc, order, _thCxt);
     
     int32  lengthInfo = length >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc ? length : sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc;
-    setLengthElement_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), lengthInfo);/*adjust the length in the access.*/
+    setLengthElement_ByteDataAccessBaseJc(& ((* (thiz)).base.super), lengthInfo);/*adjust the length in the access.*/
     
   }
   STACKTRC_LEAVE;
@@ -483,7 +483,7 @@ struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValue_InspcD
   }
   { 
     
-    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), true);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -491,7 +491,7 @@ struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValue_InspcD
 
 
 
-/**A long value is provided in the bytes 8..15 in Big endian. (J2C:wmDef)*/
+/**A long value is provided in the bytes 8..15 in Big endian.*/
 int32 getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz)
 { 
   
@@ -499,18 +499,18 @@ int32 getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcData
     
     switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc(thiz)){
       case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: 
-      return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 8);
+      return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 8);
       case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: 
-      return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 12);
+      return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 12);
       default: 
-      return (int32 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 8, -8);/*any integer information.*/
+      return (int32 /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 8, -8);/*any integer information.*/
       
     }/*switch*/;
   }
 }
 
 
-/**A long value is provided in the bytes 8..15 in Big endian. (J2C:wmDef)*/
+/**A long value is provided in the bytes 8..15 in Big endian.*/
 int64 getLong_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz)
 { 
   
@@ -518,18 +518,18 @@ int64 getLong_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDat
     
     switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc(thiz)){
       case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: 
-      return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 8);
+      return (int32 /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 8);
       case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: 
-      return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 12);
+      return (int32 /*J2C_cast*/)getFloat_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 12);
       default: 
-      return _getLong_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 8, -8);/*any integer information.*/
+      return _getLong_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 8, -8);/*any integer information.*/
       
     }/*switch*/;
   }
 }
 
 
-/**A float value is provided in the bytes 8..11 in Big endian. (J2C:wmDef)*/
+/**A float value is provided in the bytes 8..11 in Big endian.*/
 float getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz)
 { 
   
@@ -537,11 +537,11 @@ float getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDa
     
     switch((int16 /*J2C_cast*/)getType_InspcSetValue_InspcDataExchangeAccess_Inspc(thiz)){
       case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_double_ClassJc: 
-      return (float /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 8);
+      return (float /*J2C_cast*/)getDouble_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 8);
       case kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_float_ClassJc: 
-      return getFloat_i_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 12);
+      return getFloat_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 12);
       default: 
-      return (float /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super), 8, -8);/*any integer information.*/
+      return (float /*J2C_cast*/)_getLong_ByteDataAccessBaseJc(& ((* (thiz)).base.super), 8, -8);/*any integer information.*/
       
     }/*switch*/;
   }
@@ -593,7 +593,7 @@ struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValueDat
   }
   { 
     
-    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), true);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -609,9 +609,9 @@ void setBool_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int8 /*J2C_cast*/)value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -626,9 +626,9 @@ void setShort_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setShort_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int16 /*J2C_cast*/)value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -643,9 +643,9 @@ void setByte_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setByte_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), (int8 /*J2C_cast*/)value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -660,9 +660,9 @@ void setInt_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_In
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setInt_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -677,9 +677,9 @@ void setFloat_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -694,9 +694,9 @@ void setFloatIntImage_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetVa
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setFloatIntImage_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -711,9 +711,9 @@ void setDouble_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -728,9 +728,9 @@ void setLong_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
     
     InspcSetValue_InspcDataExchangeAccess_Inspc_s  setValue = { 0 };//J2C: constructor for embedded element-MemC
     ctorM_InspcSetValue_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/build_MemC(&setValue, sizeof(setValue)), _thCxt);
-    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 16, & ((setValue).base/*J2C_super:*/.super), _thCxt);
+    addChildAt_iXX_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 16, & ((setValue).base.super), _thCxt);
     setLong_InspcSetValue_InspcDataExchangeAccess_Inspc(& (setValue), value);
-    detach_ByteDataAccessBaseJc(& ((setValue).base/*J2C_super:*/.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
+    detach_ByteDataAccessBaseJc(& ((setValue).base.super), _thCxt);/*detach it because it is a Stack instance in C, don't reference furthermore.*/
     
   }
   STACKTRC_LEAVE;
@@ -782,7 +782,7 @@ struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* ctorM_InspcAnsw
   }
   { 
     
-    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), true);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), true);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -803,8 +803,8 @@ struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* ctorM_XX_InspcA
   }
   { 
     
-    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), true);
-    assignCasted_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), & ((* (src)).base/*J2C_super:*/.super), 0, 0);
+    setBigEndian_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), true);
+    assignCasted_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), & ((* (src)).base.super), 0, 0);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -818,7 +818,7 @@ int32 getIxHandleFrom_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(Ins
   { 
     
     { STACKTRC_LEAVE;
-      return _getInt_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 8, 2);
+      return _getInt_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 8, 2);
     }
   }
   STACKTRC_LEAVE;
@@ -831,7 +831,7 @@ int32 getIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(Inspc
   { 
     
     { STACKTRC_LEAVE;
-      return _getInt_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 10, 2);
+      return _getInt_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 10, 2);
     }
   }
   STACKTRC_LEAVE;
@@ -843,7 +843,7 @@ void setIxHandleFrom_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(Insp
   
   { 
     
-    _setInt_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 8, 2, val);
+    _setInt_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 8, 2, val);
   }
   STACKTRC_LEAVE;
 }
@@ -854,7 +854,7 @@ void setIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(InspcA
   
   { 
     
-    _setInt_ByteDataAccessBaseJc(& ((* (thiz)).base/*J2C_super:*/.super.base/*J2C_super:*/.super), 10, 2, val);
+    _setInt_ByteDataAccessBaseJc(& ((* (thiz)).base.super.base.super), 10, 2, val);
   }
   STACKTRC_LEAVE;
 }

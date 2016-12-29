@@ -757,11 +757,11 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* ythis, MemSegmJc obj
     clazzRet = clazzFromField;  //clazz is set from FieldJc-type for information, but it shouldn't used to access.
   }
   else
-  { //ref is the direct address of the referenced object, consider, it may be a embedded, array, container
+  { //?ref is the direct address of the referenced object, consider, it may be a embedded, array, container
     //obj is the parent obj, which contains the field ythis. idx is the index inside the field, or -1
     intPTR iRef;
     MemSegmJc ref; // = getReference_FieldJc(ythis, obj, idx);  //getRefAddr_FieldJc(ythis, obj, idx);
-    
+    //ref = address of the element inside obj. obj is the instance which contains this field.
     ref = getAddrElement_FieldJc(ythis, obj, sVaargs, vaargs); //getRefAddr_FieldJc(ythis, instance, 0);
     if(isReference_ModifierJc(modifiers))
     { ref = getRef_MemAccessJc(ref);
@@ -964,7 +964,7 @@ METHOD_C MemSegmJc searchObject_ClassJc(StringJc sPath, ObjectJc* startObj, Fiel
   StringJc sName = NULL_StringJc;
   StringJc sElement = NULL_StringJc;
   ClassJc const* clazz = getClass_ObjectJc(startObj);
-  MemSegmJc nextObj = CONST_OS_PtrValue((char*)startObj, 0);  //the source Object for the next access
+  MemSegmJc nextObj = CONST_OS_PtrValue(startObj, MemUnit, 0);  //the source Object for the next access
   FieldJc const* field = null;
   int idx = -1;
   int posSep;
@@ -1182,16 +1182,30 @@ int16 getShort_FieldJc(const FieldJc* ythis, MemSegmJc obj, char const* sVaargs,
 }
 
 
+//Note: 2016-12-04: If it is a reference to an integer, the indices should be applied
+//inside the referenced field. Not to the obj. The field is not an embedded array of references but a reference to an array.  
 METHOD_C int32 getInt_FieldJc(const FieldJc* ythis, MemSegmJc obj, char const* sVaargs, ...)
 { va_list vaargs;
   MemSegmJc adr;
   int32 value;
   va_start(vaargs, sVaargs);
-	adr = getAddrElement_FieldJc(ythis, obj, sVaargs, vaargs);
   //adr = getMemoryAddress_FieldJc(ythis,obj, false, sVaargs, vaargs);
   //TODO test if it is an integer field!
   if(isReference_ModifierJc(ythis->bitModifiers))
-  { adr = getRef_MemAccessJc(adr);
+  { //Reference to an int element or an int array.
+    MemSegmJc adrElementInObj = getAddrElement_FieldJc(ythis, obj, null, null); //The address of the reference
+    adr = getRef_MemAccessJc(adrElementInObj);
+    if(sVaargs != null && *sVaargs == 'I'){  //only 1 index yet, todo later.
+      int ixData = va_arg(vaargs, int32);
+      //Manipulate the adr of the array to the adr of the array element.
+      //TODO if the remote CPU is a Analog Devices DSP with word adressing, it is wrong.
+      //It is necessary to have information about that detail.
+      int32* addrElement = PTR_OS_PtrValue(adr, int32) + ixData;
+      setPtr_OS_PtrValue(adr, addrElement);
+    }
+  } else {
+  	//scalar int or embedded array with given index
+    adr = getAddrElement_FieldJc(ythis, obj, sVaargs, vaargs);
   }
   value = getInt32_MemAccessJc(adr);
   return value;
@@ -1267,6 +1281,7 @@ int16 getBitfield_FieldJc(const FieldJc* ythis, MemSegmJc obj, char const* sVaar
   MemSegmJc adr;
   int nrofBits = (ythis->nrofArrayElementsOrBitfield_ & mNrofBitsInBitfield_FieldJc) >> kBitNrofBitsInBitfield_FieldJc;
   int posBit = ythis->nrofArrayElementsOrBitfield_ & mBitInBitfield_FieldJc;
+  if(nrofBits == 0){ nrofBits = 16; }  //special case: 0 is 16 bit.
   
   va_start(vaargs, sVaargs);
 	//TODO getAddrElement_FieldJc
@@ -1284,6 +1299,7 @@ int setBitfield_FieldJc(const FieldJc* ythis, MemSegmJc obj, int val, char const
   MemSegmJc adr;
   int nrofBits = (ythis->nrofArrayElementsOrBitfield_ & mNrofBitsInBitfield_FieldJc) >> kBitNrofBitsInBitfield_FieldJc;
   int posBit = ythis->nrofArrayElementsOrBitfield_ & mBitInBitfield_FieldJc;
+  if(nrofBits == 0){ nrofBits = 16; }  //special case: 0 is 16 bit.
 
   va_start(vaargs, sVaargs);
 	//TODO getAddrElement_FieldJc

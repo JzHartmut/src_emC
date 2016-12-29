@@ -74,8 +74,10 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
   if(val >=0){
     val |= mIsCharSeqJcMtbl_CharSeqJc;
   } else {
-    //TODO this is not an instance of CharSeqJc. THROW!
-    val = kIsCharSeqJc_CharSeqJc;
+    STACKTRC_ENTRY("fromObjectJc_CharSeqJc");
+    THROW_s0(IllegalArgumentException, "thiz does not implement the CharSeqJc interface.", (int)othiz);
+    STACKTRC_LEAVE;
+	return z_CharSeqJc("faulty instance ");
   }
   set_OS_PtrValue(ret, othiz, val); 
   return ret;
@@ -134,14 +136,14 @@ char const* getCharsAndLength_StringJc(StringJc const* ythis, int* length)
 
 
 
-METHOD_C int length_StringJc(StringJc const ythis)
+int length_StringJc(StringJc const ythis)
 { int nChars = VAL_StringJc(ythis) & mLength__StringJc;
   if(nChars == kMaxLength_StringJc) { nChars = strlen_Fwc(PTR_StringJc(ythis), kMaxLength_StringJc); }
   return nChars;
 }
 
 
-METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis)
+bool isZeroTerminated_StringJc(StringJc const ythis)
 { char const* chars = PTR_StringJc(ythis);
   int nChars = VAL_StringJc(ythis) & mLength__StringJc;
   if(nChars == mLength__StringJc) { nChars = strlen_Fwc(chars, mLength__StringJc); }
@@ -173,7 +175,7 @@ Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz)
 
 
 
-extern_C int32 length_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _ThCxt)
+int32 length_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _ThCxt)
 { StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   return thiz->length; 
 }
@@ -285,7 +287,7 @@ int length_CharSeqJc_(CharSeqJc thiz)
 
 
 
-METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer)
+int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer)
 { //STACKTRC_ENTRY("copyToBuffer_CharSeqJc");
   int nChars = VAL_CharSeqJc(thiz) & mLength__StringJc;
   if(nChars <= kMaxLength_StringJc) {

@@ -135,8 +135,14 @@ struct ThreadContextFW_t;
 /**A const definition of a MemC using as initializer for static or stack variables.
  * In standard-C only useable for global static variables, if SIZE or PTR are not constants itself.
  */
-#define CONST_MemC(PTR, SIZE) CONST_OS_PtrValue((char*)(PTR), SIZE)
+#define CONST_MemC(PTR, SIZE) CONST_OS_PtrValue(PTR, MemUnit, SIZE)
 
+
+/**Macro for a value which contains {null, 0} for immediately initializing. 
+ * Application example:
+ * , MemC myMemc = NULL_MemC();  //initialized with {null, 0}
+ */
+#define NULL_MemC() CONST_OS_PtrValue(null, MemUnit, 0)
 
 
 /**gets the size. 
@@ -155,11 +161,6 @@ struct ThreadContextFW_t;
 #define PTR_MemC(MEMC, TYPE) PTR_OS_PtrValue(MEMC, TYPE)
 
 
-/**Macro for a value which contains {null, 0} for immediately initializing. 
- * Application example:
- * , MemC myMemc = NULL_MemC();  //initialized with {null, 0}
- */
-#define NULL_MemC() CONST_OS_PtrValue(null, 0);
 
 /**Macro to get the int8* pointer from a memory location. 
  * Note: That is not a MemUnit in any case, only if it is a byte address processor (most processors).

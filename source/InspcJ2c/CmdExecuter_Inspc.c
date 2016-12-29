@@ -76,7 +76,7 @@ void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Co
 }
 
 
-/**Executes the given command received with this datagram (J2C:wmDef)*/
+/**Executes the given command received with this datagram*/
 bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
 { Mtbl_CmdExecuter_Inspc const* mtthis = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
   
@@ -98,7 +98,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
     thiz->nrofBytesAnswer = 0;
     
     CmdConsumer_ifc_InspcMTB cmdConsumerMtbl ; SETMTBJc(cmdConsumerMtbl, thiz->cmdConsumer, CmdConsumer_ifc_Inspc);
-    removeChildren_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base/*J2C_super:*/.super));
+    removeChildren_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super));
     fill_mB_ArraysJc(/*J2C:static method call*/thiz->bufferAnswerData, 0, thiz->bufferAnswerData.val, (int8 /*J2C_cast*/)0, _thCxt);/*String test = myAnswerData.toString();*/
     
     if(nEntrant < 0) 
@@ -107,7 +107,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
       
       nrofBytesTelg = getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
       
-      int32  nrofBytesAccess = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base/*J2C_super:*/.super), _thCxt);
+      int32  nrofBytesAccess = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), _thCxt);
       ASSERT(/*J2C:static method call*/nrofBytesTelg == nrofBytesReceived);
       ASSERT(/*J2C:static method call*/nrofBytesTelg == nrofBytesAccess);/*nrofBytesProcessed = datagramCmd.sizeofHead;*/
       
@@ -120,19 +120,19 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
       setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), nEntrant, seqNr, encryption, _thCxt);
       thiz->nrofBytesAnswer = sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc;
       
-      while(bOk && sufficingBytesForNextChild_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base/*J2C_super:*/.super), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
+      while(bOk && sufficingBytesForNextChild_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt))
         { /*:nrofBytesTelg >= (nrofBytesProcessed + InspcDataExchangeAccess.Inspcitem.sizeofHead)){*/
           /*:The next telg Part will be found after the processed part.*/
           
           
-          addChild_XX_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base/*J2C_super:*/.super), & ((thiz->infoCmd).base/*J2C_super:*/.super), _thCxt);
+          addChild_XX_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), & ((thiz->infoCmd).base.super), _thCxt);
           partLength = getLenInfo_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->infoCmd));
-          if(partLength >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc && checkLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), partLength, _thCxt)) 
+          if(partLength >= sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc && checkLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), partLength, _thCxt)) 
           { /*:partLength <= (nrofBytesTelg - nrofBytesProcessed)){*/
             /*:valid head data.*/
             
             
-            setLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), partLength);/*this child has the given length.*/
+            setLengthElement_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), partLength);/*this child has the given length.*/
             
             maxNrofBytesAnswerPart = thiz->maxNrofAnswerBytes - thiz->nrofBytesAnswer;/*execute:*/
             
@@ -167,12 +167,12 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
           
         }
       
-      int32  nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base/*J2C_super:*/.super), _thCxt);
+      int32  nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super), _thCxt);
       if(nrofAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
       { /*:more as the head:*/
         
         
-        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base/*J2C:ifc*/.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
+        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
       }
     }
     else 
@@ -184,8 +184,8 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
       
       setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), 0, 0x80000, 0, _thCxt);
       setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->myAnswerData), 8);
-      assign_iYi_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), buffer, nrofBytesReceived);
-      setBigEndian_ByteDataAccessBaseJc(& ((thiz->infoCmd).base/*J2C_super:*/.super), true);
+      assign_iYi_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), buffer, nrofBytesReceived);
+      setBigEndian_ByteDataAccessBaseJc(& ((thiz->infoCmd).base.super), true);
       maxNrofBytesAnswerPart = 1400;
       TRY
       { 
@@ -208,12 +208,12 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffe
         }
       END_TRY
       
-      int32  nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base/*J2C_super:*/.super), _thCxt);
+      int32  nrofAnswer = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super), _thCxt);
       if(nrofAnswer > sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc) 
       { /*:more as the head:*/
         
         
-        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base/*J2C:ifc*/.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
+        mtthis->AnswerComm_ifc_Inspc.txAnswer(&((& ((* (thiz)).base.AnswerComm_ifc_Inspc))->base.object), nrofAnswer, true, _thCxt);
       }
     }
     { STACKTRC_LEAVE;
@@ -230,7 +230,7 @@ bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, PtrVal_int8 buffer,
 }
 
 
-/**Send the current answer datagram as answer. Firstly the {@link InspcDataExchangeAccess.InspcDatagram#incrAnswerNr()} (J2C:wmDef)*/
+/**Send the current answer datagram as answer. Firstly the {@link InspcDataExchangeAccess.InspcDatagram#incrAnswerNr()}*/
 int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt)
 { CmdExecuter_Inspc_s* thiz = (CmdExecuter_Inspc_s*)ithis;
   

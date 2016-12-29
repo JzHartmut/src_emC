@@ -10,12 +10,12 @@ fieldIdents {
 }
   methods {  
     ctorO-_$, mode=ctor+static: org/vishia/communication/InterProcessCommRxExec *.. InterProcessCommRxExec_Ipc_s();
-    execRxData+_iYiAddrIpc-_$, defined: org/vishia/communication/InterProcessCommRx_ifc.execRxData, mode=overrideable: void %.r null(byte[??] X%. buffer,int %.. nrofBytesReceived,org/vishia/communication/Address_InterProcessComm *.. sender);
+    execRxData+_iYiAddrIpc-_$, defined: org/vishia/communication/InterProcessCommRx_ifc.execRxData, mode=overrideable: void %.r null(byte[??] M%. buffer,int %.. nrofBytesReceived,org/vishia/communication/Address_InterProcessComm *.. sender);
   }
 
   castTo {
-    org/vishia/communication/InterProcessCommRx_ifc: $ "(?).base/*J2C_super:*/.super" $;
-    java/lang/Object: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.object" $;
+    org/vishia/communication/InterProcessCommRx_ifc: $ "(?).base.super" $;
+    java/lang/Object: $ "(?).base.super.base.object" $;
   }
 
 }

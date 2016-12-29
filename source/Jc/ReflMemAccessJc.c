@@ -56,7 +56,7 @@
 #include <Fwc/fw_Exception.h>
 
 
-MemSegmJc null_MemSegmJc = CONST_OS_PtrValue(0, null);
+MemSegmJc null_MemSegmJc = CONST_OS_PtrValue(null, MemUnit, 0);
 
 MemAccessArrayDebugJc memAccessDebugJc = {0};
 
@@ -294,10 +294,10 @@ int setBitfield_MemAccessJc(MemSegmJc addr, int setVal, int posBit, int nrofBit 
 			posBitUsed = posBit & 0xf;  //
 
 			int mask = ((1<<nrofBit)-1) << (posBitUsed);
-      int or = (setVal << (posBitUsed)) & mask;
+      int orVal = (setVal << (posBitUsed)) & mask;
 			val1 = *(int16*)(addr1);
 			val1 &= ~mask;  //set this bits to 0
-			val1 |= or;
+			val1 |= orVal;
 			*(int16*)(addr1) = (int16)val1;
 			val1 = *(int16*)(addr1);
 		  //shift the bit in position:
@@ -310,13 +310,13 @@ int setBitfield_MemAccessJc(MemSegmJc addr, int setVal, int posBit, int nrofBit 
 			posBitUsed = posBit & 0x1f;  //
 
       int32 mask = ((1<<nrofBit)-1) << (posBitUsed);
-      int32 or = (setVal << (posBitUsed)) & mask;
+      int32 orVal = (setVal << (posBitUsed)) & mask;
 			int32* addr2 = (int32*) addr1;
       int32 val0;
       int ctCatastrophic = 999;  //terminate a while-loop
       { val0 = *addr2;
 			  val1 = val0 & ~mask;  //set this bits to 0
-			  val1 |= or;
+			  val1 |= orVal;
       } while(--ctCatastrophic >=0 && !compareAndSet_AtomicInteger(addr2, val0, val1));  //repeat if memory was changed. 
 			if(ctCatastrophic < 0) {
         val1 = 0xbad;

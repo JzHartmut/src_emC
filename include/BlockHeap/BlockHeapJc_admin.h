@@ -127,7 +127,7 @@ typedef struct BlockHeapJc_t
 }BlockHeapJc;
 
 
-extern struct ClassJc_t const reflection_BlockHeapJc;
+extern_C struct ClassJc_t const reflection_BlockHeapJc;
 
 
 /**inits a new allocated BlockHeap.

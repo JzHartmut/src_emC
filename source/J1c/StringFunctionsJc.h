@@ -145,6 +145,11 @@ assert(StringFunctions.equals(sb, str)); //compares any CharSequences
 */
 METHOD_C bool equals_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
 
+/**Returns true if s2 is contained in s1. 
+It invokes {@link #indexOf(CharSequence, int, int, CharSequence)}.
+*/
+METHOD_C bool contains_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt);
+
 /**Checks whether the given CharSequence starts with a CharSequence.
 It is the adequate functionality like {@link java.lang.String#startsWith(String)}
 but it works proper with {@link java.lang.CharSequence}. See example on {@link #equals(Object)}.
@@ -306,6 +311,8 @@ class StringFunctionsJc : private StringFunctionsJc_s
   int32 compare(CharSeqJc s1, CharSeqJc s2){  return compare_CsCs_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 
   int32 compare(CharSeqJc s1, int32 from1, CharSeqJc s2, int32 from2, int32 nrofChars){  return compare_CsiCsii_StringFunctionsJc(s1, from1, s2, from2, nrofChars,  null/*_thCxt*/); }
+
+  bool contains(CharSeqJc s1, CharSeqJc s2){  return contains_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 
   StringFunctionsJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctionsJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctionsJc_s, 0); ctorO_StringFunctionsJc(&this->base.object,  null/*_thCxt*/); }
 

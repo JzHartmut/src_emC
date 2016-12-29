@@ -11,12 +11,14 @@
 
 
 
+/**This is the core block for an input block of any values which are accessible via the inspector engine. 
 
+ */
 typedef struct InputValues_Inspc_t
 { ObjectJc base;
   
   
-  /**Input buffer for at least 12 different value (cluster), maybe a single float, or a float_comlex, or a vector up to 6 elements.
+  /**Input buffer for at least 12 different value (cluster), maybe a single float, or a float_comlex, or a vector etc.
    * Correct view organized in the reflection. 
    */
   int32 val[240];
@@ -32,7 +34,9 @@ typedef struct InputValues_Inspc_t
 
   int32 nrofElements[12];
 
-  int8 dataType[12];
+  int8 dataType[16];
+
+  int32 dataTypeSmlk[12];
 
   /**Parametrized signal identifier. */
   char names[12][32];
@@ -52,6 +56,11 @@ typedef struct InputValues_Inspc_t
 /**Allocate and construct. */
 InputValues_Inspc* create_InputValues_Inspc();
 
+/**Constructs and completes the instance. 
+ * Some attributes should be set before:
+ * TODO rename it to init_InputValues_Inspc, the ctor should do only basic initalizing.
+ * * dataType
+ */
 
 void ctor_InputValues_Inspc(InputValues_Inspc* thiz);
 

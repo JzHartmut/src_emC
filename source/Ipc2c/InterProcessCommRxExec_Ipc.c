@@ -42,7 +42,7 @@ struct InterProcessCommRxExec_Ipc_t* ctorO_InterProcessCommRxExec_Ipc(ObjectJc* 
 }
 
 
-void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(InterProcessCommRx_ifc_Ipc_s* ithis, int8_Y* buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt)
+void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(InterProcessCommRx_ifc_Ipc_s* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt)
 { InterProcessCommRxExec_Ipc_s* thiz = (InterProcessCommRxExec_Ipc_s*)ithis;
   
   STACKTRC_TENTRY("execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F");
@@ -55,7 +55,7 @@ void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(InterProcessCommRx_ifc_I
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc(InterProcessCommRx_ifc_Ipc_s* ithis, int8_Y* buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt)
+void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc(InterProcessCommRx_ifc_Ipc_s* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt)
 { Mtbl_InterProcessCommRx_ifc_Ipc const* mtbl = (Mtbl_InterProcessCommRx_ifc_Ipc const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_InterProcessCommRx_ifc_Ipc);
   mtbl->execRxData((InterProcessCommRx_ifc_Ipc_s*)ithis, buffer, nrofBytesReceived, sender, _thCxt);
 }

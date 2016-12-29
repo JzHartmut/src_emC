@@ -36,7 +36,7 @@
  */
 #ifndef __Jc_FileIoJc_h__
 #define __Jc_FileIoJc_h__
-
+#include <os_types_def.h>
 #include "Jc/ObjectJc.h"
 #include "os_file.h"
 //#include <fw_Platform_Conventions.h>
@@ -97,7 +97,7 @@ typedef struct OutputStreamJc_t
   
 }OutputStreamJc_s;
 
-extern struct ClassJc_t const reflection_OutputStreamJc_s;
+extern_C struct ClassJc_t const reflection_OutputStreamJc_s;
 
 DEFINE_EnhancedRefJc(OutputStreamJc);
 
@@ -132,7 +132,7 @@ typedef struct FileOutputStreamJc_t
   OS_HandleFile file;
 }FileOutputStreamJc_s;
 
-extern struct ClassJc_t const reflection_FileOutputStreamJc_s;
+extern_C struct ClassJc_t const reflection_FileOutputStreamJc_s;
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */

@@ -131,7 +131,9 @@ void wait_ObjectJc(ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
   HandleItem* handle;
   STACKTRC_TENTRY("wait_ObjectJc");
   if(obj->idSyncHandles == kNoSyncHandles_ObjectJc)
-  { handle = getFreeHandleEntry(&obj->idSyncHandles);
+  { int16 idx;
+    handle = getFreeHandleEntry(&idx);
+    obj->idSyncHandles = idx;
   }
   else
   { handle = getHandleEntry(obj->idSyncHandles);
@@ -200,7 +202,9 @@ void synchronized(ObjectJc* obj)
 { //TODO test wether the thread has the monitor.
   HandleItem* handle;
   if(obj->idSyncHandles == kNoSyncHandles_ObjectJc)
-  { handle = getFreeHandleEntry(&obj->idSyncHandles);
+  { int16 idx;
+    handle = getFreeHandleEntry(&idx);
+    obj->idSyncHandles = idx;
     if (handle !=null)
     { char name[9];
       int error;

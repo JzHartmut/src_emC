@@ -8,7 +8,7 @@
  * 2) You can redistribute copies of this source to everybody.
  * 3) Every user of this source, also the user of redistribute copies
  *    with or without payment, must accept this license for further using.
- * 4) But the LPGL ist not appropriate for a whole software product,
+ * 4) But the LPGL is not appropriate for a whole software product,
  *    if this source is only a part of them. It means, the user
  *    must publish this part of source,
  *    but don't need to publish the whole source of the own product.
@@ -33,35 +33,11 @@
 
 #ifndef   __os_types_def_h__
 #define   __os_types_def_h__
-//CRuntimeJavalike/includeSpecials/os_Windows_Msc6/os_types_def.h
+//File: CRuntimeJavalike/includeSpecials/os_Windows_Gcc/os_types_def.h
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
-#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-#pragma warning(disable:4100) //unused argument
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4310) //cast truncates constant value
-
-//C++
-#pragma warning(disable:4514) //unreferenced inline function has been removed
-#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4068) //unknown pragma
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-
 
 
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
@@ -80,7 +56,7 @@
 #define OSAL_LITTLEENDIAN
 
 /**This define is set because the memory organisation disallows a word boundary on non-word-addresses.
- * At example writing a int32 on a address 0x1005 is disallowed (not able to divide by sizeof(int32).
+ * For example writing a int32 on a address 0x1005 is disallowed (not able to divide by sizeof(int32).
  */
 //#define OSAL_MEMWORDBOUND
 
@@ -91,8 +67,8 @@
 // Folgender Schalter ist gesetzt zur Auswahl der Betriebssystemplattform Windows ist. Damit k?nnen Betriebssystemzugriffe bedingt compiliert werden.
 #define __OS_IS_WINDOWS__
 
-// Folgender Schalter ist gesetzt zur Auswahl des Compilers MSC6. Damit k?nnen spezifische Compilereigenschaften mittels bedingter Compilierung ber?cksichtigt werden.
-#define __COMPILER_IS_MSC6__
+// Folgender Schalter ist gesetzt zur Auswahl des Compilers GCC. Damit k?nnen spezifische Compilereigenschaften mittels bedingter Compilierung ber?cksichtigt werden.
+#define __COMPILER_IS_GCC__
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
@@ -110,8 +86,8 @@ typedef signed char          int8_t;
 typedef short                int16_t;
 typedef long                 int32_t;
 
-#define int64_t __int64
-#define uint64_t __int64
+#define int64_t long long
+#define uint64_t unsigned long long
 #define bool8_t char
 #define bool16_t int16_t
 
@@ -128,12 +104,11 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define uint8 unsigned char
 #define uint16 unsigned short
 #define uint32 unsigned long
-#define uint64 __int64
+#define uint64 unsigned long long
 #define int8 signed char
 #define int16 short
 #define int32 long
-#define int64 __int64
-
+#define int64 long long
 //Standard-character and UTF16-character:
 #define char8 char
 #define char16 unsigned short
@@ -258,18 +233,12 @@ typedef float                float32;
  */
 #define kMaxPathLength_FileDescription_OSAL 480
 
+//#define abs(X) (X <0 ? -X :X)
 
-
-#define fmaxf(A, B) ( (A) > (B) ? (A) : (B) )
-#define fminf(A, B) ( (A) < (B) ? (A) : (B) )
-
-#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
-#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
-
-#ifdef __cplusplus
-#define max(A, B) ( (A) > (B) ? (A) : (B) )
-#define min(A, B) ( (A) < (B) ? (A) : (B) )
-#endif
+/**Yet in simulink an untyped input/output handle which is a pointer can only be stored as double.
+ * use conversion:
+ *  SIMUPTR ptr = *(SIMUPTR*)&reference; //reference is any Type* reference.
+ */
 
 /**Include the common definitions in its pure form. */
 #include <OSAL/os_types_def_common.h>

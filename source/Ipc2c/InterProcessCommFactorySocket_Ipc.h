@@ -126,15 +126,15 @@ class InterProcessCommFactorySocket_Ipc : private InterProcessCommFactorySocket_
 
   struct Address_InterProcessComm_t* createAddressSocket(StringJcpp type, StringJcpp addr, int32 nPort){  return createAddressSocket_InterProcessCommFactorySocket_Ipc(type, addr, nPort,  null/*_thCxt*/); }
 
-  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndAddr){  return createAddress_S_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndAddr,  null/*_thCxt*/); }
+  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndAddr){  return createAddress_S_InterProcessCommFactorySocket_Ipc_F(&this->base.super, protocolAndAddr,  null/*_thCxt*/); }
 
-  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndOwnAddr, int32 nPort){  return createAddress_Si_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
+  virtual struct Address_InterProcessComm_t* createAddress(StringJcpp protocolAndOwnAddr, int32 nPort){  return createAddress_Si_InterProcessCommFactorySocket_Ipc_F(&this->base.super, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
 
-  virtual struct InterProcessComm_t* create(struct Address_InterProcessComm_t* addr){  return create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, addr,  null/*_thCxt*/); }
+  virtual struct InterProcessComm_t* create(struct Address_InterProcessComm_t* addr){  return create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(&this->base.super, addr,  null/*_thCxt*/); }
 
-  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr){  return create_S_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndOwnAddr,  null/*_thCxt*/); }
+  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr){  return create_S_InterProcessCommFactorySocket_Ipc_F(&this->base.super, protocolAndOwnAddr,  null/*_thCxt*/); }
 
-  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr, int32 nPort){  return create_Si_InterProcessCommFactorySocket_Ipc_F(&this->base/*J2C_super:*/.super, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
+  virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr, int32 nPort){  return create_Si_InterProcessCommFactorySocket_Ipc_F(&this->base.super, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
 
   InterProcessCommFactorySocket_Ipc(){ init_ObjectJc(&this->base.object, sizeof(InterProcessCommFactorySocket_Ipc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommFactorySocket_Ipc_s, 0); ctorO_InterProcessCommFactorySocket_Ipc(&this->base.object,  null/*_thCxt*/); }
 };

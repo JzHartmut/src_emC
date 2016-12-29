@@ -41,7 +41,7 @@ struct InterProcessCommRx_ifc_Ipc_t* ctorO_InterProcessCommRx_ifc_Ipc(ObjectJc* 
 
 
 
-/**Callback routine for received data. (J2C:wmDef)*/
+/**Callback routine for received data.*/
 /*J2C: dynamic call variant of the override-able method: */
 void execRxData_InterProcessCommRx_ifc_Ipc(InterProcessCommRx_ifc_Ipc_s* thiz, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt)
 { Mtbl_InterProcessCommRx_ifc_Ipc const* mtbl = (Mtbl_InterProcessCommRx_ifc_Ipc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_InterProcessCommRx_ifc_Ipc);

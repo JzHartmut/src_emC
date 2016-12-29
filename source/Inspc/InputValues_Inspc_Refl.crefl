@@ -9,12 +9,11 @@
 
 extern_C const ClassJc reflection_InputValues_Inspc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
-extern_C const ClassJc reflection_ClassJc;
 const struct Reflection_Fields_InputValues_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[7];
+  FieldJc data[8];
 } reflection_Fields_InputValues_Inspc =
-{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_InputValues_Inspc)
+{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_InputValues_Inspc)
 , {
     { "base"
     , 0   //no Array, no Bitfield
@@ -57,10 +56,18 @@ const struct Reflection_Fields_InputValues_Inspc_t
     , &reflection_InputValues_Inspc
     }
   , { "dataType"
-    , 12   //nrofArrayElements
-    , &reflection_ClassJc
-    , 0| mReference_Modifier_reflectJc |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , 16   //nrofArrayElements
+    , REFLECTION_int8
+    , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->dataType) -(int32)(InputValues_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_InputValues_Inspc
+    }
+  , { "dataTypeSmlk"
+    , 12   //nrofArrayElements
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((InputValues_Inspc*)(0x1000))->dataTypeSmlk) -(int32)(InputValues_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_InputValues_Inspc
     }

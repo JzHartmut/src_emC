@@ -64,9 +64,9 @@ void finalize_InterProcessCommRxExec_Ipc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct InterProcessCommRxExec_Ipc_t* ctorO_InterProcessCommRxExec_Ipc(ObjectJc* othis, ThCxt* _thCxt);
 
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(InterProcessCommRx_ifc_Ipc_s* ithis, int8_Y* buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
+METHOD_C void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(InterProcessCommRx_ifc_Ipc_s* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc(InterProcessCommRx_ifc_Ipc_s* ithis, int8_Y* buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
+METHOD_C void execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc(InterProcessCommRx_ifc_Ipc_s* ithis, PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt);
 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
@@ -86,7 +86,7 @@ class InterProcessCommRxExec_Ipc : private InterProcessCommRxExec_Ipc_s
 
   InterProcessCommRxExec_Ipc(){ init_ObjectJc(&this->base.object, sizeof(InterProcessCommRxExec_Ipc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommRxExec_Ipc_s, 0); ctorO_InterProcessCommRxExec_Ipc(&this->base.object,  null/*_thCxt*/); }
 
-  virtual void execRxData(int8_Y* buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender){ execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(&this->base/*J2C_super:*/.super, buffer, nrofBytesReceived, sender,  null/*_thCxt*/); }
+  virtual void execRxData(PtrVal_int8 buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender){ execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(&this->base.super, buffer, nrofBytesReceived, sender,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

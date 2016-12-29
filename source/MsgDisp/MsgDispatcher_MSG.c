@@ -309,7 +309,7 @@ int32 setOutputRange_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, int32 fromIden
 
 
 /**Sets the output from a String content.*/
-StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc ctrl, struct StringBufferJc_t* errorBuffer, ThCxt* _thCxt)
+StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, StringJc ctrl, struct StringBuilderJc_t* errorBuffer, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setOutputFromString_MsgDispatcher_MSG");
   
@@ -320,7 +320,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
     if(errorBuffer != null) 
     { 
       
-      setLength_StringBufferJc(errorBuffer, 0, _thCxt);
+      setLength_StringBuilderJc(errorBuffer, 0, _thCxt);
     }
     
     StringPartScanJc_s  spCtrl = { 0 };//J2C: constructor for embedded element-ObjectJc
@@ -343,7 +343,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
           int32  toIdent;/*no initvalue*/
           if(
           ( seekNoWhitespaceOrComments_StringPartJc(& ((spCtrl).base.super), _thCxt)
-          , length_StringPartJc(fromObjectJc_CharSeqJc(&(spCtrl).base.object), _thCxt)
+          , length_StringPartJc((&(spCtrl).base.object), _thCxt)
           ) == 0) 
           { 
             
@@ -496,8 +496,8 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                           { 
                             
                             
-                          ( append_z_StringBufferJc(errorBuffer, "Output not found:", _thCxt)
-                          , append_c_StringBufferJc(errorBuffer, sOutput.c/*J2C-error testAndChangeAccess: ct*/, _thCxt)
+                          ( append_z_StringBuilderJc(errorBuffer, "Output not found:", _thCxt)
+                          , append_c_StringBuilderJc(errorBuffer, sOutput.c, _thCxt)
                           );
                           }
                           sError = sOutput/*J2C:non-persistent*/;/*short variant if buffer isn't given.*/
@@ -534,16 +534,16 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
         sError = getMessage_ExceptionJc(exc, _thCxt)/*J2C:non-persistent*/;
       }
     END_TRY
-    if(sError.c.ref!= null && errorBuffer != null && length_StringBufferJc(errorBuffer) == 0) 
+    if(sError.c.ref!= null && errorBuffer != null && length_StringBuilderJc(errorBuffer) == 0) 
     { 
       CharSeqJc _thCxtRef3_1;
       
-      int32  nrofCharsRest = capacity_StringBufferJc(errorBuffer) - length_StringJc(sError) - 5;
+      int32  nrofCharsRest = capacity_StringBuilderJc(errorBuffer) - length_StringJc(sError) - 5;
       /**Prevent Buffer expansion, use rest size. */
       
-        ( append_c_StringBufferJc(errorBuffer, sError.c/*J2C-error testAndChangeAccess: ct*/, _thCxt)
-        , append_z_StringBufferJc(errorBuffer, " at:", _thCxt)
-        , append_c_StringBufferJc(errorBuffer, ( _thCxtRef3_1 = getCurrent_StringPartJc(& ((spCtrl).base.super), nrofCharsRest, _thCxt))/*J2C-error testAndChangeAccess: ct*/, _thCxt)
+        ( append_c_StringBuilderJc(errorBuffer, sError.c, _thCxt)
+        , append_z_StringBuilderJc(errorBuffer, " at:", _thCxt)
+        , append_c_StringBuilderJc(errorBuffer, ( _thCxtRef3_1 = getCurrent_StringPartJc(& ((spCtrl).base.super), nrofCharsRest, _thCxt)), _thCxt)
         );
       releaseUserBuffer_ThreadContextFw(PTR_CharSeqJc(_thCxtRef3_1), _thCxt);
     }
@@ -568,7 +568,6 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
     TRY
     { 
       
-      /**A temporary buffer, in C in Stack. Do not use String concatenating, because no dynamically mem!*/
       write_FileWriterJc(file, s0_StringJc("//Syntax-Example\n"), _thCxt);
       write_FileWriterJc(file, s0_StringJc("//  1200..1257: +File +qCON -CON;\n"), _thCxt);
       write_FileWriterJc(file, s0_StringJc("//  4567:File;\n"), _thCxt);
@@ -581,32 +580,32 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
       write_FileWriterJc(file, s0_StringJc("//1234:-File;  \n"), _thCxt);
       write_FileWriterJc(file, s0_StringJc("\n//All existing dst (destinations):\n"), _thCxt);
       
-      StringBufferJc  line = { 0 };//J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(line.base.object), sizeof(line), 0); 
-      ctorO_I_StringBufferJc(/*J2C:static method call*/&(line.base.object), 200, _thCxt);
+      struct { StringBufferJc sb;  char _b[196]; } line = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
+      init_ObjectJc(&line.sb.base.object, sizeof(StringBuilderJc) + 200 - 4, 0);
+      ctorO_I_StringBuilderJc(&line.sb.base.object, 200, _thCxt);
       { int32 ii; 
         for(ii = 0; ii < thiz->maxDst; ii++)
           { 
             
-            setLength_StringBufferJc(& (line), 0, _thCxt);
+            setLength_StringBuilderJc(& (line.sb), 0, _thCxt);
             
             struct Output_MsgDispatcherCore_MSG_t*  dst = & (thiz->base.super.outputs->data[ii]);
             if(dst->outputIfc.ref!= null) 
             { 
               
               
-              ( append_z_StringBufferJc(& (line), "//", _thCxt)
-              , append_I_StringBufferJc(& (line), ii, _thCxt)
-              , append_z_StringBufferJc(& (line), ": ", _thCxt)
-              , append_c_StringBufferJc(& (line), dst->name.c/*J2C-error testAndChangeAccess: ct*/, _thCxt)
+              ( append_z_StringBuilderJc(& (line.sb), "//", _thCxt)
+              , append_I_StringBuilderJc(& (line.sb), ii, _thCxt)
+              , append_z_StringBuilderJc(& (line.sb), ": ", _thCxt)
+              , append_c_StringBuilderJc(& (line.sb), dst->name.c, _thCxt)
               );
               if(dst->dstInDispatcherThread) 
               { 
                 
-                append_z_StringBufferJc(& (line), " - queued", _thCxt);
+                append_z_StringBuilderJc(& (line.sb), " - queued", _thCxt);
               }
-              append_z_StringBufferJc(& (line), ";\n", _thCxt);
-              write_FileWriterJc(file, toString_StringBufferJc(& ((line).base.object), _thCxt), _thCxt);
+              append_z_StringBuilderJc(& (line.sb), ";\n", _thCxt);
+              write_FileWriterJc(file, toString_StringBuilderJc(& ((line.sb).base.object), _thCxt), _thCxt);
             }
           }
       }
@@ -619,18 +618,18 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
             int32  ident1 = thiz->base.super.listIdents->data[ii];
             
             int32  ident2 = thiz->base.super.listIdents->data[ii + 1] - 1;
-            setLength_StringBufferJc(& (line), 0, _thCxt);
-            append_I_StringBufferJc(& (line), ident1, _thCxt);
+            setLength_StringBuilderJc(& (line.sb), 0, _thCxt);
+            append_I_StringBuilderJc(& (line.sb), ident1, _thCxt);
             if(ident2 != ident1) 
             { 
               
               /**not single message ident */
               
-              ( append_z_StringBufferJc(& (line), "..", _thCxt)
-              , append_I_StringBufferJc(& (line), ident2, _thCxt)
+              ( append_z_StringBuilderJc(& (line.sb), "..", _thCxt)
+              , append_I_StringBuilderJc(& (line.sb), ident2, _thCxt)
               );
             }
-            append_z_StringBufferJc(& (line), ":", _thCxt);
+            append_z_StringBuilderJc(& (line.sb), ":", _thCxt);
             
             int32  bitDst = thiz->base.super.listBitDst->data[ii];
             
@@ -652,14 +651,14 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                       if(!bFirst) 
                       { 
                         
-                        append_z_StringBufferJc(& (line), "+", _thCxt);
+                        append_z_StringBuilderJc(& (line.sb), "+", _thCxt);
                       }
                       else 
                       { 
                         
                         bFirst = false;
                       }
-                      append_c_StringBufferJc(& (line), dst->name.c/*J2C-error testAndChangeAccess: ct*/, _thCxt);
+                      append_c_StringBuilderJc(& (line.sb), dst->name.c, _thCxt);
                     }
                   }
                   if(iDst < thiz->base.super.nrofMixedOutputs) 
@@ -684,22 +683,22 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                         if(!bFirst) 
                         { 
                           
-                          append_z_StringBufferJc(& (line), "+", _thCxt);
+                          append_z_StringBuilderJc(& (line.sb), "+", _thCxt);
                         }
                         else 
                         { 
                           
                           bFirst = false;
                         }
-                        append_c_StringBufferJc(& (line), dst->name.c/*J2C-error testAndChangeAccess: ct*/, _thCxt);
+                        append_c_StringBuilderJc(& (line.sb), dst->name.c, _thCxt);
                       }
                     }
                   }
                 }/*for,all dst of one line*/
                 
             }
-            append_z_StringBufferJc(& (line), ";\n", _thCxt);
-            write_FileWriterJc(file, toString_StringBufferJc(& ((line).base.object), _thCxt), _thCxt);
+            append_z_StringBuilderJc(& (line.sb), ";\n", _thCxt);
+            write_FileWriterJc(file, toString_StringBuilderJc(& ((line.sb).base.object), _thCxt), _thCxt);
           }
       }
     }_TRY

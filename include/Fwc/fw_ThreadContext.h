@@ -92,7 +92,7 @@ typedef struct StacktraceThreadContext_t
   //struct ThreadContextFW_t* threadContext;
 
   /**actual nrofEntries i stacktraceBuffer. */
-  int32 zEntries; //nrofEntriesStacktraceBuffer;
+  uint32 zEntries; //nrofEntriesStacktraceBuffer;
 
   /**The available number of Stacktrace entries. */
   int maxNrofEntriesStacktraceBuffer;

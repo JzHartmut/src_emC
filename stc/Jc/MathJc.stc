@@ -8,22 +8,23 @@ class Math; nameC=MathJc_s; argIdent=Ma; extends java/lang/Object
 	  double %.d PI;
 	}
   methods {  
-		abs, mode=static+noThCxt: double %.. return(double %.. value);
-		abs, mode=static+noThCxt: float %.. return(float %.. value);
-		abs, mode=static+noThCxt: int %.. return(int %.. value);
+		abs-_Fwc, mode=static+noThCxt: double %.. return(double %.. value);
+		abs-_Fwc, mode=static+noThCxt: float %.. return(float %.. value);
+		abs-_Fwc, mode=static+noThCxt: int %.. return(int %.. value);
 		sin, mode=static+noThCxt: double %.. return(double %.. value);
 		cos, mode=static+noThCxt: double %.. return(double %.. value);
 		//sin+f, mode=static+noThCxt: float %.. return(float %.. value);
 		//cos+f, mode=static+noThCxt: double %.. return(float %.. value);
 		pow-_$, mode=static+noThCxt: double %.. return(double %.. value, double %.. exp);
 		random-_$, mode=static+noThCxt: double %.. return();
-    min, mode=static+noThCxt: int %..return(int %.. value, int %.. value); 
-    min, mode=static+noThCxt: float %..return(float %.. value, float %.. value); 
-    min, mode=static+noThCxt: double %..return(double %.. value, double %.. value); 
-    max, mode=static+noThCxt: int %..return(int %.. value, int %.. value); 
-    max, mode=static+noThCxt: float %..return(float %.. value, float %.. value); 
-    max, mode=static+noThCxt: double %..return(double %.. value, double %.. value); 
+    min-_Fwc, mode=static+noThCxt: int %..return(int %.. value, int %.. value); 
+    min-_Fwc, mode=static+noThCxt: float %..return(float %.. value, float %.. value); 
+    min-_Fwc, mode=static+noThCxt: double %..return(double %.. value, double %.. value); 
+    max-_Fwc, mode=static+noThCxt: int %..return(int %.. value, int %.. value); 
+    max-_Fwc, mode=static+noThCxt: float %..return(float %.. value, float %.. value); 
+    max-_Fwc, mode=static+noThCxt: double %..return(double %.. value, double %.. value); 
   }
   
 }
 
+                                                              

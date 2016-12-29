@@ -202,7 +202,7 @@ static ListMapEntryJc* new_ListMapEntryJc(AbstractListJc* ythis)
  * It is the same like here, but this method allocates the new Entry in the emptyEntries or in the blockHeap if there are given.
  * So no new operator or malloc is necessary (SIL 1). 
  */
-METHOD_C static ListMapEntryJc* ctor_ListMapEntryJc(ListMapEntryJc* ythis, ObjectJc* obj, ListMapEntryJc* next, ListMapEntryJc* previous)
+static ListMapEntryJc* ctor_ListMapEntryJc(ListMapEntryJc* ythis, ObjectJc* obj, ListMapEntryJc* next, ListMapEntryJc* previous)
 { STACKTRC_ENTRY("ctor_ListMapEntryJc");
   if(ythis != null)
   { memset(ythis, 0, sizeof(ListMapEntryJc));
@@ -228,7 +228,7 @@ METHOD_C static ListMapEntryJc* ctor_ListMapEntryJc(ListMapEntryJc* ythis, Objec
  * So no new operator or malloc is necessary (SIL 1). 
  */
 #pragma warning(disable:4505) //unreferenced local function has been removed
-METHOD_C static ListMapEntryJc* ctor_EE_ListMapEntryJc(ObjectJc* obj, ListMapEntryJc* right, ListMapEntryJc* left)
+static ListMapEntryJc* ctor_EE_ListMapEntryJc(ObjectJc* obj, ListMapEntryJc* right, ListMapEntryJc* left)
 { ListMapEntryJc* ythis = null;
   STACKTRC_ENTRY("ctor_ListMapEntryJc");
   if(ythis)
@@ -252,7 +252,7 @@ METHOD_C static ListMapEntryJc* ctor_EE_ListMapEntryJc(ObjectJc* obj, ListMapEnt
 
 /**Same as private java.util.LinkedList: private Entry<E> addBefore(E e, Entry<E> entry)
  */
-METHOD_C static ListMapEntryJc* addBefore_LinkedListJc(LinkedListJc* ythis, ObjectJc* obj, ListMapEntryJc* entry, ThCxt* _thCxt)
+static ListMapEntryJc* addBefore_LinkedListJc(LinkedListJc* ythis, ObjectJc* obj, ListMapEntryJc* entry, ThCxt* _thCxt)
 { ListMapEntryJc* newEntry;
   STACKTRC_TENTRY("addBefore_LinkedListJc");
   newEntry = new_ListMapEntryJc(&ythis->base.super);
@@ -269,7 +269,7 @@ METHOD_C static ListMapEntryJc* addBefore_LinkedListJc(LinkedListJc* ythis, Obje
 
 /**Same as java.util.LinkedList: add(obj);
  */
-METHOD_C void add_LinkedListJcF(LinkedListJc* ythis, ObjectJc* obj, ThCxt* _thCxt)
+void add_LinkedListJcF(LinkedListJc* ythis, ObjectJc* obj, ThCxt* _thCxt)
 { addBefore_LinkedListJc(ythis, obj, &ythis->data.header, _thCxt);
 }
 
@@ -370,7 +370,7 @@ ObjectJc* remove_i_LinkedListJcF(LinkedListJc* ythis, int index, ThCxt* _thCxt)
 
 //METHOD_C LinkedListJc* newPool_ListMapEntryJc(int nrofEntries)
 /**deprecated, see ctorO_nodePool_LinkedListJc. */
-METHOD_C void initEntryPool_LinkedListJc(LinkedListJc* ythis, MemC mem, ThCxt* _thCxt)
+void initEntryPool_LinkedListJc(LinkedListJc* ythis, MemC mem, ThCxt* _thCxt)
 { //int bytes = sizeof(LinkedListJc) + sizeof(ListMapEntryJc) * nrofEntries;
   //void* address;
   //ListMapEntryJc* entries;
@@ -399,7 +399,7 @@ METHOD_C void initEntryPool_LinkedListJc(LinkedListJc* ythis, MemC mem, ThCxt* _
 
 
 
-METHOD_C void shareEntryPool_LinkedListJc(LinkedListJc* ythis, LinkedListJc* srcShare, ThCxt* _thCxt)
+void shareEntryPool_LinkedListJc(LinkedListJc* ythis, LinkedListJc* srcShare, ThCxt* _thCxt)
 { /*NOTE: the srcShare have to be that linkedlist holding the entryPool.
    * It may be possible to use a always shared List for reference of entry pool,
    * but the user should use the original List.
@@ -440,13 +440,13 @@ ListItr_LinkedListJc* ctorO_ListItr_LinkedListJc(struct LinkedListJc_t* outer, O
 
 
 
-METHOD_C bool checkForComodification_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis)
+bool checkForComodification_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis)
 { //TODO
   return false;
 }  
 
 
-METHOD_C void reinit_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, struct LinkedListJc_t* list)
+void reinit_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, struct LinkedListJc_t* list)
 { ythis->outer = list;
   ythis->expectedModCount = list->base.super.modCount;
   ythis->next = list->data.header.next;
@@ -456,12 +456,12 @@ METHOD_C void reinit_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, struct L
 
 
 
-METHOD_C bool hasNext_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
+bool hasNext_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
 { return ythis->nextIndex != ythis->outer->data.size;
 }
 
 
-METHOD_C ObjectJc* next_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
+ObjectJc* next_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
 { ObjectJc* retVal;
   checkForComodification_ListItr_LinkedListJcF(ythis);
   if(ythis->nextIndex == ythis->outer->data.size)
@@ -478,7 +478,7 @@ METHOD_C ObjectJc* next_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt
 }
 
 
-METHOD_C void remove_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
+void remove_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
 { ListMapEntryJc* lastNext;
   STACKTRC_TENTRY("remove_ListItr_LinkedListJcF");
   

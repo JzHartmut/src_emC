@@ -109,11 +109,13 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadCo
             _thCxt->addrUsed[ix].sign = sign;
             _thCxt->ixLastAddrUsed = ix;
             set_MemC(_thCxt->addrUsed[ix].used, addr,size);  //store the found range.
+            init0_MemC(ret);
             return ret; //NOTE: the user is responsible for saving its content.
           } 
         } else if(size_MemC(_thCxt->addrUsed[ix].used) == (uint)size) {
           //a free block inside with exactly the same size, reuse it.
           _thCxt->bitAddrUsed |= mask;
+          init0_MemC(_thCxt->addrUsed[ix].used);
           return _thCxt->addrUsed[ix].used;  
         }
       }

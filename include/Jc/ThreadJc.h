@@ -71,7 +71,7 @@ typedef struct RunnableJc_t
 /**Define of the array type. This type should only be used as pointer. */
 typedef struct RunnableJc_Y_t { ObjectArrayJc head; RunnableJc_s data[50]; } RunnableJc_Y;
 
-extern struct ClassJc_t const reflection_RunnableJc_s;
+extern_C struct ClassJc_t const reflection_RunnableJc_s;
 
 /**The method type, which is able to implement the run method. */
 typedef void MT_run_RunnableJc(ObjectJc* ithis, ThCxt* _thCxt);
@@ -134,7 +134,7 @@ typedef struct ThreadJc_t
 
 typedef struct ThreadJc_s_Y_t { ObjectArrayJc head; ThreadJc_s data[50]; } ThreadJc_s_Y;
 
-extern struct ClassJc_t const reflection_ThreadJc_s;
+extern_C struct ClassJc_t const reflection_ThreadJc_s;
   
 
 #define getId_ThreadJc(THIZ) ((int)((THIZ)->hThread))

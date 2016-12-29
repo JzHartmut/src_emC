@@ -300,21 +300,12 @@ abcdefghijklmnopqrstuvwxyz  The associated String
 ===========        The maximal part after operation
 </pre>
 */
-METHOD_C struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* setBeginMaxPart_StringPartJc(StringPartJc_s* thiz);
 
 /**Sets the full range of available text.
 begin is set to 0, end is set to the length() of the content.
- */
-#define setParttoMax_StringPartJc(THIZ) \
-\
-{ \
-  \
-  (THIZ)->begiMin = (THIZ)->beginLast = /*? assignment*/(THIZ)->begin = /*? assignment*/0;\
-  (THIZ)->endMax = (THIZ)->end = /*? assignment*/(THIZ)->endLast = /*? assignment*/length_CharSeqJc((THIZ)->content/*J1cT2*/, _thCxt);\
-  (THIZ)->bStartScan = (THIZ)->bCurrentOk = /*? assignment*/true;\
-  \
-    return * ((THIZ));\
-}
+*/
+METHOD_C struct StringPartJc_t* setParttoMax_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
 /**Sets the start of the part to the exclusively end, set the end to the end of the content.
 <hr/><u>example:</u><pre>
@@ -324,15 +315,14 @@ abcdefghijklmnopqrstuvwxyz  The associated String
 +++++         The valid part after.
 </pre>
 */
-METHOD_C struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+METHOD_C struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz);
 
 /**This method returns the characters of the current part.
 @see java.lang.CharSequence#charAt(int)
 */
 METHOD_C char charAt_i_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt);
 
-#define checkCharAt_StringPartJc(THIZ, pos, chars) \
-(((THIZ)->begin + pos >= (THIZ)->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc(fromObjectJc_CharSeqJc(&(* ((THIZ))).base.object)/*J2cT1*/, pos, _thCxt)) >= 0)
+METHOD_C bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, ThCxt* _thCxt);
 
 /**Returns a volatile CharSequence from the range inside the current part.
 If it is not possible an IllegalArgumentException is thrown.
@@ -354,7 +344,7 @@ METHOD_C int32 length_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
 
 /**Returns the lenght of the maximal part from current position. Returns also 0 if no string is valid.
 */
-METHOD_C int32 lengthMaxPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+METHOD_C int32 lengthMaxPart_StringPartJc(StringPartJc_s* thiz);
 
 /**Sets the endposition of the part of string to the given chars after start.
  */
@@ -1005,6 +995,8 @@ or to add some standard informations.
 */
 METHOD_C void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc sMsg, ThCxt* _thCxt);
 
+METHOD_C void throwIllegalArgumentException_StringPartJc(/*J2C:static method*/ StringJc msg, int32 value, ThCxt* _thCxt);
+
 /**Closes the work. This routine should be called if the StringPart is never used, 
 but it may be kept because it is part of class data or part of a statement block which runs.
 The associated String is released. It can be recycled by garbage collector.
@@ -1062,7 +1054,7 @@ class StringPartJc : private StringPartJc_s
 
   char charAt(int32 index){  return charAt_i_StringPartJc(&this->base.object.base.object, index,  null/*_thCxt*/); }
 
-  bool checkCharAt(int32 pos, StringJcpp chars){  return checkCharAt_StringPartJc(this, pos, chars); }
+  bool checkCharAt(int32 pos, StringJcpp chars){  return checkCharAt_StringPartJc(this, pos, chars,  null/*_thCxt*/); }
 
   virtual void close(){ close_StringPartJc_F(this,  null/*_thCxt*/); }
 
@@ -1082,7 +1074,7 @@ class StringPartJc : private StringPartJc_s
 
   bool found(){  return found_StringPartJc(this,  null/*_thCxt*/); }
 
-  StringPartJc& fromEnd(){ fromEnd_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& fromEnd(){ fromEnd_StringPartJc(this);  return *this; }
 
   char getCurrentChar(){  return getCurrentChar_StringPartJc(this,  null/*_thCxt*/); }
 
@@ -1136,7 +1128,7 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& lenBacktoNoChar(CharSeqJc sChars){ lenBacktoNoChar_StringPartJc(this, sChars,  null/*_thCxt*/);  return *this; }
 
-  int32 lengthMaxPart(){  return lengthMaxPart_StringPartJc(this,  null/*_thCxt*/); }
+  int32 lengthMaxPart(){  return lengthMaxPart_StringPartJc(this); }
 
   int32 length(){  return length_StringPartJc(&this->base.object.base.object,  null/*_thCxt*/); }
 
@@ -1212,7 +1204,7 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& seek(int32 nr){ seek_i_StringPartJc(this, nr,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& setBeginMaxPart(){ setBeginMaxPart_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& setBeginMaxPart(){ setBeginMaxPart_StringPartJc(this);  return *this; }
 
   void setCurrentPosition(int64 pos){ setCurrentPosition_StringPartJc(this, pos,  null/*_thCxt*/); }
 
@@ -1230,7 +1222,7 @@ class StringPartJc : private StringPartJc_s
 
   StringPartJc& setLengthMax(){ setLengthMax_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& setParttoMax(){ setParttoMax_StringPartJc(this);  return *this; }
+  StringPartJc& setParttoMax(){ setParttoMax_StringPartJc(this,  null/*_thCxt*/);  return *this; }
 
   struct StringPartJc_t* skipWhitespaceAndComment(){  return skipWhitespaceAndComment_StringPartJc(this,  null/*_thCxt*/); }
 
@@ -1239,6 +1231,8 @@ class StringPartJc : private StringPartJc_s
   CharSeqJc subSequence(int32 from, int32 to){  return subSequence_ii_StringPartJc(&this->base.object.base.object, from, to,  null/*_thCxt*/); }
 
   struct Part_StringPartJc_t* substring(int32 pos, int32 posendP){  return substring_StringPartJc(this, pos, posendP,  null/*_thCxt*/); }
+
+  void throwIllegalArgumentException(StringJcpp msg, int32 value){ throwIllegalArgumentException_StringPartJc(msg, value,  null/*_thCxt*/); }
 
   void throwIndexOutOfBoundsException(StringJcpp sMsg){ throwIndexOutOfBoundsException_StringPartJc(this, sMsg,  null/*_thCxt*/); }
 

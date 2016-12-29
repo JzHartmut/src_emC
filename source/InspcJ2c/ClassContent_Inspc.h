@@ -209,7 +209,7 @@ class ClassContent_Inspc : private ClassContent_Inspc_s
 
   void evaluateFieldGetFields(struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, StringJcpp name, struct ClassJc_t const* typeField, int32 modifiers, int32 staticArraySize, int32 orderNr, int32 maxNrofAnswerBytes){ evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(this, answer, name, typeField, modifiers, staticArraySize, orderNr, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
-  int32 executeMonitorCmd(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return executeMonitorCmd_XXXXi_ClassContent_Inspc(&this->base/*J2C:ifc*/.CmdConsumer_ifc_Inspc.base.object, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
+  int32 executeMonitorCmd(struct Inspcitem_InspcDataExchangeAccess_Inspc_t* cmd, struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, int32 maxNrofAnswerBytes){  return executeMonitorCmd_XXXXi_ClassContent_Inspc(&this->base.CmdConsumer_ifc_Inspc.base.object, cmd, answer, maxNrofAnswerBytes,  null/*_thCxt*/); }
 
   float getFloatValueByHandle(int32 handle){  return getFloatValueByHandle_ClassContent_Inspc(this, handle,  null/*_thCxt*/); }
 
@@ -225,7 +225,7 @@ class ClassContent_Inspc : private ClassContent_Inspc_s
 
   int32 registerHandle(StringJcpp sVariablePath, struct Inspcitem_InspcDataExchangeAccess_Inspc_t* answerItem){  return registerHandle_ClassContent_Inspc(this, sVariablePath, answerItem,  null/*_thCxt*/); }
 
-  void setAnswerComm(struct AnswerComm_ifc_Inspc_t* answerComm){ setAnswerComm_XX_ClassContent_Inspc(&this->base/*J2C:ifc*/.CmdConsumer_ifc_Inspc.base.object, answerComm,  null/*_thCxt*/); }
+  void setAnswerComm(struct AnswerComm_ifc_Inspc_t* answerComm){ setAnswerComm_XX_ClassContent_Inspc(&this->base.CmdConsumer_ifc_Inspc.base.object, answerComm,  null/*_thCxt*/); }
 
   void setRootObject(struct ObjectJc_t* rootObj){ setRootObject_ClassContent_Inspc(this, rootObj,  null/*_thCxt*/); }
 

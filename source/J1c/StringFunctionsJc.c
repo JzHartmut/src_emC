@@ -24,7 +24,7 @@ const char sign_Mtbl_StringFunctionsJc[] = "StringFunctionsJc"; //to mark method
 
 typedef struct MtblDef_StringFunctionsJc_t { Mtbl_StringFunctionsJc mtbl; MtblHeadJc end; } MtblDef_StringFunctionsJc;
  extern MtblDef_StringFunctionsJc const mtblStringFunctionsJc;
-StringJc version_StringFunctionsJc = CONST_z_StringJc("2015-11-07"); //J2C:static StringJc
+StringJc version_StringFunctionsJc = CONST_z_StringJc("2016-12-02"); //J2C:static StringJc
 const char cEndOfText_StringFunctionsJc = (char /*J2C_cast*/)(0x3);
 const char cStartOfText_StringFunctionsJc = (char /*J2C_cast*/)(0x2);
 const char cNoCidentifier_StringFunctionsJc = (char /*J2C_cast*/)(0x4);
@@ -250,7 +250,7 @@ int32 comparePos_CsiCsii_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, i
     }/*NOTE: following while compares at least one char*/
     
     
-    int32  zChars = nrofChars >= 0 ? min(/*J2C:static method call*/nrofChars, min(/*J2C:static method call*/z1 - i1, z2 - i2)) : min(/*J2C:static method call*/z1 - i1, z2 - i2);
+    int32  zChars = nrofChars >= 0 ? min_Fwc(/*J2C:static method call*/nrofChars, min_Fwc(/*J2C:static method call*/z1 - i1, z2 - i2)) : min_Fwc(/*J2C:static method call*/z1 - i1, z2 - i2);
     
     char  c1;/*no initvalue*/
     
@@ -445,7 +445,10 @@ bool equals_CsiiCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, int32 f
 { 
   STACKTRC_TENTRY("equals_CsiiCs_StringFunctionsJc");
   
-  { 
+  { /*:Test possibility:*/
+    /*:if((s1 instanceof StringSeq) && contains(((StringSeq)s1).cs, "hide"))*/
+    /*:  Debugutil.stop();*/
+    
     
     
     int32  z1 = length_CharSeqJc(s1/*J1cT2*/, _thCxt);
@@ -492,6 +495,21 @@ bool equals_CsCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeqJc
     
     { STACKTRC_LEAVE;
       return s1.ref== null ? s2.ref== null : equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/s1, 0, length_CharSeqJc(s1/*J1cT2*/, _thCxt), s2, _thCxt);
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Returns true if s2 is contained in s1. */
+bool contains_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, CharSeqJc s2, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("contains_StringFunctionsJc");
+  
+  { 
+    
+    { STACKTRC_LEAVE;
+      return indexOf_CsiiCs_StringFunctionsJc(/*J2C:static method call*/s1, 0, MAX_VALUE_IntegerJc, s2, _thCxt) >= 0;
     }
   }
   STACKTRC_LEAVE;

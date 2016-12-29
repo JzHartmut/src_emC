@@ -5,7 +5,8 @@ if exist D:\tmp set TMP=D:\tmp\Jc
 if not exist %TMP% mkdir %TMP%
 
 set INPUT= -i:FBaccess_Inspc_priv.h
-set OUTPUT=.\FBaccess_Inspc_Refl.c
+set OUTPUT=.\FBaccess_Inspc_Refl.crefl
+set CTRL=../../make/ReflectionJc.ctr
 
 REM either use local zbnfjax folder or the setZBNFJAX_HOME.bat should be able to locate in the PATH.
 if exist ..\..\..\zbnfjax set ZBNFJAX_HOME=..\..\zbnfjax
@@ -14,7 +15,7 @@ if not exist ..\..\..\zbnfjax call setZBNFJAX_HOME.bat
 if exist %OUTPUT% del /F /Q %OUTPUT% 
 
 echo on
-java -cp %ZBNFJAX_HOME%/zbnf.jar org.vishia.header2Reflection.CmdHeader2Reflection -out.c:%OUTPUT% -c_only %INPUT% -b:../../make/ReflectionJc.ctr -z:%ZBNFJAX_HOME%/zbnf/Cheader.zbnf --report:%TMP%/genReflection.rpt --rlevel:334
+java -cp %ZBNFJAX_HOME%/zbnf.jar org.vishia.header2Reflection.CmdHeader2Reflection -out.c:%OUTPUT% -c_only %INPUT% -b:%CTRL% -z:%ZBNFJAX_HOME%/zbnf/Cheader.zbnf --report:%TMP%/genReflection.rpt --rlevel:334
 if errorlevel 1 goto :error
 goto :ende
 

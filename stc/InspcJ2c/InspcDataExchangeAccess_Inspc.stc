@@ -68,7 +68,7 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
       }
 
@@ -142,7 +142,7 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
       }
 
@@ -202,7 +202,7 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
       }
 
@@ -255,9 +255,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super.base.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
-        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base/*J2C_super:*/.super" $;
+        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base.super" $;
       }
 
     }
@@ -303,9 +303,9 @@ final class InspcDataExchangeAccess; nameC=InspcDataExchangeAccess_Inspc_s; argI
       }
 
       castTo {
-        org/vishia/byteData/ByteDataAccessBase: $ "(?).base/*J2C_super:*/.super.base/*J2C_super:*/.super" $;
+        org/vishia/byteData/ByteDataAccessBase: $ "(?).base.super.base.super" $;
         org/vishia/communication/InspcDataExchangeAccess: * "(?)->outer" *;
-        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base/*J2C_super:*/.super" $;
+        org/vishia/communication/InspcDataExchangeAccess.Inspcitem: $ "(?).base.super" $;
       }
 
     }
@@ -330,7 +330,7 @@ fieldIdents {
   }
 
   castTo {
-    java/lang/Object: $ "(?).base/*J2C_super:*/.object" $;
+    java/lang/Object: $ "(?).base.object" $;
   }
 
 }
