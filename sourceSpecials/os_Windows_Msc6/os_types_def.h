@@ -35,43 +35,7 @@
 #define   __os_types_def_h__
 //CRuntimeJavalike/includeSpecials/os_Windows_Msc6/os_types_def.h
 
-/**Some warnings should be disabled in default, because there are not the source of errors,
- * but present in normal software development.
- */
-#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
-
-#pragma warning(disable:4100) //unused argument
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4310) //cast truncates constant value
-
-//C++
-#pragma warning(disable:4514) //unreferenced inline function has been removed
-#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4068) //unknown pragma
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-
-
-
-/**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
- * but it is not guaranteed in C or C++ standard.
- * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
- * The long variant guarantees it independent of the compiler. The short variant can be used if the compiler guarantees 
- * a value of 1 for boolean true.
- */
-#define OSAL_bool1(COND) ((COND) ? 1 : 0) 
-//#define OSAL_bool1(COND) (COND)
 
 
 
@@ -80,7 +44,7 @@
 #define OSAL_LITTLEENDIAN
 
 /**This define is set because the memory organisation disallows a word boundary on non-word-addresses.
- * At example writing a int32 on a address 0x1005 is disallowed (not able to divide by sizeof(int32).
+ * For example writing a int32 on a address 0x1005 is disallowed (not able to divide by sizeof(int32).
  */
 //#define OSAL_MEMWORDBOUND
 
@@ -98,22 +62,20 @@
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
-typedef unsigned char        uint8_t;
-typedef unsigned short       u_int16_t;
-typedef unsigned long        uint32_t;    //type identifier faulty, u_int32_t is C99
-typedef unsigned long        u_int32_t;
-
-typedef char                 char8_t;   //Standard-C-char
-typedef unsigned short       char16_t;  //UTF16-char
-
-typedef signed char          int8_t;
-typedef short                int16_t;
-typedef long                 int32_t;
-
+#define int8_t    char
+#define u_int8_t  unsigned char
+#define int16_t   short int
+#define u_int16_t unsigned short int
+#define int32_t   long int
+#define u_int32_t unsigned long int
 #define int64_t __int64
 #define uint64_t __int64
+
 #define bool8_t char
 #define bool16_t int16_t
+#define char8_t   char
+#define char16_t  unsigned char
+
 
 
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
@@ -125,25 +87,20 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 
 
 /**All types with fix byte-wide should be defined in a platform-valid form. */
-#define uint8 unsigned char
-#define uint16 unsigned short
-#define uint32 unsigned long
-#define uint64 __int64
-#define int8 signed char
-#define int16 short
-#define int32 long
-#define int64 __int64
+#define uint8    unsigned char
+#define uint16   unsigned short
+#define uint32   unsigned long
+#define uint64   __int64
+#define int8     signed char
+#define int16    short
+#define int32    long
+#define int64    __int64
 
 //Standard-character and UTF16-character:
-#define char8 char
-#define char16 unsigned short
-#define bool8 char
-#ifndef __cplusplus
-  //If C-compiling is used, define the C++-keywords for C
-  #define bool int
-  #define false 0
-  #define true (!false)
-#endif
+#define char8   char
+#define char16  unsigned short
+#define bool8   char
+#define float32 float
 
 
   //see stdlib.h
@@ -154,19 +111,15 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define intPTR uint32
 
 
-/**Die Definition spezieller Typen f?r variable Argumentlisten ist daher notwendig,
- * weil der GNU-Compiler bei variablen Argumenten die hier genannten Typen jeweils promoted.
- * Verwendung nur in va_arg(..,TYP)-Makro.
+/**Definition of the really used types in variable argument lists. 
+ * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
+ * Especially in va_arg(..,TYP)-Makro.
  */
-typedef char                 char_va_list;
-typedef bool                 bool_va_list;
-typedef signed char          int8_va_list;
-typedef short                int16_va_list;
-//typedef float                float_va_list;
-typedef double                float_va_list;
-
-
-typedef float                float32;
+#define char_va_list char 
+#define bool_va_list bool
+#define int8_va_list signed char
+#define int16_va_list short
+#define float_va_list float
 
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: (void*)(0) kann nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
@@ -271,16 +224,11 @@ typedef float                float32;
 #define min(A, B) ( (A) < (B) ? (A) : (B) )
 #endif
 
-/**Include the common definitions in its pure form. */
-#include <OSAL/os_types_def_common.h>
 
-/**This file can be additinally modified by the user to determine how debugging and exception handling should processed. 
- * Either this file is defined in the users area 
- * or one of the source paths of CRuntimeJavalike is added to the include path where an exemplare of this file is provided.
- * See CRuntimeJavalike/sourceSpecials/ExcHandling_No.template or CRuntimeJavalike/sourceSpecials/ExcHandling_Printf.template
- */ 
-#include <OSAL_UserExceptionAndDebug.h>
-
+/**If only this file is included, include all files of this concept. */
+#ifndef __applstdefJc_h__
+  #include <applstdefJc.h>
+#endif
 
 
 #endif  //__os_types_def_h__

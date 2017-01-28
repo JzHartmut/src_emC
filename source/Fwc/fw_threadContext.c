@@ -39,13 +39,20 @@
  *
  ****************************************************************************/
 #include <Fwc/fw_ThreadContext.h>
-#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_MemC.h>
+
 #include <fw_assert.h>
-#include <os_thread.h>
 
 #include <string.h>
+
+
+StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis)
+{ StacktraceThreadContext_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_s);
+
+  ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN(ythis->entries);
+  return ythis;
+}
+
+
 
 ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis)
 { ThreadContextFW_s* ythis = PTR_MemC(mthis, ThreadContextFW_s);
@@ -80,7 +87,7 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContextFW_s* _
 
 
 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContextFW_s* _thCxt)
+MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContextFW_s* _thCxt)
 { ASSERT_s0_Fwc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   if(_thCxt->bufferAlloc.ref == null) {
@@ -228,3 +235,5 @@ bool xxxoptimizeString_ThCxt(ThreadContextFW_s* ythis, bool value)
 bool isOptimizeString_ThCxt(ThreadContextFW_s* ythis)
 { return ythis->mode & mOptimizeToString_Mode_ThCxt;
 }
+
+

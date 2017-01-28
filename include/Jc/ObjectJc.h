@@ -46,6 +46,8 @@
  * 2006-05-00: www.vishia.de creation
  *
  ****************************************************************************/
+#include <applstdefJc.h>  //Note: define before include-guards because applstdefJc,h may include this file too.
+//The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __ObjectJc_h__
 #define __ObjectJc_h__
 

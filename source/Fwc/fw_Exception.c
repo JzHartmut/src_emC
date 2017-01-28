@@ -40,6 +40,9 @@
  ****************************************************************************/
 
 #include <Fwc/fw_Exception.h>
+
+#ifndef __NOT_SUPPORTED_ThreadContextFw__
+
 #include <Fwc/fw_ThreadContext.h>
 #include <Fwc/fw_SimpleC.h>     //ARRAYLEN
 #include <os_error.h>
@@ -92,13 +95,6 @@ const char* exceptionTexts[33]=
 };
 
 
-
-StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis)
-{ StacktraceThreadContext_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_s);
-
-  ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN(ythis->entries);
-  return ythis;
-}
 
 
 void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_s* _thCxt)
@@ -227,7 +223,7 @@ METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr)
  * @return null if no previous level is found.
  */
 
-static StacktraceElementJc* getEntry_StacktraceThreadContext(StacktraceThreadContext_s* ythis, int level)
+static StacktraceElementJc* getEntry_StacktraceThreadContext(StacktraceThreadContext_s* ythis, uint level)
 { 
   if(level < ythis->zEntries) {
     return &ythis->entries[ythis->zEntries - level -1];
@@ -326,3 +322,5 @@ StacktraceJcpp::~StacktraceJcpp()
 
 
 #endif
+
+#endif //not __NOT_SUPPORTED_ThreadContextFw__

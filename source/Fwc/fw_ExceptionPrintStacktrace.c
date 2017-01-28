@@ -37,6 +37,8 @@
  ****************************************************************************/
 
 #include <Fwc/fw_Exception.h>
+#ifndef __NOT_SUPPORTED_ThreadContextFw__
+
 #include <Fwc/fw_ThreadContext.h>
 #include <Fwc/fw_SimpleC.h>     //ARRAYLEN
 #include <os_error.h>
@@ -102,3 +104,6 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   }
   #endif
 }
+
+
+#endif //not __NOT_SUPPORTED_ThreadContextFw__

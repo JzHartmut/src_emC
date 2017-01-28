@@ -1,7 +1,7 @@
 #ifndef __CharsetJc_h__
 #define __CharsetJc_h__
 
-#include <Fwc/fw_Exception.h>
+#include <applstdefJc.h>  //defines ThCxt
 
 typedef struct CharsetJc_t
 {

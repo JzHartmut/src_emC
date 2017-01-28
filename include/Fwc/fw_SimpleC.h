@@ -45,6 +45,13 @@
  * 2007-10-00: JcHartmut creation
  *
  ****************************************************************************/
+#ifndef __applstdefJc_h__
+  /**This file fw_SimpleC.h should be included in the applstdefJc.h. 
+   * If this file is directly included, it needs the applstdefJc.h. But the __simpleC_h__ guard should not be set firstly
+   * to include the fw_SimpleC.h in the given order in applstddef.h
+   */
+  #include <applstdefJc.h>
+#endif
 #ifndef __simpleC_h__
 #define __simpleC_h__
 /**This file contains some usefull definitions for simpe C programming.

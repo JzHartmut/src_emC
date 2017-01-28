@@ -38,16 +38,18 @@
  * 2008-10-00: Hartmut creation
  *
  ****************************************************************************/
+#ifndef __applstdefJc_h__
+  /**This file fw_ThreadContext.h or fw_Exception.h should be included in the applstdefJc.h. 
+   * If this file is directly included, it needs the applstdefJc.h. But the __fw_ThreadContext_h__ guard should not be set firstly
+   * to include the fw_ThreadContext.h in the given order in applstddef.h
+   */
+  #include <applstdefJc.h>
+#endif
 #ifndef __fw_ThreadContext_h__
 #define __fw_ThreadContext_h__
 
 #include <Fwc/fw_MemC.h>
 struct TryObjectJc_t;
-
-#ifndef __fw_Exception_h__
-  //it needs some definition from Exception data structures.
-  //#include "fw_Exception.h"
-#endif
 
 
 typedef struct AddrUsed_ThreadContextFW_t
@@ -102,7 +104,7 @@ typedef struct StacktraceThreadContext_t
   //struct StacktraceElementJcARRAY_t* stacktraceBuffer;
 
   
-}StacktraceThreadContext_s;
+} StacktraceThreadContext_s;
 
 
 METHOD_C StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis);
@@ -229,12 +231,23 @@ METHOD_C bool setCheckingUserBuffer_ThreadContextFw(struct ThreadContextFW_t* _t
  */ 
 METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, struct ThreadContextFW_t* _thCxt);
 
+#define ADDR_IN_STACK_ThreadContextFw(ptr) ((void*)ptr > (void*)&ptr && (void*)ptr < _thCxt->topmemAddrOfStack)
 
-//METHOD_C void free(void const* addr);
 
-METHOD_C bool xxxoptimizeString_ThCxt(struct ThreadContextFW_t* ythis, bool value);
+/**Gets the user-thread-context of the current thread. The user-thread-context is a memory area,
+ * assigned to any thread, which contains thread-local but routine-global data. 
+ * The structure of the user-thread-context can be defined in a user-adaption layer. 
+ * It should not be defined depending of the users algorithm, but in a common valid kind of users algorithm.
+ * @return the pointer and the size of the users thread context. If the users threadcontext
+ * was not set, the return structure contains {null, 0}
+ */
+#ifndef os_getCurrentUserThreadContext
+METHOD_C PtrVal_MemUnit os_getCurrentUserThreadContext();
+#endif
 
-METHOD_C bool xxxisOptimizeString_ThCxt(struct ThreadContextFW_t* ythis);
-
+/**Sets the users thread context. This method can only be called one time for each thread.
+ * @return error OS_UNEXPECTED_CALL if the users thread context is set already.
+ */
+METHOD_C int os_setCurrentUserThreadContext(OS_PtrValue mem);
 
 #endif //__fw_ThreadContext_h__

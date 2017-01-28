@@ -305,27 +305,17 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 
 
 MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
-{ switch(error) {
-  case 1: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis, null);
-  case 2: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis, null);
-  case 3: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis, null);
-  default: THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)ythis, null);
+{ 
+  switch(error) {
+  case 1: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis);
+  case 2: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis);
+  case 3: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis);
+  default: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)ythis);
   }
+  return null;
 }
 
 
-
-MtblHeadJc const* XXXXXXXXcheckMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
-{ ClassJc const* reflection = ythis->reflectionClass;
-  MtblHeadJc const* head0, *head;
-  if( reflection == null) THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: reflection not given", (int)ythis, null);
-  if(reflection->object.reflectionClass != &reflection_ClassJc) THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis, null);
-  head0 = ythis->reflectionClass->mtbl;  
-  if(head0 == null) THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis, null);
-  head = (MtblHeadJc const*)(((MemUnit const*) (head0)) + ix * sizeof(head0->sign)); 
-  if(head->sign == sign) return head;
-  else THROWRET_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis, null);
-}
 
 
 
@@ -480,13 +470,6 @@ ObjectArrayJc* ctorO_ObjectArrayJc(ObjectJc* othis, int size, int nBytesPerEleme
 
 
 
-void free_ObjectJc(ObjectJc* thiz)
-{ //TODO
-	//checks which allocated mode is used for the object.
-}
-
-
-
 
 ObjectArrayJc* new_ObjectArrayJc(int SIZE, int BYTESELEMENT, struct ClassJc_t const* REFLECTION, int32 typeInstanceIdent)
 { int nrofBytes = sizeof(ObjectArrayJc) + SIZE * BYTESELEMENT;
@@ -542,13 +525,6 @@ int32ARRAY* ctor_int32ARRAY(int32ARRAY* ythis, int nrOfElements)
     memset(ythis->data, 0, nrOfElements * ythis->head.sizeElement);
   }
   return ythis;
-}
-
-
-int newIdent_ObjectJc()
-{
-  static int countIdent = 0;  //note: intializing only at startup!
-  return ++countIdent;
 }
 
 

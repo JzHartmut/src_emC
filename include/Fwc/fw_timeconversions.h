@@ -1,5 +1,3 @@
-#ifndef __Fwc_fw_timeconversions_h__
-#define __Fwc_fw_timeconversions_h__
 /************************************************************************************************
  * Copyright/Copyleft:
  *
@@ -38,7 +36,10 @@
  *
  ****************************************************************************/
 
-#include <os_types_def.h>
+#include <applstdefJc.h>  //Note: define before include-guards because applstdefJc,h may include this file too.
+//The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
+#ifndef __Fwc_fw_timeconversions_h__
+#define __Fwc_fw_timeconversions_h__
 #include <os_time.h>
 
 /**Datum als Bytewerte zur Uebergabe

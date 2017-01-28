@@ -36,6 +36,7 @@
  ****************************************************************************/
 
 #include <Jc/ThreadJc.h>
+#ifndef __NOT_SUPPORTED_ThreadContextFw__
 #include <Fwc/fw_Exception.h>
 
 #include <os_thread.h>
@@ -222,3 +223,4 @@ const MtblDef_ThreadJc mtblThreadJc = {
 }, { signEnd_Mtbl_ObjectJc, null } 
 }; //Mtbl
 
+#endif //not __NOT_SUPPORTED_ThreadContextFw__

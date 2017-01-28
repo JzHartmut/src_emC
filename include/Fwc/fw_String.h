@@ -36,11 +36,17 @@
  * @changes
  * 2010-02-01 Hartmut new: _CHARS_StringJc(REF) to access the character pointer for internal access
  *************************************************************************************************/
+#ifndef __applstdefJc_h__
+  /**This file MemC should be included in the applstdefJc.h. 
+   * If this file is directly included, it needs the applstdefJc.h. But the __MemC_h__ guard should not be set firstly
+   * to include the MemC.h in the given order in applstddef.h
+   */
+  #include <applstdefJc.h>
+#endif
+//The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __fw_String_h__
 #define __fw_String_h__
 //#include "fw_Platform_conventions.h"
-#include <os_types_def.h>
-#include <Fwc/fw_simpleC.h>
 struct ObjectJc_t;
 struct StringBuilderJc_t;
 

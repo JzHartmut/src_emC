@@ -39,13 +39,11 @@
  * 2007-10-00: JcHartmut creation, dissolved from ObjectJc.h
  *
  ****************************************************************************/
+#include <applstdefJc.h>  //Note: define before include-guards because applstdefJc,h may include this file too.
+//The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __objectBaseC__h__
 #define __objectBaseC__h__
 
-#include <os_types_def.h>
-//#include <fw_Platform_conventions.h>  //knowledge of mBackRef_ObjectJc because it is used for conditional comliling.
-#include <Fwc/fw_String.h>
-#include <Fwc/fw_MemC.h>
 
 struct ThreadContextFW_t;
 
@@ -579,6 +577,7 @@ METHOD_C typedef StringJc MT_toString_ObjectJc(ObjectJc* ythis, struct ThreadCon
 /** The definition of ordered method pointer, it is a jump table.
   * The virtual methods are callable in a C-environment adequate to virtual methods in C++.
   * This struct of method pointer determines the order of virtual methods of ObjectJc for all implementation classes.
+  * @refl: no.
   */
 typedef struct Mtbl_ObjectJc_t
 { MtblHeadJc head;

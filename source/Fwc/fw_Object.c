@@ -37,8 +37,6 @@
 
 //#include <Fwc/fw_basic.h>
 #include <Fwc/objectBaseC.h>
-#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_ThreadContext.h>
 
 #include <string.h> //memset
 
@@ -98,6 +96,13 @@ void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identAndMaskObj)
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
     THROW_s0(RuntimeException, "not matched ident and size", sizeObj);
   }
+}
+
+
+int newIdent_ObjectJc()
+{
+  static int countIdent = 0;  //note: intializing only at startup!
+  return ++countIdent;
 }
 
 

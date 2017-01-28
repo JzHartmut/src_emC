@@ -13,9 +13,6 @@ if exist %OUTPUT%.c del /F /Q %OUTPUT%.c
 
 
 set INPUT=
-::set INPUT=%INPUT% -i:../include:Fwc/fw_basic.h
-::set INPUT=%INPUT% -i:../include:Fwc/fw_Event.h
-set INPUT=%INPUT% -i:../include:Fwc/fw_Exception.h
 set INPUT=%INPUT% -i:../include:Fwc/fw_Formatter.h
 set INPUT=%INPUT% -i:../include:Fwc/fw_LogMessage.h
 set INPUT=%INPUT% -i:../include:Fwc/fw_MemC.h
@@ -23,7 +20,6 @@ set INPUT=%INPUT% -i:../include:Fwc/fw_Readline.h
 set INPUT=%INPUT% -i:../include:Fwc/fw_SimpleC.h
 ::set INPUT=%INPUT% -i:../include:Fwc/fw_StateM.h
 ::set INPUT=%INPUT% -i:../include:Fwc/fw_String.h
-set INPUT=%INPUT% -i:../include:Fwc/fw_ThreadContext.h
 set INPUT=%INPUT% -i:../include:Fwc/fw_timeconversions.h
 set INPUT=%INPUT% -i:../include:Fwc/fw_Va_list.h
 set INPUT=%INPUT% -i:../include:Fwc/objectBaseC.h

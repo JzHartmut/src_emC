@@ -39,6 +39,15 @@
  * 2007-07-00: Hartmut creation
  *
  ****************************************************************************/
+
+#ifndef __applstdefJc_h__
+  /**This file fw_Exception.h should be included in the applstdefJc.h. 
+   * If this file is directly included, it needs the applstdefJc.h. But the __fw_Exception_h__ guard should not be set firstly
+   * to include the fw_Exception.h in the given order in applstddef.h
+   */
+  #include <applstdefJc.h>
+#endif
+
 #ifndef __fw_ThreadContext_h__
   //include fw_ThreadContext.h firstly, it includes this file internally.
   //then the guards are defined already.
@@ -240,7 +249,7 @@ typedef struct TryObjectJc_t
     #endif
   #endif
 
-}TryObjectJc;
+} TryObjectJc;
 
 
 
@@ -257,7 +266,7 @@ typedef struct StacktraceJc_t
   int ixPrev;
   /**Exception-reference if there is an exception, or null */
   //TryObjectJc* tryObject;
-}StacktraceJc;
+} StacktraceJc;
 
 
 
@@ -282,18 +291,15 @@ typedef struct StacktraceJc_t
     if(_thCxt==null){ _thCxt = getCurrent_ThreadContextFW(); } \
     stacktrace.ixPrev = _thCxt->stacktrc.zEntries; \
     if(_thCxt->stacktrc.zEntries < (ARRAYLEN_SimpleC(_thCxt->stacktrc.entries))) { \
+      StacktraceElementJc* stdst; \
       stacktrace.ix = _thCxt->stacktrc.zEntries; \
       _thCxt->stacktrc.zEntries+=1; \
-      StacktraceElementJc* stdst = &_thCxt->stacktrc.entries[stacktrace.ix]; \
+      stdst = &_thCxt->stacktrc.entries[stacktrace.ix]; \
       stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  stdst->tryObject = null; \
     } else { /**do nothing special in this error case. */ \
       /**But do not create the index in thread context. */ \
       stacktrace.ix = stacktrace.ixPrev; \
-    } \
-    //stacktrace.tryObject = null; \
-    //stacktrace.previous = _thCxt->stacktrc.stacktrace; \
-    //stacktrace.entry.name = NAME; stacktrace.entry.source = __FILE__; stacktrace.entry.line = __LINE__; \
-    //_thCxt->stacktrc.stacktrace = &stacktrace;  test_StacktraceJc(&stacktrace)
+    } 
 #endif
 
 /**This macro defines and initializes the stack variable ,,stacktrcThCxt,, and ,,stacktrace,,.

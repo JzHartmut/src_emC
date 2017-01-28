@@ -43,6 +43,15 @@
 #define uint unsigned int
 #define ulong unsigned long int
 
+/**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
+ * but it is not guaranteed in C or C++ standard.
+ * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
+ * The long variant guarantees it independent of the compiler. The short variant can be used if the compiler guarantees 
+ * a value of 1 for boolean true.
+ */
+#define OSAL_bool1(COND) ((COND) ? 1 : 0) 
+//#define OSAL_bool1(COND) (COND)
+
 
  
  /**Macros for C-labeling in C++-compilation:
@@ -74,6 +83,15 @@
   #define INLINE_C static
 #endif
 #endif//__NoReflection__
+
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  #define bool int
+  #define false 0
+  #define true (!false)
+#endif
+
+
 
 #define _INIT0_ = {0}
 

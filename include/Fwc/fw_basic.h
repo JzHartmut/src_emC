@@ -26,14 +26,5 @@
  *
  **copyright***************************************************************************************
 */
-#ifndef __fw_basic_h__
-#define __fw_basic_h__
-#include <os_types_def.h>
-#include <Fwc/fw_ThreadContext.h>
-#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_MemC.h>
-#include <Fwc/objectBaseC.h>
-#include <os_time.h>
-//#include "Fwc/fw_dbg_usr.h"
-#endif // __fw_basic_h__
+#include <applstdefJc.h>  //Note: define before include-guards because applstdefJc,h may include this file too.
+//The following include guard prevent twice include especially if appöstdefJc.h includes this file already.

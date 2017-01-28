@@ -470,7 +470,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
     int count = ythis->_count;
     /**Detect whether the buffer is found in the stack range. Than its memory address is
      * between any address of a local variable and the Thread-Context pointer. */
-    bool bufferInStack = ((void*)s0 > (void*)&s0 && (void*)s0 < _thCxt->topmemAddrOfStack); 
+    bool bufferInStack = ADDR_IN_STACK_ThreadContextFw(s0); 
     int nonPersistent = 0;
     /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
     //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
@@ -502,7 +502,7 @@ METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt
   int count = ythis->_count;
   /**Detect whether the buffer is found in the stack range. Than its memory address is
    * between any address of a local variable and the Thread-Context pointer. */
-  bool bufferInStack = ((void*)s0 > (void*)&s0 && (void*)s0 < _thCxt->topmemAddrOfStack); 
+  bool bufferInStack = ADDR_IN_STACK_ThreadContextFw(s0); 
   //int nonPersistent = 0;
   /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
   //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
@@ -1060,42 +1060,43 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int start, 
   if(start < 0) { //-1... counts from end, -1 is the end position.
     start1 = count - (-start) +1; 
     if(start1 < 0){ 
-      start1 = 0; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -start", start)
+      //set start1 to a admissible value if THROW longs only the error.
+      start1 = 0; THROW_s0(IndexOutOfBoundsException, "faulty -start", start);
     }  
   } else if(start > count) { 
-    start1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty start", start); 
+    start1 = count; THROW_s0(IndexOutOfBoundsException, "faulty start", start); 
   } else {
     start1 = start;
   }
   if(end < 0) { //-1... counts from end, -1 is the end position.
     end1 = count - (-end) +1; 
-    if(end1 < start1){ end1 = start1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -end", end)}  
+    if(end1 < start1){ end1 = start1; THROW_s0(IndexOutOfBoundsException, "faulty -end", end);}  
   } else if(end > count) { 
-    end1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty end", end); 
+    end1 = count; THROW_s0(IndexOutOfBoundsException, "faulty end", end); 
   } else if(end == 0) {  //it means, delete 0
     end1 = start1; 
   } else if(end < start1) {
-    end1 = start1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty end before start", end);
+    end1 = start1; THROW_s0(IndexOutOfBoundsException, "faulty end before start", end);
   } else {
     end1 = end;
   }
   if(from < 0) { //-1... counts from end, -1 is the end position.
     from1 = zadd - (-from) +1; 
-    if(from1 < 0){ from1 = 0; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -from", from)}  
+    if(from1 < 0){ from1 = 0; THROW_s0(IndexOutOfBoundsException, "faulty -from", from);}  
   } else if(from > count) { 
-    from1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty from", from); 
+    from1 = count; THROW_s0(IndexOutOfBoundsException, "faulty from", from); 
   } else {
     from1 = from;
   }
   if(to < 0) { //-1... counts from end, -1 is the end position.
     to1 = zadd - (-to) +1; 
     if(to1 < from1){ 
-      to1 = from1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty -to", to)
+      to1 = from1; THROW_s0(IndexOutOfBoundsException, "faulty -to", to);
     }  
   } else if(to > zadd) { 
-    to1 = count; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty to", to); 
+    to1 = count; THROW_s0(IndexOutOfBoundsException, "faulty to", to); 
   } else if(to < from1) {
-    to1 = from1; throw_IndexOutOfBoundsException_OSALUserEXCEPT("faulty to before from", to);
+    to1 = from1; THROW_s0(IndexOutOfBoundsException, "faulty to before from", to);
   } else {
     to1 = to;
   }

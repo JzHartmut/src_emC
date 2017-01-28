@@ -35,11 +35,7 @@
  *
  ****************************************************************************/
 #include <Fwc/fw_MemC.h>
-#include <os_types_def.h>
 #include <os_mem.h>
-#include "Fwc/fw_Exception.h"
-#include <Fwc/fw_ThreadContext.h>
-//#include <fw_Platform_conventions.h> //mLength_StringJc
 #include <string.h>
 
 MemC null_MemC = NULL_MemC();

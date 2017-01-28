@@ -644,7 +644,7 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
 
 
 
-OS_PtrValue os_getCurrentUserThreadContext()
+PtrVal_MemUnit os_getCurrentUserThreadContext()
 { OS_ThreadContext const* threadContext = os_getCurrentThreadContext_intern();
   return threadContext->userThreadContext;
 }
