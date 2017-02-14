@@ -240,12 +240,16 @@ typedef struct TryObjectJc_t
 {
   /**The exception object here temporary in stack*/
   ExceptionJc exc;
-  /**The exceptionNr is always contained in exc, but here doubled because it is set to 0 */
-  int32 exceptionNr;
+  /**The exceptionNr is set on throw here and in the Exception instance. The exception instance will be unchanged,
+   * but this variable is set to 0 if a CATCH BLOCK is detected. 
+   * It it is not 0 on END_TRY (note: after FINALY), then the exception will not be handled.
+   * With this test the exception is thrown for a maybe existing superior try-catch level. This is the reason for this variable. */
+  int32 excNrTestCatch;
   #ifndef __TRYCPPJc
     #ifdef ReflectionHidden 
+      /**Buffer for the longjmp mechanism, see standard-C-documentation. Defined in standard-include-file setjmp.h */ 
       jmp_buf longjmpBuffer;
-      int32 jmpBufferDummies[64];  //because Hynet has an internal problem.
+      //int32 jmpBufferDummies[64];  //because Hynet has an internal problem.
     #endif
   #endif
 
@@ -417,11 +421,12 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
    * to the exceptionnr.
    */
   #define TRY \
-  { TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
+  { /*The matching close curly brace is given in the END_TRY at least. Necessary for new defined variable in C. */ \
+    TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
     _thCxt->stacktrc.entries[stacktrace.ix].tryObject = &tryObject; \
     _thCxt->stacktrc.entries[stacktrace.ix].line = __LINE__; \
-    tryObject.exc.exceptionNr = tryObject.exceptionNr = ident_SystemExceptionJc; /*for the reason of system exception*/ \
-    tryObject.exc.exceptionMsg = z_StringJc("System exception"); \
+    /*tryObject.exc.exceptionNr = tryObject.exceptionNr = ident_SystemExceptionJc; /*for the system exception*/ \
+    /*tryObject.exc.exceptionMsg = z_StringJc("System exception"); */\
     try
 #else
   /**TRY in C: it sets the [[longjmpBuffer_TryObjectJc]] via invocation of setjmp(...).
@@ -434,8 +439,8 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
   { TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
     _thCxt->stacktrc.entries[stacktrace.ix].tryObject = &tryObject; \
     _thCxt->stacktrc.entries[stacktrace.ix].line = __LINE__; \
-    { tryObject.exceptionNr = setjmp(tryObject.longjmpBuffer); \
-      if(tryObject.exceptionNr==0) \
+    { tryObject.excNrTestCatch = setjmp(tryObject.longjmpBuffer); \
+      if(tryObject.excNrTestCatch==0) \
       {
 #endif
 
@@ -445,7 +450,7 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
   #define _TRY \
   catch(...) { _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null;  \
   if(tryObject.exc.exceptionNr == 0) { /*if 0, a system has occured:*/ \
-    tryObject.exc.exceptionNr = tryObject.exceptionNr = ident_SystemExceptionJc;  \
+    tryObject.exc.exceptionNr = tryObject.excNrTestCatch = ident_SystemExceptionJc;  \
     tryObject.exc.exceptionMsg = z_StringJc("System exception"); \
   }  \
   if(false) { /*opens an empty block, closed on the first CATCH macro. */
@@ -457,8 +462,8 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
 
 #define CATCH(EXCEPTION, EXC_OBJ) \
     _thCxt->stacktrc.zEntries = stacktrace.ix+1; /*remove the validy of stacktrace entries of the deeper levels. */ \
-  } else if((tryObject.exceptionNr & mask_##EXCEPTION##Jc)!= 0/* || tryObject.exceptionNr==ident_##EXCEPTION##Jc*/) \
-  { ExceptionJc* EXC_OBJ = &tryObject.exc; tryObject.exceptionNr = 0;  /*do not check it a second time.*/
+  } else if((tryObject.excNrTestCatch & mask_##EXCEPTION##Jc)!= 0/* || tryObject.exceptionNr==ident_##EXCEPTION##Jc*/) \
+  { ExceptionJc* EXC_OBJ = &tryObject.exc; tryObject.excNrTestCatch = 0;  /*do not check it a second time.*/
 
 
 
@@ -470,7 +475,7 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
   _thCxt->stacktrc.zEntries = stacktrace.ix+1; \
 } /*close CATCH brace */\
 } /*close brace of whole catch block*/ \
-{ { /*open to braces because _finishTRY has 2 closing braces.*/
+{ { /*open to braces because END_TRY has 2 closing braces.*/
 
 
 
@@ -478,7 +483,7 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
 #define END_TRY \
   } /*close FINALLY, CATCHJc or TRYJc brace */\
   } /*close brace of whole catch block*/ \
-  if(tryObject.exceptionNr != 0) /*Exception not handled*/ \
+  if(tryObject.excNrTestCatch != 0) /*Exception not handled*/ \
   { /* delegate exception to previous level Do not use the own longjmp!!!*/ \
     _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null; \
     throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, &_thCxt->stacktrc, __LINE__); \

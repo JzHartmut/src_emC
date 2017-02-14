@@ -66,7 +66,7 @@
   * The C variant with longjmp should only used if C++ is not available.
   */
 #ifdef __cplusplus
-  #define __TRYCPPJc
+  //#define __TRYCPPJc
 #else
   #undef __TRYCPPJc  //cannot be used on C language
 #endif
@@ -85,6 +85,8 @@
   #undef TEST_STACKTRCJc
 #endif	
 
+
+#include <fw_assert.h>
 
 //NOTE: ASSERF_Fwc defined in fw_assert.h now.
 //#define ASSERT_Fwc(COND) assertJc(COND)

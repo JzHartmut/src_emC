@@ -111,6 +111,7 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
     do {
       stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
     } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
+    /*
     #if 0
     StacktraceJc* stacktrace = stacktrcThCxt->stacktrace;
     int idxStacktraceEntries = 0;
@@ -133,6 +134,7 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
     stacktrcThCxt->stacktrace = stacktrace;  //may be null if no TRYJc-level is found.
     stacktrcThCxt->nrofEntriesStacktraceBuffer = idxStacktraceEntries;
     #endif
+    */
     //
     //the stacktrcThCxt->entries is filled with the followed levels of Stacktrace,
     //the stacktrace refers the level of the TRY or it is null.
@@ -142,14 +144,14 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
     { //TRY-level is found:
       TryObjectJc* tryObject = stacktraceTry->tryObject;
       ExceptionJc* exception = &tryObject->exc;
-      tryObject->exceptionNr = tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
+      tryObject->excNrTestCatch = tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
       exception->exceptionNr = exceptionNr;
       lightCopy_StringJc(&exception->exceptionMsg, msg);
       exception->exceptionValue = value;
       #if defined(__TRYCPPJc) //&& defined(__cplusplus)
        throw exceptionNr;
       #else
-       longjmp(stacktrace->tryObject->longjmpBuffer, exceptionNr);
+       longjmp(stacktraceTry->tryObject->longjmpBuffer, exceptionNr);
       #endif
 
     }
@@ -160,7 +162,6 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
       lightCopy_StringJc(&exception.exceptionMsg, msg);
       exception.exceptionValue = value;
       uncatched_ExceptionJc(&exception, stacktrcThCxt);
-      exit(255);
     }
   }
   else
@@ -170,7 +171,6 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
     lightCopy_StringJc(&exception.exceptionMsg, msg);
     exception.exceptionValue = value;
     uncatched_ExceptionJc(&exception, stacktrcThCxt);
-    exit(255);
   }
 }
 

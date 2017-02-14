@@ -73,7 +73,7 @@
 // ber�cksichtigt werden muss. Das standardgem�� definierte Makro __cplusplus ist nicht immer f�r dieses Zweck verwendbar, da auch der Einsatz der C++-Compilierung
 // f�r eine C-Abbildung erfolgen kann. Wenn die Gesamt-Source (beispielsweise ein Headerfile) gegebenenfalls auch als C-Abbildung
 // compiliert werden muss, dann m�ssen alle Teile, die nur unter C++ lauff�hig sind, mit diesem Schalter bedingt compiliert werden.
-#define __CPLUSGEN
+//#define __CPLUSGEN
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte

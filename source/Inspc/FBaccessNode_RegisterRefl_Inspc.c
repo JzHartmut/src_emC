@@ -24,7 +24,7 @@ bool registerRefl_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, void* ob
 
 bool checkObject_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz){
   if(thiz == null) return false;
-  if(thiz->super.ownAddress != thiz) return false;
+  if(thiz->super.ownAddress != &thiz->super) return false;
   //The instance should have reflection signature. Check the name of the reflection instance instead its pointer
   //to support multiple linking processes. (Simulink-mex-dll)
   if(strcmp(thiz->super.reflectionClass->name, "AccessNode_Inspc") !=0) return false;

@@ -1223,7 +1223,7 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
  * @param OBJP The reference to the StringBuilder-instance itself
  * @param ADDSIZE size of the char[] after the StringBuilderJc-instance.
  */
-#define CONST_addSizeStack_StringBuilderJc(OBJP, ADDSIZE) { CONST_ObjectJc(sizeof(StringBuilderJc) + (ADDSIZE), &(OBJP)->base.object, null), 0, sizeof((OBJP)->value) + (ADDSIZE) -1, _mStack_StringBuilderJc}
+#define CONST_addSizeStack_StringBuilderJc(OBJP, ADDSIZE) { { CONST_ObjectJc(sizeof(StringBuilderJc) + (ADDSIZE), &(OBJP)->base.object, null) }, 0, sizeof((OBJP)->value) + (ADDSIZE) -1, _mStack_StringBuilderJc}
 
 
 

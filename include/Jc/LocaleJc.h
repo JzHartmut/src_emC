@@ -62,7 +62,7 @@ extern_C const struct ClassJc_t reflection_LocaleJc_s;
 #endif
 
 
-#define CONST_LocaleJc(OBJP, language, country, variant) { CONST_ObjectJc(sizeof(LocaleJc_s), OBJP, &reflection_LocaleJc_s), language, country};
+#define CONST_LocaleJc(OBJP, language, country, variant) { { CONST_ObjectJc(sizeof(LocaleJc_s), OBJP, &reflection_LocaleJc_s) }, language, country};
 
 
 /**Commonly localization information, neutral.

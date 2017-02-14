@@ -34,9 +34,11 @@
  * 2009-06-24: Hartmut creation, dissolved from ObjectJc.c
  *
  ****************************************************************************/
-
-//#include <Fwc/fw_basic.h>
 #include <Fwc/objectBaseC.h>
+//dependencies:
+//assertJc
+//getCurrent_ThreadContextFW
+//throw_s0Jc
 
 #include <string.h> //memset
 
@@ -109,25 +111,28 @@ int newIdent_ObjectJc()
 
 
 
-void checkConsistence_ObjectJc(ObjectJc* ythis, int size, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
-{ STACKTRC_TENTRY("checkConsistence_ObjectJc");
+int checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
+{ int identObj = getIdentInfo_ObjectJc(ythis);
+  STACKTRC_TENTRY("checkConsistence_ObjectJc");
   { //it is initialized, check it
     int sizeObj = getSizeInfo_ObjectJc(ythis);
-    if(ythis->ownAddress == null)
-    { //not initialized
-      init_ObjectJc(ythis, size, 0);   //TODO ident=0? Is it correct here?
-      setReflection_ObjectJc(ythis, clazzReflection, 0);
+    if(ythis->ownAddress != ythis) {
+      ident = -1;  //marker for faulty.
+      THROW_s0(IllegalArgumentException, "faut ownAddress", (int)ythis->ownAddress);
     }
-    if(ythis->ownAddress != ythis) THROW_s0(IllegalArgumentException, "faut ownAddress", (int)ythis->ownAddress);
-    if(sizeObj == 0)
-    { //not initialized
-      sizeObj = size;
+    if(size != 0 && sizeObj < size) {
+      ident = -1;  //marker for faulty.
+      THROW_s0(IllegalArgumentException, "faut size", sizeObj);
     }
-    else if(sizeObj < size) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
-
+    //
+    if(ident != 0 && ident != identObj) {
+      identObj = -1;  //marker for faulty.
+      THROW_s0(IllegalArgumentException, "faut ident", identObj);
+    }
+    //
     if(clazzReflection != null)
     { if(ythis->reflectionClass == null)
-      { ythis->reflectionClass = clazzReflection;
+      { //ythis->reflectionClass = clazzReflection;
       }
       else
       { //TODO test Reflection, it can be a derived class.
@@ -135,21 +140,31 @@ void checkConsistence_ObjectJc(ObjectJc* ythis, int size, struct ClassJc_t const
     }
   }
   STACKTRC_LEAVE;
+  return identObj;
 }
 
 
-/**@deprecated. */
-void checkConsistenceOrInit_ObjectJc(ObjectJc* ythis, int size, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
-{ STACKTRC_TENTRY("checkConsistence_ObjectJc");
-  if(ythis->ownAddress == null)
+
+int checkOrInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
+{ int identObj;
+  STACKTRC_TENTRY("checkConsistence_ObjectJc");
+  if(thiz->ownAddress == null && thiz->objectIdentSize == 0)
   { //not initialized
-    init_ObjectJc(ythis, size, 0);   //TODO ident=0? 
-    setReflection_ObjectJc(ythis, clazzReflection, 0);
+    init_ObjectJc(thiz, size, ident);   //TODO ident=0? 
+    setReflection_ObjectJc(thiz, clazzReflection, 0);
+    identObj = ident;
   }
   else
-  { checkConsistence_ObjectJc(ythis, size, clazzReflection,_thCxt);
+  { if(thiz->objectIdentSize == 0)
+    { //size and ident not initialized
+      setSizeAndIdent_ObjectJc(thiz, size, ident);
   }
-  STACKTRC_LEAVE;
+    if(thiz->reflectionClass == null) {
+      setReflection_ObjectJc(thiz, clazzReflection, 0);
+    }
+    identObj = checkStrict_ObjectJc(thiz, size, ident, clazzReflection,_thCxt);
+  }
+  STACKTRC_LEAVE; return identObj;
 }
 
 

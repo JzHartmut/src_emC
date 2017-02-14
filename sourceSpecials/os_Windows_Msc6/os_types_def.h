@@ -31,6 +31,12 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
+
+/**If only this file is included, include all files of this concept. */
+#ifndef __applstdefJc_h__
+  #include <applstdefJc.h>
+#endif
+
 #ifndef   __os_types_def_h__
 #define   __os_types_def_h__
 //CRuntimeJavalike/includeSpecials/os_Windows_Msc6/os_types_def.h
@@ -60,6 +66,7 @@
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
+#define BYTE_IN_MemUnit_sizeof 1
 
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
 #define int8_t    char
@@ -225,10 +232,6 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #endif
 
 
-/**If only this file is included, include all files of this concept. */
-#ifndef __applstdefJc_h__
-  #include <applstdefJc.h>
-#endif
 
 
 #endif  //__os_types_def_h__
