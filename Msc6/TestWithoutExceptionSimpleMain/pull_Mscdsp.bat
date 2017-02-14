@@ -1,0 +1,1 @@
+copy t:\Msc6_TestWithoutExceptionSimpleMain\TestWithoutExceptionSimpleMain.dsp *
