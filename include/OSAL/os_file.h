@@ -45,7 +45,7 @@
 #define __OSAL_os_file_h__
 
 #include <os_time.h>
-#include <os_types_def.h>
+#include <compl_adaption.h>
 
 struct FileLock_OSAL_t;
 

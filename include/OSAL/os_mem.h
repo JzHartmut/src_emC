@@ -37,7 +37,7 @@
  ************************************************************************************************/
 #ifndef __os_mem_h__
 #define __os_mem_h__
-#include <os_types_def.h>
+#include <compl_adaption.h>
 
 /**Allocates memory from a memory pool (heap) of the operation system. */
 METHOD_C void* os_allocMem(uint size);

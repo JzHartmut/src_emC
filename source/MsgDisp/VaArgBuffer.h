@@ -37,7 +37,7 @@
 #include "Fwc/fw_Exception.h"
 #include "Fwc/fw_LogMessage.h" //only because Va_listFW, TODO
 
-#include <os_types_def.h>
+#include <applstdefJc.h>
 #include <stdarg.h>
 
 /*@CLASS_C VaArgBuffer_Data_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

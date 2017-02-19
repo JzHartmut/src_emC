@@ -1,8 +1,11 @@
 #ifndef __fw_assert_h__
 #define __fw_assert_h__
-#include <os_types_def.h>
 
-extern_C void stopAssert_Fwc();
+#include <compl_adaption.h>
+
+extern void stopAssert_Fwc();
+
+extern_C void assertJc(bool condition);
 
 
 /**Asserts that the value containing in VAR is in range MIN to MAX. 

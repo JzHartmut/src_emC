@@ -45,7 +45,7 @@
 #ifndef __fw_SysConventions_h__
 #define __fw_SysConventions_h__
 
-#include <os_types_def.h>
+#include <compl_adaption.h>
 	
 
 //#define __CPLUSPLUSJcpp

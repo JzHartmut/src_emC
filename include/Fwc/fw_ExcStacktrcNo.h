@@ -99,14 +99,6 @@ typedef struct ExceptionJc_t
 #define throw_s0Jc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_s0Jc_("##EXCEPTION##", TEXT, VAL, LINE)
 #define throw_sJc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_sJc_("##EXCEPTION##", TEXT, VAL, LINE)
 
-/**It's the same as in Java: Keyword assert, the condition should be true. */
-METHOD_C void assertJc(bool condition);
-#ifndef ASSERT
-  /**The macro ASSERT may be defined user specific. */
-  #define ASSERT(COND) assertJc(COND)
-#endif
-
-
 
 METHOD_C void throw_sJc_(char const* exceptionNr, StringJc msg, int value, int line);
 METHOD_C void throw_s0Jc_(char const* exceptionNr, const char* msg, int value, int line);

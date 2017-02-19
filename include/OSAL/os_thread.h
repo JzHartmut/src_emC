@@ -40,7 +40,7 @@
 #ifndef __os_thread_h__
 #define __os_thread_h__
 
-#include <os_types_def.h>
+#include <applstdefJc.h>
 
 extern_C_BLOCK_
 

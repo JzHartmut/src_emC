@@ -44,7 +44,7 @@
  ************************************************************************************************/
 #ifndef __os_sync_h__
 #define __os_sync_h__
-#include <os_types_def.h>
+#include <applstdefJc.h>
 
 extern_C_BLOCK_
 
@@ -62,7 +62,7 @@ static const int version_OS_sync = 0x20150816;
 struct OS_Mutex_t;
 //typedef struct OS_Mutex_t* OS_Mutex;
 
-#include <os_types_def.h>
+#include <applstdefJc.h>
 //#include "fw_MemC.h"
 
 

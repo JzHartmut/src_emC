@@ -55,7 +55,7 @@
 /**This file contains some usefull definitions for simpe C programming.
 
 */
-#include <os_types_def.h>
+#include <compl_adaption.h>
 
 /**Forward declaration of struct to prevent warnings. */
 struct ThreadContextFW_t;

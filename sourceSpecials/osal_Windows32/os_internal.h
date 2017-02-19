@@ -12,7 +12,7 @@
 #include <wtypes.h>
 #include <Winbase.h>
 
-#include <os_types_def.h>
+#include <applstdefJc.h>
 
 /**Informations about the current thread, more as an simple id. */
 struct OS_ThreadContext_t* os_getCurrentThreadContext_intern();
@@ -27,8 +27,6 @@ typedef struct OS_Mutex_t{
 } OS_Mutex_s;
 
 
-#include <os_types_def.h>
-//#include "fw_MemC.h"
 
 
 /**The type of a OS_HandleWaitNotify is represented by a pointer to a not far defined struct. */ 

@@ -32,7 +32,7 @@
  *
  * @version 0.83
  */
-#include <os_types_def.h>
+#include <applstdefJc.h>
 #include "Jc/ReflectionJc.h"
 
 

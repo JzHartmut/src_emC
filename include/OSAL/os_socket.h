@@ -39,7 +39,7 @@
 
 #ifndef __os_socket_h__
 #define __os_socket_h__
-#include "os_types_def.h"
+#include <applstdefJc.h>
 
 
 #include <os_endian.h>

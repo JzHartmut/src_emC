@@ -51,10 +51,6 @@
 #ifndef __ObjectJc_h__
 #define __ObjectJc_h__
 
-/** The system depending definitions*/
-#include <os_types_def.h>
-#include <fw_Platform_conventions.h>
-//#include <ObjectRefJc_PlatformSpec.h>
 #include "Fwc/fw_SimpleC.h"
 #include "Fwc/fw_MemC.h"
 #include "Fwc/fw_Exception.h"  //knowledge of Thcxt, Exception is supplied
@@ -476,38 +472,6 @@ METHOD_C void setBackRefJc(void* reference, void const* instance);
 METHOD_C void clearBackRefJc(void* reference);
 
 
-#define int8_YREFDEF
-DEFINE_EnhancedRefJc(int8_Y);
-
-#define int16_YREFDEF
-DEFINE_EnhancedRefJc(int16_Y);
-//TYPEDEF_AYJc(int16);
-
-#define int32_YREFDEF
-DEFINE_EnhancedRefJc(int32_Y);
-
-#define int64_YREFDEF
-DEFINE_EnhancedRefJc(int64_Y);
-
-#define bool_YREFDEF
-DEFINE_EnhancedRefJc(bool_Y);
-
-#define char_YREFDEF
-DEFINE_EnhancedRefJc(char_Y);
-
-#define void_YREFDEF
-DEFINE_EnhancedRefJc(void_Y);
-
-#define ObjectJcREFDEF
-DEFINE_EnhancedRefJc(ObjectJc);
-
-
-#ifndef LogMessageFWREFDEF
-  #define LogMessageFWREFDEF
-  DEFINE_EnhancedRefJc(LogMessageFW);
-#endif
-
-
 
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 /*@DEFINE_C Arrays of standard types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -543,6 +507,40 @@ typedef struct void_Y_t{ ObjectArrayJc head; void* data[50]; } void_Y;
 
 
 METHOD_C void_Y* ctorO_AYJc(ObjectJc* othis, int sizeElement, int nrofElements);
+
+
+#define int8_YREFDEF
+DEFINE_EnhancedRefJc(int8_Y);
+
+#define int16_YREFDEF
+DEFINE_EnhancedRefJc(int16_Y);
+//TYPEDEF_AYJc(int16);
+
+#define int32_YREFDEF
+DEFINE_EnhancedRefJc(int32_Y);
+
+#define int64_YREFDEF
+DEFINE_EnhancedRefJc(int64_Y);
+
+#define bool_YREFDEF
+DEFINE_EnhancedRefJc(bool_Y);
+
+#define char_YREFDEF
+DEFINE_EnhancedRefJc(char_Y);
+
+#define void_YREFDEF
+DEFINE_EnhancedRefJc(void_Y);
+
+#define ObjectJcREFDEF
+DEFINE_EnhancedRefJc(ObjectJc);
+
+
+#ifndef LogMessageFWREFDEF
+//  #define LogMessageFWREFDEF
+//  DEFINE_EnhancedRefJc(LogMessageFW);
+#endif
+
+
 
 
 /*@CLASS_C int8ARRAY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

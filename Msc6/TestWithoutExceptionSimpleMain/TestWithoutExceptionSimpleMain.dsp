@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/include" /I "S:/Jc/CRuntimeJavalike/include/OSAL" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/ExcHandling_Printf.template" /I "S:/Jc/CRuntimeJavalike/includeSpecials/os_Windows_Msc6" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
+# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/include" /I "S:/Jc/CRuntimeJavalike/include/OSAL" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/ExcHandling_Printf.template" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/cc_Msc6" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -172,6 +172,14 @@ SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_ExcS
 # Begin Source File
 
 SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_Platform_conventions.h
+# End Source File
+# End Group
+# Begin Group "cc_Msc6"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\cc_Msc6\compl_adaption.h
 # End Source File
 # End Group
 # End Group

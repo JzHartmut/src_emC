@@ -67,10 +67,9 @@
  * 2004-05-00: Hartmut creation
  *
  ****************************************************************************/
+#include <applstdefJc.h>
 #ifndef __StringJc_h__
 #define __StringJc_h__
-#include <os_types_def.h>
-#include <fw_Platform_Conventions.h>
 #include "Fwc/fw_String.h"    //based on the there defined type StringJc and the access macros.
 #include "Fwc/fw_Va_list.h" 
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike

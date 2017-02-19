@@ -44,7 +44,7 @@
 #ifndef __os_time_h__
 #define __os_time_h__
 
-#include <os_types_def.h>
+#include <applstdefJc.h>
 
 extern_C_BLOCK_
 

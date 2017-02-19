@@ -8,8 +8,6 @@
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
 
-/**Include a file with proper pragmas especially to prevent warnings for non-critical content. See included file examples: */
-#include "compilerPragmNoWarningUnused.h"
 
 
 
@@ -21,7 +19,13 @@
 
 
 /**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
-#include <os_types_def.h>
+#include <compl_adaption.h>
+
+
+//NOTE: ASSERF_Fwc defined in fw_assert.h now.
+//#define ASSERT_Fwc(COND) assertJc(COND)
+#include <fw_assert.h>
+
 
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
@@ -46,8 +50,11 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-/**Use the exception handling header file - or define the macros TRY, by yourself. */
-#include <Fwc/fw_ExcStacktrcNo.h>
+#ifdef __cplusplus
+  //#define __TRYCPPJc
+#else
+  #undef __TRYCPPJc  //cannot be used on C language
+#endif
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
  * Because a forgotten STACKTRC_LEAVE-macro call won't be detected else,
@@ -61,9 +68,9 @@
 #endif	
 
 
-//NOTE: ASSERF_Fwc defined in fw_assert.h now.
-//#define ASSERT_Fwc(COND) assertJc(COND)
-
+/**Use the exception handling header file - or define the macros TRY, by yourself. */
+//#include <Fwc/fw_Exception.h>
+#include <Fwc/fw_ExcStacktrcNo.h>
 
 
 extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);

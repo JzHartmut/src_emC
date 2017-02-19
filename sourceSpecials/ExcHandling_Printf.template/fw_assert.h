@@ -4,6 +4,8 @@
 
 void stopAssert_Fwc();
 
+void assertJc(bool condition);
+
 
 /**Asserts that the value containing in VAR is in range MIN to MAX. 
  * This macro doesn't throws any exception but limits the value.
@@ -15,6 +17,7 @@ void stopAssert_Fwc();
  * @retunr void
  */
 #define ASSERT_Range(VAR, MIN, MAX) { if(VAR < (MIN)) { VAR = (MIN); } else if(VAR > (MAX)){ VAR = (MAX); } }
+
 
 #define ASSERT_Fwc(cond) { if((cond)==0) stopAssert_Fwc(); }
 
