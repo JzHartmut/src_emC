@@ -46,8 +46,13 @@
 #include <os_mem.h>
 #include "os_internal.h"
 
+//The following types are defined in windows-header in an adequate way too.
+//undef here to prevent conflicts. The resulting types are identic.
+#undef int64
+#undef uint64
 #undef INT32
 #undef UINT32
+
 #include <windows.h>
 #include <stdio.h>
 

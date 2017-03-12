@@ -713,7 +713,11 @@ C_TYPE typedef struct  ClassJc_t
 #define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
 
 
-typedef enum ScalarTypes_ClassJc_t
+/**Definition of constant values for primitive type reflection
+ * and some special classes.
+ * @deprecated because using kXYZ for a defined constant is better to read. It is more mmemonicly.
+ */
+typedef enum DeprecatedScalarTypes_ClassJc_t
 {
   REFLECTION_void_ClassJc       = 0x01,
   REFLECTION_int64_ClassJc      = 0x02,
@@ -736,6 +740,35 @@ typedef enum ScalarTypes_ClassJc_t
   REFLECTION_complexdouble_ClassJc = 0x15,
   REFLECTION_bitfield_ClassJc   = 0x17,
   REFLECTION_afterlastPrimitive_ClassJc       = 0x18
+}DeprecatedScalarTypes_ClassJc;
+
+/**Definition of constant values for primitive type reflection
+ * and some special classes.
+ */
+typedef enum ScalarTypes_ClassJc_t
+{
+  kREFLECTION_void_ClassJc       = 0x01,
+  kREFLECTION_int64_ClassJc      = 0x02,
+  kREFLECTION_uint64_ClassJc     = 0x03,
+  kREFLECTION_int32_ClassJc      = 0x04,
+  kREFLECTION_uint32_ClassJc     = 0x05,
+  kREFLECTION_int16_ClassJc      = 0x06,
+  kREFLECTION_uint16_ClassJc     = 0x07,
+  kREFLECTION_int8_ClassJc       = 0x08,
+  kREFLECTION_uint8_ClassJc      = 0x09,
+  kREFLECTION_int_ClassJc        = 0x0a,
+  kREFLECTION_uint_ClassJc       = 0x0b,
+  kREFLECTION_float_ClassJc      = 0x0c,
+  kREFLECTION_double_ClassJc     = 0x0d,
+  kREFLECTION_char_ClassJc       = 0x0e,
+  kREFLECTION_bool_ClassJc       = 0x0f,
+  kREFLECTION_boolean_ClassJc    = 0x0f,
+  kREFLECTION_String_ClassJc     = 0x10,
+  kREFLECTION_ObjectJc_ClassJc   = 0x11,
+  kREFLECTION_complexfloat_ClassJc  = 0x14,
+  kREFLECTION_complexdouble_ClassJc = 0x15,
+  kREFLECTION_bitfield_ClassJc   = 0x17,
+  kREFLECTION_afterlastPrimitive_ClassJc       = 0x18
 }ScalarTypes_ClassJc;
 
 

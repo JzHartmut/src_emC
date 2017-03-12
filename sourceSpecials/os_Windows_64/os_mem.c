@@ -35,6 +35,10 @@
  ****************************************************************************/
 #include <os_mem.h>
 
+//The following types are defined in windows-header in an adequate way too.
+//undef here to prevent conflicts. The resulting types are identic.
+#undef int64
+#undef uint64
 #undef INT32
 #undef UINT32
 
@@ -55,8 +59,9 @@ void* os_allocMem(uint size)
 
 
 
-int os_freeMem(void* ptr)
-{ void* ok = GlobalFree(ptr);   //malloc(size);
+int os_freeMem(void const* ptr)
+{ void* ptr1 = (void*)ptr;    //GlobalFree don't understand const!
+  void* ok = GlobalFree(ptr1);   
   if(ok == NULL)
   { return 0;
   }

@@ -41,10 +41,13 @@
 #include <os_error.h>
 #include <os_sync.h>
 
-
-#undef boolean
+//The following types are defined in windows-header in an adequate way too.
+//undef here to prevent conflicts. The resulting types are identic.
+#undef int64
+#undef uint64
 #undef INT32
 #undef UINT32
+#undef boolean
 #include <wtypes.h>
 #include <winbase.h>
 #include <stdio.h>
