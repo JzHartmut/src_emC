@@ -28,6 +28,7 @@
  *
  * @content Routines for System.out
  */
+#include <Jc/SystemJc.h>
 #include <Jc/PrintStreamJc.h>
 
 PrintStreamJcREF out_SystemJc = NULL_REFJc; 

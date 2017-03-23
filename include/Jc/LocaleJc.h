@@ -57,7 +57,7 @@ extern_C const struct ClassJc_t reflection_LocaleJc_s;
 /* Enhanced references *********************************************************/
 #ifndef LocaleJcREFDEF
   #define LocaleJcREFDEF
-  DEFINE_EnhancedRefJc(LocaleJc);
+  typedef TYPE_EnhancedRefJc(LocaleJc);
   //Should be compatible with non-enhanced ref using. typedef struct LocaleJcREF_t { ObjectRefValuesJc refbase; struct LocaleJc_t* ref; } LocaleJcREF;
 #endif
 

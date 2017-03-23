@@ -36,7 +36,8 @@
  ****************************************************************************/
 
 #include <Jc/ThreadJc.h>
-#ifndef __NOT_SUPPORTED_ThreadContextFw__
+
+#ifndef __NOT_SUPPORTED_ThreadContextFw__  //then ignore whole file
 #include <Fwc/fw_Exception.h>
 
 #include <os_thread.h>
@@ -45,6 +46,7 @@
 #ifndef NO_DYNAMICALLY_MEMORY
 	//#include "BlockHeap/BlockHeapJc.h"
 #endif
+
 const char sign_Mtbl_RunnableJc[] = "RunnableJc"; //to mark method tables of all implementations
 const char sign_Mtbl_ThreadJc[] = "ThreadJc"; //to mark method tables of all implementations
 

@@ -47,7 +47,7 @@ typedef struct DispatcherThread_MsgDispatcher_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define DispatcherThread_MsgDispatcher_MSGREFDEF
   struct DispatcherThread_MsgDispatcher_MSG_t;
-  DEFINE_EnhancedRefJc(DispatcherThread_MsgDispatcher_MSG);
+  typedef TYPE_EnhancedRefJc(DispatcherThread_MsgDispatcher_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -118,7 +118,7 @@ typedef struct MsgDispatcher_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define MsgDispatcher_MSGREFDEF
   struct MsgDispatcher_MSG_t;
-  DEFINE_EnhancedRefJc(MsgDispatcher_MSG);
+  typedef TYPE_EnhancedRefJc(MsgDispatcher_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

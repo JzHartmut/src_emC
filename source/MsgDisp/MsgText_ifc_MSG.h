@@ -44,7 +44,7 @@ typedef struct MsgConfigItem_MsgText_ifc_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define MsgConfigItem_MsgText_ifc_MSGREFDEF
   struct MsgConfigItem_MsgText_ifc_MSG_t;
-  DEFINE_EnhancedRefJc(MsgConfigItem_MsgText_ifc_MSG);
+  typedef TYPE_EnhancedRefJc(MsgConfigItem_MsgText_ifc_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -111,7 +111,7 @@ typedef struct MsgText_ifc_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define MsgText_ifc_MSGREFDEF
   struct MsgText_ifc_MSG_t;
-  DEFINE_EnhancedRefJc(MsgText_ifc_MSG);
+  typedef TYPE_EnhancedRefJc(MsgText_ifc_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

@@ -240,7 +240,7 @@ struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySo
       type = substring_StringJc(addr, 0, posAddr, _thCxt)/*J2C:non-persistent*/;
       addr = substring_I_StringJc(addr, posAddr + 1, _thCxt)/*J2C:non-persistent*/;
     }
-    ASSERT(/*J2C:static method call*/length_StringJc(addr) > 0);
+    ASSERT_Fwc(/*J2C:static method call*/length_StringJc(addr) > 0);
     if(nPort <= 0) 
     { 
       StringJc _temp3_1; /*J2C: temporary references for concatenation */

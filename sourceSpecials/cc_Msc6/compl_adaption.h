@@ -311,4 +311,9 @@ typedef float                float32;
 
 
 
+#ifndef __os_types_def_common_h__
+#include <OSAL/os_types_def_common.h>
+#endif
+
+
 #endif  //__os_types_def_h__

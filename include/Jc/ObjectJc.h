@@ -510,29 +510,29 @@ METHOD_C void_Y* ctorO_AYJc(ObjectJc* othis, int sizeElement, int nrofElements);
 
 
 #define int8_YREFDEF
-DEFINE_EnhancedRefJc(int8_Y);
+typedef TYPE_EnhancedRefJc(int8_Y);
 
 #define int16_YREFDEF
-DEFINE_EnhancedRefJc(int16_Y);
+typedef TYPE_EnhancedRefJc(int16_Y);
 //TYPEDEF_AYJc(int16);
 
 #define int32_YREFDEF
-DEFINE_EnhancedRefJc(int32_Y);
+typedef TYPE_EnhancedRefJc(int32_Y);
 
 #define int64_YREFDEF
-DEFINE_EnhancedRefJc(int64_Y);
+typedef TYPE_EnhancedRefJc(int64_Y);
 
 #define bool_YREFDEF
-DEFINE_EnhancedRefJc(bool_Y);
+typedef TYPE_EnhancedRefJc(bool_Y);
 
 #define char_YREFDEF
-DEFINE_EnhancedRefJc(char_Y);
+typedef TYPE_EnhancedRefJc(char_Y);
 
 #define void_YREFDEF
-DEFINE_EnhancedRefJc(void_Y);
+typedef TYPE_EnhancedRefJc(void_Y);
 
 #define ObjectJcREFDEF
-DEFINE_EnhancedRefJc(ObjectJc);
+typedef TYPE_EnhancedRefJc(ObjectJc);
 
 
 #ifndef LogMessageFWREFDEF

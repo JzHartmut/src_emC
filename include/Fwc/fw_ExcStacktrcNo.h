@@ -45,9 +45,9 @@
 #ifndef __fw_ExcStacktrcNo_h__
 #define __fw_ExcStacktrcNo_h__
 #define __fw_Exception_h__       //prevent including
-#define __fw_ThreadContext_h__   //prevent including
+//#define __fw_ThreadContext_h__   //prevent including
 
-#define __NOT_SUPPORTED_ThreadContextFw__
+//#define __NOT_SUPPORTED_ThreadContextFw__
 #define __NOT_SUPPORTED_ExceptionJc__
 
 
@@ -96,8 +96,13 @@ typedef struct ExceptionJc_t
 #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc_("##EXCEPTION##", TEXT, VAL, __LINE__)
 #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc_("##EXCEPTION##", TEXT, VAL, __LINE__)
 
+
+/**The routines throw... are replaced by a routine which does not know the exception bit mask
+ * but supplies a String with the exception name, proper for printf.
+ */
 #define throw_s0Jc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_s0Jc_("##EXCEPTION##", TEXT, VAL, LINE)
 #define throw_sJc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_sJc_("##EXCEPTION##", TEXT, VAL, LINE)
+#define throw_EJc(EXCEPTION, EXCOBJ, VAL, STACKTRC, LINE)  throw_s0Jc_("##EXCEPTION##", "forward exception", VAL, LINE)
 
 
 METHOD_C void throw_sJc_(char const* exceptionNr, StringJc msg, int value, int line);
@@ -106,6 +111,7 @@ METHOD_C void throw_s0Jc_(char const* exceptionNr, const char* msg, int value, i
 
 
 #define printStackTrace_ExceptionJc(ythis, _thCxt)
+#define printStackTrace_P_ExceptionJc(ythis, out, _thCxt)
 #define printStackTraceFile_ExceptionJc(ythis, out, _thCxt)
 #define getMessage_ExceptionJc(YTHIS, THC) ((YTHIS)->exceptionMsg)
 

@@ -39,7 +39,7 @@ typedef struct PrepareToString_InfoFormattedAppendJc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define PrepareToString_InfoFormattedAppendJcREFDEF
   struct PrepareToString_InfoFormattedAppendJc_t;
-  DEFINE_EnhancedRefJc(PrepareToString_InfoFormattedAppendJc);
+  typedef  DEFINE_EnhancedRefJc(PrepareToString_InfoFormattedAppendJc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -97,7 +97,7 @@ typedef struct InfoFormattedAppendJc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InfoFormattedAppendJcREFDEF
   struct InfoFormattedAppendJc_t;
-  DEFINE_EnhancedRefJc(InfoFormattedAppendJc);
+  typedef  DEFINE_EnhancedRefJc(InfoFormattedAppendJc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

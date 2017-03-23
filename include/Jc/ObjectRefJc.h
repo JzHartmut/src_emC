@@ -4,7 +4,7 @@
 
 #define ObjectJc_YREFDEF
 typedef struct ObjectJc_Y_t{ ObjectArrayJc head; ObjectJcREF data[50]; } ObjectJc_Y;
-DEFINE_EnhancedRefJc(ObjectJc_Y);
+  typedef DEFINE_EnhancedRefJc(ObjectJc_Y);
 
 
 

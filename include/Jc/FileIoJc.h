@@ -100,7 +100,7 @@ typedef struct OutputStreamJc_t
 
 extern_C struct ClassJc_t const reflection_OutputStreamJc_s;
 
-DEFINE_EnhancedRefJc(OutputStreamJc);
+typedef TYPE_EnhancedRefJc(OutputStreamJc);
 
 
 /**The method type, which is able to implement the run method. */
@@ -176,7 +176,7 @@ typedef  struct FileWriterJc_t
 
 #ifndef FileWriterJcREFDEF
   #define FileWriterJcREFDEF
-  DEFINE_EnhancedRefJc(FileWriterJc);
+  typedef TYPE_EnhancedRefJc(FileWriterJc);
 #endif
 
 

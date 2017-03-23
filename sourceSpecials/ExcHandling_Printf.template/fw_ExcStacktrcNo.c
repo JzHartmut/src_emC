@@ -31,13 +31,15 @@ void assertJc(bool condition)
 }
 
 
-#include <stdlib.h>
-#include <os_mem.h>
-void* os_allocMem(uint size) { return malloc(size); }
+//#include <stdlib.h>
+//#include <os_mem.h>
+//void* os_allocMem(uint size) { return malloc(size); }
 
-int os_freeMem(void const* addr) { free((void*)addr); return 0; }
+//int os_freeMem(void const* addr) { free((void*)addr); return 0; }
 
 
+#if 0
+//Note: in extra file! It is contained in os_thread too!
 PtrVal_MemUnit threadContext;
 
 PtrVal_MemUnit os_getCurrentUserThreadContext()
@@ -54,12 +56,8 @@ METHOD_C int os_setCurrentUserThreadContext(OS_PtrValue mem)
   threadContext = mem;
   return 0;
 }
+#endif
 
-
-void stopAssert_Fwc()
-{
-  
-}
 
 
 

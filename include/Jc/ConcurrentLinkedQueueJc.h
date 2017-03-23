@@ -94,7 +94,7 @@ typedef struct ConcurrentLinkedQueueJc_t
 
 #ifndef ConcurrentLinkedQueueJcREFDEF
   #define ConcurrentLinkedQueueJcREFDEF
-  DEFINE_EnhancedRefJc(ConcurrentLinkedQueueJc);
+  typedef TYPE_EnhancedRefJc(ConcurrentLinkedQueueJc);
 #endif
 
 

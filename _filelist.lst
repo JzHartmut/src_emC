@@ -1,8 +1,13 @@
-2017-03-12 21:32:09  x     _filelist.lst                            ::           .  0  0000000000 
+2017-03-23 23:16:39  x     _filelist.lst                            ::           .  0  0000000000 
 2011-06-23 10:05:52  x     delBak.bat                               ::           . 37  1661871524 
 2011-07-21 18:48:12  x     gitstart.bat                             ::           . 71  0966181374 
 
 ============================== Msc6/ ==============================================================
+
+============================== Msc6/TestThreadMutexWaitNotify/ =====================================
+2017-03-19 22:15:52  x     TestThreadMutexWaitNotify.dsp            ::          7.982  1354761908 
+2017-03-14 22:55:00  x     pull_Mscdsp.bat                          ::           . 71  0085366687 
+2017-03-14 22:55:47  x     start_Mscdsp.bat                         ::           .505 -0345146702 
 
 ============================== Msc6/TestWithoutExceptionSimpleMain/ ================================
 2017-02-19 21:40:18  x     TestWithoutExceptionSimpleMain.dsp       ::          7.325 -0130189228 
@@ -17,7 +22,7 @@
 
 ============================== include/Fwc/ ========================================================
 2015-01-07 10:34:17  x     fw_Event.h                               ::          4.364  0961305670 
-2017-02-18 20:28:44  x     fw_ExcStacktrcNo.h                       ::          4.222 -1513001636 
+2017-03-19 22:47:43  x     fw_ExcStacktrcNo.h                       ::          4.578 -2125702544 
 2017-01-29 16:07:02  x     fw_Exception.h                           ::         22.821  1139653041 
 2011-03-06 19:10:28  x     fw_Formatter.h                           ::          7.547 -1400729628 
 2016-07-30 01:34:08  x     fw_LogMessage.h                          ::         16.421 -1228002281 
@@ -30,29 +35,29 @@
 2014-01-10 23:38:45  x     fw_Va_list.h                             ::          2.367  1391122393 
 2017-01-21 09:33:17  x     fw_basic.h                               ::          1.778 -0685866631 
 2017-01-21 09:34:12  x     fw_timeconversions.h                     ::          6.748 -1129047651 
-2017-03-12 19:43:27  x     objectBaseC.h                            ::         51.392  1142940755 
+2017-03-19 19:41:21  x     objectBaseC.h                            ::         51.627  0961406975 
 
 ============================== include/InspcJ2c.old/ ===============================================
-2016-10-03 20:48:59  x     AnswerComm_ifc_Inspc.h                   ::          3.181  0308898485 
+2017-03-19 22:34:40  x     AnswerComm_ifc_Inspc.h                   ::          3.189 -0561374925 
 2016-10-02 13:34:05  x     AnswerComm_ifc_Inspc.h.bak               ::          3.178  0732039540 
-2016-10-03 20:49:01  x     ClassContent_Inspc.h                     ::         15.628 -2000920923 
+2017-03-19 22:35:25  x     ClassContent_Inspc.h                     ::         15.637  1183760710 
 2016-10-02 13:34:07  x     ClassContent_Inspc.h.bak                 ::         15.479 -0845043056 
-2016-10-03 20:49:01  x     CmdConsumer_ifc_Inspc.h                  ::          4.359  1438656751 
+2017-03-19 22:35:25  x     CmdConsumer_ifc_Inspc.h                  ::          4.368  0694279591 
 2016-10-02 13:34:07  x     CmdConsumer_ifc_Inspc.h.bak              ::          4.359 -1833944854 
-2016-10-03 20:49:02  x     CmdExecuter_Inspc.h                      ::          6.864  0429907197 
+2017-03-19 22:35:25  x     CmdExecuter_Inspc.h                      ::          6.873  1061395580 
 2016-10-02 13:34:07  x     CmdExecuter_Inspc.h.bak                  ::          6.663  0422954728 
-2016-10-03 20:49:02  x     Comm_Inspc.h                             ::          5.666  1607428636 
+2017-03-19 22:35:25  x     Comm_Inspc.h                             ::          5.675  1127388228 
 2016-10-02 13:34:07  x     Comm_Inspc.h.bak                         ::          5.643  1188449599 
-2015-08-09 22:56:11  x     ExampleInspector_Inspc.h                 ::          8.557 -0159182982 
-2016-10-03 20:48:59  x     InspcDataExchangeAccess_Inspc.h          ::         42.103 -0963491435 
+2017-03-19 22:35:25  x     ExampleInspector_Inspc.h                 ::          8.582  0029774857 
+2017-03-19 22:35:25  x     InspcDataExchangeAccess_Inspc.h          ::         42.157 -1277991072 
 2016-10-02 13:32:57  x     InspcDataExchangeAccess_Inspc.h.bak      ::         42.583  0923584594 
-2016-10-03 20:49:01  x     InspcDataInfo_Inspc.h                    ::          3.990 -1808336404 
+2017-03-19 22:35:25  x     InspcDataInfo_Inspc.h                    ::          3.999  0089554312 
 2016-10-02 13:34:07  x     InspcDataInfo_Inspc.h.bak                ::          3.945  2099937660 
-2016-10-03 20:49:02  x     Inspector_Inspc.h                        ::          5.941  1142869875 
+2017-03-19 22:26:38  x     Inspector_Inspc.h                        ::          5.957  0024241219 
 2016-10-02 13:34:07  x     Inspector_Inspc.h.bak                    ::          5.873 -0586573070 
-2016-10-03 20:49:01  x     SearchElement_Inspc.h                    ::          6.369  1340962641 
+2017-03-19 22:35:25  x     SearchElement_Inspc.h                    ::          6.387 -0237625913 
 2016-10-02 13:34:07  x     SearchElement_Inspc.h.bak                ::          6.329 -1758587578 
-2016-10-03 20:48:59  x     WorkingThread_Inspc.h                    ::         14.417 -2073633748 
+2017-03-19 22:35:25  x     WorkingThread_Inspc.h                    ::         14.462 -1336844735 
 2016-10-02 13:34:04  x     WorkingThread_Inspc.h.bak                ::         14.314 -0542280671 
 
 ============================== include/Ipc/ ========================================================
@@ -60,10 +65,10 @@
 2016-10-15 19:15:38  x     InterProcessCommSocket.h                 ::          3.966 -0434249779 
 
 ============================== include/Ipc2c.ref1/ =================================================
-2016-06-18 15:49:53  x     InterProcessCommFactorySocket_Ipc.h      ::          7.335 -2071135165 
-2016-06-18 15:49:53  x     InterProcessCommRxExec_Ipc.h             ::          4.390 -2144981773 
-2016-06-18 15:49:53  x     InterProcessCommRxThread_Ipc.h           ::         10.579  1242845434 
-2016-06-18 20:17:31  x     InterProcessCommRx_ifc_Ipc.h             ::          4.689 -0897988801 
+2017-03-19 22:35:25  x     InterProcessCommFactorySocket_Ipc.h      ::          7.344 -1867949283 
+2017-03-19 22:35:25  x     InterProcessCommRxExec_Ipc.h             ::          4.399  0251412114 
+2017-03-19 22:35:25  x     InterProcessCommRxThread_Ipc.h           ::         10.597  1003473657 
+2017-03-19 22:35:25  x     InterProcessCommRx_ifc_Ipc.h             ::          4.698  0600109872 
 2016-06-18 15:49:53  x     InterProcessCommRx_ifc_Ipc.h.bak         ::          4.689 -0897988801 
 
 ============================== include/Jc/ =========================================================
@@ -72,28 +77,28 @@
 2017-01-21 22:41:39  x     AssertJc.h                               ::           .521  0403175948 
 2017-01-21 21:17:39  x     CharsetJc.h                              ::           .368 -0756524923 
 2011-01-28 21:36:52  x     ComparatorJc.h                           ::          4.642 -0873870564 
-2014-01-12 13:08:48  x     ConcurrentLinkedQueueJc.h                ::          9.388 -0124084115 
+2017-03-23 23:04:07  x     ConcurrentLinkedQueueJc.h                ::          9.394 -1690839732 
 2009-01-04 13:05:08  x     ConcurrentRingBufferJc.h                 ::          6.866 -0306622557 
 2011-01-06 22:37:30  x     DateJc.h                                 ::         12.900 -0123173717 
-2017-01-21 09:36:58  x     FileIoJc.h                               ::         10.426 -0714642870 
+2017-03-23 23:03:15  x     FileIoJc.h                               ::         10.438  0338489796 
 2011-02-27 09:25:52  x     FileSystemJc.h                           ::          2.202 -0293274032 
-2016-12-06 23:10:15  x     FormatterJc.h                            ::          3.032 -1491348704 
+2017-03-23 23:04:44  x     FormatterJc.h                            ::          3.038  1852298502 
 2016-05-24 21:07:38  x     LinkedListJc.h                           ::         10.269 -1025693620 
 2009-01-04 13:06:30  x     ListIteratorJc.h                         ::          2.912  0569623658 
 2016-12-18 14:19:22  x     ListJc.h                                 ::          5.091  0700595318 
 2010-09-16 21:25:50  x     ListMapEntryJc.h                         ::          7.941  0439894632 
-2017-02-12 00:36:12  x     LocaleJc.h                               ::          2.916  0637393666 
+2017-03-23 23:04:34  x     LocaleJc.h                               ::          2.922 -1670182258 
 2017-02-19 21:47:16  x     MathJc.h                                 ::          2.287 -0707976927 
-2017-02-19 21:46:49  x     ObjectJc.h                               ::         51.290 -1904609017 
-2011-01-29 09:37:08  x     ObjectRefJc.h                            ::           .296  1932668676 
-2016-06-11 23:40:30  x     PrintStreamJc.h                          ::          3.412 -1544534178 
-2017-02-19 21:54:30  x     ReflMemAccessJc.h                        ::         17.100 -1527254529 
+2017-03-23 23:02:22  x     ObjectJc.h                               ::         51.338 -1935771421 
+2017-03-19 22:34:41  x     ObjectRefJc.h                            ::           .306  0850240607 
+2017-03-23 23:03:43  x     PrintStreamJc.h                          ::          3.418 -1526567393 
+2017-03-19 22:57:24  x     ReflMemAccessJc.h                        ::         17.102  1703758467 
 2016-07-30 12:01:23  x     ReflectionJc.h                           ::         55.228 -1642369023 
 2009-01-04 13:07:50  x     StringBufferJc.h                         ::          3.013 -1131073304 
-2017-02-19 21:48:00  x     StringJc.h                               ::        123.825 -0479280411 
-2014-09-05 23:42:07  x     SystemJc.h                               ::          3.596 -1892267036 
-2016-12-18 14:09:19  x     ThreadJc.h                               ::          7.960  1538883307 
-2017-02-12 00:32:42  x     TimeZoneJc.h                             ::          3.013 -1067741796 
+2017-03-23 23:02:50  x     StringJc.h                               ::        123.837 -1672343803 
+2017-03-23 23:04:55  x     SystemJc.h                               ::          3.602 -0159120463 
+2017-03-23 23:03:54  x     ThreadJc.h                               ::          7.966  1392023836 
+2017-03-23 23:04:21  x     TimeZoneJc.h                             ::          3.019  1034392445 
 
 ============================== include/OSAL/ =======================================================
 2017-02-19 21:55:29  x     os_AtomicAccess.h                        ::          4.095  0219293990 
@@ -153,9 +158,9 @@
 
 ============================== source/Fwc/ =========================================================
 2014-12-07 19:32:05  x     fw_Event.c                               ::          3.064 -1574993833 
-2017-01-29 20:18:58  x     fw_Exception.c                           ::         10.958 -1976008116 
-2017-01-21 22:28:57  x     fw_ExceptionPrintStacktrace.c            ::          4.636  0827189270 
-2012-12-25 15:17:30  x     fw_Formatter.c                           ::         38.169 -0843445957 
+2017-03-19 22:51:14  x     fw_Exception.c                           ::         10.954  0712505589 
+2017-03-19 22:51:43  x     fw_ExceptionPrintStacktrace.c            ::          4.632  0604072506 
+2017-03-19 21:41:07  x     fw_Formatter.c                           ::         38.177  0087972377 
 2016-07-24 19:44:24  x     fw_LogMessage.c                          ::         13.202  0770570839 
 2016-07-24 22:16:34  x     fw_LogMsgStream.c                        ::          9.988  0868795250 
 2017-02-18 20:29:18  x     fw_MemC.c                                ::          5.079 -0789974483 
@@ -182,9 +187,9 @@
 2015-10-28 09:23:57  x     InputValues_Inspc_Refl.h                 ::           .243 -0750968859 
 2015-08-02 22:16:40  x     InspcGetValue.c                          ::           .926 -1974958951 
 2015-08-02 22:16:11  x     InspcGetValue.h                          ::           .911 -1259646365 
-2016-10-30 19:23:42  x     InspcTargetProxyTarget.c                 ::          7.655 -0593347527 
+2017-03-19 21:49:13  x     InspcTargetProxyTarget.c                 ::          7.320 -2102679942 
 2016-10-29 10:36:51  x     InspcTargetProxyTelg.c                   ::           .  0  0000000000 
-2016-12-01 09:23:12  x     InspcTargetProxyTelg.h                   ::          5.750 -1592440528 
+2017-03-19 19:18:43  x     InspcTargetProxyTelg.h                   ::          5.749 -0646576298 
 2016-10-30 19:38:27  x     InspcTargetTelg.h                        ::          1.383 -1819793140 
 2016-12-18 21:27:17  x     TimeSignals_Inspc.c                      ::         12.942 -1467471208 
 2015-10-31 09:30:26  x     TimeSignals_Inspc.genrefl.bat            ::           .846 -0449210969 
@@ -200,47 +205,47 @@
 
 ============================== source/InspcJ2c/ ====================================================
 2016-12-22 15:20:54  x     AnswerComm_ifc_Inspc.c                   ::          1.753 -0845194022 
-2016-12-22 15:20:54  x     AnswerComm_ifc_Inspc.h                   ::          3.184  0901685278 
+2017-03-19 22:20:31  x     AnswerComm_ifc_Inspc.h                   ::          3.192 -0317235689 
 2016-12-22 15:20:55  x     ClassContent_Inspc.c                     ::         76.320  2111167065 
-2016-12-22 15:20:55  x     ClassContent_Inspc.h                     ::         16.777  1259396511 
+2017-03-19 22:20:20  x     ClassContent_Inspc.h                     ::         16.785 -1175757383 
 2016-12-22 15:20:56  x     CmdConsumer_ifc_Inspc.c                  ::          2.426 -1426788035 
-2016-12-22 15:20:55  x     CmdConsumer_ifc_Inspc.h                  ::          5.309  0812449571 
+2017-03-19 22:18:03  x     CmdConsumer_ifc_Inspc.h                  ::          5.317 -0571153398 
 2016-12-22 15:20:56  x     CmdExecuter_Inspc.c                      ::         21.416 -1400187484 
-2016-12-22 15:20:56  x     CmdExecuter_Inspc.h                      ::          7.290  1140171958 
+2017-03-19 22:20:39  x     CmdExecuter_Inspc.h                      ::          7.298 -0495357091 
 2016-12-22 15:20:56  x     Comm_Inspc.c                             ::         18.124  0005914244 
-2016-12-22 15:20:56  x     Comm_Inspc.h                             ::          6.323 -1763115748 
+2017-03-19 22:20:46  x     Comm_Inspc.h                             ::          6.331  1283577005 
 2016-12-22 15:20:53  x     InspcDataExchangeAccess_Inspc.c          ::         41.889 -0818846418 
-2016-12-22 15:20:53  x     InspcDataExchangeAccess_Inspc.h          ::         41.027  0119842487 
+2017-03-19 22:20:01  x     InspcDataExchangeAccess_Inspc.h          ::         41.075 -0761224860 
 2016-12-22 15:20:56  x     InspcDataInfo_Inspc.c                    ::          6.840 -0508495832 
-2016-12-22 15:20:55  x     InspcDataInfo_Inspc.h                    ::          3.989 -0285289361 
+2017-03-19 22:20:11  x     InspcDataInfo_Inspc.h                    ::          3.997  1661539675 
 2016-12-22 15:20:56  x     Inspector_Inspc.c                        ::          8.825  1029916437 
-2016-12-22 15:20:56  x     Inspector_Inspc.h                        ::          6.300  0273208425 
+2017-03-19 22:26:38  x     Inspector_Inspc.h                        ::          6.316  0894589193 
 2016-12-22 15:20:56  x     SearchElement_Inspc.c                    ::         14.815  1557136008 
-2016-12-22 15:20:55  x     SearchElement_Inspc.h                    ::          6.413 -0830010189 
+2017-03-19 22:35:25  x     SearchElement_Inspc.h                    ::          6.431 -1045553951 
 2016-12-22 15:20:54  x     WorkingThread_Inspc.c                    ::         24.785  0471825529 
-2016-12-22 15:20:54  x     WorkingThread_Inspc.h                    ::         14.414 -1038315029 
+2017-03-19 22:35:25  x     WorkingThread_Inspc.h                    ::         14.459 -0940243893 
 
 ============================== source/InspcJ2c.ref/ ================================================
 2016-12-18 14:40:54  x     AnswerComm_ifc_Inspc.c                   ::          1.753 -0845194022 
-2016-10-11 23:11:57  x     AnswerComm_ifc_Inspc.h                   ::          3.184  0901685278 
+2017-03-19 22:35:25  x     AnswerComm_ifc_Inspc.h                   ::          3.193  0210740702 
 2016-12-18 14:40:56  x     ClassContent_Inspc.c                     ::         76.320  2111167065 
-2016-12-18 14:40:56  x     ClassContent_Inspc.h                     ::         16.777  1259396511 
+2017-03-19 22:35:25  x     ClassContent_Inspc.h                     ::         16.786 -0594980581 
 2016-12-18 14:40:57  x     CmdConsumer_ifc_Inspc.c                  ::          2.426 -1426788035 
-2016-10-11 23:12:00  x     CmdConsumer_ifc_Inspc.h                  ::          5.309  0812449571 
+2017-03-19 22:35:25  x     CmdConsumer_ifc_Inspc.h                  ::          5.318 -2067781264 
 2016-12-18 14:40:57  x     CmdExecuter_Inspc.c                      ::         21.416 -1400187484 
-2016-12-18 14:40:56  x     CmdExecuter_Inspc.h                      ::          7.290  1140171958 
+2017-03-19 22:35:25  x     CmdExecuter_Inspc.h                      ::          7.299  0531282581 
 2016-12-18 14:40:57  x     Comm_Inspc.c                             ::         18.124  0005914244 
-2016-12-18 14:40:56  x     Comm_Inspc.h                             ::          6.323 -1763115748 
+2017-03-19 22:35:25  x     Comm_Inspc.h                             ::          6.332 -0849066178 
 2016-12-18 14:39:31  x     InspcDataExchangeAccess_Inspc.c          ::         41.889 -0818846418 
-2016-12-18 14:39:31  x     InspcDataExchangeAccess_Inspc.h          ::         41.027  0119842487 
+2017-03-19 22:35:25  x     InspcDataExchangeAccess_Inspc.h          ::         41.081  0557574919 
 2016-10-11 23:12:00  x     InspcDataInfo_Inspc.c                    ::          6.840 -0508495832 
-2016-10-11 23:12:00  x     InspcDataInfo_Inspc.h                    ::          3.989 -0285289361 
+2017-03-19 22:35:25  x     InspcDataInfo_Inspc.h                    ::          3.998 -0367646943 
 2016-12-18 14:40:57  x     Inspector_Inspc.c                        ::          8.825  1029916437 
-2016-10-11 23:12:00  x     Inspector_Inspc.h                        ::          6.300  0273208425 
+2017-03-19 22:26:00  x     Inspector_Inspc.h                        ::          6.316  0894589193 
 2016-12-18 14:40:57  x     SearchElement_Inspc.c                    ::         14.815  1557136008 
-2016-10-11 23:12:00  x     SearchElement_Inspc.h                    ::          6.413 -0830010189 
+2017-03-19 22:35:25  x     SearchElement_Inspc.h                    ::          6.431 -1045553951 
 2016-12-18 14:40:54  x     WorkingThread_Inspc.c                    ::         24.785  0471825529 
-2016-12-18 14:40:53  x     WorkingThread_Inspc.h                    ::         14.414 -1038315029 
+2017-03-19 22:35:25  x     WorkingThread_Inspc.h                    ::         14.459 -0940243893 
 
 ============================== source/Ipc/ =========================================================
 2016-10-15 23:13:53  x     InterProcessComm.c                       ::          5.290  0871637263 
@@ -248,68 +253,68 @@
 2011-08-14 07:46:18  x     InterProcessCommSocket.cpp               ::          7.070 -1839064683 
 
 ============================== source/Ipc2c/ =======================================================
-2016-12-22 21:52:02  x     InterProcessCommFactorySocket_Ipc.c      ::         15.023  1043207471 
-2016-12-22 21:52:02  x     InterProcessCommFactorySocket_Ipc.h      ::          8.697  1122000878 
+2017-03-19 21:41:37  x     InterProcessCommFactorySocket_Ipc.c      ::         15.027 -0680219432 
+2017-03-19 21:41:20  x     InterProcessCommFactorySocket_Ipc.h      ::          8.705  0766105298 
 2016-12-22 21:59:50  x     InterProcessCommRxExec_Ipc.c             ::          5.194  0629267792 
-2016-12-22 21:59:50  x     InterProcessCommRxExec_Ipc.h             ::          4.388 -0648073429 
+2017-03-19 22:35:25  x     InterProcessCommRxExec_Ipc.h             ::          4.397  1332703794 
 2016-12-22 21:52:02  x     InterProcessCommRxThread_Ipc.c           ::         26.905 -1007209729 
-2016-12-22 21:52:02  x     InterProcessCommRxThread_Ipc.h           ::         11.533  1054133397 
+2017-03-19 21:31:00  x     InterProcessCommRxThread_Ipc.h           ::         11.549 -2038056587 
 2016-12-22 21:52:02  x     InterProcessCommRx_ifc_Ipc.c             ::          4.601 -1671890200 
-2016-12-22 21:52:02  x     InterProcessCommRx_ifc_Ipc.h             ::          4.863 -1247225332 
+2017-03-19 21:31:14  x     InterProcessCommRx_ifc_Ipc.h             ::          4.871  2070438412 
 
 ============================== source/Ipc2c.ref1/ ==================================================
 2016-12-22 21:52:02  x     InterProcessCommFactorySocket_Ipc.c      ::         15.023  1043207471 
-2016-12-22 21:52:02  x     InterProcessCommFactorySocket_Ipc.h      ::          8.697  1122000878 
+2017-03-19 22:35:25  x     InterProcessCommFactorySocket_Ipc.h      ::          8.706  2066855709 
 2016-06-18 15:49:53  x     InterProcessCommRxExec_Ipc.c             ::          5.181 -1116393334 
-2016-12-22 21:52:02  x     InterProcessCommRxExec_Ipc.h             ::          4.376 -0921668447 
+2017-03-19 22:35:25  x     InterProcessCommRxExec_Ipc.h             ::          4.385 -2105661996 
 2016-12-22 21:52:02  x     InterProcessCommRxThread_Ipc.c           ::         26.905 -1007209729 
-2016-12-22 21:52:02  x     InterProcessCommRxThread_Ipc.h           ::         11.533  1054133397 
+2017-03-19 22:35:25  x     InterProcessCommRxThread_Ipc.h           ::         11.551 -1929590541 
 2016-12-22 21:52:02  x     InterProcessCommRx_ifc_Ipc.c             ::          4.601 -1671890200 
-2016-10-15 19:23:03  x     InterProcessCommRx_ifc_Ipc.h             ::          4.863 -1247225332 
+2017-03-19 22:35:25  x     InterProcessCommRx_ifc_Ipc.h             ::          4.872 -1015599276 
 
 ============================== source/J1c/ =========================================================
 2016-12-21 16:26:38  x     ByteDataAccessBaseJc.c                   ::         69.114 -1603011159 
-2016-12-21 22:55:46  x     ByteDataAccessBaseJc.h                   ::         50.876 -0765882535 
+2017-03-23 23:05:04  x     ByteDataAccessBaseJc.h                   ::         50.891  0149532818 
 2016-12-21 12:25:23  x     InfoFormattedAppendJc.c                  ::          6.313  2050789409 
-2016-12-21 12:25:23  x     InfoFormattedAppendJc.h                  ::          6.028  1830331161 
+2017-03-19 22:35:25  x     InfoFormattedAppendJc.h                  ::          6.046 -1634172944 
 2016-12-21 12:25:23  x     LeapSecondsJc.c                          ::         17.046  1953596261 
-2016-12-21 12:25:23  x     LeapSecondsJc.h                          ::          5.213 -2038477627 
+2017-03-23 23:05:15  x     LeapSecondsJc.h                          ::          5.219 -1626224059 
 2016-12-21 12:25:24  x     SpecialCharStringsJc.c                   ::          6.579  0176712125 
-2016-12-21 12:25:23  x     SpecialCharStringsJc.h                   ::          4.623  0877186697 
+2017-03-23 23:05:26  x     SpecialCharStringsJc.h                   ::          4.629 -1752311048 
 2016-12-21 12:26:13  x     StringFormatterJc.c                      ::         71.610  0388914077 
-2016-12-21 12:25:23  x     StringFormatterJc.h                      ::         27.767  2114682107 
+2017-03-23 23:05:49  x     StringFormatterJc.h                      ::         27.791  0193409318 
 2016-12-21 16:26:40  x     StringFunctionsJc.c                      ::         42.746 -2049213889 
-2016-12-21 16:26:40  x     StringFunctionsJc.h                      ::         21.381 -1886707455 
+2017-03-23 23:05:36  x     StringFunctionsJc.h                      ::         21.387 -2039252526 
 2016-12-21 12:25:24  x     StringFunctions_BJc.c                    ::         11.518 -1001577402 
-2016-12-21 12:25:24  x     StringFunctions_BJc.h                    ::          4.232  1499979803 
+2017-03-23 23:05:59  x     StringFunctions_BJc.h                    ::          4.238  1458336782 
 2016-12-21 12:25:30  x     StringFunctions_CJc.c                    ::         12.292 -1592097752 
-2016-12-21 12:25:30  x     StringFunctions_CJc.h                    ::          6.472 -0379143865 
+2017-03-23 23:06:23  x     StringFunctions_CJc.h                    ::          6.478 -1158937990 
 2016-12-22 09:11:25  x     StringPartJc.c                           ::        104.671 -1316221758 
-2016-12-22 09:09:57  x     StringPartJc.h                           ::         68.161 -1009118536 
+2017-03-23 23:03:31  x     StringPartJc.h                           ::         68.173 -0774144926 
 2016-12-22 09:12:24  x     StringPartScanJc.c                       ::         38.450  1047941130 
-2016-12-21 12:25:34  x     StringPartScanJc.h                       ::         17.035  1449590065 
+2017-03-23 23:06:39  x     StringPartScanJc.h                       ::         17.041 -0963641225 
 
 ============================== source/J1c.ref/ =====================================================
 2016-12-21 12:51:53  x     ByteDataAccessBaseJc.c                   ::         69.114 -1603011159 
-2016-12-18 23:00:04  x     ByteDataAccessBaseJc.h                   ::         50.876 -0765882535 
+2017-03-19 22:35:25  x     ByteDataAccessBaseJc.h                   ::         50.894 -1556175364 
 2016-10-03 21:44:39  x     InfoFormattedAppendJc.c                  ::          6.313  2050789409 
-2016-10-03 21:44:39  x     InfoFormattedAppendJc.h                  ::          6.028  1830331161 
+2017-03-19 22:35:25  x     InfoFormattedAppendJc.h                  ::          6.046 -1634172944 
 2016-11-19 22:05:19  x     LeapSecondsJc.c                          ::         17.046  1953596261 
-2016-10-03 21:44:39  x     LeapSecondsJc.h                          ::          5.213 -2038477627 
+2017-03-19 22:35:25  x     LeapSecondsJc.h                          ::          5.222 -1038091596 
 2016-12-18 22:57:41  x     SpecialCharStringsJc.c                   ::          6.579  0176712125 
-2016-12-18 22:57:40  x     SpecialCharStringsJc.h                   ::          4.623  0877186697 
+2017-03-19 22:35:25  x     SpecialCharStringsJc.h                   ::          4.632 -1222818421 
 2016-12-18 22:57:52  x     StringFormatterJc.c                      ::         71.610  0388914077 
-2016-10-03 21:44:39  x     StringFormatterJc.h                      ::         27.767  2114682107 
+2017-03-19 22:35:25  x     StringFormatterJc.h                      ::         27.803  0137084852 
 2016-12-21 16:26:40  x     StringFunctionsJc.c                      ::         42.746 -2049213889 
-2016-12-18 22:57:41  x     StringFunctionsJc.h                      ::         21.381 -1886707455 
+2017-03-19 22:35:25  x     StringFunctionsJc.h                      ::         21.390  0254936862 
 2016-12-18 22:57:41  x     StringFunctions_BJc.c                    ::         11.518 -1001577402 
-2016-12-18 22:57:41  x     StringFunctions_BJc.h                    ::          4.232  1499979803 
+2017-03-19 22:35:25  x     StringFunctions_BJc.h                    ::          4.241 -0687873770 
 2016-10-16 22:23:11  x     StringFunctions_CJc.c                    ::         12.292 -1592097752 
-2016-10-15 19:23:02  x     StringFunctions_CJc.h                    ::          6.472 -0379143865 
+2017-03-19 22:35:25  x     StringFunctions_CJc.h                    ::          6.481 -1867019299 
 2016-12-22 09:11:25  x     StringPartJc.c                           ::        104.671 -1316221758 
-2016-12-22 09:09:57  x     StringPartJc.h                           ::         68.161 -1009118536 
+2017-03-19 22:35:25  x     StringPartJc.h                           ::         68.179 -1936679590 
 2016-12-22 09:12:24  x     StringPartScanJc.c                       ::         38.450  1047941130 
-2016-12-18 22:57:51  x     StringPartScanJc.h                       ::         17.035  1449590065 
+2017-03-19 22:35:25  x     StringPartScanJc.h                       ::         17.044  0727949115 
 
 ============================== source/Jc/ ==========================================================
 2016-06-10 22:31:14  x     ArraysJc.c                               ::          7.105 -0572732341 
@@ -324,11 +329,11 @@
 2016-12-18 23:07:43  x     LinkedListJc.c                           ::         16.191 -1985553670 
 2013-12-31 21:34:21  x     LocaleJc.c                               ::          1.861 -0078799793 
 2010-10-24 23:43:32  x     MathJc.c                                 ::          2.304 -0236924745 
-2017-01-22 14:31:43  x     ObjectJc.c                               ::         21.284 -1622361883 
+2017-03-19 21:36:53  x     ObjectJc.c                               ::         21.292 -1545131837 
 2016-12-21 18:10:45  x     OsWrapperJc.c                            ::          8.550 -0108263326 
 2016-01-13 07:14:26  x     OsWrapperJc.c.bak                        ::          8.486 -0238586540 
 2016-01-13 07:19:04  x     OsWrapperJc.h                            ::          5.087  1360192491 
-2017-01-21 22:15:33  x     PrintStreamJc.c                          ::          3.700 -1493758865 
+2017-03-19 21:48:35  x     PrintStreamJc.c                          ::          3.706  2110502915 
 2016-12-22 00:17:19  x     ReflMemAccessJc.c                        ::         19.290  1264999919 
 2017-02-19 21:56:00  x     ReflectionBasetypesJc.c                  ::         44.141  0002370426 
 2016-12-04 23:24:40  x     ReflectionJc.c                           ::         53.730 -1784692273 
@@ -338,31 +343,31 @@
 2011-01-25 20:37:58  x     StringJc_intern.h                        ::          2.845 -0295195136 
 2010-11-13 07:56:06  x     StringValueConvJc.c                      ::          2.731  0805606851 
 2016-06-10 22:36:36  x     SystemJc.c                               ::          7.582  1878810270 
-2012-04-09 22:16:56  x     SystemOutJc.c                            ::          1.772  0324220826 
-2017-01-21 22:27:35  x     ThreadJc.c                               ::          8.402  0227039333 
+2017-03-19 21:40:36  x     SystemOutJc.c                            ::          1.798 -0719652219 
+2017-03-19 22:45:24  x     ThreadJc.c                               ::          8.432  1956611037 
 2016-11-13 09:51:08  x     TimeZoneJc.c                             ::          2.207  1614119711 
 
 ============================== source/MsgDisp/ =====================================================
 2016-12-21 08:58:51  x     LogMessageFile_MSG.c                     ::         51.288 -0528886285 
-2016-12-21 08:58:51  x     LogMessageFile_MSG.h                     ::         14.676  1739309352 
+2017-03-23 23:06:54  x     LogMessageFile_MSG.h                     ::         14.706 -2119306844 
 2016-11-19 22:06:53  x     MsgDispatcherCore_MSG.c                  ::         38.379 -1039389428 
-2016-10-03 21:44:35  x     MsgDispatcherCore_MSG.h                  ::         21.583  0732366046 
+2017-03-23 23:07:05  x     MsgDispatcherCore_MSG.h                  ::         21.625  1416408271 
 2016-12-22 09:11:50  x     MsgDispatcher_MSG.c                      ::         44.198  1520136795 
-2016-12-21 16:20:53  x     MsgDispatcher_MSG.h                      ::         11.467 -0423647985 
+2017-03-23 23:07:17  x     MsgDispatcher_MSG.h                      ::         11.479 -2116458302 
 2016-10-03 21:44:47  x     MsgText_ifc_MSG.c                        ::          7.761 -0532743235 
-2016-10-03 21:44:35  x     MsgText_ifc_MSG.h                        ::          7.029 -2030072739 
+2017-03-23 23:07:30  x     MsgText_ifc_MSG.h                        ::          7.041  0803044629 
 2013-03-02 19:28:26  x     VaArgBuffer.c                            ::          6.984 -0985212968 
 2017-02-19 21:57:29  x     VaArgBuffer.h                            ::          3.178 -0693384316 
 
 ============================== source/MsgDisp.ref/ =================================================
 2016-11-19 22:06:40  x     LogMessageFile_MSG.c                     ::         51.160 -0629730326 
-2016-10-03 21:44:34  x     LogMessageFile_MSG.h                     ::         14.676  1739309352 
+2017-03-19 22:35:25  x     LogMessageFile_MSG.h                     ::         14.721 -0771402551 
 2016-11-19 22:06:53  x     MsgDispatcherCore_MSG.c                  ::         38.379 -1039389428 
-2016-10-03 21:44:35  x     MsgDispatcherCore_MSG.h                  ::         21.583  0732366046 
+2017-03-19 22:35:25  x     MsgDispatcherCore_MSG.h                  ::         21.646 -1453519990 
 2016-12-18 14:10:34  x     MsgDispatcher_MSG.c                      ::         44.369 -1908248142 
-2016-10-03 21:44:36  x     MsgDispatcher_MSG.h                      ::         11.463  0372956583 
+2017-03-19 22:35:25  x     MsgDispatcher_MSG.h                      ::         11.481  1685472752 
 2016-10-02 13:32:35  x     MsgText_ifc_MSG.c                        ::          7.761 -0532743235 
-2016-10-03 21:44:35  x     MsgText_ifc_MSG.h                        ::          7.029 -2030072739 
+2017-03-19 22:35:25  x     MsgText_ifc_MSG.h                        ::          7.047  1179142677 
 2013-03-02 19:28:26  x     VaArgBuffer.c                            ::          6.984 -0985212968 
 2013-03-02 19:28:26  x     VaArgBuffer.h                            ::          3.179 -0619982666 
 
@@ -401,22 +406,22 @@
 
 ============================== sourceSpecials/ExcHandling_Printf.template/ =========================
 2012-02-05 21:03:14  x     BlockHeap_PlatformSpec.h                 ::          5.304  1622010557 
-2017-02-19 21:34:21  x     applstdefJc.h                            ::          2.799  0711079460 
-2017-01-22 18:59:10  x     fw_ExcStacktrcNo.c                       ::          1.037  1042247176 
-2015-10-24 19:04:43  x     fw_Platform_conventions.h                ::          8.494 -0559227618 
-2017-02-18 20:52:03  x     fw_assert.h                              ::          1.020 -0601901590 
+2017-03-19 21:34:53  x     applstdefJc.h                            ::          2.664  1033578970 
+2017-03-19 22:52:44  x     fw_ExcStacktrcNo.c                       ::          1.083  1597919751 
+2017-03-23 23:14:21  x     fw_Platform_conventions.h                ::          8.635 -1649209940 
+2017-03-19 21:48:08  x     fw_assert.h                              ::          1.060 -0936957277 
 
 ============================== sourceSpecials/FwConv/ ==============================================
 2017-01-21 23:10:42  x     free_ThreadHeapAndBlockHeap.c            ::          1.311 -0863779348 
 2016-05-21 13:43:27  x     readme.txt                               ::           .154  0602405518 
-2016-08-20 22:11:29  x     stopAssert_Fwc_while0.c                  ::           .259  0302986291 
+2017-03-19 20:09:00  x     stopAssert_Fwc_while0.c                  ::           .252 -0778209181 
 
 ============================== sourceSpecials/FwConvBlockHeap/ =====================================
 
 ============================== sourceSpecials/FwConvC32/ ===========================================
 2012-02-05 21:03:14  x     BlockHeap_PlatformSpec.h                 ::          5.304  1622010557 
-2017-02-19 21:53:53  x     applstdefJc.h                            ::          2.556  0557204897 
-2017-02-19 21:54:08  x     fw_Platform_conventions.h                ::          8.496 -0691163826 
+2017-03-19 20:00:38  x     applstdefJc.h                            ::          2.597 -0712038351 
+2017-03-23 23:11:31  x     fw_Platform_conventions.h                ::          8.635  1322488342 
 2017-02-19 21:44:34  x     fw_assert.h                              ::          1.063 -1923533765 
 
 ============================== sourceSpecials/FwConvCpp32/ =========================================
@@ -429,7 +434,7 @@
 2017-01-22 18:43:47  x     ThreadContextNo.h                        ::           .842 -1799806175 
 
 ============================== sourceSpecials/cc_Msc6/ =============================================
-2017-02-19 21:38:11  x     compl_adaption.h                         ::         12.495 -0544335797 
+2017-03-14 23:22:56  x     compl_adaption.h                         ::         12.581 -1418043248 
 
 ============================== sourceSpecials/cc_SmlkSfunc/ ========================================
 2017-02-18 20:32:54  x     compl_adaption.h                         ::         14.326 -0166464929 
@@ -490,6 +495,9 @@
 2016-12-31 22:41:16  x     os_thread.c                              ::         25.399  0259259353 
 2017-02-19 21:57:19  x     os_time.c                                ::          4.172 -1625515251 
 
+============================== sourceSpecials/special/ =============================================
+2017-03-19 19:58:36  x     definePrintfMakros.h                     ::           .264 -0950157231 
+
 ============================== src_Test/ ==========================================================
 
 ============================== src_Test/Jc/ ========================================================
@@ -498,6 +506,9 @@
 ============================== src_Test/SimpleIntr/ ================================================
 2017-01-22 13:19:50  x     readme.txt                               ::           .522 -1746512238 
 2017-01-22 19:06:49  x     test_Error.c                             ::           .507 -1742156704 
+
+============================== src_Test/TestThreadMutexWaitNotify/ =================================
+2017-03-15 09:52:06  x     TestThreadMutexWaitNotify.c              ::          2.995  1514156280 
 
 ============================== stc/ ===============================================================
 2016-10-16 21:58:38  x     Ipc.stc                                  ::          6.245  0070250567 

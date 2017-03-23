@@ -46,7 +46,7 @@ struct StringBuilderJc_t;
 
 #ifndef PrintStreamJcREFDEF
   #define PrintStreamJcREFDEF
-  DEFINE_EnhancedRefJc(PrintStreamJc);
+  typedef TYPE_EnhancedRefJc(PrintStreamJc);
 #endif 
 
 

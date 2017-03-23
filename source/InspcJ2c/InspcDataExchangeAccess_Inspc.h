@@ -44,7 +44,7 @@ typedef struct InspcDatagram_InspcDataExchangeAccess_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InspcDatagram_InspcDataExchangeAccess_InspcREFDEF
   struct InspcDatagram_InspcDataExchangeAccess_Inspc_t;
-  DEFINE_EnhancedRefJc(InspcDatagram_InspcDataExchangeAccess_Inspc);
+  typedef DEFINE_EnhancedRefJc(InspcDatagram_InspcDataExchangeAccess_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -199,7 +199,7 @@ typedef struct Inspcitem_InspcDataExchangeAccess_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define Inspcitem_InspcDataExchangeAccess_InspcREFDEF
   struct Inspcitem_InspcDataExchangeAccess_Inspc_t;
-  DEFINE_EnhancedRefJc(Inspcitem_InspcDataExchangeAccess_Inspc);
+  typedef DEFINE_EnhancedRefJc(Inspcitem_InspcDataExchangeAccess_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -325,7 +325,7 @@ typedef struct InspcSetValue_InspcDataExchangeAccess_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InspcSetValue_InspcDataExchangeAccess_InspcREFDEF
   struct InspcSetValue_InspcDataExchangeAccess_Inspc_t;
-  DEFINE_EnhancedRefJc(InspcSetValue_InspcDataExchangeAccess_Inspc);
+  typedef DEFINE_EnhancedRefJc(InspcSetValue_InspcDataExchangeAccess_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -532,7 +532,7 @@ typedef struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InspcSetValueData_InspcDataExchangeAccess_InspcREFDEF
   struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t;
-  DEFINE_EnhancedRefJc(InspcSetValueData_InspcDataExchangeAccess_Inspc);
+  typedef DEFINE_EnhancedRefJc(InspcSetValueData_InspcDataExchangeAccess_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -642,7 +642,7 @@ typedef struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InspcAnswerValueByHandle_InspcDataExchangeAccess_InspcREFDEF
   struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t;
-  DEFINE_EnhancedRefJc(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc);
+  typedef DEFINE_EnhancedRefJc(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -711,7 +711,7 @@ typedef struct InspcDataExchangeAccess_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InspcDataExchangeAccess_InspcREFDEF
   struct InspcDataExchangeAccess_Inspc_t;
-  DEFINE_EnhancedRefJc(InspcDataExchangeAccess_Inspc);
+  typedef DEFINE_EnhancedRefJc(InspcDataExchangeAccess_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

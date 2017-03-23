@@ -58,7 +58,7 @@ extern_C const struct ClassJc_t reflection_TimeZoneJc_s;
 /* Enhanced references *********************************************************/
 #ifndef TimeZoneJcREFDEF
   #define TimeZoneJcREFDEF
-  DEFINE_EnhancedRefJc(TimeZoneJc);
+  typedef TYPE_EnhancedRefJc(TimeZoneJc);
   //Should be compatible with non-enhanced ref using. typedef struct TimeZoneJcREF_t { ObjectRefValuesJc refbase; struct TimeZoneJc_t* ref; } TimeZoneJcREF;
 #endif
 

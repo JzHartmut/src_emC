@@ -244,10 +244,11 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
 //#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
 
 
-
 /** Macro for constant initialization with a IDENT and a given reflection class.
   * Use it to initialize global or stack variables in form:
-  * ,,Type myData = { INITIALIZER_ObjectJc( myData, 123, &reflection_Type) };,,
+  * ,,Type myData = { INITIALIZER_ObjectJc( myData, 123, &reflection_Type), furtherData };,,
+  * ,,Type myData = { { INITIALIZER_ObjectJc( myData, 123, &reflection_Type) }, furtherData};,,
+  * You should use that {} -level which is related to the position of the ObjectJc-data in the instance.
   * ,,Type myData2 = { INITIALIZER_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
   * @param INSTANCE the variable to initialize itself to store its address and gets its size. 
   * @param IDENT may be 0, see attribute ,,objectIdentSize,,. The size bits will be completed. 
@@ -347,7 +348,7 @@ METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
  * is stored in the Object.
  * @param THIZ any reference which may refer an ObjectJc. The reference can be null. If it is not null it have to be refer to a valid data space;  
  */
-#define isValid_ObjectJc(THIZ) ( (THIZ) !=null && ((ObjectJc const*)(THIZ))->ownAddress == (THIZ))
+#define isValid_ObjectJc(THIZ) ( (THIZ) !=null && ((ObjectJc const*)(THIZ))->ownAddress == ((ObjectJc const*)((THIZ))))
 
 
 

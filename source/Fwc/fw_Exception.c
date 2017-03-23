@@ -41,7 +41,7 @@
 
 #include <Fwc/fw_Exception.h>
 
-#ifndef __NOT_SUPPORTED_ThreadContextFw__
+#ifndef __NOT_SUPPORTED_ExceptionJc__
 
 #include <Fwc/fw_ThreadContext.h>
 #include <Fwc/fw_SimpleC.h>     //ARRAYLEN

@@ -248,7 +248,7 @@ Mtbl_ObjectJc const* xxxgetMtbl_ObjectJc(ObjectJc const* ythis, ClassJc const* t
   {
     idxMtbl = getIdxMtbl_ClassJc(clazz, type);
     if(idxMtbl < 0) THROW_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
-    ASSERT(clazz->mtbl != null);
+    ASSERT_Fwc(clazz->mtbl != null);
     //sign is the first reference of ObjectJc-methodtable, indices the first reference of the interface or superclass.
     mtbl = (Mtbl_ObjectJc const*)( &(&clazz->mtbl->sign)[idxMtbl]);  
     //mtbl = (struct MT_TypeJc_t const*)( ((MT_void_Method_void*)(clazz->mtbl)) + idxMtbl);
@@ -279,7 +279,7 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
            && head->sign != signEnd_Mtbl_ObjectJc 
            )
       { int sizeTable = (int)head->sizeTable;
-        ASSERT(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
+        ASSERT_Fwc(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
         //The next part of method table is found after the current.
         head = (MtblHeadJc const*)( (MemUnit*)head + sizeTable );
       }

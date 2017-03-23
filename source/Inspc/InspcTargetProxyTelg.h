@@ -1,6 +1,6 @@
 #ifndef __InspcTargetProxyTelg_h__
 #define __InspcTargetProxyTelg_h__
-#include <os_types_def.h>
+#include <applstdefJc.h>
 #include <os_endian.h>  //supports both big endian conversion and access to even address on memory.
 
 

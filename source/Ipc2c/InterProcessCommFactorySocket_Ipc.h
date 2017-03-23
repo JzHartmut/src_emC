@@ -40,7 +40,7 @@ typedef struct InterProcessCommFactorySocket_Ipc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InterProcessCommFactorySocket_IpcREFDEF
   struct InterProcessCommFactorySocket_Ipc_t;
-  DEFINE_EnhancedRefJc(InterProcessCommFactorySocket_Ipc);
+  typedef DEFINE_EnhancedRefJc(InterProcessCommFactorySocket_Ipc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

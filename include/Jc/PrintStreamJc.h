@@ -50,7 +50,7 @@ typedef struct PrintStreamJc_t
 
 #ifndef PrintStreamJcREFDEF
   #define PrintStreamJcREFDEF
-  DEFINE_EnhancedRefJc(PrintStreamJc);
+  typedef TYPE_EnhancedRefJc(PrintStreamJc);
 #endif 
 
 METHOD_C void println_z_PrintStreamJc(PrintStreamJc* ythis, const char* text, ThCxt* _thCxt);

@@ -49,6 +49,7 @@
 #ifndef __ReflMemAccessJc_h__
 #define __ReflMemAccessJc_h__
 
+
 #include <compl_adaption.h>
 
 /*@CLASS_C MemSegmJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

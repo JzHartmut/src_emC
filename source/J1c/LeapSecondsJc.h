@@ -41,7 +41,7 @@ typedef struct LeapSecondsJc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define LeapSecondsJcREFDEF
   struct LeapSecondsJc_t;
-  DEFINE_EnhancedRefJc(LeapSecondsJc);
+  typedef TYPE_EnhancedRefJc(LeapSecondsJc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

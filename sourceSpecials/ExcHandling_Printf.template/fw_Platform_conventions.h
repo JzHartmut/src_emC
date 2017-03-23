@@ -45,7 +45,8 @@
 #ifndef __fw_SysConventions_h__
 #define __fw_SysConventions_h__
 
-#include <os_types_def.h>
+
+//#include <os_types_def.h>
 	
 
 //#define __CPLUSPLUSJcpp
@@ -104,16 +105,19 @@
 //#define SMALL_DYNAMICALLY_MEMORY
 //#define USE_DYNAMICALLY_MEMORY
 
-
 /*@DEFINE EnhancedRefJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**Macro to define the Types <TYPE>REF and <TYPE>REFP which can be used for enhanced references.
+/**Macro to define the Types <TYPE>REF which should be used for enhanced references.
  * If the BlockHeap or adequate system is used, an enhanced reference
  * is a struct containing the pointer and an additional value. 
  * The usage of the macro is necessary to support both, enhanced and simple references in the same sources.
  * Note: The usage of the macro should be terminated with a colon. Example:
- * ,,DEFINE_EnhancedRefJc(MyType);,,
+ * ,,typedef TYPE_EnhancedRefJc(MyType);,,
  * @param TYPE the identifier of the TYPE which should be referenced.
+ */
+#define TYPE_EnhancedRefJc(TYPE) struct TYPE##REF_t{struct TYPE##_t* ref;  int32 refbase; }TYPE##REF
+/**Deprecated form. 
+ * @Deprecated
  */
 #define DEFINE_EnhancedRefJc(TYPE) typedef struct TYPE##REF_t{struct TYPE##_t* ref;  int32 refbase; }TYPE##REF;  typedef TYPE##REF* TYPE##REFP
 

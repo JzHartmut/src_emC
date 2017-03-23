@@ -65,6 +65,7 @@
 #include <Fwc/fw_Exception.h>
 //#include <Fwc/fw_ExcStacktrcNo.h>
 
+#include <special/definePrintfMakros.h>
 
 #include <fw_Platform_conventions.h>
 

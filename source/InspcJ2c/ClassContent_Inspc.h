@@ -59,7 +59,7 @@ typedef struct ClassContent_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define ClassContent_InspcREFDEF
   struct ClassContent_Inspc_t;
-  DEFINE_EnhancedRefJc(ClassContent_Inspc);
+  typedef DEFINE_EnhancedRefJc(ClassContent_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

@@ -37,7 +37,7 @@ typedef struct StringFunctionsJc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define StringFunctionsJcREFDEF
   struct StringFunctionsJc_t;
-  DEFINE_EnhancedRefJc(StringFunctionsJc);
+  typedef TYPE_EnhancedRefJc(StringFunctionsJc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

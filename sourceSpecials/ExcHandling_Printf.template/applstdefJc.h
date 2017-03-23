@@ -2,15 +2,6 @@
 #define __applstdefJc_h__
 
 
-/**Some warnings should be disabled in default, because there are not the source of errors,
- * but present in normal software development.
- */
-//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-
-
-
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
  * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
  */
@@ -24,11 +15,13 @@
 
 //NOTE: ASSERF_Fwc defined in fw_assert.h now.
 //#define ASSERT_Fwc(COND) assertJc(COND)
-#include <fw_assert.h>
-
 
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
+
+#include <fw_assert.h>  //Note: after os_types_def_common because extern_C
+
+
 
 /**Include this file always. It defines some things usefull for all sources. */
 #include <Fwc/fw_SimpleC.h>
@@ -72,9 +65,10 @@
 //#include <Fwc/fw_Exception.h>
 #include <Fwc/fw_ExcStacktrcNo.h>
 
-
+#include <special/definePrintfMakros.h>
 extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
+#include <fw_Platform_conventions.h>
 
 
 #endif // __applstdefJc_h__

@@ -33,19 +33,19 @@ struct TestCnt_MsgDispatcherCore_MSG_t;
   //J2C: definition of enhanced reference where it was need firstly: 
   #define LogMessageFWREFDEF
   struct LogMessageFW_t;
-  DEFINE_EnhancedRefJc(LogMessageFW);
+  typedef TYPE_EnhancedRefJc(LogMessageFW);
 #endif
 #ifndef MsgText_ifc_MSGREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define MsgText_ifc_MSGREFDEF
   struct MsgText_ifc_MSG_t;
-  DEFINE_EnhancedRefJc(MsgText_ifc_MSG);
+  typedef TYPE_EnhancedRefJc(MsgText_ifc_MSG);
 #endif
 #ifndef RunnableJcREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define RunnableJcREFDEF
   struct RunnableJc_t;
-  DEFINE_EnhancedRefJc(RunnableJc);
+  typedef TYPE_EnhancedRefJc(RunnableJc);
 #endif
 
 
@@ -76,7 +76,7 @@ typedef struct Entry_MsgDispatcherCore_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define Entry_MsgDispatcherCore_MSGREFDEF
   struct Entry_MsgDispatcherCore_MSG_t;
-  DEFINE_EnhancedRefJc(Entry_MsgDispatcherCore_MSG);
+  typedef TYPE_EnhancedRefJc(Entry_MsgDispatcherCore_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -133,7 +133,7 @@ typedef struct TestCnt_MsgDispatcherCore_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define TestCnt_MsgDispatcherCore_MSGREFDEF
   struct TestCnt_MsgDispatcherCore_MSG_t;
-  DEFINE_EnhancedRefJc(TestCnt_MsgDispatcherCore_MSG);
+  typedef TYPE_EnhancedRefJc(TestCnt_MsgDispatcherCore_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -199,7 +199,7 @@ typedef struct Output_MsgDispatcherCore_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define Output_MsgDispatcherCore_MSGREFDEF
   struct Output_MsgDispatcherCore_MSG_t;
-  DEFINE_EnhancedRefJc(Output_MsgDispatcherCore_MSG);
+  typedef TYPE_EnhancedRefJc(Output_MsgDispatcherCore_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -265,7 +265,7 @@ typedef struct MsgDispatcherCore_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define MsgDispatcherCore_MSGREFDEF
   struct MsgDispatcherCore_MSG_t;
-  DEFINE_EnhancedRefJc(MsgDispatcherCore_MSG);
+  typedef TYPE_EnhancedRefJc(MsgDispatcherCore_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

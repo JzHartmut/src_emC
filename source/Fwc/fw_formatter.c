@@ -224,7 +224,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
           }
         }
       }
-      ASSERT(posBuffer <= maxPosBuffer);  //detect errors.
+      ASSERT_Fwc(posBuffer <= maxPosBuffer);  //detect errors.
     }
     //NO! The buffer may be a part of a string! buffer[posBuffer] = 0;    
   }
@@ -271,7 +271,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
       if(dstAct >= dstMax)
       { //THROW_s0(IndexOutOfBoundsException, "to many %-chars (arguments) in text, 2*max=", zDst); 
       }
-      ASSERT(dstAct < dstMax);
+      ASSERT_Fwc(dstAct < dstMax);
       sFormat1 +=1;   //skip over '%'
       cFormat = *(sFormat1++);
       while(cFormat >= '0' && cFormat <= '9')

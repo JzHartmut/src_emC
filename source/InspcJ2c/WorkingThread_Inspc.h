@@ -30,7 +30,7 @@ struct WorkingThread_Inspc_t;
   //J2C: definition of enhanced reference where it was need firstly: 
   #define ThreadMng_WorkingThread_InspcREFDEF
   struct ThreadMng_WorkingThread_Inspc_t;
-  DEFINE_EnhancedRefJc(ThreadMng_WorkingThread_Inspc);
+  typedef  DEFINE_EnhancedRefJc(ThreadMng_WorkingThread_Inspc);
 #endif
 
 
@@ -55,7 +55,7 @@ typedef struct C_theThreadRun_WorkingThread_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define C_theThreadRun_WorkingThread_InspcREFDEF
   struct C_theThreadRun_WorkingThread_Inspc_t;
-  DEFINE_EnhancedRefJc(C_theThreadRun_WorkingThread_Inspc);
+  typedef  DEFINE_EnhancedRefJc(C_theThreadRun_WorkingThread_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -133,7 +133,7 @@ typedef struct Data_WorkingThread_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define Data_WorkingThread_InspcREFDEF
   struct Data_WorkingThread_Inspc_t;
-  DEFINE_EnhancedRefJc(Data_WorkingThread_Inspc);
+  typedef  DEFINE_EnhancedRefJc(Data_WorkingThread_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -199,7 +199,7 @@ typedef struct ThreadMng_WorkingThread_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define ThreadMng_WorkingThread_InspcREFDEF
   struct ThreadMng_WorkingThread_Inspc_t;
-  DEFINE_EnhancedRefJc(ThreadMng_WorkingThread_Inspc);
+  typedef  DEFINE_EnhancedRefJc(ThreadMng_WorkingThread_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -263,7 +263,7 @@ typedef struct WorkingThread_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define WorkingThread_InspcREFDEF
   struct WorkingThread_Inspc_t;
-  DEFINE_EnhancedRefJc(WorkingThread_Inspc);
+  typedef  DEFINE_EnhancedRefJc(WorkingThread_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

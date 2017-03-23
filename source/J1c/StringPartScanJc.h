@@ -45,7 +45,7 @@ typedef struct StringPartScanJc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define StringPartScanJcREFDEF
   struct StringPartScanJc_t;
-  DEFINE_EnhancedRefJc(StringPartScanJc);
+  typedef TYPE_EnhancedRefJc(StringPartScanJc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

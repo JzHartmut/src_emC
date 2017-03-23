@@ -29,7 +29,7 @@ struct CharsetJc_t;
   //J2C: definition of enhanced reference where it was need firstly: 
   #define ByteDataAccessBaseJcREFDEF
   struct ByteDataAccessBaseJc_t;
-  DEFINE_EnhancedRefJc(ByteDataAccessBaseJc);
+  typedef TYPE_EnhancedRefJc(ByteDataAccessBaseJc);
 #endif
 
 
@@ -62,7 +62,7 @@ typedef struct ByteDataAccessBaseJc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define ByteDataAccessBaseJcREFDEF
   struct ByteDataAccessBaseJc_t;
-  DEFINE_EnhancedRefJc(ByteDataAccessBaseJc);
+  typedef  DEFINE_EnhancedRefJc(ByteDataAccessBaseJc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

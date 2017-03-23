@@ -31,19 +31,19 @@ struct StringFormatterJc_t;
   //J2C: definition of enhanced reference where it was need firstly: 
   #define AppendableJcREFDEF
   struct AppendableJc_t;
-  DEFINE_EnhancedRefJc(AppendableJc);
+  typedef TYPE_EnhancedRefJc(AppendableJc);
 #endif
 #ifndef SimpleDateFormatJcREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define SimpleDateFormatJcREFDEF
   struct SimpleDateFormatJc_t;
-  DEFINE_EnhancedRefJc(SimpleDateFormatJc);
+  typedef TYPE_EnhancedRefJc(SimpleDateFormatJc);
 #endif
 #ifndef StringBuilderJcREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define StringBuilderJcREFDEF
   struct StringBuilderJc_t;
-  DEFINE_EnhancedRefJc(StringBuilderJc);
+  typedef TYPE_EnhancedRefJc(StringBuilderJc);
 #endif
 
 
@@ -85,7 +85,7 @@ typedef struct StringFormatterJc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define StringFormatterJcREFDEF
   struct StringFormatterJc_t;
-  DEFINE_EnhancedRefJc(StringFormatterJc);
+  typedef TYPE_EnhancedRefJc(StringFormatterJc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

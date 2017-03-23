@@ -32,19 +32,19 @@ struct TimeZoneJc_t;
   //J2C: definition of enhanced reference where it was need firstly: 
   #define LocaleJcREFDEF
   struct LocaleJc_t;
-  DEFINE_EnhancedRefJc(LocaleJc);
+  typedef TYPE_EnhancedRefJc(LocaleJc);
 #endif
 #ifndef LogMessageFWREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define LogMessageFWREFDEF
   struct LogMessageFW_t;
-  DEFINE_EnhancedRefJc(LogMessageFW);
+  typedef TYPE_EnhancedRefJc(LogMessageFW);
 #endif
 #ifndef TimeZoneJcREFDEF
   //J2C: definition of enhanced reference where it was need firstly: 
   #define TimeZoneJcREFDEF
   struct TimeZoneJc_t;
-  DEFINE_EnhancedRefJc(TimeZoneJc);
+  typedef TYPE_EnhancedRefJc(TimeZoneJc);
 #endif
 
 
@@ -77,7 +77,7 @@ typedef struct Dbg_LogMessageFile_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define Dbg_LogMessageFile_MSGREFDEF
   struct Dbg_LogMessageFile_MSG_t;
-  DEFINE_EnhancedRefJc(Dbg_LogMessageFile_MSG);
+  typedef TYPE_EnhancedRefJc(Dbg_LogMessageFile_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -159,7 +159,7 @@ typedef struct LogMessageFile_MSG_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define LogMessageFile_MSGREFDEF
   struct LogMessageFile_MSG_t;
-  DEFINE_EnhancedRefJc(LogMessageFile_MSG);
+  typedef TYPE_EnhancedRefJc(LogMessageFile_MSG);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

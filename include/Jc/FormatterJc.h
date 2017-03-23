@@ -43,7 +43,7 @@
 #ifndef StringBuilderJcREFDEF
   //It is only a forward-declare-able reference, don't include the Jc/StringJc.h
   #define StringBuilderJcREFDEF
-  DEFINE_EnhancedRefJc(StringBuilderJc);
+  typedef TYPE_EnhancedRefJc(StringBuilderJc);
 #endif
 
 

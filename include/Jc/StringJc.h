@@ -106,7 +106,7 @@ typedef struct StringJc_Y_t{ ObjectArrayJc head; StringJc data[50]; } StringJc_Y
 /*Note: The define is necessary, because a reference type definition may be defined in any using header.*/
 #ifndef StringJc_YREFDEF
   #define StringJc_YREFDEF
-  DEFINE_EnhancedRefJc(StringJc_Y);
+  typedef TYPE_EnhancedRefJc(StringJc_Y);
 #endif
 
 /** Clears the content of the String. If the string references any buffer in the [[BlockHeap]],
@@ -1169,7 +1169,7 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
 
 #ifndef StringBuilderJcREFDEF
   #define StringBuilderJcREFDEF
-  DEFINE_EnhancedRefJc(StringBuilderJc);
+  typedef TYPE_EnhancedRefJc(StringBuilderJc);
 #endif
 
 

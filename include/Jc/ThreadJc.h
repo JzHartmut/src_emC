@@ -57,7 +57,7 @@ typedef struct RunnableJc_t
 /* Enhanced references *********************************************************/
 #ifndef RunnableJcREFDEF
   #define RunnableJcREFDEF
-  DEFINE_EnhancedRefJc(RunnableJc);
+  typedef TYPE_EnhancedRefJc(RunnableJc);
   //Should be compatible with non-enhanced ref using. typedef struct RunnableJcREF_t { ObjectRefValuesJc refbase; struct RunnableJc_t* ref; } RunnableJcREF;
 #endif
 #if !defined(mBackRef_ObjectJc) 
