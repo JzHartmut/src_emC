@@ -44,7 +44,7 @@ typedef struct C_threadRoutine_InterProcessCommRxThread_Ipc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define C_threadRoutine_InterProcessCommRxThread_IpcREFDEF
   struct C_threadRoutine_InterProcessCommRxThread_Ipc_t;
-  typedef DEFINE_EnhancedRefJc(C_threadRoutine_InterProcessCommRxThread_Ipc);
+  typedef TYPE_EnhancedRefJc(C_threadRoutine_InterProcessCommRxThread_Ipc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
@@ -125,7 +125,7 @@ typedef struct InterProcessCommRxThread_Ipc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InterProcessCommRxThread_IpcREFDEF
   struct InterProcessCommRxThread_Ipc_t;
-  typedef DEFINE_EnhancedRefJc(InterProcessCommRxThread_Ipc);
+  typedef TYPE_EnhancedRefJc(InterProcessCommRxThread_Ipc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

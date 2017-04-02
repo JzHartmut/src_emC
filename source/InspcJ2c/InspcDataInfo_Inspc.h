@@ -47,7 +47,7 @@ typedef struct InspcDataInfo_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define InspcDataInfo_InspcREFDEF
   struct InspcDataInfo_Inspc_t;
-  typedef DEFINE_EnhancedRefJc(InspcDataInfo_Inspc);
+  typedef TYPE_EnhancedRefJc(InspcDataInfo_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

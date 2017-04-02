@@ -33,7 +33,7 @@ typedef struct AnswerComm_ifc_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define AnswerComm_ifc_InspcREFDEF
   struct AnswerComm_ifc_Inspc_t;
-  typedef DEFINE_EnhancedRefJc(AnswerComm_ifc_Inspc);
+  typedef TYPE_EnhancedRefJc(AnswerComm_ifc_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */

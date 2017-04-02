@@ -1,0 +1,122 @@
+##Zmake generate batch file for Visual Studio Compiler.
+##The generated script should be called with following environments:
+##* OBJDIR: Only the name of the object directory.
+
+##Note: The Visual Studio Compiler should be installed anywhere and should be able to locate in the file system.
+##A batch file named 'setPathMsc6.bat' should be able to located in the path. 
+##With this batch file the PATH of the Operation System is enhanced locally to the Visual Studio Tools.
+##An example (pattern) for this batch file is given in this directory.
+
+## Note: the currDir-variable is used internally to build an absolute path with <&input.absfile()>
+###String currdir =<:><&dirscript><.>;
+## Note: objDir with backslash for windows. It uses the environment variable.
+String objDir = <:><&$OBJPATH><.>;
+String objDirW = <:><&$OBJPATH><.>;
+String newline = <:>
+<.>;
+##File fileObjDir = &objDir;
+
+
+
+
+
+
+##
+##The generate-script for a cc-target. 
+##
+sub cc(Obj target, String compilerOptions){
+##assemble the include path:
+String _includePath = <:><:for:includePathItem:includePath.listFiles()><:> /I <&includePathItem.fileW()><.><.for> /I "%INCLUDESTD_MSC6%"<.>;
+Obj _outputfile = <:><&target.output.fileW()><.>;
+List inputs = target.allInputFilesExpanded();
+Obj checkDeps = new org.vishia.checkDeps_C.CheckDependencyFile(console, 1);
+
+String test = checkDeps.setDirObj(<:><&$OBJPATH>/*.doj<.>); 
+if(test){ <+><:n>echo Error cfgCheckDep.setDirObj: <&test><&newline><.n+>}
+else{ <+><:n>REM cfgCheckDep.setDirObj successfully<&newline><.n+> } 
+
+test = checkDeps.readCfgData("make/cfgCheckDep.cfg", currdir);
+if(test){ <+><:n>echo Error cfgCheckDep.cfg: <&test><&newline><.n+>}
+else{ <+><:n>REM cfgCheckDep.cfg read successfully<&newline><.n+> } 
+
+test = checkDeps.readDependencies(<:><&objDir>/ccs_dsp_obj<&$PARAM>.deps.txt<.>); 
+
+<+>
+  echo <&target>
+  echo compile ><&objDirW>\_cc_ok.txt
+  echo compile ><&objDirW>\_cc_error.txt
+  echo OBJDIR=<&objDirW> ><&objDirW>\_cc_error.txt
+  
+  ::attrib -r <&_outputfile>>NUL
+<.+>
+
+for(input:inputs){
+  ##Problem zmake: < *output.file> is unknown in the loop < :forInput>
+  test = checkDeps.processSrcfile(File: &input.file(), input.localfile(), File: &objDir, ".doj");  ##checks whether the file is changed, delete the obj file on changed file.
+  String dummy = jzcmd.nextNr();
+  String cclabel = jzcmd.nextNr();   ##build a current number for labels. Note: Windows has a problem if batchfiles are written with 0a instead 0d0a (Unix-Lineend). This is reported untruly by 'label not found'.
+  String outOptions = <:> /Fa"<&objDirW>\<&input.localdir()>/" /FR"<&objDirW>\<&input.localdir()>/" /Fo"<&objDirW>\<&input.localdir()>/" /Fd"<&objDirW>\<&input.localdir()>/" <.>;
+  <+>
+    REM call the compiler only if the object file is not found.
+    if exist <&objDirW>\<&input.localname()>.doj goto :ok<&cclabel>
+      echo compile <&input.name()>
+      echo compile <&input.name()> >><&objDirW>\_cc_ok.txt
+      cl.exe <&compilerOptions> <&_includePath> <&outOptions> <&input.absfile()>  >><&objDirW>\_cc_error.txt  
+      if errorlevel 1 goto :error
+    :ok<&cclabel>
+  
+  <.+>
+} //for
+String test = checkDeps.writeDependencies(<:><&objDir>/ccs_dsp_obj<&$PARAM>.deps.txt<.>); 
+String test = checkDeps.close(); 
+} //sub
+
+
+
+
+##
+##The generate-script for a cc-target. 
+##
+sub clib(Obj target, String compilerOptions){
+<+>
+
+echo build the lib: <&target.output.absfileW()>
+lib.exe /OUT:<&target.output.absfileW()> <.+>
+List inputs = target.allInputFilesExpanded();
+for(input:inputs){
+  <+> <&objDirW>\<&input.localname()>.obj<.+>  
+} //for
+
+
+
+}
+
+
+sub link(){
+}
+
+
+
+
+main(){
+##outputs are done to that file which is given with jzTc cmdline arg -t:File
+<+>
+  @echo off
+  call Msc6setpath.bat
+  PATH 2><&objDir>/_cc_error.txt
+  pause
+  set SBOX_DIR=<&$SBOX_DIR>
+  set OBJPATH=<&$OBJPATH>
+  if not exist <&objDirW> mkdir <&objDirW>
+<.+>    
+call zmake(); ##from user's script.
+<+>
+  if "%NOPAUSE%"=="" pause
+  goto :ende
+  :error
+    echo ERROR, abort generation. See file <&objDir>/_cc_error.txt in 
+    pause
+    notepad <&objDir>/_cc_error.txt
+  :ende  
+<.+>
+}

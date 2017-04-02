@@ -28,7 +28,7 @@ struct ObjectJc_t;
   //J2C: definition of enhanced reference where it was need firstly: 
   #define Inspector_InspcREFDEF
   struct Inspector_Inspc_t;
-  typedef DEFINE_EnhancedRefJc(Inspector_Inspc);
+  typedef TYPE_EnhancedRefJc(Inspector_Inspc);
 #endif
 
 
@@ -57,7 +57,7 @@ typedef struct Inspector_Inspc_t
   //J2C: definition of enhanced reference where it was need firstly: 
   #define Inspector_InspcREFDEF
   struct Inspector_Inspc_t;
-  typedef DEFINE_EnhancedRefJc(Inspector_Inspc);
+  typedef TYPE_EnhancedRefJc(Inspector_Inspc);
 #endif
 
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
