@@ -4,9 +4,9 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "../../include/BlockHeap/BlockHeapJc.h"
+#include "../../source/BlockHeap/BlockHeapJc.h"
 
-#include "../../include/BlockHeap/BlockHeapJc_admin.h"
+#include "../../source/BlockHeap/BlockHeapJc_admin.h"
 
 
 extern_C const ClassJc reflection_BlockHeapJc;  //the just defined reflection_
