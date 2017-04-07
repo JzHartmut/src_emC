@@ -50,8 +50,9 @@
 //#define __NOT_SUPPORTED_ThreadContextFw__
 #define __NOT_SUPPORTED_ExceptionJc__
 
+#include <Fwc/fw_ExceptionDefs.h>
 
-#include <Fwc/fw_String.h>
+//#include <Fwc/fw_String.h>
 
 /**The Exception data contains all data of exception but references to the stacktrace.
  *
@@ -76,8 +77,6 @@ typedef struct ExceptionJc_t
 
 
 
-#include <Fwc/fw_String.h>
-
 #define ThCxt struct ThreadContextFW_t
 #define STACKTRC_ENTRY(NAME) struct ThreadContextFW_t* _thCxt = null;
 #define STACKTRC_TENTRY(NAME)
@@ -100,7 +99,7 @@ typedef struct ExceptionJc_t
 /**The routines throw... are replaced by a routine which does not know the exception bit mask
  * but supplies a String with the exception name, proper for printf.
  */
-#define throw_s0Jc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_s0Jc_("##EXCEPTION##", TEXT, VAL, LINE)
+#define throw_s0Jc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_sJc_("##EXCEPTION##", z_StringJc(TEXT), VAL, LINE)
 #define throw_sJc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_sJc_("##EXCEPTION##", TEXT, VAL, LINE)
 #define throw_EJc(EXCEPTION, EXCOBJ, VAL, STACKTRC, LINE)  throw_s0Jc_("##EXCEPTION##", "forward exception", VAL, LINE)
 

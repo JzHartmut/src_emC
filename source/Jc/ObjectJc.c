@@ -344,6 +344,34 @@ StringJc toString_ObjectJc(ObjectJc* ithis, ThCxt* _thCxt)
 }
 
 
+
+/**common method for creating and initilizing buffers in threadcontext. 
+ * @return pointer to ObjectJc in ThreadContext.
+ */
+ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, ThCxt* _thCxt)
+{ 
+  ObjectJc* ret;
+  STACKTRC_TENTRY("threadBuffer_StringBuilderJc");
+  {
+    MemC mBuffer = getUserBuffer_ThreadContextFw(size, sign, _thCxt);
+    /**Check whether the buffer is in use, TODO... */
+    int sizeBufferThreadContext = size_MemC(mBuffer);
+    if(size > sizeBufferThreadContext) THROW_s0(RuntimeException, "to large ObjectJc in ThreadBuffer", size);
+
+    ret = (ObjectJc*)address_MemC(mBuffer, 0,0);
+    init_ObjectJc(ret, size, newIdent_ObjectJc());
+    //sBuffer->_mode |= _mThread_StringBuilderJc;
+  }
+  STACKTRC_LEAVE; 
+  return ret;
+}
+
+
+
+
+
+
+
 /********************************************************************************************/
 //Object__Array
 

@@ -55,6 +55,44 @@ struct MemAreaC_t;
 
 
 
+/**Counts the number of chars till a \0-char. 
+ * In opposite to the C-standard strlen, this routine may not crash on undefined strings. 
+ * @param text The string where the length till \0 is to detect.
+ * @param maxnrofChars maximal number of chars to detect. This parameter may be set by a suitable value,
+ *        at example the maximal size of a buffer. The possibility of a memory fault access 
+ *        is some more less than as in comparision with the strlen-call without any limits.
+ * @return the number of chars till \0 or maxNrofChars. 
+ */
+extern_C int strlen_Fwc(char const* text, int maxNrofChars);
+
+/**Searches a character inside a given string with terminated length.
+ * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
+ */
+extern_C int searchChar_Fwc(char const* text, int maxNrofChars, char cc);
+
+/**Searches a String inside a given string with terminated length.
+ * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
+ */
+extern_C int searchString_Fwc(char const* text, int maxNrofChars, char const* ss, int zs);
+
+/**Returns the number of chars which are whitespaces starting from text.
+ * Whitespaces are all chars with code <=0x20. It are all control chars from the ASCII and the space. 
+ */
+extern_C int skipWhitespaces_Fwc(char const* text, int maxNrofChars);
+
+
+/**Returns the number of chars which note whitespaces starting from end of text.
+ * Whitespaces from begin or inside the text are not regarded.
+ * Whitespaces are all chars with code <=0x20. It are all control chars from the ASCII and the space. 
+ * @return length of text without right-bounded white-spaces.
+ */
+extern_C int trimRightWhitespaces_Fwc(char const* text, int maxNrofChars);
+
+
+
+
+
+
 #define mMtbl_CharSeqJc (mLength__StringJc >>2)
 
 

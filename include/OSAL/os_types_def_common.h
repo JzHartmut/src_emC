@@ -49,7 +49,8 @@
  * The long variant guarantees it independent of the compiler. The short variant can be used if the compiler guarantees 
  * a value of 1 for boolean true.
  */
-#define OSAL_bool1(COND) ((COND) ? 1 : 0) 
+//NOTE: it should defined in compl_adaption.h because it may depend of compiler properties
+//#define OSAL_bool1(COND) ((COND) ? 1 : 0) 
 //#define OSAL_bool1(COND) (COND)
 
 
@@ -86,9 +87,10 @@
 
 #ifndef __cplusplus
   //If C-compiling is used, define the C++-keywords for C
-  #define bool int
-  #define false 0
-  #define true (!false)
+  //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
+  //#define bool int
+  //#define false 0
+  //#define true (!false)
 #endif
 
 
@@ -170,32 +172,7 @@ typedef struct double_complex_t{
 
 
 
-
-/**Prevent process a NaN-value (not a number).
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * @param value the value to check and return in normal case
- * @param valueinstead This value is returned if value==nan
- * @param check a left-value (variable) which will be increment in the nan-situation for check.
- * @return valueinstead or value.
- */
-#define NNAN(value, valueinstead, check) (value < 1000000000.0f ? value : ((check) +=1, valueinstead))
-
-
-/**Condition if value is not NAN
- * @param value to test
- * @param check a left-value (variable) which will be increment in the nan-situation for check.
- */
-#define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
-
-extern_C int stopNAN();
-
-/**Prevent process a NaN-value maybe only in debug mode.
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * It calls stopNAN especially for debug at PC
- * @param value the value to check and return
- * @return value anytime.
- */
-#define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
+//NOTE: all NAN makros should be defined in fw_assert.h which is platform-depending.
 
 
 

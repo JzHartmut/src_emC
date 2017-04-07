@@ -106,4 +106,11 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
 }
 
 
+void printStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct PrintStreamJc_t* out, struct ThreadContextFW_t* _thCxt)
+{
+
+}
+
+
+
 #endif //not __NOT_SUPPORTED_ThreadContextFw__

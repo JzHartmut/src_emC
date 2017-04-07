@@ -537,7 +537,7 @@ typedef TYPE_EnhancedRefJc(ObjectJc);
 
 #ifndef LogMessageFWREFDEF
 //  #define LogMessageFWREFDEF
-//  DEFINE_EnhancedRefJc(LogMessageFW);
+//  TYPE_EnhancedRefJc(LogMessageFW);
 #endif
 
 

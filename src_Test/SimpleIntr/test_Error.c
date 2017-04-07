@@ -3,8 +3,8 @@
 
 int checkThrow(int x)
 { if (x<0) {
-    x=0;
     THROW_s0(IllegalArgumentException, "", x);
+    x=0;
   }
   return x;
 }

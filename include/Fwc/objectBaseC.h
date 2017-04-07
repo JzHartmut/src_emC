@@ -57,6 +57,15 @@ struct ThreadContextFW_t;
 
 struct Size_Mtbl_t;
 
+
+#ifndef isNull_StringJc
+  //minimalistic definition of StringJc to work with. instead including Fwc/fw_StringJc
+  //It is only for platforms which does not use StringJc, especially for only numeric caculations.
+  //For all other include <Fwc/fw_String.h> before including this file, especially include it in the <applstdefJc.h>. 
+  typedef OS_PtrVal_DEF(CharSeqJc, void const);
+  typedef union StringJc_t { OS_PtrVal_DEF(s, char const); CharSeqJc c; } StringJc;
+#endif
+
 /*@CLASS_C ObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
   /**Object is the superclass of all superclasses. In C-like manner it is a struct
@@ -204,15 +213,22 @@ struct Size_Mtbl_t;
      *  defined in os_wrapper.c.
      *  Here only the 12 bit for a id are offered.
      */
-    int32 idSyncHandles : 12;
+    int32 idSyncHandles :12;
 
     #define kNoSyncHandles_ObjectJc -1
 
-    /**Up to 15 handles (number) for memory management. 
+    /**Up to 7 handles (number) for memory management. 
      * The operation system should support the access to the correct instance. 
      */
-    int32 memoryMng : 4;
+    int32 memoryMng :3;
 
+
+    /**Bit to check whether the initializing is complete. 
+     * This bit is not existing in Java. For such problems in java a special boolean variable is necessary.
+     * This bit should be set to 1 in a users routine if all aggregations are set. Aggregations (UML) are that references
+     * which are necessary to execute all capabilities of the class.  
+     */
+    int32 isInitialized :1;
 
     //always: #if defined(mBackRef_ObjectJc)
     /** Pointer to a memory management, which manages this object. old: the BlockHeapBlock-Control-structure, 
@@ -242,6 +258,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
 */
 #define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { { (ObjectJc*)(OWNADDRESS) }, { REFLECTION }, TYPESIZEOF, 0, kNoSyncHandles_ObjectJc, 0}
 //#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
+
 
 
 /** Macro for constant initialization with a IDENT and a given reflection class.
@@ -545,7 +562,8 @@ METHOD_C MtblHeadJc const* checkMtbl_ObjectJcTT(ObjectJc const* ythis, int ix, c
 METHOD_C ObjectJcMTB XXXmtblRef_ObjectJc(ObjectJc const* ythis, char const* sign);
 
 
-#define SETMTBJc(DST, REF, TYPE) { (DST).ref = (TYPE##_s*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
+#define SETMTBJc(DST, REF, TYPE) { (DST).ref = (struct TYPE##_t*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
+#define SETMTBJc_XXX(DST, REF, TYPE) { (DST).ref = (TYPE*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
 
 /**Macro to get the method table from a given reference. 
  * @param REF A reference to any type which is based on Object. It should hava a ,,union{ ... ObjectJc object; } base;,,

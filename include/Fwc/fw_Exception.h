@@ -56,12 +56,13 @@
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
 
+#include <Fwc/fw_ExceptionDefs.h>
+
 #include "Fwc/fw_String.h"
 #include "Fwc/fw_MemC.h"
-//#include "os_file.h"     //
-
-//#include <stdio.h>  //FILE
-
+#ifndef __TRYCPPJc
+  #include <setjmp.h>
+#endif
 
 C_TYPE struct OS_HandleFile_t;
 
@@ -74,83 +75,6 @@ void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-
-
-#ifndef __TRYCPPJc
-  #include <setjmp.h>
-#endif
-
-
-/**Bit definitions of all error bits. 
- * HINT: An enum is used to prevent double definitions of same masks.
- */
-typedef enum ExceptionIdentsJc_t
-{ ident_ExceptionJc                = 0x00000000
-, ident_RuntimeExceptionJc         = 0x00000001
-, ident_ClassCastExceptionJc       = 0x00000002
-, ident_NullPointerExceptionJc     = 0x00000004
-, ident_IndexOutOfBoundsExceptionJc=       0x00000010
-, ident_ArrayIndexOutOfBoundsExceptionJc = 0x00000020
-, ident_StringIndexOutOfBoundsExceptionJc =0x00000040
-, ident_ArrayStoreExceptionJc =            0x00000080
-, ident_IllegalArgumentExceptionJc =       0x00000100
-, ident_NumberFormatExceptionJc =          0x00000200
-, ident_IllegalFormatConversionExceptionJc=0x00000400  
-, ident_IllegalAccessExceptionJc =         0x00001000
-, ident_NoSuchElementExceptionJc =         0x00002000
-, ident_IllegalStateExceptionJc =          0x00004000
-, ident_ParseExceptionJc =                 0x00008000  //java.text.ParseException
-
-, ident_NoSuchFieldExceptionJc =           0x00010000
-, ident_InterruptedExceptionJc =           0x00020000
-, ident_UnsupportedEncodingExceptionJc =   0x00100000
-, ident_IOExceptionJc =                    0x01000000  
-, ident_FileNotFoundExceptionJc =          0x02000000  
-, ident_OutOfMemoryErrorJc =               0x40000000
-#define ident_SystemExceptionJc            0x80000000  //prevent enum definition warning
-}ExceptionIdentsJc;
-
-
-/**In C: don't different these exceptions: */
-#define mask_IllegalFormatPrecisionExceptionJc mask_NumberFormatExceptionJc
-#define ident_IllegalFormatPrecisionExceptionJc ident_NumberFormatExceptionJc
-
-
-
-/**Bit definitions of all Masks for error bits. 
- * HINT: An enum is used to prevent double definitions of same masks.
- */
-typedef enum ExceptionMasksJc_t
-{
-  mask_ExceptionJcJc                 = 0xffffffff
-, mask_ExceptionJc                 = 0xffffffff
-, mask_RuntimeExceptionJc          = 0x0000ffff
-, mask_ClassCastExceptionJc        = 0x00000002
-, mask_NullPointerExceptionJc      = 0x00000004
-, mask_NoMemoryExceptionJc        = 0x00000008
-
-, mask_IndexOutOfBoundsExceptionJc =      0x00000070
-, mask_ArrayIndexOutOfBoundsExceptionJc = 0x00000020
-, mask_StringIndexOutOfBoundsExceptionJc =0x00000040
-, mask_ArrayStoreExceptionJc =            0x00000080
-, mask_IllegalArgumentExceptionJc =       0x00001F00
-, mask_NumberFormatExceptionJc =          0x00000200
-, mask_IllegalFormatConversionExceptionJc=0x00000400
-, mask_IllegalAccessExceptionJc =         0x00001000
-, mask_NoSuchElementExceptionJc =         0x00002000
-, mask_IllegalStateExceptionJc =          0x00004000
-, mask_ParseExceptionJc =                 0x00008000
-
-, mask_NoSuchFieldExceptionJc =           0x00010000
-, mask_InterruptedExceptionJc =           0x00020000
-, mask_UnsupportedEncodingExceptionJc =   0x00100000
-, mask_IOExceptionJc =                    0x3F000000  
-, mask_FileNotFoundExceptionJc =          0x02000000  
-
-, mask_OutOfMemoryErrorJc =               0x40000000  
-#define mask_SystemExceptionJc  0x80000000  //prevent enum definition warning
-}ExceptionMasksJc;
 
 
 
@@ -174,6 +98,7 @@ typedef struct ExceptionJc_t
   int32 exceptionValue;
 
 }ExceptionJc;
+
 
 
 
