@@ -44,7 +44,7 @@
 #include "Jc/ObjectJc.h"  
 #include "Fwc/fw_Exception.h"
 
-
+#include <Jc/MathJc.h>
 #include "math.h"
 #include "stdlib.h"
 double pow_MathJc(double a, double b) //, ThCxt* _thCxt)

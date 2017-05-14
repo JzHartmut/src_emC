@@ -51,7 +51,9 @@
 #define __ReflectionJc_h__
 
 //to include with _Jc, inside ReflectionJc.h the ObjectJc.h will be included, but than the wrapperdefines are missing
-#include <Jc/ObjectJc.h>
+#include <Fwc/objectBaseC.h>
+//#include <Jc/ObjectJc.h>
+#include <Fwc/fw_SimpleC.h>
 #include <Jc/ReflMemAccessJc.h>
 #include <stdarg.h>
 
@@ -226,13 +228,10 @@ struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
 #define getStaticArraySize_FieldJc(THIS) (((THIS)->bitModifiers & mPrimitiv_Modifier_reflectJc) == kBitfield_Modifier_reflectJc ? 0: (THIS)->nrofArrayElementsOrBitfield_)
 
 /**Gets the absolute adress of the element represented by this field inside the given Instance. 
- * It is assumed, that the instance matches to the Field ythis, it means, the Field ythis
- * is getted from a instance of exactly this type or from the instance itself.
- * This is tested by original Java - set- or get- operations.
- * But it is not tested here to optimize calculation time. If it is a part of a
- * Java2C-translation, the test should be done on Java-level, if it is a directly
- * programmed in C or C++ part, the user should be programmed carefully, how it is
- * ordinary in C or C++.
+ * It is assumed, that the given instance matches to thiz Field.
+ * The type given in thiz->[[declaringClass_FieldJc]] should be the type of the given instance.
+ *
+ * If thiz FieldJc describes a reference type, not the referenced data but the address of the reference is returned.
  *
  * Simple field, also if the field is a reference type:
  *  intance-->[ ...some fields]  
@@ -253,7 +252,7 @@ struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
  *
  * @param instance the Object. It need not derivated from ObjectJc, it may be any struct or class,
  *            but the type should matched to the ClassJc description getted with getDeclaringClass_FieldJc(ythis).
- * @param bFieldAddr If it is true, then instance contains the address of the field already. 
+ * @param bFieldAddr If it is true, then 'instance' contains the address of the field already. 
  *            This method is then used only to calculate the address of an element inside the array,
  *            if it this is an array-kind-element. This functionality is used internally.
  * @param sVaargs The method can have one or more indices to index an element in the array,
@@ -264,10 +263,10 @@ struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
  *            other than its usual in C. This String defines the types. It the type is null or empty,
  *            no variable arguments are given.
  * @param vaargs indices for indexing an array element.
- * @return The address of the field or the address of a element inside the array-kind-field with the given indices.
+ * @return The address of the field or the address of an element inside the array-kind-field with the given indices.
  *         Note: To get the address of elements of a container field, use [[>getAddrElement_FieldJc(...)]]
  */
-METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* ythis, MemSegmJc instance, bool bFieldAddr, char const* sVaargs, va_list vaargs);
+METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc instance, bool bFieldAddr, char const* sVaargs, va_list vaargs);
 
 
 /**Gets the absolute adress of the container represented by this field inside obj. It is assumed that the obj represented that object,
@@ -871,6 +870,12 @@ typedef enum  Modifier_reflectJc_t
 
   /**It may be a primitive with 7*8= 56 bit, it is used to designate a bitfield. */
 , kBitfield_Modifier_reflectJc         = 0x00070000   
+
+  /**It may be a primitive with 9*8= 72 bit, it is used to designate a handle for a pointer. 
+   * This is a special feature for supporting 64-bit-addresses with 32-bit handle. The handle is the index
+   * of a global address table which contains the pointer. Alternatively for 32-bit-Systems the handle is equal the pointer value. 
+   */
+, kHandlePtr_Modifier_reflectJc         = 0x00090000   
 
     /**outside java definition:
      * Position of this Bits.

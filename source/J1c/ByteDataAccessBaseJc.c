@@ -468,7 +468,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
         
         thiz->ixEnd = ixNextChildNew;
       }
-      if(thiz->parent.ref!= null) 
+      if(REFJc(thiz->parent)!= null) 
       { 
         
         _expand_ByteDataAccessBaseJc(REFJc (thiz->parent), thiz->ixEnd, thiz->ixEnd, _thCxt);/*all parents nextChild set to end of child, expand the parent if necessary.*/
@@ -486,7 +486,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
         thiz->ixEnd = ixEndNew;/*it is valid.     */
         
       }
-      if(thiz->parent.ref!= null) 
+      if(REFJc(thiz->parent)!= null) 
       { 
         
         _expand_ByteDataAccessBaseJc(REFJc (thiz->parent), ixEndNew, -1, _thCxt);/*all parents nextChild set to end of child, don't change the parent's ixEnd!*/
@@ -869,7 +869,7 @@ void addChildAt_iXXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 id
     
     ASSERT(/*J2C:static method call*/child->sizeHead >= 0);
     ASSERT(/*J2C:static method call*/sizeChild >= child->sizeHead);
-    if(child->parent.ref!= null && REFJc    (child->parent)->currChild.ref== child) 
+    if(REFJc(child->parent)!= null && REFJc(REFJc    (child->parent)->currChild)== child) 
     { 
       
       CLEAR_REFJc(REFJc    (child->parent)->currChild);
@@ -1224,7 +1224,7 @@ void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct By
   
   { 
     
-    if(child->parent.ref!= thiz) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "programming error - child is not parent of this.", 0, &_thCxt->stacktrc, __LINE__); };
+    if(REFJc(child->parent)!= thiz) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "programming error - child is not parent of this.", 0, &_thCxt->stacktrc, __LINE__); };
     thiz->ixNextChild = child->ixBegin;/*set end index to the child's start*/
     
     if(thiz->bExpand) 
@@ -1232,7 +1232,7 @@ void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct By
       
       thiz->ixEnd = thiz->ixNextChild;
     }
-    if(thiz->currChild.ref!= null) 
+    if(REFJc(thiz->currChild)!= null) 
     { 
       
       detach_ByteDataAccessBaseJc(REFJc (thiz->currChild), _thCxt);
@@ -1249,13 +1249,13 @@ void detach_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt)
   
   { 
     
-    if(thiz->parent.ref!= null && REFJc    (thiz->parent)->currChild.ref== thiz) 
+    if(REFJc(thiz->parent)!= null && REFJc(REFJc    (thiz->parent)->currChild)== thiz) 
     { 
       
       CLEAR_REFJc(REFJc    (thiz->parent)->currChild);/*detach in parent*/
       
     }
-    if(thiz->currChild.ref!= null) 
+    if(REFJc(thiz->currChild) != null) 
     { 
       
       detach_ByteDataAccessBaseJc(REFJc (thiz->currChild), _thCxt);

@@ -590,7 +590,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
             setLength_StringBuilderJc(& (line.sb), 0, _thCxt);
             
             struct Output_MsgDispatcherCore_MSG_t*  dst = & (thiz->base.super.outputs->data[ii]);
-            if(dst->outputIfc.ref!= null) 
+            if(REFJc(dst->outputIfc)!= null) 
             { 
               
               
@@ -645,7 +645,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                     
                     
                     struct Output_MsgDispatcherCore_MSG_t*  dst = & (thiz->base.super.outputs->data[iDst]);
-                    if(dst->outputIfc.ref!= null) 
+                    if(REFJc(dst->outputIfc)!= null) 
                     { 
                       
                       if(!bFirst) 
@@ -677,7 +677,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                       
                       
                       struct Output_MsgDispatcherCore_MSG_t*  dst = & (thiz->base.super.outputs->data[iDst]);
-                      if(dst->outputIfc.ref!= null) 
+                      if(REFJc(dst->outputIfc)!= null) 
                       { 
                         
                         if(!bFirst) 

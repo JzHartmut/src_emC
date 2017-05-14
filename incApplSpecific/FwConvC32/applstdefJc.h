@@ -66,6 +66,7 @@
 //#include <Fwc/fw_ExcStacktrcNo.h>
 
 #include <FwConv_h/definePrintfMakros.h>
+extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
 #include <fw_Platform_conventions.h>
 

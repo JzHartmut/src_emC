@@ -13,8 +13,9 @@ if exist %OUTPUT%.c del /F /Q %OUTPUT%.c
 
 
 set INPUT=
-set INPUT=%INPUT% -i:../include:Fwc/fw_Exception.h
-set INPUT=%INPUT% -i:../include:Fwc/fw_ThreadContext.h
+set INPUT=%INPUT% -i:../source:Fwc/fw_Exception.h
+set INPUT=%INPUT% -i:../source:Fwc/fw_ExceptionDefs.h
+set INPUT=%INPUT% -i:../source:Fwc/fw_ThreadContext.h
 
 echo on
 java -cp %ZBNFJAX_HOME%/zbnf.jar org.vishia.header2Reflection.CmdHeader2Reflection -out.c:%OUTPUT%.c -c_only %INPUT% -b:ReflectionJc.ctr -z:%ZBNFJAX_HOME%/zbnf/Cheader.zbnf --report:%TMP%/genReflection.rpt --rlevel:334

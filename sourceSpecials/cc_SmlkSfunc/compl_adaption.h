@@ -31,17 +31,22 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
-#ifndef   __os_types_def_h__
-#define   __os_types_def_h__
 
+/**If only this file is included, include all files of this concept. */
+#ifndef __applstdefJc_h__
+  #include <applstdefJc.h>
+#endif
+
+#ifndef   __compl_adaption_h__
+#define   __compl_adaption_h__
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
-#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
+//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
 
-#pragma warning(disable:4100) //unused argument
+//#pragma warning(disable:4100) //unused argument
 #pragma warning(disable:4127) //conditional expression is constant
 #pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
 #pragma warning(disable:4189) //local variable is initialized but not referenced
@@ -50,17 +55,21 @@
 
 //C++
 #pragma warning(disable:4514) //unreferenced inline function has been removed
-#pragma warning(disable:4512) //assignment operator could not be generated
+//#pragma warning(disable:4512) //assignment operator could not be generated
 #pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
 #pragma warning(disable:4068) //unknown pragma
+
+#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
+#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
+#pragma warning(disable:4505) //unreferenced local function has been removed
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
+#pragma warning(disable:4390) //
+
+
 
 
 
@@ -73,6 +82,16 @@
 #define OSAL_bool1(COND) ((COND) ? 1 : 0) 
 //#define OSAL_bool1(COND) (COND)
 
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  //Note: regard that any other system file may define that too.
+  //Note defined in Matlab\R2016a\extern\include\tmwtypes.h
+  #define bool int
+  #ifndef false
+    #define false 0
+    #define true (!false)
+  #endif  
+#endif
 
 
 /**It is a little or big-endian memory organisation: */
@@ -92,27 +111,44 @@
 #define __OS_IS_WINDOWS__
 
 // Folgender Schalter ist gesetzt zur Auswahl des Compilers MSC6. Damit können spezifische Compilereigenschaften mittels bedingter Compilierung berücksichtigt werden.
-#define __COMPILER_IS_MSC6__
+#define __COMPILER_IS_MSC10__
+
+
+#define __Simulink__
+#ifndef TEST_MODULE
+  #undef TEST_MODULE
+#endif
+
+
+// Folgender Schalter ist gesetzt zur Auswahl der C++-Compilierung. In einigen Quellen kann es einen Unterschied geben, wenn eine C-Abbildung der Quellen
+// berücksichtigt werden muss. Das standardgemäß definierte Makro __cplusplus ist nicht immer für dieses Zweck verwendbar, da auch der Einsatz der C++-Compilierung
+// für eine C-Abbildung erfolgen kann. Wenn die Gesamt-Source (beispielsweise ein Headerfile) gegebenenfalls auch als C-Abbildung
+// compiliert werden muss, dann müssen alle Teile, die nur unter C++ lauffähig sind, mit diesem Schalter bedingt compiliert werden.
+//#define __CPLUSGEN
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
+#define BYTE_IN_MemUnit_sizeof 1
 
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
-typedef unsigned char        uint8_t;
-typedef unsigned short       u_int16_t;
-typedef unsigned long        uint32_t;    //type identifier faulty, u_int32_t is C99
-typedef unsigned long        u_int32_t;
+#define int8_t    char
+#define u_int8_t  unsigned char
+#define uint8_t  unsigned char
+#define int16_t   short int
+#define u_int16_t unsigned short int
+#define uint16_t unsigned short int
+#define int32_t   long int
+#define u_int32_t unsigned long int
+#define uint32_t unsigned long int
+#define int64_t __int64
+#define u_int64_t __int64
+#define uint64_t __int64
 
-typedef char                 char8_t;   //Standard-C-char
-typedef unsigned short       char16_t;  //UTF16-char
-
-typedef signed char          int8_t;
-typedef short                int16_t;
-typedef long                 int32_t;
-typedef __int64              int64_t;
-typedef __int64              uint64_t;
 #define bool8_t char
 #define bool16_t int16_t
+#define char8_t   char
+#define char16_t  unsigned char
+
 
 
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
@@ -124,57 +160,35 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 
 
 /**All types with fix byte-wide should be defined in a platform-valid form. */
-#define uint8 unsigned char
-#define uint16 unsigned short
-#define uint32 unsigned long
-#define uint64 __int64
-#define int8 signed char
-#define int16 short
-#define int32 long
-#define int64 __int64
+#define uint8    unsigned char
+#define uint16   unsigned short
+#define uint32   unsigned long
+#define uint64   __int64
+#define int8     signed char
+#define int16    short
+#define int32    long
+#define int64    __int64
+
 //Standard-character and UTF16-character:
-#define char8 char
-#define char16 unsigned short
+#define char8   char
+#define char16  unsigned short
 #define bool8 char
-#ifndef __cplusplus
-  //If C-compiling is used, define the C++-keywords for C
-  #define bool int
-  #define false 0
-  #define true (!false)
-#endif
+#define float32 float
 
-//Simulink types:
-//#define char_T int8
-//#define int_T int32
-//#define int32_T int32
-//typedef float real_T;
-//#define real_T float
-//#define real32_T float
-//#define boolean_T bool
-
-//#define UNUSED_PARAMETER(val)
-
-  //see stdlib.h
-  //#define min(X,Y) ((X)<(Y) ? (X) : (Y))
-  //#define max(X,Y) ((X)>(Y) ? (X) : (Y)
 
 /**int-type which can represent a standard pointer. */
 #define intPTR uint32
 
 
-/**Die Definition spezieller Typen für variable Argumentlisten ist daher notwendig, 
- * weil der GNU-Compiler bei variablen Argumenten die hier genannten Typen jeweils promoted.
- * Verwendung nur in va_arg(..,TYP)-Makro.
+/**Definition of the really used types in variable argument lists. 
+ * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
+ * Especially in va_arg(..,TYP)-Makro.
  */
-typedef char                 char_va_list;
-typedef bool                 bool_va_list;
-typedef signed char          int8_va_list;
-typedef short                int16_va_list;
-//typedef float                float_va_list;
-typedef double                float_va_list;
-
-
-typedef float                float32;
+#define char_va_list char 
+#define bool_va_list bool
+#define int8_va_list signed char
+#define int16_va_list short
+#define float_va_list float
 
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: (void*)(0) kann nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
@@ -230,7 +244,7 @@ typedef float                float32;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR int
+#define OS_intPTR int64
 
 
 
@@ -241,29 +255,6 @@ typedef float                float32;
  */
 #define OS_PtrVal_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
 
-/**Defines the struct type PtrVal_MemUnit.
- * This type provides basic working with memory allocation.
- * The Problem in C is: a Pointer to memory does not contain the information about the amount of memory.
- * It is a simple pointer only, often a void*. How many bytes are there, it is unknown.
- * The struct MemC contains the pointer to memory as MemUnit type and the amount of memory.
- * This struct is based on the 
- * A PtrVal_MemUnit struct contains both:
- * * The pointer to the data as memory address unit.
- * * The size of data in memory.
- */
-typedef OS_PtrVal_DEF(PtrVal_MemUnit, MemUnit);
-
-/**Compatibility with older typedef of OS_PtrValue. */
-#define OS_PtrValue PtrVal_MemUnit 
-
-/*
-typedef struct OS_PtrValue_t
-{ char* ref;           //use type char* instead void* to see a character string in debug.
-  int32 val;
-  //struct MemAreaC_t* ptr__;
-  //union{ struct MemAreaC_t* memArea; char* str; } ptr__;
-}OS_PtrValue;
-*/
 
 /**A const definition takes 3 arguments, but the type of them depends from operation system.
  * @param PTR a pointer from a type*-type.
@@ -271,10 +262,6 @@ typedef struct OS_PtrValue_t
  * @param VAL a value from a int-type
  */
 #define CONST_OS_PtrValue(PTR, TYPE, VAL) { (TYPE*) PTR, (int32)VAL}
-
-/**An instance which contains null-values. */
-extern OS_PtrValue null_OS_PtrValue;
-
 
 
 #define value_OS_PtrValue(THIS) ((THIS).val)
@@ -305,6 +292,18 @@ extern OS_PtrValue null_OS_PtrValue;
   #define CONSTMember_Fwc const
 #endif
 
+/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
+ * but in the 32-bit-System the handle value is equal the pointer value.
+ * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
+ * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
+ * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
+ * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ */
+#define OS_HandlePtr(TYPE, NAME) uint32 NAME
+
+
+
+
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
  * It have to be a mask with set bits on right side (all last significant bits).
@@ -321,34 +320,34 @@ extern OS_PtrValue null_OS_PtrValue;
  */
 #define kMaxPathLength_FileDescription_OSAL 480
 
-#if 0
-  #define fmaxf(A, B) ( (A) > (B) ? (A) : (B) )
-  #define fminf(A, B) ( (A) < (B) ? (A) : (B) )
 
-  #define fmax(A, B) ( (A) > (B) ? (A) : (B) )
-  #define fmin(A, B) ( (A) < (B) ? (A) : (B) )
+/*
+#define fmaxf(A, B) ( (A) > (B) ? (A) : (B) )
+#define fminf(A, B) ( (A) < (B) ? (A) : (B) )
 
-  #ifndef __cplusplus
-  #define max(A, B) ( (A) > (B) ? (A) : (B) )
-  #define min(A, B) ( (A) < (B) ? (A) : (B) )
-  #endif
+#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
+#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
+
+#ifdef __cplusplus
+#define max(A, B) ( (A) > (B) ? (A) : (B) )
+#define min(A, B) ( (A) < (B) ? (A) : (B) )
 #endif
+*/
+
+#ifndef TRUE
+  #define TRUE true
+  #define FALSE false
+#endif
+
 /**Yet in simulink an untyped input/output handle which is a pointer can only be stored as double.
  * use conversion:
  *  SIMUPTR ptr = *(SIMUPTR*)&reference; //reference is any Type* reference.
  */
 typedef double SIMUPTR;
 
-/**Include the common definitions in its pure form. */
-#include <OSAL/os_types_def_common.h>
+#define creal32_T float_complex_t
+#ifndef CREAL32_T
+  #define CREAL32_T creal32_T
+#endif
 
-/**This file can be additinally modified by the user to determine how debugging and exception handling should processed. 
- * Either this file is defined in the users area 
- * or one of the source paths of CRuntimeJavalike is added to the include path where an exemplare of this file is provided.
- * See CRuntimeJavalike/sourceSpecials/ExcHandling_No.template or CRuntimeJavalike/sourceSpecials/ExcHandling_Printf.template
- */ 
-#include <fw_UserExceptionAndDebug_CRJ.h>
-
-
-
-#endif  //__os_types_def_h__
+#endif  //__compl_adaption_h__

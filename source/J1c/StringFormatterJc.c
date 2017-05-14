@@ -1564,7 +1564,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
     
     
     AppendableJcMTB lineoutMtbl ; SETMTBJc(lineoutMtbl, REFJc (thiz->lineout), AppendableJc);
-    if(thiz->lineout.ref!= null && (c == '\n' || c == '\r')) 
+    if(REFJc(thiz->lineout)!= null && (c == '\n' || c == '\r')) 
     { /*:on one of the line end characters*/
       
       
@@ -1634,7 +1634,7 @@ void flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
   
   { 
     
-    if(thiz->lineout.ref!= null) 
+    if(REFJc(thiz->lineout)!= null) 
     { 
       
       append_cs_AppendableJc(&((REFJc (thiz->lineout))->base.object), fromStringBuilderJc_CharSeqJc(REFJc (thiz->buffer)), _thCxt);
@@ -1689,7 +1689,7 @@ void close_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
   
   { 
     
-    if(thiz->lineout.ref!= null) 
+    if(REFJc(thiz->lineout)!= null) 
     { 
       
       append_cs_AppendableJc(&((REFJc (thiz->lineout))->base.object), fromStringBuilderJc_CharSeqJc(REFJc (thiz->buffer)), _thCxt);

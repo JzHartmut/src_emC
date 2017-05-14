@@ -1,4 +1,4 @@
-#include <fw_platform_conventions.h>
+#include <applstdefJc.h>
 #include <Fwc/fw_ThreadContext.h>
 #include <Fwc/fw_Exception.h>
 #include <Fwc/fw_SimpleC.h>

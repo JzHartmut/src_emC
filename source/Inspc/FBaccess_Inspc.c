@@ -41,7 +41,7 @@ FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNod
   STACKTRC_ENTRY("ctor_FBaccess_Inspc");
   //char sIp[30];
   FBaccess_Inspc* thiz = (FBaccess_Inspc*) thizo; 
-  initReflection_ObjectJc(thizo, thizo, sizeof(FBaccess_Inspc_t), &reflection_FBaccess_Inspc, 0xf0);
+  initReflection_ObjectJc(thizo, thizo, sizeof(FBaccess_Inspc), &reflection_FBaccess_Inspc, 0xf0);
   thiz->rootNode = rootNode;
   registerRefl_FBaccessNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimulationTime_Inspc);
   //strcpy(sIp, "UDP:0.0.0.0:60092");

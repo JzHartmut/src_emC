@@ -1,6 +1,6 @@
 #ifndef __TimeSignals_Inspc_h__
 #define __TimeSignals_Inspc_h__
-#include <os_types_def.h>
+#include <applstdefJc.h>
 #include <Jc/ObjectJc.h>
 #include <Jc/ReflectionJc.h>
 #include <Fwc/fw_String.h>
@@ -104,10 +104,10 @@ typedef struct TimeSignals_Inspc_t
 TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries);
 
 
-void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
+void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries);
 
 
-/**Register it in a AccessNode_Inspc, invoke one time after create. */
+/**Register it in a FBaccessNode_Inspc, invoke one time after create. */
 bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode);
 
 

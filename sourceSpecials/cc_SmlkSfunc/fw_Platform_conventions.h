@@ -36,23 +36,21 @@
  * The user may move or copy this file in its own file folder known by the include path
  * and modify it. In the comments the possibilities of modifications are explained.
  * @author Jchartmut www.vishia.org
- * @version 0.81
+ * @version 1.0
  * list of changes:
  * 2006-07-23: JcHartmut creation
  * 2006-09-24: JcHartmut modification
+ * 2013-12-18: JcHartmut add BlockHeapJc division
  *
  ****************************************************************************/
 #ifndef __fw_SysConventions_h__
 #define __fw_SysConventions_h__
 
-#error This is an old version.
-
 #include <os_types_def.h>
+	
 
-
-
-#define __CPLUSPLUSJcpp
-//#undef __CPLUSPLUSJcpp
+//#define __CPLUSPLUSJcpp
+#undef __CPLUSPLUSJcpp
 
 
 
@@ -66,8 +64,11 @@
   * but destructors of local stack instances in skipped subroutines are ignored.
   * It must be secured that no critical destructors are used, or a FINALLY is used there.
   */
-#define __TRYCPPJc
-//#undef __TRYCPPJc
+#ifdef __cplusplus
+  #define __TRYCPPJc
+#else
+  #undef __TRYCPPJc
+#endif
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
  * Because a forgotten STACKTRC_LEAVE-macro call won't be detected else,
@@ -82,16 +83,41 @@
 
 
 
-//#define ASSERT(COND) assertJc(COND)
 
 
 
 
 
+/*@DEFINE BlockHeapJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**Usage of the BlockHeap management or not and define the size of a block.
+ * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
+ */
+#undef USE_BlockHeapJc
+#undef SIZEBLOCK_BlockHeapJc
+//#define SIZEBLOCK_BlockHeapJc 0x400
+
+#define NO_DYNAMICALLY_MEMORY
+
+/**unused...TODO*/
+//#define SMALL_DYNAMICALLY_MEMORY
+//#define USE_DYNAMICALLY_MEMORY
+
+
+/*@DEFINE EnhancedRefJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**Macro to define the Types <TYPE>REF and <TYPE>REFP which can be used for enhanced references.
+ * If the BlockHeap or adequate system is used, an enhanced reference
+ * is a struct containing the pointer and an additional value. 
+ * The usage of the macro is necessary to support both, enhanced and simple references in the same sources.
+ * Note: The usage of the macro should be terminated with a colon. Example:
+ * ,,DEFINE_EnhancedRefJc(MyType);,,
+ * @param TYPE the identifier of the TYPE which should be referenced.
+ */
+#define DEFINE_EnhancedRefJc(TYPE) typedef struct TYPE##REF_t{struct TYPE##_t* ref;  int32 refbase; }TYPE##REF;  typedef TYPE##REF* TYPE##REFP
 
 /**Macro to initialize the value of a defined reference staticly to null. */
-#define NULL_REFJc { 0, null}
+#define NULL_REFJc { null, 0}
 
 
 /**Makro to set a enhanced reference, able to use in primary sources for enhanced references or not enhanced references or C++. 
@@ -99,59 +125,85 @@
  * Implementation note: The method ,,setBackRefIdxMtblJc(...),, checks whether the reference is used yet, it frees it first.
  * Calling ,,clearBackRefJc(...),, is not necessarry.
  */ 
-#define SETREFJc(REF, OBJP, REFTYPE) { clearBackRefJc(&(REF).refbase); (REF).ref = OBJP; setBackRefJc(&(REF).refbase, (REF).ref); }
+#define SETREFJc(REF, OBJP, REFTYPE) { clearBackRefJc(&(REF)); (REF).ref = OBJP; setBackRefJc(&(REF), (REF).ref); }
 //NOTE: important: do not use OBJP more as one, because it may be a complex method.
 //therefore the following variant is false:
 //#define SETREFJc(REF, OBJP, REFTYPE) { setBackRefIdxMtblJc(&(REF).refbase, OBJP, null); (REF).ref = OBJP; }
 //#define SETREFJc(REF, OBJP, REFTYPE) { setBackRefIdxMtblJc(&(REF).refbase, OBJP, &reflection_##REFTYPE); (REF).ref = (REFTYPE*)OBJP; }
 
 
+#define CLEARREFJc(REF) { clearBackRefJc(&(REF)); (REF).ref = null; }
+
+/**Makro to set a enhanced reference to null. 
+ * Note: because the makro should write in form
+ *   CLEAR_REF(dst, value);
+ * the ending semicolon is set outside the makro.
+ * @param REF The reference as value
+ */
+#define CLEAR_REFJc(REF) clearBackRefJc(&(REF)); (REF).ref = null
+     
+
+/**Macro to access to an enhanced reference.
+ * @param REF The enhanced reference-instance.
+ * @return The reference value. 
+ */
 #define REFJc(REF) (REF).ref
 
-#define CLEARREFJc(REF) { clearBackRefJc(&(REF).refbase); (REF).ref = null; }
-
-
-/** This type is used inside a reference to hold the 2 informations:
-  * index inside the virtual table and index of back reference for garbage collection.
-  * The type is also used in StringJc in a special way, see there.
-*/
-typedef int32 ObjectRefValuesJc;
-#define nrofBit_ObjectRefValuesJc 32
 
 
 
 
 
 
-/** Right shifted Bits representing the index of the backpointer from an object to the reference
-    inside the type ObjectRefValuesJc in enhanced references.
-  * If this define is setted, the enhanced references are used.
+
+#define nrofBit_EnhancedRefJc 32
+
+
+/**Right shifted Bits representing the index of the backpointer from an object to the reference
+ * inside the type ObjectRefValuesJc in enhanced references.
+ * If this define is setted, the enhanced references are used.
+ * This mask should be the left bits after mThreadContext__StringJc, mNonPersists__StringJc, mLength__StringJc
+ * because Strings are used as enhanced references too!
 */
 #define mRef_EnhancedRefJc              0xffff0000
 
 
-/** Bits of length of constant string, it have to be coordinated with mBackRef_ObjectJcRef*/
-#define mLength__StringJc                 0x00003fff
 
-  //_setCount_StringBufferJc(x, x); //
 
-/**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.*/
-#define mNonPersists__StringJc            0x00004000
+/**Macro to define the reflection of the enhanced reference of any type, able to use in a C-File.
+ * @param TYPE the type of the reference.
+ */
+#define DEFINE_REFLECTION_REF(TYPE) \
+  extern_C struct ClassJc_t const reflection_##TYPE; \
+  extern_C struct ClassJc_t const reflection_##TYPE##REF; \
+  const struct Reflection_Fields_##TYPE##REF_t{ ObjectArrayJc head; FieldJc data[2];} reflection_Fields_##TYPE##REF = \
+  { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_##TYPE##REF) \
+  , { { "refbase", 0 , &reflection__intJc, 0, 0, 0, &reflection_##TYPE##REF } \
+    , { "ref", 0 , &reflection_##TYPE##_s, 0, 0, 0, &reflection_##TYPE##REF } \
+  } }; \
+  const ClassJc reflection_##TYPE##REF =\
+  { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_##TYPE##REF, null) \
+  , "Ptr", 0, sizeof(TYPE##REF), (FieldJcArray const*)&reflection_Fields_##TYPE##REF \
+  }
 
-/**If all this Bits are set, the StringJc references a buffer in the thread context..*/
-#define mThreadContext__StringJc               0xFFFF0000
 
-/**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.*/
-#define xxxmBuffered__StringJc               0x00008000
 
-/* Bits are setted to 1, if it is a constant string
-    and the mLength_String_ObjectRef - bits contained the length.
-    The rightest mask bit should be the same as rightest mask bit
-    of mBackRef_ObjectRef shifted by kBitBackRef_ObjectRef,
-    If this number is mask and shifted with mBackRef_ObjectRef, it should be greater as the
-    maximal number of any index in maxBackRef_ObjectRef.
-*/
-//#define mIsConstant_StringJc     0xffff0000
+
+
+
+
+
+/*@DEFINE xxx @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+//#define PC_SIM
+//#ifndef TEST_MODULE
+//  #define TEST_MODULE
+//#endif
+
+#define SIMULINK
+
+
 
 /* Maximal length of path in a FileIoJc-structure.
  * The minimal value is defined in os_file.h with kMaxPathLength_OS_FileDescription.
@@ -161,15 +213,6 @@ typedef int32 ObjectRefValuesJc;
  * greater than kMaxPathLength_OS_FileDescription (=24).
  */
 #define kMaxPathLength_FileJc 500
-
-
-
-
-
-/*@DEFINE xxx @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-
-
 
 /** Define the length of namefield in Reflection*/
 #define kLengthNAME_CLASS_ReflectionJc 32

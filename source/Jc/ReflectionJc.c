@@ -51,6 +51,7 @@
 #include "Fwc/fw_Exception.h"
 
 #include <Fwc/fw_SimpleC.h>
+#include <stdio.h>
 
 #undef mStaticArray_Modifier_reflectJc //it shouldn't be used!
 #undef mReference_Modifier_reflectJc
@@ -61,6 +62,16 @@
 
 
 
+
+struct SearchTrc_t
+{ MemSegmJc objWhereFieldIsFound; 
+  ClassJc const* clazzWhereFieldIsFound;
+  FieldJc const* field; 
+  ClassJc const* typeOfField; 
+  MemSegmJc objOfField;
+} searchTrc_ClassJc[16] = {0}; //only debug
+  
+int idxSearchTrc = 0;
 
 
 
@@ -413,7 +424,8 @@ ClassJc const* getType_FieldJc(FieldJc const* ythis)
 
 
 
-
+//gets the address of the field inside the instance, regards indices, don't derefer.
+//
 METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* ythis, MemSegmJc instance, bool bFieldAddr, char const* sVaargs, va_list vaargs)
 { /* it is assumed, that the obj matches to the Field ythis, it means, the Field ythis
      is getted from a object of exactly this type or from the obj itself.
@@ -584,6 +596,9 @@ MemSegmJc getAddrElement_FieldJc(const FieldJc* ythis, MemSegmJc instance, char 
     int32 bitContainerType = bitModifiers & m_Containertype_Modifier_reflectJc;
     int32 modeAddr = ythis->bitModifiers & mAddressing_Modifier_reflectJc;
     MemSegmJc fieldPosOrContainerAddr;
+    if((ythis->bitModifiers & mPrimitiv_Modifier_reflectJc) == kHandlePtr_Modifier_reflectJc){
+      stop();
+    }
     if(modeAddr == 0 && (ythis->bitModifiers & mPrimitiv_Modifier_reflectJc) == 0)
     { //falsch modeAddr = kReference_Modifier_reflectJc; 
       /**no primitive, but also not embedded, its a reference maybe of ObjectJc-based type.
@@ -764,7 +779,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* ythis, MemSegmJc obj
     //ref = address of the element inside obj. obj is the instance which contains this field.
     ref = getAddrElement_FieldJc(ythis, obj, sVaargs, vaargs); //getRefAddr_FieldJc(ythis, instance, 0);
     if(isReference_ModifierJc(modifiers))
-    { ref = getRef_MemAccessJc(ref);
+    { ref = getRef_MemAccessJc(ref);   //TODO check kHandlePtr_Modifier_reflectJc
       //MemSegmJc adr = (void**)getMemoryAddress_FieldJc(ythis, -1,obj);
     }
     //the ref is the address of the object, which is referenced with field ythis.
@@ -942,15 +957,6 @@ METHOD_C MemSegmJc get_FieldJc(FieldJc const* ythis, MemSegmJc obj, char const* 
 
 
 
-struct SearchTrc_t
-{ MemSegmJc objWhereFieldIsFound; 
-  ClassJc const* clazzWhereFieldIsFound;
-  FieldJc const* field; 
-  ClassJc const* typeOfField; 
-  MemSegmJc objOfField;
-} searchTrc_ClassJc[16] = {0}; //only debug
-  
-
 
 METHOD_C MemSegmJc searchObject_ClassJc(StringJc sPath, ObjectJc* startObj, FieldJc const** retField, int* retIdx)
 {
@@ -969,7 +975,7 @@ METHOD_C MemSegmJc searchObject_ClassJc(StringJc sPath, ObjectJc* startObj, Fiel
   int idx = -1;
   int posSep;
   int posStart = 0;
-  int idxSearchTrc = 0;
+  idxSearchTrc = 0;
   STACKTRC_ENTRY("searchObject_ClassJc");
   TRY
   {
@@ -1314,6 +1320,7 @@ int setBitfield_FieldJc(const FieldJc* ythis, MemSegmJc obj, int val, char const
 
 METHOD_C StringJc getString_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, ...)
 {
+  static char addret[100];  //TODO primitive solution, not thread safe.
   va_list vaargs;
   MemSegmJc addrField, ref;
   StringJc ret;
@@ -1325,10 +1332,15 @@ METHOD_C StringJc getString_FieldJc(const FieldJc* ythis, MemSegmJc instance, ch
     ref = getReference_V_FieldJc(ythis, instance, sVaargs, vaargs);  //The address of the Object.
     if(ADDR_MemSegmJc(ref, void) == null){
       ret = z_StringJc("null");
-    } else if(isObjectJc_ClassJc(type)){ //check based on ObjectJc
+    } else if(false && isObjectJc_ClassJc(type)){ //check based on ObjectJc
       ret = z_StringJc("toString(...)");; //invoke toString
     } else {
-      ret = z_StringJc("@xxx");;
+      //TODO:
+      //StringBuilderJc* sret = threadBuffer_StringBuilderJc("", null);
+      int32* addr1 = ADDR_MemSegmJc(addrField, int32);
+      int32 val1 = addr1 == null ? 0 : *addr1;
+      sprintf(addret, "@%p:%8.8X", addr1, val1);
+      ret = z_StringJc(addret);
     }
   } else { //primitive Type of field:
     ret = null_StringJc;  //TODO

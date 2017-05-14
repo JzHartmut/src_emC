@@ -988,8 +988,8 @@ int16 getSetValue_ClassContent_Inspc(/*J2C:static method*/ struct FieldJc_t cons
               { 
                 
                 
-                int16  setValue = getShort_InspcSetValue_InspcDataExchangeAccess_Inspc(accSetValue);
-                value = setBitfield_FieldJc(theField, theObject, setValue, "I", idx);
+                int16  setValue = (int16)getShort_InspcSetValue_InspcDataExchangeAccess_Inspc(accSetValue);
+                value = (int16)setBitfield_FieldJc(theField, theObject, setValue, "I", idx);
               }
               else 
               { 
@@ -1077,7 +1077,7 @@ int16 getSetValue_ClassContent_Inspc(/*J2C:static method*/ struct FieldJc_t cons
     }
     /*MemSegmJc adr;*/
     { STACKTRC_LEAVE;
-      return bOk ? nType : -1;
+      return bOk ? nType : (int16)-1;
     }
   }
   STACKTRC_LEAVE;

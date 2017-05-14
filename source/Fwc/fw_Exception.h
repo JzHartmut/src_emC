@@ -71,7 +71,7 @@ struct ThreadContextFW_t;
 struct PrintStreamJc_t;
 
 
-void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+//void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -146,7 +146,7 @@ extern_C void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_
 
 
 /**It's the same as in Java: Keyword assert, the condition should be true. */
-METHOD_C void assertJc(bool condition);
+//METHOD_C void assertJc(bool condition);
 
 #ifndef ASSERT
   /**The macro ASSERT may be defined user specific. */

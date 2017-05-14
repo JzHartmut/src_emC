@@ -114,7 +114,7 @@ MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContextFW_s
             _thCxt->addrFree += size;
             _thCxt->bitAddrUsed |= 1 << ix;
             _thCxt->addrUsed[ix].sign = sign;
-            _thCxt->ixLastAddrUsed = ix;
+            _thCxt->ixLastAddrUsed = (int16)ix;
             set_MemC(_thCxt->addrUsed[ix].used, addr,size);  //store the found range.
             init0_MemC(ret);
             return ret; //NOTE: the user is responsible for saving its content.

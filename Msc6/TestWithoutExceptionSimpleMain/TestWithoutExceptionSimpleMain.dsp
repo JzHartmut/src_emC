@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/include" /I "S:/Jc/CRuntimeJavalike/include/OSAL" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/ExcHandling_Printf.template" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/cc_Msc6" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
+# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/source" /I "S:/Jc/CRuntimeJavalike/source/OSAL" /I "S:/Jc/CRuntimeJavalike/incApplSpecific/TagetNumericSimple" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/cc_Msc6" /I "S:/Jc/CRuntimeJavalike/sourceSpecials" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -95,50 +95,6 @@ SOURCE=D:\vishia\Jc\CRuntimeJavalike\include\Fwc\fw_ExcStacktrcNo.h
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_MemC.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_MemC.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_Object.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_SimpleC.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_SimpleC.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_String.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_String.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_threadContext.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_ThreadContext.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_timeconversions.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_timeconversions.h
-# End Source File
-# Begin Source File
-
 SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\objectBaseC.h
 # End Source File
 # End Group
@@ -163,31 +119,15 @@ SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_time.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\applstdefJc.h
+SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\FwConv_c\fw_ExcStacktrcNo.c
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\BlockHeap_PlatformSpec.h
+SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\FwConv_c\fw_ThreadContextSimpleIntr.c
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_assert.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_ExcStacktrcNo.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_Platform_conventions.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\FwConv\fw_ThreadContextSimpleIntr.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\FwConv\stopAssert_Fwc_while0.c
+SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\FwConv_c\stopAssert_Fwc_while0.c
 # End Source File
 # End Group
 # Begin Group "cc_Msc6"

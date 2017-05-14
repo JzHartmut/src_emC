@@ -73,11 +73,11 @@ const struct Reflection_Fields_TryObjectJc_t
     , 0  //offsetToObjectifcBase
     , &reflection_TryObjectJc
     }
-  , { "exceptionNr"
+  , { "excNrTestCatch"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TryObjectJc*)(0x1000))->exceptionNr) -(int32)(TryObjectJc*)0x1000)
+    , (int16)((int32)(&((TryObjectJc*)(0x1000))->excNrTestCatch) -(int32)(TryObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_TryObjectJc
     }
@@ -138,6 +138,8 @@ const ClassJc reflection_StacktraceJc =
 };
 
 
+
+#include "Fwc/fw_ExceptionDefs.h"
 
 #include "Fwc/fw_ThreadContext.h"
 

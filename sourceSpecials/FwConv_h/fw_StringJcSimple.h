@@ -1,6 +1,7 @@
 #ifndef __fw_String_h__  //should also prevent include of fw_String.h
 #define __fw_String_h__
 
+typedef OS_PtrVal_DEF(CharSeqJc, void );
 
 /**minimalistic definition of StringJc to work with. instead including Fwc/fw_StringJc
  * It is only for platforms which does not use StringJc, especially for only numeric caculations.

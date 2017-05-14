@@ -521,7 +521,7 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
         }
         thiz->shouldFlushed = false;
         set_OS_TimeStamp(thiz->timeClose, timeTest1);
-        if(thiz->msgOpenClose.ref!= null) 
+        if(REFJc(thiz->msgOpenClose)!= null) 
         { 
           
           sendMsg_z_LogMessageFW(REFJc (thiz->msgOpenClose), thiz->msgIdentOpenClose + kMsgClose_LogMessageFile_MSG, "close", _thCxt);

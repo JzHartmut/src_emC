@@ -567,7 +567,7 @@ METHOD_C void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, 
 \
 { \
   \
-  if((THIZ)->currChild.ref!= null) \
+  if(REFJc((THIZ)->currChild)!= null) \
   { \
     \
     detach_ByteDataAccessBaseJc(REFJc ((THIZ)->currChild), _thCxt);\

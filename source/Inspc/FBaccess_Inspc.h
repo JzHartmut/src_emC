@@ -1,6 +1,6 @@
 #ifndef __FBaccess_Inspc_h__
 #define __FBaccess_Inspc_h__
-#include <os_types_def.h>
+#include <applstdefJc.h>
 struct FBaccessNode_Inspc_t;
 struct FBaccess_Inspc_t;
 struct ObjectJc_t;
@@ -32,7 +32,13 @@ bool checkObject_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz);
 
 void free_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz);
 
-void registerReflection_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, struct ObjectJc_t* obj);
+//void registerReflection_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, struct ObjectJc_t* obj);
+
+
+/**Registers a Node.
+ * @simulink Sfunc
+ */
+char const* registerNode_AccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, void* data);
 
 
 /**Registeres Reflection from any Object in a FBaccessNode for a runtime reflection tree. 

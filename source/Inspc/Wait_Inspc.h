@@ -28,7 +28,7 @@ Wait_Inspc* create_Wait_Inspc();
 void ctor_Wait_Inspc(Wait_Inspc* thiz);
 
 
-/**Register it in a AccessNode_Inspc, invoke one time after create. */
+/**Register it in a FBaccessNode_Inspc, invoke one time after create. */
 bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode);
 
 void step_Wait_Inspc(Wait_Inspc volatile* thiz);

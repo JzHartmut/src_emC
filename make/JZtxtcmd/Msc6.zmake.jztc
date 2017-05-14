@@ -22,19 +22,19 @@ String newline = <:>
 ##
 ##The generate-script for a cc-target. 
 ##
-sub cc(Obj target, String compilerOptions){
+sub cc(Obj target, String compilerOptions, String cfgCheckDeps = "make/cfgCheckDeps.cfg"){
 ##assemble the include path:
 String _includePath = <:><:for:includePathItem:includePath.listFiles()><:> /I <&includePathItem.fileW()><.><.for> /I "%INCLUDESTD_MSC6%"<.>;
 Obj _outputfile = <:><&target.output.fileW()><.>;
 List inputs = target.allInputFilesExpanded();
 Obj checkDeps = new org.vishia.checkDeps_C.CheckDependencyFile(console, 1);
 
-String test = checkDeps.setDirObj(<:><&$OBJPATH>/*.doj<.>); 
+String test = checkDeps.setDirObj(<:><&$OBJPATH>/*.obj<.>); 
 if(test){ <+><:n>echo Error cfgCheckDep.setDirObj: <&test><&newline><.n+>}
 else{ <+><:n>REM cfgCheckDep.setDirObj successfully<&newline><.n+> } 
 
-test = checkDeps.readCfgData("make/cfgCheckDeps.cfg", currdir);
-if(test){ <+><:n>echo Error cfgCheckDep.cfg: <&test><&newline><.n+>}
+test = checkDeps.readCfgData(cfgCheckDeps, currdir);
+if(test){ <+><:n>echo Error cfgCheckDeps.cfg: <&test><&newline><.n+>}
 else{ <+><:n>REM cfgCheckDep.cfg read successfully<&newline><.n+> } 
 
 test = checkDeps.readDependencies(<:><&objDir>/ccs_dsp_obj<&$PARAM>.deps.txt<.>); 

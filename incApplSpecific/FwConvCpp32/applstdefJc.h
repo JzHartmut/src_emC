@@ -26,8 +26,6 @@
 /**Include this file always. It defines some things usefull for all sources. */
 #include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
-//#include <FwConv_h/fw_StringJcSimple.h>
-#include <Fwc/fw_String.h>
 
 #include <Fwc/fw_threadContext.h>
 
@@ -45,11 +43,11 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#ifdef __cplusplus
-  //#define __TRYCPPJc
-#else
-  #undef __TRYCPPJc  //cannot be used on C language
-#endif
+//#ifdef __cplusplus
+  #define __TRYCPPJc
+//#else
+  //#undef __TRYCPPJc  //cannot be used on C language
+//#endif
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
  * Because a forgotten STACKTRC_LEAVE-macro call won't be detected else,
@@ -64,11 +62,15 @@
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-//#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_ExcStacktrcNo.h>
+#include <Fwc/fw_Exception.h>
+//#include <Fwc/fw_ExcStacktrcNo.h>
+
+
+//#define __CPLUSPLUSJcpp
+#undef __CPLUSPLUSJcpp
+
 
 #include <FwConv_h/definePrintfMakros.h>
-extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
 #include <fw_Platform_conventions.h>
 

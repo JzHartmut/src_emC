@@ -106,6 +106,8 @@
 // Folgender Schalter ist gesetzt zur Auswahl der Betriebssystemplattform Windows ist. Damit k?nnen Betriebssystemzugriffe bedingt compiliert werden.
 #define __OS_IS_WINDOWS__
 
+#define __OS_PTR32__
+
 // Folgender Schalter ist gesetzt zur Auswahl des Compilers MSC6. Damit k?nnen spezifische Compilereigenschaften mittels bedingter Compilierung ber?cksichtigt werden.
 #define __COMPILER_IS_MSC6__
 
@@ -273,6 +275,18 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_Fwc const
 #endif
+
+
+
+
+/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
+ * but in the 32-bit-System the handle value is equal the pointer value.
+ * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
+ * is done with the uint32 handle connection. For the code generated 32-bit-system the handle value is equal to the pointer. 
+ * The pointer type in the union presents the real type especially for debugging.
+ * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ */
+#define OS_HandlePtr(TYPE, NAME) union{ TYPE* p##NAME; uint32 NAME; }
 
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val

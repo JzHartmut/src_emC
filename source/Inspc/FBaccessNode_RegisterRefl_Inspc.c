@@ -22,11 +22,42 @@ bool registerRefl_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, void* ob
 }
 
 
+
+char const* registerNode_AccessNode_Inspc(FBaccessNode_Inspc* thiz, void* data)
+{ const char* name = "main";
+  int ix, ix1;
+  struct ObjectJc_t* oData = (struct ObjectJc_t*) data;
+  if(!checkObject_FBaccessNode_Inspc(thiz)) return "input 1 is not a FBaccessNode_Inspc";
+  if(data == null || oData->ownAddress != data || oData->reflectionClass == null) {
+    return "input 2: data is not based on ObjectJc, or it has not reflection information.";
+  }
+  ix = thiz->fields.head.length;  //the current length
+  //check whether it is registered already. This routine may be called twice:
+  for(ix1 = 0; ix1 < ix; ++ix1) {
+    if(thiz->data[ix1] == oData) { 
+      break;
+    }
+  } 
+  if(ix1 == ix) { //onyl if not found, all checked:
+    if(ix >= ARRAYLEN_SimpleC(thiz->data)) {
+      return "too much registration in registerNode_AccessNode_Inspc(...)";
+    }
+    thiz->data[ix] = oData;
+    strncpy(thiz->fields.data[ix].name, name, sizeof(thiz->fields.data[ix].name));  //TODO check length of name!!!
+    thiz->fields.data[ix].type_ = oData->reflectionClass;
+    thiz->fields.data[ix].bitModifiers = kReference_Modifier_reflectJc;
+    thiz->fields.data[ix].position = ((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz);
+
+    thiz->fields.head.length = ix + 1;
+  }
+  return null; //successfull
+}
+
 bool checkObject_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz){
   if(thiz == null) return false;
   if(thiz->super.ownAddress != &thiz->super) return false;
   //The instance should have reflection signature. Check the name of the reflection instance instead its pointer
   //to support multiple linking processes. (Simulink-mex-dll)
-  if(strcmp(thiz->super.reflectionClass->name, "AccessNode_Inspc") !=0) return false;
+  if(strcmp(thiz->super.reflectionClass->name, "FBaccessNode_Inspc") !=0) return false;
   return true;
 }

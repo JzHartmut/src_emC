@@ -205,7 +205,7 @@ bool sendMsgVaList_iDtzv_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, int32 iden
         { 
           
           /**queue overflow, no entries available. The message can't be displayed*/
-          if(thiz->runNoEntryMessage.ref!= null) /**queue overflow, no entries available. The message can't be displayed*/
+          if(REFJc(thiz->runNoEntryMessage)!= null) /**queue overflow, no entries available. The message can't be displayed*/
           
           { 
             
@@ -413,7 +413,7 @@ int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dst
           if(out != null) 
           { 
             
-            if(!bMsgTextGotten && thiz->msgText.ref!= null && channel->bUseText) 
+            if(!bMsgTextGotten && REFJc(thiz->msgText)!= null && channel->bUseText) 
             { 
               
               bMsgTextGotten = true;
