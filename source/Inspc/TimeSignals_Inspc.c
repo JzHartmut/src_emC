@@ -25,20 +25,15 @@ TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries)
   return thiz;
 }
 
+extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
+
+
 
 void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries)
 {
   Entries_TimeSignals_Inspc* entries = (Entries_TimeSignals_Inspc*)new_ObjectArrayJc(nrofEntries, sizeof(Entry_TimeSignals_Inspc), null, 0); //(Entry_TimeSignals_Inspc*)malloc(zBytesEntries);
   thiz->entries = entries;
   //now constructs.  
-  ctor_TimeSignals_Inspc(thiz);
-}
-
-extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
-
-
-void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
-{
   memset(thiz->nrElements, 1, sizeof(thiz->nrElements));
   thiz->bitsComplexY = 0;
   strncpy(thiz->clazz.name, "TimeSignals_Inspc", sizeof(thiz->clazz.name));
@@ -308,7 +303,7 @@ void test_TimeSignals_Inspc(struct FBaccessNode_Inspc_t* reflNode, char const* p
   strncpy(test->names[1], "cCmdA", sizeof(test->names[0]));
   strncpy(test->names[2], "C2:wUpq", sizeof(test->names[0]));
   strncpy(test->names[3], "2:wUw", sizeof(test->names[0]));
-  ctor_TimeSignals_Inspc(test);
+  ctor_TimeSignals_Inspc(test, 100);
   
   registerReflection_TimeSignals_Inspc(test, reflNode);
   

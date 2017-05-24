@@ -24,10 +24,10 @@
 
 
 /**Include this file always. It defines some things usefull for all sources. */
-//#include <Fwc/fw_SimpleC.h>
+#include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
-#include <FwConv_h/fw_StringJcSimple.h>
-//#include <Fwc/fw_String.h>
+//#include <FwConv_h/fw_StringJcSimple.h>
+#include <Fwc/fw_String.h>
 
 
 /** If this define is setted, the TRY, CATCH and THROW makros use the C++ keywords
@@ -62,10 +62,11 @@
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-//#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_ExcStacktrcNo.h>
+#include <Fwc/fw_Exception.h>
+//#include <Fwc/fw_ExcStacktrcNo.h>
 
-//#include <FwConv_h/EnhanceRef_simple.h>
+#include <FwConv_h/EnhanceRef_simple.h>
+
 
 /**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
 #define __HandlePtr64__
@@ -74,6 +75,14 @@
 extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
 
+
+
+
+
+
+
+
+#define kMaxPathLength_FileJc 512
 
 
 #endif // __applstdefJc_h__

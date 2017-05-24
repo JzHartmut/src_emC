@@ -49,13 +49,19 @@
  ****************************************************************************/
 #ifndef __ReflectionJc_h__
 #define __ReflectionJc_h__
-
+#include <applstdefJc.h>
 //to include with _Jc, inside ReflectionJc.h the ObjectJc.h will be included, but than the wrapperdefines are missing
 #include <Fwc/objectBaseC.h>
 //#include <Jc/ObjectJc.h>
 #include <Fwc/fw_SimpleC.h>
 #include <Jc/ReflMemAccessJc.h>
 #include <stdarg.h>
+
+/**This routine should be invoked on start of the application. 
+ * Yet it is only necessary for __HandlePtr64__
+ */
+char const* init_ReflectionJc();
+
 
 /*@CLASS_C FieldJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -423,7 +429,8 @@ METHOD_C MemSegmJc get_FieldJc(FieldJc const* ythis, MemSegmJc instance, char co
  *         but the returned field is the last part of the Variable path. The returned idx is >=0 if the last part
  *         contains an index information.
  */
-METHOD_C MemSegmJc searchObject_ClassJc(StringJc sPath, ObjectJc* startObj, FieldJc const** field, int* idx);
+//Note: implemented in Java2C
+METHOD_C MemSegmJc XXXXXXXsearchObject_ClassJc(StringJc sPath, ObjectJc* startObj, FieldJc const** field, int* idx);
 
 
 
@@ -515,7 +522,9 @@ METHOD_C StringJc getString_FieldJc(const FieldJc* ythis, MemSegmJc instance, ch
 
 
 
-/** Returns the reference to the field inside the given object. This method is not javalike.
+/** Returns the reference to the data which is described with thiz FieldJc and the given instance.
+  * If thize FieldJc describes a reference, the reference in the instance is derefered and the reference to the real data is returned. 
+  * This method is not javalike.
   * Because the type of the field is not known in this context, the reference is of type void*.
   * The user should cast it outside to the type of the field. The casting is only admissible
   * to the exactly type of the field.
@@ -531,7 +540,7 @@ METHOD_C MemSegmJc getReference_FieldJc(FieldJc const* ythis, MemSegmJc instance
 
 METHOD_C MemSegmJc getReference_V_FieldJc(FieldJc const* ythis, MemSegmJc instance, char const* sVaargs, va_list vaargs);
 
-
+/**Returns the memory address of an equal identifier of the address, maybe in a remote memory. */
 METHOD_C int32 getMemoryIdent_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, ...);
 
 METHOD_C int32 getMemoryIdent_V_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, va_list vaargs);

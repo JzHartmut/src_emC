@@ -101,8 +101,10 @@
 #define u_int8_t  unsigned char
 #define int16_t   short int
 #define u_int16_t unsigned short int
+#define uint16_t unsigned short int
 #define int32_t   long int
 #define u_int32_t unsigned long int
+#define uint32_t unsigned long int
 #define int64_t __int64
 #define uint64_t __int64
 
@@ -138,6 +140,13 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define float32 float
 
 
+#define UINT_8 unsigned char
+#define UINT_16 unsigned short
+#define UINT_32 unsigned int
+#define UINT8 unsigned char
+#define UINT16 unsigned short
+#define UINT32 unsigned int
+
   //see stdlib.h
   //#define min(X,Y) ((X)<(Y) ? (X) : (Y))
   //#define max(X,Y) ((X)>(Y) ? (X) : (Y)
@@ -155,6 +164,20 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define int8_va_list signed char
 #define int16_va_list short
 #define float_va_list float
+
+
+/**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
+ * but it is not guaranteed in C or C++ standard.
+ * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
+ * The long variant guarantees it independent of the compiler. The short variant can be used if the compiler guarantees 
+ * a value of 1 for boolean true.
+ */
+#define OSAL_bool1(COND) ((COND) ? 1 : 0) 
+//#define OSAL_bool1(COND) (COND)
+
+
+#define TRUE true
+#define FALSE false
 
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: (void*)(0) kann nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0

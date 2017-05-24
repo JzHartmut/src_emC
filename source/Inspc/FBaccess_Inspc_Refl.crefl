@@ -60,7 +60,7 @@ const struct Reflection_Fields_FBaccessNode_Inspc_t
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
-    , (int16)((int32)(&((FBaccessNode_Inspc*)(0x1000))->super) -(int32)(FBaccessNode_Inspc*)0x1000)
+    , (int16)((int32)(&((FBaccessNode_Inspc*)(0x1000))->object) -(int32)(FBaccessNode_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FBaccessNode_Inspc
     }
@@ -105,7 +105,7 @@ const struct Reflection_Fields_FBaccess_Inspc_t
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
-    , (int16)((int32)(&((FBaccess_Inspc*)(0x1000))->super) -(int32)(FBaccess_Inspc*)0x1000)
+    , (int16)((int32)(&((FBaccess_Inspc*)(0x1000))->object) -(int32)(FBaccess_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FBaccess_Inspc
     }

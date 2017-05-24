@@ -23,7 +23,7 @@ typedef struct SimulationTime_Inspc_t
  * Especially it are all libs which contains 'FPaccessNode_RegisterRefl_Inspc.c'. That may be much.
  */
 typedef struct FBaccessNode_Inspc_t
-{ ObjectJc super;
+{ ObjectJc object;
   //struct ObjectJc_t* obj[10];
 
   /**Reference to the instances or sub nodes. */
@@ -44,7 +44,7 @@ typedef struct FBaccessNode_Inspc_t
 
 
 typedef struct FBaccess_Inspc_t
-{ ObjectJc super;
+{ ObjectJc object;
   FBaccessNode_Inspc* rootNode;
   SimulationTime_Inspc simTime;
   Inspector_Inspc_s theInspector;

@@ -145,13 +145,6 @@ extern_C void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_
 #define getMessage_ExceptionJc(YTHIS, THC) ((YTHIS)->exceptionMsg)
 
 
-/**It's the same as in Java: Keyword assert, the condition should be true. */
-//METHOD_C void assertJc(bool condition);
-
-#ifndef ASSERT
-  /**The macro ASSERT may be defined user specific. */
-  #define ASSERT(COND) assertJc(COND)
-#endif
 //#define null_ExceptionJc() {0}
 
 /*@CLASS_C TryObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

@@ -18,10 +18,10 @@ void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObject
   FBaccessNode_Inspc* rootNode = (FBaccessNode_Inspc*)malloc(sizeof(FBaccessNode_Inspc));
   memset(rootNode, 0, sizeof(FBaccessNode_Inspc));
 
-  ctor_FBaccessNode_Inspc(&rootNode->super, nrofObjects);
+  ctor_FBaccessNode_Inspc(&rootNode->object, nrofObjects);
 
-  if(rootInspc == null){ rootInspc = &rootNode->super; }
-  ctor_FBaccess_Inspc(&thiz->super, rootNode, rootInspc,sIp);  //the rootNode is the root for the Inspector per default.  
+  if(rootInspc == null){ rootInspc = &rootNode->object; }
+  ctor_FBaccess_Inspc(&thiz->object, rootNode, rootInspc,sIp);  //the rootNode is the root for the Inspector per default.  
    
   *thizp = thiz;
 
@@ -43,13 +43,14 @@ FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNod
   FBaccess_Inspc* thiz = (FBaccess_Inspc*) thizo; 
   initReflection_ObjectJc(thizo, thizo, sizeof(FBaccess_Inspc), &reflection_FBaccess_Inspc, 0xf0);
   thiz->rootNode = rootNode;
+  thiz->object.isInitialized = 1;
   registerRefl_FBaccessNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimulationTime_Inspc);
   //strcpy(sIp, "UDP:0.0.0.0:60092");
   
 
   init_ObjectJc(&thiz->theInspector.base.object, sizeof(thiz->theInspector), 0);
   ctorO_Inspector_Inspc(&thiz->theInspector.base.object, s0_StringJc(sIp), _thCxt);
-
+  thiz->theInspector.base.object.isInitialized = 1;
 
   start_Inspector_Inspc_F(&thiz->theInspector, rootInspc, _thCxt); 
 

@@ -25,6 +25,7 @@ bool registerRefl_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, void* ob
 
 char const* registerNode_AccessNode_Inspc(FBaccessNode_Inspc* thiz, void* data)
 { const char* name = "main";
+  const char* error = null;
   int ix, ix1;
   struct ObjectJc_t* oData = (struct ObjectJc_t*) data;
   if(!checkObject_FBaccessNode_Inspc(thiz)) return "input 1 is not a FBaccessNode_Inspc";
@@ -55,9 +56,9 @@ char const* registerNode_AccessNode_Inspc(FBaccessNode_Inspc* thiz, void* data)
 
 bool checkObject_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz){
   if(thiz == null) return false;
-  if(thiz->super.ownAddress != &thiz->super) return false;
+  if(thiz->object.ownAddress != &thiz->object) return false;
   //The instance should have reflection signature. Check the name of the reflection instance instead its pointer
   //to support multiple linking processes. (Simulink-mex-dll)
-  if(strcmp(thiz->super.reflectionClass->name, "FBaccessNode_Inspc") !=0) return false;
+  if(strcmp(thiz->object.reflectionClass->name, "FBaccessNode_Inspc") !=0) return false;
   return true;
 }
