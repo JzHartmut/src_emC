@@ -56,7 +56,7 @@
 //#include "Fwc/fw_Exception.h"  //knowledge of Thcxt, Exception is supplied
 #include "Fwc/objectBaseC.h"
 //#include "Fwc/fw_String.h"
-
+#include <Jc/StringJc.h>
 
 /*@CLASS_C ObjectJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -441,42 +441,6 @@ METHOD_C void clearBackRefJc(void* reference);
 
 
 
-/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-/*@DEFINE_C Arrays of standard types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-/**ArraysOfStandardType: xxx
- */
-
-/*NOTE: The #define int8_YREFDEF etc. are necessary if an automatic generated source use the same one. */
-typedef struct int8_Y_t{ ObjectArrayJc head; int8 data[50]; } int8_Y;
-
-typedef struct int16_Y_t{ ObjectArrayJc head; int16 data[50]; } int16_Y;
-//TYPEDEF_AYJc(int16);
-
-typedef struct int32_Y_t{ ObjectArrayJc head; int32 data[50]; } int32_Y;
-
-typedef struct int64_Y_t{ ObjectArrayJc head; int64 data[50]; } int64_Y;
-
-typedef struct float_Y_t{ ObjectArrayJc head; int64 data[50]; } float_Y;
-
-typedef struct double_Y_t{ ObjectArrayJc head; int64 data[50]; } double_Y;
-
-typedef struct bool_Y_t{ ObjectArrayJc head; bool data[50]; } bool_Y;
-
-typedef struct char_Y_t{ ObjectArrayJc head; char data[50]; } char_Y;
-
-typedef struct void_Y_t{ ObjectArrayJc head; void* data[50]; } void_Y;
-
-
-
-
-//typedef struct StringJc_AY_t{ ObjectJc object; int32 length; int16 sizeElement; int16 mode; StringJc data[50]; } *StringJc_AY;
-//typedef struct StringJc_AYREF_t{ ObjectJc object; int32 length; int16 sizeElement; int16 mode; StringJc data[50]; } *StringJc_AYREF;
-
-
-METHOD_C void_Y* ctorO_AYJc(ObjectJc* othis, int sizeElement, int nrofElements);
-
-
 //typedef int8_Y* int8_YREF;
 
 #define int8_YREFDEF
@@ -509,56 +473,6 @@ typedef TYPE_EnhancedRefJc(ObjectJc);
 //  #define LogMessageFWREFDEF
 //  DEFINE_EnhancedRefJc(LogMessageFW);
 #endif
-
-
-
-
-/*@CLASS_C int8ARRAY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-
-
-/** Array of direct adressed integer values with 8 bit.
-  * This may be a template to build users arrays:
-  * Copy it and replace 'int32' with the users type.
-  * If the users array is a array of pointers, the users type is such as 'Userclass*'
-*/
-typedef struct int8ARRAY_t
-{ /** consist of the base data of the array*/
-  ObjectArrayJc head;
-  /** direct data followed immediately after the ObjectArrayJc.
-      The size of the array given here is only a helper for debugging, the debugger
-      shows the given number of value. The really value is held inside array.
-  */
-  int8 data[0x100];
-}int8ARRAY;
-
-/** The constructor accepts also a null pointer (on error) and returns the pointer itself,
-  * necessary to use inside definition new_type
-  */
-METHOD_C int8ARRAY* ctor_int8ARRAY(int8ARRAY* ythis, int nrOfBytes);
-
-
-/** Gets the sizeof of the instance with given nr of elements. It is a static-like method.
- * @param SIZE number of elements
-*/
-#define sizeof_int8ARRAY(SIZE) (sizeof(ObjectArrayJc) + SIZE * sizeof(int32))
-
-#define staticSize_int8ARRAY (sizeof(((int8ARRAY*)(0x1000))->data) / sizeof(int8))
-
-#define CONST_int8ARRAY(OBJP) { CONST_ObjectArrayJc(int8, 100, 0, REFLECTION_int8, OBJP->head), {0} }
-//#define CONSTaddSize_int32ARRAY(OBJP, ADDSIZE) { CONST_ObjectArrayJc(int32, 100 + ADDSIZE, 0, REFLECTION_int32, (OBJP)->head), {0} }
-#define CONSTaddSize_int8ARRAY(OBJP, ADDSIZE) { CONST_ObjectArrayJc(int8, 100 + ADDSIZE, 0, null, null), {0} }
-
-#define reflection__ObjectJcpp reflection__ObjectJc
-
-
-#if !defined(mBackRef_ObjectJc) 
-  //if enhanced references are used, the REF types have own reflection const.
-  //in this case they are dummies.
-  #define reflection_StringBufferJcREF reflection_StringBufferJc
-
-#endif
-
 
 
 

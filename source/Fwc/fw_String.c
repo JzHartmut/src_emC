@@ -61,7 +61,6 @@
 
 StringJc const null_StringJc = NULL_StringJc;
 
-CharSeqJc const null_CharSeqJc = NULL_CharSeqJc;
 
 
 
@@ -81,7 +80,7 @@ const char* getConstChar_StringJc(const StringJc* ythis)
 /**This method is adequat zI_StringJc, but it dedicated the String as persistent. */
 StringJc toStringFromPersist_zI_StringJc(char const* buffer, int nrofChars)
 { StringJc ret;
-  set_OS_PtrValue(ret.s, buffer, (nrofChars & mLength__StringJc)); 
+  set_OS_PtrValue(ret, buffer, (nrofChars & mLength__StringJc)); 
   return ret;
 }
 
@@ -147,5 +146,133 @@ char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int c
     buffer[len] = 0;
     return buffer;
   }
+}
+
+
+/**reads the nrofChars and the reference into local variable. Static subroutine for inner organisation:*/
+char* getCharsAndSize_StringBuilderJc(StringBuilderJc* ythis, int* size)
+{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
+  *size = (ythis->size < 0 ? -ythis->size : ythis->size);
+  return( buffer);
+}
+
+
+char* chars_StringBuilderJc(StringBuilderJc* ythis)
+{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
+  return( buffer);
+}
+
+
+char* getCharsAndCount_StringBuilderJc(StringBuilderJc* ythis, int* count)
+{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
+  //*count = (ythis->count < 0 ? -ythis->count : ythis->count);
+  *count = ythis->_count;
+  ;
+  return( buffer);
+}
+
+char* getCharsSizeCount_StringBuilderJc(StringBuilderJc* ythis, int* size, int* count)
+{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
+  *size = (ythis->size < 0 ? -ythis->size : ythis->size);
+  //*count = (ythis->count < 0 ? -ythis->count : ythis->count);
+  *count = ythis->_count;
+  return( buffer);
+}
+
+
+void _setCount_StringBuilderJc(StringBuilderJc* ythis, int count)
+{ ythis->_count = (int16)((ythis->_count & ~mLength__StringJc) | count);
+}
+
+
+
+
+int capacity_StringBuilderJc(StringBuilderJc* ythis)
+{
+  if(ythis->size < 0) return -ythis->size -1;
+  else return ythis->size -1;
+}
+
+
+
+
+
+
+bool setTruncateMode_StringBuilderJc(StringBuilderJc* ythis, bool bTruncate)
+{
+  bool bRet = ythis->_mode & _mNoException_StringBuilderJc;
+  if(bTruncate) { ythis->_mode |= _mNoException_StringBuilderJc; }
+  else          { ythis->_mode &= ~_mNoException_StringBuilderJc; }
+  return bRet;
+}
+
+
+bool wasTruncated_StringBuilderJc(StringBuilderJc* ythis)
+{
+  bool bRet = (ythis->_mode & _mTruncated_StringBuilderJc)!=0;
+  ythis->_mode &= ~_mTruncated_StringBuilderJc;
+  return bRet;
+}
+
+
+
+
+
+int copyToBuffer_StringBuilderJc(StringBuilderJc* ythis, int start, int end, char* buffer, int zBuffer)
+{ int count;
+  char const* src;
+  STACKTRC_ENTRY("copy_StringBuilderJc");
+  src = getCharsAndCount_StringBuilderJc(ythis, &count);
+  if(count >= (zBuffer-1)){
+    if(ythis->_mode & _mNoException_StringBuilderJc){
+      count = zBuffer -1;
+    } else THROW_s0(IndexOutOfBoundsException, "string to long", count);
+  }
+  memcpy(buffer, src, count);
+  buffer[count] = 0;
+  STACKTRC_LEAVE; return count;
+}
+
+
+
+
+int copyToBuffer_StringJc(const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer)
+{ //STACKTRC_ENTRY("copyToBuffer_CharSeqJc");
+  int nChars = VAL_StringJc(thiz) & mLength__StringJc;
+  if(nChars <= kMaxLength_StringJc) {
+    //it is a StringJc
+    //faster operation with memcpy instead check of isStringJc for any character.
+    char const* str = PTR_OS_PtrValue(thiz, char const);
+    if(nChars == kMaxLength_StringJc){
+      nChars = strlen_Fwc(str, maxSizeBuffer);
+    }
+    if(end < 0){
+      end = nChars -end +1;  //end=-1 results in end = nChars
+    }
+    if(end > start) {
+      int nrofBytes = end - start;
+      if(nrofBytes > maxSizeBuffer) {
+        nrofBytes = maxSizeBuffer;
+      }
+      memcpy(buffer, str + start, nrofBytes);
+      //STACKTRC_LEAVE; 
+      return nrofBytes;
+    } else {
+      //STACKTRC_LEAVE; 
+      return 0;
+    }
+  } 
+  else if(nChars == kIsStringBuilder_CharSeqJc) {
+    StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
+    //STACKTRC_LEAVE; 
+    return copyToBuffer_StringBuilderJc(sb, start, end, buffer, maxSizeBuffer);
+  } 
+  else if(nChars & mIsCharSeqJcMtbl_CharSeqJc) {
+    STACKTRC_ENTRY("copyToBuffer_StringJc");
+    THROW_s0(IllegalArgumentException, "Use copyToBuffer_CharSeqJc", 0);
+    STACKTRC_LEAVE;
+  }  
+  //STACKTRC_LEAVE;
+  return( nChars);
 }
 

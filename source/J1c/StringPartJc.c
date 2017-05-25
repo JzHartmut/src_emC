@@ -276,12 +276,12 @@ struct StringPartJc_t* assignReplaceEnv_StringPartJc(StringPartJc_s* thiz, struc
         }
         
         StringJc sEnv ; sEnv = getenv_SystemJc(/*J2C:static method call*/substring_StringBuilderJc(input, posident, posidentend, _thCxt), _thCxt)/*J2C:non-persistent*/;
-        if(sEnv.c.ref== null) 
+        if(sEnv.ref== null) 
         { 
           
           sEnv = z_StringJc("")/*J2C:non-persistent*/;
         }
-        replace_StringBuilderJc(input, pos1, pos9, sEnv.c, _thCxt);
+        replace_StringBuilderJc(input, pos1, pos9, sEnv, _thCxt);
         zInput = length_StringBuilderJc(input);
       }
     thiz->content = fromStringBuilderJc_CharSeqJc(input);
@@ -869,14 +869,14 @@ struct StringPartJc_t* line_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
   { 
     
     
-    int32  posStart = lastIndexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begiMin, thiz->begin, z_StringJc("\r\n").c, _thCxt);
+    int32  posStart = lastIndexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begiMin, thiz->begin, z_StringJc("\r\n"), _thCxt);
     if(posStart < 0) 
     { 
       
       posStart = thiz->begiMin;
     }
     
-    int32  posEnd = indexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begin, thiz->endMax, z_StringJc("\r\n").c, _thCxt);
+    int32  posEnd = indexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begin, thiz->endMax, z_StringJc("\r\n"), _thCxt);
     if(posEnd < 0) 
     { 
       
@@ -901,7 +901,7 @@ struct StringPartJc_t* firstlineMaxpart_StringPartJc(StringPartJc_s* thiz, ThCxt
     
     thiz->begiMin = thiz->begin = /*? assignment*/0;
     thiz->endMax = thiz->end = /*? assignment*/length_CharSeqJc(thiz->content/*J1cT2*/, _thCxt);
-    lentoAnyChar_Cs_StringPartJc(thiz, z_StringJc("\r\n").c, _thCxt);
+    lentoAnyChar_Cs_StringPartJc(thiz, z_StringJc("\r\n"), _thCxt);
     if(!found_StringPartJc(thiz, _thCxt)) 
     { 
       
@@ -956,7 +956,7 @@ struct StringPartJc_t* nextlineMaxpart_StringPartJc(StringPartJc_s* thiz, ThCxt*
         }
       }/*refers next line.*/
       
-      lentoAnyChar_Cs_StringPartJc(thiz, z_StringJc("\r\n").c, _thCxt);
+      lentoAnyChar_Cs_StringPartJc(thiz, z_StringJc("\r\n"), _thCxt);
       if(!found_StringPartJc(thiz, _thCxt) && thiz->begin < thiz->endMax) 
       { 
         
@@ -1138,16 +1138,16 @@ struct StringPartJc_t* seekNoWhitespaceOrComments_StringPartJc(StringPartJc_s* t
         if((thiz->bitMode & mSkipOverCommentInsideText_mode_StringPartJc) != 0) 
         { 
           
-          if(compare_CsiCsii_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begin, thiz->sCommentStart.c, 0, length_StringJc(thiz->sCommentStart), _thCxt) == 0) 
+          if(compare_CsiCsii_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begin, thiz->sCommentStart, 0, length_StringJc(thiz->sCommentStart), _thCxt) == 0) 
           { 
             
-            seek_Csi_StringPartJc(thiz, thiz->sCommentEnd.c, seekEnd_StringPartJc, _thCxt);
+            seek_Csi_StringPartJc(thiz, thiz->sCommentEnd, seekEnd_StringPartJc, _thCxt);
           }
         }
         if((thiz->bitMode & mSkipOverCommentToEol_mode_StringPartJc) != 0) 
         { 
           
-          if(compare_CsiCsii_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begin, thiz->sCommentToEol.c, 0, length_StringJc(thiz->sCommentToEol), _thCxt) == 0) 
+          if(compare_CsiCsii_StringFunctionsJc(/*J2C:static method call*/thiz->content, thiz->begin, thiz->sCommentToEol, 0, length_StringJc(thiz->sCommentToEol), _thCxt) == 0) 
           { 
             
             seek_ci_StringPartJc(thiz, '\n', seekEnd_StringPartJc, _thCxt);
@@ -2105,7 +2105,7 @@ struct StringPartJc_t* lentoLineEnd_StringPartJc(StringPartJc_s* thiz, ThCxt* _t
   { 
     
     { STACKTRC_LEAVE;
-      return lentoAnyChar_Cs_StringPartJc(thiz, z_StringJc("\n\r\f").c, _thCxt);
+      return lentoAnyChar_Cs_StringPartJc(thiz, z_StringJc("\n\r\f"), _thCxt);
     }
   }
   STACKTRC_LEAVE;
@@ -2120,7 +2120,7 @@ struct StringPartJc_t* trimWhiteSpaces_StringPartJc(StringPartJc_s* thiz, ThCxt*
   { 
     
     seekNoWhitespace_StringPartJc(thiz, _thCxt);
-    lenBacktoNoChar_StringPartJc(thiz, z_StringJc(" \t\r\n\f").c, _thCxt);
+    lenBacktoNoChar_StringPartJc(thiz, z_StringJc(" \t\r\n\f"), _thCxt);
     { STACKTRC_LEAVE;
       return thiz;
     }
@@ -2216,8 +2216,8 @@ struct StringPartJc_t* trim_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
     
     { STACKTRC_LEAVE;
       return 
-      ( seekNoChar_StringPartJc(thiz, z_StringJc(" \t\n\r").c, _thCxt)
-      , lenBacktoNoChar_StringPartJc(thiz, z_StringJc(" \t\n\r").c, _thCxt)
+      ( seekNoChar_StringPartJc(thiz, z_StringJc(" \t\n\r"), _thCxt)
+      , lenBacktoNoChar_StringPartJc(thiz, z_StringJc(" \t\n\r"), _thCxt)
       );
     }/*end position decreased*/
     
@@ -2236,7 +2236,7 @@ struct StringPartJc_t* trimComment_StringPartJc(StringPartJc_s* thiz, ThCxt* _th
     thiz->beginLast = thiz->begin;
     thiz->endLast = thiz->end;
     
-    int32  posComment = indexOf_Cs_StringPartJc(thiz, z_StringJc("//").c, _thCxt);
+    int32  posComment = indexOf_Cs_StringPartJc(thiz, z_StringJc("//"), _thCxt);
     if(posComment >= 0) thiz->end = thiz->begin + posComment;
     thiz->bFound = (thiz->begin > thiz->beginLast);
     { STACKTRC_LEAVE;
@@ -2506,7 +2506,7 @@ CharSeqJc getCurrent_StringPartJc(StringPartJc_s* thiz, int32 nChars, ThCxt* _th
     
     int32  nChars1 = (thiz->endMax - thiz->begin) < nChars ? thiz->endMax - thiz->begin : nChars;
     if(nChars1 == 0) { STACKTRC_LEAVE;
-      return z_StringJc("").c;
+      return z_StringJc("");
     }
     else { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj2_1, (ctorO_Part_StringPartJc(thiz, (newObj2_1 = alloc_ObjectJc(sizeof_Part_StringPartJc_s, 0, _thCxt)), thiz->begin, thiz->begin + nChars1, _thCxt)), _thCxt);
@@ -2635,7 +2635,7 @@ CharSeqJc getLastPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
       }
     }
     else { STACKTRC_LEAVE;
-      return z_StringJc("").c;
+      return z_StringJc("");
     }
   }
   STACKTRC_LEAVE;
@@ -2661,7 +2661,7 @@ CharSeqJc getCurrentPart_i_StringPartJc(StringPartJc_s* thiz, int32 maxLength, T
       }
     }
     else { STACKTRC_LEAVE;
-      return z_StringJc("").c;
+      return z_StringJc("");
     }
   }
   STACKTRC_LEAVE;

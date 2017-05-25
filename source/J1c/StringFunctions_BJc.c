@@ -50,7 +50,7 @@ StringJc firstLine_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, ThCx
       return s0_StringJc("");
     }
     
-    int32  pos = indexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/src, 0, MAX_VALUE_IntegerJc, z_StringJc("\n\r").c, _thCxt);
+    int32  pos = indexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/src, 0, MAX_VALUE_IntegerJc, z_StringJc("\n\r"), _thCxt);
     if(pos < 0) 
     { 
       
@@ -141,7 +141,7 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ C
             { /*:don't append a newline if skipSpaces is still active. Then only spaces were found.*/
               
               
-              append_c_StringBuilderJc(b, sNewline.c, _thCxt);/*use the newline from argument.*/
+              append_c_StringBuilderJc(b, sNewline, _thCxt);/*use the newline from argument.*/
               
             }/*skip over posEnd1, skip over the other end line character if found. */
             

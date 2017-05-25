@@ -48,6 +48,7 @@
 #include "Jc/ReflectionJc.h"
 #include "Jc/ReflMemAccessJc.h"
 #include "Jc/StringJc.h"
+#include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 #include "Fwc/fw_Exception.h"
 
 #include <Fwc/fw_SimpleC.h>

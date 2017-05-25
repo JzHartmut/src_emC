@@ -325,7 +325,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
     
     StringPartScanJc_s  spCtrl = { 0 };//J2C: constructor for embedded element-ObjectJc
     init_ObjectJc(&(spCtrl.base.object), sizeof(spCtrl), 0); 
-    ctorO_Cs_StringPartScanJc(/*J2C:static method call*/&(spCtrl.base.object), ctrl.c, _thCxt);
+    ctorO_Cs_StringPartScanJc(/*J2C:static method call*/&(spCtrl.base.object), ctrl, _thCxt);
     setIgnoreWhitespaces_StringPartJc(& ((spCtrl).base.super), true, _thCxt);
     setIgnoreComment_SS_StringPartJc(& ((spCtrl).base.super), s0_StringJc("/*"), s0_StringJc("*/"), _thCxt);
     setIgnoreEndlineComment_S_StringPartJc(& ((spCtrl).base.super), s0_StringJc("//"), _thCxt);
@@ -359,7 +359,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
             fromIdent = (int32 /*J2C_cast*/)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
             toIdent = -1;
             if(
-            ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("..").c, _thCxt)
+            ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(".."), _thCxt)
             , scanInteger_StringPartScanJc(& (spCtrl), _thCxt)
             , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
             )) 
@@ -368,7 +368,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
               toIdent = (int32 /*J2C_cast*/)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
             }
             if(!
-            ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(":").c, _thCxt)
+            ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(":"), _thCxt)
             , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
             )) 
             { 
@@ -393,7 +393,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                 int32  dst = (int32 /*J2C_cast*/)getLastScannedIntegerNumber_StringPartScanJc(& (spCtrl), _thCxt);
                 setOutputRange_MsgDispatcher_MSG(thiz, fromIdent, toIdent, dst, mSet_MsgDispatcherCore_MSG, 3, _thCxt);
                 if(!
-                ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(";").c, _thCxt)
+                ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(";"), _thCxt)
                 , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                 )) 
                 { 
@@ -414,7 +414,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                     
                     StringJc sOutput ; sOutput = null_StringJc/*J2C:non-persistent*/;
                     if(
-                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("+").c, _thCxt)
+                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("+"), _thCxt)
                   , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                   )) 
                     { 
@@ -422,7 +422,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                       mode = mAdd_MsgDispatcherCore_MSG;
                     }
                     else if(
-                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("-").c, _thCxt)
+                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc("-"), _thCxt)
                   , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                   )) 
                     { 
@@ -430,7 +430,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                       mode = mRemove_MsgDispatcherCore_MSG;
                     }
                     else if(
-                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(";").c, _thCxt)
+                  ( scan_Cs_StringPartScanJc(& (spCtrl), z_StringJc(";"), _thCxt)
                   , scanOk_StringPartScanJc(& (spCtrl), _thCxt)
                   )) 
                     { 
@@ -446,7 +446,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                         sError = z_StringJc("\"+\" or \"-\" or \";\" expected")/*J2C:non-persistent*/;
                       }
                     }
-                    if(continueEntry && sError.c.ref== null) 
+                    if(continueEntry && sError.ref== null) 
                     { 
                       
                       if(
@@ -466,10 +466,10 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                         
                         sError = z_StringJc("\"DST\" expected, DST should be an identifier.")/*J2C:non-persistent*/;
                       }
-                      if(sError.c.ref== null) 
+                      if(sError.ref== null) 
                       { 
                         
-                        ASSERT(/*J2C:static method call*/sOutput.c.ref!= null);
+                        ASSERT(/*J2C:static method call*/sOutput.ref!= null);
                         
                         int32  bitOutput = -1;
                         
@@ -478,7 +478,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                         while(idxDst < thiz->base.super.outputs->head.length && bitOutput == -1)
                           { 
                             
-                            if(thiz->base.super.outputs->data[idxDst].name.c.ref!= null && equals_StringJc(thiz->base.super.outputs->data[idxDst].name, sOutput)) 
+                            if(thiz->base.super.outputs->data[idxDst].name.ref!= null && equals_StringJc(thiz->base.super.outputs->data[idxDst].name, sOutput)) 
                             { 
                               
                               bitOutput = 1 << idxDst;
@@ -497,7 +497,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                             
                             
                           ( append_z_StringBuilderJc(errorBuffer, "Output not found:", _thCxt)
-                          , append_c_StringBuilderJc(errorBuffer, sOutput.c, _thCxt)
+                          , append_c_StringBuilderJc(errorBuffer, sOutput, _thCxt)
                           );
                           }
                           sError = sOutput/*J2C:non-persistent*/;/*short variant if buffer isn't given.*/
@@ -513,7 +513,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
                         }
                       }
                     }
-                  }while(sError.c.ref== null && continueEntry && continueAll);
+                  }while(sError.ref== null && continueEntry && continueAll);
               }/*if hexInt else ident;*/
               
             }/*: scanned*/
@@ -525,7 +525,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
             sError = z_StringJc("Number for first message to dispatch expected")/*J2C:non-persistent*/;
             continueAll = false;
           }
-        }while(continueAll && sError.c.ref== null);
+        }while(continueAll && sError.ref== null);
     }_TRY
     CATCH(ParseException, exc)
     
@@ -534,14 +534,14 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
         sError = getMessage_ExceptionJc(exc, _thCxt)/*J2C:non-persistent*/;
       }
     END_TRY
-    if(sError.c.ref!= null && errorBuffer != null && length_StringBuilderJc(errorBuffer) == 0) 
+    if(sError.ref!= null && errorBuffer != null && length_StringBuilderJc(errorBuffer) == 0) 
     { 
       CharSeqJc _thCxtRef3_1;
       
       int32  nrofCharsRest = capacity_StringBuilderJc(errorBuffer) - length_StringJc(sError) - 5;
       /**Prevent Buffer expansion, use rest size. */
       
-        ( append_c_StringBuilderJc(errorBuffer, sError.c, _thCxt)
+        ( append_c_StringBuilderJc(errorBuffer, sError, _thCxt)
         , append_z_StringBuilderJc(errorBuffer, " at:", _thCxt)
         , append_c_StringBuilderJc(errorBuffer, ( _thCxtRef3_1 = getCurrent_StringPartJc(& ((spCtrl).base.super), nrofCharsRest, _thCxt)), _thCxt)
         );
@@ -597,7 +597,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
               ( append_z_StringBuilderJc(& (line.sb), "//", _thCxt)
               , append_I_StringBuilderJc(& (line.sb), ii, _thCxt)
               , append_z_StringBuilderJc(& (line.sb), ": ", _thCxt)
-              , append_c_StringBuilderJc(& (line.sb), dst->name.c, _thCxt)
+              , append_c_StringBuilderJc(& (line.sb), dst->name, _thCxt)
               );
               if(dst->dstInDispatcherThread) 
               { 
@@ -658,7 +658,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                         
                         bFirst = false;
                       }
-                      append_c_StringBuilderJc(& (line.sb), dst->name.c, _thCxt);
+                      append_c_StringBuilderJc(& (line.sb), dst->name, _thCxt);
                     }
                   }
                   if(iDst < thiz->base.super.nrofMixedOutputs) 
@@ -690,7 +690,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
                           
                           bFirst = false;
                         }
-                        append_c_StringBuilderJc(& (line.sb), dst->name.c, _thCxt);
+                        append_c_StringBuilderJc(& (line.sb), dst->name, _thCxt);
                       }
                     }
                   }

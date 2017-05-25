@@ -372,88 +372,6 @@ StringBuilderJc* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign,
 
 
 
-/**reads the nrofChars and the reference into local variable. Static subroutine for inner organisation:*/
-char* getCharsAndSize_StringBuilderJc(StringBuilderJc* ythis, int* size)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  *size = (ythis->size < 0 ? -ythis->size : ythis->size);
-  return( buffer);
-}
-
-
-char* chars_StringBuilderJc(StringBuilderJc* ythis)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  return( buffer);
-}
-
-
-char* getCharsAndCount_StringBuilderJc(StringBuilderJc* ythis, int* count)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  //*count = (ythis->count < 0 ? -ythis->count : ythis->count);
-  *count = ythis->_count;
-  ;
-  return( buffer);
-}
-
-char* getCharsSizeCount_StringBuilderJc(StringBuilderJc* ythis, int* size, int* count)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  *size = (ythis->size < 0 ? -ythis->size : ythis->size);
-  //*count = (ythis->count < 0 ? -ythis->count : ythis->count);
-  *count = ythis->_count;
-  return( buffer);
-}
-
-
-int copyToBuffer_StringBuilderJc(StringBuilderJc* ythis, int start, int end, char* buffer, int zBuffer)
-{ int count;
-  char const* src;
-  STACKTRC_ENTRY("copy_StringBuilderJc");
-  src = getCharsAndCount_StringBuilderJc(ythis, &count);
-  if(count >= (zBuffer-1)){
-    if(ythis->_mode & _mNoException_StringBuilderJc){
-      count = zBuffer -1;
-    } else THROW_s0(IndexOutOfBoundsException, "string to long", count);
-  }
-  memcpy(buffer, src, count);
-  buffer[count] = 0;
-  STACKTRC_LEAVE; return count;
-}
-
-void _setCount_StringBuilderJc(StringBuilderJc* ythis, int count)
-{ ythis->_count = (int16)((ythis->_count & ~mLength__StringJc) | count);
-}
-
-
-
-
-int capacity_StringBuilderJc(StringBuilderJc* ythis)
-{
-  if(ythis->size < 0) return -ythis->size -1;
-  else return ythis->size -1;
-}
-
-
-
-
-
-
-bool setTruncateMode_StringBuilderJc(StringBuilderJc* ythis, bool bTruncate)
-{
-  bool bRet = ythis->_mode & _mNoException_StringBuilderJc;
-  if(bTruncate) { ythis->_mode |= _mNoException_StringBuilderJc; }
-  else          { ythis->_mode &= ~_mNoException_StringBuilderJc; }
-  return bRet;
-}
-
-
-bool wasTruncated_StringBuilderJc(StringBuilderJc* ythis)
-{
-  bool bRet = (ythis->_mode & _mTruncated_StringBuilderJc)!=0;
-  ythis->_mode &= ~_mTruncated_StringBuilderJc;
-  return bRet;
-}
-
-
-
 
 
 
@@ -545,7 +463,7 @@ METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc* ythis, Th
   StringBuilderJc* builderThCxt;
   STACKTRC_TENTRY("toStringInThreadCxt_StringBuilderJc");
   src = toStringNonPersist_StringBuilderJc(&ythis->base.object, _thCxt);
-  builderThCxt = threadBuffer_s_StringBuilderJc(src.c, "toStringStringBuilder", _thCxt);
+  builderThCxt = threadBuffer_s_StringBuilderJc(src, "toStringStringBuilder", _thCxt);
   ret = toString_StringBuilderJc(&builderThCxt->base.object, _thCxt);
   STACKTRC_LEAVE; return ret;
 }
@@ -602,8 +520,8 @@ StringJc toString_String(StringJc* ythis)
 
 
 void set_StringJc(StringJc* ythis, StringJc src)
-{ int valueSrc = value_OS_PtrValue(src.s);
-  char const* sSrc = PTR_OS_PtrValue(src.s, char const);
+{ int valueSrc = value_OS_PtrValue(src);
+  char const* sSrc = PTR_OS_PtrValue(src, char const);
   int zSrc = valueSrc & mLength__StringJc;
   STACKTRC_ENTRY("set_StringJc");
   clear_StringJc(ythis);
@@ -614,12 +532,12 @@ void set_StringJc(StringJc* ythis, StringJc src)
     //setTemporary_StringBuilderJc(buffer);  //only referenced by this String.
     replace_zI_StringBuilderJc(buffer, 0,0, sSrc, zSrc, _thCxt); //copy
     sSrc = getCharsAndCount_StringBuilderJc(buffer, &zSrc);
-    set_OS_PtrValue((ythis->s), sSrc, zSrc);
+    set_OS_PtrValue((*ythis), sSrc, zSrc);
   } else {
     //without copy to a new buffer
-    set_OS_PtrValue(ythis->s, sSrc, zSrc);
+    set_OS_PtrValue(*ythis, sSrc, zSrc);
   }
-  setBackRefJc(&value_OS_PtrValue(ythis->s), PTR_OS_PtrValue(ythis->s, char const));
+  setBackRefJc(&value_OS_PtrValue(*ythis), PTR_OS_PtrValue(*ythis, char const));
   STACKTRC_LEAVE;
 }
 
@@ -638,8 +556,8 @@ StringJc persist_StringJc(StringJc src)
     int zSrc;
     char const* sSrc = getCharsAndLength_StringJc(&src, &zSrc);
     StringBuilderJc* buffer = new_StringBuilderJc(zSrc, _thCxt);
-    append_s_StringBuilderJc(buffer, src.c, _thCxt);
-    set_OS_PtrValue(ret.s, buffer->value.direct, zSrc);
+    append_s_StringBuilderJc(buffer, src, _thCxt);
+    set_OS_PtrValue(ret, buffer->value.direct, zSrc);
   } else {
     //it is persistent already:
     ret = src;
@@ -655,7 +573,7 @@ StringJc declarePersist_StringJc(StringJc ythis)
 {
   int value = VAL_StringJc(ythis);
   value &= ~mNonPersists__StringJc;
-  setValue_OS_PtrValue(ythis.s, value);
+  setValue_OS_PtrValue(ythis, value);
   return ythis;
 }
 
@@ -667,7 +585,7 @@ StringJc copyToThreadCxt_StringJc(StringJc src, ThCxt* _thCxt)
   StringJc ret;
   StringBuilderJc* builderThCxt;
   STACKTRC_TENTRY("copyToThreadCxt_StringJc");
-  builderThCxt = threadBuffer_s_StringBuilderJc(src.c, "copytoThCxtStringStringBuilder", _thCxt);
+  builderThCxt = threadBuffer_s_StringBuilderJc(src, "copytoThCxtStringStringBuilder", _thCxt);
   ret = toString_StringBuilderJc(&builderThCxt->base.object, _thCxt);
   STACKTRC_LEAVE; return ret;
 }
@@ -722,7 +640,7 @@ StringJc new_CY_StringJc(char_Y* chars, ThCxt* _thCxt)
     THROW_s0(IndexOutOfBoundsException, "offset <0", length); length = mLength__StringJc-1; 
     STACKTRC_LEAVE;
   }
-  set_OS_PtrValue(ret.s, chars->data, length | mNonPersists__StringJc);
+  set_OS_PtrValue(ret, chars->data, length | mNonPersists__StringJc);
   return ret;
 
 }
@@ -739,7 +657,7 @@ StringJc new_CYI_StringJc(char_Y* chars, int offset, int count, ThCxt* _thCxt)
   if(offset + count > chars->head.length) THROW_s0(IndexOutOfBoundsException, "offset + count > chars.length", offset + count);
   if( (offset + count) >= mLength__StringJc) { THROW_s0(IndexOutOfBoundsException, "offset <0", offset); }
   
-  set_OS_PtrValue(ret.s, chars->data + offset, (offset + count) | mNonPersists__StringJc);
+  set_OS_PtrValue(ret, chars->data + offset, (offset + count) | mNonPersists__StringJc);
  
   STACKTRC_LEAVE; return ret;
 
@@ -836,7 +754,7 @@ StringJc replace_StringJc(StringJc ythis, char oldChar, char newChar, ThCxt* _th
   { if(strThis[ii] == oldChar)
     { if(sbuffer == null) {
         int maxBuffer;
-        sbuffer = threadBuffer_s_StringBuilderJc(ythis.c, "replace_StringJc", _thCxt);
+        sbuffer = threadBuffer_s_StringBuilderJc(ythis, "replace_StringJc", _thCxt);
         buffer = getCharsAndSize_StringBuilderJc(sbuffer, &maxBuffer);
         if(maxBuffer < max){
           THROW_s0(StringIndexOutOfBoundsException, "input string to long", max);
@@ -870,7 +788,7 @@ StringBuilderJc* replace_u_StringJc(StringJc ythis, char oldChar, char newChar
    * replace only the chars. It is a expect-able situation. */
   if(sDst != sSrc && zDst != zSrc){
     /**if it isn't so, copy the source String first into buffer. */
-    replace_StringBuilderJc(buffer, 0, buffer->_count, ythis.c, _thCxt);
+    replace_StringBuilderJc(buffer, 0, buffer->_count, ythis, _thCxt);
   }
 
   return replace_CC_StringBuilderJc(buffer, oldChar, newChar);

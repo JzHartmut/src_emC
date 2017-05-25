@@ -7,6 +7,7 @@
 #include <Jc/ReflectionJc.h>   //Reflection concept 
 #include <Fwc/fw_Exception.h>  //basic stacktrace concept
 #include "Jc/StringJc.h"  //embedded type in class data
+#include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -82,7 +83,7 @@ int32 parseIntRadix_CsiiiiYS_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc
       { 
         
         cc = charAt_CharSeqJc(srcP/*J1cT2*/, ixSrc, _thCxt);
-        if(spaceChars.c.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        if(spaceChars.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
         { 
           
           ixSrc += 1;
@@ -160,7 +161,7 @@ int64 parseLong_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc srcP, int32 
       { 
         
         cc = charAt_CharSeqJc(srcP/*J1cT2*/, ixSrc, _thCxt);
-        if(spaceChars.c.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
+        if(spaceChars.ref!= null && indexOf_C_StringJc(spaceChars, cc) >= 0) 
         { 
           
           ixSrc += 1;

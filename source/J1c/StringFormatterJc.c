@@ -468,7 +468,7 @@ struct StringFormatterJc_t* add_S_StringFormatterJc(StringFormatterJc_s* thiz, S
     int32  nrofChars = length_StringJc(str);
     prepareBufferPos_StringFormatterJc(thiz, nrofChars, _thCxt);
     delete_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + nrofChars, _thCxt);
-    insert_sII_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, str.c, 0, nrofChars, _thCxt);/*buffer.replace(this.pos, pos + nrofChars, str);*/
+    insert_sII_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, str, 0, nrofChars, _thCxt);/*buffer.replace(this.pos, pos + nrofChars, str);*/
     
     thiz->pos += nrofChars;
     { STACKTRC_LEAVE;
@@ -581,7 +581,7 @@ struct StringFormatterJc_t* insert_S_StringFormatterJc(StringFormatterJc_s* thiz
   
   { 
     
-    insert_s_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, str.c, _thCxt);
+    insert_s_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, str, _thCxt);
     thiz->pos += length_StringJc(str);
     { STACKTRC_LEAVE;
       return thiz;
@@ -688,7 +688,7 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc(StringFormatterJc_s*
     
     int32  strLength = length_StringJc(str);
     prepareBufferPos_StringFormatterJc(thiz, strLength, _thCxt);
-    replace_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + strLength, str.c, _thCxt);
+    replace_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + strLength, str, _thCxt);
     thiz->pos += strLength;
     { STACKTRC_LEAVE;
       activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -924,13 +924,13 @@ void prepareBufferPos_StringFormatterJc(StringFormatterJc_s* thiz, int32 nrofCha
           if(nrofChars >= length_StringJc(spaces_StringFormatterJc)) 
           { 
             
-            insert_s_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, spaces_StringFormatterJc.c, _thCxt);
+            insert_s_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, spaces_StringFormatterJc, _thCxt);
             nrofChars -= length_StringJc(spaces_StringFormatterJc);
           }
           else 
           { 
             
-            insert_sII_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, spaces_StringFormatterJc.c, 0, nrofChars, _thCxt);
+            insert_sII_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, spaces_StringFormatterJc, 0, nrofChars, _thCxt);
             nrofChars = 0;
           }
         }/*buffer.insert(pos, spaces, 0, nrofChars);*/
@@ -952,13 +952,13 @@ void prepareBufferPos_StringFormatterJc(StringFormatterJc_s* thiz, int32 nrofCha
           if(nrofChars >= length_StringJc(spaces_StringFormatterJc)) 
           { 
             
-            append_c_StringBuilderJc(REFJc (thiz->buffer), spaces_StringFormatterJc.c, _thCxt);
+            append_c_StringBuilderJc(REFJc (thiz->buffer), spaces_StringFormatterJc, _thCxt);
             nrofChars -= length_StringJc(spaces_StringFormatterJc);
           }
           else 
           { 
             
-            append_sII_StringBuilderJc(REFJc (thiz->buffer), spaces_StringFormatterJc.c, 0, nrofChars, _thCxt);
+            append_sII_StringBuilderJc(REFJc (thiz->buffer), spaces_StringFormatterJc, 0, nrofChars, _thCxt);
             nrofChars = 0;
           }
         }
@@ -1044,10 +1044,10 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc(StringFormatterJc_s* thiz
       
       nrofValueChars = nrofValueChars - (-nrofSpacesBefore) - 2;/*crash situation: write only the beginn of the digit*/
       
-      replace_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + 2, z_StringJc("##").c, _thCxt);
+      replace_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + 2, z_StringJc("##"), _thCxt);
       thiz->pos += 2;
     }
-    replace_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + nrofValueChars, substring_StringJc(sValue, 0, nrofValueChars, _thCxt).c, _thCxt);
+    replace_StringBuilderJc(REFJc (thiz->buffer), thiz->pos, thiz->pos + nrofValueChars, substring_StringJc(sValue, 0, nrofValueChars, _thCxt), _thCxt);
     thiz->pos += nrofValueChars;
     
     while(--nrofZeroAfter >= 0)
@@ -1091,13 +1091,13 @@ StringJc addHexLn_StringFormatterJc(/*J2C:static method*/ int8_Y* data, int32 le
           idxLineEnd = idxStart + length;
         }
         addHexLine_StringFormatterJc(buffer, data, idx, idxLineEnd - idx, k4right_StringFormatterJc, _thCxt);
-        add_Cs_StringFormatterJc(buffer, z_StringJc(" ").c, _thCxt);
+        add_Cs_StringFormatterJc(buffer, z_StringJc(" "), _thCxt);
         addStringLine_StringFormatterJc(buffer, data, idx, idxLineEnd - idx, s0_StringJc("ISO-8859-1"), _thCxt);
         strRet = 
         ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
         , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
-        , append_s_StringBuilderJc(_tempString3_1, strRet.c, _thCxt)
-        , append_s_StringBuilderJc(_tempString3_1, getContent_StringFormatterJc(buffer, _thCxt).c, _thCxt)
+        , append_s_StringBuilderJc(_tempString3_1, strRet, _thCxt)
+        , append_s_StringBuilderJc(_tempString3_1, getContent_StringFormatterJc(buffer, _thCxt), _thCxt)
         , append_z_StringBuilderJc(_tempString3_1, "\n", _thCxt)
         , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
         )/*J2C:non-persistent*/;
@@ -1207,7 +1207,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
     
     bool  bLeftZeroSuppress = false;
     
-    int32  posSignInPicture = indexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/pict.c, 0, MAX_VALUE_IntegerJc, sNeg_StringFormatterJc.c, _thCxt);
+    int32  posSignInPicture = indexOfAnyChar_StringFunctionsJc(/*J2C:static method call*/pict, 0, MAX_VALUE_IntegerJc, sNeg_StringFormatterJc, _thCxt);
     
     ;/*positChar(pict,pict.length(),sNeg,strlen(sNeg));*/
     
@@ -1573,7 +1573,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
         
         
         flushLine_StringFormatterJc(thiz, thiz->sNewline, _thCxt);
-        if(thiz->sNewline.c.ref== null) 
+        if(thiz->sNewline.ref== null) 
         { 
           
           /*J2Cxxtest*/
@@ -1583,7 +1583,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
         thiz->secondNewline = c == '\r' ? '\n' : '\r';/*the other one.*/
         
       }
-      else if(thiz->sNewline.c.ref== null) 
+      else if(thiz->sNewline.ref== null) 
       { /*:c is the secondNewline character, pos is 0*/
         
         
@@ -1671,10 +1671,10 @@ int32 flushLine_StringFormatterJc(StringFormatterJc_s* thiz, StringJc sNewline, 
       
       thiz->pos = 0;
     }
-    if(sNewline.c.ref!= null) 
+    if(sNewline.ref!= null) 
     { 
       
-      lineoutMtbl.mtbl->append_cs(&(( (lineoutMtbl.ref))->base.object), sNewline.c, _thCxt);
+      lineoutMtbl.mtbl->append_cs(&(( (lineoutMtbl.ref))->base.object), sNewline, _thCxt);
     }
     { STACKTRC_LEAVE;
       return chars;

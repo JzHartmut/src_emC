@@ -119,7 +119,9 @@
 /**Deprecated form. 
  * @Deprecated
  */
-#define DEFINE_EnhancedRefJc(TYPE) typedef struct TYPE##REF_t{struct TYPE##_t* ref;  int32 refbase; }TYPE##REF;  typedef TYPE##REF* TYPE##REFP
+//#define DEFINE_EnhancedRefJc(TYPE) typedef struct TYPE##REF_t{struct TYPE##_t* ref;  int32 refbase; }TYPE##REF;  typedef TYPE##REF* TYPE##REFP
+#define DEFINE_EnhancedRefJc(TYPE) typedef TYPE_EnhancedRefJc(TYPE)
+
 
 /**Macro to initialize the value of a defined reference staticly to null. */
 #define NULL_REFJc { null, 0}

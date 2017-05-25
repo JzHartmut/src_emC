@@ -36,6 +36,7 @@
  ****************************************************************************/
 
 #include <Jc/ThreadJc.h>
+#include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 
 #ifndef __NOT_SUPPORTED_ThreadContextFw__  //then ignore whole file
 #include <Fwc/fw_Exception.h>
@@ -140,7 +141,7 @@ void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt)
   /**either given target or the Thread class itself. It is the instance which contains the appopriate run method.*/
   data = target == null ? (void*)ythis : (void*)target;  
   /**The name is given as StringJc, it doesn't may be zero-terminated, therefore use a copy-buffer in Stack. */
-  copyToBuffer_CharSeqJc(ythis->name.c, 0, -1, nameBuffer, sizeof(nameBuffer));
+  copyToBuffer_CharSeqJc(ythis->name, 0, -1, nameBuffer, sizeof(nameBuffer));
   /**Create and start: */
   ythis->stackSize = stackSize;
   ok = os_createThread(&ythis->hThread, root_ThreadJc, data, nameBuffer, ythis->nPriority, ythis->stackSize);

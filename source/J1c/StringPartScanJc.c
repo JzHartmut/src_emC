@@ -379,7 +379,7 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
       
       
         ( scan_Cs_StringPartScanJc(thiz, sQuotionmarkStart, _thCxt)
-        , lentoNonEscapedString_StringPartJc(& ((* (thiz)).base.super), sQuotionMarkEnd.c, maxToTest, _thCxt)
+        , lentoNonEscapedString_StringPartJc(& ((* (thiz)).base.super), sQuotionMarkEnd, maxToTest, _thCxt)
         );
       if(thiz->base.super.bCurrentOk) 
       { /*:TODO ...ToEndString, now use only 1 char in sQuotionMarkEnd*/
@@ -812,7 +812,7 @@ struct StringPartScanJc_t* scanHexOrDecimal_StringPartScanJc(StringPartScanJc_s*
       
       
       int64  value;/*no initvalue*/
-      if(equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + 2, z_StringJc("0x").c, _thCxt)) 
+      if(equals_CsiiCs_StringFunctionsJc(/*J2C:static method call*/thiz->base.super.content, thiz->base.super.begin, thiz->base.super.begin + 2, z_StringJc("0x"), _thCxt)) 
       { 
         
         seek_i_StringPartJc(& ((* (thiz)).base.super), 2, _thCxt);
@@ -868,7 +868,7 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
     if(scanEntry_StringPartScanJc(thiz, _thCxt)) 
     { 
       
-      lentoIdentifier_CsCs_StringPartJc(& ((* (thiz)).base.super), additionalStartChars.c, additionalChars.c, _thCxt);
+      lentoIdentifier_CsCs_StringPartJc(& ((* (thiz)).base.super), additionalStartChars, additionalChars, _thCxt);
       if(thiz->base.super.bFound) 
       { 
         struct Part_StringPartJc_t* _thCxtRef4_1;

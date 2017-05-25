@@ -125,7 +125,7 @@ int32 indexIdentifier_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src, int
     
     char  cc;/*no initvalue*/
     
-    while(pos < end && (cc = /*? assignment*/charAt_CharSeqJc(src/*J1cT2*/, pos, _thCxt)) != '_' && (cc < 'A' || cc > 'Z') && (cc < 'a' || cc > 'z') && (additionalStartChars.c.ref== null || indexOf_C_StringJc(additionalStartChars, cc) < 0))
+    while(pos < end && (cc = /*? assignment*/charAt_CharSeqJc(src/*J1cT2*/, pos, _thCxt)) != '_' && (cc < 'A' || cc > 'Z') && (cc < 'a' || cc > 'z') && (additionalStartChars.ref== null || indexOf_C_StringJc(additionalStartChars, cc) < 0))
       { 
         
         pos += 1;
@@ -157,7 +157,7 @@ int32 indexAfterIdentifier_StringFunctionsJc(/*J2C:static method*/ CharSeqJc src
     
     char  cc;/*no initvalue*/
     
-    while(pos < end && ((cc = /*? assignment*/charAt_CharSeqJc(src/*J1cT2*/, pos, _thCxt)) == '_' || (cc >= '0' && cc <= '9') || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalChars.c.ref!= null && indexOf_C_StringJc(additionalChars, cc) >= 0)))
+    while(pos < end && ((cc = /*? assignment*/charAt_CharSeqJc(src/*J1cT2*/, pos, _thCxt)) == '_' || (cc >= '0' && cc <= '9') || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalChars.ref!= null && indexOf_C_StringJc(additionalChars, cc) >= 0)))
       { 
         
         pos += 1;
@@ -181,12 +181,12 @@ int32 posAfterIdentifier_CsiiSS_StringFunctionsJc(/*J2C:static method*/ CharSeqJ
     int32  pos = start;
     
     char  cc = charAt_CharSeqJc(src/*J1cT2*/, pos, _thCxt);
-    if(cc == '_' || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalStartChars.c.ref!= null && indexOf_C_StringJc(additionalStartChars, cc) >= 0)) 
+    if(cc == '_' || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalStartChars.ref!= null && indexOf_C_StringJc(additionalStartChars, cc) >= 0)) 
     { 
       
       pos += 1;
       
-      while(pos < endMax && ((cc = /*? assignment*/charAt_CharSeqJc(src/*J1cT2*/, pos, _thCxt)) == '_' || (cc >= '0' && cc <= '9') || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalChars.c.ref!= null && indexOf_C_StringJc(additionalChars, cc) >= 0)))
+      while(pos < endMax && ((cc = /*? assignment*/charAt_CharSeqJc(src/*J1cT2*/, pos, _thCxt)) == '_' || (cc >= '0' && cc <= '9') || (cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') || (additionalChars.ref!= null && indexOf_C_StringJc(additionalChars, cc) >= 0)))
         { 
           
           pos += 1;
@@ -301,7 +301,7 @@ bool test_StringFunctionsJc_F(StringFunctionsJc_s* thiz, StringJc s, ThCxt* _thC
   
   { 
     
-    if(s.c.ref== null) { STACKTRC_LEAVE;
+    if(s.ref== null) { STACKTRC_LEAVE;
       return false;
     }
     else { STACKTRC_LEAVE;
@@ -446,7 +446,7 @@ bool equals_CsiiCs_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, int32 f
   STACKTRC_TENTRY("equals_CsiiCs_StringFunctionsJc");
   
   { /*:Test possibility:*/
-    /*:if((s1 instanceof StringSeq) && contains(((StringSeq)s1).cs, "hide"))*/
+    /*:if((s1 instanceof StringSeq) && contains(((StringSeq)s1)s, "hide"))*/
     /*:  Debugutil.stop();*/
     
     

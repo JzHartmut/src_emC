@@ -1442,7 +1442,7 @@ void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
     int32  idxEnd = idxData + nrofBytes;
     
     ByteStringJc  chars;/*no initvalue*/
-    if(sEncoding.c.ref== null) 
+    if(sEncoding.ref== null) 
     { 
       
       sEncoding = z_StringJc("ISO-8859-1")/*J2C:non-persistent*/;
@@ -1931,7 +1931,7 @@ void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, 
     StringJc textExc ; textExc = 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
       , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_s_StringBuilderJc(_tempString2_1, text.c, _thCxt)
+      , append_s_StringBuilderJc(_tempString2_1, text, _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       )/*J2C:non-persistent*/;

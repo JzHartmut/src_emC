@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="TestThreadMutexWaitNotify" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="TestStringJcSimple" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Console Application" 0x0103
 
-CFG=TestThreadMutexWaitNotify - Win32 Debug
+CFG=TestStringJcSimple - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "TestThreadMutexWaitNotify.mak".
+!MESSAGE NMAKE /f "TestStringJcSimple.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "TestThreadMutexWaitNotify.mak" CFG="TestThreadMutexWaitNotify - Win32 Debug"
+!MESSAGE NMAKE /f "TestStringJcSimple.mak" CFG="TestStringJcSimple - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "TestThreadMutexWaitNotify - Win32 Release" (based on "Win32 (x86) Console Application")
-!MESSAGE "TestThreadMutexWaitNotify - Win32 Debug" (based on "Win32 (x86) Console Application")
+!MESSAGE "TestStringJcSimple - Win32 Release" (based on "Win32 (x86) Console Application")
+!MESSAGE "TestStringJcSimple - Win32 Debug" (based on "Win32 (x86) Console Application")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=TestThreadMutexWaitNotify - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "TestThreadMutexWaitNotify - Win32 Release"
+!IF  "$(CFG)" == "TestStringJcSimple - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -51,7 +51,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 
-!ELSEIF  "$(CFG)" == "TestThreadMutexWaitNotify - Win32 Debug"
+!ELSEIF  "$(CFG)" == "TestStringJcSimple - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -78,8 +78,8 @@ LINK32=link.exe
 
 # Begin Target
 
-# Name "TestThreadMutexWaitNotify - Win32 Release"
-# Name "TestThreadMutexWaitNotify - Win32 Debug"
+# Name "TestStringJcSimple - Win32 Release"
+# Name "TestStringJcSimple - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -91,19 +91,18 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_MemC.c
-# End Source File
-# Begin Source File
-
 SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_MemC.h
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_Object.c
-# End Source File
-# Begin Source File
-
 SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_SimpleC.c
+
+!IF  "$(CFG)" == "TestStringJcSimple - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "TestStringJcSimple - Win32 Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -119,19 +118,7 @@ SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_String.h
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_threadContext.c
-# End Source File
-# Begin Source File
-
 SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_ThreadContext.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_timeconversions.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_timeconversions.h
 # End Source File
 # Begin Source File
 
@@ -148,10 +135,6 @@ SOURCE=S:\Jc\CRuntimeJavalike\incApplSpecific\ExcHandling_Printf\applstdefJc.h
 # Begin Source File
 
 SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\FwConv_c\fw_ExcStacktrcNo.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\FwConv_c\stopAssert_Fwc_while0.c
 # End Source File
 # End Group
 # Begin Group "cc_Msc6"
@@ -172,22 +155,6 @@ SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_error.c
 # Begin Source File
 
 SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_mem.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_mutex.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_sync.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_thread.c
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_time.c
 # End Source File
 # End Group
 # Begin Group "FwConv_Appl"
@@ -216,7 +183,7 @@ SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_Plat
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\src_Test\TestThreadMutexWaitNotify\TestThreadMutexWaitNotify.c
+SOURCE=S:\Jc\CRuntimeJavalike\src_Test\TestStringJcSimple.c
 # End Source File
 # End Group
 # End Group

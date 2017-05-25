@@ -36,6 +36,7 @@
  */
 #include <Jc/FileIoJc.h>
 #include <Jc/ReflectionJc.h>
+#include <Jc/StringJc.h>
 #include <Fwc/fw_Exception.h>
 #include <string.h> //memset
 #include <os_file.h>
@@ -226,7 +227,7 @@ int open_FileWriterJc(FileWriterJc_s* ythis, StringJc fileName, bool append, ThC
   //char const* openmode;
   char bufferFilename[200];
   STACKTRC_TENTRY("open_FileWriterJc");
-  copyToBuffer_CharSeqJc(fileName.c, 0, -1, bufferFilename, sizeof(bufferFilename));
+  copyToBuffer_StringJc(fileName, 0, -1, bufferFilename, sizeof(bufferFilename));
   { char cc; int ii =0; char* ptr = bufferFilename;
     while(ii < sizeof(bufferFilename) && (cc = *ptr++) != 0)
     { if(cc == '/') 

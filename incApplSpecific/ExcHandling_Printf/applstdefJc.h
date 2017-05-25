@@ -64,13 +64,16 @@
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-#include <Fwc/fw_Exception.h>
-//#include <Fwc/fw_ExcStacktrcNo.h>
-
+//#include <Fwc/fw_Exception.h>
+#include <Fwc/fw_ExcStacktrcNo.h>
+#include <FwConv_h/EnhanceRef_simple.h>
 #include <FwConv_h/definePrintfMakros.h>
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
-#include <fw_Platform_conventions.h>
+#undef __CPLUSPLUSJcpp
+#undef TEST_STACKTRCJc
+
+#define kMaxPathLength_FileJc 500
 
 
 #endif // __applstdefJc_h__

@@ -36,6 +36,7 @@
 #define __FormatterJc_h__
 
 #include <Jc/ObjectJc.h>
+#include <Fwc/fw_String.h>
 #include "Fwc/fw_Va_list.h" 
 
 #include <Jc/LocaleJc.h>
