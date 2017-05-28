@@ -332,7 +332,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
             ( _temp5_1= getType_FieldJc(field)
             , getName_ClassJc(_temp5_1)
             ))/*J2C:non-persistent*/;
-          append_c_StringBuilderJc(& (thiz->uAnswer.sb), name.c, _thCxt);
+          append_c_StringBuilderJc(& (thiz->uAnswer.sb), name, _thCxt);
           if(hasSubstructure) 
           { 
             
@@ -346,14 +346,14 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
           if(lengthAnswer4 > lengthAnswer) 
           { 
             
-            append_c_StringBuilderJc(& (thiz->uAnswer.sb), substring_StringJc(zI_StringJc("\0\0\0",3), 0, lengthAnswer4 - lengthAnswer, _thCxt).c, _thCxt);/*fill rest with 0*/
+            append_c_StringBuilderJc(& (thiz->uAnswer.sb), substring_StringJc(zI_StringJc("\0\0\0",3), 0, lengthAnswer4 - lengthAnswer, _thCxt), _thCxt);/*fill rest with 0*/
             
           }/*adds the answer to the telegram:*/
           
           addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
           
           StringJc sAnswer ; sAnswer = toStringNonPersist_StringBuilderJc(& ((thiz->uAnswer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-          addChildString_Cs_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), sAnswer.c);/*Note: first add the string, then set the head because the setInfoHead adjusts the length of head child.*/
+          addChildString_Cs_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), sAnswer);/*Note: first add the string, then set the head because the setInfoHead adjusts the length of head child.*/
           
           setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), lengthAnswer4 + sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, kAnswerFieldMethod_Inspcitem_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);/*  */
           
@@ -514,10 +514,10 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
         PtrVal_int8 _temp4_1; /*J2C: temporary references for concatenation */
         
         setLength_StringBuilderJc(& (thiz->uAnswer.sb), 0, _thCxt);
-        append_c_StringBuilderJc(& (thiz->uAnswer.sb), name.c, _thCxt);
+        append_c_StringBuilderJc(& (thiz->uAnswer.sb), name, _thCxt);
         append_u_StringBuilderJc(& (thiz->uAnswer.sb), & (thiz->uArray.sb), _thCxt);
         append_C_StringBuilderJc(& (thiz->uAnswer.sb), ':', _thCxt);
-        append_c_StringBuilderJc(& (thiz->uAnswer.sb), type.c, _thCxt);
+        append_c_StringBuilderJc(& (thiz->uAnswer.sb), type, _thCxt);
         if(lengthValue > 0) 
         { 
           
@@ -539,7 +539,7 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
         if(lengthAnswer4 > lengthAnswer) 
         { 
           
-          append_c_StringBuilderJc(& (thiz->uAnswer.sb), substring_StringJc(zI_StringJc("\0\0\0",3), 0, lengthAnswer4 - lengthAnswer, _thCxt).c, _thCxt);/*fill rest with 0*/
+          append_c_StringBuilderJc(& (thiz->uAnswer.sb), substring_StringJc(zI_StringJc("\0\0\0",3), 0, lengthAnswer4 - lengthAnswer, _thCxt), _thCxt);/*fill rest with 0*/
           
         }
         
@@ -561,7 +561,7 @@ void evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(ClassContent_Inspc_s* t
         addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
         
         StringJc sAnswerAdd ; sAnswerAdd = toStringNonPersist_StringBuilderJc(& ((thiz->uAnswer.sb).base.object), _thCxt)/*J2C:non-persistent*/;
-        addChildString_Cs_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), sAnswerAdd.c);/*Prepare the answer item for this field:*/
+        addChildString_Cs_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), sAnswerAdd);/*Prepare the answer item for this field:*/
         
         setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), zChildAnswer, kAnswerFieldMethod_Inspcitem_InspcDataExchangeAccess_Inspc, orderNr, _thCxt);
       }
@@ -1053,7 +1053,7 @@ int16 getSetValue_ClassContent_Inspc(/*J2C:static method*/ struct FieldJc_t cons
       bOk = true;
       activateGC_ObjectJc(PTR_StringJc(_persistring3_1), null, _thCxt);
     }
-    if(sValue.c.ref!= null) 
+    if(sValue.ref!= null) 
     { 
       
       
@@ -1071,7 +1071,7 @@ int16 getSetValue_ClassContent_Inspc(/*J2C:static method*/ struct FieldJc_t cons
         nType = (int16 /*J2C_cast*/)zValue;
         addChildInteger_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), 1, zValue, _thCxt);/*Set the number of char-bytes in 1 byte*/
         
-        addChildString_Cs_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), sValue.c);/*Set the character String after them.*/
+        addChildString_Cs_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), sValue);/*Set the character String after them.*/
         
       }
     }

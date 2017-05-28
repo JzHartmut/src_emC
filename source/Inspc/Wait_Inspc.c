@@ -1,5 +1,6 @@
 #include "Wait_Inspc.h"
 #include <Inspc/FBaccess_Inspc.h>
+#include <os_time.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,7 +20,7 @@ Wait_Inspc* create_Wait_Inspc()
 
 void ctor_Wait_Inspc(Wait_Inspc* thiz)
 {
-  thiz->timeWait = 1;
+  thiz->stepsTillWait = 1;
 }
 
 
@@ -29,17 +30,33 @@ bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t
 }
 
 
+ 
+void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, int32 stepsTillFirstWait, int32 delay_ms)
+{
+  thiz->stepsTillWait = stepsTillFirstWait;
+  thiz->delay_ms = delay_ms;
+}
+
 
 void step_Wait_Inspc(Wait_Inspc volatile* thiz)
 {
-  if(thiz->timeWait < 0) return;  //don't wait
+  if(thiz->stepsTillWait < 0){
+    if(thiz->delay_ms >0) {
+      os_delayThread(thiz->delay_ms);
+    } //else  don't wait.
+  }
   else {
-    if(--thiz->timeWait == 0) {
-      while(thiz->timeWait ==0) {
-        thiz->isWaiting = 1;
+    if(--thiz->stepsTillWait == 0) {
+      if(thiz->delay_ms == 0) {
+        while(thiz->stepsTillWait ==0) {  //only an access via inspector can set stepsTillWait to !=0
+          thiz->isWaiting = 1;
+          os_delayThread(10);
+        }
+        thiz->isWaiting = 0;  //stepsTillWait is either >0, then full speed till wait point, or <0 then less speed.
       }
-    }
-    thiz->isWaiting = 0;
+      //else: next step is <0, less speed.
+    } 
+    // else: run with full speed if stepsTillWait >0
   }
 }
 

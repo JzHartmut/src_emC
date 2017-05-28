@@ -93,13 +93,16 @@ extern_C int trimRightWhitespaces_Fwc(char const* text, int maxNrofChars);
 
 
 
-
+/**Mask bits for position of method table of CharSequJc.
+ * If mLength__StringJc == 0x3fff (default for 32 bit system), the mask is 0x0fff.
+ * See [[kMaxLength_StringJc]], it will be therewith 0x3000 -1 = 0x2fff.
+ */
 #define mMtbl_CharSeqJc (mLength__StringJc >>2)
 
 
 /**The limit for the length of a StringJc. It is derived from the platform-specific definition of ,,mLength__StringJc,, 
- * contained in the platform-specific ,,os_types_def.h,,. If the ,,mLength_StringJc,, is defined with ,,0x3fff,,
- * then this value is ,,0x2fff,,.
+ * contained in the platform-specific ,,compl_adaption.h,,. 
+ * If the ,,mLength_StringJc,, is defined with ,,0x3fff,, then this value is ,,0x2fff,,.
  * 
  * If a ,,StringJc,, is designated with this value for the ,,mLength__StringJc,, bits, then the length should be gotten 
  * on demand. The [[length_StringJc(...)]] regards that.  
@@ -317,18 +320,24 @@ INLINE_Fwc StringJc z_StringJc(char const* src)
 
 
 
-/**Creates a StringJc reference to the given char array with given length.
- * This is a common way to get a StringJc-Instance if a char-buffer with a defined known length is given.
+/**Creates a StringJc reference to the given character string with given length.
+ * This is a common way to get a StringJc-Instance if a char-buffer with a known length is given.
  * It is a fast C-routine, because the StringJc is stored in CPU-registers, no memory is need.
  * The StringJc is designated as persistent, though mostly the persistence is not need. See ,,z_StringJc(...),,. 
  * See [[StringJc.toStringFromPersist_zI_StringJc(...)]] to build a persistent StringJc from a persistent buffer. 
- * @param any 0-terminated ,,char const*,, text, typically to a text-literal, possible to a buffer. 
+ * @param any ,,char const*,, text, possible to a text-literal or to a buffer. 
  *        The user is responsible to its persistence respectively the need of persistence of the result.
- * @param len the number of chars valid from text
+ * @param len the number of chars valid from text.
+ * * If it is 0, the string has a pointer but the length is 0. 
+ * * If it is >= mLength__StringJc then it is truncated without any warning. 
+ * * If it is -1. then the length of src is count using [[[strlen_Fwc(...)]].
+ * * If it is <= -2, the length of src is count and the length is shortenend by (-length+1). -2: The last char is truncated etc.  
  * @return StringJc-instance per value, it is hold in 2 register by most of C-compilers and therefore effective.
  */
 INLINE_Fwc StringJc zI_StringJc(char const* src, int len)
 { StringJc ret;
+  if(len < 0){ len = strlen_Fwc(src, kMaxLength_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
+  else if(len >= mLength__StringJc) { len = mLength__StringJc -1; }  //limit it to max. 
   set_OS_PtrValue(ret, src, (len & mLength__StringJc)); 
   return ret;
 }

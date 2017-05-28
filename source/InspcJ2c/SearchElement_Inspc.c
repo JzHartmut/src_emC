@@ -114,7 +114,7 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
                 }/*if the ] is missing in the actual context*/
                 /*get index:*/
                 
-                idx = parseIntRadix_CsiiiiY_StringFunctions_CJc(/*J2C:static method call*/sElement.c, posBracket + 1, posBracketEnd - posBracketEnd + 1, 10, null);/*without exception*/
+                idx = parseIntRadix_CsiiiiY_StringFunctions_CJc(/*J2C:static method call*/sElement, posBracket + 1, posBracketEnd - posBracketEnd + 1, 10, null);/*without exception*/
                 
                 sName = substring_StringJc(sElement, 0, posBracket, _thCxt)/*J2C:non-persistent*/;
               }

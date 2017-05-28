@@ -21,6 +21,7 @@ extern_C void assertJc(bool condition);
 
 #define ASSERT_Fwc(cond) { if((cond)==0) stopAssert_Fwc(); }
 
+#define ASSERT(cond) ASSERT_Fwc(cond)
 
 /**Writes a log text or THROW_s0 */
 #define ASSERT_s0_Fwc(cond, TEXT, VALUE) { if((cond)==0) { stopAssert_Fwc(); } }

@@ -247,7 +247,7 @@ int copyToBuffer_StringJc(const StringJc thiz, int start, int end, char* buffer,
       nChars = strlen_Fwc(str, maxSizeBuffer);
     }
     if(end < 0){
-      end = nChars -end +1;  //end=-1 results in end = nChars
+      end = nChars +end +1;  //end=-1 results in end = nChars
     }
     if(end > start) {
       int nrofBytes = end - start;

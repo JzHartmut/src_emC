@@ -232,7 +232,7 @@ struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySo
   { 
     ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
-    if(type.c.ref== null) 
+    if(type.ref== null) 
     { 
       
       

@@ -23,9 +23,8 @@ bool registerRefl_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, void* ob
 
 
 
-char const* registerNode_AccessNode_Inspc(FBaccessNode_Inspc* thiz, void* data)
-{ const char* name = "main";
-  const char* error = null;
+char const* registerNode_AccessNode_Inspc(FBaccessNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* data)
+{ const char* error = null;
   int ix, ix1;
   struct ObjectJc_t* oData = (struct ObjectJc_t*) data;
   if(!checkObject_FBaccessNode_Inspc(thiz)) return "input 1 is not a FBaccessNode_Inspc";
@@ -44,7 +43,10 @@ char const* registerNode_AccessNode_Inspc(FBaccessNode_Inspc* thiz, void* data)
       return "too much registration in registerNode_AccessNode_Inspc(...)";
     }
     thiz->data[ix] = oData;
-    strncpy(thiz->fields.data[ix].name, name, sizeof(thiz->fields.data[ix].name));  //TODO check length of name!!!
+    { int nchars = copyToBuffer_StringJc(name1_param, 0, -1, thiz->fields.data[ix].name, sizeof(thiz->fields.data[ix].name));
+      copyToBuffer_StringJc(name2_param, 0, -1, thiz->fields.data[ix].name+nchars, sizeof(thiz->fields.data[ix].name)-nchars); //the rest.
+    }
+    //strncpy(thiz->fields.data[ix].name, name, sizeof(thiz->fields.data[ix].name));  //TODO check length of name!!!
     thiz->fields.data[ix].type_ = oData->reflectionClass;
     thiz->fields.data[ix].bitModifiers = kReference_Modifier_reflectJc;
     thiz->fields.data[ix].position = ((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz);

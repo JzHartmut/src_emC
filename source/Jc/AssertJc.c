@@ -2,9 +2,9 @@
 
 #include <Jc/StringJc.h>
 
-CharSeqJc exceptionInfo_B_AssertJc(char const* text, ExceptionJc* exc, int firstLevel, int nrofLevels, bool bWithExceptiontext, ThCxt* _thCxt)
+StringJc exceptionInfo_B_AssertJc(char const* text, ExceptionJc* exc, int firstLevel, int nrofLevels, bool bWithExceptiontext, ThCxt* _thCxt)
 {
-  return null_CharSeqJc; //TODO
+  return null_StringJc; //TODO
 }
 
 

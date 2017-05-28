@@ -102,17 +102,17 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
   STACKTRC_TENTRY("parseLine_TimeSignals_Inspc");
   int posColon = indexOf_CI_StringJc(line, ':', posStart);
   if(posColon > 0){ //time found.
-    float time = parseFloat_CsiiciY_StringFunctions_CJc(line.c, posStart, posColon, '.', null, _thCxt);
+    float time = parseFloat_CsiiciY_StringFunctions_CJc(line, posStart, posColon, '.', null, _thCxt);
     posNext = posColon +1;
     int maxWhileNext = 100;
     while(maxWhileNext >=0 && posNext >0) { //search value asignments, posNext is position after separator for values.
-      int posName = indexNoWhitespace_StringFunctionsJc(line.c, posNext, -1, _thCxt );
-      posNext = indexAfterIdentifier_StringFunctionsJc(line.c, posName, -1, null_StringJc, _thCxt );
+      int posName = indexNoWhitespace_StringFunctionsJc(line, posNext, -1, _thCxt );
+      posNext = indexAfterIdentifier_StringFunctionsJc(line, posName, -1, null_StringJc, _thCxt );
       if(posNext > posName && posNext < zLine && charAt_StringJc(line, posNext) == '.') {
         StringJc nameModule = substring_StringJc(line, posName, posNext, _thCxt);
         if(equals_z_StringJc(nameModule, thiz->nameModule)) {
           posName = posNext +1; //name inside moduel.
-          posNext = indexAfterIdentifier_StringFunctionsJc(line.c, posName, -1, null_StringJc, _thCxt );
+          posNext = indexAfterIdentifier_StringFunctionsJc(line, posName, -1, null_StringJc, _thCxt );
           StringJc name = substring_StringJc(line, posName, posNext, _thCxt);
           int ixName = -1;
           int zNames = ARRAYLEN_SimpleC(thiz->names);
@@ -143,8 +143,8 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
               int ixValue = 0;
               int32 nrofCharsParsed;
               do {
-                posValue = indexNoWhitespace_StringFunctionsJc(line.c, posValue, -1, _thCxt );
-                float value = parseFloat_CsiiciY_StringFunctions_CJc(line.c, posValue, 99999, '.', &nrofCharsParsed, _thCxt);
+                posValue = indexNoWhitespace_StringFunctionsJc(line, posValue, -1, _thCxt );
+                float value = parseFloat_CsiiciY_StringFunctions_CJc(line, posValue, 99999, '.', &nrofCharsParsed, _thCxt);
                 if(nrofCharsParsed > 0  //a value scanned?
                   && entry !=null       //an entry found? on not found entry parse the values but don't store.
                   ) {
@@ -153,7 +153,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
                   entry->ya[ixValue++] = value;
                 }
                 //posNext after value and spaces.
-                posNext = indexNoWhitespace_StringFunctionsJc(line.c, posValue + nrofCharsParsed, -1, _thCxt );
+                posNext = indexNoWhitespace_StringFunctionsJc(line, posValue + nrofCharsParsed, -1, _thCxt );
                 //don't check ',' it is the separator between names.
                 //if(charAt_StringJc(line, posNext) == ',') {
                 //  posNext = indexNoWhitespace_StringFunctionsJc(*(CharSequenceJc_Ref*)&line, posNext + 1, -1, _thCxt );
@@ -213,7 +213,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
         int zLine = length_StringJc(line);
         int32 posStart = indexOf_z_StringJc(line, "%time:");
         if(posStart >=0){
-          posStart = indexNoWhitespace_StringFunctionsJc(line.c, posStart+6, -1, _thCxt );
+          posStart = indexNoWhitespace_StringFunctionsJc(line, posStart+6, -1, _thCxt );
           if(posStart < zLine && charAt_StringJc(line, posStart)!= '#') { //not a comment line 
             parseLine_TimeSignals_Inspc(thiz, line, posStart, _thCxt);
           }

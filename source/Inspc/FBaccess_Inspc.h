@@ -36,9 +36,14 @@ void free_FBaccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz);
 
 
 /**Registers a Node.
+ * @param name1_param first part of the name. The 2 parts of name offers the capability to use a instance name given in a variable 
+ *   and a constant part of name for this block.  
+ * @param name2_param second part of the name. Both parts are concatenated immediately. This is the name which is used for the block in the reflection tree. 
+ * @param data It should be a reference to ObjectJc with valid reflection. The reflection are necessary to evaluate the data with inspector.
+ *  Note: The void type is yet necessary to accept any type of data. TODO use ObjectJc* instead void*.
  * @simulink Sfunc
  */
-char const* registerNode_AccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, void* data);
+char const* registerNode_AccessNode_Inspc(struct FBaccessNode_Inspc_t* thiz, StringJc name1_param, StringJc name2_param, void* data);
 
 
 /**Registeres Reflection from any Object in a FBaccessNode for a runtime reflection tree. 
