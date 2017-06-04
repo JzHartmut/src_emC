@@ -26,8 +26,8 @@
 /**Include this file always. It defines some things usefull for all sources. */
 //#include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
-#include <FwConv_h/fw_StringJcSimple.h>
-//#include <Fwc/fw_String.h>
+//#include <FwConv_h/fw_StringJcSimple.h>
+#include <Fwc/fw_String.h>
 
 
 /** If this define is setted, the TRY, CATCH and THROW makros use the C++ keywords
@@ -65,7 +65,7 @@
 //#include <Fwc/fw_Exception.h>
 #include <Fwc/fw_ExcStacktrcNo.h>
 
-//#include <FwConv_h/EnhanceRef_simple.h>
+#include <FwConv_h/EnhanceRef_simple.h>
 
 /**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
 #define __HandlePtr64__

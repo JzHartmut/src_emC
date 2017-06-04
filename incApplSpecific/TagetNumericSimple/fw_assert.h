@@ -2,7 +2,7 @@
 #define __fw_assert_h__
 
 
-void stopAssert_Fwc();
+extern_C void stopAssert_Fwc(char const* file, int line);
 
 void assertJc(bool condition);
 
@@ -19,7 +19,7 @@ void assertJc(bool condition);
 #define ASSERT_Range(VAR, MIN, MAX) { if(VAR < (MIN)) { VAR = (MIN); } else if(VAR > (MAX)){ VAR = (MAX); } }
 
 
-#define ASSERT_Fwc(cond) { if((cond)==0) stopAssert_Fwc(); }
+#define ASSERT_Fwc(cond) { if((cond)==0) stopAssert_Fwc(__FILE__, __LINE__); }
 #define ASSERT(cond) ASSERT_Fwc(cond) 
 
 

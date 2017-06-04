@@ -37,9 +37,9 @@
  * 2010-02-01 Hartmut new: _CHARS_StringJc(REF) to access the character pointer for internal access
  *************************************************************************************************/
 #ifndef __applstdefJc_h__
-  /**This file MemC should be included in the applstdefJc.h. 
-   * If this file is directly included, it needs the applstdefJc.h. But the __MemC_h__ guard should not be set firstly
-   * to include the MemC.h in the given order in applstddef.h
+  /**This file should be included in the applstdefJc.h. 
+   * If this file is directly included, it needs the applstdefJc.h. But the __guard__ 
+   * should not be set firstly to include the MemC.h in the given order in applstddef.h
    */
   #include <applstdefJc.h>
 #endif
@@ -48,11 +48,16 @@
 #define __fw_String_h__
 
 
+//NOTE: struct ObjectJc should be known for the StringBuilderJc, defined here.
+//It is possible to include <FwConv_h/ObjectJc_simple.h> in the <applstdefJc.h> for the simple concept.
+//instead. See usage of guards there.
+#include <Fwc/objectBaseC.h>
+
 struct ObjectJc_t;
 struct StringBuilderJc_t;
-
+struct ThreadContextFW_t;
 struct MemAreaC_t;
-
+struct Mtbl_CharSeqJc_t;
 
 
 
@@ -90,34 +95,26 @@ extern_C int skipWhitespaces_Fwc(char const* text, int maxNrofChars);
 extern_C int trimRightWhitespaces_Fwc(char const* text, int maxNrofChars);
 
 
-
-
-
-/**Mask bits for position of method table of CharSequJc.
- * If mLength__StringJc == 0x3fff (default for 32 bit system), the mask is 0x0fff.
- * See [[kMaxLength_StringJc]], it will be therewith 0x3000 -1 = 0x2fff.
+/**Parses a given String and convert it to the integer number.
+ * The String may start with a negativ sign ('-') and should contain digits after them.
+ * The digits for radix > 10 where built by the numbers 'A'..'Z' respectively 'a'..'z',
+ * known as hexa numbers A..F or a..f. 
+ * @param src The String, non 0-terminated, see ,,size,,.
+ * @param size The number of chars of the String.
+ * @param radix The radix of the number, typical 2, 10 or 16, max 36.
+ * @param parsedChars number of chars which is used to parse the integer. The pointer may be null if not necessary.
+ * @return the Number.
+ * @throws never. All possible digits where scanned, the rest of non-scanable digits are returned.
+ *  At example the String contains "-123.45" it returns -123, and the retSize is 3.
  */
-#define mMtbl_CharSeqJc (mLength__StringJc >>2)
+extern_C int parseIntRadix_Fwc(const char* src, int size, int radix, int* parsedChars);
+
+extern_C float parseFloat_Fwc(const char* src, int size, int* parsedChars);
+
+extern_C double parseDouble_Fwc(const char* src, int size, int* parsedChars);
 
 
-/**The limit for the length of a StringJc. It is derived from the platform-specific definition of ,,mLength__StringJc,, 
- * contained in the platform-specific ,,compl_adaption.h,,. 
- * If the ,,mLength_StringJc,, is defined with ,,0x3fff,, then this value is ,,0x2fff,,.
- * 
- * If a ,,StringJc,, is designated with this value for the ,,mLength__StringJc,, bits, then the length should be gotten 
- * on demand. The [[length_StringJc(...)]] regards that.  
- */
-#define kMaxLength_StringJc ((mLength__StringJc & ~mMtbl_CharSeqJc)-1)
 
-/**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
- * If mLength is defined with 0x3fff the value is 0x04000. mLength is defined os- and platform-depended in os_types_def.h
- */
-#define mNonPersists__StringJc       (mLength__StringJc +1)
-
-/**If this Bit is set, the StringJc references a buffer in the thread context..
- * If mLength is defined with 0x3fff the value is 0x08000. mLength is defined os- and platform-depended in os_types_def.h
- */
-#define mThreadContext__StringJc     ((mNonPersists__StringJc)<<1)
 
 
 
@@ -152,6 +149,8 @@ extern_C int trimRightWhitespaces_Fwc(char const* text, int maxNrofChars);
 
 /*@DEFINE_C StringJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+
+#ifndef __StringJc_defined__  //NOTE: may be defined in ObjectJc.h too.
 
 /**StringJc: The type ,,StringJc,, refers 
  * * either a ,,char const*,, with a given length. This is adequate to java.lang.String
@@ -211,28 +210,87 @@ extern_C int trimRightWhitespaces_Fwc(char const* text, int maxNrofChars);
  * Notation hint: The notation ,,char const*,, is the same as ,,const char*,,, but it expresses more stronly, that it is a const-pointer.
  * 
  */ 
-
-
 typedef OS_PtrVal_DEF(StringJc, char const);
 
-/**Designation of the String as CharSeqJc without a method table offset. In this case the reference refers a CharSeqJc and the length
- * should be gotten by invocation of [[length_CharSeqJc(...)]].
- * If mLength is defined with 0x3fff the value is 0x03ffe. mLength is defined os- and platform-depended in os_types_def.h
+#define __StringJc_defined__
+#endif //ifdef isNull_StringJc
+
+/**The memory layout of CharSeqJc is the same like StringJc. 
+ * A StringJc is a CharSeqJc (is-a, inheritance).
+ * But a CharSeqJc can be a reference to any instance which implements the methods of CharSeqJc.
+ * In this header only the formalism of CharSeqJc are defined. To work with CharSeqJc in full capability,
+ * include <Jc/StringJc.h> and compile Jc/StringJc.c.
  */
-#define kIsCharSeqJc_CharSeqJc (mLength__StringJc -1)
+#define CharSeqJc StringJc
+
+/**Returns true if the StringJc contains null. The user should use this macro instead straigtly using of the basicly definitions,
+ * because the definition of OS_PtrValue and therefore the definition of StringJc is os-specific. 
+ * @param STR StringJc-instance to test. The macro uses the instance directly.
+ * @return true only if the text-reference is ,,null,,. false if it is an empty or non-empty text.
+ */
+#define isNull_StringJc(STR) (PTR_OS_PtrValue((STR), void*)==null)
 
 
-/**Designation of the String as CharSeqJc maybe with a method table offset. In this case the reference refers a CharSeqJc and the length
- * should be gotten by invocation of [[length_CharSeqJc(...)]].
- * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
+#ifdef __NoCharSeqJcCapabilities__
+  #define mMtbl_CharSeqJc 0
+  #define kIsCharSeqJc_CharSeqJc 0
+  #define kMaxNrofChars_StringJc (mLength__StringJc -2)
+  #define mIsCharSeqJcMtbl_CharSeqJc 0
+#else   
+
+  /**Mask bits for position of method table of CharSequJc.
+   * If mLength__StringJc == 0x3fff (default for 32 bit system), the mask is 0x0fff
+   * The val info in a CharSeqJc will be 0x3000..0x3fff..
+   * See [[kMaxLength_StringJc]], .
+   */
+  #define mMtbl_CharSeqJc (mLength__StringJc >>2)
+
+  /**Designation of the String as CharSeqJc without a method table offset. In this case the reference refers a CharSeqJc and the length
+   * should be gotten by invocation of [[length_CharSeqJc(...)]].
+   * If mLength is defined with 0x3fff the value is 0x03ffe. mLength is defined os- and platform-depended in os_types_def.h
+   */
+  #define kIsCharSeqJc_CharSeqJc (mLength__StringJc -2)
+
+  /**The limit for the length of a StringJc. It is derived from the platform-specific definition of ,,mLength__StringJc,, 
+   * contained in the platform-specific ,,compl_adaption.h,,. 
+   * If the ,,mLength_StringJc,, is defined with ,,0x3fff,, then this value is ,,0x2fff,,.
+   * 
+   * If a ,,StringJc,, is designated with this value for the ,,mLength__StringJc,, bits, then the length should be gotten 
+   * on demand. The [[length_StringJc(...)]] regards that.  
+   */
+  #define kMaxNrofChars_StringJc ((mLength__StringJc & ~mMtbl_CharSeqJc)-1)
+
+  /**Designation of the String as CharSeqJc maybe with a method table offset. In this case the reference refers a CharSeqJc and the length
+   * should be gotten by invocation of [[length_CharSeqJc(...)]].
+   * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
+   */
+  #define mIsCharSeqJcMtbl_CharSeqJc (mLength__StringJc & ~mMtbl_CharSeqJc)
+#endif
+
+
+
+
+/**Designation of the String as 0-terminated. In this case the length is calculated
+ * using [[strlen_Fwc(...)]] before usage.
+ * If mLength is defined with 0x3fff the value is 0x03fff. mLength is defined os- and platform-depended in os_types_def.h
  */
-#define mIsCharSeqJcMtbl_CharSeqJc (mLength__StringJc & ~(mLength__StringJc >>2))
+#define kIs_0_terminated_StringJc (mLength__StringJc)
 
 /**Designation of the String as StringBuilderJc-instance. In this case the reference refers a StringBuilderJc and the length
  * should be gotten by invocation of length_StringBuilderJc(ref)
  * If mLength is defined with 0x3fff the value is 0x03ffd. mLength is defined os- and platform-depended in os_types_def.h
  */
-#define kIsStringBuilder_CharSeqJc (mLength__StringJc -2)
+#define kIsStringBuilder_CharSeqJc (mLength__StringJc -1)
+
+/**If this Bit is set, the StringJc referenced the whole string of a StringBufferJc to concat strings.
+ * If mLength is defined with 0x3fff the value is 0x04000. mLength is defined os- and platform-depended in os_types_def.h
+ */
+#define mNonPersists__StringJc       (mLength__StringJc +1)
+
+/**If this Bit is set, the StringJc references a buffer in the thread context..
+ * If mLength is defined with 0x3fff the value is 0x08000. mLength is defined os- and platform-depended in os_types_def.h
+ */
+#define mThreadContext__StringJc     ((mNonPersists__StringJc)<<1)
 
 
 
@@ -245,7 +303,7 @@ typedef OS_PtrVal_DEF(StringJc, char const);
  * @param TEXT should be a text-literal only. If it references a char-array, 
  *             a problem with persistence may existing.
  */
-#define CONST_z_StringJc(TEXT) { TEXT, kMaxLength_StringJc}
+#define CONST_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
  * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
@@ -311,7 +369,7 @@ extern StringJc const null_StringJc;
  */
 INLINE_Fwc StringJc z_StringJc(char const* src)
 { StringJc ret;
-  int size = strlen_Fwc(src, kMaxLength_StringJc);
+  int size = strlen_Fwc(src, kMaxNrofChars_StringJc);
   set_OS_PtrValue(ret, src, size); 
   return ret;
 }
@@ -336,7 +394,7 @@ INLINE_Fwc StringJc z_StringJc(char const* src)
  */
 INLINE_Fwc StringJc zI_StringJc(char const* src, int len)
 { StringJc ret;
-  if(len < 0){ len = strlen_Fwc(src, kMaxLength_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
+  if(len < 0){ len = strlen_Fwc(src, kMaxNrofChars_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
   else if(len >= mLength__StringJc) { len = mLength__StringJc -1; }  //limit it to max. 
   set_OS_PtrValue(ret, src, (len & mLength__StringJc)); 
   return ret;
@@ -346,15 +404,10 @@ INLINE_Fwc StringJc zI_StringJc(char const* src, int len)
 
 
 
-/**Returns true if the StringJc contains null. The user should use this macro instead straigtly using of the basicly definitions,
- * because the definition of OS_PtrValue and therefore the definition of StringJc is os-specific. 
- * @param STR StringJc-instance to test. The macro uses the instance directly.
- * @return true only if the text-reference is ,,null,,. false if it is an empty or non-empty text.
- */
-#define isNull_StringJc(STR) (PTR_OS_PtrValue((STR), void*)==null)
-
 
 #define isEmpty_s0_Fwc(TEXT) ((TEXT)==null || *(TEXT)==0)
+
+int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt);
 
 
 /**Returns the length. If the source stores the value kMaxLength__StringJc in its value-element,
@@ -363,8 +416,40 @@ INLINE_Fwc StringJc zI_StringJc(char const* src, int len)
  * inside the given length.
  * @return The length of the string.
  */
-METHOD_C int length_StringJc(StringJc const ythis);
+INLINE_Fwc int length_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt)  //INLINE
+{
+  int val = value_OS_PtrValue(thiz) & mLength__StringJc;
+  if(val < kMaxNrofChars_StringJc) { 
+    //simple form, inline, fast:
+    return val;
+  } else {
+    //all other is too much for inline:
+    return _length_PRIV_CharSeqJc(thiz, _thCxt);
+  }
+}
+#define length_StringJc(THIZ) length_CharSeqJc(THIZ, null)
 
+
+char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, ThCxt* _thCxt);
+
+/**Returns the character which is addressed with the position.
+ * This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc. Then it is a fast operation.
+ * In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked. 
+ * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the 
+ */
+INLINE_Fwc char charAt_CharSeqJc(CharSeqJc thiz, int pos, ThCxt* _thCxt)
+{
+  int val = value_OS_PtrValue(thiz) & mLength__StringJc;
+  if(val < kMaxNrofChars_StringJc && pos < val) { 
+    //simple form, inline, fast:
+    return PTR_OS_PtrValue(thiz, char const)[pos];
+  } else {
+    //all other is too much for inline:
+    return _charAt_PRIV_CharSeqJc(thiz, pos, _thCxt);
+  }
+}
+
+#define charAt_StringJc(THIZ, POS) charAt_CharSeqJc(THIZ, POS, null)
 
 
 
@@ -400,18 +485,8 @@ METHOD_C char const* getCharConst_StringJc(StringJc const thiz, char* const buff
            The value consist of 2 processor registers.
   * @deprecated use direct assignment instead. 
   */
-#define lightCopy_StringJc(ythis, src) { *ythis = src; } //{(ythis)->s.refbase = (src).refbase; (ythis)->s.ref = (src).ref; }
+#define lightCopy_StringJc(thiz, src) { *thiz = src; } //{(thiz)->s.refbase = (src).refbase; (thiz)->s.ref = (src).ref; }
 
-
-/**Returns the char at position idx.
- * @param idx The index. It should be a positiv number and less than the length of the text.
- *        Because this is a fast access using a macro, the index in not tested. If the index is fault,
- *        an undefined value is returned. If the built position with this index is outside the memory area,
- *        an memory exception can be thrown. Therefore: Only use correct indices.
- * @return character at the position of text + idx.
- * @javalike [[sunJavadoc/java/lang/String#charAt(int)]] but a test of idx is not done.
- */
-#define charAt_StringJc(YTHIS, idx)  PTR_StringJc(YTHIS)[idx] //( ((StringJcx*)&(YTHIS))->s.ref[idx])
 
 /* Gets the char-pointer and the number of chars stored in a StringJc.
  * This is a common way to get a the content of a StringJc-Instance if a char-pointer is used.
@@ -422,7 +497,7 @@ METHOD_C char const* getCharConst_StringJc(StringJc const thiz, char* const buff
  * @param length destination variable (reference) to store the realy length. The destination variable will be set anytime.
  * @return the pointer to the chars. It may be null if the StringJc contains a null-reference.
  */
-METHOD_C char const* getCharsAndLength_StringJc(StringJc const* ythis, int* length);
+METHOD_C char const* getCharsAndLength_StringJc(StringJc const* thiz, int* length);
 
 
 
@@ -464,33 +539,46 @@ METHOD_C char const* getCharsAndLength_StringJc(StringJc const* ythis, int* leng
  * If the text is not zero-terminated, it have to be copy to a buffer
  * using [[copyToBuffer_StringJc(...)]] to get a zero-terminated pointer to the text.
  */
-METHOD_C bool isZeroTerminated_StringJc(StringJc const ythis);
+METHOD_C bool isZeroTerminated_StringJc(StringJc const thiz);
 
 
 
-/**Copy the content to a buffer of the user.
- * The text will be terminated with 0 always. If the src text is to long. it will be truncated.
- * If the returned length == maxSizeBuffer-1, it is not determined whether the text is truncated or not.
- * Note: if the src-text (ythis) contains 0-characters in its active area, they will be copied too as normal chars.
+/**Copy the content to a given buffer.
  * 
- * Note: thiz should a really StringJc or a reference to a StringBuilderJc on runtime.
- * If it may be a CharSeqJc , use [[copyToBuffer_CharSeqJc]].
- * That method regards simple Strings too.
+ * If the returned length == maxSizeBuffer-1, it is not determined whether the text is truncated or not.
+ * Note: if the src-text (thiz) contains 0-characters in its active area, they will be copied too as normal chars.
+ * The text is not 0-terminated here. If neccesary you can get a 0-termination with the following statements:
+ * ,,char buffer[100];
+ * ,,int nchars = copyToBuffer_StringJc(myString, 0, -1, buffer, sizeof(buffer) -1);
+ * ,,buffer[nchars] = 0; //because max 99 characters are copied, there is at least on space for the 0. 
  *
- * @param buffer The destination buffer as char[]
+ * Note: thiz should a really StringJc or a reference to a StringBuilderJc on runtime.
+ * If it is any reference to a CharSeqJc, use [[copyToBuffer_CharSeqJc]. That method regards simple Strings too.
+ *
  * @param start start character in the StringJc.
- * @param end exclusive end position in StringJc. If -1 then the whole StringJc till end should be copied.
- * @param maxSizeBuffer The number of bytes in Buffer.The max number of chars copied is maxSizeBuffer -1
+ * @param end exclusive end position in StringJc. 
+ *   If -1 then the whole StringJc till end should be copied. If <=-2 then (-end)-1 characters from end won't be copied. 
+ * @param buffer The destination buffer as char[]
+ * @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
  * @return number of chars copied. It is the number of valid chars in buffer always.
 */
-METHOD_C int copyToBuffer_StringJc(const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
+METHOD_C int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer, struct ThreadContextFW_t* _thCxt);
+#define copyToBuffer_StringJc(THIZ, START, END, BUFFER, SIZE) copyToBuffer_CharSeqJc(THIZ, START, END, BUFFER, SIZE, null)
 
 
-#include <Fwc/objectBaseC.h>
+
+/*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+
+
+extern_C struct Mtbl_CharSeqJc_t const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContextFW_t* _thCxt);
+
 
 
 
 /*@CLASS_C StringBuilderJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+#include <Fwc/objectBaseC.h>
 
 
 //#define staticSize_StringBuilderJc 80
@@ -666,38 +754,86 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
  */
 #define INSTACK_StringBuilderJc(name, chars) struct { StringBuilderJc u; char _[chars-4]; } buffer = { CONST_addSizeStack_StringBuilderJc(&buffer.u, chars-4), {0}}
 
+
+
+/**Constructs a StringBuilderJc with a given buffer.
+ * The buffer will be cleared.
+ * @param buffer any buffer
+ * @param size characters in the buffer, sizeof(*buffer).
+ */
+METHOD_C void ctor_Buffer_StringBuilderJc(StringBuilderJc* thiz, char* buffer, int size);
+
+
+/**Constructs a StringBuilderJc with a immediately following buffer.
+ * The StringBuilderJc have to be organized in a struct definition with following pattern:
+ * ,,StringBuilderJc mySb; char __addBuffer__[124]:
+ * The data element ,,__addBuffer__,, should not used anywhere else.
+ * 
+ * The buffer will be cleared.
+ * @param addSize the sizeof() of the immediately following buffer..
+ */
+METHOD_C void ctor_addSize_StringBuilderJc(StringBuilderJc* thiz, int addSize);
+
+
 /**Gets the buffer as char* to use in C-Standard-Routines. 
  * The buffer content is zero-terminated always. 
  * @return 0-terminated content of buffer.
  */
-METHOD_C char* chars_StringBuilderJc(StringBuilderJc* ythis);
+METHOD_C char* chars_StringBuilderJc(StringBuilderJc* thiz);
 
 
 /**Gets the buffer and the size of the buffer. 
  * @param size a ,,int*,, reference to a variable, into which the value of buffer-size is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsAndSize_StringBuilderJc(StringBuilderJc* ythis, int* size);
+METHOD_C char* getCharsAndSize_StringBuilderJc(StringBuilderJc* thiz, int* size);
 
 
 /**Gets the buffer and the actual nr of chars in the buffer. 
  * @param count a ,,int*,, reference to a variable, into which the value of number of chars is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsAndCount_StringBuilderJc(StringBuilderJc* ythis, int* count);
+METHOD_C char* getCharsAndCount_StringBuilderJc(StringBuilderJc* thiz, int* count);
 
 /**Gets the buffer, the size and the actual nr of chars in the buffer.
  * @param size a ,,int*,, reference to a variable, into which the value of buffer-size is stored.
  * @param count a ,,int*,, reference to a variable, into which the value of number of chars is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsSizeCount_StringBuilderJc(StringBuilderJc* ythis, int* size, int* count);
+METHOD_C char* getCharsSizeCount_StringBuilderJc(StringBuilderJc* thiz, int* size, int* count);
 
 /**Sets the nr of chars immediately. Only internal use. 
  * @param count actual number of chars.
  */
-METHOD_C void _setCount_StringBuilderJc(StringBuilderJc* ythis, int count);
+METHOD_C void _setCount_StringBuilderJc(StringBuilderJc* thiz, int count);
 
+
+/**Returns the char at position idx.
+ * @param index The index. It should be a positiv number and less than the length of the text.
+ *        Because this is a fast access using a macro, the index in not tested. If the index is fault,
+ *        an undefined value is returned. If the built position with this index is outside the memory area,
+ *        an memory exception can be thrown. Therefore: Only use correct indices.
+ * @return character at the position of text + idx.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#charAt(int)]] but a test of idx is not done.
+ */
+METHOD_C char charAt_StringBuilderJc(StringBuilderJc* ythis, int index, struct ThreadContextFW_t* _thCxt);
+
+/**Sets the char at position.
+ * @param index The index. It should be a positiv number and less than the length of the text.
+ * @param ch char to set.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#setCharAt(int, char)]].
+ */
+METHOD_C void setCharAt_StringBuilderJc(StringBuilderJc* ythis, int index, char ch, struct ThreadContextFW_t* _thCxt);
+
+
+
+/**Deletes the char at the given position. The text-length will be reduced by 1 char.
+ * @param IDX position of char to delete.
+ * @return this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#deleteCharAt(int)]].
+ * @macro It calls [[replace_zI_StringBuilderJc(...)]].
+ */ 
+#define deleteCharAt_StringBuilderJc(YTHIS, IDX, _THC) replace_zI_StringBuilderJc(YTHIS,IDX, IDX+1, null, 0, _THC)
 
 /**Sets the length of the character sequence. It's like java.lang.StringBuffer.setLength().
  * The sequence is changed to a new character sequence whose length is specified by the argument.
@@ -716,14 +852,14 @@ METHOD_C void _setCount_StringBuilderJc(StringBuilderJc* ythis, int count);
  * @see [[length_StringBuilderJc()]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setLength(int)]].
  */
-METHOD_C void setLength_StringBuilderJc(StringBuilderJc* ythis, int newLength, struct ThreadContextFW_t* _thCxt);
+METHOD_C void setLength_StringBuilderJc(StringBuilderJc* thiz, int newLength, struct ThreadContextFW_t* _thCxt);
 #define setLength_StringBufferJc setLength_StringBuilderJc
 
 /**Clears the content. It is the same like setLength(0).
  * @see [[setLength_StringBuilderJc()]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setLength(int)]] with 0 as parameter.
  */
-METHOD_C void clear_StringBuilderJc(StringBuilderJc* ythis);
+METHOD_C void clear_StringBuilderJc(StringBuilderJc* thiz);
 #define clear_StringBufferJc clear_StringBuilderJc
 
 
@@ -736,26 +872,146 @@ METHOD_C void clear_StringBuilderJc(StringBuilderJc* ythis);
  * @javalike [[sunJavadoc/java/lang/StringBuilder#length()]].
  */
 #define length_StringBuilderJc(YTHIS) ((YTHIS)->_count)
-//METHOD_C int length_StringBuilderJc(const StringBuilderJc* ythis, struct ThreadContextFW_t* _thCxt);
+//METHOD_C int length_StringBuilderJc(const StringBuilderJc* thiz, struct ThreadContextFW_t* _thCxt);
 
 /**Gets the size of buffer.
  * @return the maximal number of chars able to store in buffer. It is count without a 0-char at end. 
  *         It means, it is the physical size of buffer -1.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#capacity()]].
  */
-METHOD_C int capacity_StringBuilderJc(StringBuilderJc* ythis);
+METHOD_C int capacity_StringBuilderJc(StringBuilderJc* thiz);
 
 
 /**Copies the text in the given buffer. Use the set mode of ,,setTruncateMode_StringBuilderJc(..),, 
  * to desire, whether an exception is thrown or the text will be truncated if the zBuffer is less.
- * @param buffer any buffer, where the content of ythis is copied to.
+ * @param buffer any buffer, where the content of thiz is copied to.
  * @param start start character in the string in the StringBuilderJc.
  * @param end exclusive end position in string in the StringBuilderJc. If -1 then the whole string till end should be copied.
  * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
- *                It means, the ,,length_StringBuilderJc(ythis),, should less as zBuffer, not equal.
+ *                It means, the ,,length_StringBuilderJc(thiz),, should less as zBuffer, not equal.
  * @return number of chars without the terminating 0-char. The max value is ,,zBuffer -1,,.
  */
-METHOD_C int copyToBuffer_StringBuilderJc(StringBuilderJc* ythis, int start, int end, char* buffer, int zBuffer);
+METHOD_C int copyToBuffer_StringBuilderJc(StringBuilderJc* thiz, int start, int end, char* buffer, int zBuffer);
+
+
+/**Replaces the characters in a part of this sequence with characters in the specified String. 
+ *
+ * It is the core method to insert, append, replace, delete with a given ,,CharSeqJc,,. All those methods are implemented with this method.
+ * @param pos The position where characters will will be deleted and inserted. Use -1 for append on end. Negative numbers counts the position from end.
+ * @param end The position till characters will be removed. Use same value as pos or 0 if no characters should be deleted.
+ *    Negative numbers counts the end position from the end of the buffer content.
+ * @param add reference to the insertion text given in a CharSeqJc. 
+ *    If a simple char* should be inserted, use [[z_CharSeqJc(...)]] or [[zI_CharSeqJc(...)]] to built the add
+ * @param from start position inside the CharSeqJc for the insertion text. If negative then it counts from end. -2 is one char to end.
+ * @param to end position inside the CharSeqJc. If equal from, especially both are null, then nothing will be inserted. 
+ *    If negative then it is the neg. number of characters.
+ * @throws StringIndexOutOfBoundsException if the pos, end, from, to are faulty or there is not enough capacity to insert.
+ *    See [[_mNoException_StringBuilderJc]].
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#replace(int, int, java.lang.String)]].
+ */
+METHOD_C StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int pos, int end, CharSeqJc value, int from, int to, struct ThreadContextFW_t* _thCxt);
+
+
+
+
+/**Inserts the text CharSeqJc into this sequence.
+ *
+ * @param pos - the offset.
+ * @param value - an CharSeqJc. It is a CharSeqJc, a StringBuilderJc or any other class accessed via method table.
+ * @param start index of the first char in value
+ * @param end index after the last char in value
+ * @return a reference to this object.
+ * @throws StringIndexOutOfBoundsException - if the offset is invalid.
+ * @see [[valueOf_I_StringJc(...)]]
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, double)]].
+ */
+#define insert_cYii_StringBuilderJc(THIS, POS, ADD, FROM, TO, _THCXT) replace_cII_StringBuilderJc(THIS, POS, POS, ADD, FROM, TO, _THCXT) 
+//METHOD_C StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* ythis, int offset, CharSeqJc value, int start, int end, struct ThreadContextFW_t* _thCxt);
+
+
+/**Handle append(CharSequence) in the same way like append(String). distinghuish on runtime. */
+#define append_c_StringBuilderJc(THIZ, VAL, THCXT) replace_cII_StringBuilderJc(THIZ, -1, -1, VAL, 0, -1, THCXT)  //insert_cYii_StringBuilderJc(THIZ, -1, VAL, 0, -1, THCXT) 
+
+
+/**Appends a text at the end.
+ * @param src ,,char const*,, text. The maximal detected length of the text is mLength__StringJc. Use it only for "literal".
+ * @return this
+ */
+#define append_z_StringBuilderJc(YTHIS, src, _THC) replace_zI_StringBuilderJc(YTHIS, -1, -1, src, -1, _THC)
+#define append_z_StringBufferJc append_z_StringBuilderJc
+/** C-like: appends a character text with given length. */
+
+/**Appends a text at the end.
+ * @param src reference of type ,,char const*,, to the text to insert, may be null, than nothing is inserted idenendent of ,,len,,. 
+ *            The text is not 0-terminated. ,,\0,,-chars are copied into the buffer without extra handling. 
+ * @param lenSrc Number of chars to insert. It may be 0, than nothing is inserted independent of ,,add,,.
+ * @return this
+ */
+#define append_zI_StringBuilderJc(YTHIS, src, lenSrc, _THC) replace_zI_StringBuilderJc(YTHIS, -1, -1, src, lenSrc, _THC)
+#define append_zI_StringBufferJc append_zI_StringBuilderJc
+
+
+/**Appends a text at the end.
+ * @param src Reference to the text which will be append. It may be non-persistent.
+ * @return this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.String)]]
+ *        or [[sunJavadoc/java/lang/StringBuilder#insert(int, java.lang.CharSequence)]]
+ *        The Relation to CharSequence is explained in the method [[insert_sII_StringBuilderJc(...)]].
+ */ 
+//METHOD_C StringBuilderJc* append_s_StringBuilderJc(StringBuilderJc* ythis, CharSeqJc src, struct ThreadContextFW_t* _thCxt);
+#define append_s_StringBuilderJc(thiz, src, _thCxt) replace_cII_StringBuilderJc(thiz, -1, -1, src, 0, -1, _thCxt)
+#define append_s_StringBufferJc append_s_StringBuilderJc
+
+#define append_c_StringBufferJc append_c_StringBuilderJc
+
+/**Appends a text at the end.
+ * @param src Reference to the text which will be append. It may be non-persistent.
+ * @param start The starting index of the subsequence to be inserted.
+ * @param end The end index of the subsequence to be inserted.
+ * @return this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.String)]]
+ *        or [[sunJavadoc/java/lang/StringBuilder#insert(int, java.lang.CharSequence)]]
+ *        The Relation to CharSequence is explained in the method [[insert_sII_StringBuilderJc(...)]].
+ */ 
+#define append_sII_StringBuilderJc(thiz, add, start, end, _thCxt) replace_cII_StringBuilderJc(thiz, -1, -1, add, start, end, _thCxt)
+//METHOD_C StringBuilderJc* append_sII_StringBuilderJc(StringBuilderJc* ythis, CharSeqJc src, int start, int end, struct ThreadContextFW_t* _thCxt);
+#define append_sII_StringBufferJc append_sII_StringBuilderJc
+
+
+/**Appends the text of the given StringBuilder at the end.
+ * @param src StringBuilder containing the text.
+ * @return this.
+ * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.StringBuffer)]]
+ */ 
+METHOD_C StringBuilderJc* append_u_StringBuilderJc(StringBuilderJc* ythis, StringBuilderJc* src, struct ThreadContextFW_t* _thCxt);
+#define append_u_StringBufferJc append_u_StringBuilderJc
+
+
+
+/**Builds a CharSeqJc {ref, val} tupel from an instance of StringBuilderJc. 
+ * The CharSeqJc {ref, val} tupel contains the reference to the StringBuilderJc-instance (ref)
+ * and the designation with [[kIsStringBuilderJc_CharSeqJc]] in val.
+ * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc immediately
+ * which runs fast.
+ */
+INLINE_Fwc CharSeqJc toCharSeqJc_StringBuilderJc(struct StringBuilderJc_t const* thiz)
+{ CharSeqJc ret;
+  set_OS_PtrValue(ret, thiz, kIsStringBuilder_CharSeqJc); 
+  return ret;
+}
+
+
+#define fromStringBuilderJc_CharSeqJc(THIZ) toCharSeqJc_StringBuilderJc(THIZ)
+
+
+/*@DEFINE_C Inlines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+
+
+
+
+
 
 
 #endif //__fw_String_h__

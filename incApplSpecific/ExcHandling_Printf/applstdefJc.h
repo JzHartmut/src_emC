@@ -1,7 +1,6 @@
 #ifndef __applstdefJc_h__
 #define __applstdefJc_h__
 
-
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
  * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
  */

@@ -44,7 +44,6 @@
 #ifndef __objectBaseC__h__
 #define __objectBaseC__h__
 
-
 struct ThreadContextFW_t;
 
 /**This file defines only the struct Object_Jc_t and the base interface ObjectifcBase_Jcpp.
@@ -58,12 +57,11 @@ struct ThreadContextFW_t;
 struct Size_Mtbl_t;
 
 
-#ifndef isNull_StringJc
-  //minimalistic definition of StringJc to work with. instead including Fwc/fw_StringJc
-  //It is only for platforms which does not use StringJc, especially for only numeric caculations.
-  //For all other include <Fwc/fw_String.h> before including this file, especially include it in the <applstdefJc.h>. 
+#ifndef __StringJc_defined__
+  //minimalistic definition of StringJc to use this type before including Fwc/fw_StringJc
   typedef OS_PtrVal_DEF(StringJc, void const);
-#endif
+  #define __StringJc_defined__
+#endif //ifdef isNull_StringJc
 
 /*@CLASS_C ObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

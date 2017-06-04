@@ -843,41 +843,6 @@ METHOD_C void setLength_StringBuilderJc(StringBuilderJc* ythis, int newLength, T
 
 
 
-METHOD_C void clear_StringBuilderJc(StringBuilderJc* ythis)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  int size = (ythis->size < 0 ? -ythis->size : ythis->size);
-  memset(buffer, 0, size);
-  ythis->_count = 0;
-}
-
-
-
-
-char charAt_StringBuilderJc(StringBuilderJc* ythis, int index, ThCxt* _thCxt)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  int count = ythis->_count;
-  STACKTRC_TENTRY("charAt_StringBuilderJc");
-  if(index < 0 || index >=count) THROW_s0(IndexOutOfBoundsException, "", index);
-  STACKTRC_LEAVE; return buffer[index];
-}
-
-
-
-
-void setCharAt_StringBuilderJc(StringBuilderJc* ythis, int index, char ch, ThCxt* _thCxt)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  int size = (ythis->size < 0 ? -ythis->size : ythis->size);
-  STACKTRC_TENTRY("setCharAt_StringBuilderJc");
-
-  if(index >= size || index <0)
-  { //StringJc msg = s0_StringJc("StringBuffer to many chars");
-    THROW_s0(IndexOutOfBoundsException, "index fault", index);
-  }
-  buffer[index] = ch;
-
-  STACKTRC_LEAVE;
-}
-
 
 
 StringBuilderJc* xxxappend_zI_StringBuilderJc(StringBuilderJc* ythis, const char* add, int lengthAdd, ThCxt* _thCxt)
@@ -953,111 +918,6 @@ StringBuilderJc* xxxappend_C_StringBuilderJc(StringBuilderJc* ythis, char add, T
 
   STACKTRC_LEAVE;
   return( ythis);
-}
-
-
-
-
-//central replace routine.
-StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int start, int end, CharSeqJc add, int from, int to, ThCxt* _thCxt)
-{ int countNew;
-  char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  int size = (ythis->size < 0 ? -ythis->size : ythis->size); //size of the buffer
-  int count = ythis->_count;
-  int start1, end1;
-  int from1, to1;
-  int nInsert;  //nr of chars to insert netto
-  int nDelete;
-  int zadd;
-  STACKTRC_TENTRY("replace_zI_StringBuilderJc");
-  if(ythis->_mode & _mStringBuilt_StringBuilderJc){
-    THROW_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
-  }
-  zadd = length_CharSeqJc(add, _thCxt);
-
-  if(start < 0) { //-1... counts from end, -1 is the end position.
-    start1 = count - (-start) +1; 
-    if(start1 < 0){ 
-      //set start1 to a admissible value if THROW longs only the error.
-      start1 = 0; THROW_s0(IndexOutOfBoundsException, "faulty -start", start);
-    }  
-  } else if(start > count) { 
-    start1 = count; THROW_s0(IndexOutOfBoundsException, "faulty start", start); 
-  } else {
-    start1 = start;
-  }
-  if(end < 0) { //-1... counts from end, -1 is the end position.
-    end1 = count - (-end) +1; 
-    if(end1 < start1){ end1 = start1; THROW_s0(IndexOutOfBoundsException, "faulty -end", end);}  
-  } else if(end > count) { 
-    end1 = count; THROW_s0(IndexOutOfBoundsException, "faulty end", end); 
-  } else if(end == 0) {  //it means, delete 0
-    end1 = start1; 
-  } else if(end < start1) {
-    end1 = start1; THROW_s0(IndexOutOfBoundsException, "faulty end before start", end);
-  } else {
-    end1 = end;
-  }
-  if(from < 0) { //-1... counts from end, -1 is the end position.
-    from1 = zadd - (-from) +1; 
-    if(from1 < 0){ from1 = 0; THROW_s0(IndexOutOfBoundsException, "faulty -from", from);}  
-  } else if(from > count) { 
-    from1 = count; THROW_s0(IndexOutOfBoundsException, "faulty from", from); 
-  } else {
-    from1 = from;
-  }
-  if(to < 0) { //-1... counts from end, -1 is the end position.
-    to1 = zadd - (-to) +1; 
-    if(to1 < from1){ 
-      to1 = from1; THROW_s0(IndexOutOfBoundsException, "faulty -to", to);
-    }  
-  } else if(to > zadd) { 
-    to1 = count; THROW_s0(IndexOutOfBoundsException, "faulty to", to); 
-  } else if(to < from1) {
-    to1 = from1; THROW_s0(IndexOutOfBoundsException, "faulty to before from", to);
-  } else {
-    to1 = to;
-  }
-
-  nDelete = end1 - start1;  //maybe 0
-  nInsert = to1 - from1;
-  int nMove = nInsert - nDelete;  //maybe negative if more deleted.
-  countNew = count + nMove;  //maybe lesser or greater
-  if(countNew > size)
-  { //in opposite to Java the StringBuffer isnot increased, no dynamically memory management.
-    //TODO perhaps test whether it is possible
-		if(ythis->_mode & _mNoException_StringBuilderJc){
-		  ythis->_mode |= _mTruncated_StringBuilderJc;
-			nInsert = size - count;
-			countNew = size;
-			
-		} else {
-			THROW_s0(RuntimeException, "StringBuffer too many chars", countNew);
-    }
-  }
-  { int nRest = count - start1 + nDelete ;  //nr of chars from end of replace area to actual end
-    if(nRest > 0) memmove(buffer + start1 + nMove, buffer + start1 + nDelete, nRest);  //moves in both directions
-  }
-  //The area to replace is free.
-  if(nInsert >0) {
-    if(isStringJc_CharSeqJc(add)) {
-      char const* cadd = PTR_OS_PtrValue(add, char const) + from1;
-      memcpy(buffer+start1, cadd, nInsert);
-    }
-    else { 
-      //a really char seq
-      int iDst = 0;
-      int iAdd; 
-      for(iAdd = from1; iAdd < to1; ++iAdd) {
-        char cc = charAt_CharSeqJc(add, iAdd, _thCxt);
-        buffer[start1 + iDst] = cc;
-        iDst +=1;
-      } 
-    }
-  }
-  _setCount_StringBuilderJc(ythis, countNew); //ythis->count = countNew;
-
-  STACKTRC_LEAVE; return( ythis);
 }
 
 
@@ -1249,7 +1109,7 @@ StringBuilderJc* XXXinsert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offse
   //The area to replace is free.
   //Read characters and insert
 
-  copyToBuffer_CharSeqJc(add, start, end, buffer + offset, size - offset);
+  copyToBuffer_CharSeqJc(add, start, end, buffer + offset, size - offset, _thCxt);
   _setCount_StringBuilderJc(thiz, countNew); //thiz->count = countNew;
 
   STACKTRC_LEAVE; return( thiz);

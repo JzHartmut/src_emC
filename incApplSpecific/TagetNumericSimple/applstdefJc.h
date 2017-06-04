@@ -26,8 +26,18 @@
 /**Include this file always. It defines some things usefull for all sources. */
 //#include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
-#include <FwConv_h/fw_StringJcSimple.h>
-//#include <Fwc/fw_String.h>
+//The working with Reflection and virtual operations is not supported,
+#include <FwConv_h/ObjectJc_simple.h>
+
+/**Use the exception handling header file - or define the macros TRY, by yourself. */
+//#include <Fwc/fw_Exception.h>
+#include <Fwc/fw_ExcStacktrcNo.h>
+
+//Don't compile CharSeqJc capabilities. It simplifies the dependencies of source
+//This is for only simple String processing in numeric or control applications.
+#define __NoCharSeqJcCapabilities__
+#include <Fwc/fw_String.h>
+
 
 //#include <Fwc/fw_threadContext.h>
 
@@ -63,14 +73,10 @@
 #endif	
 
 
-/**Use the exception handling header file - or define the macros TRY, by yourself. */
-//#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_ExcStacktrcNo.h>
-
 #include <FwConv_h/definePrintfMakros.h>
 
 //the stop is defined as empty, unused operation.
-#define stop_DebugutilJc(struct ThreadContextFW_t* _thCxt)
+//#define stop_DebugutilJc(struct ThreadContextFW_t* _thCxt)
 
 //#include <fw_Platform_conventions.h>
 

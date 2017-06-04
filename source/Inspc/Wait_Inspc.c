@@ -5,7 +5,7 @@
 #include <string.h>
 
 //generated reflection
-#include "Wait_Inspc_Refl.crefl"
+#include "Inspc/Wait_Inspc_Refl.crefl"
 
 Wait_Inspc* create_Wait_Inspc()
 { Wait_Inspc* thiz = null;
@@ -30,9 +30,16 @@ bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t
 }
 
 
+void init_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode)
+{ registerRefl_FBaccessNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
+}
+
+
  
-void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, int32 stepsTillFirstWait, int32 delay_ms)
+void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, float Tstep, int32 stepsTillFirstWait, int32 delay_ms)
 {
+  initReflection_ObjectJc(&thiz->base, thiz, sizeof(Wait_Inspc), &reflection_Wait_Inspc, 0x0);
+  thiz->base.isInitialized = 1;
   thiz->stepsTillWait = stepsTillFirstWait;
   thiz->delay_ms = delay_ms;
 }

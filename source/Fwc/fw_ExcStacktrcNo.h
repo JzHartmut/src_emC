@@ -50,6 +50,12 @@
 //#define __NOT_SUPPORTED_ThreadContextFw__
 #define __NOT_SUPPORTED_ExceptionJc__
 
+#ifndef __StringJc_defined__
+  //minimalistic definition of StringJc to use this type before including Fwc/fw_StringJc
+  typedef OS_PtrVal_DEF(StringJc, void const);
+  #define __StringJc_defined__
+#endif //ifdef isNull_StringJc
+
 #include <Fwc/fw_ExceptionDefs.h>
 
 //#include <Fwc/fw_String.h>

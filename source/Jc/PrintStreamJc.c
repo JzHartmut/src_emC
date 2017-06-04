@@ -85,7 +85,7 @@ void println_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt
 { char buffer[500];  //no more space in stack!
   int nrofChars;
   STACKTRC_TENTRY("println_s_PrintStreamJc");
-  nrofChars = copyToBuffer_CharSeqJc(text, 0, -1, buffer, sizeof(buffer)-1);
+  nrofChars = copyToBuffer_CharSeqJc(text, 0, -1, buffer, sizeof(buffer)-1, _thCxt);
   buffer[nrofChars] = 0;  //zero terminated, the rest of buffer is undefined.
   printf("%s\n", buffer);
   STACKTRC_LEAVE;

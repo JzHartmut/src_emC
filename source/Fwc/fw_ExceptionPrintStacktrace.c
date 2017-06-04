@@ -41,6 +41,7 @@
 
 #include <Fwc/fw_ThreadContext.h>
 #include <Fwc/fw_SimpleC.h>     //ARRAYLEN
+#include <Fwc/fw_String.h> 
 #include <os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>

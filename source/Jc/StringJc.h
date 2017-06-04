@@ -919,14 +919,13 @@ typedef struct StringJc_CharSeqJc_t
 
 
 
-/*@DEFINE_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C CharSeqJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 /**A CharSeqJc is the same as StringJc. The difference is: The reference type can be also an ObjectJc*, 
  * whereby the ObjectJc-instance should implement the CharSeqJc interface. 
+ * ,,#define CharSeqJc StringJc is contained in <Fwc/fw_String.h>
  */
-#define CharSeqJc StringJc
-
 
 
 typedef int32 MT_length_CharSeqJc(struct ObjectJc_t* ithiz, ThCxt* _thCxt);
@@ -1041,15 +1040,6 @@ METHOD_C CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* d
  */
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* thiz);
 
-/**Builds a CharSeqJc {ref, val} tupel from an instance of StringBuilderJc. 
- * The CharSeqJc {ref, val} tupel contains the reference to the StringBuilderJc-instance (ref)
- * and the designation with [[kIsStringBuilderJc_CharSeqJc]] in val.
- * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc immediately
- * which runs fast.
- */
-CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t const* thiz);
-
-
 
 /**Definition of an array of String, able to use as pointer type. 
  * Note: If a fix string array of a given number of Strings is necessary, it should be defined
@@ -1075,36 +1065,7 @@ typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; CharSeqJc data[50]; } CharSeqJ
 extern_C struct ClassJc_t const reflection_CharSeqJc;
 
 
-/**Copy the content to a buffer of the user.
- * The text will be terminated with 0 always. If the src text is to long. it will be truncated.
- * If the returned length == maxSizeBuffer-1, it is not determined whether the text is truncated or not.
- * Note: if the src-text (ythis) contains 0-characters in its active area, they will be copied too as normal chars.
- * 
- * @param buffer The destination buffer as char[]
- * @param start start character in the StringJc.
- * @param end exclusive end position in StringJc. If -1 then the whole StringJc till end should be copied.
- * @param maxSizeBuffer The number of bytes in Buffer.The max number of chars copied is maxSizeBuffer -1
- * @return number of chars copied. It is the number of valid chars in buffer always.
-*/
-METHOD_C int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
 
-
-
-/**A CharSequence may be any ObjectJc which implements the CharSequence' methods but it may be a StringJc too (a String in Java).
- * A StringJc is not provided as ObjectJc but as a simple pointer and length information to the constant String. 
- * A CharSeqJc is provided as a OS_PtrValue which's ref refers the CharSeqJc instance, the value is used for enhanced references.
- * THIZ is a OS_PtrValue in both cases. 
- * This methods tests whether it is a StringJc or an ObjectJc. 
- */
-METHOD_C int length_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt);
-
-
-/**Returns the character which is addressed with the position.
- * This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc. Then it is a fast operation.
- * In the other cases the inner method ,,_charAt_CharSeqJc(...),, will be invoked. 
- * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the 
- */
-METHOD_C char charAt_CharSeqJc(CharSeqJc thiz, int pos, ThCxt* _thCxt);
 
 
 
@@ -1416,33 +1377,6 @@ INLINE_Fwc int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int16 size
  */
 #define indexOf_zI_StringBuilderJc(THIZ, STR, POS, _THC) indexOf_sI_StringJc(toStringNonPersist_StringBuilderJc(&(THIZ)->base.object, _THC), s0_StringJc(STR), POS)
 
-/**Returns the char at position idx.
- * @param index The index. It should be a positiv number and less than the length of the text.
- *        Because this is a fast access using a macro, the index in not tested. If the index is fault,
- *        an undefined value is returned. If the built position with this index is outside the memory area,
- *        an memory exception can be thrown. Therefore: Only use correct indices.
- * @return character at the position of text + idx.
- * @javalike [[sunJavadoc/java/lang/StringBuilder#charAt(int)]] but a test of idx is not done.
- */
-METHOD_C char charAt_StringBuilderJc(StringBuilderJc* ythis, int index, struct ThreadContextFW_t* _thCxt);
-
-/**Sets the char at position.
- * @param index The index. It should be a positiv number and less than the length of the text.
- * @param ch char to set.
- * @javalike [[sunJavadoc/java/lang/StringBuilder#setCharAt(int, char)]].
- */
-METHOD_C void setCharAt_StringBuilderJc(StringBuilderJc* ythis, int index, char ch, struct ThreadContextFW_t* _thCxt);
-
-
-
-/**Deletes the char at the given position. The text-length will be reduced by 1 char.
- * @param IDX position of char to delete.
- * @return this.
- * @javalike [[sunJavadoc/java/lang/StringBuilder#deleteCharAt(int)]].
- * @macro It calls [[replace_zI_StringBuilderJc(...)]].
- */ 
-#define deleteCharAt_StringBuilderJc(YTHIS, IDX, _THC) replace_zI_StringBuilderJc(YTHIS,IDX, IDX+1, null, 0, _THC)
-
 /**Insert a text at the given position.
  * @param pos position of char at which the text will be inserted
  * @param str Reference to the text which will be insert. It may be non-persistent.
@@ -1563,24 +1497,6 @@ METHOD_C StringBuilderJc* insert_C_StringBuilderJc(StringBuilderJc* ythis, int p
  */
 #define replace_StringBuilderJc(thiz, start, end, add, _thCxt) replace_cII_StringBuilderJc(thiz, start, end, add, 0, -1, _thCxt)
 
-/**Replaces the characters in a part of this sequence with characters in the specified String. 
- *
- * It is the core method to insert, append, replace, delete with a given ,,CharSeqJc,,. All those methods are implemented with this method.
- * @param pos The position where characters will will be deleted and inserted. Use -1 for append on end. Negative numbers counts the position from end.
- * @param end The position till characters will be removed. Use same value as pos or 0 if no characters should be deleted.
- *    Negative numbers counts the end position from the end of the buffer content.
- * @param add reference to the insertion text given in a CharSeqJc. 
- *    If a simple char* should be inserted, use [[z_CharSeqJc(...)]] or [[zI_CharSeqJc(...)]] to built the add
- * @param from start position inside the CharSeqJc for the insertion text. If negative then it counts from end. -2 is one char to end.
- * @param to end position inside the CharSeqJc. If equal from, especially both are null, then nothing will be inserted. 
- *    If negative then it is the neg. number of characters.
- * @throws StringIndexOutOfBoundsException if the pos, end, from, to are faulty or there is not enough capacity to insert.
- *    See [[_mNoException_StringBuilderJc]].
- * @javalike [[sunJavadoc/java/lang/StringBuilder#replace(int, int, java.lang.String)]].
- */
-METHOD_C StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int pos, int end, CharSeqJc value, int from, int to, struct ThreadContextFW_t* _thCxt);
-
-
 
 /**Inserts the text representation of the second int argument into this sequence.
  * The second argument is converted to a text as if by the method String.valueOf,
@@ -1662,78 +1578,6 @@ METHOD_C StringBuilderJc* insert_F_StringBuilderJc(StringBuilderJc* ythis, int o
  * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, double)]].
  */
 METHOD_C StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int offset, double value, struct ThreadContextFW_t* _thCxt);
-
-/**Inserts the text CharSeqJc into this sequence.
- *
- * @param pos - the offset.
- * @param value - an CharSeqJc. It is a CharSeqJc, a StringBuilderJc or any other class accessed via method table.
- * @param start index of the first char in value
- * @param end index after the last char in value
- * @return a reference to this object.
- * @throws StringIndexOutOfBoundsException - if the offset is invalid.
- * @see [[valueOf_I_StringJc(...)]]
- * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, double)]].
- */
-#define insert_cYii_StringBuilderJc(THIS, POS, ADD, FROM, TO, _THCXT) replace_cII_StringBuilderJc(THIS, POS, POS, ADD, FROM, TO, _THCXT) 
-//METHOD_C StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* ythis, int offset, CharSeqJc value, int start, int end, struct ThreadContextFW_t* _thCxt);
-
-
-/**Handle append(CharSequence) in the same way like append(String). distinghuish on runtime. */
-#define append_c_StringBuilderJc(THIZ, VAL, THCXT) replace_cII_StringBuilderJc(THIZ, -1, -1, VAL, 0, -1, THCXT)  //insert_cYii_StringBuilderJc(THIZ, -1, VAL, 0, -1, THCXT) 
-
-
-/**Appends a text at the end.
- * @param src ,,char const*,, text. The maximal detected length of the text is mLength__StringJc. Use it only for "literal".
- * @return this
- */
-#define append_z_StringBuilderJc(YTHIS, src, _THC) replace_zI_StringBuilderJc(YTHIS, -1, -1, src, -1, _THC)
-#define append_z_StringBufferJc append_z_StringBuilderJc
-/** C-like: appends a character text with given length. */
-
-/**Appends a text at the end.
- * @param src reference of type ,,char const*,, to the text to insert, may be null, than nothing is inserted idenendent of ,,len,,. 
- *            The text is not 0-terminated. ,,\0,,-chars are copied into the buffer without extra handling. 
- * @param lenSrc Number of chars to insert. It may be 0, than nothing is inserted independent of ,,add,,.
- * @return this
- */
-#define append_zI_StringBuilderJc(YTHIS, src, lenSrc, _THC) replace_zI_StringBuilderJc(YTHIS, -1, -1, src, lenSrc, _THC)
-#define append_zI_StringBufferJc append_zI_StringBuilderJc
-
-
-/**Appends a text at the end.
- * @param src Reference to the text which will be append. It may be non-persistent.
- * @return this.
- * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.String)]]
- *        or [[sunJavadoc/java/lang/StringBuilder#insert(int, java.lang.CharSequence)]]
- *        The Relation to CharSequence is explained in the method [[insert_sII_StringBuilderJc(...)]].
- */ 
-//METHOD_C StringBuilderJc* append_s_StringBuilderJc(StringBuilderJc* ythis, CharSeqJc src, struct ThreadContextFW_t* _thCxt);
-#define append_s_StringBuilderJc(thiz, src, _thCxt) replace_cII_StringBuilderJc(thiz, -1, -1, src, 0, -1, _thCxt)
-#define append_s_StringBufferJc append_s_StringBuilderJc
-
-#define append_c_StringBufferJc append_c_StringBuilderJc
-
-/**Appends a text at the end.
- * @param src Reference to the text which will be append. It may be non-persistent.
- * @param start The starting index of the subsequence to be inserted.
- * @param end The end index of the subsequence to be inserted.
- * @return this.
- * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.String)]]
- *        or [[sunJavadoc/java/lang/StringBuilder#insert(int, java.lang.CharSequence)]]
- *        The Relation to CharSequence is explained in the method [[insert_sII_StringBuilderJc(...)]].
- */ 
-#define append_sII_StringBuilderJc(thiz, add, start, end, _thCxt) replace_cII_StringBuilderJc(thiz, -1, -1, add, start, end, _thCxt)
-//METHOD_C StringBuilderJc* append_sII_StringBuilderJc(StringBuilderJc* ythis, CharSeqJc src, int start, int end, struct ThreadContextFW_t* _thCxt);
-#define append_sII_StringBufferJc append_sII_StringBuilderJc
-
-
-/**Appends the text of the given StringBuilder at the end.
- * @param src StringBuilder containing the text.
- * @return this.
- * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.StringBuffer)]]
- */ 
-METHOD_C StringBuilderJc* append_u_StringBuilderJc(StringBuilderJc* ythis, StringBuilderJc* src, struct ThreadContextFW_t* _thCxt);
-#define append_u_StringBufferJc append_u_StringBuilderJc
 
 /** java:StringBuffer.append(String) */
 //METHOD_C StringBuilderJc* append_z_StringBuilderJc(StringBuilderJc* ythis, const char* add, struct ThreadContextFW_t* _thCxt);
@@ -2035,29 +1879,6 @@ StringBuilderJcpp* threadBuffer_s_StringBuilderJcpp(CharSeqJc src, struct Thread
 
 
 #endif //__CPLUSPLUSJcpp
-
-/*@DEFINE_C Inlines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-METHOD_C int _length_CharSeqJc(CharSeqJc thiz, int length, ThCxt* _thCxt);
-
-
-INLINE_Fwc int length_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt){
-  int length = thiz.val & mLength__StringJc;
-  if(length < kMaxLength_StringJc) return length;
-  else if(length == kIsStringBuilder_CharSeqJc) return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc));
-  else return _length_CharSeqJc(thiz, length, _thCxt);
-}
-
-METHOD_C char _charAt_CharSeqJc(CharSeqJc thiz, int val, int pos, ThCxt* _thCxt);
-
-INLINE_Fwc char charAt_CharSeqJc(CharSeqJc thiz, int pos, ThCxt* _thCxt)
-{
-  int val = thiz.val & mLength__StringJc;
-  if(val <= kMaxLength_StringJc && pos < val){ char const* str = (char const*)thiz.ref; return str[pos]; }
-  else if(val == kIsStringBuilder_CharSeqJc) return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc), pos, _thCxt);
-  else return _charAt_CharSeqJc(thiz, val, pos, _thCxt);
-
-}
 
 
 #endif //__StringJc_h__

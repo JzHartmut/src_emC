@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/incApplSpecific/ExcHandling_Printf" /I "S:/Jc/CRuntimeJavalike/sourceSpecials" /I "S:/Jc/CRuntimeJavalike/source/OSAL" /I "S:/Jc/CRuntimeJavalike/source" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/cc_Msc6" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
+# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/incApplSpecific/TagetNumericSimple" /I "S:/Jc/CRuntimeJavalike/sourceSpecials" /I "S:/Jc/CRuntimeJavalike/source/OSAL" /I "S:/Jc/CRuntimeJavalike/source" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/cc_Msc6" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -91,22 +91,15 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_MemC.h
+SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_MemC.h
 # End Source File
 # Begin Source File
 
 SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_SimpleC.c
-
-!IF  "$(CFG)" == "TestStringJcSimple - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "TestStringJcSimple - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_SimpleC.h
+SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_SimpleC.h
 # End Source File
 # Begin Source File
 
@@ -114,15 +107,11 @@ SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_String.c
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_String.h
+SOURCE=S:\Jc\CRuntimeJavalike\source\Fwc\fw_String.h
 # End Source File
 # Begin Source File
 
 SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_ThreadContext.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\objectBaseC.h
 # End Source File
 # End Group
 # Begin Group "FwConv_c"
@@ -162,19 +151,15 @@ SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\osal_Windows32\os_mem.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\applstdefJc.h
+SOURCE=S:\Jc\CRuntimeJavalike\incApplSpecific\TagetNumericSimple\applstdefJc.h
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\BlockHeap_PlatformSpec.h
+SOURCE=S:\Jc\CRuntimeJavalike\incApplSpecific\TagetNumericSimple\fw_assert.h
 # End Source File
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_assert.h
-# End Source File
-# Begin Source File
-
-SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\ExcHandling_Printf.template\fw_Platform_conventions.h
+SOURCE=S:\Jc\CRuntimeJavalike\source\FwConv_h\ObjectJc_simple.h
 # End Source File
 # End Group
 # End Group

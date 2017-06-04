@@ -41,6 +41,7 @@
 
 #include <Fwc/fw_Exception.h>
 
+#include <Fwc/fw_String.h>
 #ifndef __NOT_SUPPORTED_ExceptionJc__
 
 #include <Fwc/fw_ThreadContext.h>

@@ -1,9 +1,10 @@
 #ifndef __Wait_Inspc_h__
 #define __Wait_Inspc_h__
-#include <os_types_def.h>
-#include <Jc/ObjectJc.h>
-#include <Jc/ReflectionJc.h>
-#include <Fwc/fw_String.h>
+#include <applstdefJc.h>
+#include <Fwc/objectBaseC.h>   //The ObjectJc is used as base class for all struct
+//#include <Jc/ObjectJc.h>
+//#include <Jc/ReflectionJc.h>
+//#include <Fwc/fw_String.h>
 
 
 
@@ -41,7 +42,7 @@ bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t
 /**
  * @simulink Sfunc
  */
-void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, int32 stepsTillFirstWait, int32 delay_ms);
+void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, float Tstep, int32 stepsTillFirstWait, int32 delay_ms);
 
 
 /**

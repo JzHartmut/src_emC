@@ -313,7 +313,7 @@ int open_FileReaderJcF(FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _thCxt
   if(ythis->file_ != null)
   { THROW_s0(IllegalArgumentException, "fault time of call, file is opened", ythis->lenFile_);
   }
-  len = copyToBuffer_CharSeqJc(sFileName, 0, -1, ssFileName, sizeof(ssFileName)); 
+  len = copyToBuffer_CharSeqJc(sFileName, 0, -1, ssFileName, sizeof(ssFileName), _thCxt); 
   for(ii=0; ii<len; ii++){ if(ssFileName[ii] == '/'){ ssFileName[ii] = '\\'; } }
   ythis->file_ = os_fopenToRead(ssFileName);
   if(ythis->file_ != null)

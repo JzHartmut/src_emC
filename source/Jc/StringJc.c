@@ -85,13 +85,6 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
 }
 
 
-CharSeqJc fromStringBuilderJc_CharSeqJc(struct StringBuilderJc_t const* othiz)
-{ CharSeqJc ret;
-  set_OS_PtrValue(ret, othiz, kIsStringBuilder_CharSeqJc); 
-  return ret;
-}
-
-
 
 
 
@@ -152,7 +145,7 @@ Mtbl_CharSeqJc mtbl_StringJc_CharSeqJc =
 
 
 
-Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz)
+Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContextFW_t* _thCxt)
 {
   int nChars = VAL_CharSeqJc(thiz) & mLength__StringJc;
   ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
@@ -174,43 +167,20 @@ Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz)
 }
 
 
-
-
-int copyToBuffer_CharSeqJc(StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer)
-{
-  int nChars = VAL_CharSeqJc(thiz) & mLength__StringJc;
-  if(nChars == kIsStringBuilder_CharSeqJc) {
-    StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
-    //STACKTRC_LEAVE; 
-    return copyToBuffer_StringBuilderJc(sb, start, end, buffer, maxSizeBuffer);
-  } else if(nChars <= kMaxLength_StringJc) {
-    return copyToBuffer_StringJc(thiz, start, end, buffer, maxSizeBuffer);
-  }
-  else { 
-    Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz);
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
-    int iChars;
-    nChars = mc->length(othiz, null); //_thCxt);  
-    if(nChars >= maxSizeBuffer){ nChars = maxSizeBuffer ; }
-    for(iChars = 0; iChars < nChars; ++iChars) {
-      char cc = mc->charAt(othiz, iChars, null); //_thCxt);
-      buffer[iChars] = cc;
-    }
-    return nChars;
-  }
-}
-
-
 CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_StringJc, ThCxt* _thCxt)
 { CharSeqJcMTB ret;
   int val = VAL_CharSeqJc(thiz) & mLength__StringJc;
-  if(val <= kMaxLength_StringJc) {
+  if(val == kIs_0_terminated_StringJc) { 
+    val = strlen_Fwc(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc); 
+  }
+
+  if(val <= kMaxNrofChars_StringJc) {
     //A String, use the given instance of dst_StringJc
     if(dst_StringJc !=null) {
       memset(dst_StringJc, 0, sizeof(StringJc_CharSeqJc));
       init_ObjectJc(&dst_StringJc->base, sizeof(StringJc_CharSeqJc), 0);
       dst_StringJc->s = PTR_OS_PtrValue(thiz, char const);
-      dst_StringJc->length = (val == kMaxLength_StringJc) ? strlen_Fwc(dst_StringJc->s, kMaxLength_StringJc) : val;
+      dst_StringJc->length = val;
       ret.mtbl = null;
       ret.ref = null;
 
@@ -238,24 +208,6 @@ CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_String
 
 
 
-int length_CharSeqJc_(CharSeqJc thiz)
-{
-  int val = VAL_CharSeqJc(thiz) & mLength__StringJc;
-  if(val == kIsStringBuilder_CharSeqJc) {
-    StringBuilderJc* b = PTR_OS_PtrValue(thiz, StringBuilderJc);
-    return b->_count; 
-  }
-  else if(val == kMaxLength_StringJc) {
-    return strlen_Fwc(PTR_OS_PtrValue(thiz, char const), kMaxLength_StringJc);
-  }
-  else if(val < kMaxLength_StringJc) {
-    return val;
-  } else {
-    const Mtbl_CharSeqJc* mtbl = getMtbl_CharSeqJc(thiz);
-    return mtbl->length(PTR_OS_PtrValue(thiz, ObjectJc), null);
-  }
-}
-
 
 
 
@@ -273,7 +225,7 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
     STACKTRC_LEAVE; return ret;
   }
   else if(val & mIsCharSeqJcMtbl_CharSeqJc) {
-    Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz);
+    Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz, _thCxt);
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
     int iChars;
     int nChars = mc->length(othiz, _thCxt);
@@ -300,39 +252,6 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
 
 
 
-
-
-int _length_CharSeqJc(CharSeqJc thiz, int length, ThCxt* _thCxt){
-  if(length == kMaxLength_StringJc) return strlen_Fwc(PTR_OS_PtrValue(thiz, char const), kMaxLength_StringJc);
-  else if(length < kIsStringBuilder_CharSeqJc) {
-    //It contains the index to the method table inside the given reflection.
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
-    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)checkMtbl_ObjectJc(othiz, length & mMtbl_CharSeqJc, sign_Mtbl_CharSeqJc, _thCxt);
-    return mthiz->length(othiz, _thCxt) ;
-  }
-  else if(length == kIsCharSeqJc_CharSeqJc) {
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
-    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
-    return mthiz->length(othiz, _thCxt) ;
-  }
-  else return -1;
-}
-
-
-char _charAt_CharSeqJc(CharSeqJc thiz, int length, int pos, ThCxt* _thCxt){
-  if(length > kMaxLength_StringJc && length < kIsStringBuilder_CharSeqJc) {
-    //It contains the index to the method table inside the given reflection.
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
-    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)checkMtbl_ObjectJc(othiz, length & mMtbl_CharSeqJc, sign_Mtbl_CharSeqJc, _thCxt);
-    return mthiz->charAt(othiz, pos, _thCxt) ;
-  }
-  else if(length == kIsCharSeqJc_CharSeqJc) {
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
-    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
-    return mthiz->charAt(othiz, pos, _thCxt) ;
-  }
-  else return -1;
-}
 
 
 

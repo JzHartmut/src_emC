@@ -8,7 +8,7 @@ set INPUT= -i:Wait_Inspc.h
 set OUTPUT=.\Wait_Inspc_Refl
 
 REM either use local zbnfjax folder or the setZBNFJAX_HOME.bat should be able to locate in the PATH.
-if exist ..\..\..\zbnfjax set ZBNFJAX_HOME=..\..\zbnfjax
+if exist ..\..\..\..\ZBNF\zbnfjax set ZBNFJAX_HOME=..\..\..\..\ZBNF\zbnfjax
 if not exist ..\..\..\zbnfjax call setZBNFJAX_HOME.bat
 
 if exist %OUTPUT%.crefl del /F /Q %OUTPUT%.crefl 

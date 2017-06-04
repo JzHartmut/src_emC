@@ -1,4 +1,5 @@
 #include <OSAL/os_sharedmem.h>
+#include <Fwc/fw_String.h>
 
 #undef BOOL
 #undef PBOOL
