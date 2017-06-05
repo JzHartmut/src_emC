@@ -51,6 +51,7 @@
 #include <Fwc/fw_MemC.h>
 struct TryObjectJc_t;
 
+#define __ThreadContextFW_supported__
 
 typedef struct AddrUsed_ThreadContextFW_t
 { char const* sign;

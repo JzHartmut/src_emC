@@ -4,7 +4,7 @@ if exist T:\tmp set TMP=T:\tmp\Jc
 if exist D:\tmp set TMP=D:\tmp\Jc
 if not exist %TMP% mkdir %TMP%
 
-set INPUT= -i:FBaccess_Inspc_priv.h
+set INPUT= -i:FBaccess_Inspc_priv.h -i:DataNode_Inspc.h
 set OUTPUT=.\FBaccess_Inspc_Refl.crefl
 set CTRL=../../make/ReflectionJc.ctr
 

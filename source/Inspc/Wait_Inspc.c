@@ -25,12 +25,12 @@ void ctor_Wait_Inspc(Wait_Inspc* thiz)
 
 
 
-bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode)
+bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 { return registerRefl_FBaccessNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
 }
 
 
-void init_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode)
+void init_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 { registerRefl_FBaccessNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
 }
 

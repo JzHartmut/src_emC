@@ -407,7 +407,7 @@ INLINE_Fwc StringJc zI_StringJc(char const* src, int len)
 
 #define isEmpty_s0_Fwc(TEXT) ((TEXT)==null || *(TEXT)==0)
 
-int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt);
+int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContextFW_t* _thCxt);
 
 
 /**Returns the length. If the source stores the value kMaxLength__StringJc in its value-element,
@@ -416,7 +416,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt);
  * inside the given length.
  * @return The length of the string.
  */
-INLINE_Fwc int length_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt)  //INLINE
+INLINE_Fwc int length_CharSeqJc(CharSeqJc thiz, struct ThreadContextFW_t* _thCxt)  //INLINE
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if(val < kMaxNrofChars_StringJc) { 
@@ -430,14 +430,14 @@ INLINE_Fwc int length_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt)  //INLINE
 #define length_StringJc(THIZ) length_CharSeqJc(THIZ, null)
 
 
-char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, ThCxt* _thCxt);
+char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContextFW_t* _thCxt);
 
 /**Returns the character which is addressed with the position.
  * This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc. Then it is a fast operation.
  * In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked. 
  * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the 
  */
-INLINE_Fwc char charAt_CharSeqJc(CharSeqJc thiz, int pos, ThCxt* _thCxt)
+INLINE_Fwc char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContextFW_t* _thCxt)
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if(val < kMaxNrofChars_StringJc && pos < val) { 
@@ -570,12 +570,14 @@ METHOD_C int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, cha
 /*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
+#ifndef __ObjectJc_simple__
+
 
 
 extern_C struct Mtbl_CharSeqJc_t const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContextFW_t* _thCxt);
 
 
-
+#endif
 
 /*@CLASS_C StringBuilderJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 #include <Fwc/objectBaseC.h>
@@ -676,6 +678,12 @@ typedef struct  StringBuilderJc_t
     char* buffer;
   }value;
 }StringBuilderJc;
+
+
+#ifndef StringBuilderJcREFDEF
+  #define StringBuilderJcREFDEF
+  typedef TYPE_EnhancedRefJc(StringBuilderJc);
+#endif
 
 
 #define sizeof_StringBuilderJc sizeof(StringBuilderJc)

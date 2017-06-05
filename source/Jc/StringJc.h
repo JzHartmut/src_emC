@@ -1091,10 +1091,17 @@ METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 /*@CLASS_C StringBuilderJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-#ifndef StringBuilderJcREFDEF
-  #define StringBuilderJcREFDEF
-  typedef TYPE_EnhancedRefJc(StringBuilderJc);
-#endif
+typedef struct Mtbl_StringBufferJc_t 
+{ MtblHeadJc head;
+  Mtbl_ObjectJc ObjectJc; 
+  //Method table of interfaces:
+  Mtbl_CharSeqJc CharSeqJc;
+} Mtbl_StringBufferJc;
+
+
+typedef struct MtblDef_StringBufferJc_t { Mtbl_StringBufferJc mtbl; MtblHeadJc end; } MtblDef_StringBufferJc;
+
+extern MtblDef_StringBufferJc const mtblStringBufferJc;
 
 
 

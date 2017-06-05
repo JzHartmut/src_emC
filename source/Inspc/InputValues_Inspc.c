@@ -90,7 +90,7 @@ void ctor_InputValues_Inspc(InputValues_Inspc* thiz)
 
 
 
-bool registerReflection_InputValues_Inspc(InputValues_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode)
+bool registerReflection_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 { return registerRefl_FBaccessNode_Inspc(reflNode, thiz, thiz->nameRefl, &thiz->clazz);
 }
 
@@ -111,7 +111,7 @@ void free_InputValues_Inspc(InputValues_Inspc* thiz)
 
 
 
-void test_InputValues_Inspc(struct FBaccessNode_Inspc_t* reflNode)
+void test_InputValues_Inspc(struct DataNode_Inspc_t* reflNode)
 {
 
   static InputValues_Inspc* test = create_InputValues_Inspc();

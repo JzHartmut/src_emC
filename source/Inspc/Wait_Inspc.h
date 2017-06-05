@@ -35,8 +35,8 @@ Wait_Inspc* create_Wait_Inspc();
 void ctor_Wait_Inspc(Wait_Inspc* thiz);
 
 
-/**Register it in a FBaccessNode_Inspc, invoke one time after create. */
-bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode);
+/**Register it in a DataNode_Inspc, invoke one time after create. */
+bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
 
 
 /**
@@ -48,7 +48,7 @@ void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, float Tstep, int32 stepsTillFirs
 /**
  * @simulink Sfunc
  */
-void init_Wait_Inspc(Wait_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode);
+void init_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
 
 /**Counts stepTillWait down, if 0 and delay_ms == 0, waits for inspector communication.
  * if <0 then use delay. If >0 full speed.

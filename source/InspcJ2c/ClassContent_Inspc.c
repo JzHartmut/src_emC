@@ -1122,7 +1122,7 @@ int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct 
       { 
         
         
-        int32  addr = getMemoryIdent_FieldJc(theField, theObject, "I", idxP[0]);
+        int32  addr = (int32)getMemoryIdent_FieldJc(theField, theObject, "I", idxP[0]);  //TODO cast in Java, void* may correct
         addChildInteger_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), 1, kReferenceAddr_InspcDataExchangeAccess_Inspc, _thCxt);/*Set the number of char-bytes in 1 byte*/
         
         addChildInteger_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), 4, addr, _thCxt);
@@ -1216,7 +1216,7 @@ int32 registerHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, StringJc sVa
         
         int32  modifier = getModifiers_FieldJc(theField);
         
-        int32  addr = getMemoryIdent_FieldJc(theField, theObject, "I", idxP[0]);
+        int64  addr = (int64) getMemoryIdent_FieldJc(theField, theObject, "I", idxP[0]);  //TODO void* in Java?
         
         int32  ixReg = 0;
         

@@ -107,8 +107,8 @@ TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries);
 void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries);
 
 
-/**Register it in a FBaccessNode_Inspc, invoke one time after create. */
-bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode);
+/**Register it in a DataNode_Inspc, invoke one time after create. */
+bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
 
 
 /**The channels and filepath should be set before. 

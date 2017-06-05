@@ -48,51 +48,9 @@ const ClassJc reflection_SimulationTime_Inspc =
 
 
 
-extern_C const ClassJc reflection_FBaccessNode_Inspc;  //the just defined reflection_
-extern_C const ClassJc reflection_ObjectJc;
-const struct Reflection_Fields_FBaccessNode_Inspc_t
-{ ObjectArrayJc head;
-  FieldJc data[2];
-} reflection_Fields_FBaccessNode_Inspc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_FBaccessNode_Inspc)
-, {
-    { "super"
-    , 0   //no Array, no Bitfield
-    , &reflection_ObjectJc
-    , 0 //bitModifiers
-    , (int16)((int32)(&((FBaccessNode_Inspc*)(0x1000))->object) -(int32)(FBaccessNode_Inspc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_FBaccessNode_Inspc
-    }
-  , { "data"
-    , 100   //nrofArrayElements
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FBaccessNode_Inspc*)(0x1000))->data) -(int32)(FBaccessNode_Inspc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_FBaccessNode_Inspc
-    }
-} };
-
-
-const ClassJc reflection_FBaccessNode_Inspc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FBaccessNode_Inspc, &reflection_ClassJc)
-, "FBaccessNode_Inspc"
-, 0
-, sizeof(FBaccessNode_Inspc)
-, (FieldJcArray const*)&reflection_Fields_FBaccessNode_Inspc  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0  |mObjectJc_Modifier_reflectJc
-};
-
-
-
-
 extern_C const ClassJc reflection_FBaccess_Inspc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
-extern_C const ClassJc reflection_FBaccessNode_Inspc;
+extern_C const ClassJc reflection_DataNode_Inspc;
 extern_C const ClassJc reflection_SimulationTime_Inspc;
 extern_C const ClassJc reflection_Inspector_Inspc_s;
 const struct Reflection_Fields_FBaccess_Inspc_t
@@ -101,7 +59,7 @@ const struct Reflection_Fields_FBaccess_Inspc_t
 } reflection_Fields_FBaccess_Inspc =
 { CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_FBaccess_Inspc)
 , {
-    { "super"
+    { "object"
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
@@ -111,8 +69,8 @@ const struct Reflection_Fields_FBaccess_Inspc_t
     }
   , { "rootNode"
     , 0   //no Array, no Bitfield
-    , &reflection_FBaccessNode_Inspc
-    , 0| mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_DataNode_Inspc
+    , 0 //bitModifiers
     , (int16)((int32)(&((FBaccess_Inspc*)(0x1000))->rootNode) -(int32)(FBaccess_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FBaccess_Inspc
@@ -142,6 +100,50 @@ const ClassJc reflection_FBaccess_Inspc =
 , 0
 , sizeof(FBaccess_Inspc)
 , (FieldJcArray const*)&reflection_Fields_FBaccess_Inspc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
+#include "DataNode_Inspc.h"
+
+
+extern_C const ClassJc reflection_DataNode_Inspc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+const struct Reflection_Fields_DataNode_Inspc_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} reflection_Fields_DataNode_Inspc =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_DataNode_Inspc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((DataNode_Inspc*)(0x1000))->object) -(int32)(DataNode_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_DataNode_Inspc
+    }
+  , { "data"
+    , 100   //nrofArrayElements
+    , REFLECTION_void
+    , (8<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((DataNode_Inspc*)(0x1000))->data) -(int32)(DataNode_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_DataNode_Inspc
+    }
+} };
+
+
+const ClassJc reflection_DataNode_Inspc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_DataNode_Inspc, &reflection_ClassJc)
+, "DataNode_Inspc"
+, 0
+, sizeof(DataNode_Inspc)
+, (FieldJcArray const*)&reflection_Fields_DataNode_Inspc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces

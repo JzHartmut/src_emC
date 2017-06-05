@@ -33,13 +33,14 @@
 //#include <Fwc/fw_Exception.h>
 #include <Fwc/fw_ExcStacktrcNo.h>
 
+/**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
+#include <FwConv_h/EnhanceRef_simple.h>
+
+
 //Don't compile CharSeqJc capabilities. It simplifies the dependencies of source
 //This is for only simple String processing in numeric or control applications.
 #define __NoCharSeqJcCapabilities__
 #include <Fwc/fw_String.h>
-
-
-//#include <Fwc/fw_threadContext.h>
 
 
 /** If this define is setted, the TRY, CATCH and THROW makros use the C++ keywords

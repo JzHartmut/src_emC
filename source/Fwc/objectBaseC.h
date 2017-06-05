@@ -59,7 +59,7 @@ struct Size_Mtbl_t;
 
 #ifndef __StringJc_defined__
   //minimalistic definition of StringJc to use this type before including Fwc/fw_StringJc
-  typedef OS_PtrVal_DEF(StringJc, void const);
+  typedef OS_PtrVal_DEF(StringJc, char const);
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 

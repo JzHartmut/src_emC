@@ -6,7 +6,7 @@
 #include <Fwc/objectBaseC.h>
 #include <Jc/ReflectionJc.h>
 
-#include <Inspc/FBaccessNode_Inspc.data.h>
+#include <Inspc/DataNode_Inspc.h>
 
 typedef struct SimulationTime_Inspc_t
 {
@@ -22,7 +22,7 @@ typedef struct SimulationTime_Inspc_t
 
 typedef struct FBaccess_Inspc_t
 { ObjectJc object;
-  FBaccessNode_Inspc* rootNode;
+  DataNode_Inspc* rootNode;
   SimulationTime_Inspc simTime;
   Inspector_Inspc_s theInspector;
 } FBaccess_Inspc;

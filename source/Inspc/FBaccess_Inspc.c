@@ -15,8 +15,8 @@ void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObject
   FBaccess_Inspc* thiz = (FBaccess_Inspc*)malloc(sizeof(FBaccess_Inspc));
   memset(thiz, 0, sizeof(FBaccess_Inspc));
 
-  FBaccessNode_Inspc* rootNode = (FBaccessNode_Inspc*)malloc(sizeof(FBaccessNode_Inspc));
-  memset(rootNode, 0, sizeof(FBaccessNode_Inspc));
+  DataNode_Inspc* rootNode = (DataNode_Inspc*)malloc(sizeof(DataNode_Inspc));
+  memset(rootNode, 0, sizeof(DataNode_Inspc));
 
   ctor_FBaccessNode_Inspc(&rootNode->object, nrofObjects);
 
@@ -36,7 +36,7 @@ extern_C ClassJc const reflection_SimulationTime_Inspc;
  * @param rootNode The root node for all FB access. Should be given and intialized.
  * @param rootInspc The root struct for all access. It can be the same as rootNode, it can be another struct. Should be given and initialized. 
  */
-FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, FBaccessNode_Inspc* rootNode, ObjectJc* rootInspc, const char* sIp)
+FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, DataNode_Inspc* rootNode, ObjectJc* rootInspc, const char* sIp)
 {
   STACKTRC_ENTRY("ctor_FBaccess_Inspc");
   //char sIp[30];
@@ -69,7 +69,7 @@ void free_FBaccess_Inspc(FBaccess_Inspc* thiz)
 }
 
 
-void ptrRootNode_FBaccess_Inspc(FBaccess_Inspc* thiz, FBaccessNode_Inspc** p_node)
+void ptrRootNode_FBaccess_Inspc(FBaccess_Inspc* thiz, DataNode_Inspc** p_node)
 { *p_node = thiz->rootNode;
 }
 

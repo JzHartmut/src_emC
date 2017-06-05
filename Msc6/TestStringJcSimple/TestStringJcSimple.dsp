@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/incApplSpecific/TagetNumericSimple" /I "S:/Jc/CRuntimeJavalike/sourceSpecials" /I "S:/Jc/CRuntimeJavalike/source/OSAL" /I "S:/Jc/CRuntimeJavalike/source" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/cc_Msc6" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
+# ADD CPP /nologo /W3 /Gm /ZI /Od /I "S:/Jc/CRuntimeJavalike/incApplSpecific/TagetNumericSimple" /I "S:/Jc/CRuntimeJavalike/source/OSAL" /I "S:/Jc/CRuntimeJavalike/source" /I "S:/Jc/CRuntimeJavalike/sourceSpecials/cc_Msc6" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /TP /c
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
 # ADD RSC /l 0x407 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -119,10 +119,6 @@ SOURCE=S:\Jc\CRuntimeJavalike\include\Fwc\fw_ThreadContext.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=S:\Jc\CRuntimeJavalike\incApplSpecific\ExcHandling_Printf\applstdefJc.h
-# End Source File
-# Begin Source File
-
 SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\FwConv_c\fw_ExcStacktrcNo.c
 # End Source File
 # End Group
@@ -156,6 +152,10 @@ SOURCE=S:\Jc\CRuntimeJavalike\incApplSpecific\TagetNumericSimple\applstdefJc.h
 # Begin Source File
 
 SOURCE=S:\Jc\CRuntimeJavalike\incApplSpecific\TagetNumericSimple\fw_assert.h
+# End Source File
+# Begin Source File
+
+SOURCE=S:\Jc\CRuntimeJavalike\sourceSpecials\FwConv_c\ObjectJc_simple.c
 # End Source File
 # Begin Source File
 

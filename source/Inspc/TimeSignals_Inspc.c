@@ -86,7 +86,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries)
 
 
 
-bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode)
+bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 { return registerRefl_FBaccessNode_Inspc(reflNode, thiz, thiz->nameModule, &thiz->clazz);
 }
 
@@ -293,7 +293,7 @@ void free_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 
 
 
-void test_TimeSignals_Inspc(struct FBaccessNode_Inspc_t* reflNode, char const* path)
+void test_TimeSignals_Inspc(struct DataNode_Inspc_t* reflNode, char const* path)
 {
 
   static TimeSignals_Inspc* test = create_TimeSignals_Inspc(100);

@@ -1190,17 +1190,6 @@ StringBuilderJcpp* new_StringBuilderJcpp(int size)
 #endif
 
 
-typedef struct Mtbl_StringBufferJc_t 
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc; 
-  //Method table of interfaces:
-  Mtbl_CharSeqJc CharSeqJc;
-} Mtbl_StringBufferJc;
-
-
-typedef struct MtblDef_StringBufferJc_t { Mtbl_StringBufferJc mtbl; MtblHeadJc end; } MtblDef_StringBufferJc;
-
- extern MtblDef_StringBufferJc const mtblStringBufferJc;
 
 static const char sign_Mtbl_StringBufferJc[] = "StringBufferJc"; //to mark method tables of all implementations
 
@@ -1233,65 +1222,8 @@ const MtblDef_StringBufferJc mtblStringBufferJc = {
 
 
 
-/**Define the reflection in that source, which used it. */
-const struct Reflection_Fields_StringBuilderJc_t
-{ ObjectArrayJc head;
-  FieldJc data[4];
-} reflection_Fields_StringBuilderJc =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_StringBuilderJc)
-, {
-    { "_count"
-    , 0 //nrofArrayElements
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StringBuilderJc*)(0x1000))->_count) - (int32)(StringBuilderJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StringBuilderJc
-    }
-  , { "size"
-    , 0 //nrofArrayElements
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StringBuilderJc*)(0x1000))->size) - (int32)(StringBuilderJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StringBuilderJc
-    }
-  , { "_mode"
-    , 0 //nrofArrayElements
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StringBuilderJc*)(0x1000))->_mode) - (int32)(StringBuilderJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StringBuilderJc
-    }
-  , { "value"
-    , 0 //nrofArrayElements
-    , REFLECTION_void
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StringBuilderJc*)(0x1000))->value) - (int32)(StringBuilderJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_StringBuilderJc
-    }
-} };
 
 
-const ClassJc reflection_StringBuilderJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringBuilderJc, &reflection_ClassJc)
-, "StringBuilderJc"
-, 0
-, sizeof(StringBuilderJc)
-, (FieldJcArray const*)&reflection_Fields_StringBuilderJc  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-, &mtblStringBufferJc.mtbl.head
-};
-
-
-
-#define reflection_StringBuilderJc_s reflection_StringBuilderJc
-DEFINE_REFLECTION_REF(StringBuilderJc);
 
 
 

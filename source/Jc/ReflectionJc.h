@@ -541,9 +541,9 @@ METHOD_C MemSegmJc getReference_FieldJc(FieldJc const* ythis, MemSegmJc instance
 METHOD_C MemSegmJc getReference_V_FieldJc(FieldJc const* ythis, MemSegmJc instance, char const* sVaargs, va_list vaargs);
 
 /**Returns the memory address of an equal identifier of the address, maybe in a remote memory. */
-METHOD_C int32 getMemoryIdent_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, ...);
+METHOD_C void* getMemoryIdent_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, ...);
 
-METHOD_C int32 getMemoryIdent_V_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, va_list vaargs);
+METHOD_C void* getMemoryIdent_V_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, va_list vaargs);
 
 
 

@@ -65,8 +65,8 @@ InputValues_Inspc* create_InputValues_Inspc();
 void ctor_InputValues_Inspc(InputValues_Inspc* thiz);
 
 
-/**Register it in a FBaccessNode_Inspc, invoke one time after create. */
-bool registerReflection_InputValues_Inspc(InputValues_Inspc* thiz, struct FBaccessNode_Inspc_t* reflNode);
+/**Register it in a DataNode_Inspc, invoke one time after create. */
+bool registerReflection_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
 
 
 
