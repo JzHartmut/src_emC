@@ -13,15 +13,18 @@ typedef struct GetValue_Inspc_t {
   //char variableSimulink[32];
 
   /**If changed then get the path. */
-  int triggerPathChanged;
+  //int triggerPathChanged;
 
   /**The path in reflection to get the value. */
-  StringJc path;
+  //StringJc path;
 
   /**Returned ident for getValueByIdent. */
-  int32 ident;
+  //int32 ident;
 
-  int32* addr;
+  int32 statusNotFound;
+
+  int32* addr[6];
+
 
 } GetValue_Inspc;
 
@@ -31,20 +34,24 @@ typedef struct GetValue_Inspc_t {
 /**
  * @simulink Sfunc
  */
-void ctor_GetValue_Inspc(GetValue_Inspc* thiz);
+void ctor_GetValue_Inspc(GetValue_Inspc* thiz, float Tstep);
 
 
 /**
  * @simulink Sfunc
  */
-void init_GetValue_Inspc(GetValue_Inspc* thiz, StringJc path_param, struct DataNode_Inspc_t* inspcNode);
-
+void init_GetValue_Inspc(GetValue_Inspc* thiz
+  , StringJc path1_param, StringJc path2_param, StringJc path3_param, StringJc path4_param
+  , StringJc path5_param, StringJc path6_param
+  , struct DataNode_Inspc_t* inspcNode)
+;
 
 /**
  * @simulink Sfunc
  */
-void get_GetValue_Inspc(GetValue_Inspc* thiz, float* value_y);
+void get_GetValue_Inspc(GetValue_Inspc* thiz, int32* statusNotFound_y
+  , float* val1_y, float* val2_y, float* val3_y, float* val4_y, float* val5_y, float* val6_y);
 
 
 
-#endif // __traceWr_traceWr_h__
+#endif // __InspcGetValue_Inspc_h__

@@ -1,5 +1,10 @@
 #ifndef __applstdefJc_h__
 #define __applstdefJc_h__
+/**This headerfile contains all standard definition for usage the CRJ - CRuntimeJavalike - basicly system.
+ * It is for ordinary S-Functions in Simulink without exception handling. 
+ */
+
+
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -24,7 +29,7 @@
 
 
 /**Include this file always. It defines some things usefull for all sources. */
-//#include <Fwc/fw_SimpleC.h>
+#include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
 
 //Use full capability for ObjectJc, necessary for Pointer check and reflection.

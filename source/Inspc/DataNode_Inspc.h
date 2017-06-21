@@ -35,6 +35,10 @@ DataNode_Inspc* ctor_DataNode_Inspc(ObjectJc* thizo, int nrofObjects);
 
 
 
+char const* addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* obj, ClassJc const* reflectionClass);
+
+
+
 /**Registers an Object in the given node.
  * @param name1_param first part of the name. The 2 parts of name offers the capability to use a instance name given in a variable 
  *   and a constant part of name for this block.  

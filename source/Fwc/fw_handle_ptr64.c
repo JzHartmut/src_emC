@@ -1,5 +1,6 @@
 #include <Fwc/fw_handle_ptr64.h>
-
+#include <applstdefJc.h>
+#include <OSAL/os_sharedmem.h> 
 
 /*The number of entries in the pointer table. 
  */

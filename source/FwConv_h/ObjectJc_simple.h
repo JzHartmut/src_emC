@@ -53,9 +53,12 @@
 typedef struct  ObjectJc_t
 {
   int identification;
+  int isInitialized;
 } ObjectJc;
 
 
+/**Initialize only the identification. */
+#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF }
 
 /**Initialization of the basicly data of Object.
  * This method should be used for all instances.
@@ -66,11 +69,13 @@ typedef struct  ObjectJc_t
  * @param identObj An identification info, see [[attribute:_ObjectJc:objectIdentSize]] 
  * return ythis, the reference of the Object itself.
 */
-METHOD_C ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
-
+//METHOD_C ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
+#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->identification = (IDENT); }
 
 typedef struct ClassJc_t
-{ int ident;
+{ ObjectJc obj;
+  char name[32];
+  int ident;
 } ClassJc;
 
 

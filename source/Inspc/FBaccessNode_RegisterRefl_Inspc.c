@@ -41,11 +41,18 @@ char const* registerNode_AccessNode_Inspc(DataNode_Inspc* thiz, StringJc name1_p
 
 char const* addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* obj)
 { const char* error = null;
-  int ix, ix1;
   if(!checkObject_FBaccessNode_Inspc(thiz)) return "input 1 is not a DataNode_Inspc";
   if(obj == null || obj->ownAddress != obj || obj->reflectionClass == null) {
     return "input 3: obj is not based on ObjectJc, or it has not reflection information.";
   }
+  return addObjRefl_DataNode_Inspc(thiz, name1_param, name2_param, obj, obj->reflectionClass);
+}
+
+
+
+
+char const* addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* obj, ClassJc const* reflectionClass)
+{ int ix, ix1;
   //same algorithm as above, but with 2 StringJc
   ix = thiz->fields.head.length;  //the current length
   //check whether it is registered already. This routine may be called twice:
@@ -63,14 +70,16 @@ char const* addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, St
       copyToBuffer_StringJc(name2_param, 0, -1, thiz->fields.data[ix].name+nchars, sizeof(thiz->fields.data[ix].name)-nchars); //the rest.
     }
     //strncpy(thiz->fields.data[ix].name, name, sizeof(thiz->fields.data[ix].name));  //TODO check length of name!!!
-    thiz->fields.data[ix].type_ = obj->reflectionClass;
+    thiz->fields.data[ix].type_ = reflectionClass;
     thiz->fields.data[ix].bitModifiers = kReference_Modifier_reflectJc;
     thiz->fields.data[ix].position = ((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz);
 
     thiz->fields.head.length = ix + 1;
   }
-  return null; //successfull
+  return null;
 }
+
+
 
 bool checkObject_FBaccessNode_Inspc(struct DataNode_Inspc_t* thiz){
   if(thiz == null) return false;
