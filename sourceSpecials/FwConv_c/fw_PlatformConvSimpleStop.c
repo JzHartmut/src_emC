@@ -41,6 +41,7 @@
  ****************************************************************************/
 
 //#include "ObjectJc.h"
+#include <applstdefJc.h>
 #include <os_time.h>
 #include <os_error.h>
 #include <os_thread.h>
@@ -82,8 +83,9 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
   
 }
 
-
-
+void stopAssert_Fwc(){
+  printf("stopAssert_Fwc() - please set a breakpoint here to debug why. ");
+}
 
 
 void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt)

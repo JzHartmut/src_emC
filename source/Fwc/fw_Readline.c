@@ -9,6 +9,7 @@
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <Fwc/fw_SimpleC.h>
+#include <Fwc/fw_String.h>
 #include <string.h>
 
 void ctor_ReadLine_Fwc(ReadLine_Fwc* ythis)
