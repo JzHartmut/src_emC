@@ -80,7 +80,7 @@ int idxSearchTrc = 0;
   #include <Fwc/fw_handle_ptr64.h>      
   const char* init_ReflectionJc() {
     const char* error = null;
-    error = init_Handle2Ptr(1000);
+    //error = init_Handle2Ptr(1000);  //see DEFINED_nrEntries_Handle2Ptr
     return error;
   }
 #else

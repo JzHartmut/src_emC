@@ -75,12 +75,12 @@ typedef char_T byte_T;
  *===========================================================================*/
 #define CREAL_T
 
-#define creal32_T float_complex
+//#define creal32_T float_complex
 
 typedef struct {
   real32_T re;
   real32_T im;
-} XXXXXXXXXXXcreal32_T;
+} creal32_T;
 
 typedef struct {
   real64_T re;

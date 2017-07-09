@@ -345,9 +345,9 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
  */
 typedef double SIMUPTR;
 
-#define creal32_T float_complex_t
-#ifndef CREAL32_T
-  #define CREAL32_T creal32_T
-#endif
+//#define creal32_T float_complex_t
+//#ifndef CREAL32_T
+//  #define CREAL32_T creal32_T
+//#endif
 
 #endif  //__compl_adaption_h__

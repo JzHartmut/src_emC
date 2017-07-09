@@ -14,8 +14,18 @@
 #undef __CPLUSPLUSJcpp
 
 
+//This block before <OSAL/os_types_def_common.h>
 /**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
+
+//This block before <OSAL/os_types_def_common.h>
+#ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
+#include <tmwtypes.h>  //from simulink
+#endif
+#define DEFINED_float_complex     
+#define float_complex creal32_T
+#define DEFINED_double_complex
+#define double_complex creal64_T
 
 
 //NOTE: ASSERF_Fwc defined in fw_assert.h now.
@@ -83,6 +93,7 @@
 
 /**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
 #define __HandlePtr64__
+#define DEFINED_nrEntries_Handle2Ptr 1000
 
 //#include <special/definePrintfMakros.h>
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);

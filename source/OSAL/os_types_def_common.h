@@ -161,15 +161,18 @@ typedef OS_PtrVal_DEF(PtrVal_double, double);
 //#endif
 
 /*@CLASS_C float_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+#ifndef DEFINED_float_complex
 typedef struct float_complex_t{
   float re, im;
 } float_complex;
+#endif
 
 /*@CLASS_C double_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+#ifndef DEFINED_double_complex
 typedef struct double_complex_t{
   double re, im;
 } double_complex;
-
+#endif
 
 
 //NOTE: all NAN makros should be defined in fw_assert.h which is platform-depending.

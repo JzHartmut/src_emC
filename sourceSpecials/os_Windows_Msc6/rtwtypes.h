@@ -1,5 +1,4 @@
-#include <compl_adaption.h>
-#include <math.h>  //include before redefine sin, cos etc.
+#include <os_types_def.h>
 /*
  * File: rtwtypes.h
  *
@@ -51,7 +50,7 @@ typedef unsigned char uint8_T;
 typedef short int16_T;
 typedef unsigned short uint16_T;
 typedef int int32_T;
-typedef unsigned int uint32_T;
+typedef uint32 uint32_T;
 typedef float real32_T;
 typedef double real64_T;
 
@@ -76,12 +75,12 @@ typedef char_T byte_T;
  *===========================================================================*/
 #define CREAL_T
 
-#define creal32_T float_complex
+//#define creal32_T float_complex
 
 typedef struct {
   real32_T re;
   real32_T im;
-} XXXXXXXXXXXcreal32_T;
+} creal32_T;
 
 typedef struct {
   real64_T re;
@@ -152,10 +151,11 @@ typedef struct {
 
 
 //always use the float calculation!
-#define cos(VAL) cosf(VAL)
-#define sin(VAL) sinf(VAL)
-#define tan(VAL) tanf(VAL)
-#define atan2(VAL, VAL2) atan2f(VAL, VAL2)
+//hint: it does not work on PC platform. sin() etc. is defined in math.h The generated code from simulink uses the double version.
+//#define cos(VAL) cosf(VAL)
+//#define sin(VAL) sinf(VAL)
+//#define tan(VAL) tanf(VAL)
+//#define atan2(VAL, VAL2) atan2f(VAL, VAL2)
 
 
 

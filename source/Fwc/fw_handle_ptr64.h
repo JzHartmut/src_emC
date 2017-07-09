@@ -10,14 +10,22 @@
 #include <string.h>
 
 
+typedef struct Entry_Handle2Ptr_t
+{ union{ void* ptr; uint64 iptr; } p; 
+  char name[32];
+} Entry_Handle2Ptr;
+
+
 /**This is the association table from handle to a 64-bit-memory address.
  * The instance of this type is present via shared memory in any S-function which uses this system.
  */
 typedef struct Handle2Ptr_t{
   uint32 ixEnd; uint32 size;
-  void* ptr[100];  //The size of the array is greater, adequate allocated shared memory.
+  Entry_Handle2Ptr e[100];  //The size of the array is greater, adequate allocated shared memory.
 } Handle2Ptr;
 
+/**This pointer will be set with the shared memory address. */
+extern Handle2Ptr* handle2Ptr;
 
 
 
@@ -32,15 +40,46 @@ const char* init_Handle2Ptr(int nrofEntries);
 /**Sub routine to register a pointer in the shared memory data.
  * @return the handle.
  */
-const char* getHandle_Handle2Ptr(void* ptr, uint32* dstHandle);
+#ifdef __HandlePtr64__
+  #ifndef DEFINED_nrEntries_Handle2Ptr
+    #define DEFINED_nrEntries_Handle2Ptr 1000
+  #endif
+
+  /**Invocation of INIT can be set on any location more than once, the first initializes. */
+  #define INIT_Handle2Ptr() if(handle2Ptr ==null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); } 
+
+  /**Sets the pointer and gets the handle. 
+   * If the ptr is registered already, it is okay, */ 
+  const char* setPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle);
+
+  /**Sets the pointer to a determined handle. 
+   * If the same ptr is registered already, it is okay, 
+   * If the handle is used with another pointer already, an error message is returned.
+   */ 
+  const char* setPtrHandle_Handle2Ptr(void* ptr, uint32 handle, char const* name);
+
+  /**Gets the handle for a given ptr. 
+   * If the handleis unknown, dstHandle = 0 and an error is returned. */ 
+  const char* handle_Handle2Ptr(void* ptr, uint32* dstHandle);
+
+#else
+  /**Invocation of INIT is empty because there is not Handle2Ptr. */
+  #define INIT_Handle2Ptr(nrofEntries)  
+  #define setPtr_Handle2Ptr(PTR, NAME, H) (*H=PTR, null)
+  #define handle_Handle2Ptr(PTR, H) (*H=PTR, null)
+#endif
 
 
 
 
-
-
-const char* getPtr_Handle2Ptr(uint32 handle, void** dst);
-
+#ifdef __HandlePtr64__
+  const char* getPtr_Handle2Ptr(uint32 handle, void** dst);
+  //#define PTR_Handle2Ptr(handle, TYPE) (handle > =0 && handle < handle2Ptr->ixEnd ? (TYPE*) handle2Ptr->ptr[handle] : null)
+  #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) handle2Ptr->e[handle].p.ptr)
+#else
+  #define getPtr_Handle2Ptr(H, DST) (*DST=H, null)
+  #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) handle)
+#endif
 
 
 /**Closes. This routine should be invoked one time on shutdown. */
