@@ -94,14 +94,14 @@ CMPXCHG - Compare and Exchange
  */
 
 int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update) {
-  return InterlockedCompareExchange(reference, expect, update);  
+  return InterlockedCompareExchange(reference, update, expect);  
 }
 
 
 
 LONGLONG compareAndSwap_AtomicInteger64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update)
 {
-  return InterlockedCompareExchange64(reference, expect, update);  
+  return InterlockedCompareExchange64(reference, update, expect);  
 }
 
 
@@ -142,6 +142,7 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 bool compareAndSet_AtomicReference(void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   LONGLONG found = compareAndSwap_AtomicInteger64((LONGLONG*)(reference), (LONGLONG)expect, (LONGLONG)update);
-  return found == (LONGLONG)expect;
+  return found == (LONGLONG)expect;  //The operation is succeeded if the expect value was found. 
+  //return *reference == update;  ?Another thread may change it again meanwhile?
 }
 

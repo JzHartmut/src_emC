@@ -50,6 +50,9 @@ Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz, float Tstep);
  */
 char const* init_Service_Inspc(Service_Inspc* thiz, StringJc sIp_param, struct DataNode_Inspc_t* rootNode);
 
+/**The terminate routine closes the thread and the Socket connection..
+ * @simulink Sfunc
+ */
 void terminate_Service_Inspc(Service_Inspc* thiz);
 
 /**The step routine gets only the time from Simulation.

@@ -36,6 +36,8 @@
  * @author Hartmut Schorrig
  * @version sf-0.94
  * list of changes:
+ * 2017-07-23 Hartmut Activate WaitForSingleObject and test, it works.
+ *            Note: EnterCriticalSection is another candidate, used in the past. What is the really differnce, advantage etc.
  * 2010-01-15 Hartmut adap: Some corrections 
  * 2008-09-30 Marcos: re-design of some methods
  * 2008-02-01: Hartmut creation 
@@ -116,7 +118,7 @@ int os_deleteMutex(struct OS_Mutex_t* mutex)
 
 int os_lockMutex(OS_Mutex_s* mutex)
 {
-  return OS_OK;  //geht  nicht! 2015-08-04 HScho
+  //return OS_OK;  //geht  nicht! 2015-08-04 HScho
 	DWORD WinRet;
   //OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.  	
     WinRet = WaitForSingleObject( mutex->winHandleMutex, INFINITE );
@@ -145,7 +147,7 @@ int os_lockMutex(OS_Mutex_s* mutex)
 
 int os_unlockMutex(struct OS_Mutex_t* mutex)
 {
-  return OS_OK;  //geht noch nicht 2015-08-04 HScho
+  //return OS_OK;  //geht noch nicht 2015-08-04 HScho
  // OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //non const
   /*
     struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();

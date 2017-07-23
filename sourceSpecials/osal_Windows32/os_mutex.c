@@ -83,7 +83,7 @@ int os_createMutex(char const* pName, struct OS_Mutex_t** pMutex)
         *pMutex = null;
 		  return OS_SYSTEM_ERROR;
     }
-	  mutex = (struct OS_Mutex_t*)(malloc(zMutex));
+	  mutex = (struct OS_Mutex_t*)(os_allocMem(zMutex));
     memset(mutex, 0, zMutex);
     mutex->winHandleMutex  = hIOMutex;
     *pMutex = mutex;

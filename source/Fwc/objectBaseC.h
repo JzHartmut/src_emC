@@ -93,7 +93,7 @@ typedef union State_ObjectJc_t
      *  defined in os_wrapper.c.
      *  Here only the 12 bit for a id are offered.
      */
-    int32 he  :12;
+    int32 idSyncHandles :12;
 
     #define kNoSyncHandles_ObjectJc -1
 

@@ -90,18 +90,21 @@ typedef struct HandleItem_t
 typedef struct OsWrapperJc_t
 {
 
+  struct OS_Mutex_t* mutexInitHandle;
+
+  /**This handle addresses the next free handles, all free handles are queued. */
+  HandleItem* volatile freeHandle;
+
+  /**Nr of handles, initial 0, th initFreeHandleEntry() routine should be called! */
+  int32 nrofHandle;
+
+  int32 spare_align8;
 
   /**A static array of handles to assing int16-indices to handles.
    * It is upgradable later to a intelligent management.
    * TODO: Blocks of about 32..128 HandleItem allocated, a block managment. It will be simple.
    */
   HandleItem handleItemsJc[1024];  // some kByte
-
-  /**This handle addresses the next free handles, all free handles are queued. */
-  HandleItem* volatile freeHandle;
-
-  /**Nr of handles, initial 0, th initFreeHandleEntry() routine should be called! */
-  int nrofHandle;
 
 
   /**The value to designate a not free item. */

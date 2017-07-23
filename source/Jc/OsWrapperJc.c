@@ -61,6 +61,7 @@
 OsWrapperJc_s data_OsWrapperJc = { 0 };
 
 
+
 /**This routine is called only onetime after startup. */
 int initFreeHandleEntry()
 { int zHandleItems = ARRAYLEN(data_OsWrapperJc.handleItemsJc);
@@ -85,41 +86,55 @@ int initFreeHandleEntry()
 HandleItem* getFreeHandleEntry(int16* idx)
 { //this operation have to be executed under mutex:
   HandleItem* theHandleItem;
-  if(data_OsWrapperJc.nrofHandle == 0)
-  { data_OsWrapperJc.nrofHandle = initFreeHandleEntry();
-  }
-
-  theHandleItem = data_OsWrapperJc.freeHandle;
-  if(theHandleItem == kNoFreeHandleItem)
-  { *idx = -2;  //TODO passenden Win-error
-    return null;
-  }
-  else
-  { int tryCt = 10000;
-    while(--tryCt > 0) {
-      theHandleItem = data_OsWrapperJc.freeHandle;
-      HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
-      if(compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.freeHandle), theHandleItem, nextFree)) {
-        break;  //if succeeded
-      }
+  if(data_OsWrapperJc.nrofHandle == 0) {  //if not 0, it is initialized. Use it. Short quest.
+    //if 0, it is possible that another thread does the same. Repeat the quest with mutex.
+    struct OS_Mutex_t* mutexInitHandle = null;         //local ref
+    os_createMutex("JcinitHandle", &mutexInitHandle);
+    //try to set the local ref, 
+    if(!compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.mutexInitHandle), null, mutexInitHandle)) {
+      //yet a mutex was created from another thread already.
+      os_deleteMutex(mutexInitHandle);  //delete the own one.
+      mutexInitHandle = data_OsWrapperJc.mutexInitHandle;  //use the existing from the ohter thread.
     }
-    //here mutex release! ??
-    if(tryCt == -1) {
-      *idx = -2;  //too many try, only in catastrophical situation. But the while should be broken!
+    //There is only one determined mutex instance 
+    { os_lockMutex(mutexInitHandle);  
+      //repeat the quest and the initialization under mutex.
+      if(data_OsWrapperJc.nrofHandle == 0) {
+        data_OsWrapperJc.nrofHandle = initFreeHandleEntry();
+      }
+      os_unlockMutex(mutexInitHandle);  
+    }
+  }
+  int tryCt = 10000;
+  while(--tryCt > 0) {
+    theHandleItem = data_OsWrapperJc.freeHandle;
+    if(theHandleItem == kNoFreeHandleItem)
+    { *idx = -2;  //TODO passenden Win-error
       return null;
     }
-    else 
-    { int idxHandle = theHandleItem - data_OsWrapperJc.handleItemsJc;
-      if(idxHandle < 0 || idxHandle >= ARRAYLEN(data_OsWrapperJc.handleItemsJc))
-      { STACKTRC_ENTRY("getFreeHandleEntry");
-        THROW_s0(RuntimeException, "corrupt handles",idxHandle);
-      }
-      *idx = (int16)(idxHandle);
-      memset(theHandleItem, 0, sizeof(*theHandleItem));
-      return theHandleItem;
+    HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
+    if(compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.freeHandle), theHandleItem, nextFree)) {
+      break;  //if succeeded
     }
   }
+  if(tryCt == -1) {
+    *idx = -2;  //too many try, only in catastrophical situation. But the while should be broken!
+    return null;
+  }
+  else 
+  { int idxHandle = theHandleItem - data_OsWrapperJc.handleItemsJc;
+    if(idxHandle < 0 || idxHandle >= ARRAYLEN(data_OsWrapperJc.handleItemsJc))
+    { STACKTRC_ENTRY("getFreeHandleEntry");
+      THROW_s0(RuntimeException, "corrupt handles",idxHandle);
+    }
+    *idx = (int16)(idxHandle);
+    memset(theHandleItem, 0, sizeof(*theHandleItem));
+    return theHandleItem;
+  }
 }
+
+
+
 
 
 /**gets the handle to the index.
@@ -171,22 +186,39 @@ INLINE_Fwc HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
   HandleItem* handle = null;
   int16 ixHandle = thiz->state.b.idSyncHandles;
   if(ixHandle == kNoSyncHandles_ObjectJc) {
-    handle = getFreeHandleEntry(&ixHandle);
-    if(handle !=null) {
+    handle = getFreeHandleEntry(&ixHandle);  //ixHandle set with valid index.
+    if(ixHandle > 0) {
+      int32 newValue, oldValue;
+      int tryCt = 1000;
       strcpy(handle->name, "JcJc_00");
       handle->name[5] = (char)(((ixHandle >>6)  & 0x3f) + '0');
       handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
       os_createMutex(handle->name, &handle->handleMutex);
-      int32 ixOffsId = thiz->state._w[ixOffsId_State_Object]; //Note: read only one time, test the same as in compareAndSet
-      int32 newvalue = (ixOffsId & ~m_idSyncHandles_State_ObjectJc) 
-                     | ((ixHandle <<kBit_idSyncHandles_State_ObjectJc) & m_idSyncHandles_State_ObjectJc);
-      if(!compareAndSet_AtomicInteger(&thiz->state._w[ixOffsId_State_Object], ixOffsId, newvalue)){
-        //handle was not set, expected: Another thread has set the ixHandle.
-        releaseHandleEntry(ixHandle);
-        handle = null;
-        ixHandle = thiz->state.b.idSyncHandles;
+      while(--tryCt > 0) {
+        oldValue = thiz->state._w[ixOffsId_State_Object]; //Note: read only one time, test the same as in compareAndSet
+        if((oldValue & m_idSyncHandles_State_ObjectJc) != (kNoSyncHandles_ObjectJc & m_idSyncHandles_State_ObjectJc)) { 
+          //Another thread has set the ixHandle.
+          releaseHandleEntry(ixHandle);
+          handle = null;
+          ixHandle = thiz->state.b.idSyncHandles;
+          break;  //no action necessary
+        }
+        newValue = (oldValue & ~m_idSyncHandles_State_ObjectJc)  //only the bits from idSyncHandles are changed. 
+                 | ((ixHandle <<kBit_idSyncHandles_State_ObjectJc) & m_idSyncHandles_State_ObjectJc);
+        if(compareAndSet_AtomicInteger(&thiz->state._w[ixOffsId_State_Object], oldValue, newValue)){
+          break;  //success
+        }
+      }
+      if(tryCt ==-1) {
+        STACKTRC_ENTRY("getHandle_ObjectJc");
+        THROW_s0(RuntimeException, "error set idSyncHandle", 0);
+        STACKTRC_LEAVE;
+        return null;
       }
     } else {
+      STACKTRC_ENTRY("getHandle_ObjectJc");
+      THROW_s0(RuntimeException, "error no handle", 0);
+      STACKTRC_LEAVE;
       return null; //no handle available
     }
   }
