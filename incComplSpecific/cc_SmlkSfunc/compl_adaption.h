@@ -175,6 +175,8 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define bool8 char
 #define float32 float
 
+//#define size_t unsigned int
+//#define _SIZE_T_DEFINED
 
 /**int-type which can represent a standard pointer. */
 #define intPTR uint32

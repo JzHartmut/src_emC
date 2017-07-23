@@ -76,7 +76,7 @@ struct ThreadContextFW_t;
 struct PrintStreamJc_t;
 
 
-//void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

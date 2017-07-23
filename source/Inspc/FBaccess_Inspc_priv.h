@@ -12,6 +12,8 @@ typedef struct SimulationTime_Inspc_t
 {
   int32 timeShort;
 
+  int32 spare2;  //for 8-byte-Alignment.
+
   double timeSim;
 
 } SimulationTime_Inspc;
@@ -26,6 +28,7 @@ typedef struct FBaccess_Inspc_t
   SimulationTime_Inspc simTime;
   Inspector_Inspc_s theInspector;
 } FBaccess_Inspc;
+
 
 
 

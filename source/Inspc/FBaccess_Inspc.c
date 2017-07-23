@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
+
+
 void alloc_FBaccess_Inspc_vorlaeufig_in_Simulink(FBaccess_Inspc** thizp, int nrofObjects){
   allocSetRoot_FBaccess_Inspc(thizp, nrofObjects, null,"UDP:0.0.0.0:60094");
 }
@@ -10,7 +14,7 @@ void alloc_FBaccess_Inspc(FBaccess_Inspc** thizp, int nrofObjects, const char* s
   allocSetRoot_FBaccess_Inspc(thizp, nrofObjects, null,sIp);
 }
 
-void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, ObjectJc* rootInspc, const char* sIp)
+void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, DataNode_Inspc* rootInspc, const char* sIp)
 {
   FBaccess_Inspc* thiz = (FBaccess_Inspc*)malloc(sizeof(FBaccess_Inspc));
   memset(thiz, 0, sizeof(FBaccess_Inspc));
@@ -18,10 +22,10 @@ void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObject
   DataNode_Inspc* rootNode = (DataNode_Inspc*)malloc(sizeof(DataNode_Inspc));
   memset(rootNode, 0, sizeof(DataNode_Inspc));
 
-  ctor_FBaccessNode_Inspc(&rootNode->object, nrofObjects);
+  ctor_FBaccessNode_Inspc((DataNode_Inspc*)&rootNode, nrofObjects);
 
-  if(rootInspc == null){ rootInspc = &rootNode->object; }
-  ctor_FBaccess_Inspc(&thiz->object, rootNode, rootInspc,sIp);  //the rootNode is the root for the Inspector per default.  
+  if(rootInspc == null){ rootInspc = rootNode; }
+  ctor_FBaccess_Inspc(&thiz->object, rootNode, &rootInspc->object,sIp);  //the rootNode is the root for the Inspector per default.  
    
   *thizp = thiz;
 
@@ -43,14 +47,14 @@ FBaccess_Inspc* ctor_FBaccess_Inspc(ObjectJc* thizo, DataNode_Inspc* rootNode, O
   FBaccess_Inspc* thiz = (FBaccess_Inspc*) thizo; 
   initReflection_ObjectJc(thizo, thizo, sizeof(FBaccess_Inspc), &reflection_FBaccess_Inspc, 0xf0);
   thiz->rootNode = rootNode;
-  thiz->object.isInitialized = 1;
-  registerRefl_FBaccessNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimulationTime_Inspc);
+  setInitialized_ObjectJc(&thiz->object);
+  registerRefl_DataNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimulationTime_Inspc);
   //strcpy(sIp, "UDP:0.0.0.0:60092");
   
 
   init_ObjectJc(&thiz->theInspector.base.object, sizeof(thiz->theInspector), 0);
   ctorO_Inspector_Inspc(&thiz->theInspector.base.object, s0_StringJc(sIp), _thCxt);
-  thiz->theInspector.base.object.isInitialized = 1;
+  setInitialized_ObjectJc(&thiz->theInspector.base.object);
 
   start_Inspector_Inspc_F(&thiz->theInspector, rootInspc, _thCxt); 
 

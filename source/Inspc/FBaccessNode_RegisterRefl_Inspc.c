@@ -7,8 +7,8 @@
 #include <fwc/fw_String.h>
 
 
-bool registerRefl_FBaccessNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl){
-  if(!checkObject_FBaccessNode_Inspc(thiz)) return false;
+bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl){
+  if(!checkObject_DataNode_Inspc(thiz)) return false;
   int ix1;
   int ix = thiz->fields.head.length;  //the current length
   //check whether it is registered already. This routine may be called twice:
@@ -34,18 +34,24 @@ bool registerRefl_FBaccessNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, c
 
 
 
-char const* registerNode_AccessNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* data)
+char const* add_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* data, int32* ok_y)
 {
-  return addObj_DataNode_Inspc(thiz, name1_param, name2_param, (struct ObjectJc_t*) data); 
+  return addObj_DataNode_Inspc(thiz, name1_param, name2_param, (struct ObjectJc_t*) data, ok_y); 
 }
 
-char const* addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* obj)
-{ const char* error = null;
-  if(!checkObject_FBaccessNode_Inspc(thiz)) return "input 1 is not a DataNode_Inspc";
-  if(obj == null || obj->ownAddress != obj || obj->reflectionClass == null) {
-    return "input 3: obj is not based on ObjectJc, or it has not reflection information.";
-  }
-  return addObjRefl_DataNode_Inspc(thiz, name1_param, name2_param, obj, obj->reflectionClass);
+char const* addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* obj, int32* ok_y)
+{ 
+  if(*ok_y == 0) {
+    const char* error = null;
+    if(!checkObject_DataNode_Inspc(thiz)) { return "input 1 is not a DataNode_Inspc"; }
+    if(obj == null || obj->ownAddress != obj || obj->reflectionClass == null) {
+      return "input 3: obj is not based on ObjectJc, or it has not reflection information.";
+    }
+    if(isInitialized_ObjectJc(&thiz->object)) {
+      *ok_y = 1;
+      return addObjRefl_DataNode_Inspc(thiz, name1_param, name2_param, obj, obj->reflectionClass);
+    } else return null;
+  } else return null; //do nothing. 
 }
 
 
@@ -81,7 +87,7 @@ char const* addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param
 
 
 
-bool checkObject_FBaccessNode_Inspc(struct DataNode_Inspc_t* thiz){
+bool checkObject_DataNode_Inspc(struct DataNode_Inspc_t* thiz){
   if(thiz == null) return false;
   if(thiz->object.ownAddress != &thiz->object) return false;
   //The instance should have reflection signature. Check the name of the reflection instance instead its pointer

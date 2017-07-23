@@ -1,5 +1,6 @@
 #include "InputValues_Inspc.h"
 #include <Inspc/FBaccess_Inspc.h>
+#include <Inspc/DataNode_Inspc.h>
 #include <Jc/FileIoJc.h>
 #include <Jc/StringJc.h>
 #include <J1c/StringFunctionsJc.h>
@@ -91,7 +92,7 @@ void ctor_InputValues_Inspc(InputValues_Inspc* thiz)
 
 
 bool registerReflection_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
-{ return registerRefl_FBaccessNode_Inspc(reflNode, thiz, thiz->nameRefl, &thiz->clazz);
+{ return registerRefl_DataNode_Inspc(reflNode, thiz, thiz->nameRefl, &thiz->clazz);
 }
 
 
@@ -114,7 +115,8 @@ void free_InputValues_Inspc(InputValues_Inspc* thiz)
 void test_InputValues_Inspc(struct DataNode_Inspc_t* reflNode)
 {
 
-  static InputValues_Inspc* test = create_InputValues_Inspc();
+  static InputValues_Inspc* test;
+  test = create_InputValues_Inspc();
   //strncpy(test->channels, "cUAN_on_CCP cOn_CBB_CCP", sizeof(test->channels));
   strncpy(test->nameRefl,"test_TimeSignals", sizeof(test->nameRefl));
   strncpy(test->names[0], "param1", sizeof(test->names[0]));

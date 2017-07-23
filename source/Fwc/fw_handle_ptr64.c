@@ -3,6 +3,7 @@
 #include <OSAL/os_sharedmem.h> 
 #include <Fwc/fw_SimpleC.h>
 
+#ifdef __HandlePtr64__  //compile only if operations are not replaced by macros.
 /*The number of entries in the pointer table. 
  */
 //#define zEntries_Handle2Ptr 1000
@@ -158,4 +159,4 @@ void close_Hande2Ptr()
 
 }
  
-
+#endif  //__HandlePtr64__

@@ -87,7 +87,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries)
 
 
 bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
-{ return registerRefl_FBaccessNode_Inspc(reflNode, thiz, thiz->nameModule, &thiz->clazz);
+{ return registerRefl_DataNode_Inspc(reflNode, thiz, thiz->nameModule, &thiz->clazz);
 }
 
 
@@ -296,7 +296,8 @@ void free_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 void test_TimeSignals_Inspc(struct DataNode_Inspc_t* reflNode, char const* path)
 {
 
-  static TimeSignals_Inspc* test = create_TimeSignals_Inspc(100);
+  static TimeSignals_Inspc* test;
+  test = create_TimeSignals_Inspc(100);
   //strncpy(test->channels, "cUAN_on_CCP cOn_CBB_CCP", sizeof(test->channels));
   strncpy(test->nameModule,"test_TimeSignals", sizeof(test->nameModule));
   strncpy(test->names[0], "param1", sizeof(test->names[0]));

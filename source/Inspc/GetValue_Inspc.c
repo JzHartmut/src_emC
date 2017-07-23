@@ -17,16 +17,16 @@ void ctor_GetValue_Inspc(GetValue_Inspc* thiz, float Tstep)
 void init_GetValue_Inspc(GetValue_Inspc* thiz 
   , StringJc path1_param, StringJc path2_param, StringJc path3_param, StringJc path4_param
   , StringJc path5_param, StringJc path6_param
-  , DataNode_Inspc* inspcNode)
+  , DataNode_Inspc* inspcNode, int32 ok)
 {
   //FieldJc field;
   FieldJc const* field;
   MemSegmJc mem;
   int32 ixPath = 0;
   STACKTRC_ENTRY("init_GetValue_Inspc");
-  if(inspcNode !=null) {
+  if(inspcNode !=null && ok) {
     //don't save, use only.
-    thiz->object.isInitialized = 1;
+    setInitialized_ObjectJc(&thiz->object);
     thiz->statusNotFound = 0;
     StringJc path[6];
     path[0] = path1_param;

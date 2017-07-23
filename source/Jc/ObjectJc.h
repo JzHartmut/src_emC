@@ -46,16 +46,14 @@
  * 2006-05-00: www.vishia.de creation
  *
  ****************************************************************************/
-#include <applstdefJc.h>  //Note: define before include-guards because applstdefJc,h may include this file too.
-//The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __ObjectJc_h__
 #define __ObjectJc_h__
-
-#include "Fwc/fw_SimpleC.h"
-#include "Fwc/fw_MemC.h"
-//#include "Fwc/fw_Exception.h"  //knowledge of Thcxt, Exception is supplied
+#include <applstdefJc.h>
 #include "Fwc/objectBaseC.h"
-//#include "Fwc/fw_String.h"
+//#include "Fwc/fw_SimpleC.h"  //should be includeed in applstdefJc.h
+//#include "Fwc/fw_MemC.h"     //should be includeed in applstdefJc.h
+//#include "Fwc/fw_Exception.h"  ////should be includeed in applstdefJc.h, knowledge of Thcxt, Exception is supplied
+//#include "Fwc/fw_String.h"  //should be includeed in applstdefJc.h
 #include <Jc/StringJc.h>
 
 /*@CLASS_C ObjectJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

@@ -88,6 +88,9 @@ void initStatic_Inspector_Inspc();
 /*** */
 METHOD_C struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt);
 
+
+void terminate_Inspector_Inspc(Inspector_Inspc_s* thiz);
+
 /**Returns the first instance of the Inspector in this application. Usual only one instance is used,
 * then it is a singleton. More as one instance is possible, then the first instance is the singleton returned here.
 * If the Inspector is not created yet, this method returns null. 

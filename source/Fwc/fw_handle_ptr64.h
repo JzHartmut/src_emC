@@ -66,7 +66,7 @@ const char* init_Handle2Ptr(int nrofEntries);
   /**Invocation of INIT is empty because there is not Handle2Ptr. */
   #define INIT_Handle2Ptr(nrofEntries)  
   #define setPtr_Handle2Ptr(PTR, NAME, H) (*H=PTR, null)
-  #define handle_Handle2Ptr(PTR, H) (*H=PTR, null)
+  #define handle_Handle2Ptr(PTR, H) (*H=(uint32)PTR, null)
 #endif
 
 

@@ -36,6 +36,13 @@
 
 #include <os_AtomicAccess.h>
 
+#undef int64
+#undef uint64
+#undef INT32
+#undef UINT32
+
+#include <wtypes.h>
+#include <winbase.h>
 
 
 /**Implementation compareAndSet_AtomicInteger:
@@ -87,30 +94,19 @@ CMPXCHG - Compare and Exchange
  */
 
 int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update) {
-  int32 lastValue;
-  /* The cmpxchg instruction sets the memory location edx with ecx if it is equal eax.
-   * In this case eax is equal the content of [edx].
-   * if the value at memory location is not equal eax, than no change is done,
-   * but eax is loaded with the content of memory location at [edx].
-   * In this case eax is not equal with the expect value.
-   */
-  /* 
-  _asm {
-    mov eax, expect
-    mov ecx, update
-    mov edx, dword ptr [reference]
-
-    lock cmpxchg dword ptr [edx], ecx
-    mov lastValue, eax
-  }
-  */
-  //TODO simple algorithm without atomic, because the 64-bit-Platform does not support _asm. TODO 
-  lastValue = *reference;
-  if(lastValue == expect) {
-    *reference = update;
-  }
-  return lastValue;
+  return InterlockedCompareExchange(reference, expect, update);  
 }
+
+
+
+LONGLONG compareAndSwap_AtomicInteger64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update)
+{
+  return InterlockedCompareExchange64(reference, expect, update);  
+}
+
+
+
+
 
 /**Implementation compareAndSet_AtomicReference:
  * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
@@ -132,7 +128,7 @@ METHOD_C bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expec
 //void* compareAndSwap_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
 void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  return (void*)compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
+  return (void*)compareAndSwap_AtomicInteger64((LONGLONG*)(reference), (LONGLONG)expect, (LONGLONG)update);
 
 }
 
@@ -145,7 +141,7 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 //bool compareAndSet_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
 bool compareAndSet_AtomicReference(void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
-  return found == (int32)expect;
+  LONGLONG found = compareAndSwap_AtomicInteger64((LONGLONG*)(reference), (LONGLONG)expect, (LONGLONG)update);
+  return found == (LONGLONG)expect;
 }
 

@@ -84,6 +84,8 @@ void finalize_Comm_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 * */
 METHOD_C struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, struct CmdExecuter_Inspc_t* cmdExecuter, ThCxt* _thCxt);
 
+METHOD_C void terminate_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
+
 METHOD_C bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt);
 
 METHOD_C void start_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);

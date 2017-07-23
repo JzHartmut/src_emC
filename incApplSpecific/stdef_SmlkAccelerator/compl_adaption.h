@@ -62,7 +62,7 @@
 #pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
 #pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
 #pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4127) //
+#pragma warning(disable:4211) //Nicht dem Standard entsprechende Erweiterung: Neudefinition von extern als statisch
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
@@ -176,6 +176,8 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define bool8 char
 #define float32 float
 
+//#define size_t unsigned int
+//#define _SIZE_T_DEFINED
 
 /**int-type which can represent a standard pointer. */
 #define intPTR uint32

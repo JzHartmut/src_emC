@@ -93,7 +93,7 @@
 #define DEFINED_nrEntries_Handle2Ptr 1000
 
 //#include <special/definePrintfMakros.h>
-extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+//extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
 
 

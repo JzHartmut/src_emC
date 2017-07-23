@@ -74,8 +74,9 @@ void os_FatalSysError(int errorCode, const char* description, int value1, int va
  */
 void os_FatalError(int errorCode, const char* description, int value1, int value2)
 {
+  bool cont = true;
   printf("Fatal error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
-  while(true)
+  while(cont)
   { printf("ERROR STOP  \n");
     os_delayThread(2000);
   }
@@ -83,10 +84,11 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
   
 }
 
-void stopAssert_Fwc(){
+#ifndef stopAssert_Fwc
+void XXXstopAssert_Fwc(){
   printf("stopAssert_Fwc() - please set a breakpoint here to debug why. ");
 }
-
+#endif
 
 void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt)
 {

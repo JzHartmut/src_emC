@@ -80,6 +80,9 @@ METHOD_C bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expec
 /**The compareAndSwap is nearer on the machine instruction. */
 METHOD_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
 
+/**The compareAndSwap is nearer on the machine instruction. */
+METHOD_C int64 compareAndSwap_AtomicInteger64(int64 volatile* reference, int64 expect, int64 update);
+
 /**Regard a special platform variant, which may define macros instead prototypes: */
 #ifdef PLATFORM_os_AtomicAccess_h
 #include "PLATFORM_os_AtomicAccess.h"

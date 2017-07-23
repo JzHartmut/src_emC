@@ -80,11 +80,9 @@ typedef struct HandleItem_t
 
   //struct OS_HandleMutex_t const* handleMutex;
   struct OS_Mutex_t* handleMutex;
-  /**a next index if a queueu is necessarry. TODO using?*/
-  int16 idxNext_xxx;
 
-  /**A dummy to respect 8-byte alignment. */
-  int16 reserve;
+  /**Name for the handle, derived from index. */
+  char name[8];
 } HandleItem;
 
 
@@ -100,7 +98,7 @@ typedef struct OsWrapperJc_t
   HandleItem handleItemsJc[1024];  // some kByte
 
   /**This handle addresses the next free handles, all free handles are queued. */
-  HandleItem freeHandle;
+  HandleItem* volatile freeHandle;
 
   /**Nr of handles, initial 0, th initFreeHandleEntry() routine should be called! */
   int nrofHandle;

@@ -53,6 +53,7 @@
 #include <os_time.h>
 #include <os_sync.h>
 #include <os_waitnotify.h>
+#include <os_AtomicAccess.h>
 #include <Fwc/fw_ThreadContext.h>
 
 #include <string.h>
@@ -65,7 +66,7 @@ int initFreeHandleEntry()
 { int zHandleItems = ARRAYLEN(data_OsWrapperJc.handleItemsJc);
   int ii;
   data_OsWrapperJc.handleItemsJc[0].handle.nextFree = kNoFreeHandleItem;  //let the first unused, no using of index 0!
-  data_OsWrapperJc.freeHandle.handle.nextFree = &data_OsWrapperJc.handleItemsJc[1];
+  data_OsWrapperJc.freeHandle = &data_OsWrapperJc.handleItemsJc[1];
   for(ii = 1; ii < zHandleItems -1; ii++)
   { data_OsWrapperJc.handleItemsJc[ii].handle.nextFree = &(data_OsWrapperJc.handleItemsJc[ii+1]);
   }
@@ -87,24 +88,36 @@ HandleItem* getFreeHandleEntry(int16* idx)
   if(data_OsWrapperJc.nrofHandle == 0)
   { data_OsWrapperJc.nrofHandle = initFreeHandleEntry();
   }
-  theHandleItem = data_OsWrapperJc.freeHandle.handle.nextFree;
+
+  theHandleItem = data_OsWrapperJc.freeHandle;
   if(theHandleItem == kNoFreeHandleItem)
-  { *idx = -1;  //TODO passenden Win-error
+  { *idx = -2;  //TODO passenden Win-error
     return null;
   }
   else
-  { HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
-    data_OsWrapperJc.freeHandle.handle.nextFree = nextFree;
-    //here mutex release!
+  { int tryCt = 10000;
+    while(--tryCt > 0) {
+      theHandleItem = data_OsWrapperJc.freeHandle;
+      HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
+      if(compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.freeHandle), theHandleItem, nextFree)) {
+        break;  //if succeeded
+      }
+    }
+    //here mutex release! ??
+    if(tryCt == -1) {
+      *idx = -2;  //too many try, only in catastrophical situation. But the while should be broken!
+      return null;
+    }
+    else 
     { int idxHandle = theHandleItem - data_OsWrapperJc.handleItemsJc;
       if(idxHandle < 0 || idxHandle >= ARRAYLEN(data_OsWrapperJc.handleItemsJc))
       { STACKTRC_ENTRY("getFreeHandleEntry");
         THROW_s0(RuntimeException, "corrupt handles",idxHandle);
       }
       *idx = (int16)(idxHandle);
+      memset(theHandleItem, 0, sizeof(*theHandleItem));
+      return theHandleItem;
     }
-    memset(theHandleItem, 0, sizeof(*theHandleItem));
-    return theHandleItem;
   }
 }
 
@@ -120,9 +133,73 @@ HandleItem* getHandleEntry(int idx)
 }
 
 
+
+
+void releaseHandleEntry(int16 idx)
+{
+  HandleItem* currNextFree;
+  HandleItem* releaseHandle = &data_OsWrapperJc.handleItemsJc[idx];
+  if(releaseHandle->handleMutex) {
+    os_deleteMutex(releaseHandle->handleMutex);
+  }
+  if(releaseHandle->handle.wait) {
+    os_removeWaitNotifyObject(releaseHandle->handle.wait);
+  }
+  int tryCt = 10000;
+  while(--tryCt > 0) {
+    currNextFree = data_OsWrapperJc.freeHandle;
+    releaseHandle->handle.nextFree = currNextFree;  //referes the next next then 
+    if(compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.freeHandle), currNextFree, releaseHandle)) {
+      break;  //if succeeded
+    }
+    if(tryCt == -1) {
+      //on too many try loops, do nothing, the system is instable already. The handle is not released.
+      tryCt -=1;  //set breakpoint here.
+    }
+  }
+}
+
+
+
 /**************************************************************************************************/
 /* Implementations of ObjectJc.h
 */
+
+
+
+INLINE_Fwc HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
+  HandleItem* handle = null;
+  int16 ixHandle = thiz->state.b.idSyncHandles;
+  if(ixHandle == kNoSyncHandles_ObjectJc) {
+    handle = getFreeHandleEntry(&ixHandle);
+    if(handle !=null) {
+      strcpy(handle->name, "JcJc_00");
+      handle->name[5] = (char)(((ixHandle >>6)  & 0x3f) + '0');
+      handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
+      os_createMutex(handle->name, &handle->handleMutex);
+      int32 ixOffsId = thiz->state._w[ixOffsId_State_Object]; //Note: read only one time, test the same as in compareAndSet
+      int32 newvalue = (ixOffsId & ~m_idSyncHandles_State_ObjectJc) 
+                     | ((ixHandle <<kBit_idSyncHandles_State_ObjectJc) & m_idSyncHandles_State_ObjectJc);
+      if(!compareAndSet_AtomicInteger(&thiz->state._w[ixOffsId_State_Object], ixOffsId, newvalue)){
+        //handle was not set, expected: Another thread has set the ixHandle.
+        releaseHandleEntry(ixHandle);
+        handle = null;
+        ixHandle = thiz->state.b.idSyncHandles;
+      }
+    } else {
+      return null; //no handle available
+    }
+  }
+  if(handle == null && ixHandle >=0) {
+    handle = getHandleEntry(ixHandle);  //the existing handle.
+  }
+  return handle;
+}
+
+
+
+
+
 
 
 /**implements from ObjectJc.h. */
@@ -130,26 +207,23 @@ void wait_ObjectJc(ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
 { //TODO test wether the thread has the monitor.
   HandleItem* handle;
   STACKTRC_TENTRY("wait_ObjectJc");
-  if(obj->idSyncHandles == kNoSyncHandles_ObjectJc)
-  { int16 idx;
-    handle = getFreeHandleEntry(&idx);
-    obj->idSyncHandles = idx;
-  }
-  else
-  { handle = getHandleEntry(obj->idSyncHandles);
+  handle = getHandle_ObjectJc(obj);
+  if(handle == null) {
+    THROW_s0(RuntimeException, "error get Handle", 0);
+    return;
   }
   if(handle->handle.wait == null)
-  { int error = os_createWaitNotifyObject("unknown", &handle->handle.wait);
+  { //TODO set
+    struct OS_HandleWaitNotify_t const* handleWait;
+    int error = os_createWaitNotifyObject(handle->name, &handleWait);
     if(error != 0)
     { //it may be throwable
       THROW_s0(RuntimeException, "error os_createWaitNotifyObject", error);
+      return;
     }
-  }
-  if(handle->handleMutex == null)
-  { int error = os_createMutex(null, &handle->handleMutex);
-    if(error != 0)
-    { //it may be throwable
-      THROW_s0(RuntimeException, "error os_createMutex", error);
+    if(!compareAndSet_AtomicReference(CAST_AtomicReference(handle->handle.wait), null, (void*)handleWait)) {
+      //a wait handle is existing from another thread,
+      os_removeWaitNotifyObject(handleWait);  //remove it again.
     }
   }
   os_wait(handle->handle.wait, handle->handleMutex, milliseconds);
@@ -162,12 +236,14 @@ void wait_ObjectJc(ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
 void notify_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
 { //TODO it is possible that more as one thread waits, implement a list of threads.
   STACKTRC_TENTRY("notify_ObjectJc");
-  if(obj->idSyncHandles != kNoSyncHandles_ObjectJc)
-  { HandleItem* handle = getHandleEntry(obj->idSyncHandles);
+  if(obj->state.b.idSyncHandles != kNoSyncHandles_ObjectJc)
+  { HandleItem* handle = getHandleEntry(obj->state.b.idSyncHandles);
     if(handle->handle.wait != null && handle->handleMutex != null)
     {
       os_notify(handle->handle.wait, handle->handleMutex);
     }
+  } else {
+    //the Object has not a handle, ergo it does not wait. Do nothing.
   }
   STACKTRC_LEAVE;
 }
@@ -177,8 +253,8 @@ void notify_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
 void notifyAll_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
 { //TODO it is possible that more as one thread waits, implement a list of threads.
   STACKTRC_TENTRY("notifyAll_ObjectJc");
-  if(obj->idSyncHandles != kNoSyncHandles_ObjectJc)
-  { HandleItem* handle = getHandleEntry(obj->idSyncHandles);
+  if(obj->state.b.idSyncHandles != kNoSyncHandles_ObjectJc)
+  { HandleItem* handle = getHandleEntry(obj->state.b.idSyncHandles);
     if(handle->handle.wait != null && handle->handleMutex != null)
     {
       os_notify(handle->handle.wait, handle->handleMutex);
@@ -199,45 +275,15 @@ void notifyAll_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
 
 /**implements from ObjectJc.h. */
 void synchronized(ObjectJc* obj)
-{ //TODO test wether the thread has the monitor.
-  HandleItem* handle;
-  if(obj->idSyncHandles == kNoSyncHandles_ObjectJc)
-  { int16 idx;
-    handle = getFreeHandleEntry(&idx);
-    obj->idSyncHandles = idx;
-    if (handle !=null)
-    { char name[9];
-      int error;
-      strcpy(name, "JcW__000");
-      name[5] = (char)((obj->idSyncHandles >>12 & 0x3f) + '0');
-      name[6] = (char)((obj->idSyncHandles >>6  & 0x3f) + '0');
-      name[7] = (char)((obj->idSyncHandles      & 0x3f) + '0');
-      error = os_createMutex(name, &handle->handleMutex);
-      if(error != 0)
-      { //it may be throwable
-        STACKTRC_ENTRY("synchronized_ObjectJc");
-        THROW_s0(RuntimeException, "error os_createMutex", error);
-      }
-    }
-    else {
-      //no handles available 
-    }
+{ HandleItem* handle;
+  handle = getHandle_ObjectJc(obj);
+  if(handle == null) {
+    STACKTRC_ENTRY("synchronized");
+    THROW_s0(RuntimeException, "error get Handle", 0);
+    STACKTRC_LEAVE;
+    return;
   }
-  else
-  { handle = getHandleEntry(obj->idSyncHandles);
-    //its possible that another thread has written the idSyncHandles just now
-    //but the handleMutex is not set yet.
-    //the wait a short time:
-    if(handle->handleMutex == null){
-      os_delayThread(1);
-    }
-  }
-  if (handle != null){
-    os_lockMutex(handle->handleMutex);
-  }
-  else {
-    //TODO no handles found, yet: without mutex
-  }
+  os_lockMutex(handle->handleMutex);
 }
 
 
@@ -249,17 +295,14 @@ void synchronized(ObjectJc* obj)
 
 void synchronizedEnd(ObjectJc* obj)
 {
+  HandleItem* handle;
   STACKTRC_ENTRY("synchronizedEnd");
-  //if(obj == &allThreads_Rtos.object)
-  {
+  handle = getHandle_ObjectJc(obj);
+  if(handle == null) {
+    THROW_s0(RuntimeException, "error get Handle",0);
+    return;
   }
-  //else
-  {
-    if(obj->idSyncHandles != kNoSyncHandles_ObjectJc)
-    { HandleItem* handleItem = getHandleEntry(obj->idSyncHandles);
-      os_unlockMutex(handleItem->handleMutex);
-    }
-  }
+  os_unlockMutex(handle->handleMutex);
   STACKTRC_LEAVE;
 }
 

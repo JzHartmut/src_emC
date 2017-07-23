@@ -16,19 +16,16 @@ void alloc_FBaccessNode_Inspc(DataNode_Inspc** thizp, int nrofObjects)
 }
 
 
-DataNode_Inspc* ctor_DataNode_Inspc(ObjectJc* thizo, int nrofObjects)
+DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects)
 {
   STACKTRC_ENTRY("ctor_DataNode_Inspc");
-  DataNode_Inspc* thiz = (DataNode_Inspc*) thizo; 
-  char const* error = init_ReflectionJc();  //TODO: not here, do it in Service_Inspc
-  //if(error) return error;
-  //clazz is the container for reflections to register. This class hasn't standard reflections.
+  //DataNode_Inspc* thiz = (DataNode_Inspc*) thizo; 
   strcpy(thiz->clazz.name, "DataNode_Inspc");
-  initReflection_ObjectJc(thizo, thizo, sizeof(DataNode_Inspc), &thiz->clazz, 0xf0);
+  initReflection_ObjectJc(&thiz->object, thiz, sizeof(DataNode_Inspc), &thiz->clazz, 0xf0);
 
   thiz->fields.head.sizeElement = sizeof(void*);
   thiz->clazz.attributes = &thiz->fields;
-  thiz->object.isInitialized = 1;
+  setInitialized_ObjectJc(&thiz->object);
   STACKTRC_LEAVE;
   return thiz;
 

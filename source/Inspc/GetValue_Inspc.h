@@ -43,7 +43,7 @@ void ctor_GetValue_Inspc(GetValue_Inspc* thiz, float Tstep);
 void init_GetValue_Inspc(GetValue_Inspc* thiz
   , StringJc path1_param, StringJc path2_param, StringJc path3_param, StringJc path4_param
   , StringJc path5_param, StringJc path6_param
-  , struct DataNode_Inspc_t* inspcNode)
+  , struct DataNode_Inspc_t* inspcNode, int32 ok)
 ;
 
 /**

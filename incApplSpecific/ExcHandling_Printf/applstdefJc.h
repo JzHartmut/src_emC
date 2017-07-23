@@ -25,7 +25,9 @@
 /**Include this file always. It defines some things usefull for all sources. */
 #include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
-//#include <FwConv_h/fw_StringJcSimple.h>
+
+/**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
+#include <FwConv_h/EnhanceRef_simple.h>
 #include <Fwc/fw_String.h>
 
 #include <Fwc/fw_threadContext.h>
@@ -65,7 +67,6 @@
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
 //#include <Fwc/fw_Exception.h>
 #include <Fwc/fw_ExcStacktrcNo.h>
-#include <FwConv_h/EnhanceRef_simple.h>
 #include <FwConv_h/definePrintfMakros.h>
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 

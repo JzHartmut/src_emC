@@ -78,6 +78,13 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
 }
 
 
+
+
+
+
+
+
+
 bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("openComm_Comm_Inspc");
@@ -138,7 +145,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
         openComm_Comm_Inspc(thiz, true, _thCxt);
         if(thiz->state == 'o') 
         { 
-          
+          sleep_ThreadJc(100, _thCxt); //delay, necessary for some op
           receiveAndExecute_Comm_Inspc(thiz, _thCxt);
         }
         else 
@@ -177,6 +184,9 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
   }
   STACKTRC_LEAVE;
 }
+
+
+
 
 /*J2C: dynamic call variant of the override-able method: */
 void run_Comm_Inspc(ObjectJc* ithis, ThCxt* _thCxt)

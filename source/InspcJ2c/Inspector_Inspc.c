@@ -53,6 +53,12 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
 
 
 
+
+void terminate_Inspector_Inspc(Inspector_Inspc_s* thiz)
+{
+  shutdown_Comm_Inspc(&thiz->comm, null);
+}
+
 /**Returns the first instance of the Inspector in this application. Usual only one instance is used,*/
 struct Inspector_Inspc_t* get_Inspector_Inspc(/*J2C:static method*/ ThCxt* _thCxt)
 { 

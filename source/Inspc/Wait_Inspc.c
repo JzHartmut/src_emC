@@ -26,12 +26,12 @@ void ctor_Wait_Inspc(Wait_Inspc* thiz)
 
 
 bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
-{ return registerRefl_FBaccessNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
+{ return registerRefl_DataNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
 }
 
 
 void init_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
-{ registerRefl_FBaccessNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
+{ registerRefl_DataNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
 }
 
 
@@ -39,7 +39,7 @@ void init_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, float Tstep, int32 stepsTillFirstWait, int32 delay_ms)
 {
   initReflection_ObjectJc(&thiz->base, thiz, sizeof(Wait_Inspc), &reflection_Wait_Inspc, 0x0);
-  thiz->base.isInitialized = 1;
+  setInitialized_ObjectJc(&thiz->base);
   thiz->stepsTillWait = stepsTillFirstWait;
   thiz->delay_ms = delay_ms;
 }

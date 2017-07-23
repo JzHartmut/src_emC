@@ -44,9 +44,10 @@
  *
  ****************************************************************************/
 
+#include "Jc/ObjectJc.h" 
+
 #include <stdlib.h>     //malloc
 #include <string.h>     //memset
-#include "Jc/ObjectJc.h"  //:NOTE: after stdlib.h because malloc maybe defined.
 //#include "StringJc.h"
 #include "Jc/ReflectionJc.h"
 #include "Fwc/fw_Exception.h"
@@ -85,13 +86,13 @@ void ctorc_ObjectJc(ObjectJc* ythis)
 { 
   if(ythis->ownAddress != ythis)  //if the ownAddress is already set, it is initalized!
   { ythis->ownAddress = ythis;
-    ythis->idSyncHandles = kNoSyncHandles_ObjectJc;
-    ythis->offsetToStartAddr = 0;
+    ythis->state.b.idSyncHandles = kNoSyncHandles_ObjectJc;
+    ythis->state.b.offsetToStartAddr = 0;
     //
     //NOTE: the both next values cannot be setted from focus ObjectJc,
     //      they should be setted outside the ctor behind them from focus of the derivated class.
     //      use setReflection_ObjectJc(..) therefore.
-    ythis->objectIdentSize = 0;
+    ythis->state.b.objectIdentSize = 0;
     ythis->reflectionClass = null;
   }
   else
@@ -410,7 +411,7 @@ void_Y* ctorO_AYJc(ObjectJc* othis, int nBytesPerElement, int nSize)
 { void_Y* ythis = (void_Y*)(othis);
   if(ythis != null)
   { ctorc_ObjectJc(&ythis->head.object);
-    ythis->head.object.objectIdentSize |= mArray_objectIdentSize_ObjectJc;
+    ythis->head.object.state.b.objectIdentSize |= mArray_objectIdentSize_ObjectJc;
     ythis->head.length = nSize;
     ythis->head.sizeElement = (int16)nBytesPerElement;
     ythis->head.mode = 0; //kDirect_ObjectArrayJc;
@@ -482,7 +483,7 @@ ObjectArrayJc* ctorO_ObjectArrayJc(ObjectJc* othis, int size, int nBytesPerEleme
     sizeArray = size * nBytesPerElement + sizeof(ObjectArrayJc);
     sizeInfoObject = getSizeInfo_ObjectJc(&ythis->object);
     if(sizeArray > sizeInfoObject) THROW_s0(IllegalArgumentException, "less sizeObject, require=", sizeArray);
-    objectIdentSize = (othis->objectIdentSize & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;
+    objectIdentSize = (othis->state.b.objectIdentSize & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;
     setReflection_ObjectJc(&ythis->object, reflection, objectIdentSize);
 
     ythis->length = size;

@@ -48,7 +48,7 @@ ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
   ASSERT_Fwc(sizeObj >= sizeof(ObjectJc));
   //cc2016-10 memset(ythis, 0, sizeObj);  //don't clear the instance because some references etc. maybe initalized with { ... }
   ythis->ownAddress = ythis;
-  ythis->idSyncHandles = kNoSyncHandles_ObjectJc;
+  ythis->state.b.idSyncHandles = kNoSyncHandles_ObjectJc;
   setSizeAndIdent_ObjectJc(ythis, sizeObj, identObj);
   STACKTRC_LEAVE; return ythis;
 }
@@ -58,9 +58,9 @@ ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
 ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj)
 { STACKTRC_ENTRY("initReflection_ObjectJc");
   ythis->ownAddress = ythis;
-  ythis->idSyncHandles = kNoSyncHandles_ObjectJc;
+  ythis->state.b.idSyncHandles = kNoSyncHandles_ObjectJc;
   setSizeAndIdent_ObjectJc(ythis, sizeObj, identObj);
-  ythis->offsetToStartAddr = (int16)(((MemUnit*)(ythis)) - ((MemUnit*)(addrInstance)));
+  ythis->state.b.offsetToStartAddr = (int16)(((MemUnit*)(ythis)) - ((MemUnit*)(addrInstance)));
   ythis->reflectionClass = reflection; //may be null.
   STACKTRC_LEAVE; return ythis;
 }
@@ -69,7 +69,7 @@ ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeO
 void setReflection_ObjectJc(ObjectJc* ythis, struct ClassJc_t const* reflection,  int32 typeInstanceSizeIdent)
 { ythis->reflectionClass = reflection;
   if(typeInstanceSizeIdent != -1)
-  { if(ythis->objectIdentSize == 0){ ythis->objectIdentSize = typeInstanceSizeIdent; }
+  { if(ythis->state.b.objectIdentSize == 0){ ythis->state.b.objectIdentSize = typeInstanceSizeIdent; }
     else
     { //TODO setIdent_ObjectJc(typeInstanceSizeIdent);
     }
@@ -86,13 +86,13 @@ void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identAndMaskObj)
     THROW_s0(RuntimeException, "negativ values for all parameter are unexpected, or nrofArrayDimensions >0", sizeObj);
   }
   else if(sizeObj <= mSizeSmall_objectIdentSize_ObjectJc && identObj <= (mTypeSmall_objectIdentSize_ObjectJc >> kBitTypeSmall_objectIdentSize_ObjectJc))
-  { ythis->objectIdentSize = sizeObj | kIsSmallSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeSmall_objectIdentSize_ObjectJc);
+  { ythis->state.b.objectIdentSize = sizeObj | kIsSmallSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeSmall_objectIdentSize_ObjectJc);
   }
   else if(sizeObj <= mSizeMedium_objectIdentSize_ObjectJc && identObj <= (mTypeMedium_objectIdentSize_ObjectJc >> kBitTypeMedium_objectIdentSize_ObjectJc))
-  { ythis->objectIdentSize = sizeObj | kIsMediumSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeMedium_objectIdentSize_ObjectJc);
+  { ythis->state.b.objectIdentSize = sizeObj | kIsMediumSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeMedium_objectIdentSize_ObjectJc);
   }
   else if(sizeObj <= mSizeLarge_objectIdentSize_ObjectJc && identObj <= (mTypeLarge_objectIdentSize_ObjectJc >> kBitTypeLarge_objectIdentSize_ObjectJc))
-  { ythis->objectIdentSize = sizeObj | mIsLargeSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeLarge_objectIdentSize_ObjectJc);
+  { ythis->state.b.objectIdentSize = sizeObj | mIsLargeSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeLarge_objectIdentSize_ObjectJc);
   }
   else
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
@@ -148,14 +148,14 @@ int checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, struct Clas
 int checkOrInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
 { int identObj;
   STACKTRC_TENTRY("checkConsistence_ObjectJc");
-  if(thiz->ownAddress == null && thiz->objectIdentSize == 0)
+  if(thiz->ownAddress == null && thiz->state.b.objectIdentSize == 0)
   { //not initialized
     init_ObjectJc(thiz, size, ident);   //TODO ident=0? 
     setReflection_ObjectJc(thiz, clazzReflection, 0);
     identObj = ident;
   }
   else
-  { if(thiz->objectIdentSize == 0)
+  { if(thiz->state.b.objectIdentSize == 0)
     { //size and ident not initialized
       setSizeAndIdent_ObjectJc(thiz, size, ident);
   }
@@ -174,21 +174,21 @@ int checkOrInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t c
 
 
 int getSizeInfo_ObjectJc(ObjectJc const* ythis)
-{ if(ythis->objectIdentSize & mIsLargeSize_objectIdentSize_ObjectJc) 
-    return ythis->objectIdentSize & mSizeLarge_objectIdentSize_ObjectJc;
-  else if( (ythis->objectIdentSize & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
-    return ythis->objectIdentSize & mSizeMedium_objectIdentSize_ObjectJc;
+{ if(ythis->state.b.objectIdentSize & mIsLargeSize_objectIdentSize_ObjectJc) 
+    return ythis->state.b.objectIdentSize & mSizeLarge_objectIdentSize_ObjectJc;
+  else if( (ythis->state.b.objectIdentSize & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
+    return ythis->state.b.objectIdentSize & mSizeMedium_objectIdentSize_ObjectJc;
   else
-    return ythis->objectIdentSize & mSizeSmall_objectIdentSize_ObjectJc;
+    return ythis->state.b.objectIdentSize & mSizeSmall_objectIdentSize_ObjectJc;
 }
 
 int getIdentInfo_ObjectJc(ObjectJc const* ythis)
-{ if(ythis->objectIdentSize & mIsLargeSize_objectIdentSize_ObjectJc) 
-    return (ythis->objectIdentSize & mTypeLarge_objectIdentSize_ObjectJc) >>kBitTypeLarge_objectIdentSize_ObjectJc;
-  else if( (ythis->objectIdentSize & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
-    return (ythis->objectIdentSize & mTypeMedium_objectIdentSize_ObjectJc) >>kBitTypeMedium_objectIdentSize_ObjectJc;
+{ if(ythis->state.b.objectIdentSize & mIsLargeSize_objectIdentSize_ObjectJc) 
+    return (ythis->state.b.objectIdentSize & mTypeLarge_objectIdentSize_ObjectJc) >>kBitTypeLarge_objectIdentSize_ObjectJc;
+  else if( (ythis->state.b.objectIdentSize & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
+    return (ythis->state.b.objectIdentSize & mTypeMedium_objectIdentSize_ObjectJc) >>kBitTypeMedium_objectIdentSize_ObjectJc;
   else
-    return (ythis->objectIdentSize & mTypeSmall_objectIdentSize_ObjectJc) >>kBitTypeSmall_objectIdentSize_ObjectJc;
+    return (ythis->state.b.objectIdentSize & mTypeSmall_objectIdentSize_ObjectJc) >>kBitTypeSmall_objectIdentSize_ObjectJc;
 }
 
 

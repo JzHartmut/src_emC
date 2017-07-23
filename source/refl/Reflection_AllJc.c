@@ -796,31 +796,15 @@ const ClassJc reflection_ListMapEntryJc =
 extern_C const ClassJc reflection_HandleItem;  //the just defined reflection_
 const struct Reflection_Fields_HandleItem_t
 { ObjectArrayJc head;
-  FieldJc data[3];
+  FieldJc data[1];
 } reflection_Fields_HandleItem =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_HandleItem)
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_HandleItem)
 , {
     { "handleMutex"
     , 0   //no Array, no Bitfield
     , REFLECTION_void
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((HandleItem*)(0x1000))->handleMutex) -(int32)(HandleItem*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_HandleItem
-    }
-  , { "idxNext_xxx"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((HandleItem*)(0x1000))->idxNext_xxx) -(int32)(HandleItem*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_HandleItem
-    }
-  , { "reserve"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((HandleItem*)(0x1000))->reserve) -(int32)(HandleItem*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_HandleItem
     }

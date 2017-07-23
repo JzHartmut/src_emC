@@ -63,6 +63,65 @@ struct Size_Mtbl_t;
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 
+
+
+
+/**8 Byte for size, offs to start, idSync etc.
+ * Note: Any struct or union for maybe 64 bit system should be aligned to 8 Byte!
+ */
+typedef union State_ObjectJc_t
+{
+  #define ixOffsId_State_Object 1
+  #define kBit_idSyncHandles_State_ObjectJc 16
+  #define m_idSyncHandles_State_ObjectJc 0x0fff0000
+
+  int32 _w[2];
+
+  struct {
+    
+    int32 objectIdentSize;
+    
+    /**Posive value of offset to the beginn of block, able to use debugging data manually. 
+     * If this Object is part of a BlockHeapBlockJc, bit 15 is set, but the rest is the positive offset to start of heap block.
+     * 
+     */
+    int32 offsetToStartAddr :16;
+
+    /** identification number for wait/notify and synchronized.
+     *  Because most of ObjectJc are not used for synchronized or wait/notify,
+     *  the necessary handles for that are stored in a separate struct located in an separate memory space
+     *  defined in os_wrapper.c.
+     *  Here only the 12 bit for a id are offered.
+     */
+    int32 he  :12;
+
+    #define kNoSyncHandles_ObjectJc -1
+
+    /**Up to 7 handles (number) for memory management. 
+     * The operation system should support the access to the correct instance. 
+     */
+    int32 memoryMng :3;
+
+
+    /**Bit to check whether the initializing is complete. 
+     * This bit is not existing in Java. For such problems in java a special boolean variable is necessary.
+     * This bit should be set to 1 in a users routine if all aggregations are set. Aggregations (UML) are that references
+     * which are necessary to execute all capabilities of the class.  
+     */
+    int32 isInitialized :1;
+
+    //always: #if defined(mBackRef_ObjectJc)
+    /** Pointer to a memory management, which manages this object. old: the BlockHeapBlock-Control-structure, 
+     */
+    //struct ObjectJc_t* memoryMng;
+    //#endif
+  } b;
+} State_ObjectJc;
+
+
+
+
+
 /*@CLASS_C ObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
   /**Object is the superclass of all superclasses. In C-like manner it is a struct
@@ -136,8 +195,6 @@ struct Size_Mtbl_t;
      * objects via Reflection. but it need not use this information. The sizeof information
      * helps to skip from one Object to the followed.
      */
-    int32 objectIdentSize;
-
 
       /** The bits defines an ObjectArrayJc. If this bits are 0, it is not an ObjectArrayJc.*/
       #define mArray_objectIdentSize_ObjectJc      0x40000000
@@ -198,40 +255,8 @@ struct Size_Mtbl_t;
       /** This constant is used to shift the type info for small objects. */
       #define kBitTypeLarge_objectIdentSize_ObjectJc 24
 
-    /**Posive value of offset to the beginn of block, able to use debugging data manually. 
-     * If this Object is part of a BlockHeapBlockJc, bit 15 is set, but the rest is the positive offset to start of heap block.
-     * 
-     */
-    int32 offsetToStartAddr :16;
+    State_ObjectJc state;
 
-    /** identification number for wait/notify and synchronized.
-     *  Because most of ObjectJc are not used for synchronized or wait/notify,
-     *  the necessary handles for that are stored in a separate struct located in an separate memory space
-     *  defined in os_wrapper.c.
-     *  Here only the 12 bit for a id are offered.
-     */
-    int32 idSyncHandles :12;
-
-    #define kNoSyncHandles_ObjectJc -1
-
-    /**Up to 7 handles (number) for memory management. 
-     * The operation system should support the access to the correct instance. 
-     */
-    int32 memoryMng :3;
-
-
-    /**Bit to check whether the initializing is complete. 
-     * This bit is not existing in Java. For such problems in java a special boolean variable is necessary.
-     * This bit should be set to 1 in a users routine if all aggregations are set. Aggregations (UML) are that references
-     * which are necessary to execute all capabilities of the class.  
-     */
-    int32 isInitialized :1;
-
-    //always: #if defined(mBackRef_ObjectJc)
-    /** Pointer to a memory management, which manages this object. old: the BlockHeapBlock-Control-structure, 
-     */
-    //struct ObjectJc_t* memoryMng;
-    //#endif
 
 
   }ObjectJc;
@@ -253,7 +278,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
  * @param REFLECTION the reflection class of the constant object. It may be ,,null,, also.
  * @deprecated use [[INITIALIZER_ObjectJc(...)]] instead
 */
-#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { { (ObjectJc*)(OWNADDRESS) }, { REFLECTION }, TYPESIZEOF, 0, kNoSyncHandles_ObjectJc, 0}
+#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { { (ObjectJc*)(OWNADDRESS) }, { REFLECTION }, { TYPESIZEOF, 0 + (kNoSyncHandles_ObjectJc<<12) + 0}}
 //#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
 
 
@@ -297,9 +322,10 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
 /*NOTE: don't use a void* instead ObjectJc*, because a qualified casting have to be done using in C++ from inheriting classes. */
 METHOD_C ObjectJc* init_ObjectJc(ObjectJc* thiz, int sizeObj, int identObj);
 
+#define isInitialized_ObjectJc(THIZ) ((THIZ)->state.b.isInitialized) 
+#define setInitialized_ObjectJc(THIZ) { (THIZ)->state.b.isInitialized =1; } 
 
-
-#define ident_newAllocated_ObjectJc 0xffe
+#define ident_newAllocated_ObjectJc 0x0001
 
 /**Initialization of the basicly data of Object.
  * This method should be used for all instances.

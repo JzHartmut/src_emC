@@ -45,8 +45,8 @@
 //Use full capability for ObjectJc, necessary for Pointer check and reflection.
 #include <Fwc/objectBaseC.h>
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-//#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_ExcStacktrcNo.h>
+#include <Fwc/fw_Exception.h>
+//#include <Fwc/fw_ExcStacktrcNo.h>
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 #include <FwConv_h/EnhanceRef_simple.h>
@@ -97,8 +97,9 @@
 
 //#include <special/definePrintfMakros.h>
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+#include <FwConv_h/definePrintfMakrosEmpty.h>
 
-
+#define kMaxPathLength_FileJc 500
 
 
 #endif // __applstdefJc_h__
