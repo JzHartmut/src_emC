@@ -153,7 +153,7 @@ void close_Hande2Ptr()
   if(os_isReadySharedMem(&shMemHandle2Ptr)) {
     int sizeData =  handle2Ptr->size * sizeof(Entry_Handle2Ptr);
     memset(handle2Ptr->e, 0, sizeData);  //in case of non deleted shared mem: Simulink is closed, use the handles newly.
-    handle2Ptr->ixEnd = 0;
+    handle2Ptr->ixEnd = 1;
     os_closeSharedMem(&shMemHandle2Ptr);
   } //else: it is cleared and closed already.
 

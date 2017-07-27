@@ -32,6 +32,7 @@ bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* re
 
 void init_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 { registerRefl_DataNode_Inspc(reflNode, thiz, "wait", &reflection_Wait_Inspc);
+  setInitialized_ObjectJc(&thiz->base);
 }
 
 
@@ -39,7 +40,6 @@ void init_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, float Tstep, int32 stepsTillFirstWait, int32 delay_ms)
 {
   initReflection_ObjectJc(&thiz->base, thiz, sizeof(Wait_Inspc), &reflection_Wait_Inspc, 0x0);
-  setInitialized_ObjectJc(&thiz->base);
   thiz->stepsTillWait = stepsTillFirstWait;
   thiz->delay_ms = delay_ms;
 }

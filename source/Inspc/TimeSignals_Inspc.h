@@ -41,8 +41,8 @@ typedef struct TimeSignals_Inspc_t
   /**Belegung von max.16 bits stimuliert. Verwendung bei [[stepBits_TimeSignals_Inspc(...)]]*/
   int16 yBits;
 
-  /**Only for 4-byte-alignment.  @refl:hide. */
-  int16 dummy1;
+  /**1 if the reflections are registered on Inspector. Note: also for 4-byte-alignment.  @refl:hide. */
+  int16 bReflRegistered;
   
   #define zya_TimeSignals_Inspc 6
   //NOTE: Use value of 6 for array length for better readability + reflection generation, it cannot process symbolics.

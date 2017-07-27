@@ -34,7 +34,7 @@ typedef struct DataNode_Inspc_t
 /**Creates a new DataNode, its output should be registered either as root Node on Service_Inspc or as Object at any other DataNode. 
  * @simulink Sfunc
  */
-DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects);
+DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float Tstep);
 
 
 
@@ -82,7 +82,6 @@ bool checkObject_DataNode_Inspc(struct DataNode_Inspc_t* thiz);
  */
 char const* add_DataNode_Inspc(struct DataNode_Inspc_t* thiz, StringJc name1_param, StringJc name2_param, void* data, int32* ok_y);
 
-
 /**Registeres Reflection from any Object in a FBaccessNode for a runtime reflection tree. 
  * @param thiz Instance pointer for this method. null is admissiable here.
  * @param obj Any instance of a given struct which has reflection. It need not based on ObjectJc. 
@@ -91,6 +90,7 @@ char const* add_DataNode_Inspc(struct DataNode_Inspc_t* thiz, StringJc name1_par
  * @return true if success. Especially thiz will be checked whether it is a valid reference. null is admissable for thiz.
  */
 bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl);
+#define registerRefl_FBaccessNode_Inspc registerRefl_DataNode_Inspc
 
 
 #endif  //__DataNode_Inspc_h__

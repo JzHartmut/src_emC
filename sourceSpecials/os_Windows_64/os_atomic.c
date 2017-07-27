@@ -94,7 +94,7 @@ CMPXCHG - Compare and Exchange
  */
 
 int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update) {
-  return InterlockedCompareExchange(reference, update, expect);  
+  return InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
 }
 
 

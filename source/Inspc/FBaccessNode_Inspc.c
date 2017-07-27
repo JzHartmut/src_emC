@@ -16,8 +16,8 @@ void alloc_FBaccessNode_Inspc(DataNode_Inspc** thizp, int nrofObjects)
 }
 
 
-DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects)
-{
+DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float Tstep)
+{ //Tstep is only dummy, for simulink.
   STACKTRC_ENTRY("ctor_DataNode_Inspc");
   //DataNode_Inspc* thiz = (DataNode_Inspc*) thizo; 
   strcpy(thiz->clazz.name, "DataNode_Inspc");

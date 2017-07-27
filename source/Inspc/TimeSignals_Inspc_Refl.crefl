@@ -132,11 +132,11 @@ const struct Reflection_Fields_TimeSignals_Inspc_t
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }
-  , { "dummy1"
+  , { "bReflRegistered"
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->dummy1) -(int32)(TimeSignals_Inspc*)0x1000)
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->bReflRegistered) -(int32)(TimeSignals_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }
