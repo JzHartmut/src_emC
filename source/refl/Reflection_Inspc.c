@@ -11,23 +11,15 @@ extern_C const ClassJc reflection_DataNode_Inspc;  //the just defined reflection
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_DataNode_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[2];
+  FieldJc data[1];
 } reflection_Fields_DataNode_Inspc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_DataNode_Inspc)
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_DataNode_Inspc)
 , {
     { "object"
     , 0   //no Array, no Bitfield
     , &reflection_ObjectJc
     , 0 //bitModifiers
     , (int16)((int32)(&((DataNode_Inspc*)(0x1000))->object) -(int32)(DataNode_Inspc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_DataNode_Inspc
-    }
-  , { "data"
-    , 100   //nrofArrayElements
-    , REFLECTION_void
-    , (8<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((DataNode_Inspc*)(0x1000))->data) -(int32)(DataNode_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_DataNode_Inspc
     }
@@ -56,15 +48,23 @@ const ClassJc reflection_DataNode_Inspc =
 extern_C const ClassJc reflection_SimulationTime_Inspc;  //the just defined reflection_
 const struct Reflection_Fields_SimulationTime_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[2];
+  FieldJc data[3];
 } reflection_Fields_SimulationTime_Inspc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_SimulationTime_Inspc)
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_SimulationTime_Inspc)
 , {
     { "timeShort"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((SimulationTime_Inspc*)(0x1000))->timeShort) -(int32)(SimulationTime_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_SimulationTime_Inspc
+    }
+  , { "spare2"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((SimulationTime_Inspc*)(0x1000))->spare2) -(int32)(SimulationTime_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_SimulationTime_Inspc
     }
@@ -501,6 +501,109 @@ const ClassJc reflection_InspcTelgHead_Inspc_s =
 
 
 
+#include "Inspc/Service_Inspc.h"
+
+
+extern_C const ClassJc reflection_SimTime_Inspc;  //the just defined reflection_
+const struct Reflection_Fields_SimTime_Inspc_t
+{ ObjectArrayJc head;
+  FieldJc data[3];
+} reflection_Fields_SimTime_Inspc =
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_SimTime_Inspc)
+, {
+    { "timeShort"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((SimTime_Inspc*)(0x1000))->timeShort) -(int32)(SimTime_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_SimTime_Inspc
+    }
+  , { "spare1_8aligned"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((SimTime_Inspc*)(0x1000))->spare1_8aligned) -(int32)(SimTime_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_SimTime_Inspc
+    }
+  , { "timeSim"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_double
+    , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((int32)(&((SimTime_Inspc*)(0x1000))->timeSim) -(int32)(SimTime_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_SimTime_Inspc
+    }
+} };
+
+
+const ClassJc reflection_SimTime_Inspc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_SimTime_Inspc, &reflection_ClassJc)
+, "SimTime_Inspc"
+, 0
+, sizeof(SimTime_Inspc)
+, (FieldJcArray const*)&reflection_Fields_SimTime_Inspc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+
+extern_C const ClassJc reflection_Service_Inspc;  //the just defined reflection_
+extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc reflection_SimTime_Inspc;
+extern_C const ClassJc reflection_Inspector_Inspc_s;
+const struct Reflection_Fields_Service_Inspc_t
+{ ObjectArrayJc head;
+  FieldJc data[3];
+} reflection_Fields_Service_Inspc =
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_Service_Inspc)
+, {
+    { "object"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((Service_Inspc*)(0x1000))->object) -(int32)(Service_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_Service_Inspc
+    }
+  , { "simTime"
+    , 0   //no Array, no Bitfield
+    , &reflection_SimTime_Inspc
+    , 0 //bitModifiers
+    , (int16)((int32)(&((Service_Inspc*)(0x1000))->simTime) -(int32)(Service_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_Service_Inspc
+    }
+  , { "theInspector"
+    , 0   //no Array, no Bitfield
+    , &reflection_Inspector_Inspc_s
+    , 0 //bitModifiers
+    , (int16)((int32)(&((Service_Inspc*)(0x1000))->theInspector) -(int32)(Service_Inspc*)0x1000)
+    , 0  //offsetToObjectifcBase
+    , &reflection_Service_Inspc
+    }
+} };
+
+
+const ClassJc reflection_Service_Inspc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Service_Inspc, &reflection_ClassJc)
+, "Service_Inspc"
+, 0
+, sizeof(Service_Inspc)
+, (FieldJcArray const*)&reflection_Fields_Service_Inspc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+
 #include "Inspc/TimeSignals_Inspc.h"
 
 
@@ -629,11 +732,11 @@ const struct Reflection_Fields_TimeSignals_Inspc_t
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }
-  , { "dummy1"
+  , { "bReflRegistered"
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->dummy1) -(int32)(TimeSignals_Inspc*)0x1000)
+    , (int16)((int32)(&((TimeSignals_Inspc*)(0x1000))->bReflRegistered) -(int32)(TimeSignals_Inspc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc
     }

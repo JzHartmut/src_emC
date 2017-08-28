@@ -53,7 +53,7 @@ char const* init_Service_Inspc(Service_Inspc* thiz, StringJc sIp_param, struct D
 /**The terminate routine closes the thread and the Socket connection..
  * @simulink Sfunc
  */
-void terminate_Service_Inspc(Service_Inspc* thiz);
+void dtor_Service_Inspc(Service_Inspc* thiz);
 
 /**The step routine gets only the time from Simulation.
  * @simulink Sfunc

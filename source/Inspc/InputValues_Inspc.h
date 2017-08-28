@@ -27,7 +27,9 @@ typedef struct InputValues_Inspc_t
   #define kSizeX_InputValues_Inspc 20
 
   /**Zähler falls irgendwas in config-File nicht stimmt, sollte auf 0 stehen. */
-  int errorCfg;
+  int32 errorCfg;
+
+  int32 bReflRegistered;
 
   /**Instance name in Reflection Node Tree. */
   char nameRefl[32];

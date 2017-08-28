@@ -84,7 +84,7 @@ const ClassJc reflection__floatJc =
 
   , "float"
   , 0 //Position of the data of this class itself, after some superclasses.
-  , sizeof(int32)
+  , sizeof(float)
   , null  //Attributes
   , null  //Methods
   , null  //superclass
@@ -98,7 +98,7 @@ const ClassJc reflection__longJc =
 
 , "long"
 , 0 //Position of the data of this class itself, after some superclasses.
-, sizeof(int32)
+, sizeof(int64)
 , null  //Attributes
 , null  //Methods
 , null  //superclass
@@ -112,7 +112,7 @@ const ClassJc reflection__byteJc =
 
 , "byte"
 , 0 //Position of the data of this class itself, after some superclasses.
-, sizeof(int32)
+, sizeof(int8)
 , null  //Attributes
 , null  //Methods
 , null  //superclass
@@ -126,7 +126,7 @@ const ClassJc reflection__shortJc =
 , null)
 , "short"
 , 0 //Position of the data of this class itself, after some superclasses.
-, sizeof(int32)
+, sizeof(int16)
 , null  //Attributes
 , null  //Methods
 , null  //superclass

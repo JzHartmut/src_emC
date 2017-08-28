@@ -54,7 +54,7 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
 
 
 
-void terminate_Inspector_Inspc(Inspector_Inspc_s* thiz)
+void dtor_Inspector_Inspc(Inspector_Inspc_s* thiz)
 {
   shutdown_Comm_Inspc(&thiz->comm, null);
 }

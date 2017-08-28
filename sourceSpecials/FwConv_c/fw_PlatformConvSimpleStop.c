@@ -84,11 +84,6 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
   
 }
 
-#ifndef stopAssert_Fwc
-void XXXstopAssert_Fwc(){
-  printf("stopAssert_Fwc() - please set a breakpoint here to debug why. ");
-}
-#endif
 
 void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt)
 {

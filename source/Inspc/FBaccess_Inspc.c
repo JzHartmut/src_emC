@@ -14,7 +14,7 @@ void alloc_FBaccess_Inspc(FBaccess_Inspc** thizp, int nrofObjects, const char* s
   allocSetRoot_FBaccess_Inspc(thizp, nrofObjects, null,sIp);
 }
 
-void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, DataNode_Inspc* rootInspc, const char* sIp)
+void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, ObjectJc* rootInspc, const char* sIp)
 {
   FBaccess_Inspc* thiz = (FBaccess_Inspc*)malloc(sizeof(FBaccess_Inspc));
   memset(thiz, 0, sizeof(FBaccess_Inspc));
@@ -22,10 +22,10 @@ void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObject
   DataNode_Inspc* rootNode = (DataNode_Inspc*)malloc(sizeof(DataNode_Inspc));
   memset(rootNode, 0, sizeof(DataNode_Inspc));
 
-  ctor_FBaccessNode_Inspc((DataNode_Inspc*)&rootNode, nrofObjects);
+  ctor_FBaccessNode_Inspc(rootNode, nrofObjects);
 
-  if(rootInspc == null){ rootInspc = rootNode; }
-  ctor_FBaccess_Inspc(&thiz->object, rootNode, &rootInspc->object,sIp);  //the rootNode is the root for the Inspector per default.  
+  if(rootInspc == null){ rootInspc = &rootNode->object; }
+  ctor_FBaccess_Inspc(&thiz->object, rootNode, rootInspc,sIp);  //the rootNode is the root for the Inspector per default.  
    
   *thizp = thiz;
 

@@ -36,9 +36,9 @@ char const* init_Service_Inspc(Service_Inspc* thiz, StringJc sIp_param, DataNode
 }
 
 
-void terminate_Service_Inspc(Service_Inspc* thiz)
+void dtor_Service_Inspc(Service_Inspc* thiz)
 {
-  terminate_Inspector_Inspc(&thiz->theInspector);
+  dtor_Inspector_Inspc(&thiz->theInspector);
 }
 
 

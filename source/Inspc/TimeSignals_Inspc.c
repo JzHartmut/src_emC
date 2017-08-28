@@ -2,6 +2,7 @@
 #include <Inspc/FBaccess_Inspc.h>
 #include <Jc/FileIoJc.h>
 #include <Jc/StringJc.h>
+#include <Fwc/objectBaseC.h>
 #include <J1c/StringFunctionsJc.h>
 #include <J1c/StringFunctions_CJc.h>
 #include <stdlib.h>
@@ -83,6 +84,171 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries)
   strncpy(field->name, "thiz$TimeSignals_Inspc", sizeof(field->name)-1);
   thiz->fields.head.length = nrofFields +1;
 }
+
+
+//new since 2017-07-29
+void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filepath, StringJc reflName, int nrofEntries
+, StringJc name1, StringJc name2, StringJc name3, StringJc name4
+, StringJc name5, StringJc name6, StringJc name7, StringJc name8
+, StringJc name9, StringJc name10, StringJc name11, StringJc name12
+, StringJc name13, StringJc name14, StringJc name15, StringJc name16
+)
+{
+  StringJc names[16];
+  int zName = copyToBuffer_StringJc(reflName, 0, -1, thiz->nameModule, sizeof(thiz->nameModule));
+  names[0] = name1;   //copy extra arguments, use in for loop.
+  names[1] = name2;
+  names[2] = name3;
+  names[3] = name4;
+  names[4] = name5;
+  names[5] = name6;
+  names[6] = name7;
+  names[7] = name8;
+  names[8] = name9;
+  names[9] = name10;
+  names[10] = name11;
+  names[11] = name12;
+  names[12] = name13;
+  names[13] = name14;
+  names[14] = name15;
+  names[15] = name16;
+  Entries_TimeSignals_Inspc* entries = (Entries_TimeSignals_Inspc*)new_ObjectArrayJc(nrofEntries, sizeof(Entry_TimeSignals_Inspc), null, 0); //(Entry_TimeSignals_Inspc*)malloc(zBytesEntries);
+  thiz->entries = entries;
+  //now constructs.  
+  memset(thiz->nrElements, 1, sizeof(thiz->nrElements));
+  thiz->bitsComplexY = 0;
+  strncpy(thiz->clazz.name, "TimeSignals_Inspc", sizeof(thiz->clazz.name));
+  //thiz->fields.head.
+  thiz->clazz.nSize = sizeof(*thiz);
+  thiz->clazz.attributes = &thiz->fields;
+  int ix;
+  int nrofFields = 0;
+  int zNames = sizeof(thiz->names[0]); //length of name field inclusive \0
+  for(ix = 0; ix < ARRAYLEN_SimpleC(thiz->names); ++ix) {
+    char const* name;
+    int zName = length_StringJc(names[ix]);
+    char nameBuffer[32] = {0};  //only used if necessary, if names[ix] is not 0-terminated.
+    name = getCharConst_StringJc(names[ix], nameBuffer, 32);  //name is char const* from names[ix]
+    if( zName == 0){
+      name =  "?";  //unused field
+    } else {
+      char const* posColon = strchr(name, ':');
+      if(posColon !=null) {
+        int cComplex = name[0];
+        int cVector;
+        if (cComplex == 'C') { cVector = name[1]; }
+        else { cVector = name[0]; }
+        if (cVector >= '1' && cVector <= '6') {
+          thiz->nrElements[ix] = cVector - '0';
+        } else {
+          thiz->nrElements[ix] = 1;
+        }
+        if(cComplex == 'C') {
+          thiz->bitsComplexY |= 1<<ix; 
+        }
+        int nPosColon = posColon - name;  //Difference of char* 
+        int nrChars = zName - nPosColon;
+        //adjust the name,without type information.
+        name += nPosColon;  //char const* shift.
+        zName -= nPosColon;
+      }
+      if(zName >= ARRAYLEN_SimpleC(thiz->names[0])) {
+        zName = ARRAYLEN_SimpleC(thiz->names[0])-1;
+      } 
+      strncpy(thiz->names[ix], name, zName);  //with 0-terminate
+      nrofFields = ix;  //set lastly with the highest number of active field.
+    }
+    FieldJc* field = &thiz->fields.data[ix];
+    field->type_ = (thiz->bitsComplexY & (1<<ix)) ? &reflection_float_complex : REFLECTION_float;
+    field->position = offset_MemAreaC(thiz, &thiz->ya0[6*ix]);  //TRICKY: address ya0..ya15
+    field->nrofArrayElementsOrBitfield_ = thiz->nrElements[ix];
+    strncpy(field->name, name, sizeof(field->name)-1);
+  }
+  FieldJc* field = &thiz->fields.data[++nrofFields];
+  field->type_ = &reflection_TimeSignals_Inspc;  
+  field->position = 0;
+  strncpy(field->name, "thiz$TimeSignals_Inspc", sizeof(field->name)-1);
+  thiz->fields.head.length = nrofFields +1;
+  //
+  { //store file name as char const*
+    int zFilepath = copyToBuffer_StringJc(filepath, 0, -1, thiz->filepath, sizeof(thiz->filepath)-1);
+    thiz->filepath[zFilepath] = 0;
+    readConfig_TimeSignals_Inspc(thiz);
+  }
+}
+
+
+
+
+int queryOutputPorts_TimeSignals_Inspc(Entry_QueryPortTypeJc* dst, int zDst
+, StringJc name1, StringJc name2, StringJc name3, StringJc name4
+, StringJc name5, StringJc name6, StringJc name7, StringJc name8
+, StringJc name9, StringJc name10, StringJc name11, StringJc name12
+, StringJc name13, StringJc name14, StringJc name15, StringJc name16
+)
+{
+  int ix;
+  StringJc names[16];
+  names[0] = name1;   //copy extra arguments, use in for loop.
+  names[1] = name2;
+  names[2] = name3;
+  names[3] = name4;
+  names[4] = name5;
+  names[5] = name6;
+  names[6] = name7;
+  names[7] = name8;
+  names[8] = name9;
+  names[9] = name10;
+  names[10] = name11;
+  names[11] = name12;
+  names[12] = name13;
+  names[13] = name14;
+  names[14] = name15;
+  names[15] = name16;
+  
+  for(ix = 0; ix < 16; ++ix) {
+    int ixdst = ix +2;  //from output arg 2, adequate to step routine argument list! 
+    if(ixdst >= zDst) { ixdst = 0; } //fatal, unexpected.
+    char const* name;
+    int zName = length_StringJc(names[ix]);
+    if( zName == 0){
+      name =  "?";  //unused field
+    } else {
+      char nameBuffer[32] = {0};
+      char const* name = getCharConst_StringJc(names[ix], nameBuffer, 32); 
+      char const* posColon = strchr(name, ':');
+      if(posColon !=null) {
+        int cComplex = name[0];
+        int cVector;
+        if (cComplex == 'C') { cVector = name[1]; }
+        else { cVector = name[0]; }
+        if (cVector >= '1' && cVector <= '6') {
+          dst[ixdst].sizeArray = cVector - '0';
+        }
+        else { dst[ixdst].sizeArray = 0; }
+        dst[ixdst].type = cComplex == 'C' ? 'f' : 'F';
+      }
+      else {
+        dst[ixdst].type = 'F'; //standard is simple float
+        dst[ixdst].sizeArray = 0;
+      }    
+    } 
+  }
+  return zDst;
+}
+
+
+
+
+char const* init_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
+{
+  registerRefl_DataNode_Inspc(reflNode, thiz, thiz->nameModule, &thiz->clazz);
+  setInitialized_ObjectJc(&thiz->base);
+  return null;
+}
+
+
+
 
 
 
@@ -278,6 +444,57 @@ void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
   thiz->yBits = bits;
 }
 
+
+
+
+void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
+, void* val1_y, void* val2_y, void* val3_y, void* val4_y
+, void* val5_y, void* val6_y, void* val7_y, void* val8_y
+, void* val9_y, void* val10_y, void* val11_y, void* val12_y
+, void* val13_y, void* val14_y, void* val15_y, void* val16_y
+, int32* error_y
+)
+{
+  int ix;
+  void* out[16];
+  float* ya = &thiz->ya0[0];
+  out[0] = val1_y;
+  out[1] = val2_y;
+  out[2] = val3_y;
+  out[3] = val4_y;
+  out[4] = val5_y;
+  out[5] = val6_y;
+  out[6] = val7_y;
+  out[7] = val8_y;
+  out[8] = val9_y;
+  out[9] = val10_y;
+  out[10] = val11_y;
+  out[11] = val12_y;
+  out[12] = val13_y;
+  out[13] = val14_y;
+  out[14] = val15_y;
+  out[15] = val16_y;
+  step_TimeSignals_Inspc(thiz, _simtime);
+  for(ix=0; ix < 16; ++ix) {
+    int ixv;
+    int ix1 = 6 * ix;
+    ClassJc const* type = getType_FieldJc(&thiz->fields.data[ix]);
+    int z = thiz->fields.data[ix].nrofArrayElementsOrBitfield_;
+    if(type == &reflection__floatJc)      { 
+      if(z >=6) { z = 1;} 
+      for(ixv = 0; ixv < z; ++ixv) { 
+        float* outAddr = (float*)(out[ix]);
+        float val = ya[ix1 + ixv];
+        outAddr[ixv] = val; 
+      } 
+    } else if(type == &reflection_float_complex) { 
+      if(z >=3) { z = 1;} for(ixv = 0; ixv < z; ++ixv) { *((float_complex*)out[ixv]) = *((float_complex*)&ya[ix1+2*ixv]); } }
+    else { 
+      thiz->errorCfg |= (0x10000 << ix); 
+    }
+  }
+  *error_y = thiz->errorCfg;
+}
 
 
 

@@ -29,7 +29,7 @@ typedef struct FBaccess_Inspc_t* P_FBaccess_Inspc;
  */
 void alloc_FBaccessNode_Inspc(struct DataNode_Inspc_t** thizp, int nrofObjects);
 
-#define ctor_FBaccessNode_Inspc(OTHIZ, NR) ctor_DataNode_Inspc(OTHIZ, NR)
+#define ctor_FBaccessNode_Inspc(OTHIZ, NR) ctor_DataNode_Inspc(OTHIZ, NR, 1.0f)
 
 
 void free_FBaccessNode_Inspc(struct DataNode_Inspc_t* thiz);
@@ -59,7 +59,7 @@ void alloc_FBaccess_Inspc_vorlaeufig_in_Simulink(struct FBaccess_Inspc_t** thizp
  * @param rootInspc The root node for the inspector. If null is given, the internal rootNode will be used as root.
  *   That is the same behavior as calling [[alloc_FBaccess_Inspc(...)]]
  */
-void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, struct DataNode_Inspc_t* rootInspc, const char* sIp);
+void allocSetRoot_FBaccess_Inspc(struct FBaccess_Inspc_t** thizp, int nrofObjects, struct ObjectJc_t* rootInspc, const char* sIp);
 
 /**Constructs and starts the Inspector service for Function Block access with allocated memory from thizo. 
  * @param rootNode The root node for all FB access. Should be given and intialized.

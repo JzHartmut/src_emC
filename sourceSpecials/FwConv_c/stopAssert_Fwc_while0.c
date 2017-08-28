@@ -1,3 +1,4 @@
+#include <applstdefJc.h>
 #include <fw_assert.h>
 #include <stdio.h>
 #include <OSAL/os_time.h>

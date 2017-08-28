@@ -1325,7 +1325,34 @@ typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcA
 
 
 
+/*@CLASS_C QueryPortTypeJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**This struct can be filled by any static operation of a class to determine about numeric types and array sizes of ports.
+ */
+typedef struct Entry_QueryPortTypeJc_t
+{
+  /**Size of the entry in byte. 8 at minimum. Should be multiple of 8. >8 for more dimensional arrays. 
+   * This element should be set already on input of queryOutputPorts_...
+   */
+  char size_entry;
+
+  /**The type. The type characters of Java are used: BSIJFD for byte, short, int, long, float double,
+   * fd are complex float and complex double
+   * ZC for boolean and character (UTF16). 
+   */
+  char type;
+
+  /**size of array. 0-scalar respectively 1 element. */
+  int16 sizeArray;
+
+  /**0 or 1: than scalar or 1-dimension, else a matrix. */
+  int16 sizeSecondDimension;
+
+  /**0 or 1: than scalar or 1- or 2-dimension, else the size of the third dimension. 
+   * As enhancement: If <0, than more dimensions are written after them. 
+   */
+  int16 sizeThirdDimension[1];
+} Entry_QueryPortTypeJc;
 
   
 /*@CLASS_C QueryInterface_SYS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
