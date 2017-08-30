@@ -1,0 +1,5 @@
+#define PRINTF2(S, A) 
+#define PRINTF3(S, A, B) 
+#define PRINTF4(S, A, B, C) 
+#define PRINTF5(S, A, B, C, D) 
+#define PRINTF6(S, A, B, C, D, E) 
