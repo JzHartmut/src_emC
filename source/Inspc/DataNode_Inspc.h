@@ -3,6 +3,8 @@
 #include <Fwc/objectBaseC.h>
 #include <Jc/ReflectionJc.h>
 
+
+struct DataNode_Inspc_t;
 /**struct of references for Inspector access.
  * The references and their reflection informations can be added step by step. 
  */

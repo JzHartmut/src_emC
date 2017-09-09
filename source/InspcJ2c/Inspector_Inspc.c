@@ -46,6 +46,8 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
       
       SETREFJc(singleton_Inspector_Inspc, thiz, Inspector_Inspc_s);
     }
+    setInitialized_ObjectJc(othis);
+    
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -55,8 +57,9 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
 
 
 void dtor_Inspector_Inspc(Inspector_Inspc_s* thiz)
-{
-  shutdown_Comm_Inspc(&thiz->comm, null);
+{ Comm_Inspc_s* comm = &thiz->comm;
+  shutdown_Comm_Inspc(comm, null);
+  dtor_Comm_Inspc(&thiz->comm, null);
 }
 
 /**Returns the first instance of the Inspector in this application. Usual only one instance is used,*/

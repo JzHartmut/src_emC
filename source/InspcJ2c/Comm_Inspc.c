@@ -14,6 +14,8 @@
 #include "Jc/StringJc.h"  //embedded type in class data
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
 
+#include <stdio.h>
+FILE* ftest = null;
 
 /* J2C: Forward declaration of struct ***********************************************/
 
@@ -52,6 +54,8 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
   STACKTRC_TENTRY("ctorO_Comm_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(Comm_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_Comm_Inspc_s, sizeof(Comm_Inspc_s));  
+  ftest = fopen("T:\\test.txt","wb");
+  if(ftest){ fprintf(ftest, "init\n"); }
   //j2c: Initialize all class variables:
   {
     init0_MemC(build_MemC(&thiz->nrofBytesReceived, 1 * sizeof(int32))); //J2C: init the embedded simple array;
@@ -62,16 +66,19 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
     ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
     thiz->cmdExecuter = cmdExecuter;
+    if(startsWith_StringJc(ownAddrIpc, z_StringJc("UDP:"))) {
+      InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactory(), InterProcessCommFactory);
     
-    InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactory(), InterProcessCommFactory);
+      if(ipcFactory.ref !=null) {
+        InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
+        thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
+        thiz->state = '0';  //not started yet.
+        thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
-    thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
-    
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
-    
-    thiz->ipc =  (ipcMtbl.ref);
-    activateGC_ObjectJc(newObj2_1, null, _thCxt);
+        thiz->ipc =  (ipcMtbl.ref);
+        activateGC_ObjectJc(newObj2_1, null, _thCxt);
+      }
+    }
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -125,8 +132,10 @@ void start_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
   STACKTRC_TENTRY("start_Comm_Inspc");
   
   { 
-    
-    start_ThreadJc(thiz->thread, -1, _thCxt);
+    thiz->state = 'a';
+    if(thiz->thread !=null) {
+      start_ThreadJc(thiz->thread, -1, _thCxt);
+    }
   }
   STACKTRC_LEAVE;
 }
@@ -135,7 +144,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
 { Comm_Inspc_s* thiz = (Comm_Inspc_s*)ithis;
   
   STACKTRC_TENTRY("run_Comm_Inspc_F");
-  
+  if(ftest) { fprintf(ftest, "run_Comm_Inspc_F\n"); fflush(ftest); } 
   { 
     
     
@@ -151,6 +160,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
         else 
         { 
           
+          if(ftest) { fprintf(ftest, "ErrorOpen_Comm_Inspc_F\n"); fflush(ftest); }  
           thiz->state = 'E';
           
           while(thiz->state == 'E')
@@ -314,8 +324,9 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, PtrVal_int8 bufferAnswerData, in
 void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("shutdown_Comm_Inspc_F");
-  
-  { 
+  if(ftest) fclose(ftest);
+
+  if(thiz->state !='0' && thiz->ipc !=null)  {  //do nothing if not started. 
     
     thiz->state = 'x';
     
@@ -352,10 +363,16 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_Comm_Inspc const* mtbl = (Mtbl_Comm_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Comm_Inspc);
+{ ObjectJc* othiz = &thiz->base.object;
+  Mtbl_Comm_Inspc const* mtbl = (Mtbl_Comm_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Comm_Inspc);
   mtbl->shutdown(thiz, _thCxt);
 }
 
+
+
+void dtor_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt) {
+  if(ftest) { fprintf(ftest, "dtor\n "); fclose(ftest); }
+}
 
 
 /**J2C: Reflections and Method-table *************************************************/

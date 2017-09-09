@@ -82,13 +82,16 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
     
     InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactory(), InterProcessCommFactory);
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
-    thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
+    if(ipcFactory.ref !=null) {
+      InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
+      thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
     
-    thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
+      thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((thiz->threadRoutine).base.RunnableJc), s0_StringJc("IpcRx"), _thCxt);/*set it to class ref.*/
     
-    thiz->ipc =  (ipcMtbl.ref);
-    activateGC_ObjectJc(newObj2_1, null, _thCxt);
+      thiz->ipc =  (ipcMtbl.ref);
+      activateGC_ObjectJc(newObj2_1, null, _thCxt);
+    }
+    else {}//no factory.
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -139,16 +142,20 @@ bool openComm_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc_s* thiz,
     
     
     int32  ok;/*no initvalue*/
+    if(thiz->ipc !=null) {
+      InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
-    ok = ipcMtbl.mtbl->open(&(( (ipcMtbl.ref))->base.object), null, ((/*J2C:cast% from bool*/int32)(blocking)));
-    thiz->state = (ok >= 0 ? 'o' : 'e');
-    if(ok < 0 && !thiz->bEnablePrintfOnComm) 
-    { 
+      ok = ipcMtbl.mtbl->open(&(( (ipcMtbl.ref))->base.object), null, ((/*J2C:cast% from bool*/int32)(blocking)));
+      thiz->state = (ok >= 0 ? 'o' : 'e');
+      if(ok < 0 && !thiz->bEnablePrintfOnComm) 
+      { 
       
       
-      StringJc sError ; sError = z_StringJc(ipcMtbl.mtbl->translateErrorMsg(&(( (ipcMtbl.ref))->base.object), ok))/*J2C:non-persistent*/;
-      format_z_PrintStreamJc(REFJc (out_SystemJc), "\nopen fails: error, %d = %s\n", "Is", ok & 0x7fffffff, sError, _thCxt);
+        StringJc sError ; sError = z_StringJc(ipcMtbl.mtbl->translateErrorMsg(&(( (ipcMtbl.ref))->base.object), ok))/*J2C:non-persistent*/;
+        format_z_PrintStreamJc(REFJc (out_SystemJc), "\nopen fails: error, %d = %s\n", "Is", ok & 0x7fffffff, sError, _thCxt);
+      }
+    } else {
+      ok = -1;  //no communication.
     }
     if(thiz->bEnablePrintfOnComm) 
     { /*:only for debug:*/

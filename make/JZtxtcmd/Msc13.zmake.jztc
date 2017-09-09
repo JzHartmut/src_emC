@@ -53,7 +53,7 @@ sub cc(Obj target :org.vishia.cmd.ZmakeTarget, String compilerOptions, String cf
     ##but it creates the obj directory tree which is necessary for compilation.
     ##The checkDeps checks whether the file is changed, delete the obj file on changed file.
     Obj infoDeps = checkDeps.processSrcfile(File: &input.file(), input.localfile());  
-    <+out><&infoDeps><.+n> //show state, info and file name on console.
+    <+out><&infoDeps><.+n> ##show state, info and file name on console.
     
     String dummy = jzcmd.nextNr();
     String cclabel = jzcmd.nextNr();   ##build a current number for labels. Note: Windows has a problem if batchfiles are written with 0a instead 0d0a (Unix-Lineend). This is reported untruly by 'label not found'.
@@ -73,6 +73,7 @@ sub cc(Obj target :org.vishia.cmd.ZmakeTarget, String compilerOptions, String cf
     
     <.+>
   } //for
+  ##write back the checked dependencies:
   checkDeps.writeDependencies(); 
   checkDeps.close(); 
   <+>

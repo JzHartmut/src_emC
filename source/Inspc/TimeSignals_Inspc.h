@@ -106,7 +106,7 @@ typedef struct TimeSignals_Inspc_t
 TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries);
 
 
-void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries);
+void XXXctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries);
 
 /**Register it in a DataNode_Inspc, invoke one time after create. */
 bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
@@ -129,6 +129,11 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
 , StringJc name9, StringJc name10, StringJc name11, StringJc name12
 , StringJc name13, StringJc name14, StringJc name15, StringJc name16
 );
+
+/**
+ * @simulink Sfunc
+ */
+void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
 
 
 /**operation to determine type and arraysize of the output port. The parameter should be with same name as on ctor. 

@@ -8,7 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "TimeSignals_Inspc_Refl.crefl"
+//#include "TimeSignals_Inspc_Refl.crefl"
+extern_C ClassJc const reflection_TimeSignals_Inspc;
+
 
 TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries)
 { TimeSignals_Inspc* thiz = null;
@@ -30,7 +32,7 @@ extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
 
 
 
-void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries)
+void XXXctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries)
 {
   Entries_TimeSignals_Inspc* entries = (Entries_TimeSignals_Inspc*)new_ObjectArrayJc(nrofEntries, sizeof(Entry_TimeSignals_Inspc), null, 0); //(Entry_TimeSignals_Inspc*)malloc(zBytesEntries);
   thiz->entries = entries;
@@ -94,6 +96,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
 , StringJc name13, StringJc name14, StringJc name15, StringJc name16
 )
 {
+  PRINTF_OPEN("T:\\TimeSignals");
   StringJc names[16];
   int zName = copyToBuffer_StringJc(reflName, 0, -1, thiz->nameModule, sizeof(thiz->nameModule));
   names[0] = name1;   //copy extra arguments, use in for loop.
@@ -173,6 +176,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
   { //store file name as char const*
     int zFilepath = copyToBuffer_StringJc(filepath, 0, -1, thiz->filepath, sizeof(thiz->filepath)-1);
     thiz->filepath[zFilepath] = 0;
+    PRINTF2("TimeSignals - Filepath %s\n", thiz->filepath);
     readConfig_TimeSignals_Inspc(thiz);
   }
 }
@@ -396,15 +400,19 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
     //it would not close the file because the file is given outside:
     //close_BufferedReaderJc(&reader);
     os_fclose(hfile);
+    STACKTRC_LEAVE;
     return true;
   } else {
     thiz->errorCfg = 0x02000000;
+    STACKTRC_LEAVE;
     return false;
   }  
-  STACKTRC_LEAVE;
 }
 
 
+void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
+{ PRINTF_CLOSE();
+}
 
 
 void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
@@ -509,7 +517,7 @@ void free_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 }
 
 
-
+#if 0 //it is old
 void test_TimeSignals_Inspc(struct DataNode_Inspc_t* reflNode, char const* path)
 {
 
@@ -532,4 +540,4 @@ void test_TimeSignals_Inspc(struct DataNode_Inspc_t* reflNode, char const* path)
   }
   //free_TimeSignals_Inspc(test);
 }
-
+#endif

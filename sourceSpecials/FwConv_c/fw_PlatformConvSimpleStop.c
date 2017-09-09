@@ -74,11 +74,11 @@ void os_FatalSysError(int errorCode, const char* description, int value1, int va
  */
 void os_FatalError(int errorCode, const char* description, int value1, int value2)
 {
-  bool cont = true;
+  int cnt = 10;
   printf("Fatal error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
-  while(cont)
-  { printf("ERROR STOP  \n");
-    os_delayThread(2000);
+  while(--cnt >=0)
+  { printf("ERROR STOP ctdn =%d \n", cnt);
+    os_delayThread(1000);
   }
   //*((int*)0) = 0;
   

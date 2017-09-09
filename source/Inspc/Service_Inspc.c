@@ -1,18 +1,11 @@
 #include <Inspc/Service_Inspc.h>
 
-Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz/*, StringJc sIp*/, float Tstep)
+Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz, float Tstep, StringJc sIp)
 {
   STACKTRC_ENTRY("ctor_FBaccess_Inspc");
-  //char sIp[30];
-  //Service_Inspc* thiz = (Service_Inspc*) thiz; 
   initReflection_ObjectJc(&thiz->object, thiz, sizeof(Service_Inspc), &reflection_Service_Inspc, 0xf0);
-  //ctor_DataNode_Inspc(&thiz->rootNode, 50);
-  //strcpy(sIp, "UDP:0.0.0.0:60092");
-  
-
-  init_ObjectJc(&thiz->theInspector.base.object, sizeof(thiz->theInspector), 0);
-
-
+  //init_ObjectJc(&thiz->theInspector.base.object, sizeof(thiz->theInspector), 0);
+  ctorO_Inspector_Inspc(&thiz->theInspector.base.object, sIp, _thCxt);
   STACKTRC_LEAVE;
   return thiz;
 
@@ -20,15 +13,15 @@ Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz/*, StringJc sIp*/, float T
 
 
 
-char const* init_Service_Inspc(Service_Inspc* thiz, StringJc sIp_param, DataNode_Inspc* rootNode)
+char const* init_Service_Inspc(Service_Inspc* thiz, /*StringJc sIp_param, */DataNode_Inspc* rootNode)
 {
   if(isInitialized_ObjectJc(&thiz->object) ==0 && rootNode !=null) {
     STACKTRC_ENTRY("step_Service_Inspc");
     setInitialized_ObjectJc(&thiz->object);  //Note: set it firstly to prevent twice initialization on thread switch in start_
-    ctorO_Inspector_Inspc(&thiz->theInspector.base.object, sIp_param, _thCxt);
-    setInitialized_ObjectJc(&thiz->theInspector.base.object);
+    //see ctor: ctorO_Inspector_Inspc(&thiz->theInspector.base.object, sIp_param, _thCxt);
     thiz->rootNode = rootNode;
     registerRefl_DataNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimTime_Inspc);
+    //TEST  
     start_Inspector_Inspc_F(&thiz->theInspector, &rootNode->object, _thCxt); 
     STACKTRC_LEAVE;
   }
@@ -38,7 +31,9 @@ char const* init_Service_Inspc(Service_Inspc* thiz, StringJc sIp_param, DataNode
 
 void dtor_Service_Inspc(Service_Inspc* thiz)
 {
-  dtor_Inspector_Inspc(&thiz->theInspector);
+  if(isInitialized_ObjectJc(&thiz->object)) {
+    dtor_Inspector_Inspc(&thiz->theInspector);
+  }
 }
 
 

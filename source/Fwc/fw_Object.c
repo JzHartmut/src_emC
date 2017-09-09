@@ -40,6 +40,10 @@
 //getCurrent_ThreadContextFW
 //throw_s0Jc
 
+#ifdef DEFINE_debugPRINTF
+FILE* debugPRINTF = null;
+#endif
+
 #include <string.h> //memset
 
 /**Initialize. */

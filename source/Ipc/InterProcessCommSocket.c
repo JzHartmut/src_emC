@@ -62,12 +62,6 @@
 
 const StringJc sSocket_InterProcessCommSocket = CONST_StringJc("Socket:", 7);
 
-/**The ident text is only used by its address. The address is a part of the method table,
- * enter from linker there. The check of the correct address is a safety precaution.
- */
-//const char identText_sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
-const char sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
-
 
 extern const struct ClassJc_t reflection_InterProcessCommSocket_s; 
 

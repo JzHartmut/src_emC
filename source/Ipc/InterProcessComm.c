@@ -11,6 +11,13 @@
 
 char const sign_Mtbl_InterProcessCommFactory[] = "Mtbl_InterProcessCommFactory";
 
+/**The ident text is only used by its address. The address is a part of the method table,
+ * enter from linker there. The check of the correct address is a safety precaution.
+ */
+//const char identText_sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
+const char sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
+
+
 
 Address_InterProcessComm_s* ctorO_Address_InterProcessComm(ObjectJc* othis, ThCxt* _thCxt)
 {
