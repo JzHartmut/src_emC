@@ -57,6 +57,7 @@
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <string.h>   //strncpy
+struct Mtbl_CharSeqJc_t;
 
 extern ClassJc const reflection_StringBuilderJc;
 
@@ -227,7 +228,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt){
       return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc));
     } else {
       ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
-      Mtbl_CharSeqJc_t const* mthiz = getMtbl_CharSeqJc(thiz, _thCxt);
+      struct Mtbl_CharSeqJc_t const* mthiz = getMtbl_CharSeqJc(thiz, _thCxt);
       return mthiz->length(othiz, _thCxt);
     }
   #endif
@@ -260,7 +261,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContextFW_t* _
       return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc), pos, _thCxt);
     } else {
       ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
-      Mtbl_CharSeqJc_t const* mthiz = getMtbl_CharSeqJc(thiz, _thCxt);
+      struct Mtbl_CharSeqJc_t const* mthiz = getMtbl_CharSeqJc(thiz, _thCxt);
       return mthiz->charAt(othiz, pos, _thCxt);
     }
   #endif

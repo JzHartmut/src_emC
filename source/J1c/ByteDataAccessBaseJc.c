@@ -1340,10 +1340,10 @@ void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, T
   { 
     
     
+    int32  iDst = 0;
     int32  idxMax = thiz->ixEnd - thiz->ixBegin;
     if(idxMax / 4 > dst->head.length) idxMax = 4 * dst->head.length;
     
-    int32  iDst = 0;
     { int32 idx; 
       for(idx = 0; idx < idxMax; idx += 4)
         { 

@@ -8,6 +8,7 @@
 #undef __CPLUSPLUSJcpp
 
 
+//This block before <OSAL/os_types_def_common.h>
 /**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
@@ -47,7 +48,7 @@
   * The C variant with longjmp should only used if C++ is not available.
   */
 #ifdef __cplusplus
-  //#define __TRYCPPJc
+  #define __TRYCPPJc
 #else
   #undef __TRYCPPJc  //cannot be used on C language
 #endif

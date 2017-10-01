@@ -1,4 +1,7 @@
-#include <Inspc/Service_Inspc.h>
+#include "Inspc/Service_Inspc.h"
+
+
+#include "genRefl/Inspc/Service_Inspc.crefl"
 
 Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz, float Tstep, StringJc sIp)
 {

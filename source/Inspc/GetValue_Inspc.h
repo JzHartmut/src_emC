@@ -32,13 +32,13 @@ typedef struct GetValue_Inspc_t {
 
 
 /**
- * @simulink Sfunc
+ * @simulink ctor
  */
 void ctor_GetValue_Inspc(GetValue_Inspc* thiz, float Tstep);
 
 
 /**
- * @simulink Sfunc
+ * @simulink init
  */
 void init_GetValue_Inspc(GetValue_Inspc* thiz
   , StringJc path1_param, StringJc path2_param, StringJc path3_param, StringJc path4_param
@@ -47,7 +47,7 @@ void init_GetValue_Inspc(GetValue_Inspc* thiz
 ;
 
 /**
- * @simulink Sfunc
+ * @simulink Object-FB
  */
 void get_GetValue_Inspc(GetValue_Inspc* thiz, int32* statusNotFound_y
   , float* val1_y, float* val2_y, float* val3_y, float* val4_y, float* val5_y, float* val6_y);

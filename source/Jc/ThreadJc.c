@@ -48,6 +48,8 @@
 	//#include "BlockHeap/BlockHeapJc.h"
 #endif
 
+#define PRINTF2(S,V)  //empty, ready to use if debug with PRINTF is necessary.
+
 const char sign_Mtbl_RunnableJc[] = "RunnableJc"; //to mark method tables of all implementations
 const char sign_Mtbl_ThreadJc[] = "ThreadJc"; //to mark method tables of all implementations
 
@@ -144,8 +146,10 @@ void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt)
   copyToBuffer_StringJc(ythis->name, 0, -1, nameBuffer, sizeof(nameBuffer));
   /**Create and start: */
   ythis->stackSize = stackSize;
+  PRINTF2("Start Thread:\n",0); 
   ok = os_createThread(&ythis->hThread, root_ThreadJc, data, nameBuffer, ythis->nPriority, ythis->stackSize);
   if(ok < 0){
+
     THROW_s0(RuntimeException, "Error creating thread", -ok);
   }
   STACKTRC_LEAVE;

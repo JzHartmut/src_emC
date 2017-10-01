@@ -103,17 +103,6 @@ int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int3
 }
 
 
-/**Implementation compareAndSet_AtomicReference:
- * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
- * Here a simple way.
- */
-bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
-{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
-  return found == expect;
-}
-
-
 
 
 /**Implementation compareAndSet_AtomicReference:

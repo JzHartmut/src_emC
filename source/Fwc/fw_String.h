@@ -439,6 +439,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContextFW_t* _
  */
 INLINE_Fwc char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContextFW_t* _thCxt)
 {
+#ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if(val < kMaxNrofChars_StringJc && pos < val) { 
     //simple form, inline, fast:
@@ -447,6 +448,7 @@ INLINE_Fwc char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContextFW
     //all other is too much for inline:
     return _charAt_PRIV_CharSeqJc(thiz, pos, _thCxt);
   }
+#endif//__ignoreInCheader_zbnf__
 }
 
 #define charAt_StringJc(THIZ, POS) charAt_CharSeqJc(THIZ, POS, null)
@@ -682,6 +684,9 @@ typedef struct  StringBuilderJc_t
 
 #ifndef StringBuilderJcREFDEF
   #define StringBuilderJcREFDEF
+  #ifndef TYPE_EnhancedRefJc
+    #error include definition of TYPE_EnhancedRefJc before this!
+  #endif
   typedef TYPE_EnhancedRefJc(StringBuilderJc);
 #endif
 

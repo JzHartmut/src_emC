@@ -1,16 +1,11 @@
-##Zmake generate batch file for Visual Studio Compiler.
-##The generated script should be called with following environments:
-##* OBJDIR: Only the name of the object directory.
+##Zmake generate batch file to compile and link.
+##Yet it is special for Visual Studio Compiler. 'cl.exe' is invoked.
+##But all arguments are given from the calling script.
+##The calling script may should set any environments which are necessary for the specific compiler.
 
-##Note: The Visual Studio Compiler should be installed anywhere and should be able to locate in the file system.
-##A batch file named 'setPathMsc6.bat' should be able to located in the path. 
-##With this batch file the PATH of the Operation System is enhanced locally to the Visual Studio Tools.
-##An example (pattern) for this batch file is given in this directory.
 
-## Note: objDir with backslash for windows. It uses the environment variable.
 String newline = <:>
 <.>;
-##File fileObjDir = &objDir;
 
 
 

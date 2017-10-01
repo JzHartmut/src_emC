@@ -23,6 +23,7 @@ Inspector_InspcREF singleton_Inspector_Inspc = NULL_REFJc; //{ null, 0 };
 struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOwnAddr, ThCxt* _thCxt)
 { Inspector_Inspc_s* thiz = (Inspector_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_Inspector_Inspc");
+  //  PRINTF_OPEN("T:\\Inspc.debug.txt");
   checkConsistence_ObjectJc(othis, sizeof(Inspector_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_Inspector_Inspc_s, sizeof(Inspector_Inspc_s));  
   //j2c: Initialize all class variables:
@@ -60,6 +61,7 @@ void dtor_Inspector_Inspc(Inspector_Inspc_s* thiz)
 { Comm_Inspc_s* comm = &thiz->comm;
   shutdown_Comm_Inspc(comm, null);
   dtor_Comm_Inspc(&thiz->comm, null);
+  // PRINTF_CLOSE();
 }
 
 /**Returns the first instance of the Inspector in this application. Usual only one instance is used,*/

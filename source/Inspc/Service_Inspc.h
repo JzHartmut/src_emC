@@ -40,23 +40,23 @@ extern_C ClassJc const reflection_SimulationTime_Inspc;
 
 
 /**Ctor creates the socket and thread for Inspector service on target or simulink.
- * @simulink Sfunc
+ * @simulink ctor
  */
 Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz, float Tstep, StringJc sIp_param);
 
 
 /**The step routine gets only the time from Simulation.
- * @simulink Sfunc
+ * @simulink init
  */
 char const* init_Service_Inspc(Service_Inspc* thiz, struct DataNode_Inspc_t* rootNode);
 
 /**The terminate routine closes the thread and the Socket connection..
- * @simulink Sfunc
+ * @simulink dtor
  */
 void dtor_Service_Inspc(Service_Inspc* thiz);
 
 /**The step routine gets only the time from Simulation.
- * @simulink Sfunc
+ * @simulink Object-FB
  */
 char const* step_Service_Inspc(struct Service_Inspc_t* thiz);
 

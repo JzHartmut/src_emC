@@ -2,7 +2,12 @@
 #define __fw_assert_h__
 
 
-extern_C void stopAssert_Fwc(char const* file, int line);
+void message_zI_Fwc(char const* file, int line, char const* text, int value);
+
+/**Macro uses __FILE__ and __LINE__ from the invocation line. 
+ */
+#define STOP_zI_Fwc(TEXT, VAL) message_zI_Fwc(__FILE__, __LINE__, TEXT, VAL)
+
 
 void assertJc(bool condition);
 
@@ -19,11 +24,13 @@ void assertJc(bool condition);
 #define ASSERT_Range(VAR, MIN, MAX) { if(VAR < (MIN)) { VAR = (MIN); } else if(VAR > (MAX)){ VAR = (MAX); } }
 
 
-#define ASSERT_Fwc(cond) { if((cond)==0) stopAssert_Fwc(__FILE__, __LINE__); }
+/**Macro uses __FILE__ and __LINE__ from the invocation line. 
+ */
+#define ASSERT_Fwc(cond) { if((cond)==0) message_zI_Fwc(__FILE__, __LINE__, null, cond); }
 #define ASSERT(cond) ASSERT_Fwc(cond) 
 
 
 /**Writes a log text or THROW_s0 */
-#define ASSERT_s0_Fwc(cond, TEXT, VALUE) { if((cond)==0) { stopAssert_Fwc(); } }
+#define ASSERT_zI_Fwc(cond, TEXT, VALUE) { if((cond)==0) { message_zI_Fwc(__FILE__, __LINE__, TEXT, VALUE); } }
 
 #endif  // __fw_assert_h__

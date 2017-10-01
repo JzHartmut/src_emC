@@ -59,7 +59,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   if(_thCxt == null){ _thCxt = getCurrent_ThreadContextFW(); } 
   int idxStacktraceEntries = 0;
   //int nrofStacktraceEntriesMax;
-  char sBuffer[500];
+  char sBuffer[500] = {0};
 	int zBuffer;
   //StacktraceElementJc* stacktraceEntries = ythis->stacktraceEntries;
   //StacktraceJc* stacktrace = ythis->backStacktrace;

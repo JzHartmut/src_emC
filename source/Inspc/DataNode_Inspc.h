@@ -34,14 +34,14 @@ typedef struct DataNode_Inspc_t
 
 
 /**Creates a new DataNode, its output should be registered either as root Node on Service_Inspc or as Object at any other DataNode. 
- * @simulink Sfunc
+ * @simulink ctor
  */
 DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float Tstep);
 
 
 
 /**Creates a new DataNode, only a dummy for construction. 
- * @simulink Sfunc
+ * @simulink Object-FB
  */
 INLINE_Fwc char const* create_DataNode_Inspc(struct DataNode_Inspc_t* thiz) { return null; }
 
@@ -61,7 +61,7 @@ char const* addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param
  * @param name2_param second part of the name. Both parts are concatenated immediately. This is the name which is used for the block in the reflection tree. 
  * @param data It should be a reference to ObjectJc with valid reflection. The reflection are necessary to evaluate the data with inspector.
  *  Note: The void type is yet necessary to accept any type of data. TODO use ObjectJc* instead void*.
- * @simulink Sfunc
+ * @simulink Operation-FB
  */
 char const* addObj_DataNode_Inspc(struct DataNode_Inspc_t* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* data, int32* ok_y);
 
@@ -80,9 +80,9 @@ bool checkObject_DataNode_Inspc(struct DataNode_Inspc_t* thiz);
  * @param name2_param second part of the name. Both parts are concatenated immediately. This is the name which is used for the block in the reflection tree. 
  * @param data It should be a reference to ObjectJc with valid reflection. The reflection are necessary to evaluate the data with inspector.
  *  Note: The void type is yet necessary to accept any type of data. TODO use ObjectJc* instead void*.
- * @simulink Sfunc
+ * @simulink Operation-FB
  */
-char const* add_DataNode_Inspc(struct DataNode_Inspc_t* thiz, StringJc name1_param, StringJc name2_param, void* data, int32* ok_y);
+char const* add_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* data, int32* ok_y);
 
 /**Registeres Reflection from any Object in a FBaccessNode for a runtime reflection tree. 
  * @param thiz Instance pointer for this method. null is admissiable here.
@@ -91,7 +91,7 @@ char const* add_DataNode_Inspc(struct DataNode_Inspc_t* thiz, StringJc name1_par
  * @param refl The reflection instance appropriate to the struct of the obj.
  * @return true if success. Especially thiz will be checked whether it is a valid reference. null is admissable for thiz.
  */
-bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl);
+bool registerRefl_DataNode_Inspc(DataNode_Inspc* thiz, void* obj, char const* name, struct ClassJc_t const* refl);
 #define registerRefl_FBaccessNode_Inspc registerRefl_DataNode_Inspc
 
 

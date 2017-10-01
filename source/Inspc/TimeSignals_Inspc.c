@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-//#include "TimeSignals_Inspc_Refl.crefl"
-extern_C ClassJc const reflection_TimeSignals_Inspc;
+#include "genRefl/Inspc/TimeSignals_Inspc.crefl"
+//extern_C ClassJc const reflection_TimeSignals_Inspc;
 
 
 TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries)
@@ -96,7 +96,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
 , StringJc name13, StringJc name14, StringJc name15, StringJc name16
 )
 {
-  PRINTF_OPEN("T:\\TimeSignals");
+  //PRINTF_OPEN("T:\\TimeSignals");
   StringJc names[16];
   int zName = copyToBuffer_StringJc(reflName, 0, -1, thiz->nameModule, sizeof(thiz->nameModule));
   names[0] = name1;   //copy extra arguments, use in for loop.
@@ -176,7 +176,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
   { //store file name as char const*
     int zFilepath = copyToBuffer_StringJc(filepath, 0, -1, thiz->filepath, sizeof(thiz->filepath)-1);
     thiz->filepath[zFilepath] = 0;
-    PRINTF2("TimeSignals - Filepath %s\n", thiz->filepath);
+    //PRINTF2("TimeSignals - Filepath %s\n", thiz->filepath);
     readConfig_TimeSignals_Inspc(thiz);
   }
 }
@@ -302,7 +302,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
                   if(zBytes > 0){
                     memmove(&thiz->entries->data[ixEntries+1], &thiz->entries->data[ixEntries], zBytes);  //memmove(dst, src, length) 
                   } else { //overwrite last entry, too much.
-                    thiz->errorCfg |= 0x20000000;
+                    thiz->errorCfg |= 0x02000000;  //too much entries
                   }
                 }
                 entry = &thiz->entries->data[ixEntries];
@@ -332,7 +332,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
               } while(ixValue < zValues && nrofCharsParsed >0);
             }
           } else { //name in module not found though the module was found:
-            thiz->errorCfg = 0x20000;
+            thiz->errorCfg = 0x04000000;
           }
         } //faulty module.
       } //name not exists.
@@ -340,7 +340,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
       posNext = indexOf_CI_StringJc(line, ',', posNext) +1;  //0 if not found, then abort while. Else: more as one variable with the same time.
     }
     if(maxWhileNext <0){
-      thiz->errorCfg |= 0x40000000;
+      thiz->errorCfg |= 0x080000000; //too much lines
     }
   }
   STACKTRC_LEAVE;
@@ -354,7 +354,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 {
   STACKTRC_ENTRY("readConfig_TimeSignals_Inspc");
   if(thiz->filepath == null || thiz->filepath[0] == 0){
-    thiz->errorCfg = 0x01000000;
+    thiz->errorCfg = 0x80000000;  //file parameter missing
     return false;
   }
   OS_HandleFile hfile = os_fopenToRead(thiz->filepath);
@@ -390,12 +390,12 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
         }
       }_TRY
       CATCH(ExceptionJc, exc) {
-        thiz->errorCfg +=1; 
+        thiz->errorCfg |= 0x10000000; 
       }
       END_TRY
     }
     if(maxWhileLines <0){
-      thiz->errorCfg |= 0x80000000;
+      thiz->errorCfg |= 0x20000000;
     }
     //it would not close the file because the file is given outside:
     //close_BufferedReaderJc(&reader);
@@ -403,7 +403,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
     STACKTRC_LEAVE;
     return true;
   } else {
-    thiz->errorCfg = 0x02000000;
+    thiz->errorCfg = 0x40000000;  //file not found.
     STACKTRC_LEAVE;
     return false;
   }  
@@ -411,7 +411,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 
 
 void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
-{ PRINTF_CLOSE();
+{ //PRINTF_CLOSE();
 }
 
 
@@ -436,7 +436,7 @@ void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
           thiz->yBits |= (1 << entry->ixChannel);  //setzen dieses Bits
         }
       } else {
-        thiz->errorCfg |= 0x10000;
+        thiz->errorCfg |= 0x08000000;
       }
       thiz->ixEntries +=1;  //check next.
       thiz->stepNext = thiz->entries->data[thiz->ixEntries].time;
@@ -498,7 +498,7 @@ void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
     } else if(type == &reflection_float_complex) { 
       if(z >=3) { z = 1;} for(ixv = 0; ixv < z; ++ixv) { *((float_complex*)out[ixv]) = *((float_complex*)&ya[ix1+2*ixv]); } }
     else { 
-      thiz->errorCfg |= (0x10000 << ix); 
+      thiz->errorCfg |= (0x1 << ix); 
     }
   }
   *error_y = thiz->errorCfg;

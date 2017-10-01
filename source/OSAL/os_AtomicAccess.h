@@ -70,18 +70,136 @@ METHOD_C void* compareAndSwap_AtomicReference(ATOMICREFERENCE reference, void* e
 
 /*@CLASS_C AtomicInteger @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**Atomically sets the value to the given updated value if the current value == the expected value.
- * @param expect the expected value
- * @param update - the new value
- * @return the old value if or not successfull. False return indicates that the actual value was not equal to the expected value.
- */
-METHOD_C bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
 
 /**The compareAndSwap is nearer on the machine instruction. */
 METHOD_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
 
 /**The compareAndSwap is nearer on the machine instruction. */
 METHOD_C int64 compareAndSwap_AtomicInteger64(int64 volatile* reference, int64 expect, int64 update);
+
+
+/**Atomically sets the value to the given updated value if the current value == the expected value.
+ * @param expect the expected value
+ * @param update - the new value
+ * @return the old value if or not successfull. False return indicates that the actual value was not equal to the expected value.
+ */
+INLINE_Fwc bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
+{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
+  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
+  return found == expect;
+}
+
+
+
+
+
+/**From bit 4; The Sequence number. */
+#define kBitSeq_DoubleBufferingJc 4
+
+#define _lockRd_DoubleBufferingJc 4
+#define _lockWr_DoubleBufferingJc 8
+#define _addSeq_DoubleBufferingJc (1<<kBitSeq_DoubleBufferingJc)
+
+/**Lock the index for reading data in a double buffering system.
+ * The double buffering system is used to prevent inconsistent data. 
+ * * It should be never write to a buffer which is read in the same moment.
+ * * It should be never read from a buffer which is written in the moment.
+ * * Writing is alternate if no read is pending. Therefore a read operation while write is pending
+ * reads the last written data.
+ * This algorithm is proper if the writing operation is more frequent than the reading. 
+ * The writing operation may be done in a fast interrupt. The reading operation can be taken a longer time.
+ * But at least one complete writing operation should be able to proceed between two reading operations.
+ * , Write:  00   11   11   00   11   00    00    00   00    11    11
+ * , Read:       0000000000            11111111111111111    0000000000000
+ * ,                   ^               ^______reads from 1 because writing to 0 is not ready.
+ * ,                   |_______writes to 1 twice because buffer 0 is locked for read.              
+ *
+ * The index in var is incremented by 1 (only bit 0, 0 or 1 as index value). That index is returned.
+ * The atomic access is neccesarry because only the appropriate bits should be changed in regarding the locking state.. 
+ * In the moment of lock the index may be changed in selten cases.
+ * Then this operation is repeat. The number of repetition is limited only to guaranteed prevent hanging.
+ * @param var Variable which hold the index in bit 0 and a lock flag in bit1.
+ * @return index to locked access. It is 0 or 1.
+ */
+INLINE_Fwc int32 lockRead_DoubleBufferingJc(int32 volatile* var)
+{
+  int abortCt = 100;
+  int32 val, valNew;
+  do {
+    val = *var;
+    if(val & _lockWr_DoubleBufferingJc) { //write is pending
+      valNew = (val ^1) | _lockRd_DoubleBufferingJc;  //read from the other buffer, store the locked read index. 
+      //retVal = (val ^1) & 1;
+    } else {
+      valNew = val | _lockRd_DoubleBufferingJc;  //Bit for lock, don't change the locked read index.
+      //retVal = val & 1;
+    }
+  } while(!compareAndSet_AtomicInteger(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+  //don't evaluate abortCt. It is only to prevent hang in a non expected case.
+  return valNew & 1; //retVal ;
+}
+
+
+/**Unlock the index for reading. Now the index can be incremented by writing. 
+ */
+INLINE_Fwc void unlockRead_DoubleBufferingJc(int32 volatile* var) {
+  int32 val, valNew;
+  int abortCt = 100;
+  do {
+    val = *var;
+    valNew = val & ~_lockRd_DoubleBufferingJc;  //reset lock bit
+  } while(!compareAndSet_AtomicInteger(var, val, valNew)  && --abortCt >=0);
+}
+
+
+
+/**Lock double buffering for write operation.
+ * If a read operation is pending, it returns the other index. Write always in a non read buffer.
+ * If read is not pending, it increments the index. Therefore while pending write the older buffer is used for read.
+ * 
+ * This operation increments a sequence number at once. 
+ * @return the full index value, sequence number from bit kBitSeq_DoubleBufferingJc, index in bit 0.
+ *   Note: build the index with ret & 1.
+ */
+INLINE_Fwc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
+{
+  int abortCt = 100;
+  int32 val, valNew, retVal;
+  do {
+    val = *var;
+    if(val & _lockRd_DoubleBufferingJc) { //lock read:
+      valNew = (val | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;   //don't increment bit 0 (buffer index) because it is locked.
+      retVal = valNew ^ 1;          //but use the other index for write.   
+    } else {
+      retVal = valNew = ((val ^ 1) | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;  //Increment sequence number
+    }
+  } while(!compareAndSet_AtomicInteger(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+  return retVal;
+}
+
+
+/**Unlocks the write operation
+ * If the read operation is locked, only the write lock is reset. 
+ * If no read operation is pending, it stores the given ixWr.
+ * @param ixWr the used write index,
+ * @return number of while loops for atomic access, only for debug..
+ */
+INLINE_Fwc int unlockWrite_DoubleBufferingJc(int32 volatile* var, int32 ixWr)
+{
+  int abortCt = 100;
+  int32 val, valNew;
+  do {
+    val = *var;
+    if(val & _lockRd_DoubleBufferingJc) { //lock read:
+      valNew = val & ~_lockWr_DoubleBufferingJc;   //only unlock write bit.
+    } else {
+      valNew = ((val & ~1) | (ixWr & 1)) & ~_lockWr_DoubleBufferingJc;   //store the write index.
+    }
+  } while(!compareAndSet_AtomicInteger(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+  return 100-abortCt;
+}
+
+
 
 /**Regard a special platform variant, which may define macros instead prototypes: */
 #ifdef PLATFORM_os_AtomicAccess_h

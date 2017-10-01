@@ -56,57 +56,91 @@ const char* init_Handle2Ptr(int nrofEntries)
 }
 
 
+void debug_Handle2Ptr(uint32 handle, int32 dbg1, int32 dbg2, char const* dbginfo) {
+  if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
+  if(handle >=0 && handle < handle2Ptr->size) {
+    if(dbg1 !=0) { handle2Ptr->e[handle].dbg1 = dbg1; }
+    if(dbg2 !=0) { handle2Ptr->e[handle].dbg2 = dbg2; }
+    if(dbginfo !=null) { handle2Ptr->e[handle].dbginfo = dbginfo; }
+  }
+}
+
 
 /**Sub routine to get a handle from a registered pointer in the shared memory data.
  * @return the handle.
  */
 const char* handle_Handle2Ptr(void* ptr, uint32* dstHandle) {
   bool found = false;
-  if (handle2Ptr == null) return "Handle2Ptr: not initialized";
-  uint32 ixEnd = handle2Ptr->ixEnd;
-  uint32 ix;
-  for(ix = 0; ix < ixEnd; ++ix) {
-    if(handle2Ptr->e[ix].p.ptr == ptr) { 
-      found = true;
-      *dstHandle = ix;
-      break;
+  if (handle2Ptr == null){ return "Handle2Ptr: not initialized"; }
+  else {
+    uint32 ixEnd = handle2Ptr->ixEnd;
+    uint32 ix;
+    for(ix = 0; ix < ixEnd; ++ix) {
+      if(handle2Ptr->e[ix].p.ptr == ptr) { 
+        found = true;
+        *dstHandle = ix;
+        break;
+      }
+    } 
+    if(!found) { //onyl if not found, all checked:
+      *dstHandle = 0;
+      return "Handle2Ptr: ptr not found, set handle = 0";
+    } else {  
+      return null;
     }
-  } 
-  //Note: if the ptr was found, return in for!
-  if(!found) { //onyl if not found, all checked:
-    *dstHandle = 0;
-    return "Handle2Ptr: ptr not found, set handle = 0";
-  }  
-  return null;
+  }
 }
+
+
+
+uint32 PRIV_retHandle_Handle2Ptr(void* ptr) {
+  uint32 dstHandle = 0;
+  bool found = false;
+  if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
+  {
+    uint32 ixEnd = handle2Ptr->ixEnd;
+    uint32 ix;
+    for(ix = 0; ix < ixEnd; ++ix) {
+      if(handle2Ptr->e[ix].p.ptr == ptr) { 
+        found = true;
+        dstHandle = ix;
+        break;
+      }
+    } 
+  }
+  return dstHandle;
+}
+
 
 
 
 /**Sub routine to register a pointer in the shared memory data.
  * @return the handle.
  */
-const char* setPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle) {
+const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle) {
   bool found = false;
-  if (handle2Ptr == null) return "Handle2Ptr: not initialized";
-  uint32 ixEnd = handle2Ptr->ixEnd;
-  uint32 ix;
-  for(ix = 0; ix < ixEnd; ++ix) {
-    if(handle2Ptr->e[ix].p.ptr == ptr) { 
-      found = true;
-      break;
-    }
-  } 
-  //Note: if the ptr was found, return in for!
-  if(!found) { //onyl if not found, all checked:
-    if(ix >= handle2Ptr->size) {
-      return "Handle2Ptr: no more space: Sfunc=step_WaveMngIx_FB";
-    }
-    handle2Ptr->ixEnd = ix+1;    //TODO AtomicAccess if mulitple cores run more instances of such routines. 
-    handle2Ptr->e[ix].p.ptr = ptr;
-    strncpy(handle2Ptr->e[ix].name, name, sizeof(handle2Ptr->e[ix].name));
-  }  
-  *dstHandle = ix;
-  return null;
+  if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
+  else {
+    uint32 ixEnd = handle2Ptr->ixEnd;
+    uint32 ix;
+    for(ix = 0; ix < ixEnd; ++ix) {
+      if(handle2Ptr->e[ix].p.ptr == ptr) { 
+        found = true;
+        break;
+      }
+    } 
+    //Note: if the ptr was found, return in for!
+    if(!found) { //onyl if not found, all checked:
+      if(ix >= handle2Ptr->size) {
+        return "Handle2Ptr: no more space: Sfunc=step_WaveMngIx_FB";
+      }
+      handle2Ptr->ixEnd = ix+1;    //TODO AtomicAccess if mulitple cores run more instances of such routines. 
+      handle2Ptr->e[ix].p.ptr = ptr;
+      strncpy(handle2Ptr->e[ix].name, name, sizeof(handle2Ptr->e[ix].name));
+    }  
+    *dstHandle = ix;
+    return null;
+  }
 }
 
 
@@ -133,12 +167,28 @@ const char* setPtrHandle_Handle2Ptr(void* ptr, uint32 handle, char const* name)
 
 const char* getPtr_Handle2Ptr(uint32 handle, void** dst)
 {
-  if (handle2Ptr == null) return "Handle2Ptr: not initialized";
-  if (handle >= handle2Ptr->size || handle < 0) { //jzTc: check valid handle, note: 0 gets null-Pointer
+  if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
+  else if (handle == (uint32)(-1)) { *dst= null; return null; } //special case: null should be.
+  else if (handle >= handle2Ptr->size || handle < 0) { //jzTc: check valid handle, note: 0 gets null-Pointer
     return "Handle2Ptr: Handle faulty.";
   }
-  *dst = handle2Ptr->e[handle].p.ptr;  //pointer from handle
-  return null;
+  else {
+    *dst = handle2Ptr->e[handle].p.ptr;  //pointer from handle
+    return null;
+  }
+}
+
+
+void* PRIV_retPtr_Handle2Ptr(uint32 handle)
+{
+  if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
+  if (handle == (uint32)(-1)) { return null; } //special case: null should be.
+  else if (handle >= handle2Ptr->size || handle < 0) { //jzTc: check valid handle, note: 0 gets null-Pointer
+    return null; //"Handle2Ptr: Handle faulty.";
+  }
+  else {
+    return handle2Ptr->e[handle].p.ptr;  //pointer from handle
+  }
 }
 
 

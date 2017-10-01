@@ -5,7 +5,7 @@
 #include <string.h>
 
 //generated reflection
-#include "Inspc/Wait_Inspc_Refl.crefl"
+#include "genRefl/Inspc/Wait_Inspc.crefl"
 
 Wait_Inspc* create_Wait_Inspc()
 { Wait_Inspc* thiz = null;

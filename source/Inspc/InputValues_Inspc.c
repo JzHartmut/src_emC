@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "InputValues_Inspc_Refl.crefl"
+#include "genRefl/Inspc/InputValues_Inspc.crefl"
 
 InputValues_Inspc* create_InputValues_Inspc()
 { InputValues_Inspc* thiz = null;

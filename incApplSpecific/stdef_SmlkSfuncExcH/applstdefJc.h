@@ -5,6 +5,8 @@
  */
 
 
+//Note: uncomment that to check whether this file is included:
+//#error used_Jc_stdef_SmlkSfuncExcH
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -52,6 +54,9 @@
 #include <FwConv_h/EnhanceRef_simple.h>
 
 
+//Don't compile CharSeqJc capabilities. It simplifies the dependencies of source
+//This is for only simple String processing in numeric or control applications.
+#define __NoCharSeqJcCapabilities__
 #include <Fwc/fw_String.h>
 
 
@@ -97,15 +102,10 @@
 
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
+#include <FwConv_h\EnhanceRef_simple.h>
 
+#define kMaxPathLength_FileJc 500
 
-
-
-
-
-
-
-#define kMaxPathLength_FileJc 512
 
 
 #endif // __applstdefJc_h__

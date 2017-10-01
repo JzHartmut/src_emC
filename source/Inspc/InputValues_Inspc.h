@@ -5,7 +5,7 @@
 #include <Jc/ReflectionJc.h>
 #include <Fwc/fw_String.h>
 
-
+struct DataNode_Inspc_t;
 
 
 

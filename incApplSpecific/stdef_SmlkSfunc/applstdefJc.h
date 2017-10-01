@@ -4,8 +4,8 @@
  * It is for ordinary S-Functions in Simulink without exception handling. 
  */
 
-
-
+//Note: uncomment that to check whether this file is included:
+//#error used_JC_stdef_SmlkSfunc
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
  * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
@@ -20,7 +20,7 @@
 
 //This block before <OSAL/os_types_def_common.h>
 #ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
-#include <tmwtypes.h>  //from simulink
+  #include <tmwtypes.h>  //from simulink
 #endif
 #define DEFINED_float_complex     
 #define float_complex creal32_T
@@ -95,9 +95,12 @@
 #define __HandlePtr64__
 #define DEFINED_nrEntries_Handle2Ptr 1000
 
-//#include <special/definePrintfMakros.h>
+//#include <FwConv_h/definePrintfMakros.h>
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
+#include <FwConv_h\EnhanceRef_simple.h>
+
+#define kMaxPathLength_FileJc 500
 
 
 

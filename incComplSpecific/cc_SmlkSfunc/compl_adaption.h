@@ -40,6 +40,21 @@
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
 
+//uncomment that to check whether this file is used for include:
+//#error used_CRuntimeJavalike_SmlkSfunc
+
+
+//The same file from Simulink R2016a on C:/Programs/Matlab/R2016a/extern/include/tmwtypes.h
+//defines the standard times in simulink manner.
+//int32_T, uint32_T etc.
+#ifndef RTWTYPES_H  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
+  //prevent including rtwtypes.h because for PC platform tmwtypes.h contains the same proper definitions.
+  #define RTWTYPES_H
+  #ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
+    #include <tmwtypes.h>  
+  #endif
+#endif
+
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
@@ -68,6 +83,7 @@
 #pragma warning(disable:4127) //
 #pragma warning(disable:4127) //
 #pragma warning(disable:4390) //
+#pragma warning(disable:4786) //truncation of too long function prototypes
 
 
 
@@ -107,10 +123,10 @@
 //do nut use platform specific headers. 
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
-// Folgender Schalter ist gesetzt zur Auswahl der Betriebssystemplattform Windows ist. Damit können Betriebssystemzugriffe bedingt compiliert werden.
+//The following switch select the operation system in some sources.
 #define __OS_IS_WINDOWS__
 
-// Folgender Schalter ist gesetzt zur Auswahl des Compilers MSC6. Damit können spezifische Compilereigenschaften mittels bedingter Compilierung berücksichtigt werden.
+//The following switch select the compiler in some sources.
 #define __COMPILER_IS_MSC10__
 
 
@@ -124,59 +140,64 @@
 // berücksichtigt werden muss. Das standardgemäß definierte Makro __cplusplus ist nicht immer für dieses Zweck verwendbar, da auch der Einsatz der C++-Compilierung
 // für eine C-Abbildung erfolgen kann. Wenn die Gesamt-Source (beispielsweise ein Headerfile) gegebenenfalls auch als C-Abbildung
 // compiliert werden muss, dann müssen alle Teile, die nur unter C++ lauffähig sind, mit diesem Schalter bedingt compiliert werden.
-//#define __CPLUSGEN
+#undef __CPLUSGEN
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
 
-/**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
-#define int8_t    char
-#define u_int8_t  unsigned char
-#define uint8_t  unsigned char
-#define int16_t   short int
-#define u_int16_t unsigned short int
-#define uint16_t unsigned short int
-#define int32_t   long int
-#define u_int32_t unsigned long int
-#define uint32_t unsigned long int
+/**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
+ * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
+ * Note: C99-compatible declaration is: u_TYPE_t
+ */
+#define int8      int8_T
+#define uint8     uint8_T
+#define int8_t    int8_T
+#define u_int8_t  uint8_T
+#define uint8_t   int8_T
+
+#define int16     int16_T
+#define uint16    uint16_T
+#define int16_t   int16_T
+#define u_int16_t uint16_T
+#define uint16_t  uint16_T
+
+#define int32     int32_T
+#define uint32    uint32_T
+#define int32_t   int32_T
+#define u_int32_t uint32_T
+#define uint32_t  uint32_T
+
+//Simulink does not know 64-bit-int, define types with standard-C compiler specific.
+#define int64 __int64
+#define uint64 __int64
 #define int64_t __int64
 #define u_int64_t __int64
 #define uint64_t __int64
 
-#define bool8_t char
-#define bool16_t int16_t
-#define char8_t   char
-#define char16_t  unsigned char
+#define bool8    uint8_T
+#define bool8_t  uint8_T
+#define bool16   uint16_T
+#define bool16_t uint16_T
+//Standard-character and UTF16-character:
+#define char8    uint8_T
+#define char16   uint16_T
+#define char8_t  uint8_T
+#define char16_t uint16_T
+#define float32  float
 
 
 
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
-typedef struct int64_hilo_t{ int32_t lo; int32_t hi; } int64_hilo;
+typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 
 /**Union of int64 and its fractions. */
-typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
+typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 
 
-/**All types with fix byte-wide should be defined in a platform-valid form. */
-#define uint8    unsigned char
-#define uint16   unsigned short
-#define uint32   unsigned long
-#define uint64   __int64
-#define int8     signed char
-#define int16    short
-#define int32    long
-#define int64    __int64
 
-//Standard-character and UTF16-character:
-#define char8   char
-#define char16  unsigned short
-#define bool8 char
-#define float32 float
 
-//#define size_t unsigned int
-//#define _SIZE_T_DEFINED
 
 /**int-type which can represent a standard pointer. */
 #define intPTR uint32
@@ -283,7 +304,9 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #ifdef __cplusplus
   #define INLINE_Fwc inline
 #else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
+     &&TODO check if 'inline' is possibel in C >= C99
+  */
   #define INLINE_Fwc static
 #endif
 
@@ -347,9 +370,5 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
  */
 typedef double SIMUPTR;
 
-//#define creal32_T float_complex_t
-//#ifndef CREAL32_T
-//  #define CREAL32_T creal32_T
-//#endif
 
 #endif  //__compl_adaption_h__

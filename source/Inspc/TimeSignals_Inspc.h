@@ -6,7 +6,7 @@
 #include <Fwc/fw_String.h>
 
 
-
+struct DataNode_Inspc_t;
 
 
 typedef struct Entry_TimeSignals_Inspc_t
@@ -121,7 +121,7 @@ void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time);
 void free_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
 
 /**
- * @simulink Sfunc no-thizInit no-thizStep
+ * @simulink ctor 
  */
 void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filepath, StringJc reflName, int nrofEntries
 , StringJc name1, StringJc name2, StringJc name3, StringJc name4
@@ -131,7 +131,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
 );
 
 /**
- * @simulink Sfunc
+ * @simulink dtor
  */
 void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
 
@@ -140,7 +140,7 @@ void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
  * @param dst The environment (simulink) should deliver an array of entries. Maybe as stack variable.
  * @sizeDst number of entries at maximum.
  * @param name.. The character before ':' determine type and size.
- * @simulink Sfunc
+ * @simulink queryOutputPorts
  */
 int queryOutputPorts_TimeSignals_Inspc(Entry_QueryPortTypeJc* dst, int sizeDst
 , StringJc name1, StringJc name2, StringJc name3, StringJc name4
@@ -151,12 +151,12 @@ int queryOutputPorts_TimeSignals_Inspc(Entry_QueryPortTypeJc* dst, int sizeDst
 
 
 /**
- * @simulink Sfunc
+ * @simulink init
  */
 char const* init_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
 
 /**
- * @simulink Sfunc
+ * @simulink Object-FB, no-thizInit, no-thizStep
  */
 void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
 , void* val1_y, void* val2_y, void* val3_y, void* val4_y

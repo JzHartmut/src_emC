@@ -3,7 +3,8 @@
 #include <stdlib.h>
 
 
-
+#include "genRefl/Inspc/FBaccess_Inspc_priv.crefl"
+#include "genRefl/Inspc/DataNode_Inspc.crefl"
 
 
 void alloc_FBaccess_Inspc_vorlaeufig_in_Simulink(FBaccess_Inspc** thizp, int nrofObjects){
@@ -86,4 +87,3 @@ void setTime_FBaccess_Inspc(FBaccess_Inspc* thiz, double seconds) {
 }
 
 
-#include "FBaccess_Inspc_Refl.crefl"

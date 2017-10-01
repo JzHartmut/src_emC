@@ -1,9 +1,9 @@
-jzcmd genXmi13.jz.bat
+jztxtcmd %0
 exit /B
 
 
 
-==JZcmd==
+==JZtxtcmd==
 
 ##!checkJZcmd=<:><:scriptdir>/result/CHECK_<&scriptfile>.zgen<.>;
 
@@ -14,10 +14,10 @@ currdir=scriptdir;
 
 Fileset inputHeader =
 ( 
-  include/Fwc/*.h
-, include/Jc/*.h
-, include/BlockHeap/*.h
-, include/OSAL/*.h
+  source/Fwc/*.h
+, source/Jc/*.h
+, source/BlockHeap/*.h
+, source/OSAL/*.h
 );
 
 
@@ -28,7 +28,8 @@ Filepath xmlHeader = T:/tmp/Jc/CRuntimeJavalike/xmlHeader;
 
 main(){
   
-  zmake ../../../Java2C.doc/CRuntimeJavalike.doc/rpy/CRuntimeJavalike.xmi := cheader2XMI(..:&inputHeader, tmpxml=xmlHeader);
+  ##zmake ../../../Java2C.doc/CRuntimeJavalike.doc/rpy/CRuntimeJavalike.xmi := cheader2XMI(..:&inputHeader, tmpxml=xmlHeader);
+  zmake ../../../Jc/rpy/CRJ.xmi := cheader2XMI(..:&inputHeader, tmpxml=xmlHeader);
   onerror{
     <+out>ERROR: <&error><.+n>
   }

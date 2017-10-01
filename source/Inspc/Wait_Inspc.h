@@ -40,19 +40,19 @@ bool registerReflection_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* re
 
 
 /**
- * @simulink Sfunc
+ * @simulink ctor
  */
 void ctor_TillWait_Wait_Inspc(Wait_Inspc* thiz, float Tstep, int32 stepsTillFirstWait, int32 delay_ms);
 
 
 /**
- * @simulink Sfunc
+ * @simulink init
  */
 void init_Wait_Inspc(Wait_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
 
 /**Counts stepTillWait down, if 0 and delay_ms == 0, waits for inspector communication.
  * if <0 then use delay. If >0 full speed.
- * @simulink Sfunc
+ * @simulink Object-FB
  */
 void step_Wait_Inspc(Wait_Inspc volatile* thiz);
 

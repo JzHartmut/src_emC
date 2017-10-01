@@ -75,9 +75,7 @@ typedef union State_ObjectJc_t
   #define kBit_idSyncHandles_State_ObjectJc 16
   #define m_idSyncHandles_State_ObjectJc 0x0fff0000
 
-  int32 _w[2];
-
-  struct {
+  struct {  //NOTE: firstly the struct with named elements because INITIALIZE_ObjectJc. An { value ,...} uses the first union elements.
     
     int32 objectIdentSize;
     
@@ -116,6 +114,10 @@ typedef union State_ObjectJc_t
     //struct ObjectJc_t* memoryMng;
     //#endif
   } b;
+
+  /**Representation as int32 */
+  int32 _w[2];
+
 } State_ObjectJc;
 
 
@@ -294,7 +296,8 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
   * @param REFLECTION maybe null, the reflection class of the constant object.
   * @since 2016-04: the better form.
 */
-#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { { (ObjectJc*)&(INSTANCE)} , { REFLECTION }, sizeof(INSTANCE) | IDENT, 0, kNoSyncHandles_ObjectJc, 0}
+//#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { { (ObjectJc*)&(INSTANCE)} , { REFLECTION }, {sizeof(INSTANCE) | IDENT, 0, kNoSyncHandles_ObjectJc, 0}}
+#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { {(ObjectJc*)&(INSTANCE)} , { REFLECTION } , {{sizeof(INSTANCE) | IDENT, 0, kNoSyncHandles_ObjectJc, 0}}}
 
 /**Initializer for any instance with {0}. Should be used on stack variable especially before they are handled with a ctor...(...).*/
 #define NULL_ObjectJc {0}
@@ -396,7 +399,7 @@ METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
  * is stored in the Object.
  * @param THIZ any Object reference which contains { union { ObjectJc object; } base;  
  */
-#define isNotInitialized_ObjectJc(THIZ) ( (THIZ)->base.object.ownAddress == null && (THIZ)->base.object.objectIdentSize == 0)
+#define isNotInitialized_ObjectJc(THIZ) ( (THIZ)->base.object.ownAddress == null && (THIZ)->base.object.state.b.objectIdentSize == 0)
 
 
 
