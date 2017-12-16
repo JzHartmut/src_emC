@@ -149,7 +149,7 @@ extern_C int format_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* s
  * @param vargList structure of type and value of variable arguments.
  * @return Number of written chars in buffer without the terminating 0. A 0 to terminate is written in sBuffer. 
  */
-METHOD_C int format_va_arg_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat
+extern_C int format_va_arg_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat
                                         , char* buffer, int zBuffer, Va_listFW vargList);
 
 

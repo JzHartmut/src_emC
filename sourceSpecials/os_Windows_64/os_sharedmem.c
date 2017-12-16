@@ -24,7 +24,7 @@ MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size){
                  PAGE_READWRITE,          // read/write access
                  0,                       // maximum object size (high-order DWORD)
                  size + sizeof(int32),    // maximum object size (low-order DWORD), in this case requested size + size marker.
-                 thiz->name);                   // name of mapping object
+                 (char*)thiz->name);                   // name of mapping object
   if(hMapFile == null) {
     thiz->nError = GetLastError();
   } else {
@@ -65,7 +65,7 @@ MemC os_accessSharedMem(SharedMem_OSAL* thiz, const char* name)
    hMapFile = OpenFileMapping(
                    FILE_MAP_ALL_ACCESS,   // read/write access
                    FALSE,                 // do not inherit the name
-                   thiz->name);               // name of mapping object
+                   (char*)thiz->name);               // name of mapping object
 
   if (hMapFile == NULL)
   {

@@ -391,9 +391,11 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
             { int32 ixField; 
               for(ixField = 0; ixField < fields->head.length; ++ixField)
                 { 
-                  
-                  /**Generates one entry per field in the answer telegram. */
-                  evaluateFieldGetFields_XXFdii_ClassContent_Inspc(thiz, answer, & (fields->data[ixField]), nOrderNr, maxNrofAnswerBytes, _thCxt);
+                  struct FieldJc_t const* field = &(fields->data[ixField]);
+                  if (field != null) { //prevent error if reflection are manual programmed.
+                    /**Generates one entry per field in the answer telegram. */
+                    evaluateFieldGetFields_XXFdii_ClassContent_Inspc(thiz, answer, field, nOrderNr, maxNrofAnswerBytes, _thCxt);
+                  }
                 }
             }
           }
@@ -445,7 +447,9 @@ void evaluateFieldGetFields_XXFdii_ClassContent_Inspc(ClassContent_Inspc_s* thiz
     int32  modifiers = getModifiers_FieldJc(field);
     
     int32  staticArraySize = getStaticArraySize_FieldJc(field);
-    evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(thiz, answer, name, typeField, modifiers, staticArraySize, orderNr, maxNrofAnswerBytes, _thCxt);
+    if (typeField != null) {  //prevent null-pointer access if reflection are dirty
+      evaluateFieldGetFields_XXSFdiiii_ClassContent_Inspc(thiz, answer, name, typeField, modifiers, staticArraySize, orderNr, maxNrofAnswerBytes, _thCxt);
+    }
   }
   STACKTRC_LEAVE;
 }

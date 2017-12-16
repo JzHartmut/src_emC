@@ -34,7 +34,7 @@ bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char 
 
 
 
-char const* add_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* data, int32* ok_y)
+char const* add_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void const* data, int32* ok_y)
 {
   return addObj_DataNode_Inspc(thiz, name1_param, name2_param, (struct ObjectJc_t*) data, ok_y); 
 }

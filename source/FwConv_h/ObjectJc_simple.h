@@ -39,8 +39,7 @@
  ****************************************************************************/
 //The following include guard prevent twice include of the alternate ObjectJc.h
 #include <applstdefJc.h>
-#ifndef __objectBaseC__h__
-#define __objectBaseC__h__
+#ifndef __ObjectJc_simple__
 #define __ObjectJc_simple__
 
 /**Object is the superclass of all superclasses. In C-like manner it is a struct
@@ -52,10 +51,15 @@
  */
 typedef struct  ObjectJc_t
 {
-  int identification;
-  int isInitialized;
+  int32 identification;
 } ObjectJc;
 
+
+#define ident_newAllocated_ObjectJc 0x0001
+
+
+//Marker: ObjectJc is defined.
+#define __ObjectJc_defined__
 
 /**Initialize only the identification. */
 #define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF }
@@ -72,6 +76,16 @@ typedef struct  ObjectJc_t
 //METHOD_C ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
 #define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->identification = (IDENT); }
 
+#define checkStrict_ObjectJc(THIZ, SIZE, IDENT, REFL, THCXT) ( (IDENT) !=0 && (IDENT) != (THIZ)->identification ? -1 : (THIZ)->identification )
+
+
+#define setInitialized_ObjectJc(THIZ) { (THIZ)->identification |= 0x80000000; }
+
+#define isInitialized_ObjectJc(THIZ) ( (THIZ)->identification & 0x80000000 )
+
+
+#define init_ObjectJc(THIZ, SIZE, IDENT) { (THIZ)->identification = (IDENT) & 0x7fffffff; } 
+
 typedef struct ClassJc_t
 { ObjectJc obj;
   char name[32];
@@ -79,4 +93,4 @@ typedef struct ClassJc_t
 } ClassJc;
 
 
-#endif  //__objectBaseC__h__
+#endif  //__ObjectJc_simple__

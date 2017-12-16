@@ -40,6 +40,7 @@
 #include <os_mem.h>
 #include <os_error.h>
 #include <os_sync.h>
+#include <FwConv_h/definePrintfMakrosEmpty.h>
 
 //The following types are defined in windows-header in an adequate way too.
 //undef here to prevent conflicts. The resulting types are identic.
@@ -198,7 +199,7 @@ int os_initLib()
     	  
 	  // Allocate the global TLS index (valid for all threads when they are running (current thread)). 
 	  if ((dwTlsIndex = TlsAlloc()) == TLS_OUT_OF_INDEXES){
-		  PRINTF2("os_initLib: ERROR: TlsAlloc failed!\n",0); 
+		  PRINTX2(1, "os_initLib: ERROR: TlsAlloc failed!\n",0); 
 	  }
 
     os_createMutex("os_Threadpool", &uThreadPoolSema);
@@ -222,13 +223,13 @@ int os_initLib()
 		  //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
 		  mainThreadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
 		  if (mainThreadContext->EvHandle == NULL){
-			  PRINTF2("ERROR: os_initLib: Failed to crate Event for thread:0x%x\n", hDupMainHandle);
+			  PRINTX2(1, "ERROR: os_initLib: Failed to crate Event for thread:0x%x\n", hDupMainHandle);
 		  }
 		  mainThreadContext->uFlagRegister = 0;
   	  bLibIsInitialized = true;
 	    { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
         if (!ok  ){ 
-          PRINTF2("os_initLib: ERROR: TlsSetValue for child failed!\n",0); 
+          PRINTX2(1, "os_initLib: ERROR: TlsSetValue for child failed!\n",0); 
         }
       }
       #ifdef TEST_Time
@@ -241,7 +242,7 @@ int os_initLib()
       return 0; 
 	  }
     else
-    { PRINTF2("too many threads",0);
+    { PRINTX2(1, "too many threads",0);
       return OS_SYSTEM_ERROR;
     }
   }
@@ -254,19 +255,19 @@ int os_initLib()
 void os_wrapperFunction(OS_ThreadContext* threadContext)
 {
   //HANDLE hChildHandle;
-	PRINTF2("os_wrapperFunction Thread\n",0);
+	PRINTX2(1, "os_wrapperFunction Thread\n",0);
 	//hChildHandle = GetCurrentThread();
 	// get a pseudo handle for this thread to be referenced by other threads
 	// Initialize the TLS index for this thread (store pseudo-handle). 
   OS_ThreadRoutine* fpStart;
 	if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
-	{ PRINTF2("FATAL: threadContext incorrect: %p\n", threadContext);
+	{ PRINTX2(1, "FATAL: threadContext incorrect: %p\n", threadContext);
 	  os_notifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)threadContext, 0);
 	}
 	{ bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
     if (!ok  )
     { 
-      PRINTF2("os_initLib: ERROR: TlsSetValue for child failed!\n",0); 
+      PRINTX2(1, "os_initLib: ERROR: TlsSetValue for child failed!\n",0); 
     }
   } 
   { //complete threadContext
@@ -275,7 +276,7 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
    	threadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
    	if (threadContext->EvHandle == NULL)
     {
-   		PRINTF2("os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
+   		PRINTX2(1, "os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
     }
     threadContext->uFlagRegister = 0;
   }
@@ -330,7 +331,7 @@ int os_createThread
     
   if (!bLibIsInitialized)
   { os_initLib();
-    	//PRINTF2("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+    	//PRINTX2(1, "/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
     	//return OS_SYSTEM_ERROR;
   }
   if (stackSize == 0 || stackSize == -1)
@@ -358,7 +359,7 @@ int os_createThread
                             &uThreadID);       
     if ( threadHandle == NULL ) {
         DWORD err = GetLastError();
-        PRINTF2( "os_createThread: ERROR: CreateThread failed with Win errorCode= %d\n", err );
+        PRINTX2(1,  "os_createThread: ERROR: CreateThread failed with Win errorCode= %d\n", err );
         if (err==ERROR_INVALID_PARAMETER){
         	return OS_INVALID_PARAMETER;
         	}
@@ -379,11 +380,11 @@ int os_createThread
 
 	  // set the thread prio
 	  { long uWinPrio = os_getRealThreadPriority( abstactPrio );
-	    //PRINTF2("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
+	    //PRINTX2(1, "DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
         ret_ok = SetThreadPriority(threadHandle, uWinPrio);
         if ( ret_ok == 0 ) {
             DWORD err = GetLastError();
-            PRINTF2( "os_createThread: ERROR: failed to set prio with Win errorCode= %d\n", err );
+            PRINTX2(1,  "os_createThread: ERROR: failed to set prio with Win errorCode= %d\n", err );
             if (err==ERROR_INVALID_PARAMETER){
         	    return OS_INVALID_PARAMETER;
         	    }
@@ -477,15 +478,15 @@ int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 	long uWinPrio = os_getRealThreadPriority( abstractPrio );
 	
 	if (!bLibIsInitialized){
-		PRINTF2("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
+		PRINTX2(1, "/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
     return OS_SYSTEM_ERROR;
   }
   
-	//PRINTF2("DEBUG: os_setThreadPriority: astrPrio=%d, WinPrio=%d\n", abstractPrio, uWinPrio);
+	//PRINTX2(1, "DEBUG: os_setThreadPriority: astrPrio=%d, WinPrio=%d\n", abstractPrio, uWinPrio);
     ret_ok = SetThreadPriority( (HANDLE)handle, (int)uWinPrio );
     if ( ret_ok == 0 ){
         DWORD err = GetLastError();        
-        PRINTF2("os_setThreadPriority: ERROR: set prio failed with Win errorCode= %d\n", err );
+        PRINTX2(1, "os_setThreadPriority: ERROR: set prio failed with Win errorCode= %d\n", err );
         if (err==ERROR_INVALID_PARAMETER){
         	return OS_INVALID_PARAMETER;
         	}
@@ -514,14 +515,14 @@ int os_suspendThread(OS_HandleThread handle)
 {
 
 	if (!bLibIsInitialized){
-		PRINTF2("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
+		PRINTX2(1, "/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
     return OS_SYSTEM_ERROR;
   }
   
 	{ DWORD WinRet = SuspendThread( (HANDLE)handle );
 	  if(WinRet == -1){
       DWORD err = GetLastError();
-      PRINTF2( "os_suspendThread: ERROR: failed to suspend with Win errorCode= %d\n", err );
+      PRINTX2(1,  "os_suspendThread: ERROR: failed to suspend with Win errorCode= %d\n", err );
       if (err==ERROR_INVALID_HANDLE){
          return OS_INVALID_HANDLE;
       }
@@ -547,14 +548,14 @@ int os_resumeThread(OS_HandleThread handle)
 {
 
 	if (!bLibIsInitialized){
-		PRINTF2("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
+		PRINTX2(1, "/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
     return OS_SYSTEM_ERROR;
   }
   
 	{ DWORD WinRet = ResumeThread( (HANDLE)handle );
 	  if(WinRet == -1){
 		  DWORD err = GetLastError();
-		  PRINTF2( "os_resumeThread: ERROR: failed to resume with Win errorCode= %d\n", err );
+		  PRINTX2(1,  "os_resumeThread: ERROR: failed to resume with Win errorCode= %d\n", err );
 		  if (err==ERROR_INVALID_HANDLE){
 			  return OS_INVALID_HANDLE;
 		  }
@@ -578,7 +579,7 @@ OS_HandleThread os_getCurrentThreadHandle(void)
 	OS_HandleThread currHandle;
 	OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
   if (!bLibIsInitialized){
-		PRINTF2("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
+		PRINTX2(1, "/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!",0);
     return 0;
   }
   currHandle = threadContext->THandle;
@@ -630,7 +631,7 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
   	    { 
           bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
           if (!ok  ){ 
-            PRINTF2("os_initLib: ERROR: TlsSetValue for child failed!\n",0); 
+            PRINTX2(1, "os_initLib: ERROR: TlsSetValue for child failed!\n",0); 
           }
         }
 	    }

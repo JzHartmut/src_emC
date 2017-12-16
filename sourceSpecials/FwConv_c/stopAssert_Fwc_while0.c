@@ -7,7 +7,8 @@
 
 void stopAssert_Fwc(void){
   int* ptr = 0;
-  while(true){
+  int cont = 1;  //possible set to 0 in debug
+  while(cont){
     printf("exception-stop...");
     os_delayThread(1000);
   }

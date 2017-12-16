@@ -1,3 +1,207 @@
+
+==Revision description CRuntimeJavalike==
+.
+===2017-17-07===
+This version is used in the www.vishia.org/smlk/Example_ObjO.zip from 2017-12-10.
+For Simulink only parts are used to generate the Sfunctions for the inspector, and for base functionality.
+Most of changes are done regarding the Simulink usage (see www.vishia.org/smlk).
+
+* applstdefJc.h, compl_adaption.h: Some adaption while testing. Note: It will be refactored to a canonical form in the next commit.
+* added some files emtpy which are included in simulink: rtw_continuous.h, rtw_solver.h
+* stopAssert_Fwc_while0.c: possibility to abort the stop loop in debugger using a cont-variable instead while(true)
+* fw_handle_ptr64.c: improved. Firstly used for Simulink ObjO
+* Msc13.zmake.jztc: new to compile library for using in simulink
+* ObjectJc_simple.h: Better integration with objectBaseC.h: Now the last one can be included after include TargerNumericSimple/applstdefJc.h
+with conditional compilation the ObjectJc-struct and some macros are excluded.
+* objectBaseC.h: Some parts conditional with #ifndef __ObjectJc_defined__ because it may be defined in another file (especially ObjectJc_simple.h) in another proper kind.
+* objectBaseC.h: INITIALIZER_ObjectJc fixed, faulty identsize 
+* objectBaseC.h: VtblHeadJc, VtblObjectJcRef instead MtblHeadJc, ObjectJcMTB. Only other name. Compatible. background: slang operation vs. method.
+* objectBaseC.h: DefPortTypesJc special for Simulink. It may be better to write in a special header fw_Simulink.h which is empty yet.
+* src/Inspc/* Some adaption. This sources are used for the Inspector-FB in simulink.
+* Service_Inspc.h: The struct SimTime_Inspc is move to fw_time.h
+* ReflectionJc.c: For the ObjectJc base class or any other base class which is a member instance of the struct, the type is not read from the reflection.
+The type via reflection woult show the type of the whole instance, not from the base instance. Instead, the type is gotten from the declared type which is equal to the real type of the instance anyway.
+With this change the ObjectJc base class (or another base class) is seen in reflection tree up to now.
+* ReflectionJc.c: null-check of a reference. (bugfix)
+* os_Windows64/os_atomic.c: faulty casting removed 
+* removed some PRINTF debug lines.
+
+
+
+===2017-10-01===
+
+See git commit description.
+
+* Msc6/TestReflection: It is a new project. Only to check instanceof_ObjectJc via reflection. In this version not ready.
+* Fwc/fw_Object.c: 2 new operations: getIdxMtbl_s_ClassJc(), instanceof_s_ObjectJc() both with string-given reflection name.
+* Fwc/objectBaseC.h: INITIALIZER_ObjectArrayJc(...) better semantic as CONST_...
+* Fwc/objectBaseC.h: ClassOffset_idxMtblJc as type to store the reflection with the index to the necessary vtbl
+
+
+
+===2016-05-08===
+
+* fw_String.h, StringJc.h: CharSeqJc
+* objectBaseC.h: new: [[INITIALIZER_ObjectJc(...)]] instead now deprecated CONST_ObjectJc(...)
+* objectBaseC.h: chg: [[isValid_ObjectJc(...)]] enhanced, now checks whether THIZ is not null
+* ObjectJc.h: new: reflection_FlushableJc etc. now declared, 
+* ObjectJc.h: new: Mtbl_AppendableJc
+* StringJc.h: new all methods from StringBufferJc now defined with StringBuilderJc, in C it is the same, both admissable.
+
+* os_types_def_common.h: new type double_complex
+* os_types_def.h: Now the definition of PtrVal_TYPE(TYPE) has named the element ,,ref,, instead ,,ptr__,,. It is compatible with an enhanced reference or method-table-reference.
+
+* fw_String.c: arsAndLength_StringJc(...) not ready yet regards CharSeqJc
+
+* InspcJ2c, Ipc2c, J1c: new translated from Java
+* ArraysJc.c, : adapted OS_PtrValue .ref insteand .ptr__
+
+* ReflMemAccessJc: bugfix access to bitfields
+
+* os_mem.c etc, all in os_Windows_Msc6: now regards definition of int64
+
+
+===2016-05-21===
+
+
+      * Some enhancements for mem in ThreadContext.
+      * Enhancements for CharSeqJc
+      * New translated from Java: StringFunctions, StringPart
+      * fw_ThreadContext: Now the allocation of more as one block in ThreadContext is possible.
+      * fw_assert: new: 0_Fwc(cond, TEXT, VALUE)
+      * fw_MemC.h: Comment
+      * ObjectJc, fw_String: CharSeqJc handling
+      * fw_String.c: Not it depends on ObjectJc and StringBuilderJc to support the newer Concept of StringJc.
+      TODO: Maybe move content to StringJc.c, offer a simple Variante for simple string handling from the last content of fw_String.c.
+    
+      New Concept for StringJc: It can be present a CharSeqJc with Mtbl-offset or a StringBuilderJc.
+      
+===2016-06-05===
+      
+      * os_types_def.h: change of definition of PtrVal_TYPE(...). Now extra parameter for the type name. It is better for search! The better flexibility may be necessary or not, it was not the reason.
+      * fw_String.c: handling of CharSeqJc.
+
+===2016-08-20===
+    * stopAssert_Fwc_while0.c: waits in a while loop and printf("ERROR") in a second-period. It is better to break instead nullPointerException.
+    * fw_String.c: getMtbl_CharSeqJc(...) bugfix. The index is a count of pointer.
+    * fw_String.h: getMtblRef_CharSeqJc(...) new, for faster working with dynamic linked routines for a given CharSeqJc which may be a StringJc too.
+    * StringJc: some methods for CharSeqJc
+    * ObjectJc.h: checkMtbl_ObjectJc(...)
+    * StringBufferJc: some enhancements regarding CharSeqJc
+    * MsgDisp: new translated Java2C, no functional changes
+    * J1c: new translated Java2C, StringPart should run now, in test.
+    * Ipc2C: new translated Java2C
+    * fw_Exception.h: new: THROWRET as a new concept without exception processing.
+    * objectBaseC.h: new concept INITIALIZER_ObjectJc(...) for {...} initializing expression.
+    * objectBaseC.h: SETMTBJc now regards a TYPE##_s because this is the standard for struct names, without _s is the class Name. Therefore some interfaces changed from _i to _s as suffix. Unified. The macro was not used often before.
+    * ReflectionBasetypesJc.c, fw_LogMessage.c, fw_LogMsgStream.c: adapted: use LogMessageFW_s instead LogMessageFW_i, better for unified translation Java2C
+    * ObjectJc.h: contains the definition of ClassJc.h in this file, removed from ReflectionJc.h, because inline definition of checkMtblError_ObjectJc(...). All macro all inlines may use reflection and need only ClassJc therefore. It is better this basic struct is defined in ObjectJc already. No changes necessary in usage because ReflectionJc.h has included ObjectJc already.
+    * Ipc2c: new InterProcessCommRx... methods
+
+===2016-09-11===
+    SignThCxt: new feature for Buffer in Thread Context. stop_DebugutilJc().
+    * fw_Exception: now contains stop_DebugutilJc().
+    * fw_Object, fw_ThreadContext  allocInThreadCxt_ObjectJc(...) and getUserBuffer_ThreadContextFw(...)
+      now with an argument 'sign'. It is stored in a new AddrUsed_ThreadContextFW.sign and it is visible
+      by debugging for a faulty (not freed) buffer in ThreadContext.
+    * J1c: All sources new translated from Java2C with signThCxt
+    * fw_ThreadContext: struct ThreadContextFW_t now contains up to 30 buffer in ThreadContext instead 10.
+      New element ixLastAddrUsed and new routine reduceLastUserBuffer_ThreadContextFw(...).
+      With this the Buffer in ThreadContext concept is pushed.
+    * StringJc.h: _reduceCapacity_StringBuilderJc
+    * StringBufferJc.c: Now toStringNonPersist_StringBuilderJc(...) and format_A_StringJc(...) reduces the capacity in the thread context.
+    * StringBufferJc.c: The method replace_cII_StringBuilderJc(...) was errorneous if argument ,,to,, is negative. Now the method
+      never throws, but does nothing on failed arguments. if ,,to,, is -1 then the argument add is used till end.
+      That is the contract to preserve effort on invocation.
+    * StringBufferJc.c: insert_cYii_StringBuilderJc(...) adequate bugfix as replace_cII_StringBuilderJc(...).
+      TODO: Only one method for all insert/replace/append variants to minimize variations, all others per define with adequate arguments.
+    * stc-Files: The attribute ,,returnNonPersistring,, is removed in syntax because the designation 'k' on the return value is sufficient.
+      That ,,returnNonPersistring,, was not correctly used in the Java2C translator. The 'k' is lesser semantically but the stc files
+      are not thought for frequently editing.
+
+===2016-10-16===
+    Test InspcTargetProxy:
+    * appl_InspcTargetProxy/* removed because it is an extra component. Not part of the normal CRuntimeJavalike.
+    * cleanup InterProcessCommFactory: In Java the InterProcessCommFactoryAccessor was removed and joined with this class.
+      Therewith InterProcessCommFactory was an interface an it is now an abstract class which contains the static 'getInstance'
+      routine. The ctor of this class stores the singleton instance because it is the ctor of the derived implementation class.
+      This concept is now present in C.
+    * Some bugfixes while test
+    * Some comments of Java2C-translator in the translated sources.
+
+===2016-10-21===
+    New concept with Fwc_Fw_UserExceptionHandling.h, bugfixes
+    * fw_Exception.h: The file Fwc_Fw_UserExceptionHandling.h is included. This file will be presumed in the users space
+      to define how to handle exceptions.
+    * replace_cII_StringBuilderJc: fixed. Concept positions: -1 is the end of string, negative counts from end.
+
+===2016-10-29===
+    New concept with OSAL_UserExceptionAndDebug.h, InspcTargetProxy
+    * OSAL_UserExceptionAndDebug.h: Renaming, also for debug. included in os_types_def.h
+    * os_types_def.h: CONST_OS_PtrValue should regard other types too. Adapted in fw_MemC.h etc.
+    * fw_Object.c: Don't clear on init_ObjectJc because the instance may be initialized on startup.
+    * source/Inspc/InspcTargetProxy... new
+    * InspcJ2c/ClassContent etc.: newly translated, changed in Java, change Java2C-translator.
+      Especially the {0} initializing for stack instances was missing before.
+
+===2016-11-13===
+    Gardening fw_ThreadContext.h, fw_Exception.h, solve intedependence of this 2 files.
+    ! All user sources which uses parts from fw_Exception.h but includes only fw_ThreadContext.h should now include <Fwc/fw_Exception.h> up to now.
+    * It is fixed for the most of CRuntimeJavalike sources.
+    * os_types_def.h use define instead typedef, like documentation.
+      
+===2016-12-02===
+    Redesign of the STACKTRC and Fwc/Fw_Exception after documentation.
+
+===2016-12-11===
+os_types_def.h: CONST_OS_PtrValue(...) now has 3 arguments, the TYPE additinally. 
+  Background: The OS_PtrValue can have different pointer types.
+* FormatterJc.h: new Method close(). Necessary because in Java the class has close().
+* StringPartJc: change definition of 
+
+
+
+===2016-12-11===
+Compilation with Gcc in Eclise CDT, some gardenings. Many small changes.
+Real changes:
+* ObjectJc in objectBaseC.h: since 2016-12: The struct is changed, but the number .... (see source), adapted: OsWrapperJc.c
+* fw_threadContext.c bugfix!!: getUserBuffer_ThreadContextFw: init0_MemC: set to 0 on allocation
+* InputValues_Inspc.c: regards an &name on field: Its reflection are contained in the referenced instance via ObjectJc.
+* ReflectionJc.c: If it is a reference to an integer, the indices should be applied
+  inside the referenced field. Not to the obj. The field is not an embedded array of references but a reference to an array. 
+* ReflectionJc.c: Bitfield with max 16 bits, 16 is designated with 0.
+Gardening because gcc-compilation:
+* Some designations with extern_C instead extern: BlockHeapJc_admin.h, InterProcessComm.h. FileIoJc.h, ListJc.h,
+  LocaleJc.h, ObjectJc.h, StringJc.h, ThreadJc.h, TimeZoneJc.h, ReflectionBasetypesJc.c
+* Removed some designations with METHOD_C in implementations: BlockHeapJc_Alloc.c, fw_String.c, LinkedListJc.c  
+Adaption because changes before:
+* CONST_OS_PtrValue with 3, argument since 2016-10: More adapted: fw_MemC.h, ReflMemAccessJc.h
+* FormatterJc.h: close_FormatterJc like in Java. It is a Closeable.
+* CharSeqJc concept, gardening: fw_String.c, TimeSignals_Inspc.c
+* InterProcessCommRxExec_Ipc.c: gardening with PtrVal_int8, changed in Java-source with annotation.
+Changes in methodical, correctness:
+* os_types_def_common.h: With more content, copied from os_types_def.h which are not os-specific.
+* FBaccess_Inspc.c: reflection are included from file FBaccess_Inspc_Refl.crefl
+* TimeSignals_Inspc.c: uses named 1-dimensional array instead 2, better for reflection inspecting of internal content.
+* min_Fwc, max_Fwc instead min and max because the simple function names min and max are used in some standards in different forms.
+  StringFunctionsJc.c
+* Some sources moved from  sourceSpecials/os_Windows_Msc6 to sourceSpecials/osal_Windows32 because there are wrapper 
+  to the windows operation system, not compiler-specific, used for gcc compilation too.
+* os_atomic.c moved from sourceSpecials/os_LinuxGcc to sourceSpecials/hw_Intel_x86_Gcc because it is not os-specific 
+  but hardware- and assembler (gcc) specific. Used for gcc compiler. The pendant for Msc6 is still in sourceSpecials/os_Windows_Msc6
+Java2C-gardening:
+* Java2C new translated with only comment change: AnswerComm_ifc_Inspc.c, ClassContent_Inspc.c etc, all of Inspc-Service.
+* _thCxt->stacktrc instead stacktraceThreadContext renaming because change in fw_ThreadContext.h for Java2C-translated sources
+* Some Sources translated with Java2C with more annotations for inlined: StringPartJc.c
+* stc-Files form Java2C-translation mostly only changed in comment, somewhat because annotation and adaption.
+
+  
+  
+
+
+
+
+
 ==2012-0410 Hartmut==
 
 
@@ -305,7 +509,7 @@ message:
   #Compilation checked in baseJc.lib, OSAL.lib, Reflectiontest.
 ------------------------------------------------------------
 revno: 7
-committer: e09srrh0 <hartmut.schorrig@siemens.com>
+committer: e09srrh0 <hartmut.schorrig@vishia.de>
 branch nick: CRuntimeJavalike
 timestamp: Wed 2011-02-16 15:20:42 +0100
 message:
@@ -456,3 +660,97 @@ corr: Puffer wird bis max. Lï¿½nge gefï¿½llt, dann Abschneiden.
 **new: int os_getDateTime(_OS_TimeStruct* pDateTime); wie in spec beschrieben definiert
 **new: _OS_TimeStruct wie in spec beschrieben definiert, aber auch die Makros OS_mNanoSeconds und OS_mLeapSeconds
 **new: int toStringFormat_Fw(...); hier definiert, ist damit unabhï¿½ngig von einem ..Jc anwendbar (braucht auch nichts daraus.)
+
+
+
+
+==2009-05-17==
+===Modul_Inspc.*===
+corr: myApplication gegen applications[100] getauscht. Dieses Element istaber nicht in aktiver benutzung, siehe ClassContent_Inspc.*
+
+===ClassContent_Inspc.*===
+new: Jetzt wird ein targets[100] statt myTarget angelegt, damit können mehrere Einsprünge in Anwenderdaten übergeben werden. Als root für die Anzeige wird this verwendet. 
+Dort ist außerdem die data_OsWrapperJc eingehangen. Auf diese Weise sollten alle bekannten globalen Strukturen aus libSupportBase und OSAL eingehangen werden, damit sie inspizierbar sind.
+Das wäre ein TODO. Die jetzige Lösung war erstmal hilfreich um Mutexe anzuschauen (Fehlerkorrektur in os_mutex.c).	[]
+
+===OsWraperJc.c===
+Strukturen nach OsWrapper.h herausgelöst, damit in Reflection-Generierung bekannt. Wegen Inspector.
+
+
+==2009-02-15==
+===fw_Formatter.c===
+*new: Type-Kennzeichnungen 1..9 und $ für immediate Strings in Va_listFW berücksichtigt, diese Variante wird insbesondere vom MsgDispatcher genutzt.
+*new: strlen_Fwc(...) arbeitet mit max. Zeichenanzahl-Begrenzung damit sicherer als das Standard-strlen.
+*new: format_va_arg_Formatter_FW(...) Ein null-Pointer als String-Argument ist grundsätzlich bei Formatierungen zulässig. Es wird der Text "(null)" ausgegeben anstatt einem Absturz.
+==2009-02-03==
+===fw_Formatter.c===
+*bugfix: break fehlte nach Typ s (StringJc in Argumentliste)
+*bugfix: terminierende null bei format_va_arg_Formatter_FW
+
+==2009-02-01==
+===ObjectJc.c===
+* corr:in setSizeAndIdent_ObjectJc Reihenfolge der Abfrage gedreht, da sonst mTypeLarge_objectIdentSize_ObjectJc nie funktioniert.
+* corr: ctorO_ObjectArrayJc ist eine eigene Implementierung neben dem älteren ctorc_ObjectArrayJc, hier darf/wird vorausgesetzt dass der ObjectJc-Anteil bereits initialisiert ist. Nicht nochmal size prüfen. Das geht schief bei size > 64k (mTypeLarge_objectIdentSize_ObjectJc)
+
+===fw_LogMessage.c===
+*new: sendMsgVaList_LogMessageFW liefert bool statt void zurück, für Sonderfälle ist jettzt testbar, ob Message abgesetzt worden ist. Das ist nicht für normale Nutzung gedacht!
+*new: flush() und close() kann jetzt hier gerufen werden, ist für Sonderfälle nützlich, allgemeines Konzept für ''Message senden wirksam werden lassen'' steckt dahinter.
+*chg: Weil flush und close hinten angesetzt sind, sind alte Aufrufe binärkompatibel (Problem der virtuellen Tabellen).
+===FileIoJc.c===
+*corr: append war mit "a+" und nicht mit "a+b"bezeichnet, worauf 0d 0d 0a als Zeilentrennung auftrat. Strategie ist: Zeilenendekennzeichnung wird nicht tief im Betriebssystem sondern in einer Zwischenschicht kurz unter der Anwendung, ggf. in der Anwendung bestimmt.
+
+
+
+==2009-01-29==
+===fw_Formatter.c===
+corr: Behandlung %c jetzt richtig.
+
+===ReflectionJc.c===
+* corr: Einige bugfix wenn Bedingungen nicht passen wie null auf Reflection-Referenz in Object. Solche Bedingungen tauchen auf, wenn ein anderer in Anwenderklassen einfach die Anweisung 'setReflection(...)' löscht, und müssen beherrscht werden. 
+
+==2009-01-24==
+===fw_Formatter.c===
+new: detectTypeArgs_fwFormatter(..) gemeinsame Methode die bei MsgDispatcher-PMC und Trace notwendig ist.
+
+==2009-01-07==
+===einige File ab fw_Formatter.c===
+* corr: Umgestellt auf einen Datentype Va_listFW, der sowohl einen va_list-Zeiger als auch einen Zeiger auf die damit verbundenen Typen enthält. Der zweite Zeiger kann null sein, dann ist es typ-unsicher wie bei printf. Wenn eine Anwendung aber Infos über Typen übergibt (siehe iLogMessageFW), dann können diese zweckmäßig genutzt werden.
+
+
+
+==2008-12-23==
+Alle Files sind  in Jc, Fwc, FwConv, Ipc aufgeteilt.
+
+
+==2008-0811 MSG... HScho==
+===new Members===
+* MathJc: enthält derzeit nur pow() als Hülle der Standard-C-pow(), wird aber von StringPartJc so verwendet.
+
+* StringPartJc.c,h: Dieses File ist die Neuinkarnation, ursprünglich aus der alten STRINGPT.CPP-Famile, ca. 1995 entstanden 
+und beispielsweise in den alten Tracekonvertierungen benutzt.
+Die Files sind ca. 2004 nach Java überführt, dort stark weiterentwickelt und verwendet und nunmehr als C-Abbild wieder für das einfache parsen von Strings 
+in C und C++ verwendbar.
+* SpecialCharStringJc.c,h: Zugehörig zu StringPartJc. Sonderzeichenbehandlung.
+
+* StringJc.h und StringBufferJc.h neben String_Jc.h, StringBuffer_Jc.h: Die Variante ohne Unterstrich ist schon länger im Umlauf, aber noch nicht im KM, 
+Jetzt nötig, weil Translater das so verlangt (keine Handkorrekturen!). Inhalt ist von *_Jc.h nach *Jc.h überführt.
+
+* StringFormatterJc.c,h aus Java, das Gegenstück zu StringPart zur formatierten Ausgabe oberhalb einfacher String-Konvertierungen.
+* AllReferencesJcJ2C.h: Dieses File entsteht beim Übersetzen von StringPart.java usw. nach StringPartJc.c,h usw und enthält die Referenzdefinitionen.
+
+
+===CRuntimeJavalike.cpp===
+* new: MathJc, SpecialCharStringsJc.c, StringPartJc.c hinzugefügt
+
+===StringBuffer_Jc.c, 
+* corr: Konzept mit typedef StringJc im fw_SysConventions.h etabliert. 
+Mit diesem Konzept ist es auch bei unterschiedlichen Prozessoren/Compiler möglich, einen StringJc immer in Registern abzubilden.
+
+* corr: insert_i_StringBufferJc(...) baut nunmehr auf toString_Integer_FW in fw_Formatter.c auf. 
+Damit ist diese Art der Konvertierung auch unabhängig vom Jc-Konzept als Quelle nutzbar. Dort Konvertierungen ausbauen!
+
+
+==2008-0811 TRC601 HScho==
+===StringJc.h==
+*new: ctorM_StringBufferJc()
+*new: new_StringBufferJc(int size);

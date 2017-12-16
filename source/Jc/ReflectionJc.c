@@ -882,8 +882,11 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
        * In normally the ref is the object to return. Save it in retObj. 
        * But in C++ the position of ObjectJc may have an offset to the instance itself, Therefore offsetBase is added.
        */
-      /*else in C++*/ if(typeModifier & mObjectJc_Modifier_reflectJc)
-      { /**If the type is based on ObjectJc, the clazz is getted from its reflections.*/
+      /*else in C++*/ if((typeModifier & mObjectJc_Modifier_reflectJc) && (modifiers & kEmbeddedContainer_Modifier_reflectJc)==0)
+      { /**If the type is based on ObjectJc, the clazz is getted from its reflections.
+           But not for an embedded instance. Only for references. A reference may from base type. 
+           Especially it is ObjectJc itself, it should show the fields of ObjectJc.
+         */
         MemUnit* ref1 = ADDR_MemSegmJc(ref, MemUnit);
         ClassJc const* clazzFromInstance;
         MemSegmJc ret = ref;
@@ -1233,7 +1236,7 @@ METHOD_C int32 getInt_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sV
   { //Reference to an int element or an int array.
     MemSegmJc adrElementInObj = getAddrElement_FieldJc(thiz, obj, null, null); //The address of the reference
     adr = getRef_MemAccessJc(adrElementInObj);
-    if(sVaargs != null && *sVaargs == 'I'){  //only 1 index yet, todo later.
+    if(adr.ref !=null && sVaargs != null && *sVaargs == 'I'){  //only 1 index yet, todo later.
       int ixData = va_arg(vaargs, int32);
       //Manipulate the adr of the array to the adr of the array element.
       //TODO if the remote CPU is a Analog Devices DSP with word adressing, it is wrong.

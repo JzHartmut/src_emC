@@ -128,7 +128,7 @@ METHOD_C bool XXXXXXXXXcompareAndSet_AtomicInteger(int32 volatile* reference, in
 //void* compareAndSwap_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
 void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  return InterlockedCompareExchangePointer((void volatile*)reference,expect, update);
+  return InterlockedCompareExchangePointer(reference,expect, update);
 }
 
 

@@ -53,13 +53,15 @@
 /**This class .
  */
 typedef struct FormatterJc_t
-{ union{ObjectJc object; } base;
+{ union{ObjectJc object; };
   
   StringBuilderJcREF buffer;
 
   LocaleJcREF locale;
 
 }FormatterJc_s;
+
+extern_C ClassJc const reflection_FormatterJc_s;
 
 
 METHOD_C FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContextFW_t* _thCxt);

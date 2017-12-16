@@ -54,8 +54,7 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
   STACKTRC_TENTRY("ctorO_Comm_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(Comm_Inspc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_Comm_Inspc_s, sizeof(Comm_Inspc_s));  
-  ftest = fopen("T:\\test.txt","wb");
-  if(ftest){ fprintf(ftest, "init\n"); }
+  //PRINTX(0, "ctorO_Comm_Inspc\n");
   //j2c: Initialize all class variables:
   {
     init0_MemC(build_MemC(&thiz->nrofBytesReceived, 1 * sizeof(int32))); //J2C: init the embedded simple array;

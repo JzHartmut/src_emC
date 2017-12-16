@@ -24,6 +24,19 @@ typedef struct Entry_TimeSignals_Inspc_t
 } Entry_TimeSignals_Inspc;
 
 
+typedef enum ErrorCfg_t
+{
+  mFaultyMemoryLayout_TimeSignals_Inspc = 1
+, mInternalError1_TimeSignals_Inspc = 0x01000000
+, mTooMuchEntries_TimeSignals_Inspc = 0x02000000
+, mNameNotFound_TimeSignals_Inspc = 0x04000000   //though the module name is correct.
+, mTooManyEntriesInLine_TimeSignals_Inspc = 0x08000000
+, mExceptionReadFile_TimeSignal_Inspc = 0x10000000
+, mTooManyLines_TimeSignals_Inspc = 0x20000000
+, mFileNotFound_TimeSignal_Inspc = 0x40000000
+, mNoFileName_TimeSignal_Inspc = 0x80000000
+} ErrorCfg;
+
 
 typedef struct Entries_TimeSignals_Inspc_t
 { ObjectArrayJc head;
@@ -140,9 +153,9 @@ void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
  * @param dst The environment (simulink) should deliver an array of entries. Maybe as stack variable.
  * @sizeDst number of entries at maximum.
  * @param name.. The character before ':' determine type and size.
- * @simulink queryOutputPorts
+ * @simulink defPortTypes
  */
-int queryOutputPorts_TimeSignals_Inspc(Entry_QueryPortTypeJc* dst, int sizeDst
+int defOutputPorts_TimeSignals_Inspc(DefPortTypesJc* dst
 , StringJc name1, StringJc name2, StringJc name3, StringJc name4
 , StringJc name5, StringJc name6, StringJc name7, StringJc name8
 , StringJc name9, StringJc name10, StringJc name11, StringJc name12
@@ -150,7 +163,8 @@ int queryOutputPorts_TimeSignals_Inspc(Entry_QueryPortTypeJc* dst, int sizeDst
 );
 
 
-/**
+/**Initialization of time signals with aggregations.
+ * @param reflNode maybe null, then reflection access is not possible. It is not necessary.
  * @simulink init
  */
 char const* init_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
@@ -163,6 +177,15 @@ void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
 , void* val5_y, void* val6_y, void* val7_y, void* val8_y
 , void* val9_y, void* val10_y, void* val11_y, void* val12_y
 , void* val13_y, void* val14_y, void* val15_y, void* val16_y
+, int32* error_y
+);
+
+
+/**
+ * @simulink Object-FB, no-thizInit, no-thizStep
+ */
+void bits_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
+, uint16* bits_y
 , int32* error_y
 );
 

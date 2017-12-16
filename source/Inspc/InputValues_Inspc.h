@@ -1,9 +1,10 @@
 #ifndef __InputValues_Inspc_h__
 #define __InputValues_Inspc_h__
-#include <os_types_def.h>
-#include <Jc/ObjectJc.h>
+#include <applstdefJc.h>
+#include <Fwc/objectBaseC.h>
+//#include <Jc/ObjectJc.h>
 #include <Jc/ReflectionJc.h>
-#include <Fwc/fw_String.h>
+//#include <Fwc/fw_String.h>
 
 struct DataNode_Inspc_t;
 
@@ -43,6 +44,8 @@ typedef struct InputValues_Inspc_t
   /**Parametrized signal identifier. */
   char names[12][32];
 
+  int32 nrofbytesType[12];
+
   #ifndef refl
     //don't generate reflection for this block.
 
@@ -58,13 +61,30 @@ typedef struct InputValues_Inspc_t
 /**Allocate and construct. */
 InputValues_Inspc* create_InputValues_Inspc();
 
-/**Constructs and completes the instance. 
- * Some attributes should be set before:
- * TODO rename it to init_InputValues_Inspc, the ctor should do only basic initalizing.
- * * dataType
- */
+void ctorXXX_InputValues_Inspc(InputValues_Inspc* thiz);
 
+
+/**Constructs and completes the instance. 
+ * @simulink ctor
+ */
 void ctor_InputValues_Inspc(InputValues_Inspc* thiz);
+
+/**Initializes. It stores the given port types. 
+ * @simulink init
+ */
+char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Inspc_t* dataNode
+  , StringJc nameRefl_param
+  , StringJc n1_param, StringJc n2_param, StringJc n3_param, StringJc n4_param, StringJc n5_param, StringJc n6_param
+  , StringJc n7_param, StringJc n8_param, StringJc n9_param, StringJc n10_param, StringJc n11_param, StringJc n12_param
+  , Entry_DefPortTypeJc* portTypes);
+
+/**Stores the given values from inputs. The type of inputs are determined by [[init_InputValues_Inspc(...)]].
+ * @simulink Object-FB, no-thizInit, no-thizStep
+ */
+void step_InputValues_Inspc(InputValues_Inspc* thiz
+     , void const* x1, void const* x2, void const* x3, void const* x4, void const* x5, void const* x6
+     , void const* x7, void const* x8, void const* x9, void const* x10, void const* x11, void const* x12
+     );
 
 
 /**Register it in a DataNode_Inspc, invoke one time after create. */

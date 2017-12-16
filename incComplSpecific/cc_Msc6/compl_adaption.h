@@ -37,8 +37,8 @@
   #include <applstdefJc.h>
 #endif
 
-#ifndef   __os_types_def_h__
-#define   __os_types_def_h__
+#ifndef   __compl_adaption_h__
+#define   __compl_adaption_h__
 
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
@@ -47,27 +47,64 @@
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
 
-//#pragma warning(disable:4100) //unused argument
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4310) //cast truncates constant value
+
+
+//following defines are checked from generated code for DSP. It is over-engineered, but should be done.
+//This applstdefJc.h is intent to work only with dsp software. It is okay. 
+
+//prevent including limits.h for MSC6
+#define _INC_LIMITS
+
+//define length for PC, elsewhere int8 etc. are faulty for PC
+#define UCHAR_MAX 0xFFU
+#define SCHAR_MAX 0x7F
+#define SCHAR_MIN -0x80
+#define USHRT_MAX 0xFFFFU
+#define SHRT_MAX 0x7FFFU
+#define UINT_MAX 0xFFFFFFFFU
+#define INT_MAX 0x7FFFFFFFU
+#define ULONG_MAX 0xFFFFFFFFU
+#define LONG_MAX 0x7FFFFFFFU
+
+
+
+//The same file from Simulink R2016a on C:/Programs/Matlab/R2016a/extern/include/tmwtypes.h
+//defines the standard times in simulink manner.
+//int32_T, uint32_T etc.
+#ifndef RTWTYPES_H  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
+  //prevent including rtwtypes.h because for PC platform tmwtypes.h contains the same proper definitions.
+  #define RTWTYPES_H
+  //#include <rtwtypes.h>  //from simulink
+  #ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
+    #include <tmwtypes.h>  
+  #endif
+#endif
+
+
+/**Some warnings should be disabled in default, because there are not the source of errors,
+ * but present in normal software development.
+ */
+//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
+
 
 //C++
-#pragma warning(disable:4514) //unreferenced inline function has been removed
-//#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
+//#pragma warning(disable:4100) //unused argument
+
+//C++
 #pragma warning(disable:4068) //unknown pragma
 
-#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
 #pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
+#pragma warning(disable:4127) //conditional expression is constant
+#pragma warning(disable:4189) //local variable is initialized but not referenced
+#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
+#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
+#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
+#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
+#pragma warning(disable:4310) //cast truncates constant value
 #pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
-#pragma warning(disable:4127) //
+#pragma warning(disable:4514) //unreferenced inline function has been removed
+//#pragma warning(disable:4512) //assignment operator could not be generated
+#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
 
 
 
@@ -81,13 +118,6 @@
 #define OSAL_bool1(COND) ((COND) ? 1 : 0) 
 //#define OSAL_bool1(COND) (COND)
 
-#ifndef __cplusplus
-  //If C-compiling is used, define the C++-keywords for C
-  //Note: regard that any other system file may define that too.
-  #define bool int
-  #define false 0
-  #define true (!false)
-#endif
 
 
 /**It is a little or big-endian memory organisation: */
@@ -103,62 +133,108 @@
 //do nut use platform specific headers. 
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
-// Folgender Schalter ist gesetzt zur Auswahl der Betriebssystemplattform Windows ist. Damit k?nnen Betriebssystemzugriffe bedingt compiliert werden.
+//The following switch select the operation system in some sources.
 #define __OS_IS_WINDOWS__
 
-#define __OS_PTR32__
-
-// Folgender Schalter ist gesetzt zur Auswahl des Compilers MSC6. Damit k?nnen spezifische Compilereigenschaften mittels bedingter Compilierung ber?cksichtigt werden.
+//The following switch select the compiler in some sources.
 #define __COMPILER_IS_MSC6__
+#define __CCS__
+
+
+//define set for some test statements.
+#define PC_SIMULATION
+#define __PC_SIMULATION__
+#define PC_SIM
+#ifndef TEST_MODULE
+  #define TEST_MODULE
+#endif
+
+// Folgender Schalter ist gesetzt zur Auswahl der C++-Compilierung. In einigen Quellen kann es einen Unterschied geben, wenn eine C-Abbildung der Quellen
+// berücksichtigt werden muss. Das standardgemäß definierte Makro __cplusplus ist nicht immer für dieses Zweck verwendbar, da auch der Einsatz der C++-Compilierung
+// für eine C-Abbildung erfolgen kann. Wenn die Gesamt-Source (beispielsweise ein Headerfile) gegebenenfalls auch als C-Abbildung
+// compiliert werden muss, dann müssen alle Teile, die nur unter C++ lauffähig sind, mit diesem Schalter bedingt compiliert werden.
+//#define __CPLUSGEN
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
 
-/**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
-#define int8_t    char
-#define u_int8_t  unsigned char
-#define uint8_t  unsigned char
-#define int16_t   short int
-#define u_int16_t unsigned short int
-#define uint16_t unsigned short int
-#define int32_t   long int
-#define u_int32_t unsigned long int
-#define uint32_t unsigned long int
+/**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
+ * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
+ * Note: C99-compatible declaration is: u_TYPE_t
+ */
+#define int8      int8_T
+#define uint8     uint8_T
+#define int8_t    int8_T
+#define u_int8_t  uint8_T
+#define uint8_t   int8_T
+
+#define int16     int16_T
+#define uint16    uint16_T
+#define int16_t   int16_T
+#define u_int16_t uint16_T
+#define uint16_t  uint16_T
+
+#define int32     int32_T
+#define uint32    uint32_T
+#define int32_t   int32_T
+#define u_int32_t uint32_T
+#define uint32_t  uint32_T
+
+//Simulink does not know 64-bit-int, define types with standard-C compiler specific.
+#define int64 __int64
+#define uint64 __int64
 #define int64_t __int64
 #define u_int64_t __int64
 #define uint64_t __int64
 
-#define bool8_t char
-#define bool16_t int16_t
-#define char8_t   char
-#define char16_t  unsigned char
+#define bool8    uint8_T
+#define bool8_t  uint8_T
+#define bool16   uint16_T
+#define bool16_t uint16_T
+//Standard-character and UTF16-character:
+#define char8    uint8_T
+#define char16   uint16_T
+#define char8_t  uint8_T
+#define char16_t uint16_T
+#define float32  float
 
 
 
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
-typedef struct int64_hilo_t{ int32_t lo; int32_t hi; } int64_hilo;
+typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 
 /**Union of int64 and its fractions. */
-typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
+typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
+
+/* *****************************************************************************
+***** from basisdefs.h
+*/
+
+#define UINT8  uint8
+#define UINT16 uint16
+#define UINT32 uint32
+#define UINT64 uint64
+
+#define INT8  int8
+#define INT16 int16
+#define INT32 int32
+#define INT64 int64
+
+//andere Schreibweise auch noch:
+
+#define UINT_8  uint8
+#define UINT_16 uint16
+#define UINT_32 uint32
+#define UINT_64 uint64
+
+#define INT_8  int8
+#define INT_16 int16
+#define INT_32 int32
+#define INT_64 int64
 
 
 
-/**All types with fix byte-wide should be defined in a platform-valid form. */
-#define uint8    unsigned char
-#define uint16   unsigned short
-#define uint32   unsigned long
-#define uint64   __int64
-#define int8     signed char
-#define int16    short
-#define int32    long
-#define int64    __int64
-
-//Standard-character and UTF16-character:
-#define char8   char
-#define char16  unsigned short
-#define bool8 char
-#define float32 float
 
 
 /**int-type which can represent a standard pointer. */
@@ -175,9 +251,17 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define int16_va_list short
 #define float_va_list float
 
+
+
+//plattformunabhaengige Ergaenzungen
+//folgende Typen sind besser schreib- und lesbar
+#define ushort unsigned short int
+#define uint unsigned int
+#define ulong unsigned long int
+
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
-//Hinweis: (void*)(0) kann nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
-#undef  NULL
+//Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
+//#undef  NULL
 #define NULL 0
 #undef null
 #define null 0
@@ -202,6 +286,7 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
  * @param check a left-value (variable) which will be increment in the nan-situation for check. 
  */
 #define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
+
 
 /**Prevent process a NaN-value maybe only in debug mode.
  * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
@@ -228,7 +313,7 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR int
+#define OS_intPTR int32
 
 
 
@@ -265,7 +350,9 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #ifdef __cplusplus
   #define INLINE_Fwc inline
 #else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
+     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
+  */
   #define INLINE_Fwc static
 #endif
 
@@ -276,17 +363,17 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
   #define CONSTMember_Fwc const
 #endif
 
-
-
-
 /**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
  * but in the 32-bit-System the handle value is equal the pointer value.
  * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
- * is done with the uint32 handle connection. For the code generated 32-bit-system the handle value is equal to the pointer. 
- * The pointer type in the union presents the real type especially for debugging.
+ * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
+ * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  */
-#define OS_HandlePtr(TYPE, NAME) union{ TYPE* p##NAME; uint32 NAME; }
+#define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
+
+
+
 
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
@@ -305,31 +392,27 @@ typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
 #define kMaxPathLength_FileDescription_OSAL 480
 
 
-
+//Should include <math.h>
+#ifndef fmaxf
 #define fmaxf(A, B) ( (A) > (B) ? (A) : (B) )
-#define fminf(A, B) ( (A) < (B) ? (A) : (B) )
-
-#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
-#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
-
-#ifdef __cplusplus
-#define max(A, B) ( (A) > (B) ? (A) : (B) )
-#define min(A, B) ( (A) < (B) ? (A) : (B) )
 #endif
 
-typedef signed char             INT_8;
-typedef unsigned char           UINT_8;
-typedef short int               INT_16;
-typedef unsigned short int      UINT_16;
-typedef long                    INT_32;
-typedef unsigned long           UINT_32;
+#ifndef fminf
+#define fminf(A, B) ( (A) < (B) ? (A) : (B) )
+#endif
 
-typedef signed char             INT8;
-typedef unsigned char           UINT8;
-typedef short int               INT16;
-typedef unsigned short int      UINT16;
-#define INT32 long
-#define UINT32 unsigned long
+#ifndef fmax
+#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
+#endif
+
+#ifndef fmin
+#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
+#endif
+
+//#ifdef __cplusplus
+#define max(A, B) ( (A) > (B) ? (A) : (B) )
+#define min(A, B) ( (A) < (B) ? (A) : (B) )
+//#endif
 
 #ifndef TRUE
   #define TRUE true
@@ -343,4 +426,4 @@ typedef unsigned short int      UINT16;
 typedef double SIMUPTR;
 
 
-#endif  //__os_types_def_h__
+#endif  //__compl_adaption_h__

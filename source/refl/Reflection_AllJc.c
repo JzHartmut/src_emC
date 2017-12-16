@@ -1549,7 +1549,7 @@ const ClassJc reflection_ThreadJc_s =
 extern_C const ClassJc reflection_FormatterJc_s;  //the just defined reflection_
 extern_C const ClassJc reflection_StringBuilderJcREF;
 extern_C const ClassJc reflection_LocaleJcREF;
-const struct Reflection_Fields_FormatterJc_s_t
+static const struct Reflection_Fields_FormatterJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_FormatterJc_s =
@@ -1565,7 +1565,7 @@ const struct Reflection_Fields_FormatterJc_s_t
     }
   , { "locale"
     , 0   //no Array, no Bitfield
-    , &reflection_LocaleJcREF
+    , REFLECTION_void
     , 0 //bitModifiers
     , (int16)((int32)(&((FormatterJc_s*)(0x1000))->locale) -(int32)(FormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase

@@ -63,7 +63,7 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
     
     struct FieldJc_t const*  field = null;
     
-    int32  idx = -1;
+    int32  idx = 0;  //cc2017-11 no distinction between no index and index = 0. ... = -1;
     
     int32  posSep;/*no initvalue*/
     

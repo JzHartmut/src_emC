@@ -30,7 +30,7 @@
  */ 
 #define ASSERT_Simulink(cond, text) { if(!(cond)) { ssSetErrorStatus(S, text); } }
 
-#define SIMULINK_Error(text) ssSetErrorStatus(S, text)
+#define SIMULINK_Error(text) // nothing, concept is not proper. ssSetErrorStatus(S, text)
 #define ASSERT_s0_Fwc(cond, TEXT, VALUE) { if((cond)==0) { stopAssert_Fwc(); } }
 
 #endif  // __fw_assert_h__

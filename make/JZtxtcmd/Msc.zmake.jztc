@@ -21,7 +21,7 @@ String newline = <:>
 sub cc(Obj target :org.vishia.cmd.ZmakeTarget, String compilerOptions, String cfgCheckDeps = "make/cfgCheckDeps.cfg", String srcDir, String objDir, String toolDir = ""){
   String objDirW = objDir;
   ##assemble the include path from given static global Fileset  includePath:
-  String _includePath = <:><:for:includePathItem:includePath.listFiles()><:> /I<&includePathItem.fileW()><.><.for> /I"%INCLUDESTD_MSC%"<.>;
+  String _includePath = <:><:for:includePathItem:includePath.listFiles()><:> /I<&includePathItem.fileW()><.><.for> <.>; ##/I"%INCLUDESTD_MSC%"<.>;
   ##
   Obj _outputfile = <:><&target.output.fileW()><.>;
   ##All input files from target
@@ -36,8 +36,10 @@ sub cc(Obj target :org.vishia.cmd.ZmakeTarget, String compilerOptions, String cf
   <+>
     echo Target: <&target>
     echo compile ><&objDirW>\_cc_ok.txt
-    echo compile ><&objDirW>\_cc_error.txt
-    echo OBJDIR=<&objDirW> ><&objDirW>\_cc_error.txt
+    echo compile, see <&objDirW>\_cc_ok.txt ><&objDirW>\_cc_error.txt
+    PATH >><&objDirW>\_cc_error.txt
+    cd >><&objDirW>\_cc_error.txt
+    echo OBJDIR=<&objDirW> >><&objDirW>\_cc_error.txt
     
     ::attrib -r <&_outputfile>>NUL
     echo all inputs:
@@ -60,6 +62,7 @@ sub cc(Obj target :org.vishia.cmd.ZmakeTarget, String compilerOptions, String cf
       if exist <&objDirW>\<&input.localnameW()>.obj goto :ok<&cclabel>
         echo compile <&input.localfile()>
         echo compile <&input.localfile()> >><&objDirW>\_cc_ok.txt
+        echo <&toolDir>cl.exe <&compilerOptions> <&_includePath> <&outOptions> <&input.absfileW()>  >><&objDirW>\_cc_error.txt  
         echo off
         <&toolDir>cl.exe <&compilerOptions> <&_includePath> <&outOptions> <&input.absfileW()>  >><&objDirW>\_cc_error.txt  
         echo off

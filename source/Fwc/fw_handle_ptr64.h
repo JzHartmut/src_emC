@@ -26,6 +26,7 @@ typedef struct Entry_Handle2Ptr_t
  */
 typedef struct Handle2Ptr_t{
   uint32 ixEnd; uint32 size;
+  uint32 sizeEntry; uint32 sizeAll;
   Entry_Handle2Ptr e[100];  //The size of the array is greater, adequate allocated shared memory.
 } Handle2Ptr;
 
@@ -108,7 +109,7 @@ const char* init_Handle2Ptr(int nrofEntries);
   #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) PRIV_retPtr_Handle2Ptr(handle))
 #else
   /**Invocation of INIT is empty because there is not Handle2Ptr. */
-  #define INIT_Handle2Ptr(nrofEntries)  
+  #define INIT_Handle2Ptr()  
   
   /**Registeres the pointer and gets the handle.
    * For the 32 bit version the pointer are not registered, the pointer value is the handle.

@@ -5,7 +5,7 @@
  */
 
 //Note: uncomment that to check whether this file is included:
-//#error used_stdef_SmlkAccelerator
+//#error used_Jc_stdef_SmlkAccelerator
 
 
 
@@ -20,9 +20,7 @@
 #include <compl_adaption.h>
 
 //This block before <OSAL/os_types_def_common.h>
-//#ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
 #include <tmwtypes.h>  //from simulink
-//#endif
 #define DEFINED_float_complex     
 #define float_complex creal32_T
 #define DEFINED_double_complex
@@ -43,8 +41,6 @@
 #include <Fwc/fw_SimpleC.h>
 #include <Fwc/fw_MemC.h>
 
-//Use full capability for ObjectJc, necessary for Pointer check and reflection.
-#include <Fwc/objectBaseC.h>
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
 #include <Fwc/fw_Exception.h>
 //#include <Fwc/fw_ExcStacktrcNo.h>
@@ -98,8 +94,8 @@
 
 //#include <special/definePrintfMakros.h>
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
-//#include <FwConv_h/definePrintfMakrosEmpty.h>
-#include <FwConv_h/definePrintFileMakros.h>
+#include <FwConv_h/definePrintfMakrosEmpty.h>
+//#include <FwConv_h/definePrintFileMakros.h>
 
 #define kMaxPathLength_FileJc 500
 

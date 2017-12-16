@@ -56,7 +56,7 @@
 
 //Don't compile CharSeqJc capabilities. It simplifies the dependencies of source
 //This is for only simple String processing in numeric or control applications.
-#define __NoCharSeqJcCapabilities__
+//no, complete! #define __NoCharSeqJcCapabilities__
 #include <Fwc/fw_String.h>
 
 
@@ -97,8 +97,9 @@
 #define __HandlePtr64__
 #define DEFINED_nrEntries_Handle2Ptr 1000
 
-#include <FwConv_h/definePrintFileMakros.h>
+//#include <FwConv_h/definePrintFileMakros.h>
 //#include <FwConv_h/definePrintfMakros.h>
+#include <FwConv_h/definePrintfMakrosEmpty.h>
 
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
@@ -106,6 +107,8 @@
 
 #define kMaxPathLength_FileJc 500
 
+/**This define is set escpecially for compilation sources to use in mex64 dll. */
+#define __SIMULINK_SFN__
 
 
 #endif // __applstdefJc_h__

@@ -61,16 +61,18 @@ char const* addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param
  * @param name2_param second part of the name. Both parts are concatenated immediately. This is the name which is used for the block in the reflection tree. 
  * @param data It should be a reference to ObjectJc with valid reflection. The reflection are necessary to evaluate the data with inspector.
  *  Note: The void type is yet necessary to accept any type of data. TODO use ObjectJc* instead void*.
+ * @param ok_y: It is checked as input. If not 0 then the add operation is performed already.
+ *    It can used to signal that data via reflection can be accessed now.
  * @simulink Operation-FB
  */
-char const* addObj_DataNode_Inspc(struct DataNode_Inspc_t* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* data, int32* ok_y);
+char const* addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* data, int32* ok_y);
 
 
 
 /**Checks whether thiz is the correct instance, via reflection. 
  * @return false if thiz is null or a faulty pointer. 
  */
-bool checkObject_DataNode_Inspc(struct DataNode_Inspc_t* thiz);
+bool checkObject_DataNode_Inspc(DataNode_Inspc* thiz);
 
 
 
@@ -82,7 +84,7 @@ bool checkObject_DataNode_Inspc(struct DataNode_Inspc_t* thiz);
  *  Note: The void type is yet necessary to accept any type of data. TODO use ObjectJc* instead void*.
  * @simulink Operation-FB
  */
-char const* add_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* data, int32* ok_y);
+char const* add_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void const* data, int32* ok_y);
 
 /**Registeres Reflection from any Object in a FBaccessNode for a runtime reflection tree. 
  * @param thiz Instance pointer for this method. null is admissiable here.

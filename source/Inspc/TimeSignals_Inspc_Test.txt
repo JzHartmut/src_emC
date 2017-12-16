@@ -1,3 +1,0 @@
-
-%time: 0.1: test_TimeSignals.wUpq = 2.0, 1.3 2.5 1;
-

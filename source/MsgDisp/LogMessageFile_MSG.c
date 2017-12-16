@@ -591,8 +591,8 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
       
       
       FormatterJc_s  formatter = { 0 };//J2C: constructor for embedded element-ObjectJc
-      init_ObjectJc(&(formatter.base.object), sizeof(formatter), 0); 
-      ctorO_SbLo_FormatterJc(/*J2C:static method call*/&(formatter.base.object), & (bufferFormat.sb), REFJc (thiz->localization), _thCxt);
+      init_ObjectJc(&(formatter.object), sizeof(formatter), 0); 
+      ctorO_SbLo_FormatterJc(/*J2C:static method call*/&(formatter.object), & (bufferFormat.sb), REFJc (thiz->localization), _thCxt);
       TRY
       { 
         

@@ -72,7 +72,7 @@
 #define __StringJc_h__
 #include "Fwc/fw_String.h"    //based on the there defined type StringJc and the access macros.
 #include "Fwc/fw_Va_list.h" 
-//#include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
+#include "Jc/ObjectJc.h"      //Hint: Simple StringJc: use Fwc/fw_String.h
 //#include "Jc/ReflectionJc.h"
 #include <string.h>
 #include <stdarg.h>

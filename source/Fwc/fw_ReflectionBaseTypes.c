@@ -364,7 +364,7 @@ extern_C const ClassJc reflection_ObjectJc;  //the just defined reflection_
 extern_C const ClassJc reflection_ClassJc;
 const struct Reflection_Fields_ObjectJc_t
 { ObjectArrayJc head;
-  FieldJc data[8];
+  FieldJc data[9];
 } reflection_Fields_ObjectJc =
 { CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectJc)
 , {
@@ -385,7 +385,7 @@ const struct Reflection_Fields_ObjectJc_t
     , &reflection_ObjectJc
     }
   , { "idSyncHandles"
-    , 0xc010 //bitfield nrofBits=12, bitPos=1.8
+    , 0xc010 //bitfield nrofBits=12, bitPos=0.16
     , REFLECTION_BITFIELD
     , kBitfield_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(int32)(ObjectJc*)0x1000) + sizeof(int32)
@@ -393,7 +393,15 @@ const struct Reflection_Fields_ObjectJc_t
     , &reflection_ObjectJc
     }
   , { "memoryMng"
-    , 0x401c //bitfield nrofBits=4, bitPos=2.12
+    , 0x301c //bitfield nrofBits=3, bitPos=0.28
+    , REFLECTION_BITFIELD
+    , kBitfield_Modifier_reflectJc //bitModifiers
+    , (int16)((int32)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(int32)(ObjectJc*)0x1000) + sizeof(int32)
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectJc
+    }
+  , { "isInitialized"
+    , 0x101f //bitfield nrofBits=4, bitPos=0.31
     , REFLECTION_BITFIELD
     , kBitfield_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(int32)(ObjectJc*)0x1000) + sizeof(int32)

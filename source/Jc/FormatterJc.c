@@ -96,3 +96,6 @@ void format_a_FormatterJc(FormatterJc_s* ythis, StringJc text, char const* typeA
 void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContextFW_t* _thCxt)
 {
 }
+
+
+//#include "genRefl/Jc/FormatterJc.crefl"

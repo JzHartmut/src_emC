@@ -9,17 +9,6 @@ struct DataNode_Inspc_t;
 typedef struct GetValue_Inspc_t {
   
   ObjectJc object;
-  /**Name in workspace. */
-  //char variableSimulink[32];
-
-  /**If changed then get the path. */
-  //int triggerPathChanged;
-
-  /**The path in reflection to get the value. */
-  //StringJc path;
-
-  /**Returned ident for getValueByIdent. */
-  //int32 ident;
 
   int32 statusNotFound;
 
@@ -47,10 +36,11 @@ void init_GetValue_Inspc(GetValue_Inspc* thiz
 ;
 
 /**
- * @simulink Object-FB
+ * @simulink Object-FB, no-thizInit, no-thizStep.
  */
-void get_GetValue_Inspc(GetValue_Inspc* thiz, int32* statusNotFound_y
-  , float* val1_y, float* val2_y, float* val3_y, float* val4_y, float* val5_y, float* val6_y);
+void get_GetValue_Inspc(GetValue_Inspc* thiz
+  , float* val1_y, float* val2_y, float* val3_y, float* val4_y, float* val5_y, float* val6_y
+  , int32* statusNotFound_y);
 
 
 

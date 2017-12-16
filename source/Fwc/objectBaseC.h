@@ -65,7 +65,8 @@ struct Size_Mtbl_t;
 
 
 
-
+#ifndef __ObjectJc_defined__
+  //prevent this definition if any other struct for ObjectJc is defined already - for a simple target.
 /**8 Byte for size, offs to start, idSync etc.
  * Note: Any struct or union for maybe 64 bit system should be aligned to 8 Byte!
  */
@@ -75,15 +76,117 @@ typedef union State_ObjectJc_t
   #define kBit_idSyncHandles_State_ObjectJc 16
   #define m_idSyncHandles_State_ObjectJc 0x0fff0000
 
-  struct {  //NOTE: firstly the struct with named elements because INITIALIZE_ObjectJc. An { value ,...} uses the first union elements.
+  struct {  //NOTE: firstly the struct with named elements because INITIALIZER_ObjectJc. An { value ,...} uses the first union elements.
     
+    /**Info about object identification and the size of the data.
+     * There are three informations in several bits:
+     *
+     * *bit 31,30: Indication wether it is a array (type ObjectArrayJc, max. 3-dimensional).
+     *
+     * *bit 29,28: Kind of the size information.
+     *
+     * *bit 28..24 or 27..20 or 27..16: 5, 8 or 12 bits to indicate the object (instance).
+     *
+     * *bit 23 or 19 or 15 to 0: 24, 20 or 16 bits for size of the instance.
+     *
+     * The size may be in range 0 to 65k for ''small'' Objects or to 1 MByte or 16 MByte for
+     * ''medium'' or ''large'' Objects. Bits 29,28 indicates this kind of designation.
+     *
+     * *If bit 29 is 1, it is a large object with up to 16 MByte, the sizeof-Bits are
+     * Bit 23..0. There are 5 Bits to differ user Objects, bit 28 to 24. The user may have
+     * upto 31 large Objects (instances) in one data focus or maybe in the whole software.
+     *
+     * *If bit 29, 28 is 01, it is a medium object with up to 1 MByte, the sizeof-Bits are
+     * Bit 19..0. There are 8 Bits to differ user Objects, bit 27 to 20. The user may have
+     * upto 255 medium Objects (instances) in one data focus or maybe in the whole software.
+     *
+     * *If bit 29, 28 is 00, it is a small object with up to 64 kByte, the sizeof-Bits are
+     * Bit 15..0. There are 12 Bits to differ user Objects, bit 27 to 16. The user may have
+     * upto 4095 medium Objects (instances) in one data focus or maybe in the whole software.
+     *
+     * The ObjectIdent-Bits may be 0, if no identification of the Object is used.
+     * The user should take the responsibility for this bits.
+     * The instance idents should be defined in user space.
+     * it may be non-ambigous for a whole user project or not,
+     * but it should be non-ambigous for every data set. It helps to identify data
+     * in a plain old data (POD) structure.
+     * The user can define this bits in a special definition as constants. This constants
+     * should contain the kind-of-size bits 29 and 28.
+     * The ObjectIdent-Bits are not contained in reflection information, this information is only getable here.
+     *
+     * The sizeof-Bits may be 0, if no sizeof information is necessarry. But this bits
+     * are usefull if some different objects are places in a memory space after another, and
+     * a memory evaluation may be processed. The memory evaluation can detect the type of the
+     * objects via Reflection. but it need not use this information. The sizeof information
+     * helps to skip from one Object to the followed.
+     */
+
+    /** The bits defines an ObjectArrayJc. If this bits are 0, it is not an ObjectArrayJc.*/
+    #define mArray_objectIdentSize_ObjectJc      0x40000000
+    
+    /** The bits defines which mask is used to get the size.*/
+    #define mSizeBits_objectIdentSize_ObjectJc   0x30000000
+
+    /** If this value compared with ,,objectIdentSize & mSizeBits_objectIdentSize_ObjectJc,, is true,
+      * the size is stored in the bits of ,,mSizeSmall_objectIdentSize_ObjectJc...
+      * The bits mask with ,,mTypeMedium_objectIdentSize_ObjectJc,, are used for type info.
+      */
+    #define kIsSmallSize_objectIdentSize_ObjectJc  0x00000000
+
+    /** If this value compared with ,,objectIdentSize & mSizeBits_objectIdentSize_ObjectJc,, is true,
+      * the size is stored in the bits of ,,mSizeMedium_objectIdentSize_ObjectJc...
+      * The bits mask with ,,mTypeMedium_objectIdentSize_ObjectJc,, are used for type info.
+      */
+    #define kIsMediumSize_objectIdentSize_ObjectJc 0x10000000
+
+    /** If this bit is set, the size is stored in the bits of ,,mSizeLarge_objectIdentSize_ObjectJc,,.
+      * The bits mask with ,,mTypeLarge_objectIdentSize_ObjectJc,, are used for type info.
+      */
+    #define mIsLargeSize_objectIdentSize_ObjectJc  0x20000000
+
+    /** Size bits for small objects, small means up to 64 kByte. There are 14 bits
+      * useable for 16383 small types.
+      */
+    #define mSizeSmall_objectIdentSize_ObjectJc  0x0000ffff
+
+    /** This bits are used to store the type or instance info for small objects.
+      */
+    #define mTypeSmall_objectIdentSize_ObjectJc  0x0fff0000
+
+    /** This constant is used to shift the type info for small objects. */
+    #define kBitTypeSmall_objectIdentSize_ObjectJc 16
+
+    /** Size bits for medium objects, medium means up to 1 MByte. There are 10 bits
+      * useable for 1023 medium types.
+      */
+    #define mSizeMedium_objectIdentSize_ObjectJc 0x000fffff
+
+    /** This bits are used to store the type or size info for medium objects.
+      */
+    #define mTypeMedium_objectIdentSize_ObjectJc 0x0ff00000
+
+    /** This constant is used to shift the type info for small objects. */
+    #define kBitTypeMedium_objectIdentSize_ObjectJc 20
+
+    /** Size bits for large objects up to 16 MByte.
+      */
+    #define mSizeLarge_objectIdentSize_ObjectJc  0x00ffffff
+
+    /** This bits are used to store the type or instance info for large objects.
+        There are only 5 bits useable for 31 large types.
+      */
+    #define mTypeLarge_objectIdentSize_ObjectJc  0x1f000000
+
+    /** This constant is used to shift the type info for small objects. */
+    #define kBitTypeLarge_objectIdentSize_ObjectJc 24
+
     int32 objectIdentSize;
     
     /**Posive value of offset to the beginn of block, able to use debugging data manually. 
      * If this Object is part of a BlockHeapBlockJc, bit 15 is set, but the rest is the positive offset to start of heap block.
      * 
      */
-    int32 offsetToStartAddr :16;
+    int offsetToStartAddr :16;
 
     /** identification number for wait/notify and synchronized.
      *  Because most of ObjectJc are not used for synchronized or wait/notify,
@@ -91,14 +194,14 @@ typedef union State_ObjectJc_t
      *  defined in os_wrapper.c.
      *  Here only the 12 bit for a id are offered.
      */
-    int32 idSyncHandles :12;
+    int idSyncHandles :12;
 
     #define kNoSyncHandles_ObjectJc -1
 
     /**Up to 7 handles (number) for memory management. 
      * The operation system should support the access to the correct instance. 
      */
-    int32 memoryMng :3;
+    int memoryMng :3;
 
 
     /**Bit to check whether the initializing is complete. 
@@ -106,7 +209,7 @@ typedef union State_ObjectJc_t
      * This bit should be set to 1 in a users routine if all aggregations are set. Aggregations (UML) are that references
      * which are necessary to execute all capabilities of the class.  
      */
-    int32 isInitialized :1;
+    int isInitialized :1;
 
     //always: #if defined(mBackRef_ObjectJc)
     /** Pointer to a memory management, which manages this object. old: the BlockHeapBlock-Control-structure, 
@@ -155,108 +258,7 @@ typedef union State_ObjectJc_t
     union { struct ClassJc_t const* reflectionClass; int32 reflectionClass_i[2]; };
 
 
-    /**Info about object identification and the size of the data.
-     * There are three informations in several bits:
-     *
-     * *bit 31,30: Indication wether it is a array (type ObjectArrayJc, max. 3-dimensional).
-     *
-     * *bit 29,28: Kind of the size information.
-     *
-     * *bit 28..24 or 27..20 or 27..16: 5, 8 or 12 bits to indicate the object (instance).
-     *
-     * *bit 23 or 19 or 15 to 0: 24, 20 or 16 bits for size of the instance.
-     *
-     * The size may be in range 0 to 65k for ''small'' Objects or to 1 MByte or 16 MByte for
-     * ''medium'' or ''large'' Objects. Bits 29,28 indicates this kind of designation.
-     *
-     * *If bit 29 is 1, it is a large object with up to 16 MByte, the sizeof-Bits are
-     * Bit 23..0. There are 5 Bits to differ user Objects, bit 28 to 24. The user may have
-     * upto 31 large Objects (instances) in one data focus or maybe in the whole software.
-     *
-     * *If bit 29, 28 is 01, it is a medium object with up to 1 MByte, the sizeof-Bits are
-     * Bit 19..0. There are 8 Bits to differ user Objects, bit 27 to 20. The user may have
-     * upto 255 medium Objects (instances) in one data focus or maybe in the whole software.
-     *
-     * *If bit 29, 28 is 00, it is a small object with up to 64 kByte, the sizeof-Bits are
-     * Bit 15..0. There are 12 Bits to differ user Objects, bit 27 to 16. The user may have
-     * upto 4095 medium Objects (instances) in one data focus or maybe in the whole software.
-     *
-     * The ObjectIdent-Bits may be 0, if no identification of the Object is used.
-     * The user should take the responsibility for this bits.
-     * The instance idents should be defined in user space.
-     * it may be non-ambigous for a whole user project or not,
-     * but it should be non-ambigous for every data set. It helps to identify data
-     * in a plain old data (POD) structure.
-     * The user can define this bits in a special definition as constants. This constants
-     * should contain the kind-of-size bits 29 and 28.
-     * The ObjectIdent-Bits are not contained in reflection information, this information is only getable here.
-     *
-     * The sizeof-Bits may be 0, if no sizeof information is necessarry. But this bits
-     * are usefull if some different objects are places in a memory space after another, and
-     * a memory evaluation may be processed. The memory evaluation can detect the type of the
-     * objects via Reflection. but it need not use this information. The sizeof information
-     * helps to skip from one Object to the followed.
-     */
-
-      /** The bits defines an ObjectArrayJc. If this bits are 0, it is not an ObjectArrayJc.*/
-      #define mArray_objectIdentSize_ObjectJc      0x40000000
-      
-      /** The bits defines which mask is used to get the size.*/
-      #define mSizeBits_objectIdentSize_ObjectJc   0x30000000
-
-      /** If this value compared with ,,objectIdentSize & mSizeBits_objectIdentSize_ObjectJc,, is true,
-        * the size is stored in the bits of ,,mSizeSmall_objectIdentSize_ObjectJc...
-        * The bits mask with ,,mTypeMedium_objectIdentSize_ObjectJc,, are used for type info.
-        */
-      #define kIsSmallSize_objectIdentSize_ObjectJc  0x00000000
-
-      /** If this value compared with ,,objectIdentSize & mSizeBits_objectIdentSize_ObjectJc,, is true,
-        * the size is stored in the bits of ,,mSizeMedium_objectIdentSize_ObjectJc...
-        * The bits mask with ,,mTypeMedium_objectIdentSize_ObjectJc,, are used for type info.
-        */
-      #define kIsMediumSize_objectIdentSize_ObjectJc 0x10000000
-
-      /** If this bit is set, the size is stored in the bits of ,,mSizeLarge_objectIdentSize_ObjectJc,,.
-        * The bits mask with ,,mTypeLarge_objectIdentSize_ObjectJc,, are used for type info.
-        */
-      #define mIsLargeSize_objectIdentSize_ObjectJc  0x20000000
-
-      /** Size bits for small objects, small means up to 64 kByte. There are 14 bits
-        * useable for 16383 small types.
-        */
-      #define mSizeSmall_objectIdentSize_ObjectJc  0x0000ffff
-
-      /** This bits are used to store the type or instance info for small objects.
-        */
-      #define mTypeSmall_objectIdentSize_ObjectJc  0x0fff0000
-
-      /** This constant is used to shift the type info for small objects. */
-      #define kBitTypeSmall_objectIdentSize_ObjectJc 16
-
-      /** Size bits for medium objects, medium means up to 1 MByte. There are 10 bits
-        * useable for 1023 medium types.
-        */
-      #define mSizeMedium_objectIdentSize_ObjectJc 0x000fffff
-
-      /** This bits are used to store the type or size info for medium objects.
-        */
-      #define mTypeMedium_objectIdentSize_ObjectJc 0x0ff00000
-
-      /** This constant is used to shift the type info for small objects. */
-      #define kBitTypeMedium_objectIdentSize_ObjectJc 20
-
-      /** Size bits for large objects up to 16 MByte.
-        */
-      #define mSizeLarge_objectIdentSize_ObjectJc  0x00ffffff
-
-      /** This bits are used to store the type or instance info for large objects.
-          There are only 5 bits useable for 31 large types.
-        */
-      #define mTypeLarge_objectIdentSize_ObjectJc  0x1f000000
-
-      /** This constant is used to shift the type info for small objects. */
-      #define kBitTypeLarge_objectIdentSize_ObjectJc 24
-
+    /**Use int64 image for Simulink Busses. */
     State_ObjectJc state;
 
 
@@ -297,7 +299,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
   * @since 2016-04: the better form.
 */
 //#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { { (ObjectJc*)&(INSTANCE)} , { REFLECTION }, {sizeof(INSTANCE) | IDENT, 0, kNoSyncHandles_ObjectJc, 0}}
-#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { {(ObjectJc*)&(INSTANCE)} , { REFLECTION } , {{sizeof(INSTANCE) | IDENT, 0, kNoSyncHandles_ObjectJc, 0}}}
+#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { {(ObjectJc*)&(INSTANCE)} , { REFLECTION } , {{sizeof(INSTANCE) | (IDENT<<kBitTypeSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
 
 /**Initializer for any instance with {0}. Should be used on stack variable especially before they are handled with a ctor...(...).*/
 #define NULL_ObjectJc {0}
@@ -455,12 +457,23 @@ METHOD_C int getIdentInfo_ObjectJc(ObjectJc const* ythis);
 /** gets the reflection class.*/
 METHOD_C struct ClassJc_t const* getClass_ObjectJc(ObjectJc const* ythis);
 
+/**tests wether the given object is an instance of the requested Type.
+ * Javalike: instanceof-operator.
+ * @param thiz any Object
+ * @param reflection The reflection of the type to compare. The chararcter sequence is tested.
+ * In opposite to [[instanceof_ObjectJc(...)]] they may be more as one reflection instance possible.
+ * That is especially in dll libraries with static linked reflection.
+ */
+METHOD_C bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflection);
+
+
 /**Returns a new Identification for an Object. This method may be implemented user-specific
  * to generate a log file with instantiated Objects.
  */
 METHOD_C int newIdent_ObjectJc();
 
 
+#endif  //#ifndef __ObjectJc_defined__
 
 
 /*@CLASS_CPP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -528,16 +541,19 @@ METHOD_C int newIdent_ObjectJc();
 
 #endif //defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 
-/*@CLASS_C MtblHeadJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C VtblHeadJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**This is a only forward declared struct used in [[VtblHeadJc]] for the size value stored as pointer. */
+struct Size_Vtbl_t;
+#define Size_Mtbl_t Size_Vtbl_t
 
-struct Size_Mtbl_t;
+#define NrofMethodsForSize_VTBL_Jc(NR) (struct Size_Mtbl_t*)((2 +NR) * sizeof(void*)) 
 
 /** The definition of ordered method pointer, it is a jump table.
   * The virtual methods are callable in a C-environment adequate to virtual methods in C++.
   * This struct of method pointer determines the order of virtual methods of ObjectJc for all implementation classes.
   */
-typedef struct MtblHeadJc_t
+typedef struct VtblHeadJc_t
 { /**The value of sign must be identically with the address of the sign_Mtbl_TYPE. Check it for safe access. */
   char const* sign;
   /**The sizeTable is really an simple int. But all members of Method table are from pointer type. casted internally. 
@@ -545,14 +561,22 @@ typedef struct MtblHeadJc_t
    * NOTE: don't use a void*, because all is compatible with it and no errors are signated.
    */
   struct Size_Mtbl_t* sizeTable;  
-}MtblHeadJc;
+}VtblHeadJc;
 
+#define MtblHeadJc VtblHeadJc
 
-/**Structure which represents the common MTB-ref-type. */
-typedef struct ObjectJcMTB_t
-{ struct Mtbl_ObjectJc_t* mtbl;
+/**Structure which represents the common Vtbl-ref-type. 
+ * It holds the pointer to the correct Vtbl (represented with the Head)
+ * and the reference to the data based on Objectjc.
+ * The vtbl->sign should be tested to correctness, and then the vtbl pointer should be casted.
+ */
+typedef struct VtblObjectJcRef_t
+{ VtblHeadJc* vtbl;
   ObjectJc* ref;
-}ObjectJcMTB;
+} VtblObjectJcRef;
+
+#define ObjectJcMTB VtblObjectJcRef
+
 
 extern char const sign_Mtbl_ObjectJc[]; 
 extern char const signEnd_Mtbl_ObjectJc[];
@@ -577,21 +601,24 @@ extern char const signEnd_Mtbl_ObjectJc[];
  * Whether the method table is derived or not, it means wether a up-casting is allowed,
  * depends on a derived class. 
  */
-METHOD_C MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign);
-
-int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign);
-
-METHOD_C MtblHeadJc const* checkMtbl_ObjectJcTT(ObjectJc const* ythis, int ix, char const* sign, struct ThreadContextFW_t* _thCxt);
+METHOD_C MtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign);
+#define getMtbl_ObjectJc getVtbl_ObjectJc
 
 
-/**Builds a method table reference. */
-METHOD_C ObjectJcMTB XXXmtblRef_ObjectJc(ObjectJc const* ythis, char const* sign);
+int getPosInVtbl_ObjectJc(ObjectJc const* thiz, char const* sign);
+#define getPosInMtbl_ObjectJc getPosInVtbl_ObjectJc
+
+
+METHOD_C VtblHeadJc const* checkMtbl_ObjectJcTT(ObjectJc const* ythis, int ix, char const* sign, struct ThreadContextFW_t* _thCxt);
+
+
 
 
 #define SETMTBJc(DST, REF, TYPE) { (DST).ref = (struct TYPE##_t*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
 #define SETMTBJc_XXX(DST, REF, TYPE) { (DST).ref = (TYPE*)(REF); (DST).mtbl = (DST).ref == null ? null : (Mtbl_##TYPE const*)getMtbl_ObjectJc(&(DST).ref->base.object, sign_Mtbl_##TYPE); }
 
 /**Macro to get the method table from a given reference. 
+ * @Deprecated. Don't use the macro. It is better to write the two routines one after another. Keep clearly.
  * @param REF A reference to any type which is based on Object. It should hava a ,,union{ ... ObjectJc object; } base;,,
  * @param TYPE The Typ of the method table. It is used to build ,,Mtbl_TYPE const*,, and ,,sign_Mtbl_TYPE,,
  * @return casted returnvalue of ,,getMtableObjectJc(othis, sign),,. 
@@ -668,22 +695,22 @@ StringJc toString_ObjectJc(ObjectJc* ithis, struct ThreadContextFW_t* _thCxt);
  *  but use this methods.
  *  In generally, implementation methods needn't be forward declared, they need only be defined in the C file.
  */
-extern MT_clone_ObjectJc clone_ObjectJc_F;
-extern MT_equals_ObjectJc equals_ObjectJc_F;
-extern MT_finalize_ObjectJc finalize_ObjectJc_F;
-extern MT_hashCode_ObjectJc hashCode_ObjectJc_F;
-extern MT_toString_ObjectJc toString_ObjectJc_F;
+extern_C MT_clone_ObjectJc clone_ObjectJc_F;
+extern_C MT_equals_ObjectJc equals_ObjectJc_F;
+extern_C MT_finalize_ObjectJc finalize_ObjectJc_F;
+extern_C MT_hashCode_ObjectJc hashCode_ObjectJc_F;
+extern_C MT_toString_ObjectJc toString_ObjectJc_F;
 
 
 /** The virtual table of non overloaded methods from object,
     useable as part of a users virtual table.
   */
 #define CONST_MtblStd_ObjectJc \
-{ clone_Object_F    \
-, equals_Object_F   \
-, finalize_Object_F \
-, hashCode_Object_F \
-, toString_Object_F \
+{ clone_ObjectJc_F    \
+, equals_ObjectJc_F   \
+, finalize_ObjectJc_F \
+, hashCode_ObjectJc_F \
+, toString_ObjectJc_F \
 }
 
 
@@ -728,6 +755,9 @@ typedef struct  ObjectArrayJc_t
   * @param SIZE number of elements
   */
 #define CONST_ObjectArrayJc(TYPE, SIZE, IDENT, REFLECTION, OWNADDR) \
+  { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
+
+#define INITIALIZER_ObjectArrayJc(TYPE, SIZE, IDENT, REFLECTION, OWNADDR) \
   { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
 
 
@@ -820,6 +850,7 @@ METHOD_C int8ARRAY* ctor_int8ARRAY(int8ARRAY* ythis, int nrOfBytes);
 
 
 /*@CLASS_C ClassJc ************************************************************************/
+#ifndef __ObjectJc_defined__
 
 
 struct FieldJc_t;
@@ -887,6 +918,38 @@ C_TYPE typedef struct  ClassJc_t
 #define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
 
 extern const ClassJc reflection_ClassJc;
+
+
+
+/*@CLASS_C ClassOffset_idxMtblJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**This type describes one entry of a interface or superclass.
+ * In regard of virtual methods an index inside the table of virtual methods is stored here.
+ */
+typedef struct ClassOffset_idxMtblJc_t
+{
+  /** The reflection definition*/
+  ClassJc const* clazz;
+  /** Index of the virtual table inside its parent.*/
+  int idxMtbl;
+}ClassOffset_idxMtblJc;
+
+/**This macro calculates the index of a particulary method table inside a table, to use for idxMtbl in ClassOffset_idxMtblJc.
+ */
+#define OFFSET_Mtbl(TYPE, ELEMENT) ( ( (int)(&((TYPE*)(0x1000))->ELEMENT) - 0x1000) / sizeof(MT_void_Method_void const*)) 
+//#define OFFSET_Mtbl(BASE, ELEMENT) ( (MT_void_Method_void const*)(&BASE.ELEMENT) - (MT_void_Method_void const*)(&BASE)) 
+
+/** This type describes a array of ClassOffset_idxMtblJc*/
+typedef struct ClassOffset_idxMtblJcARRAY_t
+{ /** Base data of every array */
+  ObjectArrayJc head;
+  /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
+  ClassOffset_idxMtblJc data[10];
+}ClassOffset_idxMtblJcARRAY;
+
+
+#endif  //#ifndef __ObjectJc_defined__
 
 /*@DEFINE_C reflection_Types********************************************************************************************/
 
@@ -1332,32 +1395,63 @@ typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcA
 
 /**This struct can be filled by any static operation of a class to determine about numeric types and array sizes of ports.
  */
-typedef struct Entry_QueryPortTypeJc_t
+typedef struct Entry_DefPortTypeJc_t
 {
-  /**Size of the entry in byte. 8 at minimum. Should be multiple of 8. >8 for more dimensional arrays. 
-   * This element should be set already on input of queryOutputPorts_...
-   */
-  char size_entry;
-
-  /**The type. The type characters of Java are used: BSIJFD for byte, short, int, long, float double,
-   * fd are complex float and complex double
-   * ZC for boolean and character (UTF16). 
+  /**The type. The type characters of Java are used: B1S2I4J8FD for int8, uint8, int16, uint16, int32, uint32,
+   * int64, uint64, float double,
+   * ZC for boolean and character (UTF16).
+   * sifd (lower case) for adequate complex types.  
    */
   char type;
 
-  /**size of array. 0-scalar respectively 1 element. */
-  int16 sizeArray;
-
-  /**0 or 1: than scalar or 1-dimension, else a matrix. */
-  int16 sizeSecondDimension;
-
-  /**0 or 1: than scalar or 1- or 2-dimension, else the size of the third dimension. 
-   * As enhancement: If <0, than more dimensions are written after them. 
+  /**Size of the type in byte. 
    */
-  int16 sizeThirdDimension[1];
-} Entry_QueryPortTypeJc;
+  uint8 sizeType;
+
+  /**If this value is not 0, then the port should be set newly with the given information. */
+  uint8 newDefined;
+
+  /**0=scalar. 1 ..5: size of dimension in [[sizeArray+Entry_QueryPortTypeJc]].
+   * If >5 then sizeArray contains a pointer to a uint32 [...], cast necessary: 
+   */
+  uint8 dimensions;
 
   
+  /**sizes for up to 5 dimensionens. If more as 5 dimensions are need, store it after this struct
+   * as enhancement of this array. 0= Dimension not existing. */
+  uint32 sizeArray[5];
+
+} Entry_DefPortTypeJc;  //Note: size=6*4
+
+  
+
+/**Data definition for port properties, especially for Simulink Sfunctions.
+ * This struct should included in the following definition:
+ * ,,struct { DefPortTypesJc head; Entry_DefPortTypeJc __data__[<&return.nrofPorts>-1]; } __defPortTypes;
+ * In this case the __data__ followes the element entries[1] immediately in the memory layout.
+ * Note: The size of this struct is able to divide by 8. It is important for alignment.
+ */
+typedef struct DefPortTypesJc_t 
+{ /**The number of elements of entries. */
+  int16 size; 
+  /**Indices of the ports in entries. */
+  int16 ixInputStep, ixOutputInit, ixOutputStep;  //Note: pos=8
+  
+  /**Array of all entries following, use a struct definition to create the correct array length. 
+   */
+  Entry_DefPortTypeJc entries[1]; 
+} DefPortTypesJc;
+
+
+typedef enum EDefPortTypesJc_t
+{ kSetFromArg_EPropagatePortTypesJc = 1
+, kSetType_EPropagatePortTypesJc = 2
+, kSetSize_EPropagatePortTypesJc = 3
+, kSetComplex_EPropagatePortTypesJc = 4
+, kRun_EPropagatePortTypesJc = 5
+} EDefPortTypesJc;
+
+
 /*@CLASS_C QueryInterface_SYS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 

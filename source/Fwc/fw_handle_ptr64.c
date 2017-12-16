@@ -44,12 +44,18 @@ const char* init_Handle2Ptr(int nrofEntries)
       if(!os_isReadySharedMem(&shMemHandle2Ptr) || handle2Ptr == null) {
         return "Handle2Ptr not possible, abort";
       }
-      if(handle2Ptr->size == 0){ 
+      if(handle2Ptr->size == 0 && handle2Ptr->sizeEntry ==0){ 
+        handle2Ptr->sizeEntry = sizeof(handle2Ptr->e[0]);
+        handle2Ptr->sizeAll = sizeAlloc;
         handle2Ptr->size = nrofEntries; 
         handle2Ptr->ixEnd = 1;                    // TODO AtomicAccess if mulitple cores run more instances of such routines.
       }
     }
-    if(handle2Ptr == null || handle2Ptr->size != 1000) {
+    if(  handle2Ptr == null 
+      || handle2Ptr->size != 1000
+      || handle2Ptr->sizeEntry != sizeof(handle2Ptr->e[0])
+      //|| handle2Ptr->sizeAll != sizeAlloc
+      ) {
       return "Handle2Ptr faulty or size faulty, abort";
     }
     return null; //successfull
@@ -183,10 +189,12 @@ void* PRIV_retPtr_Handle2Ptr(uint32 handle)
 {
   if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
   if (handle == (uint32)(-1)) { return null; } //special case: null should be.
-  else if (handle >= handle2Ptr->size || handle < 0) { //jzTc: check valid handle, note: 0 gets null-Pointer
+  else if (handle >= handle2Ptr->size) { //jzTc: check valid handle, note: -1 gets null-Pointer
+    //PRINTX2(0, "PRIV_retPtr_Handle2Ptr faulty Handle = %d\n", handle);
     return null; //"Handle2Ptr: Handle faulty.";
   }
   else {
+    //PRINTX2(0, "PRIV_retPtr_Handle2Ptr ok Handle = %d\n", handle);
     return handle2Ptr->e[handle].p.ptr;  //pointer from handle
   }
 }

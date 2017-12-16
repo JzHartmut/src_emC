@@ -50,7 +50,7 @@ void init_GetValue_Inspc(GetValue_Inspc* thiz
         ClassJc const* fieldType = getType_FieldJc(field);
       
         if(fieldType == &reflection__floatJc) {
-          thiz->addr[ixPath] = (long*)addr;
+          thiz->addr[ixPath] = (int32*)addr;
         }
       } else {
         thiz->addr[ixPath] = null;
@@ -63,8 +63,9 @@ void init_GetValue_Inspc(GetValue_Inspc* thiz
 
 
 
-void get_GetValue_Inspc(GetValue_Inspc* thiz, int32* statusNotFound_y
-  , float* val1_y, float* val2_y, float* val3_y, float* val4_y, float* val5_y, float* val6_y){
+void get_GetValue_Inspc(GetValue_Inspc* thiz
+  , float* val1_y, float* val2_y, float* val3_y, float* val4_y, float* val5_y, float* val6_y
+  , int32* statusNotFound_y) {
   int ix;
   float val[6];
   for(ix=0; ix < ARRAYLEN_SimpleC(val); ++ix) {

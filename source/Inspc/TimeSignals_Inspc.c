@@ -183,14 +183,15 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
 
 
 
-
-int queryOutputPorts_TimeSignals_Inspc(Entry_QueryPortTypeJc* dst, int zDst
+//The nrofInputPorts is 1, index for first output in dst is 1.
+int defOutputPorts_TimeSignals_Inspc(DefPortTypesJc* dst
 , StringJc name1, StringJc name2, StringJc name3, StringJc name4
 , StringJc name5, StringJc name6, StringJc name7, StringJc name8
 , StringJc name9, StringJc name10, StringJc name11, StringJc name12
 , StringJc name13, StringJc name14, StringJc name15, StringJc name16
 )
-{
+{ int zDst = dst->size;
+  Entry_DefPortTypeJc* adst = dst->entries;
   int ix;
   StringJc names[16];
   names[0] = name1;   //copy extra arguments, use in for loop.
@@ -209,34 +210,48 @@ int queryOutputPorts_TimeSignals_Inspc(Entry_QueryPortTypeJc* dst, int zDst
   names[13] = name14;
   names[14] = name15;
   names[15] = name16;
-  
-  for(ix = 0; ix < 16; ++ix) {
-    int ixdst = ix +2;  //from output arg 2, adequate to step routine argument list! 
-    if(ixdst >= zDst) { ixdst = 0; } //fatal, unexpected.
-    char const* name;
-    int zName = length_StringJc(names[ix]);
-    if( zName == 0){
-      name =  "?";  //unused field
-    } else {
-      char nameBuffer[32] = {0};
-      char const* name = getCharConst_StringJc(names[ix], nameBuffer, 32); 
-      char const* posColon = strchr(name, ':');
-      if(posColon !=null) {
-        int cComplex = name[0];
-        int cVector;
-        if (cComplex == 'C') { cVector = name[1]; }
-        else { cVector = name[0]; }
-        if (cVector >= '1' && cVector <= '6') {
-          dst[ixdst].sizeArray = cVector - '0';
+  if(zDst >= 17) {  //only run for 16 Ouput ports, not for bits_TimeSignals_Inspc(...) 
+    for(ix = 0; ix < 16; ++ix) {
+      int ixdst = ix +1;  //nrofInput = 1, from output arg 0, adequate to step routine argument list! no-thizInit, no-thizStep is set. 
+      if(ixdst >= zDst) { ixdst = 0; } //fatal, unexpected.
+      char const* name;
+      int zName = length_StringJc(names[ix]);
+      if( zName == 0){
+        name =  "?";  //unused field
+        adst[ixdst].type = 'F';  //float output by default. Note: All outputs should be determined.
+        adst[ixdst].sizeType = sizeof(float);
+        adst[ixdst].dimensions = 1;
+        adst[ixdst].sizeArray[0] = 1;
+        adst[ixdst].newDefined = 1;
+      } else {
+        char nameBuffer[32] = {0};
+        char const* name = getCharConst_StringJc(names[ix], nameBuffer, 32); 
+        char const* posColon = strchr(name, ':');
+        if(posColon !=null) {
+          int cComplex = name[0];
+          int cVector;
+          if (cComplex == 'C') { cVector = name[1]; }
+          else { cVector = name[0]; }
+          if (cVector >= '1' && cVector <= '6') {
+            adst[ixdst].sizeArray[0] = cVector - '0';
+          }
+          else { 
+            adst[ixdst].sizeArray[0] = 0; 
+          }
+          adst[ixdst].type = 'F';
+          adst[ixdst].sizeType = sizeof(float);
+          if(cComplex) {
+            adst[ixdst].type += 'a'-'A';
+            adst[ixdst].sizeType *= 2;
+          } 
         }
-        else { dst[ixdst].sizeArray = 0; }
-        dst[ixdst].type = cComplex == 'C' ? 'f' : 'F';
-      }
-      else {
-        dst[ixdst].type = 'F'; //standard is simple float
-        dst[ixdst].sizeArray = 0;
-      }    
-    } 
+        else {
+          adst[ixdst].type = 'F'; //standard is simple float
+          adst[ixdst].sizeArray[0] = 0;
+        }
+        adst[ixdst].newDefined = 1;
+      } 
+    }
   }
   return zDst;
 }
@@ -302,7 +317,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
                   if(zBytes > 0){
                     memmove(&thiz->entries->data[ixEntries+1], &thiz->entries->data[ixEntries], zBytes);  //memmove(dst, src, length) 
                   } else { //overwrite last entry, too much.
-                    thiz->errorCfg |= 0x02000000;  //too much entries
+                    thiz->errorCfg |= mTooMuchEntries_TimeSignals_Inspc;  //too much entries
                   }
                 }
                 entry = &thiz->entries->data[ixEntries];
@@ -332,7 +347,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
               } while(ixValue < zValues && nrofCharsParsed >0);
             }
           } else { //name in module not found though the module was found:
-            thiz->errorCfg = 0x04000000;
+            thiz->errorCfg = mNameNotFound_TimeSignals_Inspc;
           }
         } //faulty module.
       } //name not exists.
@@ -340,7 +355,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
       posNext = indexOf_CI_StringJc(line, ',', posNext) +1;  //0 if not found, then abort while. Else: more as one variable with the same time.
     }
     if(maxWhileNext <0){
-      thiz->errorCfg |= 0x080000000; //too much lines
+      thiz->errorCfg |= mTooManyEntriesInLine_TimeSignals_Inspc; //too much lines
     }
   }
   STACKTRC_LEAVE;
@@ -354,7 +369,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 {
   STACKTRC_ENTRY("readConfig_TimeSignals_Inspc");
   if(thiz->filepath == null || thiz->filepath[0] == 0){
-    thiz->errorCfg = 0x80000000;  //file parameter missing
+    thiz->errorCfg = mNoFileName_TimeSignal_Inspc;  //file parameter missing
     return false;
   }
   OS_HandleFile hfile = os_fopenToRead(thiz->filepath);
@@ -390,12 +405,12 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
         }
       }_TRY
       CATCH(ExceptionJc, exc) {
-        thiz->errorCfg |= 0x10000000; 
+        thiz->errorCfg |= mExceptionReadFile_TimeSignal_Inspc; 
       }
       END_TRY
     }
     if(maxWhileLines <0){
-      thiz->errorCfg |= 0x20000000;
+      thiz->errorCfg |= mTooManyLines_TimeSignals_Inspc;
     }
     //it would not close the file because the file is given outside:
     //close_BufferedReaderJc(&reader);
@@ -403,7 +418,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
     STACKTRC_LEAVE;
     return true;
   } else {
-    thiz->errorCfg = 0x40000000;  //file not found.
+    thiz->errorCfg = mFileNotFound_TimeSignal_Inspc;  //file not found.
     STACKTRC_LEAVE;
     return false;
   }  
@@ -436,7 +451,7 @@ void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
           thiz->yBits |= (1 << entry->ixChannel);  //setzen dieses Bits
         }
       } else {
-        thiz->errorCfg |= 0x08000000;
+        thiz->errorCfg |= mInternalError1_TimeSignals_Inspc;
       }
       thiz->ixEntries +=1;  //check next.
       thiz->stepNext = thiz->entries->data[thiz->ixEntries].time;
@@ -501,6 +516,35 @@ void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
       thiz->errorCfg |= (0x1 << ix); 
     }
   }
+  *error_y = thiz->errorCfg;
+}
+
+
+
+
+
+void bits_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
+, uint16* bits_y
+, int32* error_y
+)
+{
+  int ix;
+  step_TimeSignals_Inspc(thiz, _simtime);
+  int16 bits = 0; 
+  //The variables ya0, ya1 ... are arranged one after another.
+  //The memory layout is the same like an array ya[16][6];
+  float* ya = thiz->ya0;  
+  if((thiz->ya1 - ya) !=6) {
+    thiz->errorCfg |= mFaultyMemoryLayout_TimeSignals_Inspc;
+  } //else 
+  {
+    for(ix=15; ix >=0; --ix) {
+       int ix1 = 6 * ix;
+       bits <<=1;
+       if(ya[ix1]) { bits |=1; }
+    }
+  }
+  *bits_y = bits;
   *error_y = thiz->errorCfg;
 }
 

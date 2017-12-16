@@ -1039,35 +1039,8 @@ typedef enum Mask_ModifierJc_t
 
 
 
-/*@CLASS_C ClassOffset_idxMtblJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-
-/**This type describes one entry of a interface or superclass.
- * In regard of virtual methods an index inside the table of virtual methods is stored here.
- */
-typedef struct ClassOffset_idxMtblJc_t
-{
-  /** The reflection definition*/
-  ClassJc const* clazz;
-  /** Index of the virtual table inside its parent.*/
-  int idxMtbl;
-}ClassOffset_idxMtblJc;
-
-/**This macro calculates the index of a particulary method table inside a table, to use for idxMtbl in ClassOffset_idxMtblJc.
- */
-#define OFFSET_Mtbl(TYPE, ELEMENT) ( ( (int)(&((TYPE*)(0x1000))->ELEMENT) - 0x1000) / sizeof(MT_void_Method_void const*)) 
-//#define OFFSET_Mtbl(BASE, ELEMENT) ( (MT_void_Method_void const*)(&BASE.ELEMENT) - (MT_void_Method_void const*)(&BASE)) 
-
-/** This type describes a array of ClassOffset_idxMtblJc*/
-typedef struct ClassOffset_idxMtblJcARRAY_t
-{ /** Base data of every array */
-  ObjectArrayJc head;
-  /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
-  ClassOffset_idxMtblJc data[10];
-}ClassOffset_idxMtblJcARRAY;
-
-
-
+/*@CLASS_C ClassJc_YP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 

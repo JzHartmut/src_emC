@@ -4,6 +4,9 @@
 //#include <fw_Platform_conventions.h>
 //#define TYPE_EnhancedRefJc(TYPE) struct TYPE##REF_t* TYPE##REF
 #define TYPE_EnhancedRefJc(TYPE) struct TYPE##_t* TYPE##REF 
+//old form deprcated:
+#define DEFINE_EnhancedRefJc(TYPE) typedef TYPE_EnhancedRefJc(TYPE)
+
 #define SETREFJc(REF, OBJP, REFTYPE) (REF) = (OBJP);
 
 /**Makro to set a enhanced reference to null. 

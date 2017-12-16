@@ -280,7 +280,10 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
            && head->sign != signEnd_Mtbl_ObjectJc 
            )
       { int sizeTable = (int)head->sizeTable;
-        ASSERT_Fwc(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
+        if(sizeTable < 0 || sizeTable > (302 * sizeof(void*))) {
+          THROW_s0(IllegalStateException, "Internal error, Vtbl faulty, searched:", (int)sign);
+        }   
+        //ASSERT_Fwc(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
         //The next part of method table is found after the current.
         head = (MtblHeadJc const*)( (MemUnit*)head + sizeTable );
       }

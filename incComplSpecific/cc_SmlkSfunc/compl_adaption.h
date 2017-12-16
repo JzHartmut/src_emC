@@ -50,10 +50,13 @@
 #ifndef RTWTYPES_H  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
   //prevent including rtwtypes.h because for PC platform tmwtypes.h contains the same proper definitions.
   #define RTWTYPES_H
+  //#include <rtwtypes.h>  //from simulink
   #ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
     #include <tmwtypes.h>  
   #endif
 #endif
+
+#include <stdint.h>
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -87,6 +90,14 @@
 
 
 
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  #define bool int
+  #undef false
+  #undef true
+  #define false 0
+  #define true (!false)
+#endif
 
 
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
@@ -98,16 +109,6 @@
 #define OSAL_bool1(COND) ((COND) ? 1 : 0) 
 //#define OSAL_bool1(COND) (COND)
 
-#ifndef __cplusplus
-  //If C-compiling is used, define the C++-keywords for C
-  //Note: regard that any other system file may define that too.
-  //Note defined in Matlab\R2016a\extern\include\tmwtypes.h
-  #define bool int
-  #ifndef false
-    #define false 0
-    #define true (!false)
-  #endif  
-#endif
 
 
 /**It is a little or big-endian memory organisation: */
@@ -131,6 +132,8 @@
 
 
 #define __Simulink__
+#define PC_SIMULATION
+#define __Smlk_Simulation__
 #ifndef TEST_MODULE
   #undef TEST_MODULE
 #endif
@@ -152,40 +155,43 @@
  */
 #define int8      int8_T
 #define uint8     uint8_T
-#define int8_t    int8_T
-#define u_int8_t  uint8_T
-#define uint8_t   int8_T
 
 #define int16     int16_T
 #define uint16    uint16_T
-#define int16_t   int16_T
-#define u_int16_t uint16_T
-#define uint16_t  uint16_T
 
 #define int32     int32_T
 #define uint32    uint32_T
-#define int32_t   int32_T
-#define u_int32_t uint32_T
-#define uint32_t  uint32_T
 
 //Simulink does not know 64-bit-int, define types with standard-C compiler specific.
 #define int64 __int64
 #define uint64 __int64
-#define int64_t __int64
-#define u_int64_t __int64
-#define uint64_t __int64
 
 #define bool8    uint8_T
-#define bool8_t  uint8_T
 #define bool16   uint16_T
-#define bool16_t uint16_T
 //Standard-character and UTF16-character:
 #define char8    uint8_T
 #define char16   uint16_T
-#define char8_t  uint8_T
-#define char16_t uint16_T
 #define float32  float
 
+
+#define u_int8_t  uint8_T
+#define u_int16_t uint16_T
+#define u_int64_t __int64
+#define u_int32_t uint32_T
+
+#ifndef _STDINT
+  //already defined in <stdint.h>
+  #define int8_t    int8_T
+  #define uint8_t   int8_T
+  #define int16_t   int16_T
+  #define uint16_t  uint16_T
+  #define int32_t   int32_T
+  #define uint32_t  uint32_T
+  #define int64_t __int64
+  #define uint64_t __int64
+  #define char8_t  uint8_T
+  #define char16_t uint16_T
+#endif
 
 
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
@@ -200,7 +206,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 
 /**int-type which can represent a standard pointer. */
-#define intPTR uint32
+#define intPTR uint64
 
 
 /**Definition of the really used types in variable argument lists. 

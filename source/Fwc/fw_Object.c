@@ -35,14 +35,15 @@
  *
  ****************************************************************************/
 #include <Fwc/objectBaseC.h>
+#include <stdio.h>
 //dependencies:
 //assertJc
 //getCurrent_ThreadContextFW
 //throw_s0Jc
 
-#ifdef DEFINE_debugPRINTF
-FILE* debugPRINTF = null;
-#endif
+//#ifdef DEFINE_debugPRINTF
+char const* debugPRINTF[10] = {0};
+//#endif
 
 #include <string.h> //memset
 
@@ -196,6 +197,98 @@ int getIdentInfo_ObjectJc(ObjectJc const* ythis)
 }
 
 
+
+
+static bool checkRefl(ClassJc const* refl, char const* reflection)
+{ 
+  if(refl == null) { 
+    return false;
+  }
+  if(refl->object.ownAddress != (ObjectJc const*)refl) { 
+    return false;
+  }
+  if(refl->object.reflectionClass == null) { 
+    return false; //The reflection class should have exact Object data.
+  }
+  if(strcmp(refl->object.reflectionClass->name, "ClassJc")!=0){ 
+    return false; //The reflection class should have exact Object data.
+  }
+
+  return (strcmp(refl->name, reflection) ==0);
+}
+
+
+
+
+int getIdxMtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName)
+{ int idxMtbl = -1;
+  ClassOffset_idxMtblJcARRAY const* reflectionSuper;
+  STACKTRC_ENTRY("getIdxMtbl_ClassJc");
+  if(reflectionObj == null)
+  { //if no reflection is used, it is able in C++ environment or if no dynamic linked methods are used.
+    idxMtbl = -1; //mIdxMtbl_ObjectJc;  //causes an error if it will be used!
+  }
+  else
+  { if(reflectionName == null)  //if no reflection is prescribed:
+    { idxMtbl = 0;  //returns the Mtbl_ObjectJc
+    }
+    //else if(strcmp(reflectionName, "ObjectJc")==0)
+    //{ idxMtbl = 0;  //returns the whole Mtbl for the type.
+    //}
+    else if (strcmp(reflectionObj->name, reflectionName) == 0) {
+      idxMtbl = 0;  //returns the Mtbl for this instance.
+    }
+    else
+    { ClassOffset_idxMtblJcARRAY const* reflectionIfc = 
+        (ClassOffset_idxMtblJcARRAY const*)reflectionObj->interfaces;
+      if( reflectionIfc != null)
+      { int idxIfc;
+        for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
+        { ClassOffset_idxMtblJc const* reflectionChild;
+          reflectionChild = &reflectionIfc->data[idxIfc];
+          if(strcmp(reflectionChild->clazz->name, reflectionName)==0)
+          { idxMtbl = reflectionChild->idxMtbl;
+          }
+        }
+      }
+      else
+      { idxMtbl = -1;
+      }
+    }
+    if(idxMtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
+    { int idxSuper = 0;
+      for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+      { ClassOffset_idxMtblJc const* reflectionChild;
+        reflectionChild = &reflectionSuper->data[idxSuper];
+        if(strcmp(reflectionChild->clazz->name, reflectionName)==0)
+        { idxMtbl = reflectionChild->idxMtbl;
+        }
+        else
+        { //Recursive call because deeper inheritance:
+          idxMtbl = getIdxMtbl_s_ClassJc(reflectionChild->clazz, reflectionName);
+        }
+      }
+    }
+    { //search in superclasses and there interfaces
+      //old if only 1 superclass:
+      //idxMtbl = getIdxMtbl_ClassJc(reflectionObj->superClass, reflectionRef);
+    }
+
+  }
+  STACKTRC_LEAVE; return(idxMtbl);
+}
+
+
+
+
+
+
+
+bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
+{ 
+  int idxMtbl = getIdxMtbl_s_ClassJc(ythis->reflectionClass, reflectionName);
+  return idxMtbl >=0;
+}
 
 
 
