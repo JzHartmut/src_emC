@@ -76,7 +76,6 @@
 //#include "Jc/ReflectionJc.h"
 #include <string.h>
 #include <stdarg.h>
-#include <fw_assert.h>
 #include <stdlib.h>  //abs
 //compatibility
 #define StringBufferJc StringBuilderJc
@@ -1279,7 +1278,7 @@ bool wasTruncated_StringBuilderJc(StringBuilderJc* ythis);
  * or -1 if the text is referenced.
  */
 INLINE_Fwc int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int16 size){
-  ASSERT_s0_Fwc(size < abs(thiz->size), "faulty size", size);
+  ASSERTJc_EXCLMAX(size, abs(thiz->size));
   if(thiz->size > 0) {
     thiz->size = size;
     return sizeof(StringBuilderJc)  - sizeof(thiz->value) + size;

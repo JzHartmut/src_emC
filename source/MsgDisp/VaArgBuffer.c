@@ -139,7 +139,7 @@ void copyFrom_VaArgBuffer(VaArgBuffer* ythis, char const* formatText, Va_listFW 
       { ythis->data = va_arg(src_args, VaArgBuffer_Data_s);  //it is a memcpy, because struct copy from stack.
       }
       else
-      { ASSERT(src.typeArgs == null || *src.typeArgs == 0); //typeArgs should be empty also! All others is a software error. Exception warrantable.
+      { ASSERTJc_TEST(src.typeArgs == null || *src.typeArgs == 0); //typeArgs should be empty also! All others is a software error. Exception warrantable.
       }
     }
   }

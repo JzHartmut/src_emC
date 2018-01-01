@@ -93,7 +93,7 @@ void checkSize_MemC(MemC mem, int size, struct ThreadContextFW_t* _thCxt)
 MemC fromArea_MemC(void* address, void* endAddress)
 { MemC mem;
   int size = (MemUnit*)endAddress - (MemUnit*)address;
-  ASSERT_Fwc(size >=0);
+  ASSERTJc_MIN(size, 0);
   set_MemC(mem, address, size);
   return mem;
 }

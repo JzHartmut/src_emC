@@ -80,15 +80,15 @@ bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis, int32 identNumber
   //The casting is deterministic because the type MyStruct is tested.
   Mtbl_LogMessageFW const* mtbl;
   bool bRet;
-  //STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
+  STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
   MtblHeadJc const* mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
   mtbl = (Mtbl_LogMessageFW const*)mtblO;
-  ASSERT(mtbl != null && mtbl->head.sign == sign_Mtbl_LogMessageFW);
+  ASSERTJc_RET(mtbl != null && mtbl->head.sign == sign_Mtbl_LogMessageFW, (STACKTRC_LEAVE, false));
   //if(mtbl == null) THROW_s0(IllegalArgumentException, "Method-table not found",0);
   //if(mtbl->sign != &sign_Mtbl_LogMessageFW) THROW_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   //sText = getCharConst_StringJc(text, uText, sizeof(uText));  //get the char const* from text.
   bRet = mtbl->sendMsgVaList(ythis,identNumber, timestamp, text, args, _thCxt);
-  //STACKTRC_LEAVE; 
+  STACKTRC_LEAVE; 
   return bRet;
 
 }

@@ -8,7 +8,6 @@
 //Note: uncomment that to check whether this file is included:
 //#error used_Jc_stdef_SmlkSfuncExcH
 
-
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
  * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
  */
@@ -21,9 +20,7 @@
 #include <compl_adaption.h>
 
 //This block before <OSAL/os_types_def_common.h>
-#ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
 #include <tmwtypes.h>  //from simulink
-#endif
 #define DEFINED_float_complex     
 #define float_complex creal32_T
 #define DEFINED_double_complex
@@ -36,30 +33,20 @@
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
 
-#include <fw_assert.h>  //Note: after os_types_def_common because extern_C
+#include <incApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
 
-
-
-/**Include this file always. It defines some things usefull for all sources. */
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_MemC.h>
-
-//Use full capability for ObjectJc, necessary for Pointer check and reflection.
-#include <Fwc/objectBaseC.h>
-/**Use the exception handling header file - or define the macros TRY, by yourself. */
-#include <Fwc/fw_Exception.h>
-//#include <Fwc/fw_ExcStacktrcNo.h>
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
-#include <FwConv_h/EnhanceRef_simple.h>
+//Include before fw_String.h because it is used there.
+#include <incApplSpecific/applConv/EnhanceRef_simple.h>
 
 
-//Don't compile CharSeqJc capabilities. It simplifies the dependencies of source
-//This is for only simple String processing in numeric or control applications.
-//no, complete! #define __NoCharSeqJcCapabilities__
-#include <Fwc/fw_String.h>
+/**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
+//#define __NoCharSeqJcCapabilities__
 
 
+
+/**Use the exception handling header file - or define the macros TRY, by yourself. */
 /** If this define is setted, the TRY, CATCH and THROW makros use the C++ keywords
   * try, throw and catch. All sources, also the *.c-Sources of the CRuntimeJavalike,
   * may be compiled with a C++-Compiler.
@@ -73,11 +60,13 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#ifdef __cplusplus
-  //#define __TRYCPPJc
-#else
-  #undef __TRYCPPJc  //cannot be used on C language
-#endif
+#define __TRYCPPJc
+
+#include <Fwc/fw_threadContext.h>
+#include <Fwc/fw_Exception.h>
+//#include <Fwc/fw_ExcStacktrcNo.h>
+
+
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
  * Because a forgotten STACKTRC_LEAVE-macro call won't be detected else,
@@ -103,7 +92,6 @@
 
 //extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
 
-#include <FwConv_h\EnhanceRef_simple.h>
 
 #define kMaxPathLength_FileJc 500
 

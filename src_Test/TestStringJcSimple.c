@@ -43,15 +43,15 @@ int testStringBuilderJc(StringJc input)
 
 void testConstants()
 {
-  ASSERT_Fwc(mLength__StringJc == 0x3fff);
-  ASSERT_Fwc(kIs_0_terminated_StringJc == 0x3fff);
-  ASSERT_Fwc(kIsStringBuilder_CharSeqJc == 0x3ffe);
-  ASSERT_Fwc(kIsCharSeqJc_CharSeqJc == 0);
-  ASSERT_Fwc(mIsCharSeqJcMtbl_CharSeqJc == 0);
-  ASSERT_Fwc(mMtbl_CharSeqJc == 0);
-  ASSERT_Fwc(kMaxNrofChars_StringJc == 0x3ffd);
-  ASSERT_Fwc(mNonPersists__StringJc == 0x4000);
-  ASSERT_Fwc(mThreadContext__StringJc == 0x8000);
+  ASSERTJc(mLength__StringJc == 0x3fff);
+  ASSERTJc(kIs_0_terminated_StringJc == 0x3fff);
+  ASSERTJc(kIsStringBuilder_CharSeqJc == 0x3ffe);
+  ASSERTJc(kIsCharSeqJc_CharSeqJc == 0);
+  ASSERTJc(mIsCharSeqJcMtbl_CharSeqJc == 0);
+  ASSERTJc(mMtbl_CharSeqJc == 0);
+  ASSERTJc(kMaxNrofChars_StringJc == 0x3ffd);
+  ASSERTJc(mNonPersists__StringJc == 0x4000);
+  ASSERTJc(mThreadContext__StringJc == 0x8000);
 
 }
 
@@ -68,7 +68,7 @@ void main(void)
 
 
 
-void stopAssert_Fwc(char const* file, int line)
+void stopASSERTJc(char const* file, int line)
 {
   printf("Assertion failed at line %d in %s\n", line, file);
 }

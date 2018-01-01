@@ -3,7 +3,7 @@
 
 #include <Fwc/fw_Exception.h>
 
- #define stop_AssertJc()
+// #define stop_AssertJc()
 
 #define exceptionInfo_AssertJc(TEXT, EXC, FIRST, NR, THCTX) exceptionInfo_B_AssertJc(TEXT, EXC, FIRST, NR, true, THCTX) 
 

@@ -137,7 +137,7 @@ FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc(ObjectJc* othis, FileJc_s* fil
   STACKTRC_TENTRY("ctorO_fB_FileOutputStreamJc");
   checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &reflection_FileOutputStreamJc_s, _thCxt); 
   fileName = getPath_FileJc(file);  //the path like given in ctor_FileJc, it may be relative.
-  ASSERT(isZeroTerminated_StringJc(fileName)); //a known property assumed.
+  ASSERTJc_TEST(isZeroTerminated_StringJc(fileName)); //a known property assumed.
   hFile = os_fopenToWrite(PTR_StringJc(fileName), append);
   ythis->file = hFile;
   if(file == null)

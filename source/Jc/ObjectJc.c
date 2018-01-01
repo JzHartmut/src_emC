@@ -249,7 +249,7 @@ Mtbl_ObjectJc const* xxxgetMtbl_ObjectJc(ObjectJc const* ythis, ClassJc const* t
   {
     idxMtbl = getIdxMtbl_ClassJc(clazz, type);
     if(idxMtbl < 0) THROW_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
-    ASSERT_Fwc(clazz->mtbl != null);
+    ASSERTJc_RET(clazz->mtbl != null, (STACKTRC_LEAVE, null));
     //sign is the first reference of ObjectJc-methodtable, indices the first reference of the interface or superclass.
     mtbl = (Mtbl_ObjectJc const*)( &(&clazz->mtbl->sign)[idxMtbl]);  
     //mtbl = (struct MT_TypeJc_t const*)( ((MT_void_Method_void*)(clazz->mtbl)) + idxMtbl);

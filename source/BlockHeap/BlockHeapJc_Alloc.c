@@ -337,9 +337,9 @@ bool checkSignificance_BlockHeapBlockJc(BlockHeapBlockJc* ythis, struct BlockHea
   if(ownHeap == null){ ownHeap = ythis->heap; }
   heapObj = &ownHeap->base.object;
 
-  ASSERT(ownHeap == ythis->heap && ownHeap != null);
+  ASSERTJc_RET(ownHeap == ythis->heap && ownHeap != null, false);
 
-  ASSERT(instanceof_ObjectJc(heapObj, &reflection_BlockHeapJc));
+  ASSERTJc_RET(instanceof_ObjectJc(heapObj, &reflection_BlockHeapJc), false);
   return true;
 }
 
@@ -691,7 +691,7 @@ static ListMapEntryJc* initMapEntryNodes_BlockHeapJc(BlockHeapJc* ythis, ThCxt* 
   retBlock = (ListMapEntryJc*)(block+1);  //casting: address after head
   if(ythis->firstMapEntry == null){
     //it is initial
-    ASSERT(ythis->lastMapEntry == null);
+    ASSERTJc_TEST(ythis->lastMapEntry == null);
     ythis->firstMapEntry = ythis->lastMapEntry = retBlock;
   }
   //the retBlock is the first block of 
@@ -816,7 +816,7 @@ void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct
     } while(!bSuccess && --catastrophicRepeatCount >=0);
   }
   block->typeOrMaxRef +=1;  //count up free blocks.
-  ASSERT((block->typeOrMaxRef & mSmallBlock_Type_Object)==kMapEntryBlock_Type_BlockHeapBlockJc); //it will be faulty if the count of blocks fails.
+  ASSERTJc_THROW((block->typeOrMaxRef & mSmallBlock_Type_Object)==kMapEntryBlock_Type_BlockHeapBlockJc); //it will be faulty if the count of blocks fails.
   if(catastrophicRepeatCount < 0){
     THROW_s0(RuntimeException,"compareAndSet-fail",0);
   }

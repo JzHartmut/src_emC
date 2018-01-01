@@ -57,6 +57,13 @@
 #define __fw_Exception_h__
 
 #include <Fwc/fw_ExceptionDefs.h>
+#include <Fwc/fw_SimpleC.h>
+#include <Fwc/fw_String.h>
+
+#ifndef __cplusplus
+  //For a C compiler, __TRYCPPJc cannot be used.
+  #undef __TRYCPPJc
+#endif
 
 #ifndef __StringJc_defined__
   //minimalistic definition of StringJc to use this type before including Fwc/fw_StringJc
@@ -108,11 +115,7 @@ typedef struct ExceptionJc_t
 
 
 
-#ifndef __TRYCPPJc
-  #define NULL_ExceptionJc() { 0, NULL_StringJc, 0 }
-#else
-  #define NULL_ExceptionJc() { 0, NULL_StringJc, 0 }
-#endif
+#define NULL_ExceptionJc() { 0, NULL_StringJc, 0 }
 
 /**Gets the exception describing text to the number. 
  * This method is called in [[printStackTraceFile_ExceptionJc(...)]] especially.
@@ -264,7 +267,7 @@ typedef struct StacktraceJc_t
 #else
   //#define STACKTRC_LEAVE _thCxt->stacktrc.stacktrace = stacktrace.previous
   //Restore the index in stacktrace.
-  #define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = stacktrace.ixPrev;
+  #define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = stacktrace.ixPrev
 #endif
 
 

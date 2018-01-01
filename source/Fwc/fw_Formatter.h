@@ -33,7 +33,7 @@
  */
 #ifndef __fw_Formatter_h__
 #define __fw_Formatter_h__
-
+#include <applstdefJc.h>
 #include <os_time.h>
 #include <Fwc/fw_Va_list.h>
 #include <Fwc/fw_String.h>

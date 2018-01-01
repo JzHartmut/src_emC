@@ -201,7 +201,7 @@ struct StringPartJc_t* ctorO_Csii_StringPartJc(ObjectJc* othis, CharSeqJc src, i
     thiz->begiMin = thiz->begin = /*? assignment*/start;
     thiz->endMax = thiz->end = /*? assignment*/end;
     thiz->content = src;
-    ASSERT(/*J2C:static method call*/end <= length_CharSeqJc(thiz->content/*J1cT2*/, _thCxt));
+    ASSERTJc_TEST(/*J2C:static method call*/end <= length_CharSeqJc(thiz->content/*J1cT2*/, _thCxt));
   }
   STACKTRC_LEAVE;
   return thiz;

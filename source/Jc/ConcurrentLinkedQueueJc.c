@@ -599,7 +599,7 @@ Node_ConcurrentLinkedQueueJc*  new_Node_ConcurrentLinkedQueueJcF(ConcurrentLinke
     do
     { Node_ConcurrentLinkedQueueJc*  newFirstFreeNode;
       newNode = *firstFreeNode;
-      ASSERT(newNode != null);   //null is not valid!
+      ASSERTJc_TEST(newNode != null);   //null is not valid!
       if(newNode == NOTEXISTING_Node_ConcurrentLinkedQueueJc)
       { bRepeatCompareAndSet = false;
         set_MemC(mem, null, 0);
@@ -653,7 +653,7 @@ void restitute_Node_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, N
   {
     //MemC mem = build_MemC((void* /*not volatile*/)node, sizeof(*node));
     int error = free_MemC(node);
-    ASSERT(error==0);
+    ASSERTJc_TEST(error==0);
   }
   STACKTRC_LEAVE;
 }

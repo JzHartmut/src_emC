@@ -207,6 +207,14 @@ typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 /**Union of int64 and its fractions. */
 typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
+
+#define DEFINED_float_complex     
+#define float_complex creal32_T
+#define DEFINED_double_complex
+#define double_complex creal64_T
+
+
+
 /* *****************************************************************************
 ***** from basisdefs.h
 */
@@ -322,8 +330,8 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
  * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
-#define OS_PtrVal_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
-
+#define OS_PtrValue_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
+#define OS_PtrVal_DEF OS_PtrValue_DEF
 
 /**A const definition takes 3 arguments, but the type of them depends from operation system.
  * @param PTR a pointer from a type*-type.
@@ -346,6 +354,15 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ref = (char*)(PTR); }
 
+/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
+ * but in the 32-bit-System the handle value is equal the pointer value.
+ * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
+ * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
+ * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
+ * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ */
+#define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
+
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
   #define INLINE_Fwc inline
@@ -362,15 +379,6 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_Fwc const
 #endif
-
-/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
- * but in the 32-bit-System the handle value is equal the pointer value.
- * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
- * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
- * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
- * Used especially in Simulink S-Functions for bus elements and outputs which are references.
- */
-#define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
 
 

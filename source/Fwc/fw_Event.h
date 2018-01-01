@@ -36,6 +36,7 @@
  ************************************************************************************************/
 #ifndef __fw_Event_h__
 #define __fw_Event_h__
+#include <applstdefJc.h>
 #include <Fwc/objectBaseC.h>
 
 /**This structure describes a full qualified event which may be a base strucure (super class) of an derivated event.

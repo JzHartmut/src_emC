@@ -685,7 +685,7 @@ typedef struct  StringBuilderJc_t
 #ifndef StringBuilderJcREFDEF
   #define StringBuilderJcREFDEF
   #ifndef TYPE_EnhancedRefJc
-    #error include definition of TYPE_EnhancedRefJc before this!
+    #error missing definition of TYPE_EnhancedRefJc, applstdefJc.h should define that.
   #endif
   typedef TYPE_EnhancedRefJc(StringBuilderJc);
 #endif

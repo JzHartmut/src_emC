@@ -43,6 +43,7 @@
 #define uint unsigned int
 #define ulong unsigned long int
 
+
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
  * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
@@ -81,7 +82,9 @@
   #define METHOD_C
   #define extern_C_BLOCK_ 
   #define _END_extern_C_BLOCK 
-  #define INLINE_C static
+  #ifndef INLINE_C  //may be defined in compl_adaption.h
+    #define INLINE_C static  //a compiler may optimize static routines.
+  #endif
 #endif
 #endif//__NoReflection__
 

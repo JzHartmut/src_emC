@@ -472,7 +472,9 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
       int idxField = position & 0x7FFF;
       int32 posLength;
       /**Significance check to prevent failed access: */
-      ASSERT(idxClass >0 && idxClass < 1000 && idxField >=0 && idxField < 0xfff);
+      ASSERTJc_CORR(idxClass >0 && idxClass < 1000 && idxField >=0 && idxField < 0xfff)
+      { idxClass  = 1; idxField = 0;
+      }
 
       posLength = getInfoDebug_RemoteCpuJc(getOffsetLength_RemoteCpuJc, segment_MemSegmJc(instance), null, idxClass<<16 |idxField);
       position = posLength & 0x0000ffff; //position-part in bit15..0

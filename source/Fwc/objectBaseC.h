@@ -44,6 +44,9 @@
 #ifndef __objectBaseC__h__
 #define __objectBaseC__h__
 
+#include <Fwc/fw_MemC.h>
+
+
 struct ThreadContextFW_t;
 
 /**This file defines only the struct Object_Jc_t and the base interface ObjectifcBase_Jcpp.
@@ -294,11 +297,11 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
   * You should use that {} -level which is related to the position of the ObjectJc-data in the instance.
   * ,,Type myData2 = { INITIALIZER_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
   * @param INSTANCE the variable to initialize itself to store its address and gets its size. 
+  *        Note: The size of the INSTANCE must be lesser than 64 kByte (see [[mSizeSmall_objectIdentSize_ObjectJc]]
   * @param IDENT may be 0, see attribute ,,objectIdentSize,,. The size bits will be completed. 
   * @param REFLECTION maybe null, the reflection class of the constant object.
   * @since 2016-04: the better form.
 */
-//#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { { (ObjectJc*)&(INSTANCE)} , { REFLECTION }, {sizeof(INSTANCE) | IDENT, 0, kNoSyncHandles_ObjectJc, 0}}
 #define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { {(ObjectJc*)&(INSTANCE)} , { REFLECTION } , {{sizeof(INSTANCE) | (IDENT<<kBitTypeSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
 
 /**Initializer for any instance with {0}. Should be used on stack variable especially before they are handled with a ctor...(...).*/

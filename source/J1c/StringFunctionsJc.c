@@ -1080,7 +1080,7 @@ int32 indexOfAnyString_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, int
     
     
     int32  pos = from;
-    ASSERT(/*J2C:static method call*/listStrings->head.length < 100);/*static size is need*/
+    ASSERTJc_TEST(/*J2C:static method call*/listStrings->head.length < 100);/*static size is need*/
     
     
     StringBufferJc  sFirstCharBuffer = { 0 };//J2C: constructor for embedded element-ObjectJc
@@ -1396,7 +1396,7 @@ int16 byte2UTF8_StringFunctionsJc(/*J2C:static method*/ int8_Y* src, int32_Y* ix
       }
     }/*    */
     
-    ASSERT(/*J2C:static method call*/b == 0xff);
+    ASSERTJc_TEST(/*J2C:static method call*/b == 0xff);
     
     int8  b8 = src->data[ixSrc->data[0]++];
     if((b8 & 0xc0) != 0x80) { STACKTRC_LEAVE;

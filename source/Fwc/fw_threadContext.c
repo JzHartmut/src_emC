@@ -40,8 +40,6 @@
  ****************************************************************************/
 #include <Fwc/fw_ThreadContext.h>
 
-#include <fw_assert.h>
-
 #include <string.h>
 
 
@@ -88,7 +86,7 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContextFW_s* _
 
 
 MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContextFW_s* _thCxt)
-{ ASSERT_s0_Fwc(size >= -1, "faulty size argument", size);
+{ ASSERT_s0_Jc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
   if(_thCxt->bufferAlloc.ref == null) {
     setUserBuffer_ThreadContextFw(alloc_MemC(2000), _thCxt);

@@ -220,7 +220,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt){
   }
   if(val <= kMaxNrofChars_StringJc) return val;
   #ifdef __NoCharSeqJcCapabilities__
-    else { ASSERT_Fwc(val == kIsStringBuilder_CharSeqJc);
+    else { ASSERTJc(val == kIsStringBuilder_CharSeqJc);
       return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc));
     }
   #else
@@ -253,7 +253,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContextFW_t* _
     }
   }
   #ifdef __NoCharSeqJcCapabilities__
-    else { ASSERT_Fwc(val == kIsStringBuilder_CharSeqJc);
+    else { ASSERTJc(val == kIsStringBuilder_CharSeqJc);
       return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc), pos, _thCxt);
     }
   #else
@@ -608,7 +608,7 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
       padd = buAdd->size < 0 ? buAdd->value.buffer : buAdd->value.direct;
     }
     #ifdef __NoCharSeqJcCapabilities__
-      else ASSERT_Fwc(false); 
+      else ASSERTJc(false); 
     #else
       else {
         ObjectJc* oadd = PTR_OS_PtrValue(add, ObjectJc);

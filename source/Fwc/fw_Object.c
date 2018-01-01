@@ -50,11 +50,12 @@ char const* debugPRINTF[10] = {0};
 /**Initialize. */
 ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
 { STACKTRC_ENTRY("init_ObjectJc");
-  ASSERT_Fwc(sizeObj >= sizeof(ObjectJc));
-  //cc2016-10 memset(ythis, 0, sizeObj);  //don't clear the instance because some references etc. maybe initalized with { ... }
-  ythis->ownAddress = ythis;
-  ythis->state.b.idSyncHandles = kNoSyncHandles_ObjectJc;
-  setSizeAndIdent_ObjectJc(ythis, sizeObj, identObj);
+  ASSERTJc_IF(sizeObj >= sizeof(ObjectJc))
+  { //cc2016-10 memset(ythis, 0, sizeObj);  //don't clear the instance because some references etc. maybe initalized with { ... }
+    ythis->ownAddress = ythis;
+    ythis->state.b.idSyncHandles = kNoSyncHandles_ObjectJc;
+    setSizeAndIdent_ObjectJc(ythis, sizeObj, identObj);
+  }
   STACKTRC_LEAVE; return ythis;
 }
 
