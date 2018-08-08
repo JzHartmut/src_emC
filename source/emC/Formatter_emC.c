@@ -48,10 +48,12 @@
  *
  ****************************************************************************/
 
-#include <Fwc/fw_Formatter.h>
-#include <Fwc/fw_SimpleC.h>         //ARRAYLEN
-#include <Fwc/fw_Exception.h>       //STACKTRC_...
-#include <Fwc/fw_ThreadContext.h>   //os_getCurrentStacktraceThreadContext()
+#include <emC/Formatter_emC.h>
+#include <emC/SimpleC_emC.h>         //ARRAYLEN
+#include <emC/Exception_emC.h>       //STACKTRC_...
+#include <emC/ThreadContext_emC.h>   //os_getCurrentStacktraceThreadContext()
+#include <emC/TimeConversions_emC.h>   //os_getCurrentStacktraceThreadContext()
+#include <emC/Va_list_emC.h>   //os_getCurrentStacktraceThreadContext()
 #include <string.h>             //strchr(), strlen(), memset()
 #include <stdio.h>
 
@@ -115,7 +117,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
           }
           if(format != null)
           { 
-            int nrofChars = sprintf(sprintfBuffer, format, nYear);
+            int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), format, nYear);
             if(nrofChars > (maxPosBuffer - posBuffer))
             { nrofChars = maxPosBuffer - posBuffer; //truncate it.
             }
@@ -142,7 +144,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
           }
           else
           {
-            int nrofChars = sprintf(sprintfBuffer, "%2.2i", nMonth);
+            int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", nMonth);
             if(nrofChars > (maxPosBuffer - posBuffer))
             { nrofChars = maxPosBuffer - posBuffer; //truncate it.
             }
@@ -151,7 +153,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
           }
         } break;
         case 'd':
-        { int nrofChars = sprintf(sprintfBuffer, "%2.2i", (int)timeYsec.day);
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)timeYsec.day);
           if(nrofChars > (maxPosBuffer - posBuffer))
           { nrofChars = maxPosBuffer - posBuffer; //truncate it.
           }
@@ -160,7 +162,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
         } break;
         case 'H': 
         case 'h':  //temporary: convert h like H because application errors exists.
-        { int nrofChars = sprintf(sprintfBuffer, "%2.2i", nHour);
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", nHour);
           if(nrofChars > (maxPosBuffer - posBuffer))
           { nrofChars = maxPosBuffer - posBuffer; //truncate it.
           }
@@ -177,7 +179,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
           posBuffer += nrofChars;
         } break;
         case 'K':  //hour from 1 to 12
-        { int nrofChars = sprintf(sprintfBuffer, "%2.2i", (int)(nHour >=12 ? nHour-11 : nHour+1));
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)(nHour >=12 ? nHour-11 : nHour+1));
           if(nrofChars > (maxPosBuffer - posBuffer))
           { nrofChars = maxPosBuffer - posBuffer; //truncate it.
           }
@@ -185,7 +187,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
           posBuffer += nrofChars;
         } break;
         case 'm':
-        { int nrofChars = sprintf(sprintfBuffer, "%2.2i", (int)timeYsec.minute);
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)timeYsec.minute);
           if(nrofChars > (maxPosBuffer - posBuffer))
           { nrofChars = maxPosBuffer - posBuffer; //truncate it.
           }
@@ -193,7 +195,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
           posBuffer += nrofChars;
         } break;
         case 's':
-        { int nrofChars = sprintf(sprintfBuffer, "%2.2i", (int)timeYsec.sec);
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)timeYsec.sec);
           if(nrofChars > (maxPosBuffer - posBuffer))
           { nrofChars = maxPosBuffer - posBuffer; //truncate it.
           }
@@ -209,7 +211,7 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
             case 2: format = "%2.2u"; millisec /= 10; break;
             default: format = "%3.3u"; break;
           }
-          { int nrofChars = sprintf(sprintfBuffer, format, millisec);
+          { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), format, millisec);
             if(nrofChars > (maxPosBuffer - posBuffer))
             { nrofChars = maxPosBuffer - posBuffer; //truncate it.
             }
@@ -471,7 +473,7 @@ int toString_Float_FW(char* buffer, int zBuffer, float value, char cFormat, int 
     format[1] = (char8)('0' + width);
     format[3] = (char8)('0' + precision);
     format[4] = cFormat;
-    nrofChars = sprintf(buffer, format, value);  //TODO check zBuffer.
+    nrofChars = snprintf(buffer, zBuffer, format, value);  //TODO check zBuffer.
     
   }
   else
@@ -484,8 +486,8 @@ int toString_Double_FW(char* buffer, int zBuffer, double value, char cFormat, in
 { int nrofChars;
   if(strchr("eEfGg", cFormat)!=null)
   { char format[20] = {0};
-    sprintf(format, "%%%d.%d%c", width, precision, cFormat);
-    nrofChars = sprintf(buffer, format, value);
+    snprintf(format, sizeof(format), "%%%d.%d%c", width, precision, cFormat);
+    nrofChars = snprintf(buffer, zBuffer, format, value);
   }
   else
   { nrofChars = -1;
@@ -556,7 +558,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
   //parse the output and control string:
   if(typedArgs.typeArgs !=null){
     //type of args is given, then take it!
-    strncpy(sTypeArgs, typedArgs.typeArgs, sizeof(sTypeArgs));
+    strcpy_emC(sTypeArgs, typedArgs.typeArgs, sizeof(sTypeArgs));
   } //else: the 0 will be overwritten by a default selection in parsePrinfStyleString_fwFormatter.
   //
   //nrofParseResult = parsePrinfStyleString_fwFormatter(parseResult, ARRAYLEN(parseResult), sFormat, sFormat);
@@ -575,7 +577,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
         overflow = true;
         nrofCharsToCopy = (zBuffer - iBuffer -1);
       }
-      strncpy(buffer+iBuffer, sFormat1, nrofCharsToCopy);
+      memcpy(buffer+iBuffer, sFormat1, nrofCharsToCopy);
       iBuffer += nrofCharsToCopy; //may be reached zBuffer if buffer is full.
       sFormat1 = sFormat2;  //continue after it.
     }

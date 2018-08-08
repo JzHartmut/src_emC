@@ -39,16 +39,16 @@
  *
  ****************************************************************************/
 #ifndef __applstdefJc_h__
-  /**This file fw_ThreadContext.h or fw_Exception.h should be included in the applstdefJc.h. 
-   * If this file is directly included, it needs the applstdefJc.h. But the __fw_ThreadContext_h__ guard should not be set firstly
+  /**This file fw_ThreadContext.h or fw_Exception.h should be included in the applstdef_emC.h. 
+   * If this file is directly included, it needs the applstdef_emC.h. But the __fw_ThreadContext_h__ guard should not be set firstly
    * to include the fw_ThreadContext.h in the given order in applstddef.h
    */
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 #ifndef __fw_ThreadContext_h__
 #define __fw_ThreadContext_h__
 
-#include <Fwc/fw_MemC.h>
+#include <emC/MemC_emC.h>
 struct TryObjectJc_t;
 
 #define __ThreadContextFW_supported__

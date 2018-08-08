@@ -33,13 +33,13 @@
  */
 #ifndef __fw_Formatter_h__
 #define __fw_Formatter_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <os_time.h>
-#include <Fwc/fw_Va_list.h>
-#include <Fwc/fw_String.h>
+#include <emC/Va_list_emC.h>
+#include <emC/String_emC.h>
 
 struct ThreadContextFW_t;
-//#include "Fwc/fw_LogMessage.h" //only because Va_listFW, TODO
+//#include "emC/LogMessage.h" //only because Va_listFW, TODO
 
 /*@CLASS_C ParseResultPrintfStyle_fwFormatter @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -153,6 +153,6 @@ extern_C int format_va_arg_Formatter_FW(struct ThreadContextFW_t* _thCxt, const 
                                         , char* buffer, int zBuffer, Va_listFW vargList);
 
 
-#include <Fwc/fw_timeconversions.h>
+#include <emC/Timeconversions_emC.h>
 
 #endif //__fw_Formatter_h__

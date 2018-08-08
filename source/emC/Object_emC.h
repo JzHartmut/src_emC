@@ -39,12 +39,12 @@
  * 2007-10-00: JcHartmut creation, dissolved from ObjectJc.h
  *
  ****************************************************************************/
-#include <applstdefJc.h>  //Note: define before include-guards because applstdefJc,h may include this file too.
+#include <applstdef_emC.h>  //Note: define before include-guards because applstdef_emC,h may include this file too.
 //The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __objectBaseC__h__
 #define __objectBaseC__h__
 
-#include <Fwc/fw_MemC.h>
+#include <emC/MemC_emC.h>
 
 
 struct ThreadContextFW_t;

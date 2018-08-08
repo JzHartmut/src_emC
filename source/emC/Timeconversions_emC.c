@@ -35,7 +35,7 @@
  * 2010-01-19: Hartmut creation, the source were written in 1996, taken from old time2nn.c, part of source from fw_Formatter.c
  *
  ****************************************************************************/
-#include "Fwc/fw_timeconversions.h"
+#include "emC/Timeconversions_emC.h"
 
 
 /**

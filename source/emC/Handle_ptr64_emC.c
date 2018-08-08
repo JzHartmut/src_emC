@@ -1,5 +1,5 @@
 #include <Fwc/fw_handle_ptr64.h>
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <OSAL/os_sharedmem.h> 
 #include <Fwc/fw_SimpleC.h>
 

@@ -32,7 +32,7 @@
  *
  * @version 0.83
  */
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include "Jc/ReflectionJc.h"
 
 
@@ -355,7 +355,7 @@ const ClassJc reflection_double_complex =
 
 
 
-#include "Fwc/objectBaseC.h"
+#include "emC/Object_emC.h"
 
 
 extern_C const ClassJc reflection_ObjectJc;  //the just defined reflection_

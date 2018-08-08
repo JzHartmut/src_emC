@@ -28,18 +28,32 @@
 *
 * This file contains only operations without dependencies to other CRJ files. 
 */
-#include <applstdefJc.h>
-#include <Fwc/objectBaseC.h>
-#include <Fwc/fw_String.h>
+#include <applstdef_emC.h>
+#include <emC/Object_emC.h>
+#include <emC/String_emC.h>
 #include <string.h>  //C-standard
 
 //Note: Implementation to search \0 in an limited range. 
 int strlen_Fwc(char const* text, int maxNrofChars)
-{ register char const* text1 = text;
+{
+  register char const* text1 = text;
   register char const* text9 = text + maxNrofChars;
   //optimization: test only one pointer register, which is incremented too
-  while(text1 < text9 && *text1 != 0){ text1+=1;}
+  while (text1 < text9 && *text1 != 0) { text1 += 1; }
   return (text1 - text);
+}
+
+
+//Note: effective and safe implementation, better then strncpy and strlcpy.
+int strcpy_emC(char* dst, char const* src, int lenDst)
+{ if(lenDst <=0) return 0;
+  register char const* src1 = src - 1;  //use pre-increment
+  register char const* src9 = src + lenDst-1;  //exclusive max end address to use for char copy
+  register char* dst1 = dst-1;  //use pre-increment
+  //optimization: test only one pointer register, which is incremented too
+  while (++src1 < src9 && *src1 != 0) { *(++dst1) = *src1; }  //more optimized: use 32 bit access.
+  *(++dst1) = 0; //anyway 0-terminated
+  return (src1 == src9)? lenDst : (src1 - src);
 }
 
 

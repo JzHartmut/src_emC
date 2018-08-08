@@ -1,13 +1,13 @@
 /************************************************************************************************
  * Copyright/Copyleft:
  *
- * For this source the LGPL Lesser General Public License,
+ * For this source the LGPL Lesser General Public Licens
+ * 3) Every user of this source, also the user of redistribute copies
+ *    with or without payment, must accept this license for further using.e,
  * published by the Free Software Foundation is valid.
  * It means:
  * 1) You can use this source without any restriction for any desired purpose.
  * 2) You can redistribute copies of this source to everybody.
- * 3) Every user of this source, also the user of redistribute copies
- *    with or without payment, must accept this license for further using.
  * 4) But the LPGL ist not appropriate for a whole software product,
  *    if this source is only a part of them. It means, the user
  *    must publish this part of source,
@@ -46,11 +46,11 @@
  *
  ****************************************************************************/
 #ifndef __applstdefJc_h__
-  /**This file fw_SimpleC.h should be included in the applstdefJc.h. 
-   * If this file is directly included, it needs the applstdefJc.h. But the __simpleC_h__ guard should not be set firstly
+  /**This file fw_SimpleC.h should be included in the applstdef_emC.h. 
+   * If this file is directly included, it needs the applstdef_emC.h. But the __simpleC_h__ guard should not be set firstly
    * to include the fw_SimpleC.h in the given order in applstddef.h
    */
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 #ifndef __simpleC_h__
 #define __simpleC_h__

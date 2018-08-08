@@ -38,10 +38,10 @@
  * 2007-05-00: JcHartmut creation
  *
  ****************************************************************************/
-#include <Fwc/fw_ThreadContext.h>
+#include <emC/ThreadContext_emC.h>
 
 #include <string.h>
-#include <Fwc/fw_SimpleC.h>
+#include <emC/SimpleC_emC.h>
 
 StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis)
 { StacktraceThreadContext_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_s);

@@ -46,13 +46,13 @@
  */
 
 //Styleguide: Include the own header first, it should include all necessary depending headers itself. 
-#include <Fwc/fw_String.h>
+#include <emC/String_emC.h>
 
 #ifndef __NoCharSeqJcCapabilities__  
   //contains any function declarations here called:
   #include <Jc/StringJc.h>
   //contains ObjectJc definition.
-  #include <Fwc/objectBaseC.h>
+  #include <emC/Object_emC.h>
 #endif
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.

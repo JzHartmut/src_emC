@@ -39,7 +39,7 @@
  ****************************************************************************/
 #ifndef __fw_LogMessage_h__
 #define __fw_LogMessage_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 //#include "fw_simpleC.h"
 #include <Fwc/fw_Va_list.h>
 //#include <Jc/ObjectJc.h>

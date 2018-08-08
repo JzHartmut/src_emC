@@ -7,7 +7,7 @@
 #define __Fwc_fw_readline_h
 
 //#include <stdio.h>
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <os_file.h>
 
 /*@CLASS_C ReadLine_Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

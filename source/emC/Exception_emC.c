@@ -39,13 +39,13 @@
  *
  ****************************************************************************/
 
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception_emC.h>
 
-#include <Fwc/fw_String.h>
+#include <emC/String_emC.h>
 #ifndef __NOT_SUPPORTED_ExceptionJc__
 
-#include <Fwc/fw_ThreadContext.h>
-#include <Fwc/fw_SimpleC.h>     //ARRAYLEN
+#include <emC/ThreadContext_emC.h>
+#include <emC/SimpleC_emC.h>     //ARRAYLEN
 #include <os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>

@@ -41,11 +41,11 @@
  ****************************************************************************/
 
 #ifndef __applstdefJc_h__
-  /**This file fw_Exception.h should be included in the applstdefJc.h. 
-   * If this file is directly included, it needs the applstdefJc.h. But the __fw_Exception_h__ guard should not be set firstly
+  /**This file fw_Exception.h should be included in the applstdef_emC.h. 
+   * If this file is directly included, it needs the applstdef_emC.h. But the __fw_Exception_h__ guard should not be set firstly
    * to include the fw_Exception.h in the given order in applstddef.h
    */
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 
 #ifndef __fw_ThreadContext_h__
@@ -56,9 +56,9 @@
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
 
-#include <Fwc/fw_ExceptionDefs.h>
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_String.h>
+#include <emC/ExceptionDefs_emC.h>
+#include <emC/SimpleC_emC.h>
+#include <emC/String_emC.h>
 
 #ifndef __cplusplus
   //For a C compiler, __TRYCPPJc cannot be used.
@@ -66,12 +66,12 @@
 #endif
 
 #ifndef __StringJc_defined__
-  //minimalistic definition of StringJc to use this type before including Fwc/fw_StringJc
+  //minimalistic definition of StringJc to use this type before including emC/StringJc
   typedef OS_PtrVal_DEF(StringJc, void const);
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 
-#include "Fwc/fw_MemC.h"
+#include "emC/MemC_emC.h"
 #ifndef __TRYCPPJc
   #include <setjmp.h>
 #endif
@@ -461,7 +461,7 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
  * All other elements are not used here.
  * There are not necessary here, but used in macro definitions.
  */
-//#include "Fwc/fw_ThreadContext.h"
+//#include "emC/ThreadContext.h"
 
 /* OLD:A ThreadContext is necessarry, but it is not defined here.
  * It have to be contained for the Stacktrace theme: 

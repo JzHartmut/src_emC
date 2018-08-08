@@ -36,7 +36,7 @@
  ************************************************************************************************/
 #ifndef __Fwc_fw_Time_h__
 #define __Fwc_fw_Time_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <Fwc/objectBaseC.h>
 
 

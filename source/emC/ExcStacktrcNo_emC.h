@@ -35,11 +35,11 @@
  *
  ****************************************************************************/
 #ifndef __applstdefJc_h__
-  /**This file fw_Exception.h should be included in the applstdefJc.h. 
-   * If this file is directly included, it needs the applstdefJc.h. But the __fw_Exception_h__ guard should not be set firstly
+  /**This file fw_Exception.h should be included in the applstdef_emC.h. 
+   * If this file is directly included, it needs the applstdef_emC.h. But the __fw_Exception_h__ guard should not be set firstly
    * to include the fw_Exception.h in the given order in applstddef.h
    */
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 
 #ifndef __fw_ExcStacktrcNo_h__
@@ -56,7 +56,7 @@
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 
-#include <Fwc/fw_ExceptionDefs.h>
+#include <emC/ExceptionDefs_emC.h>
 
 //#include <Fwc/fw_String.h>
 
@@ -97,6 +97,7 @@ typedef struct ExceptionJc_t
 #define FINALLY
 #define END_TRY }
 
+#define THROW(EXCEPTION, TEXT, VAL)  throw_sJc_("##EXCEPTION##", TEXT, VAL, __LINE__)
 #define THROW(EXCEPTION, TEXT, VAL)  throw_sJc_("##EXCEPTION##", TEXT, VAL, __LINE__)
 #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc_("##EXCEPTION##", TEXT, VAL, __LINE__)
 #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc_("##EXCEPTION##", TEXT, VAL, __LINE__)

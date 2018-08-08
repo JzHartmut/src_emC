@@ -34,7 +34,7 @@
  * 2007-10-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <Fwc/fw_MemC.h>
+#include <emC/MemC_emC.h>
 #include <os_mem.h>
 #include <string.h>
 

@@ -37,11 +37,11 @@
  * 2010-02-01 Hartmut new: _CHARS_StringJc(REF) to access the character pointer for internal access
  *************************************************************************************************/
 #ifndef __applstdefJc_h__
-  /**This file should be included in the applstdefJc.h. 
-   * If this file is directly included, it needs the applstdefJc.h. But the __guard__ 
+  /**This file should be included in the applstdef_emC.h. 
+   * If this file is directly included, it needs the applstdef_emC.h. But the __guard__ 
    * should not be set firstly to include the MemC.h in the given order in applstddef.h
    */
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 //The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __fw_String_h__
@@ -49,9 +49,9 @@
 
 
 //NOTE: struct ObjectJc should be known for the StringBuilderJc, defined here.
-//It is possible to include <FwConv_h/ObjectJc_simple.h> in the <applstdefJc.h> for the simple concept.
+//It is possible to include <FwConv_h/ObjectJc_simple.h> in the <applstdef_emC.h> for the simple concept.
 //instead. See usage of guards there.
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 
 struct ObjectJc_t;
 struct StringBuilderJc_t;
@@ -73,6 +73,43 @@ struct Mtbl_CharSeqJc_t;
  * @return the number of chars till \0 or maxNrofChars. 
  */
 extern_C int strlen_Fwc(char const* text, int maxNrofChars);
+
+
+
+/**Copies the src to the limited dst with preventing overflow and guaranteed 0-termination.
+ * This is a alternate implementation of strncpy (it does not guaranteed a 0-termination)
+ * and a alternate implementation of strlcpy from BSD (it does not count the maybe unused length of src).
+ *
+ * Copies maximal sizeDst-1 characters from src to dst but ends on a \0 chararcter in src. 
+ * Ends the dst with a \0 in any case. Do nothing for the rest of bytes in dst till dst + sizeDst 
+ * (no squandering of calculation time for unsued things).
+ *
+ * To concatenate Strings one can write:
+ * char buffer[20];
+ * char* dst = buffer;
+ * int zdst = sizeof(buffer);
+ * int zcpy = 0;
+ * zdst -= zcpy = strlcpy_emC(dst, src1, zdst);
+ * zdst -= zcpy = strlcpy_emC(dst += zcpy, src2, zdst);
+ * zdst -= zcpy = strlcpy_emC(dst += zcpy, src3, zdst);
+ * //etc.
+ * If zdst is 0, nothing is done furthermore.
+ *
+ * @param dst A buffer to hold a 0-terminated C-string with at least sizeDst free bytes.
+ * @param src C-String
+ * @param size either number of use-able bytes from dst inclusive terminating \0. 
+ *     Usual sizeof(dst) if dst is a char buffer[...]
+ *     or the (desired number of character from src +1) if src is not 0-terminated. 
+ *     In the last one case the application should consider that size <= sizeof(dst). 
+ *     if sizeDst <=0, do nothing and returns 0.
+ * @return The number of characters copied without ending \0 if the \0 in src was found 
+       or == sizeDst if the \0 in src was not found (not copied till 0-end).
+ *   The user can check: if(returnedvalue >= sizeDst){ //set flag it is truncated ...
+ *   The return value is anytime a value between 0 and <=sizeDst, never <0 and never > sizeDst.
+ *   The return value is the strlen(dst) if it is < sizeDst.
+ */
+extern_C int strcpy_emC(char* dst, char const* src, int sizeDst);
+
 
 /**Searches a character inside a given string with terminated length.
  * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
@@ -637,7 +674,7 @@ extern_C struct Mtbl_CharSeqJc_t const* getMtbl_CharSeqJc(CharSeqJc thiz, struct
 #endif
 
 /*@CLASS_C StringBuilderJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 
 
 //#define staticSize_StringBuilderJc 80
@@ -740,7 +777,7 @@ typedef struct  StringBuilderJc_t
 #ifndef StringBuilderJcREFDEF
   #define StringBuilderJcREFDEF
   #ifndef TYPE_EnhancedRefJc
-    #error missing definition of TYPE_EnhancedRefJc, applstdefJc.h should define that.
+    #error missing definition of TYPE_EnhancedRefJc, applstdef_emC.h should define that.
   #endif
   typedef TYPE_EnhancedRefJc(StringBuilderJc);
 #endif

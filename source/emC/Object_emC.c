@@ -34,8 +34,8 @@
  * 2009-06-24: Hartmut creation, dissolved from ObjectJc.c
  *
  ****************************************************************************/
-#include <Fwc/objectBaseC.h>
-#include <Fwc/fw_String.h>
+#include <emC/Object_emC.h>
+#include <emC/String_emC.h>
 #include <stdio.h>
 //dependencies:
 //assertJc

@@ -42,11 +42,11 @@
  *
  ****************************************************************************/
 #ifndef __applstdefJc_h__
-  /**This file MemC should be included in the applstdefJc.h. 
-   * If this file is directly included, it needs the applstdefJc.h. But the __MemC_h__ guard should not be set firstly
+  /**This file MemC should be included in the applstdef_emC.h. 
+   * If this file is directly included, it needs the applstdef_emC.h. But the __MemC_h__ guard should not be set firstly
    * to include the MemC.h in the given order in applstddef.h
    */
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 
 
