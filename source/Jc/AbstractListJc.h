@@ -56,6 +56,7 @@ typedef struct AbstractCollectionJc_t
   /**Access to a pool of free Entries to link, getted from a BlockHeapJc.
    * This attribute may be null if no determined blockHeap should be used.
    * If both, blockHeap and freeEntryPool are null, the standard BlockHeapJc is used.
+   * @refl: void*.
    */
   struct NodePoolJc_t* nodePool;
   

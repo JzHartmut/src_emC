@@ -252,6 +252,11 @@ extern_C int os_fsetLength(OS_HandleFile file, int32_t newlength);
 
 
 /**Writes bytes to file.
+ * @param buffer any address which content is written. It may be a 0-terminated char const* too.
+ * @param nrofbytes If >0 then this number of bytes will be written in any case.
+ *        If <0 then the strlen_Fwc(buffer, -nrofbytes) determines the nrof bytes to write.
+ *        It means the negavive value is the maximal length of the 0-terminated string referenced with buffer.
+ *        If ==0 no write is done.
  * @return if >=0, than all the bytes are written. <0 on error.
  * This method may be delayed (thread switch is possible), if the conditions to write are met, 
  * but the write process requires a delaying. 

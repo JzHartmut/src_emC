@@ -46,8 +46,8 @@
 
 
 #include "OsWrapperJc.h"
-
-#include <Jc/ObjectJc.h>
+#include <Fwc/fw_SimpleC.h>
+//#include <Jc/ObjectJc.h>
 #include <Fwc/fw_Exception.h>
 #include <os_thread.h>
 #include <os_time.h>
@@ -58,13 +58,14 @@
 
 #include <string.h>
 
+
 OsWrapperJc_s data_OsWrapperJc = { 0 };
 
 
 
 /**This routine is called only onetime after startup. */
 int initFreeHandleEntry()
-{ int zHandleItems = ARRAYLEN(data_OsWrapperJc.handleItemsJc);
+{ int zHandleItems = ARRAYLEN_SimpleC(data_OsWrapperJc.handleItemsJc);
   int ii;
   data_OsWrapperJc.handleItemsJc[0].handle.nextFree = kNoFreeHandleItem;  //let the first unused, no using of index 0!
   data_OsWrapperJc.freeHandle = &data_OsWrapperJc.handleItemsJc[1];
@@ -106,7 +107,7 @@ HandleItem* getFreeHandleEntry(int16* idx)
     }
   }
   int tryCt = 10000;
-  while(--tryCt > 0) {
+  do { 
     theHandleItem = data_OsWrapperJc.freeHandle;
     if(theHandleItem == kNoFreeHandleItem)
     { *idx = -2;  //TODO passenden Win-error
@@ -116,7 +117,7 @@ HandleItem* getFreeHandleEntry(int16* idx)
     if(compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.freeHandle), theHandleItem, nextFree)) {
       break;  //if succeeded
     }
-  }
+  } while(--tryCt > 0);
   if(tryCt == -1) {
     *idx = -2;  //too many try, only in catastrophical situation. But the while should be broken!
     return null;

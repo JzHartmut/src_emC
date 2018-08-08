@@ -39,3 +39,5 @@ DEFINE_REFLECTION_REF(LocaleJc);
 
 
 LocaleJc_s ROOT_LocaleJc = CONST_LocaleJc(&ROOT_LocaleJc, "__", "", "");
+
+#include "genRefl/Jc/LocaleJc.crefl"

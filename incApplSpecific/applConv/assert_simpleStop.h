@@ -15,13 +15,13 @@ extern_C bool stop_AssertJc();  //have to return true
 #define ASSERTJc_TEST(COND) { if(!(COND)) { stop_AssertJc(); }}
 
 
-#define ASSERTJc_MIN(VAR, MIN) { if(VAR <(MIN)) { stop_AssertJc(); VAR = MIN; } }
+#define ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ stop_AssertJc(); VAR = MIN; } }
 
-#define ASSERTJc_MAX(VAR, MAX) { if(VAR >(MAX)) { stop_AssertJc(); VAR = MAX; } }
+#define ASSERTJc_MAX(VAR, MAX) { if(!(VAR <(MAX))){ stop_AssertJc(); VAR = MAX; } }
 
-#define ASSERTJc_EXCLMAX(VAR, MAX) { if(VAR >=(MAX)) { stop_AssertJc(); VAR = (MAX)-1; } }
+#define ASSERTJc_EXCLMAX(VAR, MAX) { if(!(VAR <(MAX))) { stop_AssertJc(); VAR = (MAX)-1; } }
 
-#define ASSERTJc_RANGE(VAR, MIN, MAX) { if(VAR <(MIN)) { stop_AssertJc(); VAR = MIN; } else if(VAR >(MAX)) { stop_AssertJc(); VAR = MAX; }   }
+#define ASSERTJc_RANGE(VAR, MIN, MAX) { if(!(VAR >=(MIN) && VAR<=(MAX))){ stop_AssertJc(); VAR = VAR > (MAX) ? (MAX) : (MIN); } }
 
 
 

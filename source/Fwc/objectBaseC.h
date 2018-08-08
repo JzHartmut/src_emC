@@ -285,7 +285,8 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
  * @param REFLECTION the reflection class of the constant object. It may be ,,null,, also.
  * @deprecated use [[INITIALIZER_ObjectJc(...)]] instead
 */
-#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { { (ObjectJc*)(OWNADDRESS) }, { REFLECTION }, { TYPESIZEOF, 0 + (kNoSyncHandles_ObjectJc<<12) + 0}}
+//#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { { (ObjectJc*)(OWNADDRESS) }, { REFLECTION }, { TYPESIZEOF, 0 + (kNoSyncHandles_ObjectJc<<16) + 0}}
+#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { { (ObjectJc*)(OWNADDRESS) }, { REFLECTION }, { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, 0 }}
 //#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) {TYPESIZEOF, OWNADDRESS, 0, kNoSyncHandles_ObjectJc, REFLECTION }
 
 

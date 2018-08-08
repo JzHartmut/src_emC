@@ -68,18 +68,6 @@
 
 
 
-//The same file from Simulink R2016a on C:/Programs/Matlab/R2016a/extern/include/tmwtypes.h
-//defines the standard times in simulink manner.
-//int32_T, uint32_T etc.
-#ifndef RTWTYPES_H  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
-  //prevent including rtwtypes.h because for PC platform tmwtypes.h contains the same proper definitions.
-  #define RTWTYPES_H
-  //#include <rtwtypes.h>  //from simulink
-  #ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
-    #include <tmwtypes.h>  
-  #endif
-#endif
-
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -163,23 +151,23 @@
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
  */
-#define int8      int8_T
-#define uint8     uint8_T
-#define int8_t    int8_T
-#define u_int8_t  uint8_T
-#define uint8_t   int8_T
+#define int8      signed char
+#define uint8     unsigned char
+#define int8_t    signed char
+#define u_int8_t  unsigned char
+#define uint8_t   unsigend char
 
-#define int16     int16_T
-#define uint16    uint16_T
-#define int16_t   int16_T
-#define u_int16_t uint16_T
-#define uint16_t  uint16_T
+#define int16     short
+#define uint16    unsigned short
+#define int16_t   short
+#define u_int16_t unsigned short
+#define uint16_t  unsigned short
 
-#define int32     int32_T
-#define uint32    uint32_T
-#define int32_t   int32_T
-#define u_int32_t uint32_T
-#define uint32_t  uint32_T
+#define int32     int
+#define uint32    unsigned int
+#define int32_t   int
+#define u_int32_t unsigned int
+#define uint32_t  unsigned int
 
 //Simulink does not know 64-bit-int, define types with standard-C compiler specific.
 #define int64 __int64
@@ -188,15 +176,15 @@
 #define u_int64_t __int64
 #define uint64_t __int64
 
-#define bool8    uint8_T
-#define bool8_t  uint8_T
-#define bool16   uint16_T
-#define bool16_t uint16_T
+#define bool8    unsigned char
+#define bool8_t  unsigned char
+#define bool16   unsigned short
+#define bool16_t unsigned short
 //Standard-character and UTF16-character:
-#define char8    uint8_T
-#define char16   uint16_T
-#define char8_t  uint8_T
-#define char16_t uint16_T
+#define char8    char
+#define char16   unsigned short
+#define char8_t  char
+#define char16_t short
 #define float32  float
 
 
@@ -209,9 +197,11 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 
 #define DEFINED_float_complex     
-#define float_complex creal32_T
+//#define float_complex creal32_T
+typedef struct float_complex_t { float re; float im; } float_complex; 
 #define DEFINED_double_complex
-#define double_complex creal64_T
+//#define double_complex creal64_T
+typedef struct double_complex_t { double re; double im; } double_complex; 
 
 
 
@@ -269,7 +259,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
-//#undef  NULL
+#undef  NULL
 #define NULL 0
 #undef null
 #define null 0
@@ -418,8 +408,9 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 #endif
 
 //#ifdef __cplusplus
-#define max(A, B) ( (A) > (B) ? (A) : (B) )
-#define min(A, B) ( (A) < (B) ? (A) : (B) )
+//NOTE: it is defined in the same kind in the stdlib.h from Msc6
+//#define max(A, B) ( (A) > (B) ? (A) : (B) )
+//#define min(A, B) ( (A) < (B) ? (A) : (B) )
 //#endif
 
 #ifndef TRUE

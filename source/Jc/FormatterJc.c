@@ -98,4 +98,4 @@ void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContextFW_t* _thCxt)
 }
 
 
-//#include "genRefl/Jc/FormatterJc.crefl"
+#include "genRefl/Jc/FormatterJc.crefl"

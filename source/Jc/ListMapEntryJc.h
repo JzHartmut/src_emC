@@ -74,6 +74,7 @@ typedef struct ListMapEntryJc_t
       the reference contains a reference to the parent Object,
       this is the LinkedList, TreeMap and others,
       for backtrace references for the garbage collection
+      @refl: ObjectJc*.
   */
   ObjectJcREF key;
 
@@ -81,6 +82,7 @@ typedef struct ListMapEntryJc_t
       the reference contains a reference to the parent Object,
       this is the LinkedList, TreeMap and others,
       for backtrace references for the garbage collection
+      @refl: ObjectJc*.
   */
   ObjectJcREF element;
 

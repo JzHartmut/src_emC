@@ -9,3 +9,4 @@ CharsetJc* forNamez_CharsetJc(char const* name, ThCxt* _thCxt) {
   return null;
 }
 
+#include "genRefl/Jc/CharsetJc.crefl"

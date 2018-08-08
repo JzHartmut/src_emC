@@ -327,28 +327,6 @@ bool equals_StringJc(const StringJc ythis, const StringJc cmp)
 }
 
 
-bool equals_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp  )
-{ int countThis = VAL_StringJc(ythis) & mLength__StringJc; 
-  int countCmp = valueCmp & mLength__StringJc;
-  const char* strThis = PTR_StringJc(ythis);
-  if(countThis == mLength__StringJc){
-    countThis = strlen_Fwc(strThis, mLength__StringJc);
-  }
-  if(countCmp == mLength__StringJc){
-    countCmp = strlen_Fwc(strCmp, countThis+1);
-  }
-  if(countCmp != countThis)
-  { return(false);
-  }
-  else if(strThis == strCmp){
-    return true;  //same length and same addresses of text.
-  }
-  else
-  { bool bRet = memcmp(strThis, strCmp, countCmp) == 0;
-    return(bRet);
-  }
-}
-
 
 bool startsWith_StringJc(const StringJc ythis, const StringJc cmp)
 { int countThis = VAL_StringJc(ythis) & mLength__StringJc; 

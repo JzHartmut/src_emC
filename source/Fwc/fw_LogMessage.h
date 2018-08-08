@@ -60,8 +60,8 @@ typedef struct  LogMessageFW_t
   union{ ObjectJc object; } base;
 }LogMessageFW_s;  //_i means an struct useable as interface
 
-
-typedef struct LogMessageFW_MREF_t { struct LogMessageFW_t* ref; struct Mtbl_LogMessageFW_t const* mtbl; } LogMessageFW_MREF;
+//Not used ... TODO idea? necessary? 
+//typedef struct LogMessageFW_MREF_t { struct LogMessageFW_t* ref; struct Mtbl_LogMessageFW_t const* mtbl; } LogMessageFW_MREF;
 
 
 

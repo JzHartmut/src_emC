@@ -67,15 +67,6 @@ StringJc const null_StringJc = NULL_StringJc;
 
 
 
-int strlen_Fwc(char const* text, int maxNrofChars)
-{ register char const* text1 = text;
-  register char const* text9 = text + maxNrofChars;
-  //optimization: test only one pointer register, which is incremented too
-  while(text1 < text9 && *text1 != 0){ text1+=1;}
-  return (text1 - text);
-}
-
-
 /**Searches a character inside a given string with terminated length.
  * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
  */

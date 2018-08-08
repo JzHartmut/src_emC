@@ -6,7 +6,7 @@
 
 
 
-extern_C ClassJc const reflection_SimTime_Inspc;
+//extern_C ClassJc const reflection_SimTime_Inspc;
 
 
 /*@CLASS_C Service_Inspc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

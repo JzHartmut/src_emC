@@ -1,8 +1,8 @@
 #ifndef __InspcTargetProxyTelg_h__
 #define __InspcTargetProxyTelg_h__
 #include <applstdefJc.h>
-#include <os_endian.h>  //supports both big endian conversion and access to even address on memory.
-
+#include <OSAL/os_endian.h>  //supports both big endian conversion and access to even address on memory.
+#include <OSAL/os_sharedmem.h>
 
 /**This enum defines some contants for commands to access to a remote CPU with one call.
  */
@@ -91,12 +91,10 @@ typedef enum Cmd_InspcTargetProxyTelg_t
  */
 typedef struct TelgProxy2Target_Inspc_t
 {
-  /**The length is always 12 because that is the fix length. */
-  int16BigEndian length;
+  /**The length is always 16 because that is the fix length.
+   * One of the Cmd_InspcTargetProxyTelg_e. */
+  int32BigEndian length_cmd;
   
-  /**One of the Cmd_InspcTargetProxyTelg_e. */
-  int16BigEndian cmd;
-
   int32BigEndian seqnr;
 
   /**First info. */
@@ -109,19 +107,31 @@ typedef struct TelgProxy2Target_Inspc_t
 } TelgProxy2Target_Inspc_s;
 
 
-/**This struct describes one item in the telegram from the target. */
+/**This struct describes one item in the telegram from the target or the data for shared memory data exchange. 
+ * It is big endian because usual for telegram communication. 
+ * It is aligned to 32 bit because simple processors supports only 32 bit access to memory or FPGA.
+ * It is alligned to 8 Byte for the whole struct because proper for 64-Bit-Systems (PC).
+ * The first 16bit in big endian are the length, to be compatible with simple Inspc telegrams (checks first 2 Bytes).
+ */
 typedef struct TelgTarget2Proxy_Inspc_s_t
 {
-  /**The length is always 8 because that is the fix length. */
-  int16BigEndian length;
+  /**The length is always 16 because that is the fix length. */
+  int32BigEndian length_cmd;
   
-  int16BigEndian cmd;
-
   int32BigEndian seqnr;
 
   int32BigEndian retValue;
 
+  /**This element is used to evaluate whether the target system runs or not. 
+   * If it runs, the lifeCt should count in a positive range, maybe with 16 or 31 bit.
+   * If the target system has had an initialization error, the error number (maybe negative) should be written here
+   * to have a hint to the cause of the error.
+   */
+  int32BigEndian lifeCt_ErrorState;
+
 } TelgTarget2Proxy_Inspc_s;
+
+
 
 
 
@@ -147,6 +157,42 @@ extern_C const int32* const reflectionOffsetArrays[];
  */
 int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 address, int32 inputVal, void const* mainData
 , int32 const* reflectionOffset_MainData, int32 const* const* reflectionOffsetArrays);
+
+
+
+
+/*@CLASS_C SharedMemAccess_Target2Proxy_Inspc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**This struct contains the management data of two shared memory ranges between target and proxy.
+ * Note: The shared memory approach can/should be used for a dual-port-memory communication in the target hardware too
+ * because only with this approach it can be tested in the adequate way on the PC.
+ * The routines defined in <OSAL/os_sharedMem.h> should be implemented in a target system in a proper way
+ * which immediately delivers the usual defined hardware addresses.
+ */
+typedef struct SharedMemAccess_Target2Proxy_Inspc_t
+{
+  /**The necessary management data for os_sharedMem */
+  SharedMem_OSAL sharedMemMng_target2proxy, sharedMemMng_proxy2target;
+
+  /**Gotten reference to the exchange data range. */
+  TelgTarget2Proxy_Inspc_s* target2proxy;
+
+  /**Gotten reference to the exchange data range. */
+  TelgProxy2Target_Inspc_s* proxy2target;
+
+
+  char name_target2proxy[32], name_proxy2target[32];
+
+} SharedMemAccess_Target2Proxy_Inspc;
+
+
+
+/**Initializes the data and opens the shared memory. 
+ * If the shared memory access failes, the system is aborted via os_FatalError(...).
+ * If it has worked successfully, the pointer target2proxy and proxy2target are set (not null).
+ */
+void ctor_SharedMemAccess_Target2Proxy_Inspc(SharedMemAccess_Target2Proxy_Inspc* thiz, char const* nameAppl);
 
 
 #endif //__InspcTargetProxyTelg_h__

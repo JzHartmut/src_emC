@@ -12,7 +12,7 @@
 //extern_C ClassJc const reflection_TimeSignals_Inspc;
 
 
-TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries)
+TimeSignals_Inspc* XXXXXcreate_TimeSignals_Inspc(int zEntries)
 { TimeSignals_Inspc* thiz = null;
   //int zBytesEntries = zEntries * sizeof(Entry_TimeSignals_Inspc) + sizeof(ObjectArrayJc);
   Entries_TimeSignals_Inspc* entries = (Entries_TimeSignals_Inspc*)new_ObjectArrayJc(zEntries, sizeof(Entry_TimeSignals_Inspc), null, 0); //(Entry_TimeSignals_Inspc*)malloc(zBytesEntries);
@@ -32,64 +32,10 @@ extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
 
 
 
-void XXXctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries)
-{
-  Entries_TimeSignals_Inspc* entries = (Entries_TimeSignals_Inspc*)new_ObjectArrayJc(nrofEntries, sizeof(Entry_TimeSignals_Inspc), null, 0); //(Entry_TimeSignals_Inspc*)malloc(zBytesEntries);
-  thiz->entries = entries;
-  //now constructs.  
-  memset(thiz->nrElements, 1, sizeof(thiz->nrElements));
-  thiz->bitsComplexY = 0;
-  strncpy(thiz->clazz.name, "TimeSignals_Inspc", sizeof(thiz->clazz.name));
-  //thiz->fields.head.
-  thiz->clazz.nSize = sizeof(*thiz);
-  thiz->clazz.attributes = &thiz->fields;
-  int ix;
-  int nrofFields = 0;
-  int zNames = sizeof(thiz->names[0]); //length of name field inclusive \0
-  for(ix = 0; ix < ARRAYLEN_SimpleC(thiz->names); ++ix) {
-    char const* name;
-    if(thiz->names[ix][0] == 0){
-      name =  "?";  //unused field
-    } else {
-      char const* posColon = strchr(thiz->names[ix], ':');
-      if(posColon !=null) {
-        int cComplex = thiz->names[ix][0];
-        int cVector;
-        if (cComplex == 'C') { cVector = thiz->names[ix][1]; }
-        else { cVector = thiz->names[ix][0]; }
-        if (cVector >= '1' && cVector <= '6') {
-          thiz->nrElements[ix] = cVector - '0';
-        } else {
-          thiz->nrElements[ix] = 1;
-        }
-        if(cComplex == 'C') {
-          thiz->bitsComplexY |= 1<<ix; 
-        }
-        int nPosColon = posColon - thiz->names[ix]; 
-        int nrChars = zNames - nPosColon;
-        //adjust the name,without type information.
-        memmove(thiz->names[ix], &thiz->names[ix][nPosColon+1], zNames - nPosColon -1);
-        memset(&thiz->names[ix][zNames - nPosColon -1], 0, nPosColon+1);
-      }
-      name = thiz->names[ix];
-      nrofFields = ix;  //set lastly with the highest number of active field.
-    }
-    FieldJc* field = &thiz->fields.data[ix];
-    field->type_ = (thiz->bitsComplexY & (1<<ix)) ? &reflection_float_complex : REFLECTION_float;
-    field->position = offset_MemAreaC(thiz, &thiz->ya0[6*ix]);  //TRICKY: address ya0..ya15
-    field->nrofArrayElementsOrBitfield_ = thiz->nrElements[ix];
-    strncpy(field->name, name, sizeof(field->name)-1);
-  }
-  FieldJc* field = &thiz->fields.data[++nrofFields];
-  field->type_ = &reflection_TimeSignals_Inspc;  
-  field->position = 0;
-  strncpy(field->name, "thiz$TimeSignals_Inspc", sizeof(field->name)-1);
-  thiz->fields.head.length = nrofFields +1;
-}
 
 
 //new since 2017-07-29
-void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filepath, StringJc reflName, int nrofEntries
+void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, char const filepath[200], StringJc reflName, int nrofEntries
 , StringJc name1, StringJc name2, StringJc name3, StringJc name4
 , StringJc name5, StringJc name6, StringJc name7, StringJc name8
 , StringJc name9, StringJc name10, StringJc name11, StringJc name12
@@ -149,7 +95,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
         if(cComplex == 'C') {
           thiz->bitsComplexY |= 1<<ix; 
         }
-        int nPosColon = posColon - name;  //Difference of char* 
+        int nPosColon = posColon - name +1;  //Difference of char* 
         int nrChars = zName - nPosColon;
         //adjust the name,without type information.
         name += nPosColon;  //char const* shift.
@@ -164,21 +110,26 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filep
     FieldJc* field = &thiz->fields.data[ix];
     field->type_ = (thiz->bitsComplexY & (1<<ix)) ? &reflection_float_complex : REFLECTION_float;
     field->position = offset_MemAreaC(thiz, &thiz->ya0[6*ix]);  //TRICKY: address ya0..ya15
-    field->nrofArrayElementsOrBitfield_ = thiz->nrElements[ix];
+    if(thiz->nrElements[ix] >1) {
+      field->nrofArrayElementsOrBitfield_ = thiz->nrElements[ix];
+      field->bitModifiers = kStaticArray_Modifier_reflectJc;
+    } else {
+      field->nrofArrayElementsOrBitfield_ = 0;
+    }
     strncpy(field->name, name, sizeof(field->name)-1);
   }
-  FieldJc* field = &thiz->fields.data[++nrofFields];
+  FieldJc* field = &thiz->fields.data[++nrofFields]; //the last visible field in Inspector is thiz itself.
   field->type_ = &reflection_TimeSignals_Inspc;  
   field->position = 0;
   strncpy(field->name, "thiz$TimeSignals_Inspc", sizeof(field->name)-1);
   thiz->fields.head.length = nrofFields +1;
   //
-  { //store file name as char const*
-    int zFilepath = copyToBuffer_StringJc(filepath, 0, -1, thiz->filepath, sizeof(thiz->filepath)-1);
-    thiz->filepath[zFilepath] = 0;
+  //{ //store file name as char const*
+  //  int zFilepath = copyToBuffer_StringJc(filepath, 0, -1, thiz->filepath, sizeof(thiz->filepath)-1);
+  //  thiz->filepath[zFilepath] = 0;
     //PRINTF2("TimeSignals - Filepath %s\n", thiz->filepath);
-    readConfig_TimeSignals_Inspc(thiz);
-  }
+  readConfig_TimeSignals_Inspc(thiz, filepath);
+  //}
 }
 
 
@@ -210,8 +161,8 @@ int defOutputPorts_TimeSignals_Inspc(DefPortTypesJc* dst
   names[13] = name14;
   names[14] = name15;
   names[15] = name16;
-  if(zDst >= 17) {  //only run for 16 Ouput ports, not for bits_TimeSignals_Inspc(...) 
-    for(ix = 0; ix < 16; ++ix) {
+  if(zDst >= 18) {  //only run for 1 Input + 17 Ouput ports, not for bits_TimeSignals_Inspc(...) 
+    for(ix = 0; ix < 16; ++ix) {  //ix = 0 .. for output port from 0
       int ixdst = ix +1;  //nrofInput = 1, from output arg 0, adequate to step routine argument list! no-thizInit, no-thizStep is set. 
       if(ixdst >= zDst) { ixdst = 0; } //fatal, unexpected.
       char const* name;
@@ -231,12 +182,12 @@ int defOutputPorts_TimeSignals_Inspc(DefPortTypesJc* dst
           int cComplex = name[0];
           int cVector;
           if (cComplex == 'C') { cVector = name[1]; }
-          else { cVector = name[0]; }
+        else { cComplex = 0; cVector = name[0]; }
           if (cVector >= '1' && cVector <= '6') {
             adst[ixdst].sizeArray[0] = cVector - '0';
           }
           else { 
-            adst[ixdst].sizeArray[0] = 0; 
+            adst[ixdst].sizeArray[0] = 0; //scalar 
           }
           adst[ixdst].type = 'F';
           adst[ixdst].sizeType = sizeof(float);
@@ -271,7 +222,7 @@ char const* init_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Insp
 
 
 
-bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
+bool XXXXXregisterReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode)
 { return registerRefl_DataNode_Inspc(reflNode, thiz, thiz->nameModule, &thiz->clazz);
 }
 
@@ -365,14 +316,15 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
 
 
 
-bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
+bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz, char const* filepath)
 {
   STACKTRC_ENTRY("readConfig_TimeSignals_Inspc");
-  if(thiz->filepath == null || thiz->filepath[0] == 0){
+  //if(thiz->filepath == null || thiz->filepath[0] == 0){
+  if(filepath[0] == 0) {
     thiz->errorCfg = mNoFileName_TimeSignal_Inspc;  //file parameter missing
     return false;
   }
-  OS_HandleFile hfile = os_fopenToRead(thiz->filepath);
+  OS_HandleFile hfile = os_fopenToRead(filepath);
   if(hfile !=0){
 
     FileReaderJc_s fileReader = {0};
@@ -430,7 +382,8 @@ void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 }
 
 
-void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
+
+static void checkNewEntry_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time)
 { int ixChannel;
   int maxWhile = 1000;
   while(--maxWhile >=0 && time >= thiz->stepNext && thiz->ixEntries < thiz->entries->head.length) { //kurze Abfrage in jeder step, normalerweise ist time < thiz->stepNext
@@ -497,21 +450,30 @@ void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
   out[13] = val14_y;
   out[14] = val15_y;
   out[15] = val16_y;
-  step_TimeSignals_Inspc(thiz, _simtime);
+  checkNewEntry_TimeSignals_Inspc(thiz, _simtime);
   for(ix=0; ix < 16; ++ix) {
     int ixv;
     int ix1 = 6 * ix;
     ClassJc const* type = getType_FieldJc(&thiz->fields.data[ix]);
     int z = thiz->fields.data[ix].nrofArrayElementsOrBitfield_;
+    if(z == 0) { z = 1; }
     if(type == &reflection__floatJc)      { 
-      if(z >=6) { z = 1;} 
+      if(z > 6) { z = 1;} 
       for(ixv = 0; ixv < z; ++ixv) { 
         float* outAddr = (float*)(out[ix]);
         float val = ya[ix1 + ixv];
         outAddr[ixv] = val; 
+        val = 0; //dummy, will be optimized. step for debug
       } 
     } else if(type == &reflection_float_complex) { 
-      if(z >=3) { z = 1;} for(ixv = 0; ixv < z; ++ixv) { *((float_complex*)out[ixv]) = *((float_complex*)&ya[ix1+2*ixv]); } }
+      if(z > 3) { z = 1;} 
+      for(ixv = 0; ixv < z; ++ixv) { 
+        float_complex* outAddr = (float_complex*)(out[ix]);
+        float_complex* val = (float_complex*)&ya[ix1 + 2 * ixv];   //use float array for float_complex
+        outAddr[ixv] = *val; //it is a memcpy
+        val = null; //dummy, will be optimized. step for debug  
+      } 
+    }
     else { 
       thiz->errorCfg |= (0x1 << ix); 
     }
@@ -529,7 +491,7 @@ void bits_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
 )
 {
   int ix;
-  step_TimeSignals_Inspc(thiz, _simtime);
+  checkNewEntry_TimeSignals_Inspc(thiz, _simtime);
   int16 bits = 0; 
   //The variables ya0, ya1 ... are arranged one after another.
   //The memory layout is the same like an array ya[16][6];
@@ -552,7 +514,7 @@ void bits_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
 
 
 
-void free_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
+void XXXXXfree_TimeSignals_Inspc(TimeSignals_Inspc* thiz)
 {
   if(thiz !=null){
     free_ObjectArrayJc(&thiz->entries->head);

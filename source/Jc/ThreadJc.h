@@ -97,7 +97,7 @@ typedef struct ThreadJc_t
 
   union { ObjectJc object; RunnableJc_s RunnableJc;} base; 
 
-  /**Ident of the thread, to check the correctnis (debugmodi).*/
+  /**Ident of the thread, to check the correctnis (debugmodi). @refl:void*.*/
   OS_HandleThread hThread;
 
   /**Name of the thread. */

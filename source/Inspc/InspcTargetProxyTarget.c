@@ -3,9 +3,12 @@
  * date first: 2010
  * date last change: 2016-10-29
  */
-#include "InspcTargetProxyTelg.h"
-#include <os_AtomicAccess.h>
+#include "Inspc/InspcTargetProxyTelg.h"
+#include <OSAL/os_AtomicAccess.h>
 #include <applstdefJc.h>
+
+#undef PRINTF2
+#define PRINTF2(TEXT, VAL) //empty.
 
 int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 address, int32 inputVal, void const* mainData
 , int32 const* reflectionOffset_MainData, int32 const* const* reflectionOffsetArrays)

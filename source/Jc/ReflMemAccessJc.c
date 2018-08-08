@@ -518,3 +518,8 @@ void setOutput_MemAccessArrayDebugJc(MemAccessArrayDebugJc* ythis, int32 output)
   ix +=1;  //do not wrap arround, instead start with 0 on root access.
 	ythis->ix = ix;
 }
+
+
+
+
+#include "genRefl/Jc/ReflMemAccessJc.crefl"

@@ -60,25 +60,29 @@
 
 /* PROTOTYPES ************************************************************************************/
 
-static void Win_2_OS(SOCKADDR_IN const* sockaddr, OS_SOCKADDR* name)
+
+
+/**Initializes a OS_SOCKADDR from an Address_InterProcessComm. */
+void set_OS_SOCKADDR(OS_SOCKADDR* dst, uint32 ip, uint16 port)
 {
-   name->sin_family =   sockaddr->sin_family;
-   name->sin_port =    *(int16BigEndian*)&sockaddr->sin_port;    /* internet port number NOTE: it is a int16BigEndian*/
-   name->sin_addr.b_addr[0] = sockaddr->sin_addr.S_un.S_un_b.s_b1;   /* internet address     */
-   name->sin_addr.b_addr[1] = sockaddr->sin_addr.S_un.S_un_b.s_b2;   /* internet address     */
-   name->sin_addr.b_addr[2] = sockaddr->sin_addr.S_un.S_un_b.s_b3;   /* internet address     */
-   name->sin_addr.b_addr[3] = sockaddr->sin_addr.S_un.S_un_b.s_b4;   /* internet address     */
+  dst->address1 = port;
+  dst->address2 = ip;
+  memset(dst->internalData, 0, sizeof(dst->internalData));
 }
 
 
-static void OS_2_Win(OS_SOCKADDR const* name, SOCKADDR_IN* sockaddr)
-{
-    sockaddr->sin_family =                 AF_INET;
-    sockaddr->sin_port =                   name->sin_port.loBigEndian__;  //NOTE it is a int16BigEndian but windows don't know this concept.
-    sockaddr->sin_addr.S_un.S_un_b.s_b1 =  name->sin_addr.b_addr[0];
-    sockaddr->sin_addr.S_un.S_un_b.s_b2 =  name->sin_addr.b_addr[1];
-    sockaddr->sin_addr.S_un.S_un_b.s_b3 =  name->sin_addr.b_addr[2];
-    sockaddr->sin_addr.S_un.S_un_b.s_b4 =  name->sin_addr.b_addr[3];
+
+
+/**Writes the windows address bytes to the addr.internaldata and returns it. */
+static void OS_2_Win(OS_SOCKADDR const* addr, SOCKADDR_IN* sockaddr) {
+  sockaddr->sin_family =                 AF_INET;
+  setInt16BigEndian((int16BigEndian*) &sockaddr->sin_port, (int16)addr->address1);
+  setInt32BigEndian((int32BigEndian*) &sockaddr->sin_addr, addr->address2);
+}
+
+static void Win_2_OS(SOCKADDR_IN* sockaddr, OS_SOCKADDR* addr)
+{ addr->address1 = getInt16BigEndian((int16BigEndian*) &sockaddr->sin_port) & 0x0000ffff;
+  addr->address2 = getInt32BigEndian((int32BigEndian*) &sockaddr->sin_addr);
 }
 
 
@@ -92,7 +96,7 @@ static void OS_2_Win(OS_SOCKADDR const* name, SOCKADDR_IN* sockaddr)
 
 
 
-int os_createStreamSocket(OS_SOCKET* so )
+int os_createServerSocket(OS_ServerSocket* so )
 { 
   int ret;
   WSADATA wsa;
@@ -106,10 +110,10 @@ int os_createStreamSocket(OS_SOCKET* so )
     hSocket = socket(AF_INET, SOCK_STREAM, 0);
     if(hSocket == INVALID_SOCKET)
     { ret = WSAGetLastError() | negativeSign; //mark with negativ sign! Keep the rest of hex-readable value.
-      *so = OS_INVALID_SOCKET;
+      so->socket.socket = OS_INVALID_SOCKET;
     } else {
       ret = 0;
-      *so = (OS_SOCKET)hSocket; //it is a socket.
+      so->socket.socket = (int32)hSocket; //it is a socket.
     }
   }
   return ret;
@@ -117,7 +121,35 @@ int os_createStreamSocket(OS_SOCKET* so )
 
 
 
-int os_createDatagramSocket(OS_SOCKET * so)
+
+
+//same as os_createServerSocket
+int os_createStreamSocket(OS_StreamSocket* so )
+{ 
+  int ret;
+  WSADATA wsa;
+	SOCKET hSocket;
+	ret = WSAStartup(0x0002, &wsa);
+	if(ret != 0){
+    // WSAGetLastError should not be called, WSAStartup return an error code:
+    ret |=negativeSign;  //should be negative
+  } else {
+    //WSAStartup is done, now create a socket:
+    hSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if(hSocket == INVALID_SOCKET)
+    { ret = WSAGetLastError() | negativeSign; //mark with negativ sign! Keep the rest of hex-readable value.
+      so->socket.socket = OS_INVALID_SOCKET;
+    } else {
+      ret = 0;
+      so->socket.socket = (int32)hSocket; //it is a socket.
+    }
+  }
+  return ret;
+}
+
+
+
+int os_createDatagramSocket(OS_DatagramSocket * so)
 { int ret;
   WSADATA wsa;
 	SOCKET hSocket;
@@ -130,17 +162,17 @@ int os_createDatagramSocket(OS_SOCKET * so)
     hSocket = socket(PF_INET, SOCK_DGRAM, 0);
     if(hSocket == INVALID_SOCKET)
     { ret = WSAGetLastError() | negativeSign; //mark with negativ sign! Keep the rest of hex-readable value.
-      *so = OS_INVALID_SOCKET;
+      so->socket.socket = OS_INVALID_SOCKET;
     } else {
       ret = 0;
-      *so = (OS_SOCKET)hSocket; //it is a socket.
+      so->socket.socket = (int32)hSocket; //it is a socket.
     }
   }
   return ret;
 }
 
 
-int os_createIpSocket(OS_SOCKET * so)
+int os_createRawSocket(OS_RawSocket * so)
 { int ret;
   WSADATA wsa;
 	SOCKET hSocket;
@@ -153,26 +185,25 @@ int os_createIpSocket(OS_SOCKET * so)
     hSocket = socket(AF_INET, SOCK_RAW, 0);
     if(hSocket == INVALID_SOCKET)
     { ret = WSAGetLastError() | negativeSign; //mark with negativ sign! Keep the rest of hex-readable value.
-      *so = OS_INVALID_SOCKET;
+      so->socket.socket = OS_INVALID_SOCKET;
     } else {
       ret = 0;
-      *so = (OS_SOCKET)hSocket; //it is a socket.
+      so->socket.socket = (int32)hSocket; //it is a socket.
     }
   }
   return ret;
 }
 
 
-int os_bind(OS_SOCKET so, OS_SOCKADDR const* name)
+int os_bind(OS_Socket so, OS_SOCKADDR const* name)
 {
 	int iRetVal = 0;
-	SOCKADDR_IN socketaddr;
+	SOCKADDR_IN winAddr = {0};
 //	OS_SOCKADDR sockaddr;
-	int socklen = sizeof(socketaddr);
+	int socklen = sizeof(winAddr);
 
-	bzero(&socketaddr,socklen);
-	OS_2_Win(name, &socketaddr);
-	iRetVal = bind(so, (SOCKADDR*)&socketaddr, socklen);
+	OS_2_Win(name, &winAddr);
+	iRetVal = bind(so.socket, (SOCKADDR*)&winAddr, socklen);
 	if (iRetVal == SOCKET_ERROR){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -191,7 +222,7 @@ int os_bind(OS_SOCKET so, OS_SOCKADDR const* name)
 
 
 
-int os_accept(OS_SOCKET so, OS_SOCKADDR* dstAddr, OS_SOCKET* soTcp)
+int os_accept(OS_ServerSocket so, OS_SOCKADDR* dstAddr, OS_StreamSocket* soTcp)
 {
 	int32 iRetVal = 0;
 	SOCKET hSocket;
@@ -199,16 +230,16 @@ int os_accept(OS_SOCKET so, OS_SOCKADDR* dstAddr, OS_SOCKET* soTcp)
 	int len = sizeof(sockaddr);
 
 	bzero(&sockaddr,sizeof(sockaddr));
-	hSocket = accept( (SOCKET)so, (SOCKADDR*) &sockaddr, &len);
+	hSocket = accept( (SOCKET)so.socket.socket, (SOCKADDR*) &sockaddr, &len);
 	if (hSocket == INVALID_SOCKET ){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
       iRetVal |= negativeSign;  //mark with negativ sign! Keep the rest of hex-readable value.
     }
-    *soTcp = OS_INVALID_SOCKET;
+    soTcp->socket.socket = OS_INVALID_SOCKET;
   } else {
     iRetVal = 0;
-    *soTcp = (OS_SOCKET)hSocket;
+    soTcp->socket.socket = (int32)hSocket;
   }
 	Win_2_OS(&sockaddr, dstAddr);
 
@@ -221,11 +252,11 @@ int os_accept(OS_SOCKET so, OS_SOCKADDR* dstAddr, OS_SOCKET* soTcp)
 
 
 
-int os_close(OS_SOCKET so)
+int os_close(OS_Socket so)
 {
 	int iRetVal = 0;
 
-	iRetVal = closesocket( (SOCKET)so );
+	iRetVal = closesocket( (SOCKET)so.socket );
 	if (iRetVal == SOCKET_ERROR ){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -241,20 +272,19 @@ int os_close(OS_SOCKET so)
 
 
 
-int os_connect(OS_SOCKET so, OS_SOCKADDR const* dstAddr)
+int os_connect(OS_StreamSocket so, OS_SOCKADDR const* dstAddr)
 {
 
 	/* No wait loop implemented, that schuld be done in the app level! */
 
 	int iRetVal;
- 	SOCKADDR_IN socketaddr;
+ 	SOCKADDR_IN socketaddr = {0};
 
 
 	int socklen = sizeof(socketaddr);
-	bzero(&socketaddr,socklen);
 	OS_2_Win(dstAddr, &socketaddr);
 
-	iRetVal = connect( (SOCKET)so, (struct sockaddr*) &socketaddr, socklen);
+	iRetVal = connect( (SOCKET)so.socket.socket, (struct sockaddr*) &socketaddr, socklen);
 	if (iRetVal == SOCKET_ERROR){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -270,13 +300,13 @@ int os_connect(OS_SOCKET so, OS_SOCKADDR const* dstAddr)
 
 
 
-int os_ioctlsocket(OS_SOCKET so, int request, void* arg, int arglen)
+int os_ioctlsocket(OS_Socket so, int request, void* arg, int arglen)
 {
 	int iRetVal = 0;
 	int option = FIONBIO;               /* nicht blockierend */
 	unsigned long pn = *((char*)arg);   /* 1 = set NONBLOCKING, 0 = reset NONBLOCKING */
 
-	iRetVal = ioctlsocket( (SOCKET)so, option, &pn);
+	iRetVal = ioctlsocket( (SOCKET)so.socket, option, &pn);
 	if (iRetVal == SOCKET_ERROR ){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -292,11 +322,11 @@ int os_ioctlsocket(OS_SOCKET so, int request, void* arg, int arglen)
 
 
 
-int os_listen(OS_SOCKET so, int backlog)
+int os_listen(OS_ServerSocket so, int backlog)
 {
 	int iRetVal = 0;
 
-	iRetVal = listen( (SOCKET)so, backlog);
+	iRetVal = listen( (SOCKET)so.socket.socket, backlog);
 	if (iRetVal == SOCKET_ERROR){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -309,6 +339,21 @@ int os_listen(OS_SOCKET so, int backlog)
 }
 
 
+
+typedef struct _OS_SOCKSEL
+{  uint16 se_inflags;
+   uint16 se_outflags;
+   OS_Socket se_fd;
+   int       se_1reserved;
+   uint32    se_user;
+   uint32    se_2reserved;
+} OS_SOCKSEL;
+
+
+typedef struct _OS_LINGEROPT
+{  int linger_on;				/* LINGER ON/OFF ( <>0 / 0 ) */	
+   int linger_time;			/* Wait-Zeit in seconds */
+} OS_LINGEROPT;
 
 
 
@@ -326,7 +371,7 @@ int os_nselect(OS_SOCKSEL* selp, int cnt, int32 waitp)
 	FD_ZERO(&fdw);
 	FD_ZERO(&fdx);
 
-	FD_SET((SOCKET)selp->se_fd, &fdr);
+	FD_SET((SOCKET)selp->se_fd.socket, &fdr);
 
 	selp->se_outflags = 0;
    
@@ -349,7 +394,7 @@ int os_nselect(OS_SOCKSEL* selp, int cnt, int32 waitp)
 		else
 		{
 			BYTE buf[2];
-			event = recv(selp->se_fd, (char*)buf, sizeof(buf), MSG_PEEK);
+			event = recv(selp->se_fd.socket, (char*)buf, sizeof(buf), MSG_PEEK);
 			if (event== SOCKET_ERROR)
 			{
 				int err = WSAGetLastError();
@@ -430,11 +475,11 @@ int os_nselect(OS_SOCKSEL* selp, int cnt, int32 waitp)
 
 
 
-int os_recv(OS_SOCKET so, void* buffer, int len, int flags)
+int os_recv(OS_StreamSocket so, void* buffer, int len, int flags)
 {
 	int iRetVal = 0;
 	/* was ist mit den flags ?????????????? nicht kompatibel mit Rmos !! */
-	iRetVal = recv( (SOCKET)so, (char*)buffer, len, flags);
+	iRetVal = recv( (SOCKET)so.socket.socket, (char*)buffer, len, flags);
 	if (iRetVal == SOCKET_ERROR ){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -448,12 +493,12 @@ int os_recv(OS_SOCKET so, void* buffer, int len, int flags)
 
 
 
-int os_recvfrom(OS_SOCKET so, void* buffer, int len, int flags, OS_SOCKADDR* from)
+int os_recvfrom(OS_DatagramSocket so, void* buffer, int len, int flags, OS_SOCKADDR* from)
 {
 	SOCKADDR_IN socketaddr;
 	int nFromlenWin = sizeof(socketaddr);
 
-	int iRetVal = recvfrom( (SOCKET)so, (char*)buffer, len, flags, (SOCKADDR*) &socketaddr, &nFromlenWin); 
+	int iRetVal = recvfrom( (SOCKET)so.socket.socket, (char*)buffer, len, flags, (SOCKADDR*) &socketaddr, &nFromlenWin); 
 	if (iRetVal == SOCKET_ERROR ){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -470,12 +515,12 @@ int os_recvfrom(OS_SOCKET so, void* buffer, int len, int flags, OS_SOCKADDR* fro
 
 
 
-int os_send(OS_SOCKET so, void const* buffer, int len, int flags)
+int os_send(OS_StreamSocket so, void const* buffer, int len, int flags)
 {
 	int iRetVal = 0;
 
 	/* was ist mit den flags ?????????????? nicht kompatibel mit Rmos !! */
-	iRetVal = send( (SOCKET)so, (const char*)buffer, len, flags);
+	iRetVal = send( (SOCKET)so.socket.socket, (const char*)buffer, len, flags);
 	if (iRetVal == SOCKET_ERROR){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -489,18 +534,18 @@ int os_send(OS_SOCKET so, void const* buffer, int len, int flags)
 
 
 
-int os_sendto(OS_SOCKET so, void const* buffer, int len, int flags, OS_SOCKADDR const* to)
+int os_sendto(OS_DatagramSocket so, void const* buffer, int len, int flags, OS_SOCKADDR const* to)
 {
 	int iRetVal;
    
 
 	// returned value will be less than nSize if client cancels the reading
-	SOCKADDR_IN socketaddr;
+	SOCKADDR_IN socketaddr = {0};
 
 	int nTolenWin = sizeof(socketaddr);
 	OS_2_Win(to, &socketaddr);
 
-	iRetVal = sendto( (SOCKET)so, (const char*)buffer, len, flags, (SOCKADDR*) &socketaddr, nTolenWin);
+	iRetVal = sendto( (SOCKET)so.socket.socket, (const char*)buffer, len, flags, (SOCKADDR*) &socketaddr, nTolenWin);
 	if (iRetVal == SOCKET_ERROR){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -515,7 +560,7 @@ int os_sendto(OS_SOCKET so, void const* buffer, int len, int flags, OS_SOCKADDR 
 
 
 
-int os_setsockopt(OS_SOCKET so, int level, int optname, int* optval, int optlen)
+int os_setsockopt(OS_Socket so, int level, int optname, int* optval, int optlen)
 {
 	int iRetVal = 0;
 
@@ -527,11 +572,11 @@ int os_setsockopt(OS_SOCKET so, int level, int optname, int* optval, int optlen)
 		LINGER optvalWin;
 		optvalWin.l_onoff = (uint16)((OS_LINGEROPT*)optval)->linger_on;
 		optvalWin.l_linger = (uint16)((OS_LINGEROPT*)optval)->linger_time;  
-    	iRetVal = setsockopt( (SOCKET)so, level, optname, (const char*)&optvalWin, sizeof(LINGER));
+    	iRetVal = setsockopt( (SOCKET)so.socket, level, optname, (const char*)&optvalWin, sizeof(LINGER));
 	}
 	else{
 		char* optvalWin = (char*)optval;    
-		iRetVal = setsockopt( (SOCKET)so, level, optname, (const char*)optvalWin, sizeof(int)); // sizeof(int) for BOOL opt
+		iRetVal = setsockopt( (SOCKET)so.socket, level, optname, (const char*)optvalWin, sizeof(int)); // sizeof(int) for BOOL opt
 	}
  
 	if (iRetVal == SOCKET_ERROR){
@@ -549,7 +594,7 @@ int os_setsockopt(OS_SOCKET so, int level, int optname, int* optval, int optlen)
 
 
 
-int os_shutdown (OS_SOCKET so, int how)
+int os_shutdown (OS_Socket so, int how)
 {
 	int iRetVal = 0;
 
@@ -566,7 +611,7 @@ int os_shutdown (OS_SOCKET so, int how)
 	default:
 		break;
 	}
-	iRetVal = shutdown( (SOCKET)so, how );
+	iRetVal = shutdown( (SOCKET)so.socket, how );
 	if (iRetVal == SOCKET_ERROR ){
   	iRetVal = WSAGetLastError();
     if(iRetVal >0){
@@ -614,11 +659,11 @@ unsigned long xxxos_ntohl ( unsigned long netlong )
  * @param af The Socket.
  * @param bNonBlocking If true than sets to non blocking, if false than sets to blocking.
  */ 
-int os_setNonBlocking(OS_SOCKET socket, bool bNonBlocking)
+int os_setNonBlocking(OS_DatagramSocket socket, bool bNonBlocking)
 { int retVal;
   if(bNonBlocking)
   { unsigned long argp = 1;
-    retVal = ioctlsocket(socket, FIONBIO, &argp);
+    retVal = ioctlsocket(socket.socket.socket, FIONBIO, &argp);
   }
   else
   { //blocking mode is the standard behavior ...

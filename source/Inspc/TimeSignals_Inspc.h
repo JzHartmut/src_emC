@@ -59,7 +59,7 @@ typedef struct TimeSignals_Inspc_t
   
   #define zya_TimeSignals_Inspc 6
   //NOTE: Use value of 6 for array length for better readability + reflection generation, it cannot process symbolics.
-  /**Belegung von max. 16 floats bis zu 6-er Vektor oder 3 mal complex stimuliert. Verwendung bei [[step_TimeSignals_Inspc(...)]]
+  /**Belegung von max. 16 floats bis zu 6-er Vektor oder 3 mal complex stimuliert. Verwendung bei [[checkNewEntry_TimeSignals_Inspc(...)]]
    * They have to be arranged one after another, so that ya0[5][0] accesses ya5 etc.
    */
   float ya0[6], ya1[6], ya2[6], ya3[6], ya4[6], ya5[6], ya6[6], ya7[6];
@@ -95,7 +95,7 @@ typedef struct TimeSignals_Inspc_t
   int8 nrElements[16];
 
   /**Input file path. */
-  char filepath[200];
+  //char filepath[200];
 
   
 
@@ -106,20 +106,20 @@ typedef struct TimeSignals_Inspc_t
   #ifndef refl
     //don't generate reflection for this block.
 
+    /**The Reflection info will be assembled with the input parameter. */
     ClassJc clazz;
 
-    FieldJc_Y fields;
-
-    FieldJc _fields[17 - zFieldsInHead_FieldJc_Y];
+    /**Fields for type and reflection. Note: FieldJc_Y contains about 10 FieldJc for debugging. Define the rest to 17 after them. 
+     * Note: 16 Fields are necessary for upto 16 outputs. The field after the last used is for the own data struct for debugging. 17 fields are used as maximum.
+     */
+    FieldJc_Y fields; FieldJc _fields_Rest_[17 - zFieldsInHead_FieldJc_Y];
   #endif//refl
 
 } TimeSignals_Inspc;
 
 /**Allocate and construct. */
-TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries);
+//TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries);
 
-
-void XXXctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, int nrofEntries);
 
 /**Register it in a DataNode_Inspc, invoke one time after create. */
 bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNode_Inspc_t* reflNode);
@@ -127,16 +127,25 @@ bool registerReflection_TimeSignals_Inspc(TimeSignals_Inspc* thiz, struct DataNo
 
 /**The channels and filepath should be set before. 
  */
-bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
+bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz, char const* filepath);
 
-void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time);
+//void step_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float time);
 
-void free_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
+//void free_TimeSignals_Inspc(TimeSignals_Inspc* thiz);
 
-/**
+/**Constructor for TimeSignals.
+ * @param Tstep used for Simulink S-Function-Genertion: The associated step time.
+ * @param filepath the absolute or relative file path to the stimuli file.
+ *        Note: It is a pointer with the definition name[size]. 
+ *        The size of the vector has no meaning, it is a feature of C and C++.
+ *        But for simulink S-function generation the size is used 
+ *        as internal buffer size for the argument string. It should be enough for a longer path.
+ * @param reflName The name of this S-Function-data for reflection view.
+ * @paran nrofEntries size of the buffer which holds the timesignal entries read from the timesignals file.
+ *
  * @simulink ctor 
  */
-void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, StringJc filepath, StringJc reflName, int nrofEntries
+void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, char const filepath[500], StringJc reflName, int nrofEntries
 , StringJc name1, StringJc name2, StringJc name3, StringJc name4
 , StringJc name5, StringJc name6, StringJc name7, StringJc name8
 , StringJc name9, StringJc name10, StringJc name11, StringJc name12

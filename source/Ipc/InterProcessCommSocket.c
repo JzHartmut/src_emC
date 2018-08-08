@@ -114,19 +114,15 @@ void xxxsetAddress2_Address_InterProcessComm_SocketF(Address_InterProcessComm_s*
 /**Initializes a OS_SOCKADDR from an Address_InterProcessComm. */
 static void set_AddressIPC_OS_SOCKADDR(OS_SOCKADDR* dst, Address_InterProcessComm_s* src)
 {
-  uint32 ip = src->address2;
-  dst->sin_family = SO_IPNET;
-  setInt16BigEndian(&dst->sin_port, (uint16)src->address1);
-  setInt32BigEndian(&dst->sin_addr.s_addr, ip);
-  dst->sin_zero[0] = dst->sin_zero[1] = 0;
+  set_OS_SOCKADDR(dst, src->address2, (uint16)src->address1); 
 }
 
 
 /**Get address from a OS_SOCKADDR to Address_InterProcessComm. */
 static void set_OS_SOCKADDR_AddressIPC(Address_InterProcessComm_s* dst, OS_SOCKADDR* src)
 {
-  dst->address1 = getInt16BigEndian(&src->sin_port);
-  dst->address2 = getInt32BigEndian(&src->sin_addr.s_addr);
+  dst->address1 = src->address1; //getInt16BigEndian(&src->sin_port);
+  dst->address2 = src->address2; //getInt32BigEndian(&src->sin_addr.s_addr);
 }
 
 
@@ -282,7 +278,11 @@ typedef struct InterProcessCommSocket_t
   bool bStartupDone;
 
   /** the used socket from windows. */
-  OS_SOCKET mySocket;
+  OS_DatagramSocket mySocket;
+
+  OS_StreamSocket myStreamSocket;
+
+  OS_ServerSocket myServerSocket;
 
 	Address_InterProcessComm_Socket_s* adrDest;
 
@@ -318,7 +318,7 @@ typedef struct InterProcessCommSocket_t
   int nServerPorts;
 
   /**Handle des gelistene Serverports*/
-  OS_SOCKET openedServerPort;
+  OS_StreamSocket openedServerPort;
 
 }InterProcessCommSocket_s;
 
@@ -393,7 +393,7 @@ InterProcessComm_s* ctor_InterProcessCommSocket(InterProcessCommSocket_s* ythis,
 
   freeData_InterProcessCommSocket(&ythis->ifc.object, build_MemC(ythis->rxBuffer, sizeof(ythis->rxBuffer)));
 
-  ythis->mySocket = 0;
+  ythis->mySocket.socket.socket = 0;
   ythis->adrDest = NULL;
   ythis->bStartupDone = false;
 
@@ -453,7 +453,7 @@ int open_InterProcessCommSocket
   }
 
   ythis->adrReceive = null;
-  ythis->openedServerPort = 0;
+  //ythis->openedServerPort = 0;
 
   ythis->adrDest = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,destAddress);
 
@@ -471,11 +471,11 @@ int open_InterProcessCommSocket
   /*cast to realy derived class. ownAddressP can only be an instance of Address_InterProcessComm
     because the FactorySocketInterProcessComm::makeOwnAddress is the only method to make instances.
   */
-	if(ythis->mySocket == 0)
+	if(ythis->mySocket.socket.socket == 0)
 	{ //first open, create the socket:
 		if (ythis->m_nSocketType == kStream_InterProcessCommSocket)
 		{
-			nRetVal = os_createStreamSocket(&ythis->mySocket);
+			nRetVal = os_createStreamSocket(&ythis->myStreamSocket);
 
 		}
 		else // SOCK_DGRAM
@@ -492,7 +492,7 @@ int open_InterProcessCommSocket
   		//int nBindOk = os_bind(mySocket, (OSSOCKADDR*)(((OS_SOCKADDR*)ownAddress->internalData)), sizeof(adrMy->socketAddr));
   		OS_SOCKADDR addressee_sockadr;  //The destination address in form of os_socket-conventions.
       set_AddressIPC_OS_SOCKADDR(&addressee_sockadr, ythis->adrMy);
-      nRetVal = os_bind(ythis->mySocket, &addressee_sockadr);
+      nRetVal = os_bind(ythis->mySocket.socket, &addressee_sockadr);
       //nRetVal = os_bind(ythis->mySocket, ((OS_SOCKADDR*)ythis->adrMy->internalData), sizeof(OS_SOCKADDR));
     }
 
@@ -501,7 +501,7 @@ int open_InterProcessCommSocket
       if (ythis->nServerPorts == 0)
       { //TCP-client
         if(ythis->adrDest != null)
-        { nRetVal = os_connect(ythis->mySocket, /*(sockaddr*)*/(((OS_SOCKADDR*)ythis->adrDest->internalData)));
+        { nRetVal = os_connect(ythis->myStreamSocket, /*(sockaddr*)*/(((OS_SOCKADDR*)ythis->adrDest->internalData)));
         }
         else
         { nRetVal = IllegalArgument_InterProcessComm;
@@ -509,7 +509,7 @@ int open_InterProcessCommSocket
       }
 
       else if(ythis->nServerPorts >=1)
-      { nRetVal = os_listen(ythis->mySocket, 0x7fffffff); //TODO ist das OK? SOMAXCONN);
+      { nRetVal = os_listen(ythis->myServerSocket, 0x7fffffff); //TODO ist das OK? SOMAXCONN);
       }
 
     }
@@ -544,13 +544,13 @@ int close_InterProcessCommSocket(ObjectJc* xthis)
   int nRetVal = 0;
 
  	if (ythis->m_nSocketType == kStream_InterProcessCommSocket)
-  {	os_shutdown( ythis->mySocket, SO_BOTH_DOWN);
+  {	os_shutdown( ythis->myStreamSocket.socket, SO_BOTH_DOWN);
   }
-	if (os_close( ythis->mySocket ) != 0)
+	if (os_close( ythis->mySocket.socket ) != 0)
   { nRetVal = socketError_InterProcessComm(); //negative return value
   }
   else
-  { ythis->mySocket = 0;
+  { ythis->mySocket.socket.socket = 0;
 	  ythis->adrDest = NULL;
   }
   return nRetVal;
@@ -570,7 +570,7 @@ int send_InterProcessCommSocket(ObjectJc* xthis, MemC dataP, int nBytes, Address
   //OS_SOCKADDR* addressee_sockadr = (OS_SOCKADDR*)(addressee->internalData);
 
   if(ythis->nServerPorts >=1)
-  { nRet = os_send(ythis->mySocket, data, nBytes, 0);
+  { nRet = os_send(ythis->myStreamSocket, data, nBytes, 0);
   }
   else if (addressee != null)
   { OS_SOCKADDR addressee_sockadr;  //The destination address in form of os_socket-conventions.
@@ -581,7 +581,7 @@ int send_InterProcessCommSocket(ObjectJc* xthis, MemC dataP, int nBytes, Address
   }
   else
   {
-    nRet = os_send(ythis->mySocket, (const char*)(data), nBytes, 0);
+    nRet = os_send(ythis->myStreamSocket, (const char*)(data), nBytes, 0);
   }
 	if (nRet < 0)
 	{
@@ -625,13 +625,13 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
    * But a less nrof Bytes may received always. The feature of requesting a minimal nrofBytes is only sensfull 
    */
   ASSERT(minNrofBytesToReceive < 1000);     
-  if(ythis->nServerPorts >=1 && ythis->openedServerPort == 0)
+  if(ythis->nServerPorts >=1 && ythis->openedServerPort.socket.socket == 0)
   {   //it is a TCP connection as server:
       if(error==0)
       { int nSockAddrLen = sizeof(*sender_sockadr);
         ythis->adrReceive = (Address_InterProcessComm_Socket_s*)malloc(sizeof(Address_InterProcessComm_Socket_s));
         //openedServerPort = os_accept(mySocket, (sockaddrRm*)&sender->socketAddr, &nSockAddrLen);
-        error = os_accept(ythis->mySocket, sender_sockadr, &ythis->openedServerPort);
+        error = os_accept(ythis->myServerSocket, sender_sockadr, &ythis->openedServerPort);
         if(error ==0)
         {
           if(senderP != null)
@@ -645,10 +645,10 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
                               |            sender_sockadr->sin_addr[3];
             */
           }
-          error = os_close(ythis->mySocket);
+          error = os_close(ythis->mySocket.socket);
           if(error != 0){ error = socketError_InterProcessComm(); }
           else
-          { ythis->mySocket = ythis->openedServerPort;
+          { ythis->myStreamSocket = ythis->openedServerPort;
           }
         }
       }
@@ -681,10 +681,10 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
     /**Loop to get the mindest number of bytes. */
     do
     { if(ythis->nServerPorts >=1)
-      { nResult = os_recv(ythis->mySocket,  (char*)(dataCumm), nrofBytesReceive, 0);
+      { nResult = os_recv(ythis->myStreamSocket,  (char*)(dataCumm), nrofBytesReceive, 0);
       }
       else if (senderP == null)
-      { nResult = os_recv(ythis->mySocket,  (char*)(dataCumm), nrofBytesReceive, 0);
+      { nResult = os_recv(ythis->myStreamSocket,  (char*)(dataCumm), nrofBytesReceive, 0);
       }
       else
       { nResult = os_recvfrom(ythis->mySocket, (char*)(dataCumm), nrofBytesReceive, 0, /*(sockaddr*)*/sender_sockadr);

@@ -396,7 +396,7 @@ int os_createThread
   }
   else 
   { //no space in threadpool, no threadContext
-    
+    *pHandle = null;
     return OS_SYSTEM_ERROR;
   }
 	

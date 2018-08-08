@@ -348,7 +348,7 @@ bool LogMessageFW::isOnline()
 
 #endif  //__CPLUSGEN    
 
-
+#include "genRefl/Fwc/fw_LogMessage.crefl"
 
 
 

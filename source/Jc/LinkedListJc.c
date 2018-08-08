@@ -512,3 +512,8 @@ ListItr_LinkedListJcpp::ListItr_LinkedListJcpp(LinkedListJc* outer)
 
 
 #endif //__CPLUSPLUS_Jcpp
+
+#include <genRefl/Jc/AbstractListJc.crefl>
+#include <genRefl/Jc/LinkedListJc.crefl>
+#include <genRefl/Jc/ListJc.crefl>
+#include <genRefl/Jc/ListMapEntryJc.crefl>

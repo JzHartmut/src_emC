@@ -658,6 +658,7 @@ void restitute_Node_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, N
   STACKTRC_LEAVE;
 }
 
+#include <genRefl/Jc/ConcurrentLinkedQueueJc.crefl>
 
 
 /**

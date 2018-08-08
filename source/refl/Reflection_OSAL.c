@@ -175,7 +175,7 @@ const struct Reflection_Fields_OS_SOCKADDR_t
     , 2   //nrofArrayElements
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((OS_SOCKADDR*)(0x1000))->sin_zero) -(int32)(OS_SOCKADDR*)0x1000)
+    , 0 //(int16)((int32)(&((OS_SOCKADDR*)(0x1000))->sin_zero) -(int32)(OS_SOCKADDR*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_OS_SOCKADDR
     }
@@ -196,117 +196,6 @@ const ClassJc reflection_OS_SOCKADDR =
 
 
 
-
-extern_C const ClassJc reflection_OS_SOCKSEL;  //the just defined reflection_
-const struct Reflection_Fields_OS_SOCKSEL_t
-{ ObjectArrayJc head;
-  FieldJc data[6];
-} reflection_Fields_OS_SOCKSEL =
-{ CONST_ObjectArrayJc(FieldJc, 6, OBJTYPE_FieldJc, null, &reflection_Fields_OS_SOCKSEL)
-, {
-    { "se_inflags"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_uint16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKSEL*)(0x1000))->se_inflags) -(int32)(OS_SOCKSEL*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_SOCKSEL
-    }
-  , { "se_outflags"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_uint16
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKSEL*)(0x1000))->se_outflags) -(int32)(OS_SOCKSEL*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_SOCKSEL
-    }
-  , { "se_fd"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKSEL*)(0x1000))->se_fd) -(int32)(OS_SOCKSEL*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_SOCKSEL
-    }
-  , { "se_1reserved"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKSEL*)(0x1000))->se_1reserved) -(int32)(OS_SOCKSEL*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_SOCKSEL
-    }
-  , { "se_user"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKSEL*)(0x1000))->se_user) -(int32)(OS_SOCKSEL*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_SOCKSEL
-    }
-  , { "se_2reserved"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_uint32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_SOCKSEL*)(0x1000))->se_2reserved) -(int32)(OS_SOCKSEL*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_SOCKSEL
-    }
-} };
-
-
-const ClassJc reflection_OS_SOCKSEL =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OS_SOCKSEL, &reflection_ClassJc)
-, "OS_SOCKSEL"
-, 0
-, sizeof(OS_SOCKSEL)
-, (FieldJcArray const*)&reflection_Fields_OS_SOCKSEL  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
-
-
-
-
-extern_C const ClassJc reflection_OS_LINGEROPT;  //the just defined reflection_
-const struct Reflection_Fields_OS_LINGEROPT_t
-{ ObjectArrayJc head;
-  FieldJc data[2];
-} reflection_Fields_OS_LINGEROPT =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_OS_LINGEROPT)
-, {
-    { "linger_on"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_LINGEROPT*)(0x1000))->linger_on) -(int32)(OS_LINGEROPT*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_LINGEROPT
-    }
-  , { "linger_time"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((OS_LINGEROPT*)(0x1000))->linger_time) -(int32)(OS_LINGEROPT*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_OS_LINGEROPT
-    }
-} };
-
-
-const ClassJc reflection_OS_LINGEROPT =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OS_LINGEROPT, &reflection_ClassJc)
-, "OS_LINGEROPT"
-, 0
-, sizeof(OS_LINGEROPT)
-, (FieldJcArray const*)&reflection_Fields_OS_LINGEROPT  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0 
-};
 
 
 

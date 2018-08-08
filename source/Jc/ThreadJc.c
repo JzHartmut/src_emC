@@ -230,4 +230,7 @@ const MtblDef_ThreadJc mtblThreadJc = {
 }, { signEnd_Mtbl_ObjectJc, null } 
 }; //Mtbl
 
+
+#include <genRefl/Jc/ThreadJc.crefl>
+
 #endif //not __NOT_SUPPORTED_ThreadContextFw__

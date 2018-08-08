@@ -10,16 +10,19 @@
  */
 typedef struct SharedMem_OSAL_t
 {
-  char const* name;
   /**Memory space for a 128-bit-handle. Should be enough. */
   int32 data[8];
 
   /**The call may store an error message if it failes. The error is null on success. */
   char const* error;
 
-  int nError;
+  int32 nError;
+
   /**Memory Address. */
-  //MemC addrSize;
+  MemC addrSize;
+  
+  /**The name of the shared memory is stored here persistent. The name may be composited on runtime. The length is max. 31 character, the last is 0. */
+  char const* name; //[32];
 
 } SharedMem_OSAL;
 
@@ -29,7 +32,8 @@ typedef struct SharedMem_OSAL_t
  * For special systems there may be special areas with defined names, only they can be used.
  * But for that cases 
  *
- * @param name a proper system wide valid name for the shared memory.
+ * @param name a proper system wide valid name for the shared memory. It should be refer to a persistent location in memory. A "string literal" is persistent.
+ * @param size of the shared memory in bytes. Usual it should be a multiple of 8 Bytes.
  * @return a pair of address and length to access the shared memory. If the address and length is 0, the shared memory is not ready.
  */
 extern_C MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size);
@@ -49,7 +53,7 @@ extern_C MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int siz
  * Therefor [[os_isReadySharedMem(...)]] should be checked again. If it is false too, then this routine should be called a second time.
  * But if the second invocation is faulty too, then an ressource error is 
  *
- * @param name a proper system wide valid name for the shared memory.
+ * @param name a proper system wide valid name for the shared memory. It should be refer to a persistent location in memory. A "string literal" is persistent.
  * @return a pair of address and length to access the shared memory. If the address and length is 0, the shared memory is not ready.
  */
 extern_C MemC os_accessSharedMem(SharedMem_OSAL* thiz, const char* name);

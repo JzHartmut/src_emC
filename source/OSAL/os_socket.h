@@ -89,9 +89,34 @@ extern_C_BLOCK_
 
 #define OS_INVALID_SOCKET -1
 
+typedef struct OS_Socket_t
+{ int32 socket;
+} OS_Socket;
+
+typedef struct OS_DatagramSocket_t
+{ OS_Socket socket;
+} OS_DatagramSocket;
+
+
+
+typedef struct OS_ServerSocket_t
+{ OS_Socket socket;
+} OS_ServerSocket;
+
+
+typedef struct OS_StreamSocket_t
+{ OS_Socket socket;
+} OS_StreamSocket;
+
+typedef struct OS_RawSocket_t
+{ OS_Socket socket;
+} OS_RawSocket;
+
+
+
 
 /* Types */
-typedef int32 OS_SOCKET; 
+//typedef int32 OS_SOCKET; 
 
 
 typedef enum OS_SocketError_t
@@ -121,7 +146,7 @@ typedef enum OS_SocketError_t
  * The structure uses the int32BigEndian definition to secure that only a big endian value is stored,
  * see [[inc/os_endian.h]].
  */
-typedef struct OS_SOCKADDR_t
+typedef struct XXXXOS_SOCKADDR_t
 {
   #ifdef OS_ONLY32Bit
   /**For processors with only 32 bit addressing, combine 2 16 bits. The memory layout is compatible. */
@@ -144,7 +169,35 @@ typedef struct OS_SOCKADDR_t
   /**That are 8 fill bytes to regard compatibility to BSD and linux definition.
    * This bytes should be initialized with 0 and it should be unused.*/
   int32_t sin_zero[2];
+} XXXXOS_SOCKADDR;
+
+
+
+typedef struct OS_SOCKADDR_t
+{
+  /**Adress parameter 1. Using Socket, this is the portnumber (bit 15..0).
+   * The represantation of port respectively endian is the endian of implementation platform.
+   */
+  int32 address1;
+
+  /**Adress parameter 2. Using Socket, this is the IP-address..
+   * The represantation of IP respectively endian is the endian of implementation platform.
+   * The hi word is represented in bit 31..24.
+   */
+  int32 address2;
+
+  /**Some internal data for inside representation. */
+  MemUnit internalData[24];
+
 } OS_SOCKADDR;
+
+
+
+
+
+
+
+void set_OS_SOCKADDR(OS_SOCKADDR* dst, uint32 ip, uint16 port);
 
 
 
@@ -160,23 +213,6 @@ typedef struct OS_SOCKADDR_t
 #define xxxSTREAM_OS_SOCKET 1  //Like STREAM_DGRAM in socket.h
 
 
-
-typedef struct _OS_SOCKSEL
-{  uint16 se_inflags;
-   uint16 se_outflags;
-   OS_SOCKET se_fd;
-   int       se_1reserved;
-   uint32    se_user;
-   uint32    se_2reserved;
-} OS_SOCKSEL;
-
-
-typedef struct _OS_LINGEROPT
-{  int linger_on;				/* LINGER ON/OFF ( <>0 / 0 ) */	
-   int linger_time;			/* Wait-Zeit in seconds */
-} OS_LINGEROPT;
-
-
 //NOTE: don't use the ntohl etc. methods, they are unsafe because there is no test of necessity on compile time.
 //The better concept is: Use int32-values as parameter were a 4-Byte-IP-Address is need. 
 //For the socket-specific address structures, use byte-variable in case to the os-implementation.
@@ -189,7 +225,7 @@ typedef struct _OS_LINGEROPT
 #define xxx_htonl(x) xxx_ntohl(x)
 
 
-/**Creates a Datagram-Socket. The operation system reserves memory for handling the socket
+/**Creates a Server-Socket. The operation system reserves memory for handling the socket
  * and returns a handle for it.
  * @param so reference for return-Identifier number for the socket from the operation system.
  * @return: 0 = ok; < 0= Error code. The error code is the specific error code from the operation system,
@@ -199,8 +235,15 @@ typedef struct _OS_LINGEROPT
  *          But the error code should be shown in a user error message. 
  *          The user should know the specific error identifier of the operation system.
  */
-int os_createStreamSocket(OS_SOCKET* so);
+int os_createServerSocket(OS_ServerSocket* so);
 
+
+
+/**Creates a Stream-Socket. A Stream Socket is intent to connect to a ServerSocket on the opposite.
+ * @param so reference for return-Identifier number for the socket from the operation system.
+ * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket.
+ */
+METHOD_C int os_createStreamSocket(OS_StreamSocket* so);
 
 
 /**Creates a Datagram-Socket. The operation system reserves memory for handling the socket
@@ -208,7 +251,7 @@ int os_createStreamSocket(OS_SOCKET* so);
  * @param so reference for return-Identifier number for the socket from the operation system.
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket.
  */
-METHOD_C int os_createDatagramSocket(OS_SOCKET* so);
+METHOD_C int os_createDatagramSocket(OS_DatagramSocket* so);
 
 
 
@@ -218,7 +261,7 @@ METHOD_C int os_createDatagramSocket(OS_SOCKET* so);
  * @param so reference for return-Identifier number for the socket from the operation system.
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket.
  */
-METHOD_C int os_createIpSocket(OS_SOCKET* so);
+METHOD_C int os_createRawSocket(OS_RawSocket* so);
 
 
 
@@ -230,7 +273,7 @@ METHOD_C int os_createIpSocket(OS_SOCKET* so);
  * @param bNonBlocking If true than sets to non blocking, if false than sets to blocking.
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_setNonBlocking(OS_SOCKET so, bool bNonBlocking);
+METHOD_C int os_setNonBlocking(OS_DatagramSocket so, bool bNonBlocking);
 
 
 
@@ -240,7 +283,7 @@ METHOD_C int os_setNonBlocking(OS_SOCKET so, bool bNonBlocking);
  * @param soTcp Socket-Deskriptor f�r zustande gekommene Verbindung
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_accept(OS_SOCKET so, OS_SOCKADDR* dstAddr, OS_SOCKET* soTcp);
+METHOD_C int os_accept(OS_ServerSocket so, OS_SOCKADDR* dstAddr, OS_StreamSocket* soTcp);
 
 
 
@@ -251,7 +294,7 @@ METHOD_C int os_accept(OS_SOCKET so, OS_SOCKADDR* dstAddr, OS_SOCKET* soTcp);
  *        then the port will be established on all available own IP-addresses. 
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_bind(OS_SOCKET so, OS_SOCKADDR const* ownAddr);
+METHOD_C int os_bind(OS_Socket so, OS_SOCKADDR const* ownAddr);
 
 
 
@@ -260,7 +303,7 @@ METHOD_C int os_bind(OS_SOCKET so, OS_SOCKADDR const* ownAddr);
  * @param so Socket-identifier.
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_close(OS_SOCKET so);
+METHOD_C int os_close(OS_Socket so);
 
 
 
@@ -269,10 +312,10 @@ METHOD_C int os_close(OS_SOCKET so);
  * @param dstAddr The requested port and address. 
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_connect(OS_SOCKET so, OS_SOCKADDR const* dstAddr);
+METHOD_C int os_connect(OS_StreamSocket so, OS_SOCKADDR const* dstAddr);
 
 
-METHOD_C int os_ioctlsocket(OS_SOCKET so, int request, void* arg, int arglen);
+METHOD_C int os_ioctlsocket(OS_Socket so, int request, void* arg, int arglen);
 
 
 /**Force listening to incomming requests (TCP-Server). 
@@ -281,7 +324,7 @@ METHOD_C int os_ioctlsocket(OS_SOCKET so, int request, void* arg, int arglen);
  *        If backlog = 0 the automaticly acknowledge of request won't be done.
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_listen(OS_SOCKET so, int backlog);
+METHOD_C int os_listen(OS_ServerSocket so, int backlog);
 
 
 /**Waits for some events on sockets.
@@ -293,34 +336,34 @@ METHOD_C int os_listen(OS_SOCKET so, int backlog);
  *    -1 wait always.
  * @return: 0 = ok; < 0= Error code. See remarks on os_createStreamSocket. 
  */
-METHOD_C int os_nselect(OS_SOCKSEL* selp, int cnt, int32 waitp);
+//METHOD_C int os_nselect(OS_SOCKSEL* selp, int cnt, int32 waitp);
 
 
 /**Receives from a socket.
  */
-METHOD_C int os_recv(OS_SOCKET so, void* buffer, int len, int flags);
+METHOD_C int os_recv(OS_StreamSocket so, void* buffer, int len, int flags);
 
 
 /**Receives from a socket.
  */
-METHOD_C int os_recvfrom(OS_SOCKET so, void* buffer, int len, int flags, OS_SOCKADDR* from);
+METHOD_C int os_recvfrom(OS_DatagramSocket so, void* buffer, int len, int flags, OS_SOCKADDR* from);
 
 
 /**Send.
  */
-METHOD_C int os_send(OS_SOCKET so, void const* buffer, int len, int flags);
+METHOD_C int os_send(OS_StreamSocket so, void const* buffer, int len, int flags);
 
 
 /**Send.
  */
-METHOD_C int os_sendto(OS_SOCKET so, void const* buffer, int len, int flags, OS_SOCKADDR const* to);
+METHOD_C int os_sendto(OS_DatagramSocket so, void const* buffer, int len, int flags, OS_SOCKADDR const* to);
 
 
-METHOD_C int os_setsockopt(OS_SOCKET so, int level, int optname, int* optval, int optlen);
+//METHOD_C int os_setsockopt(OS_SOCKET so, int level, int optname, int* optval, int optlen);
 
 
 /**Closes a connection for TCP. */
-METHOD_C int os_shutdown (OS_SOCKET so, int how);
+METHOD_C int os_shutdown (OS_Socket so, int how);
 
 
 /**Translates the operation-system-specific error number in a english text. */

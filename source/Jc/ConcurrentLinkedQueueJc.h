@@ -46,7 +46,10 @@
 
 typedef struct Node_ConcurrentLinkedQueueJc_t 
 {
+  /**Refer to the item. @refl: void*. */
   ITEM_QueueJcREF item;
+
+  /**Refer the next node. */
   struct Node_ConcurrentLinkedQueueJc_t* volatile next;
 
   /**next Value if no next node is existing. 

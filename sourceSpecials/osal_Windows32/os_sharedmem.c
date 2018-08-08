@@ -1,5 +1,6 @@
 #include <OSAL/os_sharedmem.h>
 
+
 #undef BOOL
 #undef PBOOL
 #undef boolean
@@ -11,12 +12,17 @@
 #include <wtypes.h>
 #include <Winbase.h>
 
+//Important hint: It is presumed that the 'Multibyte Character set' (it means UTF-8) is set 
+//in the Project properties - General - Project defaults - Character set of the compiler.
+//The other possibility is using "'Unicode Character set' - it means UTF16.
+//If UTF16 is selected, the casting from LPCSTR to (char*) forces an compile error. 
+
 
 MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size){
-   thiz->name = name;
    MemC ret = {0};
    HANDLE hMapFile;
    MemUnit* pBuf;
+   thiz->name = name;
 
    hMapFile = CreateFileMapping(
                  INVALID_HANDLE_VALUE,    // use paging file
@@ -114,22 +120,23 @@ bool os_isReadySharedMem(SharedMem_OSAL* thiz)
 
 void os_closeSharedMem(SharedMem_OSAL* thiz)
 {
-  STACKTRC_ENTRY("os_closeAccessedSharedMem");
   int err = 0;
   void* addr = *(void**)(&thiz->data[4]);
+  HANDLE hMapFile = *(HANDLE*)(thiz->data);
+  //STACKTRC_ENTRY("os_closeAccessedSharedMem");
   UnmapViewOfFile(addr);
 
-  HANDLE hMapFile = *(HANDLE*)(thiz->data);;
  
-  TRY{ CloseHandle(hMapFile);
-  }_TRY
-  CATCH(Exception, exc){
-    thiz->error = "Any problem on closing";
-    thiz->nError = exc->exceptionNr;
-  }
-  END_TRY;
+  //TRY{ 
+    CloseHandle(hMapFile);
+  //}_TRY
+  //CATCH(Exception, exc){
+  //  thiz->error = "Any problem on closing";
+  //  thiz->nError = exc->exceptionNr;
+  //}
+  //END_TRY;
   memset(thiz->data, 0, sizeof(thiz->data));  //set handle and address to 0 
-  STACKTRC_LEAVE;
+  //STACKTRC_LEAVE;
 }
 
 

@@ -10,7 +10,7 @@
 #include "Jc/LocaleJc.h"  //reference-association: LocaleJc_s
 #include "Jc/TimeZoneJc.h"  //reference-association: TimeZoneJc_s
 #include "MsgDisp/MsgDispatcherCore_MSG.h"  //reference-association: parkedEntry
-#include "MsgDisp/VaArgBuffer.h"  //reference-association: values
+#include "Fwc/fw_VaArgBuffer.h"  //reference-association: values
 
 
 /* J2C: Forward declaration of struct ***********************************************/

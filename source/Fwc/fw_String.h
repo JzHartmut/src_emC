@@ -62,10 +62,13 @@ struct Mtbl_CharSeqJc_t;
 
 
 /**Counts the number of chars till a \0-char. 
- * In opposite to the C-standard strlen, this routine may not crash on undefined strings. 
+ * In opposite to the C-standard strlen, this routine may not crash on undefined strings 
+ * because the search length is limited by the application to a  convenient value.
+ * The strlen-Function searches to the end of memory and crashs on that end with an memory access exception
+ * if the memory is filled with non-zero bytes till the end.
  * @param text The string where the length till \0 is to detect.
  * @param maxnrofChars maximal number of chars to detect. This parameter may be set by a suitable value,
- *        at example the maximal size of a buffer. The possibility of a memory fault access 
+ *        for example to the maximal size of a buffer. The possibility of a memory fault access 
  *        is some more less than as in comparision with the strlen-call without any limits.
  * @return the number of chars till \0 or maxNrofChars. 
  */
@@ -150,8 +153,6 @@ extern_C double parseDouble_Fwc(const char* src, int size, int* parsedChars);
 /*@DEFINE_C StringJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-#ifndef __StringJc_defined__  //NOTE: may be defined in ObjectJc.h too.
-
 /**StringJc: The type ,,StringJc,, refers 
  * * either a ,,char const*,, with a given length. This is adequate to java.lang.String
  * * or it can refer an [[!ObjectJc.html#class_ObjectJc]] instance which implements 
@@ -210,9 +211,10 @@ extern_C double parseDouble_Fwc(const char* src, int size, int* parsedChars);
  * Notation hint: The notation ,,char const*,, is the same as ,,const char*,,, but it expresses more stronly, that it is a const-pointer.
  * 
  */ 
-typedef OS_PtrVal_DEF(StringJc, char const);
+#ifndef __StringJc_defined__  //NOTE: may be defined in ObjectJc.h too.
+  typedef OS_PtrVal_DEF(StringJc, char const);
 
-#define __StringJc_defined__
+  #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 
 /**The memory layout of CharSeqJc is the same like StringJc. 
@@ -566,6 +568,59 @@ METHOD_C bool isZeroTerminated_StringJc(StringJc const thiz);
 */
 METHOD_C int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer, struct ThreadContextFW_t* _thCxt);
 #define copyToBuffer_StringJc(THIZ, START, END, BUFFER, SIZE) copyToBuffer_CharSeqJc(THIZ, START, END, BUFFER, SIZE, null)
+
+
+/* *****************************************************************************************
+ * compare methods
+ */
+
+
+
+/** Compares this string to the specified String. 
+  * @param cmp the String to compare
+  * @return The result is true if
+  *         and only if the argument is not null and is a String object that represents
+  *         the same sequence of characters as this object.
+  * @javalike But the cmp-Parameter is of type StringJc always. [[sunJavadoc/java/lang/String#equals(java.lang.Object)]]  
+  *
+  * NOTE compatibility with java: In Java this routine is defined as overrideable method of Object, the cmp-Parameter is of type Object.
+  * Java tests whether the parameter is of instance type String (String is derived from Object). 
+  * Only if the parameter is of type ,,java.lang.String,, this method compares the text. 
+  * Otherwise it returns true if the instances ,,this,, and ,,cmp,, are the same instance, elsewhere returns false. 
+  * There is not a call of ,,Object.toString(),,.
+  * The Java2C-Translator tests, whether the parameter is of type String 
+  * and generates the call of this method with the given String directly. 
+  * If the parameter is of type Object or ,,void*,,, a simple comparision of the addresses of the instances will be generated.
+  * That is the same behaviour as in Java. The comparision of Objects, which are the same String-instances,
+  * may be necessary if the reference to the String is stored in a List<Object>. 
+  * This behaviour ist tested by me with Java Version 6, and it is documented in Sun-Javadoc. 
+  */
+bool equals_StringJc(const StringJc ythis, const StringJc cmp);
+
+
+/**Compares this string to the specified character text.
+ * @param strCmp Any character text
+ * @param valueCmp Number of chars to compare, but mask with ,,mLength__StringJc,,.
+ *        If -1 or all bits of ,,mLength__StringJc,, are set, 
+ *        than the length is got from ,,strlen_Fwc(sCmp, mLength__StringJc),,,
+ *        The other bits were not used.
+ * @return The result is true if
+ *         and only if the argument is not null and the text of this represents
+ *         the same sequence of characters as strCmp.
+ */
+bool equals_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp );
+
+/** Compares this string to the specified text. The result is true if
+  * and only if the argument is not null and the StringJc referes
+  * the same sequence of characters as this object.
+  * @param CMP 0-terminated String to compare with this.
+  * @return The result is true if
+  *         and only if the argument is not null and is a text that represents
+  *         the same sequence of characters as this object.
+  */
+#define equals_z_StringJc(YTHIS, CMP) equals_zI_StringJc(YTHIS, CMP, mLength__StringJc)
+/** @deprecated*/
+#define equals_s0_StringJc(YTHIS, CMP) equals_z_StringJc(YTHIS, CMP)
 
 
 

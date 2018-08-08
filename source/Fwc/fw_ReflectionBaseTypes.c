@@ -70,7 +70,7 @@ const ClassJc reflection__voidJc =
 
 , "void"
 , 0 //Position of the data of this class itself, after some superclasses.
-, sizeof(void*) //size of a pointer
+, 0 //2018-07 sizeof a void type should be 0. If it is a pointer, then the pointer size is gotten like usual, not here! FAULTY: sizeof(void*) //size of a pointer
 , null  //Attributes
 , null  //Methods
 , null  //superclass
@@ -454,6 +454,35 @@ const ClassJc reflection_ObjectJc =
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
 };
+
+
+
+
+
+const Reflection__ObjectJc reflection__ObjectJc
+=
+{
+  { CONST_ObjectJc(0  , &reflection__ObjectJc.clazz, null)
+  , "ObjectJc"
+  , 0 //Position of the data of this class itself, after some superclasses.
+  , sizeof(int32)
+  , null  //Attributes
+  , null  //Methods
+  , null  //superclass
+  , null  //interfaces
+  , 0 //modifiers
+  }
+, { (MT_void_Method_void)clone_ObjectJc_F
+  , (MT_void_Method_void)equals_ObjectJc_F
+  , (MT_void_Method_void)finalize_ObjectJc_F
+  , (MT_void_Method_void)hashCode_ObjectJc_F
+  , (MT_void_Method_void)toString_ObjectJc_F
+  }
+};
+
+
+
+
 
 
 

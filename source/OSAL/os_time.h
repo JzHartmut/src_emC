@@ -62,8 +62,7 @@ typedef struct OS_TimeStamp_t
    * F?r eine Zeitdifferenzbildung ist der Wert vorzeichenbehaftet zu verwenden, daher ist er hier auch vorzeichenbehaftet definiert.
    *
    * Schaltsekunden z?hlen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
-   *  @bytepos=4 
- */
+   */
   int32_t time_sec;
   
   /**Zeit innerhalb einer Sekunde in Nanosekunden gez?hlt.
@@ -74,7 +73,6 @@ typedef struct OS_TimeStamp_t
    * *Bit 29..0: Nanosekunden
    * *Bit 31: Wenn 1, dann stellt der Sekundenz?hler einen Wert dar, der die Schaltsekunden seit 1970 mitz?hlt.
    * *Bit 31: Wenn 0, dann stellt der Sekundenz?hler die kalendarisch gez?hlten Sekunden nach 1970 dar.
-   *  @bytepos=0 
    */
   int32_t time_nsec;
 
@@ -157,13 +155,13 @@ int os_setDateTime(OS_TimeStruct const* pDateTime, int isOffset);
 int32_t os_getSeconds(void);
 
 /**Gets a circular time information in milliseconds.
- * @return a relativ value, the value can be used only for differnces.
+ * @return a relativ value, the value can be used only for differnces  up to 23 days..
  */
 int32_t os_milliTime(void); 
 #define os_getMilliTime() os_milliTime();
 
 /**Gets a circular time information in microseconds.
- * @return a relativ value, the value can be used only for differnces.
+ * @return a relativ value, the value can be used only for differnces up to 35 min.
  */
 int32_t os_microTime(void);
 #define os_getMicroTime() os_microTime();

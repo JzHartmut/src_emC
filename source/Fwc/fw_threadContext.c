@@ -41,12 +41,12 @@
 #include <Fwc/fw_ThreadContext.h>
 
 #include <string.h>
-
+#include <Fwc/fw_SimpleC.h>
 
 StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis)
 { StacktraceThreadContext_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_s);
 
-  ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN(ythis->entries);
+  ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN_SimpleC(ythis->entries);
   return ythis;
 }
 

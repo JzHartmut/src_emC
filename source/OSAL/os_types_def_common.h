@@ -44,6 +44,8 @@
 #define ulong unsigned long int
 
 
+#define INLINE_Jc INLINE_Fwc
+
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
  * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.

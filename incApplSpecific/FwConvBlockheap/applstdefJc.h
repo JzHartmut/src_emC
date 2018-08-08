@@ -23,7 +23,7 @@
 
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
-//Include before fw_String.h because it is used there.
+//Note: Include before fw_String.h because it is used there.
 //#include <incApplSpecific/applConv/EnhanceRef_simple.h>
 #include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
 

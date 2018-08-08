@@ -35,6 +35,7 @@
  *
  ****************************************************************************/
 #include <Fwc/objectBaseC.h>
+#include <Fwc/fw_String.h>
 #include <stdio.h>
 //dependencies:
 //assertJc
@@ -44,7 +45,6 @@
 //#ifdef DEFINE_debugPRINTF
 char const* debugPRINTF[10] = {0};
 //#endif
-
 #include <string.h> //memset
 
 /**Initialize. */
@@ -300,6 +300,31 @@ struct ClassJc_t const* getClass_ObjectJc(ObjectJc const* ythis)
 
 
 
+ObjectJc* clone_ObjectJc_F(ObjectJc const* ythis, MemC buffer)
+{
+  return null;
+}
+
+bool equals_ObjectJc_F(ObjectJc* ythis, ObjectJc* cmp, ThCxt* _thCxt)
+{
+  return false;
+}
+
+void finalize_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
+{
+}
+
+int32 hashCode_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
+{
+  return 0;
+}
+
+StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
+{ //StringBuffer* ss = StringBuffer::new_();
+  //ss->append("Object at @").append(Integer::toHexString((int)(this)));
+  StringJc ss = CONST_StringJc("No information", 14); //only constant
+  return ss;   //return by value, that is 2 words (8 Byte).
+}
 
 
 

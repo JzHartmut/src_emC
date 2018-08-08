@@ -47,4 +47,5 @@ TimeZoneJc_s* getTimeZone_TimeZoneJc(StringJc name, ThCxt* _thCxt)
   else return (TimeZoneJc_s*)&GMT_TimeZoneJc;
 }
 
+#include <genRefl/Jc/TimeZoneJc.crefl>
 

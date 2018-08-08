@@ -129,12 +129,10 @@ INLINE_Fwc int32 lockRead_DoubleBufferingJc(int32 volatile* var)
     val = *var;
     if(val & _lockWr_DoubleBufferingJc) { //write is pending
       valNew = (val ^1) | _lockRd_DoubleBufferingJc;  //read from the other buffer, store the locked read index. 
-      //retVal = (val ^1) & 1;
     } else {
       valNew = val | _lockRd_DoubleBufferingJc;  //Bit for lock, don't change the locked read index.
-      //retVal = val & 1;
     }
-  } while(!compareAndSet_AtomicInteger(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+  } while(compareAndSwap_AtomicInteger(var, val, valNew) !=val && --abortCt >=0);  //repeate till see unchanged val.
   //don't evaluate abortCt. It is only to prevent hang in a non expected case.
   return valNew & 1; //retVal ;
 }
@@ -161,7 +159,7 @@ INLINE_Fwc void unlockRead_DoubleBufferingJc(int32 volatile* var) {
  * @return the full index value, sequence number from bit kBitSeq_DoubleBufferingJc, index in bit 0.
  *   Note: build the index with ret & 1.
  */
-INLINE_Fwc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
+INLINE_Jc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
 {
   int abortCt = 100;
   int32 val, valNew, retVal;
@@ -173,7 +171,7 @@ INLINE_Fwc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
     } else {
       retVal = valNew = ((val ^ 1) | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;  //Increment sequence number
     }
-  } while(!compareAndSet_AtomicInteger(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+  } while(compareAndSwap_AtomicInteger(var, val, valNew) != val && --abortCt >=0);  //repeate till see unchanged val.
   return retVal;
 }
 

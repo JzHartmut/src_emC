@@ -303,52 +303,6 @@ METHOD_C char const* gets0_StringJc(StringJc const thiz, char* const buffer, int
 
 
 
-/** Compares this string to the specified String. 
-  * @param cmp the String to compare
-  * @return The result is true if
-  *         and only if the argument is not null and is a String object that represents
-  *         the same sequence of characters as this object.
-  * @javalike But the cmp-Parameter is of type StringJc always. [[sunJavadoc/java/lang/String#equals(java.lang.Object)]]  
-  *
-  * NOTE compatibility with java: In Java this routine is defined as overrideable method of Object, the cmp-Parameter is of type Object.
-  * Java tests whether the parameter is of instance type String (String is derived from Object). 
-  * Only if the parameter is of type ,,java.lang.String,, this method compares the text. 
-  * Otherwise it returns true if the instances ,,this,, and ,,cmp,, are the same instance, elsewhere returns false. 
-  * There is not a call of ,,Object.toString(),,.
-  * The Java2C-Translator tests, whether the parameter is of type String 
-  * and generates the call of this method with the given String directly. 
-  * If the parameter is of type Object or ,,void*,,, a simple comparision of the addresses of the instances will be generated.
-  * That is the same behaviour as in Java. The comparision of Objects, which are the same String-instances,
-  * may be necessary if the reference to the String is stored in a List<Object>. 
-  * This behaviour ist tested by me with Java Version 6, and it is documented in Sun-Javadoc. 
-  */
-bool equals_StringJc(const StringJc ythis, const StringJc cmp);
-
-
-/**Compares this string to the specified character text.
- * @param strCmp Any character text
- * @param valueCmp Number of chars to compare, but mask with ,,mLength__StringJc,,.
- *        If -1 or all bits of ,,mLength__StringJc,, are set, 
- *        than the length is got from ,,strlen_Fwc(sCmp, mLength__StringJc),,,
- *        The other bits were not used.
- * @return The result is true if
- *         and only if the argument is not null and the text of this represents
- *         the same sequence of characters as strCmp.
- */
-bool equals_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp );
-
-/** Compares this string to the specified text. The result is true if
-  * and only if the argument is not null and the StringJc referes
-  * the same sequence of characters as this object.
-  * @param CMP 0-terminated String to compare with this.
-  * @return The result is true if
-  *         and only if the argument is not null and is a text that represents
-  *         the same sequence of characters as this object.
-  */
-#define equals_z_StringJc(YTHIS, CMP) equals_zI_StringJc(YTHIS, CMP, mLength__StringJc)
-/** @deprecated*/
-#define equals_s0_StringJc(YTHIS, CMP) equals_z_StringJc(YTHIS, CMP)
-
 
 
 /**Tests if this string starts with the specified prefix.

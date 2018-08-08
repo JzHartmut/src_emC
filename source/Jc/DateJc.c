@@ -284,3 +284,7 @@ int64 UTC_DateJc(int year, int month, int day, int hour, int minute, int second)
   secondsSince1970 = timeToSeconds_TimeBytes_Fwc(&time, 1970, 0, false);
   return 1000 * (int64)secondsSince1970;
 }
+
+
+
+#include <genRefl/Jc/DateJc.crefl>

@@ -129,6 +129,7 @@ typedef struct FileOutputStreamJc_t
 { union { ObjectJc object; OutputStreamJc_s super; } base;
   
   /**It may be a C-standard FILE* handle, but it is casting to support other embedded systems. 
+   * @refl: void*. 
    */
   OS_HandleFile file;
 }FileOutputStreamJc_s;
@@ -169,6 +170,7 @@ typedef  struct FileWriterJc_t
 { union { ObjectJc object;} base;
   
   /**It may be a C-standard FILE* handle, but it is casting to support other embedded systems. 
+   * @refl: void*. 
    */
   OS_HandleFile file;
 }FileWriterJc_s;
@@ -211,6 +213,9 @@ METHOD_C void close_FileWriterJc(FileWriterJc_s* ythis, struct ThreadContextFW_t
 typedef struct FileReaderJc_t
 { ObjectJc object;
 
+  /**It may be a C-standard FILE* handle, but it is casting to support other embedded systems. 
+   * @refl: void*. 
+   */
   OS_HandleFile file_;
   int32 lenFile_;
   int32 bEof_;

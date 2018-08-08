@@ -51,7 +51,7 @@ typedef struct SimTime_Fwc_t
 } SimTime_Fwc;
 
 
-
+extern_C ClassJc const reflection_SimTime_Fwc;
 
 
 

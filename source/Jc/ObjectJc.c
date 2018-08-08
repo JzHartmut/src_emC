@@ -135,25 +135,6 @@ ObjectJc* ctorO_ii_ObjectJc(ObjectJc* othis, const int size, const int32 typeIns
 */
 
 
-ObjectJc* clone_ObjectJc_F(ObjectJc const* ythis, MemC buffer)
-{
-  return null;
-}
-
-bool equals_ObjectJc_F(ObjectJc* ythis, ObjectJc* cmp, ThCxt* _thCxt)
-{
-  return false;
-}
-
-void finalize_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
-{
-}
-
-int32 hashCode_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
-{
-  return 0;
-}
-
 
 /************************************************************************/
 
@@ -249,10 +230,13 @@ Mtbl_ObjectJc const* xxxgetMtbl_ObjectJc(ObjectJc const* ythis, ClassJc const* t
   {
     idxMtbl = getIdxMtbl_ClassJc(clazz, type);
     if(idxMtbl < 0) THROW_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
-    ASSERTJc_RET(clazz->mtbl != null, (STACKTRC_LEAVE, null));
-    //sign is the first reference of ObjectJc-methodtable, indices the first reference of the interface or superclass.
-    mtbl = (Mtbl_ObjectJc const*)( &(&clazz->mtbl->sign)[idxMtbl]);  
-    //mtbl = (struct MT_TypeJc_t const*)( ((MT_void_Method_void*)(clazz->mtbl)) + idxMtbl);
+    if(clazz->mtbl == null){
+      mtbl = null; 
+    } else {
+      //sign is the first reference of ObjectJc-methodtable, indices the first reference of the interface or superclass.
+      mtbl = (Mtbl_ObjectJc const*)( &(&clazz->mtbl->sign)[idxMtbl]);  
+      //mtbl = (struct MT_TypeJc_t const*)( ((MT_void_Method_void*)(clazz->mtbl)) + idxMtbl);
+    }
   }
   STACKTRC_LEAVE; return mtbl;
 }
@@ -332,13 +316,6 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
 }
 
 
-
-StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
-{ //StringBuffer* ss = StringBuffer::new_();
-  //ss->append("Object at @").append(Integer::toHexString((int)(this)));
-  StringJc ss = CONST_StringJc("No information", 14); //only constant
-  return ss;   //return by value, that is 2 words (8 Byte).
-}
 
 
 /*J2C: dynamic call variant of the override-able method: */
@@ -561,28 +538,6 @@ int32ARRAY* ctor_int32ARRAY(int32ARRAY* ythis, int nrOfElements)
 
 
 
-const Reflection__ObjectJc reflection__ObjectJc
-=
-{
-  { CONST_ObjectJc(0  , &reflection__ObjectJc.clazz, null)
-  , "ObjectJc"
-  , 0 //Position of the data of this class itself, after some superclasses.
-  , sizeof(int32)
-  , null  //Attributes
-  , null  //Methods
-  , null  //superclass
-  , null  //interfaces
-  , 0 //modifiers
-  }
-, { (MT_void_Method_void)clone_ObjectJc_F
-  , (MT_void_Method_void)equals_ObjectJc_F
-  , (MT_void_Method_void)finalize_ObjectJc_F
-  , (MT_void_Method_void)hashCode_ObjectJc_F
-  , (MT_void_Method_void)toString_ObjectJc_F
-  }
-};
-
-
 
 
 const ClassJc xxxreflection_ObjectJc =
@@ -606,3 +561,38 @@ char const sign_Mtbl_CloseableJc[] = "Mtbl_CloseableJc";
 
 char const sign_Mtbl_AppendableJc[] = "Mtbl_AppendableJc";
 
+
+
+extern_C const ClassJc reflection_ObjectJcREF;  //the just defined reflection_ used in the own fields.
+
+const struct Reflection_Fields_ObjectJcREF_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_ObjectJcREF =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectJcREF)
+, { { "ptr"
+    , 0   //no Array, no Bitfield
+    , &reflection_ObjectJc                                                                                            
+    , 0|kReference_Modifier_reflectJc //bitModifiers
+    , 0 //offset
+    , 0  //offsetToObjectifcBase
+    , &reflection_ObjectJcREF
+    }
+} };
+  
+const ClassJc reflection_ObjectJcREF =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJcREF, &reflection_ClassJc)
+, "ObjectJcREF"
+, 0
+, sizeof(ObjectJcREF)
+, (FieldJcArray const*)&reflection_Fields_ObjectJcREF  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0 
+, null  //virtual table
+};
+
+
+
+#include <genRefl/Jc/ObjectRefJc.crefl>

@@ -23,7 +23,7 @@ char const* init_Service_Inspc(Service_Inspc* thiz, /*StringJc sIp_param, */Data
     setInitialized_ObjectJc(&thiz->object);  //Note: set it firstly to prevent twice initialization on thread switch in start_
     //see ctor: ctorO_Inspector_Inspc(&thiz->theInspector.base.object, sIp_param, _thCxt);
     thiz->rootNode = rootNode;
-    registerRefl_DataNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimTime_Inspc);
+    registerRefl_DataNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimTime_Fwc);
     //TEST  
     start_Inspector_Inspc_F(&thiz->theInspector, &rootNode->object, _thCxt); 
     STACKTRC_LEAVE;
