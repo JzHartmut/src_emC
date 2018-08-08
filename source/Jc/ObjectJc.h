@@ -48,12 +48,12 @@
  ****************************************************************************/
 #ifndef __ObjectJc_h__
 #define __ObjectJc_h__
-#include <applstdefJc.h>
-#include "Fwc/objectBaseC.h"
-//#include "Fwc/fw_SimpleC.h"  //should be includeed in applstdefJc.h
-//#include "Fwc/fw_MemC.h"     //should be includeed in applstdefJc.h
-//#include "Fwc/fw_Exception.h"  ////should be includeed in applstdefJc.h, knowledge of Thcxt, Exception is supplied
-//#include "Fwc/fw_String.h"  //should be includeed in applstdefJc.h
+#include <applstdef_emC.h>
+#include "emC/Object_emC.h"
+//#include "Fwc/fw_SimpleC.h"  //should be includeed in applstdef_emC.h
+//#include "Fwc/fw_MemC.h"     //should be includeed in applstdef_emC.h
+//#include "Fwc/fw_Exception.h"  ////should be includeed in applstdef_emC.h, knowledge of Thcxt, Exception is supplied
+//#include "Fwc/fw_String.h"  //should be includeed in applstdef_emC.h
 #include <Jc/StringJc.h>
 
 /*@CLASS_C ObjectJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

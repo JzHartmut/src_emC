@@ -1,1 +1,0 @@
-D:\Programs\Java\jdk1.8.0_92\jre\bin\java -cp D:\vishia\ZBNF\zbnfjax\zbnf.jar org.vishia.jztxtcmd.JZtxtcmd D:\vishia\ZBNF\zbnfjax\jzTc\Cheader2Refl.jztxt.cmd DynCall_ObjectJc.h DynCall_ObjectJc.crefl

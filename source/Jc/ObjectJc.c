@@ -50,8 +50,8 @@
 #include <string.h>     //memset
 //#include "StringJc.h"
 #include "Jc/ReflectionJc.h"
-#include "Fwc/fw_Exception.h"
-#include "Fwc/fw_ThreadContext.h"
+#include "emC/Exception_emC.h"
+#include "emC/ThreadContext_emC.h"
 //#include "os_wrapper.h"
 
 /********************************************************************************************/

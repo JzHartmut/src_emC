@@ -94,8 +94,8 @@
   //If C-compiling is used, define the C++-keywords for C
   //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
   //#define bool int
-  //#define false 0
-  //#define true (!false)
+  #define false 0
+  #define true (!false)
 #endif
 
 

@@ -37,7 +37,7 @@
 #ifndef __OSAL_os_endian_h__
 #define __OSAL_os_endian_h__
 
-#include <applstdefJc.h>  //This os-specific header should contain the definition of BIGENDIAN or LITTLEENDIAN
+#include <applstdef_emC.h>  //This os-specific header should contain the definition of BIGENDIAN or LITTLEENDIAN
 
 extern_C_BLOCK_
 

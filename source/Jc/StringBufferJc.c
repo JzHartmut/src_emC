@@ -39,8 +39,8 @@
 //#include "CRuntimeJavalike.h"
 #include "StringJc_intern.h"
 #include <Jc/ObjectJc.h>
-#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_Formatter.h> 
+#include <emC/Exception_emC.h>
+#include <emC/Formatter_emC.h> 
 //#include "StringBuilderJc.h"
 #include <Jc/ReflectionJc.h>
 #include <stdlib.h>
@@ -1009,7 +1009,7 @@ StringJc toString_DoubleJc(double value, ThCxt* _thCxt)
     int count;
     sbuffer = threadBuffer_StringBuilderJc("toString_DoubleJc", _thCxt);
     buffer = getCharsAndSize_StringBuilderJc(sbuffer, &size); 
-    count = sprintf(buffer, "%d", value);
+    count = snprintf(buffer, size, "%f", value);
     _setCount_StringBuilderJc(sbuffer, count); //
   }
   STACKTRC_LEAVE;
@@ -1048,7 +1048,7 @@ StringBuilderJc* insert_sII_StringBuilderJc(StringBuilderJc* ythis, int offset, 
 StringBuilderJc* insert_F_StringBuilderJc(StringBuilderJc* ythis, int index, float value, ThCxt* _thCxt)
 { char buffer[20];
   int nChars;
-  nChars = sprintf(buffer, "%f", value);
+  nChars = snprintf(buffer, sizeof(buffer), "%f", value);
   return replace_zI_StringBuilderJc(ythis, index, 0, buffer, nChars, _thCxt);
 }
 
@@ -1058,7 +1058,7 @@ StringBuilderJc* insert_F_StringBuilderJc(StringBuilderJc* ythis, int index, flo
 StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int index, double value, ThCxt* _thCxt)
 { char buffer[40];
   int nChars;
-  nChars = sprintf(buffer, "%d", value);
+  nChars = snprintf(buffer, sizeof(buffer), "%f", value);
   return replace_zI_StringBuilderJc(ythis, index, 0, buffer, nChars, _thCxt);
 }
 

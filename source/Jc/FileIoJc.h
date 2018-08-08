@@ -34,7 +34,7 @@
  *
  * @version 0.83
  */
-#include <applstdefJc.h>  //Note: define before include-guards because applstdefJc,h may include this file too.
+#include <applstdef_emC.h>  //Note: define before include-guards because applstdef_emC,h may include this file too.
 //The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __Jc_FileIoJc_h__
 #define __Jc_FileIoJc_h__

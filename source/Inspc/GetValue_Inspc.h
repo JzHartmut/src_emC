@@ -1,6 +1,6 @@
 #ifndef __InspcGetValue_Inspc_h__
 #define __InspcGetValue_Inspc_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 
 struct DataNode_Inspc_t;
 

@@ -30,7 +30,7 @@
  *
  * @version 0.96
  * @content Definition of String processing Java-like
- *   Note: The included file Fwc/fw_String.h contains the definition of the type StringJc
+ *   Note: The included file emC/String.h contains the definition of the type StringJc
  *   and basicly access macros. If any routines from the Fwc-Level (Framework C)
  *   uses this type to reference a character field with given length, it need not include 
  *   the full definitions given here, but only the basicly things.
@@ -67,12 +67,12 @@
  * 2004-05-00: Hartmut creation
  *
  ****************************************************************************/
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #ifndef __StringJc_h__
 #define __StringJc_h__
-#include "Fwc/fw_String.h"    //based on the there defined type StringJc and the access macros.
-#include "Fwc/fw_Va_list.h" 
-#include "Jc/ObjectJc.h"      //Hint: Simple StringJc: use Fwc/fw_String.h
+#include "emC/String_emC.h"    //based on the there defined type StringJc and the access macros.
+#include "emC/Va_list_emC.h" 
+#include "Jc/ObjectJc.h"      //Hint: Simple StringJc: use emC/String_emC.h
 //#include "Jc/ReflectionJc.h"
 #include <string.h>
 #include <stdarg.h>
@@ -877,7 +877,7 @@ typedef struct StringJc_CharSeqJc_t
 
 /**A CharSeqJc is the same as StringJc. The difference is: The reference type can be also an ObjectJc*, 
  * whereby the ObjectJc-instance should implement the CharSeqJc interface. 
- * ,,#define CharSeqJc StringJc is contained in <Fwc/fw_String.h>
+ * ,,#define CharSeqJc StringJc is contained in <emC/String.h>
  */
 
 

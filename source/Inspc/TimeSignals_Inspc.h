@@ -1,6 +1,6 @@
 #ifndef __TimeSignals_Inspc_h__
 #define __TimeSignals_Inspc_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <Jc/ObjectJc.h>
 #include <Jc/ReflectionJc.h>
 #include <Fwc/fw_String.h>

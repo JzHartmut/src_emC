@@ -5,7 +5,7 @@
  */
 #include "Inspc/InspcTargetProxyTelg.h"
 #include <OSAL/os_AtomicAccess.h>
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 
 #undef PRINTF2
 #define PRINTF2(TEXT, VAL) //empty.

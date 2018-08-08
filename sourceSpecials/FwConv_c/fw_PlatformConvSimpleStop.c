@@ -41,7 +41,7 @@
  ****************************************************************************/
 
 //#include "ObjectJc.h"
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <os_time.h>
 #include <os_error.h>
 #include <os_thread.h>

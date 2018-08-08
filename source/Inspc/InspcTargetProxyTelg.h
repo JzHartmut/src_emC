@@ -1,6 +1,6 @@
 #ifndef __InspcTargetProxyTelg_h__
 #define __InspcTargetProxyTelg_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <OSAL/os_endian.h>  //supports both big endian conversion and access to even address on memory.
 #include <OSAL/os_sharedmem.h>
 
@@ -85,8 +85,12 @@ typedef enum Cmd_InspcTargetProxyTelg_t
 
 
 
-/**This struct describes one item in the telegram from the proxy. It based on the Inspector telegram definition for items. 
+/**This struct describes one item in the telegram from the proxy to the target. It based on the Inspector telegram definition for items. 
  * The first 2 bytes should be the length, after them 2 bytes are the command.
+ * But all data are arranged as 32 bit values. Therewith it is possible to define this data struct in an Dual Port Memory of as subsequence of 32-bit-Registers
+ * in an memory range of an FPGA to exchange the data between two processors on the same hardware board.
+ * The endianess is important for serial communication usual via Ethernet which is organzized bytewise (really done bitwise).
+ * For 32 bit data exchange the endianess has no matter because an int32 location is an int32 location itself. 
  * All other bytes are special defined here.
  */
 typedef struct TelgProxy2Target_Inspc_t

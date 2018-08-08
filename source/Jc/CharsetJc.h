@@ -1,7 +1,7 @@
 #ifndef __CharsetJc_h__
 #define __CharsetJc_h__
 
-#include <applstdefJc.h>  //defines ThCxt
+#include <applstdef_emC.h>  //defines ThCxt
 
 typedef struct CharsetJc_t
 {

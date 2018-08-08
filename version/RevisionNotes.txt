@@ -6,12 +6,12 @@ This version is used in the www.vishia.org/smlk/Example_ObjO.zip from 2017-12-10
 For Simulink only parts are used to generate the Sfunctions for the inspector, and for base functionality.
 Most of changes are done regarding the Simulink usage (see www.vishia.org/smlk).
 
-* applstdefJc.h, compl_adaption.h: Some adaption while testing. Note: It will be refactored to a canonical form in the next commit.
+* applstdef_emC.h, compl_adaption.h: Some adaption while testing. Note: It will be refactored to a canonical form in the next commit.
 * added some files emtpy which are included in simulink: rtw_continuous.h, rtw_solver.h
 * stopAssert_Fwc_while0.c: possibility to abort the stop loop in debugger using a cont-variable instead while(true)
 * fw_handle_ptr64.c: improved. Firstly used for Simulink ObjO
 * Msc13.zmake.jztc: new to compile library for using in simulink
-* ObjectJc_simple.h: Better integration with objectBaseC.h: Now the last one can be included after include TargerNumericSimple/applstdefJc.h
+* ObjectJc_simple.h: Better integration with objectBaseC.h: Now the last one can be included after include TargerNumericSimple/applstdef_emC.h
 with conditional compilation the ObjectJc-struct and some macros are excluded.
 * objectBaseC.h: Some parts conditional with #ifndef __ObjectJc_defined__ because it may be defined in another file (especially ObjectJc_simple.h) in another proper kind.
 * objectBaseC.h: INITIALIZER_ObjectJc fixed, faulty identsize 

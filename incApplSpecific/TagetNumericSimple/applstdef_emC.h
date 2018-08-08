@@ -1,8 +1,24 @@
-#ifndef __applstdefJc_h__
-#define __applstdefJc_h__
+#ifndef __applstdef_emC_h__
+#define __applstdef_emC_h__
+/**This headerfile contains all standard definition for usage the CRJ - CRuntimeJavalike - basicly system.
+ * It is for a simple numeric target without reflection, StringJc and exception handling. 
+ */
 
-//Uncomment to check whether used:
-//#error Uses srcApplInspc/applstdefJc.h
+//Note: uncomment that to check whether this file is included:
+//#error used_applstdefJc_TargetNumericSimple
+
+
+/**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
+#include <compl_adaption.h>
+
+/**Include this file always, but after compl_adaption.h.
+* It defines some types for C compilation compatible to C++ and some independent language enhancements.
+*/
+#include <OSAL/os_types_def_common.h>
+
+
+/**With this compiler switch the reflection should not be included, because they will not used. */
+#define __DONOTUSE_REFLECTION__
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -10,29 +26,23 @@
  */
 //#define __CPLUSPLUSJcpp
 #undef __CPLUSPLUSJcpp
+//#define __cplusplus
+
+/**Including this file the ObjectJc.h is not included, */
+#include <source/FwConv_h/ObjectJc_simple.h>
+
+/**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
+//#define __NoCharSeqJcCapabilities__
+
+/**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
+#include <incApplSpecific/applConv/EnhanceRef_simple.h>
+//#include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
 
-//This block before <OSAL/os_types_def_common.h>
-/**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
-#include <compl_adaption.h>
-
-#define DEFINED_float_complex     
-#define float_complex creal32_T
-#define DEFINED_double_complex
-#define double_complex creal64_T
-/**Include this file always. It defines some types for C compilation compatible to C++. */
-#include <OSAL/os_types_def_common.h>
-
-#include <fw_assert.h>  //Note: after os_types_def_common because extern_C
+#include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
 
 
-
-/**Include this file always. It defines some things usefull for all sources. */
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_MemC.h>
-
-
-
+/**Use the exception handling header file - or define the macros TRY, by yourself. */
 /** If this define is setted, the TRY, CATCH and THROW makros use the C++ keywords
   * try, throw and catch. All sources, also the *.c-Sources of the CRuntimeJavalike,
   * may be compiled with a C++-Compiler.
@@ -46,24 +56,11 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#ifdef __cplusplus
   #define __TRYCPPJc
-#else
-  #undef __TRYCPPJc  //cannot be used on C language
-#endif
 
-//Include before fw_String.h because it is used there.
-#include <FwConv_h\EnhanceRef_BlockHeap.h>
-/**Define StringJc firstly, especially before fw_Exception.h> */
-#include <Fwc/fw_String.h>
-/**Use the exception handling header file - or define the macros TRY, by yourself. */
-#include <Fwc/fw_threadContext.h>
-#include <Fwc/fw_Exception.h>
-//#include <Fwc/fw_ExcStacktrcNo.h>
-
-
-//Use full capability for ObjectJc, necessary for Pointer check and reflection.
-#include <Fwc/objectBaseC.h>
+#include <emC/ThreadContext_emC.h>
+//#include <Fwc/fw_Exception.h>
+#include <emC/ExcStacktrcNo_emC.h>
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 

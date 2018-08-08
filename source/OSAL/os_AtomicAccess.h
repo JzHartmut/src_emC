@@ -37,7 +37,7 @@
  ************************************************************************************************/
 #ifndef __os_AtomicAccess_h__
 #define __os_AtomicAccess_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 /*@CLASS_C AtomicReference @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 //#define AtomicReference struct AtomicReference_t*

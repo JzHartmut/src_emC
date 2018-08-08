@@ -45,7 +45,7 @@
  * 2006-05-00: www.vishia.de creation
  *
  ****************************************************************************/
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include "Jc/ReflectionJc.h"
 #include "Jc/ReflMemAccessJc.h"
 //#include "Jc/StringJc.h"
@@ -63,7 +63,7 @@
 // Field
 
 
-
+extern const ClassJc* simpleTypes[];
 
 struct SearchTrc_t
 { MemSegmJc objWhereFieldIsFound; 
@@ -205,34 +205,6 @@ FieldJc_Y const* getDeclaredFields_ClassJc(const ClassJc* thiz)
   //thiz is the real class:
   fields = thiz->attributes;
   return fields; 
-}
-
-
-const FieldJc* getDeclaredField_ClassJc(ClassJc const* thiz, StringJc sName)
-{ int ii;
-  bool bFound = false;
-  const FieldJc* field = null;
-  STACKTRC_ENTRY("getDeclaredField_ClassJc");
-  //for(ii=0; !bFound && ii< thiz->attributes->array.length; ii++)
-  if(thiz->attributes != null)
-  { for(ii=0; !bFound && ii< thiz->attributes->head.length; ii++)
-    { //StringJcRef sNameField;
-      const char* sNameField;
-      //field = get_FieldJc_Y(thiz->attributes,ii);
-      field = &thiz->attributes->data[ii];
-      sNameField = getName_FieldJc(field);
-      //if(equals_StringJc(&sNameField,sName_ROOT))
-      if(equals_z_StringJc(sName, sNameField))
-      { bFound= true;
-      }
-    }
-  }
-  if(!bFound)  //also if attributes == null
-  { //THROW_s(NoSuchFieldException, *sName,0); 
-    field = null;
-  }
-  STACKTRC_LEAVE;
-  return field;
 }
 
 

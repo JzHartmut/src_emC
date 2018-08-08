@@ -33,8 +33,8 @@
 
 
 /**If only this file is included, include all files of this concept. */
-#ifndef __applstdefJc_h__
-  #include <applstdefJc.h>
+#ifndef __applstdef_emC_h__
+  #include <applstdef_emC.h>
 #endif
 
 #ifndef   __compl_adaption_h__
@@ -75,6 +75,7 @@
 #pragma warning(disable:4514) //unreferenced inline function has been removed
 //#pragma warning(disable:4512) //assignment operator could not be generated
 #pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
+
 
 
 
@@ -293,7 +294,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  */
-#define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
+#define OS_HandlePtr(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
@@ -303,6 +304,12 @@ typedef struct double_complex_t { double re; double im; } double_complex;
      It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
   */
   #define INLINE_Fwc static
+  //#define inline static
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
+  #define bool int
+#endif
 #endif
 
 #ifdef __cplusplus

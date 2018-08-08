@@ -34,7 +34,7 @@
 
 /**If only this file is included, include all files of this concept. */
 #ifndef __applstdefJc_h__
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 
 #ifndef   __compl_adaption_h__
@@ -50,7 +50,7 @@
 
 
 //following defines are checked from generated code for DSP. It is over-engineered, but should be done.
-//This applstdefJc.h is intent to work only with dsp software. It is okay. 
+//This applstdef_emC.h is intent to work only with dsp software. It is okay. 
 
 //prevent including limits.h for MSC6
 #define _INC_LIMITS

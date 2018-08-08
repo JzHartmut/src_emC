@@ -1,6 +1,6 @@
 #ifndef __FBaccess_Inspc_h__
 #define __FBaccess_Inspc_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <Inspc/DataNode_Inspc.h>
 struct DataNode_Inspc_t;
 struct FBaccess_Inspc_t;

@@ -1,8 +1,8 @@
-#include <applstdefJc.h>
-#include <Fwc/fw_ThreadContext.h>
-#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_MemC.h>
+#include <applstdef_emC.h>
+#include <emC/ThreadContext_emC.h>
+#include <emC/Exception_emC.h>
+#include <emC/SimpleC_emC.h>
+#include <emC/MemC_emC.h>
 #include <os_thread.h>
 #include <os_mem.h>
 #include <stdlib.h>  //it defines free(...)

@@ -6,7 +6,7 @@
 #include <OSAL/os_sharedMem.h>
 #include <OSAL/os_error.h>
 #include <Fwc/fw_String.h>
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <string.h>
 
 //NOTE: return inside, os_FatalError(...) inside

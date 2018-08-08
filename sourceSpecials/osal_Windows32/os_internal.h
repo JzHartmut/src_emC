@@ -12,7 +12,7 @@
 #include <wtypes.h>
 #include <Winbase.h>
 
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 
 /**Informations about the current thread, more as an simple id. */
 struct OS_ThreadContext_t* os_getCurrentThreadContext_intern();

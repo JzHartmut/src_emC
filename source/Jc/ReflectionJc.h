@@ -49,11 +49,11 @@
  ****************************************************************************/
 #ifndef __ReflectionJc_h__
 #define __ReflectionJc_h__
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 //to include with _Jc, inside ReflectionJc.h the ObjectJc.h will be included, but than the wrapperdefines are missing
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 //#include <Jc/ObjectJc.h>
-#include <Fwc/fw_SimpleC.h>
+#include <emC/SimpleC_emC.h>
 #include <Jc/ReflMemAccessJc.h>
 #include <stdarg.h>
 

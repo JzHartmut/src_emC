@@ -58,7 +58,7 @@ include JZtxtcmd/Msc6.zmake.jztc;
 currdir=<:><&scriptdir>/..<.>;
 
 Fileset  includePath = 
-( incApplSpecific/FwConvC32  ##This is the applstdefJc.h-directory, defines the platform.
+( incApplSpecific/FwConvC32  ##This is the applstdef_emC.h-directory, defines the platform.
 , source
 , source/OSAL
 , sourceSpecials

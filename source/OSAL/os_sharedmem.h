@@ -1,7 +1,7 @@
 #ifndef __os_sharedmem_h__
 #define __os_sharedmem_h__
-#include <applstdefJc.h>
-#include <Fwc/fw_MemC.h>
+#include <applstdef_emC.h>
+#include <emC/MemC_emC.h>
 
 /**This structure contains all data for the internal organization of a shared memory access. 
  * Data of this struct does not need to access by the user. Use the operations which uses this structure.

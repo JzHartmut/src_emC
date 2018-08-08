@@ -32,7 +32,7 @@
  *
  * @version 0.83
  */
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <Jc/ReflectionJc.h>
 #include <Jc/ObjectJc.h>
 

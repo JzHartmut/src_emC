@@ -1,15 +1,8 @@
 #ifndef __applstdefJc_h__
 #define __applstdefJc_h__
-/**This headerfile contains all standard definition for usage the CRJ - CRuntimeJavalike - basicly system.
- * It is for a simple numeric target without reflection, StringJc and exception handling. 
- */
 
-//Note: uncomment that to check whether this file is included:
-//#error used_applstdefJc_TargetNumericSimple
-
-
-/**With this compiler switch the reflection should not be included, because they will not used. */
-#define __DONOTUSE_REFLECTION__
+//Uncomment to check whether used:
+//#error Uses FwConvC32/applstdef_emC.h
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -27,9 +20,6 @@
 #include <OSAL/os_types_def_common.h>
 
 #include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-
-/**Including this file the ObjectJc.h is not included, */
-#include <source/FwConv_h/ObjectJc_simple.h>
 
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
@@ -59,8 +49,9 @@
   #define __TRYCPPJc
 
 #include <Fwc/fw_threadContext.h>
-//#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_ExcStacktrcNo.h>
+#include <Fwc/fw_Exception.h>
+//#include <Fwc/fw_ExcStacktrcNo.h>
+
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 

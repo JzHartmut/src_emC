@@ -2,7 +2,7 @@
 #define __applstdefJc_h__
 
 //Uncomment to check whether used:
-//#error Uses FwConvBlockheap/applstdefJc.h
+//#error Uses Exchandling_Printf/applstdef_emC.h
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -24,8 +24,8 @@
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 //Note: Include before fw_String.h because it is used there.
-//#include <incApplSpecific/applConv/EnhanceRef_simple.h>
-#include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
+#include <incApplSpecific/applConv/EnhanceRef_simple.h>
+//#include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
@@ -46,11 +46,11 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#define __TRYCPPJc
+  #define __TRYCPPJc
 
 #include <Fwc/fw_threadContext.h>
-#include <Fwc/fw_Exception.h>
-//#include <Fwc/fw_ExcStacktrcNo.h>
+//#include <Fwc/fw_Exception.h>
+#include <Fwc/fw_ExcStacktrcNo.h>
 
 
 

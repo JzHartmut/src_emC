@@ -34,7 +34,7 @@
 
 /**If only this file is included, include all files of this concept. */
 #ifndef __applstdefJc_h__
-  #include <applstdefJc.h>
+  #include <applstdef_emC.h>
 #endif
 
 #ifndef   __compl_adaption_h__

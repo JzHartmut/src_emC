@@ -41,7 +41,7 @@
  *
  ****************************************************************************/
 
-#include <applstdefJc.h>  //should contain all definition for exception handling.
+#include <applstdef_emC.h>  //should contain all definition for exception handling.
 
 
 ExceptionJc exceptionArray_ExceptionJc[20];

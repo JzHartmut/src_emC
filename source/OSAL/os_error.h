@@ -49,7 +49,7 @@
 #ifndef __os_error_h__
 #define __os_error_h__
 
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 
 //Funktion-Fehlercode
 #define OS_OK                  0

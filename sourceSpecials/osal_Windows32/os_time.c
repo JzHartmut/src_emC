@@ -33,7 +33,7 @@
  * 2007-10-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <applstdefJc.h>
+#include <applstdef_emC.h>
 #include <os_time.h>
 
 #undef INT32

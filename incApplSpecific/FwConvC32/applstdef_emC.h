@@ -2,7 +2,7 @@
 #define __applstdefJc_h__
 
 //Uncomment to check whether used:
-//#error Uses FwConvC32/applstdefJc.h
+//#error Uses FwConvC32/applstdef_emC.h
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -48,9 +48,9 @@
   */
   #define __TRYCPPJc
 
-#include <Fwc/fw_threadContext.h>
-#include <Fwc/fw_Exception.h>
-//#include <Fwc/fw_ExcStacktrcNo.h>
+#include <emC/ThreadContext_emC.h>
+#include <emC/Exception_emC.h>
+//#include <emC/ExcStacktrcNo.h>
 
 
 

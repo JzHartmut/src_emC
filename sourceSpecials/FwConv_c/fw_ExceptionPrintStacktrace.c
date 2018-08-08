@@ -36,12 +36,12 @@
  *
  ****************************************************************************/
 
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception_emC.h>
 #ifndef __NOT_SUPPORTED_ExceptionJc__
 
-#include <Fwc/fw_ThreadContext.h>
-#include <Fwc/fw_SimpleC.h>     //ARRAYLEN
-#include <Fwc/fw_String.h> 
+#include <emC/ThreadContext_emC.h>
+#include <emC/SimpleC_emC.h>     //ARRAYLEN
+#include <emC/String_emC.h> 
 #include <os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
@@ -73,7 +73,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   { os_fwrite(out, sException, strlen(sException));
 	  os_fwrite(out, ": ", 2);
 		os_fwrite(out, sBuffer, zBuffer);
-	  zBuffer = sprintf(sBuffer, ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
+	  zBuffer = snprintf(sBuffer, sizeof(sBuffer), ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
 		os_fwrite(out, sBuffer, zBuffer);
   }
   //nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
@@ -86,7 +86,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
     { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
     }
     else
-    { zBuffer = sprintf(sBuffer, "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+    { zBuffer = snprintf(sBuffer, sizeof(sBuffer), "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
 			os_fwrite(out, sBuffer, zBuffer);
 	  }
   }
@@ -116,7 +116,6 @@ void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt
 {
   printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
   printStackTraceFile_ExceptionJc(ythis, null, null);
-  //Exception erzeugen damit der Abstrurz sichtbar wird:
   os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
   exit(255);
 }

@@ -33,7 +33,7 @@
  * @version 0.83
  *
  * @content This file defines EnhancedRef for the Blockheap concept. 
- * It must not immediately include in a user's source, but it may be included in <applstdefJc.h> if necesarry
+ * It must not immediately include in a user's source, but it may be included in <applstdef_emC.h> if necesarry
  *
  * @author Jchartmut www.vishia.org
  * @version 0.81

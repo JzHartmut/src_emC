@@ -38,31 +38,48 @@
  *
  ****************************************************************************/
 //The following include guard prevent twice include of the alternate ObjectJc.h
-#include <applstdefJc.h>
+//
+#ifndef __applstdef_emC_h__
+  #include <applstdef_emC.h>
+#endif
 #ifndef __ObjectJc_simple__
 #define __ObjectJc_simple__
+
+
+struct ClassJc_t;
 
 /**Object is the superclass of all superclasses. In C-like manner it is a struct
  * at begin of any class-like struct.
  *
- * The headerfile <Fwc/objectBaseC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources
- * which does not use concepts of ,,ObjectJc,, but should know this embedded struct. 
+ * The headerfile <Fwc/objectBaseC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources 
+ * with all capabilities.
+ * This definition is a small variant for only simple capabilities 
+ * especially for less footprint or non-String-using target systems with usual 16 or 32 bit memory addresses.
  * Some definitions and methods are common use-able, that methods are contained here too. 
  */
 typedef struct  ObjectJc_t
 {
-  int32 identification;
+  /**The instanceId is helpfull to recognize the instance. 
+   * The bit31 is used to detect whether it is initialized or not. */
+  int32 instanceId;
+  
+  /**The reference to the type is either an index to a central pointer table (for 64-bit-addresses) or the address itself.
+   * In any case this is a 32-bit-location which references the type.
+   */
+  //OS_HandlePtr(struct ClassJc_t const, type);
+  OS_HandlePtr(char const, type);
 } ObjectJc;
 
 
 #define ident_newAllocated_ObjectJc 0x0001
 
 
+
 //Marker: ObjectJc is defined.
 #define __ObjectJc_defined__
 
-/**Initialize only the identification. */
-#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF }
+/**Initialize only the instanceId. */
+#define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, { (char const*)(REFLECTION)} }
 
 /**Initialization of the basicly data of Object.
  * This method should be used for all instances.
@@ -70,27 +87,36 @@ typedef struct  ObjectJc_t
  *                      the offset to the instance itself will be stored to help data debugging.
  * @param sizeObj The size of the whole instance, use sizeof(TypeInstance). 
  * @param reflection The reflection class. It may be null if the reflections are not present.
- * @param identObj An identification info, see [[attribute:_ObjectJc:objectIdentSize]] 
+ * @param identObj An instanceId info, see [[attribute:_ObjectJc:objectIdentSize]] 
  * return ythis, the reference of the Object itself.
 */
 //METHOD_C ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
-#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->identification = (IDENT); }
+#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->instanceId = (IDENT); (THIZ)->typeId = SIZE; }
 
-#define checkStrict_ObjectJc(THIZ, SIZE, IDENT, REFL, THCXT) ( (IDENT) !=0 && (IDENT) != (THIZ)->identification ? -1 : (THIZ)->identification )
-
-
-#define setInitialized_ObjectJc(THIZ) { (THIZ)->identification |= 0x80000000; }
-
-#define isInitialized_ObjectJc(THIZ) ( (THIZ)->identification & 0x80000000 )
+#define checkStrict_ObjectJc(THIZ, SIZE, IDENT, REFL, THCXT) ( (IDENT) !=0 && (IDENT) != (THIZ)->instanceId ? -1 : (THIZ)->instanceId )
 
 
-#define init_ObjectJc(THIZ, SIZE, IDENT) { (THIZ)->identification = (IDENT) & 0x7fffffff; } 
+#define setInitialized_ObjectJc(THIZ) { (THIZ)->instanceId |= 0x80000000; }
 
+#define isInitialized_ObjectJc(THIZ) ( (THIZ)->instanceId & 0x80000000 )
+
+
+#define init_ObjectJc(THIZ, SIZE, IDENT) { (THIZ)->instanceId = (IDENT) & 0x7fffffff; } 
+
+
+/**The Reflection is reduced to a character constant which contains the name of the type, helpfull for debug. 
+ * This struct needs only 6 int32 words per existing type.
+ */
 typedef struct ClassJc_t
-{ ObjectJc obj;
+{
+  ObjectJc obj;
+  //char const* name;
   char name[32];
-  int ident;
+  int32 ident;
 } ClassJc;
 
+extern ClassJc const reflection_ClassJc;
+
+#define CONST_NAME_ClassJc(NAME, IDENT) { CONST_ObjectJc(0, null, &reflection_ClassJc), NAME, IDENT }
 
 #endif  //__ObjectJc_simple__
