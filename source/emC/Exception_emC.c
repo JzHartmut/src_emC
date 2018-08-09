@@ -111,6 +111,7 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _th
     StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
     StacktraceElementJc* stacktraceTry;
     int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
+    stacktrcThCxt->entries[ixStacktraceEntries].line = line;  //it is the line of the THROW statement.
     do {
       stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
     } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 

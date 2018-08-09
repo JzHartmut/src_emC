@@ -85,10 +85,10 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   }
   //nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
   idxStacktraceEntries = _thCxt->stacktrc.zEntries;
-  while(idxStacktraceEntries >=0 ) //< nrofStacktraceEntriesMax)
+  while(--idxStacktraceEntries >=0 ) //< nrofStacktraceEntriesMax)
   { //the entries after try-level
     //StacktraceElementJc* entry = &stacktraceEntries->data[idxStacktraceEntries++];
-    StacktraceElementJc* entry = &_thCxt->stacktrc.entries[idxStacktraceEntries--];
+    StacktraceElementJc* entry = &_thCxt->stacktrc.entries[idxStacktraceEntries];
     if(out == null)
     { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
     }
