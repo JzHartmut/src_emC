@@ -42,7 +42,7 @@
 #include "os_file.h"
 //#include <fw_Platform_Conventions.h>
 
-struct ThreadContextFW_t;
+struct ThreadContext_emC_t;
 struct StringBuilderJc_t;
 
 /*@CLASS_C FileJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -156,9 +156,9 @@ METHOD_C void write_FileOutputStreamJc(FileOutputStreamJc_s* ythis, void* data, 
 
 METHOD_C void write_B_FileOutputStreamJc(FileOutputStreamJc_s* ythis, int8 byte, ThCxt* _thCxt);
 
-METHOD_C void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt);
 
-METHOD_C void close_FileOutputStreamJc_F(FileOutputStreamJc_s* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C void close_FileOutputStreamJc_F(FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt);
 
 
 /*@CLASS_C FileWriterJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -193,17 +193,17 @@ void finalize_FileWriter_F(ObjectJc* othis, ThCxt* _thCxt);
 
 
 
-METHOD_C FileWriterJc_s* ctorO_FileWriterJc(ObjectJc* othis, struct ThreadContextFW_t* _thCxt);
+METHOD_C FileWriterJc_s* ctorO_FileWriterJc(ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
 
-METHOD_C int open_FileWriterJc(FileWriterJc_s* ythis, StringJc fileName, bool append, struct ThreadContextFW_t* _thCxt);
+METHOD_C int open_FileWriterJc(FileWriterJc_s* ythis, StringJc fileName, bool append, struct ThreadContext_emC_t* _thCxt);
 
 METHOD_C bool isOpen_FileWriterJc(FileWriterJc_s* ythis);
 
-METHOD_C void write_FileWriterJc(FileWriterJc_s* ythis, StringJc text, struct ThreadContextFW_t* _thCxt);
+METHOD_C void write_FileWriterJc(FileWriterJc_s* ythis, StringJc text, struct ThreadContext_emC_t* _thCxt);
 
-METHOD_C void flush_FileWriterJc(FileWriterJc_s* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C void flush_FileWriterJc(FileWriterJc_s* ythis, struct ThreadContext_emC_t* _thCxt);
 
-METHOD_C void close_FileWriterJc(FileWriterJc_s* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C void close_FileWriterJc(FileWriterJc_s* ythis, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -276,7 +276,7 @@ StringJc readLine_BufferedReaderJc(BufferedReaderJc_s* ythis, ThCxt* _thCxt);
 //see extra FileSystemJc.h
 //MemC readBinFile_FileSystemJc(FileJc_s* file, MemC buffer);
 
-//METHOD_C int writeBinFile_FileSystemJc(FileJc_s* file, int8_Y* buffer, struct ThreadContextFW_t* _thCxt);
+//METHOD_C int writeBinFile_FileSystemJc(FileJc_s* file, int8_Y* buffer, struct ThreadContext_emC_t* _thCxt);
       
 
 #endif //__Jc_FileIoJc_h__

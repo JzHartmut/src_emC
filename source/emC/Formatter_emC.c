@@ -51,9 +51,9 @@
 #include <emC/Formatter_emC.h>
 #include <emC/SimpleC_emC.h>         //ARRAYLEN
 #include <emC/Exception_emC.h>       //STACKTRC_...
-#include <emC/ThreadContext_emC.h>   //os_getCurrentStacktraceThreadContext()
-#include <emC/TimeConversions_emC.h>   //os_getCurrentStacktraceThreadContext()
-#include <emC/Va_list_emC.h>   //os_getCurrentStacktraceThreadContext()
+#include <emC/ThreadContext_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
+#include <emC/TimeConversions_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
+#include <emC/Va_list_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
 #include <string.h>             //strchr(), strlen(), memset()
 #include <stdio.h>
 
@@ -64,13 +64,13 @@ char const typedVaArg_VaArgBuffer[] = "typedVariableArgumentList_ObjectJc";
 int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, char const* sFormat, int timeZoneAdjustHours)
 {
   int lenFormat = strlen(sFormat);
-  TimeBytes_Fwc timeYsec;
+  TimeBytes_emC timeYsec;
   int maxPosBuffer = sizeBuffer;
   int posBuffer = 0;
   int nHour, nMonth;
   int32 nanos = time->time_nsec;
   STACKTRC_ENTRY("toStringFormat_DateFw");
-  ctor_TimeBytes_Fwc(&timeYsec, seconds_OS_TimeStamp(*time), 1970, 0, isGPS_OS_TimeStamp(*time));
+  ctor_TimeBytes_emC(&timeYsec, seconds_OS_TimeStamp(*time), 1970, 0, isGPS_OS_TimeStamp(*time));
 
   { static const char* sMonthsFull[12] = {"January", "February", "March", "April", "May", "June"
                        , "July", "August", "September", "October", "November", "December"};
@@ -541,7 +541,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
   char const* sFormatBack =null;
   char const* sFormatEndBack = null;
   /**Two places for converted time. */
-  TimeBytes_Fwc timeYsec[2];  
+  TimeBytes_emC timeYsec[2];  
   OS_TimeStamp timeStamp[2];
   /**The argument-number for timeplace. */
   int nrArgTime[2] = {-1, -1};
@@ -551,7 +551,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
   
   STACKTRC_TENTRY("format_BV_StringJc");
   if(zFormat <=0){
-    zFormat = strlen_Fwc(sFormat, 1000);
+    zFormat = strlen_emC(sFormat, 1000);
     sFormatEnd = sFormat + zFormat;
   }
   //va_start(vargList, args->v[0]);
@@ -679,17 +679,17 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
               if(srcToCopy == null)
               { srcToCopy = "(null)";   //a null pointer may be acceptable.
               }
-              nrofCharsToCopy = strlen_Fwc(srcToCopy, zBuffer-iBuffer);
+              nrofCharsToCopy = strlen_emC(srcToCopy, zBuffer-iBuffer);
             } break;
-            case '1': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 8);
-            case '2': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 16);
-            case '3': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 24);
-            case '4': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 32);
-            case '5': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 40);
-            case '6': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 48);
-            case '7': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 56);
-            case '8': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, 64);
-            case '$': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_Fwc(srcToCopy, zBuffer-iBuffer);
+            case '1': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 8);
+            case '2': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 16);
+            case '3': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 24);
+            case '4': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 32);
+            case '5': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 40);
+            case '6': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 48);
+            case '7': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 56);
+            case '8': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 64);
+            case '$': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, zBuffer-iBuffer);
             default:  srcToCopy="ERROR unknwon Type";nrofCharsToCopy = strlen(srcToCopy);
           }
         } break;
@@ -758,7 +758,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
                 timeStamp[ixArgTime] = argValue->t;
               } break; 
               }//switch
-              ctor_TimeBytes_Fwc(&timeYsec[ixArgTime], seconds_OS_TimeStamp(timeStamp[ixArgTime]), 1970, 0, isGPS_OS_TimeStamp(timeStamp[ixArgTime]));
+              ctor_TimeBytes_emC(&timeYsec[ixArgTime], seconds_OS_TimeStamp(timeStamp[ixArgTime]), 1970, 0, isGPS_OS_TimeStamp(timeStamp[ixArgTime]));
             }
           }
           switch(actParseResult[0].value.timeSpecifier){
@@ -855,7 +855,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
 }
 
 
-int format_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat, char* buffer, int zBuffer, char const* sTypeArgs, ...)
+int format_Formatter_FW(struct ThreadContext_emC_t* _thCxt, const char* sFormat, int zFormat, char* buffer, int zBuffer, char const* sTypeArgs, ...)
 {
   Va_listFW valist = CONST_Va_listFW(sTypeArgs);
   va_start(valist.args, sTypeArgs);

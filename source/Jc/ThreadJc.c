@@ -39,13 +39,13 @@
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 
 #ifndef __NOT_SUPPORTED_ThreadContextFw__  //then ignore whole file
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception.h>
 
 #include <os_thread.h>
 #include <os_time.h>
 //TODO conditional compilation or using commonly approach:
 #ifndef NO_DYNAMICALLY_MEMORY
-	//#include "BlockHeap/BlockHeapJc.h"
+	//#include "BlockHeap/BlockHeap_emC.h"
 #endif
 
 //#define PRINTF2(S,V)  //empty, ready to use if debug with PRINTF is necessary.
@@ -100,14 +100,14 @@ static int root_ThreadJc(void* data)
   //data = ((int*)data) +4;   //pointer which was makes leeway. 
   ObjectJc* oRunnable = (ObjectJc*)data;
   
-  ThreadContextFW_s threadContextInStack;
+  ThreadContext_emC_s threadContextInStack;
   
   memset(&threadContextInStack, 0, sizeof(threadContextInStack));
   
-  ctorM_ThreadContextFW(build_MemC(&threadContextInStack, sizeof(ThreadContextFW_s)));
+  ctorM_ThreadContext_emC(build_MemC(&threadContextInStack, sizeof(ThreadContext_emC_s)));
 #ifndef NO_DYNAMICALLY_MEMORY
     //DONT USE ANY CONDITIONAL COMPILING!
-		//threadContextInStack.blockHeap = first_BlockHeapJc();
+		//threadContextInStack.blockHeap = first_BlockHeap_emC();
 #endif  
   /**This is the first StackEntry of this thread. It allocates memory. */
   { ThCxt* _thCxt = &threadContextInStack;

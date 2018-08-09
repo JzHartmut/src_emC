@@ -5,7 +5,7 @@
 #include "Ipc2c/InterProcessCommRx_ifc_Ipc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include <emC/Exception.h>  //basic stacktrace concept
 #include "Jc/StringJc.h"  //embedded type in class data
 
 

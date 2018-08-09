@@ -49,11 +49,11 @@
  *
  ****************************************************************************/
 #include <Jc/ReflMemAccessJc.h>
-#include <Fwc/fw_SimpleC.h>
+#include <emC/SimpleC.h>
 #include <string.h>
 #include <Jc/ObjectJc.h>
 #include <os_AtomicAccess.h>
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception.h>
 
 
 MemSegmJc null_MemSegmJc = CONST_OS_PtrValue(null, MemUnit, 0);

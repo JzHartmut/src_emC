@@ -40,14 +40,14 @@
  *
  ************************************************************************************************/
 
-#include <Fwc/fw_LogMessage.h>
+#include <emC/LogMessage_emC.h>
 //#include "Jc/StringJc.h"
-#include <Fwc/fw_Formatter.h>
+#include <emC/Formatter_emC.h>
 //#include "OSAL/inc/os_time.h"
-//#include "Fwc/fw_Exception.h"
+//#include "emC/Exception.h"
 //#include <stdarg.h>
 #include <string.h>
-#include <Fwc/fw_ThreadContext.h>
+#include <emC/ThreadContext_emC.h>
 
 
 extern struct ClassJc_t const reflection_LogMessageFW_i;
@@ -348,7 +348,7 @@ bool LogMessageFW::isOnline()
 
 #endif  //__CPLUSGEN    
 
-#include "genRefl/Fwc/fw_LogMessage.crefl"
+#include "genRefl/emC/LogMessage.crefl"
 
 
 

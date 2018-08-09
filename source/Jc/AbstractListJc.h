@@ -53,9 +53,9 @@ typedef struct AbstractCollectionJc_t
   /**from java.util.AbstractList: */
   int modCount;
 
-  /**Access to a pool of free Entries to link, getted from a BlockHeapJc.
+  /**Access to a pool of free Entries to link, getted from a BlockHeap_emC.
    * This attribute may be null if no determined blockHeap should be used.
-   * If both, blockHeap and freeEntryPool are null, the standard BlockHeapJc is used.
+   * If both, blockHeap and freeEntryPool are null, the standard BlockHeap_emC is used.
    * @refl: void*.
    */
   struct NodePoolJc_t* nodePool;

@@ -46,12 +46,12 @@
 #define __Jc_OsWrapperJc_h__
 
 #include <Jc/ObjectJc.h>
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception.h>
 #include <os_thread.h>
 #include <os_time.h>
 #include <os_sync.h>
 #include <os_waitnotify.h>
-#include <Fwc/fw_ThreadContext.h>
+#include <emC/ThreadContext.h>
 
 /**Version and History.
  * 2015-08-16 JcHartmut: There is a mistake while creating a new [[synchronized(...)]]:

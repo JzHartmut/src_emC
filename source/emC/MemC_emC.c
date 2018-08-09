@@ -83,7 +83,7 @@ MemC build_MemC(void* address, int size)
 }
 
 
-void checkSize_MemC(MemC mem, int size, struct ThreadContextFW_t* _thCxt)
+void checkSize_MemC(MemC mem, int size, struct ThreadContext_emC_t* _thCxt)
 {
   if(size < (int)size_MemC(mem)) THROW_s0(IllegalArgumentException, "sufficient size", size);  
 }

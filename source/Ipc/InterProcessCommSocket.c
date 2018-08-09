@@ -35,9 +35,9 @@
 
 #include "Ipc/InterProcessCommSocket.h"
 
-#include "Fwc/fw_basic.h"
-#include "Fwc/fw_SimpleC.h"
-#include "Fwc/fw_MemC.h"
+#include "emC/basic.h"
+#include "emC/SimpleC.h"
+#include "emC/MemC.h"
 #include <Jc/ObjectJc.h>
 #include <os_endian.h>
 
@@ -406,7 +406,7 @@ InterProcessComm_s* ctor_InterProcessCommSocket(InterProcessCommSocket_s* ythis,
 
 
 
-InterProcessCommSocket_s* ctorO_InterProcessCommSocket(ObjectJc* othis, Address_InterProcessComm_s * addr, struct ThreadContextFW_t* _thCxt)
+InterProcessCommSocket_s* ctorO_InterProcessCommSocket(ObjectJc* othis, Address_InterProcessComm_s * addr, struct ThreadContext_emC_t* _thCxt)
 {
   //InterProcessComm_s* ret;
   InterProcessCommSocket_s* ythis = (InterProcessCommSocket_s*)othis;

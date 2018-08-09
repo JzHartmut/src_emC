@@ -31,7 +31,7 @@
  * @author Hartmut Schorrig
  * @version 0.91
  * list of changes:
- * 2016-11-12: Hartmut: The CLASS_C [[class_StacktraceElementJc]] and [[class_StacktraceThreadContext]] are now defined in this file.
+ * 2016-11-12: Hartmut: The CLASS_C [[class_StacktraceElementJc]] and [[class_StacktraceThreadContext_emC]] are now defined in this file.
  *   Therewith the include of fw_exception.h is unneccessary. The dependence is solved. Note that the both definitions are independent
  *   of the core ideas of the exception handling in C. They define only a set of name, filepath and a line number. 
  * 2009-10-20: Hartmut: *new: element mode, used for bit mOptimizeToString_Mode_ThCxt. This property should be able to set in a thread context, used in StringJc.h
@@ -51,12 +51,12 @@
 #include <emC/MemC_emC.h>
 struct TryObjectJc_t;
 
-#define __ThreadContextFW_supported__
+#define __ThreadContext_emC_supported__
 
-typedef struct AddrUsed_ThreadContextFW_t
+typedef struct AddrUsed_ThreadContext_emC_t
 { char const* sign;
   MemC used;
-} AddrUsed_ThreadContextFW;
+} AddrUsed_ThreadContext_emC;
 
 
 /*@CLASS_C StacktraceElementJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -70,7 +70,7 @@ typedef struct StacktraceElementJc_t
 
 
 
-/*@CLASS_C StacktraceThreadContext @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C StacktraceThreadContext_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 /**The max. number of stacktrace entries should be defined as constant. It limits the shown stacktrace depth,
@@ -84,7 +84,7 @@ struct StacktraceJc_t;
  * A reference to this structure should be known in every routine to handle with Stacktrace.
  * The reference may be the last argument of call of any routine.
  */
-typedef struct StacktraceThreadContext_t
+typedef struct StacktraceThreadContext_emC_t
 {
   /**Pointer to the actual stacktrace entry.
    * This pointer is used and setted in any routine using the macro STACKthread_ENTRY and STACKthread_LEAVE.
@@ -92,35 +92,35 @@ typedef struct StacktraceThreadContext_t
   //struct StacktraceJc_t* stacktrace;
 
   /**Pointer to the whole ThreadContext. */
-  //struct ThreadContextFW_t* threadContext;
+  //struct ThreadContext_emC_t* threadContext;
 
   /**actual nrofEntries i stacktraceBuffer. */
   uint32 zEntries; //nrofEntriesStacktraceBuffer;
 
   /**The available number of Stacktrace entries. */
-  int maxNrofEntriesStacktraceBuffer;
+  int32 maxNrofEntriesStacktraceBuffer;
   
   /**Space for Stacktrace Buffer. */
   StacktraceElementJc entries[100]; //CHeader.zbnf??? nrofStacktraceEntries_ThreadContexJc];
   //struct StacktraceElementJcARRAY_t* stacktraceBuffer;
 
   
-} StacktraceThreadContext_s;
+} StacktraceThreadContext_emC_s;
 
 
-METHOD_C StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis);
+METHOD_C StacktraceThreadContext_emC_s* ctorM_StacktraceThreadContext_emC(MemC mthis);
 
 /**Returns the method name of the requested level.
  * @param level 0 is actual, 1... are previous levels.
  * @return "" if no previous level is found.
  */
-METHOD_C char const* getCallingMethodName_StacktraceThreadContext(StacktraceThreadContext_s* ythis, int level);
+METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, int level);
 
 
-/*@CLASS_C ThreadContextFW @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C ThreadContext_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-typedef struct ThreadContextFW_t
+typedef struct ThreadContext_emC_t
 { 
   /**A memory area referenced in the thread context. This area is either initially created or created on demand
    * with a default size. It can be used especially for String values or other instances
@@ -129,19 +129,19 @@ typedef struct ThreadContextFW_t
   MemC bufferAlloc;
 
   /**Up to 30 used addresses for allocated buffers in thread context.
-   * The positions in this array refers to the bits from 0...9 in [[ThreadContextFW_s.bitAddrUsed]].
+   * The positions in this array refers to the bits from 0...9 in [[ThreadContext_emC_s.bitAddrUsed]].
    * If the bit is set, this is the associated memory location for a allocated buffer.
    * If the bit is 0 but higher bits are set, this is the gap in the buffer for a freed block. 
-   * That block is reused if an [[ThreadContextFW_s.getUserBuffer_ThreadContextFw(...)]] is called with exactly the same size.
+   * That block is reused if an [[ThreadContext_emC_s.getUserBuffer_ThreadContextFw(...)]] is called with exactly the same size.
    * That is usual if more as one time a block is allocated and freed in a loop.
-   * If the element contains {0,0} than it is not a gap, and the whole memory till end of [[ThreadContextFW_s.bufferAlloc]] is available. 
+   * If the element contains {0,0} than it is not a gap, and the whole memory till end of [[ThreadContext_emC_s.bufferAlloc]] is available. 
    */
-  AddrUsed_ThreadContextFW addrUsed[30];
+  AddrUsed_ThreadContext_emC addrUsed[30];
 
   /**If the bit from 0..29 is set, the address is in use. 0: freed. */
   int32 bitAddrUsed;
 
-  /**The free address of [[ThreadContextFW_s.bufferAlloc]]. It is equal the start address if all is free.*/
+  /**The free address of [[ThreadContext_emC_s.bufferAlloc]]. It is equal the start address if all is free.*/
   MemUnit* addrFree;
   
   int16 ixLastAddrUsed;
@@ -155,27 +155,27 @@ typedef struct ThreadContextFW_t
   #define mCheckBufferUsed_Mode_ThCxt 0x0004
   
   /**It is the heap, where block heap allocations are provided in this thread. */
-  struct BlockHeapJc_t* blockHeap;
+  struct BlockHeap_emC_t* blockHeap;
 
-  /**The known highest address in the stack. It is the address of the _struct ThreadContextFW_t* pointer
+  /**The known highest address in the stack. It is the address of the _struct ThreadContext_emC_t* pointer
    * of the first routine, which creates the Thread context.
    */
   void* topmemAddrOfStack;
   
   /**Data of the Stacktrace if this concept is used. */
-  StacktraceThreadContext_s stacktrc;
+  StacktraceThreadContext_emC_s stacktrc;
   /*NOTE: The element stacktrc have to be the last because some additional StackEntryJc may be added on end.*/
 
-} ThreadContextFW_s;
+} ThreadContext_emC_s;
 
 
 
-/**Its a short form of ThreadContextFW-pointer. */
-#define ThCxt struct ThreadContextFW_t
+/**Its a short form of ThreadContext_emC-pointer. */
+#define ThCxt struct ThreadContext_emC_t
 
 
-/**initializes the ThreadContextFW. */
-METHOD_C ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis);
+/**initializes the ThreadContext_emC. */
+METHOD_C ThreadContext_emC_s* ctorM_ThreadContext_emC(MemC mthis);
 
 
 
@@ -185,7 +185,7 @@ METHOD_C ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis);
  *         Normally the given size setted with os_setThreadContextSettings should be returned.
  *         If the os_setThreadContextSettings-routine is not called before, the routine returns {0, null}.
  */
-METHOD_C ThreadContextFW_s* getCurrent_ThreadContextFW(); 
+METHOD_C ThreadContext_emC_s* getCurrent_ThreadContext_emC(); 
 
 /**Sets a buffer in ThreadContext.
  * The buffer may be necessary and filled in inner routines.
@@ -193,24 +193,24 @@ METHOD_C ThreadContextFW_s* getCurrent_ThreadContextFW();
  *         the content of the returned buffer should be stored in stack and restore
  *         before the calling routine returns. 
  */
-METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, struct ThreadContextFW_t* _thCxt);
+METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, struct ThreadContext_emC_t* _thCxt);
 
 /**Gets a buffer in ThreadContext. 
  * This is a special simple way to handle with memory, if no everlastingly allocation is admissible,
  * but a buffer should filled and returned inside called routines. 
  * It is possible to allocate a buffer more as one time but at maximum 10 buffers are possible.
  * That is enough to build string etc. for logging messages, paths etc.
- * A buffer can be allocate, freed with [[ThreadContextFW_s.releaseUserBuffer_ThreadContextFw(...)]] and allocate with the same size again.
+ * A buffer can be allocate, freed with [[ThreadContext_emC_s.releaseUserBuffer_ThreadContextFw(...)]] and allocate with the same size again.
  * Then the same position is reused. 
  *
- * The algorithm used the fields [[ThreadContextFW_s.addrUsed]] etc.
+ * The algorithm used the fields [[ThreadContext_emC_s.addrUsed]] etc.
  *
- * The buffer may be given by [[ThreadContextFW_s.setUserBuffer_ThreadContextFw(...)]] or it is allocated on demand on first usage.
+ * The buffer may be given by [[ThreadContext_emC_s.setUserBuffer_ThreadContextFw(...)]] or it is allocated on demand on first usage.
  * Because the buffer is stored not globally but thread specific this mechanism is threadsafe, .
  * @param size in MemUnit
  * @param sign a number to support debugging which part of code has allocated, use a unified number if possible.
  */ 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, struct ThreadContextFW_t* _thCxt);
+METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
 
 /**Reduces the size of the last gotten buffer in thread context.
  * This routine shall be called immediately after filling the current one buffer, before another buffer is gotten.
@@ -220,17 +220,17 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, struct T
  * @param ptr To check wheterh it is the last gotten buffer.
  * @param size the used size. The rest till the end of the Thread contect buffer area is now free for further buffer. 
  */
-METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, struct ThreadContextFW_t* _thCxt);
+METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Sets the mode whether the release of the buffer in ThreadContext is necessary. 
  */ 
-METHOD_C bool setCheckingUserBuffer_ThreadContextFw(struct ThreadContextFW_t* _thCxt, bool value);
+METHOD_C bool setCheckingUserBuffer_ThreadContextFw(struct ThreadContext_emC_t* _thCxt, bool value);
 
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, struct ThreadContextFW_t* _thCxt);
+METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, struct ThreadContext_emC_t* _thCxt);
 
 #define ADDR_IN_STACK_ThreadContextFw(ptr) ((void*)ptr > (void*)&ptr && (void*)ptr < _thCxt->topmemAddrOfStack)
 

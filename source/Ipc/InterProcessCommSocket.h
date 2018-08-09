@@ -39,7 +39,7 @@
 
 //#include "fw_MemC.h"
 #include "Ipc/InterProcessComm.h"
-#include "Fwc/fw_MemC.h"
+#include "emC/MemC.h"
 
 //extern Mtbl_InterProcessComm const mtbl_InterProcessCommSocket;
 
@@ -69,7 +69,7 @@ int open_InterProcessCommSocket( ObjectJc* xthis, Address_InterProcessComm_s* de
 /**The sizeof is calculated from a translator or manual. It is checked in constructor. It may be greater here.*/
 #define sizeof_InterProcessCommSocket_s 2000
 
-METHOD_C struct InterProcessCommSocket_t* ctorO_InterProcessCommSocket(ObjectJc* othis, struct Address_InterProcessComm_t* addr, struct ThreadContextFW_t* _thCxt);
+METHOD_C struct InterProcessCommSocket_t* ctorO_InterProcessCommSocket(ObjectJc* othis, struct Address_InterProcessComm_t* addr, struct ThreadContext_emC_t* _thCxt);
 
 /**The method table is publicated here, to allow direct access. */
 typedef struct MtblDef_InterProcessCommSocket_t { Mtbl_InterProcessComm mtbl; MtblHeadJc end; } MtblDef_InterProcessCommSocket;

@@ -40,7 +40,7 @@
 #define __ListJc_h__
 
 
-#include "Fwc/fw_Exception.h"
+#include "emC/Exception.h"
 #include "Jc/ObjectJc.h"
 #include "Jc/ReflectionJc.h"  //includes pkgSystem/Object.h, pkgSystem/String.h
 

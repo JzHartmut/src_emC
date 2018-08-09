@@ -74,12 +74,12 @@
 //#include <FwConv_h/definePrintfMakros.h>
 
 
-extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 #define kMaxPathLength_FileJc 500
 
 
-INLINE_Fwc int stopNAN(){ return 0; }
+INLINE_emC int stopNAN(){ return 0; }
 
 /**Prevent process a NaN-value (not a number).
  * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h

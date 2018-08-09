@@ -114,7 +114,7 @@ uint uThreadCounter = 0;
 /* Thread protection to access the handle pool.  */
 struct OS_Mutex_t* uThreadPoolSema = 0;              
 
-bool bLibIsInitialized = false;
+static bool bOSALInitialized = false;
 
 /**A pointer to test whether a void*-given data is really a OS_ThreadContext.
  * The content of variable isn't meanfull. The comarision of pointer is significant.
@@ -187,9 +187,9 @@ static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
 
 
 // init adapter, to be called from main thread before calling any other function (only Windows)
-int os_initLib()
+int init_OSAL()
 {
-  if(bLibIsInitialized){ return OS_UNEXPECTED_CALL; }
+  if(bOSALInitialized){ return OS_UNEXPECTED_CALL; }
   else
   {
 	  int idxThreadPool = 0;
@@ -198,7 +198,7 @@ int os_initLib()
     	  
 	  // Allocate the global TLS index (valid for all threads when they are running (current thread)). 
 	  if ((dwTlsIndex = TlsAlloc()) == TLS_OUT_OF_INDEXES){
-		  printf("os_initLib: ERROR: TlsAlloc failed!\n"); 
+		  printf("init_OSAL: ERROR: TlsAlloc failed!\n"); 
 	  }
 
     os_createMutex("os_Threadpool", &uThreadPoolSema);
@@ -222,13 +222,13 @@ int os_initLib()
 		  //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
 		  mainThreadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
 		  if (mainThreadContext->EvHandle == NULL){
-			  printf("ERROR: os_initLib: Failed to crate Event for thread:0x%x\n", hDupMainHandle);
+			  printf("ERROR: init_OSAL: Failed to crate Event for thread:0x%x\n", (uint)hDupMainHandle);
 		  }
 		  mainThreadContext->uFlagRegister = 0;
-  	  bLibIsInitialized = true;
+      bOSALInitialized = true;
 	    { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
         if (!ok  ){ 
-          printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
+          printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
         }
       }
       #ifdef TEST_Time
@@ -266,7 +266,7 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
 	{ bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
     if (!ok  )
     { 
-      printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
+      printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
     }
   } 
   { //complete threadContext
@@ -328,9 +328,9 @@ int os_createThread
   
   HANDLE threadHandle;
     
-  if (!bLibIsInitialized)
-  { os_initLib();
-    	//printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+  if (!bOSALInitialized)
+  { init_OSAL();
+    	//printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
     	//return OS_SYSTEM_ERROR;
   }
   if (stackSize == 0 || stackSize == -1)
@@ -476,8 +476,8 @@ int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
   int ret_ok;
 	long uWinPrio = os_getRealThreadPriority( abstractPrio );
 	
-	if (!bLibIsInitialized){
-		printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+	if (!bOSALInitialized){
+		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
     return OS_SYSTEM_ERROR;
   }
   
@@ -513,8 +513,8 @@ int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 int os_suspendThread(OS_HandleThread handle)
 {
 
-	if (!bLibIsInitialized){
-		printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+	if (!bOSALInitialized){
+		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
     return OS_SYSTEM_ERROR;
   }
   
@@ -546,8 +546,8 @@ int os_suspendThread(OS_HandleThread handle)
 int os_resumeThread(OS_HandleThread handle)
 {
 
-	if (!bLibIsInitialized){
-		printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+	if (!bOSALInitialized){
+		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
     return OS_SYSTEM_ERROR;
   }
   
@@ -577,8 +577,8 @@ OS_HandleThread os_getCurrentThreadHandle(void)
 { 
 	OS_HandleThread currHandle;
 	OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
-  if (!bLibIsInitialized){
-		printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+  if (!bOSALInitialized){
+		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
     return 0;
   }
   currHandle = threadContext->THandle;
@@ -601,11 +601,11 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
 { 
   OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
   if(threadContext == null)
-  { if(!bLibIsInitialized)
-    { os_initLib();
+  { if(!bOSALInitialized)
+    { init_OSAL();
       threadContext = getCurrent_OS_ThreadContext(); //at begin it is the main thread.
     }
-    if(threadContext == null)  //it should be not null if os_initLib() is 
+    if(threadContext == null)  //it should be not null if init_OSAL() is 
     { 
       threadContext = new_OS_ThreadContext("unnamed");
 	    if (threadContext != null)
@@ -630,7 +630,7 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
   	    { 
           bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
           if (!ok  ){ 
-            printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
+            printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
           }
         }
 	    }

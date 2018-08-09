@@ -49,7 +49,7 @@
 #include <string.h>
 
 #ifndef NO_DYNAMICALLY_MEMORY
-	#include <BlockHeap/BlockHeapJc.h>
+	#include <BlockHeap/BlockHeap_emC.h>
 #endif
 /***************************************************************************************
 ****************************************************************************************

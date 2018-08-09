@@ -37,11 +37,11 @@
  ****************************************************************************/
 #include "Jc/DateJc.h"
 //#include "Jc/StringBuilderJc.h"
-#include "Fwc/fw_Exception.h"
+#include "emC/Exception.h"
 #include <Jc/TimeZoneJc.h>
 #include <string.h>
 #include "os_time.h"
-#include <Fwc/fw_timeconversions.h>
+#include <emC/timeconversions.h>
 
 extern_C struct ClassJc_t const reflection_DateJc_s;
 
@@ -273,7 +273,7 @@ TextFieldPositionJc_s* ctorO_TextFieldPositionJc(ObjectJc* othis, int field, ThC
 int64 UTC_DateJc(int year, int month, int day, int hour, int minute, int second)
 {
 	int32 secondsSince1970;
-  TimeBytes_Fwc time;
+  TimeBytes_emC time;
   time.year = (int16)year;
   time.month = (int8)month;
   time.day = (int8)day;
@@ -281,7 +281,7 @@ int64 UTC_DateJc(int year, int month, int day, int hour, int minute, int second)
   time.minute = (int8)minute;
   time.sec = (int8)second;
   time.weekInYear = -1;
-  secondsSince1970 = timeToSeconds_TimeBytes_Fwc(&time, 1970, 0, false);
+  secondsSince1970 = timeToSeconds_TimeBytes_emC(&time, 1970, 0, false);
   return 1000 * (int64)secondsSince1970;
 }
 

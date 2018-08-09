@@ -38,8 +38,8 @@
 
 #include <applstdef_emC.h>  //Note: define before include-guards because applstdef_emC,h may include this file too.
 //The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
-#ifndef __Fwc_fw_timeconversions_h__
-#define __Fwc_fw_timeconversions_h__
+#ifndef __emC_fw_timeconversions_h__
+#define __emC_fw_timeconversions_h__
 #include <os_time.h>
 
 /**Datum als Bytewerte zur Uebergabe
@@ -50,7 +50,7 @@
  *                    instead this the weekInYear is stored here.     
  * 1996-00-00 Hartmut This struct was created from Hartmut Schorrig in 1996. Name at that time: _timeBytes, file INC/SYSTIME:H 
  */
-typedef struct TimeBytes_Fwc  
+typedef struct TimeBytes_emC  
 { int16 year;       /*Jahr anno domini  */
   int8 month;       /*01 bis 12         */
   int8 day;         /*01 bis 31         */
@@ -59,7 +59,7 @@ typedef struct TimeBytes_Fwc
   int8 sec;         /*0 bis 60          */
   /**Week in the year. */
   int8 weekInYear;   /*1 to 52           */
-}TimeBytes_Fwc;         /*Struktur auf 4-Byte-boundary! Das sind 8 Byte.*/
+}TimeBytes_emC;         /*Struktur auf 4-Byte-boundary! Das sind 8 Byte.*/
 
 
 /*Original comment from 1995: folg. fn konvertieren UNIX-Zeitformat in Datum und Zeit und zurueck,
@@ -68,7 +68,7 @@ typedef struct TimeBytes_Fwc
   unixtodos() liefert keine exakte Datumsabbildung.
 */
 
-int32 timeToSeconds_TimeBytes_Fwc(TimeBytes_Fwc* date, int32 nBaseYear, int32 offsetJan, bool GPS);
+int32 timeToSeconds_TimeBytes_emC(TimeBytes_emC* date, int32 nBaseYear, int32 offsetJan, bool GPS);
 
 /**Converts the given seconds in year...second. It is the constructor of a instance of this type.
  * @param seconds The seconds in a continoues count, typical seconds from Jan, 1, 1970.
@@ -77,12 +77,12 @@ int32 timeToSeconds_TimeBytes_Fwc(TimeBytes_Fwc* date, int32 nBaseYear, int32 of
  * @param GPS true than the leap seconds will be regarded. The table of leap seconds is given as default,
  *        But it is able to override globally in the application, see [[>setLeapSecondTable_TimeYearSecond_Formatter_FW]]
  */
-void ctor_TimeBytes_Fwc(TimeBytes_Fwc* date, int32 seconds, int32 baseyear, int32 offsetJan, bool GPS);
+void ctor_TimeBytes_emC(TimeBytes_emC* date, int32 seconds, int32 baseyear, int32 offsetJan, bool GPS);
 
-#define timeFromSeconds_TimeBytes_Fwc(YTHIS, SEC, BASE) ctor_TimeBytes_Fwc(YTHIS, SEC, BASE, 0, false)
+#define timeFromSeconds_TimeBytes_emC(YTHIS, SEC, BASE) ctor_TimeBytes_emC(YTHIS, SEC, BASE, 0, false)
 
-int32 timeToLong(TimeBytes_Fwc* date);
-void timeFromLong(TimeBytes_Fwc* date, int32 nTime);
+int32 timeToLong(TimeBytes_emC* date);
+void timeFromLong(TimeBytes_emC* date, int32 nTime);
 
 
 
@@ -129,4 +129,4 @@ int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, ch
 
 
 
-#endif //__Fwc_fw_timeconversions_h__
+#endif //__emC_fw_timeconversions_h__

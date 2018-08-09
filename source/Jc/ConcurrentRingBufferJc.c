@@ -41,8 +41,8 @@
 struct MemAreaC_t;
 #include <Jc/ConcurrentRingBufferJc.h>
 #include <os_AtomicAccess.h>
-#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_simpleC.h>
+#include <emC/Exception.h>
+#include <emC/simpleC.h>
 #include <string.h>
 
 

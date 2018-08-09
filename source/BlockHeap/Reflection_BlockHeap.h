@@ -4,8 +4,8 @@
 #define __Reflection_BlockHeap_h__
 
 #include "Jc/ReflectionJc.h"
-extern_C const ClassJc reflection_BlockHeapJc;
-#define REFLECTION_BlockHeapJc &reflection_BlockHeapJc
+extern_C const ClassJc reflection_BlockHeap_emC;
+#define REFLECTION_BlockHeap_emC &reflection_BlockHeap_emC
 extern_C const ClassJc reflection_ObjectJcREFArray;
 #define REFLECTION_ObjectJcREFArray &reflection_ObjectJcREFArray
 extern_C const ClassJc reflection_BlockHeapBlockJc;

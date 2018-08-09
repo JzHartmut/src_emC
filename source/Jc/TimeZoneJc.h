@@ -37,7 +37,7 @@
 #ifndef __TimeZoneJc_h__
 #define __TimeZoneJc_h__
 
-//#include <Fwc/fw_ExceptionJc.h>
+//#include <emC/ExceptionJc.h>
 #include <Jc/ObjectJc.h>
 
 /*@CLASS_C TimeZoneJc @@@@@@@@@@@@@@@@@@@@@@@@*/

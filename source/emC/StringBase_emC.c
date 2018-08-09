@@ -34,7 +34,7 @@
 #include <string.h>  //C-standard
 
 //Note: Implementation to search \0 in an limited range. 
-int strlen_Fwc(char const* text, int maxNrofChars)
+int strlen_emC(char const* text, int maxNrofChars)
 {
   register char const* text1 = text;
   register char const* text9 = text + maxNrofChars;
@@ -64,10 +64,10 @@ bool equals_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp  
   int countCmp = valueCmp & mLength__StringJc;
   const char* strThis = PTR_StringJc(ythis);
   if(countThis == mLength__StringJc){
-    countThis = strlen_Fwc(strThis, mLength__StringJc);
+    countThis = strlen_emC(strThis, mLength__StringJc);
   }
   if(countCmp == mLength__StringJc){
-    countCmp = strlen_Fwc(strCmp, countThis+1);
+    countCmp = strlen_emC(strCmp, countThis+1);
   }
   if(countCmp != countThis)
   { return(false);

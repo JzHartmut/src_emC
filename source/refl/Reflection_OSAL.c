@@ -247,118 +247,118 @@ const ClassJc reflection_OS_TimeStamp =
 
 
 
-extern_C const ClassJc reflection_MinMaxTime_Fwc;  //the just defined reflection_
-const struct Reflection_Fields_MinMaxTime_Fwc_t
+extern_C const ClassJc reflection_MinMaxTime_emC;  //the just defined reflection_
+const struct Reflection_Fields_MinMaxTime_emC_t
 { ObjectArrayJc head;
   FieldJc data[12];
-} reflection_Fields_MinMaxTime_Fwc =
-{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_MinMaxTime_Fwc)
+} reflection_Fields_MinMaxTime_emC =
+{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_MinMaxTime_emC)
 , {
     { "ct"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->ct) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->ct) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "minminCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->minminCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->minminCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "minCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->minCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->minCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "actCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->actCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->actCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "midCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->midCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->midCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "maxCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->maxCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "maxmaxCyclTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxmaxCyclTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->maxmaxCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "minCalcTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->minCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->minCalcTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "midCalcTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->midCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->midCalcTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "actCalcTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->actCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->actCalcTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "maxCalcTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->maxCalcTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->maxCalcTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
   , { "_lastTime"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_Fwc*)(0x1000))->_lastTime) -(int32)(MinMaxTime_Fwc*)0x1000)
+    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->_lastTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_Fwc
+    , &reflection_MinMaxTime_emC
     }
 } };
 
 
-const ClassJc reflection_MinMaxTime_Fwc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_MinMaxTime_Fwc, &reflection_ClassJc)
-, "MinMaxTime_Fwc"
+const ClassJc reflection_MinMaxTime_emC =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_MinMaxTime_emC, &reflection_ClassJc)
+, "MinMaxTime_emC"
 , 0
-, sizeof(MinMaxTime_Fwc)
-, (FieldJcArray const*)&reflection_Fields_MinMaxTime_Fwc  //attributes and associations
+, sizeof(MinMaxTime_emC)
+, (FieldJcArray const*)&reflection_Fields_MinMaxTime_emC  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces

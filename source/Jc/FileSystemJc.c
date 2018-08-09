@@ -74,7 +74,7 @@ MemC readBinFile_FileSystemJc(FileJc_s* file, MemC buffer)
 
 
 
-int writeBinFile_FileSystemJc(FileJc_s* file, int8_Y* buffer, struct ThreadContextFW_t* _thCxt)
+int writeBinFile_FileSystemJc(FileJc_s* file, int8_Y* buffer, struct ThreadContext_emC_t* _thCxt)
 {
   OS_HandleFile f1;
   f1 = os_fopenToWrite(file->fileDescription.absPath, false);  //write new

@@ -4,7 +4,7 @@
 #include <Fwc/objectBaseC.h>   //The ObjectJc is used as base class for all struct
 //#include <Jc/ObjectJc.h>
 //#include <Jc/ReflectionJc.h>
-//#include <Fwc/fw_String.h>
+//#include <emC/String.h>
 
 
 

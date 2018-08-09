@@ -5,7 +5,7 @@
 #include "InspcJ2c/SearchElement_Inspc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include <emC/Exception.h>  //basic stacktrace concept
 #include "J1c/StringFunctions_CJc.h"  //reference-association: StringFunctions_CJc_s
 #include "Jc/ReflectionJc.h"  //reference-association: ClassJc
 #include "Jc/StringJc.h"  //embedded type in class data

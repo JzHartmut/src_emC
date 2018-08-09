@@ -5,7 +5,7 @@
 #include "J1c/StringFunctionsJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include <emC/Exception.h>  //basic stacktrace concept
 #include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data
@@ -14,7 +14,7 @@
 /* J2C: Forward declaration of struct ***********************************************/
 
 /**This class contains static String functions without any other dependency. 
-In C the functions are contained in the Fwc/fw_String.c.
+In C the functions are contained in the emC/String.c.
 @author Hartmut Schorrig
 
 */
@@ -250,7 +250,7 @@ int32 comparePos_CsiCsii_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, i
     }/*NOTE: following while compares at least one char*/
     
     
-    int32  zChars = nrofChars >= 0 ? min_Fwc(/*J2C:static method call*/nrofChars, min_Fwc(/*J2C:static method call*/z1 - i1, z2 - i2)) : min_Fwc(/*J2C:static method call*/z1 - i1, z2 - i2);
+    int32  zChars = nrofChars >= 0 ? min_emC(/*J2C:static method call*/nrofChars, min_emC(/*J2C:static method call*/z1 - i1, z2 - i2)) : min_emC(/*J2C:static method call*/z1 - i1, z2 - i2);
     
     char  c1;/*no initvalue*/
     

@@ -34,8 +34,8 @@
  */
 #ifndef __VaArgBuffer_h__
 #define __VaArgBuffer_h__
-#include "Fwc/fw_Exception.h"
-#include "Fwc/fw_LogMessage.h" //only because Va_listFW, TODO
+#include "emC/Exception.h"
+#include "emC/LogMessage.h" //only because Va_listFW, TODO
 
 #include <applstdef_emC.h>
 #include <stdarg.h>

@@ -5,13 +5,13 @@
 #ifndef __MsgDisp_MsgDispatcherCore_MSG_h__
 #define __MsgDisp_MsgDispatcherCore_MSG_h__
 
-#include "Fwc/fw_MemC.h"        //basic concept
+#include "emC/MemC.h"        //basic concept
 
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
 
-#include "Fwc/fw_Exception.h"   //basic concept
+#include "emC/Exception.h"   //basic concept
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -50,9 +50,9 @@ struct TestCnt_MsgDispatcherCore_MSG_t;
 
 
 /* J2C: includes *********************************************************/
-#include "Fwc/fw_LogMessage.h"  //interface
+#include "emC/LogMessage.h"  //interface
 #include "Jc/StringJc.h"  //embedded type in class data
-#include "Fwc/fw_VaArgBuffer.h"  //embedded type in class data
+#include "emC/VaArgBuffer.h"  //embedded type in class data
 #include "os_time.h"  //embedded type in class data
 
 

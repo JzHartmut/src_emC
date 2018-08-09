@@ -40,7 +40,7 @@
  * list of changes:
  * 2006-07-23: JcHartmut creation
  * 2006-09-24: JcHartmut modification
- * 2013-12-18: JcHartmut add BlockHeapJc division
+ * 2013-12-18: JcHartmut add BlockHeap_emC division
  *
  ****************************************************************************/
 #ifndef __fw_SysConventions_h__
@@ -88,14 +88,14 @@
 
 
 
-/*@DEFINE BlockHeapJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE BlockHeap_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**Usage of the BlockHeap management or not and define the size of a block.
  * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
  */
-#undef USE_BlockHeapJc
-#undef SIZEBLOCK_BlockHeapJc
-//#define SIZEBLOCK_BlockHeapJc 0x400
+#undef USE_BlockHeap_emC
+#undef SIZEBLOCK_BlockHeap_emC
+//#define SIZEBLOCK_BlockHeap_emC 0x400
 
 #define NO_DYNAMICALLY_MEMORY
 

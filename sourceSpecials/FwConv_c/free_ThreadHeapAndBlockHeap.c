@@ -7,13 +7,13 @@
 #include <os_mem.h>
 #include <stdlib.h>  //it defines free(...)
 
-#include <BlockHeap/BlockHeapJc.h>  //for free(ptr)
+#include <BlockHeap/BlockHeap_emC.h>  //for free(ptr)
 
 int free_MemC(void const* addr)
 { MemC buffer;
   MemUnit* ptr = (MemUnit*)addr;
   #ifndef __NOT_SUPPORTED_ThreadContextFw__
-    ThCxt* _thCxt = getCurrent_ThreadContextFW();
+    ThCxt* _thCxt = getCurrent_ThreadContext_emC();
     if(_thCxt->mode & mCheckBufferUsed_Mode_ThCxt){
       if(_thCxt->mode & mBufferUsed_Mode_ThCxt){
         THROW_s0(IllegalStateException, "Thread buffer not free", 0);
@@ -30,8 +30,8 @@ int free_MemC(void const* addr)
   #else 
     if(false) {}
   #endif
-  #ifdef SIZEBLOCK_BlockHeapJc
-    else if(free_sBlockHeapJc(ptr, _thCxt)) { //try to free a block in blockheap
+  #ifdef SIZEBLOCK_BlockHeap_emC
+    else if(free_sBlockHeap_emC(ptr, _thCxt)) { //try to free a block in blockheap
       return 2;
     }
   #endif

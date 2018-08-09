@@ -898,7 +898,7 @@ const ClassJc reflection_TimeZoneJc_s =
 
 #include "Jc/StringJc_intern.h"
 
-#include "Fwc/fw_VaArgBuffer.h"
+#include "emC/VaArgBuffer.h"
 
 
 extern_C const ClassJc reflection_VaArgBuffer_Data_s;  //the just defined reflection_

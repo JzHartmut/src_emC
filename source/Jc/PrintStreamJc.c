@@ -44,8 +44,8 @@
 #include "Jc/PrintStreamJc.h"
 #include "Jc/FileIoJc.h"
 #include <Jc/StringJc.h>
-#include "Fwc/fw_ThreadContext.h"
-#include "Fwc/fw_Exception.h"
+#include "emC/ThreadContext.h"
+#include "emC/Exception.h"
 
 
 #include <string.h>
@@ -109,7 +109,7 @@ void println_O_PrintStreamJc(PrintStreamJc* ythis, ObjectJc* text, ThCxt* _thCxt
   println_s_PrintStreamJc(ythis, ss, _thCxt);
 }
 
-void XXXXXXprintStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct PrintStreamJc_t* out, struct ThreadContextFW_t* _thCxt)
+void XXXXXXprintStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt)
 {
 
 }

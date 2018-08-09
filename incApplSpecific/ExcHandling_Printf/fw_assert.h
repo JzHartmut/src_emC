@@ -2,7 +2,7 @@
 #define __fw_assert_h__
 
 
-void stopAssert_Fwc();
+void stopAssert_emC();
 
 void assertJc(bool condition);
 
@@ -19,11 +19,11 @@ void assertJc(bool condition);
 #define ASSERT_Range(VAR, MIN, MAX) { if(VAR < (MIN)) { VAR = (MIN); } else if(VAR > (MAX)){ VAR = (MAX); } }
 
 
-#define ASSERT_Fwc(cond) { if((cond)==0) stopAssert_Fwc(); }
-#define ASSERT(cond) ASSERT_Fwc(cond) 
+#define ASSERT_emC(cond) { if((cond)==0) stopAssert_emC(); }
+#define ASSERT(cond) ASSERT_emC(cond) 
 
 
 /**Writes a log text or THROW_s0 */
-#define ASSERT_s0_Fwc(cond, TEXT, VALUE) { if((cond)==0) { stopAssert_Fwc(); } }
+#define ASSERT_s0_emC(cond, TEXT, VALUE) { if((cond)==0) { stopAssert_emC(); } }
 
 #endif  // __fw_assert_h__

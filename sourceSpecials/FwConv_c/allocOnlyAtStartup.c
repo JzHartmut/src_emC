@@ -106,7 +106,7 @@ void clearBackRefJc(void *ref)
 
 
 
-void activateGC_ObjectJc(void const* instance,void const* excl,struct ThreadContextFW_t* _thCxt)
+void activateGC_ObjectJc(void const* instance,void const* excl,struct ThreadContext_emC_t* _thCxt)
 {
   
 }

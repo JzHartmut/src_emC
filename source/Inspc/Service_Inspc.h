@@ -2,7 +2,7 @@
 #define __Service_Inspc_h__
 #include <Inspc/DataNode_Inspc.h>
 #include <InspcJ2c/Inspector_Inspc.h>
-#include <Fwc/fw_Time.h>
+#include <emC/Time.h>
 
 
 
@@ -15,7 +15,7 @@ struct Service_Inspc_t;
 
 typedef struct Service_Inspc_t
 { ObjectJc object;
-  SimTime_Fwc simTime;
+  SimTime_emC simTime;
 #ifndef __NoReflection__
   DataNode_Inspc* rootNode;  //only void* pointer
 #endif//__NoReflection__

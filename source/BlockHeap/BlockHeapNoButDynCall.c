@@ -45,7 +45,7 @@
 //#include "StringJc.h"
 
 #include "Jc/ObjectJc.h"
-#include "Fwc/fw_Exception.h"
+#include "emC/Exception.h"
 
 
 

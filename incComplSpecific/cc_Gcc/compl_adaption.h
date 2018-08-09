@@ -206,17 +206,17 @@ typedef float                float32;
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
-  #define INLINE_Fwc inline
+  #define INLINE_emC inline
 #else
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
-  #define INLINE_Fwc static
+  #define INLINE_emC static
 #endif
 
 #ifdef __cplusplus
-  #define CONSTMember_Fwc
+  #define CONSTMember_emC
 #else
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
-  #define CONSTMember_Fwc const
+  #define CONSTMember_emC const
 #endif
 
 

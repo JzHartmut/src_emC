@@ -4,7 +4,7 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "Fwc/fw_Formatter.h"
+#include "emC/Formatter.h"
 
 
 extern_C const ClassJc reflection_ParseResultPrintfStyle_fwFormatter;  //the just defined reflection_
@@ -111,7 +111,7 @@ const ClassJc reflection_ParseResultPrintfStyle_fwFormatter =
 
 
 
-#include "Fwc/fw_LogMessage.h"
+#include "emC/LogMessage.h"
 
 
 extern_C const ClassJc reflection_LogMessageFW_s;  //the just defined reflection_
@@ -147,67 +147,67 @@ const ClassJc reflection_LogMessageFW_s =
 
 
 
-#include "Fwc/fw_MemC.h"
+#include "emC/MemC.h"
 
-#include "Fwc/fw_Readline.h"
+#include "emC/Readline.h"
 
 
-extern_C const ClassJc reflection_ReadLine_Fwc;  //the just defined reflection_
-const struct Reflection_Fields_ReadLine_Fwc_t
+extern_C const ClassJc reflection_ReadLine_emC;  //the just defined reflection_
+const struct Reflection_Fields_ReadLine_emC_t
 { ObjectArrayJc head;
   FieldJc data[5];
-} reflection_Fields_ReadLine_Fwc =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_ReadLine_Fwc)
+} reflection_Fields_ReadLine_emC =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_ReadLine_emC)
 , {
     { "file"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->file) -(int32)(ReadLine_Fwc*)0x1000)
+    , (int16)((int32)(&((ReadLine_emC*)(0x1000))->file) -(int32)(ReadLine_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ReadLine_Fwc
+    , &reflection_ReadLine_emC
     }
   , { "endOfFile"
     , 0   //no Array, no Bitfield
     , REFLECTION_bool
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->endOfFile) -(int32)(ReadLine_Fwc*)0x1000)
+    , (int16)((int32)(&((ReadLine_emC*)(0x1000))->endOfFile) -(int32)(ReadLine_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ReadLine_Fwc
+    , &reflection_ReadLine_emC
     }
   , { "buffer"
     , 4096   //nrofArrayElements
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->buffer) -(int32)(ReadLine_Fwc*)0x1000)
+    , (int16)((int32)(&((ReadLine_emC*)(0x1000))->buffer) -(int32)(ReadLine_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ReadLine_Fwc
+    , &reflection_ReadLine_emC
     }
   , { "posBuffer"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->posBuffer) -(int32)(ReadLine_Fwc*)0x1000)
+    , (int16)((int32)(&((ReadLine_emC*)(0x1000))->posBuffer) -(int32)(ReadLine_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ReadLine_Fwc
+    , &reflection_ReadLine_emC
     }
   , { "endBuffer"
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((ReadLine_Fwc*)(0x1000))->endBuffer) -(int32)(ReadLine_Fwc*)0x1000)
+    , (int16)((int32)(&((ReadLine_emC*)(0x1000))->endBuffer) -(int32)(ReadLine_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ReadLine_Fwc
+    , &reflection_ReadLine_emC
     }
 } };
 
 
-const ClassJc reflection_ReadLine_Fwc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ReadLine_Fwc, &reflection_ClassJc)
-, "ReadLine_Fwc"
+const ClassJc reflection_ReadLine_emC =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ReadLine_emC, &reflection_ClassJc)
+, "ReadLine_emC"
 , 0
-, sizeof(ReadLine_Fwc)
-, (FieldJcArray const*)&reflection_Fields_ReadLine_Fwc  //attributes and associations
+, sizeof(ReadLine_emC)
+, (FieldJcArray const*)&reflection_Fields_ReadLine_emC  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -216,7 +216,7 @@ const ClassJc reflection_ReadLine_Fwc =
 
 
 
-#include "Fwc/fw_SimpleC.h"
+#include "emC/SimpleC.h"
 
 
 extern_C const ClassJc reflection_U_intfloat;  //the just defined reflection_
@@ -407,81 +407,81 @@ const ClassJc reflection_FloatArray20 =
 
 
 
-#include "Fwc/fw_timeconversions.h"
+#include "emC/timeconversions.h"
 
 
-extern_C const ClassJc reflection_TimeBytes_Fwc;  //the just defined reflection_
-const struct Reflection_Fields_TimeBytes_Fwc_t
+extern_C const ClassJc reflection_TimeBytes_emC;  //the just defined reflection_
+const struct Reflection_Fields_TimeBytes_emC_t
 { ObjectArrayJc head;
   FieldJc data[7];
-} reflection_Fields_TimeBytes_Fwc =
-{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_TimeBytes_Fwc)
+} reflection_Fields_TimeBytes_emC =
+{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_TimeBytes_emC)
 , {
     { "year"
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->year) -(int32)(TimeBytes_Fwc*)0x1000)
+    , (int16)((int32)(&((TimeBytes_emC*)(0x1000))->year) -(int32)(TimeBytes_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
+    , &reflection_TimeBytes_emC
     }
   , { "month"
     , 0   //no Array, no Bitfield
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->month) -(int32)(TimeBytes_Fwc*)0x1000)
+    , (int16)((int32)(&((TimeBytes_emC*)(0x1000))->month) -(int32)(TimeBytes_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
+    , &reflection_TimeBytes_emC
     }
   , { "day"
     , 0   //no Array, no Bitfield
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->day) -(int32)(TimeBytes_Fwc*)0x1000)
+    , (int16)((int32)(&((TimeBytes_emC*)(0x1000))->day) -(int32)(TimeBytes_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
+    , &reflection_TimeBytes_emC
     }
   , { "hour"
     , 0   //no Array, no Bitfield
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->hour) -(int32)(TimeBytes_Fwc*)0x1000)
+    , (int16)((int32)(&((TimeBytes_emC*)(0x1000))->hour) -(int32)(TimeBytes_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
+    , &reflection_TimeBytes_emC
     }
   , { "minute"
     , 0   //no Array, no Bitfield
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->minute) -(int32)(TimeBytes_Fwc*)0x1000)
+    , (int16)((int32)(&((TimeBytes_emC*)(0x1000))->minute) -(int32)(TimeBytes_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
+    , &reflection_TimeBytes_emC
     }
   , { "sec"
     , 0   //no Array, no Bitfield
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->sec) -(int32)(TimeBytes_Fwc*)0x1000)
+    , (int16)((int32)(&((TimeBytes_emC*)(0x1000))->sec) -(int32)(TimeBytes_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
+    , &reflection_TimeBytes_emC
     }
   , { "weekInYear"
     , 0   //no Array, no Bitfield
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TimeBytes_Fwc*)(0x1000))->weekInYear) -(int32)(TimeBytes_Fwc*)0x1000)
+    , (int16)((int32)(&((TimeBytes_emC*)(0x1000))->weekInYear) -(int32)(TimeBytes_emC*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeBytes_Fwc
+    , &reflection_TimeBytes_emC
     }
 } };
 
 
-const ClassJc reflection_TimeBytes_Fwc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TimeBytes_Fwc, &reflection_ClassJc)
-, "TimeBytes_Fwc"
+const ClassJc reflection_TimeBytes_emC =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TimeBytes_emC, &reflection_ClassJc)
+, "TimeBytes_emC"
 , 0
-, sizeof(TimeBytes_Fwc)
-, (FieldJcArray const*)&reflection_Fields_TimeBytes_Fwc  //attributes and associations
+, sizeof(TimeBytes_emC)
+, (FieldJcArray const*)&reflection_Fields_TimeBytes_emC  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -490,7 +490,7 @@ const ClassJc reflection_TimeBytes_Fwc =
 
 
 
-#include "Fwc/fw_Va_list.h"
+#include "emC/Va_list.h"
 
 
 extern_C const ClassJc reflection_Va_listFW;  //the just defined reflection_

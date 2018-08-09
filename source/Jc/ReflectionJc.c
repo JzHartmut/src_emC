@@ -50,9 +50,9 @@
 #include "Jc/ReflMemAccessJc.h"
 //#include "Jc/StringJc.h"
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
-#include "Fwc/fw_Exception.h"
+#include "emC/Exception.h"
 
-#include <Fwc/fw_SimpleC.h>
+#include <emC/SimpleC.h>
 #include <stdio.h>
 
 #undef mStaticArray_Modifier_reflectJc //it shouldn't be used!
@@ -78,7 +78,7 @@ int idxSearchTrc = 0;
 
 
 #ifdef __HandlePtr64__
-  #include <Fwc/fw_handle_ptr64.h>      
+  #include <emC/handle_ptr64.h>      
   const char* init_ReflectionJc() {
     const char* error = null;
     //error = init_Handle2Ptr(1000);  //see DEFINED_nrEntries_Handle2Ptr

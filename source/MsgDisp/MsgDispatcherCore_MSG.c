@@ -5,8 +5,8 @@
 #include "MsgDisp/MsgDispatcherCore_MSG.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Fwc/fw_MemC.h"  //embedded type in class data
+#include <emC/Exception.h>  //basic stacktrace concept
+#include "emC/MemC.h"  //embedded type in class data
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/ConcurrentLinkedQueueJc.h"  //new object
 #include "Jc/ThreadJc.h"  //reference-association: ThreadJc_s
@@ -418,7 +418,7 @@ int32 dispatchMsg_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int32 dst
               
               bMsgTextGotten = true;
               sTextMsg = getMsgText_MsgText_ifc_MSG(&((REFJc (thiz->msgText))->base.object), identNumber, _thCxt);
-              if(sTextMsg == null || isEmpty_s0_Fwc(sTextMsg)) 
+              if(sTextMsg == null || isEmpty_s0_emC(sTextMsg)) 
               { 
                 
                 sTextMsg = text;/*replace the input text if a new one is found.*/

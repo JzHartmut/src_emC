@@ -5,9 +5,9 @@
 #include "MsgDisp/MsgDispatcher_MSG.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <Fwc/fw_Exception.h>  //basic stacktrace concept
-#include "Fwc/fw_Exception.h"  //reference-association: ExceptionJc
-#include "Fwc/fw_LogMessage.h"  //reference-association: LogMessageStream_FW
+#include <emC/Exception.h>  //basic stacktrace concept
+#include "emC/Exception.h"  //reference-association: ExceptionJc
+#include "emC/LogMessage.h"  //reference-association: LogMessageStream_FW
 #include "J1c/StringPartScanJc.h"  //embedded type in block
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/ConcurrentLinkedQueueJc.h"  //reference-association: freeOrders

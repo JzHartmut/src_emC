@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <Fwc/fw_simplec.h>
+#include <emC/simplec.h>
 
 void ctor_GetValue_Inspc(GetValue_Inspc* thiz, float Tstep)
 {

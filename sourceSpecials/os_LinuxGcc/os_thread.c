@@ -515,7 +515,7 @@ OS_PtrValue os_getCurrentUserThreadContext()
   return threadContext->userThreadContext;
 }
 
-int os_setCurrentUserThreadContext(OS_PtrValue mem)
+int os_setCurrentUserThreadContext (OS_PtrValue mem)
 { int error = 0;
   OS_ThreadContext* threadContext = os_getCurrentThreadContext_intern();
   void* userThreadContext = PTR_OS_PtrValue(threadContext->userThreadContext, void);

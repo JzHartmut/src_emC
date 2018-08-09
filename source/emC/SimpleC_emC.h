@@ -32,9 +32,9 @@
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
- * 2011-02-18 Hartmut chg: parseIntRadix_Fwc(...) instead parseInt_Fwc(...). Renaming because last parameter is parsedChars and not restSize. 
+ * 2011-02-18 Hartmut chg: parseIntRadix_emC(...) instead parseInt_emC(...). Renaming because last parameter is parsedChars and not restSize. 
  *                         It is better to use for simpe-C-applications. The old form isn't represent anywhere.  
- * 2011-02-18 Hartmut new: method skipWhitespaces_Fwc(...)
+ * 2011-02-18 Hartmut new: method skipWhitespaces_emC(...)
  * 2011-02-18 Hartmut chg: StringJc-methods written in fw_String.c, deleted here
  * 2010-02-20: Hartmut new: OFFSETinTYPE_SimpleC and OFFSETinDATA_SimpleC, but the same functionality is conained in fw_MemC.h, see there.
  * 2008-04-22: JcHartmut some changes in definitions to treat with memory:
@@ -192,19 +192,19 @@ extern_C int binarySearch_int64(int64_t const* data, int fromIndex, int toIndex,
 /**Binary search algorithm for universal purpose as macro.
  * Before this algoritm is used, the following line should be defined in the source:
 
- #define BINARY_SEARCH_ARRAY_Fwc(INDEX) myArray[INDEX]->maybeElement
+ #define BINARY_SEARCH_ARRAY_emC(INDEX) myArray[INDEX]->maybeElement
  
  * with them the following macro accesses the index.
  * The macro should be used in a C-function-definition:
 
- int myBinarySearch(int fromIndex, int toIndex) BINARY_SEARCH_Fwc(fromIndex, toIndex)
+ int myBinarySearch(int fromIndex, int toIndex) BINARY_SEARCH_emC(fromIndex, toIndex)
  */
-#define BINARY_SEARCH_Fwc(key, fromIndex, toIndex)  \
+#define BINARY_SEARCH_emC(key, fromIndex, toIndex)  \
 { int low = fromIndex;                         \
 	int high = toIndex -1;                       \
 	while (low <= high) {                        \
     int mid = (low + high) >> 1;               \
-	  long midVal = getValue_BINARY_SEARCH_ARRAY_Fwc(mid);\
+	  long midVal = getValue_BINARY_SEARCH_ARRAY_emC(mid);\
 	  if (midVal < key)                          \
 		{ low = mid + 1;\
 	  }\

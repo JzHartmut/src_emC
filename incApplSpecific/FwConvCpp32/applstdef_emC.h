@@ -13,8 +13,8 @@
 #include <compl_adaption.h>
 
 
-//NOTE: ASSERF_Fwc defined in fw_assert.h now.
-//#define ASSERT_Fwc(COND) assertJc(COND)
+//NOTE: ASSERF_emC defined in fw_assert.h now.
+//#define ASSERT_emC(COND) assertJc(COND)
 
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
@@ -24,10 +24,10 @@
 
 
 /**Include this file always. It defines some things usefull for all sources. */
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_MemC.h>
+#include <emC/SimpleC.h>
+#include <emC/MemC.h>
 
-#include <Fwc/fw_threadContext.h>
+#include <emC/threadContext.h>
 
 
 /** If this define is setted, the TRY, CATCH and THROW makros use the C++ keywords
@@ -62,8 +62,8 @@
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-#include <Fwc/fw_Exception.h>
-//#include <Fwc/fw_ExcStacktrcNo.h>
+#include <emC/Exception.h>
+//#include <emC/ExcStacktrcNo.h>
 
 
 //#define __CPLUSPLUSJcpp

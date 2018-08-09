@@ -40,7 +40,7 @@
  * 2009-11-25: Hartmut
  *   new: getRestBlock_ObjectJc(...) to improve usage of Blockheap if possible.
  *   chg: wait_ObjectJc(...), notify_ObjectJc(...) with ThreadContext as last argument.
- *   chg: activateGarbageCollectorAccess_BlockHeapJc(...) has 2. argument EXCLOBJ, here only for empty definiition while using without Blockheap.
+ *   chg: activateGarbageCollectorAccess_BlockHeap_emC(...) has 2. argument EXCLOBJ, here only for empty definiition while using without Blockheap.
  * 2009-06-14: Hartmut new: newIdent_ObjectJc() declared.
  * 2008-04-22: JcHartmut docu
  * 2006-05-00: www.vishia.de creation
@@ -50,10 +50,10 @@
 #define __ObjectJc_h__
 #include <applstdef_emC.h>
 #include "emC/Object_emC.h"
-//#include "Fwc/fw_SimpleC.h"  //should be includeed in applstdef_emC.h
-//#include "Fwc/fw_MemC.h"     //should be includeed in applstdef_emC.h
-//#include "Fwc/fw_Exception.h"  ////should be includeed in applstdef_emC.h, knowledge of Thcxt, Exception is supplied
-//#include "Fwc/fw_String.h"  //should be includeed in applstdef_emC.h
+//#include "emC/SimpleC.h"  //should be includeed in applstdef_emC.h
+//#include "emC/MemC.h"     //should be includeed in applstdef_emC.h
+//#include "emC/Exception.h"  ////should be includeed in applstdef_emC.h, knowledge of Thcxt, Exception is supplied
+//#include "emC/String.h"  //should be includeed in applstdef_emC.h
 #include <Jc/StringJc.h>
 
 /*@CLASS_C ObjectJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -942,7 +942,7 @@ extern_C const struct ClassJc_t reflection_AppendableJc;
 
 MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt);
 
-INLINE_Fwc MtblHeadJc const* checkMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
+INLINE_emC MtblHeadJc const* checkMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
 { ClassJc const* reflection = ythis->reflectionClass;
   if( reflection != null || reflection->object.reflectionClass == &reflection_ClassJc) {
     MtblHeadJc const* head0, *head;
@@ -963,7 +963,7 @@ INLINE_Fwc MtblHeadJc const* checkMtbl_ObjectJc(ObjectJc const* ythis, int ix, c
 /**It should able to work with Stacktrace. */
 
 
-//#include "Fwc/fw_LogMessage.h"
-//#include "Fwc/fw_Formatter.h"
+//#include "emC/LogMessage.h"
+//#include "emC/Formatter.h"
 
 #endif //__ObjectJc_h__

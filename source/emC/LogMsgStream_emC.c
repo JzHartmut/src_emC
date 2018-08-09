@@ -38,13 +38,13 @@
 
 
 //include the own header at first to test its correct dependencies.
-#include <Fwc/fw_LogMessage.h>
+#include <emC/LogMessage.h>
 
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception.h>
 #include <Jc/ReflectionJc.h>
 //#include "fw_basic.h"
 #include <Fwc/objectBaseC.h>
-#include <Fwc/fw_Formatter.h>
+#include <emC/Formatter.h>
 
 #include "Jc/ObjectJc.h"
 #include <string.h>

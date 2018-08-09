@@ -45,7 +45,7 @@
 #define JAVACPP_LINKEDLIST_H_
 
 #include "Jc/ObjectJc.h"
-#include "Fwc/fw_Exception.h"
+#include "emC/Exception.h"
 
 #ifndef JAVACPP_ABSTRACTLIST_H_
   #include "Jc/AbstractListJc.h"  //includes pkgSystem/Object.h, pkgSystem/String.h
@@ -147,7 +147,7 @@ METHOD_C LinkedListJc* ctorO_shareNodes_LinkedListJc(ObjectJc* othis, AbstractCo
 /**Constructor with a given Blockheap for the nodes.
  * @param heap The nodes will allocated in this heap.
  */
-METHOD_C LinkedListJc* ctorO_BlockHeap_LinkedListJc(ObjectJc* othis, struct BlockHeapJc_t* heap);
+METHOD_C LinkedListJc* ctorO_BlockHeap_LinkedListJc(ObjectJc* othis, struct BlockHeap_emC_t* heap);
 
 
 

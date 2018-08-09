@@ -37,7 +37,7 @@
 #include <Jc/FileIoJc.h>
 #include <Jc/ReflectionJc.h>
 #include <Jc/StringJc.h>
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception.h>
 #include <string.h> //memset
 #include <os_file.h>
 extern_C ClassJc const reflection_FileWriterJc_s;
@@ -183,7 +183,7 @@ void write_B_FileOutputStreamJc(FileOutputStreamJc_s* ythis, int8 byte, ThCxt* _
 
 
 
-void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContextFW_t* _thCxt)
+void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
 {
   STACKTRC_TENTRY("close_FileWriterJc");
   if(ythis->file != null)
@@ -195,7 +195,7 @@ void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContextF
 }
 
 
-void close_FileOutputStreamJc_F(FileOutputStreamJc_s* ythis, struct ThreadContextFW_t* _thCxt)
+void close_FileOutputStreamJc_F(FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
 {
   STACKTRC_TENTRY("close_FileWriterJc");
   if(ythis->file != null)

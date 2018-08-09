@@ -41,10 +41,10 @@
 #define __fw_LogMessage_h__
 #include <applstdef_emC.h>
 //#include "fw_simpleC.h"
-#include <Fwc/fw_Va_list.h>
+#include <emC/Va_list_emC.h>
 //#include <Jc/ObjectJc.h>
-#include "Fwc/objectBaseC.h"   //ObjectJc used.
-#include "Fwc/fw_Exception.h"  //ThCxt used.
+#include "emC/Object_emC.h"   //ObjectJc used.
+#include "emC/Exception_emC.h"  //ThCxt used.
 #include <os_time.h>  //struct OS_TimeStamp as argument
 
 /*@CLASS_C LogMessageFW @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

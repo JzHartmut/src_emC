@@ -47,7 +47,7 @@
 #include <emC/MemC_emC.h>
 
 
-struct ThreadContextFW_t;
+struct ThreadContext_emC_t;
 
 /**This file defines only the struct Object_Jc_t and the base interface ObjectifcBase_Jcpp.
    It is the minimal base for some struct or interface 
@@ -61,7 +61,7 @@ struct Size_Mtbl_t;
 
 
 #ifndef __StringJc_defined__
-  //minimalistic definition of StringJc to use this type before including Fwc/fw_StringJc
+  //minimalistic definition of StringJc to use this type before including emC/StringJc
   typedef OS_PtrVal_DEF(StringJc, char const);
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
@@ -276,7 +276,7 @@ typedef union State_ObjectJc_t
  * It can be returned and used in the calling enviroment immediately or return. That is the difference to a embedded instance in the stack.
  * Only one instance can be located in the thread context. It is over-written if another instance is created in the thread context.
  */
-ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadContextFW_t* _thCxt);
+ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -422,7 +422,7 @@ METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
  *             But call setReflection_ObjectJc() instead before, because this method may be changed in future. It should only test, not set anything!
  * @return the stored identification
 */
-METHOD_C int checkOrInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContextFW_t* _thCxt);
+METHOD_C int checkOrInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
 
 /**Checks the consistence or init, 
  * @deprecated, use [[checkOrInit_ObjectJc(...)]] with a more significant name.
@@ -441,7 +441,7 @@ METHOD_C int checkOrInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct C
  * @return the stored identification, -1 on non thrown error
  * @throws IllegalArgumentException if faulty.
  */
-METHOD_C int checkStrict_ObjectJc(ObjectJc const* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContextFW_t* _thCxt);
+METHOD_C int checkStrict_ObjectJc(ObjectJc const* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -613,7 +613,7 @@ int getPosInVtbl_ObjectJc(ObjectJc const* thiz, char const* sign);
 #define getPosInMtbl_ObjectJc getPosInVtbl_ObjectJc
 
 
-METHOD_C VtblHeadJc const* checkMtbl_ObjectJcTT(ObjectJc const* ythis, int ix, char const* sign, struct ThreadContextFW_t* _thCxt);
+METHOD_C VtblHeadJc const* checkMtbl_ObjectJcTT(ObjectJc const* ythis, int ix, char const* sign, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -651,22 +651,22 @@ METHOD_C typedef ObjectJc* MT_clone_ObjectJc(ObjectJc const* ythis, MemC buffer)
  * This operation is the object-oriented replacement
  * for the old C-style memcpy of instances data.
  */
-METHOD_C typedef bool MT_equals_ObjectJc(ObjectJc* ythis, ObjectJc* second, struct ThreadContextFW_t* _thCxt);
+METHOD_C typedef bool MT_equals_ObjectJc(ObjectJc* ythis, ObjectJc* second, struct ThreadContext_emC_t* _thCxt);
 
 /**This method should be called before the instance is deleted finally. It is called
  * by garbage collection. Some action such as deregister or free memory may be taken
  * from the users overload class.
  */
-METHOD_C typedef void MT_finalize_ObjectJc(ObjectJc* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C typedef void MT_finalize_ObjectJc(ObjectJc* ythis, struct ThreadContext_emC_t* _thCxt);
 
 /**This method supplies a hash code for thid onstance.
  */
-METHOD_C typedef int32 MT_hashCode_ObjectJc(ObjectJc const* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C typedef int32 MT_hashCode_ObjectJc(ObjectJc const* ythis, struct ThreadContext_emC_t* _thCxt);
 
 /**This method supplies a string representation of the content of the instance,
  * useable especially for debug or analyze information.
  */
-METHOD_C typedef StringJc MT_toString_ObjectJc(ObjectJc* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C typedef StringJc MT_toString_ObjectJc(ObjectJc* ythis, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -691,7 +691,7 @@ typedef struct Mtbl_ObjectJc_t
 
 /**The override-able method toString tests the virtual table inside reflection
  * to call the correct toString-Method of the implementation class. */
-StringJc toString_ObjectJc(ObjectJc* ithis, struct ThreadContextFW_t* _thCxt);
+StringJc toString_ObjectJc(ObjectJc* ithis, struct ThreadContext_emC_t* _thCxt);
 
 
 /** The implemented method for ObjectJc forward declared here.

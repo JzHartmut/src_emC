@@ -38,7 +38,7 @@
 #include <emC/Va_list_emC.h>
 #include <emC/String_emC.h>
 
-struct ThreadContextFW_t;
+struct ThreadContext_emC_t;
 //#include "emC/LogMessage.h" //only because Va_listFW, TODO
 
 /*@CLASS_C ParseResultPrintfStyle_fwFormatter @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -127,7 +127,7 @@ int detectTypeArgs_fwFormatter(char* typeArgs, int zTypeArgs, StringJc text);
  * @return number of written chars. A 0 after the string won't be written! 
            If the return value is equal zBuffer, the string representation may be incomplete because clipping of following chars.
  */
-METHOD_C int toString_Integer_FW(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative, struct ThreadContextFW_t* _thCxt);
+METHOD_C int toString_Integer_FW(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Produces a String with given format and given values.
@@ -138,7 +138,7 @@ METHOD_C int toString_Integer_FW(char* buffer, int zBuffer, int32 value, int rad
  * @param sTypeArg One character per variable argument which defines the type of it. See [[Va_listFW]] in header fw_Va_list.h.
  * @return Number of written chars in buffer without the terminating 0. A 0 to terminate is written in sBuffer. 
  */
-extern_C int format_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat
+extern_C int format_Formatter_FW(struct ThreadContext_emC_t* _thCxt, const char* sFormat, int zFormat
                                  , char* buffer, int zBuffer, char const* sTypeArg, ...);
 
 /**Produces a String with given format and given values.
@@ -149,7 +149,7 @@ extern_C int format_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* s
  * @param vargList structure of type and value of variable arguments.
  * @return Number of written chars in buffer without the terminating 0. A 0 to terminate is written in sBuffer. 
  */
-extern_C int format_va_arg_Formatter_FW(struct ThreadContextFW_t* _thCxt, const char* sFormat, int zFormat
+extern_C int format_va_arg_Formatter_FW(struct ThreadContext_emC_t* _thCxt, const char* sFormat, int zFormat
                                         , char* buffer, int zBuffer, Va_listFW vargList);
 
 

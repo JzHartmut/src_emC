@@ -32,10 +32,9 @@
  *
  * @version 0.83
  **This file is referenced to the java2c-translated MsgDispatcher_MSG.h/c */
-#include "Fwc/fw_VaArgBuffer.h"
-//#include "Fwc/fw_Exception.h"
-#include "Fwc/fw_basic.h"
-#include "Fwc/fw_Formatter.h"
+#include "emC/VaArgBuffer_emC.h"
+//#include "emC/Exception.h"
+#include "emC/Formatter_emC.h"
 #include <string.h>
 
 
@@ -171,7 +170,7 @@ METHOD_C void setArg_VaArgBuffer(VaArgBuffer* thiz, int32_t ix, int32_t val, ThC
   thiz->data.v[ix] = val;
 }
 
-#include "genRefl/Fwc/fw_VaArgBuffer.crefl"
+#include "genRefl/emC/VaArgBuffer.crefl"
 
 
 

@@ -45,10 +45,10 @@
 #include <os_time.h>
 #include <os_error.h>
 #include <os_thread.h>
-#include <Fwc/fw_Exception.h>
+//#include <emC/Exception.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <Fwc/fw_Formatter.h>
+//#include <emC/Formatter.h>
 #include <os_time.h>
 
 
@@ -56,9 +56,9 @@
 /**Stops the execution of the executable respectively the whole application because no error handling is possible.
  * This routine should only called in unexpected situations, where the engine may only stopped.
  */
-void os_FatalSysError(int errorCode, const char* description, int value1, int value2)
+void XXXos_FatalSysError(int errorCode, const char* description, int value1, int value2)
 {
-  printf("Fatal error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
+  printf("Fatal System error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
   *((int*)0) = 0;
   
 }
@@ -72,7 +72,7 @@ void os_FatalSysError(int errorCode, const char* description, int value1, int va
  * The implementation of this routine should be done depending from the users requirements to the system
  * in the OSAL-Layer. 
  */
-void os_FatalError(int errorCode, const char* description, int value1, int value2)
+void XXXos_FatalError(int errorCode, const char* description, int value1, int value2)
 {
   int cnt = 10;
   printf("Fatal error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
@@ -85,4 +85,63 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
 }
 
 
+
+
+/**Stops the execution of the executable respectively the whole application because no error handling is possible.
+* This routine should only called in unexpected situations, where the engine may only stopped.
+*/
+void os_FatalSysError(int errorCode, const char* description, int value1, int value2)
+{
+  printf("os_FatalSysError %d:", errorCode);
+  printf(description, value1, value2);
+  printf("\nstop system with memory exception\n");
+  *((int*)0) = 0;
+
+}
+
+
+/**Stops the execution of a thread because no error handling is possible.
+* This routine should only called in unexpected situations, where the thread or the engine may only stopped only.
+* The distiction to ,,os_FatalSysError(...),, is: it is possible that only the thread is stopped,
+* where the other threads maybe continued still. It may be possible, that the system were instable.
+*
+* The implementation of this routine should be done depending from the users requirements to the system
+* in the OSAL-Layer.
+*/
+void os_FatalError(int errorCode, const char* description, int value1, int value2)
+{
+  int run = 1;
+  int ct = 0;
+  printf("os_FatalSysError %d:", errorCode);
+  printf(description, value1, value2);
+  printf("\nwhile-loop\n");
+  while (run)
+  {
+    printf("ERROR STOP  since %d sec \n", ++ct);
+    os_delayThread(1000);
+  }
+
+}
+
+
+void stopAssert_emC(void) {
+  //maybe set a breakpoint here
+  os_FatalError(-1, "stopAssert_emC", 0, 0);
+}
+
+
+
+bool stop_AssertJc(void) {
+  //maybe set a breakpoint here
+  os_FatalError(-1, "stopAssert_emC", 0, 0);
+  return false;
+}
+
+void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_emC_s* _thCxt)
+{
+  printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
+  printStackTraceFile_ExceptionJc(ythis, null, null);
+  os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
+  exit(255);
+}
 

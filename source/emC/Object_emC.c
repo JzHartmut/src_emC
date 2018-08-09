@@ -39,7 +39,7 @@
 #include <stdio.h>
 //dependencies:
 //assertJc
-//getCurrent_ThreadContextFW
+//getCurrent_ThreadContext_emC
 //throw_s0Jc
 
 //#ifdef DEFINE_debugPRINTF

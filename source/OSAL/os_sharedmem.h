@@ -76,7 +76,7 @@ extern_C bool os_isReadySharedMem(SharedMem_OSAL* thiz);
  */
 extern_C MemC os_createOrAccessSharedMem(SharedMem_OSAL* thiz, const char* name, int size);
 
-INLINE_Fwc MemC os_createOrAccessSharedMem(SharedMem_OSAL* thiz, const char* name, int size)
+INLINE_emC MemC os_createOrAccessSharedMem(SharedMem_OSAL* thiz, const char* name, int size)
 {
   MemC ret = os_accessSharedMem(thiz, name);
   if(os_isReadySharedMem(thiz)) return ret;

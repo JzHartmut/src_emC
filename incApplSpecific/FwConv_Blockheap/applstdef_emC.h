@@ -28,8 +28,8 @@
 
 
 /**Include this file always. It defines some things usefull for all sources. */
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_MemC.h>
+#include <emC/SimpleC.h>
+#include <emC/MemC.h>
 
 
 
@@ -55,11 +55,11 @@
 //Include before fw_String.h because it is used there.
 #include <FwConv_h\EnhanceRef_BlockHeap.h>
 /**Define StringJc firstly, especially before fw_Exception.h> */
-#include <Fwc/fw_String.h>
+#include <emC/String.h>
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-#include <Fwc/fw_threadContext.h>
-#include <Fwc/fw_Exception.h>
-//#include <Fwc/fw_ExcStacktrcNo.h>
+#include <emC/threadContext.h>
+#include <emC/Exception.h>
+//#include <emC/ExcStacktrcNo.h>
 
 
 //Use full capability for ObjectJc, necessary for Pointer check and reflection.
@@ -86,12 +86,12 @@
 //#include <FwConv_h/definePrintfMakros.h>
 
 
-extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 #define kMaxPathLength_FileJc 500
 
 
-INLINE_Fwc int stopNAN(){ return 0; }
+INLINE_emC int stopNAN(){ return 0; }
 
 /**Prevent process a NaN-value (not a number).
  * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h

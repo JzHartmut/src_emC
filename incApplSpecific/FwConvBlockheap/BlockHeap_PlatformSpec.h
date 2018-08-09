@@ -31,7 +31,7 @@
  * @author Hartmut Schorrig, Pinzberg, Germany
  *
  * @version 0.83
- * @content: All declarations to use from user level to work with BlockHeapJc
+ * @content: All declarations to use from user level to work with BlockHeap_emC
  * for References of ObjectJc and derivated classes for C-language.
  * The references are used for garbage collection and virtual methods in C.
  *
@@ -47,14 +47,14 @@
   #include "ObjectJc.h"
 #endif
 
-#include <Fwc/fw_MemC.h>
+#include <emC/MemC.h>
 
 /**Usage of the BlockHeap management or not and define the size of a block.
  * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
  */
-#define USE_BlockHeapJc
-#define SIZEBLOCK_BlockHeapJc 0x400
-//#undef SIZEBLOCK_BlockHeapJc
+#define USE_BlockHeap_emC
+#define SIZEBLOCK_BlockHeap_emC 0x400
+//#undef SIZEBLOCK_BlockHeap_emC
 
 //#define NO_DYNAMICALLY_MEMORY
 
@@ -120,7 +120,7 @@ struct StringBufferJc_t;
  *   SETREF_STRINGJc(dst, value);
  * the ending semicolon is set outside the makro.
  *
- * Implemenation note: A StringJc is defined as OS_ValuePtr, see ,,Fwc/fw_String.h,,. That definition is presumed here. 
+ * Implemenation note: A StringJc is defined as OS_ValuePtr, see ,,emC/String.h,,. That definition is presumed here. 
  * @param DST The dst StringJc per reference.
  * @param STR The string as value 
  */
@@ -129,8 +129,8 @@ struct StringBufferJc_t;
 
      
 
-#include <Fwc/fw_Exception.h>
-#include <BlockHeap/BlockHeapJc.h>
+#include <emC/Exception.h>
+#include <BlockHeap/BlockHeap_emC.h>
 
 
 #endif //__ObjectRefJc__h

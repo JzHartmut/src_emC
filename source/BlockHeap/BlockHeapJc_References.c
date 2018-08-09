@@ -46,8 +46,8 @@
 #include <stdlib.h>
 //#include <string.h>
 
-#include "BlockHeapJc_internal.h"
-#include "Fwc/fw_Exception.h"
+#include "BlockHeap_emC_internal.h"
+#include "emC/Exception.h"
 #include <BlockHeap_PlatformSpec.h>
 
 #include "Jc/ReflectionJc.h"
@@ -63,7 +63,7 @@
 /***************************************************************************************/
 /***************************************************************************************/
 /* handling references of Object and derivated ones.
-   This methods are containing in BlockHeapJc.c though there are belong to ObjectJc,
+   This methods are containing in BlockHeap_emC.c though there are belong to ObjectJc,
    because the algorithm of using references is used firstly regarding the BlockHeap concept.
    Secondly it consideres the requirements of virtual methods, but it is only an index.
 */
@@ -89,11 +89,11 @@ void clearBackRefJc(void* enhancedRef)
   int idxBackref = (int)( (ref->refbase) >>kBitBackRef_ObjectJc) & (uint)(mBackRef_ObjectJc>>kBitBackRef_ObjectJc);
 
   if(idxBackref > 0)
-  { BlockHeapJc* heap;
+  { BlockHeap_emC* heap;
     //ObjectJcREF* ref = (ObjectJcREF*)refbase;
     BlockHeapBlockJc* block;
     STACKTRC_ENTRY("clearBackrefJc");
-    block = searchBlockHeapBlock_BlockHeapJc(ref->ref, &heap);
+    block = searchBlockHeapBlock_BlockHeap_emC(ref->ref, &heap);
     if(block->typeOrMaxRef == kFree_Type_BlockHeapBlock)
     { /**a back reference from a freed block.
        * This situation is typically if a cluster of blocks with mutual references is freed.
@@ -200,12 +200,12 @@ void setBackRefJc(void* refP, void const* src)
 //METHOD_C bool setBackRefJc(ObjectRefValuesJc* refbase, void const* src)
 { //check which RuntimeHeap is used
   ObjectJcREF* ref = (ObjectJcREF*)(refP);  //
-  BlockHeapJc* heap;
+  BlockHeap_emC* heap;
   BlockHeapBlockJc* block;
   int imax;
   STACKTRC_ENTRY("setBackref_BheapJc");
 
-  block = searchBlockHeapBlock_BlockHeapJc(src, &heap);
+  block = searchBlockHeapBlock_BlockHeap_emC(src, &heap);
 
   if(  block != null
     && (imax = block->heapidxAndMaxref & mMaxRef_ObjectJc_BlockHeap) > 0
@@ -261,8 +261,8 @@ void setBackRefJc(void* refP, void const* src)
  * * At first it must be detect, if the object is located in any Blockheap generally and in which one.
  *   To detect this, all known Blockheap adress ranges should be compared with the address of the given Object.
  *   But in users systems, there will be only one or few BlockHeaps, 1..5 is realistic.
- *   To find out the BlockHeapJc-control structures, there are chained in a queue
- *   started with the global reference theBlockHeapList. The BlockHeapJc control structure contains
+ *   To find out the BlockHeap_emC-control structures, there are chained in a queue
+ *   started with the global reference theBlockHeapList. The BlockHeap_emC control structure contains
  *   the start and end address of the heap area in the users memory space.
  *   Now it is a simple address compare operation to detect wether the Object is in this area.
  * * If the Object is located in a Blockheap, the size of blocks is known.
@@ -287,10 +287,10 @@ void setBackRefJc(void* refP, void const* src)
  * @return base address of the block. It is always the base address of a normal block.
  */
 
-METHOD_C BlockHeapBlockJc* searchBlockHeapBlock_BlockHeapJc(void const* objP, BlockHeapJc** retHeap)
+METHOD_C BlockHeapBlockJc* searchBlockHeapBlock_BlockHeap_emC(void const* objP, BlockHeap_emC** retHeap)
 { BlockHeapBlockJc* block = null;
   struct MemAreaC_t const* obj = (struct MemAreaC_t const*)(objP);
-  BlockHeapJc* heap;
+  BlockHeap_emC* heap;
 
   heap = theBlockHeapList;
   while(heap != null && block == null)
@@ -298,11 +298,11 @@ METHOD_C BlockHeapBlockJc* searchBlockHeapBlock_BlockHeapJc(void const* objP, Bl
     if( ((void const*)heap->heapBegin) <= objP && ((void*)obj) < heap->heapEnd)
     { //it is in this heap:
       #ifdef HEAP_BEGINSATPOWER2_RUNTIMEHEAP
-        block = (BlockHeapBlockJc*)(((intPTR)(obj)) & ~(SIZEBLOCK_BlockHeapJc-1));
+        block = (BlockHeapBlockJc*)(((intPTR)(obj)) & ~(SIZEBLOCK_BlockHeap_emC-1));
       #else
         #error do not compile
         block = (BlockHeapBlockJc*)
-                ( ( ( ((MemUnit*)obj) - ((MemUnit*)heap->heapBegin)) & ~(SIZEBLOCK_BlockHeapJc-1)
+                ( ( ( ((MemUnit*)obj) - ((MemUnit*)heap->heapBegin)) & ~(SIZEBLOCK_BlockHeap_emC-1)
                   ) + ((MemUnit*)heap->heapBegin)
                 ) ;
       #endif

@@ -50,12 +50,12 @@
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
 
-void stop_DebugutilJc(ThreadContextFW_s* _thCxt){
+void stop_DebugutilJc DEF(ThreadContext_emC_s* _thCxt){
 }
 
 
 
-const char* exceptionTexts[33]=
+const char* exceptionTexts DEF [33] =
 { "RuntimeException"  //0x0001
 , "ClassCastException"   //0x0002
 , ""   //0x0004
@@ -98,12 +98,12 @@ const char* exceptionTexts[33]=
 
 
 
-void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_s* _thCxt)
+void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_emC_s* _thCxt)
 { _thCxt->entries[stacktrace->ix].tryObject = null;
 }
 
 
-void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadContext_s* stacktrcThCxt, int line)
+void throw_sJc (int32 exceptionNr, StringJc msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line)
 { //find stack level with try entry:
   if(stacktrcThCxt != null)
   { StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
@@ -177,14 +177,14 @@ void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadConte
 
 
 
-void throw_s0Jc(int32 exceptionNr, const char* msgP, int value, StacktraceThreadContext_s* stacktrcThCxt, int line)
+void throw_s0Jc (int32 exceptionNr, const char* msgP, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line)
 { StringJc msg = s0_StringJc(msgP);
   throw_sJc(exceptionNr, msg, value, stacktrcThCxt, line);
 }
 
 
 
-void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, StacktraceThreadContext_s* stacktrcThCxt, int line)
+void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line)
 {
   //int exceptionNr = exc->exceptionNr;
   StringJc msg = exc->exceptionMsg;
@@ -195,7 +195,7 @@ void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, StacktraceThreadC
 
 
 
-void assertJc(bool condition)
+void assertJc (bool condition)
 { if(!condition)
   { STACKTRC_ENTRY("assertJc");
     THROW_s0(RuntimeException, "assertion failed", 0);
@@ -224,7 +224,7 @@ METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr)
  * @return null if no previous level is found.
  */
 
-static StacktraceElementJc* getEntry_StacktraceThreadContext(StacktraceThreadContext_s* ythis, uint level)
+static StacktraceElementJc* getEntry_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, uint level)
 { 
   if(level < ythis->zEntries) {
     return &ythis->entries[ythis->zEntries - level -1];
@@ -241,9 +241,9 @@ static StacktraceElementJc* getEntry_StacktraceThreadContext(StacktraceThreadCon
 
 
 
-METHOD_C char const* getCallingMethodName_StacktraceThreadContext(StacktraceThreadContext_s* ythis, int level)
+METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, int level)
 {
-  StacktraceElementJc* entry = getEntry_StacktraceThreadContext(ythis, level);
+  StacktraceElementJc* entry = getEntry_StacktraceThreadContext_emC(ythis, level);
   return (entry == null) ? "" : entry->name; 
 }
 
@@ -297,9 +297,9 @@ bool test_StacktraceJc(StacktraceJc* ythis)
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 
-StacktraceJcpp::StacktraceJcpp(const char* sName, ThreadContextFW_s* _thCxt)
+StacktraceJcpp::StacktraceJcpp(const char* sName, ThreadContext_emC_s* _thCxt)
 { if(_thCxt == null) 
-  { _thCxt = getCurrent_ThreadContextFW();
+  { _thCxt = getCurrent_ThreadContext_emC();
   }
   this->threadContext= _thCxt;  //save it to use in destructor.
   this->entry.name = sName;

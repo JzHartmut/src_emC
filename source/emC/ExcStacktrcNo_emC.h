@@ -51,14 +51,14 @@
 #define __NOT_SUPPORTED_ExceptionJc__
 
 #ifndef __StringJc_defined__
-  //minimalistic definition of StringJc to use this type before including Fwc/fw_StringJc
+  //minimalistic definition of StringJc to use this type before including emC/StringJc
   typedef OS_PtrVal_DEF(StringJc, void const);
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 
 #include <emC/ExceptionDefs_emC.h>
 
-//#include <Fwc/fw_String.h>
+//#include <emC/String.h>
 
 /**The Exception data contains all data of exception but references to the stacktrace.
  *
@@ -83,8 +83,8 @@ typedef struct ExceptionJc_t
 
 
 
-#define ThCxt struct ThreadContextFW_t
-#define STACKTRC_ENTRY(NAME) struct ThreadContextFW_t* _thCxt = null;
+#define ThCxt struct ThreadContext_emC_t
+#define STACKTRC_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = null;
 #define STACKTRC_TENTRY(NAME)
 #define STACKTRC_LEAVE
 #define CALLINE

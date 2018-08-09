@@ -308,19 +308,19 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
-  #define INLINE_Fwc inline
+  #define INLINE_emC inline
 #else
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
      &&TODO check if 'inline' is possibel in C >= C99
   */
-  #define INLINE_Fwc static
+  #define INLINE_emC static
 #endif
 
 #ifdef __cplusplus
-  #define CONSTMember_Fwc
+  #define CONSTMember_emC
 #else
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
-  #define CONSTMember_Fwc const
+  #define CONSTMember_emC const
 #endif
 
 /**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,

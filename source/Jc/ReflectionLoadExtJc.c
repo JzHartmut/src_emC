@@ -1,8 +1,8 @@
 #include <Jc/ReflectionJc.h>
 #include <Jc/FileIoJc.h>
 #include <Jc/FileSystemJc.h>
-#include <Fwc/fw_MemC.h>
-#include <Fwc/fw_Exception.h>
+#include <emC/MemC.h>
+#include <emC/Exception.h>
 
 
 /**internal method (private).

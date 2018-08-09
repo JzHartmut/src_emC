@@ -41,9 +41,9 @@
  ****************************************************************************/
 //#include "CRuntimeJavalike.h"
 //#include "ThreadJc.h"
-#include "BlockHeapJc_internal.h"
-#include <Fwc/fw_LogMessage.h>
-#include <Fwc/fw_Exception.h>
+#include "BlockHeap_emC_internal.h"
+#include <emC/LogMessage.h>
+#include <emC/Exception.h>
 #include <Jc/StringJc.h>
 #include <Jc/SystemJc.h>
 #include <BlockHeap_PlatformSpec.h>
@@ -60,18 +60,18 @@
 
 
 void activateGC_ObjectJc(void const* objP, void const* exclAddr, ThCxt* _thCxt)
-//void activateGarbageCollectorAccess_BlockHeapJc(void const* objP, void const* exclAddr)
+//void activateGarbageCollectorAccess_BlockHeap_emC(void const* objP, void const* exclAddr)
 {
-  BlockHeapJc* heap = null;
+  BlockHeap_emC* heap = null;
   BlockHeapBlockJc* block;
 
-  block = searchBlockHeapBlock_BlockHeapJc(objP, &heap);
+  block = searchBlockHeapBlock_BlockHeap_emC(objP, &heap);
   if(block != null){
     if(exclAddr == null) {
       block->typeOrMaxRef |= mConsideredInGarbage_Type_Object;
     } else  {
       //TODO don't call deduce, but test whether the exclAddr is in block range. calc-time!
-      BlockHeapBlockJc* blockExcl = searchBlockHeapBlock_BlockHeapJc(exclAddr, &heap);
+      BlockHeapBlockJc* blockExcl = searchBlockHeapBlock_BlockHeap_emC(exclAddr, &heap);
       if(blockExcl != block) { 
         activateGC_BlockHeapBlockJc(block);
       } else {
@@ -89,7 +89,7 @@ void activateGC_ObjectJc(void const* objP, void const* exclAddr, ThCxt* _thCxt)
 
 static void flushFullReportBuffer(GarbageCollectorJc* ythis, int sizeUsed, ThCxt* _thCxt)
 { if(ythis->idxReportBuffer >= (int)(sizeof(ythis->reportBuffer) - sizeUsed))
-  { sendMsg_z_LogMessageFW(ythis->log, ythis->kIdentMsgBase + identMsgGcWork_BlockHeapJc, ythis->reportBuffer, _thCxt);
+  { sendMsg_z_LogMessageFW(ythis->log, ythis->kIdentMsgBase + identMsgGcWork_BlockHeap_emC, ythis->reportBuffer, _thCxt);
     ythis->idxReportBuffer = sprintf(ythis->reportBuffer, "...GC; ");
   }
 }
@@ -99,7 +99,7 @@ static void flushFullReportBuffer(GarbageCollectorJc* ythis, int sizeUsed, ThCxt
 
 
 static bool testBlock_GarbageCollectorJc(GarbageCollectorJc* ythis, BlockHeapBlockJc* block)
-{ int maxBackref = block->typeOrMaxRef & mMaxRef_BlockHeapJc;
+{ int maxBackref = block->typeOrMaxRef & mMaxRef_BlockHeap_emC;
   int idxBackref = 0;
   bool bInUse = false;
   STACKTRC_ENTRY("testBlock_GarbageCollectorJc");
@@ -111,8 +111,8 @@ static bool testBlock_GarbageCollectorJc(GarbageCollectorJc* ythis, BlockHeapBlo
     ObjectJcREF* ref = block->backRefs->data[idxBackref];  //the backRef contains a reference to the reference to this block.
     if(ref != null)
     { //look where the reference to this block is located:
-      BlockHeapJc* retHeap;
-      BlockHeapBlockJc* blockWithReference = searchBlockHeapBlock_BlockHeapJc(ref, &retHeap);
+      BlockHeap_emC* retHeap;
+      BlockHeapBlockJc* blockWithReference = searchBlockHeapBlock_BlockHeap_emC(ref, &retHeap);
       if(  retHeap != null    //the reference is in any heap.
         && (blockWithReference->typeOrMaxRef & mConsideredInGarbage_Type_Object) //the block is to be tested in GC
         )
@@ -170,7 +170,7 @@ static bool testBlockCluster_GarbageCollectorJc(GarbageCollectorJc* ythis, Block
   BlockHeapBlockJc* firstBlock = block;
   bool bInUse = false;
   STACKTRC_ENTRY("testBlockCluster_GarbageCollectorJc");
-  block->nextBlock = kLastBlockInGarbageCtest_BlockHeapJc;  //mark it with !=null
+  block->nextBlock = kLastBlockInGarbageCtest_BlockHeap_emC;  //mark it with !=null
   { //report:
     if(ythis->idxReportBuffer >0)
     { sendMsg_z_LogMessageFW(ythis->log, 1001, ythis->reportBuffer, _thCxt);
@@ -193,7 +193,7 @@ static bool testBlockCluster_GarbageCollectorJc(GarbageCollectorJc* ythis, Block
       block = block->nextBlock;
     }
   }while(  !bInUse                                        //break if any block is used, than the cluster is used.
-        && block != kLastBlockInGarbageCtest_BlockHeapJc  //break if all blocks of the cluster are tested.
+        && block != kLastBlockInGarbageCtest_BlockHeap_emC  //break if all blocks of the cluster are tested.
         && !theGarbageCollectorJc.bAbortTest              //break if any block in cluster is reused.
         && !theGarbageCollectorJc.bAbortTestBecauseUserCall //break if System.gc() is called.
         );
@@ -217,16 +217,16 @@ static bool testBlockCluster_GarbageCollectorJc(GarbageCollectorJc* ythis, Block
       block = firstBlock;
       firstBlock = block->nextBlock;
       block->nextBlock = null;
-    } while(firstBlock != kLastBlockInGarbageCtest_BlockHeapJc);
+    } while(firstBlock != kLastBlockInGarbageCtest_BlockHeap_emC);
     theGarbageCollectorJc.bAbortTest = false;
     theGarbageCollectorJc.bAbortTestBecauseUserCall = false;
   }
   else
   { //all blocks were tested, they are not referenced from outside.
     do
-    { BlockHeapJc* blockHeap;
+    { BlockHeap_emC* blockHeap;
       block = firstBlock;      //process all blocks of the cluster.
-      searchBlockHeapBlock_BlockHeapJc(block, &blockHeap);  //to get the heap control structure.
+      searchBlockHeapBlock_BlockHeap_emC(block, &blockHeap);  //to get the heap control structure.
       firstBlock = block->nextBlock;
       if(block->obj != null)
       { Mtbl_ObjectJc const* mtbl;
@@ -237,15 +237,15 @@ static bool testBlockCluster_GarbageCollectorJc(GarbageCollectorJc* ythis, Block
         }
       }
       //call finalize
-      memset(block, 0, SIZEBLOCK_BlockHeapJc);
-      free_BlockHeapJc(blockHeap, block, _thCxt);
+      memset(block, 0, SIZEBLOCK_BlockHeap_emC);
+      free_BlockHeap_emC(blockHeap, block, _thCxt);
       { //report
         char* reportBufferPos = ythis->reportBuffer + ythis->idxReportBuffer;
         flushFullReportBuffer(ythis, 32, _thCxt);
         ythis->idxReportBuffer += sprintf(reportBufferPos, " => freed=%p", block);
       }
       
-    } while(firstBlock != kLastBlockInGarbageCtest_BlockHeapJc);
+    } while(firstBlock != kLastBlockInGarbageCtest_BlockHeap_emC);
   }/*while: test all references from outside to all blocks of this cluster*/
   //
   STACKTRC_LEAVE; return bInUse;
@@ -269,7 +269,7 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
   BlockHeapBlockJc* block;
   bool bInUse = false;
   LogMessageFWMTB mlog = {0};
-  STACKTRC_TENTRY("garbageCollection_BlockHeapJc");
+  STACKTRC_TENTRY("garbageCollection_BlockHeap_emC");
 
   if(ythis->log !=null) {
     mlog.ref = ythis->log;
@@ -300,7 +300,7 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
                   + ((nanoSeconds_OS_TimeStamp(endTime) - nanoSeconds_OS_TimeStamp(ythis->startTime))/1000000);
       flushFullReportBuffer(&theGarbageCollectorJc, 1, _thCxt);
       if(ythis->log !=null) {
-        mlog.mtbl->sendMsgTime(mlog.ref,ythis->kIdentMsgBase + identMsgReport_BlockHeapJc
+        mlog.mtbl->sendMsgTime(mlog.ref,ythis->kIdentMsgBase + identMsgReport_BlockHeap_emC
         , endTime
         , "GC-result, %d millisec: size/free/used/nonGc = %d / %d / %d / %d, freed=%d"
         , "IIIIII"
@@ -320,7 +320,7 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
         ythis->kIdentMsgBase = ythis->testedHeap->kIdentMsgBase;
       }
     }
-    block = ythis->testedHeap == null ? null : (BlockHeapBlockJc*)( addOffset_MemAreaC(ythis->testedHeap->heapBegin, ythis->idxBlock * SIZEBLOCK_BlockHeapJc));
+    block = ythis->testedHeap == null ? null : (BlockHeapBlockJc*)( addOffset_MemAreaC(ythis->testedHeap->heapBegin, ythis->idxBlock * SIZEBLOCK_BlockHeap_emC));
     success = -1;
     if(block != null){
       if(block->typeOrMaxRef == kFree_Type_BlockHeapBlock){
@@ -330,39 +330,39 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
       }else if((block->typeOrMaxRef & mConsideredInGarbage_Type_Object) == 0) {
         ythis->ctNonGcBlocks +=1;
         if(mlog.ref != null){
-          mlog.mtbl->sendMsg(mlog.ref,ythis->kIdentMsgBase + identMsgBlockNoGc_BlockHeapJc, "GC: block non-GC, addr=%8.8X, created at=%tR from %s"
+          mlog.mtbl->sendMsg(mlog.ref,ythis->kIdentMsgBase + identMsgBlockNoGc_BlockHeap_emC, "GC: block non-GC, addr=%8.8X, created at=%tR from %s"
             , "PIz", block, block->timeCreation, block->sCreaterInfo);
         }
       } else {
-        success = checkGcBlockUsed_BlockHeapJc;
+        success = checkGcBlockUsed_BlockHeap_emC;
       }
     } else {
-      success = checkGcFinished_BlockHeapJc;
+      success = checkGcFinished_BlockHeap_emC;
     }
   } while( success < 0);         //break if all heaps are pass through.
 
   if(block != null)
   { //a used block is found.
     if(testBlockCluster_GarbageCollectorJc(ythis, block, bUserCall)){
-      success = checkGcBlockUsed_BlockHeapJc;
+      success = checkGcBlockUsed_BlockHeap_emC;
       ythis->ctUsedBlocks +=1;
     } else { 
-      success = checkGcBlockFreed_BlockHeapJc;
+      success = checkGcBlockFreed_BlockHeap_emC;
       ythis->ctFreedBlocks +=1;
     }
     if(ythis->log != null) {
-      if(success == checkGcBlockFreed_BlockHeapJc)
+      if(success == checkGcBlockFreed_BlockHeap_emC)
       { //all blocks were tested, they are not referenced from outside.
-        sendMsg_z_LogMessageFW(ythis->log, ythis->kIdentMsgBase + identMsgBlockFree_BlockHeapJc, ythis->reportBuffer, _thCxt);
+        sendMsg_z_LogMessageFW(ythis->log, ythis->kIdentMsgBase + identMsgBlockFree_BlockHeap_emC, ythis->reportBuffer, _thCxt);
       }/*while: test all references from outside to all blocks of this cluster*/
       else
       {
-        sendMsg_z_LogMessageFW(ythis->log, ythis->kIdentMsgBase + identMsgGcWork_BlockHeapJc, ythis->reportBuffer, _thCxt);
+        sendMsg_z_LogMessageFW(ythis->log, ythis->kIdentMsgBase + identMsgGcWork_BlockHeap_emC, ythis->reportBuffer, _thCxt);
       }
     }
   }/*if a used block is found. */
   else {
-    success = checkGcFinished_BlockHeapJc;  //end is found.
+    success = checkGcFinished_BlockHeap_emC;  //end is found.
   }
   STACKTRC_LEAVE;
   return success;
@@ -375,18 +375,18 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
 GarbageCollectorJc theGarbageCollectorJc = {0};
 
 
-void gc_SystemJc(ThCxt* _thCxt){ runUserCalledGc_BlockHeapJc(_thCxt); }
+void gc_SystemJc(ThCxt* _thCxt){ runUserCalledGc_BlockHeap_emC(_thCxt); }
 
 
-bool runUserCalledGc_BlockHeapJc(ThCxt* _thCxt)
+bool runUserCalledGc_BlockHeap_emC(ThCxt* _thCxt)
 { /**Runs in a loop only if */
   bool bAnyFreed = false;
   int success;
-  STACKTRC_TENTRY("runUserCalledGc_BlockHeapJc");
+  STACKTRC_TENTRY("runUserCalledGc_BlockHeap_emC");
   theGarbageCollectorJc.bAbortTestBecauseUserCall = true; //abort a test in the thread of gc
   theGarbageCollectorJc.testedHeap = null; //start from first entry.
   do {
-    success = garbageCollection_BlockHeapJc(true, _thCxt);
+    success = garbageCollection_BlockHeap_emC(true, _thCxt);
     if(success == 1) {
       bAnyFreed = true;
     }
@@ -394,7 +394,7 @@ bool runUserCalledGc_BlockHeapJc(ThCxt* _thCxt)
   if(theGarbageCollectorJc.log != null) {
     if(theGarbageCollectorJc.log != null){
       flushFullReportBuffer(&theGarbageCollectorJc, 1, _thCxt);
-      sendMsg_tzzv_LogMessageFW(theGarbageCollectorJc.log, theGarbageCollectorJc.kIdentMsgBase + identMsgReportBlocks_BlockHeapJc
+      sendMsg_tzzv_LogMessageFW(theGarbageCollectorJc.log, theGarbageCollectorJc.kIdentMsgBase + identMsgReportBlocks_BlockHeap_emC
       , os_getDateTime()
       , "user called GC runs, free/used/nonGc = %d / %d / %d, freed=%d"
       , "IIII"
@@ -413,7 +413,7 @@ bool runUserCalledGc_BlockHeapJc(ThCxt* _thCxt)
 
 
 
-int garbageCollection_BlockHeapJc(bool bUserCall, ThCxt* _thCxt)
+int garbageCollection_BlockHeap_emC(bool bUserCall, ThCxt* _thCxt)
 {
   /**A buffer to write reports running GC. */
   int success;
@@ -428,7 +428,7 @@ void setTestMethod(MT_int_Method_int testMethod)
 }
 
 
-StringJc report_BheapJc(BlockHeapJc* ythis, int* idxBlockP, StringBufferJc* buffer)
+StringJc report_BheapJc(BlockHeap_emC* ythis, int* idxBlockP, StringBufferJc* buffer)
 { StringJc ret = null_StringJc;
   int idxBlock = *idxBlockP;
   bool bSearch = true;

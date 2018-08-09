@@ -36,7 +36,7 @@
  *   32-bit integer. They are supported in most of operation systems. It is the originally unix concept
  *   for the timestamp. It should be available if measurements of seconds are enough and proper to use.
  * 2010-03-01 Hartmut corr: int32_t os_getClockCnt(void) instead int64, it is enaugh and applicate-able to all systems.
- * 2010-02-26 Hartmut new: class MinMaxTime_Fwc os-independt, but useable at lo level.
+ * 2010-02-26 Hartmut new: class MinMaxTime_emC os-independt, but useable at lo level.
  * 2010-02-26 Hartmut corr: ctor with return value
  * 2008-02-01: Hartmut creation 
  *
@@ -195,12 +195,12 @@ void os_delayThread(int32_t timeOut);
 
 
 
-/*@CLASS_C MinMaxTime_Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C MinMaxTime_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 
 
-typedef struct MinMaxTime_Fwc_t
+typedef struct MinMaxTime_emC_t
 {
   int32_t ct;
   
@@ -227,9 +227,9 @@ typedef struct MinMaxTime_Fwc_t
   int32_t _lastTime;
 
 
-}MinMaxTime_Fwc;
+}MinMaxTime_emC;
 
-#define init_MinMaxTime_Fwc(YTHIS)        \
+#define init_MinMaxTime_emC(YTHIS)        \
 { (YTHIS)->maxCyclTime = 0;  \
   (YTHIS)->maxmaxCyclTime = 0;  \
   (YTHIS)->maxCalcTime = 0;  \
@@ -243,7 +243,7 @@ typedef struct MinMaxTime_Fwc_t
 }
 
 
-#define cyclTime_MinMaxTime_Fwc(YTHIS)        \
+#define cyclTime_MinMaxTime_emC(YTHIS)        \
 { int32_t time = (int32_t)os_getClockCnt();       \
   uint32_t cyclTime = time - (YTHIS)->_lastTime; \
   (YTHIS)->ct +=1;  \
@@ -255,7 +255,7 @@ typedef struct MinMaxTime_Fwc_t
 }
 
 /**With given time. */
-#define cyclTime_fast_MinMaxTime_Fwc(YTHIS, time)        \
+#define cyclTime_fast_MinMaxTime_emC(YTHIS, time)        \
 { uint32_t cyclTime = (time) - (YTHIS)->_lastTime; \
   (YTHIS)->ct +=1; \
   (YTHIS)->actCyclTime = cyclTime;  \
@@ -269,7 +269,7 @@ typedef struct MinMaxTime_Fwc_t
 
 
 /**With given time. */
-#define calcTime_fast_MinMaxTime_Fwc(YTHIS, time)        \
+#define calcTime_fast_MinMaxTime_emC(YTHIS, time)        \
 { uint32_t calcTime = (time) - (YTHIS)->_lastTime; \
   (YTHIS)->actCalcTime = calcTime;  \
   if(calcTime > (YTHIS)->maxCalcTime) { (YTHIS)->maxCalcTime = calcTime; }  \
@@ -280,7 +280,7 @@ typedef struct MinMaxTime_Fwc_t
 /**Stores middle value of difference time in any variable, without min and max. 
  * @param VAR variable to store middle time 
  */
-#define mesTimeMid_I_MinMaxTime_Fwc(YTHIS, time, VAR, VARMID)        \
+#define mesTimeMid_I_MinMaxTime_emC(YTHIS, time, VAR, VARMID)        \
 { VAR = (time) - (YTHIS)->_lastTime; \
   VARMID += VAR - (VARMID >>10);            \
 }
@@ -288,7 +288,7 @@ typedef struct MinMaxTime_Fwc_t
 /**Stores difference time in any variable, without min and max. 
  * @param VAR variable to store middle time 
  */
-#define mesTime_I_MinMaxTime_Fwc(YTHIS, time, VAR)        \
+#define mesTime_I_MinMaxTime_emC(YTHIS, time, VAR)        \
 { VAR = (time) - (YTHIS)->_lastTime; \
 }
 

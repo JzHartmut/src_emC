@@ -33,16 +33,16 @@
  * @version 0.83
  */
 #include <Jc/FormatterJc.h>
-#include <Fwc/fw_Formatter.h>
+#include <emC/Formatter.h>
 #include <Jc/ReflectionJc.h>
 #include <Jc/StringBufferJc.h>
-#include <Fwc/fw_Va_list.h> 
-#include <Fwc/fw_Exception.h>
+#include <emC/Va_list.h> 
+#include <emC/Exception.h>
 
 extern_C ClassJc const reflection_FormatterJc_s;
 extern_C ClassJc const reflection_StringBufferJc;
 
-FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContextFW_t* _thCxt)
+FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContext_emC_t* _thCxt)
 {
   FormatterJc_s* ythis = (FormatterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Sb_FormatterJc");
@@ -51,7 +51,7 @@ FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* b
   STACKTRC_LEAVE; return ythis;
 }
 
-FormatterJc_s* ctorO_SbLo_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct LocaleJc_t* locale, struct ThreadContextFW_t* _thCxt)
+FormatterJc_s* ctorO_SbLo_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct LocaleJc_t* locale, struct ThreadContext_emC_t* _thCxt)
 {
   FormatterJc_s* ythis = (FormatterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Sb_FormatterJc");
@@ -63,7 +63,7 @@ FormatterJc_s* ctorO_SbLo_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t*
 }
 
 
-void format_FormatterJc(FormatterJc_s* ythis, StringJc text, Va_listFW args, struct ThreadContextFW_t* _thCxt)
+void format_FormatterJc(FormatterJc_s* ythis, StringJc text, Va_listFW args, struct ThreadContext_emC_t* _thCxt)
 {
   int sizeBuffer;
   int posBuffer;
@@ -93,7 +93,7 @@ void format_a_FormatterJc(FormatterJc_s* ythis, StringJc text, char const* typeA
 }
 
 
-void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContextFW_t* _thCxt)
+void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
 {
 }
 

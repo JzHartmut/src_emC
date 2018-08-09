@@ -35,7 +35,7 @@
 #ifndef __ConcurrentLinkedQueueJc_h__
 #define __ConcurrentLinkedQueueJc_h__
 
-#include "Fwc/fw_MemC.h"
+#include "emC/MemC.h"
 #include "Jc/ObjectJc.h"
 
 /*@CLASS_C Node_ConcurrentLinkedQueueJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

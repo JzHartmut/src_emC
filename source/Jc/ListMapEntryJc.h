@@ -50,7 +50,7 @@
 
 
 
-struct ThreadContextFW_t;
+struct ThreadContext_emC_t;
 struct NodePoolJc_t;
 
 /** Definition of 1 Entry in the Mempool*/
@@ -131,20 +131,20 @@ METHOD_C ListMapEntryJc* skip_MapEntry(int iList, int zList, ListMapEntryJc* iFi
     #define setNext_MapEntry(ythis, right){ ythis->next = right; }
 
 /**gets the nodepool adequat to the implementation of NodePool-Allocation. */
-METHOD_C struct NodePoolJc_t* current_NodePool_ListMapEntryJc(struct ThreadContextFW_t* _thCxt);
+METHOD_C struct NodePoolJc_t* current_NodePool_ListMapEntryJc(struct ThreadContext_emC_t* _thCxt);
 
 /**Allocates a node.
  * @param nodePool The node-pool. It is returned from [[>current_NodePool_ListMapEntryJc(...)]].
  * @return the node. 
  */
-METHOD_C ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* nodePool, struct ThreadContextFW_t* _thCxt);
+METHOD_C ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* nodePool, struct ThreadContext_emC_t* _thCxt);
 
 /**Frees a node.
  * @param nodePool The node-pool. It is returned from [[>current_NodePool_ListMapEntryJc(...)]].
  * @param entry The node.
  * @return the node. 
  */
-METHOD_C void free_ListMapEntryJc(struct NodePoolJc_t*, ListMapEntryJc* entry, struct ThreadContextFW_t* _thCxt);
+METHOD_C void free_ListMapEntryJc(struct NodePoolJc_t*, ListMapEntryJc* entry, struct ThreadContext_emC_t* _thCxt);
 
 
     /** assign the obj in a new item and concat it with the item at ix.
@@ -169,7 +169,7 @@ METHOD_C ListMapEntryJc* xxnew_MapEntry(ObjectJc* parentRef, ObjectJcREF obj, Ob
            instance of a LinkedList, TreeMap and others.
     @param obj the Object to be referenced by this entry
 */
-//METHOD_C ListMapEntryJc* new_ListMapEntryJc(ListMapEntryJc** emptyEntries, struct BlockHeapJc_t* blockHeap); //, ListMapEntryJc* parent, ListMapEntryJc* iBefore, ListMapEntryJc* iAfter);
+//METHOD_C ListMapEntryJc* new_ListMapEntryJc(ListMapEntryJc** emptyEntries, struct BlockHeap_emC_t* blockHeap); //, ListMapEntryJc* parent, ListMapEntryJc* iBefore, ListMapEntryJc* iAfter);
 
 
     /** get the Object in memPool.

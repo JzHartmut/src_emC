@@ -45,9 +45,9 @@
 
 /**The following file defines struct Object_Jc and class ObjectifcBase_Jcpp. */
 #include <Fwc/objectBaseC.h>
-#include <Fwc/fw_MemC.h>
-#include <Fwc/fw_String.h>
-#include <Fwc/fw_Exception.h>
+#include <emC/MemC.h>
+#include <emC/String.h>
+#include <emC/Exception.h>
 
 struct InterProcessComm_t;
 struct AddressInterProcessComm_t;

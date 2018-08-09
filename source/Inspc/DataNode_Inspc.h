@@ -43,7 +43,7 @@ DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float
 /**Creates a new DataNode, only a dummy for construction. 
  * @simulink Object-FB
  */
-INLINE_Fwc char const* create_DataNode_Inspc(struct DataNode_Inspc_t* thiz) { return null; }
+INLINE_emC char const* create_DataNode_Inspc(struct DataNode_Inspc_t* thiz) { return null; }
 
 
 

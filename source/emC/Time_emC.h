@@ -34,13 +34,13 @@
  * 2017-12-03: Hartmut creation from OSAL/os_time.h 
  *
  ************************************************************************************************/
-#ifndef __Fwc_fw_Time_h__
-#define __Fwc_fw_Time_h__
+#ifndef __emC_fw_Time_h__
+#define __emC_fw_Time_h__
 #include <applstdef_emC.h>
 #include <Fwc/objectBaseC.h>
 
 
-typedef struct SimTime_Fwc_t
+typedef struct SimTime_emC_t
 {
   int32 timeShort;
 
@@ -48,10 +48,10 @@ typedef struct SimTime_Fwc_t
 
   double timeSim;
 
-} SimTime_Fwc;
+} SimTime_emC;
 
 
-extern_C ClassJc const reflection_SimTime_Fwc;
+extern_C ClassJc const reflection_SimTime_emC;
 
 
 

@@ -5,13 +5,13 @@
 #ifndef __InspcJ2c_AnswerComm_ifc_Inspc_h__
 #define __InspcJ2c_AnswerComm_ifc_Inspc_h__
 
-#include "Fwc/fw_MemC.h"        //basic concept
+#include "emC/MemC.h"        //basic concept
 
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
 
-#include "Fwc/fw_Exception.h"   //basic concept
+#include "emC/Exception.h"   //basic concept
 
 
 /* J2C: includes *********************************************************/

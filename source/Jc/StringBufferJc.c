@@ -175,7 +175,7 @@ StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, ThCxt* _thCxt)
 { StringBuilderJc* ythis;
   int zSrc = length_CharSeqJc(src, _thCxt);
-  //if(zSrc == mLength__StringJc){ zSrc = strlen_Fwc(PTR_StringJc(src), mLength__StringJc); }
+  //if(zSrc == mLength__StringJc){ zSrc = strlen_emC(PTR_StringJc(src), mLength__StringJc); }
   ythis = ctorO_I_StringBuilderJc(othis, zSrc+16, _thCxt);
   return append_c_StringBuilderJc(ythis, src, _thCxt);
 }
@@ -218,7 +218,7 @@ StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
   STACKTRC_TENTRY("new_StringBuilderJc");
   if(size <=0)
   { //no size is given
-    #ifdef USE_BlockHeapJc
+    #ifdef USE_BlockHeap_emC
       /*
       if(threadContext->blockheapStd!=null)
       { size = threadContext->blockheapStd->bytesNormalBlock - 10 * 8; //sizeof(ObjectJcRef);
@@ -232,9 +232,9 @@ StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
       size =240;
     #endif
   }
-  #if defined(USE_BlockHeapJc)
+  #if defined(USE_BlockHeap_emC)
     //If Blockheap is available, get the buffer from it.
-    { ObjectJc* yObj = allocObject_IIs_BlockHeapJc(_thCxt->blockHeap, size, 0, 10, "concatenationString", _thCxt);
+    { ObjectJc* yObj = allocObject_IIs_BlockHeap_emC(_thCxt->blockHeap, size, 0, 10, "concatenationString", _thCxt);
       buffer = ctorO_StringBuilderJc(yObj, _thCxt);
     }
   #elif defined(USE_MALLOC_FREE)
@@ -748,7 +748,7 @@ StringJc replace_StringJc(StringJc ythis, char oldChar, char newChar, ThCxt* _th
   int max;
   StringJc ret;
   STACKTRC_TENTRY("replace_StringJc");
-  if(lenThis == mLength__StringJc){ lenThis = strlen_Fwc(strThis, mLength__StringJc); }
+  if(lenThis == mLength__StringJc){ lenThis = strlen_emC(strThis, mLength__StringJc); }
   max = lenThis;
   for(ii = 0; ii < max; ++ii)
   { if(strThis[ii] == oldChar)
@@ -1065,7 +1065,7 @@ StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int index, dou
 
 
 
-StringBuilderJc* XXXinsert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offset, CharSeqJc add, int start, int end, struct ThreadContextFW_t* _thCxt)
+StringBuilderJc* XXXinsert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offset, CharSeqJc add, int start, int end, struct ThreadContext_emC_t* _thCxt)
 {
   int countNew;
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);

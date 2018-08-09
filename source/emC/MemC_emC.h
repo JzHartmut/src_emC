@@ -58,7 +58,7 @@
 #include <compl_adaption.h>
 
 /**Forward declaration of struct to prevent warnings. */
-struct ThreadContextFW_t;
+struct ThreadContext_emC_t;
 
 /*@CLASS_C MemAreaC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -229,7 +229,7 @@ METHOD_C MemC alloc_MemC(int size);
 
 /**frees an allocated memory. It is the opposite method to alloc_MemC(). 
  * * since 2016-05: Only the memory address is necessary.
- * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContextFW_s.getUserBuffer_ThreadContextFw(...)]]
+ * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContext_emC_s.getUserBuffer_ThreadContextFw(...)]]
  * Therefore it is implemented in [[CRJ/sourceSpecials/FwConv/free_ThreadHeapAndBlockHeap.c]] which regards all of this areas of memory.  
  */
 METHOD_C int free_MemC(void const* addr);
@@ -251,7 +251,7 @@ METHOD_C MemC build_MemC(void* address, int size);
 
 /**Checks wether the size info in MemC is greater or equal given size, throws an IllegalArgumentException if there isn't so.
  */
-METHOD_C void checkSize_MemC(MemC mem, int size, struct ThreadContextFW_t* _thCxt);
+METHOD_C void checkSize_MemC(MemC mem, int size, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Builds a MemC struct and returns it per value.

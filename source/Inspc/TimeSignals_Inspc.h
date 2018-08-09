@@ -3,7 +3,7 @@
 #include <applstdef_emC.h>
 #include <Jc/ObjectJc.h>
 #include <Jc/ReflectionJc.h>
-#include <Fwc/fw_String.h>
+#include <emC/String.h>
 
 
 struct DataNode_Inspc_t;

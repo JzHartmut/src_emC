@@ -5,7 +5,7 @@
 #include "J1c/ByteDataAccessBaseJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include <emC/Exception.h>  //basic stacktrace concept
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/AssertJc.h"  //reference-association: RetOrExceptionJc
 #include "Jc/CharsetJc.h"  //reference-association: CharsetJc

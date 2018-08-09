@@ -44,7 +44,9 @@
 #define ulong unsigned long int
 
 
-#define INLINE_Jc INLINE_Fwc
+#define DEF
+
+#define INLINE_Jc INLINE_emC
 
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
@@ -153,9 +155,9 @@ typedef OS_PtrVal_DEF(PtrVal_double, double);
 /*@CLASS_C Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-#define max_Fwc(A, B) ( (A) > (B) ? (A) : (B) )
-#define min_Fwc(A, B) ( (A) < (B) ? (A) : (B) )
-#define abs_Fwc(A) ( (A) <0 ? -(A) : (A) )
+#define max_emC(A, B) ( (A) > (B) ? (A) : (B) )
+#define min_emC(A, B) ( (A) < (B) ? (A) : (B) )
+#define abs_emC(A) ( (A) <0 ? -(A) : (A) )
 
 //#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
 //#define fmin(A, B) ( (A) < (B) ? (A) : (B) )

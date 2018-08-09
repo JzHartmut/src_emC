@@ -34,7 +34,7 @@
  * 2007-10-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <Fwc/fw_SimpleC.h>
+#include <emC/SimpleC_emC.h>
 
 /**This algorithm is equal java.util.Arrays.binarySearch(int[] a, int fromIndex, int toIndex, int key)
  * but without rangeCheck of input values.

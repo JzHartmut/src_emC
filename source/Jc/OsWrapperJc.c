@@ -46,15 +46,15 @@
 
 
 #include "OsWrapperJc.h"
-#include <Fwc/fw_SimpleC.h>
+#include <emC/SimpleC.h>
 //#include <Jc/ObjectJc.h>
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception.h>
 #include <os_thread.h>
 #include <os_time.h>
 #include <os_sync.h>
 #include <os_waitnotify.h>
 #include <os_AtomicAccess.h>
-#include <Fwc/fw_ThreadContext.h>
+#include <emC/ThreadContext.h>
 
 #include <string.h>
 
@@ -183,7 +183,7 @@ void releaseHandleEntry(int16 idx)
 
 
 
-INLINE_Fwc HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
+INLINE_emC HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
   HandleItem* handle = null;
   int16 ixHandle = thiz->state.b.idSyncHandles;
   if(ixHandle == kNoSyncHandles_ObjectJc) {

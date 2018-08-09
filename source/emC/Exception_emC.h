@@ -79,11 +79,11 @@
 C_TYPE struct OS_HandleFile_t;
 
 /**Forward declaration of struct to prevent warnings. */
-struct ThreadContextFW_t;
+struct ThreadContext_emC_t;
 struct PrintStreamJc_t;
 
 
-extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -125,9 +125,9 @@ METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr);
 
 
 /**Javalike: prints the Stacktrace at output stream. */
-METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, struct ThreadContext_emC_t* _thCxt);
 
-METHOD_C void printStackTrace_P_ExceptionJc(ExceptionJc* ythis, struct PrintStreamJc_t* out, struct ThreadContextFW_t* _thCxt);
+METHOD_C void printStackTrace_P_ExceptionJc(ExceptionJc* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt);
 
 /**Javalike: prints the Stacktrace at output stream. 
  * @since 2011-02: The output stream handle is designated as OS_HandleFile.
@@ -147,8 +147,8 @@ METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, struct OS_Hand
 //METHOD_C ExceptionJc* manifest_ExceptionJc(ExceptionJc* ythis, ExceptionJc* dst, struct StacktraceElementJcARRAY_t* dstStacktrace);
 
 /**This routine is called in the THROW processing, if no TRY-level is found. The user should write this method.*/
-extern_C void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt);
-//METHOD_C void uncatchedException(int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_s* stacktrcThCxt);
+extern_C void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_emC_s* _thCxt);
+//METHOD_C void uncatchedException(int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt);
 
 #define getMessage_ExceptionJc(YTHIS, THC) ((YTHIS)->exceptionMsg)
 
@@ -210,7 +210,7 @@ typedef struct StacktraceJc_t
  */
 #if defined(__CPLUSGEN) && defined(__cplusplus)
   #define STACKTRC_TENTRY(NAME) \
-  if(_thCxt==null){ _thCxt = getCurrent_ThreadContextFW(); } \
+  if(_thCxt==null){ _thCxt = getCurrent_ThreadContext_emC(); } \
   StacktraceJcpp stacktrace(NAME, _thCxt);\
   stacktrace.entry.source = __FILE__; stacktrace.entry.line = __LINE__; \
   _thCxt->stacktrc.stacktrace = static_cast<StacktraceJc*>(&stacktrace)
@@ -218,7 +218,7 @@ typedef struct StacktraceJc_t
 #else
   #define STACKTRC_TENTRY(NAME) \
     StacktraceJc stacktrace; \
-    if(_thCxt==null){ _thCxt = getCurrent_ThreadContextFW(); } \
+    if(_thCxt==null){ _thCxt = getCurrent_ThreadContext_emC(); } \
     stacktrace.ixPrev = _thCxt->stacktrc.zEntries; \
     if(_thCxt->stacktrc.zEntries < (ARRAYLEN_SimpleC(_thCxt->stacktrc.entries))) { \
       StacktraceElementJc* stdst; \
@@ -243,11 +243,11 @@ typedef struct StacktraceJc_t
   /* NOTE: The initialization with __FILE__ and __LINE__ must be a part of macro
    * because otherwise it is the fault file and line.
    */
-  #define STACKTRC_ENTRY(NAME) ThCxt* _thCxt = getCurrent_ThreadContextFW(); STACKTRC_TENTRY(NAME) 
+  #define STACKTRC_ENTRY(NAME) ThCxt* _thCxt = getCurrent_ThreadContext_emC(); STACKTRC_TENTRY(NAME) 
 #else
   /**C-Variant: Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!*/
   #define STACKTRC_ENTRY(NAME) \
-    ThCxt* _thCxt = getCurrent_ThreadContextFW();  STACKTRC_TENTRY(NAME)
+    ThCxt* _thCxt = getCurrent_ThreadContext_emC();  STACKTRC_TENTRY(NAME)
 #endif
 
 
@@ -295,9 +295,9 @@ typedef struct StacktraceJc_t
 
 class StacktraceJcpp: public StacktraceJc
 {
-  private: struct ThreadContextFW_t* threadContext;
+  private: struct ThreadContext_emC_t* threadContext;
 
-  public: StacktraceJcpp(const char* sName, struct ThreadContextFW_t* stacktrcThCxt = null);
+  public: StacktraceJcpp(const char* sName, struct ThreadContext_emC_t* stacktrcThCxt = null);
 
   public: ~StacktraceJcpp();
 
@@ -319,14 +319,14 @@ class StacktraceJcpp: public StacktraceJc
  * without an _thCxt if an uncatchable exception occurs.
  * @param stacktrcThCxt if null than the uncatchedException-routine is called.
  */
-METHOD_C void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadContext_s* stacktrcThCxt, int line);
+METHOD_C void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line);
 
 
 
-METHOD_C void throw_s0Jc(int32 exceptionNr, const char* msg, int value, StacktraceThreadContext_s* stacktrcThCxt, int line);
+METHOD_C void throw_s0Jc(int32 exceptionNr, const char* msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line);
 
 
-METHOD_C void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, StacktraceThreadContext_s* stacktrcThCxt, int line);
+METHOD_C void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line);
 
 
 
@@ -335,7 +335,7 @@ METHOD_C void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, Stacktra
 //#define CALLINE (stacktrace.entry.line=__LINE__)
 #define CALLINE (_thCxt->stacktrc.entries[stacktrace.ix].line=__LINE__)
 
-void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_s* stacktrcThCxt);
+void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_emC_s* stacktrcThCxt);
 
 
 
@@ -457,7 +457,7 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
 /**The structure of the user ThreadContext, defined for the framework, 
  * should be known from user using this header, Therefore it is included here.
  * It should be contained an element named ,,stacktrc,, 
- * of the here defined type ,,StacktraceThreadContext_s,,. 
+ * of the here defined type ,,StacktraceThreadContext_emC_s,,. 
  * All other elements are not used here.
  * There are not necessary here, but used in macro definitions.
  */

@@ -43,8 +43,27 @@
 #include <string.h>
 #include <emC/SimpleC_emC.h>
 
-StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis)
-{ StacktraceThreadContext_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_s);
+//dependencies:
+//* alloc_MemC referenced in function _getCurrent_ThreadContext_emC
+//* init0_MemC referenced in function _getUserBuffer_ThreadContextFw
+//* null_MemC
+//==>MemC_emC.c
+//   * os_allocMem, os_freeMem,
+//   ==> os_mem.c
+//
+//* os_getCurrentUserThreadContext referenced in function _getCurrent_ThreadContext_emC
+//* os_setCurrentUserThreadContext referenced in function _getCurrent_ThreadContext_emC
+//==>os_Thread.c os_Mutex.c os_Time.c
+//
+//* stop_AssertJc referenced in function _getUserBuffer_ThreadContextFw
+//==>stopAssert_emC_while0.c etc.
+//
+//* throw_s0Jc referenced in function _getUserBuffer_ThreadContextFw
+//==>emC/Exception_emC.c
+
+
+StacktraceThreadContext_emC_s* ctorM_StacktraceThreadContext_emC(MemC mthis)
+{ StacktraceThreadContext_emC_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_emC_s);
 
   ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN_SimpleC(ythis->entries);
   return ythis;
@@ -52,8 +71,8 @@ StacktraceThreadContext_s* ctorM_StacktraceThreadContext(MemC mthis)
 
 
 
-ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis)
-{ ThreadContextFW_s* ythis = PTR_MemC(mthis, ThreadContextFW_s);
+ThreadContext_emC_s* ctorM_ThreadContext_emC(MemC mthis)
+{ ThreadContext_emC_s* ythis = PTR_MemC(mthis, ThreadContext_emC_s);
   int size = size_MemC(mthis);
   int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktrc);
   
@@ -61,19 +80,19 @@ ThreadContextFW_s* ctorM_ThreadContextFW(MemC mthis)
    * because the length of the array for stored Stacktrace entries may be different.
    * Calculate this size from the given size in mthis - offset of Stacktrace-ThCxt
    */
-  MemC mStacktraceThreadContext = CONST_MemC(&ythis->stacktrc, size - offsStacktraceThCxt);
+  MemC mStacktraceThreadContext_emC = CONST_MemC(&ythis->stacktrc, size - offsStacktraceThCxt);
 
   ythis->topmemAddrOfStack = &mthis; //the highest known address
-  ctorM_StacktraceThreadContext(mStacktraceThreadContext);
+  ctorM_StacktraceThreadContext_emC(mStacktraceThreadContext_emC);
   return ythis;
 }
 
 
 /**Sets a new buffer in Threadcontext.
  */
-METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContextFW_s* _thCxt)
+METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContext_emC_s* _thCxt)
 { MemC lastBuffer;
-  if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
+  if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   lastBuffer = _thCxt->bufferAlloc;
   _thCxt->bufferAlloc = newBuffer;
   _thCxt->addrFree = PTR_MemC(newBuffer, MemUnit);
@@ -85,9 +104,9 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContextFW_s* _
 
 
 
-MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContextFW_s* _thCxt)
+MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContext_emC_s* _thCxt)
 { ASSERT_s0_Jc(size >= -1, "faulty size argument", size);
-  if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
+  if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if(_thCxt->bufferAlloc.ref == null) {
     setUserBuffer_ThreadContextFw(alloc_MemC(2000), _thCxt);
   }
@@ -136,13 +155,13 @@ MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContextFW_s
 
 
 
-METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThreadContextFW_s* _thCxt)
-{ if(_thCxt == null) { _thCxt = getCurrent_ThreadContextFW(); }
+METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThreadContext_emC_s* _thCxt)
+{ if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if(size & 0x7) { size += 8-(size & 0x7); }
   //MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
-  AddrUsed_ThreadContextFW* e = &_thCxt->addrUsed[_thCxt->ixLastAddrUsed]; 
+  AddrUsed_ThreadContext_emC* e = &_thCxt->addrUsed[_thCxt->ixLastAddrUsed]; 
   if(e->used.ref == ptr) {
-    //ASSERT_s0_Fwc(e->used.ref == ptr , "reduceLastUserBuffer_ThreadContextFw: faulty ptr", (int32)ptr);
+    //ASSERT_s0_emC(e->used.ref == ptr , "reduceLastUserBuffer_ThreadContextFw: faulty ptr", (int32)ptr);
     _thCxt->addrFree = (MemUnit*) ptr + size;
     e->used.val = size;
   }
@@ -153,9 +172,9 @@ METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThreadCo
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThreadContextFW_s* _thCxt)
+METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThreadContext_emC_s* _thCxt)
 { if(_thCxt == null) {
-    _thCxt = getCurrent_ThreadContextFW();
+    _thCxt = getCurrent_ThreadContext_emC();
   }
   bool released = false;
   //try to free the last used position, often it is successfully.
@@ -199,22 +218,23 @@ METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThreadContextF
  * It should be hidden, but the embedded part of threadcontext for Stacktrace handling 
  * should be known in all user routines because it is used inline-like.
  */
-ThreadContextFW_s* getCurrent_ThreadContextFW()
-{ ThreadContextFW_s* thC;
-  MemC memThreadContext = os_getCurrentUserThreadContext();  //The users thread context is managed but not knwon in detail from osal.
-  thC = PTR_MemC(memThreadContext, ThreadContextFW_s);
+ThreadContext_emC_s* getCurrent_ThreadContext_emC()
+{ ThreadContext_emC_s* thC;
+  //The users thread context is managed but not knwon in detail from osal:
+  MemC memThreadContext = os_getCurrentUserThreadContext();
+  thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
   if(thC == null)
-  { memThreadContext = alloc_MemC(sizeof(ThreadContextFW_s));
+  { memThreadContext = alloc_MemC(sizeof(ThreadContext_emC_s));
     os_setCurrentUserThreadContext(memThreadContext);  
-    ctorM_ThreadContextFW(memThreadContext);
-    thC = PTR_MemC(memThreadContext, ThreadContextFW_s);
+    ctorM_ThreadContext_emC(memThreadContext);
+    thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
   }
   return thC;  //it is a embedded struct inside the whole ThreadContext.
 }
 
 
 
-METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThreadContextFW_s* ythis, bool value)
+METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThreadContext_emC_s* ythis, bool value)
 { bool ret = (ythis->mode & mCheckBufferUsed_Mode_ThCxt)!=0;
   if(value) { ythis->mode |= mCheckBufferUsed_Mode_ThCxt; }
   else      { ythis->mode &= ~mCheckBufferUsed_Mode_ThCxt; }
@@ -223,14 +243,14 @@ METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThreadContextFW_s* ythis, bo
 
 
 
-bool xxxoptimizeString_ThCxt(ThreadContextFW_s* ythis, bool value)
+bool xxxoptimizeString_ThCxt(ThreadContext_emC_s* ythis, bool value)
 { bool ret = ythis->mode & mOptimizeToString_Mode_ThCxt;
   if(value) { ythis->mode |= mOptimizeToString_Mode_ThCxt; }
   else      { ythis->mode &= ~mOptimizeToString_Mode_ThCxt; }
   return ret;
 }
 
-bool isOptimizeString_ThCxt(ThreadContextFW_s* ythis)
+bool isOptimizeString_ThCxt(ThreadContext_emC_s* ythis)
 { return ythis->mode & mOptimizeToString_Mode_ThCxt;
 }
 

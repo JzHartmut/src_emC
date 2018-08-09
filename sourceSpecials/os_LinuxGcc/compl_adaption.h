@@ -207,8 +207,8 @@ extern OS_PtrValue null_OS_PtrValue;
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ptr__ = (char*)(PTR); }
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
-#define INLINE_Fwc inline
-//#define INLINE_Fwc static
+#define INLINE_emC inline
+//#define INLINE_emC static
 
 
 

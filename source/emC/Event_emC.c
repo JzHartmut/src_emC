@@ -34,20 +34,20 @@
  *
  ************************************************************************************************/
 
-#include <Fwc/fw_Event.h>
-#include <Fwc/fw_SimpleC.h>
+#include <emC/Event_emC.h>
+#include <emC/SimpleC_emC.h>
 #include <string.h>
 
 
 
-void ctor_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int sizeMemAdditional) 
-{ int bytes = sizeof(EventQueueSimple_Fwc) + sizeMemAdditional;  //sizeAdditional is number of bytes respecitvely mem locations.
+void ctor_EventQueueSimple_emC(EventQueueSimple_emC* thiz, int sizeMemAdditional) 
+{ int bytes = sizeof(EventQueueSimple_emC) + sizeMemAdditional;  //sizeAdditional is number of bytes respecitvely mem locations.
   memset(thiz, 0, bytes);  
   thiz->zEvents = (sizeMemAdditional / sizeof(int)) + ARRAYLEN_SimpleC(thiz->events);
 }
 
 
-bool offer_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int event)
+bool offer_EventQueueSimple_emC(EventQueueSimple_emC* thiz, int event)
 {
   int ixWrNew = thiz->ixWrEvent +1;
   if(ixWrNew >= thiz->zEvents) { ixWrNew = 0; } //wrap
@@ -63,7 +63,7 @@ bool offer_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int event)
 
 
 
-int read_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz)
+int read_EventQueueSimple_emC(EventQueueSimple_emC* thiz)
 { if(thiz->ixRdEvent != thiz->ixWrEvent) {
     return thiz->events[thiz->ixRdEvent++];  //Note: Post-increment. ixRdEvent refers the next current one.
   } 

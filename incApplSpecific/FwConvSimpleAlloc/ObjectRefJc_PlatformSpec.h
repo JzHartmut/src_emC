@@ -51,9 +51,9 @@
 /**Usage of the BlockHeap management or not and define the size of a block.
  * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
  */
-#undef USE_BlockHeapJc
-#undef SIZEBLOCK_BlockHeapJc
-//#undef SIZEBLOCK_BlockHeapJc
+#undef USE_BlockHeap_emC
+#undef SIZEBLOCK_BlockHeap_emC
+//#undef SIZEBLOCK_BlockHeap_emC
 
 //#define NO_DYNAMICALLY_MEMORY
 

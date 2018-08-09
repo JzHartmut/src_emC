@@ -4,7 +4,7 @@
 //Stop with memory exception.
 
 
-void stopAssert_Fwc(void){
+void stopAssert_emC(void){
   int* ptr = 0;
   int cont = 1;  //possible set to 0 in debug
   while(cont){
@@ -27,3 +27,11 @@ bool stop_AssertJc(void){
   return true;
   //*ptr =0;
 }
+
+void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_emC_s* _thCxt)
+{
+  printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
+  os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
+  exit(255);
+}
+

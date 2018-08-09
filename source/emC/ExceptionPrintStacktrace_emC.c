@@ -35,6 +35,10 @@
  * 2011-01-07: Hartmut: create form fw_Exception.c: Separated implementation, better able to change
  *
  ****************************************************************************/
+//It needs for link:
+//os_file.c
+//copyToBuffer_CharSeqJc: emC/String_emC.c
+
 
 #include <emC/Exception_emC.h>
 #ifndef __NOT_SUPPORTED_ExceptionJc__
@@ -49,6 +53,9 @@
 #include <os_file.h>
 #include <stdio.h>
 
+
+
+
 void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
 {
   printStackTraceFile_ExceptionJc(ythis,null, _thCxt);  //null causes printf instead sprintf, os_fwrite
@@ -56,7 +63,7 @@ void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
 
 void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCxt* _thCxt)
 { //DEF__threadContextJc
-  if(_thCxt == null){ _thCxt = getCurrent_ThreadContextFW(); } 
+  if(_thCxt == null){ _thCxt = getCurrent_ThreadContext_emC(); } 
   int idxStacktraceEntries = 0;
   //int nrofStacktraceEntriesMax;
   char sBuffer[500] = {0};
@@ -107,17 +114,9 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
 }
 
 
-void printStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct PrintStreamJc_t* out, struct ThreadContextFW_t* _thCxt)
+void printStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt)
 {
 
-}
-
-void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_s* _thCxt)
-{
-  printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
-  printStackTraceFile_ExceptionJc(ythis, null, null);
-  os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
-  exit(255);
 }
 
 

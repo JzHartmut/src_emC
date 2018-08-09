@@ -31,44 +31,44 @@
  * @author Hartmut Schorrig, Pinzberg, Germany
  *
  * @version 0.83
- * @content: All declarations to use from user level to work with BlockHeapJc
+ * @content: All declarations to use from user level to work with BlockHeap_emC
  * for References of ObjectJc and derivated classes for C-language.
  * The references are used for garbage collection and virtual methods in C.
  *
  * @author JcHartmut www.vishia.org
  *
  ****************************************************************************/
-#ifndef __BlockHeapJc__h
-#define __BlockHeapJc__h
+#ifndef __BlockHeap_emC__h
+#define __BlockHeap_emC__h
 
 #ifndef __ObjectJc_h__
   #include "Jc/ObjectJc.h"
 #endif
 
-/*@CLASS_C BlockHeapJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C BlockHeap_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**Sets the current BlockHeapJc for this thread. */
-METHOD_C struct BlockHeapJc_t* setCurrent_BlockHeapJc(struct BlockHeapJc_t* ythis, ThCxt* _thCxt);
+/**Sets the current BlockHeap_emC for this thread. */
+METHOD_C struct BlockHeap_emC_t* setCurrent_BlockHeap_emC(struct BlockHeap_emC_t* ythis, ThCxt* _thCxt);
 
 /**Returns the current BlockHeap for this thread. */
-METHOD_C struct BlockHeapJc_t* current_BlockHeapJc(ThCxt* _thCxt);
+METHOD_C struct BlockHeap_emC_t* current_BlockHeap_emC(ThCxt* _thCxt);
 
-/**Sets the run mode for all instances of BlockHeapJc. Any new operation uses the block heap from up to now.
+/**Sets the run mode for all instances of BlockHeap_emC. Any new operation uses the block heap from up to now.
  * In Java it is an empty not necessary instruction, because all actions are done in normal heap.
  * In C this routine have to be implement from the user, because it is situational to all user-defined block heaps. 
  */
-METHOD_C void setRunModeAll_BlockHeapJc(ThCxt* _thCxt);
+METHOD_C void setRunModeAll_BlockHeap_emC(ThCxt* _thCxt);
 
 
 
 
 /**Sets the log output for the current BlockHeap. */
-void setLogMessageOutput_BlockHeapJc(struct LogMessageFW_t* log, int msgBase, ThCxt* _thCxt);
+void setLogMessageOutput_BlockHeap_emC(struct LogMessageFW_t* log, int msgBase, ThCxt* _thCxt);
 
 
 
 /**Returns the first BlockHeap in a system, able to use for new Threads without BlockHeap. */
-METHOD_C struct BlockHeapJc_t* first_BlockHeapJc();
+METHOD_C struct BlockHeap_emC_t* first_BlockHeap_emC();
 
 
 /**runs the garbage collector. One run tests one block cluster and returns after the test.
@@ -81,23 +81,23 @@ METHOD_C struct BlockHeapJc_t* first_BlockHeapJc();
  *         1-if a block is handled and freed.
  *         2-if the end is found
  */
-METHOD_C int garbageCollection_BlockHeapJc(bool bUserCall, ThCxt* _thCxt);
+METHOD_C int garbageCollection_BlockHeap_emC(bool bUserCall, ThCxt* _thCxt);
 
 
 
 
-/**Return values from [[garbageCollection_BlockHeapJc(...)]] 
+/**Return values from [[garbageCollection_BlockHeap_emC(...)]] 
  */
-typedef enum EChecked_BlockHeapJc_t
-{ checkGcBlockUsed_BlockHeapJc = 0
-, checkGcBlockFreed_BlockHeapJc = 1
-, checkGcFinished_BlockHeapJc = 2
-}EChecked_BlockHeapJc_e;
+typedef enum EChecked_BlockHeap_emC_t
+{ checkGcBlockUsed_BlockHeap_emC = 0
+, checkGcBlockFreed_BlockHeap_emC = 1
+, checkGcFinished_BlockHeap_emC = 2
+}EChecked_BlockHeap_emC_e;
 
 
 
 
-bool runUserCalledGc_BlockHeapJc(ThCxt* _thCxt);
+bool runUserCalledGc_BlockHeap_emC(ThCxt* _thCxt);
 
 
 /**Allocates a block which is non-based on ObjectJc. 
@@ -105,26 +105,26 @@ bool runUserCalledGc_BlockHeapJc(ThCxt* _thCxt);
  *       It is necessary because the garbage collector should call [[Jc:finalize_ObjectJc(...)]].
  * @return 
  */
-MemC allocMemC_BlockHeapJc(struct BlockHeapJc_t* ythis, int size, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt);
+MemC allocMemC_BlockHeap_emC(struct BlockHeap_emC_t* ythis, int size, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt);
 
 
 
 /**Allocates a block in the current Blockheap or initial with standard malloc.
  */
-METHOD_C MemC alloc_sBlockHeapJc(int nrofBytes);
+METHOD_C MemC alloc_sBlockHeap_emC(int nrofBytes);
 
 /**allocates a block in the standard BlockHeap.
  * @param sCallInfo A pointer to a zero-terminate constant string to report the creater of the block usage.
 */
-METHOD_C MemC alloc_s_sBlockHeapJc(int size, const char* sCallInfo, ThCxt* _thCxt);
-METHOD_C struct ObjectJc_t* allocObject_s_sBlockHeapJc(int sizeObj, int identObj, const char* sCallInfo, ThCxt* _thCxt);
+METHOD_C MemC alloc_s_sBlockHeap_emC(int size, const char* sCallInfo, ThCxt* _thCxt);
+METHOD_C struct ObjectJc_t* allocObject_s_sBlockHeap_emC(int sizeObj, int identObj, const char* sCallInfo, ThCxt* _thCxt);
 
-METHOD_C MemC alloc_s_BlockHeapJc(struct BlockHeapJc_t* ythis, int size, const char* sCallInfo, ThCxt* _thCxt);
-METHOD_C struct ObjectJc_t* allocObject_s_BlockHeapJc(struct BlockHeapJc_t* ythis, int sizeObj, int identObj, const char* sCallInfo, ThCxt* _thCxt);
+METHOD_C MemC alloc_s_BlockHeap_emC(struct BlockHeap_emC_t* ythis, int size, const char* sCallInfo, ThCxt* _thCxt);
+METHOD_C struct ObjectJc_t* allocObject_s_BlockHeap_emC(struct BlockHeap_emC_t* ythis, int sizeObj, int identObj, const char* sCallInfo, ThCxt* _thCxt);
 
 
-METHOD_C MemC alloc_iis_BlockHeapJc(struct BlockHeapJc_t* ythis, int sizeObj, int noOfReferences, const char* sCallInfo, ThCxt* _thCxt);
-METHOD_C struct ObjectJc_t* allocObject_IIs_BlockHeapJc(struct BlockHeapJc_t* ythis, int sizeObj, int identObj, int noOfReferences, const char* sCallInfo, ThCxt* _thCxt);
+METHOD_C MemC alloc_iis_BlockHeap_emC(struct BlockHeap_emC_t* ythis, int sizeObj, int noOfReferences, const char* sCallInfo, ThCxt* _thCxt);
+METHOD_C struct ObjectJc_t* allocObject_IIs_BlockHeap_emC(struct BlockHeap_emC_t* ythis, int sizeObj, int identObj, int noOfReferences, const char* sCallInfo, ThCxt* _thCxt);
 
 /**activates the access of garbage collector if it is not done already.
  * If the reference is not stored in any enhanced reference using setBackRefJc
@@ -136,7 +136,7 @@ METHOD_C struct ObjectJc_t* allocObject_IIs_BlockHeapJc(struct BlockHeapJc_t* yt
  *        It is because a returned address may be use in the calling environment. 
  *        The activating for garbage collection have to be organized there. The Java2C-Translator consideres this situation.
  */
-METHOD_C void xxxactivateGarbageCollectorAccess_BlockHeapJc(void const* addr, void const* exclAddr);
+METHOD_C void xxxactivateGarbageCollectorAccess_BlockHeap_emC(void const* addr, void const* exclAddr);
 
 
 #define activateGC_BlockHeapBlockJc(block) { \
@@ -150,7 +150,7 @@ METHOD_C void xxxactivateGarbageCollectorAccess_BlockHeapJc(void const* addr, vo
  *        it will be filled with the reference to the Heap-Management-Data.
  * @return null if the address-parameter is not localized in any heap, elsewhere the address of the block.
  */
-METHOD_C struct BlockHeapBlockJc_t* searchBlockHeapBlock_BlockHeapJc(void const* address, struct BlockHeapJc_t** retHeap);
+METHOD_C struct BlockHeapBlockJc_t* searchBlockHeapBlock_BlockHeap_emC(void const* address, struct BlockHeap_emC_t** retHeap);
 
 /**deduces from any address inside the block to the base address of the block.
  * @param address Adress inside any block.of the given heap.
@@ -163,17 +163,17 @@ METHOD_C struct BlockHeapBlockJc_t* deduceBlockHeapBlock_BlockheapJc(void const*
  * @param addr if it refers inside any block in the block heap, free that block.
  * @return true if addr is a block, false if nothing was freed.
  */
-METHOD_C bool free_sBlockHeapJc(void const* addr, ThCxt* _thCxt);
+METHOD_C bool free_sBlockHeap_emC(void const* addr, ThCxt* _thCxt);
 
-METHOD_C void free_BlockHeapJc(struct BlockHeapJc_t* ythis, struct BlockHeapBlockJc_t* block, ThCxt* _thCxt);
+METHOD_C void free_BlockHeap_emC(struct BlockHeap_emC_t* ythis, struct BlockHeapBlockJc_t* block, ThCxt* _thCxt);
 
 
 /** Allocates the memory for the given type in current BlockHeap*/
-#define alloc_T_sBlockHeapJc(TYPE) ((TYPE*)(alloc_BlockHeapJc(current_BlockHeapJc(), sizeof(TYPE))))
+#define alloc_T_sBlockHeap_emC(TYPE) ((TYPE*)(alloc_BlockHeap_emC(current_BlockHeap_emC(), sizeof(TYPE))))
 
 
 
 
 
 
-#endif //__BlockHeapJc__h
+#endif //__BlockHeap_emC__h

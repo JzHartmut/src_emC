@@ -36,8 +36,8 @@
 #define __FormatterJc_h__
 
 #include <Jc/ObjectJc.h>
-#include <Fwc/fw_String.h>
-#include "Fwc/fw_Va_list.h" 
+#include <emC/String.h>
+#include "emC/Va_list.h" 
 
 #include <Jc/LocaleJc.h>
 
@@ -64,18 +64,18 @@ typedef struct FormatterJc_t
 extern_C ClassJc const reflection_FormatterJc_s;
 
 
-METHOD_C FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContextFW_t* _thCxt);
+METHOD_C FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContext_emC_t* _thCxt);
 
-METHOD_C FormatterJc_s* ctorO_SbLo_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct LocaleJc_t* locale, struct ThreadContextFW_t* _thCxt);
+METHOD_C FormatterJc_s* ctorO_SbLo_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct LocaleJc_t* locale, struct ThreadContext_emC_t* _thCxt);
 
 /**Formats with a given variable argument list. */
-METHOD_C void format_FormatterJc(FormatterJc_s* ythis, StringJc text, Va_listFW args, struct ThreadContextFW_t* _thCxt);
+METHOD_C void format_FormatterJc(FormatterJc_s* ythis, StringJc text, Va_listFW args, struct ThreadContext_emC_t* _thCxt);
 
 /**Formats with variable arguments. */
 METHOD_C void format_a_FormatterJc(FormatterJc_s* ythis, StringJc text, char const* typeArgs, ...);
 
 /**Formats with variable arguments. */
-METHOD_C void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContextFW_t* _thCxt);
+METHOD_C void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContext_emC_t* _thCxt);
 
 
 #endif  //__FormatterJc_h__

@@ -41,7 +41,7 @@
 /**
  * @changes 2010-01-19 Hartmut corr: taken from old time2nn.c
  */
-int32 timeToSeconds_TimeBytes_Fwc(TimeBytes_Fwc* ythis, int32 nBaseYear, int32 offsetJan, bool GPS)
+int32 timeToSeconds_TimeBytes_emC(TimeBytes_emC* ythis, int32 nBaseYear, int32 offsetJan, bool GPS)
 { int nYear=ythis->year-nBaseYear;   //base time is 1.1.1970 at 00:00:00
   int nDayOfMonth[] = {
   	 0
@@ -77,7 +77,7 @@ int32 timeToSeconds_TimeBytes_Fwc(TimeBytes_Fwc* ythis, int32 nBaseYear, int32 o
  * @changes 2010-01-19 Hartmut corr: algorithm corrected, adjusted from fw_Formatter.c and old time2nn.c
  * @changes 2010-07-02 Hartmut chg: add parameter for GPS and offsetJan, but GPS it isn't used yet, todo
  */
-void ctor_TimeBytes_Fwc(TimeBytes_Fwc* ythis, int32 nTime, int32 nBaseYear, int32 offsetJan, bool GPS)
+void ctor_TimeBytes_emC(TimeBytes_emC* ythis, int32 nTime, int32 nBaseYear, int32 offsetJan, bool GPS)
 { static const uint16 aMonth[]    ={31,28,31,30,31,30,31,31,30,31,30,31};
   static const uint16 aMonthSkip[]={31,29,31,30,31,30,31,31,30,31,30,31};
   uint16 nYear4,nYear;

@@ -5,14 +5,14 @@
  */
 
 //Styleguide: Include the own header first, it should include all necessary depending headers itself. 
-#include <Fwc/fw_Readline.h>
+#include <emC/Readline_emC.h>
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
-#include <Fwc/fw_SimpleC.h>
-#include <Fwc/fw_String.h>
+#include <emC/SimpleC_emC.h>
+#include <emC/String_emC.h>
 #include <string.h>
 
-void ctor_ReadLine_Fwc(ReadLine_Fwc* ythis)
+void ctor_ReadLine_emC(ReadLine_emC* ythis)
 {
 	ythis->posBuffer = ythis->endBuffer = 0;
 	ythis->endOfFile = false;
@@ -20,18 +20,18 @@ void ctor_ReadLine_Fwc(ReadLine_Fwc* ythis)
 }
 
 
-bool open_ReadLine_Fwc(ReadLine_Fwc* ythis, char const* sFile)
+bool open_ReadLine_emC(ReadLine_emC* ythis, char const* sFile)
 { ythis->file = os_fopenToRead(sFile);
   return ythis->file !=null;
 }
 
-bool close_ReadLine_Fwc(ReadLine_Fwc* ythis)
+bool close_ReadLine_emC(ReadLine_emC* ythis)
 { os_fclose(ythis->file);
   return true;
 }
 
 
-char const* readLine_ReadLine_Fwc(ReadLine_Fwc* ythis)
+char const* readLine_ReadLine_emC(ReadLine_emC* ythis)
 {
   char* sLine;
 	int length = ythis->endBuffer - ythis->posBuffer;
@@ -50,7 +50,7 @@ char const* readLine_ReadLine_Fwc(ReadLine_Fwc* ythis)
 		}
 	}
 	//search next 0d0a
-	{ int nrofCharsLine = searchChar_Fwc(ythis->buffer + ythis->posBuffer, ythis->endBuffer - ythis->posBuffer, '\n');
+	{ int nrofCharsLine = searchChar_emC(ythis->buffer + ythis->posBuffer, ythis->endBuffer - ythis->posBuffer, '\n');
 		if(nrofCharsLine <0){ //last line without \n?
 			nrofCharsLine = ythis->endBuffer - ythis->posBuffer; 
 		}

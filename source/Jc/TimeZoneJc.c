@@ -33,7 +33,7 @@
  * @version 0.892
  */
 #include "Jc/TimeZoneJc.h"
-#include <Fwc/fw_Exception.h>
+#include <emC/Exception.h>
 
 #include <Jc/StringJc.h>
 

@@ -1,7 +1,7 @@
-#include <Fwc/fw_handle_ptr64.h>
+#include <emC/Handle_ptr64_emC.h>
 #include <applstdef_emC.h>
 #include <OSAL/os_sharedmem.h> 
-#include <Fwc/fw_SimpleC.h>
+#include <emC/SimpleC_emC.h>
 
 #ifdef __HandlePtr64__  //compile only if operations are not replaced by macros.
 /*The number of entries in the pointer table. 

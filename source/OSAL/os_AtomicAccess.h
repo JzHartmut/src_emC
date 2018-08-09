@@ -83,7 +83,7 @@ METHOD_C int64 compareAndSwap_AtomicInteger64(int64 volatile* reference, int64 e
  * @param update - the new value
  * @return the old value if or not successfull. False return indicates that the actual value was not equal to the expected value.
  */
-INLINE_Fwc bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
+INLINE_emC bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
   return found == expect;
@@ -121,7 +121,7 @@ INLINE_Fwc bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 exp
  * @param var Variable which hold the index in bit 0 and a lock flag in bit1.
  * @return index to locked access. It is 0 or 1.
  */
-INLINE_Fwc int32 lockRead_DoubleBufferingJc(int32 volatile* var)
+INLINE_emC int32 lockRead_DoubleBufferingJc(int32 volatile* var)
 {
   int abortCt = 100;
   int32 val, valNew;
@@ -140,7 +140,7 @@ INLINE_Fwc int32 lockRead_DoubleBufferingJc(int32 volatile* var)
 
 /**Unlock the index for reading. Now the index can be incremented by writing. 
  */
-INLINE_Fwc void unlockRead_DoubleBufferingJc(int32 volatile* var) {
+INLINE_emC void unlockRead_DoubleBufferingJc(int32 volatile* var) {
   int32 val, valNew;
   int abortCt = 100;
   do {
@@ -182,7 +182,7 @@ INLINE_Jc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
  * @param ixWr the used write index,
  * @return number of while loops for atomic access, only for debug..
  */
-INLINE_Fwc int unlockWrite_DoubleBufferingJc(int32 volatile* var, int32 ixWr)
+INLINE_emC int unlockWrite_DoubleBufferingJc(int32 volatile* var, int32 ixWr)
 {
   int abortCt = 100;
   int32 val, valNew;

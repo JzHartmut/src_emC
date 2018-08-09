@@ -40,7 +40,7 @@
 
 struct MemAreaC_t;
 
-#include "Fwc/fw_MemC.h"
+#include "emC/MemC.h"
 #include "Jc/ObjectJc.h"
 
 

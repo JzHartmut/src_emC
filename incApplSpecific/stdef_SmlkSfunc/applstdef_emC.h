@@ -28,8 +28,8 @@
 #define double_complex creal64_T
 
 
-//NOTE: ASSERF_Fwc defined in fw_assert.h now.
-//#define ASSERT_Fwc(COND) assertJc(COND)
+//NOTE: ASSERF_emC defined in fw_assert.h now.
+//#define ASSERT_emC(COND) assertJc(COND)
 
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
@@ -63,9 +63,9 @@
   */
 #define __TRYCPPJc
 
-#include <Fwc/fw_threadContext.h>
-//#include <Fwc/fw_Exception.h>
-#include <Fwc/fw_ExcStacktrcNo.h>
+#include <emC/threadContext.h>
+//#include <emC/Exception.h>
+#include <emC/ExcStacktrcNo.h>
 
 
 
@@ -91,7 +91,7 @@
 //#include <FwConv_h/definePrintfMakros.h>
 #include <FwConv_h/definePrintfMakrosEmpty.h>
 
-//extern_C void stop_DebugutilJc(struct ThreadContextFW_t* _thCxt);
+//extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 
 #define kMaxPathLength_FileJc 500

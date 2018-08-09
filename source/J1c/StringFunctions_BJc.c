@@ -5,7 +5,7 @@
 #include "J1c/StringFunctions_BJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <Fwc/fw_Exception.h>  //basic stacktrace concept
+#include <emC/Exception.h>  //basic stacktrace concept
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data

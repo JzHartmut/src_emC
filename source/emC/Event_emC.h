@@ -37,19 +37,19 @@
 #ifndef __fw_Event_h__
 #define __fw_Event_h__
 #include <applstdef_emC.h>
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 
 /**This structure describes a full qualified event which may be a base strucure (super class) of an derivated event.
  * It is similar like srcJava_vishiaBase/org/vishia/event/Event.
  */
-typedef struct Event_Fwc_t{
+typedef struct Event_emC_t{
   
   /**The base class object contains the type of the event, using reflection. */
   ObjectJc object;
 
-  struct EventSource_Fwc_t* source;
+  struct EventSource_emC_t* source;
 
-  struct Event_Fwc_t* opponent;
+  struct Event_emC_t* opponent;
 
   struct EventThread_t* evDstThread;
 
@@ -59,7 +59,7 @@ typedef struct Event_Fwc_t{
 
   int32_t dateCreation;
 
-} Event_Fwc;
+} Event_emC;
 
 
 
@@ -73,7 +73,7 @@ typedef struct Event_Fwc_t{
  * Thread safety: It is recommended to write only in one thread. It is possible to divide a fast thread in more caclulation cycle times.
  * Elsewhere a semaphore should be used.
  */
-typedef struct EventQueueSimple_Fwc_t
+typedef struct EventQueueSimple_emC_t
 {
   /**Write and read index. If both are equal, then the queue is empty.
    * The indices are always in range 0... zQueue-1.
@@ -87,13 +87,13 @@ typedef struct EventQueueSimple_Fwc_t
    * after this struct instance in an hyper struct.
    */
   int events[20]; 
-} EventQueueSimple_Fwc;
+} EventQueueSimple_emC;
 
 
 /**Constructs.
  * @param sizeMemAdditonal number of memory locations (bytes) after this struct which are used to store events. 0 if no additonal space is given.
  */
-void ctor_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int sizeMemAdditional);
+void ctor_EventQueueSimple_emC(EventQueueSimple_emC* thiz, int sizeMemAdditional);
 
 
 
@@ -102,10 +102,10 @@ void ctor_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int sizeMemAdditional
  *   The amount of events which are generated between the steps of the state machine should be limited.
  *   If the statemachine runs, the queue will be cleared always. Typically only 1 event is in the queue.  
  */
-bool offer_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz, int event);
+bool offer_EventQueueSimple_emC(EventQueueSimple_emC* thiz, int event);
 
 /**reads an event from a queue. It returns 0 if the queue is empty. */
-int read_EventQueueSimple_Fwc(EventQueueSimple_Fwc* thiz);
+int read_EventQueueSimple_emC(EventQueueSimple_emC* thiz);
   
 
 
