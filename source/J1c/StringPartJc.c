@@ -2764,7 +2764,7 @@ StringJc toString_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt)
     
     StringJc ret ; ret = toString_CharSeqJc(currentPart/*J1cT2*/)/*J2C:non-persistent*/;
     { STACKTRC_LEAVE;
-      releaseUserBuffer_ThreadContextFw(PTR_CharSeqJc(currentPart), _thCxt);
+      releaseUserBuffer_ThreadContext_emC(PTR_CharSeqJc(currentPart), _thCxt);
       return ret;
     }
   }

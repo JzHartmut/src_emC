@@ -48,12 +48,6 @@
 //Styleguide: Include the own header first, it should include all necessary depending headers itself. 
 #include <emC/String_emC.h>
 
-#ifndef __NoCharSeqJcCapabilities__  
-  //contains any function declarations here called:
-  #include <Jc/StringJc.h>
-  //contains ObjectJc definition.
-  #include <emC/Object_emC.h>
-#endif
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <string.h>   //strncpy
@@ -277,32 +271,4 @@ char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int c
   }
 }
 
-
-int copyToBuffer_StringJc(const StringJc thiz, int start, int end, char* buffer, int sizeBuffer)
-{ //STACKTRC_ENTRY("copyToBuffer_StringJc");
-  int nChars = VAL_StringJc(thiz) & mLength__StringJc;
-  if (nChars == kIs_0_terminated_StringJc) {
-    char const* str = PTR_OS_PtrValue(thiz, char const);
-    nChars = strlen_emC(str, sizeBuffer);
-  }
-  //it is a StringJc
-  //faster operation with memcpy instead check of isStringJc for any character.
-  char const* str = PTR_OS_PtrValue(thiz, char const);
-  if (end < 0) {
-    end = nChars + end + 1;  //end=-1 results in end = nChars
-  }
-  if (end > start) {
-    int nrofBytes = end - start;
-    if (nrofBytes > sizeBuffer) {
-      nrofBytes = sizeBuffer;
-    }
-    memcpy(buffer, str + start, nrofBytes);
-    //STACKTRC_LEAVE; 
-    return nrofBytes;
-  }
-  else {
-    //STACKTRC_LEAVE; 
-    return 0;
-  }
-}
 

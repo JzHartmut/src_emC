@@ -396,8 +396,8 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
           ( fromEnd_StringPartJc(& ((* (thiz)).base.super))
           , seekPos_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt)
           );
-        releaseUserBuffer_ThreadContextFw(_thCxtRef4_1, _thCxt);
-        releaseUserBuffer_ThreadContextFw(_thCxtRef4_2, _thCxt);
+        releaseUserBuffer_ThreadContext_emC(_thCxtRef4_1, _thCxt);
+        releaseUserBuffer_ThreadContext_emC(_thCxtRef4_2, _thCxt);
         activateGC_ObjectJc(PTR_StringJc(_persistring4_1), null, _thCxt);
       }
       else thiz->base.super.bCurrentOk = false;
@@ -875,7 +875,7 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
         thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
         thiz->base.super.begin = thiz->base.super.end;/*after identifier.*/
         
-        releaseUserBuffer_ThreadContextFw(_thCxtRef4_1, _thCxt);
+        releaseUserBuffer_ThreadContext_emC(_thCxtRef4_1, _thCxt);
       }
       else 
       { 

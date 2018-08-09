@@ -103,51 +103,43 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
 }
 
 
-void throw_sJc (int32 exceptionNr, StringJc msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line)
+void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
-  if(stacktrcThCxt != null)
-  { StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
+  if(_thCxt !=null)
+  {
+    StacktraceThreadContext_emC_s* stacktrcThCxt = &_thCxt->stacktrc;
+    StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
     StacktraceElementJc* stacktraceTry;
     int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
     do {
       stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
     } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
-    /*
-    #if 0
-    StacktraceJc* stacktrace = stacktrcThCxt->stacktrace;
-    int idxStacktraceEntries = 0;
-    int idxStacktraceEntriesMax;
-    //idxStacktraceEntriesMax = stacktraceEntriesInThreadContext == null ? -1 : stacktraceEntriesInThreadContext->head.length;
-    idxStacktraceEntriesMax = stacktrcThCxt->maxNrofEntriesStacktraceBuffer;
-    stacktrace->entry.line = line;
-    while
-    (  stacktrace != null             //false only if no try-level found, if the end of the stacktrace is reached
-    && stacktrace->tryObject == null  //while try-level not reached
-    )
-    { if(idxStacktraceEntries < idxStacktraceEntriesMax)
-      { //fill in infos
-        //stacktraceEntriesInThreadContext->data[idxStacktraceEntries] = stacktrace->entry; //NOTE: it is a memcpy.
-        stacktraceEntriesInThreadContext[idxStacktraceEntries] = stacktrace->entry; //NOTE: it is a memcpy.
-        idxStacktraceEntries += 1;
-      }
-      stacktrace = stacktrace->previous;
-    }
-    stacktrcThCxt->stacktrace = stacktrace;  //may be null if no TRYJc-level is found.
-    stacktrcThCxt->nrofEntriesStacktraceBuffer = idxStacktraceEntries;
-    #endif
-    */
-    //
-    //the stacktrcThCxt->entries is filled with the followed levels of Stacktrace,
-    //the stacktrace refers the level of the TRY or it is null.
-    //
-    //if(stacktrace != null && stacktrace->tryObject !=null)
     if(stacktraceTry->tryObject !=null)
     { //TRY-level is found:
       TryObjectJc* tryObject = stacktraceTry->tryObject;
       ExceptionJc* exception = &tryObject->exc;
       tryObject->excNrTestCatch = tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
       exception->exceptionNr = exceptionNr;
-      lightCopy_StringJc(&exception->exceptionMsg, msg);
+      //check the memory area where the msg is stored. Maybe in stack, then copy it.
+      MemUnit* addrMsg = PTR_OS_PtrValue(msg, MemUnit);
+      if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
+        //The msg is in stack area, copy it in ThreadContext!
+        int zMsg = length_StringJc(msg);
+        MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
+        char* b = PTR_MemC(memb, char);
+        if(b !=null) {
+          copyToBuffer_StringJc(msg, 0, -1, b, zMsg);
+          exception->exceptionMsg.ref = b;
+          exception->exceptionMsg.val = zMsg;
+        }
+        else {
+          exception->exceptionMsg.ref = "unexpected: No space in ThreadCxt";
+          exception->exceptionMsg.val = kIs_0_terminated_StringJc;
+        }
+      }
+      else {
+        lightCopy_StringJc(&exception->exceptionMsg, msg);
+      }
       exception->exceptionValue = value;
       #if defined(__TRYCPPJc) //&& defined(__cplusplus)
        throw exceptionNr;
@@ -171,25 +163,25 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, StacktraceThreadCont
     exception.exceptionNr = exceptionNr;
     lightCopy_StringJc(&exception.exceptionMsg, msg);
     exception.exceptionValue = value;
-    uncatched_ExceptionJc(&exception, stacktrcThCxt);
+    uncatched_ExceptionJc(&exception, &_thCxt->stacktrc);
   }
 }
 
 
 
-void throw_s0Jc (int32 exceptionNr, const char* msgP, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line)
+void throw_s0Jc (int32 exceptionNr, const char* msgP, int value, int line, ThCxt* _thCxt)
 { StringJc msg = s0_StringJc(msgP);
-  throw_sJc(exceptionNr, msg, value, stacktrcThCxt, line);
+  throw_sJc(exceptionNr, msg, value, line, _thCxt);
 }
 
 
 
-void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line)
+void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, int line, ThCxt* _thCxt)
 {
   //int exceptionNr = exc->exceptionNr;
   StringJc msg = exc->exceptionMsg;
   //int32 value = exc->exceptionValue;
-  throw_sJc(exceptionNr, msg, value, stacktrcThCxt, line);
+  throw_sJc(exceptionNr, msg, value, line, _thCxt);
 
 }
 
@@ -324,4 +316,4 @@ StacktraceJcpp::~StacktraceJcpp()
 
 #endif
 
-#endif //not __NOT_SUPPORTED_ThreadContextFw__
+#endif //not __NOT_SUPPORTED_ThreadContext_emC__

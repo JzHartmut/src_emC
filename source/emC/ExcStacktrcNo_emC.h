@@ -42,12 +42,15 @@
   #include <applstdef_emC.h>
 #endif
 
+
+#include <emC/ExceptionDefs_emC.h>  //the constants for exception should be known.
+
 #ifndef __fw_ExcStacktrcNo_h__
 #define __fw_ExcStacktrcNo_h__
 #define __fw_Exception_h__       //prevent including
 //#define __fw_ThreadContext_h__   //prevent including
 
-//#define __NOT_SUPPORTED_ThreadContextFw__
+//#define __NOT_SUPPORTED_ThreadContext_emC__
 #define __NOT_SUPPORTED_ExceptionJc__
 
 #ifndef __StringJc_defined__
@@ -60,31 +63,16 @@
 
 //#include <emC/String.h>
 
-/**The Exception data contains all data of exception but references to the stacktrace.
- *
- */
-typedef struct ExceptionJc_t
-{
-  /**Bit mask of the exception. There are a maximum of 32 Exception types. Every Exception is represented by one bit.
-     See enum definition of ExceptionMasksJc.
-   */
-  int32 exceptionNr;
-
-  /**The user message of the exception.
-   */
-  StringJc exceptionMsg;
-
-  /**The user value of the exception.
-   */
-  int32 exceptionValue;
-
-}ExceptionJc;
-
 
 
 
 #define ThCxt struct ThreadContext_emC_t
+/**Because the operation may use a pointer variable named _thCxt it is defined here.
+ * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
+ */
 #define STACKTRC_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = null;
+
+/**For that the _thCxt variable is given in arguments of the operation */
 #define STACKTRC_TENTRY(NAME)
 #define STACKTRC_LEAVE
 #define CALLINE
@@ -93,14 +81,18 @@ typedef struct ExceptionJc_t
 
 #define TRY 
 #define _TRY {
+/**The catch-code is never executed. With if(false) the compiler may/should optimize it. 
+ */
 #define CATCH(EXCEPTION, EXC_OBJ) } { ExceptionJc* EXC_OBJ = null; if(false)
 #define FINALLY
 #define END_TRY }
 
-#define THROW(EXCEPTION, TEXT, VAL)  throw_sJc_("##EXCEPTION##", TEXT, VAL, __LINE__)
-#define THROW(EXCEPTION, TEXT, VAL)  throw_sJc_("##EXCEPTION##", TEXT, VAL, __LINE__)
-#define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc_("##EXCEPTION##", TEXT, VAL, __LINE__)
-#define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc_("##EXCEPTION##", TEXT, VAL, __LINE__)
+/**All THROW() macros force a return. Therewith the behavior of the operation is adequate to Exception handling.
+ * But the calling routine is continued. It should check itself for sufficient conditions to work.
+ */
+#define THROW(EXCEPTION, STRING, VAL, ...)   { ExceptionJc exc = CONST_ExceptionJc(EXCEPTION, STRING, VAL); log_ExceptionJc(&exc, __FILE__, __LINE__); }
+#define THROW_s0(EXCEPTION, TEXT, VAL, ...)  { ExceptionJc exc = CONST_ExceptionJc(EXCEPTION, CONST_z_StringJc(TEXT), VAL); log_ExceptionJc(&exc, __FILE__, __LINE__); }
+#define THROW_s(EXCEPTION, STRING, VAL, ...) logException_emC(ident_##EXCEPTION##Jc, STRING, VAL, __FILE__, __LINE__) //; return __VA_ARGS__
 
 
 /**The routines throw... are replaced by a routine which does not know the exception bit mask
@@ -110,9 +102,6 @@ typedef struct ExceptionJc_t
 #define throw_sJc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_sJc_("##EXCEPTION##", TEXT, VAL, LINE)
 #define throw_EJc(EXCEPTION, EXCOBJ, VAL, STACKTRC, LINE)  throw_s0Jc_("##EXCEPTION##", "forward exception", VAL, LINE)
 
-
-METHOD_C void throw_sJc_(char const* exceptionNr, StringJc msg, int value, int line);
-METHOD_C void throw_s0Jc_(char const* exceptionNr, const char* msg, int value, int line);
 
 
 

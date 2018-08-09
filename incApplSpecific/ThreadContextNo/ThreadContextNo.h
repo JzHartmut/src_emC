@@ -1,4 +1,4 @@
-#define ADDR_IN_STACK_ThreadContextFw(ptr) false
+#define ADDR_IN_STACK_ThreadContext_emC(ptr) false
 
 
 typedef struct StacktraceThreadContext_emC_t
@@ -17,8 +17,8 @@ typedef struct ThreadContext_emC_t
 
 } ThreadContext_emC;
 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
-INLINE_emC bool releaseUserBuffer_ThreadContextFw(void const* data, struct ThreadContext_emC_t* _thCxt){ return true; }
-METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, struct ThreadContext_emC_t* _thCxt);
+METHOD_C MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
+INLINE_emC bool releaseUserBuffer_ThreadContext_emC(void const* data, struct ThreadContext_emC_t* _thCxt){ return true; }
+METHOD_C void reduceLastUserBuffer_ThreadContext_emC(void* ptr, int size, struct ThreadContext_emC_t* _thCxt);
 METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(struct StacktraceThreadContext_emC_t* ythis, int level);
 

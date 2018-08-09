@@ -334,7 +334,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, ThCxt* _thCxt)
   ObjectJc* ret;
   STACKTRC_TENTRY("threadBuffer_StringBuilderJc");
   {
-    MemC mBuffer = getUserBuffer_ThreadContextFw(size, sign, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContext_emC(size, sign, _thCxt);
     /**Check whether the buffer is in use, TODO... */
     int sizeBufferThreadContext = size_MemC(mBuffer);
     if(size > sizeBufferThreadContext) THROW_s0(RuntimeException, "to large ObjectJc in ThreadBuffer", size);

@@ -331,7 +331,7 @@ This method should only used if the CharSequence is processed in the thread imme
 for example by adding to another StringBuilder etc. The returned instance should not be saved
 for later usage.
 
-For C usage: The returned instance is located in the Thread Context. It should be freed with <code>releaseUserBuffer_ThreadContextFw(...)<(code>.
+For C usage: The returned instance is located in the Thread Context. It should be freed with <code>releaseUserBuffer_ThreadContext_emC(...)<(code>.
 The Java2C-translator does that automatically.
 
 @see java.lang.CharSequence#subSequence(int, int)

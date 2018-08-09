@@ -43,6 +43,11 @@
 #define uint unsigned int
 #define ulong unsigned long int
 
+/**It calculates the number of defined array elements from any type. 
+ * @param ARRAY any array instance defined with TYPE ARRAY[SIZE];
+ * @return SIZE
+ */
+#define ARRAYLEN_emC(ARRAY) (sizeof(ARRAY) / sizeof((ARRAY)[0]))
 
 #define DEF
 

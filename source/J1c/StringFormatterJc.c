@@ -1015,7 +1015,7 @@ struct StringFormatterJc_t* addFloat_StringFormatterJc(StringFormatterJc_s* thiz
     { 
       StringJc _thCxtRef3_1;
       sValue = ( _thCxtRef3_1 = replace_StringJc(sValue, '.', thiz->cDecimalSeparator, _thCxt))/*J2C:non-persistent*/;
-      releaseUserBuffer_ThreadContextFw(PTR_StringJc(_thCxtRef3_1), _thCxt);
+      releaseUserBuffer_ThreadContext_emC(PTR_StringJc(_thCxtRef3_1), _thCxt);
     }/*int posPoint = pos + digitsBeforePoint;*/
     
     
@@ -1135,7 +1135,7 @@ struct StringFormatterJc_t* addDate_StringFormatterJc(StringFormatterJc_s* thiz,
     StringJc sDate ; sDate = ( _thCxtRef2_1 = format_SimpleDateFormatJc(format, (date)->val, _thCxt))/*J2C:non-persistent*/;
     add_S_StringFormatterJc(thiz, sDate, _thCxt);
     { STACKTRC_LEAVE;
-      releaseUserBuffer_ThreadContextFw(PTR_StringJc(_thCxtRef2_1), _thCxt);
+      releaseUserBuffer_ThreadContext_emC(PTR_StringJc(_thCxtRef2_1), _thCxt);
       return thiz;
     }
   }

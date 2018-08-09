@@ -38,7 +38,7 @@
 #include <Jc/ThreadJc.h>
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 
-#ifndef __NOT_SUPPORTED_ThreadContextFw__  //then ignore whole file
+#ifndef __NOT_SUPPORTED_ThreadContext_emC__  //then ignore whole file
 #include <emC/Exception.h>
 
 #include <os_thread.h>
@@ -233,4 +233,4 @@ const MtblDef_ThreadJc mtblThreadJc = {
 
 #include <genRefl/Jc/ThreadJc.crefl>
 
-#endif //not __NOT_SUPPORTED_ThreadContextFw__
+#endif //not __NOT_SUPPORTED_ThreadContext_emC__

@@ -132,7 +132,7 @@ typedef struct ThreadContext_emC_t
    * The positions in this array refers to the bits from 0...9 in [[ThreadContext_emC_s.bitAddrUsed]].
    * If the bit is set, this is the associated memory location for a allocated buffer.
    * If the bit is 0 but higher bits are set, this is the gap in the buffer for a freed block. 
-   * That block is reused if an [[ThreadContext_emC_s.getUserBuffer_ThreadContextFw(...)]] is called with exactly the same size.
+   * That block is reused if an [[ThreadContext_emC_s.getUserBuffer_ThreadContext_emC(...)]] is called with exactly the same size.
    * That is usual if more as one time a block is allocated and freed in a loop.
    * If the element contains {0,0} than it is not a gap, and the whole memory till end of [[ThreadContext_emC_s.bufferAlloc]] is available. 
    */
@@ -193,24 +193,24 @@ METHOD_C ThreadContext_emC_s* getCurrent_ThreadContext_emC();
  *         the content of the returned buffer should be stored in stack and restore
  *         before the calling routine returns. 
  */
-METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, struct ThreadContext_emC_t* _thCxt);
+METHOD_C MemC setUserBuffer_ThreadContext_emC(MemC newBuffer, struct ThreadContext_emC_t* _thCxt);
 
 /**Gets a buffer in ThreadContext. 
  * This is a special simple way to handle with memory, if no everlastingly allocation is admissible,
  * but a buffer should filled and returned inside called routines. 
  * It is possible to allocate a buffer more as one time but at maximum 10 buffers are possible.
  * That is enough to build string etc. for logging messages, paths etc.
- * A buffer can be allocate, freed with [[ThreadContext_emC_s.releaseUserBuffer_ThreadContextFw(...)]] and allocate with the same size again.
+ * A buffer can be allocate, freed with [[ThreadContext_emC_s.releaseUserBuffer_ThreadContext_emC(...)]] and allocate with the same size again.
  * Then the same position is reused. 
  *
  * The algorithm used the fields [[ThreadContext_emC_s.addrUsed]] etc.
  *
- * The buffer may be given by [[ThreadContext_emC_s.setUserBuffer_ThreadContextFw(...)]] or it is allocated on demand on first usage.
+ * The buffer may be given by [[ThreadContext_emC_s.setUserBuffer_ThreadContext_emC(...)]] or it is allocated on demand on first usage.
  * Because the buffer is stored not globally but thread specific this mechanism is threadsafe, .
  * @param size in MemUnit
  * @param sign a number to support debugging which part of code has allocated, use a unified number if possible.
  */ 
-METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
+METHOD_C MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
 
 /**Reduces the size of the last gotten buffer in thread context.
  * This routine shall be called immediately after filling the current one buffer, before another buffer is gotten.
@@ -220,19 +220,19 @@ METHOD_C MemC getUserBuffer_ThreadContextFw(int size, char const* sign, struct T
  * @param ptr To check wheterh it is the last gotten buffer.
  * @param size the used size. The rest till the end of the Thread contect buffer area is now free for further buffer. 
  */
-METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void reduceLastUserBuffer_ThreadContext_emC(void* ptr, int size, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Sets the mode whether the release of the buffer in ThreadContext is necessary. 
  */ 
-METHOD_C bool setCheckingUserBuffer_ThreadContextFw(struct ThreadContext_emC_t* _thCxt, bool value);
+METHOD_C bool setCheckingUserBuffer_ThreadContext_emC(struct ThreadContext_emC_t* _thCxt, bool value);
 
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, struct ThreadContext_emC_t* _thCxt);
+METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, struct ThreadContext_emC_t* _thCxt);
 
-#define ADDR_IN_STACK_ThreadContextFw(ptr) ((void*)ptr > (void*)&ptr && (void*)ptr < _thCxt->topmemAddrOfStack)
+#define ADDR_IN_STACK_ThreadContext_emC(ptr) ((void*)ptr > (void*)&ptr && (void*)ptr < _thCxt->topmemAddrOfStack)
 
 
 /**Gets the user-thread-context of the current thread. The user-thread-context is a memory area,

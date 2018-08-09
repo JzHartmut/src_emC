@@ -298,7 +298,7 @@ static void* getThreadBuffer_StringBuilderJc(bool bCpp, char const* sign, ThCxt*
   #endif
   STACKTRC_TENTRY("threadBuffer_StringBuilderJc");
   {
-    MemC mBuffer = getUserBuffer_ThreadContextFw(0, sign, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContext_emC(0, sign, _thCxt);
     /**Check whether the buffer is in use, TODO... */
     int sizeBufferThreadContext = size_MemC(mBuffer);
     int sizeStringBuffer = sizeBufferThreadContext/2 - sizeStringBuilderJcpp;
@@ -388,7 +388,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
     int count = ythis->_count;
     /**Detect whether the buffer is found in the stack range. Than its memory address is
      * between any address of a local variable and the Thread-Context pointer. */
-    bool bufferInStack = ADDR_IN_STACK_ThreadContextFw(s0); 
+    bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0); 
     int nonPersistent = 0;
     /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
     //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
@@ -398,7 +398,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
     if(ythis->_mode & _mThread_StringBuilderJc){
       nonPersistent |= mThreadContext__StringJc;
       int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
-      reduceLastUserBuffer_ThreadContextFw(ythis, sizeInThCxt, _thCxt);
+      reduceLastUserBuffer_ThreadContext_emC(ythis, sizeInThCxt, _thCxt);
     }
     /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
      * Elsewhere the String is not persistant. That is okay mostly. 
@@ -420,7 +420,7 @@ METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt
   int count = ythis->_count;
   /**Detect whether the buffer is found in the stack range. Than its memory address is
    * between any address of a local variable and the Thread-Context pointer. */
-  bool bufferInStack = ADDR_IN_STACK_ThreadContextFw(s0); 
+  bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0); 
   //int nonPersistent = 0;
   /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
   //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
@@ -730,7 +730,7 @@ StringJc format_A_StringJc(StringJc format, Va_listFW vargList, ThCxt* _thCxt)
   //sbuffer->count = nrofChars;
   _setCount_StringBuilderJc(uBuffer, nrofChars);  
   int sizeBufferInThCxt = _reduceCapacity_StringBuilderJc(uBuffer, (int16)(nrofChars+1));  
-  reduceLastUserBuffer_ThreadContextFw(uBuffer, sizeBufferInThCxt, _thCxt);
+  reduceLastUserBuffer_ThreadContext_emC(uBuffer, sizeBufferInThCxt, _thCxt);
   INIT_StringJc(ret, buffer, nrofChars | mThreadContext__StringJc);
   STACKTRC_LEAVE; return ret;
 }

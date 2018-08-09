@@ -229,7 +229,7 @@ METHOD_C MemC alloc_MemC(int size);
 
 /**frees an allocated memory. It is the opposite method to alloc_MemC(). 
  * * since 2016-05: Only the memory address is necessary.
- * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContext_emC_s.getUserBuffer_ThreadContextFw(...)]]
+ * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContext_emC_s.getUserBuffer_ThreadContext_emC(...)]]
  * Therefore it is implemented in [[CRJ/sourceSpecials/FwConv/free_ThreadHeapAndBlockHeap.c]] which regards all of this areas of memory.  
  */
 METHOD_C int free_MemC(void const* addr);

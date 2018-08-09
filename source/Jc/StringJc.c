@@ -229,7 +229,7 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
     int iChars;
     int nChars = mc->length(othiz, _thCxt);
-    MemC mBuffer = getUserBuffer_ThreadContextFw(nChars+1, "toString_CharSeqJc", _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContext_emC(nChars+1, "toString_CharSeqJc", _thCxt);
     int sizeBufferThreadContext = size_MemC(mBuffer);
     if(nChars >= sizeBufferThreadContext){ 
       nChars = sizeBufferThreadContext-1;   //limit it.
@@ -286,7 +286,7 @@ void clear_StringJc(StringJc* ythis)
 
   clearBackRefJc(ythis);
   if((VAL_StringJc(*ythis) & mThreadContext__StringJc) == mThreadContext__StringJc){
-    releaseUserBuffer_ThreadContextFw(PTR_StringJc(*ythis), _thCxt);
+    releaseUserBuffer_ThreadContext_emC(PTR_StringJc(*ythis), _thCxt);
   }
   INIT_StringJc(*ythis, null, 0);
   STACKTRC_LEAVE;

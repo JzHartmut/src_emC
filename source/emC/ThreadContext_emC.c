@@ -45,7 +45,7 @@
 
 //dependencies:
 //* alloc_MemC referenced in function _getCurrent_ThreadContext_emC
-//* init0_MemC referenced in function _getUserBuffer_ThreadContextFw
+//* init0_MemC referenced in function _getUserBuffer_ThreadContext_emC
 //* null_MemC
 //==>MemC_emC.c
 //   * os_allocMem, os_freeMem,
@@ -55,10 +55,10 @@
 //* os_setCurrentUserThreadContext referenced in function _getCurrent_ThreadContext_emC
 //==>os_Thread.c os_Mutex.c os_Time.c
 //
-//* stop_AssertJc referenced in function _getUserBuffer_ThreadContextFw
+//* stop_AssertJc referenced in function _getUserBuffer_ThreadContext_emC
 //==>stopAssert_emC_while0.c etc.
 //
-//* throw_s0Jc referenced in function _getUserBuffer_ThreadContextFw
+//* throw_s0Jc referenced in function _getUserBuffer_ThreadContext_emC
 //==>emC/Exception_emC.c
 
 
@@ -90,7 +90,7 @@ ThreadContext_emC_s* ctorM_ThreadContext_emC(MemC mthis)
 
 /**Sets a new buffer in Threadcontext.
  */
-METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContext_emC_s* _thCxt)
+METHOD_C MemC setUserBuffer_ThreadContext_emC(MemC newBuffer, ThreadContext_emC_s* _thCxt)
 { MemC lastBuffer;
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   lastBuffer = _thCxt->bufferAlloc;
@@ -104,11 +104,11 @@ METHOD_C MemC setUserBuffer_ThreadContextFw(MemC newBuffer, ThreadContext_emC_s*
 
 
 
-MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContext_emC_s* _thCxt)
+MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, ThreadContext_emC_s* _thCxt)
 { ASSERT_s0_Jc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if(_thCxt->bufferAlloc.ref == null) {
-    setUserBuffer_ThreadContextFw(alloc_MemC(2000), _thCxt);
+    setUserBuffer_ThreadContext_emC(alloc_MemC(2000), _thCxt);
   }
   { MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
     int sizeFree = endBuffer - _thCxt->addrFree;
@@ -155,13 +155,13 @@ MemC getUserBuffer_ThreadContextFw(int size, char const* sign, ThreadContext_emC
 
 
 
-METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThreadContext_emC_s* _thCxt)
+METHOD_C void reduceLastUserBuffer_ThreadContext_emC(void* ptr, int size, ThreadContext_emC_s* _thCxt)
 { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if(size & 0x7) { size += 8-(size & 0x7); }
   //MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
   AddrUsed_ThreadContext_emC* e = &_thCxt->addrUsed[_thCxt->ixLastAddrUsed]; 
   if(e->used.ref == ptr) {
-    //ASSERT_s0_emC(e->used.ref == ptr , "reduceLastUserBuffer_ThreadContextFw: faulty ptr", (int32)ptr);
+    //ASSERT_s0_emC(e->used.ref == ptr , "reduceLastUserBuffer_ThreadContext_emC: faulty ptr", (int32)ptr);
     _thCxt->addrFree = (MemUnit*) ptr + size;
     e->used.val = size;
   }
@@ -172,7 +172,7 @@ METHOD_C void reduceLastUserBuffer_ThreadContextFw(void* ptr, int size, ThreadCo
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContextFw(void const* data, ThreadContext_emC_s* _thCxt)
+METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, ThreadContext_emC_s* _thCxt)
 { if(_thCxt == null) {
     _thCxt = getCurrent_ThreadContext_emC();
   }
@@ -234,7 +234,7 @@ ThreadContext_emC_s* getCurrent_ThreadContext_emC()
 
 
 
-METHOD_C bool setCheckingUserBuffer_ThreadContextFw(ThreadContext_emC_s* ythis, bool value)
+METHOD_C bool setCheckingUserBuffer_ThreadContext_emC(ThreadContext_emC_s* ythis, bool value)
 { bool ret = (ythis->mode & mCheckBufferUsed_Mode_ThCxt)!=0;
   if(value) { ythis->mode |= mCheckBufferUsed_Mode_ThCxt; }
   else      { ythis->mode &= ~mCheckBufferUsed_Mode_ThCxt; }

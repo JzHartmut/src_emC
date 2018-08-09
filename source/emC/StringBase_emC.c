@@ -82,3 +82,35 @@ bool equals_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp  
 }
 
 
+
+int copyToBuffer_StringJc(const StringJc thiz, int start, int end, char* buffer, int sizeBuffer)
+{ //STACKTRC_ENTRY("copyToBuffer_StringJc");
+  int nChars = VAL_StringJc(thiz) & mLength__StringJc;
+  if (nChars == kIs_0_terminated_StringJc) {
+    char const* str = PTR_OS_PtrValue(thiz, char const);
+    nChars = strlen_emC(str, sizeBuffer);
+  }
+  //it is a StringJc
+  //faster operation with memcpy instead check of isStringJc for any character.
+  char const* str = PTR_OS_PtrValue(thiz, char const);
+  if (end < 0) {
+    end = nChars + end + 1;  //end=-1 results in end = nChars
+  }
+  if (end > start) {
+    int nrofBytes = end - start;
+    if (nrofBytes > sizeBuffer) {
+      nrofBytes = sizeBuffer;
+    }
+    memcpy(buffer, str + start, nrofBytes);
+    //STACKTRC_LEAVE; 
+    return nrofBytes;
+  }
+  else {
+    //STACKTRC_LEAVE; 
+    return 0;
+  }
+}
+
+
+
+

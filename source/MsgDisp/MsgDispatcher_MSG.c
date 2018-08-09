@@ -545,7 +545,7 @@ StringJc setOutputFromString_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, String
         , append_z_StringBuilderJc(errorBuffer, " at:", _thCxt)
         , append_c_StringBuilderJc(errorBuffer, ( _thCxtRef3_1 = getCurrent_StringPartJc(& ((spCtrl).base.super), nrofCharsRest, _thCxt)), _thCxt)
         );
-      releaseUserBuffer_ThreadContextFw(PTR_CharSeqJc(_thCxtRef3_1), _thCxt);
+      releaseUserBuffer_ThreadContext_emC(PTR_CharSeqJc(_thCxtRef3_1), _thCxt);
     }
     close_StringPartScanJc_F(& ((spCtrl).base.super), _thCxt);
     { STACKTRC_LEAVE;

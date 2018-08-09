@@ -38,6 +38,71 @@
 #ifndef __fw_ExceptionDefs_h__
 #define __fw_ExceptionDefs_h__
 
+
+#include <emC/String_emC.h>  //StringJc
+
+
+ /**The Exception data contains all data of exception but references to the stacktrace.
+ *
+ */
+typedef struct ExceptionJc_t
+{
+  /**Bit mask of the exception. There are a maximum of 32 Exception types. Every Exception is represented by one bit.
+  See enum definition of ExceptionMasksJc.
+  */
+  int32 exceptionNr;
+
+  /**The user message of the exception.
+  */
+  StringJc exceptionMsg;
+
+  /**The user value of the exception.
+  */
+  int32 exceptionValue;
+
+}ExceptionJc;
+
+
+#define CONST_ExceptionJc(IDENT, MSG, VAL) { ident_##IDENT##Jc, MSG, VAL }
+
+
+extern_C void log_ExceptionJc(ExceptionJc* exc, char const* sFile, int line);
+
+/**This struct can be used and is used in .../emc/sourceSpecials/appl_emC/ExcStacktrcNo_emC.c
+ * To store one exception entry for debugging in runtime and view thrown exception in the memory.
+ * Any record of such an exception store entry has 128 Byte for a 32 bit system, so address calculation may be simple.
+ */
+typedef struct ExceptionStoredEntry_emC_t
+{ ExceptionJc exc;
+  char const* file;
+  int32 line;
+  /**Because the text in the exc.exceptionMsg may not persistent, it is copied here. */
+  char msg[104];
+} ExceptionStoredEntry_emC;
+
+
+/**This struct can be used and is used in .../emc/sourceSpecials/appl_emC/ExcStacktrcNo_emC.c
+* To store the data of an exception for debugging in runtime and view thrown exception in the memory.
+* Any record of such an exception store entry has 128 Byte for a 32 bit system, so address calculation may be simple.
+*/
+typedef struct ExceptionStore_emC_t
+{ /**For checking correctness: */
+  char const* identString;
+  /**Maximal number of entries. If more as 10 are necessary, you should write:
+   * ExceptionStore_emC exceptionStore = {0};  //(should be static)
+   * ExceptionStoredEntry_emC _exceptionStoreMoreEntries_[20] = {0}; //to get 30 entries.
+   */
+  int32 zEntries;
+  /**Current number of entries after startup or manual reset.*/
+  int32 ixEntry;
+} ExceptionStore_emC;
+
+
+#define CONST_ExceptionStore_emC(ENTRIES) { "ExceptionStore_emC", ARRAYLEN_emC(ENTRIES), -1 }
+
+
+
+
 /**Bit definitions of all error bits. 
  * HINT: An enum is used to prevent double definitions of same masks.
  */

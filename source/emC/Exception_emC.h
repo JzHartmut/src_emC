@@ -58,7 +58,6 @@
 
 #include <emC/ExceptionDefs_emC.h>
 #include <emC/SimpleC_emC.h>
-#include <emC/String_emC.h>
 
 #ifndef __cplusplus
   //For a C compiler, __TRYCPPJc cannot be used.
@@ -89,27 +88,6 @@ extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-
-
-/**The Exception data contains all data of exception but references to the stacktrace.
- *
- */
-typedef struct ExceptionJc_t
-{
-  /**Bit mask of the exception. There are a maximum of 32 Exception types. Every Exception is represented by one bit.
-     See enum definition of ExceptionMasksJc.
-   */
-  int32 exceptionNr;
-
-  /**The user message of the exception.
-   */
-  StringJc exceptionMsg;
-
-  /**The user value of the exception.
-   */
-  int32 exceptionValue;
-
-}ExceptionJc;
 
 
 
@@ -319,14 +297,14 @@ class StacktraceJcpp: public StacktraceJc
  * without an _thCxt if an uncatchable exception occurs.
  * @param stacktrcThCxt if null than the uncatchedException-routine is called.
  */
-METHOD_C void throw_sJc(int32 exceptionNr, StringJc msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line);
+extern_C void throw_sJc(int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _thCxt);
 
 
 
-METHOD_C void throw_s0Jc(int32 exceptionNr, const char* msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line);
+extern_C void throw_s0Jc(int32 exceptionNr, const char* msg, int value, int line, ThCxt* _thCxt);
 
 
-METHOD_C void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, StacktraceThreadContext_emC_s* stacktrcThCxt, int line);
+METHOD_C void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, int line, ThCxt* _thCxt);
 
 
 
@@ -412,8 +390,9 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
   if(tryObject.excNrTestCatch != 0) /*Exception not handled*/ \
   { /* delegate exception to previous level Do not use the own longjmp!!!*/ \
     _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null; \
-    throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, &_thCxt->stacktrc, __LINE__); \
+    throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, __LINE__, _thCxt); \
   } \
+  freeM_MemC(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
   _thCxt->stacktrc.zEntries = stacktrace.ix+1; /*remove the validy of stacktrace entries of the deeper levels. */ \
   } /*close brace from beginning TRYJc*/
 
@@ -425,25 +404,27 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
  * @param VAL a int value
  */
 #ifndef THROW
-  #define THROW(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__)
+  #define THROW(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt)
 #endif
 
 #ifndef THROW_s0
-  #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__)
+  #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt)
 #endif
 
 #ifndef THROW_s
-  #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__)
+  #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt)
 #endif
+
+
 
 /**Either throws an exception or write an exception information in any logging or debugging system and return with the given value. 
  * This concept supports both, exception handling and system of return values in exception situation.
  */
-#define THROWRET(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__); return RETURN; }
+#define THROWRET(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt); return RETURN; }
 
-#define THROWRET_s0(EXCEPTION, TEXT, VAL, RETURN)  { throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__); return RETURN; }
+#define THROWRET_s0(EXCEPTION, TEXT, VAL, RETURN)  { throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt); return RETURN; }
 
-#define THROWRET_s(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, &_thCxt->stacktrc, __LINE__); return RETURN; }
+#define THROWRET_s(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt); return RETURN; }
 
 
 

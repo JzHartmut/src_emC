@@ -466,7 +466,10 @@ INLINE_emC int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thC
     return _length_PRIV_CharSeqJc(thiz, _thCxt);
   }
 }
-#define length_StringJc(THIZ) length_CharSeqJc(THIZ, null)
+
+
+
+
 
 
 char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt);
@@ -1127,6 +1130,26 @@ INLINE_emC CharSeqJc toCharSeqJc_StringBuilderJc(struct StringBuilderJc_t const*
 
 /*@DEFINE_C Inlines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+
+
+INLINE_emC int length_StringJc(StringJc thiz)  //INLINE
+{
+  int val = value_OS_PtrValue(thiz) & mLength__StringJc;
+  if (val < kMaxNrofChars_StringJc) {
+    //simple form, inline, fast:
+    return val;
+  }
+  else if (val == kIs_0_terminated_StringJc) {
+    //assume it is 0-terminated.:
+    return strlen_emC(thiz.ref, mLength__StringJc - 3);
+  }
+  else if (val == kIsStringBuilder_CharSeqJc) {
+    return length_StringBuilderJc(PTR_OS_PtrValue(thiz, struct StringBuilderJc_t));
+  }
+  else {
+    return 0; //not expected.
+  }
+}
 
 
 
