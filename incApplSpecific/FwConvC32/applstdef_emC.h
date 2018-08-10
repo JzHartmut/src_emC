@@ -46,7 +46,7 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#define __TRYCPPJc
+//#define __TRYCPPJc
 
 #include <emC/ThreadContext_emC.h>
 #include <emC/Exception_emC.h>

@@ -81,7 +81,8 @@
 
 #define TRY 
 #define _TRY {
-/**The catch-code is never executed. With if(false) the compiler may/should optimize it. 
+/**The catch-code is never executed. With if(false) the compiler may/should optimize it.
+ * But define an empty EXC_OBJ because it may be used in the code to compile time. 
  */
 #define CATCH(EXCEPTION, EXC_OBJ) } { ExceptionJc* EXC_OBJ = null; if(false)
 #define FINALLY

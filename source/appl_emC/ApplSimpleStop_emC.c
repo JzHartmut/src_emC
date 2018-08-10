@@ -47,43 +47,7 @@
 #include <os_thread.h>
 //#include <emC/Exception.h>
 #include <stdio.h>
-#include <stdlib.h>
-//#include <emC/Formatter.h>
-#include <os_time.h>
-
-
-
-/**Stops the execution of the executable respectively the whole application because no error handling is possible.
- * This routine should only called in unexpected situations, where the engine may only stopped.
- */
-void XXXos_FatalSysError(int errorCode, const char* description, int value1, int value2)
-{
-  printf("Fatal System error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
-  *((int*)0) = 0;
-  
-}
-
-
-/**Stops the execution of a thread because no error handling is possible.
- * This routine should only called in unexpected situations, where the thread or the engine may only stopped only.
- * The distiction to ,,os_FatalSysError(...),, is: it is possible that only the thread is stopped,
- * where the other threads maybe continued still. It may be possible, that the system were instable. 
- *
- * The implementation of this routine should be done depending from the users requirements to the system
- * in the OSAL-Layer. 
- */
-void XXXos_FatalError(int errorCode, const char* description, int value1, int value2)
-{
-  int cnt = 10;
-  printf("Fatal error - stop System: %i: %s, %i, %i\n", errorCode, description, value1, value2);
-  while(--cnt >=0)
-  { printf("ERROR STOP ctdn =%d \n", cnt);
-    os_delayThread(1000);
-  }
-  //*((int*)0) = 0;
-  
-}
-
+#include <stdlib.h>  //exit
 
 
 
@@ -122,6 +86,26 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
   }
 
 }
+
+
+
+
+void os_notifyError_FileLine(int errorCode, const char* description, int value1, int value2, char const* file, int line)
+{
+  //if (users_os_Error != null)
+  //{ //call the users routine:
+  //  users_os_Error(errorCode, description, value1, value2);
+  //}
+  //else
+  { //If no user routine is known, the error should be detect by the return code of the os-routines.
+    if (description == null) {
+      description = "";
+    }
+    printf("Error %d: %s, %d, %d in file %s: %d", errorCode, description, value1, value2, file, line);
+  }
+}
+
+
 
 
 void stopAssert_emC(void) {

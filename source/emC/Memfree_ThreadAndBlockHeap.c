@@ -1,13 +1,9 @@
-#include <applstdef_emC.h>
-#include <emC/ThreadContext_emC.h>
-#include <emC/Exception_emC.h>
-#include <emC/SimpleC_emC.h>
 #include <emC/MemC_emC.h>
-#include <os_thread.h>
 #include <os_mem.h>
-#include <stdlib.h>  //it defines free(...)
 
-#include <BlockHeap/BlockHeap_emC.h>  //for free(ptr)
+#ifdef SIZEBLOCK_BlockHeap_emC
+  #include <BlockHeap/BlockHeap_emC.h>  //for free(ptr)
+#endif
 
 int free_MemC(void const* addr)
 { MemC buffer;

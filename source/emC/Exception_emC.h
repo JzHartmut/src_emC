@@ -325,12 +325,10 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
    * to the exceptionnr.
    */
   #define TRY \
-  { /*The matching close curly brace is given in the END_TRY at least. Necessary for new defined variable in C. */ \
+  { /*The matching close curly brace is given in the END_TRY at least. */ \
     TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
     _thCxt->stacktrc.entries[stacktrace.ix].tryObject = &tryObject; \
     _thCxt->stacktrc.entries[stacktrace.ix].line = __LINE__; \
-    /*tryObject.exc.exceptionNr = tryObject.exceptionNr = ident_SystemExceptionJc; /*for the system exception*/ \
-    /*tryObject.exc.exceptionMsg = z_StringJc("System exception"); */\
     try
 #else
   /**TRY in C: it sets the [[longjmpBuffer_TryObjectJc]] via invocation of setjmp(...).
@@ -365,8 +363,8 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
 
 
 #define CATCH(EXCEPTION, EXC_OBJ) \
-    _thCxt->stacktrc.zEntries = stacktrace.ix+1; /*remove the validy of stacktrace entries of the deeper levels. */ \
-  } else if((tryObject.excNrTestCatch & mask_##EXCEPTION##Jc)!= 0/* || tryObject.exceptionNr==ident_##EXCEPTION##Jc*/) \
+    _thCxt->stacktrc.zEntries = stacktrace.ix+1; /*remove stacktrace entries of the deeper levels. */ \
+  } else if((tryObject.excNrTestCatch & mask_##EXCEPTION##Jc)!= 0) \
   { ExceptionJc* EXC_OBJ = &tryObject.exc; tryObject.excNrTestCatch = 0;  /*do not check it a second time.*/
 
 
@@ -377,24 +375,27 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
 #define FINALLY \
   /*remove the validy of stacktrace entries of the deeper levels. */ \
   _thCxt->stacktrc.zEntries = stacktrace.ix+1; \
-} /*close CATCH brace */\
-} /*close brace of whole catch block*/ \
-{ { /*open to braces because END_TRY has 2 closing braces.*/
+ } /*close CATCH brace */\
+ } /*close brace of whole catch block*/ \
+ { { /*open to braces because END_TRY has 2 closing braces.*/
 
 
 
 /**Write on end of the whole TRY-CATCH-Block the followed macro:*/
 #define END_TRY \
-  } /*close FINALLY, CATCHJc or TRYJc brace */\
+    /*remove the validy of stacktrace entries of the deeper levels. */ \
+    _thCxt->stacktrc.zEntries = stacktrace.ix+1; \
+   } /*close FINALLY, CATCH or TRY brace */\
   } /*close brace of whole catch block*/ \
   if(tryObject.excNrTestCatch != 0) /*Exception not handled*/ \
-  { /* delegate exception to previous level Do not use the own longjmp!!!*/ \
-    _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null; \
-    throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, __LINE__, _thCxt); \
+  { /* delegate exception to previous level. */ \
+   _thCxt->stacktrc.entries[stacktrace.ix].tryObject = null; \
+   throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, __LINE__, _thCxt); \
   } \
   freeM_MemC(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
-  _thCxt->stacktrc.zEntries = stacktrace.ix+1; /*remove the validy of stacktrace entries of the deeper levels. */ \
-  } /*close brace from beginning TRYJc*/
+  /*remove the validy of stacktrace entries of the deeper levels. */ \
+  _thCxt->stacktrc.zEntries = stacktrace.ix+1; \
+ } /*close brace from beginning TRY*/
 
 
 /**Throws an exception.
