@@ -36,8 +36,8 @@
 #define __FormatterJc_h__
 
 #include <Jc/ObjectJc.h>
-#include <emC/String.h>
-#include "emC/Va_list.h" 
+#include <emC/String_emC.h>
+#include "emC/Va_list_emC.h" 
 
 #include <Jc/LocaleJc.h>
 

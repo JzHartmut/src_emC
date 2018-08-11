@@ -1,10 +1,10 @@
 #ifndef __Wait_Inspc_h__
 #define __Wait_Inspc_h__
 #include <applstdef_emC.h>
-#include <Fwc/objectBaseC.h>   //The ObjectJc is used as base class for all struct
+#include <emC/Object_emC.h>   //The ObjectJc is used as base class for all struct
 //#include <Jc/ObjectJc.h>
 //#include <Jc/ReflectionJc.h>
-//#include <emC/String.h>
+//#include <emC/String_emC.h>
 
 
 

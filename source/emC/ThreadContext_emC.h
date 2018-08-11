@@ -38,15 +38,15 @@
  * 2008-10-00: Hartmut creation
  *
  ****************************************************************************/
-#ifndef __applstdefJc_h__
+#ifndef __applstdef_emC_h__
   /**This file fw_ThreadContext.h or fw_Exception.h should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the __fw_ThreadContext_h__ guard should not be set firstly
    * to include the fw_ThreadContext.h in the given order in applstddef.h
    */
   #include <applstdef_emC.h>
 #endif
-#ifndef __fw_ThreadContext_h__
-#define __fw_ThreadContext_h__
+#ifndef __emC_ThreadContext_emC_h__
+#define __emC_ThreadContext_emC_h__
 
 #include <emC/MemC_emC.h>
 struct TryObjectJc_t;
@@ -251,4 +251,4 @@ METHOD_C PtrVal_MemUnit os_getCurrentUserThreadContext();
  */
 METHOD_C int os_setCurrentUserThreadContext(OS_PtrValue mem);
 
-#endif //__fw_ThreadContext_h__
+#endif //__emC_ThreadContext_emC_h__

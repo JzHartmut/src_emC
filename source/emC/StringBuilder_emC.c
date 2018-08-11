@@ -285,7 +285,7 @@ int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer
 { //STACKTRC_ENTRY("copyToBuffer_CharSeqJc");
   int nChars = VAL_StringJc(thiz) & mLength__StringJc;
   if (nChars == kIs_0_terminated_StringJc || nChars <= kMaxNrofChars_StringJc) {
-    return copyToBuffer_StringJc(thiz, start, end, buffer, sizeBuffer, _thCxt);
+    return copyToBuffer_StringJc(thiz, start, end, buffer, sizeBuffer);
   }
   else if (nChars == kIsStringBuilder_CharSeqJc) {
     StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);

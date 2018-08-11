@@ -147,7 +147,7 @@ const ClassJc reflection_LogMessageFW_s =
 
 
 
-#include "emC/MemC.h"
+#include "emC/MemC_emC.h"
 
 #include "emC/Readline.h"
 
@@ -216,7 +216,7 @@ const ClassJc reflection_ReadLine_emC =
 
 
 
-#include "emC/SimpleC.h"
+#include "emC/SimpleC_emC.h"
 
 
 extern_C const ClassJc reflection_U_intfloat;  //the just defined reflection_
@@ -490,7 +490,7 @@ const ClassJc reflection_TimeBytes_emC =
 
 
 
-#include "emC/Va_list.h"
+#include "emC/Va_list_emC.h"
 
 
 extern_C const ClassJc reflection_Va_listFW;  //the just defined reflection_

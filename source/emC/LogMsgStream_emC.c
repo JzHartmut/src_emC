@@ -38,13 +38,13 @@
 
 
 //include the own header at first to test its correct dependencies.
-#include <emC/LogMessage.h>
+#include <emC/LogMessage_emC.h>
 
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 #include <Jc/ReflectionJc.h>
 //#include "fw_basic.h"
-#include <Fwc/objectBaseC.h>
-#include <emC/Formatter.h>
+#include <emC/Object_emC.h>
+#include <emC/Formatter_emC.h>
 
 #include "Jc/ObjectJc.h"
 #include <string.h>
@@ -154,7 +154,7 @@ bool sendMsgVaList_LogMessageStream_FW
   buffer2 = ythis->buffer + posBuffer;
   maxBuffer -= posBuffer;
 
-  posBuffer = sprintf(buffer2, "%5.5i :", identNumber);
+  posBuffer = snprintf(buffer2, maxBuffer, "%5.5i :", identNumber);
   buffer2 += posBuffer; 
   maxBuffer -= posBuffer;
   nChars += posBuffer;

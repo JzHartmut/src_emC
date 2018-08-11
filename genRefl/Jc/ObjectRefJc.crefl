@@ -16,23 +16,25 @@ const struct Reflection_Fields_ObjectJc_Y_t
   FieldJc data[2];
 } reflection_Fields_ObjectJc_Y =
 { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectJc_Y)
-, { { "head"
-    , 0   //no Array, no Bitfield
+, {  
+    { "head"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectArrayJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ObjectJc_Y*)(0x1000))->head) -(int32)(ObjectJc_Y*)0x1000)
+    , (int16)( ((intptr_t)(&((ObjectJc_Y*)(0x1000))->head)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc_Y
     }
-  , { "data"
-    , 50 //nrofArrayElements
+  , 
+    { "data"
+    , 50 //nrofArrayElements                           
     , &reflection_ObjectJcREF                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ObjectJc_Y*)(0x1000))->data) -(int32)(ObjectJc_Y*)0x1000)
+    , (int16)( ((intptr_t)(&((ObjectJc_Y*)(0x1000))->data)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc_Y
     }
-    
+  
 } }; 
                                                     
 

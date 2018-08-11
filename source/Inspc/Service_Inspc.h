@@ -2,7 +2,7 @@
 #define __Service_Inspc_h__
 #include <Inspc/DataNode_Inspc.h>
 #include <InspcJ2c/Inspector_Inspc.h>
-#include <emC/Time.h>
+#include <emC/Time_emC.h>
 
 
 

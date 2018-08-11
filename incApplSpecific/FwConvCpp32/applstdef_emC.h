@@ -1,5 +1,5 @@
-#ifndef __applstdefJc_h__
-#define __applstdefJc_h__
+#ifndef __applstdef_emC_h__
+#define __applstdef_emC_h__
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -24,8 +24,8 @@
 
 
 /**Include this file always. It defines some things usefull for all sources. */
-#include <emC/SimpleC.h>
-#include <emC/MemC.h>
+#include <emC/SimpleC_emC.h>
+#include <emC/MemC_emC.h>
 
 #include <emC/threadContext.h>
 
@@ -62,7 +62,7 @@
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 //#include <emC/ExcStacktrcNo.h>
 
 
@@ -75,4 +75,4 @@
 #include <fw_Platform_conventions.h>
 
 
-#endif // __applstdefJc_h__
+#endif // __applstdef_emC_h__

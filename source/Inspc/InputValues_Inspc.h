@@ -1,10 +1,10 @@
 #ifndef __InputValues_Inspc_h__
 #define __InputValues_Inspc_h__
 #include <applstdef_emC.h>
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 //#include <Jc/ObjectJc.h>
 #include <Jc/ReflectionJc.h>
-//#include <emC/String.h>
+//#include <emC/String_emC.h>
 
 struct DataNode_Inspc_t;
 

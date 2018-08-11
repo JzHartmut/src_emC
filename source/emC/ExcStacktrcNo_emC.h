@@ -34,7 +34,7 @@
  * 2017-01-21: Hartmut creation
  *
  ****************************************************************************/
-#ifndef __applstdefJc_h__
+#ifndef __applstdef_emC_h__
   /**This file fw_Exception.h should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the __fw_Exception_h__ guard should not be set firstly
    * to include the fw_Exception.h in the given order in applstddef.h
@@ -61,7 +61,7 @@
 
 #include <emC/ExceptionDefs_emC.h>
 
-//#include <emC/String.h>
+//#include <emC/String_emC.h>
 
 
 

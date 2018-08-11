@@ -5,7 +5,7 @@
 #include "MsgDisp/LogMessageFile_MSG.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "Jc/FormatterJc.h"  //embedded type in block
 #include "Jc/LocaleJc.h"  //reference-association: LocaleJc_s
 #include "Jc/TimeZoneJc.h"  //reference-association: TimeZoneJc_s

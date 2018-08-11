@@ -10,29 +10,51 @@ extern_C const ClassJc reflection_PrintStreamJc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;  //used for field object
 
 extern_C const ClassJc reflection_OutputStreamJcREF;  //used for field out
+  
+
+const struct SuperClasses_PrintStreamJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_PrintStreamJc =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_PrintStreamJc)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
+};
 
 const struct Reflection_Fields_PrintStreamJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_PrintStreamJc =
 { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_PrintStreamJc)
-, { { "object"
-    , 0   //no Array, no Bitfield
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((PrintStreamJc*)(0x1000))->object) -(int32)(PrintStreamJc*)0x1000)
+    , (int16)( ((intptr_t)(&((PrintStreamJc*)(0x1000))->object)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_PrintStreamJc
     }
-  , { "out"
-    , 0   //no Array, no Bitfield
+  , 
+    { "out"
+    , 0   //no Array, no Bitfield                           
     , &reflection_OutputStreamJcREF                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((PrintStreamJc*)(0x1000))->out) -(int32)(PrintStreamJc*)0x1000)
+    , (int16)( ((intptr_t)(&((PrintStreamJc*)(0x1000))->out)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_PrintStreamJc
     }
-    
+  
 } }; 
                                                     
 
@@ -43,7 +65,7 @@ const ClassJc reflection_PrintStreamJc =
 , sizeof(PrintStreamJc)
 , (FieldJcArray const*)&reflection_Fields_PrintStreamJc  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_PrintStreamJc  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table

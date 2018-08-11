@@ -38,7 +38,7 @@
 
 //#include "Jc/ObjectJc.h"
 
-#include "emC/MemC.h"
+#include "emC/MemC_emC.h"
 //#include "OSAL/inc/os_file.h"
 
 struct FileJc_t;

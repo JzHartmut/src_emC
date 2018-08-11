@@ -235,7 +235,7 @@ typedef union State_ObjectJc_t
   /**Object is the superclass of all superclasses. In C-like manner it is a struct
    * at begin of any class-like struct.
    *
-   * The headerfile <Fwc/objectBaseC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources
+   * The headerfile <emC/Object_emC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources
    * which does not use concepts of ,,ObjectJc,, but should know this embedded struct. 
    * Some definitions and methods are common use-able, that methods are contained here too. 
    * @since 2016-12: The struct is changed, but the number of bytes are held identically. 
@@ -849,6 +849,85 @@ METHOD_C int8ARRAY* ctor_int8ARRAY(int8ARRAY* ythis, int nrOfBytes);
 #endif
 
 
+/*@CLASS_C FieldJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/** A field is one entry in the reflection information about attributes or references of any type.
+ * In opposite to orignal-Java a FieldJc is not based on Object,
+ * but the Field[]-type, in Jc named "FieldJcArray" is based on ObjectJc like every ARRAYJc.
+ * It means at ex you cannot call toString_ObjectJc(myField.object), it results in a compiler syntax error.
+ * The reason if the FieldJc-type do not based on ObjectJc is: preserve of expenditure, it is not necessary.
+ * A field may describe:
+ * * a simle scalar attribute of type such as int or long, the type field references to ,,ReflectionintJc,, and so on.
+ * * a reference to any other type, the instance may be derived also, the type field references to ,,ReflectionReferenceType,,.
+ * * a embedded other type. That is a possibility only in C(++), not possible in original Java.
+ * : but the Java2C translator produces such constructs because optimization, and a hand write code
+ * : can use this because optimization. The type field references to ;;ReflectionEmbeddedType,,,
+ * : but the modifier-bit mEmbedded_Modifier_reflectJc is set in bitModifiers.
+ */
+C_TYPE typedef struct  FieldJc_t
+{ //ObjectJc super;
+
+  /** The symbolic name of the field*/
+  //StringJcRef  name;
+  char name[30]; //kLengthNAME_FIELD_ReflectionJc];  //28
+
+                 /**Size of the field or size of 1 element if it is an static array. */
+                 //int16 sizeElement;
+
+                 /**Nr of elements of an static array or the bit positions of a bitfield
+                 * If is is a bit field
+                 */
+  u_int16_t nrofArrayElementsOrBitfield_;
+
+  /**If the element nrofArrayElementsOrBitfield designates the bits of a bitfield,
+  * this bits represent the bit Position in the field.
+  * It is a number between 0 and 31 for 32-bit-width bit fields or between 0 and upto 4095
+  * for upto 128 int32_t-variables one after another which are all bitfields.
+  * Note that an address calculation in C cannot be done for bitfield variables.
+  * Therefore the last variable before bitfield determines the offset of the bitfield
+  * and all bitfield variables one after another uses this address. Therefore the bit position
+  * should be a more great number.
+  */
+#define mBitInBitfield_FieldJc 0x0fff
+
+  /**If the element nrofArrayElementsOrBitfield designates the bits of a bitfield,
+  * this bits represent the number of bits of the field. Value from 1 to 15, or 0 for a 16-bit-biftield.
+  */
+#define mNrofBitsInBitfield_FieldJc 0xf000
+
+  /**If the element nrofArrayElementsOrBitfield designates the bits of a bitfield,
+  * this bits represent the position in bits of number of bits of the field.
+  */
+#define kBitNrofBitsInBitfield_FieldJc 12
+
+  /** The class object representing the type of the field.
+  * It may be a class object also for primitive types
+  * or for primitive Type there is a simple constant value, see REFLECTION_type above.
+  * Don't use this element directly. Only with is getter: [[getType_FieldJc(...)]]
+  */
+  struct ClassJc_t const* type_;
+
+  /**The modifiers of the Field. The Bits are defined in Modifier_reflectJc.
+  * The concept follows Java, see java.lang.reflect.Field.getModifier or java.lang.reflect.Modifier,
+  * but it is enhanced in respect to C/C++ and UML requirements.
+  */
+  int32     bitModifiers;  //Bits of Modifier_reflectJc.
+
+                           /** position of the field inside a object of the type of the declaring class.
+                           * The position is the offset from the ObjectJc base class to the field, not the offset from the total base.
+                           * Because it is possible that the object is known via interface reference. A interface reference
+                           * pointered the position of the pointer to the virtual table of the interface,
+                           * a call of obj->toObjectJc() is necessary to get the base for this offset.
+                           */
+  int16     position;
+
+  /**Offset in a pointered class to the ObjectifcBaseJcpp class structure if such base interface exists.
+  This value is 0 if it is not a pointer or if it is a pointer of not Object-derivated structures.
+  */
+  int16     offsetToObjectifcBase;
+  /** The class object representing the class or interface that declares the field represented by this Field object. */
+  struct ClassJc_t const* declaringClass;
+}FieldJc;
 
 
 
@@ -935,9 +1014,15 @@ typedef struct ClassOffset_idxMtblJc_t
 {
   /** The reflection definition*/
   ClassJc const* clazz;
+ 
   /** Index of the virtual table inside its parent.*/
   int idxMtbl;
-}ClassOffset_idxMtblJc;
+ 
+  /**The field is a helper for inspector access: It contains the name of the interface or "super"
+   * at position 0 repectively the correct position for C++ reflection. */
+  FieldJc field;
+
+} ClassOffset_idxMtblJc;
 
 /**This macro calculates the index of a particulary method table inside a table, to use for idxMtbl in ClassOffset_idxMtblJc.
  */

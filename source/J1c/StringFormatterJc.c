@@ -5,7 +5,7 @@
 #include "J1c/StringFormatterJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
 #include "Jc/DateJc.h"  //new object
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
@@ -378,7 +378,7 @@ struct StringFormatterJc_t* pos_ii_StringFormatterJc(StringFormatterJc_s* thiz, 
   
   { 
     
-    if(newPos < 0) { throw_s0Jc(ident_IndexOutOfBoundsExceptionJc, "negative position not supported", 0, &_thCxt->stacktrc, __LINE__); return 0; };
+    if(newPos < 0) { throw_s0Jc(ident_IndexOutOfBoundsExceptionJc, "negative position not supported", 0, __LINE__, _thCxt); return 0; };
     if(minChars >= 0 && thiz->pos + minChars > newPos) 
     { 
       
@@ -491,7 +491,7 @@ struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc(StringFormatter
       
       maxChars = length_CharSeqJc(str/*J1cT2*/, _thCxt);
     }
-    if(length_CharSeqJc(replaceLinefeed/*J1cT2*/, _thCxt) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, &_thCxt->stacktrc, __LINE__); return 0; };
+    if(length_CharSeqJc(replaceLinefeed/*J1cT2*/, _thCxt) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, __LINE__, _thCxt); return 0; };
     prepareBufferPos_StringFormatterJc(thiz, maxChars, _thCxt);
     
     int32  postr = -1;
@@ -1251,7 +1251,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
         , append_z_StringBuilderJc(_tempString3_1, "value should be only positive: ", _thCxt)
         , append_J_StringBuilderJc(_tempString3_1, src, _thCxt)
         , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
+        ), 0, __LINE__, _thCxt); return 0; };
       activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
     }/*if the number is negativ but a sign is not expected, the number will be shown as positiv value.*/
     /**/
@@ -1453,7 +1453,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
             break;/*don't show if 10^0*/
             
             default: /**Any control character found: */
-            { throw_s0Jc(ident_RuntimeExceptionJc, "unexpected case", 0, &_thCxt->stacktrc, __LINE__); return 0; };
+            { throw_s0Jc(ident_RuntimeExceptionJc, "unexpected case", 0, __LINE__, _thCxt); return 0; };
           }/*switch*/;
         }
         else 

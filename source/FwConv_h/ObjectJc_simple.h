@@ -51,7 +51,7 @@ struct ClassJc_t;
 /**Object is the superclass of all superclasses. In C-like manner it is a struct
  * at begin of any class-like struct.
  *
- * The headerfile <Fwc/objectBaseC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources 
+ * The headerfile <emC/Object_emC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources 
  * with all capabilities.
  * This definition is a small variant for only simple capabilities 
  * especially for less footprint or non-String-using target systems with usual 16 or 32 bit memory addresses.

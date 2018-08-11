@@ -37,7 +37,7 @@
  ****************************************************************************/
 
 #include "Jc/ArraysJc.h"
-#include <emC/SimpleC.h>
+#include <emC/SimpleC_emC.h>
 //#include "ReflectionJc.h"
 
 #include "Jc/ComparatorJc.h"

@@ -3,7 +3,7 @@
 
 #include <Inspc/FBaccess_Inspc.h>
 #include <InspcJ2c/Inspector_Inspc.h>
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 #include <Jc/ReflectionJc.h>
 
 #include <Inspc/DataNode_Inspc.h>

@@ -1,5 +1,5 @@
-#ifndef __applstdefJc_h__
-#define __applstdefJc_h__
+#ifndef __applstdef_emC_h__
+#define __applstdef_emC_h__
 /**This headerfile contains all standard definition for usage the CRJ - CRuntimeJavalike - basicly system.
  * It is for ordinary S-Functions in Simulink without exception handling. 
  */
@@ -64,7 +64,7 @@
 #define __TRYCPPJc
 
 #include <emC/threadContext.h>
-//#include <emC/Exception.h>
+//#include <emC/Exception_emC.h>
 #include <emC/ExcStacktrcNo.h>
 
 
@@ -99,5 +99,5 @@
 /**This define is set escpecially for compilation sources to use in mex64 dll. */
 #define __SIMULINK_SFN__
 
-#endif // __applstdefJc_h__
+#endif // __applstdef_emC_h__
 

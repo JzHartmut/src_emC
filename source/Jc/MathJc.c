@@ -42,7 +42,7 @@
  *
  ****************************************************************************/
 #include "Jc/ObjectJc.h"  
-#include "emC/Exception.h"
+#include "emC/Exception_emC.h"
 
 #include <Jc/MathJc.h>
 #include "math.h"

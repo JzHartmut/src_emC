@@ -1,7 +1,7 @@
 #ifndef __AssertJc_h__
 #define __AssertJc_h__
 
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 
 // #define stop_AssertJc()
 

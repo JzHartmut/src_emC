@@ -9,26 +9,28 @@
 extern_C const ClassJc reflection_DateValuesJc;  //the just defined reflection_ used in the own fields.
 const struct Reflection_Fields_DateValuesJc_t
 { ObjectArrayJc head;
-  FieldJc data[4];
+  FieldJc data[2];
 } reflection_Fields_DateValuesJc =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_DateValuesJc)
-, { { "time_nsec"
-    , 0   //no Array, no Bitfield
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_DateValuesJc)
+, {  
+    { "time_nsec"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((DateValuesJc*)(0x1000))->time_nsec) -(int32)(DateValuesJc*)0x1000)
+    , (int16)( ((intptr_t)(&((DateValuesJc*)(0x1000))->time_nsec)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_DateValuesJc
     }
-  , { "time_sec"
-    , 0   //no Array, no Bitfield
+  , 
+    { "time_sec"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((DateValuesJc*)(0x1000))->time_sec) -(int32)(DateValuesJc*)0x1000)
+    , (int16)( ((intptr_t)(&((DateValuesJc*)(0x1000))->time_sec)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_DateValuesJc
     }
-    
+  
 } }; 
                                                     
 
@@ -56,23 +58,35 @@ const struct SuperClasses_DateJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the 
   ClassOffset_idxMtblJc data[1];
 }  superClasses_DateJc_s =   //reflection instance for the super class
 { INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_DateJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
 
 const struct Reflection_Fields_DateJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[2];
+  FieldJc data[1];
 } reflection_Fields_DateJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_DateJc_s)
-, { { "val"
-    , 0   //no Array, no Bitfield
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_DateJc_s)
+, {  
+    { "val"
+    , 0   //no Array, no Bitfield                           
     , &reflection_OS_TimeStamp                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((DateJc_s*)(0x1000))->val) -(int32)(DateJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((DateJc_s*)(0x1000))->val)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_DateJc_s
     }
-    
+  
 } }; 
                                                     
 
@@ -100,31 +114,44 @@ const struct SuperClasses_SimpleDateFormatJc_s_ClassOffset_idxMtblJcARRAY_t  //T
   ClassOffset_idxMtblJc data[1];
 }  superClasses_SimpleDateFormatJc_s =   //reflection instance for the super class
 { INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_SimpleDateFormatJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
 
 const struct Reflection_Fields_SimpleDateFormatJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[3];
+  FieldJc data[2];
 } reflection_Fields_SimpleDateFormatJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_SimpleDateFormatJc_s)
-, { { "sFormat"
-    , 0   //no Array, no Bitfield
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_SimpleDateFormatJc_s)
+, {  
+    { "sFormat"
+    , 0   //no Array, no Bitfield                           
     , &reflection_StringJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((SimpleDateFormatJc_s*)(0x1000))->sFormat) -(int32)(SimpleDateFormatJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((SimpleDateFormatJc_s*)(0x1000))->sFormat)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_SimpleDateFormatJc_s
     }
-  , { "timeZoneAdjustHours"
-    , 0   //no Array, no Bitfield
+  , 
+    { "timeZoneAdjustHours"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((SimpleDateFormatJc_s*)(0x1000))->timeZoneAdjustHours) -(int32)(SimpleDateFormatJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((SimpleDateFormatJc_s*)(0x1000))->timeZoneAdjustHours)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_SimpleDateFormatJc_s
     }
-    
+  
 } }; 
                                                     
 
@@ -150,23 +177,35 @@ const struct SuperClasses_TextFieldPositionJc_s_ClassOffset_idxMtblJcARRAY_t  //
   ClassOffset_idxMtblJc data[1];
 }  superClasses_TextFieldPositionJc_s =   //reflection instance for the super class
 { INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_TextFieldPositionJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
 
 const struct Reflection_Fields_TextFieldPositionJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[2];
+  FieldJc data[1];
 } reflection_Fields_TextFieldPositionJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_TextFieldPositionJc_s)
-, { { "x"
-    , 0   //no Array, no Bitfield
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_TextFieldPositionJc_s)
+, {  
+    { "x"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((TextFieldPositionJc_s*)(0x1000))->x) -(int32)(TextFieldPositionJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((TextFieldPositionJc_s*)(0x1000))->x)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_TextFieldPositionJc_s
     }
-    
+  
 } }; 
                                                     
 

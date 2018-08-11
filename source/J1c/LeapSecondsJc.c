@@ -5,7 +5,7 @@
 #include "J1c/LeapSecondsJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/DateJc.h"  //reference-association: date
 #include "Jc/StringJc.h"  //string concatenation
@@ -99,7 +99,7 @@ void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc
       , append_z_StringBuilderJc(_tempString2_1, "The number of leap seconds should be not greater than", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, (ARRAYLEN_SimpleC(singleton_LeapSecondsJc->leapSeconds) - 1), _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktrc, __LINE__); };
+      ), 0, __LINE__, _thCxt); };
     singleton_LeapSecondsJc->leapSeconds[idx] = idx;
     singleton_LeapSecondsJc->millisecondsUTCForLeapSeconds->data[idx] = getTime_DateJc(date);
     singleton_LeapSecondsJc->millisecondsGPSForLeapSeconds->data[idx] = idx + getTime_DateJc(date);

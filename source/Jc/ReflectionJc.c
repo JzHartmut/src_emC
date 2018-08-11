@@ -50,9 +50,9 @@
 #include "Jc/ReflMemAccessJc.h"
 //#include "Jc/StringJc.h"
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
-#include "emC/Exception.h"
+#include "emC/Exception_emC.h"
 
-#include <emC/SimpleC.h>
+#include <emC/SimpleC_emC.h>
 #include <stdio.h>
 
 #undef mStaticArray_Modifier_reflectJc //it shouldn't be used!
@@ -247,7 +247,8 @@ METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz)
 METHOD_C FieldJc const* getSuperField_ClassJc(ClassJc const* thiz)
 {
   if(thiz->superClasses == null) return null;
-  else return &thiz->attributes->data[0];    //TODO should do so for C
+  else return &thiz->superClasses->data[0].field;
+  //else return &thiz->attributes->data[0];    //TODO should do so for C
 }
 
 
@@ -1236,7 +1237,7 @@ METHOD_C StringJc getString_FieldJc(const FieldJc* thiz, MemSegmJc instance, cha
       //StringBuilderJc* sret = threadBuffer_StringBuilderJc("", null);
       int32* addr1 = ADDR_MemSegmJc(addrField, int32);
       int32 val1 = addr1 == null ? 0 : *addr1;
-      sprintf(addret, "@%p:%8.8X", addr1, val1);
+      snprintf(addret, sizeof(addret), "@%p:%8.8X", addr1, val1);
       ret = z_StringJc(addret);
     }
   } else { //primitive Type of field:

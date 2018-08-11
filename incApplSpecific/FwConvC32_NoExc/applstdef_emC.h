@@ -1,5 +1,5 @@
-#ifndef __applstdefJc_h__
-#define __applstdefJc_h__
+#ifndef __applstdef_emC_h__
+#define __applstdef_emC_h__
 /**This headerfile contains all standard definition for usage the CRJ - CRuntimeJavalike - basicly system.
  * for simple C applications without exception handling. 
  */
@@ -53,7 +53,7 @@
   #define __TRYCPPJc
 
 #include <emC/threadContext.h>
-//#include <emC/Exception.h>
+//#include <emC/Exception_emC.h>
 #include <emC/ExcStacktrcNo.h>
 
 
@@ -90,4 +90,4 @@
 
 
 
-#endif // __applstdefJc_h__
+#endif // __applstdef_emC_h__

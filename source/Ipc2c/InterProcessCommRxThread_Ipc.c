@@ -5,8 +5,8 @@
 #include "Ipc2c/InterProcessCommRxThread_Ipc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
-#include "emC/Exception.h"  //reference-association: ExceptionJc
+#include <emC/Exception_emC.h>  //basic stacktrace concept
+#include "emC/Exception_emC.h"  //reference-association: ExceptionJc
 #include "Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactory_s
 #include "Ipc2c/InterProcessCommRx_ifc_Ipc.h"  //reference-association: execRxDataMtbl
 #include "Jc/AssertJc.h"  //reference-association: AssertJc_s

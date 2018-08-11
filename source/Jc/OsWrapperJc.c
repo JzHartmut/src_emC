@@ -46,15 +46,15 @@
 
 
 #include "OsWrapperJc.h"
-#include <emC/SimpleC.h>
+#include <emC/SimpleC_emC.h>
 //#include <Jc/ObjectJc.h>
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 #include <os_thread.h>
 #include <os_time.h>
 #include <os_sync.h>
 #include <os_waitnotify.h>
 #include <os_AtomicAccess.h>
-#include <emC/ThreadContext.h>
+#include <emC/ThreadContext_emC.h>
 
 #include <string.h>
 
@@ -191,7 +191,7 @@ INLINE_emC HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
     if(ixHandle > 0) {
       int32 newValue, oldValue;
       int tryCt = 1000;
-      strcpy(handle->name, "JcJc_00");
+      strcpy_emC(handle->name, "Jc_00", sizeof(handle->name));
       handle->name[5] = (char)(((ixHandle >>6)  & 0x3f) + '0');
       handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
       os_createMutex(handle->name, &handle->handleMutex);

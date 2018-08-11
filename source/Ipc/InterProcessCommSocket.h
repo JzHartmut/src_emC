@@ -39,7 +39,7 @@
 
 //#include "fw_MemC.h"
 #include "Ipc/InterProcessComm.h"
-#include "emC/MemC.h"
+#include "emC/MemC_emC.h"
 
 //extern Mtbl_InterProcessComm const mtbl_InterProcessCommSocket;
 

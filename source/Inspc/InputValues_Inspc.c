@@ -22,7 +22,7 @@ InputValues_Inspc* create_InputValues_Inspc()
 
 void ctorXXX_InputValues_Inspc(InputValues_Inspc* thiz)
 {
-  strncpy(thiz->clazz.name, "InputValues_Inspc", sizeof(thiz->clazz.name));
+  strcpy_emC(thiz->clazz.name, "InputValues_Inspc", sizeof(thiz->clazz.name));
   //thiz->fields.head.
   thiz->clazz.nSize = sizeof(*thiz);
   thiz->clazz.attributes = &thiz->fields;
@@ -80,12 +80,12 @@ void ctorXXX_InputValues_Inspc(InputValues_Inspc* thiz)
       */
     }
     field->position = offset_MemAreaC(thiz, &thiz->val[kSizeX_InputValues_Inspc * ix]);
-    strncpy(field->name, name, sizeof(field->name)-1);
+    strcpy_emC(field->name, name, sizeof(field->name)-1);
   }
   FieldJc* field = &thiz->fields.data[++nrofFields];  //reference to thiz
   field->type_ = &reflection_InputValues_Inspc;  
   field->position = 0;
-  strncpy(field->name, "thiz$InputValues_Inspc", sizeof(field->name)-1);
+  strcpy_emC(field->name, "thiz$InputValues_Inspc", sizeof(field->name)-1);
   thiz->fields.head.length = nrofFields +1;  //data fields + reference to thiz
 }
 
@@ -122,7 +122,7 @@ char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Insp
   names[9] = n10;
   names[10] = n11;
   names[11] = n12;
-  strncpy(thiz->clazz.name, "InputValues_Inspc", sizeof(thiz->clazz.name));
+  strcpy_emC(thiz->clazz.name, "InputValues_Inspc", sizeof(thiz->clazz.name));
   thiz->clazz.nSize = sizeof(*thiz);
   thiz->clazz.attributes = &thiz->fields;
   int ix;
@@ -199,16 +199,16 @@ char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Insp
       field->position = posField; //offset_MemAreaC(thiz, &thiz->val[kSizeX_InputValues_Inspc * ix]);
       nrofBytesType = (nrofBytesType + 3) & ~3;  //round up to 4-aligned
       posField += nrofBytesType;
-      strncpy(field->name, name, zname);
+      strcpy_emC(field->name, name, zname);
     } else {
-      strcpy(field->name, "?dataOverflow");
+      strcpy_emC(field->name, "?dataOverflow", sizeof(field->name));
     }
   }
   //reference to thiz
   FieldJc* field = &thiz->fields.data[++ixField];  //The next field.  
   field->type_ = &reflection_InputValues_Inspc;  
   field->position = 0;
-  strncpy(field->name, "thiz$InputValues_Inspc", sizeof(field->name)-1);
+  strcpy_emC(field->name, "thiz$InputValues_Inspc", sizeof(field->name)-1);
   thiz->fields.head.length = ixField +1;  //data fields + reference to thiz
 
   //register this data in the parent node:
@@ -291,12 +291,11 @@ void test_InputValues_Inspc(struct DataNode_Inspc_t* reflNode)
 
   static InputValues_Inspc* test;
   test = create_InputValues_Inspc();
-  //strncpy(test->channels, "cUAN_on_CCP cOn_CBB_CCP", sizeof(test->channels));
-  strncpy(test->nameRefl,"test_TimeSignals", sizeof(test->nameRefl));
-  strncpy(test->names[0], "param1", sizeof(test->names[0]));
-  strncpy(test->names[1], "cCmdA", sizeof(test->names[0]));
-  strncpy(test->names[2], "wUm", sizeof(test->names[0]));
-  strncpy(test->names[3], "wUw", sizeof(test->names[0]));
+  strcpy_emC(test->nameRefl,"test_TimeSignals", sizeof(test->nameRefl));
+  strcpy_emC(test->names[0], "param1", sizeof(test->names[0]));
+  strcpy_emC(test->names[1], "cCmdA", sizeof(test->names[0]));
+  strcpy_emC(test->names[2], "wUm", sizeof(test->names[0]));
+  strcpy_emC(test->names[3], "wUw", sizeof(test->names[0]));
   ctorXXX_InputValues_Inspc(test);
   
   registerReflection_InputValues_Inspc(test, reflNode);

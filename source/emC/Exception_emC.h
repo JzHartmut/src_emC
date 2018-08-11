@@ -40,7 +40,7 @@
  *
  ****************************************************************************/
 
-#ifndef __applstdefJc_h__
+#ifndef __applstdef_emC_h__
   /**This file fw_Exception.h should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the __fw_Exception_h__ guard should not be set firstly
    * to include the fw_Exception.h in the given order in applstddef.h
@@ -48,10 +48,10 @@
   #include <applstdef_emC.h>
 #endif
 
-#ifndef __fw_ThreadContext_h__
+#ifndef __emC_ThreadContext_emC_h__
   //include fw_ThreadContext.h firstly, it includes this file internally.
   //then the guards are defined already.
-  #include "fw_ThreadContext.h"
+  #include "emC/ThreadContext_emC.h"
 #endif
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
@@ -443,7 +443,7 @@ void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceTh
  * All other elements are not used here.
  * There are not necessary here, but used in macro definitions.
  */
-//#include "emC/ThreadContext.h"
+//#include "emC/ThreadContext_emC.h"
 
 /* OLD:A ThreadContext is necessarry, but it is not defined here.
  * It have to be contained for the Stacktrace theme: 

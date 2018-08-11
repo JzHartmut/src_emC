@@ -5,7 +5,7 @@
 #include "Inspc/InspcTargetProxyTelg.h"
 #include <OSAL/os_sharedMem.h>
 #include <OSAL/os_error.h>
-#include <emC/String.h>
+#include <emC/String_emC.h>
 #include <applstdef_emC.h>
 #include <string.h>
 

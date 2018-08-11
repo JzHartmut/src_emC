@@ -34,10 +34,9 @@
 //#define __DEBUGFILE__  //activate it if necessary!
 
 #include <Ipc/InterProcessComm.h>
-#include <applStdefJc.h>
-#include "emC/basic.h"
-#include "emC/SimpleC.h"
-#include "emC/MemC.h"
+#include <applStdef_emC.h>
+#include "emC/SimpleC_emC.h"
+#include "emC/MemC_emC.h"
 #include <Jc/ObjectJc.h>
 #include <os_endian.h>
 
@@ -89,7 +88,7 @@ Address_InterProcessComm_SharedMem_s* ctorM_zzi_Address_InterProcessComm_SharedM
   Address_InterProcessComm_SharedMem_s* ythis = PTR_MemC(rawMem, Address_InterProcessComm_SharedMem_s);
   init0_MemC(rawMem);
   
-  strncpy(ythis->sType, protocol, sizeof(ythis->sType));
+  strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
   
 
@@ -105,7 +104,7 @@ Address_InterProcessComm_SharedMem_s* ctorM_zii_Address_InterProcessComm_SharedM
   Address_InterProcessComm_SharedMem_s* ythis = PTR_MemC(rawMem, Address_InterProcessComm_SharedMem_s);
   init0_MemC(rawMem);
 
-  strncpy(ythis->sType, protocol, sizeof(ythis->sType));
+  strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
   ythis->address1 = nPort;
   ythis->address2 = ipAddr;
@@ -119,7 +118,7 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessCommSharedMem(ObjectJc* ot
   STACKTRC_ENTRY("ctorO_Address_InterProcessCommSharedMem");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &reflection_Address_InterProcessComm_s, _thCxt);
 
-  strncpy(ythis->sType, protocol, sizeof(ythis->sType));
+  strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
   ythis->address1 = nPort;
   ythis->address2 = ipAddr;

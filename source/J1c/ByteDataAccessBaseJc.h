@@ -5,14 +5,14 @@
 #ifndef __J1c_ByteDataAccessBaseJc_h__
 #define __J1c_ByteDataAccessBaseJc_h__
 
-#include "emC/MemC.h"        //basic concept
+#include "emC/MemC_emC.h"        //basic concept
 
 #include "Jc/ObjectJc.h"        //basic concept
 #include "Jc/ArraysJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
 
-#include "emC/Exception.h"   //basic concept
+#include "emC/Exception_emC.h"   //basic concept
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -493,7 +493,7 @@ METHOD_C bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* th
   \
     { \
       \
-      { throw_EJc(ident_RuntimeExceptionJc, exc, 0, &_thCxt->stacktrc, __LINE__); };\
+      { throw_EJc(ident_RuntimeExceptionJc, exc, 0, __LINE__, _thCxt); };\
     }\
   END_TRY/*it isn't able.*/\
   \

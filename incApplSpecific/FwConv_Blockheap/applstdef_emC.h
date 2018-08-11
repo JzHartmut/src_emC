@@ -1,5 +1,5 @@
-#ifndef __applstdefJc_h__
-#define __applstdefJc_h__
+#ifndef __applstdef_emC_h__
+#define __applstdef_emC_h__
 
 //Uncomment to check whether used:
 //#error Uses srcApplInspc/applstdef_emC.h
@@ -28,8 +28,8 @@
 
 
 /**Include this file always. It defines some things usefull for all sources. */
-#include <emC/SimpleC.h>
-#include <emC/MemC.h>
+#include <emC/SimpleC_emC.h>
+#include <emC/MemC_emC.h>
 
 
 
@@ -55,15 +55,15 @@
 //Include before fw_String.h because it is used there.
 #include <FwConv_h\EnhanceRef_BlockHeap.h>
 /**Define StringJc firstly, especially before fw_Exception.h> */
-#include <emC/String.h>
+#include <emC/String_emC.h>
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
 #include <emC/threadContext.h>
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 //#include <emC/ExcStacktrcNo.h>
 
 
 //Use full capability for ObjectJc, necessary for Pointer check and reflection.
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
@@ -119,4 +119,4 @@ INLINE_emC int stopNAN(){ return 0; }
 
 
 
-#endif // __applstdefJc_h__
+#endif // __applstdef_emC_h__

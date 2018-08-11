@@ -5,7 +5,7 @@
 #include "InspcJ2c/WorkingThread_Inspc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "Jc/MathJc.h"  //reference-association: MathJc_s
 
 

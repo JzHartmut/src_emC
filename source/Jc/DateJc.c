@@ -37,11 +37,11 @@
  ****************************************************************************/
 #include "Jc/DateJc.h"
 //#include "Jc/StringBuilderJc.h"
-#include "emC/Exception.h"
+#include "emC/Exception_emC.h"
 #include <Jc/TimeZoneJc.h>
 #include <string.h>
 #include "os_time.h"
-#include <emC/timeconversions.h>
+#include <emC/Timeconversions_emC.h>
 
 extern_C struct ClassJc_t const reflection_DateJc_s;
 

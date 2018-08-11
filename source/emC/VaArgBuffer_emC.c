@@ -33,7 +33,7 @@
  * @version 0.83
  **This file is referenced to the java2c-translated MsgDispatcher_MSG.h/c */
 #include "emC/VaArgBuffer_emC.h"
-//#include "emC/Exception.h"
+//#include "emC/Exception_emC.h"
 #include "emC/Formatter_emC.h"
 #include <string.h>
 
@@ -51,13 +51,13 @@ static MemUnit* copyString_VaArgBuffer(VaArgBuffer* ythis, MemUnit* dst, char co
 {
   if(typeArgs[1] == 0)
   { int nrofChars = ( (((MemUnit*)&ythis->data) + sizeof(ythis->data)) - dst) -1;
-    strncpy((char*)dst, text, nrofChars);
+    strcpy_emC((char*)dst, text, nrofChars);
     ((char*)dst)[nrofChars] = 0;
     dst += nrofChars +1;
     *typeArgs = '$';  //direct 0-terminated string.
   }
   else
-  { strncpy((char*)dst, text, 8);
+  { strcpy_emC((char*)dst, text, 8);
     dst += 8;
     *typeArgs = '1';  //direct string 1 unit = 8 chars.
   }
@@ -74,7 +74,7 @@ static MemUnit* copyString_VaArgBuffer(VaArgBuffer* ythis, MemUnit* dst, char co
 void copyFrom_VaArgBuffer(VaArgBuffer* ythis, char const* formatText, Va_listFW src, ThCxt* _thCxt)
 { va_list src_args = src.args;
   if(src.typeArgs != null)
-  { strncpy(ythis->sType, src.typeArgs, sizeof(ythis->sType));
+  { strcpy_emC(ythis->sType, src.typeArgs, sizeof(ythis->sType));
   }
   else if(src.typeArgs == null && strstr(formatText, "%s")!=null)
   { /**no types are given, activity only if the argument list contains a %s,
@@ -170,7 +170,7 @@ METHOD_C void setArg_VaArgBuffer(VaArgBuffer* thiz, int32_t ix, int32_t val, ThC
   thiz->data.v[ix] = val;
 }
 
-#include "genRefl/emC/VaArgBuffer.crefl"
+#include "genRefl/emC/VaArgBuffer_emC.crefl"
 
 
 

@@ -5,7 +5,7 @@
 #include "J1c/StringFunctionsJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "Jc/MathJc.h"  //reference-association: MathJc_s
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data
@@ -781,7 +781,7 @@ int32 lastIndexOfAnyChar_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, i
       , append_z_StringBuilderJc(_tempString2_1, "StringFunctions.lastIndexOfAnyChar - form <0; ", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, from, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktrc, __LINE__); return 0; };
+      ), 0, __LINE__, _thCxt); return 0; };
     
     while(--ii >= from && indexOf_Csc_StringFunctionsJc(/*J2C:static method call*/chars, charAt_CharSeqJc(sq/*J1cT2*/, ii, _thCxt), _thCxt) < 0)
       { }/*pre-decrement.*/

@@ -47,7 +47,7 @@
   #include "ObjectJc.h"
 #endif
 
-#include <emC/MemC.h>
+#include <emC/MemC_emC.h>
 
 /**Usage of the BlockHeap management or not and define the size of a block.
  * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
@@ -120,7 +120,7 @@ struct StringBufferJc_t;
  *   SETREF_STRINGJc(dst, value);
  * the ending semicolon is set outside the makro.
  *
- * Implemenation note: A StringJc is defined as OS_ValuePtr, see ,,emC/String.h,,. That definition is presumed here. 
+ * Implemenation note: A StringJc is defined as OS_ValuePtr, see ,,emC/String_emC.h,,. That definition is presumed here. 
  * @param DST The dst StringJc per reference.
  * @param STR The string as value 
  */
@@ -129,7 +129,7 @@ struct StringBufferJc_t;
 
      
 
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 #include <BlockHeap/BlockHeap_emC.h>
 
 

@@ -4,7 +4,7 @@
 #include <Inspc/DataNode_Inspc.h>
 #include <Inspc/FBaccess_Inspc.h>
 #include <string.h>
-#include <fwc/fw_String.h>
+#include <emC/String_emC.h>
 
 
 bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl){
@@ -41,14 +41,14 @@ char const* add_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, Strin
 
 char const* addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* obj, int32* ok_y)
 { 
-  if(*ok_y == 0) {
+  if(ok_y == null || *ok_y == 0) {
     const char* error = null;
     if(!checkObject_DataNode_Inspc(thiz)) { return "input 1 is not a DataNode_Inspc"; }
     if(obj == null || obj->ownAddress != obj || obj->reflectionClass == null) {
       return "input 3: obj is not based on ObjectJc, or it has not reflection information.";
     }
     if(isInitialized_ObjectJc(&thiz->object)) {
-      *ok_y = 1;
+      if(ok_y){ *ok_y = 1; }
       return addObjRefl_DataNode_Inspc(thiz, name1_param, name2_param, obj, obj->reflectionClass);
     } else return null;
   } else return null; //do nothing. 

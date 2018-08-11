@@ -4,7 +4,7 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "emC/Exception.h"
+#include "emC/Exception_emC.h"
 
 
 extern_C const ClassJc reflection_ExceptionJc;  //the just defined reflection_
@@ -141,7 +141,7 @@ const ClassJc reflection_StacktraceJc =
 
 #include "emC/ExceptionDefs.h"
 
-#include "emC/ThreadContext.h"
+#include "emC/ThreadContext_emC.h"
 
 
 extern_C const ClassJc reflection_AddrUsed_ThreadContext_emC;  //the just defined reflection_

@@ -59,7 +59,7 @@
   #define __TRYCPPJc
 
 //#include <emC/ThreadContext_emC.h>
-//#include <emC/Exception.h>
+//#include <emC/Exception_emC.h>
 #include <emC/ExcStacktrcNo_emC.h>
 
 
@@ -116,4 +116,4 @@ INLINE_emC int stopNAN(){ return 0; }
 
 
 
-#endif // __applstdefJc_h__
+#endif // __applstdef_emC_h__

@@ -15,31 +15,44 @@ const struct SuperClasses_FileJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the 
   ClassOffset_idxMtblJc data[1];
 }  superClasses_FileJc_s =   //reflection instance for the super class
 { INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
 
 const struct Reflection_Fields_FileJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[3];
+  FieldJc data[2];
 } reflection_Fields_FileJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_FileJc_s)
-, { { "fileDescription"
-    , 0   //no Array, no Bitfield
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_FileJc_s)
+, {  
+    { "fileDescription"
+    , 0   //no Array, no Bitfield                           
     , &reflection_FileDescription_OSAL                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileJc_s*)(0x1000))->fileDescription) -(int32)(FileJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileJc_s*)(0x1000))->fileDescription)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileJc_s
     }
-  , { "_additionalBuffer_"
-    , 0   //no Array, no Bitfield
+  , 
+    { "_additionalBuffer_"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc)|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileJc_s*)(0x1000))->_additionalBuffer_) -(int32)(FileJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileJc_s*)(0x1000))->_additionalBuffer_)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileJc_s
     }
-    
+  
 } }; 
                                                     
 
@@ -65,7 +78,18 @@ const struct SuperClasses_OutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //Type 
   ClassOffset_idxMtblJc data[1];
 }  superClasses_OutputStreamJc_s =   //reflection instance for the super class
 { INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_OutputStreamJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
 
 const ClassJc reflection_OutputStreamJc_s =
@@ -90,23 +114,35 @@ const struct SuperClasses_FileOutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //T
   ClassOffset_idxMtblJc data[1];
 }  superClasses_FileOutputStreamJc_s =   //reflection instance for the super class
 { INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileOutputStreamJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
 
 const struct Reflection_Fields_FileOutputStreamJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[2];
+  FieldJc data[1];
 } reflection_Fields_FileOutputStreamJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_FileOutputStreamJc_s)
-, { { "file"
-    , 0   //no Array, no Bitfield
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FileOutputStreamJc_s)
+, {  
+    { "file"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileOutputStreamJc_s*)(0x1000))->file) -(int32)(FileOutputStreamJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileOutputStreamJc_s*)(0x1000))->file)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileOutputStreamJc_s
     }
-    
+  
 } }; 
                                                     
 
@@ -132,23 +168,35 @@ const struct SuperClasses_FileWriterJc_s_ClassOffset_idxMtblJcARRAY_t  //Type fo
   ClassOffset_idxMtblJc data[1];
 }  superClasses_FileWriterJc_s =   //reflection instance for the super class
 { INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileWriterJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
 
 const struct Reflection_Fields_FileWriterJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[2];
+  FieldJc data[1];
 } reflection_Fields_FileWriterJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_FileWriterJc_s)
-, { { "file"
-    , 0   //no Array, no Bitfield
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FileWriterJc_s)
+, {  
+    { "file"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileWriterJc_s*)(0x1000))->file) -(int32)(FileWriterJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileWriterJc_s*)(0x1000))->file)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileWriterJc_s
     }
-    
+  
 } }; 
                                                     
 
@@ -169,53 +217,78 @@ const ClassJc reflection_FileWriterJc_s =
 
 extern_C const ClassJc reflection_FileReaderJc_s;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field object
+  
+
+const struct SuperClasses_FileReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_FileReaderJc_s =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileReaderJc_s)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
+};
 
 const struct Reflection_Fields_FileReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[5];
 } reflection_Fields_FileReaderJc_s =
 { CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_FileReaderJc_s)
-, { { "object"
-    , 0   //no Array, no Bitfield
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->object) -(int32)(FileReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->object)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileReaderJc_s
     }
-  , { "file_"
-    , 0   //no Array, no Bitfield
+  , 
+    { "file_"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->file_) -(int32)(FileReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->file_)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileReaderJc_s
     }
-  , { "lenFile_"
-    , 0   //no Array, no Bitfield
+  , 
+    { "lenFile_"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->lenFile_) -(int32)(FileReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->lenFile_)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileReaderJc_s
     }
-  , { "bEof_"
-    , 0   //no Array, no Bitfield
+  , 
+    { "bEof_"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->bEof_) -(int32)(FileReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->bEof_)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileReaderJc_s
     }
-  , { "modCount_"
-    , 0   //no Array, no Bitfield
+  , 
+    { "modCount_"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileReaderJc_s*)(0x1000))->modCount_) -(int32)(FileReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->modCount_)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FileReaderJc_s
     }
-    
+  
 } }; 
                                                     
 
@@ -226,7 +299,7 @@ const ClassJc reflection_FileReaderJc_s =
 , sizeof(FileReaderJc_s)
 , (FieldJcArray const*)&reflection_Fields_FileReaderJc_s  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_FileReaderJc_s  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table
@@ -240,69 +313,96 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field object
 extern_C const ClassJc reflection_MemC;  //used for field buffer
 
 extern_C const ClassJc reflection_FileReaderJc_s;  //used for field input
+  
+
+const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_BufferedReaderJc_s =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_BufferedReaderJc_s)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
+};
 
 const struct Reflection_Fields_BufferedReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[7];
 } reflection_Fields_BufferedReaderJc_s =
 { CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_BufferedReaderJc_s)
-, { { "object"
-    , 0   //no Array, no Bitfield
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BufferedReaderJc_s*)(0x1000))->object) -(int32)(BufferedReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->object)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_BufferedReaderJc_s
     }
-  , { "lenBuffer"
-    , 0   //no Array, no Bitfield
+  , 
+    { "lenBuffer"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BufferedReaderJc_s*)(0x1000))->lenBuffer) -(int32)(BufferedReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->lenBuffer)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_BufferedReaderJc_s
     }
-  , { "lenLine"
-    , 0   //no Array, no Bitfield
+  , 
+    { "lenLine"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BufferedReaderJc_s*)(0x1000))->lenLine) -(int32)(BufferedReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->lenLine)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_BufferedReaderJc_s
     }
-  , { "bFinish"
-    , 0   //no Array, no Bitfield
+  , 
+    { "bFinish"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BufferedReaderJc_s*)(0x1000))->bFinish) -(int32)(BufferedReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->bFinish)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_BufferedReaderJc_s
     }
-  , { "buffer"
-    , 0   //no Array, no Bitfield
+  , 
+    { "buffer"
+    , 0   //no Array, no Bitfield                           
     , &reflection_MemC                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BufferedReaderJc_s*)(0x1000))->buffer) -(int32)(BufferedReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->buffer)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_BufferedReaderJc_s
     }
-  , { "input"
-    , 0   //no Array, no Bitfield
+  , 
+    { "input"
+    , 0   //no Array, no Bitfield                           
     , &reflection_FileReaderJc_s                                                                                            
     , 0|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BufferedReaderJc_s*)(0x1000))->input) -(int32)(BufferedReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->input)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_BufferedReaderJc_s
     }
-  , { "modCountInput"
-    , 0   //no Array, no Bitfield
+  , 
+    { "modCountInput"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BufferedReaderJc_s*)(0x1000))->modCountInput) -(int32)(BufferedReaderJc_s*)0x1000)
+    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->modCountInput)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_BufferedReaderJc_s
     }
-    
+  
 } }; 
                                                     
 
@@ -313,7 +413,7 @@ const ClassJc reflection_BufferedReaderJc_s =
 , sizeof(BufferedReaderJc_s)
 , (FieldJcArray const*)&reflection_Fields_BufferedReaderJc_s  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_BufferedReaderJc_s  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table

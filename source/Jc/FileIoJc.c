@@ -37,7 +37,7 @@
 #include <Jc/FileIoJc.h>
 #include <Jc/ReflectionJc.h>
 #include <Jc/StringJc.h>
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 #include <string.h> //memset
 #include <os_file.h>
 extern_C ClassJc const reflection_FileWriterJc_s;

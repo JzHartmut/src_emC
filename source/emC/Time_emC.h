@@ -37,7 +37,7 @@
 #ifndef __emC_fw_Time_h__
 #define __emC_fw_Time_h__
 #include <applstdef_emC.h>
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 
 
 typedef struct SimTime_emC_t

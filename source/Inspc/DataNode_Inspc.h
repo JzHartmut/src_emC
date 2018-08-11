@@ -1,6 +1,6 @@
 #ifndef __DataNode_Inspc_h__
 #define __DataNode_Inspc_h__
-#include <Fwc/objectBaseC.h>
+#include <emC/Object_emC.h>
 #include <Jc/ReflectionJc.h>
 
 

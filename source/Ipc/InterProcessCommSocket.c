@@ -35,9 +35,8 @@
 
 #include "Ipc/InterProcessCommSocket.h"
 
-#include "emC/basic.h"
-#include "emC/SimpleC.h"
-#include "emC/MemC.h"
+#include "emC/SimpleC_emC.h"
+#include "emC/MemC_emC.h"
 #include <Jc/ObjectJc.h>
 #include <os_endian.h>
 
@@ -136,7 +135,7 @@ Address_InterProcessComm_Socket_s* ctorM_zzi_Address_InterProcessComm_Socket_s(M
   //OS_SOCKADDR* os_SOCKADDR = (OS_SOCKADDR*)ythis->internalData; 
   init0_MemC(rawMem);
   
-  strncpy(ythis->sType, protocol, sizeof(ythis->sType));
+  strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
   
 
@@ -174,7 +173,7 @@ Address_InterProcessComm_Socket_s* ctorM_zii_Address_InterProcessComm_Socket_s(M
   Address_InterProcessComm_Socket_s* ythis = PTR_MemC(rawMem, Address_InterProcessComm_Socket_s);
   init0_MemC(rawMem);
 
-  strncpy(ythis->sType, protocol, sizeof(ythis->sType));
+  strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
   //((OS_SOCKADDR*)ythis->internalData)->sa_family = AF_INET;
   //((OS_SOCKADDR*)ythis->internalData)->sin_port = FW_HTON16((uint16)nPort);               //Speichert nPort in Big endian order
@@ -194,7 +193,7 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessCommSocket(ObjectJc* othis
   STACKTRC_ENTRY("ctorO_Address_InterProcessCommSocket");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &reflection_Address_InterProcessComm_s, _thCxt);
 
-  strncpy(ythis->sType, protocol, sizeof(ythis->sType));
+  strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
   //((OS_SOCKADDR*)ythis->internalData)->sa_family = AF_INET;
   //((OS_SOCKADDR*)ythis->internalData)->sin_port = FW_HTON16((uint16)nPort);               //Speichert nPort in Big endian order
@@ -374,7 +373,7 @@ InterProcessComm_s* ctor_InterProcessCommSocket(InterProcessCommSocket_s* ythis,
                      //, (uint)(((OS_SOCKADDR*)ownAddress->internalData)->ip.sin_addr[3]) & 0xff
                      //, (uint)FW_NTOH16(((OS_SOCKADDR*)ownAddress->internalData)->sin_port)
                      );
-  if((zName > 0) && ((sizeof(ythis->sName) - zName -1) > 0)){ strncpy(ythis->sName + zName, ownAddress->sType, sizeof(ythis->sName) - zName -1); }
+  if((zName > 0) && ((sizeof(ythis->sName) - zName -1) > 0)){ strcpy_emC(ythis->sName + zName, ownAddress->sType, sizeof(ythis->sName) - zName -1); }
 
   //check type in ownAddress, the result is setting of nServerPorts.
   if (strncmp(ownAddress->sType, "UDP", 3) == 0 || strncmp(ownAddress->sType, "udp", 3) == 0)

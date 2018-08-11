@@ -16,23 +16,25 @@ const struct Reflection_Fields_StringJc_Y_t
   FieldJc data[2];
 } reflection_Fields_StringJc_Y =
 { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_StringJc_Y)
-, { { "head"
-    , 0   //no Array, no Bitfield
+, {  
+    { "head"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectArrayJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((StringJc_Y*)(0x1000))->head) -(int32)(StringJc_Y*)0x1000)
+    , (int16)( ((intptr_t)(&((StringJc_Y*)(0x1000))->head)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_StringJc_Y
     }
-  , { "data"
-    , 50 //nrofArrayElements
+  , 
+    { "data"
+    , 50 //nrofArrayElements                           
     , &reflection_StringJc                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((StringJc_Y*)(0x1000))->data) -(int32)(StringJc_Y*)0x1000)
+    , (int16)( ((intptr_t)(&((StringJc_Y*)(0x1000))->data)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_StringJc_Y
     }
-    
+  
 } }; 
                                                     
 
@@ -53,37 +55,60 @@ const ClassJc reflection_StringJc_Y =
 
 extern_C const ClassJc reflection_StringJc_CharSeqJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field base
+  
+
+const struct SuperClasses_StringJc_CharSeqJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_StringJc_CharSeqJc =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_StringJc_CharSeqJc)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "base"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
+};
 
 const struct Reflection_Fields_StringJc_CharSeqJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_StringJc_CharSeqJc =
 { CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_StringJc_CharSeqJc)
-, { { "base"
-    , 0   //no Array, no Bitfield
+, {  
+    { "base"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((StringJc_CharSeqJc*)(0x1000))->base) -(int32)(StringJc_CharSeqJc*)0x1000)
+    , (int16)( ((intptr_t)(&((StringJc_CharSeqJc*)(0x1000))->base)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_StringJc_CharSeqJc
     }
-  , { "s"
-    , 0   //no Array, no Bitfield
+  , 
+    { "s"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StringJc_CharSeqJc*)(0x1000))->s) -(int32)(StringJc_CharSeqJc*)0x1000)
+    , (int16)( ((intptr_t)(&((StringJc_CharSeqJc*)(0x1000))->s)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_StringJc_CharSeqJc
     }
-  , { "length"
-    , 0   //no Array, no Bitfield
+  , 
+    { "length"
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((StringJc_CharSeqJc*)(0x1000))->length) -(int32)(StringJc_CharSeqJc*)0x1000)
+    , (int16)( ((intptr_t)(&((StringJc_CharSeqJc*)(0x1000))->length)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_StringJc_CharSeqJc
     }
-    
+  
 } }; 
                                                     
 
@@ -94,7 +119,7 @@ const ClassJc reflection_StringJc_CharSeqJc =
 , sizeof(StringJc_CharSeqJc)
 , (FieldJcArray const*)&reflection_Fields_StringJc_CharSeqJc  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_StringJc_CharSeqJc  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table
@@ -112,23 +137,25 @@ const struct Reflection_Fields_CharSeqJc_Y_t
   FieldJc data[2];
 } reflection_Fields_CharSeqJc_Y =
 { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_CharSeqJc_Y)
-, { { "head"
-    , 0   //no Array, no Bitfield
+, {  
+    { "head"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectArrayJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((CharSeqJc_Y*)(0x1000))->head) -(int32)(CharSeqJc_Y*)0x1000)
+    , (int16)( ((intptr_t)(&((CharSeqJc_Y*)(0x1000))->head)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_CharSeqJc_Y
     }
-  , { "data"
-    , 50 //nrofArrayElements
+  , 
+    { "data"
+    , 50 //nrofArrayElements                           
     , &reflection_CharSeqJc                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((CharSeqJc_Y*)(0x1000))->data) -(int32)(CharSeqJc_Y*)0x1000)
+    , (int16)( ((intptr_t)(&((CharSeqJc_Y*)(0x1000))->data)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_CharSeqJc_Y
     }
-    
+  
 } }; 
                                                     
 

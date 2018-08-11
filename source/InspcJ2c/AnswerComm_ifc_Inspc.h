@@ -4,14 +4,14 @@
  *************************************************************************/
 #ifndef __InspcJ2c_AnswerComm_ifc_Inspc_h__
 #define __InspcJ2c_AnswerComm_ifc_Inspc_h__
-
-#include "emC/MemC.h"        //basic concept
+#include <applstdef_emC.h>
+#include "emC/MemC_emC.h"        //basic concept
 
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
 
-#include "emC/Exception.h"   //basic concept
+#include "emC/Exception_emC.h"   //basic concept
 
 
 /* J2C: includes *********************************************************/

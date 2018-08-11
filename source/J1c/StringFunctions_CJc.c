@@ -5,7 +5,7 @@
 #include "J1c/StringFunctions_CJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "Jc/StringJc.h"  //embedded type in class data
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 

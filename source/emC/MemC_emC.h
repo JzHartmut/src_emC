@@ -41,7 +41,7 @@
  *  *new: define NULL_MemC()
  *
  ****************************************************************************/
-#ifndef __applstdefJc_h__
+#ifndef __applstdef_emC_h__
   /**This file MemC should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the __MemC_h__ guard should not be set firstly
    * to include the MemC.h in the given order in applstddef.h

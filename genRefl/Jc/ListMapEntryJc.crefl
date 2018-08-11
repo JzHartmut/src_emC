@@ -27,55 +27,61 @@ const struct Reflection_Fields_ListMapEntryJc_t
   FieldJc data[6];
 } reflection_Fields_ListMapEntryJc =
 { CONST_ObjectArrayJc(FieldJc, 6, OBJTYPE_FieldJc, null, &reflection_Fields_ListMapEntryJc)
-, { { "parent"
-    , 0   //no Array, no Bitfield
+, {  
+    { "parent"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc_t                                                                                            
     , 0|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ListMapEntryJc*)(0x1000))->parent) -(int32)(ListMapEntryJc*)0x1000)
+    , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->parent)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ListMapEntryJc
     }
-  , { "previous"
-    , 0   //no Array, no Bitfield
+  , 
+    { "previous"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc_t                                                                                            
     , 0|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ListMapEntryJc*)(0x1000))->previous) -(int32)(ListMapEntryJc*)0x1000)
+    , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->previous)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ListMapEntryJc
     }
-  , { "next"
-    , 0   //no Array, no Bitfield
+  , 
+    { "next"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc_t                                                                                            
     , 0|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ListMapEntryJc*)(0x1000))->next) -(int32)(ListMapEntryJc*)0x1000)
+    , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->next)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ListMapEntryJc
     }
-  , { "allocater"
-    , 0   //no Array, no Bitfield
+  , 
+    { "allocater"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ListMapEntryJc*)(0x1000))->allocater) -(int32)(ListMapEntryJc*)0x1000)
+    , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->allocater)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ListMapEntryJc
     }
-  , { "key"
-    , 0   //no Array, no Bitfield
+  , 
+    { "key"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ListMapEntryJc*)(0x1000))->key) -(int32)(ListMapEntryJc*)0x1000)
+    , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->key)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ListMapEntryJc
     }
-  , { "element"
-    , 0   //no Array, no Bitfield
+  , 
+    { "element"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ListMapEntryJc*)(0x1000))->element) -(int32)(ListMapEntryJc*)0x1000)
+    , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->element)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ListMapEntryJc
     }
-    
+  
 } }; 
                                                     
 

@@ -5,13 +5,13 @@
 #ifndef __Ipc2c_InterProcessCommRxExec_Ipc_h__
 #define __Ipc2c_InterProcessCommRxExec_Ipc_h__
 
-#include "emC/MemC.h"        //basic concept
+#include "emC/MemC_emC.h"        //basic concept
 
 #include "Jc/ObjectJc.h"        //basic concept
 
 #include "Jc/StringJc.h"        //used often
 
-#include "emC/Exception.h"   //basic concept
+#include "emC/Exception_emC.h"   //basic concept
 
 
 /* J2C: Forward declaration of struct ***********************************************/

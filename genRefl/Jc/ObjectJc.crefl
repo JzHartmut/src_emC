@@ -6,24 +6,89 @@
 #include <stddef.h>
 
 
-extern_C const ClassJc reflection_ComparableJc;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_ComparableJc_base;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_ObjectJc;  //used for field object
+  
 
-const struct SuperClasses_ComparableJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_ComparableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
-}  superClasses_ComparableJc =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_ComparableJc)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+}  superClasses_ComparableJc_base =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_ComparableJc_base)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
+
+const struct Reflection_Fields_ComparableJc_base_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_ComparableJc_base =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ComparableJc_base)
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_ObjectJc                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((ComparableJc*)(0x1000))->base.object)) - ((intptr_t)(&((ComparableJc*)(0x1000))->base)) )
+    , 0  //offsetToObjectifcBase
+    , &reflection_ComparableJc_base
+    }
+  
+} }; 
+                                                    
+
+const ClassJc reflection_ComparableJc_base =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ComparableJc_base, &reflection_ClassJc)
+, "ComparableJc_base"
+, 0
+, sizeof(((ComparableJc*)0x1000)->base)
+, (FieldJcArray const*)&reflection_Fields_ComparableJc_base  //attributes and associations
+, null  //method      
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_ComparableJc_base  //superclass  
+, null  //interfaces  
+, 0 
+, null  //virtual table
+};
+
+
+
+extern_C const ClassJc reflection_ComparableJc;  //the just defined reflection_ used in the own fields.
+const struct Reflection_Fields_ComparableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_ComparableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ComparableJc)
+, {  
+    { "base"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_ComparableJc_base                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((ComparableJc*)(0x1000))->base)) -0x1000 )
+    , 0  //offsetToObjectifcBase
+    , &reflection_ComparableJc
+    }
+  
+} }; 
+                                                    
 
 const ClassJc reflection_ComparableJc =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ComparableJc, &reflection_ClassJc)
 , "ComparableJc"
 , 0
 , sizeof(ComparableJc)
-, null  //attributes and associations
+, (FieldJcArray const*)&reflection_Fields_ComparableJc  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_ComparableJc  //superclass  
+, null  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table
@@ -31,24 +96,89 @@ const ClassJc reflection_ComparableJc =
 
 
 
-extern_C const ClassJc reflection_CloseableJc;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_CloseableJc_base;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_ObjectJc;  //used for field object
+  
 
-const struct SuperClasses_CloseableJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_CloseableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
-}  superClasses_CloseableJc =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_CloseableJc)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+}  superClasses_CloseableJc_base =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_CloseableJc_base)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
+
+const struct Reflection_Fields_CloseableJc_base_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_CloseableJc_base =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_CloseableJc_base)
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_ObjectJc                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((CloseableJc*)(0x1000))->base.object)) - ((intptr_t)(&((CloseableJc*)(0x1000))->base)) )
+    , 0  //offsetToObjectifcBase
+    , &reflection_CloseableJc_base
+    }
+  
+} }; 
+                                                    
+
+const ClassJc reflection_CloseableJc_base =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_CloseableJc_base, &reflection_ClassJc)
+, "CloseableJc_base"
+, 0
+, sizeof(((CloseableJc*)0x1000)->base)
+, (FieldJcArray const*)&reflection_Fields_CloseableJc_base  //attributes and associations
+, null  //method      
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_CloseableJc_base  //superclass  
+, null  //interfaces  
+, 0 
+, null  //virtual table
+};
+
+
+
+extern_C const ClassJc reflection_CloseableJc;  //the just defined reflection_ used in the own fields.
+const struct Reflection_Fields_CloseableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_CloseableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_CloseableJc)
+, {  
+    { "base"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_CloseableJc_base                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((CloseableJc*)(0x1000))->base)) -0x1000 )
+    , 0  //offsetToObjectifcBase
+    , &reflection_CloseableJc
+    }
+  
+} }; 
+                                                    
 
 const ClassJc reflection_CloseableJc =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_CloseableJc, &reflection_ClassJc)
 , "CloseableJc"
 , 0
 , sizeof(CloseableJc)
-, null  //attributes and associations
+, (FieldJcArray const*)&reflection_Fields_CloseableJc  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_CloseableJc  //superclass  
+, null  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table
@@ -56,24 +186,89 @@ const ClassJc reflection_CloseableJc =
 
 
 
-extern_C const ClassJc reflection_FlushableJc;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_FlushableJc_base;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_ObjectJc;  //used for field object
+  
 
-const struct SuperClasses_FlushableJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_FlushableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
-}  superClasses_FlushableJc =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FlushableJc)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+}  superClasses_FlushableJc_base =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FlushableJc_base)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
+
+const struct Reflection_Fields_FlushableJc_base_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_FlushableJc_base =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FlushableJc_base)
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_ObjectJc                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((FlushableJc*)(0x1000))->base.object)) - ((intptr_t)(&((FlushableJc*)(0x1000))->base)) )
+    , 0  //offsetToObjectifcBase
+    , &reflection_FlushableJc_base
+    }
+  
+} }; 
+                                                    
+
+const ClassJc reflection_FlushableJc_base =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FlushableJc_base, &reflection_ClassJc)
+, "FlushableJc_base"
+, 0
+, sizeof(((FlushableJc*)0x1000)->base)
+, (FieldJcArray const*)&reflection_Fields_FlushableJc_base  //attributes and associations
+, null  //method      
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_FlushableJc_base  //superclass  
+, null  //interfaces  
+, 0 
+, null  //virtual table
+};
+
+
+
+extern_C const ClassJc reflection_FlushableJc;  //the just defined reflection_ used in the own fields.
+const struct Reflection_Fields_FlushableJc_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_FlushableJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FlushableJc)
+, {  
+    { "base"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_FlushableJc_base                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((FlushableJc*)(0x1000))->base)) -0x1000 )
+    , 0  //offsetToObjectifcBase
+    , &reflection_FlushableJc
+    }
+  
+} }; 
+                                                    
 
 const ClassJc reflection_FlushableJc =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FlushableJc, &reflection_ClassJc)
 , "FlushableJc"
 , 0
 , sizeof(FlushableJc)
-, null  //attributes and associations
+, (FieldJcArray const*)&reflection_Fields_FlushableJc  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_FlushableJc  //superclass  
+, null  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table
@@ -81,24 +276,89 @@ const ClassJc reflection_FlushableJc =
 
 
 
-extern_C const ClassJc reflection_AppendableJc_s;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_AppendableJc_base;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_ObjectJc;  //used for field object
+  
 
-const struct SuperClasses_AppendableJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_AppendableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
-}  superClasses_AppendableJc_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_AppendableJc_s)
-  , { &reflection_ObjectJc, 0} //TODO Index of mtbl of superclass
+}  superClasses_AppendableJc_base =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_AppendableJc_base)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
 };
+
+const struct Reflection_Fields_AppendableJc_base_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_AppendableJc_base =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_AppendableJc_base)
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_ObjectJc                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((AppendableJc*)(0x1000))->base.object)) - ((intptr_t)(&((AppendableJc*)(0x1000))->base)) )
+    , 0  //offsetToObjectifcBase
+    , &reflection_AppendableJc_base
+    }
+  
+} }; 
+                                                    
+
+const ClassJc reflection_AppendableJc_base =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AppendableJc_base, &reflection_ClassJc)
+, "AppendableJc_base"
+, 0
+, sizeof(((AppendableJc*)0x1000)->base)
+, (FieldJcArray const*)&reflection_Fields_AppendableJc_base  //attributes and associations
+, null  //method      
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_AppendableJc_base  //superclass  
+, null  //interfaces  
+, 0 
+, null  //virtual table
+};
+
+
+
+extern_C const ClassJc reflection_AppendableJc_s;  //the just defined reflection_ used in the own fields.
+const struct Reflection_Fields_AppendableJc_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} reflection_Fields_AppendableJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_AppendableJc_s)
+, {  
+    { "base"
+    , 0   //no Array, no Bitfield                           
+    , &reflection_AppendableJc_base                                                                                            
+    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((AppendableJc_s*)(0x1000))->base)) -0x1000 )
+    , 0  //offsetToObjectifcBase
+    , &reflection_AppendableJc_s
+    }
+  
+} }; 
+                                                    
 
 const ClassJc reflection_AppendableJc_s =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AppendableJc_s, &reflection_ClassJc)
 , "AppendableJc_s"
 , 0
 , sizeof(AppendableJc_s)
-, null  //attributes and associations
+, (FieldJcArray const*)&reflection_Fields_AppendableJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_AppendableJc_s  //superclass  
+, null  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table

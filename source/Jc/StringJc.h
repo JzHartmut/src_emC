@@ -30,7 +30,7 @@
  *
  * @version 0.96
  * @content Definition of String processing Java-like
- *   Note: The included file emC/String.h contains the definition of the type StringJc
+ *   Note: The included file emC/String_emC.h contains the definition of the type StringJc
  *   and basicly access macros. If any routines from the Fwc-Level (Framework C)
  *   uses this type to reference a character field with given length, it need not include 
  *   the full definitions given here, but only the basicly things.
@@ -877,7 +877,7 @@ typedef struct StringJc_CharSeqJc_t
 
 /**A CharSeqJc is the same as StringJc. The difference is: The reference type can be also an ObjectJc*, 
  * whereby the ObjectJc-instance should implement the CharSeqJc interface. 
- * ,,#define CharSeqJc StringJc is contained in <emC/String.h>
+ * ,,#define CharSeqJc StringJc is contained in <emC/String_emC.h>
  */
 
 

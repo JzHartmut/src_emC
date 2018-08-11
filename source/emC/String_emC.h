@@ -36,7 +36,7 @@
  * @changes
  * 2010-02-01 Hartmut new: _CHARS_StringJc(REF) to access the character pointer for internal access
  *************************************************************************************************/
-#ifndef __applstdefJc_h__
+#ifndef __applstdef_emC_h__
   /**This file should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the __guard__ 
    * should not be set firstly to include the MemC.h in the given order in applstddef.h
@@ -238,7 +238,7 @@ extern_C double parseDouble_emC(const char* src, int size, int* parsedChars);
  * Where a instance of ,,StringJc,, references such an text. The type ,,StringJc,, consists of the pointer to the text, its length
  * and some other bits, especially the ''persistent''-bit.
  *
- * The headerfile ,,emC/String.h,, defines the type and some basicly functionalities
+ * The headerfile ,,emC/String_emC.h,, defines the type and some basicly functionalities
  * to use a StringJc-instance in a low independent level to refer a text..
  * This headerfile against that defines the typically String functionality,
  * which followes the [[sunJavadoc/java/lang/String]] class-functinality. 
@@ -406,7 +406,7 @@ extern StringJc const null_StringJc;
  *           In Java it is able to write at example ,,"checkChars".indexOf(ch),, to convert a char into a index-number.
  *           The same it is able to write using ,,indexOf_C_StringJc(z_StringJc("checkChars"), ch),, in C javalike.
  */
-INLINE_emC StringJc z_StringJc(char const* src)
+inline StringJc z_StringJc(char const* src)
 { StringJc ret;
   int size = strlen_emC(src, kMaxNrofChars_StringJc);
   set_OS_PtrValue(ret, src, size); 
@@ -431,7 +431,7 @@ INLINE_emC StringJc z_StringJc(char const* src)
  * * If it is <= -2, the length of src is count and the length is shortenend by (-length+1). -2: The last char is truncated etc.  
  * @return StringJc-instance per value, it is hold in 2 register by most of C-compilers and therefore effective.
  */
-INLINE_emC StringJc zI_StringJc(char const* src, int len)
+inline StringJc zI_StringJc(char const* src, int len)
 { StringJc ret;
   if(len < 0){ len = strlen_emC(src, kMaxNrofChars_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
   else if(len >= mLength__StringJc) { len = mLength__StringJc -1; }  //limit it to max. 
@@ -455,7 +455,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
  * inside the given length.
  * @return The length of the string.
  */
-INLINE_emC int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
+inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if(val < kMaxNrofChars_StringJc) { 
@@ -479,7 +479,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
  * In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked. 
  * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the 
  */
-INLINE_emC char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
+inline char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
 {
 #ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
@@ -1118,7 +1118,7 @@ METHOD_C StringBuilderJc* append_u_StringBuilderJc(StringBuilderJc* ythis, Strin
  * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc immediately
  * which runs fast.
  */
-INLINE_emC CharSeqJc toCharSeqJc_StringBuilderJc(struct StringBuilderJc_t const* thiz)
+inline CharSeqJc toCharSeqJc_StringBuilderJc(struct StringBuilderJc_t const* thiz)
 { CharSeqJc ret;
   set_OS_PtrValue(ret, thiz, kIsStringBuilder_CharSeqJc); 
   return ret;
@@ -1128,11 +1128,11 @@ INLINE_emC CharSeqJc toCharSeqJc_StringBuilderJc(struct StringBuilderJc_t const*
 #define fromStringBuilderJc_CharSeqJc(THIZ) toCharSeqJc_StringBuilderJc(THIZ)
 
 
-/*@DEFINE_C Inlines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@inline @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**StringJc : Additional to StringJc after definiton of [[length_StringBuilderJc(...)]]. */
 
-
-INLINE_emC int length_StringJc(StringJc thiz)  //INLINE
+inline int length_StringJc(StringJc thiz)  //INLINE
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if (val < kMaxNrofChars_StringJc) {
@@ -1152,7 +1152,7 @@ INLINE_emC int length_StringJc(StringJc thiz)  //INLINE
 }
 
 
-
+/*@END*/
 
 
 

@@ -44,10 +44,10 @@
 #define __InterProcessComm_h__
 
 /**The following file defines struct Object_Jc and class ObjectifcBase_Jcpp. */
-#include <Fwc/objectBaseC.h>
-#include <emC/MemC.h>
-#include <emC/String.h>
-#include <emC/Exception.h>
+#include <emC/Object_emC.h>
+#include <emC/MemC_emC.h>
+#include <emC/String_emC.h>
+#include <emC/Exception_emC.h>
 
 struct InterProcessComm_t;
 struct AddressInterProcessComm_t;

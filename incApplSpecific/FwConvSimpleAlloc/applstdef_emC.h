@@ -1,5 +1,5 @@
-#ifndef __applstdefJc_h__
-#define __applstdefJc_h__
+#ifndef __applstdef_emC_h__
+#define __applstdef_emC_h__
 
 //Uncomment to check whether used:
 //#error Uses FwConvC32/applstdef_emC.h
@@ -49,7 +49,7 @@
   #define __TRYCPPJc
 
 #include <emC/threadContext.h>
-#include <emC/Exception.h>
+#include <emC/Exception_emC.h>
 //#include <emC/ExcStacktrcNo.h>
 
 
@@ -107,4 +107,4 @@ INLINE_emC int stopNAN(){ return 0; }
 
 
 
-#endif // __applstdefJc_h__
+#endif // __applstdef_emC_h__

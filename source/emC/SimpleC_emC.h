@@ -45,7 +45,7 @@
  * 2007-10-00: JcHartmut creation
  *
  ****************************************************************************/
-#ifndef __applstdefJc_h__
+#ifndef __applstdef_emC_h__
   /**This file fw_SimpleC.h should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the __simpleC_h__ guard should not be set firstly
    * to include the fw_SimpleC.h in the given order in applstddef.h

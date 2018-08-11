@@ -33,7 +33,7 @@
 
 
 /**If only this file is included, include all files of this concept. */
-#ifndef __applstdefJc_h__
+#ifndef __applstdef_emC_h__
   #include <applstdef_emC.h>
 #endif
 

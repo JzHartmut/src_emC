@@ -5,7 +5,7 @@
 #include "InspcJ2c/CmdExecuter_Inspc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "InspcJ2c/CmdConsumer_ifc_Inspc.h"  //reference-association: cmdConsumerMtbl
 #include "InspcJ2c/Comm_Inspc.h"  //reference-association: comm
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc

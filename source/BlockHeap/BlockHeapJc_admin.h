@@ -61,7 +61,7 @@ struct NodePoolJc_t;
  */
 typedef struct BlockHeap_emC_t
 {
-  union{ ObjectJc object;} base;
+  ObjectJc object;
 
   struct BlockHeap_emC_t* nextHeap;
 

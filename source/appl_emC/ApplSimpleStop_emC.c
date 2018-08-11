@@ -45,7 +45,7 @@
 #include <os_time.h>
 #include <os_error.h>
 #include <os_thread.h>
-//#include <emC/Exception.h>
+//#include <emC/Exception_emC.h>
 #include <stdio.h>
 #include <stdlib.h>  //exit
 

@@ -45,7 +45,7 @@
 #define JAVACPP_LINKEDLIST_H_
 
 #include "Jc/ObjectJc.h"
-#include "emC/Exception.h"
+#include "emC/Exception_emC.h"
 
 #ifndef JAVACPP_ABSTRACTLIST_H_
   #include "Jc/AbstractListJc.h"  //includes pkgSystem/Object.h, pkgSystem/String.h

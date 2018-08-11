@@ -8,21 +8,42 @@
 
 extern_C const ClassJc reflection_ListJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field object
+  
+
+const struct SuperClasses_ListJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_ListJc =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_ListJc)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
+};
 
 const struct Reflection_Fields_ListJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } reflection_Fields_ListJc =
 { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ListJc)
-, { { "object"
-    , 0   //no Array, no Bitfield
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ListJc*)(0x1000))->object) -(int32)(ListJc*)0x1000)
+    , (int16)( ((intptr_t)(&((ListJc*)(0x1000))->object)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_ListJc
     }
-    
+  
 } }; 
                                                     
 
@@ -33,7 +54,7 @@ const ClassJc reflection_ListJc =
 , sizeof(ListJc)
 , (FieldJcArray const*)&reflection_Fields_ListJc  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_ListJc  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table
@@ -43,21 +64,42 @@ const ClassJc reflection_ListJc =
 
 extern_C const ClassJc reflection_IteratorJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field object
+  
+
+const struct SuperClasses_IteratorJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_IteratorJc =   //reflection instance for the super class
+{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_IteratorJc)
+  , { &reflection_ObjectJc
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "object"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , 0 //bitModifiers
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
+};
 
 const struct Reflection_Fields_IteratorJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } reflection_Fields_IteratorJc =
 { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_IteratorJc)
-, { { "object"
-    , 0   //no Array, no Bitfield
+, {  
+    { "object"
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((IteratorJc*)(0x1000))->object) -(int32)(IteratorJc*)0x1000)
+    , (int16)( ((intptr_t)(&((IteratorJc*)(0x1000))->object)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_IteratorJc
     }
-    
+  
 } }; 
                                                     
 
@@ -68,7 +110,7 @@ const ClassJc reflection_IteratorJc =
 , sizeof(IteratorJc)
 , (FieldJcArray const*)&reflection_Fields_IteratorJc  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_IteratorJc  //superclass  
 , null  //interfaces  
 , 0 
 , null  //virtual table

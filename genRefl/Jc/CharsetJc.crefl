@@ -14,15 +14,16 @@ const struct Reflection_Fields_CharsetJc_t
   FieldJc data[1];
 } reflection_Fields_CharsetJc =
 { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_CharsetJc)
-, { { "name"
-    , 0   //no Array, no Bitfield
+, {  
+    { "name"
+    , 0   //no Array, no Bitfield                           
     , &reflection_StringJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((CharsetJc*)(0x1000))->name) -(int32)(CharsetJc*)0x1000)
+    , (int16)( ((intptr_t)(&((CharsetJc*)(0x1000))->name)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_CharsetJc
     }
-    
+  
 } }; 
                                                     
 

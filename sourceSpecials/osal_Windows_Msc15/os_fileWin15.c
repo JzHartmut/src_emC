@@ -40,7 +40,7 @@
 //#define USE_LoLevelFileIo
 
 #include <OSAL/os_error.h>
-#include <emC/String.h>
+#include <emC/String_emC.h>
 
 #undef BOOL
 #undef PBOOL

@@ -5,7 +5,7 @@
 #include "J1c/StringPartJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception.h>  //basic stacktrace concept
+#include <emC/Exception_emC.h>  //basic stacktrace concept
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
 #include "Jc/AssertJc.h"  //reference-association: DebugutilJc_s
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
@@ -562,7 +562,7 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
       , append_z_StringBuilderJc(_tempString2_1, "StringPartBase.subString - faulty;", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, from, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, &_thCxt->stacktrc, __LINE__); };
+      ), 0, __LINE__, _thCxt); };
     activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -2833,7 +2833,7 @@ void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc 
   
   { 
     
-    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, sMsg, 0, &_thCxt->stacktrc, __LINE__); };
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, sMsg, 0, __LINE__, _thCxt); };
   }
   STACKTRC_LEAVE;
 }
@@ -2844,7 +2844,7 @@ void throwIllegalArgumentException_StringPartJc(/*J2C:static method*/ StringJc m
   
   { 
     
-    { throw_sJc(ident_IllegalArgumentExceptionJc, msg, value, &_thCxt->stacktrc, __LINE__); };
+    { throw_sJc(ident_IllegalArgumentExceptionJc, msg, value, __LINE__, _thCxt); };
   }
   STACKTRC_LEAVE;
 }
