@@ -306,11 +306,13 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
   * @param REFLECTION maybe null, the reflection class of the constant object.
   * @param IDENT may be 0, see attribute ,,objectIdentSize,,. 
   * The value of this argument will be written to the bits 31..16 of base.objectIdentSize. It means the value is shifted to left. 
-  * The size bits are calculated with sizeof(OBJ) and are written to base.objectIdentSize too right aligend to bit 0.
+  * The size bits are calculated with sizeof(OBJ) and are written to base.objectIdentSize too, right aligend to bit 0.
   * It means, the value 0 for this argument leads to store the size of the OBJ only.
-  * * If the sizeof(OBJ) may be > 64k, you should provide a value other than 0 in the form 
   *
-  * @since 2016-04: the better form.
+  * If the sizeof(OBJ) may be > 64k, you should provide a value other than 0 using the macros 
+  * [[MASKID_MediumSize_ObjectJc(...)]] and [[MASKID_LargeSize_ObjectJc(...)]]
+  *
+  * @since 2018-08: the better form.
 */
 #define INIZ_objReflId_ObjectJc(OBJ, REFL, ID) { {(ObjectJc*)&(OBJ)} , { REFL } , {{sizeof(OBJ) | ((ID)<<kBitTypeSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
 #define INITIALIZER_ObjectJc(OBJ, REFLECTION, IDENT) INIT_OBJ_REFL_ID_ObjectJc(OBJ, REFLECTION, IDENT)

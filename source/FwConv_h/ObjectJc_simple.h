@@ -81,6 +81,33 @@ typedef struct  ObjectJc_t
 /**Initialize only the instanceId. */
 #define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, { (char const*)(REFLECTION)} }
 
+
+/** Macro for constant initialization with a IDENT and a given reflection class.
+* Use it to initialize global or stack variables in form:
+* * ,,Type myData = { INIZ_objReflId_ObjectJc( myData, &reflection_Type, 123), furtherData };,,
+* * ,,Type myData = { { INIZ_objReflId_ObjectJc( myData, &reflection_Type), 123 }, furtherData};,,
+* if the definition starts with a union{ ObjectJc obj;} base;
+* You should use that {} -level which is related to the position of the ObjectJc-data in the instance.
+* * ,,TypeDerived data = { { INIZ_DerivedData(data, &reflection_TypeDerived, 0, furtherArgs)}, furtherData};,,
+* for a derived struct which have an adequate INIZ macro.
+* * ,,Type myData2 = { INIZ_objReflId_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
+* @param OBJ the variable to initialize itself to gets its size.
+*        Note: The size of the OBJ must be lesser than 64 kByte (see [[mSizeSmall_objectIdentSize_ObjectJc]]
+* @param REFLECTION maybe null, the reflection class of the constant object.
+* @param IDENT may be 0, see attribute ,,objectIdentSize,,.
+* The value of this argument will be written to the bits 31..16 of instanceId. It means the value is shifted to left.
+* The size bits are calculated with sizeof(OBJ) and are written to instanceId too, right aligend to bit 0.
+* It means, the value 0 for this argument leads to store the size of the OBJ only.
+* 
+* If the sizeof(OBJ) may be > 64k, you should provide a value other than 0 in the form
+*
+*
+* @since 2016-04: the better form.
+*/
+#define INIZ_objReflId_ObjectJc(OBJ, REFL, ID)  { ((ID)<<16) + sizeof(OBJ), { (char const*)(REFL)} }
+
+
+
 /**Initialization of the basicly data of Object.
  * This method should be used for all instances.
  * @param addrInstance: The address of the instance itself, which contains ObjectJc. In C++ the instance address doesn't may be the same as ythis.
