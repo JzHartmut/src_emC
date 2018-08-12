@@ -238,7 +238,8 @@ typedef union State_ObjectJc_t
    * The headerfile <emC/Object_emC.h> contains the definition of this ,,struct ObjectJc,, for common usage in C-Sources
    * which does not use concepts of ,,ObjectJc,, but should know this embedded struct. 
    * Some definitions and methods are common use-able, that methods are contained here too. 
-   * @since 2016-12: The struct is changed, but the number of bytes are held identically. 
+   * @since 2016-12: The struct is changed, but the number of bytes are held identically. They are 24 Byte or 3 8-Byte-words.
+   * Because 64 bit technology :
    * * pointers are 64 bit on pc, use union for own Address.
    * * instead memoryMng - pointer store a handle, 16 or 8 bit are enough, yet 32 bit.
    * * dummy for further using is removed.
@@ -293,17 +294,44 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
 
 /** Macro for constant initialization with a IDENT and a given reflection class.
   * Use it to initialize global or stack variables in form:
-  * ,,Type myData = { INITIALIZER_ObjectJc( myData, 123, &reflection_Type), furtherData };,,
-  * ,,Type myData = { { INITIALIZER_ObjectJc( myData, 123, &reflection_Type) }, furtherData};,,
+  * * ,,Type myData = { INIZ_objReflId_ObjectJc( myData, &reflection_Type, 123), furtherData };,,
+  * * ,,Type myData = { { INIZ_objReflId_ObjectJc( myData, &reflection_Type), 123 }, furtherData};,, 
+  * if the definition starts with a union{ ObjectJc obj;} base;
   * You should use that {} -level which is related to the position of the ObjectJc-data in the instance.
-  * ,,Type myData2 = { INITIALIZER_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
-  * @param INSTANCE the variable to initialize itself to store its address and gets its size. 
-  *        Note: The size of the INSTANCE must be lesser than 64 kByte (see [[mSizeSmall_objectIdentSize_ObjectJc]]
-  * @param IDENT may be 0, see attribute ,,objectIdentSize,,. The size bits will be completed. 
+  * * ,,TypeDerived data = { { INIZ_DerivedData(data, &reflection_TypeDerived, 0, furtherArgs)}, furtherData};,,
+  * for a derived struct which have an adequate INIZ macro.
+  * * ,,Type myData2 = { INIZ_objReflId_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
+  * @param OBJ the variable to initialize itself to store its address and gets its size. 
+  *        Note: The size of the OBJ must be lesser than 64 kByte (see [[mSizeSmall_objectIdentSize_ObjectJc]]
   * @param REFLECTION maybe null, the reflection class of the constant object.
+  * @param IDENT may be 0, see attribute ,,objectIdentSize,,. 
+  * The value of this argument will be written to the bits 31..16 of base.objectIdentSize. It means the value is shifted to left. 
+  * The size bits are calculated with sizeof(OBJ) and are written to base.objectIdentSize too right aligend to bit 0.
+  * It means, the value 0 for this argument leads to store the size of the OBJ only.
+  * * If the sizeof(OBJ) may be > 64k, you should provide a value other than 0 in the form 
+  *
   * @since 2016-04: the better form.
 */
-#define INITIALIZER_ObjectJc(INSTANCE, REFLECTION, IDENT) { {(ObjectJc*)&(INSTANCE)} , { REFLECTION } , {{sizeof(INSTANCE) | (IDENT<<kBitTypeSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
+#define INIZ_objReflId_ObjectJc(OBJ, REFL, ID) { {(ObjectJc*)&(OBJ)} , { REFL } , {{sizeof(OBJ) | ((ID)<<kBitTypeSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
+#define INITIALIZER_ObjectJc(OBJ, REFLECTION, IDENT) INIT_OBJ_REFL_ID_ObjectJc(OBJ, REFLECTION, IDENT)
+
+
+
+/**This macro should be used for the ID if the size of OBJ might be up to 1 MByte in Memory.
+* It is for composite struct definition (whole data of an application).
+* The ID information should in range 0..255 only. It is shifted to the bits 27..20 if ObjectJc::base.objectIdentSize.
+* The bits 29, 28 are set t0 01. It is [[kIsMediumSize_objectIdentSize_ObjectJc]]
+*/
+#define MASKID_MediumSize_ObjectJc(ID) (((ID)&0xff)<<4 | 0x1000)
+
+/**This macro should be used for the ID if the size of OBJ might be up to 16 MByte in Memory.
+* It is for composite struct definition (whole data of an application).
+* The ID information should in range 0..31 only. It is shifted to the bits 28..24 if ObjectJc::base.objectIdentSize.
+* The bit 29 is set to 1. It is [[mIsLargeSize_objectIdentSize_ObjectJc]]
+*/
+#define MASKID_LargeSize_ObjectJc(ID) (((ID)&0x1f)<<8 | 0x2000)
+
+
 
 /**Initializer for any instance with {0}. Should be used on stack variable especially before they are handled with a ctor...(...).*/
 #define NULL_ObjectJc {0}
@@ -312,7 +340,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
  * Hint: use ,,{INITIALIZER_ObjectJc(...), more data}. 
  * @param OBJ The instance itself. It is used to store the OWNADDRESS and to build sizeof(OBJ) for the ObjectJc-part.
  */
-#define CONST_Instance_ObjectJc(INSTANCE) { INITIALIZER_ObjectJc(INSTANCE, null, 0) }
+#define CONST_Instance_ObjectJc(OBJ) { INITIALIZER_ObjectJc(OBJ, null, 0) }
 
 
 /**Initialization of the basicly data of ObjectJc.
@@ -765,6 +793,17 @@ typedef struct  ObjectArrayJc_t
   { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
 
 
+
+/**Initializer definition of an array based on ObjectArrayJc. The structure should have the following format:
+ * ,,struct { ObjectArrayJc head; Type data[100];} myArray 
+ * ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, &reflection_TYPE, 0) };
+ * @param TYPE the type of the elements, used in sizeof(TYPE) and in reflection##TYPE
+ * @param SIZE number of elements
+ */
+#define INIZ_ObjectArrayJc(OBJ, SIZE, TYPE, REFL, ID) \
+  { INIZ_objReflId_ObjectJc(OBJ, REFL, ID | (mArray_objectIdentSize_ObjectJc >>16)), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
+
+
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 /*@DEFINE_C Arrays of standard types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -930,6 +969,14 @@ C_TYPE typedef struct  FieldJc_t
 }FieldJc;
 
 
+/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
+#define INIZ_ID_FieldJc 0x0ff6
+
+/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
+#define OBJTYPE_FieldJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_FieldJc<<kBitTypeSmall_objectIdentSize_ObjectJc))
+
+#define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
+
 
 
 /*@CLASS_C ClassJc ************************************************************************/
@@ -992,7 +1039,10 @@ C_TYPE typedef struct  ClassJc_t
 #define Class_Jc_t ClassJc_t
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff80000)
+#define INIZ_ID_ClassJc 0x0ff8
+
+/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
+#define OBJTYPE_ClassJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassJc<<kBitTypeSmall_objectIdentSize_ObjectJc))
 
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageJc (mIsLargeSize_objectIdentSize_ObjectJc + 0x1e000000)
@@ -1036,6 +1086,12 @@ typedef struct ClassOffset_idxMtblJcARRAY_t
   /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
   ClassOffset_idxMtblJc data[10];
 }ClassOffset_idxMtblJcARRAY;
+
+/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
+#define INIZ_ID_ClassOffset_idxMtblJc 0x0ff9
+
+/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
+#define OBJTYPE_ClassOffset_idxMtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassOffset_idxMtblJc<<kBitTypeSmall_objectIdentSize_ObjectJc))
 
 
 #endif  //#ifndef __ObjectJc_defined__

@@ -11,7 +11,7 @@ const struct Reflection_Fields_RemoteCpuJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } reflection_Fields_RemoteCpuJc =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_RemoteCpuJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_RemoteCpuJc, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "dummy"
     , 0   //no Array, no Bitfield                           
@@ -24,9 +24,9 @@ const struct Reflection_Fields_RemoteCpuJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_RemoteCpuJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_RemoteCpuJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_RemoteCpuJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "RemoteCpuJc"
 , 0
 , sizeof(RemoteCpuJc)
@@ -34,7 +34,7 @@ const ClassJc reflection_RemoteCpuJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -45,7 +45,7 @@ const struct Reflection_Fields_XXXBitfieldInfo_RemoteCpuJc_b_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_XXXBitfieldInfo_RemoteCpuJc_b =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_XXXBitfieldInfo_RemoteCpuJc_b)
+{ INIZ_ObjectArrayJc(reflection_Fields_XXXBitfieldInfo_RemoteCpuJc_b, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "posBits"
     , (uint16)(0 + (12 << kBitNrofBitsInBitfield_FieldJc))                           
@@ -76,9 +76,9 @@ const struct Reflection_Fields_XXXBitfieldInfo_RemoteCpuJc_b_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_XXXBitfieldInfo_RemoteCpuJc_b =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_XXXBitfieldInfo_RemoteCpuJc_b, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_XXXBitfieldInfo_RemoteCpuJc_b, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "XXXBitfieldInfo_RemoteCpuJc_b"
 , 0
 , sizeof(((XXXBitfieldInfo_RemoteCpuJc*)0x1000)->b)
@@ -86,7 +86,7 @@ const ClassJc reflection_XXXBitfieldInfo_RemoteCpuJc_b =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -97,7 +97,7 @@ const struct Reflection_Fields_XXXBitfieldInfo_RemoteCpuJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_XXXBitfieldInfo_RemoteCpuJc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_XXXBitfieldInfo_RemoteCpuJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_XXXBitfieldInfo_RemoteCpuJc, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "allBits"
     , 0   //no Array, no Bitfield                           
@@ -119,9 +119,9 @@ const struct Reflection_Fields_XXXBitfieldInfo_RemoteCpuJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_XXXBitfieldInfo_RemoteCpuJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_XXXBitfieldInfo_RemoteCpuJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_XXXBitfieldInfo_RemoteCpuJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "XXXBitfieldInfo_RemoteCpuJc"
 , 0
 , sizeof(XXXBitfieldInfo_RemoteCpuJc)
@@ -129,7 +129,7 @@ const ClassJc reflection_XXXBitfieldInfo_RemoteCpuJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -140,7 +140,7 @@ const struct Reflection_Fields_Access1TxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_Access1TxData_ReflMemAccessJc =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_Access1TxData_ReflMemAccessJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_Access1TxData_ReflMemAccessJc, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "cmd"
     , 0   //no Array, no Bitfield                           
@@ -171,9 +171,9 @@ const struct Reflection_Fields_Access1TxData_ReflMemAccessJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_Access1TxData_ReflMemAccessJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Access1TxData_ReflMemAccessJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_Access1TxData_ReflMemAccessJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "Access1TxData_ReflMemAccessJc"
 , 0
 , sizeof(Access1TxData_ReflMemAccessJc)
@@ -181,7 +181,7 @@ const ClassJc reflection_Access1TxData_ReflMemAccessJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -194,7 +194,7 @@ const struct Reflection_Fields_AccessTxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_AccessTxData_ReflMemAccessJc =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_AccessTxData_ReflMemAccessJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_AccessTxData_ReflMemAccessJc, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "heartBeat"
     , 0   //no Array, no Bitfield                           
@@ -225,9 +225,9 @@ const struct Reflection_Fields_AccessTxData_ReflMemAccessJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_AccessTxData_ReflMemAccessJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AccessTxData_ReflMemAccessJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_AccessTxData_ReflMemAccessJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "AccessTxData_ReflMemAccessJc"
 , 0
 , sizeof(AccessTxData_ReflMemAccessJc)
@@ -235,7 +235,7 @@ const ClassJc reflection_AccessTxData_ReflMemAccessJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -246,7 +246,7 @@ const struct Reflection_Fields_Access1RxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_Access1RxData_ReflMemAccessJc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_Access1RxData_ReflMemAccessJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_Access1RxData_ReflMemAccessJc, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "lo"
     , 0   //no Array, no Bitfield                           
@@ -268,9 +268,9 @@ const struct Reflection_Fields_Access1RxData_ReflMemAccessJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_Access1RxData_ReflMemAccessJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Access1RxData_ReflMemAccessJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_Access1RxData_ReflMemAccessJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "Access1RxData_ReflMemAccessJc"
 , 0
 , sizeof(Access1RxData_ReflMemAccessJc)
@@ -278,7 +278,7 @@ const ClassJc reflection_Access1RxData_ReflMemAccessJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -291,7 +291,7 @@ const struct Reflection_Fields_AccessRxData_ReflMemAccessJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_AccessRxData_ReflMemAccessJc =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_AccessRxData_ReflMemAccessJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_AccessRxData_ReflMemAccessJc, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "heartBeat"
     , 0   //no Array, no Bitfield                           
@@ -322,9 +322,9 @@ const struct Reflection_Fields_AccessRxData_ReflMemAccessJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_AccessRxData_ReflMemAccessJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AccessRxData_ReflMemAccessJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_AccessRxData_ReflMemAccessJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "AccessRxData_ReflMemAccessJc"
 , 0
 , sizeof(AccessRxData_ReflMemAccessJc)
@@ -332,7 +332,7 @@ const ClassJc reflection_AccessRxData_ReflMemAccessJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -343,7 +343,7 @@ const struct Reflection_Fields_MemAccessDebugJc_t
 { ObjectArrayJc head;
   FieldJc data[4];
 } reflection_Fields_MemAccessDebugJc =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_MemAccessDebugJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_MemAccessDebugJc, 4, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "cmd"
     , 0   //no Array, no Bitfield                           
@@ -383,9 +383,9 @@ const struct Reflection_Fields_MemAccessDebugJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_MemAccessDebugJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_MemAccessDebugJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_MemAccessDebugJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "MemAccessDebugJc"
 , 0
 , sizeof(MemAccessDebugJc)
@@ -393,7 +393,7 @@ const ClassJc reflection_MemAccessDebugJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -406,7 +406,7 @@ const struct Reflection_Fields_MemAccessArrayDebugJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_MemAccessArrayDebugJc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_MemAccessArrayDebugJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_MemAccessArrayDebugJc, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "ix"
     , 0   //no Array, no Bitfield                           
@@ -428,9 +428,9 @@ const struct Reflection_Fields_MemAccessArrayDebugJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_MemAccessArrayDebugJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_MemAccessArrayDebugJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_MemAccessArrayDebugJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "MemAccessArrayDebugJc"
 , 0
 , sizeof(MemAccessArrayDebugJc)
@@ -438,7 +438,7 @@ const ClassJc reflection_MemAccessArrayDebugJc =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 

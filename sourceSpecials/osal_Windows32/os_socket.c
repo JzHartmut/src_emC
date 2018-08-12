@@ -626,29 +626,6 @@ int os_shutdown (OS_Socket so, int how)
 
 
 
-unsigned short xxxos_htons ( unsigned short hostshort )
-{
-	return htons ( hostshort );
-}
-
-
-unsigned short xxxos_ntohs ( unsigned short netshort )
-{
-	return xxxos_ntohs ( netshort );
-}
-
-
-unsigned long xxxos_htonl ( unsigned long hostlong )
-{
-	return( htonl(hostlong) );
-}
-
-
-unsigned long xxxos_ntohl ( unsigned long netlong )
-{
-	return( ntohl(netlong) );
-}
-
 
 
 

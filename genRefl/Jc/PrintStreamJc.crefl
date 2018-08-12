@@ -16,14 +16,14 @@ const struct SuperClasses_PrintStreamJc_ClassOffset_idxMtblJcARRAY_t  //Type for
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_PrintStreamJc =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_PrintStreamJc)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_PrintStreamJc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -35,7 +35,7 @@ const struct Reflection_Fields_PrintStreamJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_PrintStreamJc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_PrintStreamJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_PrintStreamJc, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "object"
     , 0   //no Array, no Bitfield                           
@@ -57,9 +57,9 @@ const struct Reflection_Fields_PrintStreamJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_PrintStreamJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_PrintStreamJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_PrintStreamJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "PrintStreamJc"
 , 0
 , sizeof(PrintStreamJc)
@@ -67,7 +67,7 @@ const ClassJc reflection_PrintStreamJc =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_PrintStreamJc  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 

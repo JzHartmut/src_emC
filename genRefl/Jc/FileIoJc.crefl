@@ -14,14 +14,14 @@ const struct SuperClasses_FileJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the 
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_FileJc_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileJc_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_FileJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -33,7 +33,7 @@ const struct Reflection_Fields_FileJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_FileJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_FileJc_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_FileJc_s, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "fileDescription"
     , 0   //no Array, no Bitfield                           
@@ -55,9 +55,9 @@ const struct Reflection_Fields_FileJc_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_FileJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FileJc_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_FileJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "FileJc_s"
 , 0
 , sizeof(FileJc_s)
@@ -65,7 +65,7 @@ const ClassJc reflection_FileJc_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_FileJc_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -77,23 +77,23 @@ const struct SuperClasses_OutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //Type 
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_OutputStreamJc_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_OutputStreamJc_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_OutputStreamJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
       }
     }
 };
-
+                                                                   
 const ClassJc reflection_OutputStreamJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OutputStreamJc_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_OutputStreamJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "OutputStreamJc_s"
 , 0
 , sizeof(OutputStreamJc_s)
@@ -101,7 +101,7 @@ const ClassJc reflection_OutputStreamJc_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_OutputStreamJc_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -113,14 +113,14 @@ const struct SuperClasses_FileOutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //T
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_FileOutputStreamJc_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileOutputStreamJc_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_FileOutputStreamJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -132,7 +132,7 @@ const struct Reflection_Fields_FileOutputStreamJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } reflection_Fields_FileOutputStreamJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FileOutputStreamJc_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_FileOutputStreamJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "file"
     , 0   //no Array, no Bitfield                           
@@ -145,9 +145,9 @@ const struct Reflection_Fields_FileOutputStreamJc_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_FileOutputStreamJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FileOutputStreamJc_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_FileOutputStreamJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "FileOutputStreamJc_s"
 , 0
 , sizeof(FileOutputStreamJc_s)
@@ -155,7 +155,7 @@ const ClassJc reflection_FileOutputStreamJc_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_FileOutputStreamJc_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -167,14 +167,14 @@ const struct SuperClasses_FileWriterJc_s_ClassOffset_idxMtblJcARRAY_t  //Type fo
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_FileWriterJc_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileWriterJc_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_FileWriterJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -186,7 +186,7 @@ const struct Reflection_Fields_FileWriterJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } reflection_Fields_FileWriterJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_FileWriterJc_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_FileWriterJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "file"
     , 0   //no Array, no Bitfield                           
@@ -199,9 +199,9 @@ const struct Reflection_Fields_FileWriterJc_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_FileWriterJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FileWriterJc_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_FileWriterJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "FileWriterJc_s"
 , 0
 , sizeof(FileWriterJc_s)
@@ -209,7 +209,7 @@ const ClassJc reflection_FileWriterJc_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_FileWriterJc_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -223,14 +223,14 @@ const struct SuperClasses_FileReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type fo
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_FileReaderJc_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_FileReaderJc_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_FileReaderJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -242,7 +242,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[5];
 } reflection_Fields_FileReaderJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_FileReaderJc_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_FileReaderJc_s, 5, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "object"
     , 0   //no Array, no Bitfield                           
@@ -291,9 +291,9 @@ const struct Reflection_Fields_FileReaderJc_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_FileReaderJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FileReaderJc_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_FileReaderJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "FileReaderJc_s"
 , 0
 , sizeof(FileReaderJc_s)
@@ -301,7 +301,7 @@ const ClassJc reflection_FileReaderJc_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_FileReaderJc_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -319,14 +319,14 @@ const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Typ
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_BufferedReaderJc_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_BufferedReaderJc_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_BufferedReaderJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -338,7 +338,7 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[7];
 } reflection_Fields_BufferedReaderJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_BufferedReaderJc_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_BufferedReaderJc_s, 7, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "object"
     , 0   //no Array, no Bitfield                           
@@ -405,9 +405,9 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_BufferedReaderJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_BufferedReaderJc_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_BufferedReaderJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "BufferedReaderJc_s"
 , 0
 , sizeof(BufferedReaderJc_s)
@@ -415,7 +415,7 @@ const ClassJc reflection_BufferedReaderJc_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_BufferedReaderJc_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 

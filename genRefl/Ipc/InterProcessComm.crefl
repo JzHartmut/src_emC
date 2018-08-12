@@ -12,14 +12,14 @@ const struct SuperClasses_Address_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_Address_InterProcessComm_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_Address_InterProcessComm_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_Address_InterProcessComm_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -31,7 +31,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
 { ObjectArrayJc head;
   FieldJc data[4];
 } reflection_Fields_Address_InterProcessComm_s =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_Address_InterProcessComm_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_Address_InterProcessComm_s, 4, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "address1"
     , 0   //no Array, no Bitfield                           
@@ -71,9 +71,9 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_Address_InterProcessComm_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Address_InterProcessComm_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_Address_InterProcessComm_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "Address_InterProcessComm_s"
 , 0
 , sizeof(Address_InterProcessComm_s)
@@ -81,7 +81,7 @@ const ClassJc reflection_Address_InterProcessComm_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_Address_InterProcessComm_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -93,23 +93,23 @@ const struct SuperClasses_InterProcessCommFactory_s_ClassOffset_idxMtblJcARRAY_t
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_InterProcessCommFactory_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_InterProcessCommFactory_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_InterProcessCommFactory_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
       }
     }
 };
-
+                                                                   
 const ClassJc reflection_InterProcessCommFactory_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_InterProcessCommFactory_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "InterProcessCommFactory_s"
 , 0
 , sizeof(InterProcessCommFactory_s)
@@ -117,7 +117,7 @@ const ClassJc reflection_InterProcessCommFactory_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_InterProcessCommFactory_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -129,23 +129,23 @@ const struct SuperClasses_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_t  //Typ
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_InterProcessComm_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_InterProcessComm_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_InterProcessComm_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
       }
     }
 };
-
+                                                                   
 const ClassJc reflection_InterProcessComm_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_InterProcessComm_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "InterProcessComm_s"
 , 0
 , sizeof(InterProcessComm_s)
@@ -153,7 +153,7 @@ const ClassJc reflection_InterProcessComm_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_InterProcessComm_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -167,14 +167,14 @@ const struct SuperClasses_InterProcessCommCallback_s_ClassOffset_idxMtblJcARRAY_
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_InterProcessCommCallback_s =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_InterProcessCommCallback_s)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_InterProcessCommCallback_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "obj"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -186,7 +186,7 @@ const struct Reflection_Fields_InterProcessCommCallback_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } reflection_Fields_InterProcessCommCallback_s =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessCommCallback_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_InterProcessCommCallback_s, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "obj"
     , 0   //no Array, no Bitfield                           
@@ -199,9 +199,9 @@ const struct Reflection_Fields_InterProcessCommCallback_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_InterProcessCommCallback_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommCallback_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_InterProcessCommCallback_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "InterProcessCommCallback_s"
 , 0
 , sizeof(InterProcessCommCallback_s)
@@ -209,7 +209,7 @@ const ClassJc reflection_InterProcessCommCallback_s =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_InterProcessCommCallback_s  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 

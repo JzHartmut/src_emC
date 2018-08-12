@@ -20,7 +20,7 @@ const struct Reflection_Fields_HandleItem_handle_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_HandleItem_handle =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_HandleItem_handle)
+{ INIZ_ObjectArrayJc(reflection_Fields_HandleItem_handle, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "wait"
     , 0   //no Array, no Bitfield                           
@@ -51,9 +51,9 @@ const struct Reflection_Fields_HandleItem_handle_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_HandleItem_handle =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_HandleItem_handle, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_HandleItem_handle, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "HandleItem_handle"
 , 0
 , sizeof(((HandleItem*)0x1000)->handle)
@@ -61,7 +61,7 @@ const ClassJc reflection_HandleItem_handle =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -75,7 +75,7 @@ const struct Reflection_Fields_HandleItem_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_HandleItem =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_HandleItem)
+{ INIZ_ObjectArrayJc(reflection_Fields_HandleItem, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "handle"
     , 0   //no Array, no Bitfield                           
@@ -106,9 +106,9 @@ const struct Reflection_Fields_HandleItem_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_HandleItem =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_HandleItem, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_HandleItem, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "HandleItem"
 , 0
 , sizeof(HandleItem)
@@ -116,7 +116,7 @@ const ClassJc reflection_HandleItem =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -134,7 +134,7 @@ const struct Reflection_Fields_OsWrapperJc_s_t
 { ObjectArrayJc head;
   FieldJc data[5];
 } reflection_Fields_OsWrapperJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_OsWrapperJc_s)
+{ INIZ_ObjectArrayJc(reflection_Fields_OsWrapperJc_s, 5, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "mutexInitHandle"
     , 0   //no Array, no Bitfield                           
@@ -183,9 +183,9 @@ const struct Reflection_Fields_OsWrapperJc_s_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_OsWrapperJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OsWrapperJc_s, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_OsWrapperJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "OsWrapperJc_s"
 , 0
 , sizeof(OsWrapperJc_s)
@@ -193,7 +193,7 @@ const ClassJc reflection_OsWrapperJc_s =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 

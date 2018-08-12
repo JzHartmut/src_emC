@@ -15,7 +15,7 @@ const struct Reflection_Fields_StringJc_Y_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_StringJc_Y =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_StringJc_Y)
+{ INIZ_ObjectArrayJc(reflection_Fields_StringJc_Y, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "head"
     , 0   //no Array, no Bitfield                           
@@ -37,9 +37,9 @@ const struct Reflection_Fields_StringJc_Y_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_StringJc_Y =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringJc_Y, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_StringJc_Y, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "StringJc_Y"
 , 0
 , sizeof(StringJc_Y)
@@ -47,7 +47,7 @@ const ClassJc reflection_StringJc_Y =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 
@@ -61,14 +61,14 @@ const struct SuperClasses_StringJc_CharSeqJc_ClassOffset_idxMtblJcARRAY_t  //Typ
 { ObjectArrayJc head;
   ClassOffset_idxMtblJc data[1];
 }  superClasses_StringJc_CharSeqJc =   //reflection instance for the super class
-{ INITIALIZER_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, &superClasses_StringJc_CharSeqJc)
-  , { &reflection_ObjectJc
+{ INIZ_ObjectArrayJc(superClasses_StringJc_CharSeqJc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "base"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , 0 //bitModifiers
+      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -80,7 +80,7 @@ const struct Reflection_Fields_StringJc_CharSeqJc_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } reflection_Fields_StringJc_CharSeqJc =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_StringJc_CharSeqJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_StringJc_CharSeqJc, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "base"
     , 0   //no Array, no Bitfield                           
@@ -111,9 +111,9 @@ const struct Reflection_Fields_StringJc_CharSeqJc_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_StringJc_CharSeqJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringJc_CharSeqJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_StringJc_CharSeqJc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "StringJc_CharSeqJc"
 , 0
 , sizeof(StringJc_CharSeqJc)
@@ -121,7 +121,7 @@ const ClassJc reflection_StringJc_CharSeqJc =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_StringJc_CharSeqJc  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 
@@ -136,7 +136,7 @@ const struct Reflection_Fields_CharSeqJc_Y_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_CharSeqJc_Y =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_CharSeqJc_Y)
+{ INIZ_ObjectArrayJc(reflection_Fields_CharSeqJc_Y, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "head"
     , 0   //no Array, no Bitfield                           
@@ -158,9 +158,9 @@ const struct Reflection_Fields_CharSeqJc_Y_t
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_CharSeqJc_Y =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_CharSeqJc_Y, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_CharSeqJc_Y, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "CharSeqJc_Y"
 , 0
 , sizeof(CharSeqJc_Y)
@@ -168,7 +168,7 @@ const ClassJc reflection_CharSeqJc_Y =
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
-, 0 
+, 0   
 , null  //virtual table
 };
 

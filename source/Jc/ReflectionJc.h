@@ -69,13 +69,6 @@ char const* init_ReflectionJc();
 
 
 
-#define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
-
-/**Identifier for ObjectJc to describe: It's a FieldJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_FieldJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0FF50000)
-
-#define OBJTYPE_ClassOffset_idxMtblJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0FF90000)
-
 
 
 //#define const_FieldJc(SNAME, NAME, TYPE, MODI) { /*CONST_ObjectJc(TYPESIZEOF_FieldJc, null), */const_String(SNAME), TYPE, MODI, OFFSET_FieldJc(NAME), &DECLARING_CLASS_FieldJc.reflection }
