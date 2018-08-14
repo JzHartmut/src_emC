@@ -1121,23 +1121,27 @@ int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct 
       theField = theFieldP[0];
       idx = idxP[0];
       addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);
-      setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), 0, kAnswerValue_Inspcitem_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
-      if(obj_MemSegmJc(theObject) != null && theField != null) 
-      { 
-        
-        
-        int32  addr = (int32)getMemoryIdent_FieldJc(theField, theObject, "I", idxP[0]);  //TODO cast in Java, void* may correct
-        addChildInteger_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), 1, kReferenceAddr_InspcDataExchangeAccess_Inspc, _thCxt);/*Set the number of char-bytes in 1 byte*/
-        
-        addChildInteger_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), 4, addr, _thCxt);
+      //changes 2018-04-17 alignment of answer
+      //setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), 0, kAnswerValue_Inspcitem_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
+      if (obj_MemSegmJc(theObject) != null && theField != null)
+      {
+
+
+        int32  addr = getMemoryIdent_FieldJc(theField, theObject, "I", idxP[0]);
+        addChildInteger_ByteDataAccessBaseJc(&((thiz->answerItem).base.super), 1, kReferenceAddr_InspcDataExchangeAccess_Inspc, _thCxt);/*Set the number of char-bytes in 1 byte*/
+
+        addChildInteger_ByteDataAccessBaseJc(&((thiz->answerItem).base.super), 4, addr, _thCxt);
+        addChildInteger_ByteDataAccessBaseJc(&((thiz->answerItem).base.super), 3, 0, _thCxt);   //align to 4
+        int32  nBytesItem = getLength_ByteDataAccessBaseJc(&(((thiz->answerItem)).base.super), _thCxt);
+        setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(&thiz->answerItem, nBytesItem, kAnswerValue_Inspcitem_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
       }
-      else 
-      { 
-        
-        setCmd_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), kFailedValue_Inspcitem_InspcDataExchangeAccess_Inspc);
+      else
+      {
+        setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(&thiz->answerItem, sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, kFailedValue_Inspcitem_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
+
+        //setCmd_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), kFailedValue_Inspcitem_InspcDataExchangeAccess_Inspc);
       }
-      setLength_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), getLength_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), _thCxt));/*the length of the answerItems in byte.*/
-      
+      //setLength_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), getLength_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), _thCxt));/*the length of the answerItems in byte.*/
     }_TRY
     CATCH(ExceptionJc, exc)
     
