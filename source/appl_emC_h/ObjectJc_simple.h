@@ -118,7 +118,7 @@ typedef struct  ObjectJc_t
  * return ythis, the reference of the Object itself.
 */
 //METHOD_C ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
-#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->instanceId = (IDENT); (THIZ)->typeId = SIZE; }
+#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->instanceId = ((IDENT)<<16) + (SIZE); (THIZ)->ptype = *(REFL); }
 
 #define checkStrict_ObjectJc(THIZ, SIZE, IDENT, REFL, THCXT) ( (IDENT) !=0 && (IDENT) != (THIZ)->instanceId ? -1 : (THIZ)->instanceId )
 

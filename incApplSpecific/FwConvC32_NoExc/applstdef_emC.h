@@ -78,9 +78,9 @@
 //#define DEFINED_nrEntries_Handle2Ptr 1000
 
 //PRINTX
-//#include <FwConv_h/definePrintFileMakros.h>
-//#include <FwConv_h/definePrintfMakros.h>
-#include <FwConv_h/definePrintfMakrosEmpty.h>
+//#include <appl_emC_h/definePrintFileMakros.h>
+//#include <appl_emC_h/definePrintfMakros.h>
+#include <appl_emC_h/definePrintfMakrosEmpty.h>
 
 
 //extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);

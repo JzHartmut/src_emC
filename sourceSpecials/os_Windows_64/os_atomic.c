@@ -34,7 +34,7 @@
  *
  ****************************************************************************/
 
-#include <os_AtomicAccess.h>
+#include <OSAL/os_AtomicAccess.h>
 
 #undef int64
 #undef uint64

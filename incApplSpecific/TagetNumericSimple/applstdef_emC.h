@@ -29,7 +29,7 @@
 //#define __cplusplus
 
 /**Including this file the ObjectJc.h is not included, */
-#include <source/FwConv_h/ObjectJc_simple.h>
+#include <source/appl_emC_h/ObjectJc_simple.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
@@ -79,8 +79,8 @@
 
 
 //PRINTX
-#include <FwConv_h/definePrintFileMakros.h>
-//#include <FwConv_h/definePrintfMakros.h>
+#include <appl_emC_h/definePrintFileMakros.h>
+//#include <appl_emC_h/definePrintfMakros.h>
 
 
 extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
