@@ -108,10 +108,10 @@ METHOD_C MemC subset_MemC(MemC parent, int offsetStart, int offsetEnd)
   if(offsetEnd <=0)
   { offsetEnd = size_MemC(parent) - offsetEnd;
   }
-  if(offsetStart >= sizeParent)   THROW_s0(IndexOutOfBoundsException,"offsetStart to large", offsetStart);
-  else if(offsetEnd > sizeParent) THROW_s0(IndexOutOfBoundsException,"offsetEnd to large", offsetEnd);
-  else if(offsetStart < 0)        THROW_s0(IndexOutOfBoundsException,"offsetStart negative", offsetStart);
-  else if(offsetEnd < 0)          THROW_s0(IndexOutOfBoundsException,"offsetEnd negative", offsetEnd);
+  if(offsetStart >= sizeParent)   { THROW_s0(IndexOutOfBoundsException,"offsetStart to large", offsetStart); }
+  else if(offsetEnd > sizeParent) { THROW_s0(IndexOutOfBoundsException,"offsetEnd to large", offsetEnd);     }
+  else if(offsetStart < 0)        { THROW_s0(IndexOutOfBoundsException,"offsetStart negative", offsetStart); }
+  else if(offsetEnd < 0)          { THROW_s0(IndexOutOfBoundsException,"offsetEnd negative", offsetEnd);     }
 
   subSize = offsetEnd - offsetStart;
   subPtr = PTR_MemC(parent, MemUnit) + offsetStart;
@@ -124,10 +124,10 @@ METHOD_C MemC subset_MemC(MemC parent, int offsetStart, int offsetEnd)
 struct MemAreaC_t* address_MemC(MemC mem, int offset, int nrofBytes)
 { int size = size_MemC(mem);
   STACKTRC_ENTRY("address_MemC");
-  if(offset >= size)                 THROW_s0(IndexOutOfBoundsException,"offset to large", offset);
-  else if(offset + nrofBytes > size) THROW_s0(IndexOutOfBoundsException,"nrofBytes to large", nrofBytes);
-  else if(offset < 0)                THROW_s0(IndexOutOfBoundsException,"offset negative", offset);
-  else if(nrofBytes < 0)             THROW_s0(IndexOutOfBoundsException,"nrofBytes negative", offset);
+  if(offset >= size)                 { THROW_s0(IndexOutOfBoundsException,"offset to large", offset);       }
+  else if(offset + nrofBytes > size) { THROW_s0(IndexOutOfBoundsException,"nrofBytes to large", nrofBytes); }
+  else if(offset < 0)                { THROW_s0(IndexOutOfBoundsException,"offset negative", offset);       }
+  else if(nrofBytes < 0)             { THROW_s0(IndexOutOfBoundsException,"nrofBytes negative", offset);    }
   STACKTRC_LEAVE; return (struct MemAreaC_t*)(PTR_MemC(mem, MemUnit) + offset);
 }
 

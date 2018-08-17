@@ -52,13 +52,13 @@ typedef struct ExceptionJc_t
   */
   int32 exceptionNr;
 
-  /**The user message of the exception.
-  */
-  StringJc exceptionMsg;
-
   /**The user value of the exception.
   */
   int32 exceptionValue;
+
+  /**The user message of the exception.
+  */
+  StringJc exceptionMsg;  //note: align-8
 
 }ExceptionJc;
 

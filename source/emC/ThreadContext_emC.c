@@ -40,8 +40,10 @@
  ****************************************************************************/
 #include <emC/ThreadContext_emC.h>
 
+//#include <emC/SimpleC_emC.h>
+#include <OSAL/os_thread.h>
+
 #include <string.h>
-#include <emC/SimpleC_emC.h>
 
 //dependencies:
 //* alloc_MemC referenced in function _getCurrent_ThreadContext_emC

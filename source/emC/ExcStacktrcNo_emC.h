@@ -64,9 +64,23 @@
 //#include <emC/String_emC.h>
 
 
+typedef struct ThreadContext_emC_t {
+  
+  ExceptionJc exc;
+
+  /**Set to 0 on input of matching CATCH block to set exc.exceptionNr to 0 on END_TRY */
+  int32 excNrTestCatch;
+  int32 line;
+  char const* file;
+} ThreadContext_emC_s;
+
+#define ThCxt ThreadContext_emC_s
+
+/**Gets the threadContext in the current state. */
+ThreadContext_emC_s* getCurrent_ThreadContextSimple_emC();
 
 
-#define ThCxt struct ThreadContext_emC_t
+
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
  * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
  */
@@ -79,21 +93,35 @@
 
 #define THCXT null
 
-#define TRY 
-#define _TRY {
-/**The catch-code is never executed. With if(false) the compiler may/should optimize it.
- * But define an empty EXC_OBJ because it may be used in the code to compile time. 
- */
-#define CATCH(EXCEPTION, EXC_OBJ) } { ExceptionJc* EXC_OBJ = null; if(false)
-#define FINALLY
-#define END_TRY }
+#define TRY if(_thCxt == null) { _thCxt = getCurrent_ThreadContextSimple_emC(); }
+#define _TRY { ExceptionJc* _exc = &_thCxt->exc; _thCxt->excNrTestCatch = _exc->exceptionNr; \
+  if(_exc->exceptionNr ==0) { /*empty block till first CATCH if no exception*/
+
+/***/
+#define CATCH(EXCEPTION, EXC_OBJ) } else if(_exc->exceptionNr & mask_##EXCEPTION##Jc) { ExceptionJc* EXC_OBJ = _exc; _thCxt->excNrTestCatch = 0;
+
+#define FINALLY \
+ } /*close CATCH brace */\
+ { /*open to braces because END_TRY.*/
+
+#define END_TRY _exc->exceptionNr = _thCxt->excNrTestCatch; } }  /*closing brace from CATCH and from _TRY*/
 
 /**All THROW() macros force a return. Therewith the behavior of the operation is adequate to Exception handling.
  * But the calling routine is continued. It should check itself for sufficient conditions to work.
  */
 #define THROW(EXCEPTION, STRING, VAL, ...)   { ExceptionJc exc = CONST_ExceptionJc(EXCEPTION, STRING, VAL); log_ExceptionJc(&exc, __FILE__, __LINE__); }
-#define THROW_s0(EXCEPTION, TEXT, VAL, ...)  { ExceptionJc exc = CONST_ExceptionJc(EXCEPTION, CONST_z_StringJc(TEXT), VAL); log_ExceptionJc(&exc, __FILE__, __LINE__); }
+#define XXXTHROW_s0(EXCEPTION, TEXT, VAL, ...)  { ExceptionJc exc = CONST_ExceptionJc(EXCEPTION, CONST_z_StringJc(TEXT), VAL); log_ExceptionJc(&exc, __FILE__, __LINE__); }
 #define THROW_s(EXCEPTION, STRING, VAL, ...) logException_emC(ident_##EXCEPTION##Jc, STRING, VAL, __FILE__, __LINE__) //; return __VA_ARGS__
+
+
+#define THROW_s0(EXCEPTION, TEXT, VAL, ...) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContextSimple_emC(); } \
+  _thCxt->exc.exceptionNr = ident_##EXCEPTION##Jc; _thCxt->exc.exceptionValue = VAL; \
+  _thCxt->exc.exceptionMsg = CONST_z_StringJc(TEXT); \
+  _thCxt->file = __FILE__; _thCxt->line = __LINE__; \
+  log_ExceptionJc(&_thCxt->exc, __FILE__, __LINE__); \
+  _thCxt->exc.exceptionMsg = NULL_StringJc;  /*It may be located in the stack. Don't transfer the pointer! */ \
+}
+
 
 
 /**The routines throw... are replaced by a routine which does not know the exception bit mask

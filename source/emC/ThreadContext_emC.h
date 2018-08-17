@@ -235,20 +235,4 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, struct Threa
 #define ADDR_IN_STACK_ThreadContext_emC(ptr) ((void*)ptr > (void*)&ptr && (void*)ptr < _thCxt->topmemAddrOfStack)
 
 
-/**Gets the user-thread-context of the current thread. The user-thread-context is a memory area,
- * assigned to any thread, which contains thread-local but routine-global data. 
- * The structure of the user-thread-context can be defined in a user-adaption layer. 
- * It should not be defined depending of the users algorithm, but in a common valid kind of users algorithm.
- * @return the pointer and the size of the users thread context. If the users threadcontext
- * was not set, the return structure contains {null, 0}
- */
-#ifndef os_getCurrentUserThreadContext
-METHOD_C PtrVal_MemUnit os_getCurrentUserThreadContext();
-#endif
-
-/**Sets the users thread context. This method can only be called one time for each thread.
- * @return error OS_UNEXPECTED_CALL if the users thread context is set already.
- */
-METHOD_C int os_setCurrentUserThreadContext(OS_PtrValue mem);
-
 #endif //__emC_ThreadContext_emC_h__
