@@ -82,7 +82,7 @@ ThreadContext_emC_s* ctorM_ThreadContext_emC(MemC mthis)
    */
   MemC mStacktraceThreadContext_emC = CONST_MemC(&ythis->stacktrc, size - offsStacktraceThCxt);
 
-  ythis->topmemAddrOfStack = &mthis; //the highest known address
+  ythis->topmemAddrOfStack = (MemUnit*) &mthis; //the highest known address
   ctorM_StacktraceThreadContext_emC(mStacktraceThreadContext_emC);
   return ythis;
 }
@@ -119,6 +119,7 @@ MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, ThreadContext_e
     } else if(size == -1) {
       size = sizeFree/2; 
     }
+    size = (size + 7) & 0xfffffff8;  //align next /8
     while(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) {
       if((_thCxt->bitAddrUsed & mask) ==0) {
         //free found
@@ -186,6 +187,7 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, ThreadContex
       void const* addr = PTR_MemC(_thCxt->addrUsed[ix].used, MemUnit const);
       void const* endAddr = END_MemC(_thCxt->addrUsed[ix].used);
       if(data >= addr && data < endAddr) {
+        init0_MemC(_thCxt->addrUsed[ix].used);  //remove content. Initialize with 0
         _thCxt->addrUsed[ix].sign = 0;
         _thCxt->bitAddrUsed &= ~mask;  //reset bit
         int maskCheck = ~(mask -1);  //all higher bits.
@@ -193,7 +195,8 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, ThreadContex
           //all higher ranges are not used:
           int nrFree = ARRAYLEN_SimpleC(_thCxt->addrUsed) - (ixLastUsed+1); 
           _thCxt->addrFree =  _thCxt->addrUsed[ixLastUsed+1].used.ref;
-          memset(&_thCxt->addrUsed[ixLastUsed+1], 0, nrFree * sizeof(_thCxt->addrUsed[0]));  //now delete unnecessary infos.
+          //delete all entries of addrUsed, set to 0 (set MemC-content to 0)
+          memset(&_thCxt->addrUsed[ixLastUsed+1], 0, nrFree * sizeof(_thCxt->addrUsed[0]));  
         }
         released = true;
         ix = 32766;  //break; 

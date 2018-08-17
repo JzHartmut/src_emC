@@ -160,7 +160,7 @@ typedef struct ThreadContext_emC_t
   /**The known highest address in the stack. It is the address of the _struct ThreadContext_emC_t* pointer
    * of the first routine, which creates the Thread context.
    */
-  void* topmemAddrOfStack;
+  MemUnit* topmemAddrOfStack;
   
   /**Data of the Stacktrace if this concept is used. */
   StacktraceThreadContext_emC_s stacktrc;

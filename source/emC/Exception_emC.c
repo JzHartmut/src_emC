@@ -98,11 +98,6 @@ const char* exceptionTexts DEF [33] =
 
 
 
-void XXX_endTryJc(TryObjectJc* tryObject, StacktraceJc* stacktrace, StacktraceThreadContext_emC_s* _thCxt)
-{ _thCxt->entries[stacktrace->ix].tryObject = null;
-}
-
-
 void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt !=null)
@@ -111,7 +106,9 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _th
     StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
     StacktraceElementJc* stacktraceTry;
     int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
-    stacktrcThCxt->entries[ixStacktraceEntries].line = line;  //it is the line of the THROW statement.
+    if(line >0) {
+      stacktrcThCxt->entries[ixStacktraceEntries].line = line;  //it is the line of the THROW statement.
+    }
     do {
       stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
     } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
@@ -247,7 +244,7 @@ METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(Stacktrace
  */
 #undef test_StacktraceJc
 
-extern_C bool test_StacktraceJc(StacktraceJc* ythis);
+extern_C bool test_StacktraceJc(IxStacktrace_emC* ythis);
 
 
 /**Test the consistence of the stacktrace, useable if errors are searched*/

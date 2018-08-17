@@ -55,7 +55,7 @@
 //#include <Jc/ObjectJc.h>
 //#include <emC/SimpleC_emC.h>
 #include <Jc/ReflMemAccessJc.h>
-//#include <stdarg.h>
+#include <stdarg.h>
 
 /**This routine should be invoked on start of the application. 
  * Yet it is only necessary for __HandlePtr64__

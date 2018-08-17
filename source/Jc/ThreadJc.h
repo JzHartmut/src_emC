@@ -40,7 +40,7 @@
 
 #include "StringJc.h"
 #include "ReflectionJc.h"
-#include <os_thread.h>
+#include <OSAL/os_thread.h>
 
 
 
