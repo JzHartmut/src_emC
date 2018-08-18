@@ -51,7 +51,6 @@
 //#include "StringJc.h"
 #include "Jc/ReflectionJc.h"
 #include "emC/Exception_emC.h"
-#include "emC/ThreadContext_emC.h"
 //#include "os_wrapper.h"
 
 /********************************************************************************************/

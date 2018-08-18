@@ -44,7 +44,6 @@
 #include "Jc/PrintStreamJc.h"
 #include "Jc/FileIoJc.h"
 #include <Jc/StringJc.h>
-#include "emC/ThreadContext_emC.h"
 #include "emC/Exception_emC.h"
 
 

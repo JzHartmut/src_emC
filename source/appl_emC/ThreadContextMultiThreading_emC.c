@@ -38,7 +38,7 @@
  * 2007-05-00: JcHartmut creation
  *
  ****************************************************************************/
-#include <emC/ThreadContext_emC.h>
+#include <appl_emC/ThreadContextStacktrc_emC.h>
 
 //#include <emC/SimpleC_emC.h>
 #include <OSAL/os_thread.h>

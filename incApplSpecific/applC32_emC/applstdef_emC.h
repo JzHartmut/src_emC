@@ -48,7 +48,7 @@
   */
 //#define __TRYCPPJc
 
-#include <emC/ThreadContext_emC.h>
+#include <appl_emC/ThreadContextStacktrc_emC.h>
 #include <emC/Exception_emC.h>
 //#include <emC/ExcStacktrcNo.h>
 

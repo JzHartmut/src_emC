@@ -51,7 +51,6 @@
 #include <os_time.h>
 #include <os_sync.h>
 #include <os_waitnotify.h>
-#include <emC/ThreadContext_emC.h>
 
 /**Version and History.
  * 2015-08-16 JcHartmut: There is a mistake while creating a new [[synchronized(...)]]:

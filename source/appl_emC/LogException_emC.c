@@ -37,20 +37,31 @@
 #include <applstdef_emC.h>
 
 
-ExceptionStoredEntry_emC exceptionEntries[100];
-ExceptionStore_emC exceptionStore = CONST_ExceptionStore_emC(exceptionEntries);
+/**static data of an Exception Log store. 
+ * If you use this file as template for an embedded system, you should arrange this data 
+ * in an accessible memory area on a known address which can access with debugging instruments
+ * (at least poor memory access).  
+ */
+struct ExceptionLogStore_t {
+  Store_LogException_emC head;
+  Entry_LogException_emC __additional_exceptionEntries__[100];
+} exceptionStore = { INIZ_Store_LogException_emC(100), {0} };
 
+
+
+/**Implementation of logging. */
 void log_ExceptionJc(ExceptionJc* exc, char const* sourceFile, int sourceline)
-{ int ix = ++exceptionStore.ixEntry;  //should be atomic in multithread
-  if( ix >= exceptionStore.zEntries) {
+{ int ix = ++exceptionStore.head.ixEntry;  //should be atomic in multithread
+  if( ix >= exceptionStore.head.zEntries) {
     //overflow:
-    exceptionStore.ixEntry = exceptionStore.zEntries; //limit it
+    exceptionStore.head.ixEntry = exceptionStore.head.zEntries; //limit it
   } else {
     //normal:
-    ExceptionStoredEntry_emC* e = &exceptionEntries[ix];
+    Entry_LogException_emC* e = &exceptionStore.head.entries[ix];
     //copy the text in any case.
     copyToBuffer_StringJc(exc->exceptionMsg, 0, -1, e->msg, sizeof(e->msg));
     e->exc = *exc;  //copy of content.
+    e->exc.exceptionMsg = zMax_StringJc(e->msg, sizeof(e->msg)); //set the String in the exception to the own copied buffer.
     e->file = sourceFile;
     e->line = sourceline;
   }

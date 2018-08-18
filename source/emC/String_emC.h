@@ -416,6 +416,27 @@ inline StringJc z_StringJc(char const* src)
 #define s0_StringJc z_StringJc
 
 
+/**Creates a StringJc-reference. The given src is either 0-terminated or has a length of at least max.
+ * The String is dedicated as non-persistent, because this routine refers a buffer typically, which does not guarantees persistence.
+ * This operation is proper if a char[] is hold in an array, and the string content should not be 0-terminated
+ * if the buffer is used till max.
+ */
+inline StringJc zMax_StringJc(char const* src, int max)
+{
+  StringJc ret;
+  if(max > kMaxNrofChars_StringJc){ 
+    max = kMaxNrofChars_StringJc;   //limit it, only for abstruse situation.  
+  }
+  int size = strlen_emC(src, max);
+  size |= mNonPersists__StringJc;
+  set_OS_PtrValue(ret, src, size);
+  return ret;
+}
+
+
+
+
+
 
 /**Creates a StringJc reference to the given character string with given length.
  * This is a common way to get a StringJc-Instance if a char-buffer with a known length is given.

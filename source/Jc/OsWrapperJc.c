@@ -54,7 +54,6 @@
 #include <os_sync.h>
 #include <os_waitnotify.h>
 #include <os_AtomicAccess.h>
-#include <emC/ThreadContext_emC.h>
 
 #include <string.h>
 

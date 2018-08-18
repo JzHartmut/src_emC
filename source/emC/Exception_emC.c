@@ -44,7 +44,6 @@
 #include <emC/String_emC.h>
 #ifndef __NOT_SUPPORTED_ExceptionJc__
 
-#include <emC/ThreadContext_emC.h>
 #include <emC/SimpleC_emC.h>     //ARRAYLEN
 #include <os_error.h>
 //#include <fw_Platform_conventions.h>

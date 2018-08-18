@@ -87,13 +87,11 @@ extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**CLASS_C_Description Defintion in ExceptionDefs_emC.h */
 
 
 
 
-
-
-#define NULL_ExceptionJc() { 0, NULL_StringJc, 0 }
 
 /**Gets the exception describing text to the number. 
  * This method is called in [[printStackTraceFile_ExceptionJc(...)]] especially.

@@ -50,8 +50,8 @@
 
 #include <emC/Formatter_emC.h>
 #include <emC/SimpleC_emC.h>         //ARRAYLEN
-#include <emC/Exception_emC.h>       //STACKTRC_...
-#include <emC/ThreadContext_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
+//#include <emC/Exception_emC.h>       //STACKTRC_...
+//#include <emC/ThreadContext_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
 #include <emC/TimeConversions_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
 #include <emC/Va_list_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
 #include <string.h>             //strchr(), strlen(), memset()

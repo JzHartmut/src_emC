@@ -76,9 +76,6 @@ typedef struct ThreadContext_emC_t {
 
 #define ThCxt ThreadContext_emC_s
 
-/**Gets the threadContext in the current state. */
-ThreadContext_emC_s* getCurrent_ThreadContextSimple_emC();
-
 
 
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
@@ -93,7 +90,7 @@ ThreadContext_emC_s* getCurrent_ThreadContextSimple_emC();
 
 #define THCXT null
 
-#define TRY if(_thCxt == null) { _thCxt = getCurrent_ThreadContextSimple_emC(); }
+#define TRY if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
 #define _TRY { ExceptionJc* _exc = &_thCxt->exc; _thCxt->excNrTestCatch = _exc->exceptionNr; \
   if(_exc->exceptionNr ==0) { /*empty block till first CATCH if no exception*/
 
@@ -114,7 +111,7 @@ ThreadContext_emC_s* getCurrent_ThreadContextSimple_emC();
 #define THROW_s(EXCEPTION, STRING, VAL, ...) logException_emC(ident_##EXCEPTION##Jc, STRING, VAL, __FILE__, __LINE__) //; return __VA_ARGS__
 
 
-#define THROW_s0(EXCEPTION, TEXT, VAL, ...) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContextSimple_emC(); } \
+#define THROW_s0(EXCEPTION, TEXT, VAL, ...) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
   _thCxt->exc.exceptionNr = ident_##EXCEPTION##Jc; _thCxt->exc.exceptionValue = VAL; \
   _thCxt->exc.exceptionMsg = CONST_z_StringJc(TEXT); \
   _thCxt->file = __FILE__; _thCxt->line = __LINE__; \

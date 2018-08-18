@@ -43,7 +43,6 @@
 #include <emC/Exception_emC.h>
 #ifndef __NOT_SUPPORTED_ExceptionJc__
 
-#include <emC/ThreadContext_emC.h>
 #include <emC/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/String_emC.h> 
 #include <os_error.h>

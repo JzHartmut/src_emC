@@ -47,7 +47,7 @@
 //#include "emC/Exception_emC.h"
 //#include <stdarg.h>
 #include <string.h>
-#include <emC/ThreadContext_emC.h>
+//#include <emC/ThreadContext_emC.h>
 
 
 extern struct ClassJc_t const reflection_LogMessageFW_i;

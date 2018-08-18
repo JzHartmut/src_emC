@@ -43,7 +43,6 @@
  ****************************************************************************/
 #include "Jc/SystemJc.h"
 #include "Jc/StringJc.h"
-#include "emC/ThreadContext_emC.h"
 #include "emC/Exception_emC.h"
 #include <stdlib.h>  //getenv
 
