@@ -162,6 +162,11 @@ typedef struct ThreadContext_emC_t
    */
   MemUnit* topmemAddrOfStack;
   
+  /**This is the maximal found value of the stack size which is evaluated on [[getCurrentStackDepth_ThreadContext_emC(...)]] . */
+  int stacksizeMax;
+
+
+
   /**Data of the Stacktrace if this concept is used. */
   StacktraceThreadContext_emC_s stacktrc;
   /*NOTE: The element stacktrc have to be the last because some additional StackEntryJc may be added on end.*/

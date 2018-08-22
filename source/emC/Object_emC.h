@@ -918,7 +918,7 @@ C_TYPE typedef struct  FieldJc_t
                  /**Nr of elements of an static array or the bit positions of a bitfield
                  * If is is a bit field
                  */
-  u_int16_t nrofArrayElementsOrBitfield_;
+  uint16_t nrofArrayElementsOrBitfield_;
 
   /**If the element nrofArrayElementsOrBitfield designates the bits of a bitfield,
   * this bits represent the bit Position in the field.

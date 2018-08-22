@@ -53,7 +53,7 @@ extern_C_BLOCK_
  *                       Therefore it is replaced by the struct OS_Mutex_t like usual for such. It is a reference (memory address) in any case.
  * 2006-00-00 JcHartmut created.
  */
-static const int version_OS_sync = 0x20150816;
+static const int32 version_OS_sync = 0x20180816;
 
 
 
@@ -71,6 +71,10 @@ typedef struct OS_HandleWaitNotify_t const* OS_HandleWaitNotify;
 
 
 
+#ifndef  os_lockMutex 
+//Note: for simple processors without multithreading but with interrupt this identifier may define as macro in the compl_adaption.h or in the applstdef_emC.h
+//Then it are not defined here.
+
 /**Creates a mutex object.
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
@@ -82,14 +86,13 @@ int os_createMutex(char const* name, struct OS_Mutex_t** pMutexID);
  */
 int os_deleteMutex(struct OS_Mutex_t* mutexID);
  
- 
+
 /**locks a mutex. 
  * The contract is: 
  * * If the same thread tries to lock a mutex, it is okay. 
  * * Another thread waits until the owner thread calls os_unlockMutex(...).
  */
 int os_lockMutex(struct OS_Mutex_t* mutexID);
-
 
 /**Unlocks the mutex. It is possible that a thread switch occurs, 
  * if another thread waits and it has a higher priority. 
@@ -98,6 +101,7 @@ int os_lockMutex(struct OS_Mutex_t* mutexID);
  * If another thread unlocks, it is an error and an exception may be thrown.
  */
 int os_unlockMutex(struct OS_Mutex_t* mutexID);
+#endif
 
 
 

@@ -43,7 +43,7 @@
 #endif
 
 
-#include <emC/ExceptionDefs_emC.h>  //the constants for exception should be known.
+#include <emC/ExcThCxtBase_emC.h>  //the constants for exception should be known.
 
 #ifndef __fw_ExcStacktrcNo_h__
 #define __fw_ExcStacktrcNo_h__
@@ -59,10 +59,6 @@
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 
-#include <emC/ExceptionDefs_emC.h>
-
-//#include <emC/String_emC.h>
-
 
 typedef struct ThreadContext_emC_t {
   
@@ -72,6 +68,13 @@ typedef struct ThreadContext_emC_t {
   int32 excNrTestCatch;
   int32 line;
   char const* file;
+
+  /**This is the address of a variable in stack in the first level. */
+  MemUnit* topmemAddrOfStack;
+
+  /**This is the maximal found value of the stack size which is evaluated on [[getCurrentStackDepth_ThreadContext_emC(...)]] . */
+  int stacksizeMax;
+
 } ThreadContext_emC_s;
 
 #define ThCxt ThreadContext_emC_s
@@ -79,8 +82,15 @@ typedef struct ThreadContext_emC_t {
 
 
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
- * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
- */
+* But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
+*/
+#define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt; 
+
+
+
+/**Because the operation may use a pointer variable named _thCxt it is defined here.
+* But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
+*/
 #define STACKTRC_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = null;
 
 /**For that the _thCxt variable is given in arguments of the operation */
@@ -90,45 +100,39 @@ typedef struct ThreadContext_emC_t {
 
 #define THCXT null
 
+/**The threadContext is necessary to check whether an exception was thrown. Therefore initialize it. */
 #define TRY if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
+
+/**With this statement the if-chain to check the exception value starts. Create a local pointer to the exception for better handling. 
+ * The _thCxt->excNrTestCatch = is the value used in END_TRY. It is set to 0 on a handled exception. 
+ */
 #define _TRY { ExceptionJc* _exc = &_thCxt->exc; _thCxt->excNrTestCatch = _exc->exceptionNr; \
   if(_exc->exceptionNr ==0) { /*empty block till first CATCH if no exception*/
 
-/***/
+/**It closes the if(){ before from the _TRY or from a CATCH block before. Then it checks the exceptionNr with the given EXCPETION as mask.*/
 #define CATCH(EXCEPTION, EXC_OBJ) } else if(_exc->exceptionNr & mask_##EXCEPTION##Jc) { ExceptionJc* EXC_OBJ = _exc; _thCxt->excNrTestCatch = 0;
 
 #define FINALLY \
  } /*close CATCH brace */\
  { /*open to braces because END_TRY.*/
 
+
+/**Rewrite the exceptionNr, maybe 0 on handled exception or if no exception. */
 #define END_TRY _exc->exceptionNr = _thCxt->excNrTestCatch; } }  /*closing brace from CATCH and from _TRY*/
 
-/**All THROW() macros force a return. Therewith the behavior of the operation is adequate to Exception handling.
- * But the calling routine is continued. It should check itself for sufficient conditions to work.
+/**All THROW() macros writes the exception into the ThreadContext_emC,
+ * but the calling routine is continued. It should check itself for sufficient conditions to work.
  */
-#define THROW(EXCEPTION, STRING, VAL, ...)   { ExceptionJc exc = CONST_ExceptionJc(EXCEPTION, STRING, VAL); log_ExceptionJc(&exc, __FILE__, __LINE__); }
-#define XXXTHROW_s0(EXCEPTION, TEXT, VAL, ...)  { ExceptionJc exc = CONST_ExceptionJc(EXCEPTION, CONST_z_StringJc(TEXT), VAL); log_ExceptionJc(&exc, __FILE__, __LINE__); }
-#define THROW_s(EXCEPTION, STRING, VAL, ...) logException_emC(ident_##EXCEPTION##Jc, STRING, VAL, __FILE__, __LINE__) //; return __VA_ARGS__
-
-
-#define THROW_s0(EXCEPTION, TEXT, VAL, ...) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
+#define THROW(EXCEPTION, STRING, VAL, ...) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
   _thCxt->exc.exceptionNr = ident_##EXCEPTION##Jc; _thCxt->exc.exceptionValue = VAL; \
-  _thCxt->exc.exceptionMsg = CONST_z_StringJc(TEXT); \
+  _thCxt->exc.exceptionMsg = STRING; \
   _thCxt->file = __FILE__; _thCxt->line = __LINE__; \
   log_ExceptionJc(&_thCxt->exc, __FILE__, __LINE__); \
   _thCxt->exc.exceptionMsg = NULL_StringJc;  /*It may be located in the stack. Don't transfer the pointer! */ \
 }
 
-
-
-/**The routines throw... are replaced by a routine which does not know the exception bit mask
- * but supplies a String with the exception name, proper for printf.
- */
-#define throw_s0Jc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_sJc_("##EXCEPTION##", z_StringJc(TEXT), VAL, LINE)
-#define throw_sJc(EXCEPTION, TEXT, VAL, STACKTRC, LINE)  throw_sJc_("##EXCEPTION##", TEXT, VAL, LINE)
-#define throw_EJc(EXCEPTION, EXCOBJ, VAL, STACKTRC, LINE)  throw_s0Jc_("##EXCEPTION##", "forward exception", VAL, LINE)
-
-
+#define THROW_s0(EXCEPTION, TEXT, VAL)  THROW(EXCEPTION,  CONST_z_StringJc(TEXT), VAL)
+#define THROW_s(EXCEPTION, STRING, VAL) THROW(EXCEPTION, STRING, VAL
 
 
 #define printStackTrace_ExceptionJc(ythis, _thCxt)

@@ -12,10 +12,6 @@ REM delete and generate newly if this is the develop PC.
 
 if "" == "%NOPAUSE%" set NOPAUSE=zmake_%TARGET%
 
-REM force to compile ccs_reflection_offset because the dependency check does not work for it.
-REM It includes ccs_reflection_offset.crefl which has not the extension .h. That is because search in sources should not use that file.
-::if exist ..\..\..\%OBJDIR%\XRPDC\src\dsp_ccs\ccs_reflection_offset.doj del ..\..\..\%OBJDIR%\XRPDC\src\dsp_ccs\ccs_reflection_offset.doj
-::call genReflection.bat
 
 call setZBNFJAX_HOME.bat
 
@@ -23,7 +19,6 @@ call setZBNFJAX_HOME.bat
 echo Generating %TARGET%
 
 REM call common generation with copied files of plant:
-::if exist ..\out\dsp_ccs.bin del /F /Q ..\out\dsp_ccs.bin
 if exist _gen.bat del /F /Q _gen.bat
 
 set SBOX_DIR=..

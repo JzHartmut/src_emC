@@ -37,7 +37,7 @@ test = checkDeps.readCfgData(cfgCheckDeps, currdir);
 if(test){ <+><:n>echo Error cfgCheckDeps.cfg: <&test><&newline><.n+>}
 else{ <+><:n>REM cfgCheckDep.cfg read successfully<&newline><.n+> } 
 
-test = checkDeps.readDependencies(<:><&objDir>/ccs_dsp_obj<&$PARAM>.deps.txt<.>); 
+test = checkDeps.readDependencies(<:><&objDir>/obj<&$PARAM>.deps.txt<.>); 
 
 <+>
   echo <&target>
@@ -67,7 +67,7 @@ for(input:inputs){
   
   <.+>
 } //for
-String test = checkDeps.writeDependencies(<:><&objDir>/ccs_dsp_obj<&$PARAM>.deps.txt<.>); 
+String test = checkDeps.writeDependencies(<:><&objDir>/obj<&$PARAM>.deps.txt<.>); 
 String test = checkDeps.close(); 
 } //sub
 

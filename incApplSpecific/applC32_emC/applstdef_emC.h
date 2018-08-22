@@ -2,7 +2,7 @@
 #define __applstdef_emC_h__
 
 //Uncomment to check whether used:
-//#error Uses FwConvC32/applstdef_emC.h
+//#error Uses applC32_emC/applstdef_emC.h
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.

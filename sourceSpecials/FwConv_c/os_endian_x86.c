@@ -138,7 +138,7 @@ int32_t setInt32BigEndian(int32BigEndian* addr, int32_t value)
   return value;
 }
 
-u_int32_t setUint32BigEndian(uint32BigEndian* addr, u_int32_t value)
+uint32_t setUint32BigEndian(uint32BigEndian* addr, uint32_t value)
 { int32_t loBig;
   loBig = ((value <<24) & 0xff000000) | ((value <<8) & 0x00ff0000) |((value >>8) & 0x0000ff00) |((value >>24) & 0x0000ff);
   //NOTE: do only 1 access to memory.

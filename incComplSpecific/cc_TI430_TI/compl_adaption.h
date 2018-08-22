@@ -41,30 +41,14 @@
 #define   __compl_adaption_h__
 
 
+#include <stdint.h>
+
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
 
-
-
-//following defines are checked from generated code for DSP. It is over-engineered, but should be done.
-//This applstdef_emC.h is intent to work only with dsp software. It is okay. 
-
-//prevent including limits.h for MSC6
-#define _INC_LIMITS
-
-//define length for PC, elsewhere int8 etc. are faulty for PC
-#define UCHAR_MAX 0xFFU
-#define SCHAR_MAX 0x7F
-#define SCHAR_MIN -0x80
-#define USHRT_MAX 0xFFFFU
-#define SHRT_MAX 0x7FFFU
-#define UINT_MAX 0xFFFFFFFFU
-#define INT_MAX 0x7FFFFFFFU
-#define ULONG_MAX 0xFFFFFFFFU
-#define LONG_MAX 0x7FFFFFFFU
 
 
 
@@ -79,22 +63,6 @@
 //#pragma warning(disable:4100) //unused argument
 
 //C++
-#pragma warning(disable:4068) //unknown pragma
-
-#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4310) //cast truncates constant value
-#pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4514) //unreferenced inline function has been removed
-//#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
-
-
 
 
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
@@ -125,22 +93,9 @@
 #define __OS_IS_WINDOWS__
 
 //The following switch select the compiler in some sources.
-#define __COMPILER_IS_MSC6__
+#define __COMPILER_IS_MSC15__
 
 
-//define set for some test statements.
-#define PC_SIMULATION
-#define __PC_SIMULATION__
-#define PC_SIM
-#ifndef TEST_MODULE
-  #define TEST_MODULE
-#endif
-
-// Folgender Schalter ist gesetzt zur Auswahl der C++-Compilierung. In einigen Quellen kann es einen Unterschied geben, wenn eine C-Abbildung der Quellen
-// berücksichtigt werden muss. Das standardgemäß definierte Makro __cplusplus ist nicht immer für dieses Zweck verwendbar, da auch der Einsatz der C++-Compilierung
-// für eine C-Abbildung erfolgen kann. Wenn die Gesamt-Source (beispielsweise ein Headerfile) gegebenenfalls auch als C-Abbildung
-// compiliert werden muss, dann müssen alle Teile, die nur unter C++ lauffähig sind, mit diesem Schalter bedingt compiliert werden.
-//#define __CPLUSGEN
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
@@ -152,9 +107,6 @@
  */
 #define int8      signed char
 #define uint8     unsigned char
-#define int8_t    signed char
-#define u_int8_t  unsigned char
-#define uint8_t   unsigend char
 
 #define int16     short
 #define uint16    unsigned short
@@ -162,18 +114,15 @@
 #define u_int16_t unsigned short
 #define uint16_t  unsigned short
 
-#define int32     int
+#define int32     int32_t
 #define uint32    unsigned int
 #define int32_t   int
 #define u_int32_t unsigned int
 #define uint32_t  unsigned int
 
 //Simulink does not know 64-bit-int, define types with standard-C compiler specific.
-#define int64 __int64
-#define uint64 __int64
-#define int64_t __int64
-#define u_int64_t __int64
-#define uint64_t __int64
+#define int64 int64_t
+#define uint64 int64_t
 
 #define bool8    unsigned char
 #define bool8_t  unsigned char
@@ -203,32 +152,6 @@ typedef struct float_complex_t { float re; float im; } float_complex;
 typedef struct double_complex_t { double re; double im; } double_complex; 
 
 
-
-/* *****************************************************************************
-***** from basisdefs.h
-*/
-
-#define UINT8  uint8
-#define UINT16 uint16
-#define UINT32 uint32
-#define UINT64 uint64
-
-#define INT8  int8
-#define INT16 int16
-#define INT32 int32
-#define INT64 int64
-
-//andere Schreibweise auch noch:
-
-#define UINT_8  uint8
-#define UINT_16 uint16
-#define UINT_32 uint32
-#define UINT_64 uint64
-
-#define INT_8  int8
-#define INT_16 int16
-#define INT_32 int32
-#define INT_64 int64
 
 
 
@@ -350,7 +273,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  */
-#define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
+#define OS_HandlePtr(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
@@ -360,6 +283,12 @@ typedef struct double_complex_t { double re; double im; } double_complex;
      It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
   */
   #define INLINE_emC static
+  //#define inline static
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
+  #define bool int
+#endif
 #endif
 
 #ifdef __cplusplus
@@ -389,39 +318,29 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define kMaxPathLength_FileDescription_OSAL 480
 
 
-//Should include <math.h>
-#ifndef fmaxf
-#define fmaxf(A, B) ( (A) > (B) ? (A) : (B) )
-#endif
-
-#ifndef fminf
-#define fminf(A, B) ( (A) < (B) ? (A) : (B) )
-#endif
-
-#ifndef fmax
-#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
-#endif
-
-#ifndef fmin
-#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
-#endif
-
-//#ifdef __cplusplus
-//NOTE: it is defined in the same kind in the stdlib.h from Msc6
-//#define max(A, B) ( (A) > (B) ? (A) : (B) )
-//#define min(A, B) ( (A) < (B) ? (A) : (B) )
-//#endif
 
 #ifndef TRUE
   #define TRUE true
   #define FALSE false
 #endif
 
-/**Yet in simulink an untyped input/output handle which is a pointer can only be stored as double.
- * use conversion:
- *  SIMUPTR ptr = *(SIMUPTR*)&reference; //reference is any Type* reference.
- */
-typedef double SIMUPTR;
+
+
+/**Special: instead mutex use interrupt disable. */
+/*---------------------------------------------------------------------------*/
+/* MSP430/430X Intrinsics                                                    */
+/*---------------------------------------------------------------------------*/
+//void             __disable_interrupt(void);
+//void             __enable_interrupt(void);
+#include <intrinsics.h>  //compiler-specific definitions
+//#include <msp430.h>
+#define os_createMutex(NAME, M)
+#define os_lockMutex(M) __disable_interrupt()
+#define os_unlockMutex(M) __enable_interrupt()
+
+
+#define os_delayThread(MILLISEC)
+
 
 
 #endif  //__compl_adaption_h__

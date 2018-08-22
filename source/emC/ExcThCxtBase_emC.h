@@ -173,8 +173,12 @@ extern_C void log_ExceptionJc(ExceptionJc* exc, char const* sFile, int line);
  */
 struct ThreadContext_emC_t* getCurrent_ThreadContext_emC();
 
+/**Returns the approximately current size of stack */
+int getCurrentStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
 
+/**Returns the maximum of approximately current size of stack of this thread */
+int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
 
 

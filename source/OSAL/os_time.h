@@ -185,13 +185,13 @@ float os_measureClock();
 
 
 
-
+#ifndef os_delayThread
 /**Delays a thread for a number of milliseconds.
  * @param timeOut sleep time in milliseconds.
  */
 void os_delayThread(int32_t timeOut);
 #define os_sleep(TIME) os_delayThread(TIME);
-
+#endif
 
 
 
@@ -204,25 +204,25 @@ typedef struct MinMaxTime_emC_t
 {
   int32_t ct;
   
-  u_int32_t minminCyclTime;
+  uint32_t minminCyclTime;
 
-  u_int32_t minCyclTime;
+  uint32_t minCyclTime;
 
-  u_int32_t actCyclTime;
+  uint32_t actCyclTime;
 
-  u_int32_t midCyclTime;
+  uint32_t midCyclTime;
 
-  u_int32_t maxCyclTime;
+  uint32_t maxCyclTime;
 
-  u_int32_t maxmaxCyclTime;
+  uint32_t maxmaxCyclTime;
   
-  u_int32_t minCalcTime;
+  uint32_t minCalcTime;
 
-  u_int32_t midCalcTime;
+  uint32_t midCalcTime;
 
-  u_int32_t actCalcTime;
+  uint32_t actCalcTime;
 
-  u_int32_t maxCalcTime;
+  uint32_t maxCalcTime;
 
   int32_t _lastTime;
 

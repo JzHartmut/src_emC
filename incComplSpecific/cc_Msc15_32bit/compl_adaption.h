@@ -41,6 +41,8 @@
 #define   __compl_adaption_h__
 
 
+#include <stdint.h>  //C99-int types
+
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
@@ -122,21 +124,12 @@
  */
 #define int8      signed char
 #define uint8     unsigned char
-#define int8_t    signed char
-#define u_int8_t  unsigned char
-#define uint8_t   unsigend char
 
 #define int16     short
 #define uint16    unsigned short
-#define int16_t   short
-#define u_int16_t unsigned short
-#define uint16_t  unsigned short
 
-#define int32     int
-#define uint32    unsigned int
-#define int32_t   int
-#define u_int32_t unsigned int
-#define uint32_t  unsigned int
+#define int32     int32_t
+#define uint32    uint32_t
 
 //Simulink does not know 64-bit-int, define types with standard-C compiler specific.
 #define int64 __int64

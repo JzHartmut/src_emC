@@ -54,7 +54,6 @@ typedef struct OS_HandleThread_t const* OS_HandleThread;
 /**The thread routine should have the followed prototype.
  * @param data Pointer to data. Mostly it is a class structure. 
  *        It is the same value given in createThread, param pUserData.
- * @param _thC The ThreadContext structure. 
  * @return The exit value of the thread. The operation system can protocol or show the exit value in a special kind.
  */
 typedef int OS_ThreadRoutine(void* data);
@@ -66,7 +65,7 @@ typedef int OS_ThreadRoutine(void* data);
 /**This method should be called on startup of the system. 
  * It is called elsewhere from the routines, which needs them.
  */
-int os_initLib();
+int init_OSAL();
 
 
 /**Returns the os-specific value for a thread priority.
@@ -125,12 +124,12 @@ OS_HandleThread os_getCurrentThreadHandle(void);
 
 
 /**Gets the user-thread-context of the current thread. The user-thread-context is a memory area,
-* assigned to any thread, which contains thread-local but routine-global data.
-* The structure of the user-thread-context can be defined in a user-adaption layer.
-* It should not be defined depending of the users algorithm, but in a common valid kind of users algorithm.
-* @return the pointer and the size of the users thread context. If the users threadcontext
-* was not set, the return structure contains {null, 0}
-*/
+ * assigned to any thread, which contains thread-local but routine-global data.
+ * The structure of the user-thread-context can be defined in a user-adaption layer.
+ * It should not be defined depending of the users algorithm, but in a common valid kind of users algorithm.
+ * @return the pointer and the size of the users thread context. If the users threadcontext
+ * was not set, the return structure contains {null, 0}
+ */
 PtrVal_MemUnit os_getCurrentUserThreadContext();
 
 /**Sets the users thread context. This method can only be called one time for each thread.

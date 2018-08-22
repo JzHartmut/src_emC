@@ -138,7 +138,6 @@
 
 //The following switch select the compiler in some sources.
 #define __COMPILER_IS_MSC6__
-#define __CCS__
 
 
 //define set for some test statements.

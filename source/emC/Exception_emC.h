@@ -56,7 +56,7 @@
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
 
-#include <emC/ExceptionDefs_emC.h>
+#include <emC/ExcThCxtBase_emC.h>
 #include <emC/SimpleC_emC.h>
 
 #ifndef __cplusplus
@@ -87,7 +87,7 @@ extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**CLASS_C_Description Defintion in ExceptionDefs_emC.h */
+/**CLASS_C_Description Defintion in ExcThCxtBase_emC.h */
 
 
 
@@ -162,8 +162,11 @@ typedef struct TryObjectJc_t
 
 /*@CLASS_C IxStacktrace_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-
+#if 0 //defined(__CPLUSGEN) && defined(__cplusplus)
+class IxStacktrace_emC 
+#else
 typedef struct IxStacktrace_emC_t
+#endif
 { //struct StacktraceJc_t* previous;
   //StacktraceElementJc entry;
   /**The index in the stacktrace entry array for this level. */
@@ -172,59 +175,46 @@ typedef struct IxStacktrace_emC_t
   int ixPrev;
   /**Exception-reference if there is an exception, or null */
   //TryObjectJc* tryObject;
+#if 0 //defined(__CPLUSGEN) && defined(__cplusplus)
+  /**The destructor reconstructs the indeces in the Stacktrace, STACKTRC_LEAVE is emtpy: */
+  ~IxStacktrace_emC() {
+    _ThCxt = getCurrent_ThreadContext_emC(); //it is effort. Not a good concept.
+    _thCxt->stacktrc.zEntries = _ixStacktrace_.ixPrev
+  }
+#else
 } IxStacktrace_emC;
-
+#endif
 
 
 
 /**This macro defines and initializes the stack variables ,,_ixStacktrace_,,.
  * Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!
  * After the macro in the users call a semicolon should be written.
- */
-/* NOTE: The initialization with __FILE__ and __LINE__ must be a part of macro
+ * NOTE: The initialization with __FILE__ and __LINE__ must be a part of macro
  * because otherwise it is the fault file and line.
  */
-#if defined(__CPLUSGEN) && defined(__cplusplus)
-  #define STACKTRC_TENTRY(NAME) \
+#define STACKTRC_TENTRY(NAME) \
+  IxStacktrace_emC _ixStacktrace_; \
   if(_thCxt==null){ _thCxt = getCurrent_ThreadContext_emC(); } \
-  StacktraceJcpp _ixStacktrace_(NAME, _thCxt);\
-  stacktrace.entry.source = __FILE__; stacktrace.entry.line = __LINE__; \
-  _thCxt->stacktrc.stacktrace = static_cast<IxStacktrace_emC*>(&stacktrace)
-
-#else
-  #define STACKTRC_TENTRY(NAME) \
-    IxStacktrace_emC _ixStacktrace_; \
-    if(_thCxt==null){ _thCxt = getCurrent_ThreadContext_emC(); } \
-    _ixStacktrace_.ixPrev = _thCxt->stacktrc.zEntries; \
-    if(_thCxt->stacktrc.zEntries < (ARRAYLEN_SimpleC(_thCxt->stacktrc.entries))) { \
-      StacktraceElementJc* stdst; \
-      _ixStacktrace_.ix = _thCxt->stacktrc.zEntries; \
-      _thCxt->stacktrc.zEntries+=1; \
-      stdst = &_thCxt->stacktrc.entries[_ixStacktrace_.ix]; \
-      stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  stdst->tryObject = null; \
-    } else { /**do nothing special in this error case. */ \
-      /**But do not create the index in thread context. */ \
-      _ixStacktrace_.ix = _ixStacktrace_.ixPrev; \
-    } 
-#endif
+  _ixStacktrace_.ixPrev = _thCxt->stacktrc.zEntries; \
+  if(_thCxt->stacktrc.zEntries < (ARRAYLEN_SimpleC(_thCxt->stacktrc.entries))) { \
+    StacktraceElementJc* stdst; \
+    _ixStacktrace_.ix = _thCxt->stacktrc.zEntries; \
+    _thCxt->stacktrc.zEntries+=1; \
+    stdst = &_thCxt->stacktrc.entries[_ixStacktrace_.ix]; \
+    stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  stdst->tryObject = null; \
+  } else { /**do nothing special in this error case. */ \
+    /**But do not create the index in thread context. */ \
+    _ixStacktrace_.ix = _ixStacktrace_.ixPrev; \
+  } 
 
 /**This macro defines and initializes the stack variable ,,stacktrcThCxt,, and ,,_ixStacktrace_,,.
  *
  */
 
-#if defined(__CPLUSGEN) && defined(__cplusplus)
-  /**C++-Variant: The StacktraceJcpp with its destructor is used, no STACKTRCE_LEAVE is necessary.
-   * After the macro in the users call a semicolon should be written.
-  */
-  /* NOTE: The initialization with __FILE__ and __LINE__ must be a part of macro
-   * because otherwise it is the fault file and line.
-   */
-  #define STACKTRC_ENTRY(NAME) ThCxt* _thCxt = getCurrent_ThreadContext_emC(); STACKTRC_TENTRY(NAME) 
-#else
-  /**C-Variant: Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!*/
-  #define STACKTRC_ENTRY(NAME) \
-    ThCxt* _thCxt = getCurrent_ThreadContext_emC();  STACKTRC_TENTRY(NAME)
-#endif
+/**Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!*/
+#define STACKTRC_ENTRY(NAME) ThCxt* _thCxt = getCurrent_ThreadContext_emC();  STACKTRC_TENTRY(NAME)
+
 
 
 /**This macro supplies the ,,_thCxt,,-Variable but stores the __LINE__ before.
@@ -238,13 +228,7 @@ typedef struct IxStacktrace_emC_t
  * Use this macro unconditionally at end of a block using ,,STACKTRC_ENTRY(),, or ,,STACKTRC_XENTRY(),,.
  * Otherwise the chain of stacktrace elements is corrupted.
  */
-#if defined(__CPLUSGEN) && defined(__cplusplus)
-  #define STACKTRC_LEAVE
-#else
-  //#define STACKTRC_LEAVE _thCxt->stacktrc.stacktrace = stacktrace.previous
-  //Restore the index in stacktrace.
-  #define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = _ixStacktrace_.ixPrev
-#endif
+#define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = _ixStacktrace_.ixPrev
 
 
 /**Test the consistence of the stacktrace, useable if errors are searched
@@ -259,7 +243,8 @@ typedef struct IxStacktrace_emC_t
 
 
 
-/**@deprecated. This macro is only present because compatibility with older sources. It is only useable in C++.
+/**It should be the first invocation of STACKTRC_ENTRY in main or in a thread routine. 
+ * For this environment it does the same as STACKTRC_ENTRY(NAME). 
  */
 #define STACKTRC_ROOT_ENTRY(NAME) STACKTRC_ENTRY(NAME);
 

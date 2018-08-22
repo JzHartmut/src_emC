@@ -64,11 +64,11 @@ extern_C_BLOCK_
   /**All big-endian-types are define as struct, don't access it immediately. */
   typedef struct int64BigEndian_t { int32_t hiBigEndian__; int32_t loBigEndian__; }GNU_PACKED int64BigEndian;
 
-  typedef struct uint64BigEndian_t { uint32 hiBigEndian__; u_int32_t loBigEndian__; }GNU_PACKED uint64BigEndian;
+  typedef struct uint64BigEndian_t { uint32 hiBigEndian__; uint32_t loBigEndian__; }GNU_PACKED uint64BigEndian;
 
   typedef struct int32BigEndian_t { int32_t loBigEndian__; }GNU_PACKED  int32BigEndian;
 
-  typedef struct uint32BigEndian_t { u_int32_t loBigEndian__; }GNU_PACKED  uint32BigEndian;
+  typedef struct uint32BigEndian_t { uint32_t loBigEndian__; }GNU_PACKED  uint32BigEndian;
 
   typedef struct int16BigEndian_t { int16_t loBigEndian__; }GNU_PACKED  int16BigEndian;
 
@@ -108,7 +108,7 @@ extern_C_BLOCK_
 
   int32_t setInt32BigEndian(int32BigEndian* addr, int32_t value);
 
-  u_int32_t setUint32BigEndian(uint32BigEndian* addr, u_int32_t value);
+  uint32_t setUint32BigEndian(uint32BigEndian* addr, uint32_t value);
 
   int16_t setInt16BigEndian(int16BigEndian* addr, int16_t value);
 
