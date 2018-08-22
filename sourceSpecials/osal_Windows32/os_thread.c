@@ -74,9 +74,9 @@ typedef struct OS_ThreadContext_t
 	
   unsigned long uTID;                  /* ID des threads */
 	
-  OS_HandleEvent EvHandle;                     /* Event des threads */
+  OS_HandleEvent XXXEvHandle;                     /* Event des threads */
 	
-  uint uFlagRegister;                  /* Actual flag status (32 bits) */
+  uint XXXuFlagRegister;                  /* Actual flag status (32 bits) */
 	
   //QueueStruct *pMessageQueue;		 /* Pointer to The MessageQueue Structure */
 	//OS_HandleThread TDupHandle;          /* to be filled by the child */
@@ -105,14 +105,11 @@ typedef struct OS_ThreadContext_t
 
 /* GLOBAL VARIABLES ******************************************************************************/
 
-/**The pool of all thread contexts. It is a staticly amount of data. */
-OS_ThreadContext* ThreadPool[OS_maxNrofThreads] = {0};
-
 /* actual number of threads */
-uint uThreadCounter = 0;               
+uint XXXuThreadCounter = 0;               
 
 /* Thread protection to access the handle pool.  */
-struct OS_Mutex_t* uThreadPoolSema = 0;              
+struct OS_Mutex_t* XXXuThreadPoolSema = 0;              
 
 static bool bOSALInitialized = false;
 
@@ -135,54 +132,19 @@ DWORD dwTlsIndex;
 /* IMPLEMENTATION ********************************************************************************/
 
 
-#ifdef NOT_TlsGetValue
-//#error
-  #include "../src/os_ThreadContextInTable.c"
-  #define setCurrent_OS_ThreadContext(context) (0 == os_setThreadContextInTable(GetCurrentThreadId(), context))
-  #define getCurrent_OS_ThreadContext() os_getThreadContextInTable(GetCurrentThreadId())
-#elif defined(TEST_ThreadContext_IMMEDIATE)
-  //this TEST case is only possible if only one thread is used. Only for timing testing.
-  OS_ThreadContext* current_OS_ThreadContext = null;
-  #define setCurrent_OS_ThreadContext(context) (current_OS_ThreadContext = context)
-  #define getCurrent_OS_ThreadContext() current_OS_ThreadContext
-#else
-//#error
   #define setCurrent_OS_ThreadContext(context) TlsSetValue(dwTlsIndex, context) 
   #define getCurrent_OS_ThreadContext() (OS_ThreadContext*)TlsGetValue(dwTlsIndex) 
-#endif
 
 
 /**Searches a free slot in ThreadPool and returns it.
  * @return null if no slot free, it is a system exception.
  */
 static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
-{ int idxThreadPool;
-	int ok = 0;
-  OS_ThreadContext* threadContext = null;  //default if not found.
-  /* search for free struct in the pool */
-	ok = os_lockMutex( uThreadPoolSema );
-  /*
-  DWORD winRet = WaitForSingleObject( uThreadPoolSema, -1 );
-  if (WinRet == WAIT_FAILED)
-  {	error = GetLastError();
-    os_Error( "os_waitMutex: ERROR: WaitForSingleObject failed with Win err=%d\n", error );
-  }
-  */
-	if(ok >= 0)
-  { for (idxThreadPool=1; idxThreadPool<OS_maxNrofThreads; idxThreadPool++)
-    {
-		  if ( ThreadPool[idxThreadPool] == null )
-      { int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
-        threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
-        memset(threadContext, 0, sizeThreadContext); 
-			  ThreadPool[idxThreadPool] = threadContext; // = ctorc_OS_ThreadContext(threadContext, sThreadName, 250);
-        break;
-		  }
-	  }
-  }
-	ok = os_unlockMutex( uThreadPoolSema );
-  if(ok < 0) os_notifyError( -1, "os_unlockMutex: Problem after getting a new OS_ThreadContext err=%d", ok,0 );
-  return threadContext; 
+{ OS_ThreadContext* threadContext = null;  //default if not found.
+  int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
+  threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
+  memset(threadContext, 0, sizeThreadContext); 
+	return threadContext; 
 }
 
 
@@ -201,7 +163,7 @@ int init_OSAL()
 		  printf("init_OSAL: ERROR: TlsAlloc failed!\n"); 
 	  }
 
-    os_createMutex("os_Threadpool", &uThreadPoolSema);
+    //os_createMutex("os_Threadpool", &uThreadPoolSema);
 	  hMainHandle = GetCurrentThread();
 	  // get a pseudo handle for the main thread to be referenced by other threads
 	  DuplicateHandle(    GetCurrentProcess(), 
@@ -220,24 +182,17 @@ int init_OSAL()
 		  mainThreadContext->THandle = (OS_HandleThread) hDupMainHandle;
 		  /* create an event for this thread (for use in eventFlag functions) */
 		  //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-		  mainThreadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
-		  if (mainThreadContext->EvHandle == NULL){
+		  mainThreadContext->XXXEvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
+		  if (mainThreadContext->XXXEvHandle == NULL){
 			  printf("ERROR: init_OSAL: Failed to crate Event for thread:0x%x\n", (uint)hDupMainHandle);
 		  }
-		  mainThreadContext->uFlagRegister = 0;
+		  mainThreadContext->XXXuFlagRegister = 0;
       bOSALInitialized = true;
 	    { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
         if (!ok  ){ 
           printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
         }
       }
-      #ifdef TEST_Time
-        //for timing test, store a lot of entries in:
-        { int i1; for(i1 = 0; i1 < OS_maxNrofThreads /2; i1++)
-          { os_setThreadContextInTable(31000+i1, null);  //store dummies, binary search has to do something.
-          }
-        }   
-      #endif
       return 0; 
 	  }
     else
@@ -272,12 +227,12 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
   { //complete threadContext
    	/* create an event for this thread (for use in eventFlag functions) */
    	//automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-   	threadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
-   	if (threadContext->EvHandle == NULL)
+   	threadContext->XXXEvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
+   	if (threadContext->XXXEvHandle == NULL)
     {
    		printf("os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
     }
-    threadContext->uFlagRegister = 0;
+    threadContext->XXXuFlagRegister = 0;
   }
 
   // execute user routine
@@ -626,7 +581,7 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
 		    threadContext->THandle = (OS_HandleThread) hDupThreadHandle;
 		    /* create an event for this thread (for use in eventFlag functions) */
 		    //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-		    threadContext->uFlagRegister = 0;
+		    threadContext->XXXuFlagRegister = 0;
   	    { 
           bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
           if (!ok  ){ 
