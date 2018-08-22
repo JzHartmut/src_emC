@@ -29,7 +29,7 @@
 //#define __cplusplus
 
 /**Including this file the ObjectJc.h is not included, */
-#include <source/appl_emC_h/ObjectJc_simple.h>
+#include <incApplSpecific/applConv/ObjectJc_simple.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
@@ -39,7 +39,9 @@
 //#include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
 
-#include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+//#include <incApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+//#include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+#include <incApplSpecific/applConv/assert_THROW.h>  //Note: after os_types_def_common because extern_C
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
@@ -60,7 +62,7 @@
 
 //#include <emC/ThreadContext_emC.h>
 //#include <emC/Exception_emC.h>
-#include <emC/ExcStacktrcNo_emC.h>
+#include <incApplSpecific/applConv/ExcStacktrcNo_emC.h>
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
@@ -79,8 +81,8 @@
 
 
 //PRINTX
-#include <appl_emC_h/definePrintFileMakros.h>
-//#include <appl_emC_h/definePrintfMakros.h>
+#include <incApplSpecific/applConv/definePrintFileMakros.h>
+//#include <incApplSpecific/applConv/definePrintfMakros.h>
 
 
 extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);

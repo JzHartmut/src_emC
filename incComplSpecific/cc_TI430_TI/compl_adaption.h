@@ -339,8 +339,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define os_unlockMutex(M) __enable_interrupt()
 
 
-#define os_delayThread(MILLISEC)
-
 
 
 #endif  //__compl_adaption_h__

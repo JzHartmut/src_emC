@@ -98,7 +98,7 @@ typedef struct OS_ThreadContext_t
    created in the same process, they will have no attached EventFlag and flag related functions 
    will not work on these threads 
 */
-#define OS_maxNrofThreads	256
+#define XXXOS_maxNrofThreads	256
 
 /**For PC-application: use 32k Stack per thread. */
 #define OS_DEFAULT_STACK 0x8000
@@ -134,6 +134,33 @@ DWORD dwTlsIndex;
 
   #define setCurrent_OS_ThreadContext(context) TlsSetValue(dwTlsIndex, context) 
   #define getCurrent_OS_ThreadContext() (OS_ThreadContext*)TlsGetValue(dwTlsIndex) 
+
+
+/**@Beschreibung:
+* Mit dieser Funktion wird eine abstrakte Thread-Priorität in einer betriebssystemspezifischen
+* Thread-Priorität gewandelt.
+* @return Betriebssystemspezifische Threadpriorität.
+* @abstractPrio Abstrakte Threadpriorität (0-255).
+*/
+static int convertThreadPriority2Os(int abstractPrio)
+{
+  long priority;
+
+  static int const delta = 63;
+  if (abstractPrio <= 127 - delta) {
+    priority = THREAD_PRIORITY_BELOW_NORMAL;
+  }
+  else if (abstractPrio >= 127 + delta) {
+    priority = THREAD_PRIORITY_ABOVE_NORMAL;
+  }
+  else {
+    priority = THREAD_PRIORITY_NORMAL;
+  }
+  return priority;
+}
+
+
+
 
 
 /**Searches a free slot in ThreadPool and returns it.
@@ -333,7 +360,7 @@ int os_createThread
 	  threadContext->THandle = (OS_HandleThread)hDupChildHandle;
 
 	  // set the thread prio
-	  { long uWinPrio = os_getRealThreadPriority( abstactPrio );
+	  { long uWinPrio = convertThreadPriority2Os( abstactPrio );
 	    //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
         ret_ok = SetThreadPriority(threadHandle, uWinPrio);
         if ( ret_ok == 0 ) {
@@ -358,34 +385,6 @@ int os_createThread
 }
 
 
-/**@Beschreibung:
- * Mit dieser Funktion wird eine abstrakte Thread-Priorität in einer betriebssystemspezifischen 
- * Thread-Priorität gewandelt.
- * @Rückgabewert Betriebssystemspezifische Threadpriorität.
- * @abstractPrio Abstrakte Threadpriorität (0-255).
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @Änderungsübersicht: 
- * @Datum/Autor/Änderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- * @since 2008-09-30 redesign Hartmut
- */
-int os_getRealThreadPriority(int abstractPrio)
-{
-	long priority;
-
-	static int const delta = 63;
-	if (abstractPrio <= 127 - delta){
-		priority = THREAD_PRIORITY_BELOW_NORMAL;
-	}
-	else if (abstractPrio >= 127 + delta){
-		priority = THREAD_PRIORITY_ABOVE_NORMAL;
-	}
-	else{
-		priority = THREAD_PRIORITY_NORMAL;	
-	}
-	return priority;
-}
 
 
 /**@Beschreibung:
@@ -429,7 +428,7 @@ int os_getRealThreadPriority(int abstractPrio)
 int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 {   
   int ret_ok;
-	long uWinPrio = os_getRealThreadPriority( abstractPrio );
+	long uWinPrio = convertThreadPriority2Os( abstractPrio );
 	
 	if (!bOSALInitialized){
 		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
@@ -544,6 +543,11 @@ OS_HandleThread os_getCurrentThreadHandle(void)
 }
 
 
+
+int os_getOsThreadPriority(OS_HandleThread handle) {
+  return GetThreadPriority((HANDLE)handle);
+}
+
 /**liefert den ThreadContext des laufenden Threads zurück.
  * @return: Context des laufenden Threads.
  * @Autor Hartmut Schorrig 
@@ -556,7 +560,8 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
 { 
   OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
   if(threadContext == null)
-  { if(!bOSALInitialized)
+  { //it is only null on the main thread if init_OSAL() was not called before.
+    if(!bOSALInitialized)
     { init_OSAL();
       threadContext = getCurrent_OS_ThreadContext(); //at begin it is the main thread.
     }
@@ -658,4 +663,29 @@ char* os_getTextOfOsError(int nError)
 	default:                     return "Unknown error-code.";
 	}
 }
+
+
+
+
+
+
+/**This mehtod is necessary because the user shouldn't know the struct ThreadContext.
+* It should be hidden, but the embedded part of threadcontext for Stacktrace handling
+* should be known in all user routines because it is used inline-like.
+*/
+ThreadContext_emC_s* getCurrent_ThreadContext_emC()
+{
+  ThreadContext_emC_s* thC;
+  //The users thread context is managed but not knwon in detail from osal:
+  MemC memThreadContext = os_getCurrentUserThreadContext();
+  thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
+  if (thC == null)
+  {
+    memThreadContext = alloc_MemC(sizeof(ThreadContext_emC_s));
+    os_setCurrentUserThreadContext(memThreadContext);
+    thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
+  }
+  return thC;  //it is a embedded struct inside the whole ThreadContext.
+}
+
 

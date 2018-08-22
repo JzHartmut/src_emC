@@ -49,7 +49,7 @@
 
 
 //NOTE: struct ObjectJc should be known for the StringBuilderJc, defined here.
-//It is possible to include <appl_emC_h/ObjectJc_simple.h> in the <applstdef_emC.h> for the simple concept.
+//It is possible to include <incApplSpecific/applConv/ObjectJc_simple.h> in the <applstdef_emC.h> for the simple concept.
 //instead. See usage of guards there.
 #include <emC/Object_emC.h>
 

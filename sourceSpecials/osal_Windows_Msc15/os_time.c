@@ -46,6 +46,9 @@
 #include <sys/timeb.h>
 
 
+
+static float microsecondsPerClock = 0;
+
 int32 os_milliTime()
 {
   struct _timeb systime;
@@ -120,12 +123,22 @@ float os_measureClock()
     int32_t dclock = clockend - clockstart;    //number of clocks
     tclock = 1000.0f * (float)(endTime - startTime) / dclock;
   }
+  microsecondsPerClock = tclock;
   return tclock;
 }  
 
  
 
-void os_delayThread(int32_t milliseconds)
-{ Sleep(milliseconds);
+void os_delayThread(int32_t milliseconds) { 
+  if(milliseconds < 50 && microsecondsPerClock != 0) {
+    int clocks = (int)(milliseconds * 1000.0f/microsecondsPerClock);
+    int clockstart = os_getClockCnt();
+    while( (os_getClockCnt() - clockstart) < clocks) { //waits till clockCount.
+      Sleep(0);   //forces a thread change if necessary. Needs some time.
+    }
+  }
+  else {
+    Sleep(milliseconds);
+  }
 }
 

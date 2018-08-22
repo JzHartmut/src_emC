@@ -53,7 +53,7 @@
 #endif
 
 //Include before fw_String.h because it is used there.
-#include <appl_emC_h\EnhanceRef_BlockHeap.h>
+#include <incApplSpecific/applConv\EnhanceRef_BlockHeap.h>
 /**Define StringJc firstly, especially before fw_Exception.h> */
 #include <emC/String_emC.h>
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
@@ -82,8 +82,8 @@
 
 
 //PRINTX
-#include <appl_emC_h/definePrintFileMakros.h>
-//#include <appl_emC_h/definePrintfMakros.h>
+#include <incApplSpecific/applConv/definePrintFileMakros.h>
+//#include <incApplSpecific/applConv/definePrintfMakros.h>
 
 
 extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);

@@ -27,7 +27,7 @@
 **copyright***************************************************************************************
 *
 * @content This file should be used for simple target without exception handling
-* if <emC/ExcStacktrcNo_emC.h> is included.
+* if <incApplSpecific/applConv/ExcStacktrcNo_emC.h> is included.
 * It contains a simple mechanism to store thrown errors.
 * @author Hartmut Schorrig
 *

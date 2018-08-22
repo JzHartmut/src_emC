@@ -70,8 +70,8 @@
 
 
 //PRINTX
-#include <appl_emC_h/definePrintFileMakros.h>
-//#include <appl_emC_h/definePrintfMakros.h>
+#include <incApplSpecific/applConv/definePrintFileMakros.h>
+//#include <incApplSpecific/applConv/definePrintfMakros.h>
 
 
 extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);

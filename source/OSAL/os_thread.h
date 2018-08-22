@@ -105,8 +105,13 @@ int os_createThread
 );
 
 /**Changes the thread priority.
- */
+*/
 int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio);
+
+/**Returns the priority of the given thread in the operation system's kind.
+ * This is to compare priorities and for showing (in debug)
+ */
+int os_getOsThreadPriority(OS_HandleThread handle);
 
 
 /**NOTE: suspend and resumed must not called from another thread. Therefore this routines
