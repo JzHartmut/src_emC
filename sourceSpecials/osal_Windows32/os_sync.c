@@ -132,7 +132,7 @@ int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mut
   }
   //if the thread is revived:
   //The mutex is relocked 
-  os_lockMutex(mutex);
+  os_lockMutex(mutex,  0);  //should be locked, the caller unlocks.
   waitObj->threadWait = null; 
   //
   //the user have to be unlock.
@@ -185,7 +185,7 @@ int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* m
         error = 0; 
       }
       //lock before return.
-      os_lockMutex(mutex);
+      os_lockMutex(mutex, 0);  //should be locked, the caller unlocks.
     }
     else
     { error = OS_WARNING_NOTIFY_NothingIsWaiting;

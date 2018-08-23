@@ -235,6 +235,7 @@ int init_OSAL()
 // Wrapper thread function for thread creation and parameter initialization
 void os_wrapperFunction(OS_ThreadContext* threadContext)
 {
+  STACKTRC_ROOT_ENTRY("os_wrapperThread");
   //HANDLE hChildHandle;
 	
 	//hChildHandle = GetCurrentThread();
@@ -266,12 +267,8 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
   fpStart = threadContext->ThreadRoutine;
   fpStart(threadContext->pUserData); //&threadContext->stacktraceThreadContext);		// execute user routine
     
-  	/* what to do if routine is finished? */
-  	//while(true){
-  	//	Sleed(1000);
-  	//}
-  	
-  	ExitThread(0);
+  STACKTRC_LEAVE;	
+  ExitThread(0);
   	
 }
 

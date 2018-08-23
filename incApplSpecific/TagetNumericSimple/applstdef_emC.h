@@ -62,7 +62,8 @@
 
 //#include <emC/ThreadContext_emC.h>
 //#include <emC/Exception_emC.h>
-#include <incApplSpecific/applConv/ExcStacktrcNo_emC.h>
+//#include <incApplSpecific/applConv/ExcStacktrcNo_emC.h>
+#include <incApplSpecific/applConv/ExcNoStringStacktrcNo_emC.h>
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 

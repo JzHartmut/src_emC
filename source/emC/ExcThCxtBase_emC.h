@@ -117,6 +117,46 @@ typedef enum ExceptionMasksJc_t
 
 
 
+typedef enum ExceptionNrJc_t
+{
+  nr_ExceptionJc = -1
+  , nr_RuntimeExceptionJc = 11
+  , nr_ClassCastExceptionJc = 1
+  , nr_NullPointerExceptionJc = 2
+  , nr_NoMemoryExceptionJc = 3
+
+  , nr_IndexOutOfBoundsExceptionJc = 4
+  , nr_ArrayIndexOutOfBoundsExceptionJc = 5
+  , nr_StringIndexOutOfBoundsExceptionJc = 6
+  #define range_IndexOutOfBoundsExceptionJc 7
+  , nr_ArrayStoreExceptionJc = 7
+  , nr_IllegalArgumentExceptionJc = 7
+  , nr_NumberFormatExceptionJc = 9
+  #define range_IllegalArgumentExceptionJc 9
+
+  , nr_IllegalFormatConversionExceptionJc = 10
+  , nr_IllegalAccessExceptionJc = 12
+  , nr_NoSuchElementExceptionJc = 13
+  , nr_IllegalStateExceptionJc = 14
+  , nr_ParseExceptionJc = 15
+
+  , nr_NoSuchFieldExceptionJc = 16
+  , nr_InterruptedExceptionJc = 17
+  , nr_UnsupportedEncodingExceptionJc = 20
+  , range_IOExceptionJc = 29
+  #define range_IOExceptionJc 29
+
+
+  , nr_FileNotFoundExceptionJc = 25
+
+  , nr_OutOfMemoryErrorJc = 30
+  , nr_SystemExceptionJc = 31  //prevent enum definition warning
+  #define range_SystemExceptionJc 31
+  #define range_ExceptionJc 31
+}ExceptionNrJc;
+
+
+
 
 
 /**The Exception data contains all data of exception but references to the stacktrace.
@@ -181,7 +221,11 @@ int getCurrentStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
 
+#define THROW1(EXC, TEXT, VAL) THROW(EXC, TEXT, VAL,0)
 
+#define THROW1_s0(EXC, TEXT, VAL) THROW_s0(EXC, TEXT, VAL,0)
+
+#define THROW_s(EXCEPTION, STRING, VAL1, VAL2) THROW(EXCEPTION, STRING, VAL1, VAL2)
 
 
 

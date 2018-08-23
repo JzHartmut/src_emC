@@ -92,7 +92,7 @@ int os_deleteMutex(struct OS_Mutex_t* mutexID);
  * * If the same thread tries to lock a mutex, it is okay. 
  * * Another thread waits until the owner thread calls os_unlockMutex(...).
  */
-int os_lockMutex(struct OS_Mutex_t* mutexID);
+bool os_lockMutex(struct OS_Mutex_t* mutexID, int timeout_millisec);
 
 /**Unlocks the mutex. It is possible that a thread switch occurs, 
  * if another thread waits and it has a higher priority. 

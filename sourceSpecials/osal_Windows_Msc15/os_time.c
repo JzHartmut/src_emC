@@ -132,13 +132,20 @@ float os_measureClock()
 void os_delayThread(int32_t milliseconds) { 
   if(milliseconds < 50 && microsecondsPerClock != 0) {
     int clocks = (int)(milliseconds * 1000.0f/microsecondsPerClock);
-    int clockstart = os_getClockCnt();
-    while( (os_getClockCnt() - clockstart) < clocks) { //waits till clockCount.
-      Sleep(0);   //forces a thread change if necessary. Needs some time.
-    }
+    os_delayThreadClocks(clocks);
   }
   else {
     Sleep(milliseconds);
   }
 }
+
+
+
+void os_delayThreadClocks(int32_t timeOutClocks) {
+  int clockstart = os_getClockCnt();
+  do { //at least on sleep, important in debug
+    Sleep(0);   //forces a thread change if necessary. Needs some time.
+  } while ((os_getClockCnt() - clockstart) < timeOutClocks); //waits till clockCount.
+}
+
 

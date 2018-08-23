@@ -52,7 +52,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int os_createMutex(char const* pName, OS_Mutex* pMutex)
+int os_createMutex(char const* pName, struct OS_Mutex_t** pMutex)
 {
     OS_Mutex_s* mutex;
     const int zMutex = sizeof(struct OS_Mutex_t);
@@ -71,16 +71,38 @@ int os_createMutex(char const* pName, OS_Mutex* pMutex)
 }
 
 
-int os_deleteMutex(OS_Mutex mutex)
+int os_deleteMutex(OS_Mutex_s* mutex)
 {   //TODO
+  free(mutex);
+
 	return OS_OK;
 }
 
 
-int os_lockMutex(OS_Mutex mutexP)
-{
+
+
+int os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
+{ //TODO timeout
 	OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
-	int error = pthread_mutex_lock(&mutex->mutex);
+  int error;
+  if (timeout_millisec != 0) {
+    struct timespec timeoutTime;
+    clock_gettime(CLOCK_REALTIME, &timeoutTime);
+    int sec = timeout_millisec / 1000;
+    timeout_millisec -= sec*1000;  //module 1000
+    timeoutTime.tv_nsec += timeoutTime;
+    if (timeoutTime.tv_nsec >= 1000000000) {
+      timeoutTime.tv_nsec -= 1000000000;
+      timeoutTime.tv_sec +=1;
+    }
+    timeoutTime.tv_sec += sec;
+    error = pthread_mutex_timedlock(&lock, &timeoutTime);
+    if (error == 0) { //check wether the  mutex is locked
+    #error
+    //this is not ready yet. Problem see https://stackoverflow.com/questions/2821263/lock-a-mutex-multiple-times-in-the-same-thread
+    }
+  }
+  error = pthread_mutex_lock(&mutex->mutex);
 	if(error != 0){
 	    os_NotifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
 		return OS_UNEXPECTED_CALL;

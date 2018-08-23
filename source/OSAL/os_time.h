@@ -173,7 +173,9 @@ int32_t os_microTime(void);
  *
  * Example: If the clock counts with 10 nanoseconds, a difference is valid in 20 seconds 
  */
+#ifndef os_getClockCnt
 int32_t os_getClockCnt(void);
+#endif
 //int32_t os_getClockTime(void);
  
 
@@ -189,9 +191,10 @@ float os_measureClock();
 /**Delays a thread for a number of milliseconds.
  * @param timeOut sleep time in milliseconds.
  */
-void os_delayThread(int32_t timeOut);
-#define os_sleep(TIME) os_delayThread(TIME);
+void os_delayThread(int timeOut);
+void os_delayThreadClocks(int timeOutClocks);
 #endif
+#define os_sleep(TIME) os_delayThread(TIME);
 
 
 
@@ -202,94 +205,94 @@ void os_delayThread(int32_t timeOut);
 
 typedef struct MinMaxTime_emC_t
 {
-  int32_t ct;
+  int ct;
   
-  uint32_t minminCyclTime;
+  //uint minminCyclTime;
 
-  uint32_t minCyclTime;
+  uint minCyclTime;
 
-  uint32_t actCyclTime;
+  uint actCyclTime;
 
-  uint32_t midCyclTime;
+  uint midCyclTime;
 
-  uint32_t maxCyclTime;
+  uint maxCyclTime;
 
-  uint32_t maxmaxCyclTime;
+  //uint maxmaxCyclTime;
   
-  uint32_t minCalcTime;
+  uint minCalcTime;
 
-  uint32_t midCalcTime;
+  uint midCalcTime;
 
-  uint32_t actCalcTime;
+  uint actCalcTime;
 
-  uint32_t maxCalcTime;
+  uint maxCalcTime;
 
-  int32_t _lastTime;
+  int _lastTime;
 
 
-}MinMaxTime_emC;
+} MinMaxTime_emC;
 
-#define init_MinMaxTime_emC(YTHIS)        \
-{ (YTHIS)->maxCyclTime = 0;  \
-  (YTHIS)->maxmaxCyclTime = 0;  \
-  (YTHIS)->maxCalcTime = 0;  \
-  (YTHIS)->midCyclTime = 0;  \
-  (YTHIS)->actCyclTime = 0;  \
-  (YTHIS)->midCalcTime = 0;  \
-  (YTHIS)->minCyclTime = 0x7FFFFFFF;   \
-  (YTHIS)->minminCyclTime = 0x7FFFFFFF;   \
-  (YTHIS)->minCalcTime = 0x7FFFFFFF;  \
-  (YTHIS)->_lastTime = 0;                  \
+inline void init_MinMaxTime_emC(MinMaxTime_emC* thiz)        \
+{ thiz->maxCyclTime = 0;  
+  //thiz->maxmaxCyclTime = 0;  
+  thiz->maxCalcTime = 0;  
+  thiz->midCyclTime = 0;  
+  thiz->actCyclTime = 0;  
+  thiz->midCalcTime = 0;  
+  thiz->minCyclTime = INT_MAX;
+  //thiz->minminCyclTime = 0x7FFFFFFF;   
+  thiz->minCalcTime = INT_MAX;
+  thiz->_lastTime = 0;                  
 }
 
 
-#define cyclTime_MinMaxTime_emC(YTHIS)        \
-{ int32_t time = (int32_t)os_getClockCnt();       \
-  uint32_t cyclTime = time - (YTHIS)->_lastTime; \
-  (YTHIS)->ct +=1;  \
-  (YTHIS)->actCyclTime = cyclTime;  \
-  if(cyclTime > (YTHIS)->maxCyclTime) { (YTHIS)->maxCyclTime = cyclTime; }  \
-  if(cyclTime < (YTHIS)->minCyclTime) { (YTHIS)->minCyclTime = cyclTime; }  \
-  (YTHIS)->midCyclTime += cyclTime - ((YTHIS)->midCyclTime>>10);            \
-  (YTHIS)->_lastTime = time;                  \
+inline void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz)        
+{ int time = os_getClockCnt();       
+  uint cyclTime = (uint)(time - (thiz)->_lastTime); 
+  (thiz)->ct +=1;  
+  (thiz)->actCyclTime = cyclTime;  
+  if(cyclTime > (thiz)->maxCyclTime) { (thiz)->maxCyclTime = cyclTime; }  
+  if(cyclTime < (thiz)->minCyclTime) { (thiz)->minCyclTime = cyclTime; }  
+  (thiz)->midCyclTime += cyclTime - ((thiz)->midCyclTime>>10);            
+  (thiz)->_lastTime = time;                  
 }
 
 /**With given time. */
-#define cyclTime_fast_MinMaxTime_emC(YTHIS, time)        \
-{ uint32_t cyclTime = (time) - (YTHIS)->_lastTime; \
-  (YTHIS)->ct +=1; \
-  (YTHIS)->actCyclTime = cyclTime;  \
-  if(cyclTime > (YTHIS)->maxCyclTime && cyclTime < ((YTHIS)->midCyclTime >>9)) { (YTHIS)->maxCyclTime = cyclTime; }  \
-  if(cyclTime > (YTHIS)->maxmaxCyclTime){ (YTHIS)->maxmaxCyclTime = cyclTime; } \
-  if(cyclTime < (YTHIS)->minCyclTime && cyclTime > ((YTHIS)->midCyclTime >>11)) { (YTHIS)->minCyclTime = cyclTime; }  \
-  if(cyclTime < (YTHIS)->minminCyclTime){ (YTHIS)->minminCyclTime = cyclTime; } \
-  (YTHIS)->midCyclTime += (cyclTime - ((YTHIS)->midCyclTime >>10));            \
-  (YTHIS)->_lastTime = time;                  \
+inline void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
+{ uint cyclTime = (uint)((time) - (thiz)->_lastTime); 
+  (thiz)->ct +=1; 
+  (thiz)->actCyclTime = cyclTime;  
+  if(cyclTime > (thiz)->maxCyclTime && cyclTime < ((thiz)->midCyclTime >>9)) { (thiz)->maxCyclTime = cyclTime; }  
+  //if(cyclTime > (thiz)->maxmaxCyclTime){ (thiz)->maxmaxCyclTime = cyclTime; } 
+  if(cyclTime < (thiz)->minCyclTime && cyclTime > ((thiz)->midCyclTime >>11)){ (thiz)->minCyclTime = cyclTime; }  
+  //if(cyclTime < (thiz)->minminCyclTime){ (thiz)->minminCyclTime = cyclTime; } 
+  (thiz)->midCyclTime += (cyclTime - ((thiz)->midCyclTime >>10));            
+ (thiz)->_lastTime = time;                  
 }
 
 
 /**With given time. */
-#define calcTime_fast_MinMaxTime_emC(YTHIS, time)        \
-{ uint32_t calcTime = (time) - (YTHIS)->_lastTime; \
-  (YTHIS)->actCalcTime = calcTime;  \
-  if(calcTime > (YTHIS)->maxCalcTime) { (YTHIS)->maxCalcTime = calcTime; }  \
-  if(calcTime < (YTHIS)->minCalcTime) { (YTHIS)->minCalcTime = calcTime; }  \
-  (YTHIS)->midCalcTime += (calcTime - ((YTHIS)->midCalcTime >>10));            \
+inline void calcTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
+{ uint calcTime = (uint)((time) - (thiz)->_lastTime); 
+  (thiz)->actCalcTime = calcTime;  
+  if(calcTime > (thiz)->maxCalcTime) { (thiz)->maxCalcTime = calcTime; }  
+  if(calcTime < (thiz)->minCalcTime) { (thiz)->minCalcTime = calcTime; }  
+  (thiz)->midCalcTime += (calcTime - ((thiz)->midCalcTime >>10));            
 }
 
 /**Stores middle value of difference time in any variable, without min and max. 
  * @param VAR variable to store middle time 
  */
-#define mesTimeMid_I_MinMaxTime_emC(YTHIS, time, VAR, VARMID)        \
-{ VAR = (time) - (YTHIS)->_lastTime; \
+#define mesTimeMid_I_MinMaxTime_emC(thiz, time, VAR, VARMID)        \
+{ VAR = (time) - (thiz)->_lastTime; \
   VARMID += VAR - (VARMID >>10);            \
 }
 
 /**Stores difference time in any variable, without min and max. 
  * @param VAR variable to store middle time 
  */
-#define mesTime_I_MinMaxTime_emC(YTHIS, time, VAR)        \
-{ VAR = (time) - (YTHIS)->_lastTime; \
+#define mesTime_I_MinMaxTime_emC(thiz, time, VAR)        \
+{ VAR = (time) - (thiz)->_lastTime; \
 }
 
 

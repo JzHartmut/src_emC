@@ -39,9 +39,11 @@
 
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
+#include <msp430.h>
 
 
-#include <stdint.h>
+#include <stdint.h>  //C99-int types
+#include <limits.h>  //proper to C99
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -101,26 +103,39 @@
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
 
+
+/**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
+ * Only the sizes are defined there, but from sizes to bits it is not able to calculate.
+ * The number of bits are necessary for shift operations. 
+ * Note: The number of bits for an int16_t may not 16 in all platforms. 
+ * There are platforms which only knows 32 bit data (for example DSP processors from Analog Devices).
+ */
+#define INT8_NROFBITS  8
+#define INT16_NROFBITS 16
+#define INT32_NROFBITS 32
+#define INT64_NROFBITS 64
+#define INT_NROFBITS   32
+
+/**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
+ * But the definition of INT_MAX is missing.
+ */
+//#define INT_MAX INT32_MAX 
+//#define INT_MIN INT32_MIN 
+//#define UINT_MAX UINT32_MAX 
+
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
  */
-#define int8      signed char
-#define uint8     unsigned char
+#define int8      int8_t
+#define uint8     uint8_t
 
-#define int16     short
-#define uint16    unsigned short
-#define int16_t   short
-#define u_int16_t unsigned short
-#define uint16_t  unsigned short
+#define int16     int16_t
+#define uint16    uint16_t
 
 #define int32     int32_t
-#define uint32    unsigned int
-#define int32_t   int
-#define u_int32_t unsigned int
-#define uint32_t  unsigned int
+#define uint32    uint32_t
 
-//Simulink does not know 64-bit-int, define types with standard-C compiler specific.
 #define int64 int64_t
 #define uint64 int64_t
 
@@ -157,8 +172,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
-/**int-type which can represent a standard pointer. */
-#define intPTR uint32
+/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
+#define intPTR intptr_t
 
 
 /**Definition of the really used types in variable argument lists. 
@@ -333,12 +348,13 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 //void             __disable_interrupt(void);
 //void             __enable_interrupt(void);
 #include <intrinsics.h>  //compiler-specific definitions
-//#include <msp430.h>
 #define os_createMutex(NAME, M)
-#define os_lockMutex(M) __disable_interrupt()
+#define os_lockMutex(M, TIME) (__disable_interrupt(), true)
 #define os_unlockMutex(M) __enable_interrupt()
 
 
+/**Use the TA0R for MC_2: Mode 2: continues from 0 to 0xffff->0 */
+#define os_getClockCnt() ((int16)TA0R)
 
 
 #endif  //__compl_adaption_h__

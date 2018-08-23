@@ -41,6 +41,7 @@
  * 2008-02-01: Hartmut creation 
  *
  ************************************************************************************************/
+#include <applstdef_emC.h>
 #include <os_sync.h>
 #include <os_error.h>
 #include <os_mem.h>
@@ -67,33 +68,34 @@
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
-int os_createMutex(char const* pName, struct OS_Mutex_t** pMutex)
+int os_createMutex(char const* pName, OS_Mutex_s** ppMutex)
 {
 
     HANDLE    hIOMutex;
     DWORD err;
-    struct OS_Mutex_t* mutex;
-    const int zMutex = sizeof(struct OS_Mutex_t);
+    struct OS_Mutex_t* pMutex;
+    const int zMutex = sizeof(OS_Mutex_s);
     
     hIOMutex = CreateMutex (NULL, FALSE, NULL);  // initially not owned
     if ( hIOMutex == NULL )
     {
 		  err = GetLastError();
-        os_notifyError(-1, "os_createMutex: ERROR: create mutex failed with Win err= %d\n", err, 0 );
-        *pMutex = null;
-		  return OS_SYSTEM_ERROR;
+     STACKTRC_ENTRY("os_createMutex");
+      THROW_s0(IllegalStateException, "os_createMutex: ERROR: create mutex failed with Win err", err, 0 );
+      *ppMutex = null;
+		  STACKTRC_RETURN OS_SYSTEM_ERROR;
     }
-	  mutex = (struct OS_Mutex_t*)(os_allocMem(zMutex));
-    memset(mutex, 0, zMutex);
-    mutex->winHandleMutex  = hIOMutex;
-    *pMutex = mutex;
+	  pMutex = (OS_Mutex_s*)(os_allocMem(zMutex));
+    //memset(pMutex, 0, zMutex); //already done in os_allocMem(...)
+    pMutex->winHandleMutex  = hIOMutex;
+    *ppMutex = pMutex;
     return OS_OK;
 }
 
 
-int os_deleteMutex(struct OS_Mutex_t* mutex)
-{ HANDLE winHandleMutex = mutex->winHandleMutex;
-  os_freeMem((void*)mutex);
+int os_deleteMutex(struct OS_Mutex_t* pMutex)
+{ HANDLE winHandleMutex = pMutex->winHandleMutex;
+  os_freeMem(pMutex);
   if ( CloseHandle( winHandleMutex ) == 0 ) 
   {
     DWORD err = GetLastError();
@@ -111,18 +113,22 @@ int os_deleteMutex(struct OS_Mutex_t* mutex)
 }
 
 
-int os_lockMutex(OS_Mutex_s* mutex)
+bool os_lockMutex(OS_Mutex_s* pMutex, int timeout_millisec)
 {
 	DWORD WinRet;
-    WinRet = WaitForSingleObject( mutex->winHandleMutex, INFINITE );
-    if (WinRet == WAIT_FAILED)
-    {	DWORD err = GetLastError();
-      os_notifyError( -1, "os_waitMutex: ERROR: WaitForSingleObject failed with Win err=%d\n", err, 0 );
- 			if (err==ERROR_INVALID_HANDLE)
-      { return OS_INVALID_HANDLE;
-			}
-			else { return OS_SYSTEM_ERROR; }
-		}
+  if(timeout_millisec ==0){ timeout_millisec = INFINITE; }
+    WinRet = WaitForSingleObject( pMutex->winHandleMutex, timeout_millisec );
+    if (WinRet == WAIT_ABANDONED)
+    { STACKTRC_ENTRY("os_lockMutex");
+      THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex is blocked because a killed thread", (int32)pMutex->winHandleMutex, 0);
+      STACKTRC_RETURN false;
+    }if (WinRet == WAIT_FAILED)
+    {
+      DWORD err = GetLastError();
+      STACKTRC_ENTRY("os_lockMutex");
+      THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex, debug necessary ", (int32)pMutex->winHandleMutex, err);
+      STACKTRC_RETURN false;
+    }
 		
 //		if (WinRet==WAIT_ABANDONED){ // in case another thread terminated and did not release the mutex
 //			return OS_SYSTEM_ERROR;
@@ -134,11 +140,11 @@ int os_lockMutex(OS_Mutex_s* mutex)
     }
     mutex->threadOwner = os_getCurrentThreadContext_intern();
     */
-    return OS_OK; 
+    return WinRet == WAIT_OBJECT_0;  //true: it is locked.
 }
 
 
-int os_unlockMutex(struct OS_Mutex_t* mutex)
+int os_unlockMutex(struct OS_Mutex_t* pMutex)
 {
   /*
     struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();
@@ -151,7 +157,7 @@ int os_unlockMutex(struct OS_Mutex_t* mutex)
     //because anther thread may be locked immediately and will found an empty threadOwner!
     mutex->threadOwner = null;
   */
-  if ( ReleaseMutex( mutex->winHandleMutex ) == 0 )
+  if ( ReleaseMutex( pMutex->winHandleMutex ) == 0 )
   { int32 err;
     //revert infos because the unlock isn't valid! It is important for debug
     //mutex->threadOwner = threadOwner;

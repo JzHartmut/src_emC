@@ -97,7 +97,7 @@ HandleItem* getFreeHandleEntry(int16* idx)
       mutexInitHandle = data_OsWrapperJc.mutexInitHandle;  //use the existing from the ohter thread.
     }
     //There is only one determined mutex instance 
-    { os_lockMutex(mutexInitHandle);  
+    { os_lockMutex(mutexInitHandle, 0);  
       //repeat the quest and the initialization under mutex.
       if(data_OsWrapperJc.nrofHandle == 0) {
         data_OsWrapperJc.nrofHandle = initFreeHandleEntry();
@@ -315,7 +315,7 @@ void synchronized(ObjectJc* obj)
     STACKTRC_LEAVE;
     return;
   }
-  os_lockMutex(handle->handleMutex);
+  os_lockMutex(handle->handleMutex,0);
 }
 
 

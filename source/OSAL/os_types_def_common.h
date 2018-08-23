@@ -49,6 +49,10 @@
  */
 #define ARRAYLEN_emC(ARRAY) (sizeof(ARRAY) / sizeof((ARRAY)[0]))
 
+/**The compiler optimizes it because the return value should not used. */
+inline int unused_emC(int arg){ return arg; }
+
+
 #define DEF
 
 #define INLINE_Jc INLINE_emC
