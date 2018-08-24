@@ -5,7 +5,7 @@
   #include <BlockHeap/BlockHeap_emC.h>  //for free(ptr)
 #endif
 
-int free_MemC(void const* addr)
+int free_MemC  (  void const* addr)
 { MemC buffer;
   MemUnit* ptr = (MemUnit*)addr;
   #ifndef __NOT_SUPPORTED_ThreadContext_emC__

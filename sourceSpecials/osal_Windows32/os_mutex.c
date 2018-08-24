@@ -68,7 +68,7 @@
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
-int os_createMutex(char const* pName, OS_Mutex_s** ppMutex)
+struct OS_Mutex_t* os_createMutex(char const* pName)
 {
 
     HANDLE    hIOMutex;
@@ -80,36 +80,30 @@ int os_createMutex(char const* pName, OS_Mutex_s** ppMutex)
     if ( hIOMutex == NULL )
     {
 		  err = GetLastError();
-     STACKTRC_ENTRY("os_createMutex");
+      STACKTRC_ENTRY("os_createMutex");
       THROW_s0(IllegalStateException, "os_createMutex: ERROR: create mutex failed with Win err", err, 0 );
-      *ppMutex = null;
-		  STACKTRC_RETURN OS_SYSTEM_ERROR;
+      STACKTRC_RETURN null;
     }
 	  pMutex = (OS_Mutex_s*)(os_allocMem(zMutex));
     //memset(pMutex, 0, zMutex); //already done in os_allocMem(...)
     pMutex->winHandleMutex  = hIOMutex;
-    *ppMutex = pMutex;
-    return OS_OK;
+    return pMutex;
 }
 
 
-int os_deleteMutex(struct OS_Mutex_t* pMutex)
-{ HANDLE winHandleMutex = pMutex->winHandleMutex;
+void os_deleteMutex(struct OS_Mutex_t* pMutex)
+{
+  if (pMutex == null) return; //no THROW, it should be shown in lockMutex already.
+
+  HANDLE winHandleMutex = pMutex->winHandleMutex;
   os_freeMem(pMutex);
-  if ( CloseHandle( winHandleMutex ) == 0 ) 
+  if( !CloseHandle( winHandleMutex ) )  //returns BOOL false on error 
   {
     DWORD err = GetLastError();
-    os_notifyError(-1, "os_deleteMutex: ERROR: CloseHandle failed with Win err=%d\n", err,0 );
-	  if (err==ERROR_INVALID_HANDLE)
-    {	return OS_INVALID_HANDLE;
-	  }
-    else
-	  { return OS_SYSTEM_ERROR;
-    }
+    STACKTRC_ENTRY("os_createMutex");
+    THROW_s0(IllegalStateException, "os_deleteMutex: ERROR: CloseHandle failed with Win err", err, (int)winHandleMutex);
+    STACKTRC_RETURN;
   }
-  else
-  { return OS_OK;
-  } 
 }
 
 
@@ -117,35 +111,33 @@ bool os_lockMutex(OS_Mutex_s* pMutex, int timeout_millisec)
 {
 	DWORD WinRet;
   if(timeout_millisec ==0){ timeout_millisec = INFINITE; }
+  if(pMutex !=null) {
     WinRet = WaitForSingleObject( pMutex->winHandleMutex, timeout_millisec );
     if (WinRet == WAIT_ABANDONED)
     { STACKTRC_ENTRY("os_lockMutex");
       THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex is blocked because a killed thread", (int32)pMutex->winHandleMutex, 0);
       STACKTRC_RETURN false;
-    }if (WinRet == WAIT_FAILED)
-    {
+    }
+    if (WinRet == WAIT_FAILED) {
       DWORD err = GetLastError();
       STACKTRC_ENTRY("os_lockMutex");
       THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex, debug necessary ", (int32)pMutex->winHandleMutex, err);
       STACKTRC_RETURN false;
     }
-		
-//		if (WinRet==WAIT_ABANDONED){ // in case another thread terminated and did not release the mutex
-//			return OS_SYSTEM_ERROR;
-//		}
-    /*
-    if(mutex->threadOwner != null)
-    { os_Error("Anybody has locked the mutex, but this thread have the lock of system.", (int)(mutex->threadOwner));
-      //ignore it if os_Error() is not acute.
+    else {
+      return (WinRet == WAIT_OBJECT_0 ? true : false); //true if signaled, false especially on WAIT_TIMEOUT
     }
-    mutex->threadOwner = os_getCurrentThreadContext();
-    */
-    return WinRet == WAIT_OBJECT_0;  //true: it is locked.
+  } else {
+    STACKTRC_ENTRY("os_lockMutex");
+    THROW_s0(Exception, "mutex pointer is null", 0,0);
+    STACKTRC_RETURN false;
+  }
 }
 
 
-int os_unlockMutex(struct OS_Mutex_t* pMutex)
+void os_unlockMutex(struct OS_Mutex_t* pMutex)
 {
+  if(pMutex == null) return; //no THROW, it should be shown in lockMutex already.
   /*
     struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
     struct OS_ThreadContext_t const* threadOwner = mutex->threadOwner;
@@ -157,24 +149,21 @@ int os_unlockMutex(struct OS_Mutex_t* pMutex)
     //because anther thread may be locked immediately and will found an empty threadOwner!
     mutex->threadOwner = null;
   */
-  if ( ReleaseMutex( pMutex->winHandleMutex ) == 0 )
-  { int32 err;
+  if ( !ReleaseMutex( pMutex->winHandleMutex ) ) { //returns BOOL false on error 
+    int32 err;
+    STACKTRC_ENTRY("os_unlockMutex");
     //revert infos because the unlock isn't valid! It is important for debug
     //mutex->threadOwner = threadOwner;
     err = GetLastError();
     if (err == ERROR_NOT_OWNER)
     { /**It is helpfull to produce another error message if another thread release the mutex,
        * because it is a users programming error. */
-      os_notifyError(-1, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error=%d\n", err, 0);		
-		  return OS_UNEXPECTED_CALL;
+      THROW_s0(Exception, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error", err, (int)pMutex);		
     }
     else
-    { os_notifyError(-1, "os_unlockMutex: ERROR: ReleaseMutex failed with win-error=%d\n", err, 0);		
-		  if (err==ERROR_INVALID_HANDLE){ return OS_INVALID_HANDLE; }
-		  else return OS_SYSTEM_ERROR;
-    }	  
-  }
-  else 
-  { return OS_OK; 
+    {
+      THROW_s0(Exception, "os_unlockMutex: ERROR: ReleaseMutex failed with win-error", err, (int)pMutex);
+	  }
+    STACKTRC_LEAVE;
   }
 }

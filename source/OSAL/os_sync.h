@@ -79,12 +79,12 @@ typedef struct OS_HandleWaitNotify_t const* OS_HandleWaitNotify;
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
-int os_createMutex(char const* name, struct OS_Mutex_t** pMutexID);
+struct OS_Mutex_t* os_createMutex(char const* name);
  
  
 /**Deletes a mutex object.
  */
-int os_deleteMutex(struct OS_Mutex_t* mutexID);
+void os_deleteMutex(struct OS_Mutex_t* mutexID);
  
 
 /**locks a mutex. 
@@ -100,7 +100,7 @@ bool os_lockMutex(struct OS_Mutex_t* mutexID, int timeout_millisec);
  * The same thread which calls os_lockMutex(...) should call os_unlockMutex(...).
  * If another thread unlocks, it is an error and an exception may be thrown.
  */
-int os_unlockMutex(struct OS_Mutex_t* mutexID);
+void os_unlockMutex(struct OS_Mutex_t* mutexID);
 #endif
 
 

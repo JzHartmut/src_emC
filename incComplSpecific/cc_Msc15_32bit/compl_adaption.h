@@ -81,6 +81,7 @@
 
 #pragma warning(error:4002) //too many actual parameters for macro
 #pragma warning(error:4003) //not enough actual parameters for macro
+#pragma warning(error:4020) //too many actual parameters
 
 
 

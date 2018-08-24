@@ -597,13 +597,8 @@ char* os_getTextOfOsError(int nError)
 
 
 
-/**This mehtod is necessary because the user shouldn't know the struct ThreadContext.
-* It should be hidden, but the embedded part of threadcontext for Stacktrace handling
-* should be known in all user routines because it is used inline-like.
-*/
-ThreadContext_emC_s* getCurrent_ThreadContext_emC()
+ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 {
-  
   OS_ThreadContext* os_thCxt = getCurrent_OS_ThreadContext();
   if(os_thCxt == null){ //only on startup in main without multithreading 
     init_OSAL();  //only 1 cause if the ThreadContext haven't set.

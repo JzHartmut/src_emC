@@ -9,7 +9,7 @@
 * It should be hidden, but the embedded part of threadcontext for Stacktrace handling
 * should be known in all user routines because it is used inline-like.
 */
-ThreadContext_emC_s* getCurrent_ThreadContext_emC()
+ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 {
   ThreadContext_emC_s* thC;
   //The users thread context is managed but not knwon in detail from osal:
