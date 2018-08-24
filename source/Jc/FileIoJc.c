@@ -142,7 +142,7 @@ FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc(ObjectJc* othis, FileJc_s* fil
   ythis->file = hFile;
   if(file == null)
   { //Standard-C doesn't know any difference (errno?)
-    THROW(FileNotFoundException, fileName, 0);
+    THROW(FileNotFoundException, fileName, 0,0);
   }
   STACKTRC_LEAVE; return ythis;
 }
@@ -168,7 +168,7 @@ void write_FileOutputStreamJc(FileOutputStreamJc_s* ythis, void* data, int offse
   STACKTRC_TENTRY("write_FileOutputStreamJc");
   nrofBytesWritten = os_fwrite(ythis->file, addOffset_MemUnit(data, offset), len);
   if(nrofBytesWritten != len){
-    THROW_s0(IOException, "writing file", (int)ythis);
+    THROW1_s0(IOException, "writing file", (int)ythis);
 
   }
   STACKTRC_LEAVE;
@@ -258,7 +258,7 @@ void write_FileWriterJc(FileWriterJc_s* ythis, StringJc text, ThCxt* _thCxt)
   STACKTRC_TENTRY("write_FileWriterJc");
   sText = getCharsAndLength_StringJc(&text, &nrofChars);
   error = os_fwrite(ythis->file, sText, nrofChars);
-  if(error < 0){ THROW_s0(IOException, "writing file", (int)ythis);}
+  if(error < 0){ THROW1_s0(IOException, "writing file", (int)ythis);}
   STACKTRC_LEAVE; 
 }
 
@@ -311,7 +311,7 @@ int open_FileReaderJcF(FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _thCxt
   int ii;
   STACKTRC_TENTRY("open_FileReaderJcF");
   if(ythis->file_ != null)
-  { THROW_s0(IllegalArgumentException, "fault time of call, file is opened", ythis->lenFile_);
+  { THROW1_s0(IllegalArgumentException, "fault time of call, file is opened", ythis->lenFile_);
   }
   len = copyToBuffer_CharSeqJc(sFileName, 0, -1, ssFileName, sizeof(ssFileName), _thCxt); 
   for(ii=0; ii<len; ii++){ if(ssFileName[ii] == '/'){ ssFileName[ii] = '\\'; } }

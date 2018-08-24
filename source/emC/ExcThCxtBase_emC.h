@@ -116,44 +116,83 @@ typedef enum ExceptionMasksJc_t
 }ExceptionMasksJc;
 
 
-
+//New system of range: 
+//For leaf exception the range is a enum, it is identically with the nr_
+//For group exception the first item is the nr_ExcpetionGroup. The last item is defined as range_ here.
+//TODO not really ready yet.
 typedef enum ExceptionNrJc_t
 {
-  nr_ExceptionJc = -1
-  , nr_RuntimeExceptionJc = 11
-  , nr_ClassCastExceptionJc = 1
-  , nr_NullPointerExceptionJc = 2
-  , nr_NoMemoryExceptionJc = 3
+  nr_ExceptionJc = 1
+  , nr_RuntimeExceptionJc = 2
+  , nr_ClassCastExceptionJc = 3
+  , nr_NullPointerExceptionJc = 4
+  , nr_NoMemoryExceptionJc = 5
+  , nr_InterruptedExceptionJc = 6
 
-  , nr_IndexOutOfBoundsExceptionJc = 4
-  , nr_ArrayIndexOutOfBoundsExceptionJc = 5
-  , nr_StringIndexOutOfBoundsExceptionJc = 6
-  #define range_IndexOutOfBoundsExceptionJc 7
-  , nr_ArrayStoreExceptionJc = 7
-  , nr_IllegalArgumentExceptionJc = 7
-  , nr_NumberFormatExceptionJc = 9
-  #define range_IllegalArgumentExceptionJc 9
+  , nr_IndexOutOfBoundsExceptionJc = 16
+  , nr_ArrayIndexOutOfBoundsExceptionJc = 17
+  , nr_StringIndexOutOfBoundsExceptionJc = 18
+#define range_IndexOutOfBoundsExceptionJc 31
+  , nr_ArrayStoreExceptionJc = 32
+  , nr_IllegalArgumentExceptionJc = 33
+  , nr_NumberFormatExceptionJc = 34
+#define range_IllegalArgumentExceptionJc 47
 
-  , nr_IllegalFormatConversionExceptionJc = 10
-  , nr_IllegalAccessExceptionJc = 12
-  , nr_NoSuchElementExceptionJc = 13
-  , nr_IllegalStateExceptionJc = 14
-  , nr_ParseExceptionJc = 15
+  , nr_IllegalFormatConversionExceptionJc = 0x40
+  , nr_IllegalAccessExceptionJc = 0x41
+  , nr_NoSuchElementExceptionJc = 0x42
+  , nr_IllegalStateExceptionJc = 0x43
 
-  , nr_NoSuchFieldExceptionJc = 16
-  , nr_InterruptedExceptionJc = 17
-  , nr_UnsupportedEncodingExceptionJc = 20
-  , range_IOExceptionJc = 29
-  #define range_IOExceptionJc 29
+  , nr_NoSuchFieldExceptionJc = 0x44
+  , nr_ParseExceptionJc = 0x4f           //java.lang.text
 
 
-  , nr_FileNotFoundExceptionJc = 25
+  , nr_IOExceptionJc = 0x100
+  , nr_FileNotFoundExceptionJc = 0x101
+  , nr_UnsupportedEncodingExceptionJc = 0x133
+#define range_IOExceptionJc 0x1ff
 
-  , nr_OutOfMemoryErrorJc = 30
-  , nr_SystemExceptionJc = 31  //prevent enum definition warning
-  #define range_SystemExceptionJc 31
-  #define range_ExceptionJc 31
+
+
+  , nr_SystemError = 0x4000 
+  , nr_SystemExceptionJc = 0x4001  //prevent enum definition warning
+  , nr_OutOfMemoryErrorJc = 0x4002
+#define range_SystemExceptionJc 0x7fff
+#define range_ExceptionJc 0x7fff
 }ExceptionNrJc;
+
+
+typedef enum ExceptionRangeJc_t
+{
+    range_RuntimeExceptionJc = 2
+  , range_ClassCastExceptionJc = 3
+  , range_NullPointerExceptionJc = 4
+  , range_NoMemoryExceptionJc = 5
+  , range_InterruptedExceptionJc = 6
+
+  , range_ArrayIndexOutOfBoundsExceptionJc = 17
+  , range_StringIndexOutOfBoundsExceptionJc = 18
+  , range_ArrayStoreExceptionJc = 32
+  , range_NumberFormatExceptionJc = 34
+
+  , range_IllegalFormatConversionExceptionJc = 0x40
+  , range_IllegalAccessExceptionJc = 0x41
+  , range_NoSuchElementExceptionJc = 0x42
+  , range_IllegalStateExceptionJc = 0x43
+
+  , range_NoSuchFieldExceptionJc = 0x44
+  , range_ParseExceptionJc = 0x4f           //java.lang.text
+
+
+  , range_FileNotFoundExceptionJc = 0x101
+  , range_UnsupportedEncodingExceptionJc = 0x133
+
+
+
+  , range_SystemError = 0x4000
+  , range_OutOfMemoryErrorJc = 0x4002
+
+}ExceptionRangeJc;
 
 
 
@@ -213,6 +252,8 @@ extern_C void log_ExceptionJc(ExceptionJc* exc, char const* sFile, int line);
  */
 struct ThreadContext_emC_t* getCurrent_ThreadContext_emC();
 
+void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topAddrStack);
+
 /**Returns the approximately current size of stack */
 int getCurrentStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
@@ -226,6 +267,8 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 #define THROW1_s0(EXC, TEXT, VAL) THROW_s0(EXC, TEXT, VAL,0)
 
 #define THROW_s(EXCEPTION, STRING, VAL1, VAL2) THROW(EXCEPTION, STRING, VAL1, VAL2)
+
+#define STACKTRC_RETURN STACKTRC_LEAVE; return
 
 
 

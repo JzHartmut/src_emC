@@ -15,7 +15,7 @@
 #include <applstdef_emC.h>
 
 /**Informations about the current thread, more as an simple id. */
-struct OS_ThreadContext_t* os_getCurrentThreadContext_intern();
+struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
 
 
 typedef struct OS_Mutex_t{

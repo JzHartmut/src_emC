@@ -278,7 +278,7 @@ struct SearchTrc_SearchElement_Inspc_t* ctorM_SearchTrc_SearchElement_Inspc(MemC
 { SearchTrc_SearchElement_Inspc_s* thiz = PTR_MemC(mthis, SearchTrc_SearchElement_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_SearchTrc_SearchElement_Inspc");
-  if(sizeof(SearchTrc_SearchElement_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(SearchTrc_SearchElement_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element

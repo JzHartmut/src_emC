@@ -55,10 +55,10 @@ void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, in
 { ObjectArrayJc* srcArray = (ObjectArrayJc*)src;  //TODO test whether it is admissible
   ObjectArrayJc* dstArray = (ObjectArrayJc*)dst;  //TODO test whether it is admissible
   STACKTRC_TENTRY("arraycopy_SystemJc");
-  if(srcPos < 0 || srcPos > srcArray->length) THROW_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
-  if(dstPos < 0 || dstPos > dstArray->length) THROW_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
-  if(srcPos +length > srcArray->length || dstPos +length > dstArray->length) THROW_s0(IndexOutOfBoundsException, "length failed", length);
-  if(srcArray->sizeElement != dstArray->sizeElement) THROW_s0(ArrayStoreException, "dstPos failed", dstPos);
+  if(srcPos < 0 || srcPos > srcArray->length) THROW1_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
+  if(dstPos < 0 || dstPos > dstArray->length) THROW1_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
+  if(srcPos +length > srcArray->length || dstPos +length > dstArray->length) THROW1_s0(IndexOutOfBoundsException, "length failed", length);
+  if(srcArray->sizeElement != dstArray->sizeElement) THROW1_s0(ArrayStoreException, "dstPos failed", dstPos);
   { int sizeElement = srcArray->sizeElement; 
     int nrofBytes = sizeElement * length;
     int srcPosBytes = sizeElement * srcPos;
@@ -66,9 +66,9 @@ void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, in
     //TODO test whehter it is in the size of ObjectJc, use objectIdentSize
     int srcMaxNrofBytes = getSizeInfo_ObjectJc(src);
     int dstMaxNrofBytes = getSizeInfo_ObjectJc(dst);
-    if(sizeElement < 0) THROW_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
-    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW_s0(ArrayStoreException, "src-consistence failed", (int)(src));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW_s0(ArrayStoreException, "dst-consistence failed", (int)(dst));
+    if(sizeElement < 0) THROW1_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
+    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(src));
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(dst));
     //all is tested.
     { MemUnit* dst = (MemUnit*)(dstArray +1);   //The position after the head data.
       MemUnit* src = (MemUnit*)(srcArray +1);
@@ -84,10 +84,10 @@ void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPo
   int srclen = length_ByteStringJc(src);
   int8* srcPtr = data_ByteStringJc(src);
   STACKTRC_TENTRY("arraycopy_SystemJc");
-  if(srcPos < 0 || srcPos > srclen) THROW_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
-  if(dstPos < 0 || dstPos > dstArray->length) THROW_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
-  if(srcPos +length > srclen || dstPos +length > dstArray->length) THROW_s0(IndexOutOfBoundsException, "length failed", length);
-  if(1 != dstArray->sizeElement) THROW_s0(ArrayStoreException, "dstPos failed", dstPos);
+  if(srcPos < 0 || srcPos > srclen) THROW1_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
+  if(dstPos < 0 || dstPos > dstArray->length) THROW1_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
+  if(srcPos +length > srclen || dstPos +length > dstArray->length) THROW1_s0(IndexOutOfBoundsException, "length failed", length);
+  if(1 != dstArray->sizeElement) THROW1_s0(ArrayStoreException, "dstPos failed", dstPos);
   { int sizeElement = 1; 
     int nrofBytes = sizeElement * length;
     int srcPosBytes = sizeElement * srcPos;
@@ -95,9 +95,9 @@ void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPo
     //TODO test whehter it is in the size of ObjectJc, use objectIdentSize
     int srcMaxNrofBytes = srclen;
     int dstMaxNrofBytes = getSizeInfo_ObjectJc(dst);
-    if(sizeElement < 0) THROW_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
-    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW_s0(ArrayStoreException, "dst-consistence failed", (int)(dst));
+    if(sizeElement < 0) THROW1_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
+    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(dst));
     //all is tested.
     { MemUnit* dst = (MemUnit*)(dstArray +1);   //The position after the head data.
       MemUnit* src = (MemUnit*)srcPtr;
@@ -113,10 +113,10 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int ds
 { int srclen = length_ByteStringJc(src);
   int8* srcPtr = data_ByteStringJc(src);
   STACKTRC_TENTRY("arraycopy_SystemJc");
-  if(srcPos < 0 || srcPos > srclen) THROW_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
-  if(dstPos < 0 || dstPos > value_OS_PtrValue(dst)) THROW_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
-  if(srcPos +length > srclen || dstPos +length > value_OS_PtrValue(dst)) THROW_s0(IndexOutOfBoundsException, "length failed", length);
-  if(1 != sizeof(*dst.ref)) THROW_s0(ArrayStoreException, "dstPos failed", dstPos);
+  if(srcPos < 0 || srcPos > srclen) THROW1_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
+  if(dstPos < 0 || dstPos > value_OS_PtrValue(dst)) THROW1_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
+  if(srcPos +length > srclen || dstPos +length > value_OS_PtrValue(dst)) THROW1_s0(IndexOutOfBoundsException, "length failed", length);
+  if(1 != sizeof(*dst.ref)) THROW1_s0(ArrayStoreException, "dstPos failed", dstPos);
   { int sizeElement = 1; 
     int nrofBytes = sizeElement * length;
     int srcPosBytes = sizeElement * srcPos;
@@ -124,9 +124,9 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int ds
     //TODO test whehter it is in the size of ObjectJc, use objectIdentSize
     int srcMaxNrofBytes = srclen;
     int dstMaxNrofBytes = value_OS_PtrValue(dst);
-    if(sizeElement < 0) THROW_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
-    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW_s0(ArrayStoreException, "dst-consistence failed", (int)(dst.ref));
+    if(sizeElement < 0) THROW1_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
+    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(dst.ref));
     //all is tested.
     { MemUnit* dst1 = (MemUnit*)(dst.ref);   
       MemUnit* src1 = (MemUnit*)srcPtr;

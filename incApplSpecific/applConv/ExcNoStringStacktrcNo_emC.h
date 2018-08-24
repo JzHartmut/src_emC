@@ -100,7 +100,7 @@ void logSimple_ExceptionJc(int exc, int32 value, char const* file, int line);
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
 * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
 */
-#define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt; 
+#define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt 
 
 
 
@@ -112,7 +112,6 @@ void logSimple_ExceptionJc(int exc, int32 value, char const* file, int line);
 /**For that the _thCxt variable is given in arguments of the operation */
 #define STACKTRC_TENTRY(NAME)
 #define STACKTRC_LEAVE
-#define STACKTRC_RETURN return
 #define CALLINE
 
 #define THCXT null
@@ -146,7 +145,12 @@ void logSimple_ExceptionJc(int exc, int32 value, char const* file, int line);
   logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, __FILE__, __LINE__); \
 }
 
-#define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  THROW(EXCEPTION,  z_StringJc(TEXT), VAL1, VAL2)
+
+#define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
+  _thCxt->exc.exceptionNr = nr_##EXCEPTION##Jc; _thCxt->exc.exceptionValue = VAL1; \
+  _thCxt->exc.file = __FILE__; _thCxt->exc.line = __LINE__; \
+  logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, __FILE__, __LINE__); \
+}
 
 
 #define printStackTrace_ExceptionJc(ythis, _thCxt)

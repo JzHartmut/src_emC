@@ -89,7 +89,7 @@ void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identAndMaskObj)
 
   if(identObj < 0 || sizeObj < 0 || nrofArrayDimensions <0 || nrofArrayDimensions > 3)
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
-    THROW_s0(RuntimeException, "negativ values for all parameter are unexpected, or nrofArrayDimensions >0", sizeObj);
+    THROW1_s0(RuntimeException, "negativ values for all parameter are unexpected, or nrofArrayDimensions >0", sizeObj);
   }
   else if(sizeObj <= mSizeSmall_objectIdentSize_ObjectJc && identObj <= (mTypeSmall_objectIdentSize_ObjectJc >> kBitTypeSmall_objectIdentSize_ObjectJc))
   { ythis->state.b.objectIdentSize = sizeObj | kIsSmallSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeSmall_objectIdentSize_ObjectJc);
@@ -102,7 +102,7 @@ void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identAndMaskObj)
   }
   else
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
-    THROW_s0(RuntimeException, "not matched ident and size", sizeObj);
+    THROW1_s0(RuntimeException, "not matched ident and size", sizeObj);
   }
 }
 
@@ -124,16 +124,16 @@ int checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, struct Clas
     int sizeObj = getSizeInfo_ObjectJc(ythis);
     if(ythis->ownAddress != ythis) {
       ident = -1;  //marker for faulty.
-      THROW_s0(IllegalArgumentException, "faut ownAddress", (int)ythis->ownAddress);
+      THROW1_s0(IllegalArgumentException, "faut ownAddress", (int)ythis->ownAddress);
     }
     if(size != 0 && sizeObj < size) {
       ident = -1;  //marker for faulty.
-      THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+      THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
     }
     //
     if(ident != 0 && ident != identObj) {
       identObj = -1;  //marker for faulty.
-      THROW_s0(IllegalArgumentException, "faut ident", identObj);
+      THROW1_s0(IllegalArgumentException, "faut ident", identObj);
     }
     //
     if(clazzReflection != null)

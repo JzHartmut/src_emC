@@ -91,7 +91,7 @@ void finalize_ThreadJc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-/**This method is the start routine of all threads. */
+/**This method is the start routine of all threads. Should resolve type OS_ThreadRoutine */
 static int root_ThreadJc(void* data)
 {
 
@@ -100,17 +100,12 @@ static int root_ThreadJc(void* data)
   //data = ((int*)data) +4;   //pointer which was makes leeway. 
   ObjectJc* oRunnable = (ObjectJc*)data;
   
-  ThreadContext_emC_s threadContextInStack;
-  
-  memset(&threadContextInStack, 0, sizeof(threadContextInStack));
-  
-  ctorM_ThreadContext_emC(build_MemC(&threadContextInStack, sizeof(ThreadContext_emC_s)));
 #ifndef NO_DYNAMICALLY_MEMORY
     //DONT USE ANY CONDITIONAL COMPILING!
 		//threadContextInStack.blockHeap = first_BlockHeap_emC();
 #endif  
   /**This is the first StackEntry of this thread. It allocates memory. */
-  { ThCxt* _thCxt = &threadContextInStack;
+  { ThCxt* _thCxt = getCurrent_ThreadContext_emC();
     STACKTRC_TENTRY("root_ThreadJc");
     /**The data is a reference to the instance, which implements the interface RunnableJc.
      * It is either the associated class target of TreadJc, or ThreadJc itself.
@@ -150,7 +145,7 @@ void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt)
   ok = os_createThread(&ythis->hThread, root_ThreadJc, data, nameBuffer, ythis->nPriority, ythis->stackSize);
   if(ok < 0){
 
-    THROW_s0(RuntimeException, "Error creating thread", -ok);
+    THROW1_s0(RuntimeException, "Error creating thread", -ok);
   }
   STACKTRC_LEAVE;
 }

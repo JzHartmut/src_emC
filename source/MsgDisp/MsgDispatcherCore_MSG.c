@@ -688,7 +688,7 @@ struct Entry_MsgDispatcherCore_MSG_t* ctorM_Entry_MsgDispatcherCore_MSG(MemC mth
 { Entry_MsgDispatcherCore_MSG_s* thiz = PTR_MemC(mthis, Entry_MsgDispatcherCore_MSG_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_Entry_MsgDispatcherCore_MSG");
-  if(sizeof(Entry_MsgDispatcherCore_MSG_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(Entry_MsgDispatcherCore_MSG_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element
@@ -880,7 +880,7 @@ struct Output_MsgDispatcherCore_MSG_t* ctorM_Output_MsgDispatcherCore_MSG(MemC m
 { Output_MsgDispatcherCore_MSG_s* thiz = PTR_MemC(mthis, Output_MsgDispatcherCore_MSG_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_Output_MsgDispatcherCore_MSG");
-  if(sizeof(Output_MsgDispatcherCore_MSG_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(Output_MsgDispatcherCore_MSG_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/

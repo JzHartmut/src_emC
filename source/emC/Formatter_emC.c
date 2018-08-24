@@ -271,7 +271,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
       char cFormat;
       
       if(dstAct >= dstMax)
-      { //THROW_s0(IndexOutOfBoundsException, "to many %-chars (arguments) in text, 2*max=", zDst); 
+      { //THROW1_s0(IndexOutOfBoundsException, "to many %-chars (arguments) in text, 2*max=", zDst); 
       }
       ASSERTJc_EXCLMAX(dstAct, dstMax);
       sFormat1 +=1;   //skip over '%'
@@ -647,7 +647,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
         case '7': if(ixAddrArgs < ARRAYLEN(argValues) - 7){ *(Char56*)&argValues[++ixAddrArgs].c8 = va_arg(vargList, Char56); ixAddrArgs+=6; } break;
         case '8': if(ixAddrArgs < ARRAYLEN(argValues) - 8){ *(Char64*)&argValues[++ixAddrArgs].c8 = va_arg(vargList, Char64); ixAddrArgs+=7; } break;
         case '$': if(ixAddrArgs < ARRAYLEN(argValues) - 1){ *(Char8*)&argValues[++ixAddrArgs].c8 = va_arg(vargList, Char8); ixAddrArgs = nrArg1; } break;
-        default: THROW_s0(IllegalArgumentException, "unknown type char:", cTypeArg);
+        default: THROW1_s0(IllegalArgumentException, "unknown type char:", cTypeArg);
         }//switch
       }
       ///pArg = addrArgs[nrActArg];

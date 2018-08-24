@@ -112,7 +112,7 @@ static int stop()
 ClassJc* ctorM_ClassJc(MemC rawMem)
 { ClassJc* thiz = PTR_MemC(rawMem, ClassJc);
   STACKTRC_ENTRY("ctor_ClassJc");
-  if(size_MemC(rawMem)<sizeof(ClassJc)) THROW_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
+  if(size_MemC(rawMem)<sizeof(ClassJc)) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
   ctorc_ClassJc(thiz);
   return thiz;
 }
@@ -130,7 +130,7 @@ void ctorc_ClassJc(ClassJc* thiz)
 FieldJc* ctorM_FieldJc(MemC rawMem)
 { FieldJc* thiz = PTR_MemC(rawMem, FieldJc);
   STACKTRC_ENTRY("ctor_FieldJc");
-  if(size_MemC(rawMem)<sizeof(FieldJc)) THROW_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
+  if(size_MemC(rawMem)<sizeof(FieldJc)) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
   ctorc_FieldJc(thiz);
   return thiz;
 }
@@ -437,7 +437,7 @@ static MemSegmJc getRefAddrObjectArray_FieldJc(MemSegmJc addrArray, char const* 
     //own memory:
     ObjectArrayJc* array = ADDR_MemSegmJc(addrArray, ObjectArrayJc);  //it is known that it is an ObjectArrayJc
     void* retAddress1 = get_i_ObjectArrayJc(array, ixData);
-    if(retAddress1 == null){ THROW_s0(IndexOutOfBoundsException, "index to large", ixData);}
+    if(retAddress1 == null){ THROW1_s0(IndexOutOfBoundsException, "index to large", ixData);}
     setADDR_MemSegmJc(retAddress, retAddress1);
   }
   STACKTRC_LEAVE; return retAddress;
@@ -527,7 +527,7 @@ MemSegmJc getAddrElement_FieldJc(const FieldJc* thiz, MemSegmJc instance, char c
             case kUML_Map_Modifier_reflectJc:  
               retAddr = getRefAddrUML_Map_FieldJc(fieldPosOrContainerAddr, sVaargs, vaargs, _thCxt); 
               break;
-            default: THROW_s0(IllegalArgumentException, "undefined container type", bitContainerType);
+            default: THROW1_s0(IllegalArgumentException, "undefined container type", bitContainerType);
           }
         }
         else
@@ -609,7 +609,7 @@ int getArraylength_FieldJc(FieldJc const* thiz, MemSegmJc instance)
     }
     else
     { //assumed, it is a reference:
-      //THROW_s0(NoSuchFieldException, "not an array or container field, field=", (int32)(thiz));
+      //THROW1_s0(NoSuchFieldException, "not an array or container field, field=", (int32)(thiz));
       length = 0;  //dereferenced at the given position.
     }
   }
@@ -728,7 +728,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
           }
           else
           { //This is a fatal error, because anything in headeres ins't correct. Problem of compilation of fault revisions.
-            THROW_s0(RuntimeException, "no significance ObjectifcBaseJcpp at address", (int32)objifc);
+            THROW1_s0(RuntimeException, "no significance ObjectifcBaseJcpp at address", (int32)objifc);
             clazzFromInstance = null;
           }
           if(clazzFromInstance != null) 
@@ -985,7 +985,7 @@ METHOD_C MemSegmJc getReference_V_FieldJc(FieldJc const* thiz, MemSegmJc instanc
   }
   else
   { ret = addr;
-    //THROW_s0(RuntimeException, "no reference type", 0);
+    //THROW1_s0(RuntimeException, "no reference type", 0);
   }
   STACKTRC_LEAVE; return ret;
 }
@@ -1025,7 +1025,7 @@ METHOD_C void* setReference_FieldJc(FieldJc const* thiz, MemSegmJc instance, voi
     ret = (void*)setValue_MemAccessJc(addr, &value, sizeof(void*));
   }
   else
-  { THROW_s0(RuntimeException, "no reference type", 0);
+  { THROW1_s0(RuntimeException, "no reference type", 0);
   }
   STACKTRC_LEAVE; return ret;
 

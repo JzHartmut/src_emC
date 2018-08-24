@@ -433,7 +433,7 @@ StringJc report_BheapJc(BlockHeap_emC* ythis, int* idxBlockP, StringBufferJc* bu
   int idxBlock = *idxBlockP;
   bool bSearch = true;
   STACKTRC_ENTRY("report_BheapJc");
-  if(idxBlock < 0) THROW_s0(IndexOutOfBoundsException,"",idxBlock);
+  if(idxBlock < 0) THROW1_s0(IndexOutOfBoundsException,"",idxBlock);
   while(bSearch)
   { if(idxBlock >= ythis->zBlock)
     { ret = null_StringJc; idxBlock = -1; bSearch = false;

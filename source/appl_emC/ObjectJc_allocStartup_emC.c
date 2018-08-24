@@ -58,14 +58,14 @@ ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _
     if(size == -1){ 
       size2 = 480; 
     } else if(size < 0 || size > 0x100000) {
-      THROW_s0(RuntimeException, "to much memory to allocate. ", size);
+      THROW1_s0(RuntimeException, "to much memory to allocate. ", size);
     }
     mem = alloc_MemC(size2);
     othis = PTR_MemC(mem, ObjectJc);
     init_ObjectJc(othis, size, typeInstanceIdent);
   }
   else {
-    THROW_s0(RuntimeException, "no memory because it is runtime. ", 0);
+    THROW1_s0(RuntimeException, "no memory because it is runtime. ", 0);
 		othis=null;
   }
 

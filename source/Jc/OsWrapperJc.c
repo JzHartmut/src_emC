@@ -125,7 +125,7 @@ HandleItem* getFreeHandleEntry(int16* idx)
   { int idxHandle = theHandleItem - data_OsWrapperJc.handleItemsJc;
     if(idxHandle < 0 || idxHandle >= ARRAYLEN(data_OsWrapperJc.handleItemsJc))
     { STACKTRC_ENTRY("getFreeHandleEntry");
-      THROW_s0(RuntimeException, "corrupt handles",idxHandle);
+      THROW1_s0(RuntimeException, "corrupt handles",idxHandle);
     }
     *idx = (int16)(idxHandle);
     memset(theHandleItem, 0, sizeof(*theHandleItem));
@@ -142,7 +142,7 @@ HandleItem* getFreeHandleEntry(int16* idx)
 HandleItem* getHandleEntry(int idx)
 { if(idx < 0 || idx > ARRAYLEN(data_OsWrapperJc.handleItemsJc))
   { STACKTRC_ENTRY("getHandleEntry");
-    THROW_s0(RuntimeException, "error fault idx for handle", idx);
+    THROW1_s0(RuntimeException, "error fault idx for handle", idx);
   }
   return &data_OsWrapperJc.handleItemsJc[idx];
 }
@@ -211,13 +211,13 @@ INLINE_emC HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
       }
       if(tryCt ==-1) {
         STACKTRC_ENTRY("getHandle_ObjectJc");
-        THROW_s0(RuntimeException, "error set idSyncHandle", 0);
+        THROW1_s0(RuntimeException, "error set idSyncHandle", 0);
         STACKTRC_LEAVE;
         return null;
       }
     } else {
       STACKTRC_ENTRY("getHandle_ObjectJc");
-      THROW_s0(RuntimeException, "error no handle", 0);
+      THROW1_s0(RuntimeException, "error no handle", 0);
       STACKTRC_LEAVE;
       return null; //no handle available
     }
@@ -241,7 +241,7 @@ void wait_ObjectJc(ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
   STACKTRC_TENTRY("wait_ObjectJc");
   handle = getHandle_ObjectJc(obj);
   if(handle == null) {
-    THROW_s0(RuntimeException, "error get Handle", 0);
+    THROW1_s0(RuntimeException, "error get Handle", 0);
     return;
   }
   if(handle->handle.wait == null)
@@ -250,7 +250,7 @@ void wait_ObjectJc(ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
     int error = os_createWaitNotifyObject(handle->name, &handleWait);
     if(error != 0)
     { //it may be throwable
-      THROW_s0(RuntimeException, "error os_createWaitNotifyObject", error);
+      THROW1_s0(RuntimeException, "error os_createWaitNotifyObject", error);
       return;
     }
     if(!compareAndSet_AtomicReference(CAST_AtomicReference(handle->handle.wait), null, (void*)handleWait)) {
@@ -311,7 +311,7 @@ void synchronized(ObjectJc* obj)
   handle = getHandle_ObjectJc(obj);
   if(handle == null) {
     STACKTRC_ENTRY("synchronized");
-    THROW_s0(RuntimeException, "error get Handle", 0);
+    THROW1_s0(RuntimeException, "error get Handle", 0);
     STACKTRC_LEAVE;
     return;
   }
@@ -331,7 +331,7 @@ void synchronizedEnd(ObjectJc* obj)
   STACKTRC_ENTRY("synchronizedEnd");
   handle = getHandle_ObjectJc(obj);
   if(handle == null) {
-    THROW_s0(RuntimeException, "error get Handle",0);
+    THROW1_s0(RuntimeException, "error get Handle",0);
     return;
   }
   os_unlockMutex(handle->handleMutex);

@@ -87,8 +87,8 @@ METHOD_C void rangeCheck_ArrayJc(int length, int fromIndex, int toIndex, ThCxt* 
 {
   STACKTRC_TENTRY("rangeCheck_ArraysJc");
 
-  if(fromIndex > toIndex || fromIndex < 0) { THROW_s0(IllegalArgumentException, "", fromIndex); }
-  if(toIndex > length-1)  { THROW_s0(ArrayIndexOutOfBoundsException, "", toIndex); }
+  if(fromIndex > toIndex || fromIndex < 0) { THROW1_s0(IllegalArgumentException, "", fromIndex); }
+  if(toIndex > length-1)  { THROW1_s0(ArrayIndexOutOfBoundsException, "", toIndex); }
 
   STACKTRC_LEAVE;
 
@@ -101,7 +101,7 @@ void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt
   int max = array->head.length;
   int8* data;
   if(toIndex > max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
-    THROW_s0(ArrayIndexOutOfBoundsException, "index error", max);
+    THROW1_s0(ArrayIndexOutOfBoundsException, "index error", max);
   data = array->data + fromIndex;
   while(++fromIndex < toIndex){
     *data++ = (int8)value;
@@ -114,7 +114,7 @@ void fill_mB_ArraysJc(PtrVal_int8 array, int fromIndex, int toIndex, int value, 
   int max = value_OS_PtrValue(array);
   int8* data;
   if(toIndex > max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
-    THROW_s0(ArrayIndexOutOfBoundsException, "index error", max);
+    THROW1_s0(ArrayIndexOutOfBoundsException, "index error", max);
   data = array.ref + fromIndex;
   while(++fromIndex < toIndex){
     *data++ = (int8)value;
@@ -127,7 +127,7 @@ void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, Th
   int max = array->head.length;
   int32* data;
   if(toIndex >= max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
-    THROW_s0(ArrayIndexOutOfBoundsException, "index error", max);
+    THROW1_s0(ArrayIndexOutOfBoundsException, "index error", max);
   data = array->data + fromIndex;
   while(++fromIndex <= toIndex){
     *data++ = value;

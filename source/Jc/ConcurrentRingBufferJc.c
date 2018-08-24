@@ -77,7 +77,7 @@ ConcurrentRingBufferJc* ctor_ConcurrentRingBufferJc(MemC rawMem, MemC ringArea, 
 { ConcurrentRingBufferJc* ythis = PTR_MemC(rawMem, ConcurrentRingBufferJc);
   STACKTRC_ENTRY("ctor_ConcurrentRingBufferJc");
   if(size_MemC(rawMem) < sizeof(ConcurrentRingBufferJc)) 
-  { THROW_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
+  { THROW1_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
   ctorc_ConcurrentRingBufferJc(ythis, ringArea, writeArea);
   STACKTRC_LEAVE; return ythis;
 }
@@ -181,7 +181,7 @@ bool offer_ConcurrentRingBufferJcF(ConcurrentRingBufferJc* ythis, void const* da
       nrofRepeatSetNext+=1;
     }while(!bSuccess && nrofRepeatSetNext < 1000);
     if(nrofRepeatSetNext >0)
-    { if(nrofRepeatSetNext >=1000) THROW_s0(RuntimeException, "to many repeats trying set next", 1000);
+    { if(nrofRepeatSetNext >=1000) THROW1_s0(RuntimeException, "to many repeats trying set next", 1000);
       ythis->dbgcntRepeatSetNext += nrofRepeatSetNext;
       if(ythis->dbgmaxRepeatSetNext < nrofRepeatSetNext){ ythis->dbgmaxRepeatSetNext = nrofRepeatSetNext; }
     }
@@ -326,7 +326,7 @@ void* peek_ConcurrentRingBufferJcF(ConcurrentRingBufferJc const* ythis, int* nro
   *nrofBytes = nrofBytesAvailable;
   if(nrofBytesAvailable ==0){ read = null; } //nothing to read.
   else if(nrofBytesAvailable < 0)
-  { THROW_s0(RuntimeException, "consistence error", nrofBytesAvailable);
+  { THROW1_s0(RuntimeException, "consistence error", nrofBytesAvailable);
   }
   STACKTRC_LEAVE; return read;
 }
@@ -340,7 +340,7 @@ void free_ConcurrentRingBufferJcF(ConcurrentRingBufferJc* ythis, int nrofBytes)
     if(written >= read)
     { if(written < myReadNext)
       { //this is a software error. It is illegal to free more bytes as there are readable.
-        THROW_s0(IndexOutOfBoundsException, "to much bytes freeing", nrofBytes); 
+        THROW1_s0(IndexOutOfBoundsException, "to much bytes freeing", nrofBytes); 
       }
       else
       { ythis->read = myReadNext;
@@ -360,7 +360,7 @@ void free_ConcurrentRingBufferJcF(ConcurrentRingBufferJc* ythis, int nrofBytes)
         myReadNext = addOffset_MemAreaC(ythis->begin, nrofBytes);  //the new readNext wrapped.
         if(written < myReadNext)
         { //this is a software error. It is illegal to free more bytes as there are readable.
-          THROW_s0(IndexOutOfBoundsException, "to much bytes freeing", nrofBytes); 
+          THROW1_s0(IndexOutOfBoundsException, "to much bytes freeing", nrofBytes); 
         }
         else
         { ythis->read = myReadNext;

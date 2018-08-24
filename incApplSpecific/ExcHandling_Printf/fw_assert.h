@@ -23,7 +23,7 @@ void assertJc(bool condition);
 #define ASSERT(cond) ASSERT_emC(cond) 
 
 
-/**Writes a log text or THROW_s0 */
+/**Writes a log text or THROW1_s0 */
 #define ASSERT_s0_emC(cond, TEXT, VALUE) { if((cond)==0) { stopAssert_emC(); } }
 
 #endif  // __fw_assert_h__

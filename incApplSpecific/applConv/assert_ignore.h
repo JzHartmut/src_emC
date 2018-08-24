@@ -27,7 +27,7 @@
 
 #define ASSERTJc_CORR(COND) if(!(COND))
 
-#define ASSERTJc_THROW(COND) { if(!(COND)) THROW_s0(RuntimeException,"Assertion",0); }
+#define ASSERTJc_THROW(COND) { if(!(COND)) THROW1_s0(RuntimeException,"Assertion",0); }
 
 #define ASSERT(COND) ASSERTJc_TEST(COND)
 

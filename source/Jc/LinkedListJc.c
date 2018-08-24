@@ -64,7 +64,7 @@ LinkedListJc* ctor_LinkedListJc(MemC mem)
   ObjectJc* othis = PTR_MemC(mem, ObjectJc);
   if(othis == null || size_MemC(mem) < sizeof(LinkedListJc))
   { STACKTRC_ENTRY("ctor_LinkedListJc");
-    THROW_s0(RuntimeException, "", 0);
+    THROW1_s0(RuntimeException, "", 0);
     STACKTRC_LEAVE;
   }
   init_ObjectJc(othis, size_MemC(mem), 0);
@@ -102,7 +102,7 @@ LinkedListJc* ctorO_nodePool_LinkedListJc(ObjectJc* othis, MemC mNodes)
   LinkedListJc* ythis;
   STACKTRC_ENTRY("ctorO_nodePool_LinkedListJc");
   if(PTR_MemC(mNodes, void) == null)
-  { THROW_s0(RuntimeException, "no memory", size_MemC(mNodes));
+  { THROW1_s0(RuntimeException, "no memory", size_MemC(mNodes));
   }
   ythis = ctorO_LinkedListJc(othis);
   //
@@ -172,7 +172,7 @@ static ListMapEntryJc* new_ListMapEntryJc(AbstractListJc* ythis)
   { newEntry = *emptyEntries;
     if(newEntry == LAST_ListMapEntryJc)
     { //the limit of nodes is reached.
-      THROW_s0(IllegalArgumentException, "no more shared nodes for list.", 0);
+      THROW1_s0(IllegalArgumentException, "no more shared nodes for list.", 0);
       //ASSERT(false); //Exception
     }
     else
@@ -213,7 +213,7 @@ static ListMapEntryJc* ctor_ListMapEntryJc(ListMapEntryJc* ythis, ObjectJc* obj,
     ythis->previous = previous;
   }
   else
-  { THROW_s0(RuntimeException, "no memory", sizeof(ListMapEntryJc));
+  { THROW1_s0(RuntimeException, "no memory", sizeof(ListMapEntryJc));
   }
 
   STACKTRC_LEAVE;
@@ -240,7 +240,7 @@ static ListMapEntryJc* ctor_EE_ListMapEntryJc(ObjectJc* obj, ListMapEntryJc* rig
     ythis->previous = left;
   }
   else
-  { THROW_s0(RuntimeException, "no memory", sizeof(ListMapEntryJc));
+  { THROW1_s0(RuntimeException, "no memory", sizeof(ListMapEntryJc));
   }
 
   STACKTRC_LEAVE;
@@ -285,7 +285,7 @@ static ListMapEntryJc* entry_LinkedListJc(LinkedListJc* ythis, int index)
 
   if (index < 0 || index >= ythis->data.size)
   { STACKTRC_ENTRY("entry_LinkedListJc");
-    THROW_s0(IndexOutOfBoundsException, "Index",index);
+    THROW1_s0(IndexOutOfBoundsException, "Index",index);
     STACKTRC_LEAVE;
   }
 
@@ -325,7 +325,7 @@ static ObjectJc* remove_Entry_LinkedListJc(LinkedListJc* ythis, ListMapEntryJc* 
 { ObjectJc* result;
   STACKTRC_TENTRY("remove_Entry_LinkedListJc");
 	if (e == &ythis->data.header)
-	{ THROW_s0(NoSuchElementException, "", 0);
+	{ THROW1_s0(NoSuchElementException, "", 0);
   }
   result = REFJc(e->element);
 	
@@ -338,7 +338,7 @@ static ObjectJc* remove_Entry_LinkedListJc(LinkedListJc* ythis, ListMapEntryJc* 
   } else if(ythis->base.super.nodePool != null) {
     free_ListMapEntryJc(ythis->base.super.nodePool, e, _thCxt);
   } else {
-    THROW_s0(IllegalArgumentException, "no strategie for allocation", 0);
+    THROW1_s0(IllegalArgumentException, "no strategie for allocation", 0);
     //free(e);
   }
 	ythis->data.size--;
@@ -378,7 +378,7 @@ void initEntryPool_LinkedListJc(LinkedListJc* ythis, MemC mem, ThCxt* _thCxt)
   STACKTRC_TENTRY("newPool_ListMapEntryJc");
   //address = (ListMapEntryJc*)malloc(bytes);
   if(PTR_MemC(mem, void) == null)
-  { THROW_s0(RuntimeException, "no memory", size_MemC(mem));
+  { THROW1_s0(RuntimeException, "no memory", size_MemC(mem));
   }
   init0_MemC(mem);
   nrofEntries = size_MemC(mem) / sizeof(ListMapEntryJc);
@@ -466,7 +466,7 @@ ObjectJc* next_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
   checkForComodification_ListItr_LinkedListJcF(ythis);
   if(ythis->nextIndex == ythis->outer->data.size)
   { STACKTRC_TENTRY("next_ListItr_LinkedListJcF");
-    THROW_s0(NoSuchElementException, "", 0); 
+    THROW1_s0(NoSuchElementException, "", 0); 
     STACKTRC_LEAVE;
   }
   ythis->lastReturned = ythis->next;
@@ -486,7 +486,7 @@ void remove_ListItr_LinkedListJcF(ListItr_LinkedListJc* ythis, ThCxt* _thCxt)
   lastNext = ythis->lastReturned->next;
   TRY { remove_Entry_LinkedListJc(ythis->outer, ythis->lastReturned, _thCxt);}_TRY
   CATCH(NoSuchElementException, e) 
-  { THROW_s0(IllegalStateException, "", 0);
+  { THROW1_s0(IllegalStateException, "", 0);
   }
   END_TRY
   if (ythis->next == ythis->lastReturned)

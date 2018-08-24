@@ -79,7 +79,8 @@
 //#pragma warning(disable:4512) //assignment operator could not be generated
 #pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
 
-
+#pragma warning(error:4002) //too many actual parameters for macro
+#pragma warning(error:4003) //not enough actual parameters for macro
 
 
 

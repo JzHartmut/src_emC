@@ -103,9 +103,9 @@ void clearBackRefJc(void* enhancedRef)
     else
     {
       if(block == null)
-        THROW_s0(RuntimeException, "clearBackrefJc(): reference not in any BlockHeap", 1);
+        THROW1_s0(RuntimeException, "clearBackrefJc(): reference not in any BlockHeap", 1);
       { ObjectJcREF** backRef = &block->backRefs->data[idxBackref-1];
-        if(ref != *backRef) THROW_s0(RuntimeException, "clearBackrefJc(): backref test fails", 1);
+        if(ref != *backRef) THROW1_s0(RuntimeException, "clearBackrefJc(): backref test fails", 1);
         *backRef = null;  //clear the backref
       }
     }
@@ -242,7 +242,7 @@ void setBackRefJc(void* refP, void const* src)
     }
     if(idx == imax)
     {
-      THROW_s0(RuntimeException, "too much references for Object", false);
+      THROW1_s0(RuntimeException, "too much references for Object", false);
     }
   }
   STACKTRC_LEAVE;

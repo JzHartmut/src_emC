@@ -12,7 +12,7 @@ int free_MemC(void const* addr)
     ThCxt* _thCxt = getCurrent_ThreadContext_emC();
     if(_thCxt->mode & mCheckBufferUsed_Mode_ThCxt){
       if(_thCxt->mode & mBufferUsed_Mode_ThCxt){
-        THROW_s0(IllegalStateException, "Thread buffer not free", 0);
+        THROW1_s0(IllegalStateException, "Thread buffer not free", 0);
       }
       _thCxt->mode |= mBufferUsed_Mode_ThCxt;
     }

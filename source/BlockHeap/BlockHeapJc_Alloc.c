@@ -429,7 +429,7 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int size
     int minSizeBlock = nrofBytesHead_BlockHeapBlockJc + sizeObj + nrofReferences * sizeof(ObjectJcREF*);  //add the size of the references array to the requested size.
     retBlock = null;
     if(minSizeBlock > (SIZEBLOCK_BlockHeap_emC - kOffsetData_BlockHeapBlockJc))
-     THROW_s0(RuntimeException, "BlockHeap::alloc(): size to large", minSizeBlock);
+     THROW1_s0(RuntimeException, "BlockHeap::alloc(): size to large", minSizeBlock);
     else if(minSizeBlock >= 0) //Object::kSizeNormalBlockHeapBlockJc / 8)
     { //after the atomare instruction the first Free Block is no longer available
       //for other threads. So no lock are necessary.
@@ -455,7 +455,7 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int size
 
       } while(!bSuccess && --catastrophicRepeatCount >=0);  //repeat if compareAndSet fails.
       if(catastrophicRepeatCount < 0){
-        THROW_s0(RuntimeException,"compareAndSet-fail",0);
+        THROW1_s0(RuntimeException,"compareAndSet-fail",0);
       }
     }
     else
@@ -484,7 +484,7 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int size
       bRetry = runUserCalledGc_BlockHeap_emC(_thCxt);
       if(!bRetry) {
         retBlock = null;
-        THROW_s0(RuntimeException, "BlockHeap::alloc(): no memblock", 0);
+        THROW1_s0(RuntimeException, "BlockHeap::alloc(): no memblock", 0);
       }
     }
   }while(retBlock == null && bRetry);  //repeat it if a block isn't found but the garbage collector was successfull.
@@ -576,7 +576,7 @@ void free_BlockHeap_emC(BlockHeap_emC* ythis, BlockHeapBlockJc* block, ThCxt* _t
     bSuccess = compareAndSet_AtomicReference(CAST_AtomicReference(ythis->firstFreeBlock), firstFreeBlockCurrent, block);
   } while(!bSuccess && --catastrophicRepeatCount >=0);
   if(catastrophicRepeatCount < 0){
-    THROW_s0(RuntimeException,"compareAndSet-fail",0);
+    THROW1_s0(RuntimeException,"compareAndSet-fail",0);
   }
   STACKTRC_LEAVE;
 }
@@ -624,7 +624,7 @@ MemC getRestBlock_ObjectJc(ObjectJc* ythis, int size, ThCxt* _thCxt)
       { nrofBytes = size;
         nrofBackRefs = (block->typeOrMaxRef & mMaxRef_BlockHeap_emC) - (nrofBytes * sizeof(ObjectJcREF**));
       }
-      if(nrofBytes <0 || nrofBackRefs < 0) THROW_s0(IllegalArgumentException, "unaccomplishable request of rest block size", size);
+      if(nrofBytes <0 || nrofBackRefs < 0) THROW1_s0(IllegalArgumentException, "unaccomplishable request of rest block size", size);
       block->typeOrMaxRef = (int16)((block->typeOrMaxRef & ~ mMaxRef_BlockHeap_emC) | nrofBackRefs);
       addr = addOffset_MemAreaC(ythis, -nrofBytes);
       set_MemC(retMem, addr, nrofBytes);
@@ -747,7 +747,7 @@ ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* ithis, ThCxt* _thCxt)
         }
       } while(!bSuccess && --catastrophicRepeatCount >=0);  //repeat if compareAndSet fails.
       if(catastrophicRepeatCount < 0){
-        THROW_s0(RuntimeException,"compareAndSet-fail",0);
+        THROW1_s0(RuntimeException,"compareAndSet-fail",0);
       }  
     }
     if(retBlock == null){
@@ -818,7 +818,7 @@ void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct
   block->typeOrMaxRef +=1;  //count up free blocks.
   ASSERTJc_THROW((block->typeOrMaxRef & mSmallBlock_Type_Object)==kMapEntryBlock_Type_BlockHeapBlockJc); //it will be faulty if the count of blocks fails.
   if(catastrophicRepeatCount < 0){
-    THROW_s0(RuntimeException,"compareAndSet-fail",0);
+    THROW1_s0(RuntimeException,"compareAndSet-fail",0);
   }
   STACKTRC_LEAVE;
 }

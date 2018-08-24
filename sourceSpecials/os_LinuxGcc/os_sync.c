@@ -80,7 +80,7 @@ int os_wait(
   OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
   OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
-  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();
+  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
   struct timespec time;
   /*
     if(pThread != mutex->threadOwner)
@@ -139,7 +139,7 @@ int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutexP)
 	OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
 	OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
 	//the current threadcontext is nice to have for debugging - get the name of the thread.
-	struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();
+	struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
     /*
   if(pThread != mutex->threadOwner)
   { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);

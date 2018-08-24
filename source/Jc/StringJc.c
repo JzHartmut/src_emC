@@ -76,9 +76,9 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
     val |= mIsCharSeqJcMtbl_CharSeqJc;
   } else {
     STACKTRC_ENTRY("fromObjectJc_CharSeqJc");
-    THROW_s0(IllegalArgumentException, "thiz does not implement the CharSeqJc interface.", (int)othiz);
+    THROW1_s0(IllegalArgumentException, "thiz does not implement the CharSeqJc interface.", (int)othiz);
     STACKTRC_LEAVE;
-	return z_CharSeqJc("faulty instance ");
+	  return z_CharSeqJc("faulty instance ");
   }
   set_OS_PtrValue(ret, othiz, val); 
   return ret;
@@ -266,7 +266,7 @@ char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zB
     if(len >= zBuffer){
       if(exceptionOnLessBuffer){
         STACKTRC_TENTRY("substring_StringJc");
-        THROW_s0(IndexOutOfBoundsException, "String too long", len); 
+        THROW1_s0(IndexOutOfBoundsException, "String too long", len); 
         STACKTRC_LEAVE;
       } else {
         len = zBuffer -1;
@@ -452,8 +452,8 @@ METHOD_C StringJc substring_StringJc(StringJc ythis, int beginIndex, int endInde
 
   if(endIndex < 0) {endIndex = count; }
 
-  if(endIndex > count){ THROW_s0(IndexOutOfBoundsException, "endIndex", endIndex); }
-  else if(beginIndex <0 || beginIndex > endIndex){ THROW_s0(IndexOutOfBoundsException, "beginIndex", beginIndex); }
+  if(endIndex > count){ THROW1_s0(IndexOutOfBoundsException, "endIndex", endIndex); }
+  else if(beginIndex <0 || beginIndex > endIndex){ THROW1_s0(IndexOutOfBoundsException, "beginIndex", beginIndex); }
   else
   { int value = (endIndex - beginIndex)                //length 
               | (valueThis & mNonPersists__StringJc);  //non persistent only if the src is non-persistent.
@@ -584,12 +584,12 @@ void getChars_StringJc(StringJc ythis, int srcBegin, int srcEnd, char_Y* dst, in
   int sizeString;
   char const* sString = getCharsAndLength_StringJc(&ythis, &sizeString);
   STACKTRC_TENTRY("getChars_StringJc");
-  //if(sizeBuffer < size_StringJc(ythis,_thCxt)) THROW_s0(IndexOutOfBoundsException, "size to small", sizeBuffer);
-  if(nrofChars > sizeBuffer) THROW_s0(IndexOutOfBoundsException, "buffer to small", sizeBuffer);
-  if(nrofChars < 0) THROW_s0(IndexOutOfBoundsException, "srcEnd less than srcBegin", nrofChars);
-  if(srcBegin < 0) THROW_s0(IndexOutOfBoundsException, "srcBegin <0", srcBegin);
-  if(dstBegin < 0) THROW_s0(IndexOutOfBoundsException, "dstBegin <0", srcBegin);
-  if((dstBegin + nrofChars) > sizeBuffer) THROW_s0(IndexOutOfBoundsException, "dstBegin fault", dstBegin);
+  //if(sizeBuffer < size_StringJc(ythis,_thCxt)) THROW1_s0(IndexOutOfBoundsException, "size to small", sizeBuffer);
+  if(nrofChars > sizeBuffer) THROW1_s0(IndexOutOfBoundsException, "buffer to small", sizeBuffer);
+  if(nrofChars < 0) THROW1_s0(IndexOutOfBoundsException, "srcEnd less than srcBegin", nrofChars);
+  if(srcBegin < 0) THROW1_s0(IndexOutOfBoundsException, "srcBegin <0", srcBegin);
+  if(dstBegin < 0) THROW1_s0(IndexOutOfBoundsException, "dstBegin <0", srcBegin);
+  if((dstBegin + nrofChars) > sizeBuffer) THROW1_s0(IndexOutOfBoundsException, "dstBegin fault", dstBegin);
 
   memcpy(dst->data + dstBegin, sString + srcBegin, nrofChars);  
   STACKTRC_LEAVE;
@@ -633,7 +633,7 @@ int parseInt_radix_IntegerJc(StringJc ythis, int radix)
   value = parseIntRadix_emC(strThis, countThis, radix, &nrofCharsParsed);
   if(nrofCharsParsed < countThis){
     STACKTRC_ENTRY("parseInt_IntegerJc");
-    THROW_s0(NumberFormatException, " rest:", countThis - nrofCharsParsed);
+    THROW1_s0(NumberFormatException, " rest:", countThis - nrofCharsParsed);
     STACKTRC_LEAVE;
   }
   return value;

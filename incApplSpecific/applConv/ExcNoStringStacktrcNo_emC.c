@@ -26,3 +26,8 @@ void logSimple_ExceptionJc(int exc, int32 value, char const* file, int line) {
   }
   
 }
+
+
+void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topStack) {
+  //all remain 0
+}

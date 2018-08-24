@@ -33,7 +33,7 @@ extern_C bool stop_AssertJc();  //have to return true
 
 #define ASSERTJc_CORR(COND) if(!(COND) && stop_AssertJc())
 
-#define ASSERTJc_THROW(COND) { if(!(COND)) THROW_s0(RuntimeException,"compareAndSet-fail",0); }
+#define ASSERTJc_THROW(COND) { if(!(COND)) THROW1_s0(RuntimeException,"compareAndSet-fail",0); }
 
 
 #define ASSERT(COND) ASSERTJc_TEST(COND)

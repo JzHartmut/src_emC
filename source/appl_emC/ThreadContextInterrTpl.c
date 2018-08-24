@@ -2,6 +2,11 @@
 #include <OSAL/os_thread.h>
 
 
+//Note: This source should only used on Windows if threads are not used (not using os_threa.c) 
+//It is a template for organization of a ThreadContext of a simple CPU without Operation system, with hardware interrupts.
+
+
+
 typedef struct ThCxt_Application_t {
 
   ThreadContext_emC_s* currThCxt;

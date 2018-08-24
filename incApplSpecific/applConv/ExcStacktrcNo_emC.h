@@ -131,7 +131,7 @@ typedef struct ThreadContext_emC_t {
   _thCxt->exc.exceptionMsg.ref = null;  /*It may be located in the stack. Don't transfer the pointer! */ \
 }
 
-#define THROW_s0(EXCEPTION, TEXT, VAL)  THROW(EXCEPTION,  z_StringJc(TEXT), VAL)
+#define THROW1_s0(EXCEPTION, TEXT, VAL)  THROW(EXCEPTION,  z_StringJc(TEXT), VAL)
 #define THROW_s(EXCEPTION, STRING, VAL) THROW(EXCEPTION, STRING, VAL)
 
 

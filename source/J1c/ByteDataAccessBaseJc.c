@@ -158,7 +158,7 @@ struct ByteDataAccessBaseJc_t* ctorM_i_ByteDataAccessBaseJc(MemC mthis, int32 si
 { ByteDataAccessBaseJc_s* thiz = PTR_MemC(mthis, ByteDataAccessBaseJc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_ByteDataAccessBaseJc");
-  if(sizeof(ByteDataAccessBaseJc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(ByteDataAccessBaseJc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //j2c: Initialize all class variables:
   {
     thiz->bExc = true;
@@ -179,7 +179,7 @@ struct ByteDataAccessBaseJc_t* ctorM_ii_ByteDataAccessBaseJc(MemC mthis, int32 s
 { ByteDataAccessBaseJc_s* thiz = PTR_MemC(mthis, ByteDataAccessBaseJc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_ByteDataAccessBaseJc");
-  if(sizeof(ByteDataAccessBaseJc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(ByteDataAccessBaseJc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //j2c: Initialize all class variables:
   {
     thiz->bExc = true;

@@ -474,7 +474,7 @@ int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
  * @Datum/Autor/�nderungen
  * @since 2008-10-22 / Hartmut Schorrig / Erste Implementierung.
  */
-OS_ThreadContext* os_getCurrentThreadContext_intern()
+OS_ThreadContext* XXXXXos_getCurrentThreadContext()
 { 
   OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
   if(threadContext == null)
@@ -511,13 +511,13 @@ OS_ThreadContext* os_getCurrentThreadContext_intern()
 
 
 OS_PtrValue os_getCurrentUserThreadContext()
-{ OS_ThreadContext const* threadContext = os_getCurrentThreadContext_intern();
+{ OS_ThreadContext const* threadContext = os_getCurrentThreadContext();
   return threadContext->userThreadContext;
 }
 
 int os_setCurrentUserThreadContext (OS_PtrValue mem)
 { int error = 0;
-  OS_ThreadContext* threadContext = os_getCurrentThreadContext_intern();
+  OS_ThreadContext* threadContext = os_getCurrentThreadContext();
   void* userThreadContext = PTR_OS_PtrValue(threadContext->userThreadContext, void);
   if( userThreadContext != null)
   { os_userError("os_setCurrentUserThreadContext(), a threadcontext exists. ", (int)userThreadContext);

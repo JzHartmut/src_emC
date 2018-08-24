@@ -219,7 +219,7 @@ struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_iY_InspcDatagram_Ins
 { InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcDatagram_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_InspcDatagram_InspcDataExchangeAccess_Inspc");
-  if(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_ByteDataAccessBaseJc(/*J2C:static method call*/mthis, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
@@ -241,7 +241,7 @@ struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* ctorM_InspcDatagram_InspcD
 { InspcDatagram_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcDatagram_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_InspcDatagram_InspcDataExchangeAccess_Inspc");
-  if(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_ByteDataAccessBaseJc(/*J2C:static method call*/mthis, sizeofHead_InspcDatagram_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
@@ -382,7 +382,7 @@ struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_i_Inspcitem_InspcDataExc
 { Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, Inspcitem_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_Inspcitem_InspcDataExchangeAccess_Inspc");
-  if(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_ByteDataAccessBaseJc(/*J2C:static method call*/mthis, sizeHeadDerived, _thCxt);
   //j2c: Initialize all class variables:
@@ -403,7 +403,7 @@ struct Inspcitem_InspcDataExchangeAccess_Inspc_t* ctorM_Inspcitem_InspcDataExcha
 { Inspcitem_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, Inspcitem_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_Inspcitem_InspcDataExchangeAccess_Inspc");
-  if(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_ByteDataAccessBaseJc(/*J2C:static method call*/mthis, sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
@@ -475,7 +475,7 @@ struct InspcSetValue_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValue_InspcD
 { InspcSetValue_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcSetValue_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_InspcSetValue_InspcDataExchangeAccess_Inspc");
-  if(sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_ByteDataAccessBaseJc(/*J2C:static method call*/mthis, sizeofElement_InspcSetValue_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
@@ -585,7 +585,7 @@ struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t* ctorM_InspcSetValueDat
 { InspcSetValueData_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcSetValueData_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_InspcSetValueData_InspcDataExchangeAccess_Inspc");
-  if(sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/mthis, sizeofElement_InspcSetValueData_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
@@ -774,7 +774,7 @@ struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* ctorM_InspcAnsw
 { InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc");
-  if(sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/mthis, sizeofElement_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:
@@ -795,7 +795,7 @@ struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* ctorM_XX_InspcA
 { InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s* thiz = PTR_MemC(mthis, InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc");
-  if(sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //J2C:super Constructor
   ctorM_i_Inspcitem_InspcDataExchangeAccess_Inspc(/*J2C:static method call*/mthis, sizeofElement_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc, _thCxt);
   //j2c: Initialize all class variables:

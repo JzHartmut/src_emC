@@ -51,17 +51,6 @@
 
 
 
-/**Stops the execution of the executable respectively the whole application because no error handling is possible.
-* This routine should only called in unexpected situations, where the engine may only stopped.
-*/
-void os_FatalSysError(int errorCode, const char* description, int value1, int value2)
-{
-  printf("os_FatalSysError %d:", errorCode);
-  printf(description, value1, value2);
-  printf("\nstop system with memory exception\n");
-  *((int*)0) = 0;
-
-}
 
 
 /**Stops the execution of a thread because no error handling is possible.
@@ -88,6 +77,17 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
 }
 
 
+/**Stops the execution of the executable respectively the whole application because no error handling is possible.
+* This routine should only called in unexpected situations, where the engine may only stopped.
+*/
+void os_FatalSysError(int errorCode, const char* description, int value1, int value2)
+{
+  printf("os_FatalSysError %d:", errorCode);
+  printf(description, value1, value2);
+  printf("\nstop system with memory exception\n");
+  *((int*)0) = 0;
+
+}
 
 
 void os_notifyError_FileLine(int errorCode, const char* description, int value1, int value2, char const* file, int line)
@@ -121,7 +121,7 @@ bool stop_AssertJc(void) {
   return false;
 }
 
-void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_emC_s* _thCxt)
+void uncatched_ExceptionJc(ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
 {
   printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
   printStackTraceFile_ExceptionJc(ythis, null, null);

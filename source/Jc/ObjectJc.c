@@ -108,25 +108,25 @@ ObjectJc* ctorO_ii_ObjectJc(ObjectJc* othis, const int size, const int32 typeIns
   //set the size of the Object, regarding the typsInstanceIdent limits for size:
   if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsSmallSize_objectIdentSize_ObjectJc)
   { if(size > mSizeSmall_objectIdentSize_ObjectJc)
-    { THROW_s0(IndexOutOfBoundsException, "too large", size);
+    { THROW1_s0(IndexOutOfBoundsException, "too large", size);
     }
     objectIdentSize = (typeInstanceIdent & ~mSizeSmall_objectIdentSize_ObjectJc) | size;
   }
   else if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
   { if(size > mSizeMedium_objectIdentSize_ObjectJc)
-    { THROW_s0(IndexOutOfBoundsException, "too large", size);
+    { THROW1_s0(IndexOutOfBoundsException, "too large", size);
     }
     objectIdentSize = (typeInstanceIdent & ~mSizeMedium_objectIdentSize_ObjectJc) | size;
   }
   else if(typeInstanceIdent & mIsLargeSize_objectIdentSize_ObjectJc)
   { if(size > mSizeLarge_objectIdentSize_ObjectJc)
-    { THROW_s0(IndexOutOfBoundsException, "too large", size);
+    { THROW1_s0(IndexOutOfBoundsException, "too large", size);
     }
     objectIdentSize = (typeInstanceIdent & ~mSizeLarge_objectIdentSize_ObjectJc) | size;
   }
   else
   { objectIdentSize = 0;
-    THROW_s0(IndexOutOfBoundsException, "undefined size", typeInstanceIdent);
+    THROW1_s0(IndexOutOfBoundsException, "undefined size", typeInstanceIdent);
   }
   othis->objectIdentSize = objectIdentSize;
   STACKTRC_LEAVE; return othis;
@@ -216,19 +216,19 @@ Mtbl_ObjectJc const* xxxgetMtbl_ObjectJc(ObjectJc const* ythis, ClassJc const* t
   Mtbl_ObjectJc const* mtbl;
   int idxMtbl;
   STACKTRC_ENTRY("getMtbl_ObjectJc");
-  if(ythis == null) THROW_s0(NullPointerException,"this is null", 0);
-  if(ythis != ythis->ownAddress) THROW_s0(RuntimeException, "ownAddress fault", (int)ythis->ownAddress);
+  if(ythis == null) THROW1_s0(NullPointerException,"this is null", 0);
+  if(ythis != ythis->ownAddress) THROW1_s0(RuntimeException, "ownAddress fault", (int)ythis->ownAddress);
   clazz = ythis->reflectionClass;
-  //if(clazz->object.reflectionClass != &reflection_ClassJc) THROW_s0(RuntimeException, "reflection fault", (int)ythis->ownAddress);
+  //if(clazz->object.reflectionClass != &reflection_ClassJc) THROW1_s0(RuntimeException, "reflection fault", (int)ythis->ownAddress);
   //may be a derivated type!!! TODO.
-  //if(clazz != type) THROW_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
+  //if(clazz != type) THROW1_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
   if(clazz == null)
   { mtbl = null;  //no reflection is given, no mtbl, but no error
   }
   else
   {
     idxMtbl = getIdxMtbl_ClassJc(clazz, type);
-    if(idxMtbl < 0) THROW_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
+    if(idxMtbl < 0) THROW1_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
     if(clazz->mtbl == null){
       mtbl = null; 
     } else {
@@ -247,13 +247,13 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
   ClassJc const* reflection;
   STACKTRC_ENTRY("getMtbl_ObjectJc");
   if(ythis->ownAddress != ythis){ 
-    THROW_s0(IllegalArgumentException, "Object head faulty", (int)ythis);
+    THROW1_s0(IllegalArgumentException, "Object head faulty", (int)ythis);
     STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
   }
   reflection = ythis->reflectionClass;
   if( reflection != null) { 
     if(reflection->object.reflectionClass != &reflection_ClassJc){
-      THROW_s0(IllegalArgumentException, "Object reflection faulty", (int)ythis);
+      THROW1_s0(IllegalArgumentException, "Object reflection faulty", (int)ythis);
       STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
     }
     head = ythis->reflectionClass->mtbl;  
@@ -264,14 +264,14 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
            )
       { int sizeTable = (int)head->sizeTable;
         if(sizeTable < 0 || sizeTable > (302 * sizeof(void*))) {
-          THROW_s0(IllegalStateException, "Internal error, Vtbl faulty, searched:", (int)sign);
+          THROW1_s0(IllegalStateException, "Internal error, Vtbl faulty, searched:", (int)sign);
         }   
         //ASSERT_emC(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
         //The next part of method table is found after the current.
         head = (MtblHeadJc const*)( (MemUnit*)head + sizeTable );
       }
       if(head->sign == signEnd_Mtbl_ObjectJc){
-        THROW_s0(ClassCastException, "baseclass not found", (int)sign);
+        THROW1_s0(ClassCastException, "baseclass not found", (int)sign);
         head = null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
   } } }
   STACKTRC_LEAVE; return head;
@@ -294,10 +294,10 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
 { 
   switch(error) {
-  case 1: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis);
-  case 2: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis);
-  case 3: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis);
-  default: THROW_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)ythis);
+  case 1: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis);
+  case 2: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis);
+  case 3: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis);
+  default: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)ythis);
   }
   return null;
 }
@@ -336,7 +336,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, ThCxt* _thCxt)
     MemC mBuffer = getUserBuffer_ThreadContext_emC(size, sign, _thCxt);
     /**Check whether the buffer is in use, TODO... */
     int sizeBufferThreadContext = size_MemC(mBuffer);
-    if(size > sizeBufferThreadContext) THROW_s0(RuntimeException, "to large ObjectJc in ThreadBuffer", size);
+    if(size > sizeBufferThreadContext) THROW1_s0(RuntimeException, "to large ObjectJc in ThreadBuffer", size);
 
     ret = (ObjectJc*)address_MemC(mBuffer, 0,0);
     init_ObjectJc(ret, size, newIdent_ObjectJc());
@@ -410,28 +410,28 @@ ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int nSize, int nBytesPe
     sizeArray = nSize * nBytesPerElement + sizeof(ObjectArrayJc);
     sizeInfoObject = getSizeInfo_ObjectJc(&ythis->object);  //may be setted or it should be 0
       if(sizeInfoObject > 0 && sizeInfoObject < sizeArray)
-      { THROW_s0(IllegalArgumentException, "size mismatch", sizeArray);
+      { THROW1_s0(IllegalArgumentException, "size mismatch", sizeArray);
       }    
       if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsSmallSize_objectIdentSize_ObjectJc)
       { if(sizeArray > mSizeSmall_objectIdentSize_ObjectJc)
-        { THROW_s0(IndexOutOfBoundsException, "too large", sizeArray);
+        { THROW1_s0(IndexOutOfBoundsException, "too large", sizeArray);
         }
         typeInstanceIdent &= ~mSizeSmall_objectIdentSize_ObjectJc;
       }
       else if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
       { if(sizeArray > mSizeMedium_objectIdentSize_ObjectJc)
-        { THROW_s0(IndexOutOfBoundsException, "too large", sizeArray);
+        { THROW1_s0(IndexOutOfBoundsException, "too large", sizeArray);
         }
         typeInstanceIdent &= ~mSizeMedium_objectIdentSize_ObjectJc;
       }
       else if(typeInstanceIdent & mIsLargeSize_objectIdentSize_ObjectJc)
       { if(sizeArray > mSizeLarge_objectIdentSize_ObjectJc)
-        { THROW_s0(IndexOutOfBoundsException, "too large", sizeArray);
+        { THROW1_s0(IndexOutOfBoundsException, "too large", sizeArray);
         }
         typeInstanceIdent &= ~mSizeLarge_objectIdentSize_ObjectJc;
       }
       else
-      { THROW_s0(IndexOutOfBoundsException, "undefined size", typeInstanceIdent);
+      { THROW1_s0(IndexOutOfBoundsException, "undefined size", typeInstanceIdent);
       }
       typeInstanceIdent |= sizeArray;
       //it is always 1-dimension.
@@ -461,7 +461,7 @@ ObjectArrayJc* ctorO_ObjectArrayJc(ObjectJc* othis, int size, int nBytesPerEleme
     //ctorc_ObjectJc(&ythis->object);
     sizeArray = size * nBytesPerElement + sizeof(ObjectArrayJc);
     sizeInfoObject = getSizeInfo_ObjectJc(&ythis->object);
-    if(sizeArray > sizeInfoObject) THROW_s0(IllegalArgumentException, "less sizeObject, require=", sizeArray);
+    if(sizeArray > sizeInfoObject) THROW1_s0(IllegalArgumentException, "less sizeObject, require=", sizeArray);
     objectIdentSize = (othis->state.b.objectIdentSize & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;
     setReflection_ObjectJc(&ythis->object, reflection, objectIdentSize);
 

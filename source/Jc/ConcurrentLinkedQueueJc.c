@@ -122,7 +122,7 @@ static Node_ConcurrentLinkedQueueJc*  ctor_Node_ConcurrentLinkedQueueJc(MemC raw
 { Node_ConcurrentLinkedQueueJc*  ythis = PTR_MemC(rawMem, Node_ConcurrentLinkedQueueJc);
   STACKTRC_ENTRY("ctor_Node_ConcurrentLinkedQueueJc");
   if(size_MemC(rawMem) < sizeof(Node_ConcurrentLinkedQueueJc)) 
-  { THROW_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
+  { THROW1_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
   ythis->item = x;
   STACKTRC_LEAVE; return ythis; 
 }
@@ -133,7 +133,7 @@ static Node_ConcurrentLinkedQueueJc*  ctor_itemNext_Node_ConcurrentLinkedQueueJc
 { Node_ConcurrentLinkedQueueJc*  ythis = PTR_MemC(rawMem, Node_ConcurrentLinkedQueueJc);
   STACKTRC_ENTRY("ctor_Node_ConcurrentLinkedQueueJc");
   if(size_MemC(rawMem) < sizeof(Node_ConcurrentLinkedQueueJc)) 
-  { THROW_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
+  { THROW1_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
   ythis->item = x; ythis->next = n; 
   STACKTRC_LEAVE; return ythis; 
 }
@@ -204,7 +204,7 @@ ConcurrentLinkedQueueJc_s* ctor_ConcurrentLinkedQueueJc(MemC rawMem)
 { ConcurrentLinkedQueueJc_s* ythis = PTR_MemC(rawMem, ConcurrentLinkedQueueJc_s);
   STACKTRC_ENTRY("ctor_ConcurrentLinkedQueueJc");
   if(size_MemC(rawMem) < sizeof(ConcurrentLinkedQueueJc_s)) 
-  { THROW_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
+  { THROW1_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
   ctorc_ConcurrentLinkedQueueJc(ythis);
   STACKTRC_LEAVE; return ythis;
 }
@@ -231,7 +231,7 @@ ConcurrentLinkedQueueJc_s* ctorMn_ConcurrentLinkedQueueJc(MemC rawMem, MemC memN
 { ConcurrentLinkedQueueJc_s* ythis = PTR_MemC(rawMem, ConcurrentLinkedQueueJc_s);
   STACKTRC_ENTRY("ctor_ConcurrentLinkedQueueJc");
   if(size_MemC(rawMem) < sizeof(ConcurrentLinkedQueueJc_s)) 
-  { THROW_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
+  { THROW1_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
   ctorcMn_ConcurrentLinkedQueueJc(ythis, memNodes);
   STACKTRC_LEAVE; return ythis;
 }
@@ -258,7 +258,7 @@ ConcurrentLinkedQueueJc_s* ctorSn_ConcurrentLinkedQueueJc(MemC rawMem, Concurren
 { ConcurrentLinkedQueueJc_s* ythis = PTR_MemC(rawMem, ConcurrentLinkedQueueJc_s);
   STACKTRC_ENTRY("ctor_ConcurrentLinkedQueueJc");
   if(size_MemC(rawMem) < sizeof(ConcurrentLinkedQueueJc_s)) 
-  { THROW_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
+  { THROW1_s0(IllegalArgumentException,"size to less", size_MemC(rawMem)); }
   ctorcSn_ConcurrentLinkedQueueJc(ythis, srcNodeShare);
   STACKTRC_LEAVE; return ythis;
 }
@@ -314,7 +314,7 @@ METHOD_C ConcurrentLinkedQueueJc_s* ctorO_init_ConcurrentLinkedQueueJc(ObjectJc*
  */
 bool offer_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, ITEM_QueueJcREF e) 
 { STACKTRC_ENTRY("offer_ConcurrentLinkedQueue");
-  if (e == null) THROW_s0(NullPointerException,"",0);
+  if (e == null) THROW1_s0(NullPointerException,"",0);
   { Node_ConcurrentLinkedQueueJc*  n = new_Node_ConcurrentLinkedQueueJcF(ythis, e, null);
     if(n == null)
     { STACKTRC_LEAVE; return false; 
@@ -542,7 +542,7 @@ METHOD_C void initNodePool_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* yt
 { int nrofEntries;
   STACKTRC_ENTRY("newPool_ListMapEntryJc");
   if(PTR_MemC(mem, void) == null)
-  { THROW_s0(RuntimeException, "no memory", size_MemC(mem));
+  { THROW1_s0(RuntimeException, "no memory", size_MemC(mem));
   }
   init0_MemC(mem);
   nrofEntries = size_MemC(mem) / sizeof(Node_ConcurrentLinkedQueueJc);

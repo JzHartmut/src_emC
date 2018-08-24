@@ -84,8 +84,8 @@ bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis, int32 identNumber
   MtblHeadJc const* mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
   mtbl = (Mtbl_LogMessageFW const*)mtblO;
   ASSERTJc_RET(mtbl != null && mtbl->head.sign == sign_Mtbl_LogMessageFW, (STACKTRC_LEAVE, false));
-  //if(mtbl == null) THROW_s0(IllegalArgumentException, "Method-table not found",0);
-  //if(mtbl->sign != &sign_Mtbl_LogMessageFW) THROW_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
+  //if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
+  //if(mtbl->sign != &sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   //sText = getCharConst_StringJc(text, uText, sizeof(uText));  //get the char const* from text.
   bRet = mtbl->sendMsgVaList(ythis,identNumber, timestamp, text, args, _thCxt);
   STACKTRC_LEAVE; 
@@ -106,8 +106,8 @@ void flush_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
   mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
   mtbl = (Mtbl_LogMessageFW*)mtblO;
-  if(mtbl == null) THROW_s0(IllegalArgumentException, "Method-table not found",0);
-  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
+  if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
+  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   if( (int)mtbl->head.sizeTable >= (OS_intPTR)(mtbl->flush) - (OS_intPTR)(mtbl))
   { mtbl->flush(ythis, _thCxt);
   }
@@ -132,8 +132,8 @@ void close_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
   mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
   mtbl = (Mtbl_LogMessageFW*)mtblO;
-  if(mtbl == null) THROW_s0(IllegalArgumentException, "Method-table not found",0);
-  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
+  if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
+  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   if( (int)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->close) - (OS_intPTR)(mtbl)))
   { mtbl->close(ythis, _thCxt);
   }
@@ -159,8 +159,8 @@ bool isOnline_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
   mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
   mtbl = (Mtbl_LogMessageFW*)mtblO;
-  if(mtbl == null) THROW_s0(IllegalArgumentException, "Method-table not found",0);
-  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
+  if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
+  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   if( (int)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->isOnline) - (OS_intPTR)(mtbl)))
   { isOnline = mtbl->isOnline(ythis, _thCxt);
   }

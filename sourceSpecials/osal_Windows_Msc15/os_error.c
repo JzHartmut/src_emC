@@ -79,3 +79,16 @@ void os_userError(const char* text, int value)
 { printf("\nUSER SYSTEM ERROR %s: %i=%8.8X\nTHREAD STOPPED\n", text, value, value);
 }
 
+
+
+/**Stops the execution of the executable respectively the whole application because no error handling is possible.
+* This routine should only called in unexpected situations, where the engine may only stopped.
+*/
+void os_FatalSysError(int errorCode, const char* description, int value1, int value2)
+{
+  printf("os_FatalSysError %d:", errorCode);
+  printf(description, value1, value2);
+  printf("\nstop system with memory exception\n");
+  *((int*)0) = 0;
+
+}

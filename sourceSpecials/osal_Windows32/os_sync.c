@@ -103,7 +103,7 @@ int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mut
 { //HANDLE semaphor = (HANDLE)handle;
   int error;
   struct OS_HandleWaitNotify_t* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
-  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   /*
     if(pThread != mutex->threadOwner)
     { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);
@@ -156,7 +156,7 @@ int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* m
   LONG prevCount;
   bool shouldNotify;
   int error = 0xbaadf00d;
-  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   /*
   if(pThread != mutex->threadOwner)
   { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);

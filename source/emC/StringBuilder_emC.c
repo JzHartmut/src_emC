@@ -98,7 +98,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
     if (pos <= val) return PTR_OS_PtrValue(thiz, char const)[pos];
     else {
       STACKTRC_ENTRY("charAt_CharSeqJc");
-      THROW_s0(IndexOutOfBoundsException, "", pos);
+      THROW1_s0(IndexOutOfBoundsException, "", pos);
       STACKTRC_LEAVE;
       return 0;
     }
@@ -162,7 +162,7 @@ char charAt_StringBuilderJc(StringBuilderJc* thiz, int index, ThCxt* _thCxt)
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   int count = thiz->_count;
   STACKTRC_TENTRY("charAt_StringBuilderJc");
-  if (index < 0 || index >= count) THROW_s0(IndexOutOfBoundsException, "", index);
+  if (index < 0 || index >= count) THROW1_s0(IndexOutOfBoundsException, "", index);
   STACKTRC_LEAVE; return buffer[index];
 }
 
@@ -177,7 +177,7 @@ void setCharAt_StringBuilderJc(StringBuilderJc* thiz, int index, char ch, ThCxt*
 
   if (index >= size || index <0)
   { //StringJc msg = s0_StringJc("StringBuffer to many chars");
-    THROW_s0(IndexOutOfBoundsException, "index fault", index);
+    THROW1_s0(IndexOutOfBoundsException, "index fault", index);
   }
   buffer[index] = ch;
 
@@ -271,7 +271,7 @@ int copyToBuffer_StringBuilderJc(StringBuilderJc* thiz, int start, int end, char
     if (thiz->_mode & _mNoException_StringBuilderJc) {
       count = zBuffer - 1;
     }
-    else THROW_s0(IndexOutOfBoundsException, "string to long", count);
+    else THROW1_s0(IndexOutOfBoundsException, "string to long", count);
   }
   memcpy(buffer, src, count);
   buffer[count] = 0;
@@ -321,7 +321,7 @@ int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer
 
   if (nChars & mIsCharSeqJcMtbl_CharSeqJc) {
     STACKTRC_ENTRY("copyToBuffer_StringJc");
-    THROW_s0(IllegalArgumentException, "Use copyToBuffer_CharSeqJc", 0);
+    THROW1_s0(IllegalArgumentException, "Use copyToBuffer_CharSeqJc", 0);
     STACKTRC_LEAVE;
   }
   //STACKTRC_LEAVE;
@@ -353,7 +353,7 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
 #endif
   STACKTRC_TENTRY("replace_zI_StringBuilderJc");
   if (thiz->_mode & _mStringBuilt_StringBuilderJc) {
-    THROW_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
+    THROW1_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
   }
   //
   //determine type of add, zadd, padd, madd:
@@ -386,37 +386,37 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
     start1 = count - (-start) + 1;
     if (start1 < 0) {
       //set start1 to a admissible value if THROW longs only the error.
-      start1 = 0; THROW_s0(IndexOutOfBoundsException, "faulty -start", start);
+      start1 = 0; THROW1_s0(IndexOutOfBoundsException, "faulty -start", start);
     }
   }
   else if (start > count) {
-    start1 = count; THROW_s0(IndexOutOfBoundsException, "faulty start", start);
+    start1 = count; THROW1_s0(IndexOutOfBoundsException, "faulty start", start);
   }
   else {
     start1 = start;
   }
   if (end < 0) { //-1... counts from end, -1 is the end position.
     end1 = count - (-end) + 1;
-    if (end1 < start1) { end1 = start1; THROW_s0(IndexOutOfBoundsException, "faulty -end", end); }
+    if (end1 < start1) { end1 = start1; THROW1_s0(IndexOutOfBoundsException, "faulty -end", end); }
   }
   else if (end > count) {
-    end1 = count; THROW_s0(IndexOutOfBoundsException, "faulty end", end);
+    end1 = count; THROW1_s0(IndexOutOfBoundsException, "faulty end", end);
   }
   else if (end == 0) {  //it means, delete 0
     end1 = start1;
   }
   else if (end < start1) {
-    end1 = start1; THROW_s0(IndexOutOfBoundsException, "faulty end before start", end);
+    end1 = start1; THROW1_s0(IndexOutOfBoundsException, "faulty end before start", end);
   }
   else {
     end1 = end;
   }
   if (from < 0) { //-1... counts from end, -1 is the end position.
     from1 = zadd - (-from) + 1;
-    if (from1 < 0) { from1 = 0; THROW_s0(IndexOutOfBoundsException, "faulty -from", from); }
+    if (from1 < 0) { from1 = 0; THROW1_s0(IndexOutOfBoundsException, "faulty -from", from); }
   }
   else if (from > count) {
-    from1 = count; THROW_s0(IndexOutOfBoundsException, "faulty from", from);
+    from1 = count; THROW1_s0(IndexOutOfBoundsException, "faulty from", from);
   }
   else {
     from1 = from;
@@ -424,14 +424,14 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
   if (to < 0) { //-1... counts from end, -1 is the end position.
     to1 = zadd - (-to) + 1;
     if (to1 < from1) {
-      to1 = from1; THROW_s0(IndexOutOfBoundsException, "faulty -to", to);
+      to1 = from1; THROW1_s0(IndexOutOfBoundsException, "faulty -to", to);
     }
   }
   else if (to > zadd) {
-    to1 = count; THROW_s0(IndexOutOfBoundsException, "faulty to", to);
+    to1 = count; THROW1_s0(IndexOutOfBoundsException, "faulty to", to);
   }
   else if (to < from1) {
-    to1 = from1; THROW_s0(IndexOutOfBoundsException, "faulty to before from", to);
+    to1 = from1; THROW1_s0(IndexOutOfBoundsException, "faulty to before from", to);
   }
   else {
     to1 = to;
@@ -451,7 +451,7 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
 
     }
     else {
-      THROW_s0(RuntimeException, "StringBuffer too many chars", countNew);
+      THROW1_s0(RuntimeException, "StringBuffer too many chars", countNew);
     }
   }
   { int nRest = count - start1 + nDelete;  //nr of chars from end of replace area to actual end
@@ -464,7 +464,7 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
     }
     else {
 #ifdef __NoCharSeqJcCapabilities__
-      THROW_s0(RuntimeException, "null add", 0);
+      THROW1_s0(RuntimeException, "null add", 0);
 #else
       //a really char seq
       int iDst = 0;

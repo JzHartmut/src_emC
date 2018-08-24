@@ -100,7 +100,7 @@ StringBuilderJc* ctorM_StringBuilderJc(MemC rawMem)
   STACKTRC_ENTRY("ctorM_StringBuilderJc");
   /**The size of the rest, inclusive start of string in value. */
   size = size_MemC(rawMem) - sizeof(StringBuilderJc) + sizeof(ythis->value);
-  if(size < 20) THROW_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
+  if(size < 20) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
   buffer = (char*)address_MemC(rawMem, sizeof(StringBuilderJc), size);
   //init0_MemC(rawMem);
   init_ObjectJc(&ythis->base.object, size_MemC(rawMem), 0);
@@ -159,12 +159,12 @@ StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
       ythis->size = (int16)(-sizeBuffer); //negative value because immediately String  
     }
     else
-    { THROW_s0(IllegalArgumentException, "initial Buffer size necessary", sizeBuffer);
+    { THROW1_s0(IllegalArgumentException, "initial Buffer size necessary", sizeBuffer);
     } 
   }
   else
   {
-    if(sizeBuffer < 20) THROW_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(mem));
+    if(sizeBuffer < 20) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(mem));
     ythis->size = (int16)sizeBuffer; //positive value because immediately String  
   }
   STACKTRC_LEAVE; return ythis;
@@ -268,7 +268,7 @@ static int32 length_StringBuilderJc_F(ObjectJc* thiz, ThCxt* _thCxt){ return ((S
 static char charAt_StringBuilderJc_F(ObjectJc* othiz, int32 ix, ThCxt* _thCxt){ 
   StringBuilderJc* thiz = (StringBuilderJc*)othiz;
   char const* chars = chars_StringBuilderJc(thiz);
-  if(ix < 0 || ix >= thiz->_count) { THROW_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
+  if(ix < 0 || ix >= thiz->_count) { THROW1_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
   else return chars[ix]; 
 }
 
@@ -278,7 +278,7 @@ static CharSeqJc subSequence_StringBuilderJc_F(ObjectJc* othiz, int32 from, int3
   if(from > 0 && from <= to && to <= thiz->_count) {
     ret.ref = null; //TODO
   } 
-  else THROW_s0(IndexOutOfBoundsException, "faulty indices", to); 
+  else THROW1_s0(IndexOutOfBoundsException, "faulty indices", to); 
   return ret;
 }
 
@@ -637,7 +637,7 @@ StringJc new_CY_StringJc(char_Y* chars, ThCxt* _thCxt)
   length = chars->head.length;
   if(length >= mLength__StringJc) {
     STACKTRC_TENTRY("new_CY_StringJc");
-    THROW_s0(IndexOutOfBoundsException, "offset <0", length); length = mLength__StringJc-1; 
+    THROW1_s0(IndexOutOfBoundsException, "offset <0", length); length = mLength__StringJc-1; 
     STACKTRC_LEAVE;
   }
   set_OS_PtrValue(ret, chars->data, length | mNonPersists__StringJc);
@@ -652,10 +652,10 @@ StringJc new_CYI_StringJc(char_Y* chars, int offset, int count, ThCxt* _thCxt)
 {
   StringJc ret; 
   STACKTRC_TENTRY("new_CYI_StringJc");
-  if(offset < 0) THROW_s0(IndexOutOfBoundsException, "offset <0", offset);
-  if(count < 0) THROW_s0(IndexOutOfBoundsException, "count <0", count);
-  if(offset + count > chars->head.length) THROW_s0(IndexOutOfBoundsException, "offset + count > chars.length", offset + count);
-  if( (offset + count) >= mLength__StringJc) { THROW_s0(IndexOutOfBoundsException, "offset <0", offset); }
+  if(offset < 0) THROW1_s0(IndexOutOfBoundsException, "offset <0", offset);
+  if(count < 0) THROW1_s0(IndexOutOfBoundsException, "count <0", count);
+  if(offset + count > chars->head.length) THROW1_s0(IndexOutOfBoundsException, "offset + count > chars.length", offset + count);
+  if( (offset + count) >= mLength__StringJc) { THROW1_s0(IndexOutOfBoundsException, "offset <0", offset); }
   
   set_OS_PtrValue(ret, chars->data + offset, (offset + count) | mNonPersists__StringJc);
  
@@ -757,7 +757,7 @@ StringJc replace_StringJc(StringJc ythis, char oldChar, char newChar, ThCxt* _th
         sbuffer = threadBuffer_s_StringBuilderJc(ythis, "replace_StringJc", _thCxt);
         buffer = getCharsAndSize_StringBuilderJc(sbuffer, &maxBuffer);
         if(maxBuffer < max){
-          THROW_s0(StringIndexOutOfBoundsException, "input string to long", max);
+          THROW1_s0(StringIndexOutOfBoundsException, "input string to long", max);
         }
       }
       buffer[ii] = newChar;
@@ -824,7 +824,7 @@ METHOD_C void setLength_StringBuilderJc(StringBuilderJc* ythis, int newLength, T
   int count = ythis->_count;
   STACKTRC_TENTRY("setLength_StringBuilderJc");
   if(newLength < 0)
-  { THROW_s0(IndexOutOfBoundsException, "", newLength);
+  { THROW1_s0(IndexOutOfBoundsException, "", newLength);
   }
   else if(newLength < count)
   { memset(buffer + newLength, 0, count - newLength);
@@ -836,7 +836,7 @@ METHOD_C void setLength_StringBuilderJc(StringBuilderJc* ythis, int newLength, T
   }
   else
   { //the newLength increases the String with \0-chars
-    THROW_s0(IndexOutOfBoundsException, "unrecognize", newLength);
+    THROW1_s0(IndexOutOfBoundsException, "unrecognize", newLength);
   }
   STACKTRC_LEAVE;
 }
@@ -856,7 +856,7 @@ StringBuilderJc* xxxappend_zI_StringBuilderJc(StringBuilderJc* ythis, const char
   nChars = count + lengthAdd;
   if(nChars > size)
   { //StringJc msg = s0_StringJc("StringBuffer to many chars");
-    THROW_s0(RuntimeException, "StringBuffer to many chars", nChars);
+    THROW1_s0(RuntimeException, "StringBuffer to many chars", nChars);
   }
   memcpy(buffer + count, add, lengthAdd);
   _setCount_StringBuilderJc(ythis, nChars); //ythis->count = nChars;
@@ -878,7 +878,7 @@ StringBuilderJc* XXXXappend_sII_StringBuilderJc(StringBuilderJc* ythis, StringJc
 { int lengthMax; char const* src1;
   STACKTRC_TENTRY("append_sII_StringBuilderJc");
   src1 = getCharsAndLength_StringJc(&src, &lengthMax);
-  if(start < 0 || end < start || end > lengthMax) THROW_s0(IndexOutOfBoundsException, "fault start/end max=",lengthMax); 
+  if(start < 0 || end < start || end > lengthMax) THROW1_s0(IndexOutOfBoundsException, "fault start/end max=",lengthMax); 
   append_zI_StringBuilderJc(ythis, src1+start, end-start, _thCxt);
   STACKTRC_LEAVE;
   return( ythis);
@@ -911,7 +911,7 @@ StringBuilderJc* xxxappend_C_StringBuilderJc(StringBuilderJc* ythis, char add, T
   STACKTRC_TENTRY("append_C_StringBuilderJc");
   if(nChars > size)
   { //StringJc msg = const_String("StringBuffer to many chars");
-    THROW_s0(RuntimeException, "StringBuffer to many chars", nChars);
+    THROW1_s0(RuntimeException, "StringBuffer to many chars", nChars);
   }
   buffer[count] = add;
   _setCount_StringBuilderJc(ythis, nChars); //ythis->count = nChars;
@@ -932,7 +932,7 @@ StringBuilderJc* insert_CYII_StringBuilderJc(StringBuilderJc* ythis, int pos, ch
   int lenSrc = src->head.length;
   STACKTRC_TENTRY("insert_IcYII_StringBuilderJc");
   if(len == -1){ len = lenSrc; }//Special form to support macro insert_IcY_StringBuilderJc(...)
-  if(offset <0 || (offset + len) > lenSrc) THROW(StringIndexOutOfBoundsException, z_StringJc("src indices fault"), offset);
+  if(offset <0 || (offset + len) > lenSrc) THROW1(StringIndexOutOfBoundsException, z_StringJc("src indices fault"), offset);
   replace_zI_StringBuilderJc(ythis, pos, 0, &src->data[offset], len, _thCxt);
   STACKTRC_LEAVE; return ythis;
 }
@@ -1032,7 +1032,7 @@ StringBuilderJc* insert_sII_StringBuilderJc(StringBuilderJc* ythis, int offset, 
 { STACKTRC_TENTRY("insert_sII_StringBuilderJc");
   { int nAdd; 
     const char* sAdd = getCharsAndLength_StringJc(&add, &nAdd);
-    if(end < start || end > nAdd || start <0) THROW_s0(IndexOutOfBoundsException, "", end);
+    if(end < start || end > nAdd || start <0) THROW1_s0(IndexOutOfBoundsException, "", end);
     sAdd += start;
     nAdd = end - start;
     replace_zI_StringBuilderJc(ythis, offset, offset, sAdd, nAdd, _thCxt);
@@ -1088,7 +1088,7 @@ StringBuilderJc* XXXinsert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offse
     STACKTRC_LEAVE; return thiz;  //do nothing, nothing to append
   }
   if(thiz->_mode & _mStringBuilt_StringBuilderJc){
-    THROW_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
+    THROW1_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
   }
   nInsert = end - start;  //nr of chars to insert netto
   countNew = count + nInsert;
@@ -1100,7 +1100,7 @@ StringBuilderJc* XXXinsert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offse
 			nInsert = size - count;
 			countNew = size;
 		} else {
-			THROW_s0(RuntimeException, "StringBuffer too many chars", countNew);
+			THROW1_s0(RuntimeException, "StringBuffer too many chars", countNew);
     }
   }
   { int nRest = count - end;  //nr of chars from end of replace area to actual end
@@ -1132,7 +1132,7 @@ METHOD_C StringBuilderJc* delete_StringBuilderJc(StringBuilderJc* ythis, int sta
     }
   }
   else
-  { THROW_s0(StringIndexOutOfBoundsException, "", 0);
+  { THROW1_s0(StringIndexOutOfBoundsException, "", 0);
   }
   STACKTRC_LEAVE;
   return ythis;
@@ -1148,7 +1148,7 @@ METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc* ythis)
   }
   else
   { STACKTRC_ENTRY("cleanToSize_StringBuilderJc");
-    THROW_s0(RuntimeException, "corrupt content, count=", ythis->_count);
+    THROW1_s0(RuntimeException, "corrupt content, count=", ythis->_count);
     STACKTRC_LEAVE;
   }
 }

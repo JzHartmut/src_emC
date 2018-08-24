@@ -187,7 +187,7 @@ void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, int line, ThCxt*
 void assertJc (bool condition)
 { if(!condition)
   { STACKTRC_ENTRY("assertJc");
-    THROW_s0(RuntimeException, "assertion failed", 0);
+    THROW1_s0(RuntimeException, "assertion failed", 0);
   }
 }
 

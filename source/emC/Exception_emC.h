@@ -231,6 +231,8 @@ typedef struct IxStacktrace_emC_t
 #define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = _ixStacktrace_.ixPrev
 
 
+
+
 /**Test the consistence of the stacktrace, useable if errors are searched
  * The compiler switch should be set in the ,,fw_Platform_conventions.h,,
  */
@@ -246,7 +248,7 @@ typedef struct IxStacktrace_emC_t
 /**It should be the first invocation of STACKTRC_ENTRY in main or in a thread routine. 
  * For this environment it does the same as STACKTRC_ENTRY(NAME). 
  */
-#define STACKTRC_ROOT_ENTRY(NAME) STACKTRC_ENTRY(NAME);
+#define STACKTRC_ROOT_ENTRY(NAME) STACKTRC_ENTRY(NAME); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt
 
 /*@CLASS_CPP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -386,27 +388,14 @@ void XXX_endTryJc(TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, Stac
  * @param VAL a int value
  */
 #ifndef THROW
-  #define THROW(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt)
+  #define THROW(EXCEPTION, TEXT, VAL1, VAL2)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL1, __LINE__, _thCxt)
 #endif
 
 #ifndef THROW_s0
-  #define THROW_s0(EXCEPTION, TEXT, VAL)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt)
-#endif
-
-#ifndef THROW_s
-  #define THROW_s(EXCEPTION, TEXT, VAL)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt)
+  #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, __LINE__, _thCxt)
 #endif
 
 
-
-/**Either throws an exception or write an exception information in any logging or debugging system and return with the given value. 
- * This concept supports both, exception handling and system of return values in exception situation.
- */
-#define THROWRET(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt); return RETURN; }
-
-#define THROWRET_s0(EXCEPTION, TEXT, VAL, RETURN)  { throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt); return RETURN; }
-
-#define THROWRET_s(EXCEPTION, TEXT, VAL, RETURN)  { throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL, __LINE__, _thCxt); return RETURN; }
 
 
 
@@ -448,7 +437,7 @@ void XXX_endTryJc(TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, Stac
 
 /*****************************************************************************************/
 //compatibility:
-#define s0_String_Jc(TEXT) s0_StringJc(TEXT)  //hier kann meist die einfachere Variante THROW_s0(..,"text",..) verwendet werden.
+#define s0_String_Jc(TEXT) s0_StringJc(TEXT)  //hier kann meist die einfachere Variante THROW1_s0(..,"text",..) verwendet werden.
 
 
 #endif //__fw_Exception_h__

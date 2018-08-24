@@ -1153,7 +1153,7 @@ struct Dbg_LogMessageFile_MSG_t* ctorM_Dbg_LogMessageFile_MSG(MemC mthis, ThCxt*
 { Dbg_LogMessageFile_MSG_s* thiz = PTR_MemC(mthis, Dbg_LogMessageFile_MSG_s);  //reference casting to the real class.
   int sizeObj = size_MemC(mthis);
   STACKTRC_TENTRY("ctor_Dbg_LogMessageFile_MSG");
-  if(sizeof(Dbg_LogMessageFile_MSG_s) > sizeObj) THROW_s0(IllegalArgumentException, "faut size", sizeObj);
+  if(sizeof(Dbg_LogMessageFile_MSG_s) > sizeObj) THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/

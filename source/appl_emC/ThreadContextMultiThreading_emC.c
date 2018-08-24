@@ -38,7 +38,7 @@
  * 2007-05-00: JcHartmut creation
  *
  ****************************************************************************/
-#include <appl_emC/ThreadContextStacktrc_emC.h>
+#include <applstdef_emC.h>
 
 //#include <emC/SimpleC_emC.h>
 #include <OSAL/os_thread.h>
@@ -64,29 +64,24 @@
 //==>emC/Exception_emC.c
 
 
-StacktraceThreadContext_emC_s* ctorM_StacktraceThreadContext_emC(MemC mthis)
-{ StacktraceThreadContext_emC_s* ythis = PTR_MemC(mthis, StacktraceThreadContext_emC_s);
-
-  ythis->maxNrofEntriesStacktraceBuffer = ARRAYLEN_SimpleC(ythis->entries);
-  return ythis;
+void ctor_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* thiz)
+{ thiz->maxNrofEntriesStacktraceBuffer = ARRAYLEN_emC(thiz->entries);
 }
 
 
 
-ThreadContext_emC_s* ctorM_ThreadContext_emC(MemC mthis)
-{ ThreadContext_emC_s* ythis = PTR_MemC(mthis, ThreadContext_emC_s);
-  int size = size_MemC(mthis);
-  int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktrc);
+void ctor_ThreadContext_emC(ThreadContext_emC_s* thiz, void* topAddrStack)
+{ //int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktrc);
   
   /**The stacktrace-ThreadContext ist the last member. Its size may be different,
    * because the length of the array for stored Stacktrace entries may be different.
    * Calculate this size from the given size in mthis - offset of Stacktrace-ThCxt
    */
-  MemC mStacktraceThreadContext_emC = CONST_MemC(&ythis->stacktrc, size - offsStacktraceThCxt);
+  //MemC mStacktraceThreadContext_emC = CONST_MemC(&ythis->stacktrc, size - offsStacktraceThCxt);
 
-  ythis->topmemAddrOfStack = (MemUnit*) &mthis; //the highest known address
-  ctorM_StacktraceThreadContext_emC(mStacktraceThreadContext_emC);
-  return ythis;
+  //ythis->topmemAddrOfStack = (MemUnit*) &mthis; //the highest known address
+  thiz->topmemAddrOfStack = (MemUnit*)topAddrStack;
+  ctor_StacktraceThreadContext_emC(&thiz->stacktrc);
 }
 
 
@@ -151,7 +146,7 @@ MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, ThreadContext_e
   }
   { //The algorithm has returned if a buffer was found.
     //This line is reached only if nothing is found.
-    THROW_s0(IllegalStateException, "nothing free in ThreadContext", size);
+    THROW1_s0(IllegalStateException, "nothing free in ThreadContext", size);
     return null_MemC;
   }
 }
@@ -217,25 +212,6 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, ThreadContex
 
 
 
-
-
-/**This mehtod is necessary because the user shouldn't know the struct ThreadContext. 
- * It should be hidden, but the embedded part of threadcontext for Stacktrace handling 
- * should be known in all user routines because it is used inline-like.
- */
-ThreadContext_emC_s* getCurrent_ThreadContext_emC()
-{ ThreadContext_emC_s* thC;
-  //The users thread context is managed but not knwon in detail from osal:
-  MemC memThreadContext = os_getCurrentUserThreadContext();
-  thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
-  if(thC == null)
-  { memThreadContext = alloc_MemC(sizeof(ThreadContext_emC_s));
-    os_setCurrentUserThreadContext(memThreadContext);  
-    ctorM_ThreadContext_emC(memThreadContext);
-    thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
-  }
-  return thC;  //it is a embedded struct inside the whole ThreadContext.
-}
 
 
 

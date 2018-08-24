@@ -89,7 +89,8 @@ typedef struct OS_ThreadContext_t
   /**Name of the thread.*/
   const char* name; 
 
-  OS_PtrValue userThreadContext;
+  /**The user ThreadContext is part of the thread specific data. It is defined application-specific via the included applstdef_emC.h */
+  ThreadContext_emC_s userThreadContext;
 
 }OS_ThreadContext;
 
@@ -133,7 +134,7 @@ DWORD dwTlsIndex;
 
 
   #define setCurrent_OS_ThreadContext(context) TlsSetValue(dwTlsIndex, context) 
-  #define getCurrent_OS_ThreadContext() (OS_ThreadContext*)TlsGetValue(dwTlsIndex) 
+OS_ThreadContext* getCurrent_OS_ThreadContext() { return (OS_ThreadContext*)TlsGetValue(dwTlsIndex); }
 
 
 /**@Beschreibung:
@@ -142,7 +143,7 @@ DWORD dwTlsIndex;
 * @return Betriebssystemspezifische Threadpriorität.
 * @abstractPrio Abstrakte Threadpriorität (0-255).
 */
-static int convertThreadPriority2Os(int abstractPrio)
+int os_getRealThreadPriority(int abstractPrio)
 {
   long priority;
 
@@ -166,11 +167,12 @@ static int convertThreadPriority2Os(int abstractPrio)
 /**Searches a free slot in ThreadPool and returns it.
  * @return null if no slot free, it is a system exception.
  */
-static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
+static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName, void* topAddrStack)
 { OS_ThreadContext* threadContext = null;  //default if not found.
   int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
   threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
-  memset(threadContext, 0, sizeThreadContext); 
+  memset(threadContext, 0, sizeThreadContext);
+  ctor_ThreadContext_emC(&threadContext->userThreadContext, topAddrStack);   //This constructor depends of the settings in <applstdef_emC.h>. There it is defined which type of ThreadContext is used.
 	return threadContext; 
 }
 
@@ -202,7 +204,7 @@ int init_OSAL()
 						  DUPLICATE_SAME_ACCESS );
 
 	  // store thread parameters in thread pool (first thread, no thread protection)
-    mainThreadContext = new_OS_ThreadContext("main");
+    mainThreadContext = new_OS_ThreadContext("main", &idxThreadPool);
 	  
 	  if (mainThreadContext != null){
 		  mainThreadContext->uTID = GetCurrentThreadId();
@@ -235,7 +237,6 @@ int init_OSAL()
 // Wrapper thread function for thread creation and parameter initialization
 void os_wrapperFunction(OS_ThreadContext* threadContext)
 {
-  STACKTRC_ROOT_ENTRY("os_wrapperThread");
   //HANDLE hChildHandle;
 	
 	//hChildHandle = GetCurrentThread();
@@ -264,6 +265,7 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
   }
 
   // execute user routine
+  STACKTRC_ROOT_ENTRY("os_wrapperThread");
   fpStart = threadContext->ThreadRoutine;
   fpStart(threadContext->pUserData); //&threadContext->stacktraceThreadContext);		// execute user routine
     
@@ -322,7 +324,7 @@ int os_createThread
     abstactPrio = 128;
   }
 
-  threadContext = new_OS_ThreadContext(sThreadName);
+  threadContext = new_OS_ThreadContext(sThreadName, null);
 	if(threadContext != null)
   { threadContext->ThreadRoutine = routine;	// user routine
 	  threadContext->pUserData = pUserData;		// user data
@@ -357,7 +359,7 @@ int os_createThread
 	  threadContext->THandle = (OS_HandleThread)hDupChildHandle;
 
 	  // set the thread prio
-	  { long uWinPrio = convertThreadPriority2Os( abstactPrio );
+	  { long uWinPrio = os_getRealThreadPriority( abstactPrio );
 	    //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
         ret_ok = SetThreadPriority(threadHandle, uWinPrio);
         if ( ret_ok == 0 ) {
@@ -425,7 +427,7 @@ int os_createThread
 int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 {   
   int ret_ok;
-	long uWinPrio = convertThreadPriority2Os( abstractPrio );
+	long uWinPrio = os_getRealThreadPriority( abstractPrio );
 	
 	if (!bOSALInitialized){
 		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
@@ -545,80 +547,9 @@ int os_getOsThreadPriority(OS_HandleThread handle) {
   return GetThreadPriority((HANDLE)handle);
 }
 
-/**liefert den ThreadContext des laufenden Threads zurück.
- * @return: Context des laufenden Threads.
- * @Autor Hartmut Schorrig 
- * @Datum 22.10.2008
- * @Änderungsübersicht: 
- * @Datum/Autor/Änderungen
- * @since 2008-10-22 / Hartmut Schorrig / Erste Implementierung.
- */
-OS_ThreadContext* os_getCurrentThreadContext_intern()
-{ 
-  OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
-  if(threadContext == null)
-  { //it is only null on the main thread if init_OSAL() was not called before.
-    if(!bOSALInitialized)
-    { init_OSAL();
-      threadContext = getCurrent_OS_ThreadContext(); //at begin it is the main thread.
-    }
-    if(threadContext == null)  //it should be not null if init_OSAL() is 
-    { 
-      threadContext = new_OS_ThreadContext("unnamed");
-	    if (threadContext != null)
-      {
-        HANDLE hThreadHandle, hDupThreadHandle;
-  		  hThreadHandle = GetCurrentThread();
-	      threadContext->uTID = GetCurrentThreadId();
-	      DuplicateHandle
-        ( GetCurrentProcess(), 
-			    hThreadHandle, 
-			    GetCurrentProcess(),
-			    &hDupThreadHandle, 
-			    0,
-			    FALSE,
-			    DUPLICATE_SAME_ACCESS 
-        );
-
-		    threadContext->THandle = (OS_HandleThread) hDupThreadHandle;
-		    /* create an event for this thread (for use in eventFlag functions) */
-		    //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-		    threadContext->XXXuFlagRegister = 0;
-  	    { 
-          bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
-          if (!ok  ){ 
-            printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
-          }
-        }
-	    }
-      else
-      { os_notifyError(-1, "os_getCurrentThreadContext() - no ThreadContext found, error creating ThreadContext. ", 0, 0);
-      }
-    }
-  }
-  return threadContext;
-}
 
 
 
-PtrVal_MemUnit os_getCurrentUserThreadContext()
-{ OS_ThreadContext const* threadContext = os_getCurrentThreadContext_intern();
-  return threadContext->userThreadContext;
-}
-
-int os_setCurrentUserThreadContext(OS_PtrValue mem)
-{ int error = 0;
-  OS_ThreadContext* threadContext = os_getCurrentThreadContext_intern();
-  void* userThreadContext = PTR_OS_PtrValue(threadContext->userThreadContext, void); 
-  if( userThreadContext != null)
-  { os_notifyError(-1, "os_setCurrentUserThreadContext(), a threadcontext exists. ", (int)userThreadContext, 0);
-    error = OS_UNEXPECTED_CALL;
-  }
-  else
-  { threadContext->userThreadContext = mem;
-  }
-  return error;
-}
 
 
 
@@ -672,17 +603,17 @@ char* os_getTextOfOsError(int nError)
 */
 ThreadContext_emC_s* getCurrent_ThreadContext_emC()
 {
-  ThreadContext_emC_s* thC;
-  //The users thread context is managed but not knwon in detail from osal:
-  MemC memThreadContext = os_getCurrentUserThreadContext();
-  thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
-  if (thC == null)
-  {
-    memThreadContext = alloc_MemC(sizeof(ThreadContext_emC_s));
-    os_setCurrentUserThreadContext(memThreadContext);
-    thC = PTR_MemC(memThreadContext, ThreadContext_emC_s);
+  
+  OS_ThreadContext* os_thCxt = getCurrent_OS_ThreadContext();
+  if(os_thCxt == null){ //only on startup in main without multithreading 
+    init_OSAL();  //only 1 cause if the ThreadContext haven't set.
+    os_thCxt = getCurrent_OS_ThreadContext();  //repeat it
+    if (os_thCxt == null) {
+      os_FatalSysError(-1, "init_OSAL failed, no ThreadConect", 0,0);
+      return null;
+    }
   }
-  return thC;  //it is a embedded struct inside the whole ThreadContext.
+  return &os_thCxt->userThreadContext;  //it is a embedded struct inside the whole ThreadContext.
 }
 
 

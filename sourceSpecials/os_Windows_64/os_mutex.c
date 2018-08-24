@@ -139,7 +139,7 @@ int os_lockMutex(OS_Mutex_s* mutex)
     { os_Error("Anybody has locked the mutex, but this thread have the lock of system.", (int)(mutex->threadOwner));
       //ignore it if os_Error() is not acute.
     }
-    mutex->threadOwner = os_getCurrentThreadContext_intern();
+    mutex->threadOwner = os_getCurrentThreadContext();
     */
     return OS_OK; 
 }
@@ -150,7 +150,7 @@ int os_unlockMutex(struct OS_Mutex_t* mutex)
   //return OS_OK;  //geht noch nicht 2015-08-04 HScho
  // OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //non const
   /*
-    struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext_intern();
+    struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
     struct OS_ThreadContext_t const* threadOwner = mutex->threadOwner;
     //it is neccesary to test whether the unlocker is the correct thread.
     if(pThread != threadOwner)
