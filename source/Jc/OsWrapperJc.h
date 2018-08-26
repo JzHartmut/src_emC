@@ -46,7 +46,7 @@
 #define __Jc_OsWrapperJc_h__
 
 #include <Jc/ObjectJc.h>
-#include <emC/Exception_emC.h>
+
 #include <os_thread.h>
 #include <os_time.h>
 #include <os_sync.h>

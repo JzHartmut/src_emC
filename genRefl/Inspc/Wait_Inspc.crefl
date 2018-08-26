@@ -8,62 +8,82 @@
 
 extern_C const ClassJc reflection_Wait_Inspc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field base
+  
+
+const struct SuperClasses_Wait_Inspc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_Wait_Inspc =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_Wait_Inspc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "base"     
+      , 0 //arraysize
+      , &reflection_ObjectJc  //type of super                                                                                         
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_ObjectJc  
+      }
+    }
+};
 
 const struct Reflection_Fields_Wait_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[4];
 } reflection_Fields_Wait_Inspc =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_Wait_Inspc)
+{ INIZ_ObjectArrayJc(reflection_Fields_Wait_Inspc, 4, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "base"
-    , 0   //no Array, no Bitfield
+    , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)(((intPTR)(&((Wait_Inspc*)(0x1000))->base)) -0x1000)
+    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->base)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_Wait_Inspc
     }
   , 
     { "isWaiting"
-    , 0   //no Array, no Bitfield
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)(((intPTR)(&((Wait_Inspc*)(0x1000))->isWaiting)) -0x1000)
+    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->isWaiting)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_Wait_Inspc
     }
   , 
     { "stepsTillWait"
-    , 0   //no Array, no Bitfield
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)(((intPTR)(&((Wait_Inspc*)(0x1000))->stepsTillWait)) -0x1000)
+    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->stepsTillWait)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_Wait_Inspc
     }
   , 
     { "delay_ms"
-    , 0   //no Array, no Bitfield
+    , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)(((intPTR)(&((Wait_Inspc*)(0x1000))->delay_ms)) -0x1000)
+    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->delay_ms)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_Wait_Inspc
     }
   
 } }; 
                                                     
-
+                                                                   
 const ClassJc reflection_Wait_Inspc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Wait_Inspc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_Wait_Inspc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "Wait_Inspc"
 , 0
 , sizeof(Wait_Inspc)
 , (FieldJcArray const*)&reflection_Fields_Wait_Inspc  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_Wait_Inspc  //superclass  
 , null  //interfaces  
-, 0 
+, mObjectJc_Modifier_reflectJc   
 , null  //virtual table
 };
 

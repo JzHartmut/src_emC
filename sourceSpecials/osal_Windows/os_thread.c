@@ -36,10 +36,10 @@
  * 2008-09-30: Hartmut, Marcos
  *
  ****************************************************************************/
-#include <os_thread.h>
-#include <os_mem.h>
-#include <os_error.h>
-#include <os_sync.h>
+#include <OSAL/os_thread.h>
+#include <OSAL/os_mem.h>
+#include <OSAL/os_error.h>
+#include <OSAL/os_sync.h>
 
 
 #undef boolean

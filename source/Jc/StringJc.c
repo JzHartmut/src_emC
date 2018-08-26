@@ -42,7 +42,6 @@
 
 #include "StringJc_intern.h"
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
-#include "emC/Exception_emC.h"
 #include <Jc/ReflectionJc.h>
 
 //#include "fw_ThreadContext.h"

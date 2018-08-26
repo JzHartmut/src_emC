@@ -37,15 +37,16 @@
 #include <Jc/FileIoJc.h>
 #include <Jc/ReflectionJc.h>
 #include <Jc/StringJc.h>
-#include <emC/Exception_emC.h>
+
 #include <string.h> //memset
-#include <os_file.h>
+#include <OSAL/os_file.h>
+
 extern_C ClassJc const reflection_FileWriterJc_s;
 
 /*@CLASS_C FileJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-FileJc_s* ctorO_FileJc(ObjectJc* othis, StringJc name, ThCxt* _thCxt)
+FileJc_s* ctorO_FileJc  (  ObjectJc* othis, StringJc name, ThCxt* _thCxt)
 {
   FileJc_s* ythis = (FileJc_s*)othis;
   int sizeObj = getSizeInfo_ObjectJc(othis);
@@ -60,7 +61,7 @@ FileJc_s* ctorO_FileJc(ObjectJc* othis, StringJc name, ThCxt* _thCxt)
 }
 
 
-void init_FileJc(FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
+void init_FileJc  (  FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
 {
   //char ssFileName[120];
   char const* ssFileName;
@@ -76,7 +77,7 @@ void init_FileJc(FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
 
 
 
-void finalize_FileJc_F(ObjectJc* othis, ThCxt* _thCxt)
+void finalize_FileJc_F  (  ObjectJc* othis, ThCxt* _thCxt)
 { FileJc_s* ythis = (FileJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("finalize_FileJc_F");
   finalize_ObjectJc_F(&ythis->base.object, _thCxt);      //finalizing the superclass.
@@ -86,21 +87,21 @@ void finalize_FileJc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-StringJc getPath_FileJc(FileJc_s const* ythis)
+StringJc getPath_FileJc  (  FileJc_s const* ythis)
 { //assume that the refresh_FileDescription_OSAL is called.
   //maybe os_initFileDescription TODO
   return z_StringJc(ythis->fileDescription.absPath);
 }
 
 
-int32 lastModified_FileJc(FileJc_s* ythis)
+int32 lastModified_FileJc  (  FileJc_s* ythis)
 { if((ythis->fileDescription.flags & mTested_FileDescription_OSAL) == 0){
     refresh_FileDescription_OSAL(&ythis->fileDescription);
   }
   return ythis->fileDescription.timeChanged.time_sec;
 }
 
-bool exists_FileJc(FileJc_s* ythis)
+bool exists_FileJc  (  FileJc_s* ythis)
 { if((ythis->fileDescription.flags & mTested_FileDescription_OSAL) == 0){
     refresh_FileDescription_OSAL(&ythis->fileDescription);
   }
@@ -108,7 +109,7 @@ bool exists_FileJc(FileJc_s* ythis)
 }
 
 
-int32 length_FileJc(FileJc_s* ythis)
+int32 length_FileJc  (  FileJc_s* ythis)
 { if((ythis->fileDescription.flags & mTested_FileDescription_OSAL) == 0){
     refresh_FileDescription_OSAL(&ythis->fileDescription);
   }
@@ -120,7 +121,7 @@ int32 length_FileJc(FileJc_s* ythis)
 /*@CLASS_C FileOutputStreamJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-FileOutputStreamJc_s* ctorO_sB_FileOutputStreamJc(ObjectJc* othis, StringJc name, bool append, ThCxt* _thCxt)
+FileOutputStreamJc_s* ctorO_sB_FileOutputStreamJc  (  ObjectJc* othis, StringJc name, bool append, ThCxt* _thCxt)
 {
   FileOutputStreamJc_s* ythis = (FileOutputStreamJc_s*)othis;
   STACKTRC_TENTRY("ctorO_sB_FileOutputStreamJc");
@@ -129,7 +130,7 @@ FileOutputStreamJc_s* ctorO_sB_FileOutputStreamJc(ObjectJc* othis, StringJc name
   STACKTRC_LEAVE; return ythis;
 }
 
-FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc(ObjectJc* othis, FileJc_s* file, bool append, ThCxt* _thCxt)
+FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc  (  ObjectJc* othis, FileJc_s* file, bool append, ThCxt* _thCxt)
 {
   FileOutputStreamJc_s* ythis = (FileOutputStreamJc_s*)othis;
   OS_HandleFile hFile;
@@ -148,7 +149,7 @@ FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc(ObjectJc* othis, FileJc_s* fil
 }
 
 
-void finalize_FileOutputStreamJc_F(ObjectJc* othis, ThCxt* _thCxt)
+void finalize_FileOutputStreamJc_F  (  ObjectJc* othis, ThCxt* _thCxt)
 { FileOutputStreamJc_s* ythis = (FileOutputStreamJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("finalize_FileOutputStreamJc_F");
   finalize_ObjectJc_F(&ythis->base.object, _thCxt);      //finalizing the superclass.
@@ -158,11 +159,11 @@ void finalize_FileOutputStreamJc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-void write_BY_FileOutputStreamJc(FileOutputStreamJc_s* ythis, int8_Y* data, ThCxt* _thCxt)
+void write_BY_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, int8_Y* data, ThCxt* _thCxt)
 {
 }
 
-void write_FileOutputStreamJc(FileOutputStreamJc_s* ythis, void* data, int offset, int len, ThCxt* _thCxt)
+void write_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, void* data, int offset, int len, ThCxt* _thCxt)
 {
   int nrofBytesWritten;
   STACKTRC_TENTRY("write_FileOutputStreamJc");
@@ -175,7 +176,7 @@ void write_FileOutputStreamJc(FileOutputStreamJc_s* ythis, void* data, int offse
 }
 
 
-void write_B_FileOutputStreamJc(FileOutputStreamJc_s* ythis, int8 byte, ThCxt* _thCxt)
+void write_B_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, int8 byte, ThCxt* _thCxt)
 {
 }
 
@@ -183,7 +184,7 @@ void write_B_FileOutputStreamJc(FileOutputStreamJc_s* ythis, int8 byte, ThCxt* _
 
 
 
-void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
+void flush_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
 {
   STACKTRC_TENTRY("close_FileWriterJc");
   if(ythis->file != null)
@@ -195,7 +196,7 @@ void flush_FileOutputStreamJc(FileOutputStreamJc_s* ythis, struct ThreadContext_
 }
 
 
-void close_FileOutputStreamJc_F(FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
+void close_FileOutputStreamJc_F  (  FileOutputStreamJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
 {
   STACKTRC_TENTRY("close_FileWriterJc");
   if(ythis->file != null)
@@ -211,7 +212,7 @@ void close_FileOutputStreamJc_F(FileOutputStreamJc_s* ythis, struct ThreadContex
 /*@CLASS_C FileWriterJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-FileWriterJc_s* ctorO_FileWriterJc(ObjectJc* othis, ThCxt* _thCxt)
+FileWriterJc_s* ctorO_FileWriterJc  (  ObjectJc* othis, ThCxt* _thCxt)
 {
   FileWriterJc_s* ythis = (FileWriterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_FileWriterJc");
@@ -220,7 +221,7 @@ FileWriterJc_s* ctorO_FileWriterJc(ObjectJc* othis, ThCxt* _thCxt)
   STACKTRC_LEAVE; return ythis;
 }
 
-int open_FileWriterJc(FileWriterJc_s* ythis, StringJc fileName, bool append, ThCxt* _thCxt)
+int open_FileWriterJc  (  FileWriterJc_s* ythis, StringJc fileName, bool append, ThCxt* _thCxt)
 {
   OS_HandleFile file;
   int error = 0; 
@@ -246,11 +247,11 @@ int open_FileWriterJc(FileWriterJc_s* ythis, StringJc fileName, bool append, ThC
   STACKTRC_LEAVE; return error;
 }
 
-bool isOpen_FileWriterJc(FileWriterJc_s* ythis)
+bool isOpen_FileWriterJc  (  FileWriterJc_s* ythis)
 { return ythis->file != null;
 }
 
-void write_FileWriterJc(FileWriterJc_s* ythis, StringJc text, ThCxt* _thCxt)
+void write_FileWriterJc  (  FileWriterJc_s* ythis, StringJc text, ThCxt* _thCxt)
 {
   int nrofChars;
   int error;
@@ -263,7 +264,7 @@ void write_FileWriterJc(FileWriterJc_s* ythis, StringJc text, ThCxt* _thCxt)
 }
 
 
-void flush_FileWriterJc(FileWriterJc_s* ythis, ThCxt* _thCxt)
+void flush_FileWriterJc  (  FileWriterJc_s* ythis, ThCxt* _thCxt)
 {
   STACKTRC_TENTRY("flush_FileWriterJc");
   if(ythis->file != null)
@@ -273,7 +274,7 @@ void flush_FileWriterJc(FileWriterJc_s* ythis, ThCxt* _thCxt)
 
 }
 
-void close_FileWriterJc(FileWriterJc_s* ythis, ThCxt* _thCxt)
+void close_FileWriterJc  (  FileWriterJc_s* ythis, ThCxt* _thCxt)
 {
   STACKTRC_TENTRY("close_FileWriterJc");
   if(ythis->file != null)
@@ -290,7 +291,7 @@ void close_FileWriterJc(FileWriterJc_s* ythis, ThCxt* _thCxt)
 
 
 
-FileReaderJc_s* ctorO_FileReaderJc(ObjectJc* othis, OS_HandleFile file, ThCxt* _thCxt)
+FileReaderJc_s* ctorO_FileReaderJc  (  ObjectJc* othis, OS_HandleFile file, ThCxt* _thCxt)
 { 
   FileReaderJc_s* ythis = (FileReaderJc_s*)othis;
   int sizeObj = getSizeInfo_ObjectJc(othis);
@@ -304,7 +305,7 @@ FileReaderJc_s* ctorO_FileReaderJc(ObjectJc* othis, OS_HandleFile file, ThCxt* _
 }
 
 
-int open_FileReaderJcF(FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _thCxt)
+int open_FileReaderJcF  (  FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _thCxt)
 { //char const* sFileName1; int zFileName;
   char ssFileName[120];
   int len;
@@ -325,17 +326,17 @@ int open_FileReaderJcF(FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _thCxt
 }
 
 
-bool isOpen_FileReaderJcF(FileReaderJc_s* ythis)
+bool isOpen_FileReaderJcF  (  FileReaderJc_s* ythis)
 { return ythis->file_ != null;
 }
 
-bool ready_FileReaderJcF(FileReaderJc_s* ythis)
+bool ready_FileReaderJcF  (  FileReaderJc_s* ythis)
 { return ythis->file_ != null && ythis->bEof_ == 0;
 }
 
 
 
-int close_FileReaderJcF(FileReaderJc_s* ythis, ThCxt* _thCxt)
+int close_FileReaderJcF  (  FileReaderJc_s* ythis, ThCxt* _thCxt)
 { //char const* sFileName1; int zFileName;
   STACKTRC_TENTRY("close_BufferedReaderJcF");
   if(ythis->file_ != null){ os_fclose(ythis->file_); }
@@ -354,7 +355,7 @@ int close_FileReaderJcF(FileReaderJc_s* ythis, ThCxt* _thCxt)
 
 
 
-BufferedReaderJc_s* ctorO_BufferedReaderJc(ObjectJc* othis, FileReaderJc_s* inputReader, MemC buffer, ThCxt* _thCxt)
+BufferedReaderJc_s* ctorO_BufferedReaderJc  (  ObjectJc* othis, FileReaderJc_s* inputReader, MemC buffer, ThCxt* _thCxt)
 { 
   BufferedReaderJc_s* ythis = (BufferedReaderJc_s*)othis;
   int sizeObj = getSizeInfo_ObjectJc(othis);
@@ -374,7 +375,7 @@ BufferedReaderJc_s* ctorO_BufferedReaderJc(ObjectJc* othis, FileReaderJc_s* inpu
 
 
 
-StringJc readLine_BufferedReaderJc(BufferedReaderJc_s* ythis, ThCxt* _thCxt)
+StringJc readLine_BufferedReaderJc  (  BufferedReaderJc_s* ythis, ThCxt* _thCxt)
 { char cc;
   StringJc line;
   char* fileBuffer1 = PTR_MemC(ythis->buffer,char);

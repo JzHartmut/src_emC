@@ -5,7 +5,7 @@
 #include "InspcJ2c/InspcDataInfo_Inspc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception_emC.h>  //basic stacktrace concept
+  //basic stacktrace concept
 
 
 /* J2C: Forward declaration of struct ***********************************************/

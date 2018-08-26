@@ -5,7 +5,7 @@
 #include "J1c/SpecialCharStringsJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception_emC.h>  //basic stacktrace concept
+  //basic stacktrace concept
 #include "J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
 #include "Jc/StringJc.h"  //new object
 

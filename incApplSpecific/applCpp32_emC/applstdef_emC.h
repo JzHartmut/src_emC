@@ -13,13 +13,14 @@
 //#define __cplusplus
 
 //This block before <OSAL/os_types_def_common.h>
-/**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
+/**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
 
 #include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+//#include <incApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
 
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
@@ -49,7 +50,7 @@
 #define __TRYCPPJc
 
 #include <appl_emC/ThreadContextStacktrc_emC.h>
-#include <emC/Exception_emC.h>
+#include <sourceApplSpecific/applConv/Exception_emC.h>
 //#include <emC/ExcStacktrcNo.h>
 
 
@@ -69,41 +70,18 @@
 #define abs_complex(VAL) sqrtf( (VAL).re * (VAL).re + (VAL).im * (VAL).im )
 
 
+/**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
+//#define __HandlePtr64__
+//#define DEFINED_nrEntries_Handle2Ptr 1000
+
 //PRINTX
-#include <incApplSpecific/applConv/definePrintFileMakros.h>
+//#include <incApplSpecific/applConv/definePrintFileMakros.h>
 //#include <incApplSpecific/applConv/definePrintfMakros.h>
+#include <incApplSpecific/applConv/definePrintfMakrosEmpty.h>
 
 
-extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 #define kMaxPathLength_FileJc 500
-
-
-INLINE_emC int stopNAN(){ return 0; }
-
-/**Prevent process a NaN-value (not a number).
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * @param value the value to check and return in normal case
- * @param valueinstead This value is returned if value==nan
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- * @return valueinstead or value.
- */
-#define NNAN(value, valueinstead, check) (value < 1000000000.0f ? value : ((check) +=1, valueinstead))
-
-
-/**Condition if value is not NAN
- * @param value to test
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- */
-#define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
-
-/**Prevent process a NaN-value maybe only in debug mode.
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * It calls stopNAN especially for debug at PC
- * @param value the value to check and return
- * @return value anytime.
- */
-#define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
 
 
 

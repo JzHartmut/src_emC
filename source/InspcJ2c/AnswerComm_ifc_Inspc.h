@@ -11,7 +11,6 @@
 
 #include "Jc/StringJc.h"        //used often
 
-#include "emC/Exception_emC.h"   //basic concept
 
 
 /* J2C: includes *********************************************************/

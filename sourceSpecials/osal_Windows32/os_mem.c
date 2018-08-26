@@ -33,7 +33,7 @@
  * 2007-10-01: Hartmut creation
  *
  ****************************************************************************/
-#include <os_mem.h>
+#include <OSAL/os_mem.h>
 
 #undef INT32
 #undef UINT32
@@ -45,7 +45,7 @@
 
 
 
-void* os_allocMem(uint size)
+void* os_allocMem  (  uint size)
 { void* ptr = LocalAlloc(LMEM_FIXED, size);   //malloc(size);  //
   if(ptr == null)
   { int error = GetLastError();
@@ -57,7 +57,7 @@ void* os_allocMem(uint size)
 
 
 
-int os_freeMem(void const* ptr)
+int os_freeMem  (  void const* ptr)
 { void* ok = GlobalFree((void*)ptr);   //malloc(size);
   if(ok == NULL)
   { return 0;

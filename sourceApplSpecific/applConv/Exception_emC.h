@@ -66,7 +66,7 @@
 
 #ifndef __StringJc_defined__
   //minimalistic definition of StringJc to use this type before including emC/StringJc
-  typedef OS_PtrVal_DEF(StringJc, void const);
+  typedef OS_PtrVal_DEF ( StringJc, void const);
   #define __StringJc_defined__
 #endif //ifdef isNull_StringJc
 
@@ -82,7 +82,7 @@ struct ThreadContext_emC_t;
 struct PrintStreamJc_t;
 
 
-extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
+extern_C void stop_DebugutilJc ( struct ThreadContext_emC_t* _thCxt);
 
 
 /*@CLASS_C ExceptionJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -94,22 +94,22 @@ extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 
 /**Gets the exception describing text to the number. 
- * This method is called in [[printStackTraceFile_ExceptionJc(...)]] especially.
+ * This method is called in [[printStackTraceFile_ExceptionJc ( ...)]] especially.
  * @param exceptionNr: Any bit describes one exception type.
  */
-METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr);
+METHOD_C const char* getExceptionText_ExceptionJc ( int32 exceptionNr);
 
 
 /**Javalike: prints the Stacktrace at output stream. */
-METHOD_C void printStackTrace_ExceptionJc(ExceptionJc* ythis, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void printStackTrace_ExceptionJc ( ExceptionJc* ythis, struct ThreadContext_emC_t* _thCxt);
 
-METHOD_C void printStackTrace_P_ExceptionJc(ExceptionJc* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void printStackTrace_P_ExceptionJc ( ExceptionJc* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt);
 
 /**Javalike: prints the Stacktrace at output stream. 
  * @since 2011-02: The output stream handle is designated as OS_HandleFile.
  * @param out channel, where the outputs should written to. 
  */
-METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, struct OS_HandleFile_t* out, ThCxt* _thCxt);
+METHOD_C void printStackTraceFile_ExceptionJc ( ExceptionJc* ythis, struct OS_HandleFile_t* out, ThCxt* _thCxt);
 
 /**Special: manifests the content of the stacktrace to a given structure.
  * It means, all information holded in the stack itself via previous pointers from each IxStacktrace_emC-structure
@@ -120,11 +120,11 @@ METHOD_C void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, struct OS_Hand
  * @param dst a provided buffer for the exception or null. If null a new element is allocated in heap.
  * @param dst a provided buffer for the stacktrace or null. If null a new array with the designated length is allocated in heap.
  */
-//METHOD_C ExceptionJc* manifest_ExceptionJc(ExceptionJc* ythis, ExceptionJc* dst, struct StacktraceElementJcARRAY_t* dstStacktrace);
+//METHOD_C ExceptionJc* manifest_ExceptionJc ( ExceptionJc* ythis, ExceptionJc* dst, struct StacktraceElementJcARRAY_t* dstStacktrace);
 
 /**This routine is called in the THROW processing, if no TRY-level is found. The user should write this method.*/
-extern_C void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_emC_s* _thCxt);
-//METHOD_C void uncatchedException(int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt);
+extern_C void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s* _thCxt);
+//METHOD_C void uncatchedException ( int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt);
 
 #define getMessage_ExceptionJc(YTHIS, THC) ((YTHIS)->exceptionMsg)
 
@@ -237,7 +237,7 @@ typedef struct IxStacktrace_emC_t
  * The compiler switch should be set in the ,,fw_Platform_conventions.h,,
  */
 #ifdef TEST_STACKTRCJc
-  METHOD_C bool test_StacktraceJc(IxStacktrace_emC* ythis);
+  METHOD_C bool test_StacktraceJc ( IxStacktrace_emC* ythis);
 #else
   /**Let it empty. */
   #define test_StacktraceJc(ST)
@@ -282,23 +282,23 @@ class StacktraceJcpp: public IxStacktrace_emC
  * without an _thCxt if an uncatchable exception occurs.
  * @param stacktrcThCxt if null than the uncatchedException-routine is called.
  */
-extern_C void throw_sJc(int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _thCxt);
+extern_C void throw_sJc ( int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _thCxt);
 
 
 
-extern_C void throw_s0Jc(int32 exceptionNr, const char* msg, int value, int line, ThCxt* _thCxt);
+extern_C void throw_s0Jc ( int32 exceptionNr, const char* msg, int value, int line, ThCxt* _thCxt);
 
 
-METHOD_C void throw_EJc(int32 exceptionNr, ExceptionJc* exc, int value, int line, ThCxt* _thCxt);
+METHOD_C void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, int line, ThCxt* _thCxt);
 
 
 
 
 
-//#define CALLINE (stacktrace.entry.line=__LINE__)
+//#define CALLINE(stacktrace.entry.line=__LINE__)
 #define CALLINE (_thCxt->stacktrc.entries[_ixStacktrace_.ix].line=__LINE__)
 
-void XXX_endTryJc(TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, StacktraceThreadContext_emC_s* stacktrcThCxt);
+void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, StacktraceThreadContext_emC_s* stacktrcThCxt);
 
 
 

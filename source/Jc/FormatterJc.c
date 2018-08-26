@@ -37,7 +37,7 @@
 #include <Jc/ReflectionJc.h>
 #include <Jc/StringBufferJc.h>
 #include <emC/Va_list_emC.h> 
-#include <emC/Exception_emC.h>
+
 
 extern_C ClassJc const reflection_FormatterJc_s;
 extern_C ClassJc const reflection_StringBufferJc;

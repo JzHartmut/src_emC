@@ -21,7 +21,7 @@ const struct SuperClasses_ObjectArrayJc_ClassOffset_idxMtblJcARRAY_t  //Type for
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -548,8 +548,6 @@ const ClassJc reflection_int8ARRAY =
 
 
 extern_C const ClassJc reflection_FieldJc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_u_int16_t;  //used for field nrofArrayElementsOrBitfield_
-
 #define reflection_ClassJc_t reflection_ClassJc
 extern_C const ClassJc reflection_ClassJc_t;  //used for field type_
 
@@ -573,8 +571,8 @@ const struct Reflection_Fields_FieldJc_t
   , 
     { "nrofArrayElementsOrBitfield_"
     , 0   //no Array, no Bitfield                           
-    , &reflection_u_int16_t                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , REFLECTION_uint16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((FieldJc*)(0x1000))->nrofArrayElementsOrBitfield_)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_FieldJc

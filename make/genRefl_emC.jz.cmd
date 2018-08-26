@@ -16,8 +16,8 @@ Fileset headers =
 ( source:emC/*.h
 , source:Jc/*.h
 , source:Ipc/*.h
-##, 
-##source:Jc/FileIoJc.h
+, source:Inspc/*.h
+, source:OSAL/*.h
 );
 
 main()

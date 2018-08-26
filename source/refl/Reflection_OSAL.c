@@ -250,7 +250,7 @@ const ClassJc reflection_OS_TimeStamp =
 extern_C const ClassJc reflection_MinMaxTime_emC;  //the just defined reflection_
 const struct Reflection_Fields_MinMaxTime_emC_t
 { ObjectArrayJc head;
-  FieldJc data[12];
+  FieldJc data[10];
 } reflection_Fields_MinMaxTime_emC =
 { CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_MinMaxTime_emC)
 , {
@@ -259,14 +259,6 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->ct) -(int32)(MinMaxTime_emC*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_emC
-    }
-  , { "minminCyclTime"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->minminCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_MinMaxTime_emC
     }
@@ -299,14 +291,6 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->maxCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &reflection_MinMaxTime_emC
-    }
-  , { "maxmaxCyclTime"
-    , 0   //no Array, no Bitfield
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((MinMaxTime_emC*)(0x1000))->maxmaxCyclTime) -(int32)(MinMaxTime_emC*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_MinMaxTime_emC
     }

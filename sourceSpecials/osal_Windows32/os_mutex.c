@@ -42,9 +42,9 @@
  *
  ************************************************************************************************/
 #include <applstdef_emC.h>
-#include <os_sync.h>
-#include <os_error.h>
-#include <os_mem.h>
+#include <OSAL/os_sync.h>
+#include <OSAL/os_error.h>
+#include <OSAL/os_mem.h>
 
 #undef INT32
 #undef UINT32
@@ -68,7 +68,7 @@
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
-struct OS_Mutex_t* os_createMutex(char const* pName)
+struct OS_Mutex_t* os_createMutex  (  char const* pName)
 {
 
     HANDLE    hIOMutex;
@@ -91,7 +91,7 @@ struct OS_Mutex_t* os_createMutex(char const* pName)
 }
 
 
-void os_deleteMutex(struct OS_Mutex_t* pMutex)
+void os_deleteMutex  (  struct OS_Mutex_t* pMutex)
 {
   if (pMutex == null) return; //no THROW, it should be shown in lockMutex already.
 
@@ -107,7 +107,7 @@ void os_deleteMutex(struct OS_Mutex_t* pMutex)
 }
 
 
-bool os_lockMutex(OS_Mutex_s* pMutex, int timeout_millisec)
+bool os_lockMutex  (  OS_Mutex_s* pMutex, int timeout_millisec)
 {
 	DWORD WinRet;
   if(timeout_millisec ==0){ timeout_millisec = INFINITE; }
@@ -135,7 +135,7 @@ bool os_lockMutex(OS_Mutex_s* pMutex, int timeout_millisec)
 }
 
 
-void os_unlockMutex(struct OS_Mutex_t* pMutex)
+void os_unlockMutex  (  struct OS_Mutex_t* pMutex)
 {
   if(pMutex == null) return; //no THROW, it should be shown in lockMutex already.
   /*

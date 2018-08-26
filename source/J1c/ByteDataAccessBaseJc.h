@@ -12,7 +12,7 @@
 
 #include "Jc/StringJc.h"        //used often
 
-#include "emC/Exception_emC.h"   //basic concept
+   //basic concept
 
 
 /* J2C: Forward declaration of struct ***********************************************/

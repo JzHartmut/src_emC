@@ -64,13 +64,13 @@
 //==>emC/Exception_emC.c
 
 
-void ctor_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* thiz)
+void ctor_StacktraceThreadContext_emC  (  StacktraceThreadContext_emC_s* thiz)
 { thiz->maxNrofEntriesStacktraceBuffer = ARRAYLEN_emC(thiz->entries);
 }
 
 
 
-void ctor_ThreadContext_emC(ThreadContext_emC_s* thiz, void* topAddrStack)
+void ctor_ThreadContext_emC  (  ThreadContext_emC_s* thiz, void const* topAddrStack)
 { //int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktrc);
   
   /**The stacktrace-ThreadContext ist the last member. Its size may be different,
@@ -87,7 +87,7 @@ void ctor_ThreadContext_emC(ThreadContext_emC_s* thiz, void* topAddrStack)
 
 /**Sets a new buffer in Threadcontext.
  */
-METHOD_C MemC setUserBuffer_ThreadContext_emC(MemC newBuffer, ThreadContext_emC_s* _thCxt)
+METHOD_C MemC setUserBuffer_ThreadContext_emC  (  MemC newBuffer, ThreadContext_emC_s* _thCxt)
 { MemC lastBuffer;
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   lastBuffer = _thCxt->bufferAlloc;
@@ -101,7 +101,7 @@ METHOD_C MemC setUserBuffer_ThreadContext_emC(MemC newBuffer, ThreadContext_emC_
 
 
 
-MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, ThreadContext_emC_s* _thCxt)
+MemC getUserBuffer_ThreadContext_emC  (  int size, char const* sign, ThreadContext_emC_s* _thCxt)
 { ASSERT_s0_Jc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if(_thCxt->bufferAlloc.ref == null) {
@@ -153,7 +153,7 @@ MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, ThreadContext_e
 
 
 
-METHOD_C void reduceLastUserBuffer_ThreadContext_emC(void* ptr, int size, ThreadContext_emC_s* _thCxt)
+METHOD_C void reduceLastUserBuffer_ThreadContext_emC  (  void* ptr, int size, ThreadContext_emC_s* _thCxt)
 { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if(size & 0x7) { size += 8-(size & 0x7); }
   //MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
@@ -170,7 +170,7 @@ METHOD_C void reduceLastUserBuffer_ThreadContext_emC(void* ptr, int size, Thread
 
 /**Releases the buffer in ThreadContext. 
  */ 
-METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, ThreadContext_emC_s* _thCxt)
+METHOD_C bool releaseUserBuffer_ThreadContext_emC  (  void const* data, ThreadContext_emC_s* _thCxt)
 { if(_thCxt == null) {
     _thCxt = getCurrent_ThreadContext_emC();
   }
@@ -215,7 +215,7 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, ThreadContex
 
 
 
-METHOD_C bool setCheckingUserBuffer_ThreadContext_emC(ThreadContext_emC_s* ythis, bool value)
+METHOD_C bool setCheckingUserBuffer_ThreadContext_emC  (  ThreadContext_emC_s* ythis, bool value)
 { bool ret = (ythis->mode & mCheckBufferUsed_Mode_ThCxt)!=0;
   if(value) { ythis->mode |= mCheckBufferUsed_Mode_ThCxt; }
   else      { ythis->mode &= ~mCheckBufferUsed_Mode_ThCxt; }
@@ -224,14 +224,14 @@ METHOD_C bool setCheckingUserBuffer_ThreadContext_emC(ThreadContext_emC_s* ythis
 
 
 
-bool xxxoptimizeString_ThCxt(ThreadContext_emC_s* ythis, bool value)
+bool xxxoptimizeString_ThCxt  (  ThreadContext_emC_s* ythis, bool value)
 { bool ret = ythis->mode & mOptimizeToString_Mode_ThCxt;
   if(value) { ythis->mode |= mOptimizeToString_Mode_ThCxt; }
   else      { ythis->mode &= ~mOptimizeToString_Mode_ThCxt; }
   return ret;
 }
 
-bool isOptimizeString_ThCxt(ThreadContext_emC_s* ythis)
+bool isOptimizeString_ThCxt  (  ThreadContext_emC_s* ythis)
 { return ythis->mode & mOptimizeToString_Mode_ThCxt;
 }
 

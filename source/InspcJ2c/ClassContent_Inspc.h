@@ -4,6 +4,7 @@
  *************************************************************************/
 #ifndef __InspcJ2c_ClassContent_Inspc_h__
 #define __InspcJ2c_ClassContent_Inspc_h__
+#include <applstdef_emC.h>
 
 #include "emC/MemC_emC.h"        //basic concept
 
@@ -11,7 +12,6 @@
 
 #include "Jc/StringJc.h"        //used often
 
-#include "emC/Exception_emC.h"   //basic concept
 
 
 /* J2C: Forward declaration of struct ***********************************************/

@@ -50,7 +50,6 @@
 #include "Jc/ReflMemAccessJc.h"
 //#include "Jc/StringJc.h"
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
-#include "emC/Exception_emC.h"
 
 #include <emC/SimpleC_emC.h>
 #include <stdio.h>

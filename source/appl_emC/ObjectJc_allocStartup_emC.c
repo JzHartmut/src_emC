@@ -42,14 +42,14 @@
 
 static bool bRunMode = false;
 
-int setRunMode_ObjectJc(ThCxt* _thCxt)
+int setRunMode_ObjectJc  (  ThCxt* _thCxt)
 {
   bRunMode = true;
   return 0;
 }
 
 
-ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _thCxt)
+ObjectJc* alloc_ObjectJc  (  const int size, const int32 typeInstanceIdent, ThCxt* _thCxt)
 { ObjectJc* othis;
   int size2 = size;
   STACKTRC_TENTRY("alloc_ObjectJc");
@@ -73,7 +73,7 @@ ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _
 }
 
 
-void free_ObjectJc(ObjectJc* thiz) {
+void free_ObjectJc  (  ObjectJc* thiz) {
   MemC mem = build_MemC(thiz, getSizeInfo_ObjectJc(thiz));
   freeM_MemC(mem);
 }
@@ -88,25 +88,25 @@ ClassJc const reflection_BlockHeapBlockJc = {0};
 
 
 /**If no block heap is used, this routine returns {0, null} because there is no rest. */
-MemC getRestBlock_ObjectJc(ObjectJc* ythis, int size, ThCxt* _thCxt)
+MemC getRestBlock_ObjectJc  (  ObjectJc* ythis, int size, ThCxt* _thCxt)
 { MemC ret = NULL_MemC();
   return ret;
 }
 
 
-void setBackRefJc(void *ref,void const *instance)
+void setBackRefJc  (  void *ref,void const *instance)
 {
 }
 
 
-void clearBackRefJc(void *ref)
+void clearBackRefJc  (  void *ref)
 {
 }
 
 
 
 
-void activateGC_ObjectJc(void const* instance,void const* excl,struct ThreadContext_emC_t* _thCxt)
+void activateGC_ObjectJc  (  void const* instance,void const* excl,struct ThreadContext_emC_t* _thCxt)
 {
   
 }

@@ -64,7 +64,7 @@ const struct SuperClasses_DateJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the 
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -120,7 +120,7 @@ const struct SuperClasses_SimpleDateFormatJc_s_ClassOffset_idxMtblJcARRAY_t  //T
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -183,7 +183,7 @@ const struct SuperClasses_TextFieldPositionJc_s_ClassOffset_idxMtblJcARRAY_t  //
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  

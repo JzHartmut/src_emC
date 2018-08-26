@@ -39,7 +39,6 @@
 //#include "CRuntimeJavalike.h"
 #include "StringJc_intern.h"
 #include <Jc/ObjectJc.h>
-#include <emC/Exception_emC.h>
 #include <emC/Formatter_emC.h> 
 //#include "StringBuilderJc.h"
 #include <Jc/ReflectionJc.h>

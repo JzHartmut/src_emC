@@ -44,7 +44,7 @@
 #include "Jc/ObjectJc.h"
 #include "Jc/ConcurrentLinkedQueueJc.h"
 #include "os_AtomicAccess.h"
-#include "emC/Exception_emC.h"
+
 
 //package java.util.concurrent;
 //import java.util.*;

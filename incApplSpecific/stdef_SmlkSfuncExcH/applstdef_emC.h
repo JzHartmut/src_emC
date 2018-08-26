@@ -16,7 +16,7 @@
 
 
 //This block before <OSAL/os_types_def_common.h>
-/**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
+/**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
 //This block before <OSAL/os_types_def_common.h>
@@ -62,8 +62,8 @@
   */
 #define __TRYCPPJc
 
-#include <emC/threadContext.h>
-#include <emC/Exception_emC.h>
+#include <appl_emC/ThreadContextStacktrc_emC.h>
+#include <sourceApplSpecific/applConv/Exception_emC.h>
 //#include <emC/ExcStacktrcNo.h>
 
 

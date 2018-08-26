@@ -2,7 +2,6 @@
 #include <Jc/FileIoJc.h>
 #include <Jc/FileSystemJc.h>
 #include <emC/MemC_emC.h>
-#include <emC/Exception_emC.h>
 
 
 /**internal method (private).

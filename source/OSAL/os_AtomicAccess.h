@@ -100,6 +100,9 @@ INLINE_emC bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 exp
 #define _lockWr_DoubleBufferingJc 8
 #define _addSeq_DoubleBufferingJc (1<<kBitSeq_DoubleBufferingJc)
 
+
+/*@INLINE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
 /**Lock the index for reading data in a double buffering system.
  * The double buffering system is used to prevent inconsistent data. 
  * * It should be never write to a buffer which is read in the same moment.
@@ -204,5 +207,7 @@ INLINE_emC int unlockWrite_DoubleBufferingJc(int32 volatile* var, int32 ixWr)
 #include "PLATFORM_os_AtomicAccess.h"
 #endif
 
+
+/*@END*/
 
 #endif //__os_AtomicAccess_h__

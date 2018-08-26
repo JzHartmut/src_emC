@@ -44,7 +44,7 @@
 //#include "Jc/StringJc.h"
 #include <emC/Formatter_emC.h>
 //#include "OSAL/inc/os_time.h"
-//#include "emC/Exception_emC.h"
+//
 //#include <stdarg.h>
 #include <string.h>
 //#include <emC/ThreadContext_emC.h>

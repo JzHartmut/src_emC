@@ -33,7 +33,7 @@
  * @version 0.83
  **This file is referenced to the java2c-translated MsgDispatcher_MSG.h/c */
 #include "emC/VaArgBuffer_emC.h"
-//#include "emC/Exception_emC.h"
+//
 #include "emC/Formatter_emC.h"
 #include <string.h>
 

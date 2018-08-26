@@ -4,7 +4,7 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "emC/Exception_emC.h"
+
 
 
 extern_C const ClassJc reflection_ExceptionJc;  //the just defined reflection_

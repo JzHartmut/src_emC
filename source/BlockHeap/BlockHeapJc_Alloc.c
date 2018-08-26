@@ -46,7 +46,7 @@
 #include "Jc/StringJc.h"
 #include "emC/LogMessage.h"
 #include <os_time.h>
-#include "emC/Exception_emC.h"
+
 #include <os_AtomicAccess.h>
 #include <BlockHeap_PlatformSpec.h>
 
@@ -132,7 +132,7 @@ static ListMapEntryJc* initMapEntryNodes_BlockHeap_emC(BlockHeap_emC* ythis, ThC
 #endif
 //#include "ThreadJc.h"
 
-#include "emC/Exception_emC.h"
+
 
 typedef enum EBlockType_t
 {

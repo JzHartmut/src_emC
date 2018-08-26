@@ -5,7 +5,7 @@
 #include "J1c/LeapSecondsJc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception_emC.h>  //basic stacktrace concept
+  //basic stacktrace concept
 #include "Jc/ArraysJc.h"  //reference-association: ArraysJc
 #include "Jc/DateJc.h"  //reference-association: date
 #include "Jc/StringJc.h"  //string concatenation

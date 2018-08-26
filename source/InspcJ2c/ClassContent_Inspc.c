@@ -5,8 +5,8 @@
 #include "InspcJ2c/ClassContent_Inspc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception_emC.h>  //basic stacktrace concept
-#include "emC/Exception_emC.h"  //reference-association: ExceptionJc
+  //basic stacktrace concept
+  //reference-association: ExceptionJc
 #include "InspcJ2c/AnswerComm_ifc_Inspc.h"  //reference-association: answerCommMtbl
 #include "InspcJ2c/SearchElement_Inspc.h"  //reference-association: SearchElement_Inspc_s
 #include "Jc/PrintStreamJc.h"  //reference-association: out

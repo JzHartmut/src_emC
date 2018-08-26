@@ -47,7 +47,7 @@
 //#include <string.h>
 
 #include "BlockHeap_emC_internal.h"
-#include "emC/Exception_emC.h"
+
 #include <BlockHeap_PlatformSpec.h>
 
 #include "Jc/ReflectionJc.h"

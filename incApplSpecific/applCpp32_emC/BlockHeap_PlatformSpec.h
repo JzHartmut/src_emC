@@ -129,7 +129,7 @@ struct StringBufferJc_t;
 
      
 
-#include <emC/Exception_emC.h>
+
 #include <BlockHeap/BlockHeap_emC.h>
 
 

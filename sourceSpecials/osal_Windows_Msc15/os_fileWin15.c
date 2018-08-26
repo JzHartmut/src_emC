@@ -35,7 +35,7 @@
  * 2009-06-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <os_file.h>
+#include <OSAL/os_file.h>
 
 //#define USE_LoLevelFileIo
 
@@ -54,7 +54,9 @@
 #include <Winbase.h>
 //not necessary: #include <fileapi.h>
 
+#ifndef REFLECTION
 
+#endif
 
 #include <sys/stat.h>
 #include <string.h> //memset
@@ -67,7 +69,7 @@
   #include <stdio.h>
 #endif
 
-int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
+int init_FileDescription_OSAL  (  FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
 {
   int error = 0;
   int ii;
@@ -90,7 +92,7 @@ int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, ch
 
 
 
-FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
+FileDescription_OSAL* refresh_FileDescription_OSAL  (  FileDescription_OSAL* ythis)
 {
   
   struct stat statData;
@@ -122,7 +124,7 @@ FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
 /**Open a file to read. The file should be exist. 
  * @return null if the file doesn't exist. Elsewhere the handle, which is able to use for read.
  */ 
-OS_HandleFile os_fopenToRead(char const* filename)
+OS_HandleFile os_fopenToRead  (  char const* filename)
 {
   HANDLE h = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, null, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, null);
   return (OS_HandleFile)h;
@@ -133,21 +135,21 @@ OS_HandleFile os_fopenToRead(char const* filename)
  * The os layer itself may support such actions or not.
  * @return null if the file isn't able to write or create. Elsewhere the handle, which is able to use for write.
  */
-OS_HandleFile os_fopenToWrite(char const* filename, bool append)
+OS_HandleFile os_fopenToWrite  (  char const* filename, bool append)
 { 
   HANDLE h = CreateFile(filename, GENERIC_WRITE, FILE_SHARE_READ, null, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, null);
   return (OS_HandleFile)h;
 }
 
 
-int os_fclose(OS_HandleFile file)
+int os_fclose  (  OS_HandleFile file)
 { int success = CloseHandle((HANDLE)file);
   if(success != 0) { return 0; }
   else { return -1; }
 }
 
 
-int os_fflush(OS_HandleFile file)
+int os_fflush  (  OS_HandleFile file)
 { 
   BOOL flushed = FlushFileBuffers((HANDLE)file);
   return flushed ? 0 : -1;
@@ -155,7 +157,7 @@ int os_fflush(OS_HandleFile file)
 
 
 
-OS_HandleFile os_getStdOut()
+OS_HandleFile os_getStdOut  (  )
 { 
   #ifdef USE_LoLevelFileIo 
     return (OS_HandleFile)(1);   //it is the number 1 of the file handle numbers.
@@ -165,7 +167,7 @@ OS_HandleFile os_getStdOut()
 }
 
 
-OS_HandleFile os_getStdErr()
+OS_HandleFile os_getStdErr  (  )
 { 
   #ifdef USE_LoLevelFileIo 
     return (OS_HandleFile)(2);   //it is the number 2 of the file handle numbers.
@@ -175,7 +177,7 @@ OS_HandleFile os_getStdErr()
 }
 
 
-OS_HandleFile os_getStdIn()
+OS_HandleFile os_getStdIn  (  )
 { 
   #ifdef USE_LoLevelFileIo 
     return (OS_HandleFile)(0);  //it is the number 0 of the file handle numbers. 
@@ -195,7 +197,7 @@ OS_HandleFile os_getStdIn()
  *         It is the same convention like java.io.FileInputStream.read(...)
  *         If <=-2, than the writing process was faulty.
  */
-int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
+int os_fread  (  OS_HandleFile fileP, void* buffer, int maxNrofbytes)
 { DWORD nrofBytesRead;
   BOOL ok = ReadFile((HANDLE)fileP, buffer, maxNrofbytes, &nrofBytesRead, null);
   if(ok && nrofBytesRead >0) return nrofBytesRead;
@@ -219,7 +221,7 @@ int os_fread(OS_HandleFile fileP, void* buffer, int maxNrofbytes)
  * @param nrofbytes - the number of bytes to be skipped. 
  * @return the actual number of bytes skipped. 
  */
-int os_fskip(OS_HandleFile file, int32_t nrofbytes)
+int os_fskip  (  OS_HandleFile file, int32_t nrofbytes)
 { 
   #ifdef USE_LoLevelFileIo 
   #else
@@ -233,7 +235,7 @@ int os_fskip(OS_HandleFile file, int32_t nrofbytes)
  * This method may be delayed (thread switch is possible), if the conditions to write are met, 
  * but the write process requires a delaying. 
  */
-int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytesWr)
+int os_fwrite  (  OS_HandleFile fileP, void const* buffer, int nrofbytesWr)
 { 
   int nrofBytes;
   if(nrofbytesWr <0) {
@@ -254,7 +256,7 @@ int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytesWr)
 
 
 
-int32_t os_ftell(OS_HandleFile fileP)
+int32_t os_ftell  (  OS_HandleFile fileP)
 { int pos;
   #ifdef USE_LoLevelFileIo 
     pos = tell((int)fileP);

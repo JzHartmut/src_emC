@@ -19,7 +19,7 @@ const struct SuperClasses_LogMessageFW_s_ClassOffset_idxMtblJcARRAY_t  //Type fo
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  

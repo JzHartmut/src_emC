@@ -39,7 +39,7 @@
  *
  ****************************************************************************/
 
-#include <emC/Exception_emC.h>
+#include <applstdef_emC.h>
 
 #include <emC/String_emC.h>
 #ifndef __NOT_SUPPORTED_ExceptionJc__
@@ -151,7 +151,7 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _th
       exception.exceptionNr = exceptionNr;
       lightCopy_StringJc(&exception.exceptionMsg, msg);
       exception.exceptionValue = value;
-      uncatched_ExceptionJc(&exception, stacktrcThCxt);
+      uncatched_ExceptionJc(&exception, _thCxt);
     }
   }
   else
@@ -160,7 +160,7 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _th
     exception.exceptionNr = exceptionNr;
     lightCopy_StringJc(&exception.exceptionMsg, msg);
     exception.exceptionValue = value;
-    uncatched_ExceptionJc(&exception, &_thCxt->stacktrc);
+    uncatched_ExceptionJc(&exception, _thCxt);
   }
 }
 

@@ -237,7 +237,7 @@ METHOD_C bool setCheckingUserBuffer_ThreadContext_emC(struct ThreadContext_emC_t
  */ 
 METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, struct ThreadContext_emC_t* _thCxt);
 
-#define ADDR_IN_STACK_ThreadContext_emC(ptr) ((void*)ptr > (void*)&ptr && (void*)ptr < _thCxt->topmemAddrOfStack)
+#define ADDR_IN_STACK_ThreadContext_emC(ptr) ((MemUnit*)ptr > (MemUnit*)&ptr && (MemUnit*)ptr < _thCxt->topmemAddrOfStack)
 
 
 #endif //__emC_ThreadContext_emC_h__

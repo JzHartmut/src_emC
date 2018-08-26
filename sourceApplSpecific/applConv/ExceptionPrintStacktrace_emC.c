@@ -40,7 +40,7 @@
 //copyToBuffer_CharSeqJc: emC/String_emC.c
 
 
-#include <emC/Exception_emC.h>
+
 #ifndef __NOT_SUPPORTED_ExceptionJc__
 
 #include <emC/SimpleC_emC.h>     //ARRAYLEN

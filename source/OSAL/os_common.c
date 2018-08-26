@@ -1,4 +1,4 @@
-#include <os_time.h>
+#include <OSAL/os_time.h>
 #include "os_error.h"
 
 /* Changes:
@@ -7,7 +7,7 @@
  */
 
 
-OS_TimeStamp* ctorM_OS_TimeStamp(OS_PtrValue mem)
+OS_TimeStamp* ctorM_OS_TimeStamp  (  OS_PtrValue mem)
 { int size = value_OS_PtrValue(mem);
   if (size < sizeof(OS_TimeStamp))
   { os_FatalError(-1, "OS_TimeStamp with fault size", size, 0);
@@ -22,5 +22,5 @@ OS_TimeStamp* ctorM_OS_TimeStamp(OS_PtrValue mem)
 }
 
 
-OS_PtrValue null_OS_PtrValue = CONST_OS_PtrValue(0, MemUnit, null);
+OS_PtrValue null_OS_PtrValue  =  CONST_OS_PtrValue(0, MemUnit, null);
 

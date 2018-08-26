@@ -5,7 +5,7 @@
 #include "Ipc2c/InterProcessCommFactorySocket_Ipc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception_emC.h>  //basic stacktrace concept
+  //basic stacktrace concept
 #include "Ipc/InterProcessCommSocket.h"  //new object
 #include "Jc/ObjectJc.h"  //reference-association: IntegerJc
 #include "Jc/StringJc.h"  //embedded type in class data

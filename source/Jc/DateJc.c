@@ -37,7 +37,7 @@
  ****************************************************************************/
 #include "Jc/DateJc.h"
 //#include "Jc/StringBuilderJc.h"
-#include "emC/Exception_emC.h"
+
 #include <Jc/TimeZoneJc.h>
 #include <string.h>
 #include "os_time.h"

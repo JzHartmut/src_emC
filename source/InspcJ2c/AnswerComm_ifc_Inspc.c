@@ -5,7 +5,7 @@
 #include "InspcJ2c/AnswerComm_ifc_Inspc.h"
 #include <string.h>  //because using memset()
 #include <Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Exception_emC.h>  //basic stacktrace concept
+  //basic stacktrace concept
 
 
 const char sign_Mtbl_AnswerComm_ifc_Inspc[] = "AnswerComm_ifc_Inspc"; //to mark method tables of all implementations

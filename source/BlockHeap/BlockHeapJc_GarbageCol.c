@@ -43,7 +43,7 @@
 //#include "ThreadJc.h"
 #include "BlockHeap_emC_internal.h"
 #include <emC/LogMessage.h>
-#include <emC/Exception_emC.h>
+
 #include <Jc/StringJc.h>
 #include <Jc/SystemJc.h>
 #include <BlockHeap_PlatformSpec.h>

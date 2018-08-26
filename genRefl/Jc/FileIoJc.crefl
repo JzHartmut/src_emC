@@ -21,7 +21,7 @@ const struct SuperClasses_FileJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the 
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -84,7 +84,7 @@ const struct SuperClasses_OutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //Type 
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -120,7 +120,7 @@ const struct SuperClasses_FileOutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //T
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -174,7 +174,7 @@ const struct SuperClasses_FileWriterJc_s_ClassOffset_idxMtblJcARRAY_t  //Type fo
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -230,7 +230,7 @@ const struct SuperClasses_FileReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type fo
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -326,7 +326,7 @@ const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Typ
     , { "object"     
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
-      , kEmbeddedContainer_Modifier_reflectJc //The superclass is always embedded. It is to show the really type.
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  

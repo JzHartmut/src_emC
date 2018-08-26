@@ -22,8 +22,8 @@
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
 
-//#include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-#include <incApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+#include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+//#include <incApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
 
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
@@ -52,8 +52,8 @@
   */
   #define __TRYCPPJc
 
-#include <emC/threadContext.h>
-//#include <emC/Exception_emC.h>
+#include <appl_emC/ThreadContextStacktrc_emC.h>
+//#include <sourceApplSpecific/applConv/Exception_emC.h>
 #include <emC/ExcStacktrcNo.h>
 
 
@@ -83,7 +83,6 @@
 #include <incApplSpecific/applConv/definePrintfMakrosEmpty.h>
 
 
-//extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 #define kMaxPathLength_FileJc 500
 

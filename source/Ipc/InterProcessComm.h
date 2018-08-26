@@ -47,7 +47,7 @@
 #include <emC/Object_emC.h>
 #include <emC/MemC_emC.h>
 #include <emC/String_emC.h>
-#include <emC/Exception_emC.h>
+
 
 struct InterProcessComm_t;
 struct AddressInterProcessComm_t;

@@ -40,7 +40,6 @@
 //include the own header at first to test its correct dependencies.
 #include <emC/LogMessage_emC.h>
 
-#include <emC/Exception_emC.h>
 #include <Jc/ReflectionJc.h>
 //#include "fw_basic.h"
 #include <emC/Object_emC.h>

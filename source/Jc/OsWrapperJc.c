@@ -48,7 +48,7 @@
 #include "OsWrapperJc.h"
 #include <emC/SimpleC_emC.h>
 //#include <Jc/ObjectJc.h>
-#include <emC/Exception_emC.h>
+
 #include <os_thread.h>
 #include <os_time.h>
 #include <os_sync.h>
@@ -63,7 +63,7 @@ OsWrapperJc_s data_OsWrapperJc = { 0 };
 
 
 /**This routine is called only onetime after startup. */
-int initFreeHandleEntry()
+int initFreeHandleEntry  (  )
 { int zHandleItems = ARRAYLEN_SimpleC(data_OsWrapperJc.handleItemsJc);
   int ii;
   data_OsWrapperJc.handleItemsJc[0].handle.nextFree = kNoFreeHandleItem;  //let the first unused, no using of index 0!
@@ -83,13 +83,13 @@ int initFreeHandleEntry()
 /**gets a free handle.
  * @param idx the returned index.
  */
-HandleItem* getFreeHandleEntry(int16* idx)
+HandleItem* getFreeHandleEntry  (  int16* idx)
 { //this operation have to be executed under mutex:
   HandleItem* theHandleItem;
   if(data_OsWrapperJc.nrofHandle == 0) {  //if not 0, it is initialized. Use it. Short quest.
     //if 0, it is possible that another thread does the same. Repeat the quest with mutex.
     struct OS_Mutex_t* mutexInitHandle = null;         //local ref
-    os_createMutex("JcinitHandle", &mutexInitHandle);
+    mutexInitHandle = os_createMutex("JcinitHandle");
     //try to set the local ref, 
     if(!compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.mutexInitHandle), null, mutexInitHandle)) {
       //yet a mutex was created from another thread already.
@@ -139,7 +139,7 @@ HandleItem* getFreeHandleEntry(int16* idx)
 
 /**gets the handle to the index.
  */
-HandleItem* getHandleEntry(int idx)
+HandleItem* getHandleEntry  (  int idx)
 { if(idx < 0 || idx > ARRAYLEN(data_OsWrapperJc.handleItemsJc))
   { STACKTRC_ENTRY("getHandleEntry");
     THROW1_s0(RuntimeException, "error fault idx for handle", idx);
@@ -150,7 +150,7 @@ HandleItem* getHandleEntry(int idx)
 
 
 
-void releaseHandleEntry(int16 idx)
+void releaseHandleEntry  (  int16 idx)
 {
   HandleItem* currNextFree;
   HandleItem* releaseHandle = &data_OsWrapperJc.handleItemsJc[idx];
@@ -182,7 +182,7 @@ void releaseHandleEntry(int16 idx)
 
 
 
-INLINE_emC HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
+INLINE_emC HandleItem* getHandle_ObjectJc  (  ObjectJc* thiz) {
   HandleItem* handle = null;
   int16 ixHandle = thiz->state.b.idSyncHandles;
   if(ixHandle == kNoSyncHandles_ObjectJc) {
@@ -193,7 +193,7 @@ INLINE_emC HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
       strcpy_emC(handle->name, "Jc_00", sizeof(handle->name));
       handle->name[5] = (char)(((ixHandle >>6)  & 0x3f) + '0');
       handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
-      os_createMutex(handle->name, &handle->handleMutex);
+      handle->handleMutex = os_createMutex(handle->name);
       while(--tryCt > 0) {
         oldValue = thiz->state._w[ixOffsId_State_Object]; //Note: read only one time, test the same as in compareAndSet
         if((oldValue & m_idSyncHandles_State_ObjectJc) != (kNoSyncHandles_ObjectJc & m_idSyncHandles_State_ObjectJc)) { 
@@ -235,7 +235,7 @@ INLINE_emC HandleItem* getHandle_ObjectJc(ObjectJc* thiz) {
 
 
 /**implements from ObjectJc.h. */
-void wait_ObjectJc(ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
+void wait_ObjectJc  (  ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
 { //TODO test wether the thread has the monitor.
   HandleItem* handle;
   STACKTRC_TENTRY("wait_ObjectJc");
@@ -265,7 +265,7 @@ void wait_ObjectJc(ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
 
 
 
-void notify_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
+void notify_ObjectJc  (  ObjectJc* obj, ThCxt* _thCxt)
 { //TODO it is possible that more as one thread waits, implement a list of threads.
   STACKTRC_TENTRY("notify_ObjectJc");
   if(obj->state.b.idSyncHandles != kNoSyncHandles_ObjectJc)
@@ -282,7 +282,7 @@ void notify_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
 
 
 
-void notifyAll_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
+void notifyAll_ObjectJc  (  ObjectJc* obj, ThCxt* _thCxt)
 { //TODO it is possible that more as one thread waits, implement a list of threads.
   STACKTRC_TENTRY("notifyAll_ObjectJc");
   if(obj->state.b.idSyncHandles != kNoSyncHandles_ObjectJc)
@@ -306,7 +306,7 @@ void notifyAll_ObjectJc(ObjectJc* obj, ThCxt* _thCxt)
 
 
 /**implements from ObjectJc.h. */
-void synchronized(ObjectJc* obj)
+void synchronized  (  ObjectJc* obj)
 { HandleItem* handle;
   handle = getHandle_ObjectJc(obj);
   if(handle == null) {
@@ -325,7 +325,7 @@ void synchronized(ObjectJc* obj)
 
 
 
-void synchronizedEnd(ObjectJc* obj)
+void synchronizedEnd  (  ObjectJc* obj)
 {
   HandleItem* handle;
   STACKTRC_ENTRY("synchronizedEnd");
@@ -345,7 +345,7 @@ void synchronizedEnd(ObjectJc* obj)
 
 
 
-void sleep_Thread_Jc(int32 millisecond)
+void sleep_Thread_Jc  (  int32 millisecond)
 { STACKTRC_ENTRY("sleep_Thread_Jc");
   os_delayThread(millisecond);
   STACKTRC_LEAVE;

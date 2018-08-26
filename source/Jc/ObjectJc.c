@@ -50,7 +50,7 @@
 #include <string.h>     //memset
 //#include "StringJc.h"
 #include "Jc/ReflectionJc.h"
-#include "emC/Exception_emC.h"
+
 //#include "os_wrapper.h"
 
 /********************************************************************************************/

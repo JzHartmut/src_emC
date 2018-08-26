@@ -39,7 +39,7 @@
 #ifndef __Jc_FileIoJc_h__
 #define __Jc_FileIoJc_h__
 #include "Jc/ObjectJc.h"
-#include "os_file.h"
+#include "OSAL/os_file.h"
 //#include <fw_Platform_Conventions.h>
 
 struct ThreadContext_emC_t;

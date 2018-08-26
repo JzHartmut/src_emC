@@ -34,7 +34,7 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#include <os_time.h>
+#include <OSAL/os_time.h>
 
 #undef INT32
 #undef UINT32

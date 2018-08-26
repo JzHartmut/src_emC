@@ -40,7 +40,7 @@
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 //Include before fw_String.h because it is used there.
 #include <incApplSpecific/applConv/EnhanceRef_simple.h>
-
+//#include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
@@ -63,8 +63,8 @@
   */
 #define __TRYCPPJc
 
-#include <emC/threadContext.h>
-//#include <emC/Exception_emC.h>
+#include <appl_emC/ThreadContextStacktrc_emC.h>
+//#include <sourceApplSpecific/applConv/Exception_emC.h>
 #include <emC/ExcStacktrcNo.h>
 
 

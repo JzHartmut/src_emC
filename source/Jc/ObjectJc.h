@@ -52,7 +52,7 @@
 #include "emC/Object_emC.h"
 //#include "emC/SimpleC_emC.h"  //should be includeed in applstdef_emC.h
 //#include "emC/MemC_emC.h"     //should be includeed in applstdef_emC.h
-//#include "emC/Exception_emC.h"  ////should be includeed in applstdef_emC.h, knowledge of Thcxt, Exception is supplied
+//  ////should be includeed in applstdef_emC.h, knowledge of Thcxt, Exception is supplied
 //#include "emC/String_emC.h"  //should be includeed in applstdef_emC.h
 #include <Jc/StringJc.h>
 

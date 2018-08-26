@@ -42,10 +42,10 @@
 
 //#include "ObjectJc.h"
 #include <applstdef_emC.h>
-#include <os_time.h>
-#include <os_error.h>
-#include <os_thread.h>
-//#include <emC/Exception_emC.h>
+#include <OSAL/os_time.h>
+#include <OSAL/os_error.h>
+#include <OSAL/os_thread.h>
+//
 #include <stdio.h>
 #include <stdlib.h>  //exit
 
@@ -61,7 +61,7 @@
 * The implementation of this routine should be done depending from the users requirements to the system
 * in the OSAL-Layer.
 */
-void os_FatalError(int errorCode, const char* description, int value1, int value2)
+void os_FatalError  (  int errorCode, const char* description, int value1, int value2)
 {
   int run = 1;
   int ct = 0;
@@ -80,7 +80,7 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
 /**Stops the execution of the executable respectively the whole application because no error handling is possible.
 * This routine should only called in unexpected situations, where the engine may only stopped.
 */
-void os_FatalSysError(int errorCode, const char* description, int value1, int value2)
+void os_FatalSysError  (  int errorCode, const char* description, int value1, int value2)
 {
   printf("os_FatalSysError %d:", errorCode);
   printf(description, value1, value2);
@@ -90,7 +90,7 @@ void os_FatalSysError(int errorCode, const char* description, int value1, int va
 }
 
 
-void os_notifyError_FileLine(int errorCode, const char* description, int value1, int value2, char const* file, int line)
+void os_notifyError_FileLine  (  int errorCode, const char* description, int value1, int value2, char const* file, int line)
 {
   //if (users_os_Error != null)
   //{ //call the users routine:
@@ -108,20 +108,20 @@ void os_notifyError_FileLine(int errorCode, const char* description, int value1,
 
 
 
-void stopAssert_emC(void) {
+void stopAssert_emC  (  void) {
   //maybe set a breakpoint here
   os_FatalError(-1, "stopAssert_emC", 0, 0);
 }
 
 
 
-bool stop_AssertJc(void) {
+bool stop_AssertJc  (  void) {
   //maybe set a breakpoint here
   os_FatalError(-1, "stopAssert_emC", 0, 0);
   return false;
 }
 
-void uncatched_ExceptionJc(ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
+void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
 {
   printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
   printStackTraceFile_ExceptionJc(ythis, null, null);
