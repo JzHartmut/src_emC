@@ -57,73 +57,6 @@ StringJc const null_StringJc = NULL_StringJc;
 
 
 
-/**Searches a character inside a given string with terminated length.
- * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
- */
-int searchChar_emC(char const* text, int maxNrofChars, char cc)
-{ register char const* text1 = text;
-  register char const* text9 = text + maxNrofChars;
-  //optimization: test only one pointer register, which is incremented too
-  while(text1 < text9 && *text1 != cc){ 
-		text1+=1;
-	}
-  if(text1 >= text9) return -1;  //not found
-	else return (text1 - text);    //maybe 0 if the request char is on the first position.
-}
-
-
-
-
-/**Searches a String inside a given string with terminated length.
- * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
- */
-int searchString_emC(char const* text, int maxNrofChars, char const* ss, int zs)
-{ register char const* text1 = text;
-  register char const* text2 = text + zs;
-  register char const* text3 = text + 1;
-  register char const* s2 = ss +1;
-  register char const* text9 = text + maxNrofChars;
-  register char cc;
-  //optimization: test only one pointer register, which is incremented too
-  while( text3 <= text9 && text3 < text2){
-    cc = *ss;
-    while(text1 < text9 && *text1 != cc){ 
-		  text1+=1;
-	  }
-    text3 = text1 +1;
-    text2 = text1 + zs;
-    s2 = ss +1;
-    while(text3 < text2 && *text3 == *s2){
-      text3 +=1; 
-      s2 +=1;
-    }
-  }
-  if(text3 > text9) return -1;  //not found
-	else return (text1 - text);    //maybe 0 if the request char is on the first position.
-}
-
-
-
-
-int skipWhitespaces_emC(char const* text, int maxNrofChars)
-{ register char const* text1 = text;
-  register char const* text9 = text + maxNrofChars;
-  //optimization: test only one pointer register, which is incremented too
-  while(text1 < text9 && *text1 <= 0x20){ 
-		text1+=1;
-	}
-	return (text1 - text);    //maybe 0 if the request char is on the first position.
-}
-
-
-int trimRightWhitespaces_emC(char const* text, int maxNrofChars)
-{ register char const* text1 = text + maxNrofChars-1;
-  //optimization: test only one pointer register, which is incremented too
-  while(text1 >= text && *text1 <= 0x20){ 
-		text1-=1;
-	}
-	return (text1 - text +1);    //maybe 0 if there are only whitespaces.
-}
 
 
 
@@ -225,7 +158,7 @@ char const* getCharsAndLength_StringJc(StringJc const* thiz, int* length)
     int val = VAL_StringJc(*thiz);
     int nChars = val & mLength__StringJc;
     if(nChars == kIs_0_terminated_StringJc) {
-      nChars = strlen_emC(chars, kMaxNrofChars_StringJc);
+      nChars = strnlen_emC(chars, kMaxNrofChars_StringJc);
     }
     else if(nChars <= kMaxNrofChars_StringJc) {
       *length = nChars;
@@ -245,7 +178,7 @@ char const* getCharsAndLength_StringJc(StringJc const* thiz, int* length)
 bool isZeroTerminated_StringJc(StringJc const thiz)
 { char const* chars = PTR_StringJc(thiz);
   int nChars = VAL_StringJc(thiz) & mLength__StringJc;
-  if(nChars == mLength__StringJc) { nChars = strlen_emC(chars, mLength__StringJc); }
+  if(nChars == mLength__StringJc) { nChars = strnlen_emC(chars, mLength__StringJc); }
   return chars[nChars] == 0;
 }
 

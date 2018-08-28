@@ -848,7 +848,7 @@ class  StringJcpp: public StringJc
   }
 };
 
-//StringJc operator char const*(char const* src){ return zI_StringJc(src, strlen_emC(src, mLength__StringJc); }
+//StringJc operator char const*(char const* src){ return zI_StringJc(src, strnlen_emC(src, mLength__StringJc); }
 
 
 #endif //__CPLUSPLUSJcpp
@@ -919,7 +919,7 @@ extern char const sign_Mtbl_CharSeqJc[];
 /*
 INLINE_emC CharSeqJc z_CharSeqJc(char const* src)
 { CharSeqJc ret;
-  int size = strlen_emC(src, kMaxLength_StringJc);
+  int size = strnlen_emC(src, kMaxLength_StringJc);
   set_OS_PtrValue(ret, src, size); 
   return ret;
 }
@@ -935,7 +935,7 @@ INLINE_emC CharSeqJc z_CharSeqJc(char const* src)
 INLINE_emC CharSeqJc zI_CharSeqJc(char const* src, int length)
 { CharSeqJc ret;
   if(length < 0) {
-    int lengthSrc = strlen_emC(src, kMaxLength_StringJc);
+    int lengthSrc = strnlen_emC(src, kMaxLength_StringJc);
     length = lengthSrc - (-length) +1;
   }
   set_OS_PtrValue(ret, src, length); 

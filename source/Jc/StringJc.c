@@ -170,7 +170,7 @@ CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_String
 { CharSeqJcMTB ret;
   int val = VAL_CharSeqJc(thiz) & mLength__StringJc;
   if(val == kIs_0_terminated_StringJc) { 
-    val = strlen_emC(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc); 
+    val = strnlen_emC(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc); 
   }
 
   if(val <= kMaxNrofChars_StringJc) {
@@ -308,10 +308,10 @@ bool equals_StringJc(const StringJc ythis, const StringJc cmp)
   const char* strThis = PTR_StringJc(ythis);
   const char* strCmp = PTR_StringJc(cmp);
   if(countThis == mLength__StringJc){
-    countThis = strlen_emC(strThis, mLength__StringJc);
+    countThis = strnlen_emC(strThis, mLength__StringJc);
   }
   if(countCmp == mLength__StringJc){
-    countCmp = strlen_emC(strCmp, countThis+1); //more chars are not necessary.
+    countCmp = strnlen_emC(strCmp, countThis+1); //more chars are not necessary.
   }
   if(countCmp != countThis)
   { return(false);
@@ -333,10 +333,10 @@ bool startsWith_StringJc(const StringJc ythis, const StringJc cmp)
   const char* strThis = PTR_StringJc(ythis);
   const char* strCmp = PTR_StringJc(cmp);
   if(countThis == mLength__StringJc){
-    countThis = strlen_emC(strThis, mLength__StringJc);
+    countThis = strnlen_emC(strThis, mLength__StringJc);
   }
   if(countCmp == mLength__StringJc){
-    countCmp = strlen_emC(strCmp, countThis+1); //more chars are not necessary.
+    countCmp = strnlen_emC(strCmp, countThis+1); //more chars are not necessary.
   }
   if(countCmp > countThis)
   { return(false);
@@ -356,10 +356,10 @@ bool startsWith_zI_StringJc(const StringJc ythis, const char* strCmp, int valueC
   int countCmp = valueCmp & mLength__StringJc;
   const char* strThis = PTR_StringJc(ythis);
   if(countThis == mLength__StringJc){
-    countThis = strlen_emC(strThis, mLength__StringJc);
+    countThis = strnlen_emC(strThis, mLength__StringJc);
   }
   if(countCmp == mLength__StringJc){
-    countCmp = strlen_emC(strCmp, countThis+1);
+    countCmp = strnlen_emC(strCmp, countThis+1);
   }
   if(countCmp > countThis)
   { return(false);
@@ -381,10 +381,10 @@ bool endsWith_StringJc(const StringJc ythis, const StringJc cmp)
   const char* strThis = PTR_StringJc(ythis);
   const char* strCmp = PTR_StringJc(cmp);
   if(countThis == mLength__StringJc){
-    countThis = strlen_emC(strThis, mLength__StringJc);
+    countThis = strnlen_emC(strThis, mLength__StringJc);
   }
   if(countCmp == mLength__StringJc){
-    countCmp = strlen_emC(strCmp, countThis+1); //more chars are not necessary.
+    countCmp = strnlen_emC(strCmp, countThis+1); //more chars are not necessary.
   }
   if(countCmp > countThis)
   { return(false);
@@ -406,10 +406,10 @@ bool endsWith_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp
   int countCmp = valueCmp & mLength__StringJc;
   const char* strThis = PTR_StringJc(ythis);
   if(countThis == mLength__StringJc){
-    countThis = strlen_emC(strThis, mLength__StringJc);
+    countThis = strnlen_emC(strThis, mLength__StringJc);
   }
   if(countCmp == mLength__StringJc){
-    countCmp = strlen_emC(strCmp, countThis+1);
+    countCmp = strnlen_emC(strCmp, countThis+1);
   }
   if(countCmp > countThis)
   { return(false);
@@ -545,10 +545,10 @@ int lastIndexOf_sI_StringJc(StringJc ythis, StringJc cmp, int fromIndex )
   const char* strThis = PTR_StringJc(ythis);
   const char* strCmp = PTR_StringJc(cmp);
   if(countThis == mLength__StringJc){
-    countThis = strlen_emC(strThis, mLength__StringJc);
+    countThis = strnlen_emC(strThis, mLength__StringJc);
   }
   if(countCmp == mLength__StringJc){
-    countCmp = strlen_emC(strCmp, countThis+1); //more chars are not necessary.
+    countCmp = strnlen_emC(strCmp, countThis+1); //more chars are not necessary.
   }
   if(fromIndex > (countThis - countCmp)){ 
     fromIndex = countThis - countCmp;     //start at last possible position.     
@@ -627,7 +627,7 @@ int parseInt_radix_IntegerJc(StringJc ythis, int radix)
   int countThis = VAL_StringJc(ythis) & mLength__StringJc; 
   const char* strThis = PTR_StringJc(ythis);
   if(countThis == mLength__StringJc){
-    countThis = strlen_emC(strThis, mLength__StringJc);
+    countThis = strnlen_emC(strThis, mLength__StringJc);
   }
   value = parseIntRadix_emC(strThis, countThis, radix, &nrofCharsParsed);
   if(nrofCharsParsed < countThis){

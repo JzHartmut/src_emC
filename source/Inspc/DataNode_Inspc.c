@@ -2,9 +2,24 @@
  * The whole inspector binaries are not necessary therefore. They should not need in a extra binary image.
  */
 #include <Inspc/DataNode_Inspc.h>
-#include <Inspc/FBaccess_Inspc.h>
 #include <string.h>
 #include <emC/String_emC.h>
+
+
+DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float Tstep)
+{ //Tstep is only dummy, for simulink.
+  STACKTRC_ENTRY("ctor_DataNode_Inspc");
+  //DataNode_Inspc* thiz = (DataNode_Inspc*) thizo; 
+  strcpy_emC(thiz->clazz.name, "DataNode_Inspc", sizeof(thiz->clazz.name));
+  initReflection_ObjectJc(&thiz->object, thiz, sizeof(DataNode_Inspc), &thiz->clazz, 0xf0);
+
+  thiz->fields.head.sizeElement = sizeof(void*);
+  thiz->clazz.attributes = &thiz->fields;
+  setInitialized_ObjectJc(&thiz->object);
+  STACKTRC_LEAVE;
+  return thiz;
+
+}
 
 
 bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl){

@@ -65,7 +65,7 @@ extern ClassJc const reflection_StringBuilderJc;
 int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if (val == kIs_0_terminated_StringJc) {
-    val = strlen_emC(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc);
+    val = strnlen_emC(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc);
   }
   if (val <= kMaxNrofChars_StringJc) return val;
 #ifdef __NoCharSeqJcCapabilities__
@@ -92,7 +92,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if (val == kIs_0_terminated_StringJc) {
-    val = strlen_emC(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc);
+    val = strnlen_emC(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc);
   }
   if (val <= kMaxNrofChars_StringJc) {
     if (pos <= val) return PTR_OS_PtrValue(thiz, char const)[pos];
@@ -359,7 +359,7 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
   //determine type of add, zadd, padd, madd:
   { int valAdd = value_OS_PtrValue(add) & mLength__StringJc;
   if (valAdd == kIs_0_terminated_StringJc) {
-    valAdd = strlen_emC(PTR_OS_PtrValue(add, char const), kMaxNrofChars_StringJc);
+    valAdd = strnlen_emC(PTR_OS_PtrValue(add, char const), kMaxNrofChars_StringJc);
   }
   if (valAdd <= kMaxNrofChars_StringJc) {
     padd = PTR_OS_PtrValue(add, char const);

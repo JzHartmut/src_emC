@@ -14,7 +14,7 @@ void ctor_SharedMemAccess_Target2Proxy_Inspc(SharedMemAccess_Target2Proxy_Inspc*
   memset(thiz, 0, sizeof(*thiz));
   //prepare name.
   //hint: use memcpy because strncpy is denunciated as non save by the C11 standard.  
-  int zname = strlen_emC(nameAppl, sizeof(thiz->name_proxy2target) - 7); //regard the dst size!
+  int zname = strnlen_emC(nameAppl, sizeof(thiz->name_proxy2target) - 7); //regard the dst size!
   memcpy(thiz->name_proxy2target, nameAppl, zname);
   memcpy(thiz->name_proxy2target + zname, "_t2pxy", 6);  //zero termination is guaranteed. 
   memcpy(thiz->name_target2proxy, nameAppl, zname);

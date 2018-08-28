@@ -551,7 +551,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
   
   STACKTRC_TENTRY("format_BV_StringJc");
   if(zFormat <=0){
-    zFormat = strlen_emC(sFormat, 1000);
+    zFormat = strnlen_emC(sFormat, 1000);
     sFormatEnd = sFormat + zFormat;
   }
   //va_start(vargList, args->v[0]);
@@ -679,17 +679,17 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
               if(srcToCopy == null)
               { srcToCopy = "(null)";   //a null pointer may be acceptable.
               }
-              nrofCharsToCopy = strlen_emC(srcToCopy, zBuffer-iBuffer);
+              nrofCharsToCopy = strnlen_emC(srcToCopy, zBuffer-iBuffer);
             } break;
-            case '1': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 8);
-            case '2': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 16);
-            case '3': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 24);
-            case '4': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 32);
-            case '5': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 40);
-            case '6': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 48);
-            case '7': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 56);
-            case '8': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, 64);
-            case '$': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strlen_emC(srcToCopy, zBuffer-iBuffer);
+            case '1': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 8);
+            case '2': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 16);
+            case '3': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 24);
+            case '4': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 32);
+            case '5': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 40);
+            case '6': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 48);
+            case '7': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 56);
+            case '8': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, 64);
+            case '$': srcToCopy = &argValue->c8.s[0]; nrofCharsToCopy = strnlen_emC(srcToCopy, zBuffer-iBuffer);
             default:  srcToCopy="ERROR unknwon Type";nrofCharsToCopy = strlen(srcToCopy);
           }
         } break;

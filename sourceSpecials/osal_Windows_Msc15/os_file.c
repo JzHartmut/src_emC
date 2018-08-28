@@ -243,7 +243,7 @@ int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytesWr)
 { 
   int nrofBytes;
   if(nrofbytesWr <0) {
-    nrofbytesWr = strlen_emC((char const*)buffer, -nrofbytesWr);
+    nrofbytesWr = strnlen_emC((char const*)buffer, -nrofbytesWr);
   }
   if(nrofbytesWr >0) {
     #ifdef USE_LoLevelFileIo 

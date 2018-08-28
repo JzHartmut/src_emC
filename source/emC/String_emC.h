@@ -72,17 +72,37 @@ struct Mtbl_CharSeqJc_t;
  *        is some more less than as in comparision with the strlen-call without any limits.
  * @return the number of chars till \0 or maxNrofChars. 
  */
-extern_C int strlen_emC(char const* text, int maxNrofChars);
+extern_C int strnlen_emC ( char const* text, int maxNrofChars);
 
 
 
 /**Copies the src to the limited dst with preventing overflow and guaranteed 0-termination.
+ * or copy a given number of characters without 0-termination.
+ * 
  * This is a alternate implementation of strncpy (it does not guaranteed a 0-termination)
- * and a alternate implementation of strlcpy from BSD (it does not count the maybe unused length of src).
+ * and a alternate implementation of strlcpy from BSD (it does count the maybe unused length of src).
  *
- * Copies maximal sizeDst-1 characters from src to dst but ends on a \0 chararcter in src. 
- * Ends the dst with a \0 in any case. Do nothing for the rest of bytes in dst till dst + sizeDst 
- * (no squandering of calculation time for unsued things).
+ * It guarantees both, 0-termination if necessary and strncpy-functionality without 0-termination.
+ * * If sizeOrNegLength is positive, it should be the size of dst inclusively the end-0.
+ * ** If the src is less than size, src is copied and a end-0 is appended. 
+ * The routine returns the number of chars copied without the ending 0.
+ * The rest of the buffer remains unchanged. (no squandering of calculation time for unsued things).
+ * It means, if it contains invalid character, they remain invalid. But the C-String from dst has guaranteed its end-0.
+ * If the buffer should be clean (to hide old informations), use setmem(dst, 0, size).
+ * ** If the length of src is >=size, then (size-1) characters are copied and a end-0 is appended.
+ * The routine returns size itself. It is the number of chars copied with the end-0.
+ * With comparison return value >= size the information about truncation is given (src is truncated in dst).
+ *
+ * * If sizeOrNegLength is negative (-length), then the 0-termination of dst is not guaranteed:
+ * ** If the length of src is >= -length then -length characters of src are copied, without ending 0.
+ * This mode can be used to replace some character in a longer String in dst with given -length of src 
+ * It is the same behavior like strncpy, only the number of chars should be given negative. 
+ * The routine returns -length (the number of copied chars).
+ * ** If the length of src till its end-0 is < -length, the end-0 is copied too, but the rest till -length is not filled with 0.
+ * It is the same with remaining/hidden content. 
+ * The behavior is similar but not equal strncpy, because strncpy fills the rest till length with 0.   
+ *
+ * 
  *
  * To concatenate Strings one can write:
  * char buffer[20];
@@ -93,38 +113,49 @@ extern_C int strlen_emC(char const* text, int maxNrofChars);
  * zdst -= zcpy = strlcpy_emC(dst += zcpy, src2, zdst);
  * zdst -= zcpy = strlcpy_emC(dst += zcpy, src3, zdst);
  * //etc.
- * If zdst is 0, nothing is done furthermore.
+ * If zdst is 1, only the terminal \0 is written, maybe more as one time.
  *
- * @param dst A buffer to hold a 0-terminated C-string with at least sizeDst free bytes.
- * @param src C-String
- * @param size either number of use-able bytes from dst inclusive terminating \0. 
- *     Usual sizeof(dst) if dst is a char buffer[...]
- *     or the (desired number of character from src +1) if src is not 0-terminated. 
- *     In the last one case the application should consider that size <= sizeof(dst). 
- *     if sizeDst <=0, do nothing and returns 0.
- * @return The number of characters copied without ending \0 if the \0 in src was found 
-       or == sizeDst if the \0 in src was not found (not copied till 0-end).
+ * @param dst A buffer to hold either a 0-terminated C-string with at least sizeDst free bytes inclusive end-0
+ *    or a destination for a non-0-terminated String.
+ * @param src C-String maybe 0-terminiated
+ * @param sizeOrNegLength if positive then number of use-able bytes from dst inclusive terminating \0.
+ *        if negative, then the maximal or given number of chars to copy maybe without end-0 
+ * @return The number of characters copied without ending \0 .
  *   The user can check: if(returnedvalue >= sizeDst){ //set flag it is truncated ...
  *   The return value is anytime a value between 0 and <=sizeDst, never <0 and never > sizeDst.
  *   The return value is the strlen(dst) if it is < sizeDst.
  */
-extern_C int strcpy_emC(char* dst, char const* src, int sizeDst);
+extern_C int strcpy_emC ( char* dst, char const* src, int sizeOrNegLength);
+
 
 
 /**Searches a character inside a given string with terminated length.
  * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
+ * It is similar strnchr, but with other return value.
  */
-extern_C int searchChar_emC(char const* text, int maxNrofChars, char cc);
+int searchChar_emC ( char const* text, int maxNrofChars, char cc);
+
+
+/**Searches a character inside a given string with terminated length.
+* NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
+* But it is defined in divers Linux distributions. use #define strnchr strnchr_emC in the compl_adaption.h to offer it if not existent.
+*/
+inline char* strnchr_emC  (  char const* text, int cc, int maxNrofChars) {
+  int pos = searchChar_emC(text, maxNrofChars, (char)cc);
+  return pos == -1 ? null : (char*)text + pos;
+}
+
+
 
 /**Searches a String inside a given string with terminated length.
  * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
  */
-extern_C int searchString_emC(char const* text, int maxNrofChars, char const* ss, int zs);
+extern_C int searchString_emC ( char const* text, int maxNrofChars, char const* ss, int zs);
 
 /**Returns the number of chars which are whitespaces starting from text.
  * Whitespaces are all chars with code <=0x20. It are all control chars from the ASCII and the space. 
  */
-extern_C int skipWhitespaces_emC(char const* text, int maxNrofChars);
+extern_C int skipWhitespaces_emC ( char const* text, int maxNrofChars);
 
 
 /**Returns the number of chars which note whitespaces starting from end of text.
@@ -132,7 +163,7 @@ extern_C int skipWhitespaces_emC(char const* text, int maxNrofChars);
  * Whitespaces are all chars with code <=0x20. It are all control chars from the ASCII and the space. 
  * @return length of text without right-bounded white-spaces.
  */
-extern_C int trimRightWhitespaces_emC(char const* text, int maxNrofChars);
+extern_C int trimRightWhitespaces_emC ( char const* text, int maxNrofChars);
 
 
 /**Parses a given String and convert it to the integer number.
@@ -147,11 +178,11 @@ extern_C int trimRightWhitespaces_emC(char const* text, int maxNrofChars);
  * @throws never. All possible digits where scanned, the rest of non-scanable digits are returned.
  *  At example the String contains "-123.45" it returns -123, and the retSize is 3.
  */
-extern_C int parseIntRadix_emC(const char* src, int size, int radix, int* parsedChars);
+extern_C int parseIntRadix_emC ( const char* src, int size, int radix, int* parsedChars);
 
-extern_C float parseFloat_emC(const char* src, int size, int* parsedChars);
+extern_C float parseFloat_emC ( const char* src, int size, int* parsedChars);
 
-extern_C double parseDouble_emC(const char* src, int size, int* parsedChars);
+extern_C double parseDouble_emC ( const char* src, int size, int* parsedChars);
 
 
 
@@ -310,7 +341,7 @@ extern_C double parseDouble_emC(const char* src, int size, int* parsedChars);
 
 
 /**Designation of the String as 0-terminated. In this case the length is calculated
- * using [[strlen_emC(...)]] before usage.
+ * using [[strnlen_emC(...)]] before usage.
  * If mLength is defined with 0x3fff the value is 0x03fff. mLength is defined os- and platform-depended in os_types_def.h
  */
 #define kIs_0_terminated_StringJc (mLength__StringJc)
@@ -406,9 +437,9 @@ extern StringJc const null_StringJc;
  *           In Java it is able to write at example ,,"checkChars".indexOf(ch),, to convert a char into a index-number.
  *           The same it is able to write using ,,indexOf_C_StringJc(z_StringJc("checkChars"), ch),, in C javalike.
  */
-inline StringJc z_StringJc(char const* src)
+inline StringJc z_StringJc  (  char const* src)
 { StringJc ret;
-  int size = strlen_emC(src, kMaxNrofChars_StringJc);
+  int size = strnlen_emC(src, kMaxNrofChars_StringJc);
   set_OS_PtrValue(ret, src, size); 
   return ret;
 }
@@ -421,13 +452,13 @@ inline StringJc z_StringJc(char const* src)
  * This operation is proper if a char[] is hold in an array, and the string content should not be 0-terminated
  * if the buffer is used till max.
  */
-inline StringJc zMax_StringJc(char const* src, int max)
+inline StringJc zMax_StringJc  (  char const* src, int max)
 {
   StringJc ret;
   if(max > kMaxNrofChars_StringJc){ 
     max = kMaxNrofChars_StringJc;   //limit it, only for abstruse situation.  
   }
-  int size = strlen_emC(src, max);
+  int size = strnlen_emC(src, max);
   size |= mNonPersists__StringJc;
   set_OS_PtrValue(ret, src, size);
   return ret;
@@ -448,13 +479,13 @@ inline StringJc zMax_StringJc(char const* src, int max)
  * @param len the number of chars valid from text.
  * * If it is 0, the string has a pointer but the length is 0. 
  * * If it is >= mLength__StringJc then it is truncated without any warning. 
- * * If it is -1. then the length of src is count using [[[strlen_emC(...)]].
+ * * If it is -1. then the length of src is count using [[[strnlen_emC(...)]].
  * * If it is <= -2, the length of src is count and the length is shortenend by (-length+1). -2: The last char is truncated etc.  
  * @return StringJc-instance per value, it is hold in 2 register by most of C-compilers and therefore effective.
  */
-inline StringJc zI_StringJc(char const* src, int len)
+inline StringJc zI_StringJc  (  char const* src, int len)
 { StringJc ret;
-  if(len < 0){ len = strlen_emC(src, kMaxNrofChars_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
+  if(len < 0){ len = strnlen_emC(src, kMaxNrofChars_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
   else if(len >= mLength__StringJc) { len = mLength__StringJc -1; }  //limit it to max. 
   set_OS_PtrValue(ret, src, (len & mLength__StringJc)); 
   return ret;
@@ -476,7 +507,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
  * inside the given length.
  * @return The length of the string.
  */
-inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
+inline int length_CharSeqJc  (  CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if(val < kMaxNrofChars_StringJc) { 
@@ -493,14 +524,14 @@ inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt) 
 
 
 
-char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt);
+char _charAt_PRIV_CharSeqJc  (  CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt);
 
 /**Returns the character which is addressed with the position.
  * This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc. Then it is a fast operation.
  * In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked. 
  * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the 
  */
-inline char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
+inline char charAt_CharSeqJc  (  CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
 {
 #ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
@@ -537,7 +568,7 @@ inline char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t
  * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
  * @return The pointer to the zero terminated String. Either it is the String referenced in thiz, or it is buffer. 
  */
-METHOD_C char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int const zBuffer);
+METHOD_C char const* getCharConst_StringJc ( StringJc const thiz, char* const buffer, int const zBuffer);
 
 
 
@@ -550,7 +581,7 @@ METHOD_C char const* getCharConst_StringJc(StringJc const thiz, char* const buff
            The value consist of 2 processor registers.
   * @deprecated use direct assignment instead. 
   */
-#define lightCopy_StringJc(thiz, src) { *thiz = src; } //{(thiz)->s.refbase = (src).refbase; (thiz)->s.ref = (src).ref; }
+#define lightCopy_StringJc ( thiz, src) { *thiz = src; } //{(thiz)->s.refbase = (src).refbase; (thiz)->s.ref = (src).ref; }
 
 
 /* Gets the char-pointer and the number of chars stored in a StringJc.
@@ -562,7 +593,7 @@ METHOD_C char const* getCharConst_StringJc(StringJc const thiz, char* const buff
  * @param length destination variable (reference) to store the realy length. The destination variable will be set anytime.
  * @return the pointer to the chars. It may be null if the StringJc contains a null-reference.
  */
-METHOD_C char const* getCharsAndLength_StringJc(StringJc const* thiz, int* length);
+METHOD_C char const* getCharsAndLength_StringJc ( StringJc const* thiz, int* length);
 
 
 
@@ -604,7 +635,7 @@ METHOD_C char const* getCharsAndLength_StringJc(StringJc const* thiz, int* lengt
  * If the text is not zero-terminated, it have to be copy to a buffer
  * using [[copyToBuffer_StringJc(...)]] to get a zero-terminated pointer to the text.
  */
-METHOD_C bool isZeroTerminated_StringJc(StringJc const thiz);
+METHOD_C bool isZeroTerminated_StringJc ( StringJc const thiz);
 
 
 
@@ -627,7 +658,7 @@ METHOD_C bool isZeroTerminated_StringJc(StringJc const thiz);
  * @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
  * @return number of chars copied. It is the number of valid chars in buffer always.
 */
-METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer, struct ThreadContext_emC_t* _thCxt);
+METHOD_C int copyToBuffer_CharSeqJc ( const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -642,7 +673,7 @@ METHOD_C int copyToBuffer_CharSeqJc(const CharSeqJc thiz, int start, int end, ch
 * @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
 * @return number of chars copied. It is the number of valid chars in buffer always.
 */
-METHOD_C int copyToBuffer_StringJc(const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
+METHOD_C int copyToBuffer_StringJc ( const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
 
 //old: #define copyToBuffer_StringJc(THIZ, START, END, BUFFER, SIZE) copyToBuffer_CharSeqJc(THIZ, START, END, BUFFER, SIZE, null)
 
@@ -672,20 +703,20 @@ METHOD_C int copyToBuffer_StringJc(const CharSeqJc thiz, int start, int end, cha
   * may be necessary if the reference to the String is stored in a List<Object>. 
   * This behaviour ist tested by me with Java Version 6, and it is documented in Sun-Javadoc. 
   */
-bool equals_StringJc(const StringJc ythis, const StringJc cmp);
+bool equals_StringJc ( const StringJc ythis, const StringJc cmp);
 
 
 /**Compares this string to the specified character text.
  * @param strCmp Any character text
  * @param valueCmp Number of chars to compare, but mask with ,,mLength__StringJc,,.
  *        If -1 or all bits of ,,mLength__StringJc,, are set, 
- *        than the length is got from ,,strlen_emC(sCmp, mLength__StringJc),,,
+ *        than the length is got from ,,strnlen_emC(sCmp, mLength__StringJc),,,
  *        The other bits were not used.
  * @return The result is true if
  *         and only if the argument is not null and the text of this represents
  *         the same sequence of characters as strCmp.
  */
-bool equals_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp );
+bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp );
 
 /** Compares this string to the specified text. The result is true if
   * and only if the argument is not null and the StringJc referes
@@ -906,7 +937,7 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
  * @param buffer any buffer
  * @param size characters in the buffer, sizeof(*buffer).
  */
-METHOD_C void ctor_Buffer_StringBuilderJc(StringBuilderJc* thiz, char* buffer, int size);
+METHOD_C void ctor_Buffer_StringBuilderJc ( StringBuilderJc* thiz, char* buffer, int size);
 
 
 /**Constructs a StringBuilderJc with a immediately following buffer.
@@ -917,40 +948,40 @@ METHOD_C void ctor_Buffer_StringBuilderJc(StringBuilderJc* thiz, char* buffer, i
  * The buffer will be cleared.
  * @param addSize the sizeof() of the immediately following buffer..
  */
-METHOD_C void ctor_addSize_StringBuilderJc(StringBuilderJc* thiz, int addSize);
+METHOD_C void ctor_addSize_StringBuilderJc (StringBuilderJc* thiz, int addSize);
 
 
 /**Gets the buffer as char* to use in C-Standard-Routines. 
  * The buffer content is zero-terminated always. 
  * @return 0-terminated content of buffer.
  */
-METHOD_C char* chars_StringBuilderJc(StringBuilderJc* thiz);
+METHOD_C char* chars_StringBuilderJc (StringBuilderJc* thiz);
 
 
 /**Gets the buffer and the size of the buffer. 
  * @param size a ,,int*,, reference to a variable, into which the value of buffer-size is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsAndSize_StringBuilderJc(StringBuilderJc* thiz, int* size);
+METHOD_C char* getCharsAndSize_StringBuilderJc (StringBuilderJc* thiz, int* size);
 
 
 /**Gets the buffer and the actual nr of chars in the buffer. 
  * @param count a ,,int*,, reference to a variable, into which the value of number of chars is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsAndCount_StringBuilderJc(StringBuilderJc* thiz, int* count);
+METHOD_C char* getCharsAndCount_StringBuilderJc (StringBuilderJc* thiz, int* count);
 
 /**Gets the buffer, the size and the actual nr of chars in the buffer.
  * @param size a ,,int*,, reference to a variable, into which the value of buffer-size is stored.
  * @param count a ,,int*,, reference to a variable, into which the value of number of chars is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsSizeCount_StringBuilderJc(StringBuilderJc* thiz, int* size, int* count);
+METHOD_C char* getCharsSizeCount_StringBuilderJc (StringBuilderJc* thiz, int* size, int* count);
 
 /**Sets the nr of chars immediately. Only internal use. 
  * @param count actual number of chars.
  */
-METHOD_C void _setCount_StringBuilderJc(StringBuilderJc* thiz, int count);
+METHOD_C void _setCount_StringBuilderJc (StringBuilderJc* thiz, int count);
 
 
 /**Returns the char at position idx.
@@ -961,14 +992,14 @@ METHOD_C void _setCount_StringBuilderJc(StringBuilderJc* thiz, int count);
  * @return character at the position of text + idx.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#charAt(int)]] but a test of idx is not done.
  */
-METHOD_C char charAt_StringBuilderJc(StringBuilderJc* ythis, int index, struct ThreadContext_emC_t* _thCxt);
+METHOD_C char charAt_StringBuilderJc (StringBuilderJc* ythis, int index, struct ThreadContext_emC_t* _thCxt);
 
 /**Sets the char at position.
  * @param index The index. It should be a positiv number and less than the length of the text.
  * @param ch char to set.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setCharAt(int, char)]].
  */
-METHOD_C void setCharAt_StringBuilderJc(StringBuilderJc* ythis, int index, char ch, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void setCharAt_StringBuilderJc (StringBuilderJc* ythis, int index, char ch, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -997,14 +1028,14 @@ METHOD_C void setCharAt_StringBuilderJc(StringBuilderJc* ythis, int index, char 
  * @see [[length_StringBuilderJc()]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setLength(int)]].
  */
-METHOD_C void setLength_StringBuilderJc(StringBuilderJc* thiz, int newLength, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void setLength_StringBuilderJc (StringBuilderJc* thiz, int newLength, struct ThreadContext_emC_t* _thCxt);
 #define setLength_StringBufferJc setLength_StringBuilderJc
 
 /**Clears the content. It is the same like setLength(0).
  * @see [[setLength_StringBuilderJc()]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setLength(int)]] with 0 as parameter.
  */
-METHOD_C void clear_StringBuilderJc(StringBuilderJc* thiz);
+METHOD_C void clear_StringBuilderJc (StringBuilderJc* thiz);
 #define clear_StringBufferJc clear_StringBuilderJc
 
 
@@ -1024,7 +1055,7 @@ METHOD_C void clear_StringBuilderJc(StringBuilderJc* thiz);
  *         It means, it is the physical size of buffer -1.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#capacity()]].
  */
-METHOD_C int capacity_StringBuilderJc(StringBuilderJc* thiz);
+METHOD_C int capacity_StringBuilderJc (StringBuilderJc* thiz);
 
 
 /**Copies the text in the given buffer. Use the set mode of ,,setTruncateMode_StringBuilderJc(..),, 
@@ -1036,7 +1067,7 @@ METHOD_C int capacity_StringBuilderJc(StringBuilderJc* thiz);
  *                It means, the ,,length_StringBuilderJc(thiz),, should less as zBuffer, not equal.
  * @return number of chars without the terminating 0-char. The max value is ,,zBuffer -1,,.
  */
-METHOD_C int copyToBuffer_StringBuilderJc(StringBuilderJc* thiz, int start, int end, char* buffer, int zBuffer);
+METHOD_C int copyToBuffer_StringBuilderJc (StringBuilderJc* thiz, int start, int end, char* buffer, int zBuffer);
 
 
 /**Replaces the characters in a part of this sequence with characters in the specified String. 
@@ -1054,7 +1085,7 @@ METHOD_C int copyToBuffer_StringBuilderJc(StringBuilderJc* thiz, int start, int 
  *    See [[_mNoException_StringBuilderJc]].
  * @javalike [[sunJavadoc/java/lang/StringBuilder#replace(int, int, java.lang.String)]].
  */
-METHOD_C StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, int pos, int end, CharSeqJc value, int from, int to, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc* replace_cII_StringBuilderJc (StringBuilderJc* ythis, int pos, int end, CharSeqJc value, int from, int to, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -1128,7 +1159,7 @@ METHOD_C StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* ythis, in
  * @return this.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.StringBuffer)]]
  */ 
-METHOD_C StringBuilderJc* append_u_StringBuilderJc(StringBuilderJc* ythis, StringBuilderJc* src, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc* append_u_StringBuilderJc (StringBuilderJc* ythis, StringBuilderJc* src, struct ThreadContext_emC_t* _thCxt);
 #define append_u_StringBufferJc append_u_StringBuilderJc
 
 
@@ -1139,7 +1170,7 @@ METHOD_C StringBuilderJc* append_u_StringBuilderJc(StringBuilderJc* ythis, Strin
  * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc immediately
  * which runs fast.
  */
-inline CharSeqJc toCharSeqJc_StringBuilderJc(struct StringBuilderJc_t const* thiz)
+inline CharSeqJc toCharSeqJc_StringBuilderJc  (struct StringBuilderJc_t const* thiz)
 { CharSeqJc ret;
   set_OS_PtrValue(ret, thiz, kIsStringBuilder_CharSeqJc); 
   return ret;
@@ -1153,7 +1184,7 @@ inline CharSeqJc toCharSeqJc_StringBuilderJc(struct StringBuilderJc_t const* thi
 
 /**StringJc : Additional to StringJc after definiton of [[length_StringBuilderJc(...)]]. */
 
-inline int length_StringJc(StringJc thiz)  //INLINE
+inline int length_StringJc  (StringJc thiz)  //INLINE
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if (val < kMaxNrofChars_StringJc) {
@@ -1162,7 +1193,7 @@ inline int length_StringJc(StringJc thiz)  //INLINE
   }
   else if (val == kIs_0_terminated_StringJc) {
     //assume it is 0-terminated.:
-    return strlen_emC(thiz.ref, mLength__StringJc - 3);
+    return strnlen_emC(thiz.ref, mLength__StringJc - 3);
   }
   else if (val == kIsStringBuilder_CharSeqJc) {
     return length_StringBuilderJc(PTR_OS_PtrValue(thiz, struct StringBuilderJc_t));

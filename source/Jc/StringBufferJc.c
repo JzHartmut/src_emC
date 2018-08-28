@@ -174,7 +174,7 @@ StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, ThCxt* _thCxt)
 { StringBuilderJc* ythis;
   int zSrc = length_CharSeqJc(src, _thCxt);
-  //if(zSrc == mLength__StringJc){ zSrc = strlen_emC(PTR_StringJc(src), mLength__StringJc); }
+  //if(zSrc == mLength__StringJc){ zSrc = strnlen_emC(PTR_StringJc(src), mLength__StringJc); }
   ythis = ctorO_I_StringBuilderJc(othis, zSrc+16, _thCxt);
   return append_c_StringBuilderJc(ythis, src, _thCxt);
 }
@@ -747,7 +747,7 @@ StringJc replace_StringJc(StringJc ythis, char oldChar, char newChar, ThCxt* _th
   int max;
   StringJc ret;
   STACKTRC_TENTRY("replace_StringJc");
-  if(lenThis == mLength__StringJc){ lenThis = strlen_emC(strThis, mLength__StringJc); }
+  if(lenThis == mLength__StringJc){ lenThis = strnlen_emC(strThis, mLength__StringJc); }
   max = lenThis;
   for(ii = 0; ii < max; ++ii)
   { if(strThis[ii] == oldChar)
