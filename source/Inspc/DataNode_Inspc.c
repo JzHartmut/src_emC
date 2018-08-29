@@ -10,7 +10,7 @@ DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float
 { //Tstep is only dummy, for simulink.
   STACKTRC_ENTRY("ctor_DataNode_Inspc");
   //DataNode_Inspc* thiz = (DataNode_Inspc*) thizo; 
-  strcpy_emC(thiz->clazz.name, "DataNode_Inspc", sizeof(thiz->clazz.name));
+  strcpy_emC(thiz->clazz.name, "DataNode_Inspc", -(int)sizeof(thiz->clazz.name));
   initReflection_ObjectJc(&thiz->object, thiz, sizeof(DataNode_Inspc), &thiz->clazz, 0xf0);
 
   thiz->fields.head.sizeElement = sizeof(void*);
@@ -35,7 +35,7 @@ bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char 
   if(ix1 == ix) { //onyl if not found, all checked:
     if(ix < ARRAYLEN_SimpleC(thiz->data)) {
       thiz->data[ix] = obj;
-      strncpy(thiz->fields.data[ix].name, name, sizeof(thiz->fields.data[ix].name));
+      strcpy_emC(thiz->fields.data[ix].name, name, -(int)sizeof(thiz->fields.data[ix].name));
       thiz->fields.data[ix].type_ = refl;
       thiz->fields.data[ix].bitModifiers = kReference_Modifier_reflectJc;
       thiz->fields.data[ix].position = ((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz);
@@ -90,7 +90,6 @@ char const* addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param
     { int nchars = copyToBuffer_StringJc(name1_param, 0, -1, thiz->fields.data[ix].name, sizeof(thiz->fields.data[ix].name));
       copyToBuffer_StringJc(name2_param, 0, -1, thiz->fields.data[ix].name+nchars, sizeof(thiz->fields.data[ix].name)-nchars); //the rest.
     }
-    //strncpy(thiz->fields.data[ix].name, name, sizeof(thiz->fields.data[ix].name));  //TODO check length of name!!!
     thiz->fields.data[ix].type_ = reflectionClass;
     thiz->fields.data[ix].bitModifiers = kReference_Modifier_reflectJc;
     thiz->fields.data[ix].position = ((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz);

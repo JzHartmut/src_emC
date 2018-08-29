@@ -97,7 +97,8 @@ int searchString_emC  (  char const* text, int maxNrofChars, char const* ss, int
 int strcpy_emC  (  char* dst, char const* src, int sizeOrNegLength)
 { if(sizeOrNegLength ==0) return 0;
   register char const* src1 = src - 1;  //use pre-increment
-  register char const* src9 = src + (sizeOrNegLength < 0 ? -sizeOrNegLength : sizeOrNegLength -1);  //exclusive max end address to use for char copy
+  register char const* src9 = src + (sizeOrNegLength < 0 ? -sizeOrNegLength -1 : sizeOrNegLength -1);  //exclusive max end address to use for char copy
+  //src9 is the last used position to copy.
   register char* dst1 = dst-1;  //use pre-increment
   //optimization: test only one pointer register, which is incremented too
   do { 

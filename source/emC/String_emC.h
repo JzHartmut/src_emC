@@ -581,7 +581,7 @@ METHOD_C char const* getCharConst_StringJc ( StringJc const thiz, char* const bu
            The value consist of 2 processor registers.
   * @deprecated use direct assignment instead. 
   */
-#define lightCopy_StringJc ( thiz, src) { *thiz = src; } //{(thiz)->s.refbase = (src).refbase; (thiz)->s.ref = (src).ref; }
+#define lightCopy_StringJc(thiz, src) { *thiz = src; } //{(thiz)->s.refbase = (src).refbase; (thiz)->s.ref = (src).ref; }
 
 
 /* Gets the char-pointer and the number of chars stored in a StringJc.

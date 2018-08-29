@@ -17,7 +17,9 @@ Fileset headers =
 , source:Jc/*.h
 , source:Ipc/*.h
 , source:Inspc/*.h
-, source:OSAL/*.h
+, source:OSAL/os_file.h
+, source:OSAL/os_sharedmem.h
+, source:OSAL/os_socket.h
 );
 
 main()

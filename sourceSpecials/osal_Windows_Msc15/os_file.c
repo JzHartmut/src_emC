@@ -35,7 +35,7 @@
  * 2009-06-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <OSALos_file.h>
+#include <OSAL/os_file.h>
 
 //#define USE_LoLevelFileIo
 
