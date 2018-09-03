@@ -44,6 +44,73 @@
 #define   __compl_adaption_h__
 
 
+//#include the standard header from Visual studio firstly. 
+//stdint.h defines int8_t etc. via typedef. 
+//Because pragma once (or guard) the content of the files are not included again.
+//They should be included firstly to cover its typedef by the typedef of simulink.
+#include <stdint.h>  //C99-int types
+#include <limits.h>  //proper to C99
+
+//After including <stdint.h> the simulink header for standard types are included.
+//The define an simulink-specific world of fix width integer types. int32_T, uint32_T etc.
+#ifndef RTWTYPES_H  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
+//prevent including rtwtypes.h because for PC platform tmwtypes.h contains the same proper definitions.
+//#define RTWTYPES_H
+#include <rtwtypes.h>  //from simulink
+#ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
+//#include <tmwtypes.h>  
+#endif
+#endif
+
+//Both type worlds are present yet.
+//Now define the C99 types via the simulink types via defined.
+//Therewith it is the simulink typedef. The typedef of <stdint.h> are covered. 
+
+#define int8      int8_T
+#define uint8     uint8_T
+#define int8_t    int8_T
+#define u_int8_t  uint8_T
+#define uint8_t   int8_T
+
+#define int16     int16_T
+#define uint16    uint16_T
+#define int16_t   int16_T
+#define u_int16_t uint16_T
+#define uint16_t  uint16_T
+
+#define int32     int32_T
+#define uint32    uint32_T
+#define int32_t   int32_T
+#define u_int32_t uint32_T
+#define uint32_t  uint32_T
+
+//Simulink does not know 64-bit-int, define types with standard-C compiler specific.
+#define int64 __int64
+#define uint64 __int64
+#define int64_t __int64
+#define u_int64_t __int64
+#define uint64_t __int64
+
+#define bool8    uint8_T
+#define bool8_t  uint8_T
+#define bool16   uint16_T
+#define bool16_t uint16_T
+//Standard-character and UTF16-character:
+#define char8    uint8_T
+#define char16   uint16_T
+#define char8_t  uint8_T
+#define char16_t uint16_T
+#define float32  float
+
+#undef INT_MAX  //was defined in limits.h
+#undef INT_MIN
+#define INT_MAX MAX_int32_T  //from rtwtypes.h
+#define INT_MIN MIN_int32_T
+
+
+
+
+
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
@@ -79,6 +146,9 @@
 //#pragma warning(disable:4512) //assignment operator could not be generated
 #pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
 
+#pragma warning(error:4002) //too many actual parameters for macro
+#pragma warning(error:4003) //not enough actual parameters for macro
+#pragma warning(error:4020) //too many actual parameters
 
 
 
@@ -118,6 +188,26 @@
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
 
+
+/**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
+ * Only the sizes are defined there, but from sizes to bits it is not able to calculate.
+ * The number of bits are necessary for shift operations. 
+ * Note: The number of bits for an int16_t may not 16 in all platforms. 
+ * There are platforms which only knows 32 bit data (for example DSP processors from Analog Devices).
+ */
+#define INT8_NROFBITS  8
+#define INT16_NROFBITS 16
+#define INT32_NROFBITS 32
+#define INT64_NROFBITS 64
+#define INT_NROFBITS   32
+
+/**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
+ * But the definition of INT_MAX is missing.
+ */
+//#define INT_MAX INT32_MAX 
+//#define INT_MIN INT32_MIN 
+//#define UINT_MAX UINT32_MAX 
+
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
@@ -138,54 +228,6 @@
 #define LONG_MAX 0x7FFFFFFFU
 */
 
-
- //The same file from Simulink on .../Matlab/R2016a/extern/include/tmwtypes.h
-//defines the standard types in simulink manner.
-//int32_T, uint32_T etc.
-#ifndef RTWTYPES_H  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
-  //prevent including rtwtypes.h because for PC platform tmwtypes.h contains the same proper definitions.
-  //#define RTWTYPES_H
-  #include <rtwtypes.h>  //from simulink
-  #ifndef __TMWTYPES__  //Smlk defines the same struct twice, in tmwtypes.h and rtwtypes.h
-    //#include <tmwtypes.h>  
-  #endif
-#endif
-
-#define int8      int8_T
-#define uint8     uint8_T
-#define int8_t    int8_T
-#define u_int8_t  uint8_T
-#define uint8_t   int8_T
-
-#define int16     int16_T
-#define uint16    uint16_T
-#define int16_t   int16_T
-#define u_int16_t uint16_T
-#define uint16_t  uint16_T
-
-#define int32     int32_T
-#define uint32    uint32_T
-#define int32_t   int32_T
-#define u_int32_t uint32_T
-#define uint32_t  uint32_T
-
-//Simulink does not know 64-bit-int, define types with standard-C compiler specific.
-#define int64 __int64
-#define uint64 __int64
-#define int64_t __int64
-#define u_int64_t __int64
-#define uint64_t __int64
-
-#define bool8    uint8_T
-#define bool8_t  uint8_T
-#define bool16   uint16_T
-#define bool16_t uint16_T
-//Standard-character and UTF16-character:
-#define char8    uint8_T
-#define char16   uint16_T
-#define char8_t  uint8_T
-#define char16_t uint16_T
-#define float32  float
 
 
 
@@ -348,6 +390,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
  */
 #define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 

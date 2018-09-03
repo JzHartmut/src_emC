@@ -3,7 +3,7 @@
 
 
 
-const ClassJc* simpleTypes[kREFLECTION_LastConstant] =
+const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 { null    //0x0
 , &reflection__voidJc  //0x1
 , &reflection__int64Jc          //0x2
@@ -20,7 +20,7 @@ const ClassJc* simpleTypes[kREFLECTION_LastConstant] =
 , &reflection__doubleJc         //0xd
 , &reflection__charJc           //0xe
 , &reflection__char16Jc         //0xf
-, &reflection_StringJc         //0x10
+, null                          //0x10
 , null  //0x11
 , null  //0x12
 , null  //0x13
@@ -38,7 +38,7 @@ const ClassJc* simpleTypes[kREFLECTION_LastConstant] =
 , &reflection__ObjectArrayJc.clazz  //0x1b
 , null  //0x1c   //reserviert evtl Object_ArrayJcpp
 , &reflection_StringJc  //0x1d
-, null  //0x1e
+, &reflection_OS_PtrValue  //0x1e
 , null  //0x1f
 , &reflection__ClassJc.clazz  //0x20
 , null  //0x21
@@ -140,7 +140,7 @@ const FieldJc* getDeclaredField_ClassJc(ClassJc const* thiz, StringJc sName)
 ClassJc const* getType_FieldJc(FieldJc const* thiz)
 { ClassJc const* type = thiz->type_;
   if( ((uint64)(type)) < kREFLECTION_LastConstant )
-  { type = simpleTypes[(int)(type)];
+  { type = simpleTypes_ClassJc[(int)(type)];
   }
   return type;
 }

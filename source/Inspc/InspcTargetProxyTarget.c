@@ -171,3 +171,23 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 
 
 
 
+void step_TargetData_Inspc(TargetData_Inspc* thiz
+  , void const* rootData
+  , int32 const* reflectionOffset_RootData, int32 const* const* reflectionOffsetArrays
+) {
+  thiz->lifeCt += 1;
+  setInt32BigEndian(&thiz->target2proxy->lifeCt_ErrorState, (((int32_t)thiz->lifeCt) << 16) | thiz->errorMsg);
+  int32 seqnr = getInt32BigEndian(&thiz->proxy2target->seqnr);
+  if ((int)seqnr != thiz->seqnrLast) {
+    Cmd_InspcTargetProxyTelg_e cmd = (Cmd_InspcTargetProxyTelg_e)(getInt32BigEndian(&thiz->proxy2target->length_cmd) & 0xffff);
+    int32 address = getInt32BigEndian(&thiz->proxy2target->address);
+    int32 value = getInt32BigEndian(&thiz->proxy2target->value);
+    int32 retValue = processInspcCmdOnTarget_Inspc(cmd, address, value, rootData, reflectionOffset_RootData, reflectionOffsetArrays);
+    setInt32BigEndian(&thiz->target2proxy->retValue, retValue);
+    setInt32BigEndian(&thiz->target2proxy->seqnr, seqnr);  //therewith it will be processed.
+  }
+
+}
+
+
+

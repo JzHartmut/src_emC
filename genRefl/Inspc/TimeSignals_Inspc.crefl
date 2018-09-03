@@ -382,7 +382,7 @@ const struct Reflection_Fields_TimeSignals_Inspc_t
     { "entries"
     , 0   //no Array, no Bitfield                           
     , &reflection_Entries_TimeSignals_Inspc                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc|mReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((TimeSignals_Inspc*)(0x1000))->entries)) -0x1000 )
     , 0  //offsetToObjectifcBase
     , &reflection_TimeSignals_Inspc

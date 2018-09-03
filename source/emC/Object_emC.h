@@ -1185,7 +1185,7 @@ typedef enum DeprecatedScalarTypes_ClassJc_t
   REFLECTION_complexfloat_ClassJc  = 0x14,
   REFLECTION_complexdouble_ClassJc = 0x15,
   REFLECTION_bitfield_ClassJc   = 0x17,
-  REFLECTION_afterlastPrimitive_ClassJc       = 0x18
+  REFLECTION_afterlastPrimitive_ClassJc       = 0x50
 }DeprecatedScalarTypes_ClassJc;
 
 /**Definition of constant values for primitive type reflection
@@ -1208,13 +1208,26 @@ typedef enum ScalarTypes_ClassJc_t
   kREFLECTION_double_ClassJc     = 0x0d,
   kREFLECTION_char_ClassJc       = 0x0e,
   kREFLECTION_bool_ClassJc       = 0x0f,
-  kREFLECTION_boolean_ClassJc    = 0x0f,
-  kREFLECTION_String_ClassJc     = 0x10,
-  kREFLECTION_ObjectJc_ClassJc   = 0x11,
-  kREFLECTION_complexfloat_ClassJc  = 0x14,
+#define kREFLECTION_boolean_ClassJc kREFLECTION_bool_ClassJc
+
+  kREFLECTION_complexint16_ClassJc = 0x11,
+  kREFLECTION_complexint32_ClassJc = 0x12,
+  kREFLECTION_complexint64_ClassJc = 0x13,
+  kREFLECTION_complexfloat_ClassJc = 0x14,
   kREFLECTION_complexdouble_ClassJc = 0x15,
-  kREFLECTION_bitfield_ClassJc   = 0x17,
-  kREFLECTION_afterlastPrimitive_ClassJc       = 0x18
+
+  kREFLECTION_bitfield_ClassJc      = 0x17,
+  kREFLECTION_ObjectifcBaseJcpp     = 0x18,
+  kREFLECTION_ObjectJc              = 0x19,
+  kREFLECTION_ObjectJcpp            = 0x1a,
+  kREFLECTION_Object_ArrayJc        = 0x1b,
+
+  kREFLECTION_StringJc              = 0x1d,
+  kREFLECTION_OS_PtrValue           = 0x1e,
+
+  kREFLECTION_ClassJc               = 0x20,
+
+  kREFLECTION_afterlastPrimitive_ClassJc       = 0x50
 }ScalarTypes_ClassJc;
 
 
@@ -1236,7 +1249,10 @@ extern const int nrofBytesScalarTypes_ClassJc[];
 #define REFLECTION_charPointer       ((struct ClassJc_t const*) REFLECTION_void_ClassJc )
 #define REFLECTION_char_Pointer       ((struct ClassJc_t const*) REFLECTION_void_ClassJc )
 
-/**Reflection of standard types. */
+/**Reflection of standard types. This identifier can be used to assign the symbolic value to a ClassJc const* pointer
+ * espacially for const Initializer definitions.
+ * The access is done always with getClass_FieldJc(FieldJc const* thiz). This routine converts with the const simpleTypes_ClassJc in Reflection_emC.c
+ */
 #define REFLECTION_void               ((struct ClassJc_t const*) REFLECTION_void_ClassJc )
 #define REFLECTION_int64              ((struct ClassJc_t const*) REFLECTION_int64_ClassJc )
 #define REFLECTION_uint64             ((struct ClassJc_t const*) REFLECTION_uint64_ClassJc)
@@ -1258,8 +1274,6 @@ extern const int nrofBytesScalarTypes_ClassJc[];
 #define REFLECTION_bool               ((struct ClassJc_t const*) REFLECTION_bool_ClassJc  )
 #define REFLECTION_boolean            ((struct ClassJc_t const*) REFLECTION_bool_ClassJc )
 #define REFLECTION_BOOL               ((struct ClassJc_t const*) REFLECTION_bool_ClassJc )
-#define REFLECTION_complexfloat       ((struct ClassJc_t const*) REFLECTION_complexfloat_ClassJc  )
-#define REFLECTION_complexdouble      ((struct ClassJc_t const*) REFLECTION_complexdouble_ClassJc )
 #define REFLECTION_BITFIELD           ((struct ClassJc_t const*) REFLECTION_bitfield_ClassJc )
 
 #define REFLECTION_s32                ((struct ClassJc_t const*) REFLECTION_int32_ClassJc )
@@ -1268,32 +1282,23 @@ extern const int nrofBytesScalarTypes_ClassJc[];
 #define REFLECTION_u16                ((struct ClassJc_t const*) REFLECTION_uint16_ClassJc)
 #define REFLECTION_s08                ((struct ClassJc_t const*) REFLECTION_int8_ClassJc  )
 #define REFLECTION_u08                ((struct ClassJc_t const*) REFLECTION_uint8_ClassJc )
-#define REFLECTION_StringJc           ((struct ClassJc_t const*) REFLECTION_String_ClassJc )
-/*
-#define REFLECTION_bool               ((struct ClassJc_t const*) 0x0f )
-#define REFLECTION_bool               ((struct ClassJc_t const*) 0x0f )
-#define REFLECTION_bool               ((struct ClassJc_t const*) 0x0f )
-#define REFLECTION_bool               ((struct ClassJc_t const*) 0x0f )
-*/
 
 
-#define reflection_int8             (*((struct ClassJc_t const*) REFLECTION_int8_ClassJc ))
-#define reflection_int16             (*((struct ClassJc_t const*) REFLECTION_int16_ClassJc ))
 
-//#define REFLECTION_ObjectifcBaseJcpp ((struct ClassJc_t const*) 0x18 )
+#define REFLECTION_complexint16  ((struct ClassJc_t const*) kREFLECTION_complexint16_ClassJc
+#define REFLECTION_complexint32  ((struct ClassJc_t const*) kREFLECTION_complexint32_ClassJc
+#define REFLECTION_complexint64  ((struct ClassJc_t const*) kREFLECTION_complexint64_ClassJc
+#define REFLECTION_complexfloat  ((struct ClassJc_t const*) kREFLECTION_complexfloat_ClassJc
+#define REFLECTION_complexdouble ((struct ClassJc_t const*) kREFLECTION_complexdouble_ClassJc
 
-//#define REFLECTION_ObjectJc          ((struct ClassJc_t const*) 0x19 )
-//#define REFLECTION_ObjectJcpp        ((struct ClassJc_t const*) 0x1a )
-#define REFLECTION_Object_ArrayJc    ((struct ClassJc_t const*) 0x1b )
-//#define REFLECTION_StringJc          ((struct ClassJc_t const*) 0x1d )
-//#define REFLECTION_ClassJc           ((struct ClassJc_t const*) 0x20 )
+#define REFLECTION_ObjectifcBaseJcpp ((struct ClassJc_t const*) kREFLECTION_ObjectifcBaseJcpp )
+#define REFLECTION_ObjectJc          ((struct ClassJc_t const*) kREFLECTION_ObjectJc )
+#define REFLECTION_ObjectJcpp        ((struct ClassJc_t const*) kREFLECTION_ObjectJcpp )
+#define REFLECTION_Object_ArrayJc    ((struct ClassJc_t const*) kREFLECTION_Object_ArrayJc )
+#define REFLECTION_StringJc          ((struct ClassJc_t const*) kREFLECTION_StringJc )
+#define REFLECTION_ClassJc           ((struct ClassJc_t const*) kREFLECTION_ClassJc )
 
 
-//#define REFLECTION_ObjectJc          ((struct ClassJc_t const*) 0x41 )
-//#define REFLECTION_ObjectJcpp        ((struct ClassJc_t const*) 0x42 )
-#define REFLECTION_ObjectRefValuesJc ((struct ClassJc_t const*) 0x44 )
-//#define REFLECTION_ClassJc           ((struct ClassJc_t const*) 0x45 )
-#define REFLECTION_ClassJc_t         ((struct ClassJc_t const*) 0x45 )
 
 #define kREFLECTION_LastConstant      0x50
 

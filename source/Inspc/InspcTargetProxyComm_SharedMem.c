@@ -30,8 +30,8 @@ void ctor_SharedMemAccess_Target2Proxy_Inspc(SharedMemAccess_Target2Proxy_Inspc*
       return;  //abort on error
     }
     //initialize.
-    thiz->target2proxy = PTR_MemC(memLocation, TelgTarget2Proxy_Inspc_s);
-    setInt32BigEndian(&thiz->target2proxy->length_cmd, sizeof(TelgTarget2Proxy_Inspc_s) << 16);  //initialize
+    thiz->super.target2proxy = PTR_MemC(memLocation, TelgTarget2Proxy_Inspc_s);
+    setInt32BigEndian(&thiz->super.target2proxy->length_cmd, sizeof(TelgTarget2Proxy_Inspc_s) << 16);  //initialize
   }
   else {
     //it is found existent, check the content:
@@ -40,8 +40,8 @@ void ctor_SharedMemAccess_Target2Proxy_Inspc(SharedMemAccess_Target2Proxy_Inspc*
       os_FatalError(-1, "Problem with size of shared mem: %d, expected: %d - exit\n", size_MemC(memLocation), sizeof(TelgTarget2Proxy_Inspc_s));
       return;
     }
-    thiz->target2proxy = PTR_MemC(memLocation, TelgTarget2Proxy_Inspc_s);
-    int lengthTelg = getInt32BigEndian(&thiz->target2proxy->length_cmd) >> 16;
+    thiz->super.target2proxy = PTR_MemC(memLocation, TelgTarget2Proxy_Inspc_s);
+    int lengthTelg = getInt32BigEndian(&thiz->super.target2proxy->length_cmd) >> 16;
     if (lengthTelg != sizeof(TelgTarget2Proxy_Inspc_s)) {
       os_FatalError(-1, "Problem with data consistence of TelgTarget2Proxy_Inspc_s. len= %d, expected: %d - exit\n", lengthTelg, sizeof(TelgTarget2Proxy_Inspc_s));
       return;
@@ -58,8 +58,8 @@ void ctor_SharedMemAccess_Target2Proxy_Inspc(SharedMemAccess_Target2Proxy_Inspc*
       return;  //abort on error
     }
     //initialize.
-    thiz->proxy2target = PTR_MemC(memLocation, TelgProxy2Target_Inspc_s);
-    setInt32BigEndian(&thiz->proxy2target->length_cmd, sizeof(TelgProxy2Target_Inspc_s) << 16);  //initialize
+    thiz->super.proxy2target = PTR_MemC(memLocation, TelgProxy2Target_Inspc_s);
+    setInt32BigEndian(&thiz->super.proxy2target->length_cmd, sizeof(TelgProxy2Target_Inspc_s) << 16);  //initialize
   }
   else {
     //it is found existent, check the content:
@@ -68,8 +68,8 @@ void ctor_SharedMemAccess_Target2Proxy_Inspc(SharedMemAccess_Target2Proxy_Inspc*
       os_FatalError(-1, "Problem with size of shared mem proxy2target: %d, expected: %d - exit\n", size_MemC(memLocation), sizeof(TelgProxy2Target_Inspc_s));
       return;
     }
-    thiz->proxy2target = PTR_MemC(memLocation, TelgProxy2Target_Inspc_s);
-    int lengthTelg = getInt32BigEndian(&thiz->proxy2target->length_cmd) >> 16;
+    thiz->super.proxy2target = PTR_MemC(memLocation, TelgProxy2Target_Inspc_s);
+    int lengthTelg = getInt32BigEndian(&thiz->super.proxy2target->length_cmd) >> 16;
     if (lengthTelg != sizeof(TelgProxy2Target_Inspc_s)) {
       os_FatalError(-1, "Problem with data consistence of TelgProxy2Target_Inspc_s. len= %d, expected: %d - exit\n", lengthTelg, sizeof(TelgProxy2Target_Inspc_s));
       return;

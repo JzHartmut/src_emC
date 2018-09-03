@@ -62,7 +62,7 @@
 // Field
 
 
-extern const ClassJc* simpleTypes[];
+extern const ClassJc* simpleTypes_ClassJc[];
 
 struct SearchTrc_t
 { MemSegmJc objWhereFieldIsFound; 
@@ -161,7 +161,7 @@ FieldJc_Y* new_FieldJc_Y(int size)
 
 const char* getName_ClassJc(ClassJc const* thiz)
 { if( ((uint64)(thiz)) < kREFLECTION_LastConstant )
-  { thiz = simpleTypes[(int)(thiz)];
+  { thiz = simpleTypes_ClassJc[(int)(thiz)];
   }
   return thiz->name;
 }
@@ -180,7 +180,7 @@ METHOD_C bool isPrimitive_ClassJc(ClassJc const* thiz)
 METHOD_C int32 getModifiers_ClassJc(ClassJc const* thiz)
 {
   if( ((uint64)(thiz)) < kREFLECTION_LastConstant )
-  { thiz = simpleTypes[(int)(thiz)];
+  { thiz = simpleTypes_ClassJc[(int)(thiz)];
   }
   return thiz->modifiers;
 }
@@ -199,7 +199,7 @@ METHOD_C ClassJc const* getEnclosingClass_ClassJc(ClassJc const* thiz)
 FieldJc_Y const* getDeclaredFields_ClassJc(const ClassJc* thiz)
 { FieldJc_Y const* fields;
   if( ((uint64)(thiz)) < kREFLECTION_LastConstant ) //2015-06 regard 64-bit-addresses and >0x7fffffff
-  { thiz = simpleTypes[(int)(thiz)];
+  { thiz = simpleTypes_ClassJc[(int)(thiz)];
   }
   //thiz is the real class:
   fields = thiz->attributes;

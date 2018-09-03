@@ -4,6 +4,8 @@
 #include <OSAL/os_endian.h>  //supports both big endian conversion and access to even address on memory.
 #include <OSAL/os_sharedmem.h>
 
+
+
 /**This enum defines some contants for commands to access to a remote CPU with one call.
  */
 typedef enum Cmd_InspcTargetProxyTelg_t
@@ -111,6 +113,27 @@ typedef struct TelgProxy2Target_Inspc_t
 } TelgProxy2Target_Inspc_s;
 
 
+
+/**This is the prototype for processing the inspector commands in an target.
+* It uses the generated ...ReflOffset...c.
+*
+* The user should programm the access to the communication in a proper way for the target sensitivities (conditions).
+* @param cmd the command of type Cmd_InspcTargetProxyTelg_e
+* @param address The address value. It is a 32 bit value usually. A Processor with a 64-bit-Address space may not need this routine.
+* @param inputVal depends from the command. For bitfield access it is the bit number and length, see [[mPosBitsInBitfieldAccess_InspcTargetProxyTelg]] etc.
+*    for setFloat and setDouble it is a float value (present in integer image).
+* @param mainData The address of the root of all data. That is the only one address which should be known for access.
+* @param reflectionOffset_MainData Pointer to the const array of offsets which describes the mainData structure,
+*    from the generated ...ReflOffset...c-File.
+* @param reflectionOffsetArrays pointer to the 'Array of all offsets' from the generated ...ReflOffset...c-File.
+* @return for set and get operations the current value, gotten or after set. It is a int image of a float value on get/set double and float.
+*/
+int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 address, int32 inputVal, void const* mainData
+  , int32 const* reflectionOffset_MainData, int32 const* const* reflectionOffsetArrays);
+
+
+
+
 /**This struct describes one item in the telegram from the target or the data for shared memory data exchange. 
  * It is big endian because usual for telegram communication. 
  * It is aligned to 32 bit because simple processors supports only 32 bit access to memory or FPGA.
@@ -124,8 +147,6 @@ typedef struct TelgTarget2Proxy_Inspc_s_t
   
   int32BigEndian seqnr;
 
-  int32BigEndian retValue;
-
   /**This element is used to evaluate whether the target system runs or not. 
    * If it runs, the lifeCt should count in a positive range, maybe with 16 or 31 bit.
    * If the target system has had an initialization error, the error number (maybe negative) should be written here
@@ -133,34 +154,47 @@ typedef struct TelgTarget2Proxy_Inspc_s_t
    */
   int32BigEndian lifeCt_ErrorState;
 
+  int32BigEndian retValue;
+
 } TelgTarget2Proxy_Inspc_s;
 
 
+/*@CLASS_C TODO @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**In the user space the following array should be defined. It holds the reference to all offset arrays.
+* Such an array is generated via the zbnfjax/jzTc/Cheader2Refl.jztxt.cmd reflection generator.
+* The label is defined here to clarify the type especially for C++ compilation, both should have the same declaration.
+*/
+extern int32 const* const reflectionOffsetArrays[];
 
 
 
+typedef struct TargetData_Inspc_t
+{
 
-/**This const array is defined by the reflection generator in the ReflOffset.c file. */
-extern_C const int32* const reflectionOffsetArrays[];
+  /**Gotten reference to the exchange data range. */
+  TelgTarget2Proxy_Inspc_s* target2proxy;
+
+  /**Gotten reference to the exchange data range. */
+  TelgProxy2Target_Inspc_s* proxy2target;
+
+  /**The last sequence number of a command. If the seqnr in the telg is changed, a new command was received.
+   * Note: The trigger for new data is not related to any event, but with polling the seqnr. 
+   * That approach is more simple, needs less organization effort.
+   */
+  int seqnrLast;
+
+  int16 errorMsg;
+
+  int16 lifeCt;
 
 
+} TargetData_Inspc;
 
-/**This is the prototype for processing the inspector commands in an target.
- * It uses the generated ...ReflOffset...c.
- *
- * The user should programm the access to the communication in a proper way for the target sensitivities (conditions).
- * @param cmd the command of type Cmd_InspcTargetProxyTelg_e
- * @param address The address value. It is a 32 bit value usually. A Processor with a 64-bit-Address space may not need this routine.
- * @param inputVal depends from the command. For bitfield access it is the bit number and length, see [[mPosBitsInBitfieldAccess_InspcTargetProxyTelg]] etc.
- *    for setFloat and setDouble it is a float value (present in integer image). 
- * @param mainData The address of the root of all data. That is the only one address which should be known for access.
- * @param reflectionOffset_MainData Pointer to the const array of offsets which describes the mainData structure, 
- *    from the generated ...ReflOffset...c-File.
- * @param reflectionOffsetArrays pointer to the 'Array of all offsets' from the generated ...ReflOffset...c-File.
- * @return for set and get operations the current value, gotten or after set. It is a int image of a float value on get/set double and float.  
- */
-int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 address, int32 inputVal, void const* mainData
-, int32 const* reflectionOffset_MainData, int32 const* const* reflectionOffsetArrays);
+
+void step_TargetData_Inspc(TargetData_Inspc* thiz, void const* mainData
+  , int32 const* reflectionOffset_MainData, int32 const* const* reflectionOffsetArrays);
 
 
 
@@ -176,14 +210,11 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 
  */
 typedef struct SharedMemAccess_Target2Proxy_Inspc_t
 {
+  /**Derived from TargetData*/
+  TargetData_Inspc super;
+  
   /**The necessary management data for os_sharedMem */
   SharedMem_OSAL sharedMemMng_target2proxy, sharedMemMng_proxy2target;
-
-  /**Gotten reference to the exchange data range. */
-  TelgTarget2Proxy_Inspc_s* target2proxy;
-
-  /**Gotten reference to the exchange data range. */
-  TelgProxy2Target_Inspc_s* proxy2target;
 
 
   char name_target2proxy[32], name_proxy2target[32];

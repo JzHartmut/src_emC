@@ -458,7 +458,7 @@ const ClassJc reflection_ObjectJc =
 
 
 
-
+/**With vtbl*/
 const Reflection__ObjectJc reflection__ObjectJc
 =
 {
@@ -614,7 +614,7 @@ const struct Reflection_Fields_OS_PtrValue_t
 , {
     { "ref"
     , 0 //nrofArrayElements
-    , REFLECTION_void
+    , &reflection__voidJc
     , (1<<kBitPrimitiv_Modifier_reflectJc)| kReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((OS_PtrValue*)(0x1000))->ref) - (int32)(OS_PtrValue*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -622,7 +622,7 @@ const struct Reflection_Fields_OS_PtrValue_t
     }
   , { "val"
     , 0 //nrofArrayElements
-    , REFLECTION_void
+    , &reflection__voidJc
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((OS_PtrValue*)(0x1000))->val) - (int32)(OS_PtrValue*)0x1000)
     , 0  //offsetToObjectifcBase

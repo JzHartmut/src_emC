@@ -7,10 +7,6 @@
 
 
 extern_C const ClassJc reflection_InspcTelgHead_Inspc_s;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_int16BigEndian;  //used for field nrofBytes
-
-extern_C const ClassJc reflection_int16BigEndian;  //used for field cmdTelg
-
 extern_C const ClassJc reflection_int32BigEndian;  //used for field encryption
 
 extern_C const ClassJc reflection_int32BigEndian;  //used for field seqnr
@@ -18,31 +14,33 @@ extern_C const ClassJc reflection_int32BigEndian;  //used for field seqnr
 extern_C const ClassJc reflection_int16BigEndian;  //used for field answernr
 
 extern_C const ClassJc reflection_int16BigEndian;  //used for field entrant
+  
+
+const struct SuperClasses_InspcTelgHead_Inspc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+}  superClasses_InspcTelgHead_Inspc_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_InspcTelgHead_Inspc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+  , { &reflection_int16BigEndian                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "nrofBytes"     
+      , 0 //arraysize
+      , &reflection_int16BigEndian  //type of super                                                                                         
+      , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &reflection_int16BigEndian  
+      }
+    }
+};
 
 const struct Reflection_Fields_InspcTelgHead_Inspc_s_t
 { ObjectArrayJc head;
-  FieldJc data[6];
+  FieldJc data[4];
 } reflection_Fields_InspcTelgHead_Inspc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_InspcTelgHead_Inspc_s, 6, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_InspcTelgHead_Inspc_s, 4, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "nrofBytes"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_int16BigEndian                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->nrofBytes)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_InspcTelgHead_Inspc_s
-    }
-  , 
-    { "cmdTelg"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_int16BigEndian                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->cmdTelg)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_InspcTelgHead_Inspc_s
-    }
-  , 
     { "encryption"
     , 0   //no Array, no Bitfield                           
     , &reflection_int32BigEndian                                                                                            
@@ -89,7 +87,7 @@ const ClassJc reflection_InspcTelgHead_Inspc_s =
 , sizeof(InspcTelgHead_Inspc_s)
 , (FieldJcArray const*)&reflection_Fields_InspcTelgHead_Inspc_s  //attributes and associations
 , null  //method      
-, null  //superclass  
+, (ClassOffset_idxMtblJcARRAY*)&superClasses_InspcTelgHead_Inspc_s  //superclass  
 , null  //interfaces  
 , 0   
 , null  //virtual table
