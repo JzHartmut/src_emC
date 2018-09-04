@@ -31,34 +31,25 @@ const struct SuperClasses_GetValue_Inspc_ClassOffset_idxMtblJcARRAY_t  //Type fo
 
 const struct Reflection_Fields_GetValue_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[3];
+  FieldJc data[2];
 } reflection_Fields_GetValue_Inspc =
-{ INIZ_ObjectArrayJc(reflection_Fields_GetValue_Inspc, 3, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_GetValue_Inspc, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((GetValue_Inspc*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_GetValue_Inspc
-    }
-  , 
     { "statusNotFound"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((GetValue_Inspc*)(0x1000))->statusNotFound)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_GetValue_Inspc
     }
   , 
     { "addr"
     , 6 //nrofArrayElements                           
     , REFLECTION_int32                                                                                            
-    , kReference_Modifier_reflectJc | kStaticArray_Modifier_reflectJc|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc | kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((GetValue_Inspc*)(0x1000))->addr)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_GetValue_Inspc
     }
   

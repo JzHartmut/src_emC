@@ -3,9 +3,15 @@
  * date first: 2010
  * date last change: 2016-10-29
  */
-#include "Inspc/InspcTargetProxyTelg.h"
+#include "Inspc/Target2Proxy_Inspc.h"
 #include <OSAL/os_AtomicAccess.h>
 #include <applstdef_emC.h>
+
+#ifndef __DONOTUSE_REFLECTION__
+  #include "Inspc/Target2Proxy_Inspc.crefl"
+#else
+  
+#endif
 
 #undef PRINTF2
 #define PRINTF2(TEXT, VAL) //empty.
@@ -171,7 +177,7 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 
 
 
 
-void step_TargetData_Inspc(TargetData_Inspc* thiz
+void step_Target2Proxy_Inspc(Target2Proxy_Inspc* thiz
   , void const* rootData
   , int32 const* reflectionOffset_RootData, int32 const* const* reflectionOffsetArrays
 ) {

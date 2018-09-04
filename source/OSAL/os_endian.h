@@ -92,17 +92,17 @@ extern_C_BLOCK_
    */
 
   /**Use methods, because only 1 access to the memory should be done. */
-  int64_t getInt64BigEndian(int64BigEndian* addr);
+  int64_t getInt64BigEndian(int64BigEndian const* addr);
   
-  int32_t getInt32BigEndian(int32BigEndian* addr);
+  int32_t getInt32BigEndian(int32BigEndian const* addr);
   
-  int16_t getInt16BigEndian(int16BigEndian* addr);
+  int16_t getInt16BigEndian(int16BigEndian const* addr);
 
-  float getFloatBigEndian(floatBigEndian* addr);
+  float getFloatBigEndian(floatBigEndian const* addr);
 
-  double getDoubleBigEndian(doubleBigEndian* addr);
+  double getDoubleBigEndian(doubleBigEndian const* addr);
 
-  void* getPtrBigEndian(ptrBigEndian* addr);
+  void* getPtrBigEndian(ptrBigEndian const* addr);
 
   int64_t setInt64BigEndian(int64BigEndian* addr, int64_t value);
 

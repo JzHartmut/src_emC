@@ -441,9 +441,9 @@ METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
 
 
 
-/**Checks the consistence of the given instance based on ObjectJc or initialize some elements it they are empty.
- * An Object should be initialized before it usage. This method should be used in the constructor
- * of all classes to check whether the initializing is done.
+/**Checks the consistence of the given instance based on ObjectJc and initialize the ident and reflection if they are empty.
+ * An Object should be initialized before with [[init_ObjectJc(...)]] or as static instance with [[INIZ_objReflId_ObjectJc(...)]]. 
+ * This method should be used in the constructor of all classes to check whether the initializing is done.
  * @param size The requested size of the instance.
  *             The instance is valid if the size saved in the element ,,objectIdentSize,, is >= size.
  *             A greater instance (derived) is accepted also.
@@ -452,13 +452,13 @@ METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
  *             But call setReflection_ObjectJc() instead before, because this method may be changed in future. It should only test, not set anything!
  * @return the stored identification
 */
-METHOD_C int checkOrInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
+METHOD_C bool checkInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
 
 /**Checks the consistence or init, 
  * @deprecated, use [[checkOrInit_ObjectJc(...)]] with a more significant name.
  */
-#define checkConsistence_ObjectJc(THIS, SIZE, REFL, THCXT) checkOrInit_ObjectJc(THIS, SIZE, 0, REFL, THCXT)
-
+#define checkConsistence_ObjectJc(THIS, SIZE, REFL, THCXT) checkInit_ObjectJc(THIS, SIZE, 0, REFL, THCXT)
+#define checkOrInit_ObjectJc checkInit_ObjectJc
 
 /**Checks the consistence of the given instance based on ObjectJc.
  * An Object should be initialized before it is used. This method should be used in the constructor

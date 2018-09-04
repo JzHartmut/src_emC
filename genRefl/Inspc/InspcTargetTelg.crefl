@@ -6,15 +6,7 @@
 #include <stddef.h>
 
 
-extern_C const ClassJc reflection_InspcTelgHead_Inspc_s;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_int32BigEndian;  //used for field encryption
-
-extern_C const ClassJc reflection_int32BigEndian;  //used for field seqnr
-
-extern_C const ClassJc reflection_int16BigEndian;  //used for field answernr
-
-extern_C const ClassJc reflection_int16BigEndian;  //used for field entrant
-  
+extern_C const ClassJc reflection_InspcTelgHead_Inspc_s;  //the just defined reflection_ used in the own fields.  
 
 const struct SuperClasses_InspcTelgHead_Inspc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
@@ -43,37 +35,37 @@ const struct Reflection_Fields_InspcTelgHead_Inspc_s_t
 , {  
     { "encryption"
     , 0   //no Array, no Bitfield                           
-    , &reflection_int32BigEndian                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->encryption)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_InspcTelgHead_Inspc_s
     }
   , 
     { "seqnr"
     , 0   //no Array, no Bitfield                           
-    , &reflection_int32BigEndian                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->seqnr)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_InspcTelgHead_Inspc_s
     }
   , 
     { "answernr"
     , 0   //no Array, no Bitfield                           
-    , &reflection_int16BigEndian                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->answernr)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_InspcTelgHead_Inspc_s
     }
   , 
     { "entrant"
     , 0   //no Array, no Bitfield                           
-    , &reflection_int16BigEndian                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->entrant)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_InspcTelgHead_Inspc_s
     }
   

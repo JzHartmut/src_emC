@@ -35,7 +35,8 @@ int free_MemC  (  void const* addr)
   else   
   {
     //it seems to be a normal allocation.
-    os_freeMem(ptr);
+    //TODO check whether allocated
+    //os_freeMem(ptr);
     return 1;
   }
 }

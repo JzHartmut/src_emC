@@ -136,12 +136,9 @@ int checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, struct Clas
       THROW1_s0(IllegalArgumentException, "faut ident", identObj);
     }
     //
-    if(clazzReflection != null)
-    { if(ythis->reflectionClass == null)
-      { //ythis->reflectionClass = clazzReflection;
-      }
-      else
-      { //TODO test Reflection, it can be a derived class.
+    if(clazzReflection != null && ythis->reflectionClass !=null)
+    { if(!instanceof_s_ObjectJc(ythis, clazzReflection->name)) {
+        THROW1_s0(IllegalArgumentException, "fault type", identObj);
       }
     }
   }
@@ -151,26 +148,23 @@ int checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, struct Clas
 
 
 
-int checkOrInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
-{ int identObj;
-  STACKTRC_TENTRY("checkConsistence_ObjectJc");
+bool checkInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
+{ bool bOk;
+  STACKTRC_TENTRY("checkInit_ObjectJc");
   if(thiz->ownAddress == null && thiz->state.b.objectIdentSize == 0)
   { //not initialized
     init_ObjectJc(thiz, size, ident);   //TODO ident=0? 
+  }
+  //int ident = getIdentInfo_ObjectJc(thiz);
+  //if(ident == 0 || ident == )
+  if(thiz->state.b.objectIdentSize == 0) { //size and ident not initialized
+    setSizeAndIdent_ObjectJc(thiz, size, ident);
+  }
+  if(thiz->reflectionClass == null) {
     setReflection_ObjectJc(thiz, clazzReflection, 0);
-    identObj = ident;
   }
-  else
-  { if(thiz->state.b.objectIdentSize == 0)
-    { //size and ident not initialized
-      setSizeAndIdent_ObjectJc(thiz, size, ident);
-  }
-    if(thiz->reflectionClass == null) {
-      setReflection_ObjectJc(thiz, clazzReflection, 0);
-    }
-    identObj = checkStrict_ObjectJc(thiz, size, ident, clazzReflection,_thCxt);
-  }
-  STACKTRC_LEAVE; return identObj;
+  bOk = checkStrict_ObjectJc(thiz, size, ident, clazzReflection,_thCxt) !=-1;
+  STACKTRC_RETURN bOk;
 }
 
 
@@ -200,9 +194,10 @@ int getIdentInfo_ObjectJc(ObjectJc const* ythis)
 
 
 
-static bool checkRefl(ClassJc const* refl, char const* reflection)
+static bool checkRefl(ClassJc const* refl, char const* reflectionName)
 { 
-  if(refl == null) { 
+  int zReflectionName = strnlen_emC(reflectionName, sizeof(refl->name));  //till 0 or maximal the size of name[] it is not 0-terminated.
+  if(refl == null) {
     return false;
   }
   if(refl->object.ownAddress != (ObjectJc const*)refl) { 
@@ -211,11 +206,11 @@ static bool checkRefl(ClassJc const* refl, char const* reflection)
   if(refl->object.reflectionClass == null) { 
     return false; //The reflection class should have exact Object data.
   }
-  if(strcmp(refl->object.reflectionClass->name, "ClassJc")!=0){ 
+  if(strncmp(refl->object.reflectionClass->name, "ClassJc", 7) != 0){ 
     return false; //The reflection class should have exact Object data.
   }
 
-  return (strcmp(refl->name, reflection) ==0);
+  return (strncmp(refl->name, reflectionName, zReflectionName) ==0);
 }
 
 
@@ -224,6 +219,7 @@ static bool checkRefl(ClassJc const* refl, char const* reflection)
 int getIdxMtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName)
 { int idxMtbl = -1;
   ClassOffset_idxMtblJcARRAY const* reflectionSuper;
+  int zReflectionName = strnlen_emC(reflectionName, sizeof(reflectionObj->name));  //till 0 or maximal the size of name[] it is not 0-terminated.
   STACKTRC_ENTRY("getIdxMtbl_ClassJc");
   if(reflectionObj == null)
   { //if no reflection is used, it is able in C++ environment or if no dynamic linked methods are used.
@@ -233,10 +229,10 @@ int getIdxMtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionNam
   { if(reflectionName == null)  //if no reflection is prescribed:
     { idxMtbl = 0;  //returns the Mtbl_ObjectJc
     }
-    //else if(strcmp(reflectionName, "ObjectJc")==0)
+    //else if(strncmp(reflectionName, "ObjectJc", 8)==0)
     //{ idxMtbl = 0;  //returns the whole Mtbl for the type.
     //}
-    else if (strcmp(reflectionObj->name, reflectionName) == 0) {
+    else if (strncmp(reflectionObj->name, reflectionName, zReflectionName) == 0) {
       idxMtbl = 0;  //returns the Mtbl for this instance.
     }
     else
@@ -247,7 +243,7 @@ int getIdxMtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionNam
         for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
         { ClassOffset_idxMtblJc const* reflectionChild;
           reflectionChild = &reflectionIfc->data[idxIfc];
-          if(strcmp(reflectionChild->clazz->name, reflectionName)==0)
+          if(strncmp(reflectionChild->clazz->name, reflectionName, zReflectionName)==0)
           { idxMtbl = reflectionChild->idxMtbl;
           }
         }
@@ -261,7 +257,7 @@ int getIdxMtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionNam
       for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
       { ClassOffset_idxMtblJc const* reflectionChild;
         reflectionChild = &reflectionSuper->data[idxSuper];
-        if(strcmp(reflectionChild->clazz->name, reflectionName)==0)
+        if(strncmp(reflectionChild->clazz->name, reflectionName, zReflectionName)==0)
         { idxMtbl = reflectionChild->idxMtbl;
         }
         else

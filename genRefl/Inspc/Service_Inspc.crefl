@@ -35,25 +35,16 @@ const struct SuperClasses_Service_Inspc_ClassOffset_idxMtblJcARRAY_t  //Type for
 
 const struct Reflection_Fields_Service_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[3];
+  FieldJc data[2];
 } reflection_Fields_Service_Inspc =
-{ INIZ_ObjectArrayJc(reflection_Fields_Service_Inspc, 3, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_Service_Inspc, 2, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Service_Inspc*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_Service_Inspc
-    }
-  , 
     { "simTime"
     , 0   //no Array, no Bitfield                           
     , &reflection_SimTime_emC                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Service_Inspc*)(0x1000))->simTime)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Service_Inspc
     }
   , 
@@ -62,7 +53,7 @@ const struct Reflection_Fields_Service_Inspc_t
     , &reflection_Inspector_Inspc_s                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Service_Inspc*)(0x1000))->theInspector)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Service_Inspc
     }
   

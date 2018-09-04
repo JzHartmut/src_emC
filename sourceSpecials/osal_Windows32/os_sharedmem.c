@@ -1,6 +1,15 @@
 #include <OSAL/os_sharedmem.h>
 
 
+
+#ifndef __DONOTUSE_REFLECTION__
+#include "genRefl/OSAL/os_sharedMem.crefl"
+#else
+
+#endif
+
+
+//Note: after reflection, only for C-file:
 #undef BOOL
 #undef PBOOL
 #undef boolean
@@ -12,6 +21,8 @@
 #include <wtypes.h>
 #include <Winbase.h>
 
+
+
 //Important hint: It is presumed that the 'Multibyte Character set' (it means UTF-8) is set 
 //in the Project properties - General - Project defaults - Character set of the compiler.
 //The other possibility is using "'Unicode Character set' - it means UTF16.
@@ -19,9 +30,9 @@
 
 
 MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size){
-   MemC ret = {0};
    HANDLE hMapFile;
    MemUnit* pBuf;
+   thiz->addrSize.ref = null;  //default on nonexisting mem.
    thiz->name = name;
 
    hMapFile = CreateFileMapping(
@@ -45,7 +56,7 @@ MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size){
     } else {
       memset(pBuf, 0, size);
       *((int32*)(pBuf)) = size;   //Write the size in the first 4 bytes. 
-      set_OS_PtrValue(ret, pBuf + sizeof(int32), size);  //return the buffer after the size entry.
+      set_OS_PtrValue(thiz->addrSize, pBuf + sizeof(int32), size);  //return the buffer after the size entry.
       
       *(HANDLE*)thiz->data = hMapFile;
       *(void**)&thiz->data[4] = pBuf;
@@ -54,7 +65,7 @@ MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size){
       thiz->nError = 0;
     }
   }
-  return ret;
+  return thiz->addrSize;
 }
 
 
@@ -63,8 +74,8 @@ MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size){
 
 MemC os_accessSharedMem(SharedMem_OSAL* thiz, const char* name)
 {
-   MemC ret = {0};
-   HANDLE hMapFile;
+  thiz->addrSize.ref = null;  //default on nonexisting mem.
+  HANDLE hMapFile;
    MemUnit* addr;
 
    thiz->name = name;
@@ -91,7 +102,7 @@ MemC os_accessSharedMem(SharedMem_OSAL* thiz, const char* name)
     } else {
       int32* pBufi = (int32*)(addr);
       int32 size = *pBufi;
-      set_OS_PtrValue(ret, pBufi+1, size);
+      set_OS_PtrValue(thiz->addrSize, pBufi+1, size);
       
       *(HANDLE*)thiz->data = hMapFile; 
       *(void**)&thiz->data[4] = addr;
@@ -100,7 +111,7 @@ MemC os_accessSharedMem(SharedMem_OSAL* thiz, const char* name)
       thiz->nError = 0;
     }
   }
-  return ret;
+  return thiz->addrSize;
 }
 
 

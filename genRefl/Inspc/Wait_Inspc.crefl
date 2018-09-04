@@ -31,25 +31,16 @@ const struct SuperClasses_Wait_Inspc_ClassOffset_idxMtblJcARRAY_t  //Type for th
 
 const struct Reflection_Fields_Wait_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[4];
+  FieldJc data[3];
 } reflection_Fields_Wait_Inspc =
-{ INIZ_ObjectArrayJc(reflection_Fields_Wait_Inspc, 4, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_Wait_Inspc, 3, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "base"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->base)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_Wait_Inspc
-    }
-  , 
     { "isWaiting"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->isWaiting)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Wait_Inspc
     }
   , 
@@ -58,7 +49,7 @@ const struct Reflection_Fields_Wait_Inspc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->stepsTillWait)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Wait_Inspc
     }
   , 
@@ -67,7 +58,7 @@ const struct Reflection_Fields_Wait_Inspc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->delay_ms)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Wait_Inspc
     }
   

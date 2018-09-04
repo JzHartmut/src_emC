@@ -28,31 +28,13 @@ const struct SuperClasses_DataNode_Inspc_ClassOffset_idxMtblJcARRAY_t  //Type fo
       }
     }
 };
-
-const struct Reflection_Fields_DataNode_Inspc_t
-{ ObjectArrayJc head;
-  FieldJc data[1];
-} reflection_Fields_DataNode_Inspc =
-{ INIZ_ObjectArrayJc(reflection_Fields_DataNode_Inspc, 1, FieldJc, null, INIZ_ID_FieldJc)
-, {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_DataNode_Inspc
-    }
-  
-} }; 
-                                                    
                                                                    
 const ClassJc reflection_DataNode_Inspc =
 { INIZ_objReflId_ObjectJc(reflection_DataNode_Inspc, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "DataNode_Inspc"
 , 0
 , sizeof(DataNode_Inspc)
-, (FieldJcArray const*)&reflection_Fields_DataNode_Inspc  //attributes and associations
+, null  //attributes and associations
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_DataNode_Inspc  //superclass  
 , null  //interfaces  

@@ -162,12 +162,14 @@ struct ThreadContext_emC_t;
 //#define getPtr_MemC(MEMC, TYPE) PTR_OS_PtrValue(MEMC, TYPE)
 
 
-/**Macro to get the pointer from a given MemC. It casts the pointer to the given type.
+/**Macro to get the pointer from a given MemC. It casts the pointer to the given type pointer.
  * , #define PTR_MemC(MEMC, TYPE) ((TYPE*)(MEMC).ref)
  * @param TYPE the type of the pointer, without *. for example: "void" to return a void*
  * @return the pointer
  */
 #define PTR_MemC(MEMC, TYPE) PTR_OS_PtrValue(MEMC, TYPE)
+
+#define PTRPOS_MemC(MEMC, TYPE, POS) (TYPE*)(PTR_OS_PtrValue(MEMC, MemUnit) + (POS))
 
 
 

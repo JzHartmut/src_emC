@@ -155,7 +155,7 @@
 #define uint32    uint32_t
 
 #define int64 __int64
-#define uint64 __int64
+#define uint64 uint64_t
 //#define int64_t __int64
 //#define uint64_t __int64
 
