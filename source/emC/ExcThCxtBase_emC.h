@@ -212,10 +212,19 @@ typedef struct ExceptionJc_t
   /**The user value of the exception.
   */
   int32 exceptionValue;
+  
+  int val2;
 
+  int line;
+
+  char const* file;   //mem boundary pos
+
+  #ifndef __NoStringJcCapabilities__
   /**The user message of the exception.
   */
   StringJc exceptionMsg;  //note: align-8
+  #endif
+  
 
 } ExceptionJc;
 
@@ -223,7 +232,7 @@ typedef struct ExceptionJc_t
 #define CONST_ExceptionJc(IDENT, MSG, VAL) { ident_##IDENT##Jc, VAL, MSG}
 
 
-#define NULL_ExceptionJc() { 0, 0, NULL_StringJc}
+#define NULL_ExceptionJc() { 0 }
 
 
 

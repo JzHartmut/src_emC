@@ -32,7 +32,8 @@
 #include <incApplSpecific/applConv/ObjectJc_simple.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
-//#define __NoCharSeqJcCapabilities__
+#define __NoCharSeqJcCapabilities__
+#define __NoStringJcCapabilities__
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 #include <incApplSpecific/applConv/EnhanceRef_simple.h>

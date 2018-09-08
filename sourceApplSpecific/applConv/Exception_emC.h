@@ -368,7 +368,7 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
  { { /*open to braces because END_TRY has 2 closing braces.*/
 
 
-#ifdef __NoCharSeqJcCapabilities__
+#ifdef __NoStringJcCapabilities__
   #define FREE_MSG_END_TRY(MSG)  //left empty
 #else
 #define FREE_MSG_END_TRY(MSG) freeM_MemC(MSG)

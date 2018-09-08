@@ -348,7 +348,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 //void             __disable_interrupt(void);
 //void             __enable_interrupt(void);
 #include <intrinsics.h>  //compiler-specific definitions
-#define os_createMutex(NAME, M)
+#define os_createMutex(NAME) null
 #define os_lockMutex(M, TIME) (__disable_interrupt(), true)
 #define os_unlockMutex(M) __enable_interrupt()
 

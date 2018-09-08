@@ -60,27 +60,18 @@
 #endif //ifdef isNull_StringJc
 
 
-typedef struct ExcpetionSimple_emC_t {
 
-  /**Bit mask of the exception. There are a maximum of 32 Exception types. Every Exception is represented by one bit.
-  See enum definition of ExceptionMasksJc.
-  */
-  int exceptionNr;
+typedef struct ExceptionStore_t {
+  uint32 ctException;
+  ExceptionJc first;
+  ExceptionJc last;
+} ExceptionStore;
 
-  int line;
-
-  int32 exceptionValue;
-
-  char const* file;
-  /**The user value of the exception.
-  */
-} ExcpetionSimple_emC;
-
-
+void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
 
 typedef struct ThreadContext_emC_t {
   
-  ExcpetionSimple_emC exc;
+  ExceptionJc exc;
 
   /**Set to 0 on input of matching CATCH block to set exc.exceptionNr to 0 on END_TRY */
   //int excNrTestCatch;
@@ -95,7 +86,6 @@ typedef struct ThreadContext_emC_t {
 
 #define ThCxt ThreadContext_emC_s
 
-void logSimple_ExceptionJc(int exc, int32 value, char const* file, int line);
 
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
 * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
@@ -142,14 +132,14 @@ void logSimple_ExceptionJc(int exc, int32 value, char const* file, int line);
 #define THROW(EXCEPTION, STRING, VAL1, VAL2) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
   _thCxt->exc.exceptionNr = nr_##EXCEPTION##Jc; _thCxt->exc.exceptionValue = VAL1; \
   _thCxt->exc.file = __FILE__; _thCxt->exc.line = __LINE__; \
-  logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, __FILE__, __LINE__); \
+  logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, VAL2, __FILE__, __LINE__); \
 }
 
 
 #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
   _thCxt->exc.exceptionNr = nr_##EXCEPTION##Jc; _thCxt->exc.exceptionValue = VAL1; \
   _thCxt->exc.file = __FILE__; _thCxt->exc.line = __LINE__; \
-  logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, __FILE__, __LINE__); \
+  logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, VAL2, __FILE__, __LINE__); \
 }
 
 

@@ -30,7 +30,7 @@
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
-
+//#define __NoStringJcCapabilities__
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */

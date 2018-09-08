@@ -34,6 +34,7 @@
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
+//#define __NoStringJcCapabilities__
 
 
 
