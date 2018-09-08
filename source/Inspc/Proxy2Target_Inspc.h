@@ -1,6 +1,6 @@
 #ifndef __Inspc__Proxy2Target_Inspc_h__
 #define __Inspc__Proxy2Target_Inspc_h__
-#include "Inspc/TelgTargetProxy_Inspc.h"
+#include <Inspc/IfcTargetProxy_Inspc.h>
 
 
 typedef struct Proxy2Target_Inspc_t
@@ -17,7 +17,9 @@ typedef struct Proxy2Target_Inspc_t
   * Note: The trigger for new data is not related to any event, but with polling the seqnr.
   * That approach is more simple, needs less organization effort.
   */
-  int16 seqnrLast;
+  //int16 seqnrRxLast;
+
+  int16 seqnrTxTarget;
 
   int16 errorMsgTarget;
 

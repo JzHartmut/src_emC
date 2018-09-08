@@ -336,7 +336,7 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
       { idxClass  = 1; idxField = 0;
       }
 
-      posLength = getInfoDebug_RemoteCpuJc(getOffsetLength_RemoteCpuJc, segment_MemSegmJc(instance), null, idxClass<<16 |idxField);
+      posLength = getInfoDebug_InspcTargetProxy(getOffsetLength_InspcTargetProxy, segment_MemSegmJc(instance), null, idxClass<<16 |idxField);
       position = posLength & 0x0000ffff; //position-part in bit15..0
       sizeElement = (posLength & 0x7FFF0000) >>16;
     } else {
@@ -687,9 +687,12 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
     else if((int)iRef == -1)
     { //Access to a second CPU
       int memSegment = -(int)iRef;
-      int32 addrRemote = getInfoDebug_RemoteCpuJc(getRootInstance_RemoteCpuJc, memSegment, null, 0);
-      int ixClass = getInfoDebug_RemoteCpuJc(getRootType_RemoteCpuJc, memSegment, null, 0);
-      if(addrRemote != -1 && ixClass >0) {
+      int ixClass = -1;
+      int32 addrRemote = getInfoDebug_InspcTargetProxy(getRootInstance_InspcTargetProxy, memSegment, null, 0);
+      if(addrRemote !=-1) {
+        ixClass = getInfoDebug_InspcTargetProxy(getRootType_InspcTargetProxy, memSegment, null, 0);
+      }
+      if(ixClass >0) {
         clazzRet = extReflectionClasses_ReflectionJc[0]->data[ixClass -1]; //get from loaded reflection file.
         { set_OS_PtrValue(retObj, (void*)addrRemote, memSegment);
         }
@@ -1235,7 +1238,7 @@ METHOD_C StringJc getString_FieldJc(const FieldJc* thiz, MemSegmJc instance, cha
       //TODO:
       //StringBuilderJc* sret = threadBuffer_StringBuilderJc("", null);
       int32* addr1 = ADDR_MemSegmJc(addrField, int32);
-      int32 val1 = addr1 == null ? 0 : *addr1;
+      int32 val1 = addr1 == null ? 0 : getInt32_MemAccessJc(addrField); //from remote too.
       snprintf(addret, sizeof(addret), "@%p:%8.8X", addr1, val1);
       ret = z_StringJc(addret);
     }

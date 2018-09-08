@@ -40,43 +40,34 @@ const struct SuperClasses_ListItr_LinkedListJc_ClassOffset_idxMtblJcARRAY_t  //T
 
 const struct Reflection_Fields_ListItr_LinkedListJc_t
 { ObjectArrayJc head;
-  FieldJc data[6];
+  FieldJc data[5];
 } reflection_Fields_ListItr_LinkedListJc =
-{ INIZ_ObjectArrayJc(reflection_Fields_ListItr_LinkedListJc, 6, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_ListItr_LinkedListJc, 5, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_ListItr_LinkedListJc
-    }
-  , 
     { "outer"
     , 0   //no Array, no Bitfield                           
-    , &reflection_LinkedListJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_LinkedListJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->outer)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
     }
   , 
     { "lastReturned"
     , 0   //no Array, no Bitfield                           
-    , &reflection_ListMapEntryJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_ListMapEntryJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->lastReturned)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
     }
   , 
     { "next"
     , 0   //no Array, no Bitfield                           
-    , &reflection_ListMapEntryJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_ListMapEntryJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->next)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
     }
   , 
@@ -85,7 +76,7 @@ const struct Reflection_Fields_ListItr_LinkedListJc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->nextIndex)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
     }
   , 
@@ -94,7 +85,7 @@ const struct Reflection_Fields_ListItr_LinkedListJc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->expectedModCount)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
     }
   
@@ -130,7 +121,7 @@ const struct Reflection_Fields_LinkedListJcD_t
     , &reflection_ListMapEntryJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((LinkedListJcD*)(0x1000))->header)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_LinkedListJcD
     }
   , 
@@ -139,7 +130,7 @@ const struct Reflection_Fields_LinkedListJcD_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((LinkedListJcD*)(0x1000))->size)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_LinkedListJcD
     }
   
@@ -195,7 +186,7 @@ const struct Reflection_Fields_LinkedListJc_t
     , &reflection_LinkedListJcD                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((LinkedListJc*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_LinkedListJc
     }
   

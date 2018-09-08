@@ -57,11 +57,11 @@ const struct Reflection_Fields_Proxy2Target_Inspc_t
     , &reflection_Proxy2Target_Inspc
     }
   , 
-    { "seqnrLast"
+    { "seqnrTxTarget"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Proxy2Target_Inspc*)(0x1000))->seqnrLast)) -0x1000 )
+    , (int16)( ((intptr_t)(&((Proxy2Target_Inspc*)(0x1000))->seqnrTxTarget)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Proxy2Target_Inspc
     }

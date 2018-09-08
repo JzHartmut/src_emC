@@ -28,31 +28,13 @@ const struct SuperClasses_ComparableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type
       }
     }
 };
-
-const struct Reflection_Fields_ComparableJc_base_t
-{ ObjectArrayJc head;
-  FieldJc data[1];
-} reflection_Fields_ComparableJc_base =
-{ INIZ_ObjectArrayJc(reflection_Fields_ComparableJc_base, 1, FieldJc, null, INIZ_ID_FieldJc)
-, {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((ComparableJc*)(0x1000))->base.object)) - ((intptr_t)(&((ComparableJc*)(0x1000))->base)) )
-    , 0  //offsetToObjectifcBase
-    , &reflection_ComparableJc_base
-    }
-  
-} }; 
-                                                    
                                                                    
 const ClassJc reflection_ComparableJc_base =
 { INIZ_objReflId_ObjectJc(reflection_ComparableJc_base, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "ComparableJc_base"
 , 0
 , sizeof(((ComparableJc*)0x1000)->base)
-, (FieldJcArray const*)&reflection_Fields_ComparableJc_base  //attributes and associations
+, null  //attributes and associations
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_ComparableJc_base  //superclass  
 , null  //interfaces  
@@ -74,7 +56,7 @@ const struct Reflection_Fields_ComparableJc_t
     , &reflection_ComparableJc_base                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ComparableJc*)(0x1000))->base)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ComparableJc
     }
   
@@ -118,31 +100,13 @@ const struct SuperClasses_CloseableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type 
       }
     }
 };
-
-const struct Reflection_Fields_CloseableJc_base_t
-{ ObjectArrayJc head;
-  FieldJc data[1];
-} reflection_Fields_CloseableJc_base =
-{ INIZ_ObjectArrayJc(reflection_Fields_CloseableJc_base, 1, FieldJc, null, INIZ_ID_FieldJc)
-, {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((CloseableJc*)(0x1000))->base.object)) - ((intptr_t)(&((CloseableJc*)(0x1000))->base)) )
-    , 0  //offsetToObjectifcBase
-    , &reflection_CloseableJc_base
-    }
-  
-} }; 
-                                                    
                                                                    
 const ClassJc reflection_CloseableJc_base =
 { INIZ_objReflId_ObjectJc(reflection_CloseableJc_base, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "CloseableJc_base"
 , 0
 , sizeof(((CloseableJc*)0x1000)->base)
-, (FieldJcArray const*)&reflection_Fields_CloseableJc_base  //attributes and associations
+, null  //attributes and associations
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_CloseableJc_base  //superclass  
 , null  //interfaces  
@@ -164,7 +128,7 @@ const struct Reflection_Fields_CloseableJc_t
     , &reflection_CloseableJc_base                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((CloseableJc*)(0x1000))->base)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_CloseableJc
     }
   
@@ -208,31 +172,13 @@ const struct SuperClasses_FlushableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type 
       }
     }
 };
-
-const struct Reflection_Fields_FlushableJc_base_t
-{ ObjectArrayJc head;
-  FieldJc data[1];
-} reflection_Fields_FlushableJc_base =
-{ INIZ_ObjectArrayJc(reflection_Fields_FlushableJc_base, 1, FieldJc, null, INIZ_ID_FieldJc)
-, {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((FlushableJc*)(0x1000))->base.object)) - ((intptr_t)(&((FlushableJc*)(0x1000))->base)) )
-    , 0  //offsetToObjectifcBase
-    , &reflection_FlushableJc_base
-    }
-  
-} }; 
-                                                    
                                                                    
 const ClassJc reflection_FlushableJc_base =
 { INIZ_objReflId_ObjectJc(reflection_FlushableJc_base, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "FlushableJc_base"
 , 0
 , sizeof(((FlushableJc*)0x1000)->base)
-, (FieldJcArray const*)&reflection_Fields_FlushableJc_base  //attributes and associations
+, null  //attributes and associations
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_FlushableJc_base  //superclass  
 , null  //interfaces  
@@ -254,7 +200,7 @@ const struct Reflection_Fields_FlushableJc_t
     , &reflection_FlushableJc_base                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FlushableJc*)(0x1000))->base)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FlushableJc
     }
   
@@ -298,31 +244,13 @@ const struct SuperClasses_AppendableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type
       }
     }
 };
-
-const struct Reflection_Fields_AppendableJc_base_t
-{ ObjectArrayJc head;
-  FieldJc data[1];
-} reflection_Fields_AppendableJc_base =
-{ INIZ_ObjectArrayJc(reflection_Fields_AppendableJc_base, 1, FieldJc, null, INIZ_ID_FieldJc)
-, {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((AppendableJc*)(0x1000))->base.object)) - ((intptr_t)(&((AppendableJc*)(0x1000))->base)) )
-    , 0  //offsetToObjectifcBase
-    , &reflection_AppendableJc_base
-    }
-  
-} }; 
-                                                    
                                                                    
 const ClassJc reflection_AppendableJc_base =
 { INIZ_objReflId_ObjectJc(reflection_AppendableJc_base, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "AppendableJc_base"
 , 0
-, sizeof(((AppendableJc*)0x1000)->base)
-, (FieldJcArray const*)&reflection_Fields_AppendableJc_base  //attributes and associations
+, sizeof(((AppendableJc_s*)0x1000)->base)
+, null  //attributes and associations
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_AppendableJc_base  //superclass  
 , null  //interfaces  
@@ -344,7 +272,7 @@ const struct Reflection_Fields_AppendableJc_s_t
     , &reflection_AppendableJc_base                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((AppendableJc_s*)(0x1000))->base)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_AppendableJc_s
     }
   

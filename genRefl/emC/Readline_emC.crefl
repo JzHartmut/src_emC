@@ -22,7 +22,7 @@ const struct Reflection_Fields_ReadLine_emC_t
     , &reflection_OS_HandleFile                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ReadLine_emC*)(0x1000))->file)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ReadLine_emC
     }
   , 
@@ -31,7 +31,7 @@ const struct Reflection_Fields_ReadLine_emC_t
     , &reflection_bool                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ReadLine_emC*)(0x1000))->endOfFile)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ReadLine_emC
     }
   , 
@@ -40,7 +40,7 @@ const struct Reflection_Fields_ReadLine_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ReadLine_emC*)(0x1000))->buffer)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ReadLine_emC
     }
   , 
@@ -49,7 +49,7 @@ const struct Reflection_Fields_ReadLine_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ReadLine_emC*)(0x1000))->posBuffer)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ReadLine_emC
     }
   , 
@@ -58,7 +58,7 @@ const struct Reflection_Fields_ReadLine_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ReadLine_emC*)(0x1000))->endBuffer)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ReadLine_emC
     }
   

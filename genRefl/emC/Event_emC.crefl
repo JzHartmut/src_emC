@@ -43,52 +43,43 @@ const struct SuperClasses_Event_emC_ClassOffset_idxMtblJcARRAY_t  //Type for the
 
 const struct Reflection_Fields_Event_emC_t
 { ObjectArrayJc head;
-  FieldJc data[7];
+  FieldJc data[6];
 } reflection_Fields_Event_emC =
-{ INIZ_ObjectArrayJc(reflection_Fields_Event_emC, 7, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_Event_emC, 6, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_Event_emC
-    }
-  , 
     { "source"
     , 0   //no Array, no Bitfield                           
-    , &reflection_EventSource_emC_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_EventSource_emC                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->source)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
     }
   , 
     { "opponent"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Event_emC_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_Event_emC                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->opponent)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
     }
   , 
     { "evDstThread"
     , 0   //no Array, no Bitfield                           
-    , &reflection_EventThread_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_EventThread                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->evDstThread)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
     }
   , 
     { "evDst"
     , 0   //no Array, no Bitfield                           
-    , &reflection_EventConsumer_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_EventConsumer                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->evDst)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
     }
   , 
@@ -97,7 +88,7 @@ const struct Reflection_Fields_Event_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->cmde)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
     }
   , 
@@ -106,7 +97,7 @@ const struct Reflection_Fields_Event_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->dateCreation)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
     }
   
@@ -140,7 +131,7 @@ const struct Reflection_Fields_EventQueueSimple_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((EventQueueSimple_emC*)(0x1000))->ixWrEvent)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_EventQueueSimple_emC
     }
   , 
@@ -149,7 +140,7 @@ const struct Reflection_Fields_EventQueueSimple_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((EventQueueSimple_emC*)(0x1000))->ixRdEvent)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_EventQueueSimple_emC
     }
   , 
@@ -158,7 +149,7 @@ const struct Reflection_Fields_EventQueueSimple_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((EventQueueSimple_emC*)(0x1000))->zEvents)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_EventQueueSimple_emC
     }
   , 
@@ -167,7 +158,7 @@ const struct Reflection_Fields_EventQueueSimple_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((EventQueueSimple_emC*)(0x1000))->events)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_EventQueueSimple_emC
     }
   

@@ -16,31 +16,31 @@
 #undef PRINTF2
 #define PRINTF2(TEXT, VAL) //empty.
 
-int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 address, int32 inputVal, void const* mainData
+int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 address, int32 inputVal, void const* mainData
 , int32 const* reflectionOffset_MainData, int32 const* const* reflectionOffsetArrays)
 { int32 retVal;  
   switch( cmd )
   {
-    case getRootInstance_InspcTargetProxyTelg: {
+    case getRootInstance_InspcTargetProxy: {
       retVal = (int32)mainData;  //Address of the root instance.
       PRINTF2("getRootInstance %8.8X\n", retVal);
     } break;       
-    case getRootType_InspcTargetProxyTelg: {
+    case getRootType_InspcTargetProxy: {
       retVal = reflectionOffset_MainData[0];
       PRINTF2("getRootType %8.8X\n", retVal);
     } break;
-    case getType_InspcTargetProxyTelg: {
+    case getType_InspcTargetProxy: {
       retVal = 0;
       PRINTF2("getType %8.8X\n", retVal);
     } break;
-    case getOffsetLength_InspcTargetProxyTelg: {
+    case getOffsetLength_InspcTargetProxy: {
       int ixClass = (inputVal >>16) & 0xffff;
       int ixField = inputVal & 0xffff;
       int32 const* offsetArray = reflectionOffsetArrays[ixClass];
       retVal = offsetArray[ixField];
       PRINTF2("getOffsetLength %8.8X\n", retVal);
     } break;
-    case getRealLengthStaticArray_InspcTargetProxyTelg: {
+    case getRealLengthStaticArray_InspcTargetProxy: {
       void** adr = (void**)address;  //an array of pointers.
       int length = inputVal;
       while(length > 0 &&  ((void**)(adr))[length-1] == null)  //dereferenced at the given position with index.
@@ -49,77 +49,77 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 
       retVal = length;
       PRINTF2("getRealLengthStaticArray %8.8X\n", retVal);
     }break;
-    case getInt16_InspcTargetProxyTelg:
+    case getInt16_InspcTargetProxy:
     {
       retVal = (*(int16*)(address)) & 0xFFFF;
       PRINTF2("getInt16 %8.8X\n", retVal);
       
     } break;
-    case getInt32_InspcTargetProxyTelg:
+    case getInt32_InspcTargetProxy:
     {
       retVal = *(int32*)address;
       PRINTF2("getInt32 %8.8X\n", retVal);
       
     } break;
-    case getInt64_InspcTargetProxyTelg: {
+    case getInt64_InspcTargetProxy: {
       retVal = *(int32*)address;
       PRINTF2("getInt64 %8.8X\n", retVal);
     } break;
-    case getFloat_InspcTargetProxyTelg:
+    case getFloat_InspcTargetProxy:
     {
       retVal = *(int32*)address;  //return float as int-image. It is standard-IEEE
       PRINTF2("getFloat %8.8X\n", retVal);
     } break;
-    case getDouble_InspcTargetProxyTelg: {
+    case getDouble_InspcTargetProxy: {
       *(float*)&retVal = (float)(*(double*)address);
       PRINTF2("getDouble %8.8X\n", retVal);
     } break;
-    case getRef_InspcTargetProxyTelg: {
+    case getRef_InspcTargetProxy: {
       retVal = *(int*)address;  //return float as int-image. It is standard-IEEE
       PRINTF2("getAddr %8.8X\n", retVal);
     } break;
-    case setByte_InspcTargetProxyTelg: {
+    case setByte_InspcTargetProxy: {
       retVal = *(int8*)address;  //return float as int-image. It is standard-IEEE
       PRINTF2("setByte %8.8X\n", retVal);
     } break;
-    case setInt16_InspcTargetProxyTelg: {
+    case setInt16_InspcTargetProxy: {
       *((int16*)address) = (int16)(inputVal & 0xFFFF); 
       retVal = (*(int16*)address) & 0xFFFF;
       PRINTF2("setInt16 %8.8X\n", retVal);
     } break;
-    case setInt32_InspcTargetProxyTelg: {
+    case setInt32_InspcTargetProxy: {
       *((int32*)address) = inputVal; 
       retVal = *(int32*)address;
       PRINTF2("setInt32 %8.8X\n", retVal);
     } break;
-    case setInt64_InspcTargetProxyTelg: {
+    case setInt64_InspcTargetProxy: {
       *((int64*)address) = inputVal; 
       retVal = (int32)(*(int64*)address);    
       PRINTF2("setInt64 %8.8X\n", retVal);
     } break;
-    case setFloat_InspcTargetProxyTelg:
+    case setFloat_InspcTargetProxy:
     {
       //*((float*)address) = *(float*)&inputVal;    
       *((int32*)address) = inputVal;   //Set the image, it is a float.    
       retVal = *(int32*)address;  
       PRINTF2("setFloat %8.8X\n", retVal);
     } break;
-    case setDouble_InspcTargetProxyTelg: {
+    case setDouble_InspcTargetProxy: {
       *((double*)address) = *(float*)&inputVal;  //The input value is gotten as float, only 32 bit.      
       *(float*)&retVal = (float)(*((double*)address)); 
       PRINTF2("setDouble %8.8X\n", retVal);
     } break;
-    case setRef_InspcTargetProxyTelg: {
+    case setRef_InspcTargetProxy: {
       *((void**)address) = *(void**)&inputVal;      
       retVal = (int32)*((void**)address);
       PRINTF2("setAddr %8.8X\n", retVal);
     } break; 
     
-    case getBitfield_InspcTargetProxyTelg:
+    case getBitfield_InspcTargetProxy:
     {
-      int posBits = (inputVal & mPosBitsInBitfieldAccess_InspcTargetProxyTelg) >> bitPosBitsInBitfieldAccess_InspcTargetProxyTelg ;
+      int posBits = (inputVal & mPosBitsInBitfieldAccess_InspcTargetProxy) >> bitPosBitsInBitfieldAccess_InspcTargetProxy ;
       int posByte = posBits >> 3;
-      int nrofBits = (inputVal & mNrofBitsInBitfieldAccess_InspcTargetProxyTelg) >> bitNrofBitsInBitfieldAccess_InspcTargetProxyTelg ;
+      int nrofBits = (inputVal & mNrofBitsInBitfieldAccess_InspcTargetProxy) >> bitNrofBitsInBitfieldAccess_InspcTargetProxy ;
       if(nrofBits ==0){ nrofBits = 16; }
 
       //regard the possibilities of the target processor in bit/byte-access!
@@ -137,15 +137,15 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxyTelg_e const cmd, int32 
         retVal = (valueRaw & mask) >> posBits;
       PRINTF2("getBitField %8.8X\n", retVal);
     } break;   
-    case setBitfield_InspcTargetProxyTelg:
+    case setBitfield_InspcTargetProxy:
     {
             //regard the possibilities of the target processor in bit/byte-access!
       //regard thread safety!
       //This example works on a PC-hardware without bit-access instructions, but with full byte-access!
       //adjust the memory address, because the posBits may be in range 0..4095 (512 Bytes):
-      int posBits = (inputVal & mPosBitsInBitfieldAccess_InspcTargetProxyTelg) >> bitPosBitsInBitfieldAccess_InspcTargetProxyTelg ;
-      int nrofBits = (inputVal & mNrofBitsInBitfieldAccess_InspcTargetProxyTelg) >> bitNrofBitsInBitfieldAccess_InspcTargetProxyTelg ;
-      int setValue = (inputVal & mValueInBitfieldAccess_InspcTargetProxyTelg) >> kBitValueInBitfieldAccess_InspcTargetProxyTelg ;
+      int posBits = (inputVal & mPosBitsInBitfieldAccess_InspcTargetProxy) >> bitPosBitsInBitfieldAccess_InspcTargetProxy ;
+      int nrofBits = (inputVal & mNrofBitsInBitfieldAccess_InspcTargetProxy) >> bitNrofBitsInBitfieldAccess_InspcTargetProxy ;
+      int setValue = (inputVal & mValueInBitfieldAccess_InspcTargetProxy) >> kBitValueInBitfieldAccess_InspcTargetProxy ;
       int offsetByte;
       //NOTE: use 32 bit anytime, because compareAndSet_AtomicInteger is available yet only for 32 bit,
       //and the DSP-Implementation should use 32 bit,
@@ -181,16 +181,27 @@ void step_Target2Proxy_Inspc(Target2Proxy_Inspc* thiz
   , void const* rootData
   , int32 const* reflectionOffset_RootData, int32 const* const* reflectionOffsetArrays
 ) {
-  thiz->lifeCt += 1;
-  setInt32BigEndian(&thiz->target2proxy->lifeCt_ErrorState, (((int32_t)thiz->lifeCt) << 16) | thiz->errorMsg);
-  int32 seqnr = getInt32BigEndian(&thiz->proxy2target->seqnr);
-  if ((int)seqnr != thiz->seqnrLast) {
-    Cmd_InspcTargetProxyTelg_e cmd = (Cmd_InspcTargetProxyTelg_e)(getInt32BigEndian(&thiz->proxy2target->length_cmd) & 0xffff);
-    int32 address = getInt32BigEndian(&thiz->proxy2target->address);
-    int32 value = getInt32BigEndian(&thiz->proxy2target->value);
-    int32 retValue = processInspcCmdOnTarget_Inspc(cmd, address, value, rootData, reflectionOffset_RootData, reflectionOffsetArrays);
+  int seqnr = getSeqnr_TelgProxy2Target_Inspc(thiz->proxy2target);
+  if( seqnr != thiz->seqnrLast ) {  //it is changed, new cmd expected
+    thiz->seqnrLast = seqnr;        //only execute while one time, think on exception handling.
+    STACKTRC_ENTRY("step_Target2Proxy_Inspc");
+    int32 retValue = -1;
+    Cmd_InspcTargetProxy_e cmd = getCmd_TelgProxy2Target_Inspc(thiz->proxy2target);
+    TRY{
+      int32 address = getInt32BigEndian(&thiz->proxy2target->address);
+      int32 value = getInt32BigEndian(&thiz->proxy2target->value);
+      retValue = processInspcCmdOnTarget_Inspc(cmd, address, value, rootData, reflectionOffset_RootData, reflectionOffsetArrays);
+    }_TRY
+    CATCH(Exception, exc) {
+      retValue = -1;
+    }
+    END_TRY
     setInt32BigEndian(&thiz->target2proxy->retValue, retValue);
-    setInt32BigEndian(&thiz->target2proxy->seqnr, seqnr);  //therewith it will be processed.
+    setCmdSeqnr_TelgTarget2Proxy_Inspc(thiz->target2proxy, cmd, seqnr);  //return the same cmd and seqnr as received
+    STACKTRC_LEAVE;
+  }
+  else {
+    setLifeCt_TelgTarget2Proxy_Inspc(thiz->target2proxy, ++thiz->lifeCt);
   }
 
 }

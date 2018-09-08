@@ -56,6 +56,8 @@
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
 
+//#error Exception_emC.h A
+
 #include <emC/ExcThCxtBase_emC.h>
 #include <emC/SimpleC_emC.h>
 
@@ -123,6 +125,7 @@ METHOD_C void printStackTraceFile_ExceptionJc ( ExceptionJc* ythis, struct OS_Ha
 //METHOD_C ExceptionJc* manifest_ExceptionJc ( ExceptionJc* ythis, ExceptionJc* dst, struct StacktraceElementJcARRAY_t* dstStacktrace);
 
 /**This routine is called in the THROW processing, if no TRY-level is found. The user should write this method.*/
+
 extern_C void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s* _thCxt);
 //METHOD_C void uncatchedException ( int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt);
 
@@ -365,6 +368,12 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
  { { /*open to braces because END_TRY has 2 closing braces.*/
 
 
+#ifdef __NoCharSeqJcCapabilities__
+  #define FREE_MSG_END_TRY(MSG)  //left empty
+#else
+#define FREE_MSG_END_TRY(MSG) freeM_MemC(MSG)
+#endif
+
 
 /**Write on end of the whole TRY-CATCH-Block the followed macro:*/
 #define END_TRY \
@@ -375,7 +384,7 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
    _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null; \
    throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, -1, _thCxt); \
   } \
-  freeM_MemC(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
+  FREE_MSG_END_TRY(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
   /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
   _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; \
  } /*close brace from beginning TRY*/

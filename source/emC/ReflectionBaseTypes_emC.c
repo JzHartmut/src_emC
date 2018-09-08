@@ -46,7 +46,7 @@ const ClassJc  reflection__intJc =
   , null  //Methods
   , null  //superclass
   , null  //interfaces
-  , mPrimitiv_Modifier_reflectJc
+  , 4 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -61,7 +61,7 @@ const ClassJc reflection__booleanJc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 1<<kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -75,7 +75,7 @@ const ClassJc reflection__voidJc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 0
 };
 
 
@@ -89,7 +89,7 @@ const ClassJc reflection__floatJc =
   , null  //Methods
   , null  //superclass
   , null  //interfaces
-  , mPrimitiv_Modifier_reflectJc
+  , 4 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -103,7 +103,7 @@ const ClassJc reflection__longJc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 8 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -117,7 +117,7 @@ const ClassJc reflection__byteJc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 1 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -131,7 +131,7 @@ const ClassJc reflection__shortJc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 2 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -145,7 +145,7 @@ const ClassJc reflection__charJc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 1 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -159,7 +159,7 @@ const ClassJc reflection__char16Jc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 2 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -173,7 +173,7 @@ const ClassJc reflection__doubleJc =
 , null  //Methods
 , null  //superclass
 , null  //interfaces
-, mPrimitiv_Modifier_reflectJc
+, 8 << kBitPrimitiv_Modifier_reflectJc
 };
 
 
@@ -186,7 +186,7 @@ const ClassJc  reflection_bitfieldJc =
   , null  //Methods
   , null  //superclass
   , null  //interfaces
-  , mPrimitiv_Modifier_reflectJc
+  , 7 << kBitPrimitiv_Modifier_reflectJc
 };
 
 

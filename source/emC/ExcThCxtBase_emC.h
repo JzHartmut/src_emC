@@ -35,9 +35,10 @@
  ****************************************************************************/
 
 
-#ifndef __ExceptionDefs_emC_h__
-#define __ExceptionDefs_emC_h__
+#ifndef __emC__ExcThCxtBase_emC_h__
+#define __emC__ExcThCxtBase_emC_h__
 
+//#error ExcThCxtBase_emC.h A
 
 #include <emC/String_emC.h>  //StringJc
 
@@ -216,7 +217,7 @@ typedef struct ExceptionJc_t
   */
   StringJc exceptionMsg;  //note: align-8
 
-}ExceptionJc;
+} ExceptionJc;
 
 
 #define CONST_ExceptionJc(IDENT, MSG, VAL) { ident_##IDENT##Jc, VAL, MSG}
@@ -313,5 +314,5 @@ typedef struct Store_LogException_emC_t
 
 
 
-#endif //__ExceptionDefs_emC_h__
+#endif //__emC__ExcThCxtBase_emC_h__
 

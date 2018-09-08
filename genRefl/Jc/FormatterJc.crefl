@@ -42,7 +42,7 @@ const struct Reflection_Fields_FormatterJc_s_t
     , &reflection_StringBuilderJcREF                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FormatterJc_s*)(0x1000))->buffer)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FormatterJc_s
     }
   , 
@@ -51,7 +51,7 @@ const struct Reflection_Fields_FormatterJc_s_t
     , &reflection_LocaleJcREF                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FormatterJc_s*)(0x1000))->locale)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FormatterJc_s
     }
   

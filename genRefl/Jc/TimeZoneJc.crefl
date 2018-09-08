@@ -40,7 +40,7 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeZoneJc_s*)(0x1000))->diffHours)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeZoneJc_s
     }
   , 
@@ -49,7 +49,7 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeZoneJc_s*)(0x1000))->diffMinutes)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeZoneJc_s
     }
   , 
@@ -58,7 +58,7 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , &reflection_StringJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((TimeZoneJc_s*)(0x1000))->name)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeZoneJc_s
     }
   

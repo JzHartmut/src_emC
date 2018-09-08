@@ -58,7 +58,7 @@ const ClassJc reflection_Target2ProxySharedMem_Inspc =
 , null  //method      
 , (ClassOffset_idxMtblJcARRAY*)&superClasses_Target2ProxySharedMem_Inspc  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 , null  //virtual table
 };
 

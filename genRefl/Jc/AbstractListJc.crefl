@@ -37,52 +37,43 @@ const struct SuperClasses_AbstractCollectionJc_ClassOffset_idxMtblJcARRAY_t  //T
 
 const struct Reflection_Fields_AbstractCollectionJc_t
 { ObjectArrayJc head;
-  FieldJc data[5];
+  FieldJc data[4];
 } reflection_Fields_AbstractCollectionJc =
-{ INIZ_ObjectArrayJc(reflection_Fields_AbstractCollectionJc, 5, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_AbstractCollectionJc, 4, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((AbstractCollectionJc*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_AbstractCollectionJc
-    }
-  , 
     { "modCount"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((AbstractCollectionJc*)(0x1000))->modCount)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_AbstractCollectionJc
     }
   , 
     { "nodePool"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((AbstractCollectionJc*)(0x1000))->nodePool)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_AbstractCollectionJc
     }
   , 
     { "refFreeEntryPool"
     , 0   //no Array, no Bitfield                           
-    , &reflection_ListMapEntryJc_t                                                                                            
-    , 0 //bitModifiers
+    , &reflection_ListMapEntryJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((AbstractCollectionJc*)(0x1000))->refFreeEntryPool)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_AbstractCollectionJc
     }
   , 
     { "theFreeEntryPool"
     , 0   //no Array, no Bitfield                           
-    , &reflection_ListMapEntryJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_ListMapEntryJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((AbstractCollectionJc*)(0x1000))->theFreeEntryPool)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_AbstractCollectionJc
     }
   

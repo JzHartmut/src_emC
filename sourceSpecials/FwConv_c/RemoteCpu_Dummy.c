@@ -34,7 +34,7 @@
  * 2010-01-23: Hartmut created, because a remote access was built in in the ReflectionJc.c for a special application.
  *
  ****************************************************************************/
-#include <Jc/ReflMemAccessJc.h>
+#include <Inspc/IfcTargetProxy_Inspc.h>
 
 /**Gets any info from a remoteCPU, which has max. 4 byte return value. 
  * @param cmd the action to do.
@@ -43,7 +43,7 @@
  *        The address is returned sometimes from other calls of this method and it is never changed.
  * @param input some additional parameter depends on cmd.
  */
-int32 getInfo_RemoteCpuJc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address, int32 input)
+int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input)
 {
  return 0;
 }
@@ -51,7 +51,7 @@ int32 getInfo_RemoteCpuJc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddres
 
 
 /**Gets any info from a remoteCPU, which has max. 8 byte return value. */
-int64 getMemInfo8_RemoteCpuJc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address)
+int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int64 input)
 {
 	return 0;
 }	

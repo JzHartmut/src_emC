@@ -40,7 +40,7 @@ const struct Reflection_Fields_FileJc_s_t
     , &reflection_FileDescription_OSAL                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileJc_s*)(0x1000))->fileDescription)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileJc_s
     }
   , 
@@ -49,7 +49,7 @@ const struct Reflection_Fields_FileJc_s_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc)|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileJc_s*)(0x1000))->_additionalBuffer_)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileJc_s
     }
   
@@ -137,9 +137,9 @@ const struct Reflection_Fields_FileOutputStreamJc_s_t
     { "file"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileOutputStreamJc_s*)(0x1000))->file)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileOutputStreamJc_s
     }
   
@@ -191,9 +191,9 @@ const struct Reflection_Fields_FileWriterJc_s_t
     { "file"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileWriterJc_s*)(0x1000))->file)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileWriterJc_s
     }
   
@@ -240,25 +240,16 @@ const struct SuperClasses_FileReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type fo
 
 const struct Reflection_Fields_FileReaderJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[5];
+  FieldJc data[4];
 } reflection_Fields_FileReaderJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_FileReaderJc_s, 5, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_FileReaderJc_s, 4, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_FileReaderJc_s
-    }
-  , 
     { "file_"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->file_)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileReaderJc_s
     }
   , 
@@ -267,7 +258,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->lenFile_)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileReaderJc_s
     }
   , 
@@ -276,7 +267,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->bEof_)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileReaderJc_s
     }
   , 
@@ -285,7 +276,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->modCount_)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileReaderJc_s
     }
   
@@ -336,25 +327,16 @@ const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Typ
 
 const struct Reflection_Fields_BufferedReaderJc_s_t
 { ObjectArrayJc head;
-  FieldJc data[7];
+  FieldJc data[6];
 } reflection_Fields_BufferedReaderJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_BufferedReaderJc_s, 7, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_BufferedReaderJc_s, 6, FieldJc, null, INIZ_ID_FieldJc)
 , {  
-    { "object"
-    , 0   //no Array, no Bitfield                           
-    , &reflection_ObjectJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->object)) -0x1000 )
-    , 0  //offsetToObjectifcBase
-    , &reflection_BufferedReaderJc_s
-    }
-  , 
     { "lenBuffer"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->lenBuffer)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_BufferedReaderJc_s
     }
   , 
@@ -363,7 +345,7 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->lenLine)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_BufferedReaderJc_s
     }
   , 
@@ -372,7 +354,7 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->bFinish)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_BufferedReaderJc_s
     }
   , 
@@ -381,16 +363,16 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , &reflection_MemC                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->buffer)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_BufferedReaderJc_s
     }
   , 
     { "input"
     , 0   //no Array, no Bitfield                           
     , &reflection_FileReaderJc_s                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->input)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_BufferedReaderJc_s
     }
   , 
@@ -399,7 +381,7 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->modCountInput)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_BufferedReaderJc_s
     }
   

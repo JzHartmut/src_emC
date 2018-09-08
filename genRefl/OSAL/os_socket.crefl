@@ -18,7 +18,7 @@ const struct Reflection_Fields_OS_Socket_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((OS_Socket*)(0x1000))->socket)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_Socket
     }
   
@@ -54,7 +54,7 @@ const struct Reflection_Fields_OS_DatagramSocket_t
     , &reflection_OS_Socket                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OS_DatagramSocket*)(0x1000))->socket)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_DatagramSocket
     }
   
@@ -90,7 +90,7 @@ const struct Reflection_Fields_OS_ServerSocket_t
     , &reflection_OS_Socket                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OS_ServerSocket*)(0x1000))->socket)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_ServerSocket
     }
   
@@ -126,7 +126,7 @@ const struct Reflection_Fields_OS_StreamSocket_t
     , &reflection_OS_Socket                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OS_StreamSocket*)(0x1000))->socket)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_StreamSocket
     }
   
@@ -162,7 +162,7 @@ const struct Reflection_Fields_OS_RawSocket_t
     , &reflection_OS_Socket                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OS_RawSocket*)(0x1000))->socket)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_RawSocket
     }
   
@@ -185,8 +185,6 @@ const ClassJc reflection_OS_RawSocket =
 
 
 extern_C const ClassJc reflection_XXXXOS_SOCKADDR_ip_t;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_int32BigEndian;  //used for field s_addr
-
 const struct Reflection_Fields_XXXXOS_SOCKADDR_ip_t_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -195,10 +193,10 @@ const struct Reflection_Fields_XXXXOS_SOCKADDR_ip_t_t
 , {  
     { "s_addr"
     , 0   //no Array, no Bitfield                           
-    , &reflection_int32BigEndian                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((XXXXOS_SOCKADDR*)(0x1000))->sin_addr.s_addr)) - ((intptr_t)(&((XXXXOS_SOCKADDR*)(0x1000))->sin_addr)) )
-    , 0  //offsetToObjectifcBase
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((--outside--*)(0x1000))->sin_addr.s_addr)) - ((intptr_t)(&((--outside--*)(0x1000))->sin_addr)) )
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_XXXXOS_SOCKADDR_ip_t
     }
   
@@ -209,7 +207,7 @@ const ClassJc reflection_XXXXOS_SOCKADDR_ip_t =
 { INIZ_objReflId_ObjectJc(reflection_XXXXOS_SOCKADDR_ip_t, &reflection_ClassJc, INIZ_ID_ClassJc)
 , "XXXXOS_SOCKADDR_ip_t"
 , 0
-, sizeof(((XXXXOS_SOCKADDR*)0x1000)->sin_addr)
+, sizeof(((--outside--*)0x1000)->sin_addr)
 , (FieldJcArray const*)&reflection_Fields_XXXXOS_SOCKADDR_ip_t  //attributes and associations
 , null  //method      
 , null  //superclass  
@@ -232,7 +230,7 @@ const struct Reflection_Fields_XXXXOS_SOCKADDR_t
     , &reflection_XXXXOS_SOCKADDR_ip_t                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((XXXXOS_SOCKADDR*)(0x1000))->sin_addr)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_XXXXOS_SOCKADDR
     }
   , 
@@ -241,7 +239,7 @@ const struct Reflection_Fields_XXXXOS_SOCKADDR_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((XXXXOS_SOCKADDR*)(0x1000))->sin_zero)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_XXXXOS_SOCKADDR
     }
   
@@ -277,7 +275,7 @@ const struct Reflection_Fields_OS_SOCKADDR_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((OS_SOCKADDR*)(0x1000))->address1)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_SOCKADDR
     }
   , 
@@ -286,7 +284,7 @@ const struct Reflection_Fields_OS_SOCKADDR_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((OS_SOCKADDR*)(0x1000))->address2)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_SOCKADDR
     }
   , 
@@ -295,7 +293,7 @@ const struct Reflection_Fields_OS_SOCKADDR_t
     , &reflection_MemUnit                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OS_SOCKADDR*)(0x1000))->internalData)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_OS_SOCKADDR
     }
   

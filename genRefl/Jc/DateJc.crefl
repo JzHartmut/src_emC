@@ -18,7 +18,7 @@ const struct Reflection_Fields_DateValuesJc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((DateValuesJc*)(0x1000))->time_nsec)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_DateValuesJc
     }
   , 
@@ -27,7 +27,7 @@ const struct Reflection_Fields_DateValuesJc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((DateValuesJc*)(0x1000))->time_sec)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_DateValuesJc
     }
   
@@ -83,7 +83,7 @@ const struct Reflection_Fields_DateJc_s_t
     , &reflection_OS_TimeStamp                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((DateJc_s*)(0x1000))->val)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_DateJc_s
     }
   
@@ -139,7 +139,7 @@ const struct Reflection_Fields_SimpleDateFormatJc_s_t
     , &reflection_StringJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SimpleDateFormatJc_s*)(0x1000))->sFormat)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SimpleDateFormatJc_s
     }
   , 
@@ -148,7 +148,7 @@ const struct Reflection_Fields_SimpleDateFormatJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((SimpleDateFormatJc_s*)(0x1000))->timeZoneAdjustHours)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SimpleDateFormatJc_s
     }
   
@@ -202,7 +202,7 @@ const struct Reflection_Fields_TextFieldPositionJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TextFieldPositionJc_s*)(0x1000))->x)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TextFieldPositionJc_s
     }
   

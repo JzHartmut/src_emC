@@ -36,18 +36,18 @@ const struct Reflection_Fields_LocaleJc_s_t
     { "language"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((LocaleJc_s*)(0x1000))->language)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_LocaleJc_s
     }
   , 
     { "country"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((LocaleJc_s*)(0x1000))->country)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_LocaleJc_s
     }
   

@@ -49,25 +49,35 @@ MemC readBinFile_FileSystemJc(FileJc_s* file, MemC buffer)
 {
   int bytes;
   int zFile;
-  OS_HandleFile f1;
+  OS_HandleFile f1 = null;
   STACKTRC_ENTRY("readBinFile_FileSystemJc");
-  if(PTR_MemC(buffer, void) == null){
-    /**create the buffer here, detect the file size: */
-    zFile = length_FileJc(file);
-    buffer = alloc_MemC(zFile);
-  } else {
-    zFile = size_MemC(buffer); 
-  }
-  f1 = os_fopenToRead(file->fileDescription.absPath);
-  if(f1 == null) {
-    set_MemC(buffer, 0, null);
-  }
-  bytes = os_fread(f1, PTR_MemC(buffer, void), zFile);
-  if(bytes <=0) {
-    set_MemC(buffer, 0, null);  //no bytes read or error: return a null-buffer.
-  }
-  STACKTRC_LEAVE; return buffer;
+  TRY {
+    if(PTR_MemC(buffer, void) == null){
+      /**create the buffer here, detect the file size: */
+      zFile = length_FileJc(file);
+      buffer = alloc_MemC(zFile);
+    } else {
+      zFile = size_MemC(buffer); 
+    }
+    f1 = os_fopenToRead(file->fileDescription.absPath);
+    if(f1 == null) {
+      set_MemC(buffer, 0, null);
+    } else {
+      bytes = os_fread(f1, PTR_MemC(buffer, void), zFile);
+      if(bytes <=0) {
+        set_MemC(buffer, 0, null);  //no bytes read or error: return a null-buffer.
+      }
+    }
+  }_TRY
+  //forward any exception
+  //CATCH(Exception, exc) {
 
+  //}
+  FINALLY{
+    if(f1) os_fclose(f1);
+  }
+  END_TRY
+  STACKTRC_RETURN buffer;
 }
 
 

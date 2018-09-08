@@ -3,7 +3,7 @@
 * date first: 2018
 */
 #include "Inspc/SharedMem2Target_Inspc.h"
-#include "Inspc/TelgTargetProxy_Inspc.h"
+#include "Inspc/IfcTargetProxy_Inspc.h"
 #include <emC/String_emC.h>
 #include <string.h>
 
@@ -39,8 +39,8 @@ void ctor_SharedMem2Target_Inspc(SharedMem2Target_Inspc* thiz, char const* nameA
     //initialize.
     thiz->target2proxy = PTRPOS_MemC(thiz->sharedMemMng_target2proxy.addrSize, TelgTarget2Proxy_Inspc_s, 8);
     thiz->proxy2target = PTRPOS_MemC(thiz->sharedMemMng_target2proxy.addrSize, TelgProxy2Target_Inspc_s, pos2);
-    setInt32BigEndian(&thiz->target2proxy->length_cmd, sizeof(TelgTarget2Proxy_Inspc_s) << 16);
-    setInt32BigEndian(&thiz->proxy2target->length_cmd, sizeof(TelgProxy2Target_Inspc_s) << 16);
+    setInt32BigEndian(&thiz->target2proxy->length_seq_cmd, sizeof(TelgTarget2Proxy_Inspc_s) << kBitLength_TelgTarget2Proxy_Inspc);  //initialize
+    setInt32BigEndian(&thiz->proxy2target->length_seq_cmd, sizeof(TelgProxy2Target_Inspc_s) << kBitLength_TelgProxy2Target_Inspc);  //initialize
   }
   else {
     //it is found existent, check the content:
@@ -52,8 +52,8 @@ void ctor_SharedMem2Target_Inspc(SharedMem2Target_Inspc* thiz, char const* nameA
     //check
     thiz->target2proxy = PTRPOS_MemC(thiz->sharedMemMng_target2proxy.addrSize, TelgTarget2Proxy_Inspc_s, 8);
     thiz->proxy2target = PTRPOS_MemC(thiz->sharedMemMng_target2proxy.addrSize, TelgProxy2Target_Inspc_s, pos2);
-    int lengthTelg2Proxy = getInt32BigEndian(&thiz->target2proxy->length_cmd) >> 16;
-    int lengthTelg2Target = getInt32BigEndian(&thiz->proxy2target->length_cmd) >> 16;
+    int lengthTelg2Proxy = getInt32BigEndian(&thiz->target2proxy->length_seq_cmd) >> 16;
+    int lengthTelg2Target = getInt32BigEndian(&thiz->proxy2target->length_seq_cmd) >> 16;
     if (lengthTelg2Proxy != sizeof(TelgTarget2Proxy_Inspc_s)) {
       THROW_s0(IllegalStateException, "Problem with data consistence of TelgTarget2Proxy_Inspc_s. len= %d, expected: %d - exit\n", lengthTelg2Proxy, sizeof(TelgTarget2Proxy_Inspc_s));
       STACKTRC_RETURN;

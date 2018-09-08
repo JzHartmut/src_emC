@@ -18,7 +18,7 @@ const struct Reflection_Fields_U_intfloat_t
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((U_intfloat*)(0x1000))->f)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_U_intfloat
     }
   , 
@@ -27,7 +27,7 @@ const struct Reflection_Fields_U_intfloat_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((U_intfloat*)(0x1000))->i)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_U_intfloat
     }
   
@@ -59,18 +59,18 @@ const struct Reflection_Fields_U_ptr_t
     { "f"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((U_ptr*)(0x1000))->f)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_U_ptr
     }
   , 
     { "i"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((U_ptr*)(0x1000))->i)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_U_ptr
     }
   , 
@@ -79,7 +79,7 @@ const struct Reflection_Fields_U_ptr_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((U_ptr*)(0x1000))->addr)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_U_ptr
     }
   
@@ -113,7 +113,7 @@ const struct Reflection_Fields_Int32Array256_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Int32Array256*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Int32Array256
     }
   
@@ -147,7 +147,7 @@ const struct Reflection_Fields_FloatArray256_t
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FloatArray256*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FloatArray256
     }
   
@@ -181,7 +181,7 @@ const struct Reflection_Fields_FloatArray20_t
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FloatArray20*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_FloatArray20
     }
   

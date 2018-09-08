@@ -30,4 +30,7 @@ void dtor_Proxy2TargetSharedMem_Inspc(Proxy2TargetSharedMem_Inspc*);
 
 
 
+int32 get_Proxy2TargetSharedMem_Inspc(Proxy2TargetSharedMem_Inspc* thiz, Cmd_InspcTargetProxy_e cmd, struct RemoteAddressJc* address, int32 input);
+
+
 #endif //__Inspc__Proxy2TargetSharedMem_Inspc_h__

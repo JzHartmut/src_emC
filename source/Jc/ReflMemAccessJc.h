@@ -49,7 +49,7 @@
 #ifndef __ReflMemAccessJc_h__
 #define __ReflMemAccessJc_h__
 
-
+#include <Inspc/IfcTargetProxy_Inspc.h>
 #include <compl_adaption.h>
 
 /*@CLASS_C MemSegmJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -197,7 +197,7 @@ struct RemoteAddressJc;
 
 //typedef struct RemoteAddressJc_t* RemoteAddressJc;
 
-
+#if 0
 /**This enum defines some contants for commands to access to a remote CPU with one call.
  */
 typedef enum Cmd_RemoteCpuJc_t
@@ -254,7 +254,6 @@ typedef enum Cmd_RemoteCpuJc_t
 }Cmd_RemoteCpuJc_e;
 
 
-
 typedef union XXXBitfieldInfo_RemoteCpuJc_t
 { int32 allBits;
   struct
@@ -271,6 +270,7 @@ typedef union XXXBitfieldInfo_RemoteCpuJc_t
 #define kBitValueInBitfieldAccess_RemoteCpuJc 16
 #define mValueInBitfieldAccess_RemoteCpuJc 0xffff0000
 
+#endif
 
 
 /**Gets any info from a remoteCPU, which has max. 4 byte return value. 
@@ -282,19 +282,19 @@ typedef union XXXBitfieldInfo_RemoteCpuJc_t
  *        The address is returned sometimes from other calls of this method and it is never changed.
  * @param input some additional parameter depends on cmd.
  */
-METHOD_C int32 getInfo_RemoteCpuJc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address, int32 input);
+//METHOD_C int32 accessTarget_Inspc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address, int32 input);
 
 
 /**This is the internal called method. Some debug informations are captured too. 
  */
-METHOD_C int32 getInfoDebug_RemoteCpuJc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address, int32 input);
+METHOD_C int32 getInfoDebug_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input);
 
 
 
 
 
 /**Gets any info from a remoteCPU, which has max. 8 byte return value. */
-METHOD_C int64 getMemInfo8_RemoteCpuJc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address);
+METHOD_C int64 getInfoDebug64_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address);
 
 
 //METHOD_C void writeRemoteAccessDebug_MemAccessJc(int32 cmd, void* address, int32 input, int32 output);

@@ -18,7 +18,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_text_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.specifier)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_text
     }
   , 
@@ -27,7 +27,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_text_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.dummy)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_text
     }
   , 
@@ -36,16 +36,16 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_text_t
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.nrofChars)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_text
     }
   , 
     { "text"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text.text)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_text
     }
   
@@ -79,7 +79,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_value_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.specifier)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_value
     }
   , 
@@ -88,7 +88,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_value_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.argument)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_value
     }
   , 
@@ -97,7 +97,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_value_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.width)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_value
     }
   , 
@@ -106,7 +106,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_value_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.precision)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_value
     }
   , 
@@ -115,7 +115,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_value_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.indexArg)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_value
     }
   , 
@@ -124,7 +124,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_value_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value.timeSpecifier)) - ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value)) )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter_value
     }
   
@@ -158,7 +158,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_t
     , &reflection_ParseResultPrintfStyle_fwFormatter_text                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->text)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter
     }
   , 
@@ -167,7 +167,7 @@ const struct Reflection_Fields_ParseResultPrintfStyle_fwFormatter_t
     , &reflection_ParseResultPrintfStyle_fwFormatter_value                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ParseResultPrintfStyle_fwFormatter*)(0x1000))->value)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ParseResultPrintfStyle_fwFormatter
     }
   

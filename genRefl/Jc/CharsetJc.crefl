@@ -20,7 +20,7 @@ const struct Reflection_Fields_CharsetJc_t
     , &reflection_StringJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((CharsetJc*)(0x1000))->name)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_CharsetJc
     }
   

@@ -63,11 +63,11 @@ MemAccessArrayDebugJc memAccessDebugJc = {0};
 
 
 
-int32 getInfoDebug_RemoteCpuJc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address, int32 input)
+int32 getInfoDebug_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input)
 {
   int32 value;
   addRequest_MemAccessArrayDebugJc(&memAccessDebugJc, cmd, address, input);
-	value = getInfo_RemoteCpuJc(cmd, device, address, input);
+	value = accessTarget_Inspc(cmd, device, address, input);
 	setOutput_MemAccessArrayDebugJc(&memAccessDebugJc, value);
 	return value;
 }
@@ -89,16 +89,16 @@ int setValue_MemAccessJc(MemSegmJc addr, void const* pValue, int nrofBytes)
       memcpy(&value, pValue, nrofBytes); //re-read
     }
     else {
-      Cmd_RemoteCpuJc_e cmd;
+      Cmd_InspcTargetProxy_e cmd;
       switch(nrofBytes){ 
-        case 1: cmd = setByte_RemoteCpuJc; break;
-        case 2: cmd = setInt16_RemoteCpuJc; break;
-        case 4: cmd = setInt32_RemoteCpuJc; break;
-        default: cmd= setInt32_RemoteCpuJc;
+        case 1: cmd = setByte_InspcTargetProxy; break;
+        case 2: cmd = setInt16_InspcTargetProxy; break;
+        case 4: cmd = setInt32_InspcTargetProxy; break;
+        default: cmd= setInt32_InspcTargetProxy;
       }
       //get 32 bit, but store only requested bytes.
 		  { struct RemoteAddressJc* addr = (struct RemoteAddressJc*)dst;
-			  value = getInfoDebug_RemoteCpuJc(cmd, memSegment, addr, *(int32*)pValue);
+			  value = getInfoDebug_InspcTargetProxy(cmd, memSegment, addr, *(int32*)pValue);
       }
 	  }
   } else {
@@ -120,7 +120,7 @@ float setFloat_MemAccessJc(MemSegmJc addr, float value)
       value = *dstAddr;  //re-read the value because it don't may be writeable.
     }
     else {
-      int floatImg = getInfoDebug_RemoteCpuJc(setFloat_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)dstAddr, *(int*)&value);
+      int floatImg = getInfoDebug_InspcTargetProxy(setFloat_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)dstAddr, *(int*)&value);
       value = *(float*)&floatImg;
     }
   } else {
@@ -142,7 +142,7 @@ double setDouble_MemAccessJc(MemSegmJc addr, double value)
     else {
       //DSP: double is float!
       float valueDsp = (float)value;
-      int floatImg = getInfoDebug_RemoteCpuJc(setFloat_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)dstAddr, *(int*)&valueDsp);
+      int floatImg = getInfoDebug_InspcTargetProxy(setFloat_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)dstAddr, *(int*)&valueDsp);
       value = *(float*)&floatImg;
     }
   } else {
@@ -162,7 +162,7 @@ int32 getInt32_MemAccessJc(MemSegmJc addr)
     else return -1;
   }
   else {
-    int32 value = getInfoDebug_RemoteCpuJc(getInt32_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
+    int32 value = getInfoDebug_InspcTargetProxy(getInt32_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, 0);
     return value;
   }
 }
@@ -176,7 +176,7 @@ int16 getInt16_MemAccessJc(MemSegmJc addr)
     else return -1;
   }
   else {
-    int16 value = (int16)getInfoDebug_RemoteCpuJc(getInt16_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
+    int16 value = (int16)getInfoDebug_InspcTargetProxy(getInt16_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, 0);
     return value;
   }
 }
@@ -190,7 +190,7 @@ int8 getByte_MemAccessJc(MemSegmJc addr)
     else return -1;
   }
   else {
-    int8 value = (int8)getInfoDebug_RemoteCpuJc(getByte_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
+    int8 value = (int8)getInfoDebug_InspcTargetProxy(getByte_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, 0);
     return value;
   }
 }
@@ -203,7 +203,7 @@ int32 getValue32Ix_MemAccessJc(MemSegmJc addr, int ix)
     return src !=null ? src[ix] :-1;
   }
   else {
-    int32 value = getInfoDebug_RemoteCpuJc(getInt32_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, ix);
+    int32 value = getInfoDebug_InspcTargetProxy(getInt32_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, ix);
     return value;
   }
 
@@ -260,10 +260,10 @@ int16 getBitfield_MemAccessJc(MemSegmJc addr, int posBit, int nrofBit)
 		//NOTE: don't correct the addr because it is unknown whether the 2CPU has byte or int32-addressing!
     //NOTE: the maximal length of an bitfield is limited to 16.
 		//NOTE don't use a bitfield to assemble this informations, because the assignment of the bits is platform-depending.
-    int32 info = (posBit  << bitPosBitsInBitfieldAccess_RemoteCpuJc ) & mPosBitsInBitfieldAccess_RemoteCpuJc
-			         | (nrofBit << bitNrofBitsInBitfieldAccess_RemoteCpuJc) & mNrofBitsInBitfieldAccess_RemoteCpuJc
+    int32 info = (posBit  << bitPosBitsInBitfieldAccess_InspcTargetProxy ) & mPosBitsInBitfieldAccess_InspcTargetProxy
+			         | (nrofBit << bitNrofBitsInBitfieldAccess_InspcTargetProxy) & mNrofBitsInBitfieldAccess_InspcTargetProxy
 		           ;
-    val = getInfoDebug_RemoteCpuJc(getBitfield_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)addr1, info);
+    val = getInfoDebug_InspcTargetProxy(getBitfield_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)addr1, info);
   }
   STACKTRC_LEAVE; return (int16)val;  //The bits of the bitfield are arranged and mask in the bits 15..0
 }
@@ -345,11 +345,11 @@ int setBitfield_MemAccessJc(MemSegmJc addr, int setVal, int posBit, int nrofBit 
   else { //memSegment !=0
 		//NOTE: the maximal length of an bitfield is limited to 16.
 		//NOTE don't use a bitfield to assemble this informations, because the assignment of the bits is platform-depending.
-    int32 info = (posBit  << bitPosBitsInBitfieldAccess_RemoteCpuJc ) & mPosBitsInBitfieldAccess_RemoteCpuJc
-			         | (nrofBit << bitNrofBitsInBitfieldAccess_RemoteCpuJc) & mNrofBitsInBitfieldAccess_RemoteCpuJc
-               | (setVal << kBitValueInBitfieldAccess_RemoteCpuJc) & mValueInBitfieldAccess_RemoteCpuJc
+    int32 info = (posBit  << bitPosBitsInBitfieldAccess_InspcTargetProxy ) & mPosBitsInBitfieldAccess_InspcTargetProxy
+			         | (nrofBit << bitNrofBitsInBitfieldAccess_InspcTargetProxy) & mNrofBitsInBitfieldAccess_InspcTargetProxy
+               | (setVal << kBitValueInBitfieldAccess_InspcTargetProxy) & mValueInBitfieldAccess_InspcTargetProxy
 							 ;
-    val1 = getInfoDebug_RemoteCpuJc(setBitfield_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)addr1, info);
+    val1 = getInfoDebug_InspcTargetProxy(setBitfield_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)addr1, info);
   }
   return (int)val1;
 }
@@ -370,7 +370,7 @@ float getFloat_MemAccessJc(MemSegmJc addr)
     else return 0.0f;
   }
   else {
-    int32 floatImg = getInfoDebug_RemoteCpuJc(getFloat_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
+    int32 floatImg = getInfoDebug_InspcTargetProxy(getFloat_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, 0);
     float value = *(float*)&floatImg;
     return value;
   }
@@ -385,7 +385,7 @@ double getDouble_MemAccessJc(MemSegmJc addr)
   }
   else {
     //The dsp uses double as float.
-    int32 floatImg = getInfoDebug_RemoteCpuJc(getFloat_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
+    int32 floatImg = getInfoDebug_InspcTargetProxy(getFloat_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, 0);
     float value = *(float*)&floatImg;
     return value;  //cast to double
   }
@@ -416,7 +416,7 @@ MemSegmJc getRef_MemAccessJc(MemSegmJc addr)
     return ret;
   }
   else {
-    int addr = getInfoDebug_RemoteCpuJc(getRef_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
+    int addr = getInfoDebug_InspcTargetProxy(getRef_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, 0);
     MemSegmJc ret = CONST_MemSegmJc(addr, memSegment);
     return ret;
   }
@@ -435,7 +435,7 @@ MemSegmJc getEnhancedRef_MemAccessJc(MemSegmJc addr)
       return ret;
     }
     else {
-      int addr = 0; //TODO getInfoDebug_RemoteCpuJc(getEnhancedRef_RemoteCpuJc, memSegment, (struct RemoteAddressJc*)src, 0);
+      int addr = 0; //TODO getInfoDebug_InspcTargetProxy(getEnhancedRef_InspcTargetProxy, memSegment, (struct RemoteAddressJc*)src, 0);
       MemSegmJc ret = CONST_MemSegmJc(addr, memSegment);
       return ret;
     }
@@ -456,7 +456,7 @@ int getRealLengthStaticArray_MemAccessJc(MemSegmJc instance, int length)
     }
   }
   else {
-    length = getInfoDebug_RemoteCpuJc(getRealLengthStaticArray_RemoteCpuJc, memSegment, ADDR_MemSegmJc(instance, struct RemoteAddressJc), length);
+    length = getInfoDebug_InspcTargetProxy(getRealLengthStaticArray_InspcTargetProxy, memSegment, ADDR_MemSegmJc(instance, struct RemoteAddressJc), length);
   }
   return length;
 
@@ -465,7 +465,7 @@ int getRealLengthStaticArray_MemAccessJc(MemSegmJc instance, int length)
 
 
 void xxxwriteRemoteAccessDebug_MemAccessJc(int32 cmd, void* address, int32 input, int32 output){
-  if(cmd == getRootInstance_RemoteCpuJc){
+  if(cmd == getRootInstance_InspcTargetProxy){
     memAccessDebugJc.ix = 0;
   } else {
     memAccessDebugJc.ix +=1;
@@ -492,7 +492,7 @@ void addRequest_MemAccessArrayDebugJc(MemAccessArrayDebugJc* ythis, int32 cmd, s
 	if(ix < 0 || ix >= ARRAYLEN(ythis->item)){
 		ix = ARRAYLEN(ythis->item) -1;   //write at last in the last cell in any case, only if to much accesses. 
 	}
-  if(cmd == getRootInstance_RemoteCpuJc){
+  if(cmd == getRootInstance_InspcTargetProxy){
 		ix = 0;   //start with 0 with the whole newly access.
 		ythis->ix = ix;
 	}

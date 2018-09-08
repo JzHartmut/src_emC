@@ -58,7 +58,7 @@ const struct Reflection_Fields_RunnableJc_Y_t
     , &reflection_ObjectArrayJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((RunnableJc_Y*)(0x1000))->head)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_RunnableJc_Y
     }
   , 
@@ -67,7 +67,7 @@ const struct Reflection_Fields_RunnableJc_Y_t
     , &reflection_RunnableJc_s                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((RunnableJc_Y*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_RunnableJc_Y
     }
   
@@ -123,9 +123,9 @@ const struct Reflection_Fields_ThreadJc_s_t
     { "hThread"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->hThread)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s
     }
   , 
@@ -134,7 +134,7 @@ const struct Reflection_Fields_ThreadJc_s_t
     , &reflection_StringJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->name)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s
     }
   , 
@@ -143,7 +143,7 @@ const struct Reflection_Fields_ThreadJc_s_t
     , &reflection_RunnableJcREF                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->target)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s
     }
   , 
@@ -152,7 +152,7 @@ const struct Reflection_Fields_ThreadJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->stackSize)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s
     }
   , 
@@ -161,7 +161,7 @@ const struct Reflection_Fields_ThreadJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->state)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s
     }
   , 
@@ -170,16 +170,16 @@ const struct Reflection_Fields_ThreadJc_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->nPriority)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s
     }
   , 
     { "sCalledName"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->sCalledName)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s
     }
   
@@ -217,7 +217,7 @@ const struct Reflection_Fields_ThreadJc_s_Y_t
     , &reflection_ObjectArrayJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s_Y*)(0x1000))->head)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s_Y
     }
   , 
@@ -226,7 +226,7 @@ const struct Reflection_Fields_ThreadJc_s_Y_t
     , &reflection_ThreadJc_s                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ThreadJc_s_Y*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ThreadJc_s_Y
     }
   

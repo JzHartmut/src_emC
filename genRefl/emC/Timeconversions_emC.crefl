@@ -18,7 +18,7 @@ const struct Reflection_Fields_TimeBytes_emC_t
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeBytes_emC*)(0x1000))->year)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeBytes_emC
     }
   , 
@@ -27,7 +27,7 @@ const struct Reflection_Fields_TimeBytes_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeBytes_emC*)(0x1000))->month)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeBytes_emC
     }
   , 
@@ -36,7 +36,7 @@ const struct Reflection_Fields_TimeBytes_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeBytes_emC*)(0x1000))->day)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeBytes_emC
     }
   , 
@@ -45,7 +45,7 @@ const struct Reflection_Fields_TimeBytes_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeBytes_emC*)(0x1000))->hour)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeBytes_emC
     }
   , 
@@ -54,7 +54,7 @@ const struct Reflection_Fields_TimeBytes_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeBytes_emC*)(0x1000))->minute)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeBytes_emC
     }
   , 
@@ -63,7 +63,7 @@ const struct Reflection_Fields_TimeBytes_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeBytes_emC*)(0x1000))->sec)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeBytes_emC
     }
   , 
@@ -72,7 +72,7 @@ const struct Reflection_Fields_TimeBytes_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeBytes_emC*)(0x1000))->weekInYear)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_TimeBytes_emC
     }
   

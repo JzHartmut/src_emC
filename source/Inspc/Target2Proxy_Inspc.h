@@ -1,6 +1,6 @@
 #ifndef __Inspc__Target2Proxy_Inspc_h__
 #define __Inspc__Target2Proxy_Inspc_h__
-#include "Inspc/TelgTargetProxy_Inspc.h"
+#include "Inspc/IfcTargetProxy_Inspc.h"
 
 
 typedef struct Target2Proxy_Inspc_t

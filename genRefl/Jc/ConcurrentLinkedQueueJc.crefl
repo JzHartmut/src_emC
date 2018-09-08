@@ -19,18 +19,18 @@ const struct Reflection_Fields_Node_ConcurrentLinkedQueueJc_t
     { "item"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc)|mReference_Modifier_reflectJc //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Node_ConcurrentLinkedQueueJc*)(0x1000))->item)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Node_ConcurrentLinkedQueueJc
     }
   , 
     { "next"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Node_ConcurrentLinkedQueueJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_Node_ConcurrentLinkedQueueJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Node_ConcurrentLinkedQueueJc*)(0x1000))->next)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Node_ConcurrentLinkedQueueJc
     }
   
@@ -93,37 +93,37 @@ const struct Reflection_Fields_ConcurrentLinkedQueueJc_s_t
 , {  
     { "head"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Node_ConcurrentLinkedQueueJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_Node_ConcurrentLinkedQueueJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ConcurrentLinkedQueueJc_s*)(0x1000))->head)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ConcurrentLinkedQueueJc_s
     }
   , 
     { "tail"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Node_ConcurrentLinkedQueueJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_Node_ConcurrentLinkedQueueJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ConcurrentLinkedQueueJc_s*)(0x1000))->tail)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ConcurrentLinkedQueueJc_s
     }
   , 
     { "refFreeNodePool"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Node_ConcurrentLinkedQueueJc_t                                                                                            
-    , 0 //bitModifiers
+    , &reflection_Node_ConcurrentLinkedQueueJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ConcurrentLinkedQueueJc_s*)(0x1000))->refFreeNodePool)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ConcurrentLinkedQueueJc_s
     }
   , 
     { "theFreeNodePool"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Node_ConcurrentLinkedQueueJc_t                                                                                            
-    , 0|mReference_Modifier_reflectJc //bitModifiers
+    , &reflection_Node_ConcurrentLinkedQueueJc                                                                                            
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ConcurrentLinkedQueueJc_s*)(0x1000))->theFreeNodePool)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ConcurrentLinkedQueueJc_s
     }
   

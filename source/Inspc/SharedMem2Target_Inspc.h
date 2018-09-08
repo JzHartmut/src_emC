@@ -2,7 +2,7 @@
 #define __Inspc__SharedMem2Target_Inspc_h__
 #include <applstdef_emC.h>
 #include <OSAL/os_sharedmem.h>
-#include <Inspc/TelgTargetProxy_Inspc.h>
+#include <Inspc/IfcTargetProxy_Inspc.h>
 
 /**Organization struct for sharedMem from Proxy 2 Target and vice versa.
  */

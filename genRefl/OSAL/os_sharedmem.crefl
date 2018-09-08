@@ -20,16 +20,16 @@ const struct Reflection_Fields_SharedMem_OSAL_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SharedMem_OSAL*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SharedMem_OSAL
     }
   , 
     { "error"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SharedMem_OSAL*)(0x1000))->error)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SharedMem_OSAL
     }
   , 
@@ -38,7 +38,7 @@ const struct Reflection_Fields_SharedMem_OSAL_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((SharedMem_OSAL*)(0x1000))->nError)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SharedMem_OSAL
     }
   , 
@@ -47,16 +47,16 @@ const struct Reflection_Fields_SharedMem_OSAL_t
     , &reflection_MemC                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SharedMem_OSAL*)(0x1000))->addrSize)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SharedMem_OSAL
     }
   , 
     { "name"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SharedMem_OSAL*)(0x1000))->name)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SharedMem_OSAL
     }
   

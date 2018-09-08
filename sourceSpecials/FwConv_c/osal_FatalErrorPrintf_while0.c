@@ -39,11 +39,11 @@
  * 2006-05-00: www.vishia.de creation
  *
  ****************************************************************************/
+#include <applstdef_emC.h>
 
 #include <os_error.h>
 #include <os_time.h>
 #include <stdio.h>
-
 
 
 /**Stops the execution of the executable respectively the whole application because no error handling is possible.
@@ -81,5 +81,11 @@ void os_FatalError(int errorCode, const char* description, int value1, int value
   
 }
 
+
+void uncatched_ExceptionJc(ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
+{
+  printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
+  os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
+}
 
 

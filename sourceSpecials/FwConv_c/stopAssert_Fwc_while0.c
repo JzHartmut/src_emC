@@ -28,7 +28,7 @@ bool stop_AssertJc(void){
   //*ptr =0;
 }
 
-void uncatched_ExceptionJc(ExceptionJc* ythis, StacktraceThreadContext_emC_s* _thCxt)
+void uncatched_ExceptionJc(ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
 {
   printf("uncatchedException: %8.8X - thread stopped", (uint)ythis->exceptionNr);
   os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);

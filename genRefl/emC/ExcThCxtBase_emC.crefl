@@ -20,7 +20,7 @@ const struct Reflection_Fields_ExceptionJc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ExceptionJc*)(0x1000))->exceptionNr)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ExceptionJc
     }
   , 
@@ -29,7 +29,7 @@ const struct Reflection_Fields_ExceptionJc_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((ExceptionJc*)(0x1000))->exceptionValue)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ExceptionJc
     }
   , 
@@ -38,7 +38,7 @@ const struct Reflection_Fields_ExceptionJc_t
     , &reflection_StringJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ExceptionJc*)(0x1000))->exceptionMsg)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_ExceptionJc
     }
   
@@ -74,16 +74,16 @@ const struct Reflection_Fields_Entry_LogException_emC_t
     , &reflection_ExceptionJc                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Entry_LogException_emC*)(0x1000))->exc)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_LogException_emC
     }
   , 
     { "file"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Entry_LogException_emC*)(0x1000))->file)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_LogException_emC
     }
   , 
@@ -92,7 +92,7 @@ const struct Reflection_Fields_Entry_LogException_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Entry_LogException_emC*)(0x1000))->line)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_LogException_emC
     }
   , 
@@ -101,7 +101,7 @@ const struct Reflection_Fields_Entry_LogException_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Entry_LogException_emC*)(0x1000))->msg)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_LogException_emC
     }
   
@@ -135,9 +135,9 @@ const struct Reflection_Fields_Store_LogException_emC_t
     { "identString"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Store_LogException_emC*)(0x1000))->identString)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Store_LogException_emC
     }
   , 
@@ -146,7 +146,7 @@ const struct Reflection_Fields_Store_LogException_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Store_LogException_emC*)(0x1000))->zEntries)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Store_LogException_emC
     }
   , 
@@ -155,7 +155,7 @@ const struct Reflection_Fields_Store_LogException_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Store_LogException_emC*)(0x1000))->ixEntry)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Store_LogException_emC
     }
   , 
@@ -164,7 +164,7 @@ const struct Reflection_Fields_Store_LogException_emC_t
     , &reflection_Entry_LogException_emC                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Store_LogException_emC*)(0x1000))->entries)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_Store_LogException_emC
     }
   

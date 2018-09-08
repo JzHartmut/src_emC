@@ -18,7 +18,7 @@ const struct Reflection_Fields_SimTime_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((SimTime_emC*)(0x1000))->timeShort)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SimTime_emC
     }
   , 
@@ -27,7 +27,7 @@ const struct Reflection_Fields_SimTime_emC_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((SimTime_emC*)(0x1000))->spare1_8aligned)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SimTime_emC
     }
   , 
@@ -36,7 +36,7 @@ const struct Reflection_Fields_SimTime_emC_t
     , REFLECTION_double                                                                                            
     , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((SimTime_emC*)(0x1000))->timeSim)) -0x1000 )
-    , 0  //offsetToObjectifcBase
+    , 0  //offsetToObjectifcBase                                                            
     , &reflection_SimTime_emC
     }
   
