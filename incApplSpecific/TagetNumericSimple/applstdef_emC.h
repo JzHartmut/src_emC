@@ -29,20 +29,20 @@
 //#define __cplusplus
 
 /**Including this file the ObjectJc.h is not included, */
-#include <incApplSpecific/applConv/ObjectJc_simple.h>
+#include <sourceApplSpecific/applConv/ObjectJc_simple.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 #define __NoCharSeqJcCapabilities__
 #define __NoStringJcCapabilities__
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
-#include <incApplSpecific/applConv/EnhanceRef_simple.h>
-//#include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
+#include <sourceApplSpecific/applConv/EnhanceRef_simple.h>
+//#include <sourceApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
 
-//#include <incApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
-//#include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-#include <incApplSpecific/applConv/assert_THROW.h>  //Note: after os_types_def_common because extern_C
+//#include <sourceApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+//#include <sourceApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+#include <sourceApplSpecific/applConv/assert_THROW.h>  //Note: after os_types_def_common because extern_C
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
@@ -63,8 +63,8 @@
 
 //#include <emC/ThreadContext_emC.h>
 //
-//#include <incApplSpecific/applConv/ExcStacktrcNo_emC.h>
-#include <incApplSpecific/applConv/ExcNoStringStacktrcNo_emC.h>
+//#include <sourceApplSpecific/applConv/ExcStacktrcNo_emC.h>
+#include <sourceApplSpecific/applConv/ExcNoStringStacktrcNo_emC.h>
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
@@ -83,8 +83,8 @@
 
 
 //PRINTX
-#include <incApplSpecific/applConv/definePrintFileMakros.h>
-//#include <incApplSpecific/applConv/definePrintfMakros.h>
+#include <sourceApplSpecific/applConv/definePrintFileMakros.h>
+//#include <sourceApplSpecific/applConv/definePrintfMakros.h>
 
 
 extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);

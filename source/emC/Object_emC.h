@@ -706,16 +706,18 @@ METHOD_C typedef StringJc MT_toString_ObjectJc(ObjectJc* ythis, struct ThreadCon
   * This struct of method pointer determines the order of virtual methods of ObjectJc for all implementation classes.
   * @refl: no.
   */
-typedef struct Mtbl_ObjectJc_t
-{ MtblHeadJc head;
+typedef struct Vtbl_ObjectJc_t
+{ VtblHeadJc head;
   /**Methods of ObjectJc. */
   MT_clone_ObjectJc*    clone;
   MT_equals_ObjectJc*   equals;
   MT_finalize_ObjectJc* finalize;
   MT_hashCode_ObjectJc* hashCode;
   MT_toString_ObjectJc* toString;
-} Mtbl_ObjectJc;
+} Vtbl_ObjectJc;
 
+
+#define Mtbl_ObjectJc Vtbl_ObjectJc
 
 
 
@@ -1032,7 +1034,7 @@ C_TYPE typedef struct  ClassJc_t
   /**Pointer to jump table for dynamic calls (virtual methods).
    * This is a typed struct, starting with Mtbl_ObjectJc.
    */
-  MtblHeadJc const* mtbl;
+  VtblHeadJc const* mtbl;
   //Method_int_Object* mtbl;
 
 }ClassJc;

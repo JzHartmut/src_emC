@@ -19,14 +19,14 @@
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
 
-#include <incApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-//#include <incApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+#include <sourceApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+//#include <sourceApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
 
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 //Note: Include before fw_String.h because it is used there.
-#include <incApplSpecific/applConv/EnhanceRef_simple.h>
-//#include <incApplSpecific/applConv/EnhanceRef_Blockheap.h>
+#include <sourceApplSpecific/applConv/EnhanceRef_simple.h>
+//#include <sourceApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
@@ -49,7 +49,7 @@
   */
 //#define __TRYCPPJc
 
-#include <appl_emC/ThreadContextStacktrc_emC.h>
+#include <sourceApplSpecific/applConv/ThreadContextStacktrc_emC.h>
 #include <sourceApplSpecific/applConv/Exception_emC.h>
 //#include <emC/ExcStacktrcNo.h>
 
@@ -71,8 +71,8 @@
 
 
 //PRINTX
-#include <incApplSpecific/applConv/definePrintFileMakros.h>
-//#include <incApplSpecific/applConv/definePrintfMakros.h>
+#include <sourceApplSpecific/applConv/definePrintFileMakros.h>
+//#include <sourceApplSpecific/applConv/definePrintfMakros.h>
 
 
 extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);

@@ -3,6 +3,8 @@
 #include <OSAL/os_time.h>
 //Stop with memory exception.
 
+#error do not use furthermore
+
 
 void stopAssert_emC(void){
   int* ptr = 0;

@@ -27,7 +27,7 @@
 **copyright***************************************************************************************
 *
 * @content This file should be used for simple target without exception handling
-* if <incApplSpecific/applConv/ExcStacktrcNo_emC.h> is included.
+* if <sourceApplSpecific/applConv/ExcStacktrcNo_emC.h> is included.
 * It contains a simple mechanism to store thrown errors.
 * @author Hartmut Schorrig
 *
@@ -59,9 +59,11 @@ void log_ExceptionJc(ExceptionJc* exc, char const* sourceFile, int sourceline)
     //normal:
     Entry_LogException_emC* e = &exceptionStore.head.entries[ix];
     //copy the text in any case.
+    #ifndef __NoStringJcCapabilities__
     copyToBuffer_StringJc(exc->exceptionMsg, 0, -1, e->msg, sizeof(e->msg));
-    e->exc = *exc;  //copy of content.
     e->exc.exceptionMsg = zMax_StringJc(e->msg, sizeof(e->msg)); //set the String in the exception to the own copied buffer.
+    #endif
+    e->exc = *exc;  //copy of content.
     e->file = sourceFile;
     e->line = sourceline;
   }

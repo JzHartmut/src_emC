@@ -83,7 +83,7 @@
 #pragma warning(error:4003) //not enough actual parameters for macro
 #pragma warning(error:4020) //too many actual parameters
 
-
+#pragma warning(disable:4996) //deprecated getenv etc. in MSC15
 
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.

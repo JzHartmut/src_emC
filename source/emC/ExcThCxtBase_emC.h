@@ -237,7 +237,7 @@ typedef struct ExceptionJc_t
 
 
 /**Prototype of a logging routine for exceptions.
- * A template implementation is in .../emc/source/appl_emC/LogException_emC.c. 
+ * A template implementation is in .../emc/source/sourceApplSpecific/applConv/LogException_emC.c. 
  * The string inside exc can be refer in the current stack area. It is copied in a static buffer
  * inside this routine (the implementation should do so!). 
  */
@@ -257,8 +257,8 @@ extern_C void log_ExceptionJc(ExceptionJc* exc, char const* sFile, int line);
 /**Gets the threadContext in the current state. 
  * A ThreadContext at least in minimalistic form should be existent in any application. 
  * It should hold an thread safe exception number for exception handling (adequate errno of C-Standard, but threadsafe). 
- * For implementations in an simple main / interrupt system see .../emc/source/appl_emC/ThreadContextInterrTpl.c
- * For implementation in multithreading environment with OSAL/os_thread.h capabilities see .../emc/source/appl_emC/ThreadContextInterrTpl.c
+ * For implementations in an simple main / interrupt system see .../emc/source/sourceApplSpecific/applConv/ThreadContextInterrTpl.c
+ * For implementation in multithreading environment with OSAL/os_thread.h capabilities see .../emc/source/sourceApplSpecific/applConv/ThreadContextInterrTpl.c
  */
 struct ThreadContext_emC_t* getCurrent_ThreadContext_emC();
 
@@ -296,7 +296,7 @@ typedef struct Entry_LogException_emC_emC_t
 } Entry_LogException_emC;
 
 
-/**This struct can be used and is used in .../emc/source/appl_emC/LogException_emC.c
+/**This struct can be used and is used in .../emc/source/sourceApplSpecific/applConv/LogException_emC.c
  * as structure to store / log the data of an exception for debugging in runtime and view thrown exception in the memory.
  * It has space for two entries only. To enhance the space, use a combined struct see implementation in LogException_emC.c
  */

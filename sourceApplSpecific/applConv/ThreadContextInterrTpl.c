@@ -1,6 +1,6 @@
-#include <incApplSpecific/applConv/ExcStacktrcNo_emC.h>
-#include <OSAL/os_thread.h>
-
+//#include <sourceApplSpecific/applConv/ExcStacktrcNo_emC.h>
+//#include <OSAL/os_thread.h>
+#include <applstdef_emC.h>
 
 //Note: This source should only used on Windows if threads are not used (not using os_threa.c) 
 //It is a template for organization of a ThreadContext of a simple CPU without Operation system, with hardware interrupts.
@@ -42,6 +42,6 @@ ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 
 
 
-bool stop_AssertJc( ){
+bool XXXstop_AssertJc( ){
   return false;
 }

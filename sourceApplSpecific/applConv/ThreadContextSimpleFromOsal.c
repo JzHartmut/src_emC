@@ -1,4 +1,4 @@
-#include <incApplSpecific/applConv/ExcStacktrcNo_emC.h>
+#include <sourceApplSpecific/applConv/ExcStacktrcNo_emC.h>
 #include <OSAL/os_thread.h>
 #
 

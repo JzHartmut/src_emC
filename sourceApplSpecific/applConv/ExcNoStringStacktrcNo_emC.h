@@ -27,6 +27,12 @@
  **copyright***************************************************************************************
  *
  * @content definition of user interface for exception handling
+ * This file should be only included by <applstdef_emC.h> for the case that exception handling 
+ * with throw (C++) or longjmp should not be used. 
+ * Instead, THROW writes in only one exeception object in Stacktrace
+ * and the CATCH block is used as alternate code but in normal return functionality.
+ * The processing a subroutine is not interrupted by a THROW, only the Exception information is written.
+ * 
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
@@ -43,15 +49,19 @@
 #endif
 
 
-#include <emC/ExcThCxtBase_emC.h>  //the constants for exception should be known.
 
 #ifndef __fw_ExcStacktrcNo_h__
 #define __fw_ExcStacktrcNo_h__
+
+
 #define __fw_Exception_h__       //prevent including
 //#define __fw_ThreadContext_h__   //prevent including
 
 //#define __NOT_SUPPORTED_ThreadContext_emC__
 #define __NOT_SUPPORTED_ExceptionJc__
+
+#include <emC/ExcThCxtBase_emC.h>  //the constants for exception should be known.
+
 
 #ifndef __StringJc_defined__
   //minimalistic definition of StringJc to use this type before including emC/StringJc
