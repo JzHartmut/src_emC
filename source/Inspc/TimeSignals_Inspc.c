@@ -66,7 +66,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, char const fil
   //now constructs.  
   memset(thiz->nrElements, 1, sizeof(thiz->nrElements));
   thiz->bitsComplexY = 0;
-  strcpy_emC(thiz->clazz.name, "TimeSignals_Inspc", sizeof(thiz->clazz.name));
+  strncpy_emC(thiz->clazz.name, "TimeSignals_Inspc", sizeof(thiz->clazz.name));
   //thiz->fields.head.
   thiz->clazz.nSize = sizeof(*thiz);
   thiz->clazz.attributes = &thiz->fields;
@@ -104,7 +104,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, char const fil
       if(zName >= ARRAYLEN_SimpleC(thiz->names[0])) {
         zName = ARRAYLEN_SimpleC(thiz->names[0])-1;
       } 
-      strcpy_emC(thiz->names[ix], name, zName);  //with 0-terminate
+      strncpy_emC(thiz->names[ix], name, zName);  //with 0-terminate
       nrofFields = ix;  //set lastly with the highest number of active field.
     }
     FieldJc* field = &thiz->fields.data[ix];
@@ -116,12 +116,12 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, char const fil
     } else {
       field->nrofArrayElementsOrBitfield_ = 0;
     }
-    strcpy_emC(field->name, name, sizeof(field->name)-1);
+    strncpy_emC(field->name, name, sizeof(field->name)-1);
   }
   FieldJc* field = &thiz->fields.data[++nrofFields]; //the last visible field in Inspector is thiz itself.
   field->type_ = &reflection_TimeSignals_Inspc;  
   field->position = 0;
-  strcpy_emC(field->name, "thiz$TimeSignals_Inspc", sizeof(field->name)-1);
+  strncpy_emC(field->name, "thiz$TimeSignals_Inspc", sizeof(field->name)-1);
   thiz->fields.head.length = nrofFields +1;
   //
   //{ //store file name as char const*

@@ -35,11 +35,11 @@
  * 2009-06-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <os_file.h>
+#include <OSAL/os_file.h>
 
 //#define USE_LoLevelFileIo
 
-#include <os_error.h>
+#include <OSAL/os_error.h>
 
 
 

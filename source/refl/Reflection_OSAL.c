@@ -4,13 +4,13 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "os_AtomicAccess.h"
+#include "OSAL/os_AtomicAccess.h"
 
-#include "os_endian.h"
+#include "OSAL/os_endian.h"
 
-#include "os_error.h"
+#include "OSAL/os_error.h"
 
-#include "os_file.h"
+#include "OSAL/os_file.h"
 
 
 extern_C const ClassJc reflection_FileDescription_OSAL;  //the just defined reflection_
@@ -159,9 +159,9 @@ const ClassJc reflection_FileLock_OSAL =
 
 
 
-#include "os_mem.h"
+#include "OSAL/os_mem.h"
 
-#include "os_socket.h"
+#include "OSAL/os_socket.h"
 
 
 extern_C const ClassJc reflection_OS_SOCKADDR;  //the just defined reflection_
@@ -199,11 +199,11 @@ const ClassJc reflection_OS_SOCKADDR =
 
 
 
-#include "os_sync.h"
+#include "OSAL/os_sync.h"
 
-#include "os_thread.h"
+#include "OSAL/os_thread.h"
 
-#include "os_time.h"
+#include "OSAL/os_time.h"
 
 
 extern_C const ClassJc reflection_OS_TimeStamp;  //the just defined reflection_
@@ -351,4 +351,4 @@ const ClassJc reflection_MinMaxTime_emC =
 
 
 
-#include "os_waitnotify.h"
+#include "OSAL/os_waitnotify.h"

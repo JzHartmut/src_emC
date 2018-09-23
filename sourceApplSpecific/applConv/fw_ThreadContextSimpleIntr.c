@@ -9,7 +9,7 @@
 /**The implementation of thread behaviour is done for a simple system, which works only in interrupt levels,
  * at example a Signalprocessor.
  */
-#include <os_thread.h>
+#include <OSAL/os_thread.h>
 
 
 /**This variable may be set if an interrupt-routine is started, 

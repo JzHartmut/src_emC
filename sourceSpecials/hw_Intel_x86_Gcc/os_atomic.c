@@ -33,7 +33,7 @@
  * 2007-10-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <os_AtomicAccess.h>
+#include <OSAL/os_AtomicAccess.h>
 
 /**Implementation compareAndSet_AtomicInteger:
  * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.

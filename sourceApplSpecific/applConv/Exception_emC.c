@@ -45,7 +45,7 @@
 #ifndef __NOT_SUPPORTED_ExceptionJc__
 
 #include <emC/SimpleC_emC.h>     //ARRAYLEN
-#include <os_error.h>
+#include <OSAL/os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
 

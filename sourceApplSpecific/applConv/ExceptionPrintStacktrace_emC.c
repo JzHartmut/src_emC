@@ -45,11 +45,11 @@
 
 #include <emC/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/String_emC.h> 
-#include <os_error.h>
+#include <OSAL/os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
 #include <string.h>  //strlen
-#include <os_file.h>
+#include <OSAL/os_file.h>
 #include <stdio.h>
 
 

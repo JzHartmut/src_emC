@@ -40,8 +40,8 @@
 
 #ifndef __NOT_SUPPORTED_ThreadContext_emC__  //then ignore whole file
 
-#include <os_thread.h>
-#include <os_time.h>
+#include <OSAL/os_thread.h>
+#include <OSAL/os_time.h>
 //TODO conditional compilation or using commonly approach:
 #ifndef NO_DYNAMICALLY_MEMORY
 	//#include "BlockHeap/BlockHeap_emC.h"

@@ -45,9 +45,9 @@
 #include "BlockHeap_emC_internal.h"
 #include "Jc/StringJc.h"
 #include "emC/LogMessage.h"
-#include <os_time.h>
+#include <OSAL/os_time.h>
 
-#include <os_AtomicAccess.h>
+#include <OSAL/os_AtomicAccess.h>
 #include <BlockHeap_PlatformSpec.h>
 
 //#include <stdio.h>

@@ -43,6 +43,8 @@
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
 
+//uncomment that to check whether this file is used for include:
+//#error used_emC_cc_Msc15_smlk32bit
 
 //#include the standard header from Visual studio firstly. 
 //stdint.h defines int8_t etc. via typedef. 
@@ -245,31 +247,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 
 
-/* *****************************************************************************
-***** from basisdefs.h
-*/
 
-#define UINT8  uint8
-#define UINT16 uint16
-#define UINT32 uint32
-#define UINT64 uint64
-
-#define INT8  int8
-#define INT16 int16
-#define INT32 int32
-#define INT64 int64
-
-//andere Schreibweise auch noch:
-
-#define UINT_8  uint8
-#define UINT_16 uint16
-#define UINT_32 uint32
-#define UINT_64 uint64
-
-#define INT_8  int8
-#define INT_16 int16
-#define INT_32 int32
-#define INT_64 int64
 
 
 

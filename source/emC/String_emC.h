@@ -128,6 +128,12 @@ extern_C int strnlen_emC ( char const* text, int maxNrofChars);
 extern_C int strcpy_emC ( char* dst, char const* src, int sizeOrNegLength);
 
 
+/**Copies a defined Number of characters to a buffer. It is adequate strncpy(src, dst, length) 
+ * but it fills only one \0 if src is shorter than length. 
+ * It does not write a terminating \0 if src length >= the given length argument.
+ */
+inline int strncpy_emC  (  char* dst, char const* src, int length){ return strcpy_emC(dst, src, -length); }
+
 
 /**Searches a character inside a given string with terminated length.
  * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.

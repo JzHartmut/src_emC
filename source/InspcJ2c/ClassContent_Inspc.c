@@ -14,7 +14,7 @@
 #include "Jc/ReflectionJc.h"  //reference-association: MemAccessArrayDebugJc
 #include "Jc/StringJc.h"  //embedded type in class data
 #include "Jc/SystemJc.h"  //reference-association: SystemJc
-#include "os_time.h"  //reference-association: OS_TimeStamp
+#include "OSAL/os_time.h"  //reference-association: OS_TimeStamp
 
 
 /* J2C: Forward declaration of struct ***********************************************/

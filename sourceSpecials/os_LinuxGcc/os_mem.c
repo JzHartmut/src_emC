@@ -34,14 +34,14 @@
  *
  ****************************************************************************/
 //the own include file firstly
-#include <os_mem.h>
+#include <OSAL/os_mem.h>
 
 //Needed includes from os:
 #include <stdlib.h>
 #include <errno.h>
 
 //needed from os_adaption itself
-#include <os_error.h>
+#include <OSAL/os_error.h>
 
 
 void* os_allocMem(uint size)

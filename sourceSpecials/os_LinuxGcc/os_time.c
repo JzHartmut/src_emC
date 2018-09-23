@@ -33,8 +33,8 @@
  * 2007-10-01: JcHartmut creation
  *
  ****************************************************************************/
-#include <os_types_def.h>
-#include <os_time.h>
+#include <applstdef_emC.h>
+#include <OSAL/os_time.h>
 #include <unistd.h>
 
 #include <sys/timeb.h>

@@ -40,7 +40,7 @@
 //The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
 #ifndef __emC_fw_timeconversions_h__
 #define __emC_fw_timeconversions_h__
-#include <os_time.h>
+#include <OSAL/os_time.h>
 
 /**Datum als Bytewerte zur Uebergabe
  * Note: The day of week can be calculated by divide the seconds by 24 * 3600 and than modulo 7. 

@@ -47,10 +47,10 @@
 
 #include <Jc/ObjectJc.h>
 
-#include <os_thread.h>
-#include <os_time.h>
-#include <os_sync.h>
-#include <os_waitnotify.h>
+#include <OSAL/os_thread.h>
+#include <OSAL/os_time.h>
+#include <OSAL/os_sync.h>
+#include <OSAL/os_waitnotify.h>
 
 /**Version and History.
  * 2015-08-16 JcHartmut: There is a mistake while creating a new [[synchronized(...)]]:

@@ -1,6 +1,6 @@
 #include "Wait_Inspc.h"
 #include <Inspc/DataNode_Inspc.h>
-#include <os_time.h>
+#include <OSAL/os_time.h>
 #include <stdlib.h>
 #include <string.h>
 

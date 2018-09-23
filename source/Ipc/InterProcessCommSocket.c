@@ -38,7 +38,7 @@
 #include "emC/SimpleC_emC.h"
 #include "emC/MemC_emC.h"
 #include <Jc/ObjectJc.h>
-#include <os_endian.h>
+#include <OSAL/os_endian.h>
 
 #undef byte
 #undef boolean
@@ -47,9 +47,9 @@
 
 //#include "OSsocket.h"  //include the os specific socket adaption.
 
-#include <os_mem.h>
-#include <os_socket.h>
-#include <os_error.h>
+#include <OSAL/os_mem.h>
+#include <OSAL/os_socket.h>
+#include <OSAL/os_error.h>
 #include <stdio.h>  //sscanf
 #include <stdlib.h> //malloc
 

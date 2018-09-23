@@ -1,5 +1,5 @@
 #include <emC/MemC_emC.h>
-#include <os_mem.h>
+#include <OSAL/os_mem.h>
 
 #ifdef SIZEBLOCK_BlockHeap_emC
   #include <BlockHeap/BlockHeap_emC.h>  //for free(ptr)

@@ -41,8 +41,8 @@
  ****************************************************************************/
 #include <applstdef_emC.h>
 
-#include <os_error.h>
-#include <os_time.h>
+#include <OSAL/os_error.h>
+#include <OSAL/os_time.h>
 #include <stdio.h>
 
 

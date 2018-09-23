@@ -49,11 +49,11 @@
 #include <emC/SimpleC_emC.h>
 //#include <Jc/ObjectJc.h>
 
-#include <os_thread.h>
-#include <os_time.h>
-#include <os_sync.h>
-#include <os_waitnotify.h>
-#include <os_AtomicAccess.h>
+#include <OSAL/os_thread.h>
+#include <OSAL/os_time.h>
+#include <OSAL/os_sync.h>
+#include <OSAL/os_waitnotify.h>
+#include <OSAL/os_AtomicAccess.h>
 
 #include <string.h>
 

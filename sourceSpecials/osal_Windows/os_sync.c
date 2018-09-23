@@ -35,22 +35,22 @@
  ****************************************************************************/
 
 
-#include <os_thread.h>
+#include <OSAL/os_thread.h>
 
 #undef BOOL
 #undef PBOOL
 #undef boolean
 
 
-//#include <os_waitnotify.h>
-#include <os_sync.h>
+//#include <OSAL/os_waitnotify.h>
+#include <OSAL/os_sync.h>
 
-#include <os_error.h>
-#include <os_mem.h>
+#include <OSAL/os_error.h>
+#include <OSAL/os_mem.h>
 #include "os_internal.h"
 
 
-int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** waitObjectP)
+int os_createWaitNotifyObject  (  char const* name, OS_HandleWaitNotify_s const** waitObjectP)
 { //folg. Mechanismus ist nicht verfügbar unter Win2000, wäre aber richtiger:
   //PCONDITION_VARIABLE var;
   //InitializeConditionVariable(&var);
@@ -79,7 +79,7 @@ int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** wa
 
 /**removes a object for wait-notify.
  */
-int os_removeWaitNotifyObject(struct OS_HandleWaitNotify_t const* waitObj)
+int os_removeWaitNotifyObject  (  struct OS_HandleWaitNotify_t const* waitObj)
 { HANDLE winHandleWaitNotify = waitObj->winHandleWaitNotify;
   os_freeMem((void*)waitObj);
   if ( CloseHandle( winHandleWaitNotify ) == 0 ) 
@@ -99,11 +99,11 @@ int os_removeWaitNotifyObject(struct OS_HandleWaitNotify_t const* waitObj)
 }
 
 
-int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex, uint32 milliseconds)
+int os_wait  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex, uint32 milliseconds)
 { //HANDLE semaphor = (HANDLE)handle;
   int error;
   struct OS_HandleWaitNotify_t* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
-  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   /*
     if(pThread != mutex->threadOwner)
     { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);
@@ -132,7 +132,7 @@ int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mut
   }
   //if the thread is revived:
   //The mutex is relocked 
-  os_lockMutex(mutex);
+  os_lockMutex(mutex,  0);  //should be locked, the caller unlocks.
   waitObj->threadWait = null; 
   //
   //the user have to be unlock.
@@ -142,7 +142,7 @@ int os_wait(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mut
 
 /** Notifies all waiting thread to continue.
  */
-int os_notifyAll(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex)
+int os_notifyAll  (  OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex)
 {
   return -1;
 
@@ -151,12 +151,12 @@ int os_notifyAll(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex)
 
 /** Notifies only one waiting thread to continue.
  */
-int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex)
+int os_notify  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex)
 { struct OS_HandleWaitNotify_t* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
   LONG prevCount;
   bool shouldNotify;
   int error = 0xbaadf00d;
-  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   /*
   if(pThread != mutex->threadOwner)
   { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);
@@ -185,7 +185,7 @@ int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* m
         error = 0; 
       }
       //lock before return.
-      os_lockMutex(mutex);
+      os_lockMutex(mutex, 0);  //should be locked, the caller unlocks.
     }
     else
     { error = OS_WARNING_NOTIFY_NothingIsWaiting;

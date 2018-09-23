@@ -40,7 +40,7 @@
 
 struct MemAreaC_t;
 #include <Jc/ConcurrentRingBufferJc.h>
-#include <os_AtomicAccess.h>
+#include <OSAL/os_AtomicAccess.h>
 
 #include <emC/simpleC_emC.h>
 #include <string.h>

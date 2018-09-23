@@ -52,7 +52,7 @@
 #include <emC/SimpleC_emC.h>
 #include <string.h>
 #include <Jc/ObjectJc.h>
-#include <os_AtomicAccess.h>
+#include <OSAL/os_AtomicAccess.h>
 
 
 
