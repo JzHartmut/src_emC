@@ -250,7 +250,7 @@ int32 comparePos_CsiCsii_StringFunctionsJc(/*J2C:static method*/ CharSeqJc s1, i
     }/*NOTE: following while compares at least one char*/
     
     
-    int32  zChars = nrofChars >= 0 ? min_emC(/*J2C:static method call*/nrofChars, min_emC(/*J2C:static method call*/z1 - i1, z2 - i2)) : min_emC(/*J2C:static method call*/z1 - i1, z2 - i2);
+    int32  zChars = nrofChars >= 0 ? MIN_emC(/*J2C:static method call*/nrofChars, MIN_emC(/*J2C:static method call*/z1 - i1, z2 - i2)) : MIN_emC(/*J2C:static method call*/z1 - i1, z2 - i2);
     
     char  c1;/*no initvalue*/
     

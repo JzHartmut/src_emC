@@ -165,9 +165,9 @@ typedef OS_PtrVal_DEF(PtrVal_double, double);
 /*@CLASS_C Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-#define max_emC(A, B) ( (A) > (B) ? (A) : (B) )
-#define min_emC(A, B) ( (A) < (B) ? (A) : (B) )
-#define abs_emC(A) ( (A) <0 ? -(A) : (A) )
+#define MAX_emC(A, B) ( (A) > (B) ? (A) : (B) )
+#define MIN_emC(A, B) ( (A) < (B) ? (A) : (B) )
+#define ABS_emC(A) ( (A) <0 ? -(A) : (A) )
 
 //#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
 //#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
