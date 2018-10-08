@@ -27,6 +27,12 @@
  **copyright***************************************************************************************
  *
  * @content definition of user interface for exception handling
+ * This file should be only included by <applstdef_emC.h> for the case that exception handling 
+ * with throw (C++) or longjmp should not be used. 
+ * Instead, THROW writes in only one exeception object in Stacktrace
+ * and the CATCH block is used as alternate code but in normal return functionality.
+ * The processing a subroutine is not interrupted by a THROW, only the Exception information is written.
+ * 
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
@@ -43,7 +49,6 @@
 #endif
 
 
-#include <emC/ExcThCxtBase_emC.h>  //the constants for exception should be known.
 
 #ifndef __fw_ExcStacktrcNo_h__
 #define __fw_ExcStacktrcNo_h__
@@ -52,6 +57,9 @@
 
 //#define __NOT_SUPPORTED_ThreadContext_emC__
 #define __NOT_SUPPORTED_ExceptionJc__
+
+#include <emC/ExcThCxtBase_emC.h>  //the constants for exception should be known.
+
 
 #ifndef __StringJc_defined__
   //minimalistic definition of StringJc to use this type before including emC/StringJc
@@ -84,7 +92,7 @@ typedef struct ThreadContext_emC_t {
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
 * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
 */
-#define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt; 
+#define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt 
 
 
 
@@ -131,8 +139,8 @@ typedef struct ThreadContext_emC_t {
   _thCxt->exc.exceptionMsg.ref = null;  /*It may be located in the stack. Don't transfer the pointer! */ \
 }
 
-#define THROW1_s0(EXCEPTION, TEXT, VAL)  THROW(EXCEPTION,  z_StringJc(TEXT), VAL)
-#define THROW_s(EXCEPTION, STRING, VAL) THROW(EXCEPTION, STRING, VAL)
+#define xxxTHROW1_s0(EXCEPTION, TEXT, VAL)  THROW(EXCEPTION,  z_StringJc(TEXT), VAL)
+#define xxxTHROW_s(EXCEPTION, STRING, VAL) THROW(EXCEPTION, STRING, VAL)
 
 
 #define printStackTrace_ExceptionJc(ythis, _thCxt)

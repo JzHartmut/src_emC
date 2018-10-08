@@ -8,7 +8,8 @@
 //#error used_applstdefJc_TargetNumericSimple
 
 
-/**The os_types_def.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
+//This block before <OSAL/os_types_def_common.h>
+/**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
 /**Include this file always, but after compl_adaption.h.

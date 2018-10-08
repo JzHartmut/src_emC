@@ -136,7 +136,7 @@ void dtor_TimeSignals_Inspc(TimeSignals_Inspc* thiz) {
     TimeData_TimeSignals_Inspc* data = &thiz->timeData[ixChn];
     if(data->entriesChn !=null) {
       for(int ixEntry = 0; ixEntry < data->zEntryChn; ++ixEntry){
-        delete(data->entriesChn->d[ixEntry]);
+        free(data->entriesChn->d[ixEntry]);
       }
       free(data->entriesChn);
     }
@@ -244,7 +244,7 @@ static int createNewEntry(TimeSignals_Inspc* thiz, int ixChn, float time) {
     memset(arrayEntries, 0, allocBytes);
     dataChn->entriesChn = arrayEntries; //casting admissible, same type of pointer.
     if(time >0.0f) {
-      Entry_TimeSignals_Inspc* entry0 = new Entry_TimeSignals_Inspc;
+      Entry_TimeSignals_Inspc* entry0 = (Entry_TimeSignals_Inspc*) malloc(sizeof(Entry_TimeSignals_Inspc));
       memset(entry0, 0, sizeof(*entry0));
       dataChn->entriesChn->d[0] = entry0;
       dataChn->zEntryChn = 1;
@@ -261,7 +261,7 @@ static int createNewEntry(TimeSignals_Inspc* thiz, int ixChn, float time) {
     memmove(&dataChn->entriesChn->d[ixEntry + 1], &dataChn->entriesChn->d[ixEntry], sizeof(void*) * (dataChn->zEntryChn - ixEntry));  //memmove(dst, src, length) 
   }
   dataChn->zEntryChn +=1;
-  Entry_TimeSignals_Inspc* entry = new Entry_TimeSignals_Inspc;
+  Entry_TimeSignals_Inspc* entry = (Entry_TimeSignals_Inspc*)malloc(sizeof(Entry_TimeSignals_Inspc));
   memset(entry, 0, sizeof(Entry_TimeSignals_Inspc));
   dataChn->entriesChn->d[ixEntry] = entry;
   return ixEntry;
