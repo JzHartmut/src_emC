@@ -716,7 +716,9 @@ class  StringJcpp: public StringJc
   StringJcpp(){ set_OS_PtrValue(*(static_cast<StringJc*>(this)), null,0); }
 
   StringJcpp(const char* src)
-  { INIT_StringJc(*this, src, strlen(src));
+  { this->ref = src;
+    this->val = strlen(src);
+    //INIT_StringJc(*this, src, strlen(src));
   }
 
    StringJcpp(const char* src, int size)
@@ -725,7 +727,9 @@ class  StringJcpp: public StringJc
 
   StringJcpp(const StringJc src)
   { StringJc* super = this;
-    INIT_s_StringJc(*super, src);
+    this->ref = src.ref;
+    this->val = src.val;
+    //INIT_s_StringJc(*super, src);
   }
 
    StringJcpp&  operator=(class StringBufferJcpp& src);

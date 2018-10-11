@@ -49,7 +49,7 @@ void dtor_Service_Inspc(Service_Inspc* thiz);
 /**The step routine gets only the time from Simulation.
  * @simulink Object-FB
  */
-char const* step_Service_Inspc(struct Service_Inspc_t* thiz);
+char const* step_Service_Inspc(struct Service_Inspc_t* thiz, uint16* state_y, uint16* ctCheck_y);
 
 
 

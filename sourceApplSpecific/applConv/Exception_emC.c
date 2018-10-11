@@ -286,33 +286,5 @@ bool test_StacktraceJc(StacktraceJc* ythis)
 
 
 
-#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-
-StacktraceJcpp::StacktraceJcpp(const char* sName, ThreadContext_emC_s* _thCxt)
-{ if(_thCxt == null) 
-  { _thCxt = getCurrent_ThreadContext_emC();
-  }
-  this->threadContext= _thCxt;  //save it to use in destructor.
-  this->entry.name = sName;
-  //NOTE: this->entry.line and source should not be set here, see macro STACKTRC_ENTRY in C++-version!
-  tryObject = null;
-  if(_thCxt != null)
-  { //if the threadContext is under construction while calling this routine,
-    //it cannot be used.
-    this->previous = _thCxt->stacktraceThreadContext.stacktrace;  
-    //see macro STACKTRC_ENTRY: stacktrcThCxt->stacktrace = static_cast<StacktraceJc*>(this);
-    //NOTE: this is done outside macro STACKTRC_ENTRY to do it in a stable way.
-    //NOTE: the user may use the StacktraceJcpp outside its macro STACKTRC_ENTRY or STACKTRC_TENTRY 
-  }
-}
-
-
-StacktraceJcpp::~StacktraceJcpp()
-{ if(this->threadContext != null) { this->threadContext->stacktraceThreadContext.stacktrace = previous;}
-}
-
-
-
-#endif
 
 #endif //not __NOT_SUPPORTED_ThreadContext_emC__

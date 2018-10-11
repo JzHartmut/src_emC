@@ -360,7 +360,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  */
-#define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
+#define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus

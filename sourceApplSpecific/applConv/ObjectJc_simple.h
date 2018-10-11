@@ -66,8 +66,8 @@ typedef struct  ObjectJc_t
   /**The reference to the type is either an index to a central pointer table (for 64-bit-addresses) or the address itself.
    * In any case this is a 32-bit-location which references the type.
    */
-  //OS_HandlePtr(struct ClassJc_t const, type);
-  OS_HandlePtr(char const, type);
+  //HandlePtr_emC(struct ClassJc_t const, type);
+  HandlePtr_emC(char const, type);
 } ObjectJc;
 
 

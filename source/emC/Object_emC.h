@@ -176,7 +176,7 @@ typedef union State_ObjectJc_t
     #define mSizeLarge_objectIdentSize_ObjectJc  0x00ffffff
 
     /** This bits are used to store the type or instance info for large objects.
-        There are only 5 bits useable for 31 large types.
+        There are only 5 bits useable for 31 large instances.
       */
     #define mTypeLarge_objectIdentSize_ObjectJc  0x1f000000
 
@@ -513,7 +513,7 @@ METHOD_C int newIdent_ObjectJc();
 /*@CLASS_CPP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-#if defined(__CPLUSGEN) && defined(__cplusplus)
+#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 
 
 
@@ -538,16 +538,6 @@ METHOD_C int newIdent_ObjectJc();
      */
     public: const void* significanceAddress_ObjectifcBase;
 	  
-	/** converts to the ObjectJcpp - pointer, superclass of all instances..
-    A type casting to (ObjectJcpp*) applied to a pointer of interface type
-    forces the using of the ObjectJcpp* - casting operator of the instance-type,
-    mediate from the virtual table of the interface.
-    Note that a casting to super or derived classes in C++ modifies the this-pointer
-    with small adress modification to the right virtual table.
-    The default implementation supplies no Reflection or ObjectJc-support.
-    */
-    public: virtual class ObjectJcpp* xxxtoObjectJcpp(){ return null; }
-
     /** converts to the ObjectJc- pointer, superclass of all instances..
     A type casting to (ObjectJc*) applied to a pointer of interface type
     forces the using of the ObjectJcpp* - casting operator of the instance-type,
@@ -556,15 +546,18 @@ METHOD_C int newIdent_ObjectJc();
     with small adress modification to the right virtual table.
     The default implementation supplies no Reflection or ObjectJc-support.
     */
-    public: virtual ObjectJc* toObject(){ return null; }
+    public: virtual ObjectJc* toObject() = 0; //{ return null; }
 
     //#define toObject_Jc() toObject()
 
-    /**returns a String which allows the test wether a instance
-     * is type of a special user interface. In Java there is the operator instanceof
-     * to test such things. 
+    /**returns true if the String given Type is the instance can derived immeditately 
+     * to the given type with simple cast (C-cast). 
+     * In Java there it is the operator instanceof
+     * Note: It does not regard C++ deviation. Only able to use for the ObjectJc-C-inheritance.
      */
-    public: virtual bool instanceof(const char* type){ return false; } 
+    public: bool instanceof(const char* type){ return instanceof_s_ObjectJc(toObject(), type); } 
+
+    public: struct ClassJc_t* getClass(){ getClass_ObjectJc(toObject()); }
 
     /**The constructor is called automatically in C++. Because it is contained as inline
      * in the header, the user don't need any other library to use it.

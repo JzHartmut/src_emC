@@ -150,7 +150,7 @@ The last datagramm is mask with the bit  */
 class InspcDatagram_InspcDataExchangeAccess_Inspc : private InspcDatagram_InspcDataExchangeAccess_Inspc_s
 { public:
 
-  void assignDatagram(PtrVal_int8 data, int32 length){ assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, data, length); }
+  //void assignDatagram(PtrVal_int8 data, int32 length){ assignDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, data, length); }
 
   int32 getAnswerNr(){  return getAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(this); }
 
@@ -168,15 +168,15 @@ class InspcDatagram_InspcDataExchangeAccess_Inspc : private InspcDatagram_InspcD
 
   void markAnswerNrLast(){ markAnswerNrLast_InspcDatagram_InspcDataExchangeAccess_Inspc(this,  null/*_thCxt*/); }
 
-  void setEntrant(int32 nr){ setEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(this, nr); }
+  //void setEntrant(int32 nr){ setEntrant_InspcDatagram_InspcDataExchangeAccess_Inspc(this, nr); }
 
   void setHeadAnswer(int32 entrant, int32 seqNr, int32 encryption){ setHeadAnswer_InspcDatagram_InspcDataExchangeAccess_Inspc(this, entrant, seqNr, encryption,  null/*_thCxt*/); }
 
   void setHeadRequest(int32 entrant, int32 seqNr, int32 encryption){ setHeadRequest_InspcDatagram_InspcDataExchangeAccess_Inspc(this, entrant, seqNr, encryption,  null/*_thCxt*/); }
 
-  void setLengthDatagram(int32 length){ setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, length); }
+  //void setLengthDatagram(int32 length){ setLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(this, length); }
 
-  void setSeqnr(int32 nr){ setSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(this, nr); }
+  //void setSeqnr(int32 nr){ setSeqnr_InspcDatagram_InspcDataExchangeAccess_Inspc(this, nr); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -298,11 +298,11 @@ class Inspcitem_InspcDataExchangeAccess_Inspc : private Inspcitem_InspcDataExcha
 
   int32 getOrder(){  return getOrder_Inspcitem_InspcDataExchangeAccess_Inspc(this); }
 
-  void setCmd(int32 cmd){ setCmd_Inspcitem_InspcDataExchangeAccess_Inspc(this, cmd); }
+  //void setCmd(int32 cmd){ setCmd_Inspcitem_InspcDataExchangeAccess_Inspc(this, cmd); }
 
   void setInfoHead(int32 length, int32 cmd, int32 order){ setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(this, length, cmd, order,  null/*_thCxt*/); }
 
-  void setLength(int32 length){ setLength_Inspcitem_InspcDataExchangeAccess_Inspc(this, length); }
+  //void setLength(int32 length){ setLength_Inspcitem_InspcDataExchangeAccess_Inspc(this, length); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -493,23 +493,23 @@ class InspcSetValue_InspcDataExchangeAccess_Inspc : private InspcSetValue_InspcD
 
   int16 getType(){  return getType_InspcSetValue_InspcDataExchangeAccess_Inspc(this); }
 
-  void setBool(int32 value){ setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setBool(int32 value){ setBool_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 
-  void setByte(int32 value){ setByte_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setByte(int32 value){ setByte_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 
-  void setDouble(double value){ setDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setDouble(double value){ setDouble_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 
-  void setFloatIntImage(int32 value){ setFloatIntImage_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setFloatIntImage(int32 value){ setFloatIntImage_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 
-  void setFloat(float value){ setFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setFloat(float value){ setFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 
-  void setInt(int32 value){ setInt_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setInt(int32 value){ setInt_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 
-  void setLong(int64 value){ setLong_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setLong(int64 value){ setLong_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 
   void setPwd(int32 pwd){ setPwd_InspcSetValue_InspcDataExchangeAccess_Inspc(this, pwd); }
 
-  void setShort(int32 value){ setShort_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
+  //void setShort(int32 value){ setShort_InspcSetValue_InspcDataExchangeAccess_Inspc(this, value); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -611,7 +611,7 @@ class InspcSetValueData_InspcDataExchangeAccess_Inspc : private InspcSetValueDat
 
   void setFloat(float value){ setFloat_InspcSetValueData_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
 
-  void setHead(int32 order){ setHead_InspcSetValueData_InspcDataExchangeAccess_Inspc(this, order); }
+  //void setHead(int32 order){ setHead_InspcSetValueData_InspcDataExchangeAccess_Inspc(this, order); }
 
   void setInt(int32 value){ setInt_InspcSetValueData_InspcDataExchangeAccess_Inspc(this, value,  null/*_thCxt*/); }
 

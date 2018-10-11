@@ -288,7 +288,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  */
-#define OS_HandlePtr(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
+#define HandlePtr_emC(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus

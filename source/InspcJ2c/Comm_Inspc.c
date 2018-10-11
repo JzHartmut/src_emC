@@ -71,7 +71,7 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
       if(ipcFactory.ref !=null) {
         InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
         thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
-        thiz->state = '0';  //not started yet.
+        thiz->state = 0;  //not started yet.
         thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
     
         thiz->ipc =  (ipcMtbl.ref);
@@ -102,7 +102,7 @@ bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt)
     
     InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
     ok = ipcMtbl.mtbl->open(&(( (ipcMtbl.ref))->base.object), null, ((/*J2C:cast% from bool*/int32)(blocking)));
-    thiz->state = (ok >= 0 ? 'o' : 'e');
+    thiz->state = (ok >= 0 ? 2 : 0xe);
     if(thiz->bEnablePrintfOnComm) 
     { /*:only for debug:*/
       
@@ -131,7 +131,7 @@ void start_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
   STACKTRC_TENTRY("start_Comm_Inspc");
   
   { 
-    thiz->state = 'a';
+    thiz->state = 1;
     if(thiz->thread !=null) {
       start_ThreadJc(thiz->thread, -1, _thCxt);
     }
@@ -147,11 +147,11 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
   { 
     
     
-    while(thiz->state != 'x')
+    while(thiz->state != 0xd)
       { 
         
         openComm_Comm_Inspc(thiz, true, _thCxt);
-        if(thiz->state == 'o') 
+        if(thiz->state == 2) 
         { 
           sleep_ThreadJc(100, _thCxt); //delay, necessary for some op
           receiveAndExecute_Comm_Inspc(thiz, _thCxt);
@@ -160,9 +160,9 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
         { 
           
           if(ftest) { fprintf(ftest, "ErrorOpen_Comm_Inspc_F\n"); fflush(ftest); }  
-          thiz->state = 'E';
+          thiz->state = 0xb;
           
-          while(thiz->state == 'E')
+          while(thiz->state == 0xb)
             { 
               
               TRY
@@ -186,7 +186,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
       
       { 
         
-        thiz->state = 'z';
+        thiz->state = 0xf;
         notify_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), _thCxt);
       }
     } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
@@ -216,29 +216,29 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
     
     InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
     
-    while(thiz->state != 'x')
-      { /*:x to terminate*/
+    while(thiz->state != 0xd)
+      { /*:0xd to terminate*/
         /*:chgData_TestData_Inspc(ythis->testInspc);   //only for test.*/
         
         
         thiz->nrofBytesReceived[0] = 0;/*expected the nrof available data*/
         
-        thiz->state = 'r';/*receive*/
+        thiz->state = 3;/*receive*/
         
         TRY
         { 
           
           ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.ref, thiz->rxBuffer.val ), thiz->myAnswerAddress);
-          if(thiz->state != 'x') 
+          if(thiz->state != 0xd) 
           { 
             
             if(thiz->nrofBytesReceived[0] < 0) 
             { /*:error situation*/
               /*:it is possible that a send request has failed because the destination port is not*/
               /*:able to reach any more. Therefore wait a moment and listen new*/
+              thiz->ctCheck = (thiz->ctCheck + 0x1000) & 0xf000 | thiz->ctCheck & 0x0fff;
               
-              
-              thiz->state = 'e';/*prevent send*/
+              thiz->state = 5;/*prevent send*/
               
               TRY
               { 
@@ -252,12 +252,13 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
                   
                 }
               END_TRY
-              thiz->state = 'r';/**/
               
             }
             else 
             { 
-              
+              thiz->ctCheck = (thiz->ctCheck + 1) & 0x0fff | thiz->ctCheck & 0xf000;
+              thiz->state = 4;//process received
+
               cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), thiz->rxBuffer, thiz->nrofBytesReceived[0], _thCxt);/*unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);*/
               
             }
@@ -273,7 +274,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
             printStackTrace_P_ExceptionJc(exc, REFJc (err_SystemJc), _thCxt);
           }
         END_TRY
-      }/*while state !='x'*/
+      }/*while state !=0xd*/
       
   }
   STACKTRC_LEAVE;
@@ -325,15 +326,15 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
   STACKTRC_TENTRY("shutdown_Comm_Inspc_F");
   if(ftest) fclose(ftest);
 
-  if(thiz->state !='0' && thiz->ipc !=null)  {  //do nothing if not started. 
+  if(thiz->state != 0 && thiz->ipc !=null)  {  //do nothing if not started. 
     
-    thiz->state = 'x';
+    thiz->state = 0xd;
     
     InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
     ipcMtbl.mtbl->close(&(( (ipcMtbl.ref))->base.object));/*breaks waiting in receive socket*/
     
     
-    while(thiz->state != 'z')
+    while(thiz->state != 0xf)
       { 
         
         
@@ -454,7 +455,7 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     }
    , { "state"
     , 0 //nrofArrayElements
-    , REFLECTION_char
+    , REFLECTION_uint8
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Comm_Inspc_s*)(0x1000))->state) - (int32)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase

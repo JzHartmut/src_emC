@@ -903,8 +903,6 @@ METHOD_C int32 ixEnd_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* _
 class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 { public:
 
-  void XXXrewind(){ XXXrewind_ByteDataAccessBaseJc(this); }
-
   void _expand(int32 ixNextChildNew, int32 ixEndNew){ _expand_ByteDataAccessBaseJc(this, ixNextChildNew, ixEndNew,  null/*_thCxt*/); }
 
   int32 _getInt(int32 idxInChild, int32 nrofBytesAndSign){  return _getInt_ByteDataAccessBaseJc(this, idxInChild, nrofBytesAndSign); }
@@ -933,7 +931,7 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   bool addChildString(CharSeqJc valueCs, StringJcpp sEncoding){  return addChildString_CsS_ByteDataAccessBaseJc(this, valueCs, sEncoding,  null/*_thCxt*/); }
 
-  void addChildString(CharSeqJc value){ addChildString_Cs_ByteDataAccessBaseJc(this, value); }
+  //void addChildString(CharSeqJc value, ThCxt* _thCxt){ addChildString_Cs_ByteDataAccessBaseJc(this, value); }
 
   bool addChildString(StringJcpp value, StringJcpp sEncoding, bool preventCtrlChars){  return addChildString_SSb_ByteDataAccessBaseJc(this, value, sEncoding, preventCtrlChars,  null/*_thCxt*/); }
 
@@ -941,6 +939,7 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   bool addChild(struct ByteDataAccessBaseJc_t* child, int32 sizeChild){  return addChild_XXi_ByteDataAccessBaseJc(this, child, sizeChild,  null/*_thCxt*/); }
 
+  /*
   void assignAt(int32 idxChildInParent, struct ByteDataAccessBaseJc_t* parent){ assignAt_iXX_ByteDataAccessBaseJc(this, idxChildInParent, parent); }
 
   void assignAt(int32 idxChildInParent, int32 lengthChild, struct ByteDataAccessBaseJc_t* parent){ assignAt_iiXX_ByteDataAccessBaseJc(this, idxChildInParent, lengthChild, parent); }
@@ -952,14 +951,14 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
   void assign(PtrVal_int8 dataP){ assign_iY_ByteDataAccessBaseJc(this, dataP); }
 
   void assign(PtrVal_int8 data, int32 lengthData){ assign_iYi_ByteDataAccessBaseJc(this, data, lengthData); }
-
-  void assign(PtrVal_int8 dataP, int32 lengthData, int32 index){ assign_iYii_ByteDataAccessBaseJc(this, dataP, lengthData, index,  null/*_thCxt*/); }
+  */
+  //void assign(PtrVal_int8 dataP, int32 lengthData, int32 index){ assign_iYii_ByteDataAccessBaseJc(this, dataP, lengthData, index,  null/*_thCxt*/); }
 
   bool checkLengthElement(int32 size){  return checkLengthElement_ByteDataAccessBaseJc(this, size,  null/*_thCxt*/); }
 
-  void clearData(){ clearData_ByteDataAccessBaseJc(this); }
+  //void clearData(){ clearData_ByteDataAccessBaseJc(this); }
 
-  void clearHead(){ clearHead_ByteDataAccessBaseJc(this); }
+  //void clearHead(){ clearHead_ByteDataAccessBaseJc(this); }
 
   void copyDataFrom(struct ByteDataAccessBaseJc_t* src){ copyDataFrom_ByteDataAccessBaseJc(this, src,  null/*_thCxt*/); }
 
@@ -1049,11 +1048,11 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   int32 ixNextChild(){  return ixNextChild_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 
-  void removeChild(){ removeChild_ByteDataAccessBaseJc(this); }
+  //void removeChild(){ removeChild_ByteDataAccessBaseJc(this); }
 
   void removeChild(struct ByteDataAccessBaseJc_t* child){ removeChild_XX_ByteDataAccessBaseJc(this, child,  null/*_thCxt*/); }
 
-  void removeChildren(){ removeChildren_ByteDataAccessBaseJc(this); }
+  //void removeChildren(){ removeChildren_ByteDataAccessBaseJc(this); }
 
   void setBigEndian(bool val){ setBigEndian_ByteDataAccessBaseJc(this, val); }
 
@@ -1063,37 +1062,37 @@ class ByteDataAccessBaseJc : private ByteDataAccessBaseJc_s
 
   void setFloat(int32 idx, float value){ setFloat_if_ByteDataAccessBaseJc(this, idx, value); }
 
-  void setFloat(int32 idxBytes, int32 idxArray, int32 lengthArray, float val){ setFloat_iiif_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
+  //void setFloat(int32 idxBytes, int32 idxArray, int32 lengthArray, float val){ setFloat_iiif_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
   int32 setIdxtoNextCurrentChild(int32 sizeChild){  return setIdxtoNextCurrentChild_ByteDataAccessBaseJc(this, sizeChild,  null/*_thCxt*/); }
 
   void setInt16(int32 idx, int32 value){ setInt16_ii_ByteDataAccessBaseJc(this, idx, value,  null/*_thCxt*/); }
 
-  void setInt16(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setInt16_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
+  //void setInt16(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setInt16_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
   void setInt32(int32 idx, int32 value){ setInt32_ii_ByteDataAccessBaseJc(this, idx, value,  null/*_thCxt*/); }
 
-  void setInt32(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setInt32_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
+  //void setInt32(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setInt32_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
-  void setInt8(int32 idx, int32 value){ setInt8_ii_ByteDataAccessBaseJc(this, idx, value); }
+  //void setInt8(int32 idx, int32 value){ setInt8_ii_ByteDataAccessBaseJc(this, idx, value); }
 
-  void setInt8(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setInt8_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
+  //void setInt8(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setInt8_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
-  void setLengthElement(int32 length){ setLengthElement_ByteDataAccessBaseJc(this, length); }
+ // void setLengthElement(int32 length){ setLengthElement_ByteDataAccessBaseJc(this, length); }
 
   int32 setString(int32 idx, int32 nmax, StringJcpp ss){  return setString_ByteDataAccessBaseJc(this, idx, nmax, ss,  null/*_thCxt*/); }
 
-  void setUint16(int32 idx, int32 value){ setUint16_ii_ByteDataAccessBaseJc(this, idx, value); }
+  //void setUint16(int32 idx, int32 value){ setUint16_ii_ByteDataAccessBaseJc(this, idx, value); }
 
-  void setUint16(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setUint16_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
+  //void setUint16(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setUint16_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
-  void setUint32(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setUint32_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
+  //void setUint32(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setUint32_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
   void setUint32(int32 idx, int64 value){ setUint32_il_ByteDataAccessBaseJc(this, idx, value,  null/*_thCxt*/); }
 
-  void setUint8(int32 idx, int32 value){ setUint8_ii_ByteDataAccessBaseJc(this, idx, value); }
+  //void setUint8(int32 idx, int32 value){ setUint8_ii_ByteDataAccessBaseJc(this, idx, value); }
 
-  void setUint8(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setUint8_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
+  //void setUint8(int32 idxBytes, int32 idxArray, int32 lengthArray, int32 val){ setUint8_iiii_ByteDataAccessBaseJc(this, idxBytes, idxArray, lengthArray, val); }
 
   int32 sizeHead(){  return sizeHead_ByteDataAccessBaseJc(this,  null/*_thCxt*/); }
 

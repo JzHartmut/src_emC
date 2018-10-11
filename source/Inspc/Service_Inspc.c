@@ -40,9 +40,11 @@ void dtor_Service_Inspc(Service_Inspc* thiz)
 }
 
 
-char const* step_Service_Inspc(Service_Inspc* thiz)
+char const* step_Service_Inspc(Service_Inspc* thiz, uint16* state_y, uint16* ctCheck_y)
 { //left empty, nothing to do.
   thiz->simTime.timeShort +=1;
+  if (state_y != null) { *state_y = thiz->theInspector.comm.state; }
+  if (ctCheck_y != null) { *ctCheck_y = thiz->theInspector.comm.ctCheck; }
   return null;
 }
 

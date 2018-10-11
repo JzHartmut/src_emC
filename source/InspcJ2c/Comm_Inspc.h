@@ -32,8 +32,13 @@ typedef struct Comm_Inspc_t
 { 
   union { ObjectJc object; RunnableJc_s RunnableJc;} base; 
   struct CmdExecuter_Inspc_t* cmdExecuter;   /**/
-  char state;   /*State of function.*/
-  bool bEnablePrintfOnComm; 
+  // 0-notstarted, 1-started, should opened, 2=opened 3=receive called, blocking, 4=received, 5=receive telegram error
+  // old: '0'      'a'                       'o'      'r'                                     'e'                      
+  // 0xb=open failed, wait for repeat 0xd=should terminated, 0xf=finished 
+  // 'E'                              'x'                    'f'
+  uint8 state;   /*State of function.*/
+  bool8 bEnablePrintfOnComm; 
+  int16 ctCheck;
   struct InterProcessComm_t* ipc;   /**/
   int32 ctErrorTelg; 
   struct ThreadJc_t* thread;   /**/

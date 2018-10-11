@@ -363,7 +363,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
  */
-#define OS_HandlePtr(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
+#define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
