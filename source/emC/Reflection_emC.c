@@ -33,14 +33,14 @@ const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 #else
 , null
 #endif
-, &reflection__ObjectJc.clazz  //0x19
-, &reflection__ObjectJc.clazz  //0x1a
-, &reflection__ObjectArrayJc.clazz  //0x1b
+, &reflection_ObjectJc  //0x19
+, &reflection_ObjectJc  //0x1a
+, &reflection__ObjectArrayJc  //0x1b
 , null  //0x1c   //reserviert evtl Object_ArrayJcpp
 , &reflection_StringJc  //0x1d
 , &reflection_OS_PtrValue  //0x1e
 , null  //0x1f
-, &reflection__ClassJc.clazz  //0x20
+, &reflection_ClassJc  //0x20
 , null  //0x21
 , null  //0x22
 , null  //0x23
@@ -73,11 +73,11 @@ const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 , null  //0x3e
 , null  //0x3f
 , null  //0x40
-, &reflection__ObjectJc.clazz             //0x41
-, &reflection__ObjectJcpp.clazz        //0x42
+, &reflection_ObjectJc             //0x41
+, &reflection_ObjectJc        //0x42
 , null             //0x43
 , null //&reflection__ObjectRefValuesJc"    //0x44
-, &reflection__ClassJc.clazz              //0x45
+, &reflection_ClassJc              //0x45
 , null  //0x46
 , null  //0x47
 , null  //0x48

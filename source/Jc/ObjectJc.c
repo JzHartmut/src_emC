@@ -58,8 +58,6 @@
 
 bool castOk_ObjectJc;
 
-char const sign_Mtbl_ObjectJc[] = "sign_Mtbl_ObjectJc";
-char const signEnd_Mtbl_ObjectJc[] = "signEnd_Mtbl_ObjectJc";
 
 
 

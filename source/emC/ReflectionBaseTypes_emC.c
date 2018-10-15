@@ -443,8 +443,28 @@ const struct Reflection_Fields_ObjectJc_t
 } };
 
 
+
+//
+// The vtbl for a pure ObjectJc or for any other instance without overridden operation.
+const VtblDef_ObjectJc vtbl_ObjectJc =
+{ { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Mtbl_t*)((5 + 2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+    }
+//J2C: Dynamic methods of the class :ObjectJc:
+  ,  clone_ObjectJc_F //clone
+  , equals_ObjectJc_F //equals
+  , finalize_ObjectJc_F //finalize
+  , hashCode_ObjectJc_F //hashCode
+  , toString_ObjectJc_F //toString
+  }
+, { signEnd_Mtbl_ObjectJc, null }
+};
+
+
+
 const ClassJc reflection_ObjectJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc)
+{ INIZ_objReflId_ObjectJc(reflection_ObjectJc, &reflection_ClassJc, OBJTYPE_ClassJc)
+  //CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc)
 , "ObjectJc"
 , 0
 , sizeof(ObjectJc)
@@ -453,32 +473,9 @@ const ClassJc reflection_ObjectJc =
 , null  //superclass
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
+, &vtbl_ObjectJc.tbl.head
 };
 
-
-
-
-/**With vtbl*/
-const Reflection__ObjectJc reflection__ObjectJc
-=
-{
-  { CONST_ObjectJc(0  , &reflection__ObjectJc.clazz, null)
-  , "ObjectJc"
-  , 0 //Position of the data of this class itself, after some superclasses.
-  , sizeof(int32)
-  , null  //Attributes
-  , null  //Methods
-  , null  //superclass
-  , null  //interfaces
-  , 0 //modifiers
-  }
-, { (MT_void_Method_void)clone_ObjectJc_F
-  , (MT_void_Method_void)equals_ObjectJc_F
-  , (MT_void_Method_void)finalize_ObjectJc_F
-  , (MT_void_Method_void)hashCode_ObjectJc_F
-  , (MT_void_Method_void)toString_ObjectJc_F
-  }
-};
 
 
 

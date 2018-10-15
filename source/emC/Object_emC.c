@@ -47,6 +47,12 @@ char const* debugPRINTF[10] = {0};
 //#endif
 #include <string.h> //memset
 
+
+
+char const sign_Mtbl_ObjectJc[] = "sign_Mtbl_ObjectJc";
+char const signEnd_Mtbl_ObjectJc[] = "signEnd_Mtbl_ObjectJc";
+
+
 /**Initialize. */
 ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
 { STACKTRC_ENTRY("init_ObjectJc");
@@ -333,4 +339,15 @@ StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
     *(void**)(&significanceAddress_ObjectifcBase) = this;
   }
 #endif //__CPLUSGEN
+
+
+
+
+void init_immediate_ObjectArrayJc(ObjectArrayJc* thiz, int nrofElements, int sizeElement, ClassJc const* refl_Elem, int idObj) {
+  initReflection_ObjectJc(&thiz->object, thiz, sizeof(ObjectArrayJc) + nrofElements * sizeElement, refl_Elem, idObj);
+  thiz->length = nrofElements;
+  thiz->sizeElement = sizeElement;
+  thiz->mode = 1 << kBitDimension_ObjectArrayJc;
+}
+
 

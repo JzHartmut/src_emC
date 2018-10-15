@@ -694,11 +694,11 @@ METHOD_C typedef StringJc MT_toString_ObjectJc(ObjectJc* ythis, struct ThreadCon
 
 
 
-/** The definition of ordered method pointer, it is a jump table.
-  * The virtual methods are callable in a C-environment adequate to virtual methods in C++.
-  * This struct of method pointer determines the order of virtual methods of ObjectJc for all implementation classes.
-  * @refl: no.
-  */
+/**The definition of ordered pointer to overideable operations, it is a jump table.
+ * The virtual operations are callable in a C-environment adequate to virtual methods in C++.
+ * This struct of method pointer determines the order of virtual methods of ObjectJc for all implementation classes.
+ * @refl: no.
+ */
 typedef struct Vtbl_ObjectJc_t
 { VtblHeadJc head;
   /**Methods of ObjectJc. */
@@ -712,7 +712,15 @@ typedef struct Vtbl_ObjectJc_t
 
 #define Mtbl_ObjectJc Vtbl_ObjectJc
 
+/**Structure of the Vtbl of an Instance derived from Objectjc without any overridden operations. 
+ * This structure is defined in Object_emC.c, see extern declaration.
+ * @refl: no.
+ */
+typedef struct VtblDef_ObjectJc_t {
+  Vtbl_ObjectJc tbl; VtblHeadJc end;
+} VtblDef_ObjectJc;
 
+extern_C VtblDef_ObjectJc const vtbl_ObjectJc;
 
 /**The override-able method toString tests the virtual table inside reflection
  * to call the correct toString-Method of the implementation class. */
@@ -794,11 +802,16 @@ typedef struct  ObjectArrayJc_t
 /**Initializer definition of an array based on ObjectArrayJc. The structure should have the following format:
  * ,,struct { ObjectArrayJc head; Type data[100];} myArray 
  * ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, &reflection_TYPE, 0) };
- * @param TYPE the type of the elements, used in sizeof(TYPE) and in reflection##TYPE
- * @param SIZE number of elements
+ * @param NROF_ELEM number of elements
+ * @param TYPE the type of the elements, used for sizeof(TYPE)
+ * @param REFL_ELEM reflection class for the elements of the field.
+ * @param ID Object ident.
  */
-#define INIZ_ObjectArrayJc(OBJ, SIZE, TYPE, REFL, ID) \
-  { INIZ_objReflId_ObjectJc(OBJ, REFL, ID | (mArray_objectIdentSize_ObjectJc >>16)), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
+#define INIZ_ObjectArrayJc(OBJ, NROF_ELEM, TYPE, REFL_ELEM, ID) \
+  { INIZ_objReflId_ObjectJc(OBJ, REFL_ELEM, ID | (mArray_objectIdentSize_ObjectJc >>16)), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
+
+
+extern_C void init_immediate_ObjectArrayJc(ObjectArrayJc* thiz, int nrofElements, int sizeElement, struct ClassJc_t const* refl_Elem, int idObj);
 
 
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -1050,6 +1063,258 @@ C_TYPE typedef struct  ClassJc_t
 extern const ClassJc reflection_ClassJc;
 
 
+extern_C void init_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fields, ObjectArrayJc* super);
+
+
+
+/*@CLASS_C ModifierJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/** Modifiers to specify the kind of field, see class java.lang.reflect.Modifier
+*/
+
+typedef enum  Modifier_reflectJc_t
+{  /**
+   * The <code>int</code> value representing the <code>public</code>
+   * modifier.
+   */
+  mPUBLIC_Modifier_reflectJc = 0x00000001
+
+  /**
+  * The <code>int</code> value representing the <code>private</code>
+  * modifier.
+  */
+  , mPRIVATE_Modifier_reflectJc = 0x00000002
+
+  /**
+  * The <code>int</code> value representing the <code>protected</code>
+  * modifier.
+  */
+  , mPROTECTED_Modifier_reflectJc = 0x00000004
+
+  /**
+  * The <code>int</code> value representing the <code>static</code>
+  * modifier.
+  */
+  , mSTATIC_Modifier_reflectJc = 0x00000008
+
+  /**
+  * The <code>int</code> value representing the <code>final</code>
+  * modifier.
+  */
+  , mFINAL_Modifier_reflectJc = 0x00000010
+
+  /**
+  * The <code>int</code> value representing the <code>synchronized</code>
+  * modifier.
+  */
+  , mSYNCHRONIZED_Modifier_reflectJc = 0x00000020
+
+  /**
+  * The <code>int</code> value representing the <code>volatile</code>
+  * modifier.
+  */
+  , mVOLATILE_Modifier_reflectJc = 0x00000040
+
+  /**
+  * The <code>int</code> value representing the <code>transient</code>
+  * modifier.
+  */
+  , mTRANSIENT_Modifier_reflectJc = 0x00000080
+
+  /**
+  * The <code>int</code> value representing the <code>native</code>
+  * modifier.
+  */
+  , mNATIVE_Modifier_reflectJc = 0x00000100
+
+  /**
+  * The <code>int</code> value representing the <code>interface</code>
+  * modifier.
+  */
+  , mINTERFACE_Modifier_reflectJc = 0x00000200
+
+  /**
+  * The <code>int</code> value representing the <code>abstract</code>
+  * modifier.
+  */
+  , mABSTRACT_Modifier_reflectJc = 0x00000400
+
+  /**
+  * The <code>int</code> value representing the <code>strictfp</code>
+  * modifier.
+  */
+  , mSTRICT_Modifier_reflectJc = 0x00000800
+
+  /**outside java definition:
+  * If not 0, than it is a primitive type.
+  * The value at this bits represents the nr of Bits of the primitive type in the target system.
+  */
+  , mPrimitiv_Modifier_reflectJc = 0x000F0000
+
+  /**It may be a primitive with 7*8= 56 bit, it is used to designate a bitfield. */
+  , kBitfield_Modifier_reflectJc = 0x00070000
+
+  /**It may be a primitive with 9*8= 72 bit, it is used to designate a handle for a pointer.
+  * This is a special feature for supporting 64-bit-addresses with 32-bit handle. The handle is the index
+  * of a global address table which contains the pointer. Alternatively for 32-bit-Systems the handle is equal the pointer value.
+  */
+  , kHandlePtr_Modifier_reflectJc = 0x00090000
+
+  /**outside java definition:
+  * Position of this Bits.
+  */
+  , kBitPrimitiv_Modifier_reflectJc = 16
+
+  /**outside java definition:
+  * This bits represents the containertype.
+  */
+#define m_Containertype_Modifier_reflectJc 0x00f00000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isUML_List()-Property.
+  * It is set if a Reference is a multiple aggregation realized with a list container
+  * using the ListJc interface.
+  */
+  , kListJc_Modifier_reflectJc = 0x00100000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isUML_List()-Property.
+  * It is set if a Reference is a multiple aggregation realized with a array container
+  * using the ObjectArrayJc structure.
+  */
+  , kObjectArrayJc_Modifier_reflectJc = 0x00200000   //do not change, compatibility with older data
+
+                                                     /**outside java definition:
+                                                     * The <code>int</code> value representing the isUML_List()-Property.
+                                                     * It is set if a Reference is a multiple aggregation realized with a array container
+                                                     * using the ObjectArrayJc structure.
+                                                     */
+  , kPtrVal_Modifier_reflectJc = 0x00300000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isUML_List()-Property.
+  * It is set if a Reference is a multiple aggregation realized with a list container
+  * using the MapJc interface.
+  */
+  , kMapJc_Modifier_reflectJc = 0x00400000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isUML_List()-Property.
+  * It is set if a Reference is a multiple aggregation realized with a list container.
+  * The realisation of the list may be specific for a UML framework, therefore the access to the elements
+  * is made with the user definable UML_ListJc methods.
+  */
+  , kUML_LinkedList_Modifier_reflectJc = 0x00500000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isUML_Map()-Property.
+  * It is set if a Reference is a multiple aggregation realized with a list container.
+  * The realisation of the list may be user specific for a UML framework, therefore the access to the elements
+  * is made with the user definable UML_MapJc methods.
+  */
+  , kUML_Map_Modifier_reflectJc = 0x00600000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isUML_Array()-Property.
+  * It is set if a Reference is a multiple aggregation realized with a list container.
+  * The realisation of the list may be user specific for a UML framework, therefore the access to the elements
+  * is made with the user definable UML_ArrayJc methods.
+  */
+  , kUML_ArrayList_Modifier_reflectJc = 0x00700000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isStaticArray-Property.
+  * It is set if multiple elements are after another imediately,
+  * The number of elements is hold in the FieldJc.nrofArrayElements
+  */
+  , kStaticArray_Modifier_reflectJc = 0x00800000   //do not change, compatibility with older data
+
+                                                   /**Mode of addressing of complex elements. This mode is regarded to the elements of a container,
+                                                   * if the field represents a container.
+                                                   * The kind of the instanciation of the container is found in @see mContainerinstance_Modifier_reflectJc.
+                                                   */
+#define mAddressing_Modifier_reflectJc 0x03000000
+                                                   /** outside java definition:
+                                                   * The <code>int</code> value representing the isEmbedded()-Property of fields,
+                                                   * It is set if a attribute represented by the field in reflection represents
+                                                   * a embedded structured (not a reference to data).
+                                                   */
+  , kEmbedded_Modifier_reflectJc = 0x01000000
+
+  /** outside java definition:
+  * The <code>int</code> value representing the isReference()-Property.
+  * A reference is a reference to a primitive type or structured type,
+  * not inherited from ObjectJc.
+  */
+  , kReference_Modifier_reflectJc = 0x02000000
+
+
+
+  /** outside java definition:
+  * The <code>int</code> value representing the isEnhancedReference()-Property.
+  * An enhanced reference may be reference a ObjectJc-inherited instance.
+  * NOTE: mask and compare both bits mEmbedded_Modifier_reflectJc and mReference_Modifier_reflectJc!
+  */
+  , kEnhancedReference_Modifier_reflectJc = 0x03000000
+  /** outside java definition:
+  * The <code>int</code> value representing the isObjectJc()-Property.
+  * It is set if the Type contains ObjectJc at its first position,
+  * especially for C-struct using CRuntimeJavalike-concepts. If it is set,
+  * a C-pointer cast is allowed to keep the ObjectJc-pointer.
+  * The bit is not set if the type is derived from ObjectJc,
+  * but don't contain it at first position
+  * It is not set if
+  */
+  , mObjectJc_Modifier_reflectJc = 0x04000000
+
+  /**outside java definition:
+  * The <code>int</code> value representing the isObjectifc()-Property.
+  * It is set if the Type is derived from ObjectifcBaseJcpp.
+  */
+  , mObjectifcBaseJcpp_Modifier_reflectJc = 0x08000000
+
+
+  /**The container is instanciated embeddedly. */
+  , kEmbeddedContainer_Modifier_reflectJc = 0x10000000
+  /**The container is referenced with a simple reference. */
+  , kReferencedContainer_Modifier_reflectJc = 0x20000000
+  /**The container is referenced with an enhanced reference. */
+  , kEnhancedRefContainer_Modifier_reflectJc = 0x30000000
+
+
+
+} Modifier_reflectJc;
+
+
+
+typedef enum Mask_ModifierJc_t
+{
+  /**If this bit is set, it is either a reference or a enhanced reference.*/
+  mReference_Modifier_reflectJc = 0x02000000
+
+  /**outside java definition:
+  * The <code>int</code> represents the kind of the instanciation of the container.
+  *
+  */
+  , mContainerinstance_Modifier_reflectJc = 0x30000000
+}Mask_ModifierJc;
+
+
+
+#define isReference_ModifierJc(VALUE) ( (VALUE & mReference_Modifier_reflectJc) !=0)
+
+//#define isCollection_ModifierJc(VALUE) ( (VALUE & (mListJc_Modifier_reflectJc | mObjectArrayJc_Modifier_reflectJc  | mMapJc_Modifier_reflectJc | mStaticArray_Modifier_reflectJc | mUML_LinkedList_Modifier_reflectJc | mUML_ArrayList_Modifier_reflectJc| mUML_Map_Modifier_reflectJc)) != 0 )
+#define isCollection_ModifierJc(VALUE) ( (VALUE & m_Containertype_Modifier_reflectJc) != 0 )
+
+#define isStaticArray_ModifierJc(VALUE) ( (VALUE & m_Containertype_Modifier_reflectJc) == kStaticArray_Modifier_reflectJc )
+
+/**Returns true if it is an embedded static simple array.*/
+#define isStaticEmbeddedArray_ModifierJc(VALUE) ( (VALUE & (m_Containertype_Modifier_reflectJc|mContainerinstance_Modifier_reflectJc)) == (kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc ) )
+
+
+
+
 
 /*@CLASS_C ClassOffset_idxMtblJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -1062,7 +1327,7 @@ typedef struct ClassOffset_idxMtblJc_t
   /** The reflection definition*/
   ClassJc const* clazz;
  
-  /** Index of the virtual table inside its parent.*/
+  /** Index of the virtual table inside its parent. The array of virtual operations is in othiz->reflection.mtbl */
   int idxMtbl;
  
   /**The field is a helper for inspector access: It contains the name of the interface or "super"
@@ -1090,6 +1355,12 @@ typedef struct ClassOffset_idxMtblJcARRAY_t
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ClassOffset_idxMtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassOffset_idxMtblJc<<kBitTypeSmall_objectIdentSize_ObjectJc))
 
+
+/**Initializes a super class or interface reference in RAM for runtime reflection. 
+ * @param refl_super The reflection for this super class or interface.
+ * @param ixVtbl The index of the virtual table part. Use 0 if the superclass or interface has not a Vtbl.  
+ */
+extern_C void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int ixVtbl);
 
 #endif  //#ifndef __ObjectJc_defined__
 
@@ -1149,7 +1420,7 @@ extern_C const ClassJc reflection_OS_PtrValue;
 extern_C const ClassJc reflection__voidJc;
 extern_C const ClassJc reflection__ObjectifcBaseJcpp;
 
-#define reflection__ObjectArrayJc reflection__ObjectJc
+#define reflection__ObjectArrayJc reflection_ObjectJc
 #define reflection__StringJc reflection_StringJc
 #define reflection__ClassJc reflection__ObjectJc
 

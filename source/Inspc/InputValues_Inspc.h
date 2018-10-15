@@ -53,7 +53,13 @@ typedef struct InputValues_Inspc_t
 
     FieldJc_Y fields;
 
-    FieldJc _fields[17 - zFieldsInHead_FieldJc_Y];
+    FieldJc _fields[17 - zFieldsInHead_FieldJc_Y]; //TODO 13
+
+    struct {
+      ObjectArrayJc head;
+      ClassOffset_idxMtblJc clazz;
+    } superclass;
+
   #endif//refl
 
 } InputValues_Inspc;
@@ -76,7 +82,7 @@ char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Insp
   , StringJc nameRefl_param
   , StringJc n1_param, StringJc n2_param, StringJc n3_param, StringJc n4_param, StringJc n5_param, StringJc n6_param
   , StringJc n7_param, StringJc n8_param, StringJc n9_param, StringJc n10_param, StringJc n11_param, StringJc n12_param
-  , Entry_DefPortTypeJc* portTypes);
+  , DefPortTypesJc* portTypes);
 
 /**Stores the given values from inputs. The type of inputs are determined by [[init_InputValues_Inspc(...)]].
  * @simulink Object-FB, no-thizInit, no-thizStep

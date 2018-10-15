@@ -106,8 +106,11 @@ char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Insp
   , StringJc nameRefl
   , StringJc n1, StringJc n2, StringJc n3, StringJc n4, StringJc n5, StringJc n6
   , StringJc n7, StringJc n8, StringJc n9, StringJc n10, StringJc n11, StringJc n12
-  , Entry_DefPortTypeJc* portTypes)
+  , DefPortTypesJc* portTypesFromSmlk)
 { 
+  typedef struct {Entry_DefPortTypeJc e[12]; } Types_InputValues_Inspc;
+  Types_InputValues_Inspc* portTypes = (Types_InputValues_Inspc*)&portTypesFromSmlk->entries[portTypesFromSmlk->ixInputStep];
+
   StringJc names[12];
   names[0] = n1;   //using for(0..11)
   names[1] = n2;
@@ -121,9 +124,11 @@ char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Insp
   names[9] = n10;
   names[10] = n11;
   names[11] = n12;
-  strcpy_emC(thiz->clazz.name, "InputValues_Inspc", sizeof(thiz->clazz.name));
-  thiz->clazz.nSize = sizeof(*thiz);
-  thiz->clazz.attributes = &thiz->fields;
+
+  //fill the local given superclass and class data.
+  init_immediate_ObjectArrayJc(&thiz->superclass.head, 1, sizeof(thiz->superclass.clazz), null, 0);
+  init_ClassOffset_idxMtblJc(&thiz->superclass.clazz, &reflection_ObjectJc, 0);
+  init_Fields_super_ClassJc(&thiz->clazz, nameRefl, &thiz->fields.head, &thiz->superclass.head);
   int ix;
   int ixField = 0;
   int posField = offset_MemAreaC(thiz, &thiz->val[0]);
@@ -138,13 +143,18 @@ char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Insp
     }
     FieldJc* field = &thiz->fields.data[ix];
     int nrofBytesType;
+    field->type_ = null; //not defined yet.
+    field->nrofArrayElementsOrBitfield_ = 0; //default: scalar
     if(name[0] == '*') {  //access to the content of a pointer.
       name += 1;  //without '*'
       zname -=1;
-      field->type_ = REFLECTION_uint32;
       nrofBytesType = 4;
-      field->nrofArrayElementsOrBitfield_ = 128;
-      field->bitModifiers = kStaticArray_Modifier_reflectJc | kReference_Modifier_reflectJc;
+      if (portTypes->e[ix].type == '4') {
+        field->bitModifiers = kHandlePtr_Modifier_reflectJc | kReference_Modifier_reflectJc;
+        field->type_ = REFLECTION_ObjectJc;
+      } else {
+        field->bitModifiers = kStaticArray_Modifier_reflectJc | kReference_Modifier_reflectJc;
+      }
     } else if(name[0] == '&') {  //access to the content of a pointer.
       name += 1;  //without '&'
       zname -=1;
@@ -156,61 +166,67 @@ char const* init_InputValues_Inspc(InputValues_Inspc* thiz, struct DataNode_Insp
         //The Simulink mex routine is different how to interpret the inputs of the S-function.
         field->type_ = REFLECTION_uint32;
         nrofBytesType = 4;
-        field->nrofArrayElementsOrBitfield_ = 128;
+        field->nrofArrayElementsOrBitfield_ = 128;  //for debugging: show an array
         field->bitModifiers = kStaticArray_Modifier_reflectJc | kReference_Modifier_reflectJc;
       } else {
         field->type_ = &reflection_ObjectJc;
         nrofBytesType = 4;
-        field->nrofArrayElementsOrBitfield_ = 0;
         field->bitModifiers = kReference_Modifier_reflectJc;
       }
     } else {
-      bool bComplex = portTypes[ix].type >= 'a';
-      int cType;
-      switch(portTypes[ix].type) {
-        case 'D': nrofBytesType = 8; cType = kREFLECTION_double_ClassJc; break;
-        case 'd': nrofBytesType = 8; cType = kREFLECTION_complexdouble_ClassJc; break;
-        case 'F': nrofBytesType = 4; cType = kREFLECTION_float_ClassJc; break;
-        case 'f': nrofBytesType = 4; cType = kREFLECTION_complexfloat_ClassJc; break;
-        case 'I': nrofBytesType = 4; cType = kREFLECTION_int32_ClassJc; break;
-        case 'i': nrofBytesType = 4; cType = kREFLECTION_int32_ClassJc; break;
-        case '4': nrofBytesType = 4; cType = kREFLECTION_uint32_ClassJc; break;
-        case 'S': nrofBytesType = 2; cType = kREFLECTION_int16_ClassJc; break;
-        case '2': nrofBytesType = 2; cType = kREFLECTION_uint16_ClassJc; break;
-        case 'B': nrofBytesType = 1; cType = kREFLECTION_int8_ClassJc; break;
-        case '1': nrofBytesType = 1; cType = kREFLECTION_uint8_ClassJc; break;
-        //Bus: type = 0x20
-        default: cType = REFLECTION_uint32_ClassJc;
-      } //switch
-      if(bComplex) { nrofBytesType *=2; }
-      field->type_ = ((struct ClassJc_t const*)cType); //REFLECTION_float;
-      int sizeArray = portTypes[ix].sizeArray[0];
-      if(sizeArray == 1 || sizeArray == 0) {
-        field->nrofArrayElementsOrBitfield_ = 0;
-      } else {
-        field->nrofArrayElementsOrBitfield_ = sizeArray; //especially 0 for scalar.
-        nrofBytesType *= sizeArray;
-        field->bitModifiers = kStaticArray_Modifier_reflectJc;
-      } 
+      field->bitModifiers = 0;
     }
+
+    if (field->type_ == null) {
+      //define the type , it is defined for special cases already.
+      bool bComplex = portTypes->e[ix].type >= 'a';
+      int cType;
+      switch (portTypes->e[ix].type) {
+      case 'D': nrofBytesType = 8; cType = kREFLECTION_double_ClassJc; break;
+      case 'd': nrofBytesType = 8; cType = kREFLECTION_complexdouble_ClassJc; break;
+      case 'F': nrofBytesType = 4; cType = kREFLECTION_float_ClassJc; break;
+      case 'f': nrofBytesType = 4; cType = kREFLECTION_complexfloat_ClassJc; break;
+      case 'I': nrofBytesType = 4; cType = kREFLECTION_int32_ClassJc; break;
+      case 'i': nrofBytesType = 4; cType = kREFLECTION_int32_ClassJc; break;
+      case '4': nrofBytesType = 4; cType = kREFLECTION_uint32_ClassJc; break;
+      case 'S': nrofBytesType = 2; cType = kREFLECTION_int16_ClassJc; break;
+      case '2': nrofBytesType = 2; cType = kREFLECTION_uint16_ClassJc; break;
+      case 'B': nrofBytesType = 1; cType = kREFLECTION_int8_ClassJc; break;
+      case '1': nrofBytesType = 1; cType = kREFLECTION_uint8_ClassJc; break;
+        //Bus: type = 0x20
+      default: cType = REFLECTION_uint32_ClassJc;
+      } //switch
+      if (bComplex) { nrofBytesType *= 2; }
+      field->type_ = ((struct ClassJc_t const*)cType); //REFLECTION_float;
+    }
+    if (field->nrofArrayElementsOrBitfield_ == 0) {  //if special determined do not change. 
+      int sizeArray = portTypes->e[ix].sizeArray[0]; //0 possible if scalar. 
+      if (sizeArray > 1) {                           //==1: remain 0 for scalar.
+        field->nrofArrayElementsOrBitfield_ = sizeArray; 
+        nrofBytesType *= sizeArray;
+        field->bitModifiers |= kStaticArray_Modifier_reflectJc;
+      }
+    }
+
     if((posField + nrofBytesType)  < posEnd) {
       thiz->nrofbytesType[ix] = nrofBytesType;
       field->position = posField; //offset_MemAreaC(thiz, &thiz->val[kSizeX_InputValues_Inspc * ix]);
       nrofBytesType = (nrofBytesType + 3) & ~3;  //round up to 4-aligned
       posField += nrofBytesType;
-      strcpy_emC(field->name, name, zname);
+      strncpy_emC(field->name, name, zname);
     } else {
       strcpy_emC(field->name, "?dataOverflow", sizeof(field->name));
     }
   }
   //reference to thiz
-  FieldJc* field = &thiz->fields.data[++ixField];  //The next field.  
-  field->type_ = &reflection_InputValues_Inspc;  
-  field->position = 0;
-  strcpy_emC(field->name, "thiz$InputValues_Inspc", sizeof(field->name)-1);
+  FieldJc* fieldthis = &thiz->fields.data[++ixField];  //The next field.  
+  fieldthis->type_ = &reflection_InputValues_Inspc;  
+  fieldthis->position = 0;
+  strcpy_emC(fieldthis->name, "thiz$InputValues_Inspc", sizeof(fieldthis->name));
   thiz->fields.head.length = ixField +1;  //data fields + reference to thiz
 
   //register this data in the parent node:
+  thiz->base.reflectionClass = &thiz->clazz;
   addObjRefl_DataNode_Inspc(dataNode, nameRefl, z_StringJc(""), thiz, &thiz->clazz);
   setInitialized_ObjectJc(&thiz->base);
   return null;
