@@ -35,13 +35,38 @@ typedef struct Entry_DefPortTypeJc_t
 } Entry_DefPortTypeJc;  //Note: size=6*4
 
 
+/**Parses the type or name string to detect a type.
+ * * If the type is emtpy (NULL_StringJc) then the name till a ':' is used to parsed. 
+ * * A character D F J I S B designates double, float, int64, int32, int16, int8. That are the same type chars as in Java usual used. 
+ * * A character U W V is the unsigned form of uint32, uint16, uint8
+ * * A character d f j i s b is the complex variant of double, float, int64, int32, int16, int8. 
+ * * A character C Z is char8 and boolean as int8, same as in Java
+ * * Not supported yet 2018-10: z for zero-terminated char*, s for StringJc, c for char16
+ * * An array designation can be written as [12,23], as [12][23], as [12[23, as 12,23 or as 12[23. 
+ * All of that is admissible because the [ , ] will be skipped, only the number is relevant.
+ * Up to 5 array dimensions. 
+ * * The type can start with array dimensions or with the type char. A mix is admissible too.
+ * * For example "3F" and "F3", both it is a float[3]. "3F2" is a float[3][2].
+ *
+ * * @param type can be NULL_StringJc, then name till ':' is used. Elsewhere the type designation.
+ * * @param name only used if type is NULL_StringJc
+ * * @param posStartName null is admissible. If not null, set to position after ':' in name, if type is NULL_StringJc, elsewhere set to 0. 
+ * * @return an error message on format error. Elsewhere null.
+ */
+char const* parse_Entry_DefPortType_emC  ( Entry_DefPortTypeJc* thiz, StringJc type, StringJc name, int* posStartName, ThCxt* _thCxt);
 
-                        /**Data definition for port properties, especially for Simulink Sfunctions.
-                        * This struct should included in the following definition:
-                        * ,,struct { DefPortTypesJc head; Entry_DefPortTypeJc __data__[<&return.nrofPorts>-1]; } __defPortTypes;
-                        * In this case the __data__ followes the element entries[1] immediately in the memory layout.
-                        * Note: The size of this struct is able to divide by 8. It is important for alignment.
-                        */
+
+bool checkType_Entry_DefPortType_emC(Entry_DefPortTypeJc* thiz, ClassJc const* reflectionType);
+
+
+
+
+/**Data definition for port properties, especially for Simulink Sfunctions.
+ * This struct should included in the following definition:
+ * ,,struct { DefPortTypesJc head; Entry_DefPortTypeJc __data__[<&return.nrofPorts>-1]; } __defPortTypes;
+ * In this case the __data__ followes the element entries[1] immediately in the memory layout.
+ * Note: The size of this struct is able to divide by 8. It is important for alignment.
+ */
 typedef struct DefPortTypesJc_t
 { /**The number of elements of entries. */
   int16 size;

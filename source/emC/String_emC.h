@@ -138,8 +138,14 @@ inline int strncpy_emC  (  char* dst, char const* src, int length){ return strcp
 /**Searches a character inside a given string with terminated length.
  * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
  * It is similar strnchr, but with other return value.
+ * @param text do not need to be 0-terminated. A character after 0 is detect too depending on zText
+ * @param zText if <0 then a 0-terminated search is done, whereby -zText is the maximal checked length.
+ *     -1 checks only the first char. -0x7fff searches in 32767 chars if a '\0' was not found.
+ *     Note: The length should be determined in any case to prevent memory access errors on not terminated char arrays.
+ *     if zText >=0 this is the real number of chars to test independing of an 0-character.
+ * @param cc char to search. 0 it possible (searches the first '\0'.
  */
-int searchChar_emC ( char const* text, int maxNrofChars, char cc);
+int searchChar_emC ( char const* text, int zText, char cc);
 
 
 /**Searches a character inside a given string with terminated length.
@@ -299,14 +305,7 @@ extern_C double parseDouble_emC ( const char* src, int size, int* parsedChars);
  */
 #define CharSeqJc StringJc
 
-/**Returns true if the StringJc contains null. The user should use this macro instead straigtly using of the basicly definitions,
- * because the definition of OS_PtrValue and therefore the definition of StringJc is os-specific. 
- * @param STR StringJc-instance to test. The macro uses the instance directly.
- * @return true only if the text-reference is ,,null,,. false if it is an empty or non-empty text.
- */
-#define isNull_StringJc(STR) (PTR_OS_PtrValue((STR), void*)==null)
-
-
+/**Definition of masks and const for val element in StringJc and CharSeqJc: */
 #ifdef __NoCharSeqJcCapabilities__
   #define mMtbl_CharSeqJc 0
   #define kIsCharSeqJc_CharSeqJc 0
@@ -315,34 +314,42 @@ extern_C double parseDouble_emC ( const char* src, int size, int* parsedChars);
 #else   
 
   /**Mask bits for position of method table of CharSequJc.
-   * If mLength__StringJc == 0x3fff (default for 32 bit system), the mask is 0x0fff
-   * The val info in a CharSeqJc will be 0x3000..0x3fff..
-   * See [[kMaxLength_StringJc]], .
-   */
+  * If mLength__StringJc == 0x3fff (default for 32 bit system), the mask is 0x0fff
+  * The val info in a CharSeqJc will be 0x3000..0x3fff..
+  * See [[kMaxLength_StringJc]], .
+  */
   #define mMtbl_CharSeqJc (mLength__StringJc >>2)
 
   /**Designation of the String as CharSeqJc without a method table offset. In this case the reference refers a CharSeqJc and the length
-   * should be gotten by invocation of [[length_CharSeqJc(...)]].
-   * If mLength is defined with 0x3fff the value is 0x03ffe. mLength is defined os- and platform-depended in os_types_def.h
-   */
+  * should be gotten by invocation of [[length_CharSeqJc(...)]].
+  * If mLength is defined with 0x3fff the value is 0x03ffe. mLength is defined os- and platform-depended in os_types_def.h
+  */
   #define kIsCharSeqJc_CharSeqJc (mLength__StringJc -2)
 
-  /**The limit for the length of a StringJc. It is derived from the platform-specific definition of ,,mLength__StringJc,, 
-   * contained in the platform-specific ,,compl_adaption.h,,. 
-   * If the ,,mLength_StringJc,, is defined with ,,0x3fff,, then this value is ,,0x2fff,,.
-   * 
-   * If a ,,StringJc,, is designated with this value for the ,,mLength__StringJc,, bits, then the length should be gotten 
-   * on demand. The [[length_StringJc(...)]] regards that.  
-   */
+  /**The limit for the length of a StringJc. It is derived from the platform-specific definition of ,,mLength__StringJc,,
+  * contained in the platform-specific ,,compl_adaption.h,,.
+  * If the ,,mLength_StringJc,, is defined with ,,0x3fff,, then this value is ,,0x2fff,,.
+  *
+  * If a ,,StringJc,, is designated with this value for the ,,mLength__StringJc,, bits, then the length should be gotten
+  * on demand. The [[length_StringJc(...)]] regards that.
+  */
   #define kMaxNrofChars_StringJc ((mLength__StringJc & ~mMtbl_CharSeqJc)-1)
 
   /**Designation of the String as CharSeqJc maybe with a method table offset. In this case the reference refers a CharSeqJc and the length
-   * should be gotten by invocation of [[length_CharSeqJc(...)]].
-   * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
-   */
+  * should be gotten by invocation of [[length_CharSeqJc(...)]].
+  * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
+  */
   #define mIsCharSeqJcMtbl_CharSeqJc (mLength__StringJc & ~mMtbl_CharSeqJc)
 #endif
 
+
+
+/**Returns true if the StringJc contains null. The user should use this macro instead straigtly using of the basicly definitions,
+ * because the definition of OS_PtrValue and therefore the definition of StringJc is os-specific. 
+ * @param STR StringJc-instance to test. The macro uses the instance directly.
+ * @return true only if the text-reference is ,,null,,. false if it is an empty or non-empty text.
+ */
+#define isNull_StringJc(STR) (PTR_OS_PtrValue((STR), void*)==null)
 
 
 
@@ -504,52 +511,30 @@ inline StringJc zI_StringJc  (  char const* src, int len)
 
 #define isEmpty_s0_emC(TEXT) ((TEXT)==null || *(TEXT)==0)
 
-int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
 
 
-/**Returns the length. If the source stores the value kMaxLength__StringJc in its value-element,
- * the length is got calling ,,strlen(ptr),,. Otherwise the length is the value-element,
- * mask with mLength__StringJc, independent of the string itself. Note that the string may contain 0-chars
- * inside the given length.
+/**Returns the length of the given String. It regards a 0-terminated String, then [[strlen_emC(...)] is invoked.
+ * If the value-element designates that it is a CharSeqJc, than 0 is returned (more correct: THROw error). 
+ * Use [[length_CharSeqJc(...)]]  if this refers a StringBuilderJc or any other implementation of CharSeqJc.
+ * The difference to CharSeqJc(...) is: the last one needs to compile StringCharSeq_emc.c
  * @return The length of the string.
- */
-inline int length_CharSeqJc  (  CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
+*/
+inline int length_StringJc(StringJc thiz)  //INLINE
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
-  if(val < kMaxNrofChars_StringJc) { 
+  if (val < kMaxNrofChars_StringJc) {
     //simple form, inline, fast:
     return val;
-  } else {
-    //all other is too much for inline:
-    return _length_PRIV_CharSeqJc(thiz, _thCxt);
+  }
+  else if (val == kIs_0_terminated_StringJc) {
+    //assume it is 0-terminated.:
+    return strnlen_emC(thiz.ref, mLength__StringJc - 3);
+  }
+  else {
+    return 0; //not expected.
   }
 }
 
-
-
-
-
-
-char _charAt_PRIV_CharSeqJc  (  CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt);
-
-/**Returns the character which is addressed with the position.
- * This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc. Then it is a fast operation.
- * In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked. 
- * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the 
- */
-inline char charAt_CharSeqJc  (  CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
-{
-#ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
-  int val = value_OS_PtrValue(thiz) & mLength__StringJc;
-  if(val < kMaxNrofChars_StringJc && pos < val) { 
-    //simple form, inline, fast:
-    return PTR_OS_PtrValue(thiz, char const)[pos];
-  } else {
-    //all other is too much for inline:
-    return _charAt_PRIV_CharSeqJc(thiz, pos, _thCxt);
-  }
-#endif//__ignoreInCheader_zbnf__
-}
 
 #define charAt_StringJc(THIZ, POS) charAt_CharSeqJc(THIZ, POS, null)
 
@@ -737,18 +722,6 @@ bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp
 #define equals_s0_StringJc(YTHIS, CMP) equals_z_StringJc(YTHIS, CMP)
 
 
-
-/*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-
-#ifndef __ObjectJc_simple__
-
-
-
-extern_C struct Mtbl_CharSeqJc_t const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
-
-
-#endif
 
 /*@CLASS_C StringBuilderJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 #include <emC/Object_emC.h>
@@ -1186,11 +1159,22 @@ inline CharSeqJc toCharSeqJc_StringBuilderJc  (struct StringBuilderJc_t const* t
 #define fromStringBuilderJc_CharSeqJc(THIZ) toCharSeqJc_StringBuilderJc(THIZ)
 
 
-/*@inline @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**StringJc : Additional to StringJc after definiton of [[length_StringBuilderJc(...)]]. */
 
-inline int length_StringJc  (StringJc thiz)  //INLINE
+#ifndef __ObjectJc_simple__
+
+
+
+int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
+
+/**Returns the length. If the source stores the value kMaxLength__StringJc in its value-element,
+* the length is got calling ,,strlen(ptr),,. Otherwise the length is the value-element,
+* mask with mLength__StringJc, independent of the string itself. Note that the string may contain 0-chars
+* inside the given length.
+* @return The length of the string.
+*/
+inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
 {
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if (val < kMaxNrofChars_StringJc) {
@@ -1205,9 +1189,51 @@ inline int length_StringJc  (StringJc thiz)  //INLINE
     return length_StringBuilderJc(PTR_OS_PtrValue(thiz, struct StringBuilderJc_t));
   }
   else {
-    return 0; //not expected.
+    //all other is too much for inline:
+    return _length_PRIV_CharSeqJc(thiz, _thCxt);
   }
 }
+
+
+
+
+
+
+char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt);
+
+/**Returns the character which is addressed with the position.
+* This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc. Then it is a fast operation.
+* In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked.
+* That checks whether a index of the method table is given or the method table of any ObjectJc which implements the
+*/
+inline char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
+{
+#ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
+  int val = value_OS_PtrValue(thiz) & mLength__StringJc;
+  if (val < kMaxNrofChars_StringJc && pos < val) {
+    //simple form, inline, fast:
+    return PTR_OS_PtrValue(thiz, char const)[pos];
+  }
+  else {
+    //all other is too much for inline:
+    return _charAt_PRIV_CharSeqJc(thiz, pos, _thCxt);
+  }
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+
+extern_C struct Mtbl_CharSeqJc_t const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
+
+
+#endif
+
+/*@inline @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**StringJc : Additional to StringJc after definiton of [[length_StringBuilderJc(...)]]. */
+
+
+
 
 
 /*@END*/

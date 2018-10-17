@@ -469,52 +469,26 @@ METHOD_C int indexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex)
   //STACKTRC_TENTRY("StringJc.indexOf(int,int)");
   if(nChars == mLength__StringJc) { nChars = strlen(chars); }
   //const char* chars = getCharsAndLength_StringJc(ythis, &nChars);
-  if(fromIndex <0)
+  if(fromIndex <0 || fromIndex >= nChars)
   { //STACKTRC_LEAVE; 
     return( -1);
   }
-  else
-  { int ii;
-    for(ii = fromIndex; ii < nChars; ii++)
-    { if(chars[ii] == ch) 
-      { //STACKTRC_LEAVE; 
-        return( ii); 
-      }
-    }
-    //STACKTRC_LEAVE; 
-    return( -1);  //not found STACKTRC_LEAVE; return(s in for loop if found!
-  }
+  return searchChar_emC(chars + fromIndex, nChars - fromIndex, ch);
 }
 
 
 
 int indexOf_sI_StringJc(StringJc ythis, StringJc str, int fromIndex)
 { int nChars;
-  //STACKTRC_TENTRY("StringJc._Si_StringJc");
-  { 
-    const char* chars = getCharsAndLength_StringJc(&ythis, &nChars);
-    int nCharsSearch;
-    const char* charsSearch = getCharsAndLength_StringJc(&str, &nCharsSearch);
-    if(fromIndex <0)
-    { //STACKTRC_LEAVE; 
-      fromIndex = 0; //In java it is so too.
-    }
-    //
-    { int ii;
-      char cc = charsSearch[0];
-      for(ii = fromIndex; ii < (nChars - nCharsSearch) +1; ii++)
-      { if(chars[ii] == cc)
-        { //first char found, test the rest chars
-          if(strncmp(charsSearch, chars+ii, nCharsSearch) == 0)
-          { //STACKTRC_LEAVE; 
-            return( ii);
-          }
-        }
-      }
-    }
-    //STACKTRC_LEAVE; 
-    return( -1);  //not found, note: return ii in for-loop if found.
+  const char* chars = getCharsAndLength_StringJc(&ythis, &nChars);
+  int nCharsSearch;
+  const char* charsSearch = getCharsAndLength_StringJc(&str, &nCharsSearch);
+  if(fromIndex <0)
+  { //STACKTRC_LEAVE; 
+    fromIndex = 0; //In java it is so too.
   }
+  return searchString_emC(chars + fromIndex, nChars - fromIndex, charsSearch, nCharsSearch);
+  //
 }
 
 

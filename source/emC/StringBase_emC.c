@@ -45,16 +45,16 @@ int strnlen_emC  (  char const* text, int maxNrofChars)
 
 
 
-/**Searches a character inside a given string with terminated length.
-* NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
-*/
-int searchChar_emC  (  char const* text, int maxNrofChars, char cc)
+int searchChar_emC  (  char const* text, int zText, char cc)
 {
   register char const* text1 = text;
-  register char const* text9 = text + maxNrofChars;
   char c1 = cc +1; //!=cc
+  if (zText < 0) {
+    zText = strnlen_emC(text, -zText);
+  }
+  register char const* text9 = text + zText;
   //optimization: test only one pointer register, which is incremented too
-  while (text1 < text9 && (c1 = *text1) != cc && c1 != 0) {
+  while (text1 < text9 && (c1 = *text1) != cc) {
     text1 += 1;
   }
   return c1 == cc ? text1 - text : -1; //maybe 0 if the request char is on the first position. -1 if not found.
@@ -66,13 +66,16 @@ int searchChar_emC  (  char const* text, int maxNrofChars, char cc)
 /**Searches a String inside a given string with terminated length.
 * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
 */
-int searchString_emC  (  char const* text, int maxNrofChars, char const* ss, int zs)
+int searchString_emC  (  char const* text, int zText, char const* ss, int zs)
 {
+  if (zText < 0) {
+    zText = strnlen_emC(text, -zText);
+  }
   register char const* text1 = text;
   register char const* text2 = text + zs;
   register char const* text3 = text + 1;
   register char const* s2 = ss + 1;
-  register char const* text9 = text + maxNrofChars;
+  register char const* text9 = text + zText;
   register char cc;
   //optimization: test only one pointer register, which is incremented too
   while (text3 <= text9 && text3 < text2) {
@@ -91,6 +94,8 @@ int searchString_emC  (  char const* text, int maxNrofChars, char const* ss, int
   if (text3 > text9) return -1;  //not found
   else return (text1 - text);    //maybe 0 if the request char is on the first position.
 }
+
+
 
 
 //Note: effective and safe implementation, better then strncpy and strlcpy.
