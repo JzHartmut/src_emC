@@ -158,9 +158,8 @@ typedef float                float32;
 
 
 
-/**Ein EventHandle ist unter Windows ein HANDLE und dort als void* definiert. 
- * Der Anwender soll aber keine windows.h und ?hnliches einziehen sollen (zuviel M?ll),
- * daher hier die Zur?ckf?hrung auf die Schnittmenge zwischen windows.h und dem Rest der Welt.
+/**Ein EventHandle is a HANDLE defined as void*. 
+ * The user should not include windows.h or such. 
  */
 #define OS_HandleEvent void*   
 
@@ -180,15 +179,20 @@ typedef float                float32;
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
  * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
-#define OS_PtrVal_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
-
+#define OS_PtrValue_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
+#define OS_PtrVal_DEF OS_PtrValue_DEF
 
 /**A const definition takes 3 arguments, but the type of them depends from operation system.
  * @param PTR a pointer from a type*-type.
  * @param TYPE the type of the pointer.
  * @param VAL a value from a int-type
  */
-#define CONST_OS_PtrValue(PTR, TYPE, VAL) { (TYPE*) PTR, (int32)VAL}
+#define INIZ_OS_PtrValue(PTR, TYPE, VAL) { (TYPE*) PTR, (int32)VAL}
+
+#define CONST_OS_PtrValue(PTR, TYPE, VAL) INIZ_OS_PtrValue(PTR, TYPE, VAL)
+
+
+
 
 
 #define value_OS_PtrValue(THIS) ((THIS).val)
@@ -203,6 +207,15 @@ typedef float                float32;
 #define setValue_OS_PtrValue(THIS, INT) { (THIS).val = (INT); }
 
 #define setPtr_OS_PtrValue(THIS, PTR) { (THIS).ref = (char*)(PTR); }
+
+/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
+ * but in the 32-bit-System the handle value is equal the pointer value.
+ * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
+ * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
+ * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
+ * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ */
+#define HandlePtr_emC(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
@@ -235,10 +248,6 @@ typedef float                float32;
 
 //#define abs(X) (X <0 ? -X :X)
 
-/**Yet in simulink an untyped input/output handle which is a pointer can only be stored as double.
- * use conversion:
- *  SIMUPTR ptr = *(SIMUPTR*)&reference; //reference is any Type* reference.
- */
 
 /**Include the common definitions in its pure form. */
 #include <OSAL/os_types_def_common.h>

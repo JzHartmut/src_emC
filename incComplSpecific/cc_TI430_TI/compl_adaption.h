@@ -8,7 +8,7 @@
  * 2) You can redistribute copies of this source to everybody.
  * 3) Every user of this source, also the user of redistribute copies
  *    with or without payment, must accept this license for further using.
- * 4) But the LPGL ist not appropriate for a whole software product,
+ * 4) But the LPGL is not appropriate for a whole software product,
  *    if this source is only a part of them. It means, the user
  *    must publish this part of source,
  *    but don't need to publish the whole source of the own product.
@@ -235,9 +235,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
-/**Ein EventHandle ist unter Windows ein HANDLE und dort als void* definiert. 
- * Der Anwender soll aber keine windows.h und ähnliches einziehen sollen (zuviel Müll), 
- * daher hier die Zurückführung auf die Schnittmenge zwischen windows.h und dem Rest der Welt.
+/**Ein EventHandle is a HANDLE defined as void*. 
+ * The user should not include windows.h or such. 
  */
 #define OS_HandleEvent void*   
 
@@ -265,7 +264,12 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * @param TYPE the type of the pointer.
  * @param VAL a value from a int-type
  */
-#define CONST_OS_PtrValue(PTR, TYPE, VAL) { (TYPE*) PTR, (int32)VAL}
+#define INIZ_OS_PtrValue(PTR, TYPE, VAL) { (TYPE*) PTR, (int32)VAL}
+
+#define CONST_OS_PtrValue(PTR, TYPE, VAL) INIZ_OS_PtrValue(PTR, TYPE, VAL)
+
+
+
 
 
 #define value_OS_PtrValue(THIS) ((THIS).val)

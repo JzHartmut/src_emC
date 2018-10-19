@@ -8,7 +8,7 @@
  * 2) You can redistribute copies of this source to everybody.
  * 3) Every user of this source, also the user of redistribute copies
  *    with or without payment, must accept this license for further using.
- * 4) But the LPGL ist not appropriate for a whole software product,
+ * 4) But the LPGL is not appropriate for a whole software product,
  *    if this source is only a part of them. It means, the user
  *    must publish this part of source,
  *    but don't need to publish the whole source of the own product.
@@ -309,9 +309,8 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 
 
-/**Ein EventHandle ist unter Windows ein HANDLE und dort als void* definiert. 
- * Der Anwender soll aber keine windows.h und ähnliches einziehen sollen (zuviel Müll), 
- * daher hier die Zurückführung auf die Schnittmenge zwischen windows.h und dem Rest der Welt.
+/**Ein EventHandle is a HANDLE defined as void*. 
+ * The user should not include windows.h or such. 
  */
 #define OS_HandleEvent void*   
 
@@ -339,7 +338,12 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * @param TYPE the type of the pointer.
  * @param VAL a value from a int-type
  */
-#define CONST_OS_PtrValue(PTR, TYPE, VAL) { (TYPE*) PTR, (int32)VAL}
+#define INIZ_OS_PtrValue(PTR, TYPE, VAL) { (TYPE*) PTR, (int32)VAL}
+
+#define CONST_OS_PtrValue(PTR, TYPE, VAL) INIZ_OS_PtrValue(PTR, TYPE, VAL)
+
+
+
 
 
 #define value_OS_PtrValue(THIS) ((THIS).val)
@@ -372,7 +376,9 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
      It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
   */
-  #define INLINE_emC static
+  //#define INLINE_emC static
+  #define INLINE_emC inline
+
 #endif
 
 #ifdef __cplusplus
@@ -402,40 +408,12 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 #define kMaxPathLength_FileDescription_OSAL 480
 
 
-//Should include <math.h>
-/*
-#ifndef fmaxf
-#define fmaxf(A, B) ( (A) > (B) ? (A) : (B) )
-#endif
-
-#ifndef fminf
-#define fminf(A, B) ( (A) < (B) ? (A) : (B) )
-#endif
-
-#ifndef fmax
-#define fmax(A, B) ( (A) > (B) ? (A) : (B) )
-#endif
-
-#ifndef fmin
-#define fmin(A, B) ( (A) < (B) ? (A) : (B) )
-#endif
-*/
-//#ifdef __cplusplus
-//NOTE: it is defined in the same kind in the stdlib.h from Msc6
-//#define max(A, B) ( (A) > (B) ? (A) : (B) )
-//#define min(A, B) ( (A) < (B) ? (A) : (B) )
-//#endif
 
 #ifndef TRUE
   #define TRUE true
   #define FALSE false
 #endif
 
-/**Yet in simulink an untyped input/output handle which is a pointer can only be stored as double.
- * use conversion:
- *  SIMUPTR ptr = *(SIMUPTR*)&reference; //reference is any Type* reference.
- */
-typedef double SIMUPTR;
 
 
 #endif  //__compl_adaption_h__

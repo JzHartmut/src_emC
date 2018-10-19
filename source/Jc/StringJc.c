@@ -469,11 +469,17 @@ METHOD_C int indexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex)
   //STACKTRC_TENTRY("StringJc.indexOf(int,int)");
   if(nChars == mLength__StringJc) { nChars = strlen(chars); }
   //const char* chars = getCharsAndLength_StringJc(ythis, &nChars);
+  if (fromIndex <0)
+  { //STACKTRC_LEAVE; 
+    fromIndex = 0; //In java it is so too.
+  }
   if(fromIndex <0 || fromIndex >= nChars)
   { //STACKTRC_LEAVE; 
     return( -1);
   }
-  return searchChar_emC(chars + fromIndex, nChars - fromIndex, ch);
+  int pos = searchChar_emC(chars + fromIndex, nChars - fromIndex, ch);
+  if(pos >=0) return fromIndex + pos;
+  else return -1;
 }
 
 
@@ -487,8 +493,13 @@ int indexOf_sI_StringJc(StringJc ythis, StringJc str, int fromIndex)
   { //STACKTRC_LEAVE; 
     fromIndex = 0; //In java it is so too.
   }
-  return searchString_emC(chars + fromIndex, nChars - fromIndex, charsSearch, nCharsSearch);
-  //
+  if (fromIndex <0 || fromIndex >= nChars)
+  { //STACKTRC_LEAVE; 
+    return(-1);
+  }
+  int pos = searchString_emC(chars + fromIndex, nChars - fromIndex, charsSearch, nCharsSearch);
+  if (pos >= 0) return fromIndex + pos;
+  else return -1;
 }
 
 

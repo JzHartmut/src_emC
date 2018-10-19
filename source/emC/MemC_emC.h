@@ -144,14 +144,21 @@ struct ThreadContext_emC_t;
 /**A const definition of a MemC using as initializer for static or stack variables.
  * In standard-C only useable for global static variables, if SIZE or PTR are not constants itself.
  */
-#define CONST_MemC(PTR, SIZE) CONST_OS_PtrValue(PTR, MemUnit, SIZE)
-
+#define INIZ_MemC(PTR, SIZE) INIZ_OS_PtrValue(PTR, MemUnit, SIZE)
+#define CONST_MemC INIZ_MemC
 
 /**Macro for a value which contains {null, 0} for immediately initializing. 
  * Application example:
  * , MemC myMemc = NULL_MemC();  //initialized with {null, 0}
  */
 #define NULL_MemC() CONST_OS_PtrValue(null, MemUnit, 0)
+
+
+/**Builds a MemC in the stack as Argument in function call. 
+ * @return MemC as value.
+ */
+inline MemC ret_MemC(void* ptr, int size){ MemC ret = INIZ_OS_PtrValue(ptr, MemUnit, size); return ret; }
+
 
 
 /**gets the size. 
