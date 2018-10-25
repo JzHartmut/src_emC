@@ -66,26 +66,49 @@ int searchChar_emC  (  char const* text, int zText, char cc)
 /**Searches a String inside a given string with terminated length.
 * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
 */
-int searchString_emC  (  char const* text, int zText, char const* ss, int zs)
+int searchString_emC  (  char const* text, int zText, char const* ssearch, int zsearch)
 {
   if (zText < 0) {
     zText = strnlen_emC(text, -zText);
   }
-  register char const* text1 = text;
-  register char const* text2 = text + zs;
-  register char const* text3 = text + 1;
-  register char const* s2 = ss + 1;
-  register char const* text9 = text + zText;
-  register char cc;
+  if(zsearch < 0){ 
+    zsearch = strnlen_emC(ssearch, -zsearch); 
+  }
+  register char const* text9 = text + zText - zsearch+1;  //after last position where zsearch may be able to found. 
+  register char const* ssearch9 = ssearch + zsearch;
+  register char const* s2 = ssearch + 1;
+  register char csearch1 = *ssearch;
+  register char const* text1 = text;                      //possible start of ssearch
+  while (text1 < text9) {
+    if(*text1 == csearch1) {
+      //first char found
+      register char const* text2 = text1+1;       //pointer to compare with zsearch
+      register char const* ssearch2 = ssearch +1;
+      while (ssearch2 < ssearch9 && *text2 == *ssearch2) {
+        text2 +=1; ssearch2 +=1;     //character matches, increment
+      }
+      if (ssearch2 == ssearch9) {
+        return (text1 - text);      //position of found string
+      }
+    }
+    text1 = text1 +1;  //check next character in text whether it is csearch
+  }
+  return -1;  //not found.
+}    
+  
+  
+  
+  
+/*  
   //optimization: test only one pointer register, which is incremented too
   while (text3 <= text9 && text3 < text2) {
-    cc = *ss;
+    cc = *ssearch;
     while (text1 < text9 && *text1 != cc) {
       text1 += 1;
     }
     text3 = text1 + 1;
-    text2 = text1 + zs;
-    s2 = ss + 1;
+    text2 = text1 + zsearch;
+    s2 = ssearch + 1;
     while (text3 < text2 && *text3 == *s2) {
       text3 += 1;
       s2 += 1;
@@ -95,7 +118,7 @@ int searchString_emC  (  char const* text, int zText, char const* ss, int zs)
   else return (text1 - text);    //maybe 0 if the request char is on the first position.
 }
 
-
+*/
 
 
 //Note: effective and safe implementation, better then strncpy and strlcpy.

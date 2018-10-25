@@ -914,10 +914,7 @@ METHOD_C int8ARRAY* ctor_int8ARRAY(int8ARRAY* ythis, int nrOfBytes);
  * : but the modifier-bit mEmbedded_Modifier_reflectJc is set in bitModifiers.
  */
 C_TYPE typedef struct  FieldJc_t
-{ //ObjectJc super;
-
-  /** The symbolic name of the field*/
-  //StringJcRef  name;
+{ 
   char name[30]; //kLengthNAME_FIELD_ReflectionJc];  //28
 
                  /**Size of the field or size of 1 element if it is an static array. */
@@ -962,12 +959,18 @@ C_TYPE typedef struct  FieldJc_t
   */
   int32     bitModifiers;  //Bits of Modifier_reflectJc.
 
-                           /** position of the field inside a object of the type of the declaring class.
-                           * The position is the offset from the ObjectJc base class to the field, not the offset from the total base.
-                           * Because it is possible that the object is known via interface reference. A interface reference
-                           * pointered the position of the pointer to the virtual table of the interface,
-                           * a call of obj->toObjectJc() is necessary to get the base for this offset.
-                           */
+  /**The bits 15..10 are not used in Java modifier for fields. Used for the access level. */
+  #define mAccessLevel_Modifier_FieldJc 0x00001c00
+  #define mChangeLevel_Modifier_FieldJc 0x00007000
+  #define kBitAccessLevel_Modifier_FieldJc 10
+  #define kBitChangeLevel_Modifier_FieldJc 13
+
+  /** position of the field inside a object of the type of the declaring class.
+  * The position is the offset from the ObjectJc base class to the field, not the offset from the total base.
+  * Because it is possible that the object is known via interface reference. A interface reference
+  * pointered the position of the pointer to the virtual table of the interface,
+  * a call of obj->toObjectJc() is necessary to get the base for this offset.
+  */
   int16     position;
 
   /**Offset in a pointered class to the ObjectifcBaseJcpp class structure if such base interface exists.
