@@ -123,38 +123,37 @@ int newIdent_ObjectJc()
 
 
 
-int checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
+char const* checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt)
 { int identObj = getIdentInfo_ObjectJc(ythis);
   STACKTRC_TENTRY("checkConsistence_ObjectJc");
   { //it is initialized, check it
     int sizeObj = getSizeInfo_ObjectJc(ythis);
     if(ythis->ownAddress != ythis) {
       ident = -1;  //marker for faulty.
-      THROW1_s0(IllegalArgumentException, "faut ownAddress", (int)ythis->ownAddress);
+      return "faulty ownAddress";
     }
     if(size != 0 && sizeObj < size) {
       ident = -1;  //marker for faulty.
-      THROW1_s0(IllegalArgumentException, "faut size", sizeObj);
+      return "faulty size";
     }
     //
     if(ident != 0 && ident != identObj) {
       identObj = -1;  //marker for faulty.
-      THROW1_s0(IllegalArgumentException, "faut ident", identObj);
+      return "faulty ident";
     }
     //
     if(clazzReflection != null && ythis->reflectionClass !=null)
     { if(!instanceof_s_ObjectJc(ythis, clazzReflection->name)) {
-        THROW1_s0(IllegalArgumentException, "fault type", identObj);
+        return "faulty type";
       }
     }
   }
-  STACKTRC_LEAVE;
-  return identObj;
+  STACKTRC_RETURN null; //all ok
 }
 
 
 
-bool checkInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
+char const* checkInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
 { bool bOk;
   STACKTRC_TENTRY("checkInit_ObjectJc");
   if(thiz->ownAddress == null && thiz->state.b.objectIdentSize == 0)
@@ -169,8 +168,7 @@ bool checkInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t co
   if(thiz->reflectionClass == null) {
     setReflection_ObjectJc(thiz, clazzReflection, 0);
   }
-  bOk = checkStrict_ObjectJc(thiz, size, ident, clazzReflection,_thCxt) !=-1;
-  STACKTRC_RETURN bOk;
+  STACKTRC_RETURN checkStrict_ObjectJc(thiz, size, ident, clazzReflection,_thCxt);
 }
 
 

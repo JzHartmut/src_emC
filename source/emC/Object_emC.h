@@ -450,9 +450,9 @@ METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
  * @param clazzReflection instanceof_ObjectJc() will be tested. If this param is null, no test of reflection is done.
  *             Unsupported feature: If the reflection class of the instance is null, it will be set with this reference.
  *             But call setReflection_ObjectJc() instead before, because this method may be changed in future. It should only test, not set anything!
- * @return the stored identification
+ * @return null if ok, elsewhere a short error msg
 */
-METHOD_C bool checkInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
+METHOD_C char const* checkInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
 
 /**Checks the consistence or init, 
  * @deprecated, use [[checkOrInit_ObjectJc(...)]] with a more significant name.
@@ -468,10 +468,9 @@ METHOD_C bool checkInit_ObjectJc(ObjectJc* ythis, int size, int ident, struct Cl
  *             A greater instance (derived) is accepted also.
  * @param ident 0 or the requested indent. If 0 then the size info will not be checked.
  * @param clazzReflection instanceof_ObjectJc() will be tested. If this param is null, no test of reflection is done.
- * @return the stored identification, -1 on non thrown error
- * @throws IllegalArgumentException if faulty.
+ * @return null if no error, error String if check fails
  */
-METHOD_C int checkStrict_ObjectJc(ObjectJc const* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
+METHOD_C char const* checkStrict_ObjectJc(ObjectJc const* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
 
 
 
