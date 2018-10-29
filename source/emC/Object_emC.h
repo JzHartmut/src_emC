@@ -1362,7 +1362,7 @@ typedef struct ClassOffset_idxMtblJcARRAY_t
  * @param refl_super The reflection for this super class or interface.
  * @param ixVtbl The index of the virtual table part. Use 0 if the superclass or interface has not a Vtbl.  
  */
-extern_C void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int ixVtbl);
+extern_C void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accesLevel, int ixVtbl);
 
 #endif  //#ifndef __ObjectJc_defined__
 

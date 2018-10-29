@@ -49,13 +49,15 @@ void init_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fiel
 
 
 
-void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int ixVtbl)
+void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accessLevel, int ixVtbl)
 {
   thiz->clazz = refl_super;
-  strncpy_emC(thiz->field.name, refl_super->name, sizeof(thiz->field.name));
+  strncpy_emC(thiz->field.name, "super", sizeof(thiz->field.name));
   thiz->field.nrofArrayElementsOrBitfield_ = 0;
   thiz->field.type_ = refl_super;
-  thiz->field.bitModifiers = kEmbeddedContainer_Modifier_reflectJc;
+  thiz->field.bitModifiers = kEmbeddedContainer_Modifier_reflectJc
+                           | ((accessLevel << kBitAccessLevel_Modifier_FieldJc) & mAccessLevel_Modifier_FieldJc)
+                           | (7 << kBitChangeLevel_Modifier_FieldJc);  //never change the super field
   thiz->field.offsetToObjectifcBase = 0;
   thiz->field.position = 0;  //usual 0
   thiz->idxMtbl = ixVtbl;
