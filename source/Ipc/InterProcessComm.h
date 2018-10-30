@@ -91,7 +91,7 @@ typedef struct Address_InterProcessComm_t
 #define sizeof_Address_InterProcessComm_s sizeof(Address_InterProcessComm_s)
 
 /**If reflections are available, it should stick to this declaration. */
-extern_C struct ClassJc_t const reflection_Address_InterProcessComm_s;
+extern_C struct ClassJc_t const reflection_Address_InterProcessComm;
 
 /**compatibility. */
 #define Address_InterProcessComm Address_InterProcessComm_s
@@ -124,7 +124,7 @@ typedef struct InterProcessCommFactory_t
 { union{ ObjectJc object;} base; 
 }InterProcessCommFactory_s;
 
-extern_C const struct ClassJc_t reflection_InterProcessCommFactory_s;
+extern_C const struct ClassJc_t reflection_InterProcessCommFactory;
 
 InterProcessCommFactory_s* ctorO_InterProcessCommFactory(ObjectJc* othis, ThCxt* _thCxt);
 

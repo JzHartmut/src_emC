@@ -7,14 +7,11 @@
 
 
 extern_C const ClassJc reflection_HandleItem_handle;  //the just defined reflection_ used in the own fields.
-#define reflection_OS_HandleWaitNotify_t reflection_OS_HandleWaitNotify
-extern_C const ClassJc reflection_OS_HandleWaitNotify_t;  //used for field wait
+extern_C const ClassJc reflection_OS_HandleWaitNotify;  //used for field wait
 
-#define reflection_OS_HandleThread_t reflection_OS_HandleThread
-extern_C const ClassJc reflection_OS_HandleThread_t;  //used for field thread_xxx
+extern_C const ClassJc reflection_OS_HandleThread;  //used for field thread_xxx
 
-#define reflection_HandleItem_t reflection_HandleItem
-extern_C const ClassJc reflection_HandleItem_t;  //used for field nextFree
+extern_C const ClassJc reflection_HandleItem;  //used for field nextFree
 
 const struct Reflection_Fields_HandleItem_handle_t
 { ObjectArrayJc head;
@@ -25,7 +22,7 @@ const struct Reflection_Fields_HandleItem_handle_t
     { "wait"
     , 0   //no Array, no Bitfield                           
     , &reflection_OS_HandleWaitNotify                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((--outside--*)(0x1000))->handle.wait)) - ((intptr_t)(&((--outside--*)(0x1000))->handle)) )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_HandleItem_handle
@@ -34,7 +31,7 @@ const struct Reflection_Fields_HandleItem_handle_t
     { "thread_xxx"
     , 0   //no Array, no Bitfield                           
     , &reflection_OS_HandleThread                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((--outside--*)(0x1000))->handle.thread_xxx)) - ((intptr_t)(&((--outside--*)(0x1000))->handle)) )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_HandleItem_handle
@@ -43,7 +40,7 @@ const struct Reflection_Fields_HandleItem_handle_t
     { "nextFree"
     , 0   //no Array, no Bitfield                           
     , &reflection_HandleItem                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((--outside--*)(0x1000))->handle.nextFree)) - ((intptr_t)(&((--outside--*)(0x1000))->handle)) )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_HandleItem_handle
@@ -68,8 +65,7 @@ const ClassJc reflection_HandleItem_handle =
 
 
 extern_C const ClassJc reflection_HandleItem;  //the just defined reflection_ used in the own fields.
-#define reflection_OS_Mutex_t reflection_OS_Mutex
-extern_C const ClassJc reflection_OS_Mutex_t;  //used for field handleMutex
+extern_C const ClassJc reflection_OS_Mutex;  //used for field handleMutex
 
 const struct Reflection_Fields_HandleItem_t
 { ObjectArrayJc head;
@@ -89,7 +85,7 @@ const struct Reflection_Fields_HandleItem_t
     { "handleMutex"
     , 0   //no Array, no Bitfield                           
     , &reflection_OS_Mutex                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((HandleItem*)(0x1000))->handleMutex)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_HandleItem
@@ -122,9 +118,8 @@ const ClassJc reflection_HandleItem =
 
 
 
-extern_C const ClassJc reflection_OsWrapperJc_s;  //the just defined reflection_ used in the own fields.
-#define reflection_OS_Mutex_t reflection_OS_Mutex
-extern_C const ClassJc reflection_OS_Mutex_t;  //used for field mutexInitHandle
+extern_C const ClassJc reflection_OsWrapperJc;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_OS_Mutex;  //used for field mutexInitHandle
 
 extern_C const ClassJc reflection_HandleItem;  //used for field freeHandle
 
@@ -139,19 +134,19 @@ const struct Reflection_Fields_OsWrapperJc_s_t
     { "mutexInitHandle"
     , 0   //no Array, no Bitfield                           
     , &reflection_OS_Mutex                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OsWrapperJc_s*)(0x1000))->mutexInitHandle)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_OsWrapperJc_s
+    , &reflection_OsWrapperJc
     }
   , 
     { "freeHandle"
     , 0   //no Array, no Bitfield                           
     , &reflection_HandleItem                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OsWrapperJc_s*)(0x1000))->freeHandle)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_OsWrapperJc_s
+    , &reflection_OsWrapperJc
     }
   , 
     { "nrofHandle"
@@ -160,7 +155,7 @@ const struct Reflection_Fields_OsWrapperJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((OsWrapperJc_s*)(0x1000))->nrofHandle)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_OsWrapperJc_s
+    , &reflection_OsWrapperJc
     }
   , 
     { "spare_align8"
@@ -169,7 +164,7 @@ const struct Reflection_Fields_OsWrapperJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((OsWrapperJc_s*)(0x1000))->spare_align8)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_OsWrapperJc_s
+    , &reflection_OsWrapperJc
     }
   , 
     { "handleItemsJc"
@@ -178,15 +173,15 @@ const struct Reflection_Fields_OsWrapperJc_s_t
     , 0 | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((OsWrapperJc_s*)(0x1000))->handleItemsJc)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_OsWrapperJc_s
+    , &reflection_OsWrapperJc
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_OsWrapperJc_s =
-{ INIZ_objReflId_ObjectJc(reflection_OsWrapperJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "OsWrapperJc_s"
+const ClassJc reflection_OsWrapperJc =
+{ INIZ_objReflId_ObjectJc(reflection_OsWrapperJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "OsWrapperJc"
 , 0
 , sizeof(OsWrapperJc_s)
 , (FieldJcArray const*)&reflection_Fields_OsWrapperJc_s  //attributes and associations

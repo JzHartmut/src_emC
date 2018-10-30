@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 
-extern_C const ClassJc reflection_VaArgBuffer_Data_s;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_VaArgBuffer_Data;  //the just defined reflection_ used in the own fields.
 const struct Reflection_Fields_VaArgBuffer_Data_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -19,15 +19,15 @@ const struct Reflection_Fields_VaArgBuffer_Data_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VaArgBuffer_Data_s*)(0x1000))->v)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VaArgBuffer_Data_s
+    , &reflection_VaArgBuffer_Data
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_VaArgBuffer_Data_s =
-{ INIZ_objReflId_ObjectJc(reflection_VaArgBuffer_Data_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "VaArgBuffer_Data_s"
+const ClassJc reflection_VaArgBuffer_Data =
+{ INIZ_objReflId_ObjectJc(reflection_VaArgBuffer_Data, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "VaArgBuffer_Data"
 , 0
 , sizeof(VaArgBuffer_Data_s)
 , (FieldJcArray const*)&reflection_Fields_VaArgBuffer_Data_s  //attributes and associations
@@ -41,7 +41,7 @@ const ClassJc reflection_VaArgBuffer_Data_s =
 
 
 extern_C const ClassJc reflection_VaArgBuffer;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_VaArgBuffer_Data_s;  //used for field data
+extern_C const ClassJc reflection_VaArgBuffer_Data;  //used for field data
 
 const struct Reflection_Fields_VaArgBuffer_t
 { ObjectArrayJc head;
@@ -60,7 +60,7 @@ const struct Reflection_Fields_VaArgBuffer_t
   , 
     { "data"
     , 0   //no Array, no Bitfield                           
-    , &reflection_VaArgBuffer_Data_s                                                                                            
+    , &reflection_VaArgBuffer_Data                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VaArgBuffer*)(0x1000))->data)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            

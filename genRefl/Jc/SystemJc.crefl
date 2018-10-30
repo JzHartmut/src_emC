@@ -18,10 +18,12 @@ const struct SuperClasses_SystemJc_ClassOffset_idxMtblJcARRAY_t  //Type for the 
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  

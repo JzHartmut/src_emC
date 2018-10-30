@@ -1013,13 +1013,13 @@ const MtblDef_DispatcherThread_MsgDispatcher_MSG mtblDispatcherThread_MsgDispatc
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern_C struct ClassJc_t const reflection_ThreadJc_s;
+ extern_C struct ClassJc_t const reflection_ThreadJc;
  static struct superClasses_DispatcherThread_MsgDispatcher_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }superclasses_DispatcherThread_MsgDispatcher_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ThreadJc_s, OFFSET_Mtbl(Mtbl_DispatcherThread_MsgDispatcher_MSG, ThreadJc) }
+ , { {&reflection_ThreadJc, OFFSET_Mtbl(Mtbl_DispatcherThread_MsgDispatcher_MSG, ThreadJc) }
    }
  };
 
@@ -1029,7 +1029,7 @@ extern_C struct ClassJc_t const reflection_Entry_MsgDispatcherCore_MSG_s;
 extern_C struct ClassJc_t const reflection_LogMessageFW_s;
 extern_C struct ClassJc_t const reflection_MsgText_ifc_MSG_s;
 extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_RunnableJc_s;
+extern_C struct ClassJc_t const reflection_RunnableJc;
 extern_C struct ClassJc_t const reflection_TestCnt_MsgDispatcherCore_MSG_s;
 const struct Reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s_t
 { ObjectArrayJc head; FieldJc data[1];

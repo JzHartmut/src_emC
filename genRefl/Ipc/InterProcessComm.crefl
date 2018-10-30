@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 
-extern_C const ClassJc reflection_Address_InterProcessComm_s;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_Address_InterProcessComm;  //the just defined reflection_ used in the own fields.  
 
 const struct SuperClasses_Address_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
@@ -16,10 +16,12 @@ const struct SuperClasses_Address_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -39,7 +41,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Address_InterProcessComm_s*)(0x1000))->address1)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   , 
     { "address2"
@@ -48,7 +50,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Address_InterProcessComm_s*)(0x1000))->address2)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   , 
     { "sType"
@@ -57,7 +59,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Address_InterProcessComm_s*)(0x1000))->sType)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   , 
     { "internalData"
@@ -66,15 +68,15 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Address_InterProcessComm_s*)(0x1000))->internalData)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_Address_InterProcessComm_s =
-{ INIZ_objReflId_ObjectJc(reflection_Address_InterProcessComm_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "Address_InterProcessComm_s"
+const ClassJc reflection_Address_InterProcessComm =
+{ INIZ_objReflId_ObjectJc(reflection_Address_InterProcessComm, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "Address_InterProcessComm"
 , 0
 , sizeof(Address_InterProcessComm_s)
 , (FieldJcArray const*)&reflection_Fields_Address_InterProcessComm_s  //attributes and associations
@@ -87,7 +89,7 @@ const ClassJc reflection_Address_InterProcessComm_s =
 
 
 
-extern_C const ClassJc reflection_InterProcessCommFactory_s;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_InterProcessCommFactory;  //the just defined reflection_ used in the own fields.  
 
 const struct SuperClasses_InterProcessCommFactory_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
@@ -97,10 +99,12 @@ const struct SuperClasses_InterProcessCommFactory_s_ClassOffset_idxMtblJcARRAY_t
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -108,9 +112,9 @@ const struct SuperClasses_InterProcessCommFactory_s_ClassOffset_idxMtblJcARRAY_t
     }
 };
                                                                    
-const ClassJc reflection_InterProcessCommFactory_s =
-{ INIZ_objReflId_ObjectJc(reflection_InterProcessCommFactory_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "InterProcessCommFactory_s"
+const ClassJc reflection_InterProcessCommFactory =
+{ INIZ_objReflId_ObjectJc(reflection_InterProcessCommFactory, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "InterProcessCommFactory"
 , 0
 , sizeof(InterProcessCommFactory_s)
 , null  //attributes and associations
@@ -123,7 +127,7 @@ const ClassJc reflection_InterProcessCommFactory_s =
 
 
 
-extern_C const ClassJc reflection_InterProcessComm_s;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_InterProcessComm;  //the just defined reflection_ used in the own fields.  
 
 const struct SuperClasses_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
@@ -133,10 +137,12 @@ const struct SuperClasses_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_t  //Typ
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -144,9 +150,9 @@ const struct SuperClasses_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_t  //Typ
     }
 };
                                                                    
-const ClassJc reflection_InterProcessComm_s =
-{ INIZ_objReflId_ObjectJc(reflection_InterProcessComm_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "InterProcessComm_s"
+const ClassJc reflection_InterProcessComm =
+{ INIZ_objReflId_ObjectJc(reflection_InterProcessComm, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "InterProcessComm"
 , 0
 , sizeof(InterProcessComm_s)
 , null  //attributes and associations
@@ -159,7 +165,7 @@ const ClassJc reflection_InterProcessComm_s =
 
 
 
-extern_C const ClassJc reflection_InterProcessCommCallback_s;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_InterProcessCommCallback;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field obj
   
 
@@ -171,10 +177,12 @@ const struct SuperClasses_InterProcessCommCallback_s_ClassOffset_idxMtblJcARRAY_
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "obj"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -182,9 +190,9 @@ const struct SuperClasses_InterProcessCommCallback_s_ClassOffset_idxMtblJcARRAY_
     }
 };
                                                                    
-const ClassJc reflection_InterProcessCommCallback_s =
-{ INIZ_objReflId_ObjectJc(reflection_InterProcessCommCallback_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "InterProcessCommCallback_s"
+const ClassJc reflection_InterProcessCommCallback =
+{ INIZ_objReflId_ObjectJc(reflection_InterProcessCommCallback, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "InterProcessCommCallback"
 , 0
 , sizeof(InterProcessCommCallback_s)
 , null  //attributes and associations

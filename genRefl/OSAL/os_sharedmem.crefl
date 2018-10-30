@@ -27,7 +27,7 @@ const struct Reflection_Fields_SharedMem_OSAL_t
     { "error"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SharedMem_OSAL*)(0x1000))->error)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_SharedMem_OSAL
@@ -54,7 +54,7 @@ const struct Reflection_Fields_SharedMem_OSAL_t
     { "name"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SharedMem_OSAL*)(0x1000))->name)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_SharedMem_OSAL

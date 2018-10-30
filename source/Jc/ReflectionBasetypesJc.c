@@ -694,5 +694,5 @@ const struct ReflectionFieldJc_t reflectionFieldJc
 
 
 //#include <Jc/LocaleJc.h>
-//extern_C ClassJc const reflection_LocaleJc_s;
+//extern_C ClassJc const reflection_LocaleJc;
 //DEFINE_REFLECTION_REF(LocaleJc);

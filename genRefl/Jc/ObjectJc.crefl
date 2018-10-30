@@ -18,10 +18,12 @@ const struct SuperClasses_ComparableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -90,10 +92,12 @@ const struct SuperClasses_CloseableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type 
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -162,10 +166,12 @@ const struct SuperClasses_FlushableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type 
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -234,10 +240,12 @@ const struct SuperClasses_AppendableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -260,7 +268,7 @@ const ClassJc reflection_AppendableJc_base =
 
 
 
-extern_C const ClassJc reflection_AppendableJc_s;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_AppendableJc;  //the just defined reflection_ used in the own fields.
 const struct Reflection_Fields_AppendableJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -273,15 +281,15 @@ const struct Reflection_Fields_AppendableJc_s_t
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((AppendableJc_s*)(0x1000))->base)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_AppendableJc_s
+    , &reflection_AppendableJc
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_AppendableJc_s =
-{ INIZ_objReflId_ObjectJc(reflection_AppendableJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "AppendableJc_s"
+const ClassJc reflection_AppendableJc =
+{ INIZ_objReflId_ObjectJc(reflection_AppendableJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "AppendableJc"
 , 0
 , sizeof(AppendableJc_s)
 , (FieldJcArray const*)&reflection_Fields_AppendableJc_s  //attributes and associations

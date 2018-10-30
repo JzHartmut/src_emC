@@ -124,7 +124,7 @@ struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(In
   
   { 
     
-    if( instanceof_ObjectJc(& ((* (addr)).base.object), &reflection_Address_InterProcessComm_s)) 
+    if( instanceof_ObjectJc(& ((* (addr)).base.object), &reflection_Address_InterProcessComm)) 
     { 
       ObjectJc *newObj3_1=null; /*J2C: temporary Objects for new operations
       */
@@ -305,13 +305,13 @@ const MtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocke
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern_C struct ClassJc_t const reflection_InterProcessCommFactory_s;
+ extern_C struct ClassJc_t const reflection_InterProcessCommFactory;
  static struct superClasses_InterProcessCommFactorySocket_Ipc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }superclasses_InterProcessCommFactorySocket_Ipc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_InterProcessCommFactory_s, OFFSET_Mtbl(Mtbl_InterProcessCommFactorySocket_Ipc, InterProcessCommFactory) }
+ , { {&reflection_InterProcessCommFactory, OFFSET_Mtbl(Mtbl_InterProcessCommFactorySocket_Ipc, InterProcessCommFactory) }
    }
  };
 

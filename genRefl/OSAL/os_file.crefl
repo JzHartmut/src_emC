@@ -45,7 +45,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     { "ptr1"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileDescription_OSAL*)(0x1000))->ptr1)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileDescription_OSAL
@@ -117,7 +117,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
     { "ptr_"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileLock_OSAL*)(0x1000))->ptr_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileLock_OSAL

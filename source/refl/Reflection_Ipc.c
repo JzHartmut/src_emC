@@ -7,7 +7,7 @@
 #include "Ipc/InterProcessComm.h"
 
 
-extern_C const ClassJc reflection_Address_InterProcessComm_s;  //the just defined reflection_
+extern_C const ClassJc reflection_Address_InterProcessComm;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_Address_InterProcessComm_s_t
 { ObjectArrayJc head;
@@ -21,7 +21,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((Address_InterProcessComm_s*)(0x1000))->base.object) -(int32)(Address_InterProcessComm_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   , { "address1"
     , 0   //no Array, no Bitfield
@@ -29,7 +29,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((Address_InterProcessComm_s*)(0x1000))->address1) -(int32)(Address_InterProcessComm_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   , { "address2"
     , 0   //no Array, no Bitfield
@@ -37,7 +37,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((Address_InterProcessComm_s*)(0x1000))->address2) -(int32)(Address_InterProcessComm_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   , { "sType"
     , 20   //nrofArrayElements
@@ -45,7 +45,7 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Address_InterProcessComm_s*)(0x1000))->sType) -(int32)(Address_InterProcessComm_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
   , { "internalData"
     , 12   //nrofArrayElements
@@ -53,13 +53,13 @@ const struct Reflection_Fields_Address_InterProcessComm_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Address_InterProcessComm_s*)(0x1000))->internalData) -(int32)(Address_InterProcessComm_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     }
 } };
 
 
-const ClassJc reflection_Address_InterProcessComm_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Address_InterProcessComm_s, &reflection_ClassJc)
+const ClassJc reflection_Address_InterProcessComm =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_Address_InterProcessComm, &reflection_ClassJc)
 , "Address_InterProcessComm_s"
 , 0
 , sizeof(Address_InterProcessComm_s)
@@ -73,7 +73,7 @@ const ClassJc reflection_Address_InterProcessComm_s =
 
 
 
-extern_C const ClassJc reflection_InterProcessCommFactory_s;  //the just defined reflection_
+extern_C const ClassJc reflection_InterProcessCommFactory;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_InterProcessCommFactory_s_t
 { ObjectArrayJc head;
@@ -87,13 +87,13 @@ const struct Reflection_Fields_InterProcessCommFactory_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((InterProcessCommFactory_s*)(0x1000))->base.object) -(int32)(InterProcessCommFactory_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InterProcessCommFactory_s
+    , &reflection_InterProcessCommFactory
     }
 } };
 
 
-const ClassJc reflection_InterProcessCommFactory_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory_s, &reflection_ClassJc)
+const ClassJc reflection_InterProcessCommFactory =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessCommFactory, &reflection_ClassJc)
 , "InterProcessCommFactory_s"
 , 0
 , sizeof(InterProcessCommFactory_s)

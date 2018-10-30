@@ -9,14 +9,11 @@
 extern_C const ClassJc reflection_ListItr_LinkedListJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field object
 
-#define reflection_LinkedListJc_t reflection_LinkedListJc
-extern_C const ClassJc reflection_LinkedListJc_t;  //used for field outer
+extern_C const ClassJc reflection_LinkedListJc;  //used for field outer
 
-#define reflection_ListMapEntryJc_t reflection_ListMapEntryJc
-extern_C const ClassJc reflection_ListMapEntryJc_t;  //used for field lastReturned
+extern_C const ClassJc reflection_ListMapEntryJc;  //used for field lastReturned
 
-#define reflection_ListMapEntryJc_t reflection_ListMapEntryJc
-extern_C const ClassJc reflection_ListMapEntryJc_t;  //used for field next
+extern_C const ClassJc reflection_ListMapEntryJc;  //used for field next
   
 
 const struct SuperClasses_ListItr_LinkedListJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
@@ -27,10 +24,12 @@ const struct SuperClasses_ListItr_LinkedListJc_ClassOffset_idxMtblJcARRAY_t  //T
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -47,7 +46,7 @@ const struct Reflection_Fields_ListItr_LinkedListJc_t
     { "outer"
     , 0   //no Array, no Bitfield                           
     , &reflection_LinkedListJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->outer)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
@@ -56,7 +55,7 @@ const struct Reflection_Fields_ListItr_LinkedListJc_t
     { "lastReturned"
     , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->lastReturned)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
@@ -65,7 +64,7 @@ const struct Reflection_Fields_ListItr_LinkedListJc_t
     { "next"
     , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListItr_LinkedListJc*)(0x1000))->next)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListItr_LinkedListJc
@@ -164,10 +163,12 @@ const struct SuperClasses_LinkedListJc_ClassOffset_idxMtblJcARRAY_t  //Type for 
   , { &reflection_ListJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "List"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ListJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ListJc  

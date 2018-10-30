@@ -9,17 +9,13 @@
 extern_C const ClassJc reflection_Event_emC;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_ObjectJc;  //used for field object
 
-#define reflection_EventSource_emC_t reflection_EventSource_emC
-extern_C const ClassJc reflection_EventSource_emC_t;  //used for field source
+extern_C const ClassJc reflection_EventSource_emC;  //used for field source
 
-#define reflection_Event_emC_t reflection_Event_emC
-extern_C const ClassJc reflection_Event_emC_t;  //used for field opponent
+extern_C const ClassJc reflection_Event_emC;  //used for field opponent
 
-#define reflection_EventThread_t reflection_EventThread
-extern_C const ClassJc reflection_EventThread_t;  //used for field evDstThread
+extern_C const ClassJc reflection_EventThread;  //used for field evDstThread
 
-#define reflection_EventConsumer_t reflection_EventConsumer
-extern_C const ClassJc reflection_EventConsumer_t;  //used for field evDst
+extern_C const ClassJc reflection_EventConsumer;  //used for field evDst
   
 
 const struct SuperClasses_Event_emC_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
@@ -30,10 +26,12 @@ const struct SuperClasses_Event_emC_ClassOffset_idxMtblJcARRAY_t  //Type for the
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -50,7 +48,7 @@ const struct Reflection_Fields_Event_emC_t
     { "source"
     , 0   //no Array, no Bitfield                           
     , &reflection_EventSource_emC                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->source)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
@@ -59,7 +57,7 @@ const struct Reflection_Fields_Event_emC_t
     { "opponent"
     , 0   //no Array, no Bitfield                           
     , &reflection_Event_emC                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->opponent)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
@@ -68,7 +66,7 @@ const struct Reflection_Fields_Event_emC_t
     { "evDstThread"
     , 0   //no Array, no Bitfield                           
     , &reflection_EventThread                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->evDstThread)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC
@@ -77,7 +75,7 @@ const struct Reflection_Fields_Event_emC_t
     { "evDst"
     , 0   //no Array, no Bitfield                           
     , &reflection_EventConsumer                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Event_emC*)(0x1000))->evDst)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Event_emC

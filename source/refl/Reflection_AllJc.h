@@ -22,8 +22,8 @@ extern_C const ClassJc reflection_SimpleDateFormatJc_s;
 #define REFLECTION_SimpleDateFormatJc_s &reflection_SimpleDateFormatJc_s
 extern_C const ClassJc reflection_TextFieldPositionJc_s;
 #define REFLECTION_TextFieldPositionJc_s &reflection_TextFieldPositionJc_s
-extern_C const ClassJc reflection_LocaleJc_s;
-#define REFLECTION_LocaleJc_s &reflection_LocaleJc_s
+extern_C const ClassJc reflection_LocaleJc;
+#define REFLECTION_LocaleJc_s &reflection_LocaleJc
 extern_C const ClassJc reflection_SystemJc;
 #define REFLECTION_SystemJc &reflection_SystemJc
 extern_C const ClassJc reflection_ListItr_LinkedListJc;
@@ -58,18 +58,18 @@ extern_C const ClassJc reflection_FileJc_s;
 #define REFLECTION_FileJc_s &reflection_FileJc_s
 extern_C const ClassJc reflection_OutputStreamJc_s;
 #define REFLECTION_OutputStreamJc_s &reflection_OutputStreamJc_s
-extern_C const ClassJc reflection_FileOutputStreamJc_s;
-#define REFLECTION_FileOutputStreamJc_s &reflection_FileOutputStreamJc_s
-extern_C const ClassJc reflection_FileWriterJc_s;
-#define REFLECTION_FileWriterJc_s &reflection_FileWriterJc_s
+extern_C const ClassJc reflection_FileOutputStreamJc;
+#define REFLECTION_FileOutputStreamJc_s &reflection_FileOutputStreamJc
+extern_C const ClassJc reflection_FileWriterJc;
+#define REFLECTION_FileWriterJc_s &reflection_FileWriterJc
 extern_C const ClassJc reflection_FileReaderJc_s;
 #define REFLECTION_FileReaderJc_s &reflection_FileReaderJc_s
 extern_C const ClassJc reflection_BufferedReaderJc_s;
 #define REFLECTION_BufferedReaderJc_s &reflection_BufferedReaderJc_s
-extern_C const ClassJc reflection_RunnableJc_s;
-#define REFLECTION_RunnableJc_s &reflection_RunnableJc_s
-extern_C const ClassJc reflection_ThreadJc_s;
-#define REFLECTION_ThreadJc_s &reflection_ThreadJc_s
+extern_C const ClassJc reflection_RunnableJc;
+#define REFLECTION_RunnableJc_s &reflection_RunnableJc
+extern_C const ClassJc reflection_ThreadJc;
+#define REFLECTION_ThreadJc_s &reflection_ThreadJc
 extern_C const ClassJc reflection_FormatterJc_s;
 #define REFLECTION_FormatterJc_s &reflection_FormatterJc_s
 extern_C const ClassJc reflection_TimeZoneJc_s;

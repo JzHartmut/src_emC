@@ -18,7 +18,7 @@ const struct Reflection_Fields_Entry_Handle2Ptr_p_t
     { "ptr"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((--outside--*)(0x1000))->p.ptr)) - ((intptr_t)(&((--outside--*)(0x1000))->p)) )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_Handle2Ptr_p
@@ -97,7 +97,7 @@ const struct Reflection_Fields_Entry_Handle2Ptr_t
     { "dbginfo"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Entry_Handle2Ptr*)(0x1000))->dbginfo)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_Handle2Ptr

@@ -25,7 +25,7 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessComm(ObjectJc* othis, ThCx
   Address_InterProcessComm_s* ythis = (Address_InterProcessComm_s*) othis;
   STACKTRC_TENTRY("ctorO_Address_InterProcessComm");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm_s, sizeof(Address_InterProcessComm_s));  
+  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm, sizeof(Address_InterProcessComm_s));  
   STACKTRC_LEAVE; return ythis;
 }
 
@@ -36,7 +36,7 @@ METHOD_C Address_InterProcessComm_s* ctorO_s_Address_InterProcessComm(ObjectJc* 
   Address_InterProcessComm_s* thiz = (Address_InterProcessComm_s*) othis;
   STACKTRC_TENTRY("ctorO_Address_InterProcessComm");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm_s, sizeof(Address_InterProcessComm_s));  
+  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm, sizeof(Address_InterProcessComm_s));  
   int sizeAddr;
   char const* charsAddr = getCharsAndLength_StringJc(&addr, &sizeAddr);
   if (charsAddr == null || sizeAddr == 0)
@@ -59,7 +59,7 @@ Address_InterProcessComm_s* ctorO_sI_Address_InterProcessComm(ObjectJc* othis, S
   Address_InterProcessComm_s* ythis = (Address_InterProcessComm_s*) othis;
   STACKTRC_TENTRY("ctorO_Address_InterProcessComm");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm_s, sizeof(Address_InterProcessComm_s));  
+  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm, sizeof(Address_InterProcessComm_s));  
   
   
   ythis->address2 = port;
@@ -79,7 +79,7 @@ Address_InterProcessComm_s* ctorO_ssI_Address_InterProcessComm(ObjectJc* othis, 
   int sizeAddr;
   STACKTRC_TENTRY("ctorO_Address_InterProcessComm");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm_s, sizeof(Address_InterProcessComm_s));  
+  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm, sizeof(Address_InterProcessComm_s));  
   
   charsType = getCharsAndLength_StringJc(&type, &sizeType);
   if(sizeType >= sizeof(ythis->sType)) { sizeType = sizeof(ythis->sType) -1; } //limit it.
@@ -115,7 +115,7 @@ Address_InterProcessComm_s* ctorO_II_Address_InterProcessComm(ObjectJc* othis, S
   Address_InterProcessComm_s* ythis = (Address_InterProcessComm_s*) othis;
   STACKTRC_TENTRY("ctorO_Address_InterProcessComm");
   checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm_s, sizeof(Address_InterProcessComm_s));  
+  setReflection_ObjectJc(othis, &reflection_Address_InterProcessComm, sizeof(Address_InterProcessComm_s));  
   ythis->address1 = addr1;
   ythis->address2 = addr2;
 
@@ -148,6 +148,6 @@ MemC InterProcessComm::receive(int32* nrofBytes, Address_InterProcessComm_s* sen
 InterProcessCommFactory_s* ctorO_InterProcessCommFactory(ObjectJc* othis, ThCxt* _thCxt)
 {
   InterProcessCommFactory_s* ythis = (InterProcessCommFactory_s*)othis;
-  checkConsistence_ObjectJc(othis, sizeof(InterProcessCommFactory_s), &reflection_InterProcessCommFactory_s, null);
+  checkConsistence_ObjectJc(othis, sizeof(InterProcessCommFactory_s), &reflection_InterProcessCommFactory, null);
   return ythis;
 }

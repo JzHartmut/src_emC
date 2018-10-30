@@ -1176,6 +1176,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
 */
 inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
 {
+#ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
   int val = value_OS_PtrValue(thiz) & mLength__StringJc;
   if (val < kMaxNrofChars_StringJc) {
     //simple form, inline, fast:
@@ -1192,6 +1193,7 @@ inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt) 
     //all other is too much for inline:
     return _length_PRIV_CharSeqJc(thiz, _thCxt);
   }
+#endif//__ignoreInCheader_zbnf__
 }
 
 

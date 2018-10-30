@@ -41,7 +41,7 @@
 #include <string.h> //memset
 #include <OSAL/os_file.h>
 
-extern_C ClassJc const reflection_FileWriterJc_s;
+extern_C ClassJc const reflection_FileWriterJc;
 
 /*@CLASS_C FileJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -125,7 +125,7 @@ FileOutputStreamJc_s* ctorO_sB_FileOutputStreamJc  (  ObjectJc* othis, StringJc 
 {
   FileOutputStreamJc_s* ythis = (FileOutputStreamJc_s*)othis;
   STACKTRC_TENTRY("ctorO_sB_FileOutputStreamJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &reflection_FileOutputStreamJc_s, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &reflection_FileOutputStreamJc, _thCxt); 
   
   STACKTRC_LEAVE; return ythis;
 }
@@ -136,7 +136,7 @@ FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc  (  ObjectJc* othis, FileJc_s*
   OS_HandleFile hFile;
   StringJc fileName;
   STACKTRC_TENTRY("ctorO_fB_FileOutputStreamJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &reflection_FileOutputStreamJc_s, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &reflection_FileOutputStreamJc, _thCxt); 
   fileName = getPath_FileJc(file);  //the path like given in ctor_FileJc, it may be relative.
   ASSERTJc_TEST(isZeroTerminated_StringJc(fileName)); //a known property assumed.
   hFile = os_fopenToWrite(PTR_StringJc(fileName), append);
@@ -216,7 +216,7 @@ FileWriterJc_s* ctorO_FileWriterJc  (  ObjectJc* othis, ThCxt* _thCxt)
 {
   FileWriterJc_s* ythis = (FileWriterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_FileWriterJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileWriterJc_s), &reflection_FileWriterJc_s, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FileWriterJc_s), &reflection_FileWriterJc, _thCxt); 
   
   STACKTRC_LEAVE; return ythis;
 }

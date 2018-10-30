@@ -191,7 +191,7 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessCommSocket(ObjectJc* othis
 { 
   Address_InterProcessComm_s* ythis = (Address_InterProcessComm_s*)othis; 
   STACKTRC_ENTRY("ctorO_Address_InterProcessCommSocket");
-  checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &reflection_Address_InterProcessComm_s, _thCxt);
+  checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &reflection_Address_InterProcessComm, _thCxt);
 
   strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 

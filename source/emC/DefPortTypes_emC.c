@@ -1,6 +1,8 @@
 #include <emC/DefPortTypes_emC.h>
 #include <Jc/StringJc.h>
 
+#include "genRefl/emC/DefPortTypes_emC.crefl"
+
 
 char const cTypes_DefPortTypes_emC[] = "DFJISBCZUWVdfjisb";
 int8 const lenTypes_DefPortTypes_emC[] = { 8, 4, 8, 4, 2, 1, 1, 1, 4, 2, 1, 16, 8, 16, 8, 4, 2};

@@ -435,12 +435,12 @@ const MtblDef_InterProcessCommRxThread_Ipc mtblInterProcessCommRxThread_Ipc = {
  };
 
 extern_C struct ClassJc_t const reflection_InterProcessCommRxThread_Ipc_s;
-extern_C struct ClassJc_t const reflection_Address_InterProcessComm_s;
+extern_C struct ClassJc_t const reflection_Address_InterProcessComm;
 extern_C struct ClassJc_t const reflection_C_threadRoutine_InterProcessCommRxThread_Ipc_s;
 extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc_s;
 extern_C struct ClassJc_t const reflection_InterProcessComm_s;
 extern_C struct ClassJc_t const reflection_StringJc;
-extern_C struct ClassJc_t const reflection_ThreadJc_s;
+extern_C struct ClassJc_t const reflection_ThreadJc;
 const struct Reflection_Fields_InterProcessCommRxThread_Ipc_s_t
 { ObjectArrayJc head; FieldJc data[12];
 } reflection_Fields_InterProcessCommRxThread_Ipc_s =
@@ -488,7 +488,7 @@ const struct Reflection_Fields_InterProcessCommRxThread_Ipc_s_t
     }
    , { "thread"
     , 0 //nrofArrayElements
-    , &reflection_ThreadJc_s
+    , &reflection_ThreadJc
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InterProcessCommRxThread_Ipc_s*)(0x1000))->thread) - (int32)(InterProcessCommRxThread_Ipc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -520,7 +520,7 @@ const struct Reflection_Fields_InterProcessCommRxThread_Ipc_s_t
     }
    , { "myAnswerAddress"
     , 0 //nrofArrayElements
-    , &reflection_Address_InterProcessComm_s
+    , &reflection_Address_InterProcessComm
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InterProcessCommRxThread_Ipc_s*)(0x1000))->myAnswerAddress) - (int32)(InterProcessCommRxThread_Ipc_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -646,13 +646,13 @@ const MtblDef_C_threadRoutine_InterProcessCommRxThread_Ipc mtblC_threadRoutine_I
    }
  };
 
- extern_C struct ClassJc_t const reflection_RunnableJc_s;
+ extern_C struct ClassJc_t const reflection_RunnableJc;
  static struct ifcClasses_C_threadRoutine_InterProcessCommRxThread_Ipc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }interfaces_C_threadRoutine_InterProcessCommRxThread_Ipc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_RunnableJc_s, OFFSET_Mtbl(Mtbl_C_threadRoutine_InterProcessCommRxThread_Ipc, RunnableJc) }
+, { {&reflection_RunnableJc, OFFSET_Mtbl(Mtbl_C_threadRoutine_InterProcessCommRxThread_Ipc, RunnableJc) }
   }
 };
 

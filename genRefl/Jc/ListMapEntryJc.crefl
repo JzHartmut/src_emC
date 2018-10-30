@@ -7,14 +7,11 @@
 
 
 extern_C const ClassJc reflection_ListMapEntryJc;  //the just defined reflection_ used in the own fields.
-#define reflection_ListMapEntryJc_t reflection_ListMapEntryJc
-extern_C const ClassJc reflection_ListMapEntryJc_t;  //used for field parent
+extern_C const ClassJc reflection_ListMapEntryJc;  //used for field parent
 
-#define reflection_ListMapEntryJc_t reflection_ListMapEntryJc
-extern_C const ClassJc reflection_ListMapEntryJc_t;  //used for field previous
+extern_C const ClassJc reflection_ListMapEntryJc;  //used for field previous
 
-#define reflection_ListMapEntryJc_t reflection_ListMapEntryJc
-extern_C const ClassJc reflection_ListMapEntryJc_t;  //used for field next
+extern_C const ClassJc reflection_ListMapEntryJc;  //used for field next
 
 extern_C const ClassJc reflection_ObjectJc;  //used for field allocater
 
@@ -31,7 +28,7 @@ const struct Reflection_Fields_ListMapEntryJc_t
     { "parent"
     , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->parent)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListMapEntryJc
@@ -40,7 +37,7 @@ const struct Reflection_Fields_ListMapEntryJc_t
     { "previous"
     , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->previous)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListMapEntryJc
@@ -49,7 +46,7 @@ const struct Reflection_Fields_ListMapEntryJc_t
     { "next"
     , 0   //no Array, no Bitfield                           
     , &reflection_ListMapEntryJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->next)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListMapEntryJc
@@ -58,7 +55,7 @@ const struct Reflection_Fields_ListMapEntryJc_t
     { "allocater"
     , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->allocater)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListMapEntryJc
@@ -67,7 +64,7 @@ const struct Reflection_Fields_ListMapEntryJc_t
     { "key"
     , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->key)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListMapEntryJc
@@ -76,7 +73,7 @@ const struct Reflection_Fields_ListMapEntryJc_t
     { "element"
     , 0   //no Array, no Bitfield                           
     , &reflection_ObjectJc                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((ListMapEntryJc*)(0x1000))->element)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ListMapEntryJc

@@ -864,8 +864,8 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
 extern_C struct ClassJc_t const reflection_LogMessageFile_MSG_s;
 extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
 extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
-extern_C struct ClassJc_t const reflection_FileWriterJc_s;
-extern_C struct ClassJc_t const reflection_LocaleJc_s;
+extern_C struct ClassJc_t const reflection_FileWriterJc;
+extern_C struct ClassJc_t const reflection_LocaleJc;
 extern_C struct ClassJc_t const reflection_LogMessageFW_s;
 extern_C struct ClassJc_t const reflection_OS_TimeStamp;
 extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
@@ -961,7 +961,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "file"
     , 0 //nrofArrayElements
-    , &reflection_FileWriterJc_s
+    , &reflection_FileWriterJc
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->file) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1105,7 +1105,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "localization"
     , 0 //nrofArrayElements
-    , &reflection_LocaleJc_s
+    , &reflection_LocaleJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->localization) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase

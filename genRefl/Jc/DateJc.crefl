@@ -49,7 +49,7 @@ const ClassJc reflection_DateValuesJc =
 
 
 
-extern_C const ClassJc reflection_DateJc_s;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_DateJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_OS_TimeStamp;  //used for field val
   
 
@@ -61,10 +61,12 @@ const struct SuperClasses_DateJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the 
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -84,15 +86,15 @@ const struct Reflection_Fields_DateJc_s_t
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((DateJc_s*)(0x1000))->val)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DateJc_s
+    , &reflection_DateJc
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_DateJc_s =
-{ INIZ_objReflId_ObjectJc(reflection_DateJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "DateJc_s"
+const ClassJc reflection_DateJc =
+{ INIZ_objReflId_ObjectJc(reflection_DateJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "DateJc"
 , 0
 , sizeof(DateJc_s)
 , (FieldJcArray const*)&reflection_Fields_DateJc_s  //attributes and associations
@@ -105,7 +107,7 @@ const ClassJc reflection_DateJc_s =
 
 
 
-extern_C const ClassJc reflection_SimpleDateFormatJc_s;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_SimpleDateFormatJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_StringJc;  //used for field sFormat
   
 
@@ -117,10 +119,12 @@ const struct SuperClasses_SimpleDateFormatJc_s_ClassOffset_idxMtblJcARRAY_t  //T
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -140,7 +144,7 @@ const struct Reflection_Fields_SimpleDateFormatJc_s_t
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((SimpleDateFormatJc_s*)(0x1000))->sFormat)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_SimpleDateFormatJc_s
+    , &reflection_SimpleDateFormatJc
     }
   , 
     { "timeZoneAdjustHours"
@@ -149,15 +153,15 @@ const struct Reflection_Fields_SimpleDateFormatJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((SimpleDateFormatJc_s*)(0x1000))->timeZoneAdjustHours)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_SimpleDateFormatJc_s
+    , &reflection_SimpleDateFormatJc
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_SimpleDateFormatJc_s =
-{ INIZ_objReflId_ObjectJc(reflection_SimpleDateFormatJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "SimpleDateFormatJc_s"
+const ClassJc reflection_SimpleDateFormatJc =
+{ INIZ_objReflId_ObjectJc(reflection_SimpleDateFormatJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "SimpleDateFormatJc"
 , 0
 , sizeof(SimpleDateFormatJc_s)
 , (FieldJcArray const*)&reflection_Fields_SimpleDateFormatJc_s  //attributes and associations
@@ -170,7 +174,7 @@ const ClassJc reflection_SimpleDateFormatJc_s =
 
 
 
-extern_C const ClassJc reflection_TextFieldPositionJc_s;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc reflection_TextFieldPositionJc;  //the just defined reflection_ used in the own fields.  
 
 const struct SuperClasses_TextFieldPositionJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
@@ -180,10 +184,12 @@ const struct SuperClasses_TextFieldPositionJc_s_ClassOffset_idxMtblJcARRAY_t  //
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -203,15 +209,15 @@ const struct Reflection_Fields_TextFieldPositionJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TextFieldPositionJc_s*)(0x1000))->x)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_TextFieldPositionJc_s
+    , &reflection_TextFieldPositionJc
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_TextFieldPositionJc_s =
-{ INIZ_objReflId_ObjectJc(reflection_TextFieldPositionJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "TextFieldPositionJc_s"
+const ClassJc reflection_TextFieldPositionJc =
+{ INIZ_objReflId_ObjectJc(reflection_TextFieldPositionJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "TextFieldPositionJc"
 , 0
 , sizeof(TextFieldPositionJc_s)
 , (FieldJcArray const*)&reflection_Fields_TextFieldPositionJc_s  //attributes and associations

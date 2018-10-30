@@ -7,13 +7,11 @@
 
 
 extern_C const ClassJc reflection_ExceptionJc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_StringJc;  //used for field exceptionMsg
-
 const struct Reflection_Fields_ExceptionJc_t
 { ObjectArrayJc head;
-  FieldJc data[3];
+  FieldJc data[5];
 } reflection_Fields_ExceptionJc =
-{ INIZ_ObjectArrayJc(reflection_Fields_ExceptionJc, 3, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_ExceptionJc, 5, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "exceptionNr"
     , 0   //no Array, no Bitfield                           
@@ -33,11 +31,29 @@ const struct Reflection_Fields_ExceptionJc_t
     , &reflection_ExceptionJc
     }
   , 
-    { "exceptionMsg"
+    { "val2"
     , 0   //no Array, no Bitfield                           
-    , &reflection_StringJc                                                                                            
-    , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((ExceptionJc*)(0x1000))->exceptionMsg)) -0x1000 )
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((ExceptionJc*)(0x1000))->val2)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &reflection_ExceptionJc
+    }
+  , 
+    { "line"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((ExceptionJc*)(0x1000))->line)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &reflection_ExceptionJc
+    }
+  , 
+    { "file"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((ExceptionJc*)(0x1000))->file)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_ExceptionJc
     }
@@ -81,7 +97,7 @@ const struct Reflection_Fields_Entry_LogException_emC_t
     { "file"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Entry_LogException_emC*)(0x1000))->file)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_LogException_emC
@@ -135,7 +151,7 @@ const struct Reflection_Fields_Store_LogException_emC_t
     { "identString"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Store_LogException_emC*)(0x1000))->identString)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Store_LogException_emC

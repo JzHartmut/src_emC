@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 
-extern_C const ClassJc reflection_FormatterJc_s;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_FormatterJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_StringBuilderJcREF;  //used for field buffer
 
 extern_C const ClassJc reflection_LocaleJcREF;  //used for field locale
@@ -20,10 +20,12 @@ const struct SuperClasses_FormatterJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -43,7 +45,7 @@ const struct Reflection_Fields_FormatterJc_s_t
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FormatterJc_s*)(0x1000))->buffer)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FormatterJc_s
+    , &reflection_FormatterJc
     }
   , 
     { "locale"
@@ -52,15 +54,15 @@ const struct Reflection_Fields_FormatterJc_s_t
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FormatterJc_s*)(0x1000))->locale)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FormatterJc_s
+    , &reflection_FormatterJc
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_FormatterJc_s =
-{ INIZ_objReflId_ObjectJc(reflection_FormatterJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "FormatterJc_s"
+const ClassJc reflection_FormatterJc =
+{ INIZ_objReflId_ObjectJc(reflection_FormatterJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "FormatterJc"
 , 0
 , sizeof(FormatterJc_s)
 , (FieldJcArray const*)&reflection_Fields_FormatterJc_s  //attributes and associations

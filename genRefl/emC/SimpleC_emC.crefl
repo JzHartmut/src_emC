@@ -59,7 +59,7 @@ const struct Reflection_Fields_U_ptr_t
     { "f"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (4<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((U_ptr*)(0x1000))->f)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_U_ptr
@@ -68,7 +68,7 @@ const struct Reflection_Fields_U_ptr_t
     { "i"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (4<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((U_ptr*)(0x1000))->i)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_U_ptr

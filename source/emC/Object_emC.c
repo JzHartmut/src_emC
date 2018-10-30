@@ -42,6 +42,9 @@
 //getCurrent_ThreadContext_emC
 //throw_s0Jc
 
+//#include "genRefl/emC/Object_emC.crefl"
+
+
 //#ifdef DEFINE_debugPRINTF
 char const* debugPRINTF[10] = {0};
 //#endif

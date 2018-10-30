@@ -65,10 +65,12 @@ const struct SuperClasses_StringJc_CharSeqJc_ClassOffset_idxMtblJcARRAY_t  //Typ
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "base"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -85,7 +87,7 @@ const struct Reflection_Fields_StringJc_CharSeqJc_t
     { "s"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
-    , kReference_Modifier_reflectJc //bitModifiers
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((StringJc_CharSeqJc*)(0x1000))->s)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_StringJc_CharSeqJc

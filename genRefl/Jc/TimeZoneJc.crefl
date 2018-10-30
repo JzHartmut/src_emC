@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 
-extern_C const ClassJc reflection_TimeZoneJc_s;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc reflection_TimeZoneJc;  //the just defined reflection_ used in the own fields.
 extern_C const ClassJc reflection_StringJc;  //used for field name
   
 
@@ -18,10 +18,12 @@ const struct SuperClasses_TimeZoneJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for 
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
-    , { "object"     
+    , { "super"              
       , 0 //arraysize
       , &reflection_ObjectJc  //type of super                                                                                         
       , kEmbeddedContainer_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
       , &reflection_ObjectJc  
@@ -41,7 +43,7 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeZoneJc_s*)(0x1000))->diffHours)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_TimeZoneJc_s
+    , &reflection_TimeZoneJc
     }
   , 
     { "diffMinutes"
@@ -50,7 +52,7 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((TimeZoneJc_s*)(0x1000))->diffMinutes)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_TimeZoneJc_s
+    , &reflection_TimeZoneJc
     }
   , 
     { "name"
@@ -59,15 +61,15 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((TimeZoneJc_s*)(0x1000))->name)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_TimeZoneJc_s
+    , &reflection_TimeZoneJc
     }
   
 } }; 
                                                     
                                                                    
-const ClassJc reflection_TimeZoneJc_s =
-{ INIZ_objReflId_ObjectJc(reflection_TimeZoneJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
-, "TimeZoneJc_s"
+const ClassJc reflection_TimeZoneJc =
+{ INIZ_objReflId_ObjectJc(reflection_TimeZoneJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+, "TimeZoneJc"
 , 0
 , sizeof(TimeZoneJc_s)
 , (FieldJcArray const*)&reflection_Fields_TimeZoneJc_s  //attributes and associations

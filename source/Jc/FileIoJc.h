@@ -134,7 +134,7 @@ typedef struct FileOutputStreamJc_t
   OS_HandleFile file;
 }FileOutputStreamJc_s;
 
-extern_C struct ClassJc_t const reflection_FileOutputStreamJc_s;
+extern_C struct ClassJc_t const reflection_FileOutputStreamJc;
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
