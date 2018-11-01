@@ -160,7 +160,7 @@ char const* getCharsAndLength_StringJc(StringJc const* thiz, int* length)
     if(nChars == kIs_0_terminated_StringJc) {
       nChars = strnlen_emC(chars, kMaxNrofChars_StringJc);
     }
-    else if(nChars <= kMaxNrofChars_StringJc) {
+    if(nChars <= kMaxNrofChars_StringJc) {
       *length = nChars;
     } else {
       //STACKTRC_ENTRY("getCharsAndLength_StringJc");

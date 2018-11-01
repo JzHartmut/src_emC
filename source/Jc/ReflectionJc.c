@@ -747,7 +747,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
        * In normally the ref is the object to return. Save it in retObj. 
        * But in C++ the position of ObjectJc may have an offset to the instance itself, Therefore offsetBase is added.
        */
-      /*else in C++*/ if((typeModifier & mObjectJc_Modifier_reflectJc) && (modifiers & kEmbeddedContainer_Modifier_reflectJc)==0)
+      /*else in C++*/ if((typeModifier & mObjectJcBased_Modifier_reflectJc) && (modifiers & kEmbeddedContainer_Modifier_reflectJc)==0)
       { /**If the type is based on ObjectJc, the clazz is getted from its reflections.
            But not for an embedded instance. Only for references. A reference may from base type. 
            Especially it is ObjectJc itself, it should show the fields of ObjectJc.
@@ -758,11 +758,20 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
         if(segment_MemSegmJc(ref)!=0){
           stop(); //2CPU
         } else {
-          retObjBase = (ObjectJc*)(ref1 + offsetBase);
+          if ((typeModifier & mObjectJcBased_Modifier_reflectJc) == mObjectifcBaseJcpp_Modifier_reflectJc) {
+            #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
+            //#if defined __cplusplus
+              retObjBase = (static_cast<ObjectifcBase>ref1)->toObject();
+            #else
+              THROW_s0(IllegalArgumentException, "cannot use ObjectifcBaseJcpp", 0, 0);
+              retObjBase = null;
+            #endif
+          } else {
+            retObjBase = (ObjectJc*)(ref1 + offsetBase);  //offsetBase should be 0
+          }
           setADDR_MemSegmJc(ret, retObjBase);
           retObj = ret;
-          clazzFromInstance = retObjBase->reflectionClass;    //2CPU get Clazz from object itself. It may be null if there is no reflection.
-          if(clazzFromInstance != null) { 
+          if(retObjBase != null && (clazzFromInstance = retObjBase->reflectionClass) != null) {
             clazzRet = clazzFromInstance; 
           }
           else

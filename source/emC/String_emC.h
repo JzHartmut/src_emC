@@ -386,7 +386,8 @@ extern_C double parseDouble_emC ( const char* src, int size, int* parsedChars);
  * @param TEXT should be a text-literal only. If it references a char-array, 
  *             a problem with persistence may existing.
  */
-#define CONST_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
+#define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
+#define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
  * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
@@ -397,8 +398,8 @@ extern_C double parseDouble_emC ( const char* src, int size, int* parsedChars);
  *            In C++, methods are syntaxtically able to use, but it produces more machine code
  *            and the definition cannot store in a const segment. In C it is an error.
  */
-#define CONST_StringJc(TEXT, LEN) { TEXT, LEN}
-
+#define INIZ_StringJc(TEXT, LEN) { TEXT, LEN }
+#define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
 #define NULL_StringJc { null, 0}
 
 
@@ -874,8 +875,9 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
  * @param OBJP Pointer to the instance itself. It is used to store the OWNADDRESS for the ObjectJc-part.
  * @param ADDSIZE The additional size of the StringBuffer, defined by sizeof the followed char array.
  */
+#define INIZ_addSize_StringBuilderJc(OBJ, ADDSIZE) { { INIZ_objReflId_ObjectJc(OBJ, null, 0)}, 0, sizeof((OBJ).value) + (ADDSIZE) -1, 0 }
 #define CONST_addSize_StringBuilderJc(OBJP, ADDSIZE) { CONST_ObjectJc(sizeof(StringBuilderJc) + (ADDSIZE), &(OBJP)->base.object, null), 0, sizeof((OBJP)->value) + (ADDSIZE) -1, 0 }
-
+//#define CONST_addSize_StringBuilderJc INIZ_addSize_StringBuilderJc
 
 /**This macro defines a C-constant (with {..}) for initializing a StringBuffer instance with an additional size.
  * which is located in the Stack. See ,,CONST_addSize_StringBuilderJc(...),, 
@@ -934,7 +936,7 @@ METHOD_C void ctor_addSize_StringBuilderJc (StringBuilderJc* thiz, int addSize);
  * The buffer content is zero-terminated always. 
  * @return 0-terminated content of buffer.
  */
-METHOD_C char* chars_StringBuilderJc (StringBuilderJc* thiz);
+#define chars_StringBuilderJc(THIZ) ((THIZ)->size < 0 ? (THIZ)->value.buffer : (THIZ)->value.direct)
 
 
 /**Gets the buffer and the size of the buffer. 

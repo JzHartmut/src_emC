@@ -60,18 +60,47 @@ int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, ch
 {
   int error = 0;
   int ii;
-  ythis->flags = 0; 
-  if(addPathLength < 0) { addPathLength = 0; }
-  if(zFilepath >= (int)(sizeof(ythis->absPath) + addPathLength)) {
+  ythis->flags = 0;
+  if (addPathLength < 0) { addPathLength = 0; }
+  if (zFilepath >= (int)(sizeof(ythis->absPath) + addPathLength)) {
     error = OS_INVALID_PARAMETER;
-    os_notifyError(error, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength -1); 
+    os_notifyError(error, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength - 1);
     //shorten it.
-    zFilepath = sizeof(ythis->absPath) + addPathLength -1;
+    zFilepath = sizeof(ythis->absPath) + addPathLength - 1;
   }
   memset(ythis->absPath, sizeof(ythis->absPath) + addPathLength, 0);
-  strcpy_emC(ythis->absPath,filepath, zFilepath); 
-  for(ii=0; ii<zFilepath; ii++){ if(ythis->absPath[ii] == '/'){ ythis->absPath[ii] = '\\'; } }
+  strcpy_emC(ythis->absPath, filepath, sizeof(ythis->absPath));
+  for (ii = 0; ii<zFilepath; ii++) { if (ythis->absPath[ii] == '/') { ythis->absPath[ii] = '\\'; } }
+
+  return error;
+}
+
+
+
+
+int initDir_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, FileDescription_OSAL* dir, char const* filepath, int zFilepath)
+{
+  int error = 0;
+  int ii;
+  ythis->flags = 0;
+  if (addPathLength < 0) { addPathLength = 0; }
+  int zDir = strnlen_emC(dir->absPath, sizeof(dir->absPath));
+  memset(ythis->absPath, sizeof(ythis->absPath) + addPathLength, 0);
+  strncpy_emC(ythis->absPath, dir->absPath, zDir);
+  if(ythis->absPath[zDir-1] != '\\'){
+    ythis->absPath[zDir] = '\\';
+    zDir +=1;
+  }
+  if ((zFilepath + zDir) >= (int)(sizeof(ythis->absPath) + addPathLength)) {
+    error = OS_INVALID_PARAMETER;
+    os_notifyError(error, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength - 1);
+    //shorten it.
+    zFilepath = sizeof(ythis->absPath) + addPathLength - 1 - zDir;
+  }
+  strncpy_emC(ythis->absPath + zDir, filepath, zFilepath);
   
+  for (ii = zDir; ii < (zFilepath + zDir); ii++) { if (ythis->absPath[ii] == '/') { ythis->absPath[ii] = '\\'; } }
+
   return error;
 }
 
@@ -141,6 +170,7 @@ OS_HandleFile os_fopenToWrite(char const* filename, bool append)
 
 int os_fclose(OS_HandleFile file)
 { int success;
+  if(file == 0) return 0;
   #ifdef USE_LoLevelFileIo 
     success = close( (int) file);
   #else

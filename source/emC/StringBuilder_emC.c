@@ -196,7 +196,7 @@ char* getCharsAndSize_StringBuilderJc(StringBuilderJc* thiz, int* size)
 }
 
 
-char* chars_StringBuilderJc(StringBuilderJc* thiz)
+char* XXXXXXXchars_StringBuilderJc(StringBuilderJc* thiz)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   return(buffer);

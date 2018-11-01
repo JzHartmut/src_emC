@@ -104,17 +104,29 @@ C_TYPE typedef struct FileDescription_OSAL_t
 
 
 /**Fills the given instance ythis with the given file path. No os-functionality will be called.
- * @param addPathLength number of additional chars of the file path. It may be 0 normally. 
- *                      The struct FileDescription_OSAL contains 224 chars for the absolute file path.
- *                      If this parameter is >0, an additional memory space after the dst spaces should be given.
- * @param filepath path and file of the file. It may be a relativ path. It need not be 0-terminated. 
- *        It need not be persistent.
- *        Hint: In a multithread system the current directory to build the absolute path should be a property of the thread. 
- *              Therefore an internal thread context is necessary. 
- * @param zFilepath number of chars of the filepath-string. 
- * @return 0 on success, OS_INVALID_PARAMETER if the zFilepath is greater than the (internal buffer + addPathLength).
- */
+* @param addPathLength number of additional chars of the file path. It may be 0 normally.
+*                      The struct FileDescription_OSAL contains 224 chars for the absolute file path.
+*                      If this parameter is >0, an additional memory space after the dst spaces should be given.
+* @param filepath path and file of the file. It may be a relativ path. It need not be 0-terminated.
+*        It need not be persistent.
+*        Hint: In a multithread system the current directory to build the absolute path should be a property of the thread.
+*              Therefore an internal thread context is necessary.
+* @param zFilepath number of chars of the filepath-string.
+* @return 0 on success, OS_INVALID_PARAMETER if the zFilepath is greater than the (internal buffer + addPathLength).
+*/
 extern_C int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath);
+
+/**Fills the given instance with the given file path based on a given directory. No os-functionality will be called.
+* @param addPathLength number of additional chars of the file path. It may be 0 normally.
+*                      The struct FileDescription_OSAL contains 224 chars for the absolute file path.
+*                      If this parameter is >0, an additional memory space after the dst spaces should be given.
+* @param dir a given directory, should be tested already.
+* @param filepath relative path of the file to the given dir. It need not be 0-terminated.
+*        It need not be persistent.
+* @param zFilepath number of chars of the filepath-string.
+* @return 0 on success, OS_INVALID_PARAMETER if the zFilepath is greater than the (internal buffer + addPathLength).
+*/
+extern_C int initDir_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, FileDescription_OSAL* dir, char const* filepath, int zFilepath);
 
 
 

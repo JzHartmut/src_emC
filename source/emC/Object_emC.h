@@ -916,10 +916,8 @@ C_TYPE typedef struct  FieldJc_t
 { 
   char name[30]; //kLengthNAME_FIELD_ReflectionJc];  //28
 
-                 /**Size of the field or size of 1 element if it is an static array. */
-                 //int16 sizeElement;
-
-                 /**Nr of elements of an static array or the bit positions of a bitfield
+ /**Nr of elements of an static array 
+  * or the bit positions of a bitfield if bitModifiers & mBitField
                  * If is is a bit field
                  */
   uint16_t nrofArrayElementsOrBitfield_;
@@ -1275,6 +1273,9 @@ typedef enum  Modifier_reflectJc_t
   * It is set if the Type is derived from ObjectifcBaseJcpp.
   */
   , mObjectifcBaseJcpp_Modifier_reflectJc = 0x08000000
+
+  /**If one of the bit is set on a reference type in FieldJc, the runtype type of src should be evaluated instead. */
+  , mObjectJcBased_Modifier_reflectJc = 0x0c000000
 
 
   /**The container is instanciated embeddedly. */

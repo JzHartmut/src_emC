@@ -32,6 +32,12 @@ typedef struct Entry_DefPortTypeJc_t
   * as enhancement of this array. 0= Dimension not existing. */
   uint32 sizeArray[5];
 
+  /**The step time (sample time) of the input. */
+  float Tstep;
+
+  /**The index of the sample time related to the Sfn step times.*/
+  int32 ixTstepSfn;
+
 } Entry_DefPortTypeJc;  //Note: size=6*4
 
 
@@ -68,13 +74,25 @@ bool checkType_Entry_DefPortType_emC(Entry_DefPortTypeJc* thiz, ClassJc const* r
  * Note: The size of this struct is able to divide by 8. It is important for alignment.
  */
 typedef struct DefPortTypesJc_t
-{ /**The number of elements of entries. */
+{ 
+  /**The fastest sample time. */
+  float TstepMin;
+  
+  /**Number of that port which has the first minimal sample time. Negative: Output port.*/
+  int16 ixInputStepMin;
+
+  /**Index in the Sfn sample time indices of the fastest sample time. */
+  int16 ixStepSfnMin;
+
+
+
+  /**The number of elements of entries. */
   int16 size;
   /**Indices of the ports in entries. */
   int16 ixInputStep, ixOutputInit, ixOutputStep;  //Note: pos=8
 
-                                                  /**Array of all entries following, use a struct definition to create the correct array length.
-                                                  */
+
+  /**Array of all entries following, use a struct definition to create the correct array length. */
   Entry_DefPortTypeJc entries[1];
 } DefPortTypesJc;
 
