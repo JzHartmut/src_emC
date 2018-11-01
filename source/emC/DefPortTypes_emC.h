@@ -86,11 +86,12 @@ typedef struct DefPortTypesJc_t
 
 
 
-  /**The number of elements of entries. */
-  int16 size;
   /**Indices of the ports in entries. */
-  int16 ixInputStep, ixOutputInit, ixOutputStep;  //Note: pos=8
+  int16 ixInputStep, ixInputUpd, ixInputInit, nrofInputs;
+  int16 ixOutputStep, ixOutputInit, ixOutputThiz, nrofOutputs;  //Note: pos=8
 
+                                                               /**The number of elements of entries. */
+  int16 size, _1_, _2_, _3_;
 
   /**Array of all entries following, use a struct definition to create the correct array length. */
   Entry_DefPortTypeJc entries[1];
