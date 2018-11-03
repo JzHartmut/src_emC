@@ -40,13 +40,16 @@ char const* parse_Entry_DefPortType_emC  (  Entry_DefPortTypeJc* thiz, StringJc 
     }
     else {
       if(posStartName){ *posStartName = 0; }
-      return("parse_Entry_DefPortType_emC(): type is null, name does not contain a ':'");
+      type = NULL_StringJc;  //especially length is 0.
+      //return("parse_Entry_DefPortType_emC(): type is null, name does not contain a ':'");
     }
   }
   int zType = length_StringJc(type);
   const char* sType = PTR_StringJc(type);
   int pos = 0;
   int zDim = 0;
+  thiz->type = 'F'; //default
+  thiz->sizeType = 4; //default;
   while(pos < zType) {
     char cType = sType[pos];
     char nrType = searchChar_emC(cTypes_DefPortTypes_emC, -20, cType);
@@ -65,9 +68,10 @@ char const* parse_Entry_DefPortType_emC  (  Entry_DefPortTypeJc* thiz, StringJc 
       pos += sizeDim;
     }
     else {
-      return "parse_Entry_DefPortType_emC(): unexpected format char";
+      STACKTRC_RETURN "parse_Entry_DefPortType_emC(): unexpected format char";
     }
   }
+  if(err == null){ thiz->newDefined =1; }
   STACKTRC_RETURN err;
 }
 

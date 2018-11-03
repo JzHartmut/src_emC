@@ -48,6 +48,7 @@
 #include <applstdef_emC.h>
 #include "Jc/ReflectionJc.h"
 #include "Jc/ReflMemAccessJc.h"
+#include <emC/Handle_ptr64_emC.h>
 //#include "Jc/StringJc.h"
 #include "Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 
@@ -446,6 +447,13 @@ static MemSegmJc getRefAddrObjectArray_FieldJc(MemSegmJc addrArray, char const* 
 
 
 
+MemSegmJc getAddressElement_FieldJc(const FieldJc* ythis, MemSegmJc instance, char const* sVaargs, ...) {
+  va_list vaargs;
+  va_start(vaargs, sVaargs);
+  return getAddrElement_V_FieldJc(ythis, instance, sVaargs, vaargs);
+}
+
+
 /**Gets the address of the element described with the field in the data of the given object. 
  * If the field describes a reference, it returns the address of the reference. It does not derefer.
  * It regards whether the field is of container type, it regards the index.
@@ -461,7 +469,7 @@ static MemSegmJc getRefAddrObjectArray_FieldJc(MemSegmJc addrArray, char const* 
  * @throws IndexOutOfBoundsException if the idx is fault.
  * @since 2009-11-26, it is necessary to set references with the ''inspector''-Tool.
  */
-MemSegmJc getAddrElement_FieldJc(const FieldJc* thiz, MemSegmJc instance, char const* sVaargs, va_list vaargs)
+MemSegmJc getAddrElement_V_FieldJc(const FieldJc* thiz, MemSegmJc instance, char const* sVaargs, va_list vaargs)
 { /* it is assumed, that the obj matches to the Field thiz, it means, the Field thiz
      is getted from a object of exactly this type or from the obj itself.
      This is tested by original Java - set- or get- operations.
@@ -658,7 +666,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
     intPTR iRef;
     MemSegmJc ref; // = getReference_FieldJc(thiz, obj, idx);  //getRefAddr_FieldJc(thiz, obj, idx);
     //ref = address of the element inside obj. obj is the instance which contains this field.
-    ref = getAddrElement_FieldJc(thiz, obj, sVaargs, vaargs); //getRefAddr_FieldJc(thiz, instance, 0);
+    ref = getAddrElement_V_FieldJc(thiz, obj, sVaargs, vaargs); //getRefAddr_FieldJc(thiz, instance, 0);
     if(isReference_ModifierJc(modifiers))
     { 
       #ifdef __HandlePtr64__
@@ -989,7 +997,7 @@ METHOD_C MemSegmJc getReference_V_FieldJc(FieldJc const* thiz, MemSegmJc instanc
   MemSegmJc addr;
   int modifiers = getModifiers_FieldJc(thiz);
   STACKTRC_ENTRY("setReference_FieldJc");
-  addr = getAddrElement_FieldJc(thiz, instance, sVaargs, vaargs); //getRefAddr_FieldJc(thiz, instance, 0);
+  addr = getAddrElement_V_FieldJc(thiz, instance, sVaargs, vaargs); //getRefAddr_FieldJc(thiz, instance, 0);
   if(isReference_ModifierJc(modifiers))
   { ret = getRef_MemAccessJc(addr);
     //MemSegmJc adr = (void**)getMemoryAddress_FieldJc(thiz, -1,obj);
@@ -1012,11 +1020,24 @@ void* getMemoryIdent_FieldJc(FieldJc const* thiz, MemSegmJc instance, char const
 
 
 void* getMemoryIdent_V_FieldJc(FieldJc const* thiz, MemSegmJc instance, char const* sVaargs, va_list vaargs)
-{ MemSegmJc adr = getAddrElement_FieldJc(thiz, instance, sVaargs, vaargs);
+{ MemSegmJc adr = getAddrElement_V_FieldJc(thiz, instance, sVaargs, vaargs); //The address of the element inside the instance
   if(thiz->bitModifiers & kReference_Modifier_reflectJc){
     //the field is a reference field, get the reference value instead the address. The reference value
     //addresses the real target value.
-    adr = getRef_MemAccessJc(adr);
+    if ((thiz->bitModifiers & mPrimitiv_Modifier_reflectJc) == kHandlePtr_Modifier_reflectJc) {
+      uint32* addrfield = ADDR_MemSegmJc(adr, uint32);
+      uint32 handle = *addrfield;
+      void* addr = null;
+      char const* err = getPtr_Handle2Ptr(handle, &addr);
+      setADDR_MemSegmJc(adr, addr);
+      if(err) {
+        STACKTRC_ENTRY("getMemoryIdent_V_FieldJc");
+        THROW_s0(IllegalArgumentException, err, handle, 0);
+        STACKTRC_LEAVE;
+      }
+    } else {
+      adr = getRef_MemAccessJc(adr);
+    }
   }
   //returns the address in the memory space of the target. It may be another CPU.
   return (ADDR_MemSegmJc(adr, void)); 
@@ -1032,7 +1053,7 @@ METHOD_C void* setReference_FieldJc(FieldJc const* thiz, MemSegmJc instance, voi
   va_start(vaargs, sVaargs);
   
   if(isReference_ModifierJc(modifiers))
-  { MemSegmJc addr = getAddrElement_FieldJc(thiz,instance, sVaargs, vaargs);
+  { MemSegmJc addr = getAddrElement_V_FieldJc(thiz,instance, sVaargs, vaargs);
     ret = (void*)setValue_MemAccessJc(addr, &value, sizeof(void*));
   }
   else
@@ -1049,9 +1070,7 @@ char getChar_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sVaargs, ..
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
-  //TODO use getAddrElement_FieldJc instead getMemoryAddress_FieldJc to regard whether it may be a complex container.
-  //TODO on all get- and set methods. 
-  adr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  adr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { adr = getRef_MemAccessJc(adr);
   }
@@ -1068,7 +1087,7 @@ int8 getByte_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sVaargs, ..
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
-  adr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  adr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { adr = getRef_MemAccessJc(adr);
   }
@@ -1085,7 +1104,7 @@ int16 getShort_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sVaargs, 
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
-  adr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  adr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { adr = getRef_MemAccessJc(adr);
   }
@@ -1108,7 +1127,7 @@ METHOD_C int32 getInt_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sV
   //TODO test if it is an integer field!
   if(isReference_ModifierJc(thiz->bitModifiers))
   { //Reference to an int element or an int array.
-    MemSegmJc adrElementInObj = getAddrElement_FieldJc(thiz, obj, null, null); //The address of the reference
+    MemSegmJc adrElementInObj = getAddrElement_V_FieldJc(thiz, obj, null, null); //The address of the reference
     adr = getRef_MemAccessJc(adrElementInObj);
     if(adr.ref !=null && sVaargs != null && *sVaargs == 'I'){  //only 1 index yet, todo later.
       int ixData = va_arg(vaargs, int32);
@@ -1120,7 +1139,7 @@ METHOD_C int32 getInt_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sV
     }
   } else {
   	//scalar int or embedded array with given index
-    adr = getAddrElement_FieldJc(thiz, obj, sVaargs, vaargs);
+    adr = getAddrElement_V_FieldJc(thiz, obj, sVaargs, vaargs);
   }
   value = getInt32_MemAccessJc(adr);
   return value;
@@ -1133,7 +1152,7 @@ METHOD_C float getFloat_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* 
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
-	adr = getAddrElement_FieldJc(thiz, obj, sVaargs, vaargs);
+	adr = getAddrElement_V_FieldJc(thiz, obj, sVaargs, vaargs);
   //adr = getMemoryAddress_FieldJc(thiz,obj, false, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { adr = getRef_MemAccessJc(adr);
@@ -1149,7 +1168,7 @@ METHOD_C double getDouble_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
-  adr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  adr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { adr = getRef_MemAccessJc(adr);
   }
@@ -1165,7 +1184,7 @@ METHOD_C bool getBoolean_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const*
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
-  adr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  adr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { adr = getRef_MemAccessJc(adr);
   }
@@ -1181,7 +1200,7 @@ METHOD_C int64 getInt64_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* 
   va_list vaargs;
   MemSegmJc adr;
   va_start(vaargs, sVaargs);
-  adr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  adr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
 
   //TODO test if it is an integer field!
   return getInt64_MemAccessJc(adr);
@@ -1199,7 +1218,7 @@ int16 getBitfield_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sVaarg
   if(nrofBits == 0){ nrofBits = 16; }  //special case: 0 is 16 bit.
   
   va_start(vaargs, sVaargs);
-	//TODO getAddrElement_FieldJc
+	//TODO getAddrElement_V_FieldJc
   adr = getMemoryAddress_FieldJc(thiz,obj, false, sVaargs, vaargs);
 
   //TODO test if it is an integer field!
@@ -1217,7 +1236,7 @@ int setBitfield_FieldJc(const FieldJc* thiz, MemSegmJc obj, int val, char const*
   if(nrofBits == 0){ nrofBits = 16; }  //special case: 0 is 16 bit.
 
   va_start(vaargs, sVaargs);
-	//TODO getAddrElement_FieldJc
+	//TODO getAddrElement_V_FieldJc
   adr = getMemoryAddress_FieldJc(thiz,obj, false, sVaargs, vaargs);
   //TODO test if it is an integer field!
   return setBitfield_MemAccessJc(adr, val, posBit, nrofBits);
@@ -1236,7 +1255,7 @@ METHOD_C StringJc getString_FieldJc(const FieldJc* thiz, MemSegmJc instance, cha
   ClassJc const* type = getType_FieldJc(thiz);
   int modifier = getModifiers_ClassJc(type);
   va_start(vaargs, sVaargs);
-  addrField = getAddrElement_FieldJc(thiz,instance, sVaargs, vaargs);
+  addrField = getAddrElement_V_FieldJc(thiz,instance, sVaargs, vaargs);
   if(!isPrimitive_ClassJc(type)){
     ref = getReference_V_FieldJc(thiz, instance, sVaargs, vaargs);  //The address of the Object.
     if(ADDR_MemSegmJc(ref, void) == null){
@@ -1264,7 +1283,7 @@ METHOD_C int32 setInt_FieldJc(const FieldJc* thiz, MemSegmJc obj, int val, char 
   va_list vaargs;
   MemSegmJc addr;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { addr = getRef_MemAccessJc(addr);
   }
@@ -1277,7 +1296,7 @@ METHOD_C int64 setLong_FieldJc(const FieldJc* thiz, MemSegmJc obj, int64 val, ch
   va_list vaargs;
   MemSegmJc addr;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { addr = getRef_MemAccessJc(addr);
   }
@@ -1290,7 +1309,7 @@ METHOD_C int16 setShort_FieldJc(const FieldJc* thiz, MemSegmJc obj, int16 val, c
   va_list vaargs;
   MemSegmJc addr;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { addr = getRef_MemAccessJc(addr);
   }
@@ -1303,7 +1322,7 @@ METHOD_C char setChar_FieldJc(const FieldJc* thiz, MemSegmJc obj, char val, char
   va_list vaargs;
   MemSegmJc addr;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { addr = getRef_MemAccessJc(addr);
   }
@@ -1315,7 +1334,7 @@ METHOD_C int8 setByte_FieldJc(const FieldJc* thiz, MemSegmJc obj, int8 val, char
   va_list vaargs;
   MemSegmJc addr;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { addr = getRef_MemAccessJc(addr);
   }
@@ -1329,7 +1348,7 @@ METHOD_C bool setBoolean_FieldJc(const FieldJc* thiz, MemSegmJc obj, bool val, c
   int8 val1 = (int8)(val ? 0 : 1);
   int32 valRet;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   valRet = setValue_MemAccessJc(addr, &val1, 1);
   return valRet !=0;
 }
@@ -1340,7 +1359,7 @@ METHOD_C float setFloat_FieldJc(const FieldJc* thiz, MemSegmJc obj, float val, c
   va_list vaargs;
   MemSegmJc addr;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { addr = getRef_MemAccessJc(addr);
   }
@@ -1353,7 +1372,7 @@ METHOD_C double setDouble_FieldJc(const FieldJc* thiz, MemSegmJc obj, double val
   va_list vaargs;
   MemSegmJc addr;
   va_start(vaargs, sVaargs);
-  addr = getAddrElement_FieldJc(thiz,obj, sVaargs, vaargs);
+  addr = getAddrElement_V_FieldJc(thiz,obj, sVaargs, vaargs);
   if(isReference_ModifierJc(thiz->bitModifiers))
   { addr = getRef_MemAccessJc(addr);
   }
