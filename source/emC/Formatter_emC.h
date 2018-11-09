@@ -119,16 +119,8 @@ METHOD_C int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatte
  */ 
 int detectTypeArgs_fwFormatter(char* typeArgs, int zTypeArgs, StringJc text);
 
-/**Converts the value into a String representation.
- * @param zBuffer size of the buffer. If the string representation will be longer, only the left character are written.
- * @param radix of the conversion, typically 10 or 16 for hexa conversion. A value between 1..16.
- * @param minNrofCharsAndNegative If this value is negativ, and the value is negativ, a ,,-,, is written first and the value is negated before conversion.
- *                                The absolute value is the minimum of numbers, If the number will be less, left 0 are written.
- * @return number of written chars. A 0 after the string won't be written! 
-           If the return value is equal zBuffer, the string representation may be incomplete because clipping of following chars.
- */
-METHOD_C int toString_Integer_FW(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative, struct ThreadContext_emC_t* _thCxt);
 
+#define toString_Integer_FW toString_int32_emC
 
 /**Produces a String with given format and given values.
  * @param sFormat the format text. It need not be 0-terminated if zFormat is >=0.
