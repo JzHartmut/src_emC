@@ -665,7 +665,7 @@ METHOD_C int copyToBuffer_CharSeqJc ( const CharSeqJc thiz, int start, int end, 
 * @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
 * @return number of chars copied. It is the number of valid chars in buffer always.
 */
-METHOD_C int copyToBuffer_StringJc ( const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
+METHOD_C int copyToBuffer_StringJc ( const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
 
 //old: #define copyToBuffer_StringJc(THIZ, START, END, BUFFER, SIZE) copyToBuffer_CharSeqJc(THIZ, START, END, BUFFER, SIZE, null)
 

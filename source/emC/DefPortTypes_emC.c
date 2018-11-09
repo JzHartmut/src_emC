@@ -4,6 +4,8 @@
 #include "genRefl/emC/DefPortTypes_emC.crefl"
 
 
+
+
 char const cTypes_DefPortTypes_emC[] = "DFJISBCZUWVdfjisb";
 int8 const lenTypes_DefPortTypes_emC[] = { 8, 4, 8, 4, 2, 1, 1, 1, 4, 2, 1, 16, 8, 16, 8, 4, 2};
 
@@ -29,7 +31,16 @@ ClassJc const* const reflTypes_DefPortTypes_emC[] =
 };
 
 
-char const* parse_Entry_DefPortType_emC  (  Entry_DefPortTypeJc* thiz, StringJc type, StringJc name, int* posStartName, ThCxt* _thCxt)
+
+void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements) {
+  int bytes = sizeof(*thiz) + nrofAdditionalElements * sizeof(thiz->entries[0]);
+  memset(thiz, 0, bytes);
+  thiz->zEntries = (int16)( ARRAYLEN_emC(thiz->entries) + nrofAdditionalElements);
+  thiz->pEntries = (Entry_DefPortType_emC_20_s*) &thiz->entries[0];
+}
+
+
+char const* parse_Entry_DefPortType_emC  (  Entry_DefPortType_emC* thiz, StringJc type, StringJc name, int* posStartName, ThCxt* _thCxt)
 { STACKTRC_TENTRY("parse_Entry_DefPortType_emC");
   char const* err = null;
   if (type.ref == null) {
@@ -76,7 +87,7 @@ char const* parse_Entry_DefPortType_emC  (  Entry_DefPortTypeJc* thiz, StringJc 
 }
 
 
-bool checkType_Entry_DefPortType_emC(Entry_DefPortTypeJc* thiz, ClassJc const* reflectionType) {
+bool checkType_Entry_DefPortType_emC(Entry_DefPortType_emC* thiz, ClassJc const* reflectionType) {
   char nrType = searchChar_emC(cTypes_DefPortTypes_emC, -20, thiz->type);
   if(nrType < 0 || nrType >= ARRAYLEN_emC(reflTypes_DefPortTypes_emC)) return false;
   ClassJc const* reflTypeCmp = reflTypes_DefPortTypes_emC[nrType];

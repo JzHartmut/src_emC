@@ -2,11 +2,11 @@
 #define __emC__DefPortTypes_emC_h__
 #include <applstdef_emC.h>
 
-/*@CLASS_C DefPortTypeJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C DefPortType_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**This struct can be filled by any static operation of a class to determine about numeric types and array sizes of ports.
 */
-typedef struct Entry_DefPortTypeJc_t
+typedef struct Entry_DefPortType_emC_t
 {
   /**The type. The type characters of Java are used: B1S2I4J8FD for int8, uint8, int16, uint16, int32, uint32,
   * int64, uint64, float double,
@@ -22,7 +22,7 @@ typedef struct Entry_DefPortTypeJc_t
   /**If this value is not 0, then the port should be set newly with the given information. */
   uint8 newDefined;
 
-  /**0=scalar. 1 ..5: size of dimension in [[sizeArray+Entry_QueryPortTypeJc]].
+  /**0=scalar. 1 ..5: size of dimension in [[sizeArray+Entry_QueryPortType_emC]].
   * If >5 then sizeArray contains a pointer to a uint32 [...], cast necessary:
   */
   uint8 dimensions;
@@ -38,7 +38,7 @@ typedef struct Entry_DefPortTypeJc_t
   /**The index of the sample time related to the Sfn step times.*/
   int32 ixTstepSfn;
 
-} Entry_DefPortTypeJc;  //Note: size=6*4
+} Entry_DefPortType_emC;  //Note: size=6*4
 
 
 /**Parses the type or name string to detect a type.
@@ -59,21 +59,33 @@ typedef struct Entry_DefPortTypeJc_t
  * * @param posStartName null is admissible. If not null, set to position after ':' in name, if type is NULL_StringJc, elsewhere set to 0. 
  * * @return an error message on format error. Elsewhere null.
  */
-char const* parse_Entry_DefPortType_emC  ( Entry_DefPortTypeJc* thiz, StringJc type, StringJc name, int* posStartName, ThCxt* _thCxt);
+char const* parse_Entry_DefPortType_emC  ( Entry_DefPortType_emC* thiz, StringJc type, StringJc name, int* posStartName, ThCxt* _thCxt);
 
 
-bool checkType_Entry_DefPortType_emC(Entry_DefPortTypeJc* thiz, ClassJc const* reflectionType);
+bool checkType_Entry_DefPortType_emC(Entry_DefPortType_emC* thiz, ClassJc const* reflectionType);
+
+
+
+/**This type is only used as pointer for reflection and debug viewing. 
+ * It is never used to store something.
+ * Reason: The content is not able to view in debugger and reflection if only 1 instance is used on 'DefPortTypes_emC#entries'
+ */
+typedef struct Entry_DefPortType_emC_20_t {
+  Entry_DefPortType_emC e[20];
+} Entry_DefPortType_emC_20_s;
+
+
 
 
 
 
 /**Data definition for port properties, especially for Simulink Sfunctions.
  * This struct should included in the following definition:
- * ,,struct { DefPortTypesJc head; Entry_DefPortTypeJc __data__[<&return.nrofPorts>-1]; } __defPortTypes;
+ * ,,struct { DefPortTypes_emC head; Entry_DefPortType_emC __data__[<&return.nrofPorts>-1]; } __defPortTypes;
  * In this case the __data__ followes the element entries[1] immediately in the memory layout.
  * Note: The size of this struct is able to divide by 8. It is important for alignment.
  */
-typedef struct DefPortTypesJc_t
+typedef struct DefPortTypes_emC_t
 { 
   /**The fastest sample time. */
   float TstepMin;
@@ -87,27 +99,34 @@ typedef struct DefPortTypesJc_t
 
 
   /**Indices of the ports in entries. */
-  int16 ixInputStep, ixInputUpd, ixInputInit, nrofInputs;
-  int16 ixOutputStep, ixOutputInit, ixOutputThiz, nrofOutputs;  //Note: pos=8
+  int16 ixInputStep, ixInputStep2, ixInputUpd, ixInputInit, nrofInputs;
+  int16 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz, nrofOutputs;  //Note: pos=8
 
   int32 bitsParamTunable;
 
                                                                /**The number of elements of entries. */
-  int16 size, _1_;
+  int16 zEntries, _1_;
+
+  Entry_DefPortType_emC_20_s* pEntries;
 
   /**Array of all entries following, use a struct definition to create the correct array length. */
-  Entry_DefPortTypeJc entries[1];
-} DefPortTypesJc;
+  Entry_DefPortType_emC entries[1];
+} DefPortTypes_emC;
 
 
-typedef enum EDefPortTypesJc_t
+typedef enum EDefPortTypes_emC_t
 {
-  kSetFromArg_EPropagatePortTypesJc = 1
-  , kSetType_EPropagatePortTypesJc = 2
-  , kSetSize_EPropagatePortTypesJc = 3
-  , kSetComplex_EPropagatePortTypesJc = 4
-  , kRun_EPropagatePortTypesJc = 5
-} EDefPortTypesJc;
+  kSetFromArg_EPropagatePortTypes_emC = 1
+  , kSetType_EPropagatePortTypes_emC = 2
+  , kSetSize_EPropagatePortTypes_emC = 3
+  , kSetComplex_EPropagatePortTypes_emC = 4
+  , kRun_EPropagatePortTypes_emC = 5
+} EDefPortTypes_emC;
+
+
+
+void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements);
+
 
 
 #endif  // __emC__DefPortTypes_emC_h__
