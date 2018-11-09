@@ -96,11 +96,12 @@ typedef struct DefPortTypes_emC_t
   /**Index in the Sfn sample time indices of the fastest sample time. */
   int16 ixStepSfnMin;
 
-
-
-  /**Indices of the ports in entries. */
+  /**Indices of the ports in entries. @pos:8*/
   int16 ixInputStep, ixInputStep2, ixInputUpd, ixInputInit, nrofInputs;
-  int16 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz, nrofOutputs;  //Note: pos=8
+  int16 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz;
+  int16 nrofOutputs;  
+
+  int16 ctInit;
 
   int32 bitsParamTunable;
 

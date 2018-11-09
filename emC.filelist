@@ -1,9 +1,9 @@
-2018-11-09 11:07:22  x     Inspc.filelist                           ::         61.793 -1108609716 
+2018-11-09 19:45:02  x     Inspc.filelist                           ::         61.793 -0927000025 
 2018-10-15 21:37:07  x     Inspc.gitRepository                      ::           . 37 -0596216233 
 2018-10-15 22:21:25  x     Inspc.gitignore                          ::           .270 -1365159923 
 2018-10-15 10:16:03  x     _filelist.lst                            ::         59.411 -0063700517 
 2011-06-23 10:05:52  x     delBak.bat                               ::           . 37  1661871524 
-2018-11-09 16:36:09  x     emC.filelist                             ::           .  0  0000000000 
+2018-11-09 19:49:49  x     emC.filelist                             ::           .  0  0000000000 
 2018-08-09 12:04:39  x     emC.gitRepository                        ::           . 31  0290212737 
 2018-10-25 23:33:18  x     emC.gitignore                            ::           .314 -1161380312 
 2018-09-09 10:38:43  x     index.html                               ::          6.603 -1356623575 
@@ -11,21 +11,21 @@
 ============================== genRefl/ ===========================================================
 
 ============================== genRefl/Inspc/ ======================================================
-2018-11-08 23:17:08  x     CheckPwd_Inspc.crefl                     ::           .155  1875101132 
-2018-11-08 23:17:09  x     DataNode_Inspc.crefl                     ::          1.781  0371431799 
-2018-11-08 23:17:09  x     GetValue_Inspc.crefl                     ::          3.177  1229564170 
-2018-11-08 23:17:09  x     IfcTargetProxy_Inspc.crefl               ::          5.881 -1697449007 
-2018-11-08 23:17:09  x     InputValues_Inspc.crefl                  ::         21.154  1105823589 
-2018-11-08 23:17:09  x     InspcTargetTelg.crefl                    ::          4.094  0737503710 
-2018-11-08 23:17:09  x     Out_DataStruct_Inspc.crefl               ::          5.276  1702114894 
-2018-11-08 23:17:09  x     Proxy2TargetSharedMem_Inspc.crefl        ::          2.983  0093779533 
-2018-11-08 23:17:09  x     Proxy2Target_Inspc.crefl                 ::          4.863 -0858373465 
-2018-11-08 23:17:09  x     Service_Inspc.crefl                      ::          3.282 -1402917720 
-2018-11-08 23:17:09  x     SharedMem2Target_Inspc.crefl             ::          2.877 -0471628259 
-2018-11-08 23:17:09  x     Target2ProxySharedMem_Inspc.crefl        ::          2.983 -1572432291 
-2018-11-08 23:17:09  x     Target2Proxy_Inspc.crefl                 ::          4.831  0593909503 
-2018-11-08 23:17:09  x     TimeSignals_Inspc.crefl                  ::         35.430  0694985530 
-2018-11-08 23:17:09  x     Wait_Inspc.crefl                         ::          3.509  1505107599 
+2018-11-09 19:27:31  x     CheckPwd_Inspc.crefl                     ::           .155  1875101132 
+2018-11-09 19:27:31  x     DataNode_Inspc.crefl                     ::          1.781  0371431799 
+2018-11-09 19:27:32  x     DataStruct_Inspc.crefl                   ::         21.688 -1885768554 
+2018-11-09 19:27:32  x     GetValue_Inspc.crefl                     ::          3.177  1229564170 
+2018-11-09 19:27:32  x     IfcTargetProxy_Inspc.crefl               ::          5.881 -1697449007 
+2018-11-09 19:27:32  x     InspcTargetTelg.crefl                    ::          4.094  0737503710 
+2018-11-09 19:27:32  x     Out_DataStruct_Inspc.crefl               ::          5.276  1702114894 
+2018-11-09 19:27:32  x     Proxy2TargetSharedMem_Inspc.crefl        ::          2.983  0093779533 
+2018-11-09 19:27:32  x     Proxy2Target_Inspc.crefl                 ::          4.863 -0858373465 
+2018-11-09 19:27:32  x     Service_Inspc.crefl                      ::          3.282 -1402917720 
+2018-11-09 19:27:32  x     SharedMem2Target_Inspc.crefl             ::          2.877 -0471628259 
+2018-11-09 19:27:32  x     Target2ProxySharedMem_Inspc.crefl        ::          2.983 -1572432291 
+2018-11-09 19:27:32  x     Target2Proxy_Inspc.crefl                 ::          4.831  0593909503 
+2018-11-09 19:27:32  x     TimeSignals_Inspc.crefl                  ::         35.430  0694985530 
+2018-11-09 19:27:32  x     Wait_Inspc.crefl                         ::          3.509  1505107599 
 
 ============================== genRefl/Ipc/ ========================================================
 2018-11-08 11:41:33  x     InterProcessComm.crefl                   ::          9.509 -1741022404 
@@ -294,15 +294,15 @@
 2018-10-21 21:24:16  x     CheckPwd_MinDefault_Inspc.c              ::          1.306  1859426055 
 2018-11-02 23:26:12  x     DataNode_Inspc.c                         ::          4.933  1912302134 
 2018-11-02 23:21:31  x     DataNode_Inspc.h                         ::          4.530 -2084074473 
+2018-11-09 19:28:15  x     DataStruct_Inspc.c                       ::         34.561 -1805915415 
+2018-11-09 19:18:17  x     DataStruct_Inspc.h                       ::          7.808  0970552196 
 2018-11-02 22:52:32  x     GetValue_Inspc.c                         ::          2.373 -1183339853 
 2018-11-02 22:52:10  x     GetValue_Inspc.h                         ::          1.034 -0249671462 
 2018-09-05 21:17:02  x     IfcTargetProxy_Inspc.c                   ::           .140 -1315704039 
 2018-09-12 13:55:44  x     IfcTargetProxy_Inspc.h                   ::         12.026  2085733777 
-2018-11-09 16:25:34  x     InputValues_Inspc.c                      ::         38.453 -0067513290 
-2018-11-09 15:52:28  x     InputValues_Inspc.h                      ::          8.179  1031977347 
 2018-09-01 21:46:34  x     InspcTargetTelg.h                        ::          1.658  0135454311 
-2018-11-09 09:29:10  x     Out_DataStruct_Inspc.c                   ::          6.463 -1572376575 
-2018-11-08 18:10:20  x     Out_DataStruct_Inspc.h                   ::          2.172  0711053784 
+2018-11-09 19:14:50  x     Out_DataStruct_Inspc.c                   ::          6.608  0005551616 
+2018-11-09 19:26:53  x     Out_DataStruct_Inspc.h                   ::          2.167 -0535902920 
 2018-09-08 00:24:57  x     Proxy2TargetSharedMem_Inspc.c            ::          2.700  2080157478 
 2018-09-05 22:40:24  x     Proxy2TargetSharedMem_Inspc.h            ::          1.057  1880288626 
 2018-09-04 14:05:28  x     Proxy2Target_Inspc.c                     ::           .419  0682007300 
@@ -479,7 +479,7 @@
 
 ============================== source/emC/ =========================================================
 2018-11-08 11:51:22  x     DefPortTypes_emC.c                       ::          3.267  1499653856 
-2018-11-08 11:44:24  x     DefPortTypes_emC.h                       ::          5.130  0716279443 
+2018-11-09 18:12:06  x     DefPortTypes_emC.h                       ::          5.147  1936946485 
 2018-08-09 11:12:18  x     Event_emC.c                              ::          3.066 -1964916759 
 2018-08-09 11:12:18  x     Event_emC.h                              ::          4.391 -1762966148 
 2018-09-09 10:57:40  x     ExcThCxtBase_emC.h                       ::         11.871 -1750800547 
@@ -503,7 +503,7 @@
 2018-08-09 11:24:39  x     SimpleC_emC.c                            ::          2.906  1214521394 
 2018-08-10 19:45:03  x     SimpleC_emC.h                            ::          8.672  1333519313 
 2018-08-09 11:12:18  x     StateMachine_emC.h                       ::           .295 -1505924840 
-2018-11-09 16:18:07  x     StringBase_emC.c                         ::          9.535  1952861971 
+2018-11-09 16:42:20  x     StringBase_emC.c                         ::          9.523 -0198610580 
 2018-10-30 21:39:16  x     StringBuilder_emC.c                      ::         18.977  0915088109 
 2018-10-30 20:50:13  x     String_emC.c                             ::          7.330  1985000216 
 2018-11-09 16:16:45  x     String_emC.h                             ::         67.328  0160088083 

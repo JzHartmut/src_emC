@@ -232,7 +232,7 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
   int idxTestValues = 0;
   int nChars = 0;
   int minNrofChars;
-  STACKTRC_TENTRY("insert_i_StringBufferJc");
+  STACKTRC_TENTRY("toString_int32_emC");
   if (minNrofCharsAndNegative < 0 && value < 0)
   {
     uvalue = -value; //may be -0x80000000
@@ -288,7 +288,7 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
   {
     buffer[nChars++] = cc;
   }
-  STACKTRC_LEAVE; return nChars;
+  STACKTRC_RETURN nChars;
 }
 
 
