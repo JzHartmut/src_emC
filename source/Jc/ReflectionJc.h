@@ -63,9 +63,9 @@
 char const* init_ReflectionJc();
 
 
-/*@CLASS_C FieldJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE_C FieldJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-//Defintion of struct FieldJc in emC/Object_emC.h
+/**FieldJc: Defintion of struct FieldJc in emC/Object_emC.h */
 
 
 
@@ -119,8 +119,6 @@ char const* init_ReflectionJc();
 /**Macro for a constant head of FieldJc array useable to define the constants for reflection. New since 2007.09
  */
 #define CONST_ARRAYHEAD_z_FieldJc(SIZE, OWNADDRESS) CONST_ObjectArrayJc(FieldJc, SIZE, 0, null, OWNADDRESS)
-
-#define getName_FieldJc(THIS) ((THIS)->name)
 
 
 /**initializes a FieldJc, see [[ctorc_FieldJc(...)]].
@@ -523,30 +521,6 @@ METHOD_C double setDouble_FieldJc(const FieldJc* ythis, MemSegmJc obj, double va
   */
 METHOD_C void* setReference_FieldJc(FieldJc const* ythis, MemSegmJc instance, void* value, char const* sVaargs, ...);
 
-
-
-
-
-/** Field[] consists of ObjectArrayJc and some FieldJc elements directly after them.
-*/
-typedef struct  FieldJc_Y_t
-{ /** Base data of every array */
-  //ObjectArrayJc array;
-  ObjectArrayJc head;
-  
-  #define zFieldsInHead_FieldJc_Y 10
-
-  /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
-  FieldJc data[zFieldsInHead_FieldJc_Y];
-}FieldJc_Y;
-
-
-#define FieldJcArray FieldJc_Y
-
-METHOD_C FieldJc_Y* new_FieldJcArray(int size);
-
-#define FieldARRAY FieldJcArray
-//METHOD_C const FieldJc* get_FieldARRAYc(const FieldARRAY* ythis, int idx);
 
 
 

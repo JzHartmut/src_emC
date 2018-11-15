@@ -52,14 +52,12 @@
 #include <Inspc/IfcTargetProxy_Inspc.h>
 #include <compl_adaption.h>
 
-/*@CLASS_C MemSegmJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE_C MemSegmJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**A MemSegmJc contains a untyped address and a segment number.
+/**MemSegmJc: It is a OS_PtrValue, see emC/Object_emC.h. Itcontains a untyped address and a segment number.
  * The representation will be implemented in the same way as a OS_PtrValue, 
  * defined at OS-Adaption (OSAL), see <os_types_def.h>.
  */
-typedef OS_PtrValue MemSegmJc;
-//#define MemSegmJc OS_PtrValue
 
 
 #define NULL_MemSegmJc { null, 0 }

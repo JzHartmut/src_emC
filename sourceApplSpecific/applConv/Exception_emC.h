@@ -386,7 +386,8 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
   } \
   FREE_MSG_END_TRY(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
   /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
-  _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; \
+  _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null; /*Remove tryObject, should not be found later!*/   \
+  _thCxt->stacktrc.zEntries = _ixStacktrace_.ix +1; \
  } /*close brace from beginning TRY*/
 
 

@@ -987,6 +987,31 @@ C_TYPE typedef struct  FieldJc_t
 
 #define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
 
+#define getName_FieldJc(THIS) ((THIS)->name)
+
+
+
+/** Field[] consists of ObjectArrayJc and some FieldJc elements directly after them.
+*/
+typedef struct  FieldJc_Y_t
+{ /** Base data of every array */
+  //ObjectArrayJc array;
+  ObjectArrayJc head;
+
+#define zFieldsInHead_FieldJc_Y 10
+
+  /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
+  FieldJc data[zFieldsInHead_FieldJc_Y];
+}FieldJc_Y;
+
+
+#define FieldJcArray FieldJc_Y
+
+//METHOD_C FieldJc_Y* new_FieldJcArray(int size);
+
+//#define FieldARRAY FieldJcArray
+
+
 
 
 /*@CLASS_C ClassJc ************************************************************************/
@@ -1368,6 +1393,11 @@ extern_C void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc co
 #endif  //#ifndef __ObjectJc_defined__
 
 /*@DEFINE_C reflection_Types********************************************************************************************/
+
+
+typedef OS_PtrValue MemSegmJc;
+//#define MemSegmJc OS_PtrValue
+
 
 
 /**reflection_Types: External definitions of language standard types.

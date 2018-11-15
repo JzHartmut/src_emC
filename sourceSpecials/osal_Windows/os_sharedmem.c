@@ -3,7 +3,7 @@
 
 
 #ifndef __DONOTUSE_REFLECTION__
-#include "genRefl/OSAL/os_sharedMem.crefl"
+//#include "genRefl/OSAL/os_sharedMem.crefl"
 #else
 
 #endif
