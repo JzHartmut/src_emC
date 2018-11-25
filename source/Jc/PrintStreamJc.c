@@ -92,7 +92,7 @@ void println_c_PrintStreamJc(PrintStreamJc* ythis, CharSeqJc text, ThCxt* _thCxt
 
 
 #include "Jc/StringJc.h"
-void println_u_PrintStreamJc(PrintStreamJc* ythis, StringBuilderJc* text, ThCxt* _thCxt)
+void println_u_PrintStreamJc(PrintStreamJc* ythis, StringBuilderJc_s* text, ThCxt* _thCxt)
 {
   StringJc ss = toStringNonPersist_StringBuilderJc(&text->base.object, _thCxt);
   println_s_PrintStreamJc(ythis, ss, _thCxt);

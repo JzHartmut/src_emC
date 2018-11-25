@@ -225,14 +225,14 @@ void applyPattern_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, StringJc patte
   STACKTRC_LEAVE;
 }
 
-void format_u_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, DateJc_s* timeStamp, StringBuilderJc* buffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt)
+void format_u_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, DateJc_s* timeStamp, StringBuilderJc_s* buffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt)
 {
   STACKTRC_TENTRY("format_Sb_SimpleDateFormatJc");
   format_tu_SimpleDateFormatJc(ythis, timeStamp->val, buffer, field, _thCxt);
   STACKTRC_LEAVE;
 }
 
-void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, StringBuilderJc* sBuffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt)
+void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, StringBuilderJc_s* sBuffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt)
 { STACKTRC_TENTRY("format_tSb_SimpleDateFormatJc");
   { int lenFormat;
     char const* sFormat = getCharsAndLength_StringJc(&ythis->sFormat, &lenFormat);
@@ -250,7 +250,7 @@ void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp time
 
 
 StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, ThCxt* _thCxt)
-{ StringBuilderJc* buffer;
+{ StringBuilderJc_s* buffer;
   STACKTRC_TENTRY("format_SimpleDateFormatJc");
   buffer = threadBuffer_StringBuilderJc("format_SimpleDateFormatJc", _thCxt);
   format_tu_SimpleDateFormatJc(ythis, timeStamp, buffer, null,_thCxt);

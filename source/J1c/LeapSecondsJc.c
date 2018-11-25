@@ -84,7 +84,7 @@ void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(singleton_LeapSecondsJc == null) 
     { 

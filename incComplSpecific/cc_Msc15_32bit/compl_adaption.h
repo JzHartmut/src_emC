@@ -83,7 +83,10 @@
 
 #pragma warning(error:4002) //too many actual parameters for macro
 #pragma warning(error:4003) //not enough actual parameters for macro
+#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
 #pragma warning(error:4020) //too many actual parameters
+
+
 
 #pragma warning(disable:4996) //deprecated getenv etc. in MSC15
 

@@ -40,7 +40,7 @@
 #include "StringJc_intern.h"
 #include <Jc/ObjectJc.h>
 #include <emC/Formatter_emC.h> 
-//#include "StringBuilderJc.h"
+//#include "StringBuilderJc_s.h"
 #include <Jc/ReflectionJc.h>
 #include <stdlib.h>
 #include <string.h>
@@ -65,26 +65,26 @@ extern ClassJc const reflection_StringBuilderJc;
   actual length. The C-convention: identification of a string by a zero-terminated
   array of chars, is not the matching solution, because only constant strings
   or the whole string in a buffer may be identified in this manner.<br>
-  Because a string may be also a part of a content of StringBuilderJc, the followed rule
+  Because a string may be also a part of a content of StringBuilderJc_s, the followed rule
   is found:
   <ul><li>If the string is a constant string, the pointer to the array of chars is stored
           in <code>value</code> and the number of chars is stored in <code>count</code>.
           The <code>offset</code> is set to <code>-1</code>.</li>
-      <li>If the string is a part or the whole content of the buffer in StringBuilderJc,
-          The <code>value</code> pointered the start of buffer in the StringBuilderJc.
-          The adress of the StringBuilderJc-Structur is ascertainable by subtraction of the
-          difference between the Buffer inside a StringBuilderJc and the StringBuilderJc.
+      <li>If the string is a part or the whole content of the buffer in StringBuilderJc_s,
+          The <code>value</code> pointered the start of buffer in the StringBuilderJc_s.
+          The adress of the StringBuilderJc_s-Structur is ascertainable by subtraction of the
+          difference between the Buffer inside a StringBuilderJc_s and the StringBuilderJc_s.
           The <code>offset</code>-Attribute is used to pointer the position inside buffer.
           </li>
   </ul>
-  A StringBuilderJc must known if a StringJc is referenced to it, by two causes:
+  A StringBuilderJc_s must known if a StringJc is referenced to it, by two causes:
   <ul><li>For garbage collection: A string should be handled like a reference.</li>
-      <li>If a CharSeqJc references the StringBuilderJc and a change of the StringBuilderJc
-          will proceed, the StringBuilderJc should copied in a new memory area and than modified,
+      <li>If a CharSeqJc references the StringBuilderJc_s and a change of the StringBuilderJc_s
+          will proceed, the StringBuilderJc_s should copied in a new memory area and than modified,
           to held the content for pointering strings constant.</li>
   </ul>
-  This requested knowledge is realized in StringBuilderJc by using the array of back-references,
-  see RuntimeHeapJc, and by query a flag in the StringBuilderJc-attributes.
+  This requested knowledge is realized in StringBuilderJc_s by using the array of back-references,
+  see RuntimeHeapJc, and by query a flag in the StringBuilderJc_s-attributes.
 */
 
 
@@ -92,15 +92,15 @@ extern ClassJc const reflection_StringBuilderJc;
 
 
 
-StringBuilderJc* ctorM_StringBuilderJc(MemC rawMem)
-{ StringBuilderJc* ythis = PTR_MemC(rawMem, StringBuilderJc);
+StringBuilderJc_s* ctorM_StringBuilderJc(MemC rawMem)
+{ StringBuilderJc_s* ythis = PTR_MemC(rawMem, StringBuilderJc_s);
   int size;
   char* buffer;
   STACKTRC_ENTRY("ctorM_StringBuilderJc");
   /**The size of the rest, inclusive start of string in value. */
-  size = size_MemC(rawMem) - sizeof(StringBuilderJc) + sizeof(ythis->value);
+  size = size_MemC(rawMem) - sizeof(StringBuilderJc_s) + sizeof(ythis->value);
   if(size < 20) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
-  buffer = (char*)address_MemC(rawMem, sizeof(StringBuilderJc), size);
+  buffer = (char*)address_MemC(rawMem, sizeof(StringBuilderJc_s), size);
   //init0_MemC(rawMem);
   init_ObjectJc(&ythis->base.object, size_MemC(rawMem), 0);
   ythis->size = (int16)size; //positive value because immediately String  
@@ -116,19 +116,19 @@ StringBuilderJc* ctorM_StringBuilderJc(MemC rawMem)
  *              If the amount of memory is matching to size, the ctorO_StringBuilderJc works proper. The variant is not neccessary.
  *              This variant may allocate a buffer always itself, but it is another concept.
  */
-StringBuilderJc* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, ThCxt* _thCxt)
-{ StringBuilderJc* ythis = (StringBuilderJc*)othis;
+StringBuilderJc_s* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, ThCxt* _thCxt)
+{ StringBuilderJc_s* ythis = (StringBuilderJc_s*)othis;
   int sizeObj;
   STACKTRC_TENTRY("ctorO_I_StringBuilderJc");
-  checkConsistence_ObjectJc(othis, sizeof(StringBuilderJc), &reflection_StringBuilderJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(StringBuilderJc_s), &reflection_StringBuilderJc, _thCxt); 
   sizeObj = getSizeInfo_ObjectJc(othis);
   ythis->_count = 0;
-  if(sizeObj >= (int)(sizeof(StringBuilderJc) - sizeof(ythis->value) + size ))
-  { //enaugh size for StringBuilderJc-control structure and the buffer itself:
+  if(sizeObj >= (int)(sizeof(StringBuilderJc_s) - sizeof(ythis->value) + size ))
+  { //enaugh size for StringBuilderJc_s-control structure and the buffer itself:
     ythis->size = (int16)size;  //positiv: use value as buffer direct
     memset(&ythis->value, 0, size);  
     //MemC mem = build_MemC(newObj, sizeObj);
-    //return ctorc_s0i_StringBuilderJc((StringBuilderJc*)newObj, (char*)address_MemC(mem, sizeof(StringBuilderJc),0), size);
+    //return ctorc_s0i_StringBuilderJc((StringBuilderJc_s*)newObj, (char*)address_MemC(mem, sizeof(StringBuilderJc_s),0), size);
   }
   else
   { //not enaugh size:
@@ -142,11 +142,11 @@ StringBuilderJc* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, ThCxt* _thCx
 
 
 
-StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
+StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 { int sizeObj = getSizeInfo_ObjectJc(othis);
   MemC mem = build_MemC(othis, sizeObj);
-  StringBuilderJc* ythis = (StringBuilderJc*)othis;
-  int sizeBuffer = size_MemC(mem) - sizeof(StringBuilderJc) + sizeof(ythis->value);
+  StringBuilderJc_s* ythis = (StringBuilderJc_s*)othis;
+  int sizeBuffer = size_MemC(mem) - sizeof(StringBuilderJc_s) + sizeof(ythis->value);
   STACKTRC_TENTRY("ctorO_StringBuilderJc");
   checkConsistence_ObjectJc(othis, sizeObj, &reflection_StringBuilderJc, _thCxt); 
   if(sizeBuffer <=4)
@@ -171,8 +171,8 @@ StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, ThCxt* _thCxt)
-{ StringBuilderJc* ythis;
+StringBuilderJc_s* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, ThCxt* _thCxt)
+{ StringBuilderJc_s* ythis;
   int zSrc = length_CharSeqJc(src, _thCxt);
   //if(zSrc == mLength__StringJc){ zSrc = strnlen_emC(PTR_StringJc(src), mLength__StringJc); }
   ythis = ctorO_I_StringBuilderJc(othis, zSrc+16, _thCxt);
@@ -181,11 +181,11 @@ StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, ThCxt*
 
 
 
-StringBuilderJc* ctorO_zI_StringBuilderJc(ObjectJc* yObj, char* buffer, int size, ThCxt* _thCxt)
-{ StringBuilderJc* ythis = (StringBuilderJc*)yObj;
+StringBuilderJc_s* ctorO_zI_StringBuilderJc(ObjectJc* yObj, char* buffer, int size, ThCxt* _thCxt)
+{ StringBuilderJc_s* ythis = (StringBuilderJc_s*)yObj;
   int count;
   STACKTRC_TENTRY("ctorO_CI_StringBuilderJc");
-  checkConsistence_ObjectJc(yObj, sizeof(StringBuilderJc), null/*&reflection_StringBuilderJc*/, _thCxt); 
+  checkConsistence_ObjectJc(yObj, sizeof(StringBuilderJc_s), null/*&reflection_StringBuilderJc*/, _thCxt); 
   if(size < 0)
   { size = -size;
   }
@@ -203,7 +203,7 @@ StringBuilderJc* ctorO_zI_StringBuilderJc(ObjectJc* yObj, char* buffer, int size
 
 
 void finalize_StringBuilderJc_F(ObjectJc* othis, ThCxt* _thCxt)
-{ StringBuilderJc* ythis = (StringBuilderJc*)othis;  //upcasting to the real class.
+{ StringBuilderJc_s* ythis = (StringBuilderJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("finalize_StringBuilderJc_F");
   finalize_ObjectJc_F(&ythis->base.object, _thCxt);      //finalizing the superclass.
   STACKTRC_LEAVE;
@@ -212,8 +212,8 @@ void finalize_StringBuilderJc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
-{ StringBuilderJc* buffer;
+StringBuilderJc_s* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
+{ StringBuilderJc_s* buffer;
   STACKTRC_TENTRY("new_StringBuilderJc");
   if(size <=0)
   { //no size is given
@@ -239,7 +239,7 @@ StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
   #elif defined(USE_MALLOC_FREE)
     //If no Blockheap is available, and the system is arranged to use malloc and delete,
     //the user is responsible for free the buffer!
-    { MemC mem = alloc_MemC(size+sizeof(StringBuilderJc));
+    { MemC mem = alloc_MemC(size+sizeof(StringBuilderJc_s));
       buffer = ctorM_StringBuilderJc(mem);
     }
   #else
@@ -248,7 +248,7 @@ StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
     //But without a Garbage Collection? If the user should look after it, it is unappreciative
     //because it is a negligibly subject. Therefore it may be soluted errorneous.
     //A better way is to release the user from this decision.
-    //A StringBuilderJc are available in the threadContext as thread local resource. It can be used temporary
+    //A StringBuilderJc_s are available in the threadContext as thread local resource. It can be used temporary
     //for this aim. But the user must not store this reference in a non predictable way.It should be used only locally.
     //if there are conflicts, the user gets to know from this because the content of buffer is changed.
     //Normally the content is assembled in a buffer and than transported to any other location, especially to console via printf.
@@ -262,17 +262,17 @@ StringBuilderJc* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
 
 
 //Used for Mtbl for interface CharSeqJc
-static int32 length_StringBuilderJc_F(ObjectJc* thiz, ThCxt* _thCxt){ return ((StringBuilderJc*)thiz)->_count; }
+static int32 length_StringBuilderJc_F(ObjectJc* thiz, ThCxt* _thCxt){ return ((StringBuilderJc_s*)thiz)->_count; }
 
 static char charAt_StringBuilderJc_F(ObjectJc* othiz, int32 ix, ThCxt* _thCxt){ 
-  StringBuilderJc* thiz = (StringBuilderJc*)othiz;
+  StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
   char const* chars = chars_StringBuilderJc(thiz);
   if(ix < 0 || ix >= thiz->_count) { THROW1_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
   else return chars[ix]; 
 }
 
 static CharSeqJc subSequence_StringBuilderJc_F(ObjectJc* othiz, int32 from, int32 to, ThCxt* _thCxt)
-{ StringBuilderJc* thiz = (StringBuilderJc*)othiz;
+{ StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
   CharSeqJc ret = {0};
   if(from > 0 && from <= to && to <= thiz->_count) {
     ret.ref = null; //TODO
@@ -284,11 +284,11 @@ static CharSeqJc subSequence_StringBuilderJc_F(ObjectJc* othiz, int32 from, int3
 
 /**common method for creating and initilizing buffers in threadcontext. 
  * It is static, don't use outside.
- * @return pointer to StringBuilderJc or StringBuilderJcpp, therefore the return type is void*. Cast it outside.
+ * @return pointer to StringBuilderJc_s or StringBuilderJcpp, therefore the return type is void*. Cast it outside.
  */
 static void* getThreadBuffer_StringBuilderJc(bool bCpp, char const* sign, ThCxt* _thCxt)
 { 
-  StringBuilderJc* sBuffer;
+  StringBuilderJc_s* sBuffer;
   #if defined(__cplusplus) && defined(__CPLUSPLUSJcpp)
     StringBuilderJcpp* sBufferJcpp;
     int sizeStringBuilderJcpp = sizeof(StringBuilderJcpp);  //regard it at start of area.
@@ -339,14 +339,14 @@ static void* getThreadBuffer_StringBuilderJc(bool bCpp, char const* sign, ThCxt*
 
 
 
-StringBuilderJc* threadBuffer_StringBuilderJc(char const* sign, ThCxt* _thCxt)
-{ return (StringBuilderJc*)getThreadBuffer_StringBuilderJc(false, sign, _thCxt);
+StringBuilderJc_s* threadBuffer_StringBuilderJc(char const* sign, ThCxt* _thCxt)
+{ return (StringBuilderJc_s*)getThreadBuffer_StringBuilderJc(false, sign, _thCxt);
 }
 
-StringBuilderJc* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign, ThCxt* _thCxt)
-{ StringBuilderJc* buffer;
+StringBuilderJc_s* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign, ThCxt* _thCxt)
+{ StringBuilderJc_s* buffer;
   STACKTRC_TENTRY("threadBuffer_s_StringBuilderJc");
-  buffer = (StringBuilderJc*)getThreadBuffer_StringBuilderJc(false, sign, _thCxt);
+  buffer = (StringBuilderJc_s*)getThreadBuffer_StringBuilderJc(false, sign, _thCxt);
   append_s_StringBuilderJc(buffer, src, _thCxt);
   STACKTRC_LEAVE; return buffer;
 }
@@ -377,12 +377,12 @@ StringBuilderJc* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign,
 
 
 
-//METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc* src, ThCxt* _thCxt)
+//METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc_s* src, ThCxt* _thCxt)
 METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 {
   StringJc ret = NULL_StringJc;
   STACKTRC_TENTRY("toStringNonPersist_StringBuilderJc");
-  { StringBuilderJc* ythis = SIMPLE_CAST(StringBuilderJc*, othis);  //admissible because the method is only called for StringBuilderJc
+  { StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
     const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
     int count = ythis->_count;
     /**Detect whether the buffer is found in the stack range. Than its memory address is
@@ -413,7 +413,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
 
 METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 {
-  StringBuilderJc* ythis = SIMPLE_CAST(StringBuilderJc*, othis);  //admissible because the method is only called for StringBuilderJc
+  StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
   StringJc ret = NULL_StringJc;
   const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
   int count = ythis->_count;
@@ -435,7 +435,7 @@ METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt
     /**All other usages of buffer assume that the Buffer should be decoupled from the String. 
      * Therefore create a new StringBuilder
      */
-    StringBuilderJc* buffer = new_StringBuilderJc(count+1, _thCxt);
+    StringBuilderJc_s* buffer = new_StringBuilderJc(count+1, _thCxt);
     append_zI_StringBuilderJc(buffer, s0, count, _thCxt);
     INIT_StringJc(ret, buffer->value.direct, count);
   }
@@ -449,17 +449,17 @@ METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt
 //      A simple C-programmer may do also. 
 METHOD_C StringJc xxxtoStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 {
-  StringBuilderJc* ythis = SIMPLE_CAST(StringBuilderJc*, othis);  //admissible because the method is only called for StringBuilderJc
+  StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
   StringJc ret = toString_StringBuilderJc(&ythis->base.object, _thCxt);
   ythis->_mode &= ~_mStringBuilt_StringBuilderJc;
   return ret;
 }
 
 
-METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc* ythis, ThCxt* _thCxt)
+METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc_s* ythis, ThCxt* _thCxt)
 {
   StringJc ret,src;
-  StringBuilderJc* builderThCxt;
+  StringBuilderJc_s* builderThCxt;
   STACKTRC_TENTRY("toStringInThreadCxt_StringBuilderJc");
   src = toStringNonPersist_StringBuilderJc(&ythis->base.object, _thCxt);
   builderThCxt = threadBuffer_s_StringBuilderJc(src, "toStringStringBuilder", _thCxt);
@@ -467,7 +467,7 @@ METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc* ythis, Th
   STACKTRC_LEAVE; return ret;
 }
 
-void ctorc_StringBuilderJc(StringBuilderJc* ythis, int size)
+void ctorc_StringBuilderJc(StringBuilderJc_s* ythis, int size)
 { ctorc_ObjectJc(&ythis->base.object);
   ythis->_count = 0;
   if(size < 0)
@@ -527,7 +527,7 @@ void set_StringJc(StringJc* ythis, StringJc src)
   if(zSrc == mLength__StringJc) zSrc = strlen(sSrc);
   if(valueSrc & mNonPersists__StringJc){  
     /**It needs to save the String persistents: */
-    StringBuilderJc* buffer = new_StringBuilderJc(zSrc, _thCxt); //allocate in heap
+    StringBuilderJc_s* buffer = new_StringBuilderJc(zSrc, _thCxt); //allocate in heap
     //setTemporary_StringBuilderJc(buffer);  //only referenced by this String.
     replace_zI_StringBuilderJc(buffer, 0,0, sSrc, zSrc, _thCxt); //copy
     sSrc = getCharsAndCount_StringBuilderJc(buffer, &zSrc);
@@ -554,7 +554,7 @@ StringJc persist_StringJc(StringJc src)
   if(value & mNonPersists__StringJc){
     int zSrc;
     char const* sSrc = getCharsAndLength_StringJc(&src, &zSrc);
-    StringBuilderJc* buffer = new_StringBuilderJc(zSrc, _thCxt);
+    StringBuilderJc_s* buffer = new_StringBuilderJc(zSrc, _thCxt);
     append_s_StringBuilderJc(buffer, src, _thCxt);
     set_OS_PtrValue(ret, buffer->value.direct, zSrc);
   } else {
@@ -582,7 +582,7 @@ StringJc declarePersist_StringJc(StringJc ythis)
 StringJc copyToThreadCxt_StringJc(StringJc src, ThCxt* _thCxt)
 {
   StringJc ret;
-  StringBuilderJc* builderThCxt;
+  StringBuilderJc_s* builderThCxt;
   STACKTRC_TENTRY("copyToThreadCxt_StringJc");
   builderThCxt = threadBuffer_s_StringBuilderJc(src, "copytoThCxtStringStringBuilder", _thCxt);
   ret = toString_StringBuilderJc(&builderThCxt->base.object, _thCxt);
@@ -595,7 +595,7 @@ StringJc copyToThreadCxt_StringJc(StringJc src, ThCxt* _thCxt)
    Only the copiing of  bytes is done.
  */
 StringJc new_BYIICharset_StringJc(int8_Y* bytes, int offset, int length, StringJc charsetName, ThCxt* _thCxt)
-{ //StringBuilderJc* sbuffer;
+{ //StringBuilderJc_s* sbuffer;
   StringJc ret = CONST_StringJc((char*)(bytes->data+offset), length);  //The string refers to the bytes.
   STACKTRC_TENTRY("new_bYiiCharset_StringJc");
   /*
@@ -614,7 +614,7 @@ StringJc new_BYIICharset_StringJc(int8_Y* bytes, int offset, int length, StringJ
    Only the copiing of  bytes is done.
  */
 StringJc new_mBYIIEncoding_StringJc(PtrVal_int8 bytes, int offset, int length, struct CharsetJc_t* charset, ThCxt* _thCxt)
-{ //StringBuilderJc* sbuffer;
+{ //StringBuilderJc_s* sbuffer;
   StringJc ret = CONST_StringJc((char*)(bytes.ref+offset), length);  //The string refers to the bytes.
   STACKTRC_TENTRY("new_bYiiCharset_StringJc");
   /*
@@ -720,7 +720,7 @@ StringJc format_A_StringJc(StringJc format, Va_listFW vargList, ThCxt* _thCxt)
   int nrofChars;
   char* buffer;
   int zBuffer;
-  StringBuilderJc* uBuffer;
+  StringBuilderJc_s* uBuffer;
   StringJc ret;
   STACKTRC_TENTRY("format_A_StringJc");
   uBuffer = threadBuffer_StringBuilderJc("format_A_StringJc", _thCxt);
@@ -739,7 +739,7 @@ StringJc format_A_StringJc(StringJc format, Va_listFW vargList, ThCxt* _thCxt)
 
 StringJc replace_StringJc(StringJc ythis, char oldChar, char newChar, ThCxt* _thCxt)
 {
-  StringBuilderJc* sbuffer = null;
+  StringBuilderJc_s* sbuffer = null;
   char const* strThis = PTR_StringJc(ythis);
   int lenThis = VAL_StringJc(ythis) & mLength__StringJc;
   char* buffer = null;
@@ -772,8 +772,8 @@ StringJc replace_StringJc(StringJc ythis, char oldChar, char newChar, ThCxt* _th
 
 
 
-StringBuilderJc* replace_u_StringJc(StringJc ythis, char oldChar, char newChar
-           , StringBuilderJc* buffer, ThCxt* _thCxt)
+StringBuilderJc_s* replace_u_StringJc(StringJc ythis, char oldChar, char newChar
+           , StringBuilderJc_s* buffer, ThCxt* _thCxt)
 { int zSrc;
   char const* sSrc;
   int zDst;
@@ -795,7 +795,7 @@ StringBuilderJc* replace_u_StringJc(StringJc ythis, char oldChar, char newChar
 
 
 
-StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, char oldChar, char newChar)
+StringBuilderJc_s* replace_CC_StringBuilderJc(StringBuilderJc_s* ythis, char oldChar, char newChar)
 { 
   char* str = chars_StringBuilderJc(ythis);
   int zDst = ythis->_count;
@@ -817,7 +817,7 @@ StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, char oldChar
 
 
 
-METHOD_C void setLength_StringBuilderJc(StringBuilderJc* ythis, int newLength, ThCxt* _thCxt)
+METHOD_C void setLength_StringBuilderJc(StringBuilderJc_s* ythis, int newLength, ThCxt* _thCxt)
 { char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
   int size = (ythis->size < 0 ? -ythis->size : ythis->size);
   int count = ythis->_count;
@@ -844,7 +844,7 @@ METHOD_C void setLength_StringBuilderJc(StringBuilderJc* ythis, int newLength, T
 
 
 
-StringBuilderJc* xxxappend_zI_StringBuilderJc(StringBuilderJc* ythis, const char* add, int lengthAdd, ThCxt* _thCxt)
+StringBuilderJc_s* xxxappend_zI_StringBuilderJc(StringBuilderJc_s* ythis, const char* add, int lengthAdd, ThCxt* _thCxt)
 { int nChars;
   char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
   int size = (ythis->size < 0 ? -ythis->size : ythis->size);
@@ -864,7 +864,7 @@ StringBuilderJc* xxxappend_zI_StringBuilderJc(StringBuilderJc* ythis, const char
   return( ythis);
 }
 
-StringBuilderJc* xxxappend_z_StringBuilderJc(StringBuilderJc* ythis, const char* add, ThCxt* _thCxt)
+StringBuilderJc_s* xxxappend_z_StringBuilderJc(StringBuilderJc_s* ythis, const char* add, ThCxt* _thCxt)
 { STACKTRC_TENTRY("append_s0_StringBuilderJc");
   append_zI_StringBuilderJc(ythis, add, -1, _thCxt);
   STACKTRC_LEAVE;
@@ -873,7 +873,7 @@ StringBuilderJc* xxxappend_z_StringBuilderJc(StringBuilderJc* ythis, const char*
 
 
 
-StringBuilderJc* XXXXappend_sII_StringBuilderJc(StringBuilderJc* ythis, StringJc src, int start, int end, ThCxt* _thCxt)
+StringBuilderJc_s* XXXXappend_sII_StringBuilderJc(StringBuilderJc_s* ythis, StringJc src, int start, int end, ThCxt* _thCxt)
 { int lengthMax; char const* src1;
   STACKTRC_TENTRY("append_sII_StringBuilderJc");
   src1 = getCharsAndLength_StringJc(&src, &lengthMax);
@@ -886,7 +886,7 @@ StringBuilderJc* XXXXappend_sII_StringBuilderJc(StringBuilderJc* ythis, StringJc
 
 
 
-StringBuilderJc* append_u_StringBuilderJc(StringBuilderJc* ythis, StringBuilderJc* add, ThCxt* _thCxt)
+StringBuilderJc_s* append_u_StringBuilderJc(StringBuilderJc_s* ythis, StringBuilderJc_s* add, ThCxt* _thCxt)
 { int lengthAdd;
   char* buffer; 
   int count = ythis->_count;
@@ -902,7 +902,7 @@ StringBuilderJc* append_u_StringBuilderJc(StringBuilderJc* ythis, StringBuilderJ
 
 
 
-StringBuilderJc* xxxappend_C_StringBuilderJc(StringBuilderJc* ythis, char add, ThCxt* _thCxt)
+StringBuilderJc_s* xxxappend_C_StringBuilderJc(StringBuilderJc_s* ythis, char add, ThCxt* _thCxt)
 { char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
   int size = (ythis->size < 0 ? -ythis->size : ythis->size);
   int count = ythis->_count;
@@ -921,12 +921,12 @@ StringBuilderJc* xxxappend_C_StringBuilderJc(StringBuilderJc* ythis, char add, T
 
 
 
-StringBuilderJc* insert_C_StringBuilderJc(StringBuilderJc* ythis, int offset, char add, ThCxt* _thCxt)
+StringBuilderJc_s* insert_C_StringBuilderJc(StringBuilderJc_s* ythis, int offset, char add, ThCxt* _thCxt)
 { //NOTE: a macro isn't able to use because add should be a left value, the actual parameter add doesn't may it.
   return replace_zI_StringBuilderJc(ythis, offset, offset, &add, 1, _thCxt);
 }
 
-StringBuilderJc* insert_CYII_StringBuilderJc(StringBuilderJc* ythis, int pos, char_Y* src, int offset, int len, ThCxt* _thCxt)
+StringBuilderJc_s* insert_CYII_StringBuilderJc(StringBuilderJc_s* ythis, int pos, char_Y* src, int offset, int len, ThCxt* _thCxt)
 { //NOTE: a macro isn't able to use because add should be a left value, the actual parameter add doesn't may it.
   int lenSrc = src->head.length;
   STACKTRC_TENTRY("insert_IcYII_StringBuilderJc");
@@ -940,9 +940,9 @@ StringBuilderJc* insert_CYII_StringBuilderJc(StringBuilderJc* ythis, int pos, ch
 /** found an algorithm unusing division, because some divisions may be expensive in time
   * at some processors.
 */
-StringBuilderJc* insert_Ir_StringBuilderJc(StringBuilderJc* ythis, int offset, int32 value, int radix, ThCxt* _thCxt)
+StringBuilderJc_s* insert_Ir_StringBuilderJc(StringBuilderJc_s* ythis, int offset, int32 value, int radix, ThCxt* _thCxt)
 { char buffer[33];    //max 32 bits and negativ sign for "-10000000000000000000000000000000"
-  StringBuilderJc* ret;
+  StringBuilderJc_s* ret;
   int nrofChars;
   STACKTRC_TENTRY("insert_Ir_StringBuilderJc");
   nrofChars = toString_Integer_FW(buffer, sizeof(buffer), value, radix, 0, _thCxt);
@@ -955,7 +955,7 @@ StringBuilderJc* insert_Ir_StringBuilderJc(StringBuilderJc* ythis, int offset, i
 /** found an algorithm unusing division, because some divisions may be expensive in time
   * at some processors.
 */
-StringBuilderJc* insert_Jr_StringBuilderJc(StringBuilderJc* ythis, int offset, int64 value, int radix, ThCxt* _thCxt)
+StringBuilderJc_s* insert_Jr_StringBuilderJc(StringBuilderJc_s* ythis, int offset, int64 value, int radix, ThCxt* _thCxt)
 { char buffer[65];    //max 32 bits and negativ sign for "-10000000000000000000000000000000"
   char cc;
   /**Array of values to test the position in digit. Fill it with 10, 100 etc if radix = 10;*/
@@ -964,7 +964,7 @@ StringBuilderJc* insert_Jr_StringBuilderJc(StringBuilderJc* ythis, int offset, i
   int idxTestValues = 0;
   int nChars = 0;
   int64 test = radix;
-  StringBuilderJc* ret;
+  StringBuilderJc_s* ret;
   STACKTRC_TENTRY("insert_Jr_StringBuilderJc");
   if(value < 0)
   { value = -value; //may be -0x80000000
@@ -1001,7 +1001,7 @@ StringBuilderJc* insert_Jr_StringBuilderJc(StringBuilderJc* ythis, int offset, i
 
 
 StringJc toString_DoubleJc(double value, ThCxt* _thCxt)
-{ StringBuilderJc* sbuffer;
+{ StringBuilderJc_s* sbuffer;
   STACKTRC_TENTRY("toString_DoubleJc");
   { int size;
     char* buffer;
@@ -1020,14 +1020,14 @@ StringJc toString_DoubleJc(double value, ThCxt* _thCxt)
 
 
 #if 0
-StringBuilderJc* append_I_StringBuilderJc(StringBuilderJc* ythis, int value)
+StringBuilderJc_s* append_I_StringBuilderJc(StringBuilderJc_s* ythis, int value)
 { STACKTRC_ENTRY("append_I_StringBuilderJc");
   insert_I_StringBuilderJc(ythis, ythis->count, value, 10, _thCxt);
   STACKTRC_LEAVE; return ythis;
 }
 
 
-StringBuilderJc* insert_sII_StringBuilderJc(StringBuilderJc* ythis, int offset, StringJc add, int start, int end, ThCxt* _thCxt)
+StringBuilderJc_s* insert_sII_StringBuilderJc(StringBuilderJc_s* ythis, int offset, StringJc add, int start, int end, ThCxt* _thCxt)
 { STACKTRC_TENTRY("insert_sII_StringBuilderJc");
   { int nAdd; 
     const char* sAdd = getCharsAndLength_StringJc(&add, &nAdd);
@@ -1044,7 +1044,7 @@ StringBuilderJc* insert_sII_StringBuilderJc(StringBuilderJc* ythis, int offset, 
 
 
 
-StringBuilderJc* insert_F_StringBuilderJc(StringBuilderJc* ythis, int index, float value, ThCxt* _thCxt)
+StringBuilderJc_s* insert_F_StringBuilderJc(StringBuilderJc_s* ythis, int index, float value, ThCxt* _thCxt)
 { char buffer[20];
   int nChars;
   nChars = snprintf(buffer, sizeof(buffer), "%f", value);
@@ -1054,7 +1054,7 @@ StringBuilderJc* insert_F_StringBuilderJc(StringBuilderJc* ythis, int index, flo
 
 
 
-StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int index, double value, ThCxt* _thCxt)
+StringBuilderJc_s* insert_D_StringBuilderJc(StringBuilderJc_s* ythis, int index, double value, ThCxt* _thCxt)
 { char buffer[40];
   int nChars;
   nChars = snprintf(buffer, sizeof(buffer), "%f", value);
@@ -1064,7 +1064,7 @@ StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int index, dou
 
 
 
-StringBuilderJc* XXXinsert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offset, CharSeqJc add, int start, int end, struct ThreadContext_emC_t* _thCxt)
+StringBuilderJc_s* XXXinsert_cYii_StringBuilderJc(StringBuilderJc_s* thiz, int offset, CharSeqJc add, int start, int end, struct ThreadContext_emC_t* _thCxt)
 {
   int countNew;
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
@@ -1118,7 +1118,7 @@ StringBuilderJc* XXXinsert_cYii_StringBuilderJc(StringBuilderJc* thiz, int offse
 
 
 
-METHOD_C StringBuilderJc* delete_StringBuilderJc(StringBuilderJc* ythis, int start, int end, ThCxt* _thCxt)
+METHOD_C StringBuilderJc_s* delete_StringBuilderJc(StringBuilderJc_s* ythis, int start, int end, ThCxt* _thCxt)
 { char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
   int size = (ythis->size < 0 ? -ythis->size : ythis->size);
   STACKTRC_TENTRY("delete_StringBuilderJc");
@@ -1138,7 +1138,7 @@ METHOD_C StringBuilderJc* delete_StringBuilderJc(StringBuilderJc* ythis, int sta
 }
 
 
-METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc* ythis)
+METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc_s* ythis)
 { char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
   int size = (ythis->size < 0 ? -ythis->size : ythis->size);
   int count = ythis->_count;
@@ -1230,4 +1230,4 @@ const MtblDef_StringBufferJc mtblStringBufferJc = {
 
 //#include "Jc/ReflectionJc.h"
 
-//DEFINE_REFLECTION_REF(StringBuilderJc);
+//DEFINE_REFLECTION_REF(StringBuilderJc_s);

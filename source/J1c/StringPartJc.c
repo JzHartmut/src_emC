@@ -554,7 +554,7 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     { throw_sJc(ident_IllegalArgumentExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -604,8 +604,8 @@ struct StringPartJc_t* lentoPos_StringPartJc(StringPartJc_s* thiz, int32 len, Th
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
-    StringBuilderJc* _tempString2_2=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_2=null; 
     
     thiz->endLast = thiz->end;
     
@@ -981,8 +981,8 @@ struct StringPartJc_t* seek_i_StringPartJc(StringPartJc_s* thiz, int32 nr, ThCxt
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
-    StringBuilderJc* _tempString2_2=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_2=null; 
     
     thiz->beginLast = thiz->begin;
     thiz->begin += nr;
@@ -2785,7 +2785,7 @@ StringJc debugString_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     
     int32  len = thiz->endMax;

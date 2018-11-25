@@ -50,10 +50,10 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded fix-size-StringBuffer
-      init_ObjectJc(&thiz->sFilenameBuffer.sb.base.object, sizeof(StringBuilderJc) + 120 - 4, 0);
+      init_ObjectJc(&thiz->sFilenameBuffer.sb.base.object, sizeof(StringBuilderJc_s) + 120 - 4, 0);
       ctorO_I_StringBuilderJc(&thiz->sFilenameBuffer.sb.base.object, 120, _thCxt);
     //J2C: constructor for embedded fix-size-StringBuffer
-      init_ObjectJc(&thiz->sDateformatBuffer.sb.base.object, sizeof(StringBuilderJc) + 32 - 4, 0);
+      init_ObjectJc(&thiz->sDateformatBuffer.sb.base.object, sizeof(StringBuilderJc_s) + 32 - 4, 0);
       ctorO_I_StringBuilderJc(&thiz->sDateformatBuffer.sb.base.object, 32, _thCxt);
     //J2C: constructor for embedded element-ObjectJc
       init_ObjectJc(&(thiz->formatTimestamp.base.object), sizeof(thiz->formatTimestamp), 0); 
@@ -82,7 +82,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       init_ObjectJc(&(thiz->dateFormat.base.object), sizeof(thiz->dateFormat), 0); 
       ctorO_s_SimpleDateFormatJc(/*J2C:static method call*/&(thiz->dateFormat.base.object), s0_StringJc("yyyy-MM-dd HH:mm:ss,SSS; "), _thCxt);
     //J2C: constructor for embedded fix-size-StringBuffer
-      init_ObjectJc(&thiz->sBuffer.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
+      init_ObjectJc(&thiz->sBuffer.sb.base.object, sizeof(StringBuilderJc_s) + 1000 - 4, 0);
       ctorO_I_StringBuilderJc(&thiz->sBuffer.sb.base.object, 1000, _thCxt);
   }
   { 
@@ -348,7 +348,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 ident
               
               
               struct { StringBufferJc sb;  char _b[16]; } bufferFormat = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
-              init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 20 - 4, 0);
+              init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc_s) + 20 - 4, 0);
               ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 20, _thCxt);
               /***/
               append_I_StringBuilderJc(& (bufferFormat.sb), ++thiz->counterMultifile, _thCxt);
@@ -582,7 +582,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
     
     
     struct { StringBufferJc sb;  char _b[996]; } bufferFormat = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
-    init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc) + 1000 - 4, 0);
+    init_ObjectJc(&bufferFormat.sb.base.object, sizeof(StringBuilderJc_s) + 1000 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferFormat.sb.base.object, 1000, _thCxt);
     
     CharSeqJc formattedText ; formattedText;/*no initvalue*/
@@ -647,7 +647,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
     }
     
     struct { StringBufferJc sb;  char _b[26]; } bufferTimestamp = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
-    init_ObjectJc(&bufferTimestamp.sb.base.object, sizeof(StringBuilderJc) + 30 - 4, 0);
+    init_ObjectJc(&bufferTimestamp.sb.base.object, sizeof(StringBuilderJc_s) + 30 - 4, 0);
     ctorO_I_StringBuilderJc(&bufferTimestamp.sb.base.object, 30, _thCxt);
     format_tu_SimpleDateFormatJc(& (thiz->dateFormat), creationTime, & (bufferTimestamp.sb), & (thiz->formatField), _thCxt);
     setLength_StringBuilderJc(& (thiz->sBuffer.sb), 0, _thCxt);

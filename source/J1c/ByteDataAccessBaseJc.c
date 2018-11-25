@@ -439,7 +439,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
     if(ixEndNew > thiz->data.val) 
     { 
        /*J2C: temporary Stringbuffer for String concatenation*/
-      StringBuilderJc* _tempString3_1=null; 
+      StringBuilderJc_s* _tempString3_1=null; 
       
       { throw_sJc(ident_IllegalArgumentExceptionJc, 
         ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
@@ -499,7 +499,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
       if(ixNextChildNew > thiz->ixEnd) 
       { 
          /*J2C: temporary Stringbuffer for String concatenation*/
-        StringBuilderJc* _tempString4_1=null; 
+        StringBuilderJc_s* _tempString4_1=null; 
         
         { throw_sJc(ident_IllegalArgumentExceptionJc, 
           ( _tempString4_1 = new_StringBuilderJc(-1, _thCxt)
@@ -544,7 +544,7 @@ void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 
       if(thiz->ixEnd > thiz->data.val) 
       { 
          /*J2C: temporary Stringbuffer for String concatenation*/
-        StringBuilderJc* _tempString4_1=null; 
+        StringBuilderJc_s* _tempString4_1=null; 
         
         
         StringJc msg ; msg = 
@@ -1315,7 +1315,7 @@ void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
     if(thiz->data.val < len) 
     { 
        /*J2C: temporary Stringbuffer for String concatenation*/
-      StringBuilderJc* _tempString3_1=null; 
+      StringBuilderJc_s* _tempString3_1=null; 
       
       { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
         ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1682,7 +1682,7 @@ int32 getUint32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1705,7 +1705,7 @@ int32 getInt32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1728,7 +1728,7 @@ int32 getInt16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1751,7 +1751,7 @@ int32 getInt8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxBy
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1774,7 +1774,7 @@ int32 getUint16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1797,7 +1797,7 @@ int32 getUint8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1820,7 +1820,7 @@ float getFloat_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
@@ -1925,7 +1925,7 @@ void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, 
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     
     StringJc textExc ; textExc = 

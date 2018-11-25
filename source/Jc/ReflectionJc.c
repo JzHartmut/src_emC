@@ -1264,7 +1264,7 @@ METHOD_C StringJc getString_FieldJc(const FieldJc* thiz, MemSegmJc instance, cha
       ret = z_StringJc("toString(...)");; //invoke toString
     } else {
       //TODO:
-      //StringBuilderJc* sret = threadBuffer_StringBuilderJc("", null);
+      //StringBuilderJc_s* sret = threadBuffer_StringBuilderJc("", null);
       int32* addr1 = ADDR_MemSegmJc(addrField, int32);
       int32 val1 = addr1 == null ? 0 : getInt32_MemAccessJc(addrField); //from remote too.
       snprintf(addret, sizeof(addret), "@%p:%8.8X", addr1, val1);

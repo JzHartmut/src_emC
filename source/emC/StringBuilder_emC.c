@@ -71,11 +71,11 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
 #ifdef __NoCharSeqJcCapabilities__
   else {
     ASSERTJc(val == kIsStringBuilder_CharSeqJc);
-    return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc));
+    return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc_s));
   }
 #else
   else if (val == kIsStringBuilder_CharSeqJc) {
-    return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc));
+    return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc_s));
   }
   else {
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
@@ -106,11 +106,11 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 #ifdef __NoCharSeqJcCapabilities__
   else {
     ASSERTJc(val == kIsStringBuilder_CharSeqJc);
-    return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc), pos, _thCxt);
+    return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc_s), pos, _thCxt);
   }
 #else
   else if (val == kIsStringBuilder_CharSeqJc) {
-    return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc), pos, _thCxt);
+    return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc_s), pos, _thCxt);
   }
   else {
     ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
@@ -120,7 +120,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 #endif
 }
 
-void ctor_addSize_StringBuilderJc(StringBuilderJc* thiz, int addSize)
+void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
 {
   initReflection_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, &reflection_StringBuilderJc, 0);
   thiz->size = sizeof(thiz->value) + addSize;
@@ -129,7 +129,7 @@ void ctor_addSize_StringBuilderJc(StringBuilderJc* thiz, int addSize)
   memset(thiz->value.direct, 0, thiz->size);  //guaranteed 0-terminated NOTE it should be assumed that the instance is set to 0
 }
 
-void ctor_Buffer_StringBuilderJc(StringBuilderJc* thiz, char* buffer, int size)
+void ctor_Buffer_StringBuilderJc(StringBuilderJc_s* thiz, char* buffer, int size)
 {
   initReflection_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_StringBuilderJc, 0);
   thiz->size = -size;
@@ -146,7 +146,7 @@ void ctor_Buffer_StringBuilderJc(StringBuilderJc* thiz, char* buffer, int size)
 
 
 
-METHOD_C void clear_StringBuilderJc(StringBuilderJc* thiz)
+METHOD_C void clear_StringBuilderJc(StringBuilderJc_s* thiz)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   int size = (thiz->size < 0 ? -thiz->size : thiz->size);
@@ -157,7 +157,7 @@ METHOD_C void clear_StringBuilderJc(StringBuilderJc* thiz)
 
 
 
-char charAt_StringBuilderJc(StringBuilderJc* thiz, int index, ThCxt* _thCxt)
+char charAt_StringBuilderJc(StringBuilderJc_s* thiz, int index, ThCxt* _thCxt)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   int count = thiz->_count;
@@ -169,7 +169,7 @@ char charAt_StringBuilderJc(StringBuilderJc* thiz, int index, ThCxt* _thCxt)
 
 
 
-void setCharAt_StringBuilderJc(StringBuilderJc* thiz, int index, char ch, ThCxt* _thCxt)
+void setCharAt_StringBuilderJc(StringBuilderJc_s* thiz, int index, char ch, ThCxt* _thCxt)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   int size = (thiz->size < 0 ? -thiz->size : thiz->size);
@@ -188,7 +188,7 @@ void setCharAt_StringBuilderJc(StringBuilderJc* thiz, int index, char ch, ThCxt*
 
 
 /**reads the nrofChars and the reference into local variable. Static subroutine for inner organisation:*/
-char* getCharsAndSize_StringBuilderJc(StringBuilderJc* thiz, int* size)
+char* getCharsAndSize_StringBuilderJc(StringBuilderJc_s* thiz, int* size)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   *size = (thiz->size < 0 ? -thiz->size : thiz->size);
@@ -196,14 +196,14 @@ char* getCharsAndSize_StringBuilderJc(StringBuilderJc* thiz, int* size)
 }
 
 
-char* XXXXXXXchars_StringBuilderJc(StringBuilderJc* thiz)
+char* XXXXXXXchars_StringBuilderJc(StringBuilderJc_s* thiz)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   return(buffer);
 }
 
 
-char* getCharsAndCount_StringBuilderJc(StringBuilderJc* thiz, int* count)
+char* getCharsAndCount_StringBuilderJc(StringBuilderJc_s* thiz, int* count)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   //*count = (thiz->count < 0 ? -thiz->count : thiz->count);
@@ -212,7 +212,7 @@ char* getCharsAndCount_StringBuilderJc(StringBuilderJc* thiz, int* count)
   return(buffer);
 }
 
-char* getCharsSizeCount_StringBuilderJc(StringBuilderJc* thiz, int* size, int* count)
+char* getCharsSizeCount_StringBuilderJc(StringBuilderJc_s* thiz, int* size, int* count)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   *size = (thiz->size < 0 ? -thiz->size : thiz->size);
@@ -222,7 +222,7 @@ char* getCharsSizeCount_StringBuilderJc(StringBuilderJc* thiz, int* size, int* c
 }
 
 
-void _setCount_StringBuilderJc(StringBuilderJc* thiz, int count)
+void _setCount_StringBuilderJc(StringBuilderJc_s* thiz, int count)
 {
   thiz->_count = (int16)((thiz->_count & ~mLength__StringJc) | count);
 }
@@ -230,7 +230,7 @@ void _setCount_StringBuilderJc(StringBuilderJc* thiz, int count)
 
 
 
-int capacity_StringBuilderJc(StringBuilderJc* thiz)
+int capacity_StringBuilderJc(StringBuilderJc_s* thiz)
 {
   if (thiz->size < 0) return -thiz->size - 1;
   else return thiz->size - 1;
@@ -241,7 +241,7 @@ int capacity_StringBuilderJc(StringBuilderJc* thiz)
 
 
 
-bool setTruncateMode_StringBuilderJc(StringBuilderJc* thiz, bool bTruncate)
+bool setTruncateMode_StringBuilderJc(StringBuilderJc_s* thiz, bool bTruncate)
 {
   bool bRet = thiz->_mode & _mNoException_StringBuilderJc;
   if (bTruncate) { thiz->_mode |= _mNoException_StringBuilderJc; }
@@ -250,7 +250,7 @@ bool setTruncateMode_StringBuilderJc(StringBuilderJc* thiz, bool bTruncate)
 }
 
 
-bool wasTruncated_StringBuilderJc(StringBuilderJc* thiz)
+bool wasTruncated_StringBuilderJc(StringBuilderJc_s* thiz)
 {
   bool bRet = (thiz->_mode & _mTruncated_StringBuilderJc) != 0;
   thiz->_mode &= ~_mTruncated_StringBuilderJc;
@@ -261,7 +261,7 @@ bool wasTruncated_StringBuilderJc(StringBuilderJc* thiz)
 
 
 
-int copyToBuffer_StringBuilderJc(StringBuilderJc* thiz, int start, int end, char* buffer, int zBuffer)
+int copyToBuffer_StringBuilderJc(StringBuilderJc_s* thiz, int start, int end, char* buffer, int zBuffer)
 {
   int count;
   char const* src;
@@ -288,7 +288,7 @@ int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer
     return copyToBuffer_StringJc(thiz, start, end, buffer, sizeBuffer);
   }
   else if (nChars == kIsStringBuilder_CharSeqJc) {
-    StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
+    StringBuilderJc_s* sb = PTR_OS_PtrValue(thiz, StringBuilderJc_s);
     //STACKTRC_LEAVE; 
     return copyToBuffer_StringBuilderJc(sb, start, end, buffer, sizeBuffer);
   }
@@ -336,7 +336,7 @@ int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer
 
 
 //central replace routine.
-StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, int end, CharSeqJc add, int from, int to, ThCxt* _thCxt)
+StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int start, int end, CharSeqJc add, int from, int to, ThCxt* _thCxt)
 {
   int countNew;
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
@@ -366,7 +366,7 @@ StringBuilderJc* replace_cII_StringBuilderJc(StringBuilderJc* thiz, int start, i
     zadd = valAdd;
   }
   else if (valAdd == kIsStringBuilder_CharSeqJc) {
-    StringBuilderJc const* buAdd = PTR_OS_PtrValue(add, StringBuilderJc const);
+    StringBuilderJc_s const* buAdd = PTR_OS_PtrValue(add, StringBuilderJc_s const);
     zadd = buAdd->_count;
     padd = buAdd->size < 0 ? buAdd->value.buffer : buAdd->value.direct;
   }
@@ -507,7 +507,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_int16
   , (2 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc*)(0x1000))->_count) - (int32)(StringBuilderJc*)0x1000)
+  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->_count) - (int32)(StringBuilderJc_s*)0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
@@ -515,7 +515,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_int16
   , (2 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc*)(0x1000))->size) - (int32)(StringBuilderJc*)0x1000)
+  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->size) - (int32)(StringBuilderJc_s*)0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
@@ -523,7 +523,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_int32
   , (4 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc*)(0x1000))->_mode) - (int32)(StringBuilderJc*)0x1000)
+  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->_mode) - (int32)(StringBuilderJc_s*)0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
@@ -531,7 +531,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_void
   , (4 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc*)(0x1000))->value) - (int32)(StringBuilderJc*)0x1000)
+  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->value) - (int32)(StringBuilderJc_s*)0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
@@ -540,9 +540,9 @@ const struct Reflection_Fields_StringBuilderJc_t
 
 const ClassJc reflection_StringBuilderJc =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringBuilderJc, &reflection_ClassJc)
-, "StringBuilderJc"
+, "StringBuilderJc_s"
 , 0
-, sizeof(StringBuilderJc)
+, sizeof(StringBuilderJc_s)
 , (FieldJcArray const*)&reflection_Fields_StringBuilderJc  //attributes and associations
 , null  //method
 , null  //superclass
@@ -556,7 +556,7 @@ const ClassJc reflection_StringBuilderJc =
 
 
 #define reflection_StringBuilderJc_s reflection_StringBuilderJc
-DEFINE_REFLECTION_REF(StringBuilderJc);
+DEFINE_REFLECTION_REF(StringBuilderJc_s);
 
 
 #endif

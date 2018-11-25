@@ -769,7 +769,7 @@ int32 lastIndexOfAnyChar_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, i
   
   { 
      /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc* _tempString2_1=null; 
+    StringBuilderJc_s* _tempString2_1=null; 
     
     
     int32  zsq = length_CharSeqJc(sq/*J1cT2*/, _thCxt);

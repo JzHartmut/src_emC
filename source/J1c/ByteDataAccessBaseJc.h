@@ -789,7 +789,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
 \
 { \
    /*J2C: temporary Stringbuffer for String concatenation*/\
-  StringBuilderJc* _tempString1_1=null; \
+  StringBuilderJc_s* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
@@ -806,7 +806,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
 \
 { \
    /*J2C: temporary Stringbuffer for String concatenation*/\
-  StringBuilderJc* _tempString1_1=null; \
+  StringBuilderJc_s* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
@@ -823,7 +823,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
 \
 { \
    /*J2C: temporary Stringbuffer for String concatenation*/\
-  StringBuilderJc* _tempString1_1=null; \
+  StringBuilderJc_s* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
@@ -840,7 +840,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
 \
 { \
    /*J2C: temporary Stringbuffer for String concatenation*/\
-  StringBuilderJc* _tempString1_1=null; \
+  StringBuilderJc_s* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
@@ -857,7 +857,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
 \
 { \
    /*J2C: temporary Stringbuffer for String concatenation*/\
-  StringBuilderJc* _tempString1_1=null; \
+  StringBuilderJc_s* _tempString1_1=null; \
   \
   if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\

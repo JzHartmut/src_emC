@@ -43,7 +43,7 @@ struct StringFormatterJc_t;
   //J2C: definition of enhanced reference where it was need firstly: 
   #define StringBuilderJcREFDEF
   struct StringBuilderJc_t;
-  typedef TYPE_EnhancedRefJc(StringBuilderJc);
+  typedef TYPE_EnhancedRefJc(StringBuilderJc_s);
 #endif
 
 

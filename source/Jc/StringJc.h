@@ -36,16 +36,16 @@
  *   the full definitions given here, but only the basicly things.
  *
  *   This file contains the definitions for enhanced methods of StringJc 
- *   and the CLASS_C StringBuilderJc.
+ *   and the CLASS_C StringBuilderJc_s.
  *
  * list of changes:
  * 2012-04-10 Hartmut new: gets0_StringJc(...) copies in a buffer only if necessary, returns a 0-terminated const char*
  *   new: substring_StringBuilderJc() returns a reference to the internal String in its source,
- *  TODO create class StringBuilderJc in Java if an adequate behavior, TODO flag in StringBuilder for persistence or more global Flag in ThreadContext.
+ *  TODO create class StringBuilderJc_s in Java if an adequate behavior, TODO flag in StringBuilder for persistence or more global Flag in ThreadContext.
  *   new: indexOf_z_StringBuilderJc()
  * 2010-04-04 Hartmut: Fully revised. A description of working with Strings in german language were written
  *        see www.vishia.org/Jc/String_Jc.html         
- *   chg: The class StringBufferJc is now named 'StringBuilderJc', it is adequate java.lang.StringBuilder.
+ *   chg: The class StringBufferJc is now named 'StringBuilderJc_s', it is adequate java.lang.StringBuilder.
  *        To support downward compatibility, a #define StringBuffer... is added.
  *   new: setTruncateMode..() and wasTruncated..(..). The concept of truncated versus exception
  *   chg: Some obsolte and old methods are removed:
@@ -78,7 +78,7 @@
 #include <stdarg.h>
 #include <stdlib.h>  //abs
 //compatibility
-#define StringBufferJc StringBuilderJc
+#define StringBufferJc StringBuilderJc_s
 #define StringBufferJc_t StringBuilderJc_t
 #define StringBufferJcpp StringBuilderJcpp
 
@@ -110,7 +110,7 @@ typedef struct StringJc_Y_t{ ObjectArrayJc head; StringJc data[50]; } StringJc_Y
 
 /** Clears the content of the String. If the string references any buffer in the [[BlockHeap]],
   * the back references to this enhanced reference will be release. A StringJc is an enhanced reference too.
-  * The buffer may be inside the block of BlockHeap as part of a StringBuilderJc, or a substring,
+  * The buffer may be inside the block of BlockHeap as part of a StringBuilderJc_s, or a substring,
   * it is detected correctly.
   */
 METHOD_C void clear_StringJc(StringJc* ythis);
@@ -126,7 +126,7 @@ METHOD_C void clear_StringJc(StringJc* ythis);
   *
   * If the string references any buffer in the block heap,
   * the back references to this enhanced reference will be set. A StringJc is an enhanced reference too.
-  * The buffer may be inside the block as part of a StringBuilderJc, or a substring,
+  * The buffer may be inside the block as part of a StringBuilderJc_s, or a substring,
   * it is detected correctly.
   * @param src The source StringJc. It is given per value, not per reference,
            so direct output from StringJc-returning methods are useable as argument.
@@ -975,7 +975,7 @@ INLINE_emC CharSeqJc zI_CharSeqJc(char const* src, int length)
  * ,  buffer[i] = cc;
  * ,}
  * Elsewhere [[charAt_CharSeqJc(...)]] should be used which needs a longer time for any character because the content
- * of the given CharSeqJc should be tested firstly whether it is a ,,StringJc,,, ,,StringBuilderJc,, etc. 
+ * of the given CharSeqJc should be tested firstly whether it is a ,,StringJc,,, ,,StringBuilderJc_s,, etc. 
  * or whether a given index to the method table is correct.
  *
  * @param dst_StringJc can be null if thiz is never a simple [[class_StringJc]]. Elsewhere this instance should be given.
@@ -1033,7 +1033,7 @@ extern_C struct ClassJc_t const reflection_CharSeqJc;
 
 /**Converts a given CharSeqJc to a String. Reads all Chars and stores it in a buffer in ThreadContext. 
  * * If thiz is a really StringJc, it returns thiz.
- * * If thiz contains a StringBuilderJc-Reference (marked with [[StringJc#kIsStringBuilder_StringJc]]) 
+ * * If thiz contains a StringBuilderJc_s-Reference (marked with [[StringJc#kIsStringBuilder_StringJc]]) 
  * then the pointer to the content of the StringBuilder is returned. It means the String may not persistent. 
  * Use [[toStringPersist_StringBuilderJc(...)]] to build a persistent String.
  * * If thiz contains a reference to any Object which implements CharSequence then a new buffer is build in the thread context. 
@@ -1080,7 +1080,7 @@ void finalize_StringBuilderJc_F(ObjectJc* othis, struct ThreadContext_emC_t* _th
  *           given by memory amount of the instance referes with othis.
  *           The difference is, that a realloc of buffer isn't supported.
  */
-METHOD_C StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
 #define ctorO_StringBufferJc ctorO_StringBuilderJc
 
 /**Initializes the Stringbuffer to reference the given buffer with content with the given size.
@@ -1088,11 +1088,11 @@ METHOD_C StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, struct ThreadCo
  * The nrof chars in the StringBuffer is determined by the content of the buffer
  * with the 0-terminated C-like method.
  * The char[] can also be a part of a char[].
- * @param othis Intance for the StringBuilderJc. The ObjectJc-part have to be initialized. 
+ * @param othis Intance for the StringBuilderJc_s. The ObjectJc-part have to be initialized. 
  *              The size of the instance, given in the ObjectJc-data, should be equal or maybe greater
  *              as sizeof(StringBuilder). 
  * @param buffer A char[...]-buffer with content. write 0 at start if it should be empty.
- * @param size the nrof bytes for buffer. The size inside the StringBuilderJc is set to this value -1,
+ * @param size the nrof bytes for buffer. The size inside the StringBuilderJc_s is set to this value -1,
  *        It is because a last zero-Byte should be able to place any time.
  * @javalike In Java the [[sunJavadoc/java/lang/StringBuilder(int)]] constructs an empty buffer
  *           with the given size. Here it is similar respectively size, but the location of the buffer
@@ -1101,28 +1101,28 @@ METHOD_C StringBuilderJc* ctorO_StringBuilderJc(ObjectJc* othis, struct ThreadCo
  *           The possibility of provide an initialized buffer is a combination with the 
  *           [[sunJavadoc/java/lang/StringBuilder#StringBuilder(java.lang.string)]]-constructor.
  */
-METHOD_C StringBuilderJc* ctorO_zI_StringBuilderJc(ObjectJc* othis, char* buffer, int size, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* ctorO_zI_StringBuilderJc(ObjectJc* othis, char* buffer, int size, struct ThreadContext_emC_t* _thCxt);
 #define ctorO_zI_StringBufferJc ctorO_zI_StringBuilderJc
 
 
 /**Initializes a StringBuffer with no characters in it and an initial capacity specified by the capacity argument.
  * @param othis The initialized ObjectJc of the instance. 
  *              If the Object conaints enaugh space for size (field ,,ObjectJc.objectIdentSize,,),
- *              than the buffer will be assigned immediately after the StringBuilderJc-instance.
+ *              than the buffer will be assigned immediately after the StringBuilderJc_s-instance.
  * @param size the nrof bytes for buffer. A buffer will be allocated, if the size of the othis 
- *              is less than ,,size - (sizeof(StringBuilderJc) -4),,. 
- *              Otherwise the space after the StringBuilderJc-instance started with the _buffer-Element (last 4 Bytes)
+ *              is less than ,,size - (sizeof(StringBuilderJc_s) -4),,. 
+ *              Otherwise the space after the StringBuilderJc_s-instance started with the _buffer-Element (last 4 Bytes)
  *              is used as buffer.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#StringBuilder(int)]] with the difference, that the immediate buffer is supported here.
  *           Java allocates the buffer in heap anytime.  
  */
-METHOD_C StringBuilderJc* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, struct ThreadContext_emC_t* _thCxt);
 #define ctorO_I_StringBufferJc ctorO_I_StringBuilderJc
 
 /**Initalizes the given Instance with the content of src.
  * @param othis The initialized ObjectJc of the instance. 
  *              If the Object conaints enaugh space for str (field ,,ObjectJc.objectIdentSize,,),
- *              than the buffer will be assigned immediately after the StringBuilderJc-instance.
+ *              than the buffer will be assigned immediately after the StringBuilderJc_s-instance.
  * @param src the initializing content. If the length of src is less or equal the space of the othis for buffer, that buffer will be used.
  *            Elsewhere a buffer will be allocated in the heap.  
  * @javalike [[sunJavadoc/java/lang/StringBuilder#StringBuilder(java.lang.String)]] with the difference, that the immediate buffer is supported here.
@@ -1133,7 +1133,7 @@ METHOD_C StringBuilderJc* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, str
  *           or if the instance is embedded and has immediate space for the text after it, like described in [[CONST_addSize_StringBuilderJc(...)]].
  */
 #define ctorO_s_StringBuilderJc(THIZ, SRC, THCXT) ctorO_cs_StringBuilderJc(THIZ, (SRC), THCXT)
-//METHOD_C StringBuilderJc* ctorO_s_StringBuilderJc(ObjectJc* othis, StringJc src, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* ctorO_s_StringBuilderJc(ObjectJc* othis, StringJc src, struct ThreadContext_emC_t* _thCxt);
 #define ctorO_s_StringBufferJc ctorO_s_StringBuilderJc
 
 
@@ -1141,7 +1141,7 @@ METHOD_C StringBuilderJc* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, str
 /**Initalizes the given Instance with the content of src.
  * @param othis The initialized ObjectJc of the instance. 
  *              If the Object conaints enaugh space for str (field ,,ObjectJc.objectIdentSize,,),
- *              than the buffer will be assigned immediately after the StringBuilderJc-instance.
+ *              than the buffer will be assigned immediately after the StringBuilderJc_s-instance.
  * @param src the initializing content. If the length of src is less or equal the space of the othis for buffer, that buffer will be used.
  *            Elsewhere a buffer will be allocated in the heap.  
  * @javalike [[sunJavadoc/java/lang/StringBuilder#StringBuilder(java.lang.String)]] with the difference, that the immediate buffer is supported here.
@@ -1151,7 +1151,7 @@ METHOD_C StringBuilderJc* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, str
  *           or if the allocation is done with enaugh space for the instance itself (than the text is stored immediately)
  *           or if the instance is embedded and has immediate space for the text after it, like described in [[CONST_addSize_StringBuilderJc(...)]].
  */
-METHOD_C StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc src, struct ThreadContext_emC_t* _thCxt);
 #define ctorO_cs_StringBufferJc ctorO_cs_StringBuilderJc
 
 
@@ -1172,7 +1172,7 @@ METHOD_C StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc sr
 
 
 
-/**Returns the StringBuilderJc-instance in the Thread Context. 
+/**Returns the StringBuilderJc_s-instance in the Thread Context. 
  * This instance should used if a StringJc is to return. 
  * The contract for such returned StringJc is: It should be used immediately, 
  * it shouldn't be referenced for further using. 
@@ -1182,24 +1182,24 @@ METHOD_C StringBuilderJc* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc sr
  * @return the empty instance in thread-context-buffer. 
  *          This instance is designated ''locate in threadBuffer'' using the mode-bit ,,_mThread_StringBuilderJc,,.
  */
-METHOD_C StringBuilderJc* threadBuffer_StringBuilderJc(char const* sign, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* threadBuffer_StringBuilderJc(char const* sign, struct ThreadContext_emC_t* _thCxt);
 #define threadBuffer_StringBufferJc threadBuffer_StringBuilderJc
 
-/**Initializes the StringBuilderJc-instance in the Thread Context with the given String
+/**Initializes the StringBuilderJc_s-instance in the Thread Context with the given String
  * and returns it.
  * This variant is proper to use for example if the src is stored in the Stack and should be returned now.
  * If a StringJc should be returned, use this method and call than [[toString_StringBuilderJc()]]
- * or call [[toStringInThreadCxt_StringBuilderJc(...)]] with the given StringBuilderJc-instance, it does the same.
+ * or call [[toStringInThreadCxt_StringBuilderJc(...)]] with the given StringBuilderJc_s-instance, it does the same.
  * @param src The initialized content.
  * @return the initialized instance in thread-context-buffer. 
  *          This instance is designated as ''locate in threadBuffer'' using the mode-bit ,,_mThread_StringBuilderJc,,.
  */
-METHOD_C StringBuilderJc* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign, struct ThreadContext_emC_t* _thCxt);
 #define threadBuffer_s_StringBufferJc threadBuffer_s_StringBuilderJc
 
 
 
-/**Set the stringConcatBuffer flag. A StringBuilderJc-Instance should be dedicated in that way, 
+/**Set the stringConcatBuffer flag. A StringBuilderJc_s-Instance should be dedicated in that way, 
  * if the instance is created only to concatenate a text, and there is no other reference to it.
  * If hava to be a persistent location (not in Stack, not in Thread-Context, but allocated dynamically),
  * its buffer is used as the persistent buffer for a CharSeqJc immediately. The allocation of an extra buffer isn't need.
@@ -1214,13 +1214,13 @@ METHOD_C StringBuilderJc* threadBuffer_s_StringBuilderJc(CharSeqJc src, char con
  * @param bTruncate true than truncate without exception, false than cause an exception on buffer overflow.
  * @return the current mode before.
  */
-bool setTruncateMode_StringBuilderJc(StringBuilderJc* ythis, bool bTruncate);
+bool setTruncateMode_StringBuilderJc(StringBuilderJc_s* ythis, bool bTruncate);
 
 /**Checks whether the buffer content was truncated any time before. 
  * The truncate bit is reseted thereby, so a next call returns false if a new truncation event doesn't occur. 
  * @return true if the buffer content was truncated during an insert-, replace- or append-operation. 
  */
-bool wasTruncated_StringBuilderJc(StringBuilderJc* ythis);
+bool wasTruncated_StringBuilderJc(StringBuilderJc_s* ythis);
 
 /**Releases the buffer from the designation of a built StringJc-reference. The StringBuilder can used now
  * for new changing operations. But see and use also [[toStringNonPersist_StringBuilderJc(...)]].
@@ -1235,11 +1235,11 @@ bool wasTruncated_StringBuilderJc(StringBuilderJc* ythis);
  * return the size of the StringBuilder with its immediate following text
  * or -1 if the text is referenced.
  */
-INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int16 size){
+INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc_s* thiz, int16 size){
   ASSERTJc_EXCLMAX(size, abs(thiz->size));
   if(thiz->size > 0) {
     thiz->size = size;
-    return sizeof(StringBuilderJc)  - sizeof(thiz->value) + size;
+    return sizeof(StringBuilderJc_s)  - sizeof(thiz->value) + size;
   } else {
     //buffer referenced. 
     thiz->size = (int16)(-size);
@@ -1286,7 +1286,7 @@ INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int16 size
  *         Return -1 if the ,,str,, is not contain in this.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#indexOf(java.lang.String, int)]].
  */
-//METHOD_C int indexOf_I_StringBuilderJc(const StringBuilderJc* ythis, const StringJc str, int fromIndex, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C int indexOf_I_StringBuilderJc(const StringBuilderJc_s* ythis, const StringJc str, int fromIndex, struct ThreadContext_emC_t* _thCxt);
 #define indexOf_I_StringBuilderJc(THIZ, STR, POS, _THC) indexOf_sI_StringJc(toStringNonPersist_StringBuilderJc(&(THIZ)->base.object, _THC), STR, POS)
 
 
@@ -1351,7 +1351,7 @@ INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int16 size
  * @macro It calls [[replace_zI_StringBuilderJc(...)]].
  */ 
 #define insert_s_StringBuilderJc(YTHIS, pos, str, _THC) replace_StringBuilderJc(YTHIS,pos, 0, str, _THC)
-//METHOD_C StringBuilderJc* insert_s_StringBuilderJc(StringBuilderJc* ythis, int offset, StringJc add, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* insert_s_StringBuilderJc(StringBuilderJc_s* ythis, int offset, StringJc add, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -1381,7 +1381,7 @@ INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc* thiz, int16 size
  * @return this.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, char[], int, int)]].
  */ 
-METHOD_C StringBuilderJc* insert_CYII_StringBuilderJc(StringBuilderJc* ythis, int pos, char_Y* src, int offset, int len, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* insert_CYII_StringBuilderJc(StringBuilderJc_s* ythis, int pos, char_Y* src, int offset, int len, struct ThreadContext_emC_t* _thCxt);
 //#define insert_IcYII_StringBuilderJc(YTHIS, pos, charY, offset, len, _THC) replace_zI_StringBuilderJc(YTHIS,pos, 0, & (charY)->data[offset],len, _THC)
 
 /**Inserts the content of the character array at the given position. 
@@ -1400,7 +1400,7 @@ METHOD_C StringBuilderJc* insert_CYII_StringBuilderJc(StringBuilderJc* ythis, in
  * @return this.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, char)]].
  */ 
-METHOD_C StringBuilderJc* insert_C_StringBuilderJc(StringBuilderJc* ythis, int pos, char src, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* insert_C_StringBuilderJc(StringBuilderJc_s* ythis, int pos, char src, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Inserts a referenced ,,char const*,, text with given number of chars at the given position. 
@@ -1440,7 +1440,7 @@ METHOD_C StringBuilderJc* insert_C_StringBuilderJc(StringBuilderJc* ythis, int p
  * @throws StringIndexOutOfBoundsException if the range doesn't match.
  * @javalike It is the ,,char const*,,-form of [[sunJavadoc/java/lang/StringBuilder#replace(int, int, java.lang.String)]].
  */
-//METHOD_C StringBuilderJc* replace_zI_StringBuilderJc(StringBuilderJc* ythis, int start, int end, char const* src, int lenSrc, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* replace_zI_StringBuilderJc(StringBuilderJc_s* ythis, int start, int end, char const* src, int lenSrc, struct ThreadContext_emC_t* _thCxt);
 #define replace_zI_StringBuilderJc(thiz, start, end, src, lenSrc, _thCxt) replace_cII_StringBuilderJc(thiz, start, end, zI_CharSeqJc(src, lenSrc), 0, lenSrc, _thCxt)
 
 /**Replaces the characters in a substring of this sequence with characters in the specified String. 
@@ -1488,7 +1488,7 @@ METHOD_C StringBuilderJc* insert_C_StringBuilderJc(StringBuilderJc* ythis, int p
  * @javalike This method is not present in Java, but see [[sunJavadoc/java/lang/Integer#toString(int, int)]].
  *           This method is used as core-method of [[insert_I_StringBuilderJc(...)]].
  */
-METHOD_C StringBuilderJc* insert_Ir_StringBuilderJc(StringBuilderJc* ythis, int pos, int32 value, int radix, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* insert_Ir_StringBuilderJc(StringBuilderJc_s* ythis, int pos, int32 value, int radix, struct ThreadContext_emC_t* _thCxt);
 
 /**Inserts the text representation of the second int argument into this sequence.
  * The second argument is converted to a text as if by the method String.valueOf,
@@ -1515,7 +1515,7 @@ METHOD_C StringBuilderJc* insert_Ir_StringBuilderJc(StringBuilderJc* ythis, int 
  * @javalike This method is not present in Java, but see [[sunJavadoc/java/lang/Integer#toString(int, int)]].
  *           This method is used as core-method of [[insert_I_StringBuilderJc(...)]].
  */
-METHOD_C StringBuilderJc* insert_Jr_StringBuilderJc(StringBuilderJc* ythis, int pos, int64 value, int radix, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* insert_Jr_StringBuilderJc(StringBuilderJc_s* ythis, int pos, int64 value, int radix, struct ThreadContext_emC_t* _thCxt);
 
 /**Inserts the text representation of the second int argument into this sequence.
  * The second argument is converted to a text as if by the method String.valueOf,
@@ -1528,7 +1528,7 @@ METHOD_C StringBuilderJc* insert_Jr_StringBuilderJc(StringBuilderJc* ythis, int 
  * @see [[valueOf_I_StringJc(...)]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, float)]].
  */
-METHOD_C StringBuilderJc* insert_F_StringBuilderJc(StringBuilderJc* ythis, int offset, float value, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* insert_F_StringBuilderJc(StringBuilderJc_s* ythis, int offset, float value, struct ThreadContext_emC_t* _thCxt);
 
 /**Inserts the text representation of the second int argument into this sequence.
  * The second argument is converted to a text as if by the method String.valueOf,
@@ -1541,14 +1541,14 @@ METHOD_C StringBuilderJc* insert_F_StringBuilderJc(StringBuilderJc* ythis, int o
  * @see [[valueOf_I_StringJc(...)]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, double)]].
  */
-METHOD_C StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int offset, double value, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* insert_D_StringBuilderJc(StringBuilderJc_s* ythis, int offset, double value, struct ThreadContext_emC_t* _thCxt);
 
 /** java:StringBuffer.append(String) */
-//METHOD_C StringBuilderJc* append_z_StringBuilderJc(StringBuilderJc* ythis, const char* add, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* append_z_StringBuilderJc(StringBuilderJc_s* ythis, const char* add, struct ThreadContext_emC_t* _thCxt);
 //#define append_z_StringBuilderJc(YTHIS, ADD, THREADC) append_s_StringBuilderJc((YTHIS), s0_StringJc(ADD), THREADC);
 
 /** java:StringBuffer.append(char) */
-//METHOD_C StringBuilderJc* append_C_StringBuilderJc(StringBuilderJc* ythis, char add, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* append_C_StringBuilderJc(StringBuilderJc_s* ythis, char add, struct ThreadContext_emC_t* _thCxt);
 
 /**Appends the given char at the end.
  * @param char The char to append.
@@ -1609,7 +1609,7 @@ METHOD_C StringBuilderJc* insert_D_StringBuilderJc(StringBuilderJc* ythis, int o
  * @javalike [[sunJavadoc/java/lang/StringBuilder#delete(int, int)]].
  *
  */
-METHOD_C StringBuilderJc* delete_StringBuilderJc(StringBuilderJc* ythis, int start, int end, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* delete_StringBuilderJc(StringBuilderJc_s* ythis, int start, int end, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Replaces single chars in the buffer.
@@ -1620,7 +1620,7 @@ METHOD_C StringBuilderJc* delete_StringBuilderJc(StringBuilderJc* ythis, int sta
  *            But it may necessary.
  *
  */
-METHOD_C StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, char oldChar, char newChar);
+METHOD_C StringBuilderJc_s* replace_CC_StringBuilderJc(StringBuilderJc_s* ythis, char oldChar, char newChar);
 
 
 /**Returns the String which represents the content of the StringBuffer.
@@ -1632,7 +1632,7 @@ METHOD_C StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, cha
  *
  * Note: The calling instance (this) should be given as ObjectJc-pointer. 
  * That is because this method is defined for Object and it is overwritten only.
- * But the instance has to be a StringBuilderJc.
+ * But the instance has to be a StringBuilderJc_s.
  *
  * @return a StringJc which is persistent.
  * @javalike [[javadoc/java/lang/StringBuilder#toString()]], but Java returns 
@@ -1647,13 +1647,13 @@ METHOD_C StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, cha
 /**Marks the StringBuilder as persistent (freezed) and returns the referenced String in this builder.
  * It sets the [[mode_StringBuilderJc]] with the bit [[_mStringBuilt_StringBuilderJc]].
  * A changing of content after call of toString will be caused an IllegalStateException: "Buffer was used in StringJc".
- * The StringBuilderJc-instance can be released with [[releaseStringBuilt_StringBuilderJc(...)]]. 
+ * The StringBuilderJc_s-instance can be released with [[releaseStringBuilt_StringBuilderJc(...)]]. 
  * Then all referenced Strings should not be used no more.
  * This method should used especially if a String is assembled in a StringBuilder, this String is referenced, 
  * and the StringBuilder itself is not referenced. Then nobody can change the content.
  *
  * @return A StringJc instance which refers the buffer of the StringBuilder. 
- *         It is designated as persistent only if the StringBuilderJc-instance is designated
+ *         It is designated as persistent only if the StringBuilderJc_s-instance is designated
  *         as an instance only for concatenating a String, 
  *         see [[StringBuilder.setStringConcatBuffer_StringBuilderJc(...)]].
  *         Otherwise it is dedignated as non-persistent.
@@ -1661,8 +1661,8 @@ METHOD_C StringBuilderJc* replace_CC_StringBuilderJc(StringBuilderJc* ythis, cha
  *           an persistent String in a new allocated buffer anytime.
  * @see [[toStringPersist_StringBuilderJc()]] and [[toStringNonPersist_StringBuilderJc()]].
  */
-#define toStringMarkPersist_StringBuilderJc(YTHIS, _THC) ( ((StringBuilderJc*)(YTHIS))->_mode |= _mStringBuilt_StringBuilderJc, toStringNonPersist_StringBuilderJc(YTHIS, _THC))
-//#define toStringMarkPersist_StringBuilderJc(YTHIS, _THC) ( ((StringBuilderJc*)(YTHIS))->_mode |= _mStringBuilt_StringBuilderJc, toStringNonPersist_StringBuilderJc(YTHIS, _THC))
+#define toStringMarkPersist_StringBuilderJc(YTHIS, _THC) ( ((StringBuilderJc_s*)(YTHIS))->_mode |= _mStringBuilt_StringBuilderJc, toStringNonPersist_StringBuilderJc(YTHIS, _THC))
+//#define toStringMarkPersist_StringBuilderJc(YTHIS, _THC) ( ((StringBuilderJc_s*)(YTHIS))->_mode |= _mStringBuilt_StringBuilderJc, toStringNonPersist_StringBuilderJc(YTHIS, _THC))
 
 #define toString_StringJc(STRING) (STRING)
 
@@ -1704,7 +1704,7 @@ METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, struct Thread
  * @return A StringJc instance which referes a text in the Thread Context. It is designated as non-persistent
  *         and with the ''threadContext''-designation (bits ,,mThreadContext__StringJc,,).
  */ 
-METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc* othis, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc_s* othis, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -1712,11 +1712,11 @@ METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc* othis, st
 
 
 /**cleans the Rest of content in the buffer after the valid chars.
- * This method is enhanced in comparision to Java. It consideres a usage of StringBuilderJc for text fields in structures.
+ * This method is enhanced in comparision to Java. It consideres a usage of StringBuilderJc_s for text fields in structures.
  * The content in the structur's fields should be cleanly. The naming of the method is contrastable 
  * to the Java method [[sunJavadoc/java/lang/StringBuilder#trimToSize()]].
  */
-METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc* ythis);
+METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc_s* ythis);
 
 
 
@@ -1729,18 +1729,18 @@ METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc* ythis);
  * So conversions may be able without any problems. Using static_cast<StringJc*>
  *
  */
-class  StringBuilderJcpp: public ObjectifcBaseJcpp, public StringBuilderJc
+class  StringBuilderJcpp: public ObjectifcBaseJcpp, public StringBuilderJc_s
 { public:
 
   static StringBuilderJcpp* threadBuffer(struct ThreadContext_emC_t* _thCxt);
   
-  StringBuilderJcpp(){ STACKTRC_ENTRY("StringBuilderJcpp::StringBuilderJcpp()"); init_ObjectJc(&base.object, sizeof(StringBuilderJc), 0); ctorO_StringBuilderJc(&this->base.object, _thCxt); }
+  StringBuilderJcpp(){ STACKTRC_ENTRY("StringBuilderJcpp::StringBuilderJcpp()"); init_ObjectJc(&base.object, sizeof(StringBuilderJc_s), 0); ctorO_StringBuilderJc(&this->base.object, _thCxt); }
 
-  StringBuilderJcpp(char* buffer, int len){ STACKTRC_ENTRY("StringBuilderJcpp::StringBuilderJcpp(char*, len)"); init_ObjectJc(&base.object, sizeof(StringBuilderJc), 0); ctorO_zI_StringBuilderJc(&this->base.object, buffer, len, _thCxt); }
+  StringBuilderJcpp(char* buffer, int len){ STACKTRC_ENTRY("StringBuilderJcpp::StringBuilderJcpp(char*, len)"); init_ObjectJc(&base.object, sizeof(StringBuilderJc_s), 0); ctorO_zI_StringBuilderJc(&this->base.object, buffer, len, _thCxt); }
 
-  StringBuilderJcpp(bool immediately, int addSize){ STACKTRC_ENTRY("StringBuilderJcpp::StringBuilderJcpp(addSize)"); init_ObjectJc(&base.object, sizeof(StringBuilderJc) + addSize, 0); ctorO_StringBuilderJc(&this->base.object, _thCxt); }
+  StringBuilderJcpp(bool immediately, int addSize){ STACKTRC_ENTRY("StringBuilderJcpp::StringBuilderJcpp(addSize)"); init_ObjectJc(&base.object, sizeof(StringBuilderJc_s) + addSize, 0); ctorO_StringBuilderJc(&this->base.object, _thCxt); }
 
-  StringBuilderJcpp(ObjectJc* othis){ init_ObjectJc(&base.object, sizeof(StringBuilderJc), 0); ctorO_StringBuilderJc(othis, null); }
+  StringBuilderJcpp(ObjectJc* othis){ init_ObjectJc(&base.object, sizeof(StringBuilderJc_s), 0); ctorO_StringBuilderJc(othis, null); }
   
   StringBuilderJcpp& operator()(CharSeqJc src)
   { STACKTRC_ENTRY("StringBuilderJcpp(StringJc)");
@@ -1757,20 +1757,20 @@ class  StringBuilderJcpp: public ObjectifcBaseJcpp, public StringBuilderJc
 
    StringBuilderJcpp& operator=(StringJc str){ setLength_StringBuilderJc(this, 0, null); append_s_StringBuilderJc(this, str, null); return *this; }
 
-  /*volatile*/ StringBuilderJcpp& operator+(CharSeqJc str) /*volatile*/{ append_s_StringBuilderJc((StringBuilderJc*)(static_cast<StringBuilderJc /*volatile*/*>(this)), str, null); return *this; }
-  /*volatile*/ StringBuilderJcpp& operator+=(CharSeqJc str) /*volatile*/{ append_s_StringBuilderJc((StringBuilderJc*)(static_cast<StringBuilderJc /*volatile*/*>(this)), str, null); return *this; }
+  /*volatile*/ StringBuilderJcpp& operator+(CharSeqJc str) /*volatile*/{ append_s_StringBuilderJc((StringBuilderJc_s*)(static_cast<StringBuilderJc_s /*volatile*/*>(this)), str, null); return *this; }
+  /*volatile*/ StringBuilderJcpp& operator+=(CharSeqJc str) /*volatile*/{ append_s_StringBuilderJc((StringBuilderJc_s*)(static_cast<StringBuilderJc_s /*volatile*/*>(this)), str, null); return *this; }
   
    StringBuilderJcpp* append(const char* str){append_z_StringBuilderJc(this, str, null); return this; }
 
    StringBuilderJcpp& operator=(const char* str){ setLength_StringBuilderJc(this, 0, null); append_z_StringBuilderJc(this, str, null); return *this; }
 
-  /*volatile*/ StringBuilderJcpp& operator+(const char* str) /*volatile*/{append_z_StringBuilderJc((StringBuilderJc*)(static_cast<StringBuilderJc /*volatile*/*>(this)), str, null); return *this; }
+  /*volatile*/ StringBuilderJcpp& operator+(const char* str) /*volatile*/{append_z_StringBuilderJc((StringBuilderJc_s*)(static_cast<StringBuilderJc_s /*volatile*/*>(this)), str, null); return *this; }
   
    StringBuilderJcpp& operator<<(const char* str){append_z_StringBuilderJc(this, str, null); return *this; }
 
    StringBuilderJcpp* append(int val){ append_I_StringBuilderJc(this, val, null); return this; }
 
-  /*volatile*/ StringBuilderJcpp& operator+(int val) /*volatile*/{append_I_StringBuilderJc((StringBuilderJc*)(static_cast<StringBuilderJc /*volatile*/*>(this)), val, null); return *this; }
+  /*volatile*/ StringBuilderJcpp& operator+(int val) /*volatile*/{append_I_StringBuilderJc((StringBuilderJc_s*)(static_cast<StringBuilderJc_s /*volatile*/*>(this)), val, null); return *this; }
   
   StringBuilderJcpp& insert(int pos, char cc){ insert_C_StringBuilderJc(this, pos, cc, null); return *this; }
   
@@ -1811,7 +1811,7 @@ class StringBuilder240Jcpp: public StringBuilderJcpp
 {
   char _buffer[236];
   public: StringBuilder240Jcpp(bool stack): StringBuilderJcpp(true, 236)
-  { //STACKTRC_ENTRY("StringBuilder240Jcpp::StringBuilder240Jcpp"); init_ObjectJc(&base.object, sizeof(StringBuilderJc) + 236, 0); ctorO_StringBuilderJc(&this->base.object, _thCxt); 
+  { //STACKTRC_ENTRY("StringBuilder240Jcpp::StringBuilder240Jcpp"); init_ObjectJc(&base.object, sizeof(StringBuilderJc_s) + 236, 0); ctorO_StringBuilderJc(&this->base.object, _thCxt); 
     if(stack){ _mode |= _mStack_StringBuilderJc; }
   }
 };

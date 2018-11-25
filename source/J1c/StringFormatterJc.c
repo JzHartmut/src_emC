@@ -85,7 +85,7 @@ struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thC
   { 
     ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
-    SETREFJc(thiz->buffer, ctorO_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), _thCxt), StringBuilderJc);
+    SETREFJc(thiz->buffer, ctorO_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), _thCxt), StringBuilderJc_s);
     CLEAR_REFJc(thiz->lineout);
     thiz->bShouldLineoutClose = false;
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -126,7 +126,7 @@ struct StringFormatterJc_t* ctorO_ApbSi_StringFormatterJc(ObjectJc* othis, struc
   { 
     ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
-    SETREFJc(thiz->buffer, ctorO_I_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), defaultBufferLength, _thCxt), StringBuilderJc);
+    SETREFJc(thiz->buffer, ctorO_I_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), defaultBufferLength, _thCxt), StringBuilderJc_s);
     set_StringJc(&(thiz->sNewline), newlineString);
     SETREFJc(thiz->lineout, lineout, AppendableJc_s);
     if(shouldClose) 
@@ -173,7 +173,7 @@ struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 len
   { 
     ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
-    SETREFJc(thiz->buffer, ctorO_I_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), length, _thCxt), StringBuilderJc);
+    SETREFJc(thiz->buffer, ctorO_I_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), length, _thCxt), StringBuilderJc_s);
     CLEAR_REFJc(thiz->lineout);
     thiz->bShouldLineoutClose = false;
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -214,7 +214,7 @@ struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc 
   { 
     ObjectJc *newObj2_1=null; /*J2C: temporary Objects for new operations
     */
-    SETREFJc(thiz->buffer, ctorO_s_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), str, _thCxt), StringBuilderJc);
+    SETREFJc(thiz->buffer, ctorO_s_StringBuilderJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_StringBuilderJc, 0, _thCxt)), str, _thCxt), StringBuilderJc_s);
     CLEAR_REFJc(thiz->lineout);
     thiz->bShouldLineoutClose = false;
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -254,7 +254,7 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
   }
   { 
     
-    SETREFJc(thiz->buffer, buffer, StringBuilderJc);
+    SETREFJc(thiz->buffer, buffer, StringBuilderJc_s);
     CLEAR_REFJc(thiz->lineout);
     thiz->bShouldLineoutClose = false;
   }
@@ -1081,7 +1081,7 @@ StringJc addHexLn_StringFormatterJc(/*J2C:static method*/ int8_Y* data, int32 le
     while(idx < (idxStart + length))
       { 
          /*J2C: temporary Stringbuffer for String concatenation*/
-        StringBuilderJc* _tempString3_1=null; 
+        StringBuilderJc_s* _tempString3_1=null; 
         
         
         int32  idxLineEnd = idx + 32;
@@ -1243,7 +1243,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
     else if(src < 0) 
     { 
        /*J2C: temporary Stringbuffer for String concatenation*/
-      StringBuilderJc* _tempString3_1=null; 
+      StringBuilderJc_s* _tempString3_1=null; 
       
       { throw_sJc(ident_IllegalArgumentExceptionJc, 
         ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)

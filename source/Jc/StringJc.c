@@ -217,7 +217,7 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
   STACKTRC_ENTRY("toString_CharSeqJc");
   int val = value_OS_PtrValue(thiz);
   if(val == kIsStringBuilder_CharSeqJc) {
-    StringBuilderJc* sb = PTR_OS_PtrValue(thiz, StringBuilderJc);
+    StringBuilderJc_s* sb = PTR_OS_PtrValue(thiz, StringBuilderJc_s);
     char const* buffer = chars_StringBuilderJc(sb);
     int nChars = length_StringBuilderJc(sb);
     StringJc ret = CONST_StringJc(buffer, nChars);
@@ -436,7 +436,7 @@ bool endsWith_zI_StringJc(const StringJc ythis, const char* strCmp, int valueCmp
 
 /** Realisation of substring: If the parent string is a constant string,
   * the substring will be also a simple constant string directly pointered a part of parent.
-  * If the String is inside a StringBuffer, may be a SubstringJc of StringBuilderJc or StringBuilderJc itself,
+  * If the String is inside a StringBuffer, may be a SubstringJc of StringBuilderJc_s or StringBuilderJc_s itself,
   * the problem is more complexly. In this case inside the parent string it should be registered
   * the using of the Buffer. It may be a RuntimeHeapBlockJc with garbage collection.
   */

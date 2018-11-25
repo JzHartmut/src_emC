@@ -13,7 +13,11 @@ include $ZBNFJAX_HOME/jzTc/Cheader2Refl.jztxt.cmd;
 currdir=scriptdir;
 
 Fileset headers = 
-( source:Inspc/*.h);
+( source:OSAL/os_file.h
+, source:OSAL/os_time.h
+, source:OSAL/os_sharedmem.h
+, source:OSAL/os_socket.h
+);
 
 main()
 {

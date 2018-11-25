@@ -246,9 +246,9 @@ METHOD_C void applyPattern_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, Strin
 
 METHOD_C StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, ThCxt* _thCxt);
 
-METHOD_C void format_u_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, DateJc_s* timeStamp, StringBuilderJc* sBuffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt);
+METHOD_C void format_u_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, DateJc_s* timeStamp, StringBuilderJc_s* sBuffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt);
 
-METHOD_C void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, StringBuilderJc* sBuffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt);
+METHOD_C void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, StringBuilderJc_s* sBuffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt);
 
 
 

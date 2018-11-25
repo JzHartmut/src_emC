@@ -102,7 +102,7 @@ inline int unused_emC(int arg){ return arg; }
 #endif
 #endif//__NoReflection__
 
-#ifndef __cplusplus
+#if !defined(__cplusplus) && !defined(false)
   //If C-compiling is used, define the C++-keywords for C
   //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
   //#define bool int

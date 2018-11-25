@@ -48,7 +48,7 @@
 #define __fw_String_h__
 
 
-//NOTE: struct ObjectJc should be known for the StringBuilderJc, defined here.
+//NOTE: struct ObjectJc should be known for the StringBuilderJc_s, defined here.
 //It is possible to include <sourceApplSpecific/applConv/ObjectJc_simple.h> in the <applstdef_emC.h> for the simple concept.
 //instead. See usage of guards there.
 #include <emC/Object_emC.h>
@@ -258,7 +258,7 @@ METHOD_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
  * The value is (based on [[CRJS:_mLength__StringJc]] == 0x3fff for a 32-bit-system):
  * * 0x0000 ... 0x2fff: either the same how defined in [[class_StringJc]], then it contains the length of the String
  * * 0x3000 ... 0x3ffd: In this case the bits with mask 0xfff contains the index to the method table of CharSeqJc inside the whole method table of the ObjectJc
- * * 0x3ffe: or it is designated with the bits to designate the CharSeqJc as StringBuilderJc
+ * * 0x3ffe: or it is designated with the bits to designate the CharSeqJc as StringBuilderJc_s
  * * 0x3fff: or it is designated with the bits to designate the CharSeqJc as any instance of ObjectJc.
  * * 0x4000 mNonPersists__StringJc: Bit for non persist String
  *
@@ -370,7 +370,7 @@ METHOD_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
  */
 #define kIs_0_terminated_StringJc (mLength__StringJc)
 
-/**Designation of the String as StringBuilderJc-instance. In this case the reference refers a StringBuilderJc and the length
+/**Designation of the String as StringBuilderJc_s-instance. In this case the reference refers a StringBuilderJc_s and the length
  * should be gotten by invocation of length_StringBuilderJc(ref)
  * If mLength is defined with 0x3fff the value is 0x03ffd. mLength is defined os- and platform-depended in os_types_def.h
  */
@@ -527,7 +527,7 @@ inline StringJc zI_StringJc  (  char const* src, int len)
 
 /**Returns the length of the given String. It regards a 0-terminated String, then [[strlen_emC(...)] is invoked.
  * If the value-element designates that it is a CharSeqJc, than 0 is returned (more correct: THROw error). 
- * Use [[length_CharSeqJc(...)]]  if this refers a StringBuilderJc or any other implementation of CharSeqJc.
+ * Use [[length_CharSeqJc(...)]]  if this refers a StringBuilderJc_s or any other implementation of CharSeqJc.
  * The difference to CharSeqJc(...) is: the last one needs to compile StringCharSeq_emc.c
  * @return The length of the string.
 */
@@ -651,7 +651,7 @@ METHOD_C bool isZeroTerminated_StringJc ( StringJc const thiz);
  * ,,int nchars = copyToBuffer_StringJc(myString, 0, -1, buffer, sizeof(buffer) -1);
  * ,,buffer[nchars] = 0; //because max 99 characters are copied, there is at least on space for the 0. 
  *
- * Note: thiz should a really StringJc or a reference to a StringBuilderJc on runtime.
+ * Note: thiz should a really StringJc or a reference to a StringBuilderJc_s on runtime.
  * If it is any reference to a CharSeqJc, use [[copyToBuffer_CharSeqJc]. That method regards simple Strings too.
  *
  * @param start start character in the StringJc.
@@ -735,34 +735,34 @@ bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp
 
 
 
-/*@CLASS_C StringBuilderJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C StringBuilderJc_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 #include <emC/Object_emC.h>
 
 
 //#define staticSize_StringBuilderJc 80
 
-/**A StringBuilderJc is a structure to manage char[]-arrays. 
+/**A StringBuilderJc_s is a structure to manage char[]-arrays. 
  * It is derivated and adapted from the content of the java.lang.StringBuffer rsp. java.lang.StringBuilder.
  * Some Java-like methods are supplied, but not all, but some methods are additional 
  * and specifical for usages in C or C++.
  *
  * There are 2 forms of memory layout of this struct:
- * * a) The struct StringBuilderJc contains only the count, size and the pointer of the char[...]-buffer.
+ * * a) The struct StringBuilderJc_s contains only the count, size and the pointer of the char[...]-buffer.
  * * b) The struct contains the char-buffer itself.
  *
  * The first variant is usefull especially if a C-like text buffer (char* with given size) is located anywhere
- * in the users data structures, and the StringBuilderJc-instance is only used temporary to assemble the text in the buffer.
+ * in the users data structures, and the StringBuilderJc_s-instance is only used temporary to assemble the text in the buffer.
  *
  * The last variant is possible either if a construct like
  *
- * , struct { StringBuilderJc b; char _b[46];} myBuilder = 
+ * , struct { StringBuilderJc_s b; char _b[46];} myBuilder = 
  * ,   CONST_addSizeStack_StringBuilderJc(&buffer.b, 50);
  *
  * is defined and initialized or if the [[ctorO_StringBuilderJc(...)]]-Constructor is called 
- * with an initialized ObjectJc with a size greater than sizeof(StringBuilderJc). It means more memory was allocated.
+ * with an initialized ObjectJc with a size greater than sizeof(StringBuilderJc_s). It means more memory was allocated.
  * That variant needs only 1 memory block for the buffer management and the buffer itself.
  *
- * The StringBuilderJc-instance holds some flags such as ''located in the Thread Context'' or ''buffer is located in Stack''
+ * The StringBuilderJc_s-instance holds some flags such as ''located in the Thread Context'' or ''buffer is located in Stack''
  * and ''truncated'', see the appropriate methods. The internal attributes of this struct should not use immediately,
  * only the methods of this C-class should be used.
  *
@@ -770,7 +770,7 @@ bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp
  * and the buffer is a private element of the StringBuilder. Therefore the buffer can be changed anytime, 
  * only a few amount of calculation time is need.
  *
- * But in C the StringBuilderJc is often associated with a determined buffer of the user. The user shows to its buffer,
+ * But in C the StringBuilderJc_s is often associated with a determined buffer of the user. The user shows to its buffer,
  * The StringBuilder-instance is only a helper to deal with the content. A situation, that an unexpected overflow of the buffer size
  * occurs during an append operation, than the StringBuilder swaps the content in a new allocated buffer, will be a confusion.
  * The user looks to its buffer, no content is changed, why? He doesn't look to the StringBuilder-Instance.
@@ -833,7 +833,7 @@ typedef struct  StringBuilderJc_t
     */
     char* buffer;
   }value;
-}StringBuilderJc;
+} StringBuilderJc_s;
 
 
 #ifndef StringBuilderJcREFDEF
@@ -841,11 +841,11 @@ typedef struct  StringBuilderJc_t
   #ifndef TYPE_EnhancedRefJc
     #error missing definition of TYPE_EnhancedRefJc, applstdef_emC.h should define that.
   #endif
-  typedef TYPE_EnhancedRefJc(StringBuilderJc);
+  typedef TYPE_EnhancedRefJc(StringBuilderJc_s);
 #endif
 
 
-#define sizeof_StringBuilderJc sizeof(StringBuilderJc)
+#define sizeof_StringBuilderJc sizeof(StringBuilderJc_s)
 #define sizeof_StringBufferJc sizeof_StringBuilderJc
 
 extern_C const struct ClassJc_t reflection_StringBuilderJc;
@@ -853,12 +853,12 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
 #define reflection_StringBufferJc reflection_StringBuilderJc
 
 
-//#define staticSize_StringBuilderJc (sizeof(((StringBuilderJc*)(0x1000))->value.direct))
+//#define staticSize_StringBuilderJc (sizeof(((StringBuilderJc_s*)(0x1000))->value.direct))
 
 /**This macro defines a C-constant (with {..}) for empty-initializing a StringBuffer instance with its static size.
  * @param OBJP Pointer to the instance itself. It is used to store the OWNADDRESS for the ObjectJc-part.
  */
-#define CONST_StringBuilderJc(OBJP) { CONST_ObjectJc(sizeof(StringBuilderJc), &(OBJP)->base.object, null), 0, 0, null }
+#define CONST_StringBuilderJc(OBJP) { CONST_ObjectJc(sizeof(StringBuilderJc_s), &(OBJP)->base.object, null), 0, 0, null }
 
 
 /**This macro defines a C-constant (with {..}) for initializing a StringBuffer instance with an additional size.
@@ -866,7 +866,7 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
  * to increase the size of the immediate text in buffer.
  * The definition of such an construct is possible inside a struct definition with followed sample:
  *
- * ,,struct { ... ; StringBuilderJc buffer; char bufferIncreasingCharArray[120]; ... } myData =
+ * ,,struct { ... ; StringBuilderJc_s buffer; char bufferIncreasingCharArray[120]; ... } myData =
  *
  * The ,,bufferIncreasingCharArray,, have to be assembled immediately after the ,,buffer,,. 
  * The initializer of this part may be written in form of:
@@ -875,9 +875,9 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
  *
  * The using of a following char array to increase the buffer is opportune to get a larger StringBuffer, 
  * because the compiler will always assigns the memory of the followed char array 
- * immediately after the previous element, the StringBuilderJc, and the own char array of the StringBuilderJc 
+ * immediately after the previous element, the StringBuilderJc_s, and the own char array of the StringBuilderJc_s 
  * is assigned as the last element there. The problem of additional bytes because 4-Byte-allignment or such 
- * is not present, because a StringBuilderJc have a size of multiple 4 bytes.
+ * is not present, because a StringBuilderJc_s have a size of multiple 4 bytes.
  * But the user should define the size of the char array as multiple of 4 to prevent alignment problems also.
  *
  * Note: Outside a struct, the definition of elements one after another doesn't may assigned one after another in memory.
@@ -887,60 +887,60 @@ extern_C const struct ClassJc_t reflection_StringBuilderJc;
  * @param ADDSIZE The additional size of the StringBuffer, defined by sizeof the followed char array.
  */
 #define INIZ_addSize_StringBuilderJc(OBJ, ADDSIZE) { { INIZ_objReflId_ObjectJc(OBJ, null, 0)}, 0, sizeof((OBJ).value) + (ADDSIZE) -1, 0 }
-#define CONST_addSize_StringBuilderJc(OBJP, ADDSIZE) { CONST_ObjectJc(sizeof(StringBuilderJc) + (ADDSIZE), &(OBJP)->base.object, null), 0, sizeof((OBJP)->value) + (ADDSIZE) -1, 0 }
+#define CONST_addSize_StringBuilderJc(OBJP, ADDSIZE) { CONST_ObjectJc(sizeof(StringBuilderJc_s) + (ADDSIZE), &(OBJP)->base.object, null), 0, sizeof((OBJP)->value) + (ADDSIZE) -1, 0 }
 //#define CONST_addSize_StringBuilderJc INIZ_addSize_StringBuilderJc
 
 /**This macro defines a C-constant (with {..}) for initializing a StringBuffer instance with an additional size.
  * which is located in the Stack. See ,,CONST_addSize_StringBuilderJc(...),, 
- * It have to be used if the StringBuilderJc-instance is located in Stack. 
+ * It have to be used if the StringBuilderJc_s-instance is located in Stack. 
  * The mode bits ,,_mStack_StringBuilderJc,, is set. 
  * The definition of such an construct is recommended as astruct definition like following:
  *
- * struct { StringBuilderJc u; char _[120]; } uBuffer = { CONST_addSize_StringBuilderJc(&uBuffer.buffer, 120), { 0 }};
+ * struct { StringBuilderJc_s u; char _[120]; } uBuffer = { CONST_addSize_StringBuilderJc(&uBuffer.buffer, 120), { 0 }};
  *
  * The a StringBuilder with immediately buffer for 123 characters and a 0 on end is placed in the stack.
  * See macro INSTACK_StringBuilderJc(...).
  * @param OBJP The reference to the StringBuilder-instance itself
- * @param ADDSIZE size of the char[] after the StringBuilderJc-instance.
+ * @param ADDSIZE size of the char[] after the StringBuilderJc_s-instance.
  */
-#define CONST_addSizeStack_StringBuilderJc(OBJP, ADDSIZE) { { CONST_ObjectJc(sizeof(StringBuilderJc) + (ADDSIZE), &(OBJP)->base.object, null) }, 0, sizeof((OBJP)->value) + (ADDSIZE) -1, _mStack_StringBuilderJc}
+#define CONST_addSizeStack_StringBuilderJc(OBJP, ADDSIZE) { { CONST_ObjectJc(sizeof(StringBuilderJc_s) + (ADDSIZE), &(OBJP)->base.object, null) }, 0, sizeof((OBJP)->value) + (ADDSIZE) -1, _mStack_StringBuilderJc}
 
 
 
 /**This macro defines a StringBuffer instance with an additional size to locate in the stack.
  * which is located in the Stack. See ,,CONST_addSize_StringBuilderJc(...),, 
- * It have to be used if the StringBuilderJc-instance is located in Stack. 
+ * It have to be used if the StringBuilderJc_s-instance is located in Stack. 
  * The mode bits ,,_mStack_StringBuilderJc,, is set. 
  * The definition of such an construct is recommended as astruct definition like following:
  *
- * struct { StringBuilderJc b; char _[120]; } uBuffer = { CONST_addSize_StringBuilderJc(&uBuffer.buffer, 120), { 0 }};
+ * struct { StringBuilderJc_s b; char _[120]; } uBuffer = { CONST_addSize_StringBuilderJc(&uBuffer.buffer, 120), { 0 }};
  *
  * The a StringBuilder with immediately buffer for 123 characters and a 0 on end is placed in the stack.
  * See macro INSTACK_StringBuilderJc(...).
  * @param name The name of the StringBuilder-instance
  * @param chars number of chars inclusive the ending 0-char.
  */
-#define INSTACK_StringBuilderJc(name, chars) struct { StringBuilderJc u; char _[chars-4]; } buffer = { CONST_addSizeStack_StringBuilderJc(&buffer.u, chars-4), {0}}
+#define INSTACK_StringBuilderJc(name, chars) struct { StringBuilderJc_s u; char _[chars-4]; } buffer = { CONST_addSizeStack_StringBuilderJc(&buffer.u, chars-4), {0}}
 
 
 
-/**Constructs a StringBuilderJc with a given buffer.
+/**Constructs a StringBuilderJc_s with a given buffer.
  * The buffer will be cleared.
  * @param buffer any buffer
  * @param size characters in the buffer, sizeof(*buffer).
  */
-METHOD_C void ctor_Buffer_StringBuilderJc ( StringBuilderJc* thiz, char* buffer, int size);
+METHOD_C void ctor_Buffer_StringBuilderJc ( StringBuilderJc_s* thiz, char* buffer, int size);
 
 
-/**Constructs a StringBuilderJc with a immediately following buffer.
- * The StringBuilderJc have to be organized in a struct definition with following pattern:
- * ,,StringBuilderJc mySb; char __addBuffer__[124]:
+/**Constructs a StringBuilderJc_s with a immediately following buffer.
+ * The StringBuilderJc_s have to be organized in a struct definition with following pattern:
+ * ,,StringBuilderJc_s mySb; char __addBuffer__[124]:
  * The data element ,,__addBuffer__,, should not used anywhere else.
  * 
  * The buffer will be cleared.
  * @param addSize the sizeof() of the immediately following buffer..
  */
-METHOD_C void ctor_addSize_StringBuilderJc (StringBuilderJc* thiz, int addSize);
+METHOD_C void ctor_addSize_StringBuilderJc (StringBuilderJc_s* thiz, int addSize);
 
 
 /**Gets the buffer as char* to use in C-Standard-Routines. 
@@ -954,26 +954,26 @@ METHOD_C void ctor_addSize_StringBuilderJc (StringBuilderJc* thiz, int addSize);
  * @param size a ,,int*,, reference to a variable, into which the value of buffer-size is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsAndSize_StringBuilderJc (StringBuilderJc* thiz, int* size);
+METHOD_C char* getCharsAndSize_StringBuilderJc (StringBuilderJc_s* thiz, int* size);
 
 
 /**Gets the buffer and the actual nr of chars in the buffer. 
  * @param count a ,,int*,, reference to a variable, into which the value of number of chars is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsAndCount_StringBuilderJc (StringBuilderJc* thiz, int* count);
+METHOD_C char* getCharsAndCount_StringBuilderJc (StringBuilderJc_s* thiz, int* count);
 
 /**Gets the buffer, the size and the actual nr of chars in the buffer.
  * @param size a ,,int*,, reference to a variable, into which the value of buffer-size is stored.
  * @param count a ,,int*,, reference to a variable, into which the value of number of chars is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-METHOD_C char* getCharsSizeCount_StringBuilderJc (StringBuilderJc* thiz, int* size, int* count);
+METHOD_C char* getCharsSizeCount_StringBuilderJc (StringBuilderJc_s* thiz, int* size, int* count);
 
 /**Sets the nr of chars immediately. Only internal use. 
  * @param count actual number of chars.
  */
-METHOD_C void _setCount_StringBuilderJc (StringBuilderJc* thiz, int count);
+METHOD_C void _setCount_StringBuilderJc (StringBuilderJc_s* thiz, int count);
 
 
 /**Returns the char at position idx.
@@ -984,14 +984,14 @@ METHOD_C void _setCount_StringBuilderJc (StringBuilderJc* thiz, int count);
  * @return character at the position of text + idx.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#charAt(int)]] but a test of idx is not done.
  */
-METHOD_C char charAt_StringBuilderJc (StringBuilderJc* ythis, int index, struct ThreadContext_emC_t* _thCxt);
+METHOD_C char charAt_StringBuilderJc (StringBuilderJc_s* ythis, int index, struct ThreadContext_emC_t* _thCxt);
 
 /**Sets the char at position.
  * @param index The index. It should be a positiv number and less than the length of the text.
  * @param ch char to set.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setCharAt(int, char)]].
  */
-METHOD_C void setCharAt_StringBuilderJc (StringBuilderJc* ythis, int index, char ch, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void setCharAt_StringBuilderJc (StringBuilderJc_s* ythis, int index, char ch, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -1020,14 +1020,14 @@ METHOD_C void setCharAt_StringBuilderJc (StringBuilderJc* ythis, int index, char
  * @see [[length_StringBuilderJc()]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setLength(int)]].
  */
-METHOD_C void setLength_StringBuilderJc (StringBuilderJc* thiz, int newLength, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void setLength_StringBuilderJc (StringBuilderJc_s* thiz, int newLength, struct ThreadContext_emC_t* _thCxt);
 #define setLength_StringBufferJc setLength_StringBuilderJc
 
 /**Clears the content. It is the same like setLength(0).
  * @see [[setLength_StringBuilderJc()]]
  * @javalike [[sunJavadoc/java/lang/StringBuilder#setLength(int)]] with 0 as parameter.
  */
-METHOD_C void clear_StringBuilderJc (StringBuilderJc* thiz);
+METHOD_C void clear_StringBuilderJc (StringBuilderJc_s* thiz);
 #define clear_StringBufferJc clear_StringBuilderJc
 
 
@@ -1040,26 +1040,26 @@ METHOD_C void clear_StringBuilderJc (StringBuilderJc* thiz);
  * @javalike [[sunJavadoc/java/lang/StringBuilder#length()]].
  */
 #define length_StringBuilderJc(YTHIS) ((YTHIS)->_count)
-//METHOD_C int length_StringBuilderJc(const StringBuilderJc* thiz, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C int length_StringBuilderJc(const StringBuilderJc_s* thiz, struct ThreadContext_emC_t* _thCxt);
 
 /**Gets the size of buffer.
  * @return the maximal number of chars able to store in buffer. It is count without a 0-char at end. 
  *         It means, it is the physical size of buffer -1.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#capacity()]].
  */
-METHOD_C int capacity_StringBuilderJc (StringBuilderJc* thiz);
+METHOD_C int capacity_StringBuilderJc (StringBuilderJc_s* thiz);
 
 
 /**Copies the text in the given buffer. Use the set mode of ,,setTruncateMode_StringBuilderJc(..),, 
  * to desire, whether an exception is thrown or the text will be truncated if the zBuffer is less.
  * @param buffer any buffer, where the content of thiz is copied to.
- * @param start start character in the string in the StringBuilderJc.
- * @param end exclusive end position in string in the StringBuilderJc. If -1 then the whole string till end should be copied.
+ * @param start start character in the string in the StringBuilderJc_s.
+ * @param end exclusive end position in string in the StringBuilderJc_s. If -1 then the whole string till end should be copied.
  * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
  *                It means, the ,,length_StringBuilderJc(thiz),, should less as zBuffer, not equal.
  * @return number of chars without the terminating 0-char. The max value is ,,zBuffer -1,,.
  */
-METHOD_C int copyToBuffer_StringBuilderJc (StringBuilderJc* thiz, int start, int end, char* buffer, int zBuffer);
+METHOD_C int copyToBuffer_StringBuilderJc (StringBuilderJc_s* thiz, int start, int end, char* buffer, int zBuffer);
 
 
 /**Replaces the characters in a part of this sequence with characters in the specified String. 
@@ -1077,7 +1077,7 @@ METHOD_C int copyToBuffer_StringBuilderJc (StringBuilderJc* thiz, int start, int
  *    See [[_mNoException_StringBuilderJc]].
  * @javalike [[sunJavadoc/java/lang/StringBuilder#replace(int, int, java.lang.String)]].
  */
-METHOD_C StringBuilderJc* replace_cII_StringBuilderJc (StringBuilderJc* ythis, int pos, int end, CharSeqJc value, int from, int to, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* replace_cII_StringBuilderJc (StringBuilderJc_s* ythis, int pos, int end, CharSeqJc value, int from, int to, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -1085,7 +1085,7 @@ METHOD_C StringBuilderJc* replace_cII_StringBuilderJc (StringBuilderJc* ythis, i
 /**Inserts the text CharSeqJc into this sequence.
  *
  * @param pos - the offset.
- * @param value - an CharSeqJc. It is a CharSeqJc, a StringBuilderJc or any other class accessed via method table.
+ * @param value - an CharSeqJc. It is a CharSeqJc, a StringBuilderJc_s or any other class accessed via method table.
  * @param start index of the first char in value
  * @param end index after the last char in value
  * @return a reference to this object.
@@ -1094,7 +1094,7 @@ METHOD_C StringBuilderJc* replace_cII_StringBuilderJc (StringBuilderJc* ythis, i
  * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, double)]].
  */
 #define insert_cYii_StringBuilderJc(THIS, POS, ADD, FROM, TO, _THCXT) replace_cII_StringBuilderJc(THIS, POS, POS, ADD, FROM, TO, _THCXT) 
-//METHOD_C StringBuilderJc* insert_cYii_StringBuilderJc(StringBuilderJc* ythis, int offset, CharSeqJc value, int start, int end, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* insert_cYii_StringBuilderJc(StringBuilderJc_s* ythis, int offset, CharSeqJc value, int start, int end, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Handle append(CharSequence) in the same way like append(String). distinghuish on runtime. */
@@ -1126,7 +1126,7 @@ METHOD_C StringBuilderJc* replace_cII_StringBuilderJc (StringBuilderJc* ythis, i
  *        or [[sunJavadoc/java/lang/StringBuilder#insert(int, java.lang.CharSequence)]]
  *        The Relation to CharSequence is explained in the method [[insert_sII_StringBuilderJc(...)]].
  */ 
-//METHOD_C StringBuilderJc* append_s_StringBuilderJc(StringBuilderJc* ythis, CharSeqJc src, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* append_s_StringBuilderJc(StringBuilderJc_s* ythis, CharSeqJc src, struct ThreadContext_emC_t* _thCxt);
 #define append_s_StringBuilderJc(thiz, src, _thCxt) replace_cII_StringBuilderJc(thiz, -1, -1, src, 0, -1, _thCxt)
 #define append_s_StringBufferJc append_s_StringBuilderJc
 
@@ -1142,7 +1142,7 @@ METHOD_C StringBuilderJc* replace_cII_StringBuilderJc (StringBuilderJc* ythis, i
  *        The Relation to CharSequence is explained in the method [[insert_sII_StringBuilderJc(...)]].
  */ 
 #define append_sII_StringBuilderJc(thiz, add, start, end, _thCxt) replace_cII_StringBuilderJc(thiz, -1, -1, add, start, end, _thCxt)
-//METHOD_C StringBuilderJc* append_sII_StringBuilderJc(StringBuilderJc* ythis, CharSeqJc src, int start, int end, struct ThreadContext_emC_t* _thCxt);
+//METHOD_C StringBuilderJc_s* append_sII_StringBuilderJc(StringBuilderJc_s* ythis, CharSeqJc src, int start, int end, struct ThreadContext_emC_t* _thCxt);
 #define append_sII_StringBufferJc append_sII_StringBuilderJc
 
 
@@ -1151,15 +1151,15 @@ METHOD_C StringBuilderJc* replace_cII_StringBuilderJc (StringBuilderJc* ythis, i
  * @return this.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#append(java.lang.StringBuffer)]]
  */ 
-METHOD_C StringBuilderJc* append_u_StringBuilderJc (StringBuilderJc* ythis, StringBuilderJc* src, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringBuilderJc_s* append_u_StringBuilderJc (StringBuilderJc_s* ythis, StringBuilderJc_s* src, struct ThreadContext_emC_t* _thCxt);
 #define append_u_StringBufferJc append_u_StringBuilderJc
 
 
 
-/**Builds a CharSeqJc {ref, val} tupel from an instance of StringBuilderJc. 
- * The CharSeqJc {ref, val} tupel contains the reference to the StringBuilderJc-instance (ref)
+/**Builds a CharSeqJc {ref, val} tupel from an instance of StringBuilderJc_s. 
+ * The CharSeqJc {ref, val} tupel contains the reference to the StringBuilderJc_s-instance (ref)
  * and the designation with [[kIsStringBuilderJc_CharSeqJc]] in val.
- * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc immediately
+ * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc_s immediately
  * which runs fast.
  */
 inline CharSeqJc toCharSeqJc_StringBuilderJc  (struct StringBuilderJc_t const* thiz)
@@ -1217,7 +1217,7 @@ inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt) 
 char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt);
 
 /**Returns the character which is addressed with the position.
-* This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc. Then it is a fast operation.
+* This method is inlined for checking whether thiz is a StringJc or a StringBuilderJc_s. Then it is a fast operation.
 * In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked.
 * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the
 */

@@ -581,7 +581,7 @@ bool reportOutput_MsgDispatcher_MSG(MsgDispatcher_MSG_s* thiz, struct FileWriter
       write_FileWriterJc(file, s0_StringJc("\n//All existing dst (destinations):\n"), _thCxt);
       
       struct { StringBufferJc sb;  char _b[196]; } line = { 0 };//J2C: constructor for embedded fix-size-StringBuffer
-      init_ObjectJc(&line.sb.base.object, sizeof(StringBuilderJc) + 200 - 4, 0);
+      init_ObjectJc(&line.sb.base.object, sizeof(StringBuilderJc_s) + 200 - 4, 0);
       ctorO_I_StringBuilderJc(&line.sb.base.object, 200, _thCxt);
       { int32 ii; 
         for(ii = 0; ii < thiz->maxDst; ii++)
