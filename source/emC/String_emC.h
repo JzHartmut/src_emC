@@ -942,6 +942,20 @@ METHOD_C void ctor_Buffer_StringBuilderJc ( StringBuilderJc_s* thiz, char* buffe
  */
 METHOD_C void ctor_addSize_StringBuilderJc (StringBuilderJc_s* thiz, int addSize);
 
+/**Initializes the Stringbuffer with an immediate buffer after the StringBuffer management values.
+* The size stored inside ObjectJc determines the size of the buffer.
+* @param othis The ObjectJc-head data, initialized. The size inside the othis-Instance
+*              determines the length for the buffer.
+* @return the initialized instance at that memory placement.
+* @throws RuntimeException if the memory is to less.
+* @javalike In Java the [[sunJavadoc/java/lang/StringBuilder#StringBuilder()]] constructs an empty (small) buffer.
+*           The behaviour is similar, but the buffer has its fix size
+*           given by memory amount of the instance referes with othis.
+*           The difference is, that a realloc of buffer isn't supported.
+*/
+METHOD_C StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
+#define ctorO_StringBufferJc ctorO_StringBuilderJc
+
 
 /**Gets the buffer as char* to use in C-Standard-Routines. 
  * The buffer content is zero-terminated always. 
@@ -1170,6 +1184,8 @@ inline CharSeqJc toCharSeqJc_StringBuilderJc  (struct StringBuilderJc_t const* t
 
 
 #define fromStringBuilderJc_CharSeqJc(THIZ) toCharSeqJc_StringBuilderJc(THIZ)
+
+
 
 
 /*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

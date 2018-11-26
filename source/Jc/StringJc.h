@@ -1069,19 +1069,6 @@ void finalize_StringBuilderJc_F(ObjectJc* othis, struct ThreadContext_emC_t* _th
 
 
 
-/**Initializes the Stringbuffer with an immediate buffer after the StringBuffer management values.
- * The size stored inside ObjectJc determines the size of the buffer. 
- * @param othis The ObjectJc-head data, initialized. The size inside the othis-Instance 
- *              determines the length for the buffer.
- * @return the initialized instance at that memory placement.
- * @throws RuntimeException if the memory is to less.
- * @javalike In Java the [[sunJavadoc/java/lang/StringBuilder#StringBuilder()]] constructs an empty (small) buffer.
- *           The behaviour is similar, but the buffer has its fix size 
- *           given by memory amount of the instance referes with othis.
- *           The difference is, that a realloc of buffer isn't supported.
- */
-METHOD_C StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
-#define ctorO_StringBufferJc ctorO_StringBuilderJc
 
 /**Initializes the Stringbuffer to reference the given buffer with content with the given size.
  * This method should be used if an external char[] is to be used.
@@ -1717,6 +1704,40 @@ METHOD_C StringJc toStringInThreadCxt_StringBuilderJc(StringBuilderJc_s* othis, 
  * to the Java method [[sunJavadoc/java/lang/StringBuilder#trimToSize()]].
  */
 METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc_s* ythis);
+
+
+
+
+#ifdef __cplusplus
+
+class StringBuilderJcpp : public StringBuilderJc_s
+{
+  public: StringBuilderJcpp(int addLength) {
+    //init_ObjectJc(&this->base.object, sizeof(StringBuilderJc_s) + addLength, ident_newAllocated_ObjectJc);
+    ctor_addSize_StringBuilderJc(this, addLength);
+  }
+
+  public: StringBuilderJcpp& operator!() { setLength_StringBuilderJc(this, 0, null); return *this; }
+  public: StringBuilderJcpp& setLength(int len) { setLength_StringBuilderJc(this, len, null); return *this; }
+  public: StringBuilderJcpp& operator+(char const* s) { append_z_StringBuilderJc(this, s, null); return *this; }
+  public: char const* getCharsLen(int* len) { return getCharsAndCount_StringBuilderJc(this, len); }
+  public: int operator >>= (char const** dst) { int len; *dst = getCharsAndCount_StringBuilderJc(this, &len); return len; }
+
+};
+
+
+class StringBuilderJc200 : public StringBuilderJcpp {
+  char _u_[200];
+  public: StringBuilderJc200() : StringBuilderJcpp(200) {
+
+  }
+};
+
+
+#endif //__cplusplus
+
+
+
 
 
 
