@@ -97,6 +97,8 @@ int initDir_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength,
     //shorten it.
     zFilepath = sizeof(ythis->absPath) + addPathLength - 1 - zDir;
   }
+  ythis->posNameInPath = zDir;
+  ythis->posRelatPathInPath = dir->posRelatPathInPath;
   strncpy_emC(ythis->absPath + zDir, filepath, zFilepath);
   
   for (ii = zDir; ii < (zFilepath + zDir); ii++) { if (ythis->absPath[ii] == '/') { ythis->absPath[ii] = '\\'; } }

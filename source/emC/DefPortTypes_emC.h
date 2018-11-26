@@ -108,6 +108,9 @@ typedef struct DefPortTypes_emC_t
                                                                /**The number of elements of entries. */
   int16 zEntries, _1_;
 
+  /**The full path of the block in the model. */
+  char pathBlock[512];
+
   Entry_DefPortType_emC_20_s* pEntries;
 
   /**Array of all entries following, use a struct definition to create the correct array length. */

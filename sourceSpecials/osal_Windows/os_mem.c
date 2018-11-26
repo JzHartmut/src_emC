@@ -44,26 +44,44 @@
 #include <winbase.h>
 
 
+char const sign_AllocMem[] = "OS_AllocMem";
+
+typedef struct OS_AllocMem_t
+{
+  char const* sign;
+  void* dummy[3];
+} OS_AllocMem_s;
+
+
 
 void* os_allocMem  (  uint size)
-{ void* ptr = LocalAlloc(LMEM_FIXED, size);   //malloc(size);  //
+{
+  OS_AllocMem_s* ptr = (OS_AllocMem_s*)LocalAlloc(LMEM_FIXED, size + sizeof(OS_AllocMem_s));   //malloc(size);  //
   if(ptr == null)
   { int error = GetLastError();
   } else {
-    memset(ptr, 0, size);
+    memset(ptr, 0, size + sizeof(OS_AllocMem_s));
+    ptr->sign = sign_AllocMem;
   }
-  return ptr;
+  return ptr + 1;  //after OS_AllocMem_s
 }
 
 
 
 int os_freeMem  (  void const* ptr)
-{ void* ok = GlobalFree((void*)ptr);   //malloc(size);
-  if(ok == NULL)
-  { return 0;
+{
+  OS_AllocMem_s* ptrAlloc = ((OS_AllocMem_s*) ptr)-1;
+  if(ptrAlloc->sign == sign_AllocMem) {
+    void* ok = GlobalFree((void*)ptrAlloc);   //malloc(size);
+    if(ok == NULL)
+    { return 0;
+    }
+    else
+    { return -1;
+    }
   }
-  else
-  { return -1;
+  else {
+    return 0; //nothing to free, maybe a const pointer.
   }
 }
 
