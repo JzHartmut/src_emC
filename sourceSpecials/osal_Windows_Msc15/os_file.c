@@ -164,7 +164,7 @@ OS_HandleFile os_fopenToWrite(char const* filename, bool append)
     return (OS_HandleFile)open(filename, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
   #else
   FILE* h = null;
-  int err = fopen_s(&h, filename, "wb");
+  int err = fopen_s(&h, filename, append? "ab":"wb");
   return err == 0 ? (OS_HandleFile)h : null;
   #endif
 }

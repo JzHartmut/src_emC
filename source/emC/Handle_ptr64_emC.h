@@ -115,11 +115,11 @@ const char* init_Handle2Ptr(int nrofEntries);
    * For the 32 bit version the pointer are not registered, the pointer value is the handle.
    * @param PTR given pointer as void*
    * @param NAME unused here because nothing is registered.
-   * @param H Address of the handle. The handle will be set with the pointer value.
+   * @param H Address of the handle, type is uint32*. The handle will be set with the pointer value.
    * @return null, no error
    * If the ptr is registered already, it is okay. The name will be ignored then, it returns the given handle. 
    */ 
-  #define registerPtr_Handle2Ptr(PTR, NAME, H) (*(H)=(int32)(PTR), null)
+  #define registerPtr_Handle2Ptr(PTR, NAME, H) (*(H)=(uint32)(PTR), null)
   //old: setPtr_Handle2Ptr
 
   #define debug_Handle2Ptr(H, N1, N2, TEXT)  //empty.

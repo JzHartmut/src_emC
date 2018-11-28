@@ -1710,8 +1710,7 @@ METHOD_C void cleanToSize_StringBuilderJc(StringBuilderJc_s* ythis);
 
 #ifdef __cplusplus
 
-class StringBuilderJcpp : public StringBuilderJc_s
-{
+class StringBuilderJcpp : public StringBuilderJc_s {
   public: StringBuilderJcpp(int addLength) {
     //init_ObjectJc(&this->base.object, sizeof(StringBuilderJc_s) + addLength, ident_newAllocated_ObjectJc);
     ctor_addSize_StringBuilderJc(this, addLength);
@@ -1720,6 +1719,7 @@ class StringBuilderJcpp : public StringBuilderJc_s
   public: StringBuilderJcpp& operator!() { setLength_StringBuilderJc(this, 0, null); return *this; }
   public: StringBuilderJcpp& setLength(int len) { setLength_StringBuilderJc(this, len, null); return *this; }
   public: StringBuilderJcpp& operator+(char const* s) { append_z_StringBuilderJc(this, s, null); return *this; }
+  public: StringBuilderJcpp& operator+(StringJc s) { append_s_StringBuilderJc(this, s, null); return *this; }
   public: char const* getCharsLen(int* len) { return getCharsAndCount_StringBuilderJc(this, len); }
   public: int operator >>= (char const** dst) { int len; *dst = getCharsAndCount_StringBuilderJc(this, &len); return len; }
 
