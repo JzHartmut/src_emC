@@ -666,16 +666,22 @@ METHOD_C int copyToBuffer_CharSeqJc ( const CharSeqJc thiz, int start, int end, 
 
 
 /**Copy the content to a given buffer.
- * it should be guaranteed that thiz is a StringJc instance. If it is not so, an exception is thrown on runtime.
+ * It should be guaranteed that thiz is a StringJc instance and not any CharSeqJc-interface. If it is not so, an exception is thrown on runtime.
  * A StringJc does refer only to a immediate char const*. 
-*
-* @param start start character in the StringJc.
-* @param end exclusive end position in StringJc.
-*   If -1 then the whole StringJc till end should be copied. If <=-2 then (-end)-1 characters from end won't be copied.
-* @param buffer The destination buffer as char[]
-* @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
-* @return number of chars copied. It is the number of valid chars in buffer always.
-*/
+ * It copies without 0-terminating. If you want to have a null-termination, use the following template:
+ *
+ *   char myBuffer[100];
+ *   int zChars = copyToBuffer_StringJc(string, start, end, myBuffer, sizeof(myBuffer)-1);
+ *   myBuffer[zChars] = 0;
+ * 
+ * @param start start character in the StringJc.
+ * @param end exclusive end position in StringJc.
+ *   If -1 then the whole StringJc till end should be copied. If <=-2 then (-end)-1 characters from end won't be copied.
+ * @param buffer The destination buffer as char[]
+ * @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
+ *   Note: It does not produce a 0-terminated String. If you want to have a 0-terminated string, use sizeof(buffer)-1 for this argument.
+ * @return number of chars copied. It is the number of valid chars in buffer always.
+ */
 METHOD_C int copyToBuffer_StringJc ( const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
 
 //old: #define copyToBuffer_StringJc(THIZ, START, END, BUFFER, SIZE) copyToBuffer_CharSeqJc(THIZ, START, END, BUFFER, SIZE, null)

@@ -493,7 +493,7 @@ METHOD_C bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* th
   \
     { \
       \
-      { throw_EJc(ident_RuntimeExceptionJc, exc, 0, __LINE__, _thCxt); };\
+      { throw_EJc(ident_RuntimeExceptionJc, exc, 0, __FILE__, __LINE__, _thCxt); };\
     }\
   END_TRY/*it isn't able.*/\
   \

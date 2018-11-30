@@ -97,7 +97,7 @@ const char* exceptionTexts DEF [33] =
 
 
 
-void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _thCxt)
+void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt !=null)
   {
@@ -117,6 +117,8 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _th
       ExceptionJc* exception = &tryObject->exc;
       tryObject->excNrTestCatch = tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
       exception->exceptionNr = exceptionNr;
+      exception->file = file;
+      exception->line = line;
       //check the memory area where the msg is stored. Maybe in stack, then copy it.
       MemUnit* addrMsg = PTR_OS_PtrValue(msg, MemUnit);
       #ifndef __NoStringJcCapabilities__
@@ -168,19 +170,19 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _th
 
 
 
-void throw_s0Jc (int32 exceptionNr, const char* msgP, int value, int line, ThCxt* _thCxt)
+void throw_s0Jc (int32 exceptionNr, const char* msgP, int value, char const* file, int line, ThCxt* _thCxt)
 { StringJc msg = s0_StringJc(msgP);
-  throw_sJc(exceptionNr, msg, value, line, _thCxt);
+  throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 }
 
 
 
-void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, int line, ThCxt* _thCxt)
+void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt)
 {
   //int exceptionNr = exc->exceptionNr;
   StringJc msg = exc->exceptionMsg;
   //int32 value = exc->exceptionValue;
-  throw_sJc(exceptionNr, msg, value, line, _thCxt);
+  throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 
 }
 

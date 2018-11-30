@@ -125,26 +125,37 @@ uint32 PRIV_retHandle_Handle2Ptr(void* ptr) {
  */
 const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle) {
   bool found = false;
+  if (ptr == null) {
+    dstHandle = 0; 
+    return null;
+  }
   if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
   else {
     uint32 ixEnd = handle2Ptr->ixEnd;
+    uint32 ixFree = 0;
     uint32 ix;
     for(ix = 0; ix < ixEnd; ++ix) {
       if(handle2Ptr->e[ix].p.ptr == ptr) { 
         found = true;
         break;
       }
+      else if (handle2Ptr->e[ix].p.ptr == null) {
+        ixFree = ix;
+      }
     } 
     //Note: if the ptr was found, return in for!
     if(!found) { //onyl if not found, all checked:
       if(ix >= handle2Ptr->size) {
-        return "Handle2Ptr: no more space: Sfunc=step_WaveMngIx_FB";
+        return "Handle2Ptr: no more space";
       }
-      handle2Ptr->ixEnd = ix+1;    //TODO AtomicAccess if mulitple cores run more instances of such routines. 
-      handle2Ptr->e[ix].p.ptr = ptr;
-      strncpy(handle2Ptr->e[ix].name, name, sizeof(handle2Ptr->e[ix].name));
+      if (ixFree == 0) {
+        ixFree = ix;   //append on end
+        handle2Ptr->ixEnd = ix + 1;    //TODO AtomicAccess if mulitple cores run more instances of such routines. 
+      }
+      handle2Ptr->e[ixFree].p.ptr = ptr;
+      strncpy(handle2Ptr->e[ixFree].name, name, sizeof(handle2Ptr->e[ix].name));
     }  
-    *dstHandle = ix;
+    *dstHandle = ixFree;
     return null;
   }
 }
@@ -174,7 +185,8 @@ const char* setPtrHandle_Handle2Ptr(void* ptr, uint32 handle, char const* name)
 const char* getPtr_Handle2Ptr(uint32 handle, void** dst)
 {
   if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
-  else if (handle == (uint32)(-1)) { *dst= null; return null; } //special case: null should be.
+  else if (handle == 0) { *dst = null; return null; }                 //handle 0 is pointer null
+  else if (handle == (uint32)(-1)) { *dst = (void*)-1; return null; } //special case: given but invalid pointer. 
   else if (handle >= handle2Ptr->size || handle < 0) { //jzTc: check valid handle, note: 0 gets null-Pointer
     return "Handle2Ptr: Handle faulty.";
   }
@@ -190,7 +202,7 @@ void* PRIV_retPtr_Handle2Ptr(uint32 handle)
   if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
   if (handle == (uint32)(-1)) { return null; } //special case: null should be.
   else if (handle >= handle2Ptr->size) { //jzTc: check valid handle, note: -1 gets null-Pointer
-    //PRINTX2(0, "PRIV_retPtr_Handle2Ptr faulty Handle = %d\n", handle);
+                                         //PRINTX2(0, "PRIV_retPtr_Handle2Ptr faulty Handle = %d\n", handle);
     return null; //"Handle2Ptr: Handle faulty.";
   }
   else {
@@ -199,20 +211,48 @@ void* PRIV_retPtr_Handle2Ptr(uint32 handle)
   }
 }
 
+void* PRIV_clrPtr_Handle2Ptr(uint32 handle)
+{
+  //if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
+  if (handle == (uint32)(-1)) { return null; } //special case: null should be.
+  else if (handle >= handle2Ptr->size) { //jzTc: check valid handle, note: -1 gets null-Pointer
+                                         //PRINTX2(0, "PRIV_retPtr_Handle2Ptr faulty Handle = %d\n", handle);
+    return null; //"Handle2Ptr: Handle faulty.";
+  }
+  else {
+    //PRINTX2(0, "PRIV_retPtr_Handle2Ptr ok Handle = %d\n", handle);
+    void* ret = handle2Ptr->e[handle].p.ptr;  //pointer from handle
+    handle2Ptr->e[handle].p.ptr = null;
+    handle2Ptr->e[handle].dbginfo = null;
+    handle2Ptr->e[handle].dbg2 = 0;
+    memset(handle2Ptr->e[handle].name, 0, sizeof(handle2Ptr->e[handle].name));
+    return ret;
+  }
+}
 
 
-/**Closes. This routine should be invoked one time on shutdown. */
+
 void close_Hande2Ptr()
 {
   //close the sharedmem handle:
   //Note: If more as one instance of this FB was created, the mdlTerminate is invoked for any instance.
   //      But there is only one static shMemHandle2Ptr. The first mdlTerminate removes it.
   //       
-  if(os_isReadySharedMem(&shMemHandle2Ptr)) {
+  if(handle2Ptr !=null && os_isReadySharedMem(&shMemHandle2Ptr)) {
     int sizeData =  handle2Ptr->size * sizeof(Entry_Handle2Ptr);
-    memset(handle2Ptr->e, 0, sizeData);  //in case of non deleted shared mem: Simulink is closed, use the handles newly.
-    handle2Ptr->ixEnd = 1;
-    os_closeSharedMem(&shMemHandle2Ptr);
+    bool clear = true;
+    for (uint ix = 0; ix < handle2Ptr->size; ++ix) {
+      if (handle2Ptr->e[ix].p.ptr != null) {
+        clear = false;
+        break;
+      }
+    }
+    if(clear) {
+      memset(handle2Ptr->e, 0, sizeData);  //in case of non deleted shared mem: Simulink is closed, use the handles newly.
+      handle2Ptr->ixEnd = 1;
+      os_closeSharedMem(&shMemHandle2Ptr);
+      handle2Ptr = null;  //should created newly.
+    }
   } //else: it is cleared and closed already.
 
 }

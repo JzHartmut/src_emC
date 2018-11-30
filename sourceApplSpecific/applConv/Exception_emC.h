@@ -285,14 +285,14 @@ class StacktraceJcpp: public IxStacktrace_emC
  * without an _thCxt if an uncatchable exception occurs.
  * @param stacktrcThCxt if null than the uncatchedException-routine is called.
  */
-extern_C void throw_sJc ( int32 exceptionNr, StringJc msg, int value, int line, ThCxt* _thCxt);
+extern_C void throw_sJc ( int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt);
 
 
 
-extern_C void throw_s0Jc ( int32 exceptionNr, const char* msg, int value, int line, ThCxt* _thCxt);
+extern_C void throw_s0Jc ( int32 exceptionNr, const char* msg, int value, char const* file, int line, ThCxt* _thCxt);
 
 
-METHOD_C void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, int line, ThCxt* _thCxt);
+METHOD_C void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt);
 
 
 
@@ -371,7 +371,7 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
 #ifdef __NoStringJcCapabilities__
   #define FREE_MSG_END_TRY(MSG)  //left empty
 #else
-#define FREE_MSG_END_TRY(MSG) freeM_MemC(MSG)
+#define FREE_MSG_END_TRY(MSG) if(PTR_MemC(MSG, void)!=null) { freeM_MemC(MSG); }
 #endif
 
 
@@ -382,7 +382,7 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
   if(tryObject.excNrTestCatch != 0) /*Exception not handled*/ \
   { /* delegate exception to previous level. */ \
    _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null; \
-   throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, -1, _thCxt); \
+   throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, tryObject.exc.file, tryObject.exc.line, _thCxt); \
   } \
   FREE_MSG_END_TRY(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
   /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
@@ -398,11 +398,11 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
  * @param VAL a int value
  */
 #ifndef THROW
-  #define THROW(EXCEPTION, TEXT, VAL1, VAL2)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL1, __LINE__, _thCxt)
+  #define THROW(EXCEPTION, TEXT, VAL1, VAL2)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, _thCxt)
 #endif
 
 #ifndef THROW_s0
-  #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, __LINE__, _thCxt)
+  #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, _thCxt)
 #endif
 
 
