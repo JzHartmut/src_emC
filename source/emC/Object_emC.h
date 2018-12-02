@@ -989,6 +989,16 @@ C_TYPE typedef struct  FieldJc_t
 
 #define getName_FieldJc(THIS) ((THIS)->name)
 
+struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
+
+#define getDeclaringClass_FieldJc(THIS) ((THIS)->declaringClass)
+
+#define getModifiers_FieldJc(THIS) ((THIS)->bitModifiers)
+
+
+
+#define getStaticArraySize_FieldJc(THIS) (((THIS)->bitModifiers & mPrimitiv_Modifier_reflectJc) == kBitfield_Modifier_reflectJc ? 0: (THIS)->nrofArrayElementsOrBitfield_)
+
 
 
 /** Field[] consists of ObjectArrayJc and some FieldJc elements directly after them.

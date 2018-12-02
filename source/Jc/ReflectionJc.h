@@ -136,16 +136,6 @@ METHOD_C void ctorc_FieldJc(FieldJc* ythis);
 
 
 
-struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
-
-#define getDeclaringClass_FieldJc(THIS) ((THIS)->declaringClass)
-
-#define getModifiers_FieldJc(THIS) ((THIS)->bitModifiers)
-
-
-
-#define getStaticArraySize_FieldJc(THIS) (((THIS)->bitModifiers & mPrimitiv_Modifier_reflectJc) == kBitfield_Modifier_reflectJc ? 0: (THIS)->nrofArrayElementsOrBitfield_)
-
 /**Gets the absolute adress of the element represented by this field inside the given Instance. 
  * It is assumed, that the given instance matches to thiz Field.
  * The type given in thiz->[[declaringClass_FieldJc]] should be the type of the given instance.

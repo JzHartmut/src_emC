@@ -121,6 +121,7 @@ INLINE_emC int stopNAN(){ return 0; }
  */
 #define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
 
-
+#include <string.h> //memcpy
+#include <emC/Handle_ptr64_emC.h>
 
 #endif // __applstdef_emC_h__
