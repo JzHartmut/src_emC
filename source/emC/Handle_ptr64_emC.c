@@ -134,7 +134,7 @@ const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandl
     uint32 ixEnd = handle2Ptr->ixEnd;
     uint32 ixFree = 0;
     uint32 ix;
-    for(ix = 0; ix < ixEnd; ++ix) {
+    for(ix = 1; ix < ixEnd; ++ix) {
       if(handle2Ptr->e[ix].p.ptr == ptr) { 
         found = true;
         break;
@@ -144,8 +144,11 @@ const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandl
       }
     } 
     //Note: if the ptr was found, return in for!
-    if(!found) { //onyl if not found, all checked:
-      if(ix >= handle2Ptr->size) {
+    if (found) {
+      *dstHandle = ix;
+    }
+    else { //!found, onyl if not found, all checked:
+      if(ixFree == 0 && ix >= handle2Ptr->size) {
         return "Handle2Ptr: no more space";
       }
       if (ixFree == 0) {
@@ -154,8 +157,8 @@ const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandl
       }
       handle2Ptr->e[ixFree].p.ptr = ptr;
       strncpy(handle2Ptr->e[ixFree].name, name, sizeof(handle2Ptr->e[ix].name));
-    }  
-    *dstHandle = ixFree;
+      *dstHandle = ixFree;
+    }
     return null;
   }
 }

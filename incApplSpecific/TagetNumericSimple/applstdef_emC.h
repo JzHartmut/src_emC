@@ -32,6 +32,8 @@
 /**Including this file the ObjectJc.h is not included, */
 #include <sourceApplSpecific/applConv/ObjectJc_simple.h>
 
+#include <emC/SystemInit_emC.h>
+
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 #define __NoCharSeqJcCapabilities__
 #define __NoStringJcCapabilities__
