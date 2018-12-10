@@ -46,6 +46,9 @@
 
 char const sign_AllocMem[] = "OS_AllocMem";
 
+
+
+/**It is a small additinal head structure to the allocated data for debug and management. */
 typedef struct OS_AllocMem_t
 {
   char const* sign;
@@ -69,7 +72,7 @@ void* os_allocMem  (  uint size)
 
 
 int os_freeMem  (  void const* ptr)
-{
+{ if(ptr == null) return 0;
   OS_AllocMem_s* ptrAlloc = ((OS_AllocMem_s*) ptr)-1;
   if(ptrAlloc->sign == sign_AllocMem) {
     void* ok = GlobalFree((void*)ptrAlloc);   //malloc(size);

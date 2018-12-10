@@ -44,7 +44,8 @@ METHOD_C void* os_allocMem(uint size);
 
 
 /**Releases the memory, give back to operation system.
- * @param pMemory pointer to the memory, it should be the same pointer which is returned from os_allocMem(). 
+ * @param pMemory pointer to the memory, it should be the same pointer which is returned from os_allocMem().
+ *    if null, it is ok. It is possible to invoke os_freeMem(ptr) on a null-initialized pointer if the memory was not allocated. 
  * @return 0 if success. negativ: an error.
  */
 METHOD_C int os_freeMem(void const* pMemory);

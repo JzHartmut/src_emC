@@ -562,7 +562,7 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
       , append_z_StringBuilderJc(_tempString2_1, "StringPartBase.subString - faulty;", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, from, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __LINE__, _thCxt); };
+      ), 0, __FILE__, __LINE__, _thCxt); };
     activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -2833,7 +2833,7 @@ void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc 
   
   { 
     
-    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, sMsg, 0, __LINE__, _thCxt); };
+    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, sMsg, 0, __FILE__, __LINE__, _thCxt); };
   }
   STACKTRC_LEAVE;
 }
@@ -2844,7 +2844,7 @@ void throwIllegalArgumentException_StringPartJc(/*J2C:static method*/ StringJc m
   
   { 
     
-    { throw_sJc(ident_IllegalArgumentExceptionJc, msg, value, __LINE__, _thCxt); };
+    { throw_sJc(ident_IllegalArgumentExceptionJc, msg, value, __FILE__, __LINE__, _thCxt); };
   }
   STACKTRC_LEAVE;
 }

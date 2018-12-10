@@ -197,7 +197,7 @@ void assertJc (bool condition)
 
 
 
-METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr)
+const char* getExceptionText_ExceptionJc(int32 exceptionNr)
 { int idxText = 0;
   const char* sText;
   if(exceptionNr != 0)
@@ -210,6 +210,41 @@ METHOD_C const char* getExceptionText_ExceptionJc(int32 exceptionNr)
   return sText;
 }
 
+
+
+int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
+{
+  if(zbuffer == 0) { return 0; }
+  zbuffer -=1; //append a \0 in any case.
+  int pos = 0;
+  pos += copyToBuffer_StringJc(exc->exceptionMsg, 0, -1, buffer + pos, zbuffer - pos);
+  pos += strncpy_emC(buffer+pos, "(", zbuffer - pos);
+  pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->exceptionValue, 10, 0, _thCxt);
+  pos += strncpy_emC(buffer+pos, ", ", zbuffer - pos);
+  pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->val2, 10, 0, _thCxt);
+  pos += strncpy_emC(buffer + pos, ") in: ", zbuffer - pos);
+  if(exc->file !=null) {
+    pos += strncpy_emC(buffer + pos, exc->file, zbuffer - pos);  //The routine where the throw is invoked or the deepest routine with Stacktrace.
+    pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
+    pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->line, 10, 0, _thCxt);
+  }
+  
+  if (_thCxt != null) {
+    int ixThrow = _thCxt->stacktrc.zEntries - 1;
+    StacktraceElementJc* stackThrow = &_thCxt->stacktrc.entries[ixThrow];
+    pos += strncpy_emC(buffer + pos, ", oper: ", zbuffer - pos);
+    pos += strncpy_emC(buffer + pos, stackThrow->name, zbuffer - pos);  //The routine where the throw is invoked or the deepest routine with Stacktrace.
+    pos += strncpy_emC(buffer + pos, "(@", zbuffer - pos);
+    pos += toString_int32_emC(buffer + pos, zbuffer - pos, stackThrow->line, 10, 0, _thCxt);
+    pos += strncpy_emC(buffer + pos, ")", zbuffer - pos);
+  }
+  pos += strncpy_emC(buffer + pos, ", detect in: ", zbuffer - pos);
+  pos += strncpy_emC(buffer + pos, sFile, zbuffer - pos);
+  pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
+  pos += toString_int32_emC(buffer + pos, zbuffer - pos, line, 10, 0, _thCxt);
+  buffer[pos] = 0;  //terminating 0
+  return pos;
+}
 
 
 /**Returns the entry of the Stacktrace of the requested level.

@@ -67,7 +67,12 @@ void os_FatalError  (  int errorCode, const char* description, int value1, int v
   int ct = 0;
   printf("os_FatalSysError %d:", errorCode);
   printf(description, value1, value2);
-  throw "FatalError";
+  #ifdef __cplusplus
+    throw "FatalError";
+  #else
+    *(int*)0 = 0;  //forces a nullpointerexception.
+    exit(255);
+  #endif
 }
 
 
@@ -79,8 +84,12 @@ void os_FatalSysError  (  int errorCode, const char* description, int value1, in
   printf("os_FatalSysError %d:", errorCode);
   printf(description, value1, value2);
   printf("\nstop system with memory exception\n");
-  throw "FatalSysError";
-  //*((int*)0) = 0;
+  #ifdef __cplusplus
+    throw "FatalSysError";
+  #else
+    *(int*)0 = 0;  //forces a nullpointerexception.
+    exit(255);
+  #endif
 
 }
 
@@ -116,14 +125,12 @@ bool stop_AssertJc  (  void) {
   return false;
 }
 
-void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
+void uncatched_ExceptionJc  (  ExceptionJc* thiz, ThreadContext_emC_s* _thCxt)
 {
-  printf("uncatchedException: %8.8X", (uint)ythis->exceptionNr);
-  printStackTraceFile_ExceptionJc(ythis, null, null);
-  char excMsg[80] = {0};
-  int zChars = copyToBuffer_StringJc(ythis->exceptionMsg, 0, -1, excMsg, sizeof(excMsg)-1);
-  excMsg[zChars] = 0;
-  os_FatalError(-1, excMsg, (uint)ythis->exceptionNr, 0);
+  char buffer[300] = { 0 };
+  writeException(buffer, sizeof(buffer), thiz, __FILE__, __LINE__, _thCxt);
+  printf(buffer);
+  os_FatalError(-1, buffer, (uint)thiz->exceptionNr, 0);
   exit(255);
 }
 

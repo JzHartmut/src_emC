@@ -556,7 +556,7 @@ const ClassJc reflection_StringBuilderJc =
 
 
 #define reflection_StringBuilderJc_s reflection_StringBuilderJc
-DEFINE_REFLECTION_REF(StringBuilderJc_s);
+DEFINE_REFLECTION_REF(StringBuilderJc);
 
 
 #endif

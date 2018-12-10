@@ -1,6 +1,10 @@
 #include <emC/Handle_ptr64_emC.h>
 #include <applstdef_emC.h>
-#include <OSAL/os_sharedmem.h> 
+#ifdef __SIMULINK_SFN__
+  #include <OSAL/os_sharedmem.h> 
+#else
+  #include <stdlib.h>
+#endif
 #include <emC/SimpleC_emC.h>
 
 #ifdef __HandlePtr64__  //compile only if operations are not replaced by macros.
@@ -19,7 +23,9 @@ Handle2Ptr* handle2Ptr = null;
 
 
 /**Organization structure for the shared memory. */
-SharedMem_OSAL shMemHandle2Ptr = {0};
+#ifdef __SIMULINK_SFN__
+  SharedMem_OSAL shMemHandle2Ptr = {0};
+#endif
 
 #ifdef DEFINED_nrEntries_Handle2Ptr
 
@@ -30,25 +36,22 @@ SharedMem_OSAL shMemHandle2Ptr = {0};
 
 /**Initializes. This routine should be invoked one time on startup. */
 const char* init_Handle2Ptr(int nrofEntries)
-{   //===============Get the address of the structure to convert handle values to pointer===============================
+{   
+  int sizeAlloc = sizeof(Handle2Ptr)  //defined length 
+    + ((nrofEntries - ARRAYLEN_SimpleC(handle2Ptr->e)) //additional entries 
+      * sizeof(Entry_Handle2Ptr));
+  #ifdef __SIMULINK_SFN__
+
+    //===============Get the address of the structure to convert handle values to pointer===============================
     //Note: If more as one instance of this FB will be created, the mdlStart is invoked for any instance.
     //      But there is only one static shMemHandle2Ptr. The first mdlStart creates it. Don't call twice!
     //       
     //
     if(!os_isReadySharedMem(&shMemHandle2Ptr)) {  //only if it is not created already:
-      int sizeAlloc =  sizeof(Handle2Ptr)  //defined length 
-                    + ((nrofEntries - ARRAYLEN_SimpleC(handle2Ptr->e)) //additional entries 
-                      * sizeof(Entry_Handle2Ptr));
       MemC mHandle2Ptr = os_createOrAccessSharedMem(&shMemHandle2Ptr, "Smlk-SfuncHandle2Ptr-2017-02", sizeAlloc);
       handle2Ptr = PTR_OS_PtrValue(mHandle2Ptr, Handle2Ptr);
       if(!os_isReadySharedMem(&shMemHandle2Ptr) || handle2Ptr == null) {
         return "Handle2Ptr not possible, abort";
-      }
-      if(handle2Ptr->size == 0 && handle2Ptr->sizeEntry ==0){ 
-        handle2Ptr->sizeEntry = sizeof(handle2Ptr->e[0]);
-        handle2Ptr->sizeAll = sizeAlloc;
-        handle2Ptr->size = nrofEntries; 
-        handle2Ptr->ixEnd = 1;                    // TODO AtomicAccess if mulitple cores run more instances of such routines.
       }
     }
     if(  handle2Ptr == null 
@@ -59,6 +62,17 @@ const char* init_Handle2Ptr(int nrofEntries)
       return "Handle2Ptr faulty or size faulty, abort";
     }
     return null; //successfull
+  #else  //else __SIMULINK_SFN__
+    handle2Ptr = (Handle2Ptr*)malloc(sizeAlloc);
+    memset(handle2Ptr, 0, sizeAlloc);
+  #endif //__SIMULINK_SFN__
+  if (handle2Ptr->size == 0 && handle2Ptr->sizeEntry == 0) {
+    handle2Ptr->sizeEntry = sizeof(handle2Ptr->e[0]);
+    handle2Ptr->sizeAll = sizeAlloc;
+    handle2Ptr->size = nrofEntries;
+    handle2Ptr->ixEnd = 1;                    // TODO AtomicAccess if mulitple cores run more instances of such routines.
+  }
+  return null;
 }
 
 
@@ -237,26 +251,30 @@ void* PRIV_clrPtr_Handle2Ptr(uint32 handle)
 
 void close_Hande2Ptr()
 {
-  //close the sharedmem handle:
-  //Note: If more as one instance of this FB was created, the mdlTerminate is invoked for any instance.
-  //      But there is only one static shMemHandle2Ptr. The first mdlTerminate removes it.
-  //       
-  if(handle2Ptr !=null && os_isReadySharedMem(&shMemHandle2Ptr)) {
-    int sizeData =  handle2Ptr->size * sizeof(Entry_Handle2Ptr);
-    bool clear = true;
-    for (uint ix = 0; ix < handle2Ptr->size; ++ix) {
-      if (handle2Ptr->e[ix].p.ptr != null) {
-        clear = false;
-        break;
+  #ifdef __SIMULINK_SFN__
+    //close the sharedmem handle:
+    //Note: If more as one instance of this FB was created, the mdlTerminate is invoked for any instance.
+    //      But there is only one static shMemHandle2Ptr. The first mdlTerminate removes it.
+    //       
+    if(handle2Ptr !=null && os_isReadySharedMem(&shMemHandle2Ptr)) {
+      int sizeData =  handle2Ptr->size * sizeof(Entry_Handle2Ptr);
+      bool clear = true;
+      for (uint ix = 0; ix < handle2Ptr->size; ++ix) {
+        if (handle2Ptr->e[ix].p.ptr != null) {
+          clear = false;
+          break;
+        }
       }
-    }
-    if(clear) {
-      memset(handle2Ptr->e, 0, sizeData);  //in case of non deleted shared mem: Simulink is closed, use the handles newly.
-      handle2Ptr->ixEnd = 1;
-      os_closeSharedMem(&shMemHandle2Ptr);
-      handle2Ptr = null;  //should created newly.
-    }
-  } //else: it is cleared and closed already.
+      if(clear) {
+        memset(handle2Ptr->e, 0, sizeData);  //in case of non deleted shared mem: Simulink is closed, use the handles newly.
+        handle2Ptr->ixEnd = 1;
+        os_closeSharedMem(&shMemHandle2Ptr);
+        handle2Ptr = null;  //should created newly.
+      }
+    } //else: it is cleared and closed already.
+  #else  //else __SIMULINK_SFN__
+    free(handle2Ptr);
+  #endif //__SIMULINK_SFN__
 
 }
  

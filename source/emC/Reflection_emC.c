@@ -104,6 +104,20 @@ const int nrofBytesScalarTypes_ClassJc[] =
 
 
 
+ClassJc const* really_ClassJc(ClassJc const* thiz) {
+  ClassJc const* thizReally;
+  if (((intptr_t)(thiz)) < kREFLECTION_LastConstant)
+  {
+    thizReally = simpleTypes_ClassJc[(int)(thiz)];
+  }
+  else { thizReally = thiz; }
+  //maybe check siginificance of thizReally:
+  return thizReally;
+}
+
+
+
+
 
 const FieldJc* getDeclaredField_ClassJc(ClassJc const* thiz, StringJc sName)
 { int ii;
@@ -139,7 +153,7 @@ const FieldJc* getDeclaredField_ClassJc(ClassJc const* thiz, StringJc sName)
  */
 ClassJc const* getType_FieldJc(FieldJc const* thiz)
 { ClassJc const* type = thiz->type_;
-  if( ((uint64)(type)) < kREFLECTION_LastConstant )
+  if( ((intptr_t)(type)) < kREFLECTION_LastConstant )
   { type = simpleTypes_ClassJc[(int)(type)];
   }
   return type;

@@ -82,7 +82,7 @@ int init_FileDescription_OSAL  (  FileDescription_OSAL* ythis, int addPathLength
     zFilepath = sizeof(ythis->absPath) + addPathLength -1;
   }
   memset(ythis->absPath, sizeof(ythis->absPath) + addPathLength, 0);
-  strncpy_s(ythis->absPath,filepath, zFilepath); 
+  strncpy_emC(ythis->absPath,filepath, zFilepath); 
   for(ii=0; ii<zFilepath; ii++){ if(ythis->absPath[ii] == '/'){ ythis->absPath[ii] = '\\'; } }
   
   return error;

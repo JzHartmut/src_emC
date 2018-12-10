@@ -157,7 +157,7 @@ char const* checkStrict_ObjectJc(ObjectJc const* ythis, int size, int ident, str
 
 
 char const* checkInit_ObjectJc(ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
-{ bool bOk;
+{ //bool bOk;
   STACKTRC_TENTRY("checkInit_ObjectJc");
   if(thiz->ownAddress == null && thiz->state.b.objectIdentSize == 0)
   { //not initialized
@@ -351,4 +351,21 @@ void init_immediate_ObjectArrayJc(ObjectArrayJc* thiz, int nrofElements, int siz
   thiz->mode = 1 << kBitDimension_ObjectArrayJc;
 }
 
+StringJc name_ClassJc(ClassJc const* thiz) {
+  int zz = strnlen_emC(thiz->name, sizeof(thiz->name));  //at leas the length of buffer
+  return zI_StringJc(thiz->name, zz);
+}
+
+
+
+StringJc name_FieldJc(FieldJc const* thiz) {
+  int zz = strnlen_emC(thiz->name, sizeof(thiz->name));  //at leas the length of buffer
+  return zI_StringJc(thiz->name, zz);
+}
+
+#include "emC/SystemInit_emC.h"
+
+SystemInit_emC _systemInit_emC_ = { 0 };
+
+SystemInit_emC* systemInit_emC = &_systemInit_emC_;
 

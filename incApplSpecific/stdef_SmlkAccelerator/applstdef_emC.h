@@ -33,6 +33,9 @@
 /**Include this file always. It defines some types for C compilation compatible to C++. */
 #include <OSAL/os_types_def_common.h>
 
+/**With this compiler switch the reflection should not be included, because they will not used. */
+#define __DONOTUSE_REFLECTION__
+
 #include <sourceApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
 
 
@@ -65,7 +68,8 @@
 
 #include <sourceApplSpecific/applConv/ThreadContextStacktrc_emC.h>
 #include <sourceApplSpecific/applConv/Exception_emC.h>
-//#include <emC/ExcStacktrcNo.h>
+//#include <sourceApplSpecific/applConv/ExcStacktrcNo_emC.h>
+//#include <sourceApplSpecific/applConv/ExcNoStringStacktrcNo_emC.h>
 
 
 
@@ -94,6 +98,10 @@
 
 
 #define kMaxPathLength_FileJc 500
+
+#include <string.h> //memcpy
+#include <emC/SystemInit_emC.h>
+#include <emC/Handle_ptr64_emC.h>
 
 
 #endif // __applstdef_emC_h__

@@ -39,7 +39,7 @@ extern Handle2Ptr* handle2Ptr;
 
 
 /**Initializes. This routine should be invoked one time on startup. */
-const char* init_Handle2Ptr(int nrofEntries);
+extern_C const char* init_Handle2Ptr(int nrofEntries);
 
 
 

@@ -109,9 +109,9 @@ extern_C int strnlen_emC ( char const* text, int maxNrofChars);
  * char* dst = buffer;
  * int zdst = sizeof(buffer);
  * int zcpy = 0;
- * zdst -= zcpy = strlcpy_emC(dst, src1, zdst);
- * zdst -= zcpy = strlcpy_emC(dst += zcpy, src2, zdst);
- * zdst -= zcpy = strlcpy_emC(dst += zcpy, src3, zdst);
+ * zdst -= zcpy = strcpy_emC(dst, src1, zdst);
+ * zdst -= zcpy = strcpy_emC(dst += zcpy, src2, zdst);
+ * zdst -= zcpy = strcpy_emC(dst += zcpy, src3, zdst);
  * //etc.
  * If zdst is 1, only the terminal \0 is written, maybe more as one time.
  *
@@ -847,7 +847,7 @@ typedef struct  StringBuilderJc_t
   #ifndef TYPE_EnhancedRefJc
     #error missing definition of TYPE_EnhancedRefJc, applstdef_emC.h should define that.
   #endif
-  typedef TYPE_EnhancedRefJc(StringBuilderJc_s);
+  typedef TYPE_EnhancedRefJc(StringBuilderJc);
 #endif
 
 

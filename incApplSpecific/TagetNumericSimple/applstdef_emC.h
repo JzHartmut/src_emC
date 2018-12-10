@@ -32,7 +32,6 @@
 /**Including this file the ObjectJc.h is not included, */
 #include <sourceApplSpecific/applConv/ObjectJc_simple.h>
 
-#include <emC/SystemInit_emC.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 #define __NoCharSeqJcCapabilities__
@@ -64,8 +63,8 @@
   */
   #define __TRYCPPJc
 
-//#include <emC/ThreadContext_emC.h>
-//
+//#include <sourceApplSpecific/applConv/ThreadContextStacktrc_emC.h>
+//#include <sourceApplSpecific/applConv/Exception_emC.h>
 //#include <sourceApplSpecific/applConv/ExcStacktrcNo_emC.h>
 #include <sourceApplSpecific/applConv/ExcNoStringStacktrcNo_emC.h>
 
@@ -122,6 +121,7 @@ INLINE_emC int stopNAN(){ return 0; }
 #define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
 
 #include <string.h> //memcpy
+#include <emC/SystemInit_emC.h>
 #include <emC/Handle_ptr64_emC.h>
 
 #endif // __applstdef_emC_h__

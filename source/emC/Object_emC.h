@@ -987,7 +987,18 @@ C_TYPE typedef struct  FieldJc_t
 
 #define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
 
+/**gets the Name of the field. 
+ * @deprecated use name_FieldJc(...) which returns a StringJc. Reason: If the name fills the whold field of FieldJc#_name_, it is not 0-terminated.
+ */
 #define getName_FieldJc(THIS) ((THIS)->name)
+
+
+StringJc name_FieldJc(FieldJc const* thiz);
+
+
+
+
+
 
 struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
 
@@ -1078,7 +1089,7 @@ C_TYPE typedef struct  ClassJc_t
   VtblHeadJc const* mtbl;
   //Method_int_Object* mtbl;
 
-}ClassJc;
+} ClassJc;
 
 /**Compatibility. */
 #define Class_Jc_t ClassJc_t
@@ -1094,6 +1105,15 @@ C_TYPE typedef struct  ClassJc_t
 
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
+
+
+
+/**Returns the name of the class as StringJc. 
+ * Hint: The name is not 0-terminated if the name uses the full length of the field name.
+ * Therefore a StringJc presentation gives the exact information. Do not use thiz->name immediately.
+ */
+StringJc name_ClassJc(ClassJc const* thiz);
+
 
 extern const ClassJc reflection_ClassJc;
 
@@ -1754,6 +1774,7 @@ METHOD_C struct FieldJc_t const* getSuperField_ClassJc(ClassJc const* thiz);
 
 /**gets the Name of the class. It is a static method, because the argument class may be a constant for simple types.
  * @param class Either the class object or a constant to design simple types, see REFLECTION_xxx.
+ * @deprecated use name_ClassJc(...) which returns a StringJc. Reason: If the name fills the whold field of ClassJc#_name_, it is not 0-terminated.
  */
 METHOD_C const char* getName_ClassJc(ClassJc const* clazz);
 

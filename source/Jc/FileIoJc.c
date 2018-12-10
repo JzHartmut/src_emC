@@ -169,7 +169,7 @@ void write_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, void* data, int o
   STACKTRC_TENTRY("write_FileOutputStreamJc");
   nrofBytesWritten = os_fwrite(ythis->file, addOffset_MemUnit(data, offset), len);
   if(nrofBytesWritten != len){
-    THROW1_s0(IOException, "writing file", (int)ythis);
+    THROW1_s0(IOException, "writing file", (int)(intptr_t)ythis);
 
   }
   STACKTRC_LEAVE;
@@ -259,7 +259,7 @@ void write_FileWriterJc  (  FileWriterJc_s* ythis, StringJc text, ThCxt* _thCxt)
   STACKTRC_TENTRY("write_FileWriterJc");
   sText = getCharsAndLength_StringJc(&text, &nrofChars);
   error = os_fwrite(ythis->file, sText, nrofChars);
-  if(error < 0){ THROW1_s0(IOException, "writing file", (int)ythis);}
+  if(error < 0){ THROW1_s0(IOException, "writing file", (int)(intptr_t)ythis);}
   STACKTRC_LEAVE; 
 }
 

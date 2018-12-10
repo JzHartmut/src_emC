@@ -236,12 +236,22 @@ typedef struct ExceptionJc_t
 
 
 
-/**Prototype of a logging routine for exceptions.
+/**Logs the occurence of an Exception. This routine can be called either if an exception is catched
+ * for a special case (expectable exceptions should not logged),
+ * or on any exception for a critical sensitive system or while developing, 
+ * or if an exception falls to a basicly catch clause. It is a prototype.
  * A template implementation is in .../emc/source/sourceApplSpecific/applConv/LogException_emC.c. 
  * The string inside exc can be refer in the current stack area. It is copied in a static buffer
  * inside this routine (the implementation should do so!). 
  */
 extern_C void log_ExceptionJc(ExceptionJc* exc, char const* sFile, int line);
+
+
+
+/**Fills a common text in the buffer. It should contain the exception message, the file and line of the exception 
+ * the file and line of this routine (Arguments sFile, line and, if available, information from the thread context. */
+extern_C int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt);
+
 
 
 
