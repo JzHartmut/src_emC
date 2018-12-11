@@ -54,14 +54,6 @@ const char* init_Handle2Ptr(int nrofEntries)
         return "Handle2Ptr not possible, abort";
       }
     }
-    if(  handle2Ptr == null 
-      || handle2Ptr->size != 1000
-      || handle2Ptr->sizeEntry != sizeof(handle2Ptr->e[0])
-      //|| handle2Ptr->sizeAll != sizeAlloc
-      ) {
-      return "Handle2Ptr faulty or size faulty, abort";
-    }
-    return null; //successfull
   #else  //else __SIMULINK_SFN__
     handle2Ptr = (Handle2Ptr*)malloc(sizeAlloc);
     memset(handle2Ptr, 0, sizeAlloc);
@@ -72,7 +64,16 @@ const char* init_Handle2Ptr(int nrofEntries)
     handle2Ptr->size = nrofEntries;
     handle2Ptr->ixEnd = 1;                    // TODO AtomicAccess if mulitple cores run more instances of such routines.
   }
-  return null;
+  if (handle2Ptr == null
+    || handle2Ptr->size != nrofEntries
+    || handle2Ptr->sizeEntry != sizeof(handle2Ptr->e[0])
+    //|| handle2Ptr->sizeAll != sizeAlloc
+    ) {
+    return "Handle2Ptr faulty or size faulty, abort";
+  }
+  else {
+    return null; //successfull
+  }
 }
 
 
