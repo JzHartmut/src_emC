@@ -88,13 +88,13 @@ const MtblDef_InterProcessCommRxExec_Ipc mtblInterProcessCommRxExec_Ipc = {
 }, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
 
 
- extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc_s;
+ extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc;
  static struct superClasses_InterProcessCommRxExec_Ipc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }superclasses_InterProcessCommRxExec_Ipc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_InterProcessCommRx_ifc_Ipc_s, OFFSET_Mtbl(Mtbl_InterProcessCommRxExec_Ipc, InterProcessCommRx_ifc_Ipc) }
+ , { {&reflection_InterProcessCommRx_ifc_Ipc, OFFSET_Mtbl(Mtbl_InterProcessCommRxExec_Ipc, InterProcessCommRx_ifc_Ipc) }
    }
  };
 

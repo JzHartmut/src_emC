@@ -477,15 +477,15 @@ const ClassJc reflection_ClassJc =
 
 
 
-extern_C const ClassJc reflection_ExtReflectionJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_ExtReflectionJc;  //the just defined reflection_
 extern_C const ClassJc reflection_OS_PtrValue;
 extern_C const ClassJc reflection_Data_ExtReflectionJc;
 extern_C const ClassJc reflection_ClassJc;
-const struct Reflection_Fields_ExtReflectionJc_s_t
+const struct Reflection_Fields_ExtReflectionJc
 { ObjectArrayJc head;
   FieldJc data[5];
-} reflection_Fields_ExtReflectionJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_ExtReflectionJc_s)
+} reflection_Fields_ExtReflectionJc =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_ExtReflectionJc)
 , {
     { "ct"
     , 0   //no Array, no Bitfield
@@ -493,7 +493,7 @@ const struct Reflection_Fields_ExtReflectionJc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ExtReflectionJc_s*)(0x1000))->ct) -(int32)(ExtReflectionJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ExtReflectionJc_s
+    , &reflection_ExtReflectionJc
     }
   , { "errorRelocationExtRefl"
     , 0   //no Array, no Bitfield
@@ -501,7 +501,7 @@ const struct Reflection_Fields_ExtReflectionJc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((ExtReflectionJc_s*)(0x1000))->errorRelocationExtRefl) -(int32)(ExtReflectionJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ExtReflectionJc_s
+    , &reflection_ExtReflectionJc
     }
   , { "extReflectionBuffer"
     , 0   //no Array, no Bitfield
@@ -509,7 +509,7 @@ const struct Reflection_Fields_ExtReflectionJc_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((ExtReflectionJc_s*)(0x1000))->extReflectionBuffer) -(int32)(ExtReflectionJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ExtReflectionJc_s
+    , &reflection_ExtReflectionJc
     }
   , { "extReflectionData"
     , 0   //no Array, no Bitfield
@@ -517,7 +517,7 @@ const struct Reflection_Fields_ExtReflectionJc_s_t
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ExtReflectionJc_s*)(0x1000))->extReflectionData) -(int32)(ExtReflectionJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ExtReflectionJc_s
+    , &reflection_ExtReflectionJc
     }
   , { "extReflection"
     , 0   //no Array, no Bitfield
@@ -525,17 +525,17 @@ const struct Reflection_Fields_ExtReflectionJc_s_t
     , 0| kObjectArrayJc_Modifier_reflectJc| kReferencedContainer_Modifier_reflectJc| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((ExtReflectionJc_s*)(0x1000))->extReflection) -(int32)(ExtReflectionJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ExtReflectionJc_s
+    , &reflection_ExtReflectionJc
     }
 } };
 
 
-const ClassJc reflection_ExtReflectionJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ExtReflectionJc_s, &reflection_ClassJc)
-, "ExtReflectionJc_s"
+const ClassJc reflection_ExtReflectionJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ExtReflectionJc, &reflection_ClassJc)
+, "ExtReflectionJc"
 , 0
 , sizeof(ExtReflectionJc_s)
-, (FieldJcArray const*)&reflection_Fields_ExtReflectionJc_s  //attributes and associations
+, (FieldJcArray const*)&reflection_Fields_ExtReflectionJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces

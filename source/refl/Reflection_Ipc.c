@@ -107,7 +107,7 @@ const ClassJc reflection_InterProcessCommFactory =
 
 
 
-extern_C const ClassJc reflection_InterProcessComm_s;  //the just defined reflection_
+extern_C const ClassJc reflection_InterProcessComm;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_InterProcessComm_s_t
 { ObjectArrayJc head;
@@ -121,13 +121,13 @@ const struct Reflection_Fields_InterProcessComm_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((InterProcessComm_s*)(0x1000))->base.object) -(int32)(InterProcessComm_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InterProcessComm_s
+    , &reflection_InterProcessComm
     }
 } };
 
 
-const ClassJc reflection_InterProcessComm_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm_s, &reflection_ClassJc)
+const ClassJc reflection_InterProcessComm =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_InterProcessComm, &reflection_ClassJc)
 , "InterProcessComm_s"
 , 0
 , sizeof(InterProcessComm_s)

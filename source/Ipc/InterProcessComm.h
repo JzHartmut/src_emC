@@ -233,7 +233,7 @@ typedef struct InterProcessComm_t
 #define InterProcessCommC_s InterProcessComm_s
 
 /**Adaption reflection generator CHeader2Reflection does not support build of reflection_InterProcessComm_i. */
-#define reflection_InterProcessComm reflection_InterProcessComm_s 
+#define reflection_InterProcessComm reflection_InterProcessComm 
 
 /**not supported, unknown error. It occurs if the os routine failes, but no error is found. */
 #define UnkonwError_InterProcessComm -0x7fff

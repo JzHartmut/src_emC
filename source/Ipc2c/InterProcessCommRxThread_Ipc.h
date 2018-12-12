@@ -51,12 +51,12 @@ typedef struct C_threadRoutine_InterProcessCommRxThread_Ipc_t
 typedef struct C_threadRoutine_InterProcessCommRxThread_Ipc_X_t { ObjectArrayJc head; C_threadRoutine_InterProcessCommRxThread_IpcREF data[50]; } C_threadRoutine_InterProcessCommRxThread_Ipc_X;
 typedef struct C_threadRoutine_InterProcessCommRxThread_Ipc_Y_t { ObjectArrayJc head; C_threadRoutine_InterProcessCommRxThread_Ipc_s data[50]; } C_threadRoutine_InterProcessCommRxThread_Ipc_Y;
 
- extern_C struct ClassJc_t const reflection_C_threadRoutine_InterProcessCommRxThread_Ipc_s;
+ extern_C struct ClassJc_t const reflection_C_threadRoutine_InterProcessCommRxThread_Ipc;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_C_threadRoutine_InterProcessCommRxThread_Ipc(OBJP) { CONST_ObjectJc(sizeof(C_threadRoutine_InterProcessCommRxThread_Ipc_s), OBJP, &reflection_C_threadRoutine_InterProcessCommRxThread_Ipc_s), 0 }
+#define CONST_C_threadRoutine_InterProcessCommRxThread_Ipc(OBJP) { CONST_ObjectJc(sizeof(C_threadRoutine_InterProcessCommRxThread_Ipc_s), OBJP, &reflection_C_threadRoutine_InterProcessCommRxThread_Ipc), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -132,12 +132,12 @@ typedef struct InterProcessCommRxThread_Ipc_t
 typedef struct InterProcessCommRxThread_Ipc_X_t { ObjectArrayJc head; InterProcessCommRxThread_IpcREF data[50]; } InterProcessCommRxThread_Ipc_X;
 typedef struct InterProcessCommRxThread_Ipc_Y_t { ObjectArrayJc head; InterProcessCommRxThread_Ipc_s data[50]; } InterProcessCommRxThread_Ipc_Y;
 
- extern_C struct ClassJc_t const reflection_InterProcessCommRxThread_Ipc_s;
+ extern_C struct ClassJc_t const reflection_InterProcessCommRxThread_Ipc;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InterProcessCommRxThread_Ipc(OBJP) { CONST_ObjectJc(sizeof(InterProcessCommRxThread_Ipc_s), OBJP, &reflection_InterProcessCommRxThread_Ipc_s), 0 }
+#define CONST_InterProcessCommRxThread_Ipc(OBJP) { CONST_ObjectJc(sizeof(InterProcessCommRxThread_Ipc_s), OBJP, &reflection_InterProcessCommRxThread_Ipc), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -213,7 +213,7 @@ class InterProcessCommRxThread_Ipc : private InterProcessCommRxThread_Ipc_s
 
   struct InterProcessCommRxThread_Ipc_t* create(StringJcpp ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData){  return create_InterProcessCommRxThread_Ipc(ownAddrIpc, execRxData,  null/*_thCxt*/); }
 
-  InterProcessCommRxThread_Ipc(StringJcpp ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData){ init_ObjectJc(&this->base.object, sizeof(InterProcessCommRxThread_Ipc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommRxThread_Ipc_s, 0); ctorO_InterProcessCommRxThread_Ipc(&this->base.object, ownAddrIpc, execRxData,  null/*_thCxt*/); }
+  InterProcessCommRxThread_Ipc(StringJcpp ownAddrIpc, struct InterProcessCommRx_ifc_Ipc_t* execRxData){ init_ObjectJc(&this->base.object, sizeof(InterProcessCommRxThread_Ipc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommRxThread_Ipc, 0); ctorO_InterProcessCommRxThread_Ipc(&this->base.object, ownAddrIpc, execRxData,  null/*_thCxt*/); }
 
   bool openComm(bool blocking){  return openComm_InterProcessCommRxThread_Ipc(this, blocking,  null/*_thCxt*/); }
 

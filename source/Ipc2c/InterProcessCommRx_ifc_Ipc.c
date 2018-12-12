@@ -30,7 +30,7 @@ struct InterProcessCommRx_ifc_Ipc_t* ctorO_InterProcessCommRx_ifc_Ipc(ObjectJc* 
 { InterProcessCommRx_ifc_Ipc_s* thiz = (InterProcessCommRx_ifc_Ipc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_InterProcessCommRx_ifc_Ipc");
   checkConsistence_ObjectJc(othis, sizeof(InterProcessCommRx_ifc_Ipc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_InterProcessCommRx_ifc_Ipc_s, sizeof(InterProcessCommRx_ifc_Ipc_s));  
+  setReflection_ObjectJc(othis, &reflection_InterProcessCommRx_ifc_Ipc, sizeof(InterProcessCommRx_ifc_Ipc_s));  
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
@@ -49,22 +49,22 @@ void execRxData_InterProcessCommRx_ifc_Ipc(InterProcessCommRx_ifc_Ipc_s* thiz, P
 }
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
- static struct superClasses_InterProcessCommRx_ifc_Ipc_s_t
+ static struct superClasses_InterProcessCommRx_ifc_Ipc
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
- }superclasses_InterProcessCommRx_ifc_Ipc_s =
+ }superclasses_InterProcessCommRx_ifc_Ipc =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
  , { {&reflection_ObjectJc, 0 /*J2C: no Mtbl*/ }
    }
  };
 
-extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc_s;
+extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc;
 extern_C struct ClassJc_t const reflection_ObjectJc;
 extern_C struct ClassJc_t const reflection_StringJc;
-const struct Reflection_Fields_InterProcessCommRx_ifc_Ipc_s_t
+const struct Reflection_Fields_InterProcessCommRx_ifc_Ipc
 { ObjectArrayJc head; FieldJc data[2];
-} reflection_Fields_InterProcessCommRx_ifc_Ipc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessCommRx_ifc_Ipc_s)
+} reflection_Fields_InterProcessCommRx_ifc_Ipc =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_InterProcessCommRx_ifc_Ipc)
 , {
      { "data"
     , 0 //nrofArrayElements
@@ -72,7 +72,7 @@ const struct Reflection_Fields_InterProcessCommRx_ifc_Ipc_s_t
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((InterProcessCommRx_ifc_Ipc_s*)(0x1000))->data) - (int32)(InterProcessCommRx_ifc_Ipc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InterProcessCommRx_ifc_Ipc_s
+    , &reflection_InterProcessCommRx_ifc_Ipc
     }
    , { "version"
     , 0 //nrofArrayElements
@@ -80,17 +80,17 @@ const struct Reflection_Fields_InterProcessCommRx_ifc_Ipc_s_t
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_InterProcessCommRx_ifc_Ipc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_InterProcessCommRx_ifc_Ipc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_InterProcessCommRx_ifc_Ipc_s
+    , &reflection_InterProcessCommRx_ifc_Ipc
     }
 } };
-const ClassJc reflection_InterProcessCommRx_ifc_Ipc_s = 
+const ClassJc reflection_InterProcessCommRx_ifc_Ipc = 
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
-, "InterProcessCommRx_ifc_Ipc_s"
+, "InterProcessCommRx_ifc_Ipc"
 ,  0 //position of ObjectJc
 , sizeof(InterProcessCommRx_ifc_Ipc_s)
-, (FieldJc_Y const*)&reflection_Fields_InterProcessCommRx_ifc_Ipc_s
+, (FieldJc_Y const*)&reflection_Fields_InterProcessCommRx_ifc_Ipc
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommRx_ifc_Ipc_s //superclass
+, (ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommRx_ifc_Ipc //superclass
 , null //interfaces
 , 0    //modifiers
 };

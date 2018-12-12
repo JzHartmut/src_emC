@@ -42,7 +42,7 @@
 
 #include <emC/String_emC.h>  //StringJc
 
-
+struct ThreadContext_emC_t;
 
 
  /**Bit definitions of all error bits.
@@ -250,7 +250,7 @@ extern_C void log_ExceptionJc(ExceptionJc* exc, char const* sFile, int line);
 
 /**Fills a common text in the buffer. It should contain the exception message, the file and line of the exception 
  * the file and line of this routine (Arguments sFile, line and, if available, information from the thread context. */
-extern_C int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt);
+extern_C int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, struct ThreadContext_emC_t* _thCxt);
 
 
 
