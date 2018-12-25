@@ -150,6 +150,7 @@
 
 #pragma warning(error:4002) //too many actual parameters for macro
 #pragma warning(error:4003) //not enough actual parameters for macro
+#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
 #pragma warning(error:4020) //too many actual parameters
 
 #pragma warning(disable:4996) //deprecated getenv etc. in MSC15
@@ -373,6 +374,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
+ * old: OS_HandlePtr
  */
 #define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
@@ -421,6 +423,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
   #define FALSE false
 #endif
 
-
+//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
+#undef __HandlePtr64__
 
 #endif  //__compl_adaption_h__

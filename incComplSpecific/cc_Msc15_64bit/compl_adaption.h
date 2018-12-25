@@ -39,9 +39,9 @@
 
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
-
 //uncomment that to check whether this file is used for include:
-//#error used_emC_cc_Msc15_64bit
+//#error File: emc/incComplSpecific/cc_Msc15_64bit/compl_adaption.h
+
 
 //#include the standard header from Visual studio firstly. 
 //stdint.h defines int8_t etc. via typedef. 
@@ -87,6 +87,7 @@
 
 #pragma warning(error:4002) //too many actual parameters for macro
 #pragma warning(error:4003) //not enough actual parameters for macro
+#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
 #pragma warning(error:4020) //too many actual parameters
 
 #pragma warning(disable:4996) //deprecated getenv etc. in MSC15
@@ -318,6 +319,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
+ * old: OS_HandlePtr
  */
 #define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 

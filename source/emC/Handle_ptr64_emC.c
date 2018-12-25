@@ -90,7 +90,7 @@ void debug_Handle2Ptr(uint32 handle, int32 dbg1, int32 dbg2, char const* dbginfo
 /**Sub routine to get a handle from a registered pointer in the shared memory data.
  * @return the handle.
  */
-const char* handle_Handle2Ptr(void* ptr, uint32* dstHandle) {
+const char* handle_Handle2Ptr(void const* ptr, uint32* dstHandle) {
   bool found = false;
   if (handle2Ptr == null){ return "Handle2Ptr: not initialized"; }
   else {
@@ -114,7 +114,7 @@ const char* handle_Handle2Ptr(void* ptr, uint32* dstHandle) {
 
 
 
-uint32 PRIV_retHandle_Handle2Ptr(void* ptr) {
+uint32 PRIV_retHandle_Handle2Ptr(void const* ptr) {
   uint32 dstHandle = 0;
   bool found = false;
   if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
@@ -200,7 +200,7 @@ const char* setPtrHandle_Handle2Ptr(void* ptr, uint32 handle, char const* name)
 
 
 
-const char* getPtr_Handle2Ptr(uint32 handle, void** dst)
+const char* getPtr_Handle2Ptr(uint32 handle, void ** dst)
 {
   if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
   else if (handle == 0) { *dst = null; return null; }                 //handle 0 is pointer null

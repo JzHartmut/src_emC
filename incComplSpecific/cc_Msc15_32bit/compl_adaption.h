@@ -39,10 +39,14 @@
 
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
-
 //uncomment that to check whether this file is used for include:
-//#error used_emC_cc_Msc15_32bit
+//#error File: emc/incComplSpecific/cc_Msc15_32bit/compl_adaption.h
 
+
+//#include the standard header from Visual studio firstly. 
+//stdint.h defines int8_t etc. via typedef. 
+//Because pragma once (or guard) the content of the files are not included again.
+//They should be included firstly to cover its typedef by the typedef of simulink.
 #include <stdint.h>  //C99-int types
 #include <limits.h>  //proper to C99
 
@@ -211,14 +215,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define int16_va_list short
 #define float_va_list float
 
-
-
-//plattformunabhaengige Ergaenzungen
-//folgende Typen sind besser schreib- und lesbar
-#define ushort unsigned short int
-#define uint unsigned int
-#define ulong unsigned long int
-
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
 #undef  NULL
@@ -272,7 +268,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR int32
+#define OS_intPTR intptr_t
 
 
 
@@ -316,8 +312,10 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
+ * old: OS_HandlePtr
  */
-#define HandlePtr_emC(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
+#define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
@@ -368,6 +366,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   #define FALSE false
 #endif
 
-
+//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
+#undef __HandlePtr64__
 
 #endif  //__compl_adaption_h__

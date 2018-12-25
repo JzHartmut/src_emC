@@ -78,10 +78,10 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
 
   /**Gets the handle for a given and already registered pointer. 
    * If the pointer is unknown, dstHandle = 0 and an error is returned. */ 
-  const char* handle_Handle2Ptr(void* ptr, uint32* dstHandle);
+  const char* handle_Handle2Ptr(void const* ptr, uint32* dstHandle);
 
   /**Internal method for the macro [[HANDLE_Handle2Ptr]] */
-  uint32 PRIV_retHandle_Handle2Ptr(void* ptr);
+  uint32 PRIV_retHandle_Handle2Ptr(void const* ptr);
 
   /**Delivers the handle to the given pointer. 
    * This operation is intent to invoke in compiled sources where a error message is not able to process. 

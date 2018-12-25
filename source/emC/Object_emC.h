@@ -485,6 +485,10 @@ METHOD_C int getSizeInfo_ObjectJc(ObjectJc const* ythis);
  * This value is useable as debug information.
  */
 METHOD_C int getIdentInfo_ObjectJc(ObjectJc const* ythis);
+
+
+extern_C int getTypeId_ObjectJc(ObjectJc* thiz);
+
 //#define getIdentInfo_ObjectJc(YTHIS) (
 
 /** gets the reflection class.*/
@@ -1382,15 +1386,21 @@ typedef enum Mask_ModifierJc_t
  */
 typedef struct ClassOffset_idxMtblJc_t
 {
-  /** The reflection definition*/
-  ClassJc const* clazz;
+  /**This was the reference to the super class. But the super class is not sufficient. 
+   * It needs a field which describes details of the super relation.
+   * Because some generated reflection and the binary generation creates this 4 bytes (32-bit-pointer) it should not be removed.
+   * But it is not used anymore. Hold it as reserve in the binary structure.
+   */
+  ClassJc const* unused_clazz_super;
  
   /** Index of the virtual table inside its parent. The array of virtual operations is in othiz->reflection.mtbl */
   int idxMtbl;
  
-  /**The field is a helper for inspector access: It contains the name of the interface or "super"
-   * at position 0 repectively the correct position for C++ reflection. */
-  FieldJc field;
+  /**The field contains all information about the super relation, especially the getType_FieldJc(superfield), the super type.
+   * It is not only a helper for inspector access. 
+   * It contains the name of the interface or "super"
+   * and the position 0 repectively the correct position for C++ reflection. */
+  FieldJc superfield;
 
 } ClassOffset_idxMtblJc;
 

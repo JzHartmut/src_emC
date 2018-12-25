@@ -31,9 +31,9 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
-#ifndef   __os_types_def_h__
-#define   __os_types_def_h__
-//File: CRuntimeJavalike/includeSpecials/os_Windows_Gcc/os_types_def.h
+#ifndef   __compl_adaption_h__
+#define   __compl_adaption_h__
+//#error File: emc/incComplSpecific/cc_Gcc/compl_adaption.h
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -170,7 +170,7 @@ typedef float                float32;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR int
+#define OS_intPTR intptr_t
 
 
 
@@ -214,6 +214,7 @@ typedef float                float32;
  * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ * old: OS_HandlePtr
  */
 #define HandlePtr_emC(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
 
@@ -236,6 +237,8 @@ typedef float                float32;
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
  * It have to be a mask with set bits on right side (all last significant bits).
  * The next 2 bits left are used internally for designation of String.
+ * see [[mNonPersists__StringJc]], [[mThreadContext__StringJc]].
+ * See also [[kIsCharSequence_StringJc]]
  * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc. 
  * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */

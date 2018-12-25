@@ -250,7 +250,7 @@ int getIdxMtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionNam
         for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
         { ClassOffset_idxMtblJc const* reflectionChild;
           reflectionChild = &reflectionIfc->data[idxIfc];
-          if(strncmp(reflectionChild->clazz->name, reflectionName, zReflectionName)==0)
+          if(strncmp(getType_FieldJc(&reflectionChild->superfield)->name, reflectionName, zReflectionName)==0)
           { idxMtbl = reflectionChild->idxMtbl;
           }
         }
@@ -264,12 +264,12 @@ int getIdxMtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionNam
       for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
       { ClassOffset_idxMtblJc const* reflectionChild;
         reflectionChild = &reflectionSuper->data[idxSuper];
-        if(strncmp(reflectionChild->clazz->name, reflectionName, zReflectionName)==0)
+        if(strncmp(getType_FieldJc(&reflectionChild->superfield)->name, reflectionName, zReflectionName)==0)
         { idxMtbl = reflectionChild->idxMtbl;
         }
         else
         { //Recursive call because deeper inheritance:
-          idxMtbl = getIdxMtbl_s_ClassJc(reflectionChild->clazz, reflectionName);
+          idxMtbl = getIdxMtbl_s_ClassJc(getType_FieldJc(&reflectionChild->superfield), reflectionName);
         }
       }
     }
@@ -300,6 +300,13 @@ bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
 struct ClassJc_t const* getClass_ObjectJc(ObjectJc const* ythis)
 { return ythis->reflectionClass;//->theClass;
 }
+
+
+
+int getTypeId_ObjectJc(ObjectJc* thiz) {
+  return 0; //TODO
+}
+
 
 
 

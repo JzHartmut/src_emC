@@ -191,7 +191,7 @@
 #define __OS_IS_WINDOWS__
 
 //The following switch select the compiler in some sources.
-#define __COMPILER_IS_MSC10__
+#define __COMPILER_IS_MSC15__
 
 
 #define __Simulink__
@@ -321,7 +321,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR int64
+#define OS_intPTR intptr_t
 
 
 
@@ -366,6 +366,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
+ * old: OS_HandlePtr
  */
 #define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
@@ -414,6 +415,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
   #define FALSE false
 #endif
 
-
+//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
+#define __HandlePtr64__
 
 #endif  //__compl_adaption_h__

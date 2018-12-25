@@ -59,17 +59,23 @@ struct ClassJc_t;
  */
 typedef struct  ObjectJc_t
 {
-  /**The instanceId is helpfull to recognize the instance. 
+  /**The idInstanceType is helpfull to recognize the instance. 
    * The bit31 is used to detect whether it is initialized or not. */
-  int32 instanceId;
+  int32 idInstanceType;
   
+#define mType_ObjectJc 0xffff
+#define kBitType_ObjectJc 0
+#define mInstance_ObjectJc 0xffff
+#define kBitInstance_ObjectJc 16
+
   /**The reference to the type is either an index to a central pointer table (for 64-bit-addresses) or the address itself.
    * In any case this is a 32-bit-location which references the type.
    */
   //HandlePtr_emC(struct ClassJc_t const, type);
-  HandlePtr_emC(char const, type);
+  //HandlePtr_emC(char const, type);
 } ObjectJc;
 
+#define ObjectJc_s ObjectJc
 
 #define ident_newAllocated_ObjectJc 0x0001
 
@@ -78,7 +84,7 @@ typedef struct  ObjectJc_t
 //Marker: ObjectJc is defined.
 #define __ObjectJc_defined__
 
-/**Initialize only the instanceId. */
+/**Initialize only the idInstanceType. */
 #define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, { (char const*)(REFLECTION)} }
 
 
@@ -95,8 +101,8 @@ typedef struct  ObjectJc_t
 *        Note: The size of the OBJ must be lesser than 64 kByte (see [[mSizeSmall_objectIdentSize_ObjectJc]]
 * @param REFLECTION maybe null, the reflection class of the constant object.
 * @param IDENT may be 0, see attribute ,,objectIdentSize,,.
-* The value of this argument will be written to the bits 31..16 of instanceId. It means the value is shifted to left.
-* The size bits are calculated with sizeof(OBJ) and are written to instanceId too, right aligend to bit 0.
+* The value of this argument will be written to the bits 31..16 of idInstanceType. It means the value is shifted to left.
+* The size bits are calculated with sizeof(OBJ) and are written to idInstanceType too, right aligend to bit 0.
 * It means, the value 0 for this argument leads to store the size of the OBJ only.
 * 
 * If the sizeof(OBJ) may be > 64k, you should provide a value other than 0 in the form
@@ -114,21 +120,24 @@ typedef struct  ObjectJc_t
  *                      the offset to the instance itself will be stored to help data debugging.
  * @param sizeObj The size of the whole instance, use sizeof(TypeInstance). 
  * @param reflection The reflection class. It may be null if the reflections are not present.
- * @param identObj An instanceId info, see [[attribute:_ObjectJc:objectIdentSize]] 
+ * @param identObj An idInstanceType info, see [[attribute:_ObjectJc:objectIdentSize]] 
  * return ythis, the reference of the Object itself.
 */
 //METHOD_C ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
-#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->instanceId = ((IDENT)<<16) + (SIZE); (THIZ)->ptype = *(REFL); }
+//#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16) + (SIZE); (THIZ)->ptype = *(REFL); }
+#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16) + (*(REFL) &0xffff); }
 
-#define checkStrict_ObjectJc(THIZ, SIZE, IDENT, REFL, THCXT) ( (IDENT) !=0 && (IDENT) != (THIZ)->instanceId ? -1 : (THIZ)->instanceId )
-
-
-#define setInitialized_ObjectJc(THIZ) { (THIZ)->instanceId |= 0x80000000; }
-
-#define isInitialized_ObjectJc(THIZ) ( (THIZ)->instanceId & 0x80000000 )
+#define checkStrict_ObjectJc(THIZ, SIZE, IDENT, REFL, THCXT) ( (IDENT) !=0 && (IDENT) != (THIZ)->idInstanceType ? -1 : (THIZ)->idInstanceType )
 
 
-#define init_ObjectJc(THIZ, SIZE, IDENT) { (THIZ)->instanceId = (IDENT) & 0x7fffffff; } 
+#define setInitialized_ObjectJc(THIZ) { (THIZ)->idInstanceType |= 0x80000000; }
+
+#define isInitialized_ObjectJc(THIZ) ( (THIZ)->idInstanceType & 0x80000000 )
+
+
+#define init_ObjectJc(THIZ, SIZE, IDENT) { (THIZ)->idInstanceType = (IDENT) & 0x7fffffff; } 
+
+inline int getTypeId_ObjectJc(ObjectJc* thiz){ return (thiz->idInstanceType >> kBitType_ObjectJc) & mType_ObjectJc; }
 
 
 /**The Reflection is reduced to a character constant which contains the name of the type, helpfull for debug. 

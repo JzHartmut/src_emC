@@ -172,7 +172,7 @@ int getIdxMtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
         for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
         { ClassOffset_idxMtblJc const* reflectionChild;
           reflectionChild = &reflectionIfc->data[idxIfc];
-          if(reflectionChild->clazz == reflectionRef)
+          if(getType_FieldJc(&reflectionChild->superfield) == reflectionRef)
           { idxMtbl = reflectionChild->idxMtbl;
           }
         }
@@ -186,12 +186,12 @@ int getIdxMtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
       for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
       { ClassOffset_idxMtblJc const* reflectionChild;
         reflectionChild = &reflectionSuper->data[idxSuper];
-        if(reflectionChild->clazz == reflectionRef)
+        if(getType_FieldJc(&reflectionChild->superfield) == reflectionRef)
         { idxMtbl = reflectionChild->idxMtbl;
         }
         else
         { //Recursive call because deeper inheritance:
-          idxMtbl = getIdxMtbl_ClassJc(reflectionChild->clazz, reflectionRef);
+          idxMtbl = getIdxMtbl_ClassJc(getType_FieldJc(&reflectionChild->superfield), reflectionRef);
         }
       }
     }

@@ -242,7 +242,7 @@ MethodJc const* getDeclaredMethod_ClassJc(ClassJc const* thiz, char const* sName
 METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz)
 {
   if(thiz->superClasses == null) return null;
-  else return thiz->superClasses->data[0].clazz; //Note: C++ knows more superclasses, this is for Java-like and C
+  else return getType_FieldJc(&thiz->superClasses->data[0].superfield); //Note: C++ knows more superclasses, this is for Java-like and C
 }
 
 
@@ -250,7 +250,7 @@ METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz)
 METHOD_C FieldJc const* getSuperField_ClassJc(ClassJc const* thiz)
 {
   if(thiz->superClasses == null) return null;
-  else return &thiz->superClasses->data[0].field;
+  else return &thiz->superClasses->data[0].superfield;
   //else return &thiz->attributes->data[0];    //TODO should do so for C
 }
 
@@ -765,9 +765,15 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
          */
         MemUnit* ref1 = ADDR_MemSegmJc(ref, MemUnit);
         ClassJc const* clazzFromInstance;
-        MemSegmJc ret = ref;
         if(segment_MemSegmJc(ref)!=0){
           stop(); //2CPU
+          int ixClass = getInfoDebug_InspcTargetProxy(getType_InspcTargetProxy, segment_MemSegmJc(ref), ADDR_MemSegmJc(ref, struct RemoteAddressJc), 0);
+          if (ixClass >0) {
+            clazzRet = extReflectionClasses_ReflectionJc[0]->data[ixClass - 1]; //get from loaded reflection file.
+          } else { 
+            clazzRet = clazzFromField; 
+          }
+          retObj = ref;
         } else {
           if ((typeModifier & mObjectJcBased_Modifier_reflectJc) == mObjectifcBaseJcpp_Modifier_reflectJc) {
             #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -780,6 +786,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
           } else {
             retObjBase = (ObjectJc*)(ref1 + offsetBase);  //offsetBase should be 0
           }
+          MemSegmJc ret = ref;
           setADDR_MemSegmJc(ret, retObjBase);
           retObj = ret;
           if(retObjBase != null && (clazzFromInstance = retObjBase->reflectionClass) != null) {
