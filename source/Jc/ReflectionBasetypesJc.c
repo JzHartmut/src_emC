@@ -272,7 +272,7 @@ const struct Reflection_Fields_FieldJc_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FieldJc*)(0x1000))->position) -(int32)(FieldJc*)0x1000)
+    , (int16)((int32)(&((FieldJc*)(0x1000))->offsFieldInStruct) -(int32)(FieldJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FieldJc
     }

@@ -6,8 +6,7 @@
 #endif  
 
 
-#define ASSERTJc(COND) if(!(COND)) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0) }
-#define ASSERTJc_TEST(COND) { if(!(COND)) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0)} }
+#define ASSERTJc(COND) if(!(COND)) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); } 
 
 
 #define ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW_s0(RuntimeException, "assertion", 0,0); VAR = MIN; } }
@@ -29,10 +28,10 @@
 #define ASSERTJc_THROW(COND) { if(!(COND)) ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException,"assertion",0); }
 
 
-#define ASSERT(COND) ASSERTJc_TEST(COND)
+#define ASSERT(COND) ASSERTJc(COND)
 
 
-#define ASSERT_s0_Jc(cond, TEXT, VALUE) { if(!(cond)) THROW1_s0(RuntimeException, "assertion", VALUE) }
+#define ASSERT_s0_Jc(cond, TEXT, VALUE) { if(!(cond)) THROW1_s0(RuntimeException, TEXT, VALUE); }
 
 
 #endif //#define __ASSERT_Jc__

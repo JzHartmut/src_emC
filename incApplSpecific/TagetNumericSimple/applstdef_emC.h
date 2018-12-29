@@ -1,12 +1,20 @@
 #ifndef __applstdef_emC_h__
 #define __applstdef_emC_h__
-/**This headerfile contains all standard definition for usage the CRJ - CRuntimeJavalike - basicly system.
- * It is for a simple numeric target without reflection, StringJc and exception handling. 
+/**This headerfile contains all standard definition for usage the emC - embedded multiplatform C(++) - basicly source system.
+ * It is for a simple numeric target without reflection, StringJc 
+ * with Excpetion handling with C++ throw to support asynchron exceptions. 
  */
 
 //Note: uncomment that to check whether this file is included:
 //#error used_applstdefJc_TargetNumericSimple
 
+
+/**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
+ * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
+ */
+//#define __CPLUSPLUSJcpp
+#undef __CPLUSPLUSJcpp
+//#define __cplusplus
 
 //This block before <OSAL/os_types_def_common.h>
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
@@ -18,24 +26,19 @@
 #include <OSAL/os_types_def_common.h>
 
 
-/**With this compiler switch the reflection should not be included, because they will not used. */
-#define __DONOTUSE_REFLECTION__
-
-
-/**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
- * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
- */
-//#define __CPLUSPLUSJcpp
-#undef __CPLUSPLUSJcpp
-//#define __cplusplus
-
-/**Including this file the ObjectJc.h is not included, */
-#include <sourceApplSpecific/applConv/ObjectJc_simple.h>
+/**With this compiler switch the reflection should be included or not. __DONOTUSE_REFLECTION__ may be set by compiler options. */
+//#define __DONOTUSE_REFLECTION__
+#ifndef __DONOTUSE_REFLECTION__
+  #define __USE_REFLECTION__
+#endif
 
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 #define __NoCharSeqJcCapabilities__
 #define __NoStringJcCapabilities__
+
+/**Including this file the ObjectJc.h is not included, */
+#include <sourceApplSpecific/applConv/ObjectJc_simple.h>
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 #include <sourceApplSpecific/applConv/EnhanceRef_simple.h>

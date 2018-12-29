@@ -59,11 +59,14 @@ char const signEnd_Mtbl_ObjectJc[] = "signEnd_Mtbl_ObjectJc";
 /**Initialize. */
 ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
 { STACKTRC_ENTRY("init_ObjectJc");
-  ASSERTJc_IF(sizeObj >= sizeof(ObjectJc))
+  if(sizeObj >= sizeof(ObjectJc))
   { //cc2016-10 memset(ythis, 0, sizeObj);  //don't clear the instance because some references etc. maybe initalized with { ... }
     ythis->ownAddress = ythis;
     ythis->state.b.idSyncHandles = kNoSyncHandles_ObjectJc;
     setSizeAndIdent_ObjectJc(ythis, sizeObj, identObj);
+  }
+  else {
+    THROW_s0(IllegalArgumentException, "size to less", sizeObj, identObj);
   }
   STACKTRC_LEAVE; return ythis;
 }
@@ -100,14 +103,14 @@ void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identAndMaskObj)
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
     THROW1_s0(RuntimeException, "negativ values for all parameter are unexpected, or nrofArrayDimensions >0", sizeObj);
   }
-  else if(sizeObj <= mSizeSmall_objectIdentSize_ObjectJc && identObj <= (mTypeSmall_objectIdentSize_ObjectJc >> kBitTypeSmall_objectIdentSize_ObjectJc))
-  { ythis->state.b.objectIdentSize = sizeObj | kIsSmallSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeSmall_objectIdentSize_ObjectJc);
+  else if(sizeObj <= mSizeSmall_objectIdentSize_ObjectJc && identObj <= (mIdentSmall_objectIdentSize_ObjectJc >> kBitIdentSmall_objectIdentSize_ObjectJc))
+  { ythis->state.b.objectIdentSize = sizeObj | kIsSmallSize_objectIdentSize_ObjectJc | (identObj<<kBitIdentSmall_objectIdentSize_ObjectJc);
   }
-  else if(sizeObj <= mSizeMedium_objectIdentSize_ObjectJc && identObj <= (mTypeMedium_objectIdentSize_ObjectJc >> kBitTypeMedium_objectIdentSize_ObjectJc))
-  { ythis->state.b.objectIdentSize = sizeObj | kIsMediumSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeMedium_objectIdentSize_ObjectJc);
+  else if(sizeObj <= mSizeMedium_objectIdentSize_ObjectJc && identObj <= (mIdentMedium_objectIdentSize_ObjectJc >> kBitIdentMedium_objectIdentSize_ObjectJc))
+  { ythis->state.b.objectIdentSize = sizeObj | kIsMediumSize_objectIdentSize_ObjectJc | (identObj<<kBitIdentMedium_objectIdentSize_ObjectJc);
   }
-  else if(sizeObj <= mSizeLarge_objectIdentSize_ObjectJc && identObj <= (mTypeLarge_objectIdentSize_ObjectJc >> kBitTypeLarge_objectIdentSize_ObjectJc))
-  { ythis->state.b.objectIdentSize = sizeObj | mIsLargeSize_objectIdentSize_ObjectJc | (identObj<<kBitTypeLarge_objectIdentSize_ObjectJc);
+  else if(sizeObj <= mSizeLarge_objectIdentSize_ObjectJc && identObj <= (mIdentLarge_objectIdentSize_ObjectJc >> kBitIdentLarge_objectIdentSize_ObjectJc))
+  { ythis->state.b.objectIdentSize = sizeObj | mIsLargeSize_objectIdentSize_ObjectJc | (identObj<<kBitIdentLarge_objectIdentSize_ObjectJc);
   }
   else
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
@@ -191,11 +194,11 @@ int getSizeInfo_ObjectJc(ObjectJc const* ythis)
 
 int getIdentInfo_ObjectJc(ObjectJc const* ythis)
 { if(ythis->state.b.objectIdentSize & mIsLargeSize_objectIdentSize_ObjectJc) 
-    return (ythis->state.b.objectIdentSize & mTypeLarge_objectIdentSize_ObjectJc) >>kBitTypeLarge_objectIdentSize_ObjectJc;
+    return (ythis->state.b.objectIdentSize & mIdentLarge_objectIdentSize_ObjectJc) >>kBitIdentLarge_objectIdentSize_ObjectJc;
   else if( (ythis->state.b.objectIdentSize & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
-    return (ythis->state.b.objectIdentSize & mTypeMedium_objectIdentSize_ObjectJc) >>kBitTypeMedium_objectIdentSize_ObjectJc;
+    return (ythis->state.b.objectIdentSize & mIdentMedium_objectIdentSize_ObjectJc) >>kBitIdentMedium_objectIdentSize_ObjectJc;
   else
-    return (ythis->state.b.objectIdentSize & mTypeSmall_objectIdentSize_ObjectJc) >>kBitTypeSmall_objectIdentSize_ObjectJc;
+    return (ythis->state.b.objectIdentSize & mIdentSmall_objectIdentSize_ObjectJc) >>kBitIdentSmall_objectIdentSize_ObjectJc;
 }
 
 

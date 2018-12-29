@@ -435,7 +435,7 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
   
   { 
     
-    ASSERTJc_TEST(/*J2C:static method call*/ixEndNew < 0 || ixEndNew >= thiz->ixBegin + thiz->sizeHead);
+    ASSERT(/*J2C:static method call*/ixEndNew < 0 || ixEndNew >= thiz->ixBegin + thiz->sizeHead);
     if(ixEndNew > thiz->data.val) 
     { 
        /*J2C: temporary Stringbuffer for String concatenation*/
@@ -526,7 +526,7 @@ void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, PtrVal_int8 
   
   { 
     
-    ASSERTJc_TEST(/*J2C:static method call*/index >= 0 && thiz->sizeHead >= 0);
+    ASSERT(/*J2C:static method call*/index >= 0 && thiz->sizeHead >= 0);
     detach_ByteDataAccessBaseJc(thiz, _thCxt);
     thiz->data = dataP;
     thiz->ixBegin = index;
@@ -772,8 +772,8 @@ bool addChild_XXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
     
     detach_ByteDataAccessBaseJc(child, _thCxt);/*detatch the child from further usage.*/
     
-    ASSERTJc_TEST(/*J2C:static method call*/sizeChild == 0 || sizeChild >= child->sizeHead);
-    ASSERTJc_TEST(/*J2C:static method call*/child->sizeHead >= 0);
+    ASSERT(/*J2C:static method call*/sizeChild == 0 || sizeChild >= child->sizeHead);
+    ASSERT(/*J2C:static method call*/child->sizeHead >= 0);
     
     int32  ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, sizeChild == 0 ? child->sizeHead : sizeChild, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
@@ -867,8 +867,8 @@ void addChildAt_iXXi_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 id
   
   { 
     
-    ASSERTJc_TEST(/*J2C:static method call*/child->sizeHead >= 0);
-    ASSERTJc_TEST(/*J2C:static method call*/sizeChild >= child->sizeHead);
+    ASSERT(/*J2C:static method call*/child->sizeHead >= 0);
+    ASSERT(/*J2C:static method call*/sizeChild >= child->sizeHead);
     if(REFJc(child->parent)!= null && REFJc(REFJc    (child->parent)->currChild)== child) 
     { 
       
@@ -912,7 +912,7 @@ bool addChildInt_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBy
   
   { 
     
-    ASSERTJc_TEST(/*J2C:static method call*/nrofBytes > 0);
+    ASSERT(/*J2C:static method call*/nrofBytes > 0);
     
     int32  ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
@@ -936,7 +936,7 @@ bool addChildInteger_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nr
   
   { 
     
-    ASSERTJc_TEST(/*J2C:static method call*/nrofBytes > 0);
+    ASSERT(/*J2C:static method call*/nrofBytes > 0);
     
     int32  ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
@@ -1202,7 +1202,7 @@ StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32
   { /*:NOTE: there is no instance for this child, but it is the current child anyway.*/
     
     
-    ASSERTJc_TEST(/*J2C:static method call*/nrofBytes >= 0);
+    ASSERT(/*J2C:static method call*/nrofBytes >= 0);
     
     int32  ixChild1 = setIdxtoNextCurrentChild_ByteDataAccessBaseJc(thiz, nrofBytes, _thCxt);
     if(ixChild1 < 0) { STACKTRC_LEAVE;
@@ -1367,7 +1367,7 @@ StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx,
     int32  idxData = idx + thiz->ixBegin;
     
     int32  idxEnd1 = idxData + nrofBytes;
-    ASSERTJc_TEST(/*J2C:static method call*/idxEnd1 <= thiz->ixEnd && idxEnd1 <= thiz->data.val);
+    ASSERT(/*J2C:static method call*/idxEnd1 <= thiz->ixEnd && idxEnd1 <= thiz->data.val);
     
     while(thiz->data.ref[--idxEnd1] == 0 && idxEnd1 > idxData)
       ;/*skip 0 character on end*/
@@ -1949,8 +1949,8 @@ int32 setIdxtoNextCurrentChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz
   
   { 
     
-    ASSERTJc_TEST(/*J2C:static method call*/sizeChild >= 0);
-    ASSERTJc_TEST(/*J2C:static method call*/thiz->ixNextChild >= 0);/*==0 os possible on an empty element without head.*/
+    ASSERT(/*J2C:static method call*/sizeChild >= 0);
+    ASSERT(/*J2C:static method call*/thiz->ixNextChild >= 0);/*==0 os possible on an empty element without head.*/
     
     
     int32  ixMax = thiz->bExpand ? thiz->data.val : thiz->ixEnd;

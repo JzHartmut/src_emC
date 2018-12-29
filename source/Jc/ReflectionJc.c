@@ -325,10 +325,10 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
   {  set_OS_PtrValue(address, 0, null);
   }
   else
-  { int position = thiz->position;  //2CPU
+  { int position = thiz->offsFieldInStruct;  //2CPU
     int sizeElement = 1;
     void* memAddr;
-    if((position & 0x8000) !=0){
+    if((position & mOffsIsProxyIx4Target_FieldJc) !=0){
       ClassJc const* declaringClazz = getDeclaringClass_FieldJc(thiz);
       int32 sizeEntry = declaringClazz->nSize;
       int32 idxClass = sizeEntry - 0xFFFFF000;
@@ -336,8 +336,9 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
       int idxField = position & 0x7FFF;
       int32 posLength;
       /**Significance check to prevent failed access: */
-      ASSERTJc_CORR(idxClass >0 && idxClass < 1000 && idxField >=0 && idxField < 0xfff)
-      { idxClass  = 1; idxField = 0;
+      if(idxClass < 0 || idxClass > 1000 || idxField < 0 || idxField > 0xfff) {
+        ASSERT(false);  //may cause exception
+        idxClass  = 1; idxField = 0; //without assert check  corr it.
       }
 
       posLength = getInfoDebug_InspcTargetProxy(getOffsetLength_InspcTargetProxy, segment_MemSegmJc(instance), null, idxClass<<16 |idxField);

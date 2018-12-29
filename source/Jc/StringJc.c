@@ -159,7 +159,7 @@ Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC
     //MemUnit* head2 = addOffset_MemUnit(head, offsetMtbl);  //add offset in mtbl
     //head = (MtblHeadJc const*) head2;
   }
-  ASSERT_s0_Jc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)ythis);
+  ASSERT_s0_Jc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)PTR_CharSeqJc(thiz));
   mc = (Mtbl_CharSeqJc const*) head;
   return mc;
 

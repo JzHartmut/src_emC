@@ -3,7 +3,9 @@
 
 
 #ifndef __DONOTUSE_REFLECTION__
-  #include "genRefl/OSAL/os_sharedMem.crefl"
+  //#include "genRefl/OSAL/os_sharedMem.crefl"
+  //Do not include the crefl here, they are not necessary here. 
+  //If the crefl are need for associated data it should be included in the main context of the application.
 #else
 
 #endif

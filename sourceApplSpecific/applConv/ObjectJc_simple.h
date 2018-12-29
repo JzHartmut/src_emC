@@ -45,7 +45,6 @@
 #ifndef __ObjectJc_simple__
 #define __ObjectJc_simple__
 
-
 struct ClassJc_t;
 
 /**Object is the superclass of all superclasses. In C-like manner it is a struct
@@ -125,7 +124,13 @@ typedef struct  ObjectJc_t
 */
 //METHOD_C ObjectJc* initReflection_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
 //#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16) + (SIZE); (THIZ)->ptype = *(REFL); }
-#define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16) + (*(REFL) &0xffff); }
+#ifdef __USE_REFLECTION__
+  /**initializes with reflection which are defined with the ,,ClassJc,, struct in this header. */
+  #define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16) + ((REFL)->ixType & 0xffff); }
+#else
+  /**Initialize with ignoring the REFL information, for compatibility with the same source which uses but does not define the reflection instance. */
+  #define initReflection_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16); }
+#endif
 
 #define checkStrict_ObjectJc(THIZ, SIZE, IDENT, REFL, THCXT) ( (IDENT) !=0 && (IDENT) != (THIZ)->idInstanceType ? -1 : (THIZ)->idInstanceType )
 
@@ -145,10 +150,8 @@ inline int getTypeId_ObjectJc(ObjectJc* thiz){ return (thiz->idInstanceType >> k
  */
 typedef struct ClassJc_t
 {
-  ObjectJc obj;
-  //char const* name;
-  char name[32];
-  int32 ident;
+  int ixType;   // sizeReflOffs;
+  int const* reflOffs;
 } ClassJc;
 
 extern ClassJc const reflection_ClassJc;

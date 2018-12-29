@@ -59,7 +59,7 @@ void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl
                            | ((accessLevel << kBitAccessLevel_Modifier_FieldJc) & mAccessLevel_Modifier_FieldJc)
                            | (7 << kBitChangeLevel_Modifier_FieldJc);  //never change the super field
   thiz->superfield.offsetToObjectifcBase = 0;
-  thiz->superfield.position = 0;  //usual 0
+  thiz->superfield.offsFieldInStruct = 0;  //usual 0
   thiz->idxMtbl = ixVtbl;
 }
 

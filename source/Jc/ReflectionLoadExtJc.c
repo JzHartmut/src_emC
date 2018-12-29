@@ -18,16 +18,16 @@ Data_ExtReflectionJc* correctContent_ExtReflectionJc(ExtReflectionJc_s* ythis, M
   int baseHead;
   void const* addrBaseClasses;
   bool bOk = true;
-  int32 ptr;
+  int32 offsClassArray, offsReflData;
 	STACKTRC_TENTRY("correctContent_ExtReflectionJc");
   
   /**relocate all relative addresses to absolute addresses:*/
   /**first the reference of arrayClasses. */
   baseHead = (int)(extReflectionData);
-  ptr = *(int*)(&extReflectionData->arrayClasses);
-	extReflectionData->arrayClasses = (ClassJc_YP const*)(ptr + baseHead);
-	ptr = *(int*)(&extReflectionData->classDataBlock);
-  extReflectionData->classDataBlock = (ClassJc const*)(ptr + baseHead); 
+  offsClassArray = *(int32*)(&extReflectionData->arrayClasses);
+	extReflectionData->arrayClasses = (ClassJc_YP const*)(offsClassArray + baseHead);
+	offsReflData = *(int*)(&extReflectionData->classDataBlock);
+  extReflectionData->classDataBlock = (ClassJc const*)(offsReflData + baseHead); 
   if(!inRange_MemAreaC(extReflectionData->arrayClasses, minAddr, maxAddr)) {
     bOk = false;
     ythis->errorRelocationExtRefl = -2;
@@ -60,15 +60,18 @@ Data_ExtReflectionJc* correctContent_ExtReflectionJc(ExtReflectionJc_s* ythis, M
       int maxIx = offset_MemAreaC(addrBaseClasses, maxAddr) - sizeof(void*);
       int nrofReloc =  extReflectionData->nrofRelocEntries;
       for(ixReloc = 0; bOk && ixReloc < nrofReloc; ixReloc++)
-      { int ixInClassDatas = extReflectionData->relocateAddr[ixReloc];
+      { int posReloc = extReflectionData->relocateAddr[ixReloc];
         /**Check: the index have to reference a position inside the buffer. */
-        if(ixInClassDatas >=0 && ixInClassDatas <= maxIx) {
+        if(posReloc >=0 && posReloc <= maxIx) {
           /**Calculate the address of the memory location which should be changed.
            * because it is a pointer of different types, it should be addressed as void**. But a int** is better to debug. */
-          int** pptr = (int**)addOffset_MemAreaC(addrBaseClasses, ixInClassDatas);
+          int* addrReloc = (int*)addOffset_MemAreaC(addrBaseClasses, posReloc);
+          int offsReloc = *addrReloc;  //The value in the bin file is the offset from the own address to the destination.
           /**The new value at memory location is the location itself + its content (the relative address value): */
-          *pptr = (int*)addOffset_MemAreaC(pptr, *(int*)pptr); //read int from pointer position, save int*-Pointer
-          if(!inRange_MemAreaC(*pptr, minAddr, maxAddr)) {
+          intptr_t addrdst = (intptr_t)addOffset_MemAreaC(addrReloc, offsReloc); //The address of the really destination
+          if (inRange_MemAreaC(addrdst, minAddr, maxAddr)) {
+            *addrReloc = addrdst;
+          } else {
             /**Because the ixInClassDatas is checked already, this conditions shouldn't met any time: */
             bOk = false;
             ythis->errorRelocationExtRefl +=1;
@@ -117,9 +120,7 @@ char const* load_ExtReflectionJc(ExtReflectionJc_s* ythis, StringJc fileName, in
 				/**Save the results. */
 				extReflectionClasses_ReflectionJc[0] = extReflectionData->arrayClasses; //Note: intend more as one external file 
 				ythis->extReflection = extReflectionData->arrayClasses;
-        /**Activate the DSP access. */
-				//ythis->applications._DSP_ = (void*)-1;                                   
-			}  
+   	}  
 			ythis->extReflectionData = extReflectionData;  //only for inspect.
 		}
   } else {

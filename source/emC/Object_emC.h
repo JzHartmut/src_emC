@@ -154,10 +154,10 @@ typedef union State_ObjectJc_t
 
     /** This bits are used to store the type or instance info for small objects.
       */
-    #define mTypeSmall_objectIdentSize_ObjectJc  0x0fff0000
+    #define mIdentSmall_objectIdentSize_ObjectJc  0x0fff0000
 
     /** This constant is used to shift the type info for small objects. */
-    #define kBitTypeSmall_objectIdentSize_ObjectJc 16
+    #define kBitIdentSmall_objectIdentSize_ObjectJc 16
 
     /** Size bits for medium objects, medium means up to 1 MByte. There are 10 bits
       * useable for 1023 medium types.
@@ -166,10 +166,10 @@ typedef union State_ObjectJc_t
 
     /** This bits are used to store the type or size info for medium objects.
       */
-    #define mTypeMedium_objectIdentSize_ObjectJc 0x0ff00000
+    #define mIdentMedium_objectIdentSize_ObjectJc 0x0ff00000
 
     /** This constant is used to shift the type info for small objects. */
-    #define kBitTypeMedium_objectIdentSize_ObjectJc 20
+    #define kBitIdentMedium_objectIdentSize_ObjectJc 20
 
     /** Size bits for large objects up to 16 MByte.
       */
@@ -178,10 +178,10 @@ typedef union State_ObjectJc_t
     /** This bits are used to store the type or instance info for large objects.
         There are only 5 bits useable for 31 large instances.
       */
-    #define mTypeLarge_objectIdentSize_ObjectJc  0x1f000000
+    #define mIdentLarge_objectIdentSize_ObjectJc  0x1f000000
 
     /** This constant is used to shift the type info for small objects. */
-    #define kBitTypeLarge_objectIdentSize_ObjectJc 24
+    #define kBitIdentLarge_objectIdentSize_ObjectJc 24
 
     int32 objectIdentSize;
     
@@ -314,7 +314,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
   *
   * @since 2018-08: the better form.
 */
-#define INIZ_objReflId_ObjectJc(OBJ, REFL, ID) { {(ObjectJc*)&(OBJ)} , { REFL } , {{sizeof(OBJ) | ((ID)<<kBitTypeSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
+#define INIZ_objReflId_ObjectJc(OBJ, REFL, ID) { {(ObjectJc*)&(OBJ)} , { REFL } , {{sizeof(OBJ) | ((ID)<<kBitIdentSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
 #define INITIALIZER_ObjectJc(OBJ, REFLECTION, IDENT) INIT_OBJ_REFL_ID_ObjectJc(OBJ, REFLECTION, IDENT)
 
 
@@ -972,7 +972,9 @@ C_TYPE typedef struct  FieldJc_t
   * pointered the position of the pointer to the virtual table of the interface,
   * a call of obj->toObjectJc() is necessary to get the base for this offset.
   */
-  int16     position;
+  int16     offsFieldInStruct;
+
+  #define mOffsIsProxyIx4Target_FieldJc 0x8000
 
   /**Offset in a pointered class to the ObjectifcBaseJcpp class structure if such base interface exists.
   This value is 0 if it is not a pointer or if it is a pointer of not Object-derivated structures.
@@ -980,14 +982,14 @@ C_TYPE typedef struct  FieldJc_t
   int16     offsetToObjectifcBase;
   /** The class object representing the class or interface that declares the field represented by this Field object. */
   struct ClassJc_t const* declaringClass;
-}FieldJc;
+} FieldJc;
 
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
 #define INIZ_ID_FieldJc 0x0ff6
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_FieldJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_FieldJc<<kBitTypeSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_FieldJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_FieldJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
 
 #define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
 
@@ -1102,7 +1104,7 @@ C_TYPE typedef struct  ClassJc_t
 #define INIZ_ID_ClassJc 0x0ff8
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassJc<<kBitTypeSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_ClassJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
 
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageJc (mIsLargeSize_objectIdentSize_ObjectJc + 0x1e000000)
@@ -1421,7 +1423,7 @@ typedef struct ClassOffset_idxMtblJcARRAY_t
 #define INIZ_ID_ClassOffset_idxMtblJc 0x0ff9
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassOffset_idxMtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassOffset_idxMtblJc<<kBitTypeSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_ClassOffset_idxMtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassOffset_idxMtblJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
 
 
 /**Initializes a super class or interface reference in RAM for runtime reflection. 
