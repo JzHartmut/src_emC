@@ -1,9 +1,9 @@
-2018-12-15 15:07:25  x     Inspc.filelist                           ::         62.093 -0530656693 
+2018-12-31 21:01:08  x     Inspc.filelist                           ::         62.783 -0298024184 
 2018-10-15 21:37:07  x     Inspc.gitRepository                      ::           . 37 -0596216233 
 2018-10-15 22:21:25  x     Inspc.gitignore                          ::           .270 -1365159923 
 2018-11-27 18:15:22  x     _filelist.lst                            ::         61.895  0243272745 
 2011-06-23 10:05:52  x     delBak.bat                               ::           . 37  1661871524 
-2018-12-29 10:39:38  x     emC.filelist                             ::           .  0  0000000000 
+2018-12-31 21:02:37  x     emC.filelist                             ::           .  0  0000000000 
 2018-08-09 12:04:39  x     emC.gitRepository                        ::           . 31  0290212737 
 2018-10-25 23:33:18  x     emC.gitignore                            ::           .314 -1161380312 
 2018-12-25 00:56:45  x     index.html                               ::          6.601 -1412399827 
@@ -17,22 +17,22 @@
 2018-12-17 08:33:11  x     pid_Ctrl.crefl                           ::         17.400  0267345646 
 
 ============================== genRefl/Inspc/ ======================================================
-2018-12-25 19:13:43  x     Access_DataStruct_Inspc.crefl            ::          5.857 -1003119973 
-2018-12-25 19:13:43  x     CheckPwd_Inspc.crefl                     ::           .128 -1375770606 
-2018-12-25 19:13:43  x     DataNode_Inspc.crefl                     ::          1.754 -1646428178 
-2018-12-25 19:13:43  x     DataStruct_Inspc.crefl                   ::         26.298  1509758142 
-2018-12-25 19:13:43  x     GetValue_Inspc.crefl                     ::          3.099 -1689244333 
-2018-12-25 19:13:44  x     IfcTargetProxy_Inspc.crefl               ::          5.752 -0606098919 
-2018-12-25 19:13:44  x     InspcTargetTelg.crefl                    ::          4.016 -0628501261 
-2018-12-25 19:13:44  x     Proxy2TargetSharedMem_Inspc.crefl        ::          2.905  1733181575 
-2018-12-25 19:13:44  x     Proxy2Target_Inspc.crefl                 ::          4.785 -0724455404 
-2018-12-25 19:13:44  x     Service_Inspc.crefl                      ::          3.204 -0423972974 
-2018-12-25 19:13:44  x     SharedMem2Target_Inspc.crefl             ::          2.799 -0676609328 
-2018-12-25 19:13:44  x     Target2ProxySharedMem_Inspc.crefl        ::          2.905 -0602960486 
-2018-12-25 19:13:44  x     Target2Proxy_Inspc.crefl                 ::          4.753  0566236966 
-2018-12-25 19:13:44  x     Test_Out_DataStruct_Inspc.crefl          ::           .139 -1552742436 
-2018-12-25 19:13:44  x     TimeSignals_Inspc.crefl                  ::         35.076 -1935125962 
-2018-12-25 19:13:44  x     Wait_Inspc.crefl                         ::          3.431  1681782664 
+2018-12-31 10:38:46  x     Access_DataStruct_Inspc.crefl            ::          5.857 -1003119973 
+2018-12-31 10:38:46  x     CheckPwd_Inspc.crefl                     ::           .128 -1375770606 
+2018-12-31 10:38:47  x     DataNode_Inspc.crefl                     ::          1.754 -1646428178 
+2018-12-31 10:38:47  x     DataStruct_Inspc.crefl                   ::         25.385 -1757461733 
+2018-12-31 10:38:47  x     GetValue_Inspc.crefl                     ::          3.099 -1689244333 
+2018-12-31 10:38:47  x     IfcTargetProxy_Inspc.crefl               ::          5.752 -0606098919 
+2018-12-31 10:38:47  x     InspcTargetTelg.crefl                    ::          4.016 -0628501261 
+2018-12-31 10:38:47  x     Proxy2TargetSharedMem_Inspc.crefl        ::          2.905  1733181575 
+2018-12-31 10:38:47  x     Proxy2Target_Inspc.crefl                 ::          4.785 -0724455404 
+2018-12-31 10:38:48  x     Service_Inspc.crefl                      ::          3.204 -0423972974 
+2018-12-31 10:38:48  x     SharedMem2Target_Inspc.crefl             ::          2.799 -0676609328 
+2018-12-31 10:38:48  x     Target2ProxySharedMem_Inspc.crefl        ::          2.905 -0602960486 
+2018-12-31 10:38:48  x     Target2Proxy_Inspc.crefl                 ::          4.753  0566236966 
+2018-12-31 10:38:48  x     Test_Out_DataStruct_Inspc.crefl          ::           .139 -1552742436 
+2018-12-31 10:38:48  x     TimeSignals_Inspc.crefl                  ::         35.076 -1935125962 
+2018-12-31 10:38:48  x     Wait_Inspc.crefl                         ::          3.431  1681782664 
 
 ============================== genRefl/Ipc/ ========================================================
 2018-11-25 09:47:21  x     InterProcessComm.crefl                   ::          9.514 -2083647770 
@@ -292,15 +292,15 @@
 2018-12-14 22:45:13  x     pid_Ctrl.h                               ::          3.393 -0747589887 
 
 ============================== source/Inspc/ =======================================================
-2018-12-14 22:03:49  x     Access_DataStruct_Inspc.c                ::          9.199  1339116330 
-2018-12-14 21:33:50  x     Access_DataStruct_Inspc.h                ::          6.106 -0560695221 
+2018-12-31 07:04:54  x     Access_DataStruct_Inspc.c                ::          9.659 -0038023214 
+2018-12-31 09:26:17  x     Access_DataStruct_Inspc.h                ::          6.854  0860399916 
 2018-10-29 22:21:21  x     CheckPwd_Inspc.h                         ::          1.745  1705455017 
 2018-10-21 21:24:16  x     CheckPwd_MinDefault_Inspc.c              ::          1.306  1859426055 
 2018-12-27 00:36:18  x     DataNode_Inspc.c                         ::          5.171 -1553934681 
 2018-11-30 10:51:34  x     DataNode_Inspc.h                         ::          4.491 -0325831781 
-2018-12-29 00:56:32  x     DataStruct_Inspc.c                       ::         48.863  1924795472 
-2018-12-29 00:56:35  x     DataStruct_Inspc.h                       ::         11.520 -1274140635 
-2018-11-29 22:41:26  x     GetValue_Inspc.c                         ::          2.507 -0073181248 
+2018-12-31 18:51:08  x     DataStruct_Inspc.c                       ::         48.962 -1568792664 
+2018-12-31 10:23:50  x     DataStruct_Inspc.h                       ::         11.144  0477728629 
+2018-12-30 12:43:00  x     GetValue_Inspc.c                         ::          2.514 -0307929481 
 2018-11-29 22:41:34  x     GetValue_Inspc.h                         ::          1.034  0600680306 
 2018-09-05 21:17:02  x     IfcTargetProxy_Inspc.c                   ::           .140 -1315704039 
 2018-12-25 20:34:04  x     IfcTargetProxy_Inspc.h                   ::         12.028  0406801268 
@@ -311,9 +311,9 @@
 2018-09-06 12:14:53  x     Proxy2Target_Inspc.h                     ::           .929  1414202974 
 2018-11-29 22:44:28  x     Service_Inspc.c                          ::          1.759  0149468908 
 2018-11-29 22:44:38  x     Service_Inspc.h                          ::          1.436  0513986053 
-2018-12-25 20:35:33  x     SharedMem2Target_Inspc.c                 ::          3.503 -0591040031 
+2018-12-29 10:49:56  x     SharedMem2Target_Inspc.c                 ::          3.678  1370658925 
 2018-09-05 21:06:01  x     SharedMem2Target_Inspc.h                 ::          1.096 -0678159751 
-2018-12-25 20:19:31  x     Target2ProxySharedMem_Inspc.c            ::          1.421 -0267321126 
+2018-12-29 10:46:55  x     Target2ProxySharedMem_Inspc.c            ::          1.596  0554893915 
 2018-09-04 20:30:42  x     Target2ProxySharedMem_Inspc.h            ::           .855  0996033019 
 2018-12-25 20:34:24  x     Target2Proxy_Inspc.c                     ::          8.656 -1437661467 
 2018-12-25 19:44:52  x     Target2Proxy_Inspc.h                     ::          1.366 -0463313924 
@@ -331,12 +331,12 @@
 2018-08-10 20:04:35  x     FBaccess_Inspc_priv.h                    ::           .621 -1740501058 
 
 ============================== source/Inspc/test/ ==================================================
-2018-12-29 00:57:35  x     test_DataStruct_Inspc.c                  ::          7.938 -2032216206 
+2018-12-30 13:41:42  x     test_DataStruct_Inspc.c                  ::          8.354 -1064693693 
 
 ============================== source/InspcJ2c/ ====================================================
 2018-08-26 10:46:48  x     AnswerComm_ifc_Inspc.c                   ::          1.724 -1007595384 
 2018-08-26 10:44:19  x     AnswerComm_ifc_Inspc.h                   ::          3.168  1071265437 
-2018-11-25 21:27:39  x     ClassContent_Inspc.c                     ::         81.781  1852626359 
+2018-12-30 12:41:52  x     ClassContent_Inspc.c                     ::         81.788  0162089679 
 2018-10-19 20:34:15  x     ClassContent_Inspc.h                     ::         17.055 -0393022684 
 2018-10-19 20:39:52  x     CmdConsumer_ifc_Inspc.c                  ::          2.436  1804871685 
 2018-10-19 20:32:22  x     CmdConsumer_ifc_Inspc.h                  ::          5.301  1527369788 
@@ -442,7 +442,7 @@
 2018-11-25 21:27:32  x     StringBufferJc.c                         ::         44.220  0404159203 
 2009-01-04 13:07:50  x     StringBufferJc.h                         ::          3.013 -1131073304 
 2018-12-28 12:01:19  x     StringJc.c                               ::         20.631 -1750080578 
-2018-12-02 21:05:32  x     StringJc.h                               ::         98.944  0522253494 
+2018-12-31 18:50:47  x     StringJc.h                               ::         99.306  0943405201 
 2011-01-25 20:37:58  x     StringJc_intern.h                        ::          2.845 -0295195136 
 2010-11-13 07:56:06  x     StringValueConvJc.c                      ::          2.731  0805606851 
 2018-08-26 10:45:30  x     SystemJc.c                               ::          7.537 -0897977491 
@@ -607,7 +607,7 @@
 2018-09-23 12:49:14  x     os_file.c                                ::          8.622  1993792917 
 2018-08-24 00:36:26  x     os_internal.h                            ::          1.142 -0519529940 
 2018-12-10 11:28:26  x     os_mem.c                                 ::          2.946  0320196918 
-2018-08-25 10:16:43  x     os_mutex.c                               ::          6.724 -2130080483 
+2018-12-30 12:46:29  x     os_mutex.c                               ::          6.744  1278370784 
 2018-12-29 10:11:44  x     os_sharedmem.c                           ::          4.376 -0860092812 
 2018-08-25 10:15:46  x     os_socket.c                              ::         21.489 -0322834230 
 2018-09-23 12:49:14  x     os_sync.c                                ::          7.448 -0854092179 

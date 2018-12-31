@@ -1723,6 +1723,14 @@ class StringBuilderJcpp : public StringBuilderJc_s {
   /**Only formally to express line = line + append; */
   public: StringBuilderJcpp operator=(StringBuilderJcpp& src) { if(&src != this){ setLength_StringBuilderJc(this, 0, null); append_u_StringBuilderJc(this, &src, null); } return *this; }
 
+  /**Appends another StringBuilder or
+   * if src == this, then only formally to express line += line + append; 
+   */
+  public: StringBuilderJcpp& operator+=(StringBuilderJcpp& src) { 
+    if (&src != this) { append_u_StringBuilderJc(this, &src, null); }  //does not append if src == this, because all operator+ appends already 
+    return *this; 
+  }
+
   public: StringBuilderJcpp& operator+(StringJc s) { append_s_StringBuilderJc(this, s, null); return *this; }
   public: char const* getCharsLen(int* len) { return getCharsAndCount_StringBuilderJc(this, len); }
   public: int operator >>= (char const** dst) { int len; *dst = getCharsAndCount_StringBuilderJc(this, &len); return len; }

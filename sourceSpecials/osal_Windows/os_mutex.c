@@ -115,13 +115,13 @@ bool os_lockMutex  (  OS_Mutex_s* pMutex, int timeout_millisec)
     WinRet = WaitForSingleObject( pMutex->winHandleMutex, timeout_millisec );
     if (WinRet == WAIT_ABANDONED)
     { STACKTRC_ENTRY("os_lockMutex");
-      THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex is blocked because a killed thread", (int32)pMutex->winHandleMutex, 0);
+      THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex is blocked because a killed thread", (int32)(intptr_t)pMutex->winHandleMutex, 0);
       STACKTRC_RETURN false;
     }
     if (WinRet == WAIT_FAILED) {
       DWORD err = GetLastError();
       STACKTRC_ENTRY("os_lockMutex");
-      THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex, debug necessary ", (int32)pMutex->winHandleMutex, err);
+      THROW_s0(IllegalStateException, "os_lockMutex: ERROR: Mutex, debug necessary ", (int32)(intptr_t)pMutex->winHandleMutex, err);
       STACKTRC_RETURN false;
     }
     else {
