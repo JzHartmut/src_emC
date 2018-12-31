@@ -647,7 +647,6 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
   ClassJc const* clazzRet = null;
   MemSegmJc retObj = NULL_MemSegmJc;
   //MemSegmJc dstObj;
-  int32 modifiers = getModifiers_FieldJc(thiz);
   ObjectJc* retObjBase;
   
 
@@ -657,7 +656,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
 
   clazzFromField = getType_FieldJc(thiz);  //get class from the field, but it may  be a superclass-reference to a derivated type.
   typeModifier = getModifiers_ClassJc(clazzFromField);
-  fieldModifier = thiz->bitModifiers;
+  fieldModifier = getModifiers_FieldJc(thiz);
   offsetBase = clazzFromField->posObjectBase;
   if( ADDR_MemSegmJc(obj, void) == null)
   { //the inputted obj is null already:
@@ -671,7 +670,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
     MemSegmJc ref; // = getReference_FieldJc(thiz, obj, idx);  //getRefAddr_FieldJc(thiz, obj, idx);
     //ref = address of the element inside obj. obj is the instance which contains this field.
     ref = getAddrElement_V_FieldJc(thiz, obj, sVaargs, vaargs); //getRefAddr_FieldJc(thiz, instance, 0);
-    if(isReference_ModifierJc(modifiers))
+    if(isReference_ModifierJc(fieldModifier))
     { 
       #ifdef __HandlePtr64__
         //Only for a system which deals with 32-bit-handle instead of pointer. Especially S-Function in Simulink.
@@ -759,10 +758,10 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
        * In normally the ref is the object to return. Save it in retObj. 
        * But in C++ the position of ObjectJc may have an offset to the instance itself, Therefore offsetBase is added.
        */
-      /*else in C++*/ if((typeModifier & mObjectJcBased_Modifier_reflectJc) && (modifiers & kEmbeddedContainer_Modifier_reflectJc)==0)
+      /*else in C++*/ if((typeModifier & mObjectJcBased_Modifier_reflectJc) && (fieldModifier & (kEmbedded_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc))==0)
       { /**If the type is based on ObjectJc, the clazz is getted from its reflections.
-           But not for an embedded instance. Only for references. A reference may from base type. 
-           Especially it is ObjectJc itself, it should show the fields of ObjectJc.
+           But if it is an embedded instance then the field type is used. For That is especially for super classes and ObjectJc on first position.
+           Without this rule the Type is gotten again from the instance and the super type was not shown.
          */
         MemUnit* ref1 = ADDR_MemSegmJc(ref, MemUnit);
         ClassJc const* clazzFromInstance;
