@@ -47,6 +47,7 @@ typedef struct Entry_DefPortType_emC_t
  * * A character U W V is the unsigned form of uint32, uint16, uint8
  * * A character d f j i s b is the complex variant of double, float, int64, int32, int16, int8. 
  * * A character C Z is char8 and boolean as int8, same as in Java
+ * * If TYPENAME* is found, the type is returned as 'U', a handle for simulink. 
  * * Not supported yet 2018-10: z for zero-terminated char*, s for StringJc, c for char16
  * * An array designation can be written as [12,23], as [12][23], as [12[23, as 12,23 or as 12[23. 
  * All of that is admissible because the [ , ] will be skipped, only the number is relevant.

@@ -47,25 +47,31 @@ char const* parse_Entry_DefPortType_emC  (  Entry_DefPortType_emC* thiz, StringJ
   int zType = length_StringJc(type);
   const char* sType = PTR_StringJc(type);
   int pos = 0;
+  int posFound = 0;
   int zDim = 0;
   thiz->type = '?'; //default dynamically typed
   thiz->sizeType = 0; //default;
-  while(pos < zType) {
+  int nrType;
+  while (pos < zType) {
     char cType = sType[pos];
-    char nrType = searchChar_emC(cTypes_DefPortTypes_emC, -20, cType);
-    if ( nrType >=0) {
-      thiz->type = cType;                    //type char
-      thiz->sizeType = lenTypes_DefPortTypes_emC[nrType];
-      pos +=1;
-    }
-    else if (strchr("[,]", cType) != null) {  //structure char for arrays
-      pos +=1;
+    if (strchr(" [,]", cType) != null) {  //structure char for arrays
+      pos += 1;
     }
     else if (cType >= '0' && cType <= '9') {  //number
-      int sizeDim =0; 
-      thiz->sizeArray[thiz->dimensions] = parseIntRadix_emC(sType+pos, zType, 10, &sizeDim);
-      thiz->dimensions +=1;
+      int sizeDim = 0;
+      thiz->sizeArray[thiz->dimensions] = parseIntRadix_emC(sType + pos, zType, 10, &sizeDim);
+      thiz->dimensions += 1;
       pos += sizeDim;
+    }
+    else if ((posFound = indexOf_CI_StringJc(type, '*', pos)) >= 0) {
+      //it is a pointer type, the used type for Simulink is a handle. The pointer type will be evaluate anywhere other
+      thiz->type = 'U';
+      pos += posFound +1;  //after '*'
+    }
+    else if((nrType = searchChar_emC(cTypes_DefPortTypes_emC, -20, cType = sType[pos])) >=0) {
+      thiz->type = cType;                    //type char
+      thiz->sizeType = lenTypes_DefPortTypes_emC[nrType];
+      pos += 1;
     }
     else {
       STACKTRC_RETURN "parse_Entry_DefPortType_emC(): unexpected format char";
