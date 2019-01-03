@@ -215,7 +215,7 @@ Mtbl_ObjectJc const* xxxgetMtbl_ObjectJc(ObjectJc const* ythis, ClassJc const* t
   int idxMtbl;
   STACKTRC_ENTRY("getMtbl_ObjectJc");
   if(ythis == null) THROW1_s0(NullPointerException,"this is null", 0);
-  if(ythis != ythis->ownAddress) THROW1_s0(RuntimeException, "ownAddress fault", (int)ythis->ownAddress);
+  if(ythis != ythis->ownAddress) THROW1_s0(RuntimeException, "ownAddress fault", (int)(intptr_t)ythis->ownAddress);
   clazz = ythis->reflectionClass;
   //if(clazz->object.reflectionClass != &reflection_ClassJc) THROW1_s0(RuntimeException, "reflection fault", (int)ythis->ownAddress);
   //may be a derivated type!!! TODO.
@@ -226,7 +226,7 @@ Mtbl_ObjectJc const* xxxgetMtbl_ObjectJc(ObjectJc const* ythis, ClassJc const* t
   else
   {
     idxMtbl = getIdxMtbl_ClassJc(clazz, type);
-    if(idxMtbl < 0) THROW1_s0(RuntimeException, "fault type", (int)ythis->ownAddress);
+    if(idxMtbl < 0) THROW1_s0(RuntimeException, "fault type", (int)(intptr_t)ythis->ownAddress);
     if(clazz->mtbl == null){
       mtbl = null; 
     } else {
@@ -245,13 +245,13 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
   ClassJc const* reflection;
   STACKTRC_ENTRY("getMtbl_ObjectJc");
   if(ythis->ownAddress != ythis){ 
-    THROW1_s0(IllegalArgumentException, "Object head faulty", (int)ythis);
+    THROW1_s0(IllegalArgumentException, "Object head faulty", (int)(intptr_t)ythis);
     STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
   }
   reflection = ythis->reflectionClass;
   if( reflection != null) { 
     if(reflection->object.reflectionClass != &reflection_ClassJc){
-      THROW1_s0(IllegalArgumentException, "Object reflection faulty", (int)ythis);
+      THROW1_s0(IllegalArgumentException, "Object reflection faulty", (int)(intptr_t)ythis);
       STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
     }
     head = ythis->reflectionClass->mtbl;  
@@ -260,16 +260,16 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
       while(  head->sign != sign 
            && head->sign != signEnd_Mtbl_ObjectJc 
            )
-      { int sizeTable = (int)head->sizeTable;
+      { int sizeTable = (int)(intptr_t)(head->sizeTable);
         if(sizeTable < 0 || sizeTable > (302 * sizeof(void*))) {
-          THROW1_s0(IllegalStateException, "Internal error, Vtbl faulty, searched:", (int)sign);
+          THROW1_s0(IllegalStateException, "Internal error, Vtbl faulty, searched:", (int)(intptr_t)sign);
         }   
         //ASSERT_emC(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
         //The next part of method table is found after the current.
         head = (MtblHeadJc const*)( (MemUnit*)head + sizeTable );
       }
       if(head->sign == signEnd_Mtbl_ObjectJc){
-        THROW1_s0(ClassCastException, "baseclass not found", (int)sign);
+        THROW1_s0(ClassCastException, "baseclass not found", (int)(intptr_t)sign);
         head = null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
   } } }
   STACKTRC_LEAVE; return head;
@@ -281,7 +281,7 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 { MtblHeadJc const* headSign = getMtbl_ObjectJc(thiz, sign);
   if(headSign !=null){
     MtblHeadJc const* headBase = thiz->reflectionClass->mtbl;
-    return OFFSET_MemUnit(headBase, headSign) / sizeof(sign);
+    return OFFSET_MemUnit(headBase, headSign) / (int)sizeof(sign);
   } 
   else return -1;  //no Mtbl found.
 }
@@ -292,10 +292,10 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
 { 
   switch(error) {
-  case 1: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)ythis);
-  case 2: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)ythis);
-  case 3: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)ythis);
-  default: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)ythis);
+  case 1: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)(intptr_t)ythis);
+  case 2: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)(intptr_t)ythis);
+  case 3: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)(intptr_t)ythis);
+  default: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)(intptr_t)ythis);
   }
   return null;
 }

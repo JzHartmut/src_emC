@@ -75,7 +75,7 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
     val |= mIsCharSeqJcMtbl_CharSeqJc;
   } else {
     STACKTRC_ENTRY("fromObjectJc_CharSeqJc");
-    THROW1_s0(IllegalArgumentException, "thiz does not implement the CharSeqJc interface.", (int)othiz);
+    THROW1_s0(IllegalArgumentException, "thiz does not implement the CharSeqJc interface.", (int)(intptr_t)othiz);
     STACKTRC_LEAVE;
 	  return z_CharSeqJc("faulty instance ");
   }
@@ -159,7 +159,7 @@ Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC
     //MemUnit* head2 = addOffset_MemUnit(head, offsetMtbl);  //add offset in mtbl
     //head = (MtblHeadJc const*) head2;
   }
-  ASSERT_s0_Jc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)PTR_CharSeqJc(thiz));
+  ASSERT_s0_Jc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)(intptr_t)PTR_CharSeqJc(thiz));
   mc = (Mtbl_CharSeqJc const*) head;
   return mc;
 
@@ -447,7 +447,7 @@ METHOD_C StringJc substring_StringJc(StringJc ythis, int beginIndex, int endInde
   const char* chars = PTR_StringJc(ythis);
   STACKTRC_TENTRY("substring_StringJc");
   
-  if(count == mLength__StringJc) { count = strlen(chars);}
+  if(count == mLength__StringJc) { count = (int)strlen(chars);}
 
   if(endIndex < 0) {endIndex = count; }
 
@@ -467,7 +467,7 @@ METHOD_C int indexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex)
 { const char* chars = PTR_StringJc(ythis);
   int nChars = VAL_StringJc(ythis) & mLength__StringJc;
   //STACKTRC_TENTRY("StringJc.indexOf(int,int)");
-  if(nChars == mLength__StringJc) { nChars = strlen(chars); }
+  if(nChars == mLength__StringJc) { nChars = strnlen_emC(chars, kMaxNrofChars_StringJc); }
   //const char* chars = getCharsAndLength_StringJc(ythis, &nChars);
   if (fromIndex <0)
   { //STACKTRC_LEAVE; 

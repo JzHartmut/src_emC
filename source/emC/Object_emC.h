@@ -1216,7 +1216,7 @@ typedef enum  Modifier_reflectJc_t
   /**It may be a primitive with 7*8= 56 bit, it is used to designate a bitfield. */
   , kBitfield_Modifier_reflectJc = 0x00070000
 
-  /**It may be a primitive with 9*8= 72 bit, it is used to designate a handle for a pointer.
+  /**It is not a primitive with 9*8= 72 bit, it is used to designate a handle for a pointer.
   * This is a special feature for supporting 64-bit-addresses with 32-bit handle. The handle is the index
   * of a global address table which contains the pointer. Alternatively for 32-bit-Systems the handle is equal the pointer value.
   */
@@ -1408,7 +1408,7 @@ typedef struct ClassOffset_idxMtblJc_t
 
 /**This macro calculates the index of a particulary method table inside a table, to use for idxMtbl in ClassOffset_idxMtblJc.
  */
-#define OFFSET_Mtbl(TYPE, ELEMENT) ( ( (int)(&((TYPE*)(0x1000))->ELEMENT) - 0x1000) / sizeof(MT_void_Method_void const*)) 
+#define OFFSET_Mtbl(TYPE, ELEMENT) ( (int)( (intptr_t)(&((TYPE*)(0x1000))->ELEMENT) - 0x1000) / (int)sizeof(MT_void_Method_void const*)) 
 //#define OFFSET_Mtbl(BASE, ELEMENT) ( (MT_void_Method_void const*)(&BASE.ELEMENT) - (MT_void_Method_void const*)(&BASE)) 
 
 /** This type describes a array of ClassOffset_idxMtblJc*/

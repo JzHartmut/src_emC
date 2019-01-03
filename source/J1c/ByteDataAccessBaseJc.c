@@ -2030,7 +2030,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_int32
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->sizeHead) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->sizeHead) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2038,7 +2038,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_int8
     , 1 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kPtrVal_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->data) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->data) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2046,7 +2046,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_int32
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixBegin) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixBegin) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2054,7 +2054,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_int32
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixNextChild) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixNextChild) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2062,7 +2062,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_int32
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixEnd) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixEnd) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2070,7 +2070,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_bool
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->bExpand) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->bExpand) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2078,7 +2078,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_bool
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->bBigEndian) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->bBigEndian) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2086,7 +2086,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , REFLECTION_bool
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->bExc) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->bExc) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2094,7 +2094,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , &reflection_ByteDataAccessBaseJc_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->parent) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->parent) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2102,7 +2102,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , &reflection_ByteDataAccessBaseJc_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->currChild) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->currChild) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2110,7 +2110,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 0 //nrofArrayElements
     , &reflection_CharsetJc
     , kReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((ByteDataAccessBaseJc_s*)(0x1000))->charset) - (int32)(ByteDataAccessBaseJc_s*)0x1000)
+    , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->charset) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ByteDataAccessBaseJc_s
     }
@@ -2119,7 +2119,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , &reflection_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_ByteDataAccessBaseJc) //lo part of memory address of static member
-    , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_ByteDataAccessBaseJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
+    , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_ByteDataAccessBaseJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
     , &reflection_ByteDataAccessBaseJc_s
     }
 } };

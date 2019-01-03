@@ -27,7 +27,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->fileLength) -(int32)(FileDescription_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileDescription_OSAL*)(0x1000))->fileLength) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileDescription_OSAL
     }
@@ -35,7 +35,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->flags) -(int32)(FileDescription_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileDescription_OSAL*)(0x1000))->flags) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileDescription_OSAL
     }
@@ -43,7 +43,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     , 0   //no Array, no Bitfield
     , &reflection_OS_TimeStamp
     , 0 //bitModifiers
-    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->timeChanged) -(int32)(FileDescription_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileDescription_OSAL*)(0x1000))->timeChanged) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileDescription_OSAL
     }
@@ -51,7 +51,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_void
     , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->ptr1) -(int32)(FileDescription_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileDescription_OSAL*)(0x1000))->ptr1) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileDescription_OSAL
     }
@@ -59,7 +59,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->posNameInPath) -(int32)(FileDescription_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileDescription_OSAL*)(0x1000))->posNameInPath) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileDescription_OSAL
     }
@@ -67,7 +67,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->posRelatPathInPath) -(int32)(FileDescription_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileDescription_OSAL*)(0x1000))->posRelatPathInPath) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileDescription_OSAL
     }
@@ -75,7 +75,7 @@ const struct Reflection_Fields_FileDescription_OSAL_t
     , 0   //nrofArrayElements
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileDescription_OSAL*)(0x1000))->absPath) -(int32)(FileDescription_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileDescription_OSAL*)(0x1000))->absPath) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileDescription_OSAL
     }
@@ -108,7 +108,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->hFile_) -(int32)(FileLock_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileLock_OSAL*)(0x1000))->hFile_) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileLock_OSAL
     }
@@ -116,7 +116,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_void
     , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->ptr_) -(int32)(FileLock_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileLock_OSAL*)(0x1000))->ptr_) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileLock_OSAL
     }
@@ -124,7 +124,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->position_) -(int32)(FileLock_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileLock_OSAL*)(0x1000))->position_) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileLock_OSAL
     }
@@ -132,7 +132,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->size_) -(int32)(FileLock_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileLock_OSAL*)(0x1000))->size_) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileLock_OSAL
     }
@@ -140,7 +140,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((FileLock_OSAL*)(0x1000))->flags_) -(int32)(FileLock_OSAL*)0x1000)
+    , (int16)((intptr_t)(&((FileLock_OSAL*)(0x1000))->flags_) - 0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_FileLock_OSAL
     }
@@ -177,7 +177,7 @@ const struct Reflection_Fields_OS_SOCKADDR_t
     , 2   //nrofArrayElements
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , 0 //(int16)((int32)(&((OS_SOCKADDR*)(0x1000))->sin_zero) -(int32)(OS_SOCKADDR*)0x1000)
+    , 0 //(int16)((intptr_t)(&((OS_SOCKADDR*)(0x1000))->sin_zero) -(int32)(OS_SOCKADDR*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_OS_SOCKADDR
     }

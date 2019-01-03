@@ -213,7 +213,7 @@ int init_OSAL()
 		  //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
 		  mainThreadContext->XXXEvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
 		  if (mainThreadContext->XXXEvHandle == NULL){
-			  printf("ERROR: init_OSAL: Failed to crate Event for thread:0x%x\n", (uint)hDupMainHandle);
+			  printf("ERROR: init_OSAL: Failed to crate Event for thread:0x%x\n", (uint)(intptr_t)hDupMainHandle);
 		  }
 		  mainThreadContext->XXXuFlagRegister = 0;
       bOSALInitialized = true;
@@ -245,7 +245,7 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
   OS_ThreadRoutine* fpStart;
 	if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
 	{ printf("FATAL: threadContext incorrect: %p\n", threadContext);
-	  os_notifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)threadContext, 0);
+	  os_notifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)(intptr_t)threadContext, 0);
 	}
 	{ bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
     if (!ok  )

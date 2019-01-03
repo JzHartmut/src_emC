@@ -190,7 +190,7 @@ StringBuilderJc_s* ctorO_zI_StringBuilderJc(ObjectJc* yObj, char* buffer, int si
   { size = -size;
   }
   ythis->size = (int16)(-size);  //negative to sign it is a refernce.
-  count = strlen(buffer);  //from the given content
+  count = strnlen_emC(buffer, size-1);  //from the given content
   if(count >= size)
   { count = size-1; }        //but never greater than given size. The content may be a part of 0-terminate C-String.
   ythis->_count= (int16)count;
@@ -524,7 +524,7 @@ void set_StringJc(StringJc* ythis, StringJc src)
   int zSrc = valueSrc & mLength__StringJc;
   STACKTRC_ENTRY("set_StringJc");
   clear_StringJc(ythis);
-  if(zSrc == mLength__StringJc) zSrc = strlen(sSrc);
+  if(zSrc == mLength__StringJc) zSrc = strnlen_emC(sSrc, kMaxNrofChars_StringJc);
   if(valueSrc & mNonPersists__StringJc){  
     /**It needs to save the String persistents: */
     StringBuilderJc_s* buffer = new_StringBuilderJc(zSrc, _thCxt); //allocate in heap
@@ -844,45 +844,6 @@ METHOD_C void setLength_StringBuilderJc(StringBuilderJc_s* ythis, int newLength,
 
 
 
-StringBuilderJc_s* xxxappend_zI_StringBuilderJc(StringBuilderJc_s* ythis, const char* add, int lengthAdd, ThCxt* _thCxt)
-{ int nChars;
-  char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  int size = (ythis->size < 0 ? -ythis->size : ythis->size);
-  int count = ythis->_count;
-  STACKTRC_TENTRY("append_s_StringBuilderJc");
-
-  if(lengthAdd < 0){ lengthAdd = strlen(add); }
-  nChars = count + lengthAdd;
-  if(nChars > size)
-  { //StringJc msg = s0_StringJc("StringBuffer to many chars");
-    THROW1_s0(RuntimeException, "StringBuffer to many chars", nChars);
-  }
-  memcpy(buffer + count, add, lengthAdd);
-  _setCount_StringBuilderJc(ythis, nChars); //ythis->count = nChars;
-
-  STACKTRC_LEAVE;
-  return( ythis);
-}
-
-StringBuilderJc_s* xxxappend_z_StringBuilderJc(StringBuilderJc_s* ythis, const char* add, ThCxt* _thCxt)
-{ STACKTRC_TENTRY("append_s0_StringBuilderJc");
-  append_zI_StringBuilderJc(ythis, add, -1, _thCxt);
-  STACKTRC_LEAVE;
-  return( ythis);
-}
-
-
-
-StringBuilderJc_s* XXXXappend_sII_StringBuilderJc(StringBuilderJc_s* ythis, StringJc src, int start, int end, ThCxt* _thCxt)
-{ int lengthMax; char const* src1;
-  STACKTRC_TENTRY("append_sII_StringBuilderJc");
-  src1 = getCharsAndLength_StringJc(&src, &lengthMax);
-  if(start < 0 || end < start || end > lengthMax) THROW1_s0(IndexOutOfBoundsException, "fault start/end max=",lengthMax); 
-  append_zI_StringBuilderJc(ythis, src1+start, end-start, _thCxt);
-  STACKTRC_LEAVE;
-  return( ythis);
-}
-
 
 
 
@@ -901,23 +862,6 @@ StringBuilderJc_s* append_u_StringBuilderJc(StringBuilderJc_s* ythis, StringBuil
 
 
 
-
-StringBuilderJc_s* xxxappend_C_StringBuilderJc(StringBuilderJc_s* ythis, char add, ThCxt* _thCxt)
-{ char* buffer = (ythis->size < 0 ? ythis->value.buffer : ythis->value.direct);
-  int size = (ythis->size < 0 ? -ythis->size : ythis->size);
-  int count = ythis->_count;
-  int nChars = count + 1;
-  STACKTRC_TENTRY("append_C_StringBuilderJc");
-  if(nChars > size)
-  { //StringJc msg = const_String("StringBuffer to many chars");
-    THROW1_s0(RuntimeException, "StringBuffer to many chars", nChars);
-  }
-  buffer[count] = add;
-  _setCount_StringBuilderJc(ythis, nChars); //ythis->count = nChars;
-
-  STACKTRC_LEAVE;
-  return( ythis);
-}
 
 
 
@@ -1087,7 +1031,7 @@ StringBuilderJc_s* XXXinsert_cYii_StringBuilderJc(StringBuilderJc_s* thiz, int o
     STACKTRC_LEAVE; return thiz;  //do nothing, nothing to append
   }
   if(thiz->_mode & _mStringBuilt_StringBuilderJc){
-    THROW1_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
+    THROW1_s0(IllegalStateException, "Buffer was used in StringJc", (int)(intptr_t)buffer);
   }
   nInsert = end - start;  //nr of chars to insert netto
   countNew = count + nInsert;

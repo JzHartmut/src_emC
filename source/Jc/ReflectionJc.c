@@ -162,7 +162,7 @@ FieldJc_Y* new_FieldJc_Y(int size)
 //Note: use name_ClassJc
 const char* getName_ClassJc(ClassJc const* thiz)
 { if( ((uint64)(thiz)) < kREFLECTION_LastConstant )
-  { thiz = simpleTypes_ClassJc[(int)(thiz)];
+  { thiz = simpleTypes_ClassJc[(int)(intptr_t)(thiz)];
     //Note, TODO thiz should not be a simpleType-const
   }
   return thiz->name;
@@ -182,7 +182,7 @@ METHOD_C bool isPrimitive_ClassJc(ClassJc const* thiz)
 METHOD_C int32 getModifiers_ClassJc(ClassJc const* thiz)
 {
   if( ((intptr_t)(thiz)) < kREFLECTION_LastConstant )
-  { thiz = simpleTypes_ClassJc[(int)(thiz)];
+  { thiz = simpleTypes_ClassJc[(int)(intptr_t)(thiz)];
     //Note, TODO thiz should not be a simpleType-const
   }
   return thiz->modifiers;
@@ -202,7 +202,7 @@ METHOD_C ClassJc const* getEnclosingClass_ClassJc(ClassJc const* thiz)
 FieldJc_Y const* getDeclaredFields_ClassJc(const ClassJc* thiz)
 { FieldJc_Y const* fields;
   if( ((intptr_t)(thiz)) < kREFLECTION_LastConstant ) //2015-06 regard 64-bit-addresses and >0x7fffffff
-  { thiz = simpleTypes_ClassJc[(int)(thiz)];
+  { thiz = simpleTypes_ClassJc[(int)(intptr_t)(thiz)];
     //Note, TODO thiz should not be a simpleType-const
   }
   //thiz is the real class:
@@ -696,7 +696,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
       clazzRet = clazzFromField;  //clazz is set from FieldJc-type for information, but it shouldn't used to access.
     }
     else if((int)iRef == -1)
-    { //Access to a second CPU
+    { //Access to a remote CPU, a target via proxy
       int memSegment = -(int)iRef;
       int ixClass = -1;
       int32 addrRemote = getInfoDebug_InspcTargetProxy(getRootInstance_InspcTargetProxy, memSegment, null, 0);
@@ -705,7 +705,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
       }
       if(ixClass >0) {
         clazzRet = extReflectionClasses_ReflectionJc[0]->data[ixClass -1]; //get from loaded reflection file.
-        { set_OS_PtrValue(retObj, (void*)addrRemote, memSegment);
+        { set_OS_PtrValue(retObj, (void*)(intptr_t)addrRemote, memSegment);
         }
       } else {
         //access error on remote:
@@ -1064,7 +1064,7 @@ METHOD_C void* setReference_FieldJc(FieldJc const* thiz, MemSegmJc instance, voi
   
   if(isReference_ModifierJc(modifiers))
   { MemSegmJc addr = getAddrElement_V_FieldJc(thiz,instance, sVaargs, vaargs);
-    ret = (void*)setValue_MemAccessJc(addr, &value, sizeof(void*));
+    ret = (void*)(intptr_t)setValue_MemAccessJc(addr, &value, sizeof(void*));
   }
   else
   { THROW1_s0(RuntimeException, "no reference type", 0);

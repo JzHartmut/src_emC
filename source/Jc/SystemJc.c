@@ -66,8 +66,8 @@ void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, in
     int srcMaxNrofBytes = getSizeInfo_ObjectJc(src);
     int dstMaxNrofBytes = getSizeInfo_ObjectJc(dst);
     if(sizeElement < 0) THROW1_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
-    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(src));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(dst));
+    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(intptr_t)(src));
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(intptr_t)(dst));
     //all is tested.
     { MemUnit* dst = (MemUnit*)(dstArray +1);   //The position after the head data.
       MemUnit* src = (MemUnit*)(srcArray +1);
@@ -95,8 +95,8 @@ void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPo
     int srcMaxNrofBytes = srclen;
     int dstMaxNrofBytes = getSizeInfo_ObjectJc(dst);
     if(sizeElement < 0) THROW1_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
-    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(dst));
+    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(intptr_t)(srcPtr));
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(intptr_t)(dst));
     //all is tested.
     { MemUnit* dst = (MemUnit*)(dstArray +1);   //The position after the head data.
       MemUnit* src = (MemUnit*)srcPtr;
@@ -124,8 +124,8 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, PtrVal_int8 dst, int ds
     int srcMaxNrofBytes = srclen;
     int dstMaxNrofBytes = value_OS_PtrValue(dst);
     if(sizeElement < 0) THROW1_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
-    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(srcPtr));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(dst.ref));
+    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(intptr_t)(srcPtr));
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(intptr_t)(dst.ref));
     //all is tested.
     { MemUnit* dst1 = (MemUnit*)(dst.ref);   
       MemUnit* src1 = (MemUnit*)srcPtr;

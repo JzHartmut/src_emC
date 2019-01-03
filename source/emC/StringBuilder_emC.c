@@ -123,7 +123,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
 {
   initReflection_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, &reflection_StringBuilderJc, 0);
-  thiz->size = sizeof(thiz->value) + addSize;
+  thiz->size = (int16)sizeof(thiz->value) + addSize;
   thiz->_mode = 0;  //no mode bits yet initialize
   thiz->_count = 0;
   memset(thiz->value.direct, 0, thiz->size);  //guaranteed 0-terminated NOTE it should be assumed that the instance is set to 0
@@ -353,7 +353,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
 #endif
   STACKTRC_TENTRY("replace_zI_StringBuilderJc");
   if (thiz->_mode & _mStringBuilt_StringBuilderJc) {
-    THROW1_s0(IllegalStateException, "Buffer was used in StringJc", (int)buffer);
+    THROW1_s0(IllegalStateException, "Buffer was used in StringJc", (int)(intptr_t)buffer);
   }
   //
   //determine type of add, zadd, padd, madd:
@@ -507,7 +507,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_int16
   , (2 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->_count) - (int32)(StringBuilderJc_s*)0x1000)
+  , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->_count) -  0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
@@ -515,7 +515,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_int16
   , (2 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->size) - (int32)(StringBuilderJc_s*)0x1000)
+  , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->size) -  0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
@@ -523,7 +523,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_int32
   , (4 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->_mode) - (int32)(StringBuilderJc_s*)0x1000)
+  , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->_mode) -  0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
@@ -531,7 +531,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , 0 //nrofArrayElements
   , REFLECTION_void
   , (4 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-  , (int16)((int32)(&((StringBuilderJc_s*)(0x1000))->value) - (int32)(StringBuilderJc_s*)0x1000)
+  , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->value) -  0x1000)
   , 0  //offsetToObjectifcBase
   , &reflection_StringBuilderJc
   }
