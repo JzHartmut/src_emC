@@ -132,7 +132,7 @@ struct StringFormatterJc_t* ctorO_ApbSi_StringFormatterJc(ObjectJc* othis, struc
     if(shouldClose) 
     { 
       
-      ASSERTJc_TEST(/*J2C:static method call*/ instanceof_ObjectJc(((/*J2C:cast from AppendableJc_s*/ObjectJc*)(lineout)), &reflection_CloseableJc));
+      ASSERT(/*J2C:static method call*/ instanceof_ObjectJc(((/*J2C:cast from AppendableJc_s*/ObjectJc*)(lineout)), &reflection_CloseableJc));
     }
     thiz->bShouldLineoutClose = shouldClose;
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -941,7 +941,7 @@ void prepareBufferPos_StringFormatterJc(StringFormatterJc_s* thiz, int32 nrofCha
       
       
       int32  nrofCharsToEnd = length_StringBuilderJc(REFJc (thiz->buffer)) - thiz->pos;
-      ASSERTJc_TEST(/*J2C:static method call*/nrofCharsToEnd >= 0);
+      ASSERT(/*J2C:static method call*/nrofCharsToEnd >= 0);
       nrofChars -= nrofCharsToEnd;/*nrofChars may be < 0 if the range of overwrite is inside the exiting string.*/
       
       

@@ -677,6 +677,7 @@ METHOD_C int copyToBuffer_CharSeqJc ( const CharSeqJc thiz, int start, int end, 
  * @param start start character in the StringJc.
  * @param end exclusive end position in StringJc.
  *   If -1 then the whole StringJc till end should be copied. If <=-2 then (-end)-1 characters from end won't be copied.
+ *   If end > length of String, it is limit to the length and the whole string till end is copied. Note: Use kMaxNrofChars_StringJc as Arg value.
  * @param buffer The destination buffer as char[]
  * @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
  *   Note: It does not produce a 0-terminated String. If you want to have a 0-terminated string, use sizeof(buffer)-1 for this argument.
@@ -1264,6 +1265,16 @@ extern_C struct Mtbl_CharSeqJc_t const* getMtbl_CharSeqJc(CharSeqJc thiz, struct
 
 
 #endif
+
+
+
+/*@CLASS_C CharacterJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+inline bool isIdentifierStart_CharacterJc(char cc) { return cc >= 'a' && cc <= 'z' || cc >= 'A' && cc <= 'Z' || cc == '_'; }
+
+inline bool isIdentifierPart_CharacterJc(char cc) { return isIdentifierStart_CharacterJc(cc) || cc >= '0' && cc <= '9'; }
+
+
 
 /*@inline @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

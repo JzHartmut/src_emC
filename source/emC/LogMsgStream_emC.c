@@ -120,7 +120,7 @@ LogMessageFW_s* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt)
 LogMessageStream_FW_s* castO_LogMessageStream_FW(ObjectJc* zthis)
 { LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)zthis;
   //TODO check type via reflection, fast algorithm because used in any interface method.
-  ASSERTJc_TEST(instanceof_ObjectJc(zthis, &reflection_LogMessageStream_FW));
+  ASSERT(instanceof_ObjectJc(zthis, &reflection_LogMessageStream_FW));
   //ASSERT(ythis->mtbl == &mtbl_MsgDispatcher_MSG);  //an derivated class isnot accepted! 
   return ythis;
 }

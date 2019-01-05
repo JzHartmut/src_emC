@@ -439,7 +439,7 @@ METHOD_C StringJc substring_StringJc(StringJc ythis, int beginIndex, int endInde
 
     @param ch - a character.
     @param fromIndex the index to start the search from.
-    @return the index of the first occurrence of the character in the character sequence represented by this object, or -1 if the character does not occur.
+    @return The position of the found character in ythis or -1 if the character was not found.
  * @javalike [[sunJavadoc/java/lang/String#indexOf(int, int)]] without CodePoint-support.
  */
 METHOD_C int indexOf_CI_StringJc(StringJc ythis, int ch, int fromIndex);

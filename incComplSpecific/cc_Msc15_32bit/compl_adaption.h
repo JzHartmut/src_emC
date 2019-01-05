@@ -89,6 +89,7 @@
 #pragma warning(error:4003) //not enough actual parameters for macro
 #pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
 #pragma warning(error:4020) //too many actual parameters
+#pragma warning(error:4033) //incompatible types (pointer casting)
 
 
 
@@ -326,11 +327,9 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   */
   //#define INLINE_emC static
   #define INLINE_emC inline
-#ifndef __cplusplus
   //If C-compiling is used, define the C++-keywords for C
-  //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
+  //NOTE: do not define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
   #define bool int
-#endif
 #endif
 
 #ifdef __cplusplus

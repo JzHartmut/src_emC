@@ -273,7 +273,7 @@ bool offer_ConcurrentRingBufferJcF(ConcurrentRingBufferJc* ythis, void const* da
       //No other thread had change ythis->written, because this condition is true only here.
       //Set myWritten.
       bool bSetWritten = compareAndSet_AtomicReference(CAST_AtomicReference(ythis->written), myBegin, myEnd);   
-      ASSERTJc_TEST(bSetWritten);
+      ASSERT(bSetWritten);
     }
     { //some other threads may have stored data, and they haven't set written,
       //but they stored its data area into writeAreas.

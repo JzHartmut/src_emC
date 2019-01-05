@@ -176,6 +176,9 @@ int copyToBuffer_StringJc  (  const StringJc thiz, int start, int end, char* buf
   if (end < 0) {
     end = nChars + end + 1;  //end=-1 results in end = nChars
   }
+  else if (end > nChars) {
+    end = nChars;
+  }
   if (end > start) {
     int nrofBytes = end - start;
     if (nrofBytes > sizeBuffer) {

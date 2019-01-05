@@ -60,7 +60,7 @@ typedef struct Entry_DefPortType_emC_t
  * * @param posStartName null is admissible. If not null, set to position after ':' in name, if type is NULL_StringJc, elsewhere set to 0. 
  * * @return an error message on format error. Elsewhere null.
  */
-char const* parse_Entry_DefPortType_emC  ( Entry_DefPortType_emC* thiz, StringJc type, StringJc name, int* posStartName, ThCxt* _thCxt);
+char const* parse_Entry_DefPortType_emC  ( Entry_DefPortType_emC* thiz, StringJc typeName, ThCxt* _thCxt);
 
 
 bool checkType_Entry_DefPortType_emC(Entry_DefPortType_emC* thiz, ClassJc const* reflectionType);
@@ -131,6 +131,46 @@ typedef enum EDefPortTypes_emC_t
 
 
 void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements);
+
+
+
+
+/**
+ * The name is the last identifier string in the name_param after any other designation
+ */
+StringJc extractName_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
+
+
+/**
+ * Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name 
+ * The type is the string after any -19!: as identifier
+*/
+StringJc extractType_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
+
+/**
+* Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name
+* The type is the string after any -19!: as identifier
+*/
+StringJc extractStructType_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
+
+/**
+* Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name
+* The type is the string after any -19!: as identifier
+*/
+StringJc extractAccessPath_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
+
+/**Returns 'i' for an Tinit handle in an DataStruct_Inspc SFblock. Then a ! TYPE*  is found.
+ * returns '!' for an init value without type.
+ * return ' ' for a non-initial-only value.
+ * Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name
+ *
+ */
+char extractInitialize_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
+
+
+
+int extractAccessRights_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
+
 
 
 
