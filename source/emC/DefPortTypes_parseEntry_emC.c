@@ -99,13 +99,13 @@ StringJc extractName_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
 //
 StringJc extractAccessPath_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
   STACKTRC_TENTRY("extractAccessPath_TypeName_emC");
-  int pos = length_StringJc(name_param) - 1;
+  int pos = length_StringJc(name_param);
   char cc;
   while ((cc = charAt_StringJc(name_param, pos)) == ' ') { pos -= 1; }  //spaces on end
-  while (pos >= 0 && isIdentifierPart_CharacterJc(cc = charAt_StringJc(name_param, pos))) { pos -= 1; }
+  while (pos >= 0 && isIdentifierPart_CharacterJc(cc = charAt_StringJc(name_param, pos-1))) { pos -= 1; }
   //maybe pos = -1, char before identifier
-  int posEnd = pos + 1; //pre-decrement, posend after identifier
-  while (pos >= 0 && (isIdentifierPart_CharacterJc(cc = charAt_StringJc(name_param, pos))
+  int posEnd = pos; //pre-decrement, posend after identifier
+  while (pos >= 0 && (isIdentifierPart_CharacterJc(cc = charAt_StringJc(name_param, pos-1))
                      || cc == '-' || cc == '>' || cc == '.'
         )            ) { 
     pos -= 1; 

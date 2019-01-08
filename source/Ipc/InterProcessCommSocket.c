@@ -604,6 +604,7 @@ int send_InterProcessCommSocket(ObjectJc* xthis, MemC dataP, int nBytes, Address
 //void* InterProcessCommImplement::receive(int* nrofBytes, Address_InterProcessComm_s* senderP /* =  null*/)
 MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC buffer, Address_InterProcessComm_s* senderP /* =  null*/)
 {
+  STACKTRC_ENTRY("receiveData_InterProcessCommSocket");
   //cast from impersonator type, because this methods are only called with such an instance, supplied from create_InterProcessCommSocket(). 
   InterProcessCommSocket_s* ythis = (InterProcessCommSocket_s*)xthis;  
   int nResult;
@@ -738,7 +739,7 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
     fflush(ythis->fDebug);
   }
   #endif
-  return data; //build_MemC(data, nrofBytesReceived);
+  STACKTRC_RETURN data; //build_MemC(data, nrofBytesReceived);
 };
 
 

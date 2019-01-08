@@ -6,7 +6,7 @@
 #endif  
 
 
-#define ASSERTJc(COND) if(!(COND)) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); } 
+#define ASSERTJc(COND) CALLINE; if(!(COND)) { THROW1_s0(RuntimeException, "assertion", 0); } 
 
 
 #define ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW_s0(RuntimeException, "assertion", 0,0); VAR = MIN; } }
