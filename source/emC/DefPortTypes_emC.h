@@ -12,6 +12,7 @@ typedef struct Entry_DefPortType_emC_t
   * int64, uint64, float double,
   * ZC for boolean and character (UTF16).
   * sifd (lower case) for adequate complex types.
+  * if '?' then DYNAMICALLY_TYPED
   */
   char type;
 
@@ -20,10 +21,14 @@ typedef struct Entry_DefPortType_emC_t
   uint8 sizeType;
 
   /**If this value is not 0, then the port should be set newly with the given information. */
-  uint8 newDefined;
+  #define newDefined_Entry_DefPortType_emC 0x80
+  #define mTstep_Entry_DefPortType_emC 0x02
+  #define mTinit_Entry_DefPortType_emC 0x01
+  uint8 newDefined_Tstep_Tinit;
 
   /**0=scalar. 1 ..5: size of dimension in [[sizeArray+Entry_QueryPortType_emC]].
   * If >5 then sizeArray contains a pointer to a uint32 [...], cast necessary:
+  * -1 then DYNAMICALLY_SIZED
   */
   uint8 dimensions;
 
@@ -92,22 +97,27 @@ typedef struct DefPortTypes_emC_t
   float TstepMin;
   
   /**Number of that port which has the first minimal sample time. Negative: Output port.*/
-  int16 ixInputStepMin;
+  int8 ixInputStepMin;
 
   /**Index in the Sfn sample time indices of the fastest sample time. */
-  int16 ixStepSfnMin;
+  int8 ixStepSfnMin;
+  int8 nrofInputs, nrofOutputs;
 
   /**Indices of the ports in entries. @pos:8*/
-  int16 ixInputStep, ixInputStep2, ixInputUpd, ixInputInit, nrofInputs;
-  int16 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz;
-  int16 nrofOutputs;  
+  int8 ixInputStep, ixInputStepVarg, nrInputStepVarg, __dStep;
+  int8 ixInputInit, ixInputInitVarg, nrInputInitVarg, __dInit;
+  int8 ixInputUpd, ixInputUpdVarg, nrInputUpdVarg, __dUpd;
+  int8 ixInputStep2, ixInputStep2Varg, nrInputStep2Varg, __dStep2;
+  
+  int8 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz;
 
-  int16 ctInit;
+  int32 mInputStep, mInputUpd, mInputTinit, mOutputTinit, mOutputTstep;
 
   int32 bitsParamTunable;
 
                                                                /**The number of elements of entries. */
-  int16 zEntries, _1_;
+  int16 ctInit;
+  int16 zEntries;
 
   /**The full path of the block in the model. */
   char pathBlock[512];

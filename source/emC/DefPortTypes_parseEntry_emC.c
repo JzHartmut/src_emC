@@ -72,7 +72,7 @@ char const* parse_Entry_DefPortType_emC  (  Entry_DefPortType_emC* thiz, StringJ
     else {
       STACKTRC_RETURN "parse_Entry_DefPortType_emC(): unexpected format char";
     }
-    if (err == null) { thiz->newDefined = 1; }
+    if (err == null) { thiz->newDefined_Tstep_Tinit |= newDefined_Entry_DefPortType_emC; }
   }
   STACKTRC_RETURN err;
 }

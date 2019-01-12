@@ -31,11 +31,11 @@ const struct Reflection_Fields_Entry_DefPortType_emC_t
     , &reflection_Entry_DefPortType_emC
     }
   , 
-    { "newDefined"
+    { "newDefined_Tstep_Tinit"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Entry_DefPortType_emC*)(0x1000))->newDefined)) -0x1000 )
+    , (int16)( ((intptr_t)(&((Entry_DefPortType_emC*)(0x1000))->newDefined_Tstep_Tinit)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_Entry_DefPortType_emC
     }
@@ -281,15 +281,6 @@ const struct Reflection_Fields_DefPortTypes_emC_t
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->zEntries)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DefPortTypes_emC
-    }
-  , 
-    { "_1_"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int16                                                                                            
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->_1_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_DefPortTypes_emC
     }
