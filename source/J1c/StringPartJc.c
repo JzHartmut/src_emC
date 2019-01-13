@@ -493,7 +493,7 @@ struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz)
 
 
 /**This method returns the characters of the current part.*/
-char charAt_i_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt)
+char charAt_i_StringPartJc(CharSeqObjJc* ithis, int32 index, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)ithis;
   
   STACKTRC_TENTRY("charAt_i_StringPartJc");
@@ -514,7 +514,7 @@ bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, T
   { 
     
     { STACKTRC_LEAVE;
-      return (thiz->begin + pos >= thiz->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc((&(* (thiz)).base.object)/*J2cT1*/, pos, _thCxt)) >= 0;
+      return (thiz->begin + pos >= thiz->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc((&(* (thiz)).base.CharSeqObjJc)/*J2cT1*/, pos, _thCxt)) >= 0;
     }/*char found.*/
     
   }
@@ -523,7 +523,7 @@ bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, T
 
 
 /**Returns a volatile CharSequence from the range inside the current part.*/
-CharSeqJc subSequence_ii_StringPartJc(ObjectJc* ithis, int32 from, int32 to, ThCxt* _thCxt)
+CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc* ithis, int32 from, int32 to, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)ithis;
   
   STACKTRC_TENTRY("subSequence_ii_StringPartJc");
@@ -568,10 +568,8 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
   STACKTRC_LEAVE;
 }
 
-int32 length_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
-{ StringPartJc_s* thiz = (StringPartJc_s*)ithis;
-  
-  STACKTRC_TENTRY("length_StringPartJc");
+int32 length_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ STACKTRC_TENTRY("length_StringPartJc");
   
   { 
     
@@ -2618,6 +2616,20 @@ struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, Th
 }
 
 
+
+
+/**Sets the actual part of the string.
+* 
+*/
+void setCurrentPart_StringPartJc  ( StringPartJc_s* thiz, struct Part_StringPartJc_t* dst, ThCxt* _thCxt)
+{ if(thiz->end > thiz->begin) setPart_Part_StringPartJc(dst, thiz->begin, thiz->end, _thCxt);
+  else                        setPart_Part_StringPartJc(dst, thiz->begin, thiz->begin, _thCxt);
+}
+
+
+
+
+
 /**Returns the last part of the string before any seek or scan operation.*/
 CharSeqJc getLastPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
@@ -2940,6 +2952,13 @@ CharSeqJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y*
 
 
 
+//casting admissible because static operation only used in folllowing Mtbl in this compilation unit.
+static int32 length_StringPartJc_i_CharSeqObjJc(CharSeqObjJc* ithiz, ThCxt* _thCxt){ 
+  return length_StringPartJc((StringPartJc_s*)ithiz, _thCxt); 
+}
+
+
+
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_StringPartJc mtblStringPartJc = {
 { { sign_Mtbl_StringPartJc //J2C: Head of methodtable of StringPartJc
@@ -2965,7 +2984,7 @@ const MtblDef_StringPartJc mtblStringPartJc = {
     , (struct Size_Mtbl_t*)((3 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :CharSeqJc:
-  , length_StringPartJc //length
+  , length_StringPartJc_i_CharSeqObjJc //length
   , charAt_i_StringPartJc //charAt
   , subSequence_ii_StringPartJc //subSequence
   }
@@ -3188,19 +3207,29 @@ struct Part_StringPartJc_t* ctorO_Part_StringPartJc(struct StringPartJc_t* outer
   {
   }
   { 
-    
-    ASSERT(/*J2C:static method call*/from >= 0 && from <= thiz->outer->endMax);
-    ASSERT(/*J2C:static method call*/to >= 0 && to <= thiz->outer->endMax);
-    ASSERT(/*J2C:static method call*/from <= to);
-    thiz->b1 = from;
-    thiz->e1 = to;
+    setPart_Part_StringPartJc(thiz, from, to, _thCxt);
   }
   STACKTRC_LEAVE;
   return thiz;
 }
 
 
-char charAt_i_Part_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt)
+
+//manual:
+void setPart_Part_StringPartJc(struct Part_StringPartJc_t* thiz, int32 from, int32 to, ThCxt* _thCxt) {
+  STACKTRC_TENTRY("setPart_Part_StringPartJc");
+  ASSERT(/*J2C:static method call*/from >= 0 && from <= thiz->outer->endMax);
+  ASSERT(/*J2C:static method call*/to >= 0 && to <= thiz->outer->endMax);
+  ASSERT(/*J2C:static method call*/from <= to);
+  thiz->b1 = from;
+  thiz->e1 = to;
+  STACKTRC_RETURN;
+}
+
+
+
+
+char charAt_i_Part_StringPartJc(CharSeqObjJc* ithis, int32 index, ThCxt* _thCxt)
 { Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
   
   STACKTRC_TENTRY("charAt_i_Part_StringPartJc");
@@ -3214,10 +3243,8 @@ char charAt_i_Part_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt)
   STACKTRC_LEAVE;
 }
 
-int32 length_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
-{ Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
-  
-  STACKTRC_TENTRY("length_Part_StringPartJc");
+int32 length_Part_StringPartJc(Part_StringPartJc_s* thiz, ThCxt* _thCxt)
+{ STACKTRC_TENTRY("length_Part_StringPartJc");
   
   { 
     
@@ -3228,7 +3255,7 @@ int32 length_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
   STACKTRC_LEAVE;
 }
 
-CharSeqJc subSequence_ii_Part_StringPartJc(ObjectJc* ithis, int32 from, int32 end, ThCxt* _thCxt)
+CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc* ithis, int32 from, int32 end, ThCxt* _thCxt)
 { Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
   
   STACKTRC_TENTRY("subSequence_ii_Part_StringPartJc");
@@ -3257,6 +3284,21 @@ StringJc toString_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
   }
   STACKTRC_LEAVE;
 }
+
+
+
+
+int copyToBuffer_Part_StringPartJc(struct Part_StringPartJc_t* thiz, char* dst, int from, int to, ThCxt* _thCxt) {
+  //int max = MIN_emC(to - from, dst.length - thiz->from);
+  int max = to - from;
+  if (max > thiz->e1 - thiz->b1) { max = thiz->e1 - thiz->b1; }
+  for(int ix = thiz->absPos0 - thiz->outer->absPos0 + thiz->b1; ix < thiz->absPos0 - thiz->outer->absPos0 + thiz->b1 + max ; ++ix ) {
+    dst[from++] = charAt_CharSeqJc(thiz->outer->content, ix, _thCxt);
+  }
+  return max;
+
+}
+
 
 
 /**Builds a new Part without leading and trailing white spaces.*/
@@ -3293,6 +3335,14 @@ struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s* thiz, Th
 
 
 
+//casting admissible because static operation only used in folllowing Mtbl in this compilation unit.
+static int32 length_Part_StringPartJc_i_CharSeqObjJc(CharSeqObjJc* ithiz, ThCxt* _thCxt){ 
+  return length_Part_StringPartJc((Part_StringPartJc_s*)ithiz, _thCxt); 
+}
+
+
+
+
 /**J2C: Reflections and Method-table *************************************************/
 const MtblDef_Part_StringPartJc mtblPart_StringPartJc = {
 { { sign_Mtbl_Part_StringPartJc //J2C: Head of methodtable of Part_StringPartJc
@@ -3315,7 +3365,7 @@ const MtblDef_Part_StringPartJc mtblPart_StringPartJc = {
     , (struct Size_Mtbl_t*)((3 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :CharSeqJc:
-  , length_Part_StringPartJc //length
+  , length_Part_StringPartJc_i_CharSeqObjJc //length
   , charAt_i_Part_StringPartJc //charAt
   , subSequence_ii_Part_StringPartJc //subSequence
   }

@@ -33,7 +33,7 @@ typedef struct StringPartScanJc_t
   int32 idxLastIntegerNumber;   /*current index of the last scanned integer number. -1=nothing scanned. 0..4=valid*/
   struct nLastFloatNumber_Y { ObjectArrayJc head; double data[5]; }nLastFloatNumber;   /*Last scanned float number*/
   int32 idxLastFloatNumber;   /*current index of the last scanned float number. -1=nothing scanned. 0..4=valid*/
-  CharSeqJc sLastString;   /*Last scanned string. */
+  Part_StringPartJc_s sLastString;   /*Last scanned string. */
 } StringPartScanJc_s;
   
 
@@ -240,7 +240,7 @@ METHOD_C double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* t
 
 /**Returns the part of the last scanning yet only from {@link #scanIdentifier()}
 */
-METHOD_C CharSeqJc getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
+METHOD_C struct Part_StringPartJc_t* getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
 /**Closes the work. This routine should be called if the StringPart is never used, 
 but it may be kept because it is part of class data or part of a statement block which runs.

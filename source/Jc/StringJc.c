@@ -89,12 +89,12 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
 
 
 
-int32 length_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _ThCxt)
+int32 length_StringJc_CharSeqJc_F(CharSeqObjJc* ithiz, ThCxt* _ThCxt)
 { StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   return thiz->length; 
 }
 
-char charAt_StringJc_CharSeqJc_F(ObjectJc* ithiz, int32 ix, ThCxt* _thCxt)
+char charAt_StringJc_CharSeqJc_F(CharSeqObjJc* ithiz, int32 ix, ThCxt* _thCxt)
 { StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   if(ix < 0 || ix >= thiz->length) {
     //THROW
@@ -103,7 +103,7 @@ char charAt_StringJc_CharSeqJc_F(ObjectJc* ithiz, int32 ix, ThCxt* _thCxt)
   return thiz->s[ix]; 
 }
 
-CharSeqJc subSequence_StringJc_CharSeqJc_F(ObjectJc* ithiz, int32 from, int32 to, ThCxt* _thCxt)
+CharSeqJc subSequence_StringJc_CharSeqJc_F(CharSeqObjJc* ithiz, int32 from, int32 to, ThCxt* _thCxt)
 { CharSeqJc ret = {0};
   return ret;  //TODO
 }
@@ -225,7 +225,7 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
   }
   else if(val & mIsCharSeqJcMtbl_CharSeqJc) {
     Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz, _thCxt);
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    CharSeqObjJc* othiz = PTR_OS_PtrValue(thiz, CharSeqObjJc);
     int iChars;
     int nChars = mc->length(othiz, _thCxt);
     MemC mBuffer = getUserBuffer_ThreadContext_emC(nChars+1, "toString_CharSeqJc", _thCxt);

@@ -89,7 +89,9 @@
 #pragma warning(error:4003) //not enough actual parameters for macro
 #pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
 #pragma warning(error:4020) //too many actual parameters
+#pragma warning(error:4028) //formal parameter 1 different from declaration
 #pragma warning(error:4033) //incompatible types (pointer casting)
+#pragma warning(error:4133) //incompatible types (pointer casting)
 
 
 

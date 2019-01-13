@@ -262,16 +262,16 @@ StringBuilderJc_s* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
 
 
 //Used for Mtbl for interface CharSeqJc
-static int32 length_StringBuilderJc_F(ObjectJc* thiz, ThCxt* _thCxt){ return ((StringBuilderJc_s*)thiz)->_count; }
+static int32 length_StringBuilderJc_F(CharSeqObjJc* thiz, ThCxt* _thCxt){ return ((StringBuilderJc_s*)thiz)->_count; }
 
-static char charAt_StringBuilderJc_F(ObjectJc* othiz, int32 ix, ThCxt* _thCxt){ 
+static char charAt_StringBuilderJc_F(CharSeqObjJc* othiz, int32 ix, ThCxt* _thCxt){ 
   StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
   char const* chars = chars_StringBuilderJc(thiz);
   if(ix < 0 || ix >= thiz->_count) { THROW1_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
   else return chars[ix]; 
 }
 
-static CharSeqJc subSequence_StringBuilderJc_F(ObjectJc* othiz, int32 from, int32 to, ThCxt* _thCxt)
+static CharSeqJc subSequence_StringBuilderJc_F(CharSeqObjJc* othiz, int32 from, int32 to, ThCxt* _thCxt)
 { StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
   CharSeqJc ret = {0};
   if(from > 0 && from <= to && to <= thiz->_count) {

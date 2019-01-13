@@ -88,7 +88,7 @@ struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, CharSeqJ
     thiz->idxLastFloatNumber = -1;
   }
   { 
-    
+    ctorO_Part_StringPartJc(&thiz->base.super, &thiz->sLastString.base.object, 0, 0, _thCxt);
     
   }
   STACKTRC_LEAVE;
@@ -120,8 +120,7 @@ struct StringPartScanJc_t* ctorO_Cs_StringPartScanJc(ObjectJc* othis, CharSeqJc 
     thiz->idxLastFloatNumber = -1;
   }
   { 
-    
-    
+    ctorO_Part_StringPartJc(&thiz->base.super, &thiz->sLastString.base.object, 0, 0, _thCxt);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -152,8 +151,7 @@ struct StringPartScanJc_t* ctorO_StringPartScanJc(ObjectJc* othis, ThCxt* _thCxt
     thiz->idxLastFloatNumber = -1;
   }
   { 
-    
-    
+    ctorO_Part_StringPartJc(&thiz->base.super, &thiz->sLastString.base.object, 0, 0, _thCxt);
   }
   STACKTRC_LEAVE;
   return thiz;
@@ -384,20 +382,20 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
       if(thiz->base.super.bCurrentOk) 
       { /*:TODO ...ToEndString, now use only 1 char in sQuotionMarkEnd*/
         
+
+
         StringJc _persistring4_1=NULL_StringJc; //J2C: temporary persistent Strings
         struct Part_StringPartJc_t* _temp4_1; /*J2C: temporary references for concatenation */
-        struct Part_StringPartJc_t* _thCxtRef4_1;struct Part_StringPartJc_t* _thCxtRef4_2;
+        struct Part_StringPartJc_t* _thCxtRef4_1 = null;
         if(sResult != null) sResult->data[0] = 
           ( _temp4_1= ( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt))
           , _persistring4_1 = persist_StringJc(toString_Part_StringPartJc(& ((* (_temp4_1)).base.object)/*J2cT1*/, _thCxt))
           )/*J2C:non-persistent*/;
-        else thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_2 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
-        
-          ( fromEnd_StringPartJc(& ((* (thiz)).base.super))
-          , seekPos_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt)
-          );
+        else setCurrentPart_StringPartJc(&thiz->base.super, &thiz->sLastString, _thCxt);
+          fromEnd_StringPartJc(& ((* (thiz)).base.super));
+          seekPos_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt);
+          
         releaseUserBuffer_ThreadContext_emC(_thCxtRef4_1, _thCxt);
-        releaseUserBuffer_ThreadContext_emC(_thCxtRef4_2, _thCxt);
         activateGC_ObjectJc(PTR_StringJc(_persistring4_1), null, _thCxt);
       }
       else thiz->base.super.bCurrentOk = false;
@@ -870,12 +868,10 @@ struct StringPartScanJc_t* scanIdentifier_SS_StringPartScanJc(StringPartScanJc_s
       
       lentoIdentifier_CsCs_StringPartJc(& ((* (thiz)).base.super), additionalStartChars, additionalChars, _thCxt);
       if(thiz->base.super.bFound) 
-      { 
-        struct Part_StringPartJc_t* _thCxtRef4_1;
-        thiz->sLastString = fromObjectJc_CharSeqJc(&(* (( _thCxtRef4_1 = getCurrentPart_StringPartJc(& ((* (thiz)).base.super), _thCxt)))).base.object);
+      { setCurrentPart_StringPartJc(&thiz->base.super, &thiz->sLastString, _thCxt);
+
         thiz->base.super.begin = thiz->base.super.end;/*after identifier.*/
         
-        releaseUserBuffer_ThreadContext_emC(_thCxtRef4_1, _thCxt);
       }
       else 
       { 
@@ -954,14 +950,14 @@ double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCx
 
 
 /**Returns the part of the last scanning yet only from {@link #scanIdentifier()}*/
-CharSeqJc getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
+struct Part_StringPartJc_t* getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLastScannedString_StringPartScanJc");
   
   { 
     
     { STACKTRC_LEAVE;
-      return thiz->sLastString;
+      return &thiz->sLastString;
     }
   }
   STACKTRC_LEAVE;
@@ -977,7 +973,7 @@ void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt)
   { 
     
     close_StringPartJc((&thiz->base.super), _thCxt);
-    thiz->sLastString = null_CharSeqJc /*J2C: mem assignment*/;
+    //thiz->sLastString = null_CharSeqJc /*J2C: mem assignment*/;
     thiz->beginScan = 0;
     thiz->base.super.bCurrentOk = thiz->base.super.bFound = /*? assignment*/false;
   }
@@ -989,6 +985,15 @@ void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt)
 { Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_StringPartJc);
   mtbl->close((StringPartJc_s*)ithis, _thCxt);
 }
+
+
+
+//casting admissible because static operation only used in folllowing Mtbl in this compilation unit.
+static int32 length_StringPartJc_i_CharSeqObjJc(CharSeqObjJc* ithiz, ThCxt* _thCxt){ 
+  return length_StringPartJc((StringPartJc_s*)ithiz, _thCxt); 
+}
+
+
 
 
 
@@ -1021,7 +1026,7 @@ const MtblDef_StringPartScanJc mtblStringPartScanJc = {
       , (struct Size_Mtbl_t*)((3 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :CharSeqJc:
-    , length_StringPartJc //length
+    , length_StringPartJc_i_CharSeqObjJc //length
     , charAt_i_StringPartJc //charAt
     , subSequence_ii_StringPartJc //subSequence
     }

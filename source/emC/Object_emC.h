@@ -521,7 +521,7 @@ METHOD_C int newIdent_ObjectJc();
 
 
   /** Superclass for class ObjectJcpp and especially for all interface classes.
-      This base class defines a method to convert this to Object*
+      This base class defines a method to convert this to ObjectJc*
       especially necessary for interface classes.<br/>
       The methods of this class should be implemented in any class
       implementing any interface.

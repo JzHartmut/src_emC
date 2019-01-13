@@ -29,10 +29,11 @@ struct StringPartJc_t;
 
 typedef struct Part_StringPartJc_t
 { 
-  union { ObjectJc object; CharSeqJc CharSeqJc;} base; 
+  union { ObjectJc object; CharSeqObjJc CharSeqObjJc;} base; 
   struct StringPartJc_t* outer;  //J2C: Reference to outer class, implicit in Java
   int32 b1;   /*Absolute positions of part of chars*/
   int32 e1;   /*Absolute positions of part of chars*/
+  int32 absPos0;
 } Part_StringPartJc_s;
   
 
@@ -69,13 +70,27 @@ void finalize_Part_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 */
 METHOD_C struct Part_StringPartJc_t* ctorO_Part_StringPartJc(struct StringPartJc_t* outer, ObjectJc* othis, int32 from, int32 to, ThCxt* _thCxt);
 
-METHOD_C char charAt_i_Part_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt);
 
-METHOD_C int32 length_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
+METHOD_C void setPart_Part_StringPartJc(struct Part_StringPartJc_t* thiz, int32 from, int32 to, ThCxt* _thCxt);
 
-METHOD_C CharSeqJc subSequence_ii_Part_StringPartJc(ObjectJc* ithis, int32 from, int32 end, ThCxt* _thCxt);
+
+METHOD_C char charAt_i_Part_StringPartJc(CharSeqObjJc* ithis, int32 index, ThCxt* _thCxt);
+
+METHOD_C int32 length_Part_StringPartJc(Part_StringPartJc_s* thiz, ThCxt* _thCxt);
+
+METHOD_C CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc* ithis, int32 from, int32 end, ThCxt* _thCxt);
 
 METHOD_C StringJc toString_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
+
+
+/**Copy to any other buffer to build persistent data. 
+ * @param dst should be allocated with enough space, use this.{@link #length()} to detect how much is necessary.
+ * @param from usual 0
+ * @return the length, same as {@link #length()}
+ */
+METHOD_C int copyToBuffer_Part_StringPartJc(struct Part_StringPartJc_t* thiz, char* dst, int from, int to, ThCxt* _thCxt);
+
+
 
 /**Builds a new Part without leading and trailing white spaces.
 Without " \r\n\t"
@@ -119,11 +134,14 @@ class Part_StringPartJc : private Part_StringPartJc_s
 
 typedef struct StringPartJc_t
 { 
-  union { ObjectJc object; CharSeqJc CharSeqJc;ComparableJc ComparableJc;} base; 
+  union { ObjectJc object; CharSeqObjJc CharSeqObjJc; ComparableJc ComparableJc;} base; 
   int32 begin;   /*The actual start position of the valid part.*/
   int32 end;   /*The actual exclusive end position of the valid part.*/
   int32 begiMin;   /*The most left possible start position. We speak about the 'maximal Part':*/
   int32 endMax;   /*The most right possible exclusive end position. See explanation on startMin.*/
+  /**The absolute position of character in the input file of content[0] It is used for {@link StringPartFromFileLines} or adequate reader.*/
+  int32 absPos0;
+
   CharSeqJc content;   /*The referenced string. It is a CharSequence for enhanced using.    */
   bool bCurrentOk;   /*false if current scanning is not match*/
   bool bStartScan;   /*If true, than all idxLastScanned... are set to 0, */
@@ -320,7 +338,7 @@ METHOD_C struct StringPartJc_t* fromEnd_StringPartJc(StringPartJc_s* thiz);
 /**This method returns the characters of the current part.
 @see java.lang.CharSequence#charAt(int)
 */
-METHOD_C char charAt_i_StringPartJc(ObjectJc* ithis, int32 index, ThCxt* _thCxt);
+METHOD_C char charAt_i_StringPartJc(CharSeqObjJc* ithis, int32 index, ThCxt* _thCxt);
 
 METHOD_C bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, ThCxt* _thCxt);
 
@@ -336,11 +354,12 @@ The Java2C-translator does that automatically.
 
 @see java.lang.CharSequence#subSequence(int, int)
 */
-METHOD_C CharSeqJc subSequence_ii_StringPartJc(ObjectJc* ithis, int32 from, int32 to, ThCxt* _thCxt);
+METHOD_C CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc* ithis, int32 from, int32 to, ThCxt* _thCxt);
 
 METHOD_C void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, ThCxt* _thCxt);
 
-METHOD_C int32 length_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
+METHOD_C int32 length_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+
 
 /**Returns the lenght of the maximal part from current position. Returns also 0 if no string is valid.
 */
@@ -949,6 +968,13 @@ METHOD_C StringJc getInputfile_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 
 */
 METHOD_C struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+
+
+/**Sets the actual part of the string.
+* 
+*/
+void setCurrentPart_StringPartJc  ( StringPartJc_s* thiz, struct Part_StringPartJc_t* dst, ThCxt* _thCxt);
+
 
 /**Returns the last part of the string before any seek or scan operation.
 

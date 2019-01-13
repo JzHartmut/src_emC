@@ -172,7 +172,8 @@ int getIdxMtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
         for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
         { ClassOffset_idxMtblJc const* reflectionChild;
           reflectionChild = &reflectionIfc->data[idxIfc];
-          if(getType_FieldJc(&reflectionChild->superfield) == reflectionRef)
+          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+          if(superType == reflectionRef)
           { idxMtbl = reflectionChild->idxMtbl;
           }
         }
@@ -186,12 +187,14 @@ int getIdxMtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
       for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
       { ClassOffset_idxMtblJc const* reflectionChild;
         reflectionChild = &reflectionSuper->data[idxSuper];
-        if(getType_FieldJc(&reflectionChild->superfield) == reflectionRef)
+        ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+        if(superType == reflectionRef)
         { idxMtbl = reflectionChild->idxMtbl;
         }
         else
         { //Recursive call because deeper inheritance:
-          idxMtbl = getIdxMtbl_ClassJc(getType_FieldJc(&reflectionChild->superfield), reflectionRef);
+          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+          idxMtbl = getIdxMtbl_ClassJc(superType, reflectionRef);
         }
       }
     }

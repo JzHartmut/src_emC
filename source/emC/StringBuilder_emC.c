@@ -78,7 +78,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
     return length_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc_s));
   }
   else {
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    CharSeqObjJc* othiz = PTR_OS_PtrValue(thiz, CharSeqObjJc);
     struct Mtbl_CharSeqJc_t const* mthiz = getMtbl_CharSeqJc(thiz, _thCxt);
     return mthiz->length(othiz, _thCxt);
   }
@@ -113,7 +113,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
     return charAt_StringBuilderJc(PTR_OS_PtrValue(thiz, StringBuilderJc_s), pos, _thCxt);
   }
   else {
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    CharSeqObjJc* othiz = PTR_OS_PtrValue(thiz, CharSeqObjJc);
     struct Mtbl_CharSeqJc_t const* mthiz = getMtbl_CharSeqJc(thiz, _thCxt);
     return mthiz->charAt(othiz, pos, _thCxt);
   }
@@ -299,7 +299,7 @@ int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer
     //all other values determines a CharSeqJc-interface-instance:
     //It is any ObjectJc which is a CharSeqJc
     Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz, _thCxt);
-    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    CharSeqObjJc* othiz = PTR_OS_PtrValue(thiz, CharSeqObjJc);
     int iChars, end1;
     end1 = mc->length(othiz, null); //_thCxt);  
     if (end < 0) { end1 = end1 - (-end) + 1; }
@@ -374,7 +374,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
   else ASSERTJc(false);
 #else
   else {
-    ObjectJc* oadd = PTR_OS_PtrValue(add, ObjectJc);
+    CharSeqObjJc* oadd = PTR_OS_PtrValue(add, CharSeqObjJc);
     madd = getMtbl_CharSeqJc(add, _thCxt);
     zadd = madd->length(oadd, _thCxt);
     padd = null;

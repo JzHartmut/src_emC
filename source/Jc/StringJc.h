@@ -884,10 +884,9 @@ typedef struct StringJc_CharSeqJc_t
  * ,,#define CharSeqJc StringJc is contained in <emC/String_emC.h>
  */
 
-
-typedef int32 MT_length_CharSeqJc(struct ObjectJc_t* ithiz, ThCxt* _thCxt);
-typedef char MT_charAt_CharSeqJc(struct ObjectJc_t* ithiz, int32 ix, ThCxt* _thCxt);
-typedef CharSeqJc MT_subSequence_CharSeqJc(struct ObjectJc_t* ithiz, int32 from, int32 to, ThCxt* _thCxt);
+typedef int32 MT_length_CharSeqJc(CharSeqObjJc* ithiz, ThCxt* _thCxt);
+typedef char MT_charAt_CharSeqJc(CharSeqObjJc* ithiz, int32 ix, ThCxt* _thCxt);
+typedef CharSeqJc MT_subSequence_CharSeqJc(CharSeqObjJc* ithiz, int32 from, int32 to, ThCxt* _thCxt);
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
 typedef struct Mtbl_CharSeqJc_t
@@ -1028,7 +1027,7 @@ extern_C struct ClassJc_t const reflection_CharSeqJc;
 
 #define subSequence_CharSeqJc(THIZ, from, to, THC) (\
   isValid_ObjectJc((THIZ).ref) \
-  ? ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->subSequence((ObjectJc*)(THIZ).ref, from, to, THC) \
+  ? ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ).ref, sign_Mtbl_CharSeqJc))->subSequence((CharSeqObjJc*)(THIZ).ref, from, to, THC) \
   : substring_StringJc(*(StringJc*)&(THIZ), from, to, THC ) )
 
 /**Converts a given CharSeqJc to a String. Reads all Chars and stores it in a buffer in ThreadContext. 

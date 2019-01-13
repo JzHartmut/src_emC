@@ -316,6 +316,11 @@ METHOD_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
  */
 #define CharSeqJc StringJc
 
+/**It is an extra type same as ObjectJc to mark the interface CharSeqObjJc. */
+typedef struct { ObjectJc obj; } CharSeqObjJc;
+
+
+
 /**Definition of masks and const for val element in StringJc and CharSeqJc: */
 #ifdef __NoCharSeqJcCapabilities__
   #define mMtbl_CharSeqJc 0
@@ -798,7 +803,7 @@ bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp
 typedef struct  StringBuilderJc_t
 {
   /** It based on ,,ObjectJc,,. @sizeof=20*/
-  union{ ObjectJc object;} base;
+  union{ ObjectJc object; CharSeqObjJc CharSeqObjJc; } base;
 
   /**Actual nr of characters. 0 or positive. All attributes are privave. 
    * The struct should use only via its methods. */
