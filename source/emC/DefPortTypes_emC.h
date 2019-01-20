@@ -17,13 +17,13 @@ typedef struct Entry_DefPortType_emC_t
   char type;
 
   /**Size of the type in byte.
+   * Maybe only set, never read.
   */
   uint8 sizeType;
 
   /**If this value is not 0, then the port should be set newly with the given information. */
   #define newDefined_Entry_DefPortType_emC 0x80
-  #define mTstep_Entry_DefPortType_emC 0x02
-  #define mTinit_Entry_DefPortType_emC 0x01
+  #define mPortKind_Entry_DefPortType_emC 0x7f
   uint8 newDefined_Tstep_Tinit;
 
   /**0=scalar. 1 ..5: size of dimension in [[sizeArray+Entry_QueryPortType_emC]].
@@ -35,7 +35,7 @@ typedef struct Entry_DefPortType_emC_t
 
   /**sizes for up to 5 dimensionens. If more as 5 dimensions are need, store it after this struct
   * as enhancement of this array. 0= Dimension not existing. */
-  uint32 sizeArray[5];
+  uint16 sizeArray[6];
 
   /**The step time (sample time) of the input. */
   float Tstep;
@@ -43,7 +43,26 @@ typedef struct Entry_DefPortType_emC_t
   /**The index of the sample time related to the Sfn step times.*/
   int32 ixTstepSfn;
 
+
+  char const* sType;
+  char const* sName;
+
 } Entry_DefPortType_emC;  //Note: size=6*4
+
+
+
+
+typedef enum EPortType_Entry_DefPortType_emC_t {
+  mOutputFnCall_Entry_DefPortType_emC = 0x40
+, mOutputThiz_Entry_DefPortType_emC = 0x20
+, mOutputStep_Entry_DefPortType_emC = 0x10
+, mOutputInit_Entry_DefPortType_emC = 0x08
+, mInputStep_Entry_DefPortType_emC =  0x04
+, mInputUpd_Entry_DefPortType_emC =   0x02
+, mInputInit_Entry_DefPortType_emC =  0x01
+, mNotForC_Entry_DefPortType_emC =    0
+} EPortType_Entry_DefPortType_emC;
+
 
 
 /**Parses the type or name string to detect a type.
@@ -96,22 +115,22 @@ typedef struct DefPortTypes_emC_t
   /**The fastest sample time. */
   float TstepMin;
   
-  /**Number of that port which has the first minimal sample time. Negative: Output port.*/
-  int8 ixInputStepMin;
+  /**Number of the first port which has the minimal sample time. Positive: Inport. Negative: Outport.*/
+  int8 ixInOutTstep;
 
   /**Index in the Sfn sample time indices of the fastest sample time. */
   int8 ixStepSfnMin;
   int8 nrofInputs, nrofOutputs;
 
   /**Indices of the ports in entries. @pos:8*/
-  int8 ixInputStep, ixInputStepVarg, nrInputStepVarg, __dStep;
+  int8 ixInputStep, ixInputStepVarg, nrInputStepVarg, ixInputThiz;
   int8 ixInputInit, ixInputInitVarg, nrInputInitVarg, __dInit;
   int8 ixInputUpd, ixInputUpdVarg, nrInputUpdVarg, __dUpd;
   int8 ixInputStep2, ixInputStep2Varg, nrInputStep2Varg, __dStep2;
   
   int8 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz;
 
-  int32 mInputStep, mInputUpd, mInputTinit, mOutputTinit, mOutputTstep;
+  int32 mInputStep, mInputUpd, mInputInit, mOutputStep, mOutputInit;
 
   int32 bitsParamTunable;
 
@@ -135,6 +154,7 @@ typedef enum EDefPortTypes_emC_t
   , kSetType_EPropagatePortTypes_emC = 2
   , kSetSize_EPropagatePortTypes_emC = 3
   , kSetComplex_EPropagatePortTypes_emC = 4
+  /**Set if the portinfo is read from the model. All ports are set. */
   , kRun_EPropagatePortTypes_emC = 5
 } EDefPortTypes_emC;
 
@@ -142,6 +162,24 @@ typedef enum EDefPortTypes_emC_t
 
 void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements);
 
+
+inline void set_DefPortTypes_emC(DefPortTypes_emC* thiz, int ix, char cType, char const* sName, char const* sType, int zArray, EPortType_Entry_DefPortType_emC io) {
+  thiz->entries[ix].type = cType;
+  if(zArray <0){ thiz->entries[ix].dimensions = -1; }
+  else if(zArray ==0){ thiz->entries[ix].dimensions = 1; thiz->entries[ix].sizeArray[0] = 1; }
+  else { thiz->entries[ix].dimensions = 1; thiz->entries[ix].sizeArray[0] = zArray; }
+  switch (io) {
+  case mOutputInit_Entry_DefPortType_emC: thiz->mOutputInit |=1; break;
+  case mOutputStep_Entry_DefPortType_emC: thiz->mOutputStep |=1; break;
+  case mInputInit_Entry_DefPortType_emC:  thiz->mInputInit |=1; break;
+  case mInputUpd_Entry_DefPortType_emC:   thiz->mInputUpd |=1; break;
+  case mInputStep_Entry_DefPortType_emC:  thiz->mInputStep |=1; break;
+  }
+  thiz->entries[ix].newDefined_Tstep_Tinit |= io;
+  thiz->entries[ix].sName = sName;
+  thiz->entries[ix].sType = sType;
+
+}
 
 
 
