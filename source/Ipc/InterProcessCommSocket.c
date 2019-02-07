@@ -132,7 +132,6 @@ static void set_OS_SOCKADDR_AddressIPC(Address_InterProcessComm_s* dst, OS_SOCKA
 Address_InterProcessComm_Socket_s* ctorM_zzi_Address_InterProcessComm_Socket_s(MemC rawMem, const char *protocol, char *sIpAdr, int nPort)
 {
   Address_InterProcessComm_Socket_s* ythis = PTR_MemC(rawMem, Address_InterProcessComm_Socket_s);
-  //OS_SOCKADDR* os_SOCKADDR = (OS_SOCKADDR*)ythis->internalData; 
   init0_MemC(rawMem);
   
   strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
@@ -614,7 +613,7 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
   /**Result nr of bytes. */
   int nrofBytesReceived = 0;
   /**used receive data pointer. */
-  MemC data = NULL_MemC();
+  MemC data = {0};
 
   Address_InterProcessComm_Socket_s* sender = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,senderP);
   OS_SOCKADDR* sender_sockadr = senderP == null ? null : (OS_SOCKADDR*)(senderP->internalData);
@@ -663,7 +662,7 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
     bool bDataIntern;
     
     data = buffer;
-    bDataIntern = isNull_MemC(data);
+    bDataIntern = data.ref == null;
     if(bDataIntern)
     {
       data = getDataBuffer_InterProcessCommSocket(ythis);
@@ -747,7 +746,7 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
 
 //void* InterProcessCommImplement::receive(int* nrofBytes, Address_InterProcessComm_s* senderP /* =  null*/)
 MemC receive_InterProcessCommSocket(ObjectJc* ithis, int32* nrofBytes, Address_InterProcessComm_s* senderP /* =  null*/)
-{ MemC nullBuffer = CONST_MemC(0, null);
+{ MemC nullBuffer = {0};
   *nrofBytes = 0; //default: receive the most available nrof data.
   return receiveData_InterProcessCommSocket(ithis, nrofBytes, nullBuffer, senderP);
 }
@@ -782,32 +781,30 @@ int checkConnection_InterProcessCommSocket(ObjectJc* ythis)
 
 //void* InterProcessCommImplement::getDataBuffer()
 MemC getDataBuffer_InterProcessCommSocket(InterProcessCommSocket_s* ythis)
-{
+{ MemC ret = {0};
   if(ythis->isFreeRxBuffer == true)
   { ythis->isFreeRxBuffer = false;
-    return build_MemC(ythis->rxBuffer, sizeof(ythis->rxBuffer));
+    ret.ref = ythis->rxBuffer; ret.size = sizeof(ythis->rxBuffer);
   }
   else
-  { MemC buffer = alloc_MemC(kDataBufferSize_InterProcessCommSocket_s);
-    return buffer; //PTR_MemC(buffer, void);
+  { ALLOC_MemC(ret, kDataBufferSize_InterProcessCommSocket_s);
   }
+  return ret;
 }
 
 
 
-void freeData_InterProcessCommSocket(ObjectJc* xthis, MemC dataP)
+static void freeData_InterProcessCommSocket(ObjectJc* xthis, MemC data)
 //void InterProcessCommImplement::freeData(void* data)
 {
-  void* data = PTR_MemC(dataP, void);
   //cast from impersonator type, because this methods are only called with such an instance, supplied from create_InterProcessCommSocket(). 
   InterProcessCommSocket_s* ythis = (InterProcessCommSocket_s*)xthis;  
-  if(data == ythis->rxBuffer)
+  if(data.ref == ythis->rxBuffer)
   { memset(&ythis->rxBuffer, 0, sizeof(ythis->rxBuffer));
     ythis->isFreeRxBuffer = true;
   }
   else
-  { MemC mem = build_MemC(data, -1); //{ -1, (MemAreaC*)data};
-    freeM_MemC(mem);
+  { freeM_MemC(data);
   }
 }
 
@@ -1045,7 +1042,7 @@ InterProcessCommFactory_s* getInstance_InterProcessCommFactory()
 }
 
 InterProcessComm_s* create_InterProcessCommSocket(Address_InterProcessComm_s* ownAddress)
-{ MemC mIpc = alloc_MemC(sizeof(InterProcessCommSocket_s));
+{ MemC mIpc; ALLOC_MemC(mIpc, sizeof(InterProcessCommSocket_s));
   return ctor_InterProcessCommSocket(PTR_MemC(mIpc, InterProcessCommSocket_s), ownAddress);
   //InterProcessCommSocket_s* ipc = (InterProcessCommSocket_s*)malloc(sizeof(InterProcessCommSocket_s));
   //return ctor_InterProcessCommSocket(ipc, ownAddress);

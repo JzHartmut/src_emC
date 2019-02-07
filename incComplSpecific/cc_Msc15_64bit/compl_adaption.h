@@ -286,6 +286,9 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define OS_PtrValue_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
 #define OS_PtrVal_DEF OS_PtrValue_DEF
 
+#define OS_REFValue_DEF(NAME, REFTYPE) struct NAME##_t { REFTYPE ref; int32 val; } NAME
+
+
 /**A const definition takes 3 arguments, but the type of them depends from operation system.
  * @param PTR a pointer from a type*-type.
  * @param TYPE the type of the pointer.
@@ -359,11 +362,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */
 #define mLength__StringJc                 0x00003fff
-
-/**Maximal length of path in a FileDescription_OSAL-structure.
- * NOTE: old name kMaxPathLength_OS_FileDescription
- */
-#define kMaxPathLength_FileDescription_OSAL 480
 
 
 

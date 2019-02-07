@@ -38,7 +38,6 @@
 #include "emC/LogMessage_emC.h" //only because Va_listFW, TODO
 
 #include <applstdef_emC.h>
-#include <stdarg.h>
 
 /*@CLASS_C VaArgBuffer_Data_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

@@ -82,7 +82,10 @@
 
 
 
-#define kMaxPathLength_FileJc 500
+/**Maximal length of path in a FileDescription_OSAL-structure.
+* NOTE: old name kMaxPathLength_OS_FileDescription
+*/
+#define kMaxPathLength_FileDescription_OSAL 480
 
 
 

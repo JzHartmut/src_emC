@@ -52,8 +52,10 @@ typedef struct FileJc_t
 { union{ ObjectJc object; } base;
   FileDescription_OSAL fileDescription;
 
-  char _additionalBuffer_[kMaxPathLength_FileJc - kMaxPathLength_FileDescription_OSAL];
 } FileJc_s;
+
+#define INIZ_FileJc {{INIZ_objReflId_ObjectJc(fileinput, &reflection_FileJc, 0)}}
+extern_C const ClassJc reflection_FileJc;
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */

@@ -66,12 +66,12 @@ void init_FileJc  (  FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
   //char ssFileName[120];
   char const* ssFileName;
   int len;
-  int addPathlen = kMaxPathLength_FileJc - kMaxPathLength_FileDescription_OSAL;
   STACKTRC_TENTRY("init_FileJc");
+  initReflection_ObjectJc(&ythis->base.object, ythis, sizeof(FileJc_s), &reflection_FileJc, 0);
   //len = copyToBuffer_StringJc(sFileName, ssFileName, sizeof(ssFileName));  //not necessary, because may be inpersistent. 
   ssFileName = getCharsAndLength_StringJc(&sFileName, &len);
 
-  init_FileDescription_OSAL(&ythis->fileDescription, addPathlen, ssFileName, len);
+  init_FileDescription_OSAL(&ythis->fileDescription, 0, ssFileName, len);
 
 }
 

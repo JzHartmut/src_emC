@@ -60,7 +60,7 @@ ObjectJc* alloc_ObjectJc  (  const int size, const int32 typeInstanceIdent, ThCx
     } else if(size < 0 || size > 0x100000) {
       THROW1_s0(RuntimeException, "to much memory to allocate. ", size);
     }
-    mem = alloc_MemC(size2);
+    ALLOC_MemC(mem, size2);
     othis = PTR_MemC(mem, ObjectJc);
     init_ObjectJc(othis, size, typeInstanceIdent);
   }
@@ -89,7 +89,7 @@ ClassJc const reflection_BlockHeapBlockJc = {0};
 
 /**If no block heap is used, this routine returns {0, null} because there is no rest. */
 MemC getRestBlock_ObjectJc  (  ObjectJc* ythis, int size, ThCxt* _thCxt)
-{ MemC ret = NULL_MemC();
+{ MemC ret = {null, 0};
   return ret;
 }
 

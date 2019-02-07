@@ -56,6 +56,7 @@
 #include <emC/Va_list_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
 #include <string.h>             //strchr(), strlen(), memset()
 #include <stdio.h>
+#include <stdarg.h>
 
 char const typedVaArg_VaArgBuffer[] = "typedVariableArgumentList_ObjectJc";
 

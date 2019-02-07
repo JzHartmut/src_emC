@@ -70,6 +70,10 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
 
   /**Registeres the pointer and gets the handle. 
    * If the ptr is registered already, it is okay. The name will be ignored then, it returns the given handle. 
+   * @param ptr any pointer. The number of pointers which can be registered is limited by const definition 
+   * @param name A name which is stored in the handle-pointer table for debug.
+   * @param dstHandle null admissible, stores the handle
+   * @return null if no error, else an error message. 
    */ 
   const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle);
   //old: setPtr_Handle2Ptr

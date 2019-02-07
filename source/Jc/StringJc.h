@@ -75,8 +75,8 @@
 #include "Jc/ObjectJc.h"      //Hint: Simple StringJc: use emC/String_emC.h
 //#include "Jc/ReflectionJc.h"
 #include <string.h>
-#include <stdarg.h>
 #include <stdlib.h>  //abs
+
 //compatibility
 #define StringBufferJc StringBuilderJc_s
 #define StringBufferJc_t StringBuilderJc_t

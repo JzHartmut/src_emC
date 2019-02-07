@@ -220,10 +220,6 @@ extern OS_PtrValue null_OS_PtrValue;
  */
 #define mLength__StringJc                 0x00003fff
 
-/**Maximal length of path in a FileDescription_OSAL-structure.
- * NOTE: old name kMaxPathLength_OS_FileDescription
- */
-#define kMaxPathLength_FileDescription_OSAL 480
 
 /**Include the common definitions in its pure form. */
 #include <os_types_def_common.h>

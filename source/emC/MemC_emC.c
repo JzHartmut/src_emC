@@ -37,122 +37,122 @@
 #include <emC/MemC_emC.h>
 #include <OSAL/os_mem.h>
 #include <string.h>
+#ifdef SIZEBLOCK_BlockHeap_emC
+  #include <BlockHeap/BlockHeap_emC.h>  //for free(ptr)
+#endif
 
-MemC null_MemC = NULL_MemC();
+
+MemC null_MemC = {0};
 
 
-METHOD_C MemC alloc_MemC(int size)
-{ MemC mem;
-  void* addr = os_allocMem(size);
-  set_MemC(mem, addr, size);
-  init0_MemC(mem);
-  return mem;
+/**It is a small additinal head structure to the allocated data for debug and management. */
+typedef struct Alloc_MemC_t
+{
+  char const* sign;
+  intptr_t size;
+  void* dummy[2];
+} Alloc_MemC_s;
+
+
+char const sign_Alloc_MemC[] = "Alloc_MemC";
+
+
+void* alloc_MemC(int size) {
+  int allocSize = sizeof(Alloc_MemC_s) + size + 4096;
+  Alloc_MemC_s* ptr = (Alloc_MemC_s*)os_allocMem(allocSize);
+  if(ptr !=null) {
+    memset(ptr, 0, size + sizeof(Alloc_MemC_s));
+    intptr_t memend = ((intptr_t) ptr ) + sizeof(Alloc_MemC_s) + size;
+    memset((void*)memend, 0xaa, 4096);
+    ptr->sign = sign_Alloc_MemC;
+    ptr->size = size;
+    return ptr + 1;  //after OS_AllocMem_s
+  }
+  else return null; 
 }
 
 
-MemC alloc0_MemC(int size)
-{ MemC mem;
-  void* addr = os_allocMem(size);
-  set_MemC(mem, addr, size);
-  init0_MemC(mem);
-  return mem;
-}
 
 
-int XXXfree_MemC(MemC mem)
-{ return os_freeMem(PTR_MemC(mem, void));
+
+
+int free_MemC  (  void const* addr)
+{ MemC buffer;
+  if(addr == null) return 0;
+  //
+  MemUnit* ptr = (MemUnit*)addr;
+  #ifndef __NOT_SUPPORTED_ThreadContext_emC__
+  ThCxt* _thCxt = getCurrent_ThreadContext_emC();
+  if(_thCxt->mode & mCheckBufferUsed_Mode_ThCxt){
+    if(_thCxt->mode & mBufferUsed_Mode_ThCxt){
+      THROW1_s0(IllegalStateException, "Thread buffer not free", 0);
+    }
+    _thCxt->mode |= mBufferUsed_Mode_ThCxt;
+  }
+  buffer = _thCxt->bufferAlloc;
+  MemUnit const* bufferStart = buffer.ref; //PTR_MemC(buffer, MemUnit);
+  MemUnit const* bufferEnd = bufferStart + buffer.size; //size_MemC(buffer);
+  
+  
+  if(ptr >= bufferStart && ptr < bufferEnd) {
+    releaseUserBuffer_ThreadContext_emC(ptr, _thCxt);
+    return 3;
+  }
+  #else 
+  if(false) {}
+  #endif
+  //
+  #ifdef SIZEBLOCK_BlockHeap_emC
+  else if(free_sBlockHeap_emC(ptr, _thCxt)) { //try to free a block in blockheap
+    return 2;
+  }
+  #endif
+
+  else { //seems to be a os_alloc
+    Alloc_MemC_s* ptrAlloc = ((Alloc_MemC_s*) ptr)-1;
+    if(ptrAlloc->sign == sign_Alloc_MemC) {
+      intptr_t memend = ((intptr_t) ptr ) + ptrAlloc->size;
+      int32* addrCheck = (int32*)memend;
+      int ct = 4096/4;
+      while (--ct >= 0) {
+        if (*addrCheck != 0xaaaaaaaa) {
+          addrCheck +=0;   // <================== set a breakpoint here.
+        }
+        addrCheck +=1;
+      }
+      os_freeMem(ptr);
+      return 1;
+    }
+  }
+
 }
 
 
 
 MemC init0_MemC(MemC mem)
-{ memset(PTR_MemC(mem, void), 0, size_MemC(mem));
+{ memset(mem.ref, 0, mem.size);
   return mem;
 }
 
 
-void init0p_MemC(void* ptr, int size)
-{ memset(ptr, 0, size);
-}
 
-MemC build_MemC(void* address, int size)
-{ MemC mem;
-  set_MemC(mem, address, size);
-  //setSizeAndOffset_MemC(mem, size, 0);
-  return mem;
-}
-
-
-void checkSize_MemC(MemC mem, int size, struct ThreadContext_emC_t* _thCxt)
-{
-  if(size < (int)size_MemC(mem)) THROW_s0(IllegalArgumentException, "sufficient size", size,0);  
-}
-
-
-
-MemC fromArea_MemC(void* address, void* endAddress)
-{ MemC mem;
-  int size = (MemUnit*)endAddress - (MemUnit*)address;
-  ASSERTJc_MIN(size, 0);
-  set_MemC(mem, address, size);
-  return mem;
-}
-
-
-METHOD_C MemC subset_MemC(MemC parent, int offsetStart, int offsetEnd)
-{ MemC mem;
-  int sizeParent = size_MemC(parent);
-  int subSize;
-  void* subPtr;
-  STACKTRC_ENTRY("address_MemC");
-  if(offsetEnd <=0)
-  { offsetEnd = size_MemC(parent) - offsetEnd;
-  }
-  if(offsetStart >= sizeParent)   { THROW1_s0(IndexOutOfBoundsException,"offsetStart to large", offsetStart); }
-  else if(offsetEnd > sizeParent) { THROW1_s0(IndexOutOfBoundsException,"offsetEnd to large", offsetEnd);     }
-  else if(offsetStart < 0)        { THROW1_s0(IndexOutOfBoundsException,"offsetStart negative", offsetStart); }
-  else if(offsetEnd < 0)          { THROW1_s0(IndexOutOfBoundsException,"offsetEnd negative", offsetEnd);     }
-
-  subSize = offsetEnd - offsetStart;
-  subPtr = PTR_MemC(parent, MemUnit) + offsetStart;
-  set_MemC(mem, subPtr, subSize);
-  STACKTRC_LEAVE; return mem;
-}
-
-
-
-struct MemAreaC_t* address_MemC(MemC mem, int offset, int nrofBytes)
-{ int size = size_MemC(mem);
-  STACKTRC_ENTRY("address_MemC");
+void checkAddress_MemC(void* mem, void* addr, int nrofBytes) { 
+  MemC* mem1 = (MemC*)mem;
+  int size = mem1->size;
+  int offset = (MemUnit*)addr - mem1->ref;
+  STACKTRC_ENTRY("checkAddress_MemC");
   if(offset >= size)                 { THROW1_s0(IndexOutOfBoundsException,"offset to large", offset);       }
   else if(offset + nrofBytes > size) { THROW1_s0(IndexOutOfBoundsException,"nrofBytes to large", nrofBytes); }
   else if(offset < 0)                { THROW1_s0(IndexOutOfBoundsException,"offset negative", offset);       }
   else if(nrofBytes < 0)             { THROW1_s0(IndexOutOfBoundsException,"nrofBytes negative", offset);    }
-  STACKTRC_LEAVE; return (struct MemAreaC_t*)(PTR_MemC(mem, MemUnit) + offset);
+  STACKTRC_LEAVE; 
 }
 
 
 
-void insert_MemC(MemC mem, void const* insertAddress, int nrofBytes)
-{ int size = size_MemC(mem);
-  int ix = (MemUnit*)insertAddress - PTR_MemC(mem, MemUnit);
-  STACKTRC_ENTRY("insert_MemC");
-  if(ix < 0 || (ix + nrofBytes) > size || nrofBytes < 0)
-  { THROW_s0(IndexOutOfBoundsException,"ix=", ix, nrofBytes);
-  }
-  else
-  { 
-    int nrofBytesToEnd = size_MemC(mem) - ix - nrofBytes;
-    if(nrofBytesToEnd > 0)
-    { MemUnit* dst = (MemUnit*)insertAddress + nrofBytes;
-      memmove(dst, insertAddress, nrofBytesToEnd);
-    }
-  }
-  STACKTRC_LEAVE;
+void error_MemC() {
+  STACKTRC_ENTRY("set_memC"); THROW_s0(ArrayIndexOutOfBoundsException, "set_MemC", 0,0); STACKTRC_RETURN;
 }
-
-
-
 
 
 

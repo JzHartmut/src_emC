@@ -229,11 +229,11 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
     int iChars;
     int nChars = mc->length(othiz, _thCxt);
     MemC mBuffer = getUserBuffer_ThreadContext_emC(nChars+1, "toString_CharSeqJc", _thCxt);
-    int sizeBufferThreadContext = size_MemC(mBuffer);
+    int sizeBufferThreadContext = mBuffer.size;
     if(nChars >= sizeBufferThreadContext){ 
       nChars = sizeBufferThreadContext-1;   //limit it.
     }
-    char* buffer = PTR_MemC(mBuffer, char);
+    char* buffer = mBuffer.ref;
     for(iChars = 0; iChars < nChars; ++iChars) {
       char cc = mc->charAt(othiz, iChars, _thCxt);
       buffer[iChars] = cc;

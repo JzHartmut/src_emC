@@ -1,7 +1,7 @@
 #ifndef __fw_Va_list_h__
 #define __fw_Va_list_h__
 
-#include <stdarg.h>
+//#include <stdarg.h>
 
 
 /* @ CLASS_C Va_listFW @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

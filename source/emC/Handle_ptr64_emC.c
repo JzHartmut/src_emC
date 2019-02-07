@@ -141,7 +141,7 @@ uint32 PRIV_retHandle_Handle2Ptr(void const* ptr) {
 const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle) {
   bool found = false;
   if (ptr == null) {
-    dstHandle = 0; 
+    if(dstHandle) { *dstHandle = -1; }
     return null;
   }
   if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
@@ -160,7 +160,7 @@ const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandl
     } 
     //Note: if the ptr was found, return in for!
     if (found) {
-      *dstHandle = ix;
+      if(dstHandle) { *dstHandle = ix; }
     }
     else { //!found, onyl if not found, all checked:
       if(ixFree == 0 && ix >= handle2Ptr->size) {
@@ -172,7 +172,7 @@ const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandl
       }
       handle2Ptr->e[ixFree].p.ptr = ptr;
       strncpy(handle2Ptr->e[ixFree].name, name, sizeof(handle2Ptr->e[ix].name));
-      *dstHandle = ixFree;
+      if(dstHandle) { *dstHandle = ixFree; }
     }
     return null;
   }

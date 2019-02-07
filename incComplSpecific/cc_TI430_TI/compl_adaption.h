@@ -331,11 +331,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  */
 #define mLength__StringJc                 0x00003fff
 
-/**Maximal length of path in a FileDescription_OSAL-structure.
- * NOTE: old name kMaxPathLength_OS_FileDescription
- */
-#define kMaxPathLength_FileDescription_OSAL 480
-
 
 
 #ifndef TRUE

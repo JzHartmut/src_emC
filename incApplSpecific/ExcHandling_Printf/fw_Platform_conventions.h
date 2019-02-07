@@ -205,14 +205,12 @@
 
 
 
-/* Maximal length of path in a FileIoJc-structure.
- * The minimal value is defined in os_file.h with kMaxPathLength_OS_FileDescription.
- * That is a minimal length for less systems. The struct FileIOJc has an additional
- * char[]-buffer after the OS_FileDescription-structure, which stores the path.
- * This parameter is the max. length, it have to be 
- * greater than kMaxPathLength_OS_FileDescription (=24).
+/**Maximal length of path in a FileDescription_OSAL-structure.
+ * NOTE: old name kMaxPathLength_OS_FileDescription
  */
-#define kMaxPathLength_FileJc 500
+#define kMaxPathLength_FileDescription_OSAL 480
+
+
 
 /** Define the length of namefield in Reflection*/
 #define kLengthNAME_CLASS_ReflectionJc 32

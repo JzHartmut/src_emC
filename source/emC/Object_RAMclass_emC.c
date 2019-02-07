@@ -40,7 +40,9 @@
 #include <emC/String_emC.h>
 
 
-void init_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fields, ObjectArrayJc* super) {
+void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fields, ObjectArrayJc* super) {
+  memset(thiz, 0, sizeof(*thiz));
+  initReflection_ObjectJc(&thiz->object, thiz, sizeof(*thiz), &reflection_ClassJc, 0);
   copyToBuffer_StringJc(name, 0, -1, thiz->name, sizeof(thiz->name));
   thiz->nSize = sizeof(*thiz);
   thiz->attributes = (struct FieldJc_Y_t const*)fields;  //TODO before casting: check type via reflection
@@ -49,8 +51,9 @@ void init_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fiel
 
 
 
-void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accessLevel, int ixVtbl)
+void ctor_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accessLevel, int ixVtbl)
 {
+  memset(thiz, 0, sizeof(*thiz));
   //thiz->clazz_super = refl_super;
   strncpy_emC(thiz->superfield.name, "super", sizeof(thiz->superfield.name));
   thiz->superfield.nrofArrayElementsOrBitfield_ = 0;

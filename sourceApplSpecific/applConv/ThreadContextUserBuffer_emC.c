@@ -105,9 +105,10 @@ MemC getUserBuffer_ThreadContext_emC  (  int size, char const* sign, ThreadConte
 { ASSERT_s0_Jc(size >= -1, "faulty size argument", size);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if(_thCxt->bufferAlloc.ref == null) {
-    setUserBuffer_ThreadContext_emC(alloc_MemC(2000), _thCxt);
+    MemC alloc; ALLOC_MemC(alloc, 2000);
+    setUserBuffer_ThreadContext_emC(alloc, _thCxt);
   }
-  { MemUnit* endBuffer = END_MemC(_thCxt->bufferAlloc);
+  { MemUnit* endBuffer = _thCxt->bufferAlloc.ref + _thCxt->bufferAlloc.size;  //Addr after buffer.
     int sizeFree = endBuffer - _thCxt->addrFree;
     int mask = 0x1;
     int ix = 0;
@@ -125,12 +126,13 @@ MemC getUserBuffer_ThreadContext_emC  (  int size, char const* sign, ThreadConte
           //this and all higher bits are 0 too. Then the rest of buffer in thread context is to use:
           if(size <= sizeFree) {
             MemUnit* addr = _thCxt->addrFree;
-            MemC ret = CONST_MemC(addr, size);
+            MemC ret = { addr, size};
             _thCxt->addrFree += size;
             _thCxt->bitAddrUsed |= 1 << ix;
             _thCxt->addrUsed[ix].sign = sign;
             _thCxt->ixLastAddrUsed = (int16)ix;
-            set_MemC(_thCxt->addrUsed[ix].used, addr,size);  //store the found range.
+            _thCxt->addrUsed[ix].used.ref = addr;
+            _thCxt->addrUsed[ix].used.size = size;
             init0_MemC(ret);
             return ret; //NOTE: the user is responsible for saving its content.
           } 
@@ -161,7 +163,7 @@ METHOD_C void reduceLastUserBuffer_ThreadContext_emC  (  void* ptr, int size, Th
   if(e->used.ref == ptr) {
     //ASSERT_s0_emC(e->used.ref == ptr , "reduceLastUserBuffer_ThreadContext_emC: faulty ptr", (int32)ptr);
     _thCxt->addrFree = (MemUnit*) ptr + size;
-    e->used.val = size;
+    e->used.size = size;
   }
 }
 
@@ -182,7 +184,7 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC  (  void const* data, ThreadCo
   while(ix < ARRAYLEN_SimpleC(_thCxt->addrUsed)) {
     if((_thCxt->bitAddrUsed & mask) !=0) {
       void const* addr = PTR_MemC(_thCxt->addrUsed[ix].used, MemUnit const);
-      void const* endAddr = END_MemC(_thCxt->addrUsed[ix].used);
+      void const* endAddr = _thCxt->addrUsed[ix].used.ref + _thCxt->addrUsed[ix].used.size;
       if(data >= addr && data < endAddr) {
         init0_MemC(_thCxt->addrUsed[ix].used);  //remove content. Initialize with 0
         _thCxt->addrUsed[ix].sign = 0;

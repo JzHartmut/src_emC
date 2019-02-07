@@ -35,22 +35,13 @@ const struct Reflection_Fields_FileJc_s_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } reflection_Fields_FileJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_FileJc_s, 2, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(reflection_Fields_FileJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "fileDescription"
     , 0   //no Array, no Bitfield                           
     , &reflection_FileDescription_OSAL                                                                                            
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileJc_s*)(0x1000))->fileDescription)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileJc
-    }
-  , 
-    { "_additionalBuffer_"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc)|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((FileJc_s*)(0x1000))->_additionalBuffer_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_FileJc
     }

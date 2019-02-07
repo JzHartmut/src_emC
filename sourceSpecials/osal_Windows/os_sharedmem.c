@@ -58,7 +58,8 @@ MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int size){
     } else {
       memset(pBuf, 0, size);
       *((int32*)(pBuf)) = size;   //Write the size in the first 4 bytes. 
-      set_OS_PtrValue(thiz->addrSize, pBuf + sizeof(int32), size);  //return the buffer after the size entry.
+      thiz->addrSize.ref = pBuf + sizeof(int32);
+      thiz->addrSize.size = size;  //return the buffer after the size entry.
       
       *(HANDLE*)thiz->data = hMapFile;
       *(void**)&thiz->data[4] = pBuf;
@@ -104,7 +105,8 @@ MemC os_accessSharedMem(SharedMem_OSAL* thiz, const char* name)
     } else {
       int32* pBufi = (int32*)(addr);
       int32 size = *pBufi;
-      set_OS_PtrValue(thiz->addrSize, pBufi+1, size);
+      thiz->addrSize.ref = (MemUnit*)(pBufi + 1);
+      thiz->addrSize.size = size;  //return the buffer after the size entry.
       
       *(HANDLE*)thiz->data = hMapFile; 
       *(void**)&thiz->data[4] = addr;

@@ -93,16 +93,13 @@ extern ClassJc const reflection_StringBuilderJc;
 
 
 StringBuilderJc_s* ctorM_StringBuilderJc(MemC rawMem)
-{ StringBuilderJc_s* ythis = PTR_MemC(rawMem, StringBuilderJc_s);
+{ StringBuilderJc_s* ythis = (StringBuilderJc_s*)rawMem.ref ;
   int size;
-  char* buffer;
   STACKTRC_ENTRY("ctorM_StringBuilderJc");
   /**The size of the rest, inclusive start of string in value. */
-  size = size_MemC(rawMem) - sizeof(StringBuilderJc_s) + sizeof(ythis->value);
-  if(size < 20) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(rawMem));
-  buffer = (char*)address_MemC(rawMem, sizeof(StringBuilderJc_s), size);
-  //init0_MemC(rawMem);
-  init_ObjectJc(&ythis->base.object, size_MemC(rawMem), 0);
+  size = rawMem.size - (int)sizeof(StringBuilderJc_s) + (int)sizeof(ythis->value);
+  if(size < 20) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", rawMem.size);
+  init_ObjectJc(&ythis->base.object, rawMem.size, 0);  //immediately buffer
   ythis->size = (int16)size; //positive value because immediately String  
   //ctorc_s0i_StringBuilderJc(ythis, buffer, size);
   return ythis;
@@ -132,10 +129,9 @@ StringBuilderJc_s* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, ThCxt* _th
   }
   else
   { //not enaugh size:
-    MemC mBuffer = alloc_MemC(size);
-    init0_MemC(mBuffer);
+    STRUCT_MemC(char) mBuffer; ALLOC_MemC(mBuffer, size);
     ythis->size =(int16)(ythis->size-size);
-    ythis->value.buffer = PTR_MemC(mBuffer, char);
+    ythis->value.buffer = mBuffer.ref;
   }
   STACKTRC_LEAVE; return ythis;
 }
@@ -144,17 +140,16 @@ StringBuilderJc_s* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, ThCxt* _th
 
 StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 { int sizeObj = getSizeInfo_ObjectJc(othis);
-  MemC mem = build_MemC(othis, sizeObj);
   StringBuilderJc_s* ythis = (StringBuilderJc_s*)othis;
-  int sizeBuffer = size_MemC(mem) - sizeof(StringBuilderJc_s) + sizeof(ythis->value);
+  int sizeBuffer = sizeObj - sizeof(StringBuilderJc_s) + sizeof(ythis->value);
   STACKTRC_TENTRY("ctorO_StringBuilderJc");
   checkConsistence_ObjectJc(othis, sizeObj, &reflection_StringBuilderJc, _thCxt); 
   if(sizeBuffer <=4)
   { /**The StringBuffer has not a direct Buffer: */
-    MemC mem = getRestBlock_ObjectJc(othis, -2, _thCxt);
-    sizeBuffer = size_MemC(mem);
+    MemC mem = getRestBlock_ObjectJc(othis, -2, _thCxt);  //possible it may be inside a block of a BlockHeap
+    sizeBuffer = mem.size;
     if(sizeBuffer >0)
-    { ythis->value.buffer = PTR_MemC(mem, char);
+    { ythis->value.buffer = mem.ref;
       ythis->size = (int16)(-sizeBuffer); //negative value because immediately String  
     }
     else
@@ -163,7 +158,6 @@ StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
   }
   else
   {
-    if(sizeBuffer < 20) THROW1_s0(IllegalArgumentException, "ctor mem-size insufficient", size_MemC(mem));
     ythis->size = (int16)sizeBuffer; //positive value because immediately String  
   }
   STACKTRC_LEAVE; return ythis;
@@ -299,12 +293,12 @@ static void* getThreadBuffer_StringBuilderJc(bool bCpp, char const* sign, ThCxt*
   {
     MemC mBuffer = getUserBuffer_ThreadContext_emC(0, sign, _thCxt);
     /**Check whether the buffer is in use, TODO... */
-    int sizeBufferThreadContext = size_MemC(mBuffer);
+    int sizeBufferThreadContext = mBuffer.size;
     int sizeStringBuffer = sizeBufferThreadContext/2 - sizeStringBuilderJcpp;
     int posBuffer = 0; //(nr == 1 ? sizeBufferThreadContext/2 : 0);
 
-
-    ObjectJc* othis = (ObjectJc*)address_MemC(mBuffer, posBuffer + sizeStringBuilderJcpp, sizeStringBuffer);
+    ObjectJc* othis = (ObjectJc*)(mBuffer.ref + posBuffer + sizeStringBuilderJcpp);
+    checkAddress_MemC(&mBuffer, othis, sizeStringBuffer);
     init_ObjectJc(othis, sizeStringBuffer, newIdent_ObjectJc());
     sBuffer = ctorO_StringBuilderJc(othis, _thCxt);
     setStringConcatBuffer_StringBuilderJc(sBuffer);     //the buffer is used temporary, it is so, prevent additional copy of String 

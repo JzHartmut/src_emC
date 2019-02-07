@@ -63,73 +63,20 @@ bool castOk_ObjectJc;
 
 
 ObjectJc* ctorM_ObjectJc(MemC mem) //ObjectJc* ythis)
-{ ObjectJc* ythis = PTR_MemC(mem, ObjectJc);
-  init0p_MemC(ythis, sizeof(ObjectJc));  //note: ctorc don't initialze with 0.
-  //obsolete: ythis->offsetToHeapBlock = offsetBlock_MemC(mem);  //NOTE 0 if no offset is given.
-  ctorc_ObjectJc(ythis);
+{ init0_MemC(mem);   //A ctor should initialize all, no old data regarded. Cleanup!
+  ObjectJc* ythis = PTR_MemC(mem, ObjectJc);
+  int size = mem.size;
+  init_ObjectJc(ythis, size, 0);
   return ythis;
 }
 
-//old version, clears ythis-area.
-void ctor_Object_Jc(ObjectJc* ythis)
-{
-  init0p_MemC(ythis, sizeof(ObjectJc));  //note: ctorc don't initialze with 0.
-  ctorc_ObjectJc(ythis);
-}
-
-
-//TODO use init_ObjectJc() instead
 void ctorc_ObjectJc(ObjectJc* ythis)
-{ 
-  if(ythis->ownAddress != ythis)  //if the ownAddress is already set, it is initalized!
-  { ythis->ownAddress = ythis;
-    ythis->state.b.idSyncHandles = kNoSyncHandles_ObjectJc;
-    ythis->state.b.offsetToStartAddr = 0;
-    //
-    //NOTE: the both next values cannot be setted from focus ObjectJc,
-    //      they should be setted outside the ctor behind them from focus of the derivated class.
-    //      use setReflection_ObjectJc(..) therefore.
-    ythis->state.b.objectIdentSize = 0;
-    ythis->reflectionClass = null;
-  }
-  else
-  { //it is already initialized.
-  }
+{
+  memset(ythis, 0, sizeof(ObjectJc));   //A ctor should initialize all, no old data regarded. Cleanup!
+  init_ObjectJc(ythis, sizeof(ObjectJc), 0);
 }
 
 
-
-/*
-ObjectJc* ctorO_ii_ObjectJc(ObjectJc* othis, const int size, const int32 typeInstanceIdent, ThCxt* _thCxt)
-{ int32 objectIdentSize;
-  checkConsistenceOrInit_ObjectJc(othis, size, null, _thCxt);
-  //set the size of the Object, regarding the typsInstanceIdent limits for size:
-  if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsSmallSize_objectIdentSize_ObjectJc)
-  { if(size > mSizeSmall_objectIdentSize_ObjectJc)
-    { THROW1_s0(IndexOutOfBoundsException, "too large", size);
-    }
-    objectIdentSize = (typeInstanceIdent & ~mSizeSmall_objectIdentSize_ObjectJc) | size;
-  }
-  else if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
-  { if(size > mSizeMedium_objectIdentSize_ObjectJc)
-    { THROW1_s0(IndexOutOfBoundsException, "too large", size);
-    }
-    objectIdentSize = (typeInstanceIdent & ~mSizeMedium_objectIdentSize_ObjectJc) | size;
-  }
-  else if(typeInstanceIdent & mIsLargeSize_objectIdentSize_ObjectJc)
-  { if(size > mSizeLarge_objectIdentSize_ObjectJc)
-    { THROW1_s0(IndexOutOfBoundsException, "too large", size);
-    }
-    objectIdentSize = (typeInstanceIdent & ~mSizeLarge_objectIdentSize_ObjectJc) | size;
-  }
-  else
-  { objectIdentSize = 0;
-    THROW1_s0(IndexOutOfBoundsException, "undefined size", typeInstanceIdent);
-  }
-  othis->objectIdentSize = objectIdentSize;
-  STACKTRC_LEAVE; return othis;
-}
-*/
 
 
 
@@ -339,7 +286,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, ThCxt* _thCxt)
     int sizeBufferThreadContext = size_MemC(mBuffer);
     if(size > sizeBufferThreadContext) THROW1_s0(RuntimeException, "to large ObjectJc in ThreadBuffer", size);
 
-    ret = (ObjectJc*)address_MemC(mBuffer, 0,0);
+    ret = (ObjectJc*)mBuffer.ref;
     init_ObjectJc(ret, size, newIdent_ObjectJc());
     //sBuffer->_mode |= _mThread_StringBuilderJc;
   }
@@ -520,7 +467,7 @@ MemC buildFromArrayX_MemC(ObjectArrayJc* objArray)
   MemC mem;
   int32 nrofBytes;
   void* addr = getAddrSizeof_ObjectArrayJc(objArray, &nrofBytes);
-  set_MemC(mem, addr, nrofBytes);
+  mem.ref = (MemUnit*)addr; mem.size = nrofBytes;
   return mem;
 }
 

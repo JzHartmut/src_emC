@@ -54,6 +54,8 @@
 
 #include <emC/SimpleC_emC.h>
 #include <stdio.h>
+#include <stdarg.h>
+
 
 #undef mStaticArray_Modifier_reflectJc //it shouldn't be used!
 #undef mReference_Modifier_reflectJc
@@ -426,7 +428,7 @@ METHOD_C MemSegmJc getContainerAddress_FieldJc(const FieldJc* thiz, MemSegmJc in
 
 
 static MemSegmJc getRefAddrObjectArray_FieldJc(MemSegmJc addrArray, char const* sVaargs, va_list vaargs, ThCxt* _thCxt)
-{ MemSegmJc retAddress = NULL_MemC();
+{ MemSegmJc retAddress = { 0 };
   int ixData;
   STACKTRC_TENTRY("getRefAddrObjectArray_FieldJc");
   //:TODO: test obj

@@ -244,10 +244,6 @@ typedef float                float32;
  */
 #define mLength__StringJc                 0x00003fff
 
-/**Maximal length of path in a FileDescription_OSAL-structure.
- * NOTE: old name kMaxPathLength_OS_FileDescription
- */
-#define kMaxPathLength_FileDescription_OSAL 480
 
 //#define abs(X) (X <0 ? -X :X)
 

@@ -228,9 +228,12 @@ static bool checkRefl(ClassJc const* refl, char const* reflectionName)
 
 int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName)
 { int idxMtbl = -1;
+  STACKTRC_ENTRY("getIdxMtbl_ClassJc");
+  if(reflectionObj == null || reflectionObj->object.reflectionClass == null || strcmp(reflectionObj->object.reflectionClass->name, "ClassJc") !=0){
+    THROW_s0(ClassCastException, "reflection class invalid", (int)(intptr_t)reflectionObj, 0);
+  }
   ClassOffset_idxMtblJcARRAY const* reflectionSuper;
   int zReflectionName = strnlen_emC(reflectionName, sizeof(reflectionObj->name));  //till 0 or maximal the size of name[] it is not 0-terminated.
-  STACKTRC_ENTRY("getIdxMtbl_ClassJc");
   if(reflectionObj == null)
   { //if no reflection is used, it is able in C++ environment or if no dynamic linked methods are used.
     idxMtbl = -1; //mIdxMtbl_ObjectJc;  //causes an error if it will be used!
@@ -295,7 +298,7 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
 
 
 bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
-{ 
+{ if(ythis == null) return false;
   int idxMtbl = getIxVtbl_s_ClassJc(ythis->reflectionClass, reflectionName);
   return idxMtbl >=0;
 }

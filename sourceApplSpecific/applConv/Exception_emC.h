@@ -371,7 +371,7 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
 #ifdef __NoStringJcCapabilities__
   #define FREE_MSG_END_TRY(MSG)  //left empty
 #else
-#define FREE_MSG_END_TRY(MSG) if(PTR_MemC(MSG, void)!=null) { freeM_MemC(MSG); }
+#define FREE_MSG_END_TRY(MSG) if((MSG).ref!=null) { freeM_MemC(MSG); }
 #endif
 
 

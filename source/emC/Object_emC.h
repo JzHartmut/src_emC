@@ -314,7 +314,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
   *
   * @since 2018-08: the better form.
 */
-#define INIZ_objReflId_ObjectJc(OBJ, REFL, ID) { {(ObjectJc*)&(OBJ)} , { REFL } , {{sizeof(OBJ) | ((ID)<<kBitIdentSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
+#define INIZ_objReflId_ObjectJc(OBJ, REFL, ID) { {(ObjectJc*)&(OBJ)} , { REFL } , {{(int)sizeof(OBJ) | ((ID)<<kBitIdentSmall_objectIdentSize_ObjectJc), 0, kNoSyncHandles_ObjectJc, 0}}}
 #define INITIALIZER_ObjectJc(OBJ, REFLECTION, IDENT) INIT_OBJ_REFL_ID_ObjectJc(OBJ, REFLECTION, IDENT)
 
 
@@ -496,7 +496,7 @@ METHOD_C struct ClassJc_t const* getClass_ObjectJc(ObjectJc const* ythis);
 
 /**tests wether the given object is an instance of the requested Type.
  * Javalike: instanceof-operator.
- * @param thiz any Object
+ * @param thiz any Object null is admissible then returns false. If the reflection are faulty, an exception is thrown.
  * @param reflection The reflection of the type to compare. The chararcter sequence is tested.
  * In opposite to [[instanceof_ObjectJc(...)]] they may be more as one reflection instance possible.
  * That is especially in dll libraries with static linked reflection.
@@ -1012,7 +1012,7 @@ struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
 
 #define getModifiers_FieldJc(THIS) ((THIS)->bitModifiers)
 
-
+#define isHandleRef_FieldJc(THIS) ( ((THIS)->bitModifiers & mPrimitiv_Modifier_reflectJc) == kHandlePtr_Modifier_reflectJc)
 
 #define getStaticArraySize_FieldJc(THIS) (((THIS)->bitModifiers & mPrimitiv_Modifier_reflectJc) == kBitfield_Modifier_reflectJc ? 0: (THIS)->nrofArrayElementsOrBitfield_)
 
@@ -1123,8 +1123,9 @@ StringJc name_ClassJc(ClassJc const* thiz);
 
 extern const ClassJc reflection_ClassJc;
 
-
-extern_C void init_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fields, ObjectArrayJc* super);
+/**Initializes a class in RAM for runtime reflection. 
+ */
+extern_C void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fields, ObjectArrayJc* super);
 
 
 
@@ -1430,7 +1431,7 @@ typedef struct ClassOffset_idxMtblJcARRAY_t
  * @param refl_super The reflection for this super class or interface.
  * @param ixVtbl The index of the virtual table part. Use 0 if the superclass or interface has not a Vtbl.  
  */
-extern_C void init_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accesLevel, int ixVtbl);
+extern_C void ctor_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accesLevel, int ixVtbl);
 
 #endif  //#ifndef __ObjectJc_defined__
 

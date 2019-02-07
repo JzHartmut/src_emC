@@ -123,12 +123,13 @@ typedef struct DefPortTypes_emC_t
   int8 nrofInputs, nrofOutputs;
 
   /**Indices of the ports in entries. @pos:8*/
-  int8 ixInputStep, ixInputStepVarg, nrInputStepVarg, ixInputThiz;
-  int8 ixInputInit, ixInputInitVarg, nrInputInitVarg, __dInit;
-  int8 ixInputUpd, ixInputUpdVarg, nrInputUpdVarg, __dUpd;
-  int8 ixInputStep2, ixInputStep2Varg, nrInputStep2Varg, __dStep2;
-  
+  int8 ixInputStep, ixInputStep2, ixInputInit, ixInputUpd;
   int8 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz;
+  
+  int8 ixInputThiz, _d1, _d2, _d3;
+
+  /**Number of variable Inputs for Step, Upd etc. It should be adequate number of Bits in the Bit masks.*/
+  //int8 nrVargInputStep, nrVargInputUpd, nrVargInputInit, nrVargOutputStep, nrVargOutputInit; 
 
   int32 mInputStep, mInputUpd, mInputInit, mOutputStep, mOutputInit;
 
@@ -163,23 +164,12 @@ typedef enum EDefPortTypes_emC_t
 void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements);
 
 
-inline void set_DefPortTypes_emC(DefPortTypes_emC* thiz, int ix, char cType, char const* sName, char const* sType, int zArray, EPortType_Entry_DefPortType_emC io) {
-  thiz->entries[ix].type = cType;
-  if(zArray <0){ thiz->entries[ix].dimensions = -1; }
-  else if(zArray ==0){ thiz->entries[ix].dimensions = 1; thiz->entries[ix].sizeArray[0] = 1; }
-  else { thiz->entries[ix].dimensions = 1; thiz->entries[ix].sizeArray[0] = zArray; }
-  switch (io) {
-  case mOutputInit_Entry_DefPortType_emC: thiz->mOutputInit |=1; break;
-  case mOutputStep_Entry_DefPortType_emC: thiz->mOutputStep |=1; break;
-  case mInputInit_Entry_DefPortType_emC:  thiz->mInputInit |=1; break;
-  case mInputUpd_Entry_DefPortType_emC:   thiz->mInputUpd |=1; break;
-  case mInputStep_Entry_DefPortType_emC:  thiz->mInputStep |=1; break;
-  }
-  thiz->entries[ix].newDefined_Tstep_Tinit |= io;
-  thiz->entries[ix].sName = sName;
-  thiz->entries[ix].sType = sType;
+/**Sets all information for one port. 
+ * @param ix index in the entries. For outports it should be >= nrofInputs.
+ * @param io: Note apply this routine to outputs only if all inputs are set.
+ */
+void set_DefPortTypes_emC(DefPortTypes_emC* thiz, int ix, char cType, char const* sName, char const* sType, int zArray, EPortType_Entry_DefPortType_emC io);
 
-}
 
 
 
