@@ -949,15 +949,32 @@ double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCx
 }
 
 
-/**Returns the part of the last scanning yet only from {@link #scanIdentifier()}*/
+/**Returns the part of the last scanning yet only from {@link #scanIdentifier()}
+ * TODO should be persistent.
+ */
 struct Part_StringPartJc_t* getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getLastScannedString_StringPartScanJc");
-  
+
   { 
-    
+
     { STACKTRC_LEAVE;
-      return &thiz->sLastString;
+    return &thiz->sLastString;
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Returns the part of the last scanning yet only from {@link #scanIdentifier()}*/
+struct Part_StringPartJc_t* getLastScannedPart_StringPartScanJc(StringPartScanJc_s* thiz, int nr, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getLastScannedString_StringPartScanJc");
+
+  { 
+
+    { STACKTRC_LEAVE;
+    return &thiz->sLastString;
     }
   }
   STACKTRC_LEAVE;

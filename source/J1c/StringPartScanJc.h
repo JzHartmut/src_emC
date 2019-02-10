@@ -242,6 +242,14 @@ METHOD_C double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* t
 */
 METHOD_C struct Part_StringPartJc_t* getLastScannedString_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
+
+/**Returns the last scanned part non persistently.
+ * If the scanning continues with Strings, the returned instance is reused with the new scanning result.  
+ * @param nr 1..5 for the last, pre-last etc. 
+ */
+METHOD_C struct Part_StringPartJc_t* getLastScannedPart_StringPartScanJc(StringPartScanJc_s* thiz, int nr, ThCxt* _thCxt);
+
+
 /**Closes the work. This routine should be called if the StringPart is never used, 
 but it may be kept because it is part of class data or part of a statement block which runs.
 The associated String is released. It can be recycled by garbage collector.

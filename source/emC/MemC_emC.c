@@ -136,15 +136,14 @@ MemC init0_MemC(MemC mem)
 
 
 
-void checkAddress_MemC(void* mem, void* addr, int nrofBytes) { 
-  MemC* mem1 = (MemC*)mem;
-  int size = mem1->size;
-  int offset = (MemUnit*)addr - mem1->ref;
+void __errorAddress_MemC(int offset, int nrofBytes, int size) { 
   STACKTRC_ENTRY("checkAddress_MemC");
-  if(offset >= size)                 { THROW1_s0(IndexOutOfBoundsException,"offset to large", offset);       }
-  else if(offset + nrofBytes > size) { THROW1_s0(IndexOutOfBoundsException,"nrofBytes to large", nrofBytes); }
-  else if(offset < 0)                { THROW1_s0(IndexOutOfBoundsException,"offset negative", offset);       }
-  else if(nrofBytes < 0)             { THROW1_s0(IndexOutOfBoundsException,"nrofBytes negative", offset);    }
+  char const* error = "???"; 
+  if(offset + nrofBytes > size) { error = "nrofBytes behind end"; }
+  else if(offset >= size)       { error = "address behind mem";   }
+  else if(offset < 0)           { error = "address before mem";   }
+  else if(nrofBytes < 0)        { error = "nrofBytes negative";   }
+  THROW_s0(IndexOutOfBoundsException, error, offset, nrofBytes);
   STACKTRC_LEAVE; 
 }
 

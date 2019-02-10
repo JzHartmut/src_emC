@@ -154,14 +154,24 @@ extern_C MemC null_MemC;
 #define ALLOC_MemC(M, SIZE) { *(void**)(&(M).ref) = alloc_MemC(SIZE); (M).size = SIZE; }
 
 
+/**Internal method checks which error and throws. */
+METHOD_C void __errorAddress_MemC(int offset, int nrofBytes, int size);
+
+
+
 /**Check whether a calculated address is inside the MemC
- * @param mem Reference to any incarnation of STRUCT_MemC
+ * @param mem Reference to any incarnation of STRUCT_MemC.
+ *        Note: If the pointer is faulty this operation fails in most of cases.
  * @param addr any address inside this range
  * @param nrofBytes It is checked, whether the area contains enaugh bytes
  * @throws IndexOutOfBoundsException if the param are failed.
  */
-METHOD_C void checkAddress_MemC(void* mem, void* addr, int nrofBytes);
-
+inline void checkAddress_MemC(void* mem, void* addr, int nrofBytes){
+  MemC* mem1 = (MemC*)mem;   //Note: the mem as param can have any Type of reference.
+  int offset = (MemUnit*)addr - mem1->ref;
+  if(offset >=0 && (offset + nrofBytes) < mem1->size) return;
+  else __errorAddress_MemC(offset, nrofBytes, mem1->size);
+}
 
 
 /**Builds a MemC struct and returns it per value.

@@ -30,7 +30,7 @@ typedef struct Entry_DefPortType_emC_t
   * If >5 then sizeArray contains a pointer to a uint32 [...], cast necessary:
   * -1 then DYNAMICALLY_SIZED
   */
-  uint8 dimensions;
+  int8 dimensions;
 
 
   /**sizes for up to 5 dimensionens. If more as 5 dimensions are need, store it after this struct

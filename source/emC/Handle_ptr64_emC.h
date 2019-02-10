@@ -104,17 +104,18 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
   const char* getPtr_Handle2Ptr(uint32 handle, void** dst);
   
   /**Internal method for the macro [[PTR_Handle2Ptr]] */
-  void* PRIV_retPtr_Handle2Ptr(uint32 handle);
+  void* ptr_Handle2Ptr(uint32 handle);
 
-  /**Internal method for the macro [[PTRclr_Handle2Ptr]]. It frees the position and returns the stored pointer as last exception to free the memory. */
-  void* PRIV_clrPtr_Handle2Ptr(uint32 handle);
+  /**Returns the last time the address to a handle and removes the handle. 
+   * It frees the position and returns the stored pointer as last action to free the memory. */
+  void* clearHandle_Handle2Ptr(uint32 handle);
 
   /**Gets the pointer to a given handle. This operation is intent to invoke in compiled sources where a error message is not able to process.
    * An error is not expected. If any error occurs the return ptr is null. 
    * This macro is used in the sources for compatibility wihth 32 bit target systems.
    */ 
-  #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) PRIV_retPtr_Handle2Ptr(handle))
-  #define PTRclr_Handle2Ptr(handle, TYPE) ((TYPE*) PRIV_clrPtr_Handle2Ptr(handle))
+  #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) ptr_Handle2Ptr(handle))
+  #define PTRclr_Handle2Ptr(handle, TYPE) ((TYPE*) clearHandle_Handle2Ptr(handle))
 #else
   /**Invocation of INIT is empty because there is not Handle2Ptr. */
   #define INIT_Handle2Ptr()  
@@ -144,6 +145,7 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
    * @param P_PTR address of the pointer. The address should be given as type void**
    */  
   #define getPtr_Handle2Ptr(H, P_PTR) ( *(P_PTR)= (void*)(H), null)
+  #define ptr_Handle2Ptr(HANDLE) ((void*)(HANDLE)) 
   #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) handle)
   #define PTRclr_Handle2Ptr(handle, TYPE) ((TYPE*) handle)
 #endif

@@ -204,7 +204,7 @@ const char* getPtr_Handle2Ptr(uint32 handle, void ** dst)
 {
   if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
   else if (handle == 0) { *dst = null; return null; }                 //handle 0 is pointer null
-  else if (handle == (uint32)(-1)) { *dst = (void*)-1; return null; } //special case: given but invalid pointer. 
+  else if (handle == (uint32)(-1)) { *dst = null /*(void*)-1*/; return null; } //special case: given but invalid pointer. 
   else if (handle >= handle2Ptr->size || handle < 0) { //jzTc: check valid handle, note: 0 gets null-Pointer
     return "Handle2Ptr: Handle faulty.";
   }
@@ -215,7 +215,7 @@ const char* getPtr_Handle2Ptr(uint32 handle, void ** dst)
 }
 
 
-void* PRIV_retPtr_Handle2Ptr(uint32 handle)
+void* ptr_Handle2Ptr(uint32 handle)
 {
   if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
   if (handle == (uint32)(-1)) { return null; } //special case: null should be.
@@ -229,7 +229,7 @@ void* PRIV_retPtr_Handle2Ptr(uint32 handle)
   }
 }
 
-void* PRIV_clrPtr_Handle2Ptr(uint32 handle)
+void* clearHandle_Handle2Ptr(uint32 handle)
 {
   //if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
   if (handle == (uint32)(-1)) { return null; } //special case: null should be.

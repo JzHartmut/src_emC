@@ -423,6 +423,8 @@ METHOD_C void setReflection_ObjectJc(ObjectJc* ythis, struct ClassJc_t const* re
  */
 METHOD_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj);
 
+
+
 /**Checks whether a reference refers a valid ObjectJc. A valid ObjectJc has a mark: Its own address
  * is stored in the Object.
  * @param THIZ any reference which may refer an ObjectJc. The reference can be null. If it is not null it have to be refer to a valid data space;  
@@ -488,6 +490,14 @@ METHOD_C int getIdentInfo_ObjectJc(ObjectJc const* ythis);
 
 
 extern_C int getTypeId_ObjectJc(ObjectJc* thiz);
+
+
+/**Returns the mem area for this Object.
+* It can be used to check whether a member is really in range, especially for complex data. See [[checkAddress_MemC(...)]]  
+*/
+inline MemC getMemC_ObjectJc(ObjectJc* thiz){ MemC ret; ret.ref = (MemUnit*)thiz; ret.size = getSizeInfo_ObjectJc(thiz); return ret; } 
+
+
 
 //#define getIdentInfo_ObjectJc(YTHIS) (
 
