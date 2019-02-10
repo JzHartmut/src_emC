@@ -28,7 +28,7 @@
 #define ASSERTJc_THROW(COND) { if(!(COND)) ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException,"assertion",0); }
 
 
-#define ASSERT(COND) ASSERTJc(COND)
+#define ASSERT(COND) if(!(COND)){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); }
 
 
 #define ASSERT_s0_Jc(cond, TEXT, VALUE) { if(!(cond)) THROW1_s0(RuntimeException, TEXT, VALUE); }

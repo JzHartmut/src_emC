@@ -239,6 +239,10 @@ typedef struct MinMaxTime_emC_t
 
 } MinMaxTime_emC;
 
+
+
+
+
 inline void init_MinMaxTime_emC(MinMaxTime_emC* thiz)
 { thiz->maxCyclTime = 0;  
   //thiz->maxmaxCyclTime = 0;  

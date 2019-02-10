@@ -38,7 +38,7 @@
 #define __emC_fw_Time_h__
 #include <applstdef_emC.h>
 #include <emC/Object_emC.h>
-
+#include <OSAL/os_time.h>
 
 typedef struct SimTime_emC_t
 {
@@ -52,6 +52,42 @@ typedef struct SimTime_emC_t
 
 
 extern_C ClassJc const reflection_SimTime_emC;
+
+
+
+
+typedef struct Clock_MinMaxTime_emC_t {
+
+  union { ObjectJc object; } base;
+
+  float microSecondsPerClock;
+
+  int32 nrofSlices;
+
+  /**3 nested instances for time measurements in 3 time slots. More are possible. */
+  MinMaxTime_emC times[3];
+} Clock_MinMaxTime_emC;
+
+extern_C ClassJc const reflection_Clock_MinMaxTime_emC;
+
+void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries);
+
+
+void init_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz);
+
+
+/**
+ * @simulink Operation-FB, step-in.
+ */
+void startTime_Clock_MinMaxTime(int slice_param, float* time_y);
+
+/**
+* @simulink Operation-FB, step-in.
+*/
+void measTime_Clock_MinMaxTime(int slice_param, float* time_y);
+
+
+
 
 
 

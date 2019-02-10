@@ -48,25 +48,25 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
  */
 #ifdef __HandlePtr64__
   #ifndef DEFINED_nrEntries_Handle2Ptr
+    //should be defined in applstdef_emC with another value.
     #define DEFINED_nrEntries_Handle2Ptr 1000
   #endif
+  #ifndef DEFINED_nrTimeMeas_Handle2Ptr      //should be defined in applstdef_emC with another value.
+    #define DEFINED_nrTimeMeas_Handle2Ptr 3
+  #endif
 
-  /**Sets the pointer to a given handle. 
-   * If the same ptr is registered already, it is okay, 
-   * If the handle is used with another pointer already, an error message is returned.
-   * 
-   */ 
-  const char* XXX_setPtrHandle_Handle2Ptr(void* ptr, uint32 handle, char const* name);
-
-#else
-#endif
-
-
-
-
-#ifdef __HandlePtr64__
   /**Invocation of INIT can be set on any location more than once, the first initializes. */
   #define INIT_Handle2Ptr() if(handle2Ptr ==null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); } 
+
+
+
+  /**Initializes the Handle2Ptr mechanism with ix=1 for time measurement.
+  * It is used for Simulink especially.
+  * Invocation of INIT can be set on any location more than once, the first initializes. */
+  #define INIT_TimeMeas_Handle2Ptr() if(handle2Ptr ==null) { initTimeMeas_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); } 
+
+  /**Initializes. This routine should be invoked one time on startup. */
+  extern_C const char* initTimeMeas_Handle2Ptr(int nrofEntries);
 
   /**Registeres the pointer and gets the handle. 
    * If the ptr is registered already, it is okay. The name will be ignored then, it returns the given handle. 

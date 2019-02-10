@@ -9,10 +9,15 @@ exit /B
 
 ==JZtxtcmd==
 
-include $ZBNFJAX_HOME/jzTc/Cheader2Refl.jztxt.cmd;
+include $ZBNFJAX_HOME/jzTc/Cheader2Refl.jzTc;
 currdir=scriptdir;
 
+
 Fileset headers = 
+( source:emC/time_emC.h
+);
+
+Fileset xxheaders = 
 ( source:emC/*.h
 , source:Jc/*.h
 , source:Ipc/*.h
