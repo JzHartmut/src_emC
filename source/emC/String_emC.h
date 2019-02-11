@@ -446,10 +446,11 @@ typedef struct { ObjectJc obj; } CharSeqObjJc;
 
 
 
-/**A pointer to StringJc structure containing null-values.
- * NOTE: a pointer is necessary because a const problem occurs otherwise.
- */
+/**StringJc object containing null-values. */
 extern StringJc const null_StringJc;
+
+/**StringJc object containing an empty String, ref to  "", lenght = 0 */
+extern StringJc const empty_StringJc;
 
 /**Creates a StringJc-reference to the given zero terminated text (char array).
  * This is a simple way if a method requires a StringJc object as value argument 

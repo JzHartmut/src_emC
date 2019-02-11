@@ -58,12 +58,12 @@ char const sign_Alloc_MemC[] = "Alloc_MemC";
 
 
 void* alloc_MemC(int size) {
-  int allocSize = sizeof(Alloc_MemC_s) + size + 4096;
+  int allocSize = sizeof(Alloc_MemC_s) + size + sizeSafetyArea_allocMemC;
   Alloc_MemC_s* ptr = (Alloc_MemC_s*)os_allocMem(allocSize);
   if(ptr !=null) {
     memset(ptr, 0, size + sizeof(Alloc_MemC_s));
     intptr_t memend = ((intptr_t) ptr ) + sizeof(Alloc_MemC_s) + size;
-    memset((void*)memend, 0xaa, 4096);
+    memset((void*)memend, 0xaa, sizeSafetyArea_allocMemC);
     ptr->sign = sign_Alloc_MemC;
     ptr->size = size;
     return ptr + 1;  //after OS_AllocMem_s
@@ -113,7 +113,7 @@ int free_MemC  (  void const* addr)
     if(ptrAlloc->sign == sign_Alloc_MemC) {
       intptr_t memend = ((intptr_t) ptr ) + ptrAlloc->size;
       int32* addrCheck = (int32*)memend;
-      int ct = 4096/4;
+      int ct = (sizeSafetyArea_allocMemC)/4;
       while (--ct >= 0) {
         if (*addrCheck != 0xaaaaaaaa) {
           addrCheck +=0;   // <================== set a breakpoint here.
@@ -136,22 +136,20 @@ MemC init0_MemC(MemC mem)
 
 
 
-void __errorAddress_MemC(int offset, int nrofBytes, int size) { 
+void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes) { 
   STACKTRC_ENTRY("checkAddress_MemC");
   char const* error = "???"; 
-  if(offset + nrofBytes > size) { error = "nrofBytes behind end"; }
-  else if(offset >= size)       { error = "address behind mem";   }
-  else if(offset < 0)           { error = "address before mem";   }
-  else if(nrofBytes < 0)        { error = "nrofBytes negative";   }
+  int offset = (MemUnit*)addr - memC->ref;
+  if(offset + nrofBytes > memC->size) { error = "nrofBytes behind end"; }
+  else if(offset >= memC->size)       { error = "address behind mem";   }
+  else if(offset < 0)                 { error = "address before mem";   }
+  else if(nrofBytes < 0)              { error = "nrofBytes negative";   }
   THROW_s0(IndexOutOfBoundsException, error, offset, nrofBytes);
   STACKTRC_LEAVE; 
 }
 
 
 
-void error_MemC() {
-  STACKTRC_ENTRY("set_memC"); THROW_s0(ArrayIndexOutOfBoundsException, "set_MemC", 0,0); STACKTRC_RETURN;
-}
 
 
 

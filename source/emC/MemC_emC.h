@@ -129,6 +129,7 @@ struct ThreadContext_emC_t;
  */
 #define STRUCT_MemC(REFTYPE) struct MemC_##REFTYPE##_t { REFTYPE* ref; intptr_t size; }  //OS_REFValue_DEF(NAME, TYPE)
 
+/**Defines the standard-MemC-type. */
 typedef STRUCT_MemC(MemUnit) MemC;
 
 
@@ -155,7 +156,7 @@ extern_C MemC null_MemC;
 
 
 /**Internal method checks which error and throws. */
-METHOD_C void __errorAddress_MemC(int offset, int nrofBytes, int size);
+METHOD_C void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes);
 
 
 
@@ -166,11 +167,13 @@ METHOD_C void __errorAddress_MemC(int offset, int nrofBytes, int size);
  * @param nrofBytes It is checked, whether the area contains enaugh bytes
  * @throws IndexOutOfBoundsException if the param are failed.
  */
-inline void checkAddress_MemC(void* mem, void* addr, int nrofBytes){
-  MemC* mem1 = (MemC*)mem;   //Note: the mem as param can have any Type of reference.
-  int offset = (MemUnit*)addr - mem1->ref;
-  if(offset >=0 && (offset + nrofBytes) < mem1->size) return;
-  else __errorAddress_MemC(offset, nrofBytes, mem1->size);
+inline bool checkAddress_MemC(void* memC, void* addr, int nrofBytes){
+  MemC* mem = (MemC*)memC;   //Note: the mem as param can have any Type of reference.
+  if (addr >= mem->ref && addr <= (mem->ref + mem->size - nrofBytes)) return true; 
+  else {  
+    __errorAddress_MemC(mem, addr, nrofBytes);
+    return false;
+  } 
 }
 
 
@@ -214,12 +217,11 @@ METHOD_C int free_MemC(void const* addr);
 
 
 
-void error_MemC();
-
-/**Inner routine to check memory boundaries and copy. */
-inline void memcpy_MemC(MemC* mem, void* addr, void const* src, int size) {
+/**check memory boundaries and copy. */
+inline void memcpy_MemC(void* memC, void* addr, void const* src, int size) {
+  MemC* mem = (MemC*)memC;
   if (addr < mem->ref || addr >= (mem->ref + mem->size - size)) {
-    error_MemC();
+    __errorAddress_MemC(mem, addr, size);
   } else {
     memcpy(addr, src, size);
   }

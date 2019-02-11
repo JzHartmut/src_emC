@@ -55,6 +55,9 @@
 StringJc const null_StringJc = NULL_StringJc;
 
 
+StringJc const empty_StringJc = INIZ_StringJc("", 0);
+
+
 
 
 

@@ -95,6 +95,10 @@ extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 */
 #define kMaxPathLength_FileDescription_OSAL 480
 
+/**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
+#define sizeSafetyArea_allocMemC 4096
+
+
 INLINE_emC int stopNAN(){ return 0; }
 
 /**Prevent process a NaN-value (not a number).

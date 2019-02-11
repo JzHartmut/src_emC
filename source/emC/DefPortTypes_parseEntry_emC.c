@@ -114,7 +114,7 @@ StringJc extractAccessPath_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
     STACKTRC_RETURN substring_StringJc(name_param, pos + 1, posEnd, _thCxt);  //
   }
   else {
-    STACKTRC_RETURN null_StringJc;
+    STACKTRC_RETURN empty_StringJc;
   }
 }
 
@@ -145,7 +145,7 @@ StringJc extractType_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
     //only if the posend is not the end of the last identifier, it is the type identifier: 
     STACKTRC_RETURN substring_StringJc(name_param, pos, posend, _thCxt);  //name starts after * or ':'
   }
-  else STACKTRC_RETURN null_StringJc;
+  else STACKTRC_RETURN empty_StringJc;
 }
 
 
@@ -161,8 +161,8 @@ StringJc extractStructType_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
   if (pos >= 0) {
     posend = indexOf_CI_StringJc(name_param, ')', pos);
   }
-  if (posend < pos) {
-    STACKTRC_RETURN null_StringJc;
+  if (pos < 0 || posend < pos) {
+    STACKTRC_RETURN empty_StringJc;
   }
   char cc;
   while (posend > pos && !isIdentifierPart_CharacterJc(cc = charAt_StringJc(name_param, posend))) {
@@ -172,7 +172,7 @@ StringJc extractStructType_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
     //only if any identifier is given
     STACKTRC_RETURN substring_StringJc(name_param, pos, posend + 1, _thCxt);  //name starts after * or ':'
   }
-  else STACKTRC_RETURN null_StringJc;  //(  ) or ( *) or such
+  else STACKTRC_RETURN empty_StringJc;  //(  ) or ( *) or such
 }
 
 
