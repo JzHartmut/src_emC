@@ -8,6 +8,7 @@
 #include <emC/SimpleC_emC.h>
 #include <emC/time_emC.h>
 #include <OSAL/os_mem.h>
+#include <OSAL/os_time.h>
 
 
 #ifdef __HandlePtr64__  //compile only if operations are not replaced by macros.
@@ -92,6 +93,7 @@ const char* initTimeMeas_Handle2Ptr(int nrofEntries) {
     registerPtr_Handle2Ptr(time, "__timeMeas", &handle);
     ASSERT(handle == 1);
   }
+  return null;
 }
 
 

@@ -1,7 +1,7 @@
 #include <emC/Time_emC.h>
 
 #include <genRefl/emC/Time_emC.crefl>
-
+#include <OSAL/os_time.h>
 
 
 static Clock_MinMaxTime_emC* timeMeas = null;
