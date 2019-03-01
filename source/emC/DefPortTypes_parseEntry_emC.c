@@ -35,17 +35,11 @@ char const* parse_Entry_DefPortType_emC  (  Entry_DefPortType_emC* thiz, StringJ
   int pos = 0;
   int posFound = 0;
   int zDim = 0;
-  thiz->type = '?'; //default dynamically typed
-  thiz->sizeType = 0; //default;
   int nrType;
   char cType;
   StringJc type = extractType_TypeName_emC(typeName, _thCxt);
   int zType = length_StringJc(type);
-  if (zType == 0) {
-    thiz->type = '?';  //no type given: dynamically typed.
-    thiz->sizeType = 0; //default;
-  }
-  else {
+  if (zType > 0) {
     const char* sType = PTR_StringJc(type);
     if ((posFound = indexOf_CI_StringJc(type, '*', pos)) >= 0) {
       //it is a pointer type, the used type for Simulink is a handle. The pointer type will be evaluate anywhere other
@@ -54,18 +48,23 @@ char const* parse_Entry_DefPortType_emC  (  Entry_DefPortType_emC* thiz, StringJ
     }
     else if ((nrType = searchChar_emC(cTypes_DefPortTypes_emC, -20, cType = sType[pos])) >= 0) {
       thiz->type = cType;                    //type char
-      thiz->sizeType = lenTypes_DefPortTypes_emC[nrType];
+      thiz->sizeType = lenTypes_DefPortTypes_emC[nrType];  //set newly, maybe override definition before.
       pos += 1;
+      bool bFirstSizeArray = true;
       while (pos < zType) {
         char cType = sType[pos];
         if (strchr(" [,]", cType) != null) {  //structure char for arrays
           pos += 1;
         }
         else if (cType >= '0' && cType <= '9') {  //number
-          int sizeDim = 0;
-          thiz->sizeArray[thiz->dimensions] = parseIntRadix_emC(sType + pos, zType, 10, &sizeDim);
+          if(bFirstSizeArray) {
+            thiz->dimensions = 0;  //will be defined newly with definition of type. Maybe override definition before.
+            bFirstSizeArray = false;
+          }
+          int zParsed = 0;
+          thiz->sizeArray[thiz->dimensions] = parseIntRadix_emC(sType + pos, zType, 10, &zParsed);
           thiz->dimensions += 1;
-          pos += sizeDim;
+          pos += zParsed;
         }
       }
     }
@@ -164,6 +163,7 @@ StringJc extractStructType_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
   if (pos < 0 || posend < pos) {
     STACKTRC_RETURN empty_StringJc;
   }
+  pos += 1;  //position after "("
   char cc;
   while (posend > pos && !isIdentifierPart_CharacterJc(cc = charAt_StringJc(name_param, posend))) {
     posend -= 1;  //firstly skip before '(', then skip before '*', skip over spaces
@@ -175,24 +175,6 @@ StringJc extractStructType_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
   else STACKTRC_RETURN empty_StringJc;  //(  ) or ( *) or such
 }
 
-
-
-char extractInitialize_TypeName_emC(StringJc name_param, ThCxt* _thCxt) {
-  STACKTRC_TENTRY("extractInitialize_TypeName_emC");
-  if (indexOf_C_StringJc(name_param, '!') >= 0) {
-    int posType = indexOf_C_StringJc(name_param, '*');
-    int posStructType = indexOf_C_StringJc(name_param, '(');
-    if (posType < posStructType || posStructType < 0) {
-      STACKTRC_RETURN 'i';  //it is an Tinit connection for the handle.
-    }
-    else {
-      STACKTRC_RETURN '!'; //an initial value for set_DataStruct_Inspc access, not a handle.
-    }
-  }
-  else {
-    STACKTRC_RETURN ' ';  //not an only-initial value.
-  }
-}
 
 
 

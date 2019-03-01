@@ -66,6 +66,8 @@
 
 #define INIT_MemSegmJc(THIS) set_OS_PtrValue(THIS, null, 0)
 
+#define INIT_Mem_MemSegmJc(THIS, SRC) set_OS_PtrValue(THIS, (SRC).ref, (SRC).val)
+
 #define INIT_AddrSegm_MemSegmJc(THIS, ADDR, SEGM) set_OS_PtrValue(THIS, ADDR, SEGM)
 
 #define setNull_MemSegmJc(THIS) set_OS_PtrValue((THIS), null, 0)

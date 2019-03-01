@@ -158,6 +158,9 @@ extern_C MemC null_MemC;
 /**Internal method checks which error and throws. */
 METHOD_C void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes);
 
+/**Throw routine is defined in the C-file because include order. Note: MemC_emC.h is necessary for exception organization itself.*/
+METHOD_C void __throw_MemC(char const* error, int val1, int val2);
+
 
 
 /**Check whether a calculated address is inside the MemC
@@ -169,11 +172,20 @@ METHOD_C void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes);
  */
 inline bool checkAddress_MemC(void* memC, void* addr, int nrofBytes){
   MemC* mem = (MemC*)memC;   //Note: the mem as param can have any Type of reference.
-  if (addr >= mem->ref && addr <= (mem->ref + mem->size - nrofBytes)) return true; 
+  if (((MemUnit*)addr) >= mem->ref && ((MemUnit*)addr) <= (mem->ref + mem->size - nrofBytes)) return true; 
   else {  
     __errorAddress_MemC(mem, addr, nrofBytes);
     return false;
   } 
+}
+
+
+
+
+/**Checks wether the size info in MemC is greater or equal given size, throws an IllegalArgumentException if there isn't so.
+*/
+inline void checkSize_MemC(MemC mem, int size, struct ThreadContext_emC_t* _thCxt) {
+  if(size < (int)size_MemC(mem)) __throw_MemC("insufficient size", mem.size, size);  
 }
 
 
@@ -189,7 +201,12 @@ inline MemC build_MemC(void* address, int size) {
 /**Initializes the given mem area with 0. This method substitutes the using of memset(ptr, 0, size) of standard-C. */
 METHOD_C MemC init0_MemC(MemC mem);
 
+/**Initializes the given mem area with 0. This method substitutes directly the  memset(ptr, 0, size) of standard-C.*/
+METHOD_C void init0p_MemC(void* ptr, int size);
 
+
+/**A macro to prevent writing errors. The pointered mem area occupied from the given type is set to 0, */
+#define INIT0p_MemC(PTR) init0p_MemC(PTR, sizeof(*PTR));
 
 
 
@@ -209,18 +226,20 @@ METHOD_C void* alloc_MemC(int size);
  */
 #define freeM_MemC(mem) free_MemC(&mem.ref)  
 
-/**frees an allocated memory. It is the opposite method to alloc_MemC(). 
+/**frees an allocated memory. It is the opposite method to alloc_MemC().
+ * @return has released: 3 - buffer in threadContext, 2 - BlockHeap 1 - allocMem,  4- nothing, unknown (set DebugBreak in freeM_MemC)  
  * * since 2016-05: Only the memory address is necessary.
  * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContext_emC_s.getUserBuffer_ThreadContext_emC(...)]]
  */
 METHOD_C int free_MemC(void const* addr);
 
+#define SET_MemC(MEM, ADDR, SIZE){ (MEM).ref = (MemUnit*)ADDR; (MEM).size = SIZE; }
 
 
 /**check memory boundaries and copy. */
 inline void memcpy_MemC(void* memC, void* addr, void const* src, int size) {
   MemC* mem = (MemC*)memC;
-  if (addr < mem->ref || addr >= (mem->ref + mem->size - size)) {
+  if (((MemUnit*)addr) < mem->ref || ((MemUnit*)addr) >= (mem->ref + mem->size - size)) {
     __errorAddress_MemC(mem, addr, size);
   } else {
     memcpy(addr, src, size);
@@ -228,13 +247,8 @@ inline void memcpy_MemC(void* memC, void* addr, void const* src, int size) {
 }
 
 
-/**Sets a value inside a area which is defined via STRUCT_MemC. 
- * ,,instead writing of   myRef->MemCdata->ref->element = 23; 
- * ,,write:      SET_MemC(myRef->MemCdata, element, 23);
- * It is similar. The routine checks the memory boundaries and executes a memcpy inside the inlined routine _set_MemC(...).
- * If the memory boundaries are exceeded, an Exception is thrown via THROW (see Exception_emC.h).        
- */
-#define SET_MemC(M, LVAL, VAL) memcpy_MemC((MemC*)&(M), &((M).ref->LVAL), &(VAL), sizeof((M).ref->LVAL))
+/**What is it? The old version experience of Set any memory location with check.*/
+//#define SET_MemC(M, LVAL, VAL) memcpy_MemC((MemC*)&(M), &((M).ref->LVAL), &(VAL), sizeof((M).ref->LVAL))
 
 /**Sets a value inside a area which is defined via STRUCT_MemC. 
  * ,,instead writing of   memcpy(myRef->MemCdata->ref->element, src, size); 
@@ -242,7 +256,7 @@ inline void memcpy_MemC(void* memC, void* addr, void const* src, int size) {
  * It is similar. The routine checks the memory boundaries and executes a memcpy inside the inlined routine _set_MemC(...).
  * If the memory boundaries are exceeded, an Exception is thrown via THROW (see Exception_emC.h).        
  */
-#define MEMcpy_MemC(M, LVAL, SRCADDR, SIZE) memcpy_MemC((MemC*)&(M), &((M).ref->LVAL), SRCADDR, SIZE)
+//#define MEMcpy_MemC(M, LVAL, SRCADDR, SIZE) memcpy_MemC((MemC*)&(M), &((M).ref->LVAL), SRCADDR, SIZE)
 
 
 

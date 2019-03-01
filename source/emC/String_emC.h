@@ -131,6 +131,15 @@ extern_C int strcpy_emC ( char* dst, char const* src, int sizeOrNegLength);
 /**Copies a defined Number of characters to a buffer. It is adequate strncpy(src, dst, length) 
  * but it fills only one \0 if src is shorter than length. 
  * It does not write a terminating \0 if src length >= the given length argument.
+ *
+ * @param dst A buffer to hold either a 0-terminated C-string with at least sizeDst free bytes inclusive end-0
+ *    or a destination for a non-0-terminated String.
+ * @param src C-String maybe 0-terminiated
+ * @param length positive number of use-able bytes from dst inclusive terminating \0.
+ * @return The number of characters copied without ending \0 .
+ *   The user can check: if(returnedvalue >= sizeDst){ //set flag it is truncated ...
+ *   The return value is anytime a value between 0 and <=sizeDst, never <0 and never > sizeDst.
+ *   The return value is the strlen(dst) if it is < sizeDst.
  */
 inline int strncpy_emC  (  char* dst, char const* src, int length){ return strcpy_emC(dst, src, -length); }
 

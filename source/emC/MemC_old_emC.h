@@ -167,14 +167,6 @@ extern MemC null_MemC;
 * It is the opposite method to alloc_MemC(). */
 #define freeM_MemC(mem) free_MemC(PTR_MemC(mem, void))  
 
-/**Initializes the given mem area with 0. This method substitutes the using of memset(ptr, 0, size) of standard-C. */
-METHOD_C MemC init0_MemC(MemC mem);
-
-/**Initializes the given mem area with 0. This method substitutes directly the  memset(ptr, 0, size) of standard-C.*/
-METHOD_C void init0p_MemC(void* ptr, int size);
-
-/**A macro to prevent writing errors. The pointered mem area occupied from the given type is set to 0, */
-#define INIT0p_MemC(PTR) init0p_MemC(PTR, sizeof(*PTR));
 
 /**Builds a MemC struct and returns it per value.
 * This is a helper method to supply a MemC argument in a method call.
@@ -182,9 +174,6 @@ METHOD_C void init0p_MemC(void* ptr, int size);
 //METHOD_C MemC build_MemC(void* address, int size);
 
 
-/**Checks wether the size info in MemC is greater or equal given size, throws an IllegalArgumentException if there isn't so.
-*/
-METHOD_C void checkSize_MemC(MemC mem, int size, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Builds a MemC struct and returns it per value.

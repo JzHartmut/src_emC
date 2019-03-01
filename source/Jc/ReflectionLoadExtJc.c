@@ -105,7 +105,8 @@ char const* load_ExtReflectionJc(ExtReflectionJc_s* ythis, StringJc fileName, in
     Data_ExtReflectionJc* extReflectionData;
     /**File is exiting: */
     zFile = length_FileJc(&file);
-    buffer = ythis->extReflectionBuffer = alloc_MemC(zFile);
+    ALLOC_MemC(ythis->extReflectionBuffer, zFile);
+    buffer = ythis->extReflectionBuffer;
     { /**Read the content. */
 
       MemC retMem = readBinFile_FileSystemJc(&file, buffer); //Note: retMem isn't use, only for null-test. read into buffer

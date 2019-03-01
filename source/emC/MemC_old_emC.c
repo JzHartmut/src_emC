@@ -75,10 +75,6 @@ void* __alloc_MemC(int size) {
 
 
 
-void init0p_MemC(void* ptr, int size)
-{ memset(ptr, 0, size);
-}
-
 
 
 void checkSize_MemC(MemC mem, int size, struct ThreadContext_emC_t* _thCxt)

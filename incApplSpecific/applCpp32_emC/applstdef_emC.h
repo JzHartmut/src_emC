@@ -1,5 +1,11 @@
 #ifndef __applstdef_emC_h__
 #define __applstdef_emC_h__
+/**This headerfile contains all standard definition for usage the emC - embedded multiplatform C(++) - basicly source system.
+ * It is for a Applications in C(++) 
+ * with 32 bit memory addresses on PC 
+ * with Reflection, StringJc
+ * with Excpetion handling with C++ throw to support asynchron exceptions. 
+ */
 
 //Uncomment to check whether used:
 //#error Uses applCpp32_emC/applstdef_emC.h
@@ -16,22 +22,28 @@
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
-/**Include this file always. It defines some types for C compilation compatible to C++. */
+/**Include this file always, but after compl_adaption.h.
+* It defines some types for C compilation compatible to C++ and some independent language enhancements.
+*/
 #include <OSAL/os_types_def_common.h>
 
-#include <sourceApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-//#include <sourceApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+/**With this compiler switch the reflection should not be included, because they will not used. */
+//#define __DONOTUSE_REFLECTION__
+#define __USE_REFLECTION__
 
-
-/**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
-//Note: Include before fw_String.h because it is used there.
-#include <sourceApplSpecific/applConv/EnhanceRef_simple.h>
-//#include <sourceApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 //#define __NoCharSeqJcCapabilities__
 //#define __NoStringJcCapabilities__
+/**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
+//Include before String_emC.h because it is used there.
+#include <sourceApplSpecific/applConv/EnhanceRef_simple.h>
+//#include <sourceApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
+
+//#include <sourceApplSpecific/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+//#include <sourceApplSpecific/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+#include <sourceApplSpecific/applConv/assert_THROW.h>  //Note: after os_types_def_common because extern_C
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
@@ -52,6 +64,7 @@
 
 #include <sourceApplSpecific/applConv/ThreadContextStacktrc_emC.h>
 #include <sourceApplSpecific/applConv/Exception_emC.h>
+
 //#include <emC/ExcStacktrcNo.h>
 
 
@@ -86,6 +99,9 @@
 * NOTE: old name kMaxPathLength_OS_FileDescription
 */
 #define kMaxPathLength_FileDescription_OSAL 480
+
+/**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
+#define sizeSafetyArea_allocMemC 4096
 
 
 

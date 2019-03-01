@@ -122,6 +122,8 @@ int free_MemC  (  void const* addr)
       }
       os_freeMem(ptr);
       return 1;
+    } else {
+      return 4;
     }
   }
 
@@ -134,10 +136,16 @@ MemC init0_MemC(MemC mem)
   return mem;
 }
 
+void init0p_MemC(void* ptr, int size)
+{ memset(ptr, 0, size);
+}
+
+
+
 
 
 void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes) { 
-  STACKTRC_ENTRY("checkAddress_MemC");
+  STACKTRC_ENTRY("errorAddress_MemC");
   char const* error = "???"; 
   int offset = (MemUnit*)addr - memC->ref;
   if(offset + nrofBytes > memC->size) { error = "nrofBytes behind end"; }
@@ -149,6 +157,13 @@ void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes) {
 }
 
 
+
+void __throw_MemC(char const* error, int val1, int val2) {
+  STACKTRC_ENTRY("throw_MemC");
+  THROW_s0(IllegalArgumentException, error, val1, val2);
+  STACKTRC_LEAVE; 
+
+}
 
 
 

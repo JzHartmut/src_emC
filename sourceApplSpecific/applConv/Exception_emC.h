@@ -406,7 +406,15 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
 #endif
 
 
-
+/**Throws an exception without need of STACKTRC_ENTRY or ThCxt in the given routine.
+ * @param EXCPETION ones of the defines in ExceptionIdentsJc, but without ident_ and Jc. It's the same like Exception class names in Java.
+ *        example RuntimeException or IndexOutOfBoundsException, see ident_IndexOutOfBoundsExceptionJc
+ * @param TEXT as literal
+ * @param VAL1, VAL2 two int values
+ */
+#ifndef THROW_s0n
+  #define THROW_s0n(EXCEPTION, TEXT, VAL1, VAL2)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, null)
+#endif
 
 
 

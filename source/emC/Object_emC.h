@@ -1080,7 +1080,7 @@ C_TYPE typedef struct  ClassJc_t
   /** position of the base structure/class ObjectJc inside this type, it is the base address for the offset of fields.*/
   int32 posObjectBase;
 
-  /**sizeof the type. Hint: It may be longer as 64 kByte, int32 is necessary.*/
+  /**sizeof the type. Hint: It may be longer as 64 kByte, int32 is necessary. But never longer than 2 GByte*/
   int32 nSize;
 
   struct FieldJc_Y_t const* attributes;

@@ -336,7 +336,7 @@ MemC receiveData_InterProcessCommSharedMem(ObjectJc* xthis, int32* nrofBytes, Me
 
 //void* InterProcessCommImplement::receive(int* nrofBytes, Address_InterProcessComm_s* senderP /* =  null*/)
 MemC receive_InterProcessCommSharedMem(ObjectJc* ithis, int32* nrofBytes, Address_InterProcessComm_s* senderP /* =  null*/)
-{ MemC nullBuffer = CONST_MemC(0, null);
+{ MemC nullBuffer = {0};
   *nrofBytes = 0; //default: receive the most available nrof data.
   return receiveData_InterProcessCommSharedMem(ithis, nrofBytes, nullBuffer, senderP);
 }
@@ -371,15 +371,15 @@ int checkConnection_InterProcessCommSharedMem(ObjectJc* ythis)
 
 //void* InterProcessCommImplement::getDataBuffer()
 MemC getDataBuffer_InterProcessCommSharedMem(InterProcessCommSharedMem_s* ythis)
-{
+{ MemC buffer; 
   if(ythis->isFreeRxBuffer == true)
   { ythis->isFreeRxBuffer = false;
-    return build_MemC(ythis->rxBuffer, sizeof(ythis->rxBuffer));
+    SET_MemC(buffer, ythis->rxBuffer, sizeof(ythis->rxBuffer));
   }
   else
-  { MemC buffer = alloc_MemC(kDataBufferSize_InterProcessCommSharedMem_s);
-    return buffer; //PTR_MemC(buffer, void);
+  { ALLOC_MemC(buffer, kDataBufferSize_InterProcessCommSharedMem_s);
   }
+  return buffer; //PTR_MemC(buffer, void);
 }
 
 

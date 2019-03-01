@@ -602,7 +602,7 @@ Node_ConcurrentLinkedQueueJc*  new_Node_ConcurrentLinkedQueueJcF(ConcurrentLinke
       ASSERT(newNode != null);   //null is not valid!
       if(newNode == NOTEXISTING_Node_ConcurrentLinkedQueueJc)
       { bRepeatCompareAndSet = false;
-        set_MemC(mem, null, 0);
+        mem = null_MemC;
         newNode = null;
       }
       else
@@ -620,7 +620,7 @@ Node_ConcurrentLinkedQueueJc*  new_Node_ConcurrentLinkedQueueJcF(ConcurrentLinke
   { //TODO
   }
   else
-  { mem = alloc_MemC(sizeof(Node_ConcurrentLinkedQueueJc));
+  { ALLOC_MemC(mem, sizeof(Node_ConcurrentLinkedQueueJc));
   }
   if(PTR_MemC(mem, void) != null)
   { newNode = ctor_itemNext_Node_ConcurrentLinkedQueueJc(mem, item, next);

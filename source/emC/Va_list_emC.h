@@ -1,7 +1,7 @@
-#ifndef __fw_Va_list_h__
-#define __fw_Va_list_h__
+#ifndef __Va_list_emC_h__
+#define __Va_list_emC_h__
 
-//#include <stdarg.h>
+#include <stdarg.h>
 
 
 /* @ CLASS_C Va_listFW @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -64,5 +64,5 @@ typedef struct Va_listFW_t
  * It is empty for compilation. The type in Rhapsody is ,,...,, like in C
  */
 #define VA_LIST_PARAM 
-#endif //__fw_Va_list_h__
+#endif //__Va_list_emC_h__
 

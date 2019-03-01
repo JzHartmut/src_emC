@@ -68,6 +68,7 @@
 //Now define the C99 types via the simulink types via defined.
 //Therewith it is the simulink typedef. The typedef of <stdint.h> are covered. 
 
+#define bool      boolean_T
 #define int8      int8_T
 #define uint8     uint8_T
 #define int8_t    int8_T

@@ -55,17 +55,17 @@ MemC readBinFile_FileSystemJc(FileJc_s* file, MemC buffer)
     if(PTR_MemC(buffer, void) == null){
       /**create the buffer here, detect the file size: */
       zFile = length_FileJc(file);
-      buffer = alloc_MemC(zFile);
+      ALLOC_MemC(buffer, zFile);
     } else {
       zFile = size_MemC(buffer); 
     }
     f1 = os_fopenToRead(file->fileDescription.absPath);
     if(f1 == null) {
-      set_MemC(buffer, 0, null);
+      buffer = null_MemC;
     } else {
       bytes = os_fread(f1, PTR_MemC(buffer, void), zFile);
       if(bytes <=0) {
-        set_MemC(buffer, 0, null);  //no bytes read or error: return a null-buffer.
+        buffer = null_MemC;   //no bytes read or error: return a null-buffer.
       }
     }
   }_TRY

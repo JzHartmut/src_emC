@@ -65,7 +65,8 @@ typedef enum EPortType_Entry_DefPortType_emC_t {
 
 
 
-/**Parses the type or name string to detect a type.
+/**Parses the type or name string to detect a type. Not defined things are not touched in thiz. 
+ * It means thiz should be initialized with proper default values.
  * * If the type is emtpy (NULL_StringJc) then the name till a ':' is used to parsed. 
  * * A character D F J I S B designates double, float, int64, int32, int16, int8. That are the same type chars as in Java usual used. 
  * * A character U W V is the unsigned form of uint32, uint16, uint8

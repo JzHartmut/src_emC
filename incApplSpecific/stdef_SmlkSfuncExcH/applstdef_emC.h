@@ -105,6 +105,10 @@
 */
 #define kMaxPathLength_FileDescription_OSAL 480
 
+/**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
+#define sizeSafetyArea_allocMemC 4096
+
+
 /**This define is set escpecially for compilation sources to use in mex64 dll. */
 #define __SIMULINK_SFN__
 
