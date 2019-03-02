@@ -331,21 +331,30 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
     int sizeElement = 1;
     void* memAddr;
     if((position & mOffsIsProxyIx4Target_FieldJc) !=0){
+      //Note: It is a decision of reflection generation whether the size and offset is gotten from the target (more universal)
+      //or the size and offset is stored in the reflection table. 
+      //In the second case the reflection generation should know which memory layout, alignment and type size the target has.
+      //The more universal approach is this branch, whereby the size and offset is gotten from target. 
+      ASSERT(segment_MemSegmJc(instance) !=0); //only if a remote target is accessed, elsewhere the reflection tables are faulty.
       ClassJc const* declaringClazz = getDeclaringClass_FieldJc(thiz);
       int32 sizeEntry = declaringClazz->nSize;
       int32 idxClass = sizeEntry - 0xFFFFF000;
       //int idxField = thiz->nrofArrayElements & 0x0fff;
       int idxField = position & 0x7FFF;
-      int32 posLength;
+      int32 len_pos_element;
       /**Significance check to prevent failed access: */
       if(idxClass < 0 || idxClass > 1000 || idxField < 0 || idxField > 0xfff) {
         ASSERT(false);  //may cause exception
         idxClass  = 1; idxField = 0; //without assert check  corr it.
       }
-
-      posLength = getInfoDebug_InspcTargetProxy(getOffsetLength_InspcTargetProxy, segment_MemSegmJc(instance), null, idxClass<<16 |idxField);
-      position = posLength & 0x0000ffff; //position-part in bit15..0
-      sizeElement = (posLength & 0x7FFF0000) >>16;
+      int nrofElements = getStaticArraySize_FieldJc(thiz);
+      if(nrofElements ==0){ 
+        nrofElements = 1; 
+        ASSERT(ixData <=0);  //no index access should be done if the element in struct is not an array.
+      }
+      len_pos_element = getInfoDebug_InspcTargetProxy(getOffsetLength_InspcTargetProxy, segment_MemSegmJc(instance), null, idxClass<<16 |idxField);
+      position = len_pos_element & 0x0000ffff; //position-part in bit15..0
+      sizeElement = ((len_pos_element & 0x7FFF0000) >>16) / nrofElements; //Note: The target returns the size of the element in struct, not the size of type (element size in array).
     } else {
       if(ixData >=0){
 				ClassJc const* type = getType_FieldJc(thiz);  //NOTE: don't use thiz->type directly, because it may be a number only.

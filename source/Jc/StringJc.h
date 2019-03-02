@@ -1718,7 +1718,9 @@ class StringBuilderJcpp : public StringBuilderJc_s {
   public: StringBuilderJcpp& operator!() { setLength_StringBuilderJc(this, 0, null); return *this; }
   public: StringBuilderJcpp& setLength(int len) { setLength_StringBuilderJc(this, len, null); return *this; }
   public: StringBuilderJcpp& operator+(char const* s) { append_z_StringBuilderJc(this, s, null); return *this; }
-  
+  public: StringBuilderJcpp& operator+(char cc) { append_C_StringBuilderJc(this, cc, null); return *this; }
+  public: StringBuilderJcpp& operator+(int32 value) { append_I_StringBuilderJc(this, value, null); return *this; }
+
   /**Only formally to express line = line + append; */
   public: StringBuilderJcpp operator=(StringBuilderJcpp& src) { if(&src != this){ setLength_StringBuilderJc(this, 0, null); append_u_StringBuilderJc(this, &src, null); } return *this; }
 
