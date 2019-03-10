@@ -271,7 +271,7 @@ const struct Reflection_Fields_DefPortTypes_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->ixOutputThiz)) -0x1000 )
+    , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->ixOutputThizInit)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_DefPortTypes_emC
     }
@@ -281,33 +281,6 @@ const struct Reflection_Fields_DefPortTypes_emC_t
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->ixInputThiz)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DefPortTypes_emC
-    }
-  , 
-    { "_d1"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->_d1)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DefPortTypes_emC
-    }
-  , 
-    { "_d2"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->_d2)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DefPortTypes_emC
-    }
-  , 
-    { "_d3"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((DefPortTypes_emC*)(0x1000))->_d3)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &reflection_DefPortTypes_emC
     }

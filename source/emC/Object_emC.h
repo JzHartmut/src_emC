@@ -1013,8 +1013,8 @@ StringJc name_FieldJc(FieldJc const* thiz);
 
 
 
-
-
+/**Returns the type char for especially primitive fields, J I S F D for long, int short float double, etc.*/ 
+char typeChar_FieldJc(FieldJc const* thiz);
 
 struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
 
@@ -1083,7 +1083,7 @@ C_TYPE typedef struct  ClassJc_t
   /**sizeof the type. Hint: It may be longer as 64 kByte, int32 is necessary. But never longer than 2 GByte*/
   int32 nSize;
 
-  struct FieldJc_Y_t const* attributes;
+  FieldJc_Y const* attributes;
 
   struct MethodJcARRAY_t const* methods;
 
@@ -1135,7 +1135,7 @@ extern const ClassJc reflection_ClassJc;
 
 /**Initializes a class in RAM for runtime reflection. 
  */
-extern_C void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, ObjectArrayJc* fields, ObjectArrayJc* super);
+extern_C void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super);
 
 
 
@@ -1422,13 +1422,24 @@ typedef struct ClassOffset_idxMtblJc_t
 #define OFFSET_Mtbl(TYPE, ELEMENT) ( (int)( (intptr_t)(&((TYPE*)(0x1000))->ELEMENT) - 0x1000) / (int)sizeof(MT_void_Method_void const*)) 
 //#define OFFSET_Mtbl(BASE, ELEMENT) ( (MT_void_Method_void const*)(&BASE.ELEMENT) - (MT_void_Method_void const*)(&BASE)) 
 
-/** This type describes a array of ClassOffset_idxMtblJc*/
+/**This type describes a array of ClassOffset_idxMtblJc
+ * With 10 Elements to view in debug
+ */
 typedef struct ClassOffset_idxMtblJcARRAY_t
 { /** Base data of every array */
   ObjectArrayJc head;
   /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
   ClassOffset_idxMtblJc data[10];
 }ClassOffset_idxMtblJcARRAY;
+
+/**This type is the usefull type for a simple superclass. */
+typedef struct ClassOffset_idxMtblJc1_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxMtblJc data[1];
+} ClassOffset_idxMtblJc1;
+
+
+
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
 #define INIZ_ID_ClassOffset_idxMtblJc 0x0ff9
@@ -1491,6 +1502,13 @@ extern_C const ClassJc reflection__char16Jc;
 extern_C const ClassJc reflection_bitfieldJc;
 
 extern_C const ClassJc reflection_ObjectJc;
+
+#ifndef __ObjectJc_simple__
+  //reflection instance for the super class ObjectJc
+  extern_C const ClassOffset_idxMtblJc1 reflection_super_ObjectJc;
+#endif
+
+
 extern_C const ClassJc reflection_StringJc;
 extern_C struct ClassJc_t const reflection_CharSeqJc;
 extern_C const ClassJc reflection_ClassJc;

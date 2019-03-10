@@ -44,7 +44,7 @@
 #include <emC/Va_list_emC.h>
 //#include <Jc/ObjectJc.h>
 #include "emC/Object_emC.h"   //ObjectJc used.
-#include <os_time.h>  //struct OS_TimeStamp as argument
+#include <OSAL/os_time.h>  //struct OS_TimeStamp as argument
 
 /*@CLASS_C LogMessageFW @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

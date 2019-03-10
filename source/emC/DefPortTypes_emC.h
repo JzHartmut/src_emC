@@ -26,6 +26,17 @@ typedef struct Entry_DefPortType_emC_t
   #define mPortKind_Entry_DefPortType_emC 0x7f
   uint8 newDefined_Tstep_Tinit;
 
+  /**isu for Input init, step, update
+   * t for thiz-input
+   * IS for Output Init, step
+   * @ thiz-Output init
+   * T thiz-Output step
+   * 
+   */
+
+
+
+
   /**0=scalar. 1 ..5: size of dimension in [[sizeArray+Entry_QueryPortType_emC]].
   * If >5 then sizeArray contains a pointer to a uint32 [...], cast necessary:
   * -1 then DYNAMICALLY_SIZED
@@ -43,9 +54,18 @@ typedef struct Entry_DefPortType_emC_t
   /**The index of the sample time related to the Sfn step times.*/
   int32 ixTstepSfn;
 
-
-  char const* sType;
+  /**It may be set by a string literal by initializing from arguments. 
+   * It may be set by a reference inside VariableParam_DataStruct_Inspc_s::name for variable arguments. */
   char const* sName;
+
+  /**It may be set by a string literal by initializing from arguments. 
+   * It may be set by a reference inside VariableParam_DataStruct_Inspc_s::name for variable arguments. */
+  char const* sType;
+
+  /**If the type is given as bus, the reflection are necessary to check the arrangements of the elements in the bus and in the struct. 
+   * Elsewhere this element is null.
+   */
+  ClassJc const* refl;
 
 } Entry_DefPortType_emC;  //Note: size=6*4
 
@@ -64,31 +84,6 @@ typedef enum EPortType_Entry_DefPortType_emC_t {
 } EPortType_Entry_DefPortType_emC;
 
 
-
-/**Parses the type or name string to detect a type. Not defined things are not touched in thiz. 
- * It means thiz should be initialized with proper default values.
- * * If the type is emtpy (NULL_StringJc) then the name till a ':' is used to parsed. 
- * * A character D F J I S B designates double, float, int64, int32, int16, int8. That are the same type chars as in Java usual used. 
- * * A character U W V is the unsigned form of uint32, uint16, uint8
- * * A character d f j i s b is the complex variant of double, float, int64, int32, int16, int8. 
- * * A character C Z is char8 and boolean as int8, same as in Java
- * * If TYPENAME* is found, the type is returned as 'U', a handle for simulink. 
- * * Not supported yet 2018-10: z for zero-terminated char*, s for StringJc, c for char16
- * * An array designation can be written as [12,23], as [12][23], as [12[23, as 12,23 or as 12[23. 
- * All of that is admissible because the [ , ] will be skipped, only the number is relevant.
- * Up to 5 array dimensions. 
- * * The type can start with array dimensions or with the type char. A mix is admissible too.
- * * For example "3F" and "F3", both it is a float[3]. "3F2" is a float[3][2].
- *
- * * @param type can be NULL_StringJc, then name till ':' is used. Elsewhere the type designation.
- * * @param name only used if type is NULL_StringJc
- * * @param posStartName null is admissible. If not null, set to position after ':' in name, if type is NULL_StringJc, elsewhere set to 0. 
- * * @return an error message on format error. Elsewhere null.
- */
-char const* parse_Entry_DefPortType_emC  ( Entry_DefPortType_emC* thiz, StringJc typeName, ThCxt* _thCxt);
-
-
-bool checkType_Entry_DefPortType_emC(Entry_DefPortType_emC* thiz, ClassJc const* reflectionType);
 
 
 
@@ -124,15 +119,26 @@ typedef struct DefPortTypes_emC_t
   int8 nrofInputs, nrofOutputs;
 
   /**Indices of the ports in entries. @pos:8*/
-  int8 ixInputStep, ixInputStep2, ixInputInit, ixInputUpd;
-  int8 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputThiz;
+  int8 ixInputStep, ixInputStep2, ixInputInit, ixInputUpd, ixInputVarg, ixInputThiz;
+  int8 ixOutputStep, ixOutputStep2, ixOutputInit, ixOutputVarg; 
   
-  int8 ixInputThiz, _d1, _d2, _d3;
+  /**Index of the output pin for thiz. If -1 then no thiz output. Initial set from the arguments, 
+   * may be modified by a @ simulink defPortTypes routine. 
+   */
+  int8 ixOutputThizInit, ixOutputThizStep;
+  
+  /**Either inputs or outputs are varg, nor both. */
+  int8 nrofVargsInit, nrofVargsStep, _d1, _d2;
 
   /**Number of variable Inputs for Step, Upd etc. It should be adequate number of Bits in the Bit masks.*/
   //int8 nrVargInputStep, nrVargInputUpd, nrVargInputInit, nrVargOutputStep, nrVargOutputInit; 
 
   int32 mInputStep, mInputUpd, mInputInit, mOutputStep, mOutputInit;
+
+  /**If variable arguments are used, it should be determine by a C routine. 
+   * This mask bit shows which pins are for Init time and which are for step time.
+   */ 
+  int32 mInputVargInit, mInputVargStep, mOutputVargInit, mOutputVargStep;
 
   int32 bitsParamTunable;
 
@@ -162,53 +168,17 @@ typedef enum EDefPortTypes_emC_t
 
 
 
-void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements);
+void ctor_DefPortTypes_emC  (  DefPortTypes_emC* thiz, int nrofAdditionalElements);
 
 
 /**Sets all information for one port. 
  * @param ix index in the entries. For outports it should be >= nrofInputs.
  * @param io: Note apply this routine to outputs only if all inputs are set.
  */
-void set_DefPortTypes_emC(DefPortTypes_emC* thiz, int ix, char cType, char const* sName, char const* sType, int zArray, EPortType_Entry_DefPortType_emC io);
+void set_DefPortTypes_emC  (  DefPortTypes_emC* thiz, int ix, char cType, char const* sName, ClassJc const* refl, char const* sType, int zArray, EPortType_Entry_DefPortType_emC io);
 
 
 
-
-/**
- * The name is the last identifier string in the name_param after any other designation
- */
-StringJc extractName_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
-
-
-/**
- * Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name 
- * The type is the string after any -19!: as identifier
-*/
-StringJc extractType_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
-
-/**
-* Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name
-* The type is the string after any -19!: as identifier
-*/
-StringJc extractStructType_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
-
-/**
-* Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name
-* The type is the string after any -19!: as identifier
-*/
-StringJc extractAccessPath_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
-
-/**Returns 'i' for an Tinit handle in an DataStruct_Inspc SFblock. Then a ! TYPE*  is found.
- * returns '!' for an init value without type.
- * return ' ' for a non-initial-only value.
- * Syntax of name: [{-###|!}:] [F:|U:|I:|...|TYPE*[:]] (StructType*)datpath->name
- *
- */
-char extractInitialize_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
-
-
-
-int extractAccessRights_TypeName_emC(StringJc name_param, ThCxt* _thCxt);
 
 
 

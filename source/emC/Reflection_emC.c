@@ -2,6 +2,19 @@
 #include <emC/String_emC.h>
 
 
+//see javaSrc_vishiaBase/org.vishia.reflect.Java2C.nrofBytesScalarTypes.
+const char typeCharsScalarTypes_ClassJc[0x50] =
+{ '\0', 'L', 'J', 'J', 'I', 'U', 'S', 'W', 'B', 'V', 'I', 'U' 
+, 'F', 'D'  //float, double
+, 'C', 'A'  //char8, char16
+//0x10
+, '\0', 's', 'i', 'j'
+, 'f', 'd'  //float-complex, double-complex
+, 'Z', 'Y'  //bool, bitfield
+, 'J'  //ObjectJcpp
+, 'L', 'L', 'L', 'L'
+, 's', 'o'
+};
 
 const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 { null    //0x0
@@ -21,9 +34,9 @@ const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 , &reflection__charJc           //0xe
 , &reflection__char16Jc         //0xf
 , null                          //0x10
-, null  //0x11
-, null  //0x12
-, null  //0x13
+, null  //0x11  reserve short-complex
+, null  //0x12  int-complex
+, null  //0x13  long-complex
 , &reflection_float_complex    //0x14
 , &reflection_double_complex  //0x15
 , &reflection__boolJc           //0x16
@@ -93,14 +106,18 @@ const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 //see javaSrc_vishiaBase/org.vishia.reflect.Java2C.nrofBytesScalarTypes.
 const int nrofBytesScalarTypes_ClassJc[] =
 { 0, 0, 8, 8, 4, 4, 2, 2, 1, 1, 4, 4
-  , 4, 8  //float, double
-  , 1, 2  //char8, char16
-  , 8     //StringJc?
-  , 0,0,0,0,0  //0x11..0x15
-  , 1     //boolean represented with 1 byte
-  , 4     //bitfield supplied with 4 bytes
-  ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 
+, 4, 8  //float, double
+, 1, 2  //char8, char16
+, 8     //StringJc?
+, 0,0,0,0,0  //0x11..0x15
+, 1     //boolean represented with 1 byte
+, 4     //bitfield supplied with 4 bytes
+,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 
 };
+
+
+
+
 
 
 
@@ -108,7 +125,7 @@ ClassJc const* really_ClassJc(ClassJc const* thiz) {
   ClassJc const* thizReally;
   if (((intptr_t)(thiz)) < kREFLECTION_LastConstant)
   {
-    thizReally = simpleTypes_ClassJc[(int)(thiz)];
+    thizReally = simpleTypes_ClassJc[(int)(intptr_t)(thiz)];
   }
   else { thizReally = thiz; }
   //maybe check siginificance of thizReally:
@@ -154,9 +171,16 @@ const FieldJc* getDeclaredField_ClassJc(ClassJc const* thiz, StringJc sName)
 ClassJc const* getType_FieldJc(FieldJc const* thiz)
 { ClassJc const* type = thiz->type_;
   if( ((intptr_t)(type)) < kREFLECTION_LastConstant )
-  { type = simpleTypes_ClassJc[(int)(type)];
+  { type = simpleTypes_ClassJc[(int)(intptr_t)(type)];
   }
   return type;
+}
+
+char typeChar_FieldJc(FieldJc const* thiz){
+  if( ((intptr_t)(thiz->type_)) < kREFLECTION_LastConstant )
+  { return typeCharsScalarTypes_ClassJc[(int)(intptr_t)(thiz->type_)];
+  }
+  else return 'L';
 }
 
 

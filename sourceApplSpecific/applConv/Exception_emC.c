@@ -151,7 +151,9 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
     }
     else
     { //no TRYJc-level found,
-      ExceptionJc exception;
+      ExceptionJc exception = {0};
+      exception.file = file;
+      exception.line = line;
       exception.exceptionNr = exceptionNr;
       lightCopy_StringJc(&exception.exceptionMsg, msg);
       exception.exceptionValue = value;
@@ -160,7 +162,9 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
   }
   else
   { //no TRYJc-level found,
-    ExceptionJc exception;
+    ExceptionJc exception = {0};
+    exception.file = file;
+    exception.line = line;
     exception.exceptionNr = exceptionNr;
     lightCopy_StringJc(&exception.exceptionMsg, msg);
     exception.exceptionValue = value;

@@ -56,6 +56,29 @@ char const sign_Mtbl_ObjectJc[] = "sign_Mtbl_ObjectJc";
 char const signEnd_Mtbl_ObjectJc[] = "signEnd_Mtbl_ObjectJc";
 
 
+
+extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+const ClassOffset_idxMtblJc1 reflection_super_ObjectJc =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(reflection_super_ObjectJc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+, { &reflection_ObjectJc                                   
+, 0 //Index of mtbl of ObjectJc
+    //The field which presents the superclass data in inspector access.
+  , { "object"              
+  , 0 //arraysize
+  , &reflection_ObjectJc  //type of super                                                                                         
+  , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+  | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+  | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+  , 0 //offsetalways 0 (C++?)
+  , 0  //offsetToObjectifcBase
+  , &reflection_ObjectJc  
+  }
+}
+};
+
+
+
+
 /**Initialize. */
 ObjectJc* init_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj)
 { STACKTRC_ENTRY("init_ObjectJc");

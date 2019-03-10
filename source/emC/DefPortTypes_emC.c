@@ -13,8 +13,9 @@ void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements) {
 
 
 
-void set_DefPortTypes_emC(DefPortTypes_emC* thiz, int ix, char cType, char const* sName, char const* sType, int zArray, EPortType_Entry_DefPortType_emC io) {
+void set_DefPortTypes_emC(DefPortTypes_emC* thiz, int ix, char cType, char const* sName, ClassJc const* refl, char const* sType, int zArray, EPortType_Entry_DefPortType_emC io) {
   thiz->entries[ix].type = cType;
+  thiz->entries[ix].refl = refl;  //may be null, only used for buses.
   if(zArray <0){ thiz->entries[ix].dimensions = -1; }
   else if(zArray ==0){ thiz->entries[ix].dimensions = 1; thiz->entries[ix].sizeArray[0] = 1; }
   else { thiz->entries[ix].dimensions = 1; thiz->entries[ix].sizeArray[0] = zArray; }
