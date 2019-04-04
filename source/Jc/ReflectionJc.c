@@ -1032,7 +1032,7 @@ METHOD_C MemSegmJc getReference_V_FieldJc(FieldJc const* thiz, MemSegmJc instanc
 
 
 
-void* getMemoryIdent_FieldJc(FieldJc const* thiz, MemSegmJc instance, char const* sVaargs, ...)
+intptr_t getMemoryIdent_FieldJc(FieldJc const* thiz, MemSegmJc instance, char const* sVaargs, ...)
 { va_list vaargs;
   va_start(vaargs, sVaargs);
   return getMemoryIdent_V_FieldJc(thiz, instance, sVaargs, vaargs);
@@ -1040,7 +1040,7 @@ void* getMemoryIdent_FieldJc(FieldJc const* thiz, MemSegmJc instance, char const
 
 
 
-void* getMemoryIdent_V_FieldJc(FieldJc const* thiz, MemSegmJc instance, char const* sVaargs, va_list vaargs)
+intptr_t getMemoryIdent_V_FieldJc(FieldJc const* thiz, MemSegmJc instance, char const* sVaargs, va_list vaargs)
 { MemSegmJc adr = getAddrElement_V_FieldJc(thiz, instance, sVaargs, vaargs); //The address of the element inside the instance
   if(thiz->bitModifiers & kReference_Modifier_reflectJc){
     //the field is a reference field, get the reference value instead the address. The reference value
@@ -1061,7 +1061,7 @@ void* getMemoryIdent_V_FieldJc(FieldJc const* thiz, MemSegmJc instance, char con
     }
   }
   //returns the address in the memory space of the target. It may be another CPU.
-  return (ADDR_MemSegmJc(adr, void)); 
+  return (intptr_t)(ADDR_MemSegmJc(adr, void)); //further processing as int type 
 }
 
 

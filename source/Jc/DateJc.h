@@ -39,7 +39,7 @@
 #ifndef __DateJc_h__
 #define __DateJc_h__
 #include "Jc/StringJc.h"
-#include "os_time.h"
+#include "OSAL/os_time.h"
 
 struct TextFieldPositionJc_t;
 struct TimeZoneJc_t;

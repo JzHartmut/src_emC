@@ -8,7 +8,7 @@
 
 //#include <stdio.h>
 #include <applstdef_emC.h>
-#include <os_file.h>
+#include <OSAL/os_file.h>
 
 /*@CLASS_C ReadLine_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

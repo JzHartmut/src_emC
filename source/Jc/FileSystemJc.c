@@ -34,11 +34,11 @@
  *
  * @version 0.83
  */
-#include "Jc/FileSystemJc.h"
-#include "Jc/FileIoJc.h"
-#include "Jc/ReflectionJc.h"
-#include "string.h" //memset
-#include "os_file.h"
+#include <Jc/FileSystemJc.h>
+#include <Jc/FileIoJc.h>
+#include <Jc/ReflectionJc.h>
+#include <OSAL/os_file.h>
+#include <string.h> //memset
 extern ClassJc const reflection_FileWriterJc;
 
 

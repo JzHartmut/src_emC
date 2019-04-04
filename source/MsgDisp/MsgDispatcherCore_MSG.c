@@ -521,13 +521,13 @@ const MtblDef_MsgDispatcherCore_MSG mtblMsgDispatcherCore_MSG = {
    }
  };
 
- extern_C struct ClassJc_t const reflection_LogMessageFW_s;
+ extern_C struct ClassJc_t const reflection_LogMessageFW;
  static struct ifcClasses_MsgDispatcherCore_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }interfaces_MsgDispatcherCore_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW_s, OFFSET_Mtbl(Mtbl_MsgDispatcherCore_MSG, LogMessageFW) }
+, { {&reflection_LogMessageFW, OFFSET_Mtbl(Mtbl_MsgDispatcherCore_MSG, LogMessageFW) }
   }
 };
 
@@ -899,7 +899,7 @@ void finalize_Output_MsgDispatcherCore_MSG_F(Output_MsgDispatcherCore_MSG_s* thi
 
 
 extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW_s;
+extern_C struct ClassJc_t const reflection_LogMessageFW;
 extern_C struct ClassJc_t const reflection_StringJc;
 const struct Reflection_Fields_Output_MsgDispatcherCore_MSG_s_t
 { ObjectArrayJc head; FieldJc data[4];
@@ -916,7 +916,7 @@ const struct Reflection_Fields_Output_MsgDispatcherCore_MSG_s_t
     }
    , { "outputIfc"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW_s
+    , &reflection_LogMessageFW
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Output_MsgDispatcherCore_MSG_s*)(0x1000))->outputIfc) - (int32)(Output_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase

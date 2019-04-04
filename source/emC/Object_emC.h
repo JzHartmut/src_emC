@@ -583,6 +583,15 @@ METHOD_C int newIdent_ObjectJc();
 
 /*@CLASS_C VtblHeadJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+/**tests wether the given object is an instance of the requested Type.
+* Javalike: instanceof-operator.
+* @param ythis any Object
+* @param reflection The reflection of the type to compare.
+*/
+extern_C bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection);
+
+
+
 /**This is a only forward declared struct used in [[VtblHeadJc]] for the size value stored as pointer. */
 struct Size_Vtbl_t;
 #define Size_Mtbl_t Size_Vtbl_t

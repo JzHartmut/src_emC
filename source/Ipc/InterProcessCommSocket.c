@@ -794,7 +794,7 @@ MemC getDataBuffer_InterProcessCommSocket(InterProcessCommSocket_s* ythis)
 
 
 
-static void freeData_InterProcessCommSocket(ObjectJc* xthis, MemC data)
+void freeData_InterProcessCommSocket(ObjectJc* xthis, MemC data)
 //void InterProcessCommImplement::freeData(void* data)
 {
   //cast from impersonator type, because this methods are only called with such an instance, supplied from create_InterProcessCommSocket(). 

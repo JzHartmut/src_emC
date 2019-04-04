@@ -92,12 +92,12 @@ typedef struct StringFormatterJc_t
 typedef struct StringFormatterJc_X_t { ObjectArrayJc head; StringFormatterJcREF data[50]; } StringFormatterJc_X;
 typedef struct StringFormatterJc_Y_t { ObjectArrayJc head; StringFormatterJc_s data[50]; } StringFormatterJc_Y;
 
- extern_C struct ClassJc_t const reflection_StringFormatterJc_s;
+ extern_C struct ClassJc_t const reflection_StringFormatterJc;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_StringFormatterJc(OBJP) { CONST_ObjectJc(sizeof(StringFormatterJc_s), OBJP, &reflection_StringFormatterJc_s), 0 }
+#define CONST_StringFormatterJc(OBJP) { CONST_ObjectJc(sizeof(StringFormatterJc_s), OBJP, &reflection_StringFormatterJc), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -443,15 +443,15 @@ class StringFormatterJc : private StringFormatterJc_s
 
   void close(){ close_StringFormatterJc(this,  null/*_thCxt*/); }
 
-  StringFormatterJc(struct AppendableJc_t* lineout, bool shouldClose, StringJcpp newlineString, int32 defaultBufferLength){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_ApbSi_StringFormatterJc(&this->base.object, lineout, shouldClose, newlineString, defaultBufferLength,  null/*_thCxt*/); }
+  StringFormatterJc(struct AppendableJc_t* lineout, bool shouldClose, StringJcpp newlineString, int32 defaultBufferLength){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc, 0); ctorO_ApbSi_StringFormatterJc(&this->base.object, lineout, shouldClose, newlineString, defaultBufferLength,  null/*_thCxt*/); }
 
-  StringFormatterJc(StringJcpp str){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_S_StringFormatterJc(&this->base.object, str,  null/*_thCxt*/); }
+  StringFormatterJc(StringJcpp str){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc, 0); ctorO_S_StringFormatterJc(&this->base.object, str,  null/*_thCxt*/); }
 
-  StringFormatterJc(struct StringBuilderJc_t* buffer){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_Sb_StringFormatterJc(&this->base.object, buffer,  null/*_thCxt*/); }
+  StringFormatterJc(struct StringBuilderJc_t* buffer){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc, 0); ctorO_Sb_StringFormatterJc(&this->base.object, buffer,  null/*_thCxt*/); }
 
-  StringFormatterJc(){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_StringFormatterJc(&this->base.object,  null/*_thCxt*/); }
+  StringFormatterJc(){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc, 0); ctorO_StringFormatterJc(&this->base.object,  null/*_thCxt*/); }
 
-  StringFormatterJc(int32 length){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc_s, 0); ctorO_i_StringFormatterJc(&this->base.object, length,  null/*_thCxt*/); }
+  StringFormatterJc(int32 length){ init_ObjectJc(&this->base.object, sizeof(StringFormatterJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFormatterJc, 0); ctorO_i_StringFormatterJc(&this->base.object, length,  null/*_thCxt*/); }
 
   struct StringFormatterJc_t* end(){  return end_StringFormatterJc(this,  null/*_thCxt*/); }
 

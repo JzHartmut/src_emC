@@ -114,7 +114,7 @@ const ClassJc reflection_ParseResultPrintfStyle_fwFormatter =
 #include "emC/LogMessage.h"
 
 
-extern_C const ClassJc reflection_LogMessageFW_s;  //the just defined reflection_
+extern_C const ClassJc reflection_LogMessageFW;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_LogMessageFW_s_t
 { ObjectArrayJc head;
@@ -128,13 +128,13 @@ const struct Reflection_Fields_LogMessageFW_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((LogMessageFW_s*)(0x1000))->base.object) -(int32)(LogMessageFW_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFW_s
+    , &reflection_LogMessageFW
     }
 } };
 
 
-const ClassJc reflection_LogMessageFW_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageFW_s, &reflection_ClassJc)
+const ClassJc reflection_LogMessageFW =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageFW, &reflection_ClassJc)
 , "LogMessageFW_s"
 , 0
 , sizeof(LogMessageFW_s)

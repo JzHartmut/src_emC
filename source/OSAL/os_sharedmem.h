@@ -74,7 +74,7 @@ extern_C bool os_isReadySharedMem(SharedMem_OSAL* thiz);
  * @param name a proper system wide valid name for the shared memory.
  * @return a pair of address and length to access the shared memory. If the address and length is 0, the shared memory is not ready.
  */
-extern_C MemC os_createOrAccessSharedMem(SharedMem_OSAL* thiz, const char* name, int size);
+//extern_C MemC os_createOrAccessSharedMem(SharedMem_OSAL* thiz, const char* name, int size);
 
 INLINE_emC MemC os_createOrAccessSharedMem(SharedMem_OSAL* thiz, const char* name, int size)
 {

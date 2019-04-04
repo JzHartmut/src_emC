@@ -273,7 +273,7 @@ Mtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
 };
 
 
-extern_C ClassJc const reflection_LogMessageFW_s;
+extern_C ClassJc const reflection_LogMessageFW;
 
 static struct interfaces_LogMessageStream_FW_t
 { /** Base data of every array */
@@ -281,7 +281,7 @@ static struct interfaces_LogMessageStream_FW_t
   ClassOffset_idxMtblJc data[1];
 }interfaces_LogMessageStream_FW =
 { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW_s, OFFSET_Mtbl(struct Mtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
+, { {&reflection_LogMessageFW, OFFSET_Mtbl(struct Mtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
   }
 };
 

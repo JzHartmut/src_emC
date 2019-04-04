@@ -32,7 +32,7 @@
   extern_C struct ClassJc_t const reflection_##TYPE##REF; \
   const struct Reflection_Fields_##TYPE##REF_t{ ObjectArrayJc head; FieldJc data[2];} reflection_Fields_##TYPE##REF = \
   { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_##TYPE##REF) \
-  , { { "ref", 0 , &reflection_##TYPE##, 0, 0, 0, &reflection_##TYPE##REF } \
+  , { { "ref", 0 , &reflection_##TYPE, 0, 0, 0, &reflection_##TYPE##REF } \
   } }; \
   const ClassJc reflection_##TYPE##REF =\
   { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_##TYPE##REF, null) \

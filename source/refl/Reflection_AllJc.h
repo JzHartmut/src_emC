@@ -18,10 +18,10 @@ extern_C const ClassJc reflection_DateValuesJc;
 #define REFLECTION_DateValuesJc &reflection_DateValuesJc
 extern_C const ClassJc reflection_DateJc_s;
 #define REFLECTION_DateJc_s &reflection_DateJc_s
-extern_C const ClassJc reflection_SimpleDateFormatJc_s;
-#define REFLECTION_SimpleDateFormatJc_s &reflection_SimpleDateFormatJc_s
-extern_C const ClassJc reflection_TextFieldPositionJc_s;
-#define REFLECTION_TextFieldPositionJc_s &reflection_TextFieldPositionJc_s
+extern_C const ClassJc reflection_SimpleDateFormatJc;
+#define REFLECTION_SimpleDateFormatJc_s &reflection_SimpleDateFormatJc
+extern_C const ClassJc reflection_TextFieldPositionJc;
+#define REFLECTION_TextFieldPositionJc_s &reflection_TextFieldPositionJc
 extern_C const ClassJc reflection_LocaleJc;
 #define REFLECTION_LocaleJc_s &reflection_LocaleJc
 extern_C const ClassJc reflection_SystemJc;

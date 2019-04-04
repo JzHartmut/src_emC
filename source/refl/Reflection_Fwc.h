@@ -6,8 +6,8 @@
 #include "Jc/ReflectionJc.h"
 extern_C const ClassJc reflection_ParseResultPrintfStyle_fwFormatter;
 #define REFLECTION_ParseResultPrintfStyle_fwFormatter &reflection_ParseResultPrintfStyle_fwFormatter
-extern_C const ClassJc reflection_LogMessageFW_s;
-#define REFLECTION_LogMessageFW_s &reflection_LogMessageFW_s
+extern_C const ClassJc reflection_LogMessageFW;
+#define REFLECTION_LogMessageFW_s &reflection_LogMessageFW
 extern_C const ClassJc reflection_ReadLine_emC;
 #define REFLECTION_ReadLine_emC &reflection_ReadLine_emC
 extern_C const ClassJc reflection_U_intfloat;

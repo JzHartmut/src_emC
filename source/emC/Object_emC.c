@@ -370,6 +370,167 @@ StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
 
 
 
+
+
+
+MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
+{ MtblHeadJc const* head = null; //nullpointer-return possible
+ClassJc const* reflection;
+STACKTRC_ENTRY("getMtbl_ObjectJc");
+if(ythis->ownAddress != ythis){ 
+  THROW1_s0(IllegalArgumentException, "Object head faulty", (int)(intptr_t)ythis);
+  STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
+}
+reflection = ythis->reflectionClass;
+if( reflection != null) { 
+  if(reflection->object.reflectionClass != &reflection_ClassJc){
+    THROW1_s0(IllegalArgumentException, "Object reflection faulty", (int)(intptr_t)ythis);
+    STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
+  }
+  head = ythis->reflectionClass->mtbl;  
+  if(head != null)//nullpointer exception outside possible.
+  {
+    while(  head->sign != sign 
+      && head->sign != signEnd_Mtbl_ObjectJc 
+      )
+    { int sizeTable = (int)(intptr_t)(head->sizeTable);
+    if(sizeTable < 0 || sizeTable > (302 * sizeof(void*))) {
+      THROW1_s0(IllegalStateException, "Internal error, Vtbl faulty, searched:", (int)(intptr_t)sign);
+    }   
+    //ASSERT_emC(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
+    //The next part of method table is found after the current.
+    head = (MtblHeadJc const*)( (MemUnit*)head + sizeTable );
+    }
+    if(head->sign == signEnd_Mtbl_ObjectJc){
+      THROW1_s0(ClassCastException, "baseclass not found", (int)(intptr_t)sign);
+      head = null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
+    } } }
+  STACKTRC_LEAVE; return head;
+}
+
+
+
+
+int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
+{ MtblHeadJc const* headSign = getMtbl_ObjectJc(thiz, sign);
+  if(headSign !=null){
+    MtblHeadJc const* headBase = thiz->reflectionClass->mtbl;
+    return OFFSET_MemUnit(headBase, headSign) / (int)sizeof(sign);
+  } 
+  else return -1;  //no Mtbl found.
+}
+
+
+
+
+MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
+{ 
+  switch(error) {
+  case 1: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)(intptr_t)ythis);
+  case 2: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)(intptr_t)ythis);
+  case 3: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)(intptr_t)ythis);
+  default: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)(intptr_t)ythis);
+  }
+  return null;
+}
+
+
+
+
+/**calculates the index insided the jumptable of a dynamic call,
+* regarding the type of reference and the type of the instance.
+* @param reflectionObj The reflection of the referenced instance.
+* @param reflectionRef The reflection of the reference. It should be the same as reflectionObj
+*        or it should be found as a superclass or interface of the reflectionObj.
+*        This param is only used with its pointer value, no access to the referenced memory location will be done.
+* @return The index of the part of jumptable of the reference inside the jump table of the object.
+*         * It is 0, if reflectionObj == reflectionRef, it means the reference is from the same type as the Object.
+*         * It is mIdxMtbl_ObjectJc if reflectionObj is null. This case is possible if the Object has no reflection infos.
+*           If the index with this value is used as an index of jumptable, an exception occurs.
+*           But if it is not used, it is a valid case, especially if no dynamic linked call occurs.
+*/
+int getIdxMtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRef)
+{ int idxMtbl = -1;
+ClassOffset_idxMtblJcARRAY const* reflectionSuper;
+STACKTRC_ENTRY("getIdxMtbl_ClassJc");
+if(reflectionObj == null)
+{ //if no reflection is used, it is able in C++ environment or if no dynamic linked methods are used.
+  idxMtbl = -1; //mIdxMtbl_ObjectJc;  //causes an error if it will be used!
+}
+else
+{ if(reflectionRef == null)  //if no reflection is prescribed:
+{ idxMtbl = 0;  //returns the Mtbl_ObjectJc
+}
+else if(reflectionRef == reflectionObj)
+{ idxMtbl = 0;  //returns the whole Mtbl for the type.
+}
+else
+{ ClassOffset_idxMtblJcARRAY const* reflectionIfc = 
+(ClassOffset_idxMtblJcARRAY const*)reflectionObj->interfaces;
+if( reflectionIfc != null)
+{ int idxIfc;
+for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
+{ ClassOffset_idxMtblJc const* reflectionChild;
+reflectionChild = &reflectionIfc->data[idxIfc];
+ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+if(superType == reflectionRef)
+{ idxMtbl = reflectionChild->idxMtbl;
+}
+}
+}
+else
+{ idxMtbl = -1;
+}
+}
+if(idxMtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
+{ int idxSuper = 0;
+for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+{ ClassOffset_idxMtblJc const* reflectionChild;
+reflectionChild = &reflectionSuper->data[idxSuper];
+ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+if(superType == reflectionRef)
+{ idxMtbl = reflectionChild->idxMtbl;
+}
+else
+{ //Recursive call because deeper inheritance:
+  ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+  idxMtbl = getIdxMtbl_ClassJc(superType, reflectionRef);
+}
+}
+}
+{ //search in superclasses and there interfaces
+  //old if only 1 superclass:
+  //idxMtbl = getIdxMtbl_ClassJc(reflectionObj->superClass, reflectionRef);
+}
+
+}
+STACKTRC_LEAVE; return(idxMtbl);
+}
+
+
+
+
+
+bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection)
+{ 
+  int idxMtbl = getIdxMtbl_ClassJc(ythis->reflectionClass, reflection);
+  return idxMtbl >=0;
+}
+
+
+
+
+/*J2C: dynamic call variant of the override-able method: */
+StringJc toString_ObjectJc(ObjectJc* ithis, ThCxt* _thCxt)
+{ Mtbl_ObjectJc const* mtbl = (Mtbl_ObjectJc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_ObjectJc);
+return mtbl->toString(ithis, _thCxt);
+}
+
+
+
+
+
+
 #if defined(__CPLUSGEN) && defined(__cplusplus)
   ObjectifcBaseJcpp::ObjectifcBaseJcpp()
   : significance_ObjectifcBase(kSignificance_ObjectifcBase)

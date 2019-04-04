@@ -255,27 +255,6 @@ StringBuilderJc_s* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
 
 
 
-//Used for Mtbl for interface CharSeqJc
-static int32 length_StringBuilderJc_F(CharSeqObjJc* thiz, ThCxt* _thCxt){ return ((StringBuilderJc_s*)thiz)->_count; }
-
-static char charAt_StringBuilderJc_F(CharSeqObjJc* othiz, int32 ix, ThCxt* _thCxt){ 
-  StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
-  char const* chars = chars_StringBuilderJc(thiz);
-  if(ix < 0 || ix >= thiz->_count) { THROW1_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
-  else return chars[ix]; 
-}
-
-static CharSeqJc subSequence_StringBuilderJc_F(CharSeqObjJc* othiz, int32 from, int32 to, ThCxt* _thCxt)
-{ StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
-  CharSeqJc ret = {0};
-  if(from > 0 && from <= to && to <= thiz->_count) {
-    ret.ref = null; //TODO
-  } 
-  else THROW1_s0(IndexOutOfBoundsException, "faulty indices", to); 
-  return ret;
-}
-
-
 /**common method for creating and initilizing buffers in threadcontext. 
  * It is static, don't use outside.
  * @return pointer to StringBuilderJc_s or StringBuilderJcpp, therefore the return type is void*. Cast it outside.
@@ -368,41 +347,6 @@ StringBuilderJc_s* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sig
 
 
 
-
-
-
-//METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc_s* src, ThCxt* _thCxt)
-METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
-{
-  StringJc ret = NULL_StringJc;
-  STACKTRC_TENTRY("toStringNonPersist_StringBuilderJc");
-  { StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
-    const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
-    int count = ythis->_count;
-    /**Detect whether the buffer is found in the stack range. Than its memory address is
-     * between any address of a local variable and the Thread-Context pointer. */
-    bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0); 
-    int nonPersistent = 0;
-    /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
-    //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
-    if(bufferInStack || ythis->_mode & (_mStack_StringBuilderJc | _mThread_StringBuilderJc)){
-      nonPersistent |= mNonPersists__StringJc;
-    }
-    if(ythis->_mode & _mThread_StringBuilderJc){
-      nonPersistent |= mThreadContext__StringJc;
-      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
-      reduceLastUserBuffer_ThreadContext_emC(ythis, sizeInThCxt, _thCxt);
-    }
-    /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
-     * Elsewhere the String is not persistant. That is okay mostly. 
-     * If the String will be stored persistent, it would be copied than. 
-     */
-    INIT_StringJc(ret, s0, count | nonPersistent);
-
-    //false, because it isn't a reference in data: setFromBuffer_StringJc(&ret, ythis);  //the String is contained in the Buffer.
-  }
-  STACKTRC_LEAVE; return ret;
-}
 
 
 METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
@@ -1125,36 +1069,6 @@ StringBuilderJcpp* new_StringBuilderJcpp(int size)
 }
 
 #endif
-
-
-
-static const char sign_Mtbl_StringBufferJc[] = "StringBufferJc"; //to mark method tables of all implementations
-
-
-const MtblDef_StringBufferJc mtblStringBufferJc = {
-{ 
-  { sign_Mtbl_StringBufferJc //J2C: Head of methodtable of Part_StringPartJc
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
-  }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-    }
-    , clone_ObjectJc_F //clone
-    , equals_ObjectJc_F //equals
-    , finalize_ObjectJc_F //finalize
-    , hashCode_ObjectJc_F //hashCode
-    , toStringNonPersist_StringBuilderJc //toString
-  }
-, { { sign_Mtbl_CharSeqJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +1) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
-    }
-    , length_StringBuilderJc_F 
-    , charAt_StringBuilderJc_F
-    , subSequence_StringBuilderJc_F
-  }  
-} 
-, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
-
 
 
 

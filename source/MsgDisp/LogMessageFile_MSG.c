@@ -851,13 +851,13 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
    }
  };
 
- extern_C struct ClassJc_t const reflection_LogMessageFW_s;
+ extern_C struct ClassJc_t const reflection_LogMessageFW;
  static struct ifcClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxMtblJc data[1];
  }interfaces_LogMessageFile_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW_s, OFFSET_Mtbl(Mtbl_LogMessageFile_MSG, LogMessageFW) }
+, { {&reflection_LogMessageFW, OFFSET_Mtbl(Mtbl_LogMessageFile_MSG, LogMessageFW) }
   }
 };
 
@@ -866,13 +866,13 @@ extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
 extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
 extern_C struct ClassJc_t const reflection_FileWriterJc;
 extern_C struct ClassJc_t const reflection_LocaleJc;
-extern_C struct ClassJc_t const reflection_LogMessageFW_s;
+extern_C struct ClassJc_t const reflection_LogMessageFW;
 extern_C struct ClassJc_t const reflection_OS_TimeStamp;
-extern_C struct ClassJc_t const reflection_SimpleDateFormatJc_s;
+extern_C struct ClassJc_t const reflection_SimpleDateFormatJc;
 extern_C struct ClassJc_t const reflection_StringBufferJc;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 extern_C struct ClassJc_t const reflection_StringJc;
-extern_C struct ClassJc_t const reflection_TextFieldPositionJc_s;
+extern_C struct ClassJc_t const reflection_TextFieldPositionJc;
 extern_C struct ClassJc_t const reflection_TimeZoneJc_s;
 const struct Reflection_Fields_LogMessageFile_MSG_s_t
 { ObjectArrayJc head; FieldJc data[31];
@@ -905,7 +905,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "formatTimestamp"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc_s
+    , &reflection_SimpleDateFormatJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->formatTimestamp) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -921,7 +921,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "formatField"
     , 0 //nrofArrayElements
-    , &reflection_TextFieldPositionJc_s
+    , &reflection_TextFieldPositionJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->formatField) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1049,7 +1049,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "msgOpenClose"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW_s
+    , &reflection_LogMessageFW
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->msgOpenClose) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1097,7 +1097,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "dateFormat"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc_s
+    , &reflection_SimpleDateFormatJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->dateFormat) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase

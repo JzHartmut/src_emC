@@ -145,15 +145,9 @@ METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
  */
 METHOD_C MemC getRestBlock_ObjectJc(ObjectJc* ythis, int size, ThCxt* _thCxt);
 
-/**tests wether the given object is an instance of the requested Type.
- * Javalike: instanceof-operator.
- * @param ythis any Object
- * @param reflection The reflection of the type to compare.
- */
-METHOD_C bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection);
-
 //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
-METHOD_C MtblHeadJc const* checkMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt);
+//METHOD_C 
+//see on end: MtblHeadJc const* checkMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt);
 
 
 
@@ -527,6 +521,7 @@ typedef TYPE_EnhancedRefJc(ObjectJc);
   
  * @since 2015-06-14. It is the concequently usage of ObjectJc overridden methods, prepared for C usage.  
  */
+//Note: extern_C static resp. extern static is not accepted by gcc. extern declaration; static definition is not accepted too. 
 #define IFC_IMPL_dataMETHOD1_ObjectJc(TYPE, METHOD) \
 Mtbl_##TYPE static const mtbl_##METHOD = \
 { { sign_Mtbl_##TYPE , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) } \
@@ -551,7 +546,7 @@ static const struct Reflection_Fields_##METHOD_t  \
     , &reflection_##METHOD \
     } \
 } }; \
-static const ClassJc reflection_##METHOD =  \
+const ClassJc reflection_##METHOD =  \
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc)  \
 , #METHOD \
 ,  0  \

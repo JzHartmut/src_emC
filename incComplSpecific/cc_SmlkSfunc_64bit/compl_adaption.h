@@ -379,7 +379,6 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
   */
   //#define INLINE_emC static
   #define INLINE_emC inline
-
 #endif
 
 #ifdef __cplusplus
@@ -388,9 +387,6 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_emC const
 #endif
-
-
-
 
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val

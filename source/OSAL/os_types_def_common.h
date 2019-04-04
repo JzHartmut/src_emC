@@ -80,8 +80,8 @@ inline int unused_emC(int arg){ return arg; }
  * This macros can be set to the C-form in C++ too, then all labels are created in the C++-manner. 
  * Then all sources should be compiled with C++, use only C++-libraries. 
  */
-//NOTE: This part cannot be parsed by Cheader.zbnf because it defines the special keywords itself.
-#ifndef __NoReflection__
+//NOTE: This part cannot be parsed by Cheader.zbnf because it defines the special keywords itself. Note: It should not be parsed by Cheader.zbnf
+//#ifndef __NoReflection__
 #ifdef __cplusplus
   #define extern_C extern "C"
   #define C_TYPE extern "C"
@@ -100,16 +100,9 @@ inline int unused_emC(int arg){ return arg; }
     #define INLINE_C static  //a compiler may optimize static routines.
   #endif
 #endif
-#endif//__NoReflection__
+//#endif//__NoReflection__
 
-#if !defined(__cplusplus) && !defined(false)
-  //If C-compiling is used, define the C++-keywords for C
-  //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
-  //#define bool int
-  #define false 0
-  #define true (!false)
-#endif
-
+//Note: definition of bool, true, false is compiler/system-specific. Removed from here. See compl_adaption.h
 
 
 #define _INIT0_ = {0}

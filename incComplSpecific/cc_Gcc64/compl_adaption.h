@@ -31,21 +31,24 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
-
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
 //uncomment that to check whether this file is used for include:
-//#error File: emc/incComplSpecific/cc_Msc15_32bit/compl_adaption.h
+//#error File: emc/incComplSpecific/cc_Gcc/compl_adaption.h
+
 //The following switch select the operation system in some sources.
 #define __OS_IS_WINDOWS__
 
 //The following switch select the compiler in some sources.
-#define __COMPILER_IS_MSC15__
-#define __COMPILER_IS_MSVC__
+#define __COMPILER_IS_GCC__
 
+#define __COMPILER_IS_MINGW64__
 
+#define NO_OLDNAMES  //for string.h
+#define __CRT__NO_INLINE  //prevent some errors multiple storage classes in declaration specifiers, internal mingw-gcc problem
+#define _SPAWNV_DEFINED   //see stdio.h problem
 
-//#include the standard header from Visual studio firstly. 
+//#include the standard header from the standard include path. 
 //stdint.h defines int8_t etc. via typedef. 
 //Because pragma once (or guard) the content of the files are not included again.
 //They should be included firstly to cover its typedef by the typedef of simulink.
@@ -57,44 +60,9 @@
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
-
-
-
-
-
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
-//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-//C++
-//#pragma warning(disable:4100) //unused argument
-
-//C++
-#pragma warning(disable:4068) //unknown pragma
-
-#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4310) //cast truncates constant value
-#pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4514) //unreferenced inline function has been removed
-//#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
-
-#pragma warning(error:4002) //too many actual parameters for macro
-#pragma warning(error:4003) //not enough actual parameters for macro
-#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
-#pragma warning(error:4020) //too many actual parameters
-//#pragma warning(error:4028) //formal parameter 1 different from declaration
-//#pragma warning(error:4033) //incompatible types (pointer casting)
-//#pragma warning(error:4133) //incompatible types (pointer casting)
-#pragma warning(disable:4996) //deprecated getenv etc. in MSC15
 
 
 /**Defintion of bool, false, true for C usage. */
@@ -234,32 +202,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define GNU_PACKED
 
 
-/**Prevent process a NaN-value (not a number).
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * @param value the value to check and return in normal case
- * @param valueinstead This value is returned if value==nan
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- * @return valueinstead or value.
- */
-#define NNAN(value, valueinstead, check) (value < 1000000000.0f ? value : ((check) +=1, valueinstead))
-
-
-/**Condition if value is not NAN
- * @param value to test
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- */
-#define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
-
-
-/**Prevent process a NaN-value maybe only in debug mode.
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * It calls stopNAN especially for debug at PC
- * @param value the value to check and return
- * @return value anytime.
- */
-#define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
-
-
 
 
 
@@ -336,8 +278,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   */
   //#define INLINE_emC static
   #define INLINE_emC inline
-  //If C-compiling is used, define the C++-keywords for C
-  //NOTE: do not define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
+  #define inline static inline
 #endif
 
 #ifdef __cplusplus
@@ -346,9 +287,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_emC const
 #endif
-
-
-
 
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
@@ -363,14 +301,14 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
-
 #ifndef TRUE
   #define TRUE true
   #define FALSE false
 #endif
 
 //In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
-#undef __HandlePtr64__
+#define __HandlePtr64__
+
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
 #include <OSAL/os_types_def_common.h>

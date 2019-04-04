@@ -864,7 +864,7 @@ const MtblDef_MsgDispatcher_MSG mtblMsgDispatcher_MSG = {
  };
 
 extern_C struct ClassJc_t const reflection_MsgDispatcher_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW_s;
+extern_C struct ClassJc_t const reflection_LogMessageFW;
 const struct Reflection_Fields_MsgDispatcher_MSG_s_t
 { ObjectArrayJc head; FieldJc data[2];
 } reflection_Fields_MsgDispatcher_MSG_s =
@@ -872,7 +872,7 @@ const struct Reflection_Fields_MsgDispatcher_MSG_s_t
 , {
      { "outputConsole"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW_s
+    , &reflection_LogMessageFW
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcher_MSG_s*)(0x1000))->outputConsole) - (int32)(MsgDispatcher_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -1026,7 +1026,7 @@ const MtblDef_DispatcherThread_MsgDispatcher_MSG mtblDispatcherThread_MsgDispatc
 extern_C struct ClassJc_t const reflection_DispatcherThread_MsgDispatcher_MSG_s;
 extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
 extern_C struct ClassJc_t const reflection_Entry_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW_s;
+extern_C struct ClassJc_t const reflection_LogMessageFW;
 extern_C struct ClassJc_t const reflection_MsgText_ifc_MSG_s;
 extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
 extern_C struct ClassJc_t const reflection_RunnableJc;

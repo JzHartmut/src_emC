@@ -5,8 +5,7 @@
  * The translation of a pointer to a handle allows to use a 32-bit-connection between independent function blocks, which works with the same memory.
  * Especially it is firstly used for simulink S-functions running on the 64-bit-PC platform.
  */
-//#include <OSAL/os_sharedmem.h> 
-#include <compl_adaption.h>
+#include <applstdef_emC.h>
 #include <string.h>
 
 

@@ -116,7 +116,7 @@ struct ThreadContext_emC_t;
 
 /*@DEFINE_C MemC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/**MemC: There are some macros and routines to work in memory ranges.  
+/**MemC: There are some macros and routines to work in memory ranges.  */
 
 
 /**Defines a struct with pointer and size. 

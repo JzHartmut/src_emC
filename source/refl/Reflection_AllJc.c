@@ -294,7 +294,7 @@ const ClassJc reflection_DateJc_s =
 
 
 
-extern_C const ClassJc reflection_SimpleDateFormatJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_SimpleDateFormatJc;  //the just defined reflection_
 extern_C const ClassJc reflection_StringJc;
 const struct Reflection_Fields_SimpleDateFormatJc_s_t
 { ObjectArrayJc head;
@@ -308,7 +308,7 @@ const struct Reflection_Fields_SimpleDateFormatJc_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((SimpleDateFormatJc_s*)(0x1000))->sFormat) -(int32)(SimpleDateFormatJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_SimpleDateFormatJc_s
+    , &reflection_SimpleDateFormatJc
     }
   , { "timeZoneAdjustHours"
     , 0   //no Array, no Bitfield
@@ -316,13 +316,13 @@ const struct Reflection_Fields_SimpleDateFormatJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((SimpleDateFormatJc_s*)(0x1000))->timeZoneAdjustHours) -(int32)(SimpleDateFormatJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_SimpleDateFormatJc_s
+    , &reflection_SimpleDateFormatJc
     }
 } };
 
 
-const ClassJc reflection_SimpleDateFormatJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_SimpleDateFormatJc_s, &reflection_ClassJc)
+const ClassJc reflection_SimpleDateFormatJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_SimpleDateFormatJc, &reflection_ClassJc)
 , "SimpleDateFormatJc_s"
 , 0
 , sizeof(SimpleDateFormatJc_s)
@@ -336,7 +336,7 @@ const ClassJc reflection_SimpleDateFormatJc_s =
 
 
 
-extern_C const ClassJc reflection_TextFieldPositionJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_TextFieldPositionJc;  //the just defined reflection_
 const struct Reflection_Fields_TextFieldPositionJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
@@ -349,13 +349,13 @@ const struct Reflection_Fields_TextFieldPositionJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((TextFieldPositionJc_s*)(0x1000))->x) -(int32)(TextFieldPositionJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TextFieldPositionJc_s
+    , &reflection_TextFieldPositionJc
     }
 } };
 
 
-const ClassJc reflection_TextFieldPositionJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TextFieldPositionJc_s, &reflection_ClassJc)
+const ClassJc reflection_TextFieldPositionJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TextFieldPositionJc, &reflection_ClassJc)
 , "TextFieldPositionJc_s"
 , 0
 , sizeof(TextFieldPositionJc_s)

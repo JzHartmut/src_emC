@@ -40,6 +40,8 @@
 //#define USE_LoLevelFileIo
 
 #include <OSAL/os_error.h>
+#include <emC/String_emC.h>
+
 
 
 
@@ -58,18 +60,49 @@ int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, ch
 {
   int error = 0;
   int ii;
-  ythis->flags = 0; 
-  if(addPathLength < 0) { addPathLength = 0; }
-  if(zFilepath >= (int)(sizeof(ythis->absPath) + addPathLength)) {
+  ythis->flags = 0;
+  if (addPathLength < 0) { addPathLength = 0; }
+  if (zFilepath >= (int)(sizeof(ythis->absPath) + addPathLength)) {
     error = OS_INVALID_PARAMETER;
-    os_notifyError(error, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength -1); 
+    os_notifyError(error, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength - 1);
     //shorten it.
-    zFilepath = sizeof(ythis->absPath) + addPathLength -1;
+    zFilepath = sizeof(ythis->absPath) + addPathLength - 1;
   }
   memset(ythis->absPath, sizeof(ythis->absPath) + addPathLength, 0);
-  strncpy(ythis->absPath,filepath, zFilepath); 
-  for(ii=0; ii<zFilepath; ii++){ if(ythis->absPath[ii] == '/'){ ythis->absPath[ii] = '\\'; } }
+  strcpy_emC(ythis->absPath, filepath, sizeof(ythis->absPath));
+  for (ii = 0; ii<zFilepath; ii++) { if (ythis->absPath[ii] == '/') { ythis->absPath[ii] = '\\'; } }
+
+  return error;
+}
+
+
+
+
+int initDir_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, FileDescription_OSAL* dir, char const* filepath, int zFilepath)
+{
+  int error = 0;
+  int ii;
+  ythis->flags = 0;
+  if (addPathLength < 0) { addPathLength = 0; }
+  int zDir = strnlen_emC(dir->absPath, sizeof(dir->absPath));
+  memset(ythis->absPath, sizeof(ythis->absPath) + addPathLength, 0);
+  strncpy_emC(ythis->absPath, dir->absPath, zDir);
+  if(ythis->absPath[zDir-1] != '\\'){
+    ythis->absPath[zDir] = '\\';
+    zDir +=1;
+  }
+  if ((zFilepath + zDir) >= (int)(sizeof(ythis->absPath) + addPathLength)) {
+    error = OS_INVALID_PARAMETER;
+    os_notifyError(error, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength - 1);
+    //shorten it.
+    zFilepath = sizeof(ythis->absPath) + addPathLength - 1 - zDir;
+  }
+  ythis->posNameInPath = zDir;
+  ythis->posRelatPathInPath = dir->posRelatPathInPath;
+  strncpy_emC(ythis->absPath + zDir, filepath, zFilepath);
   
+  for (ii = zDir; ii < (zFilepath + zDir); ii++) { if (ythis->absPath[ii] == '/') { ythis->absPath[ii] = '\\'; } }
+
   return error;
 }
 
@@ -79,12 +112,17 @@ int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, ch
 
 FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
 {
-  
-  struct stat statData;
-
-  
-  int ok = stat(ythis->absPath, &statData);
-
+  int ok = 0;
+  #if defined(__COMPILER_IS_MSVC__)
+    struct stat statData;
+    ok = stat(ythis->absPath, &statData);
+  //#elif defined(__COMPILER_IS_MINGW64__)
+#else
+    struct stat64 statData = {0};
+    ok = stat64(ythis->absPath, &statData);
+  //#else
+    //#error yet unknown compiler
+  #endif
   if(ok == 0)
   { 
     ythis->fileLength = statData.st_size;
@@ -114,7 +152,9 @@ OS_HandleFile os_fopenToRead(char const* filename)
   #ifdef USE_LoLevelFileIo 
     return (OS_HandleFile)open(filename, O_RDONLY);
   #else
-    return (OS_HandleFile)fopen(filename, "rb");
+    FILE* h = null;
+    int err = fopen_s(&h, filename, "rb");
+    return err == 0 ? (OS_HandleFile)h: null;
   #endif
 }
 
@@ -128,13 +168,16 @@ OS_HandleFile os_fopenToWrite(char const* filename, bool append)
   #ifdef USE_LoLevelFileIo 
     return (OS_HandleFile)open(filename, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
   #else
-    return (OS_HandleFile)fopen(filename, append ? "ab" : "wb");
+  FILE* h = null;
+  int err = fopen_s(&h, filename, append? "ab":"wb");
+  return err == 0 ? (OS_HandleFile)h : null;
   #endif
 }
 
 
 int os_fclose(OS_HandleFile file)
 { int success;
+  if(file == 0) return 0;
   #ifdef USE_LoLevelFileIo 
     success = close( (int) file);
   #else
@@ -233,15 +276,22 @@ int os_fskip(OS_HandleFile file, int32_t nrofbytes)
  * This method may be delayed (thread switch is possible), if the conditions to write are met, 
  * but the write process requires a delaying. 
  */
-int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytes)
+int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytesWr)
 { 
   int nrofBytes;
-  #ifdef USE_LoLevelFileIo 
-    nrofBytes = write((int)fileP, buffer, nrofbytes);
-  #else
-    FILE* file = (FILE*) fileP;
-    nrofBytes = fwrite(buffer, 1, nrofbytes, file);
-  #endif
+  if(nrofbytesWr <0) {
+    nrofbytesWr = strnlen_emC((char const*)buffer, -nrofbytesWr);
+  }
+  if(nrofbytesWr >0) {
+    #ifdef USE_LoLevelFileIo 
+      nrofBytes = write((int)fileP, buffer, nrofbytes);
+    #else
+      FILE* file = (FILE*) fileP;
+      nrofBytes = fwrite(buffer, 1, nrofbytesWr, file);
+    #endif
+  } else { 
+    nrofBytes = 0;
+  }
   return nrofBytes;  //it is maxNrofbytes
 }
 

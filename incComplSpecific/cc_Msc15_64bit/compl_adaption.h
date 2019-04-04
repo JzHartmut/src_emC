@@ -31,16 +31,18 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
-
-/**If only this file is included, include all files of this concept. */
-#ifndef __applstdef_emC_h__
-  #include <applstdef_emC.h>
-#endif
-
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
 //uncomment that to check whether this file is used for include:
 //#error File: emc/incComplSpecific/cc_Msc15_64bit/compl_adaption.h
+
+//The following switch select the operation system in some sources.
+#define __OS_IS_WINDOWS__
+
+//The following switch select the compiler in some sources.
+#define __COMPILER_IS_MSC15__
+#define __COMPILER_IS_MSVC__
+
 
 
 //#include the standard header from Visual studio firstly. 
@@ -54,11 +56,6 @@
  * but present in normal software development.
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-
-
-
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -92,6 +89,17 @@
 
 #pragma warning(disable:4996) //deprecated getenv etc. in MSC15
 
+
+/**Defintion of bool, false, true for C usage. */
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  #define bool int
+  #undef false
+  #undef true
+  #define false 0
+  #define true (!false)
+#endif
+
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
  * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
@@ -115,12 +123,6 @@
 //This functions may be platform dependend but for all our platforms identical, also in C-Standard.
 //do nut use platform specific headers. 
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
-
-//The following switch select the operation system in some sources.
-#define __OS_IS_WINDOWS__
-
-//The following switch select the compiler in some sources.
-#define __COMPILER_IS_MSC15__
 
 
 
@@ -213,14 +215,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define int16_va_list short
 #define float_va_list float
 
-
-
-//plattformunabhaengige Ergaenzungen
-//folgende Typen sind besser schreib- und lesbar
-#define ushort unsigned short int
-#define uint unsigned int
-#define ulong unsigned long int
-
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
 #undef  NULL
@@ -274,7 +268,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR int64
+#define OS_intPTR intptr_t
 
 
 
@@ -335,11 +329,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   */
   //#define INLINE_emC static
   #define INLINE_emC inline
-#ifndef __cplusplus
-  //If C-compiling is used, define the C++-keywords for C
-  //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
-  #define bool int
-#endif
 #endif
 
 #ifdef __cplusplus
@@ -348,9 +337,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_emC const
 #endif
-
-
-
 
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
@@ -372,5 +358,9 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 //In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
 #define __HandlePtr64__
+
+/**This file includes common definition valid for any compiler independent of applstdef_emC.h
+ * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
+#include <OSAL/os_types_def_common.h>
 
 #endif  //__compl_adaption_h__

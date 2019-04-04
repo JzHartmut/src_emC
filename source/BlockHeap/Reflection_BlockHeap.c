@@ -17,7 +17,7 @@ extern_C const ClassJc reflection_BlockHeapBlockJc;
 extern_C const ClassJc reflection_BlockHeapBlockJc;
 extern_C const ClassJc reflection_ListMapEntryJc;
 extern_C const ClassJc reflection_ListMapEntryJc;
-extern_C const ClassJc reflection_LogMessageFW_s;
+extern_C const ClassJc reflection_LogMessageFW;
 const struct Reflection_Fields_BlockHeap_emC_t
 { ObjectArrayJc head;
   FieldJc data[18];
@@ -154,7 +154,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     }
   , { "log"
     , 0   //no Array, no Bitfield
-    , &reflection_LogMessageFW_s
+    , &reflection_LogMessageFW
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->log) -(int32)(BlockHeap_emC*)0x1000)
     , 0  //offsetToObjectifcBase
@@ -392,7 +392,7 @@ const ClassJc reflection_BlockHeapBlockJc_debugArray =
 extern_C const ClassJc reflection_GarbageCollectorJc;  //the just defined reflection_
 extern_C const ClassJc reflection_OS_TimeStamp;
 extern_C const ClassJc reflection_OS_TimeStamp;
-extern_C const ClassJc reflection_LogMessageFW_s;
+extern_C const ClassJc reflection_LogMessageFW;
 const struct Reflection_Fields_GarbageCollectorJc_t
 { ObjectArrayJc head;
   FieldJc data[17];
@@ -521,7 +521,7 @@ const struct Reflection_Fields_GarbageCollectorJc_t
     }
   , { "log"
     , 0   //no Array, no Bitfield
-    , &reflection_LogMessageFW_s
+    , &reflection_LogMessageFW
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((GarbageCollectorJc*)(0x1000))->log) -(int32)(GarbageCollectorJc*)0x1000)
     , 0  //offsetToObjectifcBase

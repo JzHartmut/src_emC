@@ -483,6 +483,290 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
 }
 
 
+#ifndef __NoCharSeqJcCapabilities__
+
+
+/** Some methods from StringJc are defined in ObjectJc.h, because there are simple methods
+  * not using RuntimeHeap, Garbage Collection and others. This simple methods are implemented here.
+  * That are all methods which do not copy strings, only compare, convert to char* etc.
+  */
+
+
+
+CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
+{ CharSeqJc ret;
+
+  int val = getPosInMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+  if(val >=0){
+    val |= mIsCharSeqJcMtbl_CharSeqJc;
+  } else {
+    STACKTRC_ENTRY("fromObjectJc_CharSeqJc");
+    THROW1_s0(IllegalArgumentException, "thiz does not implement the CharSeqJc interface.", (int)(intptr_t)othiz);
+    STACKTRC_LEAVE;
+	  return z_CharSeqJc("faulty instance ");
+  }
+  set_OS_PtrValue(ret, othiz, val);
+  return ret;
+}
+
+
+
+
+
+
+
+int32 length_StringJc_CharSeqJc_F(CharSeqObjJc* ithiz, ThCxt* _ThCxt)
+{ StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  return thiz->length;
+}
+
+char charAt_StringJc_CharSeqJc_F(CharSeqObjJc* ithiz, int32 ix, ThCxt* _thCxt)
+{ StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  if(ix < 0 || ix >= thiz->length) {
+    //THROW
+    return 0;
+  }
+  return thiz->s[ix];
+}
+
+CharSeqJc subSequence_StringJc_CharSeqJc_F(CharSeqObjJc* ithiz, int32 from, int32 to, ThCxt* _thCxt)
+{ CharSeqJc ret = {0};
+  return ret;  //TODO
+}
+
+
+bool equals_StringJc_CharSeqJc_F(ObjectJc* ithiz, ObjectJc* second, ThCxt* _thCxt) {
+  StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  return false;  //TODO
+}
+
+StringJc toString_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
+  StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  StringJc ret = CONST_StringJc(thiz->s, thiz->length);
+  return ret;
+}
+
+void finalize_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
+}
+
+Mtbl_CharSeqJc mtbl_StringJc_CharSeqJc =
+{ { sign_Mtbl_CharSeqJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((sizeof(Mtbl_CharSeqJc))) //size. NOTE: all elements are standard-pointer-types.
+  }
+  , length_StringJc_CharSeqJc_F
+  , charAt_StringJc_CharSeqJc_F
+  , subSequence_StringJc_CharSeqJc_F
+  , { {sign_Mtbl_ObjectJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((sizeof(Mtbl_ObjectJc)))
+      }
+    , null
+    , equals_StringJc_CharSeqJc_F  //equals
+    , finalize_StringJc_CharSeqJc_F
+    , null
+    , toString_StringJc_CharSeqJc_F
+    }
+};
+
+
+
+
+Mtbl_CharSeqJc const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)
+{
+  int nChars = VAL_CharSeqJc(thiz) & mLength__StringJc;
+  ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+  MtblHeadJc const* head;
+  Mtbl_CharSeqJc const* mc;
+  if(nChars == kIsCharSeqJc_CharSeqJc) {
+    head = getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+  } else {
+    int offsetMtbl =  nChars & ~mIsCharSeqJcMtbl_CharSeqJc;
+    head = othiz->reflectionClass->mtbl;
+    head = (MtblHeadJc const*)(&head->sign + offsetMtbl);
+    //MemUnit* head2 = addOffset_MemUnit(head, offsetMtbl);  //add offset in mtbl
+    //head = (MtblHeadJc const*) head2;
+  }
+  ASSERT_s0_Jc(head->sign == sign_Mtbl_CharSeqJc, "faulty Mtbl of CharSeqJc", (int)(intptr_t)PTR_CharSeqJc(thiz));
+  mc = (Mtbl_CharSeqJc const*) head;
+  return mc;
+
+}
+
+
+CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_StringJc, ThCxt* _thCxt)
+{ CharSeqJcMTB ret;
+  int val = VAL_CharSeqJc(thiz) & mLength__StringJc;
+  if(val == kIs_0_terminated_StringJc) {
+    val = strnlen_emC(PTR_OS_PtrValue(thiz, char const), kMaxNrofChars_StringJc);
+  }
+
+  if(val <= kMaxNrofChars_StringJc) {
+    //A String, use the given instance of dst_StringJc
+    if(dst_StringJc !=null) {
+      memset(dst_StringJc, 0, sizeof(StringJc_CharSeqJc));
+      init_ObjectJc(&dst_StringJc->base, sizeof(StringJc_CharSeqJc), 0);
+      dst_StringJc->s = PTR_OS_PtrValue(thiz, char const);
+      dst_StringJc->length = val;
+      ret.mtbl = null;
+      ret.ref = null;
+
+    } else {
+      ret.mtbl = null;
+      ret.ref = null;
+    }
+  }
+  else if(val < kIsStringBuilder_CharSeqJc) {
+    //It contains the index to the method table inside the given reflection.
+    ret.ref = PTR_OS_PtrValue(thiz, ObjectJc);
+    ret.mtbl  = (Mtbl_CharSeqJc*)checkMtbl_ObjectJc(ret.ref, val & mMtbl_CharSeqJc, sign_Mtbl_CharSeqJc, _thCxt);
+  }
+  else {
+    //Any Object, may be a StringBuilder too.
+    ObjectJc* othiz = PTR_OS_PtrValue(thiz, ObjectJc);
+    Mtbl_CharSeqJc* mthiz = (Mtbl_CharSeqJc*)getMtbl_ObjectJc(othiz, sign_Mtbl_CharSeqJc);
+    ret.mtbl = mthiz;
+    ret.ref = othiz;
+  }
+  return ret;
+}
+
+
+
+
+StringJc toString_CharSeqJc(CharSeqJc thiz)
+{
+  STACKTRC_ENTRY("toString_CharSeqJc");
+  int val = value_OS_PtrValue(thiz);
+  if(val == kIsStringBuilder_CharSeqJc) {
+    StringBuilderJc_s* sb = PTR_OS_PtrValue(thiz, StringBuilderJc_s);
+    char const* buffer = chars_StringBuilderJc(sb);
+    int nChars = length_StringBuilderJc(sb);
+    StringJc ret = CONST_StringJc(buffer, nChars);
+    STACKTRC_LEAVE; return ret;
+  }
+  else if(val & mIsCharSeqJcMtbl_CharSeqJc) {
+    Mtbl_CharSeqJc const* mc = getMtbl_CharSeqJc(thiz, _thCxt);
+    CharSeqObjJc* othiz = PTR_OS_PtrValue(thiz, CharSeqObjJc);
+    int iChars;
+    int nChars = mc->length(othiz, _thCxt);
+    MemC mBuffer = getUserBuffer_ThreadContext_emC(nChars+1, "toString_CharSeqJc", _thCxt);
+    int sizeBufferThreadContext = mBuffer.size;
+    if(nChars >= sizeBufferThreadContext){
+      nChars = sizeBufferThreadContext-1;   //limit it.
+    }
+    char* buffer = mBuffer.ref;
+    for(iChars = 0; iChars < nChars; ++iChars) {
+      char cc = mc->charAt(othiz, iChars, _thCxt);
+      buffer[iChars] = cc;
+    }
+    buffer[iChars] = 0;
+    StringJc ret = CONST_StringJc(buffer, nChars);
+    STACKTRC_LEAVE; return ret;
+  } else {
+    //it is a String
+    STACKTRC_LEAVE; return *(StringJc*)&thiz;
+  }
+}
+
+
+
+char const sign_Mtbl_CharSeqJc[] = "sign_Mtbl_CharSeqJc";
+
+
+
+#endif
+
+
+
+
+
+//METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc_s* src, ThCxt* _thCxt)
+METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
+{
+  StringJc ret = NULL_StringJc;
+  STACKTRC_TENTRY("toStringNonPersist_StringBuilderJc");
+  { StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
+    const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
+    int count = ythis->_count;
+    /**Detect whether the buffer is found in the stack range. Than its memory address is
+     * between any address of a local variable and the Thread-Context pointer. */
+    bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0);
+    int nonPersistent = 0;
+    /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
+    //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
+    if(bufferInStack || ythis->_mode & (_mStack_StringBuilderJc | _mThread_StringBuilderJc)){
+      nonPersistent |= mNonPersists__StringJc;
+    }
+    if(ythis->_mode & _mThread_StringBuilderJc){
+      nonPersistent |= mThreadContext__StringJc;
+      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
+      reduceLastUserBuffer_ThreadContext_emC(ythis, sizeInThCxt, _thCxt);
+    }
+    /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
+     * Elsewhere the String is not persistant. That is okay mostly.
+     * If the String will be stored persistent, it would be copied than.
+     */
+    INIT_StringJc(ret, s0, count | nonPersistent);
+
+    //false, because it isn't a reference in data: setFromBuffer_StringJc(&ret, ythis);  //the String is contained in the Buffer.
+  }
+  STACKTRC_LEAVE; return ret;
+}
+
+
+
+
+
+//Used for Mtbl for interface CharSeqJc
+static int32 length_StringBuilderJc_F(CharSeqObjJc* thiz, ThCxt* _thCxt){ return ((StringBuilderJc_s*)thiz)->_count; }
+
+static char charAt_StringBuilderJc_F(CharSeqObjJc* othiz, int32 ix, ThCxt* _thCxt){
+  StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
+  char const* chars = chars_StringBuilderJc(thiz);
+  if(ix < 0 || ix >= thiz->_count) { THROW1_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
+  else return chars[ix];
+}
+
+static CharSeqJc subSequence_StringBuilderJc_F(CharSeqObjJc* othiz, int32 from, int32 to, ThCxt* _thCxt)
+{ StringBuilderJc_s* thiz = (StringBuilderJc_s*)othiz;
+  CharSeqJc ret = {0};
+  if(from > 0 && from <= to && to <= thiz->_count) {
+    ret.ref = null; //TODO
+  }
+  else THROW1_s0(IndexOutOfBoundsException, "faulty indices", to);
+  return ret;
+}
+
+
+
+
+static const char sign_Mtbl_StringBufferJc[] = "StringBufferJc"; //to mark method tables of all implementations
+
+
+const MtblDef_StringBufferJc mtblStringBufferJc = {
+{
+  { sign_Mtbl_StringBufferJc //J2C: Head of methodtable of Part_StringPartJc
+  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  }
+, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    }
+    , clone_ObjectJc_F //clone
+    , equals_ObjectJc_F //equals
+    , finalize_ObjectJc_F //finalize
+    , hashCode_ObjectJc_F //hashCode
+    , toStringNonPersist_StringBuilderJc //toString
+  }
+, { { sign_Mtbl_CharSeqJc//J2C: Head of methodtable.
+    , (struct Size_Mtbl_t*)((5 +1) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+    }
+    , length_StringBuilderJc_F
+    , charAt_StringBuilderJc_F
+    , subSequence_StringBuilderJc_F
+  }
+}
+, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+
+
 
 
 

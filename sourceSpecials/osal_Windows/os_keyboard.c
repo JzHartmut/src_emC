@@ -1,5 +1,4 @@
 #include <OSAL/os_keyboard.h>
-#include <applstdef_emC.h>
 
 #undef BOOL
 #undef PBOOL

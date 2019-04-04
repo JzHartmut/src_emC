@@ -33,7 +33,21 @@
 
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
+//uncomment that to check whether this file is used for include:
 //#error File: emc/incComplSpecific/cc_Gcc/compl_adaption.h
+
+
+//#include the standard header from the standard include path. 
+//stdint.h defines int8_t etc. via typedef. 
+//Because pragma once (or guard) the content of the files are not included again.
+//They should be included firstly to cover its typedef by the typedef of simulink.
+#include <stdint.h>  //C99-int types
+#include <limits.h>  //proper to C99
+
+/**Some warnings should be disabled in default, because there are not the source of errors,
+ * but present in normal software development.
+ */
+//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -64,93 +78,119 @@
 //do nut use platform specific headers. 
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
-// Folgender Schalter ist gesetzt zur Auswahl der Betriebssystemplattform Windows ist. Damit k?nnen Betriebssystemzugriffe bedingt compiliert werden.
+//The following switch select the operation system in some sources.
 #define __OS_IS_WINDOWS__
 
-// Folgender Schalter ist gesetzt zur Auswahl des Compilers GCC. Damit k?nnen spezifische Compilereigenschaften mittels bedingter Compilierung ber?cksichtigt werden.
+//The following switch select the compiler in some sources.
 #define __COMPILER_IS_GCC__
+
+
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
+#define BYTE_IN_MemUnit_sizeof 1
 
-/**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. */
-typedef unsigned char        uint8_t;
-typedef unsigned short       u_int16_t;
-typedef unsigned long        uint32_t;    //type identifier faulty, u_int32_t is C99
-typedef unsigned long        u_int32_t;
 
-typedef char                 char8_t;   //Standard-C-char
-typedef unsigned short       char16_t;  //UTF16-char
+/**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
+ * Only the sizes are defined there, but from sizes to bits it is not able to calculate.
+ * The number of bits are necessary for shift operations. 
+ * Note: The number of bits for an int16_t may not 16 in all platforms. 
+ * There are platforms which only knows 32 bit data (for example DSP processors from Analog Devices).
+ */
+#define INT8_NROFBITS  8
+#define INT16_NROFBITS 16
+#define INT32_NROFBITS 32
+#define INT64_NROFBITS 64
+#define INT_NROFBITS   32
 
-typedef signed char          int8_t;
-typedef short                int16_t;
-typedef long                 int32_t;
+/**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
+ * But the definition of INT_MAX is missing.
+ */
+//#define INT_MAX INT32_MAX 
+//#define INT_MIN INT32_MIN 
+//#define UINT_MAX UINT32_MAX 
 
-#define int64_t long long
-#define uint64_t unsigned long long
-#define bool8_t char
-#define bool16_t int16_t
+/**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
+ * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
+ * Note: C99-compatible declaration is: u_TYPE_t
+ */
+#define int8      int8_t
+#define uint8     uint8_t
+
+#define int16     int16_t
+#define uint16    uint16_t
+
+#define int32     int32_t
+#define uint32    uint32_t
+
+#define int64 __int64
+#define uint64 uint64_t
+//#define int64_t __int64
+//#define uint64_t __int64
+
+#define bool8    unsigned char
+#define bool8_t  unsigned char
+#define bool16   unsigned short
+#define bool16_t unsigned short
+//Standard-character and UTF16-character:
+#define char8    char
+#define char16   unsigned short
+#define char8_t  char
+#define char16_t short
+#define float32  float
+
 
 
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
-typedef struct int64_hilo_t{ int32_t lo; int32_t hi; } int64_hilo;
+typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 
 /**Union of int64 and its fractions. */
-typedef union int64_uhilo_t{ int64_t v; int64_hilo hilo; } int64_uhilo;
+typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
+
+
+#define DEFINED_float_complex     
+//#define float_complex creal32_T
+typedef struct float_complex_t { float re; float im; } float_complex; 
+#define DEFINED_double_complex
+//#define double_complex creal64_T
+typedef struct double_complex_t { double re; double im; } double_complex; 
 
 
 
-/**All types with fix byte-wide should be defined in a platform-valid form. */
-#define uint8 unsigned char
-#define uint16 unsigned short
-#define uint32 unsigned long
-#define uint64 unsigned long long
-#define int8 signed char
-#define int16 short
-#define int32 long
-#define int64 long long
-//Standard-character and UTF16-character:
-#define char8 char
-#define char16 unsigned short
-#define bool8 char
-#ifndef __cplusplus
-  //If C-compiling is used, define the C++-keywords for C
-  #define bool int
-  #define false 0
-  #define true (!false)
-#endif
 
 
-  //see stdlib.h
-  //#define min(X,Y) ((X)<(Y) ? (X) : (Y))
-  //#define max(X,Y) ((X)>(Y) ? (X) : (Y)
-
-/**int-type which can represent a standard pointer. */
-#define intPTR uint32
 
 
-/**Die Definition spezieller Typen f?r variable Argumentlisten ist daher notwendig,
- * weil der GNU-Compiler bei variablen Argumenten die hier genannten Typen jeweils promoted.
- * Verwendung nur in va_arg(..,TYP)-Makro.
+/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
+#define intPTR intptr_t
+
+
+/**Definition of the really used types in variable argument lists. 
+ * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
+ * Especially in va_arg(..,TYP)-Makro.
  */
-typedef char                 char_va_list;
-typedef bool                 bool_va_list;
-typedef signed char          int8_va_list;
-typedef short                int16_va_list;
-//typedef float                float_va_list;
-typedef double                float_va_list;
+#define char_va_list char 
+#define bool_va_list bool
+#define int8_va_list signed char
+#define int16_va_list short
+#define float_va_list float
 
 
-typedef float                float32;
+
+//plattformunabhaengige Ergaenzungen
+//folgende Typen sind besser schreib- und lesbar
+#define ushort unsigned short int
+#define uint unsigned int
+#define ulong unsigned long int
 
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
-//Hinweis: (void*)(0) kann nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
+//Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
 #undef  NULL
 #define NULL 0
 #undef null
 #define null 0
 
-// Folgendes Define wird nach einer Struktur insbesondere f?r GNU-Compiler verwendet. Es ist f?r MSC6 leer,
+// Folgendes Define wird nach einer Struktur insbesondere für GNU-Compiler verwendet. Es ist für MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
 
@@ -181,6 +221,9 @@ typedef float                float32;
  */
 #define OS_PtrValue_DEF(NAME, TYPE) struct NAME##_t { TYPE* ref; int32 val; } NAME
 #define OS_PtrVal_DEF OS_PtrValue_DEF
+
+#define OS_REFValue_DEF(NAME, REFTYPE) struct NAME##_t { REFTYPE ref; int32 val; } NAME
+
 
 /**A const definition takes 3 arguments, but the type of them depends from operation system.
  * @param PTR a pointer from a type*-type.
@@ -214,16 +257,25 @@ typedef float                float32;
  * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
  * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
  * old: OS_HandlePtr
  */
-#define HandlePtr_emC(TYPE, NAME) union {TYPE* p##NAME; uint32 NAME; }
+#define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
 /**Usage of inline for C++ compiler or static functions in headerfiles instead. Depends on compiler and target decision. */
 #ifdef __cplusplus
   #define INLINE_emC inline
 #else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
-  #define INLINE_emC static
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
+     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
+  */
+  //#define INLINE_emC static
+  #define INLINE_emC inline
+#ifndef __cplusplus
+  //If C-compiling is used, define the C++-keywords for C
+  //NOTE: define bool false and true in the compl_adaption.h because it is possible that any other system file defines that too.
+  #define bool int
+#endif
 #endif
 
 #ifdef __cplusplus
@@ -245,19 +297,13 @@ typedef float                float32;
 #define mLength__StringJc                 0x00003fff
 
 
-//#define abs(X) (X <0 ? -X :X)
 
+#ifndef TRUE
+  #define TRUE true
+  #define FALSE false
+#endif
 
-/**Include the common definitions in its pure form. */
-#include <OSAL/os_types_def_common.h>
+//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
+#define __HandlePtr64__
 
-/**This file can be additinally modified by the user to determine how debugging and exception handling should processed. 
- * Either this file is defined in the users area 
- * or one of the source paths of CRuntimeJavalike is added to the include path where an exemplare of this file is provided.
- * See CRuntimeJavalike/sourceSpecials/ExcHandling_No.template or CRuntimeJavalike/sourceSpecials/ExcHandling_Printf.template
- */ 
-#include <OSAL_UserExceptionAndDebug.h>
-
-
-
-#endif  //__os_types_def_h__
+#endif  //__compl_adaption_h__

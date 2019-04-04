@@ -122,7 +122,7 @@ const ClassJc reflection_ComparableJc =
 
 
 
-extern_C const ClassJc reflection_AppendableJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_AppendableJc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
 const struct Reflection_Fields_AppendableJc_t
 { ObjectArrayJc head;
@@ -136,13 +136,13 @@ const struct Reflection_Fields_AppendableJc_t
     , 0 //bitModifiers
     , (int16)((intptr_t)(&((AppendableJc_s*)(0x1000))->base.object) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_AppendableJc_s
+    , &reflection_AppendableJc
     }
 } };
 
 
-const ClassJc reflection_AppendableJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AppendableJc_s, &reflection_ClassJc)
+const ClassJc reflection_AppendableJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_AppendableJc, &reflection_ClassJc)
 , "AppendableJc_s"
 , 0
 , sizeof(AppendableJc_s)

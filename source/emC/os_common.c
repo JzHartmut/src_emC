@@ -1,5 +1,6 @@
 #include <OSAL/os_time.h>
-#include "os_error.h"
+//#include "os_error.h"
+#include <applstdef_emC.h>
 
 /* Changes:
  * 2010-01-15 Hartmut adap os_FatalError (renamed, parameter)
@@ -10,7 +11,7 @@
 OS_TimeStamp* ctorM_OS_TimeStamp  (  OS_PtrValue mem)
 { int size = value_OS_PtrValue(mem);
   if (size < sizeof(OS_TimeStamp))
-  { os_FatalError(-1, "OS_TimeStamp with fault size", size, 0);
+  { THROW_s0n(IllegalArgumentException, "OS_TimeStamp with fault size", size, 0);
     return null;
   }
   else {

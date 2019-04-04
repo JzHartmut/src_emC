@@ -413,7 +413,7 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
  * @param VAL1, VAL2 two int values
  */
 #ifndef THROW_s0n
-  #define THROW_s0n(EXCEPTION, TEXT, VAL1, VAL2)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, null)
+  #define THROW_s0n(EXCEPTION, TEXT, VAL1, VAL2)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, null)
 #endif
 
 
