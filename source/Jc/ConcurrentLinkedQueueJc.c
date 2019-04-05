@@ -43,7 +43,7 @@
 
 #include "Jc/ObjectJc.h"
 #include "Jc/ConcurrentLinkedQueueJc.h"
-#include "os_AtomicAccess.h"
+#include "OSAL/os_AtomicAccess.h"
 
 
 //package java.util.concurrent;

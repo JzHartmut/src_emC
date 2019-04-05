@@ -41,8 +41,8 @@
  ****************************************************************************/
 //#include "CRuntimeJavalike.h"
 //#include "ThreadJc.h"
-#include "BlockHeap_emC_internal.h"
-#include <emC/LogMessage.h>
+#include "BlockHeapJc_internal.h"
+#include <emC/LogMessage_emC.h>
 
 #include <Jc/StringJc.h>
 #include <Jc/SystemJc.h>

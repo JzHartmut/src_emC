@@ -42,7 +42,7 @@
  ****************************************************************************/
 //#include "CRuntimeJavalike.h"
 //#include "ThreadJc.h"
-#include "BlockHeap_emC_internal.h"
+#include "BlockHeapJc_internal.h"
 #include "Jc/StringJc.h"
 #include "emC/LogMessage.h"
 #include <OSAL/os_time.h>

@@ -6,6 +6,9 @@
  * 2010-01-15 Hartmut adap os_FatalError (renamed, parameter)
  * 2010-01-15 Hartmut new null_OS_PtrValue supplied for user application.
  */
+#include <genRefl/OSAL/os_time.crefl>  //include here, different Implementations on osal level.
+
+#include <genRefl/OSAL/os_file.crefl>
 
 
 OS_TimeStamp* ctorM_OS_TimeStamp  (  OS_PtrValue mem)

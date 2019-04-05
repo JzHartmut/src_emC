@@ -46,7 +46,7 @@
 #include <stdlib.h>
 //#include <string.h>
 
-#include "BlockHeap_emC_internal.h"
+#include "BlockHeap/BlockHeapJc_internal.h"
 
 #include <BlockHeap_PlatformSpec.h>
 

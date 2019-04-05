@@ -873,7 +873,7 @@ extern_C struct ClassJc_t const reflection_StringBufferJc;
 extern_C struct ClassJc_t const reflection_StringBuilderJc;
 extern_C struct ClassJc_t const reflection_StringJc;
 extern_C struct ClassJc_t const reflection_TextFieldPositionJc;
-extern_C struct ClassJc_t const reflection_TimeZoneJc_s;
+extern_C struct ClassJc_t const reflection_TimeZoneJc;
 const struct Reflection_Fields_LogMessageFile_MSG_s_t
 { ObjectArrayJc head; FieldJc data[31];
 } reflection_Fields_LogMessageFile_MSG_s =
@@ -1113,7 +1113,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     }
    , { "timeZone"
     , 0 //nrofArrayElements
-    , &reflection_TimeZoneJc_s
+    , &reflection_TimeZoneJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->timeZone) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase

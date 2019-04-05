@@ -39,14 +39,14 @@
 #include <emC/Va_list_emC.h> 
 
 
-extern_C ClassJc const reflection_FormatterJc_s;
+extern_C ClassJc const reflection_FormatterJc;
 extern_C ClassJc const reflection_StringBufferJc;
 
 FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContext_emC_t* _thCxt)
 {
   FormatterJc_s* ythis = (FormatterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Sb_FormatterJc");
-  checkConsistence_ObjectJc(othis, sizeof(FormatterJc_s), &reflection_FormatterJc_s, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FormatterJc_s), &reflection_FormatterJc, _thCxt); 
   SETREFJc(ythis->buffer, buffer, StringBufferJc_s);
   STACKTRC_LEAVE; return ythis;
 }
@@ -55,7 +55,7 @@ FormatterJc_s* ctorO_SbLo_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t*
 {
   FormatterJc_s* ythis = (FormatterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Sb_FormatterJc");
-  checkConsistence_ObjectJc(othis, sizeof(FormatterJc_s), &reflection_FormatterJc_s, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FormatterJc_s), &reflection_FormatterJc, _thCxt); 
   SETREFJc(ythis->buffer, buffer, StringBufferJc_s);
   SETREFJc(ythis->locale, locale, LocaleJc);
 

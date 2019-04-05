@@ -46,11 +46,11 @@
 #ifndef __BlockHeap_emC_i_h__
 #define __BlockHeap_emC_i_h__
 #include <BlockHeap/BlockHeap_emC.h>
-#include <BlockHeap/BlockHeap_emC_admin.h>
+#include <BlockHeap/BlockHeapJc_admin.h>
 
 #include "Jc/ListMapEntryJc.h"
 
-#include <os_time.h>
+#include <OSAL/os_time.h>
 
 #define HEAP_BEGINSATPOWER2_RUNTIMEHEAP
 

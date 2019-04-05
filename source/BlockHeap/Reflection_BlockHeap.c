@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include "../../source/BlockHeap/BlockHeap_emC.h"
 
-#include "../../source/BlockHeap/BlockHeap_emC_admin.h"
+#include "../../source/BlockHeap/BlockHeapJc_admin.h"
 
 
 extern_C const ClassJc reflection_BlockHeap_emC;  //the just defined reflection_
@@ -185,7 +185,7 @@ const ClassJc reflection_BlockHeap_emC =
 
 
 
-#include "BlockHeap_emC_internal.h"
+#include "BlockHeapJc_internal.h"
 
 
 extern_C const ClassJc reflection_ObjectJcREFArray;  //the just defined reflection_

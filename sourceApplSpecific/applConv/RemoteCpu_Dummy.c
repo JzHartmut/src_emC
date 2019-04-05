@@ -35,6 +35,8 @@
  *
  ****************************************************************************/
 #include <Inspc/IfcTargetProxy_Inspc.h>
+#include <applstdef_emC.h>
+
 
 /**Gets any info from a remoteCPU, which has max. 4 byte return value. 
  * @param cmd the action to do.
@@ -43,18 +45,22 @@
  *        The address is returned sometimes from other calls of this method and it is never changed.
  * @param input some additional parameter depends on cmd.
  */
+#ifndef __INSPC_REMOTE_ACCESS___
 int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input)
 {
  return 0;
 }
+#endif //#ifndef __INSPC_REMOTE_ACCESS___
 
 
 
 /**Gets any info from a remoteCPU, which has max. 8 byte return value. */
+#ifndef __INSPC_REMOTE_ACCESS___
 int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int64 input)
 {
 	return 0;
 }	
+#endif //#ifndef __INSPC_REMOTE_ACCESS___
 
 
 

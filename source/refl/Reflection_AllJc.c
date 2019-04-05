@@ -802,7 +802,7 @@ const ClassJc reflection_OsWrapperJc_s =
 #include "Jc/FormatterJc.h"
 
 
-extern_C const ClassJc reflection_FormatterJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_FormatterJc;  //the just defined reflection_
 extern_C const ClassJc reflection_StringBuilderJcREF;
 extern_C const ClassJc reflection_LocaleJcREF;
 static const struct Reflection_Fields_FormatterJc_s_t
@@ -817,7 +817,7 @@ static const struct Reflection_Fields_FormatterJc_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((FormatterJc_s*)(0x1000))->buffer) -(int32)(FormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_FormatterJc_s
+    , &reflection_FormatterJc
     }
   , { "locale"
     , 0   //no Array, no Bitfield
@@ -825,13 +825,13 @@ static const struct Reflection_Fields_FormatterJc_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((FormatterJc_s*)(0x1000))->locale) -(int32)(FormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_FormatterJc_s
+    , &reflection_FormatterJc
     }
 } };
 
 
-const ClassJc reflection_FormatterJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FormatterJc_s, &reflection_ClassJc)
+const ClassJc reflection_FormatterJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_FormatterJc, &reflection_ClassJc)
 , "FormatterJc_s"
 , 0
 , sizeof(FormatterJc_s)
@@ -847,7 +847,7 @@ const ClassJc reflection_FormatterJc_s =
 #include "Jc/TimeZoneJc.h"
 
 
-extern_C const ClassJc reflection_TimeZoneJc_s;  //the just defined reflection_
+extern_C const ClassJc reflection_TimeZoneJc;  //the just defined reflection_
 extern_C const ClassJc reflection_StringJc;
 const struct Reflection_Fields_TimeZoneJc_s_t
 { ObjectArrayJc head;
@@ -861,7 +861,7 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((TimeZoneJc_s*)(0x1000))->diffHours) -(int32)(TimeZoneJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeZoneJc_s
+    , &reflection_TimeZoneJc
     }
   , { "diffMinutes"
     , 0   //no Array, no Bitfield
@@ -869,7 +869,7 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((int32)(&((TimeZoneJc_s*)(0x1000))->diffMinutes) -(int32)(TimeZoneJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeZoneJc_s
+    , &reflection_TimeZoneJc
     }
   , { "name"
     , 0   //no Array, no Bitfield
@@ -877,13 +877,13 @@ const struct Reflection_Fields_TimeZoneJc_s_t
     , 0 //bitModifiers
     , (int16)((int32)(&((TimeZoneJc_s*)(0x1000))->name) -(int32)(TimeZoneJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TimeZoneJc_s
+    , &reflection_TimeZoneJc
     }
 } };
 
 
-const ClassJc reflection_TimeZoneJc_s =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TimeZoneJc_s, &reflection_ClassJc)
+const ClassJc reflection_TimeZoneJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_TimeZoneJc, &reflection_ClassJc)
 , "TimeZoneJc_s"
 , 0
 , sizeof(TimeZoneJc_s)

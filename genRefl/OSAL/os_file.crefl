@@ -97,7 +97,7 @@ const ClassJc reflection_FileDescription_OSAL =
 
 
 extern_C const ClassJc reflection_FileLock_OSAL;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_OS_HandleFile;  //used for field hFile_
+//extern_C const ClassJc reflection_OS_HandleFile;  //used for field hFile_
 
 const struct Reflection_Fields_FileLock_OSAL_t
 { ObjectArrayJc head;
@@ -107,7 +107,7 @@ const struct Reflection_Fields_FileLock_OSAL_t
 , {  
     { "hFile_"
     , 0   //no Array, no Bitfield                           
-    , &reflection_OS_HandleFile                                                                                            
+    , REFLECTION_int
     , 0|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileLock_OSAL*)(0x1000))->hFile_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            

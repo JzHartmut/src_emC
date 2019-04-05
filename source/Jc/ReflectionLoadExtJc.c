@@ -102,31 +102,33 @@ char const* load_ExtReflectionJc(ExtReflectionJc_s* ythis, StringJc fileName, in
   init_ObjectJc(&file.base.object, sizeof(file), 0);  //init stack instance in the way like Jc  
   ctorO_FileJc(&file.base.object, fileName, _thCxt);  //adequate new File(fileName)
   if(exists_FileJc(&file)) {
-    Data_ExtReflectionJc* extReflectionData;
-    /**File is exiting: */
-    zFile = length_FileJc(&file);
-    ALLOC_MemC(ythis->extReflectionBuffer, zFile);
-    buffer = ythis->extReflectionBuffer;
-    { /**Read the content. */
+      Data_ExtReflectionJc* extReflectionData;
+      /**File is exiting: */
+      zFile = length_FileJc(&file);
+      ALLOC_MemC(ythis->extReflectionBuffer, zFile);
+      buffer = ythis->extReflectionBuffer;
+      { /**Read the content. */
 
-      MemC retMem = readBinFile_FileSystemJc(&file, buffer); //Note: retMem isn't use, only for null-test. read into buffer
-      if(PTR_MemC(retMem, void) == null){
-        sError = "reflection-bin-file read error";
-      }
-    }
-		if(sError == null){
-			extReflectionData = correctContent_ExtReflectionJc(ythis, buffer, headerOffset, _thCxt);
-    
-			if(ythis->errorRelocationExtRefl == 0){
-				/**Save the results. */
-				extReflectionClasses_ReflectionJc[0] = extReflectionData->arrayClasses; //Note: intend more as one external file 
-				ythis->extReflection = extReflectionData->arrayClasses;
-   	}  
-			ythis->extReflectionData = extReflectionData;  //only for inspect.
-		}
-  } else {
-	  sError = "reflection-bin-file not found";
+	MemC retMem = readBinFile_FileSystemJc(&file, buffer); //Note: retMem isn't use, only for null-test. read into buffer
+	if(PTR_MemC(retMem, void) == null){
+	    sError = "reflection-bin-file read error";
 	}
+      }
+      if(sError == null){
+	  extReflectionData = correctContent_ExtReflectionJc(ythis, buffer, headerOffset, _thCxt);
+
+	  if(ythis->errorRelocationExtRefl == 0){
+	      /**Save the results. */
+	      extReflectionClasses_ReflectionJc[0] = extReflectionData->arrayClasses; //Note: intend more as one external file
+	      ythis->extReflection = extReflectionData->arrayClasses;
+	  } else {
+	      sError = "reflection-bin-file content error";
+	  }
+	  ythis->extReflectionData = extReflectionData;  //only for inspect.
+      }
+  } else {
+      sError = "reflection-bin-file not found";
+  }
   STACKTRC_LEAVE; return sError;
 }
 

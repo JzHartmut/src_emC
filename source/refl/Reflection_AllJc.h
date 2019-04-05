@@ -70,10 +70,10 @@ extern_C const ClassJc reflection_RunnableJc;
 #define REFLECTION_RunnableJc_s &reflection_RunnableJc
 extern_C const ClassJc reflection_ThreadJc;
 #define REFLECTION_ThreadJc_s &reflection_ThreadJc
-extern_C const ClassJc reflection_FormatterJc_s;
-#define REFLECTION_FormatterJc_s &reflection_FormatterJc_s
-extern_C const ClassJc reflection_TimeZoneJc_s;
-#define REFLECTION_TimeZoneJc_s &reflection_TimeZoneJc_s
+extern_C const ClassJc reflection_FormatterJc;
+#define REFLECTION_FormatterJc_s &reflection_FormatterJc
+extern_C const ClassJc reflection_TimeZoneJc;
+#define REFLECTION_TimeZoneJc_s &reflection_TimeZoneJc
 extern_C const ClassJc reflection_VaArgBuffer_Data_s;
 #define REFLECTION_VaArgBuffer_Data_s &reflection_VaArgBuffer_Data_s
 extern_C const ClassJc reflection_VaArgBuffer;
