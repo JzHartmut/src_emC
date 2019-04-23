@@ -1,8 +1,11 @@
-genRefl/Inspc
+genRefl/Inspc**/*
+genRefl/Ctrl
 source/Ctrl/**/*
-source/Inspc/**/*
+source/Inspc**/*
 source/InspcJ2c/**/*
+source/Smlk
 Inspc.*
+incComplSpecific/cc_smlkMsc6
 *.gitRepository
 stcCmp
 Reflection*.h
@@ -12,6 +15,7 @@ Reflection*.h
 .git*
 _hg*
 _bzr*
+index.html
 *.old
 **/#*
 **/*.bak
