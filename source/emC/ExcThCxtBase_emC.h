@@ -38,10 +38,9 @@
 #ifndef __emC__ExcThCxtBase_emC_h__
 #define __emC__ExcThCxtBase_emC_h__
 
-//#error ExcThCxtBase_emC.h A
-
-#include <emC/String_emC.h>  //StringJc
-
+#ifndef __NoStringJcCapabilities__  //It is possible to renounce usage of StringJc in simple targets.
+  #include <emC/String_emC.h>  //StringJc
+#endif
 struct ThreadContext_emC_t;
 
 

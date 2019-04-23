@@ -153,6 +153,9 @@ typedef struct ThreadContext_emC_t {
 }
 
 
+#define THROW_s0n(EXCEPTION, TEXT, VAL1, VAL2) { STACKTRC_ENTRY(""); THROW_s0(EXCEPTION, TEXT, VAL1, VAL2); }
+
+
 #define printStackTrace_ExceptionJc(ythis, _thCxt)
 #define printStackTrace_P_ExceptionJc(ythis, out, _thCxt)
 #define printStackTraceFile_ExceptionJc(ythis, out, _thCxt)

@@ -29,7 +29,7 @@
 * This file contains only operations without dependencies to other CRJ files. 
 */
 #include <applstdef_emC.h>
-#include <emC/Object_emC.h>
+//#include <emC/Object_emC.h>
 #include <emC/String_emC.h>
 #include <string.h>  //C-standard
 

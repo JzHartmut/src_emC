@@ -46,63 +46,30 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
  * @return the handle.
  */
 #ifdef __HandlePtr64__
-  #ifndef DEFINED_nrEntries_Handle2Ptr
-    //should be defined in applstdef_emC with another value.
-    #define DEFINED_nrEntries_Handle2Ptr 1000
-  #endif
-  #ifndef DEFINED_nrTimeMeas_Handle2Ptr      //should be defined in applstdef_emC with another value.
-    #define DEFINED_nrTimeMeas_Handle2Ptr 3
-  #endif
-
-  /**Invocation of INIT can be set on any location more than once, the first initializes. */
-  #define INIT_Handle2Ptr() if(handle2Ptr ==null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); } 
-
-
-
-  /**Initializes the Handle2Ptr mechanism with ix=1 for time measurement.
-  * It is used for Simulink especially.
-  * Invocation of INIT can be set on any location more than once, the first initializes. */
-  #define INIT_TimeMeas_Handle2Ptr() if(handle2Ptr ==null) { initTimeMeas_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); } 
-
-  /**Initializes. This routine should be invoked one time on startup. */
-  extern_C const char* initTimeMeas_Handle2Ptr(int nrofEntries);
 
   /**Registeres the pointer and gets the handle. 
    * If the ptr is registered already, it is okay. The name will be ignored then, it returns the given handle. 
    * @param ptr any pointer. The number of pointers which can be registered is limited by const definition 
    * @param name A name which is stored in the handle-pointer table for debug.
-   * @param dstHandle null admissible, stores the handle
-   * @return null if no error, else an error message. 
+   * @return 0 on error or the handle.
+   * @throws IllegalArgumentException  
    */ 
-  const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle);
-  //old: setPtr_Handle2Ptr
-
+  uint32 registerPtr_Handle2Ptr(void* ptr, char const* name);
+  
+  /**On using sharedMem it is possible to write a message and read it from another process. Use a defined created handle. */
   void debug_Handle2Ptr(uint32 handle, int32 dbg1, int32 dbg2, char const* dbginfo);
 
-  /**Gets the handle for a given and already registered pointer. 
-   * If the pointer is unknown, dstHandle = 0 and an error is returned. */ 
-  const char* handle_Handle2Ptr(void const* ptr, uint32* dstHandle);
-
-  /**Internal method for the macro [[HANDLE_Handle2Ptr]] */
-  uint32 PRIV_retHandle_Handle2Ptr(void const* ptr);
-
-  /**Delivers the handle to the given pointer. 
-   * This operation is intent to invoke in compiled sources where a error message is not able to process. 
-   * An error is not expected. If any error occurs the return ptr is null. 
-   */
-  #define HANDLE_Handle2Ptr(PTR) PRIV_retHandle_Handle2Ptr(PTR) 
+  /**Gets the handle to a given and already registered pointer. 
+   * If the pointer is unknown, return = 0. On any not handled error return = 0 
+   * This is an expensive operation, because the whole table is iterated. 
+   * It is faster if candidats for ptr are registred firstly in an application.
+   * This operation should only be used if a ptr is gotten from any other functionality and the handle is unknown for that, but the pointer is registered already.
+   * Use registerPtr_Handle2ptr(...) for new pointers.
+   */ 
+  uint32 handle_Handle2Ptr(void const* ptr);
 
 
-  /**This operation is intent to invoke in sources which contains an error message possibility with aborting,
-   * especially in Simulink S-functions.
-   * @param dst address, content will be set to null if handle == (uint)-1 = 0xffffffff. 
-   * *      is set to null if return not null (error)
-   * *      is set to the pointer appropriate to the handle.
-   * @return null if no error, not null: an error message.  
-   */
-  const char* getPtr_Handle2Ptr(uint32 handle, void** dst);
-  
-  /**Internal method for the macro [[PTR_Handle2Ptr]] */
+  /**Gets the registered pointer to a handle. This is a fast operation, only access to the global array.    */
   void* ptr_Handle2Ptr(uint32 handle);
 
   /**Returns the last time the address to a handle and removes the handle. 

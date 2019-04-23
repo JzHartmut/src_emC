@@ -6,7 +6,7 @@
  */
 
 //Note: uncomment that to check whether this file is included:
-//#error used_applstdefJc_TargetNumericSimple
+//#error TargetNumericSimple/applstdef_emc.h
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -38,9 +38,10 @@
 #define __NoStringJcCapabilities__
 
 /**Including this file the ObjectJc.h is not included, */
-#include <sourceApplSpecific/applConv/ObjectJc_simple.h>
+#include <sourceApplSpecific/SimpleNumCNoExc/ObjectJc_simple.h>
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
+//Include before String_emC.h because it is used there.
 #include <sourceApplSpecific/applConv/EnhanceRef_simple.h>
 //#include <sourceApplSpecific/applConv/EnhanceRef_Blockheap.h>
 
@@ -69,7 +70,7 @@
 //#include <sourceApplSpecific/applConv/ThreadContextStacktrc_emC.h>
 //#include <sourceApplSpecific/applConv/Exception_emC.h>
 //#include <sourceApplSpecific/applConv/ExcStacktrcNo_emC.h>
-#include <sourceApplSpecific/applConv/ExcNoStringStacktrcNo_emC.h>
+#include <sourceApplSpecific/SimpleNumCNoExc/ExcNoStringStacktrcNo_emC.h>
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 
@@ -87,46 +88,33 @@
 #define abs_complex(VAL) sqrtf( (VAL).re * (VAL).re + (VAL).im * (VAL).im )
 
 
+/**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
+//#define __HandlePtr64__
+#ifndef DEFINED_nrEntries_Handle2Ptr
+//  #define DEFINED_nrEntries_Handle2Ptr 1000
+#endif
+
 //PRINTX
-#include <sourceApplSpecific/applConv/definePrintFileMakros.h>
+//#include <sourceApplSpecific/applConv/definePrintFileMakros.h>
 //#include <sourceApplSpecific/applConv/definePrintfMakros.h>
+#include <sourceApplSpecific/applConv/definePrintfMakrosEmpty.h>
 
 
-extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 /**Maximal length of path in a FileDescription_OSAL-structure.
 * NOTE: old name kMaxPathLength_OS_FileDescription
 */
 #define kMaxPathLength_FileDescription_OSAL 480
 
-INLINE_emC int stopNAN(){ return 0; }
 
-/**Prevent process a NaN-value (not a number).
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * @param value the value to check and return in normal case
- * @param valueinstead This value is returned if value==nan
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- * @return valueinstead or value.
- */
-#define NNAN(value, valueinstead, check) (value < 1000000000.0f ? value : ((check) +=1, valueinstead))
+/**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
+#define sizeSafetyArea_allocMemC 4096
 
 
-/**Condition if value is not NAN
- * @param value to test
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- */
-#define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
 
-/**Prevent process a NaN-value maybe only in debug mode.
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * It calls stopNAN especially for debug at PC
- * @param value the value to check and return
- * @return value anytime.
- */
-#define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
 
-#include <string.h> //memcpy
-#include <emC/SystemInit_emC.h>
-#include <emC/Handle_ptr64_emC.h>
+//#include <string.h> //memcpy
+//#include <emC/SystemInit_emC.h>
+//#include <emC/Handle_ptr64_emC.h>
 
 #endif // __applstdef_emC_h__

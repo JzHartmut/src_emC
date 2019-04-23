@@ -688,8 +688,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
         if( (fieldModifier & mPrimitiv_Modifier_reflectJc) == kHandlePtr_Modifier_reflectJc) {
           //replace the handle found in a field with the 64-bit address.
           uint32 handle = *(ADDR_MemSegmJc(ref, uint32));
-          void* ptr64 = null;
-          getPtr_Handle2Ptr(handle, &ptr64); 
+          void* ptr64 = ptr_Handle2Ptr(handle); 
           setADDR_MemSegmJc(ref, (MemUnit*)ptr64);  //replace the handle with the 
         } else {
           ref = getRef_MemAccessJc(ref);   
@@ -1048,14 +1047,8 @@ intptr_t getMemoryIdent_V_FieldJc(FieldJc const* thiz, MemSegmJc instance, char 
     if ((thiz->bitModifiers & mPrimitiv_Modifier_reflectJc) == kHandlePtr_Modifier_reflectJc) {
       uint32* addrfield = ADDR_MemSegmJc(adr, uint32);
       uint32 handle = *addrfield;
-      void* addr = null;
-      char const* err = getPtr_Handle2Ptr(handle, &addr);
+      void* addr = ptr_Handle2Ptr(handle);
       setADDR_MemSegmJc(adr, addr);
-      if(err) {
-        STACKTRC_ENTRY("getMemoryIdent_V_FieldJc");
-        THROW_s0(IllegalArgumentException, err, handle, 0);
-        STACKTRC_LEAVE;
-      }
     } else {
       adr = getRef_MemAccessJc(adr);
     }

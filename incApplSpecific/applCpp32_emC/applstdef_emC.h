@@ -64,7 +64,6 @@
 
 #include <sourceApplSpecific/applConv/ThreadContextStacktrc_emC.h>
 #include <sourceApplSpecific/applConv/Exception_emC.h>
-
 //#include <emC/ExcStacktrcNo.h>
 
 

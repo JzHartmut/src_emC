@@ -2,13 +2,13 @@
 #define __applstdef_emC_h__
 /**This headerfile contains all standard definition for usage the emC - embedded multiplatform C(++) - basicly source system.
  * It is for a Applications in C(++) 
- * with 32 bit memory addresses on PC 
+ * with 64 bit memory addresses on PC 
  * with Reflection, StringJc
  * with Excpetion handling with C++ throw to support asynchron exceptions. 
  */
 
 //Note: uncomment that to check whether this file is included:
-//#error Uses applC32_emC/applstdef_emC.h
+//#error Uses stdef_ApplCpp64/applstdef_emC.h
 
 
 /**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
@@ -27,9 +27,12 @@
 */
 #include <OSAL/os_types_def_common.h>
 
-/**With this compiler switch the reflection should not be included, because they will not used. */
+
+/**With this compiler switch the reflection should be included or not. __DONOTUSE_REFLECTION__ may be set by compiler options. */
 //#define __DONOTUSE_REFLECTION__
-#define __USE_REFLECTION__
+#ifndef __DONOTUSE_REFLECTION__
+  #define __USE_REFLECTION__
+#endif
 
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
@@ -83,47 +86,27 @@
 #define abs_complex(VAL) sqrtf( (VAL).re * (VAL).re + (VAL).im * (VAL).im )
 
 
+/**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
+#define __HandlePtr64__
+#ifndef DEFINED_nrEntries_Handle2Ptr
+  #define DEFINED_nrEntries_Handle2Ptr 1000
+#endif
+
 //PRINTX
-#include <sourceApplSpecific/applConv/definePrintFileMakros.h>
+//#include <sourceApplSpecific/applConv/definePrintFileMakros.h>
 //#include <sourceApplSpecific/applConv/definePrintfMakros.h>
+#include <sourceApplSpecific/applConv/definePrintfMakrosEmpty.h>
 
 
-extern_C void stop_DebugutilJc(struct ThreadContext_emC_t* _thCxt);
 
 /**Maximal length of path in a FileDescription_OSAL-structure.
 * NOTE: old name kMaxPathLength_OS_FileDescription
 */
 #define kMaxPathLength_FileDescription_OSAL 480
 
+
 /**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
 #define sizeSafetyArea_allocMemC 4096
-
-
-INLINE_emC int stopNAN(){ return 0; }
-
-/**Prevent process a NaN-value (not a number).
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * @param value the value to check and return in normal case
- * @param valueinstead This value is returned if value==nan
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- * @return valueinstead or value.
- */
-#define NNAN(value, valueinstead, check) (value < 1000000000.0f ? value : ((check) +=1, valueinstead))
-
-
-/**Condition if value is not NAN
- * @param value to test
- * @param check a left-value (variable) which will be increment in the nan-situation for check. 
- */
-#define ifNNAN(value, check) (value < 100000000.0f ? true :  ((check) +=1, false))
-
-/**Prevent process a NaN-value maybe only in debug mode.
- * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
- * It calls stopNAN especially for debug at PC
- * @param value the value to check and return
- * @return value anytime.
- */
-#define ASSERT_NNAN_F(value) (value < 100000000000.0f ? value : stopNAN(), value)
 
 
 

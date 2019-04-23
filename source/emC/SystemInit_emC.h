@@ -28,4 +28,4 @@ typedef struct SystemInit_emC_t {
 /**A static reference to manage initialization. Singleton. The reference should be set in startup of main. */
 extern SystemInit_emC* systemInit_emC;
 
-#endif __SystemInit_emC_h__
+#endif //__SystemInit_emC_h__

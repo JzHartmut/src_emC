@@ -1,141 +1,104 @@
 #include <emC/Handle_ptr64_emC.h>
 #include <applstdef_emC.h>
-#ifdef __SIMULINK_SFN__
+#ifdef __HandlePtr64_SharedMem__
+  //If the Handle2Ptr should be used in dispersed dll where no common global reference is possible,
+  //Or for some other reason,  create the Handle2Ptr-table in shared Memory. 
+  //The referenced data can be, but not necessary located in any shared memory too. It depends on theire usage.
   #include <OSAL/os_sharedmem.h> 
 #else
-  #include <stdlib.h>
+  #include <stdlib.h>  //malloc
 #endif
-#include <emC/SimpleC_emC.h>
-#include <emC/time_emC.h>
-#include <OSAL/os_mem.h>
-#include <OSAL/os_time.h>
 
 
-#ifdef __HandlePtr64__  //compile only if operations are not replaced by macros.
-/*The number of entries in the pointer table. 
- */
-//#define zEntries_Handle2Ptr 1000
-/**This pointer will be set with the shared memory address.
+
+#ifdef __HandlePtr64__  //compile only if operations are not replaced by simple macros. Especially for 64-bit pointer.
+
+
+#ifdef DEFINED_nrEntries_Handle2Ptr
+  /**Invocation of INIT can be set on any location more than once, the first initializes. */
+  #define INIT_Handle2Ptr() (handle2Ptr !=null || init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr) == null) 
+#else 
+  //If the nrEntries is not predefined, the init_Handle2Ptr should be done already before first usage. Exception if not done. 
+  bool throwNotInit(){ THROW_s0n(IllegalStateException, "Handle2Ptr not initialized, no default size knwon", 0, 0); return false; }
+  #define INIT_Handle2Ptr() (handle2Ptr !=null) || throwNotInit())
+#endif
+
+
+
+
+
+/**This pointer will be set with the shared memory address if the shared memory is created already.
+ * The pointer itself, the address of the shared memory, is static global for the linked unit (dll, exe).
+ * If the shared memory is created or found already, this reference is not null.
  */
 Handle2Ptr* handle2Ptr = null;
 
 
 
 /**The length of the shared memory in byte. */
-//TODO variable size of the Ptr2Handle via parameter or Simulink-Global variable. Then calculate it. The zEntries_Handle2Ptr is any number.
-//#define length_Handle2Ptr ((zEntries_Handle2Ptr - 100) * sizeof(void*) + sizeof(Handle2Ptr))
 
-
-/**Organization structure for the shared memory. */
-#ifdef __SIMULINK_SFN__
+/**Organization structure for the shared memory global for exe or dll. */
+#ifdef __HandlePtr64_SharedMem__
   SharedMem_OSAL shMemHandle2Ptr = {0};
 #endif
 
-#ifdef DEFINED_nrEntries_Handle2Ptr
-
-//char const* errorInit_Hand2Ptr = init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr);
-
-#endif
 
 
 /**Initializes. This routine should be invoked one time on startup. */
 const char* init_Handle2Ptr(int nrofEntries)
-{   
+{ if(handle2Ptr !=null) return null; //repeated init call.
+  STACKTRC_ENTRY("init_Handle2Ptr");  
+  char const* error = null;
+  //
   int sizeAlloc = sizeof(Handle2Ptr)  //defined length 
-    + ((nrofEntries - ARRAYLEN_SimpleC(handle2Ptr->e)) //additional entries 
+    + ((nrofEntries - (sizeof(handle2Ptr->e) / sizeof(handle2Ptr->e[0]))) //additional entries 
       * sizeof(Entry_Handle2Ptr));
-  #ifdef __SIMULINK_SFN__
-
-    //===============Get the address of the structure to convert handle values to pointer===============================
-    //Note: If more as one instance of this FB will be created, the mdlStart is invoked for any instance.
-    //      But there is only one static shMemHandle2Ptr. The first mdlStart creates it. Don't call twice!
-    //       
-    //
+  #ifdef __HandlePtr64_SharedMem__
+    //For Simulink S-Functions there is no global central data available because any C-routine has its own dll.
+    //Hence use shared memory. 
     if(!os_isReadySharedMem(&shMemHandle2Ptr)) {  //only if it is not created already:
       MemC mHandle2Ptr = os_createOrAccessSharedMem(&shMemHandle2Ptr, "Smlk-SfuncHandle2Ptr-2017-02", sizeAlloc);
       handle2Ptr = PTR_OS_PtrValue(mHandle2Ptr, Handle2Ptr);
       if(!os_isReadySharedMem(&shMemHandle2Ptr) || handle2Ptr == null) {
-        return "Handle2Ptr not possible, abort";
+        error = "Handle2Ptr not possible, abort";
+        THROW_s0(IllegalArgumentException, error, sizeAlloc, 0);
       }
     }
-  #else  //else __SIMULINK_SFN__
+  #else  //else __HandlePtr64_SharedMem__
+    //normal system without shared memory and without algorithm in dll
     handle2Ptr = (Handle2Ptr*)malloc(sizeAlloc);
-    memset(handle2Ptr, 0, sizeAlloc);
-  #endif //__SIMULINK_SFN__
-  if (handle2Ptr->size == 0 && handle2Ptr->sizeEntry == 0) {
-    handle2Ptr->sizeEntry = sizeof(handle2Ptr->e[0]);
-    handle2Ptr->sizeAll = sizeAlloc;
-    handle2Ptr->size = nrofEntries;
-    handle2Ptr->ixEnd = 1;                    // TODO AtomicAccess if mulitple cores run more instances of such routines.
+    if(handle2Ptr == null) {
+      error = "no memory for Handle2Ptr";
+      THROW_s0(IllegalArgumentException, error, sizeAlloc, 0);
+    } else {
+      memset(handle2Ptr, 0, sizeAlloc);
+    }
+  #endif //__HandlePtr64_SharedMem__
+  if(error == null) {
+    if (handle2Ptr->size == 0 && handle2Ptr->sizeEntry == 0) {
+      //it is newly created here, then initialize. 
+      handle2Ptr->sizeEntry = sizeof(handle2Ptr->e[0]);  //size of one entry for check 
+      handle2Ptr->sizeAll = sizeAlloc;
+      handle2Ptr->size = nrofEntries;
+      handle2Ptr->ixEnd = 1;                    // TODO AtomicAccess if mulitple cores run more instances of such routines.
+    }
+    if ( handle2Ptr->size != nrofEntries
+      || handle2Ptr->sizeEntry != sizeof(handle2Ptr->e[0])
+      ) {
+      THROW_s0(IllegalArgumentException, "Handle2Ptr faulty or size faulty, abort", (int)(intptr_t)handle2Ptr, handle2Ptr->size);
+      STACKTRC_RETURN "Handle2Ptr faulty or size faulty, abort";
+    }
   }
-  if (handle2Ptr == null
-    || handle2Ptr->size != nrofEntries
-    || handle2Ptr->sizeEntry != sizeof(handle2Ptr->e[0])
-    //|| handle2Ptr->sizeAll != sizeAlloc
-    ) {
-    return "Handle2Ptr faulty or size faulty, abort";
-  }
-  else {
-    return null; //successfull
-  }
+  STACKTRC_RETURN error;  //null if successfull, error only if THROW is not active
 }
 
-
-
-/**Initializes. This routine should be invoked one time on startup. */
-const char* initTimeMeas_Handle2Ptr(int nrofEntries) {
-  char const* error = init_Handle2Ptr(nrofEntries);
-  if(error) return error;
-  if(strcmp(handle2Ptr->e[1].name, "__timeMeas")!=0) {  //possible that another dll has initialize already.
-    Clock_MinMaxTime_emC* time = (Clock_MinMaxTime_emC*)os_allocMem(sizeof(Clock_MinMaxTime_emC) + (DEFINED_nrTimeMeas_Handle2Ptr * sizeof(MinMaxTime_emC)));
-    ctor_Clock_MinMaxTime_emC(time, DEFINED_nrTimeMeas_Handle2Ptr);
-    uint32 handle;
-    registerPtr_Handle2Ptr(time, "__timeMeas", &handle);
-    ASSERT(handle == 1);
-  }
-  return null;
-}
-
-
-void startTime_Clock_MinMaxTime(int slice_param, float* time_y) {
-  STACKTRC_ENTRY("startTime_Clock_MinNaxTime");
-  Clock_MinMaxTime_emC* thiz = (Clock_MinMaxTime_emC*)ptr_Handle2Ptr(1);
-  checkStrict_ObjectJc(&thiz->base.object, 0, 0, &reflection_Clock_MinMaxTime_emC, _thCxt);
-  if (thiz->microSecondsPerClock == 0) {
-    init_Clock_MinMaxTime_emC(thiz);
-  }
-  if(slice_param < 0 || slice_param >= thiz->nrofSlices) {
-    THROW_s0(IllegalArgumentException, "faulty slice_param=", slice_param, thiz->nrofSlices);
-    slice_param = thiz->nrofSlices -1;
-  }
-  cyclTime_MinMaxTime_emC(&thiz->times[slice_param], os_getClockCnt());
-  *time_y = thiz->microSecondsPerClock * thiz->times[slice_param].midCyclTime;
-  STACKTRC_RETURN;
-}
-
-
-
-
-void measTime_Clock_MinMaxTime(int slice_param, float* time_y) {
-  Clock_MinMaxTime_emC* thiz = (Clock_MinMaxTime_emC*)ptr_Handle2Ptr(1); //don't check admissibility, it is checked in startTime_Clock_MinMaxTime already.
-  if(slice_param < 0 || slice_param >= thiz->nrofSlices) {
-    STACKTRC_ENTRY("startTime_Clock_MinNaxTime");
-    THROW_s0(IllegalArgumentException, "faulty slice_param=", slice_param, thiz->nrofSlices);
-    STACKTRC_LEAVE;
-    slice_param = thiz->nrofSlices -1;
-  }
-  int timestep;
-  mesTime_I_MinMaxTime_emC(&thiz->times[slice_param], os_getClockCnt(), timestep);
-  *time_y = thiz->microSecondsPerClock * timestep;
-}
 
 
 
 
 
 void debug_Handle2Ptr(uint32 handle, int32 dbg1, int32 dbg2, char const* dbginfo) {
-  if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
-  if(handle >=0 && handle < handle2Ptr->size) {
+  if (INIT_Handle2Ptr() && handle >=0 && handle < handle2Ptr->size) {
     if(dbg1 !=0) { handle2Ptr->e[handle].dbg1 = dbg1; }
     if(dbg2 !=0) { handle2Ptr->e[handle].dbg2 = dbg2; }
     if(dbginfo !=null) { handle2Ptr->e[handle].dbginfo = dbginfo; }
@@ -143,38 +106,13 @@ void debug_Handle2Ptr(uint32 handle, int32 dbg1, int32 dbg2, char const* dbginfo
 }
 
 
-/**Sub routine to get a handle from a registered pointer in the shared memory data.
- * @return the handle.
- */
-const char* handle_Handle2Ptr(void const* ptr, uint32* dstHandle) {
-  bool found = false;
-  if (handle2Ptr == null){ return "Handle2Ptr: not initialized"; }
-  else {
-    uint32 ixEnd = handle2Ptr->ixEnd;
-    uint32 ix;
-    for(ix = 0; ix < ixEnd; ++ix) {
-      if(handle2Ptr->e[ix].p.ptr == ptr) { 
-        found = true;
-        *dstHandle = ix;
-        break;
-      }
-    } 
-    if(!found) { //onyl if not found, all checked:
-      *dstHandle = 0;
-      return "Handle2Ptr: ptr not found, set handle = 0";
-    } else {  
-      return null;
-    }
-  }
-}
-
-
-
-uint32 PRIV_retHandle_Handle2Ptr(void const* ptr) {
+uint32 handle_Handle2Ptr(void const* ptr) {
   uint32 dstHandle = 0;
-  bool found = false;
-  if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
-  {
+  if (ptr == null) {
+    return -1;    //The value -1 as handle is a null-Pointer. 0 is a unknwon handle.
+  }
+  if (INIT_Handle2Ptr()) {
+    bool found = false;
     uint32 ixEnd = handle2Ptr->ixEnd;
     uint32 ix;
     for(ix = 0; ix < ixEnd; ++ix) {
@@ -194,14 +132,14 @@ uint32 PRIV_retHandle_Handle2Ptr(void const* ptr) {
 /**Sub routine to register a pointer in the shared memory data.
  * @return the handle.
  */
-const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandle) {
+uint32 registerPtr_Handle2Ptr(void* ptr, char const* name) {
+  uint32 dstHandle = 0;
   bool found = false;
   if (ptr == null) {
-    if(dstHandle) { *dstHandle = -1; }
-    return null;
+    return -1;    //The value -1 as handle is a null-Pointer. 0 is a unknwon handle.
   }
-  if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
-  else {
+  STACKTRC_ENTRY("registerPtr_Handle2Ptr");
+  if(INIT_Handle2Ptr()) {
     uint32 ixEnd = handle2Ptr->ixEnd;
     uint32 ixFree = 0;
     uint32 ix;
@@ -216,100 +154,61 @@ const char* registerPtr_Handle2Ptr(void* ptr, char const* name, uint32* dstHandl
     } 
     //Note: if the ptr was found, return in for!
     if (found) {
-      if(dstHandle) { *dstHandle = ix; }
+      dstHandle = ix;
     }
     else { //!found, onyl if not found, all checked:
       if(ixFree == 0 && ix >= handle2Ptr->size) {
-        return "Handle2Ptr: no more space";
+        THROW_s0(IllegalStateException, "Handle2Ptr: no more space", handle2Ptr->size, 0);
+      } else {
+        if (ixFree == 0) {
+          ixFree = ix;   //append on end
+          handle2Ptr->ixEnd = ix + 1;    //TODO AtomicAccess if mulitple cores run more instances of such routines. 
+        }
+        handle2Ptr->e[ixFree].p.ptr = ptr;
+        strncpy(handle2Ptr->e[ixFree].name, name, sizeof(handle2Ptr->e[ix].name));
+        dstHandle = ixFree; 
       }
-      if (ixFree == 0) {
-        ixFree = ix;   //append on end
-        handle2Ptr->ixEnd = ix + 1;    //TODO AtomicAccess if mulitple cores run more instances of such routines. 
-      }
-      handle2Ptr->e[ixFree].p.ptr = ptr;
-      strncpy(handle2Ptr->e[ixFree].name, name, sizeof(handle2Ptr->e[ix].name));
-      if(dstHandle) { *dstHandle = ixFree; }
     }
-    return null;
   }
+  STACKTRC_RETURN dstHandle;
 }
 
 
-
-
-const char* setPtrHandle_Handle2Ptr(void* ptr, uint32 handle, char const* name)
-{
-  if (handle2Ptr == null) return "Handle2Ptr: not initialized";
-  if(handle2Ptr->e[handle].p.ptr == null) {
-    handle2Ptr->e[handle].p.ptr = ptr;
-    strncpy(handle2Ptr->e[handle].name, name, sizeof(handle2Ptr->e[handle].name));
-    return null;
-  }
-  else if( handle2Ptr->e[handle].p.ptr == ptr) {
-    return null;
-  } 
-  else {
-    return("Handle2Ptr: handle already used");
-  }
-}
-
-
-
-
-const char* getPtr_Handle2Ptr(uint32 handle, void ** dst)
-{
-  if (handle2Ptr == null) { return "Handle2Ptr: not initialized"; }
-  else if (handle == 0) { *dst = null; return null; }                 //handle 0 is pointer null
-  else if (handle == (uint32)(-1)) { *dst = null /*(void*)-1*/; return null; } //special case: given but invalid pointer. 
-  else if (handle >= handle2Ptr->size || handle < 0) { //jzTc: check valid handle, note: 0 gets null-Pointer
-    return "Handle2Ptr: Handle faulty.";
-  }
-  else {
-    *dst = handle2Ptr->e[handle].p.ptr;  //pointer from handle
-    return null;
-  }
-}
 
 
 void* ptr_Handle2Ptr(uint32 handle)
-{
-  if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
-  if (handle == (uint32)(-1)) { return null; } //special case: null should be.
-  else if (handle >= handle2Ptr->size) { //jzTc: check valid handle, note: -1 gets null-Pointer
-                                         //PRINTX2(0, "PRIV_retPtr_Handle2Ptr faulty Handle = %d\n", handle);
-    return null; //"Handle2Ptr: Handle faulty.";
+{ void* ret = null;
+  if (handle == (uint32)(-1)) { return null; } //special case: -1 gets null-Pointer
+  else if(INIT_Handle2Ptr()) {
+    if (handle >= handle2Ptr->size) { //jzTc: check valid handle, 
+      THROW_s0n(IllegalArgumentException, "Handle2Ptr: Handle faulty.", (int)handle, (int)handle2Ptr->size);   
+    }
+    else {
+      ret = handle2Ptr->e[handle].p.ptr;  //pointer from handle
+    }
   }
-  else {
-    //PRINTX2(0, "PRIV_retPtr_Handle2Ptr ok Handle = %d\n", handle);
-    return handle2Ptr->e[handle].p.ptr;  //pointer from handle
-  }
+  return ret;
 }
+
+
 
 void* clearHandle_Handle2Ptr(uint32 handle)
 {
-  //if (handle2Ptr == null) { init_Handle2Ptr(DEFINED_nrEntries_Handle2Ptr); }
-  if (handle == (uint32)(-1)) { return null; } //special case: null should be.
-  else if (handle >= handle2Ptr->size) { //jzTc: check valid handle, note: -1 gets null-Pointer
-                                         //PRINTX2(0, "PRIV_retPtr_Handle2Ptr faulty Handle = %d\n", handle);
-    return null; //"Handle2Ptr: Handle faulty.";
-  }
-  else {
-    //PRINTX2(0, "PRIV_retPtr_Handle2Ptr ok Handle = %d\n", handle);
-    void* ret = handle2Ptr->e[handle].p.ptr;  //pointer from handle
+  void* ptr = ptr_Handle2Ptr(handle);
+  if(ptr !=null) {
     handle2Ptr->e[handle].p.ptr = null;
     handle2Ptr->e[handle].dbginfo = null;
     handle2Ptr->e[handle].dbg2 = 0;
     memset(handle2Ptr->e[handle].name, 0, sizeof(handle2Ptr->e[handle].name));
-    return ret;
   }
+  return ptr;
 }
 
 
-//#define __SIMULINK_SFN__
 
 void close_Hande2Ptr()
 {
-  #ifdef __SIMULINK_SFN__
+  #ifdef __HandlePtr64_SharedMem__
     //close the sharedmem handle:
     //Note: If more as one instance of this FB was created, the mdlTerminate is invoked for any instance.
     //      But there is only one static shMemHandle2Ptr. The first mdlTerminate removes it.
@@ -333,9 +232,9 @@ void close_Hande2Ptr()
         handle2Ptr = null;  //should created newly.
       }
     } //else: it is cleared and closed already.
-  #else  //else not __SIMULINK_SFN__
+  #else  //else not __HandlePtr64_SharedMem__
     free(handle2Ptr);
-  #endif //__SIMULINK_SFN__
+  #endif //__HandlePtr64_SharedMem__
 
 }
  
