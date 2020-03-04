@@ -1,8 +1,8 @@
 #include <applstdef_emC.h>
-
+#include <emC/Base/String_emC.h>
 //https://en.wikipedia.org/wiki/Letter_frequency
 //                       xx1     -       |x10    -       |x00      -       |       -       |       -       |       -        |       -       |
-char const* charOrder = "eatoihnsrdlcumwfygpkvpbyEATOIHNS !\"#$%&'()*+,-./0123456789:;<=>?@zBCDqFGxjJKLM{}PQR|~UVWXYZ[\\]^_´";
+char const* charOrder = "eatoihnsrdlcumwfygpkvpbyEATOIHNS !\"#$%&'()*+,-./0123456789:;<=>?@zBCDqFGxjJKLM{}PQR|~UVWXYZ[\\]^_'";
 
 int decode_StringCompactor_emC(char* bu, int zbu, uint8 const* src, int zsrc) {
   int ixSrc = 0;
