@@ -105,26 +105,25 @@ bool XXXcompareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int
 
 
 
-/**Implementation compareAndSet_AtomicReference:
- * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
- * Here a simple way.
- */
-//void* compareAndSwap_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
-void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, void* update)
-{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  return (void*)compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
-
-}
-
-
-
-/**Implementation compareAndSet_AtomicReference:
- * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
- * Here a simple way.
- */
-//bool compareAndSet_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
-bool compareAndSet_AtomicReference(void* volatile* reference, void* expect, void* update)
-{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
-  return found == (int32)expect;
-}
+/////**Implementation compareAndSet_AtomicReference:
+//// * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
+//// * Here a simple way.
+//// */
+////void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, void* update)
+////{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
+////  return (void*)compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
+////
+////}
+////
+////
+////
+/////**Implementation compareAndSet_AtomicReference:
+//// * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
+//// * Here a simple way.
+//// */
+////bool compareAndSet_AtomicReference(void* volatile* reference, void* expect, void* update)
+////{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
+////  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
+////  return found == (int32)expect;
+////}
+////

@@ -1,7 +1,5 @@
 #include <emC/StateM/StateFnCall_StateM_emC.h>
 
-#include <emC/StateM/StateFncall_StateM_emC.h>
-#include <applstdef_emC.h>
 
 void init_StateFnCall_StateM_emC(StateMnTopFnCall_State_emC* thiz, StateFnCall_StateM_emC const* stateInit){
   thiz->substmn[0].state = stateInit;

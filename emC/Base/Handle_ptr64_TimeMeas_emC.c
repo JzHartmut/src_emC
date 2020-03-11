@@ -1,7 +1,7 @@
 #include <emC/Base/Handle_ptr64_TimeMeas_emC.h>
 #include <applstdef_emC.h>
 #include <emC/Base/SimpleC_emC.h>
-#include <emC/Base/time_emC.h>
+#include <emC/Base/Time_emC.h>
 #include <emC/OSAL/os_mem.h>
 #include <emC/OSAL/os_time.h>
 

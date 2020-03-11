@@ -815,7 +815,7 @@ bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp
 typedef struct  StringBuilderJc_t
 {
   /** It based on ,,ObjectJc,,. @sizeof=20*/
-  union{ ObjectJc object; CharSeqObjJc CharSeqObjJc; } base;
+  union{ ObjectJc object; CharSeqObjJc ifc_CharSeqObjJc; } base;
 
   /**Actual nr of characters. 0 or positive. All attributes are privave. 
    * The struct should use only via its methods. */

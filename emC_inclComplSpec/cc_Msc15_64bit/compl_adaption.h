@@ -179,6 +179,8 @@
 //#define int64_t __int64
 //#define uint64_t __int64
 
+#define uint uint32_t
+
 #define bool8    unsigned char
 #define bool8_t  unsigned char
 #define bool16   unsigned short

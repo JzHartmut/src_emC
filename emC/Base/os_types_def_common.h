@@ -40,9 +40,11 @@
 
 //plattformunabhaengige Ergaenzungen
 //folgende Typen sind besser schreib- und lesbar
-#define ushort unsigned short int
-#define uint unsigned int
-#define ulong unsigned long int
+//#define ushort unsigned short int
+#ifndef uint
+//  #define uint unsigned int
+#endif
+//#define ulong unsigned long int
 
 /**It calculates the number of defined array elements from any type. 
  * @param ARRAY any array instance defined with TYPE ARRAY[SIZE];

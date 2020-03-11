@@ -143,10 +143,12 @@
 #define int32     int32_t
 #define uint32    uint32_t
 
-#define int64 __int64
-#define uint64 uint64_t
+#define int64 long long
+#define uint64 unsigned long long
 //#define int64_t __int64
 //#define uint64_t __int64
+
+#define uint uint32_t
 
 #define bool8    unsigned char
 #define bool8_t  unsigned char
@@ -155,8 +157,9 @@
 //Standard-character and UTF16-character:
 #define char8    char
 #define char16   unsigned short
-#define char8_t  char
-#define char16_t short
+//Note: do not define char16_t, it is known in Gcc
+//#define char8_t  char
+//#define char16_t short
 #define float32  float
 
 
@@ -276,6 +279,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
-#include <emC/Base/os_types_def_common.h>
+//#include <emC/Base/os_types_def_common.h>
 
 #endif  //__compl_adaption_h__

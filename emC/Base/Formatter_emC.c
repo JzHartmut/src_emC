@@ -52,7 +52,7 @@
 #include <emC/Base/SimpleC_emC.h>         //ARRAYLEN
 //       //STACKTRC_...
 //#include <emC/ThreadContext_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
-#include <emC/Base/TimeConversions_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
+#include <emC/Base/Timeconversions_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
 #include <emC/Base/Va_list_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
 #include <string.h>             //strchr(), strlen(), memset()
 #include <stdio.h>
@@ -454,7 +454,7 @@ typedef struct Char64_t{ char s[64]; } Char64;
 
 int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, char* buffer, int zBuffer, Va_listFW typedArgs)
 {
-  va_list vargList = typedArgs.args;
+  va_list vargList; vargList = typedArgs.args;
   /**Type char for each arg, the string will be filled either from given, typedArgs,
    * or from the default type detected by parsePrinfStyleString_fwFormatter. */ 
   char sTypeArgs[maxNrofArgs_Formatter_FW] = {0};  //default: 0: no arguments given.
