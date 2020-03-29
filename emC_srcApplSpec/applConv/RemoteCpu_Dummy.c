@@ -34,7 +34,7 @@
  * 2010-01-23: Hartmut created, because a remote access was built in in the ReflectionJc.c for a special application.
  *
  ****************************************************************************/
-#include <emC_Inspc/InspcTargetSimple/IfcTargetProxy_Inspc.h>
+#include <emC/InspcTargetSimple/IfcTargetProxy_Inspc.h>
 #include <applstdef_emC.h>
 
 

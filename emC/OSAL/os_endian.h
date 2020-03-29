@@ -92,34 +92,34 @@ extern_C_BLOCK_
    */
 
   /**Use methods, because only 1 access to the memory should be done. */
-  int64_t getInt64BigEndian(int64BigEndian const* addr);
+  int64_t getInt64BigEndian ( int64BigEndian const* addr);
   
-  int32_t getInt32BigEndian(int32BigEndian const* addr);
+  int32_t getInt32BigEndian ( int32BigEndian const* addr);
   
-  int16_t getInt16BigEndian(int16BigEndian const* addr);
+  int16_t getInt16BigEndian ( int16BigEndian const* addr);
 
-  float getFloatBigEndian(floatBigEndian const* addr);
+  float getFloatBigEndian ( floatBigEndian const* addr);
 
-  double getDoubleBigEndian(doubleBigEndian const* addr);
+  double getDoubleBigEndian ( doubleBigEndian const* addr);
 
-  void* getPtrBigEndian(ptrBigEndian const* addr);
+  void* getPtrBigEndian ( ptrBigEndian const* addr);
 
-  int64_t setInt64BigEndian(int64BigEndian* addr, int64_t value);
+  int64_t setInt64BigEndian ( int64BigEndian* addr, int64_t value);
 
-  int32_t setInt32BigEndian(int32BigEndian* addr, int32_t value);
+  int32_t setInt32BigEndian ( int32BigEndian* addr, int32_t value);
 
-  uint32_t setUint32BigEndian(uint32BigEndian* addr, uint32_t value);
+  uint32_t setUint32BigEndian ( uint32BigEndian* addr, uint32_t value);
 
-  int16_t setInt16BigEndian(int16BigEndian* addr, int16_t value);
+  int16_t setInt16BigEndian ( int16BigEndian* addr, int16_t value);
 
-  float setFloatBigEndian(floatBigEndian* addr, float value);
+  float setFloatBigEndian ( floatBigEndian* addr, float value);
 
-  double setDoubleBigEndian(doubleBigEndian* addr, double value);
+  double setDoubleBigEndian ( doubleBigEndian* addr, double value);
 
 
   /**The input is an void const*, because const pointer should be supported without any additinal effort.
    */
-  void* setPtrBigEndian(ptrBigEndian* addr, void const* value);
+  void* setPtrBigEndian ( ptrBigEndian* addr, void const* value);
 
 #else
   /**Big endian memory type with possibility to access any address with any word length: 

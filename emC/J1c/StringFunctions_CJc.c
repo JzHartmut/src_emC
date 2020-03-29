@@ -206,7 +206,7 @@ int32 parseIntRadixBack_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc srcP
     
     int32  val = 0;
     
-    bool  bNegativ;/*no initvalue*/
+    //bool  bNegativ;/*no initvalue*/
     
     int32  digit;/*no initvalue*/
     

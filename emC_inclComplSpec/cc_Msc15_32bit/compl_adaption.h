@@ -231,6 +231,8 @@ typedef unsigned long long uint64_t;
 #define int32     int32_t
 #define uint32    uint32_t
 
+#define uint      uint32_t
+
 #define int64 __int64
 #define uint64 uint64_t
 //#define int64_t __int64

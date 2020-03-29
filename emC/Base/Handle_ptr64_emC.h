@@ -94,7 +94,7 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
    * @return null, no error
    * If the ptr is registered already, it is okay. The name will be ignored then, it returns the given handle. 
    */ 
-  #define registerPtr_Handle2Ptr(PTR, NAME, H) (*(H)=(uint32)(PTR), null)
+  #define registerPtr_Handle2Ptr(PTR, NAME) (uint32)(PTR)
   //old: setPtr_Handle2Ptr
 
   #define debug_Handle2Ptr(H, N1, N2, TEXT)  //empty.
@@ -114,6 +114,9 @@ extern_C const char* init_Handle2Ptr(int nrofEntries);
   #define ptr_Handle2Ptr(HANDLE) ((void*)(HANDLE)) 
   #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) handle)
   #define PTRclr_Handle2Ptr(handle, TYPE) ((TYPE*) handle)
+  
+  /**For a 64 bit system using indices for handle it removes the address. For 32 it does nothing. Returns the pointer. */
+  #define clearHandle_Handle2Ptr(HANDLE)
 #endif
 
 

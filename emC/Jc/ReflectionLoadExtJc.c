@@ -18,15 +18,15 @@ Data_ExtReflectionJc* correctContent_ExtReflectionJc(ExtReflectionJc_s* ythis, M
   int baseHead;
   void const* addrBaseClasses;
   bool bOk = true;
-  int32 offsClassArray, offsReflData;
+  intptr_t offsClassArray, offsReflData;
 	STACKTRC_TENTRY("correctContent_ExtReflectionJc");
   
   /**relocate all relative addresses to absolute addresses:*/
   /**first the reference of arrayClasses. */
   baseHead = (int)(intptr_t)(extReflectionData);
-  offsClassArray = *(int32*)(&extReflectionData->arrayClasses);
+  offsClassArray = *(intptr_t*)(&extReflectionData->arrayClasses);
 	extReflectionData->arrayClasses = (ClassJc_YP const*)(offsClassArray + baseHead);
-	offsReflData = *(int*)(&extReflectionData->classDataBlock);
+	offsReflData = *(intptr_t*)(&extReflectionData->classDataBlock);
   extReflectionData->classDataBlock = (ClassJc const*)(offsReflData + baseHead); 
   if(!inRange_MemAreaC(extReflectionData->arrayClasses, minAddr, maxAddr)) {
     bOk = false;

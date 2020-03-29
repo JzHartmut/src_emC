@@ -20,8 +20,8 @@ int32 clocksFloatPerMicro_Time_emC = 0;
   #include <emC/OSAL/genRefl/os_time.crefl>  //include here, different Implementations on osal level.
   #include <emC/OSAL/genRefl/os_file.crefl>
 #elif defined(DEF_REFLECTION_OFFS)
-  #include <emC/OSAL/genRefl/os_time.crefloffs>  //include here, different Implementations on osal level.
-  #include <emC/OSAL/genRefl/os_file.crefloffs>
+  //#include <emC/OSAL/genRefl/os_time.crefloffs>  //include here, different Implementations on osal level.
+  //#include <emC/OSAL/genRefl/os_file.crefloffs>
 #elif defined(DEF_REFLECTION_SIMPLE)
   ClassJc const reflection_xyz = INIZ_ClassJc(reflection_xyz, "XYZ");
 #endif

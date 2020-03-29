@@ -49,7 +49,7 @@
 #ifndef __ReflMemAccessJc_h__
 #define __ReflMemAccessJc_h__
 
-//#include <emC_Inspc/InspcTargetSimple/IfcTargetProxy_Inspc.h>
+//#include <emC/InspcTargetSimple/IfcTargetProxy_Inspc.h>
 #include <emC/Base/MemC_emC.h>
 
 /*@DEFINE_C MemSegmJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -195,6 +195,10 @@ typedef struct RemoteCpuJc_t{  //only defined for documentation generation
 
 /**This is a ghost type which is used to typing addresses, which are addresses from a remote CPU.
  * It is a non-defined struct (ghost), to prevent access to the own memory.
+ * TODO it is a faulty assumption that the pointer type in this proxy is the same as in target.
+ * use instead typedef struct RemoteAddressJc_T{ int32 addr; } RemoteAddressJc;
+ * The it is clarified that the target has 32 bit addresses. The communication use 32 bit.
+ * The target address definition is independent of the proxy address width!
  */
 struct RemoteAddressJc;
 
@@ -375,10 +379,11 @@ extern_C int32 getInfoDebug_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int dev
 * That is the pointer to a remote target, used as device value (the positive value).
 * Via this pointer the data of a remote target are shown via inspector access.
 * The rest of the data path from this pointer are searched in the binary reflection and communicate via this operation.
+* @return depends on type of command. 
 */
-extern_C int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input);
+extern_C int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input);
 
-extern_C int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int64 input);
+extern_C int64 accessTarget64_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int64 input);
 
 
 

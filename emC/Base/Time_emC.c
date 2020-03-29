@@ -3,7 +3,7 @@
 #ifdef DEF_REFLECTION_FULL
   #include <emC/Base/genRefl/Time_emC.crefl>
 #elif defined(DEF_REFLECTION_OFFS)
-  #include <emC/Base/genRefl/Time_emC.crefloffs>
+  //#include <emC/Base/genRefl/Time_emC.crefloffs>
 #else //lif defined(DEF_REFLECTION_SIMPLE)
   ClassJc const reflection_Clock_MinMaxTime_emC = INIZ_ClassJc(reflection_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
 #endif

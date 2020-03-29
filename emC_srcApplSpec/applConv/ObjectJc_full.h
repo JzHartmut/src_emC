@@ -182,10 +182,10 @@ typedef union State_ObjectJc_t
 * * notice 64-bit-alignment. 
 */
 typedef struct  ObjectJc_t
-{ /**The own address of the instance saved in the instance itself. 
+{ /**The own address of the instance is saved in the instance itself. 
    * This value may be important if the data are transmitted 
-   * in an other system (evaluation of data) and some references 
-   * between data are present. The evaluator may be able to found
+   * into another system (evaluation of data) and some references 
+   * between data are present. The evaluator may be able to find
    * the correct association between the instances by testing this value.
    * NOTE: It is a unnamed union to support 64 bit pointer 
    * if the data are transferred and the address should be adapted.

@@ -25,12 +25,14 @@
 /**Include this file always, but after compl_adaption.h.
 * It defines some types for C compilation compatible to C++ and some independent language enhancements.
 */
-#include <emC/OSAL/os_types_def_common.h>
+#include <emC/Base/os_types_def_common.h>
 
 /**With this compiler switch the reflection should not be included, because they will not used. */
 //#define DEF_NO_REFLECTION
 #if !defined(DEF_REFLECTION_NO) || !defined(DEF_REFLECTION_OFFS)
-  #define DEF_REFLECTION_FULL
+  #ifndef DEF_REFLECTION_FULL  //prevent warning if already defined as command line argument
+    #define DEF_REFLECTION_FULL
+  #endif
 #endif
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
