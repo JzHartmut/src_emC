@@ -117,7 +117,7 @@
 #define __OS_IS_WINDOWS__
 
 //The following switch select the compiler in some sources.
-#define __COMPILER_IS_MSC15__
+#define __COMPILER_IS_TI2000__
 
 
 
@@ -160,6 +160,9 @@
 
 #define int64 int64_t
 #define uint64 int64_t
+
+#define uint uint32_t
+
 
 #define bool8    unsigned char
 #define bool8_t  unsigned char
@@ -307,6 +310,48 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   #define TRUE true
   #define FALSE false
 #endif
+
+
+#define DEF_compareAndSet_AtomicInteger
+INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
+INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
+INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
+INLINE_emC bool compareAndSet_AtomicRef(void volatile** reference, void* expect, void* update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
 
 
 

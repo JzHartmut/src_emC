@@ -98,7 +98,7 @@ int free_MemC  (  void const* addr)
       return 3;
     }
   #else
-    if(false) {} //empty quest because following else clause
+    if(false) { return 0; } //empty quest because following else clause
   #endif
   //
   #ifdef SIZEBLOCK_BlockHeap_emC

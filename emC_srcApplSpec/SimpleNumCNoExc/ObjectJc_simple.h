@@ -130,7 +130,7 @@ typedef struct  ObjectJc_t
  * Note: All reflection should be define in the same compiling unit to have different addresses in the 64 kByte-space.
  */
 //Note: the & 0xffff forces error in C 'is not a contant' in VS15
-#define INIZ_ObjectJc(OBJ, REFL, ID)  { ((ID)<<16) + (((int16_t)(intptr_t)REFL) /*& 0xffff*/) } //, { (char const*)(REFL)} }
+#define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<16) + (((int16_t)(intptr_t)REFL) /*& 0xffff*/) } //, { (char const*)(REFL)} }
 
 
 
@@ -149,7 +149,7 @@ typedef struct  ObjectJc_t
   #error do not support DEF_REFLECTION_FULL
 #elif defined(DEF_REFLECTION_OFFS)
   /**initializes with reflection which are defined with the ,,ClassJc,, struct in this header. */
-  #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16) + ((REFL)->idType & 0xffff); }
+  #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = (((int32)(IDENT))<<16) + ((REFL)->idType & 0xffff); }
 #elif defined(DEF_REFLECTION_NO)
   /**initializes with reflection which are defined with the ,,ClassJc,, struct in this header. */
   #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16); }

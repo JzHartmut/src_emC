@@ -12,8 +12,8 @@ emC is embedded multiplatform C. The approach:
 * The adaption to hardware access should be done by user by adequate wrapper routines, 
   whereby the calculation time is not ineffective if inline keyword is used.
 * The language style and standards should be a intersection (subset) of all common possibilities,
-  this subset is enough productive. Do not use special featuers which has not really a advantage.
-* Use a ObjectOriented appoach! It is possible in C too.
+  this subset is enough productive. Do not use special featuers which has not really an advantage.
+* Use an ObjectOriented approach! It is possible in C too.
 * Combine C and C++ in a well kind. Define pure data primary in C with typedef struct
   and integrate that via inheritance in C++ classes for C++ usage.
 * Keep core algorithm in C if it is conceivable that C is need for a target platform;
@@ -90,10 +90,10 @@ The improvement and more tests will be done.
 
 Because of emC is not for a specific system, it is for embedded Control, 
 there is not a universal library. For usage under Windows (for test of sources
-for embedded Control) a project src/mklib/VS15-IDE/libMsc15_emC.sln
+for embedded Control) a project make/mklib/VS15-IDE/libMsc15_emC.sln
 for Microsoft visual Studio 15 is given. 
 
-You should use a library from emC, because the linker selects the necessary Objects
+It is proper to use a library from emC, because the linker selects the necessary Objects
 from the given library automatically, for compact code. But you should build the library
 for yourself, for your special project.
 

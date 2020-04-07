@@ -389,6 +389,21 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #undef DEF_HandlePtr64
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
+
+#define DEF_compareAndSet_AtomicInteger
+bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update);
+
+
+bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update);
+
+
+bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
+
+bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update);
+
+
+bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
+
 #include <emC/Base/os_types_def_common.h>
 
 #endif  //__compl_adaption_h__

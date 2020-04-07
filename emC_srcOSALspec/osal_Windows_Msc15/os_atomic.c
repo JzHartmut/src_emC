@@ -133,15 +133,52 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 
 
 
-/**Implementation compareAndSet_AtomicReference:
- * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
- * Here a simple way.
- */
-//bool compareAndSet_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
-bool compareAndSet_AtomicReference(void* volatile* reference, void* expect, void* update)
-{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  LONGLONG found = compareAndSwap_AtomicInteger64((LONGLONG*)(reference), (LONGLONG)expect, (LONGLONG)update);
-  return found == (LONGLONG)expect;  //The operation is succeeded if the expect value was found. 
-  //return *reference == update;  ?Another thread may change it again meanwhile?
+
+ bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update){
+  //Note: unsigned long is uint32 for this compiler
+  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
+  return read == (unsigned long)update;
 }
 
+
+ bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+  //Note: unsigned long is uint32 for this compiler
+  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
+  return read == (unsigned long)update;
+}
+
+
+ bool compareAndSet_AtomicInt64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update){
+  //Note: unsigned long is uint32 for this compiler
+  LONGLONG read = InterlockedCompareExchange64((LONGLONG volatile*)reference, (LONGLONG)update, (LONGLONG)expect);  
+  return read == (LONGLONG)update;
+}
+
+ bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  //NOte: more difficult because memory is 32 bit
+  unsigned long expect32, update32;
+  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
+    expect32 = update;
+    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
+    update32 = update;
+    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+  } else {
+    expect32 = *(reference +1); //read associate hi word
+    expect32 = (expect32 <<16) | update; 
+    update32 = *(reference +1); //read associate hi word
+    update32 = (update32 <<16) | update; 
+  }
+  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
+  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
+  //only a little bit more calculation time because unnecesarry repetition.
+  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, update32, expect32);  
+  return read == expect32;
+}
+
+
+ bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  void* read = InterlockedCompareExchangePointer(reference,expect, update);
+  return read == update;
+}

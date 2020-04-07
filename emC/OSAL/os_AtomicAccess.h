@@ -83,12 +83,13 @@ METHOD_C int64 compareAndSwap_AtomicInteger64(int64 volatile* reference, int64 e
  * @param update - the new value
  * @return the old value if or not successfull. False return indicates that the actual value was not equal to the expected value.
  */
+#ifndef DEF_compareAndSet_AtomicInteger
 INLINE_emC bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
   return found == expect;
 }
-
+#endif
 
 
 
@@ -149,7 +150,7 @@ INLINE_emC void unlockRead_DoubleBufferingJc(int32 volatile* var) {
   do {
     val = *var;
     valNew = val & ~_lockRd_DoubleBufferingJc;  //reset lock bit
-  } while(!compareAndSet_AtomicInteger(var, val, valNew)  && --abortCt >=0);
+  } while(!compareAndSet_AtomicInt32(var, val, valNew)  && --abortCt >=0);
 }
 
 
@@ -196,7 +197,7 @@ INLINE_emC int unlockWrite_DoubleBufferingJc(int32 volatile* var, int32 ixWr)
     } else {
       valNew = ((val & ~1) | (ixWr & 1)) & ~_lockWr_DoubleBufferingJc;   //store the write index.
     }
-  } while(!compareAndSet_AtomicInteger(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+  } while(!compareAndSet_AtomicInt32(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
   return 100-abortCt;
 }
 

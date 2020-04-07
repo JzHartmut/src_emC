@@ -25,8 +25,8 @@ void ctor_Param_OrthOsc2_FB(Param_OrthOsc2_FB* thiz, int32 identObj, float Tstep
 
 
 
-OrthOsc2_FB* ctor_OrthOsc2_FB(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep)
-{ OrthOsc2_FB* thiz = (OrthOsc2_FB*) othiz;
+OrthOsc2_FB_CtrlemC* ctor_OrthOsc2_FB(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep)
+{ OrthOsc2_FB_CtrlemC* thiz = (OrthOsc2_FB_CtrlemC*) othiz;
   initReflection_ObjectJc(othiz, thiz, sizeof(*thiz), &reflection_OrthOsc2_FB, identObj);
   thiz->kA = kA;
   thiz->kB = kB;
@@ -47,7 +47,7 @@ void ctor_Adjustk_OrthOsc2_FB(Adjustk_OrthOsc2_FB* thiz, int32 identObj, float m
 
 
 
-bool init_OrthOsc2_FB(OrthOsc2_FB* thiz, Param_OrthOsc2_FB* par, Angle_abwmf_FB* angle)
+bool init_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, Param_OrthOsc2_FB* par, Angle_abwmf_FB_CtrlemC* angle)
 { 
   if( ! isInitialized_ObjectJc(&thiz->obj) && par !=null && angle !=null) {
     //yet complete:
@@ -58,7 +58,7 @@ bool init_OrthOsc2_FB(OrthOsc2_FB* thiz, Param_OrthOsc2_FB* par, Angle_abwmf_FB*
   return true;
 }
 
-bool init_NoAngle_OrthOsc2_FB(OrthOsc2_FB* thiz, Param_OrthOsc2_FB* par)
+bool init_NoAngle_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, Param_OrthOsc2_FB* par)
 { 
   if( ! isInitialized_ObjectJc(&thiz->obj) && par !=null) {
     //yet complete:

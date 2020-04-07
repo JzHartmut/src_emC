@@ -49,6 +49,7 @@
 
 
 struct ThreadContext_emC_t;
+struct ClassJc_t;
 
 
 struct Size_Mtbl_t;
@@ -267,7 +268,7 @@ typedef struct ClassJc_t
 
   #ifdef DEF_REFLECTION_OFFS
   /**The lo-part (16 bit) of the address of this element is used as type ident. */
-  int const* reflOffs;
+  int32 const* reflOffs;
   //#elif !defined(DEF_REFLECTION_NO)
   /**The lo-part (16 bit) of the address of this element is used as type ident. */
   //  int const* reflOffs;

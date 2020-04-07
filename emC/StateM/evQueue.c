@@ -3,7 +3,13 @@
 #include <stdlib.h> //malloc
 
 #ifdef DEF_REFLECTION_FULL
-#include <emC/StateM/genRefl/evQueue.crefl> 
+#include "genRefl/evQueue.crefl"
+#elif defined(DEF_REFLECTION_OFFS)
+  //The classes are defined in a project specific ...refloffs.c file:
+  extern_C ClassJc const reflection_EvListener_StateM_vishiaOrg;
+  extern_C ClassJc const reflection_EvCreator_StateM_vishiaOrg;
+  extern_C ClassJc const reflection_EvInstance_StateM_vishiaOrg;
+  extern_C ClassJc const reflection_EvQueue_StateM_vishiaOrg;
 #else
   ClassJc const reflection_EvListener_StateM_vishiaOrg = INIZ_ClassJc(reflection_EvListener_StateM_vishiaOrg, "EvListener_StateM_vishiaOrg");
   ClassJc const reflection_EvCreator_StateM_vishiaOrg = INIZ_ClassJc(reflection_EvCreator_StateM_vishiaOrg, "EvCreator_StateM_vishiaOrg");
@@ -81,12 +87,11 @@ void status__EvQueue_StateM_vishiaOrg(EvQueue_StateM_vishiaOrg_s* thiz, int16* n
 
 //It is the implementation for the EvQueue SFunction in Simulink.
 int16 info_EvQueue_StateM_vishiaOrg(EvQueue_StateM_vishiaOrg_s* thiz, int16* ctEvents_y) {
-  STACKTRC_ENTRY("");
   //Output the state
   int n = thiz->pwr-thiz->prd;
   if(n<0) { n+= thiz->sizeQueue; }
   if(ctEvents_y !=null) { *(ctEvents_y) = thiz->evCt; }
-  STACKTRC_RETURN (int16)n;
+  return (int16)n;
 }
 
 

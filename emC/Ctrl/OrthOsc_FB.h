@@ -2,15 +2,15 @@
 #define __OrthOsc_FB_h
 
 #include <applstdef_emC.h>
-#include <emC/base/Object_emC.h>
-#include "AngleBlocks_FB.h"
+#include <emC/Base/Object_emC.h>
+#include <emC/Ctrl/Angle_FB.h>
 #include <math.h>
 
 
 extern bool isInit_global_;
 
 
-/*CLASS_C OrthOsc2_FB *************************************************************************************************************/
+/*CLASS_C OrthOsc2_FB_CtrlemC *************************************************************************************************************/
 
 /**
  * @simulink bus
@@ -97,7 +97,7 @@ typedef struct OrthOsc2_FB_t
 {
   ObjectJc obj;  //:The base structure
   Param_OrthOsc2_FB* par;  //:Reference to parameter, maybe calculated in other step time.
-  Angle_abwmf_FB* anglep;  //:Reference to angle, null is admissable.
+  Angle_abwmf_FB_CtrlemC* anglep;  //:Reference to angle, null is admissable.
 
   /**Couple factors. Note: kB should be negative for same difference B-X, A-X*/
   float kA, kB;
@@ -109,13 +109,13 @@ typedef struct OrthOsc2_FB_t
   float b_;           //:internal b component
 
   int32 __spare;   //:for 8 Byte align
-} OrthOsc2_FB;
+} OrthOsc2_FB_CtrlemC;
 
 
 
 /**@simulink ctor
  */
-OrthOsc2_FB* ctor_OrthOsc2_FB(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep);
+OrthOsc2_FB_CtrlemC* ctor_OrthOsc2_FB(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep);
 
 
 /**Prepares the instance data. 
@@ -123,7 +123,7 @@ OrthOsc2_FB* ctor_OrthOsc2_FB(ObjectJc* othiz, float kA, float kB, int32 identOb
  * @param angle aggregation to instance which contains the angle of the signal.
  * @simulink init
  */
-bool init_OrthOsc2_FB(OrthOsc2_FB* thiz, Param_OrthOsc2_FB* par, Angle_abwmf_FB* angle);
+bool init_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, Param_OrthOsc2_FB* par, Angle_abwmf_FB_CtrlemC* angle);
 
 
 
@@ -134,7 +134,7 @@ bool init_OrthOsc2_FB(OrthOsc2_FB* thiz, Param_OrthOsc2_FB* par, Angle_abwmf_FB*
  * @param ab_Y variable to store the complex orthogonal output.. 
  * @simulink Object-FB, accel-tlc, step-in.
  */
-inline void step_OrthOsc2_FB(OrthOsc2_FB* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
+inline void step_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
   { 
 #ifndef __ignoreInCheader_zbnf__ 
   if(thiz == null) return;
@@ -159,12 +159,12 @@ inline void step_OrthOsc2_FB(OrthOsc2_FB* thiz, float xAdiff, float xBdiff, floa
  * @param thizh_y thiz as pointer.
  * @simulink init
  */
-bool init_NoAngle_OrthOsc2_FB(OrthOsc2_FB* thiz, Param_OrthOsc2_FB* par);
+bool init_NoAngle_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, Param_OrthOsc2_FB* par);
 
 /**
  * @simulink Object-FB, accel-tlc, step-in.
  */
-inline void stepNoAngle_OrthOsc2_FB(OrthOsc2_FB* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
+inline void stepNoAngle_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
 { 
 #ifndef __ignoreInCheader_zbnf__  
   if(thiz == null) return;
@@ -190,7 +190,7 @@ inline void stepNoAngle_OrthOsc2_FB(OrthOsc2_FB* thiz, float xAdiff, float xBdif
 /**
  * @xxxsimulink Operation-FB, accel-tlc
  */
-inline void thizo_OrthOsc2_FB(OrthOsc2_FB* thiz, int32 dummyRun, OrthOsc2_FB* thiz_ybus)
+inline void thizo_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, int32 dummyRun, OrthOsc2_FB_CtrlemC* thiz_ybus)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
   *thiz_ybus = *thiz;
@@ -201,7 +201,7 @@ inline void thizo_OrthOsc2_FB(OrthOsc2_FB* thiz, int32 dummyRun, OrthOsc2_FB* th
 /**Outputs the ab vector of this.
  * @simulink Operation-FB, accel-tlc
  */
-inline void ab_OrthOsc2_FB(OrthOsc2_FB* thiz, float run, float_complex* ab_y)
+inline void ab_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, float run, float_complex* ab_y)
 { 
   ab_y->re = thiz->yab.re;
   ab_y->im = thiz->yab.im;
@@ -215,7 +215,7 @@ inline void ab_OrthOsc2_FB(OrthOsc2_FB* thiz, float run, float_complex* ab_y)
 /**
  * @simulink Operation-FB, accel-tlc
  */
-inline void calcMagn_OrthOsc2_FB(OrthOsc2_FB* thiz, float step, float* m_y)
+inline void calcMagn_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, float step, float* m_y)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
   float dm1 = thiz->par->fm * ((thiz->yab.re * thiz->yab.re) + (thiz->yab.im * thiz->yab.im) - (thiz->m * thiz->m));
@@ -235,7 +235,7 @@ inline void calcMagn_OrthOsc2_FB(OrthOsc2_FB* thiz, float step, float* m_y)
 /**
  * @simulink Operation-FB, accel-tlc
  */
-inline void calcpq_OrthOsc2_FB(OrthOsc2_FB* thiz, float step, float_complex* ypq_y)
+inline void calcpq_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, float step, float_complex* ypq_y)
 { 
   if(thiz == null || thiz->anglep == null) return;
   mult_complex_FB(thiz->yab, thiz->anglep->anb, thiz->ypq);
@@ -273,7 +273,7 @@ void ctor_Adjustk_OrthOsc2_FB(Adjustk_OrthOsc2_FB* thiz, int32 identObj, float m
  * Then it smoothes down.
  * @simulink Object-FB.
  */ 
-inline void step_Adjustk_OrthOsc2_FB(Adjustk_OrthOsc2_FB* thiz, OrthOsc2_FB* orth, float e)
+inline void step_Adjustk_OrthOsc2_FB(Adjustk_OrthOsc2_FB* thiz, OrthOsc2_FB_CtrlemC* orth, float e)
 { if(orth == null) return; //especially first step
   if(fabsf(e) >= thiz->max_e) {
     orth->kA = thiz->kHi; orth->kB = -thiz->kHi;
