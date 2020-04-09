@@ -38,7 +38,7 @@
 #include <emC/OSAL/os_mem.h>
 #include <string.h>
 #ifdef SIZEBLOCK_BlockHeap_emC
-  #include <BlockHeap/BlockHeap_emC.h>  //for free(ptr)
+  #include <emC/BlockHeap/BlockHeap_emC.h>  //for free(ptr)
 #endif
 
 
@@ -102,7 +102,7 @@ int free_MemC  (  void const* addr)
   #endif
   //
   #ifdef SIZEBLOCK_BlockHeap_emC
-  else if(free_sBlockHeap_emC(ptr, _thCxt)) { //try to free a block in blockheap
+  else if(free_sBlockHeap_emC(ptr, null)) { //try to free a block in blockheap
     return 2;
   }
   #endif
@@ -119,7 +119,7 @@ int free_MemC  (  void const* addr)
         }
         addrCheck +=1;
       }
-      os_freeMem(ptr);
+      os_freeMem(ptrAlloc);
       return 1;
     } else {
       return 4;

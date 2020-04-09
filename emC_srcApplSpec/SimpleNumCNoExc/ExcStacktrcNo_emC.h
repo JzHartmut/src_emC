@@ -66,6 +66,11 @@ typedef struct ThreadContext_emC_t {
   
   ExceptionJc exc;
 
+  #ifdef SIZEBLOCK_BlockHeap_emC
+    /**It is the heap, where block heap allocations are provided in this thread. */
+    struct BlockHeap_emC_t* blockHeap;
+  #endif
+
   /**Set to 0 on input of matching CATCH block to set exc.exceptionNr to 0 on END_TRY */
   int32 excNrTestCatch;
   int32 line;

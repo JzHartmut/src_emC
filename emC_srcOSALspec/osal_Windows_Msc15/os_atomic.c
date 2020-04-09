@@ -155,8 +155,7 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 }
 
  bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
-  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
-  //NOte: more difficult because memory is 32 bit
+  //Note: more difficult because memory is 32 bit
   unsigned long expect32, update32;
   if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
     expect32 = update;

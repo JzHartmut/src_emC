@@ -70,6 +70,12 @@
     }
   #endif
  
+
+  void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident) {
+    thiz->idInstanceType = (thiz->idInstanceType & (~mInstance_ObjectJc )) | (ident<<16);
+  }
+
+
 //#error exclude it from compilation for simple ObjectJc, include ObjectSimple_emC.c instead
 
 #else //!DEF_ObjectJc_SIMPLE
@@ -605,6 +611,8 @@ StringJc name_ClassJc(ClassJc const* thiz) {
 }
 
 #endif //!DEF_ObjectJc_SIMPLE
+
+
 
 
 

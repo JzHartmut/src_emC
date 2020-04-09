@@ -811,5 +811,16 @@ ClassJc const reflection_uint64 =
 , null  //Mtbl
 };
 
+
+#else  //not DEF_REFLECTION_FULL
+
+//formally, this reflection is never part of a reflectionOffs.crefl access.
+//first member is an identifier for type check!
+static int reflOffs_ClassJc[] = {0xc1aa }; //it is 16 or 32 bit, width of an int.   
+
+//This is necessary to recognize this type.
+ClassJc const reflection_ClassJc = INIZ_ClassJc(relection_ClassJc, "relection_ClassJc", reflOffs_ClassJc);
+
+
 #endif //not DEF_REFLECTION_FULL
 

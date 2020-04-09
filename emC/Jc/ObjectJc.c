@@ -67,21 +67,6 @@ bool castOk_ObjectJc;
 
 
 
-ObjectJc* ctorM_ObjectJc(MemC mem) //ObjectJc* ythis)
-{ init0_MemC(mem);   //A ctor should initialize all, no old data regarded. Cleanup!
-  ObjectJc* ythis = PTR_MemC(mem, ObjectJc);
-  int size = size_MemC(mem);
-  init_ObjectJc(ythis, size, 0);
-  return ythis;
-}
-
-void ctorc_ObjectJc(ObjectJc* ythis)
-{
-  memset(ythis, 0, sizeof(ObjectJc));   //A ctor should initialize all, no old data regarded. Cleanup!
-  init_ObjectJc(ythis, sizeof(ObjectJc), 0);
-}
-
-
 
 
 

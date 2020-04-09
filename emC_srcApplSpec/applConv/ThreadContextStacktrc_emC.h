@@ -53,6 +53,8 @@ struct TryObjectJc_t;
 
 #define __ThreadContext_emC_supported__
 
+#define DEF_ThreadContextStracktrc_emC
+
 typedef struct AddrUsed_ThreadContext_emC_t
 { char const* sign;
   MemC used;
@@ -154,9 +156,11 @@ typedef struct ThreadContext_emC_t
   
   #define mCheckBufferUsed_Mode_ThCxt 0x0004
   
-  /**It is the heap, where block heap allocations are provided in this thread. */
-  struct BlockHeap_emC_t* blockHeap;
-
+  #ifdef SIZEBLOCK_BlockHeap_emC
+    /**It is the heap, where block heap allocations are provided in this thread. */
+    struct BlockHeap_emC_t* blockHeap;
+  #endif
+  
   /**The known highest address in the stack. It is the address of the _struct ThreadContext_emC_t* pointer
    * of the first routine, which creates the Thread context.
    */

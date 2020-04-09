@@ -45,12 +45,12 @@
 
 #ifndef __BlockHeap_emC_i_h__
 #define __BlockHeap_emC_i_h__
-#include <BlockHeap/BlockHeap_emC.h>
-#include <BlockHeap/BlockHeapJc_admin.h>
+#include <emC/BlockHeap/BlockHeap_emC.h>
+#include <emC/BlockHeap/BlockHeapJc_admin.h>
 
-#include "Jc/ListMapEntryJc.h"
+#include "emC/Jc/ListMapEntryJc.h"
 
-#include <OSAL/os_time.h>
+#include <emC/OSAL/os_time.h>
 
 #define HEAP_BEGINSATPOWER2_RUNTIMEHEAP
 
@@ -327,7 +327,7 @@ typedef struct GarbageCollectorJc_t
   /**A method to call inside Garbage Collection to test some special cases.
    * The int param is the number of step.
    */
-  MT_int_Method_int testMethod;
+  //MT_int_Method_int testMethod;
 
   /**Counts the number of steps in test each block in a cluster, use to test. */
   int32 countStep;

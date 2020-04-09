@@ -125,6 +125,30 @@ extern_C ObjectJc* alloc_ObjectJc ( const int size, const int32 typeInstanceIden
 /**Freeze an Object allocated with [[alloc_ObjectJc(...)]]. */
 extern_C void free_ObjectJc(ObjectJc* thiz);
 
+/** The default construtor. An offset to BlockHeap in mem is considered. */
+inline ObjectJc* ctorM_ObjectJc(MemC mem) //ObjectJc* ythis);
+{ init0_MemC(mem);   //A ctor should initialize all, no old data regarded. Cleanup!
+  ObjectJc* thiz = PTR_MemC(mem, ObjectJc);
+  int size = size_MemC(mem);
+  init_ObjectJc(thiz, size, 0);
+  return thiz;
+}
+
+
+
+
+
+/**The default construtor in C-manner. It assumes, that the area is cleared or is initialized already. 
+ * @deprecated use init_ObjectJc() instead with the correct instance size
+ */
+inline void ctorc_ObjectJc(ObjectJc* thiz) {
+  memset(thiz, 0, sizeof(ObjectJc));   //A ctor should initialize all, no old data regarded. Cleanup!
+  init_ObjectJc(thiz, sizeof(ObjectJc), 0);
+}
+
+
+
+
 
 
 /**Supplies the rest of block if the Object is allocated in a block heap, or an empty MemC if there is no rest space. 
@@ -172,6 +196,16 @@ extern_C void setBackRefJc(void* reference, void const* instance);
 *  @ param reference address of the enhanced reference
 */
 extern_C void clearBackRefJc(void* reference);
+
+
+/**Sets the ident and size of an ObjectJc.
+* The bit position of ident and size, and the bits to define which bits are using for ident and size [[mSizeBits_objectIdentSize_ObjectJc]]
+* are calculated from given size and type.
+* @param sizeObj The size which is valid for the memory-area, which is used from the derived whole instance.
+* @param identObj any special ident. If 0, an automatically ident is built.
+* @throws RuntimeException if the identObj and sizeObj are not matching. See Bits of [[class_ObjectJc_objectIdentSize]].
+*/
+extern_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identObj);
 
 
 
@@ -255,30 +289,32 @@ extern_C bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const*
 
 struct ClassJc_t;
 
-/**The Reflection is reduced to a character constant which contains the name of the type, helpfull for debug. 
-* This struct needs only 6 int32 words per existing type.
-*/
+/**Reflection for a simple system which does not contain reflection information for itself
+ * but uses the reflection instance for type detection
+ * and maybe for offsets of data members for the InspectorTargetProxy. 
+ * This type has different elements depending on compiler switch 
+ * * DEF_NO_StringJcCapabilities and: The does not contain a name
+ * * DEF_REFLECTION_OFFS only then contains a reference to the offset array
+ * * DEF_ObjectJc_REFLREF then contains a reference to one super class for type check. 
+ */
 typedef struct ClassJc_t
 {
   int idType;   // sizeReflOffs;
 
-  #ifndef DEF_NO_StringJcCapabilities
+#ifndef DEF_NO_StringJcCapabilities
   char const* name;
-  #endif
+#endif
 
-  #ifdef DEF_REFLECTION_OFFS
+#ifdef DEF_REFLECTION_OFFS
   /**The lo-part (16 bit) of the address of this element is used as type ident. */
-  int32 const* reflOffs;
-  //#elif !defined(DEF_REFLECTION_NO)
-  /**The lo-part (16 bit) of the address of this element is used as type ident. */
-  //  int const* reflOffs;
-  #endif
-  #ifdef DEF_ObjectJc_REFLREF
+  int const* reflOffs;
+#endif
+#ifdef DEF_ObjectJc_REFLREF
   struct ClassJc_t const* superClass;
-  #endif
+#endif
 } ClassJc;
 
-extern ClassJc const reflection_ClassJc;
+extern_C ClassJc const reflection_ClassJc;
 
 
 /**There are some variants of the macro INIZ_ClassJc(OBJ, NAME, REFLOFFS) 
@@ -325,6 +361,220 @@ extern ClassJc const reflection_ClassJc;
 #else
   #include <emC/Base/ClassJc_FullReflection_emC.h>
 #endif
+
+
+
+/*@CLASS_C ObjectArrayJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**Base data of an array.
+* This type is used as base data of an user defined array. The array data followes directly
+* in the user struct. The array data need not have ObjectJc as base.
+* *ObjectJc object: The array base type based on Object. Reflection is useable for the whole array.
+*int32 length: acual no of elements, in java it is the final public attribute length
+*int16 sizeElement size of an element, this is the sizeof a pointer if it is a array of pointers.
+*int16 mode: mode of operation, see enum Emode. Here is coding the no of elements in 1 block
+and the using of pointers or not.
+
+*/
+typedef struct  ObjectArrayJc_t
+{ //ARRAYJc
+  /**Head struct, it contains especially the number of dimensions. */
+  ObjectJc object;
+
+  /**size of an element. If the element is a pointer, the sizeof is the sizeof the pointer. */
+  int16 sizeElement;
+
+  /**Rerserve Element. */
+  int16 mode;
+  #define mPointered_ObjectArrayJc 1
+  //#define mDirect_ObjectArrayJc 2
+  /**Up to 255 dimensions for an array. The arraylength of the element length depends from it. */
+  #define mDimension_ObjectArrayJc 0xff00 
+  #define kBitDimension_ObjectArrayJc 8 
+
+  /**Nr of elements of the array. It may be greater than 65000. 
+  * If the dimension of the array is >1, then there is an array of length here. */
+  int32 length;
+
+}ObjectArrayJc;
+
+/** Constant definition of the head of any array
+* @param TYPE the type of the elements, used in sizeof(TYPE) and in reflection##TYPE
+* @param SIZE number of elements
+*/
+#define CONST_ObjectArrayJc(TYPE, SIZE, IDENT, REFLECTION, OWNADDR) \
+  { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
+
+#define INITIALIZER_ObjectArrayJc(TYPE, SIZE, IDENT, REFLECTION, OWNADDR) \
+  { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
+
+
+
+/**Initializer definition of an array based on ObjectArrayJc. The structure should have the following format:
+* ,,struct { ObjectArrayJc head; Type data[100];} myArray 
+* ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, &reflection_TYPE, 0) };
+* @param NROF_ELEM number of elements
+* @param TYPE the type of the elements, used for sizeof(TYPE)
+* @param REFL_ELEM reflection class for the elements of the field.
+* @param ID Object ident.
+*/
+#define INIZ_ObjectArrayJc(OBJ, NROF_ELEM, TYPE, REFL_ELEM, ID) \
+  { INIZ_ObjectJc(OBJ, REFL_ELEM, ID | (mArray_objectIdentSize_ObjectJc >>16)), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
+
+
+extern_C void init_immediate_ObjectArrayJc(ObjectArrayJc* thiz, int nrofElements, int sizeElement, struct ClassJc_t const* refl_Elem, int idObj);
+
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE_C Arrays of standard types @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/**ArraysOfStandardType: xxx
+*/
+
+/*NOTE: The #define int8_YREFDEF etc. are necessary if an automatic generated source use the same one. */
+typedef struct int8_Y_t{ ObjectArrayJc head; int8 data[50]; } int8_Y;
+
+typedef struct int16_Y_t{ ObjectArrayJc head; int16 data[50]; } int16_Y;
+//TYPEDEF_AYJc(int16);
+
+typedef struct int32_Y_t{ ObjectArrayJc head; int32 data[50]; } int32_Y;
+
+typedef struct int64_Y_t{ ObjectArrayJc head; int64 data[50]; } int64_Y;
+
+typedef struct float_Y_t{ ObjectArrayJc head; int64 data[50]; } float_Y;
+
+typedef struct double_Y_t{ ObjectArrayJc head; int64 data[50]; } double_Y;
+
+typedef struct bool_Y_t{ ObjectArrayJc head; bool data[50]; } bool_Y;
+
+typedef struct char_Y_t{ ObjectArrayJc head; char data[50]; } char_Y;
+
+typedef struct void_Y_t{ ObjectArrayJc head; void* data[50]; } void_Y;
+
+
+
+
+//typedef struct StringJc_AY_t{ ObjectJc object; int32 length; int16 sizeElement; int16 mode; StringJc data[50]; } *StringJc_AY;
+//typedef struct StringJc_AYREF_t{ ObjectJc object; int32 length; int16 sizeElement; int16 mode; StringJc data[50]; } *StringJc_AYREF;
+
+
+METHOD_C void_Y* ctorO_AYJc(ObjectJc* othis, int sizeElement, int nrofElements);
+
+
+
+/*@CLASS_C int8_ObjArray @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+
+/** Array of direct adressed integer values with 8 bit.
+* This may be a template to build users arrays:
+* Copy it and replace 'int32' with the users type.
+* If the users array is a array of pointers, the users type is such as 'Userclass*'
+*/
+typedef struct int8ARRAY_t
+{ /** consist of the base data of the array*/
+  ObjectArrayJc head;
+  /** direct data followed immediately after the ObjectArrayJc.
+  The size of the array given here is only a helper for debugging, the debugger
+  shows the given number of value. The really value is held inside array.
+  */
+  int8 data[0x100];
+}int8_ObjArray;
+
+/** The constructor accepts also a null pointer (on error) and returns the pointer itself,
+* necessary to use inside definition new_type
+*/
+METHOD_C int8_ObjArray* ctor_int8ARRAY(int8_ObjArray* ythis, int nrOfBytes);
+
+
+/** Gets the sizeof of the instance with given nr of elements. It is a static-like method.
+* @param SIZE number of elements
+*/
+#define sizeof_int8ARRAY(SIZE) (sizeof(ObjectArrayJc) + SIZE * sizeof(int32))
+
+#define staticSize_int8ARRAY (sizeof(((int8_ObjArray*)(0x1000))->data) / sizeof(int8))
+
+#define CONST_int8ARRAY(OBJP) { CONST_ObjectArrayJc(int8, 100, 0, REFLECTION_int8, OBJP->head), {0} }
+//#define CONSTaddSize_int32ARRAY(OBJP, ADDSIZE) { CONST_ObjectArrayJc(int32, 100 + ADDSIZE, 0, REFLECTION_int32, (OBJP)->head), {0} }
+#define CONSTaddSize_int8ARRAY(OBJP, ADDSIZE) { CONST_ObjectArrayJc(int8, 100 + ADDSIZE, 0, null, null), {0} }
+
+#define reflection__ObjectJcpp reflection__ObjectJc
+
+
+#if !defined(mBackRef_ObjectJc) 
+//if enhanced references are used, the REF types have own reflection const.
+//in this case they are dummies.
+#define reflection_StringBufferJcREF reflection_StringBufferJc
+
+#endif
+
+
+
+
+
+
+/*@CLASS_C int32_ObjArray @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**Number of array elements of a instance definition of a int32_ObjArray.
+* An int32_ObjArray with any desired number of elements may be created dynamically, the int32_ObjArray- Type
+* is than used as a pointer type.
+* But if an instance of int32_ObjArray is defined, the number of elements are fixed as defined in the struct.
+* This macro returns the defined number of.
+*/
+#define instanceSize_int32ARRAY 100
+
+/** Array of direct adressed integer values with 32 bit.
+* This may be a template to build users arrays:
+* Copy it and replace 'int32' with the users type.
+* If the users array is a array of pointers, the users type is such as 'Userclass*'
+*/
+typedef struct int32ARRAY_t
+{ /** consist of the base data of the array*/
+  ObjectArrayJc head;
+  /** direct data followed immediately after the ObjectArrayJc.
+  The size of the array given here is only a helper for debugging, the debugger
+  shows the given number of value. The really value is held inside array.
+  */
+  int32 data[instanceSize_int32ARRAY];
+}int32_ObjArray;
+
+
+
+
+
+/** The constructor accepts also a null pointer (on error) and returns the pointer itself,
+* necessary to use inside definition new_type
+*/
+METHOD_C int32_ObjArray* ctor_int32ARRAY(int32_ObjArray* ythis, int nrOfBytes);
+
+/** Gets the element with given Index. The element is the value itself, of type 'int32'*/
+#define get_int32ARRAY(ARRAY,IX) (*(int32*)(get_i_ObjectArrayJc(&ARRAY->array, IX)))
+
+/** Sets the element with given Index*/
+#define set_int32ARRAY(ARRAY,IX, VAL) (*(int32*)(get_i_ObjectArrayJc(&ARRAY->head, IX)) = VAL)
+
+/** Gets the sizeof of the instance with given nr of elements. It is a static-like method.
+* @param SIZE number of elements
+*/
+#define sizeof_int32ARRAY(SIZE) (sizeof(ObjectArrayJc) + SIZE * sizeof(int32))
+
+/** Create a new Instance with the given number of elements
+* @param size number of elements
+*/
+//METHOD_C int32_ObjArray* new_Int32ARRAY(int size);
+
+#define new_int32_ObjArray(SIZE) (ctor_int32ARRAY( (int32_ObjArray*)malloc(sizeof_int32ARRAY(SIZE)), SIZE ))
+
+
+
+#define CONST_int32_ObjArray(OBJP, SIZE) { CONST_ObjectArrayJc(int32, SIZE, 0, REFLECTION_int32, &(OBJP)->head), {0} }
+
+/*@ARRAY ObjectJcARRAY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+//TYPEDEF_ARRAYJc(ObjectJc, 50)
+typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcARRAY;
+
 
 
 

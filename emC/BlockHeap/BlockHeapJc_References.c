@@ -46,11 +46,11 @@
 #include <stdlib.h>
 //#include <string.h>
 
-#include "BlockHeap/BlockHeapJc_internal.h"
+#include "BlockHeapJc_internal.h"
 
-#include <BlockHeap_PlatformSpec.h>
+//#include <BlockHeap_PlatformSpec.h>
 
-#include "Jc/ReflectionJc.h"
+//#include "Jc/ReflectionJc.h"
 //#include <Jc/ObjectRefJc.h>
 
 #ifndef DONOTUSE_GCJc
@@ -251,102 +251,6 @@ void setBackRefJc(void* refP, void const* src)
 
 
 
-
-
-
-/**Tests if the objP is inside any BlockHeap, ascertains the block base address and
- * the block number if it is a small block.
- *
- * This is a core algorithm of BlockHeap. It imagins as complex, but it is simple:
- * * At first it must be detect, if the object is located in any Blockheap generally and in which one.
- *   To detect this, all known Blockheap adress ranges should be compared with the address of the given Object.
- *   But in users systems, there will be only one or few BlockHeaps, 1..5 is realistic.
- *   To find out the BlockHeap_emC-control structures, there are chained in a queue
- *   started with the global reference theBlockHeapList. The BlockHeap_emC control structure contains
- *   the start and end address of the heap area in the users memory space.
- *   Now it is a simple address compare operation to detect wether the Object is in this area.
- * * If the Object is located in a Blockheap, the size of blocks is known.
- *   The Object doesnot start at the begin adress of the block, because there are some control bytes
- *   and the array of back references is located from start position.
- *   It is possible, that the Object is an embedded structure inside another Object and this other Object
- *   occupies the block primary. The essential is, this Object is located in a block, it don't care where exactly.
- * * To detect which block, a masking of memory address is done. It is a fast algorithm.
- *   It requires, that the block size is a power of 2. This requirement is considered in construction of BlockHeap.
- *   It is possible, that the border adresses of the heap memory area are also power of 2.
- *   In this case the address of the Object can be simple masked to get the block start address.
- * * This getted block start address is the start address of a normal block.
- *   But it is possible that the Object is member of a small block. There are some small blocks in one normal block.
- *   It can be detect wether the large block is a container of small blocks to test a bit at BlockHeapBlockJc::typeOrMaxRef.
- *   If it is not a small-block-container, the block is detect and the algorithm is returned.
- * * If it is a small-block-container, the correct small block will be detected by knowing its size.
- *   It needs a few more calculation time.
- *
- * @param objP any address in memomry space
- * @param retHeap output pointer to set the dedicated BlockHeap control structure.
- * @param retNumber output pointer to set the block number of a small block.
- * @return base address of the block. It is always the base address of a normal block.
- */
-
-METHOD_C BlockHeapBlockJc* searchBlockHeapBlock_BlockHeap_emC(void const* objP, BlockHeap_emC** retHeap)
-{ BlockHeapBlockJc* block = null;
-  struct MemAreaC_t const* obj = (struct MemAreaC_t const*)(objP);
-  BlockHeap_emC* heap;
-
-  heap = theBlockHeapList;
-  while(heap != null && block == null)
-  { //check whether the block is member of the heap, it is in its address range of blocks:
-    if( ((void const*)heap->heapBegin) <= objP && ((void*)obj) < heap->heapEnd)
-    { //it is in this heap:
-      #ifdef HEAP_BEGINSATPOWER2_RUNTIMEHEAP
-        block = (BlockHeapBlockJc*)(((intPTR)(obj)) & ~(SIZEBLOCK_BlockHeap_emC-1));
-      #else
-        #error do not compile
-        block = (BlockHeapBlockJc*)
-                ( ( ( ((MemUnit*)obj) - ((MemUnit*)heap->heapBegin)) & ~(SIZEBLOCK_BlockHeap_emC-1)
-                  ) + ((MemUnit*)heap->heapBegin)
-                ) ;
-      #endif
-      //bbb if( (block->ctrl.typeAndSize & mSmallBlock_Type_Object) == mSmallBlock_Type_Object)
-      if( (block->typeOrMaxRef & mSmallBlock_Type_Object) == mSmallBlock_Type_Object)
-      { /*The block begins with the info, it is a block containing small blocks:
-          use the small block mask.
-        */
-        #ifdef HEAP_BEGINSATPOWER2_RUNTIMEHEAP
-          block = (BlockHeapBlockJc*)(((intPTR)(obj)) & heap->mAdressSmallBlock_BlockHeap);
-        #else
-          #error do not compile
-          block = (BlockHeapBlockJc*)
-                  ( ( (((MemUnit*)obj) - ((MemUnit*)heap->heapBegin)) & heap->mAdressSmallBlock_BlockHeap
-                    ) + heap->heapBegin
-                  ) ;
-        #endif
-      }
-      //bbb else if( (block->ctrl.typeAndSize & mSmallBlock_Type_Object) == kMapEntryBlock_Type_Object)
-      else if( (block->typeOrMaxRef & mSmallBlock_Type_Object) == kMapEntryBlock_Type_BlockHeapBlockJc)
-      { /*The block begins with the info, it is a block containing small blocks:
-          use the small block mask.
-        */
-        struct MemAreaC_t* nextBlock;
-
-        //bbb block = (BlockHeapBlockJc*) ( &block->data[1]);
-        block = null; //TODO (BlockHeapBlockJc*) ( &block->backRefs[1]);
-        nextBlock = addOffset_MemAreaC((struct MemAreaC_t*)(block), sizeof(ListMapEntryJc));
-        while(nextBlock < obj)
-        { block = (BlockHeapBlockJc*)(nextBlock); //may be the right one.
-          nextBlock = addOffset_MemAreaC(block, sizeof(ListMapEntryJc));
-        
-          //nextBlock += bytesMapEntryBlock_BlockHeap;
-        }
-      }
-    }
-    else
-    { // not in this heap
-      heap = heap->nextHeap;
-    }
-  }
-  *retHeap = heap;
-  return block;
-}
 
 
 

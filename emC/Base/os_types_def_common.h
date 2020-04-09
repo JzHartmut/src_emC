@@ -219,6 +219,21 @@ typedef STRUCT_AddrVal_emC(floatARRAY, float);
 
 typedef STRUCT_AddrVal_emC(doubleARRAY, double);
 
+
+/**Possibility to store characters (ASCII) in an uint32-value. It is especially for processors
+ * which have a non-byte-addressing step, so that a char is 16 or 32 bit.
+ * If the character array should be accessed with another processor architecture,
+ * may be because of transferred data, or Dual-Port-Memory-Access, the char[] should be bytewise.
+ * For a byte addressing mode with char as byte it can be immediately accessed as char const*
+ */
+#define char4_emC uint32
+
+/**Build a member of a char4_emC array, or build a 4-char-const in an uint32*/
+#define CHAR4_emC(C1, C2, C3, C4)  ((((uint32)C4)<<24) | (( ((uint32)C3)& 0xff)<<16) | (((uint16)C2)<<8) | (C1) & 0xff)
+
+
+
+
 /*@CLASS_C Fwc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 

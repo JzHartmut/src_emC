@@ -45,9 +45,9 @@
 
 #ifndef __BlockHeap_emC_h__
 #define __BlockHeap_emC_h__
-#include "Jc/ObjectJc.h"
-#include "Jc/StringBufferJc.h"
-#include "BlockHeap/BlockHeap_emC.h"
+#include <emC/Base/Object_emC.h>
+#include <emC/Base/String_emC.h>
+#include <emC/BlockHeap/BlockHeap_emC.h>
 
 struct NodePoolJc_t;
 
@@ -61,7 +61,7 @@ struct NodePoolJc_t;
  */
 typedef struct BlockHeap_emC_t
 {
-  ObjectJc object;
+  union{ ObjectJc object;} base;
 
   struct BlockHeap_emC_t* nextHeap;
 
@@ -74,7 +74,7 @@ typedef struct BlockHeap_emC_t
 
   /** Size of a normal block. It must be a power of 2.
   */
-  //int bytesNormalBlock;
+  int bytesNormalBlock;
 
   /** Size of a small block.
   */
@@ -127,7 +127,11 @@ typedef struct BlockHeap_emC_t
 }BlockHeap_emC;
 
 
+
+
 extern_C struct ClassJc_t const reflection_BlockHeap_emC;
+
+#define INIZ_BlockHeap_emC(OBJ) {{ INIZ_ObjectJc(OBJ, &reflection_BlockHeap_emC, 0) }}
 
 
 /**inits a new allocated BlockHeap.
@@ -155,14 +159,14 @@ METHOD_C void setRunMode_BlockHeap_emC(BlockHeap_emC* ythis, struct LogMessageFW
  * @param buffer The Buffer to put the info into. The buffer will be cleared before.
  * @return content of buffer as String or null if the idxBlock is invalid.
  */
-METHOD_C StringJc report_BheapJc(BlockHeap_emC* ythis, int* idxBlockP, StringBufferJc* buffer);
+METHOD_C StringJc report_BheapJc(BlockHeap_emC* ythis, int* idxBlockP, StringBuilderJc_s* buffer);
 
 
 
 /**sets a method called inside the running of garbage Collection after test of each block in a cluster.
  * This method is only used to test some special cases.
  */
-METHOD_C void setTestMethod(MT_int_Method_int testMethod);
+//TODO METHOD_C void setTestMethod(MT_int_Method_int testMethod);
 
 //Some test routines
 void testLastAccess(struct NodePoolJc_t* ithis, ThCxt* _thCxt);

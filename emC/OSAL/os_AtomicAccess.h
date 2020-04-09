@@ -55,6 +55,11 @@
   //C: the cast to void* is accepted.
   #define CAST_AtomicReference(VARIABLE) ((ATOMICREFERENCE)(&(VARIABLE)))
 #endif
+
+
+
+#ifndef DEF_compareAndSet_AtomicInteger
+
 /**Atomically sets the value to the given updated value if the current value == the expected value.
  * @param expect the expected value
  * @param update - the new value
@@ -83,13 +88,13 @@ METHOD_C int64 compareAndSwap_AtomicInteger64(int64 volatile* reference, int64 e
  * @param update - the new value
  * @return the old value if or not successfull. False return indicates that the actual value was not equal to the expected value.
  */
-#ifndef DEF_compareAndSet_AtomicInteger
 INLINE_emC bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
   return found == expect;
 }
-#endif
+#endif  //DEF_compareAndSet_AtomicInteger
+
 
 
 

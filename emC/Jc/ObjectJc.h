@@ -66,17 +66,6 @@
 
 
 
-/** The default construtor. An offset to BlockHeap in mem is considered. */
-METHOD_C ObjectJc* ctorM_ObjectJc(MemC mem); //ObjectJc* ythis);
-#define ctor_ObjectJc(MEM) ctorM_ObjectJc(MEM)
-
-/**The default construtor in C-manner. It assumes, that the area is cleared or is initialized already. 
- * @deprecated use init_ObjectJc() instead
- */
-METHOD_C void ctorc_ObjectJc(ObjectJc* ythis);
-
-
-
 /**Finishes the startup phase and sets the run mode.
  * 
  */
@@ -750,6 +739,8 @@ METHOD_C StringJc toString_F_FloatJc(float val);
 
 METHOD_C StringJc toHexString_FloatJc(float val);
 
+
+#ifndef DEF_ObjectJc_SIMPLE
 /*@CLASS_C ComparableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct ComparableJc_t
@@ -851,14 +842,14 @@ extern_C const struct ClassJc_t reflection_AppendableJc;
 #define append_cs_AppendableJc(THIZ, SRC, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_cs((ObjectJc*)(THIZ), SRC, THCXT)
 #define append_csI_AppendableJc(THIZ, SRC, FROM, TO, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_csI((ObjectJc*)(THIZ), SRC, FROM, TO, THCXT)
 
-
+#endif //DEF_ObjectJc_SIMPLE
 /*@DEFINE_C Inlines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**Inlines: inline definitions which uses definitions above. On end of header.*/
 
 
 
-#ifndef __ObjectJc_simple__
+#ifndef DEF_ObjectJc_SIMPLE
 
 MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt);
 

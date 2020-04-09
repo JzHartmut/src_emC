@@ -43,20 +43,32 @@
 //#include "CRuntimeJavalike.h"
 //#include "ThreadJc.h"
 #include "BlockHeapJc_internal.h"
-#include "Jc/StringJc.h"
-#include "emC/LogMessage.h"
-#include <OSAL/os_time.h>
+#include "emC/Jc/StringJc.h"
+//#include "emC/Base/LogMessage.h"
+#include <emC/OSAL/os_time.h>
 
-#include <OSAL/os_AtomicAccess.h>
-#include <BlockHeap_PlatformSpec.h>
+#include <emC/OSAL/os_AtomicAccess.h>
+//#include <BlockHeap_PlatformSpec.h>
 
 //#include <stdio.h>
 //#include <stdlib.h>
 #include <string.h>
-#include <Jc/ListMapEntryJc.h>  //definition of methods
+#include <emC/Jc/ListMapEntryJc.h>  //definition of methods
 
 
-static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt);
+
+
+#ifdef DEF_REFLECTION_FULL
+
+#else //not DEF_REFLECTION_FULL
+static int32 reflOffs_BlockHeap_emC[] = {0};
+
+ClassJc const reflection_BlockHeap_emC = INIZ_ClassJc(relection_BlockHeap_emC, "relection_BlockHeap_emC", reflOffs_BlockHeap_emC);
+
+#endif //not DEF_REFLECTION_FULL
+
+
+static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* thiz, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt);
 
 //debug
 static int stop()
@@ -80,10 +92,10 @@ static int stop()
     }
   }
 
-  void TEST_allocBlockSecondThread(BlockHeap_emC* ythis, ThCxt* _thCxt)
+  void TEST_allocBlockSecondThread(BlockHeap_emC* thiz, ThCxt* _thCxt)
   { if(!isTEST){
       isTEST = true; //prevent recursively call
-      testBlock =  allocBlock_BlockHeap_emC(ythis, 100, 10, "TEST_allocSecondThread", _thCxt);
+      testBlock =  allocBlock_BlockHeap_emC(thiz, 100, 10, "TEST_allocSecondThread", _thCxt);
       isTEST = false;
     }
   }
@@ -120,7 +132,7 @@ static int stop()
   #define TEST_allocSecondThread(XX)
 #endif
 
-static ListMapEntryJc* initMapEntryNodes_BlockHeap_emC(BlockHeap_emC* ythis, ThCxt* _thCxt);
+static ListMapEntryJc* initMapEntryNodes_BlockHeap_emC(BlockHeap_emC* thiz, ThCxt* _thCxt);
 
 
 #if defined(mBackRef_REF_ObjectJc)
@@ -146,7 +158,9 @@ typedef enum EBlockType_t
 
 
 BlockHeap_emC* current_BlockHeap_emC(ThCxt* _thCxt)
-{ return _thCxt->blockHeap;
+{ return _thCxt==null || _thCxt->blockHeap==null 
+       ? theBlockHeapList   //first or only one entry, null is Assertion-error
+       : _thCxt->blockHeap;
 }
 
 BlockHeap_emC* theBlockHeapList = null;
@@ -159,10 +173,10 @@ BlockHeap_emC* setCurrent_BlockHeap_emC(BlockHeap_emC* heap, ThCxt* _thCxt)
 }
 
 
-METHOD_C void addHeap_BlockHeap_emC(BlockHeap_emC* ythis)
+METHOD_C void addHeap_BlockHeap_emC(BlockHeap_emC* thiz)
 {
-  ythis->nextHeap = theBlockHeapList;
-  theBlockHeapList = ythis;
+  thiz->nextHeap = theBlockHeapList;
+  theBlockHeapList = thiz;
 }
 
 
@@ -244,7 +258,7 @@ void init_i_s_BlockHeap_emC(int idxHeap, MemUnit* heap, int sizeHeap)
 
 METHOD_C BlockHeap_emC* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, int bytesNormalBlock, int bytesSmallBlock)
 {
-  BlockHeap_emC* ythis = (BlockHeap_emC*)othis;
+  BlockHeap_emC* thiz = (BlockHeap_emC*)othis;
   
   int zBlock;
   struct MemAreaC_t* heap = PTR_MemC(wholeHeap, struct MemAreaC_t);
@@ -256,43 +270,49 @@ METHOD_C BlockHeap_emC* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, int
 
   //:TODO: Test signifity of bytesNormalBlock and bytesSmallBlock!
 
-  //SIZEBLOCK_BlockHeap_emC = bytesNormalBlock;
-  //ythis->mAdressNormalBlock_BlockHeap = ~(bytesNormalBlock -1);
+  //thiz->bytesNormalBlock = bytesNormalBlock;
+  //thiz->mAdressNormalBlock_BlockHeap = ~(bytesNormalBlock -1);
 
-  ythis->bytesSmallBlock = bytesSmallBlock;
-  ythis->mAdressSmallBlock_BlockHeap = ~(bytesSmallBlock -1);
+  #ifdef HEAP_BEGINSATPOWER2_RUNTIMEHEAP
+    int testBytes = bytesNormalBlock;
+    while( (testBytes & 1) ==0) { testBytes >>=1; }
+    ASSERTs_emC(testBytes ==1, "BlockHeap: bytesNormalBlock should be power of 2", bytesNormalBlock, 0);
+  #endif
+  thiz->bytesNormalBlock = bytesNormalBlock;
+  thiz->bytesSmallBlock = bytesSmallBlock;
+  thiz->mAdressSmallBlock_BlockHeap = ~(bytesSmallBlock -1);
 
 #ifdef HEAP_BEGINSATPOWER2_RUNTIMEHEAP
   //than all blocks start at a address which is alligned at the size of a block.
   //the deducing from any address inside the block to the begin of the block
   //is only a simple mask of address-bits then.
-  if( ((intPTR)heap & (SIZEBLOCK_BlockHeap_emC-1)) != 0)
+  if( ((intPTR)heap & (bytesNormalBlock-1)) != 0)
   { //if the heap donot starts at a address with mask boundary, increment the address to the next boundary
-    heap = (struct MemAreaC_t*)( ((int32)heap & ~(SIZEBLOCK_BlockHeap_emC-1)) + bytesNormalBlock );
+    heap = (struct MemAreaC_t*)( ((int32)heap & ~(bytesNormalBlock-1)) + bytesNormalBlock );
     //and reduce the number of blocks, because the end address should be less than the given one.
     sizeHeap -= bytesNormalBlock;
   }
 #endif
-  ythis->zBlock = zBlock = sizeHeap / bytesNormalBlock;
-  ythis->heapBegin = (BlockHeapBlockJc_debugArray*)heap;
-  ythis->heapEnd   = addOffset_MemAreaC(ythis->heapBegin, zBlock * bytesNormalBlock);
+  thiz->zBlock = zBlock = sizeHeap / bytesNormalBlock;
+  thiz->heapBegin = (BlockHeapBlockJc_debugArray*)heap;
+  thiz->heapEnd   = addOffset_MemAreaC(thiz->heapBegin, zBlock * bytesNormalBlock);
 
 
-  //ythis->theGarbageCollectorThread = Thread::new_(ythis, "GarbageCollector");
-  //ythis->theGarbageCollectorThread->setPriority(Thread::NORM_PRIORITY -1);
+  //thiz->theGarbageCollectorThread = Thread::new_(thiz, "GarbageCollector");
+  //thiz->theGarbageCollectorThread->setPriority(Thread::NORM_PRIORITY -1);
 
   //if(heap==0) throw new RuntimeException("BlockHeap::init(): no mem");
 
   //Object__BaseRefef::BlockHeapEnd = (MemUnit*)(heap) + zBlock * kSizeNormalBlockHeapBlockJc;
 
-  ythis->firstFreeBlock = (BlockHeapBlockJc*)(heap);
+  thiz->firstFreeBlock = (BlockHeapBlockJc*)(heap);
 
   { //mark all free Blocks with a single linked list
-    BlockHeapBlockJc* block = ythis->firstFreeBlock;
+    BlockHeapBlockJc* block = thiz->firstFreeBlock;
     int ii;
     for(ii=1; ii< zBlock; ii++)  //take the next block
     { BlockHeapBlockJc* nextBlock = (BlockHeapBlockJc*)(&((MemUnit*)heap)[ii * bytesNormalBlock]);
-      block->heap = ythis;
+      block->heap = thiz;
       //bbb block->ctrl.typeAndSize = (int16)kFree_Type_BlockHeapBlock;
       block->typeOrMaxRef = kFree_Type_BlockHeapBlock;
       //bbb *(BlockHeapBlockJc**)(&block->data[0]) = nextBlock;
@@ -300,57 +320,66 @@ METHOD_C BlockHeap_emC* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, int
       block = nextBlock;
     }
     //handle the last block
-    block->heap = ythis;
+    block->heap = thiz;
     //bbb block->ctrl.typeAndSize = (int16)kFree_Type_BlockHeapBlock;
     block->typeOrMaxRef = kFree_Type_BlockHeapBlock;
     //bbb block->data[0] = 0;     //the last block has no next.
     block->nextBlock = null;  //the last block has no next.
-    //ythis->lastFreeBlock = block;  //append a free becoming block here.
+    //thiz->lastFreeBlock = block;  //append a free becoming block here.
   }
 
   //iLastSmallBlock = 0;
   //iNextNormalBlock = 1;
 
 
-  initMapEntryNodes_BlockHeap_emC(ythis, _thCxt);
+  initMapEntryNodes_BlockHeap_emC(thiz, _thCxt);
 
   /*
   if(current_BlockHeap_emC == null)
   { //the first initialized blockheap is the current.
-    current_BlockHeap_emC = ythis;
+    current_BlockHeap_emC = thiz;
   }
   */
 
   //insert this heap in the chain of heaps.
-  ythis->nextHeap = theBlockHeapList;  //null if it is the first one.
-  theBlockHeapList = ythis;
+  thiz->nextHeap = theBlockHeapList;  //null if it is the first one.
+  theBlockHeapList = thiz;
   STACKTRC_LEAVE;
-  return ythis;
+  return thiz;
 
 }
 
 
 
-bool checkSignificance_BlockHeapBlockJc(BlockHeapBlockJc* ythis, struct BlockHeap_emC_t * ownHeap)
+bool checkSignificance_BlockHeapBlockJc(BlockHeapBlockJc* thiz, struct BlockHeap_emC_t * ownHeap)
 {
   ObjectJc* heapObj;
-  if(ownHeap == null){ ownHeap = ythis->heap; }
+  if(ownHeap == null){ ownHeap = thiz->heap; }
   heapObj = &ownHeap->base.object;
 
-  ASSERTJc_RET(ownHeap == ythis->heap && ownHeap != null, false);
+  ASSERTJc_RET(ownHeap == thiz->heap && ownHeap != null, false);
 
   ASSERTJc_RET(instanceof_ObjectJc(heapObj, &reflection_BlockHeap_emC), false);
   return true;
 }
 
 
-void setRunMode_BlockHeap_emC(BlockHeap_emC* ythis, struct LogMessageFW_t* log, int kIdentMsgBase)
-{ ythis->log = log;
-  ythis->kIdentMsgBase = kIdentMsgBase;
+void setRunMode_BlockHeap_emC(BlockHeap_emC* thiz, struct LogMessageFW_t* log, int kIdentMsgBase)
+{ thiz->log = log;
+  thiz->kIdentMsgBase = kIdentMsgBase;
 
-  ythis->bitInitMode = 0x1234abcd;
+  thiz->bitInitMode = 0x1234abcd;
 }
 
+
+
+void setRunModeAll_BlockHeap_emC() {
+  BlockHeap_emC* bh = theBlockHeapList;
+  while(bh !=null) {
+    setRunMode_BlockHeap_emC(bh, null, 0);
+    bh = bh->nextHeap;
+  }
+}
 
 
 MemC alloc_s_sBlockHeap_emC(int sizeObj, const char* sCallInfo, ThCxt* _thCxt)
@@ -368,9 +397,13 @@ ObjectJc* allocObject_s_sBlockHeap_emC(int sizeObj, int identObj, const char* sC
 ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _thCxt)
 { ObjectJc* othis;
   STACKTRC_TENTRY("alloc_ObjectJc");
-  { const char* sCallingMethodName = getCallingMethodName_StacktraceThreadContext_emC( &_thCxt->stacktrc, 1);  
-    othis = allocObject_s_sBlockHeap_emC(size, typeInstanceIdent, sCallingMethodName, _thCxt);
-  }
+  #ifdef DEF_ThreadContextStracktrc_emC  
+    const char* sCallingMethodName = getCallingMethodName_StacktraceThreadContext_emC( &_thCxt->stacktrc, 1);  
+  #else
+    const char* sCallingMethodName = "ThCxtNoStacktrc";
+  #endif
+  othis = allocObject_s_sBlockHeap_emC(size, typeInstanceIdent, sCallingMethodName, _thCxt);
+   
   STACKTRC_LEAVE; return othis;
 }
 
@@ -388,16 +421,16 @@ int setRunMode_ObjectJc(ThCxt* _thCxt)
   return 0;
 }
 
-MemC alloc_s_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, const char* sCallInfo, ThCxt* _thCxt)
+MemC alloc_s_BlockHeap_emC(BlockHeap_emC* thiz, int sizeObj, const char* sCallInfo, ThCxt* _thCxt)
 { //STACKTRC_NAME("alloc_BlockHeap")
-  return alloc_iis_BlockHeap_emC(ythis, sizeObj, kReferencesStd_BlockHeap, sCallInfo, _thCxt);
+  return alloc_iis_BlockHeap_emC(thiz, sizeObj, kReferencesStd_BlockHeap, sCallInfo, _thCxt);
 }
 
 
 
 
-MemC alloc_iis_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
-{ ObjectJc* obj = allocObject_IIs_BlockHeap_emC(ythis, sizeObj, -1, nrofReferences, sCallInfo, _thCxt); 
+MemC alloc_iis_BlockHeap_emC(BlockHeap_emC* thiz, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
+{ ObjectJc* obj = allocObject_IIs_BlockHeap_emC(thiz, sizeObj, -1, nrofReferences, sCallInfo, _thCxt); 
   MemC ret = build_MemC(obj, getSizeInfo_ObjectJc(obj));
   return ret;
 }
@@ -411,14 +444,14 @@ MemC alloc_iis_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int nrofReferenc
  *        If the sizeObj is less, more references can be stored. It is because, the size of the block is constant.
  * @return the Block.
  */
-static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
+static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* thiz, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
 { BlockHeapBlockJc* retBlock;
   //ObjectJc* retObj;
-  bool bRetry;
+  bool bRetry = false;
   STACKTRC_TENTRY("alloc_ii_BlockHeap");
   if(sizeObj == -1)
-  { //BBB sizeObj = SIZEBLOCK_BlockHeap_emC - sizeof(BlockHeapBlockCtrlJc) - nrofReferences * sizeof(ObjectJc*);
-    sizeObj = SIZEBLOCK_BlockHeap_emC - nrofBytesHead_BlockHeapBlockJc - nrofReferences * sizeof(ObjectJcREF*);
+  { //BBB sizeObj = thiz->bytesNormalBlock - sizeof(BlockHeapBlockCtrlJc) - nrofReferences * sizeof(ObjectJc*);
+    sizeObj = thiz->bytesNormalBlock - nrofBytesHead_BlockHeapBlockJc - nrofReferences * sizeof(ObjectJcREF*);
   }
   else if(sizeObj == -2)
   { sizeObj = kSizeSmallBlock_BlockHeap - nrofReferences * sizeof(ObjectJcREF*);
@@ -428,28 +461,28 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int size
     int sizeBlock = 0;
     int minSizeBlock = nrofBytesHead_BlockHeapBlockJc + sizeObj + nrofReferences * sizeof(ObjectJcREF*);  //add the size of the references array to the requested size.
     retBlock = null;
-    if(minSizeBlock > (SIZEBLOCK_BlockHeap_emC - kOffsetData_BlockHeapBlockJc))
+    if(minSizeBlock > (thiz->bytesNormalBlock - kOffsetData_BlockHeapBlockJc)) {
      THROW1_s0(RuntimeException, "BlockHeap::alloc(): size to large", minSizeBlock);
-    else if(minSizeBlock >= 0) //Object::kSizeNormalBlockHeapBlockJc / 8)
+    } else if(minSizeBlock >= 0) //Object::kSizeNormalBlockHeapBlockJc / 8)
     { //after the atomare instruction the first Free Block is no longer available
       //for other threads. So no lock are necessary.
-      //bbb maxRef = (SIZEBLOCK_BlockHeap_emC - sizeof(BlockHeapBlockCtrlJc) - sizeObj) / sizeof(ObjectJc*);
+      //bbb maxRef = (thiz->bytesNormalBlock - sizeof(BlockHeapBlockCtrlJc) - sizeObj) / sizeof(ObjectJc*);
       bool bSuccess;
       int catastrophicRepeatCount = 1000;
-      sizeBlock = SIZEBLOCK_BlockHeap_emC;
+      sizeBlock = thiz->bytesNormalBlock;
       maxRef = (sizeBlock - nrofBytesHead_BlockHeapBlockJc - sizeObj) / sizeof(ObjectJcREF*);
       //disableSwitch_Thread();
       do
-      { retBlock = ythis->firstFreeBlock;
+      { retBlock = thiz->firstFreeBlock;
         if(retBlock !=null)
         { void* nextFreeBlock = retBlock->nextBlock;
           //try to set the next block as newly first one:
           /*
           int lastValue;
-          int ref = (int)(ythis->firstFreeBlock);
+          int ref = (int)(thiz->firstFreeBlock);
           XcompareAndSwap_AtomicInteger(lastValue, ref, retBlock, nextFreeBlock);
           */
-          bSuccess = compareAndSet_AtomicReference(CAST_AtomicReference(ythis->firstFreeBlock), retBlock, nextFreeBlock);
+          bSuccess = compareAndSet_AtomicRef(CAST_AtomicReference(thiz->firstFreeBlock), retBlock, nextFreeBlock);
         }
         else { bSuccess = true; } //no block, no change.
 
@@ -470,8 +503,8 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int size
       #ifdef __RUNTIMEHEAP_TEST__
         retBlock->references__debug = null;
       #endif
-      retBlock->heap = ythis;
-      retBlock->heapidxAndMaxref = (int16)(maxRef + (ythis->idxHeapCtrl << kBitHeapIdx_ObjectJc_BlockHeap));
+      retBlock->heap = thiz;
+      retBlock->heapidxAndMaxref = (int16)(maxRef + (thiz->idxHeapCtrl << kBitHeapIdx_ObjectJc_BlockHeap));
       retBlock->nextBlock  = null;  //NOTE: it had contain the pointer to the next retBlock and is now used as backRef
       retBlock->sCreaterInfo = sCallInfo;
       retBlock->timeCreation = os_getDateTime().time_sec;
@@ -481,7 +514,9 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int size
     else
     { /**No free block found. */
       retBlock = null;
+      #ifdef DEF_BlockHeapGc_emC
       bRetry = runUserCalledGc_BlockHeap_emC(_thCxt);
+      #endif
       if(!bRetry) {
         retBlock = null;
         THROW1_s0(RuntimeException, "BlockHeap::alloc(): no memblock", 0);
@@ -493,23 +528,23 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* ythis, int size
 
 
 
-MemC allocMemC_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
+MemC allocMemC_BlockHeap_emC(BlockHeap_emC* thiz, int sizeObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
 { MemC ret;
-  if(ythis == null || ythis->bitInitMode != 0x1234abcd)
+  if(thiz == null || thiz->bitInitMode != 0x1234abcd)
   { //init-mode
-    ret = alloc_MemC(sizeObj);
+    SET_MemC(ret, alloc_MemC(sizeObj), sizeObj);
   }
   else
   { //alloc a Block in the BlockHeap-pool:
     void* retBlock;
-    int offsetObjToBlock = SIZEBLOCK_BlockHeap_emC - sizeObj;
-    BlockHeapBlockJc* block = allocBlock_BlockHeap_emC(ythis, sizeObj, nrofReferences, sCallInfo, _thCxt);
+    int offsetObjToBlock = thiz->bytesNormalBlock - sizeObj;
+    BlockHeapBlockJc* block = allocBlock_BlockHeap_emC(thiz, sizeObj, nrofReferences, sCallInfo, _thCxt);
     if(block !=null) {
       //arrange the data at end of the block!
       retBlock = addOffset_MemAreaC(block, offsetObjToBlock);;
-      set_MemC(ret, retBlock, sizeObj);
+      SET_MemC(ret, retBlock, sizeObj);
     } else {
-      set_MemC(ret, null, 0);
+      SET_MemC(ret, null, 0);
     }
   }
   return ret;
@@ -517,38 +552,39 @@ MemC allocMemC_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int nrofReferenc
 
 
 
-ObjectJc* allocObject_IIs_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int identObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
+ObjectJc* allocObject_IIs_BlockHeap_emC(BlockHeap_emC* thiz, int sizeObj, int identObj, int nrofReferences, const char* sCallInfo, ThCxt* _thCxt)
 { ObjectJc* retObj;
   if(sizeObj == -1)
-  { sizeObj = SIZEBLOCK_BlockHeap_emC - nrofBytesHead_BlockHeapBlockJc - nrofReferences * sizeof(ObjectJcREF*);
+  { sizeObj = thiz->bytesNormalBlock - nrofBytesHead_BlockHeapBlockJc - nrofReferences * sizeof(ObjectJcREF*);
   }
   else if(sizeObj == -2)
   { sizeObj = kSizeSmallBlock_BlockHeap - nrofReferences * sizeof(ObjectJcREF*);
   }
-  if(ythis == null || ythis->bitInitMode != 0x1234abcd)
-  { retObj = PTR_MemC(alloc_MemC(sizeObj), ObjectJc);
+  if(thiz == null || thiz->bitInitMode != 0x1234abcd)
+  { retObj = (ObjectJc*)alloc_MemC(sizeObj);
     if(retObj !=null){
-      iniz_ObjectJc(retObj, retObj, sizeObj, null, identObj);
+      ClassJc const* refl = &reflection_ClassJc;
+      iniz_ObjectJc(retObj, retObj, sizeObj, refl, identObj);
     }
   }
   else
   { //alloc a Block in the BlockHeap-pool:
-    int offsetObjToBlock = SIZEBLOCK_BlockHeap_emC - sizeObj;
-    BlockHeapBlockJc* block = allocBlock_BlockHeap_emC(ythis, sizeObj, nrofReferences, sCallInfo, _thCxt);
+    int offsetObjToBlock = thiz->bytesNormalBlock - sizeObj;
+    BlockHeapBlockJc* block = allocBlock_BlockHeap_emC(thiz, sizeObj, nrofReferences, sCallInfo, _thCxt);
     if(block !=null) {
       //arrange the data at end of the block!
-      retObj = SIMPLE_CAST(ObjectJc*, addOffset_MemAreaC(block, offsetObjToBlock));
+      retObj = C_CAST(ObjectJc*, addOffset_MemAreaC(block, offsetObjToBlock));
       ctorc_ObjectJc(retObj);
       setSizeAndIdent_ObjectJc(retObj, sizeObj, identObj);
       block->obj = retObj;  //notice the pointer to the allocating Object, to run finalize if it is freed.
       //necessary ? retObj->blockHeapBlock = block;
-      if(ythis->log != null)
+      if(thiz->log != null)
       {
         /**It isn't good, because that complex algorithm may alloc too. TODO: sendmsg without any alloc here or special solution */
-        sendMsg_tzzv_LogMessageFW(ythis->log, ythis->kIdentMsgBase + identMsgAlloc_BlockHeap_emC, os_getDateTime()
-          , "alloc_BlockHeap; block=%p; size=%d; id=%d; caller=%s; firstFree %p"
-          , "PIIzP", block, sizeObj, identObj, sCallInfo, ythis->firstFreeBlock
-          ); 
+        //sendMsg_tzzv_LogMessageFW(thiz->log, thiz->kIdentMsgBase + identMsgAlloc_BlockHeap_emC, os_getDateTime()
+        //  , "alloc_BlockHeap; block=%p; size=%d; id=%d; caller=%s; firstFree %p"
+        //  , "PIIzP", block, sizeObj, identObj, sCallInfo, thiz->firstFreeBlock
+        //  ); 
       }
     } else {
       retObj = null;
@@ -561,7 +597,7 @@ ObjectJc* allocObject_IIs_BlockHeap_emC(BlockHeap_emC* ythis, int sizeObj, int i
 
 
   
-void free_BlockHeap_emC(BlockHeap_emC* ythis, BlockHeapBlockJc* block, ThCxt* _thCxt)
+void free_BlockHeap_emC(BlockHeap_emC* thiz, BlockHeapBlockJc* block, ThCxt* _thCxt)
 { bool bSuccess;
   int catastrophicRepeatCount = 1000;
   BlockHeapBlockJc* firstFreeBlockCurrent;
@@ -569,11 +605,11 @@ void free_BlockHeap_emC(BlockHeap_emC* ythis, BlockHeapBlockJc* block, ThCxt* _t
   block->typeOrMaxRef = kFree_Type_BlockHeapBlock;
   block->heapidxAndMaxref = 0;
   do {
-    firstFreeBlockCurrent = ythis->firstFreeBlock;  //may be null, if heap is empty.
+    firstFreeBlockCurrent = thiz->firstFreeBlock;  //may be null, if heap is empty.
     //bbb block->ctrl.typeAndSize = kFree_Type_BlockHeapBlock;
     //bbb block->data[0] = 0;
     block->nextBlock = firstFreeBlockCurrent;  //the current first will be the second then.
-    bSuccess = compareAndSet_AtomicReference(CAST_AtomicReference(ythis->firstFreeBlock), firstFreeBlockCurrent, block);
+    bSuccess = compareAndSet_AtomicRef(CAST_AtomicReference(thiz->firstFreeBlock), firstFreeBlockCurrent, block);
   } while(!bSuccess && --catastrophicRepeatCount >=0);
   if(catastrophicRepeatCount < 0){
     THROW1_s0(RuntimeException,"compareAndSet-fail",0);
@@ -604,13 +640,13 @@ bool free_sBlockHeap_emC(void const* obj, ThCxt* _thCxt)
 
 
 
-MemC getRestBlock_ObjectJc(ObjectJc* ythis, int size, ThCxt* _thCxt)
+MemC getRestBlock_ObjectJc(ObjectJc* thiz, int size, ThCxt* _thCxt)
 { MemC retMem;
   STACKTRC_TENTRY("restSizeBlock_ObjectJc");
   { BlockHeap_emC* retHeap;
-    BlockHeapBlockJc* block = searchBlockHeapBlock_BlockHeap_emC(ythis, &retHeap);
+    BlockHeapBlockJc* block = searchBlockHeapBlock_BlockHeap_emC(thiz, &retHeap);
     if(block == null)
-    { set_MemC(retMem, 0, null);
+    { SET_MemC(retMem, 0, null);
     }
     else
     { int nrofBytes;
@@ -626,8 +662,8 @@ MemC getRestBlock_ObjectJc(ObjectJc* ythis, int size, ThCxt* _thCxt)
       }
       if(nrofBytes <0 || nrofBackRefs < 0) THROW1_s0(IllegalArgumentException, "unaccomplishable request of rest block size", size);
       block->typeOrMaxRef = (int16)((block->typeOrMaxRef & ~ mMaxRef_BlockHeap_emC) | nrofBackRefs);
-      addr = addOffset_MemAreaC(ythis, -nrofBytes);
-      set_MemC(retMem, addr, nrofBytes);
+      addr = addOffset_MemAreaC(thiz, -nrofBytes);
+      SET_MemC(retMem, addr, nrofBytes);
     }
   }
   STACKTRC_LEAVE; return retMem;
@@ -653,7 +689,7 @@ void setLogMessageOutput_BlockHeap_emC(struct LogMessageFW_t* log, int msgBase, 
 
 
 
-#include "Jc/ListMapEntryJc.h"  //includes pkgSystem/Object.h, pkgSystem/String.h
+#include "emC/Jc/ListMapEntryJc.h"  //includes pkgSystem/Object.h, pkgSystem/String.h
 
 
 
@@ -679,27 +715,27 @@ struct NodePoolJc_t* current_NodePool_ListMapEntryJc(struct ThreadContext_emC_t*
 
 
 
-static ListMapEntryJc* initMapEntryNodes_BlockHeap_emC(BlockHeap_emC* ythis, ThCxt* _thCxt)
+static ListMapEntryJc* initMapEntryNodes_BlockHeap_emC(BlockHeap_emC* thiz, ThCxt* _thCxt)
 { ListMapEntryJc* retBlock;
   int ixNode;
-  int nrofNode = (SIZEBLOCK_BlockHeap_emC - sizeof(BlockHeapBlockJc)) / sizeof(ListMapEntryJc);
+  int nrofNode = (thiz->bytesNormalBlock - sizeof(BlockHeapBlockJc)) / sizeof(ListMapEntryJc);
   ListMapEntryJc* next;
       
-  BlockHeapBlockJc* block = allocBlock_BlockHeap_emC(ythis, -1, 0, "alloc_ListMapEntryJc", _thCxt);
+  BlockHeapBlockJc* block = allocBlock_BlockHeap_emC(thiz, -1, 0, "alloc_ListMapEntryJc", _thCxt);
   block->typeOrMaxRef = kMapEntryBlock_Type_BlockHeapBlockJc + 1;
   //data content of the allocated block is newBlock,
   retBlock = (ListMapEntryJc*)(block+1);  //casting: address after head
-  if(ythis->firstMapEntry == null){
+  if(thiz->firstMapEntry == null){
     //it is initial
-    ASSERTJc_TEST(ythis->lastMapEntry == null);
-    ythis->firstMapEntry = ythis->lastMapEntry = retBlock;
+    ASSERTs_emC(thiz->lastMapEntry == null, "BlockHeap lastMapEntry not null", (int)(intptr_t)thiz->lastMapEntry, 0);
+    thiz->firstMapEntry = thiz->lastMapEntry = retBlock;
   }
   //the retBlock is the first block of 
   //retBlock = &newBlock->entries[0]; 
   for(ixNode = 1; ixNode < nrofNode; ++ixNode){ 
     next = &retBlock[ixNode];
     //free all new blocks upon the next.
-    free_ListMapEntryJc((struct NodePoolJc_t*)ythis, next, _thCxt);
+    free_ListMapEntryJc((struct NodePoolJc_t*)thiz, next, _thCxt);
   }
   return retBlock;
 }
@@ -709,7 +745,7 @@ static ListMapEntryJc* initMapEntryNodes_BlockHeap_emC(BlockHeap_emC* ythis, ThC
 
 
 ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* ithis, ThCxt* _thCxt)
-{ BlockHeap_emC* ythis = (BlockHeap_emC*)ithis;  //conversion allowed because the reference is getted with current_NodePool_ListMapEntryJc
+{ BlockHeap_emC* thiz = (BlockHeap_emC*)ithis;  //conversion allowed because the reference is getted with current_NodePool_ListMapEntryJc
   ListMapEntryJc* retBlock;
   ListMapEntryJc* secondBlock;
   //ListMapEntryJc* nextBlock;
@@ -721,12 +757,12 @@ ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* ithis, ThCxt* _thCxt)
     retBlock = null;
     { //after the atomare instruction the first Free Block is no longer available
       //for other threads. So no lock are necessary.
-      //bbb maxRef = (SIZEBLOCK_BlockHeap_emC - sizeof(BlockHeapBlockCtrlJc) - sizeObj) / sizeof(ObjectJc*);
+      //bbb maxRef = (thiz->bytesNormalBlock - sizeof(BlockHeapBlockCtrlJc) - sizeObj) / sizeof(ObjectJc*);
       bool bSuccess = false;
       int catastrophicRepeatCount = 1000; 
       do
-      { retBlock = ythis->firstMapEntry;
-        lastBlock = ythis->lastMapEntry;
+      { retBlock = thiz->firstMapEntry;
+        lastBlock = thiz->lastMapEntry;
         secondBlock = retBlock->next;
         if(retBlock == lastBlock){
           //only one node in list, it has to remain there.
@@ -738,12 +774,12 @@ ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* ithis, ThCxt* _thCxt)
             //It means, that this thread has interrupted another thread, 
             //which has added a free block, but it hasn't adjust the lastMapEntry-ref just now.
             //adjust it instead. The try again.
-            compareAndSet_AtomicReference(CAST_AtomicReference(ythis->lastMapEntry), lastBlock, secondBlock);  
+            compareAndSet_AtomicRef(CAST_AtomicReference(thiz->lastMapEntry), lastBlock, secondBlock);  
           }
         } else {
           //fist and lastMapEntry referes to different nodes, There should be a node available!
           //try to set the next block as newly first one:
-          bSuccess = compareAndSet_AtomicReference(CAST_AtomicReference(ythis->firstMapEntry), retBlock, secondBlock);
+          bSuccess = compareAndSet_AtomicRef(CAST_AtomicReference(thiz->firstMapEntry), retBlock, secondBlock);
         }
       } while(!bSuccess && --catastrophicRepeatCount >=0);  //repeat if compareAndSet fails.
       if(catastrophicRepeatCount < 0){
@@ -753,7 +789,7 @@ ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* ithis, ThCxt* _thCxt)
     if(retBlock == null){
       //nolistMapEntry-Block available, then allocated a normal block and use it for ListMapEntries:
       //MapEntryBlockJc* newBlock;
-      retBlock = initMapEntryNodes_BlockHeap_emC(ythis, _thCxt);
+      retBlock = initMapEntryNodes_BlockHeap_emC(thiz, _thCxt);
     
     }
   //}while(retBlock == null && bRetry);  //repeat it if a block isn't found but the garbage collector was successfull.
@@ -763,17 +799,17 @@ ListMapEntryJc* alloc_ListMapEntryJc(struct NodePoolJc_t* ithis, ThCxt* _thCxt)
 
 
 void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct ThreadContext_emC_t* _thCxt)
-{ BlockHeap_emC* ythis = (BlockHeap_emC*)ithis;  //conversion allowed because the reference is getted with current_NodePool_ListMapEntryJc
+{ BlockHeap_emC* thiz = (BlockHeap_emC*)ithis;  //conversion allowed because the reference is getted with current_NodePool_ListMapEntryJc
   bool bSuccess;
   int catastrophicRepeatCount = 1000;
   BlockHeapBlockJc* block;
   int nrofFreeNodesInBlock;
   //The next value is a constant, calculated by compiler:
-  int halfNrofNodesInBlock = ((SIZEBLOCK_BlockHeap_emC-sizeof(BlockHeapBlockJc))/sizeof(ListMapEntryJc)/2);
+  int halfNrofNodesInBlock = ((thiz->bytesNormalBlock-sizeof(BlockHeapBlockJc))/sizeof(ListMapEntryJc)/2);
   STACKTRC_TENTRY("free_BlockHeap_emC");
   
   block = deduce_BlockHeapBlockJc(node);
-  checkSignificance_BlockHeapBlockJc(block, ythis);
+  checkSignificance_BlockHeapBlockJc(block, thiz);
   node->allocater = null;
   nrofFreeNodesInBlock = block->typeOrMaxRef & mMaxRef_BlockHeap_emC;
   
@@ -784,13 +820,13 @@ void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct
     //and than it can be freed as whole block.
     node->next = null;  //add as last node, it mustn't reference any other.
     do{
-      ListMapEntryJc* tail = ythis->lastMapEntry;
+      ListMapEntryJc* tail = thiz->lastMapEntry;
       ListMapEntryJc* next = tail->next;
       bSuccess = false;  //TODO test it.
-      if(tail == ythis->lastMapEntry){
+      if(tail == thiz->lastMapEntry){
         if(next == null){
-          if(compareAndSet_AtomicReference(CAST_AtomicReference(tail->next), next, node)){
-            compareAndSet_AtomicReference(CAST_AtomicReference(ythis->lastMapEntry), tail, node);
+          if(compareAndSet_AtomicRef(CAST_AtomicReference(tail->next), next, node)){
+            compareAndSet_AtomicRef(CAST_AtomicReference(thiz->lastMapEntry), tail, node);
             bSuccess = true;
          }
         } else {
@@ -798,17 +834,17 @@ void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct
           //before the lastMapEntry was set to the really end.
           //Therefore: //set the lastMapEntry to the next found strange entry.
           //after them the test will be repeated so long as next == null.
-          compareAndSet_AtomicReference(CAST_AtomicReference(ythis->lastMapEntry), tail, next);
+          compareAndSet_AtomicRef(CAST_AtomicReference(thiz->lastMapEntry), tail, next);
       } }
     } while(!bSuccess && --catastrophicRepeatCount >=0);
   } else {
     //append the node on top if the block has more as half nodes allocated..
     do {
       ListMapEntryJc* firstFreeNodeCurrent;
-      firstFreeNodeCurrent = ythis->firstMapEntry;  //may be null, if heap is empty.
+      firstFreeNodeCurrent = thiz->firstMapEntry;  //may be null, if heap is empty.
       node->next = firstFreeNodeCurrent;            //the current first will be the second then.
-      bSuccess = compareAndSet_AtomicReference(CAST_AtomicReference(ythis->firstMapEntry), firstFreeNodeCurrent, node);
-      if(bSuccess && firstFreeNodeCurrent == ythis->lastMapEntry){
+      bSuccess = compareAndSet_AtomicRef(CAST_AtomicReference(thiz->firstMapEntry), firstFreeNodeCurrent, node);
+      if(bSuccess && firstFreeNodeCurrent == thiz->lastMapEntry){
         //the list was empty, now
         stop();
       }
@@ -822,6 +858,107 @@ void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct
   }
   STACKTRC_LEAVE;
 }
+
+
+
+
+
+
+/**Tests if the objP is inside any BlockHeap, ascertains the block base address and
+* the block number if it is a small block.
+*
+* This is a core algorithm of BlockHeap. It imagins as complex, but it is simple:
+* * At first it must be detect, if the object is located in any Blockheap generally and in which one.
+*   To detect this, all known Blockheap adress ranges should be compared with the address of the given Object.
+*   But in users systems, there will be only one or few BlockHeaps, 1..5 is realistic.
+*   To find out the BlockHeap_emC-control structures, there are chained in a queue
+*   started with the global reference theBlockHeapList. The BlockHeap_emC control structure contains
+*   the start and end address of the heap area in the users memory space.
+*   Now it is a simple address compare operation to detect wether the Object is in this area.
+* * If the Object is located in a Blockheap, the size of blocks is known.
+*   The Object doesnot start at the begin adress of the block, because there are some control bytes
+*   and the array of back references is located from start position.
+*   It is possible, that the Object is an embedded structure inside another Object and this other Object
+*   occupies the block primary. The essential is, this Object is located in a block, it don't care where exactly.
+* * To detect which block, a masking of memory address is done. It is a fast algorithm.
+*   It requires, that the block size is a power of 2. This requirement is considered in construction of BlockHeap.
+*   It is possible, that the border adresses of the heap memory area are also power of 2.
+*   In this case the address of the Object can be simple masked to get the block start address.
+* * This getted block start address is the start address of a normal block.
+*   But it is possible that the Object is member of a small block. There are some small blocks in one normal block.
+*   It can be detect wether the large block is a container of small blocks to test a bit at BlockHeapBlockJc::typeOrMaxRef.
+*   If it is not a small-block-container, the block is detect and the algorithm is returned.
+* * If it is a small-block-container, the correct small block will be detected by knowing its size.
+*   It needs a few more calculation time.
+*
+* @param objP any address in memomry space
+* @param retHeap output pointer to set the dedicated BlockHeap control structure.
+* @param retNumber output pointer to set the block number of a small block.
+* @return base address of the block. It is always the base address of a normal block.
+*/
+
+METHOD_C BlockHeapBlockJc* searchBlockHeapBlock_BlockHeap_emC(void const* objP, BlockHeap_emC** retHeap){ 
+  BlockHeapBlockJc* block = null;
+  struct MemAreaC_t const* obj = (struct MemAreaC_t const*)(objP);
+  BlockHeap_emC* heap;
+
+  heap = theBlockHeapList;
+  while(heap != null && block == null)
+  { //check whether the block is member of the heap, it is in its address range of blocks:
+    if( ((void const*)heap->heapBegin) <= objP && ((void*)obj) < heap->heapEnd)
+    { //it is in this heap:
+      #ifdef HEAP_BEGINSATPOWER2_RUNTIMEHEAP
+      block = (BlockHeapBlockJc*)(((intPTR)(obj)) & ~(heap->bytesNormalBlock-1));
+      #else
+      #error do not compile
+      block = (BlockHeapBlockJc*)
+        ( ( ( ((MemUnit*)obj) - ((MemUnit*)heap->heapBegin)) & ~(thiz->bytesNormalBlock-1)
+        ) + ((MemUnit*)heap->heapBegin)
+        ) ;
+      #endif
+      //bbb if( (block->ctrl.typeAndSize & mSmallBlock_Type_Object) == mSmallBlock_Type_Object)
+      if( (block->typeOrMaxRef & mSmallBlock_Type_Object) == mSmallBlock_Type_Object)
+      { /*The block begins with the info, it is a block containing small blocks:
+        use the small block mask.
+        */
+        #ifdef HEAP_BEGINSATPOWER2_RUNTIMEHEAP
+        block = (BlockHeapBlockJc*)(((intPTR)(obj)) & heap->mAdressSmallBlock_BlockHeap);
+        #else
+        #error do not compile
+        block = (BlockHeapBlockJc*)
+          ( ( (((MemUnit*)obj) - ((MemUnit*)heap->heapBegin)) & heap->mAdressSmallBlock_BlockHeap
+          ) + heap->heapBegin
+          ) ;
+        #endif
+      }
+      //bbb else if( (block->ctrl.typeAndSize & mSmallBlock_Type_Object) == kMapEntryBlock_Type_Object)
+      else if( (block->typeOrMaxRef & mSmallBlock_Type_Object) == kMapEntryBlock_Type_BlockHeapBlockJc)
+      { /*The block begins with the info, it is a block containing small blocks:
+        use the small block mask.
+        */
+        struct MemAreaC_t* nextBlock;
+
+        //bbb block = (BlockHeapBlockJc*) ( &block->data[1]);
+        block = null; //TODO (BlockHeapBlockJc*) ( &block->backRefs[1]);
+        nextBlock = addOffset_MemAreaC((struct MemAreaC_t*)(block), sizeof(ListMapEntryJc));
+        while(nextBlock < obj)
+        { block = (BlockHeapBlockJc*)(nextBlock); //may be the right one.
+        nextBlock = addOffset_MemAreaC(block, sizeof(ListMapEntryJc));
+
+        //nextBlock += bytesMapEntryBlock_BlockHeap;
+        }
+      }
+    }
+    else
+    { // not in this heap
+      heap = heap->nextHeap;
+    }
+  }
+  *retHeap = heap;
+  return block;
+}
+
+
 
 
 

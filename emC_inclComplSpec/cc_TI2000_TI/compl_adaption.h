@@ -113,8 +113,6 @@
 //do nut use platform specific headers. 
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
-//The following switch select the operation system in some sources.
-#define __OS_IS_WINDOWS__
 
 //The following switch select the compiler in some sources.
 #define __COMPILER_IS_TI2000__
@@ -122,7 +120,7 @@
 
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
-#define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
+#define BYTE_IN_MemUnit 2       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
 
 
@@ -132,7 +130,7 @@
  * Note: The number of bits for an int16_t may not 16 in all platforms. 
  * There are platforms which only knows 32 bit data (for example DSP processors from Analog Devices).
  */
-#define INT8_NROFBITS  8
+#define INT8_NROFBITS  16
 #define INT16_NROFBITS 16
 #define INT32_NROFBITS 32
 #define INT64_NROFBITS 64
@@ -303,8 +301,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */
 #define mLength_StringJc                 0x00003fff
-
-
 
 #ifndef TRUE
   #define TRUE true

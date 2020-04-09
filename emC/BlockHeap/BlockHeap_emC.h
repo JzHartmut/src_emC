@@ -42,7 +42,7 @@
 #define __BlockHeap_emC__h
 
 #ifndef HEADERGUARD_ObjectJc_h
-  #include "Jc/ObjectJc.h"
+  #include <emC/Base/Object_emC.h>
 #endif
 
 /*@CLASS_C BlockHeap_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -57,7 +57,7 @@ METHOD_C struct BlockHeap_emC_t* current_BlockHeap_emC(ThCxt* _thCxt);
  * In Java it is an empty not necessary instruction, because all actions are done in normal heap.
  * In C this routine have to be implement from the user, because it is situational to all user-defined block heaps. 
  */
-METHOD_C void setRunModeAll_BlockHeap_emC(ThCxt* _thCxt);
+METHOD_C void setRunModeAll_BlockHeap_emC();
 
 
 

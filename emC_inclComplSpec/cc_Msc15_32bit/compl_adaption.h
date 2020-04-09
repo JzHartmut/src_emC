@@ -50,54 +50,55 @@
 //Because pragma once (or guard) the content of the files are not included again.
 //They should be included firstly to cover its typedef by the typedef of simulink.
 //Note: The stdint.h includes sum unecessary stuff
-//#include <stdint.h>  //C99-int types
+#include <stdint.h>  //C99-int types
 //define instead the important type definitions immediately compiler specific.
-typedef signed char        int8_t;
-typedef short              int16_t;
-typedef int                int32_t;
-typedef long long          int64_t;
-typedef unsigned char      uint8_t;
-typedef unsigned short     uint16_t;
-typedef unsigned int       uint32_t;
-typedef unsigned long long uint64_t;
-#define INT8_MIN         (-127i8 - 1)
-#define INT16_MIN        (-32767i16 - 1)
-#define INT32_MIN        (-2147483647i32 - 1)
-#define INT64_MIN        (-9223372036854775807i64 - 1)
-#define INT8_MAX         127i8
-#define INT16_MAX        32767i16
-#define INT32_MAX        2147483647i32
-#define INT64_MAX        9223372036854775807i64
-#define UINT8_MAX        0xffui8
-#define UINT16_MAX       0xffffui16
-#define UINT32_MAX       0xffffffffui32
-#define UINT64_MAX       0xffffffffffffffffui64
-
-#define INT_LEAST8_MIN   INT8_MIN
-#define INT_LEAST16_MIN  INT16_MIN
-#define INT_LEAST32_MIN  INT32_MIN
-#define INT_LEAST64_MIN  INT64_MIN
-#define INT_LEAST8_MAX   INT8_MAX
-#define INT_LEAST16_MAX  INT16_MAX
-#define INT_LEAST32_MAX  INT32_MAX
-#define INT_LEAST64_MAX  INT64_MAX
-#define UINT_LEAST8_MAX  UINT8_MAX
-#define UINT_LEAST16_MAX UINT16_MAX
-#define UINT_LEAST32_MAX UINT32_MAX
-#define UINT_LEAST64_MAX UINT64_MAX
-
-#define INT_FAST8_MIN    INT8_MIN
-#define INT_FAST16_MIN   INT32_MIN
-#define INT_FAST32_MIN   INT32_MIN
-#define INT_FAST64_MIN   INT64_MIN
-#define INT_FAST8_MAX    INT8_MAX
-#define INT_FAST16_MAX   INT32_MAX
-#define INT_FAST32_MAX   INT32_MAX
-#define INT_FAST64_MAX   INT64_MAX
-#define UINT_FAST8_MAX   UINT8_MAX
-#define UINT_FAST16_MAX  UINT32_MAX
-#define UINT_FAST32_MAX  UINT32_MAX
-#define UINT_FAST64_MAX  UINT64_MAX
+//#define int8_t signed char
+//#define int16_t short
+//#define int32_t int
+//#define int64_t long long
+//#define uint8_t unsigned char
+//#define uint16_t unsigned short
+//#define uint32_t unsigned int
+//#define uint64_t unsigned long long
+//#define intptr_t int
+//#define INT8_MIN         (-127i8 - 1)
+//#define INT16_MIN        (-32767i16 - 1)
+//#define INT32_MIN        (-2147483647i32 - 1)
+//#define INT64_MIN        (-9223372036854775807i64 - 1)
+//#define INT8_MAX         127i8
+//#define INT16_MAX        32767i16
+//#define INT32_MAX        2147483647i32
+//#define INT64_MAX        9223372036854775807i64
+//#define UINT8_MAX        0xffui8
+//#define UINT16_MAX       0xffffui16
+//#define UINT32_MAX       0xffffffffui32
+//#define UINT64_MAX       0xffffffffffffffffui64
+//
+//#define INT_LEAST8_MIN   INT8_MIN
+//#define INT_LEAST16_MIN  INT16_MIN
+//#define INT_LEAST32_MIN  INT32_MIN
+//#define INT_LEAST64_MIN  INT64_MIN
+//#define INT_LEAST8_MAX   INT8_MAX
+//#define INT_LEAST16_MAX  INT16_MAX
+//#define INT_LEAST32_MAX  INT32_MAX
+//#define INT_LEAST64_MAX  INT64_MAX
+//#define UINT_LEAST8_MAX  UINT8_MAX
+//#define UINT_LEAST16_MAX UINT16_MAX
+//#define UINT_LEAST32_MAX UINT32_MAX
+//#define UINT_LEAST64_MAX UINT64_MAX
+//
+//#define INT_FAST8_MIN    INT8_MIN
+//#define INT_FAST16_MIN   INT32_MIN
+//#define INT_FAST32_MIN   INT32_MIN
+//#define INT_FAST64_MIN   INT64_MIN
+//#define INT_FAST8_MAX    INT8_MAX
+//#define INT_FAST16_MAX   INT32_MAX
+//#define INT_FAST32_MAX   INT32_MAX
+//#define INT_FAST64_MAX   INT64_MAX
+//#define UINT_FAST8_MAX   UINT8_MAX
+//#define UINT_FAST16_MAX  UINT32_MAX
+//#define UINT_FAST32_MAX  UINT32_MAX
+//#define UINT_FAST64_MAX  UINT64_MAX
 
 //#include <limits.h>  //proper to C99
 
@@ -222,16 +223,17 @@ typedef unsigned long long uint64_t;
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
  */
-#define int8      int8_t
-#define uint8     uint8_t
+#define int8      char
+#define uint8     unsigned char
 
-#define int16     int16_t
-#define uint16    uint16_t
+#define int16     short
+#define uint16    unsigned short
 
-#define int32     int32_t
-#define uint32    uint32_t
+//int32 should be int because conversion from int to int32 should be possible.
+#define int32     int
+#define uint32    unsigned int
 
-#define uint      uint32_t
+#define uint      unsigned int
 
 #define int64 __int64
 #define uint64 uint64_t
@@ -391,18 +393,60 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
 
 #define DEF_compareAndSet_AtomicInteger
-bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update);
+//This is implemented in emC_srcOSALspec/hw_Intel_x86_Gcc/os_atomic.c:
+int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
 
 
-bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update);
 
 
-bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
+INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect;
+}
 
-bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update);
+INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect;
+}
 
 
-bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
+
+INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update){
+  return false; //TODO
+}
+
+INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+  //Note: more difficult because memory is 32 bit
+  unsigned long expect32, update32;
+  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
+    expect32 = update;
+    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
+    update32 = update;
+    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+  } else {
+    expect32 = *(reference +1); //read associate hi word
+    expect32 = (expect32 <<16) | update; 
+    update32 = *(reference +1); //read associate hi word
+    update32 = (update32 <<16) | update; 
+  }
+  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
+  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
+  //only a little bit more calculation time because unnecesarry repetition.
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect32;
+}
+
+
+
+INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
+  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
+  if(sizeof(void*) != sizeof(int32)) {
+    return false;
+  }
+  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
+  return read == (int32_t)expect;
+}
+
 
 #include <emC/Base/os_types_def_common.h>
 
