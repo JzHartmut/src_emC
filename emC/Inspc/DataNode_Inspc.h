@@ -21,7 +21,7 @@ typedef struct DataNode_Inspc_t
 
   struct {
     ObjectArrayJc head;
-    ClassOffset_idxMtblJc clazz;
+    ClassOffset_idxVtblJc clazz;
   } superclass;
 
   /**All fields of this node, it refers either the reflection class of the instances or the clazz of a sub node.

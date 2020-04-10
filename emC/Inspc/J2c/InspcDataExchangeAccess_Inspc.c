@@ -18,10 +18,10 @@
 */
 
 
-const char sign_Mtbl_InspcDataExchangeAccess_Inspc[] = "InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_InspcDataExchangeAccess_Inspc[] = "InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_InspcDataExchangeAccess_Inspc_t { Mtbl_InspcDataExchangeAccess_Inspc mtbl; MtblHeadJc end; } MtblDef_InspcDataExchangeAccess_Inspc;
- extern MtblDef_InspcDataExchangeAccess_Inspc const mtblInspcDataExchangeAccess_Inspc;
+typedef struct VtblDef_InspcDataExchangeAccess_Inspc_t { Vtbl_InspcDataExchangeAccess_Inspc mtbl; VtblHeadJc end; } VtblDef_InspcDataExchangeAccess_Inspc;
+ extern VtblDef_InspcDataExchangeAccess_Inspc const mtblInspcDataExchangeAccess_Inspc;
 StringJc version_InspcDataExchangeAccess_Inspc = CONST_z_StringJc("2015-08-05"); //J2C:static StringJc
 const int32 nrofBytesSpecialTypes_InspcDataExchangeAccess_Inspc[24] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 4};
 
@@ -141,13 +141,13 @@ int32 getIntChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_InspcDataExchangeAccess_Inspc mtblInspcDataExchangeAccess_Inspc = {
-{ { sign_Mtbl_InspcDataExchangeAccess_Inspc //J2C: Head of methodtable of InspcDataExchangeAccess_Inspc
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_InspcDataExchangeAccess_Inspc mtblInspcDataExchangeAccess_Inspc = {
+{ { sign_Vtbl_InspcDataExchangeAccess_Inspc //J2C: Head of methodtable of InspcDataExchangeAccess_Inspc
+  , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -156,16 +156,16 @@ const MtblDef_InspcDataExchangeAccess_Inspc mtblInspcDataExchangeAccess_Inspc = 
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InspcDataExchangeAccess_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_InspcDataExchangeAccess_Inspc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_InspcDataExchangeAccess_Inspc, ObjectJc) }
    }
  };
 
@@ -200,7 +200,7 @@ const ClassJc reflection_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcDataExchangeAccess_Inspc_s)
 , (FieldJc_Y const*)&reflection_Fields_InspcDataExchangeAccess_Inspc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcDataExchangeAccess_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInspcDataExchangeAccess_Inspc.mtbl.head
@@ -211,7 +211,7 @@ const ClassJc reflection_InspcDataExchangeAccess_Inspc_s =
 */
 
 
-const char sign_Mtbl_InspcDatagram_InspcDataExchangeAccess_Inspc[] = "InspcDatagram_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_InspcDatagram_InspcDataExchangeAccess_Inspc[] = "InspcDatagram_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
 
 /*Constructor */
@@ -333,10 +333,10 @@ void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_Insp
  extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
  static struct superClasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -347,7 +347,7 @@ const ClassJc reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -374,7 +374,7 @@ The <StringValue...> consists of a length byte, following by ASCII-character.
 */
 
 
-const char sign_Mtbl_Inspcitem_InspcDataExchangeAccess_Inspc[] = "Inspcitem_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_Inspcitem_InspcDataExchangeAccess_Inspc[] = "Inspcitem_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
 
 /*Constructor */
@@ -440,10 +440,10 @@ void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_InspcDataExch
  extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
  static struct superClasses_Inspcitem_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -454,7 +454,7 @@ const ClassJc reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s =
 , sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -467,7 +467,7 @@ InspcSetValue::= <@0+6#?pwd> <@7+1#?type> [<@8+4 empty> <@12+4#?long> | ...].
 */
 
 
-const char sign_Mtbl_InspcSetValue_InspcDataExchangeAccess_Inspc[] = "InspcSetValue_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_InspcSetValue_InspcDataExchangeAccess_Inspc[] = "InspcSetValue_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
 
 /*Constructor */
@@ -550,10 +550,10 @@ float getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDa
  extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
  static struct superClasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -564,7 +564,7 @@ const ClassJc reflection_InspcSetValue_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -577,7 +577,7 @@ uses @{@link Inspcitem}, {@link InspcSetValue}
 */
 
 
-const char sign_Mtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc[] = "InspcSetValueData_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_InspcSetValueData_InspcDataExchangeAccess_Inspc[] = "InspcSetValueData_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
 
 /*Constructor */
@@ -739,10 +739,10 @@ void setLong_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
  extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
  static struct superClasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -753,7 +753,7 @@ const ClassJc reflection_InspcSetValueData_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -766,7 +766,7 @@ uses @{@link Inspcitem}, {@link InspcSetValue}
 */
 
 
-const char sign_Mtbl_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc[] = "InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc[] = "InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc"; //to mark method tables of all implementations
 
 
 /*Constructor */
@@ -862,10 +862,10 @@ void setIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(InspcA
  extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
  static struct superClasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -876,7 +876,7 @@ const ClassJc reflection_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_
 , sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 };

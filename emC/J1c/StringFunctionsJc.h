@@ -288,12 +288,12 @@ METHOD_C int16 byte2UTF8_StringFunctionsJc(/*J2C:static method*/ int8_Y* src, in
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_StringFunctionsJc[]; //marker for methodTable check
-typedef struct Mtbl_StringFunctionsJc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_StringFunctionsJc[]; //marker for methodTable check
+typedef struct Vtbl_StringFunctionsJc_t
+{ VtblHeadJc head;
   MT_test_StringFunctionsJc* test;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_StringFunctionsJc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_StringFunctionsJc;
 
 
 

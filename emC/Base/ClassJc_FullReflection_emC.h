@@ -182,19 +182,19 @@ FieldJc_Y const* attributes;
 struct MethodJcARRAY_t const* methods;
 
 /** The superclass, ObjectJc if no other superclass.*/
-struct ClassOffset_idxMtblJcARRAY_t const* superClasses;
+struct ClassOffset_idxVtblJcARRAY_t const* superClasses;
 //struct ClassJc_t const* superClass;
 
 /** Array of interfaces to this class.*/
 //ObjectJc const* interfaces;
-struct ClassOffset_idxMtblJcARRAY_t const* interfaces;
+struct ClassOffset_idxVtblJcARRAY_t const* interfaces;
 //struct{ ObjectArrayJc base; ClassJc* interfaces; };
 
 /** Some bits determines the kind of the Class, see Modifier_reflectJc*/
 int32 modifiers;
 
 /**Pointer to jump table for dynamic calls (virtual methods).
-* This is a typed struct, starting with Mtbl_ObjectJc.
+* This is a typed struct, starting with Vtbl_ObjectJc.
 */
 VtblHeadJc const* mtbl;
 //Method_int_Object* mtbl;
@@ -492,13 +492,13 @@ typedef enum Mask_ModifierJc_t
 
 
 
-/*@CLASS_C ClassOffset_idxMtblJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C ClassOffset_idxVtblJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 /**This type describes one entry of a interface or superclass.
 * In regard of virtual methods an index inside the table of virtual methods is stored here.
 */
-typedef struct ClassOffset_idxMtblJc_t
+typedef struct ClassOffset_idxVtblJc_t
 {
   /**This was the reference to the super class. But the super class is not sufficient. 
   * It needs a field which describes details of the super relation.
@@ -508,7 +508,7 @@ typedef struct ClassOffset_idxMtblJc_t
   ClassJc const* unused_clazz_super;
 
   /** Index of the virtual table inside its parent. The array of virtual operations is in othiz->reflection.mtbl */
-  int idxMtbl;
+  int idxVtbl;
 
   /**The field contains all information about the super relation, especially the getType_FieldJc(superfield), the super type.
   * It is not only a helper for inspector access. 
@@ -516,44 +516,44 @@ typedef struct ClassOffset_idxMtblJc_t
   * and the position 0 repectively the correct position for C++ reflection. */
   FieldJc superfield;
 
-} ClassOffset_idxMtblJc;
+} ClassOffset_idxVtblJc;
 
-/**This macro calculates the index of a particulary method table inside a table, to use for idxMtbl in ClassOffset_idxMtblJc.
+/**This macro calculates the index of a particulary method table inside a table, to use for idxVtbl in ClassOffset_idxVtblJc.
 */
-#define OFFSET_Mtbl(TYPE, ELEMENT) ( (int)( (intptr_t)(&((TYPE*)(0x1000))->ELEMENT) - 0x1000) / (int)sizeof(MT_void_Method_void const*)) 
-//#define OFFSET_Mtbl(BASE, ELEMENT) ( (MT_void_Method_void const*)(&BASE.ELEMENT) - (MT_void_Method_void const*)(&BASE)) 
+#define OFFSET_Vtbl(TYPE, ELEMENT) ( (int)( (intptr_t)(&((TYPE*)(0x1000))->ELEMENT) - 0x1000) / (int)sizeof(MT_void_Method_void const*)) 
+//#define OFFSET_Vtbl(BASE, ELEMENT) ( (MT_void_Method_void const*)(&BASE.ELEMENT) - (MT_void_Method_void const*)(&BASE)) 
 
-/**This type describes a array of ClassOffset_idxMtblJc
+/**This type describes a array of ClassOffset_idxVtblJc
 * With 10 Elements to view in debug
 */
-typedef struct ClassOffset_idxMtblJcARRAY_t
+typedef struct ClassOffset_idxVtblJcARRAY_t
 { /** Base data of every array */
   ObjectArrayJc head;
   /** For debugging, 10 Elements are assumed. The real number of values is stored in array.len*/
-  ClassOffset_idxMtblJc data[10];
-}ClassOffset_idxMtblJcARRAY;
+  ClassOffset_idxVtblJc data[10];
+}ClassOffset_idxVtblJcARRAY;
 
 /**This type is the usefull type for a simple superclass. */
-typedef struct ClassOffset_idxMtblJc1_t  //Type for the super class
+typedef struct ClassOffset_idxVtblJc1_t  //Type for the super class
 { ObjectArrayJc head;
-ClassOffset_idxMtblJc data[1];
-} ClassOffset_idxMtblJc1;
+ClassOffset_idxVtblJc data[1];
+} ClassOffset_idxVtblJc1;
 
 
 
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define INIZ_ID_ClassOffset_idxMtblJc 0x0ff9
+#define INIZ_ID_ClassOffset_idxVtblJc 0x0ff9
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassOffset_idxMtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassOffset_idxMtblJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_ClassOffset_idxVtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassOffset_idxVtblJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
 
 
 /**Initializes a super class or interface reference in RAM for runtime reflection. 
 * @param refl_super The reflection for this super class or interface.
 * @param ixVtbl The index of the virtual table part. Use 0 if the superclass or interface has not a Vtbl.  
 */
-extern_C void ctor_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accesLevel, int ixVtbl);
+extern_C void ctor_ClassOffset_idxVtblJc(ClassOffset_idxVtblJc* thiz, ClassJc const* refl_super, int accesLevel, int ixVtbl);
 
 #endif  //#ifndef __ObjectJc_defined__
 
@@ -600,7 +600,7 @@ extern_C const ClassJc reflection_ObjectJc;
 
 #ifndef __ObjectJc_simple__
 //reflection instance for the super class ObjectJc
-extern_C const ClassOffset_idxMtblJc1 reflection_super_ObjectJc;
+extern_C const ClassOffset_idxVtblJc1 reflection_super_ObjectJc;
 #endif
 
 

@@ -247,15 +247,15 @@ METHOD_C bool isOnline_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_LogMessageFile_MSG[]; //marker for methodTable check
-typedef struct Mtbl_LogMessageFile_MSG_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_LogMessageFile_MSG[]; //marker for methodTable check
+typedef struct Vtbl_LogMessageFile_MSG_t
+{ VtblHeadJc head;
   MT_setLogMessageOpenClose_LogMessageFile_MSG* setLogMessageOpenClose;
   MT_writeInFile_LogMessageFile_MSG* writeInFile;
-  Mtbl_ObjectJc ObjectJc;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_LogMessageFW LogMessageFW;
-} Mtbl_LogMessageFile_MSG;
+  Vtbl_LogMessageFW LogMessageFW;
+} Vtbl_LogMessageFile_MSG;
 
 
 

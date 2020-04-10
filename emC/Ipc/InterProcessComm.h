@@ -149,12 +149,12 @@ typedef struct InterProcessComm_t* MT_create_Addr_InterProcessCommFactory(InterP
 
 
 
-extern_C char const sign_Mtbl_InterProcessCommFactory[];
+extern_C char const sign_Vtbl_InterProcessCommFactory[];
 
 
 
-typedef struct Mtbl_InterProcessCommFactory_t
-{ MtblHeadJc head;
+typedef struct Vtbl_InterProcessCommFactory_t
+{ VtblHeadJc head;
   
 
   MT_createAddress_InterProcessCommFactory* createAddress;
@@ -163,9 +163,9 @@ typedef struct Mtbl_InterProcessCommFactory_t
   MT_create_Port_InterProcessCommFactory* create_Port;
   MT_create_Addr_InterProcessCommFactory* create_Addr;
 
-  Mtbl_ObjectJc ObjectJc;
+  Vtbl_ObjectJc ObjectJc;
 
-} Mtbl_InterProcessCommFactory;
+} Vtbl_InterProcessCommFactory;
 
 
 
@@ -294,13 +294,13 @@ METHOD_C typedef void MT_dataAvailable_InterprocessCommCallback(struct Interproc
 /**jmp table to implement some different Address_InterProcessComm classes in C language.
  * This is a concept of polymorphism in comparison with with virtual tables in C++.
  */
-typedef struct Mtbl_InterProcessCommCallback_t
+typedef struct Vtbl_InterProcessCommCallback_t
 { 
   MT_errorConnection_InterprocessCommCallback* errorConnection;
   MT_readyConnection_InterprocessCommCallback* readyConnection;
   MT_acknDataTrans_InterprocessCommCallback*   acknDataTrans;
   MT_dataAvailable_InterprocessCommCallback*   dataAvailable;
-}Mtbl_InterProcessCommCallback;
+}Vtbl_InterProcessCommCallback;
 
 
 typedef struct InterProcessCommCallback_t
@@ -309,7 +309,7 @@ typedef struct InterProcessCommCallback_t
 
 
 
-//typedef int MT_open_InterProcessComm(InterProcessComm_i* ythis, struct Address_InterProcessComm_t* destAddress, bool isBlocking, struct InterProcessCommCallback_t* callbackObj, Mtbl_InterProcessCommCallback const* mtblCallBack);
+//typedef int MT_open_InterProcessComm(InterProcessComm_i* ythis, struct Address_InterProcessComm_t* destAddress, bool isBlocking, struct InterProcessCommCallback_t* callbackObj, Vtbl_InterProcessCommCallback const* mtblCallBack);
 typedef int MT_open_InterProcessComm(ObjectJc* ithis, struct Address_InterProcessComm_t* destAddress, bool isBlocking);
 typedef int MT_close_InterProcessComm(ObjectJc* ithis);
 
@@ -374,22 +374,22 @@ typedef struct Address_InterProcessComm_t* MT_createAddress_I_InterProcessComm(O
 
 
 /**This is a marker text. The content of text isn't important, but all implementations should use the same address
- * (value of field sign in Mtbl_LogMessageFW).
+ * (value of field sign in Vtbl_LogMessageFW).
  */
-extern_C char const sign_Mtbl_InterProcessComm[];
+extern_C char const sign_Vtbl_InterProcessComm[];
 
 
 
-typedef struct Mtbl_InterProcessComm_t
-{ MtblHeadJc head;
+typedef struct Vtbl_InterProcessComm_t
+{ VtblHeadJc head;
   
-  /**The value of sign must be identically with the address of the sign_Mtbl_Message_ifcFW-variable. Use it for safe access. */
+  /**The value of sign must be identically with the address of the sign_Vtbl_Message_ifcFW-variable. Use it for safe access. */
   //char const* const* sign;
   /**The sizeTable is really an simple int. But all members of Method table are from pointer type. casted internally. 
    * Check of sizeTable makes possible to use older implementation versions with less methods.
    * NOTE: don't use a void*, because all is compatible with it and no errors are signated.
    */
-  //struct Size_Mtbl_t* sizeTable;  
+  //struct Size_Vtbl_t* sizeTable;  
 
   MT_open_InterProcessComm* open;
   MT_close_InterProcessComm* close;
@@ -415,7 +415,7 @@ typedef struct Mtbl_InterProcessComm_t
   //MT_createAddress_z_InterProcessComm* createAddressEmpty_z;
   MT_createAddress_sI_InterProcessComm* createAddress_si;
   MT_createAddress_I_InterProcessComm* createAddress_i;
-} Mtbl_InterProcessComm;
+} Vtbl_InterProcessComm;
 
 
 #if defined(__CPLUSGEN) && defined(__cplusplus)

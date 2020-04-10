@@ -10,13 +10,13 @@
 #include <emC/Ipc/genRefl/InterProcessComm.crefl>
 #include <stdio.h>
 
-char const sign_Mtbl_InterProcessCommFactory[] = "Mtbl_InterProcessCommFactory";
+char const sign_Vtbl_InterProcessCommFactory[] = "Vtbl_InterProcessCommFactory";
 
 /**The ident text is only used by its address. The address is a part of the method table,
  * enter from linker there. The check of the correct address is a safety precaution.
  */
-//const char identText_sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
-const char sign_Mtbl_InterProcessComm[] = "Mtbl_InterProcessCommIpc";
+//const char identText_sign_Vtbl_InterProcessComm[] = "Vtbl_InterProcessCommIpc";
+const char sign_Vtbl_InterProcessComm[] = "Vtbl_InterProcessCommIpc";
 
 
 

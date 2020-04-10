@@ -551,7 +551,7 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
         superAccess = kDevlpAccess_CheckPwd_Inspc; //access to the internal data of the highest superMng only for developer. 
       }
       CALLINE;  //initialize the superclass: view to own data
-      ctor_ClassOffset_idxMtblJc(&thiz->superclass.clazz, superClass, superAccess, 0);
+      ctor_ClassOffset_idxVtblJc(&thiz->superclass.clazz, superClass, superAccess, 0);
       ctor_Fields_super_ClassJc(&thiz->clazz, typeData_param, sizeof(*thiz), &thiz->fields->head, &thiz->superclass.head);
       int posField = OFFSETinTYPE_MemUnit(UserData_DataStructMng_Inspc, val);  //UserData_DataStructMng_Inspc::val[]
       //

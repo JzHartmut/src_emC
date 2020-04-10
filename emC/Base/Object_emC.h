@@ -52,7 +52,7 @@ struct ThreadContext_emC_t;
 struct ClassJc_t;
 
 
-struct Size_Mtbl_t;
+struct Size_Vtbl_t;
 
 
 //definition of StringJc to use this type before including emC/StringJc

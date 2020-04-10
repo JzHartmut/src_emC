@@ -88,11 +88,11 @@ METHOD_C CharSeqJc resolveCircumScription_SpecialCharStringsJc(/*J2C:static meth
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_SpecialCharStringsJc[]; //marker for methodTable check
-typedef struct Mtbl_SpecialCharStringsJc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_SpecialCharStringsJc;
+ extern const char sign_Vtbl_SpecialCharStringsJc[]; //marker for methodTable check
+typedef struct Vtbl_SpecialCharStringsJc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_SpecialCharStringsJc;
 
 
 

@@ -19,10 +19,10 @@ struct InterProcessCommSocket_t;
 */
 
 
-const char sign_Mtbl_InterProcessCommFactorySocket_Ipc[] = "InterProcessCommFactorySocket_Ipc"; //to mark method tables of all implementations
+const char sign_Vtbl_InterProcessCommFactorySocket_Ipc[] = "InterProcessCommFactorySocket_Ipc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_InterProcessCommFactorySocket_Ipc_t { Mtbl_InterProcessCommFactorySocket_Ipc mtbl; MtblHeadJc end; } MtblDef_InterProcessCommFactorySocket_Ipc;
- extern MtblDef_InterProcessCommFactorySocket_Ipc const mtblInterProcessCommFactorySocket_Ipc;
+typedef struct VtblDef_InterProcessCommFactorySocket_Ipc_t { Vtbl_InterProcessCommFactorySocket_Ipc mtbl; VtblHeadJc end; } VtblDef_InterProcessCommFactorySocket_Ipc;
+ extern VtblDef_InterProcessCommFactorySocket_Ipc const mtblInterProcessCommFactorySocket_Ipc;
 
 /*Constructor */
 struct InterProcessCommFactorySocket_Ipc_t* ctorO_InterProcessCommFactorySocket_Ipc(ObjectJc* othis, ThCxt* _thCxt)
@@ -46,7 +46,7 @@ struct InterProcessCommFactorySocket_Ipc_t* ctorO_InterProcessCommFactorySocket_
 
 struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
-  Mtbl_InterProcessCommFactorySocket_Ipc const* mtthis = (Mtbl_InterProcessCommFactorySocket_Ipc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_InterProcessCommFactorySocket_Ipc);
+  Vtbl_InterProcessCommFactorySocket_Ipc const* mtthis = (Vtbl_InterProcessCommFactorySocket_Ipc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_InterProcessCommFactorySocket_Ipc);
   
   STACKTRC_TENTRY("create_S_InterProcessCommFactorySocket_Ipc_F");
   
@@ -63,7 +63,7 @@ struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc_F(InterPro
 
 /*J2C: dynamic call variant of the override-able method: */
 struct InterProcessComm_t* create_S_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, ThCxt* _thCxt)
-{ Mtbl_InterProcessCommFactory const* mtbl = (Mtbl_InterProcessCommFactory const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_InterProcessCommFactory);
+{ Vtbl_InterProcessCommFactory const* mtbl = (Vtbl_InterProcessCommFactory const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_InterProcessCommFactory);
   return mtbl->create((InterProcessCommFactory_s*)ithis, protocolAndOwnAddr, _thCxt);
 }
 
@@ -113,7 +113,7 @@ struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc_F(InterPr
 
 /*J2C: dynamic call variant of the override-able method: */
 struct InterProcessComm_t* create_Si_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt)
-{ Mtbl_InterProcessCommFactory const* mtbl = (Mtbl_InterProcessCommFactory const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_InterProcessCommFactory);
+{ Vtbl_InterProcessCommFactory const* mtbl = (Vtbl_InterProcessCommFactory const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_InterProcessCommFactory);
   return mtbl->create_Port((InterProcessCommFactory_s*)ithis, protocolAndOwnAddr, nPort, _thCxt);
 }
 
@@ -146,7 +146,7 @@ struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(In
 
 /*J2C: dynamic call variant of the override-able method: */
 struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, struct Address_InterProcessComm_t* addr, ThCxt* _thCxt)
-{ Mtbl_InterProcessCommFactory const* mtbl = (Mtbl_InterProcessCommFactory const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_InterProcessCommFactory);
+{ Vtbl_InterProcessCommFactory const* mtbl = (Vtbl_InterProcessCommFactory const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_InterProcessCommFactory);
   return mtbl->create_Addr((InterProcessCommFactory_s*)ithis, addr, _thCxt);
 }
 
@@ -196,7 +196,7 @@ struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocke
 
 /*J2C: dynamic call variant of the override-able method: */
 struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndOwnAddr, int32 nPort, ThCxt* _thCxt)
-{ Mtbl_InterProcessCommFactory const* mtbl = (Mtbl_InterProcessCommFactory const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_InterProcessCommFactory);
+{ Vtbl_InterProcessCommFactory const* mtbl = (Vtbl_InterProcessCommFactory const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_InterProcessCommFactory);
   return mtbl->createAddress_Port((InterProcessCommFactory_s*)ithis, protocolAndOwnAddr, nPort, _thCxt);
 }
 
@@ -204,7 +204,7 @@ struct Address_InterProcessComm_t* createAddress_Si_InterProcessCommFactorySocke
 /**Creates an address for InterProcesscommunication with given description.*/
 struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc_F(InterProcessCommFactory_s* ithis, StringJc protocolAndAddr, ThCxt* _thCxt)
 { InterProcessCommFactorySocket_Ipc_s* thiz = (InterProcessCommFactorySocket_Ipc_s*)ithis;
-  Mtbl_InterProcessCommFactorySocket_Ipc const* mtthis = (Mtbl_InterProcessCommFactorySocket_Ipc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_InterProcessCommFactorySocket_Ipc);
+  Vtbl_InterProcessCommFactorySocket_Ipc const* mtthis = (Vtbl_InterProcessCommFactorySocket_Ipc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_InterProcessCommFactorySocket_Ipc);
   
   STACKTRC_TENTRY("createAddress_S_InterProcessCommFactorySocket_Ipc_F");
   
@@ -221,7 +221,7 @@ struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket
 
 /*J2C: dynamic call variant of the override-able method: */
 struct Address_InterProcessComm_t* createAddress_S_InterProcessCommFactorySocket_Ipc(InterProcessCommFactory_s* ithis, StringJc protocolAndAddr, ThCxt* _thCxt)
-{ Mtbl_InterProcessCommFactory const* mtbl = (Mtbl_InterProcessCommFactory const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_InterProcessCommFactory);
+{ Vtbl_InterProcessCommFactory const* mtbl = (Vtbl_InterProcessCommFactory const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_InterProcessCommFactory);
   return mtbl->createAddress((InterProcessCommFactory_s*)ithis, protocolAndAddr, _thCxt);
 }
 
@@ -276,13 +276,13 @@ struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySo
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocket_Ipc = {
-{ { sign_Mtbl_InterProcessCommFactorySocket_Ipc //J2C: Head of methodtable of InterProcessCommFactorySocket_Ipc
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocket_Ipc = {
+{ { sign_Vtbl_InterProcessCommFactorySocket_Ipc //J2C: Head of methodtable of InterProcessCommFactorySocket_Ipc
+  , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_InterProcessCommFactory //J2C: Head of methodtable of InterProcessCommFactory
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_InterProcessCommFactory //J2C: Head of methodtable of InterProcessCommFactory
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :InterProcessCommFactory:
   , createAddress_S_InterProcessCommFactorySocket_Ipc_F //createAddress
@@ -291,8 +291,8 @@ const MtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocke
   , create_Si_InterProcessCommFactorySocket_Ipc_F //create_Port
   , create_AddrIpc_InterProcessCommFactorySocket_Ipc_F //create_Addr
     //J2C: The superclass's methodtable: 
-  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
@@ -302,16 +302,16 @@ const MtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocke
     , toString_ObjectJc_F //toString
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_InterProcessCommFactory;
  static struct superClasses_InterProcessCommFactorySocket_Ipc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InterProcessCommFactorySocket_Ipc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_InterProcessCommFactory, OFFSET_Mtbl(Mtbl_InterProcessCommFactorySocket_Ipc, InterProcessCommFactory) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_InterProcessCommFactory, OFFSET_Vtbl(Vtbl_InterProcessCommFactorySocket_Ipc, InterProcessCommFactory) }
    }
  };
 
@@ -322,7 +322,7 @@ const ClassJc reflection_InterProcessCommFactorySocket_Ipc_s =
 , sizeof(InterProcessCommFactorySocket_Ipc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommFactorySocket_Ipc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommFactorySocket_Ipc_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInterProcessCommFactorySocket_Ipc.mtbl.head

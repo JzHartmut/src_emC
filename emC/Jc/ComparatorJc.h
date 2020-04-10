@@ -65,15 +65,15 @@ typedef bool MT_equals_ComparatorJc(ComparatorJc* ythis, const void* o1, const v
   /**The call of virtual methods are simplified in user sources and equal writeable using C o C++-concepts,
    * but the realization of dynamic call is implemented with Reflection data and the virtual table.
    */
-  #define compare_ComparatorJc(REF, O1, O2) (((MT_compare_ComparatorJc*)((REF).ref->reflectionClass->mtbl[0 + (REF).refbase & mIdxMtbl_ObjectJc])) ((REF).ref, O1, O2))
-  #define equals_ComparatorJc(REF, O1, O2)  (((MT_equals_ComparatorJc*) ((REF).ref->reflectionClass->mtbl[1 + (REF).refbase & mIdxMtbl_ObjectJc])) ((REF).ref, O1, O2))
+  #define compare_ComparatorJc(REF, O1, O2) (((MT_compare_ComparatorJc*)((REF).ref->reflectionClass->mtbl[0 + (REF).refbase & mIdxVtbl_ObjectJc])) ((REF).ref, O1, O2))
+  #define equals_ComparatorJc(REF, O1, O2)  (((MT_equals_ComparatorJc*) ((REF).ref->reflectionClass->mtbl[1 + (REF).refbase & mIdxVtbl_ObjectJc])) ((REF).ref, O1, O2))
 
 
 /**The MethodTable (virtual table) of the Comparator-Methods have to be embedded in the jump Table of a implemented class.*/
-typedef struct Mtbl_ComparatorJc_t
+typedef struct Vtbl_ComparatorJc_t
 { MT_compare_ComparatorJc*   compare;
   MT_equals_ComparatorJc*   equals;
-} Mtbl_ComparatorJc;
+} Vtbl_ComparatorJc;
 
 
 

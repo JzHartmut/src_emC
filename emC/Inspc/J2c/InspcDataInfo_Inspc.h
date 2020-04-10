@@ -75,11 +75,11 @@ METHOD_C struct InspcDataInfo_Inspc_t* ctorO_InspcDataInfo_Inspc(ObjectJc* othis
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_InspcDataInfo_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_InspcDataInfo_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_InspcDataInfo_Inspc;
+ extern const char sign_Vtbl_InspcDataInfo_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_InspcDataInfo_Inspc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_InspcDataInfo_Inspc;
 
 
 

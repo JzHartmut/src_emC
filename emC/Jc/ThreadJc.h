@@ -80,12 +80,12 @@ METHOD_C void run_RunnableJc(ObjectJc* ithis, ThCxt* _thCxt);
 
 /* Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
-extern const char sign_Mtbl_RunnableJc[]; //marker for methodTable check
-typedef struct Mtbl_RunnableJc_t
-{ MtblHeadJc head;
+extern const char sign_Vtbl_RunnableJc[]; //marker for methodTable check
+typedef struct Vtbl_RunnableJc_t
+{ VtblHeadJc head;
   MT_run_RunnableJc* run;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_RunnableJc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_RunnableJc;
 
 
 /*@CLASS_C ThreadJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -200,13 +200,13 @@ METHOD_C ThreadJc_s* currentThread_ThreadJc(ThCxt* _thCxt);
 
 /* Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
-extern const char sign_Mtbl_ThreadJc[]; //marker for methodTable check
-typedef struct Mtbl_ThreadJc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
+extern const char sign_Vtbl_ThreadJc[]; //marker for methodTable check
+typedef struct Vtbl_ThreadJc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_RunnableJc RunnableJc;  
-} Mtbl_ThreadJc;
+  Vtbl_RunnableJc RunnableJc;  
+} Vtbl_ThreadJc;
 
 
 /** private states of the thread.

@@ -918,7 +918,7 @@ inline CharSeqJc zI_CharSeqJc  (  char const* src, int len)
 /**This struct is only used for invocation of methods of [[class_CharSeqJc]] via method table 
  * if a [[class_StringJc]] is given as argument. This struct is necessary because the method table routines
  * need a [[CRJO:_class_ObjectJc]] reference to work. An instance of this struct may only necessary as argument
- * for [[getMtblRef_CharSeqJc(...)]] placed in the stack local data for immediately usage.
+ * for [[getVtblRef_CharSeqJc(...)]] placed in the stack local data for immediately usage.
  */
 typedef struct StringJc_CharSeqJc_t
 {
@@ -943,18 +943,18 @@ typedef char MT_charAt_CharSeqJc(CharSeqObjJc const* ithiz, int32 ix, ThCxt* _th
 typedef CharSeqJc MT_subSequence_CharSeqJc(CharSeqObjJc const* ithiz, int32 from, int32 to, ThCxt* _thCxt);
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
-typedef struct Mtbl_CharSeqJc_t
-{ MtblHeadJc head;
+typedef struct Vtbl_CharSeqJc_t
+{ VtblHeadJc head;
   MT_length_CharSeqJc* length;
   MT_charAt_CharSeqJc* charAt;
   MT_subSequence_CharSeqJc* subSequence;
-  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
-} Mtbl_CharSeqJc;
+  Vtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Vtbl_CharSeqJc;
 
-extern char const sign_Mtbl_CharSeqJc[];
+extern char const sign_Vtbl_CharSeqJc[];
 
 
-extern char const sign_Mtbl_CharSeqJc[];
+extern char const sign_Vtbl_CharSeqJc[];
 
 
 
@@ -966,7 +966,7 @@ extern char const sign_Mtbl_CharSeqJc[];
 
 #ifndef CharSeqJcMTBDEF
   #define CharSeqJcMTBDEF
-  typedef struct CharSeqJcMTB_t { struct Mtbl_CharSeqJc_t const* mtbl; struct ObjectJc_t const* ref; } CharSeqJcMTB;
+  typedef struct CharSeqJcMTB_t { struct Vtbl_CharSeqJc_t const* mtbl; struct ObjectJc_t const* ref; } CharSeqJcMTB;
 #endif
 
 
@@ -976,7 +976,7 @@ extern char const sign_Mtbl_CharSeqJc[];
  * If the given ,,CharSeqJc,,-instance may be a simple ,,StringJc,, an instance ,,dst,, should be given.
  * Then the following form should be used:
  * ,StringJc_CharSeqJc cstr;
- * ,CharSeqJcMTB csm = getMtblRef_CharSeqJc(mycs, &cstr, _thCxt);
+ * ,CharSeqJcMTB csm = getVtblRef_CharSeqJc(mycs, &cstr, _thCxt);
  * The ,,cstr,, is referenced in ,,csm,,. Both should be used in the local stack context in the current thread only.
  *
  * With that method it is possible to access any ,,CharSeqJc,, with fast dynamic method invocation, for example:
@@ -993,17 +993,17 @@ extern char const sign_Mtbl_CharSeqJc[];
  * @throws IllegalArgumentException if thiz is a StringJc and ,,dst_StringJc,, is not given.
  * If exception handling is not present then the return values are null instead the exception.
  */
-METHOD_C CharSeqJcMTB getMtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_StringJc, ThCxt* _thCxt);
+METHOD_C CharSeqJcMTB getVtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_StringJc, ThCxt* _thCxt);
 
 
 
 /**Builds a CharSeqJc {ref, val} tupel from an instance of ObjectJc which implements the CharSeqJc-interface. 
  * The CharSeqJc {ref, val} tupel contains the reference to the ObjectJc-instance (ref)
  * and the index in the method table of the instance-type to the CharSeqJc-part. That method table is searched
- * using [[CRJO:_getMtbl_ObjectJc(...)]]. ,,val,, contains the index and the designation with [[mIsCharSeqJcMtbl_CharSeqJc]].
+ * using [[CRJO:_getVtbl_ObjectJc(...)]]. ,,val,, contains the index and the designation with [[mIsCharSeqJcVtbl_CharSeqJc]].
  * The methods [[length_CharSeqJc(...)]] etc. detect this designation, use the index to the method table
- * and don't need to invoke [[CRJO:_getMtbl_ObjectJc(...)]] again. That methods test the consistence of the instance, 
- * reflection and method table with [[CRJO:_checkMtbl_ObjectJc(...)]] which gives safety but need lesser calculation time.
+ * and don't need to invoke [[CRJO:_getVtbl_ObjectJc(...)]] again. That methods test the consistence of the instance, 
+ * reflection and method table with [[CRJO:_checkVtbl_ObjectJc(...)]] which gives safety but need lesser calculation time.
  */
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* thiz);
 
@@ -1038,7 +1038,7 @@ extern_C struct ClassJc_t const reflection_CharSeqJc;
 
 #define subSequence_CharSeqJc(THIZ, from, to, THC) (\
   isValid_ObjectJc((THIZ).addr.str) \
-  ? ((Mtbl_CharSeqJc*)getMtbl_ObjectJc((THIZ).addr.obj, sign_Mtbl_CharSeqJc))->subSequence((CharSeqObjJc*)(THIZ).addr.obj, from, to, THC) \
+  ? ((Vtbl_CharSeqJc*)getVtbl_ObjectJc((THIZ).addr.obj, sign_Vtbl_CharSeqJc))->subSequence((CharSeqObjJc*)(THIZ).addr.obj, from, to, THC) \
   : substring_StringJc(*(StringJc*)&(THIZ), from, to, THC ) )
 
 /**Converts a given CharSeqJc to a String. Reads all Chars and stores it in a buffer in ThreadContext. 
@@ -1072,17 +1072,17 @@ METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 #ifndef __ObjectJc_simple__
 
 
-typedef struct Mtbl_StringBufferJc_t 
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc; 
+typedef struct Vtbl_StringBufferJc_t 
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc; 
   //Method table of interfaces:
-  Mtbl_CharSeqJc CharSeqJc;
-} Mtbl_StringBufferJc;
+  Vtbl_CharSeqJc CharSeqJc;
+} Vtbl_StringBufferJc;
 
 
-typedef struct MtblDef_StringBufferJc_t { Mtbl_StringBufferJc mtbl; MtblHeadJc end; } MtblDef_StringBufferJc;
+typedef struct VtblDef_StringBufferJc_t { Vtbl_StringBufferJc mtbl; VtblHeadJc end; } VtblDef_StringBufferJc;
 
-extern MtblDef_StringBufferJc const mtblStringBufferJc;
+extern VtblDef_StringBufferJc const mtblStringBufferJc;
 
 #endif  //#ifdef __ObjectJc_simple__
 

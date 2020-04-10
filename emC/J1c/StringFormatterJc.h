@@ -382,15 +382,15 @@ METHOD_C void close_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt);
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_StringFormatterJc[]; //marker for methodTable check
-typedef struct Mtbl_StringFormatterJc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
+ extern const char sign_Vtbl_StringFormatterJc[]; //marker for methodTable check
+typedef struct Vtbl_StringFormatterJc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_AppendableJc AppendableJc;
-  Mtbl_CloseableJc CloseableJc;
-  Mtbl_FlushableJc FlushableJc;
-} Mtbl_StringFormatterJc;
+  Vtbl_AppendableJc AppendableJc;
+  Vtbl_CloseableJc CloseableJc;
+  Vtbl_FlushableJc FlushableJc;
+} Vtbl_StringFormatterJc;
 
 
 

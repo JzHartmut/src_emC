@@ -45,16 +45,16 @@ Changes:
 */
 
 
-const char sign_Mtbl_LeapSecondsJc[] = "LeapSecondsJc"; //to mark method tables of all implementations
+const char sign_Vtbl_LeapSecondsJc[] = "LeapSecondsJc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_LeapSecondsJc_t { Mtbl_LeapSecondsJc mtbl; MtblHeadJc end; } MtblDef_LeapSecondsJc;
- extern MtblDef_LeapSecondsJc const mtblLeapSecondsJc;
+typedef struct VtblDef_LeapSecondsJc_t { Vtbl_LeapSecondsJc mtbl; VtblHeadJc end; } VtblDef_LeapSecondsJc;
+ extern VtblDef_LeapSecondsJc const mtblLeapSecondsJc;
 struct LeapSecondsJc_t* singleton_LeapSecondsJc = null;
 
 /*Constructor */
 struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _thCxt)
 { LeapSecondsJc_s* thiz = (LeapSecondsJc_s*)othis;  //upcasting to the real class.
-  Mtbl_LeapSecondsJc const* mtthis = &mtblLeapSecondsJc.mtbl;
+  Vtbl_LeapSecondsJc const* mtthis = &mtblLeapSecondsJc.mtbl;
   STACKTRC_TENTRY("ctorO_LeapSecondsJc");
   checkConsistence_ObjectJc(othis, sizeof(LeapSecondsJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_LeapSecondsJc_s, sizeof(LeapSecondsJc_s));  
@@ -165,7 +165,7 @@ void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void initFix_LeapSecondsJc(LeapSecondsJc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_LeapSecondsJc const* mtbl = (Mtbl_LeapSecondsJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LeapSecondsJc);
+{ Vtbl_LeapSecondsJc const* mtbl = (Vtbl_LeapSecondsJc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_LeapSecondsJc);
   mtbl->initFix(thiz, _thCxt);
 }
 
@@ -266,15 +266,15 @@ int32 secondsGPSfromUTC_LeapSecondsJc(/*J2C:static method*/ int32 secondsUTC_197
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_LeapSecondsJc mtblLeapSecondsJc = {
-{ { sign_Mtbl_LeapSecondsJc //J2C: Head of methodtable of LeapSecondsJc
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_LeapSecondsJc mtblLeapSecondsJc = {
+{ { sign_Vtbl_LeapSecondsJc //J2C: Head of methodtable of LeapSecondsJc
+  , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :LeapSecondsJc:
 , initFix_LeapSecondsJc_F //initFix
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -283,16 +283,16 @@ const MtblDef_LeapSecondsJc mtblLeapSecondsJc = {
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_LeapSecondsJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_LeapSecondsJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_LeapSecondsJc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_LeapSecondsJc, ObjectJc) }
    }
  };
 
@@ -343,7 +343,7 @@ const ClassJc reflection_LeapSecondsJc_s =
 , sizeof(LeapSecondsJc_s)
 , (FieldJc_Y const*)&reflection_Fields_LeapSecondsJc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_LeapSecondsJc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_LeapSecondsJc_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblLeapSecondsJc.mtbl.head

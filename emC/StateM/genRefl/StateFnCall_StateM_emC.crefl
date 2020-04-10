@@ -198,11 +198,11 @@ extern_C const ClassJc reflection_StateMPartFnCall_StateM_emC;  //used for field
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_StateMnTopFnCall_State_emC_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_StateMnTopFnCall_State_emC_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_StateMnTopFnCall_State_emC =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_StateMnTopFnCall_State_emC, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_StateMnTopFnCall_State_emC, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -262,7 +262,7 @@ const ClassJc reflection_StateMnTopFnCall_State_emC =
 , sizeof(StateMnTopFnCall_State_emC)
 , (FieldJcArray const*)&reflection_Fields_StateMnTopFnCall_State_emC  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_StateMnTopFnCall_State_emC  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_StateMnTopFnCall_State_emC  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

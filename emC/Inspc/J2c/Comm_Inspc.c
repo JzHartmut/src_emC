@@ -7,7 +7,7 @@
 #include <emC/Jc/ReflectionJc.h>   //Reflection concept 
   //basic stacktrace concept
   //reference-association: ExceptionJc
-#include "emC/Inspc/J2c/CmdExecuter_Inspc.h"  //reference-association: cmdExecuterMtbl
+#include "emC/Inspc/J2c/CmdExecuter_Inspc.h"  //reference-association: cmdExecuterVtbl
 #include "emC/Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactory_s
 #include "emC/Jc/AssertJc.h"  //reference-association: AssertJc_s
 #include "emC/Jc/PrintStreamJc.h"  //reference-association: out
@@ -23,30 +23,30 @@ FILE* ftest = null;
 /* J2C: Method-table-references *********************************************************/
 #ifndef AnswerComm_ifc_InspcMTBDEF
   #define AnswerComm_ifc_InspcMTBDEF
-  typedef struct AnswerComm_ifc_InspcMTB_t { struct Mtbl_AnswerComm_ifc_Inspc_t const* mtbl; struct AnswerComm_ifc_Inspc_t* ref; } AnswerComm_ifc_InspcMTB;
+  typedef struct AnswerComm_ifc_InspcMTB_t { struct Vtbl_AnswerComm_ifc_Inspc_t const* mtbl; struct AnswerComm_ifc_Inspc_t* ref; } AnswerComm_ifc_InspcMTB;
 #endif
 
 #ifndef CmdExecuter_InspcMTBDEF
   #define CmdExecuter_InspcMTBDEF
-  typedef struct CmdExecuter_InspcMTB_t { struct Mtbl_CmdExecuter_Inspc_t const* mtbl; struct CmdExecuter_Inspc_t* ref; } CmdExecuter_InspcMTB;
+  typedef struct CmdExecuter_InspcMTB_t { struct Vtbl_CmdExecuter_Inspc_t const* mtbl; struct CmdExecuter_Inspc_t* ref; } CmdExecuter_InspcMTB;
 #endif
 
 #ifndef InterProcessCommMTBDEF
   #define InterProcessCommMTBDEF
-  typedef struct InterProcessCommMTB_t { struct Mtbl_InterProcessComm_t const* mtbl; struct InterProcessComm_t* ref; } InterProcessCommMTB;
+  typedef struct InterProcessCommMTB_t { struct Vtbl_InterProcessComm_t const* mtbl; struct InterProcessComm_t* ref; } InterProcessCommMTB;
 #endif
 
 #ifndef InterProcessCommFactoryMTBDEF
   #define InterProcessCommFactoryMTBDEF
-  typedef struct InterProcessCommFactoryMTB_t { struct Mtbl_InterProcessCommFactory_t const* mtbl; struct InterProcessCommFactory_t* ref; } InterProcessCommFactoryMTB;
+  typedef struct InterProcessCommFactoryMTB_t { struct Vtbl_InterProcessCommFactory_t const* mtbl; struct InterProcessCommFactory_t* ref; } InterProcessCommFactoryMTB;
 #endif
 
 
 
-const char sign_Mtbl_Comm_Inspc[] = "Comm_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_Comm_Inspc[] = "Comm_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_Comm_Inspc_t { Mtbl_Comm_Inspc mtbl; MtblHeadJc end; } MtblDef_Comm_Inspc;
- extern MtblDef_Comm_Inspc const mtblComm_Inspc;
+typedef struct VtblDef_Comm_Inspc_t { Vtbl_Comm_Inspc mtbl; VtblHeadJc end; } VtblDef_Comm_Inspc;
+ extern VtblDef_Comm_Inspc const mtblComm_Inspc;
 
 /*Constructor */
 struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, struct CmdExecuter_Inspc_t* cmdExecuter, ThCxt* _thCxt)
@@ -69,12 +69,12 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
       InterProcessCommFactoryMTB ipcFactory ; SETMTBJc(ipcFactory, getInstance_InterProcessCommFactory(), InterProcessCommFactory);
     
       if(ipcFactory.ref !=null) {
-        InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
-        thiz->myAnswerAddress = ipcMtbl.mtbl->createAddressEmpty(&(( (ipcMtbl.ref))->base.object));/*empty address for receiving and send back*/
+        InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, ipcFactory.mtbl->create( (ipcFactory.ref), ownAddrIpc, _thCxt), InterProcessComm);
+        thiz->myAnswerAddress = ipcVtbl.mtbl->createAddressEmpty(&(( (ipcVtbl.ref))->base.object));/*empty address for receiving and send back*/
         thiz->state = 0;  //not started yet.
         thiz->thread = ctorO_Runnable_s_ThreadJc(/*J2C:static method call*/(newObj2_1 = alloc_ObjectJc(sizeof_ThreadJc_s, 0, _thCxt)), & ((* (thiz)).base.RunnableJc), s0_StringJc("Inspc"), _thCxt);/*set it to class ref.*/
     
-        thiz->ipc =  (ipcMtbl.ref);
+        thiz->ipc =  (ipcVtbl.ref);
         activateGC_ObjectJc(newObj2_1, null, _thCxt);
       }
     }
@@ -100,8 +100,8 @@ bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt)
     
     int32  ok;/*no initvalue*/
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
-    ok = ipcMtbl.mtbl->open(&(( (ipcMtbl.ref))->base.object), null, ((/*J2C:cast% from bool*/int32)(blocking)));
+    InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, thiz->ipc, InterProcessComm);
+    ok = ipcVtbl.mtbl->open(&(( (ipcVtbl.ref))->base.object), null, ((/*J2C:cast% from bool*/int32)(blocking)));
     thiz->state = (ok >= 0 ? 2 : 0xe);
     if(thiz->bEnablePrintfOnComm) 
     { /*:only for debug:*/
@@ -199,7 +199,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void run_Comm_Inspc(ObjectJc* ithis, ThCxt* _thCxt)
-{ Mtbl_RunnableJc const* mtbl = (Mtbl_RunnableJc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_RunnableJc);
+{ Vtbl_RunnableJc const* mtbl = (Vtbl_RunnableJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_RunnableJc);
   mtbl->run(ithis, _thCxt);
 }
 
@@ -210,11 +210,11 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
   { 
     
     
-    AnswerComm_ifc_InspcMTB answerCommMtbl ; SETMTBJc(answerCommMtbl, & ((* (thiz->cmdExecuter)).base.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
+    AnswerComm_ifc_InspcMTB answerCommVtbl ; SETMTBJc(answerCommVtbl, & ((* (thiz->cmdExecuter)).base.AnswerComm_ifc_Inspc), AnswerComm_ifc_Inspc);
     
-    CmdExecuter_InspcMTB cmdExecuterMtbl ; SETMTBJc(cmdExecuterMtbl, thiz->cmdExecuter, CmdExecuter_Inspc);
+    CmdExecuter_InspcMTB cmdExecuterVtbl ; SETMTBJc(cmdExecuterVtbl, thiz->cmdExecuter, CmdExecuter_Inspc);
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
+    InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, thiz->ipc, InterProcessComm);
     
     while(thiz->state != 0xd)
       { /*:0xd to terminate*/
@@ -228,7 +228,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
         TRY
         { 
           
-          ipcMtbl.mtbl->receiveData(&(( (ipcMtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.addr, thiz->rxBuffer.val ), thiz->myAnswerAddress);
+          ipcVtbl.mtbl->receiveData(&(( (ipcVtbl.ref))->base.object), &thiz->nrofBytesReceived[0], build_MemC(thiz->rxBuffer.addr, thiz->rxBuffer.val ), thiz->myAnswerAddress);
           if(thiz->state != 0xd) 
           { 
             
@@ -259,7 +259,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
               thiz->ctCheck = (thiz->ctCheck + 1) & 0x0fff | thiz->ctCheck & 0xf000;
               thiz->state = 4;//process received
 
-              cmdExecuterMtbl.mtbl->executeCmd( (cmdExecuterMtbl.ref), thiz->rxBuffer, thiz->nrofBytesReceived[0], _thCxt);/*unnecessary because usage receiveData: ipcMtbl.freeData(rxBuffer);*/
+              cmdExecuterVtbl.mtbl->executeCmd( (cmdExecuterVtbl.ref), thiz->rxBuffer, thiz->nrofBytesReceived[0], _thCxt);/*unnecessary because usage receiveData: ipcVtbl.freeData(rxBuffer);*/
               
             }
           }
@@ -291,8 +291,8 @@ int32 sendAnswer_Comm_Inspc(Comm_Inspc_s* thiz, int8ARRAY bufferAnswerData, int3
     
     int32  nrofSentBytes;/*no initvalue*/
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
-    nrofSentBytes = ipcMtbl.mtbl->send(&(( (ipcMtbl.ref))->base.object), build_MemC(bufferAnswerData.addr, bufferAnswerData.val ), nrofBytesAnswer, thiz->myAnswerAddress);
+    InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, thiz->ipc, InterProcessComm);
+    nrofSentBytes = ipcVtbl.mtbl->send(&(( (ipcVtbl.ref))->base.object), build_MemC(bufferAnswerData.addr, bufferAnswerData.val ), nrofBytesAnswer, thiz->myAnswerAddress);
     if(nrofSentBytes < 0) 
     { 
       
@@ -330,8 +330,8 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
     
     thiz->state = 0xd;
     
-    InterProcessCommMTB ipcMtbl ; SETMTBJc(ipcMtbl, thiz->ipc, InterProcessComm);
-    ipcMtbl.mtbl->close(&(( (ipcMtbl.ref))->base.object));/*breaks waiting in receive socket*/
+    InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, thiz->ipc, InterProcessComm);
+    ipcVtbl.mtbl->close(&(( (ipcVtbl.ref))->base.object));/*breaks waiting in receive socket*/
     
     
     while(thiz->state != 0xf)
@@ -364,7 +364,7 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 /*J2C: dynamic call variant of the override-able method: */
 void shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
 { ObjectJc* othiz = &thiz->base.object;
-  Mtbl_Comm_Inspc const* mtbl = (Mtbl_Comm_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Comm_Inspc);
+  Vtbl_Comm_Inspc const* mtbl = (Vtbl_Comm_Inspc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_Comm_Inspc);
   mtbl->shutdown(thiz, _thCxt);
 }
 
@@ -376,15 +376,15 @@ void dtor_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt) {
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_Comm_Inspc mtblComm_Inspc = {
-{ { sign_Mtbl_Comm_Inspc //J2C: Head of methodtable of Comm_Inspc
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_Comm_Inspc mtblComm_Inspc = {
+{ { sign_Vtbl_Comm_Inspc //J2C: Head of methodtable of Comm_Inspc
+  , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :Comm_Inspc:
 , shutdown_Comm_Inspc_F //shutdown
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -394,15 +394,15 @@ const MtblDef_Comm_Inspc mtblComm_Inspc = {
   , toString_ObjectJc_F //toString
   }
   //J2C: The interface's methodtable: 
-  //J2C: Mtbl-interfaces of :Comm_Inspc: */
-, { { sign_Mtbl_RunnableJc //J2C: Head of methodtable of RunnableJc
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  //J2C: Vtbl-interfaces of :Comm_Inspc: */
+, { { sign_Vtbl_RunnableJc //J2C: Head of methodtable of RunnableJc
+    , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :RunnableJc:
   , run_Comm_Inspc_F //run
     //J2C: The superclass's methodtable: 
-  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
@@ -412,26 +412,26 @@ const MtblDef_Comm_Inspc mtblComm_Inspc = {
     , toString_ObjectJc_F //toString
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_Comm_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_Comm_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_Comm_Inspc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_Comm_Inspc, ObjectJc) }
    }
  };
 
  extern_C struct ClassJc_t const reflection_RunnableJc;
  static struct ifcClasses_Comm_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }interfaces_Comm_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_RunnableJc, OFFSET_Mtbl(Mtbl_Comm_Inspc, RunnableJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+, { {&reflection_RunnableJc, OFFSET_Vtbl(Vtbl_Comm_Inspc, RunnableJc) }
   }
 };
 
@@ -533,8 +533,8 @@ const ClassJc reflection_Comm_Inspc_s =
 , sizeof(Comm_Inspc_s)
 , (FieldJc_Y const*)&reflection_Fields_Comm_Inspc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_Comm_Inspc_s //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_Comm_Inspc_s //interfaces
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_Comm_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&interfaces_Comm_Inspc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblComm_Inspc.mtbl.head
 };

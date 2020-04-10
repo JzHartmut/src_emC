@@ -268,11 +268,11 @@ METHOD_C void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt);
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_StringPartScanJc[]; //marker for methodTable check
-typedef struct Mtbl_StringPartScanJc_t
-{ MtblHeadJc head;
-  Mtbl_StringPartJc StringPartJc;
-} Mtbl_StringPartScanJc;
+ extern const char sign_Vtbl_StringPartScanJc[]; //marker for methodTable check
+typedef struct Vtbl_StringPartScanJc_t
+{ VtblHeadJc head;
+  Vtbl_StringPartJc StringPartJc;
+} Vtbl_StringPartScanJc;
 
 
 

@@ -26,10 +26,10 @@ This class is able to use in a simple environment.
 */
 
 
-const char sign_Mtbl_MsgDispatcherCore_MSG[] = "MsgDispatcherCore_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_MsgDispatcherCore_MSG[] = "MsgDispatcherCore_MSG"; //to mark method tables of all implementations
 
-typedef struct MtblDef_MsgDispatcherCore_MSG_t { Mtbl_MsgDispatcherCore_MSG mtbl; MtblHeadJc end; } MtblDef_MsgDispatcherCore_MSG;
- extern MtblDef_MsgDispatcherCore_MSG const mtblMsgDispatcherCore_MSG;
+typedef struct VtblDef_MsgDispatcherCore_MSG_t { Vtbl_MsgDispatcherCore_MSG mtbl; VtblHeadJc end; } VtblDef_MsgDispatcherCore_MSG;
+ extern VtblDef_MsgDispatcherCore_MSG const mtblMsgDispatcherCore_MSG;
 
 /*Constructor */
 struct MsgDispatcherCore_MSG_t* ctorO_MsgDispatcherCore_MSG(ObjectJc* othis, int32 maxQueue, int32 nrofMixedOutputs, struct RunnableJc_t* runNoEntryMessage, ThCxt* _thCxt)
@@ -80,7 +80,7 @@ void setIdThreadForMsgDispatching_MsgDispatcherCore_MSG_F(MsgDispatcherCore_MSG_
 
 /*J2C: dynamic call variant of the override-able method: */
 void setIdThreadForMsgDispatching_MsgDispatcherCore_MSG(MsgDispatcherCore_MSG_s* thiz, int64 idThread, ThCxt* _thCxt)
-{ Mtbl_MsgDispatcherCore_MSG const* mtbl = (Mtbl_MsgDispatcherCore_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_MsgDispatcherCore_MSG);
+{ Vtbl_MsgDispatcherCore_MSG const* mtbl = (Vtbl_MsgDispatcherCore_MSG const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_MsgDispatcherCore_MSG);
   mtbl->setIdThreadForMsgDispatching(thiz, idThread, _thCxt);
 }
 
@@ -269,7 +269,7 @@ void close_MsgDispatcherCore_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void close_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
-{ Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+{ Vtbl_LogMessageFW const* mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   mtbl->close((LogMessageFW_s*)ithis, _thCxt);
 }
 
@@ -289,7 +289,7 @@ void flush_MsgDispatcherCore_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void flush_MsgDispatcherCore_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
-{ Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+{ Vtbl_LogMessageFW const* mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   mtbl->flush((LogMessageFW_s*)ithis, _thCxt);
 }
 
@@ -467,15 +467,15 @@ void finalize_MsgDispatcherCore_MSG_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_MsgDispatcherCore_MSG mtblMsgDispatcherCore_MSG = {
-{ { sign_Mtbl_MsgDispatcherCore_MSG //J2C: Head of methodtable of MsgDispatcherCore_MSG
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_MsgDispatcherCore_MSG mtblMsgDispatcherCore_MSG = {
+{ { sign_Vtbl_MsgDispatcherCore_MSG //J2C: Head of methodtable of MsgDispatcherCore_MSG
+  , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :MsgDispatcherCore_MSG:
 , setIdThreadForMsgDispatching_MsgDispatcherCore_MSG_F //setIdThreadForMsgDispatching
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -485,9 +485,9 @@ const MtblDef_MsgDispatcherCore_MSG mtblMsgDispatcherCore_MSG = {
   , toString_ObjectJc_F //toString
   }
   //J2C: The interface's methodtable: 
-  //J2C: Mtbl-interfaces of :MsgDispatcherCore_MSG: */
-, { { sign_Mtbl_LogMessageFW //J2C: Head of methodtable of LogMessageFW
-    , (struct Size_Mtbl_t*)((6 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  //J2C: Vtbl-interfaces of :MsgDispatcherCore_MSG: */
+, { { sign_Vtbl_LogMessageFW //J2C: Head of methodtable of LogMessageFW
+    , (struct Size_Vtbl_t*)((6 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :LogMessageFW:
   , sendMsgVaList_iDtzv_MsgDispatcherCore_MSG //sendMsgVaList
@@ -497,8 +497,8 @@ const MtblDef_MsgDispatcherCore_MSG mtblMsgDispatcherCore_MSG = {
   , sendMsg_izv_MsgDispatcherCore_MSG //sendMsg
   , sendMsgTime_iDtzv_MsgDispatcherCore_MSG //sendMsgTime
     //J2C: The superclass's methodtable: 
-  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
@@ -508,26 +508,26 @@ const MtblDef_MsgDispatcherCore_MSG mtblMsgDispatcherCore_MSG = {
     , toString_ObjectJc_F //toString
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_MsgDispatcherCore_MSG_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_MsgDispatcherCore_MSG_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_MsgDispatcherCore_MSG, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_MsgDispatcherCore_MSG, ObjectJc) }
    }
  };
 
  extern_C struct ClassJc_t const reflection_LogMessageFW;
  static struct ifcClasses_MsgDispatcherCore_MSG_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }interfaces_MsgDispatcherCore_MSG_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW, OFFSET_Mtbl(Mtbl_MsgDispatcherCore_MSG, LogMessageFW) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+, { {&reflection_LogMessageFW, OFFSET_Vtbl(Vtbl_MsgDispatcherCore_MSG, LogMessageFW) }
   }
 };
 
@@ -671,8 +671,8 @@ const ClassJc reflection_MsgDispatcherCore_MSG_s =
 , sizeof(MsgDispatcherCore_MSG_s)
 , (FieldJc_Y const*)&reflection_Fields_MsgDispatcherCore_MSG_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_MsgDispatcherCore_MSG_s //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_MsgDispatcherCore_MSG_s //interfaces
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgDispatcherCore_MSG_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&interfaces_MsgDispatcherCore_MSG_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblMsgDispatcherCore_MSG.mtbl.head
 };
@@ -680,7 +680,7 @@ const ClassJc reflection_MsgDispatcherCore_MSG_s =
 /**Stores all data of a message if the message is queued here. */
 
 
-const char sign_Mtbl_Entry_MsgDispatcherCore_MSG[] = "Entry_MsgDispatcherCore_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_Entry_MsgDispatcherCore_MSG[] = "Entry_MsgDispatcherCore_MSG"; //to mark method tables of all implementations
 
 
 /*Constructor *//**J2C: autogenerated as default constructor. */
@@ -781,10 +781,10 @@ const ClassJc reflection_Entry_MsgDispatcherCore_MSG_s =
 */
 
 
-const char sign_Mtbl_TestCnt_MsgDispatcherCore_MSG[] = "TestCnt_MsgDispatcherCore_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_TestCnt_MsgDispatcherCore_MSG[] = "TestCnt_MsgDispatcherCore_MSG"; //to mark method tables of all implementations
 
-typedef struct MtblDef_TestCnt_MsgDispatcherCore_MSG_t { Mtbl_TestCnt_MsgDispatcherCore_MSG mtbl; MtblHeadJc end; } MtblDef_TestCnt_MsgDispatcherCore_MSG;
- extern MtblDef_TestCnt_MsgDispatcherCore_MSG const mtblTestCnt_MsgDispatcherCore_MSG;
+typedef struct VtblDef_TestCnt_MsgDispatcherCore_MSG_t { Vtbl_TestCnt_MsgDispatcherCore_MSG mtbl; VtblHeadJc end; } VtblDef_TestCnt_MsgDispatcherCore_MSG;
+ extern VtblDef_TestCnt_MsgDispatcherCore_MSG const mtblTestCnt_MsgDispatcherCore_MSG;
 
 /*Constructor *//**J2C: autogenerated as default constructor. */
 struct TestCnt_MsgDispatcherCore_MSG_t* ctorO_TestCnt_MsgDispatcherCore_MSG(ObjectJc* othis, ThCxt* _thCxt)
@@ -804,13 +804,13 @@ struct TestCnt_MsgDispatcherCore_MSG_t* ctorO_TestCnt_MsgDispatcherCore_MSG(Obje
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_TestCnt_MsgDispatcherCore_MSG mtblTestCnt_MsgDispatcherCore_MSG = {
-{ { sign_Mtbl_TestCnt_MsgDispatcherCore_MSG //J2C: Head of methodtable of TestCnt_MsgDispatcherCore_MSG
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_TestCnt_MsgDispatcherCore_MSG mtblTestCnt_MsgDispatcherCore_MSG = {
+{ { sign_Vtbl_TestCnt_MsgDispatcherCore_MSG //J2C: Head of methodtable of TestCnt_MsgDispatcherCore_MSG
+  , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -819,16 +819,16 @@ const MtblDef_TestCnt_MsgDispatcherCore_MSG mtblTestCnt_MsgDispatcherCore_MSG = 
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_TestCnt_MsgDispatcherCore_MSG_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_TestCnt_MsgDispatcherCore_MSG_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_TestCnt_MsgDispatcherCore_MSG, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_TestCnt_MsgDispatcherCore_MSG, ObjectJc) }
    }
  };
 
@@ -862,7 +862,7 @@ const ClassJc reflection_TestCnt_MsgDispatcherCore_MSG_s =
 , sizeof(TestCnt_MsgDispatcherCore_MSG_s)
 , (FieldJc_Y const*)&reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_TestCnt_MsgDispatcherCore_MSG_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_TestCnt_MsgDispatcherCore_MSG_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblTestCnt_MsgDispatcherCore_MSG.mtbl.head
@@ -872,7 +872,7 @@ const ClassJc reflection_TestCnt_MsgDispatcherCore_MSG_s =
 */
 
 
-const char sign_Mtbl_Output_MsgDispatcherCore_MSG[] = "Output_MsgDispatcherCore_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_Output_MsgDispatcherCore_MSG[] = "Output_MsgDispatcherCore_MSG"; //to mark method tables of all implementations
 
 
 /*Constructor *//**J2C: autogenerated as default constructor. */

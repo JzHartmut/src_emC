@@ -17,7 +17,7 @@
 /* J2C: Method-table-references *********************************************************/
 #ifndef AppendableJcMTBDEF
   #define AppendableJcMTBDEF
-  typedef struct AppendableJcMTB_t { struct Mtbl_AppendableJc_t const* mtbl; struct AppendableJc_t* ref; } AppendableJcMTB;
+  typedef struct AppendableJcMTB_t { struct Vtbl_AppendableJc_t const* mtbl; struct AppendableJc_t* ref; } AppendableJcMTB;
 #endif
 
 
@@ -42,10 +42,10 @@ onto the required position. So a buffer content can also be filled first right, 
 */
 
 
-const char sign_Mtbl_StringFormatterJc[] = "StringFormatterJc"; //to mark method tables of all implementations
+const char sign_Vtbl_StringFormatterJc[] = "StringFormatterJc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_StringFormatterJc_t { Mtbl_StringFormatterJc mtbl; MtblHeadJc end; } MtblDef_StringFormatterJc;
- extern MtblDef_StringFormatterJc const mtblStringFormatterJc;
+typedef struct VtblDef_StringFormatterJc_t { Vtbl_StringFormatterJc mtbl; VtblHeadJc end; } VtblDef_StringFormatterJc;
+ extern VtblDef_StringFormatterJc const mtblStringFormatterJc;
 StringJc version_StringFormatterJc = CONST_z_StringJc("2014-08-10"); //J2C:static StringJc
 const int16 k2left_StringFormatterJc = 2 + mBytesInWordBigEndian_StringFormatterJc;
 const int16 k4left_StringFormatterJc = 4 + mBytesInWordBigEndian_StringFormatterJc;
@@ -1563,7 +1563,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
   { 
     
     
-    AppendableJcMTB lineoutMtbl ; SETMTBJc(lineoutMtbl, REFJc (thiz->lineout), AppendableJc);
+    AppendableJcMTB lineoutVtbl ; SETMTBJc(lineoutVtbl, REFJc (thiz->lineout), AppendableJc);
     if(REFJc(thiz->lineout)!= null && (c == '\n' || c == '\r')) 
     { /*:on one of the line end characters*/
       
@@ -1577,7 +1577,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
         { 
           
           /*J2Cxxtest*/
-          lineoutMtbl.mtbl->append_C(&(( (lineoutMtbl.ref))->base.object), c, _thCxt);/*append the found newline character either 0d or 0a like given.*/
+          lineoutVtbl.mtbl->append_C(&(( (lineoutVtbl.ref))->base.object), c, _thCxt);/*append the found newline character either 0d or 0a like given.*/
           
         }
         thiz->secondNewline = c == '\r' ? '\n' : '\r';/*the other one.*/
@@ -1587,7 +1587,7 @@ struct StringFormatterJc_t* append_c_StringFormatterJc(StringFormatterJc_s* thiz
       { /*:c is the secondNewline character, pos is 0*/
         
         
-        lineoutMtbl.mtbl->append_C(&(( (lineoutMtbl.ref))->base.object), c, _thCxt);/*append it if a special newline is not given.   */
+        lineoutVtbl.mtbl->append_C(&(( (lineoutVtbl.ref))->base.object), c, _thCxt);/*append it if a special newline is not given.   */
         
       }
     }
@@ -1658,14 +1658,14 @@ int32 flushLine_StringFormatterJc(StringFormatterJc_s* thiz, StringJc sNewline, 
   { 
     
     
-    AppendableJcMTB lineoutMtbl ; SETMTBJc(lineoutMtbl, REFJc (thiz->lineout), AppendableJc);
+    AppendableJcMTB lineoutVtbl ; SETMTBJc(lineoutVtbl, REFJc (thiz->lineout), AppendableJc);
     
     int32  chars = thiz->pos;
     if(thiz->pos > 0) 
     { /*:some content is given*/
       
       
-      lineoutMtbl.mtbl->append_csI(&(( (lineoutMtbl.ref))->base.object), fromStringBuilderJc_CharSeqJc(REFJc (thiz->buffer)), 0, thiz->pos, _thCxt);/*it would be copy characters after pos to 0. But that's wrong here:*/
+      lineoutVtbl.mtbl->append_csI(&(( (lineoutVtbl.ref))->base.object), fromStringBuilderJc_CharSeqJc(REFJc (thiz->buffer)), 0, thiz->pos, _thCxt);/*it would be copy characters after pos to 0. But that's wrong here:*/
       
       setLength_StringBuilderJc(REFJc (thiz->buffer), 0, _thCxt);/*clean*/
       
@@ -1674,7 +1674,7 @@ int32 flushLine_StringFormatterJc(StringFormatterJc_s* thiz, StringJc sNewline, 
     if(!isNull_StringJc( sNewline)) 
     { 
       
-      lineoutMtbl.mtbl->append_cs(&(( (lineoutMtbl.ref))->base.object), sNewline, _thCxt);
+      lineoutVtbl.mtbl->append_cs(&(( (lineoutVtbl.ref))->base.object), sNewline, _thCxt);
     }
     { STACKTRC_LEAVE;
       return chars;
@@ -1723,13 +1723,13 @@ void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_StringFormatterJc mtblStringFormatterJc = {
-{ { sign_Mtbl_StringFormatterJc //J2C: Head of methodtable of StringFormatterJc
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_StringFormatterJc mtblStringFormatterJc = {
+{ { sign_Vtbl_StringFormatterJc //J2C: Head of methodtable of StringFormatterJc
+  , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -1739,29 +1739,29 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
   , toString_StringFormatterJc //toString
   }
   //J2C: The interface's methodtable: 
-  //J2C: Mtbl-interfaces of :StringFormatterJc: */
-, { { sign_Mtbl_AppendableJc //J2C: Head of methodtable of AppendableJc
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  //J2C: Vtbl-interfaces of :StringFormatterJc: */
+, { { sign_Vtbl_AppendableJc //J2C: Head of methodtable of AppendableJc
+    , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
   }
-, { { sign_Mtbl_CloseableJc //J2C: Head of methodtable of CloseableJc
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_CloseableJc //J2C: Head of methodtable of CloseableJc
+    , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
   }
-, { { sign_Mtbl_FlushableJc //J2C: Head of methodtable of FlushableJc
-    , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_FlushableJc //J2C: Head of methodtable of FlushableJc
+    , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_StringFormatterJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_StringFormatterJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_StringFormatterJc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, ObjectJc) }
    }
  };
 
@@ -1770,12 +1770,12 @@ const MtblDef_StringFormatterJc mtblStringFormatterJc = {
  extern_C struct ClassJc_t const reflection_FlushableJc;
  static struct ifcClasses_StringFormatterJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[3];
+   ClassOffset_idxVtblJc data[3];
  }interfaces_StringFormatterJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_AppendableJc, OFFSET_Mtbl(Mtbl_StringFormatterJc, AppendableJc) }
-  , {&reflection_CloseableJc, OFFSET_Mtbl(Mtbl_StringFormatterJc, CloseableJc) }
-  , {&reflection_FlushableJc, OFFSET_Mtbl(Mtbl_StringFormatterJc, FlushableJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+, { {&reflection_AppendableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, AppendableJc) }
+  , {&reflection_CloseableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, CloseableJc) }
+  , {&reflection_FlushableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, FlushableJc) }
   }
 };
 
@@ -1989,8 +1989,8 @@ const ClassJc reflection_StringFormatterJc =
 , sizeof(StringFormatterJc_s)
 , (FieldJc_Y const*)&reflection_Fields_StringFormatterJc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_StringFormatterJc_s //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_StringFormatterJc_s //interfaces
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_StringFormatterJc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&interfaces_StringFormatterJc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblStringFormatterJc.mtbl.head
 };

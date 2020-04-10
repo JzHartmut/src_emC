@@ -20,11 +20,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field obj
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_Param_OrthOsc2_FB_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_Param_OrthOsc2_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_Param_OrthOsc2_FB =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_Param_OrthOsc2_FB, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_Param_OrthOsc2_FB, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -129,7 +129,7 @@ const ClassJc reflection_Param_OrthOsc2_FB =
 , sizeof(Param_OrthOsc2_FB)
 , (FieldJcArray const*)&reflection_Fields_Param_OrthOsc2_FB  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_Param_OrthOsc2_FB  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_Param_OrthOsc2_FB  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -161,11 +161,11 @@ extern_C const ClassJc reflection_float_complex;  //used for field ypq
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_OrthOsc2_FB_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_OrthOsc2_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_OrthOsc2_FB =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_OrthOsc2_FB, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_OrthOsc2_FB, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -288,7 +288,7 @@ const ClassJc reflection_OrthOsc2_FB =
 , sizeof(OrthOsc2_FB)
 , (FieldJcArray const*)&reflection_Fields_OrthOsc2_FB  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_OrthOsc2_FB  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_OrthOsc2_FB  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -312,11 +312,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field base
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_Adjustk_OrthOsc2_FB_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_Adjustk_OrthOsc2_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_Adjustk_OrthOsc2_FB =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_Adjustk_OrthOsc2_FB, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_Adjustk_OrthOsc2_FB, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -385,7 +385,7 @@ const ClassJc reflection_Adjustk_OrthOsc2_FB =
 , sizeof(Adjustk_OrthOsc2_FB)
 , (FieldJcArray const*)&reflection_Fields_Adjustk_OrthOsc2_FB  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_Adjustk_OrthOsc2_FB  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_Adjustk_OrthOsc2_FB  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

@@ -7,7 +7,7 @@
 #include <emC/Jc/ReflectionJc.h>   //Reflection concept 
   //basic stacktrace concept
 #include <emC/Inspc/CheckPwd_Inspc.h>
-#include <emC/Inspc/J2c/CmdConsumer_ifc_Inspc.h>  //reference-association: cmdConsumerMtbl
+#include <emC/Inspc/J2c/CmdConsumer_ifc_Inspc.h>  //reference-association: cmdConsumerVtbl
 #include <emC/Inspc/J2c/Comm_Inspc.h>  //reference-association: comm
 #include <emC/Jc/ArraysJc.h>  //reference-association: ArraysJc
 #include <emC/Jc/PrintStreamJc.h>  //reference-association: err
@@ -21,15 +21,15 @@
 /* J2C: Method-table-references *********************************************************/
 #ifndef CmdConsumer_ifc_InspcMTBDEF
   #define CmdConsumer_ifc_InspcMTBDEF
-  typedef struct CmdConsumer_ifc_InspcMTB_t { struct Mtbl_CmdConsumer_ifc_Inspc_t const* mtbl; struct CmdConsumer_ifc_Inspc_t* ref; } CmdConsumer_ifc_InspcMTB;
+  typedef struct CmdConsumer_ifc_InspcMTB_t { struct Vtbl_CmdConsumer_ifc_Inspc_t const* mtbl; struct CmdConsumer_ifc_Inspc_t* ref; } CmdConsumer_ifc_InspcMTB;
 #endif
 
 
 
-const char sign_Mtbl_CmdExecuter_Inspc[] = "CmdExecuter_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_CmdExecuter_Inspc[] = "CmdExecuter_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_CmdExecuter_Inspc_t { Mtbl_CmdExecuter_Inspc mtbl; MtblHeadJc end; } MtblDef_CmdExecuter_Inspc;
- extern MtblDef_CmdExecuter_Inspc const mtblCmdExecuter_Inspc;
+typedef struct VtblDef_CmdExecuter_Inspc_t { Vtbl_CmdExecuter_Inspc mtbl; VtblHeadJc end; } VtblDef_CmdExecuter_Inspc;
+ extern VtblDef_CmdExecuter_Inspc const mtblCmdExecuter_Inspc;
 StringJc version_CmdExecuter_Inspc = CONST_z_StringJc("2015-08-05"); //J2C:static StringJc
 
 /*Constructor */
@@ -72,14 +72,14 @@ void completeConstruction_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, struct 
 
 /*J2C: dynamic call variant of the override-able method: */
 void completeConstruction_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, struct Comm_Inspc_t* comm, ThCxt* _thCxt)
-{ Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
+{ Vtbl_CmdExecuter_Inspc const* mtbl = (Vtbl_CmdExecuter_Inspc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_CmdExecuter_Inspc);
   mtbl->completeConstruction(thiz, comm, _thCxt);
 }
 
 
 /**Executes the given command received with this datagram*/
 bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8ARRAY buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
-{ Mtbl_CmdExecuter_Inspc const* mtthis = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
+{ Vtbl_CmdExecuter_Inspc const* mtthis = (Vtbl_CmdExecuter_Inspc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_CmdExecuter_Inspc);
   
   STACKTRC_TENTRY("executeCmd_CmdExecuter_Inspc_F");
   
@@ -98,7 +98,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8ARRAY buffer,
     int32  maxNrofBytesAnswerPart;/*no initvalue*/
     thiz->nrofBytesAnswer = 0;
     
-    CmdConsumer_ifc_InspcMTB cmdConsumerMtbl ; SETMTBJc(cmdConsumerMtbl, thiz->cmdConsumer, CmdConsumer_ifc_Inspc);
+    CmdConsumer_ifc_InspcMTB cmdConsumerVtbl ; SETMTBJc(cmdConsumerVtbl, thiz->cmdConsumer, CmdConsumer_ifc_Inspc);
     removeChildren_ByteDataAccessBaseJc(& ((thiz->myAnswerData).base.super));
     fill_mB_ArraysJc(/*J2C:static method call*/thiz->bufferAnswerData, 0, thiz->bufferAnswerData.val, (int8 /*J2C_cast*/)0, _thCxt);/*String test = myAnswerData.toString();*/
     
@@ -152,7 +152,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8ARRAY buffer,
             TRY
             { 
               
-              cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, levels, telg, _thCxt);
+              cmdConsumerVtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerVtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, levels, telg, _thCxt);
             }_TRY
             CATCH(IllegalArgumentException, exc)
             
@@ -203,7 +203,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8ARRAY buffer,
       TRY
       { 
         
-        cmdConsumerMtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerMtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, 0, null_MemC, _thCxt);
+        cmdConsumerVtbl.mtbl->executeMonitorCmd(&(( (cmdConsumerVtbl.ref))->base.object), & (thiz->infoCmd), & (thiz->myAnswerData), maxNrofBytesAnswerPart, 0, null_MemC, _thCxt);
       }_TRY
       CATCH(IllegalArgumentException, exc)
       
@@ -238,7 +238,7 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8ARRAY buffer,
 
 /*J2C: dynamic call variant of the override-able method: */
 bool executeCmd_CmdExecuter_Inspc(CmdExecuter_Inspc_s* thiz, int8ARRAY buffer, int32 nrofBytesReceived, ThCxt* _thCxt)
-{ Mtbl_CmdExecuter_Inspc const* mtbl = (Mtbl_CmdExecuter_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_CmdExecuter_Inspc);
+{ Vtbl_CmdExecuter_Inspc const* mtbl = (Vtbl_CmdExecuter_Inspc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_CmdExecuter_Inspc);
   return mtbl->executeCmd(thiz, buffer, nrofBytesReceived, _thCxt);
 }
 
@@ -302,23 +302,23 @@ int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswerBytesPart
 
 /*J2C: dynamic call variant of the override-able method: */
 int32 txAnswer_ib_CmdExecuter_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt)
-{ Mtbl_AnswerComm_ifc_Inspc const* mtbl = (Mtbl_AnswerComm_ifc_Inspc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_AnswerComm_ifc_Inspc);
+{ Vtbl_AnswerComm_ifc_Inspc const* mtbl = (Vtbl_AnswerComm_ifc_Inspc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_AnswerComm_ifc_Inspc);
   return mtbl->txAnswer(ithis, nrofAnswerBytesPart, bLastTelg, _thCxt);
 }
 
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_CmdExecuter_Inspc mtblCmdExecuter_Inspc = {
-{ { sign_Mtbl_CmdExecuter_Inspc //J2C: Head of methodtable of CmdExecuter_Inspc
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_CmdExecuter_Inspc mtblCmdExecuter_Inspc = {
+{ { sign_Vtbl_CmdExecuter_Inspc //J2C: Head of methodtable of CmdExecuter_Inspc
+  , (struct Size_Vtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :CmdExecuter_Inspc:
 , completeConstruction_CmdExecuter_Inspc_F //completeConstruction
 , executeCmd_CmdExecuter_Inspc_F //executeCmd
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -328,15 +328,15 @@ const MtblDef_CmdExecuter_Inspc mtblCmdExecuter_Inspc = {
   , toString_ObjectJc_F //toString
   }
   //J2C: The interface's methodtable: 
-  //J2C: Mtbl-interfaces of :CmdExecuter_Inspc: */
-, { { sign_Mtbl_AnswerComm_ifc_Inspc //J2C: Head of methodtable of AnswerComm_ifc_Inspc
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  //J2C: Vtbl-interfaces of :CmdExecuter_Inspc: */
+, { { sign_Vtbl_AnswerComm_ifc_Inspc //J2C: Head of methodtable of AnswerComm_ifc_Inspc
+    , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :AnswerComm_ifc_Inspc:
   , txAnswer_ib_CmdExecuter_Inspc_F //txAnswer
     //J2C: The superclass's methodtable: 
-  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
@@ -346,26 +346,26 @@ const MtblDef_CmdExecuter_Inspc mtblCmdExecuter_Inspc = {
     , toString_ObjectJc_F //toString
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_CmdExecuter_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_CmdExecuter_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_CmdExecuter_Inspc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_CmdExecuter_Inspc, ObjectJc) }
    }
  };
 
  extern_C struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
  static struct ifcClasses_CmdExecuter_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }interfaces_CmdExecuter_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_AnswerComm_ifc_Inspc_s, OFFSET_Mtbl(Mtbl_CmdExecuter_Inspc, AnswerComm_ifc_Inspc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+, { {&reflection_AnswerComm_ifc_Inspc_s, OFFSET_Vtbl(Vtbl_CmdExecuter_Inspc, AnswerComm_ifc_Inspc) }
   }
 };
 
@@ -492,8 +492,8 @@ const ClassJc reflection_CmdExecuter_Inspc_s =
 , sizeof(CmdExecuter_Inspc_s)
 , (FieldJc_Y const*)&reflection_Fields_CmdExecuter_Inspc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_CmdExecuter_Inspc_s //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_CmdExecuter_Inspc_s //interfaces
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_CmdExecuter_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&interfaces_CmdExecuter_Inspc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblCmdExecuter_Inspc.mtbl.head
 };

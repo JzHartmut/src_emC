@@ -103,13 +103,13 @@ METHOD_C struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s*
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_Part_StringPartJc[]; //marker for methodTable check
-typedef struct Mtbl_Part_StringPartJc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
+ extern const char sign_Vtbl_Part_StringPartJc[]; //marker for methodTable check
+typedef struct Vtbl_Part_StringPartJc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_CharSeqJc CharSeqJc;
-} Mtbl_Part_StringPartJc;
+  Vtbl_CharSeqJc CharSeqJc;
+} Vtbl_Part_StringPartJc;
 
 
 
@@ -1049,16 +1049,16 @@ METHOD_C CharSeqJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, Cha
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_StringPartJc[]; //marker for methodTable check
-typedef struct Mtbl_StringPartJc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_StringPartJc[]; //marker for methodTable check
+typedef struct Vtbl_StringPartJc_t
+{ VtblHeadJc head;
   MT_getLineAndColumn_StringPartJc* getLineAndColumn;
   MT_close_StringPartJc* close;
-  Mtbl_ObjectJc ObjectJc;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_CharSeqJc CharSeqJc;
-  Mtbl_ComparableJc ComparableJc;
-} Mtbl_StringPartJc;
+  Vtbl_CharSeqJc CharSeqJc;
+  Vtbl_ComparableJc ComparableJc;
+} Vtbl_StringPartJc;
 
 
 

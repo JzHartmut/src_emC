@@ -66,7 +66,7 @@ extern const struct ClassJc_t reflection_InterProcessCommSharedMem_s;
 
 /**This is the reference address to check the correct address in method table.
  */
-//char const* const sign_Mtbl_InterProcessComm = &identText_sign_Mtbl_InterProcessComm;
+//char const* const sign_Vtbl_InterProcessComm = &identText_sign_Vtbl_InterProcessComm;
 
 
 
@@ -146,7 +146,7 @@ typedef struct InterProcessCommSharedMem_t
 {
   union{ InterProcessComm_s InterProcessComm; ObjectJc object; } ifc;
   
-  Mtbl_InterProcessComm const* mtblInterProcessComm;
+  Vtbl_InterProcessComm const* mtblInterProcessComm;
 
   /** True if the SharedMem startup is done, false on init. */
   bool bStartupDone;
@@ -276,7 +276,7 @@ int open_InterProcessCommSharedMem
 , Address_InterProcessComm_s* destAddress
 , bool isBlocking
 //, struct InterProcessCommCallback_t* objCallback
-//, Mtbl_InterProcessCommCallback const* mtblCallback
+//, Vtbl_InterProcessCommCallback const* mtblCallback
 )
 { //cast from impersonator type, because this methods are only called with such an instance, supplied from create_InterProcessCommSharedMem(). 
   InterProcessCommSharedMem_s* ythis = (InterProcessCommSharedMem_s*)xthis;  
@@ -506,7 +506,7 @@ const ClassJc reflection_InterProcessCommSharedMem_s =
 , sizeof(InterProcessCommSharedMem_s)
 , null //(FieldJcArray const*)&reflection_Fields_InterProcessCommSharedMem_s
 , null //method
-, null //(ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommSharedMem_s //superclass
+, null //(ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommSharedMem_s //superclass
 , null //interfaces
 , 0    //modifiers
 //, &mtblInterProcessCommSharedMem.mtbl.head

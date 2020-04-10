@@ -239,24 +239,24 @@ void close_LogMessageStream_FW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 
 #ifdef DEF_ObjectJc_FULL
 
-char const sign_Mtbl_LogMessageStream_FW[] = "sign_Mtbl_LogMessageStream_FW";
+char const sign_Vtbl_LogMessageStream_FW[] = "sign_Vtbl_LogMessageStream_FW";
 
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
 /*
-struct Mtbl_LogMessageStream_FW_t
-{ MtblHeadJc head;
-  Mtbl_LogMessageFW LogMessage_FW_i;
-  MtblHeadJc end;
+struct Vtbl_LogMessageStream_FW_t
+{ VtblHeadJc head;
+  Vtbl_LogMessageFW LogMessage_FW_i;
+  VtblHeadJc end;
 } const mtbl_LogMessageStream_FW
 */
-Mtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
+Vtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
 =
-{ { sign_Mtbl_LogMessageStream_FW
-  , (struct Size_Mtbl_t*)( (0+2) * sizeof(void*)) 
+{ { sign_Vtbl_LogMessageStream_FW
+  , (struct Size_Vtbl_t*)( (0+2) * sizeof(void*)) 
   }
-, { { sign_Mtbl_LogMessageFW
-    , (struct Size_Mtbl_t*)( (4+2)  * sizeof(void*))
+, { { sign_Vtbl_LogMessageFW
+    , (struct Size_Vtbl_t*)( (4+2)  * sizeof(void*))
     }
   , sendMsgVaList_LogMessageStream_FW
   , flush_LogMessageStream_FW_F
@@ -264,7 +264,7 @@ Mtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
   , isOnline_LogMessageStream_FW_F
   , sendMsg_LogMessageStream_FW
   , sendMsg_time_LogMessageStream_FW
-  , { { sign_Mtbl_ObjectJc, (struct Size_Mtbl_t*)( (5+2)  * sizeof(void*))}
+  , { { sign_Vtbl_ObjectJc, (struct Size_Vtbl_t*)( (5+2)  * sizeof(void*))}
     , clone_ObjectJc_F
     , equals_ObjectJc_F
     , finalize_ObjectJc_F
@@ -272,7 +272,7 @@ Mtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
     , toString_ObjectJc_F
     }
   }
-  , { signEnd_Mtbl_ObjectJc, null}
+  , { signEnd_Vtbl_ObjectJc, null}
 };
 
 
@@ -281,10 +281,10 @@ extern_C ClassJc const reflection_LogMessageFW;
 static struct interfaces_LogMessageStream_FW_t
 { /** Base data of every array */
   ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }interfaces_LogMessageStream_FW =
-{ CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW, OFFSET_Mtbl(struct Mtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
+{ CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+, { {&reflection_LogMessageFW, OFFSET_Vtbl(struct Vtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
   }
 };
 
@@ -298,7 +298,7 @@ ClassJc const reflection_LogMessageStream_FW =
 , null  //attributes and associations
 , null  //method
 , null  //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_LogMessageStream_FW  //interfaces
+, (ClassOffset_idxVtblJcARRAY*)&interfaces_LogMessageStream_FW  //interfaces
 , 0x4000000  //modifiers
 , &mtbl_LogMessageStream_FW.head
 };

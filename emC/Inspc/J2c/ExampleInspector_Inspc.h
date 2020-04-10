@@ -85,11 +85,11 @@ METHOD_C struct Data_ExampleInspector_Inspc_t* ctorO_Data_ExampleInspector_Inspc
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_Data_ExampleInspector_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_Data_ExampleInspector_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_Data_ExampleInspector_Inspc;
+ extern const char sign_Vtbl_Data_ExampleInspector_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_Data_ExampleInspector_Inspc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_Data_ExampleInspector_Inspc;
 
 
 
@@ -173,13 +173,13 @@ METHOD_C void execute_ExampleInspector_Inspc(ExampleInspector_Inspc_s* ythis, Th
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_ExampleInspector_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_ExampleInspector_Inspc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_ExampleInspector_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_ExampleInspector_Inspc_t
+{ VtblHeadJc head;
   MT_setExampleData_ExampleInspector_Inspc* setExampleData;
   MT_execute_ExampleInspector_Inspc* execute;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_ExampleInspector_Inspc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_ExampleInspector_Inspc;
 
 
 

@@ -91,12 +91,12 @@ METHOD_C int32 secondsGPSfromUTC_LeapSecondsJc(/*J2C:static method*/ int32 secon
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_LeapSecondsJc[]; //marker for methodTable check
-typedef struct Mtbl_LeapSecondsJc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_LeapSecondsJc[]; //marker for methodTable check
+typedef struct Vtbl_LeapSecondsJc_t
+{ VtblHeadJc head;
   MT_initFix_LeapSecondsJc* initFix;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_LeapSecondsJc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_LeapSecondsJc;
 
 
 

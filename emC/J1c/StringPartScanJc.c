@@ -60,10 +60,10 @@ e
 */
 
 
-const char sign_Mtbl_StringPartScanJc[] = "StringPartScanJc"; //to mark method tables of all implementations
+const char sign_Vtbl_StringPartScanJc[] = "StringPartScanJc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_StringPartScanJc_t { Mtbl_StringPartScanJc mtbl; MtblHeadJc end; } MtblDef_StringPartScanJc;
- extern MtblDef_StringPartScanJc const mtblStringPartScanJc;
+typedef struct VtblDef_StringPartScanJc_t { Vtbl_StringPartScanJc mtbl; VtblHeadJc end; } VtblDef_StringPartScanJc;
+ extern VtblDef_StringPartScanJc const mtblStringPartScanJc;
 
 /*Constructor */
 struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, CharSeqJc src, int32 begin, int32 end, ThCxt* _thCxt)
@@ -999,13 +999,13 @@ void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt)
-{ Mtbl_StringPartJc const* mtbl = (Mtbl_StringPartJc const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_StringPartJc);
+{ Vtbl_StringPartJc const* mtbl = (Vtbl_StringPartJc const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_StringPartJc);
   mtbl->close((StringPartJc_s*)ithis, _thCxt);
 }
 
 
 
-//casting admissible because static operation only used in folllowing Mtbl in this compilation unit.
+//casting admissible because static operation only used in folllowing Vtbl in this compilation unit.
 static int32 length_StringPartJc_i_CharSeqObjJc(CharSeqObjJc const* ithiz, ThCxt* _thCxt){ 
   return length_StringPartJc((StringPartJc_s*)ithiz, _thCxt); 
 }
@@ -1015,20 +1015,20 @@ static int32 length_StringPartJc_i_CharSeqObjJc(CharSeqObjJc const* ithiz, ThCxt
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_StringPartScanJc mtblStringPartScanJc = {
-{ { sign_Mtbl_StringPartScanJc //J2C: Head of methodtable of StringPartScanJc
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_StringPartScanJc mtblStringPartScanJc = {
+{ { sign_Vtbl_StringPartScanJc //J2C: Head of methodtable of StringPartScanJc
+  , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_StringPartJc //J2C: Head of methodtable of StringPartJc
-    , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_StringPartJc //J2C: Head of methodtable of StringPartJc
+    , (struct Size_Vtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :StringPartJc:
   , getLineAndColumn_StringPartJc_F //getLineAndColumn
   , close_StringPartScanJc_F //close
     //J2C: The superclass's methodtable: 
-  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
@@ -1038,21 +1038,21 @@ const MtblDef_StringPartScanJc mtblStringPartScanJc = {
     , toString_StringPartJc_F //toString
     }
     //J2C: The interface's methodtable: 
-    //J2C: Mtbl-interfaces of :StringPartScanJc: */
-  , { { sign_Mtbl_CharSeqJc //J2C: Head of methodtable of CharSeqJc
-      , (struct Size_Mtbl_t*)((3 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+    //J2C: Vtbl-interfaces of :StringPartScanJc: */
+  , { { sign_Vtbl_CharSeqJc //J2C: Head of methodtable of CharSeqJc
+      , (struct Size_Vtbl_t*)((3 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :CharSeqJc:
     , length_StringPartJc_i_CharSeqObjJc //length
     , charAt_i_StringPartJc //charAt
     , subSequence_ii_StringPartJc //subSequence
     }
-  , { { sign_Mtbl_ComparableJc //J2C: Head of methodtable of ComparableJc
-      , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , { { sign_Vtbl_ComparableJc //J2C: Head of methodtable of ComparableJc
+      , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
 #ifdef __DONOTUSE_REFLECTION__
@@ -1066,17 +1066,17 @@ const MtblDef_StringPartScanJc mtblStringPartScanJc = {
 
 #define REFLECTION_Fields_StringPartScanJc (FieldJc_Y const*)&reflection_Fields_StringPartScanJc_s
 #define REFLECTION_Methods_StringPartScanJc null
-#define REFLECTION_Superclasses_StringPartScanJc (ClassOffset_idxMtblJcARRAY*)&superclasses_StringPartScanJc_s
+#define REFLECTION_Superclasses_StringPartScanJc (ClassOffset_idxVtblJcARRAY*)&superclasses_StringPartScanJc_s
 #define REFLECTION_Interfaces_StringPartScanJc null
 
 
  extern_C struct ClassJc_t const reflection_StringPartJc_s;
  static struct superClasses_StringPartScanJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_StringPartScanJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_StringPartJc_s, OFFSET_Mtbl(Mtbl_StringPartScanJc, StringPartJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_StringPartJc_s, OFFSET_Vtbl(Vtbl_StringPartScanJc, StringPartJc) }
    }
  };
 

@@ -369,7 +369,7 @@ const ClassJc reflection_MethodJc =
 
 extern_C const ClassJc reflection_ClassJc;  //the just defined reflection_
 extern_C const ClassJc reflection_ObjectJc;
-extern_C const ClassJc reflection_MtblHeadJc;
+extern_C const ClassJc reflection_VtblHeadJc;
 const struct Reflection_Fields_ClassJc_t
 { ObjectArrayJc head;
   FieldJc data[10];
@@ -450,7 +450,7 @@ const struct Reflection_Fields_ClassJc_t
     }
   , { "mtbl"
     , 0   //no Array, no Bitfield
-    , &reflection_MtblHeadJc
+    , &reflection_VtblHeadJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassJc*)(0x1000))->mtbl) -(int32)(ClassJc*)0x1000)
     , 0  //offsetToObjectifcBase

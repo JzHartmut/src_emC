@@ -243,7 +243,7 @@ typedef struct TimeSignals_Inspc_t
   #ifndef refl
     //don't generate reflection for this block.
 
-    ClassOffset_idxMtblJc1 superThiz;
+    ClassOffset_idxVtblJc1 superThiz;
 
     /**The Reflection info will be assembled with the input parameter. */
     ClassJc clazz;

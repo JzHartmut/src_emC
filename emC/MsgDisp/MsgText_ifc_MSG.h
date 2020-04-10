@@ -74,12 +74,12 @@ METHOD_C void set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_M
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG[]; //marker for methodTable check
-typedef struct Mtbl_MsgConfigItem_MsgText_ifc_MSG_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_MsgConfigItem_MsgText_ifc_MSG[]; //marker for methodTable check
+typedef struct Vtbl_MsgConfigItem_MsgText_ifc_MSG_t
+{ VtblHeadJc head;
   MT_set_type_MsgConfigItem_MsgText_ifc_MSG* set_type;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_MsgConfigItem_MsgText_ifc_MSG;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_MsgConfigItem_MsgText_ifc_MSG;
 
 
 
@@ -146,13 +146,13 @@ METHOD_C struct CollectionJc_t* getListItems_MsgText_ifc_MSG(ObjectJc* ithis, Th
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_MsgText_ifc_MSG[]; //marker for methodTable check
-typedef struct Mtbl_MsgText_ifc_MSG_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_MsgText_ifc_MSG[]; //marker for methodTable check
+typedef struct Vtbl_MsgText_ifc_MSG_t
+{ VtblHeadJc head;
   MT_getMsgText_MsgText_ifc_MSG* getMsgText;
   MT_getListItems_MsgText_ifc_MSG* getListItems;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_MsgText_ifc_MSG;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_MsgText_ifc_MSG;
 
 
 

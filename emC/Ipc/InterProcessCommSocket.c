@@ -68,7 +68,7 @@ extern const struct ClassJc_t reflection_InterProcessCommSocket_s;
 
 /**This is the reference address to check the correct address in method table.
  */
-//char const* const sign_Mtbl_InterProcessComm = &identText_sign_Mtbl_InterProcessComm;
+//char const* const sign_Vtbl_InterProcessComm = &identText_sign_Vtbl_InterProcessComm;
 
 
 
@@ -245,7 +245,7 @@ void dataAvailable_InterprocessCommCallbackAdapCpp(struct InterprocessCommCallba
 #endif //__cplusplus__
 
 
-Mtbl_InterProcessCommCallback const mtbl_InterprocessCommCallbackAdapCpp =
+Vtbl_InterProcessCommCallback const mtbl_InterprocessCommCallbackAdapCpp =
 { errorConnection_InterprocessCommCallbackAdapCpp
 , readyConnection_InterprocessCommCallbackAdapCpp
 , acknDataTrans_InterprocessCommCallbackAdapCpp
@@ -270,7 +270,7 @@ typedef struct InterProcessCommSocket_t
 {
   union{ InterProcessComm_s InterProcessComm; ObjectJc object; } ifc;
   
-  Mtbl_InterProcessComm const* mtblInterProcessComm;
+  Vtbl_InterProcessComm const* mtblInterProcessComm;
 
   /** True if the Socket startup is done, false on init. */
   bool bStartupDone;
@@ -441,7 +441,7 @@ int open_InterProcessCommSocket
 , Address_InterProcessComm_s* destAddress
 , bool isBlocking
 //, struct InterProcessCommCallback_t* objCallback
-//, Mtbl_InterProcessCommCallback const* mtblCallback
+//, Vtbl_InterProcessCommCallback const* mtblCallback
 )
 { //cast from impersonator type, because this methods are only called with such an instance, supplied from create_InterProcessCommSocket(). 
   InterProcessCommSocket_s* ythis = (InterProcessCommSocket_s*)xthis;  
@@ -912,10 +912,10 @@ Address_InterProcessComm_s* createAddress_II_InterProcessCommSocket(ObjectJc* ip
 
 /**Define the mtbl_InterProcessComm for Sockets
  */
-MtblDef_InterProcessCommSocket const mtblInterProcessCommSocket = {
-//Mtbl_InterProcessComm const mtbl_InterProcessCommSocket =
-{ { sign_Mtbl_InterProcessComm
-  , (struct Size_Mtbl_t*)sizeof(Mtbl_InterProcessComm)
+VtblDef_InterProcessCommSocket const mtblInterProcessCommSocket = {
+//Vtbl_InterProcessComm const mtbl_InterProcessCommSocket =
+{ { sign_Vtbl_InterProcessComm
+  , (struct Size_Vtbl_t*)sizeof(Vtbl_InterProcessComm)
   }
 , open_InterProcessCommSocket
 , close_InterProcessCommSocket
@@ -937,7 +937,7 @@ MtblDef_InterProcessCommSocket const mtblInterProcessCommSocket = {
 , createAddress_s_InterProcessCommSocket
 , createAddress_sI_InterProcessCommSocket
 , createAddress_II_InterProcessCommSocket
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 ; 
 
 
@@ -950,7 +950,7 @@ const ClassJc reflection_InterProcessCommSocket_s =
 , sizeof(InterProcessCommSocket_s)
 , null //(FieldJcArray const*)&reflection_Fields_InterProcessCommSocket_s
 , null //method
-, null //(ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommSocket_s //superclass
+, null //(ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommSocket_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInterProcessCommSocket.mtbl.head

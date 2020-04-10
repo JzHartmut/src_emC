@@ -129,6 +129,8 @@ typedef struct ThreadContext_emC_t
    * which are used only in the tread, returned by reference and immediately used and freed.
    */
   MemC bufferAlloc;
+  //TODO this define in applstdef_emC.h
+  #define DEF_UserBuffer_ThreadContext_emC
 
   /**Up to 30 used addresses for allocated buffers in thread context.
    * The positions in this array refers to the bits from 0...9 in [[ThreadContext_emC_s.bitAddrUsed]].

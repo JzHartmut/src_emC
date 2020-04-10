@@ -189,13 +189,13 @@ METHOD_C void stop_ClassContent_Inspc(ClassContent_Inspc_s* thiz, ThCxt* _thCxt)
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_ClassContent_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_ClassContent_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
+ extern const char sign_Vtbl_ClassContent_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_ClassContent_Inspc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_CmdConsumer_ifc_Inspc CmdConsumer_ifc_Inspc;
-} Mtbl_ClassContent_Inspc;
+  Vtbl_CmdConsumer_ifc_Inspc CmdConsumer_ifc_Inspc;
+} Vtbl_ClassContent_Inspc;
 
 
 

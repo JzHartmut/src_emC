@@ -54,7 +54,7 @@ InspcTargetProxy_s data =
 
 #ifndef InterProcessCommMTBDEF
   #define InterProcessCommMTBDEF
-  typedef struct InterProcessCommMTB_t { struct Mtbl_InterProcessComm_t const* mtbl; struct InterProcessComm_t* ref; } InterProcessCommMTB;
+  typedef struct InterProcessCommMTB_t { struct Vtbl_InterProcessComm_t const* mtbl; struct InterProcessComm_t* ref; } InterProcessCommMTB;
 #endif
 
 
@@ -255,11 +255,11 @@ int32 getInfo_InspcTargetProxy(InspcTargetProxy_s* thiz, Cmd_InspcTargetProxy_e 
   setInt32BigEndian(&txTelg->address, (int32)address);
   setInt32BigEndian(&txTelg->value, input);
   setCmdSeqnr_TelgProxy2Target_Inspc(txTelg, cmd, ++thiz->seqnrTxTarget);
-  InterProcessCommMTB ipcMtbl;
-  SETMTBJc(ipcMtbl, data.targetIpc->ipc, InterProcessComm);  //access to derived methods.
+  InterProcessCommMTB ipcVtbl;
+  SETMTBJc(ipcVtbl, data.targetIpc->ipc, InterProcessComm);  //access to derived methods.
   //send the request to the 2CPU-target
   thiz->answerWord_Target = 0;  //clear before receive, note: -1 on wait
-  int nrofBytesSend = ipcMtbl.mtbl->send(&ipcMtbl.ref->base.object, data.txData2TargetP, 16+12, &thiz->ipAddrTarget);
+  int nrofBytesSend = ipcVtbl.mtbl->send(&ipcVtbl.ref->base.object, data.txData2TargetP, 16+12, &thiz->ipAddrTarget);
   //wait for receiving an answer, but with timeout.
   { synchronized_ObjectJc(&thiz->object);
     if(thiz->seqnrRxTarget != thiz->seqnrTxTarget) {

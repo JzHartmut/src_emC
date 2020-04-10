@@ -229,8 +229,8 @@ static bool testBlockCluster_GarbageCollectorJc(GarbageCollectorJc* ythis, Block
       searchBlockHeapBlock_BlockHeap_emC(block, &blockHeap);  //to get the heap control structure.
       firstBlock = block->nextBlock;
       if(block->obj != null)
-      { Mtbl_ObjectJc const* mtbl;
-        CALLINE; mtbl = (Mtbl_ObjectJc const*)getMtbl_ObjectJc(block->obj, sign_Mtbl_ObjectJc);
+      { Vtbl_ObjectJc const* mtbl;
+        CALLINE; mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(block->obj, sign_Vtbl_ObjectJc);
         //mtbl may be null if no reflection of obj is given.
         if(mtbl != null)
         { mtbl->finalize(block->obj, _thCxt);
@@ -273,7 +273,7 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
 
   if(ythis->log !=null) {
     mlog.ref = ythis->log;
-    mlog.mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&mlog.ref->base.object, sign_Mtbl_LogMessageFW);
+    mlog.mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&mlog.ref->base.object, sign_Vtbl_LogMessageFW);
   }
 
 

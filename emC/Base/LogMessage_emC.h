@@ -59,7 +59,7 @@ typedef struct  LogMessageFW_t
 }LogMessageFW_s;  //_i means an struct useable as interface
 
 //Not used ... TODO idea? necessary? 
-//typedef struct LogMessageFW_MREF_t { struct LogMessageFW_t* ref; struct Mtbl_LogMessageFW_t const* mtbl; } LogMessageFW_MREF;
+//typedef struct LogMessageFW_MREF_t { struct LogMessageFW_t* ref; struct Vtbl_LogMessageFW_t const* mtbl; } LogMessageFW_MREF;
 
 
 
@@ -206,10 +206,10 @@ typedef void MT_close_LogMessageFW( struct LogMessageFW_t* ithis, ThCxt* _thCxt)
 typedef bool MT_isOnline_LogMessageFW( struct LogMessageFW_t* ithis, ThCxt* _thCxt);
 
 /**This is a marker text. The content of text isn't important, but all implementations should use the same address
- * (value of field sign in Mtbl_LogMessageFW).
+ * (value of field sign in Vtbl_LogMessageFW).
  */
-//extern void const* const sign_Mtbl_LogMessageFW;
-extern char const sign_Mtbl_LogMessageFW[];
+//extern void const* const sign_Vtbl_LogMessageFW;
+extern char const sign_Vtbl_LogMessageFW[];
 
 
 
@@ -218,17 +218,17 @@ extern char const sign_Mtbl_LogMessageFW[];
 /**const struct of method addresses. A constant instance of this struct should be a part of the Reflection-MethodTable
  * of implementation by any Log output.
  */
-typedef struct Mtbl_LogMessageFW_t
+typedef struct Vtbl_LogMessageFW_t
 { 
-  /**The value of sign must be identically with the address of the sign_Mtbl_Message_ifcFW-variable. Use it for safe access. */
+  /**The value of sign must be identically with the address of the sign_Vtbl_Message_ifcFW-variable. Use it for safe access. */
   //void const* const* sign;
   /**The sizeTable is really an simple int. But all members of Method table are from pointer type. casted internally. 
    * Check of sizeTable makes possible to use older implementation versions with less methods.
    * NOTE: don't use a void*, because all is compatible with it and no errors are signated.
    */
-  //struct Size_Mtbl_t* sizeTable;  
+  //struct Size_Vtbl_t* sizeTable;  
 
-  MtblHeadJc head;
+  VtblHeadJc head;
   /**Only this method should implemented. */
   MT_sendMsgVaList_LogMessageFW* sendMsgVaList;
   MT_flush_LogMessageFW* flush;
@@ -236,14 +236,14 @@ typedef struct Mtbl_LogMessageFW_t
   MT_isOnline_LogMessageFW* isOnline;
   MT_sendMsg_LogMessageFW* sendMsg;
   MT_sendMsg_time_LogMessageFW* sendMsgTime;
-  Mtbl_ObjectJc ObjectJc;
-}Mtbl_LogMessageFW;
+  Vtbl_ObjectJc ObjectJc;
+}Vtbl_LogMessageFW;
 
 
 /**Method-table-references *********************************************************/
 #ifndef LogMessageFWMTBDEF
   #define LogMessageFWMTBDEF
-  typedef struct LogMessageFWMTB_t { struct Mtbl_LogMessageFW_t const* mtbl; struct LogMessageFW_t* ref; } LogMessageFWMTB;
+  typedef struct LogMessageFWMTB_t { struct Vtbl_LogMessageFW_t const* mtbl; struct LogMessageFW_t* ref; } LogMessageFWMTB;
 #endif
 
 #endif //DEF_ObjectJc_FULL
@@ -371,14 +371,14 @@ extern int* out_FileDescriptorJc;
 
 #ifdef DEF_ObjectJc_FULL
 
-typedef struct Mtbl_LogMessageStream_FW_t
-{ MtblHeadJc head;
-  Mtbl_LogMessageFW LogMessage_FW_i;
-  MtblHeadJc end;
-} Mtbl_LogMessageStream_FW;
+typedef struct Vtbl_LogMessageStream_FW_t
+{ VtblHeadJc head;
+  Vtbl_LogMessageFW LogMessage_FW_i;
+  VtblHeadJc end;
+} Vtbl_LogMessageStream_FW;
 
 
-extern struct Mtbl_LogMessageStream_FW_t const mtbl_LogMessageStream_FW;
+extern struct Vtbl_LogMessageStream_FW_t const mtbl_LogMessageStream_FW;
 
 #endif //DEF_ObjectJc_FULL
 

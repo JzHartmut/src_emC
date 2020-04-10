@@ -754,7 +754,7 @@ inline ClassJcpp const* FieldJcpp::getType() const
 /*
 extern_C const struct ReflectionFieldJc_t
 { ClassJc clazz;
-  Mtbl_ObjectJc vtbl;
+  Vtbl_ObjectJc vtbl;
   DEFINE_ARRAYJc(FieldJc, 2) fields;
 }reflectionFieldJc;
 */

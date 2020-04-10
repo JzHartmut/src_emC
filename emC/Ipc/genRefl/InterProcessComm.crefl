@@ -8,11 +8,11 @@
 extern_C const ClassJc reflection_Address_InterProcessComm;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_Address_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_Address_InterProcessComm_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_Address_InterProcessComm_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_Address_InterProcessComm_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_Address_InterProcessComm_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -81,7 +81,7 @@ const ClassJc reflection_Address_InterProcessComm =
 , sizeof(Address_InterProcessComm_s)
 , (FieldJcArray const*)&reflection_Fields_Address_InterProcessComm_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_Address_InterProcessComm_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_Address_InterProcessComm_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -92,11 +92,11 @@ const ClassJc reflection_Address_InterProcessComm =
 extern_C const ClassJc reflection_InterProcessCommFactory;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_InterProcessCommFactory_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_InterProcessCommFactory_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_InterProcessCommFactory_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_InterProcessCommFactory_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_InterProcessCommFactory_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -120,7 +120,7 @@ const ClassJc reflection_InterProcessCommFactory =
 , sizeof(InterProcessCommFactory_s)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_InterProcessCommFactory_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_InterProcessCommFactory_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -131,11 +131,11 @@ const ClassJc reflection_InterProcessCommFactory =
 extern_C const ClassJc reflection_InterProcessComm;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_InterProcessComm_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_InterProcessComm_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_InterProcessComm_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_InterProcessComm_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_InterProcessComm_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -159,7 +159,7 @@ const ClassJc reflection_InterProcessComm =
 , sizeof(InterProcessComm_s)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_InterProcessComm_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_InterProcessComm_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -172,11 +172,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field obj
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_InterProcessCommCallback_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_InterProcessCommCallback_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_InterProcessCommCallback_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_InterProcessCommCallback_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_InterProcessCommCallback_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -200,7 +200,7 @@ const ClassJc reflection_InterProcessCommCallback =
 , sizeof(InterProcessCommCallback_s)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_InterProcessCommCallback_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_InterProcessCommCallback_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

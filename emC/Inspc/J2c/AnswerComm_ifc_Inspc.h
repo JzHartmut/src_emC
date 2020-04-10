@@ -62,12 +62,12 @@ METHOD_C int32 txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswerBy
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_AnswerComm_ifc_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_AnswerComm_ifc_Inspc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_AnswerComm_ifc_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_AnswerComm_ifc_Inspc_t
+{ VtblHeadJc head;
   MT_txAnswer_AnswerComm_ifc_Inspc* txAnswer;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_AnswerComm_ifc_Inspc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_AnswerComm_ifc_Inspc;
 
 
 

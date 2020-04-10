@@ -96,8 +96,8 @@ char const* debugPRINTF[10] = {0};
 
 
 
-char const sign_Mtbl_ObjectJc[] = "sign_Mtbl_ObjectJc";
-char const signEnd_Mtbl_ObjectJc[] = "signEnd_Mtbl_ObjectJc";
+char const sign_Vtbl_ObjectJc[] = "sign_Vtbl_ObjectJc";
+char const signEnd_Vtbl_ObjectJc[] = "signEnd_Vtbl_ObjectJc";
 
 
 
@@ -105,8 +105,8 @@ extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
 
 #ifdef DEF_REFLECTION_FULL  //Note: this feature is not able to use without full reflection support
 
-const ClassOffset_idxMtblJc1 reflection_super_ObjectJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(reflection_super_ObjectJc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+const ClassOffset_idxVtblJc1 reflection_super_ObjectJc =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(reflection_super_ObjectJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
 , { &reflection_ObjectJc                                   
 , 0 //Index of mtbl of ObjectJc
     //The field which presents the superclass data in inspector access.
@@ -301,9 +301,9 @@ static bool checkRefl(ClassJc const* refl, char const* reflectionName)
 
 
 int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName)
-{ int idxMtbl = -1;
-  STACKTRC_ENTRY("getIdxMtbl_ClassJc");
-#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
+{ int idxVtbl = -1;
+  STACKTRC_ENTRY("getIdxVtbl_ClassJc");
+#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
   if(reflectionObj == null || reflectionObj->object.reflectionClass == null || strcmp(reflectionObj->object.reflectionClass->name, "ClassJc") !=0){
     THROW_s0(ClassCastException, "reflection class invalid", (int)(intptr_t)reflectionObj, 0);
   }
@@ -311,64 +311,64 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
   int zReflectionName = strnlen_emC(reflectionName, sizeof(reflectionObj->name));  //till 0 or maximal the size of name[] it is not 0-terminated.
   if(reflectionObj == null)
   { //if no reflection is used, it is able in C++ environment or if no dynamic linked methods are used.
-    idxMtbl = -1; //mIdxMtbl_ObjectJc;  //causes an error if it will be used!
+    idxVtbl = -1; //mIdxVtbl_ObjectJc;  //causes an error if it will be used!
   }
   else
   { if(reflectionName == null)  //if no reflection is prescribed:
-    { idxMtbl = 0;  //returns the Mtbl_ObjectJc
+    { idxVtbl = 0;  //returns the Vtbl_ObjectJc
     }
     //else if(strncmp(reflectionName, "ObjectJc", 8)==0)
-    //{ idxMtbl = 0;  //returns the whole Mtbl for the type.
+    //{ idxVtbl = 0;  //returns the whole Vtbl for the type.
     //}
     else if (strncmp(reflectionObj->name, reflectionName, zReflectionName) == 0) {
-      idxMtbl = 0;  //returns the Mtbl for this instance.
+      idxVtbl = 0;  //returns the Vtbl for this instance.
     }
-  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
+  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
     else
-    { ClassOffset_idxMtblJcARRAY const* reflectionIfc = 
-        (ClassOffset_idxMtblJcARRAY const*)reflectionObj->interfaces;
+    { ClassOffset_idxVtblJcARRAY const* reflectionIfc = 
+        (ClassOffset_idxVtblJcARRAY const*)reflectionObj->interfaces;
       if( reflectionIfc != null)
       { int idxIfc;
-        for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
-        { ClassOffset_idxMtblJc const* reflectionChild;
+        for(idxIfc = 0; idxVtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
+        { ClassOffset_idxVtblJc const* reflectionChild;
           reflectionChild = &reflectionIfc->data[idxIfc];
           ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
           if(strncmp(superType->name, reflectionName, zReflectionName)==0) //check via strcmp   
-          { idxMtbl = reflectionChild->idxMtbl;
+          { idxVtbl = reflectionChild->idxVtbl;
           }
         }
       }
       else
-      { idxMtbl = -1;
+      { idxVtbl = -1;
       }
     }
   #endif
-  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
-    ClassOffset_idxMtblJcARRAY const* reflectionSuper;
-    if(idxMtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
+  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
+    ClassOffset_idxVtblJcARRAY const* reflectionSuper;
+    if(idxVtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
     { int idxSuper = 0;
-      for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
-      { ClassOffset_idxMtblJc const* reflectionChild;
+      for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+      { ClassOffset_idxVtblJc const* reflectionChild;
         reflectionChild = &reflectionSuper->data[idxSuper];
         ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
         if(strncmp(superType->name, reflectionName, zReflectionName)==0)
-        { idxMtbl = reflectionChild->idxMtbl;
+        { idxVtbl = reflectionChild->idxVtbl;
         }
         else
         { //Recursive call because deeper inheritance:
           ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
-          idxMtbl = getIxVtbl_s_ClassJc(superType, reflectionName);
+          idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName);
         }
       }
     }
   #endif
     { //search in superclasses and there interfaces
       //old if only 1 superclass:
-      //idxMtbl = getIdxMtbl_ClassJc(reflectionObj->superClass, reflectionRef);
+      //idxVtbl = getIdxVtbl_ClassJc(reflectionObj->superClass, reflectionRef);
     }
 
   }
-  STACKTRC_LEAVE; return(idxMtbl);
+  STACKTRC_LEAVE; return(idxVtbl);
 }
 
 
@@ -379,8 +379,8 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
 
 bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
 { if(ythis == null) return false;
-  int idxMtbl = getIxVtbl_s_ClassJc(ythis->reflectionClass, reflectionName);
-  return idxMtbl >=0;
+  int idxVtbl = getIxVtbl_s_ClassJc(ythis->reflectionClass, reflectionName);
+  return idxVtbl >=0;
 }
 
 
@@ -430,7 +430,7 @@ StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
 
 
 
-#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
+#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
 VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
 { VtblHeadJc const* head = null; //nullpointer-return possible
   ClassJc const* reflection;
@@ -449,7 +449,7 @@ VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
   if(head != null)//nullpointer exception outside possible.
   {
     while(  head->sign != sign 
-      && head->sign != signEnd_Mtbl_ObjectJc 
+      && head->sign != signEnd_Vtbl_ObjectJc 
       )
     { int sizeTable = (int)(intptr_t)(head->sizeTable);
     if(sizeTable < 0 || sizeTable > (302 * sizeof(void*))) {
@@ -459,7 +459,7 @@ VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
     //The next part of method table is found after the current.
     head = (VtblHeadJc const*)( (MemUnit*)head + sizeTable );
     }
-    if(head->sign == signEnd_Mtbl_ObjectJc){
+    if(head->sign == signEnd_Vtbl_ObjectJc){
       THROW1_s0(ClassCastException, "baseclass not found", (int)(intptr_t)sign);
       head = null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
     } } }
@@ -470,26 +470,26 @@ VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
 
 
 
-#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
-int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
+#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
+int getPosInVtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 { VtblHeadJc const* headSign = getVtbl_ObjectJc(thiz, sign);
   if(headSign !=null){
     VtblHeadJc const* headBase = thiz->reflectionClass->mtbl;
     return OFFSET_MemUnit(headBase, headSign) / (int)sizeof(sign);
   } 
-  else return -1;  //no Mtbl found.
+  else return -1;  //no Vtbl found.
 }
 #endif
 
 
 
-VtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
+VtblHeadJc const* checkVtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
 { 
   switch(error) {
-  case 1: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)(intptr_t)ythis); break;
-  case 2: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Mtbl not given", (int)(intptr_t)ythis); break;
-  case 3: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: faulty index to Mtbl", (int)(intptr_t)ythis); break;
-  default: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: unknown error", (int)(intptr_t)ythis);
+  case 1: THROW1_s0(IllegalArgumentException, "checkVtbl_ObjectJc: Object reflection faulty", (int)(intptr_t)ythis); break;
+  case 2: THROW1_s0(IllegalArgumentException, "checkVtbl_ObjectJc: Vtbl not given", (int)(intptr_t)ythis); break;
+  case 3: THROW1_s0(IllegalArgumentException, "checkVtbl_ObjectJc: faulty index to Vtbl", (int)(intptr_t)ythis); break;
+  default: THROW1_s0(IllegalArgumentException, "checkVtbl_ObjectJc: unknown error", (int)(intptr_t)ythis);
   }
   return null;
 }
@@ -505,7 +505,7 @@ VtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCx
 *        This param is only used with its pointer value, no access to the referenced memory location will be done.
 * @return The index of the part of jumptable of the reference inside the jump table of the object.
 *         * It is 0, if reflectionObj == reflectionRef, it means the reference is from the same type as the Object.
-*         * It is mIdxMtbl_ObjectJc if reflectionObj is null. This case is possible if the Object has no reflection infos.
+*         * It is mIdxVtbl_ObjectJc if reflectionObj is null. This case is possible if the Object has no reflection infos.
 *           If the index with this value is used as an index of jumptable, an exception occurs.
 *           But if it is not used, it is a valid case, especially if no dynamic linked call occurs.
 */
@@ -514,81 +514,81 @@ VtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCx
 //The better solution is getIxVtbl_s_ClassJc(...) which compares the names of the reflection. 
 //but this is faster!
 
-int getIdxMtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRef)
-{ int idxMtbl = -1;
-  STACKTRC_ENTRY("getIdxMtbl_ClassJc");
+int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRef)
+{ int idxVtbl = -1;
+  STACKTRC_ENTRY("getIdxVtbl_ClassJc");
   if(reflectionObj == null)
   { //if no reflection is used, it is able in C++ environment or if no dynamic linked methods are used.
-    idxMtbl = -1; //mIdxMtbl_ObjectJc;  //causes an error if it will be used!
+    idxVtbl = -1; //mIdxVtbl_ObjectJc;  //causes an error if it will be used!
   }
   else
   { if(reflectionRef == null)  //if no reflection is prescribed:
-    { idxMtbl = 0;  //returns the Mtbl_ObjectJc
+    { idxVtbl = 0;  //returns the Vtbl_ObjectJc
     }
     else if(reflectionRef == reflectionObj)
-    { idxMtbl = 0;  //returns the whole Mtbl for the type.
+    { idxVtbl = 0;  //returns the whole Vtbl for the type.
     }
-  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
+  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
     else
-    { ClassOffset_idxMtblJcARRAY const* reflectionIfc = 
-      (ClassOffset_idxMtblJcARRAY const*)reflectionObj->interfaces;
+    { ClassOffset_idxVtblJcARRAY const* reflectionIfc = 
+      (ClassOffset_idxVtblJcARRAY const*)reflectionObj->interfaces;
       if( reflectionIfc != null)
       { int idxIfc;
-        for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
-        { ClassOffset_idxMtblJc const* reflectionChild;
+        for(idxIfc = 0; idxVtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
+        { ClassOffset_idxVtblJc const* reflectionChild;
           reflectionChild = &reflectionIfc->data[idxIfc];
           ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
           if(superType == reflectionRef)
-          { idxMtbl = reflectionChild->idxMtbl;
+          { idxVtbl = reflectionChild->idxVtbl;
           }
         }
       }
       else
-      { idxMtbl = -1;
+      { idxVtbl = -1;
       }
     }
   #endif
-  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
-    ClassOffset_idxMtblJcARRAY const* reflectionSuper;
-    if(idxMtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
+  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
+    ClassOffset_idxVtblJcARRAY const* reflectionSuper;
+    if(idxVtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
     { int idxSuper = 0;
-      for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
-      { ClassOffset_idxMtblJc const* reflectionChild;
+      for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+      { ClassOffset_idxVtblJc const* reflectionChild;
         reflectionChild = &reflectionSuper->data[idxSuper];
         ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
         if(superType == reflectionRef)
-        { idxMtbl = reflectionChild->idxMtbl;
+        { idxVtbl = reflectionChild->idxVtbl;
         }
         else
         { //Recursive call because deeper inheritance:
           ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
-          idxMtbl = getIdxMtbl_ClassJc(superType, reflectionRef);
+          idxVtbl = getIdxVtbl_ClassJc(superType, reflectionRef);
         }
       }
     }
   #endif
     { //search in superclasses and there interfaces
       //old if only 1 superclass:
-      //idxMtbl = getIdxMtbl_ClassJc(reflectionObj->superClass, reflectionRef);
+      //idxVtbl = getIdxVtbl_ClassJc(reflectionObj->superClass, reflectionRef);
     }
 
   }
-  STACKTRC_LEAVE; return(idxMtbl);
+  STACKTRC_LEAVE; return(idxVtbl);
 }
 
 
 
 bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection)
 { 
-  int idxMtbl = getIdxMtbl_ClassJc(ythis->reflectionClass, reflection);
-  return idxMtbl >=0;
+  int idxVtbl = getIdxVtbl_ClassJc(ythis->reflectionClass, reflection);
+  return idxVtbl >=0;
 }
 
 
-#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
+#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
 /*J2C: dynamic call variant of the override-able method: */
 StringJc toString_ObjectJc(ObjectJc* ithis, ThCxt* _thCxt)
-{ Mtbl_ObjectJc const* mtbl = (Mtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Mtbl_ObjectJc);
+{ Vtbl_ObjectJc const* mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_ObjectJc);
   return mtbl->toString(ithis, _thCxt);
 }
 #endif

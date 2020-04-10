@@ -79,11 +79,11 @@ METHOD_C CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static m
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_StringFunctions_BJc[]; //marker for methodTable check
-typedef struct Mtbl_StringFunctions_BJc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_StringFunctions_BJc;
+ extern const char sign_Vtbl_StringFunctions_BJc[]; //marker for methodTable check
+typedef struct Vtbl_StringFunctions_BJc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_StringFunctions_BJc;
 
 
 

@@ -16,11 +16,11 @@ extern_C const ClassJc reflection_ListMapEntryJc;  //used for field next
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_ListItr_LinkedListJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_ListItr_LinkedListJc_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_ListItr_LinkedListJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_ListItr_LinkedListJc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_ListItr_LinkedListJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -98,7 +98,7 @@ const ClassJc reflection_ListItr_LinkedListJc =
 , sizeof(ListItr_LinkedListJc)
 , (FieldJcArray const*)&reflection_Fields_ListItr_LinkedListJc  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_ListItr_LinkedListJc  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_ListItr_LinkedListJc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -156,11 +156,11 @@ extern_C const ClassJc reflection_LinkedListJcD;  //used for field data
   
 
 extern_C const ClassJc reflection_ListJc;  //the super class here used.
-const struct SuperClasses_LinkedListJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_LinkedListJc_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_LinkedListJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_LinkedListJc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_LinkedListJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ListJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -202,7 +202,7 @@ const ClassJc reflection_LinkedListJc =
 , sizeof(LinkedListJc)
 , (FieldJcArray const*)&reflection_Fields_LinkedListJc  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_LinkedListJc  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_LinkedListJc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

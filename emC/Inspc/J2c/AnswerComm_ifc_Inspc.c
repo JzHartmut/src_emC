@@ -8,23 +8,23 @@
   //basic stacktrace concept
 
 
-const char sign_Mtbl_AnswerComm_ifc_Inspc[] = "AnswerComm_ifc_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_AnswerComm_ifc_Inspc[] = "AnswerComm_ifc_Inspc"; //to mark method tables of all implementations
 
 
 /**Sends an answer. */
 /*J2C: dynamic call variant of the override-able method: */
 int32 txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt)
-{ Mtbl_AnswerComm_ifc_Inspc const* mtbl = (Mtbl_AnswerComm_ifc_Inspc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_AnswerComm_ifc_Inspc);
+{ Vtbl_AnswerComm_ifc_Inspc const* mtbl = (Vtbl_AnswerComm_ifc_Inspc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_AnswerComm_ifc_Inspc);
   return mtbl->txAnswer(ithis, nrofAnswerBytesPart, bLastTelg, _thCxt);
 }
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_AnswerComm_ifc_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_AnswerComm_ifc_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -35,7 +35,7 @@ const ClassJc reflection_AnswerComm_ifc_Inspc_s =
 , sizeof(AnswerComm_ifc_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_AnswerComm_ifc_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_AnswerComm_ifc_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 };

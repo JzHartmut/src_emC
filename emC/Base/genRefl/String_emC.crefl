@@ -10,11 +10,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field obj
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_CharSeqObjJc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_CharSeqObjJc_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_CharSeqObjJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_CharSeqObjJc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_CharSeqObjJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -38,7 +38,7 @@ const ClassJc reflection_CharSeqObjJc =
 , sizeof(CharSeqObjJc)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_CharSeqObjJc  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_CharSeqObjJc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -92,11 +92,11 @@ const ClassJc reflection_StringBuilderJc_value_t =
 extern_C const ClassJc reflection_StringBuilderJc;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_StringBuilderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_StringBuilderJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_StringBuilderJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_StringBuilderJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_StringBuilderJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -165,7 +165,7 @@ const ClassJc reflection_StringBuilderJc =
 , sizeof(StringBuilderJc_s)
 , (FieldJcArray const*)&reflection_Fields_StringBuilderJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_StringBuilderJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_StringBuilderJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

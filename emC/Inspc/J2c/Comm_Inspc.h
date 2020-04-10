@@ -121,14 +121,14 @@ METHOD_C void shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_Comm_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_Comm_Inspc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_Comm_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_Comm_Inspc_t
+{ VtblHeadJc head;
   MT_shutdown_Comm_Inspc* shutdown;
-  Mtbl_ObjectJc ObjectJc;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_RunnableJc RunnableJc;
-} Mtbl_Comm_Inspc;
+  Vtbl_RunnableJc RunnableJc;
+} Vtbl_Comm_Inspc;
 
 
 

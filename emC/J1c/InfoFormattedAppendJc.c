@@ -18,22 +18,22 @@ See also {@link InfoAppend}.
 */
 
 
-const char sign_Mtbl_InfoFormattedAppendJc[] = "InfoFormattedAppendJc"; //to mark method tables of all implementations
+const char sign_Vtbl_InfoFormattedAppendJc[] = "InfoFormattedAppendJc"; //to mark method tables of all implementations
 
 StringJc version_InfoFormattedAppendJc = CONST_z_StringJc("2015-03-08"); //J2C:static StringJc
 /*J2C: dynamic call variant of the override-able method: */
 void infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct StringFormatterJc_t* u, ThCxt* _thCxt)
-{ Mtbl_InfoFormattedAppendJc const* mtbl = (Mtbl_InfoFormattedAppendJc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_InfoFormattedAppendJc);
+{ Vtbl_InfoFormattedAppendJc const* mtbl = (Vtbl_InfoFormattedAppendJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_InfoFormattedAppendJc);
   mtbl->infoFormattedAppend(ithis, u, _thCxt);
 }
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_InfoFormattedAppendJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InfoFormattedAppendJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -60,7 +60,7 @@ const ClassJc reflection_InfoFormattedAppendJc_s =
 , sizeof(InfoFormattedAppendJc_s)
 , (FieldJc_Y const*)&reflection_Fields_InfoFormattedAppendJc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InfoFormattedAppendJc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InfoFormattedAppendJc_s //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -74,20 +74,20 @@ const ClassJc reflection_InfoFormattedAppendJc_s =
 */
 
 
-const char sign_Mtbl_PrepareToString_InfoFormattedAppendJc[] = "PrepareToString_InfoFormattedAppendJc"; //to mark method tables of all implementations
+const char sign_Vtbl_PrepareToString_InfoFormattedAppendJc[] = "PrepareToString_InfoFormattedAppendJc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_PrepareToString_InfoFormattedAppendJc_t { Mtbl_PrepareToString_InfoFormattedAppendJc mtbl; MtblHeadJc end; } MtblDef_PrepareToString_InfoFormattedAppendJc;
- extern MtblDef_PrepareToString_InfoFormattedAppendJc const mtblPrepareToString_InfoFormattedAppendJc;
+typedef struct VtblDef_PrepareToString_InfoFormattedAppendJc_t { Vtbl_PrepareToString_InfoFormattedAppendJc mtbl; VtblHeadJc end; } VtblDef_PrepareToString_InfoFormattedAppendJc;
+ extern VtblDef_PrepareToString_InfoFormattedAppendJc const mtblPrepareToString_InfoFormattedAppendJc;
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_PrepareToString_InfoFormattedAppendJc mtblPrepareToString_InfoFormattedAppendJc = {
-{ { sign_Mtbl_PrepareToString_InfoFormattedAppendJc //J2C: Head of methodtable of PrepareToString_InfoFormattedAppendJc
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_PrepareToString_InfoFormattedAppendJc mtblPrepareToString_InfoFormattedAppendJc = {
+{ { sign_Vtbl_PrepareToString_InfoFormattedAppendJc //J2C: Head of methodtable of PrepareToString_InfoFormattedAppendJc
+  , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -96,16 +96,16 @@ const MtblDef_PrepareToString_InfoFormattedAppendJc mtblPrepareToString_InfoForm
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_PrepareToString_InfoFormattedAppendJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_PrepareToString_InfoFormattedAppendJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_PrepareToString_InfoFormattedAppendJc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_PrepareToString_InfoFormattedAppendJc, ObjectJc) }
    }
  };
 
@@ -132,7 +132,7 @@ const ClassJc reflection_PrepareToString_InfoFormattedAppendJc_s =
 , sizeof(PrepareToString_InfoFormattedAppendJc_s)
 , (FieldJc_Y const*)&reflection_Fields_PrepareToString_InfoFormattedAppendJc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_PrepareToString_InfoFormattedAppendJc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_PrepareToString_InfoFormattedAppendJc_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblPrepareToString_InfoFormattedAppendJc.mtbl.head

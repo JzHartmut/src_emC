@@ -47,12 +47,12 @@ void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, Objec
   copyToBuffer_StringJc(name, 0, -1, thiz->name, sizeof(thiz->name));
   thiz->nSize = sizeType;
   thiz->attributes = (struct FieldJc_Y_t const*)fields;  //TODO before casting: check type via reflection
-  thiz->superClasses = (struct ClassOffset_idxMtblJcARRAY_t const*) super; //TODO before casting: check type via reflection
+  thiz->superClasses = (struct ClassOffset_idxVtblJcARRAY_t const*) super; //TODO before casting: check type via reflection
 }
 
 
 
-void ctor_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl_super, int accessLevel, int ixVtbl)
+void ctor_ClassOffset_idxVtblJc(ClassOffset_idxVtblJc* thiz, ClassJc const* refl_super, int accessLevel, int ixVtbl)
 {
   memset(thiz, 0, sizeof(*thiz));
   //thiz->clazz_super = refl_super;
@@ -64,7 +64,7 @@ void ctor_ClassOffset_idxMtblJc(ClassOffset_idxMtblJc* thiz, ClassJc const* refl
                            | (7 << kBitChangeLevel_Modifier_FieldJc);  //never change the super field
   thiz->superfield.offsetToObjectifcBase = 0;
   thiz->superfield.offsFieldInStruct = 0;  //usual 0
-  thiz->idxMtbl = ixVtbl;
+  thiz->idxVtbl = ixVtbl;
 }
 
 

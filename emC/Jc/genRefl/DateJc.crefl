@@ -53,11 +53,11 @@ extern_C const ClassJc reflection_OS_TimeStamp;  //used for field val
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_DateJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_DateJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_DateJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_DateJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_DateJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -99,7 +99,7 @@ const ClassJc reflection_DateJc =
 , sizeof(DateJc_s)
 , (FieldJcArray const*)&reflection_Fields_DateJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_DateJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_DateJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -112,11 +112,11 @@ extern_C const ClassJc reflection_StringJc;  //used for field sFormat
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_SimpleDateFormatJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_SimpleDateFormatJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_SimpleDateFormatJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_SimpleDateFormatJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_SimpleDateFormatJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -167,7 +167,7 @@ const ClassJc reflection_SimpleDateFormatJc =
 , sizeof(SimpleDateFormatJc_s)
 , (FieldJcArray const*)&reflection_Fields_SimpleDateFormatJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_SimpleDateFormatJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_SimpleDateFormatJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -178,11 +178,11 @@ const ClassJc reflection_SimpleDateFormatJc =
 extern_C const ClassJc reflection_TextFieldPositionJc;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_TextFieldPositionJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_TextFieldPositionJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_TextFieldPositionJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_TextFieldPositionJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_TextFieldPositionJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -224,7 +224,7 @@ const ClassJc reflection_TextFieldPositionJc =
 , sizeof(TextFieldPositionJc_s)
 , (FieldJcArray const*)&reflection_Fields_TextFieldPositionJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_TextFieldPositionJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_TextFieldPositionJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

@@ -129,14 +129,14 @@
 
 /**Makro to set a enhanced reference, able to use in primary sources for enhanced references or not enhanced references or C++. 
  * Note: The reference itself will be set an extra assignment tests the type by compiler.
- * Implementation note: The method ,,setBackRefIdxMtblJc(...),, checks whether the reference is used yet, it frees it first.
+ * Implementation note: The method ,,setBackRefIdxVtblJc(...),, checks whether the reference is used yet, it frees it first.
  * Calling ,,clearBackRefJc(...),, is not necessarry.
  */ 
 #define SETREFJc(REF, OBJP, REFTYPE) { clearBackRefJc(&(REF)); (REF).ref = OBJP; setBackRefJc(&(REF), (REF).ref); }
 //NOTE: important: do not use OBJP more as one, because it may be a complex method.
 //therefore the following variant is false:
-//#define SETREFJc(REF, OBJP, REFTYPE) { setBackRefIdxMtblJc(&(REF).refbase, OBJP, null); (REF).ref = OBJP; }
-//#define SETREFJc(REF, OBJP, REFTYPE) { setBackRefIdxMtblJc(&(REF).refbase, OBJP, &reflection_##REFTYPE); (REF).ref = (REFTYPE*)OBJP; }
+//#define SETREFJc(REF, OBJP, REFTYPE) { setBackRefIdxVtblJc(&(REF).refbase, OBJP, null); (REF).ref = OBJP; }
+//#define SETREFJc(REF, OBJP, REFTYPE) { setBackRefIdxVtblJc(&(REF).refbase, OBJP, &reflection_##REFTYPE); (REF).ref = (REFTYPE*)OBJP; }
 
 
 #define CLEARREFJc(REF) { clearBackRefJc(&(REF)); (REF).ref = null; }

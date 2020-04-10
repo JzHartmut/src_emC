@@ -535,11 +535,11 @@ extern_C const ClassJc reflection_TimeData_TimeSignals_Inspc;  //used for field 
   
 
 extern_C const ClassJc reflection_DataStructBase_Inspc;  //the super class here used.
-const struct SuperClasses_TimeSignals_Inspc_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_TimeSignals_Inspc_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_TimeSignals_Inspc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_TimeSignals_Inspc, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_TimeSignals_Inspc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_DataStructBase_Inspc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -689,7 +689,7 @@ const ClassJc reflection_TimeSignals_Inspc =
 , sizeof(TimeSignals_Inspc)
 , (FieldJcArray const*)&reflection_Fields_TimeSignals_Inspc  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_TimeSignals_Inspc  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_TimeSignals_Inspc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

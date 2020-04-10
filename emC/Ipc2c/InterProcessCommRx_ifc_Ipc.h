@@ -81,12 +81,12 @@ METHOD_C void execRxData_InterProcessCommRx_ifc_Ipc(InterProcessCommRx_ifc_Ipc_s
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_InterProcessCommRx_ifc_Ipc[]; //marker for methodTable check
-typedef struct Mtbl_InterProcessCommRx_ifc_Ipc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_InterProcessCommRx_ifc_Ipc[]; //marker for methodTable check
+typedef struct Vtbl_InterProcessCommRx_ifc_Ipc_t
+{ VtblHeadJc head;
   MT_execRxData_InterProcessCommRx_ifc_Ipc* execRxData;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_InterProcessCommRx_ifc_Ipc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_InterProcessCommRx_ifc_Ipc;
 
 
 

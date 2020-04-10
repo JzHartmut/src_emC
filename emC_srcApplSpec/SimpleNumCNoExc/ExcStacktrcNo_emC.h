@@ -150,19 +150,6 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 
 
 
-/**A simple storage for the first and the last exception to detect exceptions in a simple inexpensive runtime system.
- * If only the first buffer is set, it was one exception.
- * The first and the last may be sufficient for evaluation.
- */
-typedef struct ExceptionStore_t {
-  uint32 ctException;
-  ExceptionJc first;
-  ExceptionJc last;
-} ExceptionStore;
-
-void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
-
-
 
 #define printStackTrace_ExceptionJc(ythis, _thCxt)
 #define printStackTrace_P_ExceptionJc(ythis, out, _thCxt)

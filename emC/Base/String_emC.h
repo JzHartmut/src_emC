@@ -57,7 +57,7 @@ struct ObjectJc_t;
 struct StringBuilderJc_t;
 struct ThreadContext_emC_t;
 struct MemAreaC_t;
-struct Mtbl_CharSeqJc_t;
+struct Vtbl_CharSeqJc_t;
 
 
 
@@ -334,10 +334,10 @@ typedef struct { ObjectJc obj; } CharSeqObjJc;
 
 /**Definition of masks and const for val element in StringJc and CharSeqJc: */
 #ifdef __NoCharSeqJcCapabilities__
-  #define mMtbl_CharSeqJc 0
+  #define mVtbl_CharSeqJc 0
   #define kIsCharSeqJc_CharSeqJc 0
   #define kMaxNrofChars_StringJc (mLength_StringJc -2)
-  #define mIsCharSeqJcMtbl_CharSeqJc 0
+  #define mIsCharSeqJcVtbl_CharSeqJc 0
 #else   
 
   /**Mask bits for position of method table of CharSequJc.
@@ -345,7 +345,7 @@ typedef struct { ObjectJc obj; } CharSeqObjJc;
   * The val info in a CharSeqJc will be 0x3000..0x3fff..
   * See [[kMaxLength_StringJc]], .
   */
-  #define mMtbl_CharSeqJc (mLength_StringJc >>2)
+  #define mVtbl_CharSeqJc (mLength_StringJc >>2)
 
   /**Designation of the String as CharSeqJc without a method table offset. In this case the reference refers a CharSeqJc and the length
   * should be gotten by invocation of [[length_CharSeqJc(...)]].
@@ -360,13 +360,13 @@ typedef struct { ObjectJc obj; } CharSeqObjJc;
   * If a ,,StringJc,, is designated with this value for the ,,mLength_StringJc,, bits, then the length should be gotten
   * on demand. The [[length_StringJc(...)]] regards that.
   */
-  #define kMaxNrofChars_StringJc ((mLength_StringJc & ~mMtbl_CharSeqJc)-1)
+  #define kMaxNrofChars_StringJc ((mLength_StringJc & ~mVtbl_CharSeqJc)-1)
 
   /**Designation of the String as CharSeqJc maybe with a method table offset. In this case the reference refers a CharSeqJc and the length
   * should be gotten by invocation of [[length_CharSeqJc(...)]].
   * If mLength is defined with 0x3fff the value is 0x3000. mLength is defined os- and platform-depended in os_types_def.h
   */
-  #define mIsCharSeqJcMtbl_CharSeqJc (mLength_StringJc & ~mMtbl_CharSeqJc)
+  #define mIsCharSeqJcVtbl_CharSeqJc (mLength_StringJc & ~mVtbl_CharSeqJc)
 #endif
 
 
@@ -1280,7 +1280,7 @@ inline char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t
 
 
 
-extern_C struct Mtbl_CharSeqJc_t const* getMtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
+extern_C struct Vtbl_CharSeqJc_t const* getVtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
 
 
 

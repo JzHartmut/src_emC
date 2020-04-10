@@ -120,13 +120,13 @@ METHOD_C void shutdown_Inspector_Inspc(Inspector_Inspc_s* thiz, ThCxt* _thCxt);
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_Inspector_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_Inspector_Inspc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_Inspector_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_Inspector_Inspc_t
+{ VtblHeadJc head;
   MT_start_Inspector_Inspc* start;
   MT_shutdown_Inspector_Inspc* shutdown;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_Inspector_Inspc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_Inspector_Inspc;
 
 
 

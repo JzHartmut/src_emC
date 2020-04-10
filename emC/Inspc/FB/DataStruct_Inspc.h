@@ -242,7 +242,7 @@ typedef struct DataStructMng_Inspc_t
 
     struct {
       ObjectArrayJc head;
-      ClassOffset_idxMtblJc clazz;
+      ClassOffset_idxVtblJc clazz;
     } superclass;
 
 

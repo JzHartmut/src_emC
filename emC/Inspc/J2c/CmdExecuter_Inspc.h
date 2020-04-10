@@ -111,15 +111,15 @@ METHOD_C int32 txAnswer_ib_CmdExecuter_Inspc(ObjectJc* ithis, int32 nrofAnswerBy
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_CmdExecuter_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_CmdExecuter_Inspc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_CmdExecuter_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_CmdExecuter_Inspc_t
+{ VtblHeadJc head;
   MT_completeConstruction_CmdExecuter_Inspc* completeConstruction;
   MT_executeCmd_CmdExecuter_Inspc* executeCmd;
-  Mtbl_ObjectJc ObjectJc;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_AnswerComm_ifc_Inspc AnswerComm_ifc_Inspc;
-} Mtbl_CmdExecuter_Inspc;
+  Vtbl_AnswerComm_ifc_Inspc AnswerComm_ifc_Inspc;
+} Vtbl_CmdExecuter_Inspc;
 
 
 

@@ -63,11 +63,11 @@ void finalize_PrepareToString_InfoFormattedAppendJc_F(ObjectJc* othis, ThCxt* _t
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_PrepareToString_InfoFormattedAppendJc[]; //marker for methodTable check
-typedef struct Mtbl_PrepareToString_InfoFormattedAppendJc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_PrepareToString_InfoFormattedAppendJc;
+ extern const char sign_Vtbl_PrepareToString_InfoFormattedAppendJc[]; //marker for methodTable check
+typedef struct Vtbl_PrepareToString_InfoFormattedAppendJc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_PrepareToString_InfoFormattedAppendJc;
 
 
 
@@ -131,12 +131,12 @@ METHOD_C void infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct 
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_InfoFormattedAppendJc[]; //marker for methodTable check
-typedef struct Mtbl_InfoFormattedAppendJc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_InfoFormattedAppendJc[]; //marker for methodTable check
+typedef struct Vtbl_InfoFormattedAppendJc_t
+{ VtblHeadJc head;
   MT_infoFormattedAppend_InfoFormattedAppendJc* infoFormattedAppend;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_InfoFormattedAppendJc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_InfoFormattedAppendJc;
 
 
 

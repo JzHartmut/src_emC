@@ -66,11 +66,11 @@ LogMessageFW_s* ctorO_LogMessageFW(ObjectJc* othis, ThCxt* _thCxt)
  * enter from linker there. The check of the correct address is a safety precaution.
  */
 //const char identText_LogMessageFW[] = "LogMessage_FW";
-const char sign_Mtbl_LogMessageFW[] = "LogMessage_FW";
+const char sign_Vtbl_LogMessageFW[] = "LogMessage_FW";
 
 /**This is the reference address to check the correct address in method table.
  */
-//void const* const xxxsign_Mtbl_LogMessageFW = &identText_LogMessageFW;
+//void const* const xxxsign_Vtbl_LogMessageFW = &identText_LogMessageFW;
 
 
 
@@ -87,14 +87,14 @@ bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis, int32 identNumber
   //this method checks the correctness of the instance data
   //and throws an exception if there is a memory overwritten error or initialization error:
   //The casting is deterministic because the type MyStruct is tested.
-  Mtbl_LogMessageFW const* mtbl;
+  Vtbl_LogMessageFW const* mtbl;
   bool bRet;
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
-  MtblHeadJc const* mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
-  mtbl = (Mtbl_LogMessageFW const*)mtblO;
-  ASSERTJc_RET(mtbl != null && mtbl->head.sign == sign_Mtbl_LogMessageFW, (STACKTRC_LEAVE, false));
+  VtblHeadJc const* mtblO = getVtbl_ObjectJc(&ythis->base.object, sign_Vtbl_LogMessageFW);
+  mtbl = (Vtbl_LogMessageFW const*)mtblO;
+  ASSERTJc_RET(mtbl != null && mtbl->head.sign == sign_Vtbl_LogMessageFW, (STACKTRC_LEAVE, false));
   //if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
-  //if(mtbl->sign != &sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
+  //if(mtbl->sign != &sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   //sText = getCharConst_StringJc(text, uText, sizeof(uText));  //get the char const* from text.
   bRet = mtbl->sendMsgVaList(ythis,identNumber, timestamp, text, args, _thCxt);
   STACKTRC_LEAVE; 
@@ -110,13 +110,13 @@ void flush_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   //this method checks the correctness of the instance data
   //and throws an exception if there is a memory overwritten error or initialization error:
   //The casting is deterministic because the type MyStruct is tested.
-  Mtbl_LogMessageFW const* mtbl;
-  MtblHeadJc const* mtblO;
+  Vtbl_LogMessageFW const* mtbl;
+  VtblHeadJc const* mtblO;
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
-  mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
-  mtbl = (Mtbl_LogMessageFW*)mtblO;
+  mtblO = getVtbl_ObjectJc(&ythis->base.object, sign_Vtbl_LogMessageFW);
+  mtbl = (Vtbl_LogMessageFW*)mtblO;
   if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
-  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
+  if(mtbl->head.sign != sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
   if( (intptr_t)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->flush) - (OS_intPTR)(mtbl)))
   { mtbl->flush(ythis, _thCxt);
   }
@@ -136,13 +136,13 @@ void close_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   //this method checks the correctness of the instance data
   //and throws an exception if there is a memory overwritten error or initialization error:
   //The casting is deterministic because the type MyStruct is tested.
-  Mtbl_LogMessageFW* mtbl;
-  MtblHeadJc const* mtblO;
+  Vtbl_LogMessageFW* mtbl;
+  VtblHeadJc const* mtblO;
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
-  mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
-  mtbl = (Mtbl_LogMessageFW*)mtblO;
+  mtblO = getVtbl_ObjectJc(&ythis->base.object, sign_Vtbl_LogMessageFW);
+  mtbl = (Vtbl_LogMessageFW*)mtblO;
   if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
-  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
+  if(mtbl->head.sign != sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
   if( (intptr_t)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->close) - (OS_intPTR)(mtbl)))
   { mtbl->close(ythis, _thCxt);
   }
@@ -163,13 +163,13 @@ bool isOnline_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   //and throws an exception if there is a memory overwritten error or initialization error:
   //The casting is deterministic because the type MyStruct is tested.
   bool isOnline;
-  Mtbl_LogMessageFW* mtbl;
-  MtblHeadJc const* mtblO;
+  Vtbl_LogMessageFW* mtbl;
+  VtblHeadJc const* mtblO;
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
-  mtblO = getMtbl_ObjectJc(&ythis->base.object, sign_Mtbl_LogMessageFW);
-  mtbl = (Mtbl_LogMessageFW*)mtblO;
+  mtblO = getVtbl_ObjectJc(&ythis->base.object, sign_Vtbl_LogMessageFW);
+  mtbl = (Vtbl_LogMessageFW*)mtblO;
   if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
-  if(mtbl->head.sign != sign_Mtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
+  if(mtbl->head.sign != sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
   if( (intptr_t)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->isOnline) - (OS_intPTR)(mtbl)))
   { isOnline = mtbl->isOnline(ythis, _thCxt);
   }
@@ -220,9 +220,9 @@ bool sendMsg_tzzv_LogMessageFW(struct LogMessageFW_t* ithis
   bool ok;
   va_list args;
   Va_listFW typedArgs;
-  Mtbl_LogMessageFW const* mtbl;
+  Vtbl_LogMessageFW const* mtbl;
   STACKTRC_ENTRY("sendMsg_tzzv_LogMessageFW");
-  mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+  mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   va_start(args, typeArgs);
   typedArgs.typeArgs = typeArgs;  //given!
   typedArgs.args = args;
@@ -237,10 +237,10 @@ bool sendMsg_tzzv_LogMessageFW(struct LogMessageFW_t* ithis
 /**Implementation of calling with variable arguments. */
 bool xxxsendMsg_z_LogMessageFW(struct LogMessageFW_t* ithis, int identNumber, const char* text, ThCxt* _thCxt)
 {
-  Mtbl_LogMessageFW const* mtbl;
+  Vtbl_LogMessageFW const* mtbl;
   bool bOk;
   STACKTRC_TENTRY("sendMsg_z_LogMessageFW");
-  mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+  mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   
   bOk = mtbl->sendMsg(ithis, identNumber, text, "");  //emtpy type info!
   STACKTRC_LEAVE;

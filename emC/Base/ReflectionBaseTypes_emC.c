@@ -449,8 +449,8 @@ const struct Reflection_Fields_ObjectJc_t
 //
 // The vtbl for a pure ObjectJc or for any other instance without overridden operation.
 const VtblDef_ObjectJc vtbl_ObjectJc =
-{ { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 + 2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+{ { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 + 2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
 //J2C: Dynamic methods of the class :ObjectJc:
   ,  clone_ObjectJc_F //clone
@@ -459,7 +459,7 @@ const VtblDef_ObjectJc vtbl_ObjectJc =
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-, { signEnd_Mtbl_ObjectJc, null }
+, { signEnd_Vtbl_ObjectJc, null }
 };
 
 
@@ -546,38 +546,38 @@ extern_C const ClassJc reflection_ObjectArrayJc;
 
 
 
-extern_C const ClassJc reflection_MtblHeadJc;  //the just defined reflection_
-const struct Reflection_Fields_MtblHeadJc_t
+extern_C const ClassJc reflection_VtblHeadJc;  //the just defined reflection_
+const struct Reflection_Fields_VtblHeadJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_MtblHeadJc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_MtblHeadJc)
+} reflection_Fields_VtblHeadJc =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_VtblHeadJc)
 , {
     { "sign"
     , 0   //no Array, no Bitfield
     , REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((MtblHeadJc*)(0x1000))->sign) -(intptr_t)(MtblHeadJc*)0x1000)
+    , (int16)((intptr_t)(&((VtblHeadJc*)(0x1000))->sign) -(intptr_t)(VtblHeadJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MtblHeadJc
+    , &reflection_VtblHeadJc
     }
   , { "sizeTable"
     , 0   //no Array, no Bitfield
     , REFLECTION_void
     , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((MtblHeadJc*)(0x1000))->sizeTable) -(intptr_t)(MtblHeadJc*)0x1000)
+    , (int16)((intptr_t)(&((VtblHeadJc*)(0x1000))->sizeTable) -(intptr_t)(VtblHeadJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MtblHeadJc
+    , &reflection_VtblHeadJc
     }
 } };
 
 
-const ClassJc reflection_MtblHeadJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_MtblHeadJc, &reflection_ClassJc)
-, "MtblHeadJc"
+const ClassJc reflection_VtblHeadJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_VtblHeadJc, &reflection_ClassJc)
+, "VtblHeadJc"
 , 0
-, sizeof(MtblHeadJc)
-, (FieldJcArray const*)&reflection_Fields_MtblHeadJc  //attributes and associations
+, sizeof(VtblHeadJc)
+, (FieldJcArray const*)&reflection_Fields_VtblHeadJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -641,7 +641,7 @@ extern_C ClassJc const reflection_OS_PtrValue =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
-, null  //Mtbl
+, null  //Vtbl
 };
 
 
@@ -677,7 +677,7 @@ ClassJc const reflection_StringJc =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
-, null  //Mtbl
+, null  //Vtbl
 };
 
 ClassJc const reflection_CharSeqJc =
@@ -690,7 +690,7 @@ ClassJc const reflection_CharSeqJc =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
-, null  //Mtbl
+, null  //Vtbl
 };
 
 /**A StringJc is always a OS_PtrValue, but a extra type is used..
@@ -723,7 +723,7 @@ ClassJc const reflection_MemSegmJc =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
-, null  //Mtbl
+, null  //Vtbl
 };
 
 /**A int64 consists of 2 int32, the inspector doesn't know the type yet.
@@ -764,7 +764,7 @@ ClassJc const reflection_int64 =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
-, null  //Mtbl
+, null  //Vtbl
 };
 
 
@@ -808,7 +808,7 @@ ClassJc const reflection_uint64 =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
-, null  //Mtbl
+, null  //Vtbl
 };
 
 

@@ -89,13 +89,13 @@ METHOD_C void setAnswerComm_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct Answer
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_CmdConsumer_ifc_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_CmdConsumer_ifc_Inspc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_CmdConsumer_ifc_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_CmdConsumer_ifc_Inspc_t
+{ VtblHeadJc head;
   MT_executeMonitorCmd_CmdConsumer_ifc_Inspc* executeMonitorCmd;
   MT_setAnswerComm_CmdConsumer_ifc_Inspc* setAnswerComm;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_CmdConsumer_ifc_Inspc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_CmdConsumer_ifc_Inspc;
 
 
 

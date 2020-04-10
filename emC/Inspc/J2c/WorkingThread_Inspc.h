@@ -84,13 +84,13 @@ METHOD_C void run_C_theThreadRun_WorkingThread_Inspc(ObjectJc* ithis, ThCxt* _th
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_C_theThreadRun_WorkingThread_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_C_theThreadRun_WorkingThread_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
+ extern const char sign_Vtbl_C_theThreadRun_WorkingThread_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_C_theThreadRun_WorkingThread_Inspc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
-  Mtbl_RunnableJc RunnableJc;
-} Mtbl_C_theThreadRun_WorkingThread_Inspc;
+  Vtbl_RunnableJc RunnableJc;
+} Vtbl_C_theThreadRun_WorkingThread_Inspc;
 
 
 
@@ -160,11 +160,11 @@ METHOD_C struct Data_WorkingThread_Inspc_t* ctorO_Data_WorkingThread_Inspc(Objec
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_Data_WorkingThread_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_Data_WorkingThread_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_Data_WorkingThread_Inspc;
+ extern const char sign_Vtbl_Data_WorkingThread_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_Data_WorkingThread_Inspc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_Data_WorkingThread_Inspc;
 
 
 
@@ -226,11 +226,11 @@ METHOD_C struct ThreadMng_WorkingThread_Inspc_t* ctorO_ThreadMng_WorkingThread_I
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_ThreadMng_WorkingThread_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_ThreadMng_WorkingThread_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_ThreadMng_WorkingThread_Inspc;
+ extern const char sign_Vtbl_ThreadMng_WorkingThread_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_ThreadMng_WorkingThread_Inspc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_ThreadMng_WorkingThread_Inspc;
 
 
 
@@ -306,13 +306,13 @@ METHOD_C void step_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCx
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_WorkingThread_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_WorkingThread_Inspc_t
-{ MtblHeadJc head;
+ extern const char sign_Vtbl_WorkingThread_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_WorkingThread_Inspc_t
+{ VtblHeadJc head;
   MT_start_WorkingThread_Inspc* start;
   MT_terminate_WorkingThread_Inspc* terminate;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_WorkingThread_Inspc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_WorkingThread_Inspc;
 
 
 

@@ -18,11 +18,11 @@ int32 const reflectionOffset_Par_PID_Ctrl[] =
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_Par_PID_Ctrl_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_Par_PID_Ctrl_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_Par_PID_Ctrl_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_Par_PID_Ctrl_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_Par_PID_Ctrl_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -118,7 +118,7 @@ const ClassJc reflection_Par_PID_Ctrl =
 , sizeof(Par_PID_Ctrl_s)
 , (FieldJcArray const*)&reflection_Fields_Par_PID_Ctrl_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_Par_PID_Ctrl_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_Par_PID_Ctrl_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -231,11 +231,11 @@ extern_C const ClassJc reflection_Internal_PID_Ctrl;  //used for field _internal
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_PID_Ctrl_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_PID_Ctrl_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_PID_Ctrl_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_PID_Ctrl_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_PID_Ctrl_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -394,7 +394,7 @@ const ClassJc reflection_PID_Ctrl =
 , sizeof(PID_Ctrl_s)
 , (FieldJcArray const*)&reflection_Fields_PID_Ctrl_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_PID_Ctrl_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_PID_Ctrl_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

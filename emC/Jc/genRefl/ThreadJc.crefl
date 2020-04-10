@@ -8,11 +8,11 @@
 extern_C const ClassJc reflection_RunnableJc;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_RunnableJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_RunnableJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_RunnableJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_RunnableJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_RunnableJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -36,7 +36,7 @@ const ClassJc reflection_RunnableJc =
 , sizeof(RunnableJc_s)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_RunnableJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_RunnableJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -98,11 +98,11 @@ extern_C const ClassJc reflection_RunnableJcREF;  //used for field target
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_ThreadJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_ThreadJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_ThreadJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_ThreadJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_ThreadJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -198,7 +198,7 @@ const ClassJc reflection_ThreadJc =
 , sizeof(ThreadJc_s)
 , (FieldJcArray const*)&reflection_Fields_ThreadJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_ThreadJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_ThreadJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

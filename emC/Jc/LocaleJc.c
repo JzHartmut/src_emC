@@ -35,9 +35,11 @@
 #include <emC/Jc/LocaleJc.h>
 #include <emC/Jc/ReflectionJc.h>
 
+#ifdef DEF_REFLECTION_FULL
 DEFINE_REFLECTION_REF(LocaleJc);
-
+#include "emC/Jc/genRefl/LocaleJc.crefl"
+#else
+#endif
 
 LocaleJc_s ROOT_LocaleJc = CONST_LocaleJc(&ROOT_LocaleJc, "__", "", "");
 
-#include "emC/Jc/genRefl/LocaleJc.crefl"

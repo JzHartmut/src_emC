@@ -732,7 +732,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
     {
       #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
         if(typeModifier & mObjectifcBaseJcpp_Modifier_reflectJc)
-        { //int offsetToObjectifcBaseJcppMtbl = (typeModifier & mDistanceObjectifcBase_Modifier_reflectJc) >> kBitDistanceObjectifcBase_Modifier_reflectJc;
+        { //int offsetToObjectifcBaseJcppVtbl = (typeModifier & mDistanceObjectifcBase_Modifier_reflectJc) >> kBitDistanceObjectifcBase_Modifier_reflectJc;
           ClassJc const* clazzFromInstance;
           ObjectifcBaseJcpp* objifc = (ObjectifcBaseJcpp*)(ADDR_MemSegmJc(ref, MemUnit) + offsetBase);
           //Significant test:

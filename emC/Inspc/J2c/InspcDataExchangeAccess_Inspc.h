@@ -769,11 +769,11 @@ METHOD_C int32 getIntChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ i
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_InspcDataExchangeAccess_Inspc[]; //marker for methodTable check
-typedef struct Mtbl_InspcDataExchangeAccess_Inspc_t
-{ MtblHeadJc head;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_InspcDataExchangeAccess_Inspc;
+ extern const char sign_Vtbl_InspcDataExchangeAccess_Inspc[]; //marker for methodTable check
+typedef struct Vtbl_InspcDataExchangeAccess_Inspc_t
+{ VtblHeadJc head;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_InspcDataExchangeAccess_Inspc;
 
 
 

@@ -10,11 +10,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field object
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_ComparableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_ComparableJc_base_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_ComparableJc_base =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_ComparableJc_base, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_ComparableJc_base, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -38,7 +38,7 @@ const ClassJc reflection_ComparableJc_base =
 , sizeof(((ComparableJc*)0x1000)->base)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_ComparableJc_base  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_ComparableJc_base  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -85,11 +85,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field object
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_CloseableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_CloseableJc_base_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_CloseableJc_base =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_CloseableJc_base, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_CloseableJc_base, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -113,7 +113,7 @@ const ClassJc reflection_CloseableJc_base =
 , sizeof(((CloseableJc*)0x1000)->base)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_CloseableJc_base  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_CloseableJc_base  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -160,11 +160,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field object
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_FlushableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_FlushableJc_base_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_FlushableJc_base =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_FlushableJc_base, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_FlushableJc_base, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -188,7 +188,7 @@ const ClassJc reflection_FlushableJc_base =
 , sizeof(((FlushableJc*)0x1000)->base)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_FlushableJc_base  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_FlushableJc_base  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -235,11 +235,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field object
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_AppendableJc_base_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_AppendableJc_base_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_AppendableJc_base =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_AppendableJc_base, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_AppendableJc_base, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -263,7 +263,7 @@ const ClassJc reflection_AppendableJc_base =
 , sizeof(((AppendableJc_s*)0x1000)->base)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_AppendableJc_base  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_AppendableJc_base  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

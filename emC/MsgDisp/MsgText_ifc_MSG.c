@@ -13,29 +13,29 @@
 /**Interface to get a text to a message number. */
 
 
-const char sign_Mtbl_MsgText_ifc_MSG[] = "MsgText_ifc_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_MsgText_ifc_MSG[] = "MsgText_ifc_MSG"; //to mark method tables of all implementations
 
 
 /**Returns a message text to the given ident number*/
 /*J2C: dynamic call variant of the override-able method: */
 char const* getMsgText_MsgText_ifc_MSG(ObjectJc* ithis, int32 ident, ThCxt* _thCxt)
-{ Mtbl_MsgText_ifc_MSG const* mtbl = (Mtbl_MsgText_ifc_MSG const*)getMtbl_ObjectJc(ithis, sign_Mtbl_MsgText_ifc_MSG);
+{ Vtbl_MsgText_ifc_MSG const* mtbl = (Vtbl_MsgText_ifc_MSG const*)getVtbl_ObjectJc(ithis, sign_Vtbl_MsgText_ifc_MSG);
   return mtbl->getMsgText(ithis, ident, _thCxt);
 }
 
 /*J2C: dynamic call variant of the override-able method: */
 struct CollectionJc_t* getListItems_MsgText_ifc_MSG(ObjectJc* ithis, ThCxt* _thCxt)
-{ Mtbl_MsgText_ifc_MSG const* mtbl = (Mtbl_MsgText_ifc_MSG const*)getMtbl_ObjectJc(ithis, sign_Mtbl_MsgText_ifc_MSG);
+{ Vtbl_MsgText_ifc_MSG const* mtbl = (Vtbl_MsgText_ifc_MSG const*)getVtbl_ObjectJc(ithis, sign_Vtbl_MsgText_ifc_MSG);
   return mtbl->getListItems(ithis, _thCxt);
 }
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_MsgText_ifc_MSG_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_MsgText_ifc_MSG_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -46,7 +46,7 @@ const ClassJc reflection_MsgText_ifc_MSG_s =
 , sizeof(MsgText_ifc_MSG_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_MsgText_ifc_MSG_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgText_ifc_MSG_s //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -58,10 +58,10 @@ as semantic in the parser script.
 */
 
 
-const char sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG[] = "MsgConfigItem_MsgText_ifc_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_MsgConfigItem_MsgText_ifc_MSG[] = "MsgConfigItem_MsgText_ifc_MSG"; //to mark method tables of all implementations
 
-typedef struct MtblDef_MsgConfigItem_MsgText_ifc_MSG_t { Mtbl_MsgConfigItem_MsgText_ifc_MSG mtbl; MtblHeadJc end; } MtblDef_MsgConfigItem_MsgText_ifc_MSG;
- extern MtblDef_MsgConfigItem_MsgText_ifc_MSG const mtblMsgConfigItem_MsgText_ifc_MSG;
+typedef struct VtblDef_MsgConfigItem_MsgText_ifc_MSG_t { Vtbl_MsgConfigItem_MsgText_ifc_MSG mtbl; VtblHeadJc end; } VtblDef_MsgConfigItem_MsgText_ifc_MSG;
+ extern VtblDef_MsgConfigItem_MsgText_ifc_MSG const mtblMsgConfigItem_MsgText_ifc_MSG;
 void set_type_MsgConfigItem_MsgText_ifc_MSG_F(MsgConfigItem_MsgText_ifc_MSG_s* thiz, StringJc src, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("set_type_MsgConfigItem_MsgText_ifc_MSG_F");
@@ -75,22 +75,22 @@ void set_type_MsgConfigItem_MsgText_ifc_MSG_F(MsgConfigItem_MsgText_ifc_MSG_s* t
 
 /*J2C: dynamic call variant of the override-able method: */
 void set_type_MsgConfigItem_MsgText_ifc_MSG(MsgConfigItem_MsgText_ifc_MSG_s* thiz, StringJc src, ThCxt* _thCxt)
-{ Mtbl_MsgConfigItem_MsgText_ifc_MSG const* mtbl = (Mtbl_MsgConfigItem_MsgText_ifc_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG);
+{ Vtbl_MsgConfigItem_MsgText_ifc_MSG const* mtbl = (Vtbl_MsgConfigItem_MsgText_ifc_MSG const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_MsgConfigItem_MsgText_ifc_MSG);
   mtbl->set_type(thiz, src, _thCxt);
 }
 
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_MsgConfigItem_MsgText_ifc_MSG mtblMsgConfigItem_MsgText_ifc_MSG = {
-{ { sign_Mtbl_MsgConfigItem_MsgText_ifc_MSG //J2C: Head of methodtable of MsgConfigItem_MsgText_ifc_MSG
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_MsgConfigItem_MsgText_ifc_MSG mtblMsgConfigItem_MsgText_ifc_MSG = {
+{ { sign_Vtbl_MsgConfigItem_MsgText_ifc_MSG //J2C: Head of methodtable of MsgConfigItem_MsgText_ifc_MSG
+  , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :MsgConfigItem_MsgText_ifc_MSG:
 , set_type_MsgConfigItem_MsgText_ifc_MSG_F //set_type
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -99,16 +99,16 @@ const MtblDef_MsgConfigItem_MsgText_ifc_MSG mtblMsgConfigItem_MsgText_ifc_MSG = 
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_MsgConfigItem_MsgText_ifc_MSG_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_MsgConfigItem_MsgText_ifc_MSG_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_MsgConfigItem_MsgText_ifc_MSG, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_MsgConfigItem_MsgText_ifc_MSG, ObjectJc) }
    }
  };
 
@@ -175,7 +175,7 @@ const ClassJc reflection_MsgConfigItem_MsgText_ifc_MSG_s =
 , sizeof(MsgConfigItem_MsgText_ifc_MSG_s)
 , (FieldJc_Y const*)&reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_MsgConfigItem_MsgText_ifc_MSG_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgConfigItem_MsgText_ifc_MSG_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblMsgConfigItem_MsgText_ifc_MSG.mtbl.head

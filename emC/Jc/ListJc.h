@@ -62,16 +62,16 @@ typedef int MT_size_ListJc(ListJc* ythis, ThCxt* _thCxt);
 typedef struct IteratorJc_t* MT_iterator_ListJc(ListJc* ythis, ThCxt* _thCxt);
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
-typedef struct Mtbl_ListJc_t
-{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+typedef struct Vtbl_ListJc_t
+{ Vtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
   MT_size_ListJc* size;
   MT_iterator_ListJc* iterator;
-} Mtbl_ListJc;
+} Vtbl_ListJc;
 
 
 
-#define size_ListJc(YTHIS, THC) ((Mtbl_ListJc*)getMtbl_ObjectJc(&(YTHIS)->object, &reflection_ListJc))->size(YTHIS, THC)
-#define iterator_ListJc(YTHIS, THC) ((Mtbl_ListJc*)getMtbl_ObjectJc(&(YTHIS)->object, &reflection_ListJc))->iterator(YTHIS, THC)
+#define size_ListJc(YTHIS, THC) ((Vtbl_ListJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_ListJc))->size(YTHIS, THC)
+#define iterator_ListJc(YTHIS, THC) ((Vtbl_ListJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_ListJc))->iterator(YTHIS, THC)
 
 
 
@@ -121,16 +121,16 @@ typedef bool MT_hasNext_IteratorJc(IteratorJc* ythis, ThCxt* _thCxt);
 typedef ObjectJc* MT_next_IteratorJc(IteratorJc* ythis, ThCxt* _thCxt);
 typedef void MT_remove_IteratorJc(IteratorJc* ythis, ThCxt* _thCxt);
 
-typedef struct Mtbl_IteratorJc_t
-{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+typedef struct Vtbl_IteratorJc_t
+{ Vtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
   MT_hasNext_IteratorJc* hasNext;
   MT_next_IteratorJc* next;
   MT_remove_IteratorJc* remove;
-} Mtbl_IteratorJc;
+} Vtbl_IteratorJc;
 
-#define hasNext_IteratorJc(YTHIS, THC) ((Mtbl_IteratorJc*)getMtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->hasNext(YTHIS, THC)
-#define next_IteratorJc(YTHIS, THC) ((Mtbl_IteratorJc*)getMtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->next(YTHIS, THC)
-#define remove_IteratorJc(YTHIS, THC) ((Mtbl_IteratorJc*)getMtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->remove(YTHIS, THC)
+#define hasNext_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->hasNext(YTHIS, THC)
+#define next_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->next(YTHIS, THC)
+#define remove_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->remove(YTHIS, THC)
 
 
 #endif  //__List_Jc_h__

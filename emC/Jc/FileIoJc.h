@@ -113,12 +113,12 @@ METHOD_C void write_OutputStreamJc(ObjectJc* ithis, int byte, ThCxt* _thCxt);
 
 /* Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
-extern const char sign_Mtbl_OutputStreamJc[]; //marker for methodTable check
-typedef struct Mtbl_OutputStreamJc_t
-{ MtblHeadJc head;
+extern const char sign_Vtbl_OutputStreamJc[]; //marker for methodTable check
+typedef struct Vtbl_OutputStreamJc_t
+{ VtblHeadJc head;
   MT_write_OutputStreamJc* write;
-  Mtbl_ObjectJc ObjectJc;
-} Mtbl_OutputStreamJc;
+  Vtbl_ObjectJc ObjectJc;
+} Vtbl_OutputStreamJc;
 
 
 

@@ -12,10 +12,10 @@
 /* J2C: Forward declaration of struct ***********************************************/
 
 
-const char sign_Mtbl_Inspector_Inspc[] = "Inspector_Inspc"; //to mark method tables of all implementations
+const char sign_Vtbl_Inspector_Inspc[] = "Inspector_Inspc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_Inspector_Inspc_t { Mtbl_Inspector_Inspc mtbl; MtblHeadJc end; } MtblDef_Inspector_Inspc;
- extern MtblDef_Inspector_Inspc const mtblInspector_Inspc;
+typedef struct VtblDef_Inspector_Inspc_t { Vtbl_Inspector_Inspc mtbl; VtblHeadJc end; } VtblDef_Inspector_Inspc;
+ extern VtblDef_Inspector_Inspc const mtblInspector_Inspc;
 StringJc version_Inspector_Inspc = CONST_z_StringJc("2015-08-05"); //J2C:static StringJc
 Inspector_InspcREF singleton_Inspector_Inspc = NULL_REFJc; //{ null, 0 };
 
@@ -96,7 +96,7 @@ void start_Inspector_Inspc_F(Inspector_Inspc_s* thiz, struct ClassJc_t const* ro
 
 /*J2C: dynamic call variant of the override-able method: */
 void start_ClassAddr_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ClassJc_t const* rootClazz, MemSegmJc rootAddr, ThCxt* _thCxt)
-{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Inspector_Inspc);
+{ Vtbl_Inspector_Inspc const* mtbl = (Vtbl_Inspector_Inspc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_Inspector_Inspc);
 mtbl->start(thiz, rootClazz, rootAddr, _thCxt);
 }
 
@@ -104,7 +104,7 @@ mtbl->start(thiz, rootClazz, rootAddr, _thCxt);
 
 /*J2C: dynamic call variant of the override-able method: */
 void start_Inspector_Inspc(Inspector_Inspc_s* thiz, struct ObjectJc_t* rootObj, ThCxt* _thCxt)
-{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Inspector_Inspc);
+{ Vtbl_Inspector_Inspc const* mtbl = (Vtbl_Inspector_Inspc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_Inspector_Inspc);
   ClassJc const* rootClazz = getClass_ObjectJc(rootObj);
   MemSegmJc rootAddr;
   setAddrSegm_MemSegmJc(rootAddr, rootObj, 0);
@@ -126,23 +126,23 @@ void shutdown_Inspector_Inspc_F(Inspector_Inspc_s* thiz, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void shutdown_Inspector_Inspc(Inspector_Inspc_s* thiz, ThCxt* _thCxt)
-{ Mtbl_Inspector_Inspc const* mtbl = (Mtbl_Inspector_Inspc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_Inspector_Inspc);
+{ Vtbl_Inspector_Inspc const* mtbl = (Vtbl_Inspector_Inspc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_Inspector_Inspc);
   mtbl->shutdown(thiz, _thCxt);
 }
 
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_Inspector_Inspc mtblInspector_Inspc = {
-{ { sign_Mtbl_Inspector_Inspc //J2C: Head of methodtable of Inspector_Inspc
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_Inspector_Inspc mtblInspector_Inspc = {
+{ { sign_Vtbl_Inspector_Inspc //J2C: Head of methodtable of Inspector_Inspc
+  , (struct Size_Vtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :Inspector_Inspc:
 , start_Inspector_Inspc_F //start
 , shutdown_Inspector_Inspc_F //shutdown
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -151,16 +151,16 @@ const MtblDef_Inspector_Inspc mtblInspector_Inspc = {
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_Inspector_Inspc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_Inspector_Inspc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_Inspector_Inspc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_Inspector_Inspc, ObjectJc) }
    }
  };
 
@@ -223,7 +223,7 @@ const ClassJc reflection_Inspector_Inspc =
 , sizeof(Inspector_Inspc_s)
 , (FieldJc_Y const*)&reflection_Fields_Inspector_Inspc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_Inspector_Inspc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_Inspector_Inspc_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInspector_Inspc.mtbl.head

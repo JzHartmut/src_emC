@@ -20,7 +20,7 @@ struct Entry_MsgDispatcherCore_MSG_t;
 /* J2C: Method-table-references *********************************************************/
 #ifndef LogMessageFWMTBDEF
   #define LogMessageFWMTBDEF
-  typedef struct LogMessageFWMTB_t { struct Mtbl_LogMessageFW_t const* mtbl; struct LogMessageFW_t* ref; } LogMessageFWMTB;
+  typedef struct LogMessageFWMTB_t { struct Vtbl_LogMessageFW_t const* mtbl; struct LogMessageFW_t* ref; } LogMessageFWMTB;
 #endif
 
 
@@ -36,10 +36,10 @@ struct Entry_MsgDispatcherCore_MSG_t;
 */
 
 
-const char sign_Mtbl_LogMessageFile_MSG[] = "LogMessageFile_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_LogMessageFile_MSG[] = "LogMessageFile_MSG"; //to mark method tables of all implementations
 
-typedef struct MtblDef_LogMessageFile_MSG_t { Mtbl_LogMessageFile_MSG mtbl; MtblHeadJc end; } MtblDef_LogMessageFile_MSG;
- extern MtblDef_LogMessageFile_MSG const mtblLogMessageFile_MSG;
+typedef struct VtblDef_LogMessageFile_MSG_t { Vtbl_LogMessageFile_MSG mtbl; VtblHeadJc end; } VtblDef_LogMessageFile_MSG;
+ extern VtblDef_LogMessageFile_MSG const mtblLogMessageFile_MSG;
 
 /*Constructor */
 struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc sFilename, int32 nrofSecondsToFlush, int32 nrofHoursPerFile, struct LocaleJc_t* localization, struct TimeZoneJc_t* timeZoneP, struct ConcurrentLinkedQueueJc_t* freeEntriesP, ThCxt* _thCxt)
@@ -212,7 +212,7 @@ void setLogMessageOpenClose_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, str
 
 /*J2C: dynamic call variant of the override-able method: */
 void setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, struct LogMessageFW_t* msg, int32 msgIdentOpenClose, ThCxt* _thCxt)
-{ Mtbl_LogMessageFile_MSG const* mtbl = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
+{ Vtbl_LogMessageFile_MSG const* mtbl = (Vtbl_LogMessageFile_MSG const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_LogMessageFile_MSG);
   mtbl->setLogMessageOpenClose(thiz, msg, msgIdentOpenClose, _thCxt);
 }
 
@@ -220,7 +220,7 @@ void setLogMessageOpenClose_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, struc
 /**Sends a message. See interface.  */
 bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
-  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
+  Vtbl_LogMessageFile_MSG const* mtthis = (Vtbl_LogMessageFile_MSG const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_LogMessageFile_MSG);
   
   STACKTRC_ENTRY("sendMsg_izv_LogMessageFile_MSG_F");
   
@@ -237,7 +237,7 @@ bool sendMsg_izv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, 
 
 /*J2C: dynamic call variant of the override-able method: */
 bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, char const* text, char const* args, ...)
-{ Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+{ Vtbl_LogMessageFW const* mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   return mtbl->sendMsg((LogMessageFW_s*)ithis, identNumber, text, args);
 }
 
@@ -245,7 +245,7 @@ bool sendMsg_izv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, ch
 /**Sends a message. See interface.  */
 bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, char const* args, ...)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
-  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
+  Vtbl_LogMessageFile_MSG const* mtthis = (Vtbl_LogMessageFile_MSG const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_LogMessageFile_MSG);
   
   STACKTRC_ENTRY("sendMsgTime_iDtzv_LogMessageFile_MSG");
   
@@ -264,7 +264,7 @@ bool sendMsgTime_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumb
 /**Sends a message. See interface.  */
 bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)ithis;
-  Mtbl_LogMessageFile_MSG const* mtthis = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
+  Vtbl_LogMessageFile_MSG const* mtthis = (Vtbl_LogMessageFile_MSG const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_LogMessageFile_MSG);
   
   STACKTRC_TENTRY("sendMsgVaList_iDtzv_LogMessageFile_MSG_F");
   
@@ -486,7 +486,7 @@ bool sendMsgVaList_iDtzv_LogMessageFile_MSG_F(LogMessageFW_s* ithis, int32 ident
 
 /*J2C: dynamic call variant of the override-able method: */
 bool sendMsgVaList_iDtzv_LogMessageFile_MSG(LogMessageFW_s* ithis, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
-{ Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+{ Vtbl_LogMessageFW const* mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   return mtbl->sendMsgVaList((LogMessageFW_s*)ithis, identNumber, creationTime, text, args, _thCxt);
 }
 
@@ -567,7 +567,7 @@ void flush_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void flush_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
-{ Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+{ Vtbl_LogMessageFW const* mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   mtbl->flush((LogMessageFW_s*)ithis, _thCxt);
 }
 
@@ -723,7 +723,7 @@ void writeInFile_LogMessageFile_MSG_F(LogMessageFile_MSG_s* thiz, int32 identNum
 
 /*J2C: dynamic call variant of the override-able method: */
 void writeInFile_LogMessageFile_MSG(LogMessageFile_MSG_s* thiz, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args, ThCxt* _thCxt)
-{ Mtbl_LogMessageFile_MSG const* mtbl = (Mtbl_LogMessageFile_MSG const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_LogMessageFile_MSG);
+{ Vtbl_LogMessageFile_MSG const* mtbl = (Vtbl_LogMessageFile_MSG const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_LogMessageFile_MSG);
   mtbl->writeInFile(thiz, identNumber, creationTime, text, args, _thCxt);
 }
 
@@ -749,7 +749,7 @@ void close_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 void close_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
-{ Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+{ Vtbl_LogMessageFW const* mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   mtbl->close((LogMessageFW_s*)ithis, _thCxt);
 }
 
@@ -769,7 +769,7 @@ bool isOnline_LogMessageFile_MSG_F(LogMessageFW_s* ithis, ThCxt* _thCxt)
 
 /*J2C: dynamic call variant of the override-able method: */
 bool isOnline_LogMessageFile_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt)
-{ Mtbl_LogMessageFW const* mtbl = (Mtbl_LogMessageFW const*)getMtbl_ObjectJc(&ithis->base.object, sign_Mtbl_LogMessageFW);
+{ Vtbl_LogMessageFW const* mtbl = (Vtbl_LogMessageFW const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_LogMessageFW);
   return mtbl->isOnline((LogMessageFW_s*)ithis, _thCxt);
 }
 
@@ -796,16 +796,16 @@ void finalize_LogMessageFile_MSG_F(ObjectJc* othis, ThCxt* _thCxt)
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
-{ { sign_Mtbl_LogMessageFile_MSG //J2C: Head of methodtable of LogMessageFile_MSG
-  , (struct Size_Mtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
+{ { sign_Vtbl_LogMessageFile_MSG //J2C: Head of methodtable of LogMessageFile_MSG
+  , (struct Size_Vtbl_t*)((2 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :LogMessageFile_MSG:
 , setLogMessageOpenClose_LogMessageFile_MSG_F //setLogMessageOpenClose
 , writeInFile_LogMessageFile_MSG_F //writeInFile
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -815,9 +815,9 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
   , toString_ObjectJc_F //toString
   }
   //J2C: The interface's methodtable: 
-  //J2C: Mtbl-interfaces of :LogMessageFile_MSG: */
-, { { sign_Mtbl_LogMessageFW //J2C: Head of methodtable of LogMessageFW
-    , (struct Size_Mtbl_t*)((6 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  //J2C: Vtbl-interfaces of :LogMessageFile_MSG: */
+, { { sign_Vtbl_LogMessageFW //J2C: Head of methodtable of LogMessageFW
+    , (struct Size_Vtbl_t*)((6 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :LogMessageFW:
   , sendMsgVaList_iDtzv_LogMessageFile_MSG_F //sendMsgVaList
@@ -827,8 +827,8 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
   , sendMsg_izv_LogMessageFile_MSG_F //sendMsg
   , sendMsgTime_iDtzv_LogMessageFile_MSG //sendMsgTime
     //J2C: The superclass's methodtable: 
-  , { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+  , { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+      , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
       }
       //J2C: Dynamic methods of the class :ObjectJc:
     , clone_ObjectJc_F //clone
@@ -838,26 +838,26 @@ const MtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
     , toString_ObjectJc_F //toString
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_LogMessageFile_MSG_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_LogMessageFile_MSG, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_LogMessageFile_MSG, ObjectJc) }
    }
  };
 
  extern_C struct ClassJc_t const reflection_LogMessageFW;
  static struct ifcClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }interfaces_LogMessageFile_MSG_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
-, { {&reflection_LogMessageFW, OFFSET_Mtbl(Mtbl_LogMessageFile_MSG, LogMessageFW) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+, { {&reflection_LogMessageFW, OFFSET_Vtbl(Vtbl_LogMessageFile_MSG, LogMessageFW) }
   }
 };
 
@@ -1135,8 +1135,8 @@ const ClassJc reflection_LogMessageFile_MSG_s =
 , sizeof(LogMessageFile_MSG_s)
 , (FieldJc_Y const*)&reflection_Fields_LogMessageFile_MSG_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_LogMessageFile_MSG_s //superclass
-, (ClassOffset_idxMtblJcARRAY*)&interfaces_LogMessageFile_MSG_s //interfaces
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_LogMessageFile_MSG_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&interfaces_LogMessageFile_MSG_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblLogMessageFile_MSG.mtbl.head
 };
@@ -1145,7 +1145,7 @@ const ClassJc reflection_LogMessageFile_MSG_s =
 */
 
 
-const char sign_Mtbl_Dbg_LogMessageFile_MSG[] = "Dbg_LogMessageFile_MSG"; //to mark method tables of all implementations
+const char sign_Vtbl_Dbg_LogMessageFile_MSG[] = "Dbg_LogMessageFile_MSG"; //to mark method tables of all implementations
 
 
 /*Constructor *//**J2C: autogenerated as default constructor. */

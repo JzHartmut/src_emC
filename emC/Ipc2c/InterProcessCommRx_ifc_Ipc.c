@@ -21,7 +21,7 @@ with a simple given C implementation of the {@link #execRxData(byte[], int, Addr
 */
 
 
-const char sign_Mtbl_InterProcessCommRx_ifc_Ipc[] = "InterProcessCommRx_ifc_Ipc"; //to mark method tables of all implementations
+const char sign_Vtbl_InterProcessCommRx_ifc_Ipc[] = "InterProcessCommRx_ifc_Ipc"; //to mark method tables of all implementations
 
 StringJc version_InterProcessCommRx_ifc_Ipc = CONST_z_StringJc("2015-06-13"); //J2C:static StringJc
 
@@ -42,17 +42,17 @@ struct InterProcessCommRx_ifc_Ipc_t* ctorO_InterProcessCommRx_ifc_Ipc(ObjectJc* 
 /**Callback routine for received data.*/
 /*J2C: dynamic call variant of the override-able method: */
 void execRxData_InterProcessCommRx_ifc_Ipc(InterProcessCommRx_ifc_Ipc_s* thiz, int8ARRAY buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender, ThCxt* _thCxt)
-{ Mtbl_InterProcessCommRx_ifc_Ipc const* mtbl = (Mtbl_InterProcessCommRx_ifc_Ipc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_InterProcessCommRx_ifc_Ipc);
+{ Vtbl_InterProcessCommRx_ifc_Ipc const* mtbl = (Vtbl_InterProcessCommRx_ifc_Ipc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_InterProcessCommRx_ifc_Ipc);
   mtbl->execRxData(thiz, buffer, nrofBytesReceived, sender, _thCxt);
 }
 
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_InterProcessCommRx_ifc_Ipc
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_InterProcessCommRx_ifc_Ipc =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, 0 /*J2C: no Mtbl*/ }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, 0 /*J2C: no Vtbl*/ }
    }
  };
 
@@ -88,7 +88,7 @@ const ClassJc reflection_InterProcessCommRx_ifc_Ipc =
 , sizeof(InterProcessCommRx_ifc_Ipc_s)
 , (FieldJc_Y const*)&reflection_Fields_InterProcessCommRx_ifc_Ipc
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_InterProcessCommRx_ifc_Ipc //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommRx_ifc_Ipc //superclass
 , null //interfaces
 , 0    //modifiers
 };

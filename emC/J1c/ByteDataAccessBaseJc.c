@@ -149,7 +149,7 @@ See
 */
 
 
-const char sign_Mtbl_ByteDataAccessBaseJc[] = "ByteDataAccessBaseJc"; //to mark method tables of all implementations
+const char sign_Vtbl_ByteDataAccessBaseJc[] = "ByteDataAccessBaseJc"; //to mark method tables of all implementations
 
 StringJc version_ByteDataAccessBaseJc = CONST_z_StringJc("2016-01-24"); //J2C:static StringJc
 

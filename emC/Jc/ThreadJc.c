@@ -49,11 +49,11 @@
 
 //#define PRINTF2(S,V)  //empty, ready to use if debug with PRINTF is necessary.
 
-const char sign_Mtbl_RunnableJc[] = "RunnableJc"; //to mark method tables of all implementations
-const char sign_Mtbl_ThreadJc[] = "ThreadJc"; //to mark method tables of all implementations
+const char sign_Vtbl_RunnableJc[] = "RunnableJc"; //to mark method tables of all implementations
+const char sign_Vtbl_ThreadJc[] = "ThreadJc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_ThreadJc_t { Mtbl_ThreadJc mtbl; MtblHeadJc end; } MtblDef_ThreadJc;
-extern MtblDef_ThreadJc const mtblThreadJc;
+typedef struct VtblDef_ThreadJc_t { Vtbl_ThreadJc mtbl; VtblHeadJc end; } VtblDef_ThreadJc;
+extern VtblDef_ThreadJc const mtblThreadJc;
 
 
 
@@ -62,7 +62,7 @@ extern MtblDef_ThreadJc const mtblThreadJc;
 
 ThreadJc_s* ctorO_Runnable_s_ThreadJc(ObjectJc* othis, RunnableJc_s* pRunnable,  StringJc pName, ThCxt* _thCxt)
 { ThreadJc_s* ythis = (ThreadJc_s*)othis;  //upcasting to the real class.
-  Mtbl_ThreadJc const* mtthis = &mtblThreadJc.mtbl;
+  Vtbl_ThreadJc const* mtthis = &mtblThreadJc.mtbl;
   STACKTRC_TENTRY("ctorO_Runnable_s_ThreadJc");
   checkConsistence_ObjectJc(othis, sizeof(ThreadJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &reflection_ThreadJc, sizeof(ThreadJc_s));  
@@ -155,7 +155,7 @@ void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt)
 void run_RunnableJc(ObjectJc* ithis, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("run_RunnableJc");
-  { Mtbl_RunnableJc const* mtbl = (Mtbl_RunnableJc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_RunnableJc);
+  { Vtbl_RunnableJc const* mtbl = (Vtbl_RunnableJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_RunnableJc);
     mtbl->run(ithis, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -167,7 +167,7 @@ void run_ThreadJc_F(ObjectJc* ithis, ThCxt* _thCxt)
   RunnableJc_s* target = REFJc(ythis->target);  //pointer as part of the enhanced reference.
   STACKTRC_TENTRY("run_Thread_F");
   if(target != null)
-  { Mtbl_RunnableJc const* mtbl = (Mtbl_RunnableJc const*)getMtbl_ObjectJc(&target->base.object, sign_Mtbl_RunnableJc);
+  { Vtbl_RunnableJc const* mtbl = (Vtbl_RunnableJc const*)getVtbl_ObjectJc(&target->base.object, sign_Vtbl_RunnableJc);
     mtbl->run(&((REFJc(ythis->target))->base.object), _thCxt);
   }
   STACKTRC_LEAVE;
@@ -193,12 +193,12 @@ void sleep_ThreadJc(int32 milliseconds, ThCxt* _thCxt)
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_ThreadJc mtblThreadJc = {
-{ { sign_Mtbl_ThreadJc//J2C: Head of methodtable.
-  , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+const VtblDef_ThreadJc mtblThreadJc = {
+{ { sign_Vtbl_ThreadJc//J2C: Head of methodtable.
+  , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
   }
-, { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+, { { sign_Vtbl_ObjectJc//J2C: Head of methodtable.
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }
   , clone_ObjectJc_F //clone
   , equals_ObjectJc_F //equals
@@ -206,13 +206,13 @@ const MtblDef_ThreadJc mtblThreadJc = {
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-  /**J2C: Mtbl-interfaces of ThreadJc: */
-, { { sign_Mtbl_RunnableJc
-    , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  /**J2C: Vtbl-interfaces of ThreadJc: */
+, { { sign_Vtbl_RunnableJc
+    , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
     }
   , run_ThreadJc_F //processIfcMethod
-  , { { sign_Mtbl_ObjectJc//J2C: Head of methodtable.
-      , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
+  , { { sign_Vtbl_ObjectJc//J2C: Head of methodtable.
+      , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //size. NOTE: all elements are standard-pointer-types.
       }
     , clone_ObjectJc_F //clone
     , equals_ObjectJc_F //equals
@@ -221,8 +221,8 @@ const MtblDef_ThreadJc mtblThreadJc = {
     , toString_ObjectJc_F //toString
     }
   }
-}, { signEnd_Mtbl_ObjectJc, null } 
-}; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } 
+}; //Vtbl
 
 
 #include <emC/Jc/genRefl/ThreadJc.crefl>

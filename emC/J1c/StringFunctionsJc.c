@@ -20,10 +20,10 @@ In C the functions are contained in the emC/String.c.
 */
 
 
-const char sign_Mtbl_StringFunctionsJc[] = "StringFunctionsJc"; //to mark method tables of all implementations
+const char sign_Vtbl_StringFunctionsJc[] = "StringFunctionsJc"; //to mark method tables of all implementations
 
-typedef struct MtblDef_StringFunctionsJc_t { Mtbl_StringFunctionsJc mtbl; MtblHeadJc end; } MtblDef_StringFunctionsJc;
- extern MtblDef_StringFunctionsJc const mtblStringFunctionsJc;
+typedef struct VtblDef_StringFunctionsJc_t { Vtbl_StringFunctionsJc mtbl; VtblHeadJc end; } VtblDef_StringFunctionsJc;
+ extern VtblDef_StringFunctionsJc const mtblStringFunctionsJc;
 StringJc version_StringFunctionsJc = CONST_z_StringJc("2016-12-02"); //J2C:static StringJc
 const char cEndOfText_StringFunctionsJc = (char /*J2C_cast*/)(0x3);
 const char cStartOfText_StringFunctionsJc = (char /*J2C_cast*/)(0x2);
@@ -313,7 +313,7 @@ bool test_StringFunctionsJc_F(StringFunctionsJc_s* thiz, StringJc s, ThCxt* _thC
 
 /*J2C: dynamic call variant of the override-able method: */
 bool test_StringFunctionsJc(StringFunctionsJc_s* thiz, StringJc s, ThCxt* _thCxt)
-{ Mtbl_StringFunctionsJc const* mtbl = (Mtbl_StringFunctionsJc const*)getMtbl_ObjectJc(&thiz->base.object, sign_Mtbl_StringFunctionsJc);
+{ Vtbl_StringFunctionsJc const* mtbl = (Vtbl_StringFunctionsJc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_StringFunctionsJc);
   return mtbl->test(thiz, s, _thCxt);
 }
 
@@ -1413,15 +1413,15 @@ int16 byte2UTF8_StringFunctionsJc(/*J2C:static method*/ int8_Y* src, int32_Y* ix
 
 
 /**J2C: Reflections and Method-table *************************************************/
-const MtblDef_StringFunctionsJc mtblStringFunctionsJc = {
-{ { sign_Mtbl_StringFunctionsJc //J2C: Head of methodtable of StringFunctionsJc
-  , (struct Size_Mtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+const VtblDef_StringFunctionsJc mtblStringFunctionsJc = {
+{ { sign_Vtbl_StringFunctionsJc //J2C: Head of methodtable of StringFunctionsJc
+  , (struct Size_Vtbl_t*)((1 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
   }
   //J2C: Dynamic methods of the class :StringFunctionsJc:
 , test_StringFunctionsJc_F //test
   //J2C: The superclass's methodtable: 
-, { { sign_Mtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
-    , (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
+, { { sign_Vtbl_ObjectJc //J2C: Head of methodtable of ObjectJc
+    , (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) //J2C:size. NOTE: all elements has the size of void*.
     }
     //J2C: Dynamic methods of the class :ObjectJc:
   , clone_ObjectJc_F //clone
@@ -1430,7 +1430,7 @@ const MtblDef_StringFunctionsJc mtblStringFunctionsJc = {
   , hashCode_ObjectJc_F //hashCode
   , toString_ObjectJc_F //toString
   }
-}, { signEnd_Mtbl_ObjectJc, null } }; //Mtbl
+}, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
 
@@ -1439,10 +1439,10 @@ const MtblDef_StringFunctionsJc mtblStringFunctionsJc = {
  extern_C struct ClassJc_t const reflection_ObjectJc;
  static struct superClasses_StringFunctionsJc_s_t
  { ObjectArrayJc head;
-   ClassOffset_idxMtblJc data[1];
+   ClassOffset_idxVtblJc data[1];
  }superclasses_StringFunctionsJc_s =
- { CONST_ObjectArrayJc(ClassOffset_idxMtblJc, 1, OBJTYPE_ClassOffset_idxMtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Mtbl(Mtbl_StringFunctionsJc, ObjectJc) }
+ { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+ , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_StringFunctionsJc, ObjectJc) }
    }
  };
 
@@ -1501,7 +1501,7 @@ const ClassJc reflection_StringFunctionsJc_s =
 , sizeof(StringFunctionsJc_s)
 , (FieldJc_Y const*)&reflection_Fields_StringFunctionsJc_s
 , null //method
-, (ClassOffset_idxMtblJcARRAY*)&superclasses_StringFunctionsJc_s //superclass
+, (ClassOffset_idxVtblJcARRAY*)&superclasses_StringFunctionsJc_s //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblStringFunctionsJc.mtbl.head

@@ -69,9 +69,9 @@
     inside the type ObjectRefValuesJc in enhanced references.
   * If this define is setted, the enhanced references are used.
 */
-#define mIdxMtbl_ObjectJc              0x0000ffff
+#define mIdxVtbl_ObjectJc              0x0000ffff
 
-/** Nr of bitposition to shift the bits to the right, it should be complemental to mIdxMtbl_ObjectRef*/
+/** Nr of bitposition to shift the bits to the right, it should be complemental to mIdxVtbl_ObjectRef*/
 #define kBitBackRef_ObjectJc 16
 //#undef kBitBackRef_ObjectJc
 /** Bits of index of backward reference, justified after shifting. */
@@ -92,7 +92,7 @@
 struct StringBufferJc_t;
 
 /**This file is included inside ObjectJc.h only if the appropriate defines
-  , #if defined(mBackRef_ObjectJc) || defined(mIdxMtbl_ObjectJc)
+  , #if defined(mBackRef_ObjectJc) || defined(mIdxVtbl_ObjectJc)
   are setted in the file ,,CRuntimeJavalike_SysConventions.h,,.
   In this cases the enhanced references are used.
 

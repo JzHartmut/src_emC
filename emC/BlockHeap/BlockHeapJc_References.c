@@ -129,58 +129,58 @@ void clearBackRefJc(void* enhancedRef)
  *        This param is only used with its pointer value, no access to the referenced memory location will be done.
  * @return The index of the part of jumptable of the reference inside the jump table of the object.
  *         * It is 0, if reflectionObj == reflectionRef, it means the reference is from the same type as the Object.
- *         * It is mIdxMtbl_ObjectJc if reflectionObj is null. This case is possible if the Object has no reflection infos.
+ *         * It is mIdxVtbl_ObjectJc if reflectionObj is null. This case is possible if the Object has no reflection infos.
  *           If the index with this value is used as an index of jumptable, an exception occurs.
  *           But if it is not used, it is a valid case, especially if no dynamic linked call occurs.
  */
-static int xxxgetIdxMtbl(ClassJc const* reflectionObj, ClassJc const* reflectionRef)
-{ int idxMtbl = -1;
-  ClassOffset_idxMtblJcARRAY const* reflectionIfc;
-  ClassOffset_idxMtblJcARRAY const* reflectionSuper;
-  STACKTRC_ENTRY("getIdxMtbl_ObjectJc");
+static int xxxgetIdxVtbl(ClassJc const* reflectionObj, ClassJc const* reflectionRef)
+{ int idxVtbl = -1;
+  ClassOffset_idxVtblJcARRAY const* reflectionIfc;
+  ClassOffset_idxVtblJcARRAY const* reflectionSuper;
+  STACKTRC_ENTRY("getIdxVtbl_ObjectJc");
   if(reflectionObj == null)
   { //if no reflection is used, it is able in C++ environment or if no dynamic linked methods are used.
-    idxMtbl = mIdxMtbl_ObjectJc;  //causes an error if it will be used!
+    idxVtbl = mIdxVtbl_ObjectJc;  //causes an error if it will be used!
   }
   else
   { if(reflectionRef == null)  //if no reflection is prescribed:
-    { idxMtbl = 0;  //returns the Mtbl_ObjectJc
+    { idxVtbl = 0;  //returns the Vtbl_ObjectJc
     }
     if(reflectionRef == reflectionObj)
-    { idxMtbl = 0;  //returns the whole Mtbl for the type.
+    { idxVtbl = 0;  //returns the whole Vtbl for the type.
     }
     else if( (reflectionIfc = reflectionObj->interfaces) != null)
     { int idxIfc;
-      for(idxIfc = 0; idxMtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
-      { ClassOffset_idxMtblJc const* reflectionChild;
+      for(idxIfc = 0; idxVtbl < 0 && idxIfc < reflectionIfc->head.length; idxIfc++)
+      { ClassOffset_idxVtblJc const* reflectionChild;
         reflectionChild = &reflectionIfc->data[idxIfc];
         if(reflectionChild->clazz == reflectionRef)
-        { idxMtbl = reflectionChild->idxMtbl;
+        { idxVtbl = reflectionChild->idxVtbl;
         }
       }
     }
 
-    if(idxMtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
+    if(idxVtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
     { int idxSuper = 0;
-      for(idxSuper = 0; idxMtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
-      { ClassOffset_idxMtblJc const* reflectionChild;
+      for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+      { ClassOffset_idxVtblJc const* reflectionChild;
         reflectionChild = &reflectionSuper->data[idxSuper];
         if(reflectionChild->clazz == reflectionRef)
-        { idxMtbl = reflectionChild->idxMtbl;
+        { idxVtbl = reflectionChild->idxVtbl;
         }
         else
         { //Recursive call because deeper inheritance:
-          idxMtbl = xxxgetIdxMtbl(reflectionChild->clazz, reflectionRef);
+          idxVtbl = xxxgetIdxVtbl(reflectionChild->clazz, reflectionRef);
         }
       }
     }
     { //search in superclasses and there interfaces
       //old if only 1 superclass:
-      //idxMtbl = getIdxMtbl(reflectionObj->superClass, reflectionRef);
+      //idxVtbl = getIdxVtbl(reflectionObj->superClass, reflectionRef);
     }
 
   }
-  STACKTRC_LEAVE; return(idxMtbl);
+  STACKTRC_LEAVE; return(idxVtbl);
 }
 
 

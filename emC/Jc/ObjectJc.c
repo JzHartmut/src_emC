@@ -75,7 +75,7 @@ bool castOk_ObjectJc;
 
 
 
-
+#ifdef DEF_UserBuffer_ThreadContext_emC
 
 
 /**common method for creating and initilizing buffers in threadcontext. 
@@ -100,7 +100,7 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, ThCxt* _thCxt)
 }
 
 
-
+#endif //DEF_UserBuffer_ThreadContext_emC
 
 
 
@@ -139,6 +139,8 @@ METHOD_C int getNrOfBytes_ObjectArrayJc(ObjectArrayJc const* ythis)
 }
 
 
+#ifdef DEF_ObjectJc_FULL
+
 void_Y* ctorO_AYJc(ObjectJc* othis, int nBytesPerElement, int nSize)
 { void_Y* ythis = (void_Y*)(othis);
   if(ythis != null)
@@ -150,7 +152,6 @@ void_Y* ctorO_AYJc(ObjectJc* othis, int nBytesPerElement, int nSize)
   }
   return ythis;
 }
-
 
 
 ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int nSize, int nBytesPerElement, struct ClassJc_t const* reflection, int32 typeInstanceIdent)
@@ -245,6 +246,7 @@ ObjectArrayJc* new_ObjectArrayJc(int SIZE, int BYTESELEMENT, struct ClassJc_t co
 }
 
 
+#endif //DEF_ObjectJc_FULL
 
 
 MemUnit* getAddrSizeof_ObjectArrayJc(ObjectArrayJc* ythis, int32* size)
@@ -293,28 +295,18 @@ int32_ObjArray* ctor_int32ARRAY(int32_ObjArray* ythis, int nrOfElements)
 
 
 
-const ClassJc xxxreflection_ObjectJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &xxxreflection_ObjectJc, null)
-, "ObjectJc"
-, 0
-, sizeof(ObjectJc)
-, null  //attributes
-, null  //method
-, null  //superclass
-, null  //interfaces
-, mObjectJc_Modifier_reflectJc  //modifiers
-};
 
 
-char const sign_Mtbl_ComparableJc[] = "Mtbl_ComparableJc";
+char const sign_Vtbl_ComparableJc[] = "Vtbl_ComparableJc";
 
-char const sign_Mtbl_FlushableJc[] = "Mtbl_FlushableJc";
+char const sign_Vtbl_FlushableJc[] = "Vtbl_FlushableJc";
 
-char const sign_Mtbl_CloseableJc[] = "Mtbl_CloseableJc";
+char const sign_Vtbl_CloseableJc[] = "Vtbl_CloseableJc";
 
-char const sign_Mtbl_AppendableJc[] = "Mtbl_AppendableJc";
+char const sign_Vtbl_AppendableJc[] = "Vtbl_AppendableJc";
 
 
+#ifdef DEF_REFLECTION_FULL
 
 extern_C const ClassJc reflection_ObjectJcREF;  //the just defined reflection_ used in the own fields.
 
@@ -347,6 +339,5 @@ const ClassJc reflection_ObjectJcREF =
 };
 
 
-#ifndef DEF_REFLECTION_NO
 #include <emC/Jc/genRefl/ObjectRefJc.crefl>
 #endif

@@ -80,11 +80,11 @@ METHOD_C void run_DispatcherThread_MsgDispatcher_MSG(ObjectJc* ithis, ThCxt* _th
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_DispatcherThread_MsgDispatcher_MSG[]; //marker for methodTable check
-typedef struct Mtbl_DispatcherThread_MsgDispatcher_MSG_t
-{ MtblHeadJc head;
-  Mtbl_ThreadJc ThreadJc;
-} Mtbl_DispatcherThread_MsgDispatcher_MSG;
+ extern const char sign_Vtbl_DispatcherThread_MsgDispatcher_MSG[]; //marker for methodTable check
+typedef struct Vtbl_DispatcherThread_MsgDispatcher_MSG_t
+{ VtblHeadJc head;
+  Vtbl_ThreadJc ThreadJc;
+} Vtbl_DispatcherThread_MsgDispatcher_MSG;
 
 
 
@@ -206,11 +206,11 @@ METHOD_C void flush_MsgDispatcher_MSG(LogMessageFW_s* ithis, ThCxt* _thCxt);
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
- extern const char sign_Mtbl_MsgDispatcher_MSG[]; //marker for methodTable check
-typedef struct Mtbl_MsgDispatcher_MSG_t
-{ MtblHeadJc head;
-  Mtbl_MsgDispatcherCore_MSG MsgDispatcherCore_MSG;
-} Mtbl_MsgDispatcher_MSG;
+ extern const char sign_Vtbl_MsgDispatcher_MSG[]; //marker for methodTable check
+typedef struct Vtbl_MsgDispatcher_MSG_t
+{ VtblHeadJc head;
+  Vtbl_MsgDispatcherCore_MSG MsgDispatcherCore_MSG;
+} Vtbl_MsgDispatcher_MSG;
 
 
 

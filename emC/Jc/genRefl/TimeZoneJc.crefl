@@ -10,11 +10,11 @@ extern_C const ClassJc reflection_StringJc;  //used for field name
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_TimeZoneJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_TimeZoneJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_TimeZoneJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_TimeZoneJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_TimeZoneJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -74,7 +74,7 @@ const ClassJc reflection_TimeZoneJc =
 , sizeof(TimeZoneJc_s)
 , (FieldJcArray const*)&reflection_Fields_TimeZoneJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_TimeZoneJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_TimeZoneJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

@@ -41,7 +41,7 @@
 #include "emC/Ipc/InterProcessComm.h"
 #include "emC/Base/MemC_emC.h"
 
-//extern Mtbl_InterProcessComm const mtbl_InterProcessCommSocket;
+//extern Vtbl_InterProcessComm const mtbl_InterProcessCommSocket;
 
 
 /*@CLASS_C Address_InterProcessComm_Socket @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -72,8 +72,8 @@ int open_InterProcessCommSocket( ObjectJc* xthis, Address_InterProcessComm_s* de
 METHOD_C struct InterProcessCommSocket_t* ctorO_InterProcessCommSocket(ObjectJc* othis, struct Address_InterProcessComm_t* addr, struct ThreadContext_emC_t* _thCxt);
 
 /**The method table is publicated here, to allow direct access. */
-typedef struct MtblDef_InterProcessCommSocket_t { Mtbl_InterProcessComm mtbl; MtblHeadJc end; } MtblDef_InterProcessCommSocket;
-extern MtblDef_InterProcessCommSocket const mtblInterProcessCommSocket;
+typedef struct VtblDef_InterProcessCommSocket_t { Vtbl_InterProcessComm mtbl; VtblHeadJc end; } VtblDef_InterProcessCommSocket;
+extern VtblDef_InterProcessCommSocket const mtblInterProcessCommSocket;
 
 
 

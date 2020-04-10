@@ -81,7 +81,7 @@ METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
 
 //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
 //METHOD_C 
-//see on end: MtblHeadJc const* checkMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt);
+//see on end: VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt);
 
 
 
@@ -398,12 +398,12 @@ typedef TYPE_EnhancedRefJc(ObjectJc);
  * ,,  struct ObjectJc_t* data;   
  * ,,} TYPE_s;
  * and the method table
- * ,,extern const char sign_Mtbl_TYPE[]; //marker for methodTable check
- * ,,typedef struct Mtbl_TYPE_t
- * ,,{ MtblHeadJc head;
+ * ,,extern const char sign_Vtbl_TYPE[]; //marker for methodTable check
+ * ,,typedef struct Vtbl_TYPE_t
+ * ,,{ VtblHeadJc head;
  * ,,  MT_METHOD_TYPE* METHOD;
- * ,,  Mtbl_ObjectJc ObjectJc;
- * ,,} Mtbl_TYPE;
+ * ,,  Vtbl_ObjectJc ObjectJc;
+ * ,,} Vtbl_TYPE;
  * should be given. Whereby ,,TYPE,, and ,,METHOD,, are any proper definitions. 
  * The ,,MT_METHOD_TYPE,, is the function-Type of the method which should be matched to the user defined method.
  * It is for example:
@@ -427,20 +427,20 @@ typedef TYPE_EnhancedRefJc(ObjectJc);
  *
  * @param TYPE Type name of the interface without suffix _s. It should be given: ,,struct TYPE_t{...}TYPE_s;
  * @param METHOD Only the name of the method which implements the only 1 interface method. 
- *    This METHOD name is used both as name for the Mtbl_ and Reflection. The METHOD should match to the method definiton
+ *    This METHOD name is used both as name for the Vtbl_ and Reflection. The METHOD should match to the method definiton
   
  * @since 2015-06-14. It is the concequently usage of ObjectJc overridden methods, prepared for C usage.  
  */
 //Note: extern_C static resp. extern static is not accepted by gcc. extern declaration; static definition is not accepted too. 
 #define IFC_IMPL_dataMETHOD1_ObjectJc(TYPE, METHOD) \
-Mtbl_##TYPE static const mtbl_##METHOD = \
-{ { sign_Mtbl_##TYPE , (struct Size_Mtbl_t*)((0 +2) * sizeof(void*)) } \
+Vtbl_##TYPE static const mtbl_##METHOD = \
+{ { sign_Vtbl_##TYPE , (struct Size_Vtbl_t*)((0 +2) * sizeof(void*)) } \
 , METHOD \
-, { { sign_Mtbl_ObjectJc, (struct Size_Mtbl_t*)((5 +2) * sizeof(void*)) } \
+, { { sign_Vtbl_ObjectJc, (struct Size_Vtbl_t*)((5 +2) * sizeof(void*)) } \
   , clone_ObjectJc_F, equals_ObjectJc_F, finalize_ObjectJc_F, hashCode_ObjectJc_F \
   , toString_ObjectJc_F \
   } \
-} /*, { signEnd_Mtbl_ObjectJc, null } }*/; \
+} /*, { signEnd_Vtbl_ObjectJc, null } }*/; \
 \
 \
 extern_C struct ClassJc_t const reflection_##METHOD; \
@@ -749,11 +749,11 @@ typedef struct ComparableJc_t
 
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
-typedef struct Mtbl_ComparableJc_t
-{ Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
-} Mtbl_ComparableJc;
+typedef struct Vtbl_ComparableJc_t
+{ Vtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Vtbl_ComparableJc;
 
-extern char const sign_Mtbl_ComparableJc[]; 
+extern char const sign_Vtbl_ComparableJc[]; 
 
 extern_C const struct ClassJc_t reflection_ComparableJc; 
 
@@ -768,15 +768,15 @@ typedef bool MT_close_CloseableJc(ObjectJc* thiz, ThCxt* _thCxt);
 
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
-typedef struct Mtbl_CloseableJc_t
-{ MtblHeadJc head;
+typedef struct Vtbl_CloseableJc_t
+{ VtblHeadJc head;
   MT_close_CloseableJc* close;
-  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
-} Mtbl_CloseableJc;
+  Vtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Vtbl_CloseableJc;
 
-extern char const sign_Mtbl_CloseableJc[]; 
+extern char const sign_Vtbl_CloseableJc[]; 
 
-#define close_CloseableJc(THIZ, THCXT) ((Mtbl_CloseableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_CloseableJc))->close(THIZ, THCXT)
+#define close_CloseableJc(THIZ, THCXT) ((Vtbl_CloseableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_CloseableJc))->close(THIZ, THCXT)
 
 extern_C const struct ClassJc_t reflection_CloseableJc; 
 
@@ -791,15 +791,15 @@ typedef void MT_flush_FlushableJc(ObjectJc* thiz, ThCxt* _thCxt);
 
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
-typedef struct Mtbl_FlushableJc_t
-{ MtblHeadJc head;
+typedef struct Vtbl_FlushableJc_t
+{ VtblHeadJc head;
   MT_flush_FlushableJc* flush;
-  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
-} Mtbl_FlushableJc;
+  Vtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+} Vtbl_FlushableJc;
 
-extern char const sign_Mtbl_FlushableJc[]; 
+extern char const sign_Vtbl_FlushableJc[]; 
 
-#define flush_FlushableJc(THIZ, THCXT) ((Mtbl_FlushableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_FlushableJc))->flush(THIZ, THCXT)
+#define flush_FlushableJc(THIZ, THCXT) ((Vtbl_FlushableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_FlushableJc))->flush(THIZ, THCXT)
 
 
 extern_C const struct ClassJc_t reflection_FlushableJc; 
@@ -824,23 +824,23 @@ typedef AppendableJc_s* MT_append_csI_AppendableJc(ObjectJc* thiz, CharSeqJc cs,
 
 
 /**To organize dynamic link method call the jump table of virtual methods is neccessary. */
-typedef struct Mtbl_AppendableJc_t
-{ MtblHeadJc head;
+typedef struct Vtbl_AppendableJc_t
+{ VtblHeadJc head;
   MT_append_C_AppendableJc* append_C;
   MT_append_cs_AppendableJc* append_cs;
   MT_append_csI_AppendableJc* append_csI;
-  Mtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
+  Vtbl_ObjectJc mtblObjectJc;  //same method types as ObjectJc
 
 
-} Mtbl_AppendableJc;
+} Vtbl_AppendableJc;
 
-extern char const sign_Mtbl_AppendableJc[]; 
+extern char const sign_Vtbl_AppendableJc[]; 
 
 extern_C const struct ClassJc_t reflection_AppendableJc; 
 
-#define append_C_AppendableJc(THIZ, SRC, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_C((ObjectJc*)(THIZ), SRC, THCXT)
-#define append_cs_AppendableJc(THIZ, SRC, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_cs((ObjectJc*)(THIZ), SRC, THCXT)
-#define append_csI_AppendableJc(THIZ, SRC, FROM, TO, THCXT) ((Mtbl_AppendableJc*)getMtbl_ObjectJc((ObjectJc*)(THIZ), sign_Mtbl_AppendableJc))->append_csI((ObjectJc*)(THIZ), SRC, FROM, TO, THCXT)
+#define append_C_AppendableJc(THIZ, SRC, THCXT) ((Vtbl_AppendableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_AppendableJc))->append_C((ObjectJc*)(THIZ), SRC, THCXT)
+#define append_cs_AppendableJc(THIZ, SRC, THCXT) ((Vtbl_AppendableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_AppendableJc))->append_cs((ObjectJc*)(THIZ), SRC, THCXT)
+#define append_csI_AppendableJc(THIZ, SRC, FROM, TO, THCXT) ((Vtbl_AppendableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_AppendableJc))->append_csI((ObjectJc*)(THIZ), SRC, FROM, TO, THCXT)
 
 #endif //DEF_ObjectJc_SIMPLE
 /*@DEFINE_C Inlines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -851,20 +851,20 @@ extern_C const struct ClassJc_t reflection_AppendableJc;
 
 #ifndef DEF_ObjectJc_SIMPLE
 
-MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt);
+VtblHeadJc const* checkVtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt);
 
-INLINE_emC MtblHeadJc const* checkMtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
+INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
 { ClassJc const* reflection = ythis->reflectionClass;
   if( reflection != null || reflection->object.reflectionClass == &reflection_ClassJc) {
-    MtblHeadJc const* head0, *head;
+    VtblHeadJc const* head0, *head;
     head0 = ythis->reflectionClass->mtbl;  
     if(head0 != null){
-      head = (MtblHeadJc const*)(((MemUnit const*) (head0)) + ix * sizeof(head0->sign)); 
+      head = (VtblHeadJc const*)(((MemUnit const*) (head0)) + ix * sizeof(head0->sign)); 
       if(head->sign == sign) {
         return head;
-      } else return checkMtblError_ObjectJc(ythis, 3, _thCxt);
-    } else return checkMtblError_ObjectJc(ythis, 2, _thCxt);
-  } else return checkMtblError_ObjectJc(ythis, 1, _thCxt);
+      } else return checkVtblError_ObjectJc(ythis, 3, _thCxt);
+    } else return checkVtblError_ObjectJc(ythis, 2, _thCxt);
+  } else return checkVtblError_ObjectJc(ythis, 1, _thCxt);
 }
 
 

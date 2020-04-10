@@ -63,7 +63,7 @@ int binarySearch_Object_ArraysJc(const void* a, const void* key, ComparatorJcpp*
     elementInArray = get_i_ObjectArrayJc(array, mid);
     //Use VCALL_IFCJcpp because it is able to compile this source with C without ++
 
-    #ifdef mIdxMtbl_ObjectJc
+    #ifdef mIdxVtbl_ObjectJc
      /*TODO
       cmp = DCALL_ifc_Jcpp(compare, Comparator_Jc, MT_compare_Comparator_Jc, c) //REFP_REF_Jc(c)) 
             DCALL_arg_Jcpp

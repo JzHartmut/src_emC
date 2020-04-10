@@ -10,11 +10,11 @@ extern_C const ClassJc reflection_FileDescription_OSAL;  //used for field fileDe
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_FileJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_FileJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_FileJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_FileJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_FileJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -56,7 +56,7 @@ const ClassJc reflection_FileJc =
 , sizeof(FileJc_s)
 , (FieldJcArray const*)&reflection_Fields_FileJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_FileJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_FileJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -67,11 +67,11 @@ const ClassJc reflection_FileJc =
 extern_C const ClassJc reflection_OutputStreamJc;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_OutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_OutputStreamJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_OutputStreamJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_OutputStreamJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_OutputStreamJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -95,7 +95,7 @@ const ClassJc reflection_OutputStreamJc =
 , sizeof(OutputStreamJc_s)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_OutputStreamJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_OutputStreamJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -106,11 +106,11 @@ const ClassJc reflection_OutputStreamJc =
 extern_C const ClassJc reflection_FileOutputStreamJc;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_FileOutputStreamJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_FileOutputStreamJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_FileOutputStreamJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_FileOutputStreamJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_FileOutputStreamJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -152,7 +152,7 @@ const ClassJc reflection_FileOutputStreamJc =
 , sizeof(FileOutputStreamJc_s)
 , (FieldJcArray const*)&reflection_Fields_FileOutputStreamJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_FileOutputStreamJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_FileOutputStreamJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -163,11 +163,11 @@ const ClassJc reflection_FileOutputStreamJc =
 extern_C const ClassJc reflection_FileWriterJc;  //the just defined reflection_ used in the own fields.  
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_FileWriterJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_FileWriterJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_FileWriterJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_FileWriterJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_FileWriterJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -209,7 +209,7 @@ const ClassJc reflection_FileWriterJc =
 , sizeof(FileWriterJc_s)
 , (FieldJcArray const*)&reflection_Fields_FileWriterJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_FileWriterJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_FileWriterJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -222,11 +222,11 @@ extern_C const ClassJc reflection_ObjectJc;  //used for field object
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_FileReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_FileReaderJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_FileReaderJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_FileReaderJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_FileReaderJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -295,7 +295,7 @@ const ClassJc reflection_FileReaderJc =
 , sizeof(FileReaderJc_s)
 , (FieldJcArray const*)&reflection_Fields_FileReaderJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_FileReaderJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_FileReaderJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table
@@ -312,11 +312,11 @@ extern_C const ClassJc reflection_FileReaderJc;  //used for field input
   
 
 extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
-const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
-  ClassOffset_idxMtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 }  superClasses_BufferedReaderJc_s =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_BufferedReaderJc_s, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+{ INIZ_ObjectArrayJc(superClasses_BufferedReaderJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
   , { &reflection_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -403,7 +403,7 @@ const ClassJc reflection_BufferedReaderJc =
 , sizeof(BufferedReaderJc_s)
 , (FieldJcArray const*)&reflection_Fields_BufferedReaderJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxMtblJcARRAY*)&superClasses_BufferedReaderJc_s  //superclass  
+, (ClassOffset_idxVtblJcARRAY*)&superClasses_BufferedReaderJc_s  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 , null  //virtual table

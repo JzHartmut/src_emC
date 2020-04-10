@@ -45,7 +45,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, struct DefPort
   memset(thiz->nrElements, 1, sizeof(thiz->nrElements));
   thiz->bitsComplexY = 0;
   init_immediate_ObjectArrayJc(&thiz->superThiz.head, 1, sizeof(thiz->superThiz.data[0]), null, 0);
-  ctor_ClassOffset_idxMtblJc(&thiz->superThiz.data[0], &reflection_TimeSignals_Inspc, 0x22, 0);
+  ctor_ClassOffset_idxVtblJc(&thiz->superThiz.data[0], &reflection_TimeSignals_Inspc, 0x22, 0);
   ctor_Fields_super_ClassJc(&thiz->clazz, z_StringJc(thiz->nameModule), 0, &thiz->fields.head, &thiz->superThiz.head);
   //
   //int ixFields = 0;
