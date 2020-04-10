@@ -435,13 +435,15 @@ public: ObjectJcpp(); //: significance_ObjectifcBase(123), significanceAddress_O
 struct Size_Vtbl_t;
 #define Size_Mtbl_t Size_Vtbl_t
 
+#define DEF_Vtbl_ObjectJc
+
 #define NrofMethodsForSize_VTBL_Jc(NR) (struct Size_Mtbl_t*)((2 +NR) * sizeof(void*)) 
 
 /** The definition of ordered method pointer, it is a jump table.
 * The virtual methods are callable in a C-environment adequate to virtual methods in C++.
 * This struct of method pointer determines the order of virtual methods of ObjectJc for all implementation classes.
 */
-typedef struct VtblHeadJc_t
+typedef struct VtblHeadJc_T
 { /**The value of sign must be identically with the address of the sign_Mtbl_TYPE. Check it for safe access. */
   char const* sign;
   /**The sizeTable is really an simple int. But all members of Method table are from pointer type. casted internally. 
@@ -489,7 +491,7 @@ extern char const signEnd_Mtbl_ObjectJc[];
 * Whether the method table is derived or not, it means wether a up-casting is allowed,
 * depends on a derived class. 
 */
-METHOD_C MtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign);
+extern_C VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign);
 #define getMtbl_ObjectJc getVtbl_ObjectJc
 
 

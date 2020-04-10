@@ -2,13 +2,15 @@
 #define HEADERGUARD_org_vishia_emC_Test_testAssert
 #include <applstdef_emC.h>
 
+/**Outputs a short message "Test: ident" starting with newline. */
+extern_C void TEST(char const* ident);
+
+
+
 #ifdef __cplusplus
 
 
 #include <iostream>
-
-/**Outputs a short message "Test: ident" starting with newline. */
-void TEST(char const* ident);
 
 #define EXPECT_TRUE(VAL) if(EXPECT_TRUEmsg1(VAL, __FILE__, __LINE__)) std::cerr
 

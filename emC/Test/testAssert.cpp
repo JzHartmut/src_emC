@@ -4,10 +4,6 @@
 using namespace std;
 
 
-void TEST(char const* ident){
-  cout<< endl << "Test: " << ident << " ...";
-}
-
 void EXPECT_TRUEmsg(bool val, char const* msg) {
   if(!val) {
     cerr<<endl<<msg;

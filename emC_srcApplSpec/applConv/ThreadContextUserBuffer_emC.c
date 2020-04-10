@@ -65,6 +65,9 @@
 //==>emC/Exception_emC.c
 
 
+#ifdef DEF_ThreadContextStracktrc_emC
+
+
 void ctor_StacktraceThreadContext_emC  (  StacktraceThreadContext_emC_s* thiz)
 { thiz->maxNrofEntriesStacktraceBuffer = ARRAYLEN_emC(thiz->entries);
 }
@@ -236,5 +239,39 @@ bool xxxoptimizeString_ThCxt  (  ThreadContext_emC_s* ythis, bool value)
 bool isOptimizeString_ThCxt  (  ThreadContext_emC_s* ythis)
 { return ythis->mode & mOptimizeToString_Mode_ThCxt;
 }
+
+
+
+#else 
+
+void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topStack) {
+  //all remain 0
+}
+
+#endif //DEF_ThreadContextStracktrc_emC
+
+
+ExceptionStore exceptionStore_g = {0};
+
+void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line) {
+  if (exceptionStore_g.ctException == 0) {
+    exceptionStore_g.ctException = 1;
+    exceptionStore_g.first.exceptionNr = exc;
+    exceptionStore_g.first.exceptionValue = value;
+    exceptionStore_g.first.file = file;
+    exceptionStore_g.first.line = line;
+  }
+  else {
+    //stop at max number, do not write 0!
+    if( (exceptionStore_g.ctException +=1) ==0) { exceptionStore_g.ctException = (uint)-1; }
+    exceptionStore_g.last.exceptionNr = exc;
+    exceptionStore_g.last.exceptionValue = value;
+    exceptionStore_g.last.file = file;
+    exceptionStore_g.last.line = line;
+  }
+
+}
+
+
 
 

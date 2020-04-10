@@ -50,6 +50,11 @@
 //#include <emC/ThreadContext_emC.h>
 
 
+#ifdef DEF_REFLECTION_FULL
+#include "emC/Base/genRefl/LogMessage_emC.crefl"
+#endif
+
+
 extern struct ClassJc_t const reflection_LogMessageFW_i;
 
 LogMessageFW_s* ctorO_LogMessageFW(ObjectJc* othis, ThCxt* _thCxt)
@@ -66,6 +71,10 @@ const char sign_Mtbl_LogMessageFW[] = "LogMessage_FW";
 /**This is the reference address to check the correct address in method table.
  */
 //void const* const xxxsign_Mtbl_LogMessageFW = &identText_LogMessageFW;
+
+
+
+#ifdef DEF_ObjectJc_FULL
 
 
 /**This routine calls the virtual (dynamic called) C-routine. */
@@ -266,6 +275,7 @@ bool isOnline_LogMessageFW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 }
 
 
+#endif //DEF_ObjectJc_FULL
 
 
 /*@CLASS_C MsgDispatcher_MSG ************************************************************************
@@ -348,7 +358,6 @@ bool LogMessageFW::isOnline()
 
 #endif  //__CPLUSGEN    
 
-#include "emC/Base/genRefl/LogMessage_emC.crefl"
 
 
 

@@ -39,6 +39,12 @@
 //#define DEF_NO_StringJcCapabilities
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 //Include before String_emC.h because it is used there.
+
+
+#define SIZEBLOCK_BlockHeap_emC 0x400
+#define DEF_BlockHeap_emC
+
+
 #include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
 //#include <emC_srcApplSpec/applConv/EnhanceRef_Blockheap.h>
 

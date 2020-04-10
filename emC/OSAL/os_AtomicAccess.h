@@ -141,7 +141,7 @@ INLINE_emC int32 lockRead_DoubleBufferingJc(int32 volatile* var)
     } else {
       valNew = val | _lockRd_DoubleBufferingJc;  //Bit for lock, don't change the locked read index.
     }
-  } while(compareAndSwap_AtomicInteger(var, val, valNew) !=val && --abortCt >=0);  //repeate till see unchanged val.
+  } while(!compareAndSet_AtomicInt32(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
   //don't evaluate abortCt. It is only to prevent hang in a non expected case.
   return valNew & 1; //retVal ;
 }
@@ -180,7 +180,7 @@ INLINE_Jc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
     } else {
       retVal = valNew = ((val ^ 1) | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;  //Increment sequence number
     }
-  } while(compareAndSwap_AtomicInteger(var, val, valNew) != val && --abortCt >=0);  //repeate till see unchanged val.
+  } while(!compareAndSet_AtomicInt32(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
   return retVal;
 }
 

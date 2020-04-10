@@ -3,7 +3,7 @@
 
 #ifdef ASSERT_IGNORE_emC
  /**The assertion is fully ignored. An if-Block is always true.*/
- #define ASSERTs_emC(COND, TEXT, VAL1, VAL2) true
+ #define ASSERT_emC(COND, TEXT, VAL1, VAL2) true
 #else
   /**The assertion will be checked. If it is false, the called routine invokes THROW.
    * Depending on THROW implementation either it is thrown (C++ Exception handling)
@@ -15,12 +15,14 @@
    * 
    */
   extern_CCpp bool assert_s_emC(bool cond, char const* text, int val1, int val2);
-  inline bool ASSERTs_emC(bool cond, char const* text, int val1, int val2) {
+  inline bool ASSERT_emC(bool cond, char const* text, int val1, int val2) {
     if(!cond) { assert_s_emC(cond, text, val1, val2); }
     return cond;
   }
 
 #endif
+
+#define ASSERTs_emC ASSERT_emC
 
 #endif //HEADERGUARD_emC_Base_Assert_emC_h
 

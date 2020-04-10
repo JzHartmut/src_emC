@@ -62,6 +62,7 @@
  */
 char const* init_ReflectionJc(void);
 
+#ifdef DEF_ObjectJc_FULL
 
 /*@DEFINE_C FieldJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -827,6 +828,7 @@ typedef struct Data_ExtReflectionJc_t
 }Data_ExtReflectionJc;
 
 
+#endif //DEF_ObjectJc_FULL
 
 
 

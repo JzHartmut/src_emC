@@ -236,6 +236,9 @@ void close_LogMessageStream_FW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 
 /*@REFLECTION LogMessageStream_FW ************************************************************/
 
+
+#ifdef DEF_ObjectJc_FULL
+
 char const sign_Mtbl_LogMessageStream_FW[] = "sign_Mtbl_LogMessageStream_FW";
 
 
@@ -300,4 +303,11 @@ ClassJc const reflection_LogMessageStream_FW =
 , &mtbl_LogMessageStream_FW.head
 };
 
+
+#else
+
+ClassJc const reflection_LogMessageStream_FW = INIZtypeOnly_ClassJc(reflection_LogMessageStream_FW, "reflection_LogMessageStream_FW");
+
+
+#endif //DEF_ObjectJc_FULL
 

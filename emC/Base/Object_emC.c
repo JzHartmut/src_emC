@@ -40,7 +40,7 @@
 #ifdef DEF_ObjectJc_SIMPLE
   /**Opposite implementation of checkInit with only idInstanceType. */
   bool checkInit_ObjectJc  ( ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt) {
-    thiz->idInstanceType = ((ident)<<16);
+    thiz->idInstanceType = (((uint32)ident)<<16);
     return true; //no error
   }
 
@@ -72,7 +72,7 @@
  
 
   void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident) {
-    thiz->idInstanceType = (thiz->idInstanceType & (~mInstance_ObjectJc )) | (ident<<16);
+    thiz->idInstanceType = (thiz->idInstanceType & (~mInstance_ObjectJc )) | (((uint32)ident)<<16);
   }
 
 
@@ -431,10 +431,10 @@ StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
 
 
 #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
-MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
-{ MtblHeadJc const* head = null; //nullpointer-return possible
+VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
+{ VtblHeadJc const* head = null; //nullpointer-return possible
   ClassJc const* reflection;
-  STACKTRC_ENTRY("getMtbl_ObjectJc");
+  STACKTRC_ENTRY("getVtbl_ObjectJc");
   if(ythis->ownAddress != ythis){ 
     THROW1_s0(IllegalArgumentException, "Object head faulty", (int)(intptr_t)ythis);
     STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
@@ -457,7 +457,7 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
     }   
     //ASSERT_emC(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!
     //The next part of method table is found after the current.
-    head = (MtblHeadJc const*)( (MemUnit*)head + sizeTable );
+    head = (VtblHeadJc const*)( (MemUnit*)head + sizeTable );
     }
     if(head->sign == signEnd_Mtbl_ObjectJc){
       THROW1_s0(ClassCastException, "baseclass not found", (int)(intptr_t)sign);
@@ -472,9 +472,9 @@ MtblHeadJc const* getMtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
 
 #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
 int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
-{ MtblHeadJc const* headSign = getMtbl_ObjectJc(thiz, sign);
+{ VtblHeadJc const* headSign = getVtbl_ObjectJc(thiz, sign);
   if(headSign !=null){
-    MtblHeadJc const* headBase = thiz->reflectionClass->mtbl;
+    VtblHeadJc const* headBase = thiz->reflectionClass->mtbl;
     return OFFSET_MemUnit(headBase, headSign) / (int)sizeof(sign);
   } 
   else return -1;  //no Mtbl found.
@@ -483,7 +483,7 @@ int getPosInMtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 
 
 
-MtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
+VtblHeadJc const* checkMtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt)
 { 
   switch(error) {
   case 1: THROW1_s0(IllegalArgumentException, "checkMtbl_ObjectJc: Object reflection faulty", (int)(intptr_t)ythis); break;
@@ -588,7 +588,7 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
 #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixMtbl
 /*J2C: dynamic call variant of the override-able method: */
 StringJc toString_ObjectJc(ObjectJc* ithis, ThCxt* _thCxt)
-{ Mtbl_ObjectJc const* mtbl = (Mtbl_ObjectJc const*)getMtbl_ObjectJc(ithis, sign_Mtbl_ObjectJc);
+{ Mtbl_ObjectJc const* mtbl = (Mtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Mtbl_ObjectJc);
   return mtbl->toString(ithis, _thCxt);
 }
 #endif

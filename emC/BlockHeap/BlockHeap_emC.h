@@ -40,7 +40,7 @@
  ****************************************************************************/
 #ifndef __BlockHeap_emC__h
 #define __BlockHeap_emC__h
-
+#include <applstdef_emC.h>
 #ifndef HEADERGUARD_ObjectJc_h
   #include <emC/Base/Object_emC.h>
 #endif

@@ -689,7 +689,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
                 arg64 = argValue->i64;
                 { int32 seconds = (int32)(arg64/1000);
                   int32 millisec = (int32)(arg64 - 1000*seconds);
-                  setUTC_OS_TimeStamp(timeStamp[ixArgTime], seconds, 1000000 * millisec); break; //seconds as int32-argument
+                  setUTC_OS_TimeStamp(timeStamp[ixArgTime], seconds, 1000000 * millisec); //seconds as int32-argument
                 } } break; 
               case 't': {
                 timeStamp[ixArgTime] = argValue->t;

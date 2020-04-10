@@ -65,14 +65,6 @@
 //#include <emC/Base/Object_emC.h>  //Note: it is possible that DEF_ObjectJc_SIMPE or ...NO is set.
 
 
-typedef struct ExceptionStore_t {
-  uint32 ctException;
-  ExceptionJc first;
-  ExceptionJc last;
-} ExceptionStore;
-
-void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
-
 typedef struct ThreadContext_emC_t {
   
   ExceptionJc exc;

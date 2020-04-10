@@ -35,8 +35,9 @@
 #ifndef __VaArgBuffer_h__
 #define __VaArgBuffer_h__
 #include <applstdef_emC.h>
-#include "emC/Base/LogMessage_emC.h" //only because Va_listFW, TODO
-
+//#include "emC/Base/LogMessage_emC.h" //only because Va_listFW, TODO
+#include <emC/Base/MemC_emC.h>
+#include <emC/Base/Va_list_emC.h>
 
 /*@CLASS_C VaArgBuffer_Data_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

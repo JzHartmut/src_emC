@@ -51,7 +51,8 @@
  * but present in normal software development.
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
+#pragma diag_suppress 179
+#pragma diag_suppress 552 //variable "xxx" was set but never used
 
 
 
@@ -340,7 +341,7 @@ INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect,
 }
 
 
-INLINE_emC bool compareAndSet_AtomicRef(void volatile** reference, void* expect, void* update){
+INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
   //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
   bool bUpdated;
   bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.

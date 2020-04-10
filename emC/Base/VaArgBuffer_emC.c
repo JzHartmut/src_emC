@@ -38,6 +38,22 @@
 #include <string.h>
 
 
+#ifdef DEF_REFLECTION_FULL
+  #include "emC/Base/genRefl/VaArgBuffer_emC.crefl"
+#elif defined(DEF_REFLECTION_OFFS)
+  //The classes are defined in a project specific ...refloffs.c file:
+  extern_C const ClassJc reflection_VaArgBuffer_Data;
+  extern_C const ClassJc reflection_VaArgBuffer;
+#else //DEF_REFLECTION_NO
+  ClassJc const reflection_VaArgBuffer_Data = INIZ_ClassJc(reflection_VaArgBuffer_Data, "VaArgBuffer_Data");
+  ClassJc const reflection_VaArgBuffer = INIZ_ClassJc(reflection_VaArgBuffer, "VaArgBuffer");
+#endif
+
+
+
+
+
+
 VaArgBuffer* ctorM_VaArgBuffer(MemC mthis, int size, ThCxt* _thCxt)
 { VaArgBuffer* ythis = PTR_MemC(mthis, VaArgBuffer);
   STACKTRC_TENTRY("ctor_VaArgBuffer");
@@ -170,7 +186,6 @@ METHOD_C void setArg_VaArgBuffer(VaArgBuffer* thiz, int32_t ix, int32_t val, ThC
   thiz->data.v[ix] = val;
 }
 
-#include "emC/Base/genRefl/VaArgBuffer_emC.crefl"
 
 
 

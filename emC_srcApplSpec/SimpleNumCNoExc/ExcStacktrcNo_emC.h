@@ -66,7 +66,7 @@ typedef struct ThreadContext_emC_t {
   
   ExceptionJc exc;
 
-  #ifdef SIZEBLOCK_BlockHeap_emC
+  #ifdef USE_BlockHeap_emC
     /**It is the heap, where block heap allocations are provided in this thread. */
     struct BlockHeap_emC_t* blockHeap;
   #endif

@@ -233,6 +233,13 @@ extern_C void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeTy
 
 #define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
 
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+
+
+//TODO because of multiple inheritance support the field superClasses cannot be set, because an own array is necessary.
+//the multiple inheritance seems to be an unecessary feature. For complex C++ classes the interfaces may be able to use!
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+
 /*@CLASS_C ModifierJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 

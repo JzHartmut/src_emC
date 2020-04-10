@@ -59,11 +59,11 @@
 
 
 #ifdef DEF_REFLECTION_FULL
+ClassJc const reflection_BlockHeap_emC = INIZtypeOnly_ClassJc(reflection_BlockHeap_emC, "relection_BlockHeap_emC");
 
 #else //not DEF_REFLECTION_FULL
-static int32 reflOffs_BlockHeap_emC[] = {0};
 
-ClassJc const reflection_BlockHeap_emC = INIZ_ClassJc(relection_BlockHeap_emC, "relection_BlockHeap_emC", reflOffs_BlockHeap_emC);
+ClassJc const reflection_BlockHeap_emC = INIZtypeOnly_ClassJc(reflection_BlockHeap_emC, "relection_BlockHeap_emC");
 
 #endif //not DEF_REFLECTION_FULL
 
@@ -288,7 +288,7 @@ METHOD_C BlockHeap_emC* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, int
   //is only a simple mask of address-bits then.
   if( ((intPTR)heap & (bytesNormalBlock-1)) != 0)
   { //if the heap donot starts at a address with mask boundary, increment the address to the next boundary
-    heap = (struct MemAreaC_t*)( ((int32)heap & ~(bytesNormalBlock-1)) + bytesNormalBlock );
+    heap = (struct MemAreaC_t*)( ((intPTR)heap & ~(bytesNormalBlock-1)) + bytesNormalBlock );
     //and reduce the number of blocks, because the end address should be less than the given one.
     sizeHeap -= bytesNormalBlock;
   }
@@ -482,7 +482,8 @@ static BlockHeapBlockJc* allocBlock_BlockHeap_emC(BlockHeap_emC* thiz, int sizeO
           int ref = (int)(thiz->firstFreeBlock);
           XcompareAndSwap_AtomicInteger(lastValue, ref, retBlock, nextFreeBlock);
           */
-          bSuccess = compareAndSet_AtomicRef(CAST_AtomicReference(thiz->firstFreeBlock), retBlock, nextFreeBlock);
+          //bSuccess = compareAndSet_AtomicRef(CAST_AtomicReference(thiz->firstFreeBlock), retBlock, nextFreeBlock);
+          bSuccess = compareAndSet_AtomicRef((void*volatile*)&thiz->firstFreeBlock, retBlock, nextFreeBlock);
         }
         else { bSuccess = true; } //no block, no change.
 
@@ -808,7 +809,7 @@ void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct
   int halfNrofNodesInBlock = ((thiz->bytesNormalBlock-sizeof(BlockHeapBlockJc))/sizeof(ListMapEntryJc)/2);
   STACKTRC_TENTRY("free_BlockHeap_emC");
   
-  block = deduce_BlockHeapBlockJc(node);
+  block = deduce_BlockHeapBlockJc(node);  //TODO do not use SIZEBLOCK_BlockHeap_emC
   checkSignificance_BlockHeapBlockJc(block, thiz);
   node->allocater = null;
   nrofFreeNodesInBlock = block->typeOrMaxRef & mMaxRef_BlockHeap_emC;
@@ -852,7 +853,8 @@ void free_ListMapEntryJc(struct NodePoolJc_t*ithis, ListMapEntryJc* node, struct
     } while(!bSuccess && --catastrophicRepeatCount >=0);
   }
   block->typeOrMaxRef +=1;  //count up free blocks.
-  ASSERTJc_THROW((block->typeOrMaxRef & mSmallBlock_Type_Object)==kMapEntryBlock_Type_BlockHeapBlockJc); //it will be faulty if the count of blocks fails.
+  ASSERT_emC((block->typeOrMaxRef & mSmallBlock_Type_Object)==kMapEntryBlock_Type_BlockHeapBlockJc
+            , "", 0, 0 ); //it will be faulty if the count of blocks fails.
   if(catastrophicRepeatCount < 0){
     THROW1_s0(RuntimeException,"compareAndSet-fail",0);
   }

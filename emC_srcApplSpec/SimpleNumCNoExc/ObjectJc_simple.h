@@ -71,10 +71,10 @@ typedef struct  ObjectJc_t
    * The bit31 is used to detect whether it is initialized or not. */
   uint32 idInstanceType;
   
-#define mType_ObjectJc 0xffff
-#define kBitType_ObjectJc 0
+  #define mType_ObjectJc 0xffff
+  #define kBitType_ObjectJc 0
   #define mInstance_ObjectJc 0x7fff0000
-#define kBitInstance_ObjectJc 16
+  #define kBitInstance_ObjectJc 16
   #define mInitialized_ObjectJc 0x80000000
 
   /**The reference to the type is either an index to a central pointer table (for 64-bit-addresses) or the address itself.

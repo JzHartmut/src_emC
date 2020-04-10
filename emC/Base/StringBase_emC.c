@@ -36,8 +36,8 @@
 //Note: Implementation to search \0 in an limited range. 
 int strnlen_emC  (  char const* text, int maxNrofChars)
 {
-  register char const* text1 = text;
-  register char const* text9 = text + maxNrofChars;
+  char const* text1 = text;
+  char const* text9 = text + maxNrofChars;
   //optimization: test only one pointer register, which is incremented too
   while (text1 < text9 && *text1 != 0) { text1 += 1; }
   return (text1 - text);
@@ -47,7 +47,7 @@ int strnlen_emC  (  char const* text, int maxNrofChars)
 
 int searchChar_emC  (  char const* text, int zText, char cc)
 {
-  register char const* text1 = text;
+  char const* text1 = text;
   char c1 = cc +1; //!=cc
   if (zText < 0) {
     zText = strnlen_emC(text, -zText);

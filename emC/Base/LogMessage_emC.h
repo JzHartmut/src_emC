@@ -211,6 +211,10 @@ typedef bool MT_isOnline_LogMessageFW( struct LogMessageFW_t* ithis, ThCxt* _thC
 //extern void const* const sign_Mtbl_LogMessageFW;
 extern char const sign_Mtbl_LogMessageFW[];
 
+
+
+#ifdef DEF_ObjectJc_FULL
+
 /**const struct of method addresses. A constant instance of this struct should be a part of the Reflection-MethodTable
  * of implementation by any Log output.
  */
@@ -242,6 +246,7 @@ typedef struct Mtbl_LogMessageFW_t
   typedef struct LogMessageFWMTB_t { struct Mtbl_LogMessageFW_t const* mtbl; struct LogMessageFW_t* ref; } LogMessageFWMTB;
 #endif
 
+#endif //DEF_ObjectJc_FULL
 
 /* *******************************************************************************************************************/
 /**C++-usage: */
@@ -363,6 +368,9 @@ LogMessageFW_s* create_LogMessageConsole(ThCxt* _thCxt);
 
 extern int* out_FileDescriptorJc;
 
+
+#ifdef DEF_ObjectJc_FULL
+
 typedef struct Mtbl_LogMessageStream_FW_t
 { MtblHeadJc head;
   Mtbl_LogMessageFW LogMessage_FW_i;
@@ -372,6 +380,7 @@ typedef struct Mtbl_LogMessageStream_FW_t
 
 extern struct Mtbl_LogMessageStream_FW_t const mtbl_LogMessageStream_FW;
 
+#endif //DEF_ObjectJc_FULL
 
 
 /*@CLASS_C MsgDispatcher_MSG ************************************************************************

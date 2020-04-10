@@ -165,21 +165,22 @@
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
  */
-#define int8      int8_t
-#define uint8     uint8_t
+#define int8      char
+#define uint8     unsigned char
 
-#define int16     int16_t
-#define uint16    uint16_t
+#define int16     short
+#define uint16    unsigned short
 
-#define int32     int32_t
-#define uint32    uint32_t
+//int32 should be int because conversion from int to int32 should be possible.
+#define int32     int
+#define uint32    unsigned int
+
+#define uint      unsigned int
 
 #define int64 __int64
 #define uint64 uint64_t
 //#define int64_t __int64
 //#define uint64_t __int64
-
-#define uint uint32_t
 
 #define bool8    unsigned char
 #define bool8_t  unsigned char
@@ -333,5 +334,65 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
 #include <emC/Base/os_types_def_common.h>
+
+
+#define DEF_compareAndSet_AtomicInteger
+//This is implemented in emC_srcOSALspec/hw_Intel_x86_Gcc/os_atomic.c:
+extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
+
+extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
+
+
+INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
+  int32 read = compareAndSwap_AtomicInteger((int32 volatile*)reference, expect, update);
+  return read == expect;
+}
+
+INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect;
+}
+
+
+
+INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update){
+  int64 read = compareAndSwap_AtomicInt64(reference, expect, update);
+  return read == expect;
+}
+
+INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+  //Note: more difficult because memory is 32 bit
+  unsigned long expect32, update32;
+  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
+    expect32 = update;
+    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
+    update32 = update;
+    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+  } else {
+    expect32 = *(reference +1); //read associate hi word
+    expect32 = (expect32 <<16) | update; 
+    update32 = *(reference +1); //read associate hi word
+    update32 = (update32 <<16) | update; 
+  }
+  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
+  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
+  //only a little bit more calculation time because unnecesarry repetition.
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect32;
+}
+
+
+bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
+
+//INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
+//  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
+//  if(sizeof(void*) != sizeof(int32)) {
+//    return false;
+//  }
+//  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
+//  return read == (int32_t)expect;
+//}
+
+
 
 #endif  //__compl_adaption_h__

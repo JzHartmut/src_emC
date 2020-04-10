@@ -138,8 +138,8 @@ inline void step_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, float xAdiff, float xBdi
   { 
 #ifndef __ignoreInCheader_zbnf__ 
   if(thiz == null) return;
-  register float b;
-  register Param_OrthOsc2_FB* par = thiz->par;
+  float b;
+  Param_OrthOsc2_FB* par = thiz->par;
  	*yaz_y = thiz->yab.re += par->fIa * ( thiz->kA * xAdiff - thiz->b_);
 	b = thiz->b_; 
   thiz->b_ += par->fIb * ( thiz->kB * xBdiff + thiz->yab.re);
@@ -168,8 +168,8 @@ inline void stepNoAngle_OrthOsc2_FB(OrthOsc2_FB_CtrlemC* thiz, float xAdiff, flo
 { 
 #ifndef __ignoreInCheader_zbnf__  
   if(thiz == null) return;
-  register float b;
-  register Param_OrthOsc2_FB* par = thiz->par;
+  float b;
+  Param_OrthOsc2_FB* par = thiz->par;
  	*yaz_y = thiz->yab.re += par->fIa * ( thiz->kA * xAdiff - thiz->b_);
 	b = thiz->b_; 
   thiz->b_ += par->fIb * ( thiz->kB * xBdiff + thiz->yab.re);

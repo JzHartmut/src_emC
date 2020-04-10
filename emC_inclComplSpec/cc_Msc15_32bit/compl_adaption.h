@@ -392,15 +392,19 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
 
+
+#include <emC/Base/os_types_def_common.h>
+
+
 #define DEF_compareAndSet_AtomicInteger
 //This is implemented in emC_srcOSALspec/hw_Intel_x86_Gcc/os_atomic.c:
-int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
+extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
 
-
+extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
 
 
 INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
-  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  int32 read = compareAndSwap_AtomicInteger((int32 volatile*)reference, expect, update);
   return read == expect;
 }
 
@@ -412,7 +416,8 @@ INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expec
 
 
 INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update){
-  return false; //TODO
+  int64 read = compareAndSwap_AtomicInt64(reference, expect, update);
+  return read == expect;
 }
 
 INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
@@ -437,17 +442,17 @@ INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect,
 }
 
 
+bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
-INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
-  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
-  if(sizeof(void*) != sizeof(int32)) {
-    return false;
-  }
-  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
-  return read == (int32_t)expect;
-}
+//INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
+//  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
+//  if(sizeof(void*) != sizeof(int32)) {
+//    return false;
+//  }
+//  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
+//  return read == (int32_t)expect;
+//}
 
 
-#include <emC/Base/os_types_def_common.h>
 
 #endif  //__compl_adaption_h__

@@ -684,41 +684,42 @@ char const sign_Mtbl_CharSeqJc[] = "sign_Mtbl_CharSeqJc";
 
 
 
-//TODO
+#ifdef DEF_Vtbl_ObjectJc
+
 //METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc_s* src, ThCxt* _thCxt)
-//METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
-//{
-//  StringJc ret = NULL_StringJc;
-//  STACKTRC_TENTRY("toStringNonPersist_StringBuilderJc");
-//  { StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
-//    const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
-//    int count = ythis->_count;
-//    /**Detect whether the buffer is found in the stack range. Than its memory address is
-//     * between any address of a local variable and the Thread-Context pointer. */
-//    bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0);
-//    int nonPersistent = 0;
-//    /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
-//    //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
-//    if(bufferInStack || ythis->_mode & (_mStack_StringBuilderJc | _mThread_StringBuilderJc)){
-//      nonPersistent |= mNonPersists__StringJc;
-//    }
-//    if(ythis->_mode & _mThread_StringBuilderJc){
-//      nonPersistent |= mThreadContext__StringJc;
-//      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
-//      reduceLastUserBuffer_ThreadContext_emC(ythis, sizeInThCxt, _thCxt);
-//    }
-//    /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
-//     * Elsewhere the String is not persistant. That is okay mostly.
-//     * If the String will be stored persistent, it would be copied than.
-//     */
-//    SET_StringJc(ret, s0, count | nonPersistent);
-//
-//    //false, because it isn't a reference in data: setFromBuffer_StringJc(&ret, ythis);  //the String is contained in the Buffer.
-//  }
-//  STACKTRC_LEAVE; return ret;
-//}
+METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
+{
+  StringJc ret = NULL_StringJc;
+  STACKTRC_TENTRY("toStringNonPersist_StringBuilderJc");
+  { StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
+    const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
+    int count = ythis->_count;
+    /**Detect whether the buffer is found in the stack range. Than its memory address is
+     * between any address of a local variable and the Thread-Context pointer. */
+    bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0);
+    int nonPersistent = 0;
+    /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
+    //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
+    if(bufferInStack || ythis->_mode & (_mStack_StringBuilderJc | _mThread_StringBuilderJc)){
+      nonPersistent |= mNonPersists__StringJc;
+    }
+    if(ythis->_mode & _mThread_StringBuilderJc){
+      nonPersistent |= mThreadContext__StringJc;
+      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
+      reduceLastUserBuffer_ThreadContext_emC(ythis, sizeInThCxt, _thCxt);
+    }
+    /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
+     * Elsewhere the String is not persistant. That is okay mostly.
+     * If the String will be stored persistent, it would be copied than.
+     */
+    SET_StringJc(ret, s0, count | nonPersistent);
 
+    //false, because it isn't a reference in data: setFromBuffer_StringJc(&ret, ythis);  //the String is contained in the Buffer.
+  }
+  STACKTRC_LEAVE; return ret;
+}
 
+#endif //DEF_Vtbl_ObjectJc
 
 
 

@@ -285,84 +285,6 @@ extern_C bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const*
 
 
 
-#ifndef DEF_REFLECTION_FULL
-
-struct ClassJc_t;
-
-/**Reflection for a simple system which does not contain reflection information for itself
- * but uses the reflection instance for type detection
- * and maybe for offsets of data members for the InspectorTargetProxy. 
- * This type has different elements depending on compiler switch 
- * * DEF_NO_StringJcCapabilities and: The does not contain a name
- * * DEF_REFLECTION_OFFS only then contains a reference to the offset array
- * * DEF_ObjectJc_REFLREF then contains a reference to one super class for type check. 
- */
-typedef struct ClassJc_t
-{
-  int idType;   // sizeReflOffs;
-
-#ifndef DEF_NO_StringJcCapabilities
-  char const* name;
-#endif
-
-#ifdef DEF_REFLECTION_OFFS
-  /**The lo-part (16 bit) of the address of this element is used as type ident. */
-  int const* reflOffs;
-#endif
-#ifdef DEF_ObjectJc_REFLREF
-  struct ClassJc_t const* superClass;
-#endif
-} ClassJc;
-
-extern_C ClassJc const reflection_ClassJc;
-
-
-/**There are some variants of the macro INIZ_ClassJc(OBJ, NAME, REFLOFFS) 
- * and INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER)
- * depending of the existing elements in ClassJc:
- */
-#ifdef DEF_NO_StringJcCapabilities
-  #ifdef DEF_REFLECTION_OFFS
-    #define INIZ_ClassJc(OBJ, NAME, REFLOFFS) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, REFLOFFS }
-    #ifdef DEF_ObjectJc_REFLREF
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, REFLOFFS, REFLSUPER }/*TODO*/
-    #else 
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, REFLOFFS }/*TODO*/
-    #endif
-  #else 
-    #define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ)}
-    #ifdef DEF_ObjectJc_REFLREF
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), REFLSUPER }
-    #else 
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ) }
-    #endif
-  #endif
-#else
-  #ifdef DEF_REFLECTION_OFFS
-    #define INIZ_ClassJc(OBJ, NAME, REFLOFFS) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS }/*TODO*/
-    #ifdef DEF_ObjectJc_REFLREF
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS, REFLSUPER }/*TODO*/
-    #else 
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS }/*TODO*/
-    #endif
-  #else 
-    #define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(NAME), NAME}
-    #ifdef DEF_ObjectJc_REFLREF
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, REFLSUPER }
-    #else 
-      #define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME }
-    #endif
-  #endif
-
-#endif
-
-
-
-#else
-  #include <emC/Base/ClassJc_FullReflection_emC.h>
-#endif
-
-
 
 /*@CLASS_C ObjectArrayJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -574,6 +496,86 @@ METHOD_C int32_ObjArray* ctor_int32ARRAY(int32_ObjArray* ythis, int nrOfBytes);
 
 //TYPEDEF_ARRAYJc(ObjectJc, 50)
 typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcARRAY;
+
+
+#ifndef DEF_REFLECTION_FULL
+
+struct ClassJc_t;
+
+/**Reflection for a simple system which does not contain reflection information for itself
+* but uses the reflection instance for type detection
+* and maybe for offsets of data members for the InspectorTargetProxy. 
+* This type has different elements depending on compiler switch 
+* * DEF_NO_StringJcCapabilities and: The does not contain a name
+* * DEF_REFLECTION_OFFS only then contains a reference to the offset array
+* * DEF_ObjectJc_REFLREF then contains a reference to one super class for type check. 
+*/
+typedef struct ClassJc_t
+{
+  int32 idType;   // sizeReflOffs;
+
+  #ifndef DEF_NO_StringJcCapabilities
+  char const* name;
+  #endif
+
+  #ifdef DEF_REFLECTION_OFFS
+  /**The lo-part (16 bit) of the address of this element is used as type ident. */
+  int32 const* reflOffs;
+  #endif
+  #ifdef DEF_ObjectJc_REFLREF
+  struct ClassJc_t const* superClass;
+  #endif
+} ClassJc;
+
+extern_C ClassJc const reflection_ClassJc;
+
+
+/**There are some variants of the macro INIZ_ClassJc(OBJ, NAME, REFLOFFS) 
+* and INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER)
+* depending of the existing elements in ClassJc:
+*/
+#ifdef DEF_NO_StringJcCapabilities
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ)}
+#ifdef DEF_REFLECTION_OFFS
+#define INIZ_ClassJc(OBJ, NAME, REFLOFFS) { ((int32)(intptr_t)&(REFLOFFS)) & mType_ObjectJc, REFLOFFS }
+#ifdef DEF_ObjectJc_REFLREF
+#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, REFLOFFS, REFLSUPER }/*TODO*/
+#else 
+#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, REFLOFFS }/*TODO*/
+#endif
+#else 
+#define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ)}
+#ifdef DEF_ObjectJc_REFLREF
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), REFLSUPER }
+#else 
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ) }
+#endif
+#endif
+#else
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(NAME), NAME}
+#ifdef DEF_REFLECTION_OFFS
+#define INIZ_ClassJc(OBJ, NAME, REFLOFFS) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS }/*TODO*/
+#ifdef DEF_ObjectJc_REFLREF
+#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS, REFLSUPER }/*TODO*/
+#else 
+#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS }/*TODO*/
+#endif
+#else 
+#define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(NAME), NAME}
+#ifdef DEF_ObjectJc_REFLREF
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, REFLSUPER }
+#else 
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME }
+#endif
+#endif
+
+#endif
+
+
+
+#else
+#include <emC/Base/ClassJc_FullReflection_emC.h>
+#endif
 
 
 

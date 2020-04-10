@@ -54,6 +54,9 @@
 /**Including this file the ObjectJc.h is not included, */
 //#include <emC_srcApplSpec/SimpleNumCNoExc/ObjectJc_simple.h>
 
+#define SIZEBLOCK_BlockHeap_emC 0x400
+#define USE_BlockHeap_emC
+
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 //Include before String_emC.h because it is used there.
 #include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>

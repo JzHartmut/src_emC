@@ -299,6 +299,18 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
 /*@CLASS_C LogException_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@qq*/
 
+
+typedef struct ExceptionStore_t {
+  uint32 ctException;
+  ExceptionJc first;
+  ExceptionJc last;
+} ExceptionStore;
+
+void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
+
+
+
+
 /**This struct is one entry in Store_LogException_emC.
  * Any of such an exception store entry has 128 Byte for a 32 bit system, so address calculation may be simple.
  */

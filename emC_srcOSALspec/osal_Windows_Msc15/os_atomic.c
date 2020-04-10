@@ -99,7 +99,7 @@ int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int3
 
 
 
-LONGLONG compareAndSwap_AtomicInteger64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update)
+LONGLONG compareAndSwap_AtomicInt64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update)
 {
   return InterlockedCompareExchange64(reference, update, expect);  
 }
@@ -134,46 +134,47 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 
 
 
- bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update){
-  //Note: unsigned long is uint32 for this compiler
-  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
-  return read == (unsigned long)update;
-}
+// bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update){
+//  //Note: unsigned long is uint32 for this compiler
+//  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
+//  return read == (unsigned long)update;
+//}
+//
+//
+// bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+//  //Note: unsigned long is uint32 for this compiler
+//  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
+//  return read == (unsigned long)update;
+//}
+//
 
+// bool compareAndSet_AtomicInt64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update){
+//  //Note: unsigned long is uint32 for this compiler
+//  LONGLONG read = InterlockedCompareExchange64((LONGLONG volatile*)reference, (LONGLONG)update, (LONGLONG)expect);  
+//  return read == (LONGLONG)update;
+//}
 
- bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
-  //Note: unsigned long is uint32 for this compiler
-  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
-  return read == (unsigned long)update;
-}
-
-
- bool compareAndSet_AtomicInt64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update){
-  //Note: unsigned long is uint32 for this compiler
-  LONGLONG read = InterlockedCompareExchange64((LONGLONG volatile*)reference, (LONGLONG)update, (LONGLONG)expect);  
-  return read == (LONGLONG)update;
-}
-
- bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
-  //Note: more difficult because memory is 32 bit
-  unsigned long expect32, update32;
-  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
-    expect32 = update;
-    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
-    update32 = update;
-    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
-  } else {
-    expect32 = *(reference +1); //read associate hi word
-    expect32 = (expect32 <<16) | update; 
-    update32 = *(reference +1); //read associate hi word
-    update32 = (update32 <<16) | update; 
-  }
-  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
-  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
-  //only a little bit more calculation time because unnecesarry repetition.
-  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, update32, expect32);  
-  return read == expect32;
-}
+//defined inline
+// bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
+//  //Note: more difficult because memory is 32 bit
+//  unsigned long expect32, update32;
+//  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
+//    expect32 = update;
+//    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
+//    update32 = update;
+//    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+//  } else {
+//    expect32 = *(reference +1); //read associate hi word
+//    expect32 = (expect32 <<16) | update; 
+//    update32 = *(reference +1); //read associate hi word
+//    update32 = (update32 <<16) | update; 
+//  }
+//  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
+//  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
+//  //only a little bit more calculation time because unnecesarry repetition.
+//  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, update32, expect32);  
+//  return read == expect32;
+//}
 
 
  bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
