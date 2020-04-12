@@ -38,6 +38,10 @@
  ****************************************************************************/
 #include <emC/Base/Object_emC.h>
 
+#ifndef USE_BlockHeap_emC
+//It is the alternative concept without Blockheap, with allocation usual only on startup of the application.
+//It defines the same operations as emC/BlockHeap/BlockHeapJc_Alloc.c
+
 static bool bRunMode = false;
 
 int setRunMode_ObjectJc  (  ThCxt* _thCxt)
@@ -108,3 +112,4 @@ void activateGC_ObjectJc  (  void const* instance,void const* excl,struct Thread
 {
   
 }
+#endif  //USE_BlockHeap_emC

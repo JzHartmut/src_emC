@@ -50,6 +50,9 @@
 #include <emC/OSAL/os_AtomicAccess.h>
 //#include <BlockHeap_PlatformSpec.h>
 
+#ifdef USE_BlockHeap_emC
+
+
 //#include <stdio.h>
 //#include <stdlib.h>
 #include <string.h>
@@ -987,5 +990,4 @@ void free(void* ptr)
   }
 #endif  //__CPLUSPLUSJcpp
 
-
-
+#endif   //USE_BlockHeap_emC

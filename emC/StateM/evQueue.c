@@ -4,17 +4,17 @@
 
 #ifdef DEF_REFLECTION_FULL
 #include "genRefl/evQueue.crefl"
-#elif defined(DEF_REFLECTION_OFFS)
+#elif defined(XXXDEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const reflection_EvListener_StateM_vishiaOrg;
   extern_C ClassJc const reflection_EvCreator_StateM_vishiaOrg;
   extern_C ClassJc const reflection_EvInstance_StateM_vishiaOrg;
   extern_C ClassJc const reflection_EvQueue_StateM_vishiaOrg;
 #else
-  ClassJc const reflection_EvListener_StateM_vishiaOrg = INIZ_ClassJc(reflection_EvListener_StateM_vishiaOrg, "EvListener_StateM_vishiaOrg");
-  ClassJc const reflection_EvCreator_StateM_vishiaOrg = INIZ_ClassJc(reflection_EvCreator_StateM_vishiaOrg, "EvCreator_StateM_vishiaOrg");
-  ClassJc const reflection_EvInstance_StateM_vishiaOrg = INIZ_ClassJc(reflection_EvInstance_StateM_vishiaOrg, "EvInstance_StateM_vishiaOrg");
-  ClassJc const reflection_EvQueue_StateM_vishiaOrg = INIZ_ClassJc(reflection_EvQueue_StateM_vishiaOrg, "EvQueue_StateM_vishiaOrg");
+  ClassJc const reflection_EvListener_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvListener_StateM_vishiaOrg, "EvListener_StateM_vishiaOrg");
+  ClassJc const reflection_EvCreator_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvCreator_StateM_vishiaOrg, "EvCreator_StateM_vishiaOrg");
+  ClassJc const reflection_EvInstance_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvInstance_StateM_vishiaOrg, "EvInstance_StateM_vishiaOrg");
+  ClassJc const reflection_EvQueue_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvQueue_StateM_vishiaOrg, "EvQueue_StateM_vishiaOrg");
 
 #endif
 

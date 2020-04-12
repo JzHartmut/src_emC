@@ -819,7 +819,7 @@ ClassJc const reflection_uint64 =
 static int32 reflOffs_ClassJc[] = {0xc1aa }; //it is 16 or 32 bit, width of an int.
 
 //This is necessary to recognize this type.
-ClassJc const reflection_ClassJc = INIZ_ClassJc(reflection_ClassJc, "relection_ClassJc", reflOffs_ClassJc);
+ClassJc const reflection_ClassJc = INIZreflOffs_ClassJc(reflection_ClassJc, "relection_ClassJc", reflOffs_ClassJc);
 
 #else //DEF_REFLECTION_NO
 

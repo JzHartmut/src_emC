@@ -535,40 +535,49 @@ extern_C ClassJc const reflection_ClassJc;
 * depending of the existing elements in ClassJc:
 */
 #ifdef DEF_NO_StringJcCapabilities
-#define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ)}
-#ifdef DEF_REFLECTION_OFFS
-#define INIZ_ClassJc(OBJ, NAME, REFLOFFS) { ((int32)(intptr_t)&(REFLOFFS)) & mType_ObjectJc, REFLOFFS }
-#ifdef DEF_ObjectJc_REFLREF
-#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, REFLOFFS, REFLSUPER }/*TODO*/
-#else 
-#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, REFLOFFS }/*TODO*/
-#endif
-#else 
-#define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ)}
-#ifdef DEF_ObjectJc_REFLREF
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), REFLSUPER }
-#else 
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ) }
-#endif
-#endif
+#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ)}
+#  define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ)}
+#  ifdef DEF_REFLECTION_OFFS
+#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { ((int32)(intptr_t)&(REFLOFFS)), REFLOFFS }
+#    ifdef DEF_ObjectJc_REFLREF
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), null, REFLSUPER }
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), REFLOFFS, REFLSUPER }/*TODO*/
+#    else 
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), null}
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), REFLOFFS }/*TODO*/
+#    endif
+#  else 
+#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { (int)(intptr_t)&(OBJ)}
+#    ifdef DEF_ObjectJc_REFLREF
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), REFLSUPER }
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(OBJ), REFLSUPER }
+#    else 
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ) }
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(OBJ) }
+#    endif
+#  endif
 #else
-#define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(NAME), NAME}
-#ifdef DEF_REFLECTION_OFFS
-#define INIZ_ClassJc(OBJ, NAME, REFLOFFS) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS }/*TODO*/
-#ifdef DEF_ObjectJc_REFLREF
-#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS, REFLSUPER }/*TODO*/
-#else 
-#define INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS) & mType_ObjectJc, NAME, REFLOFFS }/*TODO*/
-#endif
-#else 
-#define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(NAME), NAME}
-#ifdef DEF_ObjectJc_REFLREF
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, REFLSUPER }
-#else 
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME }
-#endif
-#endif
-
+#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ), NAME}
+#  define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ), NAME}
+#  ifdef DEF_REFLECTION_OFFS
+#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { ((int32)(intptr_t)&(REFLOFFS)), NAME, REFLOFFS }
+#    ifdef DEF_ObjectJc_REFLREF
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, null, REFLSUPER }
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), NAME, REFLOFFS, REFLSUPER }/*TODO*/
+#    else 
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, null }
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), NAME, REFLOFFS }/*TODO*/
+#    endif
+#  else 
+#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { (int)(intptr_t)&(OBJ), NAME}
+#    ifdef DEF_ObjectJc_REFLREF
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, REFLSUPER }
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, REFLSUPER }
+#    else 
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME}
+#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME }
+#    endif
+#  endif
 #endif
 
 
@@ -584,3 +593,4 @@ extern_C ClassJc const reflection_ClassJc;
 
 
 #endif //__objectBaseC__h__
+

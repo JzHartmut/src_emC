@@ -89,13 +89,16 @@ void step_StateFnCall_StateM_emC(StateMnTopFnCall_State_emC* const thiz
 
 
 
-/**Default trans operation if the state has not a transition, it returns false. */
+/**Default trans operation if the state has not a transition, it returns false. 
+ * Prototypedef: CheckTrans_StateFnCall_StateM_emC
+ */
 StateFnCall_StateM_emC const* checktransDefault_StateFnCall_emC  (
 		struct StateFnCall_StateM_emC_T const* thiz , struct StateMnTopFnCall_State_emC_T* stmn
-  , int32* idEvent, ObjectJc* dataEvent , ObjectJc* dataClass ) {
+  , int32* idEvent, ObjectJc* dataEvent , ObjectJc* const dataClass ) {
   return null;
 }
 
+//CheckTrans_StateFnCall_StateM_emC checktransDefault_StateFnCall_emC() { return null; }
 
 
 StateFnCall_StateM_emC const* doEntryHistory_StateMFnCall_emC__(struct StateFnCall_StateM_emC_T const* thiz 

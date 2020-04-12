@@ -402,6 +402,7 @@ extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 exp
 
 extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
 
+extern_C bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
   int32 read = compareAndSwap_AtomicInteger((int32 volatile*)reference, expect, update);
@@ -442,7 +443,6 @@ INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect,
 }
 
 
-bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 //INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
 //  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
