@@ -130,39 +130,15 @@ typedef struct  ObjectJc_t
  * Note: All reflection should be define in the same compiling unit to have different addresses in the 64 kByte-space.
  */
 //Note: the & 0xffff forces error in C 'is not a contant' in VS15
-#define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<16) + (((int16_t)(intptr_t)REFL) /*& 0xffff*/) } //, { (char const*)(REFL)} }
 
 
-
-/**Initialization of the basicly data of Object.
- * This method should be used for all instances.
- * @param addrInstance: The address of the instance itself, which contains ObjectJc. In C++ the instance address doesn't may be the same as ythis.
- *                      the offset to the instance itself will be stored to help data debugging.
- * @param sizeObj The size of the whole instance, use sizeof(TypeInstance). 
- * @param reflection The reflection class. It may be null if the reflections are not present.
- * @param identObj An idInstanceType info, see [[attribute:_ObjectJc:objectIdentSize]] 
- * return ythis, the reference of the Object itself.
-*/
-//METHOD_C ObjectJc* iniz_ObjectJc(ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
-//#define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16) + (SIZE); (THIZ)->ptype = *(REFL); }
-#if defined(DEF_REFLECTION_FULL)
-  #error do not support DEF_REFLECTION_FULL
-#elif defined(DEF_REFLECTION_OFFS)
-  /**initializes with reflection which are defined with the ,,ClassJc,, struct in this header. */
-  #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = (((int32)(IDENT))<<16) + ((REFL)->idType & 0xffff); }
-#elif defined(DEF_REFLECTION_NO)
-  /**initializes with reflection which are defined with the ,,ClassJc,, struct in this header. */
-  #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT) { (THIZ)->idInstanceType = ((IDENT)<<16); }
-#else
-  inline void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
-    #ifdef DEF_ObjectJc_REFLREF
-      othiz->idInstanceType = (idObj <<16) + (size & 0xffff);
-      othiz->preflection = refl;
-    #else
-      othiz->idInstanceType = (idObj <<16) + (refl->idType & 0xffff);
-    #endif
-  }
+#ifdef DEF_ObjectJc_REFLREF
+#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<16) + sizeof(OBJ), { (uint32)(REFL) } } //, { (char const*)(REFL)} }
+#else 
+#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<16) + (((int16_t)(intptr_t)REFL) /*& 0xffff*/) } //, { (char const*)(REFL)} }
 #endif
+
+
 
 
 

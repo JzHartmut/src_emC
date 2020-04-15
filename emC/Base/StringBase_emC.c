@@ -44,6 +44,60 @@ int strnlen_emC  (  char const* text, int maxNrofChars)
 }
 
 
+int strncmp_emC  (  char const* const text1, char const* const text2, int maxNrofChars)
+{
+  int const* text1a = (int const*) text1;
+  int const* text2a = (int const*) text2;
+  int maxNrofChars1 = maxNrofChars;
+  char c1, c2;
+  while(--maxNrofChars1 >=0 && (c1 = *text1a++) !=0 && (c2 = *text2a++) !=0
+    && c1 == c2);
+  return (c2 - c1); 
+  //int maddr = sizeof(int)-1;  //0x1 if int16, 0x0 if int-address-count
+  //TODO: compare in int-memory-content, access with memory-boundary 
+  //check first alignment
+  //check whether 0 is contained, check mayNrofChars (-1, not limited)
+  //if 0 contained, check last correct.
+  //int val;
+  //optimization: test only one pointer register, which is incremented too
+  //return -1;  //TODO
+}
+
+
+
+int searchCharBack_emC ( char const* const text, char cc, int fromIx)
+{
+  char const* texte;
+  if(fromIx <0) {
+    int len = strnlen_emC(text, 1000);
+    if(len + fromIx >=0) {
+      texte = text + len + fromIx +1;
+    } else {
+      texte = text;
+    }
+  } else { 
+    texte = text + fromIx +1;
+  }
+  while( --texte >= text) {
+    if(*texte == cc) break;
+  }
+  return texte - text;
+
+
+  //int const* texta = (int const*) (text + fromIx);
+  //int maddr = sizeof(int)-1;  //0x1 if int16, 0x0 if int-address-count
+
+  //int cci1 = cc; const int ccm1 = 0xff;
+  //int cci2 = ((int)cc)<<8;  const int ccm2 = 0xff00;
+
+  //while(texta >= (int const*)text) {
+  //  int ci = *texta;
+  //  if( (ci & ccm1) == cci1) break;
+
+  //}
+}
+
+
 
 int searchChar_emC  (  char const* text, int zText, char cc)
 {

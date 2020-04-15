@@ -37,7 +37,7 @@
 #include <emC/Base/MemC_emC.h>
 #include <emC/OSAL/os_mem.h>
 #include <string.h>
-#ifdef SIZEBLOCK_BlockHeap_emC
+#ifdef USE_BlockHeap_emC
   #include <emC/BlockHeap/BlockHeap_emC.h>  //for free(ptr)
 #endif
 
@@ -101,10 +101,10 @@ int free_MemC  (  void const* addr)
     if(false) { return 0; } //empty quest because following else clause
   #endif
   //
-  #ifdef SIZEBLOCK_BlockHeap_emC
-  else if(free_sBlockHeap_emC(ptr, null)) { //try to free a block in blockheap
-    return 2;
-  }
+  #ifdef USE_BlockHeap_emC
+    else if(free_sBlockHeap_emC(ptr, null)) { //try to free a block in blockheap
+      return 2;
+    }
   #endif
   //Note: At least 1 empty if before, the different memory locations.  
   else { //seems to be a os_alloc

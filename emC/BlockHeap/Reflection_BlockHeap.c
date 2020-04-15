@@ -4,7 +4,7 @@
 #define private public    //  to enable the access to all elements.
 #include <Jc/ReflectionJc.h>
 #include <stddef.h>
-#include "../../source/BlockHeap/BlockHeap_emC.h"
+#include "../../source/BlockHeap/BlockHeap_emC_s.h"
 
 #include "../../source/BlockHeap/BlockHeapJc_admin.h"
 
@@ -28,7 +28,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_void
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->nextHeap) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->nextHeap) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -36,7 +36,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->idxHeapCtrl) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->idxHeapCtrl) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -44,7 +44,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->zBlock) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->zBlock) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -52,7 +52,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->bytesSmallBlock) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->bytesSmallBlock) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -60,7 +60,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->mAdressSmallBlock_BlockHeap) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->mAdressSmallBlock_BlockHeap) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -68,7 +68,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_BlockHeapBlockJc_debugArray
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->heapBegin) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->heapBegin) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -76,7 +76,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_void
     , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->heapEnd) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->heapEnd) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -84,7 +84,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_BlockHeapBlockJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->firstFreeBlock) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->firstFreeBlock) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -92,7 +92,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_BlockHeapBlockJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->firstFreeBlockSmall) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->firstFreeBlockSmall) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -100,7 +100,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_BlockHeapBlockJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->firstFreeBlockMapEntry) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->firstFreeBlockMapEntry) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -108,7 +108,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_BlockHeapBlockJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->lastFreeBlockMapEntry) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->lastFreeBlockMapEntry) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -116,7 +116,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_ListMapEntryJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->firstMapEntry) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->firstMapEntry) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -124,7 +124,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_ListMapEntryJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->lastMapEntry) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->lastMapEntry) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -132,7 +132,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->bitInitMode) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->bitInitMode) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -140,7 +140,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->ctCollosionAlloc) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->ctCollosionAlloc) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -148,7 +148,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->ctCollosionFree) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->ctCollosionFree) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -156,7 +156,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , &reflection_LogMessageFW
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->log) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->log) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -164,7 +164,7 @@ const struct Reflection_Fields_BlockHeap_emC_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((int32)(&((BlockHeap_emC*)(0x1000))->kIdentMsgBase) -(int32)(BlockHeap_emC*)0x1000)
+    , (int16)((int32)(&((BlockHeap_emC_s*)(0x1000))->kIdentMsgBase) -(int32)(BlockHeap_emC_s*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_BlockHeap_emC
     }
@@ -173,9 +173,9 @@ const struct Reflection_Fields_BlockHeap_emC_t
 
 const ClassJc reflection_BlockHeap_emC =
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_BlockHeap_emC, &reflection_ClassJc)
-, "BlockHeap_emC"
+, "BlockHeap_emC_s"
 , 0
-, sizeof(BlockHeap_emC)
+, sizeof(BlockHeap_emC_s)
 , (FieldJcArray const*)&reflection_Fields_BlockHeap_emC  //attributes and associations
 , null  //method
 , null  //superclass

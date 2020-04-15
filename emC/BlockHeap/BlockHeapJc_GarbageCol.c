@@ -62,7 +62,7 @@
 void activateGC_ObjectJc(void const* objP, void const* exclAddr, ThCxt* _thCxt)
 //void activateGarbageCollectorAccess_BlockHeap_emC(void const* objP, void const* exclAddr)
 {
-  BlockHeap_emC* heap = null;
+  BlockHeap_emC_s* heap = null;
   BlockHeapBlockJc* block;
 
   block = searchBlockHeapBlock_BlockHeap_emC(objP, &heap);
@@ -111,7 +111,7 @@ static bool testBlock_GarbageCollectorJc(GarbageCollectorJc* ythis, BlockHeapBlo
     ObjectJcREF* ref = block->backRefs->data[idxBackref];  //the backRef contains a reference to the reference to this block.
     if(ref != null)
     { //look where the reference to this block is located:
-      BlockHeap_emC* retHeap;
+      BlockHeap_emC_s* retHeap;
       BlockHeapBlockJc* blockWithReference = searchBlockHeapBlock_BlockHeap_emC(ref, &retHeap);
       if(  retHeap != null    //the reference is in any heap.
         && (blockWithReference->typeOrMaxRef & mConsideredInGarbage_Type_Object) //the block is to be tested in GC
@@ -224,7 +224,7 @@ static bool testBlockCluster_GarbageCollectorJc(GarbageCollectorJc* ythis, Block
   else
   { //all blocks were tested, they are not referenced from outside.
     do
-    { BlockHeap_emC* blockHeap;
+    { BlockHeap_emC_s* blockHeap;
       block = firstBlock;      //process all blocks of the cluster.
       searchBlockHeapBlock_BlockHeap_emC(block, &blockHeap);  //to get the heap control structure.
       firstBlock = block->nextBlock;
@@ -237,7 +237,7 @@ static bool testBlockCluster_GarbageCollectorJc(GarbageCollectorJc* ythis, Block
         }
       }
       //call finalize
-      memset(block, 0, SIZEBLOCK_BlockHeap_emC);
+      memset(block, 0, blockHeap->bytesNormalBlock);
       free_BlockHeap_emC(blockHeap, block, _thCxt);
       { //report
         char* reportBufferPos = ythis->reportBuffer + ythis->idxReportBuffer;
@@ -320,7 +320,7 @@ static int garbageCollection__GarbageCollectorJc(GarbageCollectorJc* ythis, bool
         ythis->kIdentMsgBase = ythis->testedHeap->kIdentMsgBase;
       }
     }
-    block = ythis->testedHeap == null ? null : (BlockHeapBlockJc*)( addOffset_MemAreaC(ythis->testedHeap->heapBegin, ythis->idxBlock * SIZEBLOCK_BlockHeap_emC));
+    block = ythis->testedHeap == null ? null : (BlockHeapBlockJc*)( addOffset_MemAreaC(ythis->testedHeap->heapBegin, ythis->idxBlock * TODO_SIZEBLOCK_BlockHeap_emC));
     success = -1;
     if(block != null){
       if(block->typeOrMaxRef == kFree_Type_BlockHeapBlock){
@@ -428,7 +428,7 @@ void setTestMethod(MT_int_Method_int testMethod)
 }
 
 
-StringJc report_BheapJc(BlockHeap_emC* ythis, int* idxBlockP, StringBufferJc* buffer)
+StringJc report_BheapJc(BlockHeap_emC_s* ythis, int* idxBlockP, StringBufferJc* buffer)
 { StringJc ret = null_StringJc;
   int idxBlock = *idxBlockP;
   bool bSearch = true;

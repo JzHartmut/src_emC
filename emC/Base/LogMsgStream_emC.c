@@ -97,7 +97,7 @@ extern_C ClassJc const reflection_LogMessageStream_FW;
 LogMessageFW_s* ctorO_LogMessageStream_FW(ObjectJc* othis, int outChn)
 { LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)othis;
   STACKTRC_ENTRY("");
-  checkConsistence_ObjectJc(othis, sizeof(LogMessageStream_FW_s), &reflection_LogMessageStream_FW, _thCxt);
+  checkInit_ObjectJc(othis, sizeof(LogMessageStream_FW_s), &reflection_LogMessageStream_FW, 0, _thCxt);
   setReflection_ObjectJc(othis, &reflection_LogMessageStream_FW, 0);
   ythis->outChn = outChn;
   STACKTRC_LEAVE; return &ythis->base.logStateFw;

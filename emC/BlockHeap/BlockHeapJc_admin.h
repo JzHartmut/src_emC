@@ -31,7 +31,7 @@
  * @author Hartmut Schorrig, Pinzberg, Germany
  *
  * @version 0.83
- * @content: All declarations to use from users system level to work with BlockHeap_emC
+ * @content: All declarations to use from users system level to work with BlockHeap_emC_s
  * to administrate the block heap and the garbage collector.
  *
  * @author JcHartmut www.vishia.org
@@ -40,7 +40,7 @@
  * 2008-04-15: JcHartmut creation from older sources
  *
  ****************************************************************************/
-/**This file describes the methods to call from outside to arrange and manage the BlockHeap_emC.
+/**This file describes the methods to call from outside to arrange and manage the BlockHeap_emC_s.
  */
 
 #ifndef __BlockHeap_emC_h__
@@ -51,7 +51,7 @@
 
 struct NodePoolJc_t;
 
-/*@CLASS_C BlockHeap_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C BlockHeap_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**This is the control structure of one heap.
  * The user may have more as one heap, several moduls may used several heaps.
@@ -59,11 +59,11 @@ struct NodePoolJc_t;
  * If a algorithm calls a simple new, the BlockHeap in the OS_ThreadContext is used.
  * It is the current blockHeap.
  */
-typedef struct BlockHeap_emC_t
+typedef struct BlockHeap_emC_T
 {
   union{ ObjectJc object;} base;
 
-  struct BlockHeap_emC_t* nextHeap;
+  struct BlockHeap_emC_T* nextHeap;
 
   /** Index of this heap ctrl in the whole array of all heap ctrl*/
   int idxHeapCtrl;
@@ -124,7 +124,7 @@ typedef struct BlockHeap_emC_t
 
   int kIdentMsgBase;
 
-}BlockHeap_emC;
+}BlockHeap_emC_s;
 
 
 
@@ -135,7 +135,7 @@ extern_C struct ClassJc_t const reflection_BlockHeap_emC;
 
 
 /**inits a new allocated BlockHeap.
- * @param mem The memory  for the struct BlockHeap_emC, the control data of BlockHeap
+ * @param mem The memory  for the struct BlockHeap_emC_s, the control data of BlockHeap
  * @param wholeHeap The memory for the heap itself.
  * @param bytesNormalBlock number of bytes slated for a normal block.
  *                         It should be a value between 128...to max. 4096.
@@ -143,12 +143,12 @@ extern_C struct ClassJc_t const reflection_BlockHeap_emC;
  * @param bytesSmallBlock number of bytes slated for a small block.
  *                         It should be a value between 32...256.
  */
-METHOD_C struct BlockHeap_emC_t* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, int bytesNormalBlock, int bytesSmallBlock);
+METHOD_C struct BlockHeap_emC_T* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, int bytesNormalBlock, int bytesSmallBlock);
 
 
 
 
-METHOD_C void setRunMode_BlockHeap_emC(BlockHeap_emC* ythis, struct LogMessageFW_t* log, int kIdentMsgBase);
+METHOD_C void setRunMode_BlockHeap_emC(BlockHeap_emC_s* ythis, struct LogMessageFW_t* log, int kIdentMsgBase);
 
 
 
@@ -159,7 +159,7 @@ METHOD_C void setRunMode_BlockHeap_emC(BlockHeap_emC* ythis, struct LogMessageFW
  * @param buffer The Buffer to put the info into. The buffer will be cleared before.
  * @return content of buffer as String or null if the idxBlock is invalid.
  */
-METHOD_C StringJc report_BheapJc(BlockHeap_emC* ythis, int* idxBlockP, StringBuilderJc_s* buffer);
+METHOD_C StringJc report_BheapJc(BlockHeap_emC_s* ythis, int* idxBlockP, StringBuilderJc_s* buffer);
 
 
 

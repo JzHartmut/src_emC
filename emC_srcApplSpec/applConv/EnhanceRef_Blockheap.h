@@ -44,7 +44,7 @@
  ****************************************************************************/
 
  
- /*@DEFINE BlockHeap_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+ /*@DEFINE BlockHeap_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**Usage of the BlockHeap management or not and define the size of a block.
  * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.

@@ -128,7 +128,7 @@ METHOD_C bool XXXXXXXXXcompareAndSet_AtomicInteger(int32 volatile* reference, in
 //void* compareAndSwap_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
 void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  return InterlockedCompareExchangePointer(reference,expect, update);
+  return InterlockedCompareExchangePointer(reference, update, expect);
 }
 
 
@@ -179,6 +179,6 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 
  bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
   //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
-  void* read = InterlockedCompareExchangePointer(reference,expect, update);
-  return read == update;
+  void* read = InterlockedCompareExchangePointer(reference, update, expect);
+  return read == expect;
 }

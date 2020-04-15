@@ -44,7 +44,7 @@
 #include <emC/OSAL/os_time.h>
 //TODO conditional compilation or using commonly approach:
 #ifndef NO_DYNAMICALLY_MEMORY
-	//#include "BlockHeap/BlockHeap_emC.h"
+	//#include "BlockHeap/BlockHeap_emC_s.h"
 #endif
 
 //#define PRINTF2(S,V)  //empty, ready to use if debug with PRINTF is necessary.

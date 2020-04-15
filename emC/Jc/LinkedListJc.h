@@ -147,7 +147,7 @@ METHOD_C LinkedListJc* ctorO_shareNodes_LinkedListJc(ObjectJc* othis, AbstractCo
 /**Constructor with a given Blockheap for the nodes.
  * @param heap The nodes will allocated in this heap.
  */
-METHOD_C LinkedListJc* ctorO_BlockHeap_LinkedListJc(ObjectJc* othis, struct BlockHeap_emC_t* heap);
+METHOD_C LinkedListJc* ctorO_BlockHeap_LinkedListJc(ObjectJc* othis, struct BlockHeap_emC_T* heap);
 
 
 

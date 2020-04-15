@@ -16,6 +16,7 @@
 #undef __CPLUSPLUSJcpp
 //#define __cplusplus
 
+/**This define forces using a simple ObjectJc structure with only 4 byte. */
 #ifndef DEF_ObjectJc_SIMPLE  //prevent warning if defined as compiler argument.
 #define DEF_ObjectJc_SIMPLE
 #endif
@@ -25,15 +26,10 @@
 #include <compl_adaption.h>
 
 /**Include this file always, but after compl_adaption.h.
-* It defines some types for C compilation compatible to C++ and some independent language enhancements.
-*/
+ * It defines some types for C compilation compatible to C++ and some independent language enhancements.
+ */
 #include <emC/Base/os_types_def_common.h>
 
-
-/**This define forces using a simple ObjectJc structure with only 4 byte. */
-#ifndef DEF_ObjectJc_SIMPLE  //prevent warning if defined as compiler argument
-#define DEF_ObjectJc_SIMPLE
-#endif
 
 /**compiler switch to decide, it is a simple target. */
 #define DEF_TARGETSIMPLE
@@ -51,8 +47,6 @@
 #define NoCharSeqJcCapabilities_emC
 #define NoStringJcCapabilities_emC
 
-/**Including this file the ObjectJc.h is not included, */
-//#include <emC_srcApplSpec/SimpleNumCNoExc/ObjectJc_simple.h>
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 //Include before String_emC.h because it is used there.
@@ -83,8 +77,6 @@
 
 //#include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
 //#include <emC_srcApplSpec/applConv/Exception_emC.h>
-//#include <emC_srcApplSpec/applConv/ExcStacktrcNo_emC.h>
-//#include <emC_srcApplSpec/SimpleNumCNoExc/ExcNoStringStacktrcNo_emC.h>
 #define DEF_ThreadContext_SIMPLE
 #include <emC_srcApplSpec/SimpleNumCNoExc/ExcStacktrcNo_emC.h>
 
@@ -126,8 +118,9 @@
 
 
 /**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
+#ifndef sizeSafetyArea_allocMemC
 #define sizeSafetyArea_allocMemC 4096
-
+#endif
 
 
 

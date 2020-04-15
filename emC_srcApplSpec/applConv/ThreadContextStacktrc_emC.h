@@ -158,9 +158,9 @@ typedef struct ThreadContext_emC_t
   
   #define mCheckBufferUsed_Mode_ThCxt 0x0004
   
-  #ifdef SIZEBLOCK_BlockHeap_emC
+  #ifdef USE_BlockHeap_emC
     /**It is the heap, where block heap allocations are provided in this thread. */
-    struct BlockHeap_emC_t* blockHeap;
+    struct BlockHeap_emC_T* blockHeap;
   #endif
   
   /**The known highest address in the stack. It is the address of the _struct ThreadContext_emC_t* pointer

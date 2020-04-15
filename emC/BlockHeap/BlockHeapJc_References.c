@@ -63,7 +63,7 @@
 /***************************************************************************************/
 /***************************************************************************************/
 /* handling references of Object and derivated ones.
-   This methods are containing in BlockHeap_emC.c though there are belong to ObjectJc,
+   This methods are containing in BlockHeap_emC_s.c though there are belong to ObjectJc,
    because the algorithm of using references is used firstly regarding the BlockHeap concept.
    Secondly it consideres the requirements of virtual methods, but it is only an index.
 */
@@ -89,7 +89,7 @@ void clearBackRefJc(void* enhancedRef)
   int idxBackref = (int)( (ref->refbase) >>kBitBackRef_ObjectJc) & (uint)(mBackRef_ObjectJc>>kBitBackRef_ObjectJc);
 
   if(idxBackref > 0)
-  { BlockHeap_emC* heap;
+  { BlockHeap_emC_s* heap;
     //ObjectJcREF* ref = (ObjectJcREF*)refbase;
     BlockHeapBlockJc* block;
     STACKTRC_ENTRY("clearBackrefJc");
@@ -200,7 +200,7 @@ void setBackRefJc(void* refP, void const* src)
 //METHOD_C bool setBackRefJc(ObjectRefValuesJc* refbase, void const* src)
 { //check which RuntimeHeap is used
   ObjectJcREF* ref = (ObjectJcREF*)(refP);  //
-  BlockHeap_emC* heap;
+  BlockHeap_emC_s* heap;
   BlockHeapBlockJc* block;
   int imax;
   STACKTRC_ENTRY("setBackref_BheapJc");

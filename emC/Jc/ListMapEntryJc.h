@@ -169,7 +169,7 @@ METHOD_C ListMapEntryJc* xxnew_MapEntry(ObjectJc* parentRef, ObjectJcREF obj, Ob
            instance of a LinkedList, TreeMap and others.
     @param obj the Object to be referenced by this entry
 */
-//METHOD_C ListMapEntryJc* new_ListMapEntryJc(ListMapEntryJc** emptyEntries, struct BlockHeap_emC_t* blockHeap); //, ListMapEntryJc* parent, ListMapEntryJc* iBefore, ListMapEntryJc* iAfter);
+//METHOD_C ListMapEntryJc* new_ListMapEntryJc(ListMapEntryJc** emptyEntries, struct BlockHeap_emC_T* blockHeap); //, ListMapEntryJc* parent, ListMapEntryJc* iBefore, ListMapEntryJc* iAfter);
 
 
     /** get the Object in memPool.

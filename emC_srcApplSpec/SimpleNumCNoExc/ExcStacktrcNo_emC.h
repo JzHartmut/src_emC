@@ -68,7 +68,7 @@ typedef struct ThreadContext_emC_t {
 
   #ifdef USE_BlockHeap_emC
     /**It is the heap, where block heap allocations are provided in this thread. */
-    struct BlockHeap_emC_t* blockHeap;
+    struct BlockHeap_emC_T* blockHeap;
   #endif
 
   /**Set to 0 on input of matching CATCH block to set exc.exceptionNr to 0 on END_TRY */

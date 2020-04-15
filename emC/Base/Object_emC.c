@@ -38,37 +38,94 @@
 #include <emC/Base/String_emC.h>
 
 #ifdef DEF_ObjectJc_SIMPLE
-  /**Opposite implementation of checkInit with only idInstanceType. */
-  bool checkInit_ObjectJc  ( ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt) {
-    thiz->idInstanceType = (((uint32)ident)<<16);
-    return true; //no error
+
+
+  void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
+    #ifdef DEF_ObjectJc_REFLREF
+      othiz->idInstanceType = (idObj <<16) + (size & 0xffff);
+      othiz->preflection = refl;
+    #else
+      if(refl !=null) {
+        othiz->idInstanceType = (idObj <<16) + (refl->idType & 0xffff);
+      } else {
+        //Hint: do not store any other id, the type id should be left 0! Because it is supplement later and  test later.
+        othiz->idInstanceType = (idObj <<16); // + (size & 0xffff);
+      }
+    #endif
   }
+
+
+  /**Opposite implementation of checkInit with only idInstanceType. */
+  bool checkInit_ObjectJc  (  ObjectJc* thiz, int size, struct ClassJc_t const* clazzReflection, int ident, struct ThreadContext_emC_t* _thCxt) {
+    #ifdef DEF_ObjectJc_REFLREF
+      if(thiz->preflection ==null) { 
+        thiz->preflection = clazzReflection; 
+      } else {
+        if(clazzReflection !=null && !instanceof_ObjectJc(thiz, clazzReflection)) return false; 
+      }
+    #else
+      if(clazzReflection !=null){
+        if( (thiz->idInstanceType & mType_ObjectJc) ==0) {  thiz->idInstanceType |= clazzReflection->idType & mType_ObjectJc; }
+        else if((thiz->idInstanceType & mType_ObjectJc) != (clazzReflection->idType & mType_ObjectJc)) { return false; }
+      }
+    #endif
+    if((thiz->idInstanceType & mInstance_ObjectJc)==0) {
+      thiz->idInstanceType |= (((uint32)ident)<<kBitInstance_ObjectJc) & mInstance_ObjectJc;
+      return true;
+    } else {
+      return ident == 0 || (thiz->idInstanceType & mInstance_ObjectJc) == (((uint32)ident)<<kBitInstance_ObjectJc);
+    }
+  }
+
+
 
   bool instanceof_ObjectJc(ObjectJc const* thiz, struct ClassJc_t const* reflection) {
-    return (thiz->idInstanceType & mType_ObjectJc) == (reflection->idType & mType_ObjectJc); 
+    #ifdef DEF_ObjectJc_REFLREF
+      bool reflOk = true;
+      struct ClassJc_t const* refl1 = thiz->preflection;
+      if(reflection != null) {
+        do {
+          reflOk = (refl1 == reflection); 
+        } while(!reflOk && (refl1 = refl1->superClass) !=null);
+      }
+      return reflOk;
+    #else
+      return (thiz->idInstanceType & mType_ObjectJc) == (reflection->idType & mType_ObjectJc); 
+    #endif
   }
 
 
-  #ifdef DEF_ObjectJc_REFLREF
-    bool checkStrict_ObjectJc  ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, int ident, struct ThreadContext_emC_t* _thCxt) {
-      bool reflOk = true;
-      struct ClassJc_t const* refl1 = thiz->preflection;
-      if(refl != null) {
-        do {
-          reflOk = (refl1 == refl); 
-        } while(!reflOk && (refl1 = refl1->superClass) !=null);
-      }
-      return reflOk && (size == 0 || size <= (thiz->idInstanceType & mType_ObjectJc));
+  bool checkStrict_ObjectJc  ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, int ident, struct ThreadContext_emC_t* _thCxt) {
+    bool bReflOk = refl ==null || instanceof_ObjectJc(thiz, refl);
+    if(!bReflOk) { return false; }
+    else {
+      return ident==0 
+        || (thiz->idInstanceType & mInstance_ObjectJc) == (((uint32)ident)<< kBitInstance_ObjectJc);
     }
-  #elif !defined(DEF_REFLECTION_NO)
-    bool checkStrict_ObjectJc  ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, int ident, struct ThreadContext_emC_t* _thCxt) {
-      return refl == null || (refl->idType == (thiz->idInstanceType & mType_ObjectJc));
-    }
-  #else
-    bool checkStrict_ObjectJc  ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, int ident, struct ThreadContext_emC_t* _thCxt) {
-      return true;
-    }
-  #endif
+  }
+
+
+
+  //#ifdef DEF_ObjectJc_REFLREF
+  //  bool checkStrict_ObjectJc  ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, int ident, struct ThreadContext_emC_t* _thCxt) {
+  //    bool reflOk = true;
+  //    struct ClassJc_t const* refl1 = thiz->preflection;
+  //    if(refl != null) {
+  //      do {
+  //        reflOk = (refl1 == refl); 
+  //      } while(!reflOk && (refl1 = refl1->superClass) !=null);
+  //    }
+  //    return reflOk && (size == 0 || size <= (thiz->idInstanceType & mType_ObjectJc));
+  //  }
+  //#elif !defined(DEF_REFLECTION_NO)
+  //  bool checkStrict_ObjectJc  ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, int ident, struct ThreadContext_emC_t* _thCxt) {
+  //    return refl == null || (refl->idType == (thiz->idInstanceType & mType_ObjectJc));
+  //  }
+  //#else
+  //  bool checkStrict_ObjectJc  ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, int ident, struct ThreadContext_emC_t* _thCxt) {
+  //    return true;
+  //  }
+  //#endif
  
 
   void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident) {
@@ -129,12 +186,13 @@ const ClassOffset_idxVtblJc1 reflection_super_ObjectJc =   //reflection instance
 /**Initialize. */
 ObjectJc* init_ObjectJc  ( ObjectJc* ythis, int sizeObj, int identObj) {
   //Note: The second ythis should be the real address of the instance in C++. 
-  return iniz_ObjectJc(ythis, ythis, sizeObj, null, identObj); 
+  iniz_ObjectJc(ythis, ythis, sizeObj, null, identObj);
+  return ythis;
 }
 
 
 
-ObjectJc* iniz_ObjectJc(ObjectJc* othiz, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj)
+void iniz_ObjectJc(ObjectJc* othiz, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj)
 { STACKTRC_ENTRY("iniz_ObjectJc");
   if(sizeObj >= sizeof(ObjectJc))
   { //cc2016-10 memset(ythis, 0, sizeObj);  //don't clear the whole instance because some references etc. maybe initalized with { ... }
@@ -150,7 +208,7 @@ ObjectJc* iniz_ObjectJc(ObjectJc* othiz, void* addrInstance, int sizeObj, struct
   else {
     THROW_s0(IllegalArgumentException, "size to less", sizeObj, identObj);
   }
-  STACKTRC_LEAVE; return othiz;
+  STACKTRC_LEAVE;
 }
 
 
@@ -238,7 +296,7 @@ bool checkStrict_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t con
 
 
 
-bool checkInit_ObjectJc  ( ObjectJc* thiz, int size, int ident, struct ClassJc_t const* clazzReflection, ThCxt* _thCxt)
+bool checkInit_ObjectJc  ( ObjectJc* thiz, int size, struct ClassJc_t const* clazzReflection, int ident, ThCxt* _thCxt)
 { //bool bOk;
   STACKTRC_TENTRY("checkInit_ObjectJc");
   if(thiz->state.b.objectIdentSize == 0) { //size and ident not initialized

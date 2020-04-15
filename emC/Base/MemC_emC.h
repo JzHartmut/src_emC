@@ -114,6 +114,7 @@ struct ThreadContext_emC_t;
  * @return pointer from type struct MemUnit* to the memory location BASE + OFFSET
  */
 #define addOffset_MemUnit(BASE, OFFSET) (((MemUnit*)(BASE)) + (OFFSET))
+#define ADD_OFFSET_MemUnit(BASE, OFFSET) (((MemUnit*)(BASE)) + (OFFSET))
 
 
 
@@ -253,7 +254,7 @@ METHOD_C void* alloc_MemC(int size);
 
 
 /**frees an allocated memory. This is the old form before 2016-05 which uses the MemC instance to free.
- * Not it is a macro for compatibility which invokes ,,free_MemC(PTR_MemC(mem, void)),,
+ * Note it is a macro for compatibility which invokes ,,free_MemC(PTR_MemC(mem, void)),,
  * It is deprecated since 2016-05, now only the address is necessary.
  * It is the opposite method to alloc_MemC(). 
  * TODO possible: use size to check whether the mem instance is unchanged to the allocated.
@@ -266,6 +267,18 @@ METHOD_C void* alloc_MemC(int size);
  * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContext_emC_s.getUserBuffer_ThreadContext_emC(...)]]
  */
 METHOD_C int free_MemC(void const* addr);
+
+
+INLINE_emC int freeMemC_MemC(MemC* mem) {
+  int ret = free_MemC(mem->addr);
+  mem->addr = null;  //no more referenced
+  return ret;
+}
+
+
+
+#define FREE_MemC(mem) { free_MemC(&mem.addr); mem.addr = null; }  
+
 
 
 /**check memory boundaries and copy. */

@@ -31,7 +31,7 @@
  * @author Hartmut Schorrig, Pinzberg, Germany
  *
  * @version 0.83
- * @content: All declarations to use from user level to work with BlockHeap_emC
+ * @content: All declarations to use from user level to work with BlockHeap_emC_s
  * for References of ObjectJc and derivated classes for C-language.
  * The references are used for garbage collection and virtual methods in C.
  *
@@ -53,8 +53,6 @@
  * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
  */
 #define USE_BlockHeap_emC
-#define SIZEBLOCK_BlockHeap_emC 0x400
-//#undef SIZEBLOCK_BlockHeap_emC
 
 //#define NO_DYNAMICALLY_MEMORY
 
@@ -130,7 +128,7 @@ struct StringBufferJc_t;
      
 
 
-#include <BlockHeap/BlockHeap_emC.h>
+#include <BlockHeap/BlockHeap_emC_s.h>
 
 
 #endif //__ObjectRefJc__h

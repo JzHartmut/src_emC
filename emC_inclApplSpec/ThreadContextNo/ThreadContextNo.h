@@ -12,7 +12,7 @@ typedef struct StacktraceThreadContext_emC_t
 typedef struct ThreadContext_emC_t
 {
   /**It is the heap, where block heap allocations are provided in this thread. */
-  struct BlockHeap_emC_t* blockHeap;
+  struct BlockHeap_emC_T* blockHeap;
   StacktraceThreadContext_emC_s stacktrc;
 
 } ThreadContext_emC;

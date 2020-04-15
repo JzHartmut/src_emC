@@ -12,26 +12,35 @@
 //#undef __CPLUSPLUSJcpp
 //#define __cplusplus
 
+#ifndef DEF_ObjectJc_FULL  //prevent warning if defined as compiler argument.
+#define DEF_ObjectJc_FULL
+#endif
 //This block before <OSAL/os_types_def_common.h>
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
-/**Include this file always. It defines some types for C compilation compatible to C++. */
-#include <OSAL/os_types_def_common.h>
+/**Include this file always, but after compl_adaption.h.
+ * It defines some types for C compilation compatible to C++ and some independent language enhancements.
+ */
+#include <emC/Base/os_types_def_common.h>
 
-#include <emC_srcApplSpec/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-//#include <emC_srcApplSpec/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
 
+
+
+
+/**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
+//#define __NoCharSeqJcCapabilities__
+//#define __NoStringJcCapabilities__
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
 //Note: Include before fw_String.h because it is used there.
 #include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
 //#include <emC_srcApplSpec/applConv/EnhanceRef_Blockheap.h>
 
-/**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
-//#define __NoCharSeqJcCapabilities__
-//#define __NoStringJcCapabilities__
 
+//#include <emC_srcApplSpec/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+//#include <emC_srcApplSpec/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+#include <emC_srcApplSpec/applConv/assert_THROW.h>  //Note: after os_types_def_common because extern_C
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
@@ -52,7 +61,6 @@
 
 #include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
 #include <emC_srcApplSpec/applConv/Exception_emC.h>
-//#include <emC/Base/ExcStacktrcNo.h>
 
 
 
@@ -87,5 +95,15 @@
 #define kMaxPathLength_FileDescription_OSAL 480
 
 
+/**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
+#ifndef sizeSafetyArea_allocMemC
+#define sizeSafetyArea_allocMemC 4096
+#endif
+
+
+
+//#include <string.h> //memcpy
+//#include <emC/Base/SystemInit_emC.h>
+//#include <emC/Base/Handle_ptr64_emC.h>
 
 #endif // __applstdef_emC_h__

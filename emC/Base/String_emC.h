@@ -157,6 +157,17 @@ inline int strncpy_emC  (  char* dst, char const* src, int length){ return strcp
 int searchChar_emC ( char const* text, int zText, char cc);
 
 
+
+/**Searches a character inside a given string from end.
+ * NOTE: The standard-C doesn't contain such simple methods. 
+ * @param text do not need to be 0-terminated if fromIx is >=0, because it is searched from end. 
+ * @param fromIx first character index in text to check.  
+ *   if <0 then the 0-terminated text is searched from end + ix, it means -1: search from last char.
+ * @param cc char to search.
+ */
+extern_CCpp int searchCharBack_emC ( char const* const text, char cc, int fromIx);
+
+
 /**Searches a character inside a given string with terminated length.
 * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
 * But it is defined in divers Linux distributions. use #define strnchr strnchr_emC in the compl_adaption.h to offer it if not existent.

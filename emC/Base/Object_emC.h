@@ -121,16 +121,28 @@ ObjectJc* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadCon
 */
 extern_C ObjectJc* alloc_ObjectJc ( const int size, const int32 typeInstanceIdent, struct ThreadContext_emC_t* _thCxt);
 
+/**Initialization of the basicly data of Object.
+ * This method should be used for all instances.
+ * @param addrInstance: The address of the instance itself, which contains ObjectJc. In C++ the instance address doesn't may be the same as ythis.
+ *                      the offset to the instance itself will be stored to help data debugging.
+ * @param sizeObj The size of the whole instance, use sizeof(TypeInstance).
+ * @param reflection The reflection class. It may be null if the reflections are not present.
+ * @param identObj An idInstanceType info, see [[attribute:_ObjectJc:objectIdentSize]]
+ * return ythis, the reference of the Object itself.
+*/
+extern_C void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj);
+
+
 
 /**Freeze an Object allocated with [[alloc_ObjectJc(...)]]. */
 extern_C void free_ObjectJc(ObjectJc* thiz);
 
 /** The default construtor. An offset to BlockHeap in mem is considered. */
-inline ObjectJc* ctorM_ObjectJc(MemC mem) //ObjectJc* ythis);
+inline ObjectJc* ctorM_ObjectJc(MemC mem, struct ClassJc_t const* refl, int id) //ObjectJc* ythis);
 { init0_MemC(mem);   //A ctor should initialize all, no old data regarded. Cleanup!
   ObjectJc* thiz = PTR_MemC(mem, ObjectJc);
   int size = size_MemC(mem);
-  init_ObjectJc(thiz, size, 0);
+  iniz_ObjectJc(thiz, thiz, size, refl, id);
   return thiz;
 }
 
@@ -141,9 +153,9 @@ inline ObjectJc* ctorM_ObjectJc(MemC mem) //ObjectJc* ythis);
 /**The default construtor in C-manner. It assumes, that the area is cleared or is initialized already. 
  * @deprecated use init_ObjectJc() instead with the correct instance size
  */
-inline void ctorc_ObjectJc(ObjectJc* thiz) {
+inline void ctorc_ObjectJc(ObjectJc* thiz, struct ClassJc_t const* refl, int id) {
   memset(thiz, 0, sizeof(ObjectJc));   //A ctor should initialize all, no old data regarded. Cleanup!
-  init_ObjectJc(thiz, sizeof(ObjectJc), 0);
+  iniz_ObjectJc(thiz, thiz, sizeof(ObjectJc), refl, id);
 }
 
 
@@ -212,7 +224,7 @@ extern_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
 
 /**Checks the consistence of the given instance based on ObjectJc.
 * An Object should be initialized before it is used. This method should be used in the constructor
-* of all classes to check whether the initializing is done.
+* of all classes to check whether the base initializing is done.
 * @param size 0 or the requested size of the instance. If 0 then the size info will not be checked.
 *             The instance is valid if the size saved in the element ,,objectIdentSize,, is >= size.
 *             A greater instance (derived) is also accepted.
@@ -235,7 +247,7 @@ extern_C bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct Cla
 *             But call setReflection_ObjectJc() instead before, because this method may be changed in future. It should only test, not set anything!
 * @return true if ok, 
 */
-extern_C bool checkInit_ObjectJc ( ObjectJc* ythis, int size, int ident, struct ClassJc_t const* clazzReflection, struct ThreadContext_emC_t* _thCxt);
+extern_C bool checkInit_ObjectJc ( ObjectJc* thiz, int size, struct ClassJc_t const* clazzReflection, int ident, struct ThreadContext_emC_t* _thCxt);
 
 /**Checks the consistence or init, 
 * @deprecated, use [[checkOrInit_ObjectJc(...)]] with a more significant name.
@@ -498,9 +510,8 @@ METHOD_C int32_ObjArray* ctor_int32ARRAY(int32_ObjArray* ythis, int nrOfBytes);
 typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcARRAY;
 
 
-#ifndef DEF_REFLECTION_FULL
+#ifdef DEF_ObjectJc_SIMPLE
 
-struct ClassJc_t;
 
 /**Reflection for a simple system which does not contain reflection information for itself
 * but uses the reflection instance for type detection

@@ -144,7 +144,7 @@ METHOD_C int getNrOfBytes_ObjectArrayJc(ObjectArrayJc const* ythis)
 void_Y* ctorO_AYJc(ObjectJc* othis, int nBytesPerElement, int nSize)
 { void_Y* ythis = (void_Y*)(othis);
   if(ythis != null)
-  { ctorc_ObjectJc(&ythis->head.object);
+  { ctorc_ObjectJc(&ythis->head.object, null, 0);
     ythis->head.object.state.b.objectIdentSize |= mArray_objectIdentSize_ObjectJc;
     ythis->head.length = nSize;
     ythis->head.sizeElement = (int16)nBytesPerElement;
@@ -160,7 +160,7 @@ ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int nSize, int nBytesPe
   if(ythis != null)
   { int32 sizeArray;
     int32 sizeInfoObject;
-    ctorc_ObjectJc(&ythis->object);
+    ctorc_ObjectJc(&ythis->object, null, 0);
     sizeArray = nSize * nBytesPerElement + sizeof(ObjectArrayJc);
     sizeInfoObject = getSizeInfo_ObjectJc(&ythis->object);  //may be setted or it should be 0
       if(sizeInfoObject > 0 && sizeInfoObject < sizeArray)

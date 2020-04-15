@@ -1,7 +1,8 @@
 #ifndef HEADERGUARD_ClassJc_FullReflection_emC
 #define HEADERGUARD_ClassJc_FullReflection_emC
 
-#ifndef DEF_REFLECTION_FULL
+//#ifndef DEF_REFLECTION_FULL
+#ifdef DEF_ObjectJc_SIMPLE
 #error Should only used with full reflection generation
 #endif
 
@@ -216,6 +217,11 @@ VtblHeadJc const* mtbl;
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
 
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+#define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME  }
+#define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME  }/*TODO*/
 
 
 /**Returns the name of the class as StringJc. 

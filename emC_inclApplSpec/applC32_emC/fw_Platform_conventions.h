@@ -89,14 +89,12 @@
 
 
 
-/*@DEFINE BlockHeap_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@DEFINE BlockHeap_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**Usage of the BlockHeap management or not and define the size of a block.
  * The size of a normal block in all BlockHeaps are the same. The size must be (!) a power of 2.
  */
 #undef USE_BlockHeap_emC
-#undef SIZEBLOCK_BlockHeap_emC
-//#define SIZEBLOCK_BlockHeap_emC 0x400
 
 #define NO_DYNAMICALLY_MEMORY
 

@@ -6,7 +6,6 @@
 extern_C void TEST(char const* ident);
 
 
-
 #ifdef __cplusplus
 
 
@@ -26,15 +25,29 @@ void EXPECT_FALSEmsg1(bool val, char const* msg, int line);
 
 #endif  //__cplusplus
 
+extern_C void msgStartFileLine_testAssert_emC ( char const* msg, char const* file, int line);
 
-extern_C void expectMsgFileLine_testAssert_emC(char const* msg, char const* file, int line);
+/**Output always a test starting with "  ok " if cond==true*/
+extern_C bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line);
 
-#define EXPECTs_TRUE(COND, MSG) if(!(COND)) expectMsgFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
+/**Output only a text if cond ==false, silent if ok. */
+extern_C bool checkMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line);
+extern_C bool exceptionFileLine_testAssert_emC ( ExceptionJc* exc, char const* file, int line);
+extern_C void msgEndFileLine_testAssert_emC ( bool ok);
+
+#define TEST_START(MSG) bool bTESTok = true; msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
+
+/**Test, output ok MSG if ok, only on error with file and line. */
+#define TEST_TRUE(COND, MSG) if(!expectMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__)) bTESTok = false;
+
+/**Checks only, output only if error*/
+#define CHECK_TRUE(COND, MSG) if(!checkMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__)) bTESTok = false;
 
 #define EXPECTs_FALSE(COND, MSG) if((COND)) expectMsgFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
 
+#define TEST_END msgEndFileLine_testAssert_emC(bTESTok)
 
-
+#define TEST_EXC(EXC) exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
 
 
 #endif //HEADERGUARD_org_vishia_emC_Test_testAssert

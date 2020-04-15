@@ -21,7 +21,7 @@
 EvQueue_StateM_vishiaOrg_s* ctor_EvQueue_StateM_vishiaOrg(ObjectJc* othiz, float Tstep, int sizeQueue, int sizeInstances, ThCxt* _thCxt){
   STACKTRC_TENTRY("ctor_EvQueue_StateM_vishiaOrg");
   EvQueue_StateM_vishiaOrg_s* thiz = null;
-  if( checkStrict_ObjectJc(othiz, sizeof(EvQueue_StateM_vishiaOrg_s), &reflection_EvQueue_StateM_vishiaOrg, 0, _thCxt)) {
+  if( checkInit_ObjectJc(othiz, sizeof(EvQueue_StateM_vishiaOrg_s), &reflection_EvQueue_StateM_vishiaOrg, 0, _thCxt)) {
     thiz = (EvQueue_StateM_vishiaOrg_s*)othiz;
     thiz->Tstep = Tstep;
     thiz->queue.a = (Entry_EvQueue_StateM_vishiaOrg_s*)alloc_MemC(sizeQueue * sizeof(Entry_EvQueue_StateM_vishiaOrg_s));
@@ -117,7 +117,7 @@ int16 info_EvQueue_StateM_vishiaOrg(EvQueue_StateM_vishiaOrg_s* thiz, int16* ctE
 EvInstance_StateM_vishiaOrg_s* ctor_EvInstance_StateM_vishiaOrg(ObjectJc* othiz, int asListener, ThCxt* _thCxt) {
   STACKTRC_TENTRY("ctor_EvInstance_StateM_vishiaOrg");
   EvInstance_StateM_vishiaOrg_s* thiz = null;
-  if( checkInit_ObjectJc(othiz, sizeof(EvInstance_StateM_vishiaOrg_s), 0, &reflection_EvInstance_StateM_vishiaOrg, _thCxt) ) {
+  if( checkInit_ObjectJc(othiz, sizeof(EvInstance_StateM_vishiaOrg_s), &reflection_EvInstance_StateM_vishiaOrg, 0, _thCxt) ) {
     thiz = (EvInstance_StateM_vishiaOrg_s*)othiz;
     thiz->stateTrg = asListener ? 0x40 : 0x80;  //mark as not added yet.
   }

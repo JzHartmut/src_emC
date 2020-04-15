@@ -40,7 +40,7 @@
  * 2008-04-15: JcHartmut creation from older sources
  *
  ****************************************************************************/
-/**This file describes the internally structures of the BlockHeap_emC concept.
+/**This file describes the internally structures of the BlockHeap_emC_s concept.
  */
 
 #ifndef __BlockHeap_emC_i_h__
@@ -149,13 +149,13 @@ typedef struct BlockHeapBlockJc_t
   /** The type and size info. This cell is used especially in the BlockHeap-management.
     * For simple Objects in normal heap or stack this value is set to 0.
     * *listeneintrag
-    * @see Type_BlockHeapBlockJc (definition of enums in BlockHeap_emC.h)
+    * @see Type_BlockHeapBlockJc (definition of enums in BlockHeap_emC_s.h)
   */
   //uint16 typeAndSize;
   uint16 typeOrMaxRef;
 
   /** The number of the heap ctrl and the max nr of references,
-    * if it is management by BlockHeap_emC.
+    * if it is management by BlockHeap_emC_s.
   */
   /** old:A ident number of the object. It may be the ident number of the creating component
       or a special number given by the users construction. This number may be helpfull by
@@ -170,7 +170,7 @@ typedef struct BlockHeapBlockJc_t
   struct BlockHeapBlockJc_t* nextBlock; 
   
   /**The heap. */
-  struct BlockHeap_emC_t* heap; 
+  struct BlockHeap_emC_T* heap; 
   
 
   /**The array of backrefs inside this block. */
@@ -199,10 +199,10 @@ typedef struct BlockHeapBlockJc_t
 /**nr of bytes as overhead. */
 #define nrofBytesHead_BlockHeapBlockJc sizeof(BlockHeapBlockJc)
 
-#define deduce_BlockHeapBlockJc(ADDR) (BlockHeapBlockJc*)( ((intPTR)(ADDR)) & ~(SIZEBLOCK_BlockHeap_emC-1));
+#define XXXdeduce_BlockHeapBlockJc(ADDR) (BlockHeapBlockJc*)( ((intPTR)(ADDR)) & ~(TODO_SIZEBLOCK_BlockHeap_emC-1));
 
 
-bool checkSignificance_BlockHeapBlockJc(BlockHeapBlockJc* ythis, BlockHeap_emC* ownHeap);
+bool checkSignificance_BlockHeapBlockJc(BlockHeapBlockJc* ythis, BlockHeap_emC_s* ownHeap);
 
 
 /** One block of the runtime Heap.
@@ -252,19 +252,19 @@ typedef struct BlockHeapBlockJc_debugArray_t
 
 
 
-/*@CLASS_C BlockHeap_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/*@CLASS_C BlockHeap_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 
 /** A static pointer to a chained list of heap control structures. */
-extern BlockHeap_emC* theBlockHeapList;
+extern BlockHeap_emC_s* theBlockHeapList;
 
 
 
 
 /*======================= Methods =============================================*/
 
-METHOD_C void addHeap_BlockHeap_emC(BlockHeap_emC* ythis);
+METHOD_C void addHeap_BlockHeap_emC(BlockHeap_emC_s* ythis);
 
 METHOD_C bool initall_BlockHeap_emC(int nrofHeaps);
 
@@ -272,7 +272,7 @@ METHOD_C void init_i_s_BlockHeap_emC(int idxHeap, void* heap, int size);
 
 
 /** private method, searches the appropriate BlockHeap and...*/
-//see ObjectRefJc.h METHOD_C BlockHeapBlockJc* deduceBlockHeapBlockFromObject(void const* objP, BlockHeap_emC** retHeap);
+//see ObjectRefJc.h METHOD_C BlockHeapBlockJc* deduceBlockHeapBlockFromObject(void const* objP, BlockHeap_emC_s** retHeap);
 
 
 /** Returns true if the object is inside the given BlockHeap*/
@@ -282,27 +282,27 @@ METHOD_C void init_i_s_BlockHeap_emC(int idxHeap, void* heap, int size);
 
 typedef struct BlockHeap_emCARRAY_t
 { ObjectArrayJc head;
-  BlockHeap_emC* data[20];
+  BlockHeap_emC_s* data[20];
 }xxxBlockHeap_emCARRAY;
 
 
 
-#define BlockHeap_emCARRAY_s(NRofELEMENTS) struct{ ObjectArrayJc array; BlockHeap_emC* data[NRofELEMENTS];}
+#define BlockHeap_emCARRAY_s(NRofELEMENTS) struct{ ObjectArrayJc array; BlockHeap_emC_s* data[NRofELEMENTS];}
 
 
 
-//#define BlockHeap_emConst(NRofELEMENTS) { const_Array_Base(NRofELEMENTS, sizeof(BlockHeap_emC*)), {0}}
+//#define BlockHeap_emConst(NRofELEMENTS) { const_Array_Base(NRofELEMENTS, sizeof(BlockHeap_emC_s*)), {0}}
 
 /** Gets the element with given Index. The element is the value itself, of type 'int32'*/
 //#define get_BlockHeap_emCa(ARRAY,IX) (*(BlockHeap**)(get_i_Array_Base(&ARRAY->array, IX)))
 
 /** Sets the element with given Index*/
-//#define set_BlockHeap_emCa(ARRAY,IX, VAL) (*(BlockHeap_emC**)(get_i_Array_Base(&((ARRAY)->array), IX)) = VAL)
+//#define set_BlockHeap_emCa(ARRAY,IX, VAL) (*(BlockHeap_emC_s**)(get_i_Array_Base(&((ARRAY)->array), IX)) = VAL)
 
 /** Gets the sizeof of the instance with given nr of elements. It is a static-like method.
  * @param SIZE number of elements
 */
-#define SIZEOF_BlockHeap_emCARRAY(SIZE) (sizeof(ObjectArrayJc) + SIZE * sizeof(BlockHeap_emC**))
+#define SIZEOF_BlockHeap_emCARRAY(SIZE) (sizeof(ObjectArrayJc) + SIZE * sizeof(BlockHeap_emC_s**))
 
 /** Create a new Instance with the given number of elements
  * @param size number of elements
@@ -320,7 +320,7 @@ typedef struct GarbageCollectorJc_t
   char reportBuffer[1000];
 
   /**The actual tested heap. */
-  BlockHeap_emC* testedHeap;
+  BlockHeap_emC_s* testedHeap;
 
 
 
@@ -347,7 +347,7 @@ typedef struct GarbageCollectorJc_t
 
   OS_TimeStamp startTime, endTime;
 
-  /**A LogMessage output for all garbage collection and allocation operations. It is a copy from actual BlockHeap_emC. */
+  /**A LogMessage output for all garbage collection and allocation operations. It is a copy from actual BlockHeap_emC_s. */
   struct LogMessageFW_t* log;
 
   int kIdentMsgBase;
