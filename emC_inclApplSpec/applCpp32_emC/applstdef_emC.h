@@ -18,6 +18,12 @@
 #undef __CPLUSPLUSJcpp
 //#define __cplusplus
 
+/**This define forces using a ObjectJc with full capability. */
+#define DEF_ObjectJc_REFLREF
+#define DEF_ObjectJcpp_REFLECTION
+#define DEF_ObjectJc_OWNADDRESS
+#define DEF_ObjectJcVtbl_emC
+
 //This block before <OSAL/os_types_def_common.h>
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
@@ -28,8 +34,10 @@
 #include <emC/Base/os_types_def_common.h>
 
 /**With this compiler switch the reflection should not be included, because they will not used. */
-//#define DEF_NO_REFLECTION
+/**With this compiler switch the reflection should be included or not. DEF_REFLECTION_NO may be set by compiler options. */
+#if !defined(DEF_REFLECTION_NO) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_SIMPLE)
 #define DEF_REFLECTION_FULL
+#endif
 
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
@@ -100,7 +108,10 @@
 #define kMaxPathLength_FileDescription_OSAL 480
 
 /**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
+#ifndef sizeSafetyArea_allocMemC
 #define sizeSafetyArea_allocMemC 4096
+#endif
+
 
 
 

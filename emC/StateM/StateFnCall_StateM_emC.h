@@ -166,16 +166,18 @@ inline StateFnCall_StateM_emC const* getState_StateMPartFnCall_StateM_emC ( Stat
 /*@CLASS_C StateMnTopFnCall_State_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@q*/
 
 
-/**This is the top part of a statemachine */
+/**This is the top state of a statemachine */
 typedef struct StateMnTopFnCall_State_emC_T {
   union { ObjectJc obj; } base;
   
-  int nrofSubStmn;
+  int nrofSubStmn;  //should be 1 per intializing
 
   int _d1;
-
+  /**It has one sub statemachine, this is the only one not parallel statemachine. */
   StateMPartFnCall_StateM_emC substmn[1]; 
 } StateMnTopFnCall_State_emC;
+
+
 
 /**Helper for const initializing with { ... }
 * @arg IX The index from 0 (for top state) in the stmnPart-array

@@ -1,5 +1,5 @@
-#ifndef HEADERGUARD_ClassJc_FullReflection_emC
-#define HEADERGUARD_ClassJc_FullReflection_emC
+#ifndef HGUARD_ClassJc_FullReflection_emC
+#define HGUARD_ClassJc_FullReflection_emC
 
 //#ifndef DEF_REFLECTION_FULL
 #ifdef DEF_ObjectJc_SIMPLE
@@ -169,36 +169,36 @@ struct MethodJcARRAY_t;
 C_TYPE typedef struct  ClassJc_t
 { ObjectJc object;
 
-/** The typename. If it is a Class represents a primitive type, the name is such as "int", "float", "boolean".*/
-char name[32];
+  /** The typename. If it is a Class represents a primitive type, the name is such as "int", "float", "boolean".*/
+  char name[32];
 
-/** position of the base structure/class ObjectJc inside this type, it is the base address for the offset of fields.*/
-int32 posObjectBase;
+  /** position of the base structure/class ObjectJc inside this type, it is the base address for the offset of fields.*/
+  int32 posObjectBase;
 
-/**sizeof the type. Hint: It may be longer as 64 kByte, int32 is necessary. But never longer than 2 GByte*/
-int32 nSize;
+  /**sizeof the type. Hint: It may be longer as 64 kByte, int32 is necessary. But never longer than 2 GByte*/
+  int32 nSize;
 
-FieldJc_Y const* attributes;
+  FieldJc_Y const* attributes;
 
-struct MethodJcARRAY_t const* methods;
+  struct MethodJcARRAY_t const* methods;
 
-/** The superclass, ObjectJc if no other superclass.*/
-struct ClassOffset_idxVtblJcARRAY_t const* superClasses;
-//struct ClassJc_t const* superClass;
+  /** The superclass, ObjectJc if no other superclass.*/
+  struct ClassOffset_idxVtblJcARRAY_t const* superClasses;
+  //struct ClassJc_t const* superClass;
 
-/** Array of interfaces to this class.*/
-//ObjectJc const* interfaces;
-struct ClassOffset_idxVtblJcARRAY_t const* interfaces;
-//struct{ ObjectArrayJc base; ClassJc* interfaces; };
+  /** Array of interfaces to this class.*/
+  //ObjectJc const* interfaces;
+  struct ClassOffset_idxVtblJcARRAY_t const* interfaces;
+  //struct{ ObjectArrayJc base; ClassJc* interfaces; };
 
-/** Some bits determines the kind of the Class, see Modifier_reflectJc*/
-int32 modifiers;
+  /** Some bits determines the kind of the Class, see Modifier_reflectJc*/
+  int32 modifiers;
 
-/**Pointer to jump table for dynamic calls (virtual methods).
-* This is a typed struct, starting with Vtbl_ObjectJc.
-*/
-VtblHeadJc const* mtbl;
-//Method_int_Object* mtbl;
+  /**Pointer to jump table for dynamic calls (virtual methods).
+  * This is a typed struct, starting with Vtbl_ObjectJc.
+  */
+  VtblHeadJc const* mtbl;
+  //Method_int_Object* mtbl;
 
 } ClassJc;
 
@@ -604,7 +604,7 @@ extern_C const ClassJc reflection_bitfieldJc;
 
 extern_C const ClassJc reflection_ObjectJc;
 
-#ifndef __ObjectJc_simple__
+#ifndef DEF_ObjectJc_SIMPLE
 //reflection instance for the super class ObjectJc
 extern_C const ClassOffset_idxVtblJc1 reflection_super_ObjectJc;
 #endif
@@ -954,4 +954,4 @@ METHOD_C bool isPrimitive_ClassJc(ClassJc const* ythis);
 
 
 
-#endif HEADERGUARD_ClassJc_FullReflection_emC
+#endif //HGUARD_ClassJc_FullReflection_emC

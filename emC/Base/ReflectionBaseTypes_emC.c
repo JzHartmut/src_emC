@@ -372,41 +372,25 @@ const struct Reflection_Fields_ObjectJc_t
 , {
     { "objectIdentSize"
     , 0   //no Array, no Bitfield
-    , REFLECTION_int32
+    , REFLECTION_uint32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(intptr_t)(ObjectJc*)0x1000)
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->idInstanceTypeSize) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
   , { "offsetToStartAddr"
     , 0x0 //bitfield nrofBits=16, bitPos=0.0
-    , REFLECTION_BITFIELD
-    , kBitfield_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
+    , REFLECTION_uint16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->offsetToStartAddr) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
   , { "idSyncHandles"
     , 0xc010 //bitfield nrofBits=12, bitPos=0.16
-    , REFLECTION_BITFIELD
-    , kBitfield_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
-    }
-  , { "memoryMng"
-    , 0x301c //bitfield nrofBits=3, bitPos=0.28
-    , REFLECTION_BITFIELD
-    , kBitfield_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
-    , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
-    }
-  , { "isInitialized"
-    , 0x101f //bitfield nrofBits=4, bitPos=0.31
-    , REFLECTION_BITFIELD
-    , kBitfield_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->state.b.objectIdentSize) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
+    , REFLECTION_uint16
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->handleBits) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
@@ -422,7 +406,7 @@ const struct Reflection_Fields_ObjectJc_t
     , 2   //nrofArrayElements
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->ownAddress_i) -(intptr_t)(ObjectJc*)0x1000)
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->ownAddress) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
@@ -430,7 +414,7 @@ const struct Reflection_Fields_ObjectJc_t
     , 0   //no Array, no Bitfield
     , &reflection_ClassJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflectionClass) -(intptr_t)(ObjectJc*)0x1000)
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflection) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
@@ -438,7 +422,7 @@ const struct Reflection_Fields_ObjectJc_t
     , 2   //nrofArrayElements
     , REFLECTION_int32
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflectionClass_i) -(intptr_t)(ObjectJc*)0x1000)
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflection) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &reflection_ObjectJc
     }
@@ -816,14 +800,14 @@ ClassJc const reflection_uint64 =
 
 //formally, this reflection is never part of a reflectionOffs.crefl access.
 //first member is an identifier for type check!
-static int32 reflOffs_ClassJc[] = {0xc1aa }; //it is 16 or 32 bit, width of an int.
+static int32 reflOffs_ClassJc[] = { idTypeStdemC_ClassJc }; //it is 16 or 32 bit, width of an int.
 
 //This is necessary to recognize this type.
 ClassJc const reflection_ClassJc = INIZreflOffs_ClassJc(reflection_ClassJc, "relection_ClassJc", reflOffs_ClassJc);
 
 #else //DEF_REFLECTION_NO
 
-ClassJc const reflection_ClassJc = INIZ_ClassJc(reflection_ClassJc, "relection_ClassJc");
+ClassJc const reflection_ClassJc = INIZ_ClassJc(reflection_ClassJc, idTypeStdemC_ClassJc, "relection_ClassJc");
 
 #endif //not DEF_REFLECTION_FULL
 

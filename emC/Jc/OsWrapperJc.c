@@ -91,7 +91,7 @@ HandleItem* getFreeHandleEntry  (  int16* idx)
     struct OS_Mutex_t* mutexInitHandle = null;         //local ref
     mutexInitHandle = os_createMutex("JcinitHandle");
     //try to set the local ref, 
-    if(!compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.mutexInitHandle), null, mutexInitHandle)) {
+    if(!compareAndSet_AtomicRef(CAST_AtomicReference(data_OsWrapperJc.mutexInitHandle), null, mutexInitHandle)) {
       //yet a mutex was created from another thread already.
       os_deleteMutex(mutexInitHandle);  //delete the own one.
       mutexInitHandle = data_OsWrapperJc.mutexInitHandle;  //use the existing from the ohter thread.
@@ -113,7 +113,7 @@ HandleItem* getFreeHandleEntry  (  int16* idx)
       return null;
     }
     HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
-    if(compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.freeHandle), theHandleItem, nextFree)) {
+    if(compareAndSet_AtomicRef(CAST_AtomicReference(data_OsWrapperJc.freeHandle), theHandleItem, nextFree)) {
       break;  //if succeeded
     }
   } while(--tryCt > 0);
@@ -164,7 +164,7 @@ void releaseHandleEntry  (  int16 idx)
   while(--tryCt > 0) {
     currNextFree = data_OsWrapperJc.freeHandle;
     releaseHandle->handle.nextFree = currNextFree;  //referes the next next then 
-    if(compareAndSet_AtomicReference(CAST_AtomicReference(data_OsWrapperJc.freeHandle), currNextFree, releaseHandle)) {
+    if(compareAndSet_AtomicRef(CAST_AtomicReference(data_OsWrapperJc.freeHandle), currNextFree, releaseHandle)) {
       break;  //if succeeded
     }
     if(tryCt == -1) {
@@ -184,7 +184,7 @@ void releaseHandleEntry  (  int16 idx)
 
 INLINE_emC HandleItem* getHandle_ObjectJc  (  ObjectJc* thiz) {
   HandleItem* handle = null;
-  int16 ixHandle = thiz->state.b.idSyncHandles;
+  int16 ixHandle = thiz->handleBits & mSyncHandle_ObjectJc;
   if(ixHandle == kNoSyncHandles_ObjectJc) {
     handle = getFreeHandleEntry(&ixHandle);  //ixHandle set with valid index.
     if(ixHandle > 0) {
@@ -195,17 +195,18 @@ INLINE_emC HandleItem* getHandle_ObjectJc  (  ObjectJc* thiz) {
       handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
       handle->handleMutex = os_createMutex(handle->name);
       while(--tryCt > 0) {
-        oldValue = thiz->state._w[ixOffsId_State_Object]; //Note: read only one time, test the same as in compareAndSet
-        if((oldValue & m_idSyncHandles_State_ObjectJc) != (kNoSyncHandles_ObjectJc & m_idSyncHandles_State_ObjectJc)) { 
-          //Another thread has set the ixHandle.
-          releaseHandleEntry(ixHandle);
+        oldValue = thiz->handleBits; //Note: read only one time, test the same as in compareAndSet
+        if((oldValue & mSyncHandle_ObjectJc) != (kNoSyncHandles_ObjectJc)) { 
+          //Another thread has set the ixHandle already in this short time
+          releaseHandleEntry(ixHandle); //release the yet gotten one
           handle = null;
-          ixHandle = thiz->state.b.idSyncHandles;
+          ixHandle = thiz->handleBits & mSyncHandle_ObjectJc; //Take the current
           break;  //no action necessary
         }
-        newValue = (oldValue & ~m_idSyncHandles_State_ObjectJc)  //only the bits from idSyncHandles are changed. 
-                 | ((ixHandle <<kBit_idSyncHandles_State_ObjectJc) & m_idSyncHandles_State_ObjectJc);
-        if(compareAndSet_AtomicInteger(&thiz->state._w[ixOffsId_State_Object], oldValue, newValue)){
+        //composite the newValue with the changed ixHandle and the unchanged other bits:
+        newValue = (oldValue & ~mSyncHandle_ObjectJc) | ixHandle;  
+        //cast from uint16* to int16*
+        if(compareAndSet_AtomicInt16((int16*)&thiz->handleBits, oldValue, newValue)){
           break;  //success
         }
       }
@@ -253,7 +254,7 @@ void wait_ObjectJc  (  ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
       THROW1_s0(RuntimeException, "error os_createWaitNotifyObject", error);
       return;
     }
-    if(!compareAndSet_AtomicReference(CAST_AtomicReference(handle->handle.wait), null, (void*)handleWait)) {
+    if(!compareAndSet_AtomicRef(CAST_AtomicReference(handle->handle.wait), null, (void*)handleWait)) {
       //a wait handle is existing from another thread,
       os_removeWaitNotifyObject(handleWait);  //remove it again.
     }
@@ -268,8 +269,9 @@ void wait_ObjectJc  (  ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
 void notify_ObjectJc  (  ObjectJc* obj, ThCxt* _thCxt)
 { //TODO it is possible that more as one thread waits, implement a list of threads.
   STACKTRC_TENTRY("notify_ObjectJc");
-  if(obj->state.b.idSyncHandles != kNoSyncHandles_ObjectJc)
-  { HandleItem* handle = getHandleEntry(obj->state.b.idSyncHandles);
+  uint16 handleObj = (obj->handleBits & mSyncHandle_ObjectJc);
+  if(handleObj != kNoSyncHandles_ObjectJc)
+  { HandleItem* handle = getHandleEntry(handleObj);
     if(handle->handle.wait != null && handle->handleMutex != null)
     {
       os_notify(handle->handle.wait, handle->handleMutex);
@@ -285,8 +287,9 @@ void notify_ObjectJc  (  ObjectJc* obj, ThCxt* _thCxt)
 void notifyAll_ObjectJc  (  ObjectJc* obj, ThCxt* _thCxt)
 { //TODO it is possible that more as one thread waits, implement a list of threads.
   STACKTRC_TENTRY("notifyAll_ObjectJc");
-  if(obj->state.b.idSyncHandles != kNoSyncHandles_ObjectJc)
-  { HandleItem* handle = getHandleEntry(obj->state.b.idSyncHandles);
+  uint16 handleObj = (obj->handleBits & mSyncHandle_ObjectJc);
+  if(handleObj != kNoSyncHandles_ObjectJc)
+  { HandleItem* handle = getHandleEntry(handleObj);
     if(handle->handle.wait != null && handle->handleMutex != null)
     {
       os_notify(handle->handle.wait, handle->handleMutex);

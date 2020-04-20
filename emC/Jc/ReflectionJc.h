@@ -62,7 +62,7 @@
  */
 char const* init_ReflectionJc(void);
 
-#ifdef DEF_ObjectJc_FULL
+#ifdef DEF_REFLECTION_FULL
 
 /*@DEFINE_C FieldJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

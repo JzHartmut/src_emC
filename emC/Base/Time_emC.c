@@ -1,11 +1,14 @@
 #include <emC/Base/Time_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
+  //Note: only for full reflection the const ClassJc reflection_... should be compiled 
+  //to found by the linker for references to this struct. 
+  //They are unecessary for initializations because of the data instances do not based on ObjectJc.
   #include <emC/Base/genRefl/Time_emC.crefl>
 #elif defined(DEF_REFLOFFS_Clock_MinMaxTime_emC)
-  extern_C ClassJc const reflection_Clock_MinMaxTime_emC;
+  extern_C ClassJc const refl_Clock_MinMaxTime_emC;
 #else //lif defined(DEF_REFLECTION_SIMPLE)
-  ClassJc const reflection_Clock_MinMaxTime_emC = INIZ_ClassJc(reflection_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
+  ClassJc const refl_Clock_MinMaxTime_emC = INIZ_ClassJc(refl_Clock_MinMaxTime_emC, idTypemC_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
 #endif
 
 #include <emC/OSAL/os_time.h>

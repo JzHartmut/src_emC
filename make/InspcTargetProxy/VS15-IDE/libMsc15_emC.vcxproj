@@ -100,7 +100,7 @@
     <IntDir>x32\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DbgC++|Win32'">
-    <OutDir>lib\Dbg32C++\</OutDir>
+    <OutDir>x32\$(Configuration)\lib\</OutDir>
     <IntDir>x32\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -243,6 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\emC\Base\Assert_emC.c" />
+    <ClCompile Include="..\..\..\emC\Base\TestHeaderCC_emC.c" />
     <ClCompile Include="..\..\..\emC\Inspc\J2c\AnswerComm_ifc_Inspc.c" />
     <ClCompile Include="..\..\..\emC\Inspc\J2c\ClassContent_Inspc.c" />
     <ClCompile Include="..\..\..\emC\Inspc\J2c\CmdConsumer_ifc_Inspc.c" />
@@ -344,10 +345,13 @@
     <ClCompile Include="..\..\..\emC\Jc\SystemJc.c" />
     <ClCompile Include="..\..\..\emC\Jc\SystemOutJc.c" />
     <ClCompile Include="..\..\..\emC\Jc\ThreadJc.c" />
-    <ClCompile Include="..\..\..\emC\Jc\TimeZoneJc.c" />
+    <ClCompile Include="..\..\..\emC\Jc\TimeZoneJc.c">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='DbgC++|Win32'">false</PreprocessToFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\emC\Base\Assert_emC.h" />
+    <ClInclude Include="..\..\..\emC\Base\ObjectJcVtbl_emC.h" />
     <ClInclude Include="..\..\..\emC\Base\os_types_def_common.h" />
     <ClInclude Include="..\..\..\emC\Inspc\J2c\AnswerComm_ifc_Inspc.h" />
     <ClInclude Include="..\..\..\emC\Inspc\J2c\ClassContent_Inspc.h" />
@@ -377,6 +381,7 @@
     <ClInclude Include="..\..\..\emC\Inspc\FB\Wait_Inspc.h" />
     <ClInclude Include="..\..\..\emC_inclApplSpec\applCpp32_emC\applstdef_emC.h" />
     <ClInclude Include="..\..\..\emC_srcApplSpec\applConv\Exception_emC.h" />
+    <ClInclude Include="..\..\..\emC_srcApplSpec\applConv\ObjectJc_full.h" />
     <ClInclude Include="..\..\..\emC_srcApplSpec\applConv\ThreadContextStacktrc_emC.h" />
     <ClInclude Include="..\..\..\emC\Base\Event_emC.h" />
     <ClInclude Include="..\..\..\emC\Base\Formatter_emC.h" />

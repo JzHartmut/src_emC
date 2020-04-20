@@ -101,7 +101,7 @@ void ctor_InspcTargetProxy(InspcTargetProxy_s* thiz)
   STACKTRC_ENTRY("ctor_InspcTargetProxy");
   //initialize the InterProcessComm with rxBuffer and the rx thread to/from the target.
   iniz_ObjectJc(&thiz->object, thiz, sizeof(*thiz), &reflection_InspcTargetProxy, 0);
-  iniz_ObjectJc(&thiz->targetRx->base.object, &thiz->targetRx, sizeof(*thiz->targetRx)
+  iniz_ObjectJc(&thiz->targetRx->base.object, thiz->targetRx, sizeof(*thiz->targetRx)
                , &reflection_InterProcessCommRx_ifc_Ipc, 0);
   ctorO_InterProcessCommRx_ifc_Ipc(&thiz->targetRx->base.object, _thCxt);
   setReflection_ObjectJc(&thiz->targetRx->base.object, &reflection_execRxData_TargetRx, 0);
@@ -200,9 +200,11 @@ int main(int nArgs, char** argsCmd)
     setReflection_ObjectJc(&data.object, &reflection_InspcTargetProxy, 0);
 
     ctor_InspcTargetProxy(&data);
+    //
+    //====>>
     char const* sError = load_ExtReflectionJc(&data.extReflectionDsp, sExtReflectionFile, headerOffset);
     if(sError == null) {
-	data._Target_ = (void*)(-1);
+	    data._Target_ = (void*)(-1);
       //registerRefl_DataNode_Inspc(&data.rootNode, data._Target_, "target", thiz->obj.reflectionClass);
       init_InspcTargetProxy(&data);
       data.bRun = 1;

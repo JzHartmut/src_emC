@@ -72,7 +72,7 @@ struct InterProcessCommRxThread_Ipc_t* ctorO_InterProcessCommRxThread_Ipc(Object
     init0_MemC(build_MemC(&thiz->data_rxBuffer, 1500 * sizeof(int8))); //J2C: init the embedded simple array;
     thiz->rxBuffer.addr = & thiz->data_rxBuffer[0]; thiz->rxBuffer.val = sizeof( thiz->data_rxBuffer) / sizeof(thiz->data_rxBuffer[0]);
     //J2C: constructor for embedded element-ObjectJc
-      iniz_ObjectJc(&(thiz->threadRoutine.base.object), thiz, sizeof(thiz->threadRoutine), null, 0); 
+      iniz_ObjectJc(&(thiz->threadRoutine.base.object), &thiz->threadRoutine, sizeof(thiz->threadRoutine), null, 0); 
       ctorO_C_threadRoutine_InterProcessCommRxThread_Ipc(thiz, &(thiz->threadRoutine.base.object), _thCxt);
   }
   { 

@@ -123,7 +123,7 @@ void* compareAndSwap_AtomicReference  (  void* volatile* reference, void* expect
  * Here a simple way.
  */
 //bool compareAndSet_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
-bool compareAndSet_AtomicReference  (  void* volatile* reference, void* expect, void* update)
+bool compareAndSet_AtomicRef ( void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
   return found == (int32)expect;

@@ -35,8 +35,7 @@
 #define DEF_TARGETSIMPLE
 
 /**With this compiler switch the reflection should be included or not. DEF_REFLECTION_NO may be set by compiler options. */
-//#define DEF_REFLECTION_NO
-#if !defined(DEF_REFLECTION_NO) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_SIMPLE)
+#if !defined(DEF_REFLECTION_NO) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_SIMPLE)
 #define DEF_REFLECTION_NO
 #endif
 

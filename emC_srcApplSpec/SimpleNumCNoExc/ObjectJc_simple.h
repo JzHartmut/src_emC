@@ -42,8 +42,8 @@
 #ifndef __applstdef_emC_h__
   #include <applstdef_emC.h>
 #endif
-#ifndef __ObjectJc_simple__
-#define __ObjectJc_simple__
+#ifndef DEF_ObjectJc_SIMPLE
+#define DEF_ObjectJc_SIMPLE
 
 //#define DEF_REFLECTION_NO
 
@@ -55,35 +55,6 @@
 
 /*@CLASS_C ClassJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-
-/*@CLASS_C ObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-/**Object is the superclass of all superclasses. In C-like manner it is a struct
- * at begin of any class-like struct.
- *
- * This definition is a small variant for only simple capabilities 
- * especially for less footprint or non-String-using target systems with usual 16 or 32 bit memory addresses.
- * Some definitions and methods are common use-able, that methods are contained here too. 
- */
-typedef struct  ObjectJc_t
-{
-  /**The idInstanceType is helpfull to recognize the instance. 
-   * The bit31 is used to detect whether it is initialized or not. */
-  uint32 idInstanceType;
-  
-  #define mType_ObjectJc 0xffff
-  #define kBitType_ObjectJc 0
-  #define mInstance_ObjectJc 0x7fff0000
-  #define kBitInstance_ObjectJc 16
-  #define mInitialized_ObjectJc 0x80000000
-
-  /**The reference to the type is either an index to a central pointer table (for 64-bit-addresses) or the address itself.
-   * In any case this is a 32-bit-location which references the type.
-   */
-  #ifdef DEF_ObjectJc_REFLREF
-    HandlePtr_emC(struct ClassJc_t const, reflection);
-  #endif
-} ObjectJc;
 
 #define ObjectJc_s ObjectJc
 
@@ -123,87 +94,21 @@ typedef struct  ObjectJc_t
 */
 //#define INIZ_ObjectJc(OBJ, REFL, ID)  { ((ID)<<16) + sizeof(OBJ) } //, { (char const*)(REFL)} }
 
-//the following line does not compile in C! because it uses another defined data.
-//#define INIZ_ObjectJc(OBJ, REFL, ID)  { ((ID)<<16) + (((REFL)->idType) & mType_ObjectJc) } //, { (char const*)(REFL)} }
-
-/**Initializing of a simple object. It uses the address of the reflection definition, lo 16 bit (64 kByte) as type identifier.
- * Note: All reflection should be define in the same compiling unit to have different addresses in the 64 kByte-space.
- */
-//Note: the & 0xffff forces error in C 'is not a contant' in VS15
-
-
-#ifdef DEF_ObjectJc_REFLREF
-#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<16) + sizeof(OBJ), { (uint32)(REFL) } } //, { (char const*)(REFL)} }
-#else 
-#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<16) + (((int16_t)(intptr_t)REFL) /*& 0xffff*/) } //, { (char const*)(REFL)} }
-#endif
 
 
 
 
 
 
-#define setReflection_ObjectJc(OBJ, REFL, SIZE)
-
-#define setInitialized_ObjectJc(THIZ) { (THIZ)->idInstanceType |= mInitialized_ObjectJc; }
-
-#define isInitialized_ObjectJc(THIZ) ( ((THIZ)->idInstanceType & mInitialized_ObjectJc )!=0)
 
 
-#define init_ObjectJc(THIZ, SIZE, IDENT) { (THIZ)->idInstanceType = (IDENT) & 0x7fffffff; } 
-
-inline int getTypeId_ObjectJc(ObjectJc* thiz){ return (thiz->idInstanceType >> kBitType_ObjectJc) & mType_ObjectJc; }
-
-
-
-
-#ifdef DEF_REFLECTION_OFFS
-#define getSizeInfo_ObjectJc(THIZ) ((THIZ)->idInstanceType & mType_ObjectJc)
-#else
-#define getSizeInfo_ObjectJc(THIZ) ((THIZ)->idInstanceType & mType_ObjectJc)
-#endif
 
 
 /*@CLASS_CPP ObjectJcpp @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 //#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-#if defined(__cplusplus)
-
-
-
-/** Superclass for class ObjectJcpp and especially for all interface classes.
-This base class defines a method to convert this to ObjectJc*
-especially necessary for interface classes.<br/>
-The methods of this class should be implemented in any class
-implementing any interface.
-*/
-class  ObjectJcpp
-{
-public: virtual ObjectJc* toObject() = 0; //{ return null; }
-
-                                          //#define toObject_Jc() toObject()
-
-                                          /**returns true if the String given Type is the instance can derived immeditately 
-                                          * to the given type with simple cast (C-cast). 
-                                          * In Java there it is the operator instanceof
-                                          * Note: It does not regard C++ deviation. Only able to use for the ObjectJc-C-inheritance.
-                                          */
-public: bool instanceof(const char* type){ return true; }  //TODO instanceof_s_ObjectJc(toObject(), type); } 
-
-public: struct ClassJc_t* getClass(){ return null; }  //cannot be supported: getClass_ObjectJc(toObject()); }
-
-        /**The constructor is called automatically in C++. Because it is contained as inline
-        * in the header, the user don't need any other library to use it.
-        */
-public: ObjectJcpp(); //: significance_ObjectifcBase(123), significanceAddress_ObjectifcBase(null){}
-
-public: virtual ~ObjectJcpp(){}
-
-};
-
-#endif //defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 
 
 
 
-#endif  //__ObjectJc_simple__
+#endif  //DEF_ObjectJc_SIMPLE

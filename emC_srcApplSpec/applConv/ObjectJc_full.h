@@ -282,7 +282,6 @@ METHOD_C ObjectJc* init_ObjectJc ( ObjectJc* thiz, int sizeObj, int identObj);
 * return ythis, the reference of the Object itself.
 */
 extern_C void iniz_ObjectJc ( ObjectJc* ythis, void* addrInstance, int sizeObj, struct ClassJc_t const* reflection, int identObj);
-#define initReflection_ObjectJc iniz_ObjectJc
 
 /**Initialization of the basicly data of Object. It is a Macro to use without any Jc-library.
 * This method should be used for all instances.

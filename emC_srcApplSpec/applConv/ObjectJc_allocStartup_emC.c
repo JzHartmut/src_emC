@@ -64,7 +64,7 @@ ObjectJc* alloc_ObjectJc  (  const int size, const int32 typeInstanceIdent, ThCx
     }
     ALLOC_MemC(mem, size2);
     othis = PTR_MemC(mem, ObjectJc);
-    init_ObjectJc(othis, size, typeInstanceIdent);
+    iniz_ObjectJc(othis, othis, size, null, typeInstanceIdent);
   }
   else {
     THROW1_s0(RuntimeException, "no memory because it is runtime. ", 0);
@@ -76,8 +76,8 @@ ObjectJc* alloc_ObjectJc  (  const int size, const int32 typeInstanceIdent, ThCx
 
 
 void free_ObjectJc  (  ObjectJc* thiz) {
-  MemC mem = build_MemC(thiz, getSizeInfo_ObjectJc(thiz));
-  freeM_MemC(mem);
+  //MemC mem = build_MemC(thiz, getSizeInfo_ObjectJc(thiz));
+  free_MemC(thiz);
 }
 
 

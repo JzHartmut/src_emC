@@ -13,8 +13,8 @@
 
    //basic concept
 
-#ifdef __ObjectJc_simple__
-#error "cannot compile with __ObjectJc_simple__, needs virtual operations for CharSeqJc in Part_StringPartJc"
+#ifdef DEF_ObjectJc_SIMPLE
+#error "cannot compile with DEF_ObjectJc_SIMPLE, needs virtual operations for CharSeqJc in Part_StringPartJc"
 #endif
 
 /* J2C: Forward declaration of struct ***********************************************/

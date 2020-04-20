@@ -854,10 +854,10 @@ extern_C const struct ClassJc_t reflection_AppendableJc;
 VtblHeadJc const* checkVtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt);
 
 INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
-{ ClassJc const* reflection = ythis->reflectionClass;
-  if( reflection != null || reflection->object.reflectionClass == &reflection_ClassJc) {
+{ ClassJc const* reflection = ythis->reflection;
+  if( reflection != null || reflection->object.reflection == &reflection_ClassJc) {
     VtblHeadJc const* head0, *head;
-    head0 = ythis->reflectionClass->mtbl;  
+    head0 = ythis->reflection->mtbl;  
     if(head0 != null){
       head = (VtblHeadJc const*)(((MemUnit const*) (head0)) + ix * sizeof(head0->sign)); 
       if(head->sign == sign) {
@@ -868,7 +868,7 @@ INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, c
 }
 
 
-#endif  //__ObjectJc_simple__
+#endif  //DEF_ObjectJc_SIMPLE
 
 
 /**It should able to work with Stacktrace. */

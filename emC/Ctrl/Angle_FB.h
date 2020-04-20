@@ -7,7 +7,7 @@
 #include <math.h>
 
 
-/**calculation factor from rad to int32-angle: It is 180 degree / M_PI = 2147483648.0f / M_PI */
+/**calculation factor from rad to int32-angle: It is 180 degree / kPI_Angle_FB = 2147483648.0f / kPI_Angle_FB */
 #define krPi_int32Angle 0x28BE60DC
 
 #define kPI_Angle_FB 3.141592653f
@@ -30,36 +30,36 @@
 
 /**Conversion from 32-bit-angle representation to float value in rad.
  * @param VAL32 angle between -0x80000000 (= 180° ) and 0x7fffffff (= 179.99°)
- * @return angle between -M_PI (=180°) and M_PI-0.000001 (= 179.999°)
+ * @return angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°)
  */
-#define int32_to_rad(VAL32) (( (float)(((int32)(VAL32))) ) * (M_PI / k180_int32floatAngle))
+#define int32_to_rad(VAL32) (( (float)(((int32)(VAL32))) ) * (kPI_Angle_FB / k180_int32floatAngle))
 
 
 /**Conversion from float value in radiant to 16-bit-angle representation.
- * @param RAD angle between -M_PI (=180°) and M_PI-0.000001 (= 179.999°) with possible overdrive (modulo 2*M_PI).
+ * @param RAD angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°) with possible overdrive (modulo 2*kPI_Angle_FB).
  * @return angle between -0x8000 (= 180° ) and 0x7fff (= 179.99°)
  * @Implementation notes: The higher bits if overdriven are removed. It is a general solution.
  */
-#define rad_to_int16(RAD) ((int16)( (RAD) * (32768.0f / M_PI))) 
+#define rad_to_int16(RAD) ((int16)( (RAD) * (32768.0f / kPI_Angle_FB))) 
 
 
 /**Conversion from float value in radiant to 32-bit-angle representation.
  * Reards radiant values from approximately -350..350.
  * Implementation note: 24 bits are used to convert float to integer, The result is shifted 8 bits to left.
- * @param RAD angle between -M_PI (=180°) and M_PI-0.000001 (= 179.999°) with possible overdrive (modulo 2*M_PI).
+ * @param RAD angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°) with possible overdrive (modulo 2*kPI_Angle_FB).
  * @return angle between -0x80000000 (= 180° ) and 0x7fffffff (= 179.99°)
  */
-#define rad_to_int32(RAD) (((int32)( (RAD) * (32768.0f * 256 / M_PI))<<8))
+#define rad_to_int32(RAD) (((int32)( (RAD) * (32768.0f * 256 / kPI_Angle_FB))<<8))
 
 /**Conversion from float value in grad to 32-bit-angle representation.
- * @param GRAD angle between -M_PI (=180°) and M_PI-0.000001 (= 179.999°) with possible overdrive (modulo 2*M_PI).
+ * @param GRAD angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°) with possible overdrive (modulo 2*kPI_Angle_FB).
  * @return angle between -0x80000000 (= 180° ) and 0x7fffffff (= 179.99°)
  */
 #define grad_to_int32(GRAD) ((int32)( (GRAD) * (k180_int32floatAngle / 180.0f)))
 
-#define grad_to_rad(GRAD) ((GRAD) * (M_PI / 180.0f))
+#define grad_to_rad(GRAD) ((GRAD) * (kPI_Angle_FB / 180.0f))
 
-#define rad_to_grad(RAD) ((RAD) * (180.0f / M_PI))
+#define rad_to_grad(RAD) ((RAD) * (180.0f / kPI_Angle_FB))
 
 #define mult_complex_FB(x1, x2, y) \
 { y.re = x1.re * x2.re - x1.im * x2.im; \

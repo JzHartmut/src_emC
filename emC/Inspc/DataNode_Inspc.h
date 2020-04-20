@@ -12,7 +12,7 @@ typedef struct DataNode_Inspc_t
 { union{ ObjectJc object;} base;
   //struct ObjectJc_t* obj[10];
 
-#ifndef __NoReflection__
+#ifdef DEF_REFLECTION_FULL
   /**Reference to the instances or sub nodes. It can be any type. */
   void* data[50];
   

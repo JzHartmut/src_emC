@@ -799,7 +799,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
           MemSegmJc ret = ref;
           setADDR_MemSegmJc(ret, retObjBase);
           retObj = ret;
-          if(retObjBase != null && (clazzFromInstance = retObjBase->reflectionClass) != null) {
+          if(retObjBase != null && (clazzFromInstance = retObjBase->reflection) != null) {
             clazzRet = clazzFromInstance; 
           }
           else

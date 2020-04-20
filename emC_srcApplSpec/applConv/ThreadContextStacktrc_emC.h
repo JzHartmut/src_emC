@@ -50,6 +50,7 @@
 
 #include <emC/Base/MemC_emC.h>
 struct TryObjectJc_t;
+struct ObjectJc_T;
 
 #define __ThreadContext_emC_supported__
 
@@ -242,6 +243,18 @@ METHOD_C bool setCheckingUserBuffer_ThreadContext_emC(struct ThreadContext_emC_t
 /**Releases the buffer in ThreadContext. 
  */ 
 METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, struct ThreadContext_emC_t* _thCxt);
+
+
+
+
+/**Allocates an ObjectJc in the thread buffer. Such an instance must be used immediately, then it is similar to an embedded instance in the stack. 
+* It can be returned and used in the calling enviroment immediately or return. That is the difference to a embedded instance in the stack.
+* Only one instance can be located in the thread context. It is over-written if another instance is created in the thread context.
+*/
+struct ObjectJc_T* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
+
+
+
 
 #define ADDR_IN_STACK_ThreadContext_emC(ptr) ((MemUnit const*)ptr > (MemUnit const*)&ptr && (MemUnit const*)ptr < _thCxt->topmemAddrOfStack)
 

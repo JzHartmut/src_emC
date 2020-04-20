@@ -363,6 +363,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
  * old: OS_HandlePtr
+ * search: HandlePtr_emC ( TYPE, NAME)
  */
 #define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
@@ -421,15 +422,18 @@ INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expec
   return read == expect;
 }
 
-INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
   //Note: more difficult because memory is 32 bit
+  int32 volatile* ref32;
   unsigned long expect32, update32;
   if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
+    ref32 = (int32*)(reference-1);  //use the lower address 
     expect32 = update;
     expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
     update32 = update;
     update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
   } else {
+    ref32 = (int32*)(reference);  //use the same address 
     expect32 = *(reference +1); //read associate hi word
     expect32 = (expect32 <<16) | update; 
     update32 = *(reference +1); //read associate hi word
@@ -438,8 +442,7 @@ INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect,
   //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
   //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
   //only a little bit more calculation time because unnecesarry repetition.
-  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
-  return read == expect32;
+  return compareAndSet_AtomicInt32(ref32, expect, update);
 }
 
 

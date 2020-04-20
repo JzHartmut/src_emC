@@ -111,7 +111,7 @@ int free_MemC  (  void const* addr)
     Alloc_MemC_s* ptrAlloc = ((Alloc_MemC_s*) ptr)-1;
     if(ptrAlloc->sign == sign_Alloc_MemC) {
       intptr_t memend = ((intptr_t) ptr ) + ptrAlloc->size;
-      int32* addrCheck = (int32*)memend;
+      uint32* addrCheck = (uint32*)memend;
       int ct = (sizeSafetyArea_allocMemC)/4;
       while (--ct >= 0) {
         if (*addrCheck != 0xaaaaaaaa) {
@@ -145,7 +145,7 @@ void init0p_MemC(void* ptr, int size)
 
 void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes) { 
   STACKTRC_ENTRY("errorAddress_MemC");
-  char const* error = "???"; 
+  char const* error = "???";
   int offset = (MemUnit*)addr - ADDR_MemC(*memC, MemUnit);
   if(offset + nrofBytes > memC->val) { error = "nrofBytes behind end"; }
   else if(offset >= memC->val)       { error = "address behind mem";   }

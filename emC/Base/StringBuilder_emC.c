@@ -586,7 +586,7 @@ Vtbl_CharSeqJc const* getVtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC
     head = getVtbl_ObjectJc(othiz, sign_Vtbl_CharSeqJc);
   } else {
     int offsetVtbl =  nChars & ~mIsCharSeqJcVtbl_CharSeqJc;
-    head = othiz->reflectionClass->mtbl;
+    head = othiz->reflection->mtbl;
     head = (VtblHeadJc const*)(&head->sign + offsetVtbl);
     //MemUnit* head2 = addOffset_MemUnit(head, offsetVtbl);  //add offset in mtbl
     //head = (VtblHeadJc const*) head2;
@@ -778,7 +778,7 @@ const VtblDef_StringBufferJc mtblStringBufferJc = {
 
 
 
-#ifdef __ObjectJc_simple__
+#ifdef DEF_ObjectJc_SIMPLE
 ClassJc const reflection_StringBuilderJc = { 0 };
 #else
 #include <emC/Jc/ReflectionJc.h>

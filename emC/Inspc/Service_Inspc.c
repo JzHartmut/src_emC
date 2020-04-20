@@ -6,7 +6,7 @@
 Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz, float Tstep, StringJc sIp)
 {
   STACKTRC_ENTRY("ctor_FBaccess_Inspc");
-  initReflection_ObjectJc(&thiz->object, thiz, sizeof(Service_Inspc), &reflection_Service_Inspc, 0xf0);
+  iniz_ObjectJc(&thiz->object, thiz, sizeof(Service_Inspc), &reflection_Service_Inspc, 0xf0);
   //init_ObjectJc(&thiz->theInspector.base.object, sizeof(thiz->theInspector), 0);
   ctorO_Inspector_Inspc(&thiz->theInspector.base.object, sIp, _thCxt);
   STACKTRC_LEAVE;

@@ -180,7 +180,7 @@ void ctor_DataStructMng_Inspc(DataStructMng_Inspc* thiz, DefPortTypes_emC* fBloc
 ) {
   STACKTRC_ENTRY("ctor_DataStructMng_Inspc");
   //ctor of base;
-  CALLINE; initReflection_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_DataStructMng_Inspc, 0);
+  CALLINE; iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_DataStructMng_Inspc, 0);
   CALLINE; ctor_DataStructCommon_Inspc(&thiz->base.super, fBlockInfo, inputDefinition, inherit_param, chain_param);
   thiz->ctInit = 5;  //at least 5 steps for sub Manager to work.
   STACKTRC_RETURN;
@@ -247,7 +247,7 @@ void ctor_DataStruct_Inspc(DataStruct_Inspc* thiz, DefPortTypes_emC* fbInfo
 , char const inputDefinition[500]
 ) {
   STACKTRC_ENTRY("ctor_DataStruct_Inspc");
-  initReflection_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_DataStruct_Inspc, 0);
+  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_DataStruct_Inspc, 0);
   ctor_DataStructCommon_Inspc(thiz, fbInfo, inputDefinition, 0, 1);
   copyToBuffer_StringJc(subName_param, 0, -1, thiz->subName, sizeof(thiz->subName)-1);
   STACKTRC_RETURN;
@@ -586,7 +586,7 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
         } while (mng1 != null);
         //register this data in the parent node:
         CALLINE;
-        initReflection_ObjectJc(&thiz->userDataBlock.addr->base.object, &thiz->userDataBlock.addr, userDataBytes, &thiz->clazz, 0);
+        iniz_ObjectJc(&thiz->userDataBlock.addr->base.object, &thiz->userDataBlock.addr, userDataBytes, &thiz->clazz, 0);
         thiz->userDataBlock.addr->base.super.thiz1 = thiz;  //access to the mng data especially via reflection
         setInitialized_ObjectJc(&thiz->userDataBlock.addr->base.object);  //for the offered data
         if (data_y != null) { *data_y = &thiz->userDataBlock.addr->base.super; }
@@ -1084,7 +1084,7 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
       zline = !line + "\n\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "void ctor_" + structName + "(" + structName + "_s* thiz) {\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  STACKTRC_ENTRY(\"ctor_" + structName + "\");\n" >>= &cline; os_fwrite(fwr, cline, zline);
-      zline = !line + "    initReflection_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_" + structName + ", 0);\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "    iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_" + structName + ", 0);\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  STACKTRC_RETURN;\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "} //ctor_...\n" >>= &cline; os_fwrite(fwr, cline, zline);
       //

@@ -14,7 +14,7 @@ Access_DataStruct_Inspc_s* ctor_Access_DataStruct_Inspc(ObjectJc* othiz, /*Strin
   Access_DataStruct_Inspc_s* thiz = (Access_DataStruct_Inspc_s*)othiz;
   STACKTRC_ENTRY("ctor_Access_DataStruct_Inspc");
   thiz->fblockInfo = fblockInfo;
-  initReflection_ObjectJc(othiz, thiz, sizeof(*thiz), &reflection_Access_DataStruct_Inspc, 0);
+  iniz_ObjectJc(othiz, thiz, sizeof(*thiz), &reflection_Access_DataStruct_Inspc, 0);
   thiz->ctRepeatInit = 100;
   STACKTRC_RETURN thiz;
 }
@@ -26,7 +26,7 @@ Access_DataStruct_Inspc_s* ctorTinit_Access_DataStruct_Inspc(ObjectJc* othiz, St
   Access_DataStruct_Inspc_s* thiz = (Access_DataStruct_Inspc_s*)othiz;
   STACKTRC_ENTRY("ctor_Access_DataStruct_Inspc");
   thiz->fblockInfo = fblockInfo;
-  initReflection_ObjectJc(othiz, thiz, sizeof(*thiz), &reflection_Access_DataStruct_Inspc, 0);
+  iniz_ObjectJc(othiz, thiz, sizeof(*thiz), &reflection_Access_DataStruct_Inspc, 0);
   thiz->ctRepeatInit = 100;
   STACKTRC_RETURN thiz;
 }

@@ -1035,9 +1035,10 @@ extern_C struct ClassJc_t const reflection_CharSeqJc;
 
 
 
-
+/**cheep operation to get substring for a simple StringJc. 
+ */
 #define subSequence_CharSeqJc(THIZ, from, to, THC) (\
-  isValid_ObjectJc((THIZ).addr.str) \
+  (THIZ).val == kIsCharSeqJc_CharSeqJc \
   ? ((Vtbl_CharSeqJc*)getVtbl_ObjectJc((THIZ).addr.obj, sign_Vtbl_CharSeqJc))->subSequence((CharSeqObjJc*)(THIZ).addr.obj, from, to, THC) \
   : substring_StringJc(*(StringJc*)&(THIZ), from, to, THC ) )
 
@@ -1069,7 +1070,7 @@ METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 /*@CLASS_C StringBuilderJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-#ifndef __ObjectJc_simple__
+#ifndef DEF_ObjectJc_SIMPLE
 
 
 typedef struct Vtbl_StringBufferJc_t 
@@ -1084,7 +1085,7 @@ typedef struct VtblDef_StringBufferJc_t { Vtbl_StringBufferJc mtbl; VtblHeadJc e
 
 extern VtblDef_StringBufferJc const mtblStringBufferJc;
 
-#endif  //#ifdef __ObjectJc_simple__
+#endif  //#ifdef DEF_ObjectJc_SIMPLE
 
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.

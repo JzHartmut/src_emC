@@ -55,7 +55,7 @@ void ctor_Param_OrthOsc2_FB(Param_OrthOsc2_FB* thiz, int32 identObj, float Tstep
 inline void setPeriod_Param_OrthOsc2_FB(Param_OrthOsc2_FB* thiz, float nStepsPeriod)
 { 
 #ifndef __ignoreInCheader_zbnf__
-  float fI1 = 2*M_PI / nStepsPeriod;
+  float fI1 = 2*kPI_Angle_FB / nStepsPeriod;
   float fIcos = cosf(fI1);
   float fIcorr = (fIcos +3) /4;
   float fIcorr2 = (fIcos +11) /12;
@@ -73,7 +73,7 @@ inline void setPeriod_Param_OrthOsc2_FB(Param_OrthOsc2_FB* thiz, float nStepsPer
 inline void setFq_Param_OrthOsc2_FB(Param_OrthOsc2_FB* thiz, float fq)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
-  float fI1 = 2*M_PI * thiz->tStepOrthi * fq;
+  float fI1 = 2*kPI_Angle_FB * thiz->tStepOrthi * fq;
   float fIcos = cosf(fI1);
   float fIcorr = (fIcos +3) /4;
   float fIcorr2 = (fIcos +11) /12;

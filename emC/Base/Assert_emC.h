@@ -15,10 +15,14 @@
    * 
    */
   extern_CCpp bool assert_s_emC(bool cond, char const* text, int val1, int val2);
-  inline bool ASSERT_emC(bool cond, char const* text, int val1, int val2) {
-    if(!cond) { assert_s_emC(cond, text, val1, val2); }
-    return cond;
-  }
+
+  #define ASSERT_emC(COND, TEXT, VAL1, VAL2) ( COND ? true : assert_s_emC(false, TEXT, VAL1, VAL2) )
+
+  //Note: The inline variant does not work in some C environments.
+  //inline bool ASSERT_emC(bool cond, char const* text, int val1, int val2) {
+  //  if(!cond) { assert_s_emC(cond, text, val1, val2); }
+  //  return cond;
+  //}
 
 #endif
 

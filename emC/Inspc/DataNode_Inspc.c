@@ -17,7 +17,7 @@ DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float
   init_immediate_ObjectArrayJc(&thiz->superclass.head, 1, sizeof(thiz->superclass.clazz), null, 0);
   ctor_ClassOffset_idxVtblJc(&thiz->superclass.clazz, &reflection_ObjectJc, kDevlpAccess_CheckPwd_Inspc, 0);
   ctor_Fields_super_ClassJc(&thiz->clazz, z_StringJc("DataNode_Inspc"), sizeof(*thiz), &thiz->fields.head, &thiz->superclass.head);
-  initReflection_ObjectJc(&thiz->base.object, thiz, sizeof(DataNode_Inspc), &thiz->clazz, 0xf0);
+  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(DataNode_Inspc), &thiz->clazz, 0xf0);
 
   //thiz->fields.head.sizeElement = sizeof(void*);
   //thiz->clazz.attributes = &thiz->fields;
@@ -68,13 +68,13 @@ void addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc 
       THROW_s0(IllegalArgumentException, "input 1 is not a DataNode_Inspc",0,0);
       STACKTRC_RETURN;
     }
-    if(obj->ownAddress != obj || obj->reflectionClass == null) {
+    if(obj->ownAddress != obj || obj->reflection == null) {
       THROW_s0( IllegalArgumentException, "input 3: obj is not based on ObjectJc, or it has not reflection information.", 0, 0);
       STACKTRC_RETURN;
     }
     if(isInitialized_ObjectJc(&thiz->base.object)) {
       if(ok_y){ *ok_y = 1; }
-      addObjRefl_DataNode_Inspc(thiz, name1_param, name2_param, obj, obj->reflectionClass);
+      addObjRefl_DataNode_Inspc(thiz, name1_param, name2_param, obj, obj->reflection);
     } 
   }   
   STACKTRC_RETURN;
@@ -119,6 +119,6 @@ bool checkObject_DataNode_Inspc(struct DataNode_Inspc_t* thiz){
   if(thiz->base.object.ownAddress != &thiz->base.object) return false;
   //The instance should have reflection signature. Check the name of the reflection instance instead its pointer
   //to support multiple linking processes. (Simulink-mex-dll)
-  if(strcmp(thiz->base.object.reflectionClass->name, "DataNode_Inspc") !=0) return false;
+  if(strcmp(thiz->base.object.reflection->name, "DataNode_Inspc") !=0) return false;
   return true;
 }

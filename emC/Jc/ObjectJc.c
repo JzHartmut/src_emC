@@ -139,13 +139,13 @@ METHOD_C int getNrOfBytes_ObjectArrayJc(ObjectArrayJc const* ythis)
 }
 
 
-#ifdef DEF_ObjectJc_FULL
+#ifdef DEF_ObjectJc_REFLREF
 
 void_Y* ctorO_AYJc(ObjectJc* othis, int nBytesPerElement, int nSize)
 { void_Y* ythis = (void_Y*)(othis);
   if(ythis != null)
-  { ctorc_ObjectJc(&ythis->head.object, null, 0);
-    ythis->head.object.state.b.objectIdentSize |= mArray_objectIdentSize_ObjectJc;
+  { ctorc_ObjectJc(&ythis->head.object);
+    //ythis->head.object.idInstanceTypeSize |= mArray_objectIdentSize_ObjectJc;
     ythis->head.length = nSize;
     ythis->head.sizeElement = (int16)nBytesPerElement;
     ythis->head.mode = 0; //kDirect_ObjectArrayJc;
@@ -160,7 +160,7 @@ ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int nSize, int nBytesPe
   if(ythis != null)
   { int32 sizeArray;
     int32 sizeInfoObject;
-    ctorc_ObjectJc(&ythis->object, null, 0);
+    ctorc_ObjectJc(&ythis->object);
     sizeArray = nSize * nBytesPerElement + sizeof(ObjectArrayJc);
     sizeInfoObject = getSizeInfo_ObjectJc(&ythis->object);  //may be setted or it should be 0
       if(sizeInfoObject > 0 && sizeInfoObject < sizeArray)
@@ -187,9 +187,9 @@ ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int nSize, int nBytesPe
       else
       { THROW1_s0(IndexOutOfBoundsException, "undefined size", typeInstanceIdent);
       }
-      typeInstanceIdent |= sizeArray;
+      //typeInstanceIdent |= sizeArray;
       //it is always 1-dimension.
-      typeInstanceIdent = (typeInstanceIdent & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;
+      //typeInstanceIdent = (typeInstanceIdent & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;
     }
     setReflection_ObjectJc(&ythis->object, reflection, typeInstanceIdent);
 
@@ -211,13 +211,13 @@ ObjectArrayJc* ctorO_ObjectArrayJc(ObjectJc* othis, int size, int nBytesPerEleme
   if(ythis != null)
   { int32 sizeArray;
     int32 sizeInfoObject;
-    int32 objectIdentSize;
+    //int32 objectIdentSize;
     //ctorc_ObjectJc(&ythis->object);
     sizeArray = size * nBytesPerElement + sizeof(ObjectArrayJc);
     sizeInfoObject = getSizeInfo_ObjectJc(&ythis->object);
     if(sizeArray > sizeInfoObject) THROW1_s0(IllegalArgumentException, "less sizeObject, require=", sizeArray);
-    objectIdentSize = (othis->state.b.objectIdentSize & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;
-    setReflection_ObjectJc(&ythis->object, reflection, objectIdentSize);
+    //objectIdentSize = (othis->state.b.objectIdentSize & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;
+    setReflection_ObjectJc(&ythis->object, reflection, 0);
 
     ythis->length = size;
     ythis->sizeElement = (int16)nBytesPerElement;

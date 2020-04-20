@@ -46,7 +46,7 @@ Handle2Ptr* handle2Ptr = null;
 
 
 /**Initializes. This routine should be invoked one time on startup. */
-const char* init_Handle2Ptr(int nrofEntries)
+const char* init_Handle2Ptr(uint nrofEntries)
 { if(handle2Ptr !=null) return null; //repeated init call.
   STACKTRC_ENTRY("init_Handle2Ptr");  
   char const* error = null;

@@ -17,8 +17,9 @@ const char typeCharsScalarTypes_ClassJc[0x50] =
 };
 
 
-#ifndef DEF_ObjectJc_SIMPLE  //Note: this feature is not able to use for ObjectJc simple
+//#ifndef DEF_ObjectJc_SIMPLE  //Note: this feature is not able to use for ObjectJc simple
 
+#ifdef DEF_REFLECTION_FULL
 
 const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 { null    //0x0

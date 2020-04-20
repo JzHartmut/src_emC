@@ -36,7 +36,7 @@
  ****************************************************************************/
 #ifndef __LocaleJc_h__
 #define __LocaleJc_h__
-
+#include <applstdef_emC.h>
 #include <emC/Jc/ObjectJc.h>
 
 /*@CLASS_C LocaleJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -51,7 +51,9 @@ typedef struct LocaleJc_t
   const char* country;
 } LocaleJc_s;
 
-extern_C const struct ClassJc_t reflection_LocaleJc;
+extern_C const struct ClassJc_t refl_LocaleJc;
+#define reflection_LocaleJc refl_LocaleJc
+#define idTypemC_LocaleJc 0x7f90 
 
 
 /* Enhanced references *********************************************************/
@@ -62,7 +64,7 @@ extern_C const struct ClassJc_t reflection_LocaleJc;
 #endif
 
 
-#define CONST_LocaleJc(OBJP, language, country, variant) { { CONST_ObjectJc(sizeof(LocaleJc_s), OBJP, &reflection_LocaleJc) }, language, country};
+#define INIZ_LocaleJc(OBJP, language, country, variant) { { INIZ_ObjectJc(OBJP, &refl_LocaleJc, idTypemC_LocaleJc) }, language, country};
 
 
 /**Commonly localization information, neutral.

@@ -28,7 +28,7 @@ static void stepState_StateFnCall_StateM_emC(StateMnTopFnCall_State_emC* const t
       break;
     }
   } 
-  ASSERTs_emC(abortMaxNested >0, "nested loop error", 0, 0);
+  ASSERT_emC(abortMaxNested >0, "nested loop error", 0, 0);
   //
   int32 maxRunToCompletionCycles = 100;
   if(idEvent1 == 3 || idEvent1 == 21)

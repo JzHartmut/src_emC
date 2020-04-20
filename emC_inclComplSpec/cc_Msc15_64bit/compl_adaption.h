@@ -305,6 +305,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
  * old: OS_HandlePtr
+ * search: HandlePtr_emC ( TYPE, NAME)
  */
 #define HandlePtr_emC(TYPE, NAME) uint32 NAME; 
 

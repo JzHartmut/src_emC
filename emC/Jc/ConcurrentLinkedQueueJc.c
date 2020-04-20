@@ -149,8 +149,7 @@ void* getItem_Node_ConcurrentLinkedQueueJcF(Node_ConcurrentLinkedQueueJc*  ythis
 /**compare and set item. */
 static/*private*/ bool casItem_Node_ConcurrentLinkedQueueJcF(Node_ConcurrentLinkedQueueJc*  ythis, ITEM_QueueJcREF cmp, ITEM_QueueJcREF val) 
 {
-  void* last = compareAndSwap_AtomicReference(CAST_AtomicReference(ythis->item), cmp, val);
-  return last == cmp;  //true if the last present value was equal the expected value before update.
+  return compareAndSet_AtomicRef(CAST_AtomicReference(ythis->item), cmp, val);
 }
 
 
@@ -172,8 +171,7 @@ static/*private*/ bool casNext_Node_ConcurrentLinkedQueueJcF
 , Node_ConcurrentLinkedQueueJc*  val
 ) 
 {
-  void* last = compareAndSwap_AtomicReference(CAST_AtomicReference(ythis->next), cmp, val);
-  return last == cmp;  //true if the last present value was equal the expected value before update.
+  return compareAndSet_AtomicRef(CAST_AtomicReference(ythis->next), cmp, val);
 }
 
 /*
@@ -185,14 +183,12 @@ static void setNext_Node_ConcurrentLinkedQueueJcF(Node_ConcurrentLinkedQueueJc* 
 
 static/*private*/ bool casTail_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, Node_ConcurrentLinkedQueueJc*  cmp, Node_ConcurrentLinkedQueueJc*  val) 
 {
-  void* last = compareAndSwap_AtomicReference(CAST_AtomicReference(ythis->tail), cmp, val);
-  return last == cmp;  //true if the last present value was equal the expected value before update.
+  return compareAndSet_AtomicRef(CAST_AtomicReference(ythis->tail), cmp, val);
 }
 
 static/*private*/ bool casHead_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, Node_ConcurrentLinkedQueueJc*  cmp, Node_ConcurrentLinkedQueueJc*  val) 
-{
-  void* last = compareAndSwap_AtomicReference(CAST_AtomicReference(ythis->head), cmp, val);
-  return last == cmp;  //true if the last present value was equal the expected value before update.
+{ //true if the last present value was equal the expected value before update.
+  return compareAndSet_AtomicRef(CAST_AtomicReference(ythis->head), cmp, val);
 }
 
 
@@ -609,8 +605,8 @@ Node_ConcurrentLinkedQueueJc*  new_Node_ConcurrentLinkedQueueJcF(ConcurrentLinke
       { //The new firstFreeNode is the next from current firstFreeNode.
         newFirstFreeNode = newNode->next; //may be null if it is the last one. 
         //Set the newFirstFreeNode only if the newNode is still the current. 
-        { void* last = compareAndSwap_AtomicReference(CAST_AtomicReference(*firstFreeNode), newNode, newFirstFreeNode);
-          bRepeatCompareAndSet = (last != newNode);  //repeat it if it isn't successfully.
+        { bRepeatCompareAndSet = !compareAndSet_AtomicRef(CAST_AtomicReference(*firstFreeNode), newNode, newFirstFreeNode);
+          //repeat it if it isn't successfully.
         }
       }
     }while(bRepeatCompareAndSet);
@@ -644,8 +640,8 @@ void restitute_Node_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, N
       currentFirstFreeNode = *firstFreeNode;  
       node->next = currentFirstFreeNode;   //It is correct if the finite compareAndSet will be successfull.
       //Set the newFirstFreeNode only if the currentFirstFreeNode is still the current. 
-      { void* last = compareAndSwap_AtomicReference(CAST_AtomicReference(*firstFreeNode), currentFirstFreeNode, node);
-        bRepeatCompareAndSet = (last != currentFirstFreeNode);  //repeat it if it isn't successfully.
+      { bRepeatCompareAndSet = !compareAndSet_AtomicRef(CAST_AtomicReference(*firstFreeNode), currentFirstFreeNode, node);
+        //repeat it if it isn't successfully.
       }
     }while(bRepeatCompareAndSet);
   }

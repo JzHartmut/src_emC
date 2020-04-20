@@ -9,7 +9,7 @@
 
 void ctor_GetValue_Inspc(GetValue_Inspc* thiz, float Tstep)
 {
-  initReflection_ObjectJc(&thiz->object, thiz, sizeof(GetValue_Inspc), null, 0x0);
+  iniz_ObjectJc(&thiz->object, thiz, sizeof(GetValue_Inspc), null, 0x0);
   memset(thiz->addr, 0, sizeof(thiz->addr));
 }
 

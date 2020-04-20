@@ -227,7 +227,7 @@ inline void checkSize_MemC(MemC mem, int size, struct ThreadContext_emC_t* _thCx
 /**Builds a MemC struct and returns it per value.
 * This is a helper method to supply a MemC argument in a method call.
 */
-inline MemC build_MemC(void* address, int size) {
+INLINE_emC MemC build_MemC ( void* address, int size) {
   MemC ret; SET_MemC(ret, address, size);
   return ret;
 }

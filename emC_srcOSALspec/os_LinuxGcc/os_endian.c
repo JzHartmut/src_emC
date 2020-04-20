@@ -35,7 +35,7 @@
  ****************************************************************************/
 #include <emC/OSAL/os_endian.h>
 
-int64_t getInt64BigEndian(int64BigEndian* addr)
+int64_t getInt64BigEndian(int64BigEndian const* addr)
 { int32_t loBig,hiBig, lo, hi;
   int64_t ret;
   //NOTE: do only 1 access to memory.
@@ -47,7 +47,7 @@ int64_t getInt64BigEndian(int64BigEndian* addr)
   return ret;
 }
 
-int32_t getInt32BigEndian(int32BigEndian* addr)
+int32_t getInt32BigEndian(int32BigEndian const* addr)
 { int32_t loBig;
   int32_t ret;
   //NOTE: do only 1 access to memory.
@@ -56,7 +56,7 @@ int32_t getInt32BigEndian(int32BigEndian* addr)
   return ret;
 }
 
-int16_t getInt16BigEndian(int16BigEndian* addr)
+int16_t getInt16BigEndian(int16BigEndian const* addr)
 { int16_t loBig;
   int16_t ret;
   //NOTE: do only 1 access to memory.
@@ -65,7 +65,7 @@ int16_t getInt16BigEndian(int16BigEndian* addr)
   return ret;
 }
 
-float getFloatBigEndian(floatBigEndian* addr)
+float getFloatBigEndian(floatBigEndian const* addr)
 { int32_t loBig;
   int32_t lo;
   float ret;
@@ -76,7 +76,7 @@ float getFloatBigEndian(floatBigEndian* addr)
   return ret;
 }
 
-double getDoubleBigEndian(doubleBigEndian* addr)
+double getDoubleBigEndian(doubleBigEndian const* addr)
 { int32_t loBig,hiBig, lo, hi;
   int64_t value;
   double ret;
@@ -90,7 +90,7 @@ double getDoubleBigEndian(doubleBigEndian* addr)
   return ret;
 }
 
-void* getPtrBigEndian(ptrBigEndian* addr)
+void* getPtrBigEndian(ptrBigEndian const* addr)
 { int32_t loBig, hiBig;
   struct ptr_t{int32_t lo; int32_t hi; }imgPtr = {0, 0};
   int sizePtr = sizeof(void*); //may be depending on several compiler options.

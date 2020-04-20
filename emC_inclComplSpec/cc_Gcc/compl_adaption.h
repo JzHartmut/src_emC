@@ -275,7 +275,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #endif
 
 //In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
-#define DEF_HandlePtr64
+//#define DEF_HandlePtr64
 
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */

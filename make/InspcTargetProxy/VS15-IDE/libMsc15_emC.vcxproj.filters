@@ -348,6 +348,9 @@
     <ClCompile Include="..\..\..\emC\InspcTargetSimple\Target2ProxySharedMem_Inspc.c">
       <Filter>Source Files\InspcTargetSimple</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\emC\Base\TestHeaderCC_emC.c">
+      <Filter>Source Files\emC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\emC\Base\Event_emC.h">
@@ -622,6 +625,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\emC\InspcTargetSimple\Target2ProxySharedMem_Inspc.h">
       <Filter>Source Files\InspcTargetSimple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\emC_srcApplSpec\applConv\ObjectJc_full.h">
+      <Filter>Source Files\ApplSpec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\emC\Base\ObjectJcVtbl_emC.h">
+      <Filter>Source Files\emC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
