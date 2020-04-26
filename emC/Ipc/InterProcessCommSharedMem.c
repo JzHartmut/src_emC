@@ -60,7 +60,7 @@
 const StringJc sSharedMem_InterProcessCommSharedMem = CONST_StringJc("SharedMem:", 7);
 
 
-extern const struct ClassJc_t reflection_InterProcessCommSharedMem_s; 
+extern const struct ClassJc_t refl_InterProcessCommSharedMem_s; 
 
 
 
@@ -116,7 +116,7 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessCommSharedMem(ObjectJc* ot
 { 
   Address_InterProcessComm_s* ythis = (Address_InterProcessComm_s*)othis; 
   STACKTRC_ENTRY("ctorO_Address_InterProcessCommSharedMem");
-  checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &reflection_Address_InterProcessComm, _thCxt);
+  checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &refl_Address_InterProcessComm, _thCxt);
 
   strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
@@ -246,7 +246,7 @@ InterProcessCommSharedMem_s* ctorO_InterProcessCommSharedMem(ObjectJc* othis, Ad
   InterProcessCommSharedMem_s* ythis = (InterProcessCommSharedMem_s*)othis;
   STACKTRC_TENTRY("ctorO_InterProcessCommSharedMem");
   checkConsistence_ObjectJc(othis, sizeof(InterProcessCommSharedMem_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_InterProcessCommSharedMem_s, sizeof(InterProcessCommSharedMem_s));  
+  setReflection_ObjectJc(othis, &refl_InterProcessCommSharedMem_s, sizeof(InterProcessCommSharedMem_s));  
   ctor_InterProcessCommSharedMem(ythis, addr);
   return ythis;
 }
@@ -499,12 +499,12 @@ Address_InterProcessComm_s* createAddress_II_InterProcessCommSharedMem(ObjectJc*
  */
 
 #include <emC/Jc/ReflectionJc.h>
-const ClassJc reflection_InterProcessCommSharedMem_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InterProcessCommSharedMem_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InterProcessCommSharedMem_s"
 ,  0 //position of ObjectJc
 , sizeof(InterProcessCommSharedMem_s)
-, null //(FieldJcArray const*)&reflection_Fields_InterProcessCommSharedMem_s
+, null //(FieldJcArray const*)&refl_Fields_InterProcessCommSharedMem_s
 , null //method
 , null //(ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommSharedMem_s //superclass
 , null //interfaces

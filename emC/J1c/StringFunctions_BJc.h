@@ -44,12 +44,12 @@ typedef struct StringFunctions_BJc_t
 typedef struct StringFunctions_BJc_X_t { ObjectArrayJc head; StringFunctions_BJcREF data[50]; } StringFunctions_BJc_X;
 typedef struct StringFunctions_BJc_Y_t { ObjectArrayJc head; StringFunctions_BJc_s data[50]; } StringFunctions_BJc_Y;
 
- extern_C struct ClassJc_t const reflection_StringFunctions_BJc_s;
+ extern_C struct ClassJc_t const refl_StringFunctions_BJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_StringFunctions_BJc(OBJP) { CONST_ObjectJc(sizeof(StringFunctions_BJc_s), OBJP, &reflection_StringFunctions_BJc_s), 0 }
+#define CONST_StringFunctions_BJc(OBJP) { CONST_ObjectJc(sizeof(StringFunctions_BJc_s), OBJP, &refl_StringFunctions_BJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -92,7 +92,7 @@ typedef struct Vtbl_StringFunctions_BJc_t
 class StringFunctions_BJc : private StringFunctions_BJc_s
 { public:
 
-  StringFunctions_BJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctions_BJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctions_BJc_s, 0); ctorO_StringFunctions_BJc(&this->base.object,  null/*_thCxt*/); }
+  StringFunctions_BJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctions_BJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringFunctions_BJc_s, 0); ctorO_StringFunctions_BJc(&this->base.object,  null/*_thCxt*/); }
 
   StringJc firstLine(CharSeqJc src){  return firstLine_StringFunctions_BJc(src,  null/*_thCxt*/); }
 

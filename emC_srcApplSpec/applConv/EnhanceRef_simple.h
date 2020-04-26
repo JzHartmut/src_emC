@@ -28,14 +28,14 @@
  * @param TYPE the type of the reference.
  */
 #define DEFINE_REFLECTION_REF(TYPE) \
-  extern_C struct ClassJc_t const reflection_##TYPE; \
-  extern_C struct ClassJc_t const reflection_##TYPE##REF; \
-  const struct Reflection_Fields_##TYPE##REF_t{ ObjectArrayJc head; FieldJc data[2];} reflection_Fields_##TYPE##REF = \
-  { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_##TYPE##REF) \
-  , { { "ref", 0 , &reflection_##TYPE, 0, 0, 0, &reflection_##TYPE##REF } \
+  extern_C struct ClassJc_t const refl_##TYPE; \
+  extern_C struct ClassJc_t const refl_##TYPE##REF; \
+  const struct Reflection_Fields_##TYPE##REF_t{ ObjectArrayJc head; FieldJc data[2];} refl_Fields_##TYPE##REF = \
+  { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_##TYPE##REF) \
+  , { { "ref", 0 , &refl_##TYPE, 0, 0, 0, &refl_##TYPE##REF } \
   } }; \
-  const ClassJc reflection_##TYPE##REF =\
-  { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_##TYPE##REF, null) \
-  , "Ptr", 0, sizeof(TYPE##REF), (FieldJcArray const*)&reflection_Fields_##TYPE##REF \
+  const ClassJc refl_##TYPE##REF =\
+  { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_##TYPE##REF, null) \
+  , "Ptr", 0, sizeof(TYPE##REF), (FieldJcArray const*)&refl_Fields_##TYPE##REF \
   }
 

@@ -5,34 +5,34 @@
 //#include <stddef.h>
 
 
-extern_C const ClassJc reflection_ComparatorJc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_ObjectJc;  //used for field object
+extern_C const ClassJc refl_ComparatorJc;  //the just defined refl_ used in the own fields.
+extern_C const ClassJc refl_ObjectJc;  //used for field object
   
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_ComparatorJc_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_ComparatorJc =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_ComparatorJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
                                                                    
-const ClassJc reflection_ComparatorJc =
-{ INIZ_objReflId_ObjectJc(reflection_ComparatorJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_ComparatorJc =
+{ INIZ_objReflId_ObjectJc(refl_ComparatorJc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "ComparatorJc"
 , 0
 , sizeof(ComparatorJc)

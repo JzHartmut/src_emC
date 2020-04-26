@@ -23,7 +23,7 @@ int32 clocksFloatPerMicro_Time_emC = 0;
   //#include <emC/OSAL/genRefl/os_time.crefloffs>  //include here, different Implementations on osal level.
   //#include <emC/OSAL/genRefl/os_file.crefloffs>
 #elif defined(DEF_REFLECTION_SIMPLE)
-  ClassJc const reflection_xyz = INIZ_ClassJc(reflection_xyz, 0, "XYZ");
+  ClassJc const refl_xyz = INIZ_ClassJc(refl_xyz, 0, "XYZ");
 #endif
 
 OS_TimeStamp* ctorM_OS_TimeStamp  (  MemC mem)

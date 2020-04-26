@@ -6,7 +6,7 @@
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc reflection_Par_PID_Ctrl;
+extern_C const ClassJc refl_Par_PID_Ctrl;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
 int32 const reflectionOffset_Par_PID_Ctrl[] =
@@ -17,24 +17,24 @@ int32 const reflectionOffset_Par_PID_Ctrl[] =
 
   
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_Par_PID_Ctrl_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_Par_PID_Ctrl_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_Par_PID_Ctrl_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -42,8 +42,8 @@ const struct SuperClasses_Par_PID_Ctrl_s_ClassOffset_idxVtblJcARRAY_t  //Type fo
 const struct Reflection_Fields_Par_PID_Ctrl_s_t
 { ObjectArrayJc head;
   FieldJc data[7];
-} reflection_Fields_Par_PID_Ctrl_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_Par_PID_Ctrl_s, 7, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_Par_PID_Ctrl_s =
+{ INIZ_ObjectArrayJc(refl_Fields_Par_PID_Ctrl_s, 7, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "kP"
     , 0   //no Array, no Bitfield                           
@@ -51,7 +51,7 @@ const struct Reflection_Fields_Par_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PID_Ctrl_s*)(0x1000))->kP)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Par_PID_Ctrl
+    , &refl_Par_PID_Ctrl
     }
   , 
     { "Tn"
@@ -60,7 +60,7 @@ const struct Reflection_Fields_Par_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PID_Ctrl_s*)(0x1000))->Tn)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Par_PID_Ctrl
+    , &refl_Par_PID_Ctrl
     }
   , 
     { "Td"
@@ -69,7 +69,7 @@ const struct Reflection_Fields_Par_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PID_Ctrl_s*)(0x1000))->Td)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Par_PID_Ctrl
+    , &refl_Par_PID_Ctrl
     }
   , 
     { "T1d"
@@ -78,7 +78,7 @@ const struct Reflection_Fields_Par_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PID_Ctrl_s*)(0x1000))->T1d)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Par_PID_Ctrl
+    , &refl_Par_PID_Ctrl
     }
   , 
     { "lim"
@@ -87,7 +87,7 @@ const struct Reflection_Fields_Par_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PID_Ctrl_s*)(0x1000))->lim)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Par_PID_Ctrl
+    , &refl_Par_PID_Ctrl
     }
   , 
     { "man"
@@ -96,7 +96,7 @@ const struct Reflection_Fields_Par_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PID_Ctrl_s*)(0x1000))->lim)) -0x1000 ) + sizeof(((Par_PID_Ctrl_s*)(0x1000))->lim)/* offset on bitfield: offset of element before + sizeof(element before) */
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Par_PID_Ctrl
+    , &refl_Par_PID_Ctrl
     }
   , 
     { "limPbeforeD"
@@ -105,18 +105,18 @@ const struct Reflection_Fields_Par_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PID_Ctrl_s*)(0x1000))->lim)) -0x1000 ) + sizeof(((Par_PID_Ctrl_s*)(0x1000))->lim)/* offset on bitfield: offset of element before + sizeof(element before) */
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Par_PID_Ctrl
+    , &refl_Par_PID_Ctrl
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_Par_PID_Ctrl =
-{ INIZ_objReflId_ObjectJc(reflection_Par_PID_Ctrl, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_Par_PID_Ctrl =
+{ INIZ_objReflId_ObjectJc(refl_Par_PID_Ctrl, &refl_ClassJc, INIZ_ID_ClassJc)
 , "Par_PID_Ctrl"
 , 0
 , sizeof(Par_PID_Ctrl_s)
-, (FieldJcArray const*)&reflection_Fields_Par_PID_Ctrl_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_Par_PID_Ctrl_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_Par_PID_Ctrl_s  //superclass  
 , null  //interfaces  
@@ -128,7 +128,7 @@ const ClassJc reflection_Par_PID_Ctrl =
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc reflection_Internal_PID_Ctrl;
+extern_C const ClassJc refl_Internal_PID_Ctrl;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
 int32 const reflectionOffset_Internal_PID_Ctrl[] =
@@ -138,13 +138,13 @@ int32 const reflectionOffset_Internal_PID_Ctrl[] =
 #else  //DEF_REFLECTION_FULL
 
 
-extern_C const ClassJc reflection_int64;  //used for field fI
+extern_C const ClassJc refl_int64;  //used for field fI
 
 const struct Reflection_Fields_Internal_PID_Ctrl_t
 { ObjectArrayJc head;
   FieldJc data[5];
-} reflection_Fields_Internal_PID_Ctrl =
-{ INIZ_ObjectArrayJc(reflection_Fields_Internal_PID_Ctrl, 5, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_Internal_PID_Ctrl =
+{ INIZ_ObjectArrayJc(refl_Fields_Internal_PID_Ctrl, 5, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "fTsD"
     , 0   //no Array, no Bitfield                           
@@ -152,7 +152,7 @@ const struct Reflection_Fields_Internal_PID_Ctrl_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Internal_PID_Ctrl*)(0x1000))->fTsD)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Internal_PID_Ctrl
+    , &refl_Internal_PID_Ctrl
     }
   , 
     { "fD"
@@ -161,16 +161,16 @@ const struct Reflection_Fields_Internal_PID_Ctrl_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Internal_PID_Ctrl*)(0x1000))->fD)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Internal_PID_Ctrl
+    , &refl_Internal_PID_Ctrl
     }
   , 
     { "fI"
     , 0   //no Array, no Bitfield                           
-    , &reflection_int64                                                                                            
+    , &refl_int64                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Internal_PID_Ctrl*)(0x1000))->fI)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Internal_PID_Ctrl
+    , &refl_Internal_PID_Ctrl
     }
   , 
     { "fIx"
@@ -179,7 +179,7 @@ const struct Reflection_Fields_Internal_PID_Ctrl_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Internal_PID_Ctrl*)(0x1000))->fIx)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Internal_PID_Ctrl
+    , &refl_Internal_PID_Ctrl
     }
   , 
     { "fIy"
@@ -188,18 +188,18 @@ const struct Reflection_Fields_Internal_PID_Ctrl_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Internal_PID_Ctrl*)(0x1000))->fIy)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_Internal_PID_Ctrl
+    , &refl_Internal_PID_Ctrl
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_Internal_PID_Ctrl =
-{ INIZ_objReflId_ObjectJc(reflection_Internal_PID_Ctrl, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_Internal_PID_Ctrl =
+{ INIZ_objReflId_ObjectJc(refl_Internal_PID_Ctrl, &refl_ClassJc, INIZ_ID_ClassJc)
 , "Internal_PID_Ctrl"
 , 0
 , sizeof(Internal_PID_Ctrl)
-, (FieldJcArray const*)&reflection_Fields_Internal_PID_Ctrl  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_Internal_PID_Ctrl  //attributes and associations
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
@@ -211,7 +211,7 @@ const ClassJc reflection_Internal_PID_Ctrl =
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc reflection_PID_Ctrl;
+extern_C const ClassJc refl_PID_Ctrl;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
 int32 const reflectionOffset_PID_Ctrl[] =
@@ -221,33 +221,33 @@ int32 const reflectionOffset_PID_Ctrl[] =
 #else  //DEF_REFLECTION_FULL
 
 
-extern_C const ClassJc reflection_Par_PID_Ctrl;  //used for field par
+extern_C const ClassJc refl_Par_PID_Ctrl;  //used for field par
 
-extern_C const ClassJc reflection_int64;  //used for field qI
+extern_C const ClassJc refl_int64;  //used for field qI
 
-extern_C const ClassJc reflection_Internal_PID_Ctrl;  //used for field f
+extern_C const ClassJc refl_Internal_PID_Ctrl;  //used for field f
 
-extern_C const ClassJc reflection_Internal_PID_Ctrl;  //used for field _internal
+extern_C const ClassJc refl_Internal_PID_Ctrl;  //used for field _internal
   
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_PID_Ctrl_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_PID_Ctrl_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_PID_Ctrl_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -255,16 +255,16 @@ const struct SuperClasses_PID_Ctrl_s_ClassOffset_idxVtblJcARRAY_t  //Type for th
 const struct Reflection_Fields_PID_Ctrl_s_t
 { ObjectArrayJc head;
   FieldJc data[14];
-} reflection_Fields_PID_Ctrl_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_PID_Ctrl_s, 14, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_PID_Ctrl_s =
+{ INIZ_ObjectArrayJc(refl_Fields_PID_Ctrl_s, 14, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "par"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Par_PID_Ctrl                                                                                            
+    , &refl_Par_PID_Ctrl                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->par)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "Tstep"
@@ -273,7 +273,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->Tstep)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "dwxP"
@@ -282,7 +282,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->dwxP)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "wxP"
@@ -291,7 +291,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->wxP)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "wxPD"
@@ -300,7 +300,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->wxPD)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "y"
@@ -309,16 +309,16 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->y)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "qI"
     , 0   //no Array, no Bitfield                           
-    , &reflection_int64                                                                                            
+    , &refl_int64                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->qI)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "qIhi"
@@ -327,7 +327,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->qIhi)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "wxP32"
@@ -336,7 +336,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->wxP32)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "wxPD32"
@@ -345,7 +345,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->wxPD32)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "qD1"
@@ -354,7 +354,7 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->qD1)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "dbgct_reparam"
@@ -363,36 +363,36 @@ const struct Reflection_Fields_PID_Ctrl_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->dbgct_reparam)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "f"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Internal_PID_Ctrl                                                                                            
+    , &refl_Internal_PID_Ctrl                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->f)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   , 
     { "_internal"
     , 2 //nrofArrayElements                           
-    , &reflection_Internal_PID_Ctrl                                                                                            
+    , &refl_Internal_PID_Ctrl                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((PID_Ctrl_s*)(0x1000))->_internal)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_PID_Ctrl
+    , &refl_PID_Ctrl
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_PID_Ctrl =
-{ INIZ_objReflId_ObjectJc(reflection_PID_Ctrl, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_PID_Ctrl =
+{ INIZ_objReflId_ObjectJc(refl_PID_Ctrl, &refl_ClassJc, INIZ_ID_ClassJc)
 , "PID_Ctrl"
 , 0
 , sizeof(PID_Ctrl_s)
-, (FieldJcArray const*)&reflection_Fields_PID_Ctrl_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_PID_Ctrl_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_PID_Ctrl_s  //superclass  
 , null  //interfaces  

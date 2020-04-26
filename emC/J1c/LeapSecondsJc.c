@@ -57,7 +57,7 @@ struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _thCxt)
   Vtbl_LeapSecondsJc const* mtthis = &mtblLeapSecondsJc.mtbl;
   STACKTRC_TENTRY("ctorO_LeapSecondsJc");
   checkConsistence_ObjectJc(othis, sizeof(LeapSecondsJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_LeapSecondsJc_s, sizeof(LeapSecondsJc_s));  
+  setReflection_ObjectJc(othis, &refl_LeapSecondsJc_s, sizeof(LeapSecondsJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj1_1=null, *newObj1_2=null; /*J2C: temporary Objects for new operations
       */
@@ -286,22 +286,22 @@ const VtblDef_LeapSecondsJc mtblLeapSecondsJc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_LeapSecondsJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_LeapSecondsJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_LeapSecondsJc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_LeapSecondsJc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_LeapSecondsJc_s;
-extern_C struct ClassJc_t const reflection_LeapSecondsJc_s;
+extern_C struct ClassJc_t const refl_LeapSecondsJc_s;
+extern_C struct ClassJc_t const refl_LeapSecondsJc_s;
 const struct Reflection_Fields_LeapSecondsJc_s_t
 { ObjectArrayJc head; FieldJc data[4];
-} reflection_Fields_LeapSecondsJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_LeapSecondsJc_s)
+} refl_Fields_LeapSecondsJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &refl_Fields_LeapSecondsJc_s)
 , {
      { "leapSeconds"
     , 30 //nrofArrayElements
@@ -309,7 +309,7 @@ const struct Reflection_Fields_LeapSecondsJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((LeapSecondsJc_s*)(0x1000))->leapSeconds) - (intptr_t)(LeapSecondsJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LeapSecondsJc_s
+    , &refl_LeapSecondsJc_s
     }
    , { "millisecondsUTCForLeapSeconds"
     , 0 //nrofArrayElements
@@ -317,7 +317,7 @@ const struct Reflection_Fields_LeapSecondsJc_s_t
     , 8 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kReferencedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((LeapSecondsJc_s*)(0x1000))->millisecondsUTCForLeapSeconds) - (intptr_t)(LeapSecondsJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LeapSecondsJc_s
+    , &refl_LeapSecondsJc_s
     }
    , { "millisecondsGPSForLeapSeconds"
     , 0 //nrofArrayElements
@@ -325,23 +325,23 @@ const struct Reflection_Fields_LeapSecondsJc_s_t
     , 8 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kReferencedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((LeapSecondsJc_s*)(0x1000))->millisecondsGPSForLeapSeconds) - (intptr_t)(LeapSecondsJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LeapSecondsJc_s
+    , &refl_LeapSecondsJc_s
     }
    , { "singleton"
     , 0 //nrofArrayElements
-    , &reflection_LeapSecondsJc_s
+    , &refl_LeapSecondsJc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&singleton_LeapSecondsJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&singleton_LeapSecondsJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_LeapSecondsJc_s
+    , &refl_LeapSecondsJc_s
     }
 } };
-const ClassJc reflection_LeapSecondsJc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_LeapSecondsJc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "LeapSecondsJc_s"
 ,  0 //position of ObjectJc
 , sizeof(LeapSecondsJc_s)
-, (FieldJc_Y const*)&reflection_Fields_LeapSecondsJc_s
+, (FieldJc_Y const*)&refl_Fields_LeapSecondsJc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_LeapSecondsJc_s //superclass
 , null //interfaces

@@ -48,12 +48,12 @@ typedef struct LeapSecondsJc_t
 typedef struct LeapSecondsJc_X_t { ObjectArrayJc head; LeapSecondsJcREF data[50]; } LeapSecondsJc_X;
 typedef struct LeapSecondsJc_Y_t { ObjectArrayJc head; LeapSecondsJc_s data[50]; } LeapSecondsJc_Y;
 
- extern_C struct ClassJc_t const reflection_LeapSecondsJc_s;
+ extern_C struct ClassJc_t const refl_LeapSecondsJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_LeapSecondsJc(OBJP) { CONST_ObjectJc(sizeof(LeapSecondsJc_s), OBJP, &reflection_LeapSecondsJc_s), 0 }
+#define CONST_LeapSecondsJc(OBJP) { CONST_ObjectJc(sizeof(LeapSecondsJc_s), OBJP, &refl_LeapSecondsJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -105,7 +105,7 @@ typedef struct Vtbl_LeapSecondsJc_t
 class LeapSecondsJc : private LeapSecondsJc_s
 { public:
 
-  LeapSecondsJc(){ iniz_ObjectJc(&this->base.object, this, sizeof(LeapSecondsJc_s), &reflection_LeapSecondsJc_s, 0); ctorO_LeapSecondsJc(&this->base.object,  null/*_thCxt*/); }
+  LeapSecondsJc(){ iniz_ObjectJc(&this->base.object, this, sizeof(LeapSecondsJc_s), &refl_LeapSecondsJc_s, 0); ctorO_LeapSecondsJc(&this->base.object,  null/*_thCxt*/); }
 
   struct DateJc_t* dateFromGPS(int64 millisecondsGPS){  return dateFromGPS_LeapSecondsJc(millisecondsGPS,  null/*_thCxt*/); }
 

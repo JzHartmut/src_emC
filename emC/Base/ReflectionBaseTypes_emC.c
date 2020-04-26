@@ -39,8 +39,8 @@
 
 
 /************************************************************************/
-const ClassJc  reflection__intJc =
-{ CONST_ObjectJc(0, &reflection__intJc, null)
+const ClassJc  refl__intJc =
+{ CONST_ObjectJc(0, &refl__intJc, null)
   , "int"
   , 0 //Position of the data of this class itself, after some superclasses.
   , sizeof(int32)
@@ -53,8 +53,8 @@ const ClassJc  reflection__intJc =
 
 
 
-const ClassJc reflection__booleanJc =
-{ CONST_ObjectJc(0, &reflection__booleanJc, null)
+const ClassJc refl__booleanJc =
+{ CONST_ObjectJc(0, &refl__booleanJc, null)
 
 , "boolean"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -67,8 +67,8 @@ const ClassJc reflection__booleanJc =
 };
 
 
-const ClassJc reflection__voidJc =
-{ CONST_ObjectJc(0, &reflection__voidJc, null)
+const ClassJc refl__voidJc =
+{ CONST_ObjectJc(0, &refl__voidJc, null)
 
 , "void"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -81,8 +81,8 @@ const ClassJc reflection__voidJc =
 };
 
 
-const ClassJc reflection__floatJc =
-{ CONST_ObjectJc(0, &reflection__floatJc, null)
+const ClassJc refl__floatJc =
+{ CONST_ObjectJc(0, &refl__floatJc, null)
 
   , "float"
   , 0 //Position of the data of this class itself, after some superclasses.
@@ -95,8 +95,8 @@ const ClassJc reflection__floatJc =
 };
 
 
-const ClassJc reflection__longJc =
-{ CONST_ObjectJc(0, &reflection__longJc, null)
+const ClassJc refl__longJc =
+{ CONST_ObjectJc(0, &refl__longJc, null)
 
 , "long"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -109,8 +109,8 @@ const ClassJc reflection__longJc =
 };
 
 
-const ClassJc reflection__byteJc =
-{ CONST_ObjectJc(0, &reflection__byteJc, null)
+const ClassJc refl__byteJc =
+{ CONST_ObjectJc(0, &refl__byteJc, null)
 
 , "byte"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -123,8 +123,8 @@ const ClassJc reflection__byteJc =
 };
 
 
-const ClassJc reflection__shortJc =
-{ CONST_ObjectJc(0, &reflection__shortJc
+const ClassJc refl__shortJc =
+{ CONST_ObjectJc(0, &refl__shortJc
 , null)
 , "short"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -137,8 +137,8 @@ const ClassJc reflection__shortJc =
 };
 
 
-const ClassJc reflection__charJc =
-{ CONST_ObjectJc(0, &reflection__charJc
+const ClassJc refl__charJc =
+{ CONST_ObjectJc(0, &refl__charJc
 , null)
 , "char"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -151,8 +151,8 @@ const ClassJc reflection__charJc =
 };
 
 
-const ClassJc reflection__char16Jc =
-{ CONST_ObjectJc(0, &reflection__char16Jc
+const ClassJc refl__char16Jc =
+{ CONST_ObjectJc(0, &refl__char16Jc
 , null)
 , "char16"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -165,8 +165,8 @@ const ClassJc reflection__char16Jc =
 };
 
 
-const ClassJc reflection__doubleJc =
-{ CONST_ObjectJc(0, &reflection__doubleJc
+const ClassJc refl__doubleJc =
+{ CONST_ObjectJc(0, &refl__doubleJc
 , null)
 , "double"
 , 0 //Position of the data of this class itself, after some superclasses.
@@ -179,8 +179,8 @@ const ClassJc reflection__doubleJc =
 };
 
 
-const ClassJc  reflection_bitfieldJc =
-{ CONST_ObjectJc(0, &reflection__intJc, null)
+const ClassJc  refl_bitfieldJc =
+{ CONST_ObjectJc(0, &refl__intJc, null)
   , "bitfield"
   , 0 //Position of the data of this class itself, after some superclasses.
   , sizeof(int32)
@@ -196,12 +196,12 @@ const ClassJc  reflection_bitfieldJc =
 #include "emC/Base/os_types_def_common.h"
 
 
-extern_C const ClassJc reflection_int64_hilo;  //the just defined reflection_
+extern_C const ClassJc refl_int64_hilo;  //the just defined refl_
 const struct Reflection_Fields_int64_hilo_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_int64_hilo =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int64_hilo)
+} refl_Fields_int64_hilo =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_int64_hilo)
 , {
     { "lo"
     , 0   //no Array, no Bitfield
@@ -209,7 +209,7 @@ const struct Reflection_Fields_int64_hilo_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)(OFFSETinTYPE_MemUnit(int64_hilo, lo))
     , 0  //offsetToObjectifcBase
-    , &reflection_int64_hilo
+    , &refl_int64_hilo
     }
   , { "hi"
     , 0   //no Array, no Bitfield
@@ -217,17 +217,17 @@ const struct Reflection_Fields_int64_hilo_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)(OFFSETinTYPE_MemUnit(int64_hilo,hi))
     , 0  //offsetToObjectifcBase
-    , &reflection_int64_hilo
+    , &refl_int64_hilo
     }
 } };
 
 
-const ClassJc reflection_int64_hilo =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_int64_hilo, &reflection_ClassJc)
+const ClassJc refl_int64_hilo =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_int64_hilo, &refl_ClassJc)
 , "int64_hilo"
 , 0
 , sizeof(int64_hilo)
-, (FieldJcArray const*)&reflection_Fields_int64_hilo  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_int64_hilo  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -237,13 +237,13 @@ const ClassJc reflection_int64_hilo =
 
 
 
-extern_C const ClassJc reflection_int64_uhilo;  //the just defined reflection_
-extern_C const ClassJc reflection_int64_hilo;
+extern_C const ClassJc refl_int64_uhilo;  //the just defined refl_
+extern_C const ClassJc refl_int64_hilo;
 const struct Reflection_Fields_int64_uhilo_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_int64_uhilo =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int64_uhilo)
+} refl_Fields_int64_uhilo =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_int64_uhilo)
 , {
     { "v"
     , 0   //no Array, no Bitfield
@@ -251,25 +251,25 @@ const struct Reflection_Fields_int64_uhilo_t
     , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)(OFFSETinTYPE_MemUnit(int64_uhilo,v))
     , 0  //offsetToObjectifcBase
-    , &reflection_int64_uhilo
+    , &refl_int64_uhilo
     }
   , { "hilo"
     , 0   //no Array, no Bitfield
-    , &reflection_int64_hilo
+    , &refl_int64_hilo
     , 0 //bitModifiers
     , (int16)(OFFSETinTYPE_MemUnit(int64_uhilo,hilo))
     , 0  //offsetToObjectifcBase
-    , &reflection_int64_uhilo
+    , &refl_int64_uhilo
     }
 } };
 
 
-const ClassJc reflection_int64_uhilo =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_int64_uhilo, &reflection_ClassJc)
+const ClassJc refl_int64_uhilo =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_int64_uhilo, &refl_ClassJc)
 , "int64_uhilo"
 , 0
 , sizeof(int64_uhilo)
-, (FieldJcArray const*)&reflection_Fields_int64_uhilo  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_int64_uhilo  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -281,8 +281,8 @@ const ClassJc reflection_int64_uhilo =
 const struct Reflection_Fields_float_complex_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_float_complex =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_float_complex)
+} refl_Fields_float_complex =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_float_complex)
 , {
     { "re"
     , 0   //no Array, no Bitfield
@@ -290,7 +290,7 @@ const struct Reflection_Fields_float_complex_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)(0)
     , 0  //offsetToObjectifcBase
-    , &reflection_float_complex
+    , &refl_float_complex
     }
   , { "im"
     , 0   //no Array, no Bitfield
@@ -298,17 +298,17 @@ const struct Reflection_Fields_float_complex_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)(sizeof(float))
     , 0  //offsetToObjectifcBase
-    , &reflection_float_complex
+    , &refl_float_complex
     }
 } };
 
 
-const ClassJc reflection_float_complex =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_float_complex, &reflection_ClassJc)
+const ClassJc refl_float_complex =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_float_complex, &refl_ClassJc)
 , "float_complex"
 , 0
 , sizeof(float_complex)
-, (FieldJcArray const*)&reflection_Fields_float_complex  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_float_complex  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -319,8 +319,8 @@ const ClassJc reflection_float_complex =
 const struct Reflection_Fields_double_complex_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_double_complex =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_double_complex)
+} refl_Fields_double_complex =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_double_complex)
 , {
     { "re"
     , 0   //no Array, no Bitfield
@@ -328,7 +328,7 @@ const struct Reflection_Fields_double_complex_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)(0)
     , 0  //offsetToObjectifcBase
-    , &reflection_double_complex
+    , &refl_double_complex
     }
   , { "im"
     , 0   //no Array, no Bitfield
@@ -336,17 +336,17 @@ const struct Reflection_Fields_double_complex_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)(sizeof(double))
     , 0  //offsetToObjectifcBase
-    , &reflection_double_complex
+    , &refl_double_complex
     }
 } };
 
 
-const ClassJc reflection_double_complex =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_double_complex, &reflection_ClassJc)
+const ClassJc refl_double_complex =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_double_complex, &refl_ClassJc)
 , "double_complex"
 , 0
 , sizeof(double_complex)
-, (FieldJcArray const*)&reflection_Fields_double_complex  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_double_complex  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -360,15 +360,15 @@ const ClassJc reflection_double_complex =
 #include "emC/Base/Object_emC.h"
 
 
-extern_C const ClassJc reflection_ObjectJc;  //the just defined reflection_
+extern_C const ClassJc refl_ObjectJc;  //the just defined refl_
 
-extern_C const ClassJc reflection_ObjectJc;  //the just defined reflection_
-extern_C const ClassJc reflection_ClassJc;
+extern_C const ClassJc refl_ObjectJc;  //the just defined refl_
+extern_C const ClassJc refl_ClassJc;
 const struct Reflection_Fields_ObjectJc_t
 { ObjectArrayJc head;
   FieldJc data[9];
-} reflection_Fields_ObjectJc =
-{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectJc)
+} refl_Fields_ObjectJc =
+{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &refl_Fields_ObjectJc)
 , {
     { "objectIdentSize"
     , 0   //no Array, no Bitfield
@@ -376,7 +376,7 @@ const struct Reflection_Fields_ObjectJc_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->idInstanceTypeSize) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     }
   , { "offsetToStartAddr"
     , 0x0 //bitfield nrofBits=16, bitPos=0.0
@@ -384,7 +384,7 @@ const struct Reflection_Fields_ObjectJc_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->offsetToStartAddr) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     }
   , { "idSyncHandles"
     , 0xc010 //bitfield nrofBits=12, bitPos=0.16
@@ -392,7 +392,7 @@ const struct Reflection_Fields_ObjectJc_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->handleBits) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     }
   , { "ownAddress"
     , 0   //no Array, no Bitfield
@@ -400,7 +400,7 @@ const struct Reflection_Fields_ObjectJc_t
     , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->ownAddress) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     }
   , { "ownAddress_i"
     , 2   //nrofArrayElements
@@ -408,15 +408,15 @@ const struct Reflection_Fields_ObjectJc_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->ownAddress) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     }
   , { "reflectionClass"
     , 0   //no Array, no Bitfield
-    , &reflection_ClassJc
+    , &refl_ClassJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflection) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     }
   , { "reflectionClass_i"
     , 2   //nrofArrayElements
@@ -424,7 +424,7 @@ const struct Reflection_Fields_ObjectJc_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflection) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     }
 } };
 
@@ -448,13 +448,13 @@ const VtblDef_ObjectJc vtbl_ObjectJc =
 
 
 
-const ClassJc reflection_ObjectJc =
-{ INIZ_ObjectJc(reflection_ObjectJc, &reflection_ClassJc, OBJTYPE_ClassJc)
-  //CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc)
+const ClassJc refl_ObjectJc =
+{ INIZ_ObjectJc(refl_ObjectJc, &refl_ClassJc, OBJTYPE_ClassJc)
+  //CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc)
 , "ObjectJc"
 , 0
 , sizeof(ObjectJc)
-, (FieldJcArray const*)&reflection_Fields_ObjectJc  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_ObjectJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -470,21 +470,21 @@ const ClassJc reflection_ObjectJc =
 
 
 
-extern_C const ClassJc reflection_ObjectArrayJc;  //the just defined reflection_
-extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc refl_ObjectArrayJc;  //the just defined refl_
+extern_C const ClassJc refl_ObjectJc;
 const struct Reflection_Fields_ObjectArrayJc_t
 { ObjectArrayJc head;
   FieldJc data[4];
-} reflection_Fields_ObjectArrayJc =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectArrayJc)
+} refl_Fields_ObjectArrayJc =
+{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &refl_Fields_ObjectArrayJc)
 , {
     { "object"
     , 0   //no Array, no Bitfield
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     , 0 //bitModifiers
     , (int16)((intptr_t)(&((ObjectArrayJc*)(0x1000))->object) -(intptr_t)(ObjectArrayJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectArrayJc
+    , &refl_ObjectArrayJc
     }
   , { "sizeElement"
     , 0   //no Array, no Bitfield
@@ -492,7 +492,7 @@ const struct Reflection_Fields_ObjectArrayJc_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((intptr_t)(&((ObjectArrayJc*)(0x1000))->sizeElement) -(intptr_t)(ObjectArrayJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectArrayJc
+    , &refl_ObjectArrayJc
     }
   , { "mode"
     , 0   //no Array, no Bitfield
@@ -500,7 +500,7 @@ const struct Reflection_Fields_ObjectArrayJc_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((intptr_t)(&((ObjectArrayJc*)(0x1000))->mode) -(intptr_t)(ObjectArrayJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectArrayJc
+    , &refl_ObjectArrayJc
     }
   , { "length"
     , 0   //no Array, no Bitfield
@@ -508,19 +508,19 @@ const struct Reflection_Fields_ObjectArrayJc_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((intptr_t)(&((ObjectArrayJc*)(0x1000))->length) -(intptr_t)(ObjectArrayJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectArrayJc
+    , &refl_ObjectArrayJc
     }
 } };
 
 
-extern_C const ClassJc reflection_ObjectArrayJc;
+extern_C const ClassJc refl_ObjectArrayJc;
 
-		const ClassJc reflection_ObjectArrayJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectArrayJc, &reflection_ClassJc)
+		const ClassJc refl_ObjectArrayJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectArrayJc, &refl_ClassJc)
 , "ObjectArrayJc"
 , 0
 , sizeof(ObjectArrayJc)
-, (FieldJcArray const*)&reflection_Fields_ObjectArrayJc  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_ObjectArrayJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -530,12 +530,12 @@ extern_C const ClassJc reflection_ObjectArrayJc;
 
 
 
-extern_C const ClassJc reflection_VtblHeadJc;  //the just defined reflection_
+extern_C const ClassJc refl_VtblHeadJc;  //the just defined refl_
 const struct Reflection_Fields_VtblHeadJc_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_VtblHeadJc =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_VtblHeadJc)
+} refl_Fields_VtblHeadJc =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_VtblHeadJc)
 , {
     { "sign"
     , 0   //no Array, no Bitfield
@@ -543,7 +543,7 @@ const struct Reflection_Fields_VtblHeadJc_t
     , (1<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((VtblHeadJc*)(0x1000))->sign) -(intptr_t)(VtblHeadJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_VtblHeadJc
+    , &refl_VtblHeadJc
     }
   , { "sizeTable"
     , 0   //no Array, no Bitfield
@@ -551,17 +551,17 @@ const struct Reflection_Fields_VtblHeadJc_t
     , (8<<kBitPrimitiv_Modifier_reflectJc)| mReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((VtblHeadJc*)(0x1000))->sizeTable) -(intptr_t)(VtblHeadJc*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_VtblHeadJc
+    , &refl_VtblHeadJc
     }
 } };
 
 
-const ClassJc reflection_VtblHeadJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_VtblHeadJc, &reflection_ClassJc)
+const ClassJc refl_VtblHeadJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_VtblHeadJc, &refl_ClassJc)
 , "VtblHeadJc"
 , 0
 , sizeof(VtblHeadJc)
-, (FieldJcArray const*)&reflection_Fields_VtblHeadJc  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_VtblHeadJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -569,13 +569,13 @@ const ClassJc reflection_VtblHeadJc =
 };
 
 
-extern_C const ClassJc reflection_ClassJc;
-const ClassJc reflection_ClassJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ClassJc, &reflection_ClassJc)
+extern_C const ClassJc refl_ClassJc;
+const ClassJc refl_ClassJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ClassJc, &refl_ClassJc)
 , "ClassJc"
 , 0
 , sizeof(ClassJc)
-, null //(FieldJcArray const*)&reflection_Fields_ClassJc  //attributes and associations
+, null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -588,39 +588,39 @@ const ClassJc reflection_ClassJc =
 
 /* NOTE: The types inside OS_PtrValue are not fixed, but the names.
  */
-extern_C ClassJc const reflection_OS_PtrValue;
+extern_C ClassJc const refl_OS_PtrValue;
 const struct Reflection_Fields_OS_PtrValue_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_OS_PtrValue =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_OS_PtrValue)
+} refl_Fields_OS_PtrValue =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_OS_PtrValue)
 , {
     { "ref"
     , 0 //nrofArrayElements
-    , &reflection__voidJc
+    , &refl__voidJc
     , (1<<kBitPrimitiv_Modifier_reflectJc)| kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((OS_PtrValue*)(0x1000))->addr) - (intptr_t)(OS_PtrValue*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_PtrValue
+    , &refl_OS_PtrValue
     }
   , { "val"
     , 0 //nrofArrayElements
-    , &reflection__voidJc
+    , &refl__voidJc
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)((intptr_t)(&((OS_PtrValue*)(0x1000))->val) - (intptr_t)(OS_PtrValue*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_OS_PtrValue
+    , &refl_OS_PtrValue
     }
 
 } };
 
 
-extern_C ClassJc const reflection_OS_PtrValue =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_OS_PtrValue, null)
+extern_C ClassJc const refl_OS_PtrValue =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_OS_PtrValue, null)
 , "OS_PtrValue"
 , 0     //posObjectJc
 , sizeof(OS_PtrValue)
-, (FieldJcArray const*)&reflection_Fields_OS_PtrValue  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_OS_PtrValue  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -633,30 +633,30 @@ extern_C ClassJc const reflection_OS_PtrValue =
 
 /**A StringJc is always a OS_PtrValue, but a extra type is used..
  */
-extern_C ClassJc const reflection_StringJc;
+extern_C ClassJc const refl_StringJc;
 const struct Reflection_Fields_StringJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_StringJc =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_StringJc)
+} refl_Fields_StringJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_StringJc)
 , {
     { "OS_PtrValue"
     , 0 //nrofArrayElements
-    , &reflection_OS_PtrValue
+    , &refl_OS_PtrValue
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , 0 //offset
     , 0  //offsetToObjectifcBase
-    , &reflection_StringJc
+    , &refl_StringJc
     }
 } };
 
 
-ClassJc const reflection_StringJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringJc, null)
+ClassJc const refl_StringJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_StringJc, null)
 , "StringJc"
 , 0     //posObjectJc
 , sizeof(StringJc)
-, (FieldJcArray const*)&reflection_Fields_StringJc  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_StringJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -664,12 +664,12 @@ ClassJc const reflection_StringJc =
 , null  //Vtbl
 };
 
-ClassJc const reflection_CharSeqJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringJc, null)
+ClassJc const refl_CharSeqJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_StringJc, null)
 , "CharSeqJc"
 , 0     //posObjectJc
 , sizeof(StringJc)
-, (FieldJcArray const*)&reflection_Fields_StringJc  //same as StringJc: attributes and associations
+, (FieldJcArray const*)&refl_Fields_StringJc  //same as StringJc: attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -679,30 +679,30 @@ ClassJc const reflection_CharSeqJc =
 
 /**A StringJc is always a OS_PtrValue, but a extra type is used..
  */
-extern_C ClassJc const reflection_MemSegmJc;
+extern_C ClassJc const refl_MemSegmJc;
 const struct Reflection_Fields_MemSegmJc_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_MemSegmJc =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_MemSegmJc)
+} refl_Fields_MemSegmJc =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_MemSegmJc)
 , {
     { "OS_PtrValue"
     , 0 //nrofArrayElements
-    , &reflection_OS_PtrValue
+    , &refl_OS_PtrValue
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , 0 //offset
     , 0  //offsetToObjectifcBase
-    , &reflection_MemSegmJc
+    , &refl_MemSegmJc
     }
 } };
 
 
-ClassJc const reflection_MemSegmJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_MemSegmJc, null)
+ClassJc const refl_MemSegmJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_MemSegmJc, null)
 , "MemSegmJc"
 , 0     //posObjectJc
 , sizeof(MemSegmJc)
-, (FieldJcArray const*)&reflection_Fields_MemSegmJc  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_MemSegmJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -712,12 +712,12 @@ ClassJc const reflection_MemSegmJc =
 
 /**A int64 consists of 2 int32, the inspector doesn't know the type yet.
  */
-extern_C ClassJc const reflection_int64;
+extern_C ClassJc const refl_int64;
 const struct Reflection_Fields_int64_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_int64 =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int64)
+} refl_Fields_int64 =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_int64)
 , {
     { "lo"
     , 0 //nrofArrayElements
@@ -725,7 +725,7 @@ const struct Reflection_Fields_int64_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , 0 //offset
     , 0  //offsetToObjectifcBase
-    , &reflection_int64
+    , &refl_int64
     }
   , { "hi"
     , 0 //nrofArrayElements
@@ -733,17 +733,17 @@ const struct Reflection_Fields_int64_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , 0 //offset
     , 0  //offsetToObjectifcBase
-    , &reflection_int64
+    , &refl_int64
     }
 } };
 
 
-ClassJc const reflection_int64 =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_int64, null)
+ClassJc const refl_int64 =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_int64, null)
 , "int64"
 , 0     //posObjectJc
 , sizeof(int64)
-, (FieldJcArray const*)&reflection_Fields_int64  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_int64  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -756,12 +756,12 @@ ClassJc const reflection_int64 =
 
 /**A int64 consists of 2 int32, the inspector doesn't know the type yet. 
  */
-extern_C ClassJc const reflection_uint64;
+extern_C ClassJc const refl_uint64;
 const struct Reflection_Fields_uint64_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} reflection_Fields_uint64 =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_int64)
+} refl_Fields_uint64 =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_int64)
 , {
     { "lo"
     , 0 //nrofArrayElements
@@ -769,7 +769,7 @@ const struct Reflection_Fields_uint64_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , 0 //offset
     , 0  //offsetToObjectifcBase
-    , &reflection_int64
+    , &refl_int64
     }
   , { "hi"
     , 0 //nrofArrayElements
@@ -777,17 +777,17 @@ const struct Reflection_Fields_uint64_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , 0 //offset
     , 0  //offsetToObjectifcBase
-    , &reflection_int64
+    , &refl_int64
     }
 } };
 
 
-ClassJc const reflection_uint64 =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_int64, null)
+ClassJc const refl_uint64 =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_int64, null)
 , "int64"
 , 0     //posObjectJc
 , sizeof(int64)
-, (FieldJcArray const*)&reflection_Fields_uint64  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_uint64  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -798,16 +798,12 @@ ClassJc const reflection_uint64 =
 
 #elif defined(DEF_REFLECTION_OFFS)
 
-//formally, this reflection is never part of a reflectionOffs.crefl access.
-//first member is an identifier for type check!
-static int32 reflOffs_ClassJc[] = { idTypeStdemC_ClassJc }; //it is 16 or 32 bit, width of an int.
-
 //This is necessary to recognize this type.
-ClassJc const reflection_ClassJc = INIZreflOffs_ClassJc(reflection_ClassJc, "relection_ClassJc", reflOffs_ClassJc);
+ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, ID_refl_ClassJc, "ClassJc");
 
 #else //DEF_REFLECTION_NO
 
-ClassJc const reflection_ClassJc = INIZ_ClassJc(reflection_ClassJc, idTypeStdemC_ClassJc, "relection_ClassJc");
+ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, idTypeStdemC_ClassJc, "relection_ClassJc");
 
 #endif //not DEF_REFLECTION_FULL
 

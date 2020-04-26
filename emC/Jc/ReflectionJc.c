@@ -37,7 +37,7 @@
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
- * 2012-04-07 Hartmut new: nrofBytesScalarTypes_ClassJc[], reflection__char16Jc
+ * 2012-04-07 Hartmut new: nrofBytesScalarTypes_ClassJc[], refl__char16Jc
  * 2010-07-10: Hartmut: Array access to second CPU
  * 2010-02-01: prevent exception on getDeclaredField_ClassJc, instead return null, regarding in searchObject_ClassJc. Reason: better to handle, problems with setjmp on some embedded processors.
  * 2009-12-00: Hartmut improved.

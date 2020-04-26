@@ -69,12 +69,12 @@ typedef struct ByteDataAccessBaseJc_t
 typedef struct ByteDataAccessBaseJc_X_t { ObjectArrayJc head; ByteDataAccessBaseJcREF data[50]; } ByteDataAccessBaseJc_X;
 typedef struct ByteDataAccessBaseJc_Y_t { ObjectArrayJc head; ByteDataAccessBaseJc_s data[50]; } ByteDataAccessBaseJc_Y;
 
- extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
+ extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_ByteDataAccessBaseJc(OBJP) { CONST_ObjectJc(sizeof(ByteDataAccessBaseJc_s), OBJP, &reflection_ByteDataAccessBaseJc_s), 0 }
+#define CONST_ByteDataAccessBaseJc(OBJP) { CONST_ObjectJc(sizeof(ByteDataAccessBaseJc_s), OBJP, &refl_ByteDataAccessBaseJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */

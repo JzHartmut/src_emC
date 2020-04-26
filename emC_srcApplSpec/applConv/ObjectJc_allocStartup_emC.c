@@ -85,7 +85,7 @@ void free_ObjectJc  (  ObjectJc* thiz) {
 /**A BlockHeap isn't use. The reference to BlockHeap inside an ObjectJc is null anytime.
  * Therefore this class is empty. It shuould be exist, because the linker need the label.
  */
-ClassJc const reflection_BlockHeapBlockJc = {0}; 
+ClassJc const refl_BlockHeapBlockJc = {0}; 
 
 
 

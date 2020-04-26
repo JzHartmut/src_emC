@@ -90,15 +90,15 @@ int const sizeof_LogMessageStream_FW = sizeof(LogMessageStream_FW_s);
 METHOD_C LogMessageStream_FW_s* castO_LogMessageStream_FW(ObjectJc* zthis);
 
 
-extern_C ClassJc const reflection_LogMessageStream_FW;
+extern_C ClassJc const refl_LogMessageStream_FW;
 
 
 //LogMessageStream_FW_s* 
 LogMessageFW_s* ctorO_LogMessageStream_FW(ObjectJc* othis, int outChn)
 { LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)othis;
   STACKTRC_ENTRY("");
-  checkInit_ObjectJc(othis, sizeof(LogMessageStream_FW_s), &reflection_LogMessageStream_FW, 0, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_LogMessageStream_FW, 0);
+  checkInit_ObjectJc(othis, sizeof(LogMessageStream_FW_s), &refl_LogMessageStream_FW, 0, _thCxt);
+  setReflection_ObjectJc(othis, &refl_LogMessageStream_FW, 0);
   ythis->outChn = outChn;
   STACKTRC_LEAVE; return &ythis->base.logStateFw;
 }
@@ -120,7 +120,7 @@ LogMessageFW_s* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt)
 LogMessageStream_FW_s* castO_LogMessageStream_FW(ObjectJc* zthis)
 { LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)zthis;
   //TODO check type via reflection, fast algorithm because used in any interface method.
-  ASSERT(instanceof_ObjectJc(zthis, &reflection_LogMessageStream_FW));
+  ASSERT(instanceof_ObjectJc(zthis, &refl_LogMessageStream_FW));
   //ASSERT(ythis->mtbl == &mtbl_MsgDispatcher_MSG);  //an derivated class isnot accepted! 
   return ythis;
 }
@@ -276,7 +276,7 @@ Vtbl_LogMessageStream_FW const mtbl_LogMessageStream_FW
 };
 
 
-extern_C ClassJc const reflection_LogMessageFW;
+extern_C ClassJc const refl_LogMessageFW;
 
 static struct interfaces_LogMessageStream_FW_t
 { /** Base data of every array */
@@ -284,14 +284,14 @@ static struct interfaces_LogMessageStream_FW_t
   ClassOffset_idxVtblJc data[1];
 }interfaces_LogMessageStream_FW =
 { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_LogMessageFW, OFFSET_Vtbl(struct Vtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
+, { {&refl_LogMessageFW, OFFSET_Vtbl(struct Vtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
   }
 };
 
 
    
-ClassJc const reflection_LogMessageStream_FW =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_LogMessageStream_FW, &reflection_ClassJc)
+ClassJc const refl_LogMessageStream_FW =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_LogMessageStream_FW, &refl_ClassJc)
 , "LogMessageStream_FW"
 , 0     //posObjectJc
 , sizeof(LogMessageStream_FW_s)
@@ -306,7 +306,7 @@ ClassJc const reflection_LogMessageStream_FW =
 
 #else
 
-ClassJc const reflection_LogMessageStream_FW = INIZtypeOnly_ClassJc(reflection_LogMessageStream_FW, "reflection_LogMessageStream_FW");
+ClassJc const refl_LogMessageStream_FW = INIZtypeOnly_ClassJc(refl_LogMessageStream_FW, "refl_LogMessageStream_FW");
 
 
 #endif //DEF_ObjectJc_FULL

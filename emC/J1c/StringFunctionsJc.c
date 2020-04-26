@@ -35,7 +35,7 @@ struct StringFunctionsJc_t* ctorO_StringFunctionsJc(ObjectJc* othis, ThCxt* _thC
 { StringFunctionsJc_s* thiz = (StringFunctionsJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFunctionsJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFunctionsJc_s), null, _thCxt);  
-  //TODO setReflection_ObjectJc(othis, &reflection_StringFunctionsJc_s, sizeof(StringFunctionsJc_s));
+  //TODO setReflection_ObjectJc(othis, &refl_StringFunctionsJc_s, sizeof(StringFunctionsJc_s));
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
@@ -1436,30 +1436,30 @@ const VtblDef_StringFunctionsJc mtblStringFunctionsJc = {
 
 #ifndef __DONOTUSE_REFLECTION__
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_StringFunctionsJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringFunctionsJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_StringFunctionsJc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_StringFunctionsJc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_StringFunctionsJc_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_StringFunctionsJc_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_StringFunctionsJc_s_t
 { ObjectArrayJc head; FieldJc data[5];
-} reflection_Fields_StringFunctionsJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_StringFunctionsJc_s)
+} refl_Fields_StringFunctionsJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &refl_Fields_StringFunctionsJc_s)
 , {
      { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_StringFunctionsJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_StringFunctionsJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFunctionsJc_s
+    , &refl_StringFunctionsJc_s
     }
    , { "cEndOfText"
     , 0 //nrofArrayElements
@@ -1467,7 +1467,7 @@ const struct Reflection_Fields_StringFunctionsJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&cEndOfText_StringFunctionsJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&cEndOfText_StringFunctionsJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFunctionsJc_s
+    , &refl_StringFunctionsJc_s
     }
    , { "cStartOfText"
     , 0 //nrofArrayElements
@@ -1475,7 +1475,7 @@ const struct Reflection_Fields_StringFunctionsJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&cStartOfText_StringFunctionsJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&cStartOfText_StringFunctionsJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFunctionsJc_s
+    , &refl_StringFunctionsJc_s
     }
    , { "cNoCidentifier"
     , 0 //nrofArrayElements
@@ -1483,23 +1483,23 @@ const struct Reflection_Fields_StringFunctionsJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&cNoCidentifier_StringFunctionsJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&cNoCidentifier_StringFunctionsJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFunctionsJc_s
+    , &refl_StringFunctionsJc_s
     }
    , { "indentString"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&indentString_StringFunctionsJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&indentString_StringFunctionsJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFunctionsJc_s
+    , &refl_StringFunctionsJc_s
     }
 } };
-const ClassJc reflection_StringFunctionsJc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_StringFunctionsJc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "StringFunctionsJc_s"
 ,  0 //position of ObjectJc
 , sizeof(StringFunctionsJc_s)
-, (FieldJc_Y const*)&reflection_Fields_StringFunctionsJc_s
+, (FieldJc_Y const*)&refl_Fields_StringFunctionsJc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_StringFunctionsJc_s //superclass
 , null //interfaces

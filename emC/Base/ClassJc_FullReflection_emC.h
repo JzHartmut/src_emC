@@ -217,11 +217,11 @@ C_TYPE typedef struct  ClassJc_t
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
 
-#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
-#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
-#define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME  }
-#define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME  }/*TODO*/
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
+#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
+#define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME  }
+#define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME  }/*TODO*/
 
 
 /**Returns the name of the class as StringJc. 
@@ -231,20 +231,20 @@ C_TYPE typedef struct  ClassJc_t
 StringJc name_ClassJc(ClassJc const* thiz);
 
 
-extern_C const ClassJc reflection_ClassJc;
+extern_C const ClassJc refl_ClassJc;
 
 /**Initializes a class in RAM for runtime reflection. 
 */
 extern_C void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super);
 
-#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
 
-#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
 
 
 //TODO because of multiple inheritance support the field superClasses cannot be set, because an own array is necessary.
 //the multiple inheritance seems to be an unecessary feature. For complex C++ classes the interfaces may be able to use!
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &reflection_ClassJc, 0), NAME }
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
 
 /*@CLASS_C ModifierJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -564,70 +564,70 @@ extern_C void ctor_ClassOffset_idxVtblJc(ClassOffset_idxVtblJc* thiz, ClassJc co
 #endif  //#ifndef __ObjectJc_defined__
 
 
-/*@DEFINE_C reflection_Types********************************************************************************************/
-/**reflection_Types: External definitions of language standard types.
+/*@DEFINE_C refl_Types********************************************************************************************/
+/**refl_Types: External definitions of language standard types.
 Note: The types with postfix Jc are the same as in Java (int is 32 bit, long is 64 bit), the transformations from special c/c++-Types are made with define.
 */
 
-#define reflection__uint64Jc reflection__longJc
-#define reflection__int64Jc reflection__longJc
-#define reflection__uint32Jc reflection__intJc
-#define reflection__int32Jc reflection__intJc
-#define reflection__uint16Jc reflection__shortJc
-#define reflection__int16Jc reflection__shortJc
-#define reflection__uint8Jc reflection__byteJc
-#define reflection__int8Jc reflection__byteJc
+#define refl__uint64Jc refl__longJc
+#define refl__int64Jc refl__longJc
+#define refl__uint32Jc refl__intJc
+#define refl__int32Jc refl__intJc
+#define refl__uint16Jc refl__shortJc
+#define refl__int16Jc refl__shortJc
+#define refl__uint8Jc refl__byteJc
+#define refl__int8Jc refl__byteJc
 //extern_C const struct Reflectionint_t{ ClassJc clazz; } reflectionint;
 
-#define reflection_int16BigEndian reflection__shortJc
-#define reflection_int32BigEndian reflection__intJc
-#define reflection_floatBigEndian reflection__intJc  //don't use float, it is byte-order-changed!!!
+#define refl_int16BigEndian refl__shortJc
+#define refl_int32BigEndian refl__intJc
+#define refl_floatBigEndian refl__intJc  //don't use float, it is byte-order-changed!!!
 
 
-#define reflection__uintJc reflection__intJc
-#define reflection__boolJc reflection__booleanJc
-//extern_C ClassJc reflection__booleanJc;
+#define refl__uintJc refl__intJc
+#define refl__boolJc refl__booleanJc
+//extern_C ClassJc refl__booleanJc;
 
-#define reflection__float32Jc reflection__floatJc
+#define refl__float32Jc refl__floatJc
 //extern_C const struct Reflectionfloat_t{ ClassJc clazz; } reflectionfloat;
 
-extern_C const ClassJc reflection__longJc;
-extern_C const ClassJc reflection__intJc;
-extern_C const ClassJc reflection__shortJc;
-extern_C const ClassJc reflection__byteJc;
-extern_C const ClassJc reflection__booleanJc;
-extern_C const ClassJc reflection__floatJc;
-extern_C const ClassJc reflection__doubleJc;
-extern_C const ClassJc reflection__charJc;
-extern_C const ClassJc reflection__char16Jc;
-extern_C const ClassJc reflection_bitfieldJc;
+extern_C const ClassJc refl__longJc;
+extern_C const ClassJc refl__intJc;
+extern_C const ClassJc refl__shortJc;
+extern_C const ClassJc refl__byteJc;
+extern_C const ClassJc refl__booleanJc;
+extern_C const ClassJc refl__floatJc;
+extern_C const ClassJc refl__doubleJc;
+extern_C const ClassJc refl__charJc;
+extern_C const ClassJc refl__char16Jc;
+extern_C const ClassJc refl_bitfieldJc;
 
-extern_C const ClassJc reflection_ObjectJc;
+extern_C const ClassJc refl_ObjectJc;
 
 #ifndef DEF_ObjectJc_SIMPLE
 //reflection instance for the super class ObjectJc
-extern_C const ClassOffset_idxVtblJc1 reflection_super_ObjectJc;
+extern_C const ClassOffset_idxVtblJc1 refl_super_ObjectJc;
 #endif
 
 
-extern_C const ClassJc reflection_StringJc;
-extern_C struct ClassJc_t const reflection_CharSeqJc;
-//extern_C const ClassJc reflection_ClassJc;
-extern_C const ClassJc reflection_BlockHeapBlockJc;
+extern_C const ClassJc refl_StringJc;
+extern_C struct ClassJc_t const refl_CharSeqJc;
+//extern_C const ClassJc refl_ClassJc;
+extern_C const ClassJc refl_BlockHeapBlockJc;
 
-extern_C const ClassJc reflection_OS_PtrValue;
-#define reflection_MemC reflection_OS_PtrValue
-#define reflection_MemSegmentJc reflection_OS_PtrValue
+extern_C const ClassJc refl_OS_PtrValue;
+#define refl_MemC refl_OS_PtrValue
+#define refl_MemSegmentJc refl_OS_PtrValue
 
 
 /** Reflection_void is a reflection definition for a void pointer.
 */
-extern_C const ClassJc reflection__voidJc;
-extern_C const ClassJc reflection__ObjectJcpp;
+extern_C const ClassJc refl__voidJc;
+extern_C const ClassJc refl__ObjectJcpp;
 
-#define reflection__ObjectArrayJc reflection_ObjectJc
-#define reflection__StringJc reflection_StringJc
-#define reflection__ClassJc reflection__ObjectJc
+#define refl__ObjectArrayJc refl_ObjectJc
+#define refl__StringJc refl_StringJc
+#define refl__ClassJc refl__ObjectJc
 
 
 /**Definition of constant values for primitive type reflection
@@ -776,10 +776,10 @@ extern const int nrofBytesScalarTypes_ClassJc[];
 
 
 /**The float_complex is defined in os_types_def_common.h. The reflection are defined in ReflectionBastTypesJc.c. */
-extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
+extern_C const ClassJc refl_float_complex;  //the just defined refl_
 
                                                   /**The double_complex is defined in os_types_def_common.h. The reflection are defined in ReflectionBastTypesJc.c. */
-extern_C const ClassJc reflection_double_complex;  //the just defined reflection_
+extern_C const ClassJc refl_double_complex;  //the just defined refl_
 
 
 

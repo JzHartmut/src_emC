@@ -36,7 +36,7 @@ struct MsgDispatcherCore_MSG_t* ctorO_MsgDispatcherCore_MSG(ObjectJc* othis, int
 { MsgDispatcherCore_MSG_s* thiz = (MsgDispatcherCore_MSG_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_MsgDispatcherCore_MSG");
   checkConsistence_ObjectJc(othis, sizeof(MsgDispatcherCore_MSG_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_MsgDispatcherCore_MSG_s, sizeof(MsgDispatcherCore_MSG_s));  
+  setReflection_ObjectJc(othis, &refl_MsgDispatcherCore_MSG_s, sizeof(MsgDispatcherCore_MSG_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element-ObjectJc
@@ -511,37 +511,37 @@ const VtblDef_MsgDispatcherCore_MSG mtblMsgDispatcherCore_MSG = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_MsgDispatcherCore_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_MsgDispatcherCore_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_MsgDispatcherCore_MSG, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_MsgDispatcherCore_MSG, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_LogMessageFW;
+ extern_C struct ClassJc_t const refl_LogMessageFW;
  static struct ifcClasses_MsgDispatcherCore_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }interfaces_MsgDispatcherCore_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_LogMessageFW, OFFSET_Vtbl(Vtbl_MsgDispatcherCore_MSG, LogMessageFW) }
+, { {&refl_LogMessageFW, OFFSET_Vtbl(Vtbl_MsgDispatcherCore_MSG, LogMessageFW) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
-extern_C struct ClassJc_t const reflection_Entry_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_MsgText_ifc_MSG_s;
-extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_RunnableJc;
-extern_C struct ClassJc_t const reflection_TestCnt_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_ConcurrentLinkedQueueJc_s;
+extern_C struct ClassJc_t const refl_Entry_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_MsgText_ifc_MSG_s;
+extern_C struct ClassJc_t const refl_Output_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_RunnableJc;
+extern_C struct ClassJc_t const refl_TestCnt_MsgDispatcherCore_MSG_s;
 const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
 { ObjectArrayJc head; FieldJc data[15];
-} reflection_Fields_MsgDispatcherCore_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 15, OBJTYPE_FieldJc, null, &reflection_Fields_MsgDispatcherCore_MSG_s)
+} refl_Fields_MsgDispatcherCore_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 15, OBJTYPE_FieldJc, null, &refl_Fields_MsgDispatcherCore_MSG_s)
 , {
      { "nrofMixedOutputs"
     , 0 //nrofArrayElements
@@ -549,7 +549,7 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->nrofMixedOutputs) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "mDstMixedOutputs"
     , 0 //nrofArrayElements
@@ -557,7 +557,7 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->mDstMixedOutputs) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "mDstOneOutput"
     , 0 //nrofArrayElements
@@ -565,7 +565,7 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->mDstOneOutput) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "idThreadForDispatching"
     , 0 //nrofArrayElements
@@ -573,39 +573,39 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 8 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->idThreadForDispatching) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "testCnt"
     , 0 //nrofArrayElements
-    , &reflection_TestCnt_MsgDispatcherCore_MSG_s
+    , &refl_TestCnt_MsgDispatcherCore_MSG_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->testCnt) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "listOrders"
     , 0 //nrofArrayElements
-    , &reflection_ConcurrentLinkedQueueJc_s
+    , &refl_ConcurrentLinkedQueueJc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->listOrders) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "freeOrders"
     , 0 //nrofArrayElements
-    , &reflection_ConcurrentLinkedQueueJc_s
+    , &refl_ConcurrentLinkedQueueJc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->freeOrders) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "entryMsgBufferOverflow"
     , 0 //nrofArrayElements
-    , &reflection_Entry_MsgDispatcherCore_MSG_s
+    , &refl_Entry_MsgDispatcherCore_MSG_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->entryMsgBufferOverflow) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "actNrofListIdents"
     , 0 //nrofArrayElements
@@ -613,7 +613,7 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->actNrofListIdents) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "listIdents"
     , 0 //nrofArrayElements
@@ -621,7 +621,7 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kReferencedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->listIdents) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "listBitDst"
     , 0 //nrofArrayElements
@@ -629,31 +629,31 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kReferencedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->listBitDst) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "outputs"
     , 0 //nrofArrayElements
-    , &reflection_Output_MsgDispatcherCore_MSG_s
+    , &refl_Output_MsgDispatcherCore_MSG_s
     , kEmbedded_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kReferencedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->outputs) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "msgText"
     , 0 //nrofArrayElements
-    , &reflection_MsgText_ifc_MSG_s
+    , &refl_MsgText_ifc_MSG_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->msgText) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "runNoEntryMessage"
     , 0 //nrofArrayElements
-    , &reflection_RunnableJc
+    , &refl_RunnableJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->runNoEntryMessage) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
    , { "ctLostMessages"
     , 0 //nrofArrayElements
@@ -661,15 +661,15 @@ const struct Reflection_Fields_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->ctLostMessages) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcherCore_MSG_s
+    , &refl_MsgDispatcherCore_MSG_s
     }
 } };
-const ClassJc reflection_MsgDispatcherCore_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_MsgDispatcherCore_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "MsgDispatcherCore_MSG_s"
 , (int16)((int32)(&((MsgDispatcherCore_MSG_s*)(0x1000))->base.object) - (int32)(MsgDispatcherCore_MSG_s*)0x1000)
 , sizeof(MsgDispatcherCore_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&refl_Fields_MsgDispatcherCore_MSG_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgDispatcherCore_MSG_s //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_MsgDispatcherCore_MSG_s //interfaces
@@ -715,13 +715,13 @@ int32 _sizeof_Entry_MsgDispatcherCore_MSG(/*J2C:static method*/ ThCxt* _thCxt)
   STACKTRC_LEAVE;
 }
 
-extern_C struct ClassJc_t const reflection_Entry_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_OS_TimeStamp;
-extern_C struct ClassJc_t const reflection_VaArgBuffer;
+extern_C struct ClassJc_t const refl_Entry_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_OS_TimeStamp;
+extern_C struct ClassJc_t const refl_VaArgBuffer;
 const struct Reflection_Fields_Entry_MsgDispatcherCore_MSG_s_t
 { ObjectArrayJc head; FieldJc data[5];
-} reflection_Fields_Entry_MsgDispatcherCore_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_Entry_MsgDispatcherCore_MSG_s)
+} refl_Fields_Entry_MsgDispatcherCore_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &refl_Fields_Entry_MsgDispatcherCore_MSG_s)
 , {
      { "ident"
     , 0 //nrofArrayElements
@@ -729,7 +729,7 @@ const struct Reflection_Fields_Entry_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Entry_MsgDispatcherCore_MSG_s*)(0x1000))->ident) - (int32)(Entry_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Entry_MsgDispatcherCore_MSG_s
+    , &refl_Entry_MsgDispatcherCore_MSG_s
     }
    , { "dst"
     , 0 //nrofArrayElements
@@ -737,7 +737,7 @@ const struct Reflection_Fields_Entry_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Entry_MsgDispatcherCore_MSG_s*)(0x1000))->dst) - (int32)(Entry_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Entry_MsgDispatcherCore_MSG_s
+    , &refl_Entry_MsgDispatcherCore_MSG_s
     }
    , { "text"
     , 0 //nrofArrayElements
@@ -745,31 +745,31 @@ const struct Reflection_Fields_Entry_MsgDispatcherCore_MSG_s_t
     , mReference_Modifier_reflectJc//bitModifiers
     , (int16)((int32)(&((Entry_MsgDispatcherCore_MSG_s*)(0x1000))->text) - (int32)(Entry_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Entry_MsgDispatcherCore_MSG_s
+    , &refl_Entry_MsgDispatcherCore_MSG_s
     }
    , { "timestamp"
     , 0 //nrofArrayElements
-    , &reflection_OS_TimeStamp
+    , &refl_OS_TimeStamp
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Entry_MsgDispatcherCore_MSG_s*)(0x1000))->timestamp) - (int32)(Entry_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Entry_MsgDispatcherCore_MSG_s
+    , &refl_Entry_MsgDispatcherCore_MSG_s
     }
    , { "values"
     , 0 //nrofArrayElements
-    , &reflection_VaArgBuffer
+    , &refl_VaArgBuffer
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Entry_MsgDispatcherCore_MSG_s*)(0x1000))->values) - (int32)(Entry_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Entry_MsgDispatcherCore_MSG_s
+    , &refl_Entry_MsgDispatcherCore_MSG_s
     }
 } };
-const ClassJc reflection_Entry_MsgDispatcherCore_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Entry_MsgDispatcherCore_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Entry_MsgDispatche_ore_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(Entry_MsgDispatcherCore_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_Entry_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&refl_Fields_Entry_MsgDispatcherCore_MSG_s
 , null //method
 , null //superclass
 , null //interfaces
@@ -791,7 +791,7 @@ struct TestCnt_MsgDispatcherCore_MSG_t* ctorO_TestCnt_MsgDispatcherCore_MSG(Obje
 { TestCnt_MsgDispatcherCore_MSG_s* thiz = (TestCnt_MsgDispatcherCore_MSG_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_TestCnt_MsgDispatcherCore_MSG");
   checkConsistence_ObjectJc(othis, sizeof(TestCnt_MsgDispatcherCore_MSG_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_TestCnt_MsgDispatcherCore_MSG_s, sizeof(TestCnt_MsgDispatcherCore_MSG_s));  
+  setReflection_ObjectJc(othis, &refl_TestCnt_MsgDispatcherCore_MSG_s, sizeof(TestCnt_MsgDispatcherCore_MSG_s));  
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
@@ -822,21 +822,21 @@ const VtblDef_TestCnt_MsgDispatcherCore_MSG mtblTestCnt_MsgDispatcherCore_MSG = 
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_TestCnt_MsgDispatcherCore_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_TestCnt_MsgDispatcherCore_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_TestCnt_MsgDispatcherCore_MSG, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_TestCnt_MsgDispatcherCore_MSG, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_TestCnt_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_TestCnt_MsgDispatcherCore_MSG_s;
 const struct Reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s_t
 { ObjectArrayJc head; FieldJc data[2];
-} reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s)
+} refl_Fields_TestCnt_MsgDispatcherCore_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_TestCnt_MsgDispatcherCore_MSG_s)
 , {
      { "noOutput"
     , 0 //nrofArrayElements
@@ -844,7 +844,7 @@ const struct Reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((TestCnt_MsgDispatcherCore_MSG_s*)(0x1000))->noOutput) - (int32)(TestCnt_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TestCnt_MsgDispatcherCore_MSG_s
+    , &refl_TestCnt_MsgDispatcherCore_MSG_s
     }
    , { "tomuchMsgPerThread"
     , 0 //nrofArrayElements
@@ -852,15 +852,15 @@ const struct Reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((TestCnt_MsgDispatcherCore_MSG_s*)(0x1000))->tomuchMsgPerThread) - (int32)(TestCnt_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_TestCnt_MsgDispatcherCore_MSG_s
+    , &refl_TestCnt_MsgDispatcherCore_MSG_s
     }
 } };
-const ClassJc reflection_TestCnt_MsgDispatcherCore_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_TestCnt_MsgDispatcherCore_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "TestCnt_MsgDispatc_ore_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(TestCnt_MsgDispatcherCore_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_TestCnt_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&refl_Fields_TestCnt_MsgDispatcherCore_MSG_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_TestCnt_MsgDispatcherCore_MSG_s //superclass
 , null //interfaces
@@ -898,29 +898,29 @@ void finalize_Output_MsgDispatcherCore_MSG_F(Output_MsgDispatcherCore_MSG_s* thi
 }
 
 
-extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_Output_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_LogMessageFW;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_Output_MsgDispatcherCore_MSG_s_t
 { ObjectArrayJc head; FieldJc data[4];
-} reflection_Fields_Output_MsgDispatcherCore_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_Output_MsgDispatcherCore_MSG_s)
+} refl_Fields_Output_MsgDispatcherCore_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &refl_Fields_Output_MsgDispatcherCore_MSG_s)
 , {
      { "name"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((int32)(&((Output_MsgDispatcherCore_MSG_s*)(0x1000))->name) - (int32)(Output_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Output_MsgDispatcherCore_MSG_s
+    , &refl_Output_MsgDispatcherCore_MSG_s
     }
    , { "outputIfc"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW
+    , &refl_LogMessageFW
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Output_MsgDispatcherCore_MSG_s*)(0x1000))->outputIfc) - (int32)(Output_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Output_MsgDispatcherCore_MSG_s
+    , &refl_Output_MsgDispatcherCore_MSG_s
     }
    , { "dstInDispatcherThread"
     , 0 //nrofArrayElements
@@ -928,7 +928,7 @@ const struct Reflection_Fields_Output_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Output_MsgDispatcherCore_MSG_s*)(0x1000))->dstInDispatcherThread) - (int32)(Output_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Output_MsgDispatcherCore_MSG_s
+    , &refl_Output_MsgDispatcherCore_MSG_s
     }
    , { "bUseText"
     , 0 //nrofArrayElements
@@ -936,15 +936,15 @@ const struct Reflection_Fields_Output_MsgDispatcherCore_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Output_MsgDispatcherCore_MSG_s*)(0x1000))->bUseText) - (int32)(Output_MsgDispatcherCore_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Output_MsgDispatcherCore_MSG_s
+    , &refl_Output_MsgDispatcherCore_MSG_s
     }
 } };
-const ClassJc reflection_Output_MsgDispatcherCore_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Output_MsgDispatcherCore_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Output_MsgDispatch_ore_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(Output_MsgDispatcherCore_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_Output_MsgDispatcherCore_MSG_s
+, (FieldJc_Y const*)&refl_Fields_Output_MsgDispatcherCore_MSG_s
 , null //method
 , null //superclass
 , null //interfaces

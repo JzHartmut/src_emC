@@ -48,7 +48,7 @@
 #include <stdarg.h>
 //#include "RuntimeHeapJc.h"
 
-extern ClassJc const reflection_StringBuilderJc; 
+extern ClassJc const refl_StringBuilderJc; 
 /**
   Strings are necessary in control applications for
   <ul><li>Assignment of warning and error messages with some data,<li>
@@ -117,7 +117,7 @@ StringBuilderJc_s* ctorO_I_StringBuilderJc(ObjectJc* othis, int size, ThCxt* _th
 { StringBuilderJc_s* ythis = (StringBuilderJc_s*)othis;
   int sizeObj;
   STACKTRC_TENTRY("ctorO_I_StringBuilderJc");
-  checkConsistence_ObjectJc(othis, sizeof(StringBuilderJc_s), &reflection_StringBuilderJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(StringBuilderJc_s), &refl_StringBuilderJc, _thCxt); 
   sizeObj = getSizeInfo_ObjectJc(othis);
   ythis->_count = 0;
   if(sizeObj >= (int)(sizeof(StringBuilderJc_s) - sizeof(ythis->value) + size ))
@@ -143,7 +143,7 @@ StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
   StringBuilderJc_s* ythis = (StringBuilderJc_s*)othis;
   int sizeBuffer = sizeObj - sizeof(StringBuilderJc_s) + sizeof(ythis->value);
   STACKTRC_TENTRY("ctorO_StringBuilderJc");
-  checkConsistence_ObjectJc(othis, sizeObj, &reflection_StringBuilderJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeObj, &refl_StringBuilderJc, _thCxt); 
   if(sizeBuffer <=4)
   { /**The StringBuffer has not a direct Buffer: */
     MemC mem = getRestBlock_ObjectJc(othis, -2, _thCxt);  //possible it may be inside a block of a BlockHeap
@@ -179,7 +179,7 @@ StringBuilderJc_s* ctorO_zI_StringBuilderJc(ObjectJc* yObj, char* buffer, int si
 { StringBuilderJc_s* ythis = (StringBuilderJc_s*)yObj;
   int count;
   STACKTRC_TENTRY("ctorO_CI_StringBuilderJc");
-  checkConsistence_ObjectJc(yObj, sizeof(StringBuilderJc_s), null/*&reflection_StringBuilderJc*/, _thCxt); 
+  checkConsistence_ObjectJc(yObj, sizeof(StringBuilderJc_s), null/*&refl_StringBuilderJc*/, _thCxt); 
   if(size < 0)
   { size = -size;
   }

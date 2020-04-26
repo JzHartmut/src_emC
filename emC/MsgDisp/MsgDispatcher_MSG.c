@@ -39,7 +39,7 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
   checkConsistence_ObjectJc(othis, sizeof(MsgDispatcher_MSG_s), null, _thCxt);  
   //J2C:super Constructor
   ctorO_MsgDispatcherCore_MSG(/*J2C:static method call*/othis, maxQueue, nrofMixedOutputs, runNoEntryMessage, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_MsgDispatcher_MSG_s, sizeof(MsgDispatcher_MSG_s));  
+  setReflection_ObjectJc(othis, &refl_MsgDispatcher_MSG_s, sizeof(MsgDispatcher_MSG_s));  
   //j2c: Initialize all class variables:
   {
     thiz->outputConsole = create_LogMessageStream_FW(/*J2C:static method call*/(* (out_FileDescriptorJc)), _thCxt);
@@ -51,7 +51,7 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
     thiz->base.super.entryMsgBufferOverflow.ident = msgIdentQueueOverflow;
     thiz->base.super.entryMsgBufferOverflow.text = "Message queue overflow; nrof msg=%d";
     
-    Entry_MsgDispatcherCore_MSG_Y*  entries = (Entry_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxQueue) * sizeof(Entry_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxQueue, sizeof(Entry_MsgDispatcherCore_MSG_s),&reflection_Entry_MsgDispatcherCore_MSG_s, 0);
+    Entry_MsgDispatcherCore_MSG_Y*  entries = (Entry_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxQueue) * sizeof(Entry_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxQueue, sizeof(Entry_MsgDispatcherCore_MSG_s),&refl_Entry_MsgDispatcherCore_MSG_s, 0);
     { int32 idxEntry; 
       for(idxEntry = 0; idxEntry < entries->head.length; idxEntry++)
         { 
@@ -84,7 +84,7 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
       activateGC_ObjectJc(newObj3_2, null, _thCxt);
     }
     /*allocate the output array: */
-    thiz->base.super.outputs = (Output_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxOutputs) * sizeof(Output_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxOutputs, sizeof(Output_MsgDispatcherCore_MSG_s),&reflection_Output_MsgDispatcherCore_MSG_s, 0);  //J2C: assign a new ObjectArrayJc. ;
+    thiz->base.super.outputs = (Output_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxOutputs) * sizeof(Output_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxOutputs, sizeof(Output_MsgDispatcherCore_MSG_s),&refl_Output_MsgDispatcherCore_MSG_s, 0);  //J2C: assign a new ObjectArrayJc. ;
     { int32 idxDst; 
       for(idxDst = 0; idxDst < maxOutputs; idxDst++)
         { 
@@ -853,30 +853,30 @@ const VtblDef_MsgDispatcher_MSG mtblMsgDispatcher_MSG = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_MsgDispatcherCore_MSG_s;
+ extern_C struct ClassJc_t const refl_MsgDispatcherCore_MSG_s;
  static struct superClasses_MsgDispatcher_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_MsgDispatcher_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_MsgDispatcherCore_MSG_s, OFFSET_Vtbl(Vtbl_MsgDispatcher_MSG, MsgDispatcherCore_MSG) }
+ , { {&refl_MsgDispatcherCore_MSG_s, OFFSET_Vtbl(Vtbl_MsgDispatcher_MSG, MsgDispatcherCore_MSG) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_MsgDispatcher_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW;
+extern_C struct ClassJc_t const refl_MsgDispatcher_MSG_s;
+extern_C struct ClassJc_t const refl_LogMessageFW;
 const struct Reflection_Fields_MsgDispatcher_MSG_s_t
 { ObjectArrayJc head; FieldJc data[2];
-} reflection_Fields_MsgDispatcher_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_MsgDispatcher_MSG_s)
+} refl_Fields_MsgDispatcher_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_MsgDispatcher_MSG_s)
 , {
      { "outputConsole"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW
+    , &refl_LogMessageFW
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcher_MSG_s*)(0x1000))->outputConsole) - (int32)(MsgDispatcher_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcher_MSG_s
+    , &refl_MsgDispatcher_MSG_s
     }
    , { "maxDst"
     , 0 //nrofArrayElements
@@ -884,15 +884,15 @@ const struct Reflection_Fields_MsgDispatcher_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgDispatcher_MSG_s*)(0x1000))->maxDst) - (int32)(MsgDispatcher_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgDispatcher_MSG_s
+    , &refl_MsgDispatcher_MSG_s
     }
 } };
-const ClassJc reflection_MsgDispatcher_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_MsgDispatcher_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "MsgDispatcher_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(MsgDispatcher_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_MsgDispatcher_MSG_s
+, (FieldJc_Y const*)&refl_Fields_MsgDispatcher_MSG_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgDispatcher_MSG_s //superclass
 , null //interfaces
@@ -918,7 +918,7 @@ struct DispatcherThread_MsgDispatcher_MSG_t* ctorO_DispatcherThread_MsgDispatche
   checkConsistence_ObjectJc(othis, sizeof(DispatcherThread_MsgDispatcher_MSG_s), null, _thCxt);  
   //J2C:super Constructor
   ctorO_z_ThreadJc(/*J2C:static method call*/othis, "MsgDisptch", _thCxt);
-  setReflection_ObjectJc(othis, &reflection_DispatcherThread_MsgDispatcher_MSG_s, sizeof(DispatcherThread_MsgDispatcher_MSG_s));  
+  setReflection_ObjectJc(othis, &refl_DispatcherThread_MsgDispatcher_MSG_s, sizeof(DispatcherThread_MsgDispatcher_MSG_s));  
   thiz->outer = outer;
   //j2c: Initialize all class variables:
   {
@@ -1013,28 +1013,28 @@ const VtblDef_DispatcherThread_MsgDispatcher_MSG mtblDispatcherThread_MsgDispatc
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ThreadJc;
+ extern_C struct ClassJc_t const refl_ThreadJc;
  static struct superClasses_DispatcherThread_MsgDispatcher_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_DispatcherThread_MsgDispatcher_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ThreadJc, OFFSET_Vtbl(Vtbl_DispatcherThread_MsgDispatcher_MSG, ThreadJc) }
+ , { {&refl_ThreadJc, OFFSET_Vtbl(Vtbl_DispatcherThread_MsgDispatcher_MSG, ThreadJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_DispatcherThread_MsgDispatcher_MSG_s;
-extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
-extern_C struct ClassJc_t const reflection_Entry_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_LogMessageFW;
-extern_C struct ClassJc_t const reflection_MsgText_ifc_MSG_s;
-extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
-extern_C struct ClassJc_t const reflection_RunnableJc;
-extern_C struct ClassJc_t const reflection_TestCnt_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_DispatcherThread_MsgDispatcher_MSG_s;
+extern_C struct ClassJc_t const refl_ConcurrentLinkedQueueJc_s;
+extern_C struct ClassJc_t const refl_Entry_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_LogMessageFW;
+extern_C struct ClassJc_t const refl_MsgText_ifc_MSG_s;
+extern_C struct ClassJc_t const refl_Output_MsgDispatcherCore_MSG_s;
+extern_C struct ClassJc_t const refl_RunnableJc;
+extern_C struct ClassJc_t const refl_TestCnt_MsgDispatcherCore_MSG_s;
 const struct Reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s_t
 { ObjectArrayJc head; FieldJc data[1];
-} reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s)
+} refl_Fields_DispatcherThread_MsgDispatcher_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_DispatcherThread_MsgDispatcher_MSG_s)
 , {
      { "cycleMillisec"
     , 0 //nrofArrayElements
@@ -1042,15 +1042,15 @@ const struct Reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((DispatcherThread_MsgDispatcher_MSG_s*)(0x1000))->cycleMillisec) - (int32)(DispatcherThread_MsgDispatcher_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_DispatcherThread_MsgDispatcher_MSG_s
+    , &refl_DispatcherThread_MsgDispatcher_MSG_s
     }
 } };
-const ClassJc reflection_DispatcherThread_MsgDispatcher_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_DispatcherThread_MsgDispatcher_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "DispatcherThread_M_her_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(DispatcherThread_MsgDispatcher_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_DispatcherThread_MsgDispatcher_MSG_s
+, (FieldJc_Y const*)&refl_Fields_DispatcherThread_MsgDispatcher_MSG_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_DispatcherThread_MsgDispatcher_MSG_s //superclass
 , null //interfaces

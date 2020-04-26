@@ -60,7 +60,7 @@ struct StringFormatterJc_t* ctorO_StringFormatterJc(ObjectJc* othis, ThCxt* _thC
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringFormatterJc, sizeof(StringFormatterJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringFormatterJc, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj1_1=null, *newObj1_2=null, *newObj1_3=null, *newObj1_4=null; /*J2C: temporary Objects for new operations
       */
@@ -101,7 +101,7 @@ struct StringFormatterJc_t* ctorO_ApbSi_StringFormatterJc(ObjectJc* othis, struc
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringFormatterJc, sizeof(StringFormatterJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringFormatterJc, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj1_1=null, *newObj1_2=null, *newObj1_3=null, *newObj1_4=null; /*J2C: temporary Objects for new operations
       */
@@ -132,7 +132,7 @@ struct StringFormatterJc_t* ctorO_ApbSi_StringFormatterJc(ObjectJc* othis, struc
     if(shouldClose) 
     { 
       
-      ASSERT(/*J2C:static method call*/ instanceof_ObjectJc(((/*J2C:cast from AppendableJc_s*/ObjectJc*)(lineout)), &reflection_CloseableJc));
+      ASSERT(/*J2C:static method call*/ instanceof_ObjectJc(((/*J2C:cast from AppendableJc_s*/ObjectJc*)(lineout)), &refl_CloseableJc));
     }
     thiz->bShouldLineoutClose = shouldClose;
     activateGC_ObjectJc(newObj2_1, null, _thCxt);
@@ -148,7 +148,7 @@ struct StringFormatterJc_t* ctorO_i_StringFormatterJc(ObjectJc* othis, int32 len
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringFormatterJc, sizeof(StringFormatterJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringFormatterJc, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj1_1=null, *newObj1_2=null, *newObj1_3=null, *newObj1_4=null; /*J2C: temporary Objects for new operations
       */
@@ -189,7 +189,7 @@ struct StringFormatterJc_t* ctorO_S_StringFormatterJc(ObjectJc* othis, StringJc 
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringFormatterJc, sizeof(StringFormatterJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringFormatterJc, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj1_1=null, *newObj1_2=null, *newObj1_3=null, *newObj1_4=null; /*J2C: temporary Objects for new operations
       */
@@ -230,7 +230,7 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFormatterJc");
   checkConsistence_ObjectJc(othis, sizeof(StringFormatterJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringFormatterJc, sizeof(StringFormatterJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringFormatterJc, sizeof(StringFormatterJc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj1_1=null, *newObj1_2=null, *newObj1_3=null, *newObj1_4=null; /*J2C: temporary Objects for new operations
       */
@@ -1638,7 +1638,7 @@ void flush_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
     { 
       
       append_cs_AppendableJc(&((REFJc (thiz->lineout))->base.object), fromStringBuilderJc_CharSeqJc(REFJc (thiz->buffer)), _thCxt);
-      if( instanceof_ObjectJc(((/*J2C:cast from AppendableJc_s*/ObjectJc*)(REFJc (thiz->lineout))), &reflection_FlushableJc)) 
+      if( instanceof_ObjectJc(((/*J2C:cast from AppendableJc_s*/ObjectJc*)(REFJc (thiz->lineout))), &refl_FlushableJc)) 
       { 
         
         flush_FlushableJc(&(((FlushableJc* /*J2C_cast*/)REFJc (thiz->lineout))->base.object), _thCxt);
@@ -1755,55 +1755,55 @@ const VtblDef_StringFormatterJc mtblStringFormatterJc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_StringFormatterJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringFormatterJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_AppendableJc;
- extern_C struct ClassJc_t const reflection_CloseableJc;
- extern_C struct ClassJc_t const reflection_FlushableJc;
+ extern_C struct ClassJc_t const refl_AppendableJc;
+ extern_C struct ClassJc_t const refl_CloseableJc;
+ extern_C struct ClassJc_t const refl_FlushableJc;
  static struct ifcClasses_StringFormatterJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[3];
  }interfaces_StringFormatterJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_AppendableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, AppendableJc) }
-  , {&reflection_CloseableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, CloseableJc) }
-  , {&reflection_FlushableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, FlushableJc) }
+, { {&refl_AppendableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, AppendableJc) }
+  , {&refl_CloseableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, CloseableJc) }
+  , {&refl_FlushableJc, OFFSET_Vtbl(Vtbl_StringFormatterJc, FlushableJc) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_StringFormatterJc;
-extern_C struct ClassJc_t const reflection_AppendableJc;
-extern_C struct ClassJc_t const reflection_SimpleDateFormatJc;
-extern_C struct ClassJc_t const reflection_StringBuilderJc;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_StringFormatterJc;
+extern_C struct ClassJc_t const refl_AppendableJc;
+extern_C struct ClassJc_t const refl_SimpleDateFormatJc;
+extern_C struct ClassJc_t const refl_StringBuilderJc;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_StringFormatterJc_s_t
 { ObjectArrayJc head; FieldJc data[24];
-} reflection_Fields_StringFormatterJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 24, OBJTYPE_FieldJc, null, &reflection_Fields_StringFormatterJc_s)
+} refl_Fields_StringFormatterJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 24, OBJTYPE_FieldJc, null, &refl_Fields_StringFormatterJc_s)
 , {
      { "buffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &refl_StringBuilderJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->buffer) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "lineout"
     , 0 //nrofArrayElements
-    , &reflection_AppendableJc
+    , &refl_AppendableJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->lineout) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "bShouldLineoutClose"
     , 0 //nrofArrayElements
@@ -1811,7 +1811,7 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->bShouldLineoutClose) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "secondNewline"
     , 0 //nrofArrayElements
@@ -1819,7 +1819,7 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->secondNewline) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "pos"
     , 0 //nrofArrayElements
@@ -1827,7 +1827,7 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->pos) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "bInsert"
     , 0 //nrofArrayElements
@@ -1835,15 +1835,15 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->bInsert) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "sNewline"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->sNewline) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "cDecimalSeparator"
     , 0 //nrofArrayElements
@@ -1851,79 +1851,79 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->cDecimalSeparator) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "sDatePrefixNewer"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixNewer) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "dateFormatNewer"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc
+    , &refl_SimpleDateFormatJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->dateFormatNewer) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "sDatePrefixToday"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixToday) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "dateFormatToday"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc
+    , &refl_SimpleDateFormatJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->dateFormatToday) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "sDatePrefixYear"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixYear) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "dateFormatYear"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc
+    , &refl_SimpleDateFormatJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->dateFormatYear) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "sDatePrefixOlder"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->sDatePrefixOlder) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "dateFormatOlder"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc
+    , &refl_SimpleDateFormatJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->dateFormatOlder) - (intptr_t)(StringFormatterJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "k2left"
     , 0 //nrofArrayElements
@@ -1931,7 +1931,7 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 2 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&k2left_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&k2left_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "k4left"
     , 0 //nrofArrayElements
@@ -1939,7 +1939,7 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 2 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&k4left_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&k4left_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "k6left"
     , 0 //nrofArrayElements
@@ -1947,7 +1947,7 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 2 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&k6left_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&k6left_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "k8left"
     , 0 //nrofArrayElements
@@ -1955,15 +1955,15 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 2 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&k8left_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&k8left_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "spaces"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&spaces_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&spaces_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "n10a"
     , 9 //nrofArrayElements
@@ -1971,23 +1971,23 @@ const struct Reflection_Fields_StringFormatterJc_s_t
     , 8 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&n10a_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&n10a_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
    , { "sNeg"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&sNeg_StringFormatterJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&sNeg_StringFormatterJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringFormatterJc
+    , &refl_StringFormatterJc
     }
 } };
-const ClassJc reflection_StringFormatterJc = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_StringFormatterJc = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "StringFormatterJc_s"
 , (int16)((intptr_t)(&((StringFormatterJc_s*)(0x1000))->base.object) - (intptr_t)(StringFormatterJc_s*)0x1000)
 , sizeof(StringFormatterJc_s)
-, (FieldJc_Y const*)&reflection_Fields_StringFormatterJc_s
+, (FieldJc_Y const*)&refl_Fields_StringFormatterJc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_StringFormatterJc_s //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_StringFormatterJc_s //interfaces

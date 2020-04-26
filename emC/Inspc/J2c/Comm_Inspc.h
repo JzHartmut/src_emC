@@ -64,12 +64,12 @@ typedef struct Comm_Inspc_t
 typedef struct Comm_Inspc_X_t { ObjectArrayJc head; Comm_InspcREF data[50]; } Comm_Inspc_X;
 typedef struct Comm_Inspc_Y_t { ObjectArrayJc head; Comm_Inspc_s data[50]; } Comm_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
+ extern_C struct ClassJc_t const refl_Comm_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Comm_Inspc(OBJP) { CONST_ObjectJc(sizeof(Comm_Inspc_s), OBJP, &reflection_Comm_Inspc_s), 0 }
+#define CONST_Comm_Inspc(OBJP) { CONST_ObjectJc(sizeof(Comm_Inspc_s), OBJP, &refl_Comm_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -137,7 +137,7 @@ typedef struct Vtbl_Comm_Inspc_t
 class Comm_Inspc : private Comm_Inspc_s
 { public:
 
-  Comm_Inspc(StringJcpp ownAddrIpc, struct CmdExecuter_Inspc_t* cmdExecuter){ init_ObjectJc(&this->base.object, sizeof(Comm_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_Comm_Inspc_s, 0); ctorO_Comm_Inspc(&this->base.object, ownAddrIpc, cmdExecuter,  null/*_thCxt*/); }
+  Comm_Inspc(StringJcpp ownAddrIpc, struct CmdExecuter_Inspc_t* cmdExecuter){ init_ObjectJc(&this->base.object, sizeof(Comm_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_Comm_Inspc_s, 0); ctorO_Comm_Inspc(&this->base.object, ownAddrIpc, cmdExecuter,  null/*_thCxt*/); }
 
   bool openComm(bool blocking){  return openComm_Comm_Inspc(this, blocking,  null/*_thCxt*/); }
 

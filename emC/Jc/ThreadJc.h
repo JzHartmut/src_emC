@@ -63,7 +63,7 @@ typedef struct RunnableJc_t
 #if !defined(mBackRef_ObjectJc) 
   //if enhanced references are used, the REF types have own reflection const.
   //in this case they are dummies.
-  #define reflection_RunnableJcREF reflection_RunnableJc
+  #define refl_RunnableJcREF refl_RunnableJc
 #endif
 
 
@@ -71,7 +71,7 @@ typedef struct RunnableJc_t
 /**Define of the array type. This type should only be used as pointer. */
 typedef struct RunnableJc_Y_t { ObjectArrayJc head; RunnableJc_s data[50]; } RunnableJc_Y;
 
-extern_C struct ClassJc_t const reflection_RunnableJc;
+extern_C struct ClassJc_t const refl_RunnableJc;
 
 /**The method type, which is able to implement the run method. */
 typedef void MT_run_RunnableJc(ObjectJc* ithis, ThCxt* _thCxt);
@@ -134,7 +134,7 @@ typedef struct ThreadJc_t
 
 typedef struct ThreadJc_s_Y_t { ObjectArrayJc head; ThreadJc_s data[50]; } ThreadJc_s_Y;
 
-extern_C struct ClassJc_t const reflection_ThreadJc;
+extern_C struct ClassJc_t const refl_ThreadJc;
   
 
 #define getId_ThreadJc(THIZ) ((int)((THIZ)->hThread))
@@ -143,7 +143,7 @@ extern_C struct ClassJc_t const reflection_ThreadJc;
 #define CONST_Runnable_ThreadJc(RUNNABLE) {CONST_ObjectJc(), "", 0, RUNNABLE, 2000, 5}
 
 /** Constant in form {...} defines a Thread with associated Runnable class*/
-#define CONST_Runnable_z_ThreadJc(RUNNABLE, NAME) {CONST_Object_Jc(0, null, (Class_Jc const*)(&reflection__ThreadJc)), NAME, 0, RUNNABLE, 2000, 5}
+#define CONST_Runnable_z_ThreadJc(RUNNABLE, NAME) {CONST_Object_Jc(0, null, (Class_Jc const*)(&refl__ThreadJc)), NAME, 0, RUNNABLE, 2000, 5}
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */

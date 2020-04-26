@@ -51,12 +51,12 @@ typedef struct MsgConfigItem_MsgText_ifc_MSG_t
 typedef struct MsgConfigItem_MsgText_ifc_MSG_X_t { ObjectArrayJc head; MsgConfigItem_MsgText_ifc_MSGREF data[50]; } MsgConfigItem_MsgText_ifc_MSG_X;
 typedef struct MsgConfigItem_MsgText_ifc_MSG_Y_t { ObjectArrayJc head; MsgConfigItem_MsgText_ifc_MSG_s data[50]; } MsgConfigItem_MsgText_ifc_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_MsgConfigItem_MsgText_ifc_MSG_s;
+ extern_C struct ClassJc_t const refl_MsgConfigItem_MsgText_ifc_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_MsgConfigItem_MsgText_ifc_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgConfigItem_MsgText_ifc_MSG_s), OBJP, &reflection_MsgConfigItem_MsgText_ifc_MSG_s), 0 }
+#define CONST_MsgConfigItem_MsgText_ifc_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgConfigItem_MsgText_ifc_MSG_s), OBJP, &refl_MsgConfigItem_MsgText_ifc_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -118,12 +118,12 @@ typedef struct MsgText_ifc_MSG_t
 typedef struct MsgText_ifc_MSG_X_t { ObjectArrayJc head; MsgText_ifc_MSGREF data[50]; } MsgText_ifc_MSG_X;
 typedef struct MsgText_ifc_MSG_Y_t { ObjectArrayJc head; MsgText_ifc_MSG_s data[50]; } MsgText_ifc_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_MsgText_ifc_MSG_s;
+ extern_C struct ClassJc_t const refl_MsgText_ifc_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_MsgText_ifc_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgText_ifc_MSG_s), OBJP, &reflection_MsgText_ifc_MSG_s), 0 }
+#define CONST_MsgText_ifc_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgText_ifc_MSG_s), OBJP, &refl_MsgText_ifc_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */

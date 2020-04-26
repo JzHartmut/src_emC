@@ -157,7 +157,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
     <:>
 ====
 ====//forward declaration of the following definition necessary because extern_C definition. 
-====extern_C const ClassJc reflection_<&structBasename>;
+====extern_C const ClassJc refl_<&structBasename>;
 ====
 ====#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
 ====int32 const reflectionOffset_<&struct.baseName("_s")>[] =
@@ -179,7 +179,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
       if(not reflSimpleTypes.get(typeRefl.name)) { 
         String sTypename = typeRefl.baseName("_s", "_t");
         <:>
-  ======extern_C const ClassJc reflection_<&sTypename>;  //used for field <&entry.name>
+  ======extern_C const ClassJc refl_<&sTypename>;  //used for field <&entry.name>
         <.>      
       }
   } }}
@@ -190,7 +190,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
       if(struct.superclass.description) {
         accessLevel = struct.superclass.description.accLevel;
       }
-      String reflSuperName = <:>reflection_<&struct.superclass.type.name><.>;
+      String reflSuperName = <:>refl_<&struct.superclass.type.name><.>;
       <:>  
 ======
 ======extern_C const ClassJc <&reflSuperName>;  //the super class here used.
@@ -226,7 +226,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
     if(struct.superclass) {
       fileBin.setClassSuperclass(posSuperClassAddr); 
     }
-    fileOffsTypetable.add(<:>reflection_<&struct.baseName("_s")><.>); 
+    fileOffsTypetable.add(<:>refl_<&struct.baseName("_s")><.>); 
     <:>
 ====int32 const reflectionOffset_<&struct.baseName("_s")>[] =
 ===={ <&nrClass>   //index of class in Offset data<: >
@@ -235,7 +235,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
   String sFieldsInStruct = "null";
   ##if(struct.entries.size() > hasSuperclass) { ##hasSuperclass is 1 if the first entry is the superclass.
   if(struct.attribs.size() > 0) { ##hasSuperclass is 1 if the first entry is the superclass.
-    sFieldsInStruct = <:>(FieldJcArray const*)&reflection_Fields_<&struct.name><.>;
+    sFieldsInStruct = <:>(FieldJcArray const*)&refl_Fields_<&struct.name><.>;
     Stringjar wrFields;  ##the container for the generated field data
     Map retEntries;
     ##                                                                                  
@@ -248,8 +248,8 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
 ======const struct Reflection_Fields_<&struct.name>_t
 ======{ ObjectArrayJc head;
 ======  FieldJc data[<&retEntries.nrofEntries>];
-======} reflection_Fields_<&struct.name> =
-======{ INIZ_ObjectArrayJc(reflection_Fields_<&struct.name>, <&retEntries.nrofEntries>, FieldJc, null, INIZ_ID_FieldJc)
+======} refl_Fields_<&struct.name> =
+======{ INIZ_ObjectArrayJc(refl_Fields_<&struct.name>, <&retEntries.nrofEntries>, FieldJc, null, INIZ_ID_FieldJc)
 ======, {  
       <&wrFields>
 ======} }; 
@@ -264,8 +264,8 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
   else { sizeName = struct.name; }
   if(!fileBin) {
     <:>                                                                   
-====const ClassJc reflection_<&structBasename> =
-===={ INIZ_objReflId_ObjectJc(reflection_<&structBasename>, &reflection_ClassJc, INIZ_ID_ClassJc)
+====const ClassJc refl_<&structBasename> =
+===={ INIZ_objReflId_ObjectJc(refl_<&structBasename>, &refl_ClassJc, INIZ_ID_ClassJc)
 ====, "<&structReflname>"
 ====, 0
 ====, sizeof(<&sizeName>)
@@ -286,8 +286,8 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
       <:>
 ======<&closeBB>;
 ======
-======extern_C ClassJc const reflection_<&struct.baseName("_s")>; //forward declaration because extern "C" 
-======ClassJc const reflection_<&struct.baseName("_s")> = 
+======extern_C ClassJc const refl_<&struct.baseName("_s")>; //forward declaration because extern "C" 
+======ClassJc const refl_<&struct.baseName("_s")> = 
 ======{ <&nrClass>   //index of class in Offset data    //sizeof(reflectionOffset_<&struct.baseName("_s")>)
 ======, &reflectionOffset_<&struct.baseName("_s")>[0]
 ======};
@@ -353,12 +353,12 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
         if(reflReplacement) {                           
           sTypeRefl = reflReplacement.get(typename);
           if(!sTypeRefl) { 
-            sTypeRefl = <:>&reflection_<&typename><.>; 
+            sTypeRefl = <:>&refl_<&typename><.>; 
           }
         } else {
           sTypeRefl = reflSimpleTypes.get(typename); ##check whether the type is known as simple type
           if(!sTypeRefl) { ##not a simple type
-            sTypeRefl = <:>&reflection_<&typename><.>; 
+            sTypeRefl = <:>&refl_<&typename><.>; 
           }
         }
       }
@@ -445,7 +445,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
 ==========    , <&modifier> //bitModifiers
 ==========    , <&offset>
 ==========    , 0  //offsetToObjectifcBase                                                            
-==========    , &reflection_<&structBasename>
+==========    , &refl_<&structBasename>
 ==========    }
 ==========  <:hasNext>, <.hasNext><: >
           <.><.+>
@@ -506,11 +506,25 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
     Obj fileOffsTypetable;
   }
   if(fileBin) {
-    Openfile fileOffs = sfileOffs;
+    Openfile fileOffs = <:><&sfileOffs>.c<.>;
+    Openfile fileOffsH = <:><&sfileOffs>.h<.>;
     <+fileOffs><: >
-    <:>/**This file is generated by Cheaer2Refl.jzTc mady by Hartmut Schorrig
-====*/    
+    <:>/**This file is generated by Cheaer2Refl.jzTc mady by Hartmut Schorrig Version 2020-04-26
+==== */
+====#include <applstdef_emC.h>  //may/should contain following compilerswitch:
+====#ifdef DEF_REFLECTION_OFFS  //compile this only if DEF_REFLECTION_OFFS should be used 
 ====#include <emC/InspcTargetSimple/Target2Proxy_Inspc.h>  //declares reflectionOffsetArrays
+====
+    <.><.+>
+    <+fileOffsH><: >
+    <:>#ifndef HGUARD_REFLECTION_OFFS
+====#define HGUARD_REFLECTION_OFFS    
+====/**This file is generated by Cheaer2Refl.jzTc mady by Hartmut Schorrig Version 2020-04-26
+==== * It contains all defines for generated reflection. 
+==== */
+====#ifndef DEF_REFLECTION_FULL
+====  #define DEF_REFLECTION_OFFS
+====#endif
 ====
     <.><.+>
     ##Note: write all in one file, it is for the specific target.
@@ -529,10 +543,11 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
     <+out><&headerfile.absfile()> => >><&fileDst><<<.+n>
     String fileDst1;
     if(fileBin) {
-      fileDst1 = sfileOffs;
+      fileDst1 = sfileOffs; ##generates reflOffs.c
     } else {
       fileDst1 = fileDst;
     }
+    ##invocation per header file. 
     call genDstFile(filepath = headerfile, fileBin = fileBin, fileRefl = fileOffs, fileOffsTypetable = fileOffsTypetable
       , fileDst = fileDst1, genRoutine=genRoutine, html = html);
   }
@@ -541,17 +556,19 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
     fileBin.close();
     ##debug;
     ##Openfile fileOffs = sfileOffs;
+    Num id_refl = 1;
     for(entry: fileOffsTypetable) {
-      <+fileOffs><: >
+      <+fileOffsH><: >
       <:>
-======      
-======extern_C struct ClassJc_t const <&entry>;<: >
-      <.><.+>
-    }//for
+======#define ID_<&entry> <&id_refl>
+======#define DEF_<&entry><.><.+>      
+      id_refl = id_refl +1;
+    }##for
+    ##
     <+fileOffs><: >
     <:>
 ====
-====/**Array of pointer to all reflection_Type definition.
+====/**Array of pointer to all refl_Type definition.
 ==== * The order of the pointer matches to the ClassJc#index
 ==== * The target2proxy service accesses the correct ClassJc by given index in communication.
 ==== */
@@ -567,8 +584,12 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
     <+fileOffs>
     <:>
 ====};
-    <.><.+>
+====
+====#endif //DEF_REFLECTION_OFFS
+====<.><.+>
     fileOffs.close();
+    <+fileOffsH><:n><:n>#endif //HGUARD_REFLECTION_OFFS<.+n>
+    fileOffsH.close();
   }
 }
 
@@ -630,9 +651,7 @@ sub genReflectionHeader(Obj headerfile, Obj fileBin, Obj fileRefl, Obj fileOffsT
   }
     <+outRefl>
     <:>
-====//This file is generated by ZBNF/zbnfjax/jzTc/Cheader2Refl.jzTc
-====#include "<&headerfile.fileName>.h"  ##it comes from args.addSrc(...,input.localname())
-====//#include <stddef.h>
+====#include <<&headerfile.fileName>.h>  ##it comes from args.addSrc(...,input.localname())
     <.><.+>
   for(classC: headerfile.listClassC) {
     for(entry: classC.entries) {

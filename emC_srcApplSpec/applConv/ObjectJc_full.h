@@ -216,11 +216,11 @@ typedef struct  ObjectJc_t
 
 /** Macro for constant initialization with a IDENT and a given reflection class.
 * Use it to initialize global or stack variables in form:
-* * ,,Type myData = { INIZ_ObjectJc( myData, &reflection_Type, 123), furtherData };,,
-* * ,,Type myData = { { INIZ_ObjectJc( myData, &reflection_Type), 123 }, furtherData};,, 
+* * ,,Type myData = { INIZ_ObjectJc( myData, &refl_Type, 123), furtherData };,,
+* * ,,Type myData = { { INIZ_ObjectJc( myData, &refl_Type), 123 }, furtherData};,, 
 * if the definition starts with a union{ ObjectJc obj;} base;
 * You should use that {} -level which is related to the position of the ObjectJc-data in the instance.
-* * ,,TypeDerived data = { { INIZ_DerivedData(data, &reflection_TypeDerived, 0, furtherArgs)}, furtherData};,,
+* * ,,TypeDerived data = { { INIZ_DerivedData(data, &refl_TypeDerived, 0, furtherArgs)}, furtherData};,,
 * for a derived struct which have an adequate INIZ macro.
 * * ,,Type myData2 = { INIZ_ObjectJc( myData2, 0, null) };  //set ident and reflection later.,,
 * @param OBJ the variable to initialize itself to store its address and gets its size. 

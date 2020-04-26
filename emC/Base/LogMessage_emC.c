@@ -55,7 +55,7 @@
 #endif
 
 
-extern struct ClassJc_t const reflection_LogMessageFW_i;
+extern struct ClassJc_t const refl_LogMessageFW_i;
 
 LogMessageFW_s* ctorO_LogMessageFW(ObjectJc* othis, ThCxt* _thCxt)
 { return (LogMessageFW_s*)othis;

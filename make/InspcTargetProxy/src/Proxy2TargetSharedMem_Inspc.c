@@ -14,7 +14,7 @@
 Proxy2TargetSharedMem_Inspc* ctor_Proxy2TargetSharedMem_Inspc(ObjectJc* othiz, char const* nameAppl, ThCxt* _thCxt) {
   STACKTRC_TENTRY("ctor_Proxy2TargetSharedMem_Inspc");
   //memset(thiz, 0, sizeof(*thiz));
-  checkInit_ObjectJc(othiz, sizeof(Proxy2TargetSharedMem_Inspc), &reflection_Proxy2TargetSharedMem_Inspc, 0, THCXT);
+  checkInit_ObjectJc(othiz, sizeof(Proxy2TargetSharedMem_Inspc), &refl_Proxy2TargetSharedMem_Inspc, 0, THCXT);
   Proxy2TargetSharedMem_Inspc* thiz = (Proxy2TargetSharedMem_Inspc*)othiz;
   ctor_Proxy2Target_Inspc(&thiz->super.object, THCXT);
   ///init_ObjectJc(&thiz->super.object, sizeof(thiz->super),0);

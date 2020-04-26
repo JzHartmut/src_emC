@@ -55,12 +55,12 @@ typedef struct Part_StringPartJc_t
 typedef struct Part_StringPartJc_X_t { ObjectArrayJc head; Part_StringPartJcREF data[50]; } Part_StringPartJc_X;
 typedef struct Part_StringPartJc_Y_t { ObjectArrayJc head; Part_StringPartJc_s data[50]; } Part_StringPartJc_Y;
 
- extern_C struct ClassJc_t const reflection_Part_StringPartJc_s;
+ extern_C struct ClassJc_t const refl_Part_StringPartJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Part_StringPartJc(OBJP) { CONST_ObjectJc(sizeof(Part_StringPartJc_s), OBJP, &reflection_Part_StringPartJc_s), 0 }
+#define CONST_Part_StringPartJc(OBJP) { CONST_ObjectJc(sizeof(Part_StringPartJc_s), OBJP, &refl_Part_StringPartJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -174,12 +174,12 @@ typedef struct StringPartJc_t
 typedef struct StringPartJc_X_t { ObjectArrayJc head; StringPartJcREF data[50]; } StringPartJc_X;
 typedef struct StringPartJc_Y_t { ObjectArrayJc head; StringPartJc_s data[50]; } StringPartJc_Y;
 
- extern_C struct ClassJc_t const reflection_StringPartJc_s;
+ extern_C struct ClassJc_t const refl_StringPartJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_StringPartJc(OBJP) { CONST_ObjectJc(sizeof(StringPartJc_s), OBJP, &reflection_StringPartJc_s), 0 }
+#define CONST_StringPartJc(OBJP) { CONST_ObjectJc(sizeof(StringPartJc_s), OBJP, &refl_StringPartJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -1089,11 +1089,11 @@ class StringPartJc : public StringPartJc_s
 
   int32 compareTo(CharSeqJc str2){  return compareTo_StringPartJc(this, str2,  null/*_thCxt*/); }
 
-  StringPartJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_Cs_StringPartJc(&this->base.object, src,  null/*_thCxt*/); }
+  StringPartJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartJc_s, 0); ctorO_Cs_StringPartJc(&this->base.object, src,  null/*_thCxt*/); }
 
-  StringPartJc(CharSeqJc src, int32 start, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_Csii_StringPartJc(&this->base.object, src, start, end,  null/*_thCxt*/); }
+  StringPartJc(CharSeqJc src, int32 start, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartJc_s, 0); ctorO_Csii_StringPartJc(&this->base.object, src, start, end,  null/*_thCxt*/); }
 
-  StringPartJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartJc_s, 0); ctorO_StringPartJc(&this->base.object,  null/*_thCxt*/); }
+  StringPartJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartJc_s, 0); ctorO_StringPartJc(&this->base.object,  null/*_thCxt*/); }
 
   StringJc debugString(){  return debugString_StringPartJc(this,  null/*_thCxt*/); }
 

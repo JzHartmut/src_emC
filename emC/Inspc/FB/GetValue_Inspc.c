@@ -52,7 +52,7 @@ bool init_GetValue_Inspc(GetValue_Inspc* thiz
         
         ClassJc const* fieldType = getType_FieldJc(field);
       
-        if(fieldType == &reflection__floatJc) {
+        if(fieldType == &refl__floatJc) {
           thiz->addr[ixPath] = (int32*)addr;  //store as in32 access to memory
         }
       } else {

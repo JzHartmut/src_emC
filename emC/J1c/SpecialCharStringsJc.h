@@ -44,12 +44,12 @@ typedef struct SpecialCharStringsJc_t
 typedef struct SpecialCharStringsJc_X_t { ObjectArrayJc head; SpecialCharStringsJcREF data[50]; } SpecialCharStringsJc_X;
 typedef struct SpecialCharStringsJc_Y_t { ObjectArrayJc head; SpecialCharStringsJc_s data[50]; } SpecialCharStringsJc_Y;
 
- extern_C struct ClassJc_t const reflection_SpecialCharStringsJc_s;
+ extern_C struct ClassJc_t const refl_SpecialCharStringsJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_SpecialCharStringsJc(OBJP) { CONST_ObjectJc(sizeof(SpecialCharStringsJc_s), OBJP, &reflection_SpecialCharStringsJc_s), 0 }
+#define CONST_SpecialCharStringsJc(OBJP) { CONST_ObjectJc(sizeof(SpecialCharStringsJc_s), OBJP, &refl_SpecialCharStringsJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -101,7 +101,7 @@ typedef struct Vtbl_SpecialCharStringsJc_t
 class SpecialCharStringsJc : private SpecialCharStringsJc_s
 { public:
 
-  SpecialCharStringsJc(){ iniz_ObjectJc(&this->base.object, sizeof(SpecialCharStringsJc_s), &reflection_SpecialCharStringsJc_s, 0); ctorO_SpecialCharStringsJc(&this->base.object,  null/*_thCxt*/); }
+  SpecialCharStringsJc(){ iniz_ObjectJc(&this->base.object, sizeof(SpecialCharStringsJc_s), &refl_SpecialCharStringsJc_s, 0); ctorO_SpecialCharStringsJc(&this->base.object,  null/*_thCxt*/); }
 
   CharSeqJc resolveCircumScription(CharSeqJc src){  return resolveCircumScription_SpecialCharStringsJc(src,  null/*_thCxt*/); }
 };

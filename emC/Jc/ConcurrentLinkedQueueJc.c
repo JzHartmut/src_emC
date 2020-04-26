@@ -216,7 +216,7 @@ void ctorc_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis)
 ConcurrentLinkedQueueJc_s* ctorO_MemC_ConcurrentLinkedQueueJc(ObjectJc* othis, MemC memNodes, ThCxt* _thCxt)
 { ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_MemC_ConcurrentLinkedQueueJc");
-  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&reflection_ConcurrentLinkedQueueJc_s*/, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, _thCxt); 
   ctorcMn_ConcurrentLinkedQueueJc(ythis, memNodes);
   STACKTRC_LEAVE;
   return ythis;
@@ -243,7 +243,7 @@ void ctorcMn_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, MemC memN
 ConcurrentLinkedQueueJc_s* ctorO_Clq_ConcurrentLinkedQueueJc(ObjectJc* othis, ConcurrentLinkedQueueJc_s* srcNodeShare, ThCxt* _thCxt)
 { ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Clq_ConcurrentLinkedQueueJc");
-  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&reflection_ConcurrentLinkedQueueJc_s*/, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, _thCxt); 
   ctorcSn_ConcurrentLinkedQueueJc(ythis, srcNodeShare);
   STACKTRC_LEAVE;
   return ythis;
@@ -271,7 +271,7 @@ METHOD_C ConcurrentLinkedQueueJc_s* ctorO_init_ConcurrentLinkedQueueJc(ObjectJc*
 {
   ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Clq_ConcurrentLinkedQueueJc");
-  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&reflection_ConcurrentLinkedQueueJc_s*/, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, _thCxt); 
   return ythis; 
 }
 

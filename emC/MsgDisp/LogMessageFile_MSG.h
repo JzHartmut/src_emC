@@ -84,12 +84,12 @@ typedef struct Dbg_LogMessageFile_MSG_t
 typedef struct Dbg_LogMessageFile_MSG_X_t { ObjectArrayJc head; Dbg_LogMessageFile_MSGREF data[50]; } Dbg_LogMessageFile_MSG_X;
 typedef struct Dbg_LogMessageFile_MSG_Y_t { ObjectArrayJc head; Dbg_LogMessageFile_MSG_s data[50]; } Dbg_LogMessageFile_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
+ extern_C struct ClassJc_t const refl_Dbg_LogMessageFile_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Dbg_LogMessageFile_MSG(OBJP) { CONST_ObjectJc(sizeof(Dbg_LogMessageFile_MSG_s), OBJP, &reflection_Dbg_LogMessageFile_MSG_s), 0 }
+#define CONST_Dbg_LogMessageFile_MSG(OBJP) { CONST_ObjectJc(sizeof(Dbg_LogMessageFile_MSG_s), OBJP, &refl_Dbg_LogMessageFile_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -166,12 +166,12 @@ typedef struct LogMessageFile_MSG_t
 typedef struct LogMessageFile_MSG_X_t { ObjectArrayJc head; LogMessageFile_MSGREF data[50]; } LogMessageFile_MSG_X;
 typedef struct LogMessageFile_MSG_Y_t { ObjectArrayJc head; LogMessageFile_MSG_s data[50]; } LogMessageFile_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_LogMessageFile_MSG_s;
+ extern_C struct ClassJc_t const refl_LogMessageFile_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_LogMessageFile_MSG(OBJP) { CONST_ObjectJc(sizeof(LogMessageFile_MSG_s), OBJP, &reflection_LogMessageFile_MSG_s), 0 }
+#define CONST_LogMessageFile_MSG(OBJP) { CONST_ObjectJc(sizeof(LogMessageFile_MSG_s), OBJP, &refl_LogMessageFile_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -266,7 +266,7 @@ class LogMessageFile_MSG : private LogMessageFile_MSG_s
 
   virtual void close(){ close_LogMessageFile_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
 
-  LogMessageFile_MSG(StringJcpp sFilename, int32 nrofSecondsToFlush, int32 nrofHoursPerFile, struct LocaleJc_t* localization, struct TimeZoneJc_t* timeZoneP, struct ConcurrentLinkedQueueJc_t* freeEntriesP){ init_ObjectJc(&this->base.object, sizeof(LogMessageFile_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_LogMessageFile_MSG_s, 0); ctorO_LogMessageFile_MSG(&this->base.object, sFilename, nrofSecondsToFlush, nrofHoursPerFile, localization, timeZoneP, freeEntriesP,  null/*_thCxt*/); }
+  LogMessageFile_MSG(StringJcpp sFilename, int32 nrofSecondsToFlush, int32 nrofHoursPerFile, struct LocaleJc_t* localization, struct TimeZoneJc_t* timeZoneP, struct ConcurrentLinkedQueueJc_t* freeEntriesP){ init_ObjectJc(&this->base.object, sizeof(LogMessageFile_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &refl_LogMessageFile_MSG_s, 0); ctorO_LogMessageFile_MSG(&this->base.object, sFilename, nrofSecondsToFlush, nrofHoursPerFile, localization, timeZoneP, freeEntriesP,  null/*_thCxt*/); }
 
   virtual void flush(){ flush_LogMessageFile_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
 

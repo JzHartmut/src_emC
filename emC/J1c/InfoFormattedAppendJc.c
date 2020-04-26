@@ -27,38 +27,38 @@ void infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct StringFor
   mtbl->infoFormattedAppend(ithis, u, _thCxt);
 }
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_InfoFormattedAppendJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InfoFormattedAppendJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_ObjectJc, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-extern_C struct ClassJc_t const reflection_InfoFormattedAppendJc_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_InfoFormattedAppendJc_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_InfoFormattedAppendJc_s_t
 { ObjectArrayJc head; FieldJc data[1];
-} reflection_Fields_InfoFormattedAppendJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_InfoFormattedAppendJc_s)
+} refl_Fields_InfoFormattedAppendJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_InfoFormattedAppendJc_s)
 , {
      { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_InfoFormattedAppendJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_InfoFormattedAppendJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_InfoFormattedAppendJc_s
+    , &refl_InfoFormattedAppendJc_s
     }
 } };
-const ClassJc reflection_InfoFormattedAppendJc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InfoFormattedAppendJc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InfoFormattedAppendJc_s"
 ,  0 //position of ObjectJc
 , sizeof(InfoFormattedAppendJc_s)
-, (FieldJc_Y const*)&reflection_Fields_InfoFormattedAppendJc_s
+, (FieldJc_Y const*)&refl_Fields_InfoFormattedAppendJc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_InfoFormattedAppendJc_s //superclass
 , null //interfaces
@@ -99,38 +99,38 @@ const VtblDef_PrepareToString_InfoFormattedAppendJc mtblPrepareToString_InfoForm
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_PrepareToString_InfoFormattedAppendJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_PrepareToString_InfoFormattedAppendJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_PrepareToString_InfoFormattedAppendJc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_PrepareToString_InfoFormattedAppendJc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_PrepareToString_InfoFormattedAppendJc_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_PrepareToString_InfoFormattedAppendJc_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_PrepareToString_InfoFormattedAppendJc_s_t
 { ObjectArrayJc head; FieldJc data[1];
-} reflection_Fields_PrepareToString_InfoFormattedAppendJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_PrepareToString_InfoFormattedAppendJc_s)
+} refl_Fields_PrepareToString_InfoFormattedAppendJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_PrepareToString_InfoFormattedAppendJc_s)
 , {
      { "ret"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((PrepareToString_InfoFormattedAppendJc_s*)(0x1000))->ret) - (intptr_t)(PrepareToString_InfoFormattedAppendJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_PrepareToString_InfoFormattedAppendJc_s
+    , &refl_PrepareToString_InfoFormattedAppendJc_s
     }
 } };
-const ClassJc reflection_PrepareToString_InfoFormattedAppendJc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_PrepareToString_InfoFormattedAppendJc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "PrepareToString_In_ppendJc_s"
 ,  0 //position of ObjectJc
 , sizeof(PrepareToString_InfoFormattedAppendJc_s)
-, (FieldJc_Y const*)&reflection_Fields_PrepareToString_InfoFormattedAppendJc_s
+, (FieldJc_Y const*)&refl_Fields_PrepareToString_InfoFormattedAppendJc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_PrepareToString_InfoFormattedAppendJc_s //superclass
 , null //interfaces

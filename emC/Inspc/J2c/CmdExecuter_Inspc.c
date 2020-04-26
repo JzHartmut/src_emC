@@ -37,7 +37,7 @@ struct CmdExecuter_Inspc_t* ctorO_CmdExecuter_Inspc(ObjectJc* othis, struct CmdC
 { CmdExecuter_Inspc_s* thiz = (CmdExecuter_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_CmdExecuter_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(CmdExecuter_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_CmdExecuter_Inspc_s, sizeof(CmdExecuter_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_CmdExecuter_Inspc_s, sizeof(CmdExecuter_Inspc_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element-MemC
@@ -349,60 +349,60 @@ const VtblDef_CmdExecuter_Inspc mtblCmdExecuter_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_CmdExecuter_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_CmdExecuter_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_CmdExecuter_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_CmdExecuter_Inspc, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
+ extern_C struct ClassJc_t const refl_AnswerComm_ifc_Inspc_s;
  static struct ifcClasses_CmdExecuter_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }interfaces_CmdExecuter_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_AnswerComm_ifc_Inspc_s, OFFSET_Vtbl(Vtbl_CmdExecuter_Inspc, AnswerComm_ifc_Inspc) }
+, { {&refl_AnswerComm_ifc_Inspc_s, OFFSET_Vtbl(Vtbl_CmdExecuter_Inspc, AnswerComm_ifc_Inspc) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
-extern_C struct ClassJc_t const reflection_CmdConsumer_ifc_Inspc_s;
-extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
-extern_C struct ClassJc_t const reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s;
-extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_CmdExecuter_Inspc_s;
+extern_C struct ClassJc_t const refl_CmdConsumer_ifc_Inspc_s;
+extern_C struct ClassJc_t const refl_Comm_Inspc_s;
+extern_C struct ClassJc_t const refl_InspcDatagram_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const refl_Inspcitem_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_CmdExecuter_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[13];
-} reflection_Fields_CmdExecuter_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 13, OBJTYPE_FieldJc, null, &reflection_Fields_CmdExecuter_Inspc_s)
+} refl_Fields_CmdExecuter_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 13, OBJTYPE_FieldJc, null, &refl_Fields_CmdExecuter_Inspc_s)
 , {
      { "datagramCmd"
     , 0 //nrofArrayElements
-    , &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s
+    , &refl_InspcDatagram_InspcDataExchangeAccess_Inspc_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->datagramCmd) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "infoCmd"
     , 0 //nrofArrayElements
-    , &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s
+    , &refl_Inspcitem_InspcDataExchangeAccess_Inspc_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->infoCmd) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "cmdConsumer"
     , 0 //nrofArrayElements
-    , &reflection_CmdConsumer_ifc_Inspc_s
+    , &refl_CmdConsumer_ifc_Inspc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->cmdConsumer) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "maxNrofAnswerBytes"
     , 0 //nrofArrayElements
@@ -410,7 +410,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->maxNrofAnswerBytes) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "nrofBytesAnswer"
     , 0 //nrofArrayElements
@@ -418,7 +418,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->nrofBytesAnswer) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "nrofSentBytes"
     , 0 //nrofArrayElements
@@ -426,7 +426,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->nrofSentBytes) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "ctFailedTelgPart"
     , 0 //nrofArrayElements
@@ -434,15 +434,15 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->ctFailedTelgPart) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "comm"
     , 0 //nrofArrayElements
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->comm) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "data_bufferAnswerData"
     , 1400 //nrofArrayElements
@@ -450,7 +450,7 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->data_bufferAnswerData) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "bufferAnswerData"
     , 0 //nrofArrayElements
@@ -458,15 +458,15 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kPtrVal_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->bufferAnswerData) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "myAnswerData"
     , 0 //nrofArrayElements
-    , &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s
+    , &refl_InspcDatagram_InspcDataExchangeAccess_Inspc_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->myAnswerData) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "useTelgHead"
     , 0 //nrofArrayElements
@@ -474,23 +474,23 @@ const struct Reflection_Fields_CmdExecuter_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->useTelgHead) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
    , { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_CmdExecuter_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_CmdExecuter_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     }
 } };
-const ClassJc reflection_CmdExecuter_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_CmdExecuter_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "CmdExecuter_Inspc_s"
 , (int16)((intptr_t)(&((CmdExecuter_Inspc_s*)(0x1000))->base.object) - 0x1000)
 , sizeof(CmdExecuter_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_CmdExecuter_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_CmdExecuter_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_CmdExecuter_Inspc_s //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_CmdExecuter_Inspc_s //interfaces

@@ -66,12 +66,12 @@ typedef struct Data_ExampleInspector_Inspc_t
 typedef struct Data_ExampleInspector_Inspc_X_t { ObjectArrayJc head; Data_ExampleInspector_InspcREF data[50]; } Data_ExampleInspector_Inspc_X;
 typedef struct Data_ExampleInspector_Inspc_Y_t { ObjectArrayJc head; Data_ExampleInspector_Inspc_s data[50]; } Data_ExampleInspector_Inspc_Y;
 
- extern struct ClassJc_t const reflection_Data_ExampleInspector_Inspc_s;
+ extern struct ClassJc_t const refl_Data_ExampleInspector_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Data_ExampleInspector_Inspc(OBJP) { CONST_ObjectJc(sizeof(Data_ExampleInspector_Inspc_s), OBJP, &reflection_Data_ExampleInspector_Inspc_s), 0 }
+#define CONST_Data_ExampleInspector_Inspc(OBJP) { CONST_ObjectJc(sizeof(Data_ExampleInspector_Inspc_s), OBJP, &refl_Data_ExampleInspector_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -98,7 +98,7 @@ typedef struct Vtbl_Data_ExampleInspector_Inspc_t
 class Data_ExampleInspector_Inspc : private Data_ExampleInspector_Inspc_s
 { public:
 
-  Data_ExampleInspector_Inspc(int32 val){ init_ObjectJc(&this->base.object, sizeof(Data_ExampleInspector_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_Data_ExampleInspector_Inspc_s, 0); ctorO_Data_ExampleInspector_Inspc(&this->base.object, val,  null/*_thCxt*/); }
+  Data_ExampleInspector_Inspc(int32 val){ init_ObjectJc(&this->base.object, sizeof(Data_ExampleInspector_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_Data_ExampleInspector_Inspc_s, 0); ctorO_Data_ExampleInspector_Inspc(&this->base.object, val,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -140,12 +140,12 @@ typedef struct ExampleInspector_Inspc_t
 typedef struct ExampleInspector_Inspc_X_t { ObjectArrayJc head; ExampleInspector_InspcREF data[50]; } ExampleInspector_Inspc_X;
 typedef struct ExampleInspector_Inspc_Y_t { ObjectArrayJc head; ExampleInspector_Inspc_s data[50]; } ExampleInspector_Inspc_Y;
 
- extern struct ClassJc_t const reflection_ExampleInspector_Inspc_s;
+ extern struct ClassJc_t const refl_ExampleInspector_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_ExampleInspector_Inspc(OBJP) { CONST_ObjectJc(sizeof(ExampleInspector_Inspc_s), OBJP, &reflection_ExampleInspector_Inspc_s), 0 }
+#define CONST_ExampleInspector_Inspc(OBJP) { CONST_ObjectJc(sizeof(ExampleInspector_Inspc_s), OBJP, &refl_ExampleInspector_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -188,7 +188,7 @@ typedef struct Vtbl_ExampleInspector_Inspc_t
 class ExampleInspector_Inspc : private ExampleInspector_Inspc_s
 { public:
 
-  ExampleInspector_Inspc(){ init_ObjectJc(&this->base.object, sizeof(ExampleInspector_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_ExampleInspector_Inspc_s, 0); ctorO_ExampleInspector_Inspc(&this->base.object,  null/*_thCxt*/); }
+  ExampleInspector_Inspc(){ init_ObjectJc(&this->base.object, sizeof(ExampleInspector_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_ExampleInspector_Inspc_s, 0); ctorO_ExampleInspector_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   virtual void execute(){ execute_ExampleInspector_Inspc_F(this,  null/*_thCxt*/); }
 

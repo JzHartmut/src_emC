@@ -101,7 +101,7 @@ typedef struct SimTime_emC_t
 } SimTime_emC;
 
 
-extern_C ClassJc const reflection_SimTime_emC;
+extern_C ClassJc const refl_SimTime_emC;
 
 
 /*@CLASS_C MinMaxTime_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -237,8 +237,9 @@ typedef struct Clock_MinMaxTime_emC_t {
 
 extern_C ClassJc const refl_Clock_MinMaxTime_emC;
 #define reflection_Clock_MinMaxTime_emC refl_Clock_MinMaxTime_emC
-#define idTypemC_Clock_MinMaxTime_emC 0x7f91 
-
+#ifndef ID_refl_Clock_MinMaxTime_emC
+  #define ID_refl_Clock_MinMaxTime_emC 0x0f91 
+#endif
 
 
 void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries);

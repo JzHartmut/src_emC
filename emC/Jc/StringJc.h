@@ -1029,7 +1029,7 @@ typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; CharSeqJc data[50]; } CharSeqJ
 #endif
 
 
-extern_C struct ClassJc_t const reflection_CharSeqJc;
+extern_C struct ClassJc_t const refl_CharSeqJc;
 
 
 

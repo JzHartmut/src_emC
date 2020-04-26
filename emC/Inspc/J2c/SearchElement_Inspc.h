@@ -53,12 +53,12 @@ typedef struct SearchTrc_SearchElement_Inspc_t
 typedef struct SearchTrc_SearchElement_Inspc_X_t { ObjectArrayJc head; SearchTrc_SearchElement_InspcREF data[50]; } SearchTrc_SearchElement_Inspc_X;
 typedef struct SearchTrc_SearchElement_Inspc_Y_t { ObjectArrayJc head; SearchTrc_SearchElement_Inspc_s data[50]; } SearchTrc_SearchElement_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
+ extern_C struct ClassJc_t const refl_SearchTrc_SearchElement_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_SearchTrc_SearchElement_Inspc(OBJP) { CONST_ObjectJc(sizeof(SearchTrc_SearchElement_Inspc_s), OBJP, &reflection_SearchTrc_SearchElement_Inspc_s), 0 }
+#define CONST_SearchTrc_SearchElement_Inspc(OBJP) { CONST_ObjectJc(sizeof(SearchTrc_SearchElement_Inspc_s), OBJP, &refl_SearchTrc_SearchElement_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -104,12 +104,12 @@ typedef struct SearchElement_Inspc_t
 typedef struct SearchElement_Inspc_X_t { ObjectArrayJc head; SearchElement_InspcREF data[50]; } SearchElement_Inspc_X;
 typedef struct SearchElement_Inspc_Y_t { ObjectArrayJc head; SearchElement_Inspc_s data[50]; } SearchElement_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_SearchElement_Inspc_s;
+ extern_C struct ClassJc_t const refl_SearchElement_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_SearchElement_Inspc(OBJP) { CONST_ObjectJc(sizeof(SearchElement_Inspc_s), OBJP, &reflection_SearchElement_Inspc_s), 0 }
+#define CONST_SearchElement_Inspc(OBJP) { CONST_ObjectJc(sizeof(SearchElement_Inspc_s), OBJP, &refl_SearchElement_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -168,7 +168,7 @@ typedef struct Vtbl_SearchElement_Inspc_t
 class SearchElement_Inspc : private SearchElement_Inspc_s
 { public:
 
-  SearchElement_Inspc(){ init_ObjectJc(&this->base.object, sizeof(SearchElement_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_SearchElement_Inspc_s, 0); ctorO_SearchElement_Inspc(&this->base.object,  null/*_thCxt*/); }
+  SearchElement_Inspc(){ init_ObjectJc(&this->base.object, sizeof(SearchElement_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_SearchElement_Inspc_s, 0); ctorO_SearchElement_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   MemSegmJc searchObject(StringJcpp sPath, struct ObjectJc_t* startObj, struct FieldJc_t const** retField, int32* retIdx){  return searchObject_SearchElement_Inspc(sPath, startObj, retField, retIdx,  null/*_thCxt*/); }
 };

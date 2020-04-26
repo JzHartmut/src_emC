@@ -54,8 +54,8 @@ typedef struct FileJc_t
 
 } FileJc_s;
 
-#define INIZ_FileJc {{INIZ_ObjectJc(fileinput, &reflection_FileJc, 0)}}
-extern_C const ClassJc reflection_FileJc;
+#define INIZ_FileJc {{INIZ_ObjectJc(fileinput, &refl_FileJc, 0)}}
+extern_C const ClassJc refl_FileJc;
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -100,7 +100,7 @@ typedef struct OutputStreamJc_t
   
 }OutputStreamJc_s;
 
-extern_C struct ClassJc_t const reflection_OutputStreamJc_s;
+extern_C struct ClassJc_t const refl_OutputStreamJc_s;
 
 typedef TYPE_EnhancedRefJc(OutputStreamJc);
 
@@ -136,7 +136,7 @@ typedef struct FileOutputStreamJc_t
   OS_HandleFile file;
 }FileOutputStreamJc_s;
 
-extern_C struct ClassJc_t const reflection_FileOutputStreamJc;
+extern_C struct ClassJc_t const refl_FileOutputStreamJc;
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */

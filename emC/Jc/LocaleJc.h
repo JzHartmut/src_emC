@@ -52,8 +52,8 @@ typedef struct LocaleJc_t
 } LocaleJc_s;
 
 extern_C const struct ClassJc_t refl_LocaleJc;
-#define reflection_LocaleJc refl_LocaleJc
-#define idTypemC_LocaleJc 0x7f90 
+#define refl_LocaleJc refl_LocaleJc
+#define ID_refl_LocaleJc 0x0FF9 
 
 
 /* Enhanced references *********************************************************/
@@ -64,7 +64,7 @@ extern_C const struct ClassJc_t refl_LocaleJc;
 #endif
 
 
-#define INIZ_LocaleJc(OBJP, language, country, variant) { { INIZ_ObjectJc(OBJP, &refl_LocaleJc, idTypemC_LocaleJc) }, language, country};
+#define INIZ_LocaleJc(OBJP, language, country, variant) { { INIZ_ObjectJc(OBJP, refl_LocaleJc, ID_refl_LocaleJc) }, language, country};
 
 
 /**Commonly localization information, neutral.

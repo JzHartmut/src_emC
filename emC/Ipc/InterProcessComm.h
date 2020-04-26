@@ -91,7 +91,7 @@ typedef struct Address_InterProcessComm_t
 #define sizeof_Address_InterProcessComm_s sizeof(Address_InterProcessComm_s)
 
 /**If reflections are available, it should stick to this declaration. */
-extern_C struct ClassJc_t const reflection_Address_InterProcessComm;
+extern_C struct ClassJc_t const refl_Address_InterProcessComm;
 
 /**compatibility. */
 #define Address_InterProcessComm Address_InterProcessComm_s
@@ -124,7 +124,7 @@ typedef struct InterProcessCommFactory_t
 { union{ ObjectJc object;} base; 
 }InterProcessCommFactory_s;
 
-extern_C const struct ClassJc_t reflection_InterProcessCommFactory;
+extern_C const struct ClassJc_t refl_InterProcessCommFactory;
 
 InterProcessCommFactory_s* ctorO_InterProcessCommFactory(ObjectJc* othis, ThCxt* _thCxt);
 
@@ -232,8 +232,8 @@ typedef struct InterProcessComm_t
 
 #define InterProcessCommC_s InterProcessComm_s
 
-/**Adaption reflection generator CHeader2Reflection does not support build of reflection_InterProcessComm_i. */
-#define reflection_InterProcessComm reflection_InterProcessComm 
+/**Adaption reflection generator CHeader2Reflection does not support build of refl_InterProcessComm_i. */
+#define refl_InterProcessComm refl_InterProcessComm 
 
 /**not supported, unknown error. It occurs if the os routine failes, but no error is found. */
 #define UnkonwError_InterProcessComm -0x7fff

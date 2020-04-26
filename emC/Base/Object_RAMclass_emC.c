@@ -43,7 +43,7 @@
 
 void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super) {
   memset(thiz, 0, sizeof(*thiz));
-  iniz_ObjectJc(&thiz->object, thiz, sizeof(*thiz), &reflection_ClassJc, 0);
+  iniz_ObjectJc(&thiz->object, thiz, sizeof(*thiz), &refl_ClassJc, 0);
   copyToBuffer_StringJc(name, 0, -1, thiz->name, sizeof(thiz->name));
   thiz->nSize = sizeType;
   thiz->attributes = (struct FieldJc_Y_t const*)fields;  //TODO before casting: check type via reflection

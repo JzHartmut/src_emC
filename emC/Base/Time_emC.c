@@ -1,15 +1,16 @@
 #include <emC/Base/Time_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
-  //Note: only for full reflection the const ClassJc reflection_... should be compiled 
+  //Note: only for full reflection the const ClassJc refl_... should be compiled 
   //to found by the linker for references to this struct. 
   //They are unecessary for initializations because of the data instances do not based on ObjectJc.
   #include <emC/Base/genRefl/Time_emC.crefl>
-#elif defined(DEF_REFLOFFS_Clock_MinMaxTime_emC)
+#elif defined(DEF_refl_Clock_MinMaxTime_emC)
   extern_C ClassJc const refl_Clock_MinMaxTime_emC;
 #else //lif defined(DEF_REFLECTION_SIMPLE)
-  ClassJc const refl_Clock_MinMaxTime_emC = INIZ_ClassJc(refl_Clock_MinMaxTime_emC, idTypemC_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
+  ClassJc const refl_Clock_MinMaxTime_emC = INIZ_ClassJc(refl_Clock_MinMaxTime_emC, ID_refl_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
 #endif
+
 
 #include <emC/OSAL/os_time.h>
 
@@ -20,7 +21,7 @@
 void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries) {
   
   //int size = sizeof(*thiz) + sizeof(thiz->times) * (nrofEntries - ARRAYLEN_emC(thiz->times));
-  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_Clock_MinMaxTime_emC, 0);
+  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_Clock_MinMaxTime_emC, 0);
   thiz->nrofSlices = nrofEntries;
 }
 

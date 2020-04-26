@@ -74,7 +74,7 @@ typedef struct AbstractCollectionJc_t
 
 /**TODO define AbstractListJc. */
 #define AbstractListJc AbstractCollectionJc
-#define reflection_AbstractListJc reflection_AbstractCollectionJc
+#define refl_AbstractListJc refl_AbstractCollectionJc
 
 
 

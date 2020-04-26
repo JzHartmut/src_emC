@@ -53,7 +53,7 @@ typedef struct TimeZoneJc_t
   StringJc name;
 } TimeZoneJc_s;
 
-extern_C const struct ClassJc_t reflection_TimeZoneJc;
+extern_C const struct ClassJc_t refl_TimeZoneJc;
 
 /* Enhanced references *********************************************************/
 #ifndef TimeZoneJcREFDEF
@@ -64,7 +64,7 @@ extern_C const struct ClassJc_t reflection_TimeZoneJc;
 
 
 
-#define CONST_TimeZoneJc(OBJP, name, diffHour, diffMinute, bDayligthSaving) { { CONST_ObjectJc(sizeof(TimeZoneJc_s), OBJP, &reflection_TimeZoneJc) }, diffHour, diffMinute, name}
+#define CONST_TimeZoneJc(OBJP, name, diffHour, diffMinute, bDayligthSaving) { { CONST_ObjectJc(sizeof(TimeZoneJc_s), OBJP, &refl_TimeZoneJc) }, diffHour, diffMinute, name}
 
 
 METHOD_C TimeZoneJc_s* getTimeZone_TimeZoneJc(StringJc name, ThCxt* _thCxt);

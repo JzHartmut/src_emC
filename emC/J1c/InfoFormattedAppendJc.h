@@ -46,12 +46,12 @@ typedef struct PrepareToString_InfoFormattedAppendJc_t
 typedef struct PrepareToString_InfoFormattedAppendJc_X_t { ObjectArrayJc head; PrepareToString_InfoFormattedAppendJcREF data[50]; } PrepareToString_InfoFormattedAppendJc_X;
 typedef struct PrepareToString_InfoFormattedAppendJc_Y_t { ObjectArrayJc head; PrepareToString_InfoFormattedAppendJc_s data[50]; } PrepareToString_InfoFormattedAppendJc_Y;
 
- extern_C struct ClassJc_t const reflection_PrepareToString_InfoFormattedAppendJc_s;
+ extern_C struct ClassJc_t const refl_PrepareToString_InfoFormattedAppendJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_PrepareToString_InfoFormattedAppendJc(OBJP) { CONST_ObjectJc(sizeof(PrepareToString_InfoFormattedAppendJc_s), OBJP, &reflection_PrepareToString_InfoFormattedAppendJc_s), 0 }
+#define CONST_PrepareToString_InfoFormattedAppendJc(OBJP) { CONST_ObjectJc(sizeof(PrepareToString_InfoFormattedAppendJc_s), OBJP, &refl_PrepareToString_InfoFormattedAppendJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -104,12 +104,12 @@ typedef struct InfoFormattedAppendJc_t
 typedef struct InfoFormattedAppendJc_X_t { ObjectArrayJc head; InfoFormattedAppendJcREF data[50]; } InfoFormattedAppendJc_X;
 typedef struct InfoFormattedAppendJc_Y_t { ObjectArrayJc head; InfoFormattedAppendJc_s data[50]; } InfoFormattedAppendJc_Y;
 
- extern_C struct ClassJc_t const reflection_InfoFormattedAppendJc_s;
+ extern_C struct ClassJc_t const refl_InfoFormattedAppendJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InfoFormattedAppendJc(OBJP) { CONST_ObjectJc(sizeof(InfoFormattedAppendJc_s), OBJP, &reflection_InfoFormattedAppendJc_s), 0 }
+#define CONST_InfoFormattedAppendJc(OBJP) { CONST_ObjectJc(sizeof(InfoFormattedAppendJc_s), OBJP, &refl_InfoFormattedAppendJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */

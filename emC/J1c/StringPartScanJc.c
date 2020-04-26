@@ -72,7 +72,7 @@ struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, CharSeqJ
   checkConsistence_ObjectJc(othis, sizeof(StringPartScanJc_s), null, _thCxt);  
   //J2C:super Constructor
   ctorO_Csii_StringPartJc(/*J2C:static method call*/othis, src, begin, end, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_StringPartScanJc_s, sizeof(StringPartScanJc_s));
+  setReflection_ObjectJc(othis, &refl_StringPartScanJc_s, sizeof(StringPartScanJc_s));
   //j2c: Initialize all class variables:
   {
     /*J2C: newArray*/
@@ -104,7 +104,7 @@ struct StringPartScanJc_t* ctorO_Cs_StringPartScanJc(ObjectJc* othis, CharSeqJc 
   checkConsistence_ObjectJc(othis, sizeof(StringPartScanJc_s), null, _thCxt);  
   //J2C:super Constructor
   ctorO_Cs_StringPartJc(/*J2C:static method call*/othis, src, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_StringPartScanJc_s, sizeof(StringPartScanJc_s));
+  setReflection_ObjectJc(othis, &refl_StringPartScanJc_s, sizeof(StringPartScanJc_s));
   //j2c: Initialize all class variables:
   {
     /*J2C: newArray*/
@@ -135,7 +135,7 @@ struct StringPartScanJc_t* ctorO_StringPartScanJc(ObjectJc* othis, ThCxt* _thCxt
   checkConsistence_ObjectJc(othis, sizeof(StringPartScanJc_s), null, _thCxt);  
   //J2C:super Constructor
   ctorO_StringPartJc(/*J2C:static method call*/othis, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_StringPartScanJc_s, sizeof(StringPartScanJc_s));
+  setReflection_ObjectJc(othis, &refl_StringPartScanJc_s, sizeof(StringPartScanJc_s));
   //j2c: Initialize all class variables:
   {
     /*J2C: newArray*/
@@ -1064,28 +1064,28 @@ const VtblDef_StringPartScanJc mtblStringPartScanJc = {
 
 #else
 
-#define REFLECTION_Fields_StringPartScanJc (FieldJc_Y const*)&reflection_Fields_StringPartScanJc_s
+#define REFLECTION_Fields_StringPartScanJc (FieldJc_Y const*)&refl_Fields_StringPartScanJc_s
 #define REFLECTION_Methods_StringPartScanJc null
 #define REFLECTION_Superclasses_StringPartScanJc (ClassOffset_idxVtblJcARRAY*)&superclasses_StringPartScanJc_s
 #define REFLECTION_Interfaces_StringPartScanJc null
 
 
- extern_C struct ClassJc_t const reflection_StringPartJc_s;
+ extern_C struct ClassJc_t const refl_StringPartJc_s;
  static struct superClasses_StringPartScanJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringPartScanJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_StringPartJc_s, OFFSET_Vtbl(Vtbl_StringPartScanJc, StringPartJc) }
+ , { {&refl_StringPartJc_s, OFFSET_Vtbl(Vtbl_StringPartScanJc, StringPartJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_StringPartScanJc_s;
-extern_C struct ClassJc_t const reflection_CharSeqJc;
+extern_C struct ClassJc_t const refl_StringPartScanJc_s;
+extern_C struct ClassJc_t const refl_CharSeqJc;
 const struct Reflection_Fields_StringPartScanJc_s_t
 { ObjectArrayJc head; FieldJc data[7];
-} reflection_Fields_StringPartScanJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &reflection_Fields_StringPartScanJc_s)
+} refl_Fields_StringPartScanJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 7, OBJTYPE_FieldJc, null, &refl_Fields_StringPartScanJc_s)
 , {
      { "beginScan"
     , 0 //nrofArrayElements
@@ -1093,7 +1093,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartScanJc_s*)(0x1000))->beginScan) - (intptr_t)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartScanJc_s
+    , &refl_StringPartScanJc_s
     }
    , { "nLastIntegerNumber"
     , 5 //nrofArrayElements
@@ -1101,7 +1101,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
     , 8 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartScanJc_s*)(0x1000))->nLastIntegerNumber) - (intptr_t)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartScanJc_s
+    , &refl_StringPartScanJc_s
     }
    , { "nLastIntegerSign"
     , 5 //nrofArrayElements
@@ -1109,7 +1109,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartScanJc_s*)(0x1000))->nLastIntegerSign) - (intptr_t)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartScanJc_s
+    , &refl_StringPartScanJc_s
     }
    , { "idxLastIntegerNumber"
     , 0 //nrofArrayElements
@@ -1117,7 +1117,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartScanJc_s*)(0x1000))->idxLastIntegerNumber) - (intptr_t)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartScanJc_s
+    , &refl_StringPartScanJc_s
     }
    , { "nLastFloatNumber"
     , 5 //nrofArrayElements
@@ -1125,7 +1125,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
     , 8 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartScanJc_s*)(0x1000))->nLastFloatNumber) - (intptr_t)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartScanJc_s
+    , &refl_StringPartScanJc_s
     }
    , { "idxLastFloatNumber"
     , 0 //nrofArrayElements
@@ -1133,23 +1133,23 @@ const struct Reflection_Fields_StringPartScanJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartScanJc_s*)(0x1000))->idxLastFloatNumber) - (intptr_t)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartScanJc_s
+    , &refl_StringPartScanJc_s
     }
    , { "sLastString"
     , 0 //nrofArrayElements
-    , &reflection_CharSeqJc
+    , &refl_CharSeqJc
     , kEnhancedReference_Modifier_reflectJc /*c*/ //bitModifiers
     , (int16)((intptr_t)(&((StringPartScanJc_s*)(0x1000))->sLastString) - (intptr_t)(StringPartScanJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartScanJc_s
+    , &refl_StringPartScanJc_s
     }
 } };
 
 #endif  //ndef __DONOTUSE_REFLECTION__
 
 
-const ClassJc reflection_StringPartScanJc_s = 
-{ INIZ_ObjectJc(reflection_StringPartScanJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_StringPartScanJc_s = 
+{ INIZ_ObjectJc(refl_StringPartScanJc_s, &refl_ClassJc, INIZ_ID_ClassJc)
 , "StringPartScanJc_s"
 ,  0 //position of ObjectJc
 , sizeof(StringPartScanJc_s)

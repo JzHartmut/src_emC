@@ -102,6 +102,6 @@ class InspcTargetProxySharedMem : InspcTargetProxy {
 /**The main data of the InspcTargetProxy-application, seen as root in the inspector. */
 
 
-extern struct ClassJc_t const reflection_Main_InspcTargetProxy_s;
+extern struct ClassJc_t const refl_Main_InspcTargetProxy_s;
 
 #endif //__InspcTargetProxy_h__

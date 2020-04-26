@@ -79,12 +79,12 @@ typedef struct StringJc_T {
 #define ObjectJc_t ObjectJc_T
 
 /**Info about object identification and the size of the data.
- * This is a more sophisticated dispersion of bits for the ObjectJc::idInstanceTypeSize
+ * This is a more sophisticated dispersion of bits for the ObjectJc::identSize
  * There are three informations in several bits:
 *
 * *bit 31: True then the instance is in run mode, 0: initialization not finished.
 *
-* *bit 30: set if the ObjectJc has only this 4 Byte idInstanceTypeSize, else always 0
+* *bit 30: set if the ObjectJc has only this 4 Byte identSize, else always 0
 *
 * *bit 29,28: Kind of the size information.
 *
@@ -200,17 +200,23 @@ There are only 5 bits useable for 31 large instances.
 */
 typedef struct  ObjectJc_T
 {
-  /**The idInstanceTypeSize is helpfull to recognize the instance. 
+  /**The identSize is helpfull to recognize the instance. 
   * The bit31 is used to detect whether it is initialized or not. */
-  uint32 idInstanceTypeSize;
+  uint32 identSize;
   #define mInitialized_ObjectJc  0x80000000
   #define mInstanceType_ObjectJc 0x0fff0000  
   #define kBitInstanceType_ObjectJc 16
   #define mSize_ObjectJc         0x0000ffff   //size in memory words, max, 64 kByte
   //
-  #ifdef DEF_ObjectJcpp_REFLECTION
+  #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE)
     #ifndef DEF_ObjectJc_REFLREF
       #define DEF_ObjectJc_REFLREF
+    #endif
+    #ifndef DEF_ObjectJc_SYNCHANDLE
+      #define DEF_ObjectJc_SYNCHANDLE
+    #endif
+    #ifndef DEF_ObjectJcpp_REFLECTION
+      #define DEF_ObjectJcpp_REFLECTION
     #endif
   /**Offset from the data-instance start address to the ObjectJc part. 
      * It is especially for symbolic field access (reflection) in C++. */
@@ -234,6 +240,9 @@ typedef struct  ObjectJc_T
 
 } ObjectJc;
 
+#define ID_refl_ObjectJc 0x0FFE
+extern_C struct ClassJc_t const refl_ObjectJc;
+#define refl_ObjectJc refl_ObejctJc
 
 
 /*---------------------------------------------
@@ -244,14 +253,18 @@ typedef struct  ObjectJc_T
 #  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<kBitInstance_ObjectJc) + sizeof(OBJ), 0, kNoSyncHandles_ObjectJc, REFL } //, { (char const*)(REFL)} }
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
 #elif defined(DEF_ObjectJc_REFLREF)
-#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<kBitInstance_ObjectJc) + sizeof(OBJ), REFL } //, { (char const*)(REFL)} }
+#  define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID))<<kBitIdentSmall_objectIdentSize_ObjectJc) & mIdentSmall_objectIdentSize_ObjectJc) + sizeof(OBJ), &(REFL) } //, { (char const*)(REFL)} }
 #else
   //next does not work because the REFL is a linker label. It should be calculate, that is not possible in C.
   //  in C it is only possible to use a linker label in a const which can be resolved by set the address on linking.
   //#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((int32)((intPTR)REFL) <<kBitType_ObjectJc) & mType_ObjectJc)  + (sizeof(OBJ) & mSize_ObjectJc) /*& 0xffff*/ }
   //Hence: It is not possible to initialize a type as const initializer list in C in this simplest form.
   //The initializer set only the size. The type check with typeIdent==0 returns true always.
-  #define INIZ_ObjectJc(OBJ, REFL, ID)  { mIdOnlySimple_ObjectJc | (((uint32)(ID))<<kBitInstanceType_ObjectJc)  | (sizeof(OBJ) & mSize_ObjectJc) }
+  #define INIZ_ObjectJc(OBJ, REFL, ID)  { mIdOnlySimple_ObjectJc | ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mIdentSmall_objectIdentSize_ObjectJc)  | (sizeof(OBJ) & mSizeSmall_objectIdentSize_ObjectJc) }
+
+
+
+  //#define INIZ_ObjectJc(OBJ, REFL, ID)  { mIdOnlySimple_ObjectJc | (((uint32)(ID))<<kBitInstanceType_ObjectJc)  | (sizeof(OBJ) & mSize_ObjectJc) }
 #endif
  //Note: the & 0xffff forces error in C 'is not a contant' in VS15
  //the following line does not compile in C! because it uses another defined data.
@@ -288,17 +301,17 @@ extern_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
   int getSizeInfo_ObjectJc(ObjectJc const* ythis);
 #else 
   #define getClass_ObjectJc(THIZ) null
-  #define getTypeId_ObjectJc(THIZ){ ((THIZ)->idInstanceTypeSize & mInstanceType_ObjectJc) >> kBitInstanceType_ObjectJc)
-  #define getSizeInfo_ObjectJc(THIZ) ((THIZ)->idInstanceTypeSize & mSize_ObjectJc)
+  #define getTypeId_ObjectJc(THIZ){ ((THIZ)->identSize & mInstanceType_ObjectJc) >> kBitInstanceType_ObjectJc)
+  #define getSizeInfo_ObjectJc(THIZ) ((THIZ)->identSize & mSize_ObjectJc)
   #define getIdentInfo_ObjectJc(THIZ) (0)
 #endif
 
 
 /*---------------------------------------------
   Working operations                         */
-#define setInitialized_ObjectJc(THIZ) { (THIZ)->idInstanceTypeSize |= mInitialized_ObjectJc; }
+#define setInitialized_ObjectJc(THIZ) { (THIZ)->identSize |= mInitialized_ObjectJc; }
 
-#define isInitialized_ObjectJc(THIZ) ( ((THIZ)->idInstanceTypeSize & mInitialized_ObjectJc )!=0)
+#define isInitialized_ObjectJc(THIZ) ( ((THIZ)->identSize & mInitialized_ObjectJc )!=0)
 
 
 
@@ -318,25 +331,25 @@ implementing any interface.
 */
 class  ObjectJcpp
 {
-public: virtual ObjectJc* toObject() = 0; //{ return null; }
+  public: virtual ObjectJc* toObject() = 0; //{ return null; }
 
                                           //#define toObject_Jc() toObject()
 
-                                          /**returns true if the String given Type is the instance can derived immeditately 
-                                          * to the given type with simple cast (C-cast). 
-                                          * In Java there it is the operator instanceof
-                                          * Note: It does not regard C++ deviation. Only able to use for the ObjectJc-C-inheritance.
-                                          */
-public: bool instanceof(const char* type){ return true; }  //TODO instanceof_s_ObjectJc(toObject(), type); } 
+  /**returns true if the String given Type is the instance can derived immeditately 
+   * to the given type with simple cast (C-cast). 
+   * In Java there it is the operator instanceof
+   * Note: It does not regard C++ deviation. Only able to use for the ObjectJc-C-inheritance.
+   */
+  public: bool instanceof(const char* type){ return true; }  //TODO instanceof_s_ObjectJc(toObject(), type); } 
 
-public: struct ClassJc_t* getClass(){ return null; }  //cannot be supported: getClass_ObjectJc(toObject()); }
+  public: struct ClassJc_t* getClass(){ return null; }  //cannot be supported: getClass_ObjectJc(toObject()); }
 
                                                       /**The constructor is called automatically in C++. Because it is contained as inline
                                                       * in the header, the user don't need any other library to use it.
                                                       */
-public: ObjectJcpp(); //: significance_ObjectifcBase(123), significanceAddress_ObjectifcBase(null){}
+  public: ObjectJcpp(); //: significance_ObjectifcBase(123), significanceAddress_ObjectifcBase(null){}
 
-public: virtual ~ObjectJcpp(){}
+  public: virtual ~ObjectJcpp(){}
 
 };
 
@@ -384,7 +397,7 @@ extern_C void free_ObjectJc(ObjectJc* thiz);
  *                      the offset to the instance itself will be stored to help data debugging.
  * @param sizeObj The size of the whole instance, use sizeof(TypeInstance).
  * @param reflection The reflection class. It may be null if the reflections are not present.
- * @param identObj An idInstanceTypeSize info, see [[attribute:_ObjectJc:objectIdentSize]]
+ * @param identObj An identSize info, see [[attribute:_ObjectJc:objectIdentSize]]
  * return ythis, the reference of the Object itself.
 */
 extern_C void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj);
@@ -609,7 +622,7 @@ typedef struct  ObjectArrayJc_t
 
 /**Initializer definition of an array based on ObjectArrayJc. The structure should have the following format:
 * ,,struct { ObjectArrayJc head; Type data[100];} myArray 
-* ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, &reflection_TYPE, 0) };
+* ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, &refl_TYPE, 0) };
 * @param NROF_ELEM number of elements
 * @param TYPE the type of the elements, used for sizeof(TYPE)
 * @param REFL_ELEM reflection class for the elements of the field.
@@ -696,13 +709,13 @@ METHOD_C int8_ObjArray* ctor_int8ARRAY(int8_ObjArray* ythis, int nrOfBytes);
 //#define CONSTaddSize_int32ARRAY(OBJP, ADDSIZE) { CONST_ObjectArrayJc(int32, 100 + ADDSIZE, 0, REFLECTION_int32, (OBJP)->head), {0} }
 #define CONSTaddSize_int8ARRAY(OBJP, ADDSIZE) { CONST_ObjectArrayJc(int8, 100 + ADDSIZE, 0, null, null), {0} }
 
-#define reflection__ObjectJcpp reflection__ObjectJc
+#define refl__ObjectJcpp refl__ObjectJc
 
 
 #if !defined(mBackRef_ObjectJc) 
 //if enhanced references are used, the REF types have own reflection const.
 //in this case they are dummies.
-#define reflection_StringBufferJcREF reflection_StringBufferJc
+#define refl_StringBufferJcREF refl_StringBufferJc
 
 #endif
 
@@ -809,8 +822,8 @@ typedef struct ClassJc_t
   #endif
 } ClassJc;
 
-extern_C ClassJc const reflection_ClassJc;
-#define idTypeStdemC_ClassJc 0x7f81
+extern_C ClassJc const refl_ClassJc;
+#define ID_refl_ClassJc 0x0FFC
 
 /**There are some variants of the macro INIZ_ClassJc(OBJ, NAME, REFLOFFS) 
 * and INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER)
@@ -820,44 +833,32 @@ extern_C ClassJc const reflection_ClassJc;
 #  define INIZtypeOnly_ClassJc(OBJ, NAME) { (uint32)(intptr_t)&(OBJ)}
 #  define INIZ_ClassJc(OBJ, IDTYPE, NAME) { IDTYPE }
 #  ifdef DEF_REFLECTION_OFFS
-#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { ((int32)(intptr_t)&(REFLOFFS)), REFLOFFS }
 #    ifdef DEF_ObjectJc_REFLREF
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), null, REFLSUPER }
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), REFLOFFS, REFLSUPER }/*TODO*/
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE, null, REFLSUPER }
 #    else 
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), null}
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), REFLOFFS }/*TODO*/
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE, null}
 #    endif
 #  else 
-#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { (uint32)(intptr_t)&(OBJ)}
 #    ifdef DEF_ObjectJc_REFLREF
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), REFLSUPER }
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(OBJ), REFLSUPER }
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE, REFLSUPER }
 #    else 
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (uint32)(intptr_t)&(OBJ) }
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { ((uint32)(intptr_t)&(OBJ)) }
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE }
 #    endif
 #  endif
 #else
 #  define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ), NAME}
-#  define INIZ_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ), NAME}
+#  define INIZ_ClassJc(OBJ, IDTYPE, NAME) { IDTYPE }
 #  ifdef DEF_REFLECTION_OFFS
-#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { ((int32)(intptr_t)&(REFLOFFS)), NAME, REFLOFFS }
 #    ifdef DEF_ObjectJc_REFLREF
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, null, REFLSUPER }
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), NAME, REFLOFFS, REFLSUPER }/*TODO*/
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE, NAME, null, REFLSUPER }
 #    else 
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, null }
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(REFLOFFS), NAME, REFLOFFS }/*TODO*/
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE, NAME, null}
 #    endif
 #  else 
-#    define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { (int)(intptr_t)&(OBJ), NAME}
 #    ifdef DEF_ObjectJc_REFLREF
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, REFLSUPER }
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME, REFLSUPER }
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE, NAME, REFLSUPER }
 #    else 
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME}
-#      define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { (int)(intptr_t)&(OBJ), NAME }
+#      define INIZsuper_ClassJc(OBJ, IDTYPE, NAME, REFLSUPER) { IDTYPE, NAME }
 #    endif
 #  endif
 #endif

@@ -62,7 +62,7 @@
 const StringJc sSocket_InterProcessCommSocket = CONST_StringJc("Socket:", 7);
 
 
-extern const struct ClassJc_t reflection_InterProcessCommSocket_s; 
+extern const struct ClassJc_t refl_InterProcessCommSocket_s; 
 
 
 
@@ -190,7 +190,7 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessCommSocket(ObjectJc* othis
 { 
   Address_InterProcessComm_s* ythis = (Address_InterProcessComm_s*)othis; 
   STACKTRC_ENTRY("ctorO_Address_InterProcessCommSocket");
-  checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &reflection_Address_InterProcessComm, _thCxt);
+  checkConsistence_ObjectJc(othis, sizeof(Address_InterProcessComm_s), &refl_Address_InterProcessComm, _thCxt);
 
   strcpy_emC(ythis->sType, protocol, sizeof(ythis->sType));
 
@@ -410,7 +410,7 @@ InterProcessCommSocket_s* ctorO_InterProcessCommSocket(ObjectJc* othis, Address_
   InterProcessCommSocket_s* ythis = (InterProcessCommSocket_s*)othis;
   STACKTRC_TENTRY("ctorO_InterProcessCommSocket");
   checkConsistence_ObjectJc(othis, sizeof(InterProcessCommSocket_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_InterProcessCommSocket_s, sizeof(InterProcessCommSocket_s));  
+  setReflection_ObjectJc(othis, &refl_InterProcessCommSocket_s, sizeof(InterProcessCommSocket_s));  
   ctor_InterProcessCommSocket(ythis, addr);
   return ythis;
 }
@@ -943,12 +943,12 @@ VtblDef_InterProcessCommSocket const mtblInterProcessCommSocket = {
 
 
 #include <emC/Jc/ReflectionJc.h>
-const ClassJc reflection_InterProcessCommSocket_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InterProcessCommSocket_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InterProcessCommSocket_s"
 ,  0 //position of ObjectJc
 , sizeof(InterProcessCommSocket_s)
-, null //(FieldJcArray const*)&reflection_Fields_InterProcessCommSocket_s
+, null //(FieldJcArray const*)&refl_Fields_InterProcessCommSocket_s
 , null //method
 , null //(ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommSocket_s //superclass
 , null //interfaces

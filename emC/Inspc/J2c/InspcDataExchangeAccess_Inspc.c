@@ -30,7 +30,7 @@ struct InspcDataExchangeAccess_Inspc_t* ctorO_InspcDataExchangeAccess_Inspc(Obje
 { InspcDataExchangeAccess_Inspc_s* thiz = (InspcDataExchangeAccess_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_InspcDataExchangeAccess_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(InspcDataExchangeAccess_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_InspcDataExchangeAccess_Inspc_s, sizeof(InspcDataExchangeAccess_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_InspcDataExchangeAccess_Inspc_s, sizeof(InspcDataExchangeAccess_Inspc_s));  
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
@@ -159,30 +159,30 @@ const VtblDef_InspcDataExchangeAccess_Inspc mtblInspcDataExchangeAccess_Inspc = 
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_InspcDataExchangeAccess_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_InspcDataExchangeAccess_Inspc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_InspcDataExchangeAccess_Inspc_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_InspcDataExchangeAccess_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[2];
-} reflection_Fields_InspcDataExchangeAccess_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_InspcDataExchangeAccess_Inspc_s)
+} refl_Fields_InspcDataExchangeAccess_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_InspcDataExchangeAccess_Inspc_s)
 , {
      { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_InspcDataExchangeAccess_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&version_InspcDataExchangeAccess_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_InspcDataExchangeAccess_Inspc_s
+    , &refl_InspcDataExchangeAccess_Inspc_s
     }
    , { "nrofBytesSpecialTypes"
     , 24 //nrofArrayElements
@@ -190,15 +190,15 @@ const struct Reflection_Fields_InspcDataExchangeAccess_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&nrofBytesSpecialTypes_InspcDataExchangeAccess_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&nrofBytesSpecialTypes_InspcDataExchangeAccess_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_InspcDataExchangeAccess_Inspc_s
+    , &refl_InspcDataExchangeAccess_Inspc_s
     }
 } };
-const ClassJc reflection_InspcDataExchangeAccess_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InspcDataExchangeAccess_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InspcDataExchangeA_s_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(InspcDataExchangeAccess_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_InspcDataExchangeAccess_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_InspcDataExchangeAccess_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcDataExchangeAccess_Inspc_s //superclass
 , null //interfaces
@@ -330,18 +330,18 @@ void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_Insp
   STACKTRC_LEAVE;
 }
 
- extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
+ extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
  static struct superClasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-const ClassJc reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InspcDatagram_InspcDataExchangeAccess_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InspcDatagram_Insp_s_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s)
@@ -437,18 +437,18 @@ void setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(Inspcitem_InspcDataExch
   STACKTRC_LEAVE;
 }
 
- extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
+ extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
  static struct superClasses_Inspcitem_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-const ClassJc reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Inspcitem_InspcDataExchangeAccess_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Inspcitem_InspcDat_s_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s)
@@ -547,18 +547,18 @@ float getFloat_InspcSetValue_InspcDataExchangeAccess_Inspc(InspcSetValue_InspcDa
   }
 }
 
- extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
+ extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
  static struct superClasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_ByteDataAccessBaseJc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-const ClassJc reflection_InspcSetValue_InspcDataExchangeAccess_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InspcSetValue_InspcDataExchangeAccess_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InspcSetValue_Insp_s_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s)
@@ -736,18 +736,18 @@ void setLong_InspcSetValueData_InspcDataExchangeAccess_Inspc(InspcSetValueData_I
   STACKTRC_LEAVE;
 }
 
- extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_Inspcitem_InspcDataExchangeAccess_Inspc_s;
  static struct superClasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-const ClassJc reflection_InspcSetValueData_InspcDataExchangeAccess_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InspcSetValueData_InspcDataExchangeAccess_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InspcSetValueData__s_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s)
@@ -859,18 +859,18 @@ void setIxHandleTo_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(InspcA
   STACKTRC_LEAVE;
 }
 
- extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_Inspcitem_InspcDataExchangeAccess_Inspc_s;
  static struct superClasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_Inspcitem_InspcDataExchangeAccess_Inspc_s, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-const ClassJc reflection_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InspcAnswerValueBy_s_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s)

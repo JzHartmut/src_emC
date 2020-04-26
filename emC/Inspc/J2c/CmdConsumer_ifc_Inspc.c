@@ -29,18 +29,18 @@ void setAnswerComm_CmdConsumer_ifc_Inspc(ObjectJc* ithis, struct AnswerComm_ifc_
   mtbl->setAnswerComm(ithis, answerComm, _thCxt);
 }
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_CmdConsumer_ifc_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_CmdConsumer_ifc_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_ObjectJc, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-const ClassJc reflection_CmdConsumer_ifc_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_CmdConsumer_ifc_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "CmdConsumer_ifc_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(CmdConsumer_ifc_Inspc_s)

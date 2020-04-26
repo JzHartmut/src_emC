@@ -43,7 +43,7 @@
 #include "emC/OSAL/os_time.h"
 #include <emC/Base/Timeconversions_emC.h>
 
-extern_C struct ClassJc_t const reflection_DateJc;
+extern_C struct ClassJc_t const refl_DateJc;
 
 METHOD_C void normalize_DateJc(DateJc_s* ythis)
 { if( ythis->val.time_nsec > 999999999L)
@@ -96,7 +96,7 @@ METHOD_C DateJc_s* ctor_DateJc(DateJc_s* ythis)
 /**Constructs an instance with the system time.*/
 DateJc_s* ctorO_DateJc(ObjectJc* othis, ThCxt* _thCxt)
 { DateJc_s* ythis = (DateJc_s*)othis;
-  checkConsistence_ObjectJc(othis, sizeof(DateJc_s), &reflection_DateJc, _thCxt);  
+  checkConsistence_ObjectJc(othis, sizeof(DateJc_s), &refl_DateJc, _thCxt);  
   ctorc_ObjectJc(&ythis->base.object);
   init0p_MemC(othis+1, sizeof(DateJc_s) - sizeof(ObjectJc));
   setSystemTime_DateJc(ythis);
@@ -109,7 +109,7 @@ DateJc_s* ctorO_I_DateJc(ObjectJc* othis, int64 milliSecAfter1970, ThCxt* _thCxt
   int32 seconds;
   int32 milliseconds;
   STACKTRC_TENTRY("ctorO_I_DateJc");
-  checkConsistence_ObjectJc(othis, sizeof(DateJc_s), &reflection_DateJc, _thCxt);  
+  checkConsistence_ObjectJc(othis, sizeof(DateJc_s), &refl_DateJc, _thCxt);  
   ctorc_ObjectJc(&ythis->base.object);
   init0p_MemC(othis+1, sizeof(DateJc_s) - sizeof(ObjectJc));
   seconds = (int32) milliSecAfter1970 / 1000;
@@ -192,13 +192,13 @@ METHOD_C void setTimeNanoseconds_DateJc(DateJc_s* ythis, int32 seconds, int32 na
 
 
 
-extern_C struct ClassJc_t const reflection_SimpleDateFormatJc;
+extern_C struct ClassJc_t const refl_SimpleDateFormatJc;
 
 SimpleDateFormatJc_s* ctorO_SimpleDateFormatJc(ObjectJc* othis, ThCxt* _thCxt)
 {
   SimpleDateFormatJc_s* ythis = (SimpleDateFormatJc_s*)othis;
   STACKTRC_TENTRY("ctorO_SimpleDateFormatJc");
-  checkConsistence_ObjectJc(othis, sizeof(SimpleDateFormatJc_s), &reflection_SimpleDateFormatJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(SimpleDateFormatJc_s), &refl_SimpleDateFormatJc, _thCxt); 
   STACKTRC_LEAVE; return ythis;
 }
 
@@ -206,7 +206,7 @@ SimpleDateFormatJc_s* ctorO_s_SimpleDateFormatJc(ObjectJc* othis, StringJc sForm
 {
   SimpleDateFormatJc_s* ythis = (SimpleDateFormatJc_s*)othis;
   STACKTRC_TENTRY("ctorO_S_SimpleDateFormatJc");
-  checkConsistence_ObjectJc(othis, sizeof(SimpleDateFormatJc_s), &reflection_SimpleDateFormatJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(SimpleDateFormatJc_s), &refl_SimpleDateFormatJc, _thCxt); 
   set_StringJc(&ythis->sFormat, sFormat);
   STACKTRC_LEAVE; return ythis;
 }
@@ -258,13 +258,13 @@ StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp tim
 }
 
 
-extern_C struct ClassJc_t const reflection_TextFieldPositionJc;
+extern_C struct ClassJc_t const refl_TextFieldPositionJc;
 
 TextFieldPositionJc_s* ctorO_TextFieldPositionJc(ObjectJc* othis, int field, ThCxt* _thCxt)
 {
   TextFieldPositionJc_s* ythis = (TextFieldPositionJc_s*)othis;
   STACKTRC_TENTRY("ctorO_TextFieldPositionJc_s");
-  checkConsistence_ObjectJc(othis, sizeof(TextFieldPositionJc_s), &reflection_TextFieldPositionJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(TextFieldPositionJc_s), &refl_TextFieldPositionJc, _thCxt); 
   STACKTRC_LEAVE; return ythis;
 }
 

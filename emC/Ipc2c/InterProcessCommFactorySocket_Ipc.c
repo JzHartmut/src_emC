@@ -31,7 +31,7 @@ struct InterProcessCommFactorySocket_Ipc_t* ctorO_InterProcessCommFactorySocket_
   checkConsistence_ObjectJc(othis, sizeof(InterProcessCommFactorySocket_Ipc_s), null, _thCxt);  
   //J2C:super Constructor
   ctorO_InterProcessCommFactory(/*J2C:static method call*/othis, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_InterProcessCommFactorySocket_Ipc_s, sizeof(InterProcessCommFactorySocket_Ipc_s));  
+  setReflection_ObjectJc(othis, &refl_InterProcessCommFactorySocket_Ipc_s, sizeof(InterProcessCommFactorySocket_Ipc_s));  
   //j2c: Initialize all class variables:
   {
   }
@@ -124,7 +124,7 @@ struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(In
   
   { 
     
-    if( instanceof_ObjectJc(& ((* (addr)).base.object), &reflection_Address_InterProcessComm)) 
+    if( instanceof_ObjectJc(& ((* (addr)).base.object), &refl_Address_InterProcessComm)) 
     { 
       ObjectJc *newObj3_1=null; /*J2C: temporary Objects for new operations
       */
@@ -305,18 +305,18 @@ const VtblDef_InterProcessCommFactorySocket_Ipc mtblInterProcessCommFactorySocke
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_InterProcessCommFactory;
+ extern_C struct ClassJc_t const refl_InterProcessCommFactory;
  static struct superClasses_InterProcessCommFactorySocket_Ipc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InterProcessCommFactorySocket_Ipc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_InterProcessCommFactory, OFFSET_Vtbl(Vtbl_InterProcessCommFactorySocket_Ipc, InterProcessCommFactory) }
+ , { {&refl_InterProcessCommFactory, OFFSET_Vtbl(Vtbl_InterProcessCommFactorySocket_Ipc, InterProcessCommFactory) }
    }
  };
 
-const ClassJc reflection_InterProcessCommFactorySocket_Ipc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InterProcessCommFactorySocket_Ipc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InterProcessCommFa_ket_Ipc_s"
 ,  0 //position of ObjectJc
 , sizeof(InterProcessCommFactorySocket_Ipc_s)

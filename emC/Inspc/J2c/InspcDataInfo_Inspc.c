@@ -32,7 +32,7 @@ struct InspcDataInfo_Inspc_t* ctorO_InspcDataInfo_Inspc(ObjectJc* othis, ThCxt* 
 { InspcDataInfo_Inspc_s* thiz = (InspcDataInfo_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_InspcDataInfo_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(InspcDataInfo_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_InspcDataInfo_Inspc_s, sizeof(InspcDataInfo_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_InspcDataInfo_Inspc_s, sizeof(InspcDataInfo_Inspc_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element
@@ -65,23 +65,23 @@ const VtblDef_InspcDataInfo_Inspc mtblInspcDataInfo_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_InspcDataInfo_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InspcDataInfo_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_InspcDataInfo_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_InspcDataInfo_Inspc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_InspcDataInfo_Inspc_s;
-extern_C struct ClassJc_t const reflection_FieldJc;
-extern_C struct ClassJc_t const reflection_MemSegmJc;
+extern_C struct ClassJc_t const refl_InspcDataInfo_Inspc_s;
+extern_C struct ClassJc_t const refl_FieldJc;
+extern_C struct ClassJc_t const refl_MemSegmJc;
 const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[8];
-} reflection_Fields_InspcDataInfo_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_InspcDataInfo_Inspc_s)
+} refl_Fields_InspcDataInfo_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &refl_Fields_InspcDataInfo_Inspc_s)
 , {
      { "lastUsed"
     , 0 //nrofArrayElements
@@ -89,23 +89,23 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->lastUsed) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
    , { "addr"
     , 0 //nrofArrayElements
-    , &reflection_MemSegmJc
+    , &refl_MemSegmJc
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->addr) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
    , { "reflectionField"
     , 0 //nrofArrayElements
-    , &reflection_FieldJc
+    , &refl_FieldJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->reflectionField) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
    , { "sizeofValue"
     , 0 //nrofArrayElements
@@ -113,7 +113,7 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->sizeofValue) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
    , { "typeValue"
     , 0 //nrofArrayElements
@@ -121,7 +121,7 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->typeValue) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
    , { "lengthData"
     , 0 //nrofArrayElements
@@ -129,7 +129,7 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 2 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->lengthData) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
    , { "check"
     , 0 //nrofArrayElements
@@ -137,7 +137,7 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->check) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
    , { "secondOfCreation"
     , 0 //nrofArrayElements
@@ -145,15 +145,15 @@ const struct Reflection_Fields_InspcDataInfo_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((InspcDataInfo_Inspc_s*)(0x1000))->secondOfCreation) - (intptr_t)(InspcDataInfo_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     }
 } };
-const ClassJc reflection_InspcDataInfo_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InspcDataInfo_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InspcDataInfo_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(InspcDataInfo_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_InspcDataInfo_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_InspcDataInfo_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcDataInfo_Inspc_s //superclass
 , null //interfaces

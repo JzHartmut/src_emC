@@ -60,7 +60,7 @@
 #include <string.h>   //strncpy
 struct Vtbl_CharSeqJc_t;
 
-extern ClassJc const reflection_StringBuilderJc;
+extern ClassJc const refl_StringBuilderJc;
 
 
 int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
@@ -123,7 +123,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 
 void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
 { STACKTRC_ENTRY("ctor_addSize_StringBuilderJc");
-  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, &reflection_StringBuilderJc, 0);
+  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, &refl_StringBuilderJc, 0);
   int size1 = sizeof(thiz->value) + addSize;
   ASSERTs_emC(size1 >=0 && size1 < 0x7fff, "faulty size for StringBuilder", size1, 0);
   thiz->size = (int16)(size1);
@@ -135,7 +135,7 @@ void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
 
 void ctor_Buffer_StringBuilderJc(StringBuilderJc_s* thiz, char* buffer, int size)
 { STACKTRC_ENTRY("ctor_Buffer_StringBuilderJc");
-  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_StringBuilderJc, 0);
+  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_StringBuilderJc, 0);
   ASSERTs_emC(size >=0 && size < 0x7fff, "faulty size for StringBuilder", size, 0);
   thiz->size = (int16)(-size);
   thiz->_mode = 0;  //no mode bits yet initialize
@@ -779,7 +779,7 @@ const VtblDef_StringBufferJc mtblStringBufferJc = {
 
 
 #ifdef DEF_ObjectJc_SIMPLE
-ClassJc const reflection_StringBuilderJc = { 0 };
+ClassJc const refl_StringBuilderJc = { 0 };
 #else
 #include <emC/Jc/ReflectionJc.h>
 
@@ -791,8 +791,8 @@ const struct Reflection_Fields_StringBuilderJc_t
 {
   ObjectArrayJc head;
   FieldJc data[4];
-} reflection_Fields_StringBuilderJc =
-{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &reflection_Fields_StringBuilderJc)
+} refl_Fields_StringBuilderJc =
+{ CONST_ObjectArrayJc(FieldJc, 4, OBJTYPE_FieldJc, null, &refl_Fields_StringBuilderJc)
 ,{
   { "_count"
   , 0 //nrofArrayElements
@@ -800,7 +800,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , (2 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
   , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->_count) -  0x1000)
   , 0  //offsetToObjectifcBase
-  , &reflection_StringBuilderJc
+  , &refl_StringBuilderJc
   }
   ,{ "size"
   , 0 //nrofArrayElements
@@ -808,7 +808,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , (2 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
   , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->size) -  0x1000)
   , 0  //offsetToObjectifcBase
-  , &reflection_StringBuilderJc
+  , &refl_StringBuilderJc
   }
   ,{ "_mode"
   , 0 //nrofArrayElements
@@ -816,7 +816,7 @@ const struct Reflection_Fields_StringBuilderJc_t
   , (4 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
   , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->_mode) -  0x1000)
   , 0  //offsetToObjectifcBase
-  , &reflection_StringBuilderJc
+  , &refl_StringBuilderJc
   }
   ,{ "value"
   , 0 //nrofArrayElements
@@ -824,17 +824,17 @@ const struct Reflection_Fields_StringBuilderJc_t
   , (4 << kBitPrimitiv_Modifier_reflectJc) //bitModifiers
   , (int16)((intptr_t)(&((StringBuilderJc_s*)(0x1000))->value) -  0x1000)
   , 0  //offsetToObjectifcBase
-  , &reflection_StringBuilderJc
+  , &refl_StringBuilderJc
   }
 } };
 
 
-const ClassJc reflection_StringBuilderJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_StringBuilderJc, &reflection_ClassJc)
+const ClassJc refl_StringBuilderJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_StringBuilderJc, &refl_ClassJc)
 , "StringBuilderJc_s"
 , 0
 , sizeof(StringBuilderJc_s)
-, (FieldJcArray const*)&reflection_Fields_StringBuilderJc  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_StringBuilderJc  //attributes and associations
 , null  //method
 , null  //superclass
 , null  //interfaces
@@ -846,7 +846,7 @@ const ClassJc reflection_StringBuilderJc =
 
 
 
-#define reflection_StringBuilderJc_s reflection_StringBuilderJc
+#define refl_StringBuilderJc_s refl_StringBuilderJc
 DEFINE_REFLECTION_REF(StringBuilderJc);
 
 

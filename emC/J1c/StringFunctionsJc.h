@@ -44,12 +44,12 @@ typedef struct StringFunctionsJc_t
 typedef struct StringFunctionsJc_X_t { ObjectArrayJc head; StringFunctionsJcREF data[50]; } StringFunctionsJc_X;
 typedef struct StringFunctionsJc_Y_t { ObjectArrayJc head; StringFunctionsJc_s data[50]; } StringFunctionsJc_Y;
 
- extern_C struct ClassJc_t const reflection_StringFunctionsJc_s;
+ extern_C struct ClassJc_t const refl_StringFunctionsJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_StringFunctionsJc(OBJP) { CONST_ObjectJc(sizeof(StringFunctionsJc_s), OBJP, &reflection_StringFunctionsJc_s), 0 }
+#define CONST_StringFunctionsJc(OBJP) { CONST_ObjectJc(sizeof(StringFunctionsJc_s), OBJP, &refl_StringFunctionsJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -314,7 +314,7 @@ class StringFunctionsJc : private StringFunctionsJc_s
 
   bool contains(CharSeqJc s1, CharSeqJc s2){  return contains_StringFunctionsJc(s1, s2,  null/*_thCxt*/); }
 
-  StringFunctionsJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctionsJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringFunctionsJc_s, 0); ctorO_StringFunctionsJc(&this->base.object,  null/*_thCxt*/); }
+  StringFunctionsJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctionsJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringFunctionsJc_s, 0); ctorO_StringFunctionsJc(&this->base.object,  null/*_thCxt*/); }
 
   bool endsWith(CharSeqJc sq, CharSeqJc end){  return endsWith_StringFunctionsJc(sq, end,  null/*_thCxt*/); }
 

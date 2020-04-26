@@ -14,11 +14,11 @@
 #include <math.h>
 
 #include "emC/Inspc/FB/genRefl/TimeSignals_Inspc.crefl"
-//extern_C ClassJc const reflection_TimeSignals_Inspc;
+//extern_C ClassJc const refl_TimeSignals_Inspc;
 
 
 
-extern_C const ClassJc reflection_float_complex;  //the just defined reflection_
+extern_C const ClassJc refl_float_complex;  //the just defined refl_
 
 
 
@@ -45,7 +45,7 @@ void ctor_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float Tstep, struct DefPort
   memset(thiz->nrElements, 1, sizeof(thiz->nrElements));
   thiz->bitsComplexY = 0;
   init_immediate_ObjectArrayJc(&thiz->superThiz.head, 1, sizeof(thiz->superThiz.data[0]), null, 0);
-  ctor_ClassOffset_idxVtblJc(&thiz->superThiz.data[0], &reflection_TimeSignals_Inspc, 0x22, 0);
+  ctor_ClassOffset_idxVtblJc(&thiz->superThiz.data[0], &refl_TimeSignals_Inspc, 0x22, 0);
   ctor_Fields_super_ClassJc(&thiz->clazz, z_StringJc(thiz->nameModule), 0, &thiz->fields.head, &thiz->superThiz.head);
   //
   //int ixFields = 0;
@@ -537,8 +537,8 @@ void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
     ClassJc const* type = getType_FieldJc(&thiz->fields.data[ixChn]);
     int z = thiz->fields.data[ixChn].nrofArrayElementsOrBitfield_;
     if (z == 0) { z = 1; }
-    if (type == &reflection__floatJc || type == &reflection_float_complex) {
-      if(type == &reflection_float_complex) {
+    if (type == &refl__floatJc || type == &refl_float_complex) {
+      if(type == &refl_float_complex) {
         z *=2;  //handle float_complex as vector with 2 elements.
       }
       curr->dbg_zValues = z;

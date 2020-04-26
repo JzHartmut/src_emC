@@ -134,7 +134,7 @@ METHOD_C void notifyAll_ObjectJc(ObjectJc* obj, ThCxt* _thCxt);
 
 
 
-extern_C const struct ClassJc_t reflection_ObjectArrayJc;
+extern_C const struct ClassJc_t refl_ObjectArrayJc;
 
 /** initializes the data of the array. This includes the head and the associated data. It is the rule or law,
  *  that all data are disposed immediately after the head of array. The data are set to 0.
@@ -226,15 +226,15 @@ METHOD_C int getNrofBytes_ObjectArrayJc(ObjectArrayJc const* ythis);
  * @param TYPE the type of the array elements.
  */
 #define DEFINE_REFLECTION_ARRAYJc(TYPE) \
-  extern struct ClassJc_t const reflection_##TYPE##_Y; \
-  const struct Reflection_Fields_##TYPE##_Y_t{ ObjectArrayJc head; FieldJc data[2];} reflection_Fields_##TYPE##_Y = \
-  { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_##TYPE##_Y) \
-  , { { "head", 0 , &reflection_ObjectArrayJc, 0, 0, 0, &reflection_##TYPE##_Y } \
-    , { "data", 0 , &reflection_##TYPE, 0, 0, 0, &reflection_##TYPE##_Y } \
+  extern struct ClassJc_t const refl_##TYPE##_Y; \
+  const struct Reflection_Fields_##TYPE##_Y_t{ ObjectArrayJc head; FieldJc data[2];} refl_Fields_##TYPE##_Y = \
+  { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_##TYPE##_Y) \
+  , { { "head", 0 , &refl_ObjectArrayJc, 0, 0, 0, &refl_##TYPE##_Y } \
+    , { "data", 0 , &refl_##TYPE, 0, 0, 0, &refl_##TYPE##_Y } \
   } }; \
-  const ClassJc reflection_##TYPE##_Y =\
-  { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_##TYPE##_Y, null) \
-  , "Y", 0, sizeof(TYPE##_Y), (FieldJcArray const*)&reflection_Fields_##TYPE##_Y \
+  const ClassJc refl_##TYPE##_Y =\
+  { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_##TYPE##_Y, null) \
+  , "Y", 0, sizeof(TYPE##_Y), (FieldJcArray const*)&refl_Fields_##TYPE##_Y \
   }
 
 
@@ -414,12 +414,12 @@ typedef TYPE_EnhancedRefJc(ObjectJc);
  * as ''derived anonymous class'' (Java slang) based on the given TYPE. It is to deal with the overridden method.
  *
  * An instance of this can be defined then with
- * ,,TYPE_s myImpl = CONST_ObjectJc(0, &myImpl, &reflection_METHOD);
+ * ,,TYPE_s myImpl = CONST_ObjectJc(0, &myImpl, &refl_METHOD);
  * This type has the reflection with reference to the implementing method but the data of the struct definition.
  * 
  * The macro defines 2 const variable:
  * * mtbl_METHOD: The method table of the interface type with the given method.
- * * reflection_METHOD: Reflection for the given variable refers the mtbl_METHOD.
+ * * refl_METHOD: Reflection for the given variable refers the mtbl_METHOD.
  *
  * All 2 generated variable are const, therefore assigned to a const segment by linking. There are static global,
  * therefore only a unique name in this compilation unit is necessary. Note that the reference of the variable
@@ -443,25 +443,25 @@ Vtbl_##TYPE static const mtbl_##METHOD = \
 } /*, { signEnd_Vtbl_ObjectJc, null } }*/; \
 \
 \
-extern_C struct ClassJc_t const reflection_##METHOD; \
+extern_C struct ClassJc_t const refl_##METHOD; \
 static const struct Reflection_Fields_##METHOD_t  \
-{ ObjectArrayJc head; FieldJc data[1]; } reflection_Fields_##METHOD = \
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_##METHOD) \
+{ ObjectArrayJc head; FieldJc data[1]; } refl_Fields_##METHOD = \
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_##METHOD) \
 , { { "data" \
     , 0  \
-    , &reflection_ObjectJc \
+    , &refl_ObjectJc \
     , kReference_Modifier_reflectJc  \
     , (int16)((int32)(&((TYPE##_s*)(0x1000))->data) - (int32)(TYPE##_s*)0x1000) \
     , 0   \
-    , &reflection_##METHOD \
+    , &refl_##METHOD \
     } \
 } }; \
-const ClassJc reflection_##METHOD =  \
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc)  \
+const ClassJc refl_##METHOD =  \
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc)  \
 , #METHOD \
 ,  0  \
 , sizeof(TYPE##_s) \
-, (FieldJcArray const*)&reflection_Fields_##METHOD \
+, (FieldJcArray const*)&refl_Fields_##METHOD \
 , null /*methods*/  \
 , null /*superclasses */  \
 , null  \
@@ -471,8 +471,8 @@ const ClassJc reflection_##METHOD =  \
 
 
 //TODO check usage of existing fields:
-//extern const struct Reflection_Fields_##TYPE##_s_t reflection_Fields_##TYPE##_s;
-//  , (FieldJcArray const*)&reflection_Fields_##TYPE##_s
+//extern const struct Reflection_Fields_##TYPE##_s_t refl_Fields_##TYPE##_s;
+//  , (FieldJcArray const*)&refl_Fields_##TYPE##_s
 
 
 /*@CLASS_CPP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -755,7 +755,7 @@ typedef struct Vtbl_ComparableJc_t
 
 extern char const sign_Vtbl_ComparableJc[]; 
 
-extern_C const struct ClassJc_t reflection_ComparableJc; 
+extern_C const struct ClassJc_t refl_ComparableJc; 
 
 
 /*@CLASS_C CloseableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -778,7 +778,7 @@ extern char const sign_Vtbl_CloseableJc[];
 
 #define close_CloseableJc(THIZ, THCXT) ((Vtbl_CloseableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_CloseableJc))->close(THIZ, THCXT)
 
-extern_C const struct ClassJc_t reflection_CloseableJc; 
+extern_C const struct ClassJc_t refl_CloseableJc; 
 
 
 /*@CLASS_C FlushableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -802,7 +802,7 @@ extern char const sign_Vtbl_FlushableJc[];
 #define flush_FlushableJc(THIZ, THCXT) ((Vtbl_FlushableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_FlushableJc))->flush(THIZ, THCXT)
 
 
-extern_C const struct ClassJc_t reflection_FlushableJc; 
+extern_C const struct ClassJc_t refl_FlushableJc; 
 
 /*@CLASS_C AppendableJc_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -836,7 +836,7 @@ typedef struct Vtbl_AppendableJc_t
 
 extern char const sign_Vtbl_AppendableJc[]; 
 
-extern_C const struct ClassJc_t reflection_AppendableJc; 
+extern_C const struct ClassJc_t refl_AppendableJc; 
 
 #define append_C_AppendableJc(THIZ, SRC, THCXT) ((Vtbl_AppendableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_AppendableJc))->append_C((ObjectJc*)(THIZ), SRC, THCXT)
 #define append_cs_AppendableJc(THIZ, SRC, THCXT) ((Vtbl_AppendableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_AppendableJc))->append_cs((ObjectJc*)(THIZ), SRC, THCXT)
@@ -855,7 +855,7 @@ VtblHeadJc const* checkVtblError_ObjectJc(ObjectJc const* ythis, int error, ThCx
 
 INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, char const* sign, ThCxt* _thCxt)
 { ClassJc const* reflection = ythis->reflection;
-  if( reflection != null || reflection->object.reflection == &reflection_ClassJc) {
+  if( reflection != null || reflection->object.reflection == &refl_ClassJc) {
     VtblHeadJc const* head0, *head;
     head0 = ythis->reflection->mtbl;  
     if(head0 != null){

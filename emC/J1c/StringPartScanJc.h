@@ -52,12 +52,12 @@ typedef struct StringPartScanJc_t
 typedef struct StringPartScanJc_X_t { ObjectArrayJc head; StringPartScanJcREF data[50]; } StringPartScanJc_X;
 typedef struct StringPartScanJc_Y_t { ObjectArrayJc head; StringPartScanJc_s data[50]; } StringPartScanJc_Y;
 
- extern_C struct ClassJc_t const reflection_StringPartScanJc_s;
+ extern_C struct ClassJc_t const refl_StringPartScanJc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_StringPartScanJc(OBJP) { CONST_ObjectJc(sizeof(StringPartScanJc_s), OBJP, &reflection_StringPartScanJc_s), 0 }
+#define CONST_StringPartScanJc(OBJP) { CONST_ObjectJc(sizeof(StringPartScanJc_s), OBJP, &refl_StringPartScanJc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -283,11 +283,11 @@ class StringPartScanJc : private StringPartScanJc_s
 
   virtual void close(){ close_StringPartScanJc_F(&this->base.super,  null/*_thCxt*/); }
 
-  StringPartScanJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_Cs_StringPartScanJc(&this->base.object, src,  null/*_thCxt*/); }
+  StringPartScanJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_Cs_StringPartScanJc(&this->base.object, src,  null/*_thCxt*/); }
 
-  StringPartScanJc(CharSeqJc src, int32 begin, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_Csii_StringPartScanJc(&this->base.object, src, begin, end,  null/*_thCxt*/); }
+  StringPartScanJc(CharSeqJc src, int32 begin, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_Csii_StringPartScanJc(&this->base.object, src, begin, end,  null/*_thCxt*/); }
 
-  StringPartScanJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_StringPartScanJc_s, 0); ctorO_StringPartScanJc(&this->base.object,  null/*_thCxt*/); }
+  StringPartScanJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_StringPartScanJc(&this->base.object,  null/*_thCxt*/); }
 
   double getLastScannedFloatNumber(){  return getLastScannedFloatNumber_StringPartScanJc(this,  null/*_thCxt*/); }
 

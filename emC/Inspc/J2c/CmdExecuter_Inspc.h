@@ -60,12 +60,12 @@ typedef struct CmdExecuter_Inspc_t
 typedef struct CmdExecuter_Inspc_X_t { ObjectArrayJc head; CmdExecuter_InspcREF data[50]; } CmdExecuter_Inspc_X;
 typedef struct CmdExecuter_Inspc_Y_t { ObjectArrayJc head; CmdExecuter_Inspc_s data[50]; } CmdExecuter_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
+ extern_C struct ClassJc_t const refl_CmdExecuter_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_CmdExecuter_Inspc(OBJP) { CONST_ObjectJc(sizeof(CmdExecuter_Inspc_s), OBJP, &reflection_CmdExecuter_Inspc_s), 0 }
+#define CONST_CmdExecuter_Inspc(OBJP) { CONST_ObjectJc(sizeof(CmdExecuter_Inspc_s), OBJP, &refl_CmdExecuter_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -130,7 +130,7 @@ class CmdExecuter_Inspc : private CmdExecuter_Inspc_s
 
   virtual void completeConstruction(struct Comm_Inspc_t* comm){ completeConstruction_CmdExecuter_Inspc_F(this, comm,  null/*_thCxt*/); }
 
-  CmdExecuter_Inspc(struct CmdConsumer_ifc_Inspc_t* commandConsumer){ init_ObjectJc(&this->base.object, sizeof(CmdExecuter_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_CmdExecuter_Inspc_s, 0); ctorO_CmdExecuter_Inspc(&this->base.object, commandConsumer,  null/*_thCxt*/); }
+  CmdExecuter_Inspc(struct CmdConsumer_ifc_Inspc_t* commandConsumer){ init_ObjectJc(&this->base.object, sizeof(CmdExecuter_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_CmdExecuter_Inspc_s, 0); ctorO_CmdExecuter_Inspc(&this->base.object, commandConsumer,  null/*_thCxt*/); }
 
   virtual bool executeCmd(int8ARRAY buffer, int32 nrofBytesReceived){  return executeCmd_CmdExecuter_Inspc_F(this, buffer, nrofBytesReceived,  null/*_thCxt*/); }
 

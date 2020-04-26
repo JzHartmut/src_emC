@@ -37,7 +37,7 @@ struct SpecialCharStringsJc_t* ctorO_SpecialCharStringsJc(ObjectJc* othis, ThCxt
 { SpecialCharStringsJc_s* thiz = (SpecialCharStringsJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_SpecialCharStringsJc");
   checkConsistence_ObjectJc(othis, sizeof(SpecialCharStringsJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_SpecialCharStringsJc_s, sizeof(SpecialCharStringsJc_s));  
+  setReflection_ObjectJc(othis, &refl_SpecialCharStringsJc_s, sizeof(SpecialCharStringsJc_s));  
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
@@ -143,18 +143,18 @@ const VtblDef_SpecialCharStringsJc mtblSpecialCharStringsJc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_SpecialCharStringsJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_SpecialCharStringsJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_SpecialCharStringsJc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_SpecialCharStringsJc, ObjectJc) }
    }
  };
 
-const ClassJc reflection_SpecialCharStringsJc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_SpecialCharStringsJc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "SpecialCharStringsJc_s"
 ,  0 //position of ObjectJc
 , sizeof(SpecialCharStringsJc_s)

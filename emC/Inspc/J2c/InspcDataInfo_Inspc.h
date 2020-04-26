@@ -54,12 +54,12 @@ typedef struct InspcDataInfo_Inspc_t
 typedef struct InspcDataInfo_Inspc_X_t { ObjectArrayJc head; InspcDataInfo_InspcREF data[50]; } InspcDataInfo_Inspc_X;
 typedef struct InspcDataInfo_Inspc_Y_t { ObjectArrayJc head; InspcDataInfo_Inspc_s data[50]; } InspcDataInfo_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_InspcDataInfo_Inspc_s;
+ extern_C struct ClassJc_t const refl_InspcDataInfo_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InspcDataInfo_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcDataInfo_Inspc_s), OBJP, &reflection_InspcDataInfo_Inspc_s), 0 }
+#define CONST_InspcDataInfo_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcDataInfo_Inspc_s), OBJP, &refl_InspcDataInfo_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -88,7 +88,7 @@ typedef struct Vtbl_InspcDataInfo_Inspc_t
 class InspcDataInfo_Inspc : private InspcDataInfo_Inspc_s
 { public:
 
-  InspcDataInfo_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcDataInfo_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InspcDataInfo_Inspc_s, 0); ctorO_InspcDataInfo_Inspc(&this->base.object,  null/*_thCxt*/); }
+  InspcDataInfo_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcDataInfo_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_InspcDataInfo_Inspc_s, 0); ctorO_InspcDataInfo_Inspc(&this->base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

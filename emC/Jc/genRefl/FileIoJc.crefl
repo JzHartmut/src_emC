@@ -5,28 +5,28 @@
 //#include <stddef.h>
 
 
-extern_C const ClassJc reflection_FileJc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_FileDescription_OSAL;  //used for field fileDescription
+extern_C const ClassJc refl_FileJc;  //the just defined refl_ used in the own fields.
+extern_C const ClassJc refl_FileDescription_OSAL;  //used for field fileDescription
   
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_FileJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_FileJc_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_FileJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -34,27 +34,27 @@ const struct SuperClasses_FileJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the 
 const struct Reflection_Fields_FileJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_FileJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_FileJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_FileJc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_FileJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "fileDescription"
     , 0   //no Array, no Bitfield                           
-    , &reflection_FileDescription_OSAL                                                                                            
+    , &refl_FileDescription_OSAL                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileJc_s*)(0x1000))->fileDescription)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileJc
+    , &refl_FileJc
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_FileJc =
-{ INIZ_objReflId_ObjectJc(reflection_FileJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_FileJc =
+{ INIZ_objReflId_ObjectJc(refl_FileJc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "FileJc"
 , 0
 , sizeof(FileJc_s)
-, (FieldJcArray const*)&reflection_Fields_FileJc_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_FileJc_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_FileJc_s  //superclass  
 , null  //interfaces  
@@ -64,32 +64,32 @@ const ClassJc reflection_FileJc =
 
 
 
-extern_C const ClassJc reflection_OutputStreamJc;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc refl_OutputStreamJc;  //the just defined refl_ used in the own fields.  
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_OutputStreamJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_OutputStreamJc_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_OutputStreamJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
                                                                    
-const ClassJc reflection_OutputStreamJc =
-{ INIZ_objReflId_ObjectJc(reflection_OutputStreamJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_OutputStreamJc =
+{ INIZ_objReflId_ObjectJc(refl_OutputStreamJc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "OutputStreamJc"
 , 0
 , sizeof(OutputStreamJc_s)
@@ -103,26 +103,26 @@ const ClassJc reflection_OutputStreamJc =
 
 
 
-extern_C const ClassJc reflection_FileOutputStreamJc;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc refl_FileOutputStreamJc;  //the just defined refl_ used in the own fields.  
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_FileOutputStreamJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_FileOutputStreamJc_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_FileOutputStreamJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -130,8 +130,8 @@ const struct SuperClasses_FileOutputStreamJc_s_ClassOffset_idxVtblJcARRAY_t  //T
 const struct Reflection_Fields_FileOutputStreamJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_FileOutputStreamJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_FileOutputStreamJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_FileOutputStreamJc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_FileOutputStreamJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "file"
     , 0   //no Array, no Bitfield                           
@@ -139,18 +139,18 @@ const struct Reflection_Fields_FileOutputStreamJc_s_t
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileOutputStreamJc_s*)(0x1000))->file)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileOutputStreamJc
+    , &refl_FileOutputStreamJc
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_FileOutputStreamJc =
-{ INIZ_objReflId_ObjectJc(reflection_FileOutputStreamJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_FileOutputStreamJc =
+{ INIZ_objReflId_ObjectJc(refl_FileOutputStreamJc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "FileOutputStreamJc"
 , 0
 , sizeof(FileOutputStreamJc_s)
-, (FieldJcArray const*)&reflection_Fields_FileOutputStreamJc_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_FileOutputStreamJc_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_FileOutputStreamJc_s  //superclass  
 , null  //interfaces  
@@ -160,26 +160,26 @@ const ClassJc reflection_FileOutputStreamJc =
 
 
 
-extern_C const ClassJc reflection_FileWriterJc;  //the just defined reflection_ used in the own fields.  
+extern_C const ClassJc refl_FileWriterJc;  //the just defined refl_ used in the own fields.  
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_FileWriterJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_FileWriterJc_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_FileWriterJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -187,8 +187,8 @@ const struct SuperClasses_FileWriterJc_s_ClassOffset_idxVtblJcARRAY_t  //Type fo
 const struct Reflection_Fields_FileWriterJc_s_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_FileWriterJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_FileWriterJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_FileWriterJc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_FileWriterJc_s, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "file"
     , 0   //no Array, no Bitfield                           
@@ -196,18 +196,18 @@ const struct Reflection_Fields_FileWriterJc_s_t
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileWriterJc_s*)(0x1000))->file)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileWriterJc
+    , &refl_FileWriterJc
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_FileWriterJc =
-{ INIZ_objReflId_ObjectJc(reflection_FileWriterJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_FileWriterJc =
+{ INIZ_objReflId_ObjectJc(refl_FileWriterJc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "FileWriterJc"
 , 0
 , sizeof(FileWriterJc_s)
-, (FieldJcArray const*)&reflection_Fields_FileWriterJc_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_FileWriterJc_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_FileWriterJc_s  //superclass  
 , null  //interfaces  
@@ -217,28 +217,28 @@ const ClassJc reflection_FileWriterJc =
 
 
 
-extern_C const ClassJc reflection_FileReaderJc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_ObjectJc;  //used for field object
+extern_C const ClassJc refl_FileReaderJc;  //the just defined refl_ used in the own fields.
+extern_C const ClassJc refl_ObjectJc;  //used for field object
   
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_FileReaderJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_FileReaderJc_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_FileReaderJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -246,8 +246,8 @@ const struct SuperClasses_FileReaderJc_s_ClassOffset_idxVtblJcARRAY_t  //Type fo
 const struct Reflection_Fields_FileReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[4];
-} reflection_Fields_FileReaderJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_FileReaderJc_s, 4, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_FileReaderJc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_FileReaderJc_s, 4, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "file_"
     , 0   //no Array, no Bitfield                           
@@ -255,7 +255,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->file_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileReaderJc
+    , &refl_FileReaderJc
     }
   , 
     { "lenFile_"
@@ -264,7 +264,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->lenFile_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileReaderJc
+    , &refl_FileReaderJc
     }
   , 
     { "bEof_"
@@ -273,7 +273,7 @@ const struct Reflection_Fields_FileReaderJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->bEof_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileReaderJc
+    , &refl_FileReaderJc
     }
   , 
     { "modCount_"
@@ -282,18 +282,18 @@ const struct Reflection_Fields_FileReaderJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((FileReaderJc_s*)(0x1000))->modCount_)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_FileReaderJc
+    , &refl_FileReaderJc
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_FileReaderJc =
-{ INIZ_objReflId_ObjectJc(reflection_FileReaderJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_FileReaderJc =
+{ INIZ_objReflId_ObjectJc(refl_FileReaderJc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "FileReaderJc"
 , 0
 , sizeof(FileReaderJc_s)
-, (FieldJcArray const*)&reflection_Fields_FileReaderJc_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_FileReaderJc_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_FileReaderJc_s  //superclass  
 , null  //interfaces  
@@ -303,32 +303,32 @@ const ClassJc reflection_FileReaderJc =
 
 
 
-extern_C const ClassJc reflection_BufferedReaderJc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_ObjectJc;  //used for field object
+extern_C const ClassJc refl_BufferedReaderJc;  //the just defined refl_ used in the own fields.
+extern_C const ClassJc refl_ObjectJc;  //used for field object
 
-extern_C const ClassJc reflection_MemC;  //used for field buffer
+extern_C const ClassJc refl_MemC;  //used for field buffer
 
-extern_C const ClassJc reflection_FileReaderJc;  //used for field input
+extern_C const ClassJc refl_FileReaderJc;  //used for field input
   
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_BufferedReaderJc_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_BufferedReaderJc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -336,8 +336,8 @@ const struct SuperClasses_BufferedReaderJc_s_ClassOffset_idxVtblJcARRAY_t  //Typ
 const struct Reflection_Fields_BufferedReaderJc_s_t
 { ObjectArrayJc head;
   FieldJc data[6];
-} reflection_Fields_BufferedReaderJc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_BufferedReaderJc_s, 6, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_BufferedReaderJc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_BufferedReaderJc_s, 6, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "lenBuffer"
     , 0   //no Array, no Bitfield                           
@@ -345,7 +345,7 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->lenBuffer)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_BufferedReaderJc
+    , &refl_BufferedReaderJc
     }
   , 
     { "lenLine"
@@ -354,7 +354,7 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->lenLine)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_BufferedReaderJc
+    , &refl_BufferedReaderJc
     }
   , 
     { "bFinish"
@@ -363,25 +363,25 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->bFinish)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_BufferedReaderJc
+    , &refl_BufferedReaderJc
     }
   , 
     { "buffer"
     , 0   //no Array, no Bitfield                           
-    , &reflection_MemC                                                                                            
+    , &refl_MemC                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->buffer)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_BufferedReaderJc
+    , &refl_BufferedReaderJc
     }
   , 
     { "input"
     , 0   //no Array, no Bitfield                           
-    , &reflection_FileReaderJc                                                                                            
+    , &refl_FileReaderJc                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->input)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_BufferedReaderJc
+    , &refl_BufferedReaderJc
     }
   , 
     { "modCountInput"
@@ -390,18 +390,18 @@ const struct Reflection_Fields_BufferedReaderJc_s_t
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((BufferedReaderJc_s*)(0x1000))->modCountInput)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_BufferedReaderJc
+    , &refl_BufferedReaderJc
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_BufferedReaderJc =
-{ INIZ_objReflId_ObjectJc(reflection_BufferedReaderJc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_BufferedReaderJc =
+{ INIZ_objReflId_ObjectJc(refl_BufferedReaderJc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "BufferedReaderJc"
 , 0
 , sizeof(BufferedReaderJc_s)
-, (FieldJcArray const*)&reflection_Fields_BufferedReaderJc_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_BufferedReaderJc_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_BufferedReaderJc_s  //superclass  
 , null  //interfaces  

@@ -49,7 +49,7 @@ struct ClassContent_Inspc_t* ctorO_ClassContent_Inspc(ObjectJc* othis, ThCxt* _t
 { ClassContent_Inspc_s* thiz = (ClassContent_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_ClassContent_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(ClassContent_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_ClassContent_Inspc_s, sizeof(ClassContent_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_ClassContent_Inspc_s, sizeof(ClassContent_Inspc_s));  
   //j2c: Initialize all class variables:
   {
     init0_MemC(build_MemC(&thiz->__TEST__, 20 * sizeof(int8))); //J2C: init the embedded simple array;
@@ -1842,38 +1842,38 @@ const VtblDef_ClassContent_Inspc mtblClassContent_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_ClassContent_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_ClassContent_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_ClassContent_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_ClassContent_Inspc, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_CmdConsumer_ifc_Inspc_s;
+ extern_C struct ClassJc_t const refl_CmdConsumer_ifc_Inspc_s;
  static struct ifcClasses_ClassContent_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }interfaces_ClassContent_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_CmdConsumer_ifc_Inspc_s, OFFSET_Vtbl(Vtbl_ClassContent_Inspc, CmdConsumer_ifc_Inspc) }
+, { {&refl_CmdConsumer_ifc_Inspc_s, OFFSET_Vtbl(Vtbl_ClassContent_Inspc, CmdConsumer_ifc_Inspc) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
-extern_C struct ClassJc_t const reflection_AnswerComm_ifc_Inspc_s;
-extern_C struct ClassJc_t const reflection_InspcDataInfo_Inspc_s;
-extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
-extern_C struct ClassJc_t const reflection_MemAccessArrayDebugJc;
-extern_C struct ClassJc_t const reflection_ObjectJc;
-extern_C struct ClassJc_t const reflection_StringBuilderJc;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_ClassContent_Inspc_s;
+extern_C struct ClassJc_t const refl_AnswerComm_ifc_Inspc_s;
+extern_C struct ClassJc_t const refl_InspcDataInfo_Inspc_s;
+extern_C struct ClassJc_t const refl_Inspcitem_InspcDataExchangeAccess_Inspc_s;
+extern_C struct ClassJc_t const refl_MemAccessArrayDebugJc;
+extern_C struct ClassJc_t const refl_ObjectJc;
+extern_C struct ClassJc_t const refl_StringBuilderJc;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_ClassContent_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[11];
-} reflection_Fields_ClassContent_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &reflection_Fields_ClassContent_Inspc_s)
+} refl_Fields_ClassContent_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 11, OBJTYPE_FieldJc, null, &refl_Fields_ClassContent_Inspc_s)
 , {
      { "__TEST__"
     , 20 //nrofArrayElements
@@ -1881,95 +1881,95 @@ const struct Reflection_Fields_ClassContent_Inspc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->__TEST__) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "rootClass"
     , 0 //nrofArrayElements
-    , &reflection_ObjectJc
+    , &refl_ObjectJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->rootClass) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "answerComm"
     , 0 //nrofArrayElements
-    , &reflection_AnswerComm_ifc_Inspc_s
+    , &refl_AnswerComm_ifc_Inspc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->answerComm) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "debugRemoteAccess"
     , 0 //nrofArrayElements
-    , &reflection_MemAccessArrayDebugJc
+    , &refl_MemAccessArrayDebugJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->debugRemoteAccess) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "answerItem"
     , 0 //nrofArrayElements
-    , &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s
+    , &refl_Inspcitem_InspcDataExchangeAccess_Inspc_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->answerItem) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "uArray"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &refl_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->uArray) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "uValue"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &refl_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->uValue) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "uAnswer"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &refl_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->uAnswer) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "test"
     , 0 //nrofArrayElements
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->test) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "handles"
     , 1024 //nrofArrayElements
-    , &reflection_InspcDataInfo_Inspc_s
+    , &refl_InspcDataInfo_Inspc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->handles) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
    , { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_ClassContent_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_ClassContent_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     }
 } };
-const ClassJc reflection_ClassContent_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_ClassContent_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "ClassContent_Inspc_s"
 , (int16)((intptr_t)(&((ClassContent_Inspc_s*)(0x1000))->base.object) - 0x1000)
 , sizeof(ClassContent_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_ClassContent_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_ClassContent_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_ClassContent_Inspc_s //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_ClassContent_Inspc_s //interfaces

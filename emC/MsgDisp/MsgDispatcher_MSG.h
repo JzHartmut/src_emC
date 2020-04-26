@@ -54,12 +54,12 @@ typedef struct DispatcherThread_MsgDispatcher_MSG_t
 typedef struct DispatcherThread_MsgDispatcher_MSG_X_t { ObjectArrayJc head; DispatcherThread_MsgDispatcher_MSGREF data[50]; } DispatcherThread_MsgDispatcher_MSG_X;
 typedef struct DispatcherThread_MsgDispatcher_MSG_Y_t { ObjectArrayJc head; DispatcherThread_MsgDispatcher_MSG_s data[50]; } DispatcherThread_MsgDispatcher_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_DispatcherThread_MsgDispatcher_MSG_s;
+ extern_C struct ClassJc_t const refl_DispatcherThread_MsgDispatcher_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_DispatcherThread_MsgDispatcher_MSG(OBJP) { CONST_ObjectJc(sizeof(DispatcherThread_MsgDispatcher_MSG_s), OBJP, &reflection_DispatcherThread_MsgDispatcher_MSG_s), 0 }
+#define CONST_DispatcherThread_MsgDispatcher_MSG(OBJP) { CONST_ObjectJc(sizeof(DispatcherThread_MsgDispatcher_MSG_s), OBJP, &refl_DispatcherThread_MsgDispatcher_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -125,12 +125,12 @@ typedef struct MsgDispatcher_MSG_t
 typedef struct MsgDispatcher_MSG_X_t { ObjectArrayJc head; MsgDispatcher_MSGREF data[50]; } MsgDispatcher_MSG_X;
 typedef struct MsgDispatcher_MSG_Y_t { ObjectArrayJc head; MsgDispatcher_MSG_s data[50]; } MsgDispatcher_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_MsgDispatcher_MSG_s;
+ extern_C struct ClassJc_t const refl_MsgDispatcher_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_MsgDispatcher_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgDispatcher_MSG_s), OBJP, &reflection_MsgDispatcher_MSG_s), 0 }
+#define CONST_MsgDispatcher_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgDispatcher_MSG_s), OBJP, &refl_MsgDispatcher_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -223,7 +223,7 @@ class MsgDispatcher_MSG : private MsgDispatcher_MSG_s
 
   int32 completeDispatchInThreadBits(int32 dstBits){  return completeDispatchInThreadBits_MsgDispatcher_MSG(this, dstBits,  null/*_thCxt*/); }
 
-  MsgDispatcher_MSG(int32 maxDispatchEntries, int32 maxQueue, int32 maxOutputs, int32 nrofMixedOutputs, int32 msgIdentQueueOverflow, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcher_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcher_MSG_s, 0); ctorO_MsgDispatcher_MSG(&this->base.object, maxDispatchEntries, maxQueue, maxOutputs, nrofMixedOutputs, msgIdentQueueOverflow, runNoEntryMessage,  null/*_thCxt*/); }
+  MsgDispatcher_MSG(int32 maxDispatchEntries, int32 maxQueue, int32 maxOutputs, int32 nrofMixedOutputs, int32 msgIdentQueueOverflow, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcher_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &refl_MsgDispatcher_MSG_s, 0); ctorO_MsgDispatcher_MSG(&this->base.object, maxDispatchEntries, maxQueue, maxOutputs, nrofMixedOutputs, msgIdentQueueOverflow, runNoEntryMessage,  null/*_thCxt*/); }
 
   void flush(){ flush_MsgDispatcher_MSG(&this->base.super.base.LogMessageFW,  null/*_thCxt*/); }
 

@@ -131,7 +131,7 @@ struct StringPartJc_t* ctorO_StringPartJc(ObjectJc* othis, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringPartJc");
   checkConsistence_ObjectJc(othis, sizeof(StringPartJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringPartJc_s, sizeof(StringPartJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringPartJc_s, sizeof(StringPartJc_s));  
   //j2c: Initialize all class variables:
   {
     thiz->bCurrentOk = true;
@@ -159,7 +159,7 @@ struct StringPartJc_t* ctorO_Cs_StringPartJc(ObjectJc* othis, CharSeqJc src, ThC
 { StringPartJc_s* thiz = (StringPartJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringPartJc");
   checkConsistence_ObjectJc(othis, sizeof(StringPartJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringPartJc_s, sizeof(StringPartJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringPartJc_s, sizeof(StringPartJc_s));  
   //j2c: Initialize all class variables:
   {
     thiz->bCurrentOk = true;
@@ -185,7 +185,7 @@ struct StringPartJc_t* ctorO_Csii_StringPartJc(ObjectJc* othis, CharSeqJc src, i
 { StringPartJc_s* thiz = (StringPartJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringPartJc");
   checkConsistence_ObjectJc(othis, sizeof(StringPartJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_StringPartJc_s, sizeof(StringPartJc_s));  
+  setReflection_ObjectJc(othis, &refl_StringPartJc_s, sizeof(StringPartJc_s));  
   //j2c: Initialize all class variables:
   {
     thiz->bCurrentOk = true;
@@ -3004,35 +3004,35 @@ const VtblDef_StringPartJc mtblStringPartJc = {
 
 #else
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_StringPartJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_StringPartJc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_StringPartJc, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_CharSeqJc;
- extern_C struct ClassJc_t const reflection_ComparableJc;
+ extern_C struct ClassJc_t const refl_CharSeqJc;
+ extern_C struct ClassJc_t const refl_ComparableJc;
  static struct ifcClasses_StringPartJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[2];
  }interfaces_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_CharSeqJc, OFFSET_Vtbl(Vtbl_StringPartJc, CharSeqJc) }
-  , {&reflection_ComparableJc, OFFSET_Vtbl(Vtbl_StringPartJc, ComparableJc) }
+, { {&refl_CharSeqJc, OFFSET_Vtbl(Vtbl_StringPartJc, CharSeqJc) }
+  , {&refl_ComparableJc, OFFSET_Vtbl(Vtbl_StringPartJc, ComparableJc) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_StringPartJc_s;
-extern_C struct ClassJc_t const reflection_CharSeqJc;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_StringPartJc_s;
+extern_C struct ClassJc_t const refl_CharSeqJc;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_StringPartJc_s_t
 { ObjectArrayJc head; FieldJc data[18];
-} reflection_Fields_StringPartJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 18, OBJTYPE_FieldJc, null, &reflection_Fields_StringPartJc_s)
+} refl_Fields_StringPartJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 18, OBJTYPE_FieldJc, null, &refl_Fields_StringPartJc_s)
 , {
      { "begin"
     , 0 //nrofArrayElements
@@ -3040,7 +3040,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->begin) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "end"
     , 0 //nrofArrayElements
@@ -3048,7 +3048,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->end) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "begiMin"
     , 0 //nrofArrayElements
@@ -3056,7 +3056,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->begiMin) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "endMax"
     , 0 //nrofArrayElements
@@ -3064,15 +3064,15 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->endMax) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "content"
     , 0 //nrofArrayElements
-    , &reflection_CharSeqJc
+    , &refl_CharSeqJc
     , kEnhancedReference_Modifier_reflectJc /*c*/ //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->content) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "bCurrentOk"
     , 0 //nrofArrayElements
@@ -3080,7 +3080,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->bCurrentOk) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "bStartScan"
     , 0 //nrofArrayElements
@@ -3088,7 +3088,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->bStartScan) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "beginLast"
     , 0 //nrofArrayElements
@@ -3096,7 +3096,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->beginLast) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "endLast"
     , 0 //nrofArrayElements
@@ -3104,7 +3104,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->endLast) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "bFound"
     , 0 //nrofArrayElements
@@ -3112,7 +3112,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->bFound) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "bitMode"
     , 0 //nrofArrayElements
@@ -3120,47 +3120,47 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->bitMode) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "sFile"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->sFile) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "sCommentStart"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->sCommentStart) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "sCommentEnd"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->sCommentEnd) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "sCommentToEol"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((intptr_t)(&((StringPartJc_s*)(0x1000))->sCommentToEol) - (intptr_t)(StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "sVersion"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&sVersion_StringPartJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&sVersion_StringPartJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "seekToLeft"
     , 0 //nrofArrayElements
@@ -3168,7 +3168,7 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&seekToLeft_StringPartJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&seekToLeft_StringPartJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
    , { "seekBack"
     , 0 //nrofArrayElements
@@ -3176,12 +3176,12 @@ const struct Reflection_Fields_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&seekBack_StringPartJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((int32)(&seekBack_StringPartJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_StringPartJc_s
+    , &refl_StringPartJc_s
     }
 } };
 
 
-#define REFLECTION_Fields_StringPartJc (FieldJc_Y const*)&reflection_Fields_StringPartJc_s
+#define REFLECTION_Fields_StringPartJc (FieldJc_Y const*)&refl_Fields_StringPartJc_s
 #define REFLECTION_Methods_StringPartJc null //method
 #define REFLECTION_Superclass_StringPartJc (ClassOffset_idxVtblJcARRAY*)&superclasses_StringPartJc_s //superclass
 #define REFLECTION_Interfaces_StringPartJc (ClassOffset_idxVtblJcARRAY*)&interfaces_StringPartJc_s //interfaces
@@ -3190,8 +3190,8 @@ const struct Reflection_Fields_StringPartJc_s_t
 #endif //__DONOTUSEREFLECTION__
 
 
-const ClassJc reflection_StringPartJc_s = 
-{ INIZ_ObjectJc(reflection_StringPartJc_s, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_StringPartJc_s = 
+{ INIZ_ObjectJc(refl_StringPartJc_s, &refl_ClassJc, INIZ_ID_ClassJc)
 , "StringPartJc_s"
 , OFFSET_IN_STRUCT(StringPartJc_s, base.object)
 , sizeof(StringPartJc_s)
@@ -3221,7 +3221,7 @@ struct Part_StringPartJc_t* ctorO_Part_StringPartJc(struct StringPartJc_t* outer
 { Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_Part_StringPartJc");
   checkConsistence_ObjectJc(othis, sizeof(Part_StringPartJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Part_StringPartJc_s, sizeof(Part_StringPartJc_s));  
+  setReflection_ObjectJc(othis, &refl_Part_StringPartJc_s, sizeof(Part_StringPartJc_s));  
   thiz->outer = outer;
   //j2c: Initialize all class variables:
   {
@@ -3392,33 +3392,33 @@ const VtblDef_Part_StringPartJc mtblPart_StringPartJc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_Part_StringPartJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_Part_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_Part_StringPartJc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_Part_StringPartJc, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_CharSeqJc;
+ extern_C struct ClassJc_t const refl_CharSeqJc;
  static struct ifcClasses_Part_StringPartJc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }interfaces_Part_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_CharSeqJc, OFFSET_Vtbl(Vtbl_Part_StringPartJc, CharSeqJc) }
+, { {&refl_CharSeqJc, OFFSET_Vtbl(Vtbl_Part_StringPartJc, CharSeqJc) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_Part_StringPartJc_s;
-extern_C struct ClassJc_t const reflection_CharSeqJc;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_Part_StringPartJc_s;
+extern_C struct ClassJc_t const refl_CharSeqJc;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_Part_StringPartJc_s_t
 { ObjectArrayJc head; FieldJc data[2];
-} reflection_Fields_Part_StringPartJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_Part_StringPartJc_s)
+} refl_Fields_Part_StringPartJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_Part_StringPartJc_s)
 , {
      { "b1"
     , 0 //nrofArrayElements
@@ -3426,7 +3426,7 @@ const struct Reflection_Fields_Part_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Part_StringPartJc_s*)(0x1000))->b1) - (intptr_t)(Part_StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Part_StringPartJc_s
+    , &refl_Part_StringPartJc_s
     }
    , { "e1"
     , 0 //nrofArrayElements
@@ -3434,15 +3434,15 @@ const struct Reflection_Fields_Part_StringPartJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Part_StringPartJc_s*)(0x1000))->e1) - (intptr_t)(Part_StringPartJc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Part_StringPartJc_s
+    , &refl_Part_StringPartJc_s
     }
 } };
-const ClassJc reflection_Part_StringPartJc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Part_StringPartJc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Part_StringPartJc_s"
 , (int16)((intptr_t)(&((Part_StringPartJc_s*)(0x1000))->base.object) - (intptr_t)(Part_StringPartJc_s*)0x1000)
 , sizeof(Part_StringPartJc_s)
-, (FieldJc_Y const*)&reflection_Fields_Part_StringPartJc_s
+, (FieldJc_Y const*)&refl_Fields_Part_StringPartJc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_Part_StringPartJc_s //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_Part_StringPartJc_s //interfaces

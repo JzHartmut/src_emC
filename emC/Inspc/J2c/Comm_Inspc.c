@@ -53,7 +53,7 @@ struct Comm_Inspc_t* ctorO_Comm_Inspc(ObjectJc* othis, StringJc ownAddrIpc, stru
 { Comm_Inspc_s* thiz = (Comm_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_Comm_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(Comm_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Comm_Inspc_s, sizeof(Comm_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_Comm_Inspc_s, sizeof(Comm_Inspc_s));  
   //PRINTX(0, "ctorO_Comm_Inspc\n");
   //j2c: Initialize all class variables:
   {
@@ -415,43 +415,43 @@ const VtblDef_Comm_Inspc mtblComm_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_Comm_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_Comm_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_Comm_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_Comm_Inspc, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_RunnableJc;
+ extern_C struct ClassJc_t const refl_RunnableJc;
  static struct ifcClasses_Comm_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }interfaces_Comm_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_RunnableJc, OFFSET_Vtbl(Vtbl_Comm_Inspc, RunnableJc) }
+, { {&refl_RunnableJc, OFFSET_Vtbl(Vtbl_Comm_Inspc, RunnableJc) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
-extern_C struct ClassJc_t const reflection_Address_InterProcessComm;
-extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
-extern_C struct ClassJc_t const reflection_InterProcessComm;
-extern_C struct ClassJc_t const reflection_ThreadJc;
+extern_C struct ClassJc_t const refl_Comm_Inspc_s;
+extern_C struct ClassJc_t const refl_Address_InterProcessComm;
+extern_C struct ClassJc_t const refl_CmdExecuter_Inspc_s;
+extern_C struct ClassJc_t const refl_InterProcessComm;
+extern_C struct ClassJc_t const refl_ThreadJc;
 const struct Reflection_Fields_Comm_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[10];
-} reflection_Fields_Comm_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 10, OBJTYPE_FieldJc, null, &reflection_Fields_Comm_Inspc_s)
+} refl_Fields_Comm_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 10, OBJTYPE_FieldJc, null, &refl_Fields_Comm_Inspc_s)
 , {
      { "cmdExecuter"
     , 0 //nrofArrayElements
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->cmdExecuter) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "state"
     , 0 //nrofArrayElements
@@ -459,7 +459,7 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->state) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "bEnablePrintfOnComm"
     , 0 //nrofArrayElements
@@ -467,15 +467,15 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->bEnablePrintfOnComm) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "ipc"
     , 0 //nrofArrayElements
-    , &reflection_InterProcessComm
+    , &refl_InterProcessComm
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->ipc) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "ctErrorTelg"
     , 0 //nrofArrayElements
@@ -483,15 +483,15 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->ctErrorTelg) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "thread"
     , 0 //nrofArrayElements
-    , &reflection_ThreadJc
+    , &refl_ThreadJc
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->thread) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "nrofBytesReceived"
     , 1 //nrofArrayElements
@@ -499,7 +499,7 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->nrofBytesReceived) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "data_rxBuffer"
     , 1500 //nrofArrayElements
@@ -507,7 +507,7 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc |kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->data_rxBuffer) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "rxBuffer"
     , 0 //nrofArrayElements
@@ -515,23 +515,23 @@ const struct Reflection_Fields_Comm_Inspc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kPtrVal_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->rxBuffer) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
    , { "myAnswerAddress"
     , 0 //nrofArrayElements
-    , &reflection_Address_InterProcessComm
+    , &refl_Address_InterProcessComm
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->myAnswerAddress) - (intptr_t)(Comm_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     }
 } };
-const ClassJc reflection_Comm_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Comm_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Comm_Inspc_s"
 , (int16)((intptr_t)(&((Comm_Inspc_s*)(0x1000))->base.object) - (intptr_t)(Comm_Inspc_s*)0x1000)
 , sizeof(Comm_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_Comm_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_Comm_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_Comm_Inspc_s //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_Comm_Inspc_s //interfaces

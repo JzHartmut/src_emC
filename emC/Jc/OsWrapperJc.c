@@ -43,9 +43,14 @@
  * 2008-03-15: JcHartmut creation
  *
  ****************************************************************************/
+#include <applstdef_emC.h>
+
+
 
 
 #include "OsWrapperJc.h"
+#ifdef DEF_ObjectJc_SYNCHANDLE
+
 #include <emC/Base/SimpleC_emC.h>
 //#include <Jc/ObjectJc.h>
 
@@ -181,8 +186,11 @@ void releaseHandleEntry  (  int16 idx)
 */
 
 
-
-INLINE_emC HandleItem* getHandle_ObjectJc  (  ObjectJc* thiz) {
+/**This is the only one routine which changed the ObjectJc data, 
+ * but only one time if the handle is not set. 
+ * Hint: thiz is changed in handleBits if they are not used till now.
+ */
+INLINE_emC HandleItem* getHandle_ObjectJc ( ObjectJc const* thiz) {
   HandleItem* handle = null;
   int16 ixHandle = thiz->handleBits & mSyncHandle_ObjectJc;
   if(ixHandle == kNoSyncHandles_ObjectJc) {
@@ -353,3 +361,4 @@ void sleep_Thread_Jc  (  int32 millisecond)
   os_delayThread(millisecond);
   STACKTRC_LEAVE;
 }
+#endif //DEF_ObjectJc_SYNCHANDLE

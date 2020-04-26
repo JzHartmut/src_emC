@@ -31,7 +31,7 @@ struct SearchElement_Inspc_t* ctorO_SearchElement_Inspc(ObjectJc* othis, ThCxt* 
 { SearchElement_Inspc_s* thiz = (SearchElement_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_SearchElement_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(SearchElement_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_SearchElement_Inspc_s, sizeof(SearchElement_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_SearchElement_Inspc_s, sizeof(SearchElement_Inspc_s));  
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
@@ -241,47 +241,47 @@ const VtblDef_SearchElement_Inspc mtblSearchElement_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_SearchElement_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_SearchElement_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_SearchElement_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_SearchElement_Inspc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_SearchElement_Inspc_s;
-extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const refl_SearchTrc_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_SearchElement_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[2];
-} reflection_Fields_SearchElement_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_SearchElement_Inspc_s)
+} refl_Fields_SearchElement_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_SearchElement_Inspc_s)
 , {
      { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_SearchElement_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_SearchElement_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_SearchElement_Inspc_s
+    , &refl_SearchElement_Inspc_s
     }
    , { "searchTrc"
     , 16 //nrofArrayElements
-    , &reflection_SearchTrc_SearchElement_Inspc_s
+    , &refl_SearchTrc_SearchElement_Inspc_s
     , kEmbedded_Modifier_reflectJc |kStaticArray_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&searchTrc_SearchElement_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&searchTrc_SearchElement_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_SearchElement_Inspc_s
+    , &refl_SearchElement_Inspc_s
     }
 } };
-const ClassJc reflection_SearchElement_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_SearchElement_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "SearchElement_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(SearchElement_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_SearchElement_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_SearchElement_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_SearchElement_Inspc_s //superclass
 , null //interfaces
@@ -316,64 +316,64 @@ struct SearchTrc_SearchElement_Inspc_t* ctorM_SearchTrc_SearchElement_Inspc(MemC
 }
 
 
-extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
-extern_C struct ClassJc_t const reflection_ClassJc;
-extern_C struct ClassJc_t const reflection_FieldJc;
-extern_C struct ClassJc_t const reflection_MemSegmJc;
-extern_C struct ClassJc_t const reflection_SearchTrc_SearchElement_Inspc_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_SearchTrc_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const refl_ClassJc;
+extern_C struct ClassJc_t const refl_FieldJc;
+extern_C struct ClassJc_t const refl_MemSegmJc;
+extern_C struct ClassJc_t const refl_SearchTrc_SearchElement_Inspc_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_SearchTrc_SearchElement_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[5];
-} reflection_Fields_SearchTrc_SearchElement_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_SearchTrc_SearchElement_Inspc_s)
+} refl_Fields_SearchTrc_SearchElement_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &refl_Fields_SearchTrc_SearchElement_Inspc_s)
 , {
      { "objWhereFieldIsFound"
     , 0 //nrofArrayElements
-    , &reflection_MemSegmJc
+    , &refl_MemSegmJc
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((SearchTrc_SearchElement_Inspc_s*)(0x1000))->objWhereFieldIsFound) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_SearchTrc_SearchElement_Inspc_s
+    , &refl_SearchTrc_SearchElement_Inspc_s
     }
    , { "clazzWhereFieldIsFound"
     , 0 //nrofArrayElements
-    , &reflection_ClassJc
+    , &refl_ClassJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((SearchTrc_SearchElement_Inspc_s*)(0x1000))->clazzWhereFieldIsFound) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_SearchTrc_SearchElement_Inspc_s
+    , &refl_SearchTrc_SearchElement_Inspc_s
     }
    , { "field"
     , 0 //nrofArrayElements
-    , &reflection_FieldJc
+    , &refl_FieldJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((SearchTrc_SearchElement_Inspc_s*)(0x1000))->field) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_SearchTrc_SearchElement_Inspc_s
+    , &refl_SearchTrc_SearchElement_Inspc_s
     }
    , { "typeOfField"
     , 0 //nrofArrayElements
-    , &reflection_ClassJc
+    , &refl_ClassJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((SearchTrc_SearchElement_Inspc_s*)(0x1000))->typeOfField) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_SearchTrc_SearchElement_Inspc_s
+    , &refl_SearchTrc_SearchElement_Inspc_s
     }
    , { "objOfField"
     , 0 //nrofArrayElements
-    , &reflection_MemSegmJc
+    , &refl_MemSegmJc
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((SearchTrc_SearchElement_Inspc_s*)(0x1000))->objOfField) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_SearchTrc_SearchElement_Inspc_s
+    , &refl_SearchTrc_SearchElement_Inspc_s
     }
 } };
-const ClassJc reflection_SearchTrc_SearchElement_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_SearchTrc_SearchElement_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "SearchTrc_SearchEl_t_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(SearchTrc_SearchElement_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_SearchTrc_SearchElement_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_SearchTrc_SearchElement_Inspc_s
 , null //method
 , null //superclass
 , null //interfaces

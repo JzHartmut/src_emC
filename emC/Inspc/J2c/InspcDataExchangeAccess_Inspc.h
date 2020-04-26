@@ -51,12 +51,12 @@ typedef struct InspcDatagram_InspcDataExchangeAccess_Inspc_t
 typedef struct InspcDatagram_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; InspcDatagram_InspcDataExchangeAccess_InspcREF data[50]; } InspcDatagram_InspcDataExchangeAccess_Inspc_X;
 typedef struct InspcDatagram_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcDatagram_InspcDataExchangeAccess_Inspc_s data[50]; } InspcDatagram_InspcDataExchangeAccess_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_InspcDatagram_InspcDataExchangeAccess_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InspcDatagram_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s), OBJP, &reflection_InspcDatagram_InspcDataExchangeAccess_Inspc_s), 0 }
+#define CONST_InspcDatagram_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s), OBJP, &refl_InspcDatagram_InspcDataExchangeAccess_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -206,12 +206,12 @@ typedef struct Inspcitem_InspcDataExchangeAccess_Inspc_t
 typedef struct Inspcitem_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; Inspcitem_InspcDataExchangeAccess_InspcREF data[50]; } Inspcitem_InspcDataExchangeAccess_Inspc_X;
 typedef struct Inspcitem_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; Inspcitem_InspcDataExchangeAccess_Inspc_s data[50]; } Inspcitem_InspcDataExchangeAccess_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_Inspcitem_InspcDataExchangeAccess_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Inspcitem_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s), OBJP, &reflection_Inspcitem_InspcDataExchangeAccess_Inspc_s), 0 }
+#define CONST_Inspcitem_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s), OBJP, &refl_Inspcitem_InspcDataExchangeAccess_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -334,12 +334,12 @@ typedef struct InspcSetValue_InspcDataExchangeAccess_Inspc_t
 typedef struct InspcSetValue_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; InspcSetValue_InspcDataExchangeAccess_InspcREF data[50]; } InspcSetValue_InspcDataExchangeAccess_Inspc_X;
 typedef struct InspcSetValue_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcSetValue_InspcDataExchangeAccess_Inspc_s data[50]; } InspcSetValue_InspcDataExchangeAccess_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_InspcSetValue_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_InspcSetValue_InspcDataExchangeAccess_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InspcSetValue_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s), OBJP, &reflection_InspcSetValue_InspcDataExchangeAccess_Inspc_s), 0 }
+#define CONST_InspcSetValue_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s), OBJP, &refl_InspcSetValue_InspcDataExchangeAccess_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -541,12 +541,12 @@ typedef struct InspcSetValueData_InspcDataExchangeAccess_Inspc_t
 typedef struct InspcSetValueData_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; InspcSetValueData_InspcDataExchangeAccess_InspcREF data[50]; } InspcSetValueData_InspcDataExchangeAccess_Inspc_X;
 typedef struct InspcSetValueData_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcSetValueData_InspcDataExchangeAccess_Inspc_s data[50]; } InspcSetValueData_InspcDataExchangeAccess_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_InspcSetValueData_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_InspcSetValueData_InspcDataExchangeAccess_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InspcSetValueData_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s), OBJP, &reflection_InspcSetValueData_InspcDataExchangeAccess_Inspc_s), 0 }
+#define CONST_InspcSetValueData_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s), OBJP, &refl_InspcSetValueData_InspcDataExchangeAccess_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -651,12 +651,12 @@ typedef struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t
 typedef struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; InspcAnswerValueByHandle_InspcDataExchangeAccess_InspcREF data[50]; } InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_X;
 typedef struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s data[50]; } InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s), OBJP, &reflection_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s), 0 }
+#define CONST_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s), OBJP, &refl_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -720,12 +720,12 @@ typedef struct InspcDataExchangeAccess_Inspc_t
 typedef struct InspcDataExchangeAccess_Inspc_X_t { ObjectArrayJc head; InspcDataExchangeAccess_InspcREF data[50]; } InspcDataExchangeAccess_Inspc_X;
 typedef struct InspcDataExchangeAccess_Inspc_Y_t { ObjectArrayJc head; InspcDataExchangeAccess_Inspc_s data[50]; } InspcDataExchangeAccess_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_InspcDataExchangeAccess_Inspc_s;
+ extern_C struct ClassJc_t const refl_InspcDataExchangeAccess_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcDataExchangeAccess_Inspc_s), OBJP, &reflection_InspcDataExchangeAccess_Inspc_s), 0 }
+#define CONST_InspcDataExchangeAccess_Inspc(OBJP) { CONST_ObjectJc(sizeof(InspcDataExchangeAccess_Inspc_s), OBJP, &refl_InspcDataExchangeAccess_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -782,7 +782,7 @@ typedef struct Vtbl_InspcDataExchangeAccess_Inspc_t
 class InspcDataExchangeAccess_Inspc : private InspcDataExchangeAccess_Inspc_s
 { public:
 
-  InspcDataExchangeAccess_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_InspcDataExchangeAccess_Inspc_s, 0); ctorO_InspcDataExchangeAccess_Inspc(&this->base.object,  null/*_thCxt*/); }
+  InspcDataExchangeAccess_Inspc(){ init_ObjectJc(&this->base.object, sizeof(InspcDataExchangeAccess_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_InspcDataExchangeAccess_Inspc_s, 0); ctorO_InspcDataExchangeAccess_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   float getFloatChild(int16 type, struct ByteDataAccessBaseJc_t* access){  return getFloatChild_InspcDataExchangeAccess_Inspc(type, access,  null/*_thCxt*/); }
 

@@ -2017,14 +2017,14 @@ void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt
 }
 
 
-extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
-extern_C struct ClassJc_t const reflection_ByteDataAccessBaseJc_s;
-extern_C struct ClassJc_t const reflection_CharsetJc;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
+extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
+extern_C struct ClassJc_t const refl_CharsetJc;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
 { ObjectArrayJc head; FieldJc data[12];
-} reflection_Fields_ByteDataAccessBaseJc_s =
-{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &reflection_Fields_ByteDataAccessBaseJc_s)
+} refl_Fields_ByteDataAccessBaseJc_s =
+{ CONST_ObjectArrayJc(FieldJc, 12, OBJTYPE_FieldJc, null, &refl_Fields_ByteDataAccessBaseJc_s)
 , {
      { "sizeHead"
     , 0 //nrofArrayElements
@@ -2032,7 +2032,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->sizeHead) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "data"
     , 0 //nrofArrayElements
@@ -2040,7 +2040,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 1 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kPtrVal_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->data) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "ixBegin"
     , 0 //nrofArrayElements
@@ -2048,7 +2048,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixBegin) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "ixNextChild"
     , 0 //nrofArrayElements
@@ -2056,7 +2056,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixNextChild) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "ixEnd"
     , 0 //nrofArrayElements
@@ -2064,7 +2064,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->ixEnd) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "bExpand"
     , 0 //nrofArrayElements
@@ -2072,7 +2072,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->bExpand) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "bBigEndian"
     , 0 //nrofArrayElements
@@ -2080,7 +2080,7 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->bBigEndian) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "bExc"
     , 0 //nrofArrayElements
@@ -2088,47 +2088,47 @@ const struct Reflection_Fields_ByteDataAccessBaseJc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->bExc) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "parent"
     , 0 //nrofArrayElements
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->parent) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "currChild"
     , 0 //nrofArrayElements
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->currChild) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "charset"
     , 0 //nrofArrayElements
-    , &reflection_CharsetJc
+    , &refl_CharsetJc
     , kReference_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ByteDataAccessBaseJc_s*)(0x1000))->charset) - 0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
    , { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_ByteDataAccessBaseJc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_ByteDataAccessBaseJc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_ByteDataAccessBaseJc_s
+    , &refl_ByteDataAccessBaseJc_s
     }
 } };
-const ClassJc reflection_ByteDataAccessBaseJc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_ByteDataAccessBaseJc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "ByteDataAccessBaseJc_s"
 ,  0 //position of ObjectJc
 , sizeof(ByteDataAccessBaseJc_s)
-, (FieldJc_Y const*)&reflection_Fields_ByteDataAccessBaseJc_s
+, (FieldJc_Y const*)&refl_Fields_ByteDataAccessBaseJc_s
 , null //method
 , null //superclass
 , null //interfaces

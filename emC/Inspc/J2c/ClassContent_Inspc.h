@@ -75,12 +75,12 @@ typedef struct ClassContent_Inspc_t
 typedef struct ClassContent_Inspc_X_t { ObjectArrayJc head; ClassContent_InspcREF data[50]; } ClassContent_Inspc_X;
 typedef struct ClassContent_Inspc_Y_t { ObjectArrayJc head; ClassContent_Inspc_s data[50]; } ClassContent_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
+ extern_C struct ClassJc_t const refl_ClassContent_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_ClassContent_Inspc(OBJP) { CONST_ObjectJc(sizeof(ClassContent_Inspc_s), OBJP, &reflection_ClassContent_Inspc_s), 0 }
+#define CONST_ClassContent_Inspc(OBJP) { CONST_ObjectJc(sizeof(ClassContent_Inspc_s), OBJP, &refl_ClassContent_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -220,7 +220,7 @@ class ClassContent_Inspc : private ClassContent_Inspc_s
 
   void completeAnswerItemByHandle(struct InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_t* answItem, int32 indexTo, int32 nOrderNr){ completeAnswerItemByHandle_ClassContent_Inspc(this, answItem, indexTo, nOrderNr,  null/*_thCxt*/); }
 
-  ClassContent_Inspc(){ init_ObjectJc(&this->base.object, sizeof(ClassContent_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_ClassContent_Inspc_s, 0); ctorO_ClassContent_Inspc(&this->base.object,  null/*_thCxt*/); }
+  ClassContent_Inspc(){ init_ObjectJc(&this->base.object, sizeof(ClassContent_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_ClassContent_Inspc_s, 0); ctorO_ClassContent_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   void evaluateFieldGetFields(struct InspcDatagram_InspcDataExchangeAccess_Inspc_t* answer, struct FieldJc_t const* field, int32 orderNr, int32 maxNrofAnswerBytes){ evaluateFieldGetFields_XXFdii_ClassContent_Inspc(this, answer, field, orderNr, maxNrofAnswerBytes,  null/*_thCxt*/); }
 

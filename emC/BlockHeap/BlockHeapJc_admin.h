@@ -128,10 +128,10 @@ typedef struct BlockHeap_emC_T
 
 
 
+#define ID_refl_BlockHeap_emC 0x0FF0
+extern_C struct ClassJc_t const refl_BlockHeap_emC;
 
-extern_C struct ClassJc_t const reflection_BlockHeap_emC;
-
-#define INIZ_BlockHeap_emC(OBJ) {{ INIZ_ObjectJc(OBJ, &reflection_BlockHeap_emC, 0) }}
+#define INIZ_BlockHeap_emC(OBJ) {{ INIZ_ObjectJc(OBJ, refl_BlockHeap_emC, 0) }}
 
 
 /**inits a new allocated BlockHeap.

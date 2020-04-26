@@ -6,7 +6,7 @@
 
 
 
-//extern_C ClassJc const reflection_SimTime_Inspc;
+//extern_C ClassJc const refl_SimTime_Inspc;
 
 
 /*@CLASS_C Service_Inspc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -26,8 +26,8 @@ typedef struct Service_Inspc_t
 
 
 
-extern_C ClassJc const reflection_Service_Inspc;
-extern_C ClassJc const reflection_SimulationTime_Inspc;
+extern_C ClassJc const refl_Service_Inspc;
+extern_C ClassJc const refl_SimulationTime_Inspc;
 
 
 /**Ctor creates the socket and thread for Inspector service on target or simulink.

@@ -15,7 +15,7 @@ DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float
   //strcpy_emC(thiz->clazz.name, "DataNode_Inspc", -(int)sizeof(thiz->clazz.name));
   //fill the local given superclass and class data.
   init_immediate_ObjectArrayJc(&thiz->superclass.head, 1, sizeof(thiz->superclass.clazz), null, 0);
-  ctor_ClassOffset_idxVtblJc(&thiz->superclass.clazz, &reflection_ObjectJc, kDevlpAccess_CheckPwd_Inspc, 0);
+  ctor_ClassOffset_idxVtblJc(&thiz->superclass.clazz, &refl_ObjectJc, kDevlpAccess_CheckPwd_Inspc, 0);
   ctor_Fields_super_ClassJc(&thiz->clazz, z_StringJc("DataNode_Inspc"), sizeof(*thiz), &thiz->fields.head, &thiz->superclass.head);
   iniz_ObjectJc(&thiz->base.object, thiz, sizeof(DataNode_Inspc), &thiz->clazz, 0xf0);
 

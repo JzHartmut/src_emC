@@ -83,12 +83,12 @@ typedef struct Entry_MsgDispatcherCore_MSG_t
 typedef struct Entry_MsgDispatcherCore_MSG_X_t { ObjectArrayJc head; Entry_MsgDispatcherCore_MSGREF data[50]; } Entry_MsgDispatcherCore_MSG_X;
 typedef struct Entry_MsgDispatcherCore_MSG_Y_t { ObjectArrayJc head; Entry_MsgDispatcherCore_MSG_s data[50]; } Entry_MsgDispatcherCore_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_Entry_MsgDispatcherCore_MSG_s;
+ extern_C struct ClassJc_t const refl_Entry_MsgDispatcherCore_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Entry_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(Entry_MsgDispatcherCore_MSG_s), OBJP, &reflection_Entry_MsgDispatcherCore_MSG_s), 0 }
+#define CONST_Entry_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(Entry_MsgDispatcherCore_MSG_s), OBJP, &refl_Entry_MsgDispatcherCore_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -140,12 +140,12 @@ typedef struct TestCnt_MsgDispatcherCore_MSG_t
 typedef struct TestCnt_MsgDispatcherCore_MSG_X_t { ObjectArrayJc head; TestCnt_MsgDispatcherCore_MSGREF data[50]; } TestCnt_MsgDispatcherCore_MSG_X;
 typedef struct TestCnt_MsgDispatcherCore_MSG_Y_t { ObjectArrayJc head; TestCnt_MsgDispatcherCore_MSG_s data[50]; } TestCnt_MsgDispatcherCore_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_TestCnt_MsgDispatcherCore_MSG_s;
+ extern_C struct ClassJc_t const refl_TestCnt_MsgDispatcherCore_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_TestCnt_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(TestCnt_MsgDispatcherCore_MSG_s), OBJP, &reflection_TestCnt_MsgDispatcherCore_MSG_s), 0 }
+#define CONST_TestCnt_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(TestCnt_MsgDispatcherCore_MSG_s), OBJP, &refl_TestCnt_MsgDispatcherCore_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -173,7 +173,7 @@ typedef struct Vtbl_TestCnt_MsgDispatcherCore_MSG_t
 class TestCnt_MsgDispatcherCore_MSG : private TestCnt_MsgDispatcherCore_MSG_s
 { public:
 
-  TestCnt_MsgDispatcherCore_MSG(){ init_ObjectJc(&this->base.object, sizeof(TestCnt_MsgDispatcherCore_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_TestCnt_MsgDispatcherCore_MSG_s, 0); ctorO_TestCnt_MsgDispatcherCore_MSG(&this->base.object,  null/*_thCxt*/); }
+  TestCnt_MsgDispatcherCore_MSG(){ init_ObjectJc(&this->base.object, sizeof(TestCnt_MsgDispatcherCore_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &refl_TestCnt_MsgDispatcherCore_MSG_s, 0); ctorO_TestCnt_MsgDispatcherCore_MSG(&this->base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -206,12 +206,12 @@ typedef struct Output_MsgDispatcherCore_MSG_t
 typedef struct Output_MsgDispatcherCore_MSG_X_t { ObjectArrayJc head; Output_MsgDispatcherCore_MSGREF data[50]; } Output_MsgDispatcherCore_MSG_X;
 typedef struct Output_MsgDispatcherCore_MSG_Y_t { ObjectArrayJc head; Output_MsgDispatcherCore_MSG_s data[50]; } Output_MsgDispatcherCore_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_Output_MsgDispatcherCore_MSG_s;
+ extern_C struct ClassJc_t const refl_Output_MsgDispatcherCore_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Output_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(Output_MsgDispatcherCore_MSG_s), OBJP, &reflection_Output_MsgDispatcherCore_MSG_s), 0 }
+#define CONST_Output_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(Output_MsgDispatcherCore_MSG_s), OBJP, &refl_Output_MsgDispatcherCore_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -272,12 +272,12 @@ typedef struct MsgDispatcherCore_MSG_t
 typedef struct MsgDispatcherCore_MSG_X_t { ObjectArrayJc head; MsgDispatcherCore_MSGREF data[50]; } MsgDispatcherCore_MSG_X;
 typedef struct MsgDispatcherCore_MSG_Y_t { ObjectArrayJc head; MsgDispatcherCore_MSG_s data[50]; } MsgDispatcherCore_MSG_Y;
 
- extern_C struct ClassJc_t const reflection_MsgDispatcherCore_MSG_s;
+ extern_C struct ClassJc_t const refl_MsgDispatcherCore_MSG_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgDispatcherCore_MSG_s), OBJP, &reflection_MsgDispatcherCore_MSG_s), 0 }
+#define CONST_MsgDispatcherCore_MSG(OBJP) { CONST_ObjectJc(sizeof(MsgDispatcherCore_MSG_s), OBJP, &refl_MsgDispatcherCore_MSG_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -394,7 +394,7 @@ class MsgDispatcherCore_MSG : private MsgDispatcherCore_MSG_s
 
   virtual void close(){ close_MsgDispatcherCore_MSG_F(&this->base.LogMessageFW,  null/*_thCxt*/); }
 
-  MsgDispatcherCore_MSG(int32 maxQueue, int32 nrofMixedOutputs, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcherCore_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_MsgDispatcherCore_MSG_s, 0); ctorO_MsgDispatcherCore_MSG(&this->base.object, maxQueue, nrofMixedOutputs, runNoEntryMessage,  null/*_thCxt*/); }
+  MsgDispatcherCore_MSG(int32 maxQueue, int32 nrofMixedOutputs, struct RunnableJc_t* runNoEntryMessage){ init_ObjectJc(&this->base.object, sizeof(MsgDispatcherCore_MSG_s), 0); setReflection_ObjectJc(&this->base.object, &refl_MsgDispatcherCore_MSG_s, 0); ctorO_MsgDispatcherCore_MSG(&this->base.object, maxQueue, nrofMixedOutputs, runNoEntryMessage,  null/*_thCxt*/); }
 
   int32 dispatchMsg(int32 dstBits, bool bDispatchInDispatcherThread, bool bDispatchAlways, int32 identNumber, OS_TimeStamp creationTime, char const* text, Va_listFW args){  return dispatchMsg_MsgDispatcherCore_MSG(this, dstBits, bDispatchInDispatcherThread, bDispatchAlways, identNumber, creationTime, text, args,  null/*_thCxt*/); }
 

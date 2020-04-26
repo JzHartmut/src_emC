@@ -29,18 +29,18 @@ struct CollectionJc_t* getListItems_MsgText_ifc_MSG(ObjectJc* ithis, ThCxt* _thC
   return mtbl->getListItems(ithis, _thCxt);
 }
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_MsgText_ifc_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_MsgText_ifc_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, 0 /*J2C: no Vtbl*/ }
+ , { {&refl_ObjectJc, 0 /*J2C: no Vtbl*/ }
    }
  };
 
-const ClassJc reflection_MsgText_ifc_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_MsgText_ifc_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "MsgText_ifc_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(MsgText_ifc_MSG_s)
@@ -102,38 +102,38 @@ const VtblDef_MsgConfigItem_MsgText_ifc_MSG mtblMsgConfigItem_MsgText_ifc_MSG = 
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_MsgConfigItem_MsgText_ifc_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_MsgConfigItem_MsgText_ifc_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_MsgConfigItem_MsgText_ifc_MSG, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_MsgConfigItem_MsgText_ifc_MSG, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_MsgConfigItem_MsgText_ifc_MSG_s;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_MsgConfigItem_MsgText_ifc_MSG_s;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s_t
 { ObjectArrayJc head; FieldJc data[6];
-} reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 6, OBJTYPE_FieldJc, null, &reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s)
+} refl_Fields_MsgConfigItem_MsgText_ifc_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 6, OBJTYPE_FieldJc, null, &refl_Fields_MsgConfigItem_MsgText_ifc_MSG_s)
 , {
      { "text"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((int32)(&((MsgConfigItem_MsgText_ifc_MSG_s*)(0x1000))->text) - (int32)(MsgConfigItem_MsgText_ifc_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgConfigItem_MsgText_ifc_MSG_s
+    , &refl_MsgConfigItem_MsgText_ifc_MSG_s
     }
    , { "identText"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((int32)(&((MsgConfigItem_MsgText_ifc_MSG_s*)(0x1000))->identText) - (int32)(MsgConfigItem_MsgText_ifc_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgConfigItem_MsgText_ifc_MSG_s
+    , &refl_MsgConfigItem_MsgText_ifc_MSG_s
     }
    , { "identNr"
     , 0 //nrofArrayElements
@@ -141,7 +141,7 @@ const struct Reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgConfigItem_MsgText_ifc_MSG_s*)(0x1000))->identNr) - (int32)(MsgConfigItem_MsgText_ifc_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgConfigItem_MsgText_ifc_MSG_s
+    , &refl_MsgConfigItem_MsgText_ifc_MSG_s
     }
    , { "identNrLast"
     , 0 //nrofArrayElements
@@ -149,15 +149,15 @@ const struct Reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgConfigItem_MsgText_ifc_MSG_s*)(0x1000))->identNrLast) - (int32)(MsgConfigItem_MsgText_ifc_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgConfigItem_MsgText_ifc_MSG_s
+    , &refl_MsgConfigItem_MsgText_ifc_MSG_s
     }
    , { "dst"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((int32)(&((MsgConfigItem_MsgText_ifc_MSG_s*)(0x1000))->dst) - (int32)(MsgConfigItem_MsgText_ifc_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgConfigItem_MsgText_ifc_MSG_s
+    , &refl_MsgConfigItem_MsgText_ifc_MSG_s
     }
    , { "type_"
     , 0 //nrofArrayElements
@@ -165,15 +165,15 @@ const struct Reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((MsgConfigItem_MsgText_ifc_MSG_s*)(0x1000))->type_) - (int32)(MsgConfigItem_MsgText_ifc_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_MsgConfigItem_MsgText_ifc_MSG_s
+    , &refl_MsgConfigItem_MsgText_ifc_MSG_s
     }
 } };
-const ClassJc reflection_MsgConfigItem_MsgText_ifc_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_MsgConfigItem_MsgText_ifc_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "MsgConfigItem_MsgT_ifc_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(MsgConfigItem_MsgText_ifc_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_MsgConfigItem_MsgText_ifc_MSG_s
+, (FieldJc_Y const*)&refl_Fields_MsgConfigItem_MsgText_ifc_MSG_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgConfigItem_MsgText_ifc_MSG_s //superclass
 , null //interfaces

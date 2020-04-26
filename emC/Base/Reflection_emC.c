@@ -23,42 +23,42 @@ const char typeCharsScalarTypes_ClassJc[0x50] =
 
 const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 { null    //0x0
-, &reflection__voidJc  //0x1
-, &reflection__int64Jc          //0x2
-, &reflection__uint64Jc         //0x3
-, &reflection__int32Jc          //0x4
-, &reflection__uint32Jc         //0x5
-, &reflection__int16Jc          //0x6
-, &reflection__uint16Jc         //0x7
-, &reflection__int8Jc           //0x8
-, &reflection__uint8Jc          //0x9
-, &reflection__intJc            //0xa
-, &reflection__uintJc           //0xb
-, &reflection__floatJc          //0xc
-, &reflection__doubleJc         //0xd
-, &reflection__charJc           //0xe
-, &reflection__char16Jc         //0xf
+, &refl__voidJc  //0x1
+, &refl__int64Jc          //0x2
+, &refl__uint64Jc         //0x3
+, &refl__int32Jc          //0x4
+, &refl__uint32Jc         //0x5
+, &refl__int16Jc          //0x6
+, &refl__uint16Jc         //0x7
+, &refl__int8Jc           //0x8
+, &refl__uint8Jc          //0x9
+, &refl__intJc            //0xa
+, &refl__uintJc           //0xb
+, &refl__floatJc          //0xc
+, &refl__doubleJc         //0xd
+, &refl__charJc           //0xe
+, &refl__char16Jc         //0xf
 , null                          //0x10
 , null  //0x11  reserve short-complex
 , null  //0x12  int-complex
 , null  //0x13  long-complex
-, &reflection_float_complex    //0x14
-, &reflection_double_complex  //0x15
-, &reflection__boolJc           //0x16
-, &reflection_bitfieldJc      //0x17
+, &refl_float_complex    //0x14
+, &refl_double_complex  //0x15
+, &refl__boolJc           //0x16
+, &refl_bitfieldJc      //0x17
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-, &reflection__ObjectifcBaseJcpp  //0x18
+, &refl__ObjectifcBaseJcpp  //0x18
 #else
 , null
 #endif
-, &reflection_ObjectJc  //0x19
-, &reflection_ObjectJc  //0x1a
-, &reflection__ObjectArrayJc  //0x1b
+, &refl_ObjectJc  //0x19
+, &refl_ObjectJc  //0x1a
+, &refl__ObjectArrayJc  //0x1b
 , null  //0x1c   //reserviert evtl Object_ArrayJcpp
-, &reflection_StringJc  //0x1d
-, &reflection_OS_PtrValue  //0x1e
+, &refl_StringJc  //0x1d
+, &refl_OS_PtrValue  //0x1e
 , null  //0x1f
-, &reflection_ClassJc  //0x20
+, &refl_ClassJc  //0x20
 , null  //0x21
 , null  //0x22
 , null  //0x23
@@ -91,11 +91,11 @@ const ClassJc* simpleTypes_ClassJc[kREFLECTION_LastConstant] =
 , null  //0x3e
 , null  //0x3f
 , null  //0x40
-, &reflection_ObjectJc             //0x41
-, &reflection_ObjectJc        //0x42
+, &refl_ObjectJc             //0x41
+, &refl_ObjectJc        //0x42
 , null             //0x43
-, null //&reflection__ObjectRefValuesJc"    //0x44
-, &reflection_ClassJc              //0x45
+, null //&refl__ObjectRefValuesJc"    //0x44
+, &refl_ClassJc              //0x45
 , null  //0x46
 , null  //0x47
 , null  //0x48

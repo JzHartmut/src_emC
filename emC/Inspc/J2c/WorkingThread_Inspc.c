@@ -28,7 +28,7 @@ struct WorkingThread_Inspc_t* ctorO_WorkingThread_Inspc(ObjectJc* othis, ThCxt* 
 { WorkingThread_Inspc_s* thiz = (WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(WorkingThread_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_WorkingThread_Inspc_s, sizeof(WorkingThread_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_WorkingThread_Inspc_s, sizeof(WorkingThread_Inspc_s));  
   //j2c: Initialize all class variables:
   {ObjectJc *newObj1_1=null; /*J2C: temporary Objects for new operations
       */
@@ -152,56 +152,56 @@ const VtblDef_WorkingThread_Inspc mtblWorkingThread_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_WorkingThread_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_WorkingThread_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_WorkingThread_Inspc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_WorkingThread_Inspc_s;
-extern_C struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
-extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
-extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_C_theThreadRun_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_Data_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_ThreadMng_WorkingThread_Inspc_s;
 const struct Reflection_Fields_WorkingThread_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[3];
-} reflection_Fields_WorkingThread_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &reflection_Fields_WorkingThread_Inspc_s)
+} refl_Fields_WorkingThread_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 3, OBJTYPE_FieldJc, null, &refl_Fields_WorkingThread_Inspc_s)
 , {
      { "data"
     , 0 //nrofArrayElements
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((WorkingThread_Inspc_s*)(0x1000))->data) - (intptr_t)(WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_WorkingThread_Inspc_s
+    , &refl_WorkingThread_Inspc_s
     }
    , { "theThreadRun"
     , 0 //nrofArrayElements
-    , &reflection_C_theThreadRun_WorkingThread_Inspc_s
+    , &refl_C_theThreadRun_WorkingThread_Inspc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((WorkingThread_Inspc_s*)(0x1000))->theThreadRun) - (intptr_t)(WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_WorkingThread_Inspc_s
+    , &refl_WorkingThread_Inspc_s
     }
    , { "theThreadMng"
     , 0 //nrofArrayElements
-    , &reflection_ThreadMng_WorkingThread_Inspc_s
+    , &refl_ThreadMng_WorkingThread_Inspc_s
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((WorkingThread_Inspc_s*)(0x1000))->theThreadMng) - (intptr_t)(WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_WorkingThread_Inspc_s
+    , &refl_WorkingThread_Inspc_s
     }
 } };
-const ClassJc reflection_WorkingThread_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_WorkingThread_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "WorkingThread_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(WorkingThread_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_WorkingThread_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_WorkingThread_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_WorkingThread_Inspc_s //superclass
 , null //interfaces
@@ -220,7 +220,7 @@ struct Data_WorkingThread_Inspc_t* ctorO_Data_WorkingThread_Inspc(ObjectJc* othi
 { Data_WorkingThread_Inspc_s* thiz = (Data_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_Data_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(Data_WorkingThread_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Data_WorkingThread_Inspc_s, sizeof(Data_WorkingThread_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_Data_WorkingThread_Inspc_s, sizeof(Data_WorkingThread_Inspc_s));  
   //j2c: Initialize all class variables:
   {
     thiz->dw = 20000;
@@ -252,21 +252,21 @@ const VtblDef_Data_WorkingThread_Inspc mtblData_WorkingThread_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_Data_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_Data_WorkingThread_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_Data_WorkingThread_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_Data_WorkingThread_Inspc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_Data_WorkingThread_Inspc_s;
 const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[8];
-} reflection_Fields_Data_WorkingThread_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &reflection_Fields_Data_WorkingThread_Inspc_s)
+} refl_Fields_Data_WorkingThread_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &refl_Fields_Data_WorkingThread_Inspc_s)
 , {
      { "dw"
     , 0 //nrofArrayElements
@@ -274,7 +274,7 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->dw) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
    , { "ww"
     , 0 //nrofArrayElements
@@ -282,7 +282,7 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->ww) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
    , { "wFloat"
     , 0 //nrofArrayElements
@@ -290,7 +290,7 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->wFloat) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
    , { "ySin"
     , 0 //nrofArrayElements
@@ -298,7 +298,7 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->ySin) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
    , { "ySin2"
     , 0 //nrofArrayElements
@@ -306,7 +306,7 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->ySin2) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
    , { "ySin3"
     , 0 //nrofArrayElements
@@ -314,7 +314,7 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->ySin3) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
    , { "yCos"
     , 0 //nrofArrayElements
@@ -322,7 +322,7 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->yCos) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
    , { "yOut1"
     , 0 //nrofArrayElements
@@ -330,15 +330,15 @@ const struct Reflection_Fields_Data_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Data_WorkingThread_Inspc_s*)(0x1000))->yOut1) - (intptr_t)(Data_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Data_WorkingThread_Inspc_s
+    , &refl_Data_WorkingThread_Inspc_s
     }
 } };
-const ClassJc reflection_Data_WorkingThread_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Data_WorkingThread_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Data_WorkingThread_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(Data_WorkingThread_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_Data_WorkingThread_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_Data_WorkingThread_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_Data_WorkingThread_Inspc_s //superclass
 , null //interfaces
@@ -357,7 +357,7 @@ struct ThreadMng_WorkingThread_Inspc_t* ctorO_ThreadMng_WorkingThread_Inspc(stru
 { ThreadMng_WorkingThread_Inspc_s* thiz = (ThreadMng_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_ThreadMng_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(ThreadMng_WorkingThread_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_ThreadMng_WorkingThread_Inspc_s, sizeof(ThreadMng_WorkingThread_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_ThreadMng_WorkingThread_Inspc_s, sizeof(ThreadMng_WorkingThread_Inspc_s));  
   thiz->outer = outer;
   //j2c: Initialize all class variables:
   {
@@ -392,25 +392,25 @@ const VtblDef_ThreadMng_WorkingThread_Inspc mtblThreadMng_WorkingThread_Inspc = 
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_ThreadMng_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_ThreadMng_WorkingThread_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_ThreadMng_WorkingThread_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_ThreadMng_WorkingThread_Inspc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
-extern_C struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
-extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
-extern_C struct ClassJc_t const reflection_ThreadJc;
-extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_ThreadMng_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_C_theThreadRun_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_Data_WorkingThread_Inspc_s;
+extern_C struct ClassJc_t const refl_ThreadJc;
+extern_C struct ClassJc_t const refl_ThreadMng_WorkingThread_Inspc_s;
 const struct Reflection_Fields_ThreadMng_WorkingThread_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[2];
-} reflection_Fields_ThreadMng_WorkingThread_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &reflection_Fields_ThreadMng_WorkingThread_Inspc_s)
+} refl_Fields_ThreadMng_WorkingThread_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_ThreadMng_WorkingThread_Inspc_s)
 , {
      { "bRun"
     , 0 //nrofArrayElements
@@ -418,23 +418,23 @@ const struct Reflection_Fields_ThreadMng_WorkingThread_Inspc_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ThreadMng_WorkingThread_Inspc_s*)(0x1000))->bRun) - (intptr_t)(ThreadMng_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ThreadMng_WorkingThread_Inspc_s
+    , &refl_ThreadMng_WorkingThread_Inspc_s
     }
    , { "thread"
     , 0 //nrofArrayElements
-    , &reflection_ThreadJc
+    , &refl_ThreadJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ThreadMng_WorkingThread_Inspc_s*)(0x1000))->thread) - (intptr_t)(ThreadMng_WorkingThread_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_ThreadMng_WorkingThread_Inspc_s
+    , &refl_ThreadMng_WorkingThread_Inspc_s
     }
 } };
-const ClassJc reflection_ThreadMng_WorkingThread_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_ThreadMng_WorkingThread_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "ThreadMng_WorkingT_d_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(ThreadMng_WorkingThread_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_ThreadMng_WorkingThread_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_ThreadMng_WorkingThread_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_ThreadMng_WorkingThread_Inspc_s //superclass
 , null //interfaces
@@ -496,7 +496,7 @@ struct C_theThreadRun_WorkingThread_Inspc_t* ctorO_C_theThreadRun_WorkingThread_
 { C_theThreadRun_WorkingThread_Inspc_s* thiz = (C_theThreadRun_WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_C_theThreadRun_WorkingThread_Inspc");
   checkConsistence_ObjectJc(othis, sizeof(C_theThreadRun_WorkingThread_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_C_theThreadRun_WorkingThread_Inspc_s, sizeof(C_theThreadRun_WorkingThread_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_C_theThreadRun_WorkingThread_Inspc_s, sizeof(C_theThreadRun_WorkingThread_Inspc_s));  
   thiz->outer = outer;
   //j2c: Initialize all class variables:
   {
@@ -547,28 +547,28 @@ const VtblDef_C_theThreadRun_WorkingThread_Inspc mtblC_theThreadRun_WorkingThrea
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_C_theThreadRun_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_C_theThreadRun_WorkingThread_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_C_theThreadRun_WorkingThread_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_C_theThreadRun_WorkingThread_Inspc, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_RunnableJc;
+ extern_C struct ClassJc_t const refl_RunnableJc;
  static struct ifcClasses_C_theThreadRun_WorkingThread_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }interfaces_C_theThreadRun_WorkingThread_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_RunnableJc, OFFSET_Vtbl(Vtbl_C_theThreadRun_WorkingThread_Inspc, RunnableJc) }
+, { {&refl_RunnableJc, OFFSET_Vtbl(Vtbl_C_theThreadRun_WorkingThread_Inspc, RunnableJc) }
   }
 };
 
-const ClassJc reflection_C_theThreadRun_WorkingThread_Inspc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_C_theThreadRun_WorkingThread_Inspc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "C_theThreadRun_Wor_d_Inspc_s"
 , (int16)((intptr_t)(&((C_theThreadRun_WorkingThread_Inspc_s*)(0x1000))->base.object) - (intptr_t)(C_theThreadRun_WorkingThread_Inspc_s*)0x1000)
 , sizeof(C_theThreadRun_WorkingThread_Inspc_s)

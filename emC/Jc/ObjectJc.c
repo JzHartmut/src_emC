@@ -308,29 +308,29 @@ char const sign_Vtbl_AppendableJc[] = "Vtbl_AppendableJc";
 
 #ifdef DEF_REFLECTION_FULL
 
-extern_C const ClassJc reflection_ObjectJcREF;  //the just defined reflection_ used in the own fields.
+extern_C const ClassJc refl_ObjectJcREF;  //the just defined refl_ used in the own fields.
 
 const struct Reflection_Fields_ObjectJcREF_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_ObjectJcREF =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &reflection_Fields_ObjectJcREF)
+} refl_Fields_ObjectJcREF =
+{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_ObjectJcREF)
 , { { "ptr"
     , 0   //no Array, no Bitfield
-    , &reflection_ObjectJc                                                                                            
+    , &refl_ObjectJc                                                                                            
     , 0|kReference_Modifier_reflectJc //bitModifiers
     , 0 //offset
     , 0  //offsetToObjectifcBase
-    , &reflection_ObjectJcREF
+    , &refl_ObjectJcREF
     }
 } };
   
-const ClassJc reflection_ObjectJcREF =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJcREF, &reflection_ClassJc)
+const ClassJc refl_ObjectJcREF =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJcREF, &refl_ClassJc)
 , "ObjectJcREF"
 , 0
 , sizeof(ObjectJcREF)
-, (FieldJcArray const*)&reflection_Fields_ObjectJcREF  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_ObjectJcREF  //attributes and associations
 , null  //method      
 , null  //superclass  
 , null  //interfaces  

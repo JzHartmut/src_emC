@@ -32,7 +32,7 @@ struct InterProcessCommRxExec_Ipc_t* ctorO_InterProcessCommRxExec_Ipc(ObjectJc* 
   checkConsistence_ObjectJc(othis, sizeof(InterProcessCommRxExec_Ipc_s), null, _thCxt);  
   //J2C:super Constructor
   ctorO_InterProcessCommRx_ifc_Ipc(/*J2C:static method call*/othis, _thCxt);
-  setReflection_ObjectJc(othis, &reflection_InterProcessCommRxExec_Ipc_s, sizeof(InterProcessCommRxExec_Ipc_s));  
+  setReflection_ObjectJc(othis, &refl_InterProcessCommRxExec_Ipc_s, sizeof(InterProcessCommRxExec_Ipc_s));  
   //j2c: Initialize all class variables:
   {
   }/*J2C:No body for constructor*/
@@ -88,18 +88,18 @@ const VtblDef_InterProcessCommRxExec_Ipc mtblInterProcessCommRxExec_Ipc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_InterProcessCommRx_ifc_Ipc;
+ extern_C struct ClassJc_t const refl_InterProcessCommRx_ifc_Ipc;
  static struct superClasses_InterProcessCommRxExec_Ipc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_InterProcessCommRxExec_Ipc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_InterProcessCommRx_ifc_Ipc, OFFSET_Vtbl(Vtbl_InterProcessCommRxExec_Ipc, InterProcessCommRx_ifc_Ipc) }
+ , { {&refl_InterProcessCommRx_ifc_Ipc, OFFSET_Vtbl(Vtbl_InterProcessCommRxExec_Ipc, InterProcessCommRx_ifc_Ipc) }
    }
  };
 
-const ClassJc reflection_InterProcessCommRxExec_Ipc_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_InterProcessCommRxExec_Ipc_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "InterProcessCommRxExec_Ipc_s"
 ,  0 //position of ObjectJc
 , sizeof(InterProcessCommRxExec_Ipc_s)

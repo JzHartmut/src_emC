@@ -10,12 +10,12 @@
 #include "genRefl/pid_Ctrl.crefl" 
 #elif defined(DEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
-  extern_C ClassJc const reflection_Par_PID_Ctrl;
-  extern_C ClassJc const reflection_PID_Ctrl;
+  extern_C ClassJc const refl_Par_PID_Ctrl;
+  extern_C ClassJc const refl_PID_Ctrl;
 #else
   //Class definition only as type marker: Note the ident should be planned application-wide and used for instances too.
-  ClassJc const reflection_Par_PID_Ctrl = INIZ_ClassJc(reflection_Par_PID_Ctrl, typeId_Par_PID_Ctrl, "Test_Ctrl");
-  ClassJc const reflection_PID_Ctrl = INIZ_ClassJc(reflection_PID_Ctrl, typeId_PID_Ctrl, "Test_Ctrl");
+  ClassJc const refl_Par_PID_Ctrl = INIZ_ClassJc(refl_Par_PID_Ctrl, typeId_Par_PID_Ctrl, "Test_Ctrl");
+  ClassJc const refl_PID_Ctrl = INIZ_ClassJc(refl_PID_Ctrl, typeId_PID_Ctrl, "Test_Ctrl");
 #endif
 
 
@@ -24,7 +24,7 @@
 Par_PID_Ctrl_s* ctor_Par_PID_Ctrl(ObjectJc* othiz, float Tstep)
 {
   Par_PID_Ctrl_s* thiz = (Par_PID_Ctrl_s*)othiz;
-  iniz_ObjectJc(othiz, othiz, sizeof(Par_PID_Ctrl_s), &reflection_Par_PID_Ctrl, typeId_Par_PID_Ctrl);
+  iniz_ObjectJc(othiz, othiz, sizeof(Par_PID_Ctrl_s), &refl_Par_PID_Ctrl, typeId_Par_PID_Ctrl);
   thiz->kP = 1.0f;
   thiz->T1d = 0.1f;
   thiz->Tn = 1.0f;
@@ -56,7 +56,7 @@ void set_Par_PID_Ctrl(Par_PID_Ctrl_s* thiz, float kP, float lim, float Tn_param,
 PID_Ctrl_s* ctor_PID_Ctrl(ObjectJc* othiz, float Tstep)
 {
   PID_Ctrl_s* thiz = (PID_Ctrl_s*)othiz;
-  iniz_ObjectJc(othiz, othiz, sizeof(PID_Ctrl_s), &reflection_PID_Ctrl, typeId_PID_Ctrl);
+  iniz_ObjectJc(othiz, othiz, sizeof(PID_Ctrl_s), &refl_PID_Ctrl, typeId_PID_Ctrl);
   thiz->Tstep = Tstep;
   return thiz; 
 }

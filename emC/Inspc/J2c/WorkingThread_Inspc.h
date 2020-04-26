@@ -62,12 +62,12 @@ typedef struct C_theThreadRun_WorkingThread_Inspc_t
 typedef struct C_theThreadRun_WorkingThread_Inspc_X_t { ObjectArrayJc head; C_theThreadRun_WorkingThread_InspcREF data[50]; } C_theThreadRun_WorkingThread_Inspc_X;
 typedef struct C_theThreadRun_WorkingThread_Inspc_Y_t { ObjectArrayJc head; C_theThreadRun_WorkingThread_Inspc_s data[50]; } C_theThreadRun_WorkingThread_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_C_theThreadRun_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const refl_C_theThreadRun_WorkingThread_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_C_theThreadRun_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(C_theThreadRun_WorkingThread_Inspc_s), OBJP, &reflection_C_theThreadRun_WorkingThread_Inspc_s), 0 }
+#define CONST_C_theThreadRun_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(C_theThreadRun_WorkingThread_Inspc_s), OBJP, &refl_C_theThreadRun_WorkingThread_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -140,12 +140,12 @@ typedef struct Data_WorkingThread_Inspc_t
 typedef struct Data_WorkingThread_Inspc_X_t { ObjectArrayJc head; Data_WorkingThread_InspcREF data[50]; } Data_WorkingThread_Inspc_X;
 typedef struct Data_WorkingThread_Inspc_Y_t { ObjectArrayJc head; Data_WorkingThread_Inspc_s data[50]; } Data_WorkingThread_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_Data_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const refl_Data_WorkingThread_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_Data_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(Data_WorkingThread_Inspc_s), OBJP, &reflection_Data_WorkingThread_Inspc_s), 0 }
+#define CONST_Data_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(Data_WorkingThread_Inspc_s), OBJP, &refl_Data_WorkingThread_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -173,7 +173,7 @@ typedef struct Vtbl_Data_WorkingThread_Inspc_t
 class Data_WorkingThread_Inspc : private Data_WorkingThread_Inspc_s
 { public:
 
-  Data_WorkingThread_Inspc(){ init_ObjectJc(&this->base.object, sizeof(Data_WorkingThread_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_Data_WorkingThread_Inspc_s, 0); ctorO_Data_WorkingThread_Inspc(&this->base.object,  null/*_thCxt*/); }
+  Data_WorkingThread_Inspc(){ init_ObjectJc(&this->base.object, sizeof(Data_WorkingThread_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_Data_WorkingThread_Inspc_s, 0); ctorO_Data_WorkingThread_Inspc(&this->base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
@@ -206,12 +206,12 @@ typedef struct ThreadMng_WorkingThread_Inspc_t
 typedef struct ThreadMng_WorkingThread_Inspc_X_t { ObjectArrayJc head; ThreadMng_WorkingThread_InspcREF data[50]; } ThreadMng_WorkingThread_Inspc_X;
 typedef struct ThreadMng_WorkingThread_Inspc_Y_t { ObjectArrayJc head; ThreadMng_WorkingThread_Inspc_s data[50]; } ThreadMng_WorkingThread_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_ThreadMng_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const refl_ThreadMng_WorkingThread_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_ThreadMng_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(ThreadMng_WorkingThread_Inspc_s), OBJP, &reflection_ThreadMng_WorkingThread_Inspc_s), 0 }
+#define CONST_ThreadMng_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(ThreadMng_WorkingThread_Inspc_s), OBJP, &refl_ThreadMng_WorkingThread_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -270,12 +270,12 @@ typedef struct WorkingThread_Inspc_t
 typedef struct WorkingThread_Inspc_X_t { ObjectArrayJc head; WorkingThread_InspcREF data[50]; } WorkingThread_Inspc_X;
 typedef struct WorkingThread_Inspc_Y_t { ObjectArrayJc head; WorkingThread_Inspc_s data[50]; } WorkingThread_Inspc_Y;
 
- extern_C struct ClassJc_t const reflection_WorkingThread_Inspc_s;
+ extern_C struct ClassJc_t const refl_WorkingThread_Inspc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(WorkingThread_Inspc_s), OBJP, &reflection_WorkingThread_Inspc_s), 0 }
+#define CONST_WorkingThread_Inspc(OBJP) { CONST_ObjectJc(sizeof(WorkingThread_Inspc_s), OBJP, &refl_WorkingThread_Inspc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -321,7 +321,7 @@ typedef struct Vtbl_WorkingThread_Inspc_t
 class WorkingThread_Inspc : private WorkingThread_Inspc_s
 { public:
 
-  WorkingThread_Inspc(){ init_ObjectJc(&this->base.object, sizeof(WorkingThread_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &reflection_WorkingThread_Inspc_s, 0); ctorO_WorkingThread_Inspc(&this->base.object,  null/*_thCxt*/); }
+  WorkingThread_Inspc(){ init_ObjectJc(&this->base.object, sizeof(WorkingThread_Inspc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_WorkingThread_Inspc_s, 0); ctorO_WorkingThread_Inspc(&this->base.object,  null/*_thCxt*/); }
 
   virtual void start(){ start_WorkingThread_Inspc_F(this,  null/*_thCxt*/); }
 

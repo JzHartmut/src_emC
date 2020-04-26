@@ -5,32 +5,32 @@
 //#include <stddef.h>
 
 
-extern_C const ClassJc reflection_DataStructBase_Inspc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_DefPortTypes_emC;  //used for field fBlockInfo
+extern_C const ClassJc refl_DataStructBase_Inspc;  //the just defined refl_ used in the own fields.
+extern_C const ClassJc refl_DefPortTypes_emC;  //used for field fBlockInfo
 
-extern_C const ClassJc reflection_VariableParam_DataStruct_Inspc;  //used for field varParams
+extern_C const ClassJc refl_VariableParam_DataStruct_Inspc;  //used for field varParams
 
-extern_C const ClassJc reflection_VariableParam_DataStruct_Inspc_Array;  //used for field varParams_debugView
+extern_C const ClassJc refl_VariableParam_DataStruct_Inspc_Array;  //used for field varParams_debugView
   
 
-extern_C const ClassJc reflection_ObjectJc;  //the super class here used.
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
 const struct SuperClasses_DataStructBase_Inspc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_DataStructBase_Inspc_s =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(superClasses_DataStructBase_Inspc_s, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
-  , { &reflection_ObjectJc                                   
+  , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
     , { "super"              
       , 0 //arraysize
-      , &reflection_ObjectJc  //type of super                                                                                         
+      , &refl_ObjectJc  //type of super                                                                                         
       , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
         | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
         | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
       , 0 //offsetalways 0 (C++?)
       , 0  //offsetToObjectifcBase
-      , &reflection_ObjectJc  
+      , &refl_ObjectJc  
       }
     }
 };
@@ -38,25 +38,25 @@ const struct SuperClasses_DataStructBase_Inspc_s_ClassOffset_idxVtblJcARRAY_t  /
 const struct Reflection_Fields_DataStructBase_Inspc_s_t
 { ObjectArrayJc head;
   FieldJc data[5];
-} reflection_Fields_DataStructBase_Inspc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_DataStructBase_Inspc_s, 5, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_DataStructBase_Inspc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_DataStructBase_Inspc_s, 5, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "fBlockInfo"
     , 0   //no Array, no Bitfield                           
-    , &reflection_DefPortTypes_emC                                                                                            
+    , &refl_DefPortTypes_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->fBlockInfo)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DataStructBase_Inspc
+    , &refl_DataStructBase_Inspc
     }
   , 
     { "varParams"
     , 0   //no Array, no Bitfield                           
-    , &reflection_VariableParam_DataStruct_Inspc                                                                                            
+    , &refl_VariableParam_DataStruct_Inspc                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->varParams)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DataStructBase_Inspc
+    , &refl_DataStructBase_Inspc
     }
   , 
     { "zVariable"
@@ -65,7 +65,7 @@ const struct Reflection_Fields_DataStructBase_Inspc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->zVariable)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DataStructBase_Inspc
+    , &refl_DataStructBase_Inspc
     }
   , 
     { "__d"
@@ -74,27 +74,27 @@ const struct Reflection_Fields_DataStructBase_Inspc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->__d)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DataStructBase_Inspc
+    , &refl_DataStructBase_Inspc
     }
   , 
     { "varParams_debugView"
     , 0   //no Array, no Bitfield                           
-    , &reflection_VariableParam_DataStruct_Inspc_Array                                                                                            
+    , &refl_VariableParam_DataStruct_Inspc_Array                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->varParams_debugView)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_DataStructBase_Inspc
+    , &refl_DataStructBase_Inspc
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_DataStructBase_Inspc =
-{ INIZ_objReflId_ObjectJc(reflection_DataStructBase_Inspc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_DataStructBase_Inspc =
+{ INIZ_objReflId_ObjectJc(refl_DataStructBase_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "DataStructBase_Inspc"
 , 0
 , sizeof(DataStructBase_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_DataStructBase_Inspc_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_DataStructBase_Inspc_s  //attributes and associations
 , null  //method      
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_DataStructBase_Inspc_s  //superclass  
 , null  //interfaces  
@@ -104,14 +104,14 @@ const ClassJc reflection_DataStructBase_Inspc =
 
 
 
-extern_C const ClassJc reflection_VariableParam_DataStruct_Inspc;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_Entry_DefPortType_emC;  //used for field ePort
+extern_C const ClassJc refl_VariableParam_DataStruct_Inspc;  //the just defined refl_ used in the own fields.
+extern_C const ClassJc refl_Entry_DefPortType_emC;  //used for field ePort
 
 const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
 { ObjectArrayJc head;
   FieldJc data[9];
-} reflection_Fields_VariableParam_DataStruct_Inspc_s =
-{ INIZ_ObjectArrayJc(reflection_Fields_VariableParam_DataStruct_Inspc_s, 9, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_VariableParam_DataStruct_Inspc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_VariableParam_DataStruct_Inspc_s, 9, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "accessRights"
     , 0   //no Array, no Bitfield                           
@@ -119,7 +119,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->accessRights)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "ixField"
@@ -128,7 +128,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->ixField)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "__d1"
@@ -137,7 +137,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->__d1)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "nrofBytesValue"
@@ -146,7 +146,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->nrofBytesValue)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "ixInVal"
@@ -155,16 +155,16 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->ixInVal)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "ePort"
     , 0   //no Array, no Bitfield                           
-    , &reflection_Entry_DefPortType_emC                                                                                            
+    , &refl_Entry_DefPortType_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->ePort)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "typeRef"
@@ -173,7 +173,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->typeRef)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "name"
@@ -182,7 +182,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->name)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   , 
     { "structType"
@@ -191,18 +191,18 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->structType)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc
+    , &refl_VariableParam_DataStruct_Inspc
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_VariableParam_DataStruct_Inspc =
-{ INIZ_objReflId_ObjectJc(reflection_VariableParam_DataStruct_Inspc, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_VariableParam_DataStruct_Inspc =
+{ INIZ_objReflId_ObjectJc(refl_VariableParam_DataStruct_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
 , "VariableParam_DataStruct_Inspc"
 , 0
 , sizeof(VariableParam_DataStruct_Inspc_s)
-, (FieldJcArray const*)&reflection_Fields_VariableParam_DataStruct_Inspc_s  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_VariableParam_DataStruct_Inspc_s  //attributes and associations
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
@@ -212,33 +212,33 @@ const ClassJc reflection_VariableParam_DataStruct_Inspc =
 
 
 
-extern_C const ClassJc reflection_VariableParam_DataStruct_Inspc_Array;  //the just defined reflection_ used in the own fields.
-extern_C const ClassJc reflection_VariableParam_DataStruct_Inspc;  //used for field d
+extern_C const ClassJc refl_VariableParam_DataStruct_Inspc_Array;  //the just defined refl_ used in the own fields.
+extern_C const ClassJc refl_VariableParam_DataStruct_Inspc;  //used for field d
 
 const struct Reflection_Fields_VariableParam_DataStruct_Inspc_Array_t
 { ObjectArrayJc head;
   FieldJc data[1];
-} reflection_Fields_VariableParam_DataStruct_Inspc_Array =
-{ INIZ_ObjectArrayJc(reflection_Fields_VariableParam_DataStruct_Inspc_Array, 1, FieldJc, null, INIZ_ID_FieldJc)
+} refl_Fields_VariableParam_DataStruct_Inspc_Array =
+{ INIZ_ObjectArrayJc(refl_Fields_VariableParam_DataStruct_Inspc_Array, 1, FieldJc, null, INIZ_ID_FieldJc)
 , {  
     { "d"
     , 10 //nrofArrayElements                           
-    , &reflection_VariableParam_DataStruct_Inspc                                                                                            
+    , &refl_VariableParam_DataStruct_Inspc                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_Array*)(0x1000))->d)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
-    , &reflection_VariableParam_DataStruct_Inspc_Array
+    , &refl_VariableParam_DataStruct_Inspc_Array
     }
   
 } }; 
  
                                                                    
-const ClassJc reflection_VariableParam_DataStruct_Inspc_Array =
-{ INIZ_objReflId_ObjectJc(reflection_VariableParam_DataStruct_Inspc_Array, &reflection_ClassJc, INIZ_ID_ClassJc)
+const ClassJc refl_VariableParam_DataStruct_Inspc_Array =
+{ INIZ_objReflId_ObjectJc(refl_VariableParam_DataStruct_Inspc_Array, &refl_ClassJc, INIZ_ID_ClassJc)
 , "VariableParam_Data__Inspc_Array"
 , 0
 , sizeof(VariableParam_DataStruct_Inspc_Array)
-, (FieldJcArray const*)&reflection_Fields_VariableParam_DataStruct_Inspc_Array  //attributes and associations
+, (FieldJcArray const*)&refl_Fields_VariableParam_DataStruct_Inspc_Array  //attributes and associations
 , null  //method      
 , null  //superclass  
 , null  //interfaces  

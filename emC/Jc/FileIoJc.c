@@ -41,7 +41,7 @@
 #include <string.h> //memset
 #include <emC/OSAL/os_file.h>
 
-extern_C ClassJc const reflection_FileWriterJc;
+extern_C ClassJc const refl_FileWriterJc;
 
 /*@CLASS_C FileJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -50,9 +50,9 @@ FileJc_s* ctorO_FileJc  (  ObjectJc* othis, StringJc name, ThCxt* _thCxt)
 {
   FileJc_s* ythis = (FileJc_s*)othis;
   int sizeObj = getSizeInfo_ObjectJc(othis);
-  extern const ClassJc reflection_FileJc;
+  extern const ClassJc refl_FileJc;
   STACKTRC_TENTRY("ctorO_FileJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileJc_s), null/*&reflection_FileJc*/, _thCxt);  
+  checkConsistence_ObjectJc(othis, sizeof(FileJc_s), null/*&refl_FileJc*/, _thCxt);  
   memset(&ythis->fileDescription, 0, sizeof(ythis->fileDescription));
   if(!isNull_StringJc(name))
   { init_FileJc(ythis, name, _thCxt);
@@ -67,7 +67,7 @@ void init_FileJc  (  FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
   char const* ssFileName;
   int len;
   STACKTRC_TENTRY("init_FileJc");
-  iniz_ObjectJc(&ythis->base.object, ythis, sizeof(FileJc_s), &reflection_FileJc, 0);
+  iniz_ObjectJc(&ythis->base.object, ythis, sizeof(FileJc_s), &refl_FileJc, 0);
   //len = copyToBuffer_StringJc(sFileName, ssFileName, sizeof(ssFileName));  //not necessary, because may be inpersistent. 
   ssFileName = getCharsAndLength_StringJc(&sFileName, &len);
 
@@ -125,7 +125,7 @@ FileOutputStreamJc_s* ctorO_sB_FileOutputStreamJc  (  ObjectJc* othis, StringJc 
 {
   FileOutputStreamJc_s* ythis = (FileOutputStreamJc_s*)othis;
   STACKTRC_TENTRY("ctorO_sB_FileOutputStreamJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &reflection_FileOutputStreamJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &refl_FileOutputStreamJc, _thCxt); 
   
   STACKTRC_LEAVE; return ythis;
 }
@@ -136,7 +136,7 @@ FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc  (  ObjectJc* othis, FileJc_s*
   OS_HandleFile hFile;
   StringJc fileName;
   STACKTRC_TENTRY("ctorO_fB_FileOutputStreamJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &reflection_FileOutputStreamJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &refl_FileOutputStreamJc, _thCxt); 
   fileName = getPath_FileJc(file);  //the path like given in ctor_FileJc, it may be relative.
   ASSERT(isZeroTerminated_StringJc(fileName)); //a known property assumed.
   hFile = os_fopenToWrite(PTR_StringJc(fileName), append);
@@ -216,7 +216,7 @@ FileWriterJc_s* ctorO_FileWriterJc  (  ObjectJc* othis, ThCxt* _thCxt)
 {
   FileWriterJc_s* ythis = (FileWriterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_FileWriterJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileWriterJc_s), &reflection_FileWriterJc, _thCxt); 
+  checkConsistence_ObjectJc(othis, sizeof(FileWriterJc_s), &refl_FileWriterJc, _thCxt); 
   
   STACKTRC_LEAVE; return ythis;
 }
@@ -295,9 +295,9 @@ FileReaderJc_s* ctorO_FileReaderJc  (  ObjectJc* othis, OS_HandleFile file, ThCx
 { 
   FileReaderJc_s* ythis = (FileReaderJc_s*)othis;
   int sizeObj = getSizeInfo_ObjectJc(othis);
-  extern const ClassJc reflection_FileReaderJc_s;
+  extern const ClassJc refl_FileReaderJc_s;
   STACKTRC_TENTRY("ctor_FileReaderJcF");
-  checkConsistence_ObjectJc(othis, sizeof(FileReaderJc_s), null/*&reflection_BufferedReaderJc_s*/, _thCxt);  
+  checkConsistence_ObjectJc(othis, sizeof(FileReaderJc_s), null/*&refl_BufferedReaderJc_s*/, _thCxt);  
   ythis->file_ = file;
   ythis->bEof_ = 0;
   ythis->modCount_ = -1;
@@ -359,9 +359,9 @@ BufferedReaderJc_s* ctorO_BufferedReaderJc  (  ObjectJc* othis, FileReaderJc_s* 
 { 
   BufferedReaderJc_s* ythis = (BufferedReaderJc_s*)othis;
   int sizeObj = getSizeInfo_ObjectJc(othis);
-  extern const ClassJc reflection_BufferedReaderJc_s;
+  extern const ClassJc refl_BufferedReaderJc_s;
   STACKTRC_TENTRY("ctorO_BufferedReaderJc");
-  checkConsistence_ObjectJc(othis, sizeof(BufferedReaderJc_s), null/*&reflection_BufferedReaderJc_s*/, _thCxt);  
+  checkConsistence_ObjectJc(othis, sizeof(BufferedReaderJc_s), null/*&refl_BufferedReaderJc_s*/, _thCxt);  
   ythis->lenLine = -1;
   ythis->lenBuffer = 0;
   ythis->bFinish = 0;

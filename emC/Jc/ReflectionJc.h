@@ -36,13 +36,13 @@
  * @author Jchartmut www.vishia.org
  * @version 0.82
  * list of changes:
- * 2012-04-07 Hartmut new: nrofBytesScalarTypes_ClassJc[], reflection__char16Jc
- * 2010-02-07 Hartmut new: reflection_floatBigEndian
+ * 2012-04-07 Hartmut new: nrofBytesScalarTypes_ClassJc[], refl__char16Jc
+ * 2010-02-07 Hartmut new: refl_floatBigEndian
  * 2010-01-17: Hartmut corr: for C++. but FieldJcpp, ClassJcpp won't be supported as of now.
  * 2009-11-25: Hartmut:
  *   new: String_ClassJc as type in ScalarTypes_ClassJc.
  *   new: REFLECTION_StringJc
- *   new: reflection_int16BigEndian etc, see os_endian.h
+ *   new: refl_int16BigEndian etc, see os_endian.h
  * 2008-04-22: Hartmut rename: MT_void_Method_void instead VoidMethodVoid etc.
  * 2006-05-00: www.vishia.de creation
  *

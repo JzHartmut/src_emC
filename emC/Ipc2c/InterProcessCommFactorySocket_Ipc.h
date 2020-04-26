@@ -47,12 +47,12 @@ typedef struct InterProcessCommFactorySocket_Ipc_t
 typedef struct InterProcessCommFactorySocket_Ipc_X_t { ObjectArrayJc head; InterProcessCommFactorySocket_IpcREF data[50]; } InterProcessCommFactorySocket_Ipc_X;
 typedef struct InterProcessCommFactorySocket_Ipc_Y_t { ObjectArrayJc head; InterProcessCommFactorySocket_Ipc_s data[50]; } InterProcessCommFactorySocket_Ipc_Y;
 
- extern_C struct ClassJc_t const reflection_InterProcessCommFactorySocket_Ipc_s;
+ extern_C struct ClassJc_t const refl_InterProcessCommFactorySocket_Ipc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InterProcessCommFactorySocket_Ipc(OBJP) { CONST_ObjectJc(sizeof(InterProcessCommFactorySocket_Ipc_s), OBJP, &reflection_InterProcessCommFactorySocket_Ipc_s), 0 }
+#define CONST_InterProcessCommFactorySocket_Ipc(OBJP) { CONST_ObjectJc(sizeof(InterProcessCommFactorySocket_Ipc_s), OBJP, &refl_InterProcessCommFactorySocket_Ipc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -136,7 +136,7 @@ class InterProcessCommFactorySocket_Ipc : private InterProcessCommFactorySocket_
 
   virtual struct InterProcessComm_t* create(StringJcpp protocolAndOwnAddr, int32 nPort){  return create_Si_InterProcessCommFactorySocket_Ipc_F(&this->base.super, protocolAndOwnAddr, nPort,  null/*_thCxt*/); }
 
-  InterProcessCommFactorySocket_Ipc(){ iniz_ObjectJc(&this->base.object, this, sizeof(InterProcessCommFactorySocket_Ipc_s), null, 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommFactorySocket_Ipc_s, 0); ctorO_InterProcessCommFactorySocket_Ipc(&this->base.object,  null/*_thCxt*/); }
+  InterProcessCommFactorySocket_Ipc(){ iniz_ObjectJc(&this->base.object, this, sizeof(InterProcessCommFactorySocket_Ipc_s), null, 0); setReflection_ObjectJc(&this->base.object, &refl_InterProcessCommFactorySocket_Ipc_s, 0); ctorO_InterProcessCommFactorySocket_Ipc(&this->base.object,  null/*_thCxt*/); }
 };
 
 #endif /*__CPLUSPLUSJcpp*/

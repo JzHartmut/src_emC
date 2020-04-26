@@ -46,12 +46,12 @@ typedef struct InterProcessCommRxExec_Ipc_t
 typedef struct InterProcessCommRxExec_Ipc_X_t { ObjectArrayJc head; InterProcessCommRxExec_IpcREF data[50]; } InterProcessCommRxExec_Ipc_X;
 typedef struct InterProcessCommRxExec_Ipc_Y_t { ObjectArrayJc head; InterProcessCommRxExec_Ipc_s data[50]; } InterProcessCommRxExec_Ipc_Y;
 
- extern_C struct ClassJc_t const reflection_InterProcessCommRxExec_Ipc_s;
+ extern_C struct ClassJc_t const refl_InterProcessCommRxExec_Ipc_s;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_InterProcessCommRxExec_Ipc(OBJP) { CONST_ObjectJc(sizeof(InterProcessCommRxExec_Ipc_s), OBJP, &reflection_InterProcessCommRxExec_Ipc_s), 0 }
+#define CONST_InterProcessCommRxExec_Ipc(OBJP) { CONST_ObjectJc(sizeof(InterProcessCommRxExec_Ipc_s), OBJP, &refl_InterProcessCommRxExec_Ipc_s), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -84,7 +84,7 @@ typedef struct Vtbl_InterProcessCommRxExec_Ipc_t
 class InterProcessCommRxExec_Ipc : private InterProcessCommRxExec_Ipc_s
 { public:
 
-  InterProcessCommRxExec_Ipc(){ iniz_ObjectJc(&this->base.object, this, sizeof(InterProcessCommRxExec_Ipc_s), null, 0); setReflection_ObjectJc(&this->base.object, &reflection_InterProcessCommRxExec_Ipc_s, 0); ctorO_InterProcessCommRxExec_Ipc(&this->base.object,  null/*_thCxt*/); }
+  InterProcessCommRxExec_Ipc(){ iniz_ObjectJc(&this->base.object, this, sizeof(InterProcessCommRxExec_Ipc_s), null, 0); setReflection_ObjectJc(&this->base.object, &refl_InterProcessCommRxExec_Ipc_s, 0); ctorO_InterProcessCommRxExec_Ipc(&this->base.object,  null/*_thCxt*/); }
 
   virtual void execRxData(int8ARRAY buffer, int32 nrofBytesReceived, struct Address_InterProcessComm_t* sender){ execRxData_iYiAddrIpc_InterProcessCommRxExec_Ipc_F(&this->base.super, buffer, nrofBytesReceived, sender,  null/*_thCxt*/); }
 };

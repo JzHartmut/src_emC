@@ -6,7 +6,7 @@
 Service_Inspc* ctor_Service_Inspc(Service_Inspc* thiz, float Tstep, StringJc sIp)
 {
   STACKTRC_ENTRY("ctor_FBaccess_Inspc");
-  iniz_ObjectJc(&thiz->object, thiz, sizeof(Service_Inspc), &reflection_Service_Inspc, 0xf0);
+  iniz_ObjectJc(&thiz->object, thiz, sizeof(Service_Inspc), &refl_Service_Inspc, 0xf0);
   //init_ObjectJc(&thiz->theInspector.base.object, sizeof(thiz->theInspector), 0);
   ctorO_Inspector_Inspc(&thiz->theInspector.base.object, sIp, _thCxt);
   STACKTRC_LEAVE;
@@ -23,7 +23,7 @@ bool init_Service_Inspc(Service_Inspc* thiz, struct DataNode_Inspc_t* rootNode)
     setInitialized_ObjectJc(&thiz->object);  //Note: set it firstly to prevent twice initialization on thread switch in start_
     //see ctor: ctorO_Inspector_Inspc(&thiz->theInspector.base.object, sIp_param, _thCxt);
     thiz->rootNode = rootNode;
-    registerRefl_DataNode_Inspc(rootNode, &thiz->simTime, "simTime", &reflection_SimTime_emC);
+    registerRefl_DataNode_Inspc(rootNode, &thiz->simTime, "simTime", &refl_SimTime_emC);
     //TEST  
     ClassJc const* rootClazz = getClass_ObjectJc(&rootNode->base.object);
     MemSegmJc rootAddr;

@@ -39,17 +39,17 @@
 
 
 #ifdef DEF_REFLECTION_FULL
-  //Note: only for full reflection the const ClassJc reflection_... should be compiled 
+  //Note: only for full reflection the const ClassJc refl_... should be compiled 
   //to found by the linker for references to this struct. 
   //They are unecessary for initializations because of the data instances do not based on ObjectJc.
   #include "emC/Base/genRefl/VaArgBuffer_emC.crefl"
 //#elif defined(DEF_REFLECTION_OFFS)
 //  //The classes are defined in a project specific ...refloffs.c file:
-//  extern_C const ClassJc reflection_VaArgBuffer_Data;
-//  extern_C const ClassJc reflection_VaArgBuffer;
+//  extern_C const ClassJc refl_VaArgBuffer_Data;
+//  extern_C const ClassJc refl_VaArgBuffer;
 //#else //DEF_REFLECTION_NO
-//  ClassJc const reflection_VaArgBuffer_Data = INIZ_ClassJc(reflection_VaArgBuffer_Data, "VaArgBuffer_Data");
-//  ClassJc const reflection_VaArgBuffer = INIZ_ClassJc(reflection_VaArgBuffer, "VaArgBuffer");
+//  ClassJc const refl_VaArgBuffer_Data = INIZ_ClassJc(refl_VaArgBuffer_Data, "VaArgBuffer_Data");
+//  ClassJc const refl_VaArgBuffer = INIZ_ClassJc(refl_VaArgBuffer, "VaArgBuffer");
 #endif
 
 

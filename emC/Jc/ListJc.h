@@ -52,7 +52,7 @@ typedef struct ListJc_t
 { ObjectJc object;
 }ListJc;
 
-extern_C ClassJc const reflection_ListJc;
+extern_C ClassJc const refl_ListJc;
 
 
 
@@ -70,8 +70,8 @@ typedef struct Vtbl_ListJc_t
 
 
 
-#define size_ListJc(YTHIS, THC) ((Vtbl_ListJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_ListJc))->size(YTHIS, THC)
-#define iterator_ListJc(YTHIS, THC) ((Vtbl_ListJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_ListJc))->iterator(YTHIS, THC)
+#define size_ListJc(YTHIS, THC) ((Vtbl_ListJc*)getVtbl_ObjectJc(&(YTHIS)->object, &refl_ListJc))->size(YTHIS, THC)
+#define iterator_ListJc(YTHIS, THC) ((Vtbl_ListJc*)getVtbl_ObjectJc(&(YTHIS)->object, &refl_ListJc))->iterator(YTHIS, THC)
 
 
 
@@ -113,7 +113,7 @@ typedef struct IteratorJc_t
 { ObjectJc object;
 }IteratorJc;
 
-extern_C ClassJc const reflection_IteratorJc;
+extern_C ClassJc const refl_IteratorJc;
 
 
 
@@ -128,9 +128,9 @@ typedef struct Vtbl_IteratorJc_t
   MT_remove_IteratorJc* remove;
 } Vtbl_IteratorJc;
 
-#define hasNext_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->hasNext(YTHIS, THC)
-#define next_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->next(YTHIS, THC)
-#define remove_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &reflection_IteratorJc))->remove(YTHIS, THC)
+#define hasNext_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &refl_IteratorJc))->hasNext(YTHIS, THC)
+#define next_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &refl_IteratorJc))->next(YTHIS, THC)
+#define remove_IteratorJc(YTHIS, THC) ((Vtbl_IteratorJc*)getVtbl_ObjectJc(&(YTHIS)->object, &refl_IteratorJc))->remove(YTHIS, THC)
 
 
 #endif  //__List_Jc_h__

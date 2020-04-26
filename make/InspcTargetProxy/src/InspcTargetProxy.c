@@ -26,18 +26,18 @@
 #include "emC/OSAL/genRefl/os_sharedMem.crefl"
 
 
-InterProcessCommRx_ifc_Ipc_s targetRx = {{INIZ_ObjectJc(targetRx, &reflection_InterProcessCommRx_ifc_Ipc, 0)}};
+InterProcessCommRx_ifc_Ipc_s targetRx = {{INIZ_ObjectJc(targetRx, &refl_InterProcessCommRx_ifc_Ipc, 0)}};
 
 /**Modul für Socketkommunikation mit dem eigentlichen Target. */
-InterProcessCommRxThread_Ipc_s targetIpc = {{INIZ_ObjectJc(targetIpc, &reflection_InterProcessCommRxThread_Ipc, 0)}};
+InterProcessCommRxThread_Ipc_s targetIpc = {{INIZ_ObjectJc(targetIpc, &refl_InterProcessCommRxThread_Ipc, 0)}};
 
 Inspector_Inspc_s theInspector = 
-{ {INIZ_ObjectJc(theInspector, &reflection_Inspector_Inspc, 0)}};
+{ {INIZ_ObjectJc(theInspector, &refl_Inspector_Inspc, 0)}};
 
 
 
 InspcTargetProxy_s data = 
-{ INIZ_ObjectJc(data, &reflection_InspcTargetProxy, 0)  //Object
+{ INIZ_ObjectJc(data, &refl_InspcTargetProxy, 0)  //Object
 , 0
 , null  //_Target_
 , null
@@ -58,7 +58,7 @@ InspcTargetProxy_s data =
 #endif
 
 
-extern_C const ClassJc reflection_InspcTargetProxy;
+extern_C const ClassJc refl_InspcTargetProxy;
 
 
 /**Receive routine for target communication. */
@@ -67,7 +67,7 @@ METHOD_C static void execRxData_TargetRx(InterProcessCommRx_ifc_Ipc_s* thiz
   , struct Address_InterProcessComm_t* sender, ThCxt* _thCxt)
 {
   STACKTRC_TENTRY("execRxData_TargetRx");
-  ASSERT(instanceof_ObjectJc(thiz->data, &reflection_InspcTargetProxy));
+  ASSERT(instanceof_ObjectJc(thiz->data, &refl_InspcTargetProxy));
   InspcTargetProxy_s* data = (InspcTargetProxy_s*)thiz->data;
   TelgTarget2Proxy_Inspc_s* answer;
   if(nrofBytesReceived >= sizeof(*answer)) {
@@ -100,11 +100,11 @@ void ctor_InspcTargetProxy(InspcTargetProxy_s* thiz)
 {
   STACKTRC_ENTRY("ctor_InspcTargetProxy");
   //initialize the InterProcessComm with rxBuffer and the rx thread to/from the target.
-  iniz_ObjectJc(&thiz->object, thiz, sizeof(*thiz), &reflection_InspcTargetProxy, 0);
+  iniz_ObjectJc(&thiz->object, thiz, sizeof(*thiz), &refl_InspcTargetProxy, 0);
   iniz_ObjectJc(&thiz->targetRx->base.object, thiz->targetRx, sizeof(*thiz->targetRx)
-               , &reflection_InterProcessCommRx_ifc_Ipc, 0);
+               , &refl_InterProcessCommRx_ifc_Ipc, 0);
   ctorO_InterProcessCommRx_ifc_Ipc(&thiz->targetRx->base.object, _thCxt);
-  setReflection_ObjectJc(&thiz->targetRx->base.object, &reflection_execRxData_TargetRx, 0);
+  setReflection_ObjectJc(&thiz->targetRx->base.object, &refl_execRxData_TargetRx, 0);
   thiz->targetRx->data = &thiz->object;  //the own data, can be used in the callback routine.
   thiz->targetIpc = create_InterProcessCommRxThread_Ipc(z_StringJc("UDP:127.0.0.1:60198"), thiz->targetRx, _thCxt);
   if(start_InterProcessCommRxThread_Ipc(thiz->targetIpc, _thCxt)) {
@@ -197,7 +197,7 @@ int main(int nArgs, char** argsCmd)
     //#endif
 
     init_ObjectJc(&data.object, sizeof(data), 0);
-    setReflection_ObjectJc(&data.object, &reflection_InspcTargetProxy, 0);
+    setReflection_ObjectJc(&data.object, &refl_InspcTargetProxy, 0);
 
     ctor_InspcTargetProxy(&data);
     //

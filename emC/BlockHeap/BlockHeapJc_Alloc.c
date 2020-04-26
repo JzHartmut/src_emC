@@ -62,11 +62,11 @@
 
 
 #ifdef DEF_REFLECTION_FULL
-ClassJc const reflection_BlockHeap_emC = INIZtypeOnly_ClassJc(reflection_BlockHeap_emC, "relection_BlockHeap_emC");
+ClassJc const refl_BlockHeap_emC = INIZtypeOnly_ClassJc(refl_BlockHeap_emC, "relection_BlockHeap_emC");
 
 #else //not DEF_REFLECTION_FULL
 
-ClassJc const reflection_BlockHeap_emC = INIZtypeOnly_ClassJc(reflection_BlockHeap_emC, "relection_BlockHeap_emC");
+ClassJc const refl_BlockHeap_emC = INIZtypeOnly_ClassJc(refl_BlockHeap_emC, "relection_BlockHeap_emC");
 
 #endif //not DEF_REFLECTION_FULL
 
@@ -267,7 +267,7 @@ METHOD_C BlockHeap_emC_s* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, i
   struct MemAreaC_t* heap = PTR_MemC(wholeHeap, struct MemAreaC_t);
   int sizeHeap = size_MemC(wholeHeap);
   STACKTRC_ENTRY("ctor_BlockHeap_emC");
-  checkInit_ObjectJc(othis, sizeof(BlockHeap_emC_s), &reflection_BlockHeap_emC, 0, _thCxt); 
+  checkInit_ObjectJc(othis, sizeof(BlockHeap_emC_s), &refl_BlockHeap_emC, 0, _thCxt); 
   
   init0_MemC(wholeHeap);
 
@@ -362,7 +362,7 @@ bool checkSignificance_BlockHeapBlockJc(BlockHeapBlockJc* thiz, struct BlockHeap
 
   return ASSERT_emC(ownHeap == thiz->heap && ownHeap != null, "not a heap Block", 0, 0);
 
-  //ASSERTJc_RET(instanceof_ObjectJc(heapObj, &reflection_BlockHeap_emC), false);
+  //ASSERTJc_RET(instanceof_ObjectJc(heapObj, &refl_BlockHeap_emC), false);
   //return true;
 }
 

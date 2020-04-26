@@ -65,7 +65,7 @@ ThreadJc_s* ctorO_Runnable_s_ThreadJc(ObjectJc* othis, RunnableJc_s* pRunnable, 
   Vtbl_ThreadJc const* mtthis = &mtblThreadJc.mtbl;
   STACKTRC_TENTRY("ctorO_Runnable_s_ThreadJc");
   checkConsistence_ObjectJc(othis, sizeof(ThreadJc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_ThreadJc, sizeof(ThreadJc_s));  
+  setReflection_ObjectJc(othis, &refl_ThreadJc, sizeof(ThreadJc_s));  
 
   ythis->hThread = null;
   set_StringJc(&(ythis->name), pName);

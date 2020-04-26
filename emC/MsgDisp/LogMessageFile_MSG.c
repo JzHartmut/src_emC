@@ -46,7 +46,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
 { LogMessageFile_MSG_s* thiz = (LogMessageFile_MSG_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_LogMessageFile_MSG");
   checkConsistence_ObjectJc(othis, sizeof(LogMessageFile_MSG_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_LogMessageFile_MSG_s, sizeof(LogMessageFile_MSG_s));  
+  setReflection_ObjectJc(othis, &refl_LogMessageFile_MSG_s, sizeof(LogMessageFile_MSG_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded fix-size-StringBuffer
@@ -841,75 +841,75 @@ const VtblDef_LogMessageFile_MSG mtblLogMessageFile_MSG = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_LogMessageFile_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_LogMessageFile_MSG, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_LogMessageFile_MSG, ObjectJc) }
    }
  };
 
- extern_C struct ClassJc_t const reflection_LogMessageFW;
+ extern_C struct ClassJc_t const refl_LogMessageFW;
  static struct ifcClasses_LogMessageFile_MSG_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }interfaces_LogMessageFile_MSG_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&reflection_LogMessageFW, OFFSET_Vtbl(Vtbl_LogMessageFile_MSG, LogMessageFW) }
+, { {&refl_LogMessageFW, OFFSET_Vtbl(Vtbl_LogMessageFile_MSG, LogMessageFW) }
   }
 };
 
-extern_C struct ClassJc_t const reflection_LogMessageFile_MSG_s;
-extern_C struct ClassJc_t const reflection_ConcurrentLinkedQueueJc_s;
-extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
-extern_C struct ClassJc_t const reflection_FileWriterJc;
-extern_C struct ClassJc_t const reflection_LocaleJc;
-extern_C struct ClassJc_t const reflection_LogMessageFW;
-extern_C struct ClassJc_t const reflection_OS_TimeStamp;
-extern_C struct ClassJc_t const reflection_SimpleDateFormatJc;
-extern_C struct ClassJc_t const reflection_StringBufferJc;
-extern_C struct ClassJc_t const reflection_StringBuilderJc;
-extern_C struct ClassJc_t const reflection_StringJc;
-extern_C struct ClassJc_t const reflection_TextFieldPositionJc;
-extern_C struct ClassJc_t const reflection_TimeZoneJc;
+extern_C struct ClassJc_t const refl_LogMessageFile_MSG_s;
+extern_C struct ClassJc_t const refl_ConcurrentLinkedQueueJc_s;
+extern_C struct ClassJc_t const refl_Dbg_LogMessageFile_MSG_s;
+extern_C struct ClassJc_t const refl_FileWriterJc;
+extern_C struct ClassJc_t const refl_LocaleJc;
+extern_C struct ClassJc_t const refl_LogMessageFW;
+extern_C struct ClassJc_t const refl_OS_TimeStamp;
+extern_C struct ClassJc_t const refl_SimpleDateFormatJc;
+extern_C struct ClassJc_t const refl_StringBufferJc;
+extern_C struct ClassJc_t const refl_StringBuilderJc;
+extern_C struct ClassJc_t const refl_StringJc;
+extern_C struct ClassJc_t const refl_TextFieldPositionJc;
+extern_C struct ClassJc_t const refl_TimeZoneJc;
 const struct Reflection_Fields_LogMessageFile_MSG_s_t
 { ObjectArrayJc head; FieldJc data[31];
-} reflection_Fields_LogMessageFile_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 31, OBJTYPE_FieldJc, null, &reflection_Fields_LogMessageFile_MSG_s)
+} refl_Fields_LogMessageFile_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 31, OBJTYPE_FieldJc, null, &refl_Fields_LogMessageFile_MSG_s)
 , {
      { "sFilenameBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &refl_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sFilenameBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "sDateformatBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBufferJc
+    , &refl_StringBufferJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sDateformatBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "sFormatTimestampFilename"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sFormatTimestampFilename) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "formatTimestamp"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc
+    , &refl_SimpleDateFormatJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->formatTimestamp) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "counterMultifile"
     , 0 //nrofArrayElements
@@ -917,15 +917,15 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->counterMultifile) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "formatField"
     , 0 //nrofArrayElements
-    , &reflection_TextFieldPositionJc
+    , &refl_TextFieldPositionJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->formatField) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "charsFormatTimestampFilename"
     , 0 //nrofArrayElements
@@ -933,7 +933,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc |kObjectArrayJc_Modifier_reflectJc |kReferencedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->charsFormatTimestampFilename) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "posTimestampInFilename"
     , 0 //nrofArrayElements
@@ -941,7 +941,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->posTimestampInFilename) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "posMultifileInFilename"
     , 0 //nrofArrayElements
@@ -949,7 +949,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->posMultifileInFilename) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "currentLengthMultifileNr"
     , 0 //nrofArrayElements
@@ -957,23 +957,23 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->currentLengthMultifileNr) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "file"
     , 0 //nrofArrayElements
-    , &reflection_FileWriterJc
+    , &refl_FileWriterJc
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->file) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "timeOpen"
     , 0 //nrofArrayElements
-    , &reflection_OS_TimeStamp
+    , &refl_OS_TimeStamp
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->timeOpen) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "bNewFile"
     , 0 //nrofArrayElements
@@ -981,23 +981,23 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->bNewFile) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "timeWrite"
     , 0 //nrofArrayElements
-    , &reflection_OS_TimeStamp
+    , &refl_OS_TimeStamp
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->timeWrite) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "timeClose"
     , 0 //nrofArrayElements
-    , &reflection_OS_TimeStamp
+    , &refl_OS_TimeStamp
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->timeClose) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "nrofSecondsToFlush"
     , 0 //nrofArrayElements
@@ -1005,7 +1005,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->nrofSecondsToFlush) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "nrofSecondsToClose"
     , 0 //nrofArrayElements
@@ -1013,7 +1013,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->nrofSecondsToClose) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "cntAllNonFlushedWrite"
     , 0 //nrofArrayElements
@@ -1021,7 +1021,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->cntAllNonFlushedWrite) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "cntNonFlushedWrite"
     , 0 //nrofArrayElements
@@ -1029,7 +1029,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->cntNonFlushedWrite) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "maxCntNonFlushedWrite"
     , 0 //nrofArrayElements
@@ -1037,7 +1037,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->maxCntNonFlushedWrite) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "shouldFlushed"
     , 0 //nrofArrayElements
@@ -1045,15 +1045,15 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->shouldFlushed) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "msgOpenClose"
     , 0 //nrofArrayElements
-    , &reflection_LogMessageFW
+    , &refl_LogMessageFW
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->msgOpenClose) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "msgIdentOpenClose"
     , 0 //nrofArrayElements
@@ -1061,7 +1061,7 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->msgIdentOpenClose) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "nrofHoursPerFile"
     , 0 //nrofArrayElements
@@ -1069,71 +1069,71 @@ const struct Reflection_Fields_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->nrofHoursPerFile) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "dbg"
     , 0 //nrofArrayElements
-    , &reflection_Dbg_LogMessageFile_MSG_s
+    , &refl_Dbg_LogMessageFile_MSG_s
     , kEmbedded_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->dbg) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "parkedOrders"
     , 0 //nrofArrayElements
-    , &reflection_ConcurrentLinkedQueueJc_s
+    , &refl_ConcurrentLinkedQueueJc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->parkedOrders) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "freeEntries"
     , 0 //nrofArrayElements
-    , &reflection_ConcurrentLinkedQueueJc_s
+    , &refl_ConcurrentLinkedQueueJc_s
     , kReference_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->freeEntries) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "dateFormat"
     , 0 //nrofArrayElements
-    , &reflection_SimpleDateFormatJc
+    , &refl_SimpleDateFormatJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->dateFormat) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "localization"
     , 0 //nrofArrayElements
-    , &reflection_LocaleJc
+    , &refl_LocaleJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->localization) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "timeZone"
     , 0 //nrofArrayElements
-    , &reflection_TimeZoneJc
+    , &refl_TimeZoneJc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->timeZone) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
    , { "sBuffer"
     , 0 //nrofArrayElements
-    , &reflection_StringBuilderJc
+    , &refl_StringBuilderJc
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->sBuffer) - (int32)(LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_LogMessageFile_MSG_s
+    , &refl_LogMessageFile_MSG_s
     }
 } };
-const ClassJc reflection_LogMessageFile_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_LogMessageFile_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "LogMessageFile_MSG_s"
 , (int16)((int32)(&((LogMessageFile_MSG_s*)(0x1000))->base.object) - (int32)(LogMessageFile_MSG_s*)0x1000)
 , sizeof(LogMessageFile_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_LogMessageFile_MSG_s
+, (FieldJc_Y const*)&refl_Fields_LogMessageFile_MSG_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_LogMessageFile_MSG_s //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_LogMessageFile_MSG_s //interfaces
@@ -1163,11 +1163,11 @@ struct Dbg_LogMessageFile_MSG_t* ctorM_Dbg_LogMessageFile_MSG(MemC mthis, ThCxt*
 }
 
 
-extern_C struct ClassJc_t const reflection_Dbg_LogMessageFile_MSG_s;
+extern_C struct ClassJc_t const refl_Dbg_LogMessageFile_MSG_s;
 const struct Reflection_Fields_Dbg_LogMessageFile_MSG_s_t
 { ObjectArrayJc head; FieldJc data[5];
-} reflection_Fields_Dbg_LogMessageFile_MSG_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_Dbg_LogMessageFile_MSG_s)
+} refl_Fields_Dbg_LogMessageFile_MSG_s =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &refl_Fields_Dbg_LogMessageFile_MSG_s)
 , {
      { "cntWriteError"
     , 0 //nrofArrayElements
@@ -1175,7 +1175,7 @@ const struct Reflection_Fields_Dbg_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Dbg_LogMessageFile_MSG_s*)(0x1000))->cntWriteError) - (int32)(Dbg_LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Dbg_LogMessageFile_MSG_s
+    , &refl_Dbg_LogMessageFile_MSG_s
     }
    , { "cntCloseError"
     , 0 //nrofArrayElements
@@ -1183,7 +1183,7 @@ const struct Reflection_Fields_Dbg_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Dbg_LogMessageFile_MSG_s*)(0x1000))->cntCloseError) - (int32)(Dbg_LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Dbg_LogMessageFile_MSG_s
+    , &refl_Dbg_LogMessageFile_MSG_s
     }
    , { "cntOpenFailed"
     , 0 //nrofArrayElements
@@ -1191,7 +1191,7 @@ const struct Reflection_Fields_Dbg_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Dbg_LogMessageFile_MSG_s*)(0x1000))->cntOpenFailed) - (int32)(Dbg_LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Dbg_LogMessageFile_MSG_s
+    , &refl_Dbg_LogMessageFile_MSG_s
     }
    , { "cntCreateNewBecauseOpenFailed"
     , 0 //nrofArrayElements
@@ -1199,7 +1199,7 @@ const struct Reflection_Fields_Dbg_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Dbg_LogMessageFile_MSG_s*)(0x1000))->cntCreateNewBecauseOpenFailed) - (int32)(Dbg_LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Dbg_LogMessageFile_MSG_s
+    , &refl_Dbg_LogMessageFile_MSG_s
     }
    , { "cntFilePathIncorrect"
     , 0 //nrofArrayElements
@@ -1207,15 +1207,15 @@ const struct Reflection_Fields_Dbg_LogMessageFile_MSG_s_t
     , 4 << kBitPrimitiv_Modifier_reflectJc //bitModifiers
     , (int16)((int32)(&((Dbg_LogMessageFile_MSG_s*)(0x1000))->cntFilePathIncorrect) - (int32)(Dbg_LogMessageFile_MSG_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Dbg_LogMessageFile_MSG_s
+    , &refl_Dbg_LogMessageFile_MSG_s
     }
 } };
-const ClassJc reflection_Dbg_LogMessageFile_MSG_s = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Dbg_LogMessageFile_MSG_s = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Dbg_LogMessageFile_MSG_s"
 ,  0 //position of ObjectJc
 , sizeof(Dbg_LogMessageFile_MSG_s)
-, (FieldJc_Y const*)&reflection_Fields_Dbg_LogMessageFile_MSG_s
+, (FieldJc_Y const*)&refl_Fields_Dbg_LogMessageFile_MSG_s
 , null //method
 , null //superclass
 , null //interfaces

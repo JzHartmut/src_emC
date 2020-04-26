@@ -6,22 +6,22 @@
 #include "genRefl/evQueue.crefl"
 #elif defined(XXXDEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
-  extern_C ClassJc const reflection_EvListener_StateM_vishiaOrg;
-  extern_C ClassJc const reflection_EvCreator_StateM_vishiaOrg;
-  extern_C ClassJc const reflection_EvInstance_StateM_vishiaOrg;
-  extern_C ClassJc const reflection_EvQueue_StateM_vishiaOrg;
+  extern_C ClassJc const refl_EvListener_StateM_vishiaOrg;
+  extern_C ClassJc const refl_EvCreator_StateM_vishiaOrg;
+  extern_C ClassJc const refl_EvInstance_StateM_vishiaOrg;
+  extern_C ClassJc const refl_EvQueue_StateM_vishiaOrg;
 #else
-  ClassJc const reflection_EvListener_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvListener_StateM_vishiaOrg, "EvListener_StateM_vishiaOrg");
-  ClassJc const reflection_EvCreator_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvCreator_StateM_vishiaOrg, "EvCreator_StateM_vishiaOrg");
-  ClassJc const reflection_EvInstance_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvInstance_StateM_vishiaOrg, "EvInstance_StateM_vishiaOrg");
-  ClassJc const reflection_EvQueue_StateM_vishiaOrg = INIZtypeOnly_ClassJc(reflection_EvQueue_StateM_vishiaOrg, "EvQueue_StateM_vishiaOrg");
+  ClassJc const refl_EvListener_StateM_vishiaOrg = INIZtypeOnly_ClassJc(refl_EvListener_StateM_vishiaOrg, "EvListener_StateM_vishiaOrg");
+  ClassJc const refl_EvCreator_StateM_vishiaOrg = INIZtypeOnly_ClassJc(refl_EvCreator_StateM_vishiaOrg, "EvCreator_StateM_vishiaOrg");
+  ClassJc const refl_EvInstance_StateM_vishiaOrg = INIZtypeOnly_ClassJc(refl_EvInstance_StateM_vishiaOrg, "EvInstance_StateM_vishiaOrg");
+  ClassJc const refl_EvQueue_StateM_vishiaOrg = INIZtypeOnly_ClassJc(refl_EvQueue_StateM_vishiaOrg, "EvQueue_StateM_vishiaOrg");
 
 #endif
 
 EvQueue_StateM_vishiaOrg_s* ctor_EvQueue_StateM_vishiaOrg(ObjectJc* othiz, float Tstep, int sizeQueue, int sizeInstances, ThCxt* _thCxt){
   STACKTRC_TENTRY("ctor_EvQueue_StateM_vishiaOrg");
   EvQueue_StateM_vishiaOrg_s* thiz = null;
-  if( checkInit_ObjectJc(othiz, sizeof(EvQueue_StateM_vishiaOrg_s), &reflection_EvQueue_StateM_vishiaOrg, 0, _thCxt)) {
+  if( checkInit_ObjectJc(othiz, sizeof(EvQueue_StateM_vishiaOrg_s), &refl_EvQueue_StateM_vishiaOrg, 0, _thCxt)) {
     thiz = (EvQueue_StateM_vishiaOrg_s*)othiz;
     thiz->Tstep = Tstep;
     thiz->queue.a = (Entry_EvQueue_StateM_vishiaOrg_s*)alloc_MemC(sizeQueue * sizeof(Entry_EvQueue_StateM_vishiaOrg_s));
@@ -117,7 +117,7 @@ int16 info_EvQueue_StateM_vishiaOrg(EvQueue_StateM_vishiaOrg_s* thiz, int16* ctE
 EvInstance_StateM_vishiaOrg_s* ctor_EvInstance_StateM_vishiaOrg(ObjectJc* othiz, int asListener, ThCxt* _thCxt) {
   STACKTRC_TENTRY("ctor_EvInstance_StateM_vishiaOrg");
   EvInstance_StateM_vishiaOrg_s* thiz = null;
-  if( checkInit_ObjectJc(othiz, sizeof(EvInstance_StateM_vishiaOrg_s), &reflection_EvInstance_StateM_vishiaOrg, 0, _thCxt) ) {
+  if( checkInit_ObjectJc(othiz, sizeof(EvInstance_StateM_vishiaOrg_s), &refl_EvInstance_StateM_vishiaOrg, 0, _thCxt) ) {
     thiz = (EvInstance_StateM_vishiaOrg_s*)othiz;
     thiz->stateTrg = asListener ? 0x40 : 0x80;  //mark as not added yet.
   }

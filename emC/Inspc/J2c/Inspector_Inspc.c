@@ -26,7 +26,7 @@ struct Inspector_Inspc_t* ctorO_Inspector_Inspc(ObjectJc* othis, StringJc commOw
   //PRINTX_OPEN(0, "T:\\Inspc.debug0.txt");
   //PRINTX_OPEN(1, "T:\\Inspc.debug1.txt");
   checkConsistence_ObjectJc(othis, sizeof(Inspector_Inspc_s), null, _thCxt);  
-  setReflection_ObjectJc(othis, &reflection_Inspector_Inspc, sizeof(Inspector_Inspc_s));  
+  setReflection_ObjectJc(othis, &refl_Inspector_Inspc, sizeof(Inspector_Inspc_s));  
   //j2c: Initialize all class variables:
   {
     //J2C: constructor for embedded element-ObjectJc
@@ -154,74 +154,74 @@ const VtblDef_Inspector_Inspc mtblInspector_Inspc = {
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
 
 
- extern_C struct ClassJc_t const reflection_ObjectJc;
+ extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_Inspector_Inspc_s_t
  { ObjectArrayJc head;
    ClassOffset_idxVtblJc data[1];
  }superclasses_Inspector_Inspc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&reflection_ObjectJc, OFFSET_Vtbl(Vtbl_Inspector_Inspc, ObjectJc) }
+ , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_Inspector_Inspc, ObjectJc) }
    }
  };
 
-extern_C struct ClassJc_t const reflection_Inspector_Inspc;
-extern_C struct ClassJc_t const reflection_ClassContent_Inspc_s;
-extern_C struct ClassJc_t const reflection_CmdExecuter_Inspc_s;
-extern_C struct ClassJc_t const reflection_Comm_Inspc_s;
-extern_C struct ClassJc_t const reflection_Inspector_Inspc;
-extern_C struct ClassJc_t const reflection_StringJc;
+extern_C struct ClassJc_t const refl_Inspector_Inspc;
+extern_C struct ClassJc_t const refl_ClassContent_Inspc_s;
+extern_C struct ClassJc_t const refl_CmdExecuter_Inspc_s;
+extern_C struct ClassJc_t const refl_Comm_Inspc_s;
+extern_C struct ClassJc_t const refl_Inspector_Inspc;
+extern_C struct ClassJc_t const refl_StringJc;
 const struct Reflection_Fields_Inspector_Inspc_s_t
 { ObjectArrayJc head; FieldJc data[5];
-} reflection_Fields_Inspector_Inspc_s =
-{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &reflection_Fields_Inspector_Inspc_s)
+} refl_Fields_Inspector_Inspc_s =
+{ CONST_ObjectArrayJc(FieldJc, 5, OBJTYPE_FieldJc, null, &refl_Fields_Inspector_Inspc_s)
 , {
      { "classContent"
     , 0 //nrofArrayElements
-    , &reflection_ClassContent_Inspc_s
+    , &refl_ClassContent_Inspc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Inspector_Inspc_s*)(0x1000))->classContent) - (intptr_t)(Inspector_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Inspector_Inspc
+    , &refl_Inspector_Inspc
     }
    , { "cmdExecuter"
     , 0 //nrofArrayElements
-    , &reflection_CmdExecuter_Inspc_s
+    , &refl_CmdExecuter_Inspc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Inspector_Inspc_s*)(0x1000))->cmdExecuter) - (intptr_t)(Inspector_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Inspector_Inspc
+    , &refl_Inspector_Inspc
     }
    , { "comm"
     , 0 //nrofArrayElements
-    , &reflection_Comm_Inspc_s
+    , &refl_Comm_Inspc_s
     , kEmbedded_Modifier_reflectJc |mObjectJc_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((Inspector_Inspc_s*)(0x1000))->comm) - (intptr_t)(Inspector_Inspc_s*)0x1000)
     , 0  //offsetToObjectifcBase
-    , &reflection_Inspector_Inspc
+    , &refl_Inspector_Inspc
     }
    , { "version"
     , 0 //nrofArrayElements
-    , &reflection_StringJc
+    , &refl_StringJc
     , kEnhancedReference_Modifier_reflectJc /*t*/ |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&version_Inspector_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&version_Inspector_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_Inspector_Inspc
+    , &refl_Inspector_Inspc
     }
    , { "singleton"
     , 0 //nrofArrayElements
-    , &reflection_Inspector_Inspc
+    , &refl_Inspector_Inspc
     , kEnhancedReference_Modifier_reflectJc /*@*/ |mObjectJc_Modifier_reflectJc |mSTATIC_Modifier_reflectJc //bitModifiers
     , 0 //compiler problem, not a constant,TODO: (int16)(&singleton_Inspector_Inspc) //lo part of memory address of static member
     , 0 //compiler problem, not a constant,TODO: (int16)((intptr_t)(&singleton_Inspector_Inspc)>>16) //hi part of memory address of static member instead offsetToObjectifcBase, TRICKY because compatibilty.
-    , &reflection_Inspector_Inspc
+    , &refl_Inspector_Inspc
     }
 } };
-const ClassJc reflection_Inspector_Inspc = 
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &reflection_ObjectJc, &reflection_ClassJc) 
+const ClassJc refl_Inspector_Inspc = 
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Inspector_Inspc_s"
 ,  0 //position of ObjectJc
 , sizeof(Inspector_Inspc_s)
-, (FieldJc_Y const*)&reflection_Fields_Inspector_Inspc_s
+, (FieldJc_Y const*)&refl_Fields_Inspector_Inspc_s
 , null //method
 , (ClassOffset_idxVtblJcARRAY*)&superclasses_Inspector_Inspc_s //superclass
 , null //interfaces

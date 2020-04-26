@@ -72,7 +72,7 @@ LinkedListJc* ctor_LinkedListJc(MemC mem)
 
 }
 
-extern_C ClassJc const reflection_LinkedListJc;
+extern_C ClassJc const refl_LinkedListJc;
 
 
 LinkedListJc* ctorO_LinkedListJc(ObjectJc* othis)
@@ -80,8 +80,8 @@ LinkedListJc* ctorO_LinkedListJc(ObjectJc* othis)
   LinkedListJc* ythis = (LinkedListJc*)othis;  //upcasting to the real class.
   int sizeObj = getSizeInfo_ObjectJc(othis);
   STACKTRC_ENTRY("ctorO_LinkedListJc");
-  setReflection_ObjectJc(othis, &reflection_LinkedListJc, sizeof(LinkedListJc));  
-  checkConsistence_ObjectJc(othis, sizeof(LinkedListJc), &reflection_LinkedListJc, _thCxt);  
+  setReflection_ObjectJc(othis, &refl_LinkedListJc, sizeof(LinkedListJc));  
+  checkConsistence_ObjectJc(othis, sizeof(LinkedListJc), &refl_LinkedListJc, _thCxt);  
   
   ythis->data.header.previous = ythis->data.header.next = &ythis->data.header;  //no valid pointer is pointer to itself.
   ythis->data.size = 0;
@@ -410,14 +410,14 @@ void shareEntryPool_LinkedListJc(LinkedListJc* ythis, LinkedListJc* srcShare, Th
 }
 
 
-extern_C ClassJc const reflection_ListItr_LinkedListJc;
+extern_C ClassJc const refl_ListItr_LinkedListJc;
   
 
 ListItr_LinkedListJc* ctorO_ListItr_LinkedListJc(struct LinkedListJc_t* outer, ObjectJc* othis, ThCxt* _thCxt)
 { ListItr_LinkedListJc* ythis = (ListItr_LinkedListJc*)othis;
   STACKTRC_TENTRY("ctorO_ListItr_LinkedListJc");
   ctorc_ObjectJc(othis);
-  checkConsistence_ObjectJc(othis, sizeof(ListItr_LinkedListJc), &reflection_ListItr_LinkedListJc, _thCxt);
+  checkConsistence_ObjectJc(othis, sizeof(ListItr_LinkedListJc), &refl_ListItr_LinkedListJc, _thCxt);
   ythis->outer = outer;
   ythis->expectedModCount = 0;
   ythis->lastReturned = null;

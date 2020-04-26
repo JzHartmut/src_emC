@@ -78,7 +78,7 @@ char const* definePortType_DataStructMng_Inspc(DefPortTypes_emC* fbInfo, EDefPor
                                   //NOTE: determine the nrof and ix of ports any time. On Run too.
   if (inherit_param) {
     if (cause == kSetFromArg_EPropagatePortTypes_emC) {
-      set_DefPortTypes_emC(fbInfo, zEntries, 'H', "subTypeMng", &reflection_DataStructMng_Inspc, "DataStructMng_Inspc", 0, mInputInit_Entry_DefPortType_emC);  //step( ... DataStructMng_Inspc* subTypeMng
+      set_DefPortTypes_emC(fbInfo, zEntries, 'H', "subTypeMng", &refl_DataStructMng_Inspc, "DataStructMng_Inspc", 0, mInputInit_Entry_DefPortType_emC);  //step( ... DataStructMng_Inspc* subTypeMng
       Entry_DefPortType_emC* port = &fbInfo->entries[zEntries];
       port->newDefined_Tstep_Tinit |= newDefined_Entry_DefPortType_emC;
     }
@@ -89,7 +89,7 @@ char const* definePortType_DataStructMng_Inspc(DefPortTypes_emC* fbInfo, EDefPor
   }
   if (chain_param) {
     if (cause == kSetFromArg_EPropagatePortTypes_emC) {
-      set_DefPortTypes_emC(fbInfo, zEntries, 'H', "prevChain", &reflection_DataStruct_Inspc, "DataStruct_Inspc_t", 0, mInputInit_Entry_DefPortType_emC);  //step( ... DataStruct_Inspc_t* prevChain
+      set_DefPortTypes_emC(fbInfo, zEntries, 'H', "prevChain", &refl_DataStruct_Inspc, "DataStruct_Inspc_t", 0, mInputInit_Entry_DefPortType_emC);  //step( ... DataStruct_Inspc_t* prevChain
       Entry_DefPortType_emC* port = &fbInfo->entries[zEntries];
       port->newDefined_Tstep_Tinit |= newDefined_Entry_DefPortType_emC;
     }
@@ -102,8 +102,8 @@ char const* definePortType_DataStructMng_Inspc(DefPortTypes_emC* fbInfo, EDefPor
   fbInfo->ixOutputStep2 = zEntries;
   fbInfo->ixOutputInit = zEntries;
   //output ports:
-  set_DefPortTypes_emC(fbInfo, zEntries, 'H', "data_y", &reflection_UserHead_DataStructMng_Inspc, "UserHead_DataStructMng_Inspc", 0, mOutputInit_Entry_DefPortType_emC);  //step( ... UserHead_DataStructMng_Inspc* data_y
-  set_DefPortTypes_emC(fbInfo, zEntries+1, 'H', "thiz", &reflection_DataStructMng_Inspc, "DataStructMng_Inspc", 0, mOutputInit_Entry_DefPortType_emC);  //step( ... UserHead_DataStructMng_Inspc* data_y
+  set_DefPortTypes_emC(fbInfo, zEntries, 'H', "data_y", &refl_UserHead_DataStructMng_Inspc, "UserHead_DataStructMng_Inspc", 0, mOutputInit_Entry_DefPortType_emC);  //step( ... UserHead_DataStructMng_Inspc* data_y
+  set_DefPortTypes_emC(fbInfo, zEntries+1, 'H', "thiz", &refl_DataStructMng_Inspc, "DataStructMng_Inspc", 0, mOutputInit_Entry_DefPortType_emC);  //step( ... UserHead_DataStructMng_Inspc* data_y
   return null;
 }
 
@@ -127,7 +127,7 @@ char const* definePortType_DataStruct_Inspc(DefPortTypes_emC* fbInfo, EDefPortTy
   //NOTE: determine the nrof and ix of ports any time. On Run too.
   if (true) { //chain_param) {
     if (cause == kSetFromArg_EPropagatePortTypes_emC) {
-      set_DefPortTypes_emC(fbInfo, zEntries, 'H', "prevChain", &reflection_DataStruct_Inspc, "DataStruct_Inspc_t", 0, mInputInit_Entry_DefPortType_emC);  //step( ... DataStruct_Inspc_t* prevChain
+      set_DefPortTypes_emC(fbInfo, zEntries, 'H', "prevChain", &refl_DataStruct_Inspc, "DataStruct_Inspc_t", 0, mInputInit_Entry_DefPortType_emC);  //step( ... DataStruct_Inspc_t* prevChain
       Entry_DefPortType_emC* port = &fbInfo->entries[zEntries];
       port->newDefined_Tstep_Tinit |= newDefined_Entry_DefPortType_emC;
     }
@@ -139,7 +139,7 @@ char const* definePortType_DataStruct_Inspc(DefPortTypes_emC* fbInfo, EDefPortTy
   fbInfo->ixOutputInit = zEntries;
   ASSERT(fbInfo->ixOutputThizInit == -1);
   //output ports:
-  set_DefPortTypes_emC(fbInfo, zEntries, 'H', "thiz", &reflection_DataStructMng_Inspc, "DataStructMng_Inspc", 0, mOutputInit_Entry_DefPortType_emC);  //step( ... UserHead_DataStructMng_Inspc* data_y
+  set_DefPortTypes_emC(fbInfo, zEntries, 'H', "thiz", &refl_DataStructMng_Inspc, "DataStructMng_Inspc", 0, mOutputInit_Entry_DefPortType_emC);  //step( ... UserHead_DataStructMng_Inspc* data_y
   return null;
 }
 
@@ -180,7 +180,7 @@ void ctor_DataStructMng_Inspc(DataStructMng_Inspc* thiz, DefPortTypes_emC* fBloc
 ) {
   STACKTRC_ENTRY("ctor_DataStructMng_Inspc");
   //ctor of base;
-  CALLINE; iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_DataStructMng_Inspc, 0);
+  CALLINE; iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_DataStructMng_Inspc, 0);
   CALLINE; ctor_DataStructCommon_Inspc(&thiz->base.super, fBlockInfo, inputDefinition, inherit_param, chain_param);
   thiz->ctInit = 5;  //at least 5 steps for sub Manager to work.
   STACKTRC_RETURN;
@@ -247,7 +247,7 @@ void ctor_DataStruct_Inspc(DataStruct_Inspc* thiz, DefPortTypes_emC* fbInfo
 , char const inputDefinition[500]
 ) {
   STACKTRC_ENTRY("ctor_DataStruct_Inspc");
-  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_DataStruct_Inspc, 0);
+  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_DataStruct_Inspc, 0);
   ctor_DataStructCommon_Inspc(thiz, fbInfo, inputDefinition, 0, 1);
   copyToBuffer_StringJc(subName_param, 0, -1, thiz->subName, sizeof(thiz->subName)-1);
   STACKTRC_RETURN;
@@ -547,7 +547,7 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
         superAccess = 0;                         //free access to the super field.
       }
       else {
-        superClass = &reflection_UserHead_DataStructMng_Inspc;
+        superClass = &refl_UserHead_DataStructMng_Inspc;
         superAccess = kDevlpAccess_CheckPwd_Inspc; //access to the internal data of the highest superMng only for developer. 
       }
       CALLINE;  //initialize the superclass: view to own data
@@ -1084,7 +1084,7 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
       zline = !line + "\n\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "void ctor_" + structName + "(" + structName + "_s* thiz) {\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  STACKTRC_ENTRY(\"ctor_" + structName + "\");\n" >>= &cline; os_fwrite(fwr, cline, zline);
-      zline = !line + "    iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &reflection_" + structName + ", 0);\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "    iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_" + structName + ", 0);\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  STACKTRC_RETURN;\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "} //ctor_...\n" >>= &cline; os_fwrite(fwr, cline, zline);
       //

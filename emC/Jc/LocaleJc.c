@@ -39,7 +39,7 @@
 DEFINE_REFLECTION_REF(LocaleJc);
 #include "emC/Jc/genRefl/LocaleJc.crefl"
 #else
-ClassJc const reflection_LocaleJc = INIZ_ClassJc(reflection_LocaleJc, idTypemC_LocaleJc, "LocaleJc");
+ClassJc const refl_LocaleJc = INIZ_ClassJc(refl_LocaleJc, ID_refl_LocaleJc, "LocaleJc");
 #endif
 
 LocaleJc_s ROOT_LocaleJc = INIZ_LocaleJc(ROOT_LocaleJc, "__", "", "");
