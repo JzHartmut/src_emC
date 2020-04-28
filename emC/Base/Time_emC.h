@@ -101,14 +101,14 @@ typedef struct SimTime_emC_t
 } SimTime_emC;
 
 
-extern_C ClassJc const refl_SimTime_emC;
+//extern_C ClassJc const refl_SimTime_emC;
 
 
 /*@CLASS_C MinMaxTime_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
 
-typedef struct MinMaxCalcTime_emC_t
+typedef struct MinMaxCalcTime_emC_T
 {
   uint minCalcTime;
 
@@ -223,7 +223,7 @@ inline void calcTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 
 
 
-typedef struct Clock_MinMaxTime_emC_t {
+typedef struct Clock_MinMaxTime_emC_T {
 
   union { ObjectJc object; } base;
 
@@ -235,8 +235,10 @@ typedef struct Clock_MinMaxTime_emC_t {
   MinMaxTime_emC times[3];
 } Clock_MinMaxTime_emC;
 
-extern_C ClassJc const refl_Clock_MinMaxTime_emC;
-#define reflection_Clock_MinMaxTime_emC refl_Clock_MinMaxTime_emC
+#ifdef DEF_ObjectJc_REFLREF
+  extern_C ClassJc const refl_Clock_MinMaxTime_emC;
+  #define reflection_Clock_MinMaxTime_emC refl_Clock_MinMaxTime_emC
+#endif
 #ifndef ID_refl_Clock_MinMaxTime_emC
   #define ID_refl_Clock_MinMaxTime_emC 0x0f91 
 #endif

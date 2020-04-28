@@ -66,7 +66,7 @@ ClassJc const refl_BlockHeap_emC = INIZtypeOnly_ClassJc(refl_BlockHeap_emC, "rel
 
 #else //not DEF_REFLECTION_FULL
 
-ClassJc const refl_BlockHeap_emC = INIZtypeOnly_ClassJc(refl_BlockHeap_emC, "relection_BlockHeap_emC");
+ClassJc const refl_BlockHeap_emC = INIZ_ClassJc(refl_BlockHeap_emC, "relection_BlockHeap_emC");
 
 #endif //not DEF_REFLECTION_FULL
 

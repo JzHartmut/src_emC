@@ -95,7 +95,7 @@ typedef struct Angle_abwmf_FB_CtrlemC_T
 
 } Angle_abwmf_FB_CtrlemC;
 
-
+#define ID_refl_Angle_abwmf_FB_CtrlemC 0x0fA4
 
 
 /**sets the angle values with given integer angle. 

@@ -75,6 +75,8 @@ typedef struct LogMessageStream_FW_t
 
 }LogMessageStream_FW_s;
 
+#define ID_refl_LogMessageStream_FW 0x0fC6
+
 int out_FileDescriptorJc_val = 1;
 
 int* out_FileDescriptorJc = &out_FileDescriptorJc_val;
@@ -120,7 +122,7 @@ LogMessageFW_s* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt)
 LogMessageStream_FW_s* castO_LogMessageStream_FW(ObjectJc* zthis)
 { LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)zthis;
   //TODO check type via reflection, fast algorithm because used in any interface method.
-  ASSERT(instanceof_ObjectJc(zthis, &refl_LogMessageStream_FW));
+  ASSERT(INSTANCEOF_ObjectJc(zthis, refl_LogMessageStream_FW));
   //ASSERT(ythis->mtbl == &mtbl_MsgDispatcher_MSG);  //an derivated class isnot accepted! 
   return ythis;
 }
@@ -306,7 +308,7 @@ ClassJc const refl_LogMessageStream_FW =
 
 #else
 
-ClassJc const refl_LogMessageStream_FW = INIZtypeOnly_ClassJc(refl_LogMessageStream_FW, "refl_LogMessageStream_FW");
+ClassJc const refl_LogMessageStream_FW = INIZ_ClassJc(refl_LogMessageStream_FW, "refl_LogMessageStream_FW");
 
 
 #endif //DEF_ObjectJc_FULL

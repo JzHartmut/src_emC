@@ -799,11 +799,11 @@ ClassJc const refl_uint64 =
 #elif defined(DEF_REFLECTION_OFFS)
 
 //This is necessary to recognize this type.
-ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, ID_refl_ClassJc, "ClassJc");
+ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, "ClassJc");
 
 #else //DEF_REFLECTION_NO
 
-ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, idTypeStdemC_ClassJc, "relection_ClassJc");
+ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, "ClassJc");
 
 #endif //not DEF_REFLECTION_FULL
 

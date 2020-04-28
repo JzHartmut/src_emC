@@ -7,8 +7,8 @@
   #include <emC/Base/genRefl/Time_emC.crefl>
 #elif defined(DEF_refl_Clock_MinMaxTime_emC)
   extern_C ClassJc const refl_Clock_MinMaxTime_emC;
-#else //lif defined(DEF_REFLECTION_SIMPLE)
-  ClassJc const refl_Clock_MinMaxTime_emC = INIZ_ClassJc(refl_Clock_MinMaxTime_emC, ID_refl_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
+#elif defined(DEF_ObjectJc_REFLREF)
+  ClassJc const refl_Clock_MinMaxTime_emC = INIZ_ClassJc(refl_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
 #endif
 
 
@@ -21,7 +21,7 @@
 void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries) {
   
   //int size = sizeof(*thiz) + sizeof(thiz->times) * (nrofEntries - ARRAYLEN_emC(thiz->times));
-  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_Clock_MinMaxTime_emC, 0);
+  CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), refl_Clock_MinMaxTime_emC, 0);
   thiz->nrofSlices = nrofEntries;
 }
 

@@ -9,7 +9,7 @@
   extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;
 #else
   //Class definition only as type marker:
-  ClassJc const refl_Angle_abwmf_FB_CtrlemC = INIZtypeOnly_ClassJc(refl_Angle_abwmf_FB_CtrlemC, "Angle_abwmf_FB_CtrlemC");
+  ClassJc const refl_Angle_abwmf_FB_CtrlemC = INIZ_ClassJc(refl_Angle_abwmf_FB_CtrlemC, "Angle_abwmf_FB_CtrlemC");
 #endif
 
 //const ClassJc refl_Angle_abwmf_FB = { CONST_ObjectJc(0, (ObjectJc*)&refl_Angle_abwmf_FB.object, null), "Angle_abwmf_FB_CtrlemC", 0};
