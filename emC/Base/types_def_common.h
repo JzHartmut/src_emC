@@ -114,8 +114,10 @@ inline int unused_emC(int arg){ return arg; }
   #define _END_extern_C_BLOCK } 
   #define INLINE_C inline
   //#define C_CAST(TYPE, PTR) reinterpret_cast<TYPE>(const_cast<TYPE>(PTR))
-  #define C_CAST(TYPE, PTR) (TYPE)(PTR)
-//#define METHOD_C
+  #define FORCED_CAST(TYPE, PTR) reinterpret_cast<TYPE>(PTR)
+  #define C_CAST(TYPE, PTR) reinterpret_cast<TYPE>(PTR)
+  #define STATIC_CAST(TYPE, PTR) static_cast<TYPE>(PTR)
+  //#define METHOD_C
 #else
   #define extern_C extern
   /**Use this macro for extern declarations and function prototypes which are implemented in a C-Source
@@ -129,7 +131,9 @@ inline int unused_emC(int arg){ return arg; }
   #ifndef INLINE_C  //may be defined in compl_adaption.h
     #define INLINE_C static  //a compiler may optimize static routines.
   #endif
+  #define FORCED_CAST(TYPE, PTR) (TYPE)(PTR)
   #define C_CAST(TYPE, PTR) (TYPE)(PTR)
+  #define STATIC_CAST(TYPE, PTR) (TYPE)(PTR)
 #endif
 //#endif//__NoReflection__
 
@@ -268,6 +272,17 @@ typedef struct double_complex_t{
 
 
 inline int dbgstop_emC(){ return -1; }
+
+#ifdef DEF_ObjectJc_SIMPLE
+# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_REFLREF) || defined(DEF_ObjectJc_OWNADDRESS)
+#   error DEF_ObjectJc_SIMPLE was defined together with one of the other DEF_ObjectJc...
+# endif
+#else 
+#  define DEF_ObjectJc_REFLREF
+#endif
+
+
+
 
 #include <emC/Base/Assert_emC.h>
 

@@ -17,20 +17,20 @@
 
 
 
-//This block before <OSAL/os_types_def_common.h>
+//This block before <OSAL/types_def_common.h>
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
 /**Include this file always. It defines some types for C compilation compatible to C++. */
-#include <OSAL/os_types_def_common.h>
+#include <OSAL/types_def_common.h>
 
 
 /**Including this file the ObjectJc.h is not included, */
 #include <emC_srcApplSpec/applConv/ObjectJc_simple.h>
 
 
-#include <emC_srcApplSpec/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-//#include <emC_srcApplSpec/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+#include <emC_srcApplSpec/applConv/assert_simpleStop.h>  //Note: after types_def_common because extern_C
+//#include <emC_srcApplSpec/applConv/assert_ignore.h>  //Note: after types_def_common because extern_C
 
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */

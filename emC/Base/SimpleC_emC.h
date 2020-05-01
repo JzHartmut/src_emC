@@ -109,17 +109,6 @@ typedef int(* MT_int_Method_int)(int);
 #define OFFSETinDATA_SimpleC(PTR, ELEMENT)  ( (MemUnit*)( &( (PTR)->ELEMENT) )  - (MemUnit*)(PTR))
 
 
-#define SIMPLE_CAST(Type, value) ((Type)(value))
-
-#if defined(__cplusplus) && defined(__CPLUSGEN)
-  #define STATIC_CAST(type, value) (static_cast<type>(value))
-
-#else //not __CPLUSGEN
-
-  #define STATIC_CAST(Type, value) ((Type)(value))
-#endif
-
-
 
 
 

@@ -281,7 +281,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
 
 
-#include <emC/Base/os_types_def_common.h>
+#include <emC/Base/types_def_common.h>
 
 
 #define DEF_compareAndSet_AtomicInteger

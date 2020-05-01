@@ -937,7 +937,7 @@ typedef struct StringJc_CharSeqJc_t
  * whereby the ObjectJc-instance should implement the CharSeqJc interface. 
  * ,,#define CharSeqJc StringJc is contained in <org/vishia/emC/Base/String_emC.h>
  */
-
+#ifdef DEF_ClassJc_Vtbl
 typedef int32 MT_length_CharSeqJc(CharSeqObjJc const* ithiz, ThCxt* _thCxt);
 typedef char MT_charAt_CharSeqJc(CharSeqObjJc const* ithiz, int32 ix, ThCxt* _thCxt);
 typedef CharSeqJc MT_subSequence_CharSeqJc(CharSeqObjJc const* ithiz, int32 from, int32 to, ThCxt* _thCxt);
@@ -956,6 +956,7 @@ extern char const sign_Vtbl_CharSeqJc[];
 
 extern char const sign_Vtbl_CharSeqJc[];
 
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 
@@ -1070,7 +1071,7 @@ METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 /*@CLASS_C StringBuilderJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-#ifndef DEF_ObjectJc_SIMPLE
+#ifdef DEF_ClassJc_Vtbl
 
 
 typedef struct Vtbl_StringBufferJc_t 
@@ -1085,7 +1086,8 @@ typedef struct VtblDef_StringBufferJc_t { Vtbl_StringBufferJc mtbl; VtblHeadJc e
 
 extern VtblDef_StringBufferJc const mtblStringBufferJc;
 
-#endif  //#ifdef DEF_ObjectJc_SIMPLE
+#endif  //#ifdef DEF_ClassJc_Vtbl
+
 
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.

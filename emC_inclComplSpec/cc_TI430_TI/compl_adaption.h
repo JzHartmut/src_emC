@@ -323,6 +323,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 /**Use the TA0R for MC_2: Mode 2: continues from 0 to 0xffff->0 */
 #define os_getClockCnt() ((int16)TA0R)
 
-#include <emC/OSAL/os_types_def_common.h>
+#include <emC/OSAL/types_def_common.h>
 
 #endif  //__compl_adaption_h__

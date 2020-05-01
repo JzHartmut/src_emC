@@ -367,6 +367,6 @@ INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect,
 /**Use the TA0R for MC_2: Mode 2: continues from 0 to 0xffff->0 */
 #define os_getClockCnt() ((int16)TA0R)
 
-#include <emC/Base/os_types_def_common.h>
+#include <emC/Base/types_def_common.h>
 
 #endif  //__compl_adaption_h__

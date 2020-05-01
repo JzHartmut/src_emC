@@ -15,14 +15,14 @@
 #undef __CPLUSPLUSJcpp
 //#define __cplusplus
 
-//This block before <OSAL/os_types_def_common.h>
+//This block before <OSAL/types_def_common.h>
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
 /**Include this file always, but after compl_adaption.h.
 * It defines some types for C compilation compatible to C++ and some independent language enhancements.
 */
-#include <emC/OSAL/os_types_def_common.h>
+#include <emC/OSAL/types_def_common.h>
 
 /**With this compiler switch the reflection should not be included, because they will not used. */
 //#define DEF_REFLECTION_NO
@@ -38,8 +38,8 @@
 //#include <emC_srcApplSpec/applConv/EnhanceRef_Blockheap.h>
 
 
-#include <emC_srcApplSpec/SimpleNumCNoExc/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
-//#include <emC_srcApplSpec/applConv/assert_ignore.h>  //Note: after os_types_def_common because extern_C
+#include <emC_srcApplSpec/SimpleNumCNoExc/assert_simpleStop.h>  //Note: after types_def_common because extern_C
+//#include <emC_srcApplSpec/applConv/assert_ignore.h>  //Note: after types_def_common because extern_C
 
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */

@@ -3,7 +3,7 @@
 
 #ifndef __os_types_def_common_h__
   //defines extern_C
-  #include <os_types_def_common.h>
+  #include <types_def_common.h>
 #endif  
 
 //This routine should be linked. It should stop the application in a while loop 

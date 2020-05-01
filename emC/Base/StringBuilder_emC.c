@@ -69,9 +69,9 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
     val = strnlen_emC(thiz.addr.str, kMaxNrofChars_StringJc);
   }
   if (val <= kMaxNrofChars_StringJc) return val;
-#ifdef __NoCharSeqJcCapabilities__
+#ifndef DEF_ClassJc_Vtbl
   else {
-    ASSERTJc(val == kIsStringBuilder_CharSeqJc);
+    ASSERT_emC(val == kIsStringBuilder_CharSeqJc, "not a StringBuilder", 0,0);
     return length_StringBuilderJc(thiz.addr.bu);
   }
 #else
@@ -79,9 +79,13 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
     return length_StringBuilderJc(thiz.addr.bu ); //reinterpret-cast it refers a StringBuilder.
   }
   else {
-    CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
-    struct Vtbl_CharSeqJc_t const* mthiz = getVtbl_CharSeqJc(thiz, _thCxt);
-    return mthiz->length(othiz, _thCxt);
+    #ifdef DEF_ClassJc_Vtbl
+      CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
+      struct Vtbl_CharSeqJc_t const* mthiz = getVtbl_CharSeqJc(thiz, _thCxt);
+      return mthiz->length(othiz, _thCxt);
+    #else
+      THROW_s0(IllegalArgumentException, "not supported", 0,0); 
+    #endif
   }
 #endif
 }
@@ -104,9 +108,9 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
       return 0;
     }
   }
-#ifdef __NoCharSeqJcCapabilities__
+#ifndef DEF_ClassJc_Vtbl
   else {
-    ASSERTJc(val == kIsStringBuilder_CharSeqJc);
+    ASSERT_emC(val == kIsStringBuilder_CharSeqJc, "not a StringBuilder",0,0);
     return charAt_StringBuilderJc(thiz.addr.bu, pos, _thCxt);
   }
 #else
@@ -114,9 +118,13 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
     return charAt_StringBuilderJc(thiz.addr.bu, pos, _thCxt);
   }
   else {
-    CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
-    struct Vtbl_CharSeqJc_t const* mthiz = getVtbl_CharSeqJc(thiz, _thCxt);
-    return mthiz->charAt(othiz, pos, _thCxt);
+    #ifdef DEF_ClassJc_Vtbl
+      CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
+      struct Vtbl_CharSeqJc_t const* mthiz = getVtbl_CharSeqJc(thiz, _thCxt);
+      return mthiz->charAt(othiz, pos, _thCxt);
+    #else
+      THROW_s0(IllegalArgumentException, "not supported", 0,0); 
+    #endif
   }
 #endif
 }
@@ -299,7 +307,7 @@ int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer
     return copyToBuffer_StringBuilderJc(sb, start, end, buffer, sizeBuffer);
   }
   else {
-#ifdef __NoCharSeqJcCapabilities__  
+#ifndef DEF_ClassJc_Vtbl  
     return 0;  //not used.
 #else 
     //all other values determines a CharSeqJc-interface-instance:
@@ -354,7 +362,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
   int nDelete;
   int zadd;
   char const* padd = null;
-#ifndef __NoCharSeqJcCapabilities__
+#ifdef DEF_ClassJc_Vtbl
   Vtbl_CharSeqJc const* madd = null;
 #endif
   STACKTRC_TENTRY("replace_zI_StringBuilderJc");
@@ -376,7 +384,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
     zadd = buAdd->_count;
     padd = buAdd->size < 0 ? buAdd->value.buffer : buAdd->value.direct;
   }
-#ifdef __NoCharSeqJcCapabilities__
+#ifndef DEF_ClassJc_Vtbl
   else ASSERTJc(false);
 #else
   else {
@@ -469,7 +477,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
       memcpy(buffer + start1, padd + from1, nInsert);
     }
     else {
-#ifdef __NoCharSeqJcCapabilities__
+#ifndef DEF_ClassJc_Vtbl
       THROW1_s0(RuntimeException, "null add", 0);
 #else
       //a really char seq
@@ -489,7 +497,6 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
 }
 
 
-#ifndef __NoCharSeqJcCapabilities__
 
 
 /** Some methods from StringJc are defined in ObjectJc.h, because there are simple methods
@@ -498,6 +505,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
   */
 
 
+#ifdef DEF_ClassJc_Vtbl
 
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
 { CharSeqJc ret;
@@ -515,7 +523,7 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
   return ret;
 }
 
-
+#endif
 
 
 
@@ -554,6 +562,9 @@ StringJc toString_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
 
 void finalize_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
 }
+
+
+#ifdef DEF_ClassJc_Vtbl
 
 static Vtbl_CharSeqJc mtbl_StringJc_CharSeqJc =
 { { sign_Vtbl_CharSeqJc//J2C: Head of methodtable.
@@ -684,7 +695,7 @@ char const sign_Vtbl_CharSeqJc[] = "sign_Vtbl_CharSeqJc";
 
 
 
-#ifdef DEF_Vtbl_ObjectJc
+#ifdef DEF_ClassJc_Vtbl
 
 //METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc_s* src, ThCxt* _thCxt)
 METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
@@ -719,7 +730,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
   STACKTRC_LEAVE; return ret;
 }
 
-#endif //DEF_Vtbl_ObjectJc
+#endif //DEF_ClassJc_Vtbl
 
 
 
@@ -748,7 +759,7 @@ static CharSeqJc subSequence_StringBuilderJc_F(CharSeqObjJc const* othiz, int32 
 
 static const char sign_Vtbl_StringBufferJc[] = "StringBufferJc"; //to mark method tables of all implementations
 
-#ifdef DEF_Vtbl_ObjectJc
+#ifdef DEF_ClassJc_Vtbl
 const VtblDef_StringBufferJc mtblStringBufferJc = {
 {
   { sign_Vtbl_StringBufferJc //J2C: Head of methodtable of Part_StringPartJc
@@ -778,7 +789,7 @@ const VtblDef_StringBufferJc mtblStringBufferJc = {
 
 
 
-#ifdef DEF_ObjectJc_SIMPLE
+#ifndef DEF_REFLECTION_FULL
 ClassJc const refl_StringBuilderJc = { 0 };
 #else
 #include <emC/Jc/ReflectionJc.h>

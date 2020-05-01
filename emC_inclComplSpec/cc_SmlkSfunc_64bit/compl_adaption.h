@@ -381,6 +381,6 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
-#include <emC/Base/os_types_def_common.h>
+#include <emC/Base/types_def_common.h>
 
 #endif  //__compl_adaption_h__

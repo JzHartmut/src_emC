@@ -414,6 +414,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
-#include <emC/OSAL/os_types_def_common.h>
+#include <emC/OSAL/types_def_common.h>
 
 #endif  //__compl_adaption_h__

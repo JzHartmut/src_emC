@@ -222,6 +222,6 @@ extern OS_PtrValue null_OS_PtrValue;
 
 
 /**Include the common definitions in its pure form. */
-#include <os_types_def_common.h>
+#include <types_def_common.h>
 
 #endif  //__os_types_def_h__

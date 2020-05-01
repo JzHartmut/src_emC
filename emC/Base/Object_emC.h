@@ -916,7 +916,11 @@ extern_C ClassJc const refl_ClassJc;
 #  endif
 #else
 //#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ), NAME}
-#  define INIZ_ClassJc(OBJ, NAME) { IDTYPE }
+#  ifdef DEF_ObjectJc_REFLREF
+#    define INIZ_ClassJc(OBJ, NAME) { 0, NAME }
+#  else
+#    define INIZ_ClassJc(OBJ, NAME) { ID_##OBJ, NAME }
+#  endif
 #  ifdef DEF_REFLECTION_OFFS   //a field for reflOffs is given, but initialize with null
 #    ifdef DEF_ObjectJc_REFLREF
 #      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, NAME, null, REFLSUPER }

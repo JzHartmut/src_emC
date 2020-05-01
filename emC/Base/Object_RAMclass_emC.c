@@ -39,7 +39,7 @@
 #include <emC/Base/Object_emC.h>
 #include <emC/Base/String_emC.h>
 
-#ifndef DEF_ObjectJc_SIMPLE  //Note: this feature is not able to use for ObjectJc simple
+#ifdef DEF_REFLECTION_FULL  //Note: this feature is not able to use for ObjectJc simple
 
 void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super) {
   memset(thiz, 0, sizeof(*thiz));

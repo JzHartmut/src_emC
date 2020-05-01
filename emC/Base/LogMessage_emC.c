@@ -74,7 +74,7 @@ const char sign_Vtbl_LogMessageFW[] = "LogMessage_FW";
 
 
 
-#ifdef DEF_ObjectJc_FULL
+#ifdef DEF_ClassJc_Vtbl
 
 
 /**This routine calls the virtual (dynamic called) C-routine. */

@@ -193,7 +193,7 @@ const ClassJc  refl_bitfieldJc =
 
 
 
-#include "emC/Base/os_types_def_common.h"
+#include "emC/Base/types_def_common.h"
 
 
 extern_C const ClassJc refl_int64_hilo;  //the just defined refl_

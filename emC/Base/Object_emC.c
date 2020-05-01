@@ -502,11 +502,18 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
 
 
 
-#ifndef DEF_NO_StringJcCapabilities
+#if !defined(DEF_NO_StringJcCapabilities) && defined(DEF_ObjectJc_REFLREF)
+//TODO:
 bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
 { if(ythis == null) return false;
-  int idxVtbl = getIxVtbl_s_ClassJc(ythis->reflection, reflectionName);
+  #ifdef DEF_ClassJc_Vtbl
+  int idxVtbl = getIxVtbl_s_ClassJc(ythis->refl, reflectionName);
   return idxVtbl >=0;
+  #else
+    //TODO !!
+    return true;
+  #endif
+
 }
 #endif
 

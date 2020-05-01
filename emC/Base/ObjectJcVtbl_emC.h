@@ -10,7 +10,8 @@
 struct Size_Vtbl_t;
 #define Size_Vtbl_t Size_Vtbl_t
 
-#define DEF_Vtbl_ObjectJc
+#define DEF_ClassJc_Vtbl
+
 
 #define NrofMethodsForSize_VTBL_Jc(NR) (struct Size_Vtbl_t*)((2 +NR) * sizeof(void*)) 
 

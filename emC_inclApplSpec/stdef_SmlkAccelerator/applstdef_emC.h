@@ -15,11 +15,11 @@
 //#define __CPLUSPLUSJcpp
 #undef __CPLUSPLUSJcpp
 
-//This block before <OSAL/os_types_def_common.h>
+//This block before <OSAL/types_def_common.h>
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
-//This block before <OSAL/os_types_def_common.h>
+//This block before <OSAL/types_def_common.h>
 #include <tmwtypes.h>  //from simulink
 #define DEFINED_float_complex     
 #define float_complex creal32_T
@@ -31,12 +31,12 @@
 //#define ASSERT_emC(COND) assertJc(COND)
 
 /**Include this file always. It defines some types for C compilation compatible to C++. */
-#include <OSAL/os_types_def_common.h>
+#include <OSAL/types_def_common.h>
 
 /**With this compiler switch the reflection should not be included, because they will not used. */
 #define DEF_REFLECTION_NO
 
-#include <emC_srcApplSpec/applConv/assert_simpleStop.h>  //Note: after os_types_def_common because extern_C
+#include <emC_srcApplSpec/applConv/assert_simpleStop.h>  //Note: after types_def_common because extern_C
 
 
 /**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */

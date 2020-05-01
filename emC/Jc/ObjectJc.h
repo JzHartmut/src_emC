@@ -739,8 +739,8 @@ METHOD_C StringJc toString_F_FloatJc(float val);
 
 METHOD_C StringJc toHexString_FloatJc(float val);
 
+#ifdef DEF_ClassJc_Vtbl
 
-#ifndef DEF_ObjectJc_SIMPLE
 /*@CLASS_C ComparableJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 typedef struct ComparableJc_t
@@ -842,14 +842,15 @@ extern_C const struct ClassJc_t refl_AppendableJc;
 #define append_cs_AppendableJc(THIZ, SRC, THCXT) ((Vtbl_AppendableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_AppendableJc))->append_cs((ObjectJc*)(THIZ), SRC, THCXT)
 #define append_csI_AppendableJc(THIZ, SRC, FROM, TO, THCXT) ((Vtbl_AppendableJc*)getVtbl_ObjectJc((ObjectJc*)(THIZ), sign_Vtbl_AppendableJc))->append_csI((ObjectJc*)(THIZ), SRC, FROM, TO, THCXT)
 
-#endif //DEF_ObjectJc_SIMPLE
+#endif //#ifdef DEF_ClassJc_Vtbl
+
 /*@DEFINE_C Inlines @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**Inlines: inline definitions which uses definitions above. On end of header.*/
 
 
 
-#ifndef DEF_ObjectJc_SIMPLE
+#ifdef DEF_ClassJc_Vtbl
 
 VtblHeadJc const* checkVtblError_ObjectJc(ObjectJc const* ythis, int error, ThCxt* _thCxt);
 
@@ -868,7 +869,8 @@ INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, c
 }
 
 
-#endif  //DEF_ObjectJc_SIMPLE
+#endif  //#ifdef DEF_ClassJc_Vtbl
+
 
 
 /**It should able to work with Stacktrace. */

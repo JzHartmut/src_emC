@@ -239,7 +239,7 @@ void close_LogMessageStream_FW_F(LogMessageFW_s* ythis, ThCxt* _thCxt)
 /*@REFLECTION LogMessageStream_FW ************************************************************/
 
 
-#ifdef DEF_ObjectJc_FULL
+#ifdef DEF_ClassJc_Vtbl
 
 char const sign_Vtbl_LogMessageStream_FW[] = "sign_Vtbl_LogMessageStream_FW";
 

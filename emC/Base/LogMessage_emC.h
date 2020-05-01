@@ -213,7 +213,7 @@ extern char const sign_Vtbl_LogMessageFW[];
 
 
 
-#ifdef DEF_ObjectJc_FULL
+#ifdef DEF_ClassJc_Vtbl
 
 /**const struct of method addresses. A constant instance of this struct should be a part of the Reflection-MethodTable
  * of implementation by any Log output.
@@ -369,7 +369,7 @@ LogMessageFW_s* create_LogMessageConsole(ThCxt* _thCxt);
 extern int* out_FileDescriptorJc;
 
 
-#ifdef DEF_ObjectJc_FULL
+#ifdef DEF_ClassJc_Vtbl
 
 typedef struct Vtbl_LogMessageStream_FW_t
 { VtblHeadJc head;
