@@ -49,6 +49,8 @@
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
+
+
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
@@ -97,9 +99,6 @@
 //This functions may be platform dependend but for all our platforms identical, also in C-Standard.
 //do nut use platform specific headers. 
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
-
-//The following switch select the operation system in some sources.
-#define __OS_IS_WINDOWS__
 
 //The following switch select the compiler in some sources.
 #define __COMPILER_IS_GCC__
@@ -212,6 +211,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 // Folgendes Define wird nach einer Struktur insbesondere f�r GNU-Compiler verwendet. Es ist f�r MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
+
+#define MAYBE_UNUSED_emC __attribute__((unused))
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 

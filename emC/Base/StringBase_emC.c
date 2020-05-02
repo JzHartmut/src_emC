@@ -44,6 +44,40 @@ int strnlen_emC  (  char const* text, int maxNrofChars)
 }
 
 
+
+StringJc z_StringJc ( char const* src)
+{ StringJc ret;
+  int size = strnlen_emC(src, kMaxNrofChars_StringJc);
+  SET_StringJc(ret, src, size); 
+  return ret;
+}
+
+
+
+StringJc zI_StringJc ( char const* src, int len)
+{ StringJc ret;
+  if(len < 0){ len = strnlen_emC(src, kMaxNrofChars_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
+  else if(len >= mLength_StringJc) { len = mLength_StringJc -1; }  //limit it to max. 
+  SET_StringJc(ret, src, (len & mLength_StringJc)); 
+  return ret;
+}
+
+
+
+StringJc zMax_StringJc  (  char const* src, int max)
+{
+  StringJc ret;
+  if(max > kMaxNrofChars_StringJc){ 
+    max = kMaxNrofChars_StringJc;   //limit it, only for abstruse situation.  
+  }
+  int size = strnlen_emC(src, max);
+  size |= mNonPersists__StringJc;
+  SET_StringJc(ret, src, size);
+  return ret;
+}
+
+
+
 int strncmp_emC  (  char const* const text1, char const* const text2, int maxNrofChars)
 {
   int const* text1a = (int const*) text1;
@@ -106,7 +140,7 @@ int searchChar_emC  (  char const* text, int zText, char cc)
   if (zText < 0) {
     zText = strnlen_emC(text, -zText);
   }
-  register char const* text9 = text + zText;
+  char const* text9 = text + zText;
   //optimization: test only one pointer register, which is incremented too
   while (text1 < text9 && (c1 = *text1) != cc) {
     text1 += 1;
@@ -128,16 +162,16 @@ int searchString_emC  (  char const* text, int zText, char const* ssearch, int z
   if(zsearch < 0){ 
     zsearch = strnlen_emC(ssearch, -zsearch); 
   }
-  register char const* text9 = text + zText - zsearch+1;  //after last position where zsearch may be able to found. 
-  register char const* ssearch9 = ssearch + zsearch;
-  register char const* s2 = ssearch + 1;
-  register char csearch1 = *ssearch;
-  register char const* text1 = text;                      //possible start of ssearch
+  char const* text9 = text + zText - zsearch+1;  //after last position where zsearch may be able to found. 
+  char const* ssearch9 = ssearch + zsearch;
+  //char const* s2 = ssearch + 1;
+  char csearch1 = *ssearch;
+  char const* text1 = text;                      //possible start of ssearch
   while (text1 < text9) {
     if(*text1 == csearch1) {
       //first char found
-      register char const* text2 = text1+1;       //pointer to compare with zsearch
-      register char const* ssearch2 = ssearch +1;
+      char const* text2 = text1+1;       //pointer to compare with zsearch
+      char const* ssearch2 = ssearch +1;
       while (ssearch2 < ssearch9 && *text2 == *ssearch2) {
         text2 +=1; ssearch2 +=1;     //character matches, increment
       }
@@ -178,10 +212,10 @@ int searchString_emC  (  char const* text, int zText, char const* ssearch, int z
 //Note: effective and safe implementation, better then strncpy and strlcpy.
 int strcpy_emC  (  char* dst, char const* src, int sizeOrNegLength)
 { if(sizeOrNegLength ==0) return 0;
-  register char const* src1 = src - 1;  //use pre-increment
-  register char const* src9 = src + (sizeOrNegLength < 0 ? -sizeOrNegLength -1 : sizeOrNegLength -1);  //exclusive max end address to use for char copy
+  char const* src1 = src - 1;  //use pre-increment
+  char const* src9 = src + (sizeOrNegLength < 0 ? -sizeOrNegLength -1 : sizeOrNegLength -1);  //exclusive max end address to use for char copy
   //src9 is the last used position to copy.
-  register char* dst1 = dst-1;  //use pre-increment
+  char* dst1 = dst-1;  //use pre-increment
   //optimization: test only one pointer register, which is incremented too
   do { 
     *(++dst1) = *(++src1); 
@@ -252,8 +286,8 @@ int copyToBuffer_StringJc  (  const StringJc thiz, int start, int end, char* buf
 
 int skipWhitespaces_emC  (  char const* text, int maxNrofChars)
 {
-  register char const* text1 = text;
-  register char const* text9 = text + maxNrofChars;
+  char const* text1 = text;
+  char const* text9 = text + maxNrofChars;
   //optimization: test only one pointer register, which is incremented too
   while (text1 < text9 && *text1 <= 0x20) {
     text1 += 1;
@@ -264,7 +298,7 @@ int skipWhitespaces_emC  (  char const* text, int maxNrofChars)
 
 int trimRightWhitespaces_emC  (  char const* text, int maxNrofChars)
 {
-  register char const* text1 = text + maxNrofChars - 1;
+  char const* text1 = text + maxNrofChars - 1;
   //optimization: test only one pointer register, which is incremented too
   while (text1 >= text && *text1 <= 0x20) {
     text1 -= 1;

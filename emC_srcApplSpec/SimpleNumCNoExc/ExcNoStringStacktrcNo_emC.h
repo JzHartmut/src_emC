@@ -58,7 +58,7 @@
 //#define __fw_ThreadContext_h__   //prevent including
 
 //#define __NOT_SUPPORTED_ThreadContext_emC__
-#define __NOT_SUPPORTED_ExceptionJc__
+#define DEF_ExceptionJc_NO
 
 #include <emC/Base/ExcThCxtBase_emC.h>  //the constants for exception should be known.
 
@@ -93,7 +93,7 @@ typedef struct ThreadContext_emC_t {
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
 * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
 */
-#define STACKTRC_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = null;
+#define STACKTRC_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
 
 /**For that the _thCxt variable is given in arguments of the operation */
 #define STACKTRC_TENTRY(NAME)

@@ -37,6 +37,7 @@
  *
  ****************************************************************************/
 #include <emC/Base/Object_emC.h>
+#include <emC/Base/String_emC.h>
 
 #ifndef USE_BlockHeap_emC
 //It is the alternative concept without Blockheap, with allocation usual only on startup of the application.

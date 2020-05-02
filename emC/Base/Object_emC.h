@@ -55,16 +55,6 @@ struct ClassJc_t;
 struct Size_Vtbl_t;
 
 
-//definition of StringJc to use this type before including emC/StringJc
-typedef struct StringJc_T { 
-  union CharSeqTypes_T { 
-    char const* str; 
-    struct StringBuilderJc_t* bu; 
-    struct ObjectJc_T const* obj; 
-  } addr; 
-  VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
-} StringJc;
-//old: typedef STRUCT_AddrVal_emC(StringJc, char const);
 
 
 

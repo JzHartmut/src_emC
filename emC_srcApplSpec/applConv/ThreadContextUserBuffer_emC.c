@@ -106,7 +106,7 @@ METHOD_C MemC setUserBuffer_ThreadContext_emC  (  MemC newBuffer, ThreadContext_
 
 
 MemC getUserBuffer_ThreadContext_emC  (  int size, char const* sign, ThreadContext_emC_s* _thCxt)
-{ ASSERT_s0_Jc(size >= -1, "faulty size argument", size);
+{ ASSERT_emC(size >= -1, "faulty size argument", size,0);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   if( ISNULL_MemC(_thCxt->bufferAlloc) ) {
     MemC alloc; ALLOC_MemC(alloc, 2000);

@@ -277,11 +277,21 @@ inline int dbgstop_emC(){ return -1; }
 # if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_REFLREF) || defined(DEF_ObjectJc_OWNADDRESS)
 #   error DEF_ObjectJc_SIMPLE was defined together with one of the other DEF_ObjectJc...
 # endif
-#else 
+#elif !defined(DEF_ObjectJc_REFLREF) 
 #  define DEF_ObjectJc_REFLREF
 #endif
 
 
+//definition of StringJc to use this type before including emC/StringJc
+typedef struct StringJc_T { 
+  union CharSeqTypes_T { 
+    char const* str; 
+    struct StringBuilderJc_t* bu; 
+    struct ObjectJc_T const* obj; 
+  } addr; 
+  VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
+} StringJc;
+//old: typedef STRUCT_AddrVal_emC(StringJc, char const);
 
 
 #include <emC/Base/Assert_emC.h>

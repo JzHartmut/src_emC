@@ -385,7 +385,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
     padd = buAdd->size < 0 ? buAdd->value.buffer : buAdd->value.direct;
   }
 #ifndef DEF_ClassJc_Vtbl
-  else ASSERTJc(false);
+  else ASSERT_emC(false, "", 0,0);
 #else
   else {
     CharSeqObjJc const* oadd = C_CAST(CharSeqObjJc const*, add.addr.obj);

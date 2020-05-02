@@ -41,7 +41,7 @@
 
 
 
-#ifndef __NOT_SUPPORTED_ExceptionJc__
+#ifndef DEF_ExceptionJc_NO
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/Base/String_emC.h> 

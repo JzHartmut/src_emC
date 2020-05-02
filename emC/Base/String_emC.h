@@ -141,7 +141,7 @@ extern_C int strcpy_emC ( char* dst, char const* src, int sizeOrNegLength);
  *   The return value is anytime a value between 0 and <=sizeDst, never <0 and never > sizeDst.
  *   The return value is the strlen(dst) if it is < sizeDst.
  */
-inline int strncpy_emC  (  char* dst, char const* src, int length){ return strcpy_emC(dst, src, -length); }
+inline int strncpy_emC ( char* dst, char const* src, int length){ return strcpy_emC(dst, src, -length); }
 
 
 /**Searches a character inside a given string with terminated length.
@@ -172,7 +172,7 @@ extern_CCpp int searchCharBack_emC ( char const* const text, char cc, int fromIx
 * NOTE: The standard-C doesn't contain such simple methods. strchr fails if the text isn't terminated with 0.
 * But it is defined in divers Linux distributions. use #define strnchr strnchr_emC in the compl_adaption.h to offer it if not existent.
 */
-inline char const* strnchr_emC  (  char const* text, int cc, int maxNrofChars) {
+inline char const* strnchr_emC ( char const* text, int cc, int maxNrofChars) {
   int pos = searchChar_emC(text, maxNrofChars, (char)cc);
   return pos == -1 ? null : text + pos;
 }
@@ -436,9 +436,9 @@ typedef struct { ObjectJc obj; } CharSeqObjJc;
  *            In C++, methods are syntaxtically able to use, but it produces more machine code
  *            and the definition cannot store in a const segment. In C it is an error.
  */
-#define INIZ_StringJc(TEXT, LEN) { TEXT, LEN }
+#define INIZ_StringJc(TEXT, LEN) { {TEXT}, LEN }
 #define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
-#define NULL_StringJc { null, 0}
+#define NULL_StringJc { {null}, 0}
 
 
 
@@ -490,12 +490,7 @@ extern StringJc const empty_StringJc;
  *           In Java it is able to write at example ,,"checkChars".indexOf(ch),, to convert a char into a index-number.
  *           The same it is able to write using ,,indexOf_C_StringJc(z_StringJc("checkChars"), ch),, in C javalike.
  */
-inline StringJc z_StringJc  (  char const* src)
-{ StringJc ret;
-  int size = strnlen_emC(src, kMaxNrofChars_StringJc);
-  SET_StringJc(ret, src, size); 
-  return ret;
-}
+extern_C StringJc z_StringJc ( char const* src);
 
 #define s0_StringJc z_StringJc
 
@@ -505,17 +500,7 @@ inline StringJc z_StringJc  (  char const* src)
  * This operation is proper if a char[] is hold in an array, and the string content should not be 0-terminated
  * if the buffer is used till max.
  */
-inline StringJc zMax_StringJc  (  char const* src, int max)
-{
-  StringJc ret;
-  if(max > kMaxNrofChars_StringJc){ 
-    max = kMaxNrofChars_StringJc;   //limit it, only for abstruse situation.  
-  }
-  int size = strnlen_emC(src, max);
-  size |= mNonPersists__StringJc;
-  SET_StringJc(ret, src, size);
-  return ret;
-}
+extern_C StringJc zMax_StringJc ( char const* src, int max);
 
 
 
@@ -536,13 +521,7 @@ inline StringJc zMax_StringJc  (  char const* src, int max)
  * * If it is <= -2, the length of src is count and the length is shortenend by (-length+1). -2: The last char is truncated etc.  
  * @return StringJc-instance per value, it is hold in 2 register by most of C-compilers and therefore effective.
  */
-inline StringJc zI_StringJc  (  char const* src, int len)
-{ StringJc ret;
-  if(len < 0){ len = strnlen_emC(src, kMaxNrofChars_StringJc) - (-len) +1; } //nr of chars from end, -1 is till end. -2: without last char.
-  else if(len >= mLength_StringJc) { len = mLength_StringJc -1; }  //limit it to max. 
-  SET_StringJc(ret, src, (len & mLength_StringJc)); 
-  return ret;
-}
+extern_C StringJc zI_StringJc ( char const* src, int len);
 
 #define s0i_StringJc zI_StringJc
 
@@ -1211,7 +1190,7 @@ METHOD_C StringBuilderJc_s* append_u_StringBuilderJc (StringBuilderJc_s* ythis, 
  * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc_s immediately
  * which runs fast.
  */
-inline CharSeqJc toCharSeqJc_StringBuilderJc  (struct StringBuilderJc_t const* thiz)
+inline CharSeqJc toCharSeqJc_StringBuilderJc (struct StringBuilderJc_t const* thiz)
 { CharSeqJc ret;
   SET_StringJc(ret, (char const*)thiz, kIsStringBuilder_CharSeqJc); 
   //ret.addr.bu = thiz;

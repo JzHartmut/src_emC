@@ -3,6 +3,7 @@
 #include <applstdef_emC.h>
 #include <emC/Base/MemC_emC.h>
 #include <emC/Base/Object_emC.h>
+#include <emC/Base/String_emC.h>
 
 float microsecondsPerClock_Time_emC = 0;
 

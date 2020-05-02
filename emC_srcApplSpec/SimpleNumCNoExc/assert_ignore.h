@@ -12,12 +12,6 @@
 
 
 
-#define ASSERTJc_MIN(VAR, MIN) { if(VAR <(MIN)) VAR = MIN; }
-
-#define ASSERTJc_MAX(VAR, MAX) { if(VAR >(MAX)) VAR = MAX; }
-
-#define ASSERTJc_EXCLMAX(VAR, MAX) { if(VAR >=(MAX)) VAR = (MAX)-1; }
-
 
 #define ASSERTJc_RET(COND, RETVAL) { if(!(COND)){ return RETVAL; } }
 

@@ -3,6 +3,8 @@
 #include <applstdef_emC.h>
 #include <emC/OSAL/os_AtomicAccess.h> //implementations for lockfree mutex
 #include <emC/Base/Object_emC.h>
+#include <emC/Base/String_emC.h>
+
 
 struct EvQueue_StateM_vishiaOrg_T;
 struct EvInstance_StateM_vishiaOrg_T;

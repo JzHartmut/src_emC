@@ -39,7 +39,7 @@
 #define __emC__ExcThCxtBase_emC_h__
 
 #ifndef DEF_NO_StringJcCapabilities  //It is possible to renounce usage of StringJc in simple targets.
-  #include <emC/Base/String_emC.h>  //StringJc
+//  #include <emC/Base/String_emC.h>  //StringJc
 #endif
 struct ThreadContext_emC_t;
 
@@ -350,7 +350,7 @@ typedef struct Store_LogException_emC_t
 
 
 /**Initializer for the ExceptionLogStore_emC*/
-#define INIZ_Store_LogException_emC(ENTRIES) { "Store_LogException_emC", ENTRIES + 2, (uint)(-1), {0} }
+#define INIZ_Store_LogException_emC(ENTRIES) { "Store_LogException_emC", ENTRIES + SIZEENTRIES_default_ExceptionLogStore, (uint)(-1) }
 
 
 

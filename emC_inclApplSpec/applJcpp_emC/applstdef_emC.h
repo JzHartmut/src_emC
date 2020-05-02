@@ -19,13 +19,6 @@
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
 #include <compl_adaption.h>
 
-/**Include this file always, but after compl_adaption.h.
- * It defines some types for C compilation compatible to C++ and some independent language enhancements.
- */
-#include <emC/Base/types_def_common.h>
-
-
-
 
 
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
@@ -59,9 +52,12 @@
   */
 #define __TRYCPPJc
 
-#include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
-#include <emC_srcApplSpec/applConv/Exception_emC.h>
-
+#ifdef DEF_ThreadContext_SIMPLE
+  #include <emC_srcApplSpec/SimpleNumCNoExc/ExcStacktrcNo_emC.h>
+#else
+  #include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
+  #include <emC_srcApplSpec/applConv/Exception_emC.h>
+#endif
 
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 

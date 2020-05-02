@@ -36,7 +36,10 @@
  ****************************************************************************/
 #include <emC/Base/MemC_emC.h>
 #include <emC/OSAL/os_mem.h>
+#include <emC/Base/String_emC.h>
+
 #include <string.h>
+
 #ifdef USE_BlockHeap_emC
   #include <emC/BlockHeap/BlockHeap_emC.h>  //for free(ptr)
 #endif
@@ -145,7 +148,7 @@ void init0p_MemC(void* ptr, int size)
 
 void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes) { 
   STACKTRC_ENTRY("errorAddress_MemC");
-  char const* error = "???";
+  MAYBE_UNUSED_emC char const* error = "???";  //unused if no String capability
   int offset = (MemUnit*)addr - ADDR_MemC(*memC, MemUnit);
   if(offset + nrofBytes > memC->val) { error = "nrofBytes behind end"; }
   else if(offset >= memC->val)       { error = "address behind mem";   }

@@ -35,6 +35,7 @@
 //Dependencies: needs emC/StringBase_emC.c to link.
 
 #include <applstdef_emC.h>
+#include <emC/Base/String_emC.h>
 
 #ifndef SIZEENTRIES_ExceptionLogStore
 #define SIZEENTRIES_ExceptionLogStore 100
@@ -49,7 +50,7 @@
 struct ExceptionLogStore_t {
   Store_LogException_emC head;
   Entry_LogException_emC __additional_exceptionEntries__[SIZEENTRIES_ExceptionLogStore - SIZEENTRIES_default_ExceptionLogStore];
-} exceptionStore = { INIZ_Store_LogException_emC(SIZEENTRIES_ExceptionLogStore - SIZEENTRIES_default_ExceptionLogStore), {0} };
+} exceptionStore = { INIZ_Store_LogException_emC(SIZEENTRIES_ExceptionLogStore - SIZEENTRIES_default_ExceptionLogStore)};
 
 
 

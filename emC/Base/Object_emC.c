@@ -103,7 +103,7 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
           return false;
         }
       }
-    } else if(ident !=null) {
+    } else if(ident !=0) {
       if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
         thiz->identSize |= (ident << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
       } else {

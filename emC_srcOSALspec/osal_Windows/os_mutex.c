@@ -45,6 +45,7 @@
 #include <emC/OSAL/os_sync.h>
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_mem.h>
+#include <emC/Base/String_emC.h>
 
 #undef INT32
 #undef UINT32

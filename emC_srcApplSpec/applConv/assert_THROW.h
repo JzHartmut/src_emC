@@ -9,11 +9,6 @@
 #define ASSERTJc(COND) CALLINE; if(!(COND)) { THROW1_s0(RuntimeException, "assertion", 0); } 
 
 
-#define ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW_s0(RuntimeException, "assertion", 0,0); VAR = MIN; } }
-
-#define ASSERTJc_MAX(VAR, MAX) { if(!(VAR <(MAX))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = MAX; } }
-
-#define ASSERTJc_EXCLMAX(VAR, MAX) { if(!(VAR <(MAX))) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = (MAX)-1; } }
 
 #define ASSERTJc_RANGE(VAR, MIN, MAX) { if(!(VAR >=(MIN) && VAR<=(MAX))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = VAR > (MAX) ? (MAX) : (MIN); } }
 

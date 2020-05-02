@@ -4,6 +4,13 @@
 #ifdef ASSERT_IGNORE_emC
  /**The assertion is fully ignored. An if-Block is always true.*/
  #define ASSERT_emC(COND, TEXT, VAL1, VAL2) true
+#define ASSERTJc_MIN(VAR, MIN) { if(VAR <(MIN)) VAR = MIN; }
+
+#define ASSERTJc_MAX(VAR, MAX) { if(VAR >(MAX)) VAR = MAX; }
+
+#define ASSERTJc_EXCLMAX(VAR, MAX) { if(VAR >=(MAX)) VAR = (MAX)-1; }
+
+
 #else
   /**The assertion will be checked. If it is false, the called routine invokes THROW.
    * Depending on THROW implementation either it is thrown (C++ Exception handling)
@@ -23,6 +30,14 @@
   //  if(!cond) { assert_s_emC(cond, text, val1, val2); }
   //  return cond;
   //}
+
+
+  #define ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW_s0(RuntimeException, "assertion", 0,0); VAR = MIN; } }
+
+  #define ASSERTJc_MAX(VAR, MAX) { if(!(VAR <(MAX))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = MAX; } }
+
+  #define ASSERTJc_EXCLMAX(VAR, MAX) { if(!(VAR <(MAX))) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = (MAX)-1; } }
+
 
 #endif
 
