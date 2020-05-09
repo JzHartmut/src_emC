@@ -116,7 +116,7 @@ const ClassJc refl_Par_PID_Ctrl =
 , sizeof(Par_PID_Ctrl_s)
 , (FieldJcArray const*)&refl_Fields_Par_PID_Ctrl_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_Par_PID_Ctrl_s  //superclass  
+, &superClasses_Par_PID_Ctrl_s.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl  
@@ -396,7 +396,7 @@ const ClassJc refl_PID_Ctrl =
 , sizeof(PID_Ctrl_s)
 , (FieldJcArray const*)&refl_Fields_PID_Ctrl_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_PID_Ctrl_s  //superclass  
+, &superClasses_PID_Ctrl_s.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl  

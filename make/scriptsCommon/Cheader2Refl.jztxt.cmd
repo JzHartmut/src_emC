@@ -190,7 +190,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
       if(struct.superclass.description) {                                  
         accessLevel = struct.superclass.description.accLevel;
       }
-      String reflSuperName = <:>refl_<&struct.superclass.type.name><.>;
+      String reflSuperName = <:>refl_<&struct.superclass.type.baseName("_s", "_T")><.>;
       <:>  
 ======
 ======extern_C const ClassJc <&reflSuperName>;  //the super class here used.
@@ -271,7 +271,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
 ====, sizeof(<&sizeName>)
 ====, <&sFieldsInStruct>  //attributes and associations
 ====, null  //method      
-====, <:if:reflSuperName>(ClassOffset_idxVtblJcARRAY*)&superClasses_<&struct.name><:else>null<.if>  //superclass  
+====, <:if:reflSuperName>&superClasses_<&struct.name>.head.object<:else>null<.if>  //superclass  
 ====, null  //interfaces  ##TODO check first union
 ====, <:if:struct.isBasedOnObjectJc>mObjectJc_Modifier_reflectJc<:else>0<.if>   ## if union{ ObjectJc obj, ...} or 1. element ObjectJc
 ====#ifdef DEF_ClassJc_Vtbl  

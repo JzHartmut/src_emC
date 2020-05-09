@@ -343,7 +343,7 @@ const ClassJc refl_EvQueue_StateM_vishiaOrg =
 , sizeof(EvQueue_StateM_vishiaOrg_s)
 , (FieldJcArray const*)&refl_Fields_EvQueue_StateM_vishiaOrg_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_EvQueue_StateM_vishiaOrg_s  //superclass  
+, &superClasses_EvQueue_StateM_vishiaOrg_s.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl
@@ -452,7 +452,7 @@ const ClassJc refl_EvInstance_StateM_vishiaOrg =
 , sizeof(EvInstance_StateM_vishiaOrg_s)
 , (FieldJcArray const*)&refl_Fields_EvInstance_StateM_vishiaOrg_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_EvInstance_StateM_vishiaOrg_s  //superclass  
+, &superClasses_EvInstance_StateM_vishiaOrg_s.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl

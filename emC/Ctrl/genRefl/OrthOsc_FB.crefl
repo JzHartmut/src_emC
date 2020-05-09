@@ -127,7 +127,7 @@ const ClassJc refl_Param_OrthOsc2_FB =
 , sizeof(Param_OrthOsc2_FB)
 , (FieldJcArray const*)&refl_Fields_Param_OrthOsc2_FB  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_Param_OrthOsc2_FB  //superclass  
+, &superClasses_Param_OrthOsc2_FB.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl  
@@ -288,7 +288,7 @@ const ClassJc refl_OrthOsc2_FB_CtrlemC =
 , sizeof(OrthOsc2_FB_CtrlemC)
 , (FieldJcArray const*)&refl_Fields_OrthOsc2_FB_CtrlemC  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_OrthOsc2_FB_CtrlemC  //superclass  
+, &superClasses_OrthOsc2_FB_CtrlemC.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl  
@@ -387,7 +387,7 @@ const ClassJc refl_Adjustk_OrthOsc2_FB =
 , sizeof(Adjustk_OrthOsc2_FB)
 , (FieldJcArray const*)&refl_Fields_Adjustk_OrthOsc2_FB  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_Adjustk_OrthOsc2_FB  //superclass  
+, &superClasses_Adjustk_OrthOsc2_FB.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl  

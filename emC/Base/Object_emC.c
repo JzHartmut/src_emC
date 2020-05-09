@@ -437,7 +437,7 @@ static bool checkRefl(ClassJc const* refl, char const* reflectionName)
 #ifndef DEF_NO_StringJcCapabilities
 
 
-int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName)
+int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName, int recursive)
 { int idxVtbl = -1;
   STACKTRC_ENTRY("getIdxVtbl_ClassJc");
 #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
@@ -481,21 +481,35 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
     }
   #endif
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
-    ClassOffset_idxVtblJcARRAY const* reflectionSuper;
-    if(idxVtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
-    { int idxSuper = 0;
-      for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
-      { ClassOffset_idxVtblJc const* reflectionChild;
-        reflectionChild = &reflectionSuper->data[idxSuper];
-        ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+    if(idxVtbl < 0 && (reflectionObj->superClass_es) != null) {
+      int identSuperClass = ((reflectionObj->superClass_es->identSize & mIdentSmall_objectIdentSize_ObjectJc)>>kBitIdentSmall_objectIdentSize_ObjectJc);
+      if( identSuperClass == ID_refl_ClassJc) {
+        ClassJc const* superType = (ClassJc const*)reflectionObj->superClass_es;
         if(strncmp(superType->name, reflectionName, zReflectionName)==0)
-        { idxVtbl = reflectionChild->idxVtbl;
+        { idxVtbl = 0;  //not supported, only 0 to show found.
         }
         else
         { //Recursive call because deeper inheritance:
-          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
-          idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName);
+          idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName, recursive -1);
         }
+      } else if(identSuperClass == ID_refl_ClassOffset_idxVtblJc) {
+        ClassOffset_idxVtblJcARRAY const* reflectionSuper = (ClassOffset_idxVtblJcARRAY const*)reflectionObj->superClass_es;
+        int idxSuper = 0;
+        for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+        { ClassOffset_idxVtblJc const* reflectionChild;
+          reflectionChild = &reflectionSuper->data[idxSuper];
+          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+          if(strncmp(superType->name, reflectionName, zReflectionName)==0)
+          { idxVtbl = reflectionChild->idxVtbl;
+          }
+          else
+          { //Recursive call because deeper inheritance:
+            ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+            idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName, recursive -1);
+          }
+        }
+      } else {
+        THROW_s0(IllegalStateException, "faulty identSuperClass", identSuperClass, (int)(intPTR)(reflectionObj));
       }
     }
   #endif
@@ -518,7 +532,7 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
 bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
 { if(ythis == null) return false;
   #ifdef DEF_ClassJc_Vtbl
-  int idxVtbl = getIxVtbl_s_ClassJc(ythis->reflection, reflectionName);
+  int idxVtbl = getIxVtbl_s_ClassJc(ythis->reflection, reflectionName, 20);
   return idxVtbl >=0;
   #else
     //TODO !!
@@ -679,21 +693,35 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
     }
   #endif
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
-    ClassOffset_idxVtblJcARRAY const* reflectionSuper;
-    if(idxVtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
-    { int idxSuper = 0;
-      for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
-      { ClassOffset_idxVtblJc const* reflectionChild;
-        reflectionChild = &reflectionSuper->data[idxSuper];
-        ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+    if(idxVtbl < 0 && (reflectionObj->superClass_es) != null) { 
+      int identSuperClass = ((reflectionObj->superClass_es->identSize & mIdentSmall_objectIdentSize_ObjectJc)>>kBitIdentSmall_objectIdentSize_ObjectJc);
+      if( identSuperClass == ID_refl_ClassJc) {
+        ClassJc const* superType = C_CAST(ClassJc const*,reflectionObj->superClass_es);
         if(superType == reflectionRef)
-        { idxVtbl = reflectionChild->idxVtbl;
+        { idxVtbl = 0;  //not supported, show only found type
         }
         else
         { //Recursive call because deeper inheritance:
-          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
           idxVtbl = getIdxVtbl_ClassJc(superType, reflectionRef);
         }
+      } else if(identSuperClass == ID_refl_ClassOffset_idxVtblJc) {
+        ClassOffset_idxVtblJcARRAY const* reflectionSuper = C_CAST(ClassOffset_idxVtblJcARRAY const*, reflectionObj->superClass_es);
+        int idxSuper = 0;
+        for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+        { ClassOffset_idxVtblJc const* reflectionChild;
+          reflectionChild = &reflectionSuper->data[idxSuper];
+          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+          if(superType == reflectionRef)
+          { idxVtbl = reflectionChild->idxVtbl;
+          }
+          else
+          { //Recursive call because deeper inheritance:
+            ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+            idxVtbl = getIdxVtbl_ClassJc(superType, reflectionRef);
+          }
+        }
+      } else {
+        THROW_s0(IllegalStateException, "faulty identSuperClass", identSuperClass, (int)(intPTR)(reflectionObj));
       }
     }
   #endif

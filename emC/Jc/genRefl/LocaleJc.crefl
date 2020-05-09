@@ -63,7 +63,7 @@ const ClassJc refl_LocaleJc =
 , sizeof(LocaleJc_s)
 , (FieldJcArray const*)&refl_Fields_LocaleJc_s  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_LocaleJc_s  //superclass  
+, &superClasses_LocaleJc_s.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl

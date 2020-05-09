@@ -542,9 +542,12 @@ extern_C bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct Cla
 */
 #ifdef DEF_ObjectJc_REFLREF
 #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrict_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, _thCxt)
+#define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, _thCxt)
 #else 
 #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrictReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, _thCxt)
+#define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInitReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, _thCxt)
 extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, int idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
+extern_C bool checkInitReflid_ObjectJc ( ObjectJc const* thiz, uint size, int idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
 #endif
 
 

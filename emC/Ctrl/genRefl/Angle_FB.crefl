@@ -111,7 +111,7 @@ const ClassJc refl_Angle_abwmf_FB_CtrlemC =
 , sizeof(Angle_abwmf_FB_CtrlemC)
 , (FieldJcArray const*)&refl_Fields_Angle_abwmf_FB_CtrlemC  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_Angle_abwmf_FB_CtrlemC  //superclass  
+, &superClasses_Angle_abwmf_FB_CtrlemC.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl  

@@ -36,7 +36,7 @@ const ClassJc refl_LogMessageFW =
 , sizeof(LogMessageFW_s)
 , null  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_LogMessageFW_s  //superclass  
+, &superClasses_LogMessageFW_s.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl

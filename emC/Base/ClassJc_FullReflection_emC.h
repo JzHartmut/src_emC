@@ -169,7 +169,7 @@ struct VtblHeadJc_T;
 *
 * This definition is contained in the header <Jc/ObjectJc.h> because some inline methods of ObjectJc need the method table reference.
 */
-C_TYPE typedef struct  ClassJc_t
+typedef struct  ClassJc_t
 { ObjectJc object;
 
   /** The typename. If it is a Class represents a primitive type, the name is such as "int", "float", "boolean".*/
@@ -186,7 +186,8 @@ C_TYPE typedef struct  ClassJc_t
   struct MethodJcARRAY_t const* methods;
 
   /** The superclass, ObjectJc if no other superclass.*/
-  struct ClassOffset_idxVtblJcARRAY_t const* superClasses;
+  //union { struct ClassJc_t const* superClass; struct ClassOffset_idxVtblJcARRAY_t const* superClasses; } super;
+  ObjectJc const* superClass_es;
   //struct ClassJc_t const* superClass;
 
   /** Array of interfaces to this class.*/
@@ -219,11 +220,11 @@ C_TYPE typedef struct  ClassJc_t
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
 
-#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME }
-#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME }
-#define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME }
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME  }
-#define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME  }/*TODO*/
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
+#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
+#define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME, 0, 0, null, null, &(REFLSUPER)->object }
+#define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME, 0, 0, null, null, &(REFLSUPER)->object  }
 
 
 /**Returns the name of the class as StringJc. 

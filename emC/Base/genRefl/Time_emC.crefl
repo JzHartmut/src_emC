@@ -292,7 +292,7 @@ const ClassJc refl_Clock_MinMaxTime_emC =
 , sizeof(Clock_MinMaxTime_emC)
 , (FieldJcArray const*)&refl_Fields_Clock_MinMaxTime_emC  //attributes and associations
 , null  //method      
-, (ClassOffset_idxVtblJcARRAY*)&superClasses_Clock_MinMaxTime_emC  //superclass  
+, &superClasses_Clock_MinMaxTime_emC.head.object  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
 #ifdef DEF_ClassJc_Vtbl
