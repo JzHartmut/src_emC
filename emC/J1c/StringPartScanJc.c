@@ -1149,7 +1149,7 @@ const struct Reflection_Fields_StringPartScanJc_s_t
 
 
 const ClassJc refl_StringPartScanJc_s = 
-{ INIZ_ObjectJc(refl_StringPartScanJc_s, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_ObjectJc(refl_StringPartScanJc_s, refl_ClassJc, ID_refl_ClassJc)
 , "StringPartScanJc_s"
 ,  0 //position of ObjectJc
 , sizeof(StringPartScanJc_s)

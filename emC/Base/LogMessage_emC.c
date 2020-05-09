@@ -88,15 +88,16 @@ bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis, int32 identNumber
   //and throws an exception if there is a memory overwritten error or initialization error:
   //The casting is deterministic because the type MyStruct is tested.
   Vtbl_LogMessageFW const* mtbl;
-  bool bRet;
+  bool bRet = false;
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
   VtblHeadJc const* mtblO = getVtbl_ObjectJc(&ythis->base.object, sign_Vtbl_LogMessageFW);
   mtbl = (Vtbl_LogMessageFW const*)mtblO;
-  ASSERTJc_RET(mtbl != null && mtbl->head.sign == sign_Vtbl_LogMessageFW, (STACKTRC_LEAVE, false));
+  if(ASSERT_emC(mtbl != null && mtbl->head.sign == sign_Vtbl_LogMessageFW, "faulty",0,0)) {
   //if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
   //if(mtbl->sign != &sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   //sText = getCharConst_StringJc(text, uText, sizeof(uText));  //get the char const* from text.
-  bRet = mtbl->sendMsgVaList(ythis,identNumber, timestamp, text, args, _thCxt);
+    bRet = mtbl->sendMsgVaList(ythis,identNumber, timestamp, text, args, _thCxt);
+  }
   STACKTRC_LEAVE; 
   return bRet;
 

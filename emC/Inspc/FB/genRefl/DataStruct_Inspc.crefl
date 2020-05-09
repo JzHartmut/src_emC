@@ -14,7 +14,7 @@ const struct SuperClasses_UserHead_DataStructMng_Inspc_ClassOffset_idxVtblJcARRA
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_UserHead_DataStructMng_Inspc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_UserHead_DataStructMng_Inspc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_UserHead_DataStructMng_Inspc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -35,7 +35,7 @@ const struct Reflection_Fields_UserHead_DataStructMng_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } refl_Fields_UserHead_DataStructMng_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_UserHead_DataStructMng_Inspc, 1, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_UserHead_DataStructMng_Inspc, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "thiz1"
     , 0   //no Array, no Bitfield                           
@@ -50,7 +50,7 @@ const struct Reflection_Fields_UserHead_DataStructMng_Inspc_t
  
                                                                    
 const ClassJc refl_UserHead_DataStructMng_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_UserHead_DataStructMng_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_UserHead_DataStructMng_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "UserHead_DataStructMng_Inspc"
 , 0
 , sizeof(UserHead_DataStructMng_Inspc)
@@ -59,7 +59,10 @@ const ClassJc refl_UserHead_DataStructMng_Inspc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_UserHead_DataStructMng_Inspc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -71,7 +74,7 @@ const struct SuperClasses_UserData_DataStructMng_Inspc_ClassOffset_idxVtblJcARRA
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_UserData_DataStructMng_Inspc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_UserData_DataStructMng_Inspc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_UserData_DataStructMng_Inspc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_UserHead_DataStructMng_Inspc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -92,7 +95,7 @@ const struct Reflection_Fields_UserData_DataStructMng_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } refl_Fields_UserData_DataStructMng_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_UserData_DataStructMng_Inspc, 1, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_UserData_DataStructMng_Inspc, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "val"
     , 0   //no Array, no Bitfield                           
@@ -107,7 +110,7 @@ const struct Reflection_Fields_UserData_DataStructMng_Inspc_t
  
                                                                    
 const ClassJc refl_UserData_DataStructMng_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_UserData_DataStructMng_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_UserData_DataStructMng_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "UserData_DataStructMng_Inspc"
 , 0
 , sizeof(UserData_DataStructMng_Inspc)
@@ -116,7 +119,10 @@ const ClassJc refl_UserData_DataStructMng_Inspc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_UserData_DataStructMng_Inspc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -128,7 +134,7 @@ const struct Reflection_Fields_Mem_UserData_DataStructMng_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } refl_Fields_Mem_UserData_DataStructMng_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_Mem_UserData_DataStructMng_Inspc, 2, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Mem_UserData_DataStructMng_Inspc, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "ref"
     , 0   //no Array, no Bitfield                           
@@ -152,7 +158,7 @@ const struct Reflection_Fields_Mem_UserData_DataStructMng_Inspc_t
  
                                                                    
 const ClassJc refl_Mem_UserData_DataStructMng_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_Mem_UserData_DataStructMng_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_Mem_UserData_DataStructMng_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "Mem_UserData_Data__Mng_Inspc"
 , 0
 , sizeof(Mem_UserData_DataStructMng_Inspc)
@@ -161,7 +167,10 @@ const ClassJc refl_Mem_UserData_DataStructMng_Inspc =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -179,7 +188,7 @@ const struct SuperClasses_DataStruct_Inspc_ClassOffset_idxVtblJcARRAY_t  //Type 
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_DataStruct_Inspc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_DataStruct_Inspc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_DataStruct_Inspc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_DataStructBase_Inspc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -200,7 +209,7 @@ const struct Reflection_Fields_DataStruct_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[7];
 } refl_Fields_DataStruct_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_DataStruct_Inspc, 7, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_DataStruct_Inspc, 7, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "errorPort"
     , 0   //no Array, no Bitfield                           
@@ -269,7 +278,7 @@ const struct Reflection_Fields_DataStruct_Inspc_t
  
                                                                    
 const ClassJc refl_DataStruct_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_DataStruct_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_DataStruct_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "DataStruct_Inspc"
 , 0
 , sizeof(DataStruct_Inspc)
@@ -278,7 +287,10 @@ const ClassJc refl_DataStruct_Inspc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_DataStruct_Inspc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -290,7 +302,7 @@ const struct Reflection_Fields_DataStructMng_Inspc_setData_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } refl_Fields_DataStructMng_Inspc_setData =
-{ INIZ_ObjectArrayJc(refl_Fields_DataStructMng_Inspc_setData, 2, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_DataStructMng_Inspc_setData, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "zdata"
     , 0   //no Array, no Bitfield                           
@@ -314,7 +326,7 @@ const struct Reflection_Fields_DataStructMng_Inspc_setData_t
  
                                                                    
 const ClassJc refl_DataStructMng_Inspc_setData =
-{ INIZ_objReflId_ObjectJc(refl_DataStructMng_Inspc_setData, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_DataStructMng_Inspc_setData, refl_ClassJc, ID_refl_ClassJc)
 , "DataStructMng_Inspc_setData"
 , 0
 , sizeof(((DataStructMng_Inspc*)0x1000)->setData)
@@ -323,7 +335,10 @@ const ClassJc refl_DataStructMng_Inspc_setData =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -343,7 +358,7 @@ const struct SuperClasses_DataStructMng_Inspc_ClassOffset_idxVtblJcARRAY_t  //Ty
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_DataStructMng_Inspc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_DataStructMng_Inspc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_DataStructMng_Inspc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_DataStruct_Inspc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -364,7 +379,7 @@ const struct Reflection_Fields_DataStructMng_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[12];
 } refl_Fields_DataStructMng_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_DataStructMng_Inspc, 12, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_DataStructMng_Inspc, 12, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "userDataBlock"
     , 0   //no Array, no Bitfield                           
@@ -478,7 +493,7 @@ const struct Reflection_Fields_DataStructMng_Inspc_t
  
                                                                    
 const ClassJc refl_DataStructMng_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_DataStructMng_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_DataStructMng_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "DataStructMng_Inspc"
 , 0
 , sizeof(DataStructMng_Inspc)
@@ -487,6 +502,9 @@ const ClassJc refl_DataStructMng_Inspc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_DataStructMng_Inspc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 

@@ -397,7 +397,7 @@ ObjectJc* allocObject_s_sBlockHeap_emC(int sizeObj, int identObj, const char* sC
 }
 
 
-ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _thCxt)
+ObjectJc* allocRefl_ObjectJc ( const int size, ClassJc const* refl, const int32 typeInstanceIdent, struct ThreadContext_emC_t* _thCxt)
 { ObjectJc* othis;
   STACKTRC_TENTRY("alloc_ObjectJc");
   #ifdef DEF_ThreadContextStracktrc_emC  
@@ -410,6 +410,11 @@ ObjectJc* alloc_ObjectJc(const int size, const int32 typeInstanceIdent, ThCxt* _
   STACKTRC_LEAVE; return othis;
 }
 
+
+void free_ObjectJc ( ObjectJc* thiz) {
+  //MemC mem = build_MemC(thiz, getSizeInfo_ObjectJc(thiz));
+  free_MemC(thiz);
+}
 
 
 

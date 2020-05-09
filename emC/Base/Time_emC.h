@@ -240,7 +240,7 @@ typedef struct Clock_MinMaxTime_emC_T {
   #define reflection_Clock_MinMaxTime_emC refl_Clock_MinMaxTime_emC
 #endif
 #ifndef ID_refl_Clock_MinMaxTime_emC
-  #define ID_refl_Clock_MinMaxTime_emC 0x0f91 
+  #define ID_refl_Clock_MinMaxTime_emC 0x0FF6 
 #endif
 
 

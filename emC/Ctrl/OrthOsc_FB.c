@@ -1,7 +1,7 @@
 #include "OrthOsc_FB.h"
 
 #ifdef DEF_REFLECTION_FULL
-#include "emc_Ctrl/Ctrl/genRefl/OrthOsc_FB.crefl"
+#include "genRefl/OrthOsc_FB.crefl"
 #else
   #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, IDENT)
 //char const* refl_Param_OrthOsc2_FB = "refl_Param_OrthOsc2_FB";
@@ -27,7 +27,7 @@ void ctor_Param_OrthOsc2_FB(Param_OrthOsc2_FB* thiz, int32 identObj, float Tstep
 
 OrthOsc2_FB_CtrlemC* ctor_OrthOsc2_FB(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep)
 { OrthOsc2_FB_CtrlemC* thiz = (OrthOsc2_FB_CtrlemC*) othiz;
-  iniz_ObjectJc(othiz, thiz, sizeof(*thiz), &refl_OrthOsc2_FB, identObj);
+  iniz_ObjectJc(othiz, thiz, sizeof(*thiz), &refl_OrthOsc2_FB_CtrlemC, identObj);
   thiz->kA = kA;
   thiz->kB = kB;
   return thiz;

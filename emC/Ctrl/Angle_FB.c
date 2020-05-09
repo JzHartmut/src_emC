@@ -3,7 +3,7 @@
 #include <emC/base/Object_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
-  #include "emC_Ctrl/Ctrl/genRefl/Angle_FB.crefl"
+  #include "genRefl/Angle_FB.crefl"
 #elif defined(XXXDEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;

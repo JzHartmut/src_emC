@@ -370,19 +370,19 @@ const struct Reflection_Fields_ObjectJc_t
 } refl_Fields_ObjectJc =
 { CONST_ObjectArrayJc(FieldJc, 8, OBJTYPE_FieldJc, null, &refl_Fields_ObjectJc)
 , {
-    { "objectIdentSize"
+    { "identSize"
     , 0   //no Array, no Bitfield
     , REFLECTION_uint32
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->idInstanceTypeSize) -(intptr_t)(ObjectJc*)0x1000)
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->identSize) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &refl_ObjectJc
     }
-  , { "offsetToStartAddr"
+  , { "offsetToInstanceAddr"
     , 0x0 //bitfield nrofBits=16, bitPos=0.0
     , REFLECTION_uint16
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->offsetToStartAddr) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
+    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->offsetToInstanceAddr) -(intptr_t)(ObjectJc*)0x1000) + sizeof(int32)
     , 0  //offsetToObjectifcBase
     , &refl_ObjectJc
     }
@@ -429,7 +429,7 @@ const struct Reflection_Fields_ObjectJc_t
 } };
 
 
-
+#ifdef DEF_ClassJc_Vtbl
 //
 // The vtbl for a pure ObjectJc or for any other instance without overridden operation.
 const VtblDef_ObjectJc vtbl_ObjectJc =
@@ -445,11 +445,11 @@ const VtblDef_ObjectJc vtbl_ObjectJc =
   }
 , { signEnd_Vtbl_ObjectJc, null }
 };
-
+#endif
 
 
 const ClassJc refl_ObjectJc =
-{ INIZ_ObjectJc(refl_ObjectJc, &refl_ClassJc, OBJTYPE_ClassJc)
+{ INIZ_ObjectJc(refl_ObjectJc, refl_ClassJc, OBJTYPE_ClassJc)
   //CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc)
 , "ObjectJc"
 , 0
@@ -459,7 +459,9 @@ const ClassJc refl_ObjectJc =
 , null  //superclass
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
+#ifdef DEF_ClassJc_Vtbl
 , &vtbl_ObjectJc.tbl.head
+#endif
 };
 
 
@@ -528,7 +530,7 @@ extern_C const ClassJc refl_ObjectArrayJc;
 };
 
 
-
+#ifdef DEF_ClassJc_Vtbl
 
 extern_C const ClassJc refl_VtblHeadJc;  //the just defined refl_
 const struct Reflection_Fields_VtblHeadJc_t
@@ -567,7 +569,7 @@ const ClassJc refl_VtblHeadJc =
 , null  //interfaces
 , 0 
 };
-
+#endif
 
 extern_C const ClassJc refl_ClassJc;
 const ClassJc refl_ClassJc =
@@ -580,6 +582,35 @@ const ClassJc refl_ClassJc =
 , null  //superclass
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+extern_C ClassJc const refl_FieldJc;
+const ClassJc refl_FieldJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(FieldJc), &refl_FieldJc, &refl_FieldJc)
+, "FieldJc"
+, 0
+, sizeof(FieldJc)
+, null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
+extern_C ClassJc const refl_ClassOffset_idxVtblJc;
+const ClassJc refl_ClassOffset_idxVtblJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(FieldJc), &refl_ClassOffset_idxVtblJc, &refl_ClassOffset_idxVtblJc)
+, "ClassOffset_idxVtblJc"
+, 0
+, sizeof(ClassOffset_idxVtblJc)
+, null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
+, null  //method
+, null  //superclass
+, null  //interfaces
+, 0 
 };
 
 
@@ -625,7 +656,6 @@ extern_C ClassJc const refl_OS_PtrValue =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
-, null  //Vtbl
 };
 
 
@@ -661,7 +691,9 @@ ClassJc const refl_StringJc =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
+#ifdef DEF_ClassJc_Vtbl
 , null  //Vtbl
+#endif
 };
 
 ClassJc const refl_CharSeqJc =
@@ -674,7 +706,9 @@ ClassJc const refl_CharSeqJc =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
+#ifdef DEF_ClassJc_Vtbl
 , null  //Vtbl
+#endif
 };
 
 /**A StringJc is always a OS_PtrValue, but a extra type is used..
@@ -707,7 +741,9 @@ ClassJc const refl_MemSegmJc =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
+#ifdef DEF_ClassJc_Vtbl
 , null  //Vtbl
+#endif
 };
 
 /**A int64 consists of 2 int32, the inspector doesn't know the type yet.
@@ -748,7 +784,9 @@ ClassJc const refl_int64 =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
+#ifdef DEF_ClassJc_Vtbl
 , null  //Vtbl
+#endif
 };
 
 
@@ -792,7 +830,9 @@ ClassJc const refl_uint64 =
 , null  //superclass
 , null  //interfaces
 , 0x0  //modifiers
+#ifdef DEF_ClassJc_Vtbl
 , null  //Vtbl
+#endif
 };
 
 

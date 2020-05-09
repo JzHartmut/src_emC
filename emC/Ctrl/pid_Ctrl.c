@@ -2,8 +2,8 @@
 #include <math.h>
 
 #ifndef ID_refl_Par_PID_Ctrl
-#define ID_refl_Par_PID_Ctrl 0x0FA0
-#define ID_refl_PID_Ctrl 0x0FA1
+#define ID_refl_Par_PID_Ctrl 0x0FC0
+#define ID_refl_PID_Ctrl 0x0FC1
 #endif
 
 #ifdef DEF_REFLECTION_FULL

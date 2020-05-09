@@ -22,7 +22,7 @@
 #define DEF_ObjectJc_REFLREF
 #define DEF_ObjectJcpp_REFLECTION
 #define DEF_ObjectJc_OWNADDRESS
-#define DEF_ObjectJcVtbl_emC
+#define DEF_ClassJc_Vtbl
 
 //This block before <OSAL/types_def_common.h>
 /**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/

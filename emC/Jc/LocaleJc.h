@@ -52,7 +52,6 @@ typedef struct LocaleJc_t
 } LocaleJc_s;
 
 extern_C const struct ClassJc_t refl_LocaleJc;
-#define refl_LocaleJc refl_LocaleJc
 #define ID_refl_LocaleJc 0x0FF9 
 
 

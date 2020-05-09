@@ -221,6 +221,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
 
+#define MAYBE_UNUSED_emC  __attribute__((unused))
+
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 
 /**Prevent process a NaN-value (not a number).

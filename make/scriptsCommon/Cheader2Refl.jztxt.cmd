@@ -18,8 +18,8 @@ exit /B
 ##2018-08-11: 
 ##  * Now supports unnamed or named embedded struct or union. Before: compiler error for such constructs
 ##  * Generates the super class not as attribute.
-##  * writes now the field in ClassOffset_idxMtblJc:
-##  ** It is valid for new sources of emC, especially emC/Object_emC.h for definition of ClassOffset_idxMtblJc
+##  * writes now the field in ClassOffset_idxVtblJc:
+##  ** It is valid for new sources of emC, especially emC/Object_emC.h for definition of ClassOffset_idxVtblJc
 ##  with element field, and for Jc/ReflectionJc.h: The definition of FieldJc is moved to emC/Object_emC.h.
 ##  ** For older sources it runs if superclasses are not used.
 
@@ -187,18 +187,18 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
     Num hasSuperclass = 0;
     if(struct.superclass) {
       Num accessLevel = 0;
-      if(struct.superclass.description) {
+      if(struct.superclass.description) {                                  
         accessLevel = struct.superclass.description.accLevel;
       }
       String reflSuperName = <:>refl_<&struct.superclass.type.name><.>;
       <:>  
 ======
 ======extern_C const ClassJc <&reflSuperName>;  //the super class here used.
-======const struct SuperClasses_<&struct.name>_ClassOffset_idxMtblJcARRAY_t  //Type for the super class
+======const struct SuperClasses_<&struct.name>_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 ======{ ObjectArrayJc head;
-======  ClassOffset_idxMtblJc data[1];
+======  ClassOffset_idxVtblJc data[1];
 ======}  superClasses_<&struct.name> =   //reflection instance for the super class
-======{ INIZ_ObjectArrayJc(superClasses_<&struct.name>, 1, ClassOffset_idxMtblJc, null, INIZ_ID_ClassOffset_idxMtblJc)
+======{ INIZ_ObjectArrayJc(superClasses_<&struct.name>, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
 ======  , { &<&reflSuperName>                                   
 ======    , 0 //TODO Index of mtbl of superclass
 ======      //The field which presents the superclass data in inspector access.
@@ -243,13 +243,13 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
     ##
     retEntries = call attribs_struct(wr = wrFields, fileBin = fileBin, struct = struct);
     ##
-    if(!fileBin) {
+    if(!fileBin) {                                                         
       <:>
 ======const struct Reflection_Fields_<&struct.name>_t
 ======{ ObjectArrayJc head;
 ======  FieldJc data[<&retEntries.nrofEntries>];
 ======} refl_Fields_<&struct.name> =
-======{ INIZ_ObjectArrayJc(refl_Fields_<&struct.name>, <&retEntries.nrofEntries>, FieldJc, null, INIZ_ID_FieldJc)
+======{ INIZ_ObjectArrayJc(refl_Fields_<&struct.name>, <&retEntries.nrofEntries>, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 ======, {  
       <&wrFields>
 ======} }; 
@@ -265,16 +265,18 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
   if(!fileBin) {
     <:>                                                                   
 ====const ClassJc refl_<&structBasename> =
-===={ INIZ_objReflId_ObjectJc(refl_<&structBasename>, &refl_ClassJc, INIZ_ID_ClassJc)
+===={ INIZ_objReflId_ObjectJc(refl_<&structBasename>, refl_ClassJc, ID_refl_ClassJc)
 ====, "<&structReflname>"
 ====, 0
 ====, sizeof(<&sizeName>)
 ====, <&sFieldsInStruct>  //attributes and associations
 ====, null  //method      
-====, <:if:reflSuperName>(ClassOffset_idxMtblJcARRAY*)&superClasses_<&struct.name><:else>null<.if>  //superclass  
+====, <:if:reflSuperName>(ClassOffset_idxVtblJcARRAY*)&superClasses_<&struct.name><:else>null<.if>  //superclass  
 ====, null  //interfaces  ##TODO check first union
 ====, <:if:struct.isBasedOnObjectJc>mObjectJc_Modifier_reflectJc<:else>0<.if>   ## if union{ ObjectJc obj, ...} or 1. element ObjectJc
+====#ifdef DEF_ClassJc_Vtbl  
 ====, <:if:struct.description.vtbl>&<&struct.description.vtbl>.tbl.head<:else>null<.if>  //virtual table
+====#endif
 ====};
 ====
 ====#endif //DEF_REFLECTION_FULL

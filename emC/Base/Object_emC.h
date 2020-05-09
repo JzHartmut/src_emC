@@ -208,7 +208,7 @@ typedef struct  ObjectJc_T
     #endif
   /**Offset from the data-instance start address to the ObjectJc part. 
      * It is especially for symbolic field access (reflection) in C++. */
-    uint16 offsetToStartAddr;
+    uint16 offsetToInstanceAddr;
     /**Some handle bits to use an ObjectJc for lock (mutex). */
     uint16 handleBits;
     #define mSyncHandle_ObjectJc 0x0fff
@@ -238,7 +238,7 @@ extern_C struct ClassJc_t const refl_ObjectJc;
 
 /**Initializing of a simple object.  */
 #ifdef DEF_ObjectJcpp_REFLECTION
-#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<kBitInstance_ObjectJc) + sizeof(OBJ), 0, kNoSyncHandles_ObjectJc, REFL } //, { (char const*)(REFL)} }
+#  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<kBitInstance_ObjectJc) + sizeof(OBJ), 0, kNoSyncHandles_ObjectJc, &(REFL) } //, { (char const*)(REFL)} }
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
 #elif defined(DEF_ObjectJc_REFLREF)
 #  define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID))<<kBitIdentSmall_objectIdentSize_ObjectJc) & mIdentSmall_objectIdentSize_ObjectJc) + sizeof(OBJ), &(REFL) } //, { (char const*)(REFL)} }
@@ -374,7 +374,14 @@ class  ObjectJcpp
 * @throws IndexOutOfBoundsException if the size doesn't match to typeInstanceIdent. 
 * @throws RuntimeException if a memory space can't allocate.
 */
-extern_C ObjectJc* alloc_ObjectJc ( const int size, const int32 typeInstanceIdent, struct ThreadContext_emC_t* _thCxt);
+extern_C ObjectJc* allocRefl_ObjectJc ( const int size, struct ClassJc_t const* refl, const int32 typeInstanceIdent, struct ThreadContext_emC_t* _thCxt);
+
+/**traditional usual in Java2C sources: */
+#define alloc_ObjectJc(SIZE, ID, _THCXT) allocRefl_ObjectJc(SIZE, null, ID, _THCXT)
+
+
+
+
 
 /**Freeze an Object allocated with [[alloc_ObjectJc(...)]]. */
 extern_C void free_ObjectJc(ObjectJc* thiz);
@@ -402,8 +409,10 @@ extern_C void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc
 */
 #ifdef DEF_ObjectJc_REFLREF
 #  define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) iniz_ObjectJc(OTHIZ, ADDR, SIZE, &(REFL), ID)
+#  define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, &(REFL), ID, _thCxt)
 #else
 #  define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) inizReflid_ObjectJc(OTHIZ, ADDR, SIZE, ID_##REFL, ID)
+#  define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, null, ID_##REFL, _thCxt)
   extern_C void inizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint id_refl, uint idObj);
 #endif
 
@@ -837,7 +846,7 @@ METHOD_C int32_ObjArray* ctor_int32ARRAY(int32_ObjArray* ythis, int nrOfBytes);
 typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcARRAY;
 
 
-#ifdef DEF_ObjectJcVtbl_emC
+#ifdef DEF_ClassJc_Vtbl
 #include <emC/Base/ObjectJcVtbl_emC.h>
 #endif
 
@@ -871,9 +880,6 @@ typedef struct ClassJc_t
   struct ClassJc_t const* superClass;
   #endif
 } ClassJc;
-
-extern_C ClassJc const refl_ClassJc;
-#define ID_refl_ClassJc 0x0FFC
 
 
 
@@ -932,6 +938,13 @@ extern_C ClassJc const refl_ClassJc;
   #include <emC/Base/ClassJc_FullReflection_emC.h>
 #endif //DEF_REFLECTION_FULL
 
+
+extern_C ClassJc const refl_ClassJc;
+/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
+#define ID_refl_ClassJc 0x0FFC
+
+//extern_C ClassJc const refl_null;
+//#define ID_refl_null 0
 
 
 
