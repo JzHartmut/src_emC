@@ -116,11 +116,11 @@ bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* c
 
 
 /**Opposite implementation of checkInit with only idInstanceType. */
-bool checkInitReflId_ObjectJc  (  ObjectJc* thiz, uint size, int reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
+bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
   if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
     thiz->identSize |= (reflId << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
   } else {
-    if(!instanceofReflId_ObjectJc(thiz, reflId)) { 
+    if(!instanceofReflid_ObjectJc(thiz, reflId)) {
       return false;
     }
   }
@@ -131,7 +131,7 @@ bool checkInitReflId_ObjectJc  (  ObjectJc* thiz, uint size, int reflId, uint id
 }
 
 
-bool instanceofReflId_ObjectJc(ObjectJc const* thiz, int reflId) {
+bool instanceofReflid_ObjectJc(ObjectJc const* thiz, uint reflId) {
   return ((thiz->identSize & mIdentSmall_objectIdentSize_ObjectJc) >> kBitIdentSmall_objectIdentSize_ObjectJc) == reflId;
 }
 
@@ -140,7 +140,7 @@ bool instanceofReflId_ObjectJc(ObjectJc const* thiz, int reflId) {
 
 
 
-bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, int id_refl, uint ident, struct ThreadContext_emC_t* _thCxt) {
+bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_refl, uint ident, struct ThreadContext_emC_t* _thCxt) {
   return ((thiz->identSize & mIdentSmall_objectIdentSize_ObjectJc) >> kBitIdentSmall_objectIdentSize_ObjectJc) == id_refl
     && (thiz->identSize & mSizeSmall_objectIdentSize_ObjectJc) >= size;
 }
@@ -792,15 +792,12 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
 
   //Then the instanceof should use another algorithm, only single inheritance.
   bool instanceof_ObjectJc ( ObjectJc const* thiz, struct ClassJc_t const* reflection) {
-    #ifdef DEF_ObjectJc_REFLREF
     bool reflOk = true;
-    struct ClassJc_t const* refl1 = thiz->reflection;
     #if defined (DEF_ObjectJc_SIMPLE)
       //The mInstanceType_ObjectJc have to be contain the same type Id as in reflection.
       //An instance Id is not possible for minimal ObjectJc
-      return (thiz->identSize & mInstanceType_ObjectJc)>>kBitInstanceType_ObjectJc == reflection->idType; 
+      reflOk = (thiz->identSize & mInstanceType_ObjectJc)>>kBitInstanceType_ObjectJc == reflection->idType;
     #elif defined(DEF_REFLECTION_FULL)
-      return true;
       if(reflection != null) {
         reflOk = thiz->reflection == reflection;
         if(!reflOk && thiz->reflection !=null) {
@@ -810,17 +807,17 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
     #else
       //It is a more simle ClassJc definition:
       if(reflection != null) {
+        struct ClassJc_t const* refl1 = thiz->reflection;
         do {
           reflOk = (refl1 == reflection); 
         } while(!reflOk && (refl1 = refl1->superClass) !=null);
       }
-      return reflOk;
     #endif
+    return reflOk;
   }
 #endif  //not DEF_ClassJc_Vtbl
 
 
-  #endif //???
 
 void init_immediate_ObjectArrayJc(ObjectArrayJc* thiz, int nrofElements, int sizeElement, ClassJc const* refl_Elem, int idObj) {
   iniz_ObjectJc(&thiz->object, thiz, sizeof(ObjectArrayJc) + nrofElements * sizeElement, refl_Elem, idObj);

@@ -40,6 +40,16 @@
 #include <sys/timeb.h>
 #include <time.h>
 
+
+#undef INT32
+#undef UINT32
+#undef int64
+#undef uint64
+
+#include <wtypes.h>
+#include <winbase.h>
+#include <sys/timeb.h>
+
 int32_t os_milliTime()
 {
   //struct _timeb systime;
@@ -75,9 +85,9 @@ OS_TimeStamp os_getDateTime()
 
 int32_t os_microTime(void)
 {
-	//struct _timeb currTime;
-	//_ftime(&currTime);
-	return 0; //(int32)(currTime.millitm)*1000L;
+  //struct _timeb currTime;
+  //_ftime(&currTime);
+  return 0; //(int32)(currTime.millitm)*1000L;
 }
 
 
@@ -99,25 +109,38 @@ int32_t os_getClockCnt(void)
 void os_delayThread(int32_t milliseconds)
 {
   /*
-	struct timespec time;
+  struct timespec time;
 
-	clock_gettime(CLOCK_REALTIME, &time);
-	{ uint32 sec = milliseconds / 1000;
-		milliseconds -= 1000*sec;  //rest is millisec
-		time.tv_sec += sec;
-		time.tv_nsec += 1000000*milliseconds;
-		if(time.tv_nsec > 1000000000){ //overflow of nanoseconds:
-			time.tv_nsec -= 1000000000;
-			time.tv_sec +=1;
-		}
-	}
+  clock_gettime(CLOCK_REALTIME, &time);
+  { uint32 sec = milliseconds / 1000;
+    milliseconds -= 1000*sec;  //rest is millisec
+    time.tv_sec += sec;
+    time.tv_nsec += 1000000*milliseconds;
+    if(time.tv_nsec > 1000000000){ //overflow of nanoseconds:
+      time.tv_nsec -= 1000000000;
+      time.tv_sec +=1;
+    }
+  }
 
-	///it doesn't exists in this conditional compiling focus: error = nanosleep(&time, null);
+  ///it doesn't exists in this conditional compiling focus: error = nanosleep(&time, null);
   */
-	if(milliseconds < 2000000){  //usleep uses int32_t, max ~4000000000
-		usleep(1000 * milliseconds);
-	} else {
-		sleep(milliseconds / 1000);
-	}
+
+  Sleep(milliseconds);
+
+//  if(milliseconds < 2000000){  //usleep uses int32_t, max ~4000000000
+
+//    struct timespec ts;
+//    int res;
+//    ts.tv_sec = milliseconds / 1000;
+//    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+//
+//    do {
+//        res = nanosleep(&ts, &ts);
+//    } while (res !=0);
+
+
+//  } else {
+//    sleep(milliseconds / 1000);
+//  }
 }
 

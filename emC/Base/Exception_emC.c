@@ -140,8 +140,11 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
       }
       #endif
       exception->exceptionValue = value;
-      #if defined(__TRYCPPJc) //&& defined(__cplusplus)
-       throw exceptionNr;
+      #if defined(__TRYCPPJc) || defined(DEF_Exception_TRYCpp) 
+        #ifndef __cplusplus
+          #error to use C++ exceptionhanding you should compile all C sources which throws exception with C++
+        #endif
+        throw exceptionNr;
       #else
        longjmp(stacktraceTry->tryObject->longjmpBuffer, exceptionNr);
       #endif

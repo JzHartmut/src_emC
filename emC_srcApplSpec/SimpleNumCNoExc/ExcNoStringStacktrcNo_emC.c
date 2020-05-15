@@ -1,6 +1,7 @@
 
 
 #include <applstdef_emC.h>
+#ifdef DEF_Exception_NO
 #include <emC_srcApplSpec/SimpleNumCNoExc/ExcStacktrcNo_emC.h>
 
 #include <emC_srcApplSpec/ApplConv/ThreadContextUserBuffer_emC.c>  //use this for compilation!
@@ -31,3 +32,4 @@
 //void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topStack) {
 //  //all remain 0
 //}
+#endif

@@ -544,10 +544,10 @@ extern_C bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct Cla
 #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrict_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, _thCxt)
 #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, _thCxt)
 #else 
+extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
+extern_C bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
 #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrictReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, _thCxt)
 #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInitReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, _thCxt)
-extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, int idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
-extern_C bool checkInitReflid_ObjectJc ( ObjectJc const* thiz, uint size, int idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
 #endif
 
 
@@ -619,8 +619,8 @@ extern_C bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const*
 #ifdef DEF_ObjectJc_REFLREF
   #define INSTANCEOF_ObjectJc(OTHIZ, REFL) instanceof_ObjectJc(OTHIZ, &(REFL))
 #else
-  #define INSTANCEOF_ObjectJc(OTHIZ, REFL) instanceofReflId_ObjectJc(OTHIZ, ID_##REFL)
-  extern_C bool instanceofReflId_ObjectJc(ObjectJc const* ythis, int reflId);
+  #define INSTANCEOF_ObjectJc(OTHIZ, REFL) instanceofReflid_ObjectJc(OTHIZ, ID_##REFL)
+  extern_C bool instanceofReflid_ObjectJc(ObjectJc const* ythis, uint reflId);
 #endif
 
 

@@ -80,7 +80,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   { os_fwrite(out, sException, strnlen_emC(sException, 1000));
 	  os_fwrite(out, ": ", 2);
 		os_fwrite(out, sBuffer, zBuffer);
-	  zBuffer = snprintf(sBuffer, sizeof(sBuffer), ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
+	  //todo zBuffer = snprintf(sBuffer, sizeof(sBuffer), ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
 		os_fwrite(out, sBuffer, zBuffer);
   }
   //nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
@@ -93,7 +93,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
     { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
     }
     else
-    { zBuffer = snprintf(sBuffer, sizeof(sBuffer), "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+    { //todo zBuffer = snprintf(sBuffer, sizeof(sBuffer), "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
 			os_fwrite(out, sBuffer, zBuffer);
 	  }
   }

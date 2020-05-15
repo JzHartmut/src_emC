@@ -56,6 +56,11 @@
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
 
+
+#ifdef DEF_Exception_TRYCpp
+#define __TRYCPPJc
+#endif
+
 //#error Exception_emC.h A
 
 #include <emC/Base/ExcThCxtBase_emC.h>
