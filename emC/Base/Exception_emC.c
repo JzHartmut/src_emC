@@ -42,7 +42,14 @@
 #include <applstdef_emC.h>
 
 #include <emC/Base/String_emC.h>
-#ifndef DEF_ExceptionJc_NO
+#ifdef DEF_ExceptionJc_NO
+
+int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
+{
+  return 0;
+}
+
+#else //not DEF_ExceptionJc_NO
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/OSAL/os_error.h>
