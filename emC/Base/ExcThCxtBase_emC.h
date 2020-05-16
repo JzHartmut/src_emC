@@ -218,11 +218,9 @@ typedef struct ExceptionJc_t
 
   char const* file;   //mem boundary pos
 
-  #ifndef DEF_NO_StringJcCapabilities
   /**The user message of the exception.
   */
   StringJc exceptionMsg;  //note: align-8
-  #endif
   
 
 } ExceptionJc;
@@ -306,7 +304,7 @@ typedef struct ExceptionStore_t {
   ExceptionJc last;
 } ExceptionStore;
 
-void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
+extern_C void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
 
 
 

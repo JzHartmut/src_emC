@@ -98,7 +98,7 @@ class ArrayVarsize_emC {
   public: T& operator[](uint ix) { 
     if(ix < (uint)arrayVarSize_emC.val) return arrayVarSize_emC.addr[ix];
     else {
-      THROW_s0n(ArrayIndexOutOfBoundsException, "", ix, n);
+      THROW_s0n(ArrayIndexOutOfBoundsException, "", ix, arrayVarSize_emC.val);
       return arrayVarSize_emC.addr[arrayVarSize_emC.val-1];
   } }
 

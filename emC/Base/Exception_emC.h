@@ -51,20 +51,23 @@
 #ifndef __emC_ThreadContext_emC_h__
   //include fw_ThreadContext.h firstly, it includes this file internally.
   //then the guards are defined already.
-  #include "emC/ThreadContext_emC.h"
+  //#include "emC/Base/ThreadContext_emC.h"
 #endif
 #ifndef __fw_Exception_h__
 #define __fw_Exception_h__
 
 
 #ifdef DEF_Exception_TRYCpp
-#define __TRYCPPJc
+  #ifndef __cplusplus
+    //#error DEF_Exception_TRYCpp is set. All sources (*.c too) using Exception_emC.h should be compiled with C++ option 
+  #endif
 #endif
 
 //#error Exception_emC.h A
 
 #include <emC/Base/ExcThCxtBase_emC.h>
 #include <emC/Base/SimpleC_emC.h>
+#include <emC/Base/ExcThreadCxt_emC.h>
 
 #ifndef __cplusplus
   //For a C compiler, __TRYCPPJc cannot be used.
@@ -192,68 +195,12 @@ typedef struct IxStacktrace_emC_t
 
 
 
-/**This macro defines and initializes the stack variables ,,_ixStacktrace_,,.
- * Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!
- * After the macro in the users call a semicolon should be written.
- * NOTE: The initialization with __FILE__ and __LINE__ must be a part of macro
- * because otherwise it is the fault file and line.
- */
-#define STACKTRC_TENTRY(NAME) \
-  IxStacktrace_emC _ixStacktrace_; \
-  if(_thCxt==null){ _thCxt = getCurrent_ThreadContext_emC(); } \
-  _ixStacktrace_.ixPrev = _thCxt->stacktrc.zEntries; \
-  if(_thCxt->stacktrc.zEntries < (ARRAYLEN_SimpleC(_thCxt->stacktrc.entries))) { \
-    StacktraceElementJc* stdst; \
-    _ixStacktrace_.ix = _thCxt->stacktrc.zEntries; \
-    _thCxt->stacktrc.zEntries+=1; \
-    stdst = &_thCxt->stacktrc.entries[_ixStacktrace_.ix]; \
-    stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  stdst->tryObject = null; \
-  } else { /**do nothing special in this error case. */ \
-    /**But do not create the index in thread context. */ \
-    _ixStacktrace_.ix = _ixStacktrace_.ixPrev; \
-  } 
 
 /**This macro defines and initializes the stack variable ,,stacktrcThCxt,, and ,,_ixStacktrace_,,.
  *
  */
 
-/**Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!*/
-#define STACKTRC_ENTRY(NAME) ThCxt* _thCxt = getCurrent_ThreadContext_emC();  STACKTRC_TENTRY(NAME)
 
-
-
-/**This macro supplies the ,,_thCxt,,-Variable but stores the __LINE__ before.
- * A forgotten ,,STACKTRC_LEAVE,, in a last subroutine will be repaire yet also.
- */
-#define THCXT (_thCxt->stacktrc.entries[_ixStacktrace_.ix].line=__LINE__, _thCxt->stacktrc.zEntries = _ixStacktrace_.ix +1, _thCxt)
-
-
-
-/**This macro corrects the chained list of stacktrace, it sets the end of the previous stacktrace.
- * Use this macro unconditionally at end of a block using ,,STACKTRC_ENTRY(),, or ,,STACKTRC_XENTRY(),,.
- * Otherwise the chain of stacktrace elements is corrupted.
- */
-#define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = _ixStacktrace_.ixPrev
-
-
-
-
-/**Test the consistence of the stacktrace, useable if errors are searched
- * The compiler switch should be set in the ,,fw_Platform_conventions.h,,
- */
-#ifdef TEST_STACKTRCJc
-  METHOD_C bool test_StacktraceJc ( IxStacktrace_emC* ythis);
-#else
-  /**Let it empty. */
-  #define test_StacktraceJc(ST)
-#endif
-
-
-
-/**It should be the first invocation of STACKTRC_ENTRY in main or in a thread routine. 
- * For this environment it does the same as STACKTRC_ENTRY(NAME). 
- */
-#define STACKTRC_ROOT_ENTRY(NAME) STACKTRC_ENTRY(NAME); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt
 
 /*@CLASS_CPP @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -300,15 +247,13 @@ METHOD_C void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char c
 
 
 
-//#define CALLINE(stacktrace.entry.line=__LINE__)
-#define CALLINE (_thCxt->stacktrc.entries[_ixStacktrace_.ix].line=__LINE__)
-
-void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, StacktraceThreadContext_emC_s* stacktrcThCxt);
 
 
 
-
-#ifdef __TRYCPPJc
+#ifdef DEF_Exception_NO
+  /**The threadContext is necessary to check whether an exception was thrown. Therefore initialize it. */
+  #define TRY if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
+#elif defined(__TRYCPPJc)
   /**TRY in C++: It is the try statement.
    * The exceptionNr is initialized with ident_SystemExceptionJc.
    * That is because a system exception like memory protection exception does not write
@@ -336,9 +281,17 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
       {
 #endif
 
-//#if defined(_JcPLUSPLUSJcpp) && defined(_Jcplusplus)
-/**Write at end of a TRY-Block the followed macro: */
-#ifdef __TRYCPPJc
+
+
+#ifdef DEF_Exception_NO
+  /**With this statement the if-chain to check the exception value starts. Create a local pointer to the exception for better handling. 
+   * excNrTestCatch = is the value used in END_TRY. It is set to 0 on a handled exception.
+   */
+  #define _TRY { int _exc = _thCxt->exc.exceptionNr; int excNrTestCatch = _exc; \
+  if(_exc ==0) { /*empty block till first CATCH if no exception*/
+
+#elif defined(__TRYCPPJc)
+  /**Write at end of a TRY-Block the followed macro: */
   #define _TRY \
   catch(...) { _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null;  \
   if(tryObject.exc.exceptionNr == 0) { /*if 0, a system has occured:*/ \
@@ -349,36 +302,44 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
 
 #else
   #define _TRY _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null;
+
 #endif
 
 
-#define CATCH(EXCEPTION, EXC_OBJ) \
+#ifdef DEF_Exception_NO
+  /**It closes the if(){ before from the _TRY or from a CATCH block before. Then it checks the exceptionNr with the given EXCPETION as mask.*/
+  #define CATCH(EXCEPTION, EXC_OBJ) } else if(_exc <= range_##EXCEPTION##Jc) { ExceptionJc* EXC_OBJ = &_thCxt->exc; excNrTestCatch = 0;
+#else //both __TRYCPPJc or longjmp:
+  #define CATCH(EXCEPTION, EXC_OBJ) \
     _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; /*remove _ixStacktrace_ entries of the deeper levels. */ \
   } else if((tryObject.excNrTestCatch & mask_##EXCEPTION##Jc)!= 0) \
   { ExceptionJc* EXC_OBJ = &tryObject.exc; tryObject.excNrTestCatch = 0;  /*do not check it a second time.*/
+#endif
 
 
 
-
-
-
-#define FINALLY \
+#ifdef DEF_Exception_NO
+  #define FINALLY \
+ } /*close CATCH brace */\
+ { /*open to braces because END_TRY.*/
+#else //both __TRYCPPJc or longjmp:
+  #define FINALLY \
   /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
   _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; \
  } /*close CATCH brace */\
  } /*close brace of whole catch block*/ \
  { { /*open to braces because END_TRY has 2 closing braces.*/
-
-
-#ifdef DEF_NO_StringJcCapabilities
-  #define FREE_MSG_END_TRY(MSG)  //left empty
-#else
-#define FREE_MSG_END_TRY(MSG) if((MSG).addr.str!=null) { freeM_MemC(MSG); }
 #endif
 
 
-/**Write on end of the whole TRY-CATCH-Block the followed macro:*/
-#define END_TRY \
+
+   
+#ifdef DEF_Exception_NO
+   /**Rewrite the exceptionNr, maybe 0 on handled exception or if no exception. */
+  #define END_TRY _thCxt->exc.exceptionNr = excNrTestCatch; } }  /*closing brace from CATCH and from _TRY*/
+#else //both __TRYCPPJc or longjmp:
+  /**Write on end of the whole TRY-CATCH-Block the followed macro:*/
+  #define END_TRY \
    } /*close FINALLY, CATCH or TRY brace */\
   } /*close brace of whole catch block*/ \
   if(tryObject.excNrTestCatch != 0) /*Exception not handled*/ \
@@ -391,6 +352,8 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
   _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null; /*Remove tryObject, should not be found later!*/   \
   _thCxt->stacktrc.zEntries = _ixStacktrace_.ix +1; \
  } /*close brace from beginning TRY*/
+#endif
+
 
 
 /**Throws an exception.
@@ -400,7 +363,18 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
  * @param VAL a int value
  */
 #ifndef THROW
+#ifdef DEF_Exception_NO //check on header file level, because it may be specific for somme files!
+  /**All THROW() macros writes the exception into the ThreadContext_emC,
+   * but the calling routine is continued. It should check itself for sufficient conditions to work.
+   */
+  #define THROW(EXCEPTION, STRING, VAL1, VAL2) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
+  _thCxt->exc.exceptionNr = nr_##EXCEPTION##Jc; _thCxt->exc.exceptionValue = VAL1; \
+  _thCxt->exc.file = __FILE__; _thCxt->exc.line = __LINE__; \
+  logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, VAL2, __FILE__, __LINE__); \
+  }
+#else //both __TRYCPPJc or longjmp:
   #define THROW(EXCEPTION, TEXT, VAL1, VAL2)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, _thCxt)
+#endif
 #endif
 
 #ifndef THROW_s0
@@ -419,6 +393,12 @@ void XXX_endTryJc ( TryObjectJc* tryObject, IxStacktrace_emC* _ixStacktrace_, St
 #endif
 
 
+
+#ifdef DEF_NO_StringJcCapabilities
+  #define FREE_MSG_END_TRY(MSG)  //left empty
+#else
+  #define FREE_MSG_END_TRY(MSG) if((MSG).addr.str!=null) { freeM_MemC(MSG); }
+#endif
 
 
 /**The access methods to os_ThreadContext should be known from user. 

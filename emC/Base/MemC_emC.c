@@ -83,15 +83,15 @@ int free_MemC  (  void const* addr)
 { if(addr == null) return 0;
   //
   MemUnit* ptr = (MemUnit*)addr;
-  #ifndef DEF_ThreadContext_SIMPLE
+  #ifdef DEF_ThreadContextHeap_emC
     ThCxt* _thCxt = getCurrent_ThreadContext_emC();
-    if(_thCxt->mode & mCheckBufferUsed_Mode_ThCxt){
-      if(_thCxt->mode & mBufferUsed_Mode_ThCxt){
+    if(_thCxt->threadheap.mode & mCheckBufferUsed_Mode_ThCxt){
+      if(_thCxt->threadheap.mode & mBufferUsed_Mode_ThCxt){
         THROW1_s0(IllegalStateException, "Thread buffer not free", 0);
       }
-      _thCxt->mode |= mBufferUsed_Mode_ThCxt;
+      _thCxt->threadheap.mode |= mBufferUsed_Mode_ThCxt;
     }
-    MemC buffer = _thCxt->bufferAlloc;
+    MemC buffer = _thCxt->threadheap.bufferAlloc;
     MemUnit const* bufferStart = ADDR_MemC(buffer, MemUnit const); //PTR_MemC(buffer, MemUnit);
     MemUnit const* bufferEnd = bufferStart + buffer.val; //size_MemC(buffer);
   
