@@ -76,11 +76,14 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   { printf("\n%s: %s: %i=0x%8.8X \n",sException, sBuffer, ythis->exceptionValue, ythis->exceptionValue);
   }
   else
-  { os_fwrite(out, sException, strnlen_emC(sException, 1000));
+  {
+    #ifndef DEF_OSAL_FileSystem_NO
+      os_fwrite(out, sException, strnlen_emC(sException, 1000));
 	  os_fwrite(out, ": ", 2);
 		os_fwrite(out, sBuffer, zBuffer);
 	  //todo zBuffer = snprintf(sBuffer, sizeof(sBuffer), ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
 		os_fwrite(out, sBuffer, zBuffer);
+    #endif
   }
   //nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
 

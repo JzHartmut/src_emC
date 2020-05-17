@@ -42,7 +42,8 @@
 #include <applstdef_emC.h>
 
 //Check if DEF_Exception_TRYCpp is set it needs C++ compilation.
-//If all c files are compiled as C then this file is compiled as C++ source via ExceptionCpp_emC.cpp 
+//Then this file is included in compilation of ExceptionCpp_emC.cpp to assert C++ compilation anyway. 
+//
 #if !defined(DEF_Exception_TRYCpp) || defined(DEF_ExceptionCpp_INCLUDED)
 
 #include <emC/Base/Exception_emC.h>
@@ -109,7 +110,6 @@ const char* exceptionTexts DEF [33] =
 
 
 
-
 void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt !=null)
@@ -147,14 +147,20 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
     if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
       //The msg is in stack area, copy it in ThreadContext!
       int zMsg = length_StringJc(msg);
-      MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
-      char* b = PTR_MemC(memb, char);
-      if(b !=null) {
-        copyToBuffer_StringJc(msg, 0, -1, b, zMsg);
-        SET_StringJc(exception->exceptionMsg, b, zMsg);
-      }
-      else {
-        exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
+      if(zMsg >0){
+        #ifdef DEF_ThreadContextHeap_emC
+          MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
+          char* b = PTR_MemC(memb, char);
+          if(b !=null) {
+            copyToBuffer_StringJc(msg, 0, -1, b, zMsg);
+            SET_StringJc(exception->exceptionMsg, b, zMsg);
+          }
+          else {
+            exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
+          }
+        #else //no DEF_ThreadContextHeap_emC
+          exception->exceptionMsg = z_StringJc("Exception message in stack, but no ThreadHeap, cannot be used.");
+        #endif
       }
     }
     else {
@@ -163,7 +169,12 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
     #endif
     exception->exceptionValue = value;
     if(tryObject !=null) {
-      #if defined(__TRYCPPJc) || defined(DEF_Exception_TRYCpp) 
+      #ifdef DEF_Exception_NO
+        //Only log, the program continues after THROW
+        //Note: The compilation does not call this operation because THROW is defined
+        //with immediately call of log_Exception usually
+        log_ExceptionJc(exception, file, line);
+      #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
         #ifndef __cplusplus
           #error to use C++ exception handing you should compile this source with C++
         #endif

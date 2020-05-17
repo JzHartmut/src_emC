@@ -340,7 +340,7 @@ METHOD_C bool test_StacktraceJc ( IxStacktrace_emC* ythis);
 
 
 /*===== Operations for User Buffer ThreadContext ==============================================*/
-#ifndef DEF_ThreadContext_SIMPLE
+#ifdef DEF_ThreadContextHeap_emC
 //only available on not simple ThreadContext, elsewhere linker error. 
 //You cannot use things which are not defined. 
 
@@ -350,7 +350,7 @@ METHOD_C bool test_StacktraceJc ( IxStacktrace_emC* ythis);
 *         the content of the returned buffer should be stored in stack and restore
 *         before the calling routine returns. 
 */
-METHOD_C MemC setUserBuffer_ThreadContext_emC(MemC newBuffer, struct ThreadContext_emC_t* _thCxt);
+METHOD_C MemC setUserBuffer_ThreadContext_emC ( MemC newBuffer, struct ThreadContext_emC_t* _thCxt);
 
 /**Gets a buffer in ThreadContext. 
 * This is a special simple way to handle with memory, if no everlastingly allocation is admissible,
@@ -367,7 +367,7 @@ METHOD_C MemC setUserBuffer_ThreadContext_emC(MemC newBuffer, struct ThreadConte
 * @param size in MemUnit
 * @param sign a number to support debugging which part of code has allocated, use a unified number if possible.
 */ 
-METHOD_C MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
+METHOD_C MemC getUserBuffer_ThreadContext_emC ( int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
 
 /**Reduces the size of the last gotten buffer in thread context.
 * This routine shall be called immediately after filling the current one buffer, before another buffer is gotten.
@@ -377,17 +377,17 @@ METHOD_C MemC getUserBuffer_ThreadContext_emC(int size, char const* sign, struct
 * @param ptr To check wheterh it is the last gotten buffer.
 * @param size the used size. The rest till the end of the Thread contect buffer area is now free for further buffer. 
 */
-METHOD_C void reduceLastUserBuffer_ThreadContext_emC(void* ptr, int size, struct ThreadContext_emC_t* _thCxt);
+METHOD_C void reduceLastUserBuffer_ThreadContext_emC ( void* ptr, int size, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Sets the mode whether the release of the buffer in ThreadContext is necessary. 
 */ 
-METHOD_C bool setCheckingUserBuffer_ThreadContext_emC(struct ThreadContext_emC_t* _thCxt, bool value);
+METHOD_C bool setCheckingUserBuffer_ThreadContext_emC ( struct ThreadContext_emC_t* _thCxt, bool value);
 
 
 /**Releases the buffer in ThreadContext. 
 */ 
-METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, struct ThreadContext_emC_t* _thCxt);
+METHOD_C bool releaseUserBuffer_ThreadContext_emC ( void const* data, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -396,7 +396,7 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC(void const* data, struct Threa
 * It can be returned and used in the calling enviroment immediately or return. That is the difference to a embedded instance in the stack.
 * Only one instance can be located in the thread context. It is over-written if another instance is created in the thread context.
 */
-struct ObjectJc_T* allocInThreadCxt_ObjectJc(int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
+struct ObjectJc_T* allocInThreadCxt_ObjectJc ( int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
 
 
 

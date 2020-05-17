@@ -334,7 +334,7 @@ bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t
     #ifdef DEF_ObjectJc_OWNADDRESS
     if(ythis->ownAddress != ythis) {
       ident = -1;  //marker for faulty.
-      THROW_s0(RuntimeException, "faulty ownAddress", (int)(intptr_t)ythis->ownAddress, (int)(int_ptr)ythis);
+      THROW_s0(RuntimeException, "faulty ownAddress", (int)(intptr_t)ythis->ownAddress, (int)(intptr_t)ythis);
       return false;
     }
     #endif //DEF_ObjectJc_OWNADDRESS
@@ -358,7 +358,7 @@ bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t
       #else
       if(!instanceof_s_ObjectJc(ythis, clazzReflection->name)) {
       #endif 
-        THROW_s0(RuntimeException, "faulty type", (int)(intptr_t)ythis->reflection, (int)(int_ptr)clazzReflection);
+        THROW_s0(RuntimeException, "faulty type", (int)(intptr_t)ythis->reflection, (int)(intptr_t)clazzReflection);
         return false;
       }
     }

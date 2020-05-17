@@ -1,5 +1,5 @@
-#ifndef __applstdef_emC_h__
-#define __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
+#define HGUARD_applstdef_emC
 /**This headerfile contains all standard definition for usage the CRJ - CRuntimeJavalike - basicly system.
  * It is for ordinary S-Functions in Simulink without exception handling. 
  */
@@ -62,7 +62,7 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#define __TRYCPPJc
+#define DEF_Exception_TRYCpp
 
 //#include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
 //#include <emC_srcApplSpec/applConv/Exception_emC.h>
@@ -102,5 +102,5 @@
 /**This define is set escpecially for compilation sources to use in mex64 dll. */
 #define __SIMULINK_SFN__
 
-#endif // __applstdef_emC_h__
+#endif // HGUARD_applstdef_emC
 

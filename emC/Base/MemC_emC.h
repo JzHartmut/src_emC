@@ -41,7 +41,7 @@
  *  *new: define NULL_MemC()
  *
  ****************************************************************************/
-#ifndef __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
   /**This file MemC should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the INCLUDED_emC_Base_MemC_emC_h guard should not be set firstly
    * to include the MemC.h in the given order in applstddef.h
@@ -259,7 +259,7 @@ METHOD_C void* alloc_MemC(int size);
  * It is the opposite method to alloc_MemC(). 
  * TODO possible: use size to check whether the mem instance is unchanged to the allocated.
  */
-#define freeM_MemC(mem) free_MemC(&mem.addr)  
+#define freeM_MemC(mem) free_MemC(mem.addr)  
 
 /**frees an allocated memory. It is the opposite method to alloc_MemC().
  * @return has released: 3 - buffer in threadContext, 2 - BlockHeap 1 - allocMem,  4- nothing, unknown (set DebugBreak in freeM_MemC)  

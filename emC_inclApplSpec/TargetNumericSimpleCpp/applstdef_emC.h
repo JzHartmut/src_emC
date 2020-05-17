@@ -1,5 +1,5 @@
-#ifndef __applstdef_emC_h__
-#define __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
+#define HGUARD_applstdef_emC
 
 //Uncomment to check whether used:
 //#error Uses applCpp32_emC/applstdef_emC.h
@@ -58,7 +58,7 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#define __TRYCPPJc
+#define DEF_Exception_TRYCpp
 
 #include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
 #include <emC_srcApplSpec/applConv/Exception_emC.h>
@@ -98,4 +98,4 @@
 #define kMaxPathLength_FileDescription_OSAL 480
 
 
-#endif // __applstdef_emC_h__
+#endif // HGUARD_applstdef_emC

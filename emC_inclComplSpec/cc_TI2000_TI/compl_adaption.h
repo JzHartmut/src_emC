@@ -33,7 +33,7 @@
 
 
 /**If only this file is included, include all files of this concept. */
-#ifndef __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
   #include <applstdef_emC.h>
 #endif
 

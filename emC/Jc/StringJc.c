@@ -94,9 +94,11 @@ void clear_StringJc(StringJc* ythis)
 { STACKTRC_ENTRY("clear_StringJc");
 
   clearBackRefJc(ythis);
+  #ifdef DEF_ThreadContextHeap_emC
   if((VAL_StringJc(*ythis) & mThreadContext__StringJc) == mThreadContext__StringJc){
     releaseUserBuffer_ThreadContext_emC(PTR_StringJc(*ythis), _thCxt);
   }
+  #endif
   SET_StringJc(*ythis, null, 0);
   STACKTRC_LEAVE;
 }
@@ -112,7 +114,7 @@ void clear_StringJc(StringJc* ythis)
  * #define equals_StringJc(YTHIS, STR) (equals_zI_StringJc(YTHIS; PTR_StringJc(STR), VAL_StringJc(STR))
  * than an expression for STR will be evaluated twice. This may be fatal in runtime.
  */
-bool equals_StringJc(const StringJc ythis, const StringJc cmp)
+bool equals_StringJc ( const StringJc ythis, const StringJc cmp)
 { int countThis = VAL_StringJc(ythis) & mLength_StringJc; 
   int countCmp = VAL_StringJc(cmp) & mLength_StringJc;
   const char* strThis = PTR_StringJc(ythis);

@@ -36,7 +36,7 @@
  * @changes
  * 2010-02-01 Hartmut new: _CHARS_StringJc(REF) to access the character pointer for internal access
  *************************************************************************************************/
-#ifndef __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
   /**This file should be included in the applstdef_emC.h. 
    * If this file is directly included, it needs the applstdef_emC.h. But the __guard__ 
    * should not be set firstly to include the MemC.h in the given order in applstddef.h
@@ -156,6 +156,18 @@ inline int strncpy_emC ( char* dst, char const* src, int length){ return strcpy_
  */
 int searchChar_emC ( char const* text, int zText, char cc);
 
+
+
+
+/**Compares two strings with a given maximum of chars.
+ * @arg maxNrofChars If no zero terminated strings should be compare, it is the length of both strings.
+ *     In this case a different length of Strings should be checked before, and the length difference 
+ *     can be used as result already.
+ * @return ==0 if both strings are equal till maxNrofChars or both have a '\0'.
+ *    >0 if text2 > text1 (longer or character code higher) whereby the value is the position of the first difference.
+ *    <0 if text1 > text2 (longer or character code higher) whereby the absolute value is the position of the first difference.
+ */
+extern_CCpp int strncmp_emC ( char const* const text1, char const* const text2, int maxNrofChars);
 
 
 /**Searches a character inside a given string from end.
@@ -720,7 +732,7 @@ METHOD_C int copyToBuffer_StringJc ( const StringJc thiz, int start, int end, ch
   * may be necessary if the reference to the String is stored in a List<Object>. 
   * This behaviour ist tested by me with Java Version 6, and it is documented in Sun-Javadoc. 
   */
-bool equals_StringJc ( const StringJc ythis, const StringJc cmp);
+extern_C bool equals_StringJc ( const StringJc ythis, const StringJc cmp);
 
 
 /**Compares this string to the specified character text.
