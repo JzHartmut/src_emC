@@ -112,92 +112,84 @@ const char* exceptionTexts DEF [33] =
 
 void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
-  if(_thCxt !=null)
-  {
-    ExceptionJc* exception;
-    TryObjectJc* tryObject = null;
-    #ifdef DEF_ThreadContextStracktrc_emC
-      StacktraceThreadContext_emC_s* stacktrcThCxt = &_thCxt->stacktrc;
-      StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
-      StacktraceElementJc* stacktraceTry;
-      int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
-      if(line >0) {
-        stacktrcThCxt->entries[ixStacktraceEntries].line = line;  //it is the line of the THROW statement.
-      }
-      do {
-        stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
-      } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
-      tryObject = stacktraceTry->tryObject;
-      if(tryObject !=null)
-      { //TRY-level is found:
-        exception = &tryObject->exc;
-        tryObject->excNrTestCatch = tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
-      } else {
-        exception = &_thCxt->exc; //use the basic exception element for uncatched Eception.
-      }
-    #else
-      exception = &_thCxt->exc;
-    #endif
-    exception->exceptionNr = exceptionNr;
-    exception->file = file;
-    exception->line = line;
-    //check the memory area where the msg is stored. Maybe in stack, then copy it.
-    MemUnit* addrMsg = (MemUnit*)msg.addr.str;
-    #ifndef DEF_NO_StringJcCapabilities
-    if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
-      //The msg is in stack area, copy it in ThreadContext!
-      int zMsg = length_StringJc(msg);
-      if(zMsg >0){
-        #ifdef DEF_ThreadContextHeap_emC
-          MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
-          char* b = PTR_MemC(memb, char);
-          if(b !=null) {
-            copyToBuffer_StringJc(msg, 0, -1, b, zMsg);
-            SET_StringJc(exception->exceptionMsg, b, zMsg);
-          }
-          else {
-            exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
-          }
-        #else //no DEF_ThreadContextHeap_emC
-          exception->exceptionMsg = z_StringJc("Exception message in stack, but no ThreadHeap, cannot be used.");
-        #endif
-      }
+  if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
+  ExceptionJc* exception;
+  TryObjectJc* tryObject = null;
+  #ifdef DEF_ThreadContextStracktrc_emC
+    StacktraceThreadContext_emC_s* stacktrcThCxt = &_thCxt->stacktrc;
+    StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
+    StacktraceElementJc* stacktraceTry;
+    int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
+    if(line >0) {
+      stacktrcThCxt->entries[ixStacktraceEntries].line = line;  //it is the line of the THROW statement.
     }
-    else {
-      lightCopy_StringJc(&exception->exceptionMsg, msg);
+    do {
+      stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
+    } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
+    tryObject = stacktraceTry->tryObject;
+    if(tryObject !=null)
+    { //TRY-level is found:
+      exception = &tryObject->exc;
+    } else {
+      exception = &_thCxt->exc; //use the basic exception element for uncatched Eception.
     }
-    #endif
-    exception->exceptionValue = value;
-    if(tryObject !=null) {
-      #ifdef DEF_Exception_NO
-        //Only log, the program continues after THROW
-        //Note: The compilation does not call this operation because THROW is defined
-        //with immediately call of log_Exception usually
-        log_ExceptionJc(exception, file, line);
-      #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
-        #ifndef __cplusplus
-          #error to use C++ exception handing you should compile this source with C++
-        #endif
-        throw exceptionNr;
-      #else
-       longjmp(tryObject->longjmpBuffer, exceptionNr);
+  #else
+    tryObject = &_thCxt->tryBase;
+    exception = &_thCxt->tryBase.exc;
+    if(tryObject->nrNested == 0) {
+      tryObject = null;  //not use, no TRY-Block, forces uncatched Excpetion. 
+    }
+  #endif
+  exception->file = file;
+  exception->line = line;
+  exception->exceptionNr = exceptionNr;
+  //check the memory area where the msg is stored. Maybe in stack, then copy it.
+  MemUnit* addrMsg = (MemUnit*)msg.addr.str;
+  #ifndef DEF_NO_StringJcCapabilities
+  if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
+    //The msg is in stack area, copy it in ThreadContext!
+    int zMsg = length_StringJc(msg);
+    if(zMsg >0){
+      #ifdef DEF_ThreadContextHeap_emC
+        MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
+        char* b = PTR_MemC(memb, char);
+        if(b !=null) {
+          copyToBuffer_StringJc(msg, 0, -1, b, zMsg);
+          SET_StringJc(exception->exceptionMsg, b, zMsg);
+        }
+        else {
+          exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
+        }
+      #else //no DEF_ThreadContextHeap_emC
+        exception->exceptionMsg = z_StringJc("Exception message in stack, but no ThreadHeap, cannot be used.");
       #endif
-
-    }
-    else
-    { //no TRYJc-level found,
-      uncatched_ExceptionJc(exception, _thCxt);
     }
   }
+  else {
+    lightCopy_StringJc(&exception->exceptionMsg, msg);
+  }
+  #endif
+  exception->exceptionValue = value;
+  if(tryObject !=null) {
+    tryObject->excNrTestCatch = exception->exceptionNr;
+    #ifdef DEF_Exception_NO
+      //Only log, the program continues after THROW
+      //Note: The compilation does not call this operation because THROW is defined
+      //with immediately call of log_Exception usually
+      log_ExceptionJc(exception, file, line);
+    #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
+      #ifndef __cplusplus
+        #error to use C++ exception handing you should compile this source with C++
+      #endif
+      throw exceptionNr;
+    #else
+      longjmp(tryObject->longjmpBuffer, exceptionNr);
+    #endif
+
+  }
   else
-  { //no _thCxt given,
-    ExceptionJc exception = {0};
-    exception.file = file;
-    exception.line = line;
-    exception.exceptionNr = exceptionNr;
-    lightCopy_StringJc(&exception.exceptionMsg, msg);
-    exception.exceptionValue = value;
-    uncatched_ExceptionJc(&exception, _thCxt);
+  { //no TRYJc-level found,
+    uncatched_ExceptionJc(exception, _thCxt);
   }
 }
 

@@ -190,12 +190,8 @@ typedef struct ThreadContext_emC_t {
   /**This is the maximal found value of the stack size which is evaluated on [[getCurrentStackDepth_ThreadContext_emC(...)]] . */
   int stacksizeMax;
 
-
-
-
-
-  /**The only one exception stored here. There is no possibiity for Throw objects.*/
-  ExceptionJc exc;
+  /**The Exception buffer either for an uncatched exception or for DEF_ThreadContext_SIMPlE*/
+  TryObjectJc tryBase;
 
   /**Set to 0 on input of matching CATCH block to set exc.exceptionNr to 0 on END_TRY */
   int32 excNrTestCatch;
