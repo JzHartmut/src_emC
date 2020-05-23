@@ -115,7 +115,7 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
   if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
   ExceptionJc* exception;
   TryObjectJc* tryObject = null;
-  #ifdef DEF_ThreadContextStracktrc_emC
+  #ifdef XXXDEF_ThreadContextStracktrc_emC
     StacktraceThreadContext_emC_s* stacktrcThCxt = &_thCxt->stacktrc;
     StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
     StacktraceElementJc* stacktraceTry;
@@ -131,12 +131,16 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
     { //TRY-level is found:
       exception = &tryObject->exc;
     } else {
-      exception = &_thCxt->exc; //use the basic exception element for uncatched Eception.
+      exception = &_thCxt->tryBase.exc; //use the basic exception element for uncatched Eception.
     }
   #else
     tryObject = &_thCxt->tryBase;
     exception = &_thCxt->tryBase.exc;
+    #ifdef DEF_Exception_longjmp
+    if(tryObject->longjmpBuffer == null) {
+    #else 
     if(tryObject->nrNested == 0) {
+    #endif
       tryObject = null;  //not use, no TRY-Block, forces uncatched Excpetion. 
     }
   #endif
@@ -171,7 +175,7 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
   #endif
   exception->exceptionValue = value;
   if(tryObject !=null) {
-    tryObject->excNrTestCatch = exception->exceptionNr;
+    //tryObject->excNrTestCatch = exception->exceptionNr;
     #ifdef DEF_Exception_NO
       //Only log, the program continues after THROW
       //Note: The compilation does not call this operation because THROW is defined
@@ -183,7 +187,7 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
       #endif
       throw exceptionNr;
     #else
-      longjmp(tryObject->longjmpBuffer, exceptionNr);
+      longjmp(*tryObject->longjmpBuffer, exceptionNr);
     #endif
 
   }

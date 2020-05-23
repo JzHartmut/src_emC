@@ -106,7 +106,7 @@ typedef struct StacktraceElementJc_t
   const char* name;
   const char* source;
   int line;
-  struct TryObjectJc_t* tryObject;
+//  struct TryObjectJc_t* tryObject;
 }StacktraceElementJc;
 
 
@@ -194,9 +194,9 @@ typedef struct ThreadContext_emC_t {
   TryObjectJc tryBase;
 
   /**Set to 0 on input of matching CATCH block to set exc.exceptionNr to 0 on END_TRY */
-  int32 excNrTestCatch;
-  int32 line;
-  char const* file;
+  //int32 excNrTestCatch;
+  //int32 line;
+  //char const* file;
 
   #ifdef DEF_ThreadContextStracktrc_emC
   /**Data of the Stacktrace if this concept is used. */
@@ -256,7 +256,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
     _ixStacktrace_.ix = _thCxt->stacktrc.zEntries; \
     _thCxt->stacktrc.zEntries+=1; \
     stdst = &_thCxt->stacktrc.entries[_ixStacktrace_.ix]; \
-    stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  stdst->tryObject = null; \
+    stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  \
   } else { /**do nothing special in this error case. */ \
     /**But do not create the index in thread context. */ \
     _ixStacktrace_.ix = _ixStacktrace_.ixPrev; \

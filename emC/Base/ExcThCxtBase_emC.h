@@ -38,6 +38,11 @@
 #ifndef __emC__ExcThCxtBase_emC_h__
 #define __emC__ExcThCxtBase_emC_h__
 
+
+#ifdef DEF_Exception_longjmp
+#include <setjmp.h>
+#endif
+
 #ifndef DEF_NO_StringJcCapabilities  //It is possible to renounce usage of StringJc in simple targets.
 //  #include <emC/Base/String_emC.h>  //StringJc
 #endif
@@ -267,15 +272,14 @@ typedef struct TryObjectJc_t
   * but this variable is set to 0 if a CATCH BLOCK is detected. 
   * It it is not 0 on END_TRY (note: after FINALY), then the exception is not be handled.
   * With this test the exception is thrown for a maybe existing superior try-catch level. This is the reason for this variable. */
-  int32 excNrTestCatch;
+  //int32 excNrTestCatch;
   #ifdef DEF_Exception_longjmp
   #ifdef ReflectionHidden 
-  /**Buffer for the longjmp mechanism, see standard-C-documentation. Defined in standard-include-file setjmp.h */ 
-  jmp_buf longjmpBuffer;
-  //int32 jmpBufferDummies[64];  //because Hynet has an internal problem.
+    /**Buffer for the longjmp mechanism, see standard-C-documentation. Defined in standard-include-file setjmp.h */ 
+    jmp_buf* longjmpBuffer;
   #endif
   #elif defined(DEF_ThreadContext_SIMPLE)
-  int32 nrNested;
+    int32 nrNested;
   #endif
 
 } TryObjectJc;
