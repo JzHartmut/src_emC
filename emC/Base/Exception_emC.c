@@ -113,37 +113,7 @@ const char* exceptionTexts DEF [33] =
 void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
-  ExceptionJc* exception;
-  TryObjectJc* tryObject = null;
-  #ifdef XXXDEF_ThreadContextStracktrc_emC
-    StacktraceThreadContext_emC_s* stacktrcThCxt = &_thCxt->stacktrc;
-    StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
-    StacktraceElementJc* stacktraceTry;
-    int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
-    if(line >0) {
-      stacktrcThCxt->entries[ixStacktraceEntries].line = line;  //it is the line of the THROW statement.
-    }
-    do {
-      stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
-    } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
-    tryObject = stacktraceTry->tryObject;
-    if(tryObject !=null)
-    { //TRY-level is found:
-      exception = &tryObject->exc;
-    } else {
-      exception = &_thCxt->tryBase.exc; //use the basic exception element for uncatched Eception.
-    }
-  #else
-    tryObject = &_thCxt->tryBase;
-    exception = &_thCxt->tryBase.exc;
-    #ifdef DEF_Exception_longjmp
-    if(tryObject->longjmpBuffer == null) {
-    #else 
-    if(tryObject->nrNested == 0) {
-    #endif
-      tryObject = null;  //not use, no TRY-Block, forces uncatched Excpetion. 
-    }
-  #endif
+  ExceptionJc* exception = &_thCxt->exception[_thCxt->ixException];
   exception->file = file;
   exception->line = line;
   exception->exceptionNr = exceptionNr;
@@ -174,7 +144,13 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
   }
   #endif
   exception->exceptionValue = value;
-  if(tryObject !=null) {
+  throwCore_emC(_thCxt);
+}
+
+
+void throwCore_emC(ThCxt* _thCxt) {
+
+  if(_thCxt->tryObject !=null) {
     //tryObject->excNrTestCatch = exception->exceptionNr;
     #ifdef DEF_Exception_NO
       //Only log, the program continues after THROW
@@ -187,31 +163,41 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
       #endif
       throw exceptionNr;
     #else
-      longjmp(*tryObject->longjmpBuffer, exceptionNr);
+      longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->exception[_thCxt->ixException].exceptionNr);
     #endif
 
   }
   else
   { //no TRYJc-level found,
-    uncatched_ExceptionJc(exception, _thCxt);
+    uncatched_ExceptionJc(&_thCxt->exception[_thCxt->ixException], _thCxt);
   }
 }
 
 
 
-void throw_s0Jc (int32 exceptionNr, const char* msgP, int value, char const* file, int line, ThCxt* _thCxt)
+void throw_s0Jc ( int32 exceptionNr, const char* msgP, int value, char const* file, int line, ThCxt* _thCxt)
 { StringJc msg = s0_StringJc(msgP);
   throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 }
 
 
 
-void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt)
+void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt)
 {
   //int exceptionNr = exc->exceptionNr;
   StringJc msg = exc->exceptionMsg;
   //int32 value = exc->exceptionValue;
   throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
+
+}
+
+
+
+void clearException ( ExceptionJc* exc) {
+  #ifndef DEF_NO_StringJcCapabilities
+  if(exc->exceptionMsg.addr.str!=null) { free_MemC(exc->exceptionMsg.addr.str); }
+  #endif
+
 
 }
 

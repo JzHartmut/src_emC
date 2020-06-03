@@ -190,8 +190,19 @@ typedef struct ThreadContext_emC_t {
   /**This is the maximal found value of the stack size which is evaluated on [[getCurrentStackDepth_ThreadContext_emC(...)]] . */
   int stacksizeMax;
 
-  /**The Exception buffer either for an uncatched exception or for DEF_ThreadContext_SIMPlE*/
-  TryObjectJc tryBase;
+  /**Number of and index to the current exception instance*/
+  int zException, ixException;
+  //
+  /**Up to NROF_ExceptionObjects (default 4) for nested Exception. */
+  ExceptionJc exception[4];
+  //
+  /**Reference to the current TryObject in Stack.
+  * It is possible to access in deeper stack frames.
+  * This reference is removed for the outer stack frames.
+  */
+  TryObjectJc* tryObject;
+  //
+
 
   /**Set to 0 on input of matching CATCH block to set exc.exceptionNr to 0 on END_TRY */
   //int32 excNrTestCatch;

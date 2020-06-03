@@ -208,310 +208,85 @@ extern_C void throw_s0Jc ( int32 exceptionNr, const char* msg, int value, char c
 extern_C void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt);
 
 
+
+extern_C void throwCore_emC(ThCxt* _thCxt);
+
+extern_C void clearException(ExceptionJc* exc);
+
+
+
+
+
 #if defined(DEF_Exception_NO)
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//== DEF_Exception_NO
-
- /**The threadContext is necessary to check whether an exception was thrown. Therefore initialize it. */
- #define TRY if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
-
- /**With this statement the if-chain to check the exception value starts. Create a local pointer to the exception for better handling. 
-  * excNrTestCatch = is the value used in END_TRY. It is set to 0 on a handled exception.
-  */
- #define _TRY { int _exc = _thCxt->tryBase.exc.exceptionNr; int excNrTestCatch = _exc; \
-  if(_exc ==0) { /*empty block till first CATCH if no exception*/
-
-  /**It closes the if(){ before from the _TRY or from a CATCH block before. Then it checks the exceptionNr with the given EXCPETION as mask.*/
- #define CATCH(EXCEPTION, EXC_OBJ) } else if(_exc <= range_##EXCEPTION##Jc) { ExceptionJc* EXC_OBJ = &_thCxt->tryBase.exc; excNrTestCatch = 0;
-
- #define FINALLY \
- } /*close CATCH brace */\
- { /*open to braces because END_TRY.*/
-
-  /**Rewrite the exceptionNr, maybe 0 on handled exception or if no exception. */
- #define END_TRY _thCxt->tryBase.exc.exceptionNr = excNrTestCatch; \
-    _thCxt->tryBase.excNrTestCatch = 0; } }  /*closing brace from CATCH and from _TRY*/
-
-
+  #define Exception_TRY
+  #define Exception_CATCH if(_thCxt->exception[_thCxt->ixException].exceptionNr !=0)
 #elif defined(DEF_Exception_longjmp)
-#  ifdef DEF_ThreadContext_SIMPLE  //longjmp
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//== longjmp, DEF_ThreadContext_SIMPLE
+  #define Exception_TRY \
+  if( setjmp(tryObject.longjmpBuffer) ==0) {
+  #define Exception_CATCH \
+   } else  /*longjmp cames to here on THROW */
+#else
+  #define Exception_TRY try
+  #define Exception_CATCH catch(...)
+#endif
 
 
- /**TRY in C: it sets the [[longjmpBuffer_TryObjectJc]] via invocation of setjmp(...).
-  * The invocation of setjmp returns 0, so the execution is continued 
-  * in the if(tryObject.exceptionNr==0) { ...branch of execution } 
-  * On a longjmp the execution resumes in the setjmp-statements but returns !=0. 
-  * Therefore the execution is continued in the else if(...) branches which checks the exception.
-  */
- #define TRY \
- {if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
-  jmp_buf* longjmpBufferPrev = _thCxt->tryBase.longjmpBuffer;  /*nested */ \
-  jmp_buf longjmpBufferCurr; _thCxt->tryBase.longjmpBuffer = &longjmpBufferCurr; \
-  if(setjmp(longjmpBufferCurr) ==0) {  //forward-branch if returns 0
+#ifdef DEF_ThreadContext_SIMPLE
+  #define RESTORE_STACKTRACE_DEEPNESS
+#else 
+  /**remove the validy of _ixStacktrace_ entries of the deeper levels. */
+  #define RESTORE_STACKTRACE_DEEPNESS _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1;
+#endif
 
- #define _TRY \
-  } else { /*longjmp cames to here on THROW */ \
-    if(_thCxt->tryBase.exc.exceptionNr == 0) { /*if 0, a system has occured:*/ \
-      _thCxt->tryBase.exc.exceptionNr = ident_SystemExceptionJc;  \
-      _thCxt->tryBase.exc.exceptionMsg = z_StringJc("System exception"); \
-    }  \
-    int32 excNrCatchTest = _thCxt->tryBase.exc.exceptionNr; \
-    if(false) { /*opens an empty block, closed on first CATCH starts with }*/
+#define TRY \
+{if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
+ TryObjectJc tryObject = {0}; \
+ TryObjectJc* tryObjectPrev = _thCxt->tryObject; _thCxt->tryObject = &tryObject; \
+ int32 excNrCatchTest = 0; \
+ CALLINE; \
+ Exception_TRY
 
 
-  //empty, first } else if(...) is part of CATCH
-
- #define CATCH(EXCEPTION, EXC_OBJ) \
-     /*_thCxt->tryBase.exc.exceptionNr = 0; /*On end of the block before, resolved exception. */ \
-    } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) { \
-      excNrCatchTest = 0;  /*found*/ \
-      ExceptionJc* EXC_OBJ = &_thCxt->tryBase.exc; _thCxt->tryBase.excNrTestCatch = 0;   
- #define FINALLY \
-    } /*close CATCH brace */\
-    /*close brace of whole catch block*/ \
-    { /*open to braces because END_TRY has 2 closing braces.*/
-
- #define END_TRY \
-    } /*close FINALLY, CATCH or TRY brace */\
-    _thCxt->tryBase.longjmpBuffer = longjmpBufferPrev; /*restore nested*/ \
-    if( excNrTestCatchTest != 0) /*Exception not handled*/ \
-    { /* delegate exception to previous level. */ \
-      throw_sJc(_thCxt->tryBase.exc.exceptionNr, _thCxt->tryBase.exc.exceptionMsg, _thCxt->tryBase.exc.exceptionValue, _thCxt->tryBase.exc.file, _thCxt->tryBase.exc.line, _thCxt); \
-    } \
-    FREE_MSG_END_TRY(_thCxt->tryBase.exc.exceptionMsg); /*In case it is a allocated one*/ \
-  } /*Close brace of set_jmp !=0*/ \
- } /*close brace from beginning TRY*/
+/**Write on end of a TRY-Block the followed macro: */
+#define _TRY \
+ Exception_CATCH { \
+   _thCxt->tryObject = tryObjectPrev; \
+   if(_thCxt->exception[_thCxt->ixException].exceptionNr == 0) {/*system Exception:*/ \
+     _thCxt->exception[_thCxt->ixException].exceptionNr = ident_SystemExceptionJc;  \
+     _thCxt->exception[_thCxt->ixException].exceptionMsg = z_StringJc("System exception"); \
+   }  \
+   excNrCatchTest = _thCxt->exception[_thCxt->ixException].exceptionNr; \
+   if(false) { /*opens an empty block, closed on first CATCH starts with }*/
 
 
+//end of CATCH before: remove _ixStacktrace_ entries of the deeper levels.
+//Note: Till end of catch the stacktrace of the throw level is visible.
+#define CATCH(EXCEPTION, EXC_OBJ) \
+     RESTORE_STACKTRACE_DEEPNESS  \
+   } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
+   { ExceptionJc* EXC_OBJ = &_thCxt->exception[_thCxt->ixException]; \
+     excNrCatchTest = 0; //do not check it a second time
 
 
-#  else  //!DEF_ThreadContext_SIMPLE and longjmp
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//== longjmp, not DEF_ThreadContext_SIMPLE
-
- /**TRY in C: it sets the [[longjmpBuffer_TryObjectJc]] via invocation of setjmp(...).
-  * The invocation of setjmp returns 0, so the execution is continued 
-  * in the if(tryObject.exceptionNr==0) { ...branch of execution } 
-  * On a longjmp the execution resumes in the setjmp-statements but returns !=0. 
-  * Therefore the execution is continued in the else if(...) branches which checks the exception.
-  */
- #define TRY \
- {if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
-  jmp_buf* longjmpBufferPrev = _thCxt->tryBase.longjmpBuffer;  /*nested */ \
-  _thCxt->stacktrc.entries[_ixStacktrace_.ix].line = __LINE__; \
-  jmp_buf longjmpBufferCurr; _thCxt->tryBase.longjmpBuffer = &longjmpBufferCurr; \
-  if( setjmp(longjmpBufferCurr) ==0) { 
-
- #define _TRY \
-  } else { /*longjmp cames to here on THROW */ \
-    if(_thCxt->tryBase.exc.exceptionNr == 0) { /*if 0, a system has occured:*/ \
-      _thCxt->tryBase.exc.exceptionNr = ident_SystemExceptionJc;  \
-      _thCxt->tryBase.exc.exceptionMsg = z_StringJc("System exception"); \
-    }  \
-    int32 excNrCatchTest = _thCxt->tryBase.exc.exceptionNr; \
-    if(false) { /*opens an empty block, closed on first CATCH starts with }*/
-
- //end of CATCH before: remove _ixStacktrace_ entries of the deeper levels.
- #define CATCH(EXCEPTION, EXC_OBJ) \
-      _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; \
-    } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
-    { ExceptionJc* EXC_OBJ = &_thCxt->tryBase.exc; excNrCatchTest = 0;  /*do not check it a second time.*/
-
- #define FINALLY \
-      /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
-      _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; \
-    } /*close CATCH brace */\
-    /*close brace of whole catch block*/ \
-    { /*open to braces because END_TRY has 2 closing braces.*/
-
-  /**Write on end of the whole TRY-CATCH-Block the followed macro:*/
- #define END_TRY \
-    } /*close FINALLY, CATCH or TRY brace */\
-    _thCxt->tryBase.longjmpBuffer = longjmpBufferPrev; /*restore nested*/ \
-    if( excNrCatchTest != 0 ) /*Exception not handled*/ \
-    { /* delegate exception to previous level. */ \
-      throw_sJc(_thCxt->tryBase.exc.exceptionNr, _thCxt->tryBase.exc.exceptionMsg, _thCxt->tryBase.exc.exceptionValue, _thCxt->tryBase.exc.file, _thCxt->tryBase.exc.line, _thCxt); \
-    } \
-    FREE_MSG_END_TRY(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
-    /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
-    _thCxt->stacktrc.zEntries = _ixStacktrace_.ix +1; \
-  } /*Close brace of set_jmp !=0*/ \
- } /*close brace from beginning TRY*/
-
-
-#  endif
-
-#elif defined(DEF_Exception_TRYCpp)
-
-#  ifdef DEF_ThreadContext_SIMPLE  //TRYCpp
-
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//== TRYCpp && DEF_ThreadContext_SIMPLE
-
-
-/**TRY in C++: It is the try statement.
-  * The exceptionNr is initialized with ident_SystemExceptionJc.
-  * That is because a system exception like memory protection exception does not write
-  * to the exceptionnr.
-  */
- #define TRY \
-    { /*The matching close curly brace is given in the END_TRY at least. */ \
-      if(_thCxt == null){ _thCxt = getCurrent_ThreadContext_emC(); } \
-      int32 _parentTry = _thCxt->tryBase.nrNested; \
-      _thCxt->tryBase.nrNested += 1; \
-      _thCxt->tryBase.exc.exceptionNr = 0; /*prevent CATCH if no THROW*/ \
-      try
-
- /**Uses the Exception instance in the simple thread context: */
- #define _TRY \
-  catch(...) {  \
-    if(_thCxt->tryBase.exc.exceptionNr == 0) { /*if 0, a system has occured:*/ \
-      _thCxt->tryBase.excNrTestCatch = _thCxt->tryBase.exc.exceptionNr = ident_SystemExceptionJc; /*store it for CATCH*/ \
-      _thCxt->tryBase.exc.exceptionMsg = z_StringJc("System exception"); \
-    }  \
-    if(false) { /*opens an empty block, closed on the first CATCH macro which starts with } else if. */
-
- #define CATCH(EXCEPTION, EXC_OBJ) \
-      /*_thCxt->tryBase.exc.exceptionNr = 0; /*On end of the block before, resolved exception. */ \
-    } else if((_thCxt->tryBase.excNrTestCatch & mask_##EXCEPTION##Jc)!= 0) { \
-      ExceptionJc* EXC_OBJ = &_thCxt->tryBase.exc; _thCxt->tryBase.excNrTestCatch = 0;   
-
- #define FINALLY \
-   } /*close CATCH brace */\
-   } /*close brace of whole catch block*/ \
-   { { /*open to braces because END_TRY has 2 closing braces.*/
-
- #define END_TRY \
-   } /*close FINALLY, CATCH or TRY brace */\
-  } /*close brace of whole catch block*/ \
-  _thCxt->tryBase.nrNested = _parentTry;  \
-  if(_thCxt->tryBase.excNrTestCatch != 0) /*Exception not handled*/ \
-  { /* delegate exception to previous level. */ \
-    throw_sJc(_thCxt->tryBase.exc.exceptionNr, _thCxt->tryBase.exc.exceptionMsg, _thCxt->tryBase.exc.exceptionValue, _thCxt->tryBase.exc.file, _thCxt->tryBase.exc.line, _thCxt); \
-  } \
-  FREE_MSG_END_TRY(_thCxt->tryBase.exc.exceptionMsg); /*In case it is a allocated one*/ \
- } /*close brace from beginning TRY*/
-
-
-
-
-#  else  //!DEF_ThreadContext_SIMPLE
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//=====================================================================================
-//== TRYCpp, not DEF_ThreadContext_SIMPLE
-
- /**TRY in C++: It is the try statement.
-  * The exceptionNr is initialized with ident_SystemExceptionJc.
-  * That is because a system exception like memory protection exception does not write
-  * to the exceptionnr.
-  */
- #define TRY \
-  { /*The matching close curly brace is given in the END_TRY at least. */ \
-    TryObjectJc tryObject = {NULL_ExceptionJc(), 0}; \
-    _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = &tryObject; \
-    _thCxt->stacktrc.entries[_ixStacktrace_.ix].line = __LINE__; \
-    try
-
-  /**Write at end of a TRY-Block the followed macro: */
- #define _TRY \
-   catch(...) { \
-     _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null;  \
-     if(tryObject.exc.exceptionNr == 0) { /*if 0, a system has occured:*/ \
-       tryObject.exc.exceptionNr = tryObject.excNrTestCatch = ident_SystemExceptionJc;  \
-       tryObject.exc.exceptionMsg = z_StringJc("System exception"); \
-     }  \
-     int32 excNrCatchTest = tryObject.exc.exceptionNr; \
-     if(false) { /*opens an empty block, closed on the first CATCH macro which starts with } else if. */
-
- #define CATCH(EXCEPTION, EXC_OBJ) \
-    \
-    _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; /*end of CATCH before: remove _ixStacktrace_ entries of the deeper levels. */ \
-  } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
-  { ExceptionJc* EXC_OBJ = &tryObject.exc; tryObject.excNrTestCatch = 0;  /*do not check it a second time.*/
-
- #define FINALLY \
-  /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
-  _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1; \
- } /*close CATCH brace */\
- } /*close brace of whole catch block*/ \
+#define FINALLY \
+     RESTORE_STACKTRACE_DEEPNESS \
+ } } /*close CATCH brace */\
+ _thCxt->tryObject = tryObjectPrev; \
  { { /*open to braces because END_TRY has 2 closing braces.*/
 
-  /**Write on end of the whole TRY-CATCH-Block the followed macro:*/
- #define END_TRY \
-   } /*close FINALLY, CATCH or TRY brace */\
-  } /*close brace of whole catch block*/ \
-  if(tryObject.excNrTestCatch != 0) /*Exception not handled*/ \
-  { /* delegate exception to previous level. */ \
-   _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null; \
-   throw_sJc(tryObject.exc.exceptionNr, tryObject.exc.exceptionMsg, tryObject.exc.exceptionValue, tryObject.exc.file, tryObject.exc.line, _thCxt); \
-  } \
-  FREE_MSG_END_TRY(tryObject.exc.exceptionMsg); /*In case it is a allocated one*/ \
-  /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
-  _thCxt->stacktrc.entries[_ixStacktrace_.ix].tryObject = null; /*Remove tryObject, should not be found later!*/   \
-  _thCxt->stacktrc.zEntries = _ixStacktrace_.ix +1; \
- } /*close brace from beginning TRY*/
 
-#  endif  //!DEF_ThreadContext_SIMPLE
-#endif  //DEF_Exception_TRYCpp
-
-
-
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-  //================================================================================================================
-
-
-
-
+//Write on end of the whole TRY-CATCH-Block the followed macro:*/
+#define END_TRY \
+ } } /*close FINALLY, CATCH or TRY brace */\
+ _thCxt->tryObject = tryObjectPrev; \
+ if( excNrCatchTest != 0 ) /*Exception not handled*/ \
+ { /* delegate exception to previous level. */ \
+   throwCore_emC(_thCxt); \
+ } else { /*remain exception for prev level on throwCore_emC if DEF_Exception_NO */\
+   clearException(&_thCxt->exception[_thCxt->ixException]); \
+ } /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
+ RESTORE_STACKTRACE_DEEPNESS \
+} /*close brace from beginning TRY*/
 
 
 
@@ -553,11 +328,6 @@ extern_C void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char c
 
 
 
-#ifdef DEF_NO_StringJcCapabilities
-  #define FREE_MSG_END_TRY(MSG)  //left empty
-#else
-  #define FREE_MSG_END_TRY(MSG) if((MSG).addr.str!=null) { free_MemC((MSG).addr.str); }
-#endif
 
 
 /**The access methods to os_ThreadContext should be known from user. 

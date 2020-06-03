@@ -266,19 +266,12 @@ extern_C int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char co
 
 typedef struct TryObjectJc_t
 {
-  /**The exception object here temporary in stack*/
-  ExceptionJc exc;
-  /**The exceptionNr is set on throw here and in the Exception instance. The exception instance will be unchanged,
-  * but this variable is set to 0 if a CATCH BLOCK is detected. 
-  * It it is not 0 on END_TRY (note: after FINALY), then the exception is not be handled.
-  * With this test the exception is thrown for a maybe existing superior try-catch level. This is the reason for this variable. */
-  //int32 excNrTestCatch;
   #ifdef DEF_Exception_longjmp
   #ifdef ReflectionHidden 
     /**Buffer for the longjmp mechanism, see standard-C-documentation. Defined in standard-include-file setjmp.h */ 
-    jmp_buf* longjmpBuffer;
+    jmp_buf longjmpBuffer;
   #endif
-  #elif defined(DEF_ThreadContext_SIMPLE)
+  #else //if defined(DEF_ThreadContext_SIMPLE)
     int32 nrNested;
   #endif
 
