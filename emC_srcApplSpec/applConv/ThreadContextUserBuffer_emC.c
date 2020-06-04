@@ -106,7 +106,7 @@ METHOD_C MemC setUserBuffer_ThreadContext_emC  (  MemC newBuffer, ThreadContext_
 
 
 
-MemC getUserBuffer_ThreadContext_emC  (  int size, char const* sign, ThreadContext_emC_s* _thCxt)
+MemC getUserBuffer_ThreadContext_emC ( int size, char const* sign, struct ThreadContext_emC_t*  _thCxt)
 { ASSERT_emC(size >= -1, "faulty size argument", size,0);
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
   UserBufferInThCxt_s* threadHeap = &_thCxt->threadheap;
@@ -153,7 +153,6 @@ MemC getUserBuffer_ThreadContext_emC  (  int size, char const* sign, ThreadConte
   }
   { //The algorithm has returned if a buffer was found.
     //This line is reached only if nothing is found.
-    THROW1_s0(IllegalStateException, "nothing free in ThreadContext", size);
     return null_MemC;
   }
 }

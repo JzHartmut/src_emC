@@ -83,8 +83,9 @@ int free_MemC  (  void const* addr)
 { if(addr == null) return 0;
   //
   MemUnit* ptr = (MemUnit*)addr;
+  STACKTRC_ENTRY("free_MemC");
   #ifdef DEF_ThreadContextHeap_emC
-    ThCxt* _thCxt = getCurrent_ThreadContext_emC();
+    //ThCxt* _thCxt = getCurrent_ThreadContext_emC();
     if(_thCxt->threadheap.mode & mCheckBufferUsed_Mode_ThCxt){
       if(_thCxt->threadheap.mode & mBufferUsed_Mode_ThCxt){
         THROW1_s0(IllegalStateException, "Thread buffer not free", 0);
@@ -98,15 +99,15 @@ int free_MemC  (  void const* addr)
   
     if(ptr >= bufferStart && ptr < bufferEnd) {
       releaseUserBuffer_ThreadContext_emC(ptr, _thCxt);
-      return 3;
+      STACKTRC_RETURN 3;
     }
   #else
-    if(false) { return 0; } //empty quest because following else clause
+    if(false) { STACKTRC_RETURN 0; } //empty quest because following else clause
   #endif
   //
   #ifdef USE_BlockHeap_emC
     else if(free_sBlockHeap_emC(ptr, null)) { //try to free a block in blockheap
-      return 2;
+      STACKTRC_RETURN 2;
     }
   #endif
   //Note: At least 1 empty if before, the different memory locations.  
@@ -123,9 +124,9 @@ int free_MemC  (  void const* addr)
         addrCheck +=1;
       }
       os_freeMem(ptrAlloc);
-      return 1;
+      STACKTRC_RETURN 1;
     } else {
-      return 4;
+      STACKTRC_RETURN 4;
     }
   }
 

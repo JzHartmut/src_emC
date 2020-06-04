@@ -285,7 +285,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 
 #define THCXT _thCxt
 
-#define CALLINE
+#define CALLINE __LINE__
 
 #else  //not DEF_ThreadContext_SIMPLE
 
@@ -373,6 +373,9 @@ METHOD_C MemC setUserBuffer_ThreadContext_emC ( MemC newBuffer, struct ThreadCon
 * Because the buffer is stored not globally but thread specific this mechanism is threadsafe, .
 * @param size in MemUnit
 * @param sign a number to support debugging which part of code has allocated, use a unified number if possible.
+* @return null_MemC with length=0 if no buffer is free. The application should deal with this situation.
+* NOTE: An exception is not thrown because this is an expectable result. Especially if this routine is used inside an exception handling
+*   a simple exception exacerbate the situation.
 */ 
 METHOD_C MemC getUserBuffer_ThreadContext_emC ( int size, char const* sign, struct ThreadContext_emC_t* _thCxt);
 
