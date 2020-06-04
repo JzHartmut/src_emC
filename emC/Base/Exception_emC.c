@@ -113,7 +113,7 @@ const char* exceptionTexts DEF [33] =
 void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
-  ExceptionJc* exception = &_thCxt->exception[_thCxt->ixException];
+  ExceptionJc* exception = &_thCxt->exception[0];
   exception->file = file;
   exception->line = line;
   exception->exceptionNr = exceptionNr;
@@ -156,20 +156,20 @@ void throwCore_emC(ThCxt* _thCxt) {
       //Only log, the program continues after THROW
       //Note: The compilation does not call this operation because THROW is defined
       //with immediately call of log_Exception usually
-      log_ExceptionJc(exception, file, line);
+      log_ExceptionJc(&_thCxt->exception[0], _thCxt->exception[0].file, _thCxt->exception[0].line);
     #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
       #ifndef __cplusplus
         #error to use C++ exception handing you should compile this source with C++
       #endif
-      throw exceptionNr;
+      throw _thCxt->exception[0].exceptionNr;
     #else
-      longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->exception[_thCxt->ixException].exceptionNr);
+      longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->exception[0].exceptionNr);
     #endif
 
   }
   else
   { //no TRYJc-level found,
-    uncatched_ExceptionJc(&_thCxt->exception[_thCxt->ixException], _thCxt);
+    uncatched_ExceptionJc(&_thCxt->exception[0], _thCxt);
   }
 }
 

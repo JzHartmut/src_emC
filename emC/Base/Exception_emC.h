@@ -219,7 +219,7 @@ extern_C void clearException(ExceptionJc* exc);
 
 #if defined(DEF_Exception_NO)
   #define Exception_TRY
-  #define Exception_CATCH if(_thCxt->exception[_thCxt->ixException].exceptionNr !=0)
+  #define Exception_CATCH if(_thCxt->exception[0].exceptionNr !=0)
 #elif defined(DEF_Exception_longjmp)
   #define Exception_TRY \
   if( setjmp(tryObject.longjmpBuffer) ==0) {
@@ -251,11 +251,11 @@ extern_C void clearException(ExceptionJc* exc);
 #define _TRY \
  Exception_CATCH { \
    _thCxt->tryObject = tryObjectPrev; \
-   if(_thCxt->exception[_thCxt->ixException].exceptionNr == 0) {/*system Exception:*/ \
-     _thCxt->exception[_thCxt->ixException].exceptionNr = ident_SystemExceptionJc;  \
-     _thCxt->exception[_thCxt->ixException].exceptionMsg = z_StringJc("System exception"); \
+   if(_thCxt->exception[0].exceptionNr == 0) {/*system Exception:*/ \
+     _thCxt->exception[0].exceptionNr = ident_SystemExceptionJc;  \
+     _thCxt->exception[0].exceptionMsg = z_StringJc("System exception"); \
    }  \
-   excNrCatchTest = _thCxt->exception[_thCxt->ixException].exceptionNr; \
+   excNrCatchTest = _thCxt->exception[0].exceptionNr; \
    if(false) { /*opens an empty block, closed on first CATCH starts with }*/
 
 
@@ -264,7 +264,7 @@ extern_C void clearException(ExceptionJc* exc);
 #define CATCH(EXCEPTION, EXC_OBJ) \
      RESTORE_STACKTRACE_DEEPNESS  \
    } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
-   { ExceptionJc* EXC_OBJ = &_thCxt->exception[_thCxt->ixException]; \
+   { ExceptionJc* EXC_OBJ = &_thCxt->exception[0]; \
      excNrCatchTest = 0; //do not check it a second time
 
 
@@ -283,7 +283,7 @@ extern_C void clearException(ExceptionJc* exc);
  { /* delegate exception to previous level. */ \
    throwCore_emC(_thCxt); \
  } else { /*remain exception for prev level on throwCore_emC if DEF_Exception_NO */\
-   clearException(&_thCxt->exception[_thCxt->ixException]); \
+   clearException(&_thCxt->exception[0]); \
  } /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
  RESTORE_STACKTRACE_DEEPNESS \
 } /*close brace from beginning TRY*/
@@ -302,8 +302,8 @@ extern_C void clearException(ExceptionJc* exc);
    * but the calling routine is continued. It should check itself for sufficient conditions to work.
    */
   #define THROW(EXCEPTION, STRING, VAL1, VAL2) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
-  _thCxt->tryBase.exc.exceptionNr = nr_##EXCEPTION##Jc; _thCxt->tryBase.exc.exceptionValue = VAL1; \
-  _thCxt->tryBase.exc.file = __FILE__; _thCxt->tryBase.exc.line = __LINE__; \
+  _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##Jc; _thCxt->exception[0].exceptionValue = VAL1; \
+  _thCxt->exception[0].file = __FILE__; _thCxt->exception[0].line = __LINE__; \
   logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, VAL2, __FILE__, __LINE__); \
   }
 #else //both DEF_Exception_TRYCpp or longjmp:
