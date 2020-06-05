@@ -100,14 +100,17 @@ int16 mode;
 
 #define DEF_ThreadContextStracktrc_emC
 
-/*@CLASS_C StacktraceElementJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-typedef struct StacktraceElementJc_t
+/*@CLASS_C StacktraceElement_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**An element of the stacktrace, 12 Byte for a 32-bit-System, 
+ * 6 byte for a 16-bit-system, if char const* references are short. */
+typedef struct StacktraceElement_emC_T
 {
   const char* name;
   const char* source;
   int line;
-//  struct TryObjectJc_t* tryObject;
-}StacktraceElementJc;
+} StacktraceElement_emC_s;
 
 
 
@@ -121,32 +124,35 @@ typedef struct StacktraceElementJc_t
 
 struct StacktraceJc_t;
 
-/**This structure is a part of the ThreadContext and contains the necessary values for handling with Stacktrace.
-* A reference to this structure should be known in every routine to handle with Stacktrace.
-* The reference may be the last argument of call of any routine.
-*/
+/**This structure is the last part of the ThreadContext and contains the necessary values for handling with Stacktrace.
+ */
 typedef struct StacktraceThreadContext_emC_t
 {
-  /**Pointer to the actual stacktrace entry.
-  * This pointer is used and setted in any routine using the macro STACKthread_ENTRY and STACKthread_LEAVE.
-  */
-  //struct StacktraceJc_t* stacktrace;
+  /**actual nrofEntries in stacktraceBuffer. */
+  uint zEntries; 
 
-  /**Pointer to the whole ThreadContext. */
-  //struct ThreadContext_emC_t* threadContext;
-
-  /**actual nrofEntries i stacktraceBuffer. */
-  uint zEntries; //nrofEntriesStacktraceBuffer;
-
-                 /**The available number of Stacktrace entries. */
+  /**The available number of Stacktrace entries. */
   uint maxNrofEntriesStacktraceBuffer;
 
-  /**Space for Stacktrace Buffer. */
-  StacktraceElementJc entries[100]; //CHeader.zbnf??? nrofStacktraceEntries_ThreadContexJc];
-                                    //struct StacktraceElementJcARRAY_t* stacktraceBuffer;
+  /**This mask is used for safety operation 
+   * if the indices in IxStacktrace_emC are corrupt.
+   * This can occure especially in errorneous situations on software development.
+   * It simply helps to prevent faulty array accesses.
+   * But this mask information should be safe by itself or cyclically checkec
+   */
+  uint mBitEntriesStacktrc;
 
+  /**Space for Stacktrace Buffer. Should be the last element because of enhancements*/
+  StacktraceElement_emC_s entries[128]; 
 
 } StacktraceThreadContext_emC_s;
+
+/**Initializer.
+ * @arg SIZE have to be a power of 2! 
+   The really number of elements maybe with additional elements.
+ */
+#define INIZ_StacktraceThreadContext_emC(SIZE) { 0, SIZE, SIZE-1, {0}}
+
 
 
 METHOD_C StacktraceThreadContext_emC_s* ctorM_StacktraceThreadContext_emC(MemC mthis);
@@ -261,16 +267,16 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 #define STACKTRC_TENTRY(NAME) \
   IxStacktrace_emC _ixStacktrace_; \
   if(_thCxt==null){ _thCxt = getCurrent_ThreadContext_emC(); } \
-  _ixStacktrace_.ixPrev = _thCxt->stacktrc.zEntries; \
+  _ixStacktrace_.ixStacktracePrev = _thCxt->stacktrc.zEntries; \
   if(_thCxt->stacktrc.zEntries < (ARRAYLEN_SimpleC(_thCxt->stacktrc.entries))) { \
-    StacktraceElementJc* stdst; \
-    _ixStacktrace_.ix = _thCxt->stacktrc.zEntries; \
+    StacktraceElement_emC_s* stdst; \
+    _ixStacktrace_.ixStacktrace = _thCxt->stacktrc.zEntries; \
     _thCxt->stacktrc.zEntries+=1; \
-    stdst = &_thCxt->stacktrc.entries[_ixStacktrace_.ix]; \
+    stdst = &_thCxt->stacktrc.entries[_ixStacktrace_.ixStacktrace]; \
     stdst->name = NAME; stdst->source = __FILE__; stdst->line = __LINE__;  \
   } else { /**do nothing special in this error case. */ \
     /**But do not create the index in thread context. */ \
-    _ixStacktrace_.ix = _ixStacktrace_.ixPrev; \
+    _ixStacktrace_.ixStacktrace = _ixStacktrace_.ixStacktracePrev; \
   } 
 
 /**Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!*/
@@ -293,15 +299,15 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 * Use this macro unconditionally at end of a block using ,,STACKTRC_ENTRY(),, or ,,STACKTRC_XENTRY(),,.
 * Otherwise the chain of stacktrace elements is corrupted.
 */
-#define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = _ixStacktrace_.ixPrev
+#define STACKTRC_LEAVE _thCxt->stacktrc.zEntries = _ixStacktrace_.ixStacktracePrev
 
 /**This macro supplies the ,,_thCxt,,-Variable but stores the __LINE__ before.
 * A forgotten ,,STACKTRC_LEAVE,, in a last subroutine will be repaire yet also.
 */
-#define THCXT (_thCxt->stacktrc.entries[_ixStacktrace_.ix].line=__LINE__, _thCxt->stacktrc.zEntries = _ixStacktrace_.ix +1, _thCxt)
+#define THCXT (_thCxt->stacktrc.entries[_ixStacktrace_.ixStacktrace].line=__LINE__, _thCxt->stacktrc.zEntries = _ixStacktrace_.ixStacktrace +1, _thCxt)
 
 //#define CALLINE(stacktrace.entry.line=__LINE__)
-#define CALLINE (_thCxt->stacktrc.entries[_ixStacktrace_.ix].line=__LINE__)
+#define CALLINE (_thCxt->stacktrc.entries[_ixStacktrace_.ixStacktrace].line=__LINE__)
 
 #endif  //not DEF_ThreadContext_SIMPLE
 

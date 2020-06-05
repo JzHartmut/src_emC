@@ -67,7 +67,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   //int nrofStacktraceEntriesMax;
   char sBuffer[500] = {0};
 	int zBuffer;
-  //StacktraceElementJc* stacktraceEntries = ythis->stacktraceEntries;
+  //StacktraceElement_emC_s* stacktraceEntries = ythis->stacktraceEntries;
   //StacktraceJc* stacktrace = ythis->backStacktrace;
   const char* sException = getExceptionText_ExceptionJc(ythis->exceptionNr);
 
@@ -94,8 +94,8 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
     idxStacktraceEntries = _thCxt->stacktrc.zEntries;
     while(--idxStacktraceEntries >=0 ) //< nrofStacktraceEntriesMax)
     { //the entries after try-level
-      //StacktraceElementJc* entry = &stacktraceEntries->data[idxStacktraceEntries++];
-      StacktraceElementJc* entry = &_thCxt->stacktrc.entries[idxStacktraceEntries];
+      //StacktraceElement_emC_s* entry = &stacktraceEntries->data[idxStacktraceEntries++];
+      StacktraceElement_emC_s* entry = &_thCxt->stacktrc.entries[idxStacktraceEntries];
       if(out == null)
       { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
       }
@@ -108,7 +108,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   #if 0 //TODO
   while(stacktrace != null)
   { //the entries before try-level
-    StacktraceElementJc* entry = &stacktrace->entry;
+    StacktraceElement_emC_s* entry = &stacktrace->entry;
     if(out == null)
     { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
     }

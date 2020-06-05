@@ -123,30 +123,40 @@ extern_C void os_notifyError_FileLine(int errorCode, const char* description, in
 
 
 
-/**Stops the execution of the executable respectively the whole application because no error handling is possible.
- * This routine should only called in unexpected situations, where the engine may only be stopped.
+/**Stops the execution of the executable respectively the whole application 
+ * because no error handling is possible.
+ * This routine should only called in unexpected situations, 
+ * where the engine may only be stopped.
  *
- * This routine is used in the OSAL- or OS-Layer itself only for errors, which are fatal and not expectable.
+ * This routine is used in the OSAL- or OS-Layer itself only for errors, 
+ * which are fatal and not expectable.
  * This routine should be used from the users layer in adequate fatal situations.
- * The OSAL or OS doesn't call this routine in situations of errors which are able to catch.
+ * The OSAL or OS doesn't call this routine in situations of errors 
+ * which are able to catch.
  * 
- * The implementation of this routine should be done depending from the users requirements or special test requirements
+ * The implementation of this routine should be done depending from the users 
+ * requirements or special test requirements
  * to the whole system. It should be hard coded and really stop the execution.
  */
 extern_C void os_FatalSysError(int errorCode, const char* description, int value1, int value2);
 
 
 /**Stops the execution of a thread because no error handling is possible.
- * This routine should only called in unexpected situations, where the thread may only be stopped..
+ * This routine should only called in unexpected situations, 
+ * where the thread may only be stopped..
  * The distiction to ,,os_FatalSysError(...),, is: Only the calling thread is stopped,
- * where the other threads maybe continued still. It may be possible, that the system were instable,
- * but other threads may able to use to debug this situation. The application may be wrong.. 
+ * where the other threads maybe continued still. 
+ * It may be possible, that the system is instable, but other threads may able to use 
+ * to debug this situation. The application may be wrong.. 
  *
- * This routine is used in the OSAL- or OS-Layer itself only for errors, which are fatal and not expectable.
+ * This routine is used in the OSAL- or OS-Layer itself only for errors, 
+ * which are fatal and not expectable.
  * This routine should be used from the users layer in adequate fatal situations.
- * The OSAL or OS doesn't call this routine in situations of errors which are able to catch.
+ * The OSAL or OS doesn't call this routine in situations of errors 
+ * which are able to catch.
  * 
- * The implementation of this routine should be done depending from the users requirements or special test requirements
+ * The implementation of this routine should be done depending from the users 
+ * requirements or special test requirements
  * to the whole system. It should be hard coded and really stop the execution.
  */
 extern_C void os_FatalError(int errorCode, const char* description, int value1, int value2);

@@ -102,7 +102,7 @@ void os_deleteMutex  (  struct OS_Mutex_t* pMutex)
   {
     DWORD err = GetLastError();
     STACKTRC_ENTRY("os_createMutex");
-    THROW_s0(IllegalStateException, "os_deleteMutex: ERROR: CloseHandle failed with Win err", err, (int)winHandleMutex);
+    THROW_s0(IllegalStateException, "os_deleteMutex: ERROR: CloseHandle failed with Win err", err, (int)(intPTR)winHandleMutex);
     STACKTRC_RETURN;
   }
 }
@@ -159,11 +159,11 @@ void os_unlockMutex  (  struct OS_Mutex_t* pMutex)
     if (err == ERROR_NOT_OWNER)
     { /**It is helpfull to produce another error message if another thread release the mutex,
        * because it is a users programming error. */
-      THROW_s0(Exception, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error", err, (int)pMutex);		
+      THROW_s0(Exception, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error", err, (int)(intPTR)pMutex);		
     }
     else
     {
-      THROW_s0(Exception, "os_unlockMutex: ERROR: ReleaseMutex failed with win-error", err, (int)pMutex);
+      THROW_s0(Exception, "os_unlockMutex: ERROR: ReleaseMutex failed with win-error", err, (int)(intPTR)pMutex);
 	  }
     STACKTRC_LEAVE;
   }

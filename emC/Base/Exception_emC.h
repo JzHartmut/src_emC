@@ -134,28 +134,15 @@ extern_C void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s*
 
 /*@CLASS_C IxStacktrace_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-#if 0 //defined(__CPLUSGEN) && defined(__cplusplus)
-class IxStacktrace_emC 
-#else
+
+/**An instance of this struct is used for any stack frame level in the STACKTRC_TENTRY macro.
+ * It is necessary to restore the correct Stacktrace index on THROW. */
 typedef struct IxStacktrace_emC_t
-#endif
-{ //struct StacktraceJc_t* previous;
-  //StacktraceElementJc entry;
-  /**The index in the stacktrace entry array for this level. */
-  uint ix;
+{ /**The index in the stacktrace entry array for this level. */
+  uint ixStacktrace;
   /**The number of Entries of the previous level for STACKTRC_LEAVE. */
-  uint ixPrev;
-  /**Exception-reference if there is an exception, or null */
-  //TryObjectJc* tryObject;
-#if 0 //defined(__CPLUSGEN) && defined(__cplusplus)
-  /**The destructor reconstructs the indeces in the Stacktrace, STACKTRC_LEAVE is emtpy: */
-  ~IxStacktrace_emC() {
-    _ThCxt = getCurrent_ThreadContext_emC(); //it is effort. Not a good concept.
-    _thCxt->stacktrc.zEntries = _ixStacktrace_.ixPrev
-  }
-#else
+  uint ixStacktracePrev;
 } IxStacktrace_emC;
-#endif
 
 
 
@@ -218,16 +205,16 @@ extern_C void clearException(ExceptionJc* exc);
 
 
 #if defined(DEF_Exception_NO)
-  #define Exception_TRY
-  #define Exception_CATCH if(_thCxt->exception[0].exceptionNr !=0)
+  #define EXCEPTION_TRY
+  #define EXCEPTION_CATCH if(_thCxt->exception[0].exceptionNr !=0)
 #elif defined(DEF_Exception_longjmp)
-  #define Exception_TRY \
+  #define EXCEPTION_TRY \
   if( setjmp(tryObject.longjmpBuffer) ==0) {
-  #define Exception_CATCH \
+  #define EXCEPTION_CATCH \
    } else  /*longjmp cames to here on THROW */
 #else
-  #define Exception_TRY try
-  #define Exception_CATCH catch(...)
+  #define EXCEPTION_TRY try
+  #define EXCEPTION_CATCH catch(...)
 #endif
 
 
@@ -235,58 +222,58 @@ extern_C void clearException(ExceptionJc* exc);
   #define RESTORE_STACKTRACE_DEEPNESS
 #else 
   /**remove the validy of _ixStacktrace_ entries of the deeper levels. */
-  #define RESTORE_STACKTRACE_DEEPNESS _thCxt->stacktrc.zEntries = _ixStacktrace_.ix+1;
+  #define RESTORE_STACKTRACE_DEEPNESS _thCxt->stacktrc.zEntries = _ixStacktrace_.ixStacktrace+1;
 #endif
 
-#define TRY \
-{if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
- TryObjectJc tryObject = {0}; \
- TryObjectJc* tryObjectPrev = _thCxt->tryObject; _thCxt->tryObject = &tryObject; \
- int32 excNrCatchTest = 0; \
- CALLINE; \
- Exception_TRY
+ #define TRY \
+ {if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
+  TryObjectJc tryObject = {0}; \
+  TryObjectJc* tryObjectPrev = _thCxt->tryObject; _thCxt->tryObject = &tryObject; \
+  int32 excNrCatchTest = 0; \
+  CALLINE; \
+  EXCEPTION_TRY
 
 
-/**Write on end of a TRY-Block the followed macro: */
-#define _TRY \
- Exception_CATCH { \
-   _thCxt->tryObject = tryObjectPrev; \
-   if(_thCxt->exception[0].exceptionNr == 0) {/*system Exception:*/ \
-     _thCxt->exception[0].exceptionNr = ident_SystemExceptionJc;  \
-     _thCxt->exception[0].exceptionMsg = z_StringJc("System exception"); \
-   }  \
-   excNrCatchTest = _thCxt->exception[0].exceptionNr; \
-   if(false) { /*opens an empty block, closed on first CATCH starts with }*/
+ /**Written on end of a TRY-Block the followed macro: */
+ #define _TRY \
+  EXCEPTION_CATCH { \
+    _thCxt->tryObject = tryObjectPrev; \
+    if(_thCxt->exception[0].exceptionNr == 0) {/*system Exception:*/ \
+      _thCxt->exception[0].exceptionNr = ident_SystemExceptionJc;  \
+      _thCxt->exception[0].exceptionMsg = z_StringJc("System exception"); \
+    }  \
+    excNrCatchTest = _thCxt->exception[0].exceptionNr; \
+    if(false) { /*opens an empty block, closed on first CATCH starts with }*/
 
 
-//end of CATCH before: remove _ixStacktrace_ entries of the deeper levels.
-//Note: Till end of catch the stacktrace of the throw level is visible.
-#define CATCH(EXCEPTION, EXC_OBJ) \
-     RESTORE_STACKTRACE_DEEPNESS  \
-   } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
-   { ExceptionJc* EXC_OBJ = &_thCxt->exception[0]; \
-     excNrCatchTest = 0; //do not check it a second time
+ //end of CATCH before: remove _ixStacktrace_ entries of the deeper levels.
+ //Note: Till end of catch the stacktrace of the throw level is visible.
+ #define CATCH(EXCEPTION, EXC_OBJ) \
+      RESTORE_STACKTRACE_DEEPNESS  \
+    } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
+    { ExceptionJc* EXC_OBJ = &_thCxt->exception[0]; \
+      excNrCatchTest = 0; //do not check it a second time
 
 
-#define FINALLY \
-     RESTORE_STACKTRACE_DEEPNESS \
- } } /*close CATCH brace */\
- _thCxt->tryObject = tryObjectPrev; \
- { { /*open to braces because END_TRY has 2 closing braces.*/
+ #define FINALLY \
+      RESTORE_STACKTRACE_DEEPNESS \
+  } } /*close CATCH brace */\
+  _thCxt->tryObject = tryObjectPrev; \
+  { { /*open two braces because END_TRY has 2 closing braces.*/
 
 
-//Write on end of the whole TRY-CATCH-Block the followed macro:*/
-#define END_TRY \
- } } /*close FINALLY, CATCH or TRY brace */\
- _thCxt->tryObject = tryObjectPrev; \
- if( excNrCatchTest != 0 ) /*Exception not handled*/ \
- { /* delegate exception to previous level. */ \
-   throwCore_emC(_thCxt); \
- } else { /*remain exception for prev level on throwCore_emC if DEF_Exception_NO */\
-   clearException(&_thCxt->exception[0]); \
- } /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
- RESTORE_STACKTRACE_DEEPNESS \
-} /*close brace from beginning TRY*/
+ //Write on end of the whole TRY-CATCH-Block the followed macro:*/
+ #define END_TRY \
+  } } /*close FINALLY, CATCH or TRY brace */\
+  _thCxt->tryObject = tryObjectPrev; \
+  if( excNrCatchTest != 0 ) /*Exception not handled*/ \
+  { /* delegate exception to previous level. */ \
+    throwCore_emC(_thCxt); \
+  } else { /*remain exception for prev level on throwCore_emC if DEF_Exception_NO */\
+    clearException(&_thCxt->exception[0]); \
+  } /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
+  RESTORE_STACKTRACE_DEEPNESS \
+ } /*close brace from beginning TRY*/
 
 
 
@@ -297,18 +284,23 @@ extern_C void clearException(ExceptionJc* exc);
  * @param VAL a int value
  */
 #ifndef THROW
-#ifdef DEF_Exception_NO //check on header file level, because it may be specific for somme files!
-  /**All THROW() macros writes the exception into the ThreadContext_emC,
-   * but the calling routine is continued. It should check itself for sufficient conditions to work.
-   */
-  #define THROW(EXCEPTION, STRING, VAL1, VAL2) { if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
-  _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##Jc; _thCxt->exception[0].exceptionValue = VAL1; \
-  _thCxt->exception[0].file = __FILE__; _thCxt->exception[0].line = __LINE__; \
-  logSimple_ExceptionJc(nr_##EXCEPTION##Jc, VAL1, VAL2, __FILE__, __LINE__); \
+ #ifdef DEF_Exception_NO
+ /**All THROW() macros writes the exception into the ThreadContext_emC,
+  * but the calling routine is continued. 
+  * It should check itself for sufficient conditions to work.
+  */
+ #define THROW(EXCEPTION, MSG, VAL1, VAL2) { if(_thCxt == null) \
+  { _thCxt = getCurrent_ThreadContext_emC(); } \
+    _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##Jc; \
+    _thCxt->exception[0].exceptionValue = VAL1; \
+    _thCxt->exception[0].file = __FILE__; \
+    _thCxt->exception[0].line = __LINE__; \
+    logSimple_ExceptionJc(nr_##EXCEPTION##Jc, MSG, VAL1, VAL2, __FILE__, __LINE__); \
   }
-#else //both DEF_Exception_TRYCpp or longjmp:
-  #define THROW(EXCEPTION, TEXT, VAL1, VAL2)  throw_sJc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, _thCxt)
-#endif
+ #else //both DEF_Exception_TRYCpp or longjmp:
+ #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
+    throw_sJc(ident_##EXCEPTION##Jc, MSG, VAL1, __FILE__, __LINE__, _thCxt)
+ #endif
 #endif
 
 #ifndef THROW_s0

@@ -197,8 +197,11 @@ void clearException ( ExceptionJc* exc) {
   #ifndef DEF_NO_StringJcCapabilities
   if(exc->exceptionMsg.addr.str!=null) { free_MemC(exc->exceptionMsg.addr.str); }
   #endif
-
-
+  exc->exceptionNr = 0;
+  exc->exceptionValue = 0;
+  exc->val2 = 0;
+  exc->file = null;
+  exc->line = 0;
 }
 
 
@@ -246,7 +249,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
   #ifdef DEF_ThreadContextStracktrc_emC
   if (_thCxt != null) {
     int ixThrow = _thCxt->stacktrc.zEntries - 1;
-    StacktraceElementJc* stackThrow = &_thCxt->stacktrc.entries[ixThrow];
+    StacktraceElement_emC_s* stackThrow = &_thCxt->stacktrc.entries[ixThrow];
     pos += strncpy_emC(buffer + pos, ", oper: ", zbuffer - pos);
     pos += strncpy_emC(buffer + pos, stackThrow->name, zbuffer - pos);  //The routine where the throw is invoked or the deepest routine with Stacktrace.
     pos += strncpy_emC(buffer + pos, "(@", zbuffer - pos);
@@ -271,7 +274,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
  * @return null if no previous level is found.
  */
 
-static StacktraceElementJc* getEntry_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, uint level)
+static StacktraceElement_emC_s* getEntry_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, uint level)
 { 
   if(level < ythis->zEntries) {
     return &ythis->entries[ythis->zEntries - level -1];
@@ -289,7 +292,7 @@ static StacktraceElementJc* getEntry_StacktraceThreadContext_emC(StacktraceThrea
 
 METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, int level)
 {
-  StacktraceElementJc* entry = getEntry_StacktraceThreadContext_emC(ythis, level);
+  StacktraceElement_emC_s* entry = getEntry_StacktraceThreadContext_emC(ythis, level);
   return (entry == null) ? "" : entry->name; 
 }
 #endif  //DEF_ThreadContextStracktrc_emC

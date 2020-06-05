@@ -332,7 +332,7 @@ typedef struct ExceptionStore_t {
   ExceptionJc last;
 } ExceptionStore;
 
-extern_C void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
+extern_C void logSimple_ExceptionJc(int exc, StringJc msg, int32 value, int val2, char const* file, int line);
 
 
 

@@ -502,7 +502,13 @@ extern StringJc const empty_StringJc;
  *           In Java it is able to write at example ,,"checkChars".indexOf(ch),, to convert a char into a index-number.
  *           The same it is able to write using ,,indexOf_C_StringJc(z_StringJc("checkChars"), ch),, in C javalike.
  */
-extern_C StringJc z_StringJc ( char const* src);
+INLINE_emC StringJc z_StringJc ( char const* src)
+{ StringJc ret;
+  int size = strnlen_emC(src, kMaxNrofChars_StringJc);
+  SET_StringJc(ret, src, size); 
+  return ret;
+}
+
 
 #define s0_StringJc z_StringJc
 

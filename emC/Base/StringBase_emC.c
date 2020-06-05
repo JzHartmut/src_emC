@@ -45,12 +45,6 @@ int strnlen_emC  (  char const* text, int maxNrofChars)
 
 
 
-StringJc z_StringJc ( char const* src)
-{ StringJc ret;
-  int size = strnlen_emC(src, kMaxNrofChars_StringJc);
-  SET_StringJc(ret, src, size); 
-  return ret;
-}
 
 
 

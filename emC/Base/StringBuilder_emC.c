@@ -663,8 +663,12 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
   else if(val & mIsCharSeqJcVtbl_CharSeqJc) {
     Vtbl_CharSeqJc const* mc = getVtbl_CharSeqJc(thiz, _thCxt);
     CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
-    int iChars;
     int nChars = mc->length(othiz, _thCxt);
+    #ifdef DEF_ThreadContext_SIMPLE
+    char const* buffer = "Operation is not available";
+    nChars = 26;
+    #else
+    int iChars;
     MemC mBuffer = getUserBuffer_ThreadContext_emC(nChars+1, "toString_CharSeqJc", _thCxt);
     int sizeBufferThreadContext = size_MemC(mBuffer);
     if(nChars >= sizeBufferThreadContext){
@@ -676,6 +680,7 @@ StringJc toString_CharSeqJc(CharSeqJc thiz)
       buffer[iChars] = cc;
     }
     buffer[iChars] = 0;
+    #endif
     StringJc ret = CONST_StringJc(buffer, nChars);
     STACKTRC_LEAVE; return ret;
   } else {
@@ -714,11 +719,13 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
     if(bufferInStack || ythis->_mode & (_mStack_StringBuilderJc | _mThread_StringBuilderJc)){
       nonPersistent |= mNonPersists__StringJc;
     }
+    #ifndef DEF_ThreadContext_SIMPLE
     if(ythis->_mode & _mThread_StringBuilderJc){
       nonPersistent |= mThreadContext__StringJc;
       int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
       reduceLastUserBuffer_ThreadContext_emC(ythis, sizeInThCxt, _thCxt);
     }
+    #endif
     /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.
      * Elsewhere the String is not persistant. That is okay mostly.
      * If the String will be stored persistent, it would be copied than.
