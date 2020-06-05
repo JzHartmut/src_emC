@@ -291,7 +291,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 
 #define THCXT _thCxt
 
-#define CALLINE __LINE__
+#define CALLINE
 
 #else  //not DEF_ThreadContext_SIMPLE
 

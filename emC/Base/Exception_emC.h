@@ -251,7 +251,7 @@ extern_C void clearException(ExceptionJc* exc);
  #define CATCH(EXCEPTION, EXC_OBJ) \
       RESTORE_STACKTRACE_DEEPNESS  \
     } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
-    { ExceptionJc* EXC_OBJ = &_thCxt->exception[0]; \
+    { MAYBE_UNUSED_emC ExceptionJc* EXC_OBJ = &_thCxt->exception[0]; \
       excNrCatchTest = 0; //do not check it a second time
 
 

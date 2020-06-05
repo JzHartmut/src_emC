@@ -96,12 +96,11 @@ void ctor_ThreadContext_emC  (  ThreadContext_emC_s* thiz, void const* topAddrSt
 METHOD_C MemC setUserBuffer_ThreadContext_emC  (  MemC newBuffer, ThreadContext_emC_s* _thCxt)
 { MemC lastBuffer;
   if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
-  UserBufferInThCxt_s* threadHeap = &_thCxt->threadheap;
+  //UserBufferInThCxt_s* threadHeap = &_thCxt->threadheap;
   lastBuffer = _thCxt->threadheap.bufferAlloc;
-  _thCxt->threadheap.bufferAlloc = newBuffer;
+  _thCxt->threadheap.bufferAlloc = newBuffer;  //should be cleaned outside.
   _thCxt->threadheap.addrFree = PTR_MemC(newBuffer, MemUnit);
   _thCxt->threadheap.bitAddrUsed = 0;
-  memset(_thCxt->threadheap.addrFree, 0, sizeof(_thCxt->threadheap.addrFree));
   return lastBuffer;  //NOTE: the user is responsible for saving its content.
 }
 
@@ -126,7 +125,7 @@ MemC getUserBuffer_ThreadContext_emC ( int size, char const* sign, struct Thread
       size = sizeFree/2; 
     }
     size = (size + 7) & 0xfffffff8;  //align next /8
-    while(ix < ARRAYLEN_SimpleC(threadHeap->addrUsed)) {
+    while(ix < (int)ARRAYLEN_SimpleC(threadHeap->addrUsed)) {
       if((threadHeap->bitAddrUsed & mask) ==0) {
         //free found
         int maskCheck = ~(mask -1);  //all high bits. 1=:0xffffffff 2:=0xfffffffe
@@ -143,7 +142,7 @@ MemC getUserBuffer_ThreadContext_emC ( int size, char const* sign, struct Thread
             init0_MemC(ret);
             return ret; //NOTE: the user is responsible for saving its content.
           } 
-        } else if(size_MemC(threadHeap->addrUsed[ix].used) == (uint)size) {
+        } else if(size_MemC(threadHeap->addrUsed[ix].used) == (VALTYPE_AddrVal_emC)size) {
           //a free block inside with exactly the same size, reuse it.
           threadHeap->bitAddrUsed |= mask;
           init0_MemC(threadHeap->addrUsed[ix].used);
@@ -189,7 +188,7 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC  (  void const* data, ThreadCo
   int ix = threadHeap->ixLastAddrUsed >=0 ? threadHeap->ixLastAddrUsed : 0;
   int mask = 0x1 << ix;
   int ixLastUsed = -1;
-  while(ix < ARRAYLEN_SimpleC(threadHeap->addrUsed)) {
+  while(ix < (int)ARRAYLEN_SimpleC(threadHeap->addrUsed)) {
     if((threadHeap->bitAddrUsed & mask) !=0) {
       void const* addr = PTR_MemC(threadHeap->addrUsed[ix].used, MemUnit const);
       void const* endAddr = (void const*)addOffset_MemC(threadHeap->addrUsed[ix].used, threadHeap->addrUsed[ix].used.val);  //addr after used

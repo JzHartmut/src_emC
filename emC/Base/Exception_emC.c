@@ -118,8 +118,8 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
   exception->line = line;
   exception->exceptionNr = exceptionNr;
   //check the memory area where the msg is stored. Maybe in stack, then copy it.
-  MemUnit* addrMsg = (MemUnit*)msg.addr.str;
   #ifndef DEF_NO_StringJcCapabilities
+  MemUnit* addrMsg = (MemUnit*)msg.addr.str;
   if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
     //The msg is in stack area, copy it in ThreadContext!
     int zMsg = length_StringJc(msg);

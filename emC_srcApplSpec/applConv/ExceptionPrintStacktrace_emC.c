@@ -63,7 +63,6 @@ void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
 void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCxt* _thCxt)
 { //DEF__threadContextJc
   if(_thCxt == null){ _thCxt = getCurrent_ThreadContext_emC(); } 
-  int idxStacktraceEntries = 0;
   //int nrofStacktraceEntriesMax;
   char sBuffer[500] = {0};
 	int zBuffer;
@@ -91,7 +90,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   //nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
 
   #ifdef DEF_ThreadContextStracktrc_emC
-    idxStacktraceEntries = _thCxt->stacktrc.zEntries;
+    int idxStacktraceEntries = _thCxt->stacktrc.zEntries;
     while(--idxStacktraceEntries >=0 ) //< nrofStacktraceEntriesMax)
     { //the entries after try-level
       //StacktraceElement_emC_s* entry = &stacktraceEntries->data[idxStacktraceEntries++];

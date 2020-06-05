@@ -72,15 +72,15 @@ int parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars)
   char cc;
 	const char* src = srcP;
   int maxDigit = (radix <=10) ? '0' + radix -1 : '9'; 
-  int maxHexDigitLower = 'A' + radix - 11; 
-  int maxHexDigitUpper = 'a' + radix - 11; 
+  //int maxHexDigitLower = 'A' + radix - 11; 
+  //int maxHexDigitUpper = 'a' + radix - 11; 
   if(*src == '-') { src+=1; size -=1; bNegativ = true; }
   else { bNegativ = false; }
   while(size > 0 && (digit = (cc = *src) - '0') >=0 
        && (  cc <= maxDigit 
-          || (radix >10 && (  cc >= 'A' && (digit = (cc - 'A'+ 10)) <=radix
-                           || cc >= 'a' && (digit = (cc - 'a'+ 10)) <=radix)
-       )  )                )
+          || (radix >10 && (  (cc >= 'A' && (digit = (cc - 'A'+ 10)) <=radix)
+                           || (cc >= 'a' && (digit = (cc - 'a'+ 10)) <=radix)
+       )  )  )             )
   { val = radix * val + digit;
     src+=1;
     size -=1;
