@@ -35,7 +35,7 @@ char const* readLine_ReadLine_emC(ReadLine_emC* ythis)
 {
   char* sLine;
 	int length = ythis->endBuffer - ythis->posBuffer;
-	if(!ythis->endOfFile && length < sizeof(ythis->buffer) /2) {
+	if(!ythis->endOfFile && length < (int)sizeof(ythis->buffer) /2) {
 		//half buffer processed, read next block
 	  int maxRead, read;
 		memmove(ythis->buffer, ythis->buffer + ythis->posBuffer, length);  //move to front

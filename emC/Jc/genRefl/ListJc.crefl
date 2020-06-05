@@ -14,7 +14,7 @@ const struct SuperClasses_ListJc_ClassOffset_idxVtblJcARRAY_t  //Type for the su
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_ListJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_ListJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_ListJc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -32,7 +32,7 @@ const struct SuperClasses_ListJc_ClassOffset_idxVtblJcARRAY_t  //Type for the su
 };
                                                                    
 const ClassJc refl_ListJc =
-{ INIZ_objReflId_ObjectJc(refl_ListJc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_ListJc, refl_ClassJc, ID_refl_ClassJc)
 , "ListJc"
 , 0
 , sizeof(ListJc)
@@ -41,7 +41,10 @@ const ClassJc refl_ListJc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_ListJc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -55,7 +58,7 @@ const struct SuperClasses_IteratorJc_ClassOffset_idxVtblJcARRAY_t  //Type for th
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_IteratorJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_IteratorJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_IteratorJc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -73,7 +76,7 @@ const struct SuperClasses_IteratorJc_ClassOffset_idxVtblJcARRAY_t  //Type for th
 };
                                                                    
 const ClassJc refl_IteratorJc =
-{ INIZ_objReflId_ObjectJc(refl_IteratorJc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_IteratorJc, refl_ClassJc, ID_refl_ClassJc)
 , "IteratorJc"
 , 0
 , sizeof(IteratorJc)
@@ -82,6 +85,9 @@ const ClassJc refl_IteratorJc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_IteratorJc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 

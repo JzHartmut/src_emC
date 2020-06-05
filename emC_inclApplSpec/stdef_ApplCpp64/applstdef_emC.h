@@ -1,5 +1,5 @@
-#ifndef __applstdef_emC_h__
-#define __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
+#define HGUARD_applstdef_emC
 /**This headerfile contains all standard definition for usage the emC - embedded multiplatform C(++) - basicly source system.
  * It is for a Applications in C(++) 
  * with 64 bit memory addresses on PC 
@@ -68,7 +68,7 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#define __TRYCPPJc
+#define DEF_Exception_TRYCpp
 
 #include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
 #include <emC_srcApplSpec/applConv/Exception_emC.h>
@@ -115,4 +115,4 @@
 
 
 
-#endif // __applstdef_emC_h__
+#endif // HGUARD_applstdef_emC

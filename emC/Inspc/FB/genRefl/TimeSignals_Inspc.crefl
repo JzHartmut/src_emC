@@ -10,7 +10,7 @@ const struct Reflection_Fields_float20_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } refl_Fields_float20 =
-{ INIZ_ObjectArrayJc(refl_Fields_float20, 1, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_float20, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "d"
     , 20 //nrofArrayElements                           
@@ -25,7 +25,7 @@ const struct Reflection_Fields_float20_t
  
                                                                    
 const ClassJc refl_float20 =
-{ INIZ_objReflId_ObjectJc(refl_float20, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_float20, refl_ClassJc, ID_refl_ClassJc)
 , "float20"
 , 0
 , sizeof(float20)
@@ -34,7 +34,10 @@ const ClassJc refl_float20 =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -44,7 +47,7 @@ const struct Reflection_Fields_Entry_TimeSignals_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[4];
 } refl_Fields_Entry_TimeSignals_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_Entry_TimeSignals_Inspc, 4, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Entry_TimeSignals_Inspc, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "timeStart"
     , 0   //no Array, no Bitfield                           
@@ -86,7 +89,7 @@ const struct Reflection_Fields_Entry_TimeSignals_Inspc_t
  
                                                                    
 const ClassJc refl_Entry_TimeSignals_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_Entry_TimeSignals_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_Entry_TimeSignals_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "Entry_TimeSignals_Inspc"
 , 0
 , sizeof(Entry_TimeSignals_Inspc)
@@ -95,7 +98,10 @@ const ClassJc refl_Entry_TimeSignals_Inspc =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -107,7 +113,7 @@ const struct Reflection_Fields_Array_Entry_TimeSignals_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } refl_Fields_Array_Entry_TimeSignals_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_Array_Entry_TimeSignals_Inspc, 1, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Array_Entry_TimeSignals_Inspc, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "d"
     , 20 //nrofArrayElements                           
@@ -122,7 +128,7 @@ const struct Reflection_Fields_Array_Entry_TimeSignals_Inspc_t
  
                                                                    
 const ClassJc refl_Array_Entry_TimeSignals_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_Array_Entry_TimeSignals_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_Array_Entry_TimeSignals_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "Array_Entry_TimeSignals_Inspc"
 , 0
 , sizeof(Array_Entry_TimeSignals_Inspc)
@@ -131,7 +137,10 @@ const ClassJc refl_Array_Entry_TimeSignals_Inspc =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -145,7 +154,7 @@ const struct Reflection_Fields_Entries_TimeSignals_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[2];
 } refl_Fields_Entries_TimeSignals_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_Entries_TimeSignals_Inspc, 2, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Entries_TimeSignals_Inspc, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "head"
     , 0   //no Array, no Bitfield                           
@@ -169,7 +178,7 @@ const struct Reflection_Fields_Entries_TimeSignals_Inspc_t
  
                                                                    
 const ClassJc refl_Entries_TimeSignals_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_Entries_TimeSignals_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_Entries_TimeSignals_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "Entries_TimeSignals_Inspc"
 , 0
 , sizeof(Entries_TimeSignals_Inspc)
@@ -178,7 +187,10 @@ const ClassJc refl_Entries_TimeSignals_Inspc =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -190,7 +202,7 @@ const struct Reflection_Fields_TimeData_TimeSignals_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } refl_Fields_TimeData_TimeSignals_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_TimeData_TimeSignals_Inspc, 3, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_TimeData_TimeSignals_Inspc, 3, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "entriesChn"
     , 0   //no Array, no Bitfield                           
@@ -223,7 +235,7 @@ const struct Reflection_Fields_TimeData_TimeSignals_Inspc_t
  
                                                                    
 const ClassJc refl_TimeData_TimeSignals_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_TimeData_TimeSignals_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_TimeData_TimeSignals_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "TimeData_TimeSignals_Inspc"
 , 0
 , sizeof(TimeData_TimeSignals_Inspc)
@@ -232,7 +244,10 @@ const ClassJc refl_TimeData_TimeSignals_Inspc =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -242,7 +257,7 @@ const struct Reflection_Fields_CurrValues_TimeSignals_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[20];
 } refl_Fields_CurrValues_TimeSignals_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_CurrValues_TimeSignals_Inspc, 20, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_CurrValues_TimeSignals_Inspc, 20, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "ystart"
     , 6 //nrofArrayElements                           
@@ -428,7 +443,7 @@ const struct Reflection_Fields_CurrValues_TimeSignals_Inspc_t
  
                                                                    
 const ClassJc refl_CurrValues_TimeSignals_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_CurrValues_TimeSignals_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_CurrValues_TimeSignals_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "CurrValues_TimeSignals_Inspc"
 , 0
 , sizeof(CurrValues_TimeSignals_Inspc)
@@ -437,7 +452,10 @@ const ClassJc refl_CurrValues_TimeSignals_Inspc =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -447,7 +465,7 @@ const struct Reflection_Fields_TimeSignals_Inspc_Param_t_t
 { ObjectArrayJc head;
   FieldJc data[3];
 } refl_Fields_TimeSignals_Inspc_Param_t =
-{ INIZ_ObjectArrayJc(refl_Fields_TimeSignals_Inspc_Param_t, 3, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_TimeSignals_Inspc_Param_t, 3, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "stepsDynew"
     , 0   //no Array, no Bitfield                           
@@ -480,7 +498,7 @@ const struct Reflection_Fields_TimeSignals_Inspc_Param_t_t
  
                                                                    
 const ClassJc refl_TimeSignals_Inspc_Param_t =
-{ INIZ_objReflId_ObjectJc(refl_TimeSignals_Inspc_Param_t, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_TimeSignals_Inspc_Param_t, refl_ClassJc, ID_refl_ClassJc)
 , "TimeSignals_Inspc_Param_t"
 , 0
 , sizeof(((TimeSignals_Inspc*)0x1000)->par)
@@ -489,7 +507,10 @@ const ClassJc refl_TimeSignals_Inspc_Param_t =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -499,7 +520,7 @@ const struct Reflection_Fields_TimeSignals_Inspc_debug_t
 { ObjectArrayJc head;
   FieldJc data[1];
 } refl_Fields_TimeSignals_Inspc_debug =
-{ INIZ_ObjectArrayJc(refl_Fields_TimeSignals_Inspc_debug, 1, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_TimeSignals_Inspc_debug, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "ixChnCheckEntry"
     , 0   //no Array, no Bitfield                           
@@ -514,7 +535,7 @@ const struct Reflection_Fields_TimeSignals_Inspc_debug_t
  
                                                                    
 const ClassJc refl_TimeSignals_Inspc_debug =
-{ INIZ_objReflId_ObjectJc(refl_TimeSignals_Inspc_debug, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_TimeSignals_Inspc_debug, refl_ClassJc, ID_refl_ClassJc)
 , "TimeSignals_Inspc_debug"
 , 0
 , sizeof(((TimeSignals_Inspc*)0x1000)->debug)
@@ -523,7 +544,10 @@ const ClassJc refl_TimeSignals_Inspc_debug =
 , null  //superclass  
 , null  //interfaces  
 , 0   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 
@@ -539,7 +563,7 @@ const struct SuperClasses_TimeSignals_Inspc_ClassOffset_idxVtblJcARRAY_t  //Type
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_TimeSignals_Inspc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_TimeSignals_Inspc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_TimeSignals_Inspc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_DataStructBase_Inspc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -560,7 +584,7 @@ const struct Reflection_Fields_TimeSignals_Inspc_t
 { ObjectArrayJc head;
   FieldJc data[13];
 } refl_Fields_TimeSignals_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_TimeSignals_Inspc, 13, FieldJc, null, INIZ_ID_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_TimeSignals_Inspc, 13, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "par"
     , 0   //no Array, no Bitfield                           
@@ -683,7 +707,7 @@ const struct Reflection_Fields_TimeSignals_Inspc_t
  
                                                                    
 const ClassJc refl_TimeSignals_Inspc =
-{ INIZ_objReflId_ObjectJc(refl_TimeSignals_Inspc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_TimeSignals_Inspc, refl_ClassJc, ID_refl_ClassJc)
 , "TimeSignals_Inspc"
 , 0
 , sizeof(TimeSignals_Inspc)
@@ -692,6 +716,9 @@ const ClassJc refl_TimeSignals_Inspc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_TimeSignals_Inspc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 

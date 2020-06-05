@@ -38,6 +38,11 @@
 #ifndef __emC__ExcThCxtBase_emC_h__
 #define __emC__ExcThCxtBase_emC_h__
 
+
+#ifdef DEF_Exception_longjmp
+#include <setjmp.h>
+#endif
+
 #ifndef DEF_NO_StringJcCapabilities  //It is possible to renounce usage of StringJc in simple targets.
 //  #include <emC/Base/String_emC.h>  //StringJc
 #endif
@@ -218,11 +223,9 @@ typedef struct ExceptionJc_t
 
   char const* file;   //mem boundary pos
 
-  #ifndef DEF_NO_StringJcCapabilities
   /**The user message of the exception.
   */
   StringJc exceptionMsg;  //note: align-8
-  #endif
   
 
 } ExceptionJc;
@@ -250,6 +253,29 @@ extern_C void log_ExceptionJc(ExceptionJc* exc, char const* sFile, int line);
 /**Fills a common text in the buffer. It should contain the exception message, the file and line of the exception 
  * the file and line of this routine (Arguments sFile, line and, if available, information from the thread context. */
 extern_C int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, struct ThreadContext_emC_t* _thCxt);
+
+
+
+
+/*@CLASS_C TryObjectJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+
+
+
+
+typedef struct TryObjectJc_t
+{
+  #ifdef DEF_Exception_longjmp
+  #ifdef ReflectionHidden 
+    /**Buffer for the longjmp mechanism, see standard-C-documentation. Defined in standard-include-file setjmp.h */ 
+    jmp_buf longjmpBuffer;
+  #endif
+  #else //if defined(DEF_ThreadContext_SIMPLE)
+    int32 nrNested;
+  #endif
+
+} TryObjectJc;
 
 
 
@@ -306,7 +332,7 @@ typedef struct ExceptionStore_t {
   ExceptionJc last;
 } ExceptionStore;
 
-void logSimple_ExceptionJc(int exc, int32 value, int val2, char const* file, int line);
+extern_C void logSimple_ExceptionJc(int exc, StringJc msg, int32 value, int val2, char const* file, int line);
 
 
 

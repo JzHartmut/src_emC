@@ -18,7 +18,7 @@ $xmlns:xhtml="http://www.w3.org/1999/xhtml".
 ##methodTyp instead @name name because construct {<$?name>?::}
 ##classDef instead class in CLASS_C to unify the HeaderXml2Xmi for C and C++
 
-$keywords=return|if|else|while|do|for|switch|case|default|break|goto|public|private|protected|inline|INLINE_Fwc|INLINE_Jc|static|virtualstatic_cast|struct|class|union|enum|operator|extern|extern_C|C_TYPE|METHOD_C|
+$keywords=return|if|else|while|do|for|switch|case|default|break|goto|public|private|protected|inline|INLINE_Fwc|INLINE_Jc|static|virtualstatic_cast|struct|class|union|enum|operator|extern|extern_C|extern_CCpp|C_TYPE|METHOD_C|
 .
 
 Cheader::=
@@ -63,7 +63,7 @@ headerBlock::=<?>
 | <conditionBlock?+conditionBlock>
 | <undefDefinition>
 ##| extern <variableDecl?+@> ;
-##| [<?modifier> extern_C| extern| static] <attribute?+?>
+##| [<?modifier> extern_C| extern_CCpp| extern| static] <attribute?+?>
 ##| <attribute?+?>
 | extern_C_BLOCK_
 | _END_extern_C_BLOCK
@@ -101,7 +101,7 @@ headerBlock::=<?>
 | <methodWithBody>
 | <operatorDef?operator>
 | <defineUse?+@>
-| [<?-modifier> extern "C" | extern_C<!\\s?>| extern<!\\s?>| static<!\\s?>|] <type?-?> [<attributedefDescr?+attribute> | {<attributedef?+attribute>  ?,} ;]
+| [<?-modifier> extern "C" | extern_C<!\\s?>| extern_CCpp<!\\s?>| extern<!\\s?>| static<!\\s?>|] <type?-?> [<attributedefDescr?+attribute> | {<attributedef?+attribute>  ?,} ;]
 | ;  ##NOTE: an empty unnecessary semicolon is acceptable in C
 ].
 
@@ -205,12 +205,12 @@ typedef::= <type> <$?name> [ \[ [ 0x<#x?nrofArrayElements> | <#?nrofArrayElement
 
 
 ##it is a method head, declaration.
-methodDef::= [METHOD_C|extern "C"|extern_C |extern |C_TYPE |] <type> {<$?name>? ::} ([|<methodArgumentList?>] )
+methodDef::= [METHOD_C|extern "C"|extern_C |extern_CCpp |extern |C_TYPE |] <type> {<$?name>? ::} ([|<methodArgumentList?>] )
 [<?@modifier>volatile|const|] [; | = 0 ; <?abstract> | <statementBlock>|].
 
-methodPtrTypedef::= [METHOD_C |extern "C"|extern_C |extern |C_TYPE |] <type> ( [<$?class> :: ] * <$?name> ) ([|<methodArgumentList?>]) ;.
+methodPtrTypedef::= [METHOD_C |extern "C"|extern_C |extern_CCpp |extern |C_TYPE |] <type> ( [<$?class> :: ] * <$?name> ) ([|<methodArgumentList?>]) ;.
 
-methodTypedef::= [METHOD_C|extern "C" |extern_C |extern |C_TYPE |] <type> [<$?class> :: ] <$?name> ( [|<methodArgumentList?>] ) ;.
+methodTypedef::= [METHOD_C|extern "C" |extern_C |extern_CCpp |extern |C_TYPE |] <type> [<$?class> :: ] <$?name> ( [|<methodArgumentList?>] ) ;.
 
 
 ##a defineArgument is a define which replaces a type name - argument specification with a simple identifier. It's used for special cases.
@@ -383,7 +383,7 @@ fnPointer::=<type> ( * <$?name>) ( [|<methodArgumentList?>] ).
 ##     But it doesn't consider a asterix here like int *name,*other. The first asterix is parsed associated to the type, the second cause an parse error here.
 ##     It is a impreciseness to the C syntax definition.  Do not use such construct, better is int* name; int* other;
 ##attribute::=<?*> [/**<description?-?>*/] <type?-?> {<attributedef?+attribute>  ?,} ;.
-attribute::=<?> [/**<description?-?>*/] [<?-modifier> extern "C" | extern_C<!\\s?>| extern<!\\s?>| static<!\\s?>|] <type?-?> [<attributedefDescr?+attribute> | {<attributedef?+attribute>  ?,} ;].
+attribute::=<?> [/**<description?-?>*/] [<?-modifier> extern "C" | extern_C<!\\s?>| extern_CCpp<!\\s?>| extern<!\\s?>| static<!\\s?>|] <type?-?> [<attributedefDescr?+attribute> | {<attributedef?+attribute>  ?,} ;].
 attributedefDescr::=[<$?@name>] [ <arraysize>| : <#?bitField> |] [ = [ \{ <arrayValue> \} | <value?defaultValue> ] | _INIT0_ |] ; [//<*\n\r?!attrdescription>].
 attributedef::=[<$?@name>] [ <arraysize>| : <#?bitField> |] [ = [ \{ <arrayValue> \} | <value?defaultValue> ] | _INIT0_ |].
 

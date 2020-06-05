@@ -53,7 +53,6 @@
 #include <stdio.h>
 
 
-#ifdef DEF_ThreadContextStracktrc_emC
 
 
 void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
@@ -64,43 +63,51 @@ void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
 void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCxt* _thCxt)
 { //DEF__threadContextJc
   if(_thCxt == null){ _thCxt = getCurrent_ThreadContext_emC(); } 
-  int idxStacktraceEntries = 0;
   //int nrofStacktraceEntriesMax;
   char sBuffer[500] = {0};
 	int zBuffer;
-  //StacktraceElementJc* stacktraceEntries = ythis->stacktraceEntries;
+  //StacktraceElement_emC_s* stacktraceEntries = ythis->stacktraceEntries;
   //StacktraceJc* stacktrace = ythis->backStacktrace;
   const char* sException = getExceptionText_ExceptionJc(ythis->exceptionNr);
 
   zBuffer = copyToBuffer_StringJc(ythis->exceptionMsg, 0, -1, sBuffer, sizeof(sBuffer));
   if(out == null)
   { printf("\n%s: %s: %i=0x%8.8X \n",sException, sBuffer, ythis->exceptionValue, ythis->exceptionValue);
+    printf("  at THROW (%s:%i)\n", ythis->file, ythis->line);
   }
   else
-  { os_fwrite(out, sException, strnlen_emC(sException, 1000));
+  {
+    #ifndef DEF_OSAL_FileSystem_NO
+      os_fwrite(out, sException, strnlen_emC(sException, 1000));
 	  os_fwrite(out, ": ", 2);
 		os_fwrite(out, sBuffer, zBuffer);
-	  zBuffer = snprintf(sBuffer, sizeof(sBuffer), ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
+	  //todo zBuffer = snprintf(sBuffer, sizeof(sBuffer), ": %i=0x%8.8X \n",ythis->exceptionValue, ythis->exceptionValue);
 		os_fwrite(out, sBuffer, zBuffer);
+    zBuffer = snprintf(sBuffer, sizeof(sBuffer), "  at THROW (%s:%i)\n", ythis->file, ythis->line);
+    os_fwrite(out, sBuffer, zBuffer);
+    #endif
   }
   //nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
-  idxStacktraceEntries = _thCxt->stacktrc.zEntries;
-  while(--idxStacktraceEntries >=0 ) //< nrofStacktraceEntriesMax)
-  { //the entries after try-level
-    //StacktraceElementJc* entry = &stacktraceEntries->data[idxStacktraceEntries++];
-    StacktraceElementJc* entry = &_thCxt->stacktrc.entries[idxStacktraceEntries];
-    if(out == null)
-    { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+
+  #ifdef DEF_ThreadContextStracktrc_emC
+    int idxStacktraceEntries = _thCxt->stacktrc.zEntries;
+    while(--idxStacktraceEntries >=0 ) //< nrofStacktraceEntriesMax)
+    { //the entries after try-level
+      //StacktraceElement_emC_s* entry = &stacktraceEntries->data[idxStacktraceEntries++];
+      StacktraceElement_emC_s* entry = &_thCxt->stacktrc.entries[idxStacktraceEntries];
+      if(out == null)
+      { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+      }
+      else
+      { zBuffer = snprintf(sBuffer, sizeof(sBuffer), "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
+			  os_fwrite(out, sBuffer, zBuffer);
+	    }
     }
-    else
-    { zBuffer = snprintf(sBuffer, sizeof(sBuffer), "  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
-			os_fwrite(out, sBuffer, zBuffer);
-	  }
-  }
+  #endif
   #if 0 //TODO
   while(stacktrace != null)
   { //the entries before try-level
-    StacktraceElementJc* entry = &stacktrace->entry;
+    StacktraceElement_emC_s* entry = &stacktrace->entry;
     if(out == null)
     { printf("  at %s (%s:%i)\n", entry->name, entry->source, entry->line);
     }
@@ -119,7 +126,6 @@ void printStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct PrintStre
 
 }
 
-#endif //DEF_ThreadContextStracktrc_emC
 
 
 #endif //not __NOT_SUPPORTED_ThreadContext_emC__

@@ -66,138 +66,146 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
 
 
 
+#ifndef DEF_ObjectJc_REFLREF //Using a simple ObjectJc
+void inizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint reflId, uint idObj) {
+  //The instanceType should be the same as the typeId in reflection to check the type.
+  othiz->identSize = mIdOnlySimple_ObjectJc 
+    | ((reflId <<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)
+    | size;
+  }
+
+
+
+
+void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
+  if(refl !=null) {
+    //The instanceType should be the same as the typeId in reflection to check the type.
+    othiz->identSize = ((refl->idType <<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  + size;
+  } else {
+    //Hint: do not store any other id, the type id should be left 0! Because it is supplement later and  test later.
+    othiz->identSize = (idObj <<kBitInstanceType_ObjectJc) + size; // + (size & 0xffff);
+  }
+}
+
+
+
+bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident, struct ThreadContext_emC_t* _thCxt) {
+  if(clazzReflection !=null){
+    if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
+      thiz->identSize |= (clazzReflection->idType << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
+    } else {
+      if(!instanceof_ObjectJc(thiz, clazzReflection)) { 
+        return false;
+      }
+    }
+  } else if(ident !=0) {
+    if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
+      thiz->identSize |= (ident << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
+    } else {
+      if(ident != 0 && (thiz->identSize & mInstanceType_ObjectJc) != (((uint32)ident)<<kBitInstanceType_ObjectJc)) {
+        return false;
+      }
+    }
+  }
+  if((thiz->identSize & mSize_ObjectJc) ==0) {
+    thiz->identSize = size;  //size is not determined on allocation, store now.
+  }
+  return (thiz->identSize & mSize_ObjectJc) >= size;  //true if size ==0
+}
+
+
+
+/**Opposite implementation of checkInit with only idInstanceType. */
+bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
+  if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
+    thiz->identSize |= (reflId << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
+  } else {
+    if(!instanceofReflid_ObjectJc(thiz, reflId)) {
+      return false;
+    }
+  }
+  if((thiz->identSize & mSize_ObjectJc) ==0) {
+    thiz->identSize = size;  //size is not determined on allocation, store now.
+  }
+  return (thiz->identSize & mSize_ObjectJc) >= size;  //true if size ==0
+}
+
+
+bool instanceofReflid_ObjectJc(ObjectJc const* thiz, uint reflId) {
+  return ((thiz->identSize & mIdentSmall_objectIdentSize_ObjectJc) >> kBitIdentSmall_objectIdentSize_ObjectJc) == reflId;
+}
+
+
+
+
+
+
+bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_refl, uint ident, struct ThreadContext_emC_t* _thCxt) {
+  return ((thiz->identSize & mIdentSmall_objectIdentSize_ObjectJc) >> kBitIdentSmall_objectIdentSize_ObjectJc) == id_refl
+    && (thiz->identSize & mSizeSmall_objectIdentSize_ObjectJc) >= size;
+}
+
+
+
+#else
+//DEF_ObjectJc_REFLREF is set
+
+void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
+  #ifdef DEF_ObjectJcpp_REFLECTION
+  othiz->handleBits = kNoSyncHandles_ObjectJc;
+  othiz->offsetToInstanceAddr = (int16)(((MemUnit*)(othiz)) - ((MemUnit*)(ptr)));
+  #endif
+  setSizeAndIdent_ObjectJc(othiz, size, idObj);
+  othiz->reflection = refl;
+  #ifdef DEF_ObjectJc_OWNADDRESS
+  othiz->ownAddress = ptr;
+  #endif
+}
+
+
+
+
+
+
+
+/**Opposite implementation of checkInit with only idInstanceType. */
+bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident, struct ThreadContext_emC_t* _thCxt) {
+  if(thiz->reflection ==null) { 
+    thiz->reflection = clazzReflection; 
+  } else {
+    if(!instanceof_ObjectJc(thiz, clazzReflection)) { 
+      return false;
+    }
+  }
+  if((thiz->identSize & mInstance_ObjectJc)==0) {
+    thiz->identSize |= (((uint32)ident)<<kBitInstance_ObjectJc) & mInstance_ObjectJc;
+  } else {
+    if(ident != 0 && (thiz->identSize & mInstance_ObjectJc) != (((uint32)ident)<<kBitInstance_ObjectJc)) {
+      return false;
+    }
+  }
+  if((thiz->identSize & mSize_ObjectJc) ==0) {
+    thiz->identSize = size;  //size is not determined on allocation, store now.
+  }
+  return (thiz->identSize & mSize_ObjectJc) >= size;  //true if size ==0
+}
+
+
+
+#endif
+
+
+
 
 
 
 #ifndef DEF_ObjectJc_REFLREF //Using a simple ObjectJc
 
 
-  void inizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint reflId, uint idObj) {
-        //The instanceType should be the same as the typeId in reflection to check the type.
-        othiz->identSize = mIdOnlySimple_ObjectJc 
-                         | ((reflId <<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)
-                         | size;
-  }
-
-
-
-
-  void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
-    if(refl !=null) {
-      //The instanceType should be the same as the typeId in reflection to check the type.
-      othiz->identSize = ((refl->idType <<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  + size;
-    } else {
-      //Hint: do not store any other id, the type id should be left 0! Because it is supplement later and  test later.
-      othiz->identSize = (idObj <<kBitInstanceType_ObjectJc) + size; // + (size & 0xffff);
-    }
-  }
-
-
-
-  bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident, struct ThreadContext_emC_t* _thCxt) {
-    if(clazzReflection !=null){
-      if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
-        thiz->identSize |= (clazzReflection->idType << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
-      } else {
-        if(!instanceof_ObjectJc(thiz, clazzReflection)) { 
-          return false;
-        }
-      }
-    } else if(ident !=0) {
-      if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
-        thiz->identSize |= (ident << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
-      } else {
-        if(ident != 0 && (thiz->identSize & mInstanceType_ObjectJc) != (((uint32)ident)<<kBitInstanceType_ObjectJc)) {
-          return false;
-        }
-      }
-    }
-    if((thiz->identSize & mSize_ObjectJc) ==0) {
-      thiz->identSize = size;  //size is not determined on allocation, store now.
-    }
-    return (thiz->identSize & mSize_ObjectJc) >= size;  //true if size ==0
-  }
-
-
-
-  /**Opposite implementation of checkInit with only idInstanceType. */
-  bool checkInitReflId_ObjectJc  (  ObjectJc* thiz, uint size, int reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
-    if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
-      thiz->identSize |= (reflId << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
-    } else {
-      if(!instanceofReflId_ObjectJc(thiz, reflId)) { 
-        return false;
-      }
-    }
-    if((thiz->identSize & mSize_ObjectJc) ==0) {
-      thiz->identSize = size;  //size is not determined on allocation, store now.
-    }
-    return (thiz->identSize & mSize_ObjectJc) >= size;  //true if size ==0
-  }
-
-
-  bool instanceofReflId_ObjectJc(ObjectJc const* thiz, int reflId) {
-    return ((thiz->identSize & mIdentSmall_objectIdentSize_ObjectJc) >> kBitIdentSmall_objectIdentSize_ObjectJc) == reflId;
-  }
-
-
-
-
-
-
-  bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, int id_refl, uint ident, struct ThreadContext_emC_t* _thCxt) {
-    return ((thiz->identSize & mIdentSmall_objectIdentSize_ObjectJc) >> kBitIdentSmall_objectIdentSize_ObjectJc) == id_refl
-      && (thiz->identSize & mSizeSmall_objectIdentSize_ObjectJc) >= size;
-  }
-
-
 
 
 
 #elif !defined(DEF_REFLECTION_FULL) 
-  //DEF_ObjectJc_REFLREF is set
-
-  void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
-    #ifdef DEF_ObjectJcpp_REFLECTION
-    othiz->handleBits = kNoSyncHandles_ObjectJc;
-    othiz->offsetToStartAddr = (int16)(((MemUnit*)(othiz)) - ((MemUnit*)(ptr)));
-    #endif
-    setSizeAndIdent_ObjectJc(othiz, size, idObj);
-    othiz->reflection = refl;
-    #ifdef DEF_ObjectJc_OWNADDRESS
-    othiz->ownAddress = ptr;
-    #endif
-  }
-
-
-
-
-
-
-
-  /**Opposite implementation of checkInit with only idInstanceType. */
-  bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident, struct ThreadContext_emC_t* _thCxt) {
-    if(thiz->reflection ==null) { 
-      thiz->reflection = clazzReflection; 
-    } else {
-      if(!instanceof_ObjectJc(thiz, clazzReflection)) { 
-        return false;
-      }
-    }
-    if((thiz->identSize & mInstance_ObjectJc)==0) {
-      thiz->identSize |= (((uint32)ident)<<kBitInstance_ObjectJc) & mInstance_ObjectJc;
-    } else {
-      if(ident != 0 && (thiz->identSize & mInstance_ObjectJc) != (((uint32)ident)<<kBitInstance_ObjectJc)) {
-        return false;
-      }
-    }
-    if((thiz->identSize & mSize_ObjectJc) ==0) {
-      thiz->identSize = size;  //size is not determined on allocation, store now.
-    }
-    return (thiz->identSize & mSize_ObjectJc) >= size;  //true if size ==0
-  }
-
-
 
 #else //DEF_REFLECTION_FULL  //Note: this feature is not able to use without full reflection support
 
@@ -207,7 +215,7 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
 
 
 const ClassOffset_idxVtblJc1 refl_super_ObjectJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(refl_super_ObjectJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(refl_super_ObjectJc, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
 , { &refl_ObjectJc                                   
 , 0 //Index of mtbl of ObjectJc
     //The field which presents the superclass data in inspector access.
@@ -223,6 +231,9 @@ const ClassOffset_idxVtblJc1 refl_super_ObjectJc =   //reflection instance for t
   }
 }
 };
+
+
+
 
 #endif
 
@@ -323,7 +334,7 @@ bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t
     #ifdef DEF_ObjectJc_OWNADDRESS
     if(ythis->ownAddress != ythis) {
       ident = -1;  //marker for faulty.
-      THROW_s0(RuntimeException, "faulty ownAddress", (int)(intptr_t)ythis->ownAddress, (int)(int_ptr)ythis);
+      THROW_s0(RuntimeException, "faulty ownAddress", (int)(intptr_t)ythis->ownAddress, (int)(intptr_t)ythis);
       return false;
     }
     #endif //DEF_ObjectJc_OWNADDRESS
@@ -347,7 +358,7 @@ bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t
       #else
       if(!instanceof_s_ObjectJc(ythis, clazzReflection->name)) {
       #endif 
-        THROW_s0(RuntimeException, "faulty type", (int)(intptr_t)ythis->reflection, (int)(int_ptr)clazzReflection);
+        THROW_s0(RuntimeException, "faulty type", (int)(intptr_t)ythis->reflection, (int)(intptr_t)clazzReflection);
         return false;
       }
     }
@@ -426,7 +437,7 @@ static bool checkRefl(ClassJc const* refl, char const* reflectionName)
 #ifndef DEF_NO_StringJcCapabilities
 
 
-int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName)
+int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName, int recursive)
 { int idxVtbl = -1;
   STACKTRC_ENTRY("getIdxVtbl_ClassJc");
 #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
@@ -470,21 +481,35 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
     }
   #endif
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
-    ClassOffset_idxVtblJcARRAY const* reflectionSuper;
-    if(idxVtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
-    { int idxSuper = 0;
-      for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
-      { ClassOffset_idxVtblJc const* reflectionChild;
-        reflectionChild = &reflectionSuper->data[idxSuper];
-        ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+    if(idxVtbl < 0 && (reflectionObj->superClass_es) != null) {
+      int identSuperClass = ((reflectionObj->superClass_es->identSize & mIdentSmall_objectIdentSize_ObjectJc)>>kBitIdentSmall_objectIdentSize_ObjectJc);
+      if( identSuperClass == ID_refl_ClassJc) {
+        ClassJc const* superType = (ClassJc const*)reflectionObj->superClass_es;
         if(strncmp(superType->name, reflectionName, zReflectionName)==0)
-        { idxVtbl = reflectionChild->idxVtbl;
+        { idxVtbl = 0;  //not supported, only 0 to show found.
         }
         else
         { //Recursive call because deeper inheritance:
-          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
-          idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName);
+          idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName, recursive -1);
         }
+      } else if(identSuperClass == ID_refl_ClassOffset_idxVtblJc) {
+        ClassOffset_idxVtblJcARRAY const* reflectionSuper = (ClassOffset_idxVtblJcARRAY const*)reflectionObj->superClass_es;
+        int idxSuper = 0;
+        for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+        { ClassOffset_idxVtblJc const* reflectionChild;
+          reflectionChild = &reflectionSuper->data[idxSuper];
+          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+          if(strncmp(superType->name, reflectionName, zReflectionName)==0)
+          { idxVtbl = reflectionChild->idxVtbl;
+          }
+          else
+          { //Recursive call because deeper inheritance:
+            ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+            idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName, recursive -1);
+          }
+        }
+      } else {
+        THROW_s0(IllegalStateException, "faulty identSuperClass", identSuperClass, (int)(intPTR)(reflectionObj));
       }
     }
   #endif
@@ -507,7 +532,7 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
 bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
 { if(ythis == null) return false;
   #ifdef DEF_ClassJc_Vtbl
-  int idxVtbl = getIxVtbl_s_ClassJc(ythis->refl, reflectionName);
+  int idxVtbl = getIxVtbl_s_ClassJc(ythis->reflection, reflectionName, 20);
   return idxVtbl >=0;
   #else
     //TODO !!
@@ -552,7 +577,7 @@ StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
 
 
 
-#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
+#ifdef DEF_ClassJc_Vtbl   //TODO create variant without Reflection but with ixVtbl
 VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
 { VtblHeadJc const* head = null; //nullpointer-return possible
   ClassJc const* reflection;
@@ -587,12 +612,9 @@ VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
     } } }
   STACKTRC_LEAVE; return head;
 }
-#endif
 
 
 
-
-#ifdef DEF_ObjectJcVtbl_emC
 //TODO create variant without Reflection but with ixVtbl
 int getPosInVtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 { VtblHeadJc const* headSign = getVtbl_ObjectJc(thiz, sign);
@@ -671,21 +693,35 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
     }
   #endif
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
-    ClassOffset_idxVtblJcARRAY const* reflectionSuper;
-    if(idxVtbl < 0 && (reflectionSuper = reflectionObj->superClasses) != null)
-    { int idxSuper = 0;
-      for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
-      { ClassOffset_idxVtblJc const* reflectionChild;
-        reflectionChild = &reflectionSuper->data[idxSuper];
-        ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+    if(idxVtbl < 0 && (reflectionObj->superClass_es) != null) { 
+      int identSuperClass = ((reflectionObj->superClass_es->identSize & mIdentSmall_objectIdentSize_ObjectJc)>>kBitIdentSmall_objectIdentSize_ObjectJc);
+      if( identSuperClass == ID_refl_ClassJc) {
+        ClassJc const* superType = C_CAST(ClassJc const*,reflectionObj->superClass_es);
         if(superType == reflectionRef)
-        { idxVtbl = reflectionChild->idxVtbl;
+        { idxVtbl = 0;  //not supported, show only found type
         }
         else
         { //Recursive call because deeper inheritance:
-          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
           idxVtbl = getIdxVtbl_ClassJc(superType, reflectionRef);
         }
+      } else if(identSuperClass == ID_refl_ClassOffset_idxVtblJc) {
+        ClassOffset_idxVtblJcARRAY const* reflectionSuper = C_CAST(ClassOffset_idxVtblJcARRAY const*, reflectionObj->superClass_es);
+        int idxSuper = 0;
+        for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
+        { ClassOffset_idxVtblJc const* reflectionChild;
+          reflectionChild = &reflectionSuper->data[idxSuper];
+          ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+          if(superType == reflectionRef)
+          { idxVtbl = reflectionChild->idxVtbl;
+          }
+          else
+          { //Recursive call because deeper inheritance:
+            ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
+            idxVtbl = getIdxVtbl_ClassJc(superType, reflectionRef);
+          }
+        }
+      } else {
+        THROW_s0(IllegalStateException, "faulty identSuperClass", identSuperClass, (int)(intPTR)(reflectionObj));
       }
     }
   #endif
@@ -709,36 +745,77 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
 
 
 
-#ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
-/*J2C: dynamic call variant of the override-able method: */
-StringJc toString_ObjectJc(ObjectJc* ithis, ThCxt* _thCxt)
-{ Vtbl_ObjectJc const* mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_ObjectJc);
-  return mtbl->toString(ithis, _thCxt);
-}
-#endif
+  #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
+  /*J2C: dynamic call variant of the override-able method: */
+  StringJc toString_ObjectJc(ObjectJc* ithis, ThCxt* _thCxt)
+  { Vtbl_ObjectJc const* mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_ObjectJc);
+    return mtbl->toString(ithis, _thCxt);
+  }
+  #endif
 
 
-#else //not //DEF_ObjectJcVtbl_emC
+#else //not DEF_ClassJc_Vtbl
+
+
+
+  #ifdef DEF_REFLECTION_FULL
+  static bool instanceofSuper_ClassJc ( ClassJc const* thiz
+    , struct ClassJc_t const* reflection, int recursive) {
+    if(recursive <0) return false;
+    bool reflOk = false;
+    struct ClassOffset_idxVtblJcARRAY_t const* superClasses = thiz->superClasses;
+    if(superClasses !=null) {
+      for(int ix = 0; ix < superClasses->head.length; ++ix) {
+        ClassJc const* superType = superClasses->data[ix].superfield.type_;
+        reflOk = superType == reflection;
+        if(!reflOk) {
+          reflOk = instanceofSuper_ClassJc(superType, reflection, --recursive);
+        }
+        if(reflOk) { break; }
+      }
+    }
+    if(!reflOk && thiz->interfaces !=null) {
+      superClasses = thiz->interfaces;
+      for(int ix = 0; ix < superClasses->head.length; ++ix) {
+        ClassJc const* superType = superClasses->data[ix].superfield.type_;
+        reflOk = superType == reflection;
+        if(!reflOk) {
+          reflOk = instanceofSuper_ClassJc(superType, reflection, --recursive);
+        }
+        if(reflOk) { break; }
+      }
+    }
+    return  reflOk;
+  }
+  #endif
+
 
   //Then the instanceof should use another algorithm, only single inheritance.
   bool instanceof_ObjectJc ( ObjectJc const* thiz, struct ClassJc_t const* reflection) {
-    #ifdef DEF_ObjectJc_REFLREF
     bool reflOk = true;
-    struct ClassJc_t const* refl1 = thiz->reflection;
-    if(reflection != null) {
-      do {
-        reflOk = (refl1 == reflection); 
-      } while(!reflOk && (refl1 = refl1->superClass) !=null);
-    }
-    return reflOk;
+    #if defined (DEF_ObjectJc_SIMPLE)
+      //The mInstanceType_ObjectJc have to be contain the same type Id as in reflection.
+      //An instance Id is not possible for minimal ObjectJc
+      reflOk = (thiz->identSize & mInstanceType_ObjectJc)>>kBitInstanceType_ObjectJc == reflection->idType;
+    #elif defined(DEF_REFLECTION_FULL)
+      if(reflection != null) {
+        reflOk = thiz->reflection == reflection;
+        if(!reflOk && thiz->reflection !=null) {
+          reflOk = instanceofSuper_ClassJc(thiz->reflection, reflection, 10);
+        }
+      }
     #else
-    //The mInstanceType_ObjectJc have to be contain the same type Id as in reflection.
-    //An instance Id is not possible for minimal ObjectJc
-    return (thiz->identSize & mInstanceType_ObjectJc)>>kBitInstanceType_ObjectJc == reflection->idType; 
+      //It is a more simle ClassJc definition:
+      if(reflection != null) {
+        struct ClassJc_t const* refl1 = thiz->reflection;
+        do {
+          reflOk = (refl1 == reflection); 
+        } while(!reflOk && (refl1 = refl1->superClass) !=null);
+      }
     #endif
+    return reflOk;
   }
-#endif  //DEF_ObjectJcVtbl_emC
-
+#endif  //not DEF_ClassJc_Vtbl
 
 
 

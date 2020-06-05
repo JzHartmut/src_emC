@@ -45,12 +45,6 @@ int strnlen_emC  (  char const* text, int maxNrofChars)
 
 
 
-StringJc z_StringJc ( char const* src)
-{ StringJc ret;
-  int size = strnlen_emC(src, kMaxNrofChars_StringJc);
-  SET_StringJc(ret, src, size); 
-  return ret;
-}
 
 
 
@@ -78,15 +72,18 @@ StringJc zMax_StringJc  (  char const* src, int max)
 
 
 
-int strncmp_emC  (  char const* const text1, char const* const text2, int maxNrofChars)
+int strncmp_emC ( char const* const text1, char const* const text2, int maxNrofChars)
 {
-  int const* text1a = (int const*) text1;
-  int const* text2a = (int const*) text2;
+  char const* text1a = (char const*) text1;
+  char const* text2a = (char const*) text2;
   int maxNrofChars1 = maxNrofChars;
   char c1, c2;
   while(--maxNrofChars1 >=0 && (c1 = *text1a++) !=0 && (c2 = *text2a++) !=0
     && c1 == c2);
-  return (c2 - c1); 
+  //loop till end or till difference
+  if(maxNrofChars1<0 || c1 == c2) return 0; //equal
+  else if(c2 > c1) return maxNrofChars - maxNrofChars1;  //positive number, it is the position.
+  else return maxNrofChars1 - maxNrofChars;  //negativ Number, abs is position of difference. 
   //int maddr = sizeof(int)-1;  //0x1 if int16, 0x0 if int-address-count
   //TODO: compare in int-memory-content, access with memory-boundary 
   //check first alignment

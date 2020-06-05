@@ -14,7 +14,7 @@ const struct SuperClasses_ComparatorJc_ClassOffset_idxVtblJcARRAY_t  //Type for 
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }  superClasses_ComparatorJc =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_ComparatorJc, 1, ClassOffset_idxVtblJc, null, INIZ_ID_ClassOffset_idxVtblJc)
+{ INIZ_ObjectArrayJc(superClasses_ComparatorJc, 1, ClassOffset_idxVtblJc, null, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -32,7 +32,7 @@ const struct SuperClasses_ComparatorJc_ClassOffset_idxVtblJcARRAY_t  //Type for 
 };
                                                                    
 const ClassJc refl_ComparatorJc =
-{ INIZ_objReflId_ObjectJc(refl_ComparatorJc, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_objReflId_ObjectJc(refl_ComparatorJc, refl_ClassJc, ID_refl_ClassJc)
 , "ComparatorJc"
 , 0
 , sizeof(ComparatorJc)
@@ -41,6 +41,9 @@ const ClassJc refl_ComparatorJc =
 , (ClassOffset_idxVtblJcARRAY*)&superClasses_ComparatorJc  //superclass  
 , null  //interfaces  
 , mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 

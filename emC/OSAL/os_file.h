@@ -174,7 +174,7 @@ extern_C FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL
  * It is also possible that it is a simple integer, which is converted to this pointer type.
  */
 struct OS_HandleFile_t;
-C_TYPE typedef struct OS_HandleFile_t* OS_HandleFile;
+typedef struct OS_HandleFile_t* OS_HandleFile;
 
 
 /**Open a file to read. The file should be exist. 

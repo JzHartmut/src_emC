@@ -50,7 +50,7 @@
  * @param ARRAY any array instance defined with TYPE ARRAY[SIZE];
  * @return SIZE
  */
-#define ARRAYLEN_emC(ARRAY) (sizeof(ARRAY) / sizeof((ARRAY)[0]))
+#define ARRAYLEN_emC(ARRAY) (uint)(sizeof(ARRAY) / sizeof((ARRAY)[0]))
 
 
 /**Builds the value 0xffffffff for a pointer (0xffffffffffffffff for 64 bit)

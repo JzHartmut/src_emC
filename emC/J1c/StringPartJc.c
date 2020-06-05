@@ -3191,7 +3191,7 @@ const struct Reflection_Fields_StringPartJc_s_t
 
 
 const ClassJc refl_StringPartJc_s = 
-{ INIZ_ObjectJc(refl_StringPartJc_s, &refl_ClassJc, INIZ_ID_ClassJc)
+{ INIZ_ObjectJc(refl_StringPartJc_s, refl_ClassJc, ID_refl_ClassJc)
 , "StringPartJc_s"
 , OFFSET_IN_STRUCT(StringPartJc_s, base.object)
 , sizeof(StringPartJc_s)

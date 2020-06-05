@@ -75,7 +75,7 @@ typedef struct LogMessageStream_FW_t
 
 }LogMessageStream_FW_s;
 
-#define ID_refl_LogMessageStream_FW 0x0fC6
+#define ID_refl_LogMessageStream_FW 0x0FF4
 
 int out_FileDescriptorJc_val = 1;
 

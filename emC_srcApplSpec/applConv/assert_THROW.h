@@ -1,7 +1,7 @@
 #ifndef __ASSERTJc__
 #define __ASSERTJc__
 //#error assert_THROW.h
-#ifndef __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
   #include <applstdef_emC.h>  //This file should be included there.
 #endif  
 

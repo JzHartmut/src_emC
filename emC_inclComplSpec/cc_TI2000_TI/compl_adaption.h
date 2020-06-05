@@ -33,7 +33,7 @@
 
 
 /**If only this file is included, include all files of this concept. */
-#ifndef __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
   #include <applstdef_emC.h>
 #endif
 
@@ -220,6 +220,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 // Folgendes Define wird nach einer Struktur insbesondere for the GNU-Compiler verwendet. Es ist f�r MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
+
+#define MAYBE_UNUSED_emC  __attribute__((unused))
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 

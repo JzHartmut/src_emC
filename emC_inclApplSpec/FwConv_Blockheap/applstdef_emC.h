@@ -1,5 +1,5 @@
-#ifndef __applstdef_emC_h__
-#define __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
+#define HGUARD_applstdef_emC
 
 //Uncomment to check whether used:
 //#error Uses srcApplInspc/applstdef_emC.h
@@ -53,9 +53,9 @@
   * The C variant with longjmp should only used if C++ is not available.
   */
 #ifdef __cplusplus
-  #define __TRYCPPJc
+  #define DEF_Exception_TRYCpp
 #else
-  #undef __TRYCPPJc  //cannot be used on C language
+  #undef DEF_Exception_TRYCpp  //cannot be used on C language
 #endif
 
 
@@ -124,4 +124,4 @@ INLINE_emC int stopNAN(){ return 0; }
 
 
 
-#endif // __applstdef_emC_h__
+#endif // HGUARD_applstdef_emC

@@ -335,7 +335,10 @@ const ClassJc refl_ObjectJcREF =
 , null  //superclass  
 , null  //interfaces  
 , 0 
+#ifdef DEF_ClassJc_Vtbl
 , null  //virtual table
+#endif
+
 };
 
 

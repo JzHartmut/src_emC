@@ -29,7 +29,7 @@ int32 clocksFloatPerMicro_Time_emC = 0;
 
 OS_TimeStamp* ctorM_OS_TimeStamp  (  MemC mem)
 { int size = mem.val;
-  if (size < sizeof(OS_TimeStamp))
+  if (size < (int)sizeof(OS_TimeStamp))
   { THROW_s0n(IllegalArgumentException, "OS_TimeStamp with fault size", size, 0);
     return null;
   }

@@ -42,7 +42,8 @@
 //The following switch select the compiler in some sources.
 #define __COMPILER_IS_MSC15__
 #define __COMPILER_IS_MSVC__
-
+#define DEF_MS_VISUAL_STUDIO
+#define DEF_Cpp11_supported
 
 
 //#include the standard header from Visual studio firstly. 

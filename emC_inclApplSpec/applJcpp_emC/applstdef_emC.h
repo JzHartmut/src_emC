@@ -1,5 +1,5 @@
-#ifndef __applstdef_emC_h__
-#define __applstdef_emC_h__
+#ifndef HGUARD_applstdef_emC
+#define HGUARD_applstdef_emC
 
 //Uncomment to check whether used:
 //#error Uses applCpp32_emC/applstdef_emC.h
@@ -50,7 +50,7 @@
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
   */
-#define __TRYCPPJc
+#define DEF_Exception_TRYCpp
 
 #ifdef DEF_ThreadContext_SIMPLE
   #include <emC_srcApplSpec/SimpleNumCNoExc/ExcStacktrcNo_emC.h>
@@ -102,4 +102,4 @@
 //#include <emC/Base/SystemInit_emC.h>
 //#include <emC/Base/Handle_ptr64_emC.h>
 
-#endif // __applstdef_emC_h__
+#endif // HGUARD_applstdef_emC

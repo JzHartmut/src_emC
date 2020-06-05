@@ -60,14 +60,10 @@
   #define INLINE_emC inline
   #define CONSTMember_emC
 #else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_emC const
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
-     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
-  */
-  //#define inline static
-  //#define INLINE_emC static
-  #define INLINE_emC inline
+  //For C-compiling: build static routines, maybe the compiler optimized it to inline. 
+  //See https://gcc.gnu.org/onlinedocs/gcc/Inline.html:
+  #define INLINE_emC static inline
   //If C-compiling is used, define the C++-keywords for C
   #define bool int
   #undef false

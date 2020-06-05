@@ -41,8 +41,22 @@
 
 #include <applstdef_emC.h>
 
+//Check if DEF_Exception_TRYCpp is set it needs C++ compilation.
+//Then this file is included in compilation of ExceptionCpp_emC.cpp to assert C++ compilation anyway. 
+//
+#if !defined(DEF_Exception_TRYCpp) || defined(DEF_ExceptionCpp_INCLUDED)
+
+#include <emC/Base/Exception_emC.h>
+
 #include <emC/Base/String_emC.h>
-#ifndef DEF_ExceptionJc_NO
+#ifdef DEF_ExceptionJc_NO
+
+int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
+{
+  return 0;
+}
+
+#else //not DEF_ExceptionJc_NO
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/OSAL/os_error.h>
@@ -96,35 +110,21 @@ const char* exceptionTexts DEF [33] =
 
 
 
-
 void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
-  if(_thCxt !=null)
-  {
-    StacktraceThreadContext_emC_s* stacktrcThCxt = &_thCxt->stacktrc;
-    StacktraceElementJc* stacktraceEntriesInThreadContext = stacktrcThCxt->entries;
-    StacktraceElementJc* stacktraceTry;
-    int ixStacktraceEntries = stacktrcThCxt->zEntries-1;
-    if(line >0) {
-      stacktrcThCxt->entries[ixStacktraceEntries].line = line;  //it is the line of the THROW statement.
-    }
-    do {
-      stacktraceTry = &stacktrcThCxt->entries[ixStacktraceEntries];
-    } while(stacktraceTry->tryObject == null && --ixStacktraceEntries >=0); 
-    if(stacktraceTry->tryObject !=null)
-    { //TRY-level is found:
-      TryObjectJc* tryObject = stacktraceTry->tryObject;
-      ExceptionJc* exception = &tryObject->exc;
-      tryObject->excNrTestCatch = tryObject->exc.exceptionNr = exceptionNr;  //for longjmp
-      exception->exceptionNr = exceptionNr;
-      exception->file = file;
-      exception->line = line;
-      //check the memory area where the msg is stored. Maybe in stack, then copy it.
-      MemUnit* addrMsg = (MemUnit*)msg.addr.str;
-      #ifndef DEF_NO_StringJcCapabilities
-      if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
-        //The msg is in stack area, copy it in ThreadContext!
-        int zMsg = length_StringJc(msg);
+  if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
+  ExceptionJc* exception = &_thCxt->exception[0];
+  exception->file = file;
+  exception->line = line;
+  exception->exceptionNr = exceptionNr;
+  //check the memory area where the msg is stored. Maybe in stack, then copy it.
+  #ifndef DEF_NO_StringJcCapabilities
+  MemUnit* addrMsg = (MemUnit*)msg.addr.str;
+  if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
+    //The msg is in stack area, copy it in ThreadContext!
+    int zMsg = length_StringJc(msg);
+    if(zMsg >0){
+      #ifdef DEF_ThreadContextHeap_emC
         MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
         char* b = PTR_MemC(memb, char);
         if(b !=null) {
@@ -134,58 +134,74 @@ void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, in
         else {
           exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
         }
-      }
-      else {
-        lightCopy_StringJc(&exception->exceptionMsg, msg);
-      }
+      #else //no DEF_ThreadContextHeap_emC
+        exception->exceptionMsg = z_StringJc("Exception message in stack, but no ThreadHeap, cannot be used.");
       #endif
-      exception->exceptionValue = value;
-      #if defined(__TRYCPPJc) //&& defined(__cplusplus)
-       throw exceptionNr;
-      #else
-       longjmp(stacktraceTry->tryObject->longjmpBuffer, exceptionNr);
-      #endif
+    }
+  }
+  else {
+    lightCopy_StringJc(&exception->exceptionMsg, msg);
+  }
+  #endif
+  exception->exceptionValue = value;
+  throwCore_emC(_thCxt);
+}
 
-    }
-    else
-    { //no TRYJc-level found,
-      ExceptionJc exception = {0};
-      exception.file = file;
-      exception.line = line;
-      exception.exceptionNr = exceptionNr;
-      lightCopy_StringJc(&exception.exceptionMsg, msg);
-      exception.exceptionValue = value;
-      uncatched_ExceptionJc(&exception, _thCxt);
-    }
+
+void throwCore_emC(ThCxt* _thCxt) {
+
+  if(_thCxt->tryObject !=null) {
+    //tryObject->excNrTestCatch = exception->exceptionNr;
+    #ifdef DEF_Exception_NO
+      //Only log, the program continues after THROW
+      //Note: The compilation does not call this operation because THROW is defined
+      //with immediately call of log_Exception usually
+      log_ExceptionJc(&_thCxt->exception[0], _thCxt->exception[0].file, _thCxt->exception[0].line);
+    #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
+      #ifndef __cplusplus
+        #error to use C++ exception handing you should compile this source with C++
+      #endif
+      throw _thCxt->exception[0].exceptionNr;
+    #else
+      longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->exception[0].exceptionNr);
+    #endif
+
   }
   else
   { //no TRYJc-level found,
-    ExceptionJc exception = {0};
-    exception.file = file;
-    exception.line = line;
-    exception.exceptionNr = exceptionNr;
-    lightCopy_StringJc(&exception.exceptionMsg, msg);
-    exception.exceptionValue = value;
-    uncatched_ExceptionJc(&exception, _thCxt);
+    uncatched_ExceptionJc(&_thCxt->exception[0], _thCxt);
   }
 }
 
 
 
-void throw_s0Jc (int32 exceptionNr, const char* msgP, int value, char const* file, int line, ThCxt* _thCxt)
+void throw_s0Jc ( int32 exceptionNr, const char* msgP, int value, char const* file, int line, ThCxt* _thCxt)
 { StringJc msg = s0_StringJc(msgP);
   throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 }
 
 
 
-void throw_EJc (int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt)
+void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt)
 {
   //int exceptionNr = exc->exceptionNr;
   StringJc msg = exc->exceptionMsg;
   //int32 value = exc->exceptionValue;
   throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 
+}
+
+
+
+void clearException ( ExceptionJc* exc) {
+  #ifndef DEF_NO_StringJcCapabilities
+  if(exc->exceptionMsg.addr.str!=null) { free_MemC(exc->exceptionMsg.addr.str); }
+  #endif
+  exc->exceptionNr = 0;
+  exc->exceptionValue = 0;
+  exc->val2 = 0;
+  exc->file = null;
+  exc->line = 0;
 }
 
 
@@ -230,16 +246,17 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
     pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
     pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->line, 10, 0, _thCxt);
   }
-  
+  #ifdef DEF_ThreadContextStracktrc_emC
   if (_thCxt != null) {
     int ixThrow = _thCxt->stacktrc.zEntries - 1;
-    StacktraceElementJc* stackThrow = &_thCxt->stacktrc.entries[ixThrow];
+    StacktraceElement_emC_s* stackThrow = &_thCxt->stacktrc.entries[ixThrow];
     pos += strncpy_emC(buffer + pos, ", oper: ", zbuffer - pos);
     pos += strncpy_emC(buffer + pos, stackThrow->name, zbuffer - pos);  //The routine where the throw is invoked or the deepest routine with Stacktrace.
     pos += strncpy_emC(buffer + pos, "(@", zbuffer - pos);
     pos += toString_int32_emC(buffer + pos, zbuffer - pos, stackThrow->line, 10, 0, _thCxt);
     pos += strncpy_emC(buffer + pos, ")", zbuffer - pos);
   }
+  #endif //DEF_ThreadContextStracktrc_emC
   pos += strncpy_emC(buffer + pos, ", detect in: ", zbuffer - pos);
   pos += strncpy_emC(buffer + pos, sFile, zbuffer - pos);
   pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
@@ -249,12 +266,15 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
 }
 
 
+
+
+#ifdef DEF_ThreadContextStracktrc_emC
 /**Returns the entry of the Stacktrace of the requested level.
  * @param level 0 is actual, 1... are previous levels.
  * @return null if no previous level is found.
  */
 
-static StacktraceElementJc* getEntry_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, uint level)
+static StacktraceElement_emC_s* getEntry_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, uint level)
 { 
   if(level < ythis->zEntries) {
     return &ythis->entries[ythis->zEntries - level -1];
@@ -270,12 +290,12 @@ static StacktraceElementJc* getEntry_StacktraceThreadContext_emC(StacktraceThrea
 }
 
 
-
 METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(StacktraceThreadContext_emC_s* ythis, int level)
 {
-  StacktraceElementJc* entry = getEntry_StacktraceThreadContext_emC(ythis, level);
+  StacktraceElement_emC_s* entry = getEntry_StacktraceThreadContext_emC(ythis, level);
   return (entry == null) ? "" : entry->name; 
 }
+#endif  //DEF_ThreadContextStracktrc_emC
 
 
 
@@ -327,3 +347,5 @@ bool test_StacktraceJc(StacktraceJc* ythis)
 
 
 #endif //not __NOT_SUPPORTED_ThreadContext_emC__
+
+#endif //__cplusplus or DEF_ExceptionCpp_INCLUDED

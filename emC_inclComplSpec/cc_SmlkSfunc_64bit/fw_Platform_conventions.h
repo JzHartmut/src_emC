@@ -65,9 +65,9 @@
   * It must be secured that no critical destructors are used, or a FINALLY is used there.
   */
 #ifdef __cplusplus
-  #define __TRYCPPJc
+  #define DEF_Exception_TRYCpp
 #else
-  #undef __TRYCPPJc
+  #undef DEF_Exception_TRYCpp
 #endif
 
 /**Under Test conditions, the check of Stacktrace consistence should be activated. 

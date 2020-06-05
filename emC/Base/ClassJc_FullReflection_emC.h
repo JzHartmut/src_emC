@@ -92,12 +92,14 @@ C_TYPE typedef struct  FieldJc_t
 
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define INIZ_ID_FieldJc 0x0ff6
+#define ID_refl_FieldJc 0x0FFB
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_FieldJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_FieldJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_FieldJc (kIsSmallSize_objectIdentSize_ObjectJc + (ID_refl_FieldJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
 
 #define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
+
+extern_C struct ClassJc_t const refl_FieldJc;
 
 /**gets the Name of the field. 
 * @deprecated use name_FieldJc(...) which returns a StringJc. Reason: If the name fills the whold field of FieldJc#_name_, it is not 0-terminated.
@@ -154,6 +156,7 @@ struct FieldJc_t;
 struct FieldJc_Y_t;
 struct MethodJc_t;
 struct MethodJcARRAY_t;
+struct VtblHeadJc_T;
 
 /**A ClassJc is the head instance of the reflection of any type using ObjectJc. It is adequat to [[javadoc/lang/Class]].
 * Because the instance is defined in compile time, it should be defined as ,,const,, anyway. Therefore it can be protected
@@ -166,7 +169,7 @@ struct MethodJcARRAY_t;
 *
 * This definition is contained in the header <Jc/ObjectJc.h> because some inline methods of ObjectJc need the method table reference.
 */
-C_TYPE typedef struct  ClassJc_t
+typedef struct  ClassJc_t
 { ObjectJc object;
 
   /** The typename. If it is a Class represents a primitive type, the name is such as "int", "float", "boolean".*/
@@ -183,7 +186,8 @@ C_TYPE typedef struct  ClassJc_t
   struct MethodJcARRAY_t const* methods;
 
   /** The superclass, ObjectJc if no other superclass.*/
-  struct ClassOffset_idxVtblJcARRAY_t const* superClasses;
+  //union { struct ClassJc_t const* superClass; struct ClassOffset_idxVtblJcARRAY_t const* superClasses; } super;
+  ObjectJc const* superClass_es;
   //struct ClassJc_t const* superClass;
 
   /** Array of interfaces to this class.*/
@@ -194,22 +198,21 @@ C_TYPE typedef struct  ClassJc_t
   /** Some bits determines the kind of the Class, see Modifier_reflectJc*/
   int32 modifiers;
 
+  #ifdef DEF_ClassJc_Vtbl
   /**Pointer to jump table for dynamic calls (virtual methods).
   * This is a typed struct, starting with Vtbl_ObjectJc.
   */
-  VtblHeadJc const* mtbl;
+  struct VtblHeadJc_T const* mtbl;
   //Method_int_Object* mtbl;
+  #endif
 
 } ClassJc;
 
 /**Compatibility. */
-#define Class_Jc_t ClassJc_t
+#define Class_Jc_T ClassJc_t
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define INIZ_ID_ClassJc 0x0ff8
-
-/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_ClassJc (kIsSmallSize_objectIdentSize_ObjectJc + (ID_refl_ClassJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
 
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageJc (mIsLargeSize_objectIdentSize_ObjectJc + 0x1e000000)
@@ -217,11 +220,11 @@ C_TYPE typedef struct  ClassJc_t
 /**This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
 
-#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
-#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
-#define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME  }
-#define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME  }/*TODO*/
+#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
+#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
+#define INIZreflOffs_ClassJc(OBJ, NAME, REFLOFFS) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
+#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME, 0, 0, null, null, &(REFLSUPER)->object }
+#define INIZreflOffsSuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME, 0, 0, null, null, &(REFLSUPER)->object  }
 
 
 /**Returns the name of the class as StringJc. 
@@ -237,14 +240,14 @@ extern_C const ClassJc refl_ClassJc;
 */
 extern_C void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super);
 
-#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
+//#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME }
 
-#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
+//#define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME }
 
 
 //TODO because of multiple inheritance support the field superClasses cannot be set, because an own array is necessary.
 //the multiple inheritance seems to be an unecessary feature. For complex C++ classes the interfaces may be able to use!
-#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, &refl_ClassJc, 0), NAME }
+//#define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME }
 
 /*@CLASS_C ModifierJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -542,17 +545,17 @@ typedef struct ClassOffset_idxVtblJcARRAY_t
 /**This type is the usefull type for a simple superclass. */
 typedef struct ClassOffset_idxVtblJc1_t  //Type for the super class
 { ObjectArrayJc head;
-ClassOffset_idxVtblJc data[1];
+  ClassOffset_idxVtblJc data[1];
 } ClassOffset_idxVtblJc1;
 
 
-
-
-/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define INIZ_ID_ClassOffset_idxVtblJc 0x0ff9
+extern ClassJc const refl_ClassOffset_idxVtblJc;
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassOffset_idxVtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (INIZ_ID_ClassOffset_idxVtblJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
+#define ID_refl_ClassOffset_idxVtblJc 0x0FFA
+
+/**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
+#define OBJTYPE_ClassOffset_idxVtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (ID_refl_ClassOffset_idxVtblJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
 
 
 /**Initializes a super class or interface reference in RAM for runtime reflection. 

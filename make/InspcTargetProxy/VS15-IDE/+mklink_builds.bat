@@ -1,6 +1,6 @@
 echo off
+call .\+clean.bat
 set  DBG=%TMP%\InspcTargetProxy_C\MSC15
-if exist %DBG% rmdir /S/Q %DBG%
 mkdir %DBG%
 mkdir %DBG%\x64
 mkdir %DBG%\x32
