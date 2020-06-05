@@ -41,14 +41,6 @@
 #include <time.h>
 
 
-#undef INT32
-#undef UINT32
-#undef int64
-#undef uint64
-
-#include <wtypes.h>
-#include <winbase.h>
-#include <sys/timeb.h>
 
 int32_t os_milliTime()
 {
@@ -125,7 +117,7 @@ void os_delayThread(int32_t milliseconds)
   ///it doesn't exists in this conditional compiling focus: error = nanosleep(&time, null);
   */
 
-  Sleep(milliseconds);
+  sleep(milliseconds);
 
 //  if(milliseconds < 2000000){  //usleep uses int32_t, max ~4000000000
 

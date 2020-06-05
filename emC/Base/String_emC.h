@@ -141,7 +141,7 @@ extern_C int strcpy_emC ( char* dst, char const* src, int sizeOrNegLength);
  *   The return value is anytime a value between 0 and <=sizeDst, never <0 and never > sizeDst.
  *   The return value is the strlen(dst) if it is < sizeDst.
  */
-inline int strncpy_emC ( char* dst, char const* src, int length){ return strcpy_emC(dst, src, -length); }
+INLINE_emC int strncpy_emC ( char* dst, char const* src, int length){ return strcpy_emC(dst, src, -length); }
 
 
 /**Searches a character inside a given string with terminated length.
@@ -550,7 +550,7 @@ extern_C StringJc zI_StringJc ( char const* src, int len);
  * The difference to CharSeqJc(...) is: the last one needs to compile StringCharSeq_emc.c
  * @return The length of the string.
 */
-inline int length_StringJc(StringJc thiz)  //INLINE
+INLINE_emC int length_StringJc(StringJc thiz)  //INLINE
 {
   int val = thiz.val & mLength_StringJc;
   if (val < kMaxNrofChars_StringJc) {
@@ -1202,7 +1202,7 @@ METHOD_C StringBuilderJc_s* append_u_StringBuilderJc (StringBuilderJc_s* ythis, 
  * The methods [[length_CharSeqJc(...)]] etc. detect this designation and invoke the proper methods of StringBuilderJc_s immediately
  * which runs fast.
  */
-inline CharSeqJc toCharSeqJc_StringBuilderJc (struct StringBuilderJc_t const* thiz)
+INLINE_emC CharSeqJc toCharSeqJc_StringBuilderJc (struct StringBuilderJc_t const* thiz)
 { CharSeqJc ret;
   SET_StringJc(ret, (char const*)thiz, kIsStringBuilder_CharSeqJc); 
   //ret.addr.bu = thiz;
@@ -1229,7 +1229,7 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
 * inside the given length.
 * @return The length of the string.
 */
-inline int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
+INLINE_emC int length_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt)  //INLINE
 {
 #ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
   int val = thiz.val & mLength_StringJc;
@@ -1265,7 +1265,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 * In the other cases the inner method ,,_charAt_PRIV_CharSeqJc(...),, will be invoked.
 * That checks whether a index of the method table is given or the method table of any ObjectJc which implements the
 */
-inline char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
+INLINE_emC char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t* _thCxt)
 {
 #ifndef __ignoreInCheader_zbnf__  //ignore following block while parsing, dont't ignore for C-Compilation!
   int val = thiz.val & mLength_StringJc;
@@ -1290,9 +1290,9 @@ extern_C struct Vtbl_CharSeqJc_t const* getVtbl_CharSeqJc(CharSeqJc thiz, struct
 
 /*@CLASS_C CharacterJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-inline bool isIdentifierStart_CharacterJc(char cc) { return (cc >= 'a' && cc <= 'z') || (cc >= 'A' && cc <= 'Z') || cc == '_'; }
+INLINE_emC bool isIdentifierStart_CharacterJc(char cc) { return (cc >= 'a' && cc <= 'z') || (cc >= 'A' && cc <= 'Z') || cc == '_'; }
 
-inline bool isIdentifierPart_CharacterJc(char cc) { return isIdentifierStart_CharacterJc(cc) || (cc >= '0' && cc <= '9'); }
+INLINE_emC bool isIdentifierPart_CharacterJc(char cc) { return isIdentifierStart_CharacterJc(cc) || (cc >= '0' && cc <= '9'); }
 
 
 

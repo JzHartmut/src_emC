@@ -1,7 +1,7 @@
 #ifndef __Ctrl__pid_Ctrl_h__
 #define __Ctrl__pid_Ctrl_h__
 
-#include "emC/base/Object_emC.h"
+#include "emC/Base/Object_emC.h"
 
 /**Parameter of PID controller 
  * @simulink bus.
