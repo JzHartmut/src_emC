@@ -87,7 +87,7 @@ int parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars)
   }
   if(bNegativ){ val = -val; }
   if(parsedChars !=null){
-		*parsedChars = src - srcP;
+		*parsedChars = (int)(src - srcP);
 	}
   return( val);
 }

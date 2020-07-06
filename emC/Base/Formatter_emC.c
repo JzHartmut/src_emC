@@ -751,13 +751,13 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
           }
         } break;
         case 'I':
-        { nrofCharsToCopy = toString_Integer_FW(buffer + iBuffer, zBuffer - iBuffer -1, arg32, radixIntConversion, actParseResult->value.precision, _thCxt);
+        { nrofCharsToCopy = toString_Integer_FW(buffer + iBuffer, zBuffer - iBuffer -1, arg32, radixIntConversion, actParseResult->value.precision);
           iBuffer += nrofCharsToCopy;
           radixIntConversion = 0;
         } break;
         case 'J':
         { //TODO toString_Long_FW
-          nrofCharsToCopy = toString_Integer_FW(buffer + iBuffer, zBuffer - iBuffer -1, (int32)arg64, radixIntConversion, actParseResult->value.precision, _thCxt);
+          nrofCharsToCopy = toString_Integer_FW(buffer + iBuffer, zBuffer - iBuffer -1, (int32)arg64, radixIntConversion, actParseResult->value.precision);
           iBuffer += nrofCharsToCopy;
           radixIntConversion = 0;
         } break;

@@ -30,7 +30,7 @@
 */
 #include <applstdef_emC.h>
 //#include <emC/Base/Object_emC.h>
-#include <emC/Base/String_emC.h>
+#include <emC/Base/StringBase_emC.h>
 #include <string.h>  //C-standard
 
 //Note: Implementation to search \0 in an limited range. 
@@ -40,7 +40,7 @@ int strnlen_emC  (  char const* text, int maxNrofChars)
   char const* text9 = text + maxNrofChars;
   //optimization: test only one pointer register, which is incremented too
   while (text1 < text9 && *text1 != 0) { text1 += 1; }
-  return (text1 - text);
+  return (int)(text1 - text);
 }
 
 
@@ -112,7 +112,7 @@ int searchCharBack_emC ( char const* const text, char cc, int fromIx)
   while( --texte >= text) {
     if(*texte == cc) break;
   }
-  return texte - text;
+  return (int)(texte - text);
 
 
   //int const* texta = (int const*) (text + fromIx);
@@ -142,7 +142,7 @@ int searchChar_emC  (  char const* text, int zText, char cc)
   while (text1 < text9 && (c1 = *text1) != cc) {
     text1 += 1;
   }
-  return c1 == cc ? text1 - text : -1; //maybe 0 if the request char is on the first position. -1 if not found.
+  return c1 == cc ? (int)(text1 - text) : -1; //maybe 0 if the request char is on the first position. -1 if not found.
 }
 
 
@@ -173,7 +173,7 @@ int searchString_emC  (  char const* text, int zText, char const* ssearch, int z
         text2 +=1; ssearch2 +=1;     //character matches, increment
       }
       if (ssearch2 == ssearch9) {
-        return (text1 - text);      //position of found string
+        return (int)(text1 - text);      //position of found string
       }
     }
     text1 = text1 +1;  //check next character in text whether it is csearch
@@ -218,7 +218,7 @@ int strcpy_emC  (  char* dst, char const* src, int sizeOrNegLength)
     *(++dst1) = *(++src1); 
   } while (src1 < src9 && *src1 != 0);
   if(src1 == src9 && sizeOrNegLength >0){ *dst1 = 0; src1 +=1; } //guarantees end-0, counts \0
-  return (src1 - src);
+  return (int)(src1 - src);
 }
 
 
@@ -289,7 +289,7 @@ int skipWhitespaces_emC  (  char const* text, int maxNrofChars)
   while (text1 < text9 && *text1 <= 0x20) {
     text1 += 1;
   }
-  return (text1 - text);    //maybe 0 if the request char is on the first position.
+  return (int)(text1 - text);    //maybe 0 if the request char is on the first position.
 }
 
 
@@ -300,7 +300,7 @@ int trimRightWhitespaces_emC  (  char const* text, int maxNrofChars)
   while (text1 >= text && *text1 <= 0x20) {
     text1 -= 1;
   }
-  return (text1 - text + 1);    //maybe 0 if there are only whitespaces.
+  return (int)(text1 - text + 1);    //maybe 0 if there are only whitespaces.
 }
 
 
@@ -310,7 +310,7 @@ int trimRightWhitespaces_emC  (  char const* text, int maxNrofChars)
 /** found an algorithm unusing division, because some divisions may be expensive in time
 * at some processors.
 */
-int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative, ThCxt* _thCxt)
+int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative)
 {
   char cc;
   /**Array of values to test the position in digit. Fill it with 10, 100 etc if radix = 10;*/
@@ -320,7 +320,6 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
   int idxTestValues = 0;
   int nChars = 0;
   int minNrofChars;
-  STACKTRC_TENTRY("toString_int32_emC");
   if (minNrofCharsAndNegative < 0 && value < 0)
   {
     uvalue = -value; //may be -0x80000000
@@ -376,7 +375,7 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
   {
     buffer[nChars++] = cc;
   }
-  STACKTRC_RETURN nChars;
+  return nChars;
 }
 
 

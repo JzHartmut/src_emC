@@ -112,9 +112,7 @@ inline int unused_emC(int arg){ return arg; }
   #define METHOD_C extern "C"
   #define extern_C_BLOCK_ extern "C" { 
   #define _END_extern_C_BLOCK } 
-  #define INLINE_C inline
   //#define C_CAST(TYPE, PTR) reinterpret_cast<TYPE>(const_cast<TYPE>(PTR))
-  #define FORCED_CAST(TYPE, PTR) reinterpret_cast<TYPE>(PTR)
   #define C_CAST(TYPE, PTR) reinterpret_cast<TYPE>(PTR)
   #define STATIC_CAST(TYPE, PTR) static_cast<TYPE>(PTR)
   //#define METHOD_C
@@ -128,10 +126,6 @@ inline int unused_emC(int arg){ return arg; }
   #define METHOD_C
   #define extern_C_BLOCK_ 
   #define _END_extern_C_BLOCK 
-  #ifndef INLINE_C  //may be defined in compl_adaption.h
-    #define INLINE_C static  //a compiler may optimize static routines.
-  #endif
-  #define FORCED_CAST(TYPE, PTR) (TYPE)(PTR)
   #define C_CAST(TYPE, PTR) (TYPE)(PTR)
   #define STATIC_CAST(TYPE, PTR) (TYPE)(PTR)
 #endif
@@ -291,6 +285,7 @@ typedef struct StringJc_T {
   } addr; 
   VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
 } StringJc;
+#define DEFINED_StringJc_emC
 //old: typedef STRUCT_AddrVal_emC(StringJc, char const);
 
 

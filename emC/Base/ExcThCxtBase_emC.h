@@ -230,8 +230,7 @@ typedef struct ExceptionJc_t
 
 } ExceptionJc;
 
-
-#define CONST_ExceptionJc(IDENT, MSG, VAL) { ident_##IDENT##Jc, VAL, MSG}
+#define DEFINED_Exception_emC
 
 
 #define NULL_ExceptionJc() { 0 }

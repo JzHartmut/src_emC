@@ -83,7 +83,7 @@ void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const*
     othiz->identSize = ((refl->idType <<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  + size;
   } else {
     //Hint: do not store any other id, the type id should be left 0! Because it is supplement later and  test later.
-    othiz->identSize = (idObj <<kBitInstanceType_ObjectJc) + size; // + (size & 0xffff);
+    othiz->identSize = (((uint32)idObj) <<kBitInstanceType_ObjectJc) + size; // + (size & 0xffff);
   }
 }
 
@@ -347,7 +347,7 @@ bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t
     if(ident != 0 && ident != identObj) {
       THROW_s0(RuntimeException, "faulty ident", identObj, ident);
       return false;
-      identObj = -1;  //marker for faulty.
+      //identObj = -1;  //marker for faulty.
     }
     //
     #ifdef DEF_ObjectJc_REFLREF

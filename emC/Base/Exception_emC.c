@@ -237,14 +237,14 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
   int pos = 0;
   pos += copyToBuffer_StringJc(exc->exceptionMsg, 0, -1, buffer + pos, zbuffer - pos);
   pos += strncpy_emC(buffer+pos, "(", zbuffer - pos);
-  pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->exceptionValue, 10, 0, _thCxt);
+  pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->exceptionValue, 10, 0);
   pos += strncpy_emC(buffer+pos, ", ", zbuffer - pos);
-  pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->val2, 10, 0, _thCxt);
+  pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->val2, 10, 0);
   pos += strncpy_emC(buffer + pos, ") in: ", zbuffer - pos);
   if(exc->file !=null) {
     pos += strncpy_emC(buffer + pos, exc->file, zbuffer - pos);  //The routine where the throw is invoked or the deepest routine with Stacktrace.
     pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
-    pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->line, 10, 0, _thCxt);
+    pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->line, 10, 0);
   }
   #ifdef DEF_ThreadContextStracktrc_emC
   if (_thCxt != null) {
@@ -260,7 +260,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
   pos += strncpy_emC(buffer + pos, ", detect in: ", zbuffer - pos);
   pos += strncpy_emC(buffer + pos, sFile, zbuffer - pos);
   pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
-  pos += toString_int32_emC(buffer + pos, zbuffer - pos, line, 10, 0, _thCxt);
+  pos += toString_int32_emC(buffer + pos, zbuffer - pos, line, 10, 0);
   buffer[pos] = 0;  //terminating 0
   return pos;
 }

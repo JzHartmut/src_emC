@@ -73,7 +73,7 @@ void waitClock_Time_emC(int32 tillClockCt);
  * @param micros number of micro seconds. The value should not be higher than about 10000000 (1 second) because the range of clockCt should be regarded.
  *   Negative values for time in the past are possible if necessary.
  */
-inline int32 addMicrosec_Time_emC(int32 clockCt, int32 micros) { return clockCt + micros * clocksPerMicro_Time_emC; }
+INLINE_emC int32 addMicrosec_Time_emC(int32 clockCt, int32 micros) { return clockCt + micros * clocksPerMicro_Time_emC; }
 
 
 /**Adds the given time offset to the current given clockCt. use this operation instead [[addMicrosec_Time_emC(...)]] 
@@ -82,12 +82,12 @@ inline int32 addMicrosec_Time_emC(int32 clockCt, int32 micros) { return clockCt 
  * @param micros number of micro seconds. The value should not be higher than about 10000000 (1 second) because the range of clockCt should be regarded.
  *   Negative values for time in the past are possible if necessary.
  */
-inline int32 addFloatMicrosec_Time_emC(int32 clockCt, int32 micros) { return clockCt + (int32)(micros * clocksFloatPerMicro_Time_emC); }
+INLINE_emC int32 addFloatMicrosec_Time_emC(int32 clockCt, int32 micros) { return clockCt + (int32)(micros * clocksFloatPerMicro_Time_emC); }
 
 
-inline float microDiffofClock_Time_emC(int32_t clockDiff) { return clockDiff * microsecondsPerClock_Time_emC; }
+INLINE_emC float microDiffofClock_Time_emC(int32_t clockDiff) { return clockDiff * microsecondsPerClock_Time_emC; }
 
-inline float microDiffLongofClock_Time_emC(int64_t clockDiff) { return clockDiff * microsecondsPerClock_Time_emC; }
+INLINE_emC float microDiffLongofClock_Time_emC(int64_t clockDiff) { return clockDiff * microsecondsPerClock_Time_emC; }
 
 
 typedef struct SimTime_emC_t
@@ -149,7 +149,7 @@ typedef struct MinMaxTime_emC_t
 
 
 
-inline void init_MinMaxTime_emC(MinMaxTime_emC* thiz)
+INLINE_emC void init_MinMaxTime_emC(MinMaxTime_emC* thiz)
 { thiz->maxCyclTime = 0;  
   //thiz->maxmaxCyclTime = 0;  
   thiz->calc.maxCalcTime = 0;  
@@ -167,7 +167,7 @@ inline void init_MinMaxTime_emC(MinMaxTime_emC* thiz)
 /**
 * invoke with (..., os_getClockCnt()) 
 */
-inline void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
+INLINE_emC void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
 { uint cyclTime = (uint)(time - thiz->_lastTime); 
   thiz->ct +=1;  
   thiz->actCyclTime = cyclTime;  
@@ -178,7 +178,7 @@ inline void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 }
 
 /**With given time. */
-inline void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
+INLINE_emC void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
 { uint cyclTime = (uint)((time) - thiz->_lastTime); 
   thiz->ct +=1; 
   thiz->actCyclTime = cyclTime;  
@@ -192,7 +192,7 @@ inline void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 
 
 /**With given time. */
-inline void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time)
+INLINE_emC void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time)
 { uint calcTime = (uint)(time - timeStart); 
   thiz->actCalcTime = calcTime;  
   if(calcTime > thiz->maxCalcTime) { thiz->maxCalcTime = calcTime; }  
@@ -201,7 +201,7 @@ inline void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int 
 }
 
 /**With given time. */
-inline void calcTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
+INLINE_emC void calcTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 {
   set_MinMaxCalcTime_emC(&thiz->calc, time, thiz->_lastTime);
 }

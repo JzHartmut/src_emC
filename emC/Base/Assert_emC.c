@@ -1,4 +1,5 @@
 #include <applstdef_emC.h>
+#include <emC/Base/Assert_emC.h>
 #include <emC/Base/ExcThCxtBase_emC.h>
 #include <emC/Base/String_emC.h>
 
