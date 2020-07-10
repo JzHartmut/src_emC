@@ -16,7 +16,7 @@
 void ctor_Param_OrthOsc2_FB(Param_OrthOsc2_FB* thiz, int32 identObj, float Tstep, float tStepOrthi, float nom_m)
 { 
   //Param_OrthOsc2_FB* thiz = thiz_y;  //use the output data as this. Initialize *this
-  iniz_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), &refl_Param_OrthOsc2_FB_CtrlemC, identObj);
+  iniz_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), &refl_Param_OrthOsc2_FB, identObj);
   setInitialized_ObjectJc(&thiz->obj); //no init routine exists.
   thiz->tStepOrthi = tStepOrthi;
   thiz->nom_m = nom_m;
@@ -39,7 +39,7 @@ OrthOsc2_FB_CtrlemC* ctor_OrthOsc2_FB(ObjectJc* othiz, float kA, float kB, int32
 
 void ctor_Adjustk_OrthOsc2_FB(Adjustk_OrthOsc2_FB* thiz, int32 identObj, float max_e, float kHi, float kNormal, float Tstep, float Tdecay)
 {
-  iniz_ObjectJc(&thiz->base, thiz, sizeof(*thiz), &refl_Adjustk_OrthOsc2_FB_CtrlemC, identObj);
+  iniz_ObjectJc(&thiz->base, thiz, sizeof(*thiz), &refl_Adjustk_OrthOsc2_FB, identObj);
   thiz->kHi = kHi;
   thiz->kNormal = kNormal;
   thiz->max_e = max_e;

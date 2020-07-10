@@ -114,7 +114,7 @@ struct Size_Vtbl_t;
 */
 
 /** The bits defines an ObjectArrayJc. If this bits are 0, it is not an ObjectArrayJc.*/
-//#define XXXmArray_objectIdentSize_ObjectJc      0x40000000
+#define mArray_objectIdentSize_ObjectJc      0x40000000
 #define mIdOnlySimple_ObjectJc               0x40000000  //This bit is set only for the simplest ObjectJc form.
 
 /** The bits defines which mask is used to get the size.*/
@@ -236,12 +236,17 @@ extern_C struct ClassJc_t const refl_ObjectJc;
 /*---------------------------------------------
   const Initialization                         */
 
-/**Initializing of a simple object.  */
+/**Initializing of a simple object. 
+ * Note: The CONST_ObjectJc macro is yet necessary for generated Reflection. It is adequate INIZ_idSize_ObjectJc(...)
+ */
 #ifdef DEF_ObjectJcpp_REFLECTION
 #  define INIZ_ObjectJc(OBJ, REFL, ID)  { (((uint32)(ID))<<kBitInstance_ObjectJc) + sizeof(OBJ), 0, kNoSyncHandles_ObjectJc, &(REFL) } //, { (char const*)(REFL)} }
+#  define INIZ_idSize_ObjectJc(OBJ, REFL, IDSIZE)  { (IDSIZE), 0,  kNoSyncHandles_ObjectJc, REFL }
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
 #elif defined(DEF_ObjectJc_REFLREF)
 #  define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID))<<kBitIdentSmall_objectIdentSize_ObjectJc) & mIdentSmall_objectIdentSize_ObjectJc) + sizeof(OBJ), &(REFL) } //, { (char const*)(REFL)} }
+#  define INIZ_idSize_ObjectJc(OBJ, REFL, IDSIZE)  { (IDSIZE), REFL }
+#  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, REFLECTION }
 #else
   //next does not work because the REFL is a linker label. It should be calculate, that is not possible in C.
   //  in C it is only possible to use a linker label in a const which can be resolved by set the address on linking.
@@ -677,11 +682,9 @@ typedef struct  ObjectArrayJc_t
 * @param TYPE the type of the elements, used in sizeof(TYPE) and in reflection##TYPE
 * @param SIZE number of elements
 */
-#define CONST_ObjectArrayJc(TYPE, SIZE, IDENT, REFLECTION, OWNADDR) \
-  { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
+#define CONST_ObjectArrayJc(TYPE, SIZE, IDENT, REFL, OWNADDR) \
+  { INIZ_idSize_ObjectJc(OWNADDR, REFL, mArray_objectIdentSize_ObjectJc | (((int32)(IDENT))<<16) | (sizeof(ObjectArrayJc) + ((SIZE) * sizeof(TYPE)))), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
 
-#define INITIALIZER_ObjectArrayJc(TYPE, SIZE, IDENT, REFLECTION, OWNADDR) \
-  { CONST_ObjectJc(IDENT + sizeof(ObjectArrayJc) + (SIZE) * sizeof(TYPE), OWNADDR, REFLECTION), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, SIZE }
 
 
 

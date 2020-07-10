@@ -253,7 +253,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
     pos += strncpy_emC(buffer + pos, ", oper: ", zbuffer - pos);
     pos += strncpy_emC(buffer + pos, stackThrow->name, zbuffer - pos);  //The routine where the throw is invoked or the deepest routine with Stacktrace.
     pos += strncpy_emC(buffer + pos, "(@", zbuffer - pos);
-    pos += toString_int32_emC(buffer + pos, zbuffer - pos, stackThrow->line, 10, 0, _thCxt);
+    pos += toString_int32_emC(buffer + pos, zbuffer - pos, stackThrow->line, 10, 0);
     pos += strncpy_emC(buffer + pos, ")", zbuffer - pos);
   }
   #endif //DEF_ThreadContextStracktrc_emC

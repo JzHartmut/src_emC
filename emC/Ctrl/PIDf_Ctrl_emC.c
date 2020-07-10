@@ -1,22 +1,22 @@
 #include <emC/Ctrl/PIDf_Ctrl_emC.h>
 #include <math.h>
 
-#ifndef ID_refl_Par_PID_Ctrl
-#define ID_refl_Par_PID_Ctrl 0x0FC0
-#define ID_refl_PID_Ctrl 0x0FC1
+#ifndef ID_refl_Par_PIDf_Ctrl_emC
+#define ID_refl_Par_PIDf_Ctrl_emC 0x0FC0
+#define ID_refl_PIDf_Ctrl_emC 0x0FC1
 #endif
 
 #ifdef DEF_REFLECTION_FULL
 //#ifndef DEF_REFLECTION_NOXX
-#include "genRefl/pid_Ctrl.crefl" 
+#include "genRefl/PIDf_Ctrl_emC.crefl" 
 #elif defined(DEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
-  extern_C ClassJc const refl_Par_PID_Ctrl;
-  extern_C ClassJc const refl_PID_Ctrl;
+  extern_C ClassJc const refl_Par_PIDf_Ctrl_emC;
+  extern_C ClassJc const refl_PIDf_Ctrl_emC;
 #elif !defined(DEF_REFLECTION_NO)
   //Class definition only as type marker: Note the ident should be planned application-wide and used for instances too.
-  ClassJc const refl_Par_PID_Ctrl = INIZ_ClassJc(refl_Par_PID_Ctrl, "Test_Ctrl");
-  ClassJc const refl_PID_Ctrl = INIZ_ClassJc(refl_PID_Ctrl, "Test_Ctrl");
+  ClassJc const refl_Par_PIDf_Ctrl_emC = INIZ_ClassJc(refl_Par_PIDf_Ctrl_emC, "Test_Ctrl");
+  ClassJc const refl_PIDf_Ctrl_emC = INIZ_ClassJc(refl_PIDf_Ctrl_emC, "Test_Ctrl");
 //#else
 //  extern_C int const refl_Par_PID_Vtrl
 #endif
@@ -24,10 +24,10 @@
 
 
 
-Par_PID_Ctrl_s* ctor_Par_PID_Ctrl(ObjectJc* othiz, float Tstep)
+Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 {
-  Par_PID_Ctrl_s* thiz = (Par_PID_Ctrl_s*)othiz;
-  iniz_ObjectJc(othiz, othiz, sizeof(Par_PID_Ctrl_s), &refl_Par_PID_Ctrl, 0);
+  Par_PIDf_Ctrl_emC_s* thiz = (Par_PIDf_Ctrl_emC_s*)othiz;
+  CTOR_ObjectJc(othiz, othiz, sizeof(Par_PIDf_Ctrl_emC_s), refl_Par_PIDf_Ctrl_emC, 0);
   thiz->Tstep = Tstep;
   thiz->kP = 1.0f;
   thiz->T1d = 0.1f;
@@ -42,7 +42,7 @@ Par_PID_Ctrl_s* ctor_Par_PID_Ctrl(ObjectJc* othiz, float Tstep)
 /**step of PID controller
 * @simulink Object-FB.
 */
-void set_Par_PID_Ctrl(Par_PID_Ctrl_s* thiz, float kP, float lim, float Tn_param, float Td_param, float Tsd_param, bool* man_y) {
+void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float lim, float Tn_param, float Td_param, float Tsd_param, bool* man_y) {
   if(thiz->man == 0) {
     thiz->kP = kP;
     thiz->lim = lim;
@@ -57,20 +57,20 @@ void set_Par_PID_Ctrl(Par_PID_Ctrl_s* thiz, float kP, float lim, float Tn_param,
 
 
 
-PID_Ctrl_s* ctor_PID_Ctrl(ObjectJc* othiz, float Tstep)
+PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 {
-  PID_Ctrl_s* thiz = (PID_Ctrl_s*)othiz;
-  iniz_ObjectJc(othiz, othiz, sizeof(PID_Ctrl_s), &refl_PID_Ctrl, 0);
+  PIDf_Ctrl_emC_s* thiz = (PIDf_Ctrl_emC_s*)othiz;
+  CTOR_ObjectJc(othiz, othiz, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);
   thiz->Tstep = Tstep;
   return thiz; 
 }
 
 
 
-bool init_PID_Ctrl(PID_Ctrl_s* thiz, Par_PID_Ctrl_s* par) {
+bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par) {
   bool bOk = par != null;
   if(bOk) {
-    reparam_Par_PID_Ctrl(par);
+    reparam_Par_PIDf_Ctrl_emC(par);
     thiz->par = par;
     setInitialized_ObjectJc(&thiz->base.obj);
   }
@@ -79,7 +79,7 @@ bool init_PID_Ctrl(PID_Ctrl_s* thiz, Par_PID_Ctrl_s* par) {
 
 
 
-void reparam_Par_PID_Ctrl(Par_PID_Ctrl_s* thiz) {
+void reparam_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz) {
   thiz->i.fIy = thiz->lim / (float)(0x40000000L);
   thiz->i.fIx = (float)(0x40000000L) / thiz->lim;
   thiz->i.fI = thiz->Tn <=0 ? 0 : (int64)(thiz->i.fIx * (thiz->Tstep / thiz->Tn)); // * (float)(0x100000000LL));
@@ -91,9 +91,9 @@ void reparam_Par_PID_Ctrl(Par_PID_Ctrl_s* thiz) {
 
 
 
-void step_PID_Ctrl(PID_Ctrl_s* thiz, float wx, float* y_y)
+void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
 {
-  Par_PID_Ctrl_s* par = thiz->par;
+  Par_PIDf_Ctrl_emC_s* par = thiz->par;
   float wxP = wx * par->kP;
   //limit to max output.
   if (wxP > par->lim) { wxP = par->lim; }

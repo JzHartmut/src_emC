@@ -378,6 +378,7 @@ const struct Reflection_Fields_ObjectJc_t
     , 0  //offsetToObjectifcBase
     , &refl_ObjectJc
     }
+  #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE)
   , { "offsetToInstanceAddr"
     , 0x0 //bitfield nrofBits=16, bitPos=0.0
     , REFLECTION_uint16
@@ -394,6 +395,8 @@ const struct Reflection_Fields_ObjectJc_t
     , 0  //offsetToObjectifcBase
     , &refl_ObjectJc
     }
+  #endif
+  #ifdef DEF_ObjectJc_OWNADDRESS
   , { "ownAddress"
     , 0   //no Array, no Bitfield
     , REFLECTION_void
@@ -402,26 +405,11 @@ const struct Reflection_Fields_ObjectJc_t
     , 0  //offsetToObjectifcBase
     , &refl_ObjectJc
     }
-  , { "ownAddress_i"
-    , 2   //nrofArrayElements
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->ownAddress) -(intptr_t)(ObjectJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &refl_ObjectJc
-    }
-  , { "reflectionClass"
+  #endif
+  , { "reflection"
     , 0   //no Array, no Bitfield
     , &refl_ClassJc
     , 0| mReference_Modifier_reflectJc //bitModifiers
-    , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflection) -(intptr_t)(ObjectJc*)0x1000)
-    , 0  //offsetToObjectifcBase
-    , &refl_ObjectJc
-    }
-  , { "reflectionClass_i"
-    , 2   //nrofArrayElements
-    , REFLECTION_int32
-    , (4<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((ObjectJc*)(0x1000))->reflection) -(intptr_t)(ObjectJc*)0x1000)
     , 0  //offsetToObjectifcBase
     , &refl_ObjectJc

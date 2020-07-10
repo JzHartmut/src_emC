@@ -83,7 +83,7 @@ headerBlock::=<?>
 	|<enumDefinition> ;
 	| <typedef> ;
   ]
-| [inline|INLINE_Fwc|INLINE_emC|INLINE_Jc] <inlineMethod?+@>
+| [static] [inline|INLINE_Fwc|INLINE_emC|INLINE_Jc] <inlineMethod?+@>
 | inline <operatorDef?operator>
 | <includeDef?+@>
 | # define CONST<defineDefinition?+const_initializer>
@@ -205,7 +205,7 @@ typedef::= <type> <$?name> [ \[ [ 0x<#x?nrofArrayElements> | <#?nrofArrayElement
 
 
 ##it is a method head, declaration.
-methodDef::= [METHOD_C|extern "C"|extern_C |extern_CCpp |extern |C_TYPE |] <type> {<$?name>? ::} ([|<methodArgumentList?>] )
+methodDef::= [METHOD_C|extern "C"|extern_C |extern_CCpp |extern |static |C_TYPE |] <type> {<$?name>? ::} ([|<methodArgumentList?>] )
 [<?@modifier>volatile|const|] [; | = 0 ; <?abstract> | <statementBlock>|].
 
 methodPtrTypedef::= [METHOD_C |extern "C"|extern_C |extern_CCpp |extern |C_TYPE |] <type> ( [<$?class> :: ] * <$?name> ) ([|<methodArgumentList?>]) ;.

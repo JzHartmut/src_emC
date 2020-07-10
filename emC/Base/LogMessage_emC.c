@@ -92,7 +92,7 @@ bool sendMsgVaList_LogMessageFW(struct LogMessageFW_t* ythis, int32 identNumber
   STACKTRC_TENTRY("sendMsgVaList_LogMessageFW");
   VtblHeadJc const* mtblO = getVtbl_ObjectJc(&ythis->base.object, sign_Vtbl_LogMessageFW);
   mtbl = (Vtbl_LogMessageFW const*)mtblO;
-  if(ASSERT_emC(mtbl != null && mtbl->head.sign == sign_Vtbl_LogMessageFW, "faulty",0,0)) {
+  if(CHECK_ASSERT_emC(mtbl != null && mtbl->head.sign == sign_Vtbl_LogMessageFW, "faulty",0,0)) {
   //if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
   //if(mtbl->sign != &sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)mtbl);
   //sText = getCharConst_StringJc(text, uText, sizeof(uText));  //get the char const* from text.

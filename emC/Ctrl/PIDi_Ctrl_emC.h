@@ -1,5 +1,5 @@
-#ifndef __Ctrl_PIDi_Ctrl_emC_h__
-#define __Ctrl__PIDi_Ctrl_emC_h__
+#ifndef HGUARD_PIDi_Ctrl_emC
+#define HGUARD_PIDi_Ctrl_emC
 
 //#include "emC/Base/Object_emC.h"
 #include <applstdef_emC.h>
@@ -213,4 +213,4 @@ class PIDi_Ctrl_emC : public PIDi_Ctrl_emC_s { //, public ObjectifcBaseJcpp {
 #endif
 
 
-#endif //__Ctrl__PIDi_Ctrl_emC_h__
+#endif //HGUARD_PIDi_Ctrl_emC

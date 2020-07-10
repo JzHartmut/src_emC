@@ -9,7 +9,7 @@
 
 #ifdef DEF_REFLECTION_FULL
 //#ifndef DEF_REFLECTION_NOXX
-#include "genRefl/pid_Ctrl.crefl" 
+#include "genRefl/PIDi_Ctrl_emC.crefl" 
 #elif defined(DEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Par_PIDi_Ctrl_emC;

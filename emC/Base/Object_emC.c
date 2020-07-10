@@ -584,10 +584,12 @@ VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
 { VtblHeadJc const* head = null; //nullpointer-return possible
   ClassJc const* reflection;
   STACKTRC_ENTRY("getVtbl_ObjectJc");
+  #ifdef DEF_ObjectJc_OWNADDRESS
   if(ythis->ownAddress != ythis){ 
     THROW1_s0(IllegalArgumentException, "Object head faulty", (int)(intptr_t)ythis);
     STACKTRC_LEAVE; return null;  //The null pointer may be tested outside, or it should cause an exception outside if it is unexpected.
   }
+  #endif
   reflection = ythis->reflection;
   if( reflection != null) { 
   if(reflection->object.reflection != &refl_ClassJc){

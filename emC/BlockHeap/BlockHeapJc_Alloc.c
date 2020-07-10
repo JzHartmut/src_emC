@@ -356,14 +356,10 @@ METHOD_C BlockHeap_emC_s* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, i
 
 bool checkSignificance_BlockHeapBlockJc(BlockHeapBlockJc* thiz, struct BlockHeap_emC_T * ownHeap)
 {
-  //ObjectJc* heapObj;
-  //if(ownHeap == null){ ownHeap = thiz->heap; }
-  //heapObj = &ownHeap->base.object;
-
-  return ASSERT_emC(ownHeap == thiz->heap && ownHeap != null, "not a heap Block", 0, 0);
-
-  //ASSERTJc_RET(instanceof_ObjectJc(heapObj, &refl_BlockHeap_emC), false);
-  //return true;
+  //returns true on assertion ok:
+  bool ok = ownHeap == thiz->heap && ownHeap != null;
+  ASSERT_emC(ok, "not a heap Block", 0, 0);
+  return ok;
 }
 
 
