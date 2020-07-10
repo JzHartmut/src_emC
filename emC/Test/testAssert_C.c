@@ -1,6 +1,6 @@
 #include <emC/Test/testAssert.h>
 #include <stdio.h>
-#include <emC/Base/String_emC.h>
+#include <emC/Base/StringBase_emC.h>
 
 
 void TEST(char const* ident){
@@ -49,7 +49,10 @@ bool checkMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* f
   return cond;
 }
 
+
+#ifdef DEFINED_Exception_emC
 bool exceptionFileLine_testAssert_emC ( ExceptionJc* exc, char const* file, int line) {
   printf("  EXCEPTION:\n");
   return false;
 }
+#endif

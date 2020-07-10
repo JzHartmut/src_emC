@@ -1,4 +1,4 @@
-#include <emC/Ctrl/pid_Ctrl.h>
+#include <emC/Ctrl/PIDf_Ctrl_emC.h>
 #include <math.h>
 
 #ifndef ID_refl_Par_PID_Ctrl
@@ -13,10 +13,12 @@
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Par_PID_Ctrl;
   extern_C ClassJc const refl_PID_Ctrl;
-#else
+#elif !defined(DEF_REFLECTION_NO)
   //Class definition only as type marker: Note the ident should be planned application-wide and used for instances too.
   ClassJc const refl_Par_PID_Ctrl = INIZ_ClassJc(refl_Par_PID_Ctrl, "Test_Ctrl");
   ClassJc const refl_PID_Ctrl = INIZ_ClassJc(refl_PID_Ctrl, "Test_Ctrl");
+//#else
+//  extern_C int const refl_Par_PID_Vtrl
 #endif
 
 
@@ -26,6 +28,7 @@ Par_PID_Ctrl_s* ctor_Par_PID_Ctrl(ObjectJc* othiz, float Tstep)
 {
   Par_PID_Ctrl_s* thiz = (Par_PID_Ctrl_s*)othiz;
   iniz_ObjectJc(othiz, othiz, sizeof(Par_PID_Ctrl_s), &refl_Par_PID_Ctrl, 0);
+  thiz->Tstep = Tstep;
   thiz->kP = 1.0f;
   thiz->T1d = 0.1f;
   thiz->Tn = 1.0f;
@@ -48,7 +51,7 @@ void set_Par_PID_Ctrl(Par_PID_Ctrl_s* thiz, float kP, float lim, float Tn_param,
     thiz->T1d = Tsd_param;
     thiz->limPbeforeD = 1;  //it is better to fast reach point with max controller output. 
   }
-  *man_y = thiz->man ? 1 : 0;
+  if(man_y !=null) { *man_y = thiz->man ? 1 : 0; }
 }
 
 
@@ -65,27 +68,24 @@ PID_Ctrl_s* ctor_PID_Ctrl(ObjectJc* othiz, float Tstep)
 
 
 bool init_PID_Ctrl(PID_Ctrl_s* thiz, Par_PID_Ctrl_s* par) {
-  if(par == null) return false;
-  thiz->par = par;
-  reparam_PID_Ctrl(thiz);
-  setInitialized_ObjectJc(&thiz->base.obj);
-  return true;
+  bool bOk = par != null;
+  if(bOk) {
+    reparam_Par_PID_Ctrl(par);
+    thiz->par = par;
+    setInitialized_ObjectJc(&thiz->base.obj);
+  }
+  return bOk;
 }
 
 
 
-void reparam_PID_Ctrl(PID_Ctrl_s* thiz) {
-  Par_PID_Ctrl_s* par = thiz->par;
-  Internal_PID_Ctrl* fn = &thiz->_internal[0];
-  if(fn == thiz->f){ fn = &thiz->_internal[1]; } //use the other one.
-  fn->fIy = par->lim / (float)(0x40000000L);
-  fn->fIx = (float)(0x40000000L) / par->lim;
-  fn->fI = par->Tn <=0 ? 0 : fn->fIx * (int64)(thiz->Tstep / par->Tn * (float)(0x100000000LL));
-  fn->fTsD = par->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tstep / par->T1d);
-  fn->fD = par->Td / thiz->Tstep * par->kP;
-  thiz->f = fn; //atomic switch for using in step
-  thiz->par = par; //store associated parameter.
-  thiz->dbgct_reparam +=1;
+void reparam_Par_PID_Ctrl(Par_PID_Ctrl_s* thiz) {
+  thiz->i.fIy = thiz->lim / (float)(0x40000000L);
+  thiz->i.fIx = (float)(0x40000000L) / thiz->lim;
+  thiz->i.fI = thiz->Tn <=0 ? 0 : (int64)(thiz->i.fIx * (thiz->Tstep / thiz->Tn)); // * (float)(0x100000000LL));
+  thiz->i.fTsD = thiz->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tstep / thiz->T1d);
+  thiz->i.fD = (thiz->Td / thiz->Tstep) * thiz->kP;
+  thiz->i.dbgct_reparam +=1;
 }
 
 
@@ -93,48 +93,42 @@ void reparam_PID_Ctrl(PID_Ctrl_s* thiz) {
 
 void step_PID_Ctrl(PID_Ctrl_s* thiz, float wx, float* y_y)
 {
-  Internal_PID_Ctrl* f = thiz->f;
   Par_PID_Ctrl_s* par = thiz->par;
   float wxP = wx * par->kP;
   //limit to max output.
-  if(thiz->par->limPbeforeD){
-    if (wxP > par->lim) { wxP = par->lim; }
-    else if (wxP < -par->lim) { wxP = -par->lim; }
-  }
-  
+  if (wxP > par->lim) { wxP = par->lim; }
+  else if (wxP < -par->lim) { wxP = -par->lim; }
+  else {} //reamin wxP
+
   
   float dwxP = wxP - thiz->wxP;  //on limitation the dwxP is 0. It is better for increasing the process signal on max output.
-  thiz->dwxP += f->fTsD * (dwxP - thiz->dwxP);
+  thiz->dwxP += (par->i.fTsD * (dwxP - thiz->dwxP));
   thiz->wxP = wxP;  //store for differenzial and to inspect
-  float wxPD = wxP + f->fD * thiz->dwxP;  //+ D-Part.
+  float wxPD = wxP + (par->i.fD * thiz->dwxP);  //+ D-Part.
 
-                                         //limit to may output.
+  //limit P + D.
   if (wxPD > par->lim) { wxPD = par->lim; }
   else if (wxPD < -par->lim) { wxPD = -par->lim; }
+  else {} //remain wxPD
   thiz->wxPD = wxPD;  //to inspect.
 
-  //limit to max output.
-  if (!thiz->par->limPbeforeD) {
-    if (wxP > par->lim) { wxP = par->lim; }
-    else if (wxP < -par->lim) { wxP = -par->lim; }
-  }
-  int32 wxP32 = f->fIx * wxP;
+  int32 wxP32 = (int32)(par->i.fIx * wxP);  //integer representation of wxP
 
-  int32 wxPD32 = f->fIx * wxPD;     //has never an overflow because wxP is limited.
+  int32 wxPD32 = (int32)(par->i.fIx * wxPD);     //has never an overflow because wxPD is limited.
   int32 yImin, yImax;
   //limit it to 24 bit
-  if (wxP32 < 0) { yImin = -0x40000000L - wxP32; yImax =  0x3fffffffL; }
-  else {          yImax =  0x3fffffffL - wxP32; yImin = -0x40000000L; }
+  if (wxP32 < 0) { yImin = -0x40000000L - wxP32; yImax =  0x40000000L; }  //
+  else {          yImax =  0x40000000L - wxP32; yImin = -0x40000000L; }
   thiz->wxPD32 = wxPD32;  //to inspect
-  int64 xdI = wxP * f->fI;
+  int64 xdI = (int64)(wxP * par->i.fI);
   int64 qI1 = thiz->qI + xdI;
   int32 qIhi = (int32)(qI1 >> 32);
-  if (qIhi > yImax) { qI1 = ((int64)yImax) << 32; }
-  else if (qIhi < yImin) { qI1 = ((int64)yImin) << 32;
-  }
+  if (qIhi > yImax) { qIhi = yImax; qI1 = ((int64)qIhi) << 32; }
+  else if (qIhi < yImin) { qIhi = yImin; qI1 = ((int64)qIhi) << 32; }
+  else {} //remain qIhi
   thiz->qI = qI1;
   thiz->qIhi = qIhi;
 
-  *y_y = thiz->y = f->fIy * (wxPD32 + qIhi);  //use hi part of integrator for output.
+  *y_y = thiz->y = par->i.fIy * (wxPD32 + qIhi);  //use hi part of integrator for output.
 }
 

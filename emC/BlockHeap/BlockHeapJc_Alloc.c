@@ -40,8 +40,8 @@
  * 2008-04-15: JcHartmut creation from older sources
  *
  ****************************************************************************/
-//#include "CRuntimeJavalike.h"
-//#include "ThreadJc.h"
+#include <applstdef_emC.h>
+#ifndef DEF_ObjectJc_SIMPLEST
 #include "BlockHeapJc_internal.h"
 #include "emC/Jc/StringJc.h"
 //#include "emC/Base/LogMessage.h"
@@ -1034,3 +1034,4 @@ void free(void* ptr)
 #endif  //__CPLUSPLUSJcpp
 
 #endif   //USE_BlockHeap_emC
+#endif //DEF_ObjectJc_SIMPLEST

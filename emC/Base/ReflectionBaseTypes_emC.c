@@ -841,7 +841,7 @@ ClassJc const refl_uint64 =
 //This is necessary to recognize this type.
 ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, "ClassJc");
 
-#else //DEF_REFLECTION_NO
+#elsif !defined(DEF_REFLECTION_NO)
 
 ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, "ClassJc");
 

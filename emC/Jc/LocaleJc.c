@@ -38,7 +38,7 @@
 #ifdef DEF_REFLECTION_FULL
 DEFINE_REFLECTION_REF(LocaleJc);
 #include "emC/Jc/genRefl/LocaleJc.crefl"
-#else
+#elif !defined(DEF_ObjectJc_SIMPLEST)
 ClassJc const refl_LocaleJc = INIZ_ClassJc(refl_LocaleJc, "LocaleJc");
 #endif
 

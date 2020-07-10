@@ -46,9 +46,10 @@
  * 2006-05-00: www.vishia.de creation
  *
  ****************************************************************************/
+#include <applstdef_emC.h>
+#ifndef DEF_ObjectJc_SIMPLEST
 #ifndef HEADERGUARD_ObjectJc_h
 #define HEADERGUARD_ObjectJc_h
-#include <applstdef_emC.h>
 #include <emC/Base/Object_emC.h>
 //#include "emC/SimpleC_emC.h"  //should be includeed in applstdef_emC.h
 //#include "emC/Base/MemC_emC.h"     //should be includeed in applstdef_emC.h
@@ -880,3 +881,4 @@ INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, c
 //#include "emC/Formatter.h"
 
 #endif //HEADERGUARD_ObjectJc_h
+#endif //DEF_ObjectJc_SIMPLEST

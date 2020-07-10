@@ -34,6 +34,8 @@
  * 2009-06-24: Hartmut creation, dissolved from ObjectJc.c
  *
  ****************************************************************************/
+#include <applstdef_emC.h>
+#ifndef DEF_ObjectJc_SIMPLEST
 #include <emC/Base/Object_emC.h>
 #include <emC/Base/String_emC.h>
  //dependencies:
@@ -76,7 +78,7 @@ void inizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint reflId, uint
 
 
 
-
+#ifndef DEF_REFLECTION_NO
 void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
   if(refl !=null) {
     //The instanceType should be the same as the typeId in reflection to check the type.
@@ -86,7 +88,7 @@ void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const*
     othiz->identSize = (((uint32)idObj) <<kBitInstanceType_ObjectJc) + size; // + (size & 0xffff);
   }
 }
-
+#endif
 
 
 bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident, struct ThreadContext_emC_t* _thCxt) {
@@ -852,3 +854,4 @@ SystemInit_emC _systemInit_emC_ = { 0 };
 
 SystemInit_emC* systemInit_emC = &_systemInit_emC_;
 
+#endif //DEF_ObjectJc_SIMPLE

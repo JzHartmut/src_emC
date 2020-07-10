@@ -37,7 +37,7 @@
 #ifndef __emC_fw_Time_h__
 #define __emC_fw_Time_h__
 #include <applstdef_emC.h>
-#include <emC/Base/Object_emC.h>
+//#include <emC/Base/Object_emC.h>
 //#include <OSAL/os_time.h>
 
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().
@@ -67,12 +67,15 @@ bool measureClock_Time_emC(int meastime);
 
 void waitClock_Time_emC(int32 tillClockCt);
 
+
 /**Adds the given time offset to the current given clockCt. Use this faster operation for lower values of micros instead [[addFloatMicrosec_Time_emC(...)]] 
  * for a fast only integer multiplication.  
  * @param clockCt any value gotten from [[os_getClockCnt()]]
  * @param micros number of micro seconds. The value should not be higher than about 10000000 (1 second) because the range of clockCt should be regarded.
  *   Negative values for time in the past are possible if necessary.
  */
+static int32 addMicrosec_Time_emC(int32 clockCt, int32 micros);
+//Hint need prototype decl because MISRA
 INLINE_emC int32 addMicrosec_Time_emC(int32 clockCt, int32 micros) { return clockCt + micros * clocksPerMicro_Time_emC; }
 
 
@@ -82,12 +85,14 @@ INLINE_emC int32 addMicrosec_Time_emC(int32 clockCt, int32 micros) { return cloc
  * @param micros number of micro seconds. The value should not be higher than about 10000000 (1 second) because the range of clockCt should be regarded.
  *   Negative values for time in the past are possible if necessary.
  */
-INLINE_emC int32 addFloatMicrosec_Time_emC(int32 clockCt, int32 micros) { return clockCt + (int32)(micros * clocksFloatPerMicro_Time_emC); }
+static int32 addFloatMicrosec_Time_emC(int32 clockCt, int32 micros);
+INLINE_emC int32 addFloatMicrosec_Time_emC(int32 clockCt, int32 micros) { return (clockCt + (int32)(micros * clocksFloatPerMicro_Time_emC)); }
 
+static float microDiffofClock_Time_emC(int32_t clockDiff);
+INLINE_emC float microDiffofClock_Time_emC(int32_t clockDiff) { return (clockDiff * microsecondsPerClock_Time_emC); }
 
-INLINE_emC float microDiffofClock_Time_emC(int32_t clockDiff) { return clockDiff * microsecondsPerClock_Time_emC; }
-
-INLINE_emC float microDiffLongofClock_Time_emC(int64_t clockDiff) { return clockDiff * microsecondsPerClock_Time_emC; }
+static float microDiffLongofClock_Time_emC(int64_t clockDiff);
+INLINE_emC float microDiffLongofClock_Time_emC(int64_t clockDiff) { return (clockDiff * microsecondsPerClock_Time_emC); }
 
 
 typedef struct SimTime_emC_t
@@ -112,7 +117,7 @@ typedef struct MinMaxCalcTime_emC_T
 {
   uint minCalcTime;
 
-  uint midCalcTime;
+  uint32 midCalcTime;
 
   uint actCalcTime;
 
@@ -135,7 +140,7 @@ typedef struct MinMaxTime_emC_t
 
   uint actCyclTime;
 
-  uint midCyclTime;
+  uint32 midCyclTime;
 
   uint maxCyclTime;
 
@@ -147,7 +152,7 @@ typedef struct MinMaxTime_emC_t
 
 
 
-
+static void init_MinMaxTime_emC(MinMaxTime_emC* thiz);
 
 INLINE_emC void init_MinMaxTime_emC(MinMaxTime_emC* thiz)
 { thiz->maxCyclTime = 0;  
@@ -167,24 +172,27 @@ INLINE_emC void init_MinMaxTime_emC(MinMaxTime_emC* thiz)
 /**
 * invoke with (..., os_getClockCnt()) 
 */
+static void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time);
+
 INLINE_emC void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
-{ uint cyclTime = (uint)(time - thiz->_lastTime); 
+{ uint cyclTime = (uint)(time - thiz->_lastTime);
   thiz->ct +=1;  
   thiz->actCyclTime = cyclTime;  
   if(cyclTime > thiz->maxCyclTime) { thiz->maxCyclTime = cyclTime; }  
-  if(cyclTime < thiz->minCyclTime || thiz->maxCyclTime == 0) { thiz->minCyclTime = cyclTime; }
-  thiz->midCyclTime += cyclTime - (thiz->midCyclTime>>10);            
+  if((cyclTime < thiz->minCyclTime) || (thiz->maxCyclTime == 0)) { thiz->minCyclTime = cyclTime; }
+  thiz->midCyclTime += (cyclTime - (thiz->midCyclTime>>10));
   thiz->_lastTime = time;                  
 }
 
 /**With given time. */
+static void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time);
 INLINE_emC void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
 { uint cyclTime = (uint)((time) - thiz->_lastTime); 
   thiz->ct +=1; 
   thiz->actCyclTime = cyclTime;  
-  if(cyclTime > thiz->maxCyclTime && cyclTime < (thiz->midCyclTime >>9)) { thiz->maxCyclTime = cyclTime; }  
+  if((cyclTime > thiz->maxCyclTime) && (cyclTime < (thiz->midCyclTime >>9))) { thiz->maxCyclTime = cyclTime; }
   //if(cyclTime > thiz->maxmaxCyclTime){ thiz->maxmaxCyclTime = cyclTime; } 
-  if(cyclTime < thiz->minCyclTime && cyclTime > (thiz->midCyclTime >>11)){ thiz->minCyclTime = cyclTime; }  
+  if((cyclTime < thiz->minCyclTime) && (cyclTime > (thiz->midCyclTime >>11))){ thiz->minCyclTime = cyclTime; }
   //if(cyclTime < thiz->minminCyclTime){ thiz->minminCyclTime = cyclTime; } 
   thiz->midCyclTime += (cyclTime - (thiz->midCyclTime >>10));            
   thiz->_lastTime = time;                  
@@ -192,35 +200,43 @@ INLINE_emC void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 
 
 /**With given time. */
+static void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time);
+
 INLINE_emC void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time)
 { uint calcTime = (uint)(time - timeStart); 
   thiz->actCalcTime = calcTime;  
   if(calcTime > thiz->maxCalcTime) { thiz->maxCalcTime = calcTime; }  
-  if(calcTime < thiz->minCalcTime || thiz->minCalcTime == 0) { thiz->minCalcTime = calcTime; }
+  if((calcTime < thiz->minCalcTime) || (thiz->minCalcTime == 0)) { thiz->minCalcTime = calcTime; }
   thiz->midCalcTime += (calcTime - (thiz->midCalcTime >>10));            
 }
 
 /**With given time. */
+static void calcTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time);
 INLINE_emC void calcTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 {
-  set_MinMaxCalcTime_emC(&thiz->calc, time, thiz->_lastTime);
+  set_MinMaxCalcTime_emC(&thiz->calc, thiz->_lastTime, time);
 }
 
 /**Stores middle value of difference time in any variable, without min and max.
 * @param VAR variable to store middle time 
 */
 #define mesTimeMid_I_MinMaxTime_emC(thiz, time, VAR, VARMID)        \
-{ VAR = (time) - (thiz)->_lastTime; \
-  VARMID += VAR - (VARMID >>10);            \
+{ (VAR) = (time) - (thiz)->_lastTime; \
+  (VARMID) += (VAR) - ((VARMID) >>10);            \
 }
 
 /**Stores difference time in any variable, without min and max. 
 * @param VAR variable to store middle time 
 */
 #define mesTime_I_MinMaxTime_emC(thiz, time, VAR)        \
-{ VAR = (time) - (thiz)->_lastTime; \
+{ (VAR) = (time) - (thiz)->_lastTime; \
 }
 
+/**Stores difference time in any variable, without min and max.
+* @param VAR variable to store middle time
+*/
+#define timeAfterStart_MinMaxTime_emC(thiz, time)        \
+( (time) - (thiz)->_lastTime )
 
 
 typedef struct Clock_MinMaxTime_emC_T {

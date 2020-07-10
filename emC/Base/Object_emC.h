@@ -41,9 +41,9 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>  //Note: define before include-guards because applstdef_emC,h may include this file too.
-//The following include guard prevent twice include especially if app�stdefJc.h includes this file already.
-#ifndef __objectBaseC__h__
-#define __objectBaseC__h__
+//The following include guard prevent twice include especially if applstdefJc.h includes this file already.
+#ifndef HGUARD_Object_emC
+#define HGUARD_Object_emC
 
 #include <emC/Base/MemC_emC.h>
 
@@ -395,8 +395,11 @@ extern_C void free_ObjectJc(ObjectJc* thiz);
  * @param identObj An identSize info, see [[attribute:_ObjectJc:objectIdentSize]]
  * return ythis, the reference of the Object itself.
 */
-extern_C void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj);
-
+#ifdef DEF_REFLECTION_NO
+  #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) { (THIZ)->identSize = (SIZE) + (uint32)((ID)<<16); }
+#else
+  extern_C void iniz_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj);
+#endif
 
 /**Initialization of the basicly data of Object.
 * This method should be used for all instances.
@@ -954,5 +957,5 @@ extern_C ClassJc const refl_ClassJc;
 
 
 
-#endif //__objectBaseC__h__
+#endif //HGUARD_Object_emC
 

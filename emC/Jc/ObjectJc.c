@@ -43,7 +43,8 @@
  * 2006-05-00: Hartmut creation
  *
  ****************************************************************************/
-
+#include <applstdef_emC.h>
+#ifndef DEF_ObjectJc_SIMPLEST
 #include "emC/Jc/ObjectJc.h" 
 
 #include <stdlib.h>     //malloc
@@ -344,3 +345,4 @@ const ClassJc refl_ObjectJcREF =
 
 #include <emC/Jc/genRefl/ObjectRefJc.crefl>
 #endif
+#endif //DEF_ObjectJc_SIMPLEST

@@ -60,8 +60,9 @@
 #include <string.h>   //strncpy
 struct Vtbl_CharSeqJc_t;
 
+#ifndef DEF_REFLECTION_NO
 extern ClassJc const refl_StringBuilderJc;
-
+#endif
 
 int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
   int val = VAL_AddrVal_emC(thiz) & mLength_StringJc;
@@ -795,8 +796,9 @@ const VtblDef_StringBufferJc mtblStringBufferJc = {
 
 
 
+#ifndef DEF_REFLECTION_NO
+#if !defined(DEF_REFLECTION_FULL)
 
-#ifndef DEF_REFLECTION_FULL
 ClassJc const refl_StringBuilderJc = { 0 };
 #else
 #include <emC/Jc/ReflectionJc.h>
@@ -867,6 +869,7 @@ const ClassJc refl_StringBuilderJc =
 #define refl_StringBuilderJc_s refl_StringBuilderJc
 DEFINE_REFLECTION_REF(StringBuilderJc);
 
+#endif //DEF_REFLECTION_NO
 
 #endif
 

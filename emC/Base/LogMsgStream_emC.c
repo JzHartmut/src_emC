@@ -36,6 +36,8 @@
  *
  ************************************************************************************************/
 
+#include <applstdef_emC.h>
+#ifndef DEF_ObjectJc_SIMPLEST
 
 //include the own header at first to test its correct dependencies.
 #include <emC/Base/LogMessage_emC.h>
@@ -91,7 +93,6 @@ int const sizeof_LogMessageStream_FW = sizeof(LogMessageStream_FW_s);
 
 METHOD_C LogMessageStream_FW_s* castO_LogMessageStream_FW(ObjectJc* zthis);
 
-
 extern_C ClassJc const refl_LogMessageStream_FW;
 
 
@@ -122,7 +123,7 @@ LogMessageFW_s* create_LogMessageStream_FW(int outChn, ThCxt* _thCxt)
 LogMessageStream_FW_s* castO_LogMessageStream_FW(ObjectJc* zthis)
 { LogMessageStream_FW_s* ythis = (LogMessageStream_FW_s*)zthis;
   //TODO check type via reflection, fast algorithm because used in any interface method.
-  if(ASSERT_emC(INSTANCEOF_ObjectJc(zthis, refl_LogMessageStream_FW), "faulty type", 0, 0)) {
+  if(CHECK_ASSERT_emC(INSTANCEOF_ObjectJc(zthis, refl_LogMessageStream_FW), "faulty type", 0, 0)) {
   //ASSERT(ythis->mtbl == &mtbl_MsgDispatcher_MSG);  //an derivated class isnot accepted! 
     return ythis;
   } else {
@@ -316,3 +317,4 @@ ClassJc const refl_LogMessageStream_FW = INIZ_ClassJc(refl_LogMessageStream_FW, 
 
 #endif //DEF_ObjectJc_FULL
 
+#endif //DEF_ObjectJc_SIMPLEST

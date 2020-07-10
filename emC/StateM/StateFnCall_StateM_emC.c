@@ -161,7 +161,7 @@ void doExitComposite_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thi
     }
   }
   while(--ctNested >=0) {
-    if(ASSERTs_emC(state !=null, "invalied null state", 0,0)) {
+    if(CHECK_ASSERT_emC(state !=null, "invalied null state", 0,0)) {
       doExit_StateMFnCall_emC(state, stmn, idEvent, dataEvent, dataClass);
       state = state->parentState; //The parent state is the state of the container statemachinePart anytime.
     }
