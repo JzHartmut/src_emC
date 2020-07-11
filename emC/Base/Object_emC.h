@@ -549,8 +549,8 @@ extern_C bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct Cla
 * @throws RuntimeException if faulty.
 */
 #ifdef DEF_ObjectJc_REFLREF
-#define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrict_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, _thCxt)
-#define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, _thCxt)
+#define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrict_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, null)
+#define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT, null)
 #else 
 extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
 extern_C bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);

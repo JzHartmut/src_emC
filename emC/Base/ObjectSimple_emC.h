@@ -91,8 +91,8 @@ const Initialization                         */
 
 extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
 extern_C bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
-#define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrictReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, _thCxt)
-#define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInitReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, _thCxt)
+#define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrictReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, null)
+#define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInitReflid_ObjectJc(OTHIZ, SIZE, ID_##REFL, IDENT, null)
 
 
 /*---------------------------------------------
@@ -154,8 +154,8 @@ extern_C bool instanceofReflid_ObjectJc(ObjectJc const* ythis, uint reflId);
 
 #define checkInit_ObjectJc(OBJ, SIZE, REFL, ID, THCXT) true
 
-#  define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) inizReflid_ObjectJc(OTHIZ, ADDR, SIZE, ID_##REFL, ID)
-#  define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, null, ID_##REFL, _thCxt)
+#define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) inizReflid_ObjectJc(OTHIZ, ADDR, SIZE, ID_##REFL, ID)
+#define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, null, ID_##REFL, _thCxt)
 extern_C void inizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint id_refl, uint idObj);
 
 

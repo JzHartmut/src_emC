@@ -882,3 +882,4 @@ INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, c
 
 #endif //HEADERGUARD_ObjectJc_h
 #endif //DEF_ObjectJc_SIMPLEST
+

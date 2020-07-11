@@ -1,10 +1,6 @@
 #include <emC/Ctrl/PIDf_Ctrl_emC.h>
 #include <math.h>
 
-#ifndef ID_refl_Par_PIDf_Ctrl_emC
-#define ID_refl_Par_PIDf_Ctrl_emC 0x0FC0
-#define ID_refl_PIDf_Ctrl_emC 0x0FC1
-#endif
 
 #ifdef DEF_REFLECTION_FULL
 //#ifndef DEF_REFLECTION_NOXX

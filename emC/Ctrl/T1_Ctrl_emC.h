@@ -47,10 +47,10 @@ extern_C T1i_Ctrl_emC_s* ctor_T1i_Ctrl_emC(void* addr);
 extern_C void param_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, float Ts, float Tstep);
 
 /**Step routine takes 16 bit */
-int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
+static int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
 
 /**Get dx after step calculation. step_T1i_Ctrl_emC(...) should be called before. */
-int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
+static int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
 
 
 static inline int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
@@ -130,7 +130,7 @@ extern_C T1ish_Ctrl_emC_s* ctor_T1ish_Ctrl_emC(void* addr);
 
 extern_C void param_T1ish_Ctrl_emC(T1ish_Ctrl_emC_s* thiz, float Ts, float Tstep, int fsBits, int xBits, int yBits);
 
-int step_T1ish_Ctrl_emC(T1ish_Ctrl_emC_s* thiz, int x);
+static int step_T1ish_Ctrl_emC(T1ish_Ctrl_emC_s* thiz, int x);
 
 
 static inline int step_T1ish_Ctrl_emC(T1ish_Ctrl_emC_s* thiz, int x) {
@@ -159,7 +159,7 @@ extern_C T1f_Ctrl_emC_s* ctor_T1f_Ctrl_emC(void* addr);
 
 extern_C void param_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float Ts, float Tstep);
 
-float step_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float x);
+static float step_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float x);
 
 
 static inline float step_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float x) {

@@ -209,6 +209,13 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define GNU_PACKED
 
 #define MAYBE_UNUSED_emC __attribute__((unused))
+/**It is an attribute before a function definition to determine
+ * that the function should be placed in a section which is linked
+ * to a RAM location but load into the FLASH memory.
+ * This section must be copied on startup to run successfully.
+ * It is a designation for embedded hardware with lesser but fast RAM.
+ */
+#define RAMFUNC_emC
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 

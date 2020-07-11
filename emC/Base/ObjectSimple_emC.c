@@ -11,7 +11,7 @@ void inizReflid_ObjectJc(ObjectJc* thiz, void* ptr, int size, uint id_refl, uint
 /**Opposite implementation of checkInit with only idInstanceType. */
 bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
   if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
-    thiz->identSize |= (reflId << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
+    thiz->identSize |= (((uint32)reflId) << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc;
   } else {
     if(!instanceofReflid_ObjectJc(thiz, reflId)) {
       return false;

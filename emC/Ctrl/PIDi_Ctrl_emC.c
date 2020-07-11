@@ -2,10 +2,6 @@
 #include <math.h>
 #include <emC/Base/Assert_emC.h>
 
-#ifndef ID_refl_Par_PIDi_Ctrl_emC
-#define ID_refl_Par_PIDi_Ctrl_emC 0x0FC0
-#define ID_refl_PIDi_Ctrl_emC 0x0FC1
-#endif
 
 #ifdef DEF_REFLECTION_FULL
 //#ifndef DEF_REFLECTION_NOXX
@@ -28,7 +24,7 @@
 Par_PIDi_Ctrl_emC_s* ctor_Par_PIDi_Ctrl_emC(ObjectJc* othiz, float Tstep, int xBits, int yBits)
 {
   Par_PIDi_Ctrl_emC_s* thiz = (Par_PIDi_Ctrl_emC_s*)othiz;
-  iniz_ObjectJc(othiz, othiz, sizeof(Par_PIDi_Ctrl_emC_s), &refl_Par_PIDi_Ctrl_emC, 0);
+  CTOR_ObjectJc(othiz, othiz, sizeof(Par_PIDi_Ctrl_emC_s), refl_Par_PIDi_Ctrl_emC, 0);
   thiz->Tstep = Tstep;
   thiz->yBits = yBits;
   thiz->xBits = xBits;
@@ -90,7 +86,7 @@ void reparam_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz) {
 PIDi_Ctrl_emC_s* ctor_PIDi_Ctrl_emC(ObjectJc* othiz)
 {
   PIDi_Ctrl_emC_s* thiz = (PIDi_Ctrl_emC_s*)othiz;
-  iniz_ObjectJc(othiz, othiz, sizeof(PIDi_Ctrl_emC_s), &refl_PIDi_Ctrl_emC, 0);
+  CTOR_ObjectJc(othiz, othiz, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0);
   return thiz; 
 }
 

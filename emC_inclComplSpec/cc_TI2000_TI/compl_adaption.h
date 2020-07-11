@@ -223,6 +223,12 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 #define MAYBE_UNUSED_emC  __attribute__((unused))
 
+#define USED_emC __attribute__((used))
+
+#define RAMFUNC_emC __attribute__((ramfunc))
+
+
+
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 
 /**Prevent process a NaN-value (not a number).

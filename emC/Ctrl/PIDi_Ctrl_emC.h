@@ -79,7 +79,7 @@ typedef struct Par_PIDi_Ctrl_emC_t
 
 } Par_PIDi_Ctrl_emC_s;
 
-
+#define ID_refl_Par_PIDi_Ctrl_emC 0x0FC2
 
 /**ctor of PID controller
  * @param Tstep the step (sample) time which will be used for step_PIDi_Ctrl_emC().
@@ -162,6 +162,7 @@ typedef struct PIDi_Ctrl_emC_t
 
 } PIDi_Ctrl_emC_s;
 
+#define ID_refl_PIDi_Ctrl_emC 0x0FC3
 
 
 
@@ -185,7 +186,7 @@ extern_C void setLim_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int yLim);
  */
 extern_C void step_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int* y_y);
 
-void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, int* y);
+static void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, int* y);
 
 static inline void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, int* y) { *y = thiz->wxPs;  }
 
@@ -193,12 +194,12 @@ static inline void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, int* y) { *y = 
 class PIDi_Ctrl_emC : public PIDi_Ctrl_emC_s { //, public ObjectifcBaseJcpp {
 
   public: PIDi_Ctrl_emC(){
-    iniz_ObjectJc(&this->base.obj, thiz, sizeof(PIDi_Ctrl_emC_s), &refl_PIDi_Ctrl_emC, 0);  //should be initialized.
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0);  //should be initialized.
     ctor_PIDi_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as argument.
   }
 
   public: PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s const* par){
-    iniz_ObjectJc(&this->base.obj, thiz, sizeof(PIDi_Ctrl_emC_s), &refl_PIDi_Ctrl_emC, 0);  //should be initialized.
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0);  //should be initialized.
     ctor_PIDi_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as arguement.
   }
 

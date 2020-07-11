@@ -53,6 +53,7 @@ typedef struct Par_PIDf_Ctrl_emC_T
 
 } Par_PIDf_Ctrl_emC_s;
 
+#define ID_refl_Par_PIDf_Ctrl_emC 0x0FC0
 
 
 /**ctor of PID controller
@@ -114,6 +115,7 @@ typedef struct PIDf_Ctrl_emC_t
 
 } PIDf_Ctrl_emC_s;
 
+#define ID_refl_PIDf_Ctrl_emC 0x0FC1
 
 
 
@@ -142,12 +144,12 @@ INLINE_emC void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y) { *y = t
 class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s { //, public ObjectifcBaseJcpp {
 
   public: PIDf_Ctrl_emC(){
-    iniz_ObjectJc(&this->base.obj, thiz, sizeof(PIDf_Ctrl_emC_s), &refl_PIDf_Ctrl_emC, 0);  //should be initialized.
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);  //should be initialized.
     ctor_PIDf_Ctrl_emC(&this->base.obj, 0.1234f); //the initialized ObjectJc as arguement.
   }
 
   public: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par){
-    iniz_ObjectJc(&this->base.obj, thiz, sizeof(PIDf_Ctrl_emC_s), &refl_PIDf_Ctrl_emC, 0);  //should be initialized.
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);  //should be initialized.
     ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
