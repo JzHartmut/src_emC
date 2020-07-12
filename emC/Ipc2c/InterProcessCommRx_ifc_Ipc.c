@@ -29,7 +29,7 @@ StringJc version_InterProcessCommRx_ifc_Ipc = CONST_z_StringJc("2015-06-13"); //
 struct InterProcessCommRx_ifc_Ipc_t* ctorO_InterProcessCommRx_ifc_Ipc(ObjectJc* othis, ThCxt* _thCxt)
 { InterProcessCommRx_ifc_Ipc_s* thiz = null;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_InterProcessCommRx_ifc_Ipc");
-  if(checkStrict_ObjectJc(othis, sizeof(*thiz), &refl_InterProcessCommRx_ifc_Ipc, 0, _thCxt)) {
+  if(checkStrict_ObjectJc(othis, sizeof(*thiz), &refl_InterProcessCommRx_ifc_Ipc, 0)) {
     thiz = (InterProcessCommRx_ifc_Ipc_s*)othis; 
     //No body for constructor*/
   }

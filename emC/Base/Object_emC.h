@@ -444,11 +444,7 @@ extern_C void free_ObjectJc(ObjectJc* thiz);
  * @param identObj An identSize info, see [[attribute:_ObjectJc:objectIdentSize]]
  * return ythis, the reference of the Object itself.
 */
-#ifdef DEF_REFLECTION_NO
-  #define ctor_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) { (THIZ)->identSize = (SIZE) + (uint32)((ID)<<16); }
-#else
-  extern_C void ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj);
-#endif
+extern_C ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj);
 
 #define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) ctor_ObjectJc(THIZ, ADDR, SIZE, REFL, ID)
 

@@ -53,7 +53,7 @@ char const* debugPRINTF[10] = {0};
 
 
 //checkStrict uses capability of instanceof_ObjectJc(...) for all variants.
-bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, uint ident, struct ThreadContext_emC_t* _thCxt) {
+bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, uint ident) {
   if (refl !=null && !instanceof_ObjectJc(thiz, refl)) {
     return false; 
   }
@@ -154,7 +154,7 @@ bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_refl,
 
 
 #ifdef DEF_ObjectJc_REFLREF
-void ctor_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
+ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
   memset(othiz, 0, sizeof(ObjectJc));
   setSizeAndIdent_ObjectJc(othiz, size, idObj);
   #ifdef DEF_ObjectJcpp_REFLECTION
@@ -165,6 +165,7 @@ void ctor_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const*
   #ifdef DEF_ObjectJc_OWNADDRESS
   othiz->ownAddress = ptr;
   #endif
+  return othiz;
 }
 #endif
 
@@ -429,7 +430,7 @@ bool checkInit_OLD_ObjectJc ( ObjectJc* thiz, int size, struct ClassJc_t const* 
   if(thiz->reflection == null) {
     setReflection_ObjectJc(thiz, clazzReflection, 0);
   }
-  bOk = checkStrict_ObjectJc(thiz, size, clazzReflection, ident, _thCxt);
+  bOk = checkStrict_ObjectJc(thiz, size, clazzReflection, ident);
 #endif //DEF_ObjectJc_REFLREF
   STACKTRC_RETURN bOk;
 }
