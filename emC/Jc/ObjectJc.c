@@ -166,13 +166,16 @@ ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int nSize, int nBytesPe
     sizeInfoObject = getSizeInfo_ObjectJc(&ythis->object);  //may be setted or it should be 0
       if(sizeInfoObject > 0 && sizeInfoObject < sizeArray)
       { THROW1_s0(IllegalArgumentException, "size mismatch", sizeArray);
-      }    
+      }
+      #ifdef DEF_ObjectJc_LARGESIZE    
       if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsSmallSize_objectIdentSize_ObjectJc)
+      #endif
       { if(sizeArray > mSizeSmall_objectIdentSize_ObjectJc)
         { THROW1_s0(IndexOutOfBoundsException, "too large", sizeArray);
         }
         typeInstanceIdent &= ~mSizeSmall_objectIdentSize_ObjectJc;
       }
+      #ifdef DEF_ObjectJc_LARGESIZE    
       else if( (typeInstanceIdent & mSizeBits_objectIdentSize_ObjectJc) == kIsMediumSize_objectIdentSize_ObjectJc)
       { if(sizeArray > mSizeMedium_objectIdentSize_ObjectJc)
         { THROW1_s0(IndexOutOfBoundsException, "too large", sizeArray);
@@ -188,6 +191,7 @@ ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int nSize, int nBytesPe
       else
       { THROW1_s0(IndexOutOfBoundsException, "undefined size", typeInstanceIdent);
       }
+      #endif
       //typeInstanceIdent |= sizeArray;
       //it is always 1-dimension.
       //typeInstanceIdent = (typeInstanceIdent & ~mArray_objectIdentSize_ObjectJc) | mArray_objectIdentSize_ObjectJc;

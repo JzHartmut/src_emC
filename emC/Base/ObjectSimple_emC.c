@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-void inizReflid_ObjectJc(ObjectJc* thiz, void* ptr, int size, uint id_refl, uint idObj){
+void XXXinizReflid_ObjectJc(ObjectJc* thiz, void* ptr, int size, uint id_refl, uint idObj){
   thiz->identSize = (((int32)id_refl)<<16) + size;
 }
 

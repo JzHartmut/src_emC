@@ -72,8 +72,8 @@ typedef struct  ObjectJc_T
   * The bit31 is used to detect whether it is initialized or not. */
   uint32 identSize;
   #define mInitialized_ObjectJc  0x80000000
-  #define mIdOnlySimple_ObjectJc 0x40000000
-  #define mInstanceType_ObjectJc 0x0fff0000  
+  #define mArray_ObjectJc        0x40000000
+  #define mInstanceType_ObjectJc 0x3fff0000  
   #define kBitInstanceType_ObjectJc 16
   #define mSize_ObjectJc         0x0000ffff   //size in memory words, max, 64 kByte
   //
@@ -154,9 +154,9 @@ extern_C bool instanceofReflid_ObjectJc(ObjectJc const* ythis, uint reflId);
 
 #define checkInit_ObjectJc(OBJ, SIZE, REFL, ID, THCXT) true
 
-#define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) inizReflid_ObjectJc(OTHIZ, ADDR, SIZE, ID_##REFL, ID)
+#define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ctor_ObjectJc(OTHIZ, ADDR, SIZE, ID_##REFL, ID)
 #define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, null, ID_##REFL, _thCxt)
-extern_C void inizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint id_refl, uint idObj);
+extern_C void XXXinizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint id_refl, uint idObj);
 
 
 extern_C ObjectJc* alloc_ObjectJc(int size, int id, struct ThreadContext_emC_t* thCxt);
