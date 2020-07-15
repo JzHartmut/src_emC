@@ -251,7 +251,7 @@ typedef struct Clock_MinMaxTime_emC_T {
   MinMaxTime_emC times[3];
 } Clock_MinMaxTime_emC;
 
-#ifdef DEF_ObjectJc_REFLREF
+#ifndef DEF_REFLECTION_NO
   extern_C ClassJc const refl_Clock_MinMaxTime_emC;
   #define reflection_Clock_MinMaxTime_emC refl_Clock_MinMaxTime_emC
 #endif

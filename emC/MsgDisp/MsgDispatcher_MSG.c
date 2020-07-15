@@ -51,7 +51,7 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
     thiz->base.super.entryMsgBufferOverflow.ident = msgIdentQueueOverflow;
     thiz->base.super.entryMsgBufferOverflow.text = "Message queue overflow; nrof msg=%d";
     
-    Entry_MsgDispatcherCore_MSG_Y*  entries = (Entry_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxQueue) * sizeof(Entry_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxQueue, sizeof(Entry_MsgDispatcherCore_MSG_s),&refl_Entry_MsgDispatcherCore_MSG_s, 0);
+    Entry_MsgDispatcherCore_MSG_Y*  entries = (Entry_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxQueue) * sizeof(Entry_MsgDispatcherCore_MSG_s), mIsLargeSize_ObjectJc, _thCxt)), maxQueue, sizeof(Entry_MsgDispatcherCore_MSG_s),&refl_Entry_MsgDispatcherCore_MSG_s, 0);
     { int32 idxEntry; 
       for(idxEntry = 0; idxEntry < entries->head.length; idxEntry++)
         { 
@@ -72,8 +72,8 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
     { 
       ObjectJc *newObj3_1=null, *newObj3_2=null; /*J2C: temporary Objects for new operations
       */
-      thiz->base.super.listIdents = (int32_Y*)ctorO_ObjectArrayJc((newObj3_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
-      thiz->base.super.listBitDst = (int32_Y*)ctorO_ObjectArrayJc((newObj3_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
+      thiz->base.super.listIdents = (int32_Y*)ctorO_ObjectArrayJc((newObj3_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
+      thiz->base.super.listBitDst = (int32_Y*)ctorO_ObjectArrayJc((newObj3_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxDispatchEntries) * sizeof(int32), mIsLargeSize_ObjectJc, _thCxt)), maxDispatchEntries, sizeof(int32),REFLECTION_int32, 0);  //J2C: assign a new ObjectArrayJc. ;
       thiz->base.super.listIdents->data[0] = 0;
       thiz->base.super.listIdents->data[1] = MAX_VALUE_IntegerJc;
       thiz->base.super.listBitDst->data[0] = 0;
@@ -84,7 +84,7 @@ struct MsgDispatcher_MSG_t* ctorO_MsgDispatcher_MSG(ObjectJc* othis, int32 maxDi
       activateGC_ObjectJc(newObj3_2, null, _thCxt);
     }
     /*allocate the output array: */
-    thiz->base.super.outputs = (Output_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxOutputs) * sizeof(Output_MsgDispatcherCore_MSG_s), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), maxOutputs, sizeof(Output_MsgDispatcherCore_MSG_s),&refl_Output_MsgDispatcherCore_MSG_s, 0);  //J2C: assign a new ObjectArrayJc. ;
+    thiz->base.super.outputs = (Output_MsgDispatcherCore_MSG_Y*)ctorO_ObjectArrayJc((newObj2_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (maxOutputs) * sizeof(Output_MsgDispatcherCore_MSG_s), mIsLargeSize_ObjectJc, _thCxt)), maxOutputs, sizeof(Output_MsgDispatcherCore_MSG_s),&refl_Output_MsgDispatcherCore_MSG_s, 0);  //J2C: assign a new ObjectArrayJc. ;
     { int32 idxDst; 
       for(idxDst = 0; idxDst < maxOutputs; idxDst++)
         { 

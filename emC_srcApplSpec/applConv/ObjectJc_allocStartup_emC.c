@@ -45,7 +45,7 @@
 
 static bool bRunMode = false;
 
-int setRunMode_ObjectJc  (  ThCxt* _thCxt)
+int setRunMode_ObjectJc ( ThCxt* _thCxt)
 {
   bRunMode = true;
   return 0;
@@ -91,26 +91,29 @@ ClassJc const refl_BlockHeapBlockJc = {0};
 
 
 /**If no block heap is used, this routine returns {0, null} because there is no rest. */
-MemC getRestBlock_ObjectJc  (  ObjectJc* ythis, int size, ThCxt* _thCxt)
+MemC getRestBlock_ObjectJc ( ObjectJc const* ythis, int size, ThCxt* _thCxt)
 { MemC ret = {null, 0};
   return ret;
 }
 
-
-void setBackRefJc  (  void *ref,void const *instance)
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+void setBackRefJc ( void *ref,void const *instance)
 {
 }
+#endif
 
-
-void clearBackRefJc  (  void *ref)
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+void clearBackRefJc ( void *ref)
 {
 }
+#endif
 
 
-
-
-void activateGC_ObjectJc  (  void const* instance,void const* excl,struct ThreadContext_emC_t* _thCxt)
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+void activateGC_ObjectJc ( void const* instance,void const* excl,struct ThreadContext_emC_t* _thCxt)
 {
   
 }
+#endif
+
 #endif  //USE_BlockHeap_emC

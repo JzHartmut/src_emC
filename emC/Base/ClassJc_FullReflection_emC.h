@@ -95,7 +95,7 @@ C_TYPE typedef struct  FieldJc_t
 #define ID_refl_FieldJc 0x0FFB
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_FieldJc (kIsSmallSize_objectIdentSize_ObjectJc + (ID_refl_FieldJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_FieldJc (kIsSmallSize_ObjectJc + (ID_refl_FieldJc<<kBitIdentSmall_ObjectJc))
 
 #define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
 
@@ -212,13 +212,13 @@ typedef struct  ClassJc_t
 #define Class_Jc_T ClassJc_t
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassJc (kIsSmallSize_objectIdentSize_ObjectJc + (ID_refl_ClassJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_ClassJc (kIsSmallSize_ObjectJc + (ID_refl_ClassJc<<kBitIdentSmall_ObjectJc))
 
 /**This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ReflectionImageJc (mIsLargeSize_objectIdentSize_ObjectJc + 0x1e000000)
+#define OBJTYPE_ReflectionImageJc (mIsLargeSize_ObjectJc + 0x1e000000)
 
 /**This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_objectIdentSize_ObjectJc + 0x0ff70000)
+#define OBJTYPE_ReflectionImageBaseAddressJc (kIsSmallSize_ObjectJc + 0x0ff70000)
 
 #define INIZtypeOnly_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
 #define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, ID_refl_ClassJc), NAME }
@@ -555,7 +555,7 @@ extern ClassJc const refl_ClassOffset_idxVtblJc;
 #define ID_refl_ClassOffset_idxVtblJc 0x0FFA
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
-#define OBJTYPE_ClassOffset_idxVtblJc (kIsSmallSize_objectIdentSize_ObjectJc + (ID_refl_ClassOffset_idxVtblJc<<kBitIdentSmall_objectIdentSize_ObjectJc))
+#define OBJTYPE_ClassOffset_idxVtblJc (kIsSmallSize_ObjectJc + (ID_refl_ClassOffset_idxVtblJc<<kBitIdentSmall_ObjectJc))
 
 
 /**Initializes a super class or interface reference in RAM for runtime reflection. 

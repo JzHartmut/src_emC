@@ -62,8 +62,8 @@ struct LeapSecondsJc_t* ctorO_LeapSecondsJc(ObjectJc* othis, ThCxt* _thCxt)
   {ObjectJc *newObj1_1=null, *newObj1_2=null; /*J2C: temporary Objects for new operations
       */
     init0_MemC(build_MemC(&thiz->leapSeconds, 30 * sizeof(int32))); //J2C: init the embedded simple array;
-    thiz->millisecondsUTCForLeapSeconds = (int64_Y*)ctorO_ObjectArrayJc((newObj1_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (30) * sizeof(int64), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 30, sizeof(int64),REFLECTION_int64, 0);  //J2C: assign a new ObjectArrayJc. ;
-    thiz->millisecondsGPSForLeapSeconds = (int64_Y*)ctorO_ObjectArrayJc((newObj1_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (30) * sizeof(int64), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 30, sizeof(int64),REFLECTION_int64, 0);  //J2C: assign a new ObjectArrayJc. ;
+    thiz->millisecondsUTCForLeapSeconds = (int64_Y*)ctorO_ObjectArrayJc((newObj1_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (30) * sizeof(int64), mIsLargeSize_ObjectJc, _thCxt)), 30, sizeof(int64),REFLECTION_int64, 0);  //J2C: assign a new ObjectArrayJc. ;
+    thiz->millisecondsGPSForLeapSeconds = (int64_Y*)ctorO_ObjectArrayJc((newObj1_2 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (30) * sizeof(int64), mIsLargeSize_ObjectJc, _thCxt)), 30, sizeof(int64),REFLECTION_int64, 0);  //J2C: assign a new ObjectArrayJc. ;
     activateGC_ObjectJc(newObj1_1, null, _thCxt);
     activateGC_ObjectJc(newObj1_2, null, _thCxt);
   }

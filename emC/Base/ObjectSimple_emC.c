@@ -47,7 +47,7 @@ bool instanceof_ObjectJc(ObjectJc const* thiz, struct ClassJc_t const* refl)
 
 
 /**Opposite implementation of checkInit with only idInstanceType. */
-bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
+bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, uint reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
   if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
     thiz->identSize |= (((uint32)reflId) << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc;
   } else {

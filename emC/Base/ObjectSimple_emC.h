@@ -126,7 +126,7 @@ Initialization operations                         */
 
 
 /**Sets the ident and size of an ObjectJc.
-* The bit position of ident and size, and the bits to define which bits are using for ident and size [[mSizeBits_objectIdentSize_ObjectJc]]
+* The bit position of ident and size, and the bits to define which bits are using for ident and size [[mSizeBits_ObjectJc]]
 * are calculated from given size and type.
 * @param sizeObj The size which is valid for the memory-area, which is used from the derived whole instance.
 * @param identObj any special ident. If 0, an automatically ident is built.
@@ -184,8 +184,6 @@ Working operations                         */
 */
 extern_C int newIdent_ObjectJc();
 
-
-#define checkInit_ObjectJc(OBJ, SIZE, REFL, ID, THCXT) true
 
 
 

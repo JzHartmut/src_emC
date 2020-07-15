@@ -99,7 +99,7 @@ struct LogMessageFile_MSG_t* ctorO_LogMessageFile_MSG(ObjectJc* othis, StringJc 
       
       SETREFJc(thiz->localization, localization, LocaleJc_s);
     }
-    thiz->charsFormatTimestampFilename = (char_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (32) * sizeof(char), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), 32, sizeof(char),REFLECTION_char, 0);  //J2C: assign a new ObjectArrayJc. ;
+    thiz->charsFormatTimestampFilename = (char_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (32) * sizeof(char), mIsLargeSize_ObjectJc, _thCxt)), 32, sizeof(char),REFLECTION_char, 0);  //J2C: assign a new ObjectArrayJc. ;
     SETREFJc(thiz->timeZone, timeZoneP == null ? getTimeZone_TimeZoneJc(/*J2C:static method call*/s0_StringJc("GMT"), _thCxt) : timeZoneP, TimeZoneJc_s);
     setTimeZone_SimpleDateFormatJc(& (thiz->dateFormat), REFJc (thiz->timeZone), _thCxt);
     setTimeZone_SimpleDateFormatJc(& (thiz->formatTimestamp), REFJc (thiz->timeZone), _thCxt);

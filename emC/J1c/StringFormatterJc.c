@@ -656,7 +656,7 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc(StringFormatterJc_s*
       nrofBytes = data->head.length;
     }
     
-    int8_Y*  data1 = (int8_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (nrofBytes) * sizeof(int8), mIsLargeSize_objectIdentSize_ObjectJc, _thCxt)), nrofBytes, sizeof(int8),REFLECTION_int8, 0);
+    int8_Y*  data1 = (int8_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (nrofBytes) * sizeof(int8), mIsLargeSize_ObjectJc, _thCxt)), nrofBytes, sizeof(int8),REFLECTION_int8, 0);
     arraycopy_SystemJc(/*J2C:static method call*/& ((data)->head.object), idx, & ((data1)->head.object), 0, nrofBytes, _thCxt);
     { int32 ii; 
       for(ii = 0; ii < nrofBytes; ii++)

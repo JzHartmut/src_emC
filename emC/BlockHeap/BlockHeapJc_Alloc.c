@@ -267,7 +267,7 @@ METHOD_C BlockHeap_emC_s* ctorO_BlockHeap_emC(ObjectJc* othis, MemC wholeHeap, i
   struct MemAreaC_t* heap = PTR_MemC(wholeHeap, struct MemAreaC_t);
   int sizeHeap = size_MemC(wholeHeap);
   STACKTRC_ENTRY("ctor_BlockHeap_emC");
-  checkInit_ObjectJc(othis, sizeof(BlockHeap_emC_s), &refl_BlockHeap_emC, 0, _thCxt); 
+  checkInit_ObjectJc(othis, sizeof(BlockHeap_emC_s), &refl_BlockHeap_emC, 0); 
   
   init0_MemC(wholeHeap);
 
@@ -671,7 +671,7 @@ bool free_sBlockHeap_emC(void const* obj, ThCxt* _thCxt)
 
 
 
-MemC getRestBlock_ObjectJc(ObjectJc* thiz, int size, ThCxt* _thCxt)
+MemC getRestBlock_ObjectJc(ObjectJc const* thiz, int size, ThCxt* _thCxt)
 { MemC retMem;
   STACKTRC_TENTRY("restSizeBlock_ObjectJc");
   { BlockHeap_emC_s* retHeap;

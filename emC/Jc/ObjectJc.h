@@ -144,7 +144,7 @@ extern_C const struct ClassJc_t refl_ObjectArrayJc;
  *  @param size  The number of elements of the 1-dimensional array
  *  @param nBytesPerElement sizeof(ElementType)
  *  @param reflection The reflection definition
- *  @param typeInstanceIdent The Type or Instance Id without size information but with the kind of size information, see kIsMediumSize_objectIdentSize_ObjectJc.
+ *  @param typeInstanceIdent The Type or Instance Id without size information but with the kind of size information, see kIsMediumSize_ObjectJc.
  *
  */
 METHOD_C ObjectArrayJc* ctorc_ObjectArrayJc(ObjectArrayJc* ythis, int size, int nBytesPerElement, struct ClassJc_t const* REFLECTION, int32 typeInstanceIdent);

@@ -118,63 +118,63 @@ struct Size_Vtbl_t;
 */
 
 /** The bits defines an ObjectArrayJc. If this bits are 0, it is not an ObjectArrayJc.*/
-#define mArray_objectIdentSize_ObjectJc      0x40000000
+#define mArray_ObjectJc      0x40000000
 
 /** The bits defines which mask is used to get the size.*/
-#define mSizeBits_objectIdentSize_ObjectJc   0x30000000
+#define mSizeBits_ObjectJc   0x30000000
 
-/** If this value compared with ,,objectIdentSize & mSizeBits_objectIdentSize_ObjectJc,, is true,
-* the size is stored in the bits of ,,mSizeSmall_objectIdentSize_ObjectJc...
-* The bits mask with ,,mTypeMedium_objectIdentSize_ObjectJc,, are used for type info.
+/** If this value compared with ,,objectIdentSize & mSizeBits_ObjectJc,, is true,
+* the size is stored in the bits of ,,mSizeSmall_ObjectJc...
+* The bits mask with ,,mTypeMedium_ObjectJc,, are used for type info.
 */
-#define kIsSmallSize_objectIdentSize_ObjectJc  0x00000000
+#define kIsSmallSize_ObjectJc  0x00000000
 
-/** If this value compared with ,,objectIdentSize & mSizeBits_objectIdentSize_ObjectJc,, is true,
-* the size is stored in the bits of ,,mSizeMedium_objectIdentSize_ObjectJc...
-* The bits mask with ,,mTypeMedium_objectIdentSize_ObjectJc,, are used for type info.
+/** If this value compared with ,,objectIdentSize & mSizeBits_ObjectJc,, is true,
+* the size is stored in the bits of ,,mSizeMedium_ObjectJc...
+* The bits mask with ,,mTypeMedium_ObjectJc,, are used for type info.
 */
-#define kIsMediumSize_objectIdentSize_ObjectJc 0x10000000
+#define kIsMediumSize_ObjectJc 0x10000000
 
-/** If this bit is set, the size is stored in the bits of ,,mSizeLarge_objectIdentSize_ObjectJc,,.
-* The bits mask with ,,mTypeLarge_objectIdentSize_ObjectJc,, are used for type info.
+/** If this bit is set, the size is stored in the bits of ,,mSizeLarge_ObjectJc,,.
+* The bits mask with ,,mTypeLarge_ObjectJc,, are used for type info.
 */
-#define mIsLargeSize_objectIdentSize_ObjectJc  0x20000000
+#define mIsLargeSize_ObjectJc  0x20000000
 
 /** Size bits for small objects, small means up to 64 kByte. There are 14 bits
 * useable for 16383 small types.
 */
-#define mSizeSmall_objectIdentSize_ObjectJc  0x0000ffff
+#define mSizeSmall_ObjectJc  0x0000ffff
 
 /** This bits are used to store the type or instance info for small objects.
 */
-#define mIdentSmall_objectIdentSize_ObjectJc  0x0fff0000
+#define mIdentSmall_ObjectJc  0x0fff0000
 
 /** This constant is used to shift the type info for small objects. */
-#define kBitIdentSmall_objectIdentSize_ObjectJc 16
+#define kBitIdentSmall_ObjectJc 16
 
 /** Size bits for medium objects, medium means up to 1 MByte. There are 10 bits
 * useable for 1023 medium types.
 */
-#define mSizeMedium_objectIdentSize_ObjectJc 0x000fffff
+#define mSizeMedium_ObjectJc 0x000fffff
 
 /** This bits are used to store the type or size info for medium objects.
 */
-#define mIdentMedium_objectIdentSize_ObjectJc 0x0ff00000
+#define mIdentMedium_ObjectJc 0x0ff00000
 
 /** This constant is used to shift the type info for small objects. */
-#define kBitIdentMedium_objectIdentSize_ObjectJc 20
+#define kBitIdentMedium_ObjectJc 20
 
 /** Size bits for large objects up to 16 MByte.
 */
-#define mSizeLarge_objectIdentSize_ObjectJc  0x00ffffff
+#define mSizeLarge_ObjectJc  0x00ffffff
 
 /** This bits are used to store the type or instance info for large objects.
 There are only 5 bits useable for 31 large instances.
 */
-#define mIdentLarge_objectIdentSize_ObjectJc  0x1f000000
+#define mIdentLarge_ObjectJc  0x1f000000
 
 /** This constant is used to shift the type info for small objects. */
-#define kBitIdentLarge_objectIdentSize_ObjectJc 24
+#define kBitIdentLarge_ObjectJc 24
 
 #endif //DEF_ObjectJc_LARGESIZE
   
@@ -196,7 +196,7 @@ typedef struct  ObjectJc_T
   * The bit31 is used to detect whether it is initialized or not. */
   uint32 identSize;
   #define mInitialized_ObjectJc      0x80000000
-  #define mArray_identSize_ObjectJc  0x40000000
+  #define mArray_ObjectJc  0x40000000
 
   /**If the array bit is given with the ID, use this: */
   #define mArrayId_ObjectJc 0x4000
@@ -211,10 +211,10 @@ typedef struct  ObjectJc_T
     //INIZ_ObjectJc can only initialize small size Objects, with 12 bit ident.
     //But it is really only for const in ROM.
     //The small size definitions can be used anyway.
-    #define mIdentSmall_objectIdentSize_ObjectJc  0x0fff0000
-    #define kBitIdentSmall_objectIdentSize_ObjectJc 16
-    #define mSizeSmall_objectIdentSize_ObjectJc  0x0000ffff
-    #define kIsSmallSize_objectIdentSize_ObjectJc  0x00000000  //not used, 0 ok
+    #define mIdentSmall_ObjectJc  0x0fff0000
+    #define kBitIdentSmall_ObjectJc 16
+    #define mSizeSmall_ObjectJc  0x0000ffff
+    #define kIsSmallSize_ObjectJc  0x00000000  //not used, 0 ok
   #endif  //else: See definitions above, 
   //
   #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE)
@@ -262,8 +262,8 @@ extern_C struct ClassJc_t const refl_ObjectJc;
  */
 #ifdef DEF_ObjectJcpp_REFLECTION
 #  define INIZ_ObjectJc(OBJ, REFL, ID) \
-   { ( (((uint32)(ID))<<kBitIdentSmall_objectIdentSize_ObjectJc) \
-       & (mIdentSmall_objectIdentSize_ObjectJc | mArray_identSize_ObjectJc) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \
+       & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
      ) | sizeof(OBJ) \
    , 0, kNoSyncHandles_ObjectJc, &(REFL) \
    }
@@ -271,8 +271,8 @@ extern_C struct ClassJc_t const refl_ObjectJc;
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
 #elif defined(DEF_ObjectJc_REFLREF)
 #  define INIZ_ObjectJc(OBJ, REFL, ID)  \
-   { ( (((uint32)(ID))<<kBitIdentSmall_objectIdentSize_ObjectJc) \
-       & (mIdentSmall_objectIdentSize_ObjectJc | mArray_identSize_ObjectJc) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \
+       & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
      ) | sizeof(OBJ) \
    , &(REFL) \
    } 
@@ -285,15 +285,12 @@ extern_C struct ClassJc_t const refl_ObjectJc;
   //Hence: It is not possible to initialize a type as const initializer list in C in this simplest form.
   //The initializer set only the size. The type check with typeIdent==0 returns true always.
   #define INIZ_ObjectJc(OBJ, REFL, ID)  \
-  { ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  \
-  | ((ID) & mArray_ObjectJc) 
-  | (sizeof(OBJ) & mSize_ObjectJc) \
+  { ((((uint32)(ID_##REFL))<<kBitIdentSmall_ObjectJc) & mIdentSmall_ObjectJc)  \
+  | ((ID) & mArray_ObjectJc) \
+  | (sizeof(OBJ) & mSizeSmall_ObjectJc) \
   }
-
-
-
-  //#define INIZ_ObjectJc(OBJ, REFL, ID)  { mIdOnlySimple_ObjectJc | (((uint32)(ID))<<kBitInstanceType_ObjectJc)  | (sizeof(OBJ) & mSize_ObjectJc) }
 #endif
+
  //Note: the & 0xffff forces error in C 'is not a contant' in VS15
  //the following line does not compile in C! because it uses another defined data.
  //#define INIZ_ObjectJc(OBJ, REFL, ID)  { ((ID)<<16) + (((REFL)->idType) & mType_ObjectJc) } //, { (char const*)(REFL)} }
@@ -303,7 +300,7 @@ extern_C struct ClassJc_t const refl_ObjectJc;
 
 
 /**Sets the ident and size of an ObjectJc.
- * The bit position of ident and size, and the bits to define which bits are using for ident and size [[mSizeBits_objectIdentSize_ObjectJc]]
+ * The bit position of ident and size, and the bits to define which bits are using for ident and size [[mSizeBits_ObjectJc]]
  * are calculated from given size and type.
  * @param sizeObj The size which is valid for the memory-area, which is used from the derived whole instance.
  * @param identObj any special ident. If 0, an automatically ident is built.
@@ -315,7 +312,7 @@ extern_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
   //ObjectJc without reflection, this routine is empty
   #define setReflection_ObjectJc(OBJ, REFL, SIZE)
 #else
-  extern_C void setReflection_ObjectJc(ObjectJc* thiz, struct ClassJc_t const* reflection,  int32 typeInstanceSizeIdent);
+  extern_C void setReflection_ObjectJc(ObjectJc* thiz, struct ClassJc_t const* reflection, uint size);
 #endif
 
 
@@ -325,7 +322,7 @@ extern_C void setSizeAndIdent_ObjectJc(ObjectJc* ythis, int sizeObj, int identOb
 
 /**Set the ident. 
  * * ident if 0 or <0 then an automatic counted ident will be set.
- * * should be < mIdentSmall_objectIdentSize_ObjectJc or mIdentMedium or Large due to the given initialization.
+ * * should be < mIdentSmall_ObjectJc or mIdentMedium or Large due to the given initialization.
  * * if > admissible then THROW 
  * * can contain the mArrayId_ObjectJc flag. But if the flag is set already in thiz, it will be not reset.    
  */
@@ -334,15 +331,15 @@ extern_CCpp void setIdent_ObjectJc(ObjectJc* thiz, int ident);
 #ifdef DEF_ObjectJc_REFLREF
   #define getClass_ObjectJc(THIZ) ((THIZ)->reflection)
   #define getTypeId_ObjectJc(THIZ) ((THIZ)->reflection !=null ? (THIZ)->reflection->idType : 0) 
-  int getIdentInfo_ObjectJc(ObjectJc const* ythis);
-  int getSizeInfo_ObjectJc(ObjectJc const* ythis);
 #else 
   #define getClass_ObjectJc(THIZ) null
   #define getTypeId_ObjectJc(THIZ){ ((THIZ)->identSize & mInstanceType_ObjectJc) >> kBitInstanceType_ObjectJc)
-  #define getSizeInfo_ObjectJc(THIZ) ((THIZ)->identSize & mSize_ObjectJc)
-  #define getIdentInfo_ObjectJc(THIZ) (0)
 #endif
 
+uint getIdentInfo_ObjectJc(ObjectJc const* ythis);
+uint getSizeInfo_ObjectJc(ObjectJc const* ythis);
+
+#define isArray_ObjectJc(THIZ) (((THIZ)->identSize & mArray_ObjectJc) !=0)
 
 /*---------------------------------------------
   Working operations                         */
@@ -418,7 +415,7 @@ class  ObjectJcpp
 *             This feature can be used to provide so much as possible space for a buffer.
 * @param typeInstanceIdent Information bits, see [[setIdentAndSize_ObjectJc(int, int)]],
 *        but without the size information. 
-*        The bits kIsMediumSize_objectIdentSize_ObjectJc and mIsLargeSize_objectIdentSize_ObjectJc
+*        The bits kIsMediumSize_ObjectJc and mIsLargeSize_ObjectJc
 *        are regarded especially.
 * @return the reference to the initialized Object.
 * @throws IndexOutOfBoundsException if the size doesn't match to typeInstanceIdent. 
@@ -534,8 +531,11 @@ METHOD_C MemC getRestBlock_ObjectJc(ObjectJc const* ythis, int size, ThCxt* _thC
 *        The Java2C-Translator consideres this situation.
 *
 */
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
 extern_C void activateGC_ObjectJc(void const* object, void const* exclObject, ThCxt* _thCxt);
-
+#else
+#define activateGC_ObjectJc(OBJ, EXCL, THCXT)
+#endif
 
 /** Assigns a reference to any reference management system.
 * This method doesn't store the reference to the src in the enhanced reference, 
@@ -547,8 +547,11 @@ extern_C void activateGC_ObjectJc(void const* object, void const* exclObject, Th
 * @ param reference the address of the enhanced reference. It is a void* because there are several reference types.
 * @ param instance The address of the instance which is referenced.
 */
-extern_C void setBackRefJc(void* reference, void const* instance);
-
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+  extern_C void setBackRefJc(void* reference, void const* instance);
+#else 
+  #define setBackRefJc(REF, OBJ)
+#endif
 /** Clears a reference in any reference management system.
 *  The reference itself will be not stored here, it should be done outside because better
 *  pointer type checking. A back reference to refbase is stored in the block of the heap,
@@ -558,8 +561,11 @@ extern_C void setBackRefJc(void* reference, void const* instance);
 *
 *  @ param reference address of the enhanced reference
 */
-extern_C void clearBackRefJc(void* reference);
-
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+  extern_C void clearBackRefJc(void* reference);
+#else
+  #define clearBackRefJc(REF)
+#endif
 
 
 
@@ -593,10 +599,8 @@ extern_C bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct Cla
 * @throws RuntimeException if faulty.
 */
 #ifdef DEF_REFLECTION_NO
-  //extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
-  //extern_C bool checkInitReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident);
   #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrict_ObjectJc(OTHIZ, SIZE, null, ID_##REFL)
-  #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInitReflid_ObjectJc(OTHIZ, SIZE, null, ID_##REFL)
+  #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, null, ID_##REFL)
 #else 
   #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrict_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT)
   #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT)
@@ -733,7 +737,7 @@ typedef struct  ObjectArrayJc_t
 */
 #define INIZ_ObjectArrayJc(OBJ, NROF_ELEM, TYPE, REFL_ELEM, ID) \
   { INIZ_ObjectJc(OBJ, REFL_ELEM, (ID) | mArrayId_ObjectJc ), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
-//old:{ INIZ_ObjectJc(OBJ, REFL_ELEM, ID | (mArray_objectIdentSize_ObjectJc >>16)), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
+//old:{ INIZ_ObjectJc(OBJ, REFL_ELEM, ID | (mArray_ObjectJc >>16)), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
 
 
 
