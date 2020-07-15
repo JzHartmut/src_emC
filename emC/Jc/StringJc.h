@@ -1702,7 +1702,7 @@ METHOD_C StringBuilderJc_s* replace_CC_StringBuilderJc(StringBuilderJc_s* ythis,
  *            which is effective in C. It have the same behaviour like Java
  *            if the String is used only immediately without storing its reference.
  */ 
-METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
+METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, struct ThreadContext_emC_t* _thCxt);
 
 
 /**Returns the String which represents the content of the StringBuffer.

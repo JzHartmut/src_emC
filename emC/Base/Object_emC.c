@@ -69,7 +69,7 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
 
 
 #ifndef DEF_ObjectJc_REFLREF //Using a simple ObjectJc
-void XXXinizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint reflId, uint idObj) {
+void XXXinizReflid_ObjectJc(ObjectJc const* othiz, void* ptr, int size, uint reflId, uint idObj) {
   //The instanceType should be the same as the typeId in reflection to check the type.
   othiz->identSize = mIdOnlySimple_ObjectJc 
     | ((reflId <<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)
@@ -79,7 +79,7 @@ void XXXinizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint reflId, u
 
 
 #if !defined(DEF_ObjectJc_REFLREF) && !defined(DEF_REFLECTION_NO)
-void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
+void iniz_ObjectJc(ObjectJc const* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
   if(refl !=null) {
     //The instanceType should be the same as the typeId in reflection to check the type.
     othiz->identSize = ((refl->idType <<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  + size;
@@ -92,7 +92,7 @@ void iniz_ObjectJc(ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const*
 
 
 #ifndef DEF_ObjectJc_REFLREF
-bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident) {
+bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident) {
   if(clazzReflection !=null){
     if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
       thiz->identSize |= (clazzReflection->idType << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
@@ -120,7 +120,7 @@ bool checkInit_ObjectJc  (  ObjectJc* thiz, uint size, struct ClassJc_t const* c
 
 /**Opposite implementation of checkInit with only idInstanceType. */
 #ifndef DEF_ObjectJc_REFLREF
-bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
+bool checkInitReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint reflId, uint ident, struct ThreadContext_emC_t* _thCxt) {
   if( (thiz->identSize & mInstanceType_ObjectJc) ==0) {  
     thiz->identSize |= (reflId << kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc; 
   } else {
@@ -167,6 +167,13 @@ ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t
   #endif
   return othiz;
 }
+#else  //DEF_ObjectJc_SIMPLE
+ObjectJc const* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
+  memset(othiz, 0, sizeof(ObjectJc));
+  int id = refl == null ? idObj : refl->id | (idObj & mArrayId_ObjectJc);
+  setSizeAndIdent_ObjectJc(othiz, size, idObj);
+  return othiz;
+}
 #endif
 
 
@@ -198,7 +205,10 @@ bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* cla
 #endif
 
 
-
+void setInitialized_ObjectJc(ObjectJc const* thiz) {
+  ObjectJc* thizw = WR_CAST(ObjectJc*, thiz);
+  thizw->identSize |= mInitialized_ObjectJc; 
+}
 
 
 
@@ -242,7 +252,7 @@ const ClassOffset_idxVtblJc1 refl_super_ObjectJc =   //reflection instance for t
 
 
 /**Initialize. */
-ObjectJc* init_ObjectJc  ( ObjectJc* ythis, int sizeObj, int identObj) {
+ObjectJc const* init_ObjectJc  ( ObjectJc* ythis, int sizeObj, int identObj) {
   //Note: The second ythis should be the real address of the instance in C++. 
   iniz_ObjectJc(ythis, ythis, sizeObj, null, identObj);
   return ythis;
@@ -608,12 +618,12 @@ ObjectJc* clone_ObjectJc_F(ObjectJc const* ythis, MemC buffer)
   return null;
 }
 
-bool equals_ObjectJc_F(ObjectJc* ythis, ObjectJc* cmp, ThCxt* _thCxt)
+bool equals_ObjectJc_F(ObjectJc const* ythis, ObjectJc const* cmp, ThCxt* _thCxt)
 {
   return false;
 }
 
-void finalize_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
+void finalize_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
 {
 }
 
@@ -622,7 +632,7 @@ int32 hashCode_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
   return 0;
 }
 
-StringJc toString_ObjectJc_F(ObjectJc* ythis, ThCxt* _thCxt)
+StringJc toString_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
 { //StringBuffer* ss = StringBuffer::new_();
   //ss->append("Object at @").append(Integer::toHexString((int)(this)));
   StringJc ss = CONST_StringJc("No information", 14); //only constant
@@ -806,7 +816,7 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
 
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
   /*J2C: dynamic call variant of the override-able method: */
-  StringJc toString_ObjectJc(ObjectJc* ithis, ThCxt* _thCxt)
+  StringJc toString_ObjectJc(ObjectJc const* ithis, ThCxt* _thCxt)
   { Vtbl_ObjectJc const* mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_ObjectJc);
     return mtbl->toString(ithis, _thCxt);
   }

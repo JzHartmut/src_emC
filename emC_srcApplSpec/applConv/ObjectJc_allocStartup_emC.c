@@ -65,7 +65,7 @@ ObjectJc* allocRefl_ObjectJc ( const int size, struct ClassJc_t const* refl, con
     }
     ALLOC_MemC(mem, size2);
     othis = PTR_MemC(mem, ObjectJc);
-    iniz_ObjectJc(othis, othis, size, refl, typeInstanceIdent);
+    ctor_ObjectJc(othis, othis, size, refl, typeInstanceIdent);
   }
   else {
     THROW1_s0(RuntimeException, "no memory because it is runtime. ", 0);

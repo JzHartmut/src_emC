@@ -60,9 +60,6 @@
 #include <string.h>   //strncpy
 struct Vtbl_CharSeqJc_t;
 
-#ifndef DEF_REFLECTION_NO
-extern ClassJc const refl_StringBuilderJc;
-#endif
 
 int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
   int val = VAL_AddrVal_emC(thiz) & mLength_StringJc;
@@ -132,7 +129,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 
 void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
 { STACKTRC_ENTRY("ctor_addSize_StringBuilderJc");
-  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, &refl_StringBuilderJc, 0);
+  CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, refl_StringBuilderJc, 0);
   int size1 = sizeof(thiz->value) + addSize;
   ASSERTs_emC(size1 >=0 && size1 < 0x7fff, "faulty size for StringBuilder", size1, 0);
   thiz->size = (int16)(size1);
@@ -144,7 +141,7 @@ void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
 
 void ctor_Buffer_StringBuilderJc(StringBuilderJc_s* thiz, char* buffer, int size)
 { STACKTRC_ENTRY("ctor_Buffer_StringBuilderJc");
-  iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_StringBuilderJc, 0);
+  CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), refl_StringBuilderJc, 0);
   ASSERTs_emC(size >=0 && size < 0x7fff, "faulty size for StringBuilder", size, 0);
   thiz->size = (int16)(-size);
   thiz->_mode = 0;  //no mode bits yet initialize
@@ -550,18 +547,18 @@ CharSeqJc subSequence_StringJc_CharSeqJc_F(CharSeqObjJc const* ithiz, int32 from
 }
 
 
-bool equals_StringJc_CharSeqJc_F(ObjectJc* ithiz, ObjectJc* second, ThCxt* _thCxt) {
+bool equals_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ObjectJc const* second, ThCxt* _thCxt) {
   StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   return false;  //TODO
 }
 
-StringJc toString_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
+StringJc toString_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ThCxt* _thCxt) {
   StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   StringJc ret = CONST_StringJc(thiz->s, thiz->length);
   return ret;
 }
 
-void finalize_StringJc_CharSeqJc_F(ObjectJc* ithiz, ThCxt* _thCxt) {
+void finalize_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ThCxt* _thCxt) {
 }
 
 
@@ -704,11 +701,12 @@ char const sign_Vtbl_CharSeqJc[] = "sign_Vtbl_CharSeqJc";
 #ifdef DEF_ClassJc_Vtbl
 
 //METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc_s* src, ThCxt* _thCxt)
-METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
+METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, ThCxt* _thCxt)
 {
   StringJc ret = NULL_StringJc;
   STACKTRC_TENTRY("toStringNonPersist_StringBuilderJc");
-  { StringBuilderJc_s* ythis = C_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
+  { StringBuilderJc_s const* ythis = C_CAST(StringBuilderJc_s const*, othis);  //admissible because the method is only called for StringBuilderJc_s
+    StringBuilderJc_s* wthis = WR_CAST(StringBuilderJc_s*, ythis);  //wthis: write access necessary? TODO
     const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
     int count = ythis->_count;
     /**Detect whether the buffer is found in the stack range. Than its memory address is
@@ -723,8 +721,8 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _th
     #ifndef DEF_ThreadContext_SIMPLE
     if(ythis->_mode & _mThread_StringBuilderJc){
       nonPersistent |= mThreadContext__StringJc;
-      int sizeInThCxt = _reduceCapacity_StringBuilderJc(ythis, (int16)(ythis->_count+1));
-      reduceLastUserBuffer_ThreadContext_emC(ythis, sizeInThCxt, _thCxt);
+      int sizeInThCxt = _reduceCapacity_StringBuilderJc(wthis, (int16)(ythis->_count+1));
+      reduceLastUserBuffer_ThreadContext_emC(wthis, sizeInThCxt, _thCxt);
     }
     #endif
     /**If the StringBuffer is a temporary, the String is persistence because the buffer is not use anywhere else.

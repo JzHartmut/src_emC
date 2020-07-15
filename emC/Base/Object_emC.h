@@ -262,10 +262,10 @@ extern_C struct ClassJc_t const refl_ObjectJc;
  */
 #ifdef DEF_ObjectJcpp_REFLECTION
 #  define INIZ_ObjectJc(OBJ, REFL, ID) \
-   { ((((uint32)(ID))<<kBitIdentSmall_objectIdentSize_ObjectJc) \
-       & (mIdentSmall_objectIdentSize_ObjectJc | mArray_identSize_ObjectJc)) \ 
-     | sizeof(OBJ) \
-   , 0, kNoSyncHandles_ObjectJc, &(REFL)\ 
+   { ( (((uint32)(ID))<<kBitIdentSmall_objectIdentSize_ObjectJc) \
+       & (mIdentSmall_objectIdentSize_ObjectJc | mArray_identSize_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , 0, kNoSyncHandles_ObjectJc, &(REFL) \
    }
 //#  define INIZ_idSize_ObjectJc(OBJ, REFL, IDSIZE)  { (IDSIZE), 0,  kNoSyncHandles_ObjectJc, REFL }
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
@@ -346,7 +346,8 @@ extern_CCpp void setIdent_ObjectJc(ObjectJc* thiz, int ident);
 
 /*---------------------------------------------
   Working operations                         */
-#define setInitialized_ObjectJc(THIZ) { (THIZ)->identSize |= mInitialized_ObjectJc; }
+extern_C void setInitialized_ObjectJc(ObjectJc const* thiz);
+
 
 #define isInitialized_ObjectJc(THIZ) ( ((THIZ)->identSize & mInitialized_ObjectJc )!=0)
 
@@ -361,14 +362,14 @@ extern_CCpp void setIdent_ObjectJc(ObjectJc* thiz, int ident);
 
 
 /** Superclass for class ObjectJcpp and especially for all interface classes.
-This base class defines a method to convert this to ObjectJc*
+This base class defines a method to convert this to ObjectJc const*
 especially necessary for interface classes.<br/>
 The methods of this class should be implemented in any class
 implementing any interface.
 */
 class  ObjectJcpp
 {
-  public: virtual ObjectJc* toObject() = 0; //{ return null; }
+  public: virtual ObjectJc const* toObject() = 0; //{ return null; }
 
                                           //#define toObject_Jc() toObject()
 
@@ -432,7 +433,7 @@ extern_C ObjectJc* allocRefl_ObjectJc ( const int size, struct ClassJc_t const* 
 
 
 
-/**Freeze an Object allocated with [[alloc_ObjectJc(...)]]. */
+/**Free an Object allocated with [[alloc_ObjectJc(...)]]. */
 extern_C void free_ObjectJc(ObjectJc* thiz);
 
 /**Initialization of the basicly data of Object.
@@ -461,7 +462,7 @@ extern_C ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct 
 #ifdef DEF_REFLECTION_NO
 #  define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ctor_ObjectJc(OTHIZ, ADDR, SIZE, null, ID_##REFL)
 #  define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, null, ID_##REFL, _thCxt)
-  //extern_C void inizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint id_refl, uint idObj);
+  //extern_C void inizReflid_ObjectJc(ObjectJc const* othiz, void* ptr, int size, uint id_refl, uint idObj);
 #else
 #  define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ctor_ObjectJc(OTHIZ, ADDR, SIZE, &(REFL), ID)
 #  define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, &(REFL), ID, _thCxt)
@@ -479,12 +480,12 @@ extern_C ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct 
 * @deprecated
 * return thiz
 */
-/*NOTE: don't use a void* instead ObjectJc*, because a qualified casting have to be done using in C++ from inheriting classes. */
-extern_C ObjectJc* init_ObjectJc ( ObjectJc* thiz, int sizeObj, int identObj);
+/*NOTE: don't use a void* instead ObjectJc const*, because a qualified casting have to be done using in C++ from inheriting classes. */
+extern_C ObjectJc const* init_ObjectJc ( ObjectJc* thiz, int sizeObj, int identObj);
 
 
 /** The default construtor. An offset to BlockHeap in mem is considered. */
-inline ObjectJc* ctorM_ObjectJc(MemC mem, struct ClassJc_t const* refl, int id) //ObjectJc* ythis);
+inline ObjectJc const* ctorM_ObjectJc(MemC mem, struct ClassJc_t const* refl, int id) //ObjectJc const* ythis);
 { init0_MemC(mem);   //A ctor should initialize all, no old data regarded. Cleanup!
   ObjectJc* thiz = PTR_MemC(mem, ObjectJc);
   int size = size_MemC(mem);
@@ -519,7 +520,7 @@ inline void ctorc_ObjectJc(ObjectJc* thiz) { //, struct ClassJc_t const* refl, i
 * @return A MemC-information which is placed immediate after the Object, or this size_MemC(returnObject) is 0.
 * The implementation of this method depends from a BlockHeap-Concept and is located there.
 */
-METHOD_C MemC getRestBlock_ObjectJc(ObjectJc* ythis, int size, ThCxt* _thCxt);
+METHOD_C MemC getRestBlock_ObjectJc(ObjectJc const* ythis, int size, ThCxt* _thCxt);
 
 
 /**Submits the responsibility to the instance to a garbage collector. 
@@ -593,7 +594,7 @@ extern_C bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct Cla
 */
 #ifdef DEF_REFLECTION_NO
   //extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
-  //extern_C bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint idRefl, uint ident);
+  //extern_C bool checkInitReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident);
   #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkStrict_ObjectJc(OTHIZ, SIZE, null, ID_##REFL)
   #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInitReflid_ObjectJc(OTHIZ, SIZE, null, ID_##REFL)
 #else 
@@ -642,7 +643,7 @@ extern_C bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t c
 /**Returns the mem area for this Object.
 * It can be used to check whether a member is really in range, especially for complex data. See [[checkAddress_MemC(...)]]  
 */
-inline MemC getMemC_ObjectJc(ObjectJc* thiz){ MemC ret; SET_MemC(ret, thiz, getSizeInfo_ObjectJc(thiz)); return ret; } 
+inline MemC getMemC_ObjectJc(ObjectJc const* thiz){ MemC ret; SET_MemC(ret, thiz, getSizeInfo_ObjectJc(thiz)); return ret; } 
 
 
 
@@ -787,7 +788,7 @@ typedef struct void_Y_t{ ObjectArrayJc head; void* data[50]; } void_Y;
 //typedef struct StringJc_AYREF_t{ ObjectJc object; int32 length; int16 sizeElement; int16 mode; StringJc data[50]; } *StringJc_AYREF;
 
 
-METHOD_C void_Y* ctorO_AYJc(ObjectJc* othis, int sizeElement, int nrofElements);
+METHOD_C void_Y* ctorO_AYJc(ObjectJc const* othis, int sizeElement, int nrofElements);
 
 
 
@@ -902,7 +903,7 @@ METHOD_C int32_ObjArray* ctor_int32ARRAY(int32_ObjArray* ythis, int nrOfBytes);
 /*@ARRAY ObjectJcARRAY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 //TYPEDEF_ARRAYJc(ObjectJc, 50)
-typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc* data[50]; }ObjectJcARRAY;
+typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc const* data[50]; }ObjectJcARRAY;
 
 
 #ifdef DEF_ClassJc_Vtbl
@@ -935,9 +936,7 @@ typedef struct ClassJc_t
   /**The lo-part (16 bit) of the address of this element is used as type ident. */
   int32 const* reflOffs;
   #endif
-  #ifdef DEF_ObjectJc_REFLREF
   struct ClassJc_t const* superClass;
-  #endif
 } ClassJc;
 
 

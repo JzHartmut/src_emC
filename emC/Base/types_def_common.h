@@ -114,6 +114,7 @@ inline int unused_emC(int arg){ return arg; }
   #define _END_extern_C_BLOCK } 
   //#define C_CAST(TYPE, PTR) reinterpret_cast<TYPE>(const_cast<TYPE>(PTR))
   #define C_CAST(TYPE, PTR) reinterpret_cast<TYPE>(PTR)
+  #define WR_CAST(TYPE, PTR) const_cast<TYPE>(PTR)
   #define STATIC_CAST(TYPE, PTR) static_cast<TYPE>(PTR)
   //#define METHOD_C
 #else
@@ -126,8 +127,9 @@ inline int unused_emC(int arg){ return arg; }
   #define METHOD_C
   #define extern_C_BLOCK_ 
   #define _END_extern_C_BLOCK 
-  #define C_CAST(TYPE, PTR) (TYPE)(PTR)
-  #define STATIC_CAST(TYPE, PTR) (TYPE)(PTR)
+  #define C_CAST(TYPE, PTR) ((TYPE)(PTR))
+  #define WR_CAST(TYPE, PTR) ((TYPE)(PTR))
+  #define STATIC_CAST(TYPE, PTR) ((TYPE)(PTR))
 #endif
 //#endif//__NoReflection__
 
@@ -267,7 +269,7 @@ typedef struct double_complex_t{
 
 inline int dbgstop_emC(){ return -1; }
 
-#ifdef DEF_ObjectJc_SIMPLE
+#if defined(DEF_ObjectJc_SIMPLE) || defined(DEF_ObjectJc_SIMPLEST)
 # if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_REFLREF) || defined(DEF_ObjectJc_OWNADDRESS)
 #   error DEF_ObjectJc_SIMPLE was defined together with one of the other DEF_ObjectJc...
 # endif
@@ -288,7 +290,7 @@ typedef struct StringJc_T {
 #define DEFINED_StringJc_emC
 //old: typedef STRUCT_AddrVal_emC(StringJc, char const);
 
-
-#include <emC/Base/Assert_emC.h>
+//NOTE: do nothing include here additinally, the user should decide what is included in its applstdef_emC.h!
+//#include <emC/Base/Assert_emC.h>
 
 #endif  // __os_types_def_common_h__

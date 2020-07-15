@@ -75,8 +75,6 @@ typedef struct Par_PIDi_Ctrl_emC_t
   /**If set then changes from outside are disabled. For Inspector access. */
   int man: 1;
 
-  int limPbeforeD: 1;
-
 } Par_PIDi_Ctrl_emC_s;
 
 #define ID_refl_Par_PIDi_Ctrl_emC 0x0FC2
@@ -123,7 +121,7 @@ typedef struct PIDi_Ctrl_emC_t
 {
   union { ObjectJc obj; } base;
 
-  Par_PIDi_Ctrl_emC_s* par;
+  Par_PIDi_Ctrl_emC_s const* par;
   
   /**Limitation value of y output. The output is never greater or lesser its negative equivalent.
    * The I part will be limited too. */
@@ -167,18 +165,27 @@ typedef struct PIDi_Ctrl_emC_t
 
 
 /**ctor of PID controller 
+ * @arg par the initial parameter set. It is possible that it is null.
+ *          Then setParam_PIDi_Ctrl_emC must be call with a valid reference afterwards.
  * @simulink ctor.
  */
 extern_C PIDi_Ctrl_emC_s* ctor_PIDi_Ctrl_emC(ObjectJc* othiz);
 
-/**init of PID controller
+/**Initialize all aggregations
+ * @param par the parameter Object, should be not null
+ * @return false if par == null, true if initialized.
+ * @simulink init
+ */
+extern_C bool init_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, Par_PIDi_Ctrl_emC_s const* par);
+
+/**set or switch parameter of the PID controller
  * @param par the parameter Object, should be not null
  * @return false if par == null, true if initialized. 
- * @simulink init.
+ * @ xxsimulink init.
  */
-extern_C bool setParam_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, Par_PIDi_Ctrl_emC_s* par);
+extern_C void setParam_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, Par_PIDi_Ctrl_emC_s const* par);
 
-
+/**Sets the limitation value for the output.*/
 extern_C void setLim_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int yLim);
 
 /**step of PID controller 
@@ -193,14 +200,11 @@ static inline void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, int* y) { *y = 
 #if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
 class PIDi_Ctrl_emC : public PIDi_Ctrl_emC_s { //, public ObjectifcBaseJcpp {
 
-  public: PIDi_Ctrl_emC(){
-    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0);  //should be initialized.
-    ctor_PIDi_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as argument.
-  }
 
   public: PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s const* par){
-    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0);  //should be initialized.
-    ctor_PIDi_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as arguement.
+    ObjectJc* obj = CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0);  //should be initialized.
+    ctor_PIDi_Ctrl_emC(obj); //the initialized ObjectJc as arguement.
+    init_PIDi_Ctrl_emC(this, par); //the initialized ObjectJc as arguement.
   }
 
   public: void setParam ( Par_PIDi_Ctrl_emC_s* par) { setParam_PIDi_Ctrl_emC(this, par); }

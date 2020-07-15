@@ -141,19 +141,36 @@ extern_C void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y);
 INLINE_emC void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y) { *y = thiz->wxP;  }
 
 #if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
-class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s { //, public ObjectifcBaseJcpp {
+class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
 
-  public: PIDf_Ctrl_emC(){
-    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);  //should be initialized.
+  /**Constructs.
+   */
+  public: PIDf_Ctrl_emC (int idObj ) {
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, idObj);  //should be initialized.
     ctor_PIDf_Ctrl_emC(&this->base.obj, 0.1234f); //the initialized ObjectJc as arguement.
   }
 
-  public: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par){
-    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);  //should be initialized.
+  /**Constructs as base class of any inherited controller.
+   * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
+   */
+  protected: PIDf_Ctrl_emC ( ObjectJc* objectJc ) {
+    ctor_PIDf_Ctrl_emC(&this->base.obj, 0.1234f); //the initialized ObjectJc as arguement.
+  }
+
+  /**Constructs with given parameter reference.
+   * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
+   */
+  public: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par, int idObj){
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, idObj);  //should be initialized.
     ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
-  public: virtual ObjectJc* toObject(){ return &this->base.obj;}
+  /**Constructs with given parameter reference.
+  * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
+  */
+  protected: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par, ObjectJc* objectJc){
+    ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
+  }
 
   public: void init(Par_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
   

@@ -7,7 +7,8 @@
 #elif defined(XXXDEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;
-#elif !defined(DEF_REFLECTION_NO)
+//#elif !defined(DEF_REFLECTION_NO)
+#else
   //Class definition only as type marker:
   ClassJc const refl_Angle_abwmf_FB_CtrlemC = INIZ_ClassJc(refl_Angle_abwmf_FB_CtrlemC, "Angle_abwmf_FB_CtrlemC");
 #endif
@@ -17,7 +18,7 @@
 
 void ctor_Angle_abwmf_FB(Angle_abwmf_FB_CtrlemC* thiz, int32 identObj, float Tstep)
 { memset(thiz, 0, sizeof(*thiz)); 
-  iniz_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), &refl_Angle_abwmf_FB_CtrlemC, identObj);
+  ctor_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), &refl_Angle_abwmf_FB_CtrlemC, identObj);
   setInitialized_ObjectJc(&thiz->obj);
   thiz->m = 1.0f;  //default for only-angle
 }

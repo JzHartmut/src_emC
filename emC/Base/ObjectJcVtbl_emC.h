@@ -113,13 +113,13 @@ METHOD_C typedef ObjectJc* MT_clone_ObjectJc(ObjectJc const* ythis, MemC buffer)
 * This operation is the object-oriented replacement
 * for the old C-style memcpy of instances data.
 */
-METHOD_C typedef bool MT_equals_ObjectJc(ObjectJc* ythis, ObjectJc* second, struct ThreadContext_emC_t* _thCxt);
+METHOD_C typedef bool MT_equals_ObjectJc(ObjectJc const* ythis, ObjectJc const* second, struct ThreadContext_emC_t* _thCxt);
 
 /**This method should be called before the instance is deleted finally. It is called
 * by garbage collection. Some action such as deregister or free memory may be taken
 * from the users overload class.
 */
-METHOD_C typedef void MT_finalize_ObjectJc(ObjectJc* ythis, struct ThreadContext_emC_t* _thCxt);
+METHOD_C typedef void MT_finalize_ObjectJc(ObjectJc const* ythis, struct ThreadContext_emC_t* _thCxt);
 
 /**This method supplies a hash code for thid onstance.
 */
@@ -128,7 +128,7 @@ METHOD_C typedef int32 MT_hashCode_ObjectJc(ObjectJc const* ythis, struct Thread
 /**This method supplies a string representation of the content of the instance,
 * useable especially for debug or analyze information.
 */
-METHOD_C typedef StringJc MT_toString_ObjectJc(ObjectJc* ythis, struct ThreadContext_emC_t* _thCxt);
+METHOD_C typedef StringJc MT_toString_ObjectJc(ObjectJc const* ythis, struct ThreadContext_emC_t* _thCxt);
 
 
 

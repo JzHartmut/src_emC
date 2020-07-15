@@ -22,9 +22,9 @@
 
 
 Par_PIDi_Ctrl_emC_s* ctor_Par_PIDi_Ctrl_emC(ObjectJc* othiz, float Tstep, int xBits, int yBits)
-{
+{ //check before cast:
+  ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(Par_PIDi_Ctrl_emC_s), refl_Par_PIDi_Ctrl_emC, 0), "faulty ObjectJc",0,0 );
   Par_PIDi_Ctrl_emC_s* thiz = (Par_PIDi_Ctrl_emC_s*)othiz;
-  CTOR_ObjectJc(othiz, othiz, sizeof(Par_PIDi_Ctrl_emC_s), refl_Par_PIDi_Ctrl_emC, 0);
   thiz->Tstep = Tstep;
   thiz->yBits = yBits;
   thiz->xBits = xBits;
@@ -85,21 +85,27 @@ void reparam_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz) {
 
 PIDi_Ctrl_emC_s* ctor_PIDi_Ctrl_emC(ObjectJc* othiz)
 {
+  ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0), "faulty ObjectJc", 0,0);
+  //after assertion it can be used.
   PIDi_Ctrl_emC_s* thiz = (PIDi_Ctrl_emC_s*)othiz;
-  CTOR_ObjectJc(othiz, othiz, sizeof(PIDi_Ctrl_emC_s), refl_PIDi_Ctrl_emC, 0);
   return thiz; 
 }
 
 
 
-bool setParam_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, Par_PIDi_Ctrl_emC_s* par) {
+bool init_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, Par_PIDi_Ctrl_emC_s const* par) {
   bool bOk = par != null;
   if(bOk) {
     thiz->par = par;
-    setLim_PIDi_Ctrl_emC(thiz, thiz->yLim);  //reparam internal wxMax, wxMin with new parameter.
     setInitialized_ObjectJc(&thiz->base.obj);
   }
   return bOk;
+}
+
+
+void setParam_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, Par_PIDi_Ctrl_emC_s const* par) {
+  ASSERT_emC(par != null, "par cannot be null", 0, 0);
+  thiz->par = par;
 }
 
 
@@ -112,10 +118,10 @@ void setLim_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int yLim) {
 
 
 
-
+//Note: this routine is copied to RAM and runs in RAM in embedded target, sometimes faster.
 RAMFUNC_emC void step_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int* y_y)
 {
-  Par_PIDi_Ctrl_emC_s* par = thiz->par;
+  Par_PIDi_Ctrl_emC_s const* par = thiz->par;
   int y;
   //Note: necessary to use int32 for wxP becauuse multiply is not limited yet.
   //The wx can use the full xBit range, kPi may be large.

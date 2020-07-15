@@ -74,6 +74,11 @@ typedef struct EvQueue_StateM_vishiaOrg_T {
 
 
 
+#define ID_refl_EvQueue_StateM_vishiaOrg 0x0FE3
+#ifndef DEF_REFLECTION_NO 
+  extern_C ClassJc const refl_EvQueue_StateM_vishiaOrg;
+#endif
+
 /**Initializes the queue.
  * @arg Tstep only for Graphical FBlock, not stored in FBlock 
  * @arg sizeQueue max nrof Events able to store for one evaluation cycle
@@ -201,7 +206,10 @@ typedef struct EvInstance_StateM_vishiaOrg_T {
 
 } EvInstance_StateM_vishiaOrg_s;
 
-
+#define ID_refl_EvInstance_StateM_vishiaOrg 0x0FE2
+#ifndef DEF_REFLECTION_NO 
+  extern_C ClassJc const refl_EvInstance_StateM_vishiaOrg;
+#endif
 
 /**Initializes an instance of an event.
  * @arg asListener true (!=0) then it should be registered in the queue as listener too, =0 then only to add events.

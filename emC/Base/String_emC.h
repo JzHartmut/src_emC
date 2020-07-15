@@ -178,9 +178,14 @@ typedef struct  StringBuilderJc_t
 #define sizeof_StringBuilderJc sizeof(StringBuilderJc_s)
 #define sizeof_StringBufferJc sizeof_StringBuilderJc
 
-extern_C const struct ClassJc_t refl_StringBuilderJc;
-#define refl_StringBuilderJc_s refl_StringBuilderJc
-#define refl_StringBufferJc refl_StringBuilderJc
+
+#ifdef DEF_REFLECTION_NO
+  #define ID_refl_StringBuilderJc 0x0ff6
+#else
+  extern_C const struct ClassJc_t refl_StringBuilderJc;
+  #define refl_StringBuilderJc_s refl_StringBuilderJc
+  #define refl_StringBufferJc refl_StringBuilderJc
+#endif
 
 
 //#define staticSize_StringBuilderJc (sizeof(((StringBuilderJc_s*)(0x1000))->value.direct))

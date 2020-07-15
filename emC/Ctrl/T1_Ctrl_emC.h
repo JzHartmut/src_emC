@@ -3,6 +3,14 @@
 
 #include <compl_adaption.h>
 
+/**It is the nominal value for 16 bit values. With it an overdrive of ~1.18 is possible.
+ * 27720 = 2 * 2 * 2 * 3 * 3 * 5 * 7 * 11 ,
+ *                         means divide by 2,3,5,6,7,8,9,10,11,12,14,15,16,18,20,22,24,27,30,32,33,35,36,40,42,44,45,50, 60,
+ * (30240 =  32*5*7*3*3*3, means divide by 2,3,5,6,7,8,9,10,   12,14,15,16,18,20,   24,27,30,32,33,35,36,40,42 etc.
+ */
+#define NOM_i16_Ctrl_emC 27720
+
+
 /*@CLASS_C T1i_Ctrl_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * T1-Functionality in 16-bit integer for x and y and 32-bit-integer for q.
  * It is optimized for 16-bit-fixpoint processors

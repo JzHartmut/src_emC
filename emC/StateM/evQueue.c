@@ -11,14 +11,12 @@
   extern_C ClassJc const refl_EvInstance_StateM_vishiaOrg;
   extern_C ClassJc const refl_EvQueue_StateM_vishiaOrg;
 #else
-  #define ID_refl_EvListener_StateM_vishiaOrg 0x0FE0
-  #define ID_refl_EvCreator_StateM_vishiaOrg 0x0FE1
-  #define ID_refl_EvInstance_StateM_vishiaOrg 0x0FE2
-  #define ID_refl_EvQueue_StateM_vishiaOrg 0x0FE3
+  //Note: The ID_refl are defined in the header file.
+
  
   #ifndef DEF_REFLECTION_NO
-  ClassJc const refl_EvListener_StateM_vishiaOrg = INIZ_ClassJc(refl_EvListener_StateM_vishiaOrg, "EvListener_StateM_vishiaOrg");
-  ClassJc const refl_EvCreator_StateM_vishiaOrg = INIZ_ClassJc(refl_EvCreator_StateM_vishiaOrg, "EvCreator_StateM_vishiaOrg");
+  //ClassJc const refl_EvListener_StateM_vishiaOrg = INIZ_ClassJc(refl_EvListener_StateM_vishiaOrg, "EvListener_StateM_vishiaOrg");
+  //ClassJc const refl_EvCreator_StateM_vishiaOrg = INIZ_ClassJc(refl_EvCreator_StateM_vishiaOrg, "EvCreator_StateM_vishiaOrg");
   ClassJc const refl_EvInstance_StateM_vishiaOrg = INIZ_ClassJc(refl_EvInstance_StateM_vishiaOrg, "EvInstance_StateM_vishiaOrg");
   ClassJc const refl_EvQueue_StateM_vishiaOrg = INIZ_ClassJc(refl_EvQueue_StateM_vishiaOrg, "EvQueue_StateM_vishiaOrg");
   #endif

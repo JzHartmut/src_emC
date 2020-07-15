@@ -43,9 +43,12 @@
 #ifndef HGUARD_Object_emC
 #define HGUARD_Object_emC
 
-#define DEF_ObjectJc_SIMPLE
-#define DEF_ObjectJc_SIMPLEST
-
+#ifndef DEF_ObjectJc_SIMPLE      //prevent warning on twice define the same
+  #define DEF_ObjectJc_SIMPLE
+#endif
+#ifndef DEF_ObjectJc_SIMPLEST
+  #define DEF_ObjectJc_SIMPLEST
+#endif
 //#include <emC/Base/MemC_emC.h>
 
 
@@ -55,8 +58,7 @@
 
 //struct Size_Vtbl_t;
 
-
-
+struct ClassJc_t;
 
 
 /**Object is the superclass of all superclasses. In C-like manner it is a struct
@@ -77,6 +79,8 @@ typedef struct  ObjectJc_T
   #define kBitInstanceType_ObjectJc 16
   #define mSize_ObjectJc         0x0000ffff   //size in memory words, max, 64 kByte
   //
+  /**Array bit in a given ID. */
+  #define mArrayId_ObjectJc        0x4000
 
 } ObjectJc;
 
@@ -87,7 +91,29 @@ typedef struct  ObjectJc_T
 const Initialization                         */
 
 /**Initializing of a simple object.  */
-#define INIZ_ObjectJc(OBJ, REFL, ID)  { mIdOnlySimple_ObjectJc | ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  | (sizeof(OBJ) & mSize_ObjectJc) }
+#define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  | (sizeof(OBJ) & mSize_ObjectJc) }
+
+/**Initialization of the basicly data of Object.
+ * This method should be used for all instances.
+ * @param addrInstance: The address of the instance itself, which contains ObjectJc. In C++ the instance address doesn't may be the same as ythis.
+ *                      the offset to the instance itself will be stored to help data debugging.
+ * @param sizeObj The size of the whole instance, use sizeof(TypeInstance).
+ * @param reflection The reflection class. It may be null if the reflections are not present.
+ * @param identObj An identSize info, see [[attribute:_ObjectJc:objectIdentSize]]
+ * @return the reference of the Object itself to use in argument lists (especially for C++ - ctor)
+*/
+extern_C ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj);
+
+#ifdef DEF_REFLECTION_NO
+#  define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ctor_ObjectJc(OTHIZ, ADDR, SIZE, null, ID_##REFL)
+#  define ALLOC_ObjectJc(SIZE, REFL, ID) alloc_ObjectJc(SIZE, null, ID_##REFL, _thCxt)
+  //extern_C void inizReflid_ObjectJc(ObjectJc const* othiz, void* ptr, int size, uint id_refl, uint idObj);
+#else
+#  define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ctor_ObjectJc(OTHIZ, ADDR, SIZE, &(REFL), ID)
+#  define ALLOC_ObjectJc(SIZE, REFL, ID) alloc_ObjectJc(SIZE, &(REFL), ID, _thCxt)
+#endif
+
+extern_C bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, uint ident);
 
 extern_C bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
 extern_C bool checkInitReflid_ObjectJc ( ObjectJc* thiz, uint size, uint idRefl, uint ident, struct ThreadContext_emC_t* _thCxt);
@@ -119,24 +145,33 @@ Get operations for core properties          */
 #define getSizeInfo_ObjectJc(THIZ) ((THIZ)->identSize & mSize_ObjectJc)
 #define getIdentInfo_ObjectJc(THIZ) (0)
 
+/**tests wether the given object is an instance of the requested Type.
+* Javalike: instanceof-operator.
+* @param ythis any Object
+* @param reflection The reflection of the type to compare.
+*/
+extern_C bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection);
+
+
+/**tests wether the given object is an instance of the requested Type.
+* Javalike: instanceof-operator.
+* @param ythis any Object
+* @param reflection The reflection of the type to compare.
+*/
+#ifdef DEF_REFLECTION_NO
+  extern_C bool instanceofReflid_ObjectJc(ObjectJc const* ythis, uint reflId);
+  #define INSTANCEOF_ObjectJc(OTHIZ, REFL) instanceofReflid_ObjectJc(OTHIZ, ID_##REFL)
+#else
+  #define INSTANCEOF_ObjectJc(OTHIZ, REFL) instanceof_ObjectJc(OTHIZ, &(REFL))
+#endif
 
 /*---------------------------------------------
 Working operations                         */
-#define setInitialized_ObjectJc(THIZ) { (THIZ)->identSize |= mInitialized_ObjectJc; }
+#define setInitialized_ObjectJc(THIZ) { WR_CAST(ObjectJc*, THIZ)->identSize |= mInitialized_ObjectJc; }
 
 #define isInitialized_ObjectJc(THIZ) ( ((THIZ)->identSize & mInitialized_ObjectJc )!=0)
 
 
-/**Initialization of the basicly data of Object.
-* This method should be used for all instances.
-* @param addrInstance: The address of the instance itself, which contains ObjectJc. In C++ the instance address doesn't may be the same as ythis.
-*                      the offset to the instance itself will be stored to help data debugging.
-* @param sizeObj The size of the whole instance, use sizeof(TypeInstance).
-* @param reflection The reflection class. It may be null if the reflections are not present.
-* @param identObj An identSize info, see [[attribute:_ObjectJc:objectIdentSize]]
-* return ythis, the reference of the Object itself.
-*/
-#define iniz_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) { (THIZ)->identSize = ((SIZE) & mSize_ObjectJc) + ((uint32)((ID)<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc); }
 
 
 
@@ -149,17 +184,12 @@ Working operations                         */
 */
 extern_C int newIdent_ObjectJc();
 
-#define INSTANCEOF_ObjectJc(OTHIZ, REFL) instanceofReflid_ObjectJc(OTHIZ, ID_##REFL)
-extern_C bool instanceofReflid_ObjectJc(ObjectJc const* ythis, uint reflId);
 
 #define checkInit_ObjectJc(OBJ, SIZE, REFL, ID, THCXT) true
 
-#define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ctor_ObjectJc(OTHIZ, ADDR, SIZE, ID_##REFL, ID)
-#define ALLOC_ObjectJc(SIZE, REFL, ID) allocRefl_ObjectJc(SIZE, null, ID_##REFL, _thCxt)
-extern_C void XXXinizReflid_ObjectJc(ObjectJc* othiz, void* ptr, int size, uint id_refl, uint idObj);
 
 
-extern_C ObjectJc* alloc_ObjectJc(int size, int id, struct ThreadContext_emC_t* thCxt);
+extern_C ObjectJc* alloc_ObjectJc(int size, struct ClassJc_t const* refl, int id, struct ThreadContext_emC_t* thCxt);
 
 
 
@@ -199,11 +229,17 @@ class  ObjectJcpp
 
 #endif //defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
 
+/**The ClassJc is only used to assure the type information of an ObjectJc, not for symbolic access.*/
+typedef struct ClassJc_t { 
+  int32 id; 
+  struct ClassJc_t const* superClass;
+} ClassJc;
 
-typedef int32 ClassJc;
 
-#define INIZ_ClassJc(ADDR, TEXT) 0
-#define INIZsuper_ClassJc(ADDR, TEXT, REFLSUPER) 0
+
+
+#define INIZ_ClassJc(REFL, TEXT) { ID_##REFL, null }
+#define INIZsuper_ClassJc(REFL, TEXT, REFLSUPER) { ID_##REFL, REFLSUPER }
 
 
 

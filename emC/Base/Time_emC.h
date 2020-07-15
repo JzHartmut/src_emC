@@ -152,9 +152,9 @@ typedef struct MinMaxTime_emC_t
 
 
 
-static void init_MinMaxTime_emC(MinMaxTime_emC* thiz);
+static void ctor_MinMaxTime_emC(MinMaxTime_emC* thiz);
 
-INLINE_emC void init_MinMaxTime_emC(MinMaxTime_emC* thiz)
+INLINE_emC void ctor_MinMaxTime_emC(MinMaxTime_emC* thiz)
 { thiz->maxCyclTime = 0;  
   //thiz->maxmaxCyclTime = 0;  
   thiz->calc.maxCalcTime = 0;  
