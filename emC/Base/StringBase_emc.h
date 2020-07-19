@@ -339,12 +339,6 @@ extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
  */
 #define CharSeqJc StringJc
 
-//typedef union{ char const* str; ObjectJc const* obj; struct StringBuilderJc_t const* bu; } CharSeqPtr;
-
-//typedef struct CharSeqJc_T{ CharSeqPtr addr; int32 val; } CharSeqJc;
-
-/**It is an extra type same as ObjectJc to mark the interface CharSeqObjJc. */
-typedef struct { ObjectJc obj; } CharSeqObjJc;
 
 
 

@@ -35,7 +35,7 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 #include <emC/Base/Object_emC.h>
 #include <emC/Base/String_emC.h>
  //dependencies:
@@ -53,6 +53,7 @@ char const* debugPRINTF[10] = {0};
 
 
 //checkStrict uses capability of instanceof_ObjectJc(...) for all variants.
+#ifdef DEF_ObjectJc_LARGESIZE
 bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, uint ident) {
   if (refl !=null && !instanceof_ObjectJc(thiz, refl)) {
     return false; 
@@ -65,6 +66,7 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
   #endif
   return (thiz->identSize & mSizeSmall_ObjectJc) >= size;  //true if size ==0, but mSize-bits should be valid.
 }
+#endif  //def DEF_ObjectJc_LARGESIZE
 
 
 
@@ -104,7 +106,7 @@ bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* ref
 
 
 #ifndef DEF_ObjectJc_REFLREF
-bool instanceofReflid_ObjectJc(ObjectJc const* thiz, uint reflId) {
+bool XXXinstanceofReflid_ObjectJc ( ObjectJc const* thiz, uint reflId) {
   return ((thiz->identSize & mIdentSmall_ObjectJc) >> kBitIdentSmall_ObjectJc) == reflId;
 }
 #endif
@@ -114,14 +116,14 @@ bool instanceofReflid_ObjectJc(ObjectJc const* thiz, uint reflId) {
 
 
 #ifndef DEF_ObjectJc_REFLREF
-bool checkStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_refl, uint ident, struct ThreadContext_emC_t* _thCxt) {
+bool XXXcheckStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_refl, uint ident, struct ThreadContext_emC_t* _thCxt) {
   return ((thiz->identSize & mIdentSmall_ObjectJc) >> kBitIdentSmall_ObjectJc) == id_refl
     && (thiz->identSize & mSizeSmall_ObjectJc) >= size;
 }
 #endif
 
 
-#ifdef DEF_ObjectJc_REFLREF
+#if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_OWNADDRESS)
 ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
   memset(othiz, 0, sizeof(ObjectJc));
   setSizeAndIdent_ObjectJc(othiz, size, idObj);
@@ -135,14 +137,7 @@ ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t
   #endif
   return othiz;
 }
-#else  //DEF_ObjectJc_SIMPLE
-ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
-  memset(othiz, 0, sizeof(ObjectJc));
-  int id = refl == null ? idObj : refl->idType | (idObj & mArrayId_ObjectJc);
-  setSizeAndIdent_ObjectJc(othiz, size, id);  //uses bit mArray from idObj.
-  return othiz;
-}
-#endif
+#endif  //#else  contained in ObjectSimple_emC
 
 
 
@@ -172,11 +167,6 @@ bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* cla
 }
 #endif
 
-
-void setInitialized_ObjectJc(ObjectJc const* thiz) {
-  ObjectJc* thizw = WR_CAST(ObjectJc*, thiz);
-  thizw->identSize |= mInitialized_ObjectJc; 
-}
 
 
 
@@ -229,33 +219,9 @@ ObjectJc const* init_ObjectJc  ( ObjectJc* ythis, int sizeObj, int identObj) {
 
 
 
-#ifndef DEF_REFLECTION_NO
-void setReflection_ObjectJc(ObjectJc* thiz, struct ClassJc_t const* refl, uint size)
-{ 
-  uint sizegiven = getSizeInfo_ObjectJc(thiz);
-  #ifdef DEF_ObjectJc_REFLREF  
-    thiz->reflection = refl;
-    if(size > sizegiven) { //size as parameter given:
-      uint identInfo = getIdentInfo_ObjectJc(thiz);
-      if(isArray_ObjectJc(thiz)) { identInfo |= mArrayId_ObjectJc; } 
-      setSizeAndIdent_ObjectJc(thiz, size, identInfo);
-      sizegiven = size; 
-    }
-  #else //not DEF_ObjectJc_SIMPLE
-    if(size > sizegiven) { sizegiven = size; }
-    uint identInfo = refl->idType;
-    if(isArray_ObjectJc(thiz)) { identInfo |= mArrayId_ObjectJc; } 
-    setSizeAndIdent_ObjectJc(thiz, sizegiven, refl->idType); 
-  #endif //DEF_ObjectJc_REFLREF
-}
-#endif
 
 
-
-
-
-
-
+#ifdef DEF_ObjectJc_LARGESIZE 
 void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident)
 { 
 
@@ -266,7 +232,6 @@ void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident)
     identObj = ident; 
   }
   int identObjTest = ident  & ~mArrayId_ObjectJc; 
-#ifdef DEF_ObjectJc_LARGESIZE 
   int nrofArrayDimensions = 0;  //unused. The number of array dimensions should be noted in the reflection- FieldJc and in the ObjectArrayJc-data.
 
   if(identObj < 0 || sizeObj < 0 || nrofArrayDimensions <0 || nrofArrayDimensions > 3)
@@ -286,18 +251,8 @@ void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident)
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
     THROW1_s0(RuntimeException, "not matched ident and size", sizeObj);
   }
-#else //!DEF_ObjectJc_LARGESIZE
-  if(  (identObjTest > (mIdentSmall_ObjectJc >> kBitIdentSmall_ObjectJc))
-    || (sizeObj > mSizeSmall_ObjectJc)
-    ) {
-    STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
-    THROW_s0(RuntimeException, "not matched ident or size", identObj, sizeObj);
-    STACKTRC_LEAVE;
-  } else {
-    thiz->identSize = sizeObj | ( identObj << kBitInstanceType_ObjectJc);
-  }
-#endif  //DEF_ObjectJc_REFLREF 
 }
+#endif  //DEF_ObjectJc_LARGESIZE 
 
 
 int newIdent_ObjectJc()
@@ -340,7 +295,7 @@ void setIdent_ObjectJc(ObjectJc* thiz, int ident)
     THROW_s0(RuntimeException, "not matched ident", identObj, 0);
     STACKTRC_LEAVE;
   } else {
-    thiz->identSize = (thiz->identSize & ~mInstanceType_ObjectJc) | ( identObj << kBitInstanceType_ObjectJc);
+    thiz->identSize = (thiz->identSize & ~mInstanceType_ObjectJc) | ( ((int32)identObj) << kBitInstanceType_ObjectJc);
   }
 #endif  //DEF_ObjectJc_REFLREF 
 }
@@ -412,30 +367,30 @@ bool checkInit_OLD_ObjectJc ( ObjectJc* thiz, int size, struct ClassJc_t const* 
 
 
 
+#ifdef DEF_ObjectJc_LARGESIZE  
 uint getSizeInfo_ObjectJc(ObjectJc const* ythis)
 { 
-#ifdef DEF_ObjectJc_LARGESIZE  
   if(ythis->identSize & mIsLargeSize_ObjectJc) 
     return ythis->identSize & mSizeLarge_ObjectJc;
   else if( (ythis->identSize & mSizeBits_ObjectJc) == kIsMediumSize_ObjectJc)
     return ythis->identSize & mSizeMedium_ObjectJc;
   else
-#endif
     return ythis->identSize & mSizeSmall_ObjectJc;
 }
+#endif
 
 
+#ifdef DEF_ObjectJc_LARGESIZE  
 uint getIdentInfo_ObjectJc(ObjectJc const* ythis)
 { 
-#ifdef DEF_ObjectJc_LARGESIZE  
   if(ythis->identSize & mIsLargeSize_ObjectJc) 
     return (ythis->identSize & mIdentLarge_ObjectJc) >>kBitIdentLarge_ObjectJc;
   else if( (ythis->identSize & mSizeBits_ObjectJc) == kIsMediumSize_ObjectJc)
     return (ythis->identSize & mIdentMedium_ObjectJc) >>kBitIdentMedium_ObjectJc;
   else
-#endif
     return (ythis->identSize & mIdentSmall_ObjectJc) >>kBitIdentSmall_ObjectJc;
 }
+#endif
 
 
 
@@ -767,7 +722,7 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
 }
 
 
-bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflection)
+bool instanceof_ObjectJc ( ObjectJc const* ythis, struct ClassJc_t const* reflection)
 { 
   int idxVtbl = getIdxVtbl_ClassJc(ythis->reflection, reflection);
   return idxVtbl >=0;
@@ -779,7 +734,7 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
 
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
   /*J2C: dynamic call variant of the override-able method: */
-  StringJc toString_ObjectJc(ObjectJc const* ithis, ThCxt* _thCxt)
+  StringJc toString_ObjectJc ( ObjectJc const* ithis, ThCxt* _thCxt)
   { Vtbl_ObjectJc const* mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_ObjectJc);
     return mtbl->toString(ithis, _thCxt);
   }
@@ -822,6 +777,7 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
   #endif
 
 
+  #ifdef DEF_REFLECTION_FULL
   //Then the instanceof should use another algorithm, only single inheritance.
   bool instanceof_ObjectJc ( ObjectJc const* thiz, struct ClassJc_t const* reflection) {
     bool reflOk = reflection == null; //true if the argument is null, special case 
@@ -852,6 +808,8 @@ bool instanceof_ObjectJc(ObjectJc const* ythis, struct ClassJc_t const* reflecti
     }
     return reflOk;
   }
+  #endif //DEF_REFLECTION_FULL
+
 #endif  //not DEF_ClassJc_Vtbl
 
 
@@ -872,9 +830,9 @@ StringJc name_ClassJc(ClassJc const* thiz) {
 #endif
 
 
-
-
-
+#ifndef DEF_REFLECTION_FULL
+ClassJc const refl_ClassJc = INIZ_ClassJc(refl_ClassJc, "ClassJc");
+#endif
 
 #ifdef DEF_REFLECTION_FULL 
 StringJc name_FieldJc(FieldJc const* thiz) {

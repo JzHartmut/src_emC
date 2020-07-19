@@ -6,6 +6,7 @@
 #error Should only used with full reflection generation
 #endif
 
+#include <emC/Base/SimpleC_emC.h>  //MT_void_Method_void
 
 /*@CLASS_C FieldJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

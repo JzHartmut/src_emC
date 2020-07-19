@@ -1,4 +1,5 @@
 #include <emC/StateM/evQueue.h>
+#include <emC/Base/MemC_emC.h>
 
 #include <stdlib.h> //malloc
 
@@ -25,16 +26,16 @@
 EvQueue_StateM_vishiaOrg_s* ctor_EvQueue_StateM_vishiaOrg(ObjectJc* othiz, float Tstep, int sizeQueue, int sizeInstances, ThCxt* _thCxt){
   STACKTRC_TENTRY("ctor_EvQueue_StateM_vishiaOrg");
   EvQueue_StateM_vishiaOrg_s* thiz = null;
-  if( CHECKinit_ObjectJc(othiz, sizeof(EvQueue_StateM_vishiaOrg_s), refl_EvQueue_StateM_vishiaOrg, 0)) {
-    thiz = (EvQueue_StateM_vishiaOrg_s*)othiz;
-    thiz->Tstep = Tstep;
-    thiz->queue.a = (Entry_EvQueue_StateM_vishiaOrg_s*)alloc_MemC(sizeQueue * sizeof(Entry_EvQueue_StateM_vishiaOrg_s));
-    thiz->sizeQueue = sizeQueue;
-    thiz->prd = thiz->pwr = 0;
-    thiz->instances.a = (EvInstance_StateM_vishiaOrg_s**)alloc_MemC(sizeInstances * sizeof(EvInstance_StateM_vishiaOrg_s*));
-    thiz->sizeInstances = sizeInstances;
-    setInitialized_ObjectJc(&thiz->base.obj);
-  }
+  ASSERT_emC( CHECKstrict_ObjectJc(othiz, sizeof(EvQueue_StateM_vishiaOrg_s), refl_EvQueue_StateM_vishiaOrg, 0)
+    , "EvQueue_StateM_vishiaOrg_s not correct initialized", othiz->identSize, (int)(intPTR)getClass_ObjectJc(othiz) );
+  thiz = (EvQueue_StateM_vishiaOrg_s*)othiz;
+  thiz->Tstep = Tstep;
+  thiz->queue.a = (Entry_EvQueue_StateM_vishiaOrg_s*)alloc_MemC(sizeQueue * sizeof(Entry_EvQueue_StateM_vishiaOrg_s));
+  thiz->sizeQueue = sizeQueue;
+  thiz->prd = thiz->pwr = 0;
+  thiz->instances.a = (EvInstance_StateM_vishiaOrg_s**)alloc_MemC(sizeInstances * sizeof(EvInstance_StateM_vishiaOrg_s*));
+  thiz->sizeInstances = sizeInstances;
+  setInitialized_ObjectJc(&thiz->base.obj);
   STACKTRC_RETURN thiz;  //returns null if THROW is not possible and checkInit-error occurs.
 }
 
@@ -121,7 +122,7 @@ int16 info_EvQueue_StateM_vishiaOrg(EvQueue_StateM_vishiaOrg_s* thiz, int16* ctE
 EvInstance_StateM_vishiaOrg_s* ctor_EvInstance_StateM_vishiaOrg(ObjectJc* othiz, int asListener, ThCxt* _thCxt) {
   STACKTRC_TENTRY("ctor_EvInstance_StateM_vishiaOrg");
   EvInstance_StateM_vishiaOrg_s* thiz = null;
-  if( CHECKinit_ObjectJc(othiz, sizeof(EvInstance_StateM_vishiaOrg_s), refl_EvInstance_StateM_vishiaOrg, 0) ) {
+  if( CHECKstrict_ObjectJc(othiz, sizeof(EvInstance_StateM_vishiaOrg_s), refl_EvInstance_StateM_vishiaOrg, 0) ) {
     thiz = (EvInstance_StateM_vishiaOrg_s*)othiz;
     thiz->stateTrg = asListener ? 0x40 : 0x80;  //mark as not added yet.
   }

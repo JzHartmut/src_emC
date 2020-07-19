@@ -44,7 +44,7 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 #include "emC/Jc/ObjectJc.h" 
 
 #include <stdlib.h>     //malloc
@@ -142,7 +142,7 @@ METHOD_C int getNrOfBytes_ObjectArrayJc(ObjectArrayJc const* ythis)
 
 #ifdef DEF_ObjectJc_REFLREF
 
-void_Y* ctorO_AYJc(ObjectJc* othis, int nBytesPerElement, int nSize)
+void_Y* ctorO_AYJc(ObjectJc const* othis, int nBytesPerElement, int nSize)
 { void_Y* ythis = (void_Y*)(othis);
   if(ythis != null)
   { ctorc_ObjectJc(&ythis->head.object);
@@ -349,4 +349,4 @@ const ClassJc refl_ObjectJcREF =
 
 #include <emC/Jc/genRefl/ObjectRefJc.crefl>
 #endif
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY

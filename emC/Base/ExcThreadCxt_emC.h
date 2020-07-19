@@ -37,12 +37,14 @@
 #define HGUARD_emC_Base_ExcThreadCxt
 
 #ifndef HGUARD_applstdef_emC
-#  include <applstdef_emC.h>
+  #include <applstdef_emC.h>
 #endif
 
 
-#include <emC/Base/MemC_emC.h>
-
+#ifndef DEF_ThreadContext_SIMPLE
+  #include <emC/Base/MemC_emC.h>
+  #include <emC/Base/SimpleC_emC.h>
+#endif
 
 /*========== structures only for not SIMPLE thread context =============================================*/
 #ifndef DEF_ThreadContext_SIMPLE   //only defined for full ThreadContext
@@ -241,13 +243,20 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 */
 #define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt 
 
+#define STACKTRC_ROOT_TENTRY(NAME) _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt
+
 /**For that the _thCxt variable is given in arguments of the operation */
 #define STACKTRC_TENTRY(NAME)
 
 /**Because the operation may use a pointer variable named _thCxt it is defined here.
 * But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
 */
-#define STACKTRC_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
+#define STACKTRC_ENTRY(NAME) \
+  MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); /*It is a variable in Stack. */\
+  int stacksize = ((MemUnit*)&_thCxt) - _thCxt->topmemAddrOfStack; \
+  if(stacksize <0) { stacksize = -stacksize; } \
+  if(stacksize > _thCxt->stacksizeMax) { _thCxt->stacksizeMax = stacksize; } \
+
 
 
 #else  //not DEF_ThreadContext_SIMPLE

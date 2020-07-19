@@ -310,7 +310,11 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
 #define THROW1(EXC, TEXT, VAL) THROW(EXC, TEXT, VAL,0)
 
-#define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  THROW(EXCEPTION, z_StringJc(TEXT), VAL1, VAL2)
+#ifdef DEF_NO_StringJcCapabilities
+  #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  THROW(EXCEPTION, TEXT, VAL1, VAL2)
+#else
+  #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  THROW(EXCEPTION, z_StringJc(TEXT), VAL1, VAL2)
+#endif
 
 #define THROW1_s0(EXC, TEXT, VAL) THROW_s0(EXC, TEXT, VAL,0)
 
@@ -319,7 +323,7 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 #define STACKTRC_RETURN STACKTRC_LEAVE; return
 
 /**Possibility call throw without _thCxt variable.*/
-#define THROW_s0n(EXCEPTION, TEXT, VAL1, VAL2)  { STACKTRC_ENTRY("THROW_s0n"); THROW(EXCEPTION, z_StringJc(TEXT), VAL1, VAL2); STACKTRC_LEAVE; }
+#define THROW_s0n(EXCEPTION, MSG, VAL1, VAL2)  { STACKTRC_ENTRY("THROW_s0n"); THROW_s0(EXCEPTION, MSG, VAL1, VAL2); STACKTRC_LEAVE; }
 
 
 /*@CLASS_C LogException_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@qq*/
@@ -331,7 +335,7 @@ typedef struct ExceptionStore_t {
   ExceptionJc last;
 } ExceptionStore;
 
-extern_C void logSimple_ExceptionJc(int exc, StringJc msg, int32 value, int val2, char const* file, int line);
+//extern_C void logSimple_ExceptionJc(int exc, ARGTYPE_MSG_ExceptionJc msg, int32 value, int val2, char const* file, int line);
 
 
 

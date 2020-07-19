@@ -3,6 +3,7 @@
 //#include <emC/SimpleC_emC.h>
 #include <emC/Base/String_emC.h>
 #include <stdio.h>
+#include <string.h>
 
 
 

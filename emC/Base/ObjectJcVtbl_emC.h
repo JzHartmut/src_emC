@@ -163,7 +163,7 @@ extern_C VtblDef_ObjectJc const vtbl_ObjectJc;
 
 /**The override-able method toString tests the virtual table inside reflection
 * to call the correct toString-Method of the implementation class. */
-StringJc toString_ObjectJc(ObjectJc* ithis, struct ThreadContext_emC_t* _thCxt);
+StringJc toString_ObjectJc(ObjectJc const* ithis, struct ThreadContext_emC_t* _thCxt);
 
 
 /** The implemented method for ObjectJc forward declared here.

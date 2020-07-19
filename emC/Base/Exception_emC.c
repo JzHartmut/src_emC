@@ -48,7 +48,10 @@
 
 #include <emC/Base/Exception_emC.h>
 
-#include <emC/Base/String_emC.h>
+#ifndef DEF_NO_StringJcCapabilities
+  #include <emC/Base/StringBase_emC.h>
+#endif
+
 #ifdef DEF_ExceptionJc_NO
 
 int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
@@ -59,7 +62,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
 #else //not DEF_ExceptionJc_NO
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
-#include <emC/OSAL/os_error.h>
+//#include <emC/OSAL/os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>
 
@@ -109,8 +112,7 @@ const char* exceptionTexts DEF [33] =
 };
 
 
-
-void throw_sJc (int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt)
+void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_ExceptionJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
   ExceptionJc* exception = &_thCxt->exception[0];
@@ -174,19 +176,26 @@ void throwCore_emC(ThCxt* _thCxt) {
 }
 
 
-
 void throw_s0Jc ( int32 exceptionNr, const char* msgP, int value, char const* file, int line, ThCxt* _thCxt)
-{ StringJc msg = s0_StringJc(msgP);
+{
+  #ifndef DEF_NO_StringJcCapabilities
+    StringJc msg = s0_StringJc(msgP);
+  #else
+    char const* msg = msgP;
+  #endif
   throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 }
-
 
 
 void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt)
 {
   //int exceptionNr = exc->exceptionNr;
-  StringJc msg = exc->exceptionMsg;
-  //int32 value = exc->exceptionValue;
+  #ifdef DEF_NO_StringJcCapabilities
+    void const* msg = null;
+  #else
+    StringJc msg = exc->exceptionMsg;
+  #endif
+    //int32 value = exc->exceptionValue;
   throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 
 }
@@ -229,7 +238,7 @@ const char* getExceptionText_ExceptionJc(int32 exceptionNr)
 }
 
 
-
+#ifndef DEF_NO_StringJcCapabilities
 int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
 {
   if(zbuffer == 0) { return 0; }
@@ -264,7 +273,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
   buffer[pos] = 0;  //terminating 0
   return pos;
 }
-
+#endif
 
 
 

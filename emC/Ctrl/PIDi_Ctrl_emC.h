@@ -73,7 +73,7 @@ typedef struct Par_PIDi_Ctrl_emC_t
 
 
   /**If set then changes from outside are disabled. For Inspector access. */
-  int man: 1;
+  uint man: 1;
 
 } Par_PIDi_Ctrl_emC_s;
 
@@ -94,7 +94,7 @@ typedef struct Par_PIDi_Ctrl_emC_t
  *        The internal integrator has 32 bit. 
  *        The growth factor for the I-Part and the smoothing value for D-Part is an integer value 
  *        which's ==1 means a Tn = Tstep * of 2 power of (32 - yBits). This is the limitation for Tn and Tds.
- *        For yBits=16 the Tn can be 65000 * Tstep (6.5 seconds on 100 �s Tstep).
+ *        For yBits=16 the Tn can be 65000 * Tstep (6.5 seconds on 100 ?s Tstep).
  *        For yBits=22 the Tn <= 1000 * Tstep is necessary.
  *        Hence a bit width of 16 (for following 16-bit-integer calculation) till 20..22 is recommended. 
  * @simulink ctor.

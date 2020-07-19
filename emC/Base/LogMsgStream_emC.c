@@ -37,7 +37,7 @@
  ************************************************************************************************/
 
 #include <applstdef_emC.h>
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 
 //include the own header at first to test its correct dependencies.
 #include <emC/Base/LogMessage_emC.h>
@@ -317,4 +317,4 @@ ClassJc const refl_LogMessageStream_FW = INIZ_ClassJc(refl_LogMessageStream_FW, 
 
 #endif //DEF_ObjectJc_FULL
 
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY

@@ -41,7 +41,7 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 #include "BlockHeapJc_internal.h"
 #include "emC/Jc/StringJc.h"
 //#include "emC/Base/LogMessage.h"
@@ -1030,4 +1030,4 @@ void free(void* ptr)
 #endif  //__CPLUSPLUSJcpp
 
 #endif   //USE_BlockHeap_emC
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY

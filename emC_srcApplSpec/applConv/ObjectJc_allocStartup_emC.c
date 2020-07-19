@@ -36,8 +36,8 @@
  * 2010-04-02: Hartmut creation
  *
  ****************************************************************************/
-#include <emC/Base/Object_emC.h>
 #include <emC/Base/String_emC.h>
+#include <emC/Base/MemC_emC.h>
 
 #ifndef USE_BlockHeap_emC
 //It is the alternative concept without Blockheap, with allocation usual only on startup of the application.
@@ -52,7 +52,7 @@ int setRunMode_ObjectJc ( ThCxt* _thCxt)
 }
 
 
-ObjectJc* allocRefl_ObjectJc ( const int size, struct ClassJc_t const* refl, const int32 typeInstanceIdent, struct ThreadContext_emC_t* _thCxt)
+ObjectJc* XXXallocRefl_ObjectJc ( const int size, struct ClassJc_t const* refl, const int32 typeInstanceIdent, struct ThreadContext_emC_t* _thCxt)
 { ObjectJc* othis;
   int size2 = size;
   STACKTRC_TENTRY("alloc_ObjectJc");

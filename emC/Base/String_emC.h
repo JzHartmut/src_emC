@@ -65,6 +65,11 @@ struct Vtbl_CharSeqJc_t;
 #endif
 
 
+/**It is an extra type same as ObjectJc to mark the interface CharSeqObjJc. */
+typedef struct { ObjectJc obj; } CharSeqObjJc;
+
+
+
 /*@CLASS_C StringBuilderJc_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 #include <emC/Base/Object_emC.h>
 

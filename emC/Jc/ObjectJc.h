@@ -47,7 +47,7 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 #ifndef HEADERGUARD_ObjectJc_h
 #define HEADERGUARD_ObjectJc_h
 #include <emC/Base/Object_emC.h>
@@ -881,5 +881,5 @@ INLINE_emC VtblHeadJc const* checkVtbl_ObjectJc(ObjectJc const* ythis, int ix, c
 //#include "emC/Formatter.h"
 
 #endif //HEADERGUARD_ObjectJc_h
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY
 

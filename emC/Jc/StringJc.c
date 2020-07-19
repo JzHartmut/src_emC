@@ -93,7 +93,7 @@ char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zB
 void clear_StringJc(StringJc* ythis)
 { STACKTRC_ENTRY("clear_StringJc");
 
-  #ifndef DEF_ObjectJc_SIMPLEST
+  #ifdef DEF_ObjectJc_FULLCAPABILITY
   clearBackRefJc(ythis);
   #endif
   #ifdef DEF_ThreadContextHeap_emC
@@ -374,7 +374,7 @@ int lastIndexOf_sI_StringJc(StringJc ythis, StringJc cmp, int fromIndex )
 
 
 
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 void getChars_StringJc(StringJc ythis, int srcBegin, int srcEnd, char_Y* dst, int dstBegin, ThCxt* _thCxt)
 {
   int sizeBuffer = dst->head.length;

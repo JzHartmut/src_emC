@@ -125,11 +125,17 @@ bool stop_AssertJc  (  void) {
   return false;
 }
 
+
+
 void uncatched_ExceptionJc  (  ExceptionJc* thiz, ThreadContext_emC_s* _thCxt)
 {
-  char buffer[300] = { 0 };
-  writeException(buffer, sizeof(buffer), thiz, __FILE__, __LINE__, _thCxt);
-  printf(buffer);
+  #ifdef DEF_NO_StringJcCapabilities
+    printf("ERROR uncatched Exception %s @%s:%d", thiz->
+  #else
+    char buffer[300] = { 0 };
+    writeException(buffer, sizeof(buffer), thiz, __FILE__, __LINE__, _thCxt);
+    printf(buffer);
+  #endif
   os_FatalError(-1, buffer, (uint)thiz->exceptionNr, 0);
   exit(255);
 }

@@ -65,13 +65,22 @@
 
 //#error Exception_emC.h A
 
+#ifdef DEF_NO_StringJcCapabilities
+  #define ARGTYPE_MSG_ExceptionJc void const*
+#else
+  #include <emC/Base/StringBase_emc.h>
+  #define ARGTYPE_MSG_ExceptionJc StringJc
+#endif
+
+
+
 #include <emC/Base/ExcThCxtBase_emC.h>
-#include <emC/Base/SimpleC_emC.h>
+//#include <emC/Base/SimpleC_emC.h>
 #include <emC/Base/ExcThreadCxt_emC.h>
 
 
 #ifndef INCLUDED_emC_Base_String_emC_h
-#include <emC/Base/String_emC.h>
+//#include <emC/Base/String_emC.h>
 #endif
 
 
@@ -181,11 +190,14 @@ class StacktraceJcpp: public IxStacktrace_emC
 
 /**TRYJc: Definitions and methods for the TRY-CATCH-THROW-concept in CRuntimeJavalike.
  */ 
+
+
+
 /**throws an exception. This method is called directly in a THROW macro. It may be called immediately
  * without an _thCxt if an uncatchable exception occurs.
  * @param stacktrcThCxt if null than the uncatchedException-routine is called.
  */
-extern_C void throw_sJc ( int32 exceptionNr, StringJc msg, int value, char const* file, int line, ThCxt* _thCxt);
+extern_C void throw_sJc ( int32 exceptionNr, ARGTYPE_MSG_ExceptionJc msg, int value, char const* file, int line, ThCxt* _thCxt);
 
 
 
@@ -234,13 +246,20 @@ extern_C void clearException(ExceptionJc* exc);
   EXCEPTION_TRY
 
 
+#ifdef DEF_NO_StringJcCapabilities
+  #define MSG_SystemException_ExcpetionJc
+#else
+  #define MSG_SystemException_ExcpetionJc _thCxt->exception[0].exceptionMsg = z_StringJc("System exception");
+#endif
+
+
  /**Written on end of a TRY-Block the followed macro: */
  #define _TRY \
   EXCEPTION_CATCH { \
     _thCxt->tryObject = tryObjectPrev; \
     if(_thCxt->exception[0].exceptionNr == 0) {/*system Exception:*/ \
       _thCxt->exception[0].exceptionNr = ident_SystemExceptionJc;  \
-      _thCxt->exception[0].exceptionMsg = z_StringJc("System exception"); \
+      MSG_SystemException_ExcpetionJc \
     }  \
     excNrCatchTest = _thCxt->exception[0].exceptionNr; \
     if(false) { /*opens an empty block, closed on first CATCH starts with }*/
@@ -284,23 +303,28 @@ extern_C void clearException(ExceptionJc* exc);
  * @param VAL a int value
  */
 #ifndef THROW
- #ifdef DEF_Exception_NO
- /**All THROW() macros writes the exception into the ThreadContext_emC,
-  * but the calling routine is continued. 
-  * It should check itself for sufficient conditions to work.
-  */
- #define THROW(EXCEPTION, MSG, VAL1, VAL2) { if(_thCxt == null) \
-  { _thCxt = getCurrent_ThreadContext_emC(); } \
-    _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##Jc; \
-    _thCxt->exception[0].exceptionValue = VAL1; \
-    _thCxt->exception[0].file = __FILE__; \
-    _thCxt->exception[0].line = __LINE__; \
-    logSimple_ExceptionJc(nr_##EXCEPTION##Jc, MSG, VAL1, VAL2, __FILE__, __LINE__); \
-  }
- #else //both DEF_Exception_TRYCpp or longjmp:
- #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
-    throw_sJc(ident_##EXCEPTION##Jc, MSG, VAL1, __FILE__, __LINE__, _thCxt)
- #endif
+  #ifdef DEF_Exception_NO
+     /**All THROW() macros writes the exception into the ThreadContext_emC,
+      * but the calling routine is continued.
+      * It should check itself for sufficient conditions to work.
+      */
+    #define THROW(EXCEPTION, MSG, VAL1, VAL2) { if(_thCxt == null) \
+    { _thCxt = getCurrent_ThreadContext_emC(); } \
+      _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##Jc; \
+      _thCxt->exception[0].exceptionValue = VAL1; \
+      _thCxt->exception[0].file = __FILE__; \
+      _thCxt->exception[0].line = __LINE__; \
+      log_ExceptionJc(&_thCxt->exception[0], __FILE__, __LINE__); \
+    }
+  #else //both DEF_Exception_TRYCpp or longjmp:
+    #ifdef DEF_NO_StringJcCapabilities
+      #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
+        throw_sJc(ident_##EXCEPTION##Jc, null, VAL1, __FILE__, __LINE__, _thCxt)
+    #else
+      #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
+        throw_sJc(ident_##EXCEPTION##Jc, MSG, VAL1, __FILE__, __LINE__, _thCxt)
+    #endif
+  #endif
 #endif
 
 #ifndef THROW_s0

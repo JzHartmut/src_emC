@@ -93,7 +93,7 @@ struct CharsetJc_t;
  * of [[class_StringJc]] which depends on [[CRJO:_class_ObjectJc]]. The header file <Jc/ObjectJc.h> is included in this file.
  */
 
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 /**Definition of an array of String, able to use as pointer type. 
  * Note: If a fix string array of a given number of Strings is necessary, it should be defined
  * as untyped struct in the equivalent form with the necessary number of Strings.
@@ -108,7 +108,7 @@ typedef struct StringJc_Y_t{ ObjectArrayJc head; StringJc data[50]; } StringJc_Y
   #define StringJc_YREFDEF
   typedef TYPE_EnhancedRefJc(StringJc_Y);
 #endif
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY
 
 /** Clears the content of the String. If the string references any buffer in the [[BlockHeap]],
   * the back references to this enhanced reference will be release. A StringJc is an enhanced reference too.
@@ -147,7 +147,7 @@ METHOD_C void set_StringJc(StringJc* ythis, StringJc src);
  */
 
 
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 
 /**Constructs a new String by decoding the specified subarray of bytes using the specified charset. 
  * The length of the new String is a function of the charset, and hence may not be equal to the length of the subarray. 
@@ -257,7 +257,7 @@ METHOD_C void xxxsetFromBuffer_StringJc(StringJc* ythis, struct StringBuilderJc_
  */
 METHOD_C StringJc persist_StringJc(StringJc src);
 
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY
 
 
 /**Declares this string as persistent. The routine should be applied only to a String, 
@@ -693,9 +693,9 @@ METHOD_C struct StringBuilderJc_t* replace_u_StringJc(StringJc ythis, char oldCh
  * * dstBegin+(srcEnd-srcBegin) is larger than dst.length.
  * @javalike [[sunJavadoc/java/lang/String#getChars(int, int, char[], int)]]
  */
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 METHOD_C void getChars_StringJc(StringJc ythis, int srcBegin, int srcEnd, char_Y* dst, int dstBegin, struct ThreadContext_emC_t* _thCxt);
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY
 
 
 /**Returns the String as byte stream. */
@@ -1023,9 +1023,9 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* thiz);
  */
 //typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; CharSeqJc data[50]; } CharSeqJc_Y;
 //#define CharSeqJc_Y StringJc_Y
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 typedef struct CharSeqJc_Y_t{ ObjectArrayJc head; CharSeqJc data[50]; } CharSeqJc_Y;
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY
 
 
 
@@ -1403,9 +1403,9 @@ INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc_s* thiz, int16 si
  * @return this.
  * @javalike [[sunJavadoc/java/lang/StringBuilder#insert(int, char[], int, int)]].
  */ 
-#ifndef DEF_ObjectJc_SIMPLEST
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 METHOD_C StringBuilderJc_s* insert_CYII_StringBuilderJc(StringBuilderJc_s* ythis, int pos, char_Y* src, int offset, int len, struct ThreadContext_emC_t* _thCxt);
-#endif //DEF_ObjectJc_SIMPLEST
+#endif //DEF_ObjectJc_FULLCAPABILITY
 
 //#define insert_IcYII_StringBuilderJc(YTHIS, pos, charY, offset, len, _THC) replace_zI_StringBuilderJc(YTHIS,pos, 0, & (charY)->data[offset],len, _THC)
 

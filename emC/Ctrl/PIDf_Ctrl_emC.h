@@ -47,9 +47,9 @@ typedef struct Par_PIDf_Ctrl_emC_T
 
 
   /**If set then changes from outside are disabled. For Inspector access. */
-  int man: 1;
+  uint man: 1;
 
-  int limPbeforeD: 1;
+  uint limPbeforeD: 1;
 
 } Par_PIDf_Ctrl_emC_s;
 
