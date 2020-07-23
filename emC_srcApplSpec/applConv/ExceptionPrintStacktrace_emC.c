@@ -89,7 +89,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
   }
   //nrofStacktraceEntriesMax = stacktraceEntries == null ? -1 : ythis->nrofStacktraceEntries;
 
-  #ifdef DEF_ThreadContextStracktrc_emC
+  #ifdef DEF_ThreadContext_STACKTRC
     int idxStacktraceEntries = _thCxt->stacktrc.zEntries;
     while(--idxStacktraceEntries >=0 ) //< nrofStacktraceEntriesMax)
     { //the entries after try-level

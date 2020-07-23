@@ -40,8 +40,9 @@ const struct Reflection_Fields__InnerStruct1__dx16_t
   
 } }; 
  
-                                                                   
-const ClassJc refl__InnerStruct1__dx16 =
+
+#define DEFINED_refl__InnerStruct1__dx16    
+const ClassJc   refl__InnerStruct1__dx16 =
 { INIZ_objReflId_ObjectJc(refl__InnerStruct1__dx16, refl_ClassJc, ID_refl_ClassJc)
 , "_InnerStruct1__dx16"
 , 0
@@ -96,8 +97,9 @@ const struct Reflection_Fields_T1i_Ctrl_emC_T_dx_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_T1i_Ctrl_emC_T_dx =
+
+#define DEFINED_refl_T1i_Ctrl_emC_T_dx    
+const ClassJc   refl_T1i_Ctrl_emC_T_dx =
 { INIZ_objReflId_ObjectJc(refl_T1i_Ctrl_emC_T_dx, refl_ClassJc, ID_refl_ClassJc)
 , "T1i_Ctrl_emC_T_dx"
 , 0
@@ -152,8 +154,9 @@ const struct Reflection_Fields__InnerStruct2__q16_t
   
 } }; 
  
-                                                                   
-const ClassJc refl__InnerStruct2__q16 =
+
+#define DEFINED_refl__InnerStruct2__q16    
+const ClassJc   refl__InnerStruct2__q16 =
 { INIZ_objReflId_ObjectJc(refl__InnerStruct2__q16, refl_ClassJc, ID_refl_ClassJc)
 , "_InnerStruct2__q16"
 , 0
@@ -208,8 +211,9 @@ const struct Reflection_Fields_T1i_Ctrl_emC_T_q_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_T1i_Ctrl_emC_T_q =
+
+#define DEFINED_refl_T1i_Ctrl_emC_T_q    
+const ClassJc   refl_T1i_Ctrl_emC_T_q =
 { INIZ_objReflId_ObjectJc(refl_T1i_Ctrl_emC_T_q, refl_ClassJc, ID_refl_ClassJc)
 , "T1i_Ctrl_emC_T_q"
 , 0
@@ -282,8 +286,9 @@ const struct Reflection_Fields_T1i_Ctrl_emC_s_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_T1i_Ctrl_emC =
+
+#define DEFINED_refl_T1i_Ctrl_emC    
+const ClassJc   refl_T1i_Ctrl_emC =
 { INIZ_objReflId_ObjectJc(refl_T1i_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
 , "T1i_Ctrl_emC"
 , 0
@@ -383,8 +388,9 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_T1ish_Ctrl_emC =
+
+#define DEFINED_refl_T1ish_Ctrl_emC    
+const ClassJc   refl_T1ish_Ctrl_emC =
 { INIZ_objReflId_ObjectJc(refl_T1ish_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
 , "T1ish_Ctrl_emC"
 , 0
@@ -457,8 +463,9 @@ const struct Reflection_Fields_T1f_Ctrl_emC_s_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_T1f_Ctrl_emC =
+
+#define DEFINED_refl_T1f_Ctrl_emC    
+const ClassJc   refl_T1f_Ctrl_emC =
 { INIZ_objReflId_ObjectJc(refl_T1f_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
 , "T1f_Ctrl_emC"
 , 0

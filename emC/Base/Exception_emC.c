@@ -50,6 +50,7 @@
 
 #ifndef DEF_NO_StringJcCapabilities
   #include <emC/Base/StringBase_emC.h>
+  #include <emC/Base/MemC_emC.h>
 #endif
 
 #ifdef DEF_ExceptionJc_NO
@@ -255,7 +256,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
     pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
     pos += toString_int32_emC(buffer + pos, zbuffer - pos, exc->line, 10, 0);
   }
-  #ifdef DEF_ThreadContextStracktrc_emC
+  #ifdef DEF_ThreadContext_STACKTRC
   if (_thCxt != null) {
     int ixThrow = _thCxt->stacktrc.zEntries - 1;
     StacktraceElement_emC_s* stackThrow = &_thCxt->stacktrc.entries[ixThrow];
@@ -265,7 +266,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
     pos += toString_int32_emC(buffer + pos, zbuffer - pos, stackThrow->line, 10, 0);
     pos += strncpy_emC(buffer + pos, ")", zbuffer - pos);
   }
-  #endif //DEF_ThreadContextStracktrc_emC
+  #endif //DEF_ThreadContext_STACKTRC
   pos += strncpy_emC(buffer + pos, ", detect in: ", zbuffer - pos);
   pos += strncpy_emC(buffer + pos, sFile, zbuffer - pos);
   pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
@@ -277,7 +278,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
 
 
 
-#ifdef DEF_ThreadContextStracktrc_emC
+#ifdef DEF_ThreadContext_STACKTRC
 /**Returns the entry of the Stacktrace of the requested level.
  * @param level 0 is actual, 1... are previous levels.
  * @return null if no previous level is found.
@@ -304,7 +305,7 @@ METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(Stacktrace
   StacktraceElement_emC_s* entry = getEntry_StacktraceThreadContext_emC(ythis, level);
   return (entry == null) ? "" : entry->name; 
 }
-#endif  //DEF_ThreadContextStracktrc_emC
+#endif  //DEF_ThreadContext_STACKTRC
 
 
 

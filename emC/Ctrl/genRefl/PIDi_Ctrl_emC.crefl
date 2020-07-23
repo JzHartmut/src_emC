@@ -121,10 +121,11 @@ const struct Reflection_Fields_Par_PIDi_Ctrl_emC_Internal_PIDi_Ctrl_emC_t_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_Par_PIDi_Ctrl_emC_Internal_PIDi_Ctrl_emC_t =
+
+#define DEFINED_refl_Par_PIDi_Ctrl_emC_Internal_PIDi_Ctrl_emC_t    
+const ClassJc   refl_Par_PIDi_Ctrl_emC_Internal_PIDi_Ctrl_emC_t =
 { INIZ_objReflId_ObjectJc(refl_Par_PIDi_Ctrl_emC_Internal_PIDi_Ctrl_emC_t, refl_ClassJc, ID_refl_ClassJc)
-, "Par_PIDi_Ctrl_emC_PIDi_Ctrl_emC"
+, "Par_PIDi_Ctrl_PIDi_Ctrl_emC_t"
 , 0
 , sizeof(((Par_PIDi_Ctrl_emC_s*)0x1000)->i)
 , (FieldJcArray const*)&refl_Fields_Par_PIDi_Ctrl_emC_Internal_PIDi_Ctrl_emC_t  //attributes and associations
@@ -176,9 +177,9 @@ const struct SuperClasses_Par_PIDi_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t  //Ty
 
 const struct Reflection_Fields_Par_PIDi_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[11];
+  FieldJc data[10];
 } refl_Fields_Par_PIDi_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_Par_PIDi_Ctrl_emC_s, 11, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Par_PIDi_Ctrl_emC_s, 10, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "Tstep"
     , 0   //no Array, no Bitfield                           
@@ -264,16 +265,7 @@ const struct Reflection_Fields_Par_PIDi_Ctrl_emC_s_t
     { "man"
     , (uint16)(0 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
     , REFLECTION_BITFIELD                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDi_Ctrl_emC_s*)(0x1000))->i)) -0x1000 ) + sizeof(((Par_PIDi_Ctrl_emC_s*)(0x1000))->i)/* offset on bitfield: offset of element before + sizeof(element before) */
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Par_PIDi_Ctrl_emC
-    }
-  , 
-    { "limPbeforeD"
-    , (uint16)(1 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
-    , REFLECTION_BITFIELD                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
+    , 0 | kBitfield_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((Par_PIDi_Ctrl_emC_s*)(0x1000))->i)) -0x1000 ) + sizeof(((Par_PIDi_Ctrl_emC_s*)(0x1000))->i)/* offset on bitfield: offset of element before + sizeof(element before) */
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDi_Ctrl_emC
@@ -281,8 +273,9 @@ const struct Reflection_Fields_Par_PIDi_Ctrl_emC_s_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_Par_PIDi_Ctrl_emC =
+
+#define DEFINED_refl_Par_PIDi_Ctrl_emC    
+const ClassJc   refl_Par_PIDi_Ctrl_emC =
 { INIZ_objReflId_ObjectJc(refl_Par_PIDi_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
 , "Par_PIDi_Ctrl_emC"
 , 0
@@ -425,8 +418,9 @@ const struct Reflection_Fields_PIDi_Ctrl_emC_s_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_PIDi_Ctrl_emC =
+
+#define DEFINED_refl_PIDi_Ctrl_emC    
+const ClassJc   refl_PIDi_Ctrl_emC =
 { INIZ_objReflId_ObjectJc(refl_PIDi_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
 , "PIDi_Ctrl_emC"
 , 0

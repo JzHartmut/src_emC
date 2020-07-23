@@ -4,18 +4,12 @@
 
 
 #ifdef DEF_REFLECTION_FULL
-//#ifndef DEF_REFLECTION_NOXX
-#include "genRefl/PIDi_Ctrl_emC.crefl" 
-#elif defined(DEF_REFLECTION_OFFS)
-  //The classes are defined in a project specific ...refloffs.c file:
-  extern_C ClassJc const refl_Par_PIDi_Ctrl_emC;
-  extern_C ClassJc const refl_PIDi_Ctrl_emC;
-#elif !defined(DEF_REFLECTION_NO)
-  //Class definition only as type marker: Note the ident should be planned application-wide and used for instances too.
+  //#ifndef DEF_REFLECTION_NOXX
+  #include "genRefl/PIDi_Ctrl_emC.crefl" 
+#elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_PIDi_Ctrl_emC) //may defined in the *.refloffs.c file
+  //Class definition only as type marker: Note the ID_refl... may be used and should be planned application-wide.
   ClassJc const refl_Par_PIDi_Ctrl_emC = INIZ_ClassJc(refl_Par_PIDi_Ctrl_emC, "Test_Ctrl");
   ClassJc const refl_PIDi_Ctrl_emC = INIZ_ClassJc(refl_PIDi_Ctrl_emC, "Test_Ctrl");
-//#else
-//  extern_C int const refl_Par_PID_Vtrl
 #endif
 
 

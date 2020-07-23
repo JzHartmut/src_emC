@@ -396,7 +396,7 @@ ObjectJc* allocObject_s_sBlockHeap_emC(int sizeObj, int identObj, const char* sC
 ObjectJc* allocRefl_ObjectJc ( const int size, ClassJc const* refl, const int32 typeInstanceIdent, struct ThreadContext_emC_t* _thCxt)
 { ObjectJc* othis;
   STACKTRC_TENTRY("alloc_ObjectJc");
-  #ifdef DEF_ThreadContextStracktrc_emC  
+  #ifdef DEF_ThreadContext_STACKTRC  
     const char* sCallingMethodName = getCallingMethodName_StacktraceThreadContext_emC( &_thCxt->stacktrc, 1);  
   #else
     const char* sCallingMethodName = "ThCxtNoStacktrc";

@@ -5,7 +5,7 @@
   //to found by the linker for references to this struct. 
   //They are unecessary for initializations because of the data instances do not based on ObjectJc.
   #include <emC/Base/genRefl/Time_emC.crefl>
-#elif defined(DEF_refl_Clock_MinMaxTime_emC)
+#elif defined(DEFINED_refl_Clock_MinMaxTime_emC)
   extern_C ClassJc const refl_Clock_MinMaxTime_emC;
 #elif !defined(DEF_REFLECTION_NO)
   ClassJc const refl_Clock_MinMaxTime_emC = INIZ_ClassJc(refl_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");

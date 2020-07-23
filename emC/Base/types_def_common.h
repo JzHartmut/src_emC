@@ -269,13 +269,13 @@ typedef struct double_complex_t{
 
 inline int dbgstop_emC(){ return -1; }
 
-#if defined(DEF_ObjectJc_SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
-# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)
-#   error DEF_ObjectJc_SIMPLE was defined together with one of the other DEF_ObjectJc...
-# endif
-#elif !defined(DEF_ObjectJc_REFLREF) 
-#  define DEF_ObjectJc_REFLREF
-#endif
+//#if defined(DEF_ObjectJc_SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
+//# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)
+//#   error DEF_ObjectJc_SIMPLE was defined together with one of the other DEF_ObjectJc...
+//# endif
+//#elif !defined(DEF_ObjectJc_REFLREF) 
+//#  define DEF_ObjectJc_REFLREF
+//#endif
 
 
 //definition of StringJc to use this type before including emC/StringJc

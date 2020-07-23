@@ -252,7 +252,7 @@ void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topSta
   //all remain 0
 }
 
-#endif //DEF_ThreadContextStracktrc_emC
+#endif //DEF_ThreadContext_STACKTRC
 
 
 ExceptionStore exceptionStore_g = {0};

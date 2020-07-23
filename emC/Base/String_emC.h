@@ -596,6 +596,32 @@ INLINE_emC char charAt_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_e
 
 
 
+
+/**Copy the content to a given buffer.
+ * 
+ * If the returned length == maxSizeBuffer-1, it is not determined whether the text is truncated or not.
+ * Note: if the src-text (thiz) contains 0-characters in its active area, they will be copied too as normal chars.
+ * The text is not 0-terminated here. If neccesary you can get a 0-termination with the following statements:
+ * ,,char buffer[100];
+ * ,,int nchars = copyToBuffer_StringJc(myString, 0, -1, buffer, sizeof(buffer) -1);
+ * ,,buffer[nchars] = 0; //because max 99 characters are copied, there is at least on space for the 0. 
+ *
+ * Note: thiz should a really StringJc or a reference to a StringBuilderJc_s on runtime.
+ * If it is any reference to a CharSeqJc, use [[copyToBuffer_CharSeqJc]. That method regards simple Strings too.
+ *
+ * @param start start character in the StringJc.
+ * @param end exclusive end position in StringJc. 
+ *   If -1 then the whole StringJc till end should be copied. If <=-2 then (-end)-1 characters from end won't be copied. 
+ * @param buffer The destination buffer as char[]
+ * @param maxSizeBuffer The max number of chars copied. If the src text is longer, it will be truncated.
+ * @return number of chars copied. It is the number of valid chars in buffer always.
+*/
+extern_C int copyToBuffer_CharSeqJc ( const CharSeqJc thiz, int start, int end, char* buffer, int maxSizeBuffer, struct ThreadContext_emC_t* _thCxt);
+
+
+
+
+
 extern_C struct Vtbl_CharSeqJc_t const* getVtbl_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
 
 

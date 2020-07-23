@@ -26,7 +26,8 @@
 *
 **copyright***************************************************************************************
 *
-* @content This file defines only the struct ObjectJc_t and the base interface ObjectJcpp.
+* @content This file defines all necessities for using ObjectJc in simple applications.
+* It is the base for Object_emC.h too (there included). 
 * It is the minimal base for some struct or interface of the framework layer,
 * which should also be designable without knowledge of the Jc-layer, 
 * but useable outside of the users algorithm if necessary with ReflectionJc-concept.
@@ -34,7 +35,7 @@
 * @author Hartmut Schorrig
 * @version 2.0
 * list of changes:
-* 2020-07: Hartmut extra definition for simple applications using  DEF_ObjectJc_SIMPLE
+* 2020-07: Hartmut definition for simple applications using  DEF_ObjectSimple_emC
 
 ****************************************************************************/
 #ifndef HGUARD_applstdef_emC
@@ -47,6 +48,13 @@
 
 #ifndef HGUARD_Object_emC  //it is simple included, not via Object_emC.h
 
+  #ifdef DEF_REFLECTION_FULL
+    #error DEF_REFLECTION_FULL needs include of Object_emC.h
+  #endif
+  #ifdef USE_BlockHeap_emC
+    #error USE_Blockheap_emC needs include of Object_emC.h
+  #endif
+
   #ifdef USE_BlockHeap_emC
     #error USE_Blockheap_emC need Object_emC.h
   #endif
@@ -55,6 +63,13 @@
   //or prevent include Object_emC.h, this file is sufficient:
   #define HGUARD_Object_emC  
 #endif
+
+#ifdef DEF_REFLECTION_NO
+  #if defined(DEF_ObjectJc_REFLREF) || defined(DEF_ObjectJcpp_REFLECTION)
+    #error if ObjectJc needs reflection information, it cannot select DEF_REFLECTION_NO. Select at least DEF_REFLECTION_SIMPLE.
+  #endif
+#endif
+
 
 //#include <emC/Base/MemC_emC.h>
 

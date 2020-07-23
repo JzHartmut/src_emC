@@ -103,8 +103,9 @@ const struct Reflection_Fields_Angle_abwmf_FB_CtrlemC_t
   
 } }; 
  
-                                                                   
-const ClassJc refl_Angle_abwmf_FB_CtrlemC =
+
+#define DEFINED_refl_Angle_abwmf_FB_CtrlemC    
+const ClassJc   refl_Angle_abwmf_FB_CtrlemC =
 { INIZ_objReflId_ObjectJc(refl_Angle_abwmf_FB_CtrlemC, refl_ClassJc, ID_refl_ClassJc)
 , "Angle_abwmf_FB_CtrlemC"
 , 0

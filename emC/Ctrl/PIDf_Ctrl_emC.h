@@ -53,8 +53,9 @@ typedef struct Par_PIDf_Ctrl_emC_T
 
 } Par_PIDf_Ctrl_emC_s;
 
+#ifndef ID_refl_Par_PIDf_Ctrl_emC  //may be defined in *.reflOffs.h
 #define ID_refl_Par_PIDf_Ctrl_emC 0x0FC0
-
+#endif
 
 /**ctor of PID controller
 * @simulink ctor.
@@ -115,8 +116,9 @@ typedef struct PIDf_Ctrl_emC_t
 
 } PIDf_Ctrl_emC_s;
 
+#ifndef ID_refl_PIDf_Ctrl_emC  //may be defined in *.reflOffs.h
 #define ID_refl_PIDf_Ctrl_emC 0x0FC1
-
+#endif
 
 
 /**ctor of PID controller 

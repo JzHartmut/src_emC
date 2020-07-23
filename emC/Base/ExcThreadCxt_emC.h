@@ -100,7 +100,7 @@ int16 mode;
 
 
 
-#define DEF_ThreadContextStracktrc_emC
+#define DEF_ThreadContext_STACKTRC
 
 /*@CLASS_C StacktraceElement_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -217,7 +217,7 @@ typedef struct ThreadContext_emC_t {
   //int32 line;
   //char const* file;
 
-  #ifdef DEF_ThreadContextStracktrc_emC
+  #ifdef DEF_ThreadContext_STACKTRC
   /**Data of the Stacktrace if this concept is used. */
   StacktraceThreadContext_emC_s stacktrc;
   /*IMPORTANT NOTE: The element stacktrc have to be the last because some additional StackEntryJc may be added on end.*/

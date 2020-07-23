@@ -45,7 +45,7 @@
 #endif
 
 //The following include guard prevent twice include especially if applstdefJc.h includes this file already.
-#ifndef HGUARD_Object_emC
+#if !defined(HGUARD_Object_emC) && !defined(DEF_ObjectSimple_emC)  //in case of DEF_ObjectSimple_emC this file should not be used.
 #define HGUARD_Object_emC
 
 #define DEF_ObjectJc_FULLCAPABILITY

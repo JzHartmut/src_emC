@@ -77,7 +77,9 @@ typedef struct Par_PIDi_Ctrl_emC_t
 
 } Par_PIDi_Ctrl_emC_s;
 
+#ifndef ID_refl_Par_PIDi_Ctrl_emC  //may be defined in *.reflOffs.h
 #define ID_refl_Par_PIDi_Ctrl_emC 0x0FC2
+#endif
 
 /**ctor of PID controller
  * @param Tstep the step (sample) time which will be used for step_PIDi_Ctrl_emC().
@@ -160,8 +162,9 @@ typedef struct PIDi_Ctrl_emC_t
 
 } PIDi_Ctrl_emC_s;
 
+#ifndef ID_refl_PIDi_Ctrl_emC  //may be defined in *.reflOffs.h
 #define ID_refl_PIDi_Ctrl_emC 0x0FC3
-
+#endif
 
 
 /**ctor of PID controller 

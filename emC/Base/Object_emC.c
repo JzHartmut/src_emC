@@ -124,7 +124,7 @@ bool XXXcheckStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_re
 
 
 #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_OWNADDRESS)
-ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, int size, struct ClassJc_t const* refl, int idObj) {
+ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, uint size, struct ClassJc_t const* refl, uint idObj) {
   memset(othiz, 0, sizeof(ObjectJc));
   setSizeAndIdent_ObjectJc(othiz, size, idObj);
   #ifdef DEF_ObjectJcpp_REFLECTION
