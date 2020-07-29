@@ -60,7 +60,7 @@ const ClassJc refl_InfoFormattedAppendJc_s =
 , sizeof(InfoFormattedAppendJc_s)
 , (FieldJc_Y const*)&refl_Fields_InfoFormattedAppendJc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_InfoFormattedAppendJc_s //superclass
+, &superclasses_InfoFormattedAppendJc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -132,7 +132,7 @@ const ClassJc refl_PrepareToString_InfoFormattedAppendJc_s =
 , sizeof(PrepareToString_InfoFormattedAppendJc_s)
 , (FieldJc_Y const*)&refl_Fields_PrepareToString_InfoFormattedAppendJc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_PrepareToString_InfoFormattedAppendJc_s //superclass
+, &superclasses_PrepareToString_InfoFormattedAppendJc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblPrepareToString_InfoFormattedAppendJc.mtbl.head

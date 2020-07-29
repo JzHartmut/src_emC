@@ -223,7 +223,7 @@ const ClassJc refl_Inspector_Inspc =
 , sizeof(Inspector_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_Inspector_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_Inspector_Inspc_s //superclass
+, &superclasses_Inspector_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInspector_Inspc.mtbl.head

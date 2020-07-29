@@ -310,12 +310,7 @@ inline void memcpy_MemC(void* memC, void* addr, void const* src, int size) {
 
 /**The type OS_PtrVal handles with a pointer for a 8 byte alignment.
 */
-typedef STRUCT_AddrVal_emC(MemSegmJc, Addr8_emC);
-
-#define INIZ_MemSegmJc(PTR, SEGM) { (Addr8_emC*)(PTR), SEGM }
-
-//typedef OS_PtrValue MemSegmJc;
-//#define MemSegmJc OS_PtrValue
+//typedef STRUCT_AddrVal_emC(MemSegmJc, Addr8_emC);
 
 
 

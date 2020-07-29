@@ -500,9 +500,9 @@ extern_C bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t c
 
 
 /**Checks the consistence or init, 
-* @deprecated, use [[checkOrInit_ObjectJc(...)]] with a more significant name.
+* @deprecated, use [[checkInit_ObjectJc(...)]] with a more significant name.
 */
-#define checkConsistence_ObjectJc(THIS, SIZE, REFL) checkInit_ObjectJc(THIS, SIZE, REFL, 0)
+#define checkConsistence_ObjectJc(THIS, SIZE, REFL, THCXT) checkInit_ObjectJc(THIS, SIZE, REFL, 0)
 #define checkOrInit_ObjectJc checkInit_ObjectJc
 
 #define INIZ_objReflId_ObjectJc INIZ_ObjectJc

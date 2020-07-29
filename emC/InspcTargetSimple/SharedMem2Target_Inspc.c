@@ -22,7 +22,7 @@
 //NOTE: throw inside
 //Checks whether a SharedMem is existing. If it is, it checks whether the length of telg is correct.
 //THROW on error.
-void ctor_SharedMem2Target_Inspc  ( SharedMem2Target_Inspc* thiz, char const* nameAppl, ThCxt* _thCxt) {
+void ctor_SharedMem2Target_Inspc ( SharedMem2Target_Inspc* thiz, char const* nameAppl, ThCxt* _thCxt) {
   STACKTRC_TENTRY("ctor_SharedMem2Target_Inspc");
   memset(thiz, 0, sizeof(*thiz));
   //prepare size.

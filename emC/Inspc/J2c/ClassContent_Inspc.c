@@ -6,7 +6,7 @@
 #include <emC/InspcTargetSimple/IfcTargetProxy_Inspc.h>
 #include <string.h>  //because using memset()
 #include <emC/Jc/ReflectionJc.h>   //Reflection concept 
-#include <emC/Inspc/CheckPwd_Inspc.h>
+#include <emC/Inspc/Srv/CheckPwd_Inspc.h>
   //basic stacktrace concept
   //reference-association: ExceptionJc
 #include "emC/Inspc/J2c/AnswerComm_ifc_Inspc.h"  //reference-association: answerCommVtbl
@@ -277,9 +277,9 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
           if(segment_MemSegmJc(thiz->rootAddr) !=0) {
             //it is an access to a remote target. Renew the rootAddr because the target may be compiled and started newly:
             //get the rootAddr and rootClazz on the first access.
-            int32 receive = accessTarget_Inspc(getRootInstance_InspcTargetProxy, 1, null, 0);
-            setADDR_MemSegmJc(thiz->rootAddr, (intptr_t)receive); //always the root of the target.
-            int ixClass = accessTarget_Inspc(getRootType_InspcTargetProxy, 1, null, 0);
+            int32 receive = accessTarget_Inspc(getRootInstance_InspcTargetProxy, 1, 0, 0);
+            setADDR32_MemSegmJc(thiz->rootAddr, (intptr_t)receive); //always the root of the target.
+            int ixClass = accessTarget_Inspc(getRootType_InspcTargetProxy, 1, 0, 0);
             if(ixClass >0 && ixClass <= extReflectionClasses_ReflectionJc[0]->head.length ) {                                 //TODO index from segment
               thiz->rootClass = extReflectionClasses_ReflectionJc[0]->data[ixClass -1]; //get from loaded reflection file.
             } else {
@@ -369,7 +369,7 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
           
             struct ClassJc_t const* _temp5_1; /*J2C: temporary references for concatenation */
           
-            ASSERT(/*J2C:static method call*/field != null);
+            ASSERT_emC(/*J2C:static method call*/field != null, "field is null", 0, 0);
           
             int32  nSize = getArraylength_FieldJc(field, memObj);
           
@@ -1406,7 +1406,7 @@ void addAnswerItemValueByHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, s
     if(!sufficingBytesForNextChild_ByteDataAccessBaseJc(& ((* (answer)).base.super), sizeHead_ByteDataAccessBaseJc(& ((* (answItem)).base.super.base.super), _thCxt) + sizeExpected, _thCxt)) 
     { 
       
-      ASSERT(/*J2C:static method call*/isInUse_ByteDataAccessBaseJc(& ((* (answItem)).base.super.base.super), _thCxt));
+      ASSERT_emC(/*J2C:static method call*/isInUse_ByteDataAccessBaseJc(& ((* (answItem)).base.super.base.super), _thCxt), "?", 0,0);
       
       int32  nrofBytesAnswerItem = getLength_ByteDataAccessBaseJc(& ((* (answItem)).base.super.base.super), _thCxt);
       setLength_Inspcitem_InspcDataExchangeAccess_Inspc(& ((* (answItem)).base.super), nrofBytesAnswerItem);/*Close this answer datagram, create a next: ////*/
@@ -1971,7 +1971,7 @@ const ClassJc refl_ClassContent_Inspc_s =
 , sizeof(ClassContent_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_ClassContent_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_ClassContent_Inspc_s //superclass
+, &superclasses_ClassContent_Inspc_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_ClassContent_Inspc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblClassContent_Inspc.mtbl.head

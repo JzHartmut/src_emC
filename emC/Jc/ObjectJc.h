@@ -452,13 +452,13 @@ static const struct Reflection_Fields_##METHOD_t  \
     , 0  \
     , &refl_ObjectJc \
     , kReference_Modifier_reflectJc  \
-    , (int16)((int32)(&((TYPE##_s*)(0x1000))->data) - (int32)(TYPE##_s*)0x1000) \
+    , (int16)((int32)(intPTR)(&((TYPE##_s*)(0x1000))->data) - (int32)(intPTR)(TYPE##_s*)0x1000) \
     , 0   \
     , &refl_##METHOD \
     } \
 } }; \
 const ClassJc refl_##METHOD =  \
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc)  \
+{ INIZ_ObjectJc(refl_##METHOD, refl_ClassJc, 0) \
 , #METHOD \
 ,  0  \
 , sizeof(TYPE##_s) \

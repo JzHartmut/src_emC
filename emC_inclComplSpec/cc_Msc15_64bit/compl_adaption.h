@@ -275,8 +275,20 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * The user should not include windows.h or such. 
  */
 #define OS_HandleEvent void*   
+#define MAYBE_UNUSED_emC
 
+#define USED_emC
 
+/**It is an attribute before a function definition to determine
+ * that the function should be placed in a section which is linked
+ * to a RAM location but load into the FLASH memory.
+ * This section must be copied on startup to run successfully.
+ * It is a designation for embedded hardware with lesser but fast RAM.
+ */
+#define RAMFUNC_emC
+
+//It is for math.h of Visual Studio, elsewhere M_PI is not defined (special incompatibility of VS)
+#define _USE_MATH_DEFINES
 
 /**A OS_intPTR is the representation of a pointer in a int variable. 
  * Often a pointer is representable in a normal int, 

@@ -46,7 +46,7 @@ const ClassJc refl_CmdConsumer_ifc_Inspc_s =
 , sizeof(CmdConsumer_ifc_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_CmdConsumer_ifc_Inspc_s //superclass
+, &superclasses_CmdConsumer_ifc_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };

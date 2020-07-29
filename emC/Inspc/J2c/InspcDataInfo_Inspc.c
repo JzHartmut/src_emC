@@ -155,7 +155,7 @@ const ClassJc refl_InspcDataInfo_Inspc_s =
 , sizeof(InspcDataInfo_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_InspcDataInfo_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcDataInfo_Inspc_s //superclass
+, &superclasses_InspcDataInfo_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInspcDataInfo_Inspc.mtbl.head

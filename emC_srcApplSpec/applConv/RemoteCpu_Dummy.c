@@ -46,7 +46,7 @@
  * @param input some additional parameter depends on cmd.
  */
 #ifndef __INSPC_REMOTE_ACCESS___
-int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input)
+int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, RemoteAddress_Inspc_emC address, int32 input)
 {
  return 0;
 }
@@ -56,7 +56,7 @@ int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAd
 
 /**Gets any info from a remoteCPU, which has max. 8 byte return value. */
 #ifndef __INSPC_REMOTE_ACCESS___
-int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int64 input)
+int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, RemoteAddress_Inspc_emC address, int64 input)
 {
 	return 0;
 }	

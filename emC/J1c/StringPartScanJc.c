@@ -1066,7 +1066,7 @@ const VtblDef_StringPartScanJc mtblStringPartScanJc = {
 
 #define REFLECTION_Fields_StringPartScanJc (FieldJc_Y const*)&refl_Fields_StringPartScanJc_s
 #define REFLECTION_Methods_StringPartScanJc null
-#define REFLECTION_Superclasses_StringPartScanJc (ClassOffset_idxVtblJcARRAY*)&superclasses_StringPartScanJc_s
+#define REFLECTION_Superclasses_StringPartScanJc &superclasses_StringPartScanJc_s.head.object
 #define REFLECTION_Interfaces_StringPartScanJc null
 
 

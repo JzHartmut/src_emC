@@ -34,7 +34,7 @@ typedef struct Par_PIDi_Ctrl_emC_t
   int kBitTsd;
 
   /**Internal paramter depending factors. */
-  struct Internal_PIDi_Ctrl_emC_t {
+  struct Priv_T {
 
     int kPi;
 

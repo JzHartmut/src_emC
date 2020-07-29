@@ -52,6 +52,31 @@
 //#include <emC/InspcTargetSimple/IfcTargetProxy_Inspc.h>
 #include <emC/Base/MemC_emC.h>
 
+/*@CLASS_C RemoteCpuJcJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+
+/**This class contains all definitions to access a remote cpu. 
+ * Only static methods and constants are present.
+ */
+typedef struct RemoteCpuJc_t{  //only defined for documentation generation
+	int dummy;
+}RemoteCpuJc;
+
+
+/**This is a ghost type which is used to typing addresses, which are addresses from a remote CPU.
+ * It is a non-defined struct (ghost), to prevent access to the own memory.
+ * TODO it is a faulty assumption that the pointer type in this proxy is the same as in target.
+ * use instead RemoteAddress_Inspc_emC;
+ * The it is clarified that the target has 32 bit addresses. The communication use 32 bit.
+ * The target address definition is independent of the proxy address width!
+ */
+/**It presents a 32-bit-address in any target system. */
+typedef struct { uint32 addrTarget; } RemoteAddress_Inspc_emC;
+
+#define INIZ_RemoteAddress_Inspc_emC(ADDR) { ADDR }
+
+extern_C RemoteAddress_Inspc_emC null_RemoteAddress_Inspc_emC;
+
 /*@DEFINE_C MemSegmJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 /**MemSegmJc: It is a OS_PtrValue, see emC/Base/Object_emC.h. Itcontains a untyped address and a segment number.
@@ -59,34 +84,56 @@
  * defined at OS-Adaption (OSAL), see <os_types_def.h>.
  */
 
+ 
+typedef struct MemSegmJc_T {
+
+  /**It can be an address in the 64-bit-application, or an address in the target, may be 32 bit.*/
+  union Addr_MemSegmJc_T {void* a; uint32 a32;  } addr;
+
+  /**Segment number, 0 is own. */
+  int32 segm;
+
+} MemSegmJc;
+
+
+
+#define INIZ_MemSegmJc(PTR, SEGM) { (Addr8_emC*)(PTR), SEGM }
+
+//typedef OS_PtrValue MemSegmJc;
+//#define MemSegmJc OS_PtrValue
+
 
 
 #define NULL_MemSegmJc { null, 0 }
 
-#define INIT_null_MemSegmJc(THIS) SET_AddrVal_emC(THIS, null, 0)
+#define INIT_null_MemSegmJc(THIS) setAddrSegm_MemSegmJc(THIS, null, 0)
 
-#define INIT_MemSegmJc(THIS) SET_AddrVal_emC(THIS, null, 0)
+#define INIT_MemSegmJc(THIS) setAddrSegm_MemSegmJc(THIS, null, 0)
 
 #define INIT_Mem_MemSegmJc(THIS, SRC) SET_AddrVal_emC(THIS, (SRC).addr, (SRC).val)
 
 #define INIT_AddrSegm_MemSegmJc(THIS, ADDR, SEGM) SETADDR_AddrVal_emC(THIS, ADDR, SEGM)
 
-#define setNull_MemSegmJc(THIS) SET_AddrVal_emC((THIS), null, 0)
+#define setNull_MemSegmJc(THIS) setAddrSegm_MemSegmJc(THIS, null, 0)
 
-#define setAddrSegm_MemSegmJc(THIS, ADDR, SEGM) SET_AddrVal_emC(THIS, ADDR, SEGM)
+#define setAddrSegm_MemSegmJc(THIZ, ADDR, SEGM) (THIZ).addr.a = ADDR; (THIZ).segm = SEGM
 
-#define segment_MemSegmJc(THIS) VAL_AddrVal_emC(THIS)
+#define setAddr32Segm_MemSegmJc(THIZ, ADDR, SEGM) (THIZ).addr.a32 = ADDR; (THIZ).segm = SEGM
 
-#define ADDR_MemSegmJc(THIS, TYPE) ADDR_AddrVal_emC(THIS, TYPE)
+#define segment_MemSegmJc(THIS) ((THIS).segm)
 
-#define obj_MemSegmJc(THIS) ADDR_AddrVal_emC(THIS, void)
+#define ADDR_MemSegmJc(THIS, TYPE) ((TYPE*)((THIS).addr.a))
+
+#define obj_MemSegmJc(THIZ) ((THIZ).addr.a)
 
 
 #define isNull_MemSegmJc(THIS) (ADDR_AddrVal_emC(THIS, void)==null)
 
 #define CONST_MemSegmJc(ADDR, SEGM) INIZ_AddrVal_emC(ADDR, SEGM) 
 
-#define setADDR_MemSegmJc(THIS, ADDR) SETADDR_AddrVal_emC(THIS, ADDR)
+#define setADDR_MemSegmJc(THIZ, ADDR) ((THIZ).addr.a = ADDR)
+
+#define setADDR32_MemSegmJc(THIZ, ADDR) ((THIZ).addr.a32 = ADDR)
 
 #define set_MemSegmJc(THIS, SRC) (THIS = SRC)
 
@@ -182,25 +229,6 @@ MemSegmJc getEnhancedRef_MemAccessJc(MemSegmJc addr);
 
 
 
-/*@CLASS_C RemoteCpuJcJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-
-/**This class contains all definitions to access a remote cpu. 
- * Only static methods and constants are present.
- */
-typedef struct RemoteCpuJc_t{  //only defined for documentation generation
-	int dummy;
-}RemoteCpuJc;
-
-
-/**This is a ghost type which is used to typing addresses, which are addresses from a remote CPU.
- * It is a non-defined struct (ghost), to prevent access to the own memory.
- * TODO it is a faulty assumption that the pointer type in this proxy is the same as in target.
- * use instead typedef struct RemoteAddressJc_T{ int32 addr; } RemoteAddressJc;
- * The it is clarified that the target has 32 bit addresses. The communication use 32 bit.
- * The target address definition is independent of the proxy address width!
- */
-struct RemoteAddressJc;
 
 //typedef struct RemoteAddressJc_t* RemoteAddressJc;
 
@@ -347,12 +375,12 @@ typedef enum Cmd_InspcTargetProxy_t
  *        The address is returned sometimes from other calls of this method and it is never changed.
  * @param input some additional parameter depends on cmd.
  */
-//METHOD_C int32 accessTarget_Inspc(Cmd_RemoteCpuJc_e cmd, int device, struct RemoteAddressJc* address, int32 input);
+//METHOD_C int32 accessTarget_Inspc(Cmd_RemoteCpuJc_e cmd, int device, RemoteAddress_Inspc_emC address, int32 input);
 
 
 /**This is the internal called method. Some debug informations are captured too. 
  */
-extern_C int32 getInfoDebug_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input);
+extern_C int32 getInfoDebug_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int32 input);
 
 
 #define bitPosBitsInBitfieldAccess_InspcTargetProxy 0
@@ -381,16 +409,16 @@ extern_C int32 getInfoDebug_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int dev
 * The rest of the data path from this pointer are searched in the binary reflection and communicate via this operation.
 * @return depends on type of command. 
 */
-extern_C int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int32 input);
+extern_C int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int32 input);
 
-extern_C int64 accessTarget64_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address, int64 input);
+extern_C int64 accessTarget64_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, uint64 address, int64 input);
 
 
 
 
 
 /**Gets any info from a remoteCPU, which has max. 8 byte return value. */
-//METHOD_C int64 getInfoDebug64_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int device, struct RemoteAddressJc* address);
+//METHOD_C int64 getInfoDebug64_InspcTargetProxy(Cmd_InspcTargetProxy_e cmd, int device, RemoteAddress_Inspc_emC address);
 
 
 //METHOD_C void writeRemoteAccessDebug_MemAccessJc(int32 cmd, void* address, int32 input, int32 output);
@@ -509,7 +537,7 @@ typedef struct MemAccessDebugJc_t
   int32 cmd;
 
   /**The value for the address to the external CPU, casted to int32.*/ 
-  int32 address;
+  uint32 address;
 
   /**The value for the input to the external CPU.*/ 
   int32 input;
@@ -540,7 +568,7 @@ extern MemAccessArrayDebugJc memAccessDebugJc;
  * Elsewhere it is incremented. On overflow any time the last element is used.
  * The Output will be set to 0xbad00bad to designate the missing output yet.
  */
-METHOD_C void addRequest_MemAccessArrayDebugJc(MemAccessArrayDebugJc* ythis, int32 cmd, struct RemoteAddressJc* addr, int32 input);
+METHOD_C void addRequest_MemAccessArrayDebugJc ( MemAccessArrayDebugJc* ythis, int32 cmd, uint32 addr, int32 input);
 
 
 /**Sets the output form an external CPU. 

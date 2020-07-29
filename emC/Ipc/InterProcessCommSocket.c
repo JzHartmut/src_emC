@@ -78,14 +78,14 @@ extern const struct ClassJc_t refl_InterProcessCommSocket_s;
 
 
 int32 xxxgetAddress1_Address_InterProcessComm_SocketF(Address_InterProcessComm_s* ythis)
-{ Address_InterProcessComm_Socket_s* adrSock = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,ythis);
+{ Address_InterProcessComm_Socket_s* adrSock = C_CAST(Address_InterProcessComm_Socket_s*,ythis);
   return ythis->address1;
   //int16 ipPort = ntohs(((OS_SOCKADDR*)adrSock->internalData).sin_port);
   //return ipPort;
 }
 
 int32 xxxgetAddress2_Address_InterProcessComm_SocketF(Address_InterProcessComm_s* ythis)
-{ Address_InterProcessComm_Socket_s* adrSock = SIMPLE_CAST(Address_InterProcessComm_Socket_s*, ythis);
+{ Address_InterProcessComm_Socket_s* adrSock = C_CAST(Address_InterProcessComm_Socket_s*, ythis);
   //TRICKY: this area is either a char[4] or a analogical unit with the same byte signification
   return ythis->address2;
   //int32 ipAddr = ntohl(*(int32*)(&((OS_SOCKADDR*)adrSock->internalData).sin_addr));
@@ -93,14 +93,14 @@ int32 xxxgetAddress2_Address_InterProcessComm_SocketF(Address_InterProcessComm_s
 }
 
 void xxxsetAddress1_Address_InterProcessComm_SocketF(Address_InterProcessComm_s* ythis, int32 address1)
-{ //Address_InterProcessComm_Socket_s* adrSock = SIMPLE_CAST(Address_InterProcessComm_Socket_s*, ythis);
+{ //Address_InterProcessComm_Socket_s* adrSock = C_CAST(Address_InterProcessComm_Socket_s*, ythis);
   ythis->address1 = address1;
   //TODO use only this information.
   //((OS_SOCKADDR*)adrSock->internalData)->sin_port = htons((int16)(address1));
 }
 
 void xxxsetAddress2_Address_InterProcessComm_SocketF(Address_InterProcessComm_s* ythis, int32 address2)
-{ Address_InterProcessComm_Socket_s* adrSock = SIMPLE_CAST(Address_InterProcessComm_Socket_s*, ythis);
+{ Address_InterProcessComm_Socket_s* adrSock = C_CAST(Address_InterProcessComm_Socket_s*, ythis);
   ythis->address2 = address2;
   //TODO use only this information.
   //TRICKY: this area is either a char[4] or a analogical unit with the same byte signification
@@ -210,22 +210,22 @@ Address_InterProcessComm_s* ctorO_Address_InterProcessCommSocket(ObjectJc* othis
 /*Implementation of C-methods uses the C++-Interface. */
 
 void errorConnection_InterprocessCommCallbackAdapCpp(struct InterprocessCommCallback_t* ythis, int error)
-{ InterProcessCommCallback* zthis = SIMPLE_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
+{ InterProcessCommCallback* zthis = C_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
   zthis->errorConnection(error);
 }
 
 void readyConnection_InterprocessCommCallbackAdapCpp(struct InterprocessCommCallback_t* ythis, int info)
-{ InterProcessCommCallback* zthis = SIMPLE_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
+{ InterProcessCommCallback* zthis = C_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
   zthis->readyConnection(info);
 }
 
 void acknDataTrans_InterprocessCommCallbackAdapCpp(struct InterprocessCommCallback_t* ythis, int error)
-{ InterProcessCommCallback* zthis = SIMPLE_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
+{ InterProcessCommCallback* zthis = C_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
   zthis->acknDataTrans(error);
 }
 
 void dataAvailable_InterprocessCommCallbackAdapCpp(struct InterprocessCommCallback_t* ythis, int nrofBytes)
-{ InterProcessCommCallback* zthis = SIMPLE_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
+{ InterProcessCommCallback* zthis = C_CAST(InterProcessCommCallback*, ythis);  //directly use the impersonator type.
   zthis->dataAvailable(nrofBytes);
 }
 #else
@@ -453,7 +453,7 @@ int open_InterProcessCommSocket
   ythis->adrReceive = null;
   //ythis->openedServerPort = 0;
 
-  ythis->adrDest = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,destAddress);
+  ythis->adrDest = C_CAST(Address_InterProcessComm_Socket_s*,destAddress);
 
   #if 0 //enthalten in os_socket.h for windows
   if(!bStartupDone)
@@ -564,7 +564,7 @@ int send_InterProcessCommSocket(ObjectJc* xthis, MemC dataP, int nBytes, Address
   int nRet = -1;
   const void* data = PTR_MemC(dataP, void);
 
-	//Address_InterProcessComm_Socket_s* addressee = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,addresseeP);
+	//Address_InterProcessComm_Socket_s* addressee = C_CAST(Address_InterProcessComm_Socket_s*,addresseeP);
   //OS_SOCKADDR* addressee_sockadr = (OS_SOCKADDR*)(addressee->internalData);
 
   if(ythis->nServerPorts >=1)
@@ -615,7 +615,7 @@ MemC receiveData_InterProcessCommSocket(ObjectJc* xthis, int32* nrofBytes, MemC 
   /**used receive data pointer. */
   MemC data = {0};
 
-  Address_InterProcessComm_Socket_s* sender = SIMPLE_CAST(Address_InterProcessComm_Socket_s*,senderP);
+  Address_InterProcessComm_Socket_s* sender = C_CAST(Address_InterProcessComm_Socket_s*,senderP);
   OS_SOCKADDR* sender_sockadr = senderP == null ? null : (OS_SOCKADDR*)(senderP->internalData);
   if(minNrofBytesToReceive < 0){ minNrofBytesToReceive = 0; }  //a normal case.
   /**feature. No more as a less nrof bytes should be expected. 
@@ -950,7 +950,7 @@ const ClassJc refl_InterProcessCommSocket_s =
 , sizeof(InterProcessCommSocket_s)
 , null //(FieldJcArray const*)&refl_Fields_InterProcessCommSocket_s
 , null //method
-, null //(ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommSocket_s //superclass
+, null //&superclasses_InterProcessCommSocket_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInterProcessCommSocket.mtbl.head
@@ -1031,7 +1031,7 @@ InterProcessCommSet_Ipc* create_Set_InterProcessCommSocket_Ipc(char const* proto
 
 
 
-#include "../Ipc2c/InterProcessCommFactorySocket_Ipc.h"
+#include "Ipc2c/InterProcessCommFactorySocket_Ipc.h"
 
 InterProcessCommFactory_s* getInstance_InterProcessCommFactory()
 {

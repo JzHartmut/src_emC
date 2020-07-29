@@ -351,7 +351,7 @@ StringBuilderJc_s* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sig
 
 METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 {
-  StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
+  StringBuilderJc_s* ythis = C_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
   StringJc ret = NULL_StringJc;
   const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
   int count = ythis->_count;
@@ -387,7 +387,7 @@ METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt
 //      A simple C-programmer may do also. 
 METHOD_C StringJc xxxtoStringNonPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
 {
-  StringBuilderJc_s* ythis = SIMPLE_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
+  StringBuilderJc_s* ythis = C_CAST(StringBuilderJc_s*, othis);  //admissible because the method is only called for StringBuilderJc_s
   StringJc ret = toString_StringBuilderJc(&ythis->base.object, _thCxt);
   ythis->_mode &= ~_mStringBuilt_StringBuilderJc;
   return ret;
@@ -827,7 +827,7 @@ StringBuilderJc_s* insert_Ir_StringBuilderJc(StringBuilderJc_s* ythis, int offse
   StringBuilderJc_s* ret;
   int nrofChars;
   STACKTRC_TENTRY("insert_Ir_StringBuilderJc");
-  nrofChars = toString_Integer_FW(buffer, sizeof(buffer), value, radix, 0, _thCxt);
+  nrofChars = toString_Integer_FW(buffer, sizeof(buffer), value, radix, 0);
 
   ret = replace_zI_StringBuilderJc(ythis, offset, 0, buffer, nrofChars, _thCxt);
   STACKTRC_LEAVE; return( ret);

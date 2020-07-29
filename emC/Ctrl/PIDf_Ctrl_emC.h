@@ -13,7 +13,12 @@ typedef struct Par_PIDf_Ctrl_emC_T
   union { ObjectJc obj; } base;
 
   /**for debugging and check: The used step time for calcualation of the factors. */
-  float Tstep;
+  float Tctrl;
+
+  /**Maximal value for the y output. The integrator in the PID uses fix point 64 bit for high accuracy.
+   * This value is used to build the correct factors from float to fix point. 
+   */
+  float yMax;
 
   /**Primary and used parameter: P-gain. */
   float kP;
@@ -25,10 +30,8 @@ typedef struct Par_PIDf_Ctrl_emC_T
   
   float T1d;
 
-  float lim;
-
   /**Internal paramter depending factors. */
-  struct Internal_PIDf_Ctrl_emC_t {
+  struct Priv_T {
 
     /**Smoothing time for D-Part.*/
     float fTsD;
@@ -57,21 +60,69 @@ typedef struct Par_PIDf_Ctrl_emC_T
 #define ID_refl_Par_PIDf_Ctrl_emC 0x0FC0
 #endif
 
-/**ctor of PID controller
-* @simulink ctor.
-*/
+/**ctor of Par_PID controller
+ * @param Tstep it is necessary as Simulink parameter to define the association to a defined step time.
+ *        It is the time to call the Operation-FB. It is [[set_Par_PIDf_Ctrl_emC(...)]].
+ *        But the argument is not used here. The value is really only necessary for simulink:
+ * * For 4diac, the step time is determined by the event connections.
+ * * For C/++ usage the step time is determined by the calling sequence. 
+ * @simulink ctor.
+ */
 extern_C Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep);
+
+/**init of PID controller
+ * @param Tstep_param It is the Tstep time of the controller, which should be regard on calculation of the factors. 
+ * @simulink init
+ */
+extern_C bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param);
 
 /**step of PID controller
 * @simulink Object-FB, no-thizStep.
 */
-extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float lim, float Tn_param, float Td_param, float Tsd_param, bool* man_y);
+extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, float Td_param, float Tsd_param, bool* man_y);
 
 /**Takes new parameter and re-calculates internal values.
  * This routine is also called on [[init_PIDf_Ctrl_emC(...)]].
  * @simulink Operation-FB, step-in.
  */
 extern_C void reparam_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz);
+
+
+
+#if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
+class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
+
+  /**Constructs.
+   */
+  public: Par_PIDf_Ctrl_emC (int idObj, float Tstep, float yNom ) {
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(Par_PIDf_Ctrl_emC_s), refl_Par_PIDf_Ctrl_emC, idObj);  //should be initialized.
+    ctor_Par_PIDf_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as arguement.
+  }
+
+  public: bool init (float Tstep, float yNom ) {
+    init_Par_PIDf_Ctrl_emC(this, Tstep, yNom); //the initialized ObjectJc as arguement.
+  }
+
+  /**Constructs as base class of any inherited controller.
+   * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
+   */
+  public: Par_PIDf_Ctrl_emC ( ObjectJc* objectJc) {
+    ctor_Par_PIDf_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as arguement.
+  }
+
+
+  public: void set(float kP, float Tn_param, float Td_param, float Tsd_param, bool* man_y) {
+    set_Par_PIDf_Ctrl_emC(this, kP, Tn_param, Td_param, Tsd_param, null);
+  }
+
+  public: void reparam(){ reparam_Par_PIDf_Ctrl_emC(this); }
+
+
+
+};
+#endif
+
+
 
 
 
@@ -84,6 +135,10 @@ typedef struct PIDf_Ctrl_emC_t
 
   Par_PIDf_Ctrl_emC_s* par;
   
+  /**Current limitation of output. */
+  float lim;
+
+
   float Tstep;
 
   /**Smoothed differential. */
@@ -122,6 +177,12 @@ typedef struct PIDf_Ctrl_emC_t
 
 
 /**ctor of PID controller 
+ * @param Tstep it is necessary as Simulink parameter to define the association to a defined step time.
+ *        It is the time to call the Operation-FB. It is [[set_Par_PIDf_Ctrl_emC(...)]].
+ *        But the argument is not used here. The value is really only necessary for simulink:
+ * * For 4diac, the step time is determined by the event connections.
+ * * For C/++ usage the step time is determined by the calling sequence. 
+ * * This parameter (used for simulink) should be equal to Tctrl_param of init_Par_PIDf_Ctrl_emC(...). 
  * @simulink ctor.
  */
 extern_C PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep);
@@ -132,6 +193,11 @@ extern_C PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep);
  * @simulink init.
  */
 extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par);
+
+/**set Limitation of PID controller 
+ * @simulink Object-FB.
+ */
+extern_C void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
 
 /**step of PID controller 
  * @simulink Object-FB.

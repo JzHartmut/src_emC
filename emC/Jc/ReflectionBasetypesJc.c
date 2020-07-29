@@ -223,7 +223,7 @@ const ClassJc refl_FlushableJc =
 
 
 
-
+#if 0
 #include "emC/Jc/ReflectionJc.h"
 
 
@@ -306,7 +306,7 @@ const ClassJc refl_FieldJc =
 , null  //interfaces
 , 0 
 };
-
+#endif //0
 
 #if 0 //TODO
 

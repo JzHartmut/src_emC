@@ -265,7 +265,7 @@ struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis, struct S
 
 
 /**Same as getContent, overwrites Object.toString(). */
-StringJc toString_StringFormatterJc(ObjectJc* ithis, ThCxt* _thCxt)
+StringJc toString_StringFormatterJc(ObjectJc const* ithis, ThCxt* _thCxt)
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)ithis;
   
   STACKTRC_TENTRY("toString_StringFormatterJc");
@@ -656,7 +656,7 @@ struct StringFormatterJc_t* addStringLine_StringFormatterJc(StringFormatterJc_s*
       nrofBytes = data->head.length;
     }
     
-    int8_Y*  data1 = (int8_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (nrofBytes) * sizeof(int8), mIsLargeSize_ObjectJc, _thCxt)), nrofBytes, sizeof(int8),REFLECTION_int8, 0);
+    int8_Y*  data1 = (int8_Y*)ctorO_ObjectArrayJc((newObj2_1 = alloc_ObjectJc( sizeof(ObjectArrayJc) + (nrofBytes) * sizeof(int8), 0, _thCxt)), nrofBytes, sizeof(int8),REFLECTION_int8, 0);
     arraycopy_SystemJc(/*J2C:static method call*/& ((data)->head.object), idx, & ((data1)->head.object), 0, nrofBytes, _thCxt);
     { int32 ii; 
       for(ii = 0; ii < nrofBytes; ii++)
@@ -1706,7 +1706,7 @@ void close_StringFormatterJc(StringFormatterJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt)
+void finalize_StringFormatterJc_F(ObjectJc const* othis, ThCxt* _thCxt)
 { StringFormatterJc_s* thiz = (StringFormatterJc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_StringFormatterJc_F");
   CLEAR_REFJc(thiz->buffer);
@@ -1989,7 +1989,7 @@ const ClassJc refl_StringFormatterJc =
 , sizeof(StringFormatterJc_s)
 , (FieldJc_Y const*)&refl_Fields_StringFormatterJc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_StringFormatterJc_s //superclass
+, &superclasses_StringFormatterJc_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_StringFormatterJc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblStringFormatterJc.mtbl.head

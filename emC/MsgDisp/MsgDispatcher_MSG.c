@@ -894,7 +894,7 @@ const ClassJc refl_MsgDispatcher_MSG_s =
 , sizeof(MsgDispatcher_MSG_s)
 , (FieldJc_Y const*)&refl_Fields_MsgDispatcher_MSG_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgDispatcher_MSG_s //superclass
+, &superclasses_MsgDispatcher_MSG_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblMsgDispatcher_MSG.mtbl.head
@@ -1052,7 +1052,7 @@ const ClassJc refl_DispatcherThread_MsgDispatcher_MSG_s =
 , sizeof(DispatcherThread_MsgDispatcher_MSG_s)
 , (FieldJc_Y const*)&refl_Fields_DispatcherThread_MsgDispatcher_MSG_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_DispatcherThread_MsgDispatcher_MSG_s //superclass
+, &superclasses_DispatcherThread_MsgDispatcher_MSG_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblDispatcherThread_MsgDispatcher_MSG.mtbl.head

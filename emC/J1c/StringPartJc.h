@@ -83,7 +83,7 @@ METHOD_C int32 length_Part_StringPartJc(Part_StringPartJc_s const* thiz, ThCxt* 
 
 METHOD_C CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 end, ThCxt* _thCxt);
 
-METHOD_C StringJc toString_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
+METHOD_C StringJc toString_Part_StringPartJc(ObjectJc const* ithis, ThCxt* _thCxt);
 
 
 /**Copy to any other buffer to build persistent data. 
@@ -1003,9 +1003,9 @@ METHOD_C char absCharAt_StringPartJc(StringPartJc_s const* thiz, int32 index, Th
 METHOD_C StringJc absSubString_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, ThCxt* _thCxt);
 
 /* J2C:Implementation of the method, used for an immediate non-dynamic call: */
-METHOD_C StringJc toString_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt);
+METHOD_C StringJc toString_StringPartJc_F(ObjectJc const* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
-METHOD_C StringJc toString_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt);
+METHOD_C StringJc toString_StringPartJc(ObjectJc const* ithis, ThCxt* _thCxt);
 
 /**Returns a debug information of the content of the StringPart. This information is structured in the followed way:
 <pre>"CONTENT_FROM_BEGIN<<<34,45>>>CONTENT_PART<<<"</pre>

@@ -200,7 +200,7 @@ const ClassJc refl_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcDataExchangeAccess_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_InspcDataExchangeAccess_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcDataExchangeAccess_Inspc_s //superclass
+, &superclasses_InspcDataExchangeAccess_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblInspcDataExchangeAccess_Inspc.mtbl.head
@@ -324,7 +324,7 @@ void incrAnswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc(InspcDatagram_Insp
     
     int32  nr = getInt8_i_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc);
     nr = (nr & 0x7f) + 1;
-    ASSERT(/*J2C:static method call*/(nr & 0x80) == 0);
+    ASSERT_emC(/*J2C:static method call*/(nr & 0x80) == 0, "max nr of answertelg reached", nr, 0);
     setInt8_ii_ByteDataAccessBaseJc(& ((* (thiz)).base.super), kanswerNr_InspcDatagram_InspcDataExchangeAccess_Inspc, nr);
   }
   STACKTRC_LEAVE;
@@ -347,7 +347,7 @@ const ClassJc refl_InspcDatagram_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcDatagram_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s //superclass
+, &superclasses_InspcDatagram_InspcDataExchangeAccess_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -454,7 +454,7 @@ const ClassJc refl_Inspcitem_InspcDataExchangeAccess_Inspc_s =
 , sizeof(Inspcitem_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s //superclass
+, &superclasses_Inspcitem_InspcDataExchangeAccess_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -564,7 +564,7 @@ const ClassJc refl_InspcSetValue_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcSetValue_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s //superclass
+, &superclasses_InspcSetValue_InspcDataExchangeAccess_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -753,7 +753,7 @@ const ClassJc refl_InspcSetValueData_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcSetValueData_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s //superclass
+, &superclasses_InspcSetValueData_InspcDataExchangeAccess_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -876,7 +876,7 @@ const ClassJc refl_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s =
 , sizeof(InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s //superclass
+, &superclasses_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };

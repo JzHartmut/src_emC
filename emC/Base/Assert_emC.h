@@ -80,5 +80,12 @@
 
 #define ASSERTs_emC ASSERT_emC
 
+//ASSERT is commonly valid, it may be defined anywhere other too.
+#ifndef ASSERT
+  #define ASSERT(COND) ASSERT_emC(COND, "Assertion", 0,0)
+#endif
+
+
+
 #endif //HEADERGUARD_emC_Base_Assert_emC_h
 

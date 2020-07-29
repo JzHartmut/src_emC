@@ -1202,7 +1202,7 @@ struct StringPartJc_t* seek_Csi_StringPartJc(StringPartJc_s* thiz, CharSeqJc sSe
     
     thiz->beginLast = thiz->begin;/*if(StringFunctions.startsWith(sSeek, "timestamp:"))*/
     
-    stop_DebugutilJc(/*J2C:static method call*/_thCxt);
+    dbgstop_emC(/*J2C:static method call*/);
     
     int32  seekArea1;/*no initvalue*/
     
@@ -2764,7 +2764,7 @@ StringJc absSubString_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, T
   STACKTRC_LEAVE;
 }
 
-StringJc toString_StringPartJc_F(ObjectJc* ithis, ThCxt* _thCxt)
+StringJc toString_StringPartJc_F(ObjectJc const* ithis, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)ithis;
   
   STACKTRC_TENTRY("toString_StringPartJc_F");
@@ -3183,7 +3183,7 @@ const struct Reflection_Fields_StringPartJc_s_t
 
 #define REFLECTION_Fields_StringPartJc (FieldJc_Y const*)&refl_Fields_StringPartJc_s
 #define REFLECTION_Methods_StringPartJc null //method
-#define REFLECTION_Superclass_StringPartJc (ClassOffset_idxVtblJcARRAY*)&superclasses_StringPartJc_s //superclass
+#define REFLECTION_Superclass_StringPartJc &superclasses_StringPartJc_s.head.object //superclass
 #define REFLECTION_Interfaces_StringPartJc (ClassOffset_idxVtblJcARRAY*)&interfaces_StringPartJc_s //interfaces
 
 
@@ -3291,7 +3291,7 @@ CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc const* ithis, int32 from
   STACKTRC_LEAVE;
 }
 
-StringJc toString_Part_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
+StringJc toString_Part_StringPartJc(ObjectJc const* ithis, ThCxt* _thCxt)
 { Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
   
   STACKTRC_TENTRY("toString_Part_StringPartJc");
@@ -3444,7 +3444,7 @@ const ClassJc refl_Part_StringPartJc_s =
 , sizeof(Part_StringPartJc_s)
 , (FieldJc_Y const*)&refl_Fields_Part_StringPartJc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_Part_StringPartJc_s //superclass
+, &superclasses_Part_StringPartJc_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_Part_StringPartJc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblPart_StringPartJc.mtbl.head

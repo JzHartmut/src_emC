@@ -6,7 +6,7 @@
 #include <string.h>  //because using memset()
 #include <emC/Jc/ReflectionJc.h>   //Reflection concept 
   //basic stacktrace concept
-#include <emC/Inspc/CheckPwd_Inspc.h>
+#include <emC/Inspc/Srv/CheckPwd_Inspc.h>
 #include <emC/Inspc/J2c/CmdConsumer_ifc_Inspc.h>  //reference-association: cmdConsumerVtbl
 #include <emC/Inspc/J2c/Comm_Inspc.h>  //reference-association: comm
 #include <emC/Jc/ArraysJc.h>  //reference-association: ArraysJc
@@ -109,8 +109,8 @@ bool executeCmd_CmdExecuter_Inspc_F(CmdExecuter_Inspc_s* thiz, int8ARRAY buffer,
       nrofBytesTelg = getLengthDatagram_InspcDatagram_InspcDataExchangeAccess_Inspc(& (thiz->datagramCmd));
       
       int32  nrofBytesAccess = getLengthTotal_ByteDataAccessBaseJc(& ((thiz->datagramCmd).base.super), _thCxt);
-      ASSERT(/*J2C:static method call*/nrofBytesTelg == nrofBytesReceived);
-      ASSERT(/*J2C:static method call*/nrofBytesTelg == nrofBytesAccess);/*nrofBytesProcessed = datagramCmd.sizeofHead;*/
+      ASSERT_emC(/*J2C:static method call*/nrofBytesTelg == nrofBytesReceived, "nrofBytesTelg != nrofBytesReceive", nrofBytesTelg, nrofBytesReceived);
+      ASSERT_emC(/*J2C:static method call*/nrofBytesTelg == nrofBytesAccess, "nrofBytesTelg != nrofBytesAccess", nrofBytesTelg, nrofBytesAccess);/*nrofBytesProcessed = datagramCmd.sizeofHead;*/
       
       thiz->useTelgHead = true;/**/
       
@@ -492,7 +492,7 @@ const ClassJc refl_CmdExecuter_Inspc_s =
 , sizeof(CmdExecuter_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_CmdExecuter_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_CmdExecuter_Inspc_s //superclass
+, &superclasses_CmdExecuter_Inspc_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_CmdExecuter_Inspc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblCmdExecuter_Inspc.mtbl.head

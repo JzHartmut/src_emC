@@ -6,7 +6,7 @@
 
 // #define stop_AssertJc()
 
-#define exceptionInfo_AssertJc(TEXT, EXC, FIRST, NR, THCTX) exceptionInfo_B_AssertJc(TEXT, EXC, FIRST, NR, true, THCTX) 
+#define XXXexceptionInfo_AssertJc(TEXT, EXC, FIRST, NR, THCTX) exceptionInfo_B_AssertJc(TEXT, EXC, FIRST, NR, true, THCTX) 
 
 METHOD_C StringJc exceptionInfo_B_AssertJc(char const* text, struct ExceptionJc_t* exc, int firstLevel, int nrofLevels, bool bWithExceptiontext, ThCxt* _thCxt);
 

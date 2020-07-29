@@ -60,14 +60,14 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
     if(segment_MemSegmJc(startAddr) !=0) {
       //it is an access to a remote target. Renew the rootAddr because the target may be compiled and started newly:
       //get the rootAddr and rootClazz on the first access.
-      int32 receive = accessTarget_Inspc(getRootInstance_InspcTargetProxy, 1, null, 0);
+      int32 receive = accessTarget_Inspc(getRootInstance_InspcTargetProxy, 1, 0, 0);
       if(receive == -1) {
         //timeout:
         * retField = null;
         return null_MemSegmJc;
       } else {
-        setADDR_MemSegmJc(startAddr, (intptr_t)receive);
-        int ixClass = accessTarget_Inspc(getRootType_InspcTargetProxy, 1, null, 0);
+        setADDR32_MemSegmJc(startAddr, receive);
+        int ixClass = accessTarget_Inspc(getRootType_InspcTargetProxy, 1, 0, 0);
         if(ixClass >0 && ixClass <= extReflectionClasses_ReflectionJc[0]->head.length ) {                                 //TODO index from segment
           startClazz = extReflectionClasses_ReflectionJc[0]->data[ixClass -1]; //get from loaded reflection file.
         } else {
@@ -79,7 +79,8 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
     struct ClassJc_t const*  clazz = startClazz; //getClass_ClassJc(/*J2C:static method call*/startObj);
     
     MemSegmJc  nextObj = { 0 };//J2C: constructor for embedded element
-    INIT_Mem_MemSegmJc(/*J2C:static method call*/nextObj, startAddr);
+    nextObj = startAddr;
+    //INIT_Mem_MemSegmJc(/*J2C:static method call*/nextObj, startAddr);
     
     struct FieldJc_t const*  field = null;
     
@@ -283,7 +284,7 @@ const ClassJc refl_SearchElement_Inspc_s =
 , sizeof(SearchElement_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_SearchElement_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_SearchElement_Inspc_s //superclass
+, &superclasses_SearchElement_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblSearchElement_Inspc.mtbl.head

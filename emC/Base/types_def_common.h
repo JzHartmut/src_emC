@@ -168,17 +168,17 @@ typedef struct Addr8_emC_T { int32_t c[2]; } Addr8_emC;
 /**The type AddrVal_emC handles with a address (pointer) for a 8 byte alignment. */
 typedef STRUCT_AddrVal_emC(AddrVal_emC, Addr8_emC);
 
-#define INIZ_AddrVal_emC(ADDR, VAL) { (Addr8_emC*)(ADDR), VAL }
+#define INIZ_AddrVal_emC(ADDR, VAL) { (Addr8_emC*)(intPTR)(ADDR), VAL }
 
 #define ADDR_AddrVal_emC(THIS, TYPE) ((TYPE*)(THIS).addr)
 
 #define VAL_AddrVal_emC(THIS) ((THIS).val)
 
-#define SET_AddrVal_emC(THIS, ADDR, VAL) { (THIS).addr = (THIS).addr = (Addr8_emC*)(ADDR); (THIS).val = VAL; }
+#define SET_AddrVal_emC(THIS, ADDR, VAL) { (THIS).addr = (Addr8_emC*)(intPTR)(ADDR); (THIS).val = VAL; }
 
-#define SETADDR_AddrVal_emC(THIS, ADDR) ( (THIS).addr = (THIS).addr = (Addr8_emC*)(ADDR) )
+#define SETADDR_AddrVal_emC(THIS, ADDR) ( (THIS).addr = (Addr8_emC*)(intPTR)(ADDR) )
 
-#define SETVAL_AddrVal_emC(THIS, VAL) ( (THIS).addr = (THIS).val = VAL )
+#define SETVAL_AddrVal_emC(THIS, VAL) ( (THIS).val = VAL )
 
 
 

@@ -223,7 +223,7 @@ class FactorySocketInterProcessComm
 
 /**Data of the InterProcessComm handler. Because it is an interface in C, the data are not defineable here.
  * But the Baseclass ObjectJc is used to get some base informations.
- * In the implementation of InterProcessComm, a SIMPLE_CAST is necessary.
+ * In the implementation of InterProcessComm, a C_CAST is necessary.
  */
 typedef struct InterProcessComm_t
 { union{ ObjectJc object; } base;

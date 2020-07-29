@@ -1501,7 +1501,7 @@ const ClassJc refl_StringFunctionsJc_s =
 , sizeof(StringFunctionsJc_s)
 , (FieldJc_Y const*)&refl_Fields_StringFunctionsJc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_StringFunctionsJc_s //superclass
+, &superclasses_StringFunctionsJc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblStringFunctionsJc.mtbl.head

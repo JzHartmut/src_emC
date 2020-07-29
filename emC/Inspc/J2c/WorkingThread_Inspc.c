@@ -203,7 +203,7 @@ const ClassJc refl_WorkingThread_Inspc_s =
 , sizeof(WorkingThread_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_WorkingThread_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_WorkingThread_Inspc_s //superclass
+, &superclasses_WorkingThread_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblWorkingThread_Inspc.mtbl.head
@@ -340,7 +340,7 @@ const ClassJc refl_Data_WorkingThread_Inspc_s =
 , sizeof(Data_WorkingThread_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_Data_WorkingThread_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_Data_WorkingThread_Inspc_s //superclass
+, &superclasses_Data_WorkingThread_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblData_WorkingThread_Inspc.mtbl.head
@@ -436,7 +436,7 @@ const ClassJc refl_ThreadMng_WorkingThread_Inspc_s =
 , sizeof(ThreadMng_WorkingThread_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_ThreadMng_WorkingThread_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_ThreadMng_WorkingThread_Inspc_s //superclass
+, &superclasses_ThreadMng_WorkingThread_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblThreadMng_WorkingThread_Inspc.mtbl.head
@@ -574,7 +574,7 @@ const ClassJc refl_C_theThreadRun_WorkingThread_Inspc_s =
 , sizeof(C_theThreadRun_WorkingThread_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_C_theThreadRun_WorkingThread_Inspc_s //superclass
+, &superclasses_C_theThreadRun_WorkingThread_Inspc_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_C_theThreadRun_WorkingThread_Inspc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblC_theThreadRun_WorkingThread_Inspc.mtbl.head

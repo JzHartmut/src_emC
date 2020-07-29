@@ -253,7 +253,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 */
 #define STACKTRC_ENTRY(NAME) \
   MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); /*It is a variable in Stack. */\
-  int stacksize = ((MemUnit*)&_thCxt) - _thCxt->topmemAddrOfStack; \
+  int stacksize = (int)(((MemUnit*)&_thCxt) - _thCxt->topmemAddrOfStack); \
   if(stacksize <0) { stacksize = -stacksize; } \
   if(stacksize > _thCxt->stacksizeMax) { _thCxt->stacksizeMax = stacksize; } \
 

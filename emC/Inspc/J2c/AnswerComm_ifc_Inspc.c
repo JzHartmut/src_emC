@@ -35,7 +35,7 @@ const ClassJc refl_AnswerComm_ifc_Inspc_s =
 , sizeof(AnswerComm_ifc_Inspc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_AnswerComm_ifc_Inspc_s //superclass
+, &superclasses_AnswerComm_ifc_Inspc_s.head.object  //, &superclasses_AnswerComm_ifc_Inspc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };

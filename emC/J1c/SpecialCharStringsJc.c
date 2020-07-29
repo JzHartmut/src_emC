@@ -160,7 +160,7 @@ const ClassJc refl_SpecialCharStringsJc_s =
 , sizeof(SpecialCharStringsJc_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_SpecialCharStringsJc_s //superclass
+, &superclasses_SpecialCharStringsJc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblSpecialCharStringsJc.mtbl.head

@@ -65,7 +65,8 @@ typedef struct EvQueue_StateM_vishiaOrg_T {
 
   uint evIdForCreator;
 
-  union{ struct EvInstance_StateM_vishiaOrg_T** a; DebugArray_EvInstance_StateM_vishiaOrg_s* dbg; } instances;
+  union{ struct EvInstance_StateM_vishiaOrg_T** a; 
+         DebugArray_EvInstance_StateM_vishiaOrg_s* dbg; } instances;
 
 
 
@@ -99,36 +100,36 @@ extern_C bool addEvInstance_EvQueue_StateM_vishiaOrg(EvQueue_StateM_vishiaOrg_s*
 
 
 /**Adds an event with given evIdent and data to the queue with atomic lockfree mutex.
-* This operation can be invoked in any thread or interrupt.
-* @arg idEvent to add to queue in the next free Entry_EvQueue_StateM_vishiaOrg.
-* @arg hData will be stored in the entry.
-* return false if no more space in queue. true on success.
-*/
+ * This operation can be invoked in any thread or interrupt.
+ * @arg idEvent to add to queue in the next free Entry_EvQueue_StateM_vishiaOrg.
+ * @arg hData will be stored in the entry.
+ * return false if no more space in queue. true on success.
+ */
 inline bool add_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz
   , uint16 idEvent, uint32 hData) {
   #ifndef NO_PARSE_ZbnfCheader
   int abortCt = 100;
   bool ok;
   if(idEvent >= thiz->sizeInstances) {
-    THROW_s0n(IllegalArgumentException, "faulty event Id =", idEvent, thiz->sizeInstances);
+    THROW_s0n(IllegalArgumentException,"faulty event Id =",idEvent,thiz->sizeInstances);
     return false;  //for systems without exception handling 
   }
-  int pwrCurr;  //The index where the event should be written to the queue.
+  int pwrCurr;  //The position where the event should be written to the queue.
   do {
     int volatile* ptr = &thiz->pwr;
     pwrCurr = thiz->pwr;
     TEST_INTR1_ADD_EVQUEUE_StateM_emC
-      int pwrNext = pwrCurr + 1;
+    int pwrNext = pwrCurr + 1;
     if(pwrNext >= thiz->sizeQueue) { pwrNext =0; } //modulo
-    if(pwrNext == thiz->prd) return false;              //RETURN: no more space in queue         
-    ok = compareAndSet_AtomicInteger(ptr, pwrCurr, pwrNext); //set the pwr for next access.
-  } while(!ok && --abortCt >=0); //repeat if another thread has used this position.
+    if(pwrNext == thiz->prd) return false;    //RETURN: no more space in queue         
+    ok = compareAndSet_AtomicInteger(ptr, pwrCurr, pwrNext); //set for next access.
+  } while(!ok && --abortCt >=0); //repeat if another thread has changed thiz->pwr.
   if(abortCt <0) {
     //it is a problem of thread workload, compareAndSet does not work.
     THROW_s0n(IllegalStateException, "thread compareAndSet problem", 0, 0);
     return false; //RETURN for non-exception handling, THROW writes a log entry only.
   }
-  //the pwrCurr is proper for this entry, another thread may increment thiz->pwr meanwhile
+  //the pwrCurr is proper for this entry, another thread may incr thiz->pwr meanwhile
   //but the other thread uses the position after.
   Entry_EvQueue_StateM_vishiaOrg_s* e = &thiz->queue.a[pwrCurr];
   e->hdata.h = hData;   
@@ -137,11 +138,14 @@ inline bool add_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz
   return true;
   #endif//NO_PARSE_ZbnfCheader
 }
+
+
+
 /**Returns the pointer to the current entry or null if the queue is empty.
-* After evaluation of the referenced content the operation 
-* [[quitNext_EvQueue_StateM_vishiaOrg(...)]] has to be invoked to increment the read
-* position respectively to free the entry for writing on end of the queue.. 
-*/
+ * After evaluation of the referenced content the operation 
+ * [[quitNext_EvQueue_StateM_vishiaOrg(...)]] has to be invoked to increment the read
+ * position respectively to free the entry for writing on end of the queue.. 
+ */
 inline Entry_EvQueue_StateM_vishiaOrg_s* 
 getNext_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz) {
   if(thiz->prd == thiz->pwr) return null;
@@ -154,7 +158,7 @@ getNext_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz) {
 
 inline void quitNext_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz
 , ThCxt* _thCxt) {
-  ASSERTs_emC(thiz->prd != thiz->pwr, "faulty quit", thiz->prd, thiz->pwr);
+  ASSERT_emC(thiz->prd != thiz->pwr, "faulty quit", thiz->prd, thiz->pwr);
   thiz->queue.a[thiz->prd].evIdent = 0;  //mark as unused firstly for next wr and rd after them.
   int32 prd = thiz->prd +1;
   if(prd >= thiz->sizeQueue){ prd -= thiz->sizeQueue; } //wrapping
@@ -269,12 +273,14 @@ inline bool isAddedToQueue_EvInstance_StateM_vishiaOrg(EvInstance_StateM_vishiaO
   return thiz->stateTrg < 0x40; 
 }
 
-/**Returns the hdata if an event was applied after calling [[checkForListener_EvQueue_StateM_vishiaOrg(...)]].
-* A further call returns 0.
-* @return 0 if it has not an event.
-* @simulink Operation-FB, fnCallTrg.
-*/
-inline uint32 hasEvent_EvInstance_StateM_vishiaOrg(EvInstance_StateM_vishiaOrg_s* thiz, uint32* hdata_y, int32* ctEv_y) {
+/**Returns the hdata if an event was applied 
+ * after calling [[checkForListener_EvQueue_StateM_vishiaOrg(...)]].
+ * A further call returns 0.
+ * @return 0 if it has not an event.
+ * @simulink Operation-FB, fnCallTrg.
+ */
+inline uint32 hasEvent_EvInstance_StateM_vishiaOrg ( 
+  EvInstance_StateM_vishiaOrg_s* thiz, uint32* hdata_y, int32* ctEv_y) {
   if(thiz->stateTrg ==1) {
     thiz->stateTrg = 0;
     thiz->ctEvents +=1;

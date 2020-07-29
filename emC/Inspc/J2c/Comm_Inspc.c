@@ -267,10 +267,8 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
         CATCH(ExceptionJc, exc)
         
           { 
-            
-            
-            CharSeqJc msg ; msg = exceptionInfo_AssertJc(/*J2C:static method call*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);
-            println_c_PrintStreamJc(REFJc (err_SystemJc), msg/*J2C-error testAndChangeAccess: ct*/, _thCxt);
+            //CharSeqJc msg ; msg = exceptionInfo_AssertJc(/*J2C:static method call*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);
+            //println_c_PrintStreamJc(REFJc (err_SystemJc), msg/*J2C-error testAndChangeAccess: ct*/, _thCxt);
             printStackTrace_P_ExceptionJc(exc, REFJc (err_SystemJc), _thCxt);
           }
         END_TRY
@@ -533,7 +531,7 @@ const ClassJc refl_Comm_Inspc_s =
 , sizeof(Comm_Inspc_s)
 , (FieldJc_Y const*)&refl_Fields_Comm_Inspc_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_Comm_Inspc_s //superclass
+, &superclasses_Comm_Inspc_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_Comm_Inspc_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblComm_Inspc.mtbl.head

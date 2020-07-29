@@ -17,7 +17,7 @@ const char* initTimeMeas_Handle2Ptr(int nrofEntries) {
       Clock_MinMaxTime_emC* time = (Clock_MinMaxTime_emC*)os_allocMem(sizeof(Clock_MinMaxTime_emC) + (DEFINED_nrTimeMeas_Handle2Ptr * sizeof(MinMaxTime_emC)));
       ctor_Clock_MinMaxTime_emC(time, DEFINED_nrTimeMeas_Handle2Ptr);
       uint32 handle = registerPtr_Handle2Ptr(time, "__timeMeas");
-      ASSERT(handle == 1);
+      ASSERT_emC(handle == 1, "initTimeMeas_Handle2Ptr should be the first handle", handle, 0);
     }
   }
   STACKTRC_RETURN error;

@@ -46,7 +46,7 @@ const ClassJc refl_MsgText_ifc_MSG_s =
 , sizeof(MsgText_ifc_MSG_s)
 , null //attributes and associations
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgText_ifc_MSG_s //superclass
+, &superclasses_MsgText_ifc_MSG_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 };
@@ -175,7 +175,7 @@ const ClassJc refl_MsgConfigItem_MsgText_ifc_MSG_s =
 , sizeof(MsgConfigItem_MsgText_ifc_MSG_s)
 , (FieldJc_Y const*)&refl_Fields_MsgConfigItem_MsgText_ifc_MSG_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgConfigItem_MsgText_ifc_MSG_s //superclass
+, &superclasses_MsgConfigItem_MsgText_ifc_MSG_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblMsgConfigItem_MsgText_ifc_MSG.mtbl.head

@@ -5,7 +5,6 @@
 #include <emC/Base/Object_emC.h>
 #include <emC/Jc/ReflMemAccessJc.h>
 
-struct RemoteAddressJc;
 
 
 

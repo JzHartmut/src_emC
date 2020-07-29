@@ -105,7 +105,6 @@ ClassJc_YP const* extReflectionClasses_ReflectionJc[5];
 
 
 
-
 static int stop()
 { return 0;  //debug breakpoint here able to set.
 }
@@ -243,17 +242,34 @@ MethodJc const* getDeclaredMethod_ClassJc(ClassJc const* thiz, char const* sName
 
 METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz)
 {
-  if(thiz->superClasses == null) return null;
-  else return getType_FieldJc(&thiz->superClasses->data[0].superfield); //Note: C++ knows more superclasses, this is for Java-like and C
+  if(thiz->superClass_es == null) return null;
+  else if(isArray_ObjectJc(thiz->superClass_es)) {
+    ASSERT_emC(checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_FieldJc, 0), "superClas_es should be a Array of FieldJc", 0,0);
+    FieldJc_Y const* superFields = C_CAST(FieldJc_Y const*, thiz->superClass_es);
+    return getType_FieldJc(&superFields->data[0]); //Note: C++ knows more superclasses, this is for Java-like and C
+  } else {
+    ASSERT_emC(checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_FieldJc, 0), "superClas_es should be a FieldJc", 0,0);
+    FieldJc const* superField = C_CAST(FieldJc const*, thiz->superClass_es);
+    return getType_FieldJc(superField);
+
+  }
 }
 
 
 
 METHOD_C FieldJc const* getSuperField_ClassJc(ClassJc const* thiz)
 {
-  if(thiz->superClasses == null) return null;
-  else return &thiz->superClasses->data[0].superfield;
-  //else return &thiz->attributes->data[0];    //TODO should do so for C
+  if(thiz->superClass_es == null) return null;
+  else if(isArray_ObjectJc(thiz->superClass_es)) {
+    ASSERT_emC(checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_FieldJc, 0), "superClas_es should be a Array of FieldJc", 0,0);
+    FieldJc_Y const* superFields = C_CAST(FieldJc_Y const*, thiz->superClass_es);
+    return &superFields->data[0]; //Note: C++ knows more superclasses, this is for Java-like and C
+  } else {
+    ASSERT_emC(checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_FieldJc, 0), "superClas_es should be a FieldJc", 0,0);
+    FieldJc const* superField = C_CAST(FieldJc const*, thiz->superClass_es);
+    return superField;
+
+  }
 }
 
 
@@ -324,7 +340,7 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
   }
   //
   if(thiz->bitModifiers & mSTATIC_Modifier_reflectJc)
-  {  setSegmAddr_MemSegmJc(address, 0, null);
+  {  setNull_MemSegmJc(address);
   }
   else
   { int position = thiz->offsFieldInStruct;  //2CPU
@@ -335,7 +351,7 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
       //or the size and offset is stored in the reflection table. 
       //In the second case the reflection generation should know which memory layout, alignment and type size the target has.
       //The more universal approach is this branch, whereby the size and offset is gotten from target. 
-      ASSERT(segment_MemSegmJc(instance) !=0); //only if a remote target is accessed, elsewhere the reflection tables are faulty.
+      ASSERT_emC(segment_MemSegmJc(instance) !=0, "segment should be given", 0,0); //only if a remote target is accessed, elsewhere the reflection tables are faulty.
       ClassJc const* declaringClazz = getDeclaringClass_FieldJc(thiz);
       int32 sizeEntry = declaringClazz->nSize;
       int32 idxClass = sizeEntry - 0xFFFFF000;
@@ -344,15 +360,15 @@ METHOD_C MemSegmJc getMemoryAddress_FieldJc(const FieldJc* thiz, MemSegmJc insta
       int32 len_pos_element;
       /**Significance check to prevent failed access: */
       if(idxClass < 0 || idxClass > 1000 || idxField < 0 || idxField > 0xfff) {
-        ASSERT(false);  //may cause exception
+        ASSERT_emC(false, "idxClass or idxField faulty", idxClass, idxField);  //may cause exception
         idxClass  = 1; idxField = 0; //without assert check  corr it.
       }
       int nrofElements = getStaticArraySize_FieldJc(thiz);
       if(nrofElements ==0){ 
         nrofElements = 1; 
-        ASSERT(ixData <=0);  //no index access should be done if the element in struct is not an array.
+        ASSERT_emC(ixData <=0, "no index access should be done if the element in struct is not an array", ixData, 0);  //.
       }
-      len_pos_element = getInfoDebug_InspcTargetProxy(getOffsetLength_InspcTargetProxy, segment_MemSegmJc(instance), null, idxClass<<16 |idxField);
+      len_pos_element = getInfoDebug_InspcTargetProxy(getOffsetLength_InspcTargetProxy, segment_MemSegmJc(instance), 0, idxClass<<16 |idxField);
       position = len_pos_element & 0x0000ffff; //position-part in bit15..0
       sizeElement = ((len_pos_element & 0x7FFF0000) >>16) / nrofElements; //Note: The target returns the size of the element in struct, not the size of type (element size in array).
     } else {
@@ -709,13 +725,13 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
     { //Access to a remote CPU, a target via proxy
       int memSegment = -(int)iRef;
       int ixClass = -1;
-      int32 addrRemote = getInfoDebug_InspcTargetProxy(getRootInstance_InspcTargetProxy, memSegment, null, 0);
+      int32 addrRemote = getInfoDebug_InspcTargetProxy(getRootInstance_InspcTargetProxy, memSegment, 0, 0);
       if(addrRemote !=-1) {
-        ixClass = getInfoDebug_InspcTargetProxy(getRootType_InspcTargetProxy, memSegment, null, 0);
+        ixClass = getInfoDebug_InspcTargetProxy(getRootType_InspcTargetProxy, memSegment, 0, 0);
       }
       if(ixClass >0) {
         clazzRet = extReflectionClasses_ReflectionJc[0]->data[ixClass -1]; //get from loaded reflection file.
-        { setSegmAddr_MemSegmJc(retObj, memSegment, (intptr_t)addrRemote );
+        { setAddr32Segm_MemSegmJc(retObj, addrRemote, memSegment );
         }
       } else {
         //access error on remote:
@@ -777,7 +793,7 @@ static MemSegmJc getObjAndClassV_FieldJc(FieldJc const* thiz, MemSegmJc obj
         ClassJc const* clazzFromInstance;
         if(segment_MemSegmJc(ref)!=0){
           stop(); //2CPU
-          int ixClass = getInfoDebug_InspcTargetProxy(getType_InspcTargetProxy, segment_MemSegmJc(ref), ADDR_MemSegmJc(ref, struct RemoteAddressJc), 0);
+          int ixClass = getInfoDebug_InspcTargetProxy(getType_InspcTargetProxy, segment_MemSegmJc(ref), ref.addr.a32  /*ADDR_MemSegmJc(ref, struct RemoteAddressJc)*/, 0);
           if (ixClass >0) {
             clazzRet = extReflectionClasses_ReflectionJc[0]->data[ixClass - 1]; //get from loaded reflection file.
           } else { 
@@ -1047,7 +1063,7 @@ intptr_t getMemoryIdent_V_FieldJc(FieldJc const* thiz, MemSegmJc instance, char 
     if ((thiz->bitModifiers & mPrimitiv_Modifier_reflectJc) == kHandlePtr_Modifier_reflectJc) {
       uint32* addrfield = ADDR_MemSegmJc(adr, uint32);
       uint32 handle = *addrfield;
-      void* addr = ptr_Handle2Ptr(handle);
+      void* addr = ptr_Handle2Ptr(handle);  //TODO what about Handle2Ptr-table. This branch is only used in Simulink, than Hande2Ptr-Table exists. 
       setADDR_MemSegmJc(adr, addr);
     } else {
       adr = getRef_MemAccessJc(adr);
@@ -1143,7 +1159,7 @@ METHOD_C int32 getInt_FieldJc(const FieldJc* thiz, MemSegmJc obj, char const* sV
   { //Reference to an int element or an int array.
     MemSegmJc adrElementInObj = getAddrElement_V_FieldJc(thiz, obj, null, null); //The address of the reference
     adr = getRef_MemAccessJc(adrElementInObj);
-    if(adr.addr !=null && sVaargs != null && *sVaargs == 'I'){  //only 1 index yet, todo later.
+    if(adr.addr.a !=null && sVaargs != null && *sVaargs == 'I'){  //only 1 index yet, todo later.
       int ixData = va_arg(vaargs, int32);
       //Manipulate the adr of the array to the adr of the array element.
       //TODO if the remote CPU is a Analog Devices DSP with word adressing, it is wrong.

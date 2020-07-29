@@ -671,7 +671,7 @@ const ClassJc refl_MsgDispatcherCore_MSG_s =
 , sizeof(MsgDispatcherCore_MSG_s)
 , (FieldJc_Y const*)&refl_Fields_MsgDispatcherCore_MSG_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_MsgDispatcherCore_MSG_s //superclass
+, &superclasses_MsgDispatcherCore_MSG_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_MsgDispatcherCore_MSG_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblMsgDispatcherCore_MSG.mtbl.head
@@ -862,7 +862,7 @@ const ClassJc refl_TestCnt_MsgDispatcherCore_MSG_s =
 , sizeof(TestCnt_MsgDispatcherCore_MSG_s)
 , (FieldJc_Y const*)&refl_Fields_TestCnt_MsgDispatcherCore_MSG_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_TestCnt_MsgDispatcherCore_MSG_s //superclass
+, &superclasses_TestCnt_MsgDispatcherCore_MSG_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 , &mtblTestCnt_MsgDispatcherCore_MSG.mtbl.head

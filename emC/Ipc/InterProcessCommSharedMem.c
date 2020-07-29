@@ -506,7 +506,7 @@ const ClassJc refl_InterProcessCommSharedMem_s =
 , sizeof(InterProcessCommSharedMem_s)
 , null //(FieldJcArray const*)&refl_Fields_InterProcessCommSharedMem_s
 , null //method
-, null //(ClassOffset_idxVtblJcARRAY*)&superclasses_InterProcessCommSharedMem_s //superclass
+, null //&superclasses_InterProcessCommSharedMem_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
 //, &mtblInterProcessCommSharedMem.mtbl.head

@@ -1,0 +1,101 @@
+
+    
+#include <emC/Inspc/Srv/InspcTargetTelg.h>  
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_InspcTelgHead_Inspc;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_InspcTelgHead_Inspc[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+  
+
+extern_C const ClassJc refl_int16BigEndian;  //the super class here used.
+const struct SuperClasses_InspcTelgHead_Inspc_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_InspcTelgHead_Inspc_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_InspcTelgHead_Inspc_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_int16BigEndian                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_int16BigEndian  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_int16BigEndian  
+      }
+    }
+};
+
+const struct Reflection_Fields_InspcTelgHead_Inspc_s_t
+{ ObjectArrayJc head;
+  FieldJc data[4];
+} refl_Fields_InspcTelgHead_Inspc_s =
+{ INIZ_ObjectArrayJc(refl_Fields_InspcTelgHead_Inspc_s, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "encryption"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->encryption)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_InspcTelgHead_Inspc
+    }
+  , 
+    { "seqnr"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->seqnr)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_InspcTelgHead_Inspc
+    }
+  , 
+    { "answernr"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->answernr)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_InspcTelgHead_Inspc
+    }
+  , 
+    { "entrant"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((InspcTelgHead_Inspc_s*)(0x1000))->entrant)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_InspcTelgHead_Inspc
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_InspcTelgHead_Inspc    
+const ClassJc   refl_InspcTelgHead_Inspc =
+{ INIZ_objReflId_ObjectJc(refl_InspcTelgHead_Inspc, refl_ClassJc, ID_refl_ClassJc)
+, "InspcTelgHead_Inspc"
+, 0
+, sizeof(InspcTelgHead_Inspc_s)
+, (FieldJcArray const*)&refl_Fields_InspcTelgHead_Inspc_s  //attributes and associations
+, null  //method      
+, &superClasses_InspcTelgHead_Inspc_s.head.object  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL

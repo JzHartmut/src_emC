@@ -77,6 +77,9 @@
 //Now define the C99 types via the simulink types via defined.
 //Therewith it is the simulink typedef. The typedef of <stdint.h> are covered. 
 
+#define uint      unsigned int
+#define ulong     unsigned long
+
 #define int8      int8_T
 #define uint8     uint8_T
 #define int8_t    int8_T
@@ -322,6 +325,17 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * The user should not include windows.h or such. 
  */
 #define OS_HandleEvent void*   
+#define MAYBE_UNUSED_emC
+
+#define USED_emC
+
+/**It is an attribute before a function definition to determine
+ * that the function should be placed in a section which is linked
+ * to a RAM location but load into the FLASH memory.
+ * This section must be copied on startup to run successfully.
+ * It is a designation for embedded hardware with lesser but fast RAM.
+ */
+#define RAMFUNC_emC
 
 
 
@@ -352,6 +366,7 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
  * Used especially in Simulink S-Functions for bus elements and outputs which are references.
  * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
  * old: OS_HandlePtr
+ * search: HandlePtr_emC ( TYPE, NAME)
  */
 #define HandlePtr_emC(TYPE, NAME) uint32 NAME;
 
@@ -382,5 +397,65 @@ typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
 #include <emC/Base/types_def_common.h>
+
+
+#define DEF_compareAndSet_AtomicInteger
+//This is implemented in emC_srcOSALspec/hw_Intel_x86_Gcc/os_atomic.c:
+extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
+
+extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
+
+
+INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
+  int32 read = compareAndSwap_AtomicInteger((int32 volatile*)reference, expect, update);
+  return read == expect;
+}
+
+INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect;
+}
+
+
+
+INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update){
+  int64 read = compareAndSwap_AtomicInt64(reference, expect, update);
+  return read == expect;
+}
+
+INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+  //Note: more difficult because memory is 32 bit
+  unsigned long expect32, update32;
+  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
+    expect32 = update;
+    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
+    update32 = update;
+    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+  } else {
+    expect32 = *(reference +1); //read associate hi word
+    expect32 = (expect32 <<16) | update; 
+    update32 = *(reference +1); //read associate hi word
+    update32 = (update32 <<16) | update; 
+  }
+  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
+  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
+  //only a little bit more calculation time because unnecesarry repetition.
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect32;
+}
+
+
+bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
+
+//INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
+//  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
+//  if(sizeof(void*) != sizeof(int32)) {
+//    return false;
+//  }
+//  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
+//  return read == (int32_t)expect;
+//}
+
+
 
 #endif  //__compl_adaption_h__

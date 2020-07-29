@@ -1135,7 +1135,7 @@ const ClassJc refl_LogMessageFile_MSG_s =
 , sizeof(LogMessageFile_MSG_s)
 , (FieldJc_Y const*)&refl_Fields_LogMessageFile_MSG_s
 , null //method
-, (ClassOffset_idxVtblJcARRAY*)&superclasses_LogMessageFile_MSG_s //superclass
+, &superclasses_LogMessageFile_MSG_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_LogMessageFile_MSG_s //interfaces
 , mObjectJc_Modifier_reflectJc
 , &mtblLogMessageFile_MSG.mtbl.head

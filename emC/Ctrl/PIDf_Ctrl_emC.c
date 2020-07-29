@@ -24,24 +24,29 @@ Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 { //check before cast:
   ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(Par_PIDf_Ctrl_emC_s), refl_Par_PIDf_Ctrl_emC, 0), "faulty ObjectJc",0,0 );
   Par_PIDf_Ctrl_emC_s* thiz = (Par_PIDf_Ctrl_emC_s*)othiz;
-  thiz->Tstep = Tstep;
+  return thiz;
+}
+
+
+bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param)
+{ //check before cast:
+  thiz->Tctrl = Tctrl_param;
+  thiz->yMax = yMax_param;
   thiz->kP = 1.0f;
   thiz->T1d = 0.1f;
   thiz->Tn = 1.0f;
   thiz->Td = 0.1f;
-  thiz->lim = 1.0f;
-  setInitialized_ObjectJc(othiz);
-  return thiz;
+  setInitialized_ObjectJc(&thiz->base.obj);
+  return true;
 }
 
 
 /**step of PID controller
 * @simulink Object-FB.
 */
-void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float lim, float Tn_param, float Td_param, float Tsd_param, bool* man_y) {
+void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, float Td_param, float Tsd_param, bool* man_y) {
   if(thiz->man == 0) {
     thiz->kP = kP;
-    thiz->lim = lim;
     thiz->Tn = Tn_param;
     thiz->Td = Td_param;
     thiz->T1d = Tsd_param;
@@ -58,6 +63,7 @@ PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
   PIDf_Ctrl_emC_s* thiz = (PIDf_Ctrl_emC_s*)othiz;
   CTOR_ObjectJc(othiz, othiz, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);
   thiz->Tstep = Tstep;
+  thiz->lim = 1.0f;
   return thiz; 
 }
 
@@ -68,6 +74,7 @@ bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par) {
   if(bOk) {
     reparam_Par_PIDf_Ctrl_emC(par);
     thiz->par = par;
+    thiz->lim = par->yMax;
     setInitialized_ObjectJc(&thiz->base.obj);
   }
   return bOk;
@@ -76,13 +83,19 @@ bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par) {
 
 
 void reparam_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz) {
-  thiz->i.fIy = thiz->lim / (float)(0x40000000L);
-  thiz->i.fIx = (float)(0x40000000L) / thiz->lim;
-  thiz->i.fI = thiz->Tn <=0 ? 0 : (int64)(thiz->i.fIx * (thiz->Tstep / thiz->Tn)); // * (float)(0x100000000LL));
-  thiz->i.fTsD = thiz->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tstep / thiz->T1d);
-  thiz->i.fD = (thiz->Td / thiz->Tstep) * thiz->kP;
+  thiz->i.fIy = thiz->yMax / (float)(0x40000000L);
+  thiz->i.fIx = (float)(0x40000000L) / thiz->yMax;
+  thiz->i.fI = thiz->Tn <=0 ? 0 : (int64)(thiz->i.fIx * (thiz->Tctrl / thiz->Tn)); // * (float)(0x100000000LL));
+  thiz->i.fTsD = thiz->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tctrl / thiz->T1d);
+  thiz->i.fD = (thiz->Td / thiz->Tctrl) * thiz->kP;
   thiz->i.dbgct_reparam +=1;
 }
+
+
+void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float yLim) {
+  thiz->lim = yLim;
+}
+
 
 
 
@@ -92,8 +105,8 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
   Par_PIDf_Ctrl_emC_s* par = thiz->par;
   float wxP = wx * par->kP;
   //limit to max output.
-  if (wxP > par->lim) { wxP = par->lim; }
-  else if (wxP < -par->lim) { wxP = -par->lim; }
+  if (wxP > thiz->lim) { wxP = thiz->lim; }
+  else if (wxP < -thiz->lim) { wxP = -thiz->lim; }
   else {} //reamin wxP
 
   
@@ -103,8 +116,8 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
   float wxPD = wxP + (par->i.fD * thiz->dwxP);  //+ D-Part.
 
   //limit P + D.
-  if (wxPD > par->lim) { wxPD = par->lim; }
-  else if (wxPD < -par->lim) { wxPD = -par->lim; }
+  if (wxPD > thiz->lim) { wxPD = thiz->lim; }
+  else if (wxPD < -thiz->lim) { wxPD = -thiz->lim; }
   else {} //remain wxPD
   thiz->wxPD = wxPD;  //to inspect.
 
