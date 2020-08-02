@@ -2,6 +2,8 @@
 * made by Hartmut Schorrig, www vishia.org
 * date first: 2018
 */
+#if 1 //DEF_INSPC_REMOTEACCESS
+
 #include "SharedMem2Target_Inspc.h"
 #include "emC/InspcTargetSimple/IfcTargetProxy_Inspc.h"
 #include <emC/base/String_emC.h>
@@ -10,6 +12,7 @@
 
 #ifndef DEF_REFLECTION_NO
   #include "emC/InspcTargetSimple/genRefl/SharedMem2Target_Inspc.crefl"
+  #include "emC/OSAL/genRefl/os_sharedMem.crefl"
   //Do not include the crefl here, they are not necessary here. 
   //If the crefl are need for associated data it should be included in the main context of the application.
 #else
@@ -75,4 +78,4 @@ void dtor_SharedMem2Target_Inspc(SharedMem2Target_Inspc* thiz) {
   os_closeSharedMem(&thiz->sharedMemMng_target2proxy);
 }
 
-
+#endif //DEF_INSPC_REMOTEACCESS

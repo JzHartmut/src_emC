@@ -24,6 +24,10 @@ typedef struct Service_Inspc_t
 } Service_Inspc;
 
 
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_Service_Inspc;
+#endif
+
 
 
 extern_C ClassJc const refl_Service_Inspc;

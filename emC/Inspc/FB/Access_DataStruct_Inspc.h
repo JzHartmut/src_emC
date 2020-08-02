@@ -36,6 +36,10 @@ typedef struct Access_DataStruct_Inspc_t
 
 } Access_DataStruct_Inspc_s;
 
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_Access_DataStruct_Inspc;
+#endif
+
 
 
 
@@ -72,8 +76,8 @@ int defTlcParams_TinitAccess_DataStruct_Inspc(DefPortTypes_emC* portInfo_tlcPara
 
 
 /**
-* @ simulink Object-FB, no-thizInit, no-thizStep.
-*/
+ * @simulink Object-FB, no-thizInit, no-thizStep.
+ */
 inline void getTinit_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz) {  }
 
 
@@ -118,9 +122,9 @@ bool init_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefPort
   , struct UserHead_DataStructMng_Inspc_t* data);
 
 
-/**
-* @simulink init.
-*/
+/**TODO
+ * @simulink init.
+ */
 inline bool initGet_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param/*, StringJc typeDataIn_param, StringJc datapath_param*/, struct UserHead_DataStructMng_Inspc_t* data) {
   return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixOutputStep], false, typeName_param, /*typeDataIn_param, datapath_param, */data);
 }
@@ -148,23 +152,23 @@ int defTlcParams_Access_DataStruct_Inspc(DefPortTypes_emC* portInfo_tlcParam
 
 
 
-/**
-* @ simulink Object-FB, no-thizInit, no-thizStep.
-*/
+/**TODO
+ * @simulink Object-FB, no-thizInit, no-thizStep.
+ */
 inline void get_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void* y_y) { memcpy(y_y, thiz->addr, thiz->zBytes); }
 
 
 
 
-/**
+/**TODO
  * @simulink init.
  */
 inline bool initSet_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data) {
   return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixInputStep], true, typeName_param, data);
 }
 
-/**
- * @ simulink Object-FB, no-thizInit, no-thizStep.
+/**TODO
+ * @simulink Object-FB, no-thizInit, no-thizStep.
  */
 inline void set_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void const* x) { memcpy(thiz->addr, x, thiz->zBytes); }
 

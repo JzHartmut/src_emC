@@ -555,6 +555,31 @@ void setOutput_MemAccessArrayDebugJc(MemAccessArrayDebugJc* ythis, int32 output)
 }
 
 
+/**Gets any info from a remoteCPU, which has max. 4 byte return value. 
+ * @param cmd the action to do.
+ * @param device the remote device (it comes from a segment number in MemSegmentJc).
+ * @param A address in the memory area in remote device. 
+ *        The address is returned sometimes from other calls of this method and it is never changed.
+ * @param input some additional parameter depends on cmd.
+ */
+#ifndef DEF_INSPC_REMOTEACCESS
+int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int32 input)
+{
+ return 0;
+}
+#endif //#ifndef DEF_INSPC_REMOTEACCESS
+
+
+
+/**Gets any info from a remoteCPU, which has max. 8 byte return value. */
+#ifndef DEF_INSPC_REMOTEACCESS
+int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int64 input)
+{
+	return 0;
+}	
+#endif //#ifndef DEF_INSPC_REMOTEACCESS
+
+
 
 
 #include "emC/Jc/genRefl/ReflMemAccessJc.crefl"

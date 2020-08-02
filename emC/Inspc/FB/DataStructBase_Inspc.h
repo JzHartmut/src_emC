@@ -32,6 +32,10 @@ typedef struct DataStructBase_Inspc_t {
 
 } DataStructBase_Inspc_s;
 
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_DataStructBase_Inspc;
+#endif
+
 
 
 

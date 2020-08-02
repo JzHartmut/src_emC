@@ -1,3 +1,5 @@
+#ifdef DEF_INSPC_REMOTEACCESS
+
 #include "Proxy2Target_Inspc.h"
 
 #include <stdio.h> //printf
@@ -89,4 +91,5 @@ int32 get_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cm
 
 }
 
+#endif //DEF_INSPC_REMOTEACCESS
 

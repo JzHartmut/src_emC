@@ -7,8 +7,6 @@
 #include <emC/Jc/ReflectionJc.h>   //Reflection concept 
   //basic stacktrace concept
 #include "emC/J1c/StringFunctionsJc.h"  //reference-association: StringFunctionsJc_s
-//#include "Jc/AssertJc.h"  //reference-association: DebugutilJc_s
-//#include "Jc/SystemJc.h"  //reference-association: SystemJc
 
 
 /* J2C: Forward declaration of struct ***********************************************/

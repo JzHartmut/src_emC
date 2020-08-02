@@ -42,20 +42,76 @@
 //The following switch select the compiler in some sources.
 #define __COMPILER_IS_MSC15__
 #define __COMPILER_IS_MSVC__
-
+#define DEF_MS_VISUAL_STUDIO
+#define DEF_Cpp11_supported
 
 
 //#include the standard header from Visual studio firstly. 
 //stdint.h defines int8_t etc. via typedef. 
 //Because pragma once (or guard) the content of the files are not included again.
 //They should be included firstly to cover its typedef by the typedef of simulink.
+//Note: The stdint.h includes sum unecessary stuff
 #include <stdint.h>  //C99-int types
-#include <limits.h>  //proper to C99
+//define instead the important type definitions immediately compiler specific.
+//#define int8_t signed char
+//#define int16_t short
+//#define int32_t int
+//#define int64_t long long
+//#define uint8_t unsigned char
+//#define uint16_t unsigned short
+//#define uint32_t unsigned int
+//#define uint64_t unsigned long long
+//#define intptr_t int
+//#define INT8_MIN         (-127i8 - 1)
+//#define INT16_MIN        (-32767i16 - 1)
+//#define INT32_MIN        (-2147483647i32 - 1)
+//#define INT64_MIN        (-9223372036854775807i64 - 1)
+//#define INT8_MAX         127i8
+//#define INT16_MAX        32767i16
+//#define INT32_MAX        2147483647i32
+//#define INT64_MAX        9223372036854775807i64
+//#define UINT8_MAX        0xffui8
+//#define UINT16_MAX       0xffffui16
+//#define UINT32_MAX       0xffffffffui32
+//#define UINT64_MAX       0xffffffffffffffffui64
+//
+//#define INT_LEAST8_MIN   INT8_MIN
+//#define INT_LEAST16_MIN  INT16_MIN
+//#define INT_LEAST32_MIN  INT32_MIN
+//#define INT_LEAST64_MIN  INT64_MIN
+//#define INT_LEAST8_MAX   INT8_MAX
+//#define INT_LEAST16_MAX  INT16_MAX
+//#define INT_LEAST32_MAX  INT32_MAX
+//#define INT_LEAST64_MAX  INT64_MAX
+//#define UINT_LEAST8_MAX  UINT8_MAX
+//#define UINT_LEAST16_MAX UINT16_MAX
+//#define UINT_LEAST32_MAX UINT32_MAX
+//#define UINT_LEAST64_MAX UINT64_MAX
+//
+//#define INT_FAST8_MIN    INT8_MIN
+//#define INT_FAST16_MIN   INT32_MIN
+//#define INT_FAST32_MIN   INT32_MIN
+//#define INT_FAST64_MIN   INT64_MIN
+//#define INT_FAST8_MAX    INT8_MAX
+//#define INT_FAST16_MAX   INT32_MAX
+//#define INT_FAST32_MAX   INT32_MAX
+//#define INT_FAST64_MAX   INT64_MAX
+//#define UINT_FAST8_MAX   UINT8_MAX
+//#define UINT_FAST16_MAX  UINT32_MAX
+//#define UINT_FAST32_MAX  UINT32_MAX
+//#define UINT_FAST64_MAX  UINT64_MAX
+
+//#include <limits.h>  //proper to C99
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
+
+
+
+
+
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -76,6 +132,7 @@
 #pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
 #pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
 #pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
+#pragma warning(disable:4305) //truncation from 'double' to 'float'
 #pragma warning(disable:4310) //cast truncates constant value
 #pragma warning(disable:4505) //unreferenced local function has been removed
 #pragma warning(disable:4514) //unreferenced inline function has been removed
@@ -240,6 +297,16 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
 
+#define MAYBE_UNUSED_emC
+
+/**It is an attribute before a function definition to determine
+ * that the function should be placed in a section which is linked
+ * to a RAM location but load into the FLASH memory.
+ * This section must be copied on startup to run successfully.
+ * It is a designation for embedded hardware with lesser but fast RAM.
+ */
+#define RAMFUNC_emC
+
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 
 /**Prevent process a NaN-value (not a number).
@@ -275,17 +342,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * The user should not include windows.h or such. 
  */
 #define OS_HandleEvent void*   
-#define MAYBE_UNUSED_emC
 
-#define USED_emC
-
-/**It is an attribute before a function definition to determine
- * that the function should be placed in a section which is linked
- * to a RAM location but load into the FLASH memory.
- * This section must be copied on startup to run successfully.
- * It is a designation for embedded hardware with lesser but fast RAM.
- */
-#define RAMFUNC_emC
 
 //It is for math.h of Visual Studio, elsewhere M_PI is not defined (special incompatibility of VS)
 #define _USE_MATH_DEFINES
@@ -355,6 +412,7 @@ extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 exp
 
 extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
 
+extern_C bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
   int32 read = compareAndSwap_AtomicInteger((int32 volatile*)reference, expect, update);
@@ -373,29 +431,35 @@ INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expec
   return read == expect;
 }
 
-INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+//The processor allows only a 32-bit-compare and set. To execute it for a given 16-bit-location
+//it is supposed that the other half word is stable. 
+//Hence it is read as expected and written unchanged with update. 
+//If the other part is changed in another thread, the compare and set system call failes,
+//Hence it is repeated in the outer loop with the same expected situation. 
+//It is expected that the second access may be okay. 
+//Only if the other half word is extremly volatile, this approach fails.  
+INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
   //Note: more difficult because memory is 32 bit
-  unsigned long expect32, update32;
+  int32 volatile* ref32;  //need to be int32 because call compareAndSet_AtomicInt32
+  uint32 expect32, update32;
   if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
-    expect32 = update;
-    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
-    update32 = update;
-    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+    ref32 = (int32 volatile*)(reference-1);       //use the lower address 
+    uint32 refLo = (*ref32 & 0x0000ffff); //suppose that the lower content is not changed.
+    expect32 = refLo | (((uint32)expect)<<16);
+    update32 = refLo | (((uint32)update)<<16);
   } else {
-    expect32 = *(reference +1); //read associate hi word
-    expect32 = (expect32 <<16) | update; 
-    update32 = *(reference +1); //read associate hi word
-    update32 = (update32 <<16) | update; 
+    ref32 = (int32 volatile*)(reference);          //use the same address 
+    uint32 refHi = (*ref32 & 0xffff0000); //suppose that the higher content is not changed.
+    expect32 = refHi | ((uint16)expect);
+    update32 = refHi | ((uint16)update);  //never expand the sign, hence use uint.
   }
   //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
   //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
   //only a little bit more calculation time because unnecesarry repetition.
-  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
-  return read == expect32;
+  return compareAndSet_AtomicInt32(ref32, expect32, update32);
 }
 
 
-bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 //INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
 //  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.

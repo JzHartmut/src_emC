@@ -12,12 +12,6 @@
 //Note: uncomment that to check whether this file is included:
 //#error used_Jc_stdef_SmlkSfuncExcH
 
-/**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
- * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
- */
-//#define __CPLUSPLUSJcpp
-#undef __CPLUSPLUSJcpp
-//#define __cplusplus
 
 /**Define the granularity of the ObjectJc base class: */
 //#define DEF_ObjectSimple_emC
@@ -26,7 +20,7 @@
 #define DEF_ObjectJcpp_REFLECTION
 #define DEF_ObjectJc_OWNADDRESS
 
-//#define DEF_ObjectJc_LARGESIZE
+#define DEF_ObjectJc_LARGESIZE
 
 /**Define of the offering of Reflection information: */
 //#define DEF_REFLECTION_NO
@@ -46,13 +40,13 @@
 //If set, without complex thread context, without Stacktrace
 //#define DEF_ThreadContext_SIMPLE
 
-//#define DEF_Exception_TRYCpp
-#define DEF_Exception_longjmp
+#define DEF_Exception_TRYCpp
+//#define DEF_Exception_longjmp
 //#define DEF_Exception_NO
 
 
 //If set, no assertion is done:
-#define ASSERT_IGNORE_emC
+//#define ASSERT_IGNORE_emC
 
 
 #if defined(DEF_REFLECTION_FULL)
@@ -70,7 +64,7 @@
 
 /**With this compiler switch the reflection should be included or not. DEF_REFLECTION_NO may be set by compiler options. */
 //#define DEF_REFLECTION_NO
-#ifndef DEF_REFLECTION_NO
+#if !defined(DEF_REFLECTION_NO) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_SIMPLE) 
   #define DEF_REFLECTION_FULL
 #endif
 

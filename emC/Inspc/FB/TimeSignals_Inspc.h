@@ -240,7 +240,7 @@ typedef struct TimeSignals_Inspc_t
 
   TimeData_TimeSignals_Inspc timeData [16];
 
-  #ifndef refl
+  #ifndef NO_PARSE_ZbnfCheader
     //don't generate reflection for this block.
 
     ClassOffset_idxVtblJc1 superThiz;
@@ -252,7 +252,7 @@ typedef struct TimeSignals_Inspc_t
      * Note: 16 Fields are necessary for upto 16 outputs. The field after the last used is for the own data struct for debugging. 17 fields are used as maximum.
      */
     FieldJc_Y fields; FieldJc _fields_Rest_[17 - zFieldsInHead_FieldJc_Y];
-  #endif//refl
+  #endif//NO_PARSE_ZbnfCheader
 
     struct {
       int32 ixChnCheckEntry;
@@ -260,6 +260,14 @@ typedef struct TimeSignals_Inspc_t
 
 
 } TimeSignals_Inspc;
+
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_TimeSignals_Inspc;
+#endif
+
+
+
 
 /**Allocate and construct. */
 //TimeSignals_Inspc* create_TimeSignals_Inspc(int zEntries);

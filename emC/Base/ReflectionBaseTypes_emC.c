@@ -589,7 +589,8 @@ const ClassJc refl_FieldJc =
 
 
 extern_C ClassJc const refl_ClassOffset_idxVtblJc;
-const ClassJc refl_ClassOffset_idxVtblJc =
+const ClassJc refl_ClassOffset_idxVtblJc = INIZ_ClassJc(refl_ClassOffset_idxVtblJc, "ClassOffset_idxVtblJc");
+/*
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(FieldJc), &refl_ClassOffset_idxVtblJc, &refl_ClassOffset_idxVtblJc)
 , "ClassOffset_idxVtblJc"
 , 0
@@ -600,7 +601,7 @@ const ClassJc refl_ClassOffset_idxVtblJc =
 , null  //interfaces
 , 0 
 };
-
+*/
 
 
 

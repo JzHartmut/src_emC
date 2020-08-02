@@ -405,6 +405,7 @@ extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 exp
 
 extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
 
+extern_C bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
   int32 read = compareAndSwap_AtomicInteger((int32 volatile*)reference, expect, update);
@@ -423,29 +424,35 @@ INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expec
   return read == expect;
 }
 
-INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+//The processor allows only a 32-bit-compare and set. To execute it for a given 16-bit-location
+//it is supposed that the other half word is stable. 
+//Hence it is read as expected and written unchanged with update. 
+//If the other part is changed in another thread, the compare and set system call failes,
+//Hence it is repeated in the outer loop with the same expected situation. 
+//It is expected that the second access may be okay. 
+//Only if the other half word is extremly volatile, this approach fails.  
+INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
   //Note: more difficult because memory is 32 bit
-  unsigned long expect32, update32;
+  int32 volatile* ref32;  //need to be int32 because call compareAndSet_AtomicInt32
+  uint32 expect32, update32;
   if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
-    expect32 = update;
-    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
-    update32 = update;
-    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+    ref32 = (int32 volatile*)(reference-1);       //use the lower address 
+    uint32 refLo = (*ref32 & 0x0000ffff); //suppose that the lower content is not changed.
+    expect32 = refLo | (((uint32)expect)<<16);
+    update32 = refLo | (((uint32)update)<<16);
   } else {
-    expect32 = *(reference +1); //read associate hi word
-    expect32 = (expect32 <<16) | update; 
-    update32 = *(reference +1); //read associate hi word
-    update32 = (update32 <<16) | update; 
+    ref32 = (int32 volatile*)(reference);          //use the same address 
+    uint32 refHi = (*ref32 & 0xffff0000); //suppose that the higher content is not changed.
+    expect32 = refHi | ((uint16)expect);
+    update32 = refHi | ((uint16)update);  //never expand the sign, hence use uint.
   }
   //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
   //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
   //only a little bit more calculation time because unnecesarry repetition.
-  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
-  return read == expect32;
+  return compareAndSet_AtomicInt32(ref32, expect32, update32);
 }
 
 
-bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 //INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
 //  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.

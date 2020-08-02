@@ -4,67 +4,6 @@
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl_DataNode_Inspc_superclass;
-
-#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset_DataNode_Inspc_superclass[] =
-{ 123  //< &nrClass>   //index of class in Offset data
-}; 
-    
-#else  //DEF_REFLECTION_FULL
-
-
-extern_C const ClassJc refl_ObjectArrayJc;  //used for field head
-
-extern_C const ClassJc refl_ClassOffset_idxVtblJc;  //used for field clazz
-
-const struct Reflection_Fields_DataNode_Inspc_superclass_t
-{ ObjectArrayJc head;
-  FieldJc data[2];
-} refl_Fields_DataNode_Inspc_superclass =
-{ INIZ_ObjectArrayJc(refl_Fields_DataNode_Inspc_superclass, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
-, {  
-    { "head"
-    , 0   //no Array, no Bitfield                           
-    , &refl_ObjectArrayJc                                                                                            
-    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->superclass.head)) - ((intptr_t)(&((DataNode_Inspc*)(0x1000))->superclass)) )  /*implicit struct*/
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_DataNode_Inspc_superclass
-    }
-  , 
-    { "clazz"
-    , 0   //no Array, no Bitfield                           
-    , &refl_ClassOffset_idxVtblJc                                                                                            
-    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->superclass.clazz)) - ((intptr_t)(&((DataNode_Inspc*)(0x1000))->superclass)) )  /*implicit struct*/
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_DataNode_Inspc_superclass
-    }
-  
-} }; 
- 
-
-#define DEFINED_refl_DataNode_Inspc_superclass    
-const ClassJc   refl_DataNode_Inspc_superclass =
-{ INIZ_objReflId_ObjectJc(refl_DataNode_Inspc_superclass, refl_ClassJc, ID_refl_ClassJc)
-, "DataNode_Inspc_superclass"
-, 0
-, sizeof(((DataNode_Inspc*)0x1000)->superclass)
-, (FieldJcArray const*)&refl_Fields_DataNode_Inspc_superclass  //attributes and associations
-, null  //method      
-, null  //superclass  
-, null  //interfaces  
-, 0   
-#ifdef DEF_ClassJc_Vtbl  
-, null  //virtual table
-#endif
-};
-
-#endif //DEF_REFLECTION_FULL
-
-
-//forward declaration of the following definition necessary because extern_C definition. 
 extern_C const ClassJc refl_DataNode_Inspc;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
@@ -74,12 +13,6 @@ int32 const reflectionOffset_DataNode_Inspc[] =
     
 #else  //DEF_REFLECTION_FULL
 
-
-extern_C const ClassJc refl_ClassJc;  //used for field clazz
-
-extern_C const ClassJc refl_FieldJc_Y;  //used for field fields
-
-extern_C const ClassJc refl_FieldJc;  //used for field _addFields
   
 
 extern_C const ClassJc refl_ObjectJc;  //the super class here used.
@@ -106,51 +39,15 @@ const struct SuperClasses_DataNode_Inspc_ClassOffset_idxVtblJcARRAY_t  //Type fo
 
 const struct Reflection_Fields_DataNode_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[5];
+  FieldJc data[1];
 } refl_Fields_DataNode_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_DataNode_Inspc, 5, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_DataNode_Inspc, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "data"
     , 50 //nrofArrayElements                           
     , REFLECTION_void                                                                                            
     , 0 | kReference_Modifier_reflectJc | kStaticArray_Modifier_reflectJc //bitModifiers
     , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->data)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_DataNode_Inspc
-    }
-  , 
-    { "clazz"
-    , 0   //no Array, no Bitfield                           
-    , &refl_ClassJc                                                                                            
-    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->clazz)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_DataNode_Inspc
-    }
-  , 
-    { "superclass"
-    , 0   //no Array, no Bitfield                           
-    , &refl_DataNode_Inspc_superclass                                                                                            
-    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->superclass)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_DataNode_Inspc
-    }
-  , 
-    { "fields"
-    , 0   //no Array, no Bitfield                           
-    , &refl_FieldJc_Y                                                                                            
-    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->fields)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_DataNode_Inspc
-    }
-  , 
-    { "_addFields"
-    , 40 //nrofArrayElements                           
-    , &refl_FieldJc                                                                                            
-    , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataNode_Inspc*)(0x1000))->_addFields)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &refl_DataNode_Inspc
     }

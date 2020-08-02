@@ -9,6 +9,7 @@
 
 #ifndef DEF_REFLECTION_NO
   //#include "Inspc/Target2Proxy_Inspc.crefl"
+  #include "emC/InspcTargetSimple/genRefl/IfcTargetProxy_Inspc.crefl" //The telg struct has no own implementation
 #else
   
 #endif

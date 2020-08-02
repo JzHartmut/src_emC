@@ -9,7 +9,6 @@
   //reference-association: ExceptionJc
 #include "emC/Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactory_s
 #include "emC/Ipc/Ipc2c/InterProcessCommRx_ifc_Ipc.h"  //reference-association: execRxDataVtbl
-#include "emC/Jc/AssertJc.h"  //reference-association: AssertJc_s
 #include "emC/Jc/PrintStreamJc.h"  //reference-association: out
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 #include "emC/Jc/SystemJc.h"  //reference-association: SystemJc

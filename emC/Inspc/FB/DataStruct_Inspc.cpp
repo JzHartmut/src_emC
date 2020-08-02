@@ -4,7 +4,7 @@
 #include <emC/Base/DefPortTypes_emC.h>
 #include <emC/Base/Handle_ptr64_emC.h> //Support 64-bit-pointer
 
-#include <emC/Inspc/CheckPwd_Inspc.h>
+#include <emC/Inspc/Srv/CheckPwd_Inspc.h>
 #include <emC/Jc/FileIoJc.h>
 #include <emC/Jc/StringJc.h>
 #include <emC/J1c/StringFunctionsJc.h>
@@ -539,7 +539,8 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
       //
       //fill the local given superclass and class data.
       //
-      init_immediate_ObjectArrayJc(&thiz->superclass.head, 1, sizeof(thiz->superclass.clazz), null, 0);
+      init_immediate_ObjectArrayJc(&thiz->superclass.head, 1, sizeof(thiz->superclass.clazz)
+        , &refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc | mArrayId_ObjectJc);
       ClassJc const* superClass;
       int32 superAccess = 0;
       if (thiz->superTypeMng != null) {          //set from the superTypeMng if it is given via the superTypeMng's subTypeMng input
@@ -586,7 +587,7 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
         } while (mng1 != null);
         //register this data in the parent node:
         CALLINE;
-        iniz_ObjectJc(&thiz->userDataBlock.addr->base.object, &thiz->userDataBlock.addr, userDataBytes, &thiz->clazz, 0);
+        iniz_ObjectJc(&thiz->userDataBlock.addr->base.object, thiz->userDataBlock.addr, userDataBytes, &thiz->clazz, 0);
         thiz->userDataBlock.addr->base.super.thiz1 = thiz;  //access to the mng data especially via reflection
         setInitialized_ObjectJc(&thiz->userDataBlock.addr->base.object);  //for the offered data
         if (data_y != null) { *data_y = &thiz->userDataBlock.addr->base.super; }

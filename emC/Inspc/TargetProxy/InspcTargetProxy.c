@@ -1,4 +1,4 @@
-
+#ifdef DEF_INSPC_REMOTEACCESS
 #include "InspcTargetProxy.h"
 #include <emC/Base/ParseArgs_emC.h>
 #include "emC/Jc/ObjectJc.h"
@@ -20,10 +20,8 @@
 
 
 #include "genRefl/InspcTargetProxy.crefl"
-#include "emC/InspcTargetSimple/genRefl/IfcTargetProxy_Inspc.crefl" //The telg struct has no own implementation
 //additional crefl for references
 //#include "genRefl/InspcTargetSimple/SharedMem2Target_Inspc.crefl"
-#include "emC/OSAL/genRefl/os_sharedMem.crefl"
 
 
 InterProcessCommRx_ifc_Ipc_s targetRx = {{INIZ_ObjectJc(targetRx, refl_InterProcessCommRx_ifc_Ipc, 0)}};
@@ -320,7 +318,7 @@ int32 getInfo_InspcTargetProxy(InspcTargetProxy_s* thiz, Cmd_InspcTargetProxy_e 
 /**Request any info which has max. 4 byte return value. 
  * This routine will be called from inside ReflMemAccessJc.c for all Reflection access to outside memory.
  */
-int32 accessTarget_Inspc  ( Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int32 input)
+int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int32 input)
 { 
   return get_Proxy2Target_Inspc(&data.commImpl.shMem->super, cmd, address, input);
   //return getInfo_InspcTargetProxy(&data, cmd, address, input);
@@ -340,3 +338,4 @@ int32 InspcTargetProxySharedMem::accessTarget(Cmd_InspcTargetProxy_e cmd, int de
   return get_Proxy2Target_Inspc(&this->shMem->super, cmd, address, input);
 }
 #endif
+#endif //DEF_INSPC_REMOTEACCESS

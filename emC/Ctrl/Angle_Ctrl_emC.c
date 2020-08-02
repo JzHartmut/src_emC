@@ -1,9 +1,9 @@
-#include "Angle_FB.h"
+#include "Angle_Ctrl_emC.h"
 #include <applstdef_emC.h>
 #include <emC/base/Object_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
-  #include "genRefl/Angle_FB.crefl"
+  #include "genRefl/Angle_Ctrl_emC.crefl"
 #elif defined(XXXDEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;
@@ -18,7 +18,7 @@
 
 void ctor_Angle_abwmf_FB(Angle_abwmf_FB_CtrlemC* thiz, int32 identObj, float Tstep)
 { memset(thiz, 0, sizeof(*thiz)); 
-  ctor_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), &refl_Angle_abwmf_FB_CtrlemC, identObj);
+  CTOR_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), refl_Angle_abwmf_FB_CtrlemC, identObj);
   setInitialized_ObjectJc(&thiz->obj);
   thiz->m = 1.0f;  //default for only-angle
 }

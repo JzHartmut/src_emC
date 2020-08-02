@@ -60,11 +60,13 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
   }
   #ifdef DEF_ObjectJc_REFLREF
   //ObjectJc hase REFLREF: check both, ident and refl
-  if( ident!=0 && (thiz->identSize & mInstance_ObjectJc) != (((uint32)ident)<< kBitInstance_ObjectJc)) {
+  int identObj = getIdentInfo_ObjectJc(thiz);
+  if( ident!=0 && ident != identObj) {
     return false;
   }
   #endif
-  return (thiz->identSize & mSizeSmall_ObjectJc) >= size;  //true if size ==0, but mSize-bits should be valid.
+  uint sizeObj = getSizeInfo_ObjectJc(thiz);
+  return (sizeObj >= size);  //true if size ==0, but mSize-bits should be valid.
 }
 #endif  //def DEF_ObjectJc_LARGESIZE
 
@@ -238,13 +240,13 @@ void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident)
   { STACKTRC_ENTRY("setSizeAndIdent_ObjectJc");
     THROW1_s0(RuntimeException, "negativ values for all parameter are unexpected, or nrofArrayDimensions >0", sizeObj);
   }
-  else if(sizeObj <= mSizeSmall_ObjectJc && identObj <= (mIdentSmall_ObjectJc >> kBitIdentSmall_ObjectJc))
+  else if(sizeObj <= mSizeSmall_ObjectJc && identObjTest <= (mIdentSmall_ObjectJc >> kBitIdentSmall_ObjectJc))
   { thiz->identSize = sizeObj | kIsSmallSize_ObjectJc | (identObj<<kBitIdentSmall_ObjectJc);
   }
-  else if(sizeObj <= mSizeMedium_ObjectJc && identObj <= (mIdentMedium_ObjectJc >> kBitIdentMedium_ObjectJc))
+  else if(sizeObj <= mSizeMedium_ObjectJc && identObjTest <= (mIdentMedium_ObjectJc >> kBitIdentMedium_ObjectJc))
   { thiz->identSize = sizeObj | kIsMediumSize_ObjectJc | (identObj<<kBitIdentMedium_ObjectJc);
   }
-  else if(sizeObj <= mSizeLarge_ObjectJc && identObj <= (mIdentLarge_ObjectJc >> kBitIdentLarge_ObjectJc))
+  else if(sizeObj <= mSizeLarge_ObjectJc && identObjTest <= (mIdentLarge_ObjectJc >> kBitIdentLarge_ObjectJc))
   { thiz->identSize = sizeObj | mIsLargeSize_ObjectJc | (identObj<<kBitIdentLarge_ObjectJc);
   }
   else

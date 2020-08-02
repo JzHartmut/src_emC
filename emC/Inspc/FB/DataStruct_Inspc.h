@@ -33,6 +33,11 @@ typedef struct UserHead_DataStructMng_Inspc_t
 
 } UserHead_DataStructMng_Inspc;
 
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_UserHead_DataStructMng_Inspc;
+#endif
+
+
 
 /**This is the head struct for the users data.
 * After this struct some more int32 fields are allocated for any number of user data.
@@ -49,6 +54,10 @@ typedef struct UserData_DataStructMng_Inspc_t
   int32 val[zBaseVal_UserData_DataStructMng_Inspc];
 } UserData_DataStructMng_Inspc;
 
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_UserData_DataStructMng_Inspc;
+#endif
 
 
 
@@ -92,6 +101,10 @@ typedef struct DataStruct_Inspc_t
 
 
 } DataStruct_Inspc;
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_DataStruct_Inspc;
+#endif
 
 
 
@@ -250,6 +263,10 @@ typedef struct DataStructMng_Inspc_t
   #endif//refl
 
 } DataStructMng_Inspc;
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_DataStructMng_Inspc;
+#endif
 
 
 

@@ -1,3 +1,5 @@
+#ifdef DEF_INSPC_REMOTEACCESS
+
 #include "Proxy2TargetSharedMem_Inspc.h"
 #include <string.h>
 #include <emC/OSAL/os_sharedmem.h>
@@ -36,4 +38,5 @@ void dtor_Proxy2TargetSharedMem_Inspc(Proxy2TargetSharedMem_Inspc* thiz) {
 
 }
 
+#endif //DEF_INSPC_REMOTEACCESS
 

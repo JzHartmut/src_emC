@@ -226,7 +226,7 @@ typedef struct  StringBuilderJc_t
  * @param OBJP Pointer to the instance itself. It is used to store the OWNADDRESS for the ObjectJc-part.
  * @param ADDSIZE The additional size of the StringBuffer, defined by sizeof the followed char array.
  */
-#define INIZ_addSize_StringBuilderJc(OBJ, ADDSIZE) { { INIZ_ObjectJc(OBJ, null, 0)}, 0, sizeof((OBJ).value) + (ADDSIZE) -1, 0 }
+#define INIZ_addSize_StringBuilderJc(OBJ, ADDSIZE) { { INIZ_ObjectJc(OBJ, refl_StringBuilderJc, 0)}, 0, sizeof((OBJ).value) + (ADDSIZE) -1, 0 }
 #define CONST_addSize_StringBuilderJc(OBJP, ADDSIZE) { CONST_ObjectJc(sizeof(StringBuilderJc_s) + (ADDSIZE), &(OBJP)->base.object, null), 0, sizeof((OBJP)->value) + (ADDSIZE) -1, 0 }
 //#define CONST_addSize_StringBuilderJc INIZ_addSize_StringBuilderJc
 

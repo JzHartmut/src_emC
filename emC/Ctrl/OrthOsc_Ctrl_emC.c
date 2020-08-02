@@ -1,7 +1,7 @@
-#include "OrthOsc_FB.h"
+#include "OrthOsc_Ctrl_emC.h"
 
 #ifdef DEF_REFLECTION_FULL
-#include "genRefl/OrthOsc_FB.crefl"
+#include "genRefl/OrthOsc_Ctrl_emC.crefl"
 #else
   #define ID_refl_OrthOsc2_FB_CtrlemC 0
   #define ID_refl_Param_OrthOsc2_FB 0

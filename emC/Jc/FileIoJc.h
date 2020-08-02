@@ -54,7 +54,7 @@ typedef struct FileJc_t
 
 } FileJc_s;
 
-#define INIZ_FileJc {{INIZ_ObjectJc(fileinput, &refl_FileJc, 0)}}
+#define INIZ_FileJc {{INIZ_ObjectJc(fileinput, refl_FileJc, 0)}}
 extern_C const ClassJc refl_FileJc;
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.

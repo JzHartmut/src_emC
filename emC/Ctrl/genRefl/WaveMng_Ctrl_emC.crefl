@@ -1,0 +1,707 @@
+
+    
+#include <emC/Ctrl/WaveMng_Ctrl_emC.h>  
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_WaveMngIx_FB;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_WaveMngIx_FB[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_WaveMngIx_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_WaveMngIx_FB =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_WaveMngIx_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_WaveMngIx_FB_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} refl_Fields_WaveMngIx_FB =
+{ INIZ_ObjectArrayJc(refl_Fields_WaveMngIx_FB, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "zBuffer"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngIx_FB*)(0x1000))->zBuffer)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngIx_FB
+    }
+  , 
+    { "ixNew"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngIx_FB*)(0x1000))->ixNew)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngIx_FB
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_WaveMngIx_FB    
+const ClassJc   refl_WaveMngIx_FB =
+{ INIZ_objReflId_ObjectJc(refl_WaveMngIx_FB, refl_ClassJc, ID_refl_ClassJc)
+, "WaveMngIx_FB"
+, 0
+, sizeof(WaveMngIx_FB)
+, (FieldJcArray const*)&refl_Fields_WaveMngIx_FB  //attributes and associations
+, null  //method      
+, &superClasses_WaveMngIx_FB.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_WaveMngCint_FB;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_WaveMngCint_FB[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+
+extern_C const ClassJc refl_WaveMngIx_FB;  //used for field waveIx
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_WaveMngCint_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_WaveMngCint_FB =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_WaveMngCint_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_WaveMngCint_FB_t
+{ ObjectArrayJc head;
+  FieldJc data[6];
+} refl_Fields_WaveMngCint_FB =
+{ INIZ_ObjectArrayJc(refl_Fields_WaveMngCint_FB, 6, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "zBuffer"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngCint_FB*)(0x1000))->zBuffer)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngCint_FB
+    }
+  , 
+    { "nrofValues"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngCint_FB*)(0x1000))->nrofValues)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngCint_FB
+    }
+  , 
+    { "nVal"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngCint_FB*)(0x1000))->nVal)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngCint_FB
+    }
+  , 
+    { "ixNew"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngCint_FB*)(0x1000))->ixNew)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngCint_FB
+    }
+  , 
+    { "ixLast"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngCint_FB*)(0x1000))->ixLast)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngCint_FB
+    }
+  , 
+    { "waveIx"
+    , 0   //no Array, no Bitfield                           
+    , &refl_WaveMngIx_FB                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMngCint_FB*)(0x1000))->waveIx)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMngCint_FB
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_WaveMngCint_FB    
+const ClassJc   refl_WaveMngCint_FB =
+{ INIZ_objReflId_ObjectJc(refl_WaveMngCint_FB, refl_ClassJc, ID_refl_ClassJc)
+, "WaveMngCint_FB"
+, 0
+, sizeof(WaveMngCint_FB)
+, (FieldJcArray const*)&refl_Fields_WaveMngCint_FB  //attributes and associations
+, null  //method      
+, &superClasses_WaveMngCint_FB.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_WaveMng_FB;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_WaveMng_FB[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+
+extern_C const ClassJc refl_WaveMngIx_FB;  //used for field waveIx
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_WaveMng_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_WaveMng_FB =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_WaveMng_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_WaveMng_FB_t
+{ ObjectArrayJc head;
+  FieldJc data[12];
+} refl_Fields_WaveMng_FB =
+{ INIZ_ObjectArrayJc(refl_Fields_WaveMng_FB, 12, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "zBuffer"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->zBuffer)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "nrofValues"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->nrofValues)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "ixNew"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->ixNew)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "ixLast"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->ixLast)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "ixLast1"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->ixLast1)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "ixLast0"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->ixLast0)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "nLast"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->nLast)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "nLast1"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->nLast1)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "nLast2"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->nLast2)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "nPastPart"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->nPastPart)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "nVal"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->nVal)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  , 
+    { "waveIx"
+    , 0   //no Array, no Bitfield                           
+    , &refl_WaveMngIx_FB                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveMng_FB*)(0x1000))->waveIx)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveMng_FB
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_WaveMng_FB    
+const ClassJc   refl_WaveMng_FB =
+{ INIZ_objReflId_ObjectJc(refl_WaveMng_FB, refl_ClassJc, ID_refl_ClassJc)
+, "WaveMng_FB"
+, 0
+, sizeof(WaveMng_FB)
+, (FieldJcArray const*)&refl_Fields_WaveMng_FB  //attributes and associations
+, null  //method      
+, &superClasses_WaveMng_FB.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_WaveData_FB;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_WaveData_FB[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+
+extern_C const ClassJc refl_WaveMngIx_FB;  //used for field waveIx
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_WaveData_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_WaveData_FB =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_WaveData_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_WaveData_FB_t
+{ ObjectArrayJc head;
+  FieldJc data[5];
+} refl_Fields_WaveData_FB =
+{ INIZ_ObjectArrayJc(refl_Fields_WaveData_FB, 5, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "X"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveData_FB*)(0x1000))->X)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveData_FB
+    }
+  , 
+    { "sum0"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveData_FB*)(0x1000))->sum0)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveData_FB
+    }
+  , 
+    { "waveIx"
+    , 0   //no Array, no Bitfield                           
+    , &refl_WaveMngIx_FB                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveData_FB*)(0x1000))->waveIx)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveData_FB
+    }
+  , 
+    { "data"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveData_FB*)(0x1000))->data)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveData_FB
+    }
+  , 
+    { "sizeDataAllocPos"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((WaveData_FB*)(0x1000))->sizeDataAllocPos)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_WaveData_FB
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_WaveData_FB    
+const ClassJc   refl_WaveData_FB =
+{ INIZ_objReflId_ObjectJc(refl_WaveData_FB, refl_ClassJc, ID_refl_ClassJc)
+, "WaveData_FB"
+, 0
+, sizeof(WaveData_FB)
+, (FieldJcArray const*)&refl_Fields_WaveData_FB  //attributes and associations
+, null  //method      
+, &superClasses_WaveData_FB.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_AvgWave_FB;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_AvgWave_FB[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+
+extern_C const ClassJc refl_WaveData_FB;  //used for field data_
+
+extern_C const ClassJc refl_WaveMng_FB;  //used for field wu_
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_AvgWave_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_AvgWave_FB =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_AvgWave_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_AvgWave_FB_t
+{ ObjectArrayJc head;
+  FieldJc data[5];
+} refl_Fields_AvgWave_FB =
+{ INIZ_ObjectArrayJc(refl_Fields_AvgWave_FB, 5, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "Y"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWave_FB*)(0x1000))->Y)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWave_FB
+    }
+  , 
+    { "pNk"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWave_FB*)(0x1000))->pNk)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWave_FB
+    }
+  , 
+    { "sum_"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWave_FB*)(0x1000))->sum_)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWave_FB
+    }
+  , 
+    { "data_"
+    , 0   //no Array, no Bitfield                           
+    , &refl_WaveData_FB                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWave_FB*)(0x1000))->data_)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWave_FB
+    }
+  , 
+    { "wu_"
+    , 0   //no Array, no Bitfield                           
+    , &refl_WaveMng_FB                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWave_FB*)(0x1000))->wu_)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWave_FB
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_AvgWave_FB    
+const ClassJc   refl_AvgWave_FB =
+{ INIZ_objReflId_ObjectJc(refl_AvgWave_FB, refl_ClassJc, ID_refl_ClassJc)
+, "AvgWave_FB"
+, 0
+, sizeof(AvgWave_FB)
+, (FieldJcArray const*)&refl_Fields_AvgWave_FB  //attributes and associations
+, null  //method      
+, &superClasses_AvgWave_FB.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_AvgWaveCint_FB;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_AvgWaveCint_FB[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+
+extern_C const ClassJc refl_WaveData_FB;  //used for field data_
+
+extern_C const ClassJc refl_WaveMngCint_FB;  //used for field wu_
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_AvgWaveCint_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_AvgWaveCint_FB =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_AvgWaveCint_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_AvgWaveCint_FB_t
+{ ObjectArrayJc head;
+  FieldJc data[4];
+} refl_Fields_AvgWaveCint_FB =
+{ INIZ_ObjectArrayJc(refl_Fields_AvgWaveCint_FB, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "Y"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWaveCint_FB*)(0x1000))->Y)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWaveCint_FB
+    }
+  , 
+    { "sum_"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWaveCint_FB*)(0x1000))->sum_)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWaveCint_FB
+    }
+  , 
+    { "data_"
+    , 0   //no Array, no Bitfield                           
+    , &refl_WaveData_FB                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWaveCint_FB*)(0x1000))->data_)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWaveCint_FB
+    }
+  , 
+    { "wu_"
+    , 0   //no Array, no Bitfield                           
+    , &refl_WaveMngCint_FB                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((AvgWaveCint_FB*)(0x1000))->wu_)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_AvgWaveCint_FB
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_AvgWaveCint_FB    
+const ClassJc   refl_AvgWaveCint_FB =
+{ INIZ_objReflId_ObjectJc(refl_AvgWaveCint_FB, refl_ClassJc, ID_refl_ClassJc)
+, "AvgWaveCint_FB"
+, 0
+, sizeof(AvgWaveCint_FB)
+, (FieldJcArray const*)&refl_Fields_AvgWaveCint_FB  //attributes and associations
+, null  //method      
+, &superClasses_AvgWaveCint_FB.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL

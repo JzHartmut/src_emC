@@ -9,7 +9,6 @@
   //reference-association: ExceptionJc
 #include "emC/Inspc/J2c/CmdExecuter_Inspc.h"  //reference-association: cmdExecuterVtbl
 #include "emC/Ipc/InterProcessComm.h"  //reference-association: InterProcessCommFactory_s
-#include "emC/Jc/AssertJc.h"  //reference-association: AssertJc_s
 #include "emC/Jc/PrintStreamJc.h"  //reference-association: out
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 #include "emC/Jc/SystemJc.h"  //reference-association: SystemJc
@@ -143,6 +142,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
 { Comm_Inspc_s* thiz = (Comm_Inspc_s*)ithis;
   
   STACKTRC_TENTRY("run_Comm_Inspc_F");
+  TRY {
   if(ftest) { fprintf(ftest, "run_Comm_Inspc_F\n"); fflush(ftest); } 
   { 
     
@@ -191,6 +191,12 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
       }
     } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
   }
+  }_TRY
+  CATCH(Exception, exc) {
+    //
+    printf("unexpected error\n");
+  }
+  END_TRY;
   STACKTRC_LEAVE;
 }
 

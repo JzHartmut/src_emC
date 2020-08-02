@@ -15,6 +15,7 @@ typedef struct DataNode_Inspc_t
   /**Reference to the instances or sub nodes. It can be any type. */
   void* data[50];
   
+#ifndef NO_PARSE_ZbnfCheader
   /**Instance of the Reflection definition of this node. It is not for a user instance. It is this node. */ 
   ClassJc clazz;
 
@@ -29,8 +30,19 @@ typedef struct DataNode_Inspc_t
   FieldJc_Y fields;
   /**Rest to 100 fields in sum. */
   FieldJc _addFields[40];
-
+#endif//NO_PARSE_ZbnfCheader
 } DataNode_Inspc;
+
+
+#ifndef DEF_REFLECTION_NO
+  //The reflection info will be built on runtime with the types of the references. 
+  //For stupid initialization of the allocated data us refl_ObjectJc.
+  //#define refl_DataNode_Inspc refl_ObjectJc
+  extern_C ClassJc const refl_DataNode_Inspc;
+
+#endif
+
+
 
 //Compatibility:
 #define FBaccessNode_Inspc DataNode_Inspc

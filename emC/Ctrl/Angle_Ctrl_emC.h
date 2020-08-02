@@ -95,6 +95,11 @@ typedef struct Angle_abwmf_FB_CtrlemC_T
 
 } Angle_abwmf_FB_CtrlemC;
 
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;
+#endif
+
 #define ID_refl_Angle_abwmf_FB_CtrlemC 0x0fC4
 
 

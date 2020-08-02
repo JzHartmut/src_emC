@@ -3,7 +3,7 @@
 
 #include <applstdef_emC.h>
 #include <emC/Base/Object_emC.h>
-#include <emC/Ctrl/Angle_FB.h>
+#include <emC/Ctrl/Angle_Ctrl_emC.h>
 #include <math.h>
 
 
@@ -39,6 +39,13 @@ typedef struct Param_OrthOsc2_FB_t
 
 
 } Param_OrthOsc2_FB;
+
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_Param_OrthOsc2_FB;
+#endif
+
+
 
 
 /**Initializes the Param_OrtOsc2_FB
@@ -111,6 +118,10 @@ typedef struct OrthOsc2_FB_t
   int32 __spare;   //:for 8 Byte align
 } OrthOsc2_FB_CtrlemC;
 
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_OrthOsc2_FB_CtrlemC;
+#endif
 
 
 /**@simulink ctor
@@ -257,6 +268,10 @@ typedef struct Adjustk_OrthOsc2_FB_t
   float kHi, kNormal;
 
 } Adjustk_OrthOsc2_FB;
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_Adjustk_OrthOsc2_FB;
+#endif
 
 
 

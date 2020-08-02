@@ -7,7 +7,6 @@
 #include <emC/Jc/ReflectionJc.h>   //Reflection concept 
   //basic stacktrace concept
 #include "emC/Jc/ArraysJc.h"  //reference-association: ArraysJc
-#include "emC/Jc/AssertJc.h"  //reference-association: RetOrExceptionJc
 #include "emC/Jc/CharsetJc.h"  //reference-association: CharsetJc
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 #include "emC/Jc/SystemJc.h"  //reference-association: FloatJc
@@ -1954,8 +1953,9 @@ int32 setIdxtoNextCurrentChild_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz
     
     
     int32  ixMax = thiz->bExpand ? thiz->data.val : thiz->ixEnd;
-    if(thiz->ixNextChild + sizeChild > ixMax) { STACKTRC_LEAVE;
-      return illegalArgument_I_RetOrExceptionJc(/*J2C:static method call*/thiz->bExc, -1, s0_StringJc("child on limit of expand"), _thCxt);
+    if(thiz->ixNextChild + sizeChild > ixMax) { 
+      ASSERT_emC(false, "child on limit of expand", thiz->ixNextChild + sizeChild, ixMax); 
+      STACKTRC_RETURN -1;
     }
     
     int32  ixChild1 = thiz->ixNextChild;

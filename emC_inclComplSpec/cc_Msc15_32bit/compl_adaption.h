@@ -346,6 +346,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define OS_HandleEvent void*   
 
 
+//It is for math.h of Visual Studio, elsewhere M_PI is not defined (special incompatibility of VS)
+#define _USE_MATH_DEFINES
 
 /**A OS_intPTR is the representation of a pointer in a int variable. 
  * Often a pointer is representable in a normal int, 
@@ -433,27 +435,32 @@ INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expec
   return read == expect;
 }
 
+//The processor allows only a 32-bit-compare and set. To execute it for a given 16-bit-location
+//it is supposed that the other half word is stable. 
+//Hence it is read as expected and written unchanged with update. 
+//If the other part is changed in another thread, the compare and set system call failes,
+//Hence it is repeated in the outer loop with the same expected situation. 
+//It is expected that the second access may be okay. 
+//Only if the other half word is extremly volatile, this approach fails.  
 INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
   //Note: more difficult because memory is 32 bit
-  int32 volatile* ref32;
-  unsigned long expect32, update32;
+  int32 volatile* ref32;  //need to be int32 because call compareAndSet_AtomicInt32
+  uint32 expect32, update32;
   if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
-    ref32 = (int32*)(reference-1);  //use the lower address 
-    expect32 = update;
-    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
-    update32 = update;
-    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+    ref32 = (int32 volatile*)(reference-1);       //use the lower address 
+    uint32 refLo = (*ref32 & 0x0000ffff); //suppose that the lower content is not changed.
+    expect32 = refLo | (((uint32)expect)<<16);
+    update32 = refLo | (((uint32)update)<<16);
   } else {
-    ref32 = (int32*)(reference);  //use the same address 
-    expect32 = *(reference +1); //read associate hi word
-    expect32 = (expect32 <<16) | update; 
-    update32 = *(reference +1); //read associate hi word
-    update32 = (update32 <<16) | update; 
+    ref32 = (int32 volatile*)(reference);          //use the same address 
+    uint32 refHi = (*ref32 & 0xffff0000); //suppose that the higher content is not changed.
+    expect32 = refHi | ((uint16)expect);
+    update32 = refHi | ((uint16)update);  //never expand the sign, hence use uint.
   }
   //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
   //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
   //only a little bit more calculation time because unnecesarry repetition.
-  return compareAndSet_AtomicInt32(ref32, expect, update);
+  return compareAndSet_AtomicInt32(ref32, expect32, update32);
 }
 
 

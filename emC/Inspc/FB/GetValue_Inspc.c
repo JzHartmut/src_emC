@@ -1,11 +1,13 @@
 #include "emC/Inspc/FB/GetValue_Inspc.h"
 #include <emC/Inspc/J2c/SearchElement_Inspc.h>
-#include <emC/Inspc/DataNode_Inspc.h>
+#include <emC/Inspc/Srv/DataNode_Inspc.h>
 #include <emC/Jc/ReflectionJc.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <emC/base/SimpleC_emC.h>
+
+#include "genRefl/GetValue_Inspc.crefl"
 
 void ctor_GetValue_Inspc(GetValue_Inspc* thiz, float Tstep)
 {

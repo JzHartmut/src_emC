@@ -102,11 +102,11 @@ bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefP
         thiz->err = "faulty datapath_param"; 
       } else {
         MemSegmJc dataAddr = getObjAndClass_FieldJc(thiz->field, mem, &clazz, "I", -1);
-        dataM = build_MemC(dataAddr.addr, clazz->nSize);        //to check addr in range of MemC
+        dataM = build_MemC(dataAddr.addr.a, clazz->nSize);        //to check addr in range of MemC
       }
     } //TODO build dataM from accessed
     StringJc nameElement = zMax_StringJc(typenameinfo.name, sizeof(typenameinfo.name));  //extractName_TypeName_emC(name_param, _thCxt);
-    if (dataAddr.addr == null) {
+    if (dataAddr.addr.a == null) {
       thiz->err = "null pointer in access path";
       thiz->field = null;
     } else {

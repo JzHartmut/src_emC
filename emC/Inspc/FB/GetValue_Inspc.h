@@ -17,6 +17,10 @@ typedef struct GetValue_Inspc_t {
 
 } GetValue_Inspc;
 
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_GetValue_Inspc;
+#endif
+
 
 
 

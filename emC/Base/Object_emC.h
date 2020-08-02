@@ -275,11 +275,20 @@ extern_C struct ClassJc_t const refl_ObjectJc;
  * Note: The CONST_ObjectJc macro is yet necessary for generated Reflection. It is adequate INIZ_idSize_ObjectJc(...)
  */
 #ifdef DEF_ObjectJcpp_REFLECTION
-#  define INIZ_ObjectJc(OBJ, REFL, ID) \
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
    { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \
        & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
      ) | sizeof(OBJ) \
    , 0, kNoSyncHandles_ObjectJc, &(REFL) \
+   }
+  /**Initialize with Reflection especially for a primitive data type given in REFL. 
+   * In this case REFL is a pointer which's value is in range 1..0x60 to designate the primitive type.
+   */
+  #define INIZ_ReflRef_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \
+       & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , 0, kNoSyncHandles_ObjectJc, REFL \
    }
 //#  define INIZ_idSize_ObjectJc(OBJ, REFL, IDSIZE)  { (IDSIZE), 0,  kNoSyncHandles_ObjectJc, REFL }
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
@@ -581,7 +590,7 @@ typedef struct  ObjectArrayJc_t
 
 /**Initializer definition of an array based on ObjectArrayJc. The structure should have the following format:
 * ,,struct { ObjectArrayJc head; Type data[100];} myArray 
-* ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, &refl_TYPE, 0) };
+* ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, refl_TYPE, 0) };
 * @param NROF_ELEM number of elements
 * @param TYPE the type of the elements, used for sizeof(TYPE)
 * @param REFL_ELEM reflection class for the elements of the field.
@@ -590,6 +599,19 @@ typedef struct  ObjectArrayJc_t
 #define INIZ_ObjectArrayJc(OBJ, NROF_ELEM, TYPE, REFL_ELEM, ID) \
   { INIZ_ObjectJc(OBJ, REFL_ELEM, (ID) | mArrayId_ObjectJc ), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
 //old:{ INIZ_ObjectJc(OBJ, REFL_ELEM, ID | (mArray_ObjectJc >>16)), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
+
+
+/**Initializer definition of an array with primitive data based on ObjectArrayJc. The structure should have the following format:
+* ,,struct { ObjectArrayJc head; Type data[100];} myArray 
+* ,,    = { INIZ_ObjectArrayJc(myArray, 100, Type, REFLECTION_int32, 0) };
+* @param NROF_ELEM number of elements
+* @param TYPE the type of the elements, used for sizeof(TYPE)
+* @param REFL_ELEM reflection class reference for the elements of the field.
+* @param ID Object ident.
+*/
+#define INIZ_ReflRef_ObjectArrayJc(OBJ, NROF_ELEM, TYPE, REFL_ELEM, ID) \
+  { INIZ_ReflRef_ObjectJc(OBJ, REFL_ELEM, (ID) | mArrayId_ObjectJc ), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
+
 
 
 

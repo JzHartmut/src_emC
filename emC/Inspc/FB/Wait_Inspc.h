@@ -28,6 +28,12 @@ typedef struct Wait_Inspc_t
 
 } Wait_Inspc;
 
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_Wait_Inspc;
+#endif
+
+
 /**Allocate and construct. */
 Wait_Inspc* create_Wait_Inspc();
 

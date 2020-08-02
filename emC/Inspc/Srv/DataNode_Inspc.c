@@ -7,6 +7,8 @@
 #include <string.h>
 #include <emC/base/String_emC.h>
 
+#include "genRefl/DataNode_Inspc.crefl"
+
 
 DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float Tstep)
 { //Tstep is only dummy, for simulink.
@@ -74,7 +76,7 @@ void addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc 
     }
     #ifdef DEF_ObjectJc_OWNADDRESS
     if(obj->ownAddress != obj) {
-      THROW_s0( IllegalArgumentException, "input 3: obj.ownAddress is fault.", 0, 0);
+      THROW_s0( IllegalArgumentException, "input 3: obj.ownAddress is fault.", (int)(intPTR)obj->ownAddress, (int)(intPTR)obj);
       STACKTRC_RETURN;
     }
     #endif

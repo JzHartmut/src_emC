@@ -77,6 +77,10 @@ typedef struct Par_PIDi_Ctrl_emC_t
 
 } Par_PIDi_Ctrl_emC_s;
 
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_Par_PIDi_Ctrl_emC;
+#endif
+
 #ifndef ID_refl_Par_PIDi_Ctrl_emC  //may be defined in *.reflOffs.h
 #define ID_refl_Par_PIDi_Ctrl_emC 0x0FC2
 #endif
@@ -161,6 +165,10 @@ typedef struct PIDi_Ctrl_emC_t
 
 
 } PIDi_Ctrl_emC_s;
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_PIDi_Ctrl_emC;
+#endif
 
 #ifndef ID_refl_PIDi_Ctrl_emC  //may be defined in *.reflOffs.h
 #define ID_refl_PIDi_Ctrl_emC 0x0FC3
