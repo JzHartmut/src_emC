@@ -420,11 +420,11 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
             { /*:Note: outer classes are designated in Java with this$0 etc. as Field already.*/
               /*:ClassJc superObj = clazz.getEnclosingClass();*/
             
-              struct FieldJc_t const* field = getSuperField_ClassJc(clazz);
-              if (field != null && ((field->bitModifiers & mAccessLevel_Modifier_FieldJc) >> kBitAccessLevel_Modifier_FieldJc) <= accesslevel) { //prevent error if reflection are manual programmed.
+              struct FieldJc_t const* superfield = getSuperField_ClassJc(clazz);
+              if (superfield != null && ((superfield->bitModifiers & mAccessLevel_Modifier_FieldJc) >> kBitAccessLevel_Modifier_FieldJc) <= accesslevel) { //prevent error if reflection are manual programmed.
 
-                                                                                                                                                 /**Generates one entry per field in the answer telegram. */
-                evaluateFieldGetFields_XXFdii_ClassContent_Inspc(thiz, answer, field, nOrderNr, maxNrofAnswerBytes, _thCxt);
+                //shows super as Field, possible to open it.                                                                                                                                 /**Generates one entry per field in the answer telegram. */
+                evaluateFieldGetFields_XXFdii_ClassContent_Inspc(thiz, answer, superfield, nOrderNr, maxNrofAnswerBytes, _thCxt);
               }
               
             

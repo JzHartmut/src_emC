@@ -630,23 +630,22 @@ VtblHeadJc const* checkVtblError_ObjectJc(ObjectJc const* ythis, int error, ThCx
 
 
 
-/**calculates the index insided the jumptable of a dynamic call,
-* regarding the type of reference and the type of the instance.
-* @param reflectionObj The reflection of the referenced instance.
-* @param reflectionRef The reflection of the reference. It should be the same as reflectionObj
-*        or it should be found as a superclass or interface of the reflectionObj.
-*        This param is only used with its pointer value, no access to the referenced memory location will be done.
-* @return The index of the part of jumptable of the reference inside the jump table of the object.
-*         * It is 0, if reflectionObj == reflectionRef, it means the reference is from the same type as the Object.
-*         * It is mIdxVtbl_ObjectJc if reflectionObj is null. This case is possible if the Object has no reflection infos.
-*           If the index with this value is used as an index of jumptable, an exception occurs.
-*           But if it is not used, it is a valid case, especially if no dynamic linked call occurs.
-*/
-//this is the older form, not able to use for reflection in divided dll files such as in Simulink-mex-files.
-//The problem is, there are different instantiations of the reflection data in several dll.
-//The better solution is getIxVtbl_s_ClassJc(...) which compares the names of the reflection. 
-//but this is faster!
-
+/**Checks the type and searches a super or interface type in reflection, 
+ * returns the index of the virtual table. 
+ * The given reflection of the type should be either equal as reference with the reflection of the object
+ * (itself or super types), or the name should be equals. 
+ * The test of the name enables usage of different dll for reflectionObj and reflectionRef, 
+ * whereby the const reflection data are existing twice, in any of the dll on different memory addresses.
+ * This is necessary anyway if dll are used, especially for Simulink S-function with mex dll.
+ * @param reflectionObj The reflection of the given instance.
+ * @param reflectionRef The reflection of the required type.
+ * @return The index of the part of virtual table of the reflectionRef type inside the virtual table of the object.
+ *         * It is 0, if reflectionObj == reflectionRef, or the names are equal, it means the reference is from the same type as the Object.
+ *         * It is mIdxVtbl_ObjectJc if reflectionObj is null. This case is possible if the Object has no reflection infos.
+ *           If the index with this value is used as an index of jumptable, an exception occurs.
+ *           But if it is not used, it is a valid case, especially if no dynamic linked call occurs.
+ *         * It is -1 if the reflectionRef type is not part of the given reflectionObj. 
+ */
 int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRef)
 { int idxVtbl = -1;
   STACKTRC_ENTRY("getIdxVtbl_ClassJc");
@@ -658,7 +657,8 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
   { if(reflectionRef == null)  //if no reflection is prescribed:
     { idxVtbl = 0;  //returns the Vtbl_ObjectJc
     }
-    else if(reflectionRef == reflectionObj)
+    else if(  reflectionRef == reflectionObj 
+           || strncmp(reflectionRef->name, reflectionObj->name, sizeof(reflectionObj->name))==0)
     { idxVtbl = 0;  //returns the whole Vtbl for the type.
     }
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
@@ -671,7 +671,8 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
         { ClassOffset_idxVtblJc const* reflectionChild;
           reflectionChild = &reflectionIfc->data[idxIfc];
           ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
-          if(superType == reflectionRef)
+          if(  superType == reflectionRef 
+            || strncmp(superType->name, reflectionRef->name, sizeof(reflectionRef->name))==0)
           { idxVtbl = reflectionChild->idxVtbl;
           }
         }
@@ -686,7 +687,8 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
       int identSuperClass = ((reflectionObj->superClass_es->identSize & mIdentSmall_ObjectJc)>>kBitIdentSmall_ObjectJc);
       if( identSuperClass == ID_refl_ClassJc) {
         ClassJc const* superType = C_CAST(ClassJc const*,reflectionObj->superClass_es);
-        if(superType == reflectionRef)
+        if(  superType == reflectionRef 
+          || strncmp(superType->name, reflectionRef->name, sizeof(reflectionRef->name))==0)
         { idxVtbl = 0;  //not supported, show only found type
         }
         else
@@ -700,7 +702,8 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
         { ClassOffset_idxVtblJc const* reflectionChild;
           reflectionChild = &reflectionSuper->data[idxSuper];
           ClassJc const* superType = reflectionChild->superfield.type_;    //A super field is never a primitive, anytime a real pointer to ClassJc 
-          if(superType == reflectionRef)
+          if(  superType == reflectionRef 
+            || strncmp(superType->name, reflectionRef->name, sizeof(reflectionRef->name))==0)
           { idxVtbl = reflectionChild->idxVtbl;
           }
           else
