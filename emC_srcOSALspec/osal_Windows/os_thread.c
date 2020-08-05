@@ -91,7 +91,8 @@ typedef struct OS_ThreadContext_t
   /**Name of the thread.*/
   const char* name; 
 
-  /**The user ThreadContext is part of the thread specific data. It is defined application-specific via the included applstdef_emC.h */
+  /**The user ThreadContext is part of the thread specific data. 
+   * It is defined application-specific via the included applstdef_emC.h */
   ThreadContext_emC_s userThreadContext;
 
 }OS_ThreadContext;

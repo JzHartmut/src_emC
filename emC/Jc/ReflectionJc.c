@@ -242,17 +242,8 @@ MethodJc const* getDeclaredMethod_ClassJc(ClassJc const* thiz, char const* sName
 
 METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz)
 {
-  if(thiz->superClass_es == null) return null;
-  else if(isArray_ObjectJc(thiz->superClass_es)) {
-    ASSERT_emC(checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_FieldJc, 0), "superClas_es should be a Array of FieldJc", 0,0);
-    FieldJc_Y const* superFields = C_CAST(FieldJc_Y const*, thiz->superClass_es);
-    return getType_FieldJc(&superFields->data[0]); //Note: C++ knows more superclasses, this is for Java-like and C
-  } else {
-    ASSERT_emC(checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_FieldJc, 0), "superClas_es should be a FieldJc", 0,0);
-    FieldJc const* superField = C_CAST(FieldJc const*, thiz->superClass_es);
-    return getType_FieldJc(superField);
-
-  }
+  FieldJc const* superField = getSuperField_ClassJc(thiz);
+  return superField == null ? null : getType_FieldJc(superField);
 }
 
 

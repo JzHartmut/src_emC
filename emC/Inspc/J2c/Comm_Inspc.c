@@ -101,7 +101,7 @@ bool openComm_Comm_Inspc(Comm_Inspc_s* thiz, bool blocking, ThCxt* _thCxt)
     
     InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, thiz->ipc, InterProcessComm);
     ok = ipcVtbl.mtbl->open(&(( (ipcVtbl.ref))->base.object), null, ((/*J2C:cast% from bool*/int32)(blocking)));
-    thiz->state = (ok >= 0 ? 2 : 0xe);
+    thiz->state = (ok >= 0 ? 0x2 : 0xe);
     if(thiz->bEnablePrintfOnComm) 
     { /*:only for debug:*/
       
@@ -180,7 +180,7 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
               
             }
         }
-      }
+      }//while !=0xd
     
     synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
       

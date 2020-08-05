@@ -11,9 +11,9 @@ const char typeCharsScalarTypes_ClassJc[0x50] =
 , '\0', 's', 'i', 'j'
 , 'f', 'd'  //float-complex, double-complex
 , 'Z', 'Y'  //bool, bitfield
-, 'J'  //ObjectJcpp
+, 'L'  //ObjectJcpp
 , 'L', 'L', 'L', 'L'
-, 's', 'o'
+, 's', 'o', 't'  //1d: StringJc, PtrValue
 };
 
 

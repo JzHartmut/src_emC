@@ -682,7 +682,7 @@ typedef enum ScalarTypes_ClassJc_t
   kREFLECTION_float_ClassJc      = 0x0c,
   kREFLECTION_double_ClassJc     = 0x0d,
   kREFLECTION_char_ClassJc       = 0x0e,
-  kREFLECTION_bool_ClassJc       = 0x0f,
+  kREFLECTION_char16_ClassJc     = 0x0f,
   #define kREFLECTION_boolean_ClassJc kREFLECTION_bool_ClassJc
 
   kREFLECTION_complexint16_ClassJc = 0x11,
@@ -690,6 +690,7 @@ typedef enum ScalarTypes_ClassJc_t
   kREFLECTION_complexint64_ClassJc = 0x13,
   kREFLECTION_complexfloat_ClassJc = 0x14,
   kREFLECTION_complexdouble_ClassJc = 0x15,
+  kREFLECTION_bool_ClassJc         = 0x16,
 
   kREFLECTION_bitfield_ClassJc      = 0x17,
 

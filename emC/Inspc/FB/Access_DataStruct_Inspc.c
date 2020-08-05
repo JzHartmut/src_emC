@@ -128,9 +128,10 @@ bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefP
       else {
         ClassJc const* fieldType = getType_FieldJc(thiz->field);
         nBytesData = fieldType->nSize;
-        if(thiz->portProps.type != typeChar_FieldJc(thiz->field)) {
-        //if (!checkType_Entry_DefPortType_emC(&thiz->portProps, fieldType)) {
+        char typeField = typeChar_FieldJc(thiz->field);
+        if(thiz->portProps.type != typeField) {
           thiz->err = "type faulty ";
+          THROW_s0(IllegalArgumentException, thiz->err, thiz->portProps.type, typeField);
         }
       }
       if (thiz->err == null) {
