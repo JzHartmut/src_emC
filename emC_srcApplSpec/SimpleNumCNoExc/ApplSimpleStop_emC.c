@@ -42,9 +42,9 @@
 
 //#include "ObjectJc.h"
 #include <applstdef_emC.h>
-#include <emC/OSAL/os_time.h>
+//#include <emC/OSAL/os_time.h>
 #include <emC/OSAL/os_error.h>
-#include <emC/OSAL/os_thread.h>
+//#include <emC/OSAL/os_thread.h>
 //
 #include <stdio.h>
 #include <stdlib.h>  //exit
@@ -71,7 +71,7 @@ void os_FatalError  (  int errorCode, const char* description, int value1, int v
   while (run)
   {
     printf("ERROR STOP  since %d sec \n", ++ct);
-    os_delayThread(1000);
+    exit(10);
   }
 
 }
@@ -124,7 +124,7 @@ bool stop_AssertJc  (  void) {
 void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
 {
   printf("uncatchedException: %4.4X - thread stopped", (uint32)ythis->exceptionNr);
-  printStackTraceFile_ExceptionJc(ythis, null, null);
+  //printStackTraceFile_ExceptionJc(ythis, null, null);
   os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
   exit(255);
 }

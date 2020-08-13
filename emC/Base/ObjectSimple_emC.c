@@ -2,6 +2,12 @@
 #include <stdlib.h>   //malloc defined here
 #include <string.h>   //memset defined here
 
+#ifdef DEF_REFLECTION_SIMPLE
+ClassJc const refl_ObjectJc = INIZ_ClassJc(refl_ObjectJc, "ObjectJc");
+#endif
+
+
+
 
 #if !defined(DEF_ObjectJcpp_REFLECTION) && ! defined(DEF_ObjectJc_OWNADDRESS)
 struct ObjectJc_T * ctor_ObjectJc ( struct ObjectJc_T * othiz, void* ptr, uint size, struct ClassJc_t const* refl, uint idObj) {
@@ -104,7 +110,6 @@ void setInitialized_ObjectJc(struct ObjectJc_T const* thiz) {
   ObjectJc* wthiz = WR_CAST(ObjectJc*, thiz);
   wthiz->identSize |= mInitialized_ObjectJc;
 }
-
 
 
 

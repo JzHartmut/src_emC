@@ -240,6 +240,7 @@ typedef struct  ObjectJc_T
     uint16 offsetToInstanceAddr;
     /**Some handle bits to use an ObjectJc for lock (mutex). */
     uint16 handleBits;
+    #define mLockedSyncHandle_ObjetJc 0x8000
     #define mSyncHandle_ObjectJc 0x0fff
     #define kNoSyncHandles_ObjectJc 0x0fff
   #endif
@@ -262,10 +263,6 @@ typedef struct  ObjectJc_T
 
 //Include some definitions from this file, it is used anyway. But its own Definition of ObjectJc is not used. 
 #include <emC/Base/ObjectSimple_emC.h>
-
-#define ID_refl_ObjectJc 0x0FFE
-extern_C struct ClassJc_t const refl_ObjectJc;
-#define refl_ObjectJc refl_ObejctJc
 
 
 /*---------------------------------------------
@@ -319,6 +316,16 @@ extern_C struct ClassJc_t const refl_ObjectJc;
   uint getSizeInfo_ObjectJc(ObjectJc const* ythis);
 #endif
 
+
+#ifdef DEF_ObjectJc_SYNCHANDLE
+static inline void lock_ObjectJc ( ObjectJc* thiz) { thiz->handleBits |= mLockedSyncHandle_ObjetJc; }
+
+static inline bool isLocked_ObjectJc ( ObjectJc* thiz) { return (thiz->handleBits & mLockedSyncHandle_ObjetJc) !=0; }
+
+static inline void unlock_ObjectJc ( ObjectJc* thiz)  { thiz->handleBits &= ~mLockedSyncHandle_ObjetJc; }
+
+
+#endif //ifdef DEF_ObjectJc_SYNCHANDLE
 
 
 
@@ -398,11 +405,13 @@ inline ObjectJc const* ctorM_ObjectJc(MemC mem, struct ClassJc_t const* refl, in
 { init0_MemC(mem);   //A ctor should initialize all, no old data regarded. Cleanup!
   ObjectJc* thiz = PTR_MemC(mem, ObjectJc);
   int size = size_MemC(mem);
+  #ifndef NO_PARSE_ZbnfCheader
   #ifdef DEF_ObjectJc_REFLREF
     ctor_ObjectJc(thiz, thiz, size, refl, id);
   #else
     ctor_ObjectJc(thiz, thiz, size, null, id);
   #endif
+  #endif//NO_PARSE_ZbnfCheader
   return thiz;
 }
 

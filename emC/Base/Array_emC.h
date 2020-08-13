@@ -39,7 +39,7 @@
 
 
 
-
+#ifndef NO_PARSE_ZbnfCheader  //template definition missing yet.
 #ifdef __cplusplus
 
 /**class definition which wrapps a simple 1-dimensional array with fix length. 
@@ -120,7 +120,7 @@ class ArrayVarsize_emC {
 
 
 
-#else 
+#else //__cplusplus
 
 //Simple variant unchecked for C approach in well tested environments
 #define ARRAY_emC(TYPE, SIZE, NAME) TYPE NAME[SIZE] 
@@ -128,7 +128,9 @@ class ArrayVarsize_emC {
 
 
 
-#endif
+#endif //__cplusplus
+#endif//NO_PARSE_ZbnfCheader
+
 
 
 

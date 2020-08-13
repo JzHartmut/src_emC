@@ -4,6 +4,40 @@
 //#include "emC/Base/Object_emC.h"
 #include <applstdef_emC.h>
 
+/**This struct contains the used factors for the PID control calculated from the parameters.
+ * It is an internal data struct used for message transfer of factors. 
+ */
+typedef struct ParFactors_PIDf_Ctrl_emC_T {
+
+  union{ ObjectJc obj;} base;
+  
+  float kP;
+
+  /**Smoothing time for D-Part.*/
+  float fTsD;
+
+  /**Factor for D-Part including kP and Transformation to int32. */
+  float fD;
+
+  /**Factor for wxP for Integrator adding. */
+  int64 fI;
+  
+  /**Factor from float-x to int64 and to float-y-scale. */
+  float fIx, fIy;
+
+  /**Maximal value for the y output. The integrator in the PID uses fix point 64 bit for high accuracy.
+   * This value is used to build the correct factors from float to fix point. 
+   */
+  float yMax;
+
+} ParFactors_PIDf_Ctrl_emC_s;
+
+#ifndef ID_refl_ParFactors_PIDf_Ctrl_emC
+  #define ID_refl_ParFactors_PIDf_Ctrl_emC 0x1
+#endif
+extern_C ParFactors_PIDf_Ctrl_emC_s* ctor_ParFactors_PIDf_Ctrl_emC(ObjectJc* othiz);
+
+
 /**Parameter of PID controller 
  * @simulink bus.
  */
@@ -31,28 +65,15 @@ typedef struct Par_PIDf_Ctrl_emC_T
   float T1d;
 
   /**Internal paramter depending factors. */
-  struct Priv_T {
+  ParFactors_PIDf_Ctrl_emC_s i;
 
-    /**Smoothing time for D-Part.*/
-    float fTsD;
-
-    /**Factor for D-Part including kP and Transformation to int32. */
-    float fD;
-
-    /**Factor for wxP for Integrator adding. */
-    int64 fI;
-
-    /**Factor from float-x to int64 and to float-y-scale. */
-    float fIx, fIy;
-
-    int dbgct_reparam;
-  } i;
+  int dbgct_reparam;
 
 
   /**If set then changes from outside are disabled. For Inspector access. */
   uint man: 1;
 
-  uint limPbeforeD: 1;
+  //uint limPbeforeD: 1;
 
 } Par_PIDf_Ctrl_emC_s;
 
@@ -78,19 +99,13 @@ extern_C Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tste
  * @param Tstep_param It is the Tstep time of the controller, which should be regard on calculation of the factors. 
  * @simulink init
  */
-extern_C bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param);
+extern_C bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param
+  , float kP, float Tn, float Td, float Tsd, ParFactors_PIDf_Ctrl_emC_s** parFactors_y );
 
 /**step of PID controller
 * @simulink Object-FB, no-thizStep.
 */
-extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, float Td_param, float Tsd_param, bool* man_y);
-
-/**Takes new parameter and re-calculates internal values.
- * This routine is also called on [[init_PIDf_Ctrl_emC(...)]].
- * @simulink Operation-FB, step-in.
- */
-extern_C void reparam_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz);
-
+extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn, float Td, float Tsd, ParFactors_PIDf_Ctrl_emC_s** parFactors_y );
 
 
 #if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
@@ -100,7 +115,7 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
    */
   public: Par_PIDf_Ctrl_emC (int idObj, float Tstep, float yNom ) {
     CTOR_ObjectJc(&this->base.obj, this, sizeof(Par_PIDf_Ctrl_emC_s), refl_Par_PIDf_Ctrl_emC, idObj);  //should be initialized.
-    ctor_Par_PIDf_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as arguement.
+    ctor_Par_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
   public: bool init (float Tstep, float yNom ) {
@@ -111,7 +126,7 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
    * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
    */
   public: Par_PIDf_Ctrl_emC ( ObjectJc* objectJc) {
-    ctor_Par_PIDf_Ctrl_emC(&this->base.obj); //the initialized ObjectJc as arguement.
+    ctor_Par_PIDf_Ctrl_emC(&this->base.obj, 0.001f); //the initialized ObjectJc as arguement.
   }
 
 
@@ -137,8 +152,11 @@ typedef struct PIDf_Ctrl_emC_t
 {
   union { ObjectJc obj; } base;
 
-  Par_PIDf_Ctrl_emC_s* par;
+  ParFactors_PIDf_Ctrl_emC_s* parNew;
   
+  /**Currently used factors. */
+  ParFactors_PIDf_Ctrl_emC_s f;
+
   /**Current limitation of output. */
   float lim;
 
@@ -200,10 +218,10 @@ extern_C PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep);
  * @return false if par == null, true if initialized. 
  * @simulink init.
  */
-extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par);
+extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* par);
 
 /**set Limitation of PID controller 
- * @simulink Object-FB.
+ * @simulink Operation-FB.
  */
 extern_C void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
 
@@ -211,6 +229,18 @@ extern_C void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
  * @simulink Object-FB.
  */
 extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y);
+
+
+/**Offers a new parameter set for this controller. 
+ * This operation can be called any time in any thread. 
+ * @par null or reference to given parameter set, may be either immediately inside the Par_PIDf_Ctrl_emC FBlock
+ *      or in a event data structure. The event data are freed or the parameter FBlock is unlocked
+ *      in this routine for the possibility to reuse the location for new parameter or event preparation.
+ *      If par == null this operation does nothing.  
+ * @simulink Operation-FB.
+ */
+extern_C void param_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* parNew);
+
 
 extern_C void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y);
 

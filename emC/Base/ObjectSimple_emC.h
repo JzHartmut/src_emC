@@ -92,8 +92,9 @@ typedef struct  ObjectJc_T
   uint32 identSize;
   #define mInitialized_ObjectJc  0x80000000
   #define mArray_ObjectJc        0x40000000
-  #define mInstanceType_ObjectJc 0x3fff0000  
-  #define mIdentSmall_ObjectJc   0x3fff0000
+  #define mLocked_ObjectJc       0x20000000
+  #define mInstanceType_ObjectJc 0x1fff0000  
+  #define mIdentSmall_ObjectJc   0x1fff0000
   #define kBitInstanceType_ObjectJc 16
   #define kBitIdentSmall_ObjectJc   16
   #define mSize_ObjectJc         0x0000ffff   //size in memory words, max, 64 kByte
@@ -102,7 +103,7 @@ typedef struct  ObjectJc_T
   #define mArrayId_ObjectJc        0x4000
 
   #ifdef DEF_ObjectJc_REFLREF
-    #define mInstance_ObjectJc   0x3fff0000
+    #define mInstance_ObjectJc   0x1fff0000
     #define kBitInstance_ObjectJc 16
     /**The reference to the type information. */
     struct ClassJc_t const* reflection;
@@ -111,7 +112,9 @@ typedef struct  ObjectJc_T
 #endif
 
 #define ID_refl_ObjectJc 0x0FFE
-
+#ifndef DEF_REFLECTION_NO
+extern_C const struct ClassJc_t refl_ObjectJc;
+#endif
 
 /*---------------------------------------------
 const Initialization                         */
@@ -256,6 +259,15 @@ extern_C void setInitialized_ObjectJc ( struct ObjectJc_T const* thiz);
 
 #define isInitialized_ObjectJc(THIZ) ( ((THIZ)->identSize & mInitialized_ObjectJc )!=0)
 
+#ifndef DEF_ObjectJc_SYNCHANDLE
+
+static inline void lock_ObjectJc ( ObjectJc* thiz) { thiz->identSize |= mLocked_ObjectJc; }
+
+static inline bool isLocked_ObjectJc ( ObjectJc* thiz) { return (thiz->identSize & mLocked_ObjectJc) !=0; }
+
+static inline void unlock_ObjectJc ( ObjectJc* thiz)  { thiz->identSize &= ~mLocked_ObjectJc; }
+
+#endif
 
 
 
@@ -338,6 +350,7 @@ typedef struct ClassJc_t
 * and INIZsuper_ClassJc(OBJ, NAME, REFLOFFS, REFLSUPER)
 * depending of the existing elements in ClassJc:
 */
+#ifndef NO_PARSE_ZbnfCheader
 #ifdef DEF_NO_StringJcCapabilities
 //#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (uint32)(intptr_t)&(OBJ)}
 #  ifdef DEF_ObjectJc_REFLREF
@@ -380,6 +393,7 @@ typedef struct ClassJc_t
 #    endif
 #  endif
 #endif
+#endif//NO_PARSE_ZbnfCheader
 
 
 extern_C ClassJc const refl_ClassJc;
