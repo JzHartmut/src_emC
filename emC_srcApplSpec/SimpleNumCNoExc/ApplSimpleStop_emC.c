@@ -42,13 +42,10 @@
 
 //#include "ObjectJc.h"
 #include <applstdef_emC.h>
-//#include <emC/OSAL/os_time.h>
-#include <emC/OSAL/os_error.h>
-//#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/os_error.h>  //defines here implemented routines.
 //
 #include <stdio.h>
 #include <stdlib.h>  //exit
-
 
 
 

@@ -86,7 +86,7 @@ OS_TimeStamp os_getDateTime()
 }
 
 
-int32 os_microTime(void)
+int32 os_microTime ( void)
 {
 	struct _timeb currTime;
 	_ftime_s(&currTime);
@@ -99,7 +99,7 @@ int32 os_microTime(void)
 * The step-width of the return value depends from the CPU-clock.
 * The value should only be used for comparing times.
 */
-int32_t os_getClockCnt(void)
+int32 getClockCnt_Time_emC ( void)
 {
   LARGE_INTEGER performanceCount;
   if(QueryPerformanceCounter(&performanceCount))
@@ -133,7 +133,7 @@ int64_t os_getLongClockCnt(void)
 
 
 
-void os_delayThread(int32_t milliseconds) { 
+void os_delayThread(int milliseconds) { 
   if(milliseconds < 50 && microsecondsPerClock_Time_emC != 0) {
     int clocks = (int)(milliseconds * 1000.0f/microsecondsPerClock_Time_emC);
     os_delayThreadClocks(clocks);
@@ -145,11 +145,11 @@ void os_delayThread(int32_t milliseconds) {
 
 
 
-void os_delayThreadClocks(int32_t timeOutClocks) {
-  int clockstart = os_getClockCnt();
+void os_delayThreadClocks(int timeOutClocks) {
+  int clockstart = getClockCnt_Time_emC();
   do { //at least on sleep, important in debug
     Sleep(0);   //forces a thread change if necessary. Needs some time.
-  } while ((os_getClockCnt() - clockstart) < timeOutClocks); //waits till clockCount.
+  } while ((getClockCnt_Time_emC() - clockstart) < timeOutClocks); //waits till clockCount.
 }
 
 

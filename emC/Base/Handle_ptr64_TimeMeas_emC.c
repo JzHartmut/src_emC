@@ -36,7 +36,7 @@ void startTime_Clock_MinMaxTime(int slice_param, float* time_y) {
     THROW_s0(IllegalArgumentException, "faulty slice_param=", slice_param, thiz->nrofSlices);
     slice_param = thiz->nrofSlices -1;
   }
-  cyclTime_MinMaxTime_emC(&thiz->times[slice_param], os_getClockCnt());
+  cyclTime_MinMaxTime_emC(&thiz->times[slice_param], getClockCnt_Time_emC());
   *time_y = thiz->microSecondsPerClock * thiz->times[slice_param].midCyclTime;
   STACKTRC_RETURN;
 }
@@ -53,7 +53,7 @@ void measTime_Clock_MinMaxTime(int slice_param, float* time_y) {
     slice_param = thiz->nrofSlices -1;
   }
   int timestep;
-  mesTime_I_MinMaxTime_emC(&thiz->times[slice_param], os_getClockCnt(), timestep);
+  mesTime_I_MinMaxTime_emC(&thiz->times[slice_param], getClockCnt_Time_emC(), timestep);
   *time_y = thiz->microSecondsPerClock * timestep;
 }
 

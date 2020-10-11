@@ -1,7 +1,6 @@
 #include <applstdef_emC.h>
 #include <emC/Base/Assert_emC.h>
 #include <emC/Base/ExcThCxtBase_emC.h>
-#include <emC/Base/String_emC.h>
 
 bool assert_s_emC(bool cond, char const* text, int val1, int val2) {
   if(!cond) { 

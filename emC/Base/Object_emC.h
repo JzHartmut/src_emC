@@ -203,15 +203,16 @@ typedef struct  ObjectJc_T
   /**The identSize is helpfull to recognize the instance. 
   * The bit31 is used to detect whether it is initialized or not. */
   uint32 identSize;
-  #define mInitialized_ObjectJc      0x80000000
-  #define mArray_ObjectJc  0x40000000
-
+  #define mInitialized_ObjectJc  0x80000000
+  #define mArray_ObjectJc        0x40000000
+  #define mLocked_ObjectJc       0x20000000
+  
   /**If the array bit is given with the ID, use this: */
   #define mArrayId_ObjectJc 0x4000
 
   #ifndef DEF_ObjectJc_LARGESIZE
     //This definitions are only available in application for not LARGESIZE
-    #define mInstanceType_ObjectJc 0x3fff0000  
+    #define mInstanceType_ObjectJc 0x1fff0000  
     #define kBitInstanceType_ObjectJc 16
     #define mSize_ObjectJc         0x0000ffff   //size in memory words, max, 64 kByte
     //

@@ -232,8 +232,9 @@ typedef struct ThreadContext_emC_t {
  * It is possible that a simple access to a global pointer is done, possible on non-preemptive threads
  * Or simple interrupt systems. 
  */
+#ifndef getCurrent_ThreadContext_emC  //NOTE: may be defined as macro via applstdef_emC.h
 extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
-
+#endif
 
 
 #ifdef DEF_ThreadContext_SIMPLE

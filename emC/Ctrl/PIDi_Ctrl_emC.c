@@ -45,6 +45,7 @@ void set_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz, float kP, float Tn_param, 
 
 void reparam_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz) {
   MAYBE_UNUSED_emC int bitInt = 8*sizeof(int);
+  ASSERT_emC(thiz->Tstep >0, "Tstep <=0", (int)thiz->Tstep, 0);
   thiz->i.nSh32y = 32 - thiz->yBits;
   //thiz->i.nShTsD = 32 - thiz->xBits;
   thiz->i.nShKp = thiz->yBits - thiz->xBits;

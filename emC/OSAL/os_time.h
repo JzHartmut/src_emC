@@ -35,7 +35,7 @@
  * 2012-04-05 Hartmut new: os_getSeconds(): seconds are able to process with a
  *   32-bit integer. They are supported in most of operation systems. It is the originally unix concept
  *   for the timestamp. It should be available if measurements of seconds are enough and proper to use.
- * 2010-03-01 Hartmut corr: int32_t os_getClockCnt(void) instead int64, it is enaugh and applicate-able to all systems.
+ * 2010-03-01 Hartmut corr: int32_t getClockCnt_Time_emC(void) instead int64, it is enaugh and applicate-able to all systems.
  * 2010-02-26 Hartmut new: class MinMaxTime_emC os-independt, but useable at lo level.
  * 2010-02-26 Hartmut corr: ctor with return value
  * 2008-02-01: Hartmut creation 
@@ -46,6 +46,7 @@
 
 #include <applstdef_emC.h>
 #include <emC/Base/MemC_emC.h>
+#include <emC/Base/Time_emC.h>
 
 extern_C_BLOCK_
 
@@ -167,18 +168,6 @@ int32_t os_milliTime(void);
 int32_t os_microTime(void);
 #define os_getMicroTime() os_microTime();
  
-/**Gets a circular time information in clocks of the system.
- * @return a relativ value, the value can be used only for differnces.
- * The step-width of the return value depends from the CPU-clock.
- * The value should only be used for comparing times.
- *
- * Example: If the clock counts with 10 nanoseconds, a difference is valid in 20 seconds 
- */
-#ifndef os_getClockCnt
-int32_t os_getClockCnt();
-int64_t os_getLongClockCnt();
-#endif
-//int32_t os_getClockTime(void);
  
 
 
@@ -186,8 +175,8 @@ int64_t os_getLongClockCnt();
 /**Delays a thread for a number of milliseconds.
  * @param timeOut sleep time in milliseconds.
  */
-void os_delayThread(int timeOut);
-void os_delayThreadClocks(int timeOutClocks);
+void os_delayThread ( int timeOut);
+void os_delayThreadClocks ( int timeOutClocks);
 #endif
 #define os_sleep(TIME) os_delayThread(TIME);
 

@@ -9,10 +9,12 @@
 #elif defined(DEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Par_PIDf_Ctrl_emC;
+  extern_C ClassJc const refl_ParFactors_PIDf_Ctrl_emC;
   extern_C ClassJc const refl_PIDf_Ctrl_emC;
 #elif !defined(DEF_REFLECTION_NO)
   //Class definition only as type marker: Note the ident should be planned application-wide and used for instances too.
   ClassJc const refl_Par_PIDf_Ctrl_emC = INIZ_ClassJc(refl_Par_PIDf_Ctrl_emC, "Test_Ctrl");
+  ClassJc const refl_ParFactors_PIDf_Ctrl_emC = INIZ_ClassJc(refl_ParFactors_PIDf_Ctrl_emC, "Test_Ctrl");
   ClassJc const refl_PIDf_Ctrl_emC = INIZ_ClassJc(refl_PIDf_Ctrl_emC, "Test_Ctrl");
 //#else
 //  extern_C int const refl_Par_PID_Vtrl
@@ -25,6 +27,7 @@ Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 { //check before cast:
   ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(Par_PIDf_Ctrl_emC_s), refl_Par_PIDf_Ctrl_emC, 0), "faulty ObjectJc",0,0 );
   Par_PIDf_Ctrl_emC_s* thiz = (Par_PIDf_Ctrl_emC_s*)othiz;
+  //inner ObjectJc-based struct:
   CTOR_ObjectJc(&thiz->i.base.obj, &thiz->i, sizeof(thiz->i), refl_ParFactors_PIDf_Ctrl_emC, 1);
   return thiz;
 }
@@ -73,8 +76,11 @@ void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, 
 
 PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 {
+  //check before cast:
+  ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0), "faulty ObjectJc",0,0 );
   PIDf_Ctrl_emC_s* thiz = (PIDf_Ctrl_emC_s*)othiz;
-  CTOR_ObjectJc(othiz, othiz, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);
+  //should be done outside! CTOR_ObjectJc(othiz, othiz, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);
+  //inner ObjectJc-based struct:
   CTOR_ObjectJc(&thiz->f.base.obj, &thiz->f, sizeof(thiz->f), refl_ParFactors_PIDf_Ctrl_emC, 1);
   thiz->Tstep = Tstep;
   thiz->lim = 1.0f;

@@ -55,22 +55,35 @@ extern int clocksPerMicro_Time_emC;
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().
 * It is used for some operations, especially addFloatMicrosec_Time_emC().
 */
-extern int clocksFloatPerMicro_Time_emC;
+extern float clocksFloatPerMicro_Time_emC;
 
-/**Measures the duration of 1 clock which is used for [[os_getClockCnt()]].
+
+/**Gets a circular time information in clocks of the system.
+ * @return a relativ value, the value can be used only for differnces.
+ * The step-width of the return value depends from the CPU-clock.
+ * The value should only be used for comparing times.
+ *
+ * Example: If the clock counts with 10 nanoseconds, a difference is valid in 20 seconds 
+ */
+#ifndef getClockCnt_Time_emC  //it may be a macro for fast access in special targets
+  extern_C int32 getClockCnt_Time_emC ( void );
+#endif
+
+
+/**Measures the duration of 1 clock which is used for [[getClockCnt_Time_emC()]].
 * This routine needs some calculation time, up to 1 second. It should be invoked only on start.
 * @param meastime in ms, determines the accuracy
 * @return true if it has measured exactly 1 second.  
 */ 
-bool measureClock_Time_emC(int meastime);
+extern_C bool measureClock_Time_emC(int meastime);
 
 
-void waitClock_Time_emC(int32 tillClockCt);
+extern_C void waitClock_Time_emC(int32 tillClockCt);
 
 
 /**Adds the given time offset to the current given clockCt. Use this faster operation for lower values of micros instead [[addFloatMicrosec_Time_emC(...)]] 
  * for a fast only integer multiplication.  
- * @param clockCt any value gotten from [[os_getClockCnt()]]
+ * @param clockCt any value gotten from [[getClockCnt_Time_emC()]]
  * @param micros number of micro seconds. The value should not be higher than about 10000000 (1 second) because the range of clockCt should be regarded.
  *   Negative values for time in the past are possible if necessary.
  */
@@ -81,18 +94,18 @@ INLINE_emC int32 addMicrosec_Time_emC(int32 clockCt, int32 micros) { return cloc
 
 /**Adds the given time offset to the current given clockCt. use this operation instead [[addMicrosec_Time_emC(...)]] 
  * to get a higher precision for larger values of micros. 
- * @param clockCt any value gotten from [[os_getClockCnt()]]
+ * @param clockCt any value gotten from [[getClockCnt_Time_emC()]]
  * @param micros number of micro seconds. The value should not be higher than about 10000000 (1 second) because the range of clockCt should be regarded.
  *   Negative values for time in the past are possible if necessary.
  */
 static int32 addFloatMicrosec_Time_emC(int32 clockCt, int32 micros);
 INLINE_emC int32 addFloatMicrosec_Time_emC(int32 clockCt, int32 micros) { return (clockCt + (int32)(micros * clocksFloatPerMicro_Time_emC)); }
 
-static float microDiffofClock_Time_emC(int32_t clockDiff);
-INLINE_emC float microDiffofClock_Time_emC(int32_t clockDiff) { return (clockDiff * microsecondsPerClock_Time_emC); }
+static float microDiffofClock_Time_emC(int32 clockDiff);
+INLINE_emC float microDiffofClock_Time_emC(int32 clockDiff) { return (clockDiff * microsecondsPerClock_Time_emC); }
 
-static float microDiffLongofClock_Time_emC(int64_t clockDiff);
-INLINE_emC float microDiffLongofClock_Time_emC(int64_t clockDiff) { return (clockDiff * microsecondsPerClock_Time_emC); }
+static float microDiffLongofClock_Time_emC(int64 clockDiff);
+INLINE_emC float microDiffLongofClock_Time_emC(int64 clockDiff) { return (clockDiff * microsecondsPerClock_Time_emC); }
 
 
 typedef struct SimTime_emC_t
@@ -116,6 +129,8 @@ typedef struct SimTime_emC_t
 typedef struct MinMaxCalcTime_emC_T
 {
   uint minCalcTime;
+
+  uint ctSpikes;
 
   uint32 midCalcTime;
 
@@ -170,7 +185,7 @@ INLINE_emC void ctor_MinMaxTime_emC(MinMaxTime_emC* thiz)
 
 
 /**
-* invoke with (..., os_getClockCnt()) 
+* invoke with (..., getClockCnt_Time_emC()) 
 */
 static void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time);
 
@@ -207,7 +222,24 @@ INLINE_emC void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, 
   thiz->actCalcTime = calcTime;  
   if(calcTime > thiz->maxCalcTime) { thiz->maxCalcTime = calcTime; }  
   if((calcTime < thiz->minCalcTime) || (thiz->minCalcTime == 0)) { thiz->minCalcTime = calcTime; }
-  thiz->midCalcTime += (calcTime - (thiz->midCalcTime >>10));            
+  thiz->midCalcTime += (calcTime - (thiz->midCalcTime >>10));      
+}
+
+
+INLINE_emC void setPreventSpikes_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time)
+{ uint calcTime = (uint)(time - timeStart); 
+  thiz->actCalcTime = calcTime;  
+  if(calcTime > thiz->maxCalcTime) { thiz->maxCalcTime = calcTime; }  
+  if((calcTime < thiz->minCalcTime) || (thiz->minCalcTime == 0)) { thiz->minCalcTime = calcTime; }
+  uint midcalctime2Cmp = thiz->midCalcTime >>9; //the compare value.
+  if(calcTime > midcalctime2Cmp || calcTime < (midcalctime2Cmp >>2)) {
+    if(++thiz->ctSpikes > 10) { //ten times one after another
+      thiz->midCalcTime = ((uint32)calcTime) <<10; //set it newly it is not a spike.
+    } 
+  } else {
+    thiz->ctSpikes = 0;
+    thiz->midCalcTime += (calcTime - (thiz->midCalcTime >>10)); //smooth time 1024     
+  } 
 }
 
 /**With given time. */

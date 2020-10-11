@@ -57,18 +57,17 @@
 /**This file contains some usefull definitions for simpe C programming.
 
 */
-#include <compl_adaption.h>
 
 
 
 typedef union U_intfloat_t {
-  float f; int32_t i;
+  float f; int32 i;
 } U_intfloat;
 
 
 
 typedef union U_ptr_t{
-  float* f; int32_t* i; int32_t addr;
+  float* f; int32* i; int32 addr;
 } U_ptr;
 
 
@@ -119,7 +118,7 @@ typedef int(* MT_int_Method_int)(int);
   * The size of the array is a free choiced number, appropriate to show the data in debugger.
 */
 typedef struct Int32Array256_t
-{ int32_t data[256];
+{ int32 data[256];
 }Int32Array256;
 
 
@@ -172,8 +171,8 @@ typedef struct FloatArray20_t
  * or toIndex if all elements in the range are less than the specified key. 
  * Note that this guarantees that the return value will be >= 0 if and only if the key is found. 
  */ 
-extern_C int binarySearch_int(int32_t const* data, int fromIndex, int toIndex, int32_t key);
-extern_C int binarySearch_int64(int64_t const* data, int fromIndex, int toIndex, int64_t key);
+extern_C int binarySearch_int(int32 const* data, int fromIndex, int toIndex, int32 key);
+extern_C int binarySearch_int64(int64 const* data, int fromIndex, int toIndex, int64 key);
 
 #define binarySearch_int_simpleC binarySearch_int
 

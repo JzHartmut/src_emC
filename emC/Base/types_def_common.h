@@ -163,7 +163,7 @@ inline int unused_emC(int arg){ return arg; }
  */
 //typedef STRUCT_AddrVal_emC(PtrVal_MemUnit, MemUnit);
 
-typedef struct Addr8_emC_T { int32_t c[2]; } Addr8_emC;
+typedef struct Addr8_emC_T { int32 c[2]; } Addr8_emC;
 
 /**The type AddrVal_emC handles with a address (pointer) for a 8 byte alignment. */
 typedef STRUCT_AddrVal_emC(AddrVal_emC, Addr8_emC);

@@ -1,7 +1,7 @@
 #ifndef HGUARD_emC_Ctrl_T1ish_Ctrl_emC
 #define HGUARD_emC_Ctrl_T1ish_Ctrl_emC
 
-#include <compl_adaption.h>
+#include <applstdef_emC.h>
 
 /**It is the nominal value for 16 bit values. With it an overdrive of ~1.18 is possible.
  * 27720 = 2 * 2 * 2 * 3 * 3 * 5 * 7 * 11 ,
