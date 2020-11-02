@@ -331,7 +331,7 @@ static inline void unlock_ObjectJc ( ObjectJc* thiz)  { thiz->handleBits &= ~mLo
 
 
 
-#if defined(__cplusplus)
+#if defined(__cplusplus) && defined(USE_cplusplus_emC)
 
 
 

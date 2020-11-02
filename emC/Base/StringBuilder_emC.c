@@ -127,7 +127,7 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
 #endif
 }
 
-void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
+void ctor_addSize_StringBuilderJc ( StringBuilderJc_s* thiz, int addSize)
 { STACKTRC_ENTRY("ctor_addSize_StringBuilderJc");
   CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, refl_StringBuilderJc, 0);
   int size1 = sizeof(thiz->value) + addSize;
@@ -139,7 +139,7 @@ void ctor_addSize_StringBuilderJc(StringBuilderJc_s* thiz, int addSize)
   STACKTRC_LEAVE;
 }
 
-void ctor_Buffer_StringBuilderJc(StringBuilderJc_s* thiz, char* buffer, int size)
+void ctor_Buffer_StringBuilderJc ( StringBuilderJc_s* thiz, char* buffer, int size)
 { STACKTRC_ENTRY("ctor_Buffer_StringBuilderJc");
   CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), refl_StringBuilderJc, 0);
   ASSERTs_emC(size >=0 && size < 0x7fff, "faulty size for StringBuilder", size, 0);
@@ -156,9 +156,7 @@ void ctor_Buffer_StringBuilderJc(StringBuilderJc_s* thiz, char* buffer, int size
 
 
 
-
-
-METHOD_C void clear_StringBuilderJc(StringBuilderJc_s* thiz)
+METHOD_C void clear_StringBuilderJc ( StringBuilderJc_s* thiz)
 {
   char* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
   int size = (thiz->size < 0 ? -thiz->size : thiz->size);

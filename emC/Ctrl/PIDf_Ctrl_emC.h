@@ -118,8 +118,8 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
     ctor_Par_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
-  public: bool init (float Tstep, float yNom ) {
-    init_Par_PIDf_Ctrl_emC(this, Tstep, yNom); //the initialized ObjectJc as arguement.
+  public: bool init (float Tstep, float yNom, float kP, float Tn_param, float Td_param, float Tsd_param ) {
+    return init_Par_PIDf_Ctrl_emC(this, Tstep, yNom, kP, Tn_param, Td_param, Tsd_param, null); //the initialized ObjectJc as arguement.
   }
 
   /**Constructs as base class of any inherited controller.
@@ -133,8 +133,6 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
   public: void set(float kP, float Tn_param, float Td_param, float Tsd_param, bool* man_y) {
     set_Par_PIDf_Ctrl_emC(this, kP, Tn_param, Td_param, Tsd_param, null);
   }
-
-  public: void reparam(){ reparam_Par_PIDf_Ctrl_emC(this); }
 
 
 
@@ -278,7 +276,7 @@ class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
     ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
-  public: void init(Par_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
+  public: void init(ParFactors_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
   
   public: void step ( float wx, float* y_y){ step_PIDf_Ctrl_emC(this, wx, y_y); }
 

@@ -280,7 +280,7 @@ extern_C void ctor_Buffer_StringBuilderJc ( StringBuilderJc_s* thiz, char* buffe
  * The buffer will be cleared.
  * @param addSize the sizeof() of the immediately following buffer..
  */
-extern_C void ctor_addSize_StringBuilderJc (StringBuilderJc_s* thiz, int addSize);
+extern_C void ctor_addSize_StringBuilderJc ( StringBuilderJc_s* thiz, int addSize);
 
 /**Initializes the Stringbuffer with an immediate buffer after the StringBuffer management values.
 * The size stored inside ObjectJc determines the size of the buffer.
@@ -293,7 +293,7 @@ extern_C void ctor_addSize_StringBuilderJc (StringBuilderJc_s* thiz, int addSize
 *           given by memory amount of the instance referes with othis.
 *           The difference is, that a realloc of buffer isn't supported.
 */
-extern_C StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
+extern_C StringBuilderJc_s* ctorO_StringBuilderJc ( ObjectJc* othis, struct ThreadContext_emC_t* _thCxt);
 #define ctorO_StringBufferJc ctorO_StringBuilderJc
 
 
