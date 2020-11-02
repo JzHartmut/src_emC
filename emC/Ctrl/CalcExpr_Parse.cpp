@@ -28,7 +28,7 @@ static FunctionList_CalcExpr stdMathFunctions[] =
   , { "sysclk", "I", sysclk_CalcExpr}
 };
 
-void parseAddExpr(StringPartScanJc_s* spExpr
+void parseAddExpr(StringPartScanJc& spExpr
                          , Operation_CalcExpr_Parse startOperation
                          , OperationList_CalcExpr* dst_listOperations
                          , ThCxt* _thCxt
@@ -36,7 +36,7 @@ void parseAddExpr(StringPartScanJc_s* spExpr
 
 
 /**Function pointer definition for the inner parsing. */
-typedef void ParseOperand(StringPartScanJc_s* spExpr
+typedef void ParseOperand(StringPartScanJc& spExpr
   , Operation_CalcExpr_Parse operation
   , OperationList_CalcExpr* dst_listOperations
   , ThCxt* _thCxt
@@ -67,49 +67,46 @@ static void writeOperand(OperationList_CalcExpr* dst_listOperations , CalcRPN_Ca
  * @param dst_listOperations
  * @param _thCxt
  */
-static void parseOperand(StringPartScanJc_s* spExpr
+static void parseOperand ( StringPartScanJc& spExpr
   , Operation_CalcExpr_Parse currOperation
   , OperationList_CalcExpr* dst_listOperations
   , ThCxt* _thCxt
   ) {
   STACKTRC_TENTRY("parseArgument_CalcExpr");
-  AddrVal_emC currOperand = {0};
-  if(scanOk_StringPartScanJc(scanIdentifier_StringPartScanJc(spExpr,_thCxt), _thCxt)) {
-    Part_StringPartJc_s* csvar = getLastScannedString_StringPartScanJc(spExpr, _thCxt);
+  OS_PtrValue currOperand = {0};
+  if(spExpr.scanIdentifier().scanOk()) {
+    Part_StringPartJc_s* csvar = spExpr.getLastScannedString();
     char cvar[32] = {0};
     copyToBuffer_Part_StringPartJc(csvar, cvar, 0, sizeof(cvar), _thCxt);
-    if(scanOk_StringPartScanJc(scan_Cs_StringPartScanJc(spExpr, openParanthesis, _thCxt), _thCxt)) {
+    if(spExpr.scan(openParanthesis).scanOk()) {
       //function call, firstly write arguments to the stack.
-      skipWhitespaceAndComment_StringPartJc(&spExpr->base.super, _thCxt);
-      char cc = getCurrentChar_StringPartJc(&spExpr->base.super, _thCxt);
+      spExpr.skipWhitespaceAndComment();
+      char cc = spExpr.getCurrentChar();
       //check std function
-      unsigned int nrArgs = 0;
+      uint nrArgs = 0;
       while(cc != ')'){
-        if(cc == ',') { seekPos_StringPartJc(&spExpr->base.super, 1, _thCxt); }
+        if(cc == ',') { spExpr.seekPos(1); }
         writeOperand(dst_listOperations, push_CalcExpr, null, _thCxt); //save accu as following operand
         parseAddExpr(spExpr, startExpr_CalcExpr, dst_listOperations, _thCxt); //any argument string
         nrArgs +=1;
       }
-      seekPos_StringPartJc(&spExpr->base.super, 1, _thCxt); //over ')' Note: all other character are denied by parseAddExpr
-      scan_StringPartScanJc(spExpr, _thCxt);  //next scan from current position!
+      spExpr.seekPos( 1); //over ')' Note: all other character are denied by parseAddExpr
+      spExpr.scan();  //next scan from current position!
       bool foundFunction = false;
-      unsigned int ixOper = 0;
+      uint ixOper = 0;
       while(!foundFunction && ixOper < ARRAYLEN_emC(stdMathFunctions)){ ////
         FunctionList_CalcExpr* stdOper = &stdMathFunctions[ixOper++];
         if(strcmp(stdOper->name, cvar)==0 && nrArgs == (strlen(stdOper->typeArguments)-1)){
-          for(unsigned int ixArg = 0; ixArg < nrArgs; ++ixArg){
+          for(uint ixArg = 0; ixArg < nrArgs; ++ixArg){
              //TODO check args to distinguish between same operation name
           }
-          //first push the accu to stack, the accu will be set by result of function call.
-          writeOperand(dst_listOperations, push_CalcExpr, null, _thCxt);
-          //Then write arguments to the stack.
-          void* dataForOperation = null;  //TODO how to associate instance data?
+          void* dataForOperation = null;  //TODO how to assiciate instance data?
           writeOperand(dst_listOperations, stdOper->oper, dataForOperation, _thCxt); //save accu as following operand
           foundFunction = true;
         }
       }
       if(!foundFunction) {
-        THROW_s0(IllegalArgumentException, "function not found", (int)getCurrentPosition_StringPartJc(&spExpr->base.super, _thCxt), 0);
+        THROW_s0(IllegalArgumentException, "function not found", (int)spExpr.getCurrentPosition(), 0);
       }
       if(currOperation.operation != '!'){
         Operation_CalcExpr* dstOperation = ptrWriteOperand(dst_listOperations, _thCxt);
@@ -142,15 +139,18 @@ static void parseOperand(StringPartScanJc_s* spExpr
       }
     }
   } else {
-    THROW_s0(IllegalArgumentException, "expected variable or math operation", (int)getCurrentPosition_StringPartJc(&spExpr->base.super, _thCxt), 0);
+    THROW_s0(IllegalArgumentException, "expected variable or math operation", (int)spExpr.getCurrentPosition(), 0);
   }
   STACKTRC_LEAVE;
 
 }
 
-
-
-static void parseOperatorExpr(StringPartScanJc_s* spExpr
+/**
+ * @param checkOperators array of 0-term. Strings with possible operators
+ * @param operandFunction The routine to parse an operand, 
+ *        for example parseMultiplication inside parseAddition-Expression.
+ */
+static void parseOperatorExpr(StringPartScanJc& spExpr
   , Operation_CalcExpr_Parse startOperation
   , char const* const checkOperators[]
   , char const* charOperators
@@ -159,19 +159,19 @@ static void parseOperatorExpr(StringPartScanJc_s* spExpr
   , ThCxt* _thCxt
   ) {
   STACKTRC_TENTRY("parseArgument_CalcExpr");
-  Operation_CalcExpr_Parse operation = startOperation;
+  Operation_CalcExpr_Parse operation = startOperation;  //it is set, or ENTER in ReversPolishNotation
   //a mult expression should start with an operand.
   bool contOperatorExpr = true;
   do {
-    (*operandFunction)(spExpr, operation, dst_listOperations, _thCxt);
+    (*operandFunction)(spExpr, operation, dst_listOperations, _thCxt); //parse left operand
     contOperatorExpr = false; //default if not found
     char const* const* checkOperators1 = checkOperators;
     int ixOperator = 0;
-    scan_StringPartScanJc(spExpr, _thCxt);  //next scan from current position!
+    spExpr.scan();  //next scan from current position!
     while(!contOperatorExpr && **checkOperators1 !=0) {
       StringJc sCheck = z_StringJc(*checkOperators1);
-      scan_Cs_StringPartScanJc(spExpr, sCheck, _thCxt);
-      if(scanOk_StringPartScanJc(spExpr, _thCxt)){
+      spExpr.scan(sCheck);
+      if(spExpr.scanOk()){
         //possible operator found
         contOperatorExpr = true;
         if(charOperators == null){
@@ -191,7 +191,7 @@ static void parseOperatorExpr(StringPartScanJc_s* spExpr
 
 
 
-static void parseMultExpr(StringPartScanJc_s* spExpr
+static void parseMultExpr(StringPartScanJc& spExpr
   , Operation_CalcExpr_Parse startOperation
   , OperationList_CalcExpr* dst_listOperations
   , ThCxt* _thCxt
@@ -201,7 +201,7 @@ static void parseMultExpr(StringPartScanJc_s* spExpr
 
 
 
-void parseAddExpr(StringPartScanJc_s* spExpr
+void parseAddExpr(StringPartScanJc& spExpr
   , Operation_CalcExpr_Parse startOperation
   , OperationList_CalcExpr* dst_listOperations
   , ThCxt* _thCxt
@@ -210,15 +210,17 @@ void parseAddExpr(StringPartScanJc_s* spExpr
 }
 
 
-
+//Parse a string given common Expression
 void parse_CalcExpr(StringJc expr
   , OperationList_CalcExpr* dst_listOperations
   , ThCxt* _thCxt
   ) {
   STACKTRC_TENTRY("parse_CalcExpr");
-  StringPartScanJc_s spExpr = {0};
-  ctorO_Cs_StringPartScanJc(&spExpr.base.object, expr, _thCxt);
-  parseAddExpr(&spExpr, startExpr_CalcExpr, dst_listOperations, _thCxt);
+  StringPartScanJc spExpr(expr);  //organization instance for parsind, sufficient as Stack instance.
+  spExpr.setIgnoreWhitespaces(true);
+//  ctorO_Cs_StringPartScanJc(&spExpr.base.object, expr, _thCxt);
+  //yet the highest level is add
+  parseAddExpr(*&spExpr, startExpr_CalcExpr, dst_listOperations, _thCxt);
   STACKTRC_LEAVE;
 }
 

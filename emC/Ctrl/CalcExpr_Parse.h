@@ -17,8 +17,17 @@ typedef struct Operation_CalcExpr_Parse_T {
  * @arg name of variable, non persistent reference (maybe in stack), do not store.
  * @return the address of the variable and its type in the value (char 'F', 'S' etc.)
  */
-AddrVal_emC getVarAddrType_CalcExpr(char const* name);
+OS_PtrValue getVarAddrType_CalcExpr(char const* name);
 
+#ifndef DEFINED_getVarAddrType_CalcExpr
+inline OS_PtrValue getVarAddrType_CalcExpr(char const* name) { return null_AddrVal_emC; }
+#endif
+
+/**Parse a string given common Expression.
+ * @param expr normal expression 
+ * @param dst_listOperations instance which strores the parsed result. 
+ *        The size is defined inside the instance.
+ */
 void parse_CalcExpr(StringJc expr
   , OperationList_CalcExpr* dst_listOperations
   , ThCxt* _thCxt);

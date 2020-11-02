@@ -276,18 +276,18 @@ typedef struct Vtbl_StringPartScanJc_t
 
 
 
-#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
+#if defined(USE_cplusplus_emC) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
-class StringPartScanJc : private StringPartScanJc_s
+class StringPartScanJc : public StringPartJc, private StringPartScanJc_s
 { public:
 
   virtual void close(){ close_StringPartScanJc_F(&this->base.super,  null/*_thCxt*/); }
 
-  StringPartScanJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_Cs_StringPartScanJc(&this->base.object, src,  null/*_thCxt*/); }
+  StringPartScanJc(CharSeqJc src) : StringPartJc(&this->base.super) { init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_Cs_StringPartScanJc(&this->base.object, src,  null/*_thCxt*/); }
 
-  StringPartScanJc(CharSeqJc src, int32 begin, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_Csii_StringPartScanJc(&this->base.object, src, begin, end,  null/*_thCxt*/); }
+  StringPartScanJc(CharSeqJc src, int32 begin, int32 end) : StringPartJc(&this->base.super) { init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_Csii_StringPartScanJc(&this->base.object, src, begin, end,  null/*_thCxt*/); }
 
-  StringPartScanJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_StringPartScanJc(&this->base.object,  null/*_thCxt*/); }
+  StringPartScanJc() : StringPartJc(&this->base.super) { init_ObjectJc(&this->base.object, sizeof(StringPartScanJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartScanJc_s, 0); ctorO_StringPartScanJc(&this->base.object,  null/*_thCxt*/); }
 
   double getLastScannedFloatNumber(){  return getLastScannedFloatNumber_StringPartScanJc(this,  null/*_thCxt*/); }
 
@@ -295,7 +295,8 @@ class StringPartScanJc : private StringPartScanJc_s
 
   bool getLastScannedIntegerSign(){  return getLastScannedIntegerSign_StringPartScanJc(this,  null/*_thCxt*/); }
 
-  CharSeqJc getLastScannedString(){  return getLastScannedString_StringPartScanJc(this,  null/*_thCxt*/); }
+  //TODO CharSeqJc 
+  Part_StringPartJc_s* getLastScannedString(){  return getLastScannedString_StringPartScanJc(this,  null/*_thCxt*/); }
 
   int64 scanDigits(bool bHex, int32 maxNrofChars){  return scanDigits_StringPartScanJc(this, bHex, maxNrofChars,  null/*_thCxt*/); }
 
@@ -311,7 +312,7 @@ class StringPartScanJc : private StringPartScanJc_s
 
   StringPartScanJc& scanHex(int32 maxNrofChars){ scanHex_StringPartScanJc(this, maxNrofChars,  null/*_thCxt*/);  return *this; }
 
-  StringPartScanJc& scanIdentifier(StringJcpp additionalStartChars, StringJcpp additionalChars){ scanIdentifier_SS_StringPartScanJc(this, additionalStartChars, additionalChars,  null/*_thCxt*/);  return *this; }
+  StringPartScanJc& scanIdentifier(StringJc additionalStartChars, StringJc additionalChars){ scanIdentifier_SS_StringPartScanJc(this, additionalStartChars, additionalChars,  null/*_thCxt*/);  return *this; }
 
   StringPartScanJc& scanIdentifier(){ scanIdentifier_StringPartScanJc(this,  null/*_thCxt*/);  return *this; }
 
@@ -321,9 +322,9 @@ class StringPartScanJc : private StringPartScanJc_s
 
   StringPartScanJc& scanPositivInteger(){ scanPositivInteger_StringPartScanJc(this,  null/*_thCxt*/);  return *this; }
 
-  StringPartScanJc& scanQuotion(CharSeqJc sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult){ scanQuotion_CsSSY_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult,  null/*_thCxt*/);  return *this; }
+  StringPartScanJc& scanQuotion(CharSeqJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult){ scanQuotion_CsSSY_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult,  null/*_thCxt*/);  return *this; }
 
-  StringPartScanJc& scanQuotion(CharSeqJc sQuotionmarkStart, StringJcpp sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest){ scanQuotion_CsSSYi_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult, maxToTest,  null/*_thCxt*/);  return *this; }
+  StringPartScanJc& scanQuotion(CharSeqJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, int32 maxToTest){ scanQuotion_CsSSYi_StringPartScanJc(this, sQuotionmarkStart, sQuotionMarkEnd, sResult, maxToTest,  null/*_thCxt*/);  return *this; }
 
   struct StringPartScanJc_t* scanSkipComment(){  return scanSkipComment_StringPartScanJc(this,  null/*_thCxt*/); }
 

@@ -1062,218 +1062,226 @@ typedef struct Vtbl_StringPartJc_t
 
 
 
-#if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
+#if defined(USE_cplusplus_emC) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
-class StringPartJc : public StringPartJc_s
-{ public:
+class StringPartJc
+{ 
+  StringPartJc_s* const thisp;
 
-  int32 XXXindexOf(CharSeqJc sCmp){  return XXXindexOf_StringPartJc(this, sCmp,  null/*_thCxt*/); }
 
-  char absCharAt(int32 index){  return absCharAt_StringPartJc(static_cast<StringPartJc_s*>(this), index,  null/*_thCxt*/); }
+  public:
 
-  StringJc absSubString(int32 from, int32 to){  return absSubString_StringPartJc(this, from, to,  null/*_thCxt*/); }
+  int32 XXXindexOf(CharSeqJc sCmp){  return XXXindexOf_StringPartJc(thisp, sCmp,  null/*_thCxt*/); }
 
-  StringPartJc& assignFromEnd(struct StringPartJc_t* src){ assignFromEnd_StringPartJc(this, src,  null/*_thCxt*/);  return *this; }
+  char absCharAt(int32 index){  return absCharAt_StringPartJc(static_cast<StringPartJc_s*>(thisp), index,  null/*_thCxt*/); }
 
-  StringPartJc& assignReplaceEnv(struct StringBuilderJc_t* input){ assignReplaceEnv_StringPartJc(this, input,  null/*_thCxt*/);  return *this; }
+  StringJc absSubString(int32 from, int32 to){  return absSubString_StringPartJc(thisp, from, to,  null/*_thCxt*/); }
 
-  StringPartJc& assign(CharSeqJc ref){ assign_Cs_StringPartJc(this, ref,  null/*_thCxt*/);  return *this; }
+  StringPartJc& assignFromEnd(struct StringPartJc_t* src){ assignFromEnd_StringPartJc(thisp, src,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& assign(struct StringPartJc_t* src){ assign_XX_StringPartJc(this, src,  null/*_thCxt*/);  return *this; }
+  StringPartJc& assignReplaceEnv(struct StringBuilderJc_t* input){ assignReplaceEnv_StringPartJc(thisp, input,  null/*_thCxt*/);  return *this; }
 
-  char charAt(int32 index){  return charAt_i_StringPartJc(&this->base.object.base.object, index,  null/*_thCxt*/); }
+  StringPartJc& assign(CharSeqJc ref){ assign_Cs_StringPartJc(thisp, ref,  null/*_thCxt*/);  return *this; }
 
-  bool checkCharAt(int32 pos, StringJcpp chars){  return checkCharAt_StringPartJc(this, pos, chars,  null/*_thCxt*/); }
+  StringPartJc& assign(struct StringPartJc_t* src){ assign_XX_StringPartJc(thisp, src,  null/*_thCxt*/);  return *this; }
 
-  virtual void close(){ close_StringPartJc_F(this,  null/*_thCxt*/); }
+  char charAt(int32 index){  return absCharAt_StringPartJc(thisp, thisp->begin + index,  null/*_thCxt*/); }
 
-  int32 compareTo(CharSeqJc str2){  return compareTo_StringPartJc(this, str2,  null/*_thCxt*/); }
+  bool checkCharAt(int32 pos, StringJc chars){  return checkCharAt_StringPartJc(thisp, pos, chars,  null/*_thCxt*/); }
 
-  StringPartJc(CharSeqJc src){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartJc_s, 0); ctorO_Cs_StringPartJc(&this->base.object, src,  null/*_thCxt*/); }
+  virtual void close(){ close_StringPartJc_F(thisp,  null/*_thCxt*/); }
 
-  StringPartJc(CharSeqJc src, int32 start, int32 end){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartJc_s, 0); ctorO_Csii_StringPartJc(&this->base.object, src, start, end,  null/*_thCxt*/); }
+  int32 compareTo(CharSeqJc str2){  return compareTo_StringPartJc(thisp, str2,  null/*_thCxt*/); }
 
-  StringPartJc(){ init_ObjectJc(&this->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringPartJc_s, 0); ctorO_StringPartJc(&this->base.object,  null/*_thCxt*/); }
+  StringPartJc(StringPartJc_s* sp, CharSeqJc src) : thisp(sp) { 
+    init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); 
+    setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); 
+    ctorO_Cs_StringPartJc(&thisp->base.object, src,  null/*_thCxt*/); 
+  }
 
-  StringJc debugString(){  return debugString_StringPartJc(this,  null/*_thCxt*/); }
+  StringPartJc(StringPartJc_s* sp, CharSeqJc src, int32 start, int32 end) : thisp(sp) { init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); ctorO_Csii_StringPartJc(&thisp->base.object, src, start, end,  null/*_thCxt*/); }
 
-  bool equals(CharSeqJc sCmp){  return equals_Cs_StringPartJc(this, sCmp,  null/*_thCxt*/); }
+  StringPartJc(StringPartJc_s* sp) : thisp(sp) { init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); ctorO_StringPartJc(&thisp->base.object,  null/*_thCxt*/); }
 
-  StringPartJc& firstlineMaxpart(){ firstlineMaxpart_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringJc debugString(){  return debugString_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  bool found(){  return found_StringPartJc(this,  null/*_thCxt*/); }
+  bool equals(CharSeqJc sCmp){  return equals_Cs_StringPartJc(thisp, sCmp,  null/*_thCxt*/); }
 
-  StringPartJc& fromEnd(){ fromEnd_StringPartJc(this);  return *this; }
+  StringPartJc& firstlineMaxpart(){ firstlineMaxpart_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  char getCurrentChar(){  return getCurrentChar_StringPartJc(this,  null/*_thCxt*/); }
+  bool found(){  return found_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  int32 getCurrentColumn(){  return getCurrentColumn_StringPartJc(this,  null/*_thCxt*/); }
+  StringPartJc& fromEnd(){ fromEnd_StringPartJc(thisp);  return *this; }
 
-  struct Part_StringPartJc_t* getCurrentPart(){  return getCurrentPart_StringPartJc(this,  null/*_thCxt*/); }
+  char getCurrentChar(){  return getCurrentChar_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  CharSeqJc getCurrentPart(int32 maxLength){  return getCurrentPart_i_StringPartJc(this, maxLength,  null/*_thCxt*/); }
+  int32 getCurrentColumn(){  return getCurrentColumn_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  int64 getCurrentPosition(){  return getCurrentPosition_StringPartJc(this,  null/*_thCxt*/); }
+  struct Part_StringPartJc_t* getCurrentPart(){  return getCurrentPart_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  CharSeqJc getCurrent(int32 nChars){  return getCurrent_StringPartJc(this, nChars,  null/*_thCxt*/); }
+  CharSeqJc getCurrentPart(int32 maxLength){  return getCurrentPart_i_StringPartJc(thisp, maxLength,  null/*_thCxt*/); }
 
-  StringJc getInputfile(){  return getInputfile_StringPartJc(this,  null/*_thCxt*/); }
+  int64 getCurrentPosition(){  return getCurrentPosition_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  CharSeqJc getLastPart(){  return getLastPart_StringPartJc(this,  null/*_thCxt*/); }
+  CharSeqJc getCurrent(int32 nChars){  return getCurrent_StringPartJc(thisp, nChars,  null/*_thCxt*/); }
 
-  virtual int32 getLineAndColumn(int32_Y* column){  return getLineAndColumn_StringPartJc_F(this, column,  null/*_thCxt*/); }
+  StringJc getInputfile(){  return getInputfile_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  struct Part_StringPartJc_t* getPart(int32 fromPos, int32 nrofChars){  return getPart_StringPartJc(this, fromPos, nrofChars,  null/*_thCxt*/); }
+  CharSeqJc getLastPart(){  return getLastPart_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  int32 indexEndOfQuotation(char cEndQuotion, char transcriptChar, int32 fromWhere, int32 maxToTest){  return indexEndOfQuotation_StringPartJc(this, cEndQuotion, transcriptChar, fromWhere, maxToTest,  null/*_thCxt*/); }
+  virtual int32 getLineAndColumn(int32_Y* column){  return getLineAndColumn_StringPartJc_F(thisp, column,  null/*_thCxt*/); }
 
-  int32 indexEndOfQuotion(char cEndQuotion, int32 fromWhere, int32 maxToTest){  return indexEndOfQuotion_StringPartJc(this, cEndQuotion, fromWhere, maxToTest,  null/*_thCxt*/); }
+  struct Part_StringPartJc_t* getPart(int32 fromPos, int32 nrofChars){  return getPart_StringPartJc(thisp, fromPos, nrofChars,  null/*_thCxt*/); }
 
-  int32 indexOfAnyCharOutsideQuotion(CharSeqJc sChars, int32 fromWhere, int32 maxToTest){  return indexOfAnyCharOutsideQuotion_StringPartJc(this, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
+  int32 indexEndOfQuotation(char cEndQuotion, char transcriptChar, int32 fromWhere, int32 maxToTest){  return indexEndOfQuotation_StringPartJc(thisp, cEndQuotion, transcriptChar, fromWhere, maxToTest,  null/*_thCxt*/); }
 
-  int32 indexOfAnyChar(CharSeqJc sChars){  return indexOfAnyChar_Cs_StringPartJc(this, sChars,  null/*_thCxt*/); }
+  int32 indexEndOfQuotion(char cEndQuotion, int32 fromWhere, int32 maxToTest){  return indexEndOfQuotion_StringPartJc(thisp, cEndQuotion, fromWhere, maxToTest,  null/*_thCxt*/); }
 
-  int32 indexOfAnyChar(CharSeqJc sChars, int32 fromWhere, int32 maxToTest){  return indexOfAnyChar_Csii_StringPartJc(this, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
+  int32 indexOfAnyCharOutsideQuotion(CharSeqJc sChars, int32 fromWhere, int32 maxToTest){  return indexOfAnyCharOutsideQuotion_StringPartJc(thisp, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
 
-  int32 indexOfAnyChar(CharSeqJc sChars, int32 fromWhere, int32 maxToTest, char transcriptChar, char quotationStartChar, char quotationEndChar){  return indexOfAnyChar_Csiiccc_StringPartJc(this, sChars, fromWhere, maxToTest, transcriptChar, quotationStartChar, quotationEndChar,  null/*_thCxt*/); }
+  int32 indexOfAnyChar(CharSeqJc sChars){  return indexOfAnyChar_Cs_StringPartJc(thisp, sChars,  null/*_thCxt*/); }
 
-  int32 indexOfAnyString(CharSeqJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32* nrofFoundString, StringJc* foundString){  return indexOfAnyString_StringPartJc(this, listStrings, fromWhere, maxToTest, nrofFoundString, foundString,  null/*_thCxt*/); }
+  int32 indexOfAnyChar(CharSeqJc sChars, int32 fromWhere, int32 maxToTest){  return indexOfAnyChar_Csii_StringPartJc(thisp, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
 
-  int32 indexOfNoChar(CharSeqJc sChars){  return indexOfNoChar_Cs_StringPartJc(this, sChars,  null/*_thCxt*/); }
+  int32 indexOfAnyChar(CharSeqJc sChars, int32 fromWhere, int32 maxToTest, char transcriptChar, char quotationStartChar, char quotationEndChar){  return indexOfAnyChar_Csiiccc_StringPartJc(thisp, sChars, fromWhere, maxToTest, transcriptChar, quotationStartChar, quotationEndChar,  null/*_thCxt*/); }
 
-  int32 indexOfNoChar(CharSeqJc sChars, int32 fromWhere){  return indexOfNoChar_Csi_StringPartJc(this, sChars, fromWhere,  null/*_thCxt*/); }
+  int32 indexOfAnyString(CharSeqJc_Y* listStrings, int32 fromWhere, int32 maxToTest, int32* nrofFoundString, StringJc* foundString){  return indexOfAnyString_StringPartJc(thisp, listStrings, fromWhere, maxToTest, nrofFoundString, foundString,  null/*_thCxt*/); }
 
-  int32 indexOf(CharSeqJc sCmp){  return indexOf_Cs_StringPartJc(this, sCmp,  null/*_thCxt*/); }
+  int32 indexOfNoChar(CharSeqJc sChars){  return indexOfNoChar_Cs_StringPartJc(thisp, sChars,  null/*_thCxt*/); }
 
-  int32 indexOf(CharSeqJc sCmp, int32 fromIndex, int32 maxToTest){  return indexOf_Csii_StringPartJc(this, sCmp, fromIndex, maxToTest,  null/*_thCxt*/); }
+  int32 indexOfNoChar(CharSeqJc sChars, int32 fromWhere){  return indexOfNoChar_Csi_StringPartJc(thisp, sChars, fromWhere,  null/*_thCxt*/); }
 
-  int32 indexOf(char ch){  return indexOf_c_StringPartJc(this, ch,  null/*_thCxt*/); }
+  int32 indexOf(CharSeqJc sCmp){  return indexOf_Cs_StringPartJc(thisp, sCmp,  null/*_thCxt*/); }
 
-  int32 indexOf(char ch, int32 fromIndex){  return indexOf_ci_StringPartJc(this, ch, fromIndex,  null/*_thCxt*/); }
+  int32 indexOf(CharSeqJc sCmp, int32 fromIndex, int32 maxToTest){  return indexOf_Csii_StringPartJc(thisp, sCmp, fromIndex, maxToTest,  null/*_thCxt*/); }
 
-  int32 lastIndexOfAnyChar(CharSeqJc sChars, int32 fromWhere, int32 maxToTest){  return lastIndexOfAnyChar_StringPartJc(this, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
+  int32 indexOf(char ch){  return indexOf_c_StringPartJc(thisp, ch,  null/*_thCxt*/); }
 
-  StringPartJc& len0end(){ len0end_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  int32 indexOf(char ch, int32 fromIndex){  return indexOf_ci_StringPartJc(thisp, ch, fromIndex,  null/*_thCxt*/); }
 
-  StringPartJc& lenBacktoNoChar(CharSeqJc sChars){ lenBacktoNoChar_StringPartJc(this, sChars,  null/*_thCxt*/);  return *this; }
+  int32 lastIndexOfAnyChar(CharSeqJc sChars, int32 fromWhere, int32 maxToTest){  return lastIndexOfAnyChar_StringPartJc(thisp, sChars, fromWhere, maxToTest,  null/*_thCxt*/); }
 
-  int32 lengthMaxPart(){  return lengthMaxPart_StringPartJc(this); }
+  StringPartJc& len0end(){ len0end_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  int32 length(){  return length_StringPartJc(&this->base.object.base.object,  null/*_thCxt*/); }
+  StringPartJc& lenBacktoNoChar(CharSeqJc sChars){ lenBacktoNoChar_StringPartJc(thisp, sChars,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoAnyCharOutsideQuotion(CharSeqJc sChars, int32 maxToTest){ lentoAnyCharOutsideQuotion_StringPartJc(this, sChars, maxToTest,  null/*_thCxt*/);  return *this; }
+  int32 lengthMaxPart(){  return lengthMaxPart_StringPartJc(thisp); }
 
-  StringPartJc& lentoAnyChar(CharSeqJc sChars){ lentoAnyChar_Cs_StringPartJc(this, sChars,  null/*_thCxt*/);  return *this; }
+  int32 length(){  return length_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  StringPartJc& lentoAnyChar(CharSeqJc sChars, int32 maxToTest){ lentoAnyChar_Csi_StringPartJc(this, sChars, maxToTest,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoAnyCharOutsideQuotion(CharSeqJc sChars, int32 maxToTest){ lentoAnyCharOutsideQuotion_StringPartJc(thisp, sChars, maxToTest,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoAnyChar(CharSeqJc sChars, int32 maxToTest, int32 mode){ lentoAnyChar_Csii_StringPartJc(this, sChars, maxToTest, mode,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoAnyChar(CharSeqJc sChars){ lentoAnyChar_Cs_StringPartJc(thisp, sChars,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoAnyNonEscapedChar(CharSeqJc sCharsEnd, int32 maxToTest){ lentoAnyNonEscapedChar_StringPartJc(this, sCharsEnd, maxToTest,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoAnyChar(CharSeqJc sChars, int32 maxToTest){ lentoAnyChar_Csi_StringPartJc(thisp, sChars, maxToTest,  null/*_thCxt*/);  return *this; }
 
-  void lentoAnyStringWithIndent(CharSeqJc_Y* strings, CharSeqJc sIndentChars, int32 maxToTest, struct StringBuilderJc_t* buffer){ lentoAnyStringWithIndent_StringPartJc(this, strings, sIndentChars, maxToTest, buffer,  null/*_thCxt*/); }
+  StringPartJc& lentoAnyChar(CharSeqJc sChars, int32 maxToTest, int32 mode){ lentoAnyChar_Csii_StringPartJc(thisp, sChars, maxToTest, mode,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoAnyString(CharSeqJc_Y* strings, int32 maxToTest){ lentoAnyString_CsYi_StringPartJc(this, strings, maxToTest,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoAnyNonEscapedChar(CharSeqJc sCharsEnd, int32 maxToTest){ lentoAnyNonEscapedChar_StringPartJc(thisp, sCharsEnd, maxToTest,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoAnyString(CharSeqJc_Y* strings, int32 maxToTest, int32 mode){ lentoAnyString_CsYii_StringPartJc(this, strings, maxToTest, mode,  null/*_thCxt*/);  return *this; }
+  void lentoAnyStringWithIndent(CharSeqJc_Y* strings, CharSeqJc sIndentChars, int32 maxToTest, struct StringBuilderJc_t* buffer){ lentoAnyStringWithIndent_StringPartJc(thisp, strings, sIndentChars, maxToTest, buffer,  null/*_thCxt*/); }
 
-  StringPartJc& lentoIdentifier(CharSeqJc additionalStartChars, CharSeqJc additionalChars){ lentoIdentifier_CsCs_StringPartJc(this, additionalStartChars, additionalChars,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoAnyString(CharSeqJc_Y* strings, int32 maxToTest){ lentoAnyString_CsYi_StringPartJc(thisp, strings, maxToTest,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoIdentifier(){ lentoIdentifier_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoAnyString(CharSeqJc_Y* strings, int32 maxToTest, int32 mode){ lentoAnyString_CsYii_StringPartJc(thisp, strings, maxToTest, mode,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoLineEnd(){ lentoLineEnd_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoIdentifier(CharSeqJc additionalStartChars, CharSeqJc additionalChars){ lentoIdentifier_CsCs_StringPartJc(thisp, additionalStartChars, additionalChars,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoNonEscapedString(CharSeqJc sEnd, int32 maxToTest){ lentoNonEscapedString_StringPartJc(this, sEnd, maxToTest,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoIdentifier(){ lentoIdentifier_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoPos(int32 len){ lentoPos_StringPartJc(this, len,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoLineEnd(){ lentoLineEnd_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lentoQuotionEnd(char sEndQuotion, int32 maxToTest){ lentoQuotionEnd_StringPartJc(this, sEndQuotion, maxToTest,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoNonEscapedString(CharSeqJc sEnd, int32 maxToTest){ lentoNonEscapedString_StringPartJc(thisp, sEnd, maxToTest,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lento(CharSeqJc ss){ lento_Cs_StringPartJc(this, ss,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoPos(int32 len){ lentoPos_StringPartJc(thisp, len,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lento(CharSeqJc ss, int32 mode){ lento_Csi_StringPartJc(this, ss, mode,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lentoQuotionEnd(char sEndQuotion, int32 maxToTest){ lentoQuotionEnd_StringPartJc(thisp, sEndQuotion, maxToTest,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lento(char cc){ lento_c_StringPartJc(this, cc,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lento(CharSeqJc ss){ lento_Cs_StringPartJc(thisp, ss,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& lento(int32 len){ lento_i_StringPartJc(this, len);  return *this; }
+  StringPartJc& lento(CharSeqJc ss, int32 mode){ lento_Csi_StringPartJc(thisp, ss, mode,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* line(){  return line_StringPartJc(this,  null/*_thCxt*/); }
+  StringPartJc& lento(char cc){ lento_c_StringPartJc(thisp, cc,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& nextlineMaxpart(){ nextlineMaxpart_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& lento(int32 len){ lentoPos_StringPartJc(thisp, len, null/*_thCxt*/);  return *this; }
+
+  struct StringPartJc_t* line(){  return line_StringPartJc(thisp,  null/*_thCxt*/); }
+
+  StringPartJc& nextlineMaxpart(){ nextlineMaxpart_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
   CharSeqJc replace(CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
 
-  struct StringPartJc_t* seekAnyChar(CharSeqJc chars){  return seekAnyChar_StringPartJc(this, chars,  null/*_thCxt*/); }
+  struct StringPartJc_t* seekAnyChar(CharSeqJc chars){  return seekAnyChar_StringPartJc(thisp, chars,  null/*_thCxt*/); }
 
-  StringPartJc& seekAnyString(CharSeqJc_Y* strings, int32* nrofFoundString){ seekAnyString_StringPartJc(this, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seekAnyString(CharSeqJc_Y* strings, int32* nrofFoundString){ seekAnyString_StringPartJc(thisp, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* seekBackToAnyChar(CharSeqJc chars){  return seekBackToAnyChar_StringPartJc(this, chars,  null/*_thCxt*/); }
+  struct StringPartJc_t* seekBackToAnyChar(CharSeqJc chars){  return seekBackToAnyChar_StringPartJc(thisp, chars,  null/*_thCxt*/); }
 
-  StringPartJc& seekBackward(CharSeqJc sSeek){ seekBackward_StringPartJc(this, sSeek,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seekBackward(CharSeqJc sSeek){ seekBackward_StringPartJc(thisp, sSeek,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& seekBegin(){ seekBegin_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seekBegin(){ seekBegin_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* seekNextLine(){  return seekNextLine_StringPartJc(this,  null/*_thCxt*/); }
+  struct StringPartJc_t* seekNextLine(){  return seekNextLine_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  StringPartJc& seekNoChar(CharSeqJc sChars){ seekNoChar_StringPartJc(this, sChars,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seekNoChar(CharSeqJc sChars){ seekNoChar_StringPartJc(thisp, sChars,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& seekNoWhitespaceOrComments(){ seekNoWhitespaceOrComments_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seekNoWhitespaceOrComments(){ seekNoWhitespaceOrComments_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& seekNoWhitespace(){ seekNoWhitespace_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seekNoWhitespace(){ seekNoWhitespace_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* seekPosBack(int32 nr){  return seekPosBack_StringPartJc(this, nr,  null/*_thCxt*/); }
+  struct StringPartJc_t* seekPosBack(int32 nr){  return seekPosBack_StringPartJc(thisp, nr,  null/*_thCxt*/); }
 
-  struct StringPartJc_t* seekPos(int32 nr){  return seekPos_StringPartJc(this, nr,  null/*_thCxt*/); }
+  struct StringPartJc_t* seekPos(int32 nr){  return seekPos_StringPartJc(thisp, nr,  null/*_thCxt*/); }
 
-  struct StringPartJc_t* seek(CharSeqJc sSeek){  return seek_Cs_StringPartJc(this, sSeek); }
+  struct StringPartJc_t* seek(CharSeqJc sSeek){  return seek_Csi_StringPartJc(thisp, sSeek, seekNormal_StringPartJc, null/*_thCxt*/); }
 
-  StringPartJc& seek(CharSeqJc sSeek, int32 mode){ seek_Csi_StringPartJc(this, sSeek, mode,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seek(CharSeqJc sSeek, int32 mode){ seek_Csi_StringPartJc(thisp, sSeek, mode,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& seek(char cSeek, int32 mode){ seek_ci_StringPartJc(this, cSeek, mode,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seek(char cSeek, int32 mode){ seek_ci_StringPartJc(thisp, cSeek, mode,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& seek(int32 nr){ seek_i_StringPartJc(this, nr,  null/*_thCxt*/);  return *this; }
+  StringPartJc& seek(int32 nr){ seek_i_StringPartJc(thisp, nr,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& setBeginMaxPart(){ setBeginMaxPart_StringPartJc(this);  return *this; }
+  StringPartJc& setBeginMaxPart(){ setBeginMaxPart_StringPartJc(thisp);  return *this; }
 
-  void setCurrentPosition(int64 pos){ setCurrentPosition_StringPartJc(this, pos,  null/*_thCxt*/); }
+  void setCurrentPosition(int64 pos){ setCurrentPosition_StringPartJc(thisp, pos,  null/*_thCxt*/); }
 
-  bool setIgnoreComment(StringJcpp sStart, StringJcpp sEnd){  return setIgnoreComment_SS_StringPartJc(this, sStart, sEnd,  null/*_thCxt*/); }
+  bool setIgnoreComment(StringJc sStart, StringJc sEnd){  return setIgnoreComment_SS_StringPartJc(thisp, sStart, sEnd,  null/*_thCxt*/); }
 
-  bool setIgnoreComment(bool bSet){  return setIgnoreComment_b_StringPartJc(this, bSet,  null/*_thCxt*/); }
+  bool setIgnoreComment(bool bSet){  return setIgnoreComment_b_StringPartJc(thisp, bSet,  null/*_thCxt*/); }
 
-  bool setIgnoreEndlineComment(StringJcpp sStart){  return setIgnoreEndlineComment_S_StringPartJc(this, sStart,  null/*_thCxt*/); }
+  bool setIgnoreEndlineComment(StringJc sStart){  return setIgnoreEndlineComment_S_StringPartJc(thisp, sStart,  null/*_thCxt*/); }
 
-  bool setIgnoreEndlineComment(bool bSet){  return setIgnoreEndlineComment_b_StringPartJc(this, bSet,  null/*_thCxt*/); }
+  bool setIgnoreEndlineComment(bool bSet){  return setIgnoreEndlineComment_b_StringPartJc(thisp, bSet,  null/*_thCxt*/); }
 
-  bool setIgnoreWhitespaces(bool bSet){  return setIgnoreWhitespaces_StringPartJc(this, bSet,  null/*_thCxt*/); }
+  bool setIgnoreWhitespaces(bool bSet){  return setIgnoreWhitespaces_StringPartJc(thisp, bSet,  null/*_thCxt*/); }
 
-  void setInputfile(StringJcpp file){ setInputfile_StringPartJc(this, file,  null/*_thCxt*/); }
+  void setInputfile(StringJc file){ setInputfile_StringPartJc(thisp, file,  null/*_thCxt*/); }
 
-  StringPartJc& setLengthMax(){ setLengthMax_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& setLengthMax(){ setLengthMax_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& setParttoMax(){ setParttoMax_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& setParttoMax(){ setParttoMax_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* skipWhitespaceAndComment(){  return skipWhitespaceAndComment_StringPartJc(this,  null/*_thCxt*/); }
+  struct StringPartJc_t* skipWhitespaceAndComment(){  return skipWhitespaceAndComment_StringPartJc(thisp,  null/*_thCxt*/); }
 
-  bool startsWith(CharSeqJc sCmp){  return startsWith_StringPartJc(this, sCmp,  null/*_thCxt*/); }
+  bool startsWith(CharSeqJc sCmp){  return startsWith_StringPartJc(thisp, sCmp,  null/*_thCxt*/); }
 
-  CharSeqJc subSequence(int32 from, int32 to){  return subSequence_ii_StringPartJc(&this->base.object.base.object, from, to,  null/*_thCxt*/); }
+  CharSeqJc subSequence(int32 from, int32 to){  return subSequence_ii_StringPartJc(C_CAST(CharSeqObjJc*, &thisp->base.object), from, to,  null/*_thCxt*/); }
 
-  struct Part_StringPartJc_t* substring(int32 pos, int32 posendP){  return substring_StringPartJc(this, pos, posendP,  null/*_thCxt*/); }
+  struct Part_StringPartJc_t* substring(int32 pos, int32 posendP){  return substring_StringPartJc(thisp, pos, posendP,  null/*_thCxt*/); }
 
-  void throwIllegalArgumentException(StringJcpp msg, int32 value){ throwIllegalArgumentException_StringPartJc(msg, value,  null/*_thCxt*/); }
+  void throwIllegalArgumentException(StringJc msg, int32 value){ throwIllegalArgumentException_StringPartJc(msg, value,  null/*_thCxt*/); }
 
-  void throwIndexOutOfBoundsException(StringJcpp sMsg){ throwIndexOutOfBoundsException_StringPartJc(this, sMsg,  null/*_thCxt*/); }
+  void throwIndexOutOfBoundsException(StringJc sMsg){ throwIndexOutOfBoundsException_StringPartJc(thisp, sMsg,  null/*_thCxt*/); }
 
-  void throwSubSeqFaulty(int32 from, int32 to){ throwSubSeqFaulty_StringPartJc(this, from, to,  null/*_thCxt*/); }
+  void throwSubSeqFaulty(int32 from, int32 to){ throwSubSeqFaulty_StringPartJc(thisp, from, to,  null/*_thCxt*/); }
 
-  virtual StringJc toString(){  return toString_StringPartJc_F(&this->base.object,  null/*_thCxt*/); }
+  virtual StringJc toString(){  return toString_StringPartJc_F(&thisp->base.object,  null/*_thCxt*/); }
 
-  StringPartJc& trimComment(){ trimComment_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& trimComment(){ trimComment_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& trimWhiteSpaces(){ trimWhiteSpaces_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& trimWhiteSpaces(){ trimWhiteSpaces_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  StringPartJc& trim(){ trim_StringPartJc(this,  null/*_thCxt*/);  return *this; }
+  StringPartJc& trim(){ trim_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 };
 
 #endif /*__CPLUSPLUSJcpp*/
