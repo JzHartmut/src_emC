@@ -3,17 +3,19 @@
 #include <applstdef_emC.h>
 
 /**Outputs a short message "Test: ident" starting with newline. */
-extern_C void TEST(char const* ident);
+extern_C void XXXXTEST(char const* ident);
 
 
 #ifdef __cplusplus
 
 
-#include <iostream>
+//#include <iostream>
 
+#if 0
 #define EXPECT_TRUE(VAL) if(EXPECT_TRUEmsg1(VAL, __FILE__, __LINE__)) std::cerr
 
 #define EXPECT_FALSE(VAL) if(EXPECT_TRUEmsg1(!(VAL), __FILE__, __LINE__)) std::cerr
+#endif
 
 void EXPECT_TRUEmsg(bool val, char const* msg);
 
@@ -53,5 +55,10 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 
 #define TEST_EXC(EXC) exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
 
+
+inline bool check_testAssert(float val, float cmp, float accuracy) {
+  float diff = val - cmp;
+  return diff < accuracy && diff > -accuracy; 
+}
 
 #endif //HEADERGUARD_org_vishia_emC_Test_testAssert

@@ -1,8 +1,8 @@
 #include <applstdef_emC.h>
-#include <iostream>
+//#include <iostream>
 
+#if 0
 using namespace std;
-
 
 void EXPECT_TRUEmsg(bool val, char const* msg) {
   if(!val) {
@@ -32,3 +32,4 @@ void EXPECT_FALSEmsg1(bool val, char const* sfile, int line) {
     cerr << endl << sfile << "@" << line << ": ";
   }
 }
+#endif

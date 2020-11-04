@@ -1,7 +1,7 @@
 #include <emC/Ctrl/CalcExpr.h>
 #include <emC/Ctrl/T1_Ctrl_emC.h>
 
-
+#include <string.h>  //memset
 
 void ctor_CalcExpr(CalcExpr* thiz, int stacksizeAdditional){
   memset(thiz, 0, sizeof(*thiz));
@@ -116,6 +116,5 @@ void T1filterF_CalcExpr(CalcExpr* thiz, void* vfilter){
 void sysclk_CalcExpr(CalcExpr* thiz, void* vfilter){
   thiz->accu.accuF = 123;
 }
-
 
 

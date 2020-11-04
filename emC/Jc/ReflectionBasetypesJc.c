@@ -32,7 +32,10 @@
  *
  * @version 0.83
  */
+
 #include <applstdef_emC.h>
+#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+
 #include <emC/Jc/ReflectionJc.h>
 #include <emC/Jc/ObjectJc.h>
 
@@ -696,3 +699,5 @@ const struct ReflectionFieldJc_t reflectionFieldJc
 //#include <Jc/LocaleJc.h>
 //extern_C ClassJc const refl_LocaleJc;
 //DEFINE_REFLECTION_REF(LocaleJc);
+
+#endif //#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need

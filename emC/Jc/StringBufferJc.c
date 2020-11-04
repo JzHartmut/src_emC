@@ -35,6 +35,8 @@
  * 2006-05-00: JcHartmut creation
  *
  ****************************************************************************/
+#include <applstdef_emC.h>
+#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
 
 //#include "CRuntimeJavalike.h"
 #include "StringJc_intern.h"
@@ -1083,3 +1085,6 @@ StringBuilderJcpp* new_StringBuilderJcpp(int size)
 //#include "Jc/ReflectionJc.h"
 
 //DEFINE_REFLECTION_REF(StringBuilderJc_s);
+
+
+#endif // DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need

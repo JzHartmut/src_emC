@@ -1,3 +1,7 @@
+
+
+#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+
 #include "CalcExpr_Parse.h"
 #include "CalcExpr.h"
 
@@ -174,7 +178,7 @@ static void parseOperatorExpr(StringPartScanJc& spExpr
       if(spExpr.scanOk()){
         //possible operator found
         contOperatorExpr = true;
-        if(charOperators == null){
+        if(charOperators == null){                  //set the next operation due to scanned operator.
           operation.operation = **checkOperators1;  //first or only one char of operators
         } else {
           operation.operation = charOperators[ixOperator];
@@ -224,3 +228,5 @@ void parse_CalcExpr(StringJc expr
   STACKTRC_LEAVE;
 }
 
+
+#endif //DEF_ObjectJcpp_REFLECTION

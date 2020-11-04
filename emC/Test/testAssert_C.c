@@ -3,7 +3,7 @@
 #include <emC/Base/StringBase_emC.h>
 
 
-void TEST(char const* ident){
+void XXXxxxxTEST(char const* ident){
   printf("\nTest: %s ...", ident);
 }
 
