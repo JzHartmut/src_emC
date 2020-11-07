@@ -45,8 +45,9 @@
 #endif
 
 //The following include guard prevent twice include especially if applstdefJc.h includes this file already.
-#if !defined(HGUARD_Object_emC) && !defined(DEF_ObjectSimple_emC)  //in case of DEF_ObjectSimple_emC this file should not be used.
-#define HGUARD_Object_emC
+#if !defined(HGUARD_ObjectRefl_emC) && !defined(DEF_ObjectSimple_emC)  //in case of DEF_ObjectSimple_emC this file should not be used.
+#define HGUARD_ObjectRefl_emC
+
 
 #define DEF_ObjectJc_FULLCAPABILITY
 
@@ -813,5 +814,5 @@ typedef struct ObjectJcARRAY{ ObjectArrayJc head; ObjectJc const* data[50]; }Obj
 
 
 
-#endif //HGUARD_Object_emC
+#endif //HGUARD_ObjectRefl_emC
 

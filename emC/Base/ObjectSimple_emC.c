@@ -1,9 +1,48 @@
-#include <applstdef_emC.h>
+/************************************************************************************************
+ * Copyright/Copyleft:
+ *
+ * For this source the LGPL Lesser General Public License,
+ * published by the Free Software Foundation is valid.
+ * It means:
+ * 1) You can use this source without any restriction for any desired purpose.
+ * 2) You can redistribute copies of this source to everybody.
+ * 3) Every user of this source, also the user of redistribute copies
+ *    with or without payment, must accept this license for further using.
+ * 4) But the LPGL ist not appropriate for a whole software product,
+ *    if this source is only a part of them. It means, the user
+ *    must publish this part of source,
+ *    but don't need to publish the whole source of the own product.
+ * 5) You can study and modify (improve) this source
+ *    for own using or for redistribution, but you have to license the
+ *    modified sources likewise under this LGPL Lesser General Public License.
+ *    You mustn't delete this Copyright/Copyleft inscription in this source file.
+ *
+ * This source may be used also with another licence, if the author 
+ * and all other here named co-authors have agreed to this contract.
+ * Especially a company can use a copy of this sources in its products without publishing.
+ * The user should have a underwritten contract therefore.
+ *
+ * @author Hartmut Schorrig, Germany, Pinzberg, www.vishia.org
+ *
+ **copyright**************************************************************************************
+ *
+ * @content implementation of base routines of a simple ObjectJc
+ * Note: Accordingly to definitions of the capablity of an ObjectJc base structure, 
+ *       recommended to do in the applstdef_emC.h,
+ *       this source excludes contents which are implemented in another way in ObjectRefl_emC.c
+ *
+ *
+ ****************************************************************************/
+#include <emC/Base/Object_emC.h>
 #include <stdlib.h>   //malloc defined here
 #include <string.h>   //memset defined here
 
-#ifdef DEF_REFLECTION_SIMPLE
-ClassJc const refl_ObjectJc = INIZ_ClassJc(refl_ObjectJc, "ObjectJc");
+#if defined(DEF_REFLECTION_SIMPLE) || defined(DEF_REFLECTION_OFFS)
+  //REFLECTION_SIMPLE: Used as type designator.
+  //REFLECTION_OFFS: It is not part of the generated reflection. It is a standard part. But contained in the index table of reflections.
+  //REFLECTION_NO: Not necessary, do not spend space for it.
+  //REFLECTION_FULL: Other definition is necessary.
+  ClassJc const refl_ObjectJc = INIZ_ClassJc(refl_ObjectJc, "ObjectJc");
 #endif
 
 
@@ -16,7 +55,7 @@ struct ObjectJc_T * ctor_ObjectJc ( struct ObjectJc_T * othiz, void* ptr, uint s
     othiz->reflection = refl;
     int id = idObj;
   #else
-    int id = refl == null ? idObj : refl->idType | idObj & mArrayId_ObjectJc;
+    int id = refl == null ? idObj : (refl->idType | (idObj & mArrayId_ObjectJc));
   #endif
   setSizeAndIdent_ObjectJc(othiz, size, id);
   return othiz;

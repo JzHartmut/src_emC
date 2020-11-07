@@ -37,7 +37,7 @@
 #ifndef __emC_fw_Time_h__
 #define __emC_fw_Time_h__
 #include <applstdef_emC.h>
-//#include <emC/Base/Object_emC.h>
+#include <emC/Base/Object_emC.h>
 //#include <OSAL/os_time.h>
 
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().

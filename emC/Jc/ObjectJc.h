@@ -46,11 +46,10 @@
  * 2006-05-00: www.vishia.de creation
  *
  ****************************************************************************/
-#include <applstdef_emC.h>
+#include <emC/Base/Object_emC.h>
 #ifdef DEF_ObjectJc_FULLCAPABILITY
 #ifndef HEADERGUARD_ObjectJc_h
 #define HEADERGUARD_ObjectJc_h
-#include <emC/Base/Object_emC.h>
 //#include "emC/SimpleC_emC.h"  //should be includeed in applstdef_emC.h
 //#include "emC/Base/MemC_emC.h"     //should be includeed in applstdef_emC.h
 //  ////should be includeed in applstdef_emC.h, knowledge of Thcxt, Exception is supplied

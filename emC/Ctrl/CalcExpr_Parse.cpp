@@ -1,5 +1,5 @@
 
-
+#include <emC/Base/Object_emC.h>
 #ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
 
 #include "CalcExpr_Parse.h"

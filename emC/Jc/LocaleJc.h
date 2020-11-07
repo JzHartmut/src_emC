@@ -37,7 +37,7 @@
 #ifndef __LocaleJc_h__
 #define __LocaleJc_h__
 #include <applstdef_emC.h>
-#include <emC/Jc/ObjectJc.h>
+#include <emC/Base/Object_emC.h>
 
 /*@CLASS_C LocaleJc @@@@@@@@@@@@@@@@@@@@@@@@*/
 

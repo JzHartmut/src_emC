@@ -26,17 +26,14 @@
  *
  **copyright**************************************************************************************
  *
- * @content implementation of base routines of ObjectJc
- *
- * @author Hartmut Schorrig www.vishia.org
- * @version 0.82
- * list of changes:
- * 2009-06-24: Hartmut creation, dissolved from ObjectJc.c
+ * @content implementation of base routines of ObjectJc for reflection usage.
+ * Note: Some implementations are alternative to ObjectSimple_emC.c
+ *       depending on definitions of the capablity of an ObjectJc base structure, 
+ *       recommended to do in the applstdef_emC.h
  *
  ****************************************************************************/
-#include <applstdef_emC.h>
-#ifdef DEF_ObjectJc_FULLCAPABILITY
 #include <emC/Base/Object_emC.h>
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 #include <emC/Base/String_emC.h>
  //dependencies:
  //assertJc

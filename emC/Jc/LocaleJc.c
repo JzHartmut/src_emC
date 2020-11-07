@@ -36,10 +36,14 @@
 #include <emC/Jc/ReflectionJc.h>
 
 #ifdef DEF_REFLECTION_FULL
-DEFINE_REFLECTION_REF(LocaleJc);
-#include "emC/Jc/genRefl/LocaleJc.crefl"
-#elif defined(DEF_REFLECTION_SIMPLE)
-ClassJc const refl_LocaleJc = INIZ_ClassJc(refl_LocaleJc, "LocaleJc");
+  DEFINE_REFLECTION_REF(LocaleJc);
+  #include "emC/Jc/genRefl/LocaleJc.crefl"
+#elif defined(DEF_REFLECTION_SIMPLE) || defined(DEF_REFLECTION_OFFS)
+  //REFLECTION_SIMPLE: Used as type designator.
+  //REFLECTION_OFFS: It is not part of the generated reflection. It is a standard part. But contained in the index table of reflections.
+  //REFLECTION_NO: Not necessary, do not spend space for it.
+  //REFLECTION_FULL: Other definition is necessary.
+  ClassJc const refl_LocaleJc = INIZ_ClassJc(refl_LocaleJc, "LocaleJc");
 #endif
 
 LocaleJc_s ROOT_LocaleJc = INIZ_LocaleJc(ROOT_LocaleJc, "__", "", "");

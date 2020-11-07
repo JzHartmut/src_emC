@@ -46,7 +46,7 @@
 #ifndef HGUARD_ObjectSimple_emC
 #define HGUARD_ObjectSimple_emC
 
-#ifndef HGUARD_Object_emC  //it is simple included, not via Object_emC.h
+#ifndef HGUARD_ObjectRefl_emC  //it is simple included, not via Object_emC.h
 
   #ifdef DEF_REFLECTION_FULL
     #error DEF_REFLECTION_FULL needs include of Object_emC.h
@@ -61,7 +61,7 @@
 
   //either it is defined already because this is included in Object_emC.h 
   //or prevent include Object_emC.h, this file is sufficient:
-  #define HGUARD_Object_emC  
+  #define HGUARDRefl_Object_emC  
 #endif
 
 #ifdef DEF_REFLECTION_NO

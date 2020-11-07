@@ -1,8 +1,7 @@
 #ifndef __Ctrl__pid_Ctrl_h__
 #define __Ctrl__pid_Ctrl_h__
 
-//#include "emC/Base/Object_emC.h"
-#include <applstdef_emC.h>
+#include "emC/Base/Object_emC.h"
 
 /**This struct contains the used factors for the PID control calculated from the parameters.
  * It is an internal data struct used for message transfer of factors. 

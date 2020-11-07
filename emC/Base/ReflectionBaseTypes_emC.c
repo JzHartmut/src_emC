@@ -46,7 +46,7 @@ const ClassJc  refl__intJc =
   , sizeof(int32)
   , null  //Attributes
   , null  //Methods
-  , null  //superclass
+  , { null }  //superclass
   , null  //interfaces
   , 4 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -61,7 +61,7 @@ const ClassJc refl__booleanJc =
 , sizeof(bool)
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 1<<kBitPrimitiv_Modifier_reflectJc
 };
@@ -75,7 +75,7 @@ const ClassJc refl__voidJc =
 , 0 //2018-07 sizeof a void type should be 0. If it is a pointer, then the pointer size is gotten like usual, not here! FAULTY: sizeof(void*) //size of a pointer
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0
 };
@@ -89,7 +89,7 @@ const ClassJc refl__floatJc =
   , sizeof(float)
   , null  //Attributes
   , null  //Methods
-  , null  //superclass
+  , { null }  //superclass
   , null  //interfaces
   , 4 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -103,7 +103,7 @@ const ClassJc refl__longJc =
 , sizeof(int64)
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 8 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -117,7 +117,7 @@ const ClassJc refl__byteJc =
 , sizeof(int8)
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 1 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -131,7 +131,7 @@ const ClassJc refl__shortJc =
 , sizeof(int16)
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 2 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -145,7 +145,7 @@ const ClassJc refl__charJc =
 , sizeof(char)
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 1 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -159,7 +159,7 @@ const ClassJc refl__char16Jc =
 , 2
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 2 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -173,7 +173,7 @@ const ClassJc refl__doubleJc =
 , sizeof(double)
 , null  //Attributes
 , null  //Methods
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 8 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -186,7 +186,7 @@ const ClassJc  refl_bitfieldJc =
   , sizeof(int32)
   , null  //Attributes
   , null  //Methods
-  , null  //superclass
+  , { null }  //superclass
   , null  //interfaces
   , 7 << kBitPrimitiv_Modifier_reflectJc
 };
@@ -229,7 +229,7 @@ const ClassJc refl_int64_hilo =
 , sizeof(int64_hilo)
 , (FieldJcArray const*)&refl_Fields_int64_hilo  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0 
 };
@@ -271,7 +271,7 @@ const ClassJc refl_int64_uhilo =
 , sizeof(int64_uhilo)
 , (FieldJcArray const*)&refl_Fields_int64_uhilo  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0 
 };
@@ -310,7 +310,7 @@ const ClassJc refl_float_complex =
 , sizeof(float_complex)
 , (FieldJcArray const*)&refl_Fields_float_complex  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0 
 };
@@ -348,7 +348,7 @@ const ClassJc refl_double_complex =
 , sizeof(double_complex)
 , (FieldJcArray const*)&refl_Fields_double_complex  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0 
 };
@@ -444,7 +444,7 @@ const ClassJc refl_ObjectJc =
 , sizeof(ObjectJc)
 , (FieldJcArray const*)&refl_Fields_ObjectJc  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
 #ifdef DEF_ClassJc_Vtbl
@@ -512,7 +512,7 @@ extern_C const ClassJc refl_ObjectArrayJc;
 , sizeof(ObjectArrayJc)
 , (FieldJcArray const*)&refl_Fields_ObjectArrayJc  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
 };
@@ -553,7 +553,7 @@ const ClassJc refl_VtblHeadJc =
 , sizeof(VtblHeadJc)
 , (FieldJcArray const*)&refl_Fields_VtblHeadJc  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0 
 };
@@ -567,7 +567,7 @@ const ClassJc refl_ClassJc =
 , sizeof(ClassJc)
 , null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
 };
@@ -581,7 +581,7 @@ const ClassJc refl_FieldJc =
 , sizeof(FieldJc)
 , null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0 
 };
@@ -597,7 +597,7 @@ const ClassJc refl_ClassOffset_idxVtblJc = INIZ_ClassJc(refl_ClassOffset_idxVtbl
 , sizeof(ClassOffset_idxVtblJc)
 , null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0 
 };
@@ -642,7 +642,7 @@ extern_C ClassJc const refl_OS_PtrValue =
 , sizeof(OS_PtrValue)
 , (FieldJcArray const*)&refl_Fields_OS_PtrValue  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0x0  //modifiers
 };
@@ -677,7 +677,7 @@ ClassJc const refl_StringJc =
 , sizeof(StringJc)
 , (FieldJcArray const*)&refl_Fields_StringJc  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0x0  //modifiers
 #ifdef DEF_ClassJc_Vtbl
@@ -692,7 +692,7 @@ ClassJc const refl_CharSeqJc =
 , sizeof(StringJc)
 , (FieldJcArray const*)&refl_Fields_StringJc  //same as StringJc: attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0x0  //modifiers
 #ifdef DEF_ClassJc_Vtbl
@@ -735,7 +735,7 @@ ClassJc const refl_int64 =
 , sizeof(int64)
 , (FieldJcArray const*)&refl_Fields_int64  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0x0  //modifiers
 #ifdef DEF_ClassJc_Vtbl
@@ -781,7 +781,7 @@ ClassJc const refl_uint64 =
 , sizeof(int64)
 , (FieldJcArray const*)&refl_Fields_uint64  //attributes and associations
 , null  //method
-, null  //superclass
+, { null }  //superclass
 , null  //interfaces
 , 0x0  //modifiers
 #ifdef DEF_ClassJc_Vtbl

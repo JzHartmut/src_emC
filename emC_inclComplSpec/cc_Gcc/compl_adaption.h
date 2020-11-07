@@ -49,7 +49,17 @@
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
+//An variable may be unused because compiler switches, because debugging features etc.
+//In any case an optimized compiling should remove it. If it is a writing mistake,
+//  the expected variable shall be missing. It is not necessary as error hint.
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 
+//Usage of virtual may be point of vularibility, it should not be necessary only because of destructors.
+//Usage of destructors with content is not recommended, because a faster longjmp ignore it. 
+//Recommendation: Do not use destructors.
+#ifdef __cplusplus
+  #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
+#endif
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.

@@ -1,8 +1,7 @@
 #ifndef HGUARD_PIDi_Ctrl_emC
 #define HGUARD_PIDi_Ctrl_emC
 
-//#include "emC/Base/Object_emC.h"
-#include <applstdef_emC.h>
+#include "emC/Base/Object_emC.h"
 
 /**Parameter of PID controller 
  * @simulink bus.

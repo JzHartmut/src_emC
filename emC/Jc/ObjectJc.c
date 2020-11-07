@@ -43,9 +43,8 @@
  * 2006-05-00: Hartmut creation
  *
  ****************************************************************************/
-#include <applstdef_emC.h>
-#ifdef DEF_ObjectJc_FULLCAPABILITY
 #include "emC/Jc/ObjectJc.h" 
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 
 #include <stdlib.h>     //malloc
 #include <string.h>     //memset

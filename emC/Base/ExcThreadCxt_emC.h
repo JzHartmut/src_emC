@@ -99,8 +99,9 @@ int16 mode;
 
 
 
-
-#define DEF_ThreadContext_STACKTRC
+#ifndef DEF_ThreadContext_STACKTRC
+  #define DEF_ThreadContext_STACKTRC
+#endif
 
 /*@CLASS_C StacktraceElement_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
