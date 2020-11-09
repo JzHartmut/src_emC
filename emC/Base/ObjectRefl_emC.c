@@ -186,20 +186,21 @@ bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* cla
 
 const ClassOffset_idxVtblJc1 refl_super_ObjectJc =   //reflection instance for the super class
 { INIZ_ObjectArrayJc(refl_super_ObjectJc, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
-, { &refl_ObjectJc                                   
-, 0 //Index of mtbl of ObjectJc
-    //The field which presents the superclass data in inspector access.
-  , { "object"              
-  , 0 //arraysize
-  , &refl_ObjectJc  //type of super                                                                                         
-  , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
-  | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
-  | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
-  , 0 //offsetalways 0 (C++?)
-  , 0  //offsetToObjectifcBase
-  , &refl_ObjectJc  
+, { { &refl_ObjectJc                                   
+    , 0 //Index of mtbl of ObjectJc
+      //The field which presents the superclass data in inspector access.
+    , { "object"              
+      , 0 //arraysize
+      , &refl_ObjectJc //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+      | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+      | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
   }
-}
 };
 
 
