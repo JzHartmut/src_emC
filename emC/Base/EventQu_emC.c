@@ -1,4 +1,4 @@
-#include <emC/StateM/evQueue.h>
+#include <emC/Base/EventQu_emC.h>
 #include <emC/Base/MemC_emC.h>
 
 #include <stdlib.h> //malloc

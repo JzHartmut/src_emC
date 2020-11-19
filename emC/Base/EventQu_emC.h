@@ -1,5 +1,5 @@
-#ifndef DEF_evQueue_StateM_vishiaOrg
-#define DEF_evQueue_StateM_vishiaOrg
+#ifndef HGUARD_emC_Base__EventQu_emC
+#define HGUARD_emC_Base__EventQu_emC
 #include <applstdef_emC.h>
 #include <emC/OSAL/os_AtomicAccess.h> //implementations for lockfree mutex
 #include <emC/Base/Object_emC.h>
@@ -141,12 +141,15 @@ inline bool add_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz
 
 
 
+
+
+
 /**Returns the pointer to the current entry or null if the queue is empty.
  * After evaluation of the referenced content the operation 
  * [[quitNext_EvQueue_StateM_vishiaOrg(...)]] has to be invoked to increment the read
  * position respectively to free the entry for writing on end of the queue.. 
  */
-inline Entry_EvQueue_StateM_vishiaOrg_s* 
+static inline Entry_EvQueue_StateM_vishiaOrg_s* 
 getNext_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz) {
   if(thiz->prd == thiz->pwr) return null;
   else {
@@ -156,7 +159,7 @@ getNext_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz) {
   }
 } 
 
-inline void quitNext_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz
+static inline void quitNext_EvQueue_StateM_vishiaOrg ( EvQueue_StateM_vishiaOrg_s* thiz
 , ThCxt* _thCxt) {
   ASSERT_emC(thiz->prd != thiz->pwr, "faulty quit", thiz->prd, thiz->pwr);
   thiz->queue.a[thiz->prd].evIdent = 0;  //mark as unused firstly for next wr and rd after them.
@@ -302,4 +305,4 @@ inline uint32 hasEvent_EvInstance_StateM_vishiaOrg (
 
 
 
-#endif //DEF_evQueue_StateM_vishiaOrg
+#endif //HGUARD_emC_Base__EventQu_emC

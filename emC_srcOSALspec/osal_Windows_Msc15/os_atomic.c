@@ -97,6 +97,10 @@ int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int3
   return InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
 }
 
+int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 update) {
+  return InterlockedCompareExchange((uint32*)reference, (uint32)update, (uint32)expect);  
+}
+
 
 
 LONGLONG compareAndSwap_AtomicInt64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update)
