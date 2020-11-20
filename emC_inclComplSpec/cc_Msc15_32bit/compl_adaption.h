@@ -1,3 +1,5 @@
+#ifndef HGUARD_compl_adaption
+#define HGUARD_compl_adaption
 /************************************************************************************************
  * Copyright/Copyleft:
  *
@@ -32,10 +34,9 @@
  *************************************************************************************************/
 
 
-#ifndef   __compl_adaption_h__
-#define   __compl_adaption_h__
 //uncomment that to check whether this file is used for include:
 //#error File: emc/incComplSpecific/cc_Msc15_32bit/compl_adaption.h
+
 //The following switch select the operation system in some sources.
 #define __OS_IS_WINDOWS__
 
@@ -301,6 +302,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 #define MAYBE_UNUSED_emC
 
+#define USED_emC
+
 /**It is an attribute before a function definition to determine
  * that the function should be placed in a section which is linked
  * to a RAM location but load into the FLASH memory.
@@ -407,12 +410,12 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
-/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
+/**Bits of length of constant string adequate to VALTYPE_AddrVal_emC. 
  * It have to be a mask with set bits on right side (all last significant bits).
  * The next 2 bits left are used internally for designation of String.
  * see [[mNonPersists__StringJc]], [[mThreadContext__StringJc]].
  * See also [[kIsCharSequence_StringJc]]
- * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc. 
+ * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc.
  * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */
 #define mLength_StringJc                 0x00003fff
@@ -425,8 +428,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   #define FALSE false
 #endif
 
-//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
-#undef DEF_HandlePtr64
+
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
 
@@ -500,4 +502,4 @@ INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expec
 
 
 
-#endif  //__compl_adaption_h__
+#endif  //HGUARD_compl_adaption

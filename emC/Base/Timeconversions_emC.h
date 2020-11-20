@@ -121,7 +121,7 @@ void timeFromLong(TimeBytes_emC* date, int32 nTime);
               Die Angabe von 1 bedeutet eine Verschiebung in Richtung MEZ (Winter).
  * @return nr of chars written.
  */
-int toStringFormat_Fw(char* buffer, int sizeBuffer, OS_TimeStamp const* time, char const* sFormat, int timeZoneAdjustHours);
+int toString_TimeAbs_emC ( char* buffer, int sizeBuffer, TimeAbs_emC const* time, char const* sFormat, int timeZoneAdjustHours);
 
 
 

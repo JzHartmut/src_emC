@@ -42,6 +42,20 @@ extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expec
 #endif //DEF_compareAndSwap_Atomic 
 
 
+/**Simple and a value to a given variable. */
+static inline void andInt_Atomic_emC(int volatile* addr, int val) {
+  int ctAbort = 1000;
+  int valueLast = *addr;
+  int valueExpect;
+  do {
+    valueExpect = valueLast;
+    int valueNew = valueLast & val;
+    valueLast = compareAndSwap_AtomicInt(addr, valueExpect, valueNew);
+  } while( valueLast != valueExpect && --ctAbort >=0); 
+  ASSERT_emC(ctAbort >=0, "addInt_Atomic_emC faulty", (int)(intPTR)addr, val);
+} 
+
+
 /**Simple add a value to a given variable. */
 static inline void addInt_Atomic_emC(int volatile* addr, int val) {
   int ctAbort = 1000;

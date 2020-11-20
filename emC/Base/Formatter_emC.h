@@ -34,7 +34,7 @@
 #ifndef __fw_Formatter_h__
 #define __fw_Formatter_h__
 #include <applstdef_emC.h>
-#include <emC/OSAL/os_time.h>
+#include <emC/Base/Time_emC.h>
 #include <emC/Base/Va_list_emC.h>
 #include <emC/Base/String_emC.h>
 

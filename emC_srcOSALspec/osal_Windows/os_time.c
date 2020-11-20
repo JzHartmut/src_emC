@@ -72,6 +72,22 @@ int32 os_getSeconds()
 
 }
 
+//Uses GetSystemTimePreciseAsFileTime()
+void setCurrent_TimeAbs_emC ( TimeAbs_emC* time) {
+  FILETIME utcWin;
+  GetSystemTimePreciseAsFileTime(&utcWin);
+  //A file time is a 64-bit value that represents the number of 100-nanosecond intervals 
+  //that have elapsed since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
+  //see https://docs.microsoft.com/en-us/windows/win32/sysinfo/file-times
+  //-3 are three non-leap year in 1700, 1800, 1900, (1972 - 1600 ) can divide by 4
+  double secTill1970 = ((1970.0 - 1601.0) * 365.0 + (1972.0 - 1600.0)/4 -3) *24 * 3600;
+  double sechi = (int32)(utcWin.dwHighDateTime * ((double)(0x40000000) / 2500000.0) - secTill1970);
+  int32 seclo = utcWin.dwLowDateTime / 10000000;
+  time->time_sec = (int32)(sechi) + seclo;
+  time->time_nsec = (utcWin.dwLowDateTime - seclo * 10000000) * 100;
+}
+
+
 
 
 OS_TimeStamp os_getDateTime()
@@ -129,6 +145,35 @@ int64_t os_getLongClockCnt(void)
     //printf("\nFATAL ERROR QueryPerformanceCounter: %d", error);
     return -1;
   }
+}
+
+
+//#include <emC/Base/TimeConversions_emC.h>
+
+void sleepMicroSec_Time_emC ( int32 usec) {
+  TimeAbs_emC timeStart, timeEnd;
+	struct _timeb currTime;
+	_ftime_s(&currTime);
+  setCurrent_TimeAbs_emC(&timeStart);
+
+  char time1[40];
+  char time2[40];
+//  toString_TimeAbs_emC(time1, 40, &timeStart, "YYYY-MM-dd:HH:mm:ss\0", 0);
+
+
+  timeEnd = timeStart; //memcpy
+  addMicroSec_TimeAbs_emC(&timeEnd, usec);
+  if(usec > 10000) {  //more than 10 msec
+    Sleep(usec/1000 -10);
+  }
+  int32 diffusec;
+  int ct = 0;
+  do {
+    Sleep(0);  //yield the CPU
+    setCurrent_TimeAbs_emC(&timeStart);
+    diffusec = diffMicroSec_TimeAbs_emC(&timeEnd, &timeStart); 
+    ct +=1;
+  } while( diffusec >0);
 }
 
 

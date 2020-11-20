@@ -36,7 +36,7 @@
  *
  ****************************************************************************/
 #include "emC/Base/Timeconversions_emC.h"
-
+#include <stdio.h>
 
 /**
  * @changes 2010-01-19 Hartmut corr: taken from old time2nn.c
@@ -118,6 +118,180 @@ void ctor_TimeBytes_emC(TimeBytes_emC* ythis, int32 nTime, int32 nBaseYear, int3
          ( ((nBaseYear+3)/4)*4 +1      //1. Jahr nach Schaltjahr nach baseyear
            +4*nYear4));                 //Jahre absolut nach  Christi Geburt
 }
+
+
+int toString_TimeAbs_emC ( char* buffer, int sizeBuffer, TimeAbs_emC const* time, char const* sFormat, int timeZoneAdjustHours)
+{
+  int lenFormat = (int)strlen(sFormat);
+  TimeBytes_emC timeYsec;
+  int maxPosBuffer = sizeBuffer;
+  int posBuffer = 0;
+  int nHour, nMonth;
+  int32 nanos = time->time_nsec;
+  STACKTRC_ENTRY("toStringFormat_DateFw");
+  ctor_TimeBytes_emC(&timeYsec, seconds_OS_TimeStamp(*time), 1970, 0, isGPS_OS_TimeStamp(*time));
+
+  { static const char* sMonthsFull[12] = {"January", "February", "March", "April", "May", "June"
+                       , "July", "August", "September", "October", "November", "December"};
+    static const char* sMonthsShort[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun"
+                       , "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    char sprintfBuffer[8];  //no more as 4 digits, but respect 4-byte-boundary
+    nHour = timeYsec.hour;
+    nMonth = timeYsec.month;
+    while(lenFormat > 0)
+    { //read and increment, decrement lenFormat
+      char cFormat = *sFormat;
+      int lenFormatToken = 1;
+      sFormat +=1;
+      lenFormat -=1;
+
+      //detect number of equal chars one after another.
+      while(lenFormat > 0 && *sFormat == cFormat)
+      { lenFormatToken +=1;
+        sFormat +=1;
+        lenFormat -=1;
+      }
+
+      switch(cFormat)
+      {
+        case 'Y':
+        case 'y':
+        { int nYear = timeYsec.year;
+          char const* format;
+          if(lenFormatToken >=4)
+          { //append_i_StringBufferJc(&buffer, nYear);
+            format = "%4.4i";
+          }
+          else if(lenFormatToken >=2)
+          { nYear -= 2000;
+            if(nYear < 0) { nYear += 100; }
+            if(nYear >= 100) { nYear -= 100; }
+            //if(nYear < 10)
+            { //append_c_StringBufferJc(&buffer, '0');
+            }
+            format = "%2.2i";
+          }
+          else
+          { format = null;
+          }
+          if(format != null)
+          { 
+            int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), format, nYear);
+            if(nrofChars > (maxPosBuffer - posBuffer))
+            { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+            }
+            memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+            posBuffer += nrofChars;
+          }  
+        } break;
+        case 'M':
+        { if(lenFormatToken >3)
+          { int nrofChars = (int)strlen(sMonthsFull[nMonth-1]);
+            if(nrofChars > (maxPosBuffer - posBuffer))
+            { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+            }
+            memcpy(buffer+posBuffer, sMonthsFull[nMonth-1], nrofChars);
+            posBuffer += nrofChars;
+          }
+          else if(lenFormatToken ==3)
+          { int nrofChars = (int)strlen(sMonthsShort[nMonth-1]);
+            if(nrofChars > (maxPosBuffer - posBuffer))
+            { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+            }
+            memcpy(buffer+posBuffer, sMonthsShort[nMonth-1], nrofChars);
+            posBuffer += nrofChars;
+          }
+          else
+          {
+            int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", nMonth);
+            if(nrofChars > (maxPosBuffer - posBuffer))
+            { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+            }
+            memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+            posBuffer += nrofChars;
+          }
+        } break;
+        case 'd':
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)timeYsec.day);
+          if(nrofChars > (maxPosBuffer - posBuffer))
+          { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+          }
+          memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+          posBuffer += nrofChars;
+        } break;
+        case 'H': 
+        case 'h':  //temporary: convert h like H because application errors exists.
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", nHour);
+          if(nrofChars > (maxPosBuffer - posBuffer))
+          { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+          }
+          memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+          posBuffer += nrofChars;
+        } break;
+        case 'a':  //am/pm-Marker
+        { const char* sAmPm = nHour >=12 ? "PM" : "AM";
+          int nrofChars = 2;
+          if(nrofChars > (maxPosBuffer - posBuffer))
+          { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+          }
+          memcpy(buffer+posBuffer, sAmPm, nrofChars);
+          posBuffer += nrofChars;
+        } break;
+        case 'K':  //hour from 1 to 12
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)(nHour >=12 ? nHour-11 : nHour+1));
+          if(nrofChars > (maxPosBuffer - posBuffer))
+          { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+          }
+          memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+          posBuffer += nrofChars;
+        } break;
+        case 'm':
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)timeYsec.minute);
+          if(nrofChars > (maxPosBuffer - posBuffer))
+          { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+          }
+          memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+          posBuffer += nrofChars;
+        } break;
+        case 's':
+        { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), "%2.2i", (int)timeYsec.sec);
+          if(nrofChars > (maxPosBuffer - posBuffer))
+          { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+          }
+          memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+          posBuffer += nrofChars;
+        } break;
+        case 'S':  //millisecond
+        { const char* format;
+          int millisec = (int)(nanos/1000000L); 
+          if(millisec < 0){ millisec +=1000; }
+          switch(lenFormatToken)
+          { case 1: format = "%1.1u"; millisec /= 100; break;
+            case 2: format = "%2.2u"; millisec /= 10; break;
+            default: format = "%3.3u"; break;
+          }
+          { int nrofChars = snprintf(sprintfBuffer, sizeof(sprintfBuffer), format, millisec);
+            if(nrofChars > (maxPosBuffer - posBuffer))
+            { nrofChars = maxPosBuffer - posBuffer; //truncate it.
+            }
+            memcpy(buffer+posBuffer, sprintfBuffer, nrofChars);
+            posBuffer += nrofChars;
+          }
+        } break;
+        default:
+        { //transform the character itself.
+          while(--lenFormatToken >=0 && posBuffer < maxPosBuffer)
+          { buffer[posBuffer++] = cFormat;
+          }
+        }
+      }
+      ASSERTJc_MAX(posBuffer, maxPosBuffer);  //detect errors.
+    }
+    //NO! The buffer may be a part of a string! buffer[posBuffer] = 0;    
+  }
+  STACKTRC_LEAVE; return posBuffer;
+}
+
 
 
 

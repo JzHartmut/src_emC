@@ -179,6 +179,7 @@ void os_delayThread ( int timeOut);
 void os_delayThreadClocks ( int timeOutClocks);
 #endif
 #define os_sleep(TIME) os_delayThread(TIME);
+#define sleep_Time_emC(MILLISEC) os_delayThread(MILLISEC)
 
 
 

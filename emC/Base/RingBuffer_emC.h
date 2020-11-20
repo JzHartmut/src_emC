@@ -3,7 +3,16 @@
 #include <emC/Base/Object_emC.h>
 #include <emC/Base/Atomic_emC.h> //implementations for lockfree mutex
 
-#define bitsInt  (sizeof(int) * BYTE_IN_MemUnit * 8) //a const compiler calculated.
+//#define bitsInt  (sizeof(int) * BYTE_IN_MemUnit * 8) //a const compiler calculated.
+
+
+//left empty only set in a test routine. 
+#ifndef TEST_INTR1_RingBuffer_emC
+#define TEST_INTR1_RingBuffer_emC
+#define TEST_INTR2_RingBuffer_emC
+#define TEST_INTR3_RingBuffer_emC
+#endif
+
 
 
 /**A universal ring buffer (circular buffer) to store any data.
@@ -17,7 +26,7 @@ typedef struct RingBuffer_emC_T {
 
   uint16 nrofEntries;
 
-  int ctModify;
+  int volatile ctModify;
   
 
 
@@ -27,7 +36,7 @@ typedef struct RingBuffer_emC_T {
    * ** If ixRd!=ixWr and queue.a[thiz->ixRd].evIdent !=0, it is the current entry.
    * ** ixRd can be increment without lock.
    */
-  int ixRd;  //use signed because difference building.
+  int volatile ixRd;  //use signed because difference building.
 
   /**Index of the next write position.
    * ** if (ixWr+1) modulo sizeQueue == ixRd, then the queue is full. Add will be prevented.
@@ -36,7 +45,10 @@ typedef struct RingBuffer_emC_T {
    * ** after them the position is filled, but queue.a[ixWrCurrent].evIdent = x is set at last to confirm the completion.
    * ** The width is int32 for 32-bit-Systems and 16 for 16-bit-Systems to use atomic access to memory.
    */
-  int ixWr; //+rd and wr-pointer
+  int volatile ixWr; //+rd and wr-pointer
+
+  /**Only for debug, statistic runtime analyse, max repeat count of compareAndSwap loop. */
+  int repeatCtMax;
 
 } RingBuffer_emC_s;
 
@@ -64,13 +76,6 @@ extern_C RingBuffer_emC_s* ctor_RingBuffer_emC ( ObjectJc* othiz, int nrofEntrie
 extern_C void status_RingBuffer_emC(RingBuffer_emC_s* thiz, int16* nrofEntries_y, int* ctModify_y);
 
 extern_C int16 info_RingBuffer_emC(RingBuffer_emC_s* thiz, int16* ctEvents_y);
-
-//left empty only set in a test routine. 
-#ifndef TEST_INTR1_ADD_RingBuffer_StateM_emC
-#define TEST_INTR1_ADD_RingBuffer_StateM_emC
-#define TEST_INTR2_ADD_RingBuffer_StateM_emC
-#define TEST_INTR3_ADD_RingBuffer_StateM_emC
-#endif
 
 
 /**Adds an entry to the ring buffer as only one (single) thread or interrupt.
@@ -123,25 +128,26 @@ inline int add_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
     enable_interrupt_emC();
     return ixWr;
   #else
-  int abortCt = 100;
+  int repeatCt = 0;
   int volatile* ptr = &thiz->ixWr; //address of the ixWr
   int ixWrLast = thiz->ixWr; //The position where the event should be written to the queue.
   int ixWrExpect;  //to compare
   do {
-    TEST_INTR1_ADD_RingBuffer_StateM_emC
     ixWrExpect = ixWrLast;
     int ixWrNext = ixWrLast + 1;
     if(ixWrNext >= thiz->nrofEntries) { ixWrNext =0; } //modulo
     if(ixWrNext == thiz->ixRd) { 
       return -1;    //RETURN: no more space in queue
     }
+    TEST_INTR1_RingBuffer_emC
     ixWrLast = compareAndSwap_AtomicInt(ptr, ixWrExpect, ixWrNext); //set for next access.
-  } while( ixWrLast != ixWrExpect && --abortCt >=0); //repeat if another thread has changed thiz->ixWr.
-  if(abortCt <0) {
+  } while( ixWrLast != ixWrExpect && ++repeatCt < 100); //repeat if another thread has changed thiz->ixWr.
+  if(repeatCt >=100) {
     //it is a problem of thread workload, compareAndSet does not work.
     THROW_s0n(IllegalStateException, "thread compareAndSwap problem", 0, 0);
     return -1; //RETURN for non-exception handling, THROW writes a log entry only.
   }
+  if(thiz->repeatCtMax < repeatCt) { thiz->repeatCtMax = repeatCt; }
   #endif
   //the ixWrCurr is proper for this entry, another thread may incr thiz->ixWr meanwhile
   //but the other thread uses the position after.

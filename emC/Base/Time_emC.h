@@ -40,6 +40,93 @@
 #include <emC/Base/Object_emC.h>
 //#include <OSAL/os_time.h>
 
+
+typedef struct TimeAbs_emC_T
+{   /**Sekunden, gez?hlt seit dem 1. Januar 0:00 Uhr des Jahres 1970.
+   * Das Startjahr ist aus der UNIX-Tradition heraus 1970. Das gibt jedoch ein Problem beim Umlauf auf einen negativen Wert etwa in 2038 
+   * und einen Gesamtumlauf etwa in 2106. Das Jahr 2038 wird heute bei einer Anlagenstandzeit von 30 Jahren aus heutiger Zeit geradeso erreicht.
+   * Es wird hier festgelegt, dass der Sekundenbezug immer auf 1970 orientiert ist, dabei aber eine Wiederholung bei Z?hlerumlauf stattfindet,
+   * Der absolute Zeitpunkt muss auf das aktuellen Zeitraum orientiert sein. Damit liegen negative Werte aus Sicht des Jahres 2038 betrachtet
+   * nicht im Jahre 1902..1970, sondern eben 2038..2106. Damit ist diese Kennzeichnung zeitlos verwendbar. 
+   *
+   * F?r eine Zeitdifferenzbildung ist der Wert vorzeichenbehaftet zu verwenden, daher ist er hier auch vorzeichenbehaftet definiert.
+   *
+   * Schaltsekunden z?hlen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
+   */
+  int32_t time_sec;
+  
+  /**Zeit innerhalb einer Sekunde in Nanosekunden gez?hlt.
+   * Um schnelle Vorg?nge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde h?ufig nicht ausreichend. 
+   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen ?ber weitere Entfernungen 
+   * von max. 100 ns erreicht werden, um Differenzstr?me zu vermeiden. 
+   * Die tats?chliche Aufl?sung der Zeit h?ngt von den Hardwaregegebenheiten ab.
+   * *Bit 29..0: Nanosekunden
+   * *Bit 31: Wenn 1, dann stellt der Sekundenz?hler einen Wert dar, der die Schaltsekunden seit 1970 mitz?hlt.
+   * *Bit 31: Wenn 0, dann stellt der Sekundenz?hler die kalendarisch gez?hlten Sekunden nach 1970 dar.
+   */
+  int32_t time_nsec;
+
+  /**Nur die folgenden Bits in nanoseconds werden als Nanosekunden verwendet. */
+  #define mNanoSeconds_TimeAbs_emC 0x3FFFFFFF
+
+  /**If this bit is set, the TimeStamp is imprecise, it is in a phase of correction. */
+  #define mCorrection_TimeAbs_emC 0x40000000
+
+  /**Wenn in seconds die Schaltsekunden mitgez?hlt sind (also keine lineare Abbildung 3600*24 Sekunden pro Tag),
+   * dann soll das folgenden Bit gesezt sein:
+   */
+  #define mLeapSeconds_TimeAbs_emC 0x80000000
+
+
+} TimeAbs_emC;
+
+
+/**Sets from the current computer time so exact as possible. */
+void setCurrent_TimeAbs_emC ( TimeAbs_emC* time);
+
+
+/**Adds a number of micro seconds to the time. 
+ * @param usec positive or negative, range +- 35 min
+ */
+static inline void addMicroSec_TimeAbs_emC ( TimeAbs_emC* thiz, int32 usec) {
+  int32 sec = 0;
+  if(usec >= 1000000) {
+    sec = usec / 1000000;
+    usec -= 1000000 * sec;
+  }
+  else if(usec <= -1000000) {
+    sec = usec / 1000000;
+    usec -= 1000000 * sec;
+  } 
+  thiz->time_sec += sec;
+  int32 nanosec = (thiz->time_nsec & 0x3FFFFFFF) + 1000 * usec;
+  if(nanosec > 1000000000) {  //3B9A'CA00
+    nanosec -= 1000000000;
+    thiz->time_sec +=1;
+  } else if(nanosec <0) {
+    nanosec += 1000000000;
+    thiz->time_sec -=1;
+  }
+  thiz->time_nsec = (thiz->time_nsec & 0xc0000000) + nanosec;
+}
+
+
+
+/**Adds a number of micro seconds to the time. 
+ * @param cmp first time, diff to thiz is build
+ * @return difference in micro seconds, about +-35 min. Maybe limited to min or max
+ */
+static inline int32 diffMicroSec_TimeAbs_emC ( TimeAbs_emC* thiz, TimeAbs_emC* cmp) {
+  int32 diff_sec = thiz->time_sec - cmp->time_sec;
+  int32 diff_nsec = (thiz->time_nsec & 0x3fffffff) - (cmp->time_nsec & 0x3fffffff);
+  if(diff_sec > 2147) { return 2147 * (int32)(1000000); }
+  else if(diff_sec < -2147) { return -2147 * 1000000; }
+  else { return diff_sec * 1000000 + ( diff_nsec + 500) / 1000; }
+}
+
+
+void sleepMicroSec_Time_emC ( int32 usec );
+
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().
  * It is used for some operations, especially nanoTime_emC().
  */

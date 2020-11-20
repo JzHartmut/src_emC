@@ -36,7 +36,6 @@
  ****************************************************************************/
 #include <emC/Base/MemC_emC.h>
 #include <emC/OSAL/os_mem.h>
-#include <emC/Base/String_emC.h>
 
 #include <string.h>
 
@@ -150,7 +149,7 @@ void init0p_MemC(void* ptr, int size)
 void __errorAddress_MemC(MemC* memC, void* addr, int nrofBytes) { 
   STACKTRC_ENTRY("errorAddress_MemC");
   MAYBE_UNUSED_emC char const* error = "???";  //unused if no String capability
-  int offset = (MemUnit*)addr - ADDR_MemC(*memC, MemUnit);
+  int offset = (int)((MemUnit*)addr - ADDR_MemC(*memC, MemUnit));
   if(offset + nrofBytes > memC->val) { error = "nrofBytes behind end"; }
   else if(offset >= memC->val)       { error = "address behind mem";   }
   else if(offset < 0)                 { error = "address before mem";   }
