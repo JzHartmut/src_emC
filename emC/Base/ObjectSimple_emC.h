@@ -121,7 +121,7 @@ const Initialization                         */
 
 /**Initializing of a simple object.  */
 #ifdef DEF_ObjectJc_SIMPLE
-  #define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  | (sizeof(OBJ) & mSize_ObjectJc) }
+  #define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  | (uint32)(sizeof(OBJ) & mSize_ObjectJc) }
 #elif !defined(DEF_ObjectJcpp_REFLECTION)  //for that, definition in Object_emC.h
   #define INIZ_ObjectJc(OBJ, REFL, ID)  \
    { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \

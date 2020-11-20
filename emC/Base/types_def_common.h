@@ -194,9 +194,9 @@ typedef STRUCT_AddrVal_emC(AddrVal_emC, Addr8_emC);
 #endif
 
 #ifdef DEF_HandlePtr64
-  #define HandlePtr32Union_emC(TYPE) union {uint32 h; }
+  #define XXXXHandlePtr32Union_emC(TYPE) union {uint32 h; }
 #else
-  #define HandlePtr32Union_emC(TYPE) union {uint32 h; TYPE* p; }
+  #define XXXXHandlePtr32Union_emC(TYPE) union {uint32 h; TYPE* p; }
 #endif
 
 

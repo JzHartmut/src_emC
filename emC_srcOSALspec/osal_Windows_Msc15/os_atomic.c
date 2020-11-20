@@ -101,6 +101,10 @@ int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 
   return InterlockedCompareExchange((uint32*)reference, (uint32)update, (uint32)expect);  
 }
 
+int compareAndSwap_AtomicInt(int volatile* reference, int expect, int update) {
+  return InterlockedCompareExchange((unsigned volatile int*)reference, (unsigned int)update, (unsigned int)expect);  
+}
+
 
 
 LONGLONG compareAndSwap_AtomicInt64(LONGLONG volatile* reference, LONGLONG expect, LONGLONG update)
@@ -111,16 +115,6 @@ LONGLONG compareAndSwap_AtomicInt64(LONGLONG volatile* reference, LONGLONG expec
 
 
 
-
-/**Implementation compareAndSet_AtomicReference:
- * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
- * Here a simple way.
- */
-METHOD_C bool XXXXXXXXXcompareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
-{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
-  return found == expect;
-}
 
 
 
@@ -158,27 +152,34 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 //  return read == (LONGLONG)update;
 //}
 
-//defined inline
-// bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
-//  //Note: more difficult because memory is 32 bit
-//  unsigned long expect32, update32;
-//  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
-//    expect32 = update;
-//    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
-//    update32 = update;
-//    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
-//  } else {
-//    expect32 = *(reference +1); //read associate hi word
-//    expect32 = (expect32 <<16) | update; 
-//    update32 = *(reference +1); //read associate hi word
-//    update32 = (update32 <<16) | update; 
-//  }
-//  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
-//  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
-//  //only a little bit more calculation time because unnecesarry repetition.
-//  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, update32, expect32);  
-//  return read == expect32;
-//}
+//Implementation note:
+//Because the platform does only offer a 32 bit width memory access, 
+//it reads the word-32 on memory and builds the expected word with the other 16 bits read and expect.
+//Then it executes the compareAndSwap with the word-32.
+//If the other 16 bit are changed but the expected bits are unchanged,
+//nevertheless it repeats the access because it is not possible to write only 16 bit.
+//The propability to execute an access twice because it may be unnecessary because expect is only factor 2 at least.
+// 
+int16 compareAndSwap_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
+  //Note: more difficult because memory is 32 bit
+  unsigned long expect32, update32;
+  if( (((intptr_t)reference) & 0x3) == 0) { //read write lo word
+    expect32 = *(reference +1); //read associate hi word
+    expect32 = (expect32 <<16) | update; 
+    update32 = *(reference +1); //read associate hi word
+    update32 = (update32 <<16) | update; 
+  } else {
+    expect32 = update;
+    expect32 = (expect32 <<16) | *(reference -1);  //read associate lo word 
+    update32 = update;
+    update32 = (update32 <<16) | *(reference -1);  //read associate lo word 
+  }
+  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
+  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
+  //only a little bit more calculation time because unnecesarry repetition.
+  unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, update32, expect32);  
+  return (((intptr_t)reference) & 0x3) == 0 ? (int16)(read) : (int16)(read >>16) ;
+}
 
 
  bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){

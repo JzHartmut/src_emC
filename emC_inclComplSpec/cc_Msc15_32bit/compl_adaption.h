@@ -382,6 +382,30 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
+/**Possibility to store a pointer (a memory address) as handle if desired. 
+ * It depends from the target system. 
+ * If dll are used and independent linked objects are existing, especially if dll are used,
+ * and graphical programming is used (that is especially in Simulink S-Functions), 
+ * then a memory address should be present by a handle, the handle is converted to the address 
+ * via a central table which contains all addresses of instances, common for all dll. 
+ * In that case the Handle_ADDR_emC is an uint32, and the TYPE is not relevant. 
+ * This system is supported by emC/Base/Handle_prt64_emC.*. 
+ * For simple applications it is defined with the immediately access, maybe with 64-bit-addresses.
+ *
+ * Here it is immediately the 64-bit-address with the proper type (important for debug).
+ */
+#define HandleADDR_emC(TYPE) TYPE*
+
+/**It presents the TYPE-correct address as pointer in C/++*/
+#define ptr_HandleADDR_emC(HANDLE, TYPE) (HANDLE)
+
+/**It presents an integer value as handle, may be identical with the address. */
+#define handle_HandleADDR_emC(HANDLE) ((intPTR)(HANDLE))
+
+
+
+
+
 
 /**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
  * It have to be a mask with set bits on right side (all last significant bits).

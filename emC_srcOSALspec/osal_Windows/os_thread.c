@@ -75,11 +75,6 @@ typedef struct OS_ThreadContext_t
 	
   uint32 uTID;                  /* ID des threads */
 	
-  uint32 XXXuFlagRegister;                  /* Actual flag status (32 bits) */
-
-  OS_HandleEvent XXXEvHandle;                     /* Event des threads */
-	
-	
   //QueueStruct *pMessageQueue;		 /* Pointer to The MessageQueue Structure */
 	//OS_HandleThread TDupHandle;          /* to be filled by the child */
   
@@ -140,12 +135,6 @@ static DWORD dwTlsIndex;
 OS_ThreadContext* getCurrent_OS_ThreadContext() { return (OS_ThreadContext*)TlsGetValue(dwTlsIndex); }
 
 
-/**@Beschreibung:
-* Mit dieser Funktion wird eine abstrakte Thread-Priorität in einer betriebssystemspezifischen
-* Thread-Priorität gewandelt.
-* @return Betriebssystemspezifische Threadpriorität.
-* @abstractPrio Abstrakte Threadpriorität (0-255).
-*/
 int os_getRealThreadPriority(int abstractPrio)
 {
   long priority;
@@ -176,9 +165,6 @@ int os_getRealThreadPriority(int abstractPrio)
 
 
 
-/**Searches a free slot in ThreadPool and returns it.
- * @return null if no slot free, it is a system exception.
- */
 static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName, void* topAddrStack)
 { OS_ThreadContext* threadContext = null;  //default if not found.
   int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
@@ -223,11 +209,6 @@ int init_OSAL()
 		  mainThreadContext->THandle = (OS_HandleThread) hDupMainHandle;
 		  /* create an event for this thread (for use in eventFlag functions) */
 		  //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-		  mainThreadContext->XXXEvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
-		  if (mainThreadContext->XXXEvHandle == NULL){
-			  printf("ERROR: init_OSAL: Failed to crate Event for thread:0x%x\n", (uint)(intptr_t)hDupMainHandle);
-		  }
-		  mainThreadContext->XXXuFlagRegister = 0;
       bOSALInitialized = true;
 	    { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
         if (!ok  ){ 
@@ -265,16 +246,6 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
       printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
     }
   } 
-  { //complete threadContext
-   	/* create an event for this thread (for use in eventFlag functions) */
-   	//automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-   	threadContext->XXXEvHandle = CreateEvent( NULL, FALSE, FALSE, NULL); 
-   	if (threadContext->XXXEvHandle == NULL)
-    {
-   		printf("os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
-    }
-    threadContext->XXXuFlagRegister = 0;
-  }
 
   // execute user routine
   STACKTRC_ROOT_ENTRY("os_wrapperThread");
@@ -286,23 +257,8 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
   	
 }
 
-/**@Beschreibung:
- * Mit dieser Funktion wird einen Thread angelegt und gestartet.
- * @Rückgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthält der 
- * Rückgabewert einen detaillierten Fehlercode.
- * @pHandle Zeiger auf das Thread-Handle.
- * @routine Einsprungadresse des Threads.
- * @pUserData Zeiger auf die Parameter für die Übergabe in der Thread-Routine.
- * @pThreadName Name des Threads.
- * @abstactPrio Abstrakt Thread-Priorität (0-255).
- * @stackSize Größe des benötigten Stacks.
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @Änderungsübersicht: 
- * @Datum/Autor/Änderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- * @since 2008-09-30 redesign Hartmut
- */
+
+
 int os_createThread
 ( OS_HandleThread* pHandle, 
   OS_ThreadRoutine routine, 

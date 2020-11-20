@@ -38,6 +38,7 @@
 #ifndef __os_AtomicAccess_h__
 #define __os_AtomicAccess_h__
 #include <applstdef_emC.h>
+#include <emC/Base/Atomic_emC.h>
 /*@CLASS_C AtomicReference @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 //#define AtomicReference struct AtomicReference_t*
@@ -76,21 +77,14 @@ METHOD_C void* compareAndSwap_AtomicReference(ATOMICREFERENCE reference, void* e
 /*@CLASS_C AtomicInteger @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-/**The compareAndSwap is nearer on the machine instruction. */
-METHOD_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
-
-/**The compareAndSwap is nearer on the machine instruction. */
-METHOD_C int64 compareAndSwap_AtomicInteger64(int64 volatile* reference, int64 expect, int64 update);
-
-
 /**Atomically sets the value to the given updated value if the current value == the expected value.
  * @param expect the expected value
  * @param update - the new value
  * @return the old value if or not successfull. False return indicates that the actual value was not equal to the expected value.
  */
-INLINE_emC bool compareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
+INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
+  int32 found = compareAndSwap_AtomicInt32((int32*)(reference), (int32)expect, (int32)update);
   return found == expect;
 }
 #endif  //DEF_compareAndSet_AtomicInteger

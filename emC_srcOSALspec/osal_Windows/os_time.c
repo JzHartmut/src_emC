@@ -68,7 +68,7 @@ int32 os_getSeconds()
   struct _timeb systime;
   _ftime_s(&systime);           //get the time in milliseconds from system.
   //overflow because seconds after 1970 are in range 0x40000000, it is ok:
-  return systime.time;
+  return (int32)systime.time;
 
 }
 
@@ -79,7 +79,7 @@ OS_TimeStamp os_getDateTime()
   OS_TimeStamp pDateTime;
   _ftime_s(&systime);
 
-  pDateTime.time_sec = systime.time;
+  pDateTime.time_sec = (int32)systime.time;
   pDateTime.time_nsec = (int32)(systime.millitm) * 1000000L;
   
   return pDateTime;
