@@ -63,29 +63,29 @@
 
 typedef struct OS_ThreadContext_t
 {                    /* Structure for thread-eventFlags */
-	
+
   /**This is a constant text, to test whether a reference to OS_ThreadContext is correct.
    * It will be initialized with pointer to "OS_ThreadContext".
    */
   const char* sSignificanceText;
 
   //bool bInUse;                         /* structure in use */
-	
+
   pthread_t handleThread;             /* handle des Threads */
-	
+
   pthread_t uTID;                  /* ID des threads */
-	
+
   OS_HandleEvent EvHandle;                     /* Event des threads */
-	
+
   uint uFlagRegister;                  /* Actual flag status (32 bits) */
-	
-  //QueueStruct *pMessageQueue;		 /* Pointer to The MessageQueue Structure */
-	//OS_HandleThread TDupHandle;          /* to be filled by the child */
   
+  //QueueStruct *pMessageQueue;     /* Pointer to The MessageQueue Structure */
+  //OS_HandleThread TDupHandle;          /* to be filled by the child */
+
   /**The thread run routine used for start the thread. */
   OS_ThreadRoutine* ThreadRoutine;
-	/** to be passed to the child wrapper routine */
-  void*	pUserData;                     
+  /** to be passed to the child wrapper routine */
+  void*  pUserData;
 
   /**Name of the thread.*/
   const char* name; 
@@ -101,7 +101,7 @@ typedef struct OS_ThreadContext_t
    created in the same process, they will have no attached EventFlag and flag related functions 
    will not work on these threads 
 */
-#define OS_maxNrofThreads	256
+#define OS_maxNrofThreads  256
 
 /* GLOBAL VARIABLES ******************************************************************************/
 
@@ -184,30 +184,30 @@ void os_userError(const char* text, int value)
  */
 static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
 { int idxThreadPool;
-	int ok = 0;
+  int ok = 0;
   OS_ThreadContext* threadContext = null;  //default if not found.
   /* search for free struct in the pool */
-	ok = os_lockMutex( uThreadPoolSema, 0 );
+  ok = os_lockMutex( uThreadPoolSema, 0 );
   /*
   DWORD winRet = WaitForSingleObject( uThreadPoolSema, -1 );
   if (WinRet == WAIT_FAILED)
-  {	error = GetLastError();
+  {  error = GetLastError();
     os_Error( "os_waitMutex: ERROR: WaitForSingleObject failed with Win err=%d\n", error );
   }
   */
-	if(ok >= 0)
+  if(ok >= 0)
   { for (idxThreadPool=1; idxThreadPool<OS_maxNrofThreads; idxThreadPool++)
     {
-		  if ( ThreadPool[idxThreadPool] == null )
+      if ( ThreadPool[idxThreadPool] == null )
       { int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
         threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
         memset(threadContext, 0, sizeThreadContext); 
-			  ThreadPool[idxThreadPool] = threadContext; // = ctorc_OS_ThreadContext(threadContext, sThreadName, 250);
+        ThreadPool[idxThreadPool] = threadContext; // = ctorc_OS_ThreadContext(threadContext, sThreadName, 250);
         break;
-		  }
-	  }
+      }
+    }
   }
-	os_unlockMutex( uThreadPoolSema );
+  os_unlockMutex( uThreadPoolSema );
   //if(ok < 0) os_NotifyError( -1, "os_unlockMutex: Problem after getting a new OS_ThreadContext err=%d", ok,0 );
   return threadContext; 
 }
@@ -232,33 +232,33 @@ int os_initLib()
     int ok = pthread_key_create(&keyThreadContext, null);
     ASSERT_emC(ok==0, "", ok, 0);
 
-	  //int idxThreadPool = 0;
-	  OS_ThreadContext* mainThreadContext;
-    	  
+    //int idxThreadPool = 0;
+    OS_ThreadContext* mainThreadContext;
 
-	  uThreadPoolSema = os_createMutex("os_Threadpool");
+
+    uThreadPoolSema = os_createMutex("os_Threadpool");
 
     /*
     hMainHandle = GetCurrentThread();
-	  // get a pseudo handle for the main thread to be referenced by other threads
-	  DuplicateHandle(    GetCurrentProcess(), 
-						  hMainHandle, 
-						  GetCurrentProcess(),
-						  &hDupMainHandle, 
-						  0,
-						  FALSE,
-						  DUPLICATE_SAME_ACCESS );
-		*/
-	  // store thread parameters in thread pool (first thread, no thread protection)
+    // get a pseudo handle for the main thread to be referenced by other threads
+    DuplicateHandle(    GetCurrentProcess(),
+              hMainHandle,
+              GetCurrentProcess(),
+              &hDupMainHandle,
+              0,
+              FALSE,
+              DUPLICATE_SAME_ACCESS );
+    */
+    // store thread parameters in thread pool (first thread, no thread protection)
     mainThreadContext = new_OS_ThreadContext("main");
-	  
-	  if (mainThreadContext != null){
-		  mainThreadContext->handleThread = pthread_self();
-		  /* create an event for this thread (for use in eventFlag functions) */
-		  //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-		  mainThreadContext->uFlagRegister = 0;
-  	  bLibIsInitialized = true;
-	    { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
+
+    if (mainThreadContext != null){
+      mainThreadContext->handleThread = pthread_self();
+      /* create an event for this thread (for use in eventFlag functions) */
+      //automatically resets the event state to nonsignaled after a single waiting thread has been released.
+      mainThreadContext->uFlagRegister = 0;
+      bLibIsInitialized = true;
+      { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0;
         if (!ok  ){ 
           printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
         }
@@ -271,7 +271,7 @@ int os_initLib()
         }   
       #endif
       return 0; 
-	  }
+    }
     else
     { printf("too many threads");
       return OS_SYSTEM_ERROR;
@@ -288,43 +288,43 @@ void* os_wrapperFunction(void* data)
 
   OS_ThreadContext* threadContext = (OS_ThreadContext*) data;
   //HANDLE hChildHandle;
-	
-	//hChildHandle = GetCurrentThread();
-	// get a pseudo handle for this thread to be referenced by other threads
-	// Initialize the TLS index for this thread (store pseudo-handle). 
+
+  //hChildHandle = GetCurrentThread();
+  // get a pseudo handle for this thread to be referenced by other threads
+  // Initialize the TLS index for this thread (store pseudo-handle).
   OS_ThreadRoutine* fpStart;
-	if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
-	{ printf("FATAL: threadContext incorrect: %p\n", threadContext);
-	  os_NotifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)(intPTR)threadContext, 0);
-	}
-	{ bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
+  if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
+  { printf("FATAL: threadContext incorrect: %p\n", threadContext);
+    os_NotifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)(intPTR)threadContext, 0);
+  }
+  { bool ok = setCurrent_OS_ThreadContext(threadContext)!=0;
     if (!ok  )
     { 
       printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
     }
   } 
   { //complete threadContext
-   	/* create an event for this thread (for use in eventFlag functions) */
-   	//automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-   	//threadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL);
-   	//if (threadContext->EvHandle == NULL)
+     /* create an event for this thread (for use in eventFlag functions) */
+     //automatically resets the event state to nonsignaled after a single waiting thread has been released.
+     //threadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL);
+     //if (threadContext->EvHandle == NULL)
     {
-   		//printf("os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
+       //printf("os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
     }
     threadContext->uFlagRegister = 0;
   }
 
   // execute user routine
   fpStart = threadContext->ThreadRoutine;
-  fpStart(threadContext->pUserData); //&threadContext->stacktraceThreadContext);		// execute user routine
+  fpStart(threadContext->pUserData); //&threadContext->stacktraceThreadContext);    // execute user routine
+
+    /* what to do if routine is finished? */
+    //while(true){
+    //  Sleed(1000);
+    //}
     
-  	/* what to do if routine is finished? */
-  	//while(true){
-  	//	Sleed(1000);
-  	//}
-  	
-  	//ExitThread(0);
-  	return null;
+    //ExitThread(0);
+    return null;
 }
 
 /**@Beschreibung:
@@ -353,19 +353,19 @@ int os_createThread
   int stackSize )
 {
   //int iWinRet = 0;
-	pthread_t threadId;
+  pthread_t threadId;
   //HANDLE hDupChildHandle;
   int ret_ok;
-	//int idxThreadPool = 0;
+  //int idxThreadPool = 0;
   OS_ThreadContext* threadContext = null;
-	//WraperParamStruct ThreadWraperStr;
+  //WraperParamStruct ThreadWraperStr;
   
   //HANDLE threadHandle;
     
   if (!bLibIsInitialized)
   { os_initLib();
-    	//printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
-    	//return OS_SYSTEM_ERROR;
+      //printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+      //return OS_SYSTEM_ERROR;
   }
   if (stackSize == 0 || stackSize == -1)
   {
@@ -378,33 +378,33 @@ int os_createThread
   }
 
   threadContext = new_OS_ThreadContext(sThreadName);
-	if(threadContext != null)
-  { threadContext->ThreadRoutine = routine;	// user routine
-	  threadContext->pUserData = pUserData;		// user data
-	  threadContext->sSignificanceText = sSignificanceText_OS_ThreadContext;
-    //threadContext->callParams.TDupHandle = 0;				// to be filled by the child thread in the wrapper
+  if(threadContext != null)
+  { threadContext->ThreadRoutine = routine;  // user routine
+    threadContext->pUserData = pUserData;    // user data
+    threadContext->sSignificanceText = sSignificanceText_OS_ThreadContext;
+    //threadContext->callParams.TDupHandle = 0;        // to be filled by the child thread in the wrapper
     ret_ok = pthread_create(&threadId, null, os_wrapperFunction, threadContext);
-	  /*
+    /*
     threadHandle = CreateThread(
                             NULL,
                             stackSize,
                             (LPTHREAD_START_ROUTINE)(os_wrapperFunction),
                             (void*)threadContext,
-                            CREATE_SUSPENDED,			//wait because some values should be initialized
+                            CREATE_SUSPENDED,      //wait because some values should be initialized
                             &uThreadID);       
     */
 
     threadContext->uTID = null; //TODO
     threadContext->handleThread = threadId;
 
-	  // set the thread prio
-	  { long uWinPrio = os_getRealThreadPriority( abstractPrio );
-	    //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
+    // set the thread prio
+    { long uWinPrio = os_getRealThreadPriority( abstractPrio );
+      //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
         ret_ok = pthread_setschedprio(threadId, uWinPrio);
 
-	    //ResumeThread(threadHandle);				// start thread
+      //ResumeThread(threadHandle);        // start thread
     }
-    //*pHandle = threadContext->THandle;	// return the pseudo handle
+    //*pHandle = threadContext->THandle;  // return the pseudo handle
     return OS_OK;
   }
   else 
@@ -412,7 +412,7 @@ int os_createThread
     
     return OS_SYSTEM_ERROR;
   }
-	
+
 }
 
 
@@ -430,19 +430,19 @@ int os_createThread
  */
 int os_getRealThreadPriority(int abstractPrio)
 {
-	long priority = 0;
+  long priority = 0;
 
-	static int const delta = 63;
-	if (abstractPrio <= 127 - delta){
-		//priority = THREAD_PRIORITY_BELOW_NORMAL;
-	}
-	else if (abstractPrio >= 127 + delta){
-		//priority = THREAD_PRIORITY_ABOVE_NORMAL;
-	}
-	else{
-		//priority = THREAD_PRIORITY_NORMAL;
-	}
-	return priority;
+  static int const delta = 63;
+  if (abstractPrio <= 127 - delta){
+    //priority = THREAD_PRIORITY_BELOW_NORMAL;
+  }
+  else if (abstractPrio >= 127 + delta){
+    //priority = THREAD_PRIORITY_ABOVE_NORMAL;
+  }
+  else{
+    //priority = THREAD_PRIORITY_NORMAL;
+  }
+  return priority;
 }
 
 
@@ -459,15 +459,15 @@ int os_getRealThreadPriority(int abstractPrio)
  */
 //int os_deleteThread(OS_HandleThread handle)
 //{
-//	HANDLE ThreadHandle = GetCurrentThread();
-//	if(ThreadHandle == (HANDLE)handle){
-//		ExitThread(0);						/* Thread terminates by itself */
-//	}
-//	else{
-//		TerminateThread((HANDLE)handle,0);	/* Terminates other thread */
-//	}
-//	/* may be memory leakage of the handle */
-//	return OS_OK;
+//  HANDLE ThreadHandle = GetCurrentThread();
+//  if(ThreadHandle == (HANDLE)handle){
+//    ExitThread(0);            /* Thread terminates by itself */
+//  }
+//  else{
+//    TerminateThread((HANDLE)handle,0);  /* Terminates other thread */
+//  }
+//  /* may be memory leakage of the handle */
+//  return OS_OK;
 //}
 
 
@@ -487,7 +487,7 @@ int os_getRealThreadPriority(int abstractPrio)
 int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 {   
   //int ret_ok = 0;
-	return OS_OK;
+  return OS_OK;
 }
 
 /**liefert den ThreadContext des laufenden Threads zur�ck.
@@ -509,21 +509,21 @@ OS_ThreadContext* XXXXXos_getCurrentThreadContext()
     if(threadContext == null)  //it should be not null if os_initLib() is 
     { 
       threadContext = new_OS_ThreadContext("unnamed");
-	    if (threadContext != null)
+      if (threadContext != null)
       {
-  		  //hThreadHandle = ();
-	      threadContext->uTID = pthread_self();
+        //hThreadHandle = ();
+        threadContext->uTID = pthread_self();
 
-		    /* create an event for this thread (for use in eventFlag functions) */
-		    //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-		    threadContext->uFlagRegister = 0;
-  	    { 
+        /* create an event for this thread (for use in eventFlag functions) */
+        //automatically resets the event state to nonsignaled after a single waiting thread has been released.
+        threadContext->uFlagRegister = 0;
+        {
           bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
           if (!ok  ){ 
             printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
           }
         }
-	    }
+      }
       else
       { os_NotifyError(-1, "os_getCurrentThreadContext() - no ThreadContext found, error creating ThreadContext. ", 0, 0);
       }
@@ -556,28 +556,28 @@ ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
  */
 char const* os_getTextOfOsError(int nError)
 {
-	switch (nError){
-	case OS_SYSTEM_ERROR:        return "System Fehler.";
+  switch (nError){
+  case OS_SYSTEM_ERROR:        return "System Fehler.";
 /*
-	case OS_INVALID_PARAMETER:   return "in Parameter war ung�ltig.";
-	case OS_INVALID_STRING:      return  "Ein String ist nicht innerhalb der vorgegebenen Gr��e.";
-	case OS_INVALID_HANDLE:      return "Das Objekt-Handle ist ung�ltig.";
-	case OS_INVALID_STATE:       return "Der Objekt-Sustand ist ung�ltig f�r diese Operation.";
-	case OS_TEST_NOT_OK:         return "Testbedingungen nicht erf�llt.";
-	case OS_GOT_TIMEOUT:         return "Der Aufruf wurde nach dem eingestellten Timeout abgebrochen.";
-	case OS_QUEUE_EXIST:         return "Die Message-Queue existiert bereits f�r diesen Thread.";
-	case OS_QUEUE_NOT_EXIST:     return "Die Message-Queue dieses Thread existiert nicht.";
-	case OS_RESOURCE_BUSY:       return "In diesem Objekt stehen noch Nachrichten, oder ein Thread wartet.";
-	case OS_QUEUE_FULL:          return "Die Message�Queue ist voll.";
-	case OS_QUEUE_EMPTY:         return "Die Message-Queue enth�lt keine Nachricht.";
-	case OS_NAME_EXIST:          return "Der Name existiert bereits.";
-	case OS_NAME_NOT_EXIST:      return "Der angegebene Name existiert im System nicht.";
-	case OS_MAILBOX_FULL:        return "Die Anforderung �berschreitet die eingetragene Grenze der Mailbox.";
-	case OS_MAILBOX_EMPTY:       return "Die Mailbox enth�lt keine Nachricht (wenn timeOut = 0).";
-	case OS_INVALID_POINTER:     return "Zeiger zu Resource ung�ltig.";
-	case OS_UNKNOWN_ERROR:       return "Undefinierte Fehlermeldung.";
+  case OS_INVALID_PARAMETER:   return "in Parameter war ung�ltig.";
+  case OS_INVALID_STRING:      return  "Ein String ist nicht innerhalb der vorgegebenen Gr��e.";
+  case OS_INVALID_HANDLE:      return "Das Objekt-Handle ist ung�ltig.";
+  case OS_INVALID_STATE:       return "Der Objekt-Sustand ist ung�ltig f�r diese Operation.";
+  case OS_TEST_NOT_OK:         return "Testbedingungen nicht erf�llt.";
+  case OS_GOT_TIMEOUT:         return "Der Aufruf wurde nach dem eingestellten Timeout abgebrochen.";
+  case OS_QUEUE_EXIST:         return "Die Message-Queue existiert bereits f�r diesen Thread.";
+  case OS_QUEUE_NOT_EXIST:     return "Die Message-Queue dieses Thread existiert nicht.";
+  case OS_RESOURCE_BUSY:       return "In diesem Objekt stehen noch Nachrichten, oder ein Thread wartet.";
+  case OS_QUEUE_FULL:          return "Die Message�Queue ist voll.";
+  case OS_QUEUE_EMPTY:         return "Die Message-Queue enth�lt keine Nachricht.";
+  case OS_NAME_EXIST:          return "Der Name existiert bereits.";
+  case OS_NAME_NOT_EXIST:      return "Der angegebene Name existiert im System nicht.";
+  case OS_MAILBOX_FULL:        return "Die Anforderung �berschreitet die eingetragene Grenze der Mailbox.";
+  case OS_MAILBOX_EMPTY:       return "Die Mailbox enth�lt keine Nachricht (wenn timeOut = 0).";
+  case OS_INVALID_POINTER:     return "Zeiger zu Resource ung�ltig.";
+  case OS_UNKNOWN_ERROR:       return "Undefinierte Fehlermeldung.";
 */
-	default:                     return "Unknown error-code.";
-	}
+  default:                     return "Unknown error-code.";
+  }
 }
 

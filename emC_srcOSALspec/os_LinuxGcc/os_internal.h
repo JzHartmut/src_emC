@@ -11,9 +11,9 @@ struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
 
 
 typedef struct OS_Mutex_t{
-	pthread_mutex_t mutex;
-	pthread_mutexattr_t attr;
-	const char* name;
+  pthread_mutex_t mutex;
+  pthread_mutexattr_t attr;
+  const char* name;
 
 }OS_Mutex_s;
 
@@ -24,7 +24,7 @@ typedef struct OS_Mutex_t{
 /**The type of a OS_HandleWaitNotify is represented . */
 typedef struct OS_HandleWaitNotify_t 
 {
-	/**The owner of the mutex. */
+  /**The owner of the mutex. */
   /**null if nobody waits. elsewhere the queue of waiting threads.*/
   struct OS_ThreadContext_t const* threadWait;
 

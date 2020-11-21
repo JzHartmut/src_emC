@@ -51,13 +51,13 @@
 
 int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** waitObjectP)
 { int error = 0;
-	OS_HandleWaitNotify_s* waitObject;
+  OS_HandleWaitNotify_s* waitObject;
 
-	waitObject = (OS_HandleWaitNotify_s*)malloc(sizeof(OS_HandleWaitNotify_s*));
+  waitObject = (OS_HandleWaitNotify_s*)malloc(sizeof(OS_HandleWaitNotify_s*));
   //init anything?
 
-	*waitObjectP = waitObject;
-	return error;
+  *waitObjectP = waitObject;
+  return error;
 }
 
 
@@ -65,17 +65,17 @@ int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** wa
  */
 int os_removeWaitNotifyObject(struct OS_HandleWaitNotify_t const* waitObj)
 { //TODO
-	return 0;
+  return 0;
 }
 
 
 int os_wait(
-		struct OS_HandleWaitNotify_t const* waitObjP
-	, struct OS_Mutex_t const* mutexP
-	, uint32 milliseconds
+    struct OS_HandleWaitNotify_t const* waitObjP
+  , struct OS_Mutex_t const* mutexP
+  , uint32 milliseconds
 )
 {
-	int error;
+  int error;
   //cast it from const to non-const. const is only outside!
   OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
   OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
@@ -97,21 +97,21 @@ int os_wait(
   { //build a queue of waiting threads. TODO
   }
   if(milliseconds >0){
-		clock_gettime(CLOCK_REALTIME, &time);
-		{ uint32 sec = milliseconds / 1000;
-			milliseconds -= 1000*sec;  //rest is millisec
-			time.tv_sec += sec;
-			time.tv_nsec += 1000000*milliseconds;
-			if(time.tv_nsec > 1000000000){ //overflow of nanoseconds:
-				time.tv_nsec -= 1000000000;
-				time.tv_sec +=1;
-			}
-		}
+    clock_gettime(CLOCK_REALTIME, &time);
+    { uint32 sec = milliseconds / 1000;
+      milliseconds -= 1000*sec;  //rest is millisec
+      time.tv_sec += sec;
+      time.tv_nsec += 1000000*milliseconds;
+      if(time.tv_nsec > 1000000000){ //overflow of nanoseconds:
+        time.tv_nsec -= 1000000000;
+        time.tv_sec +=1;
+      }
+    }
 
 
-		error = pthread_cond_timedwait(&waitObj->waitCondition, &mutex->mutex, &time);
+    error = pthread_cond_timedwait(&waitObj->waitCondition, &mutex->mutex, &time);
   } else { //milliseconds == 0:
-  	error = pthread_cond_wait(&waitObj->waitCondition, &mutex->mutex);
+    error = pthread_cond_wait(&waitObj->waitCondition, &mutex->mutex);
   }
   //os_lockMutex(mutex) will be executed in cond_relative_timed_wait(...)
   waitObj->threadWait = null; 
@@ -136,10 +136,10 @@ int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutexP)
 { bool shouldNotify;
   int error = 0xbaadf00d;
   //cast it from const to non-const. const is only outside!
-	OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
-	OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
-	//the current threadcontext is nice to have for debugging - get the name of the thread.
-	struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
+  OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
+  OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
+  //the current threadcontext is nice to have for debugging - get the name of the thread.
+  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
     /*
   if(pThread != mutex->threadOwner)
   { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);
@@ -151,10 +151,10 @@ int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutexP)
     shouldNotify = (waitObj->threadWait != null); //notify only if a thread waits, test under mutex!
     if(shouldNotify)
     { //the mutex is locked and will be locked still!
-    	error = pthread_cond_signal(&waitObj->waitCondition);
+      error = pthread_cond_signal(&waitObj->waitCondition);
       if(error != 0)
       { //If the function fails, the return value is not zero.
-      	//if(error == -ERROR_TOO_MANY_POSTS)  //windows-error
+        //if(error == -ERROR_TOO_MANY_POSTS)  //windows-error
         { //warning
           //error = OS_WARNING_NOTIFY_TooManyPosts;
         }

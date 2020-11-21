@@ -82,7 +82,7 @@ void os_deleteMutex(OS_Mutex_s* mutex)
 
 bool os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
 { //TODO timeout
-	OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
+  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
   int error;
   if (timeout_millisec != 0) {
     struct timespec timeoutTime;
@@ -102,22 +102,22 @@ bool os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
     }
   }
   error = pthread_mutex_lock(&mutex->mutex);
-	if(error != 0){
-	  THROW_s0n(RuntimeException, "unknown error in pthread_mutex_lock ", error, 0);
-	  //os_notifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
-		return false;
-	} else {
+  if(error != 0){
+    THROW_s0n(RuntimeException, "unknown error in pthread_mutex_lock ", error, 0);
+    //os_notifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
+    return false;
+  } else {
       return true;
-	}
+  }
 }
 
 
 void os_unlockMutex(OS_Mutex_s* mutexP)
 {
-	OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
-	int error = pthread_mutex_unlock(&mutex->mutex);
-	if(error != 0){
-	  THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);
-	  //os_notifyError(OS_UNKNOWN_ERROR, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error=%d\n", error, 0);
-	}
+  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
+  int error = pthread_mutex_unlock(&mutex->mutex);
+  if(error != 0){
+    THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);
+    //os_notifyError(OS_UNKNOWN_ERROR, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error=%d\n", error, 0);
+  }
 }
