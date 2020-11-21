@@ -45,18 +45,18 @@
 #include <string.h> //memset
 
 int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
-{
+{ STACKTRC_ENTRY("init_FileDescription_OSAL")
   int error = 0;
   ythis->flags = 0; 
   if(addPathLength < 0) { addPathLength = 0; }
   if(zFilepath >= (int)(sizeof(ythis->absPath) + addPathLength)) {
     error = OS_INVALID_PARAMETER;
-    os_notifyError(error, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength -1);
+    THROW_s0(IllegalArgumentException, "file path to long", zFilepath, sizeof(ythis->absPath) + addPathLength -1);
     zFilepath = sizeof(ythis->absPath) + addPathLength -1;
   }
   memset(ythis->absPath, 0, sizeof(ythis->absPath) + addPathLength);
   strncpy(ythis->absPath,filepath, zFilepath); 
-  return error;
+  STACKTRC_RETURN error;
 }
 
 

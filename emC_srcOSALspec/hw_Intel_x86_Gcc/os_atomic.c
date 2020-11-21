@@ -35,23 +35,6 @@
  ****************************************************************************/
 #include <emC/OSAL/os_AtomicAccess.h>
 
-/**Implementation compareAndSet_AtomicInteger:
- * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
- * Here a simple way.
- */
-bool xxxcompareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
-{ bool bOk = true;
-  //Threadwechselsperre ...
-  if(*reference == expect)
-  { *reference = update;
-  }
-  else
-  { bOk = false;
-  }
-  //Threadwechselsperre aufheben
-  return bOk;
-
-}
 
 
 /*Quelle: http://www.cs.cornell.edu/courses/cs414/2001SP/minithread_md.c
@@ -83,24 +66,24 @@ CMPXCHG - Compare and Exchange
  * 
  * compare the value at *reference to expect, swap with update if successful
  */
-int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
+int compareAndSwap_AtomicInt(int volatile* reference, int expect, int update)
 { __typeof (*reference) ret;
   __asm __volatile ( "lock cmpxchgl %2, %1"
-		       : "=a" (ret), "=m" (*reference)
-		       : "r" (update), "m" (*reference), "0" (expect));
+           : "=a" (ret), "=m" (*reference)
+           : "r" (update), "m" (*reference), "0" (expect));
   return ret;
 }
 
 
-/**Implementation compareAndSet_AtomicReference:
- * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
- * Here a simple way.
- */
-bool XXXcompareAndSet_AtomicInteger(int32 volatile* reference, int32 expect, int32 update)
-{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
-  return found == expect;
+int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 update)
+{ __typeof (*reference) ret;
+  __asm __volatile ( "lock cmpxchgl %2, %1"
+           : "=a" (ret), "=m" (*reference)
+           : "r" (update), "m" (*reference), "0" (expect));
+  return ret;
 }
+
+
 
 
 

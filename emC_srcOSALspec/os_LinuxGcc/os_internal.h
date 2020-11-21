@@ -7,7 +7,7 @@
 #include <pthread.h>
 
 /**Informations about the current thread, more as an simple id. */
-struct OS_ThreadContext_t* os_getCurrentThreadContext();
+struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
 
 
 typedef struct OS_Mutex_t{

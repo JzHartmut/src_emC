@@ -1,3 +1,5 @@
+#ifndef HGUARD_compl_adaption
+#define HGUARD_compl_adaption
 /************************************************************************************************
  * Copyright/Copyleft:
  *
@@ -31,8 +33,7 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
-#ifndef   __compl_adaption_h__
-#define   __compl_adaption_h__
+
 //uncomment that to check whether this file is used for include:
 //#error File: emc/incComplSpecific/cc_Gcc/compl_adaption.h
 
@@ -219,6 +220,9 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define GNU_PACKED
 
 #define MAYBE_UNUSED_emC __attribute__((unused))
+
+#define USED_emC
+
 /**It is an attribute before a function definition to determine
  * that the function should be placed in a section which is linked
  * to a RAM location but load into the FLASH memory.
@@ -269,17 +273,47 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
 
+/**Possibility to store a pointer (a memory address) as handle if desired. 
+ * It depends from the target system. 
+ * If dll are used and independent linked objects are existing, especially if dll are used,
+ * and graphical programming is used (that is especially in Simulink S-Functions), 
+ * then a memory address should be present by a handle, the handle is converted to the address 
+ * via a central table which contains all addresses of instances, common for all dll. 
+ * In that case the Handle_ADDR_emC is an uint32, and the TYPE is not relevant. 
+ * This system is supported by emC/Base/Handle_prt64_emC.*. 
+ * For simple applications it is defined with the immediately access, maybe with 64-bit-addresses.
+ *
+ * Here it is immediately the 64-bit-address with the proper type (important for debug).
+ */
+//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
+#ifdef DEF_HandlePtr64
+  #define HandleADDR_emC(TYPE) uint32
+
+  #include <emC/Base/Handle_ptr64_emC.h>
+#else //not DEF_HandlePtr64
+#define HandleADDR_emC(TYPE) TYPE*
+
+/**It presents the TYPE-correct address as pointer in C/++*/
+#define ptr_HandleADDR_emC(HANDLE, TYPE) (HANDLE)
+
+/**It presents an integer value as handle, may be identical with the address. */
+#define handle_HandleADDR_emC(HANDLE) ((intPTR)(HANDLE))
+#endif  //DEF_HandlePtr64
 
 
-/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
+
+
+
+/**Bits of length of constant string adequate to VALTYPE_AddrVal_emC. 
  * It have to be a mask with set bits on right side (all last significant bits).
  * The next 2 bits left are used internally for designation of String.
  * see [[mNonPersists__StringJc]], [[mThreadContext__StringJc]].
  * See also [[kIsCharSequence_StringJc]]
- * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc. 
+ * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc.
  * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */
 #define mLength_StringJc                 0x00003fff
+
 
 
 
@@ -288,8 +322,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   #define FALSE false
 #endif
 
-//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
-//#define DEF_HandlePtr64
 
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */

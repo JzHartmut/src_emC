@@ -42,6 +42,9 @@
 
 #include <applstdef_emC.h>
 
+#ifdef __cplusplus
+// extern "C" {
+#endif
 extern_C_BLOCK_
 
 
@@ -57,6 +60,7 @@ typedef struct OS_HandleThread_t const* OS_HandleThread;
  * @return The exit value of the thread. The operation system can protocol or show the exit value in a special kind.
  */
 typedef int OS_ThreadRoutine(void* data);
+//int (*OS_ThreadRoutineP)(void* data);
 
 
 

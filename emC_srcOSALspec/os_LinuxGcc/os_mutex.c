@@ -45,14 +45,14 @@
 //needed from os_adaption itself
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_mem.h>
-#include "os_internal.h"
+#include "emC_srcOSALspec/os_LinuxGcc/os_internal.h"
 
 //Needed includes from os:
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-int os_createMutex(char const* pName, struct OS_Mutex_t** pMutex)
+OS_Mutex_s* os_createMutex(char const* pName) //, struct OS_Mutex_t** pMutex)
 {
     OS_Mutex_s* mutex;
     const int zMutex = sizeof(struct OS_Mutex_t);
@@ -66,22 +66,21 @@ int os_createMutex(char const* pName, struct OS_Mutex_t** pMutex)
 
     //any error possible?
 
-    *pMutex = mutex;  //set the address of the mutex object in the reference variable to return
-    return OS_OK;
+    //*pMutex = mutex;  //set the address of the mutex object in the reference variable to return
+    return mutex;
 }
 
 
-int os_deleteMutex(OS_Mutex_s* mutex)
+void os_deleteMutex(OS_Mutex_s* mutex)
 {   //TODO
   free(mutex);
 
-	return OS_OK;
 }
 
 
 
 
-int os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
+bool os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
 { //TODO timeout
 	OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
   int error;
@@ -90,36 +89,35 @@ int os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
     clock_gettime(CLOCK_REALTIME, &timeoutTime);
     int sec = timeout_millisec / 1000;
     timeout_millisec -= sec*1000;  //module 1000
-    timeoutTime.tv_nsec += timeoutTime;
+    timeoutTime.tv_nsec += 1000000 * timeout_millisec;
     if (timeoutTime.tv_nsec >= 1000000000) {
       timeoutTime.tv_nsec -= 1000000000;
       timeoutTime.tv_sec +=1;
     }
     timeoutTime.tv_sec += sec;
-    error = pthread_mutex_timedlock(&lock, &timeoutTime);
+    error = pthread_mutex_timedlock(&mutex->mutex, &timeoutTime);
     if (error == 0) { //check wether the  mutex is locked
-    #error
+    //#error
     //this is not ready yet. Problem see https://stackoverflow.com/questions/2821263/lock-a-mutex-multiple-times-in-the-same-thread
     }
   }
   error = pthread_mutex_lock(&mutex->mutex);
 	if(error != 0){
-	    os_NotifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
-		return OS_UNEXPECTED_CALL;
+	  THROW_s0n(RuntimeException, "unknown error in pthread_mutex_lock ", error, 0);
+	  //os_notifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
+		return false;
 	} else {
-      return OS_OK;
+      return true;
 	}
 }
 
 
-int os_unlockMutex(OS_Mutex_s* mutexP)
+void os_unlockMutex(OS_Mutex_s* mutexP)
 {
 	OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
 	int error = pthread_mutex_unlock(&mutex->mutex);
 	if(error != 0){
-	    os_NotifyError(OS_UNKNOWN_ERROR, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error=%d\n", error, 0);
-		return OS_UNEXPECTED_CALL;
-	} else {
-      return OS_OK;
+	  THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);
+	  //os_notifyError(OS_UNKNOWN_ERROR, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error=%d\n", error, 0);
 	}
 }

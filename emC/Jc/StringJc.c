@@ -40,7 +40,7 @@
  *
  ****************************************************************************/
 
-#include "StringJc_intern.h"
+#include "emC/Jc/StringJc_intern.h"
 #include "emC/Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 #include <emC/Jc/ReflectionJc.h>
 

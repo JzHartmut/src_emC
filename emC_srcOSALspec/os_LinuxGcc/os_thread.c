@@ -41,7 +41,7 @@
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_mem.h>
 #include <emC/OSAL/os_sync.h>
-#include "os_internal.h"
+#include <emC_srcOSALspec/os_LinuxGcc/os_internal.h>
 
 //Needed includes from os:
 #include <sys/types.h>
@@ -73,7 +73,7 @@ typedef struct OS_ThreadContext_t
 	
   pthread_t handleThread;             /* handle des Threads */
 	
-  pid_t uTID;                  /* ID des threads */
+  pthread_t uTID;                  /* ID des threads */
 	
   OS_HandleEvent EvHandle;                     /* Event des threads */
 	
@@ -83,14 +83,16 @@ typedef struct OS_ThreadContext_t
 	//OS_HandleThread TDupHandle;          /* to be filled by the child */
   
   /**The thread run routine used for start the thread. */
-  OS_ThreadRoutine* ThreadRoutine;     
+  OS_ThreadRoutine* ThreadRoutine;
 	/** to be passed to the child wrapper routine */
   void*	pUserData;                     
 
   /**Name of the thread.*/
   const char* name; 
 
-  OS_PtrValue userThreadContext;
+  /**The user ThreadContext is part of the thread specific data.
+   * It is defined application-specific via the included applstdef_emC.h */
+  ThreadContext_emC_s userThreadContext;
 
 }OS_ThreadContext;
 
@@ -118,6 +120,13 @@ bool bLibIsInitialized = false;
  * The content of variable isn't meanfull. The comarision of pointer is significant.
  */
 const char* sSignificanceText_OS_ThreadContext = "OS_ThreadContext";
+
+
+
+/**Key for TSD (thread specific data) to store this data inclusively the user thread context.
+ * Note: http://openbook.rheinwerk-verlag.de/linux_unix_programmierung/Kap10-008.htm#RxxKap10008040003221F025100
+ */
+static pthread_key_t keyThreadContext;
 
 
 /* IMPLEMENTATION ********************************************************************************/
@@ -155,9 +164,9 @@ void os_userError(const char* text, int value)
 #define NOT_TlsGetValue
 #ifdef NOT_TlsGetValue
 //#error
-  #include "../../OSAL/os_ThreadContextInTable.ci"
-  #define setCurrent_OS_ThreadContext(context) (0 == os_setThreadContextInTable(pthread_self(), context))
-  #define getCurrent_OS_ThreadContext() os_getThreadContextInTable(pthread_self())
+  #include <emC/OSAL/os_ThreadContextInTable.ci>
+  //#define setCurrent_OS_ThreadContext(context) (0 == os_setThreadContextInTable((int)pthread_self(), context))
+  //#define getCurrent_OS_ThreadContext() os_getThreadContextInTable((int)pthread_self())
 #elif defined(TEST_ThreadContext_IMMEDIATE)
   //this TEST case is only possible if only one thread is used. Only for timing testing.
   OS_ThreadContext* current_OS_ThreadContext = null;
@@ -204,13 +213,26 @@ static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
 }
 
 
+int setCurrent_OS_ThreadContext(OS_ThreadContext* thCxt){
+  return 0;
+}
+
+
+OS_ThreadContext* getCurrent_OS_ThreadContext(){
+
+
+  return null;
+}
 // init adapter, to be called from main thread before calling any other function (only Windows)
 int os_initLib()
 {
   if(bLibIsInitialized){ return OS_UNEXPECTED_CALL; }
   else
   {
-	  int idxThreadPool = 0;
+    int ok = pthread_key_create(&keyThreadContext, null);
+    ASSERT_emC(ok==0, "", ok, 0);
+
+	  //int idxThreadPool = 0;
 	  OS_ThreadContext* mainThreadContext;
     	  
 
@@ -261,8 +283,10 @@ int os_initLib()
 
 
 // Wrapper thread function for thread creation and parameter initialization
-void* os_wrapperFunction(OS_ThreadContext* threadContext)
+void* os_wrapperFunction(void* data)
 {
+
+  OS_ThreadContext* threadContext = (OS_ThreadContext*) data;
   //HANDLE hChildHandle;
 	
 	//hChildHandle = GetCurrentThread();
@@ -271,7 +295,7 @@ void* os_wrapperFunction(OS_ThreadContext* threadContext)
   OS_ThreadRoutine* fpStart;
 	if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
 	{ printf("FATAL: threadContext incorrect: %p\n", threadContext);
-	  os_NotifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)threadContext, 0);
+	  os_NotifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)(intPTR)threadContext, 0);
 	}
 	{ bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
     if (!ok  )
@@ -332,7 +356,7 @@ int os_createThread
 	pthread_t threadId;
   //HANDLE hDupChildHandle;
   int ret_ok;
-	int idxThreadPool = 0;
+	//int idxThreadPool = 0;
   OS_ThreadContext* threadContext = null;
 	//WraperParamStruct ThreadWraperStr;
   
@@ -370,7 +394,7 @@ int os_createThread
                             &uThreadID);       
     */
 
-    threadContext->uTID = -1; //TODO
+    threadContext->uTID = null; //TODO
     threadContext->handleThread = threadId;
 
 	  // set the thread prio
@@ -408,7 +432,7 @@ int os_getRealThreadPriority(int abstractPrio)
 {
 	long priority = 0;
 
-	static unsigned int const delta = 63;
+	static int const delta = 63;
 	if (abstractPrio <= 127 - delta){
 		//priority = THREAD_PRIORITY_BELOW_NORMAL;
 	}
@@ -462,7 +486,7 @@ int os_getRealThreadPriority(int abstractPrio)
  */
 int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 {   
-  int ret_ok = 0;
+  //int ret_ok = 0;
 	return OS_OK;
 }
 
@@ -510,23 +534,10 @@ OS_ThreadContext* XXXXXos_getCurrentThreadContext()
 
 
 
-OS_PtrValue os_getCurrentUserThreadContext()
-{ OS_ThreadContext const* threadContext = os_getCurrentThreadContext();
-  return threadContext->userThreadContext;
-}
-
-int os_setCurrentUserThreadContext (OS_PtrValue mem)
-{ int error = 0;
-  OS_ThreadContext* threadContext = os_getCurrentThreadContext();
-  void* userThreadContext = PTR_OS_PtrValue(threadContext->userThreadContext, void);
-  if( userThreadContext != null)
-  { os_userError("os_setCurrentUserThreadContext(), a threadcontext exists. ", (int)userThreadContext);
-    error = OS_UNEXPECTED_CALL;
-  }
-  else
-  { threadContext->userThreadContext = mem;
-  }
-  return error;
+ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
+{
+  OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
+  return &threadContext->userThreadContext;
 }
 
 
@@ -543,7 +554,7 @@ int os_setCurrentUserThreadContext (OS_PtrValue mem)
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
-char* os_getTextOfOsError(int nError)
+char const* os_getTextOfOsError(int nError)
 {
 	switch (nError){
 	case OS_SYSTEM_ERROR:        return "System Fehler.";

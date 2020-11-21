@@ -42,6 +42,11 @@
 
 
 
+
+void setCurrent_TimeAbs_emC ( TimeAbs_emC* time){
+
+}
+
 int32_t os_milliTime()
 {
   //struct _timeb systime;
@@ -88,7 +93,7 @@ int32_t os_microTime(void)
  * The step-width of the return value depends from the CPU-clock.
  * The value should only be used for comparing times.
  */
-int32_t os_getClockCnt(void)
+int32_t getClockCnt_Time_emC(void)
 {
   //LARGE_INTEGER performanceCount;
   //if(QueryPerformanceCounter(&performanceCount))
@@ -136,3 +141,8 @@ void os_delayThread(int32_t milliseconds)
 //  }
 }
 
+
+
+void sleepMicroSec_Time_emC ( int32 usec ) {
+
+}

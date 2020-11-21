@@ -48,7 +48,7 @@
 
 
 
-#include "OsWrapperJc.h"
+#include "emC/Jc/OsWrapperJc.h"
 #ifdef DEF_ObjectJc_SYNCHANDLE
 
 #include <emC/Base/SimpleC_emC.h>

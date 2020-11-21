@@ -144,7 +144,7 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, int8ARRAY dst, int dstP
 int64 nanoPerClock_SystemJc = 1;
 
 int64 nanoTime_SystemJc(ThCxt* _thCxt)
-{ return nanoPerClock_SystemJc * os_getClockCnt();
+{ return nanoPerClock_SystemJc * getClockCnt_Time_emC();
 }
 
 StringJc getenv_SystemJc(StringJc name, ThCxt* _thCxt)
