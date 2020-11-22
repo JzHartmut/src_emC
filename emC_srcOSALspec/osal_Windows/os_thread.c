@@ -238,7 +238,7 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
   OS_ThreadRoutine* fpStart;
 	if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
 	{ printf("FATAL: threadContext incorrect: %p\n", threadContext);
-	  os_notifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)(intptr_t)threadContext, 0);
+	  ERROR_SYSTEM_emC(-1, "FATAL: threadContext incorrect: %p\n", (int)(intptr_t)threadContext, 0);
 	}
 	{ bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
     if (!ok  )
@@ -572,7 +572,7 @@ ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
     init_OSAL();  //only 1 cause if the ThreadContext haven't set.
     os_thCxt = getCurrent_OS_ThreadContext();  //repeat it
     if (os_thCxt == null) {
-      os_FatalSysError(-1, "init_OSAL failed, no ThreadConect", 0,0);
+      ERROR_SYSTEM_emC(-1, "init_OSAL failed, no ThreadConect", 0,0);
       return null;
     }
   }

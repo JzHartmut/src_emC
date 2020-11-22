@@ -250,6 +250,7 @@ bool isOptimizeString_ThCxt  (  ThreadContext_emC_s* ythis)
 
 void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topStack) {
   //all remain 0
+  thiz->topmemAddrOfStack = C_CAST(MemUnit const*, topStack);
 }
 
 #endif //DEF_ThreadContext_STACKTRC

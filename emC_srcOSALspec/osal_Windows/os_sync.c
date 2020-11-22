@@ -80,21 +80,22 @@ int os_createWaitNotifyObject  (  char const* name, OS_HandleWaitNotify_s const*
 /**removes a object for wait-notify.
  */
 int os_removeWaitNotifyObject  (  struct OS_HandleWaitNotify_t const* waitObj)
-{ HANDLE winHandleWaitNotify = waitObj->winHandleWaitNotify;
+{ STACKTRC_ENTRY("os_removeWaitNotifyObject");
+  HANDLE winHandleWaitNotify = waitObj->winHandleWaitNotify;
   os_freeMem((void*)waitObj);
   if ( CloseHandle( winHandleWaitNotify ) == 0 ) 
   {
     DWORD err = GetLastError();
-    os_notifyError(-1, "os_removeWaitNotifyObj: ERROR: CloseHandle failed with Win err=%d\n", err, 0);
+    THROW_s0(RuntimeException, "os_removeWaitNotifyObj: ERROR: CloseHandle failed with Win err=%d\n", err, 0);
 	  if (err==ERROR_INVALID_HANDLE)
-    {	return OS_INVALID_HANDLE;
+    {	STACKTRC_RETURN OS_INVALID_HANDLE;
 	  }
     else
-	  { return OS_SYSTEM_ERROR;
+	  { STACKTRC_RETURN OS_SYSTEM_ERROR;
     }
   }
   else
-  { return OS_OK;
+  { STACKTRC_RETURN OS_OK;
   } 
 }
 

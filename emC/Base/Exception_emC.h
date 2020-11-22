@@ -139,6 +139,12 @@ extern_C void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s*
 #define getMessage_ExceptionJc(YTHIS, THC) ((YTHIS)->exceptionMsg)
 
 
+/**This is a message on start of threads, essential os calls etc. which prevent running of the system. 
+ * It can replace the uncatched_ExceptionJc(), to simplificate the user necessities. 
+ */
+extern_C void errorSystem_emC_  (  int errorCode, const char* description, int value1, int value2, char const* file, int line);
+#define ERROR_SYSTEM_emC(ERR, TEXT, VAL1, VAL2) errorSystem_emC_(ERR, TEXT, VAL1, VAL2, __FILE__, __LINE__)
+
 //#define null_ExceptionJc() {0}
 
 /*@CLASS_C IxStacktrace_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

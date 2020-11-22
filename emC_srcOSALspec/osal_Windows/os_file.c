@@ -57,14 +57,14 @@
 #endif
 
 int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
-{
+{ STACKTRC_ENTRY("init_FileDescription_OSAL");
   int error = 0;
   int ii;
   ythis->flags = 0;
   uint addPathLen1 = addPathLength < 0 ? 0 : (uint)addPathLength;
   if (zFilepath >= (int)(sizeof(ythis->absPath) + addPathLen1)) {
     error = OS_INVALID_PARAMETER;
-    os_notifyError(error, "file path to long", zFilepath, (int)(sizeof(ythis->absPath) + addPathLen1 - 1));
+    THROW_s0(IllegalArgumentException, "file path to long", zFilepath, (int)(sizeof(ythis->absPath) + addPathLen1 - 1));
     //shorten it.
     zFilepath = (int)sizeof(ythis->absPath) + addPathLen1 - 1;
   }
@@ -72,14 +72,14 @@ int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, ch
   strcpy_emC(ythis->absPath, filepath, sizeof(ythis->absPath));
   for (ii = 0; ii<zFilepath; ii++) { if (ythis->absPath[ii] == '/') { ythis->absPath[ii] = '\\'; } }
 
-  return error;
+  STACKTRC_RETURN error;
 }
 
 
 
 
 int initDir_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, FileDescription_OSAL* dir, char const* filepath, int zFilepath)
-{
+{ STACKTRC_ENTRY("initDir_FileDescription_OSAL");
   int error = 0;
   int ii;
   ythis->flags = 0;
@@ -93,7 +93,7 @@ int initDir_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength,
   }
   if ((zFilepath + zDir) >= ((int)sizeof(ythis->absPath) + addPathLength)) {
     error = OS_INVALID_PARAMETER;
-    os_notifyError(error, "file path to long", zFilepath, (int)sizeof(ythis->absPath) + addPathLength - 1);
+    THROW_s0(IllegalArgumentException, "file path to long", zFilepath, (int)sizeof(ythis->absPath) + addPathLength - 1);
     //shorten it.
     zFilepath = (int)sizeof(ythis->absPath) + addPathLength - 1 - zDir;
   }
@@ -103,7 +103,7 @@ int initDir_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength,
   
   for (ii = zDir; ii < (zFilepath + zDir); ii++) { if (ythis->absPath[ii] == '/') { ythis->absPath[ii] = '\\'; } }
 
-  return error;
+  STACKTRC_RETURN error;
 }
 
 

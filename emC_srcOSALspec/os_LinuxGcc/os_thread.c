@@ -106,7 +106,7 @@ typedef struct OS_ThreadContext_t
 /* GLOBAL VARIABLES ******************************************************************************/
 
 /**The pool of all thread contexts. It is a staticly amount of data. */
-OS_ThreadContext* ThreadPool[OS_maxNrofThreads] = {0};
+//OS_ThreadContext* ThreadPool[OS_maxNrofThreads] = {0};
 
 /* actual number of threads */
 uint uThreadCounter = 0;               
@@ -131,6 +131,93 @@ static pthread_key_t keyThreadContext;
 
 /* IMPLEMENTATION ********************************************************************************/
 
+
+/**This method should be called on startup of the system.
+ * It is called elsewhere from the routines, which needs them.
+ */
+//void init_OSAL();
+
+
+/**Searches a free slot in ThreadPool and returns it.
+ * @return null if no slot free, it is a system exception.
+ */
+static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
+{ //int idxThreadPool;
+  //int ok = 0;
+  OS_ThreadContext* threadContext = null;  //default if not found.
+  threadContext = (OS_ThreadContext*)os_allocMem(sizeof(*threadContext));  //
+  memset(threadContext, 0, sizeof(*threadContext));
+  threadContext->sSignificanceText = sSignificanceText_OS_ThreadContext;
+  threadContext->name = sThreadName;
+  return threadContext;
+  #if 0
+  /* search for free struct in the pool */
+  ok = os_lockMutex( uThreadPoolSema, 0 );
+  /*
+  DWORD winRet = WaitForSingleObject( uThreadPoolSema, -1 );
+  if (WinRet == WAIT_FAILED)
+  {  error = GetLastError();
+    os_Error( "os_waitMutex: ERROR: WaitForSingleObject failed with Win err=%d\n", error );
+  }
+  */
+  if(ok >= 0)
+  { for (idxThreadPool=1; idxThreadPool<OS_maxNrofThreads; idxThreadPool++)
+    {
+      if ( ThreadPool[idxThreadPool] == null )
+      { int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
+        threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
+        memset(threadContext, 0, sizeThreadContext); 
+        ThreadPool[idxThreadPool] = threadContext; // = ctorc_OS_ThreadContext(threadContext, sThreadName, 250);
+        break;
+      }
+    }
+  }
+  os_unlockMutex( uThreadPoolSema );
+  //if(ok < 0) os_NotifyError( -1, "os_unlockMutex: Problem after getting a new OS_ThreadContext err=%d", ok,0 );
+  return threadContext; 
+#endif
+}
+
+
+
+// init adapter, to be called from main thread before calling any other function (only Windows)
+static void init_OSAL()
+{
+  if(!bLibIsInitialized) {
+    int ok = pthread_key_create(&keyThreadContext, null);               //The key for all threads to get Thread Related Data
+    ASSERT_emC(ok==0, "key for thread context fault", ok, 0);
+
+    OS_ThreadContext* mainThreadContext;
+
+
+    //uThreadPoolSema = os_createMutex("os_Threadpool");
+
+    // store thread parameters in thread pool (first thread, no thread protection)
+    mainThreadContext = new_OS_ThreadContext("main");
+    void* topStackAddr = &mainThreadContext;  //maybe a proper value
+    ctor_ThreadContext_emC(&mainThreadContext->userThreadContext, topStackAddr);
+
+    if (mainThreadContext != null){
+      pthread_setspecific(keyThreadContext, mainThreadContext);
+      mainThreadContext->handleThread = pthread_self();
+      /* create an event for this thread (for use in eventFlag functions) */
+      //automatically resets the event state to nonsignaled after a single waiting thread has been released.
+      mainThreadContext->uFlagRegister = 0;
+      bLibIsInitialized = true;
+    }
+    else
+    { ERROR_SYSTEM_emC(1, "too many threads", 0, 0);
+    }
+  }
+}
+
+
+
+
+
+
+
+
 MT_os_Error* users_os_Error = null;
 
 int os_setErrorRoutine(MT_os_Error routine)
@@ -148,7 +235,7 @@ void os_NotifyError(int errorCode, const char* description, int value1, int valu
   }
   else
   { //If no user routine is known, the error should be detect by the return code of the os-routines.
-  }  
+  }
 }
 
 /*
@@ -174,109 +261,21 @@ void os_userError(const char* text, int value)
   #define getCurrent_OS_ThreadContext() current_OS_ThreadContext
 #else
 //#error
-  #define setCurrent_OS_ThreadContext(context) TlsSetValue(dwTlsIndex, context) 
-  #define getCurrent_OS_ThreadContext() (OS_ThreadContext*)TlsGetValue(dwTlsIndex) 
+  #define setCurrent_OS_ThreadContext(context) TlsSetValue(dwTlsIndex, context)
+  #define getCurrent_OS_ThreadContext() (OS_ThreadContext*)TlsGetValue(dwTlsIndex)
 #endif
 
 
-/**Searches a free slot in ThreadPool and returns it.
- * @return null if no slot free, it is a system exception.
- */
-static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
-{ int idxThreadPool;
-  int ok = 0;
-  OS_ThreadContext* threadContext = null;  //default if not found.
-  /* search for free struct in the pool */
-  ok = os_lockMutex( uThreadPoolSema, 0 );
-  /*
-  DWORD winRet = WaitForSingleObject( uThreadPoolSema, -1 );
-  if (WinRet == WAIT_FAILED)
-  {  error = GetLastError();
-    os_Error( "os_waitMutex: ERROR: WaitForSingleObject failed with Win err=%d\n", error );
+//invokes init_OSAL() on first call.
+OS_ThreadContext* getCurrent_OS_ThreadContext(){                          //getCurrent_OS_ThreadContext(...)
+  if(keyThreadContext ==null){
+    init_OSAL();
   }
-  */
-  if(ok >= 0)
-  { for (idxThreadPool=1; idxThreadPool<OS_maxNrofThreads; idxThreadPool++)
-    {
-      if ( ThreadPool[idxThreadPool] == null )
-      { int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
-        threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
-        memset(threadContext, 0, sizeThreadContext); 
-        ThreadPool[idxThreadPool] = threadContext; // = ctorc_OS_ThreadContext(threadContext, sThreadName, 250);
-        break;
-      }
-    }
+  OS_ThreadContext* threadContext = (OS_ThreadContext*) pthread_getspecific(keyThreadContext);
+  if(threadContext == null) { //it should be not null if init_OSAL() is
+    ERROR_SYSTEM_emC(-1, "os_getCurrentThreadContext() - no ThreadContext found, error creating ThreadContext. ", 0, 0);
   }
-  os_unlockMutex( uThreadPoolSema );
-  //if(ok < 0) os_NotifyError( -1, "os_unlockMutex: Problem after getting a new OS_ThreadContext err=%d", ok,0 );
-  return threadContext; 
-}
-
-
-int setCurrent_OS_ThreadContext(OS_ThreadContext* thCxt){
-  return 0;
-}
-
-
-OS_ThreadContext* getCurrent_OS_ThreadContext(){
-
-
-  return null;
-}
-// init adapter, to be called from main thread before calling any other function (only Windows)
-int os_initLib()
-{
-  if(bLibIsInitialized){ return OS_UNEXPECTED_CALL; }
-  else
-  {
-    int ok = pthread_key_create(&keyThreadContext, null);
-    ASSERT_emC(ok==0, "", ok, 0);
-
-    //int idxThreadPool = 0;
-    OS_ThreadContext* mainThreadContext;
-
-
-    uThreadPoolSema = os_createMutex("os_Threadpool");
-
-    /*
-    hMainHandle = GetCurrentThread();
-    // get a pseudo handle for the main thread to be referenced by other threads
-    DuplicateHandle(    GetCurrentProcess(),
-              hMainHandle,
-              GetCurrentProcess(),
-              &hDupMainHandle,
-              0,
-              FALSE,
-              DUPLICATE_SAME_ACCESS );
-    */
-    // store thread parameters in thread pool (first thread, no thread protection)
-    mainThreadContext = new_OS_ThreadContext("main");
-
-    if (mainThreadContext != null){
-      mainThreadContext->handleThread = pthread_self();
-      /* create an event for this thread (for use in eventFlag functions) */
-      //automatically resets the event state to nonsignaled after a single waiting thread has been released.
-      mainThreadContext->uFlagRegister = 0;
-      bLibIsInitialized = true;
-      { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0;
-        if (!ok  ){ 
-          printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
-        }
-      }
-      #ifdef TEST_Time
-        //for timing test, store a lot of entries in:
-        { int i1; for(i1 = 0; i1 < OS_maxNrofThreads /2; i1++)
-          { os_setThreadContextInTable(31000+i1, null);  //store dummies, binary search has to do something.
-          }
-        }   
-      #endif
-      return 0; 
-    }
-    else
-    { printf("too many threads");
-      return OS_SYSTEM_ERROR;
-    }
-  }
+  return threadContext;
 }
 
 
@@ -287,63 +286,40 @@ void* os_wrapperFunction(void* data)
 {
 
   OS_ThreadContext* threadContext = (OS_ThreadContext*) data;
-  //HANDLE hChildHandle;
 
-  //hChildHandle = GetCurrentThread();
-  // get a pseudo handle for this thread to be referenced by other threads
-  // Initialize the TLS index for this thread (store pseudo-handle).
-  OS_ThreadRoutine* fpStart;
   if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
-  { printf("FATAL: threadContext incorrect: %p\n", threadContext);
-    os_NotifyError(-1, "FATAL: threadContext incorrect: %p\n", (int)(intPTR)threadContext, 0);
+  { ERROR_SYSTEM_emC(-1, "FATAL: threadContext incorrect: %p\n", (int)(intPTR)threadContext, 0);
   }
-  { bool ok = setCurrent_OS_ThreadContext(threadContext)!=0;
-    if (!ok  )
-    { 
-      printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
-    }
-  } 
-  { //complete threadContext
-     /* create an event for this thread (for use in eventFlag functions) */
-     //automatically resets the event state to nonsignaled after a single waiting thread has been released.
-     //threadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL);
-     //if (threadContext->EvHandle == NULL)
-    {
-       //printf("os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
-    }
+  else {
+    pthread_setspecific(keyThreadContext, threadContext);
+    //complete threadContext
+    void* topStackAddr = &threadContext;  //The first variable in stack, cast to pointer forces a real stack location.
+    ctor_ThreadContext_emC(&threadContext->userThreadContext, topStackAddr);
     threadContext->uFlagRegister = 0;
+
+    {
+       /* create an event for this thread (for use in eventFlag functions) */
+       //automatically resets the event state to nonsignaled after a single waiting thread has been released.
+       //threadContext->EvHandle = CreateEvent( NULL, FALSE, FALSE, NULL);
+       //if (threadContext->EvHandle == NULL)
+      {
+         //printf("os_createThread: ERROR: Failed to create Event for thread:0x%x\n", (uint)threadContext->uTID);
+      }
+    }
+    // execute user routine
+    OS_ThreadRoutine* threadRoutine = threadContext->ThreadRoutine;
+    int exit = threadRoutine(threadContext->pUserData); //&threadContext->stacktraceThreadContext);    // execute user routine
+
+    //If the thread routine is finished, the thread will be removed.
+    //Hence free the threadContext. Nobody outside should use it!
+    free(threadContext);
   }
-
-  // execute user routine
-  fpStart = threadContext->ThreadRoutine;
-  fpStart(threadContext->pUserData); //&threadContext->stacktraceThreadContext);    // execute user routine
-
-    /* what to do if routine is finished? */
-    //while(true){
-    //  Sleed(1000);
-    //}
-    
-    //ExitThread(0);
-    return null;
+  return null;
 }
 
-/**@Beschreibung:
- * Mit dieser Funktion wird einen Thread angelegt und gestartet.
- * @R�ckgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enth�lt der
- * R�ckgabewert einen detaillierten Fehlercode.
- * @pHandle Zeiger auf das Thread-Handle.
- * @routine Einsprungadresse des Threads.
- * @pUserData Zeiger auf die Parameter f�r die �bergabe in der Thread-Routine.
- * @pThreadName Name des Threads.
- * @abstactPrio Abstrakt Thread-Priorit�t (0-255).
- * @stackSize Gr��e des ben�tigten Stacks.
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @�nderungs�bersicht:
- * @Datum/Autor/�nderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- * @since 2008-09-30 redesign Hartmut
- */
+
+
+
 int os_createThread
 ( OS_HandleThread* pHandle, 
   OS_ThreadRoutine routine, 
@@ -363,8 +339,8 @@ int os_createThread
   //HANDLE threadHandle;
     
   if (!bLibIsInitialized)
-  { os_initLib();
-      //printf("/nos_createThread: os_initLib() has to be called first in order to use Windows-Threads!");
+  { init_OSAL();
+      //printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
       //return OS_SYSTEM_ERROR;
   }
   if (stackSize == 0 || stackSize == -1)
@@ -416,18 +392,6 @@ int os_createThread
 }
 
 
-/**@Beschreibung:
- * Mit dieser Funktion wird eine abstrakte Thread-Priorit�t in einer betriebssystemspezifischen
- * Thread-Priorit�t gewandelt.
- * @R�ckgabewert Betriebssystemspezifische Threadpriorit�t.
- * @abstractPrio Abstrakte Threadpriorit�t (0-255).
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @�nderungs�bersicht:
- * @Datum/Autor/�nderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- * @since 2008-09-30 redesign Hartmut
- */
 int os_getRealThreadPriority(int abstractPrio)
 {
   long priority = 0;
@@ -446,90 +410,12 @@ int os_getRealThreadPriority(int abstractPrio)
 }
 
 
-/**@Beschreibung:
- * Mit dieser Funktion wird einen Thread beendet.
- * @R�ckgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enth�lt der
- * R�ckgabewert einen detaillierten Fehlercode.
- * @handle Handle des Ziel-Threads.
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @�nderungs�bersicht:
- * @Datum/Autor/�nderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- */
-//int os_deleteThread(OS_HandleThread handle)
-//{
-//  HANDLE ThreadHandle = GetCurrentThread();
-//  if(ThreadHandle == (HANDLE)handle){
-//    ExitThread(0);            /* Thread terminates by itself */
-//  }
-//  else{
-//    TerminateThread((HANDLE)handle,0);  /* Terminates other thread */
-//  }
-//  /* may be memory leakage of the handle */
-//  return OS_OK;
-//}
 
 
-/**@Beschreibung:
- * Mit diesem Aufruf wird die Priorit�t eines beliebigen Threads ver�ndert.
- * @R�ckgabewert: 0 beim erfolgreichen Operation,ansonsten enth�lt der R�ckgabewert einen
- * detaillierten Fehlercode.
- * @handle Handle des Ziel-Threads.
- * @abstractPrio Abstrakt Thread-Priorit�t (0-255).
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @�nderungs�bersicht:
- * @Datum/Autor/�nderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- * @since 2008-09-30 redesign Hartmut
- */
 int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 {   
   //int ret_ok = 0;
   return OS_OK;
-}
-
-/**liefert den ThreadContext des laufenden Threads zur�ck.
- * @return: Context des laufenden Threads.
- * @Autor Hartmut Schorrig 
- * @Datum 22.10.2008
- * @�nderungs�bersicht:
- * @Datum/Autor/�nderungen
- * @since 2008-10-22 / Hartmut Schorrig / Erste Implementierung.
- */
-OS_ThreadContext* XXXXXos_getCurrentThreadContext()
-{ 
-  OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
-  if(threadContext == null)
-  { if(!bLibIsInitialized)
-    { os_initLib();
-      threadContext = getCurrent_OS_ThreadContext(); //at begin it is the main thread.
-    }
-    if(threadContext == null)  //it should be not null if os_initLib() is 
-    { 
-      threadContext = new_OS_ThreadContext("unnamed");
-      if (threadContext != null)
-      {
-        //hThreadHandle = ();
-        threadContext->uTID = pthread_self();
-
-        /* create an event for this thread (for use in eventFlag functions) */
-        //automatically resets the event state to nonsignaled after a single waiting thread has been released.
-        threadContext->uFlagRegister = 0;
-        {
-          bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
-          if (!ok  ){ 
-            printf("os_initLib: ERROR: TlsSetValue for child failed!\n"); 
-          }
-        }
-      }
-      else
-      { os_NotifyError(-1, "os_getCurrentThreadContext() - no ThreadContext found, error creating ThreadContext. ", 0, 0);
-      }
-    }
-  }
-  return threadContext;
 }
 
 
@@ -542,18 +428,6 @@ ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 
 
 
-/**@Beschreibung:
- * Diese Funktion liefert die Beschreibung in Klartext einer Fehlermeldung der OS-Funktionen.
- * @R�ckgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enth�lt der
- * R�ckgabewert einen detaillierten Fehlercode.
- * @nError Fehlermeldungsnummer.
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @�nderungs�bersicht:
- * @Datum/Autor/�nderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- * @since 2008-09-30 redesign Hartmut
- */
 char const* os_getTextOfOsError(int nError)
 {
   switch (nError){

@@ -39,7 +39,7 @@
 
 #include <sys/timeb.h>
 #include <time.h>
-
+#include <sched.h>
 
 
 
@@ -122,8 +122,11 @@ void os_delayThread(int32_t milliseconds)
   ///it doesn't exists in this conditional compiling focus: error = nanosleep(&time, null);
   */
 
-  sleep(milliseconds);
-
+  if(milliseconds ==0){
+    sched_yield();
+  } else {
+    sleepMicroSec_Time_emC(1000 *milliseconds);
+  }
 //  if(milliseconds < 2000000){  //usleep uses int32_t, max ~4000000000
 
 //    struct timespec ts;
@@ -144,5 +147,15 @@ void os_delayThread(int32_t milliseconds)
 
 
 void sleepMicroSec_Time_emC ( int32 usec ) {
-
+  if(usec ==0){
+    sched_yield();
+  } else {
+    struct timespec req, remain;
+    req.tv_sec = 0;
+    req.tv_nsec = usec * 1000;
+    int ok = nanosleep(&req, &remain);
+    if(ok !=0) {
+      ok +=1;
+    }
+  }
 }

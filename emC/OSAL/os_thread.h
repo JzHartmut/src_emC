@@ -66,11 +66,6 @@ typedef int OS_ThreadRoutine(void* data);
 
 
 
-/**This method should be called on startup of the system. 
- * It is called elsewhere from the routines, which needs them.
- */
-int init_OSAL();
-
 
 /**Returns the os-specific value for a thread priority.
  *
