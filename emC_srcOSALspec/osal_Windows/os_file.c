@@ -41,13 +41,12 @@
 
 #include <emC/OSAL/os_error.h>
 #include <emC/Base/String_emC.h>
-
-
+#include <emC/OSAL/Environment_OSALemC.h>
 
 
 #include <sys/stat.h>
 #include <string.h> //memset
-
+#include <stdlib.h> //malloc
 
 #ifdef USE_LoLevelFileIo 
   #include <fcntl.h>
@@ -149,13 +148,28 @@ FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
  */ 
 OS_HandleFile os_fopenToRead(char const* filename)
 {
+  char const* fileNameUsed;
+  char* buffer;
+  if( searchChar_emC(filename, -1000, '$') >=0) {
+    int zBuffer = 1000;
+    buffer = (char*) malloc(zBuffer);  //enough length ...
+    replace_Environment_OSALemC(buffer, zBuffer, filename);
+    fileNameUsed = buffer;
+  } else { fileNameUsed = filename; buffer = null; }
+  OS_HandleFile hFileRet;
   #ifdef USE_LoLevelFileIo 
-    return (OS_HandleFile)open(filename, O_RDONLY);
+    int hfile =open(fileNameUsed, O_RDONLY);
+    hFileRet = C_CAST(OS_HandleFile, hfile);
   #else
-    FILE* h = null;
-    int err = fopen_s(&h, filename, "rb");
-    return err == 0 ? (OS_HandleFile)h: null;
+    FILE* hfile = null;
+    int err = fopen_s(&hfile, fileNameUsed, "rb");
+    hFileRet = C_CAST(OS_HandleFile, hfile);
   #endif
+  if(buffer !=null) {
+    free(buffer);
+    buffer = null;
+  }
+  return hFileRet;
 }
 
 /**Open a file to write. This open action follows the convention of java.io.FileOutputStream.ctor(). 
@@ -165,13 +179,28 @@ OS_HandleFile os_fopenToRead(char const* filename)
  */
 OS_HandleFile os_fopenToWrite(char const* filename, bool append)
 { 
+  char const* fileNameUsed;
+  char* buffer;
+  if( searchChar_emC(filename, -1000, '$') >=0) {
+    int zBuffer = 1000;
+    buffer = (char*) malloc(zBuffer);  //enough length ...
+    replace_Environment_OSALemC(buffer, zBuffer, filename);
+    fileNameUsed = buffer;
+  } else { fileNameUsed = filename; buffer = null; }
+  OS_HandleFile hFileRet;
   #ifdef USE_LoLevelFileIo 
-    return (OS_HandleFile)open(filename, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
+    int hfile = open(fileNameUsed, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
+    hFileRet = C_CAST(OS_HandleFile, hfile);
   #else
-  FILE* h = null;
-  int err = fopen_s(&h, filename, append? "ab":"wb");
-  return err == 0 ? (OS_HandleFile)h : null;
+    FILE* hfile = null;
+    int err = fopen_s(&hfile, fileNameUsed, append? "ab":"wb");
+    hFileRet = C_CAST(OS_HandleFile, hfile);
   #endif
+  if(buffer !=null) {
+    free(buffer);
+    buffer = null;
+  }
+  return hFileRet;
 }
 
 

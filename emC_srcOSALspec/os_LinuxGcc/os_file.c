@@ -37,12 +37,14 @@
 #include <emC/OSAL/os_file.h>
 
 #include <emC/OSAL/os_error.h>
-
+#include <emC/Base/String_emC.h>
+#include <emC/OSAL/Environment_OSALemC.h>
 
 //
 #include <sys/stat.h>
 #include <stdio.h>
 #include <string.h> //memset
+#include <stdlib.h> //malloc
 
 int init_FileDescription_OSAL(FileDescription_OSAL* ythis, int addPathLength, char const* filepath, int zFilepath)
 { STACKTRC_ENTRY("init_FileDescription_OSAL")
@@ -88,16 +90,35 @@ FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
 
 
 
+
+
+
 /**Open a file to read. The file should be exist. 
  * @return null if the file doesn't exist. Elsewhere the handle, which is able to use for read.
  */ 
 OS_HandleFile os_fopenToRead(char const* filename)
 {
+  char const* fileNameUsed;
+  char* buffer;
+  if( searchChar_emC(filename, -1000, '$') >=0) {
+    int zBuffer = 1000;
+    buffer = (char*) malloc(zBuffer);  //enough length ...
+    replace_Environment_OSALemC(buffer, zBuffer, filename);
+    fileNameUsed = buffer;
+  } else { fileNameUsed = filename; buffer = null; }
+  OS_HandleFile hFileRet;
 #ifdef USE_LoLevelFileIo
-  return (OS_HandleFile)open(filename, O_RDONLY);
+  int hfile = open(fileNameUsed, O_RDONLY);
+  hFileRet = C_CAST(OS_HandleFile, hfile);
 #else
-  return (OS_HandleFile)fopen(filename, "rb");
+  FILE* hfile = fopen(fileNameUsed, "rb");
+  hFileRet = C_CAST(OS_HandleFile, hfile);
 #endif
+  if(buffer !=null) {
+    free(buffer);
+    buffer = null;
+  }
+  return hFileRet;
 }
 
 /**Open a file to write. This open action follows the convention of java.io.FileOutputStream.ctor(). 
@@ -107,11 +128,27 @@ OS_HandleFile os_fopenToRead(char const* filename)
  */
 OS_HandleFile os_fopenToWrite(char const* filename, bool append)
 {
+  char const* fileNameUsed;
+  char* buffer;
+  if( searchChar_emC(filename, -1000, '$') >=0) {
+    int zBuffer = 1000;
+    buffer = (char*) malloc(zBuffer);  //enough length ...
+    replace_Environment_OSALemC(buffer, zBuffer, filename);
+    fileNameUsed = buffer;
+  } else { fileNameUsed = filename; buffer = null; }
+  OS_HandleFile hFileRet;
 #ifdef USE_LoLevelFileIo
-  return (OS_HandleFile)open(filename, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
+  int hfile = open(fileNameUsed, O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC));
+  hFileRet = C_CAST(OS_HandleFile, hfile);
 #else
-  return (OS_HandleFile)fopen(filename, append ? "ab" : "wb");
+  FILE* hfile = fopen(fileNameUsed, append ? "ab" : "wb");
+  hFileRet = C_CAST(OS_HandleFile, hfile);
 #endif
+  if(buffer !=null) {
+    free(buffer);
+    buffer = null;
+  }
+  return hFileRet;
 }
 
 

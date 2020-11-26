@@ -145,7 +145,8 @@ INLINE_emC int strncpy_emC ( char* dst, char const* src, int length){ return str
  *     -1 checks only the first char. -0x7fff searches in 32767 chars if a '\0' was not found.
  *     Note: The length should be determined in any case to prevent memory access errors on not terminated char arrays.
  *     if zText >=0 this is the real number of chars to test independing of an 0-character.
- * @param cc char to search. 0 it possible (searches the first '\0'.
+ * @param cc char to search. 0 it possible (searches the first '\0').
+ * @return position of the first occurence of cc in text, or -1 if not found. 
  */
 int searchChar_emC ( char const* text, int zText, char cc);
 

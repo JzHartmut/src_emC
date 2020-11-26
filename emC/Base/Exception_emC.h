@@ -68,7 +68,7 @@
 #ifdef DEF_NO_StringJcCapabilities
   #define ARGTYPE_MSG_ExceptionJc void const*
 #else
-  #include <emC/Base/StringBase_emc.h>
+  #include <emC/Base/StringBase_emC.h>
   #define ARGTYPE_MSG_ExceptionJc StringJc
 #endif
 

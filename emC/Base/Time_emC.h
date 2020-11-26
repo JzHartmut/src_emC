@@ -125,6 +125,16 @@ static inline int32 diffMicroSec_TimeAbs_emC ( TimeAbs_emC* thiz, TimeAbs_emC* c
 }
 
 
+
+/**Delays the execution of this thread with yield to other for given number of milliseconds.
+ * This operation have to be implemented os-specific( (os_time.c)
+ */
+extern_C void sleep_Time_emC ( int32 msec );
+
+
+/**Delays the execution of this thread with yield to other for given number of microseconds.
+ * This operation have to be implemented os-specific( (os_time.c)
+ */
 extern_C void sleepMicroSec_Time_emC ( int32 usec );
 
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().

@@ -196,4 +196,28 @@ inline void quitNext_RingBuffer_emC ( RingBuffer_emC_s* thiz, int ixRd) {
 extern_C void status_RingBuffer_emC(RingBuffer_emC_s* thiz, int16* nrofEntries_y, int* ctModify_y);
 
 
+
+
+#if defined(USE_cplusplus_emC) && defined(__cplusplus)
+class RingBuffer_emC: private RingBuffer_emC_s {
+  
+  public: RingBuffer_emC(int nrofEntries, int id) {
+    CTOR_ObjectJc(&this->base.obj, this, sizeof(*this), refl_RingBuffer_emC, id);
+    ctor_RingBuffer_emC(&this->base.obj, nrofEntries);
+  }
+
+  protected: RingBuffer_emC(ObjectJc* othiz, int size) {
+  }
+
+  public: int addSingle() { addSingle_RingBuffer_emC(this); }
+  
+  public: int add() { return add_RingBuffer_emC(this); }
+
+  public: int next() { return next_RingBuffer_emC(this); }
+
+  public: void quitNext(int ixRd) { quitNext_RingBuffer_emC(this, ixRd); }
+
+};
+#endif //USE_cplusplus_emC  
+
 #endif //HGUARD_emC_Base__RingBuffer_emC

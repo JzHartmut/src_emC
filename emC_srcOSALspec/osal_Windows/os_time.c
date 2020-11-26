@@ -178,15 +178,6 @@ void sleepMicroSec_Time_emC ( int32 usec) {
 
 
 
-void os_delayThread(int milliseconds) { 
-  if(milliseconds < 50 && microsecondsPerClock_Time_emC != 0) {
-    int clocks = (int)(milliseconds * 1000.0f/microsecondsPerClock_Time_emC);
-    os_delayThreadClocks(clocks);
-  }
-  else {
-    Sleep(milliseconds);
-  }
-}
 
 
 
@@ -198,3 +189,12 @@ void os_delayThreadClocks(int timeOutClocks) {
 }
 
 
+void sleep_Time_emC(int milliseconds) { 
+  if(milliseconds < 50 && microsecondsPerClock_Time_emC != 0) {
+    int clocks = (int)(milliseconds * 1000.0f/microsecondsPerClock_Time_emC);
+    os_delayThreadClocks(clocks);
+  }
+  else {
+    Sleep(milliseconds);
+  }
+}

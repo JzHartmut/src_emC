@@ -113,7 +113,7 @@ int32_t getClockCnt_Time_emC(void)
 }
  
 
-void os_delayThread(int32_t milliseconds)
+void sleep_Time_emC(int32_t milliseconds)
 {
   /*
   struct timespec time;

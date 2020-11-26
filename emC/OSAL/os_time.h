@@ -171,15 +171,9 @@ int32_t os_microTime(void);
  
 
 
-#ifndef os_delayThread
-/**Delays a thread for a number of milliseconds.
- * @param timeOut sleep time in milliseconds.
- */
-void os_delayThread ( int timeOut);
-void os_delayThreadClocks ( int timeOutClocks);
-#endif
-#define os_sleep(TIME) os_delayThread(TIME);
-#define sleep_Time_emC(MILLISEC) os_delayThread(MILLISEC)
+#define os_sleep(TIME) sleep_Time_emC(TIME);
+
+#define os_delayThread(MILLISEC) sleep_Time_emC(MILLISEC)
 
 
 

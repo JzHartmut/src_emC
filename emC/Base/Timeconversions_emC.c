@@ -285,7 +285,7 @@ int toString_TimeAbs_emC ( char* buffer, int sizeBuffer, TimeAbs_emC const* time
           }
         }
       }
-      ASSERTJc_MAX(posBuffer, maxPosBuffer);  //detect errors.
+      ASSERT_emC(posBuffer <= maxPosBuffer, "buffer overflow", posBuffer, maxPosBuffer);  //detect errors.
     }
     //NO! The buffer may be a part of a string! buffer[posBuffer] = 0;    
   }
