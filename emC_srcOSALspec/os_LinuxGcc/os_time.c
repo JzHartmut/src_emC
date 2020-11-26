@@ -44,26 +44,36 @@
 
 
 void setCurrent_TimeAbs_emC ( TimeAbs_emC* time){
-
+  struct timespec os_time;
+  if( clock_gettime( CLOCK_REALTIME, &os_time) == -1 ) {
+    ERROR_SYSTEM_emC(0, "clock gettime", 0,0 );
+  }
+  time->time_nsec = os_time.tv_nsec & mNanoSeconds_TimeAbs_emC;
+  time->time_sec = os_time.tv_sec;
 }
+
+
+
+
 
 int32_t os_milliTime()
 {
-  //struct _timeb systime;
-  int32 milliseconds = -1;
-  //_ftime(&systime);           //get the time in milliseconds from system.
-  //overflow because seconds after 1970 are in range 0x40000000, it is ok:
-  //milliseconds = (int32)(systime.time * 1000);
-  //milliseconds += systime.millitm;
-  return milliseconds;
+  struct timespec os_time;
+  if( clock_gettime( CLOCK_REALTIME, &os_time) == -1 ) {
+    ERROR_SYSTEM_emC(0, "clock gettime", 0,0 );
+  }
+  return 1000 * os_time.tv_sec + os_time.tv_nsec / 1000000;
 
 }
 
 
 int32_t os_getSeconds()
 {
-  return 0;
-
+  struct timespec os_time;
+  if( clock_gettime( CLOCK_REALTIME, &os_time) == -1 ) {
+    ERROR_SYSTEM_emC(0, "clock gettime", 0,0 );
+  }
+  return os_time.tv_sec;
 }
 
 

@@ -24,7 +24,8 @@ static char const* dirFile(char const* path) {
 
 void msgStartFileLine_testAssert_emC ( char const* msg, char const* file, int line){
   //print one dir + name of file.
-  printf("\nTest: %s: (%s @ %d) ...\n", msg, dirFile(file), line);
+  char const* filename = dirFile(file);
+  printf("\nTest: %s: (%s @ %d) ...\n", msg, filename, line);
 }
 
 
@@ -37,7 +38,8 @@ void msgEndFileLine_testAssert_emC ( bool ok){
 bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line) {
   if(cond) { printf("  ok: %s\n", msg ); }
   else {
-    printf("  ERROR: %s (%s@%d)\n", msg,  dirFile(file), line);
+    char const* filename = dirFile(file);
+    printf("  ERROR: %s (%s@%d)\n", msg,  filename, line);
   }
   return cond;
 }

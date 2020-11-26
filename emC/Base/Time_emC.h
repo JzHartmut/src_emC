@@ -125,7 +125,7 @@ static inline int32 diffMicroSec_TimeAbs_emC ( TimeAbs_emC* thiz, TimeAbs_emC* c
 }
 
 
-void sleepMicroSec_Time_emC ( int32 usec );
+extern_C void sleepMicroSec_Time_emC ( int32 usec );
 
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().
  * It is used for some operations, especially nanoTime_emC().
@@ -379,21 +379,21 @@ typedef struct Clock_MinMaxTime_emC_T {
 #endif
 
 
-void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries);
+extern_C void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries);
 
 
-void init_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz);
+extern_C void init_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz);
 
 
 /**
  * @simulink Operation-FB, step-in.
  */
-void startTime_Clock_MinMaxTime(int slice_param, float* time_y);
+extern_C void startTime_Clock_MinMaxTime(int slice_param, float* time_y);
 
 /**
 * @simulink Operation-FB, step-in.
 */
-void measTime_Clock_MinMaxTime(int slice_param, float* time_y);
+extern_C void measTime_Clock_MinMaxTime(int slice_param, float* time_y);
 
 
 

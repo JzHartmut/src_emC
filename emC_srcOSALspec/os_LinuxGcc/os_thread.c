@@ -422,8 +422,12 @@ int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
 
 ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 {
-  OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
-  return &threadContext->userThreadContext;
+  OS_ThreadContext* os_threadContext = getCurrent_OS_ThreadContext();
+  if(os_threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext) {
+    ERROR_SYSTEM_emC(-1, "OS_ThreadContext faulty", 0,0);
+  }
+  ThreadContext_emC_s* thCxt = &os_threadContext->userThreadContext;
+  return thCxt;
 }
 
 

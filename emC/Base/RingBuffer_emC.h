@@ -86,7 +86,7 @@ extern_C int16 info_RingBuffer_emC(RingBuffer_emC_s* thiz, int16* ctEvents_y);
  * @return -1 if no more space in queue. pointer to the free entry on success.
  *     else return the index to write in the application definied ring buffer array.
  */
-inline int addSingle_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
+static inline int addSingle_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
   #ifndef NO_PARSE_ZbnfCheader
   int ixWrLast = thiz->ixWr;
   int ixWrNext = ixWrLast + 1;
@@ -120,7 +120,7 @@ inline int addSingle_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
  * @return -1 if no more space in queue. pointer to the free entry on success.
  *     else return the index to write in the application definied ring buffer array.
  */
-inline int add_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
+static inline int add_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
   #ifndef NO_PARSE_ZbnfCheader
   #ifdef DISABLE_INTR_POSSIBLE_emC
     disable_interrupt_emC();
