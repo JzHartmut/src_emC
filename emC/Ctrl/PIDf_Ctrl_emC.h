@@ -239,7 +239,7 @@ extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y);
 extern_C void param_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* parNew);
 
 
-extern_C void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y);
+static inline void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y);
 
 INLINE_emC void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y) { *y = thiz->wxP;  }
 

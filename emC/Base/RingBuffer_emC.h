@@ -59,7 +59,7 @@ typedef struct RingBuffer_emC_T {
 #endif
 
 
-#define INIZ_RingBuffer_emC(OBJ, REFL, ID) { { INIZ_ObjectJc(OBJ, REFL, ID) } }
+#define INIZ_RingBuffer_emC(OBJ, REFL, ID, NROFentries) { { INIZ_ObjectJc(OBJ, REFL, ID) }, NROFentries }
 
 
 /**Constructs, it allocates memory for the entries.
@@ -181,7 +181,7 @@ static inline int next_RingBuffer_emC ( RingBuffer_emC_s* thiz) {
 
 
 
-inline void quitNext_RingBuffer_emC ( RingBuffer_emC_s* thiz, int ixRd) {
+static inline void quitNext_RingBuffer_emC ( RingBuffer_emC_s* thiz, int ixRd) {
   ASSERT_emC(thiz->ixRd != thiz->ixWr, "faulty quit", thiz->ixRd, thiz->ixWr);
 
   int32 ixRdNext = ixRd +1;

@@ -1,3 +1,5 @@
+#ifndef HGUARD_compl_adaption
+#define HGUARD_compl_adaption
 /************************************************************************************************
  * Copyright/Copyleft:
  *
@@ -31,8 +33,7 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
-#ifndef   HEADERGUARD_compl_adaption_h
-#define   HEADERGUARD_compl_adaption_h
+
 //uncomment that to check whether this file is used for include:
 //#error File: emc/incComplSpecific/cc_Gcc/compl_adaption.h
 
@@ -62,7 +63,9 @@
 
 
 /**use of old-style cast is not more worse as a reinterpret_cast*/
-#pragma GCC diagnostic ignored "-Wold-style-cast"
+#ifdef __cplusplus
+//#pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
 
 /**warning: unused variable 'stacktraceEntriesInThreadContext' [-Wunused-variable]
  */
@@ -94,27 +97,16 @@
 #include <stdint.h>  //C99-int types
 #include <limits.h>  //proper to C99
 
-
-
-
-/**Some warnings should be disabled in default, because there are not the source of errors,
- * but present in normal software development.
- */
-
-
 /**Defintion of bool, false, true for C usage. */
 #ifdef __cplusplus
   #define INLINE_emC inline
   #define CONSTMember_emC
 #else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_emC const
   /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
      It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
   */
-  //#define inline static
-  //#define INLINE_emC static
-  #define INLINE_emC inline
+  #define INLINE_emC static inline
   //If C-compiling is used, define the C++-keywords for C
   #define bool int
   #undef false
@@ -146,6 +138,9 @@
 //This functions may be platform dependend but for all our platforms identical, also in C-Standard.
 //do nut use platform specific headers. 
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
+
+//The following switch select the compiler in some sources.
+#define __COMPILER_IS_GCC__
 
 
 
@@ -186,10 +181,12 @@
 #define int32     int32_t
 #define uint32    uint32_t
 
-#define int64 int64_t
-#define uint64 uint64_t
+#define int64 long long
+#define uint64 unsigned long long
 //#define int64_t __int64
 //#define uint64_t __int64
+
+#define uint uint32_t
 
 #define bool8    unsigned char
 #define bool8_t  unsigned char
@@ -198,8 +195,9 @@
 //Standard-character and UTF16-character:
 #define char8    char
 #define char16   unsigned short
-#define char8_t  char
-#define char16_t short
+//Note: do not define char16_t, it is known in Gcc
+//#define char8_t  char
+//#define char16_t short
 #define float32  float
 
 
@@ -232,22 +230,37 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
  * Especially in va_arg(..,TYP)-Makro.
  */
-#define char_va_list char 
+#define char_va_list int
 #define bool_va_list bool
-#define int8_va_list signed char
-#define int16_va_list short
-#define float_va_list float
+#define int8_va_list int
+#define int16_va_list int
+#define float_va_list double
 
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
 #undef  NULL
 #define NULL 0
 #undef null
-#define null (0)
+#ifdef __cplusplus
+  #define null 0
+#else
+  #define null ((void*)0)
+#endif
 
-// Folgendes Define wird nach einer Struktur insbesondere für GNU-Compiler verwendet. Es ist für MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
+
+#define MAYBE_UNUSED_emC __attribute__((unused))
+
+#define USED_emC
+
+/**It is an attribute before a function definition to determine
+ * that the function should be placed in a section which is linked
+ * to a RAM location but load into the FLASH memory.
+ * This section must be copied on startup to run successfully.
+ * It is a designation for embedded hardware with lesser but fast RAM.
+ */
+#define RAMFUNC_emC
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 
@@ -291,17 +304,47 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
 
 
+/**Possibility to store a pointer (a memory address) as handle if desired. 
+ * It depends from the target system. 
+ * If dll are used and independent linked objects are existing, especially if dll are used,
+ * and graphical programming is used (that is especially in Simulink S-Functions), 
+ * then a memory address should be present by a handle, the handle is converted to the address 
+ * via a central table which contains all addresses of instances, common for all dll. 
+ * In that case the Handle_ADDR_emC is an uint32, and the TYPE is not relevant. 
+ * This system is supported by emC/Base/Handle_prt64_emC.*. 
+ * For simple applications it is defined with the immediately access, maybe with 64-bit-addresses.
+ *
+ * Here it is immediately the 64-bit-address with the proper type (important for debug).
+ */
+//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
+#ifdef DEF_HandlePtr64
+  #define HandleADDR_emC(TYPE) uint32
+
+  #include <emC/Base/Handle_ptr64_emC.h>
+#else //not DEF_HandlePtr64
+#define HandleADDR_emC(TYPE) TYPE*
+
+/**It presents the TYPE-correct address as pointer in C/++*/
+#define ptr_HandleADDR_emC(HANDLE, TYPE) (HANDLE)
+
+/**It presents an integer value as handle, may be identical with the address. */
+#define handle_HandleADDR_emC(HANDLE) ((intPTR)(HANDLE))
+#endif  //DEF_HandlePtr64
 
 
-/**Bits of length of constant string in a OS_PtrValue-struct. It depends from the length of val
+
+
+
+/**Bits of length of constant string adequate to VALTYPE_AddrVal_emC. 
  * It have to be a mask with set bits on right side (all last significant bits).
  * The next 2 bits left are used internally for designation of String.
  * see [[mNonPersists__StringJc]], [[mThreadContext__StringJc]].
  * See also [[kIsCharSequence_StringJc]]
- * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc. 
+ * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc.
  * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */
 #define mLength_StringJc                 0x00003fff
+
 
 
 
@@ -310,11 +353,85 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   #define FALSE false
 #endif
 
-//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
-#define DEF_HandlePtr64
 
 /**This file includes common definition valid for any compiler independent of applstdef_emC.h
  * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
-#include <emC/OSAL/types_def_common.h>
+
+
+#include <emC/Base/types_def_common.h>
+
+
+#define DEF_compareAndSet_AtomicInteger
+//This is implemented in emC_srcOSALspec/hw_Intel_x86_Gcc/os_atomic.c:
+extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
+
+extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
+
+//extern_C bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
+
+//see https://gcc.gnu.org/onlinedocs/gcc-4.1.1/gcc/Atomic-Builtins.html
+
+INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update) {
+  return __sync_bool_compare_and_swap (reference, expect, update);
+}
+
+
+INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
+  int32 read = compareAndSwap_AtomicInteger((int32 volatile*)reference, expect, update);
+  return read == expect;
+}
+
+INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+  int32 read = compareAndSwap_AtomicInteger(reference, expect, update);
+  return read == expect;
+}
+
+
+
+INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update){
+  int64 read = compareAndSwap_AtomicInt64(reference, expect, update);
+  return read == expect;
+}
+
+//The processor allows only a 32-bit-compare and set. To execute it for a given 16-bit-location
+//it is supposed that the other half word is stable. 
+//Hence it is read as expected and written unchanged with update. 
+//If the other part is changed in another thread, the compare and set system call failes,
+//Hence it is repeated in the outer loop with the same expected situation. 
+//It is expected that the second access may be okay. 
+//Only if the other half word is extremly volatile, this approach fails.  
+INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
+  //Note: more difficult because memory is 32 bit
+  int32 volatile* ref32;  //need to be int32 because call compareAndSet_AtomicInt32
+  uint32 expect32, update32;
+  if( (((intptr_t)reference) & 0x3) == 2) { //read write hi word
+    ref32 = (int32 volatile*)(reference-1);       //use the lower address 
+    uint32 refLo = (*ref32 & 0x0000ffff); //suppose that the lower content is not changed.
+    expect32 = refLo | (((uint32)expect)<<16);
+    update32 = refLo | (((uint32)update)<<16);
+  } else {
+    ref32 = (int32 volatile*)(reference);          //use the same address 
+    uint32 refHi = (*ref32 & 0xffff0000); //suppose that the higher content is not changed.
+    expect32 = refHi | ((uint16)expect);
+    update32 = refHi | ((uint16)update);  //never expand the sign, hence use uint.
+  }
+  //compare and swap the whole 32 bit memory location, assume that the other word is not change in the same time
+  //or repeat the access (unnecessary) if the other word is changed only. That is not a functional error, 
+  //only a little bit more calculation time because unnecesarry repetition.
+  return compareAndSet_AtomicInt32(ref32, expect32, update32);
+}
+
+
+
+//INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
+//  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
+//  if(sizeof(void*) != sizeof(int32)) {
+//    return false;
+//  }
+//  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
+//  return read == (int32_t)expect;
+//}
+
+
 
 #endif  //HEADERGUARD_compl_adaption_h

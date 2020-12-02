@@ -201,8 +201,11 @@ typedef struct  ObjectJc_T
 {
   #define DEFINED_ObjectJc  //to prevent twice definition in ObjectSimple_emC
 
-  /**The identSize is helpfull to recognize the instance. 
-  * The bit31 is used to detect whether it is initialized or not. */
+  /**The identSize is helpfull to recognize the instance.
+   * Note: The size is from the whole instance, memory area starting from the ownAdress
+   * respectively thiz - offsetToInstanceAddr. It is not the size of the plain data. 
+   * The size helps to check memory usage.  
+   * The bit31 is used to detect whether it is initialized or not. */
   uint32 identSize;
   #define mInitialized_ObjectJc  0x80000000
   #define mArray_ObjectJc        0x40000000
@@ -314,8 +317,9 @@ typedef struct  ObjectJc_T
 
 #ifdef DEF_ObjectJc_LARGESIZE
   //The positions of the bits are controlled by mSizeBits_ObjectJc, more complex algorithm needs a subroutine.  
-  uint getIdentInfo_ObjectJc(ObjectJc const* ythis);
-  uint getSizeInfo_ObjectJc(ObjectJc const* ythis);
+  uint getIdentInfo_ObjectJc ( ObjectJc const* ythis);
+  uint getSizeInfo_ObjectJc ( ObjectJc const* ythis);
+  uint getSizeData_ObjectJc ( ObjectJc const* ythis);
 #endif
 
 

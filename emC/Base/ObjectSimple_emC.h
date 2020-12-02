@@ -225,7 +225,9 @@ Get operations for core properties          */
 #endif
 
 #ifndef DEF_ObjectJc_LARGESIZE
+  /**Builds the size of the whole instance, for C++ usage inclusively the C++ parts. */
   #define getSizeInfo_ObjectJc(THIZ) ((THIZ)->identSize & mSize_ObjectJc)
+  
   #define getIdentInfo_ObjectJc(THIZ) ((uint)(((THIZ)->identSize & (mInstanceType_ObjectJc | mArray_ObjectJc)) >> kBitInstanceType_ObjectJc))
 #endif //#else: see Object_emC.h, large size is not supported for ObjectSimple.
 

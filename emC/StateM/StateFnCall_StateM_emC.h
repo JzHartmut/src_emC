@@ -88,7 +88,7 @@ typedef struct StateFnCall_StateM_emC_T {
  * This routine should be called firstly in a users entry after them special entry actions. 
  * This routine is delivered as inline for calctime-optimized code.
  */
-inline StateFnCall_StateM_emC const*  doEntry_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
+static inline StateFnCall_StateM_emC const*  doEntry_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
   , int kindHistory, struct StateMnTopFnCall_State_emC_T* stmn
   , int32 idEvent, ObjectJc* dataEvent, ObjectJc* const dataClass);
 
@@ -100,7 +100,7 @@ inline StateFnCall_StateM_emC const*  doEntry_StateMFnCall_emC(struct StateFnCal
 * The exit-Action references as function pointer in the adequate states will be executed. 
 * This routine is delivered as inline for calctime-optimized code.
 */
-inline void doExit_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
+static inline void doExit_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
   , struct StateMnTopFnCall_State_emC_T* stmn
   , int32 idEvent, ObjectJc* dataEvent, ObjectJc* const dataClass);
 
@@ -151,7 +151,7 @@ typedef struct StateMPartFnCall_StateM_emC_T {
 
 
 
-inline StateFnCall_StateM_emC const* getState_StateMPartFnCall_StateM_emC ( StateMPartFnCall_StateM_emC const* thiz) {
+static inline StateFnCall_StateM_emC const* getState_StateMPartFnCall_StateM_emC ( StateMPartFnCall_StateM_emC const* thiz) {
   return thiz->active ? thiz->state : null;
 }
 
@@ -197,7 +197,7 @@ typedef struct StateMnTopFnCall_State_emC_T {
 /**Initializes the state machine. */
 void init_StateFnCall_StateM_emC(StateMnTopFnCall_State_emC* thiz, StateFnCall_StateM_emC const* stateInit);
 
-inline StateFnCall_StateM_emC const* getState_StateMnTopFnCall_StateM_emC ( StateMnTopFnCall_State_emC const* thiz) {
+static inline StateFnCall_StateM_emC const* getState_StateMnTopFnCall_StateM_emC ( StateMnTopFnCall_State_emC const* thiz) {
   return getState_StateMPartFnCall_StateM_emC(&thiz->substmn[0]);
 }
 
@@ -222,7 +222,7 @@ StateFnCall_StateM_emC const* doEntryHistory_StateMFnCall_emC__(struct StateFnCa
 
 
 
-inline StateFnCall_StateM_emC const* doEntry_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
+static inline StateFnCall_StateM_emC const* doEntry_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
   , int kindHistory, struct StateMnTopFnCall_State_emC_T* stmn 
   , int32 idEvent, ObjectJc* dataEvent, ObjectJc* const dataClass
 ) {
@@ -248,7 +248,7 @@ inline void XXXdoEntry_StateFnCall_emC(struct StateFnCall_StateM_emC_T const* th
 
 
 
-inline void doExit_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
+static inline void doExit_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thiz 
   , struct StateMnTopFnCall_State_emC_T* stmn 
   , int32 idEvent, ObjectJc* dataEvent, ObjectJc* const dataClass
   ) {

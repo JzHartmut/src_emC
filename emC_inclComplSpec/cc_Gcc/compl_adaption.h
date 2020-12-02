@@ -38,13 +38,6 @@
 //#error File: emc/incComplSpecific/cc_Gcc/compl_adaption.h
 
 
-//#include the standard header from the standard include path. 
-//stdint.h defines int8_t etc. via typedef. 
-//Because pragma once (or guard) the content of the files are not included again.
-//They should be included firstly to cover its typedef by the typedef of simulink.
-#include <stdint.h>  //C99-int types
-#include <limits.h>  //proper to C99
-
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
@@ -66,14 +59,23 @@
  * but present in normal software development.
  */
 
+//#include the standard header from the standard include path. 
+//stdint.h defines int8_t etc. via typedef. 
+//Because pragma once (or guard) the content of the files are not included again.
+//They should be included firstly to cover its typedef by the typedef of simulink.
+#include <stdint.h>  //C99-int types
+#include <limits.h>  //proper to C99
+
 /**Defintion of bool, false, true for C usage. */
 #ifdef __cplusplus
   #define INLINE_emC inline
   #define CONSTMember_emC
 #else
   #define CONSTMember_emC const
-  //For C-compiling: build static routines, maybe the compiler optimized it to inline. 
-  //See https://gcc.gnu.org/onlinedocs/gcc/Inline.html:
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
+   * See https://gcc.gnu.org/onlinedocs/gcc/Inline.html:
+  */
+
   #define INLINE_emC static inline
   //If C-compiling is used, define the C++-keywords for C
   #define bool int
@@ -215,7 +217,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   #define null ((void*)0)
 #endif
 
-// Folgendes Define wird nach einer Struktur insbesondere f�r GNU-Compiler verwendet. Es ist f�r MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
 
@@ -403,4 +404,4 @@ INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expec
 
 
 
-#endif  //__compl_adaption_h__
+#endif  //HEADERGUARD_compl_adaption_h

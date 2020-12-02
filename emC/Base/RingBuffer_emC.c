@@ -3,6 +3,18 @@
 #include <emC/Base/MemC_emC.h>
 #include <stdlib.h>  //malloc
 
+
+#ifdef DEF_REFLECTION_FULL
+  #include "genRefl/RingBuffer_emC.crefl"
+#else
+  #ifndef DEF_REFLECTION_NO
+  ClassJc const refl_RingBuffer_emC = INIZ_ClassJc(refl_RingBuffer_emC, "RingBuffer_emC");
+  #endif
+#endif
+
+
+
+
 RingBuffer_emC_s* ctor_RingBuffer_emC ( ObjectJc* othiz, int nrofEntries ) {
   ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(RingBuffer_emC_s), refl_RingBuffer_emC, 0)
       , "RingBuffer_emC_s not correct initialized", othiz->identSize, (int)(intPTR)getClass_ObjectJc(othiz) );

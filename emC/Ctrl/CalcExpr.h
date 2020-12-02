@@ -79,7 +79,7 @@ void ctor_CalcExpr(CalcExpr* thiz, int stacksizeAdditional);
 void calc_CalcExpr(CalcExpr* thiz, Operation_CalcExpr* operations, int zOperations);
 
 
-inline float getFloat_CalcExpr(CalcExpr const* thiz){ return thiz->accu.accuF; }
+static inline float getFloat_CalcExpr(CalcExpr const* thiz){ return thiz->accu.accuF; }
 
 
 /*==== Prototypes for Operations ==========================================================

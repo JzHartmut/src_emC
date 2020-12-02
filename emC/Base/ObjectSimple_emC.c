@@ -50,7 +50,11 @@
 
 #if !defined(DEF_ObjectJcpp_REFLECTION) && ! defined(DEF_ObjectJc_OWNADDRESS)
 struct ObjectJc_T * ctor_ObjectJc ( struct ObjectJc_T * othiz, void* ptr, uint size, struct ClassJc_t const* refl, uint idObj) {
-  memset(othiz, 0, size);
+  //removed 2020-12-02: size is the whole C++ instance, memset will set too much. 
+  //instead: The data ctor is responsible to clear of data. Commonly: prevent using memset. 
+  //removed: memset(othiz, 0, size);
+  //
+  //Set all data of ObjectJc adequat to its specific definition:
   #ifdef DEF_ObjectJc_REFLREF
     othiz->reflection = refl;
     int id = idObj;

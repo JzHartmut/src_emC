@@ -257,7 +257,12 @@ int os_fwrite(OS_HandleFile fileP, void const* buffer, int nrofbytes)
   int ret = write((int)fileP, buffer, nrofbytes);
 #else
   FILE* file = (FILE*) fileP;
-  int ret = fwrite(buffer, 1, nrofbytes, file);
+  int ret;
+  if(file ==null) {
+    THROW_s0n(IllegalArgumentException, "FILE is null", 0, 0); }
+  else {
+    ret = fwrite(buffer, 1, nrofbytes, file);
+  }
 #endif
   return ret;  //it is maxNrofbytes
 }

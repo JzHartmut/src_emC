@@ -294,14 +294,14 @@ int _prepareOutputText_LogMessageFW
 //(char* buffer, int zBuffer, int ident, StringJc text, OS_TimeStruct time
 //, char const* typeArgs, va_list args
 {
-  int nrofChars;
+  int nrofChars =0;   //TODO
   int zText = (int)strlen(sText);
   //char const* sText = getCharsAndLength_StringJc(&text, &zText);
   //const char* text1 = text.ref; 
   //char const* arg1 = *(char const**)(&args->v[0]);
   STACKTRC_TENTRY("_prepareOutputText_MsgDispatcher_MSG");
   //if( true )//arg1 == typedVaArg_ObjectJc)
-  { nrofChars = format_va_arg_Formatter_FW(_thCxt, sText, zText, buffer, zBuffer, args);
+  { //nrofChars = format_va_arg_Formatter_FW(_thCxt, sText, zText, buffer, zBuffer, args);
   }
   //else
   { //This routine is not available in all systems, especially not in Rmos.

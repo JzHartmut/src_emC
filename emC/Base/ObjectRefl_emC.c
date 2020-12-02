@@ -124,7 +124,11 @@ bool XXXcheckStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_re
 
 #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_OWNADDRESS)
 ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, uint size, struct ClassJc_t const* refl, uint idObj) {
-  memset(othiz, 0, sizeof(ObjectJc));
+  //removed 2020-12-02: size is the whole C++ instance, memset will set too much. 
+  //instead: The data ctor is responsible to clear of data. Commonly: prevent using memset. 
+  //removed: memset(othiz, 0, size);
+  //
+  //Set all data of ObjectJc adequat to its specific definition:
   setSizeAndIdent_ObjectJc(othiz, size, idObj);
   #ifdef DEF_ObjectJcpp_REFLECTION
     othiz->handleBits = kNoSyncHandles_ObjectJc;
@@ -132,7 +136,7 @@ ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, uint size, struct ClassJc_
   #endif
   othiz->reflection = refl;
   #ifdef DEF_ObjectJc_OWNADDRESS
-  othiz->ownAddress = ptr;
+    othiz->ownAddress = ptr;
   #endif
   return othiz;
 }
@@ -368,7 +372,7 @@ bool checkInit_OLD_ObjectJc ( ObjectJc* thiz, int size, struct ClassJc_t const* 
 
 
 #ifdef DEF_ObjectJc_LARGESIZE  
-uint getSizeInfo_ObjectJc(ObjectJc const* ythis)
+uint getSizeInfo_ObjectJc ( ObjectJc const* ythis)
 { 
   if(ythis->identSize & mIsLargeSize_ObjectJc) 
     return ythis->identSize & mSizeLarge_ObjectJc;

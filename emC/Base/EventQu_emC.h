@@ -196,7 +196,7 @@ typedef struct EvQueue_emC_T {
 
 } EvQueue_emC_s;
 
-#define INIZ_EvQueue_emC(OBJ, REFL, ID) { { INIZ_RingBuffer_emC(OBJ, REFL, ID) } }
+#define INIZ_EvQueue_emC(OBJ, REFL, ID) { { INIZ_RingBuffer_emC(OBJ, REFL, ID, 0) } }
 
 #define ID_refl_EvQueue_emC 0x0FE3
 #ifndef DEF_REFLECTION_NO 

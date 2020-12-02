@@ -60,7 +60,7 @@ int binarySearch_int(int32_t const* data, int fromIndex, int toIndex, int32_t ke
 }
 
 
-int binarySearch_int64(int64_t const* data, int fromIndex, int toIndex, int64_t key)
+int binarySearch_int64(int64 const* data, int fromIndex, int toIndex, int64 key)
 { int low = fromIndex;
 	int high = toIndex -1;
 	while (low <= high)

@@ -267,7 +267,7 @@ typedef struct double_complex_t{
 //NOTE: all NAN makros should be defined in fw_assert.h which is platform-depending.
 
 
-inline int dbgstop_emC(){ return -1; }
+static inline int dbgstop_emC(){ return -1; }
 
 //#if defined(DEF_ObjectJc_SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
 //# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)

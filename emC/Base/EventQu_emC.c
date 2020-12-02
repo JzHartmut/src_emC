@@ -22,6 +22,7 @@
   //ClassJc const refl_EvListener_emC = INIZ_ClassJc(refl_EvListener_emC, "EvListener_emC");
   //ClassJc const refl_EvCreator_emC = INIZ_ClassJc(refl_EvCreator_emC, "EvCreator_emC");
   ClassJc const refl_EvInstance_emC = INIZ_ClassJc(refl_EvInstance_emC, "EvInstance_emC");
+  ClassJc const refl_EventData_emC = INIZ_ClassJc(refl_EventData_emC, "EventData_emC");
   ClassJc const refl_EvQueue_emC = INIZ_ClassJc(refl_EvQueue_emC, "EvQueue_emC");
   #endif
 #endif
@@ -48,7 +49,7 @@ bool init_EventData_emC(EventData_emC_s* thiz, HandleADDR_emC(int32) hdata, uint
 
 
 EvQueue_emC_s* ctor_EvQueue_emC(ObjectJc* othiz, float Tstep, int sizeQueue){
-  STACKTRC_TENTRY("ctor_EvQueue_emC");
+  STACKTRC_ENTRY("ctor_EvQueue_emC");
   EvQueue_emC_s* thiz = null;
   ASSERT_emC( CHECKstrict_ObjectJc(othiz, sizeof(EvQueue_emC_s), refl_EvQueue_emC, 0)
     , "EvQueue_emC_s not correct initialized", othiz->identSize, (int)(intPTR)getClass_ObjectJc(othiz) );

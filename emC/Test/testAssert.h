@@ -56,7 +56,7 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 #define TEST_EXC(EXC) exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
 
 
-inline bool check_testAssert(float val, float cmp, float accuracy) {
+static inline bool check_testAssert(float val, float cmp, float accuracy) {
   float diff = val - cmp;
   return diff < accuracy && diff > -accuracy; 
 }
