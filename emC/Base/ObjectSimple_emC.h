@@ -388,11 +388,7 @@ typedef struct ClassJc_t
 #      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, NAME, null}
 #    endif
 #  else      //no field for reflOffs given 
-#    ifdef DEF_ObjectJc_REFLREF
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, NAME, REFLSUPER }
-#    else   //no field for superClass given
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, NAME }
-#    endif
+#    define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, NAME, REFLSUPER }
 #  endif
 #endif
 #endif//NO_PARSE_ZbnfCheader

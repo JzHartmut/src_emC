@@ -11,8 +11,6 @@
 
 #include "emC/Jc/StringJc.h"        //used often
 
-   //basic concept
-
 #ifdef DEF_ObjectJc_SIMPLE
 #error "cannot compile with DEF_ObjectJc_SIMPLE, needs virtual operations for CharSeqJc in Part_StringPartJc"
 #endif
@@ -100,7 +98,7 @@ Without " \r\n\t"
 */
 METHOD_C struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s* thiz, ThCxt* _thCxt);
 
-
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_Part_StringPartJc[]; //marker for methodTable check
@@ -110,7 +108,7 @@ typedef struct Vtbl_Part_StringPartJc_t
   //Method table of interfaces:
   Vtbl_CharSeqJc CharSeqJc;
 } Vtbl_Part_StringPartJc;
-
+#endif //DEF_ClassJc_Vtbl
 
 
 #if defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
@@ -137,7 +135,11 @@ class Part_StringPartJc : private Part_StringPartJc_s
 
 typedef struct StringPartJc_t
 { 
-  union { ObjectJc object; CharSeqObjJc CharSeqObjJc; ComparableJc ComparableJc;} base; 
+  union { ObjectJc object; CharSeqObjJc CharSeqObjJc; 
+    #ifdef DEF_ClassJc_Vtbl
+      ComparableJc ComparableJc;
+    #endif
+    } base; 
   int32 begin;   /*The actual start position of the valid part.*/
   int32 end;   /*The actual exclusive end position of the valid part.*/
   int32 begiMin;   /*The most left possible start position. We speak about the 'maximal Part':*/
@@ -1046,6 +1048,7 @@ The method creates a StringBuilder with buffer and a StringPart locally.
 */
 METHOD_C CharSeqJc replace_StringPartJc(/*J2C:static method*/ CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst, ThCxt* _thCxt);
 
+#ifdef DEF_ClassJc_Vtbl
 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
@@ -1059,6 +1062,7 @@ typedef struct Vtbl_StringPartJc_t
   Vtbl_CharSeqJc CharSeqJc;
   Vtbl_ComparableJc ComparableJc;
 } Vtbl_StringPartJc;
+#endif  //DEF_ClassJc_Vtbl
 
 
 
@@ -1275,7 +1279,9 @@ class StringPartJc
 
   void throwSubSeqFaulty(int32 from, int32 to){ throwSubSeqFaulty_StringPartJc(thisp, from, to,  null/*_thCxt*/); }
 
+  #ifdef DEF_ClassJc_Vtbl
   virtual StringJc toString(){  return toString_StringPartJc_F(&thisp->base.object,  null/*_thCxt*/); }
+  #endif
 
   StringPartJc& trimComment(){ trimComment_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 

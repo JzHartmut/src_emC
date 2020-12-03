@@ -21,8 +21,11 @@ struct StringBuilderJc_t;
 
 const char sign_Vtbl_StringFunctions_BJc[] = "StringFunctions_BJc"; //to mark method tables of all implementations
 
+#ifdef DEF_ClassJc_Vtbl
 typedef struct VtblDef_StringFunctions_BJc_t { Vtbl_StringFunctions_BJc mtbl; VtblHeadJc end; } VtblDef_StringFunctions_BJc;
  extern VtblDef_StringFunctions_BJc const mtblStringFunctions_BJc;
+#endif //#ifdef DEF_ClassJc_Vtbl
+
 StringJc version_StringFunctions_BJc = CONST_z_StringJc("2015-11-07"); //J2C:static StringJc
 StringJc sWhiteSpaces_StringFunctions_BJc = CONST_z_StringJc(" \r\n\t\f"); //J2C:static StringJc
 
@@ -235,7 +238,7 @@ CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ C
 }
 
 
-
+#ifdef DEF_ClassJc_Vtbl
 /**J2C: Reflections and Method-table *************************************************/
 const VtblDef_StringFunctions_BJc mtblStringFunctions_BJc = {
 { { sign_Vtbl_StringFunctions_BJc //J2C: Head of methodtable of StringFunctions_BJc
@@ -253,10 +256,11 @@ const VtblDef_StringFunctions_BJc mtblStringFunctions_BJc = {
   , toString_ObjectJc_F //toString
   }
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
+#endif //ifdef DEF_ClassJc_Vtbl
 
 
 
-#ifndef __DONOTUSE_REFLECTION__
+#ifdef DEF_REFLECTION_FULL
 
  extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_StringFunctions_BJc_s_t

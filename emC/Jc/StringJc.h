@@ -1045,10 +1045,14 @@ extern_C struct ClassJc_t const refl_CharSeqJc;
 
 /**cheep operation to get substring for a simple StringJc. 
  */
+#ifdef DEF_ClassJc_Vtbl
 #define subSequence_CharSeqJc(THIZ, from, to, THC) (\
   (THIZ).val == kIsCharSeqJc_CharSeqJc \
   ? ((Vtbl_CharSeqJc*)getVtbl_ObjectJc((THIZ).addr.obj, sign_Vtbl_CharSeqJc))->subSequence((CharSeqObjJc*)(THIZ).addr.obj, from, to, THC) \
   : substring_StringJc(*(StringJc*)&(THIZ), from, to, THC ) )
+#else
+#define subSequence_CharSeqJc(THIZ, from, to, THC) (substring_StringJc(*(StringJc*)&(THIZ), from, to, THC ) )
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 /**Converts a given CharSeqJc to a String. Reads all Chars and stores it in a buffer in ThreadContext. 
  * * If thiz is a really StringJc, it returns thiz.

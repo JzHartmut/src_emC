@@ -198,12 +198,14 @@ StringBuilderJc_s* ctorO_zI_StringBuilderJc(ObjectJc* yObj, char* buffer, int si
 
 
 
+#ifdef DEF_ClassJc_Vtbl
 void finalize_StringBuilderJc_F(ObjectJc* othis, ThCxt* _thCxt)
 { StringBuilderJc_s* ythis = (StringBuilderJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("finalize_StringBuilderJc_F");
   finalize_ObjectJc_F(&ythis->base.object, _thCxt);      //finalizing the superclass.
   STACKTRC_LEAVE;
 }
+#endif //def DEF_ClassJc_Vtbl
 
 
 

@@ -66,8 +66,11 @@ e
 
 const char sign_Vtbl_StringPartScanJc[] = "StringPartScanJc"; //to mark method tables of all implementations
 
+#ifdef DEF_ClassJc_Vtbl
 typedef struct VtblDef_StringPartScanJc_t { Vtbl_StringPartScanJc mtbl; VtblHeadJc end; } VtblDef_StringPartScanJc;
  extern VtblDef_StringPartScanJc const mtblStringPartScanJc;
+#endif //#ifdef DEF_ClassJc_Vtbl
+
 
 /*Constructor */
 struct StringPartScanJc_t* ctorO_Csii_StringPartScanJc(ObjectJc* othis, CharSeqJc src, int32 begin, int32 end, ThCxt* _thCxt)
@@ -1001,12 +1004,13 @@ void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt)
   STACKTRC_LEAVE;
 }
 
+#ifdef DEF_ClassJc_Vtbl
 /*J2C: dynamic call variant of the override-able method: */
 void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt)
 { Vtbl_StringPartJc const* mtbl = (Vtbl_StringPartJc const*)getVtbl_ObjectJc(&ithis->base.object, sign_Vtbl_StringPartJc);
   mtbl->close((StringPartJc_s*)ithis, _thCxt);
 }
-
+#endif
 
 
 //casting admissible because static operation only used in folllowing Vtbl in this compilation unit.
@@ -1018,6 +1022,7 @@ static int32 length_StringPartJc_i_CharSeqObjJc(CharSeqObjJc const* ithiz, ThCxt
 
 
 
+#ifdef DEF_ClassJc_Vtbl
 /**J2C: Reflections and Method-table *************************************************/
 const VtblDef_StringPartScanJc mtblStringPartScanJc = {
 { { sign_Vtbl_StringPartScanJc //J2C: Head of methodtable of StringPartScanJc
@@ -1057,16 +1062,23 @@ const VtblDef_StringPartScanJc mtblStringPartScanJc = {
     }
   }
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
-#ifdef __DONOTUSE_REFLECTION__
 
+#ifdef DEF_REFLECTION_NO
 #define REFLECTION_Fields_StringPartScanJc null
 #define REFLECTION_Methods_StringPartScanJc null
 #define REFLECTION_Superclasses_StringPartScanJc null
 #define REFLECTION_Interfaces_StringPartScanJc null
 
-#else
+#elif defined(DEF_REFLECTION_SIMPLE)
+
+ClassJc const refl_StringPartScanJc_s = INIZsuper_ClassJc(refl_StringPartScanJc_s, "StringPartScanJc", &refl_StringPartJc_s);
+
+
+
+#elif defined(DEF_REFLECTION_FULL)
 
 #define REFLECTION_Fields_StringPartScanJc (FieldJc_Y const*)&refl_Fields_StringPartScanJc_s
 #define REFLECTION_Methods_StringPartScanJc null
@@ -1149,7 +1161,6 @@ const struct Reflection_Fields_StringPartScanJc_s_t
     }
 } };
 
-#endif  //ndef __DONOTUSE_REFLECTION__
 
 
 const ClassJc refl_StringPartScanJc_s = 
@@ -1164,6 +1175,8 @@ const ClassJc refl_StringPartScanJc_s =
 , 0    //modifiers
 , &mtblStringPartScanJc.mtbl.head
 };
+#endif //DEF_REFlECTION_FULL
+
 
 #endif //#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
 

@@ -265,7 +265,7 @@ METHOD_C void close_StringPartScanJc_F(StringPartJc_s* ithis, ThCxt* _thCxt);
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void close_StringPartScanJc(StringPartJc_s* ithis, ThCxt* _thCxt);
 
-
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_StringPartScanJc[]; //marker for methodTable check
@@ -273,6 +273,7 @@ typedef struct Vtbl_StringPartScanJc_t
 { VtblHeadJc head;
   Vtbl_StringPartJc StringPartJc;
 } Vtbl_StringPartScanJc;
+#endif //DEF_ClassJc_Vtbl
 
 
 

@@ -307,7 +307,7 @@ void setIdent_ObjectJc(ObjectJc* thiz, int ident)
 
 
 
-
+#if 0
 bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t const* clazzReflection, int ident, struct ThreadContext_emC_t* _thCxt)
 { uint identObj = getIdentInfo_ObjectJc(ythis);
   STACKTRC_TENTRY("checkConsistence_ObjectJc");
@@ -348,7 +348,7 @@ bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t
   }
   STACKTRC_RETURN true; //all ok
 }
-
+#endif
 
 
 bool checkInit_OLD_ObjectJc ( ObjectJc* thiz, int size, struct ClassJc_t const* clazzReflection, int ident, ThCxt* _thCxt)
@@ -589,8 +589,8 @@ VtblHeadJc const* getVtbl_ObjectJc(ObjectJc const* ythis, char const* sign)
     while(  head->sign != sign 
       && head->sign != signEnd_Vtbl_ObjectJc 
       )
-    { int sizeTable = (int)(intptr_t)(head->sizeTable);
-    if(sizeTable < 0 || sizeTable > (302 * sizeof(void*))) {
+    { uint sizeTable = (uint)(intptr_t)(head->sizeTable);
+    if(sizeTable > (uint)(302 * sizeof(void*))) {  //302 is only a great number, to check the significance of range.
       THROW1_s0(IllegalStateException, "Internal error, Vtbl faulty, searched:", (int)(intptr_t)sign);
     }   
     //ASSERT_emC(sizeTable >0 && sizeTable < (302 * sizeof(void*)));  //no more as 300 virtual methods per class, detect false content and step forward!

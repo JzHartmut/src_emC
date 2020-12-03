@@ -34,7 +34,7 @@
  */
 
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#ifdef DEF_REFLECTION_FULL  //only possible with reflection because Vtable is need
 
 #include <emC/Jc/ReflectionJc.h>
 #include <emC/Jc/ObjectJc.h>

@@ -550,7 +550,7 @@ typedef struct ClassOffset_idxVtblJc1_t  //Type for the super class
 } ClassOffset_idxVtblJc1;
 
 
-extern ClassJc const refl_ClassOffset_idxVtblJc;
+extern_C ClassJc const refl_ClassOffset_idxVtblJc;
 
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
 #define ID_refl_ClassOffset_idxVtblJc 0x0FFA
@@ -712,7 +712,7 @@ typedef enum ScalarTypes_ClassJc_t
 * 
 * see see javaSrc_vishiaBase/org.vishia.reflect.Java2C.nrofBytesScalarTypes.
 */
-extern const int nrofBytesScalarTypes_ClassJc[];
+extern_C const int nrofBytesScalarTypes_ClassJc[];
 
 
 

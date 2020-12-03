@@ -77,6 +77,7 @@ METHOD_C StringJc firstLine_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc 
 METHOD_C CharSeqJc removeIndentReplaceNewline_StringFunctions_BJc(/*J2C:static method*/ CharSeqJc src, int32 indent, StringJc indentChars, int32 tabSize, StringJc sNewline, bool bSkipSpaces, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_StringFunctions_BJc[]; //marker for methodTable check
@@ -84,6 +85,7 @@ typedef struct Vtbl_StringFunctions_BJc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_StringFunctions_BJc;
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 

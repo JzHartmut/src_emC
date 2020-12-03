@@ -501,8 +501,8 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
   */
 
 
-#ifdef DEF_ClassJc_Vtbl
 
+#ifdef DEF_ClassJc_Vtbl
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
 { CharSeqJc ret;
 
@@ -645,47 +645,6 @@ CharSeqJcMTB getVtblRef_CharSeqJc(CharSeqJc thiz, StringJc_CharSeqJc* dst_String
 
 
 
-StringJc toString_CharSeqJc(CharSeqJc thiz)
-{
-  STACKTRC_ENTRY("toString_CharSeqJc");
-  int val = VAL_AddrVal_emC(thiz);
-  if(val == kIsStringBuilder_CharSeqJc) {
-    StringBuilderJc_s const* sb = thiz.addr.bu;
-    char const* buffer = chars_StringBuilderJc(sb);
-    int nChars = length_StringBuilderJc(sb);
-    StringJc ret = CONST_StringJc(buffer, nChars);
-    STACKTRC_LEAVE; return ret;
-  }
-  else if(val & mIsCharSeqJcVtbl_CharSeqJc) {
-    Vtbl_CharSeqJc const* mc = getVtbl_CharSeqJc(thiz, _thCxt);
-    CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
-    int nChars = mc->length(othiz, _thCxt);
-    #ifdef DEF_ThreadContext_SIMPLE
-    char const* buffer = "Operation is not available";
-    nChars = 26;
-    #else
-    int iChars;
-    MemC mBuffer = getUserBuffer_ThreadContext_emC(nChars+1, "toString_CharSeqJc", _thCxt);
-    int sizeBufferThreadContext = size_MemC(mBuffer);
-    if(nChars >= sizeBufferThreadContext){
-      nChars = sizeBufferThreadContext-1;   //limit it.
-    }
-    char* buffer = PTR_MemC(mBuffer, char);
-    for(iChars = 0; iChars < nChars; ++iChars) {
-      char cc = mc->charAt(othiz, iChars, _thCxt);
-      buffer[iChars] = cc;
-    }
-    buffer[iChars] = 0;
-    #endif
-    StringJc ret = CONST_StringJc(buffer, nChars);
-    STACKTRC_LEAVE; return ret;
-  } else {
-    //it is a String
-    STACKTRC_LEAVE; return *(StringJc*)&thiz;
-  }
-}
-
-
 
 char const sign_Vtbl_CharSeqJc[] = "sign_Vtbl_CharSeqJc";
 
@@ -696,7 +655,6 @@ char const sign_Vtbl_CharSeqJc[] = "sign_Vtbl_CharSeqJc";
 
 
 
-#ifdef DEF_ClassJc_Vtbl
 
 //METHOD_C StringJc toString_StringBuilderJc(StringBuilderJc_s* src, ThCxt* _thCxt)
 METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, ThCxt* _thCxt)
@@ -734,7 +692,54 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, ThCx
   STACKTRC_LEAVE; return ret;
 }
 
+#ifdef DEF_ClassJc_Vtbl
 #endif //DEF_ClassJc_Vtbl
+
+StringJc toString_CharSeqJc ( CharSeqJc thiz )
+{
+  STACKTRC_ENTRY("toString_CharSeqJc");
+  int val = VAL_AddrVal_emC(thiz);
+  if(val == kIsStringBuilder_CharSeqJc) {
+    StringBuilderJc_s const* sb = thiz.addr.bu;
+    char const* buffer = chars_StringBuilderJc(sb);
+    int nChars = length_StringBuilderJc(sb);
+    StringJc ret = CONST_StringJc(buffer, nChars);
+    STACKTRC_LEAVE; return ret;
+  }
+#ifdef DEF_ClassJc_Vtbl
+  else if(val & mIsCharSeqJcVtbl_CharSeqJc) {
+    Vtbl_CharSeqJc const* mc = getVtbl_CharSeqJc(thiz, _thCxt);
+    CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
+    int nChars = mc->length(othiz, _thCxt);
+    #ifdef DEF_ThreadContext_SIMPLE
+    char const* buffer = "Operation is not available";
+    nChars = 26;
+    #else
+    int iChars;
+    MemC mBuffer = getUserBuffer_ThreadContext_emC(nChars+1, "toString_CharSeqJc", _thCxt);
+    int sizeBufferThreadContext = size_MemC(mBuffer);
+    if(nChars >= sizeBufferThreadContext){
+      nChars = sizeBufferThreadContext-1;   //limit it.
+    }
+    char* buffer = PTR_MemC(mBuffer, char);
+    for(iChars = 0; iChars < nChars; ++iChars) {
+      char cc = mc->charAt(othiz, iChars, _thCxt);
+      buffer[iChars] = cc;
+    }
+    buffer[iChars] = 0;
+    #endif
+    StringJc ret = CONST_StringJc(buffer, nChars);
+    STACKTRC_LEAVE; return ret;
+  }
+#endif //#ifdef DEF_ClassJc_Vtbl
+  else {
+    //it is a String
+    STACKTRC_LEAVE; return *(StringJc*)&thiz;
+  }
+}
+
+
+
 
 
 

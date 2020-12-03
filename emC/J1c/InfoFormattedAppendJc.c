@@ -3,7 +3,8 @@
  **copyright***************************************************************
  *************************************************************************/
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#ifdef DEF_ClassJc_Vtbl
+//#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
 
 #include "emC/J1c/InfoFormattedAppendJc.h"
 #include <string.h>  //because using memset()
@@ -24,11 +25,13 @@ See also {@link InfoAppend}.
 const char sign_Vtbl_InfoFormattedAppendJc[] = "InfoFormattedAppendJc"; //to mark method tables of all implementations
 
 StringJc version_InfoFormattedAppendJc = CONST_z_StringJc("2015-03-08"); //J2C:static StringJc
+#ifdef DEF_ClassJc_Vtbl
 /*J2C: dynamic call variant of the override-able method: */
 void infoFormattedAppend_InfoFormattedAppendJc(ObjectJc* ithis, struct StringFormatterJc_t* u, ThCxt* _thCxt)
 { Vtbl_InfoFormattedAppendJc const* mtbl = (Vtbl_InfoFormattedAppendJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_InfoFormattedAppendJc);
   mtbl->infoFormattedAppend(ithis, u, _thCxt);
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
  extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_InfoFormattedAppendJc_s_t

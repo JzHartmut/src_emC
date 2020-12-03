@@ -26,8 +26,12 @@ In C the functions are contained in the emC/String.c.
 
 const char sign_Vtbl_StringFunctionsJc[] = "StringFunctionsJc"; //to mark method tables of all implementations
 
+#ifdef DEF_ClassJc_Vtbl
 typedef struct VtblDef_StringFunctionsJc_t { Vtbl_StringFunctionsJc mtbl; VtblHeadJc end; } VtblDef_StringFunctionsJc;
  extern VtblDef_StringFunctionsJc const mtblStringFunctionsJc;
+#endif //#ifdef DEF_ClassJc_Vtbl
+
+
 StringJc version_StringFunctionsJc = CONST_z_StringJc("2016-12-02"); //J2C:static StringJc
 const char cEndOfText_StringFunctionsJc = (char /*J2C_cast*/)(0x3);
 const char cStartOfText_StringFunctionsJc = (char /*J2C_cast*/)(0x2);
@@ -315,11 +319,13 @@ bool test_StringFunctionsJc_F(StringFunctionsJc_s* thiz, StringJc s, ThCxt* _thC
   STACKTRC_LEAVE;
 }
 
+#ifdef DEF_ClassJc_Vtbl
 /*J2C: dynamic call variant of the override-able method: */
 bool test_StringFunctionsJc(StringFunctionsJc_s* thiz, StringJc s, ThCxt* _thCxt)
 { Vtbl_StringFunctionsJc const* mtbl = (Vtbl_StringFunctionsJc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_StringFunctionsJc);
   return mtbl->test(thiz, s, _thCxt);
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 /**Compares two CharSequence (Strings, StringBuilder-content etc.*/
@@ -1415,7 +1421,7 @@ int16 byte2UTF8_StringFunctionsJc(/*J2C:static method*/ int8_Y* src, int32_Y* ix
 }
 
 
-
+#ifdef DEF_ClassJc_Vtbl
 /**J2C: Reflections and Method-table *************************************************/
 const VtblDef_StringFunctionsJc mtblStringFunctionsJc = {
 { { sign_Vtbl_StringFunctionsJc //J2C: Head of methodtable of StringFunctionsJc
@@ -1435,10 +1441,11 @@ const VtblDef_StringFunctionsJc mtblStringFunctionsJc = {
   , toString_ObjectJc_F //toString
   }
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 
-#ifndef __DONOTUSE_REFLECTION__
+#ifdef DEF_ClassJc_Vtbl
 
  extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_StringFunctionsJc_s_t
@@ -1512,7 +1519,8 @@ const ClassJc refl_StringFunctionsJc_s =
 };
 
 
-#endif  //ndef __DONOTUSE_REFLECTION__
+#endif  //#ifdef DEF_ClassJc_Vtbl
+
 
 
 #endif //#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need

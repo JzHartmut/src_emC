@@ -289,6 +289,7 @@ with the start index before invocation, the error can be ...TODO
 METHOD_C int16 byte2UTF8_StringFunctionsJc(/*J2C:static method*/ int8_Y* src, int32_Y* ixSrc, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_StringFunctionsJc[]; //marker for methodTable check
@@ -297,6 +298,7 @@ typedef struct Vtbl_StringFunctionsJc_t
   MT_test_StringFunctionsJc* test;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_StringFunctionsJc;
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 

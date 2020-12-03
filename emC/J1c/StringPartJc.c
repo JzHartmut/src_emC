@@ -122,8 +122,11 @@ from there, seek changes the length. Seek returns this, so concatenation of meth
 
 const char sign_Vtbl_StringPartJc[] = "StringPartJc"; //to mark method tables of all implementations
 
+#ifdef DEF_ClassJc_Vtbl
 typedef struct VtblDef_StringPartJc_t { Vtbl_StringPartJc mtbl; VtblHeadJc end; } VtblDef_StringPartJc;
  extern VtblDef_StringPartJc const mtblStringPartJc;
+#endif //#ifdef DEF_ClassJc_Vtbl
+
 StringJc sVersion_StringPartJc = CONST_z_StringJc("2016-09-04"); //J2C:static StringJc
 const int32 seekToLeft_StringPartJc = mSeekToLeft__StringPartJc + mSeekBackward__StringPartJc;
 const int32 seekBack_StringPartJc = 0x20 + mSeekBackward__StringPartJc;
@@ -524,6 +527,7 @@ bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, T
 }
 
 
+#ifdef DEF_ClassJc_Vtbl
 /**Returns a volatile CharSequence from the range inside the current part.*/
 CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 to, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)ithis;
@@ -549,6 +553,9 @@ CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 from, int
   }
   STACKTRC_LEAVE;
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
+
+
 
 void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, ThCxt* _thCxt)
 { 
@@ -2246,6 +2253,7 @@ struct StringPartJc_t* trimComment_StringPartJc(StringPartJc_s* thiz, ThCxt* _th
   STACKTRC_LEAVE;
 }
 
+#ifdef DEF_ClassJc_Vtbl
 int32 compareTo_StringPartJc(StringPartJc_s* thiz, CharSeqJc str2, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("compareTo_StringPartJc");
@@ -2258,6 +2266,7 @@ int32 compareTo_StringPartJc(StringPartJc_s* thiz, CharSeqJc str2, ThCxt* _thCxt
   }
   STACKTRC_LEAVE;
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 /**Returns the position of the char within the part,*/
@@ -2495,6 +2504,7 @@ struct Part_StringPartJc_t* substring_StringPartJc(StringPartJc_s* thiz, int32 p
 }
 
 
+#ifdef DEF_ClassJc_Vtbl
 /**Gets the next chars from current Position.*/
 CharSeqJc getCurrent_StringPartJc(StringPartJc_s* thiz, int32 nChars, ThCxt* _thCxt)
 { 
@@ -2515,6 +2525,7 @@ CharSeqJc getCurrent_StringPartJc(StringPartJc_s* thiz, int32 nChars, ThCxt* _th
   }
   STACKTRC_LEAVE;
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 /**Gets the next char at current Position.*/
@@ -2554,10 +2565,12 @@ int32 getLineAndColumn_StringPartJc_F(StringPartJc_s* thiz, int32_Y* column, ThC
 }
 
 /*J2C: dynamic call variant of the override-able method: */
+#ifdef DEF_ClassJc_Vtbl
 int32 getLineAndColumn_StringPartJc(StringPartJc_s* thiz, int32_Y* column, ThCxt* _thCxt)
 { Vtbl_StringPartJc const* mtbl = (Vtbl_StringPartJc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_StringPartJc);
   return mtbl->getLineAndColumn(thiz, column, _thCxt);
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 /**Gets the current position in line (column of the text).*/
@@ -2632,6 +2645,7 @@ void setCurrentPart_StringPartJc  ( StringPartJc_s* thiz, struct Part_StringPart
 
 
 
+#ifdef DEF_ClassJc_Vtbl
 /**Returns the last part of the string before any seek or scan operation.*/
 CharSeqJc getLastPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
@@ -2654,8 +2668,10 @@ CharSeqJc getLastPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
   }
   STACKTRC_LEAVE;
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
+#ifdef DEF_ClassJc_Vtbl
 /**Returns the actual part of the string.*/
 CharSeqJc getCurrentPart_i_StringPartJc(StringPartJc_s* thiz, int32 maxLength, ThCxt* _thCxt)
 { 
@@ -2680,6 +2696,7 @@ CharSeqJc getCurrentPart_i_StringPartJc(StringPartJc_s* thiz, int32 maxLength, T
   }
   STACKTRC_LEAVE;
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 /**Retrurn the part from start to end independent of the current positions. */
@@ -2766,6 +2783,7 @@ StringJc absSubString_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, T
   STACKTRC_LEAVE;
 }
 
+#ifdef DEF_ClassJc_Vtbl
 StringJc toString_StringPartJc_F(ObjectJc const* ithis, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)ithis;
   
@@ -2784,12 +2802,15 @@ StringJc toString_StringPartJc_F(ObjectJc const* ithis, ThCxt* _thCxt)
   }
   STACKTRC_LEAVE;
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
+#ifdef DEF_ClassJc_Vtbl
 /*J2C: dynamic call variant of the override-able method: */
 StringJc toString_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
 { Vtbl_ObjectJc const* mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_ObjectJc);
   return mtbl->toString(ithis, _thCxt);
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 /**Returns a debug information of the content of the StringPart. This information is structured in the followed way:*/
@@ -2880,9 +2901,11 @@ void close_StringPartJc_F(StringPartJc_s* thiz, ThCxt* _thCxt)
 }
 
 /*J2C: dynamic call variant of the override-able method: */
-void close_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
-{ Vtbl_StringPartJc const* mtbl = (Vtbl_StringPartJc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_StringPartJc);
+void close_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt) { 
+#ifdef DEF_ClassJc_Vtbl
+  Vtbl_StringPartJc const* mtbl = (Vtbl_StringPartJc const*)getVtbl_ObjectJc(&thiz->base.object, sign_Vtbl_StringPartJc);
   mtbl->close(thiz, _thCxt);
+#endif //#ifdef DEF_ClassJc_Vtbl
 }
 
 
@@ -2961,6 +2984,7 @@ static int32 length_StringPartJc_i_CharSeqObjJc(CharSeqObjJc const* ithiz, ThCxt
 
 
 
+#ifdef DEF_ClassJc_Vtbl
 /**J2C: Reflections and Method-table *************************************************/
 const VtblDef_StringPartJc mtblStringPartJc = {
 { { sign_Vtbl_StringPartJc //J2C: Head of methodtable of StringPartJc
@@ -2995,6 +3019,7 @@ const VtblDef_StringPartJc mtblStringPartJc = {
     }
   }
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
+#endif //#ifdef DEF_ClassJc_Vtbl
 
 
 #ifdef DEF_REFLECTION_NO
@@ -3004,7 +3029,11 @@ const VtblDef_StringPartJc mtblStringPartJc = {
 #define REFLECTION_Superclass_StringPartJc null
 #define REFLECTION_Interfaces_StringPartJc null
 
-#else
+#elif defined(DEF_REFLECTION_SIMPLE)
+
+ClassJc const refl_StringPartJc_s = INIZ_ClassJc(refl_StringPartJc_s, "StringPartJc");
+
+#elif defined(DEF_REFLECTION_FULL)
 
  extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_StringPartJc_s_t
@@ -3189,7 +3218,6 @@ const struct Reflection_Fields_StringPartJc_s_t
 #define REFLECTION_Interfaces_StringPartJc (ClassOffset_idxVtblJcARRAY*)&interfaces_StringPartJc_s //interfaces
 
 
-#endif //__DONOTUSEREFLECTION__
 
 
 const ClassJc refl_StringPartJc_s = 
@@ -3205,6 +3233,8 @@ const ClassJc refl_StringPartJc_s =
 , &mtblStringPartJc.mtbl.head
 };
 
+#endif //
+
 /**This class presents a part of the parent CharSequence of this class.
 The constructor is protected because instances of this class are only created in this class
 or its derived, not by user.
@@ -3215,8 +3245,11 @@ StringPartBase.
 
 const char sign_Vtbl_Part_StringPartJc[] = "Part_StringPartJc"; //to mark method tables of all implementations
 
+#ifdef DEF_ClassJc_Vtbl
 typedef struct VtblDef_Part_StringPartJc_t { Vtbl_Part_StringPartJc mtbl; VtblHeadJc end; } VtblDef_Part_StringPartJc;
  extern VtblDef_Part_StringPartJc const mtblPart_StringPartJc;
+#endif //#ifdef DEF_ClassJc_Vtbl
+
 
 /*Constructor */
 struct Part_StringPartJc_t* ctorO_Part_StringPartJc(struct StringPartJc_t* outer, ObjectJc* othis, int32 from, int32 to, ThCxt* _thCxt)
@@ -3277,6 +3310,7 @@ int32 length_Part_StringPartJc(Part_StringPartJc_s const* thiz, ThCxt* _thCxt)
   STACKTRC_LEAVE;
 }
 
+#ifdef DEF_ClassJc_Vtbl
 CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 end, ThCxt* _thCxt)
 { Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
   
@@ -3292,6 +3326,8 @@ CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc const* ithis, int32 from
   }
   STACKTRC_LEAVE;
 }
+#endif //#ifdef DEF_ClassJc_Vtbl
+
 
 StringJc toString_Part_StringPartJc(ObjectJc const* ithis, ThCxt* _thCxt)
 { Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
@@ -3365,6 +3401,7 @@ static int32 length_Part_StringPartJc_i_CharSeqObjJc(CharSeqObjJc const* ithiz, 
 
 
 
+#ifdef DEF_ClassJc_Vtbl
 /**J2C: Reflections and Method-table *************************************************/
 const VtblDef_Part_StringPartJc mtblPart_StringPartJc = {
 { { sign_Vtbl_Part_StringPartJc //J2C: Head of methodtable of Part_StringPartJc
@@ -3392,7 +3429,14 @@ const VtblDef_Part_StringPartJc mtblPart_StringPartJc = {
   , subSequence_ii_Part_StringPartJc //subSequence
   }
 }, { signEnd_Vtbl_ObjectJc, null } }; //Vtbl
+#endif //#ifdef DEF_ClassJc_Vtbl
 
+
+#ifdef DEF_REFLECTION_SIMPLE
+
+ClassJc const refl_Part_StringPartJc_s = INIZ_ClassJc(refl_Part_StringPartJc_s, "Part_StringPartJc");
+
+#elif defined(DEF_REFLECTION_FULL)
 
  extern_C struct ClassJc_t const refl_ObjectJc;
  static struct superClasses_Part_StringPartJc_s_t
@@ -3439,6 +3483,8 @@ const struct Reflection_Fields_Part_StringPartJc_s_t
     , &refl_Part_StringPartJc_s
     }
 } };
+
+
 const ClassJc refl_Part_StringPartJc_s = 
 { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ObjectJc, &refl_ClassJc) 
 , "Part_StringPartJc_s"
@@ -3451,5 +3497,6 @@ const ClassJc refl_Part_StringPartJc_s =
 , mObjectJc_Modifier_reflectJc
 , &mtblPart_StringPartJc.mtbl.head
 };
+#endif //DEF_REFLECTION_FULL
 
 #endif //#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
