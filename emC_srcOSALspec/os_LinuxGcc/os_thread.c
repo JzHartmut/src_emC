@@ -308,10 +308,11 @@ void* os_wrapperFunction(void* data)
     }
     // execute user routine
     OS_ThreadRoutine* threadRoutine = threadContext->ThreadRoutine;
-    int exit = threadRoutine(threadContext->pUserData); //&threadContext->stacktraceThreadContext);    // execute user routine
+    MAYBE_UNUSED_emC int exit = threadRoutine(threadContext->pUserData); //&threadContext->stacktraceThreadContext);    // execute user routine
 
     //If the thread routine is finished, the thread will be removed.
     //Hence free the threadContext. Nobody outside should use it!
+    //The return value is also unused. The thread should say all internally.
     free(threadContext);
   }
   return null;

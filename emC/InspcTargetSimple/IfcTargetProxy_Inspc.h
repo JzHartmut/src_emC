@@ -157,7 +157,7 @@ inline void setCmdSeqnr_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, C
 /**Set the error information into the telegram structure. */
 inline void setError_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, int error) {
   int32 v = getInt32BigEndian(&thiz->error__lifeCt);
-  v = v & ~mLifeCt_TelgTarget2Proxy_Inspc 
+  v = (v & ~mLifeCt_TelgTarget2Proxy_Inspc) 
     | (((int32)error << kBitError_TelgTarget2Proxy_Inspc) & mError_TelgTarget2Proxy_Inspc);
   setInt32BigEndian(&thiz->error__lifeCt, v);
 }
@@ -168,7 +168,7 @@ inline void setError_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, int 
  */
 inline void setLifeCt_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, int lifeCt) {
   int32 v = getInt32BigEndian(&thiz->error__lifeCt);
-  v = v & ~mLifeCt_TelgTarget2Proxy_Inspc | (((int32)lifeCt << kBitLifeCt_TelgTarget2Proxy_Inspc) & mLifeCt_TelgTarget2Proxy_Inspc);
+  v = (v & ~mLifeCt_TelgTarget2Proxy_Inspc) | (((int32)lifeCt << kBitLifeCt_TelgTarget2Proxy_Inspc) & mLifeCt_TelgTarget2Proxy_Inspc);
   setInt32BigEndian(&thiz->error__lifeCt, v);
 }
 

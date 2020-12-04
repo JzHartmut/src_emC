@@ -309,7 +309,8 @@ enumDecl::=[C_TYPE] enum\W <$?name> ;.
 
 type::= [<constVolatileModifier?>] ##not if it is a reference this is the reference modifier.
   [<?@forward>struct\W|class\W|union\W|enum\W|] 
-  [ [unsigned<?unsigned>|signed<?signed>]  ##signed and unsigned notification      
+  [ HandleADDR_emC <?@pointer> ( <$?name> )  
+  | [unsigned<?unsigned>|signed<?signed>]  ##signed and unsigned notification      
     [ int<!\\s?> <?@name=int32>
     | short<!\\s?> int <?@name=int16>
     | short<!\\s?> <?@name=int16>
@@ -493,8 +494,8 @@ structContent::=<?>
 
 
 attribMacro::=[/**<description>*/] 
-[  [<?macro>HandlePtr_emC|OS_HandlePtr] ( <type> , <$?@name> [ <arraysize>| : <#?bitField> |] )
-|  [<?macro>HandlePtr32Union_emC] ( <type> ) <$?@name> [ <arraysize>| : <#?bitField> |]
+[ [<?macro>HandlePtr_emC|OS_HandlePtr] ( <type> , <$?@name> [ <arraysize>| : <#?bitField> |] )
+| [<?macro>HandlePtr32Union_emC|HandleADDR_emC] ( <type> ) <$?@name> [ <arraysize>| : <#?bitField> |]
 ];.  ##definition written as macro
 
 

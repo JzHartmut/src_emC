@@ -292,6 +292,9 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
 ======extern_C ClassJc const refl_<&struct.baseName("_s")>; //forward declaration because extern "C" 
 ======ClassJc const refl_<&struct.baseName("_s")> = 
 ======{ <&nrClass>   //index of class in Offset data    //sizeof(reflectionOffset_<&struct.baseName("_s")>)
+======  #ifndef DEF_NO_StringJcCapabilities
+======, "<&struct.baseName("_s")>"##Hint: the baseName without _s
+======  #endif
 ======, &reflectionOffset_<&struct.baseName("_s")>[0]
 ======};
       <.>
@@ -461,7 +464,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
           Num nArraySize = entry.arraysize.value;
           fileBin.addField(nameRefl, idType, typename, mModifier,nArraySize); ##modifier, arraysize); 
           <:>
-==========, ((<&sizetype><<16) | <&offset>)<: >          
+==========, ((<&sizetype><<16) | (<&offset>))<: >          
           <.>       
         }//!fileBin
       } //sTypeRefl, a field  

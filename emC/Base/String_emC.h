@@ -43,7 +43,7 @@
    */
   #include <applstdef_emC.h>
 #endif
-//The following include guard prevent twice include especially if appöstdefJc.h includes this file already.
+//The following include guard prevent twice include especially if applstdefJc.h includes this file already.
 #ifndef INCLUDED_emC_Base_String_emC_h
 #define INCLUDED_emC_Base_String_emC_h
 
@@ -66,7 +66,7 @@ struct Vtbl_CharSeqJc_t;
 
 
 /**It is an extra type same as ObjectJc to mark the interface CharSeqObjJc. */
-typedef struct { ObjectJc obj; } CharSeqObjJc;
+typedef struct CharSeqObjJc_T { ObjectJc obj; } CharSeqObjJc;
 
 
 

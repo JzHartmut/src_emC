@@ -1,0 +1,641 @@
+
+    
+#include <emC/Base/EventQu_emC.h>  
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_EventData_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_EventData_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_EvQueue_emC;  //used for field evQueue
+
+extern_C const ClassJc refl_ObjectJc;  //used for field hdst
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_EventData_emC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_EventData_emC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_EventData_emC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_EventData_emC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[8];
+} refl_Fields_EventData_emC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_EventData_emC_s, 8, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "evQueue"
+    , 0   //no Array, no Bitfield                           
+    , &refl_EvQueue_emC                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->evQueue)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  , 
+    { "Tstep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->Tstep)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  , 
+    { "idString"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->idString)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  , 
+    { "ctPriority"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->ctPriority)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  , 
+    { "stateInp"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->stateInp)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  , 
+    { "eventIdent"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->eventIdent)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  , 
+    { "ctEvents"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->ctEvents)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  , 
+    { "timestamp"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EventData_emC_s*)(0x1000))->timestamp)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EventData_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_EventData_emC    
+const ClassJc   refl_EventData_emC =
+{ INIZ_objReflId_ObjectJc(refl_EventData_emC, refl_ClassJc, ID_refl_ClassJc)
+, "EventData_emC"
+, 0
+, sizeof(EventData_emC_s)
+, (FieldJcArray const*)&refl_Fields_EventData_emC_s  //attributes and associations
+, null  //method      
+, &superClasses_EventData_emC_s.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_TaskConstData_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_TaskConstData_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field thizData
+
+extern_C const ClassJc refl_EventData_emC;  //used for field evEntry
+
+const struct Reflection_Fields_TaskConstData_emC_t
+{ ObjectArrayJc head;
+  FieldJc data[3];
+} refl_Fields_TaskConstData_emC =
+{ INIZ_ObjectArrayJc(refl_Fields_TaskConstData_emC, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "signatureString"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((TaskConstData_emC*)(0x1000))->signatureString)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_TaskConstData_emC
+    }
+  , 
+    { "thizData"
+    , 0   //no Array, no Bitfield                           
+    , &refl_ObjectJc                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((TaskConstData_emC*)(0x1000))->thizData)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_TaskConstData_emC
+    }
+  , 
+    { "evEntry"
+    , 0   //no Array, no Bitfield                           
+    , &refl_EventData_emC                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((TaskConstData_emC*)(0x1000))->evEntry)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_TaskConstData_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_TaskConstData_emC    
+const ClassJc   refl_TaskConstData_emC =
+{ INIZ_objReflId_ObjectJc(refl_TaskConstData_emC, refl_ClassJc, ID_refl_ClassJc)
+, "TaskConstData_emC"
+, 0
+, sizeof(TaskConstData_emC)
+, (FieldJcArray const*)&refl_Fields_TaskConstData_emC  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_XXXXEntry_EvQueue_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_XXXXEntry_EvQueue_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field hdata
+
+const struct Reflection_Fields_XXXXEntry_EvQueue_emC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} refl_Fields_XXXXEntry_EvQueue_emC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_XXXXEntry_EvQueue_emC_s, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "evIdent"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((XXXXEntry_EvQueue_emC_s*)(0x1000))->evIdent)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_XXXXEntry_EvQueue_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_XXXXEntry_EvQueue_emC    
+const ClassJc   refl_XXXXEntry_EvQueue_emC =
+{ INIZ_objReflId_ObjectJc(refl_XXXXEntry_EvQueue_emC, refl_ClassJc, ID_refl_ClassJc)
+, "XXXXEntry_EvQueue_emC"
+, 0
+, sizeof(XXXXEntry_EvQueue_emC_s)
+, (FieldJcArray const*)&refl_Fields_XXXXEntry_EvQueue_emC_s  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_DebugArray_EvInstance_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_DebugArray_EvInstance_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_EvInstance_emC;  //used for field a
+
+const struct Reflection_Fields_DebugArray_EvInstance_emC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} refl_Fields_DebugArray_EvInstance_emC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_DebugArray_EvInstance_emC_s, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "a"
+    , 10 //nrofArrayElements                           
+    , &refl_EvInstance_emC                                                                                            
+    , 0 | kReference_Modifier_reflectJc | kStaticArray_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((DebugArray_EvInstance_emC_s*)(0x1000))->a)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DebugArray_EvInstance_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_DebugArray_EvInstance_emC    
+const ClassJc   refl_DebugArray_EvInstance_emC =
+{ INIZ_objReflId_ObjectJc(refl_DebugArray_EvInstance_emC, refl_ClassJc, ID_refl_ClassJc)
+, "DebugArray_EvInstance_emC"
+, 0
+, sizeof(DebugArray_EvInstance_emC_s)
+, (FieldJcArray const*)&refl_Fields_DebugArray_EvInstance_emC_s  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_DebugArray_Entry_EvQueue_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_DebugArray_Entry_EvQueue_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_EventData_emC;  //used for field a
+
+const struct Reflection_Fields_DebugArray_Entry_EvQueue_emC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} refl_Fields_DebugArray_Entry_EvQueue_emC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_DebugArray_Entry_EvQueue_emC_s, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "a"
+    , 10 //nrofArrayElements                           
+    , &refl_EventData_emC                                                                                            
+    , 0 | kReference_Modifier_reflectJc | kStaticArray_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((DebugArray_Entry_EvQueue_emC_s*)(0x1000))->a)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DebugArray_Entry_EvQueue_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_DebugArray_Entry_EvQueue_emC    
+const ClassJc   refl_DebugArray_Entry_EvQueue_emC =
+{ INIZ_objReflId_ObjectJc(refl_DebugArray_Entry_EvQueue_emC, refl_ClassJc, ID_refl_ClassJc)
+, "DebugArray_Entry_EvQueue_emC"
+, 0
+, sizeof(DebugArray_Entry_EvQueue_emC_s)
+, (FieldJcArray const*)&refl_Fields_DebugArray_Entry_EvQueue_emC_s  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_EvQueue_emC_T_entries;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_EvQueue_emC_T_entries[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_EventData_emC;  //used for field a
+
+extern_C const ClassJc refl_DebugArray_Entry_EvQueue_emC;  //used for field dbg
+
+const struct Reflection_Fields_EvQueue_emC_T_entries_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} refl_Fields_EvQueue_emC_T_entries =
+{ INIZ_ObjectArrayJc(refl_Fields_EvQueue_emC_T_entries, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "a"
+    , 0   //no Array, no Bitfield                           
+    , &refl_EventData_emC                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->entries.a)) - ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->entries)) )  /*implicit struct*/
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvQueue_emC_T_entries
+    }
+  , 
+    { "dbg"
+    , 0   //no Array, no Bitfield                           
+    , &refl_DebugArray_Entry_EvQueue_emC                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->entries.dbg)) - ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->entries)) )  /*implicit struct*/
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvQueue_emC_T_entries
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_EvQueue_emC_T_entries    
+const ClassJc   refl_EvQueue_emC_T_entries =
+{ INIZ_objReflId_ObjectJc(refl_EvQueue_emC_T_entries, refl_ClassJc, ID_refl_ClassJc)
+, "EvQueue_emC_T_entries"
+, 0
+, sizeof(((EvQueue_emC_s*)0x1000)->entries)
+, (FieldJcArray const*)&refl_Fields_EvQueue_emC_T_entries  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_EvQueue_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_EvQueue_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+  
+
+extern_C const ClassJc refl_RingBuffer_emC;  //the super class here used.
+const struct SuperClasses_EvQueue_emC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_EvQueue_emC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_EvQueue_emC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_RingBuffer_emC                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_RingBuffer_emC  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_RingBuffer_emC  
+      }
+    }
+};
+
+const struct Reflection_Fields_EvQueue_emC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[4];
+} refl_Fields_EvQueue_emC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_EvQueue_emC_s, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "sizeInstances"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->sizeInstances)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvQueue_emC
+    }
+  , 
+    { "entries"
+    , 0   //no Array, no Bitfield                           
+    , &refl_EvQueue_emC_T_entries                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->entries)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvQueue_emC
+    }
+  , 
+    { "Tstep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->Tstep)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvQueue_emC
+    }
+  , 
+    { "evIdForCreator"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EvQueue_emC_s*)(0x1000))->evIdForCreator)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvQueue_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_EvQueue_emC    
+const ClassJc   refl_EvQueue_emC =
+{ INIZ_objReflId_ObjectJc(refl_EvQueue_emC, refl_ClassJc, ID_refl_ClassJc)
+, "EvQueue_emC"
+, 0
+, sizeof(EvQueue_emC_s)
+, (FieldJcArray const*)&refl_Fields_EvQueue_emC_s  //attributes and associations
+, null  //method      
+, &superClasses_EvQueue_emC_s.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_EvInstance_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_EvInstance_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_EvQueue_emC;  //used for field evQueue
+
+extern_C const ClassJc refl_ObjectJc;  //used for field hdata
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_EvInstance_emC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_EvInstance_emC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_EvInstance_emC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};
+
+const struct Reflection_Fields_EvInstance_emC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[6];
+} refl_Fields_EvInstance_emC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_EvInstance_emC_s, 6, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "evQueue"
+    , 0   //no Array, no Bitfield                           
+    , &refl_EvQueue_emC                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EvInstance_emC_s*)(0x1000))->evQueue)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvInstance_emC
+    }
+  , 
+    { "Tstep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EvInstance_emC_s*)(0x1000))->Tstep)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvInstance_emC
+    }
+  , 
+    { "evId"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint16                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int16)( ((intptr_t)(&((EvInstance_emC_s*)(0x1000))->evId)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvInstance_emC
+    }
+  , 
+    { "stateInput"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EvInstance_emC_s*)(0x1000))->stateInput)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvInstance_emC
+    }
+  , 
+    { "stateTrg"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EvInstance_emC_s*)(0x1000))->stateTrg)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvInstance_emC
+    }
+  , 
+    { "ctEvents"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)( ((intptr_t)(&((EvInstance_emC_s*)(0x1000))->ctEvents)) -0x1000 )
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_EvInstance_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_EvInstance_emC    
+const ClassJc   refl_EvInstance_emC =
+{ INIZ_objReflId_ObjectJc(refl_EvInstance_emC, refl_ClassJc, ID_refl_ClassJc)
+, "EvInstance_emC"
+, 0
+, sizeof(EvInstance_emC_s)
+, (FieldJcArray const*)&refl_Fields_EvInstance_emC_s  //attributes and associations
+, null  //method      
+, &superClasses_EvInstance_emC_s.head.object  //superclass  
+, null  //interfaces  
+, mObjectJc_Modifier_reflectJc   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL

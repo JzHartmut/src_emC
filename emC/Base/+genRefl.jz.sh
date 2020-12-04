@@ -17,7 +17,35 @@ include ../../make/scriptsCommon/Cheader2Refl.jztxt.cmd;
 currdir=<:><&scriptdir><.>;
                                         
 Fileset headers = 
-( emC/Base/*.h);
+( emC/Base/Time_emC.h
+##, emC/Base/EventQu_emC.h  ##TODO use it but some currection necessary.
+##, emC/Base/ClassJc_FullReflection_emC.h
+##, emC/Base/DefPortTypes_emC.h
+##, emC/Base/Event_emC.h
+##, emC/Base/Exception_emC.h
+##, emC/Base/ExcThCxtBase_emC.h
+##, emC/Base/ExcThreadCxt_emC.h
+##, emC/Base/Formatter_emC.h
+##, emC/Base/Handle_ptr64_emC.h
+##, emC/Base/Handle_ptr64_TimeMeas_emC.h
+, emC/Base/LogMessage_emC.h
+##, emC/Base/MemC_emC.h
+##, emC/Base/ObjectJcVtbl_emC.h
+##, emC/Base/ObjectRefl_emC.h
+##, emC/Base/ObjectSimple_emC.h
+##, emC/Base/Object_emC.h
+##, emC/Base/ParseArgs_emC.h
+##, emC/Base/Readline_emC.h
+, emC/Base/RingBuffer_emC.h
+##, emC/Base/SimpleC_emC.h
+, emC/Base/StateMachine_emC.h
+##, emC/Base/StringBase_emC.h
+##, emC/Base/String_emC.h
+##, emC/Base/SystemInit_emC.h
+##, emC/Base/Timeconversions_emC.h
+, emC/Base/VaArgBuffer_emC.h
+##, emC/Base/Va_list_emC.h
+);
 
 main()                                                                                                  
 {

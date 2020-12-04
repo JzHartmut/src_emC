@@ -130,7 +130,8 @@ typedef struct TaskConstData_emC_T {
   /**It is for safetry check if the pointer to this const data are managed in data area. */
   char const* const signatureString;
 
-  /**The operation to call with the event. */
+ 
+  /**The operation to call with the event. @noReflection */
   TaskOperation_emC operation;
 
   
@@ -182,7 +183,7 @@ typedef struct EvQueue_emC_T {
 
   uint sizeInstances;
   
-  union{ EventData_emC_s** a; DebugArray_Entry_EvQueue_emC_s* dbg; } entries;
+  union Entries_EvQueue_emC_T { EventData_emC_s** a; DebugArray_Entry_EvQueue_emC_s* dbg; } entries;
 
   float Tstep;
 

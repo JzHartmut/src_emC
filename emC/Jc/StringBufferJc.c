@@ -39,7 +39,7 @@
 #ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
 
 //#include "CRuntimeJavalike.h"
-#include "StringJc_intern.h"
+#include "emC/Jc/StringJc_intern.h"
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Base/Formatter_emC.h> 
 //#include "StringBuilderJc_s.h"

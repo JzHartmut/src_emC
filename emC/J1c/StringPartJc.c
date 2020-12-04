@@ -519,7 +519,7 @@ bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, T
   { 
     
     { STACKTRC_LEAVE;
-      return (thiz->begin + pos >= thiz->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc((&(* (thiz)).base.CharSeqObjJc)/*J2cT1*/, pos, _thCxt)) >= 0;
+      return (thiz->begin + pos >= thiz->end) ? false : indexOf_C_StringJc(chars, charAt_i_StringPartJc((&(* (thiz)).base.CharSeqObjJc_ifc)/*J2cT1*/, pos, _thCxt)) >= 0;
     }/*char found.*/
     
   }

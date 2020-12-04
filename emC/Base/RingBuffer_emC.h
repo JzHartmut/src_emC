@@ -209,7 +209,7 @@ class RingBuffer_emC: private RingBuffer_emC_s {
   protected: RingBuffer_emC(ObjectJc* othiz, int size) {
   }
 
-  public: int addSingle() { addSingle_RingBuffer_emC(this); }
+  public: int addSingle() { return addSingle_RingBuffer_emC(this); }
   
   public: int add() { return add_RingBuffer_emC(this); }
 

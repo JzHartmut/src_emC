@@ -30,7 +30,7 @@ struct StringPartJc_t;
 
 typedef struct Part_StringPartJc_t
 { 
-  union { ObjectJc object; CharSeqObjJc CharSeqObjJc;} base; 
+  union { ObjectJc object; CharSeqObjJc CharSeqObjJc_ifc;} base;
   struct StringPartJc_t* outer;  //J2C: Reference to outer class, implicit in Java
   int32 b1;   /*Absolute positions of part of chars*/
   int32 e1;   /*Absolute positions of part of chars*/
@@ -135,9 +135,9 @@ class Part_StringPartJc : private Part_StringPartJc_s
 
 typedef struct StringPartJc_t
 { 
-  union { ObjectJc object; CharSeqObjJc CharSeqObjJc; 
+  union { ObjectJc object; CharSeqObjJc CharSeqObjJc_ifc;
     #ifdef DEF_ClassJc_Vtbl
-      ComparableJc ComparableJc;
+      ComparableJc ComparableJc_ifc;
     #endif
     } base; 
   int32 begin;   /*The actual start position of the valid part.*/
