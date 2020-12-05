@@ -5,7 +5,7 @@
 #ifndef __InspcJ2c_InspcDataInfo_Inspc_h__
 #define __InspcJ2c_InspcDataInfo_Inspc_h__
 
-#include "emC/base/MemC_emC.h"        //basic concept
+#include "emC/Base/MemC_emC.h"        //basic concept
 
 #include "emC/Jc/ObjectJc.h"        //basic concept
 

@@ -6,7 +6,7 @@
 #define __InspcJ2c_ClassContent_Inspc_h__
 #include <applstdef_emC.h>
 
-#include "emC/base/MemC_emC.h"        //basic concept
+#include "emC/Base/MemC_emC.h"        //basic concept
 
 #include "emC/Jc/ObjectJc.h"        //basic concept
 

@@ -1,6 +1,6 @@
 #include "emC/Ctrl/Angle_Ctrl_emC.h"
 #include <applstdef_emC.h>
-#include <emC/base/Object_emC.h>
+#include <emC/Base/Object_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
   #include "genRefl/Angle_Ctrl_emC.crefl"

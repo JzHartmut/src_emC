@@ -2,7 +2,7 @@
 #define __WaveMng_FB_h__
 
 #include <applstdef_emC.h>
-#include <emC/base/Object_emC.h>
+#include <emC/Base/Object_emC.h>
 
 #include <stdlib.h>
 
