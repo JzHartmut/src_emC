@@ -133,8 +133,6 @@ char const* const signatureString_TaskConstData = "TaskConstData";
 
 
 void execEvPolling ( TaskConstData_emC const* const* evEntryArray, int nrofEntries) {
-//}
-//#if 0
   TaskConstData_emC const* entryAct = null;
   uint minPrio = 255;
   for(int ix = 0; ix < nrofEntries; ++ix) {
@@ -151,11 +149,9 @@ void execEvPolling ( TaskConstData_emC const* const* evEntryArray, int nrofEntri
   if(entryAct !=null) {
     EventData_emC_s* entryData = entryAct->evEntry;
     entryData->ctPriority = 0;
-    //TODO internal compiler error: On 2.0 version
     entryAct->operation(entryAct);
   }
 }
-//#endif
 
 
 

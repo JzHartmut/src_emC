@@ -249,6 +249,20 @@ typedef STRUCT_AddrVal_emC(doubleARRAY, double);
 //#define min(A, B) ( (A) < (B) ? (A) : (B) )
 //#endif
 
+/*@CLASS_C int32_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+#ifndef DEFINED_int32_complex
+typedef struct int32_complex_T {
+  int32 re, im;
+} int32_complex;
+#endif
+
+/*@CLASS_C int16_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+#ifndef DEFINED_int16_complex
+typedef struct int16_complex_T {
+  int16 re, im;
+} int16_complex;
+#endif
+
 /*@CLASS_C float_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 #ifndef DEFINED_float_complex
 typedef struct float_complex_t{
