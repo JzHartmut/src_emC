@@ -129,7 +129,7 @@ int toString_TimeAbs_emC ( char* buffer, int sizeBuffer, TimeAbs_emC const* time
   int nHour, nMonth;
   int32 nanos = time->time_nsec;
   STACKTRC_ENTRY("toStringFormat_DateFw");
-  ctor_TimeBytes_emC(&timeYsec, seconds_OS_TimeStamp(*time), 1970, 0, isGPS_OS_TimeStamp(*time));
+  ctor_TimeBytes_emC(&timeYsec, seconds_TimeAbs_emC(*time), 1970, 0, isGPS_TimeAbs_emC(*time));
 
   { static const char* sMonthsFull[12] = {"January", "February", "March", "April", "May", "June"
                        , "July", "August", "September", "October", "November", "December"};

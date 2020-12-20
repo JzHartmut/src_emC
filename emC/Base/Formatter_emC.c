@@ -514,18 +514,18 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
               //use this buffer newly:
               nrArgTime[ixArgTime] = nrActArg;
               switch(cTypeArg){
-              case 'I': setUTC_OS_TimeStamp(timeStamp[ixArgTime], argValue->i32, 0); break; //seconds as int32-argument
+              case 'I': setUTC_TimeAbs_emC(timeStamp[ixArgTime], argValue->i32, 0); break; //seconds as int32-argument
               case 'J': {
                 arg64 = argValue->i64;
                 { int32 seconds = (int32)(arg64/1000);
                   int32 millisec = (int32)(arg64 - 1000*seconds);
-                  setUTC_OS_TimeStamp(timeStamp[ixArgTime], seconds, 1000000 * millisec); //seconds as int32-argument
+                  setUTC_TimeAbs_emC(timeStamp[ixArgTime], seconds, 1000000 * millisec); //seconds as int32-argument
                 } } break; 
               case 't': {
                 timeStamp[ixArgTime] = argValue->t;
               } break; 
               }//switch
-              ctor_TimeBytes_emC(&timeYsec[ixArgTime], seconds_OS_TimeStamp(timeStamp[ixArgTime]), 1970, 0, isGPS_OS_TimeStamp(timeStamp[ixArgTime]));
+              ctor_TimeBytes_emC(&timeYsec[ixArgTime], seconds_TimeAbs_emC(timeStamp[ixArgTime]), 1970, 0, isGPS_TimeAbs_emC(timeStamp[ixArgTime]));
             }
           }
           switch(actParseResult[0].value.timeSpecifier){

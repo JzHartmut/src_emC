@@ -52,80 +52,43 @@ extern_C_BLOCK_
 
 /*@CLASS_C OS_TimeStamp @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-/* Strukturen */
-typedef struct OS_TimeStamp_t
-{   /**Sekunden, gez?hlt seit dem 1. Januar 0:00 Uhr des Jahres 1970.
-   * Das Startjahr ist aus der UNIX-Tradition heraus 1970. Das gibt jedoch ein Problem beim Umlauf auf einen negativen Wert etwa in 2038 
-   * und einen Gesamtumlauf etwa in 2106. Das Jahr 2038 wird heute bei einer Anlagenstandzeit von 30 Jahren aus heutiger Zeit geradeso erreicht.
-   * Es wird hier festgelegt, dass der Sekundenbezug immer auf 1970 orientiert ist, dabei aber eine Wiederholung bei Z?hlerumlauf stattfindet,
-   * Der absolute Zeitpunkt muss auf das aktuellen Zeitraum orientiert sein. Damit liegen negative Werte aus Sicht des Jahres 2038 betrachtet
-   * nicht im Jahre 1902..1970, sondern eben 2038..2106. Damit ist diese Kennzeichnung zeitlos verwendbar. 
-   *
-   * F?r eine Zeitdifferenzbildung ist der Wert vorzeichenbehaftet zu verwenden, daher ist er hier auch vorzeichenbehaftet definiert.
-   *
-   * Schaltsekunden z?hlen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
-   */
-  int32_t time_sec;
-  
-  /**Zeit innerhalb einer Sekunde in Nanosekunden gez?hlt.
-   * Um schnelle Vorg?nge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde h?ufig nicht ausreichend. 
-   * Beispielsweise muss bei Parallelschaltung von Umrichtern eine Abweichung von Signalen ?ber weitere Entfernungen 
-   * von max. 100 ns erreicht werden, um Differenzstr?me zu vermeiden. 
-   * Die tats?chliche Aufl?sung der Zeit h?ngt von den Hardwaregegebenheiten ab.
-   * *Bit 29..0: Nanosekunden
-   * *Bit 31: Wenn 1, dann stellt der Sekundenz?hler einen Wert dar, der die Schaltsekunden seit 1970 mitz?hlt.
-   * *Bit 31: Wenn 0, dann stellt der Sekundenz?hler die kalendarisch gez?hlten Sekunden nach 1970 dar.
-   */
-  int32_t time_nsec;
-
-  /**Nur die folgenden Bits in nanoseconds werden als Nanosekunden verwendet. */
-  #define mNanoSeconds_OS_TimeStamp 0x3FFFFFFF
-
-  /**If this bit is set, the TimeStamp is imprecise, it is in a phase of correction. */
-  #define mCorrection_OS_TimeStamp 0x40000000
-
-  /**Wenn in seconds die Schaltsekunden mitgez?hlt sind (also keine lineare Abbildung 3600*24 Sekunden pro Tag),
-   * dann soll das folgenden Bit gesezt sein:
-   */
-  #define mLeapSeconds_OS_TimeStamp 0x80000000
-
-
-} OS_TimeStamp;
+#define OS_TimeStamp TimeAbs_emC
+#define OS_TimeStamp_T TimeAbs_emC_T
 
 //compatibility, 
 #define OS_TimeStruct OS_TimeStamp
 
 /**Initializes the timestamp with 0, it is a time 1. 1. 1970. */
-OS_TimeStamp* ctorM_OS_TimeStamp(MemC mem);
+OS_TimeStamp* ctorM_TimeAbs_emC(MemC mem);
 
 /**Initializes the timestamp with 0, it is a time 1. 1. 1970. */
-#define INIT_OS_TimeStamp(THIS) (memset(&THIS, 0, sizeof(THIS)))
+#define INIT_TimeAbs_emC(THIS) (memset(&THIS, 0, sizeof(THIS)))
 
 /**Initializes the timestamp with the current time. */
-#define INIT_now_OS_TimeStamp(THIS, VALUE) (THIS = os_getDateTime())
+#define INIT_now_TimeAbs_emC(THIS, VALUE) (THIS = os_getDateTime())
 
 /**Initializes the timestamp with the given time. */
-#define INIT_time_OS_TimeStamp(THIS, SRC) (THIS = SRC)
+#define INIT_time_TimeAbs_emC(THIS, SRC) (THIS = SRC)
 
 /**Assigns the SRC to THIS. */
-#define set_OS_TimeStamp(THIS, SRC) (THIS = SRC)
+#define set_TimeAbs_emC(THIS, SRC) (THIS = SRC)
 
 /**Gets the value of seconds of a OS_TimeStamp. Note: do not use the value itself because encapsulating. */
-#define seconds_OS_TimeStamp(THIS) ((THIS).time_sec)
+#define seconds_TimeAbs_emC(THIS) ((THIS).time_sec)
 
 /**Gets the value of nanoseconds of a OS_TimeStamp. Note: do not use the value itself because encapsulating. */
-#define nanoSeconds_OS_TimeStamp(THIS) ((THIS).time_nsec & mNanoSeconds_OS_TimeStamp)
+#define nanoSeconds_TimeAbs_emC(THIS) ((THIS).time_nsec & mNanoSeconds_TimeAbs_emC)
 
-#define isGPS_OS_TimeStamp(THIS) (((THIS).time_nsec & mLeapSeconds_OS_TimeStamp) != 0)
+#define isGPS_TimeAbs_emC(THIS) (((THIS).time_nsec & mLeapSeconds_TimeAbs_emC) != 0)
 
-#define isImprecise_OS_TimeStamp(THIS) (((THIS).time_nsec & mCorrection_OS_TimeStamp) != 0)
+#define isImprecise_TimeAbs_emC(THIS) (((THIS).time_nsec & mCorrection_TimeAbs_emC) != 0)
 
 /**Sets a GPS-Time-value to a OS_TimeStamp. 
  * The time from GPS positioning follows the TAI (InternationalAtomic Time), 
  * with a constant difference of 19 seconds, without any leap seconds. Why 19 seconds? It's historical.
  * In technical systems a strict uniformly continuous time counter is better to than the UTC.
  */
-#define setGPS_OS_TimeStamp(THIS, SEC, NSEC) { (THIS).time_sec = (SEC); (THIS).time_nsec = (NSEC) | mLeapSeconds_OS_TimeStamp; }
+#define setGPS_TimeAbs_emC(THIS, SEC, NSEC) { (THIS).time_sec = (SEC); (THIS).time_nsec = (NSEC) | mLeapSeconds_TimeAbs_emC; }
 
 /**Sets a UTC-Time-value to a OS_TimeStamp. 
  * UTC (= <a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a> ) 
@@ -136,7 +99,7 @@ OS_TimeStamp* ctorM_OS_TimeStamp(MemC mem);
  * In computer systems, often UTC is used, because the unix-time also count simple seconds
  * without regarding of leap seconds. 
  */
-#define setUTC_OS_TimeStamp(THIS, SEC, NSEC) { (THIS).time_sec = (SEC); (THIS).time_nsec = (NSEC); }
+#define setUTC_TimeAbs_emC(THIS, SEC, NSEC) { (THIS).time_sec = (SEC); (THIS).time_nsec = (NSEC); }
 
 
 /**Gets the systems time. */

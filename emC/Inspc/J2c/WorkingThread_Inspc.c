@@ -117,7 +117,7 @@ void step_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCxt)
 }
 
 
-void finalize_WorkingThread_Inspc_F(ObjectJc* othis, ThCxt* _thCxt)
+void finalize_WorkingThread_Inspc_F(ObjectJc const* othis, ThCxt* _thCxt)
 { WorkingThread_Inspc_s* thiz = (WorkingThread_Inspc_s*)othis;  //upcasting to the real class.
  STACKTRC_TENTRY("finalize_WorkingThread_Inspc_F");
   finalize_ObjectJc_F(&thiz->data.base.object, _thCxt); //J2C: finalizing the embedded instance.

@@ -101,7 +101,7 @@ typedef struct StringFormatterJc_Y_t { ObjectArrayJc head; StringFormatterJc_s d
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
-void finalize_StringFormatterJc_F(ObjectJc* othis, ThCxt* _thCxt);
+void finalize_StringFormatterJc_F(ObjectJc const* othis, ThCxt* _thCxt);
 
 
  extern StringJc version_StringFormatterJc;   /*Version, history and license.*/
@@ -154,7 +154,7 @@ METHOD_C struct StringFormatterJc_t* ctorO_Sb_StringFormatterJc(ObjectJc* othis,
 Don't use it instead getContent(), use it only for debugging goals.
 @implementInfo: optimize-toString in not set here, it may be set outside. 
 */
-METHOD_C StringJc toString_StringFormatterJc(ObjectJc* ithis, ThCxt* _thCxt);
+METHOD_C StringJc toString_StringFormatterJc(ObjectJc const* ithis, ThCxt* _thCxt);
 
 /**Gets the accumulated content.
 

@@ -159,7 +159,7 @@ StringJc toStringFormat_DateJc(DateJc_s* ythis, StringJc const formatP, int time
     int sizeBuffer = size_MemC(mBuffer);
   
     int posBuffer;
-    posBuffer = toStringFormat_Fw(buffer, sizeBuffer, &ythis->val, sFormat, timeZoneAdjustHours);
+    posBuffer = toString_TimeAbs_emC(buffer, sizeBuffer, &ythis->val, sFormat, timeZoneAdjustHours);
     if(sFormat[lenFormat-1] == 0)
     { //the formatP contains a \0 at end, it is zero terminated. Terminate also the result!
       if(posBuffer < sizeBuffer)
@@ -241,7 +241,7 @@ void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp time
     char* buffer = getCharsAndSize_StringBuilderJc(sBuffer, &sizeBuffer);
     
     int posBuffer;
-    posBuffer = toStringFormat_Fw(buffer, sizeBuffer, &timeStamp, sFormat, ythis->timeZoneAdjustHours);
+    posBuffer = toString_TimeAbs_emC(buffer, sizeBuffer, &timeStamp, sFormat, ythis->timeZoneAdjustHours);
     sBuffer->_count = (int16)posBuffer;
   }
   STACKTRC_LEAVE;

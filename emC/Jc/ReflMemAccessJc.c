@@ -60,41 +60,6 @@ MemSegmJc null_MemSegmJc = INIZ_MemSegmJc(null, 0);
 
 MemAccessArrayDebugJc memAccessDebugJc = {0};
 
-/**A StringJc is always a OS_PtrValue, but a extra type is used..
- */
-extern_C ClassJc const refl_MemSegmJc;
-const struct Reflection_Fields_MemSegmJc_t
-{ ObjectArrayJc head;
-  FieldJc data[1];
-} refl_Fields_MemSegmJc =
-{ CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_MemSegmJc)
-, {
-    { "OS_PtrValue"
-    , 0 //nrofArrayElements
-    , &refl_OS_PtrValue
-    , kEmbedded_Modifier_reflectJc //bitModifiers
-    , 0 //offset
-    , 0  //offsetToObjectifcBase
-    , &refl_MemSegmJc
-    }
-} };
-
-
-ClassJc const refl_MemSegmJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_MemSegmJc, null)
-, "MemSegmJc"
-, 0     //posObjectJc
-, sizeof(MemSegmJc)
-, (FieldJcArray const*)&refl_Fields_MemSegmJc  //attributes and associations
-, null  //method
-, null  //superclass
-, null  //interfaces
-, 0x0  //modifiers
-#ifdef DEF_ClassJc_Vtbl
-, null  //Vtbl
-#endif
-};
-
 
 
 

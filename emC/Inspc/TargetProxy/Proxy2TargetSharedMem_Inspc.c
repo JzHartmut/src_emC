@@ -1,3 +1,4 @@
+#include <applstdef_emC.h>
 #ifdef DEF_INSPC_REMOTEACCESS
 
 #include "Proxy2TargetSharedMem_Inspc.h"

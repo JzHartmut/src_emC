@@ -1,3 +1,4 @@
+#include <applstdef_emC.h>
 #ifdef DEF_INSPC_REMOTEACCESS
 #include "InspcTargetProxy.h"
 #include <emC/Base/ParseArgs_emC.h>
@@ -13,6 +14,7 @@
 #include <stdio.h>
 
 #include <emC/OSAL/os_mem.h>
+#include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_keyboard.h>
 
 //#pragma comment(lib, "libMsc15_emC.lib")
@@ -277,6 +279,45 @@ int main(int nArgs, char** argsCmd)
 
   STACKTRC_RETURN erret;
 }
+
+
+
+void errorSystem_emC_  (  int errorCode, const char* description, int value1, int value2, char const* file, int line) {
+  printf("ERROR SYSTEM: %d %s %d, %d @%s:%d", errorCode, description, value1, value2, file, line);
+  exit(255);
+}
+
+
+
+//Note: The uncatched_Exception should be assigned to the application frame. It is not a part of a library.
+//It should terminate the application, but some resources should be freed. The application frame may known which resources.
+void uncatched_ExceptionJc  (  ExceptionJc* thiz, ThreadContext_emC_s* _thCxt) {
+#ifdef DEF_NO_StringJcCapabilities
+  printf("ERROR uncatched Exception @%s:%d", thiz->file, thiz->line);
+#else
+  char buffer[300] = { 0 };
+  writeException(buffer, sizeof(buffer), thiz, __FILE__, __LINE__, _thCxt);
+  printf(buffer);
+#endif
+}
+
+
+void os_notifyError_FileLine  (  int errorCode, const char* description, int value1, int value2, char const* file, int line)
+{
+  //if (users_os_Error != null)
+  //{ //call the users routine:
+  //  users_os_Error(errorCode, description, value1, value2);
+  //}
+  //else
+  { //If no user routine is known, the error should be detect by the return code of the os-routines.
+    if (description == null) {
+      description = "";
+    }
+    printf("Error %d: %s, %d, %d in file %s: %d", errorCode, description, value1, value2, file, line);
+  }
+}
+
+
 
 #endif
 

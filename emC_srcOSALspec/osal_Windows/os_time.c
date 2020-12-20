@@ -156,8 +156,8 @@ void sleepMicroSec_Time_emC ( int32 usec) {
 	_ftime_s(&currTime);
   setCurrent_TimeAbs_emC(&timeStart);
 
-  char time1[40];
-  char time2[40];
+  //char time1[40];
+  //char time2[40];
 //  toString_TimeAbs_emC(time1, 40, &timeStart, "YYYY-MM-dd:HH:mm:ss\0", 0);
 
 

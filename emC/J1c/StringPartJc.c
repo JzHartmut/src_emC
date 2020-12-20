@@ -2806,7 +2806,7 @@ StringJc toString_StringPartJc_F(ObjectJc const* ithis, ThCxt* _thCxt)
 
 #ifdef DEF_ClassJc_Vtbl
 /*J2C: dynamic call variant of the override-able method: */
-StringJc toString_StringPartJc(ObjectJc* ithis, ThCxt* _thCxt)
+StringJc toString_StringPartJc(ObjectJc const* ithis, ThCxt* _thCxt)
 { Vtbl_ObjectJc const* mtbl = (Vtbl_ObjectJc const*)getVtbl_ObjectJc(ithis, sign_Vtbl_ObjectJc);
   return mtbl->toString(ithis, _thCxt);
 }
