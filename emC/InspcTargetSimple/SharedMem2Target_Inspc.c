@@ -10,7 +10,7 @@
 #include <string.h>
 
 
-#ifndef DEF_REFLECTION_NO
+#ifdef DEF_REFLECTION_FULL
   #include "emC/InspcTargetSimple/genRefl/SharedMem2Target_Inspc.crefl"
   #include "emC/OSAL/genRefl/os_sharedMem.crefl"
   //Do not include the crefl here, they are not necessary here. 

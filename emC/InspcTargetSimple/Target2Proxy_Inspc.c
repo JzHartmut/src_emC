@@ -7,7 +7,7 @@
 #include <emC/OSAL/os_AtomicAccess.h>
 #include <applstdef_emC.h>
 
-#ifndef DEF_REFLECTION_NO
+#ifdef DEF_REFLECTION_FULL
   //#include "Inspc/Target2Proxy_Inspc.crefl"
   #include "emC/InspcTargetSimple/genRefl/IfcTargetProxy_Inspc.crefl" //The telg struct has no own implementation
 #else
@@ -18,7 +18,8 @@
 #undef PRINTF2
 #define PRINTF2(TEXT, VAL) //empty.
 
-#ifdef DEF_TARGETSIMPLE
+#if defined(DEF_REFLECTION_OFFS) && defined(ADDR_HAS32BIT)  //Then it is the target with InspctargetProxy access.
+//This works only with 32-bit memory addresses. It is for an embedded  target
 
 int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 address, int32 inputVal, void const* mainData
 , int32 const* reflectionOffset_MainData, ClassJc const* const* reflectionOffsetArrays)
@@ -219,6 +220,6 @@ void step_Target2Proxy_Inspc(Target2Proxy_Inspc* thiz
   }
 
 }
-#endif //DEF_TARGETSIMPLE
+#endif //DEF_REFLECTION_OFFS
 
 

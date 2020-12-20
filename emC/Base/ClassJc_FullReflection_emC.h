@@ -98,7 +98,7 @@ C_TYPE typedef struct  FieldJc_t
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
 #define OBJTYPE_FieldJc (kIsSmallSize_ObjectJc + (ID_refl_FieldJc<<kBitIdentSmall_ObjectJc))
 
-#define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + 0x0FF60000 + sizeof(FieldJc))
+#define TYPESIZEOF_FieldJc (kIsSmallSize_typeSizeIdent_ObjectJc + (ID_refl_FieldJc<<kBitIdentSmall_ObjectJc) + sizeof(FieldJc))
 
 extern_C struct ClassJc_t const refl_FieldJc;
 

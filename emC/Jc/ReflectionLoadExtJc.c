@@ -15,7 +15,7 @@ Data_ExtReflectionJc* correctContent_ExtReflectionJc(ExtReflectionJc_s* ythis, M
   int maxBuffer = size_MemC(buffer) - headerOffset;
   void const* minAddr= extReflectionData; 
   void const* maxAddr = ((MemUnit*)extReflectionData) + maxBuffer;
-  int baseHead;
+  intptr_t baseHead;
   void const* addrBaseClasses;
   bool bOk = true;
   intptr_t offsClassArray, offsReflData;
@@ -23,7 +23,7 @@ Data_ExtReflectionJc* correctContent_ExtReflectionJc(ExtReflectionJc_s* ythis, M
   
   /**relocate all relative addresses to absolute addresses:*/
   /**first the reference of arrayClasses. */
-  baseHead = (int)(intptr_t)(extReflectionData);
+  baseHead = (intptr_t)(extReflectionData);
   offsClassArray = *(intptr_t*)(&extReflectionData->arrayClasses);
 	extReflectionData->arrayClasses = (ClassJc_YP const*)(offsClassArray + baseHead);
 	offsReflData = *(intptr_t*)(&extReflectionData->classDataBlock);

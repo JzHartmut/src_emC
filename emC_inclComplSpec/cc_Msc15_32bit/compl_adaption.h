@@ -277,7 +277,8 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 /**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
 #define intPTR intptr_t
-
+#define ADDR_HAS32BIT
+#define INT_HAS32BIT
 
 /**Definition of the really used types in variable argument lists. 
  * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.

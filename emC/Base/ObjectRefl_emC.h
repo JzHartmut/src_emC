@@ -209,8 +209,10 @@ typedef struct  ObjectJc_T
   uint32 identSize;
   #define mInitialized_ObjectJc  0x80000000
   #define mArray_ObjectJc        0x40000000
-  #define mLocked_ObjectJc       0x20000000
-  
+  #ifndef DEF_ObjectJc_SYNCHANDLE
+    //Lock in the identSize is only valid for a small ObjectJc 
+    #define mLocked_ObjectJc     0x20000000
+  #endif
   /**If the array bit is given with the ID, use this: */
   #define mArrayId_ObjectJc 0x4000
 

@@ -1,7 +1,7 @@
 2020-03-29 18:59:02  x     +clean.sh                                ::           . 92  0162552732 
 2020-03-29 22:19:26  x     README.md                                ::          5.382  1566041075 
 2020-03-01 19:34:40  x     delBak.bat                               ::           . 37  1661871524 
-2020-12-20 13:33:48  x     emC.filelist                             ::           .  0  0000000000 
+2020-12-20 22:04:53  x     emC.filelist                             ::           .  0  0000000000 
 2020-03-01 19:42:49  x     emC.gitRepository                        ::           . 48  1871062560 
 2020-03-01 19:34:40  x     emC.gitignore                            ::           .386 -1660732449 
 
@@ -15,7 +15,7 @@
 2020-11-20 15:12:35  x     Atomic_emC.h                             ::          3.512  2026433227 
 2020-03-01 19:51:22  x     CheckStack_emC.c                         ::          1.269  0947494203 
 2020-03-01 19:34:40  x     CheckStack_emC.h                         ::           .396  0134859466 
-2020-12-03 10:44:52  x     ClassJc_FullReflection_emC.h             ::         44.085  1306536139 
+2020-12-20 20:42:46  x     ClassJc_FullReflection_emC.h             ::         44.117 -1525540780 
 2020-03-01 19:51:22  x     DefPortTypes_emC.c                       ::          2.430 -1955690070 
 2019-12-23 22:55:04  x     DefPortTypes_emC.h                       ::          6.690 -1329791768 
 2020-07-29 16:30:06  x     Endianess_emC.c                          ::          8.187 -1091935465 
@@ -46,7 +46,7 @@
 2020-07-19 22:47:39  x     ObjectJcVtbl_emC.h                       ::          8.556 -0783992049 
 2020-11-09 13:10:24  x     ObjectJcpp_emC.cpp                       ::           .638 -0813293049 
 2020-12-03 10:46:02  x     ObjectRefl_emC.c                         ::         32.038 -0389632516 
-2020-12-02 21:50:10  x     ObjectRefl_emC.h                         ::         33.088 -0088068084 
+2020-12-20 20:10:20  x     ObjectRefl_emC.h                         ::         33.194 -1747921045 
 2020-12-02 23:21:36  x     ObjectSimple_emC.c                       ::          6.875  1122261643 
 2020-12-02 23:08:08  x     ObjectSimple_emC.h                       ::         17.653 -0468984627 
 2020-08-01 17:37:39  x     Object_RAMclass_emC.c                    ::          3.589 -0828136235 
@@ -215,11 +215,11 @@
 ============================== emC/InspcTargetSimple/ ==============================================
 2018-09-05 21:17:02  x     IfcTargetProxy_Inspc.#c                  ::           .140 -1315704039 
 2020-12-04 18:27:17  x     IfcTargetProxy_Inspc.h                   ::          8.488  0636684074 
-2020-07-29 23:23:06  x     SharedMem2Target_Inspc.c                 ::          3.876 -1864098863 
+2020-12-20 13:58:59  x     SharedMem2Target_Inspc.c                 ::          3.877  1628474214 
 2020-03-29 10:44:59  x     SharedMem2Target_Inspc.h                 ::          1.118  1173048566 
 2020-03-28 21:47:12  x     Target2ProxySharedMem_Inspc.c            ::          1.610 -0484622970 
 2020-03-28 21:47:12  x     Target2ProxySharedMem_Inspc.h            ::           .887  2022714390 
-2020-07-29 23:25:26  x     Target2Proxy_Inspc.c                     ::          9.227 -0891225787 
+2020-12-20 14:25:08  x     Target2Proxy_Inspc.c                     ::          9.400 -2125277893 
 2020-03-28 21:47:12  x     Target2Proxy_Inspc.h                     ::          1.382 -0641086565 
 2019-09-25 10:20:19  x     _genRefl_InspcTargetSimple.jz.cmd        ::           .693 -1470903478 
 
@@ -312,9 +312,9 @@
 2020-12-20 13:12:41  x     ReflMemAccessJc.c                        ::         20.307 -1640088590 
 2020-07-29 16:55:16  x     ReflMemAccessJc.h                        ::         22.052  0170377377 
 2020-12-03 21:34:20  x     ReflectionBasetypesJc.c                  ::         22.030 -0352153485 
-2020-08-04 14:56:57  x     ReflectionJc.c                           ::         55.745  0491537033 
+2020-12-20 21:49:10  x     ReflectionJc.c                           ::         56.012  1017280488 
 2020-04-26 10:24:08  x     ReflectionJc.h                           ::         40.947 -0432249428 
-2020-03-28 21:50:44  x     ReflectionLoadExtJc.c                    ::          5.761  1830276937 
+2020-12-20 19:43:46  x     ReflectionLoadExtJc.c                    ::          5.761  0753947090 
 2020-12-03 23:57:24  x     StringBufferJc.c                         ::         38.324  0508363525 
 2020-01-17 21:28:39  x     StringBufferJc.h                         ::          3.017 -1391960272 
 2020-11-21 15:21:09  x     StringJc.c                               ::         14.810 -1496421477 
@@ -529,10 +529,10 @@
 2020-11-29 21:26:26  x     compl_adaption.h                         ::         17.652  1407713721 
 
 ============================== emC_inclComplSpec/cc_Msc15_32bit/ ===================================
-2020-11-20 14:00:28  x     compl_adaption.h                         ::         21.026 -1873559794 
+2020-12-20 14:23:52  x     compl_adaption.h                         ::         21.069  1095092205 
 
 ============================== emC_inclComplSpec/cc_Msc15_64bit/ ===================================
-2020-11-20 14:00:28  x     compl_adaption.h                         ::         21.298 -0889934476 
+2020-12-20 14:23:52  x     compl_adaption.h                         ::         21.341 -0057751504 
 
 ============================== emC_inclComplSpec/cc_Msc15_smlk32bit/ ===============================
 2020-05-01 12:08:38  x     compl_adaption.h                         ::         15.653  0002295106 
@@ -692,61 +692,6 @@
 2020-03-01 19:34:40  x     genreflection_OSAL.sh                    ::          1.095  0078995232 
 2020-03-01 19:34:40  x     zmake_CRJ_FwConvC32.msc6.lib.bat         ::          3.103 -0536947392 
 2020-03-01 19:34:40  x     zmake_lib32pp_Msc6.bat                   ::          2.894  0882086888 
-
-============================== make/InspcTargetProxy/ ==============================================
-
-============================== make/InspcTargetProxy/VS15-IDE/ =====================================
-2020-06-05 10:02:14  x     +clean.bat                               ::           .526 -0663087611 
-2020-04-19 18:14:43  x     +clean.sh                                ::           .495 -0807234651 
-2020-06-05 10:04:03  x     +mklink_builds.bat                       ::           .323 -0254340586 
-2020-12-20 00:58:37  x     InspcTargetProxySharedMem.VC.db          ::      31207.424 -1079001161 
-2020-04-19 19:16:29  x     InspcTargetProxySharedMem.sln            ::          3.596 -1496750165 
-2020-04-19 19:22:01  x     InspcTargetProxySharedMem.vcxproj        ::         12.293 -0592485072 
-2020-03-29 17:44:14  x     InspcTargetProxySharedMem.vcxproj.filters ::          9.902 -1589713145 
-2020-04-19 19:23:13  x     libMsc15_emC.vcxproj                     ::         26.045  0876529080 
-2020-04-19 10:14:15  x     libMsc15_emC.vcxproj.filters             ::         27.243 -1466969732 
-
-============================== make/InspcTargetProxy/VS15-IDE/debug/ ===============================
-
-============================== make/InspcTargetProxy/VS15-IDE/lib/ =================================
-2020-12-05 23:40:32  x     AllTest_emC_Base.vcxproj.filters         ::         42.276 -0178265371 
-2020-12-20 00:39:55  x     libMsc15_emC.vcxproj.filters             ::         42.276 -0178265371 
-
-============================== make/InspcTargetProxy/VS15-IDE/lib/Dbg64CExcH/ ======================
-
-============================== make/InspcTargetProxy/VS15-IDE/x32/ =================================
-
-============================== make/InspcTargetProxy/VS15-IDE/x64/ =================================
-
-============================== make/InspcTargetProxy/VS15-IDE/x64/DbgCExcH/ ========================
-2020-12-20 00:19:21  x     SpecialCharStringsJc.cod                 ::           .154 -0782697013 
-2020-12-20 00:19:21  x     SpecialCharStringsJc.obj                 ::           .696  0443907916 
-2020-12-20 00:19:24  x     libMsc15_emC.idb                         ::        265.216  1508552476 
-2020-12-20 00:19:24  x     libMsc15_emC.log                         ::         22.527  0833367981 
-2020-12-20 00:19:24  x     libMsc15_emC.pdb                         ::         86.016 -1407104270 
-2020-12-20 00:19:23  x     os_keyboard.cod                          ::          2.447  1312334764 
-2020-12-20 00:19:23  x     os_keyboard.obj                          ::         13.348 -0184074058 
-
-============================== make/InspcTargetProxy/VS15-IDE/x64/DbgCExcH/libMsc15_emC.tlog/ ======
-2020-12-20 00:19:24  x     CL.command.1.tlog                        ::         90.134 -0814499224 
-2020-12-20 00:19:24  x     CL.read.1.tlog                           ::        185.962  1080824153 
-2020-12-20 00:19:24  x     CL.write.1.tlog                          ::         51.086 -1068992254 
-2020-12-20 00:19:19  x     libMsc15_emC.lastbuildstate              ::           .242 -1619686315 
-2020-12-20 00:19:19  x     unsuccessfulbuild                        ::           .  0  0000000000 
-
-============================== make/InspcTargetProxy/VS15-IDE/x64/Debug/ ===========================
-2020-12-20 00:19:25  x     InspcTargetProxySharedMem.log            ::          6.655  1469260869 
-2020-12-20 00:19:25  x     vc140.idb                                ::         27.648 -1121741056 
-
-============================== make/InspcTargetProxy/VS15-IDE/x64/Debug/InspcTar.9DEF936D.tlog/ ====
-2020-12-20 00:19:25  x     CL.command.1.tlog                        ::         25.658 -0579406010 
-2020-12-20 00:19:25  x     CL.read.1.tlog                           ::          3.634  0576566831 
-2020-12-20 00:19:25  x     CL.write.1.tlog                          ::         15.762  0126190382 
-2020-12-20 00:19:24  x     InspcTargetProxySharedMem.lastbuildstate ::           .239  1309654188 
-2020-12-20 00:19:24  x     unsuccessfulbuild                        ::           .  0  0000000000 
-
-============================== make/InspcTargetProxy/src/ ==========================================
-2020-07-29 23:07:20  x     applstdef_emC.h                          ::           .193 -0343874086 
 
 ============================== make/Java2c/ ========================================================
 2020-03-01 19:34:40  x     Inspc.java2c.bat                         ::           .518 -1007095929 
