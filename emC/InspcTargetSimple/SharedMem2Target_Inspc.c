@@ -45,8 +45,8 @@ void ctor_SharedMem2Target_Inspc ( SharedMem2Target_Inspc* thiz, char const* nam
     //initialize.
     thiz->target2proxy = (TelgTarget2Proxy_Inspc_s*)(addOffset_MemC(thiz->sharedMemMng_target2proxy.addrSize, pos1));
     thiz->proxy2target = (TelgProxy2Target_Inspc_s*)(addOffset_MemC(thiz->sharedMemMng_target2proxy.addrSize, pos2));
-    setInt32BigEndian(&thiz->target2proxy->length_seq_cmd, sizeof(TelgTarget2Proxy_Inspc_s) << kBitLength_TelgTarget2Proxy_Inspc);  //initialize
-    setInt32BigEndian(&thiz->proxy2target->length_seq_cmd, sizeof(TelgProxy2Target_Inspc_s) << kBitLength_TelgProxy2Target_Inspc);  //initialize
+    thiz->target2proxy->length_seq_cmd = sizeof(TelgTarget2Proxy_Inspc_s) << kBitLength_TelgTarget2Proxy_Inspc;  //initialize
+    thiz->proxy2target->length_seq_cmd = sizeof(TelgProxy2Target_Inspc_s) << kBitLength_TelgProxy2Target_Inspc;  //initialize
   }
   else {
     //it is found existent, check the content:
@@ -58,8 +58,8 @@ void ctor_SharedMem2Target_Inspc ( SharedMem2Target_Inspc* thiz, char const* nam
     //check
     thiz->target2proxy = (TelgTarget2Proxy_Inspc_s*)(addOffset_MemC(thiz->sharedMemMng_target2proxy.addrSize, pos1));
     thiz->proxy2target = (TelgProxy2Target_Inspc_s*)(addOffset_MemC(thiz->sharedMemMng_target2proxy.addrSize, pos2));
-    int lengthTelg2Proxy = getInt32BigEndian(&thiz->target2proxy->length_seq_cmd) >> 16;
-    int lengthTelg2Target = getInt32BigEndian(&thiz->proxy2target->length_seq_cmd) >> 16;
+    int lengthTelg2Proxy = thiz->target2proxy->length_seq_cmd >> 16;
+    int lengthTelg2Target = thiz->proxy2target->length_seq_cmd >> 16;
     if (lengthTelg2Proxy != sizeof(TelgTarget2Proxy_Inspc_s)) {
       THROW_s0(IllegalStateException, "Problem with data consistence of TelgTarget2Proxy_Inspc_s. len= %d, expected: %d - exit\n", lengthTelg2Proxy, sizeof(TelgTarget2Proxy_Inspc_s));
       STACKTRC_RETURN;

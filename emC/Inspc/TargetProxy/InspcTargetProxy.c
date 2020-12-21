@@ -75,7 +75,7 @@ METHOD_C static void execRxData_TargetRx(InterProcessCommRx_ifc_Ipc_s* thiz
     synchronized_ObjectJc(&data->object);
     { bool bNotify = (data->answerWord_Target == -1); 
       data->seqnrRxTarget = getSeqnr_TelgTarget2Proxy_Inspc(answer);
-      data->answerWord_Target = getInt32BigEndian(&answer->retValue);
+      data->answerWord_Target = answer->retValue;
       if(bNotify) { //the other thread is waiting.
         notify_ObjectJc(&data->object, _thCxt);
       }    
@@ -331,8 +331,8 @@ int32 getInfo_InspcTargetProxy(InspcTargetProxy_s* thiz, Cmd_InspcTargetProxy_e 
 { int32 ret = -1;
   TelgProxy2Target_Inspc_s* txTelg = &thiz->txData2Target;
   int16 nrofBytesTx = (int16)sizeof(thiz->txData2Target);
-  setInt32BigEndian(&txTelg->address, address.addrTarget);
-  setInt32BigEndian(&txTelg->value, input);
+  txTelg->address = address.addrTarget;
+  txTelg->value = input;
   setCmdSeqnr_TelgProxy2Target_Inspc(txTelg, cmd, ++thiz->seqnrTxTarget);
   InterProcessCommMTB ipcVtbl;
   SETMTBJc(ipcVtbl, data.targetIpc->ipc, InterProcessComm);  //access to derived methods.

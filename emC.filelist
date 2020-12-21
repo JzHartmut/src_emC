@@ -1,7 +1,7 @@
 2020-03-29 18:59:02  x     +clean.sh                                ::           . 92  0162552732 
 2020-03-29 22:19:26  x     README.md                                ::          5.382  1566041075 
 2020-03-01 19:34:40  x     delBak.bat                               ::           . 37  1661871524 
-2020-12-20 22:04:53  x     emC.filelist                             ::           .  0  0000000000 
+2020-12-21 22:39:44  x     emC.filelist                             ::           .  0  0000000000 
 2020-03-01 19:42:49  x     emC.gitRepository                        ::           . 48  1871062560 
 2020-03-01 19:34:40  x     emC.gitignore                            ::           .386 -1660732449 
 
@@ -200,11 +200,11 @@
 
 ============================== emC/Inspc/TargetProxy/ ==============================================
 2020-07-28 00:14:44  x     +genRefl.jz.sh                           ::          1.267 -2072660384 
-2020-12-20 13:19:39  x     InspcTargetProxy.c                       ::         13.866  1596640671 
+2020-12-21 22:13:41  x     InspcTargetProxy.c                       ::         13.808 -1054050273 
 2020-07-29 13:41:48  x     InspcTargetProxy.h                       ::          2.776 -1744735390 
-2020-12-20 12:43:23  x     Proxy2TargetSharedMem_Inspc.c            ::          1.647 -2129760754 
+2020-12-21 22:13:00  x     Proxy2TargetSharedMem_Inspc.c            ::          1.628 -0139348039 
 2020-03-28 21:47:12  x     Proxy2TargetSharedMem_Inspc.h            ::           .984  0952262720 
-2020-12-20 12:44:09  x     Proxy2Target_Inspc.c                     ::          2.790 -1958271035 
+2020-12-21 22:12:38  x     Proxy2Target_Inspc.c                     ::          2.732 -0317225297 
 2020-07-28 18:30:53  x     Proxy2Target_Inspc.h                     ::          1.163  0385493912 
 
 ============================== emC/Inspc/TargetProxy/genRefl/ ======================================
@@ -214,12 +214,12 @@
 
 ============================== emC/InspcTargetSimple/ ==============================================
 2018-09-05 21:17:02  x     IfcTargetProxy_Inspc.#c                  ::           .140 -1315704039 
-2020-12-04 18:27:17  x     IfcTargetProxy_Inspc.h                   ::          8.488  0636684074 
-2020-12-20 13:58:59  x     SharedMem2Target_Inspc.c                 ::          3.877  1628474214 
+2020-12-21 22:09:35  x     IfcTargetProxy_Inspc.h                   ::          8.220 -1599363524 
+2020-12-21 22:05:56  x     SharedMem2Target_Inspc.c                 ::          3.799  1691738622 
 2020-03-29 10:44:59  x     SharedMem2Target_Inspc.h                 ::          1.118  1173048566 
-2020-03-28 21:47:12  x     Target2ProxySharedMem_Inspc.c            ::          1.610 -0484622970 
+2020-12-21 22:10:09  x     Target2ProxySharedMem_Inspc.c            ::          1.572 -1754391962 
 2020-03-28 21:47:12  x     Target2ProxySharedMem_Inspc.h            ::           .887  2022714390 
-2020-12-20 14:25:08  x     Target2Proxy_Inspc.c                     ::          9.400 -2125277893 
+2020-12-21 22:25:05  x     Target2Proxy_Inspc.c                     ::          9.341 -1952984544 
 2020-03-28 21:47:12  x     Target2Proxy_Inspc.h                     ::          1.382 -0641086565 
 2019-09-25 10:20:19  x     _genRefl_InspcTargetSimple.jz.cmd        ::           .693 -1470903478 
 

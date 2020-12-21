@@ -203,15 +203,15 @@ void step_Target2Proxy_Inspc(Target2Proxy_Inspc* thiz
     int32 retValue = -1;
     Cmd_InspcTargetProxy_e cmd = getCmd_TelgProxy2Target_Inspc(thiz->proxy2target);
     TRY{
-      int32 address = getInt32BigEndian(&thiz->proxy2target->address);
-      int32 value = getInt32BigEndian(&thiz->proxy2target->value);
+      int32 address = thiz->proxy2target->address;
+      int32 value = thiz->proxy2target->value;
       retValue = processInspcCmdOnTarget_Inspc(cmd, address, value, rootData, reflectionOffset_RootData, reflectionOffsetArrays);
     }_TRY
     CATCH(Exception, exc) {
       retValue = -1;
     }
     END_TRY
-    setInt32BigEndian(&thiz->target2proxy->retValue, retValue);
+    thiz->target2proxy->retValue = retValue;
     setCmdSeqnr_TelgTarget2Proxy_Inspc(thiz->target2proxy, cmd, seqnr);  //return the same cmd and seqnr as received
     STACKTRC_LEAVE;
   }

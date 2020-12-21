@@ -23,7 +23,7 @@ typedef struct TelgProxy2Target_Inspc_t
 {
   /**The length is always 16 because that is the fix length.
    * One of the Cmd_InspcTargetProxy_e. */
-  int32BigEndian length_seq_cmd;
+  int32 length_seq_cmd;
   
 #define mLength_TelgProxy2Target_Inspc 0xffff0000
 #define kBitLength_TelgProxy2Target_Inspc 16
@@ -34,25 +34,25 @@ typedef struct TelgProxy2Target_Inspc_t
 
 
   /**First info. */
-  int32BigEndian address;
+  int32 address;
 
   /**value to set or address bit fields. */
-  int32BigEndian valueHi;
+  int32 valueHi;
 
   /**value to set or address bit fields. */
-  int32BigEndian value;
+  int32 value;
 
 
 } TelgProxy2Target_Inspc_s;
 
 
 inline int getSeqnr_TelgProxy2Target_Inspc(TelgProxy2Target_Inspc_s const* thiz) {
-  int32 v = (getInt32BigEndian(&thiz->length_seq_cmd) & mSeqnr_TelgProxy2Target_Inspc_s) >> kBitSeqnr_TelgProxy2Target_Inspc;
+  int32 v = (thiz->length_seq_cmd & mSeqnr_TelgProxy2Target_Inspc_s) >> kBitSeqnr_TelgProxy2Target_Inspc;
   return (int)v;
 }
 
 inline Cmd_InspcTargetProxy_e getCmd_TelgProxy2Target_Inspc(TelgProxy2Target_Inspc_s const* thiz) {
-  int32 v = (getInt32BigEndian(&thiz->length_seq_cmd) & mCmd_TelgProxy2Target_Inspc) >> kBitCmd_TelgProxy2Target_Inspc;
+  int32 v = (thiz->length_seq_cmd & mCmd_TelgProxy2Target_Inspc) >> kBitCmd_TelgProxy2Target_Inspc;
   return (Cmd_InspcTargetProxy_e)v;
 }
 
@@ -61,7 +61,7 @@ inline void setCmdSeqnr_TelgProxy2Target_Inspc(TelgProxy2Target_Inspc_s* thiz, C
   int32 v = (((int32)sizeof(TelgProxy2Target_Inspc_s)) << kBitLength_TelgProxy2Target_Inspc) 
           | (cmd & mCmd_TelgProxy2Target_Inspc) 
           | ((seqnr << kBitSeqnr_TelgProxy2Target_Inspc) & mSeqnr_TelgProxy2Target_Inspc_s);
-  setInt32BigEndian(&thiz->length_seq_cmd, v);
+  thiz->length_seq_cmd = v;
 }
 
 
@@ -95,7 +95,7 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 addr
 typedef struct TelgTarget2Proxy_Inspc_s_t
 {
   /**The length is sizeof(TelgTarget2Proxy_Inspc_s) == 16 because that is the fix length. */
-  int32BigEndian length_seq_cmd;
+  int32 length_seq_cmd;
 #define mSeqnr_TelgTarget2Proxy_Inspc      0x0000ff00
 #define kBitSeqnr_TelgTarget2Proxy_Inspc   8
 #define mCmd_TelgTarget2Proxy_Inspc        0x000000ff
@@ -114,7 +114,7 @@ typedef struct TelgTarget2Proxy_Inspc_s_t
    * in a short cycle after receiving a telegram from target. 
    * The target should send (and poll) with a pause of at least the time-length of a telegram.
    */
-  int32BigEndian error__lifeCt;
+  int32 error__lifeCt;
 
   #define mError_TelgTarget2Proxy_Inspc      0xffff0000
   #define mLifeCt_TelgTarget2Proxy_Inspc     0x00008fff
@@ -126,21 +126,21 @@ typedef struct TelgTarget2Proxy_Inspc_s_t
    * If the target system has had an initialization error, the error number (maybe negative) should be written here
    * to have a hint to the cause of the error.
    */
-  int32BigEndian retValueHi;
+  int32 retValueHi;
 
-  int32BigEndian retValue;
+  int32 retValue;
 
 } TelgTarget2Proxy_Inspc_s;
 
 
 inline int getSeqnr_TelgTarget2Proxy_Inspc  (  TelgTarget2Proxy_Inspc_s const* thiz) {  
-  int32 v = ( getInt32BigEndian(&thiz->length_seq_cmd) & mSeqnr_TelgTarget2Proxy_Inspc ) >> kBitSeqnr_TelgTarget2Proxy_Inspc;
+  int32 v = ( thiz->length_seq_cmd & mSeqnr_TelgTarget2Proxy_Inspc ) >> kBitSeqnr_TelgTarget2Proxy_Inspc;
   return (int)v;
 }
 
 
 inline Cmd_InspcTargetProxy_e getCmd_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s const* thiz) {
-  int32 v = (getInt32BigEndian(&thiz->length_seq_cmd) & mCmd_TelgTarget2Proxy_Inspc) >> kBitCmd_TelgTarget2Proxy_Inspc;
+  int32 v = (thiz->length_seq_cmd & mCmd_TelgTarget2Proxy_Inspc) >> kBitCmd_TelgTarget2Proxy_Inspc;
   return (Cmd_InspcTargetProxy_e)v;
 }
 
@@ -149,17 +149,17 @@ inline void setCmdSeqnr_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, C
   int32 v = (((int32)sizeof(TelgTarget2Proxy_Inspc_s)) << kBitLength_TelgTarget2Proxy_Inspc)
     | (cmd & mCmd_TelgProxy2Target_Inspc)
     | ((seqnr << kBitSeqnr_TelgTarget2Proxy_Inspc) & mSeqnr_TelgTarget2Proxy_Inspc);
-  setInt32BigEndian(&thiz->length_seq_cmd, v);
+  thiz->length_seq_cmd = v;
 }
 
 
 
 /**Set the error information into the telegram structure. */
 inline void setError_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, int error) {
-  int32 v = getInt32BigEndian(&thiz->error__lifeCt);
+  int32 v = thiz->error__lifeCt;
   v = (v & ~mLifeCt_TelgTarget2Proxy_Inspc) 
     | (((int32)error << kBitError_TelgTarget2Proxy_Inspc) & mError_TelgTarget2Proxy_Inspc);
-  setInt32BigEndian(&thiz->error__lifeCt, v);
+  thiz->error__lifeCt = v;
 }
 
 
@@ -167,9 +167,9 @@ inline void setError_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, int 
  * This routine must not be called if a error code should be sent furthermore.
  */
 inline void setLifeCt_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, int lifeCt) {
-  int32 v = getInt32BigEndian(&thiz->error__lifeCt);
+  int32 v = thiz->error__lifeCt;
   v = (v & ~mLifeCt_TelgTarget2Proxy_Inspc) | (((int32)lifeCt << kBitLifeCt_TelgTarget2Proxy_Inspc) & mLifeCt_TelgTarget2Proxy_Inspc);
-  setInt32BigEndian(&thiz->error__lifeCt, v);
+  thiz->error__lifeCt = v;
 }
 
 

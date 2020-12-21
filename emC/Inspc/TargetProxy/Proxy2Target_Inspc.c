@@ -56,8 +56,8 @@ int32 get_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cm
   int32 ret = -1;
   TelgProxy2Target_Inspc_s* txTelg = thiz->proxy2target;
   int16 nrofBytesTx = (int16)sizeof(*txTelg);
-  setInt32BigEndian(&txTelg->address, address);
-  setInt32BigEndian(&txTelg->value, input);
+  txTelg->address = address;
+  txTelg->value = input;
   //at last set new seqnr and cmd
   thiz->seqnrTxTarget = (thiz->seqnrTxTarget +1) & 0xff;
   setCmdSeqnr_TelgProxy2Target_Inspc(txTelg, cmd, thiz->seqnrTxTarget);
@@ -79,7 +79,7 @@ int32 get_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cm
     value = -1;
     printf("Timeout target seqtx=%2.2X seqrx=%2.2X\n", thiz->seqnrTxTarget, seqnrtarget);
   } else { 
-    value = getInt32BigEndian(&rxTelg->retValue); 
+    value = rxTelg->retValue; 
     int32 milliseconds = thiz->ms_LastTimeCommunication;
     thiz->ms_LastTimeCommunication = os_getMilliTime();
     int32 timediff = thiz->ms_LastTimeCommunication - milliseconds;

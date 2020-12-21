@@ -28,7 +28,7 @@ Proxy2TargetSharedMem_Inspc* ctor_Proxy2TargetSharedMem_Inspc(ObjectJc* othiz, c
   //thiz->super.proxy2target = PTR_MemC(thiz->shMemAccess.sharedMemMng_proxy2target.addrSize, TelgProxy2Target_Inspc_s);
   if(thiz->super.proxy2target !=null) {
     //initialize.
-    setInt32BigEndian(&thiz->super.proxy2target->length_seq_cmd, sizeof(TelgTarget2Proxy_Inspc_s) << 16);  //initialize
+    thiz->super.proxy2target->length_seq_cmd = sizeof(TelgTarget2Proxy_Inspc_s) << 16;  //initialize
   }
   return thiz;
 }
