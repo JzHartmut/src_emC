@@ -210,9 +210,60 @@ Ctrl_ParseArgs const cmdArgs[] =
 
 
 #ifdef MAIN_InspcTargetProxy
-//void main_InspcTargetProxy()
+
+#include <emC/HAL/Serial_HALemC.h>
+#include <emC/Base/Time_emC.h>
+
+
+void testSerial() {
+  STACKTRC_ENTRY("testSerial");
+  char bufferCON[29];
+  int comport = 7;
+  int console = 0;
+  int error;
+  bool bOk = true;
+  error = init_Serial_HALemC(comport, 115200, toRead_Serial_HALemC);
+  ASSERT_emC(error ==0, "error comport", error, comport);
+  if(error) { bOk = false; }
+  //error = init_Serial_HALemC(comport, 115200, toWrite_Serial_HALemC);
+  ASSERT_emC(error ==0, "error comport", error, comport);
+  if(error) { bOk = false; }
+  error = init_Serial_HALemC(console, 0, toRead_Serial_HALemC);
+  ASSERT_emC(error ==0, "error console", error, 0);
+  if(error) { bOk = false; }
+  char bufferRx[128];
+  int ixCharsChecked = 0;
+  prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx));
+  while(bOk) {
+    int zChars = hasRxChars_Serial_HALemC(comport);
+    for(int ix = ixCharsChecked; ix < zChars; ++ix) {
+      if(bufferRx[ix] == '\r') {                           //check for a complete line:
+        bufferRx[ix] = 0;
+        printf(bufferRx); printf("\r\n");
+        prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx));
+      }
+    }
+    zChars = 0; //readChar_Serial_OSAL_emC(console, buffer, sizeof(buffer)-1);
+    if(zChars >0) {
+      bufferCON[zChars] = 0;
+      printf(bufferCON);
+    }
+    sleep_Time_emC(1);
+  }
+  if(!bOk) {
+    printf("serial error\n");
+  }
+  close_Serial_HAL_emC(console);
+  close_Serial_HAL_emC(comport);
+  STACKTRC_LEAVE;
+}
+
+
+
+
 int main(int nArgs, char** argsCmd)
 {
+  testSerial();
   int erret = 0;
   eval_ParseArgs(cmdArgs, ARRAYLEN_emC(cmdArgs), argsCmd, nArgs);
   //StringJc sExtReflectionFile = CONST_z_StringJc("D:/vishia/smlk/Smlk_ObjO_Inspc/test/+ObjOModule_ExmplCtrl/Cprj/genRefl/refl1.bin");
