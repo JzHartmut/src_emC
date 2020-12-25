@@ -61,9 +61,9 @@ int rxThreadRoutine(void* data) {
           do {
             buffer = thiz->valueBuffer;
             ix = thiz->ixBuffer;
-            if(buffer ==null) {                    //if the buffer is not available, possible set a new one
-              Sleep(1);                            //then wait. do not store the byte.
-            }                                      //other meanwhile received bytes are stored internally. 
+            if(buffer ==null) {                  //if the buffer is not available, possible set a new one
+              Sleep(1);                          //then wait. do not store the byte.
+            }                                    //other meanwhile received bytes are stored internally. 
           } while(buffer ==null);
           ixExpected = ix = thiz->ixBuffer;
           thiz->valueBuffer[ix] = (char)(rxByte);
@@ -72,8 +72,10 @@ int rxThreadRoutine(void* data) {
           ix = compareAndSwap_AtomicInteger(&thiz->ixBuffer, ix, ixNew);
         } while(ix != ixExpected && --ctAbort >=0); 
         ASSERT_emC(ctAbort >=0, "internal error rxThreadRoutine Serial_emC", ctAbort, thiz->channel);         
+      } else {                                   //timeout on ReadFile
+        Sleep(10);
       }
-    } else {                                               //rxFIFO is full, should be read, 
+    } else {                                     //rxFIFO is full, should be read, 
       Sleep(10);
     }               
   }
@@ -85,10 +87,11 @@ int rxThreadRoutine(void* data) {
 void close_Serial_HAL_emC(int channel) {
   if(channel <0 || channel >9) { return; }
   HANDLE hPort = hUART_g[channel][0];
-  RxThread_Serial_HALemC* thdata = thdata_g[channel];
+  RxThread_Serial_HALemC* thiz = thdata_g[channel];
+  thdata_g[channel] = null;
   BOOL ok = 1;
-  if(thdata != null) {
-    thdata->run = 0;
+  if(thiz != null) {
+    thiz->run = 0;
   }
   if(hPort !=null) {
     ok = CancelIoEx(hPort, 0);
@@ -99,14 +102,8 @@ void close_Serial_HAL_emC(int channel) {
       STACKTRC_LEAVE;
     } 
   }
-  hPort = hUART_g[channel][1];
-  if(hPort !=null) {
-    ok = CloseHandle(hPort);
-    if(!ok) {
-      STACKTRC_ENTRY("close_Serial_OSAL_emC");
-      THROW_s0(IllegalArgumentException, "close faulty", 0, 0);
-      STACKTRC_LEAVE;
-    }
+  if(thiz != null) {
+    free(thiz);
   }
 }
 
@@ -116,10 +113,12 @@ void close_Serial_HAL_emC(int channel) {
 int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
   , int32 baud, ParityStop_Serial_HALemC bytePattern) {
 
-  int erret = -99;
+  int erret = 0;
+  char const* errorText = null;
   STACKTRC_ENTRY("open_Serial_OSAL_emC");
   if(channel <0 ||channel >8) {
     erret = -1;
+    errorText = "faulty channel, admissible 0..8";
     STACKTRC_RETURN erret;
   }
   char sPort[5]; 
@@ -135,11 +134,14 @@ int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
   uint32 mode = 0; //FILE_FLAG_OVERLAPPED;
   HANDLE h1 = CreateFile( sPort, dirFile, 0, NULL, OPEN_EXISTING, mode, NULL );
   DCB dcb;
-  if (h1 == null || !GetCommState(h1,&dcb)) {
-    CloseHandle(h1);
-    THROW_s0(IllegalArgumentException, "comm state faulty", 0, 0);
+  if (h1 == null || h1 == INVALID_HANDLE_VALUE) {
+    errorText = "open fails, invalid handle";
     erret = -26;
   } else if(channel >=1 && baud >0) {
+    if (!GetCommState(h1,&dcb)) {
+      erret = -4;
+      errorText = "GetCommState fails";
+    }
     dcb.BaudRate = baud;
     dcb.ByteSize = 8; //8 data bits
     int parity = (bytePattern & ParityOddStop1_Serial_HALemC) ? ODDPARITY :
@@ -147,25 +149,50 @@ int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
                  NOPARITY;
     dcb.Parity = parity;
     dcb.StopBits = (bytePattern & ParityNoStop2_Serial_HALemC) ? TWOSTOPBITS : ONESTOPBIT;
+    dcb.fDtrControl = DTR_CONTROL_DISABLE;
+    dcb.fRtsControl = RTS_CONTROL_DISABLE;
+    dcb.fOutxDsrFlow = 0;
+    dcb.fOutxCtsFlow = 0;
+    dcb.fDsrSensitivity = 0;
+    dcb.fOutX = 0;
+    dcb.fInX = 0;
+
     if (!SetCommState(h1,&dcb)) {
       erret = -3;
-      CloseHandle(h1);
-      THROW_s0(IllegalArgumentException, "comm state - cannot set", erret, 0);
+      errorText = "SetCommState fails";
+    } else {
+
+      COMMTIMEOUTS commTimeout;
+      if(!GetCommTimeouts(h1, &commTimeout)) {
+        errorText = "GetCommTimeouts fails";
+      } else {
+        commTimeout.ReadIntervalTimeout = MAXDWORD;  //see https://docs.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-commtimeouts
+        commTimeout.ReadTotalTimeoutConstant = 0;
+        commTimeout.ReadTotalTimeoutMultiplier = 0;
+        commTimeout.WriteTotalTimeoutConstant = 10;
+        commTimeout.WriteTotalTimeoutMultiplier = 10;
+        if(!SetCommTimeouts(h1, &commTimeout)) {
+          errorText = "SetCommTimeouts fails";
+          erret = -3;
+        }
+      }
     }
-    else {
-      hUART_g[channel][0] = h1;  //store static globally
-      erret = 0; //handle.
-      void* thdataVoid = malloc(sizeof(RxThread_Serial_HALemC));
-      RxThread_Serial_HALemC* thdata = C_CAST(RxThread_Serial_HALemC*, thdataVoid);
-      thdata->valueBuffer = null;    //
-      thdata->zBuffer = 0;
-      thdata->channel = channel;
-      //thdata->ixFIFOrd = 0;
-      //thdata->ixFIFOwr = 0;
-      thdata->hPort = h1;
-      os_createThread(&thdata->hThread, rxThreadRoutine, thdata, sPort, 128, 0);
-      thdata_g[channel] = thdata;                          //yet allow access to received data.
-    }   
+  }
+  if(erret ==0 && errorText == null) {
+    hUART_g[channel][0] = h1;  //store static globally
+    void* thdataVoid = malloc(sizeof(RxThread_Serial_HALemC));
+    RxThread_Serial_HALemC* thdata = C_CAST(RxThread_Serial_HALemC*, thdataVoid);
+    thdata->valueBuffer = null;    //
+    thdata->zBuffer = 0;
+    thdata->channel = channel;
+    //thdata->ixFIFOrd = 0;
+    //thdata->ixFIFOwr = 0;
+    thdata->hPort = h1;
+    os_createThread(&thdata->hThread, rxThreadRoutine, thdata, sPort, 128, 0);
+    thdata_g[channel] = thdata;                          //yet allow access to received data.
+  } else {
+    CloseHandle(h1);
+    THROW_s0(IllegalArgumentException, errorText, channel, erret);
   }
   STACKTRC_RETURN erret;
 }
@@ -184,21 +211,23 @@ void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, i
     THROW_s0n(IllegalArgumentException, "serial port is not opened", channel, 0); 
     return;
   }
+  int ixBuffer = 0;
   if(fromCurrent >0) {
     MemUnit* bufferCurr = thdata->valueBuffer;
     thdata->valueBuffer = null;                //from now the rxThreadRoutine cannot write
     int zCopy = thdata->ixBuffer - fromCurrent;
-    ASSERT_emC(thdata->valueBuffer !=null && zCopy >=0, "?", 0,0);
+    ASSERT_emC(bufferCurr !=null && zCopy >=0, "?", 0,0);
     if(zCopy > zBuffer) {
       zCopy = zBuffer;
     }
     if(zCopy >0) {
       memcpy( valueBuffer, bufferCurr + fromCurrent, zCopy);
+      ixBuffer = zCopy;
     }
   }
-  thdata->valueBuffer = valueBuffer;
   thdata->zBuffer = zBuffer;
-  thdata->ixBuffer = 0;
+  thdata->ixBuffer = ixBuffer;
+  thdata->valueBuffer = valueBuffer;             //set buffer at last, up to now writing is possible.
 }
 
 
@@ -264,9 +293,16 @@ int hasRxChars_Serial_HALemC ( int channel ) {
 
 int txSerial_HALemC ( int const channel, MemUnit const* const data, int const fromCharPos, int const zChars) {
   if(channel <1 || channel >8) { return -1; }
-  HANDLE hPort = hUART_g[channel][1];
+  HANDLE hPort = hUART_g[channel][0];
   DWORD byteswritten = 0;
-  BOOL retVal = WriteFile(hPort, data + (fromCharPos / BYTE_IN_MemUnit), 1, &byteswritten, NULL);
+  MemUnit const* dataCurr = data + fromCharPos;
+  int zCharsCt = zChars;
+  BOOL retVal;
+  while( --zCharsCt >=0) {
+    retVal = WriteFile(hPort, dataCurr, 1, &byteswritten, NULL);
+    dataCurr +=1;
+    if(!retVal) {break; } 
+  }
   if(retVal) {
     return zChars - ((int)byteswritten);  //often 0
   } else {

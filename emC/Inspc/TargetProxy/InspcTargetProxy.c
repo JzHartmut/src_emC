@@ -217,23 +217,21 @@ Ctrl_ParseArgs const cmdArgs[] =
 
 void testSerial() {
   STACKTRC_ENTRY("testSerial");
-  char bufferCON[29];
   int comport = 7;
   int console = 0;
   int error;
   bool bOk = true;
-  error = init_Serial_HALemC(comport, toRead_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
+  error = init_Serial_HALemC(comport, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
   ASSERT_emC(error ==0, "error comport", error, comport);
   if(error) { bOk = false; }
-  //error = init_Serial_HALemC(comport, 115200, toWrite_Serial_HALemC);
-  ASSERT_emC(error ==0, "error comport", error, comport);
-  if(error) { bOk = false; }
-  //error = init_Serial_HALemC(console, 0, toRead_Serial_HALemC);
+  error = init_Serial_HALemC(console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
   ASSERT_emC(error ==0, "error console", error, 0);
   if(error) { bOk = false; }
   char bufferRx[128];
+  char bufferKeyboard[80];
   int ixCharsChecked = 0;
   prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), 0);
+  prepareRx_Serial_HALemC(console, bufferKeyboard, sizeof(bufferKeyboard), 0);
   while(bOk) {
     int zChars = hasRxChars_Serial_HALemC(comport);
     for(int ix = ixCharsChecked; ix < zChars; ++ix) {
@@ -260,10 +258,12 @@ void testSerial() {
       printf(bufferRx); printf("\n");
       prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), 0);
     }
-    zChars = 0; //readChar_Serial_OSAL_emC(console, buffer, sizeof(buffer)-1);
+    zChars = hasRxChars_Serial_HALemC(console);
     if(zChars >0) {
-      bufferCON[zChars] = 0;
-      printf(bufferCON);
+      bufferKeyboard[zChars] = 0;
+      printf(bufferKeyboard);
+      txCharSerial_HALemC(comport, bufferKeyboard, 0, zChars);
+      prepareRx_Serial_HALemC(console, bufferKeyboard, sizeof(bufferKeyboard), 0);
     }
     sleep_Time_emC(1);
   }

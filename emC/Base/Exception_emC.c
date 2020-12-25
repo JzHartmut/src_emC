@@ -243,7 +243,7 @@ const char* getExceptionText_ExceptionJc(int32 exceptionNr)
 int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
 {
   if(zbuffer == 0) { return 0; }
-  zbuffer -=1; //append a \0 in any case.
+  zbuffer -=2; //append a \n\0 in any case.
   int pos = 0;
   pos += copyToBuffer_StringJc(exc->exceptionMsg, 0, -1, buffer + pos, zbuffer - pos);
   pos += strncpy_emC(buffer+pos, "(", zbuffer - pos);
@@ -271,6 +271,7 @@ int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFil
   pos += strncpy_emC(buffer + pos, sFile, zbuffer - pos);
   pos += strncpy_emC(buffer + pos, "@", zbuffer - pos);
   pos += toString_int32_emC(buffer + pos, zbuffer - pos, line, 10, 0);
+  buffer[pos++] = '\n';  //terminating 0
   buffer[pos] = 0;  //terminating 0
   return pos;
 }
