@@ -233,15 +233,32 @@ void testSerial() {
   if(error) { bOk = false; }
   char bufferRx[128];
   int ixCharsChecked = 0;
-  prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx));
+  prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), 0);
   while(bOk) {
     int zChars = hasRxChars_Serial_HALemC(comport);
     for(int ix = ixCharsChecked; ix < zChars; ++ix) {
-      if(bufferRx[ix] == '\r') {                           //check for a complete line:
+      char cc = bufferRx[ix];
+      if(cc == '\r' || cc == '\n') {             //check for a complete line:
         bufferRx[ix] = 0;
-        printf(bufferRx); printf("\r\n");
-        prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx));
+        printf(bufferRx); printf("\r\n");        //skip over all \r\n
+        while(++ix < zChars && ((cc = bufferRx[ix])== '\r' || cc == '\n')){}   
+        //It is not known from here whether more bytes are received meanwhile.
+        //ix is the evaluated end. prepareRx decides whether bytes are transferred
+        //to the start of the new buffer. 
+        prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), ix);
+        zChars = 0;                              
+        break;
       }
+    }
+    if(zChars == ARRAYLEN_emC(bufferRx)) {        //0x0d not found in buffer
+      int ix;
+      for(ix = 0; ix < zChars-1; ++ix) {
+        if(bufferRx[ix] < ' ') { bufferRx[ix] = '?';}
+      }
+      bufferRx[ix] = 0;  //last
+      printf("no RETURN found:\n");
+      printf(bufferRx); printf("\n");
+      prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), 0);
     }
     zChars = 0; //readChar_Serial_OSAL_emC(console, buffer, sizeof(buffer)-1);
     if(zChars >0) {

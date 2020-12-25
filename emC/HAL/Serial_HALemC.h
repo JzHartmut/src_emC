@@ -61,7 +61,7 @@ extern_C int stepTx_Serial_HALemC( int const channel);
  * The call of this operation clears the number of current received data words. [[See hasRx_HALemC(...)]].
  * The buffer content is valid only after quest of [[hasRxChars_HALemC(...)]] for the returned number of characters.
  * */
-extern_C void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer);
+extern_C void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, int fromCurrent);
 
 
 /**Returns the number of received character after calling [[prepareRxSerial_HALemC(...)]].

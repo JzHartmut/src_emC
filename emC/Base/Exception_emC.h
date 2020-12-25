@@ -322,11 +322,23 @@ extern_C void clearException(ExceptionJc* exc);
       _thCxt->exception[0].line = __LINE__; \
       log_ExceptionJc(&_thCxt->exception[0], __FILE__, __LINE__); \
     }
+  #e#define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE) { if(_thCxt == null) \
+    { _thCxt = getCurrent_ThreadContext_emC(); } \
+      _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##Jc; \
+      _thCxt->exception[0].exceptionValue = VAL1; \
+      _thCxt->exception[0].file = FILE; \
+      _thCxt->exception[0].line = LINE; \
+      log_ExceptionJc(&_thCxt->exception[0], __FILE__, __LINE__); \
+    }
   #else //both DEF_Exception_TRYCpp or longjmp:
     #ifdef DEF_NO_StringJcCapabilities
+      #define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE) \
+        throw_sJc(ident_##EXCEPTION##Jc, null, VAL1, FILE, LINE, _thCxt)
       #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
         throw_sJc(ident_##EXCEPTION##Jc, null, VAL1, __FILE__, __LINE__, _thCxt)
     #else
+      #define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE) \
+        throw_sJc(ident_##EXCEPTION##Jc, MSG, VAL1, FILE, LINE, _thCxt)
       #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
         throw_sJc(ident_##EXCEPTION##Jc, MSG, VAL1, __FILE__, __LINE__, _thCxt)
     #endif
@@ -334,6 +346,7 @@ extern_C void clearException(ExceptionJc* exc);
 #endif
 
 #ifndef THROW_s0
+  #define THROW_s0f(EXCEPTION, TEXT, VAL1, VAL2, FILE, LINE)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, FILE, LINE, _thCxt)
   #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, _thCxt)
 #endif
 
@@ -345,6 +358,7 @@ extern_C void clearException(ExceptionJc* exc);
  * @param VAL1, VAL2 two int values
  */
 #ifndef THROW_s0n
+  #define THROW_s0nf(EXCEPTION, TEXT, VAL1, VAL2, FILE, LINE)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, FILE, LINE, null)
   #define THROW_s0n(EXCEPTION, TEXT, VAL1, VAL2)  throw_s0Jc(ident_##EXCEPTION##Jc, TEXT, VAL1, __FILE__, __LINE__, null)
 #endif
 

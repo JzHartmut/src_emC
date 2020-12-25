@@ -13,15 +13,16 @@
 #include <winbase.h>
 
 typedef struct RxThread_Serial_HALemC_T {
+  int channel;
+  int zBuffer;
+  int ixBuffer;           //:index already transferred characters from FIFO (rxFIFO) to valueBuffer.
+  //MemUnit rxFIFO[32];  //:the internal rxFIFO
+  //int ixFIFOrd;                  //.....^           ^            |
+  //int ixFIFOwr;                 //     store       read
+  int run;
   OS_HandleThread hThread;
   HANDLE hPort;
   MemUnit* valueBuffer;   //:the user buffer to get the data.
-  int zBuffer;
-  int ixBuffer;           //:index already transferred characters from FIFO (rxFIFO) to valueBuffer.
-  MemUnit rxFIFO[32];  //:the internal rxFIFO
-  int ixFIFOrd;                  //.....^           ^            |
-  int ixFIFOwr;                 //     store       read
-  int run;
 } RxThread_Serial_HALemC;
 
 //handles for CONIN, CONOUT and 8 UART, null if not opened.
@@ -32,23 +33,45 @@ static RxThread_Serial_HALemC* thdata_g[10];
 
 int rxThreadRoutine(void* data) {
   RxThread_Serial_HALemC* thiz = C_CAST(RxThread_Serial_HALemC*, data);
-  thiz->ixFIFOrd = 0;
-  thiz->ixFIFOwr = 0;
+  //thiz->ixFIFOrd = 0;
+  //thiz->ixFIFOwr = 0;
   thiz->run = 1;
   DWORD dwBytesTransferred;
   while(thiz->run) {
-
+    /*
     int zFree;
     if(thiz->ixFIFOrd == ARRAYLEN_emC(thiz->rxFIFO)) { //all was read till end
       thiz->ixFIFOrd = thiz->ixFIFOwr = 0;          //start from begin, ringbuffer
     } 
     zFree = ARRAYLEN_emC(thiz->rxFIFO) - thiz->ixFIFOwr;  //fill till end
+    */
     //
-    if(zFree >0) {
-      MemUnit* pRxBuffer = &thiz->rxFIFO[thiz->ixFIFOwr];
-      BOOL ok = ReadFile (thiz->hPort, pRxBuffer, zFree, &dwBytesTransferred, 0);
+    //if(zFree >0) {
+    if(thiz->ixBuffer < thiz->zBuffer) {
+      int rxByte = 0;  //write received data in stack is possible.
+      //MemUnit* pRxBuffer = &thiz->rxFIFO[thiz->ixFIFOwr];
+      //BOOL ok = ReadFile (thiz->hPort, pRxBuffer, zFree, &dwBytesTransferred, 0);
+      //it stores only one received byte immediately local:
+      BOOL ok = ReadFile (thiz->hPort, &rxByte, 1, &dwBytesTransferred, 0);
       if(ok && dwBytesTransferred >0) {
-        thiz->ixFIFOwr += (int)(dwBytesTransferred);
+        MemUnit* buffer;
+        int ix, ixExpected;
+        int ctAbort = 3;
+        do {
+          do {
+            buffer = thiz->valueBuffer;
+            ix = thiz->ixBuffer;
+            if(buffer ==null) {                    //if the buffer is not available, possible set a new one
+              Sleep(1);                            //then wait. do not store the byte.
+            }                                      //other meanwhile received bytes are stored internally. 
+          } while(buffer ==null);
+          ixExpected = ix = thiz->ixBuffer;
+          thiz->valueBuffer[ix] = (char)(rxByte);
+          int ixNew = ix+1;
+          //thiz->ixFIFOwr += (int)(dwBytesTransferred);
+          ix = compareAndSwap_AtomicInteger(&thiz->ixBuffer, ix, ixNew);
+        } while(ix != ixExpected && --ctAbort >=0); 
+        ASSERT_emC(ctAbort >=0, "internal error rxThreadRoutine Serial_emC", ctAbort, thiz->channel);         
       }
     } else {                                               //rxFIFO is full, should be read, 
       Sleep(10);
@@ -132,11 +155,13 @@ int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
     else {
       hUART_g[channel][0] = h1;  //store static globally
       erret = 0; //handle.
-      RxThread_Serial_HALemC* thdata = C_CAST(RxThread_Serial_HALemC*, malloc(sizeof(RxThread_Serial_HALemC)));
+      void* thdataVoid = malloc(sizeof(RxThread_Serial_HALemC));
+      RxThread_Serial_HALemC* thdata = C_CAST(RxThread_Serial_HALemC*, thdataVoid);
       thdata->valueBuffer = null;    //
       thdata->zBuffer = 0;
-      thdata->ixFIFOrd = 0;
-      thdata->ixFIFOwr = 0;
+      thdata->channel = channel;
+      //thdata->ixFIFOrd = 0;
+      //thdata->ixFIFOwr = 0;
       thdata->hPort = h1;
       os_createThread(&thdata->hThread, rxThreadRoutine, thdata, sPort, 128, 0);
       thdata_g[channel] = thdata;                          //yet allow access to received data.
@@ -148,7 +173,7 @@ int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
 
 
 
-void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer) {
+void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, int fromCurrent) {
   if(channel <0 || channel >8) { 
     THROW_s0n(IllegalArgumentException, "faulty serial port", channel, 0); 
     return;
@@ -158,6 +183,18 @@ void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer) {
   if(hPort == null || thdata == null) {
     THROW_s0n(IllegalArgumentException, "serial port is not opened", channel, 0); 
     return;
+  }
+  if(fromCurrent >0) {
+    MemUnit* bufferCurr = thdata->valueBuffer;
+    thdata->valueBuffer = null;                //from now the rxThreadRoutine cannot write
+    int zCopy = thdata->ixBuffer - fromCurrent;
+    ASSERT_emC(thdata->valueBuffer !=null && zCopy >=0, "?", 0,0);
+    if(zCopy > zBuffer) {
+      zCopy = zBuffer;
+    }
+    if(zCopy >0) {
+      memcpy( valueBuffer, bufferCurr + fromCurrent, zCopy);
+    }
   }
   thdata->valueBuffer = valueBuffer;
   thdata->zBuffer = zBuffer;
@@ -207,6 +244,8 @@ int hasRxChars_Serial_HALemC ( int channel ) {
       }
     //}  
 #endif
+
+#if 0 //receive only 1 byte in READFILE
     int nrCharsAvail = thiz->ixFIFOwr - thiz->ixFIFOrd;
   for(int ix = 0; ix < nrCharsAvail; ++ix) {
     if(thiz->ixBuffer >= thiz->zBuffer) {
@@ -214,7 +253,7 @@ int hasRxChars_Serial_HALemC ( int channel ) {
     }
     thiz->valueBuffer[thiz->ixBuffer++] = thiz->rxFIFO[thiz->ixFIFOrd++];
   }
-
+#endif
   return thiz->ixBuffer;
 }
 

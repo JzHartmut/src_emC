@@ -311,8 +311,10 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 #define THROW1(EXC, TEXT, VAL) THROW(EXC, TEXT, VAL,0)
 
 #ifdef DEF_NO_StringJcCapabilities
+  #define THROW_s0f(EXCEPTION, TEXT, VAL1, VAL2, FILE, LINE)  THROWf(EXCEPTION, TEXT, VAL1, VAL2, FILE, LINE)
   #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  THROW(EXCEPTION, TEXT, VAL1, VAL2)
 #else
+  #define THROW_s0f(EXCEPTION, TEXT, VAL1, VAL2, FILE, LINE)  THROWf(EXCEPTION, z_StringJc(TEXT), VAL1, VAL2, FILE, LINE)
   #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  THROW(EXCEPTION, z_StringJc(TEXT), VAL1, VAL2)
 #endif
 
@@ -322,8 +324,11 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
 #define STACKTRC_RETURN STACKTRC_LEAVE; return
 
-/**Possibility call throw without _thCxt variable.*/
-#define THROW_s0n(EXCEPTION, MSG, VAL1, VAL2)  { STACKTRC_ENTRY("THROW_s0n"); THROW_s0(EXCEPTION, MSG, VAL1, VAL2); STACKTRC_LEAVE; }
+/**Possibility call throw without STACKTRC(...) designation.
+ */
+//The THROW... macros expect a variable _ThCxt. It can be null, admissible. 
+#define THROW_s0nf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE)  { ThCxt* _thCxt = null; THROW_s0f(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE); }
+#define THROW_s0n(EXCEPTION, MSG, VAL1, VAL2)  { ThCxt* _thCxt = null; ; THROW_s0(EXCEPTION, MSG, VAL1, VAL2); }
 
 
 /*@CLASS_C LogException_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@qq*/

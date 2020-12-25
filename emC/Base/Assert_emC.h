@@ -33,14 +33,14 @@
    * @return cond for if construct.
    *
    */
-  extern_C bool assert_s_emC(bool cond, char const* text, int val1, int val2);
+  extern_C bool assert_s_emC(bool cond, char const* text, int val1, int val2, char const* file, int line);
 
   /**The assertion will be checked. If it is false, the called routine invokes THROW
    * depending on implementation of assert_s_emC(...)
    * Depending on THROW implementation either it is thrown (C++ Exception handling)
    * or a log will be written. 
    */
-  #define ASSERT_emC(COND, TEXT, VAL1, VAL2) { if(!(COND)) { assert_s_emC(false, TEXT, VAL1, VAL2); } }
+  #define ASSERT_emC(COND, TEXT, VAL1, VAL2) { if(!(COND)) { assert_s_emC(false, TEXT, VAL1, VAL2, __FILE__, __LINE__); } }
 
 
   /**This variant of assertion enables the execution of a following code only if the assertion mets.
@@ -49,7 +49,7 @@
    *   //execute only if met.
    * }</pre>
    * */
-  #define IF_ASSERT_emC(COND, TEXT, VAL1, VAL2) if(!(COND)) { assert_s_emC(false, TEXT, VAL1, VAL2) } else
+  #define IF_ASSERT_emC(COND, TEXT, VAL1, VAL2) if(!(COND)) { assert_s_emC(false, TEXT, VAL1, VAL2, __FILE__, __LINE__) } else
 
   /**This variant of assertion enables the execution of a following code only if the assertion mets
    * and contains a branch for faulty assertion.
@@ -60,14 +60,9 @@
    *   //alternative if the assertion does not met. 
    * }</pre>
    * */
-  #define CHECK_ASSERT_emC(COND, TEXT, VAL1, VAL2) ((COND) || assert_s_emC(false, TEXT, VAL1, VAL2) )
+  #define CHECK_ASSERT_emC(COND, TEXT, VAL1, VAL2) ((COND) || assert_s_emC(false, TEXT, VAL1, VAL2, __FILE__, __LINE__) )
 
-   //Note: The inline variant does not work in some C environments.
-  //inline bool ASSERT_emC(bool cond, char const* text, int val1, int val2) {
-  //  if(!cond) { assert_s_emC(cond, text, val1, val2); }
-  //  return cond;
-  //}
-
+  
 
   #define ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW_s0(RuntimeException, "assertion", 0,0); VAR = MIN; } }
 
