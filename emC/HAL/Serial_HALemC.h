@@ -9,6 +9,15 @@ enum Direction_Serial_HALemC {
 , toReadWrite_Serial_HALemC = 3  //contains 1 and 2 as mask.
 };
 
+enum ParityStop_Serial_HALemC {
+  ParityOddStop1_Serial_HALemC = 2    //Note can be used as mask for int too.
+, ParityOddStop2_Serial_HALemC = 3
+, ParityEvenStop1_Serial_HALemC = 4    //Note can be used as mask for int too.
+, ParityEvenStop2_Serial_HALemC = 5
+, ParityNoStop1_Serial_HALemC = 0
+, ParityNoStop2_Serial_HALemC = 1  //Note can be used as mask for int too.
+};
+
 
 /**Initializes a pre-defined serial channel.
  * The application does not determine the kind of the serial communication (async, sync etc),
@@ -20,7 +29,8 @@ enum Direction_Serial_HALemC {
  * @return 0 if ok, else an internal error number (using in debug).
  *    If an existing channel is used, the 0 as return is expected.
  */
-extern_C int init_Serial_HALemC ( int channel, int32 bitPerSecond, Direction_Serial_HALemC dir);
+extern_C int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
+  , int32 baud, ParityStop_Serial_HALemC bytePattern);
 
 /**Sends some non packed characters. The character are stored one after another in the memory.
  * The int* pointer addresses the memory in is nature.
@@ -70,5 +80,6 @@ extern_C int hasRxChars_Serial_HALemC ( int channel );
 
 /**Deactivates usage of the channel. */
 extern_C void close_Serial_HAL_emC(int channel);
+
 
 #endif //HGUARD_serial_HALemC

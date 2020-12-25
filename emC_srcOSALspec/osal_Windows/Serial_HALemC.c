@@ -18,7 +18,7 @@ typedef struct RxThread_Serial_HALemC_T {
   MemUnit* valueBuffer;   //:the user buffer to get the data.
   int zBuffer;
   int ixBuffer;           //:index already transferred characters from FIFO (rxFIFO) to valueBuffer.
-  MemUnit rxFIFO[128];  //:the internal rxFIFO
+  MemUnit rxFIFO[32];  //:the internal rxFIFO
   int ixFIFOrd;                  //.....^           ^            |
   int ixFIFOwr;                 //     store       read
   int run;
@@ -68,6 +68,7 @@ void close_Serial_HAL_emC(int channel) {
     thdata->run = 0;
   }
   if(hPort !=null) {
+    ok = CancelIoEx(hPort, 0);
     ok = CloseHandle(hPort);
     if(!ok) {
       STACKTRC_ENTRY("close_Serial_OSAL_emC");
@@ -89,7 +90,8 @@ void close_Serial_HAL_emC(int channel) {
 
 
 //0 is console, 1...8 = COM1..8
-int init_Serial_HALemC ( int channel, int32 boud, Direction_Serial_HALemC dir ) {
+int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
+  , int32 baud, ParityStop_Serial_HALemC bytePattern) {
 
   int erret = -99;
   STACKTRC_ENTRY("open_Serial_OSAL_emC");
@@ -114,11 +116,14 @@ int init_Serial_HALemC ( int channel, int32 boud, Direction_Serial_HALemC dir ) 
     CloseHandle(h1);
     THROW_s0(IllegalArgumentException, "comm state faulty", 0, 0);
     erret = -26;
-  } else if(channel >=1 && boud >0) {
-    dcb.BaudRate = boud;
+  } else if(channel >=1 && baud >0) {
+    dcb.BaudRate = baud;
     dcb.ByteSize = 8; //8 data bits
-    dcb.Parity = NOPARITY; //no parity
-    dcb.StopBits = ONESTOPBIT; //1 stop
+    int parity = (bytePattern & ParityOddStop1_Serial_HALemC) ? ODDPARITY :
+                 (bytePattern & ParityEvenStop1_Serial_HALemC) ? EVENPARITY :
+                 NOPARITY;
+    dcb.Parity = parity;
+    dcb.StopBits = (bytePattern & ParityNoStop2_Serial_HALemC) ? TWOSTOPBITS : ONESTOPBIT;
     if (!SetCommState(h1,&dcb)) {
       erret = -3;
       CloseHandle(h1);
@@ -130,6 +135,8 @@ int init_Serial_HALemC ( int channel, int32 boud, Direction_Serial_HALemC dir ) 
       RxThread_Serial_HALemC* thdata = C_CAST(RxThread_Serial_HALemC*, malloc(sizeof(RxThread_Serial_HALemC)));
       thdata->valueBuffer = null;    //
       thdata->zBuffer = 0;
+      thdata->ixFIFOrd = 0;
+      thdata->ixFIFOwr = 0;
       thdata->hPort = h1;
       os_createThread(&thdata->hThread, rxThreadRoutine, thdata, sPort, 128, 0);
       thdata_g[channel] = thdata;                          //yet allow access to received data.
@@ -154,7 +161,7 @@ void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer) {
   }
   thdata->valueBuffer = valueBuffer;
   thdata->zBuffer = zBuffer;
-  thdata->ixFIFOwr = 0;
+  thdata->ixBuffer = 0;
 }
 
 
@@ -176,7 +183,31 @@ int hasRxChars_Serial_HALemC ( int channel ) {
 //  if(dwBytesTransferred ==0) {
 //    return 0; 
 //  } else 
-  int nrCharsAvail = thiz->ixFIFOwr - thiz->ixFIFOrd;
+#if 0
+    int zFree;
+    if(thiz->ixFIFOrd == ARRAYLEN_emC(thiz->rxFIFO)) { //all was read till end
+      thiz->ixFIFOrd = thiz->ixFIFOwr = 0;          //start from begin, ringbuffer
+    } 
+    zFree = ARRAYLEN_emC(thiz->rxFIFO) - thiz->ixFIFOwr;  //fill till end
+    //if(zFree >0) {
+      DWORD dwBytesTransferred;
+      static OVERLAPPED overlapped = {0};
+      DWORD error = 0;
+      MemUnit* pRxBuffer = &thiz->rxFIFO[thiz->ixFIFOwr];
+      BOOL ok = ReadFile (thiz->hPort, pRxBuffer, zFree, &dwBytesTransferred, &overlapped);
+      if(!ok) {
+        error = GetLastError();
+        if(error == ERROR_IO_PENDING) {
+        } else {
+          error = 0;
+        }
+      }
+      if(ok && dwBytesTransferred >0) {
+        thiz->ixFIFOwr += (int)(dwBytesTransferred);
+      }
+    //}  
+#endif
+    int nrCharsAvail = thiz->ixFIFOwr - thiz->ixFIFOrd;
   for(int ix = 0; ix < nrCharsAvail; ++ix) {
     if(thiz->ixBuffer >= thiz->zBuffer) {
       break;                                               //no more space in valueBuffer

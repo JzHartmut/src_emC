@@ -222,13 +222,13 @@ void testSerial() {
   int console = 0;
   int error;
   bool bOk = true;
-  error = init_Serial_HALemC(comport, 115200, toRead_Serial_HALemC);
+  error = init_Serial_HALemC(comport, toRead_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
   ASSERT_emC(error ==0, "error comport", error, comport);
   if(error) { bOk = false; }
   //error = init_Serial_HALemC(comport, 115200, toWrite_Serial_HALemC);
   ASSERT_emC(error ==0, "error comport", error, comport);
   if(error) { bOk = false; }
-  error = init_Serial_HALemC(console, 0, toRead_Serial_HALemC);
+  //error = init_Serial_HALemC(console, 0, toRead_Serial_HALemC);
   ASSERT_emC(error ==0, "error console", error, 0);
   if(error) { bOk = false; }
   char bufferRx[128];
