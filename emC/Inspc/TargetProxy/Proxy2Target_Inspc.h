@@ -25,6 +25,8 @@ typedef struct Proxy2Target_Inspc_t
 
   int16 lifeCtTarget;
 
+  int16 channelTarget;
+
   int32 ms_LastTimeCommunication;
 
 

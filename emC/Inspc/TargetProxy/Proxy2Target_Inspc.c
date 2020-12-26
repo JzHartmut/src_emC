@@ -2,6 +2,7 @@
 #ifdef DEF_INSPC_REMOTEACCESS
 
 #include "Proxy2Target_Inspc.h"
+#include <emC/HAL/Serial_HALemC.h>
 
 #include <stdio.h> //printf
 #include <emC/OSAL/os_time.h>
@@ -18,7 +19,10 @@
 Proxy2Target_Inspc* ctor_Proxy2Target_Inspc(ObjectJc* thizo, ThCxt* _thCxt) {
   STACKTRC_TENTRY("ctor_Proxy2Target_Inspc");
   checkInit_ObjectJc(thizo, sizeof(Proxy2Target_Inspc), &refl_Proxy2Target_Inspc, 0);
-  STACKTRC_RETURN (Proxy2Target_Inspc*) thizo;
+  Proxy2Target_Inspc* thiz = (Proxy2Target_Inspc*) thizo;
+  thiz->channelTarget = 7;  //COM7
+  open_Serial_HALemC(thiz->channelTarget, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
+  STACKTRC_RETURN thiz;
 }
 
 
@@ -62,18 +66,26 @@ int32 get_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cm
   thiz->seqnrTxTarget = (thiz->seqnrTxTarget +1) & 0xff;
   setCmdSeqnr_TelgProxy2Target_Inspc(txTelg, cmd, thiz->seqnrTxTarget);
   //The target will be read this information in about the next few micro to milliseconds.
-  //It is a poor polling. 
-  int seqnrtarget;
+  //No: It is a poor polling. 
+  //applies the send data in a specific way
+  prepareRx_Serial_HALemC(thiz->channelTarget, (MemUnit*)thiz->target2proxy, sizeof(*thiz->target2proxy), 0);
+
+  tx_Serial_HALemC(thiz->channelTarget, C_CAST(MemUnit const*,txTelg), 0, nrofBytesTx);
+  int seqnrtarget = -1;
+  bool hasReceived = false;
   TelgTarget2Proxy_Inspc_s const* rxTelg = thiz->target2proxy;
   int timeout = 1000;  //seconds
   do {
     os_delayThread(1);
-    //return thiz->answerWord_Target;
-    seqnrtarget = getSeqnr_TelgTarget2Proxy_Inspc(rxTelg);
-    if (timeout <= 100) {
-      timeout +=0;   //debug break
+    int zRx = hasRxChars_Serial_HALemC(thiz->channelTarget);
+    if(zRx >=sizeof((*rxTelg))) {
+      seqnrtarget = getSeqnr_TelgTarget2Proxy_Inspc(rxTelg);
+      hasReceived = seqnrtarget == thiz->seqnrTxTarget; 
+      if (timeout <= 100) {
+        timeout +=0;   //debug break
+      }
     }
-  } while(seqnrtarget != thiz->seqnrTxTarget && --timeout >=0);
+  } while(!hasReceived && --timeout >=0);
   int32 value;
   if(timeout < 0){
     value = -1;
