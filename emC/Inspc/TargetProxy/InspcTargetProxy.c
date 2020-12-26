@@ -224,13 +224,12 @@ void testSerial() {
   int console = 0;
   int error;
   bool bOk = true;
-  error = init_Serial_HALemC(comport, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
+  error = open_Serial_HALemC(comport, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
   ASSERT_emC(error ==0, "error comport", error, comport);
   if(error) { bOk = false; }
-  error = init_Serial_HALemC(console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
+  error = open_Serial_HALemC(console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
   ASSERT_emC(error ==0, "error console", error, 0);
   if(error) { bOk = false; }
-  char bufferKeyboard[80];
   int ixCharsChecked = 0;
   asciiMoniFromKbd.init(console, console, -1);
   asciiMoniFromTarget.init(comport, console, console);
@@ -252,7 +251,7 @@ void testSerial() {
 
 int main(int nArgs, char** argsCmd)
 {
-  testSerial();
+  //testSerial();
   int erret = 0;
   eval_ParseArgs(cmdArgs, ARRAYLEN_emC(cmdArgs), argsCmd, nArgs);
   //StringJc sExtReflectionFile = CONST_z_StringJc("D:/vishia/smlk/Smlk_ObjO_Inspc/test/+ObjOModule_ExmplCtrl/Cprj/genRefl/refl1.bin");

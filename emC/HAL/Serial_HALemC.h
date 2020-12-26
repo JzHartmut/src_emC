@@ -29,7 +29,7 @@ enum ParityStop_Serial_HALemC {
  * @return 0 if ok, else an internal error number (using in debug).
  *    If an existing channel is used, the 0 as return is expected.
  */
-extern_C int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
+extern_C int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
   , int32 baud, ParityStop_Serial_HALemC bytePattern);
 
 /**Sends some non packed characters. The character are stored one after another in the memory.
