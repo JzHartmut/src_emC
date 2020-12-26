@@ -39,7 +39,7 @@ extern_C int init_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
  * @param text non packed characters
  * @return 0: Nothing done, transmit is not possible yet. >= number of set words.
  */
-extern_C int txCharSerial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars);
+extern_C int txChar_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars);
 
 /**Sends memory content.
  * @param zChars Number of 8-bit-portions to send (character-count, bytes).

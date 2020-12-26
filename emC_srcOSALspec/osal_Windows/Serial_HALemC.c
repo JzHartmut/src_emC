@@ -1,6 +1,7 @@
 #include <emC/HAL/Serial_HALemC.h>
 #include <emC/OSAL/os_thread.h>
 #include <applstdef_emC.h>
+#include <stdio.h>
 
 #undef INT32
 #undef UINT32
@@ -291,28 +292,45 @@ int hasRxChars_Serial_HALemC ( int channel ) {
 
 
 
-int txSerial_HALemC ( int const channel, MemUnit const* const data, int const fromCharPos, int const zChars) {
-  if(channel <1 || channel >8) { return -1; }
-  HANDLE hPort = hUART_g[channel][0];
-  DWORD byteswritten = 0;
-  MemUnit const* dataCurr = data + fromCharPos;
-  int zCharsCt = zChars;
-  BOOL retVal;
-  while( --zCharsCt >=0) {
-    retVal = WriteFile(hPort, dataCurr, 1, &byteswritten, NULL);
-    dataCurr +=1;
-    if(!retVal) {break; } 
-  }
-  if(retVal) {
-    return zChars - ((int)byteswritten);  //often 0
-  } else {
-    THROW_s0n(IllegalStateException, "txSerial_HALemC", channel, zChars);
+int tx_Serial_HALemC ( int const channel, MemUnit const* const data, int const fromCharPos, int const zChars) {
+  if(channel == 0) {
+    for(int ix = fromCharPos; ix < zChars; ++ix) {
+      char cc = data[ix];
+      putchar( cc );
+    }
     return 0;
+  }
+  else if(channel <0 || channel >8) { 
+    return 0; 
+  }
+  else {
+    RxThread_Serial_HALemC* thiz = thdata_g[channel];    
+    HANDLE hPort = hUART_g[channel][0];
+    DWORD byteswritten = 0;
+    MemUnit const* dataCurr = data + fromCharPos;
+    int zCharsCt = zChars;
+    BOOL retVal;
+    while( --zCharsCt >=0) {
+      retVal = WriteFile(hPort, dataCurr, 1, &byteswritten, NULL);
+      dataCurr +=1;
+      if(!retVal) {break; } 
+    }
+    if(retVal) {
+      return zChars - ((int)byteswritten);  //often 0
+    } else {
+      THROW_s0n(IllegalStateException, "txSerial_HALemC", channel, zChars);
+      return 0;
+    }
   }
 }
 
 
 
-int txCharSerial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars) {
-  return txSerial_HALemC(channel, text, fromCharPos, zChars);
+int txChar_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars) {
+  return tx_Serial_HALemC(channel, text, fromCharPos, zChars);
+}
+
+
+int stepTx_Serial_HALemC ( int const channel) {
+  return 0;
 }

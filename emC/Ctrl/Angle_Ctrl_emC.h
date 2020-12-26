@@ -22,22 +22,22 @@
 
 
 /**Conversion from 32-bit-angle representation to float value in grad.
- * @param VAL32 angle between -0x80000000 (= 180° ) and 0x7fffffff (= 179.99°)
- * @return angle between -180° and  179.999°
+ * @param VAL32 angle between -0x80000000 (= 180ï¿½ ) and 0x7fffffff (= 179.99ï¿½)
+ * @return angle between -180ï¿½ and  179.999ï¿½
  */
 #define int32_to_grad(VAL32) (( (float)(((int32)(VAL32))) ) * (180.0f / k180_int32floatAngle))
 
 
 /**Conversion from 32-bit-angle representation to float value in rad.
- * @param VAL32 angle between -0x80000000 (= 180° ) and 0x7fffffff (= 179.99°)
- * @return angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°)
+ * @param VAL32 angle between -0x80000000 (= 180ï¿½ ) and 0x7fffffff (= 179.99ï¿½)
+ * @return angle between -kPI_Angle_FB (=180ï¿½) and kPI_Angle_FB-0.000001 (= 179.999ï¿½)
  */
 #define int32_to_rad(VAL32) (( (float)(((int32)(VAL32))) ) * (kPI_Angle_FB / k180_int32floatAngle))
 
 
 /**Conversion from float value in radiant to 16-bit-angle representation.
- * @param RAD angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°) with possible overdrive (modulo 2*kPI_Angle_FB).
- * @return angle between -0x8000 (= 180° ) and 0x7fff (= 179.99°)
+ * @param RAD angle between -kPI_Angle_FB (=180ï¿½) and kPI_Angle_FB-0.000001 (= 179.999ï¿½) with possible overdrive (modulo 2*kPI_Angle_FB).
+ * @return angle between -0x8000 (= 180ï¿½ ) and 0x7fff (= 179.99ï¿½)
  * @Implementation notes: The higher bits if overdriven are removed. It is a general solution.
  */
 #define rad_to_int16(RAD) ((int16)( (RAD) * (32768.0f / kPI_Angle_FB))) 
@@ -46,14 +46,14 @@
 /**Conversion from float value in radiant to 32-bit-angle representation.
  * Reards radiant values from approximately -350..350.
  * Implementation note: 24 bits are used to convert float to integer, The result is shifted 8 bits to left.
- * @param RAD angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°) with possible overdrive (modulo 2*kPI_Angle_FB).
- * @return angle between -0x80000000 (= 180° ) and 0x7fffffff (= 179.99°)
+ * @param RAD angle between -kPI_Angle_FB (=180ï¿½) and kPI_Angle_FB-0.000001 (= 179.999ï¿½) with possible overdrive (modulo 2*kPI_Angle_FB).
+ * @return angle between -0x80000000 (= 180ï¿½ ) and 0x7fffffff (= 179.99ï¿½)
  */
 #define rad_to_int32(RAD) (((int32)( (RAD) * (32768.0f * 256 / kPI_Angle_FB))<<8))
 
 /**Conversion from float value in grad to 32-bit-angle representation.
- * @param GRAD angle between -kPI_Angle_FB (=180°) and kPI_Angle_FB-0.000001 (= 179.999°) with possible overdrive (modulo 2*kPI_Angle_FB).
- * @return angle between -0x80000000 (= 180° ) and 0x7fffffff (= 179.99°)
+ * @param GRAD angle between -kPI_Angle_FB (=180ï¿½) and kPI_Angle_FB-0.000001 (= 179.999ï¿½) with possible overdrive (modulo 2*kPI_Angle_FB).
+ * @return angle between -0x80000000 (= 180ï¿½ ) and 0x7fffffff (= 179.99ï¿½)
  */
 #define grad_to_int32(GRAD) ((int32)( (GRAD) * (k180_int32floatAngle / 180.0f)))
 
@@ -65,6 +65,26 @@
 { y.re = x1.re * x2.re - x1.im * x2.im; \
   y.im = x1.im * x2.re + x1.re * x2.im; \
 }
+
+
+
+
+/* Alpha Beta Transformation (RST->AB)*/
+//inline void rst2ab_i32_Angle_Ctrl_enC(int32* rst, int32_complex* ab) {
+//  ab->re = 2/3.0f * (rst[0] - 0.5f * (rst[1] + rst[2]));
+//  ab->im = 0.5773502692f * (rst[1] - rst[2]);
+//}
+
+
+#define kCos30_int16 ((int32)0xddb4) //value cos(30ï¿½) = 0.8660354 scaled to uint16 point pos 16
+
+inline void ab2rst_i32_Angle_Ctrl_enC(int32_complex* ab, int32* rst) {
+  rst[0] = ab->re;
+  int32 re2 = -(ab->re >>1);  //-0.5 * re = -sin(30ï¿½) * re
+  int32 im30 = kCos30_int16 * (int16)(ab->im >>16); //0.866 * im = cos(30ï¿½) * im
+  rst[1] = re2 + im30;
+  rst[2] = re2 - im30;
+}                 //-0.8b = -S -0.5R
 
 
 
@@ -96,11 +116,12 @@ typedef struct Angle_abwmf_FB_CtrlemC_T
 } Angle_abwmf_FB_CtrlemC;
 
 
-#ifndef DEF_REFLECTION_NO
+#ifdef DEF_REFLECTION_NO
+  #define ID_refl_Angle_abwmf_FB_CtrlemC 0x0fC4
+#else
   extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;
 #endif
 
-#define ID_refl_Angle_abwmf_FB_CtrlemC 0x0fC4
 
 
 /**sets the angle values with given integer angle. 

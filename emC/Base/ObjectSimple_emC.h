@@ -48,6 +48,14 @@
 
 #ifndef HGUARD_ObjectRefl_emC  //it is simple included, not via Object_emC.h
 
+  #if !defined(DEF_ObjectJc_SIMPLE) && !defined(DEF_ObjectJc_REFLREF)
+    #ifdef DEF_REFLECTION_NO
+      #define DEF_ObjectJc_SIMPLE
+    #else
+      #define DEF_ObjectJc_REFLREF
+    #endif
+  #endif
+
   #ifdef DEF_REFLECTION_FULL
     #error DEF_REFLECTION_FULL needs include of Object_emC.h
   #endif

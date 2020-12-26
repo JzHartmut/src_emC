@@ -4,6 +4,8 @@
 #include <emC/Base/ParseArgs_emC.h>
 #include "emC/Jc/ObjectJc.h"
 #include "emC/Jc/ReflectionJc.h"
+//#include <emC/AsciiMoni/AsciiMoni.h>
+#include <emC/Inspc/TargetProxy/AsciiMoniToTarget.h>
 
 //#include "InspcJ2c/ModulAcq_Inspc.h"
 //#include "InspcJ2c/FactoryDevice_Inspc.h"
@@ -34,7 +36,8 @@ InterProcessCommRxThread_Ipc_s targetIpc = {{INIZ_ObjectJc(targetIpc, refl_Inter
 Inspector_Inspc_s theInspectorTargetProxy = 
 { {INIZ_ObjectJc(theInspectorTargetProxy, refl_Inspector_Inspc, 0)}};
 
-
+AsciiMoni_emC asciiMoniFromTarget;
+AsciiMoniToTarget_InspcTargetPrx_emC asciiMoniFromKbd;
 
 InspcTargetProxy_s data = 
 { INIZ_ObjectJc(data, refl_InspcTargetProxy, 0)  //Object
@@ -227,44 +230,13 @@ void testSerial() {
   error = init_Serial_HALemC(console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
   ASSERT_emC(error ==0, "error console", error, 0);
   if(error) { bOk = false; }
-  char bufferRx[128];
   char bufferKeyboard[80];
   int ixCharsChecked = 0;
-  prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), 0);
-  prepareRx_Serial_HALemC(console, bufferKeyboard, sizeof(bufferKeyboard), 0);
+  asciiMoniFromKbd.init(console, console, -1);
+  asciiMoniFromTarget.init(comport, console, console);
   while(bOk) {
-    int zChars = hasRxChars_Serial_HALemC(comport);
-    for(int ix = ixCharsChecked; ix < zChars; ++ix) {
-      char cc = bufferRx[ix];
-      if(cc == '\r' || cc == '\n') {             //check for a complete line:
-        bufferRx[ix] = 0;
-        printf(bufferRx); printf("\r\n");        //skip over all \r\n
-        while(++ix < zChars && ((cc = bufferRx[ix])== '\r' || cc == '\n')){}   
-        //It is not known from here whether more bytes are received meanwhile.
-        //ix is the evaluated end. prepareRx decides whether bytes are transferred
-        //to the start of the new buffer. 
-        prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), ix);
-        zChars = 0;                              
-        break;
-      }
-    }
-    if(zChars == ARRAYLEN_emC(bufferRx)) {        //0x0d not found in buffer
-      int ix;
-      for(ix = 0; ix < zChars-1; ++ix) {
-        if(bufferRx[ix] < ' ') { bufferRx[ix] = '?';}
-      }
-      bufferRx[ix] = 0;  //last
-      printf("no RETURN found:\n");
-      printf(bufferRx); printf("\n");
-      prepareRx_Serial_HALemC(comport, bufferRx, sizeof(bufferRx), 0);
-    }
-    zChars = hasRxChars_Serial_HALemC(console);
-    if(zChars >0) {
-      bufferKeyboard[zChars] = 0;
-      printf(bufferKeyboard);
-      txCharSerial_HALemC(comport, bufferKeyboard, 0, zChars);
-      prepareRx_Serial_HALemC(console, bufferKeyboard, sizeof(bufferKeyboard), 0);
-    }
+    asciiMoniFromTarget.evalRx();   //checks Rx from target.
+    asciiMoniFromKbd.evalRx();
     sleep_Time_emC(1);
   }
   if(!bOk) {
