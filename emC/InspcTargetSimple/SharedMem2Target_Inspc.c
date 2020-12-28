@@ -53,7 +53,7 @@ void ctor_SharedMem2Target_Inspc ( SharedMem2Target_Inspc* thiz, char const* nam
     int size_SharedMem_TelgTarget2Proxy_Inspc = size_MemC(memLocation);
     if (size_SharedMem_TelgTarget2Proxy_Inspc < sizeof(TelgTarget2Proxy_Inspc_s)) {
       THROW_s0(IllegalStateException, "Problem with size of shared mem: %d, expected: %d - exit\n", size_MemC(memLocation), size);
-      STACKTRC_RETURN;  //abort on error
+      //abort on error
     }
     //check
     thiz->target2proxy = (TelgTarget2Proxy_Inspc_s*)(addOffset_MemC(thiz->sharedMemMng_target2proxy.addrSize, pos1));
@@ -62,13 +62,12 @@ void ctor_SharedMem2Target_Inspc ( SharedMem2Target_Inspc* thiz, char const* nam
     int lengthTelg2Target = thiz->proxy2target->length_seq_cmd >> 16;
     if (lengthTelg2Proxy != sizeof(TelgTarget2Proxy_Inspc_s)) {
       THROW_s0(IllegalStateException, "Problem with data consistence of TelgTarget2Proxy_Inspc_s. len= %d, expected: %d - exit\n", lengthTelg2Proxy, sizeof(TelgTarget2Proxy_Inspc_s));
-      STACKTRC_RETURN;
     }
     if (lengthTelg2Target != sizeof(TelgProxy2Target_Inspc_s)) {
       THROW_s0(IllegalStateException, "Problem with data consistence of TelgProxy2Target_Inspc_s. len= %d, expected: %d - exit\n", lengthTelg2Target, sizeof(TelgProxy2Target_Inspc_s));
-      STACKTRC_RETURN;
     }
   }
+  STACKTRC_RETURN;
   //
 }
 

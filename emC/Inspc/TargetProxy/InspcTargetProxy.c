@@ -2,6 +2,7 @@
 #ifdef DEF_INSPC_REMOTEACCESS
 #include "InspcTargetProxy.h"
 #include <emC/Base/ParseArgs_emC.h>
+#include <emC/Base/StringPacked_emC.h>
 #include "emC/Jc/ObjectJc.h"
 #include "emC/Jc/ReflectionJc.h"
 //#include <emC/AsciiMoni/AsciiMoni.h>
@@ -198,14 +199,16 @@ void init_InspcTargetProxy(InspcTargetProxy_s* thiz)
 struct Args_t {
   char const* sPathRefl;
   char const* sTargetidSharedmem;
+  char const* sComPort;
   char const* sTargetIp;
 } args = {0};
 
 
 Ctrl_ParseArgs const cmdArgs[] = 
-{ {"--help", "InspcTargetProxy for Communication with slave, made by Hartmut Schorrig, 2019-03", null, null}
+{ {"--help", "InspcTargetProxy for Communication with slave, made by Hartmut Schorrig, 2020-12", null, null}
 , {"-refl:", "path/to/reflection.bin", &args.sPathRefl, null}
 , {"-idsh:", "Target identifier String for shared mem Access", &args.sTargetidSharedmem, null}
+, {"-com:", "COM port communication", &args.sComPort, null}
 , {"-ip:", "Target identifier String for Socket Access", &args.sTargetIp, null}
 };
 
@@ -247,6 +250,68 @@ void testSerial() {
 }
 
 
+typedef struct Serial_InspcTargetProxy_T {
+  int comPort;
+  int console;
+  char* consoleBuffer; 
+  int zConsoleBuffer;
+  char* rxBuffer; 
+  int zRxBuffer;
+  int ixRxBufferWritten;
+  int targetProxyCommActive;
+  /**Receive buffer from target for a InspcTargetProxy communication. */
+  TelgTarget2Proxy_Inspc_s rxInspcFromTarget;
+        
+} Serial_InspcTargetProxy_s;
+
+
+
+//checks all serial received characters and evaluates it. 
+void processReceivedComport(Serial_InspcTargetProxy_s* thiz) {
+
+  int zRx = hasRxChars_Serial_HALemC(thiz->comPort);
+  if(zRx >0) {
+    int ix = thiz->ixRxBufferWritten;
+    bool rxNew = false;
+    while(ix < zRx) {
+      char cc = getCharPacked(thiz->rxBuffer, ix);
+      if(cc == '\r') {
+        printf("\n");                            //output new line to console.
+        ix +=1;
+        rxNew = true;
+      } 
+      else if(cc == '\n') {
+        ix +=1;
+        rxNew = true;
+      } 
+      else if(cc >= ' ') {
+        putchar(cc);                             //output to console
+        ix +=1;
+      }
+      else if(  thiz->targetProxyCommActive 
+             && (zRx -ix) >= (sizeof(thiz->rxInspcFromTarget) * BYTE_IN_MemUnit) ) { 
+        //                                       //if a TelgTarget2Proxy_Inspc_s is expected:
+        memcpy(&thiz->rxInspcFromTarget, thiz->rxBuffer + ix, sizeof(thiz->rxInspcFromTarget));
+        ix += sizeof(thiz->rxInspcFromTarget) * BYTE_IN_MemUnit;
+        rxNew = true;
+
+      } else {
+        printf("? %2.2x\n", cc);  //unexpected
+        rxNew = true;
+      }
+    }
+    if(rxNew) {
+      //                                         //preserve furthermore containing chars using ix.
+      prepareRx_Serial_HALemC(thiz->comPort, thiz->rxBuffer, thiz->zRxBuffer, ix);
+      //Note: copies furthermore chars to start of rxBuffer
+      ix = 0;
+    }
+    thiz->ixRxBufferWritten = ix;
+  }
+}
+
+
+
 
 
 int main(int nArgs, char** argsCmd)
@@ -267,6 +332,35 @@ int main(int nArgs, char** argsCmd)
 	//int headerOffset = 0x70;
 	STACKTRC_ROOT_ENTRY("main");
   TRY {
+    Serial_InspcTargetProxy_s asciiMoni = { -1, -1};
+      
+    if(args.sComPort !=null) {
+      asciiMoni.comPort = args.sComPort[0] - '0';
+      asciiMoni.console = 0;
+      int error;
+      error = open_Serial_HALemC(asciiMoni.comPort, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
+      if(error ==0) {
+        printf("target serial over COM%d\n", asciiMoni.comPort);
+        //                                 //Prepare receiving from comPort, it is expected.
+        asciiMoni.zRxBuffer = 512;
+        asciiMoni.rxBuffer = (char*)malloc(asciiMoni.zRxBuffer);
+        prepareRx_Serial_HALemC(asciiMoni.comPort, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, 0);
+        //                                 //Open the console for debugging
+        error = open_Serial_HALemC(asciiMoni.console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
+        if(error ==0) {
+          asciiMoni.zConsoleBuffer = 80;
+          asciiMoni.consoleBuffer = (char*)malloc(asciiMoni.zConsoleBuffer);
+          prepareRx_Serial_HALemC(asciiMoni.console, asciiMoni.consoleBuffer, asciiMoni.zConsoleBuffer, 0); 
+          
+        } else {
+          printf("ERROR CON open fails. No ascii command possible. \n");
+          asciiMoni.console = -1;
+        }
+      } else {
+        printf("ERROR target serial over COM%d\n", asciiMoni.comPort);
+        asciiMoni.comPort = -1;
+      }
+    }
     //#ifndef __cplusplus
       ObjectJc* proxySh = alloc_ObjectJc(sizeof(Proxy2TargetSharedMem_Inspc), 0, THCXT);
       data.commImpl.shMem = ctor_Proxy2TargetSharedMem_Inspc(proxySh, targetName, THCXT);
@@ -277,33 +371,54 @@ int main(int nArgs, char** argsCmd)
     setReflection_ObjectJc(&data.object, &refl_InspcTargetProxy, 0);
 
     ctor_InspcTargetProxy(&data);
-    //
-    //====>>
     char const* sError = load_ExtReflectionJc(&data.extReflectionDsp, sExtReflectionFile, headerOffset);
     if(sError == null) {
 	    data._Target_ = (void*)(-1);
       //registerRefl_DataNode_Inspc(&data.rootNode, data._Target_, "target", thiz->obj.reflectionClass);
       init_InspcTargetProxy(&data);
-      data.bRun = 1;
-      while (data.bRun)
-      {
-        int iTime;
-        sleep_ThreadJc(100, _thCxt);
-        if(os_keyState('A')) {
-          printf("A");
-        } else if(os_keyState('C')) {
-          printf("\n");  //clear screen
-        }
-
-        for (iTime = 0; iTime < 50; iTime++)
-        { //TODO capture_ProgressionValue_Inspc(data.progrValue1);
-        }
-      }
-
     } else {
       printf("error refl: %s file=%s", sError, args.sPathRefl);
-      erret = 5;
     }
+      //
+    //====>>
+    data.bRun = 1;
+    while (data.bRun) {
+      int iTime;
+      if(asciiMoni.console >=0) {
+        int nrConChars = hasRxChars_Serial_HALemC(asciiMoni.console);
+        if(nrConChars >0) {
+          for(int ix = 0; ix < nrConChars; ++ix) {
+            if(  asciiMoni.consoleBuffer[ix] == '\r' //ENTER key
+              || ix == (asciiMoni.zConsoleBuffer -1)                 //all full
+              ) {
+              printf(asciiMoni.consoleBuffer);   //echo    
+              printf("\n");                      //echo newline 
+              //                                 //send the command to target: 
+              txChar_Serial_HALemC(asciiMoni.comPort, asciiMoni.consoleBuffer, 0, ix+1);
+              //                                 //prepare console for next line
+              prepareRx_Serial_HALemC(asciiMoni.console, asciiMoni.consoleBuffer, asciiMoni.zConsoleBuffer, 0); 
+              break; //for
+            }
+          }
+        }  
+      } 
+      sleep_ThreadJc(10, _thCxt);
+      processReceivedComport(&asciiMoni);
+      if(os_keyState('A')) {
+        printf("A");
+      } else if(os_keyState('C')) {
+        printf("\n");  //clear screen
+      }
+
+      for (iTime = 0; iTime < 50; iTime++)
+      { //TODO capture_ProgressionValue_Inspc(data.progrValue1);
+      }
+    } //while
+
+    if(asciiMoni.console >=0) { close_Serial_HAL_emC(asciiMoni.console); }
+    if(asciiMoni.comPort >=0) { close_Serial_HAL_emC(asciiMoni.comPort); }
+    if(asciiMoni.consoleBuffer !=null) { free(asciiMoni.consoleBuffer); }
+    if(asciiMoni.rxBuffer !=null) { free(asciiMoni.rxBuffer); }
 
 
   }_TRY

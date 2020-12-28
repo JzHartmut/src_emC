@@ -60,7 +60,14 @@ extern_C int stepTx_Serial_HALemC( int const channel);
 /**Prepare an receive buffer for receiving data. Often DMA is used do fill the buffer.
  * The call of this operation clears the number of current received data words. [[See hasRx_HALemC(...)]].
  * The buffer content is valid only after quest of [[hasRxChars_HALemC(...)]] for the returned number of characters.
- * */
+ * @param valueBuffer The address in memory of the valueBuffer. 
+ * @param zBuffer The size of the buffer in memory words (result of sizeof(...). 
+ * @param fromCurrent 0 for newly receiving. If the valueBuffer may contains ome received content
+ *        which was not evaluated yet and this content should be preserved, 
+ *        This is the byte index in the valueBuffer to copy the information. 
+ *        Important: The memory words may organzized in 16 or 32 bit for some special processors. 
+ *        This is not the index in memory but the byte index, because serial receive is organized in bytes.
+ */
 extern_C void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, int fromCurrent);
 
 

@@ -21,7 +21,7 @@ Proxy2Target_Inspc* ctor_Proxy2Target_Inspc(ObjectJc* thizo, ThCxt* _thCxt) {
   checkInit_ObjectJc(thizo, sizeof(Proxy2Target_Inspc), &refl_Proxy2Target_Inspc, 0);
   Proxy2Target_Inspc* thiz = (Proxy2Target_Inspc*) thizo;
   thiz->channelTarget = 7;  //COM7
-  open_Serial_HALemC(thiz->channelTarget, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
+  //open_Serial_HALemC(thiz->channelTarget, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
   STACKTRC_RETURN thiz;
 }
 
@@ -54,7 +54,8 @@ static char const* cmdTxt[] =
 };
 
 
-
+//This operation will be called from inner of the inspector access.
+//If the address is in a target.
 int32 get_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cmd, uint32 address, int32 input) {
 
   int32 ret = -1;
