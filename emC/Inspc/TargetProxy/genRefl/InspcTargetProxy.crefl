@@ -26,7 +26,7 @@ const struct Reflection_Fields_InspcTargetProxy_commImpl_t
     , 0   //no Array, no Bitfield                           
     , &refl_Proxy2TargetSharedMem_Inspc                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((InspcTargetProxy_s*)(0x1000))->commImpl.shMem)) - ((intptr_t)(&((InspcTargetProxy_s*)(0x1000))->commImpl)) )  /*implicit struct*/
+    , (int16)( ((intptr_t)(&((InspcTargetProxy_s*)(0x1000))->commImpl.shMem_a)) - ((intptr_t)(&((InspcTargetProxy_s*)(0x1000))->commImpl)) )  /*implicit struct*/
     , 0  //offsetToObjectifcBase                                                            
     , &refl_InspcTargetProxy_commImpl
     }

@@ -33,7 +33,7 @@ typedef struct InspcTargetProxy_t
   //#ifndef __cplusplus
   /**Communication implementation. One is used.*/
   struct {
-    struct Proxy2TargetSharedMem_Inspc_t* shMem;
+    struct Proxy2TargetSharedMem_Inspc_t* shMem_a;
   } commImpl;
   //#endif
 

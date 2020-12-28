@@ -207,7 +207,9 @@ void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, i
   int ixBuffer = 0; //NOTE: mem is bytewise for PC
   if(fromCurrent >0) {
     int zCopy = thiz->ixBuffer - fromCurrent;
-    ASSERT_emC(bufferCurr !=null && zCopy >=0, "?", 0,0);
+    if(bufferCurr ==null) {
+      ASSERT_emC(bufferCurr !=null && zCopy >=0, "?", 0,0);
+    }
     if(zCopy > zBuffer) {
       zCopy = zBuffer;
     }

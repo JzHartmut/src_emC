@@ -8,7 +8,7 @@ typedef struct Proxy2Target_Inspc_t
   ObjectJc object;
   
   /**Gotten reference to the exchange data range. */
-  TelgTarget2Proxy_Inspc_s const* target2proxy;
+  TelgTarget2Proxy_Inspc_s* target2proxy;
 
   /**Gotten reference to the exchange data range. */
   TelgProxy2Target_Inspc_s* proxy2target;
@@ -26,6 +26,11 @@ typedef struct Proxy2Target_Inspc_t
   int16 lifeCtTarget;
 
   int16 channelTarget;
+
+  //align-8
+  int16 bReqPending;
+
+  int16 dummy2;
 
   int32 ms_LastTimeCommunication;
 

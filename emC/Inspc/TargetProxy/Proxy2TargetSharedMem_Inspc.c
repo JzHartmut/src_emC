@@ -30,7 +30,7 @@ Proxy2TargetSharedMem_Inspc* ctor_Proxy2TargetSharedMem_Inspc(ObjectJc* othiz, c
     //initialize.
     thiz->super.proxy2target->length_seq_cmd = sizeof(TelgTarget2Proxy_Inspc_s) << 16;  //initialize
   }
-  return thiz;
+  STACKTRC_RETURN thiz;
 }
 
 

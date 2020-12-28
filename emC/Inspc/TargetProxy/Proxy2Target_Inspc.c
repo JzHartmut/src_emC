@@ -66,28 +66,33 @@ int32 get_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cm
   //at last set new seqnr and cmd
   thiz->seqnrTxTarget = (thiz->seqnrTxTarget +1) & 0xff;
   setCmdSeqnr_TelgProxy2Target_Inspc(txTelg, cmd, thiz->seqnrTxTarget);
+  thiz->bReqPending = 1;
   //The target will be read this information in about the next few micro to milliseconds.
   //No: It is a poor polling. 
   //applies the send data in a specific way
-  prepareRx_Serial_HALemC(thiz->channelTarget, (MemUnit*)thiz->target2proxy, sizeof(*thiz->target2proxy), 0);
-
-  tx_Serial_HALemC(thiz->channelTarget, C_CAST(MemUnit const*,txTelg), 0, nrofBytesTx);
+  //prepareRx_Serial_HALemC(thiz->channelTarget, (MemUnit*)thiz->target2proxy, sizeof(*thiz->target2proxy), 0);
+  if(thiz->channelTarget >0) {
+    tx_Serial_HALemC(thiz->channelTarget, C_CAST(MemUnit const*,txTelg), 0, nrofBytesTx);
+  }
   int seqnrtarget = -1;
   bool hasReceived = false;
   TelgTarget2Proxy_Inspc_s const* rxTelg = thiz->target2proxy;
   int timeout = 1000;  //seconds
   do {
-    os_delayThread(1);
-    int zRx = hasRxChars_Serial_HALemC(thiz->channelTarget);
-    if(zRx >=sizeof((*rxTelg))) {
+    os_delayThread(1);  //wait a little moment.
+    //int zRx = hasRxChars_Serial_HALemC(thiz->channelTarget);
+    //if(zRx >=sizeof((*rxTelg))) {
+    //The thiz->target2proxy area will be set by the communication thread. 
+    //whereby the seqnr need be set as last. 
       seqnrtarget = getSeqnr_TelgTarget2Proxy_Inspc(rxTelg);
       hasReceived = seqnrtarget == thiz->seqnrTxTarget; 
       if (timeout <= 100) {
         timeout +=0;   //debug break
       }
-    }
+    //}
   } while(!hasReceived && --timeout >=0);
   int32 value;
+  thiz->bReqPending = 0;
   if(timeout < 0){
     value = -1;
     printf("Timeout target seqtx=%2.2X seqrx=%2.2X\n", thiz->seqnrTxTarget, seqnrtarget);
