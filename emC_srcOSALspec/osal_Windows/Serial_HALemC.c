@@ -8,6 +8,16 @@
 #undef int64
 #undef uint64
 
+int32 trcRx_Serial[0x20] = {0};
+
+static void writeTrc(int ix, char cc) {
+  int ixTrc = trcRx_Serial[0];
+  if(++ixTrc >= ARRAYLEN_emC(trcRx_Serial)) {
+    ixTrc = 1;
+  }
+  trcRx_Serial[0] = ixTrc;
+  trcRx_Serial[ixTrc] = (ix<<16) | cc;
+}
 
 //Windows-specific includes
 #include <wtypes.h>
@@ -51,17 +61,18 @@ int rxThreadRoutine(void* data) {
       //it stores only one received byte immediately local:
       BOOL ok = ReadFile (thiz->hPort, &rxByte, 1, &dwBytesTransferred, 0);
       if(ok && dwBytesTransferred >0) {
-        buffer = thiz->valueBuffer;             //may be changed meanwhile between start and ReadFile.
         int ixExpected;
         int ctAbort = 3;
         do {
           do {
+            buffer = thiz->valueBuffer;          //may be changed meanwhile between start and ReadFile.
             if(buffer ==null) {                  //if the buffer is not available, possible set a new one
               Sleep(1);                          //then wait. do not store the byte.
             }                                    //other meanwhile received bytes are stored internally. 
           } while(buffer ==null);
           ixExpected = ix = thiz->ixBuffer;      //It is possible that ixBuffer was changed meanwhile, especially on buffer change.
           thiz->valueBuffer[ix] = (char)(rxByte);//hence read again, ixBuffer should be always in range (presumed)
+          writeTrc(ix, rxByte);
           int ixNew = ix+1;                      //Set with atomic swap, because it can be changed meanwhilt too.
           ix = compareAndSwap_AtomicInteger(&thiz->ixBuffer, ix, ixNew);
         } while(ix != ixExpected && --ctAbort >=0); 
@@ -192,7 +203,8 @@ int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
 
 
 
-void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, int fromCurrent) {
+void prepareRx_Serial_HALemC ( int channel, void* valueBuffer, int zBuffer, int fromCurrent) {
+  MemUnit* valueBuffer0 = C_CAST(MemUnit*, valueBuffer);  //C_CAST because it is a memory address.
   if(channel <0 || channel >8) { 
     THROW_s0n(IllegalArgumentException, "faulty serial port", channel, 0); 
     return;
@@ -218,10 +230,10 @@ void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, i
       ixBuffer = zCopy;
     }
   }
-  memset(valueBuffer + ixBuffer, 0, zBuffer - ixBuffer); 
+  memset(valueBuffer0 + ixBuffer, 0, zBuffer - ixBuffer); 
   thiz->zBuffer = zBuffer;
   thiz->ixBuffer = ixBuffer;
-  thiz->valueBuffer = valueBuffer;             //set buffer at last, up to now writing is possible.
+  thiz->valueBuffer = valueBuffer0;             //set buffer at last, up to now writing is possible.
 }
 
 

@@ -28,11 +28,16 @@ typedef struct Proxy2Target_Inspc_t
   int16 channelTarget;
 
   //align-8
-  int16 bReqPending;
+  int16 xxbReqPending;
 
   int16 dummy2;
 
   int32 ms_LastTimeCommunication;
+
+  int32 ms_LastTimeTx;
+
+  /**timeout, if 0 then wait for ever for answer, only for debug. */
+  int32 ms_timeout;
 
 
 } Proxy2Target_Inspc;

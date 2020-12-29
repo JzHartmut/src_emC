@@ -691,7 +691,7 @@ void getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 nOrd
     
     struct FieldJc_t const*  theField = null;
     
-    struct FieldJc_t const* theFieldP[1] ; theFieldP; /*J2C:modeAccess=Q*/
+    struct FieldJc_t const* theFieldP[1] = {null} ; /*J2C:modeAccess=Q*/
     
     MemSegmJc  theObject = { 0 };//J2C: constructor for embedded element
     INIT_MemSegmJc(/*J2C:static method call*/theObject);

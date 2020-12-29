@@ -14,7 +14,7 @@ int32 const reflectionOffset_InspcTargetProxy_commImpl[] =
 #else  //DEF_REFLECTION_FULL
 
 
-extern_C const ClassJc refl_Proxy2TargetSharedMem_Inspc;  //used for field shMem
+extern_C const ClassJc refl_Proxy2TargetSharedMem_Inspc;  //used for field shMem_a
 
 const struct Reflection_Fields_InspcTargetProxy_commImpl_t
 { ObjectArrayJc head;
@@ -22,7 +22,7 @@ const struct Reflection_Fields_InspcTargetProxy_commImpl_t
 } refl_Fields_InspcTargetProxy_commImpl =
 { INIZ_ObjectArrayJc(refl_Fields_InspcTargetProxy_commImpl, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
-    { "shMem"
+    { "shMem_a"
     , 0   //no Array, no Bitfield                           
     , &refl_Proxy2TargetSharedMem_Inspc                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers

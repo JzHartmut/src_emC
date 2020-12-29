@@ -68,7 +68,7 @@ extern_C int stepTx_Serial_HALemC( int const channel);
  *        Important: The memory words may organzized in 16 or 32 bit for some special processors. 
  *        This is not the index in memory but the byte index, because serial receive is organized in bytes.
  */
-extern_C void prepareRx_Serial_HALemC ( int channel, MemUnit* valueBuffer, int zBuffer, int fromCurrent);
+extern_C void prepareRx_Serial_HALemC ( int channel, void* valueBuffer, int zBuffer, int fromCurrent);
 
 
 /**Returns the number of received character after calling [[prepareRxSerial_HALemC(...)]].

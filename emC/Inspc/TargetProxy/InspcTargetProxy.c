@@ -80,6 +80,9 @@ InspcTargetProxy_s data =
 extern_C const ClassJc refl_InspcTargetProxy;
 
 
+bool bOnlyTarget_g = false;
+
+
 /**Receive routine for target communication. */
 METHOD_C static void execRxData_TargetRx(InterProcessCommRx_ifc_Ipc_s* thiz
   , int8ARRAY buffer, int32 nrofBytesReceived
@@ -190,19 +193,27 @@ void dtor_InspcTargetProxy(InspcTargetProxy_s* thiz)
 void init_InspcTargetProxy(InspcTargetProxy_s* thiz)
 {
   STACKTRC_ENTRY("init_InspcTargetProxy");
+  
   MemSegmJc rootAddr = {0}; 
   ClassJc const* rootClass = null;
   //for internal access too:
-  //registerRefl_DataNode_Inspc(&thiz->rootNode, thiz, "all", thiz->object.reflectionClass);
-  //rootClass = getClass_ObjectJc(&thiz->rootNode.base.object);
-  //setAddrSegm_MemSegmJc(rootAddr, &thiz->rootNode.base.object, 0);
   
-  int32 receive = 0; //accessTarget_Inspc(getRootInstance_InspcTargetProxy, 1, null, 0);
-  setAddr32Segm_MemSegmJc(rootAddr, receive, 1);
+  if(bOnlyTarget_g) {
+    int32 receive = 0; //accessTarget_Inspc(getRootInstance_InspcTargetProxy, 1, null, 0);
+    //                                             //Set segm=1 as root addr
+    //With this construction only the target is visible. 
+    setAddr32Segm_MemSegmJc(rootAddr, 0, 1);
+    rootClass = null; //extReflectionClasses_ReflectionJc[0]->data[ixClass -1]; //get from loaded reflection file.
+  } else {
+    //A free configable DataNode is used as root.
+    //One element is set to thiz, it is the inspcTargetProxy itself.
+    registerRefl_DataNode_Inspc(&thiz->rootNode, thiz, "all", getClass_ObjectJc(&thiz->object));
+    rootClass = getClass_ObjectJc(&thiz->rootNode.base.object);
+    setAddrSegm_MemSegmJc(rootAddr, &thiz->rootNode.base.object, 0);
+  }
+  start_Inspector_Inspc_F(thiz->theInspector, rootClass, rootAddr, _thCxt);
   //int ixClass = accessTarget_Inspc(getRootType_InspcTargetProxy, 1, null, 0);
   //if(ixClass >0) {
-    rootClass = null; //extReflectionClasses_ReflectionJc[0]->data[ixClass -1]; //get from loaded reflection file.
-    start_Inspector_Inspc_F(thiz->theInspector, rootClass, rootAddr, _thCxt);
   //} else {
   //  printf("Communication to target failed\n");
   //}
@@ -300,7 +311,7 @@ void initializeComPort(char const* sComPort) {
 
 //checks all serial received characters and evaluates it. 
 void processReceivedComport(Serial_InspcTargetProxy_s* thiz
-    , bool bReqPendingTargetComm) {
+    , int32 timeoutRxTargetPrx) {
 
   int zRx = hasRxChars_Serial_HALemC(thiz->comPort);
   if(zRx >0) {
@@ -321,13 +332,27 @@ void processReceivedComport(Serial_InspcTargetProxy_s* thiz
         putchar(cc);                             //output to console
         ix +=1;
       }
-      else if(  bReqPendingTargetComm 
-             && (zRx -ix) >= (sizeof(thiz->rxInspcFromTarget) * BYTE_IN_MemUnit) ) { 
-        //                                       //if a TelgTarget2Proxy_Inspc_s is expected:
-        memcpy(thiz->rxInspcFromTarget, thiz->rxBuffer + ix, sizeof(*thiz->rxInspcFromTarget));
-        ix += sizeof(*thiz->rxInspcFromTarget) * BYTE_IN_MemUnit;
-        rxNew = true;
-
+      else if(  timeoutRxTargetPrx !=0 ) { 
+        if( (zRx -ix) >= (sizeof(thiz->rxInspcFromTarget) * BYTE_IN_MemUnit) ) { 
+          //                                     //if a TelgTarget2Proxy_Inspc_s is expected:
+          int32* dst = &thiz->rxInspcFromTarget->error__lifeCt;
+          memcpy(dst, thiz->rxBuffer + ix+4, sizeof(*thiz->rxInspcFromTarget)-4);
+          //                                     //set seqnr as last, complete information.
+          thiz->rxInspcFromTarget->length_seq_cmd = *(int32*)(thiz->rxBuffer);
+          ix += sizeof(*thiz->rxInspcFromTarget) * BYTE_IN_MemUnit;
+          if(zRx > ix) {
+            ix = zRx; 
+          }
+          rxNew = true;
+        } else {
+          int32 delay = os_milliTime() - timeoutRxTargetPrx;
+          if(delay > 1000) {
+            rxNew = true; 
+          }
+          printf(".");
+          break;
+          //try next, till 16 chars.
+        }
       } else {
         printf("? %2.2x\n", cc);  //unexpected
         rxNew = true;
@@ -383,7 +408,8 @@ int main(int nArgs, char** argsCmd)
     ctor_InspcTargetProxy(&data);
     char const* sError = load_ExtReflectionJc(&data.extReflectionDsp, sExtReflectionFile, headerOffset);
     if(sError == null) {
-	    data._Target_ = (void*)(-1);
+	    printf("success: %s\n", args.sPathRefl);
+      data._Target_ = (void*)(-1);
       //registerRefl_DataNode_Inspc(&data.rootNode, data._Target_, "target", thiz->obj.reflectionClass);
       init_InspcTargetProxy(&data);
     } else {
@@ -413,7 +439,9 @@ int main(int nArgs, char** argsCmd)
         }  
       } 
       sleep_ThreadJc(10, _thCxt);
-      processReceivedComport(&asciiMoni, data.targetComm->bReqPending !=0);
+      if(data.targetComm->ms_LastTimeTx ==0) {
+        processReceivedComport(&asciiMoni, data.targetComm->ms_LastTimeTx);
+      }
       #if 0
       if(os_keyState('A')) {
         printf("A");
@@ -526,8 +554,19 @@ int32 getInfo_InspcTargetProxy(InspcTargetProxy_s* thiz, Cmd_InspcTargetProxy_e 
  */
 int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int32 input)
 { 
-  return get_Proxy2Target_Inspc(&data.commImpl.shMem_a->super, cmd, address, input);
+  int zRxAsciiMoni = -1;
+  if(data.targetComm->channelTarget >0) {        //preserve up to now chars.
+    zRxAsciiMoni = hasRxChars_Serial_HALemC(data.targetComm->channelTarget);
+    //                                           //in between use the serial com for Target Proxy
+    prepareRx_Serial_HALemC(data.targetComm->channelTarget, data.targetComm->target2proxy, sizeof(*data.targetComm->target2proxy), 0);
+  }
+  int32 result =  get_Proxy2Target_Inspc(&data.commImpl.shMem_a->super, cmd, address, input);
   //return getInfo_InspcTargetProxy(&data, cmd, address, input);
+  //furthermore received characters: store newly in buffer before.
+  if(zRxAsciiMoni >=0) {
+    prepareRx_Serial_HALemC(data.targetComm->channelTarget, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, zRxAsciiMoni);
+  }
+  return result;
 }
 
 #ifdef __cplusplus
