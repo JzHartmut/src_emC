@@ -49,7 +49,7 @@ extern_C int txChar_Serial_HALemC ( int const channel, char const* const text, i
  *         It is especially for embedded hardware with limmited FIFO on hardware or limited DMA buffer size.
  * See [[step_TxSerial_HALemC(...)]]
  */
-extern_C int tx_Serial_HALemC ( int const channel, MemUnit const* const data, int const fromCharPos, int const zChars);
+extern_C int tx_Serial_HALemC ( int const channel, void const* const data, int const fromCharPos, int const zChars);
 
 
 /**Cares to sending pending data.

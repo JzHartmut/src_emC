@@ -16,7 +16,7 @@ static void writeTrc(int ix, char cc) {
     ixTrc = 1;
   }
   trcRx_Serial[0] = ixTrc;
-  trcRx_Serial[ixTrc] = (ix<<16) | cc;
+  trcRx_Serial[ixTrc] = (ix<<16) | (((uint32)cc) & 0xff);
 }
 
 //Windows-specific includes
@@ -255,10 +255,12 @@ int hasRxChars_Serial_HALemC ( int channel ) {
 
 
 
-int tx_Serial_HALemC ( int const channel, MemUnit const* const data, int const fromCharPos, int const zChars) {
+int tx_Serial_HALemC ( int const channel, void const* const data, int const fromCharPos, int const zChars) {
+  void* data01 = WR_CAST(void*, data);  //unfortunately C++ or Visual Studio does not allow const* to const* cast
+  MemUnit const* const data0 = C_CAST(MemUnit const*, data01);  //It is a memory pointer
   if(channel == 0) {
     for(int ix = fromCharPos; ix < zChars; ++ix) {
-      char cc = data[ix];
+      char cc = data0[ix];
       putchar( cc );
     }
     return 0;
@@ -274,7 +276,7 @@ int tx_Serial_HALemC ( int const channel, MemUnit const* const data, int const f
       return 0; 
     }
     DWORD byteswritten = 0;
-    MemUnit const* dataCurr = data + fromCharPos;
+    MemUnit const* dataCurr = data0 + fromCharPos;
     int zCharsCt = zChars;
     BOOL retVal;
     while( --zCharsCt >=0) {

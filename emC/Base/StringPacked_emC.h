@@ -88,9 +88,21 @@ extern_C int strnlenPacked_emC ( MemUnit const* text, int maxNrofChars);
  *    >0 if text2 > text1 (longer or character code higher) whereby the value is the position of the first difference in text2.
  *    <0 if text1 > text2 (longer or character code higher) whereby the absolute value is the position of the first difference in text2.
  */
-extern_C int strncmpPacked_emC ( MemUnit const* const text1, char const* const text2, int const maxNrofChars);
+extern_C int strncmpPacked_emC ( void const* const text1, char const* const text2, int const maxNrofChars);
 
 
+#define MemUnit_Test int
+
+/**Copies two strings with a given maximum of chars.
+ * @arg ixSrc char index in src. If odd, read half byte.
+ * @arg maxNrofChars If no zero terminated strings should be compare, it is the length of both strings.
+ *     In this case a different length of Strings should be checked before, and the length difference
+ *     can be used as result already.
+ * @return ==0 if both strings are equal till maxNrofChars or both have a '\0'.
+ *    >0 if text2 > text1 (longer or character code higher) whereby the value is the position of the first difference in text2.
+ *    <0 if text1 > text2 (longer or character code higher) whereby the absolute value is the position of the first difference in text2.
+ */
+extern_C int bytecpyPacked_emC ( void* const dst, int const ixByteDst, void const* const src, int const ixByteSrc, int const nrofBytes);
 
 
 

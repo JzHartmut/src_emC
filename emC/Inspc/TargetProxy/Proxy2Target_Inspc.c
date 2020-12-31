@@ -22,6 +22,7 @@ Proxy2Target_Inspc* ctor_Proxy2Target_Inspc(ObjectJc* thizo, ThCxt* _thCxt) {
   Proxy2Target_Inspc* thiz = (Proxy2Target_Inspc*) thizo;
   thiz->channelTarget = 7;  //COM7
   thiz->ms_timeout = 2000;
+  thiz->ms_LastTimeTx = 0;  //!=0: receives InspcTargetData
   //open_Serial_HALemC(thiz->channelTarget, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
   STACKTRC_RETURN thiz;
 }
@@ -75,7 +76,9 @@ int32 get_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cm
   thiz->ms_LastTimeTx = os_getMilliTime();       //marking uses the other com
   if(thiz->ms_LastTimeTx ==0) { thiz->ms_LastTimeTx = 1; } //marks pending, should be !=0
   if(thiz->channelTarget >0) {
-    tx_Serial_HALemC(thiz->channelTarget, C_CAST(MemUnit const*,txTelg), 0, nrofBytesTx);
+    int32 escTx = 0x011b;
+    tx_Serial_HALemC(thiz->channelTarget, &escTx, 0, 2);   //with esc 01 the target detects the InspcTargetTeleg
+    tx_Serial_HALemC(thiz->channelTarget, txTelg, 0, nrofBytesTx);
     sleepMicroSec_Time_emC(4000);  //wait 4 ms for tx and rx.
   }
   int seqnrtarget = -1;
