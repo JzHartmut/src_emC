@@ -34,17 +34,43 @@
  *
  * @author Hartmut Schorrig
  */
-#ifndef __os_types_def_common_h__
-#define __os_types_def_common_h__
+#ifndef HGUARD_emCBase_types_def_common
+#define HGUARD_emCBase_types_def_common
+
+#ifndef INT32_MAX            //This definition is given if stdint.h is included before
+//define only the data types of stdint.h
+#define int8_t int8
+#define uint8_t uint8
+#define int16_t int16
+#define uint16_t uint16
+#define int32_t int32
+#define uint32_t uint32
+#define int64_t int64
+#define uint64_t uint64
+#ifndef DEF_DONOTDEF_intPTR
+  #define intptr_t intPTR
+#endif
+#ifndef DEF_DONOTDEF_uintPTR
+  #define uintptr_t uintPTR
+#endif
+#endif  //INT32_MAX, stdint is included
 
 
 //plattformunabhaengige Ergaenzungen
 //folgende Typen sind besser schreib- und lesbar
 //#define ushort unsigned short int
 #ifndef uint
-//  #define uint unsigned int
+  #define uint unsigned int
 #endif
 //#define ulong unsigned long int
+
+
+
+/**Union of int64 and its fractions. */
+typedef union int64_uhilo_T { int64 v; int64_hilo hilo; } int64_uhilo;
+
+
+
 
 /**It calculates the number of defined array elements from any type. 
  * @param ARRAY any array instance defined with TYPE ARRAY[SIZE];
@@ -164,6 +190,67 @@ inline int unused_emC(int arg){ return arg; }
 //typedef STRUCT_AddrVal_emC(PtrVal_MemUnit, MemUnit);
 
 typedef struct Addr8_emC_T { int32 c[2]; } Addr8_emC;
+
+
+
+/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
+ * but in the 32-bit-System the handle value is equal the pointer value.
+ * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
+ * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
+ * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
+ * Used especially in Simulink S-Functions for bus elements and outputs which are references.
+ * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
+ * old: OS_HandlePtr
+ * 
+ */
+#define XXXXHandlePtr_emC(TYPE, NAME) uint32 NAME    //for find / search: HandlePtr_emC ( TYPE, NAME)
+
+
+
+
+/**Possibility to store a pointer (a memory address) as handle if desired. 
+ * It depends from the target system. 
+ * If dll are used and independent linked objects are existing, especially if dll are used,
+ * and graphical programming is used (that is especially in Simulink S-Functions), 
+ * then a memory address should be present by a handle, the handle is converted to the address 
+ * via a central table which contains all addresses of instances, common for all dll. 
+ * In that case the Handle_ADDR_emC is an uint32, and the TYPE is not relevant. 
+ * This system is supported by emC/Base/Handle_prt64_emC.*. 
+ * For simple applications it is defined with the immediately access, maybe with 64-bit-addresses.
+ *
+ * Here it is immediately the 64-bit-address with the proper type (important for debug).
+ */
+//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
+#ifdef DEF_Type_HandleADDR_emC
+  #define HandleADDR_emC(TYPE) DEF_Type_HandleADDR_emC
+  //Note: <emC/Base/types_def_common.h> should be included before in this file.
+  #include <emC/Base/Handle_ptr64_emC.h>
+#else //not DEF_Type_HandleADDR_emC
+  /**The HandleADDR_emC is the type reference.*/
+  #define HandleADDR_emC(TYPE) TYPE*
+
+  /**It presents the TYPE-correct address as pointer in C/++*/
+  #define addr_HandleADDR_emC(HANDLE, TYPE) (HANDLE)
+
+  /**It presents an integer value as handle, may be identical with the address. */
+  #define handle_HandleADDR_emC(HANDLE) ((intPTR)(HANDLE))
+#endif  //DEF_HandlePtr64
+
+
+
+
+
+#ifndef VALTYPE_AddrVal_emC            //possible to define in applstdef_emC.h
+  #define VALTYPE_AddrVal_emC int32    //the default
+#endif
+/**This macro defines a struct with a pointer to the given type and a integer number.
+ * Usual it can be used to describe exactly an 1-dimensional array. The integer number is the number of elements,
+ * the size in memory is (sizeof(TYPE) * numberOfElements). 
+ * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
+ */
+#define STRUCT_AddrVal_emC(NAME, TYPE) struct NAME##_T { TYPE* addr; VALTYPE_AddrVal_emC val; } NAME
+
+
 
 /**The type AddrVal_emC handles with a address (pointer) for a 8 byte alignment. */
 typedef STRUCT_AddrVal_emC(AddrVal_emC, Addr8_emC);
@@ -307,4 +394,4 @@ typedef struct StringJc_T {
 //NOTE: do nothing include here additinally, the user should decide what is included in its applstdef_emC.h!
 //#include <emC/Base/Assert_emC.h>
 
-#endif  // __os_types_def_common_h__
+#endif  //HGUARD_emCBase_types_def_common

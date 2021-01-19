@@ -167,7 +167,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
         case 'o':
         case 'u':
         case 'i': 
-        { dstAct->value.argument = (char8)(lengthModifier == 'h' ? 'S' : lengthModifier == 'l' ? 'J' : 'I'); 
+        { dstAct->value.argument = (int8)(lengthModifier == 'h' ? 'S' : lengthModifier == 'l' ? 'J' : 'I'); 
           if(cFormat != 'u')
           { //the precision is designated negativ, if a negativ value should be displayed, see toString_Integer_FW(...)
             dstAct->value.precision = (int8)(- dstAct->value.precision);
@@ -184,7 +184,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
         { //NOTE: it is always an double, no possiblility of float.
           //The variables in the argument list are converted to double automatically.
           //long double is not supported yet.
-          dstAct->value.argument = (char8)(lengthModifier == 'L' ? 'D' : 'D'); 
+          dstAct->value.argument = (int8)(lengthModifier == 'L' ? 'D' : 'D'); 
         } break;
         case 'p': dstAct->value.argument = 'P'; dstAct->value.width = 8; dstAct->value.precision = 8; break;
         case 'n': dstAct->value.argument = 'N'; break;
@@ -195,8 +195,8 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
     }
 
   }
-  *zSrc = sFormat1 - src; //number of chars proceed.
-  STACKTRC_LEAVE; return retError < 0 ? retError : dstAct - dst;
+  *zSrc = (int)(sFormat1 - src); //number of chars proceed.
+  STACKTRC_LEAVE; return retError < 0 ? retError : (int)(dstAct - dst);
 }
 
 
@@ -237,8 +237,8 @@ int toString_Float_FW(char* buffer, int zBuffer, float value, char cFormat, int 
 { int nrofChars;
   if(strchr("eEfGg", cFormat)!=null)
   { char format[6] = "%9.9f";
-    format[1] = (char8)('0' + width);
-    format[3] = (char8)('0' + precision);
+    format[1] = (char)('0' + width);
+    format[3] = (char)('0' + precision);
     format[4] = cFormat;
     nrofChars = snprintf(buffer, zBuffer, format, value);  //TODO check zBuffer.
     
@@ -337,7 +337,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
     if(sFormat2 == null)
     { sFormat2 = sFormatEnd; //use string to its end if not found
     }
-    nrofCharsToCopy = sFormat2 - sFormat1;
+    nrofCharsToCopy = (int)(sFormat2 - sFormat1);
     if(nrofCharsToCopy > 0)
     { //any text from actual position to found '%' or to end.
       if(nrofCharsToCopy > (zBuffer - iBuffer -1)){
@@ -366,7 +366,7 @@ int format_va_arg_Formatter_FW(ThCxt* _thCxt, const char* sFormat, int zFormat, 
       ParseResultPrintfStyle_fwFormatter actParseResult[1];
       //evaluate using the parsing routine, but only for 1 result.
       
-      nrofCharsToCopy = sFormatEnd - sFormat1;  //
+      nrofCharsToCopy = (int)(sFormatEnd - sFormat1);  //
       parsePrinfStyleString_fwFormatter(actParseResult, 1, sFormat1, &nrofCharsToCopy);  //HINT: sFormat is not used, because there is only 1 element.
       sFormat1 += nrofCharsToCopy;  //return: the number of processed chars.
 

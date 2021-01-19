@@ -53,7 +53,7 @@ typedef struct TimeAbs_emC_T
    *
    * Schaltsekunden z?hlen mit, wenn das Bit 32 von nanoSeconds gesetzt ist.
    */
-  int32_t time_sec;
+  int32 time_sec;
   
   /**Zeit innerhalb einer Sekunde in Nanosekunden gez?hlt.
    * Um schnelle Vorg?nge genau abzubilden, ist eine Genauigkeit von 1 Mikrosekunde h?ufig nicht ausreichend. 
@@ -64,7 +64,7 @@ typedef struct TimeAbs_emC_T
    * *Bit 31: Wenn 1, dann stellt der Sekundenz?hler einen Wert dar, der die Schaltsekunden seit 1970 mitz?hlt.
    * *Bit 31: Wenn 0, dann stellt der Sekundenz?hler die kalendarisch gez?hlten Sekunden nach 1970 dar.
    */
-  int32_t time_nsec;
+  int32 time_nsec;
 
   /**Nur die folgenden Bits in nanoseconds werden als Nanosekunden verwendet. */
   #define mNanoSeconds_TimeAbs_emC 0x3FFFFFFF

@@ -103,6 +103,26 @@ int32 compareAndSwap_AtomicInteger  (  int32 volatile* reference, int32 expect, 
 }
 
 
+int16 compareAndSwap_AtomicInt16  (  int16 volatile* reference, int16 expect, int16 update) {
+  int16 lastValue;
+  /* The cmpxchg instruction sets the memory location edx with ecx if it is equal eax.
+   * In this case eax is equal the content of [edx].
+   * if the value at memory location is not equal eax, than no change is done,
+   * but eax is loaded with the content of memory location at [edx].
+   * In this case eax is not equal with the expect value.
+   */
+  _asm {
+    mov ax, expect
+    mov cx, update
+    mov edx, dword ptr [reference]
+
+    lock cmpxchg word ptr [edx], cx
+    mov lastValue, ax
+  }
+
+  return lastValue;
+}
+
 
 
 /**Implementation compareAndSet_AtomicReference:
@@ -127,4 +147,10 @@ bool compareAndSet_AtomicRef ( void* volatile* reference, void* expect, void* up
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
   return found == (int32)expect;
+}
+
+void* compareAndSwap_AtomicRef ( void* volatile* reference, void* expect, void* update)
+{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
+  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
+  return (void*)found;
 }

@@ -21,11 +21,30 @@
 #if defined(DEF_REFLECTION_OFFS) && defined(ADDR_HAS32BIT)  //Then it is the target with InspctargetProxy access.
 //This works only with 32-bit memory addresses. It is for an embedded  target
 
-int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 address, int32 inputVal, void const* mainData
-, int32 const* reflectionOffset_MainData, ClassJc const* const* reflectionOffsetArrays)
+
+Target2Proxy_Inspc_s* ctor_Target2Proxy_Inspc ( ObjectJc* othiz
+    , TelgProxy2Target_Inspc_s const* proxy2target, TelgTarget2Proxy_Inspc_s* target2proxy) {
+  Target2Proxy_Inspc_s* thiz = (Target2Proxy_Inspc_s*)othiz;
+  thiz->proxy2target = proxy2target;
+  thiz->target2proxy = target2proxy;
+  thiz->seqnrLast = -1;
+  thiz->errorMsg = 0;
+  thiz->lifeCt = 0;
+  return thiz;
+}
+
+
+int32 processInspcCmdOnTarget_Inspc(TelgProxy2Target_Inspc_s const* proxy2target, TelgTarget2Proxy_Inspc_s* target2proxy
+      , void const* mainData
+      , int32 const* reflectionOffset_MainData, ClassJc const* const* reflectionOffsetArrays)
 { int32 retVal;  
   STACKTRC_ENTRY("processInspcCmdOnTarget_Inspc");
+
   TRY {
+  Cmd_InspcTargetProxy_e cmd = getCmd_TelgProxy2Target_Inspc(proxy2target);
+  int32 address = proxy2target->address;
+  int32 inputVal = proxy2target->value;
+
   switch( cmd )
   {
     case getRootInstance_InspcTargetProxy: {
@@ -175,7 +194,7 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 addr
           oldValue = *(int32*)addr1;
           newValue = oldValue & ~mask;  //delete this bits.
           newValue |= (setValueBit << posBits) & mask;
-        } while( !compareAndSet_AtomicInteger((volatile int32*)addr1, oldValue, newValue)
+        } while( oldValue == compareAndSwap_AtomicInt32((volatile int32*)addr1, oldValue, newValue)
                && --catastrophicCount >0);
         newValue = *(int32*)addr1;  //re-read from memory 
         retVal = newValue >> posBits & (mask >> posBits);
@@ -192,7 +211,10 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 addr
   STACKTRC_RETURN retVal;
 }
 
-void step_Target2Proxy_Inspc(Target2Proxy_Inspc* thiz
+
+
+
+void step_Target2Proxy_Inspc(Target2Proxy_Inspc_s* thiz
   , void const* rootData
   , int32 const* reflectionOffset_RootData, ClassJc const* const* reflectionOffsetArrays
 ) {
@@ -203,15 +225,15 @@ void step_Target2Proxy_Inspc(Target2Proxy_Inspc* thiz
     int32 retValue = -1;
     Cmd_InspcTargetProxy_e cmd = getCmd_TelgProxy2Target_Inspc(thiz->proxy2target);
     TRY{
-      int32 address = thiz->proxy2target->address;
-      int32 value = thiz->proxy2target->value;
-      retValue = processInspcCmdOnTarget_Inspc(cmd, address, value, rootData, reflectionOffset_RootData, reflectionOffsetArrays);
+      retValue = processInspcCmdOnTarget_Inspc(thiz->proxy2target, thiz->target2proxy
+                 , rootData, reflectionOffset_RootData, reflectionOffsetArrays);
     }_TRY
     CATCH(Exception, exc) {
       retValue = -1;
     }
     END_TRY
     thiz->target2proxy->retValue = retValue;
+    setLifeCt_TelgTarget2Proxy_Inspc(thiz->target2proxy, ++thiz->lifeCt);
     setCmdSeqnr_TelgTarget2Proxy_Inspc(thiz->target2proxy, cmd, seqnr);  //return the same cmd and seqnr as received
     STACKTRC_LEAVE;
   }

@@ -7,7 +7,7 @@
 #undef INT32
 #undef UINT32
 #undef int64
-#undef uint64
+//#undef uint64
 
 #include <wtypes.h>
 #include <Winbase.h>

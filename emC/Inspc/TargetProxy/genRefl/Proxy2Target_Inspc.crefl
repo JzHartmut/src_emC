@@ -45,9 +45,9 @@ const struct SuperClasses_Proxy2Target_Inspc_ClassOffset_idxVtblJcARRAY_t  //Typ
 
 const struct Reflection_Fields_Proxy2Target_Inspc_t
 { ObjectArrayJc head;
-  FieldJc data[11];
+  FieldJc data[9];
 } refl_Fields_Proxy2Target_Inspc =
-{ INIZ_ObjectArrayJc(refl_Fields_Proxy2Target_Inspc, 11, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Proxy2Target_Inspc, 9, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "target2proxy"
     , 0   //no Array, no Bitfield                           
@@ -94,29 +94,11 @@ const struct Reflection_Fields_Proxy2Target_Inspc_t
     , &refl_Proxy2Target_Inspc
     }
   , 
-    { "channelTarget"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int16                                                                                            
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Proxy2Target_Inspc*)(0x1000))->channelTarget)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Proxy2Target_Inspc
-    }
-  , 
     { "xxbReqPending"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int16)( ((intptr_t)(&((Proxy2Target_Inspc*)(0x1000))->xxbReqPending)) -0x1000 )
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Proxy2Target_Inspc
-    }
-  , 
-    { "dummy2"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int16                                                                                            
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Proxy2Target_Inspc*)(0x1000))->dummy2)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Proxy2Target_Inspc
     }

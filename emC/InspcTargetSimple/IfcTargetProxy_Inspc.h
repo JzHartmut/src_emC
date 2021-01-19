@@ -58,31 +58,11 @@ inline Cmd_InspcTargetProxy_e getCmd_TelgProxy2Target_Inspc(TelgProxy2Target_Ins
 
 
 inline void setCmdSeqnr_TelgProxy2Target_Inspc(TelgProxy2Target_Inspc_s* thiz, Cmd_InspcTargetProxy_e cmd, int seqnr) {
-  int32 v = (((int32)sizeof(TelgProxy2Target_Inspc_s)) << kBitLength_TelgProxy2Target_Inspc) 
+  int32 v = (((int32)sizeof(TelgProxy2Target_Inspc_s) * BYTE_IN_MemUnit) << kBitLength_TelgProxy2Target_Inspc)
           | (cmd & mCmd_TelgProxy2Target_Inspc) 
           | ((seqnr << kBitSeqnr_TelgProxy2Target_Inspc) & mSeqnr_TelgProxy2Target_Inspc_s);
   thiz->length_seq_cmd = v;
 }
-
-
-
-/**This is the prototype for processing the inspector commands in an target.
-* It uses the generated ...ReflOffset...c.
-*
-* The user should programm the access to the communication in a proper way for the target sensitivities (conditions).
-* @param cmd the command of type Cmd_InspcTargetProxy_e
-* @param address The address value. It is a 32 bit value usually. A Processor with a 64-bit-Address space may not need this routine.
-* @param inputVal depends from the command. For bitfield access it is the bit number and length, see [[mPosBitsInBitfieldAccess_InspcTargetProxy]] etc.
-*    for setFloat and setDouble it is a float value (present in integer image).
-* @param mainData The address of the root of all data. That is the only one address which should be known for access.
-* @param reflectionOffset_MainData Pointer to the const array of offsets which describes the mainData structure,
-*    from the generated ...ReflOffset...c-File.
-* @param reflectionOffsetArrays pointer to the 'Array of all offsets' from the generated ...ReflOffset...c-File.
-* @return for set and get operations the current value, gotten or after set. It is a int image of a float value on get/set double and float.
-*/
-int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 address, int32 inputVal, void const* mainData
-  , int32 const* reflectionOffset_MainData, ClassJc const* const* reflectionOffsetArrays);
-
 
 
 
@@ -94,7 +74,7 @@ int32 processInspcCmdOnTarget_Inspc(Cmd_InspcTargetProxy_e const cmd, int32 addr
  */
 typedef struct TelgTarget2Proxy_Inspc_s_t
 {
-  /**The length is sizeof(TelgTarget2Proxy_Inspc_s) == 16 because that is the fix length. */
+  /**The length is sizeof(TelgTarget2Proxy_Inspc_s) * BYTE_IN_MemUnit == 16 because that is the fix length. */
   int32 length_seq_cmd;
 #define mSeqnr_TelgTarget2Proxy_Inspc      0x0000ff00
 #define kBitSeqnr_TelgTarget2Proxy_Inspc   8
@@ -146,7 +126,7 @@ inline Cmd_InspcTargetProxy_e getCmd_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Ins
 
 
 inline void setCmdSeqnr_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, Cmd_InspcTargetProxy_e cmd, int seqnr) {
-  int32 v = (((int32)sizeof(TelgTarget2Proxy_Inspc_s)) << kBitLength_TelgTarget2Proxy_Inspc)
+  int32 v = (((int32)sizeof(TelgTarget2Proxy_Inspc_s) * BYTE_IN_MemUnit) << kBitLength_TelgTarget2Proxy_Inspc)
     | (cmd & mCmd_TelgProxy2Target_Inspc)
     | ((seqnr << kBitSeqnr_TelgTarget2Proxy_Inspc) & mSeqnr_TelgTarget2Proxy_Inspc);
   thiz->length_seq_cmd = v;
@@ -171,6 +151,30 @@ inline void setLifeCt_TelgTarget2Proxy_Inspc(TelgTarget2Proxy_Inspc_s* thiz, int
   v = (v & ~mLifeCt_TelgTarget2Proxy_Inspc) | (((int32)lifeCt << kBitLifeCt_TelgTarget2Proxy_Inspc) & mLifeCt_TelgTarget2Proxy_Inspc);
   thiz->error__lifeCt = v;
 }
+
+
+
+/**This is the prototype for processing the inspector commands in an target.
+* It uses the generated ...ReflOffset...c.
+*
+* The user should programm the access to the communication in a proper way for the target sensitivities (conditions).
+* @param cmd the command of type Cmd_InspcTargetProxy_e
+* @param address The address value. It is a 32 bit value usually. A Processor with a 64-bit-Address space may not need this routine.
+* @param inputVal depends from the command. For bitfield access it is the bit number and length, see [[mPosBitsInBitfieldAccess_InspcTargetProxy]] etc.
+*    for setFloat and setDouble it is a float value (present in integer image).
+* @param mainData The address of the root of all data. That is the only one address which should be known for access.
+* @param reflectionOffset_MainData Pointer to the const array of offsets which describes the mainData structure,
+*    from the generated ...ReflOffset...c-File.
+* @param reflectionOffsetArrays pointer to the 'Array of all offsets' from the generated ...ReflOffset...c-File.
+* @return for set and get operations the current value, gotten or after set. It is a int image of a float value on get/set double and float.
+*/
+int32 processInspcCmdOnTarget_Inspc(TelgProxy2Target_Inspc_s const* proxy2target, TelgTarget2Proxy_Inspc_s* target2proxy
+      , void const* mainData
+      , int32 const* reflectionOffset_MainData, ClassJc const* const* reflectionOffsetArrays);
+
+
+
+
 
 
 #endif //__Inspc__IfcTargetProxy_Inspc_h__

@@ -276,7 +276,7 @@ int16 getBitfield_MemAccessJc(MemSegmJc addr, int posBit, int nrofBit)
 int setBitfield_MemAccessJc(MemSegmJc addr, int setVal, int posBit, int nrofBit )
 {
   int memSegment = segment_MemSegmJc(addr);
-	OS_intPTR addr1 = (OS_intPTR)ADDR_MemSegmJc(addr, void);    //NOTE: the addr may be in a remote CPU
+	intPTR addr1 = (intPTR)ADDR_MemSegmJc(addr, void);    //NOTE: the addr may be in a remote CPU
 	int32 val1;
   
   if(memSegment == 0){
@@ -312,12 +312,13 @@ int setBitfield_MemAccessJc(MemSegmJc addr, int setVal, int posBit, int nrofBit 
       int32 mask = ((1<<nrofBit)-1) << (posBitUsed);
       int32 orVal = (setVal << (posBitUsed)) & mask;
 			int32* addr2 = (int32*) addr1;
-      int32 val0;
+      int32 val0 = *addr2;
+      int32 valexpect;
       int ctCatastrophic = 999;  //terminate a while-loop
-      { val0 = *addr2;
-			  val1 = val0 & ~mask;  //set this bits to 0
+      { val1 = val0 & ~mask;  //set this bits to 0
 			  val1 |= orVal;
-      } while(--ctCatastrophic >=0 && !compareAndSet_AtomicInteger(addr2, val0, val1));  //repeat if memory was changed. 
+        valexpect = val0;
+      } while(--ctCatastrophic >=0 && (val0 = compareAndSwap_AtomicInteger(addr2, valexpect, val1)) != valexpect);  //repeat if memory was changed. 
 			if(ctCatastrophic < 0) {
         val1 = 0xbad;
       } else {

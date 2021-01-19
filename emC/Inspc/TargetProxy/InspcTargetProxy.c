@@ -37,9 +37,6 @@ InterProcessCommRxThread_Ipc_s targetIpc = {{INIZ_ObjectJc(targetIpc, refl_Inter
 Inspector_Inspc_s theInspectorTargetProxy = 
 { {INIZ_ObjectJc(theInspectorTargetProxy, refl_Inspector_Inspc, 0)}};
 
-AsciiMoni_emC asciiMoniFromTarget;
-AsciiMoniToTarget_InspcTargetPrx_emC asciiMoniFromKbd;
-
 typedef struct Serial_InspcTargetProxy_T {
   int comPort;
   int console;
@@ -247,36 +244,11 @@ Ctrl_ParseArgs const cmdArgs[] =
 #include <emC/Base/Time_emC.h>
 
 
-void testSerial() {
-  STACKTRC_ENTRY("testSerial");
-  int comport = 7;
-  int console = 0;
-  int error;
-  bool bOk = true;
-  error = open_Serial_HALemC(comport, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
-  ASSERT_emC(error ==0, "error comport", error, comport);
-  if(error) { bOk = false; }
-  error = open_Serial_HALemC(console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
-  ASSERT_emC(error ==0, "error console", error, 0);
-  if(error) { bOk = false; }
-  int ixCharsChecked = 0;
-  asciiMoniFromKbd.init(console, console, -1);
-  asciiMoniFromTarget.init(comport, console, console);
-  while(bOk) {
-    asciiMoniFromTarget.evalRx();   //checks Rx from target.
-    asciiMoniFromKbd.evalRx();
-    sleep_Time_emC(1);
-  }
-  if(!bOk) {
-    printf("serial error\n");
-  }
-  close_Serial_HAL_emC(console);
-  close_Serial_HAL_emC(comport);
-  STACKTRC_LEAVE;
-}
 
-
-void initializeComPort(char const* sComPort) {
+/**initializes COM if argument -com:7 is given. 
+ * @arg sComport it is only a digit.
+ */
+static void initializeComPort(char const* sComPort) {
   asciiMoni.comPort = sComPort[0] - '0';
   asciiMoni.console = 0;
   int error;
@@ -439,7 +411,7 @@ int main(int nArgs, char** argsCmd)
         }  
       } 
       sleep_ThreadJc(10, _thCxt);
-      if(data.targetComm->ms_LastTimeTx ==0) {
+      if(asciiMoni.comPort >=0 && data.targetComm->ms_LastTimeTx ==0) {
         processReceivedComport(&asciiMoni, data.targetComm->ms_LastTimeTx);
       }
       #if 0
@@ -550,24 +522,121 @@ int32 getInfo_InspcTargetProxy(InspcTargetProxy_s* thiz, Cmd_InspcTargetProxy_e 
 
 
 /**Request any info which has max. 4 byte return value. 
- * This routine will be called from inside ReflMemAccessJc.c for all Reflection access to outside memory.
+ * ===> This routine will be called from inside ReflMemAccessJc.c for all Reflection access to outside memory.
  */
 int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int32 input)
 { 
   int zRxAsciiMoni = -1;
-  if(data.targetComm->channelTarget >0) {        //preserve up to now chars.
-    zRxAsciiMoni = hasRxChars_Serial_HALemC(data.targetComm->channelTarget);
+  if(asciiMoni.comPort >0) {        //preserve up to now chars.
+    zRxAsciiMoni = hasRxChars_Serial_HALemC(asciiMoni.comPort);
     //                                           //in between use the serial com for Target Proxy
-    prepareRx_Serial_HALemC(data.targetComm->channelTarget, data.targetComm->target2proxy, sizeof(*data.targetComm->target2proxy), 0);
+    prepareRx_Serial_HALemC(asciiMoni.comPort, data.targetComm->target2proxy, sizeof(*data.targetComm->target2proxy), 0);
   }
+  //
   int32 result =  get_Proxy2Target_Inspc(&data.commImpl.shMem_a->super, cmd, address, input);
   //return getInfo_InspcTargetProxy(&data, cmd, address, input);
   //furthermore received characters: store newly in buffer before.
   if(zRxAsciiMoni >=0) {
-    prepareRx_Serial_HALemC(data.targetComm->channelTarget, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, zRxAsciiMoni);
+    prepareRx_Serial_HALemC(asciiMoni.comPort, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, zRxAsciiMoni);
   }
   return result;
 }
+
+
+//Texts for printf
+static char const* cmdTxt[] =
+{ "0"
+, "getRootAddr"  // 1
+, "getRootType"  // 2
+, "getType    "  // 3
+, "getSizeOffs"  // 4
+, "getLenArray"  // 5
+, "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"
+, "getByte    "  // 0x10
+, "getInt16   "  // 0x11
+, "getInt32   "  // 0x12
+, "getInt64   "  // 0x13
+, "getFloat   "  // 0x14
+, "getDouble  "  // 0x15
+, "getRef     "  // 0x16
+, "getBitfild "  // 0x17
+, "setByte    "  // 0x18
+, "setInt16   "  // 0x19
+, "setInt32   "  // 0x1a
+, "setInt64   "  // 0x1b
+, "setFloat   "  // 0x1c
+, "setDouble  "  // 0x1d
+, "setRef     "  // 0x1e
+, "setBitfild "  // 0x1f
+
+};
+
+
+
+//This routine is invoked inside get_Proxy2Target_Inspc(...) to communicate.
+//It is implemented due to the needs of this application, the inspector target proxy.
+//Hence it uses the source-local but static data.
+bool forceComm_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy_e cmd) {
+  //The target will be read this information in about the next few micro to milliseconds.
+  //No: It is a poor polling. 
+  //applies the send data in a specific way
+  //prepareRx_Serial_HALemC(asciiMoni.comPort, (MemUnit*)thiz->target2proxy, sizeof(*thiz->target2proxy), 0);
+  TelgProxy2Target_Inspc_s* txTelg = thiz->proxy2target;
+  printf("tx: %8.8x=%s addr=%8.8x %8.8x %8.8x ...", txTelg->length_seq_cmd, cmdTxt[((int)cmd) & 0x1f], txTelg->address, txTelg->valueHi, txTelg->value);
+  thiz->ms_LastTimeTx = os_getMilliTime();       //marking uses the other com
+  if (thiz->ms_LastTimeTx == 0) { thiz->ms_LastTimeTx = 1; } //marks pending, should be !=0
+  if (asciiMoni.comPort >0) {
+    int32 escTx = 0x011b;
+    tx_Serial_HALemC(asciiMoni.comPort, &escTx, 0, 2);   //with esc 01 the target detects the InspcTargetTeleg
+    int nrofBytesTx = (int)sizeof(*txTelg);
+    tx_Serial_HALemC(asciiMoni.comPort, txTelg, 0, nrofBytesTx);
+    sleepMicroSec_Time_emC(4000);  //wait 4 ms for tx and rx.
+  }
+  int seqnrtarget = -1;
+  bool hasReceived = false;
+  TelgTarget2Proxy_Inspc_s const* rxTelg = thiz->target2proxy;
+  int timeout = thiz->ms_timeout;  //seconds
+  do {
+    sleepMicroSec_Time_emC(1000);  //wait a little moment.
+    if (asciiMoni.comPort >0) {
+      int zRx = hasRxChars_Serial_HALemC(asciiMoni.comPort);
+      if (zRx >= sizeof((*rxTelg))) {
+        //The thiz->target2proxy area will be set by the communication thread. 
+        //whereby the seqnr need be set as last. 
+        seqnrtarget = getSeqnr_TelgTarget2Proxy_Inspc(rxTelg);
+        hasReceived = seqnrtarget == thiz->seqnrTxTarget;
+      }
+    } else {
+      //                               //shard mem communication.
+      //The seqnr was set as last, test it.                             
+      seqnrtarget = getSeqnr_TelgTarget2Proxy_Inspc(rxTelg);
+      hasReceived = seqnrtarget == thiz->seqnrTxTarget;
+    }
+    if (timeout == 3) {
+      timeout += 0;   //debug break
+    }
+  } while (!hasReceived && --timeout != 0);  //note: if starts with 0, loop for ever.
+  
+  if (timeout == 0) {
+    printf("Timeout target seqtx=%2.2X seqrx=%2.2X\n", thiz->seqnrTxTarget, seqnrtarget);
+    thiz->ms_LastTimeTx = 0;
+  }
+  else {
+    int32 milliseconds = thiz->ms_LastTimeCommunication;
+    thiz->ms_LastTimeCommunication = os_getMilliTime();
+    int32 timediff = thiz->ms_LastTimeCommunication - milliseconds;
+    int32 timediffRx = thiz->ms_LastTimeCommunication - thiz->ms_LastTimeTx;
+    thiz->ms_LastTimeTx = 0;                     //no more pending.
+    if (timediff > 1000) {
+      //printf("\n");
+    }
+    //printf("%8.8x %s-@%8.8x x=%8.8x ret=%8.8x\n", (int)cmd, cmdTxt[((int)cmd) & 0x1f], address, input, value);
+    printf("%2.3fs: %8.8x addr=%8.8x %8.8x val=%8.8x\n", 0.001f*timediffRx, rxTelg->length_seq_cmd, rxTelg->error__lifeCt, rxTelg->retValueHi, rxTelg->retValue);
+  }
+  return timeout > 0; //then true
+}
+
+
 
 #ifdef __cplusplus
 

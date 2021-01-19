@@ -28,6 +28,7 @@ typedef struct InternalData_Serial_HALemC_T {
   int volatile zBuffer;
   int volatile ixBuffer;           //:index already transferred characters from FIFO (rxFIFO) to valueBuffer.
   int volatile run;
+  int ctException;
   OS_HandleThread hThread;
   HANDLE hPort;
   MemUnit* volatile valueBuffer;   //:the user buffer to get the data.
@@ -37,54 +38,54 @@ static InternalData_Serial_HALemC* thdata_g[10];
 
 
 int rxThreadRoutine(void* data) {
+  STACKTRC_ENTRY("rxThreadRoutine");
   InternalData_Serial_HALemC* thiz = C_CAST(InternalData_Serial_HALemC*, data);
   //thiz->ixFIFOrd = 0;
   //thiz->ixFIFOwr = 0;
   thiz->run = 1;
   DWORD dwBytesTransferred;
   while(thiz->run) {
-    /*
-    int zFree;
-    if(thiz->ixFIFOrd == ARRAYLEN_emC(thiz->rxFIFO)) { //all was read till end
-      thiz->ixFIFOrd = thiz->ixFIFOwr = 0;          //start from begin, ringbuffer
-    } 
-    zFree = ARRAYLEN_emC(thiz->rxFIFO) - thiz->ixFIFOwr;  //fill till end
-    */
-    //
-    //if(zFree >0) {
-    MemUnit* buffer = thiz->valueBuffer;         //if the buffer is not available, then wait
-    int ix = thiz->ixBuffer;                     //other meanwhile received bytes are stored internally.
-    if(buffer != null && ix < thiz->zBuffer) {   
-      int rxByte = 0;  //write received data in stack is possible.
-      //MemUnit* pRxBuffer = &thiz->rxFIFO[thiz->ixFIFOwr];
-      //BOOL ok = ReadFile (thiz->hPort, pRxBuffer, zFree, &dwBytesTransferred, 0);
-      //it stores only one received byte immediately local:
-      BOOL ok = ReadFile (thiz->hPort, &rxByte, 1, &dwBytesTransferred, 0);
-      if(ok && dwBytesTransferred >0) {
-        int ixExpected;
-        int ctAbort = 3;
-        do {
+    TRY{
+      MemUnit* buffer = thiz->valueBuffer;         //if the buffer is not available, then wait
+      int ix = thiz->ixBuffer;                     //other meanwhile received bytes are stored internally.
+      if (buffer != null && ix < thiz->zBuffer) {
+        int rxByte = 0;  //write received data in stack is possible.
+        //MemUnit* pRxBuffer = &thiz->rxFIFO[thiz->ixFIFOwr];
+        //BOOL ok = ReadFile (thiz->hPort, pRxBuffer, zFree, &dwBytesTransferred, 0);
+        //it stores only one received byte immediately local:
+        BOOL ok = ReadFile(thiz->hPort, &rxByte, 1, &dwBytesTransferred, 0);
+        if (ok && dwBytesTransferred > 0) {
+          int ixExpected;
+          int ctAbort = 3;
           do {
-            buffer = thiz->valueBuffer;          //may be changed meanwhile between start and ReadFile.
-            if(buffer ==null) {                  //if the buffer is not available, possible set a new one
-              Sleep(1);                          //then wait. do not store the byte.
-            }                                    //other meanwhile received bytes are stored internally. 
-          } while(buffer ==null);
-          ixExpected = ix = thiz->ixBuffer;      //It is possible that ixBuffer was changed meanwhile, especially on buffer change.
-          thiz->valueBuffer[ix] = (char)(rxByte);//hence read again, ixBuffer should be always in range (presumed)
-          writeTrc(ix, rxByte);
-          int ixNew = ix+1;                      //Set with atomic swap, because it can be changed meanwhilt too.
-          ix = compareAndSwap_AtomicInteger(&thiz->ixBuffer, ix, ixNew);
-        } while(ix != ixExpected && --ctAbort >=0); 
-        ASSERT_emC(ctAbort >=0, "internal error rxThreadRoutine Serial_emC", ctAbort, thiz->channel);         
-      } else {                                   //timeout on ReadFile
+            do {
+              buffer = thiz->valueBuffer;          //may be changed meanwhile between start and ReadFile.
+              if (buffer == null) {                  //if the buffer is not available, possible set a new one
+                Sleep(1);                          //then wait. do not store the byte.
+              }                                    //other meanwhile received bytes are stored internally. 
+            } while (buffer == null);
+            ixExpected = ix = thiz->ixBuffer;      //It is possible that ixBuffer was changed meanwhile, especially on buffer change.
+            thiz->valueBuffer[ix] = (char)(rxByte);//hence read again, ixBuffer should be always in range (presumed)
+            writeTrc(ix, rxByte);
+            int ixNew = ix + 1;                      //Set with atomic swap, because it can be changed meanwhilt too.
+            ix = compareAndSwap_AtomicInteger(&thiz->ixBuffer, ix, ixNew);
+          } while (ix != ixExpected && --ctAbort >= 0);
+          ASSERT_emC(ctAbort >= 0, "internal error rxThreadRoutine Serial_emC", ctAbort, thiz->channel);
+        }
+        else {                                   //timeout on ReadFile
+          Sleep(10);
+        }
+      }
+      else {                                     //rxFIFO is full, should be read, 
         Sleep(10);
       }
-    } else {                                     //rxFIFO is full, should be read, 
-      Sleep(10);
-    }               
+    }_TRY
+    CATCH(Exception, exc) {
+      thiz->ctException += 1;                    //Exception maybe able to visit in Inspector
+    }
+    END_TRY
   }
-  return 0;
+  STACKTRC_RETURN 0;
 }
 
 

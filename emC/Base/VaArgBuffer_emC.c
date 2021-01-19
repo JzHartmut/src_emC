@@ -69,7 +69,7 @@ VaArgBuffer* ctorM_VaArgBuffer(MemC mthis, int size, ThCxt* _thCxt)
 static MemUnit* copyString_VaArgBuffer(VaArgBuffer* ythis, MemUnit* dst, char const* text, int nrofChars, char* typeArgs)
 {
   if(typeArgs[1] == 0)
-  { int nrofChars = ( (((MemUnit*)&ythis->data) + sizeof(ythis->data)) - dst) -1;
+  { int nrofChars = (int)( (((MemUnit*)&ythis->data) + sizeof(ythis->data)) - dst) -1;
     strcpy_emC((char*)dst, text, nrofChars);
     ((char*)dst)[nrofChars] = 0;
     dst += nrofChars +1;

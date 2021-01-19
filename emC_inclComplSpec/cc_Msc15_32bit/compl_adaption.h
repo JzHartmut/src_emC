@@ -258,9 +258,6 @@
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
 typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 
-/**Union of int64 and its fractions. */
-typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
-
 
 #define DEFINED_float_complex     
 //#define float_complex creal32_T
@@ -277,6 +274,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 /**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
 #define intPTR intptr_t
+#define uintPTR uintptr_t
 #define ADDR_HAS32BIT
 #define INT_HAS32BIT
 

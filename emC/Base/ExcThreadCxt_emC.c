@@ -116,7 +116,7 @@ MemC getUserBuffer_ThreadContext_emC ( int size, char const* sign, struct Thread
     setUserBuffer_ThreadContext_emC(alloc, _thCxt);
   }
   { MemUnit* endBuffer = PTR_MemC(threadHeap->bufferAlloc, MemUnit) + threadHeap->bufferAlloc.val;  //Addr after buffer.
-    int sizeFree = endBuffer - threadHeap->addrFree;
+    int sizeFree = (int)(endBuffer - threadHeap->addrFree);
     int mask = 0x1;
     int ix = 0;
     if(size ==0){  //special arguments

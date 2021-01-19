@@ -8,7 +8,7 @@ typedef struct Target2ProxySharedMem_Inspc_t
 {
 
   /**Derived from TargetData*/
-  Target2Proxy_Inspc super;
+  Target2Proxy_Inspc_s super;
 
   SharedMem2Target_Inspc shMemAccess;
   

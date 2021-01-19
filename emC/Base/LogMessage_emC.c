@@ -118,7 +118,7 @@ void flush_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   mtbl = (Vtbl_LogMessageFW*)mtblO;
   if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
   if(mtbl->head.sign != sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
-  if( (intptr_t)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->flush) - (OS_intPTR)(mtbl)))
+  if( (intptr_t)mtbl->head.sizeTable >= (int)((intPTR)(mtbl->flush) - (intPTR)(mtbl)))
   { mtbl->flush(ythis, _thCxt);
   }
   else
@@ -144,7 +144,7 @@ void close_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   mtbl = (Vtbl_LogMessageFW*)mtblO;
   if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
   if(mtbl->head.sign != sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
-  if( (intptr_t)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->close) - (OS_intPTR)(mtbl)))
+  if( (intptr_t)mtbl->head.sizeTable >= (int)((intPTR)(mtbl->close) - (intPTR)(mtbl)))
   { mtbl->close(ythis, _thCxt);
   }
   else
@@ -171,7 +171,7 @@ bool isOnline_LogMessageFW(LogMessageFW_s* ythis, ThCxt* _thCxt)
   mtbl = (Vtbl_LogMessageFW*)mtblO;
   if(mtbl == null) THROW1_s0(IllegalArgumentException, "Method-table not found",0);
   if(mtbl->head.sign != sign_Vtbl_LogMessageFW) THROW1_s0(IllegalArgumentException, "The found Method-table is not correct", (int)(intptr_t)mtbl);
-  if( (intptr_t)mtbl->head.sizeTable >= (int)((OS_intPTR)(mtbl->isOnline) - (OS_intPTR)(mtbl)))
+  if( (intptr_t)mtbl->head.sizeTable >= (int)((intPTR)(mtbl->isOnline) - (intPTR)(mtbl)))
   { isOnline = mtbl->isOnline(ythis, _thCxt);
   }
   else

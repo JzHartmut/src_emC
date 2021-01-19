@@ -52,56 +52,8 @@
 //Because pragma once (or guard) the content of the files are not included again.
 //They should be included firstly to cover its typedef by the typedef of simulink.
 //Note: The stdint.h includes sum unecessary stuff
-#include <stdint.h>  //C99-int types
+//#include <stdint.h>  //C99-int types
 //define instead the important type definitions immediately compiler specific.
-//#define int8_t signed char
-//#define int16_t short
-//#define int32_t int
-//#define int64_t long long
-//#define uint8_t unsigned char
-//#define uint16_t unsigned short
-//#define uint32_t unsigned int
-//#define uint64_t unsigned long long
-//#define intptr_t int
-//#define INT8_MIN         (-127i8 - 1)
-//#define INT16_MIN        (-32767i16 - 1)
-//#define INT32_MIN        (-2147483647i32 - 1)
-//#define INT64_MIN        (-9223372036854775807i64 - 1)
-//#define INT8_MAX         127i8
-//#define INT16_MAX        32767i16
-//#define INT32_MAX        2147483647i32
-//#define INT64_MAX        9223372036854775807i64
-//#define UINT8_MAX        0xffui8
-//#define UINT16_MAX       0xffffui16
-//#define UINT32_MAX       0xffffffffui32
-//#define UINT64_MAX       0xffffffffffffffffui64
-//
-//#define INT_LEAST8_MIN   INT8_MIN
-//#define INT_LEAST16_MIN  INT16_MIN
-//#define INT_LEAST32_MIN  INT32_MIN
-//#define INT_LEAST64_MIN  INT64_MIN
-//#define INT_LEAST8_MAX   INT8_MAX
-//#define INT_LEAST16_MAX  INT16_MAX
-//#define INT_LEAST32_MAX  INT32_MAX
-//#define INT_LEAST64_MAX  INT64_MAX
-//#define UINT_LEAST8_MAX  UINT8_MAX
-//#define UINT_LEAST16_MAX UINT16_MAX
-//#define UINT_LEAST32_MAX UINT32_MAX
-//#define UINT_LEAST64_MAX UINT64_MAX
-//
-//#define INT_FAST8_MIN    INT8_MIN
-//#define INT_FAST16_MIN   INT32_MIN
-//#define INT_FAST32_MIN   INT32_MIN
-//#define INT_FAST64_MIN   INT64_MIN
-//#define INT_FAST8_MAX    INT8_MAX
-//#define INT_FAST16_MAX   INT32_MAX
-//#define INT_FAST32_MAX   INT32_MAX
-//#define INT_FAST64_MAX   INT64_MAX
-//#define UINT_FAST8_MAX   UINT8_MAX
-//#define UINT_FAST16_MAX  UINT32_MAX
-//#define UINT_FAST32_MAX  UINT32_MAX
-//#define UINT_FAST64_MAX  UINT64_MAX
-
 //#include <limits.h>  //proper to C99
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
@@ -124,30 +76,30 @@
 //#pragma warning(disable:4100) //unused argument
 
 //C++
-#pragma warning(disable:4068) //unknown pragma
+//#pragma warning(disable:4068) //unknown pragma
 
-#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4305) //truncation from 'double' to 'float'
-#pragma warning(disable:4310) //cast truncates constant value
-#pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4514) //unreferenced inline function has been removed
+//#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
+//#pragma warning(disable:4127) //conditional expression is constant
+//#pragma warning(disable:4189) //local variable is initialized but not referenced
+//#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
+//#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
+//#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
+//#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
+//#pragma warning(disable:4305) //truncation from 'double' to 'float'
+//#pragma warning(disable:4310) //cast truncates constant value
+//#pragma warning(disable:4505) //unreferenced local function has been removed
+//#pragma warning(disable:4514) //unreferenced inline function has been removed
 //#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
+//#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
 
-#pragma warning(error:4002) //too many actual parameters for macro
-#pragma warning(error:4003) //not enough actual parameters for macro
-#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
-#pragma warning(error:4020) //too many actual parameters
+//#pragma warning(error:4002) //too many actual parameters for macro
+//#pragma warning(error:4003) //not enough actual parameters for macro
+//#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
+//#pragma warning(error:4020) //too many actual parameters
 //#pragma warning(error:4028) //formal parameter 1 different from declaration
 //#pragma warning(error:4033) //incompatible types (pointer casting)
 //#pragma warning(error:4133) //incompatible types (pointer casting)
-#pragma warning(disable:4996) //deprecated getenv etc. in MSC15
+#pragma warning(disable:4996) //Microsoft's specific dialect of some deprecated operation, strncpy etc. 
 
 
 /**Defintion of bool, false, true for C usage. */
@@ -193,13 +145,14 @@
 
 //This functions may be platform dependend but for all our platforms identical, also in C-Standard.
 //do nut use platform specific headers. 
-#define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
+#define XXXXX_FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
 
-
-#define MemUnit char            //sizeof(MemUnit) muss 1 sein!
+typedef char MemUnit;
+//#define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
-#define BYTE_IN_MemUnit_sizeof 1
+//#define BYTE_IN_MemUnit_sizeof 1
+
 
 
 /**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
@@ -213,6 +166,7 @@
 #define INT32_NROFBITS 32
 #define INT64_NROFBITS 64
 #define INT_NROFBITS   32
+#define POINTER_NROFBITS 64
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
  * But the definition of INT_MAX is missing.
@@ -237,48 +191,47 @@
 
 #define uint      unsigned int
 
-#define int64 __int64
-#define uint64 uint64_t
-//#define int64_t __int64
-//#define uint64_t __int64
-
-#define bool8    unsigned char
-#define bool8_t  unsigned char
-#define bool16   unsigned short
-#define bool16_t unsigned short
-//Standard-character and UTF16-character:
-#define char8    char
-#define char16   unsigned short
-#define char8_t  char
-//#define char16_t short
-#define float32  float
-
-
+#define int64     long long
+#define uint64    unsigned long long
 
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
-typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
+typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
 
-/**Union of int64 and its fractions. */
-typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
+
+#define bool8    unsigned char
+#define bool16   unsigned short
+//Standard-character and UTF16-character:
+#define char16   unsigned short
+#define float32  float
+
+/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
+#define intPTR long long       //Hint: do not based on int64, because especially int64 may be undef for some specifics
+#define uintPTR unsigned long long
+#define DEF_DONOTDEF_intPTR  //intptr_t is defined unconditional in vcruntime.h of MS-VisualStudio.
+//Application hint: do not use intptr_t in the application. 
+
+
+
+#define _UINTPTR_T_DEFINED  //MS VS: prevent twice definition of uintptr_t in vadefs.h
 
 
 #define DEFINED_float_complex     
-//#define float_complex creal32_T
-typedef struct float_complex_t { float re; float im; } float_complex; 
+#ifdef REAL32_T
+  #define float_complex creal32_T
+#else 
+  typedef struct float_complex_t { float re; float im; } float_complex; 
+#endif
 #define DEFINED_double_complex
-//#define double_complex creal64_T
-typedef struct double_complex_t { double re; double im; } double_complex; 
+#ifdef REAL32_T
+  #define double_complex creal64_T
+#else
+  typedef struct double_complex_t { double re; double im; } double_complex; 
+#endif
 
 
 
 
 
-
-
-/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
-#define intPTR intptr_t
-#define ADDR_HAS64BIT
-#define INT_HAS32BIT
 
 /**Definition of the really used types in variable argument lists. 
  * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
@@ -293,9 +246,14 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
 #undef  NULL
-#define NULL 0
 #undef null
-#define null 0
+#ifdef __cplusplus
+  #define NULL 0
+  #define null 0
+#else  //C-compiler
+  #define NULL ((void*)0)
+  #define null ((void*)0)
+#endif 
 
 // Folgendes Define wird nach einer Struktur insbesondere für GNU-Compiler verwendet. Es ist für MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
@@ -358,61 +316,14 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR intptr_t
+//#define OS_intPTR intptr_t
 
 
 
-/**This macro defines a struct with a pointer to the given type and a integer number.
- * Usual it can be used to describe exactly an 1-dimensional array. The integer number is the number of elements,
- * the size in memory is (sizeof(TYPE) * numberOfElements). 
- * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
- */
-#define VALTYPE_AddrVal_emC int32
-#define STRUCT_AddrVal_emC(NAME, TYPE) struct NAME##_T { TYPE* addr; VALTYPE_AddrVal_emC val; } NAME
 
-
-
-/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
- * but in the 32-bit-System the handle value is equal the pointer value.
- * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
- * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
- * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
- * Used especially in Simulink S-Functions for bus elements and outputs which are references.
- * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
- * old: OS_HandlePtr
- * search: HandlePtr_emC ( TYPE, NAME)
- */
-#define HandlePtr_emC(TYPE, NAME) uint32 NAME; 
-
-
-
-/**Possibility to store a pointer (a memory address) as handle if desired. 
- * It depends from the target system. 
- * If dll are used and independent linked objects are existing, especially if dll are used,
- * and graphical programming is used (that is especially in Simulink S-Functions), 
- * then a memory address should be present by a handle, the handle is converted to the address 
- * via a central table which contains all addresses of instances, common for all dll. 
- * In that case the Handle_ADDR_emC is an uint32, and the TYPE is not relevant. 
- * This system is supported by emC/Base/Handle_prt64_emC.*. 
- * For simple applications it is defined with the immediately access, maybe with 64-bit-addresses.
- *
- * Here it is immediately the 64-bit-address with the proper type (important for debug).
- */
-//In Handle_ptr64_emC.h: activate the macros to use the replacement of Pointer with an uint32-handle. Because Adresses need 64 bit.
-#ifdef DEF_HandlePtr64
-  #define HandleADDR_emC(TYPE) uint32
-
-  #include <emC/Base/Handle_ptr64_emC.h>
-#else //not DEF_HandlePtr64
-#define HandleADDR_emC(TYPE) TYPE*
-
-/**It presents the TYPE-correct address as pointer in C/++*/
-#define ptr_HandleADDR_emC(HANDLE, TYPE) (HANDLE)
-
-/**It presents an integer value as handle, may be identical with the address. */
-#define handle_HandleADDR_emC(HANDLE) ((intPTR)(HANDLE))
-#endif  //DEF_HandlePtr64
-
+/**This file includes common definition valid for any compiler independent of applstdef_emC.h
+ * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
+#include <emC/Base/types_def_common.h>
 
 
 
@@ -435,20 +346,16 @@ typedef struct double_complex_t { double re; double im; } double_complex;
   #define FALSE false
 #endif
 
-
-/**This file includes common definition valid for any compiler independent of applstdef_emC.h
- * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
-
-
-#include <emC/Base/types_def_common.h>
-
-
-#define DEF_compareAndSet_AtomicInteger
-//This is implemented in emC_srcOSALspec/hw_Intel_x86_Gcc/os_atomic.c:
-extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
-
+//#define DEF_compareAndSet_AtomicInteger
+//This is implemented in emC_srcOSALspec/..../os_atomic.c:
+extern_C void* compareAndSwap_AtomicRef(void* volatile* reference, void* expect, void* update);
+extern_C int compareAndSwap_AtomicInteger(int volatile* reference, int expect, int update);
 extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
+extern_C int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 update);
+extern_C int16 compareAndSwap_AtomicInt16(int16 volatile* reference, int16 expect, int16 update);
 
+
+#if 0
 extern_C bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
@@ -467,7 +374,6 @@ INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expec
   int64 read = compareAndSwap_AtomicInt64(reference, expect, update);
   return read == expect;
 }
-
 //The processor allows only a 32-bit-compare and set. To execute it for a given 16-bit-location
 //it is supposed that the other half word is stable. 
 //Hence it is read as expected and written unchanged with update. 
@@ -495,17 +401,10 @@ INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expec
   //only a little bit more calculation time because unnecesarry repetition.
   return compareAndSet_AtomicInt32(ref32, expect32, update32);
 }
+#endif
 
 
 
-//INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
-//  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
-//  if(sizeof(void*) != sizeof(int32)) {
-//    return false;
-//  }
-//  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
-//  return read == (int32_t)expect;
-//}
 
 
 

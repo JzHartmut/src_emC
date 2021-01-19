@@ -96,7 +96,7 @@ HandleItem* getFreeHandleEntry  (  int16* idx)
     struct OS_Mutex_t* mutexInitHandle = null;         //local ref
     mutexInitHandle = os_createMutex("JcinitHandle");
     //try to set the local ref, 
-    if(!compareAndSet_AtomicRef(CAST_AtomicReference(data_OsWrapperJc.mutexInitHandle), null, mutexInitHandle)) {
+    if(compareAndSwap_AtomicRef((void* volatile*)&data_OsWrapperJc.mutexInitHandle, null, mutexInitHandle) !=null) {
       //yet a mutex was created from another thread already.
       os_deleteMutex(mutexInitHandle);  //delete the own one.
       mutexInitHandle = data_OsWrapperJc.mutexInitHandle;  //use the existing from the ohter thread.
@@ -118,7 +118,7 @@ HandleItem* getFreeHandleEntry  (  int16* idx)
       return null;
     }
     HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
-    if(compareAndSet_AtomicRef(CAST_AtomicReference(data_OsWrapperJc.freeHandle), theHandleItem, nextFree)) {
+    if(compareAndSwap_AtomicRef((void* volatile*)&(data_OsWrapperJc.freeHandle), theHandleItem, nextFree) == theHandleItem ) {
       break;  //if succeeded
     }
   } while(--tryCt > 0);
@@ -169,7 +169,7 @@ void releaseHandleEntry  (  int16 idx)
   while(--tryCt > 0) {
     currNextFree = data_OsWrapperJc.freeHandle;
     releaseHandle->handle.nextFree = currNextFree;  //referes the next next then 
-    if(compareAndSet_AtomicRef(CAST_AtomicReference(data_OsWrapperJc.freeHandle), currNextFree, releaseHandle)) {
+    if(compareAndSwap_AtomicRef((void* volatile*)&(data_OsWrapperJc.freeHandle), currNextFree, releaseHandle) == currNextFree) {
       break;  //if succeeded
     }
     if(tryCt == -1) {
@@ -214,7 +214,7 @@ INLINE_emC HandleItem* getHandle_ObjectJc ( ObjectJc const* thiz) {
         //composite the newValue with the changed ixHandle and the unchanged other bits:
         newValue = (oldValue & ~mSyncHandle_ObjectJc) | ixHandle;  
         //cast from uint16* to int16*
-        if(compareAndSet_AtomicInt16((int16*)&thiz->handleBits, oldValue, newValue)){
+        if(compareAndSwap_AtomicInt16((int16*)&thiz->handleBits, oldValue, newValue) == oldValue){
           break;  //success
         }
       }
@@ -262,7 +262,7 @@ void wait_ObjectJc  (  ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
       THROW1_s0(RuntimeException, "error os_createWaitNotifyObject", error);
       return;
     }
-    if(!compareAndSet_AtomicRef(CAST_AtomicReference(handle->handle.wait), null, (void*)handleWait)) {
+    if(compareAndSwap_AtomicRef((void* volatile*)&(handle->handle.wait), null, (void*)handleWait) != null) {
       //a wait handle is existing from another thread,
       os_removeWaitNotifyObject(handleWait);  //remove it again.
     }

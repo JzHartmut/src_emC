@@ -3,12 +3,12 @@
 
 #ifndef DEF_compareAndSwap_Atomic  //maybe already defined as macro or inline in HAL adaption or OSAL
 
-/**Set a reference with update if it contains the expect value, returns the current value.
- * The operation is performened if current == expect. */
+/**Set a reference with update if it contains the expect value, returns the up to now current value.
+ * The operation is performed if return == expect. */
 extern_C void* compareAndSwap_AtomicRef(void* volatile* reference, void* expect, void* update);
 
-/**Set an integer with update if it contains the expect value, returns the current value.
- * The operation is performened if current == expect.
+/**Set an integer with update if it contains the expect value, returns the up to now current value.
+ * The operation is performed if return == expect.
  * Note: The width of an integer depends on the capability of the CPU. If int as data type is used,
  * it means the optimized bit width for the platform, at least 16.
  * Usage of the int type is recommended (instead determined bit width)
@@ -17,16 +17,16 @@ extern_C void* compareAndSwap_AtomicRef(void* volatile* reference, void* expect,
  */
 extern_C int compareAndSwap_AtomicInt(int volatile* reference, int expect, int update);
 
-/**Set an int16 with update if it contains the expect value, returns the current value.
- * The operation is performened if current == expect.
+/**Set an int16 with update if it contains the expect value, returns the up to now current value.
+ * The operation is performed if return == expect.
  * Note: If the CPU does only allow a 32 bit access, this operation checks also the unvulnerability of the other bits.
  * It means it is not optimized in any case. Use an int variable instead.
  * Compare comments to compareAndSwap_AtomicInt16(...).
  */
 extern_C int16 compareAndSwap_AtomicInt16(int16 volatile* reference, int16 expect, int16 update);
 
-/**Set an int32 with update if it contains the expect value, returns the current value.
- * The operation is performened if current == expect.
+/**Set an int32 with update if it contains the expect value, returns the up to now current value.
+ * The operation is performed if return == expect.
  */
 extern_C int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 update);
 

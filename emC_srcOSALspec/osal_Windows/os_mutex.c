@@ -50,7 +50,7 @@
 #undef INT32
 #undef UINT32
 #undef int64
-#undef uint64
+//#undef uint64
 #include "os_internal.h"
 #include <windows.h>
 #include <stdio.h>

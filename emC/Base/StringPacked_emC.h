@@ -59,10 +59,10 @@
 
 /** get a character instead the simple access to text[ix] for non packed strings.
  */
-static inline char getCharPacked ( MemUnit const* text, int ix) {
-  MemUnit val = text[ ix / BYTE_IN_MemUnit];
-  int byte = ix % BYTE_IN_MemUnit;     //always 0 in byte adressing, optimized for byte processors.
-  return (char)( val >> (8*byte));  //do not shift in byte addressing, optimized for byte processors.
+static char getCharPacked ( MemUnit const* text, int ixByte) {
+  MemUnit val = text[ ixByte / BYTE_IN_MemUnit];
+  int byte = ixByte % BYTE_IN_MemUnit;     //always 0 in byte adressing, optimized for byte processors.
+  return (char)(( val >> (8*byte)) & 0xff);  //do not shift in byte addressing, optimized for byte processors.
 
 }
 
@@ -93,9 +93,28 @@ extern_C int strncmpPacked_emC ( void const* const text1, char const* const text
 
 #define MemUnit_Test int
 
-/**Copies two strings with a given maximum of chars.
- * @arg ixSrc char index in src. If odd, read half byte.
- * @arg maxNrofChars If no zero terminated strings should be compare, it is the length of both strings.
+/**Copies bytes or packed character in an embedded processor which addresses only words with 2 or more bytes.
+ * This routine is no more effective as a memcpy, it is slower then memcpy for a PC application,
+ * because the memory access for PC processors can be done byte wise.
+ * But this routine runs on PC for test of embedded applications.
+ * The intension is not increasing access time to memory. That will be nonsense because
+ * the hardware of the processor supports access to all bytes by the hardware in the cached memory.
+ * It is especially for special embedded processors which addresses the memory not byte wise but in 16 or 32-bit portions.
+ * This is unknown for PC applications, but it is existent for some processors (especially DSP) which are optimized
+ * in hardware for numerical calculations.
+ * It supports the possibility to copy bytes from an odd position or to an odd position.
+ * It may be necessary especially for serial communication which is organized byte wise but stores the content word wise,
+ * because the content is need word wise.
+ * Implementation note: It uses sizeof(int) * BYTE_IN_MemUnit to control the access. Hence it is possible to test on PC.
+ *
+ * @arg dst a memory address for destination.
+ * @arg ixByteDst byte index in dst. It is not the memory index.
+ *      If the memory accesses 16 bit, ixByteDst divide by 2 is the memory index and the bit 0 selects between 0=lo byte, 1=hi byte.
+ *      If the memory accesses 32 bit, ixByteDst divide by 4 is the memory index (== ixByteDst >>2)
+ *      and the bit 1 and 0 selects between 00..11 for lo byte .. hi byte.
+ * @arg src a memory address for source.
+ * @arg ixByteSrc byte index in src. Adequate.
+ * @arg nrofBytes If no zero terminated strings should be compare, it is the length of both strings.
  *     In this case a different length of Strings should be checked before, and the length difference
  *     can be used as result already.
  * @return ==0 if both strings are equal till maxNrofChars or both have a '\0'.

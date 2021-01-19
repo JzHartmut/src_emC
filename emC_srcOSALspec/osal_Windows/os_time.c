@@ -128,17 +128,17 @@ int32 getClockCnt_Time_emC ( void)
   }
 }
 
-
+#if 0
 /**Gets a circular time information in clocks of the system.
 * @return a relativ value, the value can be used only for differnces.
 * The step-width of the return value depends from the CPU-clock.
 * The value should only be used for comparing times.
 */
-int64_t os_getLongClockCnt(void)
+int64 os_getLongClockCnt(void)
 {
   LARGE_INTEGER performanceCount;
   if(QueryPerformanceCounter(&performanceCount))
-  { return (int64_t)performanceCount.QuadPart; //QuadPart see winnt.h of Visual Studio 6
+  { return (int64)performanceCount.QuadPart; //QuadPart see winnt.h of Visual Studio 6
   }          
   else
   { int error =GetLastError();
@@ -146,7 +146,7 @@ int64_t os_getLongClockCnt(void)
     return -1;
   }
 }
-
+#endif
 
 //#include <emC/Base/TimeConversions_emC.h>
 

@@ -23,7 +23,7 @@ void setF_CalcExpr(CalcExpr* thiz, void* input) {
 }
 
 void setI_CalcExpr(CalcExpr* thiz, void* input) {
-  thiz->accu.accuF = *(int32*)input;
+  thiz->accu.accuF = (float)*(int32*)input;
   thiz->cType = 'I';
 }
 
@@ -49,7 +49,7 @@ void convIS_CalcExpr(CalcExpr* thiz, void* unused) {
 }
 
 void convIF_CalcExpr(CalcExpr* thiz, void* unused) {
-  thiz->accu.accuF = thiz->accu.accuI;  //automatically cast
+  thiz->accu.accuF = (float)thiz->accu.accuI;  //automatically cast
   thiz->cType = 'F';
 }
 

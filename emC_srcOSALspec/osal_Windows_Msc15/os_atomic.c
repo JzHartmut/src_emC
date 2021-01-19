@@ -93,8 +93,16 @@ CMPXCHG - Compare and Exchange
  * newval if successful
  */
 
+
+//Note: The interlocked operations works with uint, hence cast.
+
+
 int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update) {
   return InterlockedCompareExchange((unsigned volatile long*)reference, (unsigned long)update, (unsigned long)expect);  
+}
+
+int16 compareAndSwap_AtomicInt16(int16 volatile* reference, int16 expect, int16 update) {
+  return InterlockedCompareExchange16(reference, (uint16)update, (uint16)expect);  
 }
 
 int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 update) {
@@ -160,6 +168,7 @@ void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, vo
 //nevertheless it repeats the access because it is not possible to write only 16 bit.
 //The propability to execute an access twice because it may be unnecessary because expect is only factor 2 at least.
 // 
+#if 0 //old form uses only Int32 access.
 int16 compareAndSwap_AtomicInt16(int16 volatile* reference, int16 expect, int16 update){
   //Note: more difficult because memory is 32 bit
   unsigned long expect32, update32;
@@ -180,7 +189,7 @@ int16 compareAndSwap_AtomicInt16(int16 volatile* reference, int16 expect, int16 
   unsigned long read = InterlockedCompareExchange((unsigned volatile long*)reference, update32, expect32);  
   return (((intptr_t)reference) & 0x3) == 0 ? (int16)(read) : (int16)(read >>16) ;
 }
-
+#endif
 
  bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
   //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.

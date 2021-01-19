@@ -51,16 +51,16 @@
 
 #if defined(__CPLUSGEN) && defined(__cplusplus)
 
-  #define CAST_AtomicReference(VARIABLE) ((ATOMICREFERENCE)(&(VARIABLE)))
+//  #define CAST_AtomicReference(VARIABLE) ((ATOMICREFERENCE)(&(VARIABLE)))
 #else
   //C: the cast to void* is accepted.
-  #define CAST_AtomicReference(VARIABLE) ((ATOMICREFERENCE)(&(VARIABLE)))
+//  #define CAST_AtomicReference(VARIABLE) ((ATOMICREFERENCE)(&(VARIABLE)))
 #endif
 
 
 
-#ifndef DEF_compareAndSet_AtomicInteger
-
+//#ifndef DEF_compareAndSet_AtomicInteger
+#if 0   //Note: The prototypes or alternatively the inlines should be defined in the compl_adaption.h
 /**Atomically sets the value to the given updated value if the current value == the expected value.
  * @param expect the expected value
  * @param update - the new value
@@ -107,10 +107,11 @@ INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expec
  * The double buffering system is used to prevent inconsistent data. 
  * * It should be never write to a buffer which is read in the same moment.
  * * It should be never read from a buffer which is written in the moment.
- * * Writing is alternate if no read is pending. Therefore a read operation while write is pending
- * reads the last written data.
+ * * Writing to the alternate buffer, if read is pending. 
+ * * Hence a read operation while write is pending reads the last written data.
  * This algorithm is proper if the writing operation is more frequent than the reading. 
- * The writing operation may be done in a fast interrupt. The reading operation can be taken a longer time.
+ * The writing operation may be done in a fast interrupt. The reading operation can be taken a longer time,
+ * longer as one interrupt cycle. 
  * But at least one complete writing operation should be able to proceed between two reading operations.
  * , Write:  00   11   11   00   11   00    00    00   00    11    11
  * , Read:       0000000000            11111111111111111    0000000000000
@@ -127,15 +128,15 @@ INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expec
 INLINE_emC int32 lockRead_DoubleBufferingJc(int32 volatile* var)
 {
   int abortCt = 100;
-  int32 val, valNew;
+  int32 valOld = *var, valExpect, valNew;
   do {
-    val = *var;
-    if(val & _lockWr_DoubleBufferingJc) { //write is pending
-      valNew = (val ^1) | _lockRd_DoubleBufferingJc;  //read from the other buffer, store the locked read index. 
+    if(valOld & _lockWr_DoubleBufferingJc) { //write is pending
+      valNew = (valOld ^1) | _lockRd_DoubleBufferingJc;  //read from the other buffer, store the locked read index. 
     } else {
-      valNew = val | _lockRd_DoubleBufferingJc;  //Bit for lock, don't change the locked read index.
+      valNew = valOld | _lockRd_DoubleBufferingJc;  //Bit for lock, don't change the locked read index.
     }
-  } while(!compareAndSet_AtomicInt32(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+    valExpect = valOld;
+  } while(valExpect != (valOld = compareAndSwap_AtomicInt32(var, valExpect, valNew)) && --abortCt >=0);  //repeate till see unchanged val.
   //don't evaluate abortCt. It is only to prevent hang in a non expected case.
   return valNew & 1; //retVal ;
 }
@@ -144,12 +145,12 @@ INLINE_emC int32 lockRead_DoubleBufferingJc(int32 volatile* var)
 /**Unlock the index for reading. Now the index can be incremented by writing. 
  */
 INLINE_emC void unlockRead_DoubleBufferingJc(int32 volatile* var) {
-  int32 val, valNew;
+  int32 valOld = *var, valExpect, valNew;
   int abortCt = 100;
   do {
-    val = *var;
-    valNew = val & ~_lockRd_DoubleBufferingJc;  //reset lock bit
-  } while(!compareAndSet_AtomicInt32(var, val, valNew)  && --abortCt >=0);
+    valNew = valOld & ~_lockRd_DoubleBufferingJc;  //reset lock bit
+    valExpect = valOld;
+  } while(valExpect != (valOld = compareAndSwap_AtomicInt32(var, valExpect, valNew)) && --abortCt >=0);  //repeate till see unchanged val.
 }
 
 
@@ -165,16 +166,16 @@ INLINE_emC void unlockRead_DoubleBufferingJc(int32 volatile* var) {
 INLINE_Jc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
 {
   int abortCt = 100;
-  int32 val, valNew, retVal;
+  int32 valOld = *var, valExpect, valNew, retVal;
   do {
-    val = *var;
-    if(val & _lockRd_DoubleBufferingJc) { //lock read:
-      valNew = (val | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;   //don't increment bit 0 (buffer index) because it is locked.
+    if(valOld & _lockRd_DoubleBufferingJc) { //lock read:
+      valNew = (valOld | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;   //don't increment bit 0 (buffer index) because it is locked.
       retVal = valNew ^ 1;          //but use the other index for write.   
     } else {
-      retVal = valNew = ((val ^ 1) | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;  //Increment sequence number
+      retVal = valNew = ((valOld ^ 1) | _lockWr_DoubleBufferingJc) + _addSeq_DoubleBufferingJc;  //Increment sequence number
     }
-  } while(!compareAndSet_AtomicInt32(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+    valExpect = valOld;
+  } while(valExpect != (valOld = compareAndSwap_AtomicInt32(var, valExpect, valNew)) && --abortCt >=0);  //repeate till see unchanged val.
   return retVal;
 }
 
@@ -188,15 +189,15 @@ INLINE_Jc int32 lockWrite_DoubleBufferingJc(int32 volatile* var)
 INLINE_emC int unlockWrite_DoubleBufferingJc(int32 volatile* var, int32 ixWr)
 {
   int abortCt = 100;
-  int32 val, valNew;
+  int32 valOld = *var, valExpect, valNew;
   do {
-    val = *var;
-    if(val & _lockRd_DoubleBufferingJc) { //lock read:
-      valNew = val & ~_lockWr_DoubleBufferingJc;   //only unlock write bit.
+    if(valOld & _lockRd_DoubleBufferingJc) { //lock read:
+      valNew = valOld & ~_lockWr_DoubleBufferingJc;   //only unlock write bit.
     } else {
-      valNew = ((val & ~1) | (ixWr & 1)) & ~_lockWr_DoubleBufferingJc;   //store the write index.
+      valNew = ((valOld & ~1) | (ixWr & 1)) & ~_lockWr_DoubleBufferingJc;   //store the write index.
     }
-  } while(!compareAndSet_AtomicInt32(var, val, valNew) && --abortCt >=0);  //repeate till see unchanged val.
+    valExpect = valOld;
+  } while(valExpect != (valOld = compareAndSwap_AtomicInt32(var, valExpect, valNew)) && --abortCt >=0);  //repeate till see unchanged val.
   return 100-abortCt;
 }
 
