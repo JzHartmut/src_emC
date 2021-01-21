@@ -93,11 +93,11 @@ void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc
       singleton_LeapSecondsJc = ctorO_LeapSecondsJc(/*J2C:static method call*/(newObj3_1 = alloc_ObjectJc(sizeof_LeapSecondsJc_s, 0, _thCxt)), _thCxt);
       activateGC_ObjectJc(newObj3_1, null, _thCxt);
     }
-    if(idx < 0 || idx > ARRAYLEN_SimpleC(singleton_LeapSecondsJc->leapSeconds)) { throw_sJc(ident_IllegalArgumentExceptionJc, 
+    if(idx < 0 || idx > ARRAYLEN_emC(singleton_LeapSecondsJc->leapSeconds)) { throw_sJc(ident_IllegalArgumentExceptionJc, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
       , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
       , append_z_StringBuilderJc(_tempString2_1, "The number of leap seconds should be not greater than", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, (ARRAYLEN_SimpleC(singleton_LeapSecondsJc->leapSeconds) - 1), _thCxt)
+      , append_I_StringBuilderJc(_tempString2_1, (ARRAYLEN_emC(singleton_LeapSecondsJc->leapSeconds) - 1), _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
       ), 0, __FILE__, __LINE__, _thCxt); };
     singleton_LeapSecondsJc->leapSeconds[idx] = idx;
@@ -153,7 +153,7 @@ void initFix_LeapSecondsJc_F(LeapSecondsJc_s* thiz, ThCxt* _thCxt)
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*J2C:static method call*/122, 12, 31, 23, 59, 59);
     thiz->millisecondsUTCForLeapSeconds->data[++idx] = UTC_DateJc(/*J2C:static method call*/125, 12, 31, 23, 59, 59);/*29*/
     
-    for(idx = 0; idx < ARRAYLEN_SimpleC(thiz->leapSeconds); idx++)
+    for(idx = 0; idx < ARRAYLEN_emC(thiz->leapSeconds); idx++)
       { 
         
         thiz->leapSeconds[idx] = idx;

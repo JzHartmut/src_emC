@@ -125,7 +125,7 @@ MemC getUserBuffer_ThreadContext_emC ( int size, char const* sign, struct Thread
       size = sizeFree/2; 
     }
     size = (size + 7) & 0xfffffff8;  //align next /8
-    while(ix < (int)ARRAYLEN_SimpleC(threadHeap->addrUsed)) {
+    while(ix < (int)ARRAYLEN_emC(threadHeap->addrUsed)) {
       if((threadHeap->bitAddrUsed & mask) ==0) {
         //free found
         int maskCheck = ~(mask -1);  //all high bits. 1=:0xffffffff 2:=0xfffffffe
@@ -188,7 +188,7 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC  (  void const* data, ThreadCo
   int ix = threadHeap->ixLastAddrUsed >=0 ? threadHeap->ixLastAddrUsed : 0;
   int mask = 0x1 << ix;
   int ixLastUsed = -1;
-  while(ix < (int)ARRAYLEN_SimpleC(threadHeap->addrUsed)) {
+  while(ix < (int)ARRAYLEN_emC(threadHeap->addrUsed)) {
     if((threadHeap->bitAddrUsed & mask) !=0) {
       void const* addr = PTR_MemC(threadHeap->addrUsed[ix].used, MemUnit const);
       void const* endAddr = (void const*)addOffset_MemC(threadHeap->addrUsed[ix].used, threadHeap->addrUsed[ix].used.val);  //addr after used
@@ -199,7 +199,7 @@ METHOD_C bool releaseUserBuffer_ThreadContext_emC  (  void const* data, ThreadCo
         int maskCheck = ~(mask -1);  //all higher bits.
         if( (threadHeap->bitAddrUsed & maskCheck) ==0) {
           //all higher ranges are not used:
-          int nrFree = ARRAYLEN_SimpleC(threadHeap->addrUsed) - (ixLastUsed+1); 
+          int nrFree = ARRAYLEN_emC(threadHeap->addrUsed) - (ixLastUsed+1); 
           threadHeap->addrFree =  PTR_MemC(threadHeap->addrUsed[ixLastUsed+1].used, MemUnit);
           //delete all entries of addrUsed, set to 0 (set MemC-content to 0)
           memset(&threadHeap->addrUsed[ixLastUsed+1], 0, nrFree * sizeof(threadHeap->addrUsed[0]));  

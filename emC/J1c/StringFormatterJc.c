@@ -1257,7 +1257,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
     /**/
     /*----------------------------------------------------------------------*/
     
-    for(n10i = ARRAYLEN_SimpleC(n10a_StringFormatterJc) - 1; n10i >= 0; n10i--)
+    for(n10i = ARRAYLEN_emC(n10a_StringFormatterJc) - 1; n10i >= 0; n10i--)
       { /*:meistens sind es kleine Zahlen, im Mittel geht es also schneller*/
         /*:wenn von Hinten aus getestet wird ob die Zahl groesser ist,*/
         /*:damit weniger Schleifendurchlauefe:*/
@@ -1269,7 +1269,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
     n10i += 1;/*damit ist n10[n10i] die als erste kleinere Zahl.*/
     
     
-    int32  nDigits = ARRAYLEN_SimpleC(n10a_StringFormatterJc) - n10i + 1;
+    int32  nDigits = ARRAYLEN_emC(n10a_StringFormatterJc) - n10i + 1;
     
     int32  nrofChars = length_StringJc(pict);
     
@@ -1369,7 +1369,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
                 
                 else cc = '0';
               }
-              else if(n10i >= ARRAYLEN_SimpleC(n10a_StringFormatterJc)) 
+              else if(n10i >= ARRAYLEN_emC(n10a_StringFormatterJc)) 
               { 
                 
                 cc = (char /*J2C_cast*/)(src + '0');/*das ist die Einerstelle*/

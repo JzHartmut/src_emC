@@ -69,7 +69,7 @@ OsWrapperJc_s data_OsWrapperJc = { 0 };
 
 /**This routine is called only onetime after startup. */
 int initFreeHandleEntry  (  )
-{ int zHandleItems = ARRAYLEN_SimpleC(data_OsWrapperJc.handleItemsJc);
+{ int zHandleItems = ARRAYLEN_emC(data_OsWrapperJc.handleItemsJc);
   int ii;
   data_OsWrapperJc.handleItemsJc[0].handle.nextFree = kNoFreeHandleItem;  //let the first unused, no using of index 0!
   data_OsWrapperJc.freeHandle = &data_OsWrapperJc.handleItemsJc[1];

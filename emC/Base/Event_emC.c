@@ -43,7 +43,7 @@
 void ctor_EventQueueSimple_emC(EventQueueSimple_emC* thiz, int sizeMemAdditional) 
 { int bytes = sizeof(EventQueueSimple_emC) + sizeMemAdditional;  //sizeAdditional is number of bytes respecitvely mem locations.
   memset(thiz, 0, bytes);  
-  thiz->zEvents = (sizeMemAdditional / sizeof(int)) + ARRAYLEN_SimpleC(thiz->events);
+  thiz->zEvents = (sizeMemAdditional / sizeof(int)) + ARRAYLEN_emC(thiz->events);
 }
 
 

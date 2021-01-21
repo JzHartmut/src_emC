@@ -258,7 +258,7 @@ extern_C struct ClassJc_t const refl_WaveData_FB;
  * on PC-simulation. 
  * @param data the data array
  * @param sizedata number of elements in data. It should be calculated with ,,(sizeof(data)/sizeof(data[0]),,
- *   or the macro ,,ARRAYLEN_SimpleC(data),, should be used.
+ *   or the macro ,,ARRAYLEN_emC(data),, should be used.
  * @XXXsimulink no-Sfunc
  */
 extern_C void ctorData_WaveData_FB(WaveData_FB* thiz, int identObj, float* data, int sizedata); 
@@ -271,7 +271,7 @@ extern_C void ctorData_WaveData_FB(WaveData_FB* thiz, int identObj, float* data,
  * Because all is tested on PC-Simulation and the constructor is called in any case, it is sufficient to test it
  * on PC-simulation. 
  * @param sizedata number of elements in data. It should be calculated with ,,(sizeof(data)/sizeof(data[0]),,
- *   or the macro ,,ARRAYLEN_SimpleC(data),, should be used.
+ *   or the macro ,,ARRAYLEN_emC(data),, should be used.
  * @simulink ctor
  */
 extern_C void ctor_WaveData_FB(WaveData_FB* thiz, int indentObj, int sizedata); 
@@ -298,7 +298,7 @@ inline bool init_WaveData_FB(WaveData_FB* thiz, WaveMngIx_FB* waveIx) {
 
 
 #define ctorD_WaveData_FB(THIZ, IX, DATA) { \
-  ctorData_WaveData_FB(THIZ, 0, &(DATA)[0], ARRAYLEN_SimpleC(DATA)); \
+  ctorData_WaveData_FB(THIZ, 0, &(DATA)[0], ARRAYLEN_emC(DATA)); \
   init_WaveData_FB(THIZ, IX); \
 }
 
