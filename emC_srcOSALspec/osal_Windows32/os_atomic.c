@@ -149,8 +149,3 @@ bool compareAndSet_AtomicRef ( void* volatile* reference, void* expect, void* up
   return found == (int32)expect;
 }
 
-void* compareAndSwap_AtomicRef ( void* volatile* reference, void* expect, void* update)
-{ //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
-  int32 found = compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
-  return (void*)found;
-}

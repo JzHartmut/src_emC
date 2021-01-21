@@ -493,7 +493,7 @@ METHOD_C bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* th
   \
     { \
       \
-      { throw_EJc(ident_RuntimeExceptionJc, exc, 0, __FILE__, __LINE__, _thCxt); };\
+      { throw_EJc(ident_RuntimeException_emC, exc, 0, __FILE__, __LINE__, _thCxt); };\
     }\
   END_TRY/*it isn't able.*/\
   \
@@ -548,7 +548,7 @@ See {@link #removeChild(ByteDataAccessBase)}.
 \
 { \
   \
-  if((THIZ)->currChild.ref== null) { throw_s0Jc(ident_IllegalStateExceptionJc, "programming error - a current child is not known yet.", 0, &_thCxt->stacktrc, __LINE__); };\
+  if((THIZ)->currChild.ref== null) { throw_s0Jc(ident_IllegalStateException_emC, "programming error - a current child is not known yet.", 0, &_thCxt->stacktrc, __LINE__); };\
   removeChild_XX_ByteDataAccessBaseJc((THIZ), REFJc ((THIZ)->currChild), _thCxt);\
 }
 
@@ -791,7 +791,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
    /*J2C: temporary Stringbuffer for String concatenation*/\
   StringBuilderJc_s* _tempString1_1=null; \
   \
-  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
     , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
     , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
@@ -808,7 +808,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
    /*J2C: temporary Stringbuffer for String concatenation*/\
   StringBuilderJc_s* _tempString1_1=null; \
   \
-  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
     , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
     , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
@@ -825,7 +825,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
    /*J2C: temporary Stringbuffer for String concatenation*/\
   StringBuilderJc_s* _tempString1_1=null; \
   \
-  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
     , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
     , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
@@ -842,7 +842,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
    /*J2C: temporary Stringbuffer for String concatenation*/\
   StringBuilderJc_s* _tempString1_1=null; \
   \
-  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
     , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
     , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\
@@ -859,7 +859,7 @@ METHOD_C void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, String
    /*J2C: temporary Stringbuffer for String concatenation*/\
   StringBuilderJc_s* _tempString1_1=null; \
   \
-  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, \
+  if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, \
     ( _tempString1_1 = new_StringBuilderJc(-1, _thCxt)\
     , setStringConcatBuffer_StringBuilderJc(_tempString1_1)\
     , append_z_StringBuilderJc(_tempString1_1, "getInt16:", _thCxt)\

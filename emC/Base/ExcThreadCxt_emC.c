@@ -258,7 +258,7 @@ void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topSta
 
 ExceptionStore exceptionStore_g = {0};
 
-void logSimple_ExceptionJc(int exc, StringJc msg, int32 value, int val2, char const* file, int line) {
+void logSimple_Exception_emC(int exc, StringJc msg, int32 value, int val2, char const* file, int line) {
   if (exceptionStore_g.ctException == 0) {
     exceptionStore_g.ctException = 1;
     exceptionStore_g.first.exceptionNr = exc;

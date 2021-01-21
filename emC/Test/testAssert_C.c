@@ -53,7 +53,7 @@ bool checkMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* f
 
 
 #ifdef DEFINED_Exception_emC
-bool exceptionFileLine_testAssert_emC ( ExceptionJc* exc, char const* file, int line) {
+bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, int line) {
   printf("  EXCEPTION:\n");
   return false;
 }

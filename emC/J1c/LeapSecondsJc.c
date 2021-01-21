@@ -93,7 +93,7 @@ void setLeapSeconds_LeapSecondsJc(/*J2C:static method*/ int32 idx, struct DateJc
       singleton_LeapSecondsJc = ctorO_LeapSecondsJc(/*J2C:static method call*/(newObj3_1 = alloc_ObjectJc(sizeof_LeapSecondsJc_s, 0, _thCxt)), _thCxt);
       activateGC_ObjectJc(newObj3_1, null, _thCxt);
     }
-    if(idx < 0 || idx > ARRAYLEN_emC(singleton_LeapSecondsJc->leapSeconds)) { throw_sJc(ident_IllegalArgumentExceptionJc, 
+    if(idx < 0 || idx > ARRAYLEN_emC(singleton_LeapSecondsJc->leapSeconds)) { throw_sJc(ident_IllegalArgumentException_emC, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
       , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
       , append_z_StringBuilderJc(_tempString2_1, "The number of leap seconds should be not greater than", _thCxt)

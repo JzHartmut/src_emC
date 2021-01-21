@@ -36,7 +36,7 @@ extern_C bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, cha
 extern_C bool checkMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line);
 
 #ifdef DEFINED_Exception_emC  //else ist is not available, for simple tests.
-extern_C bool exceptionFileLine_testAssert_emC ( ExceptionJc* exc, char const* file, int line);
+extern_C bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, int line);
 #endif
 
 extern_C void msgEndFileLine_testAssert_emC ( bool ok);

@@ -42,7 +42,7 @@ bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char 
     }
   } 
   if(ix1 == ix) { //onyl if not found, all checked:
-    if(ix < ARRAYLEN_SimpleC(thiz->data)) {
+    if(ix < ARRAYLEN_emC(thiz->data)) {
       thiz->data[ix] = obj;
       strcpy_emC(thiz->fields.data[ix].name, name, -(int)sizeof(thiz->fields.data[ix].name));
       thiz->fields.data[ix].type_ = refl;
@@ -104,7 +104,7 @@ void addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, Strin
     }
   } 
   if(ix1 == ix) { //onyl if not found, all checked:
-    if(ix >= ARRAYLEN_SimpleC(thiz->data)) {
+    if(ix >= ARRAYLEN_emC(thiz->data)) {
       THROW_s0(IllegalArgumentException, "too much registration in registerNode_AccessNode_Inspc(...)",0,0);
       STACKTRC_RETURN;
     }

@@ -41,7 +41,7 @@
  * list of changes:
  * 2010-05-23: JcHartmut creation from os_Windows/os_file.c, from the fopen-routines.
  *
- * This method bodies are placed inside Fwc because simple applications (ExceptionJc.c)
+ * This method bodies are placed inside Fwc because simple applications (Exception_emC.c)
  * call only this method from string, without other dependencies.
  */
 

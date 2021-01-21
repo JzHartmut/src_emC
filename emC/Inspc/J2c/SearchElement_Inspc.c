@@ -174,11 +174,11 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
                 clazz = retClazz[0];
                 searchTrc_SearchElement_Inspc[idxSearchTrc].typeOfField = clazz;
                 set_MemSegmJc(searchTrc_SearchElement_Inspc[idxSearchTrc].objOfField, nextObj);
-                if(++idxSearchTrc >= ARRAYLEN_SimpleC(searchTrc_SearchElement_Inspc)) 
+                if(++idxSearchTrc >= ARRAYLEN_emC(searchTrc_SearchElement_Inspc)) 
                 { /*:prevent overflow. Its only a debug helper. The first entries are relevant.*/
                   
                   
-                  idxSearchTrc = ARRAYLEN_SimpleC(searchTrc_SearchElement_Inspc) - 1;
+                  idxSearchTrc = ARRAYLEN_emC(searchTrc_SearchElement_Inspc) - 1;
                 }/*nextObj is the object where the field is member of, */
                 /*nextObj is getted started from currentObj, +via offset in field, and access than. */
                 if(obj_MemSegmJc(nextObj) == null) { idx = kNullPointerInPath_SearchElement_Inspc; }

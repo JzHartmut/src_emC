@@ -118,10 +118,10 @@ bool stop_AssertJc  (  void) {
   return false;
 }
 
-void uncatched_ExceptionJc  (  ExceptionJc* ythis, ThreadContext_emC_s* _thCxt)
+void uncatched_Exception_emC  (  Exception_emC* ythis, ThreadContext_emC_s* _thCxt)
 {
   printf("uncatchedException: %4.4X - thread stopped", (uint32)ythis->exceptionNr);
-  //printStackTraceFile_ExceptionJc(ythis, null, null);
+  //printStackTraceFile_Exception_emC(ythis, null, null);
   os_FatalError(-1, "uncatchedException: - thread stopped", (uint)ythis->exceptionNr, 0);
   exit(255);
 }

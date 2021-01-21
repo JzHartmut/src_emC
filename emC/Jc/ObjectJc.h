@@ -288,9 +288,9 @@ typedef struct TYPE##_YPREF_t{ ObjectRefValuesJc refbase; TYPE##_YP ref; } TYPE#
   *Note: 3thrd Parameter TYPE is necessary for universal use, especially THROWJc
   */
 #define element_AYJc(ARRAY, IDX) \
-  (  (IDX) < 0 || (IDX) >= (ARRAY)->length ? /*(TYPE)THROWJc(IndexOutOfBoundsExceptionJc, "", 0)*/ null :  &((ARRAY)->data[IDX]) )
+  (  (IDX) < 0 || (IDX) >= (ARRAY)->length ? /*(TYPE)THROWJc(IndexOutOfBoundsException_emC, "", 0)*/ null :  &((ARRAY)->data[IDX]) )
 #define element_ARRAYJc(ARRAY, IDX) \
-  (  (IDX) < 0 || (IDX) >= (ARRAY)->head.length ? /*(TYPE)THROWJc(IndexOutOfBoundsExceptionJc, "", 0)*/ null :  &((ARRAY)->data[IDX]) )
+  (  (IDX) < 0 || (IDX) >= (ARRAY)->head.length ? /*(TYPE)THROWJc(IndexOutOfBoundsException_emC, "", 0)*/ null :  &((ARRAY)->data[IDX]) )
 
 
   /** calculates the size of an array with ObjectArrayJc-Head in compiletime.

@@ -33,7 +33,7 @@
  * list of changes:
  * 2010-01-07: Hartmut chg: printStacktrace in extra file, because maybe differently implementation possible.
  * 2009-11-01: Hartmut: chg: Condition for os_FatalError(-1, "Stacktrace corrupt",,,)
- * 2009-02-05: Hartmut corr: printStackTrace_ExceptionJc, call of printf, not fprintf, any problems with stdout in Windows
+ * 2009-02-05: Hartmut corr: printStackTrace_Exception_emC, call of printf, not fprintf, any problems with stdout in Windows
  * 2008-04-22: Hartmut new: routine to test the consistence of stacktrace.
  * 2007-07-00: Hartmut creation
  *
@@ -53,14 +53,14 @@
   #include <emC/Base/MemC_emC.h>
 #endif
 
-#ifdef DEF_ExceptionJc_NO
+#ifdef DEF_Exception_emC_NO
 
-int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
+int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, ThCxt* _thCxt)
 {
   return 0;
 }
 
-#else //not DEF_ExceptionJc_NO
+#else //not DEF_Exception_emC_NO
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 //#include <emC/OSAL/os_error.h>
@@ -113,10 +113,10 @@ const char* exceptionTexts DEF [33] =
 };
 
 
-void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_ExceptionJc msg, int value, char const* file, int line, ThCxt* _thCxt)
+void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
-  ExceptionJc* exception = &_thCxt->tryObject->exc;        //locate in stack of the try level.
+  Exception_emC* exception = &_thCxt->tryObject->exc;        //locate in stack of the try level.
   exception->file = file;
   exception->line = line;
   exception->exceptionNr = exceptionNr;
@@ -159,7 +159,7 @@ void throwCore_emC(ThCxt* _thCxt) {
       //Only log, the program continues after THROW
       //Note: The compilation does not call this operation because THROW is defined
       //with immediately call of log_Exception usually
-      log_ExceptionJc(&_thCxt->exception[0], _thCxt->exception[0].file, _thCxt->exception[0].line);
+      log_Exception_emC(&_thCxt->exception[0], _thCxt->exception[0].file, _thCxt->exception[0].line);
     #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
       #ifndef __cplusplus
         #error to use C++ exception handing you should compile this source with C++
@@ -172,7 +172,7 @@ void throwCore_emC(ThCxt* _thCxt) {
   }
   else
   { //no TRYJc-level found,
-    uncatched_ExceptionJc(&_thCxt->tryObject->exc, _thCxt);
+    uncatched_Exception_emC(&_thCxt->tryObject->exc, _thCxt);
   }
 }
 
@@ -188,7 +188,7 @@ void throw_s0Jc ( int32 exceptionNr, const char* msgP, int value, char const* fi
 }
 
 
-void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char const* file, int line, ThCxt* _thCxt)
+void throw_EJc ( int32 exceptionNr, Exception_emC* exc, int value, char const* file, int line, ThCxt* _thCxt)
 {
   //int exceptionNr = exc->exceptionNr;
   #ifdef DEF_NO_StringJcCapabilities
@@ -203,7 +203,7 @@ void throw_EJc ( int32 exceptionNr, ExceptionJc* exc, int value, char const* fil
 
 
 
-void clearException ( ExceptionJc* exc) {
+void clearException ( Exception_emC* exc) {
   #ifndef DEF_NO_StringJcCapabilities
   if(exc->exceptionMsg.addr.str!=null) { free_MemC(exc->exceptionMsg.addr.str); }
   #endif
@@ -225,7 +225,7 @@ void assertJc (bool condition)
 
 
 
-const char* getExceptionText_ExceptionJc(int32 exceptionNr)
+const char* getExceptionText_Exception_emC(int32 exceptionNr)
 { int idxText = 0;
   const char* sText;
   if(exceptionNr != 0)
@@ -240,7 +240,7 @@ const char* getExceptionText_ExceptionJc(int32 exceptionNr)
 
 
 #ifndef DEF_NO_StringJcCapabilities
-int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char const* sFile, int line, ThCxt* _thCxt)
+int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, ThCxt* _thCxt)
 {
   if(zbuffer == 0) { return 0; }
   zbuffer -=2; //append a \n\0 in any case.

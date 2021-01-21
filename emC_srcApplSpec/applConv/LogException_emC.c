@@ -55,7 +55,7 @@ struct ExceptionLogStore_t {
 
 
 /**Implementation of logging. */
-void log_ExceptionJc(ExceptionJc* exc, char const* sourceFile, int sourceline)
+void log_Exception_emC(Exception_emC* exc, char const* sourceFile, int sourceline)
 { uint ix = ++exceptionStore.head.ixEntry;  //should be atomic in multithread
   if( ix >= exceptionStore.head.zEntries) {
     //overflow:

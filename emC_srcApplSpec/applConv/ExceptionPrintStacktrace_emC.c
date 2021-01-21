@@ -31,7 +31,7 @@
  * @author Hartmut Schorrig, www.vishia.org
  * @version 0.91
  * list of changes:
- * 2012-04-10 Hartmut new: printStackTrace_P_ExceptionJc(PrintStreamJc_t* out)
+ * 2012-04-10 Hartmut new: printStackTrace_P_Exception_emC(PrintStreamJc_t* out)
  * 2011-01-07: Hartmut: create form fw_Exception.c: Separated implementation, better able to change
  *
  ****************************************************************************/
@@ -41,7 +41,7 @@
 
 
 
-#ifndef DEF_ExceptionJc_NO
+#ifndef DEF_Exception_emC_NO
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/Base/String_emC.h> 
@@ -55,12 +55,12 @@
 
 
 
-void printStackTrace_ExceptionJc(ExceptionJc* ythis, ThCxt* _thCxt)
+void printStackTrace_Exception_emC(Exception_emC* ythis, ThCxt* _thCxt)
 {
-  printStackTraceFile_ExceptionJc(ythis,null, _thCxt);  //null causes printf instead sprintf, os_fwrite
+  printStackTraceFile_Exception_emC(ythis,null, _thCxt);  //null causes printf instead sprintf, os_fwrite
 }
 
-void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCxt* _thCxt)
+void printStackTraceFile_Exception_emC(Exception_emC* ythis, OS_HandleFile out, ThCxt* _thCxt)
 { //DEF__threadContextJc
   if(_thCxt == null){ _thCxt = getCurrent_ThreadContext_emC(); } 
   //int nrofStacktraceEntriesMax;
@@ -68,7 +68,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
 	int zBuffer;
   //StacktraceElement_emC_s* stacktraceEntries = ythis->stacktraceEntries;
   //StacktraceJc* stacktrace = ythis->backStacktrace;
-  const char* sException = getExceptionText_ExceptionJc(ythis->exceptionNr);
+  const char* sException = getExceptionText_Exception_emC(ythis->exceptionNr);
 
   zBuffer = copyToBuffer_StringJc(ythis->exceptionMsg, 0, -1, sBuffer, sizeof(sBuffer));
   if(out == null)
@@ -121,7 +121,7 @@ void printStackTraceFile_ExceptionJc(ExceptionJc* ythis, OS_HandleFile out, ThCx
 }
 
 
-void printStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt)
+void printStackTrace_P_Exception_emC(struct Exception_emC_t* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt)
 {
 
 }

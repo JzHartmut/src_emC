@@ -565,7 +565,7 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    { throw_sJc(ident_IllegalArgumentExceptionJc, 
+    { throw_sJc(ident_IllegalArgumentException_emC, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
       , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
       , append_z_StringBuilderJc(_tempString2_1, "StringPartBase.subString - faulty;", _thCxt)
@@ -2868,7 +2868,7 @@ void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc 
   
   { 
     
-    { throw_sJc(ident_IndexOutOfBoundsExceptionJc, sMsg, 0, __FILE__, __LINE__, _thCxt); };
+    { throw_sJc(ident_IndexOutOfBoundsException_emC, sMsg, 0, __FILE__, __LINE__, _thCxt); };
   }
   STACKTRC_LEAVE;
 }
@@ -2879,7 +2879,7 @@ void throwIllegalArgumentException_StringPartJc(/*J2C:static method*/ StringJc m
   
   { 
     
-    { throw_sJc(ident_IllegalArgumentExceptionJc, msg, value, __FILE__, __LINE__, _thCxt); };
+    { throw_sJc(ident_IllegalArgumentException_emC, msg, value, __FILE__, __LINE__, _thCxt); };
   }
   STACKTRC_LEAVE;
 }

@@ -378,7 +378,7 @@ struct StringFormatterJc_t* pos_ii_StringFormatterJc(StringFormatterJc_s* thiz, 
   
   { 
     
-    if(newPos < 0) { throw_s0Jc(ident_IndexOutOfBoundsExceptionJc, "negative position not supported", 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(newPos < 0) { throw_s0Jc(ident_IndexOutOfBoundsException_emC, "negative position not supported", 0, __FILE__, __LINE__, _thCxt); return 0; };
     if(minChars >= 0 && thiz->pos + minChars > newPos) 
     { 
       
@@ -491,7 +491,7 @@ struct StringFormatterJc_t* addReplaceLinefeed_StringFormatterJc(StringFormatter
       
       maxChars = length_CharSeqJc(str/*J1cT2*/, _thCxt);
     }
-    if(length_CharSeqJc(replaceLinefeed/*J1cT2*/, _thCxt) < 4) { throw_s0Jc(ident_IllegalArgumentExceptionJc, "The argument replaceLinefeed should have 4 characters.", 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(length_CharSeqJc(replaceLinefeed/*J1cT2*/, _thCxt) < 4) { throw_s0Jc(ident_IllegalArgumentException_emC, "The argument replaceLinefeed should have 4 characters.", 0, __FILE__, __LINE__, _thCxt); return 0; };
     prepareBufferPos_StringFormatterJc(thiz, maxChars, _thCxt);
     
     int32  postr = -1;
@@ -1245,7 +1245,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
        /*J2C: temporary Stringbuffer for String concatenation*/
       StringBuilderJc_s* _tempString3_1=null; 
       
-      { throw_sJc(ident_IllegalArgumentExceptionJc, 
+      { throw_sJc(ident_IllegalArgumentException_emC, 
         ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
         , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
         , append_z_StringBuilderJc(_tempString3_1, "value should be only positive: ", _thCxt)
@@ -1453,7 +1453,7 @@ bool strPicture_StringFormatterJc(StringFormatterJc_s* thiz, int64 src, StringJc
             break;/*don't show if 10^0*/
             
             default: /**Any control character found: */
-            { throw_s0Jc(ident_RuntimeExceptionJc, "unexpected case", 0, __FILE__, __LINE__, _thCxt); return 0; };
+            { throw_s0Jc(ident_RuntimeException_emC, "unexpected case", 0, __FILE__, __LINE__, _thCxt); return 0; };
           }/*switch*/;
         }
         else 

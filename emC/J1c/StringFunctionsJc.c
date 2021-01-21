@@ -785,7 +785,7 @@ int32 lastIndexOfAnyChar_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, i
     int32  zsq = length_CharSeqJc(sq/*J1cT2*/, _thCxt);
     
     int32  ii = to > zsq ? zsq : to;
-    if(from < 0) { throw_sJc(ident_IndexOutOfBoundsExceptionJc, 
+    if(from < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
       , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
       , append_z_StringBuilderJc(_tempString2_1, "StringFunctions.lastIndexOfAnyChar - form <0; ", _thCxt)
