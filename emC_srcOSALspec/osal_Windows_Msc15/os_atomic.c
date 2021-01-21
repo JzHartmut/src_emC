@@ -131,8 +131,8 @@ LONGLONG compareAndSwap_AtomicInt64(LONGLONG volatile* reference, LONGLONG expec
  * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
  * Here a simple way.
  */
-//void* compareAndSwap_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
-void* compareAndSwap_AtomicReference(void* volatile* reference, void* expect, void* update)
+//void* compareAndSwap_AtomicRef(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
+void* compareAndSwap_AtomicRef(void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   return InterlockedCompareExchangePointer(reference, update, expect);
 }

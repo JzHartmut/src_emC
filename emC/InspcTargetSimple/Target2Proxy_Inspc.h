@@ -44,6 +44,11 @@ extern_C Target2Proxy_Inspc_s* ctor_Target2Proxy_Inspc ( ObjectJc* othiz
 */
 extern_C ClassJc const* const reflectionOffsetArrays[];
 
+
+/**This routine should be used to evaluate middle-cyclically accesses from the InspcTargetProxy
+ * to read or change data. 
+ *  
+ */
 extern_C void step_Target2Proxy_Inspc(Target2Proxy_Inspc_s* thiz, void const* mainData
   , int32 const* reflectionOffset_MainData, ClassJc const* const* reflectionOffsetArrays);
 

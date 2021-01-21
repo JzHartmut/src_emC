@@ -66,11 +66,11 @@
  * @param update - the new value
  * @return true if successful. False return indicates that the actual value was not equal to the expected value.
  */
-METHOD_C bool compareAndSet_AtomicReference(ATOMICREFERENCE reference, void* expect, void* update);
+METHOD_C bool compareAndSet_AtomicRef(ATOMICREFERENCE reference, void* expect, void* update);
 
 
 
-METHOD_C void* compareAndSwap_AtomicReference(ATOMICREFERENCE reference, void* expect, void* update);
+METHOD_C void* compareAndSwap_AtomicRef(ATOMICREFERENCE reference, void* expect, void* update);
 //#define compareAndSet_AtomicReference(REF, EXPECT, UPDATE) compareAndSet_AtomicInteger((int32*)(REF), (int)(EXPECT), (int)(UPDATE))
 
 

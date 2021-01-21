@@ -129,8 +129,8 @@ int16 compareAndSwap_AtomicInt16  (  int16 volatile* reference, int16 expect, in
  * Using of a specific machine instruction dependency of the processor. Than it is also good for Multiprocessing.
  * Here a simple way.
  */
-//void* compareAndSwap_AtomicReference(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
-void* compareAndSwap_AtomicReference  (  void* volatile* reference, void* expect, void* update)
+//void* compareAndSwap_AtomicRef(struct AtomicReference_t volatile* reference, void volatile* expect, void volatile* update)
+void* compareAndSwap_AtomicRef  (  void* volatile* reference, void* expect, void* update)
 { //use the same as compareAndSet_AtomicInteger because the sizeof and the content-kind is the same.
   return (void*)compareAndSwap_AtomicInteger((int32*)(reference), (int32)expect, (int32)update);
 

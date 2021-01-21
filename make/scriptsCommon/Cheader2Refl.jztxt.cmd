@@ -190,7 +190,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
       if(struct.superclass.description) {                                  
         accessLevel = struct.superclass.description.accLevel;
       }
-      String reflSuperName = <:>refl_<&struct.superclass.type.baseName("_s", "_T")><.>;
+      String reflSuperName = <:>refl_<&struct.superclass.type().baseName("_s", "_T")><.>;
       <:>  
 ======
 ======extern_C const ClassJc <&reflSuperName>;  //the super class here used.
@@ -213,14 +213,14 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
 ======      , &<&reflSuperName>  
 ======      }
 ======    }
-======};
+======};                                                                                  
 ======<.>
   } }
   String sClassNameShow = struct.name();  ##TODO shorten
   if(fileBin) {
     Num posSuperClassAddr;
     if(struct.superclass) {
-      posSuperClassAddr = fileBin.addSuperclass(struct.superclass.type.baseName("_s", "_t"));
+      posSuperClassAddr = fileBin.addSuperclass(struct.superclass.type().baseName("_s", "_t"));
     }
     Num nrClass = fileBin.addClass(struct.baseName("_s"), sClassNameShow);
     if(struct.superclass) {
@@ -317,7 +317,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
   String offset = "0";    ##initial value, keep it on bitfields
   String sizetype = "0";  ##initial, no element before 1. bitfield
   if(struct.superclass) {
-    sizetype = <:>sizeof(<&struct.superclass.type.name>)<.>;
+    sizetype = <:>sizeof(<&struct.superclass.type().name>)<.>;
   }
   Bool bitfield = 0;
   Num bitPosition = 0;
@@ -434,7 +434,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
         sizetype = <:>sizeof(<&sElement>)<.>;
         ##
         ##if(entry.type) {
-        ##  sizetype = <:>sizeof(<&entry.type.name>)<.>;
+        ##  sizetype = <:>sizeof(<&entry.type().name>)<.>;
         ##} else {                                              
         ##  sizetype = "4-4 /*unknown type*/";
         ##}
@@ -479,7 +479,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
 
 ################################################################################################################
 ##
-##This routine is called from a user's script
+##This routine is called from a user's script.  
 ##
 sub genReflection(Obj target: org.vishia.cmd.ZmakeTarget, String fileBin = null, String fileOffs, String html = null)
 {
@@ -520,6 +520,8 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
 ====#include <applstdef_emC.h>  //may/should contain following compilerswitch:
 ====#ifdef DEF_REFLECTION_OFFS  //compile this only if DEF_REFLECTION_OFFS should be used 
 ====#include <emC/InspcTargetSimple/Target2Proxy_Inspc.h>  //declares reflectionOffsetArrays
+====#define protected public    //The access also to private and protected members should be 
+====#define private public      //  possible here, to calculate its offset.
 ====
     <.><.+>
     <+fileOffsH><: >
@@ -618,9 +620,8 @@ sub genDstFile(Obj filepath :org.vishia.cmd.JZtxtcmdFilepath, Obj fileBin, Obj f
   
   args.setZbnfHeader(<:><&scriptdir>/Cheader.zbnf<.>);
   
-  
-  Obj headers = headerTranslator.execute(args);
-
+        
+  Obj headers = headerTranslator.execute(args);               ##This parses one header in this Java class
 
   for(headerfile: headers.files){
     <+out>generate <&headerfile.fileName> <.+n>
@@ -653,40 +654,62 @@ sub genReflectionHeader(Obj headerfile, Obj fileBin, Obj fileRefl, Obj fileOffsT
   if(fileRefl) {
     Obj outRefl = fileRefl;
   } else {  
-    Openfile outRefl = fileDst;
+    Openfile outRefl = fileDst;                                               
   }
     <+outRefl>
     <:>
 ====#include <<&headerfile.fileName>.h>  ##it comes from args.addSrc(...,input.localname())
     <.><.+>
-  for(classC: headerfile.listClassC) {
-    for(entry: classC.entries) {
-      if(  (entry.whatisit == "structDefinition" || entry.whatisit == "unionDefinition")  
-        && not entry.description.noReflection
-        && not(entry.name >= "Mtbl")
-        && not(entry.name >= "Vtbl")
-        ) {
-        ##
-        ##check whether a Bus should be generated.
-        ##
-        <+outRefl><:call:genReflStruct:struct=entry, fileOffsTypetable = fileOffsTypetable, fileBin=fileBin><.+>
-      }
-      if(entry.whatisit == "unionDefinition") {
-        <+>  union <.n+>
-        for(variant: entry.attribs) {
-          if(variant.struct) {
-            <+>  :struct <&variant.struct.tagname>  <.+n>
-            
-          }
-        }
-      }
-    }
-  
+  for(classC: headerfile.listClassC) {           ##listClassC are the divisions /*@ CLASS_C or only '-outside-'
+    call genEntries(headerBlock = classC, outRefl = outRefl, fileOffsTypetable = fileOffsTypetable, fileBin=fileBin);
   }
   if(not fileRefl) {
     outRefl.close();
   }
 }
 
+
+sub genEntries(Obj headerBlock, Obj outRefl, Obj fileBin, Obj fileOffsTypetable)
+{
+  for(entry: headerBlock.entries) {            ##all stuff in this division
+    ##                                         ##select somewhat from the stuff:
+    if( entry.whatisit == "#ifdef") {          ##conditional block
+      call genEntries(headerBlock = entry, outRefl = outRefl, fileOffsTypetable = fileOffsTypetable, fileBin=fileBin);
+    } 
+    elsif( (  entry.whatisit == "structDefinition" 
+           || entry.whatisit == "unionDefinition"
+           || (entry.whatisit == "classDef" && not entry.isClassOfStruct())
+           ) 
+        && not entry.description.noReflection
+        && not(entry.name >= "Mtbl")
+        && not(entry.name >= "Vtbl")
+      ) {
+      ##
+      ##check whether a Bus should be generated.
+      ##
+      <+outRefl><:call:genReflStruct:struct=entry, fileOffsTypetable = fileOffsTypetable, fileBin=fileBin><.+>
+    }
+    if(entry.whatisit == "unionDefinition") {
+      <+>  union <.n+>                                          
+      for(variant: entry.attribs) {
+        if(variant.struct) {
+          <+>  :struct <&variant.struct.tagname>  <.+n>  
+          
+        }
+      }
+    }
+  }
+}
+
+
+
+##    elsif( (  entry.whatisit == "structDefinition" 
+##           || entry.whatisit == "unionDefinition"
+##           || entry.whatisit == "classDef"
+##           )  
+##         && not entry.description.noReflection
+##         && not(entry.name >= "Mtbl")
+##         && not(entry.name >= "Vtbl")
+##      ) {
 
 

@@ -105,7 +105,7 @@ FileDescription_OSAL* refresh_FileDescription_OSAL  (  FileDescription_OSAL* yth
     ythis->fileLength = statData.st_size;
     ythis->flags = mExist_FileDescription_OSAL | mCanRead_FileDescription_OSAL; 
     { //st_mtime is the time of last changed, seconds after 1970 in UTC. MS-Visual studio: Its a long.
-      int32 timeLastChanged = statData.st_mtime;
+      int32 timeLastChanged = (int32)statData.st_mtime;  //it is int64
       setUTC_TimeAbs_emC(ythis->timeChanged, timeLastChanged, 0);
     }
   }
