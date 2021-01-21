@@ -52,22 +52,24 @@ typedef struct Alloc_MemC_t
 {
   char const* sign;
   intptr_t size;
-  void* dummy[2];
+  intptr_t sizeSafety;
+  void* dummy[1];
 } Alloc_MemC_s;
 
 
 char const sign_Alloc_MemC[] = "Alloc_MemC";
 
 
-void* alloc_MemC(int size) {
-  int allocSize = sizeof(Alloc_MemC_s) + size + sizeSafetyArea_allocMemC;
+void* alloc_MemC_PRIV(int size, int sizeSafety) {
+  int allocSize = sizeof(Alloc_MemC_s) + size + sizeSafety;
   Alloc_MemC_s* ptr = (Alloc_MemC_s*)os_allocMem(allocSize);
   if(ptr !=null) {
     memset(ptr, 0, size + sizeof(Alloc_MemC_s));
     intptr_t memend = ((intptr_t) ptr ) + sizeof(Alloc_MemC_s) + size;
-    memset((void*)memend, 0xaa, sizeSafetyArea_allocMemC);
+    memset((void*)memend, 0xaa, sizeSafety);
     ptr->sign = sign_Alloc_MemC;
     ptr->size = size;
+    ptr->sizeSafety = sizeSafety;
     return ptr + 1;  //after OS_AllocMem_s
   }
   else return null; 
@@ -83,7 +85,7 @@ int free_MemC  (  void const* addr)
   //
   MemUnit* ptr = (MemUnit*)addr;
   STACKTRC_ENTRY("free_MemC");
-  #ifdef DEF_ThreadContextHeap_emC
+  #ifdef DEF_ThreadContext_HEAP_emC
     //ThCxt* _thCxt = getCurrent_ThreadContext_emC();
     if(_thCxt->threadheap.mode & mCheckBufferUsed_Mode_ThCxt){
       if(_thCxt->threadheap.mode & mBufferUsed_Mode_ThCxt){
@@ -115,7 +117,7 @@ int free_MemC  (  void const* addr)
     if(ptrAlloc->sign == sign_Alloc_MemC) {
       intptr_t memend = ((intptr_t) ptr ) + ptrAlloc->size;
       uint32* addrCheck = (uint32*)memend;
-      int ct = (sizeSafetyArea_allocMemC)/4;
+      int ct = (ptrAlloc->sizeSafety)/4;
       while (--ct >= 0) {
         if (*addrCheck != 0xaaaaaaaa) {
           addrCheck +=0;   // <================== set a breakpoint here.

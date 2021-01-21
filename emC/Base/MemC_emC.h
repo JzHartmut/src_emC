@@ -64,6 +64,12 @@
 /**Forward declaration of struct to prevent warnings. */
 struct ThreadContext_emC_t;
 
+
+#ifndef sizeSafetyArea_allocMemC
+#define sizeSafetyArea_allocMemC 0
+#endif
+
+
 /*@CLASS_C MemAreaC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
@@ -246,7 +252,13 @@ METHOD_C void init0p_MemC(void* ptr, int size);
 
 
 /**Ordinary alloc routine without storing of the size. This routine is used inside ALLOC_MemC(...). */
-METHOD_C void* alloc_MemC(int size);
+METHOD_C void* alloc_MemC_PRIV(int size, int sizeSafety);
+
+
+
+static inline void* alloc_MemC(int size) {
+  return alloc_MemC_PRIV(size, sizeSafetyArea_allocMemC);
+}
 
 /**Macro to set an given embedded instance to 0. */
 #define setNull_MemC(THIS) { (THIS).addr = null; (THIS).val = 0; }

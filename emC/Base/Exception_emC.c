@@ -127,7 +127,7 @@ void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, cha
     //The msg is in stack area, copy it in ThreadContext!
     int zMsg = length_StringJc(msg);
     if(zMsg >0){
-      #ifdef DEF_ThreadContextHeap_emC
+      #ifdef DEF_ThreadContext_HEAP_emC
         MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
         char* b = PTR_MemC(memb, char);
         if(b !=null) {
@@ -137,7 +137,7 @@ void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, cha
         else {
           exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
         }
-      #else //no DEF_ThreadContextHeap_emC
+      #else //no DEF_ThreadContext_HEAP_emC
         exception->exceptionMsg = z_StringJc("Exception message in stack, but no ThreadHeap, cannot be used.");
       #endif
     }
@@ -159,12 +159,12 @@ void throwCore_emC(ThCxt* _thCxt) {
       //Only log, the program continues after THROW
       //Note: The compilation does not call this operation because THROW is defined
       //with immediately call of log_Exception usually
-      log_Exception_emC(&_thCxt->exception[0], _thCxt->exception[0].file, _thCxt->exception[0].line);
+      log_Exception_emC(&_thCxt->tryObject->exc, _thCxt->tryObject->exc.file, _thCxt->tryObject->exc.line);
     #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
       #ifndef __cplusplus
         #error to use C++ exception handing you should compile this source with C++
       #endif
-      throw _thCxt->exception[0].exceptionNr;
+      throw _thCxt->tryObject->exc.exceptionNr;
     #else
       longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->tryObject->exc.exceptionNr);
     #endif

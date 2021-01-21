@@ -59,7 +59,7 @@
 
 #if !defined(__cplusplus) && defined(DEF_Exception_TRYCpp)
   //for C-compiled sources TRYCpp cannot be used, then SIMPLE only for C sources.
-#  undef DEF_Exception_TRYJcpp
+#  undef DEF_Exception_TRYCpp
 #  define DEF_Exception_NO
 #endif
 
@@ -74,7 +74,6 @@
 
 #ifndef DEF_ThreadContext_SIMPLE
   #include <emC/Base/MemC_emC.h>
-//  #include <emC/Base/SimpleC_emC.h>
 #endif
 
 #ifdef DEF_Exception_longjmp
@@ -311,8 +310,6 @@ typedef struct TryObject_emC_T
     /**Buffer for the longjmp mechanism, see standard-C-documentation. Defined in standard-include-file setjmp.h */ 
     jmp_buf longjmpBuffer;
   #endif
-  #else //if defined(DEF_ThreadContext_SIMPLE)
-    int32 XXXnrNested;
   #endif
 
 } TryObject_emC;
@@ -431,7 +428,7 @@ typedef struct Store_LogException_emC_t
 #ifndef DEF_ThreadContext_SIMPLE   //only defined for full ThreadContext
 
 
-#define DEF_ThreadContextHeap_emC
+#define DEF_ThreadContext_HEAP_emC
 
 typedef struct AddrUsed_ThreadContext_emC_t
 { char const* sign;
@@ -563,7 +560,7 @@ METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(Stacktrace
 /*========== ThreadContext_emC_s ============================================================*/
 
 typedef struct ThreadContext_emC_t {
-  #ifdef DEF_ThreadContextHeap_emC
+  #ifdef DEF_ThreadContext_HEAP_emC
   UserBufferInThCxt_s threadheap;
   #endif
 
@@ -606,30 +603,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 #endif
 
 
-#ifdef DEF_ThreadContext_SIMPLE
-
-/**Because the operation may use a pointer variable named _thCxt it is defined here.
-* But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
-*/
-#define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt 
-
-#define STACKTRC_ROOT_TENTRY(NAME) _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt
-
-/**For that the _thCxt variable is given in arguments of the operation */
-#define STACKTRC_TENTRY(NAME)
-
-/**Because the operation may use a pointer variable named _thCxt it is defined here.
-* But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
-*/
-#define STACKTRC_ENTRY(NAME) \
-  MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); /*It is a variable in Stack. */\
-  int stacksize = (int)(((MemUnit*)&_thCxt) - _thCxt->topmemAddrOfStack); \
-  if(stacksize <0) { stacksize = -stacksize; } \
-  if(stacksize > _thCxt->stacksizeMax) { _thCxt->stacksizeMax = stacksize; } \
-
-
-
-#else  //not DEF_ThreadContext_SIMPLE
+#ifdef DEF_ThreadContext_STACKTRC
 
 /**It should be the first invocation of STACKTRC_ENTRY in main or in a thread routine. 
 * For this environment it does the same as STACKTRC_ENTRY(NAME). 
@@ -661,19 +635,6 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 /**Use the macro ,,STACKTRC_LEAVE;,, at end of the block unconditionally!*/
 #define STACKTRC_ENTRY(NAME) ThCxt* _thCxt = getCurrent_ThreadContext_emC();  STACKTRC_TENTRY(NAME)
 
-#endif  //DEF_ThreadContext_SIMPLE
-
-
-#ifdef DEF_ThreadContext_SIMPLE
-
-#define STACKTRC_LEAVE
-
-#define THCXT _thCxt
-
-#define CALLINE
-
-#else  //not DEF_ThreadContext_SIMPLE
-
 /**This macro corrects the chained list of stacktrace, it sets the end of the previous stacktrace.
 * Use this macro unconditionally at end of a block using ,,STACKTRC_ENTRY(),, or ,,STACKTRC_XENTRY(),,.
 * Otherwise the chain of stacktrace elements is corrupted.
@@ -685,10 +646,60 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 */
 #define THCXT (_thCxt->stacktrc.entries[_ixStacktrace_.ixStacktrace].line=__LINE__, _thCxt->stacktrc.zEntries = _ixStacktrace_.ixStacktrace +1, _thCxt)
 
+#define STACKTRC_THCXT _thCxt
+#define GET_STACKTRC_THCXT if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
+
 //#define CALLINE(stacktrace.entry.line=__LINE__)
 #define CALLINE (_thCxt->stacktrc.entries[_ixStacktrace_.ixStacktrace].line=__LINE__)
 
-#endif  //not DEF_ThreadContext_SIMPLE
+
+
+#elif defined(DEF_ThreadContext_STACKUSAGE)
+
+/**Because the operation may use a pointer variable named _thCxt it is defined here.
+* But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
+*/
+#define STACKTRC_ROOT_ENTRY(NAME) struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt 
+
+#define STACKTRC_ROOT_TENTRY(NAME) _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt
+
+/**For that the _thCxt variable is given in arguments of the operation */
+#define STACKTRC_TENTRY(NAME)
+
+/**Because the operation may use a pointer variable named _thCxt it is defined here.
+* But it is initialized with null, because a ThreadContext is unknown, and it is a unknown forward type.
+*/
+#define STACKTRC_ENTRY(NAME) \
+  MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = getCurrent_ThreadContext_emC(); /*It is a variable in Stack. */\
+  int stacksize = (int)(((MemUnit*)&_thCxt) - _thCxt->topmemAddrOfStack); \
+  if(stacksize <0) { stacksize = -stacksize; } \
+  if(stacksize > _thCxt->stacksizeMax) { _thCxt->stacksizeMax = stacksize; } \
+
+#define STACKTRC_LEAVE
+
+#define STACKTRC_THCXT _thCxt
+#define GET_STACKTRC_THCXT if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); }
+
+#define CALLINE
+
+#elif defined(DEF_ThreadContext_STACKTRC_NO)
+
+//all STCKTRC macro are empty.
+#define STACKTRC_ROOT_ENTRY(NAME)
+#define STACKTRC_ROOT_TENTRY(NAME)
+#define STACKTRC_ENTRY(NAME)
+#define STACKTRC_TENTRY(NAME)
+#define STACKTRC_LEAVE
+#define STACKTRC_THCXT null              //null as parameter for _thCxt, get it internally
+#define GET_STACKTRC_THCXT ThreadContext_emC_s* _thCxt = getCurrent_ThreadContext_emC();
+#define CALLINE
+
+
+#else
+
+#error one of DEF_ThreadContext_STACKTRC_NO, DEF_ThreadContext_STACKTRC or DEF_ThreadContext_STACKUSAGE should be set.
+
+#endif  //DEF_ThreadContext_STACKTRC
 
 
 
@@ -732,7 +743,7 @@ METHOD_C bool test_Stacktrace_emC ( IxStacktrace_emC* ythis);
 
 
 /*===== Operations for User Buffer ThreadContext ==============================================*/
-#ifdef DEF_ThreadContextHeap_emC
+#ifdef DEF_ThreadContext_HEAP_emC
 //only available on not simple ThreadContext, elsewhere linker error. 
 //You cannot use things which are not defined. 
 
@@ -919,7 +930,7 @@ extern_C void clearException(Exception_emC* exc);
 
 #if defined(DEF_Exception_NO)
   #define EXCEPTION_TRY
-  #define EXCEPTION_CATCH if(_thCxt->exception[0].exceptionNr !=0)
+  #define EXCEPTION_CATCH if(_thCxt->tryObject->exc.exceptionNr !=0)
 #elif defined(DEF_Exception_longjmp)
   #define EXCEPTION_TRY \
   if( setjmp(_tryObject_emC.longjmpBuffer) ==0) {
@@ -939,7 +950,7 @@ extern_C void clearException(Exception_emC* exc);
 #endif
 
  #define TRY \
- {if(_thCxt == null) { _thCxt = getCurrent_ThreadContext_emC(); } \
+ { GET_STACKTRC_THCXT \
   TryObject_emC _tryObject_emC = {0}; \
   TryObject_emC* _tryObjectPrev_emC = _thCxt->tryObject; _thCxt->tryObject = &_tryObject_emC; \
   int32 excNrCatchTest = 0; \
@@ -1010,33 +1021,33 @@ extern_C void clearException(Exception_emC* exc);
       * but the calling routine is continued.
       * It should check itself for sufficient conditions to work.
       */
-    #define THROW(EXCEPTION, MSG, VAL1, VAL2) { if(_thCxt == null) \
-    { _thCxt = getCurrent_ThreadContext_emC(); } \
-      _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##_emC; \
-      _thCxt->exception[0].exceptionValue = VAL1; \
-      _thCxt->exception[0].file = __FILE__; \
-      _thCxt->exception[0].line = __LINE__; \
-      log_Exception_emC(&_thCxt->exception[0], __FILE__, __LINE__); \
+    #define THROW(EXCEPTION, MSG, VAL1, VAL2)  \
+    { GET_STACKTRC_THCXT \
+      _thCxt->tryObject->exc.exceptionNr = nr_##EXCEPTION##_emC; \
+      _thCxt->tryObject->exc.exceptionValue = VAL1; \
+      _thCxt->tryObject->exc.file = __FILE__; \
+      _thCxt->tryObject->exc.line = __LINE__; \
+      log_Exception_emC(&_thCxt->tryObject->exc, __FILE__, __LINE__); \
     }
-  #e#define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE) { if(_thCxt == null) \
-    { _thCxt = getCurrent_ThreadContext_emC(); } \
-      _thCxt->exception[0].exceptionNr = nr_##EXCEPTION##_emC; \
-      _thCxt->exception[0].exceptionValue = VAL1; \
-      _thCxt->exception[0].file = FILE; \
-      _thCxt->exception[0].line = LINE; \
-      log_Exception_emC(&_thCxt->exception[0], __FILE__, __LINE__); \
+    #define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE)  \
+    { GET_STACKTRC_THCXT \
+      _thCxt->tryObject->exc.exceptionNr = nr_##EXCEPTION##_emC; \
+      _thCxt->tryObject->exc.exceptionValue = VAL1; \
+      _thCxt->tryObject->exc.file = __FILE__; \
+      _thCxt->tryObject->exc.line = __LINE__; \
+      log_Exception_emC(&_thCxt->tryObject->exc, FILE, LINE); \
     }
   #else //both DEF_Exception_TRYCpp or longjmp:
     #ifdef DEF_NO_StringJcCapabilities
       #define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE) \
-        throw_sJc(ident_##EXCEPTION##_emC, null, VAL1, FILE, LINE, _thCxt)
+        throw_sJc(ident_##EXCEPTION##_emC, null, VAL1, FILE, LINE, STACKTRC_THCXT)
       #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
-        throw_sJc(ident_##EXCEPTION##_emC, null, VAL1, __FILE__, __LINE__, _thCxt)
+        throw_sJc(ident_##EXCEPTION##_emC, null, VAL1, __FILE__, __LINE__, STACKTRC_THCXT)
     #else
       #define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE) \
-        throw_sJc(ident_##EXCEPTION##_emC, MSG, VAL1, FILE, LINE, _thCxt)
+        throw_sJc(ident_##EXCEPTION##_emC, MSG, VAL1, FILE, LINE, STACKTRC_THCXT)
       #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
-        throw_sJc(ident_##EXCEPTION##_emC, MSG, VAL1, __FILE__, __LINE__, _thCxt)
+        throw_sJc(ident_##EXCEPTION##_emC, MSG, VAL1, __FILE__, __LINE__, STACKTRC_THCXT)
     #endif
   #endif
 #endif

@@ -76,7 +76,7 @@ FileDescription_OSAL* refresh_FileDescription_OSAL(FileDescription_OSAL* ythis)
     ythis->flags = mExist_FileDescription_OSAL | mCanRead_FileDescription_OSAL;
     { //st_mtime is the time of last changed, seconds after 1970 in UTC. MS-Visual studio: Its a long.
       int32 timeLastChanged = statData.st_mtime;
-      setUTC_OS_TimeStamp(ythis->timeChanged, timeLastChanged, 0);
+      setUTC_TimeAbs_emC(ythis->timeChanged, timeLastChanged, 0);
     }
   }
   else

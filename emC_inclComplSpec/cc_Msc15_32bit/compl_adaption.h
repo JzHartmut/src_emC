@@ -409,17 +409,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
-/**Bits of length of constant string adequate to VALTYPE_AddrVal_emC. 
- * It have to be a mask with set bits on right side (all last significant bits).
- * The next 2 bits left are used internally for designation of String.
- * see [[mNonPersists__StringJc]], [[mThreadContext__StringJc]].
- * See also [[kIsCharSequence_StringJc]]
- * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc.
- * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
- */
-#define mLength_StringJc                 0x00003fff
-
-
 
 
 #ifndef TRUE

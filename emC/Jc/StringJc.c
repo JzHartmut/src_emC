@@ -96,7 +96,7 @@ void clear_StringJc(StringJc* ythis)
   #ifdef DEF_ObjectJc_FULLCAPABILITY
   clearBackRefJc(ythis);
   #endif
-  #ifdef DEF_ThreadContextHeap_emC
+  #ifdef DEF_ThreadContext_HEAP_emC
   if((VAL_StringJc(*ythis) & mThreadContext__StringJc) == mThreadContext__StringJc){
     releaseUserBuffer_ThreadContext_emC(PTR_StringJc(*ythis), _thCxt);
   }
