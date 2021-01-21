@@ -255,7 +255,7 @@ extern_C void clearException(ExceptionJc* exc);
 #ifdef DEF_NO_StringJcCapabilities
   #define MSG_SystemException_ExcpetionJc
 #else
-  #define MSG_SystemException_ExcpetionJc _thCxt->exception[0].exceptionMsg = z_StringJc("System exception");
+  #define MSG_SystemException_ExcpetionJc tryObject.exc.exceptionMsg = z_StringJc("System exception");
 #endif
 
 
@@ -263,11 +263,11 @@ extern_C void clearException(ExceptionJc* exc);
  #define _TRY \
   EXCEPTION_CATCH { \
     _thCxt->tryObject = tryObjectPrev; \
-    if(_thCxt->exception[0].exceptionNr == 0) {/*system Exception:*/ \
-      _thCxt->exception[0].exceptionNr = ident_SystemExceptionJc;  \
+    if(tryObject.exc.exceptionNr == 0) {/*system Exception:*/ \
+      tryObject.exc.exceptionNr = ident_SystemExceptionJc;  \
       MSG_SystemException_ExcpetionJc \
     }  \
-    excNrCatchTest = _thCxt->exception[0].exceptionNr; \
+    excNrCatchTest = tryObject.exc.exceptionNr; \
     if(false) { /*opens an empty block, closed on first CATCH starts with }*/
 
 
@@ -276,7 +276,7 @@ extern_C void clearException(ExceptionJc* exc);
  #define CATCH(EXCEPTION, EXC_OBJ) \
       RESTORE_STACKTRACE_DEEPNESS  \
     } else if((excNrCatchTest & mask_##EXCEPTION##Jc)!= 0) \
-    { MAYBE_UNUSED_emC ExceptionJc* EXC_OBJ = &_thCxt->exception[0]; \
+    { MAYBE_UNUSED_emC ExceptionJc* EXC_OBJ = &tryObject.exc; \
       excNrCatchTest = 0; //do not check it a second time
 
 
@@ -290,12 +290,13 @@ extern_C void clearException(ExceptionJc* exc);
  //Write on end of the whole TRY-CATCH-Block the followed macro:*/
  #define END_TRY \
   } } /*close FINALLY, CATCH or TRY brace */\
-  _thCxt->tryObject = tryObjectPrev; \
   if( excNrCatchTest != 0 ) /*Exception not handled*/ \
   { /* delegate exception to previous level. */ \
+    tryObjectPrev->exc = tryObject.exc; /*Copy all exception info, it's a memcpy*/ \
+    _thCxt->tryObject = tryObjectPrev; \
     throwCore_emC(_thCxt); \
   } else { /*remain exception for prev level on throwCore_emC if DEF_Exception_NO */\
-    clearException(&_thCxt->exception[0]); \
+    _thCxt->tryObject = tryObjectPrev; \
   } /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
   RESTORE_STACKTRACE_DEEPNESS \
  } /*close brace from beginning TRY*/

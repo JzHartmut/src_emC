@@ -116,7 +116,7 @@ const char* exceptionTexts DEF [33] =
 void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_ExceptionJc msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
-  ExceptionJc* exception = &_thCxt->exception[0];
+  ExceptionJc* exception = &_thCxt->tryObject->exc;        //locate in stack of the try level.
   exception->file = file;
   exception->line = line;
   exception->exceptionNr = exceptionNr;
@@ -166,13 +166,13 @@ void throwCore_emC(ThCxt* _thCxt) {
       #endif
       throw _thCxt->exception[0].exceptionNr;
     #else
-      longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->exception[0].exceptionNr);
+      longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->tryObject->exc.exceptionNr);
     #endif
 
   }
   else
   { //no TRYJc-level found,
-    uncatched_ExceptionJc(&_thCxt->exception[0], _thCxt);
+    uncatched_ExceptionJc(&_thCxt->tryObject->exc, _thCxt);
   }
 }
 

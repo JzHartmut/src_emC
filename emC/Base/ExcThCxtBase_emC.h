@@ -203,7 +203,7 @@ typedef enum ExceptionRangeJc_t
 
 
 
-/**The Exception data contains all data of exception but references to the stacktrace.
+/**The Exception data contains all data of exception.
  *
  */
 typedef struct ExceptionJc_t
@@ -262,16 +262,25 @@ extern_C int writeException(char* buffer, int zbuffer, ExceptionJc* exc, char co
 
 
 
-
+/**A TryObject_emC will be defined stacklocal in the TRY level with name _tryObject_emC. 
+ * It contains space for Exception_emC information.
+ * The ThreadContext_emC _thCxt->tryObject refers the TryObject_emC for the current TRY level.
+ * The reference to the previos TryObject_emC for a superior TRY construct is referenced 
+ * by the local stack variable _tryObjectPrev_emC. It is null if no superior TRY exists.
+ * It will be restored on END_TRY.    
+ */
 typedef struct TryObjectJc_t
 {
+  /**Stores the exception or contains 0. */
+  ExceptionJc exc;
+
   #ifdef DEF_Exception_longjmp
   #ifdef ReflectionHidden 
     /**Buffer for the longjmp mechanism, see standard-C-documentation. Defined in standard-include-file setjmp.h */ 
     jmp_buf longjmpBuffer;
   #endif
   #else //if defined(DEF_ThreadContext_SIMPLE)
-    int32 nrNested;
+    int32 XXXnrNested;
   #endif
 
 } TryObjectJc;
