@@ -674,7 +674,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, ThCx
     if(bufferInStack || ythis->_mode & (_mStack_StringBuilderJc | _mThread_StringBuilderJc)){
       nonPersistent |= mNonPersists__StringJc;
     }
-    #ifndef DEF_ThreadContext_SIMPLE
+    #ifdef DEF_ThreadContext_HEAP_emC
     if(ythis->_mode & _mThread_StringBuilderJc){
       nonPersistent |= mThreadContext__StringJc;
       int sizeInThCxt = _reduceCapacity_StringBuilderJc(wthis, (int16)(ythis->_count+1));
@@ -711,7 +711,7 @@ StringJc toString_CharSeqJc ( CharSeqJc thiz )
     Vtbl_CharSeqJc const* mc = getVtbl_CharSeqJc(thiz, _thCxt);
     CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
     int nChars = mc->length(othiz, _thCxt);
-    #ifdef DEF_ThreadContext_SIMPLE
+    #ifndef DEF_ThreadContext_HEAP_emC
     char const* buffer = "Operation is not available";
     nChars = 26;
     #else

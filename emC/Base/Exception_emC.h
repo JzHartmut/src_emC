@@ -72,7 +72,7 @@
   #define ARGTYPE_MSG_Exception_emC StringJc       //String with char const*, length and some specific bits
 #endif
 
-#ifndef DEF_ThreadContext_SIMPLE
+#ifdef DEF_ThreadContext_HEAP_emC
   #include <emC/Base/MemC_emC.h>
 #endif
 
@@ -365,8 +365,17 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 /**Possibility call throw without STACKTRC(...) designation.
  */
 //The THROW... macros expect a variable _ThCxt. It can be null, admissible. 
-#define THROW_s0nf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE)  { ThCxt* _thCxt = null; THROW_s0f(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE); }
-#define THROW_s0n(EXCEPTION, MSG, VAL1, VAL2)  { ThCxt* _thCxt = null; ; THROW_s0(EXCEPTION, MSG, VAL1, VAL2); }
+#if defined(DEF_ThreadContext_STACKTRC) || defined(DEF_ThreadContext_STACKUSAGE)
+  //then the THROW needs formally an _thCxt argument, which can be null:
+  #define THROW_s0nf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE)  { ThCxt* _thCxt = null; THROW_s0f(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE); }
+  #define THROW_s0n(EXCEPTION, MSG, VAL1, VAL2)  { ThCxt* _thCxt = null; ; THROW_s0(EXCEPTION, MSG, VAL1, VAL2); }
+#else 
+  //THOW does not need a _thCxt argument by the way, also here unnecessary.
+  #define THROW_s0nf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE)  THROW_s0f(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE);
+  #define THROW_s0n(EXCEPTION, MSG, VAL1, VAL2)  THROW_s0(EXCEPTION, MSG, VAL1, VAL2);
+#endif
+
+
 
 
 /*@CLASS_C LogException_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@qq*/
@@ -425,10 +434,8 @@ typedef struct Store_LogException_emC_t
 #define INIZ_Store_LogException_emC(ENTRIES) { "Store_LogException_emC", ENTRIES + SIZEENTRIES_default_ExceptionLogStore, (uint)(-1) }
 
 /*========== structures only for not SIMPLE thread context =============================================*/
-#ifndef DEF_ThreadContext_SIMPLE   //only defined for full ThreadContext
+#ifdef DEF_ThreadContext_HEAP_emC   //only defined for full ThreadContext
 
-
-#define DEF_ThreadContext_HEAP_emC
 
 typedef struct AddrUsed_ThreadContext_emC_t
 { char const* sign;
@@ -475,13 +482,13 @@ int16 mode;
 
 } UserBufferInThCxt_s;
 
+#endif //DEF_ThreadContext_HEAP_emC
 
 
-#ifndef DEF_ThreadContext_STACKTRC
-  #define DEF_ThreadContext_STACKTRC
-#endif
 
 /*@CLASS_C StacktraceElement_emC_s @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+#ifdef DEF_ThreadContext_STACKTRC
+
 
 
 /**An element of the stacktrace, 12 Byte for a 32-bit-System, 
@@ -536,7 +543,7 @@ typedef struct StacktraceThreadContext_emC_t
 
 
 
-METHOD_C StacktraceThreadContext_emC_s* ctorM_StacktraceThreadContext_emC(MemC mthis);
+//METHOD_C StacktraceThreadContext_emC_s* ctorM_StacktraceThreadContext_emC(MemC mthis);
 
 /**Returns the method name of the requested level.
 * @param level 0 is actual, 1... are previous levels.
@@ -547,7 +554,7 @@ METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(Stacktrace
 
 
 
-#endif //not DEF_ThreadContext_SIMPLE
+#endif //not DEF_ThreadContext_STACKTRC
 
 
 
@@ -717,7 +724,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 
 
 
-#ifndef DEF_ThreadContext_SIMPLE
+#ifdef DEF_ThreadContext_STACKTRC
 
 /**Test the consistence of the stacktrace, useable if errors are searched
 * The compiler switch should be set in the ,,fw_Platform_conventions.h,,
@@ -730,7 +737,7 @@ METHOD_C bool test_Stacktrace_emC ( IxStacktrace_emC* ythis);
 
 #endif
 
-#endif  //not DEF_ThreadContext_SIMPLE
+#endif  //DEF_ThreadContext_STACKTRC
 
 
 
@@ -810,11 +817,6 @@ struct ObjectJc_T* allocInThreadCxt_ObjectJc ( int size, char const* sign, struc
 #endif
 
 
-#ifndef INCLUDED_emC_Base_String_emC_h
-//#include <emC/Base/String_emC.h>
-#endif
-
-
 
 
 struct OS_HandleFile_t;
@@ -882,7 +884,7 @@ extern_C void errorSystem_emC_  (  int errorCode, const char* description, int v
 
 /*@CLASS_C IxStacktrace_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-
+#ifdef DEF_ThreadContext_STACKTRC
 /**An instance of this struct is used for any stack frame level in the STACKTRC_TENTRY macro.
  * It is necessary to restore the correct Stacktrace index on THROW. */
 typedef struct IxStacktrace_emC_t
@@ -892,7 +894,7 @@ typedef struct IxStacktrace_emC_t
   uint ixStacktracePrev;
 } IxStacktrace_emC;
 
-
+#endif //DEF_ThreadContext_STACKTRC
 
 
 
@@ -942,11 +944,11 @@ extern_C void clearException(Exception_emC* exc);
 #endif
 
 
-#ifdef DEF_ThreadContext_SIMPLE
-  #define RESTORE_STACKTRACE_DEEPNESS
-#else 
+#ifdef DEF_ThreadContext_STACKTRC
   /**remove the validy of _ixStacktrace_ entries of the deeper levels. */
   #define RESTORE_STACKTRACE_DEEPNESS _thCxt->stacktrc.zEntries = _ixStacktrace_.ixStacktrace+1;
+#else 
+  #define RESTORE_STACKTRACE_DEEPNESS
 #endif
 
  #define TRY \

@@ -1,5 +1,7 @@
 #ifndef HGUARD_ClassJc_FullReflection_emC
 #define HGUARD_ClassJc_FullReflection_emC
+//This header file is only included on end of <emC/Base/ObjectRefl_emC.h>
+//which is included in <emC/Base/Object_emC.h>. It should never be included direct. 
 
 //#ifndef DEF_REFLECTION_FULL
 #ifdef DEF_ObjectJc_SIMPLE

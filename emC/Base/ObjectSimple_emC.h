@@ -327,7 +327,9 @@ extern_C struct ObjectJc_T* allocRefl_ObjectJc ( uint size, struct ClassJc_t con
 
 
 #ifndef DEF_REFLECTION_FULL
-
+//Note: this file is also included if DEF_ObjectSimple_emC is not set, 
+//      inside the ObjectRefl_emC. 
+//      This class definition is used anyway if DEF_REFLECTION_FULL is not set.
 
 /**Reflection for a simple system which does not contain reflection information for itself
 * but uses the reflection instance for type detection
@@ -341,7 +343,7 @@ typedef struct ClassJc_t
 {
   uint32 idType;   // sizeReflOffs;
 
-  #ifndef DEF_NO_StringJcCapabilities
+  #ifndef DEF_NO_StringUSAGE
   char const* name;
   #endif
 

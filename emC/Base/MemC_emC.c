@@ -117,9 +117,9 @@ int free_MemC  (  void const* addr)
     if(ptrAlloc->sign == sign_Alloc_MemC) {
       intptr_t memend = ((intptr_t) ptr ) + ptrAlloc->size;
       uint32* addrCheck = (uint32*)memend;
-      int ct = (ptrAlloc->sizeSafety)/4;
+      int ct = (int)(ptrAlloc->sizeSafety) / (4 / BYTE_IN_MemUnit);
       while (--ct >= 0) {
-        if (*addrCheck != 0xaaaaaaaa) {
+        if (*addrCheck != 0xaaaaaaaa) { //checsk 4 byte 
           addrCheck +=0;   // <================== set a breakpoint here.
         }
         addrCheck +=1;

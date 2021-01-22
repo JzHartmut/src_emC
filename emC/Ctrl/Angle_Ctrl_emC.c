@@ -4,7 +4,7 @@
 
 #ifdef DEF_REFLECTION_FULL
   #include "genRefl/Angle_Ctrl_emC.crefl"
-#elif defined(ID_refl_Angle_abwmf_FB_CtrlemC)
+#elif defined(DEFINED_refl_Angle_abwmf_FB_CtrlemC)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;
 //#elif !defined(DEF_REFLECTION_NO)

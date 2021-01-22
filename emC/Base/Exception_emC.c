@@ -315,7 +315,10 @@ METHOD_C char const* getCallingMethodName_StacktraceThreadContext_emC(Stacktrace
  */
 #undef test_StacktraceJc
 
+#ifdef DEF_ThreadContext_STACKTRC
+
 extern_C bool test_StacktraceJc(IxStacktrace_emC* ythis);
+#endif //DEF_ThreadContext_STACKTRC
 
 
 /**Test the consistence of the stacktrace, useable if errors are searched*/
