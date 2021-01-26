@@ -401,8 +401,10 @@ struct StringPartScanJc_t* scanQuotion_CsSSYi_StringPartScanJc(StringPartScanJc_
         else setCurrentPart_StringPartJc(&thiz->base.super, &thiz->sLastString, _thCxt);
           fromEnd_StringPartJc(& ((* (thiz)).base.super));
           seekPos_StringPartJc(& ((* (thiz)).base.super), length_StringJc(sQuotionMarkEnd), _thCxt);
-          
+
+        #ifdef DEF_ThreadContext_HEAP_emC
         releaseUserBuffer_ThreadContext_emC(_thCxtRef4_1, _thCxt);
+        #endif
         activateGC_ObjectJc(PTR_StringJc(_persistring4_1), null, _thCxt);
       }
       else thiz->base.super.bCurrentOk = false;
@@ -718,12 +720,12 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
       { /*:either fractional or exponent found*/
         
         
-        result = nInteger;
+        result = (double)nInteger;
         if(nFractional > 0) 
         { 
           
           
-          double  fFrac = nFractional;
+          double  fFrac = (double)nFractional;
           
           while(fFrac >= 1.0)
             { 

@@ -527,7 +527,7 @@ bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, T
 }
 
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined( DEF_ClassJc_Vtbl) && defined(DEF_ThreadContext_HEAP_emC)
 /**Returns a volatile CharSequence from the range inside the current part.*/
 CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 to, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)ithis;
@@ -2473,6 +2473,7 @@ void setCurrentPosition_StringPartJc(StringPartJc_s* thiz, int64 pos, ThCxt* _th
   STACKTRC_LEAVE;
 }
 
+#ifdef DEF_ThreadContext_HEAP_emC
 
 /**Gets a substring inside the maximal part*/
 struct Part_StringPartJc_t* substring_StringPartJc(StringPartJc_s* thiz, int32 pos, int32 posendP, ThCxt* _thCxt)
@@ -2502,6 +2503,7 @@ struct Part_StringPartJc_t* substring_StringPartJc(StringPartJc_s* thiz, int32 p
   }
   STACKTRC_LEAVE;
 }
+#endif  //DEF_ThreadContext_HEAP_emC
 
 
 #ifdef DEF_ClassJc_Vtbl
@@ -2612,6 +2614,7 @@ StringJc getInputfile_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 }
 
 
+#ifdef DEF_ThreadContext_HEAP_emC
 /**Returns the actual part of the string.*/
 struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
@@ -2629,6 +2632,7 @@ struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, Th
   }
   STACKTRC_LEAVE;
 }
+#endif //def DEF_ThreadContext_HEAP_emC
 
 
 
@@ -2645,7 +2649,7 @@ void setCurrentPart_StringPartJc  ( StringPartJc_s* thiz, struct Part_StringPart
 
 
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_ThreadContext_HEAP_emC)
 /**Returns the last part of the string before any seek or scan operation.*/
 CharSeqJc getLastPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
@@ -2671,7 +2675,7 @@ CharSeqJc getLastPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 #endif //#ifdef DEF_ClassJc_Vtbl
 
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_ThreadContext_HEAP_emC) 
 /**Returns the actual part of the string.*/
 CharSeqJc getCurrentPart_i_StringPartJc(StringPartJc_s* thiz, int32 maxLength, ThCxt* _thCxt)
 { 
@@ -2698,6 +2702,7 @@ CharSeqJc getCurrentPart_i_StringPartJc(StringPartJc_s* thiz, int32 maxLength, T
 }
 #endif //#ifdef DEF_ClassJc_Vtbl
 
+#ifdef DEF_ThreadContext_HEAP_emC
 
 /**Retrurn the part from start to end independent of the current positions. */
 struct Part_StringPartJc_t* getPart_StringPartJc(StringPartJc_s* thiz, int32 fromPos, int32 nrofChars, ThCxt* _thCxt)
@@ -2716,7 +2721,7 @@ struct Part_StringPartJc_t* getPart_StringPartJc(StringPartJc_s* thiz, int32 fro
   }
   STACKTRC_LEAVE;
 }
-
+#endif
 char absCharAt_StringPartJc(StringPartJc_s const* thiz, int32 index, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("absCharAt_StringPartJc");
@@ -2796,7 +2801,9 @@ StringJc toString_StringPartJc_F(ObjectJc const* ithis, ThCxt* _thCxt)
     
     StringJc ret ; ret = toString_CharSeqJc(currentPart/*J1cT2*/)/*J2C:non-persistent*/;
     { STACKTRC_LEAVE;
+      #ifdef DEF_ThreadContext_HEAP_emC
       releaseUserBuffer_ThreadContext_emC(PTR_CharSeqJc(currentPart), _thCxt);
+      #endif
       return ret;
     }
   }
@@ -3310,7 +3317,7 @@ int32 length_Part_StringPartJc(Part_StringPartJc_s const* thiz, ThCxt* _thCxt)
   STACKTRC_LEAVE;
 }
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_ThreadContext_HEAP_emC)
 CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 end, ThCxt* _thCxt)
 { Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
   

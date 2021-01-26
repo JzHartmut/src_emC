@@ -471,13 +471,13 @@ int32 cmdGetFields_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct Inspcit
           setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), sizeofHead_Inspcitem_InspcDataExchangeAccess_Inspc, kFailedPath_Inspcitem_InspcDataExchangeAccess_Inspc, order, _thCxt);
         }
       }_TRY
-      CATCH(ExceptionJc, exc)
+      CATCH(Exception, exc)
     
         { 
         
           /**Unexpected ...*/
           println_z_PrintStreamJc(REFJc (out_SystemJc), "ClassContent-getFields - unexpected:", _thCxt);
-          printStackTrace_ExceptionJc(exc, _thCxt);
+          printStackTrace_Exception_emC(exc, _thCxt);
           addChild_XX_ByteDataAccessBaseJc(& ((* (answer)).base.super), & ((thiz->answerItem).base.super), _thCxt);/*answerItem.setCmd(InspcDataExchangeAccess.Inspcitem.kFailedPath);*/
         
         
@@ -724,13 +724,13 @@ void getSetValueByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, int32 nOrd
         setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(answerItem, nBytesItem, kFailedPath_Inspcitem_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
       }
     }_TRY
-    CATCH(ExceptionJc, exc)
+    CATCH(Exception, exc)
     
       { 
         
         /**Unexpected ...*/
         println_z_PrintStreamJc(REFJc (out_SystemJc), "ClassContent-getValueByPath - unexpected:", _thCxt);
-        printStackTrace_ExceptionJc(exc, _thCxt);
+        printStackTrace_Exception_emC(exc, _thCxt);
         
         int32  nBytesItem = getLength_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), _thCxt);
         setInfoHead_Inspcitem_InspcDataExchangeAccess_Inspc(answerItem, nBytesItem, kFailedPath_Inspcitem_InspcDataExchangeAccess_Inspc, nOrderNr, _thCxt);
@@ -1203,13 +1203,13 @@ int32 cmdGetAddressByPath_ClassContent_Inspc(ClassContent_Inspc_s* thiz, struct 
       }
       //setLength_Inspcitem_InspcDataExchangeAccess_Inspc(& (thiz->answerItem), getLength_ByteDataAccessBaseJc(& ((thiz->answerItem).base.super), _thCxt));/*the length of the answerItems in byte.*/
     }_TRY
-    CATCH(ExceptionJc, exc)
+    CATCH(Exception, exc)
     
       { 
         
         /**Unexpected ...*/
         println_z_PrintStreamJc(REFJc (out_SystemJc), "ClassContent-getValueByPath - unexpected:", _thCxt);
-        printStackTrace_ExceptionJc(exc, _thCxt);
+        printStackTrace_Exception_emC(exc, _thCxt);
       }
     END_TRY
     { STACKTRC_LEAVE;
@@ -1348,13 +1348,13 @@ int32 registerHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, StringJc sVa
         idx = 0;
       }
     }_TRY
-    CATCH(ExceptionJc, exc)
+    CATCH(Exception, exc)
     
       { 
         
         /**Unexpected ...*/
         println_z_PrintStreamJc(REFJc (out_SystemJc), "ClassContent-getValueByPath - unexpected:", _thCxt);
-        printStackTrace_ExceptionJc(exc, _thCxt);
+        printStackTrace_Exception_emC(exc, _thCxt);
         handle = -1;/*failure*/
         
         idx = 0;
@@ -1378,13 +1378,13 @@ int32 registerHandle_ClassContent_Inspc(ClassContent_Inspc_s* thiz, StringJc sVa
           addChildInteger_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), nRest, 0, _thCxt);
         }
       }_TRY
-      CATCH(ExceptionJc, exc)
+      CATCH(Exception, exc)
       
         { 
           
           /**Unexpected ...*/
           println_z_PrintStreamJc(REFJc (out_SystemJc), "ClassContent-getValueByPath - unexpected:", _thCxt);
-          printStackTrace_ExceptionJc(exc, _thCxt);
+          printStackTrace_Exception_emC(exc, _thCxt);
           handle = -1;/*failure*/
           
         }

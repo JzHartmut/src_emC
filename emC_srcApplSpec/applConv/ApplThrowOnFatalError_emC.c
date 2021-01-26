@@ -127,7 +127,7 @@ bool stop_AssertJc  (  void) {
 
 
 
-void uncatched_ExceptionJc  (  ExceptionJc* thiz, ThreadContext_emC_s* _thCxt)
+void uncatched_Exception_emC  (  Exception_emC* thiz, ThreadContext_emC_s* _thCxt)
 {
   #ifdef DEF_NO_StringJcCapabilities
     printf("ERROR uncatched Exception %s @%s:%d", thiz->

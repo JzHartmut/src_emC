@@ -121,7 +121,7 @@ void printStackTraceFile_Exception_emC(Exception_emC* ythis, OS_HandleFile out, 
 }
 
 
-void printStackTrace_P_Exception_emC(struct Exception_emC_t* ythis, struct PrintStreamJc_t* out, struct ThreadContext_emC_t* _thCxt)
+void printStackTrace_P_Exception_emC(Exception_emC* ythis, struct PrintStreamJc_t* out, ThreadContext_emC_s* _thCxt)
 {
 
 }

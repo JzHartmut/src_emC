@@ -159,6 +159,13 @@ inline int unused_emC(int arg){ return arg; }
 #endif
 //#endif//__NoReflection__
 
+
+#ifndef OFFSET_IN_STRUCT
+#define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+#define SIZEOF_IN_STRUCT(TYPE, FIELD) ((int)(sizeof((TYPE*)0)->FIELD))
+#endif
+
+
 //Note: definition of bool, true, false is compiler/system-specific. Removed from here. See compl_adaption.h
 
 

@@ -47,6 +47,65 @@
 #define DEF_Cpp11_supported
 
 
+
+
+/**Some warnings should be disabled in default, because there are not the source of errors,
+ * but present in normal software development.
+ */
+//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
+
+
+//C++
+//#pragma warning(disable:4100) //unused argument
+
+//C++
+#pragma warning(disable:4068) //unknown pragma
+
+#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
+#pragma warning(disable:4127) //conditional expression is constant
+#pragma warning(disable:4189) //local variable is initialized but not referenced
+#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
+#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
+#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
+#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
+#pragma warning(disable:4305) //truncation from 'double' to 'float'
+#pragma warning(disable:4310) //cast truncates constant value
+#pragma warning(disable:4505) //unreferenced local function has been removed
+#pragma warning(disable:4514) //unreferenced inline function has been removed
+//#pragma warning(disable:4512) //assignment operator could not be generated
+#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
+
+#pragma warning(error:4002) //too many actual parameters for macro
+#pragma warning(error:4003) //not enough actual parameters for macro
+#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
+#pragma warning(error:4020) //too many actual parameters
+//#pragma warning(error:4028) //formal parameter 1 different from declaration
+//#pragma warning(error:4033) //incompatible types (pointer casting)
+//#pragma warning(error:4133) //incompatible types (pointer casting)
+#pragma warning(disable:4996) //deprecated getenv etc. in MSC15
+
+
+/**Defintion of bool, false, true for C usage. */
+#ifdef __cplusplus
+  #define INLINE_emC inline
+  #define CONSTMember_emC
+#else
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
+  #define CONSTMember_emC const
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
+     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
+  */
+  //#define inline static
+  //#define INLINE_emC static
+  #define INLINE_emC inline
+  //If C-compiling is used, define the C++-keywords for C
+  #define bool int
+  #undef false
+  #undef true
+  #define false 0
+  #define true (!false)
+#endif
+
 //#include the standard header from Visual studio firstly. 
 //stdint.h defines int8_t etc. via typedef. 
 //Because pragma once (or guard) the content of the files are not included again.
@@ -112,65 +171,6 @@
 
 
 
-
-
-/**Some warnings should be disabled in default, because there are not the source of errors,
- * but present in normal software development.
- */
-//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-//C++
-//#pragma warning(disable:4100) //unused argument
-
-//C++
-#pragma warning(disable:4068) //unknown pragma
-
-#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4305) //truncation from 'double' to 'float'
-#pragma warning(disable:4310) //cast truncates constant value
-#pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4514) //unreferenced inline function has been removed
-//#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
-
-#pragma warning(error:4002) //too many actual parameters for macro
-#pragma warning(error:4003) //not enough actual parameters for macro
-#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
-#pragma warning(error:4020) //too many actual parameters
-//#pragma warning(error:4028) //formal parameter 1 different from declaration
-//#pragma warning(error:4033) //incompatible types (pointer casting)
-//#pragma warning(error:4133) //incompatible types (pointer casting)
-#pragma warning(disable:4996) //deprecated getenv etc. in MSC15
-
-
-/**Defintion of bool, false, true for C usage. */
-#ifdef __cplusplus
-  #define INLINE_emC inline
-  #define CONSTMember_emC
-#else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
-  #define CONSTMember_emC const
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
-     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
-  */
-  //#define inline static
-  //#define INLINE_emC static
-  #define INLINE_emC inline
-  //If C-compiling is used, define the C++-keywords for C
-  #define bool int
-  #undef false
-  #undef true
-  #define false 0
-  #define true (!false)
-#endif
-
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
  * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
@@ -196,10 +196,19 @@
 #define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
 
-
+/**Definition of the kind of memory addressing. 
+ * MemUnit is the access to one memory cell with 1 address step.
+ * One address step can address more as 8 bit for some embedded processors, 16 or 32 bit.
+ */
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
+/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
+#define intPTR intptr_t
+#define uintPTR uintptr_t
+#define ADDR_HAS32BIT
+#define INT_HAS32BIT
+
 
 
 /**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
@@ -272,12 +281,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
-/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
-#define intPTR intptr_t
-#define uintPTR uintptr_t
-#define ADDR_HAS32BIT
-#define INT_HAS32BIT
-
 /**Definition of the really used types in variable argument lists. 
  * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
  * Especially in va_arg(..,TYP)-Makro.
@@ -312,6 +315,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define RAMFUNC_emC
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+#define SIZEOF_IN_STRUCT(TYPE, FIELD) ((int)(sizeof((TYPE*)0)->FIELD))
 
 /**Prevent process a NaN-value (not a number).
  * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h

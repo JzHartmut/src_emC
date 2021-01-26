@@ -200,7 +200,7 @@ MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ StringJc sPath,
         field = null;
         idx = kFieldNotFound_SearchElement_Inspc;
     }
-    CATCH(ExceptionJc, exc)
+    CATCH(Exception, exc)
     
       { 
         

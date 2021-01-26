@@ -258,7 +258,7 @@ StringBuilderJc_s* xxxnew_StringBuilderJc(int size, ThCxt* _thCxt)
 }
 
 
-
+#ifdef DEF_ThreadContext_HEAP_emC
 /**common method for creating and initilizing buffers in threadcontext. 
  * It is static, don't use outside.
  * @return pointer to StringBuilderJc_s or StringBuilderJcpp, therefore the return type is void*. Cast it outside.
@@ -327,6 +327,7 @@ StringBuilderJc_s* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sig
   append_s_StringBuilderJc(buffer, src, _thCxt);
   STACKTRC_LEAVE; return buffer;
 }
+#endif //DEF_ThreadContext_HEAP_emC
 
 
 

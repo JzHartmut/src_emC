@@ -270,12 +270,12 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
             }
           }
         }_TRY
-        CATCH(ExceptionJc, exc)
+        CATCH(Exception, exc)
         
           { 
             //CharSeqJc msg ; msg = exceptionInfo_AssertJc(/*J2C:static method call*/"org.vishia.inspector.Comm - unexpected Exception; ", exc, 0, 7, _thCxt);
             //println_c_PrintStreamJc(REFJc (err_SystemJc), msg/*J2C-error testAndChangeAccess: ct*/, _thCxt);
-            printStackTrace_P_ExceptionJc(exc, REFJc (err_SystemJc), _thCxt);
+            printStackTrace_P_Exception_emC(exc, REFJc (err_SystemJc), _thCxt);
           }
         END_TRY
       }/*while state !=0xd*/

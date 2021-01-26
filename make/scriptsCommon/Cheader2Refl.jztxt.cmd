@@ -190,7 +190,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
       if(struct.superclass.description) {                                  
         accessLevel = struct.superclass.description.accLevel;
       }
-      String reflSuperName = <:>refl_<&struct.superclass.type().baseName("_s", "_T")><.>;
+      String reflSuperName = <:>refl_<&struct.superclass.typeClass.baseName("_s", "_T")><.>;
       <:>  
 ======
 ======extern_C const ClassJc <&reflSuperName>;  //the super class here used.
@@ -220,7 +220,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
   if(fileBin) {
     Num posSuperClassAddr;
     if(struct.superclass) {
-      posSuperClassAddr = fileBin.addSuperclass(struct.superclass.type().baseName("_s", "_t"));
+      posSuperClassAddr = fileBin.addSuperclass(struct.superclass.typeClass.baseName("_s", "_t"));
     }
     Num nrClass = fileBin.addClass(struct.baseName("_s"), sClassNameShow);
     if(struct.superclass) {
@@ -316,8 +316,8 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
 { Num return.nrofEntries = 0;
   String offset = "0";    ##initial value, keep it on bitfields
   String sizetype = "0";  ##initial, no element before 1. bitfield
-  if(struct.superclass) {
-    sizetype = <:>sizeof(<&struct.superclass.type().name>)<.>;
+  if(struct.superclass) {                             
+    sizetype = <:>sizeof(<&struct.superclass.typeClass.name>)<.>;
   }
   Bool bitfield = 0;
   Num bitPosition = 0;
@@ -422,19 +422,24 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
           }
           String structParentName = struct.parent.name;
           if(structParentName == null) { structParentName = <:>struct <&struct.parent.tagname><.>; } ##on struct tagname{...}; definition kind.
-          sElement = <:>((<&structParentName>*)(0x1000))-><&struct.implicitName><&sImplArray>.<&entry.name><.>;
-          offset = <:>(int16)( ((intptr_t)(&<&sElement>)) <: >
-                              - ((intptr_t)(&((<&structParentName>*)(0x1000))-><&struct.implicitName>)) )  /*implicit struct*/<.>;
+          ##sElement = <:>((<&structParentName>*)(0x1000))-><&struct.implicitName><&sImplArray>.<&entry.name><.>;
+          ##offset = <:>(int16)( ((intptr_t)(&<&sElement>)) <: >
+          ##                    - ((intptr_t)(&((<&structParentName>*)(0x1000))-><&struct.implicitName>)) )  /*implicit struct*/<.>;
+          offset = <:>OFFSET_IN_STRUCT(<&structParentName>, <&entry.name>) - OFFSET_IN_STRUCT(<&structParentName>, <&struct.implicitName>)<.>;
         } else {
           String structName = struct.name;
           if(structName == null) { structName = <:>struct <&struct.tagname><.>; } ##on struct tagname{...}; definition kind.
-          sElement = <:>((<&structName>*)(0x1000))-><&entry.name><.>;
-          offset = <:>(int16)( ((intptr_t)(&<&sElement>)) -0x1000 )<.>;
+          ##sElement = <:>((<&structName>*)(0x1000))-><&entry.name><.>;
+          ##offset = <:>(int16)( ((intptr_t)(&<&sElement>)) -0x1000 )<.>;
+          offset = <:>OFFSET_IN_STRUCT(<&structName>, <&entry.name>)<.>;
         }
-        sizetype = <:>sizeof(<&sElement>)<.>;
+        if(struct.sBasedOnObjectJc) {
+          offset = <:><&offset> - OFFSET_IN_STRUCT(<&structName>, <&struct.sBasedOnObjectJc>)<.>; 
+        }
+        sizetype = <:>SIZEOF_IN_STRUCT(<&structName>, <&entry.name>)<.>;
         ##
         ##if(entry.type) {
-        ##  sizetype = <:>sizeof(<&entry.type().name>)<.>;
+        ##  sizetype = <:>sizeof(<&entry.type.name>)<.>;
         ##} else {                                              
         ##  sizetype = "4-4 /*unknown type*/";
         ##}
@@ -449,7 +454,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
 ==========    , <&arraysize>                           
 ==========    , <&sTypeRefl>                                                                                            
 ==========    , <&modifier> //bitModifiers
-==========    , <&offset>
+==========    , (int32)(<&offset>)
 ==========    , 0  //offsetToObjectifcBase                                                            
 ==========    , &refl_<&structBasename>
 ==========    }
@@ -464,7 +469,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
           Num nArraySize = entry.arraysize.value;
           fileBin.addField(nameRefl, idType, typename, mModifier,nArraySize); ##modifier, arraysize); 
           <:>
-==========, ((<&sizetype><<16) | (<&offset>))<: >          
+==========, ( ( ((int32)(<&sizetype>))<<16 ) | ((int16)(<&offset>) & 0x0000ffff) )<: >          
           <.>       
         }//!fileBin
       } //sTypeRefl, a field  
@@ -504,16 +509,19 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
   }
   List inputsExpanded = target.allInputFilesExpanded();
   Obj fileBin;
-  if(sfileBin) {
+  if(sfileBin) {                       ## create a refl.bin file for all parsed headers:
     Bool endian = false;  ##Note: depends on the target processor, false for PC platform.
+    mkdir <:><&sfileBin>'<.>;
     fileBin = new org.vishia.header2Reflection.BinOutPrep(sfileBin, <:><&sfileBin>.lst<.>, endian, false, 0);
     Obj fileOffsTypetable = new java.util.LinkedList();
   } else {
-    Obj fileOffsTypetable;
+    Obj fileOffsTypetable;             ## create only formally, not used fis fileBin == null
   }
-  if(fileBin) {
-    Openfile fileOffs = <:><&sfileOffs>.c<.>;
-    Openfile fileOffsH = <:><&sfileOffs>.h<.>;
+  if(fileBin) {                        ## create fileOffs.c, .h, write head (if fileBin)
+    ##if(sfileOffs.endsWith(".cpp")
+    mkdir <:><&sfileOffs>'<.>;
+    Openfile fileOffs = <:><&sfileOffs><.>;  ##.c
+    Openfile fileOffsH = <:><&sfileOffs>.h<.>;  ##named .cpp.h
     <+fileOffs><: >
     <:>/**This file is generated by Cheaer2Refl.jzTc mady by Hartmut Schorrig Version 2020-04-26
 ==== */
@@ -540,6 +548,9 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
     Obj fileOffs = null;
     ##Note: create one file per header. It is commonly able to use for a more complex system.
   }
+  ##
+  ##                                   ## process all given input header files.
+  ##
   for(headerfile: inputsExpanded)
   { String outfile;
     if(target.output.allTree()) {
@@ -555,7 +566,7 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
     } else {
       fileDst1 = fileDst;
     }
-    ##invocation per header file. 
+    ##invocation per header file.      ## parse and generate each header file.
     call genDstFile(filepath = headerfile, fileBin = fileBin, fileRefl = fileOffs, fileOffsTypetable = fileOffsTypetable
       , fileDst = fileDst1, genRoutine=genRoutine, html = html);
   }
@@ -612,6 +623,14 @@ sub genDstFiles(Obj target: org.vishia.cmd.ZmakeTarget, String sfileBin, String 
 ##
 sub genDstFile(Obj filepath :org.vishia.cmd.JZtxtcmdFilepath, Obj fileBin, Obj fileRefl, Obj fileOffsTypetable, String fileDst, String genRoutine, String html = null)
 {
+  ##maybe todo: check all files for #include, parse yet not included files
+  ##to assure that all used types are known before this file is handled.
+  ##other variant: proper order in input list of the main script.
+  
+  ##there is a static member org.vishia.header2Reflection.CheaderParser.allTypes 
+  ##which gathers all type information. It is necessary for example to use the correct type
+  ##for base classes. Or for check based on ObjectJc.
+
   ##java org.vishia.util.DataAccess.debugMethod("setSrc");
   Obj args = java new org.vishia.header2Reflection.CheaderParser$Args();
   args.addSrc(filepath.absfile(), filepath.localname());
@@ -677,19 +696,33 @@ sub genEntries(Obj headerBlock, Obj outRefl, Obj fileBin, Obj fileOffsTypetable)
       call genEntries(headerBlock = entry, outRefl = outRefl, fileOffsTypetable = fileOffsTypetable, fileBin=fileBin);
     } 
     elsif( (  entry.whatisit == "structDefinition" 
-           || entry.whatisit == "unionDefinition"
-           || (entry.whatisit == "classDef" && not entry.isClassOfStruct())
+           || entry.whatisit == "XXXXunionDefinition"
            ) 
         && not entry.description.noReflection
         && not(entry.name >= "Mtbl")
         && not(entry.name >= "Vtbl")
       ) {
       ##
-      ##check whether a Bus should be generated.
+      ##??? old? check whether a Bus should be generated.
       ##
       <+outRefl><:call:genReflStruct:struct=entry, fileOffsTypetable = fileOffsTypetable, fileBin=fileBin><.+>
     }
-    if(entry.whatisit == "unionDefinition") {
+    elsif( entry.whatisit == "classDef" 
+       ## && todo check whether class definitions should also generated.
+        && not entry.isClassOfStruct()
+        && not entry.description.noReflection
+      ) {
+      <+outRefl><:>
+      //#if defined(__cplusplus)
+      //It is reflection of a class, need to be use C++ compilation anyway.
+      <:call:genReflStruct:struct=entry, fileOffsTypetable = fileOffsTypetable, fileBin=fileBin>
+      //#endif //__cplusplus
+      <.>
+      <.+>
+    }
+
+    
+    if(entry.whatisit == "XXXXXunionDefinition") {
       <+>  union <.n+>                                          
       for(variant: entry.attribs) {
         if(variant.struct) {
@@ -701,15 +734,5 @@ sub genEntries(Obj headerBlock, Obj outRefl, Obj fileBin, Obj fileOffsTypetable)
   }
 }
 
-
-
-##    elsif( (  entry.whatisit == "structDefinition" 
-##           || entry.whatisit == "unionDefinition"
-##           || entry.whatisit == "classDef"
-##           )  
-##         && not entry.description.noReflection
-##         && not(entry.name >= "Mtbl")
-##         && not(entry.name >= "Vtbl")
-##      ) {
 
 
