@@ -186,8 +186,8 @@ struct ByteDataAccessBaseJc_t* ctorM_ii_ByteDataAccessBaseJc(MemC mthis, int32 s
   }
   { 
     
-    ASSERTJc_MIN(/*J2C:static method call*/sizeHead, 0);
-    ASSERTJc_MIN(/*J2C:static method call*/sizeData, 1);
+    ASSERT_emC(/*J2C:static method call*/sizeHead >= 0, "", sizeHead, 0);
+    ASSERT_emC(/*J2C:static method call*/sizeData >= 1, "", sizeData, 0);
     thiz->sizeHead = sizeHead;
     thiz->ixBegin = 0;
     thiz->ixEnd = sizeData;

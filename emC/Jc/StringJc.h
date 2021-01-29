@@ -1262,7 +1262,7 @@ bool wasTruncated_StringBuilderJc(StringBuilderJc_s* ythis);
  * or -1 if the text is referenced.
  */
 INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc_s* thiz, int16 size){
-  ASSERTJc_EXCLMAX(size, abs(thiz->size));
+  ASSERT_emC(size < abs(thiz->size), "", size, thiz->size);
   if(thiz->size > 0) {
     thiz->size = size;
     return sizeof(StringBuilderJc_s)  - sizeof(thiz->value) + size;

@@ -88,7 +88,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
         dstAct->text.text = sFormat1;
         dstAct->text.nrofChars = (int16)(sFormat2 - sFormat1);
         dstAct->text.specifier = '$'; 
-        dstAct +=1;       //next array element.
+        dstAct +=1;       //next array element.                    //?? TODO test it, longer time not used ?
         sFormat1 = sFormat2;  //continue after it.
       }
     }
@@ -101,10 +101,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
       char lengthModifier = 0;
       char cFormat;
       
-      if(dstAct >= dstMax)
-      { //THROW1_s0(IndexOutOfBoundsException, "to many %-chars (arguments) in text, 2*max=", zDst); 
-      }
-      ASSERTJc_EXCLMAX(dstAct, dstMax);
+      ASSERT_emC(dstAct < dstMax, "", 0,0);
       sFormat1 +=1;   //skip over '%'
       cFormat = *(sFormat1++);
       while(cFormat >= '0' && cFormat <= '9')
@@ -191,7 +188,7 @@ int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, i
         case '%': dstAct->value.argument = '%'; break;
         default: dstAct->value.argument = '?';
       }
-      dstAct +=1;  //next array element.
+      dstAct +=1;  //next array element, while on block begin checks dstAct < dstMax
     }
 
   }

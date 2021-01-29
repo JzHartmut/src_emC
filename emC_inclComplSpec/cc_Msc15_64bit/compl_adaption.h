@@ -47,23 +47,6 @@
 #define DEF_Cpp11_supported
 
 
-//#include the standard header from Visual studio firstly. 
-//stdint.h defines int8_t etc. via typedef. 
-//Because pragma once (or guard) the content of the files are not included again.
-//They should be included firstly to cover its typedef by the typedef of simulink.
-//Note: The stdint.h includes sum unecessary stuff
-//#include <stdint.h>  //C99-int types
-//define instead the important type definitions immediately compiler specific.
-//#include <limits.h>  //proper to C99
-
-/**Some warnings should be disabled in default, because there are not the source of errors,
- * but present in normal software development.
- */
-//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-
-
 
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
@@ -123,6 +106,71 @@
   #define true (!false)
 #endif
 
+//#include the standard header from Visual studio firstly. 
+//stdint.h defines int8_t etc. via typedef. 
+//Because pragma once (or guard) the content of the files are not included again.
+//They should be included firstly to cover its typedef by the typedef of simulink.
+//Note: The stdint.h includes sum unecessary stuff
+#include <stdint.h>  //C99-int types
+//define instead the important type definitions immediately compiler specific.
+//#define int8_t signed char
+//#define int16_t short
+//#define int32_t int
+//#define int64_t long long
+//#define uint8_t unsigned char
+//#define uint16_t unsigned short
+//#define uint32_t unsigned int
+//#define uint64_t unsigned long long
+//#define intptr_t int
+//#define INT8_MIN         (-127i8 - 1)
+//#define INT16_MIN        (-32767i16 - 1)
+//#define INT32_MIN        (-2147483647i32 - 1)
+//#define INT64_MIN        (-9223372036854775807i64 - 1)
+//#define INT8_MAX         127i8
+//#define INT16_MAX        32767i16
+//#define INT32_MAX        2147483647i32
+//#define INT64_MAX        9223372036854775807i64
+//#define UINT8_MAX        0xffui8
+//#define UINT16_MAX       0xffffui16
+//#define UINT32_MAX       0xffffffffui32
+//#define UINT64_MAX       0xffffffffffffffffui64
+//
+//#define INT_LEAST8_MIN   INT8_MIN
+//#define INT_LEAST16_MIN  INT16_MIN
+//#define INT_LEAST32_MIN  INT32_MIN
+//#define INT_LEAST64_MIN  INT64_MIN
+//#define INT_LEAST8_MAX   INT8_MAX
+//#define INT_LEAST16_MAX  INT16_MAX
+//#define INT_LEAST32_MAX  INT32_MAX
+//#define INT_LEAST64_MAX  INT64_MAX
+//#define UINT_LEAST8_MAX  UINT8_MAX
+//#define UINT_LEAST16_MAX UINT16_MAX
+//#define UINT_LEAST32_MAX UINT32_MAX
+//#define UINT_LEAST64_MAX UINT64_MAX
+//
+//#define INT_FAST8_MIN    INT8_MIN
+//#define INT_FAST16_MIN   INT32_MIN
+//#define INT_FAST32_MIN   INT32_MIN
+//#define INT_FAST64_MIN   INT64_MIN
+//#define INT_FAST8_MAX    INT8_MAX
+//#define INT_FAST16_MAX   INT32_MAX
+//#define INT_FAST32_MAX   INT32_MAX
+//#define INT_FAST64_MAX   INT64_MAX
+//#define UINT_FAST8_MAX   UINT8_MAX
+//#define UINT_FAST16_MAX  UINT32_MAX
+//#define UINT_FAST32_MAX  UINT32_MAX
+//#define UINT_FAST64_MAX  UINT64_MAX
+
+//#include <limits.h>  //proper to C99
+
+/**Some warnings should be disabled in default, because there are not the source of errors,
+ * but present in normal software development.
+ */
+//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
+
+
+
+
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
  * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
@@ -145,13 +193,23 @@
 
 //This functions may be platform dependend but for all our platforms identical, also in C-Standard.
 //do nut use platform specific headers. 
-#define XXXXX_FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
 
-typedef char MemUnit;
-//#define MemUnit char            //sizeof(MemUnit) muss 1 sein!
+/**Definition of the kind of memory addressing. 
+ * MemUnit is the access to one memory cell with 1 address step.
+ * One address step can address more as 8 bit for some embedded processors, 16 or 32 bit.
+ */
+#define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
-//#define BYTE_IN_MemUnit_sizeof 1
+#define BYTE_IN_MemUnit_sizeof 1
+/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
+#define intPTR long long
+#define uintPTR unsigned_long_long
+#define INT_HAS32BIT
+#define DEF_DONOTDEF_intPTR  //intptr_t is defined unconditional in vcruntime.h of MS-VisualStudio.
+//Application hint: do not use intptr_t in the application. 
+#define _UINTPTR_T_DEFINED  //MS VS: prevent twice definition of uintptr_t in vadefs.h
+
 
 
 
@@ -169,7 +227,6 @@ typedef char MemUnit;
 #define POINTER_NROFBITS 64
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
- * But the definition of INT_MAX is missing.
  */
 #define INT_MAX_emC INT32_MAX 
 #define INT_MIN_emC INT32_MIN 
@@ -201,18 +258,9 @@ typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
 #define bool8    unsigned char
 #define bool16   unsigned short
 //Standard-character and UTF16-character:
+#define char8    char
 #define char16   unsigned short
 #define float32  float
-
-/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
-#define intPTR long long       //Hint: do not based on int64, because especially int64 may be undef for some specifics
-#define uintPTR unsigned long long
-#define DEF_DONOTDEF_intPTR  //intptr_t is defined unconditional in vcruntime.h of MS-VisualStudio.
-//Application hint: do not use intptr_t in the application. 
-
-
-
-#define _UINTPTR_T_DEFINED  //MS VS: prevent twice definition of uintptr_t in vadefs.h
 
 
 #define DEFINED_float_complex     
@@ -272,6 +320,7 @@ typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
 #define RAMFUNC_emC
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+#define SIZEOF_IN_STRUCT(TYPE, FIELD) ((int)(sizeof((TYPE*)0)->FIELD))
 
 /**Prevent process a NaN-value (not a number).
  * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h

@@ -20,12 +20,13 @@
 
   #define CHECK_ASSERT_emC(COND, TEXT, VAL1, VAL2) true
 
-  #define ASSERTJc_MIN(VAR, MIN) { if(VAR <(MIN)) VAR = MIN; }
+#if 0
+  #define XXX_ASSERTJc_MIN(VAR, MIN) { if(VAR <(MIN)) VAR = MIN; }
 
-  #define ASSERTJc_MAX(VAR, MAX) { if(VAR >(MAX)) VAR = MAX; }
+  #define XXX_ASSERTJc_MAX(VAR, MAX) { if(VAR >(MAX)) VAR = MAX; }
 
-  #define ASSERTJc_EXCLMAX(VAR, MAX) { if(VAR >=(MAX)) VAR = (MAX)-1; }
-
+  #define XXX_ASSERTJc_EXCLMAX(VAR, MAX) { if(VAR >=(MAX)) VAR = (MAX)-1; }
+#endif
 
 #else
   /**Check the assertion.
@@ -63,13 +64,13 @@
   #define CHECK_ASSERT_emC(COND, TEXT, VAL1, VAL2) ((COND) || assert_s_emC(false, TEXT, VAL1, VAL2, __FILE__, __LINE__) )
 
   
+#if 0
+  #define XXX_ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW_s0(RuntimeException, "assertion", 0,0); VAR = MIN; } }
 
-  #define ASSERTJc_MIN(VAR, MIN) { if(!(VAR >=(MIN))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW_s0(RuntimeException, "assertion", 0,0); VAR = MIN; } }
+  #define XXX_ASSERTJc_MAX(VAR, MAX) { if(!(VAR <(MAX))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = MAX; } }
 
-  #define ASSERTJc_MAX(VAR, MAX) { if(!(VAR <(MAX))){ ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = MAX; } }
-
-  #define ASSERTJc_EXCLMAX(VAR, MAX) { if(!(VAR <(MAX))) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = (MAX)-1; } }
-
+  #define XXX_ASSERTJc_EXCLMAX(VAR, MAX) { if(!(VAR <(MAX))) { ThCxt* _thCxt = getCurrent_ThreadContext_emC(); THROW1_s0(RuntimeException, "assertion", 0); VAR = (MAX)-1; } }
+#endif
 
 #endif
 

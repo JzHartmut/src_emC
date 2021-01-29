@@ -53,9 +53,9 @@
 #include <applstdef_emC.h>
 //to include with _Jc, inside ReflectionJc.h the ObjectJc.h will be included, but than the wrapperdefines are missing
 #include <emC/Base/Object_emC.h>
-//#include <Jc/ObjectJc.h>
-//#include <emC/Base/SimpleC_emC.h>
 #include <emC/Jc/ReflMemAccessJc.h>
+
+#include <stdarg.h>  //va_list
 
 /**This routine should be invoked on start of the application. 
  * Yet it is only necessary for DEF_HandlePtr64

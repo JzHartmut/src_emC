@@ -127,7 +127,7 @@ HandleItem* getFreeHandleEntry  (  int16* idx)
     return null;
   }
   else 
-  { int idxHandle = theHandleItem - data_OsWrapperJc.handleItemsJc;
+  { int idxHandle = (int)(theHandleItem - data_OsWrapperJc.handleItemsJc);
     if(idxHandle < 0 || idxHandle >= ARRAYLEN(data_OsWrapperJc.handleItemsJc))
     { STACKTRC_ENTRY("getFreeHandleEntry");
       THROW1_s0(RuntimeException, "corrupt handles",idxHandle);

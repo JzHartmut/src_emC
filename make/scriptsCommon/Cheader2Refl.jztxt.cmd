@@ -190,7 +190,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
       if(struct.superclass.description) {                                  
         accessLevel = struct.superclass.description.accLevel;
       }
-      String reflSuperName = <:>refl_<&struct.superclass.typeClass.baseName("_s", "_T")><.>;
+      String reflSuperName = <:>refl_<&struct.superclass.type.typeClass.baseName("_s", "_T")><.>;
       <:>  
 ======
 ======extern_C const ClassJc <&reflSuperName>;  //the super class here used.
@@ -220,7 +220,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
   if(fileBin) {
     Num posSuperClassAddr;
     if(struct.superclass) {
-      posSuperClassAddr = fileBin.addSuperclass(struct.superclass.typeClass.baseName("_s", "_t"));
+      posSuperClassAddr = fileBin.addSuperclass(struct.superclass.type.typeClass.baseName("_s", "_t"));
     }
     Num nrClass = fileBin.addClass(struct.baseName("_s"), sClassNameShow);
     if(struct.superclass) {
@@ -228,7 +228,8 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
     }
     fileOffsTypetable.add(<:>refl_<&struct.baseName("_s")><.>); 
     <:>
-====int32 const reflectionOffset_<&struct.baseName("_s")>[] =
+====int32 const reflectionOffset_<&struct.baseName("_s")>[] =<: >
+             <:if:struct.isInnerStruct>  // Inner struct of <&struct.parent.name()><.if>
 ===={ <&nrClass>   //index of class in Offset data<: >
     <.>
   }//fileBin
@@ -260,7 +261,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
   ##The class:
   String classModif;
   String sizeName;               
-  if(struct.implicitName !=null) { sizeName = <:>((<&struct.parent.name>*)0x1000)-><&struct.implicitName><.>; }
+  if(struct.isInnerStruct) { sizeName = <:>((<&struct.parent.name>*)0x1000)-><&struct.innerName><.>; }
   else { sizeName = struct.name; }
   if(!fileBin) {
     <:>
@@ -292,7 +293,7 @@ sub genReflStruct(Obj struct, Obj fileBin, Obj fileOffsTypetable)
 ======extern_C ClassJc const refl_<&struct.baseName("_s")>; //forward declaration because extern "C" 
 ======ClassJc const refl_<&struct.baseName("_s")> = 
 ======{ <&nrClass>   //index of class in Offset data    //sizeof(reflectionOffset_<&struct.baseName("_s")>)
-======  #ifndef DEF_NO_StringJcCapabilities
+======  #ifndef DEF_NO_StringUSAGE
 ======, "<&struct.baseName("_s")>"##Hint: the baseName without _s
 ======  #endif
 ======, &reflectionOffset_<&struct.baseName("_s")>[0]
@@ -316,8 +317,9 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
 { Num return.nrofEntries = 0;
   String offset = "0";    ##initial value, keep it on bitfields
   String sizetype = "0";  ##initial, no element before 1. bitfield
+  String commentElem = "";
   if(struct.superclass) {                             
-    sizetype = <:>sizeof(<&struct.superclass.typeClass.name>)<.>;
+    sizetype = <:>sizeof(<&struct.superclass.type.typeClass.name>)<.>;
   }
   Bool bitfield = 0;
   Num bitPosition = 0;
@@ -407,36 +409,39 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
           offset = <:><&offset> + <&sizetype>/* offset on bitfield: offset of element before + sizeof(element before) */<.>;
           bitfield = 1;
         } ##else: further bitfields: keep offset string 
-      } elsif(sTypeRefl) { ##don't set offset = ... for an entry which is not used (espec. #define)
+      } 
+      elsif(sTypeRefl) { ##don't set offset = ... for an entry which is not used (espec. #define)
         if((entry.arraysize || not bytesType) && not typeRefl.pointer_) {
           modifier = <:><&modifier>|kEmbedded_Modifier_reflectJc<.>;
           mModifier = mModifier + %org.vishia.byteData.Class_Jc.kEmbedded_Modifier_reflectJc;
         }
         ##
         String sElement;
-        if(struct.implicitName) { ##it is an implicitely struct
-          if(struct.arraysize !=null) {
-            String sImplArray = <:>[0]<.>; ##offset inside first element.
+        if(struct.isInnerStruct) { ######innerName) {                ## an element in a nested struct, the inner struct is presented as own type.
+          commentElem = "  //struct.innerName";   ## but the calculation of offsets should use the wrapping struct
+          if(struct.arraysize !=null) {          ## because the nested inner struct has not an accessible type in C/++
+            String sImplArray = <:>[0]<.>;       ## Array: use offset inside first element.
           } else {
             String sImplArray = "";
           }
           String structParentName = struct.parent.name;
           if(structParentName == null) { structParentName = <:>struct <&struct.parent.tagname><.>; } ##on struct tagname{...}; definition kind.
-          ##sElement = <:>((<&structParentName>*)(0x1000))-><&struct.implicitName><&sImplArray>.<&entry.name><.>;
+          ##sElement = <:>((<&structParentName>*)(0x1000))-><&struct.innerName><&sImplArray>.<&entry.name><.>;
           ##offset = <:>(int16)( ((intptr_t)(&<&sElement>)) <: >
-          ##                    - ((intptr_t)(&((<&structParentName>*)(0x1000))-><&struct.implicitName>)) )  /*implicit struct*/<.>;
-          offset = <:>OFFSET_IN_STRUCT(<&structParentName>, <&entry.name>) - OFFSET_IN_STRUCT(<&structParentName>, <&struct.implicitName>)<.>;
+          ##                    - ((intptr_t)(&((<&structParentName>*)(0x1000))-><&struct.innerName>)) )  /*inner struct*/<.>;
+          offset = <:>OFFSET_IN_STRUCT(<&structParentName>, <&struct.innerName><&sImplArray>.<&entry.name>) - OFFSET_IN_STRUCT(<&structParentName>, <&struct.innerName><&sImplArray>)<.>;
+          sizetype = <:>SIZEOF_IN_STRUCT(<&structParentName>, <&struct.innerName><&sImplArray>.<&entry.name>)<.>;
         } else {
           String structName = struct.name;
           if(structName == null) { structName = <:>struct <&struct.tagname><.>; } ##on struct tagname{...}; definition kind.
           ##sElement = <:>((<&structName>*)(0x1000))-><&entry.name><.>;
           ##offset = <:>(int16)( ((intptr_t)(&<&sElement>)) -0x1000 )<.>;
           offset = <:>OFFSET_IN_STRUCT(<&structName>, <&entry.name>)<.>;
+          sizetype = <:>SIZEOF_IN_STRUCT(<&struct.name()>, <&entry.name>)<.>;
         }
         if(struct.sBasedOnObjectJc) {
           offset = <:><&offset> - OFFSET_IN_STRUCT(<&structName>, <&struct.sBasedOnObjectJc>)<.>; 
         }
-        sizetype = <:>SIZEOF_IN_STRUCT(<&structName>, <&entry.name>)<.>;
         ##
         ##if(entry.type) {
         ##  sizetype = <:>sizeof(<&entry.type.name>)<.>;
@@ -469,7 +474,7 @@ sub attribs_struct(Obj wr, Obj fileBin, Obj struct)
           Num nArraySize = entry.arraysize.value;
           fileBin.addField(nameRefl, idType, typename, mModifier,nArraySize); ##modifier, arraysize); 
           <:>
-==========, ( ( ((int32)(<&sizetype>))<<16 ) | ((int16)(<&offset>) & 0x0000ffff) )<: >          
+==========, ( ( ((int32)(<&sizetype>))<<16 ) | ((int16)(<&offset>) & 0x0000ffff) )<&commentElem><: >          
           <.>       
         }//!fileBin
       } //sTypeRefl, a field  

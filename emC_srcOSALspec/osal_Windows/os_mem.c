@@ -40,7 +40,7 @@
 #undef int64
 //#undef uint64
 #ifndef uintptr_t
-  #define uintptr_t uintPTR  //it is not defined by MS Visual Studio
+  //#define uintptr_t uintPTR  //it is not defined by MS Visual Studio
 #endif
 #include <wtypes.h>
 #include <winbase.h>

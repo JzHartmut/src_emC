@@ -71,6 +71,7 @@ void ctor_StacktraceThreadContext_emC ( StacktraceThreadContext_emC_s* thiz)
   thiz->mBitEntriesStacktrc = thiz->maxNrofEntriesStacktraceBuffer -1;
   //TODO assert that it is a power of 2!
 }
+#endif
 
 
 void ctor_ThreadContext_emC  (  ThreadContext_emC_s* thiz, void const* topAddrStack)
@@ -84,9 +85,10 @@ void ctor_ThreadContext_emC  (  ThreadContext_emC_s* thiz, void const* topAddrSt
 
   //ythis->topmemAddrOfStack = (MemUnit*) &mthis; //the highest known address
   thiz->topmemAddrOfStack = (MemUnit*)topAddrStack;
-  ctor_StacktraceThreadContext_emC(&thiz->stacktrc);
+  #ifdef DEF_ThreadContext_STACKTRC
+    ctor_StacktraceThreadContext_emC(&thiz->stacktrc);
+  #endif
 }
-#endif
 
 #ifdef DEF_ThreadContext_HEAP_emC
 /**Sets a new buffer in Threadcontext.
@@ -243,15 +245,6 @@ bool isOptimizeString_ThCxt  (  ThreadContext_emC_s* ythis)
 }
 #endif //DEF_ThreadContext_HEAP_emC
 
-
-#if defined(DEF_ThreadContext_STACKUSAGE) //not on DEF_ThreadContext_STACKTRC, has another body
-
-void ctor_ThreadContext_emC(struct ThreadContext_emC_t* thiz, void const* topStack) {
-  //all remain 0
-  thiz->topmemAddrOfStack = C_CAST(MemUnit const*, topStack);
-}
-
-#endif //DEF_ThreadContext_STACKUASGE
 
 
 ExceptionStore exceptionStore_g = {0};

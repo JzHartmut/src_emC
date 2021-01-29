@@ -363,7 +363,7 @@ typedef struct ClassJc_t
 * depending of the existing elements in ClassJc:
 */
 #ifndef NO_PARSE_ZbnfCheader
-#ifdef DEF_NO_StringJcCapabilities
+#ifdef DEF_NO_StringUsage
 //#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (uint32)(intptr_t)&(OBJ)}
 #  ifdef DEF_ObjectJc_REFLREF
 #    define INIZ_ClassJc(OBJ, NAME) { 0 }

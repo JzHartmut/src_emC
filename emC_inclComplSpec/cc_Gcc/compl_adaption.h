@@ -105,9 +105,6 @@
  */
 //#define OSAL_MEMWORDBOUND
 
-//This functions may be platform dependend but for all our platforms identical, also in C-Standard.
-//do nut use platform specific headers. 
-#define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
 //The following switch select the compiler in some sources.
 #define __COMPILER_IS_GCC__
@@ -230,6 +227,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #define RAMFUNC_emC
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+#define SIZEOF_IN_STRUCT(TYPE, FIELD) ((int)(sizeof((TYPE*)0)->FIELD))
 
 
 

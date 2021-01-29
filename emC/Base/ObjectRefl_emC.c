@@ -611,7 +611,7 @@ int getPosInVtbl_ObjectJc(ObjectJc const* thiz, char const* sign)
 { VtblHeadJc const* headSign = getVtbl_ObjectJc(thiz, sign);
   if(headSign !=null){
     VtblHeadJc const* headBase = thiz->reflection->mtbl;
-    return OFFSET_MemUnit(headBase, headSign) / (int)sizeof(sign);
+    return (int)(OFFSET_MemUnit(headBase, headSign) / (int)sizeof(sign));
   } 
   else return -1;  //no Vtbl found.
 }

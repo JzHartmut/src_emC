@@ -8,7 +8,7 @@ $xmlns:xhtml="http://www.w3.org/1999/xhtml".
 ##2012-06-08 Hartmut switch-statement. Some corrections while parsing normal C-files.
 ##2010-10-11 Hartmut for::=, using INLINE_Fwc in headerfiles whith some expressions
 ##2009       Hartmut some details
-##2008-04-16 Hartmut implicitStructAttribute instead attribut with @implicitStruct
+##2008-04-16 Hartmut innerStructAttribute instead attribut with @innerStruct
 ##                   because it is better detectable by evaluating parse result, improve calculatin time!
 ##2007-12-28 Hartmut
 ##2007-12-28 Hartmut  semantic CLASS_C instead ClassDef for CLASS_C sections to differ from class definition
@@ -478,8 +478,8 @@ structContent::=<?>
   ]
 ##| [/**<description?-?>*/] union <unionDefinition?+attribute> ;
 | <enumDefinition> ;
-| struct\W <structDefinition?+implicitStructAttribute> ;  ##it is used in structDefinition itself: struct ...{... struct Tag_t{ .... } attribute; ...}
-| [/**<description?-?>*/] union\W <structDefinition?+implicitUnionAttribute> ;
+| [/**<description?-?>*/] struct\W <structDefinition?+innerStructAttribute> ;  ##it is used in structDefinition itself: struct ...{... struct Tag_t{ .... } attribute; ...}
+| [/**<description?-?>*/] union\W <structDefinition?+innerUnionAttribute> ;
 | #ifndef NO_PARSE_ZbnfCheader <*|#endif//NO_PARSE_ZbnfCheader?> #endif//NO_PARSE_ZbnfCheader
 | #ifndef refl <*|#endif//refl?> #endif//refl
 | #ifndef __NoReflection__ <*|#endif//__NoReflection__?> #endif//__NoReflection__
@@ -512,7 +512,7 @@ classContent::=<?>
 | <enumDefinition> ;
 |<?classForward> class <$?@name> ;
 |<?structForward> struct\W <$?@name> ;
-|<?implicitAttribute> <classDef> <$?name> ;
+|<?innerClassAttribute> <classDef> <$?name> ;
 | <classDef> ;
 ##| <structDef?+@>
 | <Destructor>

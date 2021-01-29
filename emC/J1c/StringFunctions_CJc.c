@@ -313,7 +313,7 @@ float parseFloat_CsiiciY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src
     }
     
     int32 zParsed[1] ; zParsed; /*J2C:modeAccess=Q*/
-    ret = parseIntRadix_CsiiiiYS_StringFunctions_CJc(/*J2C:static method call*/src, poscurr, restlen, 10, &zParsed[0], null_StringJc /*J2C: mem assignment*/, _thCxt);/*parses only a positive number.*/
+    ret = (float)parseIntRadix_CsiiiiYS_StringFunctions_CJc(/*J2C:static method call*/src, poscurr, restlen, 10, &zParsed[0], null_StringJc /*J2C: mem assignment*/, _thCxt);/*parses only a positive number.*/
     
     poscurr += zParsed[0];/*maybe 0 if .123 is written*/
     
@@ -323,7 +323,7 @@ float parseFloat_CsiiciY_StringFunctions_CJc(/*J2C:static method*/ CharSeqJc src
     { 
       
       
-      float  fracPart = parseIntRadix_CsiiiiY_StringFunctions_CJc(/*J2C:static method call*/src, poscurr + 1, restlen - 1, 10, &zParsed[0]);
+      float  fracPart = (float)parseIntRadix_CsiiiiY_StringFunctions_CJc(/*J2C:static method call*/src, poscurr + 1, restlen - 1, 10, &zParsed[0]);
       if(zParsed[0] > 0) 
       { 
         

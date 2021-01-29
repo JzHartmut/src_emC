@@ -59,30 +59,30 @@
 //#pragma warning(disable:4100) //unused argument
 
 //C++
-#pragma warning(disable:4068) //unknown pragma
+//#pragma warning(disable:4068) //unknown pragma
 
-#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4305) //truncation from 'double' to 'float'
-#pragma warning(disable:4310) //cast truncates constant value
-#pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4514) //unreferenced inline function has been removed
+//#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
+//#pragma warning(disable:4127) //conditional expression is constant
+//#pragma warning(disable:4189) //local variable is initialized but not referenced
+//#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
+//#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
+//#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
+//#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
+//#pragma warning(disable:4305) //truncation from 'double' to 'float'
+//#pragma warning(disable:4310) //cast truncates constant value
+//#pragma warning(disable:4505) //unreferenced local function has been removed
+//#pragma warning(disable:4514) //unreferenced inline function has been removed
 //#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
+//#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
 
-#pragma warning(error:4002) //too many actual parameters for macro
-#pragma warning(error:4003) //not enough actual parameters for macro
-#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
-#pragma warning(error:4020) //too many actual parameters
+//#pragma warning(error:4002) //too many actual parameters for macro
+//#pragma warning(error:4003) //not enough actual parameters for macro
+//#pragma warning(error:4013) //...undefined; assuming extern returning int (missing prototype)
+//#pragma warning(error:4020) //too many actual parameters
 //#pragma warning(error:4028) //formal parameter 1 different from declaration
 //#pragma warning(error:4033) //incompatible types (pointer casting)
 //#pragma warning(error:4133) //incompatible types (pointer casting)
-#pragma warning(disable:4996) //deprecated getenv etc. in MSC15
+#pragma warning(disable:4996) //Microsoft's specific dialect of some deprecated operation, strncpy etc. 
 
 
 /**Defintion of bool, false, true for C usage. */
@@ -193,7 +193,6 @@
 
 //This functions may be platform dependend but for all our platforms identical, also in C-Standard.
 //do nut use platform specific headers. 
-#define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
 
 
 /**Definition of the kind of memory addressing. 
@@ -222,6 +221,7 @@
 #define INT32_NROFBITS 32
 #define INT64_NROFBITS 64
 #define INT_NROFBITS   32
+#define POINTER_NROFBITS 32
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
  * But the definition of INT_MAX is missing.
@@ -246,35 +246,37 @@
 
 #define uint      unsigned int
 
-#define int64 __int64
-#define uint64 uint64_t
-//#define int64_t __int64
-//#define uint64_t __int64
+#define int64     long long
+#define uint64    unsigned long long
+
+/**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
+typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
+
 
 #define bool8    unsigned char
-#define bool8_t  unsigned char
 #define bool16   unsigned short
-#define bool16_t unsigned short
 //Standard-character and UTF16-character:
 #define char8    char
 #define char16   unsigned short
-#define char8_t  char
-//#define char16_t short
 #define float32  float
 
 
 
-/**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
-typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
+#define _UINTPTR_T_DEFINED  //MS VS: prevent twice definition of uintptr_t in vadefs.h
 
 
 #define DEFINED_float_complex     
-//#define float_complex creal32_T
-typedef struct float_complex_t { float re; float im; } float_complex; 
+#ifdef REAL32_T
+  #define float_complex creal32_T
+#else 
+  typedef struct float_complex_t { float re; float im; } float_complex; 
+#endif
 #define DEFINED_double_complex
-//#define double_complex creal64_T
-typedef struct double_complex_t { double re; double im; } double_complex; 
-
+#ifdef REAL32_T
+  #define double_complex creal64_T
+#else
+  typedef struct double_complex_t { double re; double im; } double_complex; 
+#endif
 
 
 
@@ -294,9 +296,14 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
 #undef  NULL
-#define NULL 0
 #undef null
-#define null 0
+#ifdef __cplusplus
+  #define NULL 0
+  #define null 0
+#else  //C-compiler
+  #define NULL ((void*)0)
+  #define null ((void*)0)
+#endif 
 
 // Folgendes Define wird nach einer Struktur insbesondere für GNU-Compiler verwendet. Es ist für MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
@@ -360,7 +367,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR intptr_t
+//#define OS_intPTR intptr_t
 
 
 
