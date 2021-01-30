@@ -1,6 +1,7 @@
 #ifndef __InspcGetValue_Inspc_h__
 #define __InspcGetValue_Inspc_h__
 #include <applstdef_emC.h>
+#include <emC/Base/Object_emC.h>
 
 struct DataNode_Inspc_t;
 

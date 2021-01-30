@@ -921,7 +921,7 @@ METHOD_C bool startsWith_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCx
 /**Gets the current position, useable for rewind. This method is overwritten
 if derived classes uses partial content.
 */
-METHOD_C int64 getCurrentPosition_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+METHOD_C int32 getCurrentPosition_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
 /**Sets the current position at a fix position inside the maxPart.
 TODO what is with rewind etc? see old StringScan.
@@ -934,7 +934,7 @@ old:, useable for rewind. This method may be overwritten
 if derived classes uses partial content.
 
 */
-METHOD_C void setCurrentPosition_StringPartJc(StringPartJc_s* thiz, int64 pos, ThCxt* _thCxt);
+METHOD_C void setCurrentPosition_StringPartJc(StringPartJc_s* thiz, int32 pos, ThCxt* _thCxt);
 
 /**Gets a substring inside the maximal part
 pos position of start relative to maxPart
@@ -1247,7 +1247,7 @@ class StringPartJc
 
   StringPartJc& setBeginMaxPart(){ setBeginMaxPart_StringPartJc(thisp);  return *this; }
 
-  void setCurrentPosition(int64 pos){ setCurrentPosition_StringPartJc(thisp, pos,  null/*_thCxt*/); }
+  void setCurrentPosition(int32 pos){ setCurrentPosition_StringPartJc(thisp, pos,  null/*_thCxt*/); }
 
   bool setIgnoreComment(StringJc sStart, StringJc sEnd){  return setIgnoreComment_SS_StringPartJc(thisp, sStart, sEnd,  null/*_thCxt*/); }
 

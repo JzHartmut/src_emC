@@ -1,6 +1,7 @@
 #ifndef __emC__DefPortTypes_emC_h__
 #define __emC__DefPortTypes_emC_h__
 #include <applstdef_emC.h>
+#include <emC/Base/Object_emC.h>
 
 /*@CLASS_C DefPortType_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

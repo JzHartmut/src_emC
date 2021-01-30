@@ -24,7 +24,7 @@ const struct Reflection_Fields_TimeAbs_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((TimeAbs_emC*)(0x1000))->time_sec)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(TimeAbs_emC, time_sec))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_TimeAbs_emC
     }
@@ -33,7 +33,7 @@ const struct Reflection_Fields_TimeAbs_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((TimeAbs_emC*)(0x1000))->time_nsec)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(TimeAbs_emC, time_nsec))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_TimeAbs_emC
     }
@@ -81,7 +81,7 @@ const struct Reflection_Fields_SimTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((SimTime_emC*)(0x1000))->timeShort)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(SimTime_emC, timeShort))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_SimTime_emC
     }
@@ -90,7 +90,7 @@ const struct Reflection_Fields_SimTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((SimTime_emC*)(0x1000))->spare1_8aligned)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(SimTime_emC, spare1_8aligned))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_SimTime_emC
     }
@@ -99,7 +99,7 @@ const struct Reflection_Fields_SimTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_double                                                                                            
     , (8<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((SimTime_emC*)(0x1000))->timeSim)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(SimTime_emC, timeSim))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_SimTime_emC
     }
@@ -147,7 +147,7 @@ const struct Reflection_Fields_MinMaxCalcTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxCalcTime_emC*)(0x1000))->minCalcTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxCalcTime_emC, minCalcTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxCalcTime_emC
     }
@@ -156,7 +156,7 @@ const struct Reflection_Fields_MinMaxCalcTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxCalcTime_emC*)(0x1000))->ctSpikes)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxCalcTime_emC, ctSpikes))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxCalcTime_emC
     }
@@ -165,7 +165,7 @@ const struct Reflection_Fields_MinMaxCalcTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxCalcTime_emC*)(0x1000))->midCalcTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxCalcTime_emC, midCalcTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxCalcTime_emC
     }
@@ -174,7 +174,7 @@ const struct Reflection_Fields_MinMaxCalcTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxCalcTime_emC*)(0x1000))->actCalcTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxCalcTime_emC, actCalcTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxCalcTime_emC
     }
@@ -183,7 +183,7 @@ const struct Reflection_Fields_MinMaxCalcTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxCalcTime_emC*)(0x1000))->maxCalcTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxCalcTime_emC, maxCalcTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxCalcTime_emC
     }
@@ -233,7 +233,7 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxTime_emC*)(0x1000))->ct)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxTime_emC, ct))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxTime_emC
     }
@@ -242,7 +242,7 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxTime_emC*)(0x1000))->_lastTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxTime_emC, _lastTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxTime_emC
     }
@@ -251,7 +251,7 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxTime_emC*)(0x1000))->minCyclTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxTime_emC, minCyclTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxTime_emC
     }
@@ -260,7 +260,7 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxTime_emC*)(0x1000))->actCyclTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxTime_emC, actCyclTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxTime_emC
     }
@@ -269,7 +269,7 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxTime_emC*)(0x1000))->midCyclTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxTime_emC, midCyclTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxTime_emC
     }
@@ -278,7 +278,7 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxTime_emC*)(0x1000))->maxCyclTime)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxTime_emC, maxCyclTime))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxTime_emC
     }
@@ -287,7 +287,7 @@ const struct Reflection_Fields_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , &refl_MinMaxCalcTime_emC                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((MinMaxTime_emC*)(0x1000))->calc)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(MinMaxTime_emC, calc))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_MinMaxTime_emC
     }
@@ -348,7 +348,7 @@ const struct SuperClasses_Clock_MinMaxTime_emC_ClassOffset_idxVtblJcARRAY_t  //T
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_Clock_MinMaxTime_emC_t
 { ObjectArrayJc head;
@@ -360,7 +360,7 @@ const struct Reflection_Fields_Clock_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Clock_MinMaxTime_emC*)(0x1000))->microSecondsPerClock)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, microSecondsPerClock) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Clock_MinMaxTime_emC
     }
@@ -369,7 +369,7 @@ const struct Reflection_Fields_Clock_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Clock_MinMaxTime_emC*)(0x1000))->nrofSlices)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, nrofSlices) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Clock_MinMaxTime_emC
     }
@@ -378,7 +378,7 @@ const struct Reflection_Fields_Clock_MinMaxTime_emC_t
     , 3 //nrofArrayElements                           
     , &refl_MinMaxTime_emC                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Clock_MinMaxTime_emC*)(0x1000))->times)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, times) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Clock_MinMaxTime_emC
     }
@@ -396,7 +396,7 @@ const ClassJc   refl_Clock_MinMaxTime_emC =
 , null  //method      
 , &superClasses_Clock_MinMaxTime_emC.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif

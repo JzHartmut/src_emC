@@ -73,14 +73,14 @@ void setReflection_ObjectJc(ObjectJc* thiz, struct ClassJc_t const* refl, uint s
   uint sizegiven = getSizeInfo_ObjectJc(thiz);
   #ifdef DEF_ObjectJc_REFLREF  
     thiz->reflection = refl;
-    if(size > sizegiven) { //size as parameter given:
-      uint identInfo = getIdentInfo_ObjectJc(thiz);
+    if(size > sizegiven && size != ((uint)-1)) {     //size as parameter givenm but not -1
+      uint identInfo = getIdentInfo_ObjectJc(thiz);  //the higher value of size wins.
       if(isArray_ObjectJc(thiz)) { identInfo |= mArrayId_ObjectJc; } 
       setSizeAndIdent_ObjectJc(thiz, size, identInfo);
       sizegiven = size; 
     }
   #else //not DEF_ObjectJc_SIMPLE
-    if(size > sizegiven) { sizegiven = size; }
+    if(size > sizegiven && size != ((uint)-1)) { sizegiven = size; }
     uint identInfo = refl->idType;
     if(isArray_ObjectJc(thiz)) { identInfo |= mArrayId_ObjectJc; } 
     setSizeAndIdent_ObjectJc(thiz, sizegiven, refl->idType); 

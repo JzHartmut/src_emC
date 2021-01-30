@@ -231,6 +231,7 @@ typedef struct Addr8_emC_T { int32 c[2]; } Addr8_emC;
 #ifdef DEF_Type_HandleADDR_emC
   #define HandleADDR_emC(TYPE) DEF_Type_HandleADDR_emC
   //Note: <emC/Base/types_def_common.h> should be included before in this file.
+  #define DEF_HandlePtr64
   #include <emC/Base/Handle_ptr64_emC.h>
 #else //not DEF_Type_HandleADDR_emC
   /**The HandleADDR_emC is the type reference.*/

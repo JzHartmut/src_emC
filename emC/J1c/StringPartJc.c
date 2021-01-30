@@ -2447,7 +2447,7 @@ bool startsWith_StringPartJc(StringPartJc_s* thiz, CharSeqJc sCmp, ThCxt* _thCxt
 
 
 /**Gets the current position, useable for rewind. This method is overwritten*/
-int64 getCurrentPosition_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+int32 getCurrentPosition_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("getCurrentPosition_StringPartJc");
   
@@ -2462,7 +2462,7 @@ int64 getCurrentPosition_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 
 
 /**Sets the current position at a fix position inside the maxPart.*/
-void setCurrentPosition_StringPartJc(StringPartJc_s* thiz, int64 pos, ThCxt* _thCxt)
+void setCurrentPosition_StringPartJc(StringPartJc_s* thiz, int32 pos, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("setCurrentPosition_StringPartJc");
   

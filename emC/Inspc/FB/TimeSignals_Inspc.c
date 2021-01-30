@@ -232,7 +232,7 @@ static void parseLine_TimeSignals_Inspc(TimeSignals_Inspc* thiz, StringJc line, 
                 posValue +=1;
               }
               
-              int zValues = ARRAYLEN_SimpleC(((Entry_TimeSignals_Inspc*)0)->ya);
+              int zValues = ARRAYLEN_emC(((Entry_TimeSignals_Inspc*)0)->ya);
               int ixValue = 0;
               int32 nrofCharsParsed;
               do {
@@ -305,7 +305,7 @@ bool readConfig_TimeSignals_Inspc(TimeSignals_Inspc* thiz, char const* filepath)
           }
         }
       }_TRY
-      CATCH(ExceptionJc, exc) {
+      CATCH(Exception, exc) {
         thiz->errorCfg |= mExceptionReadFile_TimeSignal_Inspc; 
       }
       END_TRY

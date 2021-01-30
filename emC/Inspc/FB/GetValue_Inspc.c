@@ -38,7 +38,7 @@ bool init_GetValue_Inspc(GetValue_Inspc* thiz
     path[3] = path4_param;
     path[4] = path5_param;
     path[5] = path6_param;
-    for(ixPath=0; ixPath < ARRAYLEN_SimpleC(thiz->addr); ++ixPath) {
+    for(ixPath=0; ixPath < ARRAYLEN_emC(thiz->addr); ++ixPath) {
       int32 ixField = 0;
       TRY {
         field = null;
@@ -76,7 +76,7 @@ void get_GetValue_Inspc(GetValue_Inspc* thiz
   , int32* statusNotFound_y) {
   int ix;
   float val[6];
-  for(ix=0; ix < ARRAYLEN_SimpleC(val); ++ix) {
+  for(ix=0; ix < ARRAYLEN_emC(val); ++ix) {
     if(thiz->addr[ix]) { 
       val[ix] = *(float*)thiz->addr[ix];
     }

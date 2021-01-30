@@ -17,9 +17,9 @@
 //#define DEF_ObjectSimple_emC
 //#define DEF_ObjectJc_SIMPLE
 //#define DEF_ObjectJc_REFLREF
+#define DEF_ObjectJc_SYNCHANDLE
 #define DEF_ObjectJcpp_REFLECTION
 #define DEF_ObjectJc_OWNADDRESS
-
 #define DEF_ObjectJc_LARGESIZE
 
 /**Define of the offering of Reflection information: */
@@ -30,15 +30,15 @@
 
 
 //If set then the target should not use string operations
+//#define DEF_NO_StringUSAGE
 //#define DEF_NO_StringJcCapabilities
 
 
-//#define USE_BlockHeap_emC
-//#define DEF_BlockHeap_GARBAGECOLLECTOR
-
-
-//If set, without complex thread context, without Stacktrace
-//#define DEF_ThreadContext_SIMPLE
+/**If set, without complex thread context, without Stacktrace*/
+#define DEF_ThreadContext_HEAP_emC
+#define DEF_ThreadContext_STACKTRC
+//#define DEF_ThreadContext_STACKUSAGE
+//#define DEF_ThreadContext_STACKTRC_NO
 
 #define DEF_Exception_TRYCpp
 //#define DEF_Exception_longjmp
@@ -48,6 +48,9 @@
 //If set, no assertion is done:
 //#define ASSERT_IGNORE_emC
 
+/**Selects working with Blockheap*/
+//#define USE_BlockHeap_emC
+//#define DEF_BlockHeap_GARBAGECOLLECTOR
 
 #if defined(DEF_REFLECTION_FULL)
   #define DEF_ClassJc_Vtbl    //It is used in the inspector sources
@@ -61,6 +64,12 @@
 #define DEFINED_double_complex
 #define double_complex creal64_T
 
+//To work with handle instead pointer in data struct and 
+#define DEF_Type_HandleADDR_emC uint32
+#define DEF_HandlePtr64
+#ifndef DEFINED_nrEntries_Handle2Ptr
+  #define DEFINED_nrEntries_Handle2Ptr 1000
+#endif
 
 /**With this compiler switch the reflection should be included or not. DEF_REFLECTION_NO may be set by compiler options. */
 //#define DEF_REFLECTION_NO
@@ -70,42 +79,28 @@
 
 
 
+/**This is to compile C++ classes of emC if __cplusplus is set.
+  For C compilation this is ineffective because __cplusplus is necessary too*/
+#define USE_cplusplus_emC
+#define DEF_cplusplus_emC
+#define DEF_CPP_COMPILE
+
+
+#define DEFINED_getVarAddrType_CalcExpr
+
+#define kMaxPathLength_FileDescription_OSAL 512
+#define sizeSafetyArea_allocMemC 256
+
 
 #include <compl_adaption.h>
-
-/**Include this file always, but after compl_adaption.h.
- * It defines some types for C compilation compatible to C++ and some independent language enhancements.
- */
-#include <emC/Base/types_def_common.h>
-
 #include <emC/Base/Assert_emC.h>
-
 #include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
 #include <emC/Base/Exception_emC.h>
 
 
-/**Include Object_emC in the proper way: */
-#if defined(DEF_ObjectSimple_emC)
-  #include <emC/Base/ObjectSimple_emC.h>
-#else 
-  #include <emC/Base/Object_emC.h>
-#endif
-
-/**Maximal length of path in a FileDescription_OSAL-structure. */
- // NOTE: old name kMaxPathLength_OS_FileDescription
-#define kMaxPathLength_FileDescription_OSAL 480
-
-/**size of a safety area inside any allocMem data range. It can be 0. Set for debug and check approaches. */
-#define sizeSafetyArea_allocMemC 4096
 
 
 
-
-/**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
-#define DEF_HandlePtr64
-#ifndef DEFINED_nrEntries_Handle2Ptr
-  #define DEFINED_nrEntries_Handle2Ptr 1000
-#endif
 
 //#include <emC_srcApplSpec/applConv/definePrintFileMakros.h>
 //#include <emC_srcApplSpec/applConv/definePrintfMakros.h>

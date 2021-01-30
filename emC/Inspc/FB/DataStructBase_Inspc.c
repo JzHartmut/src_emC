@@ -45,7 +45,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
   int posDataPath = 0;
   bool bCheckPrimitivetype = true;
   seekNoWhitespaceOrComments_StringPartJc(sp, _thCxt);
-  char cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc, 0, _thCxt);
+  char cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt);
   int nrPrimitive = 0;
   while (length_StringPartJc(sp, _thCxt) > 0 && cc != ',' && cc != ';') {  //text has some information.
     int pos = getCurrentPosition_StringPartJc(sp, _thCxt);  //may be a name
@@ -60,7 +60,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
       seekPos_StringPartJc(sp, 1, _thCxt);
       if (scanOk_StringPartScanJc(scanPositivInteger_StringPartScanJc(sscan, _thCxt), _thCxt)) {
         if (varInfo) {
-          varInfo->accessRights = getLastScannedIntegerNumber_StringPartScanJc(sscan, _thCxt);
+          varInfo->accessRights = (int8)getLastScannedIntegerNumber_StringPartScanJc(sscan, _thCxt);
         }
       }
       else {
@@ -125,7 +125,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
       Part_StringPartJc_s* cs = getLastScannedPart_StringPartScanJc(sscan, 1, _thCxt);
       seekNoWhitespaceOrComments_StringPartJc(sp, _thCxt);
       if (length_StringPartJc(sp, _thCxt) >0) {
-        cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc, 0, _thCxt);
+        cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt);
       }
       else {
         cc = ';';  //last ; missing, admissible.
@@ -164,7 +164,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
       THROW_s0(IllegalArgumentException, "faulty char detected in typeName on pos ", (int)getCurrentPosition_StringPartJc(sp, _thCxt), 0);
     }
     seekNoWhitespaceOrComments_StringPartJc(sp, _thCxt);
-    cc = length_StringPartJc(sp, _thCxt) > 0 ? charAt_i_StringPartJc(&sp->base.CharSeqObjJc, 0, _thCxt) : ';';
+    cc = length_StringPartJc(sp, _thCxt) > 0 ? charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt) : ';';
   } //while cLine
   STACKTRC_RETURN posDataPath;
 }
@@ -190,7 +190,7 @@ int analyzeVariableDef  (  StringJc sVarDef
   //
   //loop over more as one entry.
   do {
-    char cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc, 0, _thCxt); //first char is the end char of last line.
+    char cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt); //first char is the end char of last line.
     if(cc == ';' || cc == ',') {
       seekPos_StringPartJc(sp, 1, _thCxt); //now skip over end char, but it is known.
     }

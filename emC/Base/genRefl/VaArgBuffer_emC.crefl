@@ -24,7 +24,7 @@ const struct Reflection_Fields_VaArgBuffer_Data_s_t
     , 17 //nrofArrayElements                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VaArgBuffer_Data_s*)(0x1000))->v)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VaArgBuffer_Data_s, v))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VaArgBuffer_Data
     }
@@ -74,7 +74,7 @@ const struct Reflection_Fields_VaArgBuffer_t
     , 16 //nrofArrayElements                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VaArgBuffer*)(0x1000))->sType)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VaArgBuffer, sType))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VaArgBuffer
     }
@@ -83,7 +83,7 @@ const struct Reflection_Fields_VaArgBuffer_t
     , 0   //no Array, no Bitfield                           
     , &refl_VaArgBuffer_Data                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VaArgBuffer*)(0x1000))->data)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VaArgBuffer, data))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VaArgBuffer
     }

@@ -35,7 +35,7 @@ const struct SuperClasses_RingBuffer_emC_s_ClassOffset_idxVtblJcARRAY_t  //Type 
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_RingBuffer_emC_s_t
 { ObjectArrayJc head;
@@ -47,7 +47,7 @@ const struct Reflection_Fields_RingBuffer_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint16                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((RingBuffer_emC_s*)(0x1000))->nrofEntries)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(RingBuffer_emC_s, nrofEntries) - OFFSET_IN_STRUCT(RingBuffer_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_RingBuffer_emC
     }
@@ -56,7 +56,7 @@ const struct Reflection_Fields_RingBuffer_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((RingBuffer_emC_s*)(0x1000))->ctModify)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(RingBuffer_emC_s, ctModify) - OFFSET_IN_STRUCT(RingBuffer_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_RingBuffer_emC
     }
@@ -65,7 +65,7 @@ const struct Reflection_Fields_RingBuffer_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((RingBuffer_emC_s*)(0x1000))->ixRd)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(RingBuffer_emC_s, ixRd) - OFFSET_IN_STRUCT(RingBuffer_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_RingBuffer_emC
     }
@@ -74,7 +74,7 @@ const struct Reflection_Fields_RingBuffer_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((RingBuffer_emC_s*)(0x1000))->ixWr)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(RingBuffer_emC_s, ixWr) - OFFSET_IN_STRUCT(RingBuffer_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_RingBuffer_emC
     }
@@ -83,7 +83,7 @@ const struct Reflection_Fields_RingBuffer_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((RingBuffer_emC_s*)(0x1000))->repeatCtMax)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(RingBuffer_emC_s, repeatCtMax) - OFFSET_IN_STRUCT(RingBuffer_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_RingBuffer_emC
     }
@@ -101,7 +101,7 @@ const ClassJc   refl_RingBuffer_emC =
 , null  //method      
 , &superClasses_RingBuffer_emC_s.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif
