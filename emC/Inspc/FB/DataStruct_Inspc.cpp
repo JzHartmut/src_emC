@@ -274,10 +274,15 @@ static void evalNamesCreateFields_DataStruct_Inspc(DataStruct_Inspc* thiz, DataS
   int ixFieldStart = master->fields->head.length;
   //int ixDataStart = ixData + OFFSETinTYPE_MemUnit(UserData_DataStructMng_Inspc, val) / sizeof(int32);
   evalNamesCreateFields_DataStructBase_Inspc(&thiz->base.super, master->fields, ixFieldStart, _thCxt);
-  for(int ix = ixFieldStart; ix < (ixFieldStart + thiz->base.super.zVariable); ++ix) {
-    thiz->base.super.varParams[ix].ixInVal = ixData;
-    master->fields->data[ix].offsFieldInStruct = (int16)(OFFSETinTYPE_MemUnit(UserData_DataStructMng_Inspc, val) + ixData * sizeof(int32));  
-    ixData += (thiz->base.super.varParams[ix].nrofBytesValue +3) >>2;  //ixData as index to int32 array.
+  int ixVar = 0;    //Index in the fields of the DataStruct_Inspc maybe later in the chain. Its variable from parameterdialog.
+  //                //ixFieldStart starts from 0 for the master, continues in the master for the chain of DataStruct_Inspc
+  for(int ixField = ixFieldStart; ixField < (ixFieldStart + thiz->base.super.zVariable); ++ixField) {
+    thiz->base.super.varParams[ixVar].ixInVal = ixData;           //Position of data in the DataStructMng data area
+    int16 offsField = (int16)(OFFSETinTYPE_MemUnit(UserData_DataStructMng_Inspc, val) + ixData * sizeof(int32));
+    ASSERT_emC( (offsField & mOffsIsProxyIx4Target_FieldJc) ==0, "too large offset", offsField, 0); 
+    master->fields->data[ixField].offsFieldInStruct = offsField;          //byte index for Reflection
+    ixData += (thiz->base.super.varParams[ixVar].nrofBytesValue +3) >>2;  //ixData as index to int32 array.
+    ixVar +=1;
   }
 
   master->ixDataLast = ixData;

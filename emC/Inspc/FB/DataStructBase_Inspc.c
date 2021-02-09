@@ -100,7 +100,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
           ASSERT(portInfo->type == typeChar);
           if(dimensions == 0) {
             ASSERT(portInfo->dimensions <=1); //may be 1 or 0
-            ASSERT(portInfo->sizeArray[0] <=1);  //may be 1 or 0
+            ASSERT(portInfo->sizeArray[0] <=2);  //may be 1 or 0
           } else {
             ASSERT(portInfo->dimensions == dimensions);  //should be the same, else difference between intialized ports and info here.
             ASSERT(memcmp(portInfo->sizeArray,sizeArray, sizeof(portInfo->sizeArray))==0);

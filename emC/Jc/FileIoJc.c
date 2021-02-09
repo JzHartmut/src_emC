@@ -72,7 +72,7 @@ void init_FileJc  (  FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
   ssFileName = getCharsAndLength_StringJc(&sFileName, &len);
 
   init_FileDescription_OSAL(&ythis->fileDescription, 0, ssFileName, len);
-
+  STACKTRC_LEAVE;
 }
 
 
