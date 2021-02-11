@@ -1,3 +1,5 @@
+#include <applstdef_emC.h>
+#ifdef DEF_REFLECTION_FULL
 #include "Wait_Inspc.h"
 #include <emC/Inspc/Srv/DataNode_Inspc.h>
 #include <emC/OSAL/os_time.h>
@@ -78,4 +80,5 @@ void free_Wait_Inspc(Wait_Inspc* thiz)
   }
 }
 
+#endif //DEF_REFLECTION_FULL
 

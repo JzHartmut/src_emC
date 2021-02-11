@@ -1,3 +1,5 @@
+#include <applstdef_emC.h>
+#ifdef DEF_REFLECTION_FULL
 #include <emC/Inspc/FB/DataStructBase_Inspc.h>
 #include <emC/J1c/StringFunctionsJc.h>
 #include <emC/J1c/StringPartScanJc.h>
@@ -397,4 +399,4 @@ void evalNamesCreateFields_DataStructBase_Inspc  (  DataStructBase_Inspc_s* thiz
 }
 
 
-
+#endif //DEF_REFLECTION_FULL

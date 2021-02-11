@@ -1,8 +1,10 @@
 #include <emC/Base/DefPortTypes_emC.h>
 #include <string.h> //memset
-#include "emC/Base/genRefl/DefPortTypes_emC.crefl"
-#include <emC/Base/Object_emC.h>
 
+#include <emC/Base/Object_emC.h>
+#ifdef DEF_REFLECTION_FULL
+  #include "emC/Base/genRefl/DefPortTypes_emC.crefl"
+#endif
 
 void ctor_DefPortTypes_emC(DefPortTypes_emC* thiz, int nrofAdditionalElements) {
   int bytes = sizeof(*thiz) + nrofAdditionalElements * sizeof(thiz->entries[0]);

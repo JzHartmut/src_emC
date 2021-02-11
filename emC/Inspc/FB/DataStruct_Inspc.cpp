@@ -1,3 +1,5 @@
+#include <applstdef_emC.h>
+#ifdef DEF_REFLECTION_FULL
 #include <emC/Inspc/FB/DataStruct_Inspc.h>
 #include <emC/Inspc/FB/Access_DataStruct_Inspc.h>
 #include <emC/Inspc/FB/DataStructBase_Inspc.h>
@@ -1112,7 +1114,4 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
 
 
 
-
-
-
-
+#endif //DEF_REFLECTION_FULL

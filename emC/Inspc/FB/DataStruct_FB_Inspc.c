@@ -1,3 +1,5 @@
+#include <applstdef_emC.h>
+#ifdef DEF_REFLECTION_FULL
 #include <emC/Inspc/FB/DataStruct_Inspc.h>
 #include <emC/OSAL/os_mem.h>
 #include <emC/base/Handle_ptr64_emC.h>
@@ -16,3 +18,6 @@ uint32 initSimple_DataStructFB_Inspc ( int nrofInputs, char const* param)
  
   STACKTRC_RETURN hthis;
 }
+
+#endif //DEF_REFLECTION_FULL
+

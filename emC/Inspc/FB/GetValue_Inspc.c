@@ -1,3 +1,5 @@
+#include <applstdef_emC.h>
+#ifdef DEF_REFLECTION_FULL
 #include "emC/Inspc/FB/GetValue_Inspc.h"
 #include <emC/Inspc/J2c/SearchElement_Inspc.h>
 #include <emC/Inspc/Srv/DataNode_Inspc.h>
@@ -90,3 +92,4 @@ void get_GetValue_Inspc(GetValue_Inspc* thiz
   *statusNotFound_y = thiz->statusNotFound;
 }
 
+#endif //DEF_REFLECTION_FULL

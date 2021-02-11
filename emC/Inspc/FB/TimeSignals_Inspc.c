@@ -1,3 +1,5 @@
+#include <applstdef_emC.h>
+#ifdef DEF_REFLECTION_FULL
 #include "TimeSignals_Inspc.h"
 //#include <Inspc/DataNode_Inspc.h>
 #include <emC/Inspc/FB/DataStructBase_Inspc.h>
@@ -644,3 +646,6 @@ void test_TimeSignals_Inspc(struct DataNode_Inspc_t* reflNode, char const* path)
   //free_TimeSignals_Inspc(test);
 }
 #endif
+
+#endif //DEF_REFLECTION_FULL
+

@@ -1,3 +1,5 @@
+#include <applstdef_emC.h>
+#ifdef DEF_REFLECTION_FULL
 #include <emC/Inspc/FB/Access_DataStruct_Inspc.h>
 #include <emC/Inspc/J2c/SearchElement_Inspc.h>
 #include <emC/J1c/StringFunctionsJc.h>
@@ -322,4 +324,4 @@ int defTlcParams_TinitAccess_DataStruct_Inspc(DefPortTypes_emC* portInfo_tlcPara
   , buffer_tlcParam, zBuffer_tlcParam, header_param, typeName_param);
 }
 
-
+#endif //DEF_REFLECTION_FULL
