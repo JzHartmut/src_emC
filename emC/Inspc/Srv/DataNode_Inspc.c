@@ -47,7 +47,7 @@ bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char 
       strcpy_emC(thiz->fields.data[ix].name, name, -(int)sizeof(thiz->fields.data[ix].name));
       thiz->fields.data[ix].type_ = refl;
       thiz->fields.data[ix].bitModifiers = kReference_Modifier_reflectJc;
-      thiz->fields.data[ix].offsFieldInStruct = ((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz);
+      thiz->fields.data[ix].offsFieldInStruct = (int16)(((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz));
 
       thiz->fields.head.length = ix + 1;
       return true;
@@ -114,7 +114,7 @@ void addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, Strin
     }
     thiz->fields.data[ix].type_ = reflectionClass;
     thiz->fields.data[ix].bitModifiers = kReference_Modifier_reflectJc;
-    thiz->fields.data[ix].offsFieldInStruct = ((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz);
+    thiz->fields.data[ix].offsFieldInStruct = (int16)(((MemUnit*)&thiz->data[ix]) - ((MemUnit*)thiz));
 
     thiz->fields.head.length = ix + 1;
   }

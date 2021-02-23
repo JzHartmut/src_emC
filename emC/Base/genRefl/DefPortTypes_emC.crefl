@@ -1,0 +1,551 @@
+
+    
+#include <emC/Base/DefPortTypes_emC.h>  
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_Entry_DefPortType_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_Entry_DefPortType_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ClassJc;  //used for field refl
+
+const struct Reflection_Fields_Entry_DefPortType_emC_t
+{ ObjectArrayJc head;
+  FieldJc data[10];
+} refl_Fields_Entry_DefPortType_emC =
+{ INIZ_ObjectArrayJc(refl_Fields_Entry_DefPortType_emC, 10, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "type"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, type))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "sizeType"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, sizeType))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "newDefined_Tstep_Tinit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint16                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, newDefined_Tstep_Tinit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "dimensions"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, dimensions))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "sizeArray"
+    , 5 //nrofArrayElements                           
+    , REFLECTION_uint16                                                                                            
+    , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, sizeArray))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "Tstep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, Tstep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "ixTstepSfn"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, ixTstepSfn))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "sName"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, sName))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "sType"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, sType))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  , 
+    { "refl"
+    , 0   //no Array, no Bitfield                           
+    , &refl_ClassJc                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC, refl))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_Entry_DefPortType_emC    
+const ClassJc   refl_Entry_DefPortType_emC =
+{ INIZ_objReflId_ObjectJc(refl_Entry_DefPortType_emC, refl_ClassJc, ID_refl_ClassJc)
+, "Entry_DefPortType_emC"
+, 0
+, sizeof(Entry_DefPortType_emC)
+, (FieldJcArray const*)&refl_Fields_Entry_DefPortType_emC  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_Entry_DefPortType_emC_20;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_Entry_DefPortType_emC_20[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_Entry_DefPortType_emC;  //used for field e
+
+const struct Reflection_Fields_Entry_DefPortType_emC_20_s_t
+{ ObjectArrayJc head;
+  FieldJc data[1];
+} refl_Fields_Entry_DefPortType_emC_20_s =
+{ INIZ_ObjectArrayJc(refl_Fields_Entry_DefPortType_emC_20_s, 1, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "e"
+    , 20 //nrofArrayElements                           
+    , &refl_Entry_DefPortType_emC                                                                                            
+    , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Entry_DefPortType_emC_20_s, e))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Entry_DefPortType_emC_20
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_Entry_DefPortType_emC_20    
+const ClassJc   refl_Entry_DefPortType_emC_20 =
+{ INIZ_objReflId_ObjectJc(refl_Entry_DefPortType_emC_20, refl_ClassJc, ID_refl_ClassJc)
+, "Entry_DefPortType_emC_20"
+, 0
+, sizeof(Entry_DefPortType_emC_20_s)
+, (FieldJcArray const*)&refl_Fields_Entry_DefPortType_emC_20_s  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_DefPortTypes_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_DefPortTypes_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_Entry_DefPortType_emC_20;  //used for field pEntries
+
+extern_C const ClassJc refl_Entry_DefPortType_emC;  //used for field entries
+
+const struct Reflection_Fields_DefPortTypes_emC_t
+{ ObjectArrayJc head;
+  FieldJc data[36];
+} refl_Fields_DefPortTypes_emC =
+{ INIZ_ObjectArrayJc(refl_Fields_DefPortTypes_emC, 36, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "TstepMin"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, TstepMin))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixInOutTstep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixInOutTstep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixStepSfnMin"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixStepSfnMin))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "nrofInputs"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, nrofInputs))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "nrofOutputs"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, nrofOutputs))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixInputStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixInputStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixInputStep2"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixInputStep2))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixInputInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixInputInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixInputUpd"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixInputUpd))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixInputVarg"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixInputVarg))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixInputThiz"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixInputThiz))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixOutputStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixOutputStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixOutputStep2"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixOutputStep2))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixOutputInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixOutputInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixOutputVarg"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixOutputVarg))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixOutputThizInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixOutputThizInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ixOutputThizStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ixOutputThizStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "nrofVargsInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, nrofVargsInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "nrofVargsStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, nrofVargsStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "_d1"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, _d1))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "_d2"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, _d2))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mInputStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mInputStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mInputUpd"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mInputUpd))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mInputInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mInputInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mOutputStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mOutputStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mOutputInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mOutputInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mInputVargInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mInputVargInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mInputVargStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mInputVargStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mOutputVargInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mOutputVargInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "mOutputVargStep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, mOutputVargStep))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "bitsParamTunable"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, bitsParamTunable))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "ctInit"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, ctInit))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "zEntries"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, zEntries))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "pathBlock"
+    , 512 //nrofArrayElements                           
+    , REFLECTION_int8                                                                                            
+    , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, pathBlock))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "pEntries"
+    , 0   //no Array, no Bitfield                           
+    , &refl_Entry_DefPortType_emC_20                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, pEntries))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  , 
+    { "entries"
+    , 1 //nrofArrayElements                           
+    , &refl_Entry_DefPortType_emC                                                                                            
+    , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(DefPortTypes_emC, entries))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_DefPortTypes_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_DefPortTypes_emC    
+const ClassJc   refl_DefPortTypes_emC =
+{ INIZ_objReflId_ObjectJc(refl_DefPortTypes_emC, refl_ClassJc, ID_refl_ClassJc)
+, "DefPortTypes_emC"
+, 0
+, sizeof(DefPortTypes_emC)
+, (FieldJcArray const*)&refl_Fields_DefPortTypes_emC  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL

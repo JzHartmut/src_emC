@@ -38,8 +38,7 @@ typedef struct T1i_Ctrl_emC_T {
 
 
   /**Factor to multiply the difference (x-q) for one step.
-   * This factor results of Tstep/Ts and the number of right shift of q nShq.
-   * It is calculated as 65536 * Tstep/Ts for a 16 x 16 multiplication
+   * This factor is calculated as 65536 * (1.0f - expf(-Tstep / Ts))
    * to expand the 16-bit-x-value to 32 bit for q.
    * A value Ts = 0, it means without smoothing, results in 0xffff because only 16 bits are available.
    * The largest Ts is 65000 * Tstep, results in 1 for this value.
@@ -50,16 +49,20 @@ typedef struct T1i_Ctrl_emC_T {
 } T1i_Ctrl_emC_s;
 
 
-extern_C T1i_Ctrl_emC_s* ctor_T1i_Ctrl_emC(void* addr);
+/**Constructor for the T1i FBlock.
+ * @simulink ctor.
+ */
+extern_C T1i_Ctrl_emC_s* ctor_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz);
 
-extern_C void param_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, float Ts, float Tstep);
+/**Initialization for the T1i FBlock.
+ * @param Ts_param smoothing time in units of Tstep, secons.
+ * @param Tstep step time for this FBlock.
+ * @simulink init
+ */
+extern_C bool param_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, float Ts_param, float Tstep);
 
-/**Step routine takes 16 bit */
+/**Step routine for the T1 FBlock for 16 bit interger smoothing. */
 static int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
-
-/**Get dx after step calculation. step_T1i_Ctrl_emC(...) should be called before. */
-static int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
-
 
 static inline int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
   thiz->dx.dx32 = (uint32)(thiz->fTs) * ( x - thiz->q.q16.qhi);  //
@@ -67,17 +70,31 @@ static inline int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
   return thiz->q.q16.qhi; //hi part 16 bit
 }
 
+/**Get dx after step calculation. step_T1i_Ctrl_emC(...) should be called before. */
+static int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
+
 static inline int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
   return thiz->dx.dx16.dxhi; 
 }
 
 
+
+/**Step routine wrapper for simulink for 16 bit T1 smoothing FBlock. 
+ * @simulink Object-FB, no-thizInit, no-thizStep.
+ */
+static inline void stepY_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x, int16* y_y) {
+  *y_y = step_T1i_Ctrl_emC(thiz, x);
+}
+
+
+
+
 #if defined(__cplusplus)
 
 class T1i_Ctrl_emC : public T1i_Ctrl_emC_s {
-  public: T1i_Ctrl_emC() { ctor_T1i_Ctrl_emC(static_cast<T1i_Ctrl_emC_s*>(this)); }
+  public: T1i_Ctrl_emC ( float Ts ) { ctor_T1i_Ctrl_emC(static_cast<T1i_Ctrl_emC_s*>(this)); }
 
-  public: void param ( float Ts, float Tstep) { param_T1i_Ctrl_emC(this, Ts, Tstep); }
+  public: void param ( float Ts, float Tstep ) { param_T1i_Ctrl_emC(this, Ts, Tstep); }
 
   public: int step ( int x ) { return step_T1i_Ctrl_emC(this, x); }
 };
@@ -165,7 +182,7 @@ typedef struct T1f_Ctrl_emC_T {
 
 extern_C T1f_Ctrl_emC_s* ctor_T1f_Ctrl_emC(void* addr);
 
-extern_C void param_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float Ts, float Tstep);
+extern_C void param_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float Ts_param, float Tstep);
 
 static float step_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float x);
 

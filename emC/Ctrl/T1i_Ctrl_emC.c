@@ -4,9 +4,9 @@
 
 
 
-T1i_Ctrl_emC_s* ctor_T1i_Ctrl_emC(void* addr) {
+T1i_Ctrl_emC_s* ctor_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz) {
   //assume addr refers enough and correct space
-  T1i_Ctrl_emC_s* thiz = C_CAST(T1i_Ctrl_emC_s*,addr);
+  //T1i_Ctrl_emC_s* thiz = C_CAST(T1i_Ctrl_emC_s*,addr);
   memset(thiz, 0, sizeof(T1i_Ctrl_emC_s));
   return thiz;
 }
@@ -16,11 +16,12 @@ T1i_Ctrl_emC_s* ctor_T1i_Ctrl_emC(void* addr) {
 
 
 
-void param_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, float Ts, float Tstep) {
-  thiz->Ts = Ts;
-  float fTs = (Ts <= 0 ? 1.0f : 1.0f - expf(-Tstep / Ts)) ;
+bool param_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, float Ts_param, float Tstep) {
+  thiz->Ts = Ts_param;
+  float fTs = (Ts_param <= 0 ? 1.0f : 1.0f - expf(-Tstep / Ts_param)) ;
   fTs *= 0x10000L;
   thiz->fTs = fTs >= 65535.5f ? 0xffff : (int16)( fTs + 0.5f);  //
+  return true;
 }
 
 

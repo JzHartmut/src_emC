@@ -38,7 +38,6 @@ extern_C ParFactors_PIDf_Ctrl_emC_s* ctor_ParFactors_PIDf_Ctrl_emC(ObjectJc* oth
 
 
 /**Parameter of PID controller 
- * @simulink bus.
  */
 typedef struct Par_PIDf_Ctrl_emC_T
 {
@@ -94,16 +93,16 @@ typedef struct Par_PIDf_Ctrl_emC_T
  */
 extern_C Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep);
 
-/**init of PID controller
+/**init of parameter FBlock for the PID controller
  * @param Tstep_param It is the Tstep time of the controller, which should be regard on calculation of the factors. 
  * @simulink init
  */
 extern_C bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param
   , float kP, float Tn, float Td, float Tsd, ParFactors_PIDf_Ctrl_emC_s** parFactors_y );
 
-/**step of PID controller
-* @simulink Object-FB, no-thizStep.
-*/
+/**step of parameter FBlock for the PID controller for actual changed parameter
+ * @simulink Object-FB, no-thizStep.
+ */
 extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn, float Td, float Tsd, ParFactors_PIDf_Ctrl_emC_s** parFactors_y );
 
 

@@ -163,7 +163,7 @@
 #pragma warning(error:4002) //too many actual parameters for macro
 #pragma warning(error:4003) //not enough actual parameters for macro
 #pragma warning(error:4020) //too many actual parameters
-
+//#pragma warning(disable:9025) //Command line warning D9025 : overriding '/EHs' with '/EHa'
 
 
 /**Defintion of bool, false, true for C usage. */

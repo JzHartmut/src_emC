@@ -440,7 +440,7 @@ test_description::= <*|\e|\@?text>
 
   
 test_simulinkTag::= 
-{ [<?simulinkTag> Object-FB | Operation-FB | ctor | dtor | init 
+{ [<?simulinkTag> Object-FB | portStep | Operation-FB | ctor | dtor | init 
   | defPortTypes 
   | accel-tlc 
   | bus | no-bus | no-thizInit | no-thizStep | step-in | step-out | update | step2 | xxxoutput
