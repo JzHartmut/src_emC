@@ -41,7 +41,7 @@ const struct SuperClasses_DataStructBase_Inspc_s_ClassOffset_idxVtblJcARRAY_t  /
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_DataStructBase_Inspc_s_t
 { ObjectArrayJc head;
@@ -53,7 +53,7 @@ const struct Reflection_Fields_DataStructBase_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_DefPortTypes_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->fBlockInfo)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(DataStructBase_Inspc_s, fBlockInfo) - OFFSET_IN_STRUCT(DataStructBase_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_DataStructBase_Inspc
     }
@@ -62,7 +62,7 @@ const struct Reflection_Fields_DataStructBase_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_VariableParam_DataStruct_Inspc                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->varParams)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(DataStructBase_Inspc_s, varParams) - OFFSET_IN_STRUCT(DataStructBase_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_DataStructBase_Inspc
     }
@@ -71,7 +71,7 @@ const struct Reflection_Fields_DataStructBase_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->zVariable)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(DataStructBase_Inspc_s, zVariable) - OFFSET_IN_STRUCT(DataStructBase_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_DataStructBase_Inspc
     }
@@ -80,7 +80,7 @@ const struct Reflection_Fields_DataStructBase_Inspc_s_t
     , 3 //nrofArrayElements                           
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->__d)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(DataStructBase_Inspc_s, __d) - OFFSET_IN_STRUCT(DataStructBase_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_DataStructBase_Inspc
     }
@@ -89,7 +89,7 @@ const struct Reflection_Fields_DataStructBase_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_VariableParam_DataStruct_Inspc_Array                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((DataStructBase_Inspc_s*)(0x1000))->varParams_debugView)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(DataStructBase_Inspc_s, varParams_debugView) - OFFSET_IN_STRUCT(DataStructBase_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_DataStructBase_Inspc
     }
@@ -139,7 +139,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->accessRights)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, accessRights))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -148,7 +148,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->ixField)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, ixField))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -157,7 +157,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 2 //nrofArrayElements                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->__d1)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, __d1))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -166,7 +166,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->nrofBytesValue)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, nrofBytesValue))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -175,7 +175,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->ixInVal)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, ixInVal))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -184,7 +184,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_Entry_DefPortType_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->ePort)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, ePort))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -193,7 +193,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 32 //nrofArrayElements                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->typeRef)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, typeRef))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -202,7 +202,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 32 //nrofArrayElements                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->name)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, name))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -211,7 +211,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_s_t
     , 32 //nrofArrayElements                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_s*)(0x1000))->structType)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_s, structType))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc
     }
@@ -261,7 +261,7 @@ const struct Reflection_Fields_VariableParam_DataStruct_Inspc_Array_t
     , 10 //nrofArrayElements                           
     , &refl_VariableParam_DataStruct_Inspc                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((VariableParam_DataStruct_Inspc_Array*)(0x1000))->d)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(VariableParam_DataStruct_Inspc_Array, d))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_VariableParam_DataStruct_Inspc_Array
     }

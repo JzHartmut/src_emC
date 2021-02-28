@@ -37,7 +37,7 @@ const struct SuperClasses_GetValue_Inspc_ClassOffset_idxVtblJcARRAY_t  //Type fo
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_GetValue_Inspc_t
 { ObjectArrayJc head;
@@ -49,7 +49,7 @@ const struct Reflection_Fields_GetValue_Inspc_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((GetValue_Inspc*)(0x1000))->statusNotFound)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(GetValue_Inspc, statusNotFound) - OFFSET_IN_STRUCT(GetValue_Inspc, object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_GetValue_Inspc
     }
@@ -58,7 +58,7 @@ const struct Reflection_Fields_GetValue_Inspc_t
     , 6 //nrofArrayElements                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc | kStaticArray_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((GetValue_Inspc*)(0x1000))->addr)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(GetValue_Inspc, addr) - OFFSET_IN_STRUCT(GetValue_Inspc, object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_GetValue_Inspc
     }

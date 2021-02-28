@@ -37,7 +37,7 @@ const struct SuperClasses_Wait_Inspc_ClassOffset_idxVtblJcARRAY_t  //Type for th
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_Wait_Inspc_t
 { ObjectArrayJc head;
@@ -49,7 +49,7 @@ const struct Reflection_Fields_Wait_Inspc_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->isWaiting)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Wait_Inspc, isWaiting) - OFFSET_IN_STRUCT(Wait_Inspc, base))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Wait_Inspc
     }
@@ -58,7 +58,7 @@ const struct Reflection_Fields_Wait_Inspc_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->stepsTillWait)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Wait_Inspc, stepsTillWait) - OFFSET_IN_STRUCT(Wait_Inspc, base))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Wait_Inspc
     }
@@ -67,7 +67,7 @@ const struct Reflection_Fields_Wait_Inspc_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Wait_Inspc*)(0x1000))->delay_ms)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Wait_Inspc, delay_ms) - OFFSET_IN_STRUCT(Wait_Inspc, base))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Wait_Inspc
     }

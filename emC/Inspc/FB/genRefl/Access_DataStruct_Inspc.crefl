@@ -41,7 +41,7 @@ const struct SuperClasses_Access_DataStruct_Inspc_s_ClassOffset_idxVtblJcARRAY_t
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
 { ObjectArrayJc head;
@@ -53,7 +53,7 @@ const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_Entry_DefPortType_emC                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Access_DataStruct_Inspc_s*)(0x1000))->portProps)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, portProps) - OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Access_DataStruct_Inspc
     }
@@ -62,7 +62,7 @@ const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_DefPortTypes_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Access_DataStruct_Inspc_s*)(0x1000))->fblockInfo)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, fblockInfo) - OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Access_DataStruct_Inspc
     }
@@ -71,7 +71,7 @@ const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int8                                                                                            
     , (1<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Access_DataStruct_Inspc_s*)(0x1000))->err)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, err) - OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Access_DataStruct_Inspc
     }
@@ -80,7 +80,7 @@ const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Access_DataStruct_Inspc_s*)(0x1000))->zBytes)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, zBytes) - OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Access_DataStruct_Inspc
     }
@@ -89,7 +89,7 @@ const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Access_DataStruct_Inspc_s*)(0x1000))->ctRepeatInit)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, ctRepeatInit) - OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Access_DataStruct_Inspc
     }
@@ -98,7 +98,7 @@ const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Access_DataStruct_Inspc_s*)(0x1000))->addr)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, addr) - OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Access_DataStruct_Inspc
     }
@@ -107,7 +107,7 @@ const struct Reflection_Fields_Access_DataStruct_Inspc_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_FieldJc                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Access_DataStruct_Inspc_s*)(0x1000))->field)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, field) - OFFSET_IN_STRUCT(Access_DataStruct_Inspc_s, base.object))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Access_DataStruct_Inspc
     }

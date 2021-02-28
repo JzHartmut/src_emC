@@ -184,7 +184,7 @@ void ctor_DataStructMng_Inspc(DataStructMng_Inspc* thiz, DefPortTypes_emC* fBloc
   //ctor of base;
   CALLINE; iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_DataStructMng_Inspc, 0);
   CALLINE; ctor_DataStructCommon_Inspc(&thiz->base.super, fBlockInfo, inputDefinition, inherit_param, chain_param);
-  thiz->ctInit = 5;  //at least 5 steps for sub Manager to work.
+  thiz->base.super.ctInit = 5;  //at least 5 steps for sub Manager to work.
   STACKTRC_RETURN;
 }
 
@@ -301,10 +301,10 @@ static void evalNamesCreateFields_DataStruct_Inspc(DataStruct_Inspc* thiz, DataS
 
 /**Writes init inputs. It is called from init_DataStruct_Inspc(...) and init_DataStructMng_Inspc(...)
  */
-static bool initInputs_DataStruct_Inspc(DataStruct_Inspc* thiz, va_list varg, ThCxt* _thCxt) {
+static int32 initInputs_DataStruct_Inspc(DataStruct_Inspc* thiz, va_list varg, ThCxt* _thCxt) {
   STACKTRC_TENTRY("initTinit_DataStruct_Inspc");
   DataStructBase_Inspc_s* thizd = &thiz->base.super;
-  bool bInit = true;  //set to false if a handle is 0 yet now.
+  int32 mInitErr = 0;  //set any bit to 1 for an init bit which does not init.
   int32 mbit = 1;
   int32 mInit = thizd->fBlockInfo->mInputInit;
   for (int ix = 0; ix < thizd->zVariable; ++ix) {
@@ -323,7 +323,7 @@ static bool initInputs_DataStruct_Inspc(DataStruct_Inspc* thiz, va_list varg, Th
         uint32 handle = *(uint32*)addr;
         checkAddress_MemC(&thiz->userData, &thiz->userData.addr->val[ixInVal], sizeof(thiz->userData.addr->val[ixInVal]));
         if (handle == 0) { //handle is unknown
-          bInit = false;  //wait for handle
+          mInitErr |= mbit;   //wait for handle
         }
         else if (handle == (uint32(-1))) { //it is a delivered null-pointer
           thiz->userData.addr->val[ixInVal] = handle;  //it is ok, offer it forward.
@@ -334,7 +334,7 @@ static bool initInputs_DataStruct_Inspc(DataStruct_Inspc* thiz, va_list varg, Th
           ObjectJc* inPtr = (ObjectJc*)ptr_Handle2Ptr(handle);
           ClassJc const* clazzfield = getType_FieldJc(field);
           if (!instanceof_s_ObjectJc((ObjectJc*)(inPtr), clazzfield->name)) { //check via char-name because reflection may from different dll.
-            bInit = 0;  //error in system
+            mInitErr |= mbit;  //error in system
             thiz->errorPort |= 1 << ix;
             THROW_s0(IllegalArgumentException, "faulty type on port: ", ix+1, 0);  //show error because the type is faulty, this is the expected error on wiring faulties.
           }
@@ -347,7 +347,7 @@ static bool initInputs_DataStruct_Inspc(DataStruct_Inspc* thiz, va_list varg, Th
     }
     mbit <<=1;
   }
-  STACKTRC_RETURN bInit;
+  STACKTRC_RETURN mInitErr;
 }
 
 
@@ -399,10 +399,14 @@ bool init_DataStruct_Inspc(DataStruct_Inspc* thiz
   //if comming here, thiz->prevChain is set or is really null.
   *thizout_y = thiz;  //set for chain to mng
   if( thiz->userData.addr != null) { //it is processed from master 
-    if(initInputs_DataStruct_Inspc(thiz, varg, _thCxt)) {
+    int32 mInit = initInputs_DataStruct_Inspc(thiz, varg, _thCxt);
+    if(mInit ==0) {
       setInitialized_ObjectJc(&thiz->base.object);  //update can work
       STACKTRC_RETURN true; //all intialized
     } else {
+      if(--thiz->ctInit < -100) {
+        THROW_s0(IllegalArgumentException, "don't initialize after 100 Tinit, input mask:", mInit,0);
+      }
       STACKTRC_RETURN false;
     }
   }
@@ -477,10 +481,10 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
   }
   //
   if (subTypeMng == null) { //not given yet, wait at least 5 times after tiven for initializing sub type
-    thiz->ctInit = 5;
+    thiz->base.super.ctInit = 5;
   }
   else {
-    thiz->ctInit -= 1;
+    thiz->base.super.ctInit -= 1;
   }
   //thiz->subTypeMng = subTypeMng;            //store inputs independent whether null or given.
   //
@@ -497,7 +501,7 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
   }
   thiz->base.super.prevChain = (intptr_t)prevchain == -1 || prevchain == &thiz->base.super ? null: prevchain;  //last member: store null
   //
-  bool bDoinit = thiz->ctInit < 0;
+  bool bDoinit = thiz->base.super.ctInit < 0;
   //
   //quest of all base/super instances whether they are initialized. 
   //If one base instance is not ready, wait, set bDoinit = false.
@@ -573,20 +577,24 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
         dataStructMember = dataStructMember->prevChain;
       } while (dataStructMember != null && dataStructMember != &thiz->base.super);
       //
-      //builds the instance:
-      if (subTypeMng == thiz || (intptr_t)subTypeMng == -1) {
-        //it is the highest derived, it builds the instance
+      if (genSource_DataStructMng_Inspc(thiz, dirGenSource_param) == null) {
+        thiz->ctGenSrc = 100;                              // check whether dataobj source generation should be done.
+      } //set the counter, to execute it after 100 steps.
+      //
+      //                                                             // builds the instance data
+      if (subTypeMng == thiz || (intptr_t)subTypeMng == -1) {        // Only from the highest sub manager
+        //it is the highest derived, it builds the instance          // Only it holds data for all super manager.
         CALLINE;
+
         if (nrofData < zBaseVal_UserData_DataStructMng_Inspc) { nrofData = zBaseVal_UserData_DataStructMng_Inspc; }
         int userDataBytes = sizeof(UserData_DataStructMng_Inspc) + sizeof(int32) * (nrofData - zBaseVal_UserData_DataStructMng_Inspc);
-        ALLOC_MemC(thiz->userDataBlock, userDataBytes);  //(UserData_DataStructMng_Inspc*)os_allocMem(userDataBytes);
+        ALLOC_MemC(thiz->userDataBlock, userDataBytes);              // alloc
         thiz->hUserDataBlock = registerPtr_Handle2Ptr(thiz->userDataBlock.addr, "UserDataStruct_Inspc");
-        //set Userdata to all super
-        DataStructMng_Inspc* mng1 = thiz;             //start with thiz as base mng
-        do {
+        //
+        DataStructMng_Inspc* mng1 = thiz;  //start with thiz as sub mng                              
+        do {      
           dataStructMember = &mng1->base.super;
-          //set userData to all superTypeMng and its slaves
-          do {
+          do {                                                       //set userData to all superTypeMng and its slaves
             dataStructMember->userData = thiz->userDataBlock;
             dataStructMember = dataStructMember->prevChain;
           } while (dataStructMember != null && dataStructMember != &mng1->base.super);
@@ -611,13 +619,14 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
   if (thiz->base.super.userData.addr != null) {
     CALLINE;
     if (data_y != null) { *data_y = &thiz->base.super.userData.addr->base.super; }
-    if(initInputs_DataStruct_Inspc(&thiz->base.super, vargSub, _thCxt)) {
+    int32 mInit = initInputs_DataStruct_Inspc(&thiz->base.super, vargSub, _thCxt);
+    if(mInit ==0) {
       setInitialized_ObjectJc(&thiz->base.object);  //update can work
-      if (genSource_DataStructMng_Inspc(thiz, dirGenSource_param) == null) {
-        thiz->ctGenSrc = 100;
-      }
       STACKTRC_RETURN true; //all intialized
     } else {
+      if(--thiz->base.super.ctInit < -100) {
+        THROW_s0(IllegalArgumentException, "don't initialize after 100 Tinit, input mask:", mInit,0);
+      }
       STACKTRC_RETURN false;
     }
   }

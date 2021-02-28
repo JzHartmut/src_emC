@@ -79,6 +79,9 @@ typedef struct DataStruct_Inspc_t
 
   int32 errorPort;
 
+  /**ct dn from first init. For Mng: Wait for setting baseDataMng from a base.*/
+  int32 ctInit;
+
   /**Reference to the data to get and set, derived from the mng at userDataBlock->data */
   Mem_UserData_DataStructMng_Inspc userData;
 
@@ -219,9 +222,6 @@ typedef struct DataStructMng_Inspc_t
 
   /**The mng of the derived instance which contains the data. */
   struct DataStructMng_Inspc_t* subTypeMng_dbg;
-
-  /**ct dn from first init. Wait for setting baseDataMng from a base.*/
-  int32 ctInit;
 
 
   int32 nrofDataSuperMng;
