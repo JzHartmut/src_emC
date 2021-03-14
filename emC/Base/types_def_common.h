@@ -242,6 +242,46 @@ typedef struct Addr8_emC_T { int32 c[2]; } Addr8_emC;
 
   /**It presents an integer value as handle, may be identical with the address. */
   #define handle_HandleADDR_emC(HANDLE) ((intPTR)(HANDLE))
+
+
+  //copied from emC/Base/Handle_ptr64_emC.h, ndef DEF_HandlePtr64. It is the older definition, but more complete.
+  /**Invocation of INIT is empty because there is not Handle2Ptr. */
+  #define INIT_Handle2Ptr()  
+  
+  /**Registeres the pointer and gets the handle.
+   * For the 32 bit version the pointer are not registered, the pointer value is the handle.
+   * @param PTR given pointer as void*
+   * @param NAME unused here because nothing is registered.
+   * @param H Address of the handle, type is uint32*. The handle will be set with the pointer value.
+   * @return null, no error
+   * If the ptr is registered already, it is okay. The name will be ignored then, it returns the given handle. 
+   */ 
+  #define registerPtr_Handle2Ptr(PTR, NAME) (uint32)(PTR)
+  //old: setPtr_Handle2Ptr
+
+  #define debug_Handle2Ptr(H, N1, N2, TEXT)  //empty.
+  
+  #define handle_Handle2Ptr(PTR, H) (*H=(uint32)PTR, null)
+
+  /**Delivers the handle to the given pointer, only for 32-bit-Target system.
+   * The handle is the same value as the 32 bit pointer. It is delivered as uint32.
+   */
+  #define HANDLE_Handle2Ptr(PTR) ((uint32)PTR) 
+  /**This is the variant to get a pointer from handle for 32-bit-systems. The pointer is the same value as the handle.
+   * The macro delivers null for 'no error'.
+   * @param H handle as uint32 value. The value is the memory address.
+   * @param P_PTR address of the pointer. The address should be given as type void**
+   */  
+  #define getPtr_Handle2Ptr(H, P_PTR) ( *(P_PTR)= (void*)(H), null)
+  #define ptr_Handle2Ptr(HANDLE) ((void*)(HANDLE)) 
+  #define PTR_Handle2Ptr(handle, TYPE) ((TYPE*) handle)
+  #define PTRclr_Handle2Ptr(handle, TYPE) ((TYPE*) handle)
+  
+  /**For a 64 bit system using indices for handle it removes the address. For 32 it does nothing. Returns the pointer. */
+  #define clearHandle_Handle2Ptr(HANDLE)
+
+
+
 #endif  //DEF_HandlePtr64
 
 

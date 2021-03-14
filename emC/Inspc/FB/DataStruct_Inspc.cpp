@@ -71,6 +71,7 @@ char const* definePortType_DataStructMng_Inspc(DefPortTypes_emC* fbInfo, EDefPor
   fbInfo->ixInputStep = 0;
   fbInfo->ixInputStep2 = 0;
   fbInfo->ixInputUpd = 0;
+  fbInfo->mInputDataInit = 0;   //it is onyl defined by Tinit variable in analyzeVariableDef()
   zEntries = analyzeVariableDef(z_StringJc(inputDefinition), null, zEntries, fbInfo, 0, false, cause);
   fbInfo->mInputInit |= fbInfo->mInputVargInit;
   fbInfo->mInputUpd |= fbInfo->mInputVargStep;
@@ -440,14 +441,14 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
   int mBit = 1;
   if (thiz->base.super.mBitInheritInput) {
     CALLINE;
-    while(  mBit !=0 && (mBit & thiz->base.super.mBitInheritInput)==0 ) { //super bit not found yet, abort after 32 bit 
-      if(mBit & thiz->base.super.base.super.fBlockInfo->mInputInit) { //an init input
-        void const* addrInput = va_arg(varg, void const*);  //skip over later used inputs.
+    while(  mBit !=0 && (mBit & thiz->base.super.mBitInheritInput)==0 ) { // super bit not found yet, abort after 32 bit 
+      if(mBit & thiz->base.super.base.super.fBlockInfo->mInputInit) {     // an Tinit input?
+        void const* addrInput = va_arg(varg, void const*);  //read formally Tinit inputs
       }
       mBit <<=1;
     }
     uint32 const* hAddrSubTypeMng = va_arg(varg, uint32 const*);
-    mBit <<=1;  //because va_arg ware read.
+    mBit <<=1;  //It is then the bit for chainInput if used.
     uint32 hSubTypeMng = *hAddrSubTypeMng;
     if(hSubTypeMng ==0){ subTypeMng = null; }  //not yet given, wait with initialization.
     else if(hSubTypeMng ==-1){ subTypeMng = thiz; }
@@ -1036,6 +1037,8 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
     append_z_StringBuilderJc(&sb.b, "_s;\n\n", _thCxt);
     os_fwrite(fwr, chars_StringBuilderJc(&sb.b), length_StringBuilderJc(&sb.b));
     //
+    zline = !line + "extern_C ClassJc const refl_"+structName+";\n\n" >>= &cline; os_fwrite(fwr, cline, zline);
+    
     setLength_StringBuilderJc(&sb.b, 0, _thCxt);
     append_z_StringBuilderJc(&sb.b, "void ctor_", _thCxt);
     append_z_StringBuilderJc(&sb.b, structName, _thCxt);
@@ -1095,13 +1098,15 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
       zline = !line + "//Do not modify. \n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "#include <genSrcInspc/" + structName + ".h> \n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "\n\n" >>= &cline; os_fwrite(fwr, cline, zline);
-      zline = !line + "#ifdef __USE_REFLECTION__\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "#ifdef DEF_REFLECTION_FULL\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  #include <genSrcInspc/" + structName + ".crefl>\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "#elif !defined(DEFINED_refl_Test_Ctrl) && !defined(DEF_REFLECTION_NO)  //may defined in the *.refloffs.c file\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "  ClassJc const refl_" + structName + " = INIZ_ClassJc(refl_" + structName + ", \"" + structName + "\");\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "#endif\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "\n\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "void ctor_" + structName + "(" + structName + "_s* thiz) {\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  STACKTRC_ENTRY(\"ctor_" + structName + "\");\n" >>= &cline; os_fwrite(fwr, cline, zline);
-      zline = !line + "    iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_" + structName + ", 0);\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "    CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), refl_" + structName + ", 0);\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  STACKTRC_RETURN;\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "} //ctor_...\n" >>= &cline; os_fwrite(fwr, cline, zline);
       //

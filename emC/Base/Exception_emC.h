@@ -868,7 +868,7 @@ extern_C void printStackTraceFile_Exception_emC ( Exception_emC* ythis, struct O
 
 /**This routine is called in the THROW processing, if no TRY-level is found. The user should write this method.*/
 
-extern_C void uncatched_Exception_emC  (  Exception_emC* ythis, ThreadContext_emC_s* _thCxt);
+extern_C void uncatched_Exception_emC ( Exception_emC* ythis, ThreadContext_emC_s* _thCxt);
 //extern_C void uncatchedException ( int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt);
 
 #define getMessage_Exception_emC(YTHIS, THC) ((YTHIS)->exceptionMsg)

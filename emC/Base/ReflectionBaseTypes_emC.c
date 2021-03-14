@@ -43,7 +43,33 @@ const ClassJc  refl__intJc =
 { CONST_ObjectJc(0, &refl__intJc, null)
   , "int"
   , 0 //Position of the data of this class itself, after some superclasses.
+  , sizeof(int)
+  , null  //Attributes
+  , null  //Methods
+  , { null }  //superclass
+  , null  //interfaces
+  , 4 << kBitPrimitiv_Modifier_reflectJc
+};
+
+
+const ClassJc  refl__int32Jc =
+{ CONST_ObjectJc(0, &refl__int32Jc, null)
+  , "int32"
+  , 0 //Position of the data of this class itself, after some superclasses.
   , sizeof(int32)
+  , null  //Attributes
+  , null  //Methods
+  , { null }  //superclass
+  , null  //interfaces
+  , 4 << kBitPrimitiv_Modifier_reflectJc
+};
+
+
+const ClassJc  refl__uint32Jc =
+{ CONST_ObjectJc(0, &refl__uint32Jc, null)
+  , "uint32"
+  , 0 //Position of the data of this class itself, after some superclasses.
+  , sizeof(uint32)
   , null  //Attributes
   , null  //Methods
   , { null }  //superclass
@@ -95,10 +121,10 @@ const ClassJc refl__floatJc =
 };
 
 
-const ClassJc refl__longJc =
-{ CONST_ObjectJc(0, &refl__longJc, null)
+const ClassJc refl__int64Jc =
+{ CONST_ObjectJc(0, &refl__int64Jc, null)
 
-, "long"
+, "int64"
 , 0 //Position of the data of this class itself, after some superclasses.
 , sizeof(int64)
 , null  //Attributes
@@ -109,10 +135,24 @@ const ClassJc refl__longJc =
 };
 
 
-const ClassJc refl__byteJc =
-{ CONST_ObjectJc(0, &refl__byteJc, null)
+const ClassJc refl__uint64Jc =
+{ CONST_ObjectJc(0, &refl__uint64Jc, null)
 
-, "byte"
+, "uint64"
+, 0 //Position of the data of this class itself, after some superclasses.
+, sizeof(int64)
+, null  //Attributes
+, null  //Methods
+, { null }  //superclass
+, null  //interfaces
+, 8 << kBitPrimitiv_Modifier_reflectJc
+};
+
+
+const ClassJc refl__int8Jc =
+{ CONST_ObjectJc(0, &refl__int8Jc, null)
+
+, "int8"
 , 0 //Position of the data of this class itself, after some superclasses.
 , sizeof(int8)
 , null  //Attributes
@@ -123,10 +163,38 @@ const ClassJc refl__byteJc =
 };
 
 
-const ClassJc refl__shortJc =
-{ CONST_ObjectJc(0, &refl__shortJc
+const ClassJc refl__uint8Jc =
+{ CONST_ObjectJc(0, &refl__uint8Jc, null)
+
+, "uint8"
+, 0 //Position of the data of this class itself, after some superclasses.
+, sizeof(int8)
+, null  //Attributes
+, null  //Methods
+, { null }  //superclass
+, null  //interfaces
+, 1 << kBitPrimitiv_Modifier_reflectJc
+};
+
+
+const ClassJc refl__int16Jc =
+{ CONST_ObjectJc(0, &refl__int16Jc
 , null)
-, "short"
+, "int16"
+, 0 //Position of the data of this class itself, after some superclasses.
+, sizeof(int16)
+, null  //Attributes
+, null  //Methods
+, { null }  //superclass
+, null  //interfaces
+, 2 << kBitPrimitiv_Modifier_reflectJc
+};
+
+
+const ClassJc refl__uint16Jc =
+{ CONST_ObjectJc(0, &refl__uint16Jc
+, null)
+, "uint16"
 , 0 //Position of the data of this class itself, after some superclasses.
 , sizeof(int16)
 , null  //Attributes
@@ -180,7 +248,7 @@ const ClassJc refl__doubleJc =
 
 
 const ClassJc  refl_bitfieldJc =
-{ CONST_ObjectJc(0, &refl__intJc, null)
+{ CONST_ObjectJc(0, &refl_bitfieldJc, null)
   , "bitfield"
   , 0 //Position of the data of this class itself, after some superclasses.
   , sizeof(int32)

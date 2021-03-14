@@ -558,15 +558,15 @@ const struct Reflection_Fields_Param_t_t
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_t
     }
-  , 
-    { "testNoJergLim"
-    , (uint16)(0 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
-    , REFLECTION_BITFIELD                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(TimeSignals_Inspc, par.testAddStepSpline) - OFFSET_IN_STRUCT(TimeSignals_Inspc, par) + SIZEOF_IN_STRUCT(TimeSignals_Inspc, par.testAddStepSpline)/* offset on bitfield: offset of element before + sizeof(element before) */)
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_t
-    }
+//  , 
+//    { "testNoJergLim"
+//    , (uint16)(0 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
+//    , REFLECTION_BITFIELD                                                                                            
+//    , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
+//    , (int32)(OFFSET_IN_STRUCT(TimeSignals_Inspc, par.testAddStepSpline) - OFFSET_IN_STRUCT(TimeSignals_Inspc, par) + SIZEOF_IN_STRUCT(TimeSignals_Inspc, par.testAddStepSpline)/* offset on bitfield: offset of element before + sizeof(element before) */)
+//    , 0  //offsetToObjectifcBase                                                            
+//    , &refl_Param_t
+//    }
   
 } }; 
  

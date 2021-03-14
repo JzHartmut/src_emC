@@ -575,14 +575,14 @@ extern_C void ctor_ClassOffset_idxVtblJc(ClassOffset_idxVtblJc* thiz, ClassJc co
 Note: The types with postfix Jc are the same as in Java (int is 32 bit, long is 64 bit), the transformations from special c/c++-Types are made with define.
 */
 
-#define refl__uint64Jc refl__longJc
-#define refl__int64Jc refl__longJc
-#define refl__uint32Jc refl__intJc
-#define refl__int32Jc refl__intJc
-#define refl__uint16Jc refl__shortJc
-#define refl__int16Jc refl__shortJc
-#define refl__uint8Jc refl__byteJc
-#define refl__int8Jc refl__byteJc
+//#define refl__uint64Jc refl__longJc
+//#define refl__int64Jc refl__longJc
+//#define refl__uint32Jc refl__intJc
+//#define refl__int32Jc refl__intJc
+//#define refl__uint16Jc refl__shortJc
+//#define refl__int16Jc refl__shortJc
+//#define refl__uint8Jc refl__byteJc
+//#define refl__int8Jc refl__byteJc
 //extern_C const struct Reflectionint_t{ ClassJc clazz; } reflectionint;
 
 #define refl_int16BigEndian refl__shortJc
@@ -597,10 +597,17 @@ Note: The types with postfix Jc are the same as in Java (int is 32 bit, long is 
 #define refl__float32Jc refl__floatJc
 //extern_C const struct Reflectionfloat_t{ ClassJc clazz; } reflectionfloat;
 
-extern_C const ClassJc refl__longJc;
+extern_C const ClassJc refl__int64Jc;
+extern_C const ClassJc refl__uint64Jc;
+extern_C const ClassJc refl__int32Jc;
+extern_C const ClassJc refl__uint32Jc;
+extern_C const ClassJc refl__int16Jc;
+extern_C const ClassJc refl__uint16Jc;
+extern_C const ClassJc refl__int8Jc;
+extern_C const ClassJc refl__uint8Jc;
 extern_C const ClassJc refl__intJc;
-extern_C const ClassJc refl__shortJc;
-extern_C const ClassJc refl__byteJc;
+//extern_C const ClassJc refl__shortJc;
+//extern_C const ClassJc refl__byteJc;
 extern_C const ClassJc refl__booleanJc;
 extern_C const ClassJc refl__floatJc;
 extern_C const ClassJc refl__doubleJc;

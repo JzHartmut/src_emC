@@ -371,53 +371,23 @@ typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
 
 
 
-/**This macro defines a struct with a pointer to the given type and a integer number.
- * Usual it can be used to describe exactly an 1-dimensional array. The integer number is the number of elements,
- * the size in memory is (sizeof(TYPE) * numberOfElements). 
- * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
+
+/**This file includes common definition valid for any compiler independent of applstdef_emC.h
+ * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
+#include <emC/Base/types_def_common.h>
+
+
+
+
+/**Bits of length of constant string adequate to VALTYPE_AddrVal_emC. 
+ * It have to be a mask with set bits on right side (all last significant bits).
+ * The next 2 bits left are used internally for designation of String.
+ * see [[mNonPersists__StringJc]], [[mThreadContext__StringJc]].
+ * See also [[kIsCharSequence_StringJc]]
+ * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc.
+ * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
  */
-#define VALTYPE_AddrVal_emC int32
-#define STRUCT_AddrVal_emC(NAME, TYPE) struct NAME##_T { TYPE* addr; VALTYPE_AddrVal_emC val; } NAME
-
-
-
-/**This definition defines a uint32 handle which is used instead a pointer for the 64-bit-System,
- * but in the 32-bit-System the handle value is equal the pointer value.
- * The generated code (from Simulink) uses the uint32 handle type, because the connection between blocks
- * is done with the uint32 handle connection. For internal data access with 64-bit-Pointer the Simulink S-Functions
- * translate the handle value to a pointer via a common pointer table. The handle is the index to the table entry. 
- * Used especially in Simulink S-Functions for bus elements and outputs which are references.
- * In this case, for a 32 bit system, both, the handle and pointer are accessible as union.
- * old: OS_HandlePtr
- * search: HandlePtr_emC ( TYPE, NAME)
- */
-#define HandlePtr_emC(TYPE, NAME) union {uint32 NAME; TYPE* p##NAME;}
-
-
-
-/**Possibility to store a pointer (a memory address) as handle if desired. 
- * It depends from the target system. 
- * If dll are used and independent linked objects are existing, especially if dll are used,
- * and graphical programming is used (that is especially in Simulink S-Functions), 
- * then a memory address should be present by a handle, the handle is converted to the address 
- * via a central table which contains all addresses of instances, common for all dll. 
- * In that case the Handle_ADDR_emC is an uint32, and the TYPE is not relevant. 
- * This system is supported by emC/Base/Handle_prt64_emC.*. 
- * For simple applications it is defined with the immediately access, maybe with 64-bit-addresses.
- *
- * Here it is immediately the 64-bit-address with the proper type (important for debug).
- */
-#define HandleADDR_emC(TYPE) TYPE*
-
-/**It presents the TYPE-correct address as pointer in C/++*/
-#define ptr_HandleADDR_emC(HANDLE, TYPE) (HANDLE)
-
-/**It presents an integer value as handle, may be identical with the address. */
-#define handle_HandleADDR_emC(HANDLE) ((intPTR)(HANDLE))
-
-
-
-
+#define mLength_StringJc                 0x00003fff
 
 
 
@@ -427,20 +397,16 @@ typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
   #define FALSE false
 #endif
 
-
-/**This file includes common definition valid for any compiler independent of applstdef_emC.h
- * as enhancement of C or C++. For example bool, true and false are defined in a C compilation. */
-
-
-#include <emC/Base/types_def_common.h>
-
-
-#define DEF_compareAndSet_AtomicInteger
-//This is implemented in emC_srcOSALspec/hw_Intel_x86_Gcc/os_atomic.c:
-extern_C int32 compareAndSwap_AtomicInteger(int32 volatile* reference, int32 expect, int32 update);
-
+//#define DEF_compareAndSet_AtomicInteger
+//This is implemented in emC_srcOSALspec/..../os_atomic.c:
+extern_C void* compareAndSwap_AtomicRef(void* volatile* reference, void* expect, void* update);
+extern_C int compareAndSwap_AtomicInteger(int volatile* reference, int expect, int update);
 extern_C int64 compareAndSwap_AtomicInt64(int64 volatile* reference, int64 expect, int64 update);
+extern_C int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 update);
+extern_C int16 compareAndSwap_AtomicInt16(int16 volatile* reference, int16 expect, int16 update);
 
+
+#if 0
 extern_C bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update) {
@@ -459,7 +425,6 @@ INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expec
   int64 read = compareAndSwap_AtomicInt64(reference, expect, update);
   return read == expect;
 }
-
 //The processor allows only a 32-bit-compare and set. To execute it for a given 16-bit-location
 //it is supposed that the other half word is stable. 
 //Hence it is read as expected and written unchanged with update. 
@@ -487,17 +452,10 @@ INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expec
   //only a little bit more calculation time because unnecesarry repetition.
   return compareAndSet_AtomicInt32(ref32, expect32, update32);
 }
+#endif
 
 
 
-//INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
-//  //NOTE casting from void* to int32_t is ok because this file is for 32-bit-Systems.
-//  if(sizeof(void*) != sizeof(int32)) {
-//    return false;
-//  }
-//  int32 read = compareAndSwap_AtomicInteger((int32_t*)reference, (int32_t)expect, (int32_t)update);
-//  return read == (int32_t)expect;
-//}
 
 
 

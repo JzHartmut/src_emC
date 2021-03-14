@@ -38,7 +38,8 @@ void dtor_DataStructBase_Inspc  (  DataStructBase_Inspc_s* thiz) {
 
 
 
-int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_DefPortType_emC const* portInfo, VariableParam_DataStruct_Inspc_s* varInfo
+int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_DefPortType_emC const* portInfo
+  , VariableParam_DataStruct_Inspc_s* varInfo
   , char* bufferDataPath, int zBufferDatapath
   , EDefPortTypes_emC cause, ThCxt* _thCxt) {
   STACKTRC_TENTRY("analyzeLineDef");
@@ -168,6 +169,10 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
     seekNoWhitespaceOrComments_StringPartJc(sp, _thCxt);
     cc = length_StringPartJc(sp, _thCxt) > 0 ? charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt) : ';';
   } //while cLine
+  if(  varInfo !=null && varInfo->typeRef[0] ==0 
+    && (portInfoWr ==null || portInfoWr->type == 0)) {    // No type: given, then the structType is outputted 
+    strncpy(varInfo->typeRef, varInfo->structType, sizeof(varInfo->typeRef));
+  }
   STACKTRC_RETURN posDataPath;
 }
 
@@ -176,7 +181,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
 
 /**Analyzes the given parameter in the text area and sets port info about the signal inputs.
 */
-int analyzeVariableDef  (  StringJc sVarDef
+int analyzeVariableDef ( StringJc sVarDef
 , VariableParam_DataStruct_Inspc_s* const varArray, int zVarArray
 , DefPortTypes_emC* fbInfo, int ixPortStart, bool bOutput
 , EDefPortTypes_emC cause
@@ -248,7 +253,8 @@ int analyzeVariableDef  (  StringJc sVarDef
           int32 mBit = 1 << ixPort;
           //The entry defines mInputInit if a '=' is contained:
           if(fbInfo->entries[ixPort].newDefined_Tstep_Tinit & mInputInit_Entry_DefPortType_emC) {
-            fbInfo->mInputVargInit   |= mBit; //store in bitmask
+            fbInfo->mInputVargInit |= mBit; //store in bitmask
+            fbInfo->mInputDataInit |= mBit;
             fbInfo->nrofVargsInit +=1;
           } else { //no '=' contained, it is an update port.
             fbInfo->entries[ixPort].newDefined_Tstep_Tinit |= mInputUpd_Entry_DefPortType_emC;

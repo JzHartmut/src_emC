@@ -384,7 +384,7 @@ inline void registerSetData_DataStructMng_Inspc(DataStructMng_Inspc* thiz, struc
  * @param typeData_param Used to check the in type. Used for generated code to include the header genSrcInspc/<&typeData_param> and to cast. 
  * @param header_param: Unused in this source for simulation, used in tlc-File and in Sfunction-Wrapper for generated code to include any header.
  * @param out_y Any reference based on ObjectJc
- * @simulink Operation-FB, try-catch.
+ * @XXXsimulink Operation-FB, try-catch.
  * 
  */
 void checkAndCast_DataStructMng_Inspc(UserHead_DataStructMng_Inspc* in, StringJc typeData_param, StringJc header_param, UserHead_DataStructMng_Inspc** out_y);

@@ -16,8 +16,14 @@ typedef struct Access_DataStruct_Inspc_t
   
   /**The output properties for Simulink, used for code generation. */
   Entry_DefPortType_emC portProps;
+
+  /**Result of the parsed typeName_param on init_....(...), prevent multiple parsing. */
+  VariableParam_DataStruct_Inspc_s typenameinfo;
   
-  /**Information about the block in the simulink model. */
+  /**Information about the block in the simulink model. Set in ctor from properties of the model.
+   * Either the input0 for set or the output0 for get is used to complete type information 
+   * if there are not given in typenameinfo.
+   */
   struct DefPortTypes_emC_t const* fblockInfo;
 
   /**null if ok, elsewhere the error message from init_...(...)*/
@@ -40,11 +46,25 @@ typedef struct Access_DataStruct_Inspc_t
   extern_C ClassJc const refl_Access_DataStruct_Inspc;
 #endif
 
-
-
-
-
+/**It is emmpty. */
 void dtor_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s const* thiz);
+
+
+/**Common init.
+ * @param portProps to know Port information
+ * @param bSet for using for the set_Access_DataStruct_Inspc(...)
+ * @param typeName_param from parameter field name. 
+ * @param typeDataIn_param used for Simulink coder to define the access type. Checked here. It may be a superType.
+ * @param datapath_param used for getData_Access_DataStruct_Inspc(...)
+ * @param data the input in the Tinit time for the Sfunction
+ */
+bool init_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz
+  , Entry_DefPortType_emC const* portProps
+  , bool bSet
+  , StringJc typeName_param 
+  , struct UserHead_DataStructMng_Inspc_t* data
+  , uint32* handle_y);
+
 
 /**
  * @param header_param not used, only for tlc
@@ -53,10 +73,14 @@ void dtor_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s const* thiz);
 Access_DataStruct_Inspc_s* ctorTinit_Access_DataStruct_Inspc(ObjectJc* othiz, StringJc header_param, struct DefPortTypes_emC_t const* fblockInfo);
 
 
-/**
-* @simulink init.
-*/
-bool initTinit_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data, uint32* handle_y);
+/**Initializes with given parameter and accesses in the Tinit time, because it is an init value. 
+ * @param typeName
+ * @simulink init.
+ */
+inline bool initTinit_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data, uint32* handle_y) {
+  return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixOutputStep], false, typeName_param, data, handle_y);
+}
+
 
 
 /**Routine to determine type all parameter for code generation for the tlc file. 
@@ -109,24 +133,13 @@ char const* definePortType_Access_DataStruct_Inspc(DefPortTypes_emC* defPortType
 
 
 
-/**Common init.
- * @param portProps to know Port information
- * @param bSet for using for the set_Access_DataStruct_Inspc(...)
- * @param typeName_param from parameter field name. 
- * @param typeDataIn_param used for Simulink coder to define the access type. Checked here. It may be a superType.
- * @param datapath_param used for getData_Access_DataStruct_Inspc(...)
- * @param data the input in the Tinit time for the Sfunction
- */
-bool init_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefPortType_emC const* portProps, bool bSet
-  , StringJc typeName_param /*, StringJc typeDataIn_param, StringJc datapath_param */
-  , struct UserHead_DataStructMng_Inspc_t* data);
-
-
-/**TODO
+/**Initializes to get access. Due to typeName_param the source is searched and tested.
+ * @param typeName_param String contain type, possible access path and variable name.
+ *        Syntax see [[DataStructBase_Inspc.h:analyzeLineDef_DataStruct_Inspc(...)]]  
  * @simulink init.
  */
 inline bool initGet_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param/*, StringJc typeDataIn_param, StringJc datapath_param*/, struct UserHead_DataStructMng_Inspc_t* data) {
-  return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixOutputStep], false, typeName_param, /*typeDataIn_param, datapath_param, */data);
+  return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixOutputStep], false, typeName_param, /*typeDataIn_param, datapath_param, */data, null);
 }
 
 
@@ -152,10 +165,18 @@ int defTlcParams_Access_DataStruct_Inspc(DefPortTypes_emC* portInfo_tlcParam
 
 
 
-/**TODO
+/**Accesses the prepared data.
+ * Thiz contains the given address and number of bytes. 
+ * Both is set and tested in [[initGet_Access_DataStruct_Inspc(...)]].
+ * Hence only a simple memcpy is neccesary to set the output data
+ * The parameter determines the type and size of the outport.
+ * The simulation engine checks whether the output type is proper to the wired connection in the model.
+ * @param y_y address to the output data, type and size is proper checked on init and by the model. 
  * @simulink Object-FB, no-thizInit, no-thizStep.
  */
-inline void get_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void* y_y) { memcpy(y_y, thiz->addr, thiz->zBytes); }
+inline void get_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void* y_y) { 
+  memcpy(y_y, thiz->addr, thiz->zBytes); 
+}
 
 
 
@@ -164,7 +185,7 @@ inline void get_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void* y
  * @simulink init.
  */
 inline bool initSet_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data) {
-  return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixInputStep], true, typeName_param, data);
+  return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixInputStep], true, typeName_param, data, null);
 }
 
 /**TODO
@@ -188,7 +209,7 @@ inline Access_DataStruct_Inspc_s* ctorTrg_Access_DataStruct_Inspc(ObjectJc* othi
 inline bool initTrg_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, StringJc typeDataIn_param, StringJc datapath_param, struct UserHead_DataStructMng_Inspc_t* data) {
   #ifndef __ignoreInCheader_zbnf__
   Entry_DefPortType_emC typeOfVar = { 'S', 2, 0, 1,{ 2 } }; //type of the variable instead port type. It is int16[2]
-  return init_Access_DataStruct_Inspc(thiz, &typeOfVar, false, typeName_param, data);
+  return init_Access_DataStruct_Inspc(thiz, &typeOfVar, false, typeName_param, data, null);
   #endif//__ignoreInCheader_zbnf__
 }
 

@@ -61,7 +61,7 @@ const struct Reflection_Fields_int8ARRAY_t
     }
   , { "data"
     , 256   //nrofArrayElements
-    , &refl__shortJc
+    , &refl__int16Jc
     //, REFLECTION_int8
     , (1<<kBitPrimitiv_Modifier_reflectJc) |kStaticArray_Modifier_reflectJc|kEmbeddedContainer_Modifier_reflectJc //bitModifiers
     , (int16)((intptr_t)(&((int8_ObjArray*)(0x1000))->data) - 0x1000)
@@ -653,7 +653,7 @@ const ClassJc refl_Data_ExtReflectionJc =
   const struct Reflection_Fields_int8_Y_t { ObjectArrayJc head; FieldJc data[2]; } refl_Fields_int8_Y =
   { CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_int8_Y)
     ,{ { "head", 0 , &refl_ObjectArrayJc, 0, 0, 0, &refl_int8_Y }
-    ,{ "data", 0 , &refl__byteJc, 0, 0, 0, &refl_int8_Y }
+    ,{ "data", 0 , &refl__int8Jc, 0, 0, 0, &refl_int8_Y }
     } };
   const ClassJc refl_int8_Y =
   { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_int8_Y, null)

@@ -66,25 +66,28 @@ char const* definePortType_Access_DataStruct_Inspc(DefPortTypes_emC* defPortType
 //This routine will be only used in an experience environment, especially in Simulink Sfunction.
 //For a fast application special code will be generated. 
 //It is a common routine for get and set, distinguish due to nrofOutputs
-bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefPortType_emC const* portProps, StringJc name_param, ObjectJc* data) {
+bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefPortType_emC const* portProps
+  , StringJc name_param, ObjectJc* data) {
   STACKTRC_ENTRY("initObj_Access_DataStruct_Inspc");
-
-  VariableParam_DataStruct_Inspc_s typenameinfo = {0};
+  if (data == null) {                                    //yet null on input, not ready  
+    STACKTRC_RETURN false;                               //not initialized till now, repeat access later
+  }
+  //VariableParam_DataStruct_Inspc_s typenameinfo = {0};
   char accessPath1[48] = {0};
   StringPartScanJc_s  sscan = { 0 };
   StringPartJc_s* sp = &sscan.base.super;
   ctorO_Cs_StringPartScanJc(&sscan.base.object, name_param, _thCxt);
   setIgnoreEndlineComment_S_StringPartJc(sp, z_StringJc("//"), _thCxt);
   setIgnoreWhitespaces_StringPartJc(sp, true, _thCxt);
-  analyzeLineDef_DataStruct_Inspc(&sscan, portProps, &typenameinfo, accessPath1, sizeof(accessPath1)-1,  kRun_EPropagatePortTypes_emC, _thCxt);
+  analyzeLineDef_DataStruct_Inspc(&sscan, portProps, &thiz->typenameinfo, accessPath1, sizeof(accessPath1)-1,  kRun_EPropagatePortTypes_emC, _thCxt);
 
 
   bool ready = false;  //init ready
   int32 ixField = 0;    
   MemSegmJc mem;
   thiz->portProps = *portProps;  //struct copy.
-  if(typenameinfo.structType[0] !=0) {
-    if(!instanceof_s_ObjectJc(data, typenameinfo.structType)) {
+  if(thiz->typenameinfo.structType[0] !=0) {
+    if(!instanceof_s_ObjectJc(data, thiz->typenameinfo.structType)) {
       THROW_s0(ClassCastException, "input type fault ", 0,0);
     } 
   }
@@ -92,77 +95,89 @@ bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefP
   if (thiz->err == null) { // no error in ctor
     ClassJc const* clazz = getClass_ObjectJc(data);
     MemSegmJc dataAddr; setAddrSegm_MemSegmJc(dataAddr, data, 0);  //no extern Access
-    MemC dataM = getMemC_ObjectJc(data);        //to check addr in range of MemC
+    MemC dataM = getMemC_ObjectJc(data);                   // it is the range of the UserDataBlock in the DataMng_Inspc
     thiz->field = null;
-    if (length_StringJc(accessPath) > 0) {
+    if (length_StringJc(accessPath) > 0) {                 // Accesspath given, it means the variable is in a referenced Object
       mem = searchObject_SearchElement_Inspc(accessPath, clazz, dataAddr, &thiz->field, &ixField, _thCxt);
       if (ixField == kNullPointerInPath_SearchElement_Inspc) {
         thiz->err = "null pointer in access path";
-        STACKTRC_RETURN false;  //not initialized till now.
+        STACKTRC_RETURN false;                             //not initialized till now, repeat access later
       }
       else if (thiz->field == null) { 
         thiz->err = "faulty datapath_param"; 
-      } else {
-        MemSegmJc dataAddr = getObjAndClass_FieldJc(thiz->field, mem, &clazz, "I", -1);
-        dataM = build_MemC(dataAddr.addr.a, clazz->nSize);        //to check addr in range of MemC
-      }
-    } //TODO build dataM from accessed
-    StringJc nameElement = zMax_StringJc(typenameinfo.name, sizeof(typenameinfo.name));  //extractName_TypeName_emC(name_param, _thCxt);
-    if (dataAddr.addr.a == null) {
-      thiz->err = "null pointer in access path";
-      thiz->field = null;
-    } else {
-      mem = searchObject_SearchElement_Inspc(nameElement, clazz, dataAddr, &thiz->field, &ixField, _thCxt);
-      //Note: isField may be == kNullPointerInPath_SearchElement_Inspc, then return false without error!
-    }
-    if (thiz->err == null && thiz->field != null && ixField >= -1) { //Note: ixField == -1 means, no index. <-1 is error
-
-      MemSegmJc addrMem = getAddressElement_FieldJc(thiz->field, mem, "I", ixField); //Note: ixField may be -1
-      void* addr = ADDR_MemSegmJc(addrMem, void); //Note: ignore segment information, always in own segment, no remote access.
-      int nBytesData;
-      if (thiz->field->bitModifiers & mReference_Modifier_reflectJc) {
-        if(isHandleRef_FieldJc(thiz->field)) {
-          nBytesData = 4;  //a reference is stored as handle or it is a int32 address space on target.
-        } else {
-          nBytesData = sizeof(void*);  //size of a reference.
+      } else {                                             // exchange dataAddr and dataM with the accessed Object 
+        dataAddr = getObjAndClass_FieldJc(thiz->field, mem, &clazz, "I", -1);
+        if (dataAddr.addr.a == null) {                         //either on input or  
+          thiz->field = null; //force recall
+          STACKTRC_RETURN false;                               //not initialized till now, repeat access later
         }
+        dataM = build_MemC(dataAddr.addr.a, clazz->nSize); //the range of the refered object, to check addr in range of MemC
       }
-      else {
-        ClassJc const* fieldType = getType_FieldJc(thiz->field);
-        nBytesData = fieldType->nSize;
-        char typeField = typeChar_FieldJc(thiz->field);
-        if(thiz->portProps.type != typeField) {
-          thiz->err = "type faulty ";
-          THROW_s0(IllegalArgumentException, thiz->err, thiz->portProps.type, typeField);
-        }
-      }
-      if (thiz->err == null) {
-        int arraysizeField = getStaticArraySize_FieldJc(thiz->field);
-        if (arraysizeField == 0) { arraysizeField = 1; }
-        int sizeField = nBytesData * arraysizeField;
-        int sizeType = thiz->portProps.sizeType;
-        for (int ixDim = 0; ixDim < thiz->portProps.dimensions; ++ixDim) {
-          sizeType *= thiz->portProps.sizeArray[ixDim];
-        }
-        if (sizeType == 0) {
-          thiz->err = "dimension error";
-        } else {
-          thiz->zBytes = MIN_emC(sizeField, sizeType);
-          checkAddress_MemC(&dataM, addr, thiz->zBytes);  //causes an exception on faulty addr
-          thiz->addr = addr;
-        }
-      }
-      ready = thiz->err == null; //true for register.
-    }
-    else if (ixField == kNullPointerInPath_SearchElement_Inspc) {
-      //it is especially if the FBs before are not initialized:
-      thiz->field = null;     //really not found.
-      //ready == false, repeat the access, not all members may be initialized yet.
+    } 
+    StringJc nameElement = zMax_StringJc(thiz->typenameinfo.name, sizeof(thiz->typenameinfo.name));
+    if( length_StringJc(nameElement) == 0) {               // name not given, it means input addr should be returned.
+      if(dataAddr.addr.a !=data) {
+        THROW_s0(IllegalArgumentException, "faulty: path given, no element given", 0, 0);
+      }           
+      thiz->addr = data;                                   //will be evaluated outside: return handle of data
+      thiz->zBytes = 0;
+      ready = true;
     }
     else {
-      thiz->addr = null;
-      if(thiz->err == null) {  //if field == null 
-        thiz->err = "element not found"; 
+      if (dataAddr.addr.a != null) {                         //either on input or  
+        mem = searchObject_SearchElement_Inspc(nameElement, clazz, dataAddr, &thiz->field, &ixField, _thCxt);
+      }
+      if (thiz->err == null && thiz->field != null && ixField >= -1) { //Note: ixField == -1 means, no index. <-1 is error
+
+        MemSegmJc addrMem = getAddressElement_FieldJc(thiz->field, mem, "I", ixField); //Note: ixField may be -1
+        void* addr = ADDR_MemSegmJc(addrMem, void); //Note: ignore segment information, always in own segment, no remote access.
+        int nBytesData;
+        if (thiz->field->bitModifiers & mReference_Modifier_reflectJc) {
+          if(isHandleRef_FieldJc(thiz->field)) {
+            nBytesData = 4;  //a reference is stored as handle or it is a int32 address space on target.
+          } else {
+            nBytesData = sizeof(void*);  //size of a reference.
+          }
+        }
+        else {
+          ClassJc const* fieldType = getType_FieldJc(thiz->field);
+          nBytesData = fieldType->nSize;
+          char typeField = typeChar_FieldJc(thiz->field);
+          if(thiz->portProps.type != typeField) {
+            thiz->err = "type faulty ";
+            THROW_s0(IllegalArgumentException, thiz->err, thiz->portProps.type, typeField);
+          }
+        }
+        if (thiz->err == null) {
+          int arraysizeField = getStaticArraySize_FieldJc(thiz->field);
+          if (arraysizeField == 0) { arraysizeField = 1; }
+          int sizeField = nBytesData * arraysizeField;
+          int sizeType = thiz->portProps.sizeType;
+          for (int ixDim = 0; ixDim < thiz->portProps.dimensions; ++ixDim) {
+            sizeType *= thiz->portProps.sizeArray[ixDim];
+          }
+          if (sizeType == 0) {
+            thiz->err = "dimension error";
+          } else {
+            thiz->zBytes = MIN_emC(sizeField, sizeType);
+            checkAddress_MemC(&dataM, addr, thiz->zBytes);  //causes an exception on faulty addr
+            thiz->addr = addr;
+          }
+        }
+        ready = thiz->err == null; //true for register.
+      }
+      else if (ixField == kNullPointerInPath_SearchElement_Inspc) {
+        //it is especially if the FBs before are not initialized:
+        THROW_s0(IllegalArgumentException, "should not entry here", 0, 0);
+
+        thiz->field = null;     //really not found.
+        //ready == false, repeat the access, not all members may be initialized yet.
+      }
+      else {
+        thiz->addr = null;
+        if(thiz->err == null) {  //if field == null 
+          thiz->err = "element not found"; 
+        }
       }
     }
   }
@@ -180,32 +195,60 @@ bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefP
 
 
 
-bool init_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefPortType_emC const* portProps, bool bSet, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data) {
+bool init_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz
+  , Entry_DefPortType_emC const* portProps
+  , bool bSet
+  , StringJc typeName_param 
+  , struct UserHead_DataStructMng_Inspc_t* data
+  , uint32* handle_y) {
   bool bInit = false;
   STACKTRC_ENTRY("init_Access_DataStruct_Inspc");
   if (--thiz->ctRepeatInit < 0) {
     thiz->err = "does not initialize in 100 time, maybe faulty connection on input or faulty name ";
     THROW_s0(IllegalArgumentException, thiz->err, 0, 0);
   }
-  if (thiz->field == null && thiz->err == null && data !=null) {
-    bool found = initObj_Access_DataStruct_Inspc(thiz, portProps, typeName_param, &data->base.object);
+  //if (thiz->field == null && thiz->err == null && data !=null) {
+    bInit = initObj_Access_DataStruct_Inspc(thiz, portProps, typeName_param, &data->base.object);
     //found is false if the field is not found in the whole path. 
-    if (thiz->err != null) { //non thrown error, error is stored, it is initialized without field.
+    if (!bInit && thiz->err != null) { //non thrown error, error is stored, it is initialized without field.
       setInitialized_ObjectJc(&thiz->base.object);  //do not repeat the access. err is set.
       bInit = true;
     }
-    else if (thiz->field != null && found) {
+    else if (bInit) {
       //successfull
-      if(bSet) {
-        registerSetData_DataStructMng_Inspc(data->thiz1, thiz);
+      if(thiz->addr ==null) {  
+        THROW_s0(IllegalArgumentException, "unexpected: is initialized but addr ==null", 0, 0);
       }
-      setInitialized_ObjectJc(&thiz->base.object);  //ok
-      bInit = true;
+      if(handle_y !=null) {                      // output to set in Tinit
+        uint32 yHandle;
+        if(thiz->addr == data) {                 // returns data itself, but as handle:
+          yHandle = handle_Handle2Ptr(data);     // data has a handle anyway.
+        } 
+        else {
+          yHandle = *(uint32*)thiz->addr;        //Address in the source DataStruct, read the handle there.
+        } 
+        if (yHandle != 0) {                      //It should be !=0 for initializing
+          *handle_y = yHandle;
+          setInitialized_ObjectJc(&thiz->base.object);  //ok
+        } else {                                   
+          bInit = false;                         // if the handle is 0, repeat initialization.
+        }
+      }
+      else {
+        if(thiz->addr == data) {
+          THROW_s0(IllegalArgumentException, "return thiz not supported. Use instead getTinit_DataStruct_Inspc", 0, 0);
+        }
+       
+        if(bSet) {
+          registerSetData_DataStructMng_Inspc(data->thiz1, thiz);
+        }
+        setInitialized_ObjectJc(&thiz->base.object);  //ok
+      }
     }
     else {
       //no error, no field, initialize again.
     }
-  }
+  //}
   if (thiz->err) {
     THROW_s0(IllegalArgumentException, thiz->err, 0, 0);
   }
@@ -214,34 +257,43 @@ bool init_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefPort
 
 
 
-bool initTinit_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data, uint32* handle_y) {
+bool XXXinitTinit_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param
+  , struct UserHead_DataStructMng_Inspc_t* data, uint32* handle_y) {
   bool bInit = false;
   STACKTRC_ENTRY("init_Access_DataStruct_Inspc");
   if (--thiz->ctRepeatInit < 0) {
     thiz->err = "does not initialize in 100 time, maybe faulty connection on input or faulty name ";
     THROW_s0(IllegalArgumentException, thiz->err, 0, 0);
   }
-  bool found = false;
   if(data !=null) {
     if (thiz->field == null && thiz->err == null) {
-      found = initObj_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixOutputStep], typeName_param, &data->base.object);
+      bInit = initObj_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixOutputStep], typeName_param, &data->base.object);
     }
     else {
-      found = thiz->field != null;
+      bInit = thiz->field != null;
     }
     //
-    if (thiz->err != null) {
+    if (!bInit && thiz->err != null) {
       setInitialized_ObjectJc(&thiz->base.object);  //do not repeat the access. err is set.
       bInit = true;
     }
-    else if (thiz->field != null && found) {
+    else if (bInit) {
       //successfull
-      //registerOutData_DataStructMng_Inspc(data->thiz1, thiz);
-      uint32 inpHandle = *(uint32*)thiz->addr;  //Address in the source DataStruct, read the handle there.
-      if (inpHandle != 0) {                     //It should be !=0 for initializing
-        *handle_y = inpHandle;
+      uint32 yHandle;
+      if(thiz->addr ==null) {  
+        THROW_s0(IllegalArgumentException, "unexpected: is initialized but addr ==null", 0, 0);
+      }
+      else if(thiz->addr == data) {                   // returns data itself, but as handle:
+        yHandle = handle_Handle2Ptr(data);       // data has a handle anyway.
+      } 
+      else {
+        yHandle = *(uint32*)thiz->addr;          //Address in the source DataStruct, read the handle there.
+      } 
+      if (yHandle != 0) {                        //It should be !=0 for initializing
+        *handle_y = yHandle;
         setInitialized_ObjectJc(&thiz->base.object);  //ok
         bInit = true;
+      } else {                                   // if the handle is 0, repeat initialization.  
       }
     }
     else {

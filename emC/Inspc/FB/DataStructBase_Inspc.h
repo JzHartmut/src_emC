@@ -128,6 +128,8 @@ typedef struct VariableParam_DataStruct_Inspc_Array_t { VariableParam_DataStruct
  * @param portInfo signal, port definitions. It is read only if varInfo is not null. If varInfo==null, it is casted to not const.
  * @param varInfo destination for the signal properties. Can be null, especially for port initialization.
  *   If is not null, then portInfo is complete and is not changed.
+ * @param bufferDataPath if given the line can contain a datapath instead of variable name only:
+ * @param zBufferDatapath its size, then 'path.to.name' is parsed and stored there..
  * @param cause portInfo is not changed in kRun_EPropagatePortTypes_emC
  */
 int analyzeLineDef_DataStruct_Inspc(struct StringPartScanJc_t* sscan, Entry_DefPortType_emC const* portInfo, VariableParam_DataStruct_Inspc_s* varInfo

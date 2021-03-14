@@ -138,7 +138,11 @@ typedef struct DefPortTypes_emC_t
   /**Number of variable Inputs for Step, Upd etc. It should be adequate number of Bits in the Bit masks.*/
   //int8 nrVargInputStep, nrVargInputUpd, nrVargInputInit, nrVargOutputStep, nrVargOutputInit; 
 
+  /**Mask for up to 32 pins as step, init etc. pins. */
   int32 mInputStep, mInputUpd, mInputInit, mOutputStep, mOutputInit;
+
+  /**Especially only for DataStructMng: Data inputs in init, it does not contain the inherit and chain input. */
+  int32 mInputDataInit;
 
   /**If variable arguments are used, it should be determine by a C routine. 
    * This mask bit shows which pins are for Init time and which are for step time.
