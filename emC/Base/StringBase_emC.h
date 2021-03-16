@@ -153,10 +153,11 @@ int searchChar_emC ( char const* text, int zText, char cc);
 
 
 
-/**Compares two strings with a given maximum of chars.
- * @arg maxNrofChars If no zero terminated strings should be compare, it is the length of both strings.
- *     In this case a different length of Strings should be checked before, and the length difference 
- *     can be used as result already.
+/**Compares two strings till a given maximum of chars or till zero termination.
+ * @arg maxNrofChars max length which is tested. For example size of a buffer. 
+ *     If non zero terminated strings should be compare, it is the max expected length of both strings.
+ *     Note: If one String is longer, till zero termination, it is not detected here.
+ *     In this case an expected zero termination should be tested additonally outside of this routine.
  * @return ==0 if both strings are equal till maxNrofChars or both have a '\0'.
  *    >0 if text2 > text1 (longer or character code higher) whereby the value is the position of the first difference.
  *    <0 if text1 > text2 (longer or character code higher) whereby the absolute value is the position of the first difference.

@@ -10,7 +10,7 @@
 #include <emC/Jc/FileIoJc.h>
 #include <emC/Jc/StringJc.h>
 #include <emC/J1c/StringFunctionsJc.h>
-#include <emC/J1c/StringPartScanJc.h>
+#include <emC/J1c/StringPartJc.h>
 
 #include <emC/OSAL/os_mem.h>
 #include <string.h>
@@ -19,7 +19,7 @@
 #include "emC/Inspc/FB/genRefl/DataStruct_Inspc.crefl"
 #ifdef __SIMULINK_SFN__  
   //only for Sfn where Access_DataStruct_Inspc.c is not member of project, but reflections are need:
-  #include "emC/Inspc/FB/genRefl/Access_DataStruct_Inspc.crefl"
+  //#include "emC/Inspc/FB/genRefl/Access_DataStruct_Inspc.crefl"
 #endif
 
 
@@ -30,6 +30,152 @@
 
 
 
+int parseLineDef_DataStruct_Inspc  ( struct StringPartJc_t* spSrc, Entry_DefPortType_emC const* portInfo
+  , VariableParam_DataStruct_Inspc_s* varInfo
+  , char* bufferDataPath, int zBufferDatapath
+  , EDefPortTypes_emC cause, ThCxt* _thCxt) {
+  STACKTRC_TENTRY("analyzeLineDef");
+  StringPartJc sp(spSrc);
+  Entry_DefPortType_emC* portInfoWr = varInfo ? null: (Entry_DefPortType_emC*) portInfo; //not const if varInfo not given 
+  //StringPartJc_s* sp = &sscan->base.super;
+  int posDataPath = 0;
+  bool bCheckPrimitivetype = true;
+  char cc = sp.seekNoWhitespaceOrComments().getCurrentChar();
+  while (sp.getLenCurrent() > 0 && cc != ',' && cc != ';') {  //text has some information.
+    //int pos = (int)sp.getCurrentPosition();  //may be a name
+    //checks some parts of a line as alternatives in any order  { = | -23: | F2,2: | Type: | (StructType*) | name }
+    if (cc == '=') {
+      if (varInfo == null) { //port definition phase
+        portInfoWr->newDefined_Tstep_Tinit = mInputInit_Entry_DefPortType_emC;
+      }
+      cc = sp.seekPos(1).seekNoWhitespaceOrComments().getCurrentChar();
+    }
+    else if (cc == '-') {
+      int accessRights = 0;
+      sp.seekPos(1).lentoNumber(false, &accessRights, null_StringJc);
+      if(!sp.found()) {
+        THROW_s0(IllegalArgumentException, "-23 digits expected after - for access rights at pos ", (int)sp.getCurrentPosition(), 0);
+      }
+      else if (varInfo) {
+          varInfo->accessRights = (int8)accessRights;
+      }
+      cc = sp.fromEnd().seekNoWhitespaceOrComments().getCurrentChar();
+    }
+    else if (cc == '(') {                        // the (structType*)
+      sp.seekPos(1).seekNoWhitespaceOrComments().lentoIdentifier();
+      if(sp.found()) {
+        if(varInfo !=null) {
+          sp.copyCurrentChars(varInfo->structType, sizeof(varInfo->structType));
+        }
+        sp.fromEnd().seek(')', seekEnd_StringPartJc);      //skip over *, it is optional, seek after ')'
+        cc = sp.seekNoWhitespaceOrComments().getCurrentChar();
+      } else {
+        THROW_s0(IllegalArgumentException, "after (: structType ) missing at pos ", (int)sp.getCurrentPosition(), 0);
+      }
+    }
+    else if (cc == ':') {                        // ':' type follows
+      sp.seekPos(1).seekNoWhitespaceOrComments().lentoIdentifier();
+      char typeChar, typeCharInput;
+      int dimensions = 0;
+      uint16 sizeArray[ARRAYLEN_emC(portInfo->sizeArray)] = {0,0};  //double of portInfo->sizeArray
+      int posType = (int)sp.getCurrentPosition();
+      if(!sp.found()) {
+        THROW_s0(IllegalAccessException, "after : type missing at:", posType,0); 
+      } else {
+        int nChars = sp.getLenCurrent();
+        cc = sp.getCurrentChar();
+        if( nChars == 1 && indexOf_C_StringJc(z_StringJc("DFJISBUWVZCdfjisbZC"), cc) >= 0) {  //maybe special type identifier
+          typeCharInput = typeChar = cc;
+          sp.fromEnd();                          // After a primitive char 
+          cc = sp.getCurrentChar();              
+          while (cc =='*') {                     // '*2*2' some array sizes can follow
+            int32 asize = 0;           
+            sp.seekPos(1).lentoNumber(false, &asize, null_StringJc).fromEnd(); 
+            sizeArray[dimensions] = (int16)asize;
+            if (dimensions < ARRAYLEN_emC(sizeArray) - 1) { dimensions += 1; }  //simple prevent overflow, max 5 sizes, 
+            cc = sp.seekNoWhitespaceOrComments().getCurrentChar();
+          }
+        }
+        else {                                    
+          typeChar = 'H';                        // not a primitive found, it is a pointer type, a handle:
+          typeCharInput = 'U';  //handle is uint32
+          if(varInfo !=null) {                   
+            sp.copyCurrentChars(varInfo->typeRef, sizeof(varInfo->typeRef));
+          }
+          cc = sp.fromEnd().seekNoWhitespaceOrComments().getCurrentChar();
+        }
+        //
+        if(cause == kRun_EPropagatePortTypes_emC) { //The ports are already determined, check whether this info matches
+          //The info is gotten from the port already. compare it:
+          if(portInfo->type != typeChar && portInfo->type != typeCharInput) {
+            THROW_s0(IllegalAccessException, "different type char and port info @", posType, portInfo->type); 
+          }
+          if(dimensions == 0) {
+            ASSERT(portInfo->dimensions <=1); //may be 1 or 0
+            ASSERT(portInfo->sizeArray[0] <=2); //may be 1 or 0
+          } else {
+            ASSERT(portInfo->dimensions == dimensions);  //should be the same, else difference between intialized ports and info here.
+            ASSERT(memcmp(portInfo->sizeArray,sizeArray, sizeof(portInfo->sizeArray))==0);
+          }
+        }
+        else { //NOT kRun_EPropagatePortTypes_emC // The port info are determined by this routine.
+          portInfoWr->type = typeChar;          
+          portInfoWr->dimensions = dimensions;   //0 if no vector is given.
+          memcpy(portInfoWr->sizeArray, sizeArray, sizeof(portInfo->sizeArray));
+        }
+        //                                       // the sp position is after typechar or array sizes. cc is read
+      } //if found
+    } //if ':'
+    else if(sp.lentoIdentifier().found()) {      // an identifier without leading designation is the variable name
+      char* path = bufferDataPath;
+      char const* pathEnd = path + zBufferDatapath;
+      do {
+        int zName = 0;
+        char ce = sp.getCurrentEndChar();
+        if(ce == '[') {                          // access to an array element, syntax till ] is not checked here.
+          if(varInfo !=null) { 
+            varInfo->dimensionUsed +=1; 
+          }  //TODO more as one dimension.
+          sp.lento(']', lentoFromEnd_StringPartJc + lentoBehind_StringPartJc);
+        }
+        if(varInfo !=null) {                     //save name inclusively a possible array access.
+          zName = sp.copyCurrentChars(varInfo->name, sizeof(varInfo->name));
+        }
+        if(portInfoWr !=null) {                  // detect port configuration
+          portInfoWr->newDefined_Tstep_Tinit |= newDefined_Entry_DefPortType_emC;
+        }
+        cc = sp.fromEnd().seekNoWhitespaceOrComments().getCurrentChar();
+        if(cc == '.') {                            // '.' as path separator found
+          if(varInfo !=null) {
+            if(zName > sizeof(varInfo->name)) { zName = sizeof(varInfo->name); }
+            //if(zName >= zpath) { zName = zpath-1; }
+            if(path !=null) {
+              if(path !=bufferDataPath) {
+                *path++ = '.';
+              }
+              int zpath = (int)(pathEnd - path);
+              int nrCpy = strcpy_emC(path, varInfo->name, -zpath); //copy till end without space for 0
+              path += nrCpy;
+            }
+            *varInfo->name = 0;                  // name is invalid, used for the path 
+          }
+          sp.seekPos(1).lentoIdentifier().found();
+        }
+      }while (cc=='.');                          // a following identifier overwrites the before found name if it is not used as path. 
+    }
+    else if(cc == ',' || cc ==';') { 
+      //it is the end of the variabledef         // ',' ';' is the end of the variable def, end while, pos here.
+    }
+    else {
+      THROW_s0(IllegalArgumentException, "faulty char detected in typeName on pos ", (int)sp.getCurrentPosition(), 0);
+    }
+  } //while cLine
+  if(  varInfo !=null && varInfo->typeRef[0] ==0 
+    && (portInfoWr ==null || portInfoWr->type == 0)) {    // No type: given, then the structType is outputted 
+    strncpy(varInfo->typeRef, varInfo->structType, sizeof(varInfo->typeRef));
+  }
+  STACKTRC_RETURN posDataPath;
+}
 
 
 
@@ -244,14 +390,15 @@ void dtor_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
 }
 
 
-//Note: n1..n6: The memory is not persistent. Because they will be processed later, the content is copied to bufferNames. Compare with init_DataStructMng_Inspc
+
+
 void ctor_DataStruct_Inspc(DataStruct_Inspc* thiz, DefPortTypes_emC* fbInfo
 , StringJc subName_param
 , char const inputDefinition[500]
 ) {
   STACKTRC_ENTRY("ctor_DataStruct_Inspc");
   iniz_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), &refl_DataStruct_Inspc, 0);
-  ctor_DataStructCommon_Inspc(thiz, fbInfo, inputDefinition, 0, 1);
+  ctor_DataStructCommon_Inspc(thiz, fbInfo, inputDefinition, 0, 1);  //never inherit, always chain
   copyToBuffer_StringJc(subName_param, 0, -1, thiz->subName, sizeof(thiz->subName)-1);
   STACKTRC_RETURN;
 }
@@ -374,9 +521,9 @@ bool init_DataStruct_Inspc(DataStruct_Inspc* thiz
   DataStruct_Inspc* prevchain = null;
   if (thiz->mBitChainInput) {
     int mBit = 1;
-    while(  mBit !=0 && (mBit & thiz->mBitChainInput)==0 ) { //super bit not found yet, abort after 32 bit 
+    while(  mBit !=0 && (mBit & thiz->mBitChainInput)==0 ) { // super bit not found yet, abort after 32 bit 
       if(mBit & thizd->fBlockInfo->mInputInit) { //an init input
-        void const* addrInput = va_arg(varg, void const*);  //skip over later used inputs.
+        void const* addrInput = va_arg(varg, void const*);   // skip over later used inputs.
       }
       mBit <<=1;
     }
@@ -400,7 +547,7 @@ bool init_DataStruct_Inspc(DataStruct_Inspc* thiz
   //if comming here, thiz->prevChain is set or is really null.
   *thizout_y = thiz;  //set for chain to mng
   if( thiz->userData.addr != null) { //it is processed from master 
-    int32 mInit = initInputs_DataStruct_Inspc(thiz, varg, _thCxt);
+    int32 mInit = initInputs_DataStruct_Inspc(thiz, vargSub, _thCxt);  //vargSub: start with varg on input
     if(mInit ==0) {
       setInitialized_ObjectJc(&thiz->base.object);  //update can work
       STACKTRC_RETURN true; //all intialized

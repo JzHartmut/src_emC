@@ -190,6 +190,8 @@ void finalize_StringPartJc_F(ObjectJc* othis, ThCxt* _thCxt);
 
  extern StringJc sVersion_StringPartJc;   /*Version, history and license.*/
 #define seekEnd_StringPartJc 1  /*Flag to force setting the start position after the seeking string. See description on seek(CharSequence, int).*/
+#define lentoBehind_StringPartJc 1        //: Flag for lento(...) to set the len after the searched char or String, adequate seekEnd
+#define lentoFromEnd_StringPartJc 4       //: Flag for lento(...) to expand the length from the current end till endMax
 #define mSeekBackward__StringPartJc 0x10  /*Flag bit to force seeking backward. This value is contens impilicit in the mSeekBackFromStart or ~End,*/
 #define mSeekToLeft__StringPartJc 0x40  /*Flag bit to force seeking left from start (Backward). This value is contens impilicit in the seekBackFromStart*/
  extern const int32 seekToLeft_StringPartJc;   /*Flag to force seeking backward from the start position. See description on seek(CharSequence).*/
@@ -363,8 +365,25 @@ METHOD_C CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 
 
 METHOD_C void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, ThCxt* _thCxt);
 
-METHOD_C int32 length_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
+/**Old form with ThCxt, but it was never used. @deprecated */
+#define length_StringPartJc(THIZ, THCxt) getLenCurrent_StringPartJc(THIZ)
+
+/**Get the length of the current part. @since 2021-03 as inline. */
+INLINE_emC int32 getLenCurrent_StringPartJc(StringPartJc_s* thiz) {
+  return thiz->end - thiz->begin;
+}
+
+/**Copy the current part into a given character array. 
+ * If the current part is longer as the array, it is truncated. 
+ * @return number of copied character. If it is <lenDst, then a \0 is appended.
+ * If it is ==lenDst, a terminating 0 is not appended. 
+ * If it is >lenDst, it is truncated without terminating 0.
+ */
+extern_C int32 copyCurrentChars_StringPartJc(StringPartJc_s* thiz, char* dst, int lenDst);
+
+/**Copy the current part into a prepared StringBuilder. */
+extern_C int32 copyCurrent_StringPartJc(StringPartJc_s* thiz, StringBuilderJc_s* dst);
 
 /**Returns the lenght of the maximal part from current position. Returns also 0 if no string is valid.
 */
@@ -394,6 +413,19 @@ position, the length() is 0, because the 'w' is outside.
 </pre>
 */
 METHOD_C struct StringPartJc_t* lento_c_StringPartJc(StringPartJc_s* thiz, char cc, ThCxt* _thCxt);
+
+
+/**maybe expands the length.
+ * @param mode 
+ *   if lentoFromEnd_StringPartJc then expands the length. If not found, then remain current length.
+ *   if lentoFromEnd_StringPartJc not set, then starts from begin till at max the current end.
+ *                                         whereby the current end is usal thiz->end == thiz->endMax.
+ *   if lentoBehind_StringPartJc is set and found, then sets end behind the found cc.
+ * @return this
+ * @sets thiz->found in any case. 
+ */
+extern_C struct StringPartJc_t* lento_cMode_StringPartJc(StringPartJc_s* thiz, char cc, int mode);
+
 
 /**Sets the endposition of the part of string to exclusively the given string.
 If the string is not found, the end position is set to start position, so the part of string is emtpy.
@@ -428,6 +460,38 @@ If the part starts not with a identifier char, the end is set to the start posit
 @see lentoIdentifier().
 */
 METHOD_C struct StringPartJc_t* lentoIdentifier_CsCs_StringPartJc(StringPartJc_s* thiz, CharSeqJc additionalStartChars, CharSeqJc additionalChars, ThCxt* _thCxt);
+
+
+
+  /** Sets the end position of the part of string to the end of the number which is beginning on start.
+   *  If the part starts not with an admissible char, the end is set to the start position 
+   *  and this.bFound is set to false.
+   *  If a number is found, maybe consist only as separatorChars, this.bFound is set to true.
+   *  It may be recommended using this routine if a number character is really expected.
+   *  <br>
+   *  Example: <code> " 1'234'456.235"</code> is parsed correctly as 1234456 
+   *  with separatorChars=" '". The dot is not parsed. 
+   *  <br>
+   *  Example: to parse an expected number with sign, test firstly the sign (before number).
+   *  <pre>
+   *  int[] nr = int[1];
+   *  char cc = sp.{@link #getCurrentChar()};
+   *  if(cc == '-') { bNeg = true; }
+   *  sp.lentoNumber(false, nr, null);
+   *  if(bNeg) { nr[0] = -nr[0]; }
+   *  sp.{@link #fromEnd()} 
+   *  </pre> 
+   *  @java2c=return-this.
+   *  @param bHex also parse a..f and A..F, build a hexa number
+   *  @param dst either null or int[1] as destination for the parsed number. 
+   *    Note: The length of the number for fractional part can be detected with separtorChars=null 
+   *    and {@link #getLenCurrent()} 
+   *  @param separatorChars CharSequence of additional chars there are also accept inside a number
+   *        
+   */
+  extern_C StringPartJc_s* lentoNumber_StringPartJc(StringPartJc_s* thiz, bool bHex, int* dst, StringJc separatorChars);
+
+
 
 /**Sets the len to the first position of any given char, but not if the char is escaped.
 'Escaped' means, a \ is disposed before the char.
@@ -951,6 +1015,11 @@ METHOD_C CharSeqJc getCurrent_StringPartJc(StringPartJc_s* thiz, int32 nChars, T
 */
 METHOD_C char getCurrentChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
 
+/**Gets the next char at the current end Position.
+ * The end position is after the current content. 
+ */
+METHOD_C char getCurrentEndChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt);
+
 /**Get the Line number and the column of the begin position. 
 Note: it returns null in this class, may be overridden.
 */
@@ -1097,15 +1166,25 @@ class StringPartJc
 
   int32 compareTo(CharSeqJc str2){  return compareTo_StringPartJc(thisp, str2,  null/*_thCxt*/); }
 
+  /**Initialize with a given initialized StringPartJc_s. @since 2021-03*/
+  StringPartJc(StringPartJc_s* sp) : thisp(sp) {} 
+
+  /**Initialize with an empty StringPartJc_s as working Object. TODO better use derived class containing StringPartJc_s */
   StringPartJc(StringPartJc_s* sp, CharSeqJc src) : thisp(sp) { 
     init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); 
     setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); 
     ctorO_Cs_StringPartJc(&thisp->base.object, src,  null/*_thCxt*/); 
   }
 
-  StringPartJc(StringPartJc_s* sp, CharSeqJc src, int32 start, int32 end) : thisp(sp) { init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); ctorO_Csii_StringPartJc(&thisp->base.object, src, start, end,  null/*_thCxt*/); }
+  /**Initialize with an empty StringPartJc_s as working Object. TODO better use derived class containing StringPartJc_s */
+  StringPartJc(StringPartJc_s* sp, CharSeqJc src, int32 start, int32 end) : thisp(sp) { 
+    init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); 
+    setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); 
+    ctorO_Csii_StringPartJc(&thisp->base.object, src, start, end,  null/*_thCxt*/); 
+  }
 
-  StringPartJc(StringPartJc_s* sp) : thisp(sp) { init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); ctorO_StringPartJc(&thisp->base.object,  null/*_thCxt*/); }
+  /**Initialize with an empty StringPartJc_s as working Object. TODO better use derived class containing StringPartJc_s */
+  //StringPartJc(StringPartJc_s* sp) : thisp(sp) { init_ObjectJc(&thisp->base.object, sizeof(StringPartJc_s), 0); setReflection_ObjectJc(&thisp->base.object, &refl_StringPartJc_s, 0); ctorO_StringPartJc(&thisp->base.object,  null/*_thCxt*/); }
 
   StringJc debugString(){  return debugString_StringPartJc(thisp,  null/*_thCxt*/); }
 
@@ -1118,6 +1197,8 @@ class StringPartJc
   StringPartJc& fromEnd(){ fromEnd_StringPartJc(thisp);  return *this; }
 
   char getCurrentChar(){  return getCurrentChar_StringPartJc(thisp,  null/*_thCxt*/); }
+
+  char getCurrentEndChar(){  return getCurrentEndChar_StringPartJc(thisp,  null/*_thCxt*/); }
 
   int32 getCurrentColumn(){  return getCurrentColumn_StringPartJc(thisp,  null/*_thCxt*/); }
 
@@ -1171,7 +1252,9 @@ class StringPartJc
 
   int32 lengthMaxPart(){  return lengthMaxPart_StringPartJc(thisp); }
 
-  int32 length(){  return length_StringPartJc(thisp,  null/*_thCxt*/); }
+  int32 getLenCurrent(){  return getLenCurrent_StringPartJc(thisp); }
+
+  int32 copyCurrentChars(char* dst, int lenDst) { return copyCurrentChars_StringPartJc(thisp, dst, lenDst); }
 
   StringPartJc& lentoAnyCharOutsideQuotion(CharSeqJc sChars, int32 maxToTest){ lentoAnyCharOutsideQuotion_StringPartJc(thisp, sChars, maxToTest,  null/*_thCxt*/);  return *this; }
 
@@ -1193,6 +1276,10 @@ class StringPartJc
 
   StringPartJc& lentoIdentifier(){ lentoIdentifier_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
+  StringPartJc& lentoNumber(bool bHex, int* dst, StringJc separatorChars) {
+    lentoNumber_StringPartJc(thisp, bHex, dst, separatorChars); return *this;
+  }
+
   StringPartJc& lentoLineEnd(){ lentoLineEnd_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
   StringPartJc& lentoNonEscapedString(CharSeqJc sEnd, int32 maxToTest){ lentoNonEscapedString_StringPartJc(thisp, sEnd, maxToTest,  null/*_thCxt*/);  return *this; }
@@ -1207,25 +1294,27 @@ class StringPartJc
 
   StringPartJc& lento(char cc){ lento_c_StringPartJc(thisp, cc,  null/*_thCxt*/);  return *this; }
 
+  StringPartJc& lento(char cc, int mode){ lento_cMode_StringPartJc(thisp, cc,  mode);  return *this; }
+
   StringPartJc& lento(int32 len){ lentoPos_StringPartJc(thisp, len, null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* line(){  return line_StringPartJc(thisp,  null/*_thCxt*/); }
+  StringPartJc&  line(){ line_StringPartJc(thisp,  null/*_thCxt*/); return *this; }
 
   StringPartJc& nextlineMaxpart(){ nextlineMaxpart_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
   CharSeqJc replace(CharSeqJc src, CharSeqJc_Y* placeholder, CharSeqJc_Y* value, struct StringBuilderJc_t* dst){  return replace_StringPartJc(src, placeholder, value, dst,  null/*_thCxt*/); }
 
-  struct StringPartJc_t* seekAnyChar(CharSeqJc chars){  return seekAnyChar_StringPartJc(thisp, chars,  null/*_thCxt*/); }
+  StringPartJc&  seekAnyChar(CharSeqJc chars){  seekAnyChar_StringPartJc(thisp, chars,  null/*_thCxt*/); return *this; }
 
   StringPartJc& seekAnyString(CharSeqJc_Y* strings, int32* nrofFoundString){ seekAnyString_StringPartJc(thisp, strings, nrofFoundString,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* seekBackToAnyChar(CharSeqJc chars){  return seekBackToAnyChar_StringPartJc(thisp, chars,  null/*_thCxt*/); }
+  StringPartJc&  seekBackToAnyChar(CharSeqJc chars){  seekBackToAnyChar_StringPartJc(thisp, chars,  null/*_thCxt*/); return *this; }
 
   StringPartJc& seekBackward(CharSeqJc sSeek){ seekBackward_StringPartJc(thisp, sSeek,  null/*_thCxt*/);  return *this; }
 
   StringPartJc& seekBegin(){ seekBegin_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* seekNextLine(){  return seekNextLine_StringPartJc(thisp,  null/*_thCxt*/); }
+  StringPartJc&  seekNextLine(){  seekNextLine_StringPartJc(thisp,  null/*_thCxt*/); return *this; }
 
   StringPartJc& seekNoChar(CharSeqJc sChars){ seekNoChar_StringPartJc(thisp, sChars,  null/*_thCxt*/);  return *this; }
 
@@ -1233,11 +1322,11 @@ class StringPartJc
 
   StringPartJc& seekNoWhitespace(){ seekNoWhitespace_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* seekPosBack(int32 nr){  return seekPosBack_StringPartJc(thisp, nr,  null/*_thCxt*/); }
+  StringPartJc&  seekPosBack(int32 nr){  seekPosBack_StringPartJc(thisp, nr,  null/*_thCxt*/); return *this; }
 
-  struct StringPartJc_t* seekPos(int32 nr){  return seekPos_StringPartJc(thisp, nr,  null/*_thCxt*/); }
+  StringPartJc&  seekPos(int32 nr){  seekPos_StringPartJc(thisp, nr,  null/*_thCxt*/); return *this; }
 
-  struct StringPartJc_t* seek(CharSeqJc sSeek){  return seek_Csi_StringPartJc(thisp, sSeek, seekNormal_StringPartJc, null/*_thCxt*/); }
+  StringPartJc&  seek(CharSeqJc sSeek){ seek_Csi_StringPartJc(thisp, sSeek, seekNormal_StringPartJc, null/*_thCxt*/); return *this; }
 
   StringPartJc& seek(CharSeqJc sSeek, int32 mode){ seek_Csi_StringPartJc(thisp, sSeek, mode,  null/*_thCxt*/);  return *this; }
 
@@ -1265,7 +1354,7 @@ class StringPartJc
 
   StringPartJc& setParttoMax(){ setParttoMax_StringPartJc(thisp,  null/*_thCxt*/);  return *this; }
 
-  struct StringPartJc_t* skipWhitespaceAndComment(){  return skipWhitespaceAndComment_StringPartJc(thisp,  null/*_thCxt*/); }
+  StringPartJc&  skipWhitespaceAndComment(){ skipWhitespaceAndComment_StringPartJc(thisp,  null/*_thCxt*/); return *this; }
 
   bool startsWith(CharSeqJc sCmp){  return startsWith_StringPartJc(thisp, sCmp,  null/*_thCxt*/); }
 

@@ -26,7 +26,7 @@ Access_DataStruct_Inspc_s* ctor_Access_DataStruct_Inspc(ObjectJc* othiz, /*Strin
 //Note: arg type not used here, but for definePortType_Access_DataStruct_Inspc to define here for Simulink SfH
 Access_DataStruct_Inspc_s* ctorTinit_Access_DataStruct_Inspc(ObjectJc* othiz, StringJc header_param, struct DefPortTypes_emC_t const* fblockInfo) {
   Access_DataStruct_Inspc_s* thiz = (Access_DataStruct_Inspc_s*)othiz;
-  STACKTRC_ENTRY("ctor_Access_DataStruct_Inspc");
+  STACKTRC_ENTRY("ctorTinit_Access_DataStruct_Inspc");
   thiz->fblockInfo = fblockInfo;
   iniz_ObjectJc(othiz, thiz, sizeof(*thiz), &refl_Access_DataStruct_Inspc, 0);
   thiz->ctRepeatInit = 100;
@@ -52,7 +52,7 @@ char const* definePortType_Access_DataStruct_Inspc(DefPortTypes_emC* defPortType
   ctorO_Cs_StringPartScanJc(&sscan.base.object, typeName_param, _thCxt);
   setIgnoreEndlineComment_S_StringPartJc(sp, z_StringJc("//"), _thCxt);
   setIgnoreWhitespaces_StringPartJc(sp, true, _thCxt);
-  analyzeLineDef_DataStruct_Inspc(&sscan, &defPortTypes->entries[ix], null, null, 0, cause, _thCxt);
+  parseLineDef_DataStruct_Inspc(sp, &defPortTypes->entries[ix], null, null, 0, cause, _thCxt);
   //char const* err = parse_Entry_DefPortType_emC(&defPortTypes->entries[ix], typeName_param, _thCxt);
   STACKTRC_RETURN null;
 }
@@ -79,7 +79,7 @@ bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefP
   ctorO_Cs_StringPartScanJc(&sscan.base.object, name_param, _thCxt);
   setIgnoreEndlineComment_S_StringPartJc(sp, z_StringJc("//"), _thCxt);
   setIgnoreWhitespaces_StringPartJc(sp, true, _thCxt);
-  analyzeLineDef_DataStruct_Inspc(&sscan, portProps, &thiz->typenameinfo, accessPath1, sizeof(accessPath1)-1,  kRun_EPropagatePortTypes_emC, _thCxt);
+  parseLineDef_DataStruct_Inspc(sp, portProps, &thiz->typenameinfo, accessPath1, sizeof(accessPath1)-1,  kRun_EPropagatePortTypes_emC, _thCxt);
 
 
   bool ready = false;  //init ready
@@ -151,9 +151,10 @@ bool initObj_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, Entry_DefP
         if (thiz->err == null) {
           int arraysizeField = getStaticArraySize_FieldJc(thiz->field);
           if (arraysizeField == 0) { arraysizeField = 1; }
-          int sizeField = nBytesData * arraysizeField;
+          int sizeField = nBytesData * arraysizeField;     // size of the element as scalar or field from Reflection
           int sizeType = thiz->portProps.sizeType;
-          for (int ixDim = 0; ixDim < thiz->portProps.dimensions; ++ixDim) {
+          int dimensionsUsed = thiz->portProps.dimensions - thiz->typenameinfo.dimensionUsed;
+          for (int ixDim = 0; ixDim < dimensionsUsed; ++ixDim) {
             sizeType *= thiz->portProps.sizeArray[ixDim];
           }
           if (sizeType == 0) {
@@ -328,7 +329,7 @@ int defTlcParams_Access_DataStruct_Inspc(DefPortTypes_emC* portInfo_tlcParam
   ctorO_Cs_StringPartScanJc(&sscan.base.object, name_param, _thCxt);
   setIgnoreEndlineComment_S_StringPartJc(sp, z_StringJc("//"), _thCxt);
   setIgnoreWhitespaces_StringPartJc(sp, true, _thCxt);
-  zChars = analyzeLineDef_DataStruct_Inspc(&sscan, &portInfo_tlcParam->entries[ix], &info, buffer_tlcParam, zBuffer_tlcParam, kRun_EPropagatePortTypes_emC, _thCxt);
+  zChars = parseLineDef_DataStruct_Inspc(sp, &portInfo_tlcParam->entries[ix], &info, buffer_tlcParam, zBuffer_tlcParam, kRun_EPropagatePortTypes_emC, _thCxt);
   //
   keys_tlcParam[3] = "datapath_param";
   values_tlcParam[3] = buffer_tlcParam;

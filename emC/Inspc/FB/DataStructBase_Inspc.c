@@ -38,7 +38,7 @@ void dtor_DataStructBase_Inspc  (  DataStructBase_Inspc_s* thiz) {
 
 
 
-int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_DefPortType_emC const* portInfo
+int XXXanalyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_DefPortType_emC const* portInfo
   , VariableParam_DataStruct_Inspc_s* varInfo
   , char* bufferDataPath, int zBufferDatapath
   , EDefPortTypes_emC cause, ThCxt* _thCxt) {
@@ -70,7 +70,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
         THROW_s0(IllegalArgumentException, "-23 digits expected after - for access rights at pos ", getCurrentPosition_StringPartJc(sp, _thCxt), 0);
       }
     }
-    else if (cc == '(' 
+    else if (cc == '('                           // the (structType*)
             && seekPos_StringPartJc(sp, 1, _thCxt)
             && scanStart_StringPartScanJc(sscan, _thCxt)
             && scanIdentifier_StringPartScanJc(sscan, _thCxt)
@@ -82,6 +82,7 @@ int analyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Entry_
         copyToBuffer_Part_StringPartJc(cs, varInfo->structType, 0, sizeof(varInfo->structType), _thCxt);
       }
     }
+    //else if (cc == ':') {                        // follows the : type
     else if (bCheckPrimitivetype && (nrPrimitive = indexOf_C_StringJc(z_StringJc("DFJISBUWVZCdfjisbZC"), cc)) >= 0) {  //maybe special type identifier
       char typeChar = cc;
       seekPos_StringPartJc(sp, 1, _thCxt);
@@ -235,7 +236,7 @@ int analyzeVariableDef ( StringJc sVarDef
       } //if cc == ','
       //
       // ===>
-      analyzeLineDef_DataStruct_Inspc(&sscan, portInfo, varInfo, null, 0, cause, _thCxt);
+      parseLineDef_DataStruct_Inspc(sp, portInfo, varInfo, null, 0, cause, _thCxt);
       //
       if(varArray==null) { //only in port initialization phase:
         if(bOutput) {

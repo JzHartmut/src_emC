@@ -78,8 +78,7 @@ int strncmp_emC ( char const* const text1, char const* const text2, int maxNrofC
   char const* text2a = (char const*) text2;
   int maxNrofChars1 = maxNrofChars;
   char c1, c2;
-  while(--maxNrofChars1 >=0 && (c1 = *text1a++) !=0 && (c2 = *text2a++) !=0
-    && c1 == c2);
+  while(--maxNrofChars1 >=0 && (c1 = *text1a++) == (c2 = *text2a++) && c1!=0 );
   //loop till end or till difference
   if(maxNrofChars1<0 || c1 == c2) return 0; //equal
   else if(c2 > c1) return maxNrofChars - maxNrofChars1;  //positive number, it is the position.

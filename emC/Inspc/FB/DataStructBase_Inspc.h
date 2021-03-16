@@ -90,7 +90,11 @@ typedef struct VariableParam_DataStruct_Inspc_t
   /**The index of the field in the reflection data. Up to 255 fields, no more. */
   uint8 ixField;
 
-  int8 __d1[2];
+  /**For access: Used number of indices for array access. 
+   * 0 on scalar or full array. 1 for element access to 1-dim array.*/
+  uint8 dimensionUsed;
+  
+  int8 __d1;
 
   /**Number of the bytes for the value storing. It is the type size * array size. */
   int16 nrofBytesValue;
@@ -120,22 +124,30 @@ typedef struct VariableParam_DataStruct_Inspc_Array_t { VariableParam_DataStruct
 
 
 
+int XXXanalyzeLineDef_DataStruct_Inspc(struct StringPartScanJc_t* sscan, Entry_DefPortType_emC const* portInfo, VariableParam_DataStruct_Inspc_s* varInfo
+  , char* bufferDataPath, int zBufferDatapath
+  , EDefPortTypes_emC cause, ThCxt* _thCxt);
+
 /**Analyzes the given parameter in the text area and sets port info about the signal inputs.
  * This routine is invoked for twice situations:
  * * Define the port properties. That is inside the [[definePortType_DataStruct_Inspc(...).]] There the varArray is null.
  * * Inside ctor. There informations about fields are stored in varArray. The fbInfo are not changed.
- * @param sscan Input, content of the parameter text area with specified syntax.
+ * @param spSrc Input, content of the parameter text area with specified syntax. Points on a definition of a variable. 
+ *   It is after a previous ',' or ';'.
  * @param portInfo signal, port definitions. It is read only if varInfo is not null. If varInfo==null, it is casted to not const.
  * @param varInfo destination for the signal properties. Can be null, especially for port initialization.
- *   If is not null, then portInfo is complete and is not changed.
+ *   If is not null, then portInfo is complete, really read only, it is not changed.
  * @param bufferDataPath if given the line can contain a datapath instead of variable name only:
  * @param zBufferDatapath its size, then 'path.to.name' is parsed and stored there..
  * @param cause portInfo is not changed in kRun_EPropagatePortTypes_emC
+ * @return
+ * On return the current position of spSrc is on the ',' or ';'. Can be checked outside, skip outside.
  */
-int analyzeLineDef_DataStruct_Inspc(struct StringPartScanJc_t* sscan, Entry_DefPortType_emC const* portInfo, VariableParam_DataStruct_Inspc_s* varInfo
+int parseLineDef_DataStruct_Inspc  ( struct StringPartJc_t* spSrc
+  , Entry_DefPortType_emC const* portInfo
+  , VariableParam_DataStruct_Inspc_s* varInfo
   , char* bufferDataPath, int zBufferDatapath
   , EDefPortTypes_emC cause, ThCxt* _thCxt);
-
 
 /**Analyzes the given input parameter text field, used yet for DataStructMng and for TimeSignals_Inspc. 
  * This routine is invoked for twice situations:

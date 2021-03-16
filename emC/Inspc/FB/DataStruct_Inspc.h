@@ -111,7 +111,7 @@ typedef struct DataStruct_Inspc_t
 
 
 
-/**Constructs and completes the instance.
+/**Constructs and completes the instance of a chained DataStruct (extension)
  * @simulink ctor
  */
 void ctor_DataStruct_Inspc(DataStruct_Inspc* thiz, DefPortTypes_emC* fblockInfo

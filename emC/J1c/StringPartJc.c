@@ -577,17 +577,6 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
   STACKTRC_LEAVE;
 }
 
-int32 length_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
-{ STACKTRC_TENTRY("length_StringPartJc");
-  
-  { 
-    
-    { STACKTRC_LEAVE;
-      return thiz->end - thiz->begin;
-    }
-  }
-  STACKTRC_LEAVE;
-}
 
 
 /**Returns the lenght of the maximal part from current position. Returns also 0 if no string is valid.*/
@@ -602,6 +591,32 @@ int32 lengthMaxPart_StringPartJc(StringPartJc_s* thiz)
       return 0;
   }
 }
+
+
+
+
+int32 copyCurrentChars_StringPartJc(StringPartJc_s* thiz, char* dst, int lenDst) {
+  char* dst1 = dst;
+  int zz = thiz->end - thiz->begin;
+  int z1 = zz;
+  bool bTerminate;
+  if(z1 >= lenDst) {
+    z1 = lenDst;             // truncate
+    bTerminate = false;
+  } else { 
+    bTerminate = true;       // appends \0 on end because space given.  
+  }
+  int ix = thiz->begin;
+  while(--z1 >=0) {          // copy char by char, thiz->current may be only able to read by chars.
+    *dst1++ = charAt_CharSeqJc(thiz->content, ix++, null);
+  }
+  if(bTerminate) {
+    *dst1 = 0;
+  }
+  return zz;                //number of chars should be copied, maybe >= lenDst
+}
+
+
 
 
 /**Sets the endposition of the part of string to the given chars after start.*/
@@ -674,6 +689,35 @@ struct StringPartJc_t* lento_c_StringPartJc(StringPartJc_s* thiz, char cc, ThCxt
     }
   }
   STACKTRC_LEAVE;
+}
+
+
+/**Sets the end position of the part of string to exclusively the char cc.*/
+struct StringPartJc_t* lento_cMode_StringPartJc(StringPartJc_s* thiz, char cc, int mode) { 
+  STACKTRC_ENTRY("lento_cMode_StringPartJc");
+  int end1, end9;
+  thiz->endLast = thiz->end;
+  if(mode & lentoFromEnd_StringPartJc) {
+    end1 = thiz->end -1;                       // end1: current end         
+    end9 = thiz->endMax;                       // end9: max end
+  } else {
+    end1 = thiz->begin -1;                     // from begin
+    end9 = thiz->end;                          // till current end only (!), usual endMax.  
+  }
+  while(++end1 < end9) { 
+    if(charAt_CharSeqJc(thiz->content/*J1cT2*/, end1, _thCxt) == cc) { 
+      thiz->end = (mode & lentoBehind_StringPartJc) ? end1 +1 : end1;
+      thiz->bFound = true;
+      STACKTRC_RETURN thiz;
+    }
+  }
+  //entry here if not found.
+  if( (mode & lentoFromEnd_StringPartJc) ==0) {// not found
+    thiz->end = thiz->begin;                   // then set len to 0 if not from end.
+  } else {                                     // from end : let thiz->end is unchanged.
+  }
+  thiz->bFound = false;
+  STACKTRC_RETURN thiz;
 }
 
 
@@ -780,6 +824,51 @@ struct StringPartJc_t* lentoIdentifier_CsCs_StringPartJc(StringPartJc_s* thiz, C
   }
   STACKTRC_LEAVE;
 }
+
+
+
+StringPartJc_s* lentoNumber_StringPartJc(StringPartJc_s* thiz, bool bHex, int* dst, StringJc separatorChars) {
+  STACKTRC_ENTRY("lentoNumber_StringPartJc");
+  thiz->endLast = thiz->end;
+  thiz->end = thiz->begin;
+  int nr = 0;
+  int mult = bHex? 16 : 10;
+  while(thiz->end < thiz->endMax){ 
+    char cc = charAt_CharSeqJc(thiz->content, thiz->end, _thCxt);
+    if(!isNull_StringJc(separatorChars) && indexOf_C_StringJc(separatorChars,cc) >=0) {
+      thiz->end +=1;                            //admissible additional character
+    }
+    else if(cc >='0' && cc <='9') {
+      nr = nr * mult + (cc - '0');             // add 0..9
+      thiz->end +=1;
+    }
+    else if(bHex) {
+      if( cc >='a' && cc <='f') {
+        cc -= 'a';
+      }
+      else if( cc >='A' && cc <='F') {
+        cc -= 'A';
+      }
+      else {
+        break;                                 // non number character, break the loop
+      }
+      nr = nr * mult + (cc + 10);              //add a..f or A..F
+      thiz->end +=1;
+    }
+    else { 
+      break;                                   // non number character, break the loop
+    }
+  }
+  thiz->bFound = (thiz->end > thiz->begin);
+  if(dst !=null) { 
+    dst[0] = nr;                               //store parsed number, dst should be initialized
+  }
+  return thiz;
+}
+
+
+
+
 
 
 /**Sets the len to the first position of any given char, but not if the char is escaped.*/
@@ -2542,6 +2631,28 @@ char getCurrentChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
       
       { STACKTRC_LEAVE;
         return charAt_CharSeqJc(thiz->content/*J1cT2*/, thiz->begin, _thCxt);
+      }
+    }
+    else { STACKTRC_LEAVE;
+      return '\0';
+    }
+  }
+  STACKTRC_LEAVE;
+}
+
+
+/**Gets the next char at current Position.*/
+char getCurrentEndChar_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
+{ 
+  STACKTRC_TENTRY("getCurrentChar_StringPartJc");
+  
+  { 
+    
+    if(thiz->end < thiz->endMax) 
+    { 
+      
+      { STACKTRC_LEAVE;
+        return charAt_CharSeqJc(thiz->content/*J1cT2*/, thiz->end, _thCxt);
       }
     }
     else { STACKTRC_LEAVE;
