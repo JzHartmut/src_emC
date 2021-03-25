@@ -37,7 +37,7 @@ const struct SuperClasses_ParFactors_PIDf_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
 { ObjectArrayJc head;
@@ -49,7 +49,7 @@ const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((ParFactors_PIDf_Ctrl_emC_s*)(0x1000))->kP)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, kP) - OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ParFactors_PIDf_Ctrl_emC
     }
@@ -58,7 +58,7 @@ const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((ParFactors_PIDf_Ctrl_emC_s*)(0x1000))->fTsD)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, fTsD) - OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ParFactors_PIDf_Ctrl_emC
     }
@@ -67,7 +67,7 @@ const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((ParFactors_PIDf_Ctrl_emC_s*)(0x1000))->fD)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, fD) - OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ParFactors_PIDf_Ctrl_emC
     }
@@ -76,7 +76,7 @@ const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_int64                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((ParFactors_PIDf_Ctrl_emC_s*)(0x1000))->fI)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, fI) - OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ParFactors_PIDf_Ctrl_emC
     }
@@ -85,7 +85,7 @@ const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((ParFactors_PIDf_Ctrl_emC_s*)(0x1000))->fIx)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, fIx) - OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ParFactors_PIDf_Ctrl_emC
     }
@@ -94,7 +94,7 @@ const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((ParFactors_PIDf_Ctrl_emC_s*)(0x1000))->fIy)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, fIy) - OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ParFactors_PIDf_Ctrl_emC
     }
@@ -103,7 +103,7 @@ const struct Reflection_Fields_ParFactors_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((ParFactors_PIDf_Ctrl_emC_s*)(0x1000))->yMax)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, yMax) - OFFSET_IN_STRUCT(ParFactors_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ParFactors_PIDf_Ctrl_emC
     }
@@ -121,7 +121,7 @@ const ClassJc   refl_ParFactors_PIDf_Ctrl_emC =
 , null  //method      
 , &superClasses_ParFactors_PIDf_Ctrl_emC_s.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif
@@ -164,7 +164,7 @@ const struct SuperClasses_Par_PIDf_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t  //Ty
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
 { ObjectArrayJc head;
@@ -176,7 +176,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->Tctrl)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, Tctrl) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -185,7 +185,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->yMax)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, yMax) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -194,7 +194,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->kP)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, kP) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -203,7 +203,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->Tn)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, Tn) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -212,7 +212,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->Td)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, Td) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -221,7 +221,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->T1d)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, T1d) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -230,7 +230,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_ParFactors_PIDf_Ctrl_emC                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->i)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, i) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -239,7 +239,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->dbgct_reparam)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, dbgct_reparam) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -248,7 +248,7 @@ const struct Reflection_Fields_Par_PIDf_Ctrl_emC_s_t
     , (uint16)(0 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
     , REFLECTION_BITFIELD                                                                                            
     , 0 | kBitfield_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((Par_PIDf_Ctrl_emC_s*)(0x1000))->dbgct_reparam)) -0x1000 ) + sizeof(((Par_PIDf_Ctrl_emC_s*)(0x1000))->dbgct_reparam)/* offset on bitfield: offset of element before + sizeof(element before) */
+    , (int32)(OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, dbgct_reparam) - OFFSET_IN_STRUCT(Par_PIDf_Ctrl_emC_s, base.obj) + SIZEOF_IN_STRUCT(Par_PIDf_Ctrl_emC_s, dbgct_reparam)/* offset on bitfield: offset of element before + sizeof(element before) */)
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Par_PIDf_Ctrl_emC
     }
@@ -266,7 +266,7 @@ const ClassJc   refl_Par_PIDf_Ctrl_emC =
 , null  //method      
 , &superClasses_Par_PIDf_Ctrl_emC_s.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif
@@ -313,7 +313,7 @@ const struct SuperClasses_PIDf_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t  //Type f
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
 const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
 { ObjectArrayJc head;
@@ -325,7 +325,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_ParFactors_PIDf_Ctrl_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->parNew)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, parNew) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -334,7 +334,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_ParFactors_PIDf_Ctrl_emC                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->f)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, f) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -343,7 +343,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->lim)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, lim) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -352,7 +352,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->Tstep)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, Tstep) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -361,7 +361,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->dwxP)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, dwxP) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -370,7 +370,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->wxP)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, wxP) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -379,7 +379,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->wxPD)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, wxPD) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -388,7 +388,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->y)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, y) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -397,7 +397,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , &refl_int64                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->qI)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, qI) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -406,7 +406,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->qIhi)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, qIhi) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -415,7 +415,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->wxP32)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, wxP32) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -424,7 +424,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->wxPD32)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, wxPD32) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -433,7 +433,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->qD1)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, qD1) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -442,7 +442,7 @@ const struct Reflection_Fields_PIDf_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((PIDf_Ctrl_emC_s*)(0x1000))->dbgct_reparam)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, dbgct_reparam) - OFFSET_IN_STRUCT(PIDf_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDf_Ctrl_emC
     }
@@ -460,7 +460,7 @@ const ClassJc   refl_PIDf_Ctrl_emC =
 , null  //method      
 , &superClasses_PIDf_Ctrl_emC_s.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif

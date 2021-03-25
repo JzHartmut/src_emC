@@ -38,6 +38,7 @@
 #define __MathJc_h__
 #include <compl_adaption.h>
 #include <math.h>
+#include <emC/Base/Math_emC.h>
 
 #define PI_MathJc 3.141592653589793
 

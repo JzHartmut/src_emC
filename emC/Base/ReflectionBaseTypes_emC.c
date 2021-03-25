@@ -346,6 +346,44 @@ const ClassJc refl_int64_uhilo =
 
 
 
+const struct Reflection_Fields_int16_complex_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} refl_Fields_int16_complex =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_int16_complex)
+, {
+    { "re"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(0)
+    , 0  //offsetToObjectifcBase
+    , &refl_int16_complex
+    }
+  , { "im"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int16
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(sizeof(float))
+    , 0  //offsetToObjectifcBase
+    , &refl_int16_complex
+    }
+} };
+
+
+const ClassJc refl_int16_complex =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_int16_complex, &refl_ClassJc)
+, "int16_complex"
+, 0
+, sizeof(int16_complex)
+, (FieldJcArray const*)&refl_Fields_int16_complex  //attributes and associations
+, null  //method
+, { null }  //superclass
+, null  //interfaces
+, 0 
+};
+
+
 const struct Reflection_Fields_float_complex_t
 { ObjectArrayJc head;
   FieldJc data[2];

@@ -106,7 +106,7 @@ extern_C bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_para
 extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn, float Td, float Tsd, ParFactors_PIDf_Ctrl_emC_s** parFactors_y );
 
 
-#if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
 
   /**Constructs.

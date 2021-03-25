@@ -4,10 +4,10 @@
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl_Param_OrthOsc2_FB;
+extern_C const ClassJc refl_Param_OrthOsc2_CtrlemC;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset_Param_OrthOsc2_FB[] =
+int32 const reflectionOffset_Param_OrthOsc2_CtrlemC[] =
 { 123  //< &nrClass>   //index of class in Offset data
 }; 
     
@@ -18,11 +18,11 @@ extern_C const ClassJc refl_ObjectJc;  //used for field obj
   
 
 extern_C const ClassJc refl_ObjectJc;  //the super class here used.
-const struct SuperClasses_Param_OrthOsc2_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_Param_OrthOsc2_CtrlemC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
-}  superClasses_Param_OrthOsc2_FB =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_Param_OrthOsc2_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+}  superClasses_Param_OrthOsc2_CtrlemC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_Param_OrthOsc2_CtrlemC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -37,100 +37,100 @@ const struct SuperClasses_Param_OrthOsc2_FB_ClassOffset_idxVtblJcARRAY_t  //Type
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
-const struct Reflection_Fields_Param_OrthOsc2_FB_t
+const struct Reflection_Fields_Param_OrthOsc2_CtrlemC_s_t
 { ObjectArrayJc head;
   FieldJc data[8];
-} refl_Fields_Param_OrthOsc2_FB =
-{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthOsc2_FB, 8, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+} refl_Fields_Param_OrthOsc2_CtrlemC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthOsc2_CtrlemC_s, 8, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "tStepOrthi"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->tStepOrthi)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, tStepOrthi) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   , 
     { "fq"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->fq)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, fq) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   , 
     { "nStepsPeriod"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->nStepsPeriod)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, nStepsPeriod) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   , 
     { "nom_m"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->nom_m)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, nom_m) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   , 
     { "fIa"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->fIa)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, fIa) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   , 
     { "fIb"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->fIb)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, fIb) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   , 
     { "fm"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->fm)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, fm) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   , 
     { "fmr"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Param_OrthOsc2_FB*)(0x1000))->fmr)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, fmr) - OFFSET_IN_STRUCT(Param_OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthOsc2_FB
+    , &refl_Param_OrthOsc2_CtrlemC
     }
   
 } }; 
  
 
-#define DEFINED_refl_Param_OrthOsc2_FB    
-const ClassJc   refl_Param_OrthOsc2_FB =
-{ INIZ_objReflId_ObjectJc(refl_Param_OrthOsc2_FB, refl_ClassJc, ID_refl_ClassJc)
-, "Param_OrthOsc2_FB"
+#define DEFINED_refl_Param_OrthOsc2_CtrlemC    
+const ClassJc   refl_Param_OrthOsc2_CtrlemC =
+{ INIZ_objReflId_ObjectJc(refl_Param_OrthOsc2_CtrlemC, refl_ClassJc, ID_refl_ClassJc)
+, "Param_OrthOsc2_CtrlemC"
 , 0
-, sizeof(Param_OrthOsc2_FB)
-, (FieldJcArray const*)&refl_Fields_Param_OrthOsc2_FB  //attributes and associations
+, sizeof(Param_OrthOsc2_CtrlemC_s)
+, (FieldJcArray const*)&refl_Fields_Param_OrthOsc2_CtrlemC_s  //attributes and associations
 , null  //method      
-, &superClasses_Param_OrthOsc2_FB.head.object  //superclass  
+, &superClasses_Param_OrthOsc2_CtrlemC_s.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif
@@ -140,10 +140,10 @@ const ClassJc   refl_Param_OrthOsc2_FB =
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl_OrthOsc2_FB_CtrlemC;
+extern_C const ClassJc refl_OrthOsc2_CtrlemC;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset_OrthOsc2_FB_CtrlemC[] =
+int32 const reflectionOffset_OrthOsc2_CtrlemC[] =
 { 123  //< &nrClass>   //index of class in Offset data
 }; 
     
@@ -152,7 +152,7 @@ int32 const reflectionOffset_OrthOsc2_FB_CtrlemC[] =
 
 extern_C const ClassJc refl_ObjectJc;  //used for field obj
 
-extern_C const ClassJc refl_Param_OrthOsc2_FB;  //used for field par
+extern_C const ClassJc refl_Param_OrthOsc2_CtrlemC;  //used for field par
 
 extern_C const ClassJc refl_Angle_abwmf_FB_CtrlemC;  //used for field anglep
 
@@ -162,11 +162,11 @@ extern_C const ClassJc refl_float_complex;  //used for field ypq
   
 
 extern_C const ClassJc refl_ObjectJc;  //the super class here used.
-const struct SuperClasses_OrthOsc2_FB_CtrlemC_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_OrthOsc2_CtrlemC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
-}  superClasses_OrthOsc2_FB_CtrlemC =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_OrthOsc2_FB_CtrlemC, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+}  superClasses_OrthOsc2_CtrlemC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_OrthOsc2_CtrlemC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -181,118 +181,118 @@ const struct SuperClasses_OrthOsc2_FB_CtrlemC_ClassOffset_idxVtblJcARRAY_t  //Ty
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
-const struct Reflection_Fields_OrthOsc2_FB_CtrlemC_t
+const struct Reflection_Fields_OrthOsc2_CtrlemC_s_t
 { ObjectArrayJc head;
   FieldJc data[10];
-} refl_Fields_OrthOsc2_FB_CtrlemC =
-{ INIZ_ObjectArrayJc(refl_Fields_OrthOsc2_FB_CtrlemC, 10, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+} refl_Fields_OrthOsc2_CtrlemC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_OrthOsc2_CtrlemC_s, 10, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "par"
     , 0   //no Array, no Bitfield                           
-    , &refl_Param_OrthOsc2_FB                                                                                            
+    , &refl_Param_OrthOsc2_CtrlemC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->par)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, par) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "anglep"
     , 0   //no Array, no Bitfield                           
     , &refl_Angle_abwmf_FB_CtrlemC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->anglep)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, anglep) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "kA"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->kA)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, kA) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "kB"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->kB)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, kB) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "yab"
     , 0   //no Array, no Bitfield                           
     , &refl_float_complex                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->yab)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, yab) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "ypq"
     , 0   //no Array, no Bitfield                           
     , &refl_float_complex                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->ypq)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, ypq) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "m"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->m)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, m) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "mr"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->mr)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, mr) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "b_"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->b_)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, b_) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   , 
     { "__spare"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((OrthOsc2_FB_CtrlemC*)(0x1000))->__spare)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, __spare) - OFFSET_IN_STRUCT(OrthOsc2_CtrlemC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthOsc2_FB_CtrlemC
+    , &refl_OrthOsc2_CtrlemC
     }
   
 } }; 
  
 
-#define DEFINED_refl_OrthOsc2_FB_CtrlemC    
-const ClassJc   refl_OrthOsc2_FB_CtrlemC =
-{ INIZ_objReflId_ObjectJc(refl_OrthOsc2_FB_CtrlemC, refl_ClassJc, ID_refl_ClassJc)
-, "OrthOsc2_FB_CtrlemC"
+#define DEFINED_refl_OrthOsc2_CtrlemC    
+const ClassJc   refl_OrthOsc2_CtrlemC =
+{ INIZ_objReflId_ObjectJc(refl_OrthOsc2_CtrlemC, refl_ClassJc, ID_refl_ClassJc)
+, "OrthOsc2_CtrlemC"
 , 0
-, sizeof(OrthOsc2_FB_CtrlemC)
-, (FieldJcArray const*)&refl_Fields_OrthOsc2_FB_CtrlemC  //attributes and associations
+, sizeof(OrthOsc2_CtrlemC_s)
+, (FieldJcArray const*)&refl_Fields_OrthOsc2_CtrlemC_s  //attributes and associations
 , null  //method      
-, &superClasses_OrthOsc2_FB_CtrlemC.head.object  //superclass  
+, &superClasses_OrthOsc2_CtrlemC_s.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif
@@ -302,10 +302,308 @@ const ClassJc   refl_OrthOsc2_FB_CtrlemC =
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl_Adjustk_OrthOsc2_FB;
+extern_C const ClassJc refl_Param_OrthOsc16_CtrlemC;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset_Adjustk_OrthOsc2_FB[] =
+int32 const reflectionOffset_Param_OrthOsc16_CtrlemC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_Param_OrthOsc16_CtrlemC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_Param_OrthOsc16_CtrlemC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_Param_OrthOsc16_CtrlemC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};                                                                                  
+
+const struct Reflection_Fields_Param_OrthOsc16_CtrlemC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[8];
+} refl_Fields_Param_OrthOsc16_CtrlemC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthOsc16_CtrlemC_s, 8, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "tStepOrthi"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, tStepOrthi) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  , 
+    { "fq"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, fq) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  , 
+    { "nStepsPeriod"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, nStepsPeriod) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  , 
+    { "nom_m"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, nom_m) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  , 
+    { "fIcos"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint16                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, fIcos) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  , 
+    { "fIsin"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_uint16                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, fIsin) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  , 
+    { "fm"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, fm) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  , 
+    { "fmr"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, fmr) - OFFSET_IN_STRUCT(Param_OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_Param_OrthOsc16_CtrlemC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_Param_OrthOsc16_CtrlemC    
+const ClassJc   refl_Param_OrthOsc16_CtrlemC =
+{ INIZ_objReflId_ObjectJc(refl_Param_OrthOsc16_CtrlemC, refl_ClassJc, ID_refl_ClassJc)
+, "Param_OrthOsc16_CtrlemC"
+, 0
+, sizeof(Param_OrthOsc16_CtrlemC_s)
+, (FieldJcArray const*)&refl_Fields_Param_OrthOsc16_CtrlemC_s  //attributes and associations
+, null  //method      
+, &superClasses_Param_OrthOsc16_CtrlemC_s.head.object  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_OrthOsc16_CtrlemC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_OrthOsc16_CtrlemC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+extern_C const ClassJc refl_ObjectJc;  //used for field obj
+
+extern_C const ClassJc refl_Param_OrthOsc16_CtrlemC;  //used for field par
+
+extern_C const ClassJc refl_Angle_abwmf_FB_CtrlemC;  //used for field anglep
+
+extern_C const ClassJc refl_int16_complex;  //used for field yab
+
+extern_C const ClassJc refl_int16_complex;  //used for field ypq
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_OrthOsc16_CtrlemC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_OrthOsc16_CtrlemC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_OrthOsc16_CtrlemC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};                                                                                  
+
+const struct Reflection_Fields_OrthOsc16_CtrlemC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[10];
+} refl_Fields_OrthOsc16_CtrlemC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_OrthOsc16_CtrlemC_s, 10, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "par"
+    , 0   //no Array, no Bitfield                           
+    , &refl_Param_OrthOsc16_CtrlemC                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, par) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "anglep"
+    , 0   //no Array, no Bitfield                           
+    , &refl_Angle_abwmf_FB_CtrlemC                                                                                            
+    , 0 | kReference_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, anglep) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "kA"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, kA) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "kB"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, kB) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "yab"
+    , 0   //no Array, no Bitfield                           
+    , &refl_int16_complex                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, yab) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "ypq"
+    , 0   //no Array, no Bitfield                           
+    , &refl_int16_complex                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, ypq) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "m"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, m) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "mr"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, mr) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "b_"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, b_) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  , 
+    { "__spare"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int16                                                                                            
+    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, __spare) - OFFSET_IN_STRUCT(OrthOsc16_CtrlemC_s, obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_OrthOsc16_CtrlemC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_OrthOsc16_CtrlemC    
+const ClassJc   refl_OrthOsc16_CtrlemC =
+{ INIZ_objReflId_ObjectJc(refl_OrthOsc16_CtrlemC, refl_ClassJc, ID_refl_ClassJc)
+, "OrthOsc16_CtrlemC"
+, 0
+, sizeof(OrthOsc16_CtrlemC_s)
+, (FieldJcArray const*)&refl_Fields_OrthOsc16_CtrlemC_s  //attributes and associations
+, null  //method      
+, &superClasses_OrthOsc16_CtrlemC_s.head.object  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_Adjustk_OrthOsc2_CtrlemC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_Adjustk_OrthOsc2_CtrlemC[] =
 { 123  //< &nrClass>   //index of class in Offset data
 }; 
     
@@ -316,11 +614,11 @@ extern_C const ClassJc refl_ObjectJc;  //used for field base
   
 
 extern_C const ClassJc refl_ObjectJc;  //the super class here used.
-const struct SuperClasses_Adjustk_OrthOsc2_FB_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+const struct SuperClasses_Adjustk_OrthOsc2_CtrlemC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
 { ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
-}  superClasses_Adjustk_OrthOsc2_FB =   //reflection instance for the super class
-{ INIZ_ObjectArrayJc(superClasses_Adjustk_OrthOsc2_FB, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+}  superClasses_Adjustk_OrthOsc2_CtrlemC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_Adjustk_OrthOsc2_CtrlemC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
   , { &refl_ObjectJc                                   
     , 0 //TODO Index of mtbl of superclass
       //The field which presents the superclass data in inspector access.
@@ -335,64 +633,64 @@ const struct SuperClasses_Adjustk_OrthOsc2_FB_ClassOffset_idxVtblJcARRAY_t  //Ty
       , &refl_ObjectJc  
       }
     }
-};
+};                                                                                  
 
-const struct Reflection_Fields_Adjustk_OrthOsc2_FB_t
+const struct Reflection_Fields_Adjustk_OrthOsc2_CtrlemC_s_t
 { ObjectArrayJc head;
   FieldJc data[4];
-} refl_Fields_Adjustk_OrthOsc2_FB =
-{ INIZ_ObjectArrayJc(refl_Fields_Adjustk_OrthOsc2_FB, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+} refl_Fields_Adjustk_OrthOsc2_CtrlemC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_Adjustk_OrthOsc2_CtrlemC_s, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "max_e"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Adjustk_OrthOsc2_FB*)(0x1000))->max_e)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, max_e) - OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, base))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Adjustk_OrthOsc2_FB
+    , &refl_Adjustk_OrthOsc2_CtrlemC
     }
   , 
     { "fdeday"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Adjustk_OrthOsc2_FB*)(0x1000))->fdeday)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, fdeday) - OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, base))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Adjustk_OrthOsc2_FB
+    , &refl_Adjustk_OrthOsc2_CtrlemC
     }
   , 
     { "kHi"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Adjustk_OrthOsc2_FB*)(0x1000))->kHi)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, kHi) - OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, base))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Adjustk_OrthOsc2_FB
+    , &refl_Adjustk_OrthOsc2_CtrlemC
     }
   , 
     { "kNormal"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Adjustk_OrthOsc2_FB*)(0x1000))->kNormal)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, kNormal) - OFFSET_IN_STRUCT(Adjustk_OrthOsc2_CtrlemC_s, base))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_Adjustk_OrthOsc2_FB
+    , &refl_Adjustk_OrthOsc2_CtrlemC
     }
   
 } }; 
  
 
-#define DEFINED_refl_Adjustk_OrthOsc2_FB    
-const ClassJc   refl_Adjustk_OrthOsc2_FB =
-{ INIZ_objReflId_ObjectJc(refl_Adjustk_OrthOsc2_FB, refl_ClassJc, ID_refl_ClassJc)
-, "Adjustk_OrthOsc2_FB"
+#define DEFINED_refl_Adjustk_OrthOsc2_CtrlemC    
+const ClassJc   refl_Adjustk_OrthOsc2_CtrlemC =
+{ INIZ_objReflId_ObjectJc(refl_Adjustk_OrthOsc2_CtrlemC, refl_ClassJc, ID_refl_ClassJc)
+, "Adjustk_OrthOsc2_CtrlemC"
 , 0
-, sizeof(Adjustk_OrthOsc2_FB)
-, (FieldJcArray const*)&refl_Fields_Adjustk_OrthOsc2_FB  //attributes and associations
+, sizeof(Adjustk_OrthOsc2_CtrlemC_s)
+, (FieldJcArray const*)&refl_Fields_Adjustk_OrthOsc2_CtrlemC_s  //attributes and associations
 , null  //method      
-, &superClasses_Adjustk_OrthOsc2_FB.head.object  //superclass  
+, &superClasses_Adjustk_OrthOsc2_CtrlemC_s.head.object  //superclass  
 , null  //interfaces  
-, mObjectJc_Modifier_reflectJc   
+, 0   
 #ifdef DEF_ClassJc_Vtbl  
 , null  //virtual table
 #endif

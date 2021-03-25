@@ -4,107 +4,50 @@
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl__InnerStruct1__dx16;
+extern_C const ClassJc refl_dx_T1i_Ctrl_emC;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset__InnerStruct1__dx16[] =
+int32 const reflectionOffset_dx_T1i_Ctrl_emC[] =
 { 123  //< &nrClass>   //index of class in Offset data
 }; 
     
 #else  //DEF_REFLECTION_FULL
 
 
-const struct Reflection_Fields__InnerStruct1__dx16_t
+const struct Reflection_Fields_dx_T1i_Ctrl_emC_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} refl_Fields__InnerStruct1__dx16 =
-{ INIZ_ObjectArrayJc(refl_Fields__InnerStruct1__dx16, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
-, {  
-    { "dxlo"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int16                                                                                            
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_T_dx*)(0x1000))->dx16.dxlo)) - ((intptr_t)(&((T1i_Ctrl_emC_T_dx*)(0x1000))->dx16)) )  /*implicit struct*/
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl__InnerStruct1__dx16
-    }
-  , 
-    { "dxhi"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int16                                                                                            
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_T_dx*)(0x1000))->dx16.dxhi)) - ((intptr_t)(&((T1i_Ctrl_emC_T_dx*)(0x1000))->dx16)) )  /*implicit struct*/
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl__InnerStruct1__dx16
-    }
-  
-} }; 
- 
-
-#define DEFINED_refl__InnerStruct1__dx16    
-const ClassJc   refl__InnerStruct1__dx16 =
-{ INIZ_objReflId_ObjectJc(refl__InnerStruct1__dx16, refl_ClassJc, ID_refl_ClassJc)
-, "_InnerStruct1__dx16"
-, 0
-, sizeof(((T1i_Ctrl_emC_T_dx*)0x1000)->dx16)
-, (FieldJcArray const*)&refl_Fields__InnerStruct1__dx16  //attributes and associations
-, null  //method      
-, null  //superclass  
-, null  //interfaces  
-, 0   
-#ifdef DEF_ClassJc_Vtbl  
-, null  //virtual table
-#endif
-};
-
-#endif //DEF_REFLECTION_FULL
-
-
-//forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl_T1i_Ctrl_emC_T_dx;
-
-#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset_T1i_Ctrl_emC_T_dx[] =
-{ 123  //< &nrClass>   //index of class in Offset data
-}; 
-    
-#else  //DEF_REFLECTION_FULL
-
-
-const struct Reflection_Fields_T1i_Ctrl_emC_T_dx_t
-{ ObjectArrayJc head;
-  FieldJc data[2];
-} refl_Fields_T1i_Ctrl_emC_T_dx =
-{ INIZ_ObjectArrayJc(refl_Fields_T1i_Ctrl_emC_T_dx, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+} refl_Fields_dx_T1i_Ctrl_emC =
+{ INIZ_ObjectArrayJc(refl_Fields_dx_T1i_Ctrl_emC, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "dx32"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->dx.dx32)) - ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->dx)) )  /*implicit struct*/
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, dx.dx32) - OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, dx))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_T1i_Ctrl_emC_T_dx
+    , &refl_dx_T1i_Ctrl_emC
     }
   , 
     { "dx16"
     , 0   //no Array, no Bitfield                           
-    , &refl__InnerStruct1__dx16                                                                                            
+    , &refl_dx16__InnerStruct1_                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->dx.dx16)) - ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->dx)) )  /*implicit struct*/
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, dx.dx16) - OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, dx))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_T1i_Ctrl_emC_T_dx
+    , &refl_dx_T1i_Ctrl_emC
     }
   
 } }; 
  
 
-#define DEFINED_refl_T1i_Ctrl_emC_T_dx    
-const ClassJc   refl_T1i_Ctrl_emC_T_dx =
-{ INIZ_objReflId_ObjectJc(refl_T1i_Ctrl_emC_T_dx, refl_ClassJc, ID_refl_ClassJc)
-, "T1i_Ctrl_emC_T_dx"
+#define DEFINED_refl_dx_T1i_Ctrl_emC    
+const ClassJc   refl_dx_T1i_Ctrl_emC =
+{ INIZ_objReflId_ObjectJc(refl_dx_T1i_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
+, "dx_T1i_Ctrl_emC"
 , 0
-, sizeof(((T1i_Ctrl_emC*)0x1000)->dx)
-, (FieldJcArray const*)&refl_Fields_T1i_Ctrl_emC_T_dx  //attributes and associations
+, sizeof(((T1i_Ctrl_emC_s*)0x1000)->dx)
+, (FieldJcArray const*)&refl_Fields_dx_T1i_Ctrl_emC  //attributes and associations
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
@@ -118,107 +61,50 @@ const ClassJc   refl_T1i_Ctrl_emC_T_dx =
 
 
 //forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl__InnerStruct2__q16;
+extern_C const ClassJc refl_q_T1i_Ctrl_emC;
 
 #ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset__InnerStruct2__q16[] =
+int32 const reflectionOffset_q_T1i_Ctrl_emC[] =
 { 123  //< &nrClass>   //index of class in Offset data
 }; 
     
 #else  //DEF_REFLECTION_FULL
 
 
-const struct Reflection_Fields__InnerStruct2__q16_t
+const struct Reflection_Fields_q_T1i_Ctrl_emC_t
 { ObjectArrayJc head;
   FieldJc data[2];
-} refl_Fields__InnerStruct2__q16 =
-{ INIZ_ObjectArrayJc(refl_Fields__InnerStruct2__q16, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
-, {  
-    { "qlo"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int16                                                                                            
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_T_q*)(0x1000))->q16.qlo)) - ((intptr_t)(&((T1i_Ctrl_emC_T_q*)(0x1000))->q16)) )  /*implicit struct*/
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl__InnerStruct2__q16
-    }
-  , 
-    { "qhi"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int16                                                                                            
-    , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_T_q*)(0x1000))->q16.qhi)) - ((intptr_t)(&((T1i_Ctrl_emC_T_q*)(0x1000))->q16)) )  /*implicit struct*/
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl__InnerStruct2__q16
-    }
-  
-} }; 
- 
-
-#define DEFINED_refl__InnerStruct2__q16    
-const ClassJc   refl__InnerStruct2__q16 =
-{ INIZ_objReflId_ObjectJc(refl__InnerStruct2__q16, refl_ClassJc, ID_refl_ClassJc)
-, "_InnerStruct2__q16"
-, 0
-, sizeof(((T1i_Ctrl_emC_T_q*)0x1000)->q16)
-, (FieldJcArray const*)&refl_Fields__InnerStruct2__q16  //attributes and associations
-, null  //method      
-, null  //superclass  
-, null  //interfaces  
-, 0   
-#ifdef DEF_ClassJc_Vtbl  
-, null  //virtual table
-#endif
-};
-
-#endif //DEF_REFLECTION_FULL
-
-
-//forward declaration of the following definition necessary because extern_C definition. 
-extern_C const ClassJc refl_T1i_Ctrl_emC_T_q;
-
-#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
-int32 const reflectionOffset_T1i_Ctrl_emC_T_q[] =
-{ 123  //< &nrClass>   //index of class in Offset data
-}; 
-    
-#else  //DEF_REFLECTION_FULL
-
-
-const struct Reflection_Fields_T1i_Ctrl_emC_T_q_t
-{ ObjectArrayJc head;
-  FieldJc data[2];
-} refl_Fields_T1i_Ctrl_emC_T_q =
-{ INIZ_ObjectArrayJc(refl_Fields_T1i_Ctrl_emC_T_q, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+} refl_Fields_q_T1i_Ctrl_emC =
+{ INIZ_ObjectArrayJc(refl_Fields_q_T1i_Ctrl_emC, 2, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "q32"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->q.q32)) - ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->q)) )  /*implicit struct*/
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, q.q32) - OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, q))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_T1i_Ctrl_emC_T_q
+    , &refl_q_T1i_Ctrl_emC
     }
   , 
     { "q16"
     , 0   //no Array, no Bitfield                           
-    , &refl__InnerStruct2__q16                                                                                            
+    , &refl_q16__InnerStruct2_                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->q.q16)) - ((intptr_t)(&((T1i_Ctrl_emC*)(0x1000))->q)) )  /*implicit struct*/
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, q.q16) - OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, q))
     , 0  //offsetToObjectifcBase                                                            
-    , &refl_T1i_Ctrl_emC_T_q
+    , &refl_q_T1i_Ctrl_emC
     }
   
 } }; 
  
 
-#define DEFINED_refl_T1i_Ctrl_emC_T_q    
-const ClassJc   refl_T1i_Ctrl_emC_T_q =
-{ INIZ_objReflId_ObjectJc(refl_T1i_Ctrl_emC_T_q, refl_ClassJc, ID_refl_ClassJc)
-, "T1i_Ctrl_emC_T_q"
+#define DEFINED_refl_q_T1i_Ctrl_emC    
+const ClassJc   refl_q_T1i_Ctrl_emC =
+{ INIZ_objReflId_ObjectJc(refl_q_T1i_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
+, "q_T1i_Ctrl_emC"
 , 0
-, sizeof(((T1i_Ctrl_emC*)0x1000)->q)
-, (FieldJcArray const*)&refl_Fields_T1i_Ctrl_emC_T_q  //attributes and associations
+, sizeof(((T1i_Ctrl_emC_s*)0x1000)->q)
+, (FieldJcArray const*)&refl_Fields_q_T1i_Ctrl_emC  //attributes and associations
 , null  //method      
 , null  //superclass  
 , null  //interfaces  
@@ -252,25 +138,25 @@ const struct Reflection_Fields_T1i_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_s*)(0x1000))->Ts)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, Ts))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1i_Ctrl_emC
     }
   , 
     { "dx"
     , 0   //no Array, no Bitfield                           
-    , &refl_T1i_Ctrl_emC_T_dx                                                                                            
+    , &refl_dx_T1i_Ctrl_emC                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_s*)(0x1000))->dx)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, dx))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1i_Ctrl_emC
     }
   , 
     { "q"
     , 0   //no Array, no Bitfield                           
-    , &refl_T1i_Ctrl_emC_T_q                                                                                            
+    , &refl_q_T1i_Ctrl_emC                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_s*)(0x1000))->q)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, q))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1i_Ctrl_emC
     }
@@ -279,7 +165,7 @@ const struct Reflection_Fields_T1i_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint16                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((T1i_Ctrl_emC_s*)(0x1000))->fTs)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1i_Ctrl_emC_s, fTs))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1i_Ctrl_emC
     }
@@ -327,7 +213,7 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1ish_Ctrl_emC_s*)(0x1000))->Ts)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1ish_Ctrl_emC_s, Ts))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1ish_Ctrl_emC
     }
@@ -336,7 +222,7 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1ish_Ctrl_emC_s*)(0x1000))->dx)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1ish_Ctrl_emC_s, dx))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1ish_Ctrl_emC
     }
@@ -345,7 +231,7 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1ish_Ctrl_emC_s*)(0x1000))->q)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1ish_Ctrl_emC_s, q))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1ish_Ctrl_emC
     }
@@ -354,7 +240,7 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1ish_Ctrl_emC_s*)(0x1000))->fTs)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1ish_Ctrl_emC_s, fTs))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1ish_Ctrl_emC
     }
@@ -363,7 +249,7 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1ish_Ctrl_emC_s*)(0x1000))->nShx)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1ish_Ctrl_emC_s, nShx))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1ish_Ctrl_emC
     }
@@ -372,7 +258,7 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1ish_Ctrl_emC_s*)(0x1000))->nShq)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1ish_Ctrl_emC_s, nShq))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1ish_Ctrl_emC
     }
@@ -381,7 +267,7 @@ const struct Reflection_Fields_T1ish_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1ish_Ctrl_emC_s*)(0x1000))->nSh32y)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1ish_Ctrl_emC_s, nSh32y))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1ish_Ctrl_emC
     }
@@ -429,7 +315,7 @@ const struct Reflection_Fields_T1f_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1f_Ctrl_emC_s*)(0x1000))->Ts)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1f_Ctrl_emC_s, Ts))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1f_Ctrl_emC
     }
@@ -438,7 +324,7 @@ const struct Reflection_Fields_T1f_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1f_Ctrl_emC_s*)(0x1000))->dx)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1f_Ctrl_emC_s, dx))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1f_Ctrl_emC
     }
@@ -447,7 +333,7 @@ const struct Reflection_Fields_T1f_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1f_Ctrl_emC_s*)(0x1000))->q)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1f_Ctrl_emC_s, q))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1f_Ctrl_emC
     }
@@ -456,7 +342,7 @@ const struct Reflection_Fields_T1f_Ctrl_emC_s_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((T1f_Ctrl_emC_s*)(0x1000))->fTs)) -0x1000 )
+    , (int32)(OFFSET_IN_STRUCT(T1f_Ctrl_emC_s, fTs))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_T1f_Ctrl_emC
     }

@@ -51,11 +51,11 @@ typedef struct Operation_CalcExpr_T {
 /**Only used as pointer type for debug instead simple Operation_CalcExpr* */
 typedef struct Operation_CalcExpr_ARRAY20_T {
   Operation_CalcExpr o[20];
-} *PTR_Operation_CalcExpr_ARRAY20;
+} PTR_Operation_CalcExpr_ARRAY20;
 
 
 typedef struct OperationList_CalcExpr_T {
-  PTR_Operation_CalcExpr_ARRAY20 operations;
+  PTR_Operation_CalcExpr_ARRAY20* operations;
   //Operation_CalcExpr* operations;
   int zOperations;
   int ixOperation;

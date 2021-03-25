@@ -789,10 +789,16 @@ extern_C const int nrofBytesScalarTypes_ClassJc[];
 
 
 
-/**The float_complex is defined in types_def_common.h. The reflection are defined in ReflectionBastTypesJc.c. */
+/**The int16_complex is defined in types_def_common.h. The reflection are defined in ReflectionBaseTypesJc.c. */
+extern_C const ClassJc refl_int16_complex;  //the just defined refl_
+
+/**The int32_complex is defined in types_def_common.h. The reflection are defined in ReflectionBaseTypesJc.c. */
+extern_C const ClassJc refl_int32_complex;  //the just defined refl_
+
+/**The float_complex is defined in types_def_common.h. The reflection are defined in ReflectionBaseTypesJc.c. */
 extern_C const ClassJc refl_float_complex;  //the just defined refl_
 
-                                                  /**The double_complex is defined in types_def_common.h. The reflection are defined in ReflectionBastTypesJc.c. */
+/**The double_complex is defined in types_def_common.h. The reflection are defined in ReflectionBaseTypesJc.c. */
 extern_C const ClassJc refl_double_complex;  //the just defined refl_
 
 

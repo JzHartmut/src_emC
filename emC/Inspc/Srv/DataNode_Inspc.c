@@ -10,7 +10,7 @@
 #include "genRefl/DataNode_Inspc.crefl"
 
 
-DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float Tstep)
+DataNode_Inspc* ctor_DataNode_Inspc ( DataNode_Inspc* thiz, int nrofObjects, float Tstep)
 { //Tstep is only dummy, for simulink.
   STACKTRC_ENTRY("ctor_DataNode_Inspc");
   //DataNode_Inspc* thiz = (DataNode_Inspc*) thizo; 
@@ -31,7 +31,7 @@ DataNode_Inspc* ctor_DataNode_Inspc(DataNode_Inspc* thiz, int nrofObjects, float
 }
 
 
-bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl){
+bool registerRefl_DataNode_Inspc ( struct DataNode_Inspc_t* thiz, void* obj, char const* name, struct ClassJc_t const* refl){
   if(!checkObject_DataNode_Inspc(thiz)) return false;
   int ix1;
   int ix = thiz->fields.head.length;  //the current length
@@ -58,12 +58,12 @@ bool registerRefl_DataNode_Inspc(struct DataNode_Inspc_t* thiz, void* obj, char 
 
 
 
-void XXXadd_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void const* data, int32* ok_y)
+void XXXadd_DataNode_Inspc ( DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void const* data, int32* ok_y)
 {
   addObj_DataNode_Inspc(thiz, name1_param, name2_param, (struct ObjectJc_t*) data, ok_y); 
 }
 
-void addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* obj, int32* ok_y)
+void addObj_DataNode_Inspc ( DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, ObjectJc* obj, int32* ok_y)
 { STACKTRC_ENTRY("addObj_DataNode_Inspc")
   if((ok_y == null || *ok_y == 0) && obj !=null) {
     const char* error = null;
@@ -92,7 +92,7 @@ void addObj_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc 
 
 
 
-void addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* obj, ClassJc const* reflectionClass)
+void addObjRefl_DataNode_Inspc ( DataNode_Inspc* thiz, StringJc name1_param, StringJc name2_param, void* obj, ClassJc const* reflectionClass)
 { int ix, ix1;
   STACKTRC_ENTRY("addObjRefl_DataNode_Inspc");
   //same algorithm as above, but with 2 StringJc
@@ -123,7 +123,7 @@ void addObjRefl_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, Strin
 
 
 
-bool checkObject_DataNode_Inspc(struct DataNode_Inspc_t* thiz){
+bool checkObject_DataNode_Inspc ( struct DataNode_Inspc_t* thiz){
   if(thiz == null) return false;
   #ifdef DEF_ObjectJc_OWNADDRESS
   if(thiz->base.object.ownAddress != &thiz->base.object) return false;
