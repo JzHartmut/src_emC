@@ -58,3 +58,33 @@ bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, in
   return false;
 }
 #endif
+
+
+CheckContinous_TEST::CheckContinous_TEST ( ) {
+  this->start = -3;
+  this->min = 9999999.9;
+  this->max = -9999999.9;
+}
+
+void CheckContinous_TEST::checkCont ( double y) {
+  this->y0 = this->y1;
+  this->y1 = this->y2;
+  this->y2 = this->y3;
+  this->y3 = y;
+  if(++start ==0) {
+  } else if (start >0) {
+    double ymid1 = (this->y2 + this->y0) /2;
+    double ydiff1 = ymid1 - this->y1;
+    double ymid2 = (this->y3 + this->y1) /2;
+    double ydiff2 = ymid2 - this->y2;
+    double ydd = ydiff2 - ydiff1;
+    if(ydd > this->max) {
+      this->max = ydd;
+    }
+    if(ydd < this->min) {
+      this->min = ydd;
+    }
+  }
+
+
+}

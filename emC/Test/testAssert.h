@@ -9,6 +9,24 @@ extern_C void XXXXTEST(char const* ident);
 #ifdef __cplusplus
 
 
+class CheckContinous_TEST {
+
+  int start;
+
+  double y0, y1, y2, y3;
+
+  double min, max;
+
+  public: CheckContinous_TEST ( );
+
+  public: void checkCont ( double y);
+
+
+};
+
+
+
+
 //#include <iostream>
 
 #if 0

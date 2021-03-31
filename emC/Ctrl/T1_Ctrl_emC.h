@@ -2,14 +2,8 @@
 #define HGUARD_emC_Ctrl_T1ish_Ctrl_emC
 
 #include <applstdef_emC.h>
-
-/**It is the nominal value for 16 bit values. With it an overdrive of ~1.18 is possible.
- * 27720 = 2 * 2 * 2 * 3 * 3 * 5 * 7 * 11 ,
- *                         means divide by 2,3,5,6,7,8,9,10,11,12,14,15,16,18,20,22,24,27,28,30,32,33,35,36,40,42,44,45,50, 60,
- * (30240 =  32*5*7*3*3*3, means divide by 2,3,5,6,7,8,9,10,   12,14,15,16,18,20,   24,27,28,30,32,33,35,36,40,42 etc.
- */
-#define NOM_i16_Ctrl_emC 27720
-
+#include <emC/Base/Math_emC.h>
+#include <emC/OSAL/os_endian.h>
 
 /*@CLASS_C T1i_Ctrl_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * T1-Functionality in 16-bit integer for x and y and 32-bit-integer for q.
@@ -29,12 +23,12 @@ typedef struct T1i_Ctrl_emC_T {
   /**The difference q-x for usage as smoothed differentiator.
    * dxhi is the representative int16-part regarded to input.
    */
-  union{ int32 dx32; struct { int16 dxlo, dxhi; } dx16;} dx;
+  Endianess32_16_emC_s dx;
 
   /**The output value and state variable.
    * qhi is the representative int16-part regarded to input.
    */
-  union{ int32 q32; struct { int16 qlo, qhi; } q16;} q;
+  Endianess32_16_emC_s q;
 
 
   /**Factor to multiply the difference (x-q) for one step.
@@ -44,7 +38,7 @@ typedef struct T1i_Ctrl_emC_T {
    * The largest Ts is 65000 * Tstep, results in 1 for this value.
    * Larger Ts does not work.
    */
-  uint16 fTs;
+  Endianess32_16_emC_s fTs;
 
 } T1i_Ctrl_emC_s;
 
@@ -65,16 +59,22 @@ extern_C bool param_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, float Ts_param, float Tst
 static int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
 
 static inline int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
-  thiz->dx.dx32 = (uint32)(thiz->fTs) * ( x - thiz->q.q16.qhi);  //
-  thiz->q.q32 += thiz->dx.dx32;
-  return thiz->q.q16.qhi; //hi part 16 bit
+  thiz->dx.v32 = (uint32)(thiz->fTs.v16.hi) * ( x - thiz->q.v16.hi);  //
+  thiz->q.v32 += thiz->dx.v32;
+  return thiz->q.v16.hi; //hi part 16 bit
+}
+
+static inline int16 step32_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
+  thiz->dx.v32 = (int32)(((uint64)(thiz->fTs.v32) * ( (int32)(x<<16) - thiz->q.v32))>>32);
+  thiz->q.v32 += thiz->dx.v32;
+  return thiz->q.v16.hi; //hi part 16 bit
 }
 
 /**Get dx after step calculation. step_T1i_Ctrl_emC(...) should be called before. */
 static int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x);
 
 static inline int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
-  return thiz->dx.dx16.dxhi; 
+  return thiz->dx.v16.hi; 
 }
 
 

@@ -57,6 +57,7 @@ extern_C_BLOCK_
 
   #define ptrBigEndian void*
 
+  typedef union Endianess32_16_emC_T { int32 v32; struct { int16 hi, lo; } v16;} Endianess32_16_emC_s;
 
 #elif defined(OSAL_LITTLEENDIAN)
 
@@ -78,6 +79,7 @@ extern_C_BLOCK_
 
   typedef struct ptrBigEndian_t { void* ptrBigEndian__; }GNU_PACKED  ptrBigEndian;
 
+  typedef union Endianess32_16_emC_T { int32 v32; struct { int16 lo, hi; } v16;} Endianess32_16_emC_s;
 
 
 #else

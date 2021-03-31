@@ -167,6 +167,21 @@ inline int unused_emC(int arg){ return arg; }
 
 
 //Note: definition of bool, true, false is compiler/system-specific. Removed from here. See compl_adaption.h
+#ifndef muls16_emC
+  #define muls16_emC(R, A, B) { R = ((int32)(int16)(A) * (int32)(int16)(B)); }
+#endif
+#ifndef mulu16_emC
+  #define mulu16_emC(R, A, B) { R = ((uint32)(uint16)(A) * (uint32)(uint16)(B)); }
+#endif
+#ifndef mul32lo_emC
+  #define mul32lo_emC(R, A, B) { R = (uint32)(A) * (uint32)(B); }
+#endif
+#ifndef muls32hi_emC
+  #define muls32hi_emC(R, A, B) { R = (int32)(((int64)(int32)(A) * (int32)(B)) >>32); }
+#endif
+#ifndef mulu32hi_emC
+  #define mulu32hi_emC(R, A, B) { R = (uint32)(((uint64)(uint32)(A) * (uint32)(B)) >>32); }
+#endif
 
 
 #define _INIT0_ = {0}

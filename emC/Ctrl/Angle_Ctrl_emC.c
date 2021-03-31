@@ -1,6 +1,7 @@
 #include "emC/Ctrl/Angle_Ctrl_emC.h"
 #include <applstdef_emC.h>
 #include <emC/Base/Object_emC.h>
+#include <emC/Ctrl/T1_Ctrl_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
   #include "genRefl/Angle_Ctrl_emC.crefl"
@@ -30,6 +31,8 @@ void ctor_Angle_abgmf16_CtrlemC(Angle_abgmf16_CtrlemC* thiz, int32 identObj, flo
   CTOR_ObjectJc(&thiz->base.obj, thiz, sizeof(*thiz), refl_Angle_abgmf16_CtrlemC, identObj);
   setInitialized_ObjectJc(&thiz->base.obj);
   thiz->m = 1.0f;  //default for only-angle
+
 }
+
 
 

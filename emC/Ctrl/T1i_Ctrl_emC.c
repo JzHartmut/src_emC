@@ -19,8 +19,8 @@ T1i_Ctrl_emC_s* ctor_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz) {
 bool param_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, float Ts_param, float Tstep) {
   thiz->Ts = Ts_param;
   float fTs = (Ts_param <= 0 ? 1.0f : 1.0f - expf(-Tstep / Ts_param)) ;
-  fTs *= 0x10000L;
-  thiz->fTs = fTs >= 65535.5f ? 0xffff : (int16)( fTs + 0.5f);  //
+  fTs *= 0x100000000L;
+  thiz->fTs.v32 = fTs >= (float)(0xffffffff) ? 0xffffffff : (int32)( fTs + 0.5f);  //
   return true;
 }
 
