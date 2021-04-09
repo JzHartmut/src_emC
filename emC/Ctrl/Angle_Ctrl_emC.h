@@ -78,13 +78,32 @@
 
 #define kCos30_int16 ((int32)0xddb4) //value cos(30�) = 0.8660354 scaled to uint16 point pos 16
 
-inline void ab2rst_i32_Angle_Ctrl_enC(int32_complex* ab, int32* rst) {
+inline void ab2rst32_Angle_Ctrl_emC(int32_complex* ab, int32* rst) {
   rst[0] = ab->re;
   int32 re2 = -(ab->re >>1);  //-0.5 * re = -sin(30�) * re
   int32 im30 = kCos30_int16 * (int16)(ab->im >>16); //0.866 * im = cos(30�) * im
   rst[1] = re2 + im30;
   rst[2] = re2 - im30;
 }                 //-0.8b = -S -0.5R
+
+
+/**Converts 3~ voltages to ab-vector, but multiplicate with 1.5.
+ * The multiplication is done by internal reason,
+ * a really multiplication is saved because calculation time.
+ * The input values may be given from a ADC with 15 bits used incl. sign.
+ * input range 0xc000 ... 4000, ouput range 0xa000 .. 6000
+ * The output values uses 16 bit incl. sign.
+ * ab->re = r - 0.5*s - 0.5*t;
+ * ab->im = (s - t) * 3/2 * 1/sqrt(3)
+ * @return (r+s+t)/2
+ */
+inline int16 rst2abn16_Angle_Ctrl_emC(int16 rst[3], int16_complex* ab) {
+  ab->re = rst[0] - (rst[1]>>1) - (rst[2]>>1);
+  int32 im32;
+  muls16_emC(im32, rst[1] - rst[2], 0x6ed9);  //0x6ed9 = 0x8000 * 3/2*(1/sqrt(3))
+  ab->im = im32 >>15;
+  return (rst[0] + rst[1] + rst[2])>>1;
+}
 
 
 

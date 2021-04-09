@@ -35,7 +35,7 @@ void msgEndFileLine_testAssert_emC ( bool ok){
 
 
 
-bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line) {
+bool expectMsgFileLine_testAssert_emC ( bool cond, int id, char const* msg, char const* file, int line, int32 val1, int32 val2) {
   if(cond) { printf("  ok: %s\n", msg ); }
   else {
     char const* filename = dirFile(file);
@@ -44,9 +44,9 @@ bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* 
   return cond;
 }
 
-bool checkMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line) {
+bool checkMsgFileLine_testAssert_emC ( bool cond, int id, char const* msg, char const* file, int line, int32 val1, int32 val2) {
   if(!cond) {
-    printf("  ERROR: %s (%s@%d)\n", msg,  dirFile(file), line);
+    printf("  ERROR: %d: %s val1=%d=%8.8x val2 = %d=%8.8X (%s@%d)\n", id, msg,  val1, val1, val2, val2, dirFile(file), line);
   }
   return cond;
 }

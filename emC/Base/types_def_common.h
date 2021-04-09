@@ -167,22 +167,147 @@ inline int unused_emC(int arg){ return arg; }
 
 
 //Note: definition of bool, true, false is compiler/system-specific. Removed from here. See compl_adaption.h
+
+/**Macros for fix point mult and add
+ * This is the common solution. It is possible that in compl_adaption.h is an __asm(...)-optimized version via #define.
+ * The compiler may recognize, it is expected that (int32)(int16)((A) & 0xffff) is a 16 bit register access 
+ * and it should use the 16 * 16 =>32 bit multiplication etc.
+ * Hint: Mask with 0xffff is necessary, elsewhere the MS-Visual Studio may produce a runtime error depending on the type of A and B 
+ * @param A any value (not necessary a left value) with int16 content
+ * @param B second multiplicant beside A
+ * @param R an int32 type left value (a variable).
+ */
 #ifndef muls16_emC
-  #define muls16_emC(R, A, B) { R = ((int32)(int16)(A) * (int32)(int16)(B)); }
+  #define muls16_emC(R, A, B) { R = ((int32)(int16)((A) & 0xffff) * (int32)(int16)((B) & 0xffff)); }
 #endif
+
+/**Unsigned multiplication 16 * 16 => 32 bit. Comments see also [[muls16_emC(...)]]
+ * @param A any value (not necessary a left value) with int16 content
+ * @param B second multiplicant beside A
+ * @param R an int32 type left value (a variable).
+ */
 #ifndef mulu16_emC
   #define mulu16_emC(R, A, B) { R = ((uint32)(uint16)(A) * (uint32)(uint16)(B)); }
 #endif
+
+/**Unsigned multiplication 32 * 32 => 32 bit. Comments see also [[muls16_emC(...)]]
+ * This multiplication can be used if the sum of used bits in both values are <=32.
+ * Then the result is proper, no overflow occurs. 
+ * If the sign is expanded correctly the result is correct in sign anyway. 
+ * Note: This kind of multiplication may support by special machine instructions by some processors. 
+ * @param A any value (not necessary a left value) with int32 content
+ * @param B second multiplicant beside A
+ * @param R an int32 type left value (a variable) filled with lo part of 64 bit result.
+ */
 #ifndef mul32lo_emC
   #define mul32lo_emC(R, A, B) { R = (uint32)(A) * (uint32)(B); }
 #endif
+
+/**Signed Multiplication 32 * 32 => 32 bit. Comments see also [[muls16_emC(...)]]
+ * This multiplication can be used if the bits in A and B are right aligned,
+ * and the result is presented in the high part of the int64 result.
+ * Note: This kind of multiplication may support by special machine instructions by some processors. 
+ * @param A any value (not necessary a left value) with int32 content
+ * @param B second multiplicant beside A
+ * @param R an int32 type left value (a variable) filled with lo part of 64 bit result.
+ */
 #ifndef muls32hi_emC
   #define muls32hi_emC(R, A, B) { R = (int32)(((int64)(int32)(A) * (int32)(B)) >>32); }
 #endif
+
+/**Unsigned Multiplication 32 * 32 => 32 bit. Comments see also [[muls16_emC(...)]]
+ * This multiplication can be used if the bits in A and B are right aligned,
+ * and the result is presented in the high part of the int64 result.
+ * Note: This kind of multiplication may support by special machine instructions by some processors. 
+ * @param A any value (not necessary a left value) with int32 content
+ * @param B second multiplicant beside A
+ * @param R an int32 type left value (a variable) filled with lo part of 64 bit result.
+ */
 #ifndef mulu32hi_emC
   #define mulu32hi_emC(R, A, B) { R = (uint32)(((uint64)(uint32)(A) * (uint32)(B)) >>32); }
 #endif
 
+/**Signed Multiplication 32 * 32 => 64 bit. Comments see also [[muls16_emC(...)]]
+ * @param A any value (not necessary a left value) with int32 content
+ * @param B second multiplicant beside A
+ * @param R an int64 type left value (a variable) filled with 64 bit result.
+ */
+#ifndef muls32_64_emC
+  #define muls32_64_emC(R, A, B) { R = ((int64)(int32)(A) * (int32)(B)); }
+#endif
+
+/**Unsigned Multiplication 32 * 32 => 64 bit. Comments see also [[muls16_emC(...)]]
+ * @param A any value (not necessary a left value) with int32 content
+ * @param B second multiplicant beside A
+ * @param R an uint64 type left value (a variable) filled with 64 bit result.
+ */
+#ifndef mulu32_64_emC
+  #define mulu32_64_emC(R, A, B) { R = ((uint64)(uint32)(A) * (uint32)(B)); }
+#endif
+
+//-----------------------------------------------------------------------------
+//Macros for fix point mult and add
+// This is the common solution. It is possible that in compl_adaption.h is an __asm(...)-optimized version via #define.
+
+/**16 bit signed mult and add, but the mult result accumulated as 32 bit value.
+ * Comment and param adequate [[muls16_emC(...)]]
+ * @param R should have a value, the multiplication result is added.
+ */
+#ifndef muls16add32_emC
+  #define muls16add32_emC(R, A, B) { R += ((int32)(int16)(A) * (int32)(int16)(B)); }
+#endif
+
+/**16 bit unsigned mult and add, but the mult result accumulated as 32 bit value.
+ * Comment and param adequate [[mulu16_emC(...)]]
+ * @param R should have a value, the multiplication result is added.
+ */
+#ifndef mulu16add32_emC
+  #define mulu16add32_emC(R, A, B) { R += ((uint32)(uint16)(A) * (uint32)(uint16)(B)); }
+#endif
+
+/**32 bit mult and add, but the mult result accumulated as 32 bit value.
+ * Comment and param adequate [[mul32lo_emC(...)]]
+ * @param R should have a value, the multiplication result is added.
+ */
+#ifndef muladd32lo_emC
+  #define muladd32lo_emC(R, A, B) { R += (uint32)(A) * (uint32)(B); }
+#endif
+
+/**32 bit signed mult and add, but the mult result accumulated as 32 bit value.
+ * Comment and param adequate [[muls32hi_emC(...)]]
+ * @param R should have a value, the multiplication result is added.
+ */
+#ifndef mulsadd32hi_emC
+  #define mulsadd32hi_emC(R, A, B) { R += (int32)(((int64)(int32)(A) * (int32)(B)) >>32); }
+#endif
+
+/**32 bit unsigned mult and add, but the mult result accumulated as 32 bit value.
+ * Comment and param adequate [[mulu32hi_emC(...)]]
+ * @param R should have a value, the multiplication result is added.
+ */
+#ifndef muluadd32hi_emC
+  #define muluadd32hi_emC(R, A, B) { R += (uint32)(((uint64)(uint32)(A) * (uint32)(B)) >>32); }
+#endif
+
+/**64 bit signed mult and add, but the mult result accumulated as 64 bit value.
+ * Comment and param adequate [[muls32_64_emC(...)]]
+ * @param R should have a value, the multiplication result is added.
+ */
+#ifndef mulsadd32_64_emC
+  #define mulsadd32_64_emC(R, A, B) { R += ((int64)(int32)(A) * (int32)(B)); }
+#endif
+
+/**64 bit unsigned mult and add, but the mult result accumulated as 64 bit value.
+ * Comment and param adequate [[mulu32_64_emC(...)]]
+ * @param R should have a value, the multiplication result is added.
+ */
+#ifndef muluadd32_64_emC
+  #define muluadd32_64_emC(R, A, B) { R += ((uint64)(uint32)(A) * (uint32)(B)); }
+#endif
+
+
+
+//========================================================================
 
 #define _INIT0_ = {0}
 

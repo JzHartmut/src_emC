@@ -49,44 +49,166 @@ extern_C int txChar_Serial_HALemC ( int const channel, char const* const text, i
  *         It is especially for embedded hardware with limmited FIFO on hardware or limited DMA buffer size.
  * See [[step_TxSerial_HALemC(...)]]
  */
-extern_C int tx_Serial_HALemC ( int const channel, void const* const data, int const fromCharPos, int const zChars);
+extern_C int tx_Serial_HALemC ( int channel, void const* data, int fromBytePos, int zChars);
 
 
 /**Cares to sending pending data.
  * @return 0 nothing still pending. >0 number of data still pending, <0 any error, value for debugging, unexpected.
  */
-extern_C int stepTx_Serial_HALemC( int const channel);
+extern_C int stepTx_Serial_HALemC( int channel);
 
-/**Prepare an receive buffer for receiving data. Often DMA is used do fill the buffer.
- * The call of this operation clears the number of current received data words. [[See hasRx_HALemC(...)]].
- * The buffer content is valid only after quest of [[hasRxChars_HALemC(...)]] for the returned number of characters.
- * @param valueBuffer The address in memory of the valueBuffer. 
- * @param zBuffer The size of the buffer in memory words (result of sizeof(...). 
- * @param fromCurrent 0 for newly receiving. If the valueBuffer may contains ome received content
- *        which was not evaluated yet and this content should be preserved, 
- *        This is the byte index in the valueBuffer to copy the information. 
- *        Important: The memory words may organzized in 16 or 32 bit for some special processors. 
- *        This is not the index in memory but the byte index, because serial receive is organized in bytes.
+/**Handles received chars and returns the number of available chars.
+ * It is problem of the implementation whether and how many characters are buffered,
+ * but the application should call this routine in a proper cycle matched to the buffer size.
+ * It is adequate stepTx...().
  */
-extern_C void prepareRx_Serial_HALemC ( int channel, void* valueBuffer, int zBuffer, int fromCurrent);
+extern_C int stepRx_Serial_HALemC ( int channel );
 
 
-/**Returns the number of received character after calling [[prepareRxSerial_HALemC(...)]].
- * Note: A character is always understand as a 8-bit-entity. The memory buffer is filled in packed form
- * to support binary data.
- * If a memory location is greater than the character size, especially 16 bit (for example for Texas Instruments processors)
- * or 32 bit (typically for Analog Devices signal processors) then a memory location contains 2 or 4 characters.
- * This is independent of a word length for example for SPI communication (maybe 16), the word length is an internal topic.
- * But the communication word length of an UART communication is always 8 bit, also if 7 bits and a parity is transmitted.
- * It means the memory is always packed with data, also if the communication is character oriented.
- * With it character communication can transport also binary data without distinction on communication transmit and receive level.
- * @return number of 8-bit-portions in memory.
- * Note: If a MemUnit is 16 or 32 bit, divide this value (shift) to get the number of received memory locations.
+/**Reads one char or received word if it is available. Returns -1 if nothing is available.
+ * Depending on a buffer (FIFO) this routine can be called one after another so long characters are buffered.
  */
-extern_C int hasRxChars_Serial_HALemC ( int channel );
+extern_C int getChar_Serial_HALemC ( int channel );
+
+
+/**Reads the received data and stores it to the given dst in memory as data words.
+ * If lesser data are available the routine returns with the number of copied bytes.
+ * It should be invoked later again with the same dst and the number of read bytes before as fromByte.
+ * @arg dst the buffer to store
+ * @arg fromByte It is a byte position, not a memory index. Usual 0, >0 if some bytes were received before
+ *      and the receiving should be continued.
+ *      The difference index vs byte position is: Some embedded processors (not X86 series)
+ *      addresses the memory word-wise in 16 or 32 bit.
+ *      Then sizeof(int) ==1 usual, and a byte data definition in memory is not possible.
+ * @arg zDst sizeof(*dst). It is not the number of expected character, it is the maximum of the memory.
+ *      But if only a part of characters should be evaluated, this value can be used to reduce
+ *      the number of copied bytes.
+ *      Note: The number of copied bytes is at max BYTE_in_Memword * this value.
+ * @return number of copied bytes to dst. 0 if no data are available.
+ *      Note: It is possible that a word in memory is not completed, for 16- or 32-bit memory addressing
+ *      and on an odd return value. But this value is proper for the 'fromByte' argument of the next call.
+ */
+extern_C int getMem_Serial_HALemC ( int channel, void* dst, int fromByte, int zDst );
+
+
 
 /**Deactivates usage of the channel. */
 extern_C void close_Serial_HAL_emC(int channel);
+
+
+#if defined(USE_cplusplus_emC) && defined(__cplusplus)
+
+/**It defines only the interface used in all comm classes. */
+class Comm_HALemC {
+public:
+  virtual int openComm ( Direction_Serial_HALemC dir
+  , int32 baud, ParityStop_Serial_HALemC bytePattern) =0;
+
+  /**Activates ad hoc a sending process.
+   * The sending may be done completely in the next future without additional software operation
+   * (if it returns 0) or it needs cyclically step handling via txStep();
+   * The first case is true if the controller has an hardware support such as FIFO or DMA.
+   * Especially with DMA the whole message can be sent without software support.
+   * @arg data any data, a mem address.
+   * @arg fromBytePos usual 0, only for special cases.
+   *      If the transmitting word length is not 8 bit, especially 16 bit,
+   *      this value may/should be even, bit 0 =0, as special property of the implementation.
+   * @arg zBytes The number of bytes to send. It is not sizeof(data) in any case:
+   *      Note: sizeof(...) returns the number of address steps, not the number of bytes!
+   *      For PC programming this is equal. But some processors have a 16- or 32-bit address step,
+   *      in this case multiply sizeof(data) * BYTE_in_MemWord.
+   *      If the transmitting word length is not 8 bit, especially 16 bit,
+   *      this value may/should be even, bit 0 =0, as special property of the implementation.
+   * @return number of bytes pending. If 0, the data will be sending complete
+   *      only with the hardware of the controller (DMA, FIFO).
+   *      If >0 then txStep() should be invoked.
+   *      < 0 then an error, especially -1 for: pending transmission.
+   */
+  virtual int txData ( void const* data, int fromBytePos, int zBytes)=0;
+
+  /**Activates a receiving order.
+   * If DMA is used, this setups the DMA for receiving, so the data are stored
+   * automatically on dst.
+   * If DMA is not used, this stores only the order data to handle it in rxStep().
+   */
+  virtual int rxData ( void* dst, int fromBytePos, int zBytes)=0;
+
+  /**Processes and completes the receiving order
+   * If DMA is not used, this reads one word / character or some words if FIFO is present
+   * to the dst of the order. If DMA is used, this may read the last words
+   * not regarded on burst DMA (to less words for burst).
+   * @return sum of all bytes received.
+   */
+  virtual int rxStep ( )=0;
+
+  /**Reads one word (byte, character) in the given bit width from the hardware
+   * or from an underlying buffer.
+   * This operation can be used if the data kind are unknown, received words / character
+   * should be separately checked before storing.
+   * It is another approach than rxComm(...).
+   * @return the character or -1 if the transmitter is empty.
+   *     If the int width is equal the word width, -1 may be a received value.
+   *     But: this routine is usual used for UART character communication.
+   */
+  virtual int getWord ( )=0;
+};
+
+/**This Comm classes can be present, used via forward declaration as reference in applications.
+ * The application should not know and need not know the inner structure of this derived classes.
+ */
+class Comm_UART_HALemC;
+
+class TargetSpec_Comm_SPI_HALemC;
+
+
+class Comm_SPI_HALemC //: public Comm_HALemC
+{
+
+
+  private: TargetSpec_Comm_SPI_HALemC* priv;
+
+
+  MemUnit* rxDst;
+
+  int zRxData;
+
+  int ixRxData;
+
+  /**Constructs a concretely SPI channel from this controller.
+   * @arg spiRegs reference to the controllers SPI register
+   * @arg dmaChnUsed reference to the used DMA channel. One of 6
+   */
+  public: Comm_SPI_HALemC ( TargetSpec_Comm_SPI_HALemC* privArg  );
+
+
+  //it is final.
+  public: int openComm ( Direction_Serial_HALemC dir
+    , int32 baud, ParityStop_Serial_HALemC bytePattern);
+
+  public: int txData ( void const* data, int fromBytePos, int zChars);
+
+  /**Activates a receiving order.
+   * If DMA is used, this setups the DMA for receiving, so the data are stored
+   * automatically on dst.
+   * If DMA is not used, this stores only the order data to handle it in rxStep().
+   */
+  public: int rxData ( void* dst, int fromBytePos, int zBytes);
+
+  /**Processes and completes the receiving order
+   * If DMA is not used, this reads one word / character or some words if FIFO is present
+   * to the dst of the order. If DMA is used, this may read the last words
+   * not regarded on burst DMA (to less words for burst).
+   * @return sum of all bytes received.
+   */
+  public: int rxStep ( );
+
+  private: int initDMA ( );
+};
+
+
+#endif //USE_cplusplus_emC
+
+
 
 
 #endif //HGUARD_serial_HALemC

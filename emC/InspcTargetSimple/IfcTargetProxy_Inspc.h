@@ -1,7 +1,6 @@
 #ifndef __Inspc__IfcTargetProxy_Inspc_h__
 #define __Inspc__IfcTargetProxy_Inspc_h__
 #include <applstdef_emC.h>
-#include <emC/OSAL/os_endian.h>  //supports both big endian conversion and access to even address on memory.
 #include <emC/Base/Object_emC.h>
 #include <emC/Jc/ReflMemAccessJc.h>
 

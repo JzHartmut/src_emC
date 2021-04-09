@@ -1,8 +1,8 @@
 #include "emC/Ctrl/OrthOsc_Ctrl_emC.h"
 
 #ifdef DEF_REFLECTION_FULL
-#include "genRefl/OrthOsc_Ctrl_emC.crefl"
-#else
+  #include "genRefl/OrthOsc_Ctrl_emC.crefl"
+#elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Param_OrthOsc16_CtrlemC) //may defined in the *.refloffs.c file
   #define ID_refl_OrthOsc2_CtrlemC_CtrlemC 0
   #define ID_refl_Param_OrthOsc2_CtrlemC 0
   #define ID_refl_OrthOsc16_CtrlemC_CtrlemC 0

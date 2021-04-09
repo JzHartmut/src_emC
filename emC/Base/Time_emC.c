@@ -15,13 +15,13 @@
 
 #include <emC/OSAL/os_time.h>
 
-
+#ifndef microsecondsPerClock_Time_emC  //can be a const literal as macro
 float microsecondsPerClock_Time_emC = 0;
 
 int clocksPerMicro_Time_emC = 0;
 
 float clocksFloatPerMicro_Time_emC = 0;
-
+#endif
 
 
 OS_TimeStamp* ctorM_OS_TimeStamp  (  MemC mem)
@@ -47,6 +47,7 @@ void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries) {
 }
 
 
+#ifndef microsecondsPerClock_Time_emC  //can be a const literal as macro
 bool measureClock_Time_emC(int meastime) { 
   float tclock;
   int startTime, endTime;
@@ -69,7 +70,7 @@ bool measureClock_Time_emC(int meastime) {
   if((endTime - startTime) > 1000) return false;  //non exact 1 sec
   else return true;
 }  
-
+#endif
 
 
 

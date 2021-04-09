@@ -81,6 +81,8 @@
 #endif
 
 
+struct ThreadContext_emC_t;
+
 /**Bit definitions of all error bits.
  * HINT: An enum is used to prevent double definitions of same masks.
  */
@@ -616,6 +618,8 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 * For this environment it does the same as STACKTRC_ENTRY(NAME). 
 */
 #define STACKTRC_ROOT_ENTRY(NAME) STACKTRC_ENTRY(NAME); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt
+
+#define STACKTRC_ROOT_TENTRY(NAME) STACKTRC_TENTRY(NAME); _thCxt->topmemAddrOfStack = (MemUnit*)&_thCxt
 
 
 /**This macro defines and initializes the stack variables ,,_ixStacktrace_,,.

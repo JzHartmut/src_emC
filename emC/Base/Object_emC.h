@@ -1,9 +1,9 @@
-#ifndef HGUARD_emC_Base__Object_emC
-#define HGUARD_emC_Base__Object_emC
-
 #ifndef HGUARD_applstdef_emC
   #include <applstdef_emC.h>
 #endif 
+
+#ifndef HGUARD_emC_Base__Object_emC
+#define HGUARD_emC_Base__Object_emC
 
 /**Include Object_emC in the proper way: */
 #if defined(DEF_ObjectSimple_emC)

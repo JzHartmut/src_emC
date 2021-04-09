@@ -29,10 +29,17 @@ typedef struct SystemSettings_HwCpu_emC_T {
 
 //Note: this define may be a part of the specific target.
 #define INIZ_fast_SystemSettings_HwCpu_emC(CPUCLK_ns) { \
+ CPUCLK_ns, CPUCLK_ns, CPUCLK_ns *2 }
+
+#define INIZ_CpuClk_SerClk_PwmClk_SystemSettings_HwCpu_emC(CPUCLK_ns, SERCLK_ns, PWMCLK_ns) { \
+ CPUCLK_ns, SERCLK_ns, PWMCLK_ns }
+
+//unfortunately Visual Studio 2015 cannot do so:
+#if 0
   .clkCpu_ns = CPUCLK_ns \
 , .clkSerial_ns = CPUCLK_ns \
 , .clkPWM_ns = CPUCLK_ns *2 }
-
+#endif
 
 /**Access from outside only with const. Defining as constant. */
 extern_C SystemSettings_HwCpu_emC const systemSettings_HwCpu_emC;

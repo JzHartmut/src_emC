@@ -137,22 +137,28 @@ extern_C void sleep_Time_emC ( int32 msec );
  */
 extern_C void sleepMicroSec_Time_emC ( int32 usec );
 
+#ifndef microsecondsPerClock_Time_emC  //may be defined as const literal
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().
  * It is used for some operations, especially nanoTime_emC().
  */
 extern float microsecondsPerClock_Time_emC;
+#endif
 
+#ifndef clocksPerMicro_Time_emC  //may be defined as const literal
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().
 * It is used for some operations, especially addMicrosec_Time_emC().
 * The resolution is limited. On a not fast CPU there may be for example 21 clocks per microsecond, 
 * the more exact value may be a real value of 21.245 but it is proper for integer arithmetic. 
 */
 extern int clocksPerMicro_Time_emC;
+#endif
 
+#ifndef clocksFloatPerMicro_Time_emC  //may be defined as const literal
 /**This value is set for the given environment (CPU, depends on clock) after calling measureClock_Time_emC().
 * It is used for some operations, especially addFloatMicrosec_Time_emC().
 */
 extern float clocksFloatPerMicro_Time_emC;
+#endif
 
 
 /**Gets a circular time information in clocks of the system.
@@ -405,6 +411,21 @@ extern_C void startTime_Clock_MinMaxTime(int slice_param, float* time_y);
 */
 extern_C void measTime_Clock_MinMaxTime(int slice_param, float* time_y);
 
+
+typedef struct MeasRunTimeFBlock_T {
+
+  /**Number of executions for the routine. */
+  int nrExec;
+
+  /**Any specific number to control what is executed. */
+  int whatExec;
+
+  /**Two start values for execution. */
+  int val1, val2;
+
+  float valf1, valf2;
+
+} MeasRunTimeFBlock_s;
 
 
 

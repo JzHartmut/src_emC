@@ -369,8 +369,8 @@ inline void setFq_Param_OrthOsc16_CtrlemC(Param_OrthOsc16_CtrlemC_s* thiz, float
   float fI1 = 2*kPI_Angle_FB * thiz->tStepOrthi * fq;
   float fIcos = cosf(fI1);
   float fIsin = sinf(fI1);
-  thiz->fIsin = uint16(65536 * fIsin);
-  thiz->fIcos = uint16(65536 * (1.0f - fIcos));
+  thiz->fIsin = (uint16)(65536 * fIsin);
+  thiz->fIcos = (uint16)(65536 * (1.0f - fIcos));
 #endif//__ignoreInCheader_zbnf__
 
 }
@@ -435,14 +435,10 @@ bool init_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, Param_OrthOsc16_CtrlemC_s
 /**Step routine. It calulates the stored values of Orthogonal Oscillation.
  * @param xAdiff Difference between Input and yaz_y Signal
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
- * @param yaz_y variable to store the a-Output.
- * @param ab_Y variable to store the complex orthogonal output.. 
- * @simulink Object-FB, accel-tlc, step-in.
  */
-inline void step_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y)
+inline void step1_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, int16 xAdiff, int16 xBdiff)
   { 
 #ifndef __ignoreInCheader_zbnf__ 
-  if(thiz == null) return;
   Param_OrthOsc16_CtrlemC_s* par = thiz->par;
   int16 a1 = int16( ( (((thiz->kA * (int32)(xAdiff))>>12) - thiz->yab.im ) * par->fIsin ) >>16);
   int16 a2 = thiz->yab.re - (int16)((((int32)((thiz->yab.re ))) * par->fIcos) >>16); 
@@ -452,6 +448,23 @@ inline void step_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, int16 xAdiff, int1
   int16 b = b1 + b2;
   thiz->yab.re = a;         
   thiz->yab.im = b;         
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+/**Step routine. It calulates the stored values of Orthogonal Oscillation.
+ * @param xAdiff Difference between Input and yaz_y Signal
+ * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+ * @param yaz_y variable to store the a-Output.
+ * @param ab_Y variable to store the complex orthogonal output..
+ * @simulink Object-FB, accel-tlc, step-in.
+ */
+inline void step_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y)
+  {
+#ifndef __ignoreInCheader_zbnf__
+  if(thiz == null) return;
+  int16 a = thiz->yab.re;
+  step1_OrthOsc16_CtrlemC(thiz, xAdiff, xBdiff);
   if(ab_y){  *ab_y = thiz->yab; } 
   *yaz_y = a;
 #endif//__ignoreInCheader_zbnf__
@@ -566,6 +579,12 @@ class OrthOsc16_CtrlemC : public OrthOsc16_CtrlemC_s {
 
   void step(int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y) {
     step_OrthOsc16_CtrlemC(this, xAdiff, xBdiff, yaz_y, ab_y);
+  }
+
+
+
+  void step1(int16 xAdiff, int16 xBdiff) {
+    step1_OrthOsc16_CtrlemC(this, xAdiff, xBdiff);
   }
 
 

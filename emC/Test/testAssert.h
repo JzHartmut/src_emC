@@ -6,6 +6,9 @@
 extern_C void XXXXTEST(char const* ident);
 
 
+
+
+
 #ifdef __cplusplus
 
 
@@ -48,10 +51,10 @@ void EXPECT_FALSEmsg1(bool val, char const* msg, int line);
 extern_C void msgStartFileLine_testAssert_emC ( char const* msg, char const* file, int line);
 
 /**Output always a test starting with "  ok " if cond==true*/
-extern_C bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line);
+extern_C bool expectMsgFileLine_testAssert_emC ( bool cond, int id, char const* msg, char const* file, int line, int32 val1, int32 val2);
 
 /**Output only a text if cond ==false, silent if ok. */
-extern_C bool checkMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line);
+extern_C bool checkMsgFileLine_testAssert_emC ( bool cond, int id, char const* msg, char const* file, int line, int32 val1, int32 val2);
 
 #ifdef DEFINED_Exception_emC  //else ist is not available, for simple tests.
 extern_C bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, int line);
@@ -62,10 +65,12 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 #define TEST_START(MSG) bool bTESTok = true; msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
 
 /**Test, output ok MSG if ok, only on error with file and line. */
-#define TEST_TRUE(COND, MSG) if(!expectMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__)) bTESTok = false;
+#define TEST_TRUE(COND, MSG) if(!expectMsgFileLine_testAssert_emC(COND, 0, MSG, __FILE__, __LINE__, 0, 0)) bTESTok = false;
 
 /**Checks only, output only if error*/
-#define CHECK_TRUE(COND, MSG) if(!checkMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__)) bTESTok = false;
+#define CHECK_TRUE(COND, MSG) if(!checkMsgFileLine_testAssert_emC(COND, 0, MSG, __FILE__, __LINE__, 0 , 0)) bTESTok = false;
+
+#define CHECK_TRUE2(COND, ID, MSG, VAL1, VAL2) if(!(COND)) { checkMsgFileLine_testAssert_emC(COND, ID, MSG, __FILE__, __LINE__, VAL1 , VAL2); bTESTok = false; }
 
 #define EXPECTs_FALSE(COND, MSG) if((COND)) expectMsgFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
 

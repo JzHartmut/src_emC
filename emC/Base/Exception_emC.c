@@ -62,10 +62,10 @@ int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sF
 
 #else //not DEF_Exception_emC_NO
 
-#include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
+//#include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 //#include <emC/OSAL/os_error.h>
 //#include <fw_Platform_conventions.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 
 void stop_DebugutilJc DEF(ThreadContext_emC_s* _thCxt){
 }
