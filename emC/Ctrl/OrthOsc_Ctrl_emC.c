@@ -137,10 +137,6 @@ OrthOsc16_CtrlemC_s* ctor_OrthOsc16_CtrlemC(ObjectJc* othiz, float kA, float kB,
   thiz->b_ = 0;
   thiz->yab.re = 0;
   thiz->yab.im = 0;
-  thiz->ypq.re = 0;
-  thiz->ypq.im = 0;
-  thiz->m = 0;
-  thiz->mr = 10.0f;
   return thiz;
 }
 

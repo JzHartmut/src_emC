@@ -404,8 +404,7 @@ typedef struct OrthOsc16_CtrlemC_T
   int16 kA, kB;
 
   int16_complex yab;  //:Orthogonal components of oscillation. 
-  int16_complex ypq;  //:optional: Orthogonal components as fundamental values, after park-transformation with angle.
-  int16 m, mr;        //:optional: Magnitude and its reciproke, if calculated
+  //int16 m, mr;        //:optional: Magnitude and its reciproke, if calculated
   //
   int16 b_;           //:internal b component
 
@@ -526,35 +525,8 @@ inline void ab_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, float run, float_com
 
 
 
-/**
- * @s imulink Operation-FB, accel-tlc
- */
-inline void calcMagn_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, float step, float* m_y)
-{ 
-#ifndef __ignoreInCheader_zbnf__ 
-  float dm1 = thiz->par->fm * ((thiz->yab.re * thiz->yab.re) + (thiz->yab.im * thiz->yab.im) - (thiz->m * thiz->m));
-  if(dm1 <=1.0 && dm1 >= -1.0) {
-    //it is okay.
-  } else if(dm1 < 10000000000.0) {
-    dm1 = fminf(fmaxf(dm1, -1.0f), 1.0f);
-  } else {
-    //it is nan. Prevent problems. clear all.
-    thiz->yab.re = thiz->yab.im = thiz->m = thiz->mr = dm1 = 0;
-  }
-  *m_y = thiz->m += dm1;
-#endif//__ignoreInCheader_zbnf__
-}
 
 
-/**
- * @s imulink Operation-FB, accel-tlc
- */
-inline void calcpq_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, float step, float_complex* ypq_y)
-{ 
-  if(thiz == null || thiz->anglep == null) return;
-  mult_complex_FB(thiz->yab, thiz->anglep->anb, thiz->ypq);
-  //*ypq_y = thiz->ypq;  //offer result to extra output.
-}
 
 
 
@@ -589,16 +561,8 @@ class OrthOsc16_CtrlemC : public OrthOsc16_CtrlemC_s {
 
 
 
-  void calcpq(float_complex* ypq_y) {
-    calcpq_OrthOsc16_CtrlemC(this, 0.0f, ypq_y);
-  }
 };
 #endif //__cplusplus
-
-
-
-
-
 
 
 

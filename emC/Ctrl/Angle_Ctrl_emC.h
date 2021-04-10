@@ -4,6 +4,7 @@
 #include <string.h>  //memset
 #include <applstdef_emC.h>
 #include <emC/Base/Object_emC.h>
+#include <emC/Base/Math_emC.h>
 #include <math.h>
 
 
