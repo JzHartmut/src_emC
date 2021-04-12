@@ -59,6 +59,7 @@
 
 const StringJc sSharedMem_InterProcessCommSharedMem = CONST_StringJc("SharedMem:", 7);
 
+#ifdef DEF_ClassJc_Vtbl
 
 extern const struct ClassJc_t refl_InterProcessCommSharedMem_s; 
 
@@ -594,4 +595,7 @@ InterProcessCommFactory_s* XXXgetInstance_InterProcessCommFactory()
 {
   return null; // iFactory;
 }
+
+
+#endif //def DEF_ClassJc_Vtbl
 

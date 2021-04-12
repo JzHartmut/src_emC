@@ -767,6 +767,7 @@ if an application is attempt to process an int value independent of the value ty
 METHOD_C int32 getIntChild_InspcDataExchangeAccess_Inspc(/*J2C:static method*/ int16 type, struct ByteDataAccessBaseJc_t* access, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_InspcDataExchangeAccess_Inspc[]; //marker for methodTable check
@@ -774,6 +775,7 @@ typedef struct Vtbl_InspcDataExchangeAccess_Inspc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_InspcDataExchangeAccess_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

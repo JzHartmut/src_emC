@@ -19,6 +19,7 @@
 #include "emC/OSAL/os_time.h"  //reference-association: OS_TimeStamp
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 struct InspcDataInfo_Inspc_t;
 
@@ -1976,3 +1977,6 @@ const ClassJc refl_ClassContent_Inspc_s =
 , mObjectJc_Modifier_reflectJc
 , &mtblClassContent_Inspc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

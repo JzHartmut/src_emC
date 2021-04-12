@@ -10,6 +10,7 @@
 #include "emC/Jc/SystemJc.h"  //reference-association: SystemJc
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 /**This is a sample class for implementing the {@link InterProcessCommRx_ifc} especially for usage in C.
@@ -110,3 +111,6 @@ const ClassJc refl_InterProcessCommRxExec_Ipc_s =
 , 0    //modifiers
 , &mtblInterProcessCommRxExec_Ipc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

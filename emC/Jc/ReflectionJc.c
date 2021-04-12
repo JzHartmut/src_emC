@@ -52,6 +52,7 @@
 //#include "Jc/StringJc.h"
 #include "emC/Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 
+#ifdef DEF_REFLECTION_FULL
 #include <emC/Base/SimpleC_emC.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -1403,4 +1404,8 @@ METHOD_C double setDouble_FieldJc(const FieldJc* thiz, MemSegmJc obj, double val
   }
   return setDouble_MemAccessJc(addr, val);
 }
+
+
+
+#endif //def DEF_REFLECTION_FULL
 

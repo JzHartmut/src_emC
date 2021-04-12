@@ -10,6 +10,7 @@
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 /**This class supports preparing data for the Inspector-datagram-definition.
@@ -880,3 +881,6 @@ const ClassJc refl_InspcAnswerValueByHandle_InspcDataExchangeAccess_Inspc_s =
 , null //interfaces
 , 0    //modifiers
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

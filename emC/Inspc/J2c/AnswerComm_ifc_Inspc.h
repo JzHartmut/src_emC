@@ -59,7 +59,7 @@ typedef int32 MT_txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswer
 /* J2C:Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C int32 txAnswer_AnswerComm_ifc_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt);
 
-
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_AnswerComm_ifc_Inspc[]; //marker for methodTable check
@@ -68,6 +68,7 @@ typedef struct Vtbl_AnswerComm_ifc_Inspc_t
   MT_txAnswer_AnswerComm_ifc_Inspc* txAnswer;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_AnswerComm_ifc_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

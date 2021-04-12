@@ -151,6 +151,23 @@ bool init_OrthOsc2_CtrlemC(OrthOsc2_CtrlemC_s* thiz, Param_OrthOsc2_CtrlemC_s* p
 /**Step routine. It calulates the stored values of Orthogonal Oscillation.
  * @param xAdiff Difference between Input and yaz_y Signal
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+ */
+inline void step1_OrthOsc2_CtrlemC(OrthOsc2_CtrlemC_s* thiz, float xAdiff, float xBdiff)
+  {
+#ifndef __ignoreInCheader_zbnf__
+  float b;
+  Param_OrthOsc2_CtrlemC_s* par = thiz->par;
+  thiz->yab.re += par->fIa * ( thiz->kA * xAdiff - thiz->b_);
+  b = thiz->b_;
+  thiz->b_ += par->fIb * ( thiz->kB * xBdiff + thiz->yab.re);
+  thiz->yab.im = (thiz->b_ + b) /2;
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+/**Step routine. It calulates the stored values of Orthogonal Oscillation.
+ * @param xAdiff Difference between Input and yaz_y Signal
+ * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  * @param yaz_y variable to store the a-Output.
  * @param ab_Y variable to store the complex orthogonal output.. 
  * @s imulink Object-FB, accel-tlc, step-in.
@@ -159,12 +176,8 @@ inline void step_OrthOsc2_CtrlemC(OrthOsc2_CtrlemC_s* thiz, float xAdiff, float 
   { 
 #ifndef __ignoreInCheader_zbnf__ 
   if(thiz == null) return;
-  float b;
-  Param_OrthOsc2_CtrlemC_s* par = thiz->par;
- 	*yaz_y = thiz->yab.re += par->fIa * ( thiz->kA * xAdiff - thiz->b_);
-	b = thiz->b_; 
-  thiz->b_ += par->fIb * ( thiz->kB * xBdiff + thiz->yab.re);
-  thiz->yab.im = (thiz->b_ + b) /2;
+  step1_OrthOsc2_CtrlemC(thiz, xAdiff, xBdiff);
+  *yaz_y = thiz->yab.re;
   if(ab_y){  *ab_y = thiz->yab; } 
 #endif//__ignoreInCheader_zbnf__
 }
@@ -275,7 +288,7 @@ class OrthOsc2_CtrlemC : public OrthOsc2_CtrlemC_s {
   /**Connect the association to par and angle.
    */
   bool init(Param_OrthOsc2_CtrlemC* par, Angle_abwmf_FB_CtrlemC* angle) {
-    init_OrthOsc2_CtrlemC(this, par, angle); 
+    return init_OrthOsc2_CtrlemC(this, par, angle);
   }
 
   /**Connect the association only to par, angle remain null, then calcpq is not supported.
@@ -286,6 +299,10 @@ class OrthOsc2_CtrlemC : public OrthOsc2_CtrlemC_s {
 
   void step(float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y) {
     step_OrthOsc2_CtrlemC(this, xAdiff, xBdiff, yaz_y, ab_y);
+  }
+
+  void step(float xAdiff, float xBdiff) {
+    step1_OrthOsc2_CtrlemC(this, xAdiff, xBdiff);
   }
 
 
@@ -366,8 +383,9 @@ inline void setPeriod_Param_OrthOsc16_CtrlemC(Param_OrthOsc16_CtrlemC_s* thiz, f
 inline void setFq_Param_OrthOsc16_CtrlemC(Param_OrthOsc16_CtrlemC_s* thiz, float fq)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
-  float fI1 = 2*kPI_Angle_FB * thiz->tStepOrthi * fq;
-  float fIcos = cosf(fI1);
+  float fI1 = 2*kPI_Angle_FB * thiz->tStepOrthi * fq;  //rad of 1 Tstep
+  //this value should be so exact as possible for feedback, sum of gain = 1.0, 
+  float fIcos = cosf(fI1);       //hence using float. cos16_emC is inaccurate.
   float fIsin = sinf(fI1);
   thiz->fIsin = (uint16)(65536 * fIsin);
   thiz->fIcos = (uint16)(65536 * (1.0f - fIcos));
@@ -377,7 +395,7 @@ inline void setFq_Param_OrthOsc16_CtrlemC(Param_OrthOsc16_CtrlemC_s* thiz, float
 
 
 #if defined(DEF_cplusplus_emC) && defined(__cplusplus)
-class Param_OrthOsc16_CtrlemC : private Param_OrthOsc16_CtrlemC_s {
+class Param_OrthOsc16_CtrlemC : public Param_OrthOsc16_CtrlemC_s {
   friend class OrthOsc16_CtrlemC;
   public: 
   
@@ -403,7 +421,7 @@ typedef struct OrthOsc16_CtrlemC_T
   /**Couple factors. Note: kB should be negative for same difference B-X, A-X*/
   int16 kA, kB;
 
-  int16_complex yab;  //:Orthogonal components of oscillation. 
+  int16_complex yab;    //:Orthogonal components of oscillation. 
   //int16 m, mr;        //:optional: Magnitude and its reciproke, if calculated
   //
   int16 b_;           //:internal b component
@@ -447,6 +465,33 @@ inline void step1_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, int16 xAdiff, int
   int16 b = b1 + b2;
   thiz->yab.re = a;         
   thiz->yab.im = b;         
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+
+/**Step routine. It calulates the stored values of Orthogonal Oscillation.
+ * @param xAdiff Difference between Input and yaz_y Signal
+ * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+ */
+inline void step2_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, int16 xAdiff, int16 xBdiff)
+  { 
+#ifndef __ignoreInCheader_zbnf__ 
+  Param_OrthOsc16_CtrlemC_s* par = thiz->par;
+  int32 ad; 
+  muls16_emC(ad, thiz->kA, xAdiff);  //input diff * kA
+  ad = (ad >>12) - thiz->yab.im;     // - other comp (im)
+  muls16_emC(ad, (int16)(ad & 0xffff), par->fIsin);  //increment of own comp (re) from adiff and im
+  muls16add32_emC(ad, thiz->yab.re, -par->fIcos);    //sub the little bit for stability
+  int16 a = thiz->yab.re;
+  thiz->yab.re += (int16)((ad>>16) & 0xffff);
+  //
+  int32 bd; 
+  muls16_emC(bd, thiz->kB, xBdiff);  //input diff * kA
+  bd = (bd >>12) + thiz->yab.re;     // - other comp (im)
+  muls16_emC(bd, (int16)(bd & 0xffff), par->fIsin);  //increment of own comp (re) from adiff and im
+  muls16add32_emC(bd, thiz->yab.im, -par->fIcos);    //sub the little bit for stability
+  thiz->yab.im += (int16)((bd>>16) & 0xffff);
 #endif//__ignoreInCheader_zbnf__
 }
 
@@ -540,7 +585,7 @@ class OrthOsc16_CtrlemC : public OrthOsc16_CtrlemC_s {
   /**Connect the association to par and angle.
    */
   bool init(Param_OrthOsc16_CtrlemC* par, Angle_abgmf16_CtrlemC* angle) {
-    init_OrthOsc16_CtrlemC(this, par, angle); 
+    return init_OrthOsc16_CtrlemC(this, par, angle);
   }
 
   /**Connect the association only to par, angle remain null, then calcpq is not supported.
@@ -555,8 +600,189 @@ class OrthOsc16_CtrlemC : public OrthOsc16_CtrlemC_s {
 
 
 
-  void step1(int16 xAdiff, int16 xBdiff) {
-    step1_OrthOsc16_CtrlemC(this, xAdiff, xBdiff);
+  void step(int16 xAdiff, int16 xBdiff) {
+    step2_OrthOsc16_CtrlemC(this, xAdiff, xBdiff);
+  }
+
+
+
+};
+#endif //__cplusplus
+
+
+//=====================Orth32
+
+/**Internal data of a OrthogonalOscillator.
+ * @simulink no-bus 
+ */
+typedef struct OrthOsc32_CtrlemC_T
+{
+  ObjectJc obj;  //:The base structure
+  Param_OrthOsc16_CtrlemC_s* par;  //:Reference to parameter, maybe calculated in other step time.
+  Angle_abgmf16_CtrlemC* anglep;   //:Reference to angle, null is admissable.
+
+  /**Couple factors. Note: kB should be negative for same difference B-X, A-X*/
+  int16 kA, kB;
+
+  int32_complex yab;    //:Orthogonal components of oscillation. 
+
+} OrthOsc32_CtrlemC_s;
+
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_OrthOsc32_CtrlemC;
+#endif
+
+
+/**@simulink ctor
+ */
+OrthOsc32_CtrlemC_s* ctor_OrthOsc32_CtrlemC(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep);
+
+
+/**Prepares the instance data. 
+ * @param par aggregation to the parameter.
+ * @param angle aggregation to instance which contains the angle of the signal.
+ * @simulink init
+ */
+bool init_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, Param_OrthOsc16_CtrlemC_s* par, Angle_abgmf16_CtrlemC* angle);
+
+
+
+
+
+
+/**Step routine. It calulates the stored values of Orthogonal Oscillation.
+ * @param xAdiff Difference between Input and yaz_y Signal
+ * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+ */
+inline void step2_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, int16 xAdiff, int16 xBdiff)
+  { 
+#ifndef __ignoreInCheader_zbnf__ 
+  Param_OrthOsc16_CtrlemC_s* par = thiz->par;
+  int32 ad; 
+  muls16_emC(ad, thiz->kA, xAdiff);  //input diff * kA
+  ad = (ad <<4) - thiz->yab.im;     // - other comp (im)
+  muls32hi_emC(ad, ad, par->fIsin<<16);  //increment of own comp (re) from adiff and im
+  muls32addhi_emC(ad, thiz->yab.re, -(par->fIcos<<16));    //sub the little bit for stability
+  int32 a = thiz->yab.re;
+  thiz->yab.re += ad;
+  //
+  int32 bd; 
+  muls16_emC(bd, thiz->kB, xBdiff);  //input diff * kA
+  bd = (bd <<4) + thiz->yab.re;     // - other comp (im)
+  muls32hi_emC(bd, bd, par->fIsin<<16);  //increment of own comp (re) from adiff and im
+  muls32addhi_emC(bd, thiz->yab.im, -(par->fIcos <<16));    //sub the little bit for stability
+  thiz->yab.im += bd;
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+/**Step routine. It calulates the stored values of Orthogonal Oscillation.
+ * @param xAdiff Difference between Input and yaz_y Signal
+ * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+ * @param yaz_y variable to store the a-Output.
+ * @param ab_Y variable to store the complex orthogonal output..
+ * @simulink Object-FB, accel-tlc, step-in.
+ */
+inline void step_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y)
+  {
+#ifndef __ignoreInCheader_zbnf__
+  if(thiz == null) return;
+  int16 a = (int16)(thiz->yab.re>>16);
+  step2_OrthOsc32_CtrlemC(thiz, xAdiff, xBdiff);
+  if(ab_y){  ab_y->re = (int16)(thiz->yab.re>>16); ab_y->im = (int16)(thiz->yab.im>>16); } 
+  *yaz_y = a;
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+
+/**Prepares the instance data. 
+ * The output bus from simulink will be allocated in simulink respectively in the generated code.
+ * Use the pointer to the existing output data, that are the instance data.
+ * @param identObj any indetification number. For debug.
+ * @param par aggregation to the parameter.
+ * @param angle aggregation to instance which contains the angle of the signal.
+ * @param thizh_y thiz as pointer.
+ * @s imulink init
+ */
+bool init_NoAngle_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, Param_OrthOsc16_CtrlemC_s* par);
+
+/**
+ * @s imulink Object-FB, accel-tlc, step-in.
+ */
+inline void stepNoAngle_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
+{ 
+#ifndef __ignoreInCheader_zbnf__  
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+
+
+//#define free_Param_OrthOsc32_CtrlemC()
+
+//#define free_OrthOsc32_CtrlemC()
+
+
+
+/**
+ * @xxxsimulink Operation-FB, accel-tlc
+ */
+inline void thizo_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, int32 dummyRun, OrthOsc32_CtrlemC_s* thiz_ybus)
+{ 
+#ifndef __ignoreInCheader_zbnf__ 
+  *thiz_ybus = *thiz;
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+/**Outputs the ab vector of this.
+ * @s imulink Operation-FB, accel-tlc
+ */
+inline void ab_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, float run, int16_complex* ab_y)
+{ 
+  ab_y->re = (int16)(thiz->yab.re>>16);
+  ab_y->im = (int16)(thiz->yab.im>>16);
+}
+
+
+
+
+
+
+
+
+
+
+
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
+class OrthOsc32_CtrlemC : public OrthOsc32_CtrlemC_s {
+
+  public: 
+  
+  OrthOsc32_CtrlemC(float kA, float kB, int32 identObj, float Tstep);
+
+  /**Connect the association to par and angle.
+   */
+  bool init(Param_OrthOsc16_CtrlemC* par, Angle_abgmf16_CtrlemC* angle) {
+    return init_OrthOsc32_CtrlemC(this, par, angle);
+  }
+
+  /**Connect the association only to par, angle remain null, then calcpq is not supported.
+   */
+  bool init(Param_OrthOsc16_CtrlemC* par) {
+    return init_NoAngle_OrthOsc32_CtrlemC(this, par); 
+  }
+
+  void step(int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y) {
+    step_OrthOsc32_CtrlemC(this, xAdiff, xBdiff, yaz_y, ab_y);
+  }
+
+
+
+  void step(int16 xAdiff, int16 xBdiff) {
+    step2_OrthOsc32_CtrlemC(this, xAdiff, xBdiff);
   }
 
 
@@ -566,6 +792,8 @@ class OrthOsc16_CtrlemC : public OrthOsc16_CtrlemC_s {
 
 
 
+
+//================
 
 typedef struct Adjustk_OrthOsc2_CtrlemC_T
 {

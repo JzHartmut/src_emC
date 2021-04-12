@@ -12,6 +12,7 @@
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 /**Functionality to search an element for reflection access.
@@ -380,3 +381,6 @@ const ClassJc refl_SearchTrc_SearchElement_Inspc_s =
 , null //interfaces
 , 0    //modifiers
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

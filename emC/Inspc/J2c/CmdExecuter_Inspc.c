@@ -15,6 +15,7 @@
 #include <emC/Jc/SystemJc.h>  //reference-association: SystemJc
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 
@@ -497,3 +498,6 @@ const ClassJc refl_CmdExecuter_Inspc_s =
 , mObjectJc_Modifier_reflectJc
 , &mtblCmdExecuter_Inspc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

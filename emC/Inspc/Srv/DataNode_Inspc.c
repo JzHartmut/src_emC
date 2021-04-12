@@ -2,6 +2,7 @@
  * The whole inspector binaries are not necessary therefore. They should not need in a extra binary image.
  */
 #include <emC/Inspc/Srv/DataNode_Inspc.h>
+#ifdef DEF_ClassJc_Vtbl
 #include <emC/Inspc/Srv/CheckPwd_Inspc.h>
 
 #include <string.h>
@@ -133,3 +134,6 @@ bool checkObject_DataNode_Inspc ( struct DataNode_Inspc_t* thiz){
   if(strcmp(thiz->base.object.reflection->name, "DataNode_Inspc") !=0) return false;
   return true;
 }
+
+
+#endif //def DEF_ClassJc_Vtbl

@@ -122,6 +122,8 @@ METHOD_C void shutdown_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt);
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_Comm_Inspc[]; //marker for methodTable check
+
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_Comm_Inspc_t
 { VtblHeadJc head;
   MT_shutdown_Comm_Inspc* shutdown;
@@ -129,6 +131,7 @@ typedef struct Vtbl_Comm_Inspc_t
   //Method table of interfaces:
   Vtbl_RunnableJc RunnableJc;
 } Vtbl_Comm_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

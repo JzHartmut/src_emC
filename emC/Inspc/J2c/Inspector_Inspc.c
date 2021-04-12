@@ -9,6 +9,7 @@
 #include <emC/Jc/StringJc.h>  //embedded type in class data
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 
@@ -228,3 +229,6 @@ const ClassJc refl_Inspector_Inspc =
 , 0    //modifiers
 , &mtblInspector_Inspc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

@@ -187,6 +187,7 @@ METHOD_C int16 getTypeFromField_ClassContent_Inspc(/*J2C:static method*/ struct 
 METHOD_C void stop_ClassContent_Inspc(ClassContent_Inspc_s* thiz, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_ClassContent_Inspc[]; //marker for methodTable check
@@ -196,6 +197,7 @@ typedef struct Vtbl_ClassContent_Inspc_t
   //Method table of interfaces:
   Vtbl_CmdConsumer_ifc_Inspc CmdConsumer_ifc_Inspc;
 } Vtbl_ClassContent_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

@@ -14,6 +14,7 @@
 #include "emC/Jc/SystemJc.h"  //reference-association: SystemJc
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 
@@ -667,3 +668,6 @@ const ClassJc refl_C_threadRoutine_InterProcessCommRxThread_Ipc =
 , mObjectJc_Modifier_reflectJc
 , &mtblC_threadRoutine_InterProcessCommRxThread_Ipc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

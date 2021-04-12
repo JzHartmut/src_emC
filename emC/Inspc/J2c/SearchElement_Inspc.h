@@ -153,6 +153,7 @@ METHOD_C MemSegmJc searchObject_SearchElement_Inspc(/*J2C:static method*/ String
 , struct FieldJc_t const** retField, int32* retIdx, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_SearchElement_Inspc[]; //marker for methodTable check
@@ -160,6 +161,7 @@ typedef struct Vtbl_SearchElement_Inspc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_SearchElement_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

@@ -193,6 +193,12 @@ extern_C int16 cos16_emC ( int16 angle);
 
 #define sin16_emC(ANGLE) cos16_emC((ANGLE)-0x4000)
 
+/**Builds the atan2 from normalized values. 
+ * Because normalization it does not use a division. 
+ * Instead it builds the arcus via asin(x16) from the proper segment via linear interpolation.
+ */
+extern_C int16 atan2nom16_emC ( int16_complex x );
+
 /**sqare root.
  * The sqrt can only be performed for unsigned values. 
  * The nominal value is defined with 0x4000 as 1.0. 
@@ -224,9 +230,72 @@ extern_C int32 cos32_emC ( int32 angle);
 
 #define angle16_rad_emC(RAD) (int16)((RAD) * (32768.0f/PI_float_emC) ) 
 
+#define angle32_rad_emC(RAD) (int32)((RAD) * (65536.0f * 32768.0f/PI_float_emC) )
+
 #define radf_angle16_emC(ANGLE16) ((ANGLE16)* (PI_float_emC / 0x8000)) 
 
 #define gradf_angle16_emC(ANGLE16) ((ANGLE16)* (180.0f / 0x8000)) 
+
+
+
+
+/*@CLASS_C Nom_float_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+typedef struct Nom_float_complex_T {
+
+  /**The nominal value from input. */
+  float_complex xnom;
+
+  /**The revers magnitude*/
+  float rmagn;
+
+  /**Limit the amplifier, elsewhere it oscillates*/
+  float xmaxqu;
+
+  /**Factor to corr rmagn. */
+  float f;
+
+} Nom_float_complex_s;
+
+/**
+ * @simulink ctor
+ */
+static inline void ctor_Nom_float_complex(Nom_float_complex_s* thiz) {
+  thiz->rmagn = 1.0f;
+  thiz->xnom.re = 0;
+  thiz->xnom.im = 0;
+  thiz->xmaxqu = 1.8f;
+  thiz->f = 0.5f;
+}
+
+/**Build the nominal vector from a given vector.
+ * It uses the pre-calculated thiz->rmagn factor and stores thiz->xnom.
+ * After them it calculates the magnitude of thiz->xnom and compares with 1.0 (0x4000)
+ * and adjust the thiz->rmagn factor.
+ * @param x any vector in range 0.5003..1.9993 (0x2000 .. 0x7fff)
+ * @chg all thiz
+ * @simulink Operation_FB
+ */
+static inline void step_Nom_float_complex(Nom_float_complex_s* thiz, float_complex x) {
+
+  thiz->xnom.re = thiz->rmagn * x.re;
+  thiz->xnom.im = thiz->rmagn * x.im;
+  float xqu = thiz->xnom.re * thiz->xnom.re + thiz->xnom.im * thiz->xnom.im;    //re*re + im*im
+  if(xqu > thiz->xmaxqu) { xqu = thiz->xmaxqu; }
+  thiz->rmagn += thiz->f * thiz->rmagn * (1.0f - xqu);
+}
+
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
+class Nom_float_complex : public Nom_float_complex_s {
+
+  public: Nom_float_complex ( ) {
+    ctor_Nom_float_complex(this);
+  }
+
+  public: void step (  float_complex x) { step_Nom_float_complex(this, x); }
+};
+#endif //__cplusplus
+
+
 
 /*@CLASS_C Nom_int16_complex @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 typedef struct Nom_int16_complex_T {
@@ -280,7 +349,7 @@ class Nom_int16_complex : public Nom_int16_complex_s {
     ctor_Nom_int16_complex(this);
   }
 
-  public: step (  int16_complex x) { step_Nom_int16_complex(this, x); }
+  public: void step (  int16_complex x) { step_Nom_int16_complex(this, x); }
 };
 #endif //__cplusplus
 

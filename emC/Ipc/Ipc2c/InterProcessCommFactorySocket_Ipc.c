@@ -11,6 +11,7 @@
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 struct InterProcessCommSocket_t;
 
@@ -327,3 +328,6 @@ const ClassJc refl_InterProcessCommFactorySocket_Ipc_s =
 , 0    //modifiers
 , &mtblInterProcessCommFactorySocket_Ipc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

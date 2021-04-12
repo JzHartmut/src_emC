@@ -40,6 +40,8 @@
 #include <emC/Jc/ObjectJc.h>
 #include <emC/OSAL/os_endian.h>
 
+#ifdef DEF_REFLECTION_FULL
+
 #undef byte
 #undef boolean
 #undef BOOL         
@@ -259,6 +261,7 @@ Vtbl_InterProcessCommCallback const mtbl_InterprocessCommCallbackAdapCpp =
 */
 /**********************************************************************************/
 
+#ifdef DEF_ClassJc_Vtbl
 
 
 typedef enum{ kDataBufferSize_InterProcessCommSocket_s = 1500}_eXYZ;
@@ -1048,3 +1051,7 @@ InterProcessComm_s* create_InterProcessCommSocket(Address_InterProcessComm_s* ow
   //return ctor_InterProcessCommSocket(ipc, ownAddress);
 }
 
+
+
+#endif //def DEF_ClassJc_Vtbl
+#endif //DEF_REFLECTION_FULL

@@ -112,10 +112,12 @@ METHOD_C struct Address_InterProcessComm_t* createAddressSocket_InterProcessComm
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_InterProcessCommFactorySocket_Ipc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_InterProcessCommFactorySocket_Ipc_t
 { VtblHeadJc head;
   Vtbl_InterProcessCommFactory InterProcessCommFactory;
 } Vtbl_InterProcessCommFactorySocket_Ipc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

@@ -73,6 +73,7 @@ void finalize_InspcDataInfo_Inspc_F(ObjectJc* othis, ThCxt* _thCxt);
 METHOD_C struct InspcDataInfo_Inspc_t* ctorO_InspcDataInfo_Inspc(ObjectJc* othis, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_InspcDataInfo_Inspc[]; //marker for methodTable check
@@ -80,6 +81,7 @@ typedef struct Vtbl_InspcDataInfo_Inspc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_InspcDataInfo_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

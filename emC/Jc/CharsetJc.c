@@ -11,4 +11,8 @@ CharsetJc* forNamez_CharsetJc(char const* name, ThCxt* _thCxt) {
 }
 
 #include <emC/Base/Object_emC.h>
-#include "emC/Jc/genRefl/CharsetJc.crefl"
+
+
+#ifdef DEF_REFLECTION_FULL
+  #include "emC/Jc/genRefl/CharsetJc.crefl"
+#endif

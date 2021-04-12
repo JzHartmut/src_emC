@@ -109,6 +109,7 @@ METHOD_C int32 txAnswer_ib_CmdExecuter_Inspc_F(ObjectJc* ithis, int32 nrofAnswer
 METHOD_C int32 txAnswer_ib_CmdExecuter_Inspc(ObjectJc* ithis, int32 nrofAnswerBytesPart, bool bLastTelg, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_CmdExecuter_Inspc[]; //marker for methodTable check
@@ -120,6 +121,7 @@ typedef struct Vtbl_CmdExecuter_Inspc_t
   //Method table of interfaces:
   Vtbl_AnswerComm_ifc_Inspc AnswerComm_ifc_Inspc;
 } Vtbl_CmdExecuter_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

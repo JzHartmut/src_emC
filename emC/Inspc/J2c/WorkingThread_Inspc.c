@@ -9,6 +9,7 @@
 #include "emC/Jc/MathJc.h"  //reference-association: MathJc_s
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 /**This is a class which does anything to display it with the reflectPro-target. 
@@ -579,3 +580,6 @@ const ClassJc refl_C_theThreadRun_WorkingThread_Inspc_s =
 , mObjectJc_Modifier_reflectJc
 , &mtblC_theThreadRun_WorkingThread_Inspc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

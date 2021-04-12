@@ -43,6 +43,7 @@
 #include "emC/OSAL/os_time.h"
 #include <emC/Base/Timeconversions_emC.h>
 
+#ifdef DEF_REFLECTION_FULL
 extern_C struct ClassJc_t const refl_DateJc;
 
 METHOD_C void normalize_DateJc(DateJc_s* ythis)
@@ -285,6 +286,9 @@ int64 UTC_DateJc(int year, int month, int day, int hour, int minute, int second)
   return 1000 * (int64)secondsSince1970;
 }
 
+#endif //DEF_REFLECTION_FULL
 
+#ifdef DEF_REFLECTION_FULL
+  #include <emC/Jc/genRefl/DateJc.crefl>
+#endif
 
-#include <emC/Jc/genRefl/DateJc.crefl>

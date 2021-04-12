@@ -7,6 +7,8 @@
 #include "emC/Ipc/InterProcessCommSocket.h"
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Jc/StringJc.h>
+
+#ifdef DEF_ClassJc_Vtbl
 #include <emC/Ipc/genRefl/InterProcessComm.crefl>
 #include <stdio.h>
 
@@ -151,3 +153,6 @@ InterProcessCommFactory_s* ctorO_InterProcessCommFactory(ObjectJc* othis, ThCxt*
   checkConsistence_ObjectJc(othis, sizeof(InterProcessCommFactory_s), &refl_InterProcessCommFactory, null);
   return ythis;
 }
+
+
+#endif //def DEF_ClassJc_Vtbl

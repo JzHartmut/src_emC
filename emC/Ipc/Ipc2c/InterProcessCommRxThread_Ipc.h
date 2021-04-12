@@ -74,12 +74,14 @@ METHOD_C void run_C_threadRoutine_InterProcessCommRxThread_Ipc(ObjectJc* ithis, 
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_C_threadRoutine_InterProcessCommRxThread_Ipc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_C_threadRoutine_InterProcessCommRxThread_Ipc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
   Vtbl_RunnableJc RunnableJc;
 } Vtbl_C_threadRoutine_InterProcessCommRxThread_Ipc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 
@@ -197,10 +199,12 @@ METHOD_C void shutdown_InterProcessCommRxThread_Ipc(InterProcessCommRxThread_Ipc
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_InterProcessCommRxThread_Ipc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_InterProcessCommRxThread_Ipc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_InterProcessCommRxThread_Ipc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

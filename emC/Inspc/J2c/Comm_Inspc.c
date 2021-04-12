@@ -16,6 +16,7 @@
 #include <stdio.h>
 FILE* ftest = null;
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 
@@ -542,3 +543,6 @@ const ClassJc refl_Comm_Inspc_s =
 , mObjectJc_Modifier_reflectJc
 , &mtblComm_Inspc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

@@ -7,6 +7,7 @@
 #include <emC/Jc/ReflectionJc.h>   //Reflection concept 
   //basic stacktrace concept
 
+#ifdef DEF_ClassJc_Vtbl
 
 /* J2C: Forward declaration of struct ***********************************************/
 
@@ -50,3 +51,6 @@ const ClassJc refl_CmdConsumer_ifc_Inspc_s =
 , null //interfaces
 , 0    //modifiers
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

@@ -39,6 +39,7 @@
 #include "emC/Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 
 #ifndef __NOT_SUPPORTED_ThreadContext_emC__  //then ignore whole file
+#ifdef DEF_ClassJc_Vtbl
 
 #include <emC/OSAL/os_thread.h>
 #include <emC/OSAL/os_time.h>
@@ -227,4 +228,5 @@ const VtblDef_ThreadJc mtblThreadJc = {
 
 #include <emC/Jc/genRefl/ThreadJc.crefl>
 
+#endif //DEF_ClassJc_Vtbl
 #endif //not __NOT_SUPPORTED_ThreadContext_emC__

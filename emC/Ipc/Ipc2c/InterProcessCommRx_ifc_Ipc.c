@@ -9,6 +9,7 @@
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 /**This is the base class of a callback for {@link InterProcessCommRxThread}.
@@ -92,3 +93,6 @@ const ClassJc refl_InterProcessCommRx_ifc_Ipc =
 , null //interfaces
 , 0    //modifiers
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

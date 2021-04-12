@@ -85,12 +85,14 @@ METHOD_C void run_C_theThreadRun_WorkingThread_Inspc(ObjectJc* ithis, ThCxt* _th
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_C_theThreadRun_WorkingThread_Inspc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_C_theThreadRun_WorkingThread_Inspc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
   Vtbl_RunnableJc RunnableJc;
 } Vtbl_C_theThreadRun_WorkingThread_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 
@@ -161,10 +163,12 @@ METHOD_C struct Data_WorkingThread_Inspc_t* ctorO_Data_WorkingThread_Inspc(Objec
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_Data_WorkingThread_Inspc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_Data_WorkingThread_Inspc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_Data_WorkingThread_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 
@@ -227,10 +231,12 @@ METHOD_C struct ThreadMng_WorkingThread_Inspc_t* ctorO_ThreadMng_WorkingThread_I
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_ThreadMng_WorkingThread_Inspc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_ThreadMng_WorkingThread_Inspc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_ThreadMng_WorkingThread_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 
@@ -307,12 +313,14 @@ METHOD_C void step_WorkingThread_Inspc(WorkingThread_Inspc_s* thiz, ThCxt* _thCx
 /* J2C: Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
  extern const char sign_Vtbl_WorkingThread_Inspc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_WorkingThread_Inspc_t
 { VtblHeadJc head;
   MT_start_WorkingThread_Inspc* start;
   MT_terminate_WorkingThread_Inspc* terminate;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_WorkingThread_Inspc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

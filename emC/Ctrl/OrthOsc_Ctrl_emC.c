@@ -3,16 +3,21 @@
 #ifdef DEF_REFLECTION_FULL
   #include "genRefl/OrthOsc_Ctrl_emC.crefl"
 #elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Param_OrthOsc16_CtrlemC) //may defined in the *.refloffs.c file
-  #define ID_refl_OrthOsc2_CtrlemC_CtrlemC 0
+  #define ID_refl_OrthOsc2_CtrlemC 0
   #define ID_refl_Param_OrthOsc2_CtrlemC 0
-  #define ID_refl_OrthOsc16_CtrlemC_CtrlemC 0
+  #define ID_refl_OrthOsc16_CtrlemC 0
   #define ID_refl_Param_OrthOsc16_CtrlemC 0
   #define ID_refl_Adjustk_OrthOsc2_CtrlemC 0
-  ClassJc const refl_OrthOsc16_CtrlemC_CtrlemC = INIZ_ClassJc(refl_OrthOsc16_CtrlemC_CtrlemC, "refl_OrthOsc16_CtrlemC_CtrlemC");
+  ClassJc const refl_OrthOsc16_CtrlemC = INIZ_ClassJc(refl_OrthOsc16_CtrlemC, "refl_OrthOsc16_CtrlemC");
   ClassJc const refl_Param_OrthOsc16_CtrlemC = INIZ_ClassJc(refl_Param_OrthOsc16_CtrlemC, "refl_Param_OrthOsc16_CtrlemC");
-  ClassJc const refl_OrthOsc2_CtrlemC_CtrlemC = INIZ_ClassJc(refl_OrthOsc2_CtrlemC_CtrlemC, "refl_OrthOsc2_CtrlemC_CtrlemC");
+  ClassJc const refl_OrthOsc2_CtrlemC = INIZ_ClassJc(refl_OrthOsc2_CtrlemC, "refl_OrthOsc2_CtrlemC");
   ClassJc const refl_Param_OrthOsc2_CtrlemC = INIZ_ClassJc(refl_Param_OrthOsc2_CtrlemC, "refl_Param_OrthOsc2_CtrlemC");
   ClassJc const refl_Adjustk_OrthOsc2_CtrlemC = INIZ_ClassJc(refl_Adjustk_OrthOsc2_CtrlemC, "refl_Adjustk_OrthOsc2_CtrlemC");
+  #define ID_refl_OrthOsc32_CtrlemC 0
+  #define ID_refl_Param_OrthOsc32_CtrlemC 0
+  #define ID_refl_Adjustk_OrthOsc2_CtrlemC 0
+  ClassJc const refl_OrthOsc32_CtrlemC = INIZ_ClassJc(refl_OrthOsc32_CtrlemC, "refl_OrthOsc32_CtrlemC");
+  ClassJc const refl_Param_OrthOsc32_CtrlemC = INIZ_ClassJc(refl_Param_OrthOsc32_CtrlemC, "refl_Param_OrthOsc32_CtrlemC");
 #endif
 
 
@@ -164,6 +169,53 @@ bool init_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, Param_OrthOsc16_CtrlemC_s
 }
 
 bool init_NoAngle_OrthOsc16_CtrlemC(OrthOsc16_CtrlemC_s* thiz, Param_OrthOsc16_CtrlemC_s* par)
+{ 
+  if( ! isInitialized_ObjectJc(&thiz->obj) && par !=null) {
+    //yet complete:
+    thiz->par = par;
+    thiz->anglep = null;
+    setInitialized_ObjectJc(&thiz->obj);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+OrthOsc32_CtrlemC_s* ctor_OrthOsc32_CtrlemC(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep)
+{ OrthOsc32_CtrlemC_s* thiz = (OrthOsc32_CtrlemC_s*) othiz;
+  CTOR_ObjectJc(othiz, thiz, sizeof(*thiz), refl_OrthOsc32_CtrlemC, identObj);
+  thiz->kA = (int16)(4096 * kA);
+  thiz->kB = (int16)(4096 * kB);
+  thiz->yab.re = 0;
+  thiz->yab.im = 0;
+  return thiz;
+}
+
+
+
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
+OrthOsc32_CtrlemC::OrthOsc32_CtrlemC(float kA, float kB, int32 identObj, float Tstep) {
+  ctor_OrthOsc32_CtrlemC(&this->obj, kA, kB, identObj, Tstep);
+}
+#endif //__cplusplus
+
+
+
+bool init_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, Param_OrthOsc16_CtrlemC_s* par, Angle_abgmf16_CtrlemC* angle)
+{ 
+  if( ! isInitialized_ObjectJc(&thiz->obj) && par !=null && angle !=null) {
+    //yet complete:
+    thiz->par = par;
+    thiz->anglep = angle;
+    setInitialized_ObjectJc(&thiz->obj);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool init_NoAngle_OrthOsc32_CtrlemC(OrthOsc32_CtrlemC_s* thiz, Param_OrthOsc16_CtrlemC_s* par)
 { 
   if( ! isInitialized_ObjectJc(&thiz->obj) && par !=null) {
     //yet complete:

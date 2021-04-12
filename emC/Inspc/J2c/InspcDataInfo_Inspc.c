@@ -8,6 +8,7 @@
   //basic stacktrace concept
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* J2C: Forward declaration of struct ***********************************************/
 
 /**This class contains the description to access to one variable in memory
@@ -160,3 +161,6 @@ const ClassJc refl_InspcDataInfo_Inspc_s =
 , 0    //modifiers
 , &mtblInspcDataInfo_Inspc.mtbl.head
 };
+
+
+#endif //def DEF_ClassJc_Vtbl

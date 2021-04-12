@@ -111,6 +111,7 @@ typedef void MT_write_OutputStreamJc(ObjectJc* ithis, int byte, ThCxt* _thCxt);
 METHOD_C void write_OutputStreamJc(ObjectJc* ithis, int byte, ThCxt* _thCxt);
 
 
+#ifdef DEF_ClassJc_Vtbl
 /* Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
 extern const char sign_Vtbl_OutputStreamJc[]; //marker for methodTable check
@@ -119,6 +120,7 @@ typedef struct Vtbl_OutputStreamJc_t
   MT_write_OutputStreamJc* write;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_OutputStreamJc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

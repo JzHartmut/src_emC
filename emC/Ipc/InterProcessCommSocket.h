@@ -71,9 +71,11 @@ int open_InterProcessCommSocket( ObjectJc* xthis, Address_InterProcessComm_s* de
 
 METHOD_C struct InterProcessCommSocket_t* ctorO_InterProcessCommSocket(ObjectJc* othis, struct Address_InterProcessComm_t* addr, struct ThreadContext_emC_t* _thCxt);
 
+#ifdef DEF_ClassJc_Vtbl
 /**The method table is publicated here, to allow direct access. */
 typedef struct VtblDef_InterProcessCommSocket_t { Vtbl_InterProcessComm mtbl; VtblHeadJc end; } VtblDef_InterProcessCommSocket;
 extern VtblDef_InterProcessCommSocket const mtblInterProcessCommSocket;
+#endif //def DEF_ClassJc_Vtbl
 
 
 

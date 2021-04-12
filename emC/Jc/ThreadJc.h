@@ -78,6 +78,7 @@ typedef void MT_run_RunnableJc(ObjectJc* ithis, ThCxt* _thCxt);
 /** Call of the method at this class level, executes a dynamic call of the override-able method: */
 METHOD_C void run_RunnableJc(ObjectJc* ithis, ThCxt* _thCxt);
 
+#ifdef DEF_ClassJc_Vtbl
 /* Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
 extern const char sign_Vtbl_RunnableJc[]; //marker for methodTable check
@@ -86,6 +87,7 @@ typedef struct Vtbl_RunnableJc_t
   MT_run_RunnableJc* run;
   Vtbl_ObjectJc ObjectJc;
 } Vtbl_RunnableJc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 /*@CLASS_C ThreadJc @@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -201,12 +203,14 @@ METHOD_C ThreadJc_s* currentThread_ThreadJc(ThCxt* _thCxt);
 /* Method table contains all dynamic linked (virtual) methods
  * of the class and all super classes and interfaces. */
 extern const char sign_Vtbl_ThreadJc[]; //marker for methodTable check
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_ThreadJc_t
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc;
   //Method table of interfaces:
   Vtbl_RunnableJc RunnableJc;  
 } Vtbl_ThreadJc;
+#endif //def DEF_ClassJc_Vtbl
 
 
 /** private states of the thread.

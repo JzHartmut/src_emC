@@ -10,6 +10,7 @@
 
 const char sign_Vtbl_AnswerComm_ifc_Inspc[] = "AnswerComm_ifc_Inspc"; //to mark method tables of all implementations
 
+#ifdef DEF_ClassJc_Vtbl
 
 /**Sends an answer. */
 /*J2C: dynamic call variant of the override-able method: */
@@ -39,3 +40,5 @@ const ClassJc refl_AnswerComm_ifc_Inspc_s =
 , null //interfaces
 , 0    //modifiers
 };
+
+#endif //def DEF_ClassJc_Vtbl

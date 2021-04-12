@@ -2017,6 +2017,7 @@ void finalize_ByteDataAccessBaseJc_F(ByteDataAccessBaseJc_s* thiz, ThCxt* _thCxt
 }
 
 
+#ifdef DEF_REFLECTION_FULL
 extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
 extern_C struct ClassJc_t const refl_ByteDataAccessBaseJc_s;
 extern_C struct ClassJc_t const refl_CharsetJc;
@@ -2134,3 +2135,5 @@ const ClassJc refl_ByteDataAccessBaseJc_s =
 , null //interfaces
 , 0    //modifiers
 };
+
+#endif //DEF_REFLECTION_FULL

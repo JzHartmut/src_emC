@@ -545,6 +545,8 @@ bool equals_ObjectJc_F(ObjectJc const* ythis, ObjectJc const* cmp, ThCxt* _thCxt
   return false;
 }
 
+
+
 void finalize_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
 {
 }
@@ -553,6 +555,7 @@ int32 hashCode_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
 {
   return 0;
 }
+
 
 StringJc toString_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
 { //StringBuffer* ss = StringBuffer::new_();
@@ -750,6 +753,10 @@ bool instanceof_ObjectJc ( ObjectJc const* ythis, struct ClassJc_t const* reflec
 
 #else //not DEF_ClassJc_Vtbl
 
+
+StringJc toString_ObjectJc ( ObjectJc const* ithis, ThCxt* _thCxt){ 
+  return null_StringJc; //TODO
+}
 
 
   #ifdef DEF_REFLECTION_FULL

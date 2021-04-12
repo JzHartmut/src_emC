@@ -3,6 +3,7 @@
 #include <emC/Jc/FileSystemJc.h>
 #include <emC/Base/MemC_emC.h>
 
+#ifdef DEF_REFLECTION_FULL
 
 /**internal method (private).
  * @set ythis->errorRelocationExtRefl is 0 of no error occurs. 
@@ -134,4 +135,5 @@ char const* load_ExtReflectionJc(ExtReflectionJc_s* ythis, StringJc fileName, in
 
 
 
+#endif //def DEF_REFLECTION_FULL
 

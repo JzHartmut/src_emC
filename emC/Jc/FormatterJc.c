@@ -98,4 +98,11 @@ void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
 }
 
 
-#include "emC/Jc/genRefl/FormatterJc.crefl"
+#ifdef DEF_REFLECTION_FULL
+  #include "emC/Jc/genRefl/FormatterJc.crefl"#else 
+#else
+  #define ID_refl_FormatterJc 0
+  ClassJc const refl_FormatterJc = INIZ_ClassJc(refl_FormatterJc, "FormatterJc");
+
+
+#endif

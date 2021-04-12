@@ -1,5 +1,6 @@
 #include "emc/Inspc/Srv/Service_Inspc.h"
 
+#ifdef DEF_ClassJc_Vtbl
 
 #include "genRefl/Service_Inspc.crefl"
 
@@ -53,4 +54,5 @@ void step_Service_Inspc(Service_Inspc* thiz, uint16* state_y, uint16* ctCheck_y)
   return;
 }
 
+#endif //def DEF_ClassJc_Vtbl
 

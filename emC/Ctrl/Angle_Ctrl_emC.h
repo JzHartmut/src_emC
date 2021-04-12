@@ -37,7 +37,7 @@
 
 
 /**Conversion from float value in radiant to 16-bit-angle representation.
- * @param RAD angle between -kPI_Angle_FB (=180�) and kPI_Angle_FB-0.000001 (= 179.999�) with possible overdrive (modulo 2*kPI_Angle_FB).
+ * @param RAD angle between -kPI_Angle_FB (=180 degree) and kPI_Angle_FB-0.000001 (= 179.999�) with possible overdrive (modulo 2*kPI_Angle_FB).
  * @return angle between -0x8000 (= 180� ) and 0x7fff (= 179.99�)
  * @Implementation notes: The higher bits if overdriven are removed. It is a general solution.
  */
@@ -105,6 +105,20 @@ inline int16 rst2abn16_Angle_Ctrl_emC(int16 rst[3], int16_complex* ab) {
   ab->im = im32 >>15;
   return (rst[0] + rst[1] + rst[2])>>1;
 }
+
+
+
+/**Converts 3~ voltages to ab-vector,
+ * ab->re = 2/3*r - 1/3*s - 1/3*t;
+ * ab->im = (s - t) * 1/sqrt(3)
+ * @return (r+s+t)/3
+ */
+inline float rst2abn_Angle_Ctrl_emC(float rst[3], float_complex* ab) {
+  ab->re = rst[0]*(2.0f/3.0f) - rst[1]/3.0f - rst[2]/3.0f;
+  ab->im = (rst[1] - rst[2]) * (1.0f/sqrtf(3.0f));  //constant calculate by compiler!
+  return (rst[0] + rst[1] + rst[2])/3.0f;
+}
+
 
 
 

@@ -21,77 +21,6 @@ float Q_rsqrt ( float number) {
 
 
 
-static const uint32 cosTable_B[] = 
-{ 0x7ffffffd  // 0
-, 0x7fd5ffb2  // 1
-, 0x7f5eff63  // 2
-, 0x7e9aff15  // 3
-, 0x7d87fec7  // 4
-, 0x7c26fe7a  // 5
-, 0x7a79fe2e  // 6
-, 0x7881fde3  // 7
-, 0x763efd99  // 8
-, 0x73b2fd51  // 9
-, 0x70dffd0a  // 10
-, 0x6dc7fcc6  // 11
-, 0x6a6afc83  // 12
-, 0x66ccfc42  // 13
-, 0x62effc04  // 14
-, 0x5ed5fbc8  // 15
-, 0x5a80fb8f  // 16
-, 0x55f3fb59  // 17
-, 0x5131fb25  // 18
-, 0x4c3dfaf5  // 19
-, 0x471bfac7  // 20
-, 0x41ccfa9d  // 21
-, 0x3c55fa76  // 22
-, 0x36b8fa53  // 23
-, 0x30fafa33  // 24
-, 0x2b1efa16  // 25
-, 0x2527f9fd  // 26
-, 0x1f19f9e8  // 27
-, 0x18f8f9d7  // 28
-, 0x12c7f9ca  // 29
-, 0x0c8bf9c0  // 30
-, 0x0647f9ba  // 31
-, 0x0000f9b8  // 32
-, 0xf9b9f9ba  // 33
-, 0xf375f9c0  // 34
-, 0xed39f9ca  // 35
-, 0xe708f9d7  // 36
-, 0xe0e7f9e8  // 37
-, 0xdad9f9fd  // 38
-, 0xd4e2fa16  // 39
-, 0xcf06fa33  // 40
-, 0xc948fa53  // 41
-, 0xc3abfa76  // 42
-, 0xbe34fa9d  // 43
-, 0xb8e5fac7  // 44
-, 0xb3c3faf5  // 45
-, 0xaecffb25  // 46
-, 0xaa0dfb59  // 47
-, 0xa580fb8f  // 48
-, 0xa12bfbc8  // 49
-, 0x9d11fc04  // 50
-, 0x9934fc42  // 51
-, 0x9596fc83  // 52
-, 0x9239fcc6  // 53
-, 0x8f21fd0a  // 54
-, 0x8c4efd51  // 55
-, 0x89c2fd99  // 56
-, 0x877ffde3  // 57
-, 0x8587fe2e  // 58
-, 0x83dafe7a  // 59
-, 0x8279fec7  // 60
-, 0x8166ff15  // 61
-, 0x80a2ff63  // 62
-, 0x802bffb2  // 63
-, 0x8000fffc  // 64
-};
-
-
-
-
 static const uint32 sqrtTable[] = 
 { 0x0000091f  // 0
 , 0x091f0ddb  // 1
@@ -373,6 +302,29 @@ static const uint32 cosTable[] =
 };
 
 
+static const uint32 asinTable[] = 
+{ 0x0000028c  // 0  0
+, 0x028c028d  // 1  400
+, 0x051c0291  // 2  800
+, 0x07b00298  // 3  c00
+, 0x0a4c02a1  // 4  1000
+, 0x0cf402ae  // 5  1400
+, 0x0fab02bf  // 6  1800
+, 0x127502d5  // 7  1c00
+, 0x155702f1  // 8  2000
+, 0x185a0315  // 9  2400
+, 0x1b850344  // 10  2800
+, 0x1ee70383  // 11  2c00
+, 0x229403db  // 12  3000
+, 0x26af0462  // 13  3400
+, 0x2b7d054d  // 14  3800
+, 0x31c30792  // 15  3c00
+, 0x40000f3d  // 16  4000
+};
+
+
+
+
 static const uint16 cosTableQu[][3] = 
 { { 0x7fff, 0x0000, 0xfec6 } // 0
 , { 0x7f62, 0xfd8b, 0xfec5 } // 1
@@ -445,10 +397,10 @@ short interpolqu16 ( int16 x, uint16 const table[][3]) {
 //This definition should be included immediately in any routine. 
 //Because of some compiler calculated const it is written as macro.
 //The macro is expanded in comment in cos16_emC(...) to test it.
-#define LINEARinterpol16_emC(TABLE, BITSEGM) \
+#define LINEARinterpol16_emC(X, TABLE, BITSEGM) \
   uint32 const* table = TABLE; \
-  uint32 valTable = table[( x + (1 <<(BITSEGM-1) ) ) >>BITSEGM]; \
-  int16 dx = ( x <<(16 - BITSEGM) ) & 0xffff; \
+  uint32 valTable = table[( X + (1 <<(BITSEGM-1) ) ) >>BITSEGM]; \
+  int16 dx = ( X <<(16 - BITSEGM) ) & 0xffff; \
   int16 gain = (int16)(valTable & 0xffff); \
   muls16add32_emC(valTable, dx, gain); \
   int16 y = (int16)(valTable >>16); \
@@ -463,7 +415,7 @@ int16 cos16_emC ( int16 angle) {
   //commented possibility, using interpolqu, extra call, more calctime
   //int16 val = interpolqu16(angle1, cosTableQu);
   //                                   // access to left or right point
-  LINEARinterpol16_emC(cosTable, 9)
+  LINEARinterpol16_emC(x, cosTable, 9)
   /*
   uint32 const* table = cosTable; 
   uint32 valTable = table[( x + (1<<(9-1) ) >>9]; 
@@ -476,17 +428,60 @@ int16 cos16_emC ( int16 angle) {
 }
 
 
+static inline int16 asin16q1_emC ( int16 x ) {
+  LINEARinterpol16_emC(x, asinTable, 9)
+}
+
+
+
+
+int16 atan2nom16_emC ( int16_complex x ) {
+  short re1 = x.re; short im1 = x.im;
+  int quadr = 0;
+  if(im1 <0) {
+    im1 = (short)-im1;
+    quadr = 2;
+  }
+  if(re1 <0) {
+    re1 = (short)-re1;
+    quadr |= 4;
+  }
+  int xasin;
+  if(re1 < im1) {
+    xasin = re1;
+    quadr |= 1;
+  } else {
+    xasin = im1;
+  }
+  LINEARinterpol16_emC(xasin, asinTable, 10);
+  switch(quadr) {
+  case 0: return y;
+  case 1: return 0x4000 - y;
+  case 5: return 0x4000 + y;
+  case 4: return 0x8000 - y;
+  case 6: return 0x8000 + y;
+  case 7: return 0xc000 - y;
+  case 3: return 0xc000 + y;
+  case 2: return -y;
+  default: return 0;
+  }
+}
+
+
+
+
+
 
 int16 sqrt16_emC ( uint16 x) {
   //x is valid in range 0000...0xFFFF
-  LINEARinterpol16_emC(sqrtTable, 9)
+  LINEARinterpol16_emC(x, sqrtTable, 9)
   return y;
 }
 
 
 int16 rsqrt16_emC ( int16 x) {
   //x is valid in range 0000...0xFFFF
-  LINEARinterpol16_emC(rsqrt2_32Table, 10)
+  LINEARinterpol16_emC(x, rsqrt2_32Table, 10)
   /*
   uint32 const* table = rsqrtTable; 
   uint32 valTable = table[( x + 0x400 ) >>11]; 

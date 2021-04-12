@@ -152,7 +152,7 @@ typedef struct InterProcessComm_t* MT_create_Addr_InterProcessCommFactory(InterP
 extern_C char const sign_Vtbl_InterProcessCommFactory[];
 
 
-
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_InterProcessCommFactory_t
 { VtblHeadJc head;
   
@@ -166,6 +166,7 @@ typedef struct Vtbl_InterProcessCommFactory_t
   Vtbl_ObjectJc ObjectJc;
 
 } Vtbl_InterProcessCommFactory;
+#endif //def DEF_ClassJc_Vtbl
 
 
 
@@ -380,6 +381,7 @@ extern_C char const sign_Vtbl_InterProcessComm[];
 
 
 
+#ifdef DEF_ClassJc_Vtbl
 typedef struct Vtbl_InterProcessComm_t
 { VtblHeadJc head;
   
@@ -416,6 +418,7 @@ typedef struct Vtbl_InterProcessComm_t
   MT_createAddress_sI_InterProcessComm* createAddress_si;
   MT_createAddress_I_InterProcessComm* createAddress_i;
 } Vtbl_InterProcessComm;
+#endif //def DEF_ClassJc_Vtbl
 
 
 #if defined(__CPLUSGEN) && defined(__cplusplus)

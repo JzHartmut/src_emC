@@ -654,8 +654,9 @@ void restitute_Node_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, N
   STACKTRC_LEAVE;
 }
 
+#ifdef DEF_REFLECTION_FULL
 #include <emC/Jc/genRefl/ConcurrentLinkedQueueJc.crefl>
-
+#endif
 
 /**
  * Not in Java, extension for C embedded systems.

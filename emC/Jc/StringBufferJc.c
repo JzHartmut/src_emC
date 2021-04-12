@@ -36,19 +36,15 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
 
-//#include "CRuntimeJavalike.h"
 #include "emC/Jc/StringJc_intern.h"
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Base/Formatter_emC.h> 
-//#include "StringBuilderJc_s.h"
 #include <emC/Jc/ReflectionJc.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>  //using sprintf
 #include <stdarg.h>
-//#include "RuntimeHeapJc.h"
 
 extern ClassJc const refl_StringBuilderJc; 
 /**
@@ -1090,4 +1086,3 @@ StringBuilderJcpp* new_StringBuilderJcpp(int size)
 //DEFINE_REFLECTION_REF(StringBuilderJc_s);
 
 
-#endif // DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need

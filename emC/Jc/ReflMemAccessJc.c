@@ -547,5 +547,7 @@ int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, uint32 addres
 
 
 
+#ifdef DEF_REFLECTION_FULL
 
 #include "emC/Jc/genRefl/ReflMemAccessJc.crefl"
+#endif

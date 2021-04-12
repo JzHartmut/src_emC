@@ -35,6 +35,8 @@
  * @version 0.83
  */
 #include <emC/Jc/FileIoJc.h>
+
+#include <emC/Jc/ObjectJc.h>
 #include <emC/Jc/ReflectionJc.h>
 #include <emC/Jc/StringJc.h>
 
@@ -432,6 +434,14 @@ StringJc readLine_BufferedReaderJc  (  BufferedReaderJc_s* ythis, ThCxt* _thCxt)
 }
 
 
-#include <emC/Jc/genRefl/FileIoJc.crefl>
+#ifdef DEF_REFLECTION_FULL
+  #include <emC/Jc/genRefl/FileIoJc.crefl>
+#else 
+  #define ID_refl_FileIoJc 0
+  ClassJc const refl_FileIoJc = INIZ_ClassJc(refl_FileIoJc, "FileIoJc");
+  ClassJc const refl_FileJc = INIZ_ClassJc(refl_FileJc, "FileJc");
+  ClassJc const refl_FileOutputStreamJc = INIZ_ClassJc(refl_FileOutputStreamJc, "FileOutputStreamJc");
+  ClassJc const refl_FileWriterJc = INIZ_ClassJc(refl_FileWriterJc, "FileWriterJc");
 
+#endif
 
