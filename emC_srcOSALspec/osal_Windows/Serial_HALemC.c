@@ -25,18 +25,20 @@ static void writeTrc(int ix, char cc) {
 
 typedef struct InternalData_Serial_HALemC_T {
   int channel;
-  int volatile zBuffer;
-  int volatile ixBuffer;           //:index already transferred characters from FIFO (rxFIFO) to valueBuffer.
+  //int volatile zBuffer;
+  int volatile ixBufferRd;
+  int volatile ixBufferWr;  //:index already transferred characters from FIFO (rxFIFO) to valueBuffer.
   int volatile run;
   int ctException;
   OS_HandleThread hThread;
   HANDLE hPort;
-  MemUnit* volatile valueBuffer;   //:the user buffer to get the data.
+  MemUnit valueBuffer[200];   //:the user buffer to get the data.
 } InternalData_Serial_HALemC;
 
-static InternalData_Serial_HALemC* thdata_g[10];
+//for up to 10 serial channels, data allocated on open:
+static InternalData_Serial_HALemC* thdata_g[10] = { 0 };
 
-
+//This extra thread routine is necessary for the console because it blocks if not RETURN was pressed.
 int rxThreadRoutine(void* data) {
   STACKTRC_ENTRY("rxThreadRoutine");
   InternalData_Serial_HALemC* thiz = C_CAST(InternalData_Serial_HALemC*, data);
@@ -46,39 +48,16 @@ int rxThreadRoutine(void* data) {
   DWORD dwBytesTransferred;
   while(thiz->run) {
     TRY{
-      MemUnit* buffer = thiz->valueBuffer;         //if the buffer is not available, then wait
-      int ix = thiz->ixBuffer;                     //other meanwhile received bytes are stored internally.
-      if (buffer != null && ix < thiz->zBuffer) {
-        int rxByte = 0;  //write received data in stack is possible.
-        //MemUnit* pRxBuffer = &thiz->rxFIFO[thiz->ixFIFOwr];
-        //BOOL ok = ReadFile (thiz->hPort, pRxBuffer, zFree, &dwBytesTransferred, 0);
-        //it stores only one received byte immediately local:
-        BOOL ok = ReadFile(thiz->hPort, &rxByte, 1, &dwBytesTransferred, 0);
-        if (ok && dwBytesTransferred > 0) {
-          int ixExpected;
-          int ctAbort = 3;
-          do {
-            do {
-              buffer = thiz->valueBuffer;          //may be changed meanwhile between start and ReadFile.
-              if (buffer == null) {                  //if the buffer is not available, possible set a new one
-                Sleep(1);                          //then wait. do not store the byte.
-              }                                    //other meanwhile received bytes are stored internally. 
-            } while (buffer == null);
-            ixExpected = ix = thiz->ixBuffer;      //It is possible that ixBuffer was changed meanwhile, especially on buffer change.
-            thiz->valueBuffer[ix] = (char)(rxByte);//hence read again, ixBuffer should be always in range (presumed)
-            writeTrc(ix, rxByte);
-            int ixNew = ix + 1;                      //Set with atomic swap, because it can be changed meanwhilt too.
-            ix = compareAndSwap_AtomicInteger(&thiz->ixBuffer, ix, ixNew);
-          } while (ix != ixExpected && --ctAbort >= 0);
-          ASSERT_emC(ctAbort >= 0, "internal error rxThreadRoutine Serial_emC", ctAbort, thiz->channel);
-        }
-        else {                                   //timeout on ReadFile
-          Sleep(10);
+      if(thiz->ixBufferRd == thiz->ixBufferWr) { // processed all
+        thiz->ixBufferRd = thiz->ixBufferWr = 0; // only then read a new line
+      }
+      if(thiz->ixBufferWr ==0) {
+        BOOL ok = ReadFile(thiz->hPort, thiz->valueBuffer, sizeof(thiz->valueBuffer), &dwBytesTransferred, 0);
+        if (ok && dwBytesTransferred > 0) {  // anytime till ENTER, it is only for the console
+          thiz->ixBufferWr = (int)dwBytesTransferred;
         }
       }
-      else {                                     //rxFIFO is full, should be read, 
-        Sleep(10);
-      }
+      Sleep(10);
     }_TRY
     CATCH(Exception, exc) {
       thiz->ctException += 1;                    //Exception maybe able to visit in Inspector
@@ -139,16 +118,17 @@ int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
     h1 = CreateFile( sPort, dirFile, 0, NULL, OPEN_EXISTING, mode, NULL );
     if (h1 == null || h1 == INVALID_HANDLE_VALUE) {
       errorText = "open fails, invalid handle";
-    } else if(channel >=1 && baud >0) {
+    }
+    else if (channel >= 1 && baud > 0) {
       DCB dcb;
-      if (!GetCommState(h1,&dcb)) {
+      if (!GetCommState(h1, &dcb)) {
         errorText = "GetCommState fails";
       }
       dcb.BaudRate = baud;
       dcb.ByteSize = 8; //8 data bits
       int parity = (bytePattern & ParityOddStop1_Serial_HALemC) ? ODDPARITY :
-                   (bytePattern & ParityEvenStop1_Serial_HALemC) ? EVENPARITY :
-                   NOPARITY;
+        (bytePattern & ParityEvenStop1_Serial_HALemC) ? EVENPARITY :
+        NOPARITY;
       dcb.Parity = parity;
       dcb.StopBits = (bytePattern & ParityNoStop2_Serial_HALemC) ? TWOSTOPBITS : ONESTOPBIT;
       dcb.fDtrControl = DTR_CONTROL_DISABLE;
@@ -159,36 +139,46 @@ int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
       dcb.fOutX = 0;
       dcb.fInX = 0;
 
-      if (!SetCommState(h1,&dcb)) {
+      if (!SetCommState(h1, &dcb)) {
         errorText = "SetCommState fails";
-      } else {
-
+      }
+      else {                //set immediate return from quest for CON 
         COMMTIMEOUTS commTimeout;
-        if(!GetCommTimeouts(h1, &commTimeout)) {
+        if (!GetCommTimeouts(h1, &commTimeout)) {
           errorText = "GetCommTimeouts fails";
-        } else {
+        }
+        else {
           commTimeout.ReadIntervalTimeout = MAXDWORD;  //see https://docs.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-commtimeouts
           commTimeout.ReadTotalTimeoutConstant = 0;
           commTimeout.ReadTotalTimeoutMultiplier = 0;
           commTimeout.WriteTotalTimeoutConstant = 10;
           commTimeout.WriteTotalTimeoutMultiplier = 10;
-          if(!SetCommTimeouts(h1, &commTimeout)) {
+          if (!SetCommTimeouts(h1, &commTimeout)) {
             errorText = "SetCommTimeouts fails";
           }
         }
       }
     }
+    if(errorText ==null) {
+    }
     if(errorText == null) {
       void* thdataVoid = malloc(sizeof(InternalData_Serial_HALemC));
-      InternalData_Serial_HALemC* thdata = C_CAST(InternalData_Serial_HALemC*, thdataVoid);
-      thdata->valueBuffer = null;    //
-      thdata->zBuffer = 0;
-      thdata->channel = channel;
-      //thdata->ixFIFOrd = 0;
-      //thdata->ixFIFOwr = 0;
-      thdata->hPort = h1;
-      os_createThread(&thdata->hThread, rxThreadRoutine, thdata, sPort, 128, 0);
-      thdata_g[channel] = thdata;                          //yet allow access to received data.
+      if (thdataVoid != null) {
+        InternalData_Serial_HALemC* thdata = C_CAST(InternalData_Serial_HALemC*, thdataVoid);
+        memset(thdata, 0, sizeof(*thdata));
+        thdata->channel = channel;
+        thdata->hPort = h1;
+        if (channel == 0) {                      // create receiving thread for the console.
+          //thdata->zBuffer = 0;
+          //thdata->ixFIFOrd = 0;
+          //thdata->ixFIFOwr = 0;
+          os_createThread(&thdata->hThread, rxThreadRoutine, thdata, sPort, 128, 0);
+        }
+        thdata_g[channel] = thdata;                          //yet allow access to received data.
+      }
+      else {
+        //TODO close
+      }
     } else {
       if(h1 !=null && h1 != INVALID_HANDLE_VALUE) { 
         CloseHandle(h1); 
@@ -202,24 +192,29 @@ int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
 }
 
 
-
-
-void prepareRx_Serial_HALemC ( int channel, void* valueBuffer, int zBuffer, int fromCurrent) {
-  MemUnit* valueBuffer0 = C_CAST(MemUnit*, valueBuffer);  //C_CAST because it is a memory address.
+static InternalData_Serial_HALemC* getThiz ( int channel) {
   if(channel <0 || channel >8) { 
     THROW_s0n(IllegalArgumentException, "faulty serial port", channel, 0); 
-    return;
+    return null;
   }
   InternalData_Serial_HALemC* thiz = thdata_g[channel];
   if(thiz == null) {
     THROW_s0n(IllegalArgumentException, "serial port is not opened", channel, 0); 
-    return;
   }
+  return thiz;  //null only if no Exceptionhandling
+}
+
+
+
+
+void XXXprepareRx_Serial_HALemC ( int channel, void* valueBuffer, int zBuffer, int fromCurrent) {
+  MemUnit* valueBuffer0 = C_CAST(MemUnit*, valueBuffer);  //C_CAST because it is a memory address.
+  InternalData_Serial_HALemC* thiz = getThiz(channel);
   MemUnit* bufferCurr = thiz->valueBuffer;
-  thiz->valueBuffer = null;                //from now the rxThreadRoutine cannot write
+  //thiz->valueBuffer = null;                //from now the rxThreadRoutine cannot write
   int ixBuffer = 0; //NOTE: mem is bytewise for PC
   if(fromCurrent >0) {
-    int zCopy = thiz->ixBuffer - fromCurrent;
+    int zCopy = thiz->ixBufferWr - fromCurrent;
     if(bufferCurr ==null) {
       ASSERT_emC(bufferCurr !=null && zCopy >=0, "?", 0,0);
     }
@@ -232,31 +227,106 @@ void prepareRx_Serial_HALemC ( int channel, void* valueBuffer, int zBuffer, int 
     }
   }
   memset(valueBuffer0 + ixBuffer, 0, zBuffer - ixBuffer); 
-  thiz->zBuffer = zBuffer;
-  thiz->ixBuffer = ixBuffer;
-  thiz->valueBuffer = valueBuffer0;             //set buffer at last, up to now writing is possible.
-}
-
-
-int hasRxChars_Serial_HALemC ( int channel ) {
-  if(channel <0 || channel >8) { 
-    THROW_s0n(IllegalArgumentException, "faulty serial port", channel, 0); 
-    return 0;
-  }
-  InternalData_Serial_HALemC* thiz = thdata_g[channel];
-  if(thiz == null) {
-    THROW_s0n(IllegalArgumentException, "serial port is not opened", channel, 0); 
-    return 0; 
-  }
-  return thiz->ixBuffer;
+  //thiz->zBuffer = zBuffer;
+  thiz->ixBufferWr = ixBuffer;
+  //thiz->valueBuffer = valueBuffer0;             //set buffer at last, up to now writing is possible.
 }
 
 
 
+int stepRx_Serial_HALemC ( int channel ) {
+  STACKTRC_ENTRY("");
+  InternalData_Serial_HALemC* thiz = getThiz(channel);
+  if(channel ==0) {                              // console:
+    //ixBufferWr was incremented in RxThread
+  }
+  else {
+    //try to get all received bytes from Windows:
+    DWORD dwBytesTransferred = 0;
+    int zBytes = -1;
+    BOOL ok = true;
+    if(thiz->ixBufferWr >= thiz->ixBufferRd) {  //free till end | ___ rd 1111 wr ->--|
+      zBytes = sizeof(thiz->valueBuffer) - thiz->ixBufferWr;
+      ok = ReadFile(thiz->hPort, &thiz->valueBuffer[thiz->ixBufferWr], zBytes, &dwBytesTransferred, 0);
+      //ReadFile returns immediately with the number of transferred bytes because the timeout is switched off.
+      //see: 
+      if (ok && dwBytesTransferred > 0) {
+        thiz->ixBufferWr += (int)(dwBytesTransferred);
+        ASSERT_emC(thiz->ixBufferWr <= sizeof(thiz->valueBuffer), "internal", 0, 0);
+      }
+    }
+    if (thiz->ixBufferWr >= sizeof(thiz->valueBuffer) && thiz->ixBufferRd >0 ) {
+      ASSERT_emC(thiz->ixBufferWr <= sizeof(thiz->valueBuffer), "internal", 0, 0);
+      thiz->ixBufferWr = 0;                      // wrap only if at least 1 byte is read, elsewhere the buffer is seen as empty.
+    }
+    // fill the rest till ixBufferRd -1: | 111 wr ->--_ rd 111|
+    zBytes = thiz->ixBufferRd - thiz->ixBufferWr -1; //1 byte space, to distinguish empty from full buffer
+    if(zBytes >0) {
+      ok = ReadFile(thiz->hPort, &thiz->valueBuffer[thiz->ixBufferWr], zBytes, &dwBytesTransferred, 0);
+      if(ok && dwBytesTransferred >0) {
+        thiz->ixBufferWr += (int)(dwBytesTransferred);
+      }
+    }
+    if(!ok) {
+      THROW_s0(IllegalStateException, "serial read error", 0,0);
+    }
+  }
+  int nrofBytesAvail = thiz->ixBufferWr - thiz->ixBufferRd; //expecting: //wrapping state: |___ ixRd 111 ixWr ___ |
+  if(nrofBytesAvail <0) { 
+    nrofBytesAvail += sizeof(thiz->valueBuffer); //wrapping state: |111 ixWr ___ ixRd 111 |
+  }
+  STACKTRC_RETURN nrofBytesAvail;
+}
+
+
+int getChar_Serial_HALemC ( int channel ) {
+  STACKTRC_ENTRY("getChar_Serial_HALemC");
+  InternalData_Serial_HALemC* thiz = getThiz(channel);
+  if(thiz->ixBufferWr != thiz->ixBufferRd) {
+    int cc = thiz->valueBuffer[thiz->ixBufferRd];
+    if(++thiz->ixBufferRd >= sizeof(thiz->valueBuffer)) {
+      thiz->ixBufferRd = 0;  //wrap
+    }
+    STACKTRC_RETURN cc;
+  } else {
+    return -1;
+  }
+}
 
 
 
-int tx_Serial_HALemC ( int const channel, void const* const data, int const fromCharPos, int const zChars) {
+
+int getData_Serial_HALemC ( int channel, void* dst, int fromByteInDst, int zDst ) {
+  InternalData_Serial_HALemC* thiz = getThiz(channel);
+  int nBytes = thiz->ixBufferWr - thiz->ixBufferRd;
+  if(nBytes <0) {      // wr is wrapped
+    nBytes = sizeof(thiz->valueBuffer) - thiz->ixBufferRd;
+  }
+  if(nBytes > zDst) {
+    nBytes = zDst;
+  }
+  if(nBytes >0) {
+    memcpy(((MemUnit*)dst)+fromByteInDst, thiz->valueBuffer + thiz->ixBufferRd, nBytes);
+    thiz->ixBufferRd += nBytes;
+  }
+  int nBytesSum = nBytes;
+  if(thiz->ixBufferRd >= sizeof(thiz->valueBuffer) ){ //wrapped
+    thiz->ixBufferRd = 0;
+    nBytes = thiz->ixBufferWr;
+    if(nBytes > (zDst - nBytesSum)) {
+      nBytes = zDst - nBytesSum;  //0 if all was read exact before wrap.
+    }
+    if(nBytes >0) {
+      memcpy(((MemUnit*)dst)+fromByteInDst + nBytesSum, thiz->valueBuffer + thiz->ixBufferRd, nBytes);
+      thiz->ixBufferRd += nBytes;
+      nBytesSum += nBytes;
+    } 
+  }
+  return nBytesSum;
+}
+
+
+int txData_Serial_HALemC ( int const channel, void const* const data, int const fromCharPos, int const zChars) {
   void* data01 = WR_CAST(void*, data);  //unfortunately C++ or Visual Studio does not allow const* to const* cast
   MemUnit const* const data0 = C_CAST(MemUnit const*, data01);  //It is a memory pointer
   if(channel == 0) {
@@ -266,16 +336,8 @@ int tx_Serial_HALemC ( int const channel, void const* const data, int const from
     }
     return 0;
   }
-  else if(channel <0 || channel >8) { 
-    THROW_s0n(IllegalArgumentException, "faulty serial port", channel, 0); 
-    return 0; 
-  }
   else {
-    InternalData_Serial_HALemC* thiz = thdata_g[channel];    
-    if(thiz == null) {
-      THROW_s0n(IllegalArgumentException, "serial port is not opened", channel, 0); 
-      return 0; 
-    }
+    InternalData_Serial_HALemC* thiz = getThiz(channel);
     DWORD byteswritten = 0;
     MemUnit const* dataCurr = data0 + fromCharPos;
     int zCharsCt = zChars;
@@ -297,7 +359,7 @@ int tx_Serial_HALemC ( int const channel, void const* const data, int const from
 
 
 int txChar_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars) {
-  return tx_Serial_HALemC(channel, text, fromCharPos, zChars);
+  return txData_Serial_HALemC(channel, text, fromCharPos, zChars);
 }
 
 

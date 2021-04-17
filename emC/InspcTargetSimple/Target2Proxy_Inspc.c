@@ -150,7 +150,7 @@ int32 processInspcCmdOnTarget_Inspc(TelgProxy2Target_Inspc_s const* proxy2target
     case getBitfield_InspcTargetProxy:
     {
       int posBits = (inputVal & mPosBitsInBitfieldAccess_InspcTargetProxy) >> bitPosBitsInBitfieldAccess_InspcTargetProxy ;
-      int posByte = posBits >> 3;
+      //int posByte = posBits >> 3;
       int nrofBits = (inputVal & mNrofBitsInBitfieldAccess_InspcTargetProxy) >> bitNrofBitsInBitfieldAccess_InspcTargetProxy ;
       if(nrofBits ==0){ nrofBits = 16; }
 

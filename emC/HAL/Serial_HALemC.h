@@ -49,7 +49,7 @@ extern_C int txChar_Serial_HALemC ( int const channel, char const* const text, i
  *         It is especially for embedded hardware with limmited FIFO on hardware or limited DMA buffer size.
  * See [[step_TxSerial_HALemC(...)]]
  */
-extern_C int tx_Serial_HALemC ( int channel, void const* data, int fromBytePos, int zChars);
+extern_C int txData_Serial_HALemC ( int channel, void const* data, int fromBytePos, int zBytes);
 
 
 /**Cares to sending pending data.
@@ -88,7 +88,7 @@ extern_C int getChar_Serial_HALemC ( int channel );
  *      Note: It is possible that a word in memory is not completed, for 16- or 32-bit memory addressing
  *      and on an odd return value. But this value is proper for the 'fromByte' argument of the next call.
  */
-extern_C int getMem_Serial_HALemC ( int channel, void* dst, int fromByte, int zDst );
+extern_C int getData_Serial_HALemC ( int channel, void* dst, int fromByteInDst, int zDst );
 
 
 

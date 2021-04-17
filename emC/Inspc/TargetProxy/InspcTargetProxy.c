@@ -6,7 +6,7 @@
 #include "emC/Jc/ObjectJc.h"
 #include "emC/Jc/ReflectionJc.h"
 //#include <emC/AsciiMoni/AsciiMoni.h>
-#include <emC/Inspc/TargetProxy/AsciiMoniToTarget.h>
+//#include <emC/Inspc/TargetProxy/AsciiMoniToTarget.h>
 
 //#include "InspcJ2c/ModulAcq_Inspc.h"
 //#include "InspcJ2c/FactoryDevice_Inspc.h"
@@ -262,13 +262,13 @@ static void initializeComPort(char const* sComPort) {
     //                                 //Writes into given receive buffer maybe from sharedMem.
     asciiMoni.rxInspcFromTarget = data.targetComm->target2proxy; 
 
-    prepareRx_Serial_HALemC(asciiMoni.comPort, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, 0);
+    //prepareRx_Serial_HALemC(asciiMoni.comPort, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, 0);
     //                                 //Open the console for debugging
     error = open_Serial_HALemC(asciiMoni.console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
     if(error ==0) {
       asciiMoni.zConsoleBuffer = 80;
       asciiMoni.consoleBuffer = (char*)malloc(asciiMoni.zConsoleBuffer);
-      prepareRx_Serial_HALemC(asciiMoni.console, asciiMoni.consoleBuffer, asciiMoni.zConsoleBuffer, 0); 
+      //prepareRx_Serial_HALemC(asciiMoni.console, asciiMoni.consoleBuffer, asciiMoni.zConsoleBuffer, 0); 
           
     } else {
       printf("ERROR CON open fails. No ascii command possible. \n");
@@ -285,38 +285,39 @@ static void initializeComPort(char const* sComPort) {
 void processReceivedComport(Serial_InspcTargetProxy_s* thiz
     , int32 timeoutRxTargetPrx) {
 
-  int zRx = hasRxChars_Serial_HALemC(thiz->comPort);
+  int zRx = stepRx_Serial_HALemC(thiz->comPort);
   if(zRx >0) {
-    int ix = thiz->ixRxBufferWritten;
-    bool rxNew = false;
-    while(ix < zRx && !rxNew) {
-      char cc = getCharPacked(thiz->rxBuffer, ix);
+    char cc;
+    while( (cc = getChar_Serial_HALemC(thiz->comPort))>=0) {
+    //int ix = thiz->ixRxBufferWritten;
+      bool rxNew = false;
+    //while(ix < zRx && !rxNew) {
+      //char cc = getCharPacked(thiz->rxBuffer, ix);
       if(cc == '\r') {
         printf("\n");                            //output new line to console.
-        ix +=1;
+        zRx -=1;
+        //ix +=1;
         rxNew = true;
       } 
       else if(cc == '\n') {
-        ix +=1;
+        zRx -=1;
+        //ix +=1;
         rxNew = true;
       } 
       else if(cc >= ' ') {
         putchar(cc);                             //output to console
-        ix +=1;
+        zRx -=1;
+        //ix +=1;
       }
-      else if(  timeoutRxTargetPrx !=0 ) { 
-        if( (zRx -ix) >= (sizeof(thiz->rxInspcFromTarget) * BYTE_IN_MemUnit) ) { 
-          //                                     //if a TelgTarget2Proxy_Inspc_s is expected:
-          int32* dst = &thiz->rxInspcFromTarget->error__lifeCt;
-          memcpy(dst, thiz->rxBuffer + ix+4, sizeof(*thiz->rxInspcFromTarget)-4);
-          //                                     //set seqnr as last, complete information.
-          thiz->rxInspcFromTarget->length_seq_cmd = *(int32*)(thiz->rxBuffer);
-          ix += sizeof(*thiz->rxInspcFromTarget) * BYTE_IN_MemUnit;
-          if(zRx > ix) {
-            ix = zRx; 
-          }
+      else if(  timeoutRxTargetPrx !=0 ) {      //if a TelgTarget2Proxy_Inspc_s is expected:
+        int zRxInspcFromTarget = (sizeof(*thiz->rxInspcFromTarget) * BYTE_IN_MemUnit);
+        if( zRx >= (zRxInspcFromTarget-1) ) { //a complete answer is received 
+          //                                     
+          MemUnit* dst = (MemUnit*)thiz->rxInspcFromTarget;
+          *dst++ = cc;                           // the first byte is the gotten character (8 bit)
+          getData_Serial_HALemC(thiz->comPort, dst, 0, zRxInspcFromTarget-1); //all following bytes
           rxNew = true;
-        } else {
+        } else {                                 
           int32 delay = os_milliTime() - timeoutRxTargetPrx;
           if(delay > 1000) {
             rxNew = true; 
@@ -325,20 +326,71 @@ void processReceivedComport(Serial_InspcTargetProxy_s* thiz
           break;
           //try next, till 16 chars.
         }
-      } else {
+      } else {                                   // character <0x20 received, but not expected:
         printf("? %2.2x\n", cc);  //unexpected
         rxNew = true;
       }
     }
-    if(rxNew) {
+    //if(rxNew) {
       //                                         //preserve furthermore containing chars using ix.
-      prepareRx_Serial_HALemC(thiz->comPort, thiz->rxBuffer, thiz->zRxBuffer, ix);
+      //prepareRx_Serial_HALemC(thiz->comPort, thiz->rxBuffer, thiz->zRxBuffer, ix);
       //Note: copies furthermore chars to start of rxBuffer
-      ix = 0;
-    }
-    thiz->ixRxBufferWritten = ix;
+      //ix = 0;
+    //}
+    //thiz->ixRxBufferWritten = ix;
   }
 }
+
+
+
+static void mainloop(InspcTargetProxy_s* thiz) {
+  STACKTRC_ENTRY("mainloop");
+  //int iTime;
+  if (asciiMoni.console >= 0) {                // receive from console, till RETURN is pressed (Windows property)
+    int nrConChars = stepRx_Serial_HALemC(asciiMoni.console);
+    if (nrConChars >0) {                      // evaluate cmd from console
+      for (int ix = 0; ix < nrConChars; ++ix) {
+        char cc = getChar_Serial_HALemC(asciiMoni.console);
+        asciiMoni.consoleBuffer[ix] = cc;
+        if (cc == '\r' //ENTER key
+          || ix == (asciiMoni.zConsoleBuffer - 1)                 //all full
+          ) {
+          asciiMoni.consoleBuffer[ix + 1] = 0;
+          printf(asciiMoni.consoleBuffer);   //echo    
+                                             //                                 //send the command to target: 
+          if (cc == '\r') {
+            txChar_Serial_HALemC(asciiMoni.comPort, asciiMoni.consoleBuffer, 0, ix + 1); //incl 'r'
+            printf("\n");                      //echo newline 
+          }
+          else {
+            printf(" ???\n");                  //echo error too long line 
+          }
+
+          //                                 //prepare console for next line
+          //prepareRx_Serial_HALemC(asciiMoni.console, asciiMoni.consoleBuffer, asciiMoni.zConsoleBuffer, 0); 
+          break; //for
+        }
+      }
+    }
+  }
+  sleep_ThreadJc(10, _thCxt);
+  if (asciiMoni.comPort >= 0 && thiz->targetComm->ms_LastTimeTx == 0) { //only if no comm pending from Inspc
+    processReceivedComport(&asciiMoni, thiz->targetComm->ms_LastTimeTx); //note: forceComm_Proxy2Target_Inspc calls this also
+  }
+#if 0
+  if (os_keyState('A')) {
+    printf("A");
+  }
+  else if (os_keyState('C')) {
+    printf("\n");  //clear screen
+  }
+#endif
+//  for (iTime = 0; iTime < 50; iTime++)
+  { //TODO capture_ProgressionValue_Inspc(data.progrValue1);
+  }
+  STACKTRC_RETURN;
+}
+
 
 
 
@@ -391,39 +443,7 @@ int main(int nArgs, char** argsCmd)
     //====>>
     data.bRun = 1;
     while (data.bRun) {
-      int iTime;
-      if(asciiMoni.console >=0) {
-        int nrConChars = hasRxChars_Serial_HALemC(asciiMoni.console);
-        if(nrConChars >0) {
-          for(int ix = 0; ix < nrConChars; ++ix) {
-            if(  asciiMoni.consoleBuffer[ix] == '\r' //ENTER key
-              || ix == (asciiMoni.zConsoleBuffer -1)                 //all full
-              ) {
-              printf(asciiMoni.consoleBuffer);   //echo    
-              printf("\n");                      //echo newline 
-              //                                 //send the command to target: 
-              txChar_Serial_HALemC(asciiMoni.comPort, asciiMoni.consoleBuffer, 0, ix+1);
-              //                                 //prepare console for next line
-              prepareRx_Serial_HALemC(asciiMoni.console, asciiMoni.consoleBuffer, asciiMoni.zConsoleBuffer, 0); 
-              break; //for
-            }
-          }
-        }  
-      } 
-      sleep_ThreadJc(10, _thCxt);
-      if(asciiMoni.comPort >=0 && data.targetComm->ms_LastTimeTx ==0) {
-        processReceivedComport(&asciiMoni, data.targetComm->ms_LastTimeTx);
-      }
-      #if 0
-      if(os_keyState('A')) {
-        printf("A");
-      } else if(os_keyState('C')) {
-        printf("\n");  //clear screen
-      }
-      #endif
-      for (iTime = 0; iTime < 50; iTime++)
-      { //TODO capture_ProgressionValue_Inspc(data.progrValue1);
-      }
+      mainloop(&data);
     } //while
 
     if(asciiMoni.console >=0) { close_Serial_HAL_emC(asciiMoni.console); }
@@ -528,16 +548,16 @@ int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, uint32 addres
 { 
   int zRxAsciiMoni = -1;
   if(asciiMoni.comPort >0) {        //preserve up to now chars.
-    zRxAsciiMoni = hasRxChars_Serial_HALemC(asciiMoni.comPort);
+    zRxAsciiMoni = stepRx_Serial_HALemC(asciiMoni.comPort);
     //                                           //in between use the serial com for Target Proxy
-    prepareRx_Serial_HALemC(asciiMoni.comPort, data.targetComm->target2proxy, sizeof(*data.targetComm->target2proxy), 0);
+    //prepareRx_Serial_HALemC(asciiMoni.comPort, data.targetComm->target2proxy, sizeof(*data.targetComm->target2proxy), 0);
   }
   //
   int32 result =  get_Proxy2Target_Inspc(&data.commImpl.shMem_a->super, cmd, address, input);
   //return getInfo_InspcTargetProxy(&data, cmd, address, input);
   //furthermore received characters: store newly in buffer before.
   if(zRxAsciiMoni >=0) {
-    prepareRx_Serial_HALemC(asciiMoni.comPort, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, zRxAsciiMoni);
+    //prepareRx_Serial_HALemC(asciiMoni.comPort, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, zRxAsciiMoni);
   }
   return result;
 }
@@ -587,9 +607,9 @@ bool forceComm_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy
   if (thiz->ms_LastTimeTx == 0) { thiz->ms_LastTimeTx = 1; } //marks pending, should be !=0
   if (asciiMoni.comPort >0) {
     int32 escTx = 0x011b;
-    tx_Serial_HALemC(asciiMoni.comPort, &escTx, 0, 2);   //with esc 01 the target detects the InspcTargetTeleg
+    txData_Serial_HALemC(asciiMoni.comPort, &escTx, 0, 2);   //with esc 01 the target detects the InspcTargetTeleg
     int nrofBytesTx = (int)sizeof(*txTelg);
-    tx_Serial_HALemC(asciiMoni.comPort, txTelg, 0, nrofBytesTx);
+    txData_Serial_HALemC(asciiMoni.comPort, txTelg, 0, nrofBytesTx);
     sleepMicroSec_Time_emC(4000);  //wait 4 ms for tx and rx.
   }
   int seqnrtarget = -1;
@@ -599,13 +619,14 @@ bool forceComm_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy
   do {
     sleepMicroSec_Time_emC(1000);  //wait a little moment.
     if (asciiMoni.comPort >0) {
-      int zRx = hasRxChars_Serial_HALemC(asciiMoni.comPort);
-      if (zRx >= sizeof((*rxTelg))) {
+      processReceivedComport(&asciiMoni, thiz->ms_LastTimeTx);
+      //int zRx = stepRx_Serial_HALemC(asciiMoni.comPort);
+      //if (zRx >= sizeof((*rxTelg))) {
         //The thiz->target2proxy area will be set by the communication thread. 
         //whereby the seqnr need be set as last. 
         seqnrtarget = getSeqnr_TelgTarget2Proxy_Inspc(rxTelg);
         hasReceived = seqnrtarget == thiz->seqnrTxTarget;
-      }
+      //}
     } else {
       //                               //shard mem communication.
       //The seqnr was set as last, test it.                             
