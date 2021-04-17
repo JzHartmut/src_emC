@@ -73,7 +73,7 @@ METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
 
 extern_C void finalize_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt);
 
-extern_C StringJc toString_ObjectJc ( ObjectJc* text, ThCxt* _thCxt);
+//extern_C StringJc toString_ObjectJc ( ObjectJc* text, ThCxt* _thCxt);
 
 /**Tests wether it is an ObjectJc-based instance or not. The criterium is, the ownAddress inside ObjectJc must be identical with the instance address.
  * @throws an exception if it is not true.

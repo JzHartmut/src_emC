@@ -39,7 +39,9 @@
 
 
 
-/**Macros for fix point mult and add
+//Macros for fix point mult and add
+
+/**Signed multiplication 16 * 16 => 32 bit. 
  * This is the common solution. It is possible that in compl_adaption.h is an __asm(...)-optimized version via #define.
  * The compiler may recognize, it is expected that (int32)(int16)((A) & 0xffff) is a 16 bit register access 
  * and it should use the 16 * 16 =>32 bit multiplication etc.
@@ -148,7 +150,7 @@
  * Comment and param adequate [[muls32hi_emC(...)]]
  * @param R should have a value, the multiplication result is added.
  */
-#ifndef muls32add32_emC
+#ifndef muls32addhi_emC
   #define muls32addhi_emC(R, A, B) { R += (int32)(((int64)(int32)(A) * (int32)(B)) >>32); }
 #endif
 
@@ -176,9 +178,42 @@
   #define mulu32add64_emC(R, A, B) { R += ((uint64)(uint32)(A) * (uint32)(B)); }
 #endif
 
-#ifndef add16sat_emC
-  #define add16sat_emC(R, A, B) { int16 a = (A); int16 b = (B); R = a + b; \
+
+/**Saturated additon of signed values. 
+ * It limits the result to 0x7fff and 0x8000.
+ * If the sign would be changed though both inputs has the same sign, the limitation is done.
+ * If both inputs have different sign, never an overflow occurs. 0 + 0x8000 is also correctly 0x8000.
+ * This macro should be used anytime an addition should not overflow.
+ */
+#ifndef adds16sat_emC
+  #define adds16sat_emC(R, A, B) { int16 a = (A); int16 b = (B); R = a + b; \
   if(((a^b) &0x8000)==0) { if((a ^ R)&0x8000) { R = a & 0x8000 ? -0x8000: 0x7FFF; }} \
+  }   
+#endif
+
+
+/**Saturated additon of an unsigned and a signed value. 
+ * It limits the result to 0 and 0xFFFF.
+ * If the sign of the result is the same as the sign of B then an TODO would be changed though both inputs has the same sign, the limitation is done.
+ * If both inputs have different sign, never an overflow occurs. 0 + 0x8000 is also correctly 0x8000.
+ * This macro should be used anytime an addition should not overflow.
+ */
+#ifndef addus16sat_emC
+  #define addus16sat_emC(R, A, B) { uint16 a = (A); int16 b = (B); R = a + b; \
+  if(((a^b) &0x8000)==0) { if((a ^ R)&0x8000) { R = b & 0x8000 ? 0: 0xFFFF; }} \
+  }   
+#endif
+
+
+/**Saturated additon of unsigned values. 
+ * It limits the result to 0xffff.
+ * If the result is lesser as the input, the limitation is done.
+ * The result is always greater or equal as the input on unsigned addition.
+ * This macro should be used anytime an addition should not overflow.
+ */
+#ifndef addu16sat_emC
+  #define addu16sat_emC(R, A, B) { uint16 a = (A); uint16 b = (B);  R = a + b; \
+  if(R < a || R < b) { R = 0xFFFF; } \
   }   
 #endif
 
@@ -303,8 +338,9 @@ typedef struct Nom_int16_complex_T {
   /**The nominal value from input. */
   int16_complex xnom;
 
-  /**The revers magnitude*/
-  int16 rmagn;
+  /**The magnitude and revers magnitude*/
+  int16 magn, rmagn;
+
 } Nom_int16_complex_s;
 
 /**
@@ -328,19 +364,34 @@ static inline void step_Nom_int16_complex(Nom_int16_complex_s* thiz, int16_compl
   
   int32 nom;                        //firstly build nominal value with given rm 
   muls16_emC(nom, thiz->rmagn, x.re); 
-  thiz->xnom.re = nom >>14;
+  thiz->xnom.re = (int16)((nom >>14) & 0xffff);
   muls16_emC(nom, thiz->rmagn, x.im); 
-  thiz->xnom.im = nom >>14;
+  thiz->xnom.im = (int16)((nom >>14) & 0xffff);
   int32 xqu;                       // secondly adjust rm, so that abs(nom.re, nom.im) == 1.0
   muls16_emC(xqu, thiz->xnom.re, thiz->xnom.re);         //nominal 1.0 =^ 0x1000'0000
   muls16add32_emC(xqu, thiz->xnom.im, thiz->xnom.im);    //re*re + im*im
-  add16sat_emC(thiz->rmagn, thiz->rmagn, (0x10000000 - xqu)>>16);  //adjust rm in feedback
+  adds16sat_emC(thiz->rmagn, thiz->rmagn, ((0x10000000 - xqu)>>16)&0xffff);  //adjust rm in feedback
   //important: Use saturated addition, because an overflow can occure on incrementation. 
   //If the magnitued of the input is <0.5, the max. value of rmagn is 0x7fff. 
   //important: >>16 is the gain of this closed loop. It is the limit of gain. 
   //if >>15 is used, the time to settling to the correct value is a little bit longer. 
   //It depends of the normalization. 
 }
+
+
+
+/**Builds and returns the magnitude to the last given vector.
+ * This routine should be invoked one time after step_Nom_int16_complex(...) to build the magnitude too.
+ * It can be used also for a simple reciproke in range 0.5..2 by setting the thiz->rmagn value manually.
+ */
+static inline int16 magn_Nom_int16_complex(Nom_int16_complex_s* thiz) {
+  int32 nom;
+  mulu16_emC(nom, thiz->rmagn, thiz->magn); 
+  adds16sat_emC(thiz->magn, thiz->magn, ((0x10000000 - nom)>>16)&0xffff);  //adjust rm in feedback
+  return thiz->magn;
+}
+
+
 
 #if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 class Nom_int16_complex : public Nom_int16_complex_s {

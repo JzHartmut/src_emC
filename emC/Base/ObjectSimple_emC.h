@@ -323,8 +323,9 @@ extern_C struct ObjectJc_T* allocRefl_ObjectJc ( uint size, struct ClassJc_t con
 #define alloc_ObjectJc(SIZE, ID, _THCXT) allocRefl_ObjectJc(SIZE, null, ID)
 
 
+extern_C StringJc toString_ObjectJc_F(ObjectJc const* ythis, struct ThreadContext_emC_t* _thCxt);
 
-
+extern_C StringJc toString_ObjectJc ( ObjectJc const* thiz, ThCxt* _thCxt);
 
 #ifndef DEF_REFLECTION_FULL
 //Note: this file is also included if DEF_ObjectSimple_emC is not set, 

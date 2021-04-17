@@ -428,10 +428,6 @@ int16 cos16_emC ( int16 angle) {
 }
 
 
-static inline int16 asin16q1_emC ( int16 x ) {
-  LINEARinterpol16_emC(x, asinTable, 9)
-}
-
 
 
 
