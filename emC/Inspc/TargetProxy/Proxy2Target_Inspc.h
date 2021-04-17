@@ -48,7 +48,7 @@ typedef struct Proxy2Target_Inspc_t
   int16 lifeCtTarget;
 
   //align-8
-  int16 xxbReqPending;
+  int16 modeShowComm : 1;
 
   int32 ms_LastTimeCommunication;
 

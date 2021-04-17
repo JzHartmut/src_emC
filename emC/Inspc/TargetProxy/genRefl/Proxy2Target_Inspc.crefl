@@ -94,11 +94,11 @@ const struct Reflection_Fields_Proxy2Target_Inspc_t
     , &refl_Proxy2Target_Inspc
     }
   , 
-    { "xxbReqPending"
+    { "mode"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int16                                                                                            
     , (2<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)( ((intptr_t)(&((Proxy2Target_Inspc*)(0x1000))->xxbReqPending)) -0x1000 )
+    , (int16)( ((intptr_t)(&((Proxy2Target_Inspc*)(0x1000))->lifeCtTarget) +2) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Proxy2Target_Inspc
     }

@@ -377,15 +377,16 @@ static void mainloop(InspcTargetProxy_s* thiz) {
   if (asciiMoni.comPort >= 0 && thiz->targetComm->ms_LastTimeTx == 0) { //only if no comm pending from Inspc
     processReceivedComport(&asciiMoni, thiz->targetComm->ms_LastTimeTx); //note: forceComm_Proxy2Target_Inspc calls this also
   }
-#if 0
   if (os_keyState('A')) {
     printf("A");
   }
   else if (os_keyState('C')) {
     printf("\n");  //clear screen
   }
-#endif
-//  for (iTime = 0; iTime < 50; iTime++)
+  else if (os_keyState(0x71)) {  //in Windows: F2
+    thiz->targetComm->modeShowComm = !thiz->targetComm->modeShowComm;
+  }
+  //  for (iTime = 0; iTime < 50; iTime++)
   { //TODO capture_ProgressionValue_Inspc(data.progrValue1);
   }
   STACKTRC_RETURN;
@@ -602,7 +603,9 @@ bool forceComm_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy
   //applies the send data in a specific way
   //prepareRx_Serial_HALemC(asciiMoni.comPort, (MemUnit*)thiz->target2proxy, sizeof(*thiz->target2proxy), 0);
   TelgProxy2Target_Inspc_s* txTelg = thiz->proxy2target;
-  printf("tx: %8.8x=%s addr=%8.8x %8.8x %8.8x ...", txTelg->length_seq_cmd, cmdTxt[((int)cmd) & 0x1f], txTelg->address, txTelg->valueHi, txTelg->value);
+  if(thiz->modeShowComm) {
+    printf("tx: %8.8x=%s addr=%8.8x %8.8x %8.8x ...", txTelg->length_seq_cmd, cmdTxt[((int)cmd) & 0x1f], txTelg->address, txTelg->valueHi, txTelg->value);
+  }
   thiz->ms_LastTimeTx = os_getMilliTime();       //marking uses the other com
   if (thiz->ms_LastTimeTx == 0) { thiz->ms_LastTimeTx = 1; } //marks pending, should be !=0
   if (asciiMoni.comPort >0) {
@@ -648,11 +651,13 @@ bool forceComm_Proxy2Target_Inspc(Proxy2Target_Inspc* thiz, Cmd_InspcTargetProxy
     int32 timediff = thiz->ms_LastTimeCommunication - milliseconds;
     int32 timediffRx = thiz->ms_LastTimeCommunication - thiz->ms_LastTimeTx;
     thiz->ms_LastTimeTx = 0;                     //no more pending.
-    if (timediff > 1000) {
-      //printf("\n");
+    if (thiz->modeShowComm) {
+      if (timediff > 1000) {
+        //printf("\n");
+      }
+      //printf("%8.8x %s-@%8.8x x=%8.8x ret=%8.8x\n", (int)cmd, cmdTxt[((int)cmd) & 0x1f], address, input, value);
+      printf("%2.3fs: %8.8x addr=%8.8x %8.8x val=%8.8x\n", 0.001f*timediffRx, rxTelg->length_seq_cmd, rxTelg->error__lifeCt, rxTelg->retValueHi, rxTelg->retValue);
     }
-    //printf("%8.8x %s-@%8.8x x=%8.8x ret=%8.8x\n", (int)cmd, cmdTxt[((int)cmd) & 0x1f], address, input, value);
-    printf("%2.3fs: %8.8x addr=%8.8x %8.8x val=%8.8x\n", 0.001f*timediffRx, rxTelg->length_seq_cmd, rxTelg->error__lifeCt, rxTelg->retValueHi, rxTelg->retValue);
   }
   return timeout > 0; //then true
 }
