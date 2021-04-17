@@ -777,39 +777,115 @@ int16 getSetValue_ClassContent_Inspc(/*J2C:static method*/ struct FieldJc_t cons
       
       char  cType = charAt_StringJc(sType, 0);
       switch(cType){
-        case 'v': 
-        case 'i': 
-        { /*:int*/
+        case 'u':
+        case 'v': //? what is v
+        case 'i': switch (type->nSize) {    //it is uint16, int16, int32, int64 etc.
+          case 1:
+          { /*:byte*/
+
+
+            bOk = restLen >= 3;
+            if (bOk)
+            {
+
+
+              int16  value = getByte_FieldJc(theField, theObject, "I", idx);
+              nType = ((/*J2C:cast% from int32*/int16)(kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc));
+              if (bStoreTypeInAnswer)
+              {
+
+                addChildInteger_ByteDataAccessBaseJc(&((*(answerItem)).base.super), 1, nType, _thCxt);
+              }
+              addChildInteger_ByteDataAccessBaseJc(&((*(answerItem)).base.super), 2, value, _thCxt);
+              sValue = null_StringJc/*J2C:non-persistent*/;
+            }
+          }break;
+          case 2:
+          { /*:short*/
+
+
+            bOk = restLen >= 3;
+            if (bOk)
+            {
+
+
+              int32  value;/*no initvalue*/
+              if (accSetValue != null)
+              {
+
+
+                int16  setValue = getShort_InspcSetValue_InspcDataExchangeAccess_Inspc(accSetValue);
+                value = setShort_FieldJc(theField, theObject, setValue, "I", idx);
+              }
+              else
+              {
+
+                value = getShort_FieldJc(theField, theObject, "I", idx);
+              }
+              nType = ((/*J2C:cast% from int32*/int16)(kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int16_ClassJc));
+              if (bStoreTypeInAnswer)
+              {
+
+                addChildInteger_ByteDataAccessBaseJc(&((*(answerItem)).base.super), 1, nType, _thCxt);
+              }
+              addChildInteger_ByteDataAccessBaseJc(&((*(answerItem)).base.super), 2, value, _thCxt);
+              sValue = null_StringJc/*J2C:non-persistent*/;
+            }
+          }break;
+          case 8:
+          { /*:long, it is int64*/
+
+
+            bOk = restLen >= 9;
+            if (bOk)
+            {
+
+
+              int64  value = getInt64_FieldJc(theField, theObject, "I", idx);
+              nType = ((/*J2C:cast% from int32*/int16)(kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc));
+              if (bStoreTypeInAnswer)
+              {
+
+                addChildInteger_ByteDataAccessBaseJc(&((*(answerItem)).base.super), 1, nType, _thCxt);
+              }
+              addChildInteger_ByteDataAccessBaseJc(&((*(answerItem)).base.super), 8, value, _thCxt);/*8 */
+
+              sValue = null_StringJc/*J2C:non-persistent*/;
+            }
+          }break;
+          case 4:
+            { /*:int8*/
           
           
-          bOk = restLen >= 5;
-          if(bOk) 
-          { 
+              bOk = restLen >= 5;
+              if(bOk) 
+              { 
             
             
-            int32  value;/*no initvalue*/
-            if(accSetValue != null) 
-            { 
+                int32  value;/*no initvalue*/
+                if(accSetValue != null) 
+                { 
               
               
-              int32  setValue = getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(accSetValue);
-              value = setInt_FieldJc(theField, theObject, setValue, "I", idx);
-            }
-            else 
-            { 
+                  int32  setValue = getInt_InspcSetValue_InspcDataExchangeAccess_Inspc(accSetValue);
+                  value = setInt_FieldJc(theField, theObject, setValue, "I", idx);
+                }
+                else 
+                { 
               
-              value = getInt_FieldJc(theField, theObject, "I", idx);
-            }
-            nType = ((/*J2C:cast% from int32*/int16)(kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc));
-            if(bStoreTypeInAnswer) 
-            { 
+                  value = getInt_FieldJc(theField, theObject, "I", idx);
+                }
+                nType = ((/*J2C:cast% from int32*/int16)(kScalarTypes_InspcDataExchangeAccess_Inspc + REFLECTION_int32_ClassJc));
+                if(bStoreTypeInAnswer) 
+                { 
               
-              addChildInteger_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), 1, nType, _thCxt);
-            }
-            addChildInteger_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), 4, value, _thCxt);
-            sValue = null_StringJc/*J2C:non-persistent*/;
-          }
-        }break;
+                  addChildInteger_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), 1, nType, _thCxt);
+                }
+                addChildInteger_ByteDataAccessBaseJc(& ((* (answerItem)).base.super), 4, value, _thCxt);
+                sValue = null_StringJc/*J2C:non-persistent*/;
+              }
+            }break;
+        } break;   //uint int 
         case 'c': 
         { /*:int*/
           
