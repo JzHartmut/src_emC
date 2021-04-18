@@ -33,7 +33,7 @@
  * 2009-11-24: JcHartmut created as new idea.
  *
  ****************************************************************************/
-#include <emC/OSAL/os_endian.h>
+#include <emC/Base/Endianness.h>
 
 
 

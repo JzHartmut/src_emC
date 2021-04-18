@@ -5,6 +5,7 @@
 
 
 //free to "A Quake III Algorithm", see https://www.youtube.com/watch?v=p8u_k2LIZyo&feature=youtu.be
+//see also https://en.wikipedia.org/wiki/Fast_inverse_square_root
 float Q_rsqrt ( float number) {
   int32 i;
   float x2, y;

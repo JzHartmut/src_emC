@@ -34,8 +34,8 @@
  *
  ****************************************************************************/
 
-#ifndef __OSAL_os_endian_h__
-#define __OSAL_os_endian_h__
+#ifndef HGUARD_emCBase__Endianness
+#define HGUARD_emCBase__Endianness
 
 #include <applstdef_emC.h>  //This os-specific header should contain the definition of BIGENDIAN or LITTLEENDIAN
 
@@ -155,4 +155,4 @@ extern_C_BLOCK_
 
 _END_extern_C_BLOCK
 
-#endif //__OSAL_os_endian_h__
+#endif //HGUARD_emCBase__Endianness
