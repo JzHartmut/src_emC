@@ -263,7 +263,7 @@ typedef struct Addr8_emC_T { int32 c[2]; } Addr8_emC;
 
   #define debug_Handle2Ptr(H, N1, N2, TEXT)  //empty.
   
-  #define handle_Handle2Ptr(PTR, H) (*H=(uint32)PTR, null)
+  #define handle_Handle2Ptr(PTR) ((uint32)PTR)
 
   /**Delivers the handle to the given pointer, only for 32-bit-Target system.
    * The handle is the same value as the 32 bit pointer. It is delivered as uint32.

@@ -394,7 +394,11 @@ const VtblDef_StringFunctions_CJc mtblStringFunctions_CJc = {
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringFunctions_CJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_StringFunctions_CJc, ObjectJc) }
+ , { {&refl_ObjectJc
+     #ifdef DEF_ClassJc_Vtbl
+     , OFFSET_Vtbl(Vtbl_StringFunctions_CJc, ObjectJc) 
+     #endif
+     }
    }
  };
 
@@ -424,7 +428,9 @@ const ClassJc refl_StringFunctions_CJc_s =
 , &superclasses_StringFunctions_CJc_s.head.object //superclass
 , null //interfaces
 , 0    //modifiers
+#ifdef DEF_ClassJc_Vtbl
 , &mtblStringFunctions_CJc.mtbl.head
+#endif
 };
 
 

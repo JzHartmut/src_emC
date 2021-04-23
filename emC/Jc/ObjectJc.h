@@ -71,8 +71,6 @@
  */
 METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
 
-extern_C void finalize_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt);
-
 //extern_C StringJc toString_ObjectJc ( ObjectJc* text, ThCxt* _thCxt);
 
 /**Tests wether it is an ObjectJc-based instance or not. The criterium is, the ownAddress inside ObjectJc must be identical with the instance address.
@@ -697,10 +695,6 @@ METHOD_C int parseInt_radix_IntegerJc(StringJc src, int radix);
 /*@CLASS_C FloatJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 
-
-METHOD_C float intBitsToFloat_FloatJc(int32 val);
-
-//#define intBitsToFloat_FloatJc(val) (*((float*)(&val)))
 
 /**Parses the string argument as a signed decimal integer. The characters in the text must all be decimal digits,
  * except that the first character may be an ASCII minus sign '-' ('\u002D') to indicate a negative value.

@@ -119,16 +119,14 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
 
 
 
-#ifndef DEF_ObjectJc_LARGESIZE
+#ifdef DEF_ObjectSimple_emC
 bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* refl, uint ident) {
-  //Note: on DEF_ObjectJc_SIMPLE it cannot be checked whether the reflection is ok
-  //      because it cannot be distinguish between a non-derived or derived plain data instance. 
   #ifndef DEF_ObjectJc_SIMPLE
     if(thiz->reflection == null) {
       thiz->reflection = refl;
     }
     if((thiz->identSize & mInstance_ObjectJc)==0) {
-      thiz->identSize & mInstance_ObjectJc = ident & mInstance_ObjectJc;
+      thiz->identSize |= ident & mInstance_ObjectJc;
     }
     if (refl !=null && !instanceof_ObjectJc(thiz, refl)) {
       return false; 

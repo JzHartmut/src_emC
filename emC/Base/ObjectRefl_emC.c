@@ -470,10 +470,10 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
     }
   #endif
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
-    if(idxVtbl < 0 && (reflectionObj->superClass_es) != null) {
-      int identSuperClass = ((reflectionObj->superClass_es->identSize & mIdentSmall_ObjectJc)>>kBitIdentSmall_ObjectJc);
+    if(idxVtbl < 0 && (reflectionObj->superClass_es.obj) != null) {
+      int identSuperClass = ((reflectionObj->superClass_es.obj->identSize & mIdentSmall_ObjectJc)>>kBitIdentSmall_ObjectJc);
       if( identSuperClass == ID_refl_ClassJc) {
-        ClassJc const* superType = (ClassJc const*)reflectionObj->superClass_es;
+        ClassJc const* superType = reflectionObj->superClass_es.clazz;
         if(strncmp(superType->name, reflectionName, zReflectionName)==0)
         { idxVtbl = 0;  //not supported, only 0 to show found.
         }
@@ -482,7 +482,7 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
           idxVtbl = getIxVtbl_s_ClassJc(superType, reflectionName, recursive -1);
         }
       } else if(identSuperClass == ID_refl_ClassOffset_idxVtblJc) {
-        ClassOffset_idxVtblJcARRAY const* reflectionSuper = (ClassOffset_idxVtblJcARRAY const*)reflectionObj->superClass_es;
+        ClassOffset_idxVtblJcARRAY const* reflectionSuper = reflectionObj->superClass_es.clazzArray;
         int idxSuper = 0;
         for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
         { ClassOffset_idxVtblJc const* reflectionChild;
@@ -764,19 +764,36 @@ StringJc toString_ObjectJc ( ObjectJc const* ithis, ThCxt* _thCxt){
     , struct ClassJc_t const* reflection, int recursive) {
     if(recursive <0) return false;
     bool reflOk = false;
-    struct ClassOffset_idxVtblJcARRAY_t const* superClasses = thiz->superClasses;
-    if(superClasses !=null) {
-      for(int ix = 0; ix < superClasses->head.length; ++ix) {
-        ClassJc const* superType = superClasses->data[ix].superfield.type_;
-        reflOk = superType == reflection;
-        if(!reflOk) {
-          reflOk = instanceofSuper_ClassJc(superType, reflection, --recursive);
+    ObjectJc const* superclas_es = thiz->superClass_es.obj;
+    int identSuper = getIdentInfo_ObjectJc(superclas_es);
+    if(isArray_ObjectJc(superclas_es)) {
+      struct ClassOffset_idxVtblJcARRAY_t const* superClasses = thiz->superClass_es.clazzArray;
+      if(superClasses !=null) {
+        for(int ix = 0; ix < superClasses->head.length; ++ix) {
+          ClassJc const* superType = superClasses->data[ix].superfield.type_;
+          reflOk = superType == reflection;
+          if(!reflOk) {
+            reflOk = instanceofSuper_ClassJc(superType, reflection, --recursive);
+          }
+          if(reflOk) { break; }
         }
-        if(reflOk) { break; }
+      }
+    } else if(identSuper == ID_refl_ClassJc) {
+      ClassJc const* superType = thiz->superClass_es.clazz;
+      reflOk = superType == reflection;
+      if(!reflOk) {
+        reflOk = instanceofSuper_ClassJc(superType, reflection, --recursive);
+      }
+    } else { //only one superclass
+      struct ClassOffset_idxVtblJc_t const* superInfo = thiz->superClass_es.clazzVtbl;
+      ClassJc const* superType = superInfo->superfield.type_;
+      reflOk = superType == reflection;
+      if(!reflOk) {
+        reflOk = instanceofSuper_ClassJc(superType, reflection, --recursive);
       }
     }
     if(!reflOk && thiz->interfaces !=null) {
-      superClasses = thiz->interfaces;
+      struct ClassOffset_idxVtblJcARRAY_t const* superClasses = thiz->interfaces;
       for(int ix = 0; ix < superClasses->head.length; ++ix) {
         ClassJc const* superType = superClasses->data[ix].superfield.type_;
         reflOk = superType == reflection;

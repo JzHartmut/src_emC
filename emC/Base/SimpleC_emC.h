@@ -221,6 +221,8 @@ INLINE_emC int32 floatToIntBits_FloatJc(float val)
 }
 
 
+//#define intBitsToFloat_FloatJc(val) (*((float*)(&val)))
+
 INLINE_emC float intBitsToFloat_FloatJc(int32 val)
 {
   return *(float*)&val;   //returns the bit representation in memory.

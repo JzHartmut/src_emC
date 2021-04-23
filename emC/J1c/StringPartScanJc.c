@@ -1094,7 +1094,11 @@ ClassJc const refl_StringPartScanJc_s = INIZsuper_ClassJc(refl_StringPartScanJc_
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringPartScanJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&refl_StringPartJc_s, OFFSET_Vtbl(Vtbl_StringPartScanJc, StringPartJc) }
+ , { { &refl_StringPartJc_s
+     #ifdef DEF_ClassJc_Vtbl
+     , OFFSET_Vtbl(Vtbl_StringPartScanJc, StringPartJc) 
+     #endif
+     }
    }
  };
 
@@ -1175,7 +1179,9 @@ const ClassJc refl_StringPartScanJc_s =
 , REFLECTION_Superclasses_StringPartScanJc
 , REFLECTION_Interfaces_StringPartScanJc
 , 0    //modifiers
+#ifdef DEF_ClassJc_Vtbl
 , &mtblStringPartScanJc.mtbl.head
+#endif
 };
 #endif //DEF_REFlECTION_FULL
 

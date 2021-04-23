@@ -268,7 +268,11 @@ const VtblDef_StringFunctions_BJc mtblStringFunctions_BJc = {
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringFunctions_BJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_StringFunctions_BJc, ObjectJc) }
+ , { {&refl_ObjectJc
+   #ifdef DEF_ClassJc_Vtbl
+     , OFFSET_Vtbl(Vtbl_StringFunctions_BJc, ObjectJc) 
+   #endif
+     }
    }
  };
 
@@ -303,10 +307,12 @@ const ClassJc refl_StringFunctions_BJc_s =
 , sizeof(StringFunctions_BJc_s)
 , (FieldJc_Y const*)&refl_Fields_StringFunctions_BJc_s
 , null //method
-, &superclasses_StringFunctions_BJc_s.head.object //superclass
+, { &superclasses_StringFunctions_BJc_s.head.object }//superclass
 , null //interfaces
 , 0    //modifiers
-, &mtblStringFunctions_BJc.mtbl.head
+#ifdef DEF_ClassJc_Vtbl
+  , &mtblStringFunctions_BJc.mtbl.head
+#endif
 };
 
 #endif  //ndef __DONOTUSE_REFLECTION__

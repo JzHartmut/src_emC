@@ -190,7 +190,7 @@ typedef struct  ClassJc_t
 
   /** The superclass, ObjectJc if no other superclass.*/
   //union { struct ClassJc_t const* superClass; struct ClassOffset_idxVtblJcARRAY_t const* superClasses; } super;
-  union { ObjectJc const* superClass_es; struct ClassOffset_idxVtblJcARRAY_t const* superClassArray; struct ClassOffset_idxVtblJc_t const* superClass; };
+  union { ObjectJc const* obj; struct ClassJc_t const* clazz; struct ClassOffset_idxVtblJcARRAY_t const* clazzArray; struct ClassOffset_idxVtblJc_t const* clazzVtbl; } superClass_es;
   //struct ClassJc_t const* superClass;
 
   /** Array of interfaces to this class.*/

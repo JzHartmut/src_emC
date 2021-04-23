@@ -420,6 +420,8 @@ extern_C void activateGC_ObjectJc(void const* object, void const* exclObject, st
   #define clearBackRefJc(REF)
 #endif
 
+extern_C void finalize_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt);
+
 
 extern_C StringJc toString_ObjectJc_F(ObjectJc const* ythis, struct ThreadContext_emC_t* _thCxt);
 

@@ -1,5 +1,5 @@
 #include <applstdef_emC.h>
-#ifdef DEF_REFLECTION_FULL
+#if defined(DEF_REFLECTION_FULL) && defined(DEF_HandlePtr64) && defined(DEF_ClassJc_Vtbl)  //may be used in 32 bit without DEF_HandlePtr64 too?
 #include "Wait_Inspc.h"
 #include <emC/Inspc/Srv/DataNode_Inspc.h>
 #include <emC/OSAL/os_time.h>

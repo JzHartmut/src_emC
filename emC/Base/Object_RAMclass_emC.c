@@ -47,7 +47,7 @@ void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, Objec
   copyToBuffer_StringJc(name, 0, -1, thiz->name, sizeof(thiz->name));
   thiz->nSize = sizeType;
   thiz->attributes = (struct FieldJc_Y_t const*)fields;  //TODO before casting: check type via reflection
-  thiz->superClass_es = &super->object; //TODO before casting: check type via reflection
+  thiz->superClass_es.obj = &super->object; //TODO before casting: check type via reflection
 }
 
 

@@ -90,6 +90,7 @@ const ClassJc refl_int8ARRAY =
 
 
 
+#ifdef DEF_ClassJc_Vtbl
 
 extern_C const ClassJc refl_ComparableJc;  //the just defined refl_
 extern_C const ClassJc refl_ObjectJc;
@@ -222,6 +223,9 @@ const ClassJc refl_FlushableJc =
 , null  //interfaces
 , 0  |mObjectJc_Modifier_reflectJc
 };
+
+
+#endif //def DEF_ClassJc_Vtbl
 
 
 

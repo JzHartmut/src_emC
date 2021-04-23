@@ -251,18 +251,18 @@ METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz)
 
 METHOD_C FieldJc const* getSuperField_ClassJc(ClassJc const* thiz)
 {
-  if(thiz->superClass_es == null) return null;
-  else if(isArray_ObjectJc(thiz->superClass_es)) {
-    ASSERT_emC(  (thiz->superClass_es->reflection !=null && checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_ClassOffset_idxVtblJc, 0))
-              || getIdentInfo_ObjectJc(thiz->superClass_es) == ID_refl_ClassOffset_idxVtblJc, "superClas_es should be an Array of FieldJc", 0,0);
-    ClassOffset_idxVtblJc const* fieldIdx = &thiz->superClassArray->data[0];
+  if(thiz->superClass_es.obj == null) return null;
+  else if(isArray_ObjectJc(thiz->superClass_es.obj)) {
+    ASSERT_emC(  (thiz->superClass_es.obj->reflection !=null && checkStrict_ObjectJc(thiz->superClass_es.obj, 0, &refl_ClassOffset_idxVtblJc, 0))
+              || getIdentInfo_ObjectJc(thiz->superClass_es.obj) == ID_refl_ClassOffset_idxVtblJc, "superClas_es should be an Array of FieldJc", 0,0);
+    ClassOffset_idxVtblJc const* fieldIdx = &thiz->superClass_es.clazzArray->data[0];
     //FieldJc_Y const* superFields = C_CAST(FieldJc_Y const*, thiz->superClass_es);
     return &fieldIdx->superfield; //Note: C++ knows more superclasses, this is for Java-like and C
   } else {
     //faulty: it is the class only for type test.
-    ASSERT_emC(  (thiz->superClass_es->reflection !=null && checkStrict_ObjectJc(thiz->superClass_es, 0, &refl_FieldJc, 0))
-              || getIdentInfo_ObjectJc(thiz->superClass_es) == ID_refl_FieldJc, "superClas_es should be a FieldJc", 0,0);
-    FieldJc const* superField = C_CAST(FieldJc const*, thiz->superClass_es);
+    ASSERT_emC(  (thiz->superClass_es.obj->reflection !=null && checkStrict_ObjectJc(thiz->superClass_es.obj, 0, &refl_FieldJc, 0))
+              || getIdentInfo_ObjectJc(thiz->superClass_es.obj) == ID_refl_FieldJc, "superClas_es should be a FieldJc", 0,0);
+    FieldJc const* superField = C_CAST(FieldJc const*, thiz->superClass_es.obj);
     return superField;
 
   }

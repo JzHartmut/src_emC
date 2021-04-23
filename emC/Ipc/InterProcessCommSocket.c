@@ -40,7 +40,7 @@
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Base/Endianness_emC.h>
 
-#ifdef DEF_REFLECTION_FULL
+#ifdef DEF_ClassJc_Vtbl
 
 #undef byte
 #undef boolean

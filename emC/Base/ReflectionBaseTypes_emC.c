@@ -356,7 +356,7 @@ const struct Reflection_Fields_int16_complex_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)(0)
+    , (int16)(sizeof(int16))
     , 0  //offsetToObjectifcBase
     , &refl_int16_complex
     }
@@ -364,7 +364,7 @@ const struct Reflection_Fields_int16_complex_t
     , 0   //no Array, no Bitfield
     , REFLECTION_int16
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)(sizeof(float))
+    , (int16)(sizeof(int16))
     , 0  //offsetToObjectifcBase
     , &refl_int16_complex
     }
@@ -384,6 +384,44 @@ const ClassJc refl_int16_complex =
 };
 
 
+const struct Reflection_Fields_int32_complex_t
+{ ObjectArrayJc head;
+  FieldJc data[2];
+} refl_Fields_int32_complex =
+{ CONST_ObjectArrayJc(FieldJc, 2, OBJTYPE_FieldJc, null, &refl_Fields_int32_complex)
+, {
+    { "re"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(sizeof(int32))
+    , 0  //offsetToObjectifcBase
+    , &refl_int32_complex
+    }
+  , { "im"
+    , 0   //no Array, no Bitfield
+    , REFLECTION_int32
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int16)(sizeof(int32))
+    , 0  //offsetToObjectifcBase
+    , &refl_int32_complex
+    }
+} };
+
+
+const ClassJc refl_int32_complex =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_int32_complex, &refl_ClassJc)
+, "int32_complex"
+, 0
+, sizeof(int32_complex)
+, (FieldJcArray const*)&refl_Fields_int32_complex  //attributes and associations
+, null  //method
+, { null }  //superclass
+, null  //interfaces
+, 0 
+};
+
+
 const struct Reflection_Fields_float_complex_t
 { ObjectArrayJc head;
   FieldJc data[2];
@@ -394,7 +432,7 @@ const struct Reflection_Fields_float_complex_t
     , 0   //no Array, no Bitfield
     , REFLECTION_float
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)(0)
+    , (int16)(sizeof(float))
     , 0  //offsetToObjectifcBase
     , &refl_float_complex
     }
@@ -432,7 +470,7 @@ const struct Reflection_Fields_double_complex_t
     , 0   //no Array, no Bitfield
     , REFLECTION_double
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int16)(0)
+    , (int16)(sizeof(double))
     , 0  //offsetToObjectifcBase
     , &refl_double_complex
     }

@@ -3159,7 +3159,11 @@ ClassJc const refl_StringPartJc_s = INIZ_ClassJc(refl_StringPartJc_s, "StringPar
    ClassOffset_idxVtblJc data[1];
  }superclasses_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_StringPartJc, ObjectJc) }
+ , { { &refl_ObjectJc
+     #ifdef DEF_ClassJc_Vtbl
+     , OFFSET_Vtbl(Vtbl_StringPartJc, ObjectJc) 
+     #endif
+     }
    }
  };
 
@@ -3170,8 +3174,18 @@ ClassJc const refl_StringPartJc_s = INIZ_ClassJc(refl_StringPartJc_s, "StringPar
    ClassOffset_idxVtblJc data[2];
  }interfaces_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&refl_CharSeqJc, OFFSET_Vtbl(Vtbl_StringPartJc, CharSeqJc) }
-  , {&refl_ComparableJc, OFFSET_Vtbl(Vtbl_StringPartJc, ComparableJc) }
+, { { &refl_CharSeqJc
+    #ifdef DEF_ClassJc_Vtbl
+    , OFFSET_Vtbl(Vtbl_StringPartJc, CharSeqJc)
+    #endif 
+    }
+  #ifdef DEF_ClassJc_Vtbl
+  , { &refl_ComparableJc
+    #ifdef DEF_ClassJc_Vtbl
+    , OFFSET_Vtbl(Vtbl_StringPartJc, ComparableJc) 
+    #endif
+    }
+  #endif
   }
 };
 
@@ -3348,7 +3362,9 @@ const ClassJc refl_StringPartJc_s =
 , REFLECTION_Superclass_StringPartJc //superclass
 , REFLECTION_Interfaces_StringPartJc
 , mObjectJc_Modifier_reflectJc
+#ifdef DEF_ClassJc_Vtbl
 , &mtblStringPartJc.mtbl.head
+#endif
 };
 
 #endif //
@@ -3562,7 +3578,11 @@ ClassJc const refl_Part_StringPartJc_s = INIZ_ClassJc(refl_Part_StringPartJc_s, 
    ClassOffset_idxVtblJc data[1];
  }superclasses_Part_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
- , { {&refl_ObjectJc, OFFSET_Vtbl(Vtbl_Part_StringPartJc, ObjectJc) }
+ , { { &refl_ObjectJc
+     #ifdef DEF_ClassJc_Vtbl
+     , OFFSET_Vtbl(Vtbl_Part_StringPartJc, ObjectJc) 
+     #endif
+     }
    }
  };
 
@@ -3572,7 +3592,11 @@ ClassJc const refl_Part_StringPartJc_s = INIZ_ClassJc(refl_Part_StringPartJc_s, 
    ClassOffset_idxVtblJc data[1];
  }interfaces_Part_StringPartJc_s =
  { CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
-, { {&refl_CharSeqJc, OFFSET_Vtbl(Vtbl_Part_StringPartJc, CharSeqJc) }
+, { { &refl_CharSeqJc
+    #ifdef DEF_ClassJc_Vtbl
+    , OFFSET_Vtbl(Vtbl_Part_StringPartJc, CharSeqJc) 
+    #endif
+    }
   }
 };
 
@@ -3613,7 +3637,9 @@ const ClassJc refl_Part_StringPartJc_s =
 , &superclasses_Part_StringPartJc_s.head.object //superclass
 , (ClassOffset_idxVtblJcARRAY*)&interfaces_Part_StringPartJc_s //interfaces
 , mObjectJc_Modifier_reflectJc
+#ifdef DEF_ClassJc_Vtbl
 , &mtblPart_StringPartJc.mtbl.head
+#endif
 };
 #endif //DEF_REFLECTION_FULL
 

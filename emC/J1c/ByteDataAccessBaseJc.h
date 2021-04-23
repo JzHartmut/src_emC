@@ -605,7 +605,7 @@ Note this method is never used in actual implementations of vishia. Check whethe
 */
 METHOD_C void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* src, ThCxt* _thCxt);
 
-#ifndef DEF_ObjectJc_SIMPLE
+#ifndef DEF_ObjectSimple_emC
 /**copies some data to a int[], primarily to debug a content. 
 */
 METHOD_C void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, ThCxt* _thCxt);
