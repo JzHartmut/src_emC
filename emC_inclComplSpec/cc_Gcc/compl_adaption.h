@@ -194,10 +194,10 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
  * Especially in va_arg(..,TYP)-Makro.
  */
-#define char_va_list char 
-#define bool_va_list bool
-#define int8_va_list signed char
-#define int16_va_list short
+#define char_va_list int
+#define bool_va_list int
+#define int8_va_list int
+#define int16_va_list int
 #define float_va_list float
 
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.

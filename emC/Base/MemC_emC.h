@@ -139,6 +139,8 @@ struct ThreadContext_emC_t;
  */
 //#define STRUCT_MemC(REFTYPE) struct MemC_##REFTYPE##_t { REFTYPE* ref; intptr_t size; }  //OS_REFValue_DEF(NAME, TYPE)
 
+#ifndef DEFINED_MemC
+#define DEFINED_MemC
 /**Defines the standard-MemC-type. 
  * @since 2019-10: The pointer type is now a struct type Addr8_emC*, not a MemUnit* like before. 
  *        Reason:  a const char* pointer is aligned to 1 on X86-64 platform, but all other pointer should reference
@@ -151,6 +153,7 @@ struct ThreadContext_emC_t;
  *        Do not replace ref to addr without thinking about. Use the new [[addOffset_MemC(...)]] macro for address calculation.
  */
 typedef STRUCT_AddrVal_emC(MemC, Addr8_emC);
+#endif
 
 
 extern_C MemC null_MemC;

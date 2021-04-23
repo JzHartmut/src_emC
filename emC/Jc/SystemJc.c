@@ -50,6 +50,7 @@
 
 #include <string.h>
 
+#ifndef DEF_ObjectSimple_emC
 void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, int length, ThCxt* _thCxt)
 { ObjectArrayJc* srcArray = (ObjectArrayJc*)src;  //TODO test whether it is admissible
   ObjectArrayJc* dstArray = (ObjectArrayJc*)dst;  //TODO test whether it is admissible
@@ -76,8 +77,12 @@ void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, in
   }
   STACKTRC_LEAVE;
 }
+#endif
 
 
+
+
+#ifndef DEF_ObjectSimple_emC
 void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPos, int length, ThCxt* _thCxt)
 { ObjectArrayJc* dstArray = (ObjectArrayJc*)dst;  //TODO test whether it is admissible
   int srclen = length_ByteStringJc(src);
@@ -105,6 +110,8 @@ void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPo
   }
   STACKTRC_LEAVE;
 }
+#endif
+
 
 
 

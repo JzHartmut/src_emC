@@ -46,6 +46,23 @@
 #ifndef HGUARD_ObjectSimple_emC
 #define HGUARD_ObjectSimple_emC
 
+
+#ifndef DEFINED_MemC
+#define DEFINED_MemC
+/**Defines the standard-MemC-type. 
+ * @since 2019-10: The pointer type is now a struct type Addr8_emC*, not a MemUnit* like before. 
+ *        Reason:  a const char* pointer is aligned to 1 on X86-64 platform, but all other pointer should reference
+ *        8-aligned addresses (4-aligned for 32-bit-platform) to assure fast memory access. The compiler arranges
+ *        the data in a proper form. But the compiler supposed that the casted address to char const*
+ *        may have a 1-allignment and produces this justifiable warning. If the non-casted address is used, it is ok.
+ * The addr element is now 8-aligned for 64-bit-applications (4-aligned for 32 bit)
+ * @since 2019-10: The name is change to addr from ref in STRUCT_AddrVal_emC (before: OS_PtrValue_DEF). 
+ *        Hence using location which may conflict in address calculation are conspicuous by compiler errors. 
+ *        Do not replace ref to addr without thinking about. Use the new [[addOffset_MemC(...)]] macro for address calculation.
+ */
+typedef STRUCT_AddrVal_emC(MemC, Addr8_emC);
+#endif
+
 #ifndef HGUARD_ObjectRefl_emC  //it is simple included, not via Object_emC.h
 
   #if !defined(DEF_ObjectJc_SIMPLE) && !defined(DEF_ObjectJc_REFLREF)
@@ -221,6 +238,31 @@ extern_C bool checkStrict_ObjectJc ( struct ObjectJc_T const* othiz, uint size, 
 
 
 
+
+
+/**Checks the consistence of the given instance based on ObjectJc and initialize the missing information. 
+ * An Object should be proper initialized before it is used with [[CTOR_ObjectJc(...)]] 
+ * or as static instance with [[INIZ_ObjectJc(...)]]. 
+ * This method should be used in the constructor of classes to check whether the initializing is done.
+ * It supplements the missing information. But this routine is a loop hole for a incorrect initialization. 
+ * It should never be uses in an ASSERT_emC(...), use checkStrict there. 
+ * @param size The requested size of the instance.
+ *             The instance is valid if the size saved in the element ,,objectIdentSize,, is >= size.
+ *             A greater instance (derived) is accepted also.
+ * @param refl instanceof_ObjectJc() will be tested. If this param is null, no test of reflection is done.
+ *             Unsupported feature: If the reflection class of the instance is null, it will be set with this reference.
+ *             But call setReflection_ObjectJc() instead before, because this method may be changed in future. It should only test, not set anything!
+ * @param ident 0 or the requested indent. If 0 then the ident info will not be checked.
+ * @return true if ok, 
+ */
+extern_C bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* clazzReflection, uint ident);
+#ifdef DEF_REFLECTION_NO
+  #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, null, (ID_##REFL) | ((IDENT) & mArrayId_ObjectJc))
+#else 
+  #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, IDENT) checkInit_ObjectJc(OTHIZ, SIZE, &(REFL), IDENT)
+#endif
+
+
 /*---------------------------------------------
 Get operations for core properties          */
 
@@ -321,6 +363,62 @@ extern_C struct ObjectJc_T* allocRefl_ObjectJc ( uint size, struct ClassJc_t con
 
 /**traditional usual in Java2C sources: */
 #define alloc_ObjectJc(SIZE, ID, _THCXT) allocRefl_ObjectJc(SIZE, null, ID)
+
+/**Supplies the rest of block if the Object is allocated in a block heap, or an empty MemC if there is no rest space. 
+* @param size The requested size (>0) or the requested number of references (<0). 
+*        If < 0 then the available size is returned, where the given number of references is considered (this value negative).
+* @return A MemC-information which is placed immediate after the Object, or this size_MemC(returnObject) is 0.
+* The implementation of this method depends from a BlockHeap-Concept and is located there.
+*/
+METHOD_C MemC getRestBlock_ObjectJc(ObjectJc const* ythis, int size, struct ThreadContext_emC_t* _thCxt);
+
+
+/**Submits the responsibility to the instance to a garbage collector. 
+* It should be deleted if there are no more references to the object.
+* The garbage collector mechanism should check whether the object is still referenced.
+* @param object the object which is submitted to the GC
+* @param exclObject excluding: If this addr isn't null and it is in the same block, 
+*        the block doesn't activate for garbage collection.
+*        It is because a returned address may be use in the calling environment. 
+*        The activating for garbage collection have to be organized there. 
+*        The Java2C-Translator consideres this situation.
+*
+*/
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+extern_C void activateGC_ObjectJc(void const* object, void const* exclObject, struct ThreadContext_emC_t* _thCxt);
+#else
+#define activateGC_ObjectJc(OBJ, EXCL, THCXT)
+#endif
+
+/** Assigns a reference to any reference management system.
+* This method doesn't store the reference to the src in the enhanced reference, 
+* it should be done outside because better pointer type checking. 
+* A back reference to refbase is stored in the block of the heap,
+* and the Index of this back reference is stored in refbase.
+* If src is not inside a block heap, a 0 value is setted to *refbase.
+*
+* @ param reference the address of the enhanced reference. It is a void* because there are several reference types.
+* @ param instance The address of the instance which is referenced.
+*/
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+  extern_C void setBackRefJc(void* reference, void const* instance);
+#else 
+  #define setBackRefJc(REF, OBJ)
+#endif
+/** Clears a reference in any reference management system.
+*  The reference itself will be not stored here, it should be done outside because better
+*  pointer type checking. A back reference to refbase is stored in the block of the heap,
+*  and the Index of this back reference is stored in refbase.
+*
+*  If src is not inside a block heap, a 0 value is setted to *refbase.
+*
+*  @ param reference address of the enhanced reference
+*/
+#ifdef DEF_BlockHeap_GARBAGECOLLECTOR
+  extern_C void clearBackRefJc(void* reference);
+#else
+  #define clearBackRefJc(REF)
+#endif
 
 
 extern_C StringJc toString_ObjectJc_F(ObjectJc const* ythis, struct ThreadContext_emC_t* _thCxt);

@@ -206,4 +206,47 @@ extern_C int binarySearch_int64(int64 const* data, int fromIndex, int toIndex, i
 
 
 
+
+
+
+INLINE_emC int32 floatToRawIntBits_FloatJc(float val)
+{ return *(int32*)&val;  //returns the bit representation in memory.
+}
+
+
+INLINE_emC int32 floatToIntBits_FloatJc(float val)
+{ int32 bits = *(int32*)&val;  //gets the bit representation in memory.
+  //TODO check some NAN representations
+  return bits;
+}
+
+
+INLINE_emC float intBitsToFloat_FloatJc(int32 val)
+{
+  return *(float*)&val;   //returns the bit representation in memory.
+}
+
+
+
+
+INLINE_emC int64 doubleToLongBits_DoubleJc(double val)
+{ return *(int64*)&val;  //returns the bit representation in memory.
+}
+
+
+INLINE_emC int64 doubleToRawLongBits_DoubleJc(double val)
+{ int64 bits = *(int64*)&val;  //gets the bit representation in memory.
+  //TODO check some NAN representations
+  return bits;
+}
+
+
+INLINE_emC double longBitsToDouble_DoubleJc(int64 val)
+{
+  return *(double*)&val;   //returns the bit representation in memory.
+}
+
+
+
+
 #endif  //__simpleC_h__

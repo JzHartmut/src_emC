@@ -59,7 +59,7 @@
 
 /** get a character instead the simple access to text[ix] for non packed strings.
  */
-static char getCharPacked ( MemUnit const* text, int ixByte) {
+static inline char getCharPacked ( MemUnit const* text, int ixByte) {
   MemUnit val = text[ ixByte / BYTE_IN_MemUnit];
   int byte = ixByte % BYTE_IN_MemUnit;     //always 0 in byte adressing, optimized for byte processors.
   return (char)(( val >> (8*byte)) & 0xff);  //do not shift in byte addressing, optimized for byte processors.

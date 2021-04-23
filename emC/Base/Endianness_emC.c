@@ -33,14 +33,14 @@
  * 2009-11-24: JcHartmut created as new idea.
  *
  ****************************************************************************/
-#include <emC/Base/Endianness.h>
+#include <emC/Base/Endianness_emC.h>
 
 
 
 #if defined(OSAL_LITTLEENDIAN) || defined(OSAL_MEMWORDBOUND)
 
 
-int64_t getInt64BigEndian(int64BigEndian const* addr)
+int64 getInt64BigEndian(int64BigEndian const* addr)
 { int32_t loBig,hiBig, lo, hi;
   int64_t ret;
   //NOTE: do only 1 access to memory.

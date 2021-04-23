@@ -68,8 +68,11 @@ typedef struct RunnableJc_t
 
 
 
+#ifndef DEF_ObjectSimple_emC
 /**Define of the array type. This type should only be used as pointer. */
 typedef struct RunnableJc_Y_t { ObjectArrayJc head; RunnableJc_s data[50]; } RunnableJc_Y;
+#endif
+
 
 extern_C struct ClassJc_t const refl_RunnableJc;
 
@@ -134,7 +137,10 @@ typedef struct ThreadJc_t
 
 #define sizeof_ThreadJc_s sizeof(ThreadJc_s)
 
+#ifndef DEF_ObjectSimple_emC
 typedef struct ThreadJc_s_Y_t { ObjectArrayJc head; ThreadJc_s data[50]; } ThreadJc_s_Y;
+#endif
+
 
 extern_C struct ClassJc_t const refl_ThreadJc;
   

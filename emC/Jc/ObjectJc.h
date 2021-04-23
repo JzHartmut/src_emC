@@ -696,9 +696,6 @@ METHOD_C int parseInt_radix_IntegerJc(StringJc src, int radix);
 
 /*@CLASS_C FloatJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-METHOD_C int32 floatToRawIntBits_FloatJc(float val);
-METHOD_C int32 floatToIntBits_FloatJc(float val);
-
 
 
 METHOD_C float intBitsToFloat_FloatJc(int32 val);
@@ -718,10 +715,6 @@ METHOD_C float parseFloat_FloatJc(StringJc src);
 
 /*@CLASS_C DoubleJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-METHOD_C int64 doubleToRawLongBits_DoubleJc(double val);
-METHOD_C int64 doubleToLongBits_DoubleJc(double val);
-
-METHOD_C double longBitsToDouble_DoubleJc(int64 val);
 
 /**Parses the string argument as a signed decimal integer. The characters in the text must all be decimal digits,
  * except that the first character may be an ASCII minus sign '-' ('\u002D') to indicate a negative value.

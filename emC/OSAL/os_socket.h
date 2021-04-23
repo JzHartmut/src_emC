@@ -42,7 +42,7 @@
 #include <applstdef_emC.h>
 
 
-#include <emC/OSAL/os_endian.h>
+#include <emC/Base/Endianness_emC.h>
 
 
 /**Version and history:

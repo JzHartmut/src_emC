@@ -704,6 +704,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 #define STACKTRC_THCXT null              //null as parameter for _thCxt, get it internally
 #define GET_STACKTRC_THCXT ThreadContext_emC_s* _thCxt = getCurrent_ThreadContext_emC();
 #define CALLINE
+#define THCXT null
 
 
 #else

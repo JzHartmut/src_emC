@@ -42,6 +42,7 @@
 
 #include "emC/Jc/ComparatorJc.h"
 
+#ifndef DEF_ObjectSimple_emC
 /**@deprecated */
 int binarySearch_Object_ArraysJc(const void* a, const void* key, ComparatorJcpp* c) //ComparatorJcRefp c)
 {
@@ -81,7 +82,7 @@ int binarySearch_Object_ArraysJc(const void* a, const void* key, ComparatorJcpp*
 	}
 	return -(low + 1);  // key not found.
 }
-
+#endif
 
 METHOD_C void rangeCheck_ArrayJc(int length, int fromIndex, int toIndex, ThCxt* _thCxt)
 {
@@ -96,6 +97,7 @@ METHOD_C void rangeCheck_ArrayJc(int length, int fromIndex, int toIndex, ThCxt* 
 
 
 
+#ifndef DEF_ObjectSimple_emC
 void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt* _thCxt)
 {
   int max = array->head.length;
@@ -107,7 +109,7 @@ void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt
     *data++ = (int8)value;
   }
 }
-
+#endif
 
 void fill_mB_ArraysJc(int8ARRAY array, int fromIndex, int toIndex, int value, ThCxt* _thCxt)
 {
@@ -122,6 +124,7 @@ void fill_mB_ArraysJc(int8ARRAY array, int fromIndex, int toIndex, int value, Th
 }
 
 
+#ifndef DEF_ObjectSimple_emC
 void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, ThCxt* _thCxt)
 {
   int max = array->head.length;
@@ -133,17 +136,19 @@ void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, Th
     *data++ = value;
   }
 }
+#endif
 
 
 
 
-
+#ifndef DEF_ObjectSimple_emC
 METHOD_C int binarySearch_STRC_int_ii_ArraysJc(int32_ObjArray const* a, int fromIndex, int toIndex, int32 key, ThCxt* stacktraceThreadContext)
 { rangeCheck_ArrayJc(a->head.length, fromIndex, toIndex, stacktraceThreadContext);
   return binarySearch_int(a->data, fromIndex, toIndex, key);
 }
+#endif
 
-
+#ifndef DEF_ObjectSimple_emC
 int binarySearch0_int_ii_ArraysJc(const int32_Y* a, int fromIndex, int toIndex, int32 key)
 { int low = fromIndex;
 	int high = toIndex -1;
@@ -163,17 +168,19 @@ int binarySearch0_int_ii_ArraysJc(const int32_Y* a, int fromIndex, int toIndex, 
 	}
 	return -(low + 1);  // key not found.
 }
+#endif
 
 
 
 
-
+#ifndef DEF_ObjectSimple_emC
 int binarySearch_int_ii_ArraysJc(const int32_Y* a, int fromIndex, int toIndex, int32 key, ThCxt* _thCxt)
 { rangeCheck_ArrayJc(a->head.length, fromIndex, toIndex, _thCxt);
   return binarySearch0_int_ii_ArraysJc(a, fromIndex, toIndex, key);
 }
+#endif
 
-
+#ifndef DEF_ObjectSimple_emC
 int binarySearch0_int64_ii_ArraysJc(const int64_Y* a, int fromIndex, int toIndex, int64 key)
 { int low = fromIndex;
 	int high = toIndex -1;
@@ -193,16 +200,17 @@ int binarySearch0_int64_ii_ArraysJc(const int64_Y* a, int fromIndex, int toIndex
 	}
 	return -(low + 1);  // key not found.
 }
+#endif
 
 
 
 
-
+#ifndef DEF_ObjectSimple_emC
 int binarySearch_int64_ii_ArraysJc(const int64_Y* a, int fromIndex, int toIndex, int64 key, ThCxt* _thCxt)
 { rangeCheck_ArrayJc(a->head.length, fromIndex, toIndex, _thCxt);
   return binarySearch0_int64_ii_ArraysJc(a, fromIndex, toIndex, key);
 }
-
+#endif
 
 /* old algorithm from me, tested but other behaviour on not founded keys:
   int ix, imin, imax;

@@ -119,6 +119,35 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
 
 
 
+#ifndef DEF_ObjectJc_LARGESIZE
+bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* refl, uint ident) {
+  //Note: on DEF_ObjectJc_SIMPLE it cannot be checked whether the reflection is ok
+  //      because it cannot be distinguish between a non-derived or derived plain data instance. 
+  #ifndef DEF_ObjectJc_SIMPLE
+    if(thiz->reflection == null) {
+      thiz->reflection = refl;
+    }
+    if((thiz->identSize & mInstance_ObjectJc)==0) {
+      thiz->identSize & mInstance_ObjectJc = ident & mInstance_ObjectJc;
+    }
+    if (refl !=null && !instanceof_ObjectJc(thiz, refl)) {
+      return false; 
+    }
+    if( ident!=0 && (thiz->identSize & mInstance_ObjectJc) != (((uint32)ident)<< kBitInstance_ObjectJc)) {
+      return false;
+    }
+  #endif
+  //Note: The size contains the size of a C++ class too, hence this test is not sufficient.
+  //      but it is a necessary test.
+  if((thiz->identSize & mSize_ObjectJc) ==0) {
+    thiz->identSize |= size & mSize_ObjectJc;
+  }
+  return (thiz->identSize & mSize_ObjectJc) >= size;  //true if size ==0, but mSize-bits should be valid.
+}
+#endif
+
+
+
 #ifdef DEF_REFLECTION_NO
 bool instanceofReflid_ObjectJc ( struct ObjectJc_T const* thiz, uint reflId) {
   return ((thiz->identSize & mInstanceType_ObjectJc) >> kBitInstanceType_ObjectJc) == reflId;

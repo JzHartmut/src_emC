@@ -1198,6 +1198,7 @@ METHOD_C StringBuilderJc_s* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc 
 
 
 
+#ifdef DEF_ThreadContext_HEAP_emC
 /**Returns the StringBuilderJc_s-instance in the Thread Context. 
  * This instance should used if a StringJc is to return. 
  * The contract for such returned StringJc is: It should be used immediately, 
@@ -1210,7 +1211,9 @@ METHOD_C StringBuilderJc_s* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc 
  */
 METHOD_C StringBuilderJc_s* threadBuffer_StringBuilderJc(char const* sign, struct ThreadContext_emC_t* _thCxt);
 #define threadBuffer_StringBufferJc threadBuffer_StringBuilderJc
+#endif
 
+#ifdef DEF_ThreadContext_HEAP_emC
 /**Initializes the StringBuilderJc_s-instance in the Thread Context with the given String
  * and returns it.
  * This variant is proper to use for example if the src is stored in the Stack and should be returned now.
@@ -1222,7 +1225,7 @@ METHOD_C StringBuilderJc_s* threadBuffer_StringBuilderJc(char const* sign, struc
  */
 METHOD_C StringBuilderJc_s* threadBuffer_s_StringBuilderJc(CharSeqJc src, char const* sign, struct ThreadContext_emC_t* _thCxt);
 #define threadBuffer_s_StringBufferJc threadBuffer_s_StringBuilderJc
-
+#endif
 
 
 /**Set the stringConcatBuffer flag. A StringBuilderJc_s-Instance should be dedicated in that way, 

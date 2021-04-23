@@ -54,6 +54,6 @@ double pow_MathJc(double a, double b) //, ThCxt* _thCxt)
 
 double random_MathJc() //ThCxt* _thCxt)
 {
-  double x = (double)rand() / (double)(RAND_MAX+1);
+  double x = (double)rand() / (double)(RAND_MAX);
   return x;
 }

@@ -2,6 +2,7 @@
 #define __Inspc__CheckPwd_Inspc_h__
 #include <applstdef_emC.h>
 
+#include <emC/Base/MemC_emC.h>
 
 /**Returns The access levels for the given password. 
  * The pwd may/should depend on the whole telegram content. It shold be encrypted, to prevent shown as is.

@@ -46,7 +46,7 @@ FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* b
 {
   FormatterJc_s* ythis = (FormatterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Sb_FormatterJc");
-  checkConsistence_ObjectJc(othis, sizeof(FormatterJc_s), &refl_FormatterJc, _thCxt); 
+  checkStrict_ObjectJc(othis, sizeof(FormatterJc_s), &refl_FormatterJc, 0); 
   SETREFJc(ythis->buffer, buffer, StringBufferJc_s);
   STACKTRC_LEAVE; return ythis;
 }
@@ -55,7 +55,7 @@ FormatterJc_s* ctorO_SbLo_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t*
 {
   FormatterJc_s* ythis = (FormatterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Sb_FormatterJc");
-  checkConsistence_ObjectJc(othis, sizeof(FormatterJc_s), &refl_FormatterJc, _thCxt); 
+  checkStrict_ObjectJc(othis, sizeof(FormatterJc_s), &refl_FormatterJc, 0); 
   SETREFJc(ythis->buffer, buffer, StringBufferJc_s);
   SETREFJc(ythis->locale, locale, LocaleJc);
 
@@ -88,7 +88,7 @@ void format_a_FormatterJc(FormatterJc_s* ythis, StringJc text, char const* typeA
   va_start(args, typeArgs);
   typedArgs.typeArgs = typeArgs;
   typedArgs.args = args;
-  format_FormatterJc(ythis, text, typedArgs, _thCxt);
+  format_FormatterJc(ythis, text, typedArgs, THCXT);
   STACKTRC_LEAVE;
 }
 

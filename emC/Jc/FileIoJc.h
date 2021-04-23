@@ -40,6 +40,7 @@
 #define __Jc_FileIoJc_h__
 #include "emC/Jc/ObjectJc.h"
 #include "emC/OSAL/os_file.h"
+#include <emC/Base/StringBase_emC.h>
 //#include <fw_Platform_Conventions.h>
 
 struct ThreadContext_emC_t;
@@ -154,7 +155,9 @@ FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc(ObjectJc* othis, FileJc_s* fil
 
 FileOutputStreamJc_s* ctorO_sB_FileOutputStreamJc(ObjectJc* othis, StringJc name, bool append, ThCxt* _thCxt);
 
+#ifndef DEF_ObjectSimple_emC
 METHOD_C void write_BY_FileOutputStreamJc(FileOutputStreamJc_s* ythis, int8_Y* data, ThCxt* _thCxt);
+#endif
 
 METHOD_C void write_FileOutputStreamJc(FileOutputStreamJc_s* ythis, void* data, int offset, int len, ThCxt* _thCxt);
 

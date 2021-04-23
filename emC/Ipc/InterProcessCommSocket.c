@@ -38,7 +38,7 @@
 #include "emC/Base/SimpleC_emC.h"
 #include "emC/Base/MemC_emC.h"
 #include <emC/Jc/ObjectJc.h>
-#include <emC/OSAL/os_endian.h>
+#include <emC/Base/Endianness_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
 

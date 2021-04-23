@@ -3,12 +3,16 @@
  * Default implements.
  */
 
+#include <applstdef_emC.h>
+#ifdef DEF_ClassJc_Vtbl
+//NOTE: This file can only be used with full capability of emC, not for simple applications.
+//      It is only necessary to full including the Inspc symbolic access on target
+
 #include "emC/Ipc/InterProcessComm.h"
 #include "emC/Ipc/InterProcessCommSocket.h"
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Jc/StringJc.h>
 
-#ifdef DEF_ClassJc_Vtbl
 #include <emC/Ipc/genRefl/InterProcessComm.crefl>
 #include <stdio.h>
 

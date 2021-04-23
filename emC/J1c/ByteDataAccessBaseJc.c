@@ -10,7 +10,7 @@
 #include "emC/Jc/CharsetJc.h"  //reference-association: CharsetJc
 #include "emC/Jc/StringJc.h"  //embedded type in class data
 #include "emC/Jc/SystemJc.h"  //reference-association: FloatJc
-
+#include <emC/Base/SimpleC_emC.h>
 
 /* J2C: Forward declaration of struct ***********************************************/
 
@@ -435,21 +435,8 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
   { 
     
     ASSERT(/*J2C:static method call*/ixEndNew < 0 || ixEndNew >= thiz->ixBegin + thiz->sizeHead);
-    if(ixEndNew > thiz->data.val) 
-    { 
-       /*J2C: temporary Stringbuffer for String concatenation*/
-      StringBuilderJc_s* _tempString3_1=null; 
-      
-      { throw_sJc(ident_IllegalArgumentException_emC, 
-        ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
-        , append_z_StringBuilderJc(_tempString3_1, "child long as data, data.length= ", _thCxt)
-        , append_I_StringBuilderJc(_tempString3_1, thiz->data.val, _thCxt)
-        , append_z_StringBuilderJc(_tempString3_1, ", ixChildEndNew= ", _thCxt)
-        , append_I_StringBuilderJc(_tempString3_1, ixEndNew, _thCxt)
-        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, __FILE__, __LINE__, _thCxt); };
-      activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
+    if(ixEndNew > thiz->data.val) {
+      THROW_s0(IllegalArgumentException, "child long as data, data.length=%d, ixChildEndNew=%d", thiz->data.val, ixEndNew);
     }
     if(thiz->bExpand) 
     { 
@@ -495,21 +482,8 @@ void _expand_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 ixNextChil
     if(thiz->ixNextChild < ixNextChildNew) 
     { 
       
-      if(ixNextChildNew > thiz->ixEnd) 
-      { 
-         /*J2C: temporary Stringbuffer for String concatenation*/
-        StringBuilderJc_s* _tempString4_1=null; 
-        
-        { throw_sJc(ident_IllegalArgumentException_emC, 
-          ( _tempString4_1 = new_StringBuilderJc(-1, _thCxt)
-          , setStringConcatBuffer_StringBuilderJc(_tempString4_1)
-          , append_z_StringBuilderJc(_tempString4_1, "next child pos after ixend = ", _thCxt)
-          , append_I_StringBuilderJc(_tempString4_1, thiz->ixEnd, _thCxt)
-          , append_z_StringBuilderJc(_tempString4_1, ", ixNextChilNew= ", _thCxt)
-          , append_I_StringBuilderJc(_tempString4_1, ixNextChildNew, _thCxt)
-          , toStringMarkPersist_StringBuilderJc(&(_tempString4_1)->base.object, _thCxt)
-          ), 0, __FILE__, __LINE__, _thCxt); };
-        activateGC_ObjectJc(&_tempString4_1->base.object, null, _thCxt);
+      if(ixNextChildNew > thiz->ixEnd) {
+        THROW_s0(IllegalArgumentException, "next child pos after ixend=%d ixNextChilNew=%d", thiz->data.val, ixEndNew);
       }
       thiz->ixNextChild = ixNextChildNew;
     }
@@ -540,23 +514,8 @@ void assign_iYii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int8ARRAY da
     { /*:@Java4C.Exclude*/
       
       
-      if(thiz->ixEnd > thiz->data.val) 
-      { 
-         /*J2C: temporary Stringbuffer for String concatenation*/
-        StringBuilderJc_s* _tempString4_1=null; 
-        
-        
-        StringJc msg ; msg = 
-          ( _tempString4_1 = new_StringBuilderJc(-1, _thCxt)
-          , setStringConcatBuffer_StringBuilderJc(_tempString4_1)
-          , append_z_StringBuilderJc(_tempString4_1, "not enough data bytes, requested=", _thCxt)
-          , append_I_StringBuilderJc(_tempString4_1, thiz->ixEnd, _thCxt)
-          , append_z_StringBuilderJc(_tempString4_1, ", buffer-length=", _thCxt)
-          , append_I_StringBuilderJc(_tempString4_1, thiz->data.val, _thCxt)
-          , toStringMarkPersist_StringBuilderJc(&(_tempString4_1)->base.object, _thCxt)
-          )/*J2C:non-persistent*/;
-        { throw_sJc(ident_IllegalArgumentException_emC, msg, 0, __FILE__, __LINE__, _thCxt); };
-        activateGC_ObjectJc(&_tempString4_1->base.object, null, _thCxt);
+      if(thiz->ixEnd > thiz->data.val) { 
+        THROW_s0(IllegalArgumentException, "not enough data bytes, requested=%d, buffer-length=%d", thiz->data.val, ixEndNew);
       }
     }
     
@@ -1193,6 +1152,7 @@ double getChildDouble_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* 
 }
 
 
+#ifndef DEF_ObjectSimple_emC
 /**Adds a child for a String value without a child instance, but returns the value as String.*/
 StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, ThCxt* _thCxt)
 { 
@@ -1214,7 +1174,7 @@ StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32
   }
   STACKTRC_LEAVE;
 }
-
+#endif
 
 /**Shorten the evaluated content of the data to the position of the given child. The given child is removed.*/
 void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* child, ThCxt* _thCxt)
@@ -1311,19 +1271,8 @@ void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
     
     
     int32  len = getLength_ByteDataAccessBaseJc(src, _thCxt);
-    if(thiz->data.val < len) 
-    { 
-       /*J2C: temporary Stringbuffer for String concatenation*/
-      StringBuilderJc_s* _tempString3_1=null; 
-      
-      { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-        ( _tempString3_1 = new_StringBuilderJc(-1, _thCxt)
-        , setStringConcatBuffer_StringBuilderJc(_tempString3_1)
-        , append_z_StringBuilderJc(_tempString3_1, "copy, dst to small", _thCxt)
-        , append_I_StringBuilderJc(_tempString3_1, len, _thCxt)
-        , toStringMarkPersist_StringBuilderJc(&(_tempString3_1)->base.object, _thCxt)
-        ), 0, __FILE__, __LINE__, _thCxt); };
-      activateGC_ObjectJc(&_tempString3_1->base.object, null, _thCxt);
+    if(thiz->data.val < len) {
+      THROW_s0(IllegalArgumentException, "copy, dst to small %d", len, 0);
     }/*//TODO System.arraycopy(src.data,src.idxBegin,data,idxBegin,len);*/
     
   }
@@ -1331,6 +1280,7 @@ void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
 }
 
 
+#ifndef DEF_ObjectSimple_emC
 /**copies some data to a int[], primarily to debug a content. */
 void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, ThCxt* _thCxt)
 { 
@@ -1353,8 +1303,9 @@ void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, T
   }
   STACKTRC_LEAVE;
 }
+#endif
 
-
+#ifndef DEF_ObjectSimple_emC
 /**Returns a String from the given position inside the actual element .*/
 StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt)
 { 
@@ -1382,6 +1333,8 @@ StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx,
   }
   STACKTRC_LEAVE;
 }
+#endif
+
 
 
 /**Sets a String to the the given position inside the actual element .*/
@@ -1683,15 +1636,10 @@ int32 getUint32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_z_StringBuilderJc(_tempString2_1, "getUint16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(idxArray >= lengthArray || idxArray < 0) { 
+      THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
+    }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getUint32_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray);
     }
   }
@@ -1706,15 +1654,10 @@ int32 getInt32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_z_StringBuilderJc(_tempString2_1, "getInt32:", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(idxArray >= lengthArray || idxArray < 0) { 
+      THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
+    }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt32_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray);
     }
   }
@@ -1729,15 +1672,10 @@ int32 getInt16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_z_StringBuilderJc(_tempString2_1, "getInt16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(idxArray >= lengthArray || idxArray < 0) { 
+      THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
+    }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt16_i_ByteDataAccessBaseJc(thiz, idxBytes + 2 * idxArray);
     }
   }
@@ -1752,15 +1690,10 @@ int32 getInt8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxBy
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_z_StringBuilderJc(_tempString2_1, "getInt8:", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(idxArray >= lengthArray || idxArray < 0) { 
+      THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
+    }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessBaseJc(thiz, idxBytes + idxArray);
     }
   }
@@ -1775,15 +1708,10 @@ int32 getUint16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_z_StringBuilderJc(_tempString2_1, "getUint16:", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(idxArray >= lengthArray || idxArray < 0) { 
+      THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
+    }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getUint16_i_ByteDataAccessBaseJc(thiz, idxBytes + 2 * idxArray);
     }
   }
@@ -1798,15 +1726,10 @@ int32 getUint8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_z_StringBuilderJc(_tempString2_1, "getUint8:", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(idxArray >= lengthArray || idxArray < 0) { 
+      THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
+    }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getInt8_i_ByteDataAccessBaseJc(thiz, idxBytes + idxArray);
     }
   }
@@ -1821,15 +1744,10 @@ float getFloat_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    if(idxArray >= lengthArray || idxArray < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_z_StringBuilderJc(_tempString2_1, "getFloat:", _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+    if(idxArray >= lengthArray || idxArray < 0) { 
+      THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
+    }
     { STACKTRC_LEAVE;
-      activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
       return getFloat_i_ByteDataAccessBaseJc(thiz, idxBytes + 4 * idxArray);
     }
   }
@@ -1920,24 +1838,7 @@ void setInt16_ii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, i
 
 void throwexc_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc text, int32 idxArray, ThCxt* _thCxt)
 { 
-  STACKTRC_TENTRY("throwexc_ByteDataAccessBaseJc");
-  
-  { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
-    
-    
-    StringJc textExc ; textExc = 
-      ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
-      , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
-      , append_s_StringBuilderJc(_tempString2_1, text, _thCxt)
-      , append_I_StringBuilderJc(_tempString2_1, idxArray, _thCxt)
-      , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      )/*J2C:non-persistent*/;
-    { throw_sJc(ident_IndexOutOfBoundsException_emC, textExc, 0, __FILE__, __LINE__, _thCxt); };
-    activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
-  }
-  STACKTRC_LEAVE;
+  THROW(IndexOutOfBoundsException, text, idxArray, 0);  
 }
 
 

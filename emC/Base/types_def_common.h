@@ -366,7 +366,7 @@ typedef STRUCT_AddrVal_emC(doubleARRAY, double);
 #define char4_emC uint32
 
 /**Build a member of a char4_emC array, or build a 4-char-const in an uint32*/
-#define CHAR4_emC(C1, C2, C3, C4)  ((((uint32)C4)<<24) | (( ((uint32)C3)& 0xff)<<16) | (((uint16)C2)<<8) | (C1) & 0xff)
+#define CHAR4_emC(C1, C2, C3, C4)  ((((uint32)C4)<<24) | (( ((uint32)C3)& 0xff)<<16) | (((uint16)C2)<<8) | ((C1) & 0xff))
 
 
 

@@ -3,7 +3,7 @@
 
 #include <applstdef_emC.h>
 #include <emC/Base/Math_emC.h>
-#include <emC/OSAL/os_endian.h>
+#include <emC/Base/Endianness_emC.h>
 
 /*@CLASS_C T1i_Ctrl_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * T1-Functionality in 16-bit integer for x and y and 32-bit-integer for q.

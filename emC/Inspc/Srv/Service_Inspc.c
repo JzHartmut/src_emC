@@ -1,6 +1,10 @@
+#include <applstdef_emC.h>
+#ifdef DEF_ClassJc_Vtbl
+//NOTE: This file can only be used with full capability of emC, not for simple applications.
+//      It is only necessary to full including the Inspc symbolic access on target
+
 #include "emc/Inspc/Srv/Service_Inspc.h"
 
-#ifdef DEF_ClassJc_Vtbl
 
 #include "genRefl/Service_Inspc.crefl"
 

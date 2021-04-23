@@ -69,7 +69,7 @@ int bytecpyPacked_emC ( void* const dst, int const ixByteDst, void const* const 
     //dst: 1100xxxx xx443322
     uint ixmemSrcEnd = (ixByteSrc + nrofBytes2cpy) >> shix; //index in src after last access
     int bitSrcDst0 = (nrofByte4MemAccess <<3) - bitSrcDst1; //bit diff position to shift lo part of src to dst.
-    int bitDstSrc1 = -bitSrcDst1;
+    //int bitDstSrc1 = -bitSrcDst1;
     uint maskSrcDst0 = (1<<bitSrcDst1)-1;
     uint maskSrcDst3 = ~((1<< (32 + bitSrcDst1)) -1);  //only for negative bitSrcDst1;
   

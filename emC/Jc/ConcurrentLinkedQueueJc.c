@@ -216,7 +216,7 @@ void ctorc_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis)
 ConcurrentLinkedQueueJc_s* ctorO_MemC_ConcurrentLinkedQueueJc(ObjectJc* othis, MemC memNodes, ThCxt* _thCxt)
 { ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_MemC_ConcurrentLinkedQueueJc");
-  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, _thCxt); 
+  checkStrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, 0); 
   ctorcMn_ConcurrentLinkedQueueJc(ythis, memNodes);
   STACKTRC_LEAVE;
   return ythis;
@@ -243,7 +243,7 @@ void ctorcMn_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, MemC memN
 ConcurrentLinkedQueueJc_s* ctorO_Clq_ConcurrentLinkedQueueJc(ObjectJc* othis, ConcurrentLinkedQueueJc_s* srcNodeShare, ThCxt* _thCxt)
 { ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Clq_ConcurrentLinkedQueueJc");
-  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, _thCxt); 
+  checkStrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, 0); 
   ctorcSn_ConcurrentLinkedQueueJc(ythis, srcNodeShare);
   STACKTRC_LEAVE;
   return ythis;
@@ -271,7 +271,7 @@ METHOD_C ConcurrentLinkedQueueJc_s* ctorO_init_ConcurrentLinkedQueueJc(ObjectJc*
 {
   ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Clq_ConcurrentLinkedQueueJc");
-  checkConsistence_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, _thCxt); 
+  checkStrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, 0); 
   return ythis; 
 }
 
@@ -471,7 +471,7 @@ int size_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis)
         if (getItem_Node_ConcurrentLinkedQueueJcF(p) != null) 
         {
             // Collections.size() spec says to max out
-            if (++count == MAX_VALUE_IntegerJc)
+            if (++count == INT_MAX_emC)
                 break;
         }
     }

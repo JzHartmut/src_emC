@@ -50,7 +50,6 @@ TimeZoneJc_s* getTimeZone_TimeZoneJc(StringJc name, ThCxt* _thCxt)
 #ifdef DEF_REFLECTION_FULL
   #include <emC/Jc/genRefl/TimeZoneJc.crefl>
 #else
-  #define ID_refl_TimeZoneJc 0
   ClassJc const refl_TimeZoneJc = INIZ_ClassJc(refl_TimeZoneJc, "TimeZoneJc");
 
 #endif
