@@ -5,7 +5,7 @@
 
 
 #ifdef DEF_REFLECTION_FULL
-  #include "genRefl/RingBuffer_emC.crefl"
+  #include "emC/Base/genRefl/RingBuffer_emC.crefl"
 #else
   #ifndef DEF_REFLECTION_NO
   ClassJc const refl_RingBuffer_emC = INIZ_ClassJc(refl_RingBuffer_emC, "RingBuffer_emC");

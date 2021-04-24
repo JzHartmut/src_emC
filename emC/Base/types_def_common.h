@@ -37,6 +37,26 @@
 #ifndef HGUARD_emCBase_types_def_common
 #define HGUARD_emCBase_types_def_common
 
+
+//If no reflection are used, anyway DEF_REFLECTION_NO should be defined. 
+#if !defined(DEF_REFLECTION_SIMPLE) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_NO)
+  #define DEF_REFLECTION_NO
+#endif
+
+//If reflection are given Object has Reflection. TODO remove DEF_ObjectJc_REFLREF against immediately usage ifndef DEF_REFLECTION_NO
+#if !defined(DEF_REFLECTION_NO) && !defined(DEF_ObjectJc_REFLREF)
+  #define DEF_ObjectJc_REFLREF
+  #undef DEF_ObjectJc_SIMPLE
+#endif
+
+
+//Yet always defined with the reflection, TODO maybe a variant if using virtual C++
+#if defined(DEF_REFLECTION_FULL) && !defined(DEF_ClassJc_Vtbl)
+  #define DEF_ClassJc_Vtbl    //It is used in the inspector sources
+#endif
+
+
+
 #ifndef INT32_MAX            //This definition is given if stdint.h is included before
 //define only the data types of stdint.h
 #define int8_t int8
@@ -440,6 +460,41 @@ typedef struct StringJc_T {
 } StringJc;
 #define DEFINED_StringJc_emC
 //old: typedef STRUCT_AddrVal_emC(StringJc, char const);
+
+
+/**StringJc object containing null-values. */
+extern_C StringJc const null_StringJc;
+
+/**StringJc object containing an empty String, ref to  "", lenght = 0 */
+extern_C StringJc const empty_StringJc;
+
+
+
+/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
+ * The length of the text
+ * is not stored inside StringJc, the length bits are setted to there maximum 
+ * (value of ,,mLength_StringJc,,, see ,,fw_Platform_conventions.h,,)
+ * to detect this constellation.
+ * @param TEXT should be a text-literal only. If it references a char-array, 
+ *             a problem with persistence may existing.
+ */
+#define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
+#define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
+
+/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
+ * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
+ * @param TEXT should be a text-literal only. If it references a char-array, 
+ *             a problem with persistence may existing.
+ * @param LEN The length as number. Do not use methods like strlen(...)
+ *            to determine the length, because this is a const-initializing-macro.
+ *            In C++, methods are syntaxtically able to use, but it produces more machine code
+ *            and the definition cannot store in a const segment. In C it is an error.
+ */
+#define INIZ_StringJc(TEXT, LEN) { {TEXT}, LEN }
+#define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
+#define NULL_StringJc { {null}, 0}
+
+
 
 //NOTE: do nothing include here additinally, the user should decide what is included in its applstdef_emC.h!
 //#include <emC/Base/Assert_emC.h>

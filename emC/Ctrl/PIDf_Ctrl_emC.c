@@ -5,7 +5,7 @@
 
 #ifdef DEF_REFLECTION_FULL
 //#ifndef DEF_REFLECTION_NOXX
-#include "genRefl/PIDf_Ctrl_emC.crefl" 
+#include <emC/Ctrl/genRefl/PIDf_Ctrl_emC.crefl>
 #elif defined(DEFINED_refl_Par_PIDf_Ctrl_emC)  //DEF_REFLECTION_OFFS but special with this classes
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Par_PIDf_Ctrl_emC;

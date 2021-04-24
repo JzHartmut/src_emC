@@ -196,3 +196,8 @@ struct ObjectJc_T* allocRefl_ObjectJc ( uint size, struct ClassJc_t const* refl,
 }
 #endif  //#else: The Blockheap has its own algorithm.
 
+StringJc const null_StringJc = NULL_StringJc;
+
+
+StringJc const empty_StringJc = INIZ_StringJc("", 0);
+

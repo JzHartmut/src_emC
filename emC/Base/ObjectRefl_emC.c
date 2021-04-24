@@ -32,6 +32,7 @@
  *       recommended to do in the applstdef_emC.h
  *
  ****************************************************************************/
+#include <applstdef_emC.h>
 #include <emC/Base/Object_emC.h>
 #ifdef DEF_ObjectJc_FULLCAPABILITY
 #include <emC/Base/String_emC.h>
@@ -688,10 +689,10 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
     }
   #endif
   #ifdef DEF_REFLECTION_FULL   //TODO create variant without Reflection but with ixVtbl
-    if(idxVtbl < 0 && (reflectionObj->superClass_es) != null) { 
-      int identSuperClass = ((reflectionObj->superClass_es->identSize & mIdentSmall_ObjectJc)>>kBitIdentSmall_ObjectJc);
+    if(idxVtbl < 0 && (reflectionObj->superClass_es.obj) != null) {
+      int identSuperClass = ((reflectionObj->superClass_es.obj->identSize & mIdentSmall_ObjectJc)>>kBitIdentSmall_ObjectJc);
       if( identSuperClass == ID_refl_ClassJc) {
-        ClassJc const* superType = C_CAST(ClassJc const*,reflectionObj->superClass_es);
+        ClassJc const* superType = reflectionObj->superClass_es.clazz;
         if(  superType == reflectionRef 
           || strncmp(superType->name, reflectionRef->name, sizeof(reflectionRef->name))==0)
         { idxVtbl = 0;  //not supported, show only found type
@@ -701,7 +702,7 @@ int getIdxVtbl_ClassJc(ClassJc const* reflectionObj, ClassJc const* reflectionRe
           idxVtbl = getIdxVtbl_ClassJc(superType, reflectionRef);
         }
       } else if(identSuperClass == ID_refl_ClassOffset_idxVtblJc) {
-        ClassOffset_idxVtblJcARRAY const* reflectionSuper = C_CAST(ClassOffset_idxVtblJcARRAY const*, reflectionObj->superClass_es);
+        ClassOffset_idxVtblJcARRAY const* reflectionSuper = reflectionObj->superClass_es.clazzArray;
         int idxSuper = 0;
         for(idxSuper = 0; idxVtbl < 0 && idxSuper < reflectionSuper->head.length; idxSuper++)
         { ClassOffset_idxVtblJc const* reflectionChild;

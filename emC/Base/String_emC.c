@@ -52,11 +52,6 @@
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <string.h>   //strncpy
 
-StringJc const null_StringJc = NULL_StringJc;
-
-
-StringJc const empty_StringJc = INIZ_StringJc("", 0);
-
 
 
 

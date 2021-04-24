@@ -4,7 +4,7 @@
 #include <emC/Ctrl/T1_Ctrl_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
-  #include "genRefl/Angle_Ctrl_emC.crefl"
+  #include "emC/Ctrl/genRefl/Angle_Ctrl_emC.crefl"
 #elif defined(DEFINED_refl_Angle_abwmf_FB_CtrlemC)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;

@@ -7,7 +7,7 @@
 //#include <stdlib.h> //malloc
 
 #ifdef DEF_REFLECTION_FULL
-#include "genRefl/eventQu_emC.crefl"
+#include "emC/Base/genRefl/eventQu_emC.crefl"
 #elif defined(XXXDEF_REFLECTION_OFFS)
   //The classes are defined in a project specific ...refloffs.c file:
   extern_C ClassJc const refl_EvListener_emC;

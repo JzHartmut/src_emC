@@ -416,34 +416,7 @@ extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
 
 
 
-
-/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
- * The length of the text
- * is not stored inside StringJc, the length bits are setted to there maximum 
- * (value of ,,mLength_StringJc,,, see ,,fw_Platform_conventions.h,,)
- * to detect this constellation.
- * @param TEXT should be a text-literal only. If it references a char-array, 
- *             a problem with persistence may existing.
- */
-#define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
-#define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
-
-/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
- * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
- * @param TEXT should be a text-literal only. If it references a char-array, 
- *             a problem with persistence may existing.
- * @param LEN The length as number. Do not use methods like strlen(...)
- *            to determine the length, because this is a const-initializing-macro.
- *            In C++, methods are syntaxtically able to use, but it produces more machine code
- *            and the definition cannot store in a const segment. In C it is an error.
- */
-#define INIZ_StringJc(TEXT, LEN) { {TEXT}, LEN }
-#define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
-#define NULL_StringJc { {null}, 0}
-
-
-
-
+//Note: INIZ_StringJc are now part of emC/Base/types_def_common.h because simple non 0-terminated Strings may be used overall.
 
 /** Initialize a StringJc instance with the reference to the given constant text.
   * The up till now value inside DST is not respected. This method is usefull to initialize new instances
@@ -468,12 +441,6 @@ extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
 #define INIT_s_StringJc(YTHIS, src) copy_OS_PtrValue(YTHIS, src)
 
 
-
-/**StringJc object containing null-values. */
-extern StringJc const null_StringJc;
-
-/**StringJc object containing an empty String, ref to  "", lenght = 0 */
-extern StringJc const empty_StringJc;
 
 /**Creates a StringJc-reference to the given zero terminated text (char array).
  * This is a simple way if a method requires a StringJc object as value argument 

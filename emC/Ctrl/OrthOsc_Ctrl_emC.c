@@ -3,7 +3,7 @@
 
 
 #ifdef DEF_REFLECTION_FULL
-  #include "genRefl/OrthOsc_Ctrl_emC.crefl"
+  #include <emC/Ctrl/genRefl/OrthOsc_Ctrl_emC.crefl>
 #elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Param_OrthOsc16_CtrlemC) //may defined in the *.refloffs.c file
   ClassJc const refl_OrthOsc16_CtrlemC = INIZ_ClassJc(refl_OrthOsc16_CtrlemC, "refl_OrthOsc16_CtrlemC");
   ClassJc const refl_Param_OrthOsc16_CtrlemC = INIZ_ClassJc(refl_Param_OrthOsc16_CtrlemC, "refl_Param_OrthOsc16_CtrlemC");
