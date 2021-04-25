@@ -67,12 +67,12 @@ int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sF
 //#include <fw_Platform_conventions.h>
 //#include <stdlib.h>
 
-void stop_DebugutilJc DEF(ThreadContext_emC_s* _thCxt){
+void stop_DebugutilJc ( ThreadContext_emC_s* _thCxt){
 }
 
 
 
-const char* exceptionTexts DEF [33] =
+const char* exceptionTexts [33] =
 { "RuntimeException"  //0x0001
 , "ClassCastException"   //0x0002
 , ""   //0x0004

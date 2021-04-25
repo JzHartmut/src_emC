@@ -11,9 +11,6 @@
 
 #include "emC/Jc/StringJc.h"        //used often
 
-#ifdef DEF_ObjectJc_SIMPLE
-#error "cannot compile with DEF_ObjectJc_SIMPLE, needs virtual operations for CharSeqJc in Part_StringPartJc"
-#endif
 
 /* J2C: Forward declaration of struct ***********************************************/
 struct Part_StringPartJc_t;

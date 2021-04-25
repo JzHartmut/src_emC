@@ -34,7 +34,7 @@
  * @author Hartmut Schorrig
  * @version 2.0
  * list of changes:
- * 2019-10: Hartmut combined with DEF_ObjectJc_SIMPLE
+ * 2019-10: Hartmut combined with DEF_ObjectSimple_emC
  * 2008-04-22: JcHartmut chg:The elements idSemaphore and idWaitingThread are combined to idSyncHandles.
  *                       New element offsetToHeapBlock, but not in use yet.
  * 2007-10-00: JcHartmut creation, dissolved from ObjectJc.h
@@ -233,13 +233,10 @@ typedef struct  ObjectJc_T
   #endif  //else: See definitions above, 
   //
   #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE)
-    #ifndef DEF_ObjectJc_REFLREF
-      #define DEF_ObjectJc_REFLREF
-    #endif
     #ifndef DEF_ObjectJc_SYNCHANDLE
       #define DEF_ObjectJc_SYNCHANDLE
     #endif
-    #ifndef DEF_ObjectJcpp_REFLECTION
+    #if !defined(DEF_REFLECTION_NO) && !defined(DEF_ObjectJcpp_REFLECTION)
       #define DEF_ObjectJcpp_REFLECTION
     #endif
   /**Offset from the data-instance start address to the ObjectJc part. 
@@ -252,9 +249,13 @@ typedef struct  ObjectJc_T
     #define kNoSyncHandles_ObjectJc 0x0fff
   #endif
 
-  #ifdef DEF_ObjectJc_REFLREF
+  #ifndef DEF_REFLECTION_NO
     #ifndef DEF_ObjectJc_LARGESIZE
-      #define mInstance_ObjectJc   0x3fff0000
+      #ifdef DEF_ObjectJc_SYNCHANDLE
+        #define mInstance_ObjectJc   0x3fff0000
+      #else 
+        #define mInstance_ObjectJc   0x1fff0000  //need the bit 0x2000 for lock
+      #endif
       #define kBitInstance_ObjectJc 16
     #endif
     /**The reference to the type information. */
@@ -296,11 +297,11 @@ typedef struct  ObjectJc_T
    }
 //#  define INIZ_idSize_ObjectJc(OBJ, REFL, IDSIZE)  { (IDSIZE), 0,  kNoSyncHandles_ObjectJc, REFL }
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
-#elif defined(DEF_ObjectJc_REFLREF)
+#elif !defined(DEF_REFLECTION_NO)
   //Note: INIZ_ObjectJc(OBJ, REFL, ID)  defined in ObjectSimple_emC.h
   #define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, REFLECTION }
 #else
-  //already contained in ObjectSimple_emC, DEF_ObjectJc_SIMPLE and DEF_ObjectJc_REFLREF without DEF_ObjectJcpp_REFLECTION
+  //already contained in ObjectSimple_emC, not DEF_REFLECTION_NO without DEF_ObjectJcpp_REFLECTION
 #endif
 
  //Note: the & 0xffff forces error in C 'is not a contant' in VS15
@@ -414,7 +415,7 @@ inline ObjectJc const* ctorM_ObjectJc(MemC mem, struct ClassJc_t const* refl, in
   ObjectJc* thiz = PTR_MemC(mem, ObjectJc);
   int size = size_MemC(mem);
   #ifndef NO_PARSE_ZbnfCheader
-  #ifdef DEF_ObjectJc_REFLREF
+  #ifndef DEF_REFLECTION_NO
     ctor_ObjectJc(thiz, thiz, size, refl, id);
   #else
     ctor_ObjectJc(thiz, thiz, size, null, id);

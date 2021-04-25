@@ -55,7 +55,7 @@ struct ObjectJc_T * ctor_ObjectJc ( struct ObjectJc_T * othiz, void* ptr, uint s
   //removed: memset(othiz, 0, size);
   //
   //Set all data of ObjectJc adequat to its specific definition:
-  #ifdef DEF_ObjectJc_REFLREF
+  #ifndef DEF_REFLECTION_NO
     othiz->reflection = refl;
     int id = idObj;
   #else
@@ -71,7 +71,7 @@ struct ObjectJc_T * ctor_ObjectJc ( struct ObjectJc_T * othiz, void* ptr, uint s
 void setReflection_ObjectJc(ObjectJc* thiz, struct ClassJc_t const* refl, uint size)
 { 
   uint sizegiven = getSizeInfo_ObjectJc(thiz);
-  #ifdef DEF_ObjectJc_REFLREF  
+  #ifndef DEF_REFLECTION_NO  
     thiz->reflection = refl;
     if(size > sizegiven && size != ((uint)-1)) {     //size as parameter givenm but not -1
       uint identInfo = getIdentInfo_ObjectJc(thiz);  //the higher value of size wins.
@@ -79,12 +79,12 @@ void setReflection_ObjectJc(ObjectJc* thiz, struct ClassJc_t const* refl, uint s
       setSizeAndIdent_ObjectJc(thiz, size, identInfo);
       sizegiven = size; 
     }
-  #else //not DEF_ObjectJc_SIMPLE
+  #else //DEF_REFLECTION_NO
     if(size > sizegiven && size != ((uint)-1)) { sizegiven = size; }
     uint identInfo = refl->idType;
     if(isArray_ObjectJc(thiz)) { identInfo |= mArrayId_ObjectJc; } 
     setSizeAndIdent_ObjectJc(thiz, sizegiven, refl->idType); 
-  #endif //DEF_ObjectJc_REFLREF
+  #endif //DEF_REFLECTION_NO
 }
 #endif
 
@@ -101,9 +101,9 @@ void setSizeAndIdent_ObjectJc(ObjectJc* thiz, int sizeObj, int ident)
 
 #ifndef DEF_ObjectJc_LARGESIZE
 bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t const* refl, uint ident) {
-  //Note: on DEF_ObjectJc_SIMPLE it cannot be checked whether the reflection is ok
+  //Note: on DEF_REFLECTION_NO it cannot be checked whether the reflection is ok
   //      because it cannot be distinguish between a non-derived or derived plain data instance. 
-  #ifndef DEF_ObjectJc_SIMPLE
+  #ifndef DEF_REFLECTION_NO
     if (refl !=null && !instanceof_ObjectJc(thiz, refl)) {
       return false; 
     }
@@ -121,7 +121,7 @@ bool checkStrict_ObjectJc ( ObjectJc const* thiz, uint size, struct ClassJc_t co
 
 #ifdef DEF_ObjectSimple_emC
 bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t const* refl, uint ident) {
-  #ifndef DEF_ObjectJc_SIMPLE
+  #ifndef DEF_REFLECTION_NO
     if(thiz->reflection == null) {
       thiz->reflection = refl;
     }
@@ -156,7 +156,7 @@ bool instanceofReflid_ObjectJc ( struct ObjectJc_T const* thiz, uint reflId) {
 bool instanceof_ObjectJc ( struct ObjectJc_T const* thiz, struct ClassJc_t const* reflection) {
   bool reflOk = reflection == null; //true if the argument is null, special case 
   if(!reflOk) {
-    #if defined (DEF_ObjectJc_SIMPLE)
+    #if defined (DEF_REFLECTION_NO)
       //The mInstanceType_ObjectJc have to be contain the same type Id as in reflection.
       //An instance Id is not possible for minimal ObjectJc
       uint idType = getIdentInfo_ObjectJc(thiz);
@@ -195,6 +195,13 @@ struct ObjectJc_T* allocRefl_ObjectJc ( uint size, struct ClassJc_t const* refl,
   return thiz;
 }
 #endif  //#else: The Blockheap has its own algorithm.
+
+
+void finalize_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
+{
+}
+
+
 
 StringJc const null_StringJc = NULL_StringJc;
 

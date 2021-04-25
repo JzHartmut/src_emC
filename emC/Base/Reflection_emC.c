@@ -17,7 +17,6 @@ const char typeCharsScalarTypes_ClassJc[0x50] =
 };
 
 
-//#ifndef DEF_ObjectJc_SIMPLE  //Note: this feature is not able to use for ObjectJc simple
 
 #ifdef DEF_REFLECTION_FULL
 
@@ -189,6 +188,6 @@ char typeChar_FieldJc(FieldJc const* thiz){
 }
 
 
-#endif //not DEF_ObjectJc_SIMPLE
+#endif //not DEF_REFLECTION_NO
 
 

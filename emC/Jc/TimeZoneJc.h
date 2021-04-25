@@ -53,11 +53,13 @@ typedef struct TimeZoneJc_t
   StringJc name;
 } TimeZoneJc_s;
 
-#ifdef DEF_REFLECTION_NO
-  #define ID_refl_TimeZoneJc 0x0f00
-#else
+#ifndef DEF_REFLECTION_NO
   extern_C const struct ClassJc_t refl_TimeZoneJc;
 #endif
+#ifndef ID_refl_TimeZoneJc 
+  #define ID_refl_TimeZoneJc 0x0f00
+#endif
+
 
 /* Enhanced references *********************************************************/
 #ifndef TimeZoneJcREFDEF

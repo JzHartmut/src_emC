@@ -139,7 +139,7 @@ METHOD_C int getNrOfBytes_ObjectArrayJc(ObjectArrayJc const* ythis)
 }
 
 
-#ifdef DEF_ObjectJc_REFLREF
+#ifndef DEF_REFLECTION_NO
 
 void_Y* ctorO_AYJc(ObjectJc const* othis, int nBytesPerElement, int nSize)
 { void_Y* ythis = (void_Y*)(othis);

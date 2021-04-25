@@ -43,7 +43,8 @@
 #include <string.h> //memset
 #include <emC/OSAL/os_file.h>
 
-extern_C ClassJc const refl_FileWriterJc;
+
+
 
 /*@CLASS_C FileJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -54,7 +55,7 @@ FileJc_s* ctorO_FileJc  (  ObjectJc* othis, StringJc name, ThCxt* _thCxt)
   int sizeObj = getSizeInfo_ObjectJc(othis);
   extern const ClassJc refl_FileJc;
   STACKTRC_TENTRY("ctorO_FileJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileJc_s), null/*&refl_FileJc*/, _thCxt);  
+  CHECKinit_ObjectJc(othis, sizeof(FileJc_s), refl_FileJc, 0);  
   memset(&ythis->fileDescription, 0, sizeof(ythis->fileDescription));
   if(!isNull_StringJc(name))
   { init_FileJc(ythis, name, _thCxt);
@@ -69,7 +70,7 @@ void init_FileJc  (  FileJc_s* ythis, StringJc sFileName, ThCxt* _thCxt)
   char const* ssFileName;
   int len;
   STACKTRC_TENTRY("init_FileJc");
-  iniz_ObjectJc(&ythis->base.object, ythis, sizeof(FileJc_s), &refl_FileJc, 0);
+  CTOR_ObjectJc(&ythis->base.object, ythis, sizeof(FileJc_s), refl_FileJc, 0);
   //len = copyToBuffer_StringJc(sFileName, ssFileName, sizeof(ssFileName));  //not necessary, because may be inpersistent. 
   ssFileName = getCharsAndLength_StringJc(&sFileName, &len);
 
@@ -127,7 +128,7 @@ FileOutputStreamJc_s* ctorO_sB_FileOutputStreamJc  (  ObjectJc* othis, StringJc 
 {
   FileOutputStreamJc_s* ythis = (FileOutputStreamJc_s*)othis;
   STACKTRC_TENTRY("ctorO_sB_FileOutputStreamJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &refl_FileOutputStreamJc, _thCxt); 
+  CHECKinit_ObjectJc(othis, sizeof(FileOutputStreamJc_s), refl_FileOutputStreamJc, 0); 
   
   STACKTRC_LEAVE; return ythis;
 }
@@ -138,7 +139,7 @@ FileOutputStreamJc_s* ctorO_fB_FileOutputStreamJc  (  ObjectJc* othis, FileJc_s*
   OS_HandleFile hFile;
   StringJc fileName;
   STACKTRC_TENTRY("ctorO_fB_FileOutputStreamJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileOutputStreamJc_s), &refl_FileOutputStreamJc, _thCxt); 
+  CHECKinit_ObjectJc(othis, sizeof(FileOutputStreamJc_s), refl_FileOutputStreamJc, 0); 
   fileName = getPath_FileJc(file);  //the path like given in ctor_FileJc, it may be relative.
   ASSERT_emC(isZeroTerminated_StringJc(fileName), "File name string should be zero terminated", 0,0); //a known property assumed.
   hFile = os_fopenToWrite(PTR_StringJc(fileName), append);
@@ -160,10 +161,11 @@ void finalize_FileOutputStreamJc_F  (  ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-
+#ifndef DEF_ObjectSimple_emC
 void write_BY_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, int8_Y* data, ThCxt* _thCxt)
 {
 }
+#endif
 
 void write_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, void* data, int offset, int len, ThCxt* _thCxt)
 {
@@ -218,7 +220,7 @@ FileWriterJc_s* ctorO_FileWriterJc  (  ObjectJc* othis, ThCxt* _thCxt)
 {
   FileWriterJc_s* ythis = (FileWriterJc_s*)othis;
   STACKTRC_TENTRY("ctorO_FileWriterJc");
-  checkConsistence_ObjectJc(othis, sizeof(FileWriterJc_s), &refl_FileWriterJc, _thCxt); 
+  CHECKinit_ObjectJc(othis, sizeof(FileWriterJc_s), refl_FileWriterJc, 0); 
   
   STACKTRC_LEAVE; return ythis;
 }
@@ -299,7 +301,7 @@ FileReaderJc_s* ctorO_FileReaderJc  (  ObjectJc* othis, OS_HandleFile file, ThCx
   int sizeObj = getSizeInfo_ObjectJc(othis);
   extern const ClassJc refl_FileReaderJc_s;
   STACKTRC_TENTRY("ctor_FileReaderJcF");
-  checkConsistence_ObjectJc(othis, sizeof(FileReaderJc_s), null/*&refl_BufferedReaderJc_s*/, _thCxt);  
+  CHECKinit_ObjectJc(othis, sizeof(FileReaderJc_s), refl_FileReaderJc, 0); 
   ythis->file_ = file;
   ythis->bEof_ = 0;
   ythis->modCount_ = -1;
@@ -363,7 +365,7 @@ BufferedReaderJc_s* ctorO_BufferedReaderJc  (  ObjectJc* othis, FileReaderJc_s* 
   int sizeObj = getSizeInfo_ObjectJc(othis);
   extern const ClassJc refl_BufferedReaderJc_s;
   STACKTRC_TENTRY("ctorO_BufferedReaderJc");
-  checkConsistence_ObjectJc(othis, sizeof(BufferedReaderJc_s), null/*&refl_BufferedReaderJc_s*/, _thCxt);  
+  CHECKinit_ObjectJc(othis, sizeof(BufferedReaderJc_s), refl_BufferedReaderJc, 0);  
   ythis->lenLine = -1;
   ythis->lenBuffer = 0;
   ythis->bFinish = 0;
@@ -436,12 +438,13 @@ StringJc readLine_BufferedReaderJc  (  BufferedReaderJc_s* ythis, ThCxt* _thCxt)
 
 #ifdef DEF_REFLECTION_FULL
   #include <emC/Jc/genRefl/FileIoJc.crefl>
-#else 
-  #define ID_refl_FileIoJc 0
+#elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_FileReaderJc)  //DEF_REFLECTION_OFFS but special with this classes
   ClassJc const refl_FileIoJc = INIZ_ClassJc(refl_FileIoJc, "FileIoJc");
   ClassJc const refl_FileJc = INIZ_ClassJc(refl_FileJc, "FileJc");
   ClassJc const refl_FileOutputStreamJc = INIZ_ClassJc(refl_FileOutputStreamJc, "FileOutputStreamJc");
   ClassJc const refl_FileWriterJc = INIZ_ClassJc(refl_FileWriterJc, "FileWriterJc");
+  ClassJc const refl_FileReaderJc = INIZ_ClassJc(refl_FileReaderJc, "FileReaderJc");
+  ClassJc const refl_BufferedReaderJc = INIZ_ClassJc(refl_BufferedReaderJc, "FileReaderJc");
 
 #endif
 

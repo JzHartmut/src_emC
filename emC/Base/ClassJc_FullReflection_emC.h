@@ -4,9 +4,9 @@
 //which is included in <emC/Base/Object_emC.h>. It should never be included direct. 
 
 //#ifndef DEF_REFLECTION_FULL
-#ifdef DEF_ObjectJc_SIMPLE
-#error Should only used with full reflection generation
-#endif
+//#ifdef DEF_ObjectJc_..SIMPLE
+//#error Should only used with full reflection generation
+//#endif
 
 #include <emC/Base/SimpleC_emC.h>  //MT_void_Method_void
 
@@ -617,7 +617,7 @@ extern_C const ClassJc refl_bitfieldJc;
 
 extern_C const ClassJc refl_ObjectJc;
 
-#ifndef DEF_ObjectJc_SIMPLE
+#if defined(DEF_REFLECTION_FULL) && defined(DEF_ClassJc_Vtbl)
 //reflection instance for the super class ObjectJc
 extern_C const ClassOffset_idxVtblJc1 refl_super_ObjectJc;
 #endif

@@ -232,7 +232,7 @@ static void* getThreadBuffer_StringBuilderJc(bool bCpp, char const* sign, ThCxt*
 
     ObjectJc* othis = (ObjectJc*)addOffset_MemC(mBuffer, posBuffer + sizeStringBuilderJcpp);
     checkAddress_MemC(&mBuffer, othis, sizeStringBuffer);
-    init_ObjectJc(othis, sizeStringBuffer, newIdent_ObjectJc());
+    CTOR_ObjectJc(othis, othis, sizeStringBuffer, refl_StringBuilderJc, 0);
     sBuffer = ctorO_StringBuilderJc(othis, _thCxt);
     setStringConcatBuffer_StringBuilderJc(sBuffer);     //the buffer is used temporary, it is so, prevent additional copy of String 
     sBuffer->_mode |= _mThread_StringBuilderJc;

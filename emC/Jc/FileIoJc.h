@@ -57,6 +57,7 @@ typedef struct FileJc_t
 
 #define INIZ_FileJc {{INIZ_ObjectJc(fileinput, refl_FileJc, 0)}}
 extern_C const ClassJc refl_FileJc;
+#define ID_refl_FileJc 0x0f00
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -140,6 +141,8 @@ typedef struct FileOutputStreamJc_t
 }FileOutputStreamJc_s;
 
 extern_C struct ClassJc_t const refl_FileOutputStreamJc;
+#define ID_refl_FileOutputStreamJc 0x0f00
+
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -181,6 +184,13 @@ typedef  struct FileWriterJc_t
    */
   OS_HandleFile file;
 }FileWriterJc_s;
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_FileWriterJc;
+#endif
+#ifndef ID_refl_FileWriterJc
+  #define ID_refl_FileWriterJc 0x0f00
+#endif
 
 
 #ifndef FileWriterJcREFDEF
@@ -231,6 +241,15 @@ typedef struct FileReaderJc_t
   
 }FileReaderJc_s;
 
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_FileReaderJc;
+#endif
+#ifndef ID_refl_FileReaderJc
+  #define ID_refl_FileReaderJc 0x0f00
+#endif
+
+
+
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
 void finalize_FileReaderJc_F(ObjectJc* othis, ThCxt* _thCxt);
@@ -267,6 +286,13 @@ typedef struct BufferedReaderJc_t
   int32 modCountInput;
 
 }BufferedReaderJc_s;
+
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_BufferedReaderJc;
+#endif
+#ifndef ID_refl_BufferedReaderJc
+  #define ID_refl_BufferedReaderJc 0x0f00
+#endif
 
 
 /**Finalize declaration. It is called by Garbage collector and inside other finalized methods.

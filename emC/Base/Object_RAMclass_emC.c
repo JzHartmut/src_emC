@@ -69,5 +69,6 @@ void ctor_ClassOffset_idxVtblJc(ClassOffset_idxVtblJc* thiz, ClassJc const* refl
 
 
 
-#endif //not DEF_ObjectJc_SIMPLE
+#endif //DEF_REFLECTION_FULL
+
 

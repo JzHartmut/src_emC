@@ -65,23 +65,15 @@ typedef STRUCT_AddrVal_emC(MemC, Addr8_emC);
 
 #ifndef HGUARD_ObjectRefl_emC  //it is simple included, not via Object_emC.h
 
-  #if !defined(DEF_ObjectJc_SIMPLE) && !defined(DEF_ObjectJc_REFLREF)
-    #ifdef DEF_REFLECTION_NO
-      #define DEF_ObjectJc_SIMPLE
-    #else
-      #define DEF_ObjectJc_REFLREF
-    #endif
-  #endif
-
   #ifdef DEF_REFLECTION_FULL
-    #error DEF_REFLECTION_FULL needs include of Object_emC.h
+    #error DEF_REFLECTION_FULL needs include of ObjectRefl_emC.h
   #endif
   #ifdef USE_BlockHeap_emC
-    #error USE_Blockheap_emC needs include of Object_emC.h
+    #error USE_Blockheap_emC needs include of ObjectRefl_emC.h
   #endif
 
   #ifdef USE_BlockHeap_emC
-    #error USE_Blockheap_emC need Object_emC.h
+    #error USE_Blockheap_emC need ObjectRefl_emC.h
   #endif
 
   //either it is defined already because this is included in Object_emC.h 
@@ -90,7 +82,7 @@ typedef STRUCT_AddrVal_emC(MemC, Addr8_emC);
 #endif
 
 #ifdef DEF_REFLECTION_NO
-  #if defined(DEF_ObjectJc_REFLREF) || defined(DEF_ObjectJcpp_REFLECTION)
+  #if !defined(DEF_REFLECTION_NO) || defined(DEF_ObjectJcpp_REFLECTION)
     #error if ObjectJc needs reflection information, it cannot select DEF_REFLECTION_NO. Select at least DEF_REFLECTION_SIMPLE.
   #endif
 #endif
@@ -127,7 +119,7 @@ typedef struct  ObjectJc_T
   /**Array bit in a given ID. */
   #define mArrayId_ObjectJc        0x4000
 
-  #ifdef DEF_ObjectJc_REFLREF
+  #ifndef DEF_REFLECTION_NO
     #define mInstance_ObjectJc   0x1fff0000
     #define kBitInstance_ObjectJc 16
     /**The reference to the type information. */
@@ -145,7 +137,7 @@ extern_C const struct ClassJc_t refl_ObjectJc;
 const Initialization                         */
 
 /**Initializing of a simple object.  */
-#ifdef DEF_ObjectJc_SIMPLE
+#ifdef DEF_REFLECTION_NO
   #define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  | (uint32)(sizeof(OBJ) & mSize_ObjectJc) }
 #elif !defined(DEF_ObjectJcpp_REFLECTION)  //for that, definition in Object_emC.h
   #define INIZ_ObjectJc(OBJ, REFL, ID)  \
@@ -266,7 +258,7 @@ extern_C bool checkInit_ObjectJc ( ObjectJc* thiz, uint size, struct ClassJc_t c
 /*---------------------------------------------
 Get operations for core properties          */
 
-#ifdef DEF_ObjectJc_REFLREF
+#ifndef DEF_REFLECTION_NO
   #define getClass_ObjectJc(THIZ) ((THIZ)->reflection)
   #define getTypeId_ObjectJc(THIZ) ((THIZ)->reflection !=null ? (THIZ)->reflection->idType : 0) 
 #else 
@@ -438,19 +430,22 @@ extern_C StringJc toString_ObjectJc ( ObjectJc const* thiz, ThCxt* _thCxt);
 * This type has different elements depending on compiler switch 
 * * DEF_NO_StringJcCapabilities and: The does not contain a name
 * * DEF_REFLECTION_OFFS only then contains a reference to the offset array
-* * DEF_ObjectJc_REFLREF then contains a reference to one super class for type check. 
+* * not DEF_REFLECTION_NO then contains a reference to one super class for type check. 
 */
 typedef struct ClassJc_t
 {
-  uint32 idType;   // sizeReflOffs;
+  /**Index of the class in the reflectionOffsetArrays array if DEF_REFLECTION_OFFS is used,
+   * elsewhere a simple Type ID. It may be used to compare types in different executables
+   * (via connections). */
+  uint32 idType;
 
   #ifndef DEF_NO_StringUSAGE
-  char const* name;
+    char const* name;
   #endif
 
   #ifdef DEF_REFLECTION_OFFS
-  /**The lo-part (16 bit) of the address of this element is used as type ident. */
-  int32 const* reflOffs;
+    /**Refers the table with offset and type of the elements of this class. */
+    int32 const* reflOffs;
   #endif
   struct ClassJc_t const* superClass;
 } ClassJc;
@@ -466,38 +461,38 @@ typedef struct ClassJc_t
 #ifndef NO_PARSE_ZbnfCheader
 #ifdef DEF_NO_StringUsage
 //#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (uint32)(intptr_t)&(OBJ)}
-#  ifdef DEF_ObjectJc_REFLREF
-#    define INIZ_ClassJc(OBJ, NAME) { 0 }
-#  else
+//#  ifdef DEF_ObjectJc_REFL...REF
+//#    define INIZ_ClassJc(OBJ, NAME) { 0 }
+//#  else
 #    define INIZ_ClassJc(OBJ, NAME) { ID_##OBJ }
-#  endif
+//#  endif
 
-#  ifdef DEF_REFLECTION_OFFS   //a field for reflOffs is given, but initialize with null
-#    ifdef DEF_ObjectJc_REFLREF
+//#  ifdef DEF_REFLECTION_OFFS   //a field for reflOffs is given, but initialize with null
+//#    ifdef DEF_ObjectJc_REFL..REF
 #      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, null, REFLSUPER }
-#    else   //no field for superClass given
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, null}
-#    endif
-#  else      //no field for reflOffs given
-#    ifdef DEF_ObjectJc_REFLREF
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, REFLSUPER }
-#    else   //no field for superClass given
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ }
-#    endif
-#  endif
+//#    else   //no field for superClass given
+//#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, null}
+//#    endif
+//#  else      //no field for reflOffs given
+//#    ifdef DEF_ObjectJc_REFL..REF
+//#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, REFLSUPER }
+//#    else   //no field for superClass given
+//#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ }
+//#    endif
+//#  endif
 #else
 //#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ), NAME}
-#  ifdef DEF_ObjectJc_REFLREF
+//#  ifdef DEF_ObjectJc_REFL..REF
 #    define INIZ_ClassJc(OBJ, NAME) { 0, NAME }
-#  else
-#    define INIZ_ClassJc(OBJ, NAME) { ID_##OBJ, NAME }
-#  endif
+//#  else
+//#    define INIZ_ClassJc(OBJ, NAME) { ID_##OBJ, NAME }
+//#  endif
 #  ifdef DEF_REFLECTION_OFFS   //a field for reflOffs is given, but initialize with null
-#    ifdef DEF_ObjectJc_REFLREF
+//#    ifdef DEF_ObjectJc_REFL..REF
 #      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, NAME, null, REFLSUPER }
-#    else   //no field for superClass given
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, NAME, null}
-#    endif
+//#    else   //no field for superClass given
+//#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, NAME, null}
+//#    endif
 #  else      //no field for reflOffs given 
 #    define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, NAME, REFLSUPER }
 #  endif

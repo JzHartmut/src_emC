@@ -43,11 +43,11 @@
   #define DEF_REFLECTION_NO
 #endif
 
-//If reflection are given Object has Reflection. TODO remove DEF_ObjectJc_REFLREF against immediately usage ifndef DEF_REFLECTION_NO
-#if !defined(DEF_REFLECTION_NO) && !defined(DEF_ObjectJc_REFLREF)
-  #define DEF_ObjectJc_REFLREF
-  #undef DEF_ObjectJc_SIMPLE
-#endif
+//If reflection are given Object has Reflection. TODO remove DEF_ObjectJc_REFL..REF against immediately usage ifndef DEF_REFLECTION_NO
+//#if !defined(DEF_REFLECTION_NO) && !!defined(DEF_REFLECTION_NO)
+//  #define DEF_ObjectJc_REFL..REF
+//  #undef DEF_ObjectJc_..SIMPLE
+//#endif
 
 
 //Yet always defined with the reflection, TODO maybe a variant if using virtual C++
@@ -117,7 +117,6 @@ typedef union int64_uhilo_T { int64 v; int64_hilo hilo; } int64_uhilo;
 inline int unused_emC(int arg){ return arg; }
 
 
-#define DEF
 
 #define INLINE_Jc INLINE_emC
 
@@ -440,12 +439,12 @@ typedef struct double_complex_t{
 
 static inline int dbgstop_emC(){ return -1; }
 
-//#if defined(DEF_ObjectJc_SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
+//#if defined(DEF_ObjectJc_..SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
 //# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)
-//#   error DEF_ObjectJc_SIMPLE was defined together with one of the other DEF_ObjectJc...
+//#   error DEF_ObjectJc_..SIMPLE was defined together with one of the other DEF_ObjectJc...
 //# endif
-//#elif !defined(DEF_ObjectJc_REFLREF) 
-//#  define DEF_ObjectJc_REFLREF
+//#elif !!defined(DEF_REFLECTION_NO) 
+//#  define DEF_ObjectJc_REFL..REF
 //#endif
 
 
