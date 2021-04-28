@@ -1,11 +1,7 @@
 #include <emC/Test/testAssert.h>
 #include <stdio.h>
 #include <emC/Base/StringBase_emC.h>
-
-
-void XXXxxxxTEST(char const* ident){
-  printf("\nTest: %s ...", ident);
-}
+#include <stdarg.h>
 
 
 
@@ -35,18 +31,23 @@ void msgEndFileLine_testAssert_emC ( bool ok){
 
 
 
-bool expectMsgFileLine_testAssert_emC ( bool cond, int id, char const* msg, char const* file, int line, int32 val1, int32 val2) {
-  if(cond) { printf("  ok: %s\n", msg ); }
+bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line, ...) {
+  char text[200];
+  va_list args;
+  va_start(args, line);
+  vsnprintf(text, sizeof(text), msg, args);  //prepare the positive text maybe with variable args
+  va_end(args);
+  if(cond) { printf("  ok: %s\n", text ); }
   else {
     char const* filename = dirFile(file);
-    printf("  ERROR: %s (%s@%d)\n", msg,  filename, line);
+    printf("  ERROR: %s (%s@%d)\n", text,  filename, line);
   }
   return cond;
 }
 
-bool checkMsgFileLine_testAssert_emC ( bool cond, int id, char const* msg, char const* file, int line, int32 val1, int32 val2) {
+bool XXXcheckMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line, int32 val1, int32 val2) {
   if(!cond) {
-    printf("  ERROR: %d: %s val1=%d=%8.8x val2 = %d=%8.8X (%s@%d)\n", id, msg,  val1, val1, val2, val2, dirFile(file), line);
+    printf("  ERROR: %s val1=%d=%8.8x val2 = %d=%8.8X (%s@%d)\n", msg,  val1, val1, val2, val2, dirFile(file), line);
   }
   return cond;
 }

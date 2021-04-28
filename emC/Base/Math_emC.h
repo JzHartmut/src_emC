@@ -63,14 +63,14 @@
   #define mulu16_emC(R, A, B) { R = ((uint32)(uint16)(A) * (uint32)(uint16)(B)); }
 #endif
 
-/**Unsigned multiplication 32 * 32 => 32 bit. Comments see also [[muls16_emC(...)]]
+/**multiplication 32 * 32 => 32 bit. Comments see also [[muls16_emC(...)]]
  * This multiplication can be used if the sum of used bits in both values are <=32.
  * Then the result is proper, no overflow occurs. 
  * If the sign is expanded correctly the result is correct in sign anyway. 
  * Note: This kind of multiplication may support by special machine instructions by some processors. 
  * @param A any value (not necessary a left value) with int32 content
  * @param B second multiplicant beside A
- * @param R an int32 type left value (a variable) filled with lo part of 64 bit result.
+ * @param R an int32 or uint32 type left value (a variable) filled with lo part of 64 bit result.
  */
 #ifndef mul32lo_emC
   #define mul32lo_emC(R, A, B) { R = (uint32)(A) * (uint32)(B); }
@@ -179,28 +179,38 @@
 #endif
 
 
+/**Using this macro is necessary in the statment block where the saturating macros are used.
+ * For standard C it defines a variable bool bSat_emC = false; which is set in the saturation macros.
+ * For using optimized assembler statements this macro can be left empty. No effort.
+ */
+#ifndef DEFsatCheck_emC
+  #define DEFsatCheck_emC bool bSat_emC = false;
+#endif
+
+/**This macro can be used to clear the saturation flag after some saturating operation.
+ * In ARM technology it should clear the Q flag.
+ */
+#ifndef clearSatCheck_emC
+  #define clearSatCheck_emC() { bSat_emC = false; }
+#endif
+
+/**This macro can be used to check the saturation flag after some saturating operation.
+ * In ARM technology it should present the Q flag as boolean value.
+ */
+#ifndef satCheck_emC
+  #define satCheck_emC() bSat_emC
+#endif
+
+
 /**Saturated additon of signed values. 
- * It limits the result to 0x7fff and 0x8000.
+ * It limits the result to 0x7fff or 0x8000.
  * If the sign would be changed though both inputs has the same sign, the limitation is done.
  * If both inputs have different sign, never an overflow occurs. 0 + 0x8000 is also correctly 0x8000.
  * This macro should be used anytime an addition should not overflow.
  */
 #ifndef adds16sat_emC
   #define adds16sat_emC(R, A, B) { int16 a = (A); int16 b = (B); R = a + b; \
-  if(((a^b) &0x8000)==0) { if((a ^ R)&0x8000) { R = a & 0x8000 ? -0x8000: 0x7FFF; }} \
-  }   
-#endif
-
-
-/**Saturated additon of an unsigned and a signed value. 
- * It limits the result to 0 and 0xFFFF.
- * If the sign of the result is the same as the sign of B then an TODO would be changed though both inputs has the same sign, the limitation is done.
- * If both inputs have different sign, never an overflow occurs. 0 + 0x8000 is also correctly 0x8000.
- * This macro should be used anytime an addition should not overflow.
- */
-#ifndef addus16sat_emC
-  #define addus16sat_emC(R, A, B) { uint16 a = (A); int16 b = (B); R = a + b; \
-  if(((a^b) &0x8000)==0) { if((a ^ R)&0x8000) { R = b & 0x8000 ? 0: 0xFFFF; }} \
+  if(((a^b) &0x8000)==0) { if((a ^ R)&0x8000) { R = a & 0x8000 ? (int16)(0x8000): 0x7FFF; bSat_emC = true;}} \
   }   
 #endif
 
@@ -212,8 +222,21 @@
  * This macro should be used anytime an addition should not overflow.
  */
 #ifndef addu16sat_emC
-  #define addu16sat_emC(R, A, B) { uint16 a = (A); uint16 b = (B);  R = a + b; \
-  if(R < a || R < b) { R = 0xFFFF; } \
+  #define addu16sat_emC(R, A, B) { uint16 a = (A); uint16 b = (B);  R = (a + b) & 0xffff; \
+  if(R < a || R < b) { R = 0xFFFF; bSat_emC = true; } \
+  }   
+#endif
+
+
+/**Saturated additon of unsigned values. 
+ * It limits the result to 0xffff.
+ * If the result is lesser as the input, the limitation is done.
+ * The result is always greater or equal as the input on unsigned addition.
+ * This macro should be used anytime an addition should not overflow.
+ */
+#ifndef subu16sat_emC
+  #define subu16sat_emC(R, A, B) { uint16 a = (A); uint16 b = (B);  R = (a - b) & 0xffff; \
+  if(R > a ) { R = 0; bSat_emC = true; } \
   }   
 #endif
 
@@ -361,7 +384,8 @@ static inline void ctor_Nom_int16_complex(Nom_int16_complex_s* thiz) {
  * @simulink Operation_FB
  */
 static inline void step_Nom_int16_complex(Nom_int16_complex_s* thiz, int16_complex x) {
-  
+  DEFsatCheck_emC;
+      
   int32 nom;                        //firstly build nominal value with given rm 
   muls16_emC(nom, thiz->rmagn, x.re); 
   thiz->xnom.re = (int16)((nom >>14) & 0xffff);
@@ -385,6 +409,7 @@ static inline void step_Nom_int16_complex(Nom_int16_complex_s* thiz, int16_compl
  * It can be used also for a simple reciproke in range 0.5..2 by setting the thiz->rmagn value manually.
  */
 static inline int16 magn_Nom_int16_complex(Nom_int16_complex_s* thiz) {
+  DEFsatCheck_emC;
   int32 nom;
   mulu16_emC(nom, thiz->rmagn, thiz->magn); 
   adds16sat_emC(thiz->magn, thiz->magn, ((0x10000000 - nom)>>16)&0xffff);  //adjust rm in feedback

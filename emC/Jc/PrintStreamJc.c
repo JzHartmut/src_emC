@@ -41,6 +41,9 @@
  * 2007-05-00: JcHartmut creation
  *
  ****************************************************************************/
+#include <applstdef_emC.h>
+#ifndef DEF_ObjectSimple_emC
+
 #include "emC/Jc/PrintStreamJc.h"
 #include "emC/Jc/FileIoJc.h"
 #include <emC/Jc/StringJc.h>
@@ -112,3 +115,5 @@ void XXXXXXprintStackTrace_P_ExceptionJc(struct ExceptionJc_t* ythis, struct Pri
 {
 
 }
+
+#endif //ndef DEF_ObjectSimple_emC
