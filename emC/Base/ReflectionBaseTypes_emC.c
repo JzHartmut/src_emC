@@ -39,6 +39,35 @@
 
 
 /************************************************************************/
+extern_C const ClassJc refl_ClassJc;
+const ClassJc refl_ClassJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ClassJc, &refl_ClassJc)
+, "ClassJc"
+, 0
+, sizeof(ClassJc)
+, null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
+, null  //method
+, { null }  //superclass
+, null  //interfaces
+, 0  |mObjectJc_Modifier_reflectJc
+};
+
+
+extern_C ClassJc const refl_FieldJc;
+const ClassJc refl_FieldJc =
+{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(FieldJc), &refl_FieldJc, &refl_FieldJc)
+, "FieldJc"
+, 0
+, sizeof(FieldJc)
+, null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
+, null  //method
+, { null }  //superclass
+, null  //interfaces
+, 0 
+};
+
+
+
 const ClassJc  refl__intJc =
 { CONST_ObjectJc(0, &refl__intJc, null)
   , "int"
@@ -702,35 +731,6 @@ const ClassJc refl_VtblHeadJc =
 , 0 
 };
 #endif
-
-extern_C const ClassJc refl_ClassJc;
-const ClassJc refl_ClassJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_ClassJc, &refl_ClassJc)
-, "ClassJc"
-, 0
-, sizeof(ClassJc)
-, null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
-, null  //method
-, { null }  //superclass
-, null  //interfaces
-, 0  |mObjectJc_Modifier_reflectJc
-};
-
-
-extern_C ClassJc const refl_FieldJc;
-const ClassJc refl_FieldJc =
-{ CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(FieldJc), &refl_FieldJc, &refl_FieldJc)
-, "FieldJc"
-, 0
-, sizeof(FieldJc)
-, null //(FieldJcArray const*)&refl_Fields_ClassJc  //attributes and associations
-, null  //method
-, { null }  //superclass
-, null  //interfaces
-, 0 
-};
-
-
 
 extern_C ClassJc const refl_ClassOffset_idxVtblJc;
 const ClassJc refl_ClassOffset_idxVtblJc = INIZ_ClassJc(refl_ClassOffset_idxVtblJc, "ClassOffset_idxVtblJc");

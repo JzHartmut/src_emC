@@ -10,19 +10,22 @@
  * Hence for map the value 1.0 a proper integer value should be used. It is this definition.
  *  
  * It is the nominal value for 16 bit values. With it an overdrive of ~1.08 is possible.
- * 30240 =  32*5*7*3*3*3, means divide by 2,3,5,6,7,8,9,10,   12,14,15,16,18,20,   24,27,28,30,32,33,35,36,40,42 etc.
+ * 0x7620 = 30240 =  32*5*7*3*3*3, means divide by 2,3,5,6,7,8,9,10,   12,14,15,16,18,20,   24,27,28,30,32,33,35,36,40,42 etc.
  * 
  * It is the nominal value for 16 bit values. With it an overdrive of ~1.18 is possible.
- * 27720 = 2 * 2 * 2 * 3 * 3 * 5 * 7 * 11 ,
+ * 0x6c48 = 27720 = 2 * 2 * 2 * 3 * 3 * 5 * 7 * 11 ,
  * means divide by 2,3,4,5,6,7,8,9,10,11,12,14,15,16,18,20,22,24,  ,28,30,32,33,35,36,40,42,44,45,50, 60,
  *
- * 25200 = 2 * 2 * 2 * 2 * 3 * 3 * 5 * 5 * 7
+ * It is a nominal value which is often used for example in automation control 
+ * 0x6c00 = 27648 =  3^3^*2^10^ = 3 * 3 * 2^10^ = 27 * 1024
+ *
+ * 0x6270 = 25200 = 2 * 2 * 2 * 2 * 3 * 3 * 5 * 5 * 7
  * means divide by 2,3,4,5,6,7,8,9,10,12,14,15,16,18,20,21,24,25,28,30,32,33,35,36,40,42,45,50,60,70,75,80,90,100
  *
- * 23170 = 0x5ab2 = 7*5*2*331 this number multiplicated with itself is 3fff. It is a candidate for sqrt 
- 
+ * 0x5a82 = 23170 = 7*5*2*331 this number multiplicated with itself is 1fffaa04 = ~ 0x4000 shifted <<1 and taken hi-part.
+ *                  It is a candidate for sqrt usage
  */
-#define NOM1_i16_Ctrl_emC 0x6270  //25200
+#define NOM1_i16_Ctrl_emC 0x6270  //= 25200
 #define NOM2_i16_Ctrl_emC 0x4000
 
 /**Normalization with this value results in ~0x4000 if the number is multiplied with itself (quadrat). */

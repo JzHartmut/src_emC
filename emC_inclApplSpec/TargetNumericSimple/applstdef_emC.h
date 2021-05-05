@@ -43,6 +43,7 @@
 /**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
 #define __NoCharSeqJcCapabilities__
 #define DEF_NO_StringJcCapabilities
+#define DEF_NO_CharSeqJcCapabilities
 #define NoCharSeqJcCapabilities_emC
 #define NoStringJcCapabilities_emC
 

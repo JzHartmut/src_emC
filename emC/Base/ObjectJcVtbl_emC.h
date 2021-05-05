@@ -149,8 +149,6 @@ MT_toString_ObjectJc* toString;
 } Vtbl_ObjectJc;
 
 
-#define Vtbl_ObjectJc Vtbl_ObjectJc
-
 /**Structure of the Vtbl of an Instance derived from Objectjc without any overridden operations. 
 * This structure is defined in Object_emC.c, see extern declaration.
 * @refl: no.

@@ -49,16 +49,18 @@
 #include <emC/Base/String_emC.h>
 
 
-#ifndef __NoCharSeqJcCapabilities__  
+#if defined(DEF_CharSeqJcCapabilities) || defined(DEF_ClassJc_Vtbl)  
   //contains any function declarations here called:
   #include <emC/Jc/StringJc.h>
   //contains ObjectJc definition.
   #include <emC/Base/Object_emC.h>
+
+struct Vtbl_CharSeqJc_t;
+
 #endif
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <string.h>   //strncpy
-struct Vtbl_CharSeqJc_t;
 
 
 int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
@@ -77,12 +79,13 @@ int _length_PRIV_CharSeqJc(CharSeqJc thiz, ThCxt* _thCxt) {
     return length_StringBuilderJc(thiz.addr.bu ); //reinterpret-cast it refers a StringBuilder.
   }
   else {
-    #ifdef DEF_ClassJc_Vtbl
+    #if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
       CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
-      struct Vtbl_CharSeqJc_t const* mthiz = getVtbl_CharSeqJc(thiz, _thCxt);
+      Vtbl_CharSeqJc const* mthiz = getVtbl_CharSeqJc(thiz, _thCxt);
       return mthiz->length(othiz, _thCxt);
     #else
       THROW_s0(IllegalArgumentException, "not supported", 0,0); 
+      return 0;
     #endif
   }
 #endif
@@ -116,12 +119,13 @@ char _charAt_PRIV_CharSeqJc(CharSeqJc thiz, int pos, struct ThreadContext_emC_t*
     return charAt_StringBuilderJc(thiz.addr.bu, pos, _thCxt);
   }
   else {
-    #ifdef DEF_ClassJc_Vtbl
+    #if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
       CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
       struct Vtbl_CharSeqJc_t const* mthiz = getVtbl_CharSeqJc(thiz, _thCxt);
       return mthiz->charAt(othiz, pos, _thCxt);
     #else
       THROW_s0(IllegalArgumentException, "not supported", 0,0); 
+      return '\0';
     #endif
   }
 #endif
@@ -303,7 +307,7 @@ int copyToBuffer_CharSeqJc(const StringJc thiz, int start, int end, char* buffer
     return copyToBuffer_StringBuilderJc(sb, start, end, buffer, sizeBuffer);
   }
   else {
-#ifndef DEF_ClassJc_Vtbl  
+#if !defined(DEF_ClassJc_Vtbl) || !defined(DEF_CharSeqJcCapabilities)  
     return 0;  //not used.
 #else 
     //all other values determines a CharSeqJc-interface-instance:
@@ -358,7 +362,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
   int nDelete;
   int zadd;
   char const* padd = null;
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
   Vtbl_CharSeqJc const* madd = null;
 #endif
   STACKTRC_TENTRY("replace_zI_StringBuilderJc");
@@ -380,7 +384,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
     zadd = buAdd->_count;
     padd = buAdd->size < 0 ? buAdd->value.buffer : buAdd->value.direct;
   }
-#ifndef DEF_ClassJc_Vtbl
+#if !defined(DEF_ClassJc_Vtbl) || !defined(DEF_CharSeqJcCapabilities)
   else ASSERT_emC(false, "", 0,0);
 #else
   else {
@@ -502,7 +506,7 @@ StringBuilderJc_s* replace_cII_StringBuilderJc(StringBuilderJc_s* thiz, int star
 
 
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
 { CharSeqJc ret;
 
@@ -525,11 +529,15 @@ CharSeqJc fromObjectJc_CharSeqJc(struct ObjectJc_t* othiz)
 
 
 
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 int32 length_StringJc_CharSeqJc_F(CharSeqObjJc const* ithiz, ThCxt* _ThCxt)
 { StringJc_CharSeqJc const* thiz = (StringJc_CharSeqJc const*)ithiz;
   return thiz->length;
 }
+#endif
 
+
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 char charAt_StringJc_CharSeqJc_F(CharSeqObjJc const* ithiz, int32 ix, ThCxt* _thCxt)
 { StringJc_CharSeqJc const* thiz = (StringJc_CharSeqJc const*)ithiz;
   if(ix < 0 || ix >= thiz->length) {
@@ -538,6 +546,8 @@ char charAt_StringJc_CharSeqJc_F(CharSeqObjJc const* ithiz, int32 ix, ThCxt* _th
   }
   return thiz->s[ix];
 }
+#endif
+
 
 CharSeqJc subSequence_StringJc_CharSeqJc_F(CharSeqObjJc const* ithiz, int32 from, int32 to, ThCxt* _thCxt)
 { CharSeqJc ret = {0};
@@ -545,22 +555,27 @@ CharSeqJc subSequence_StringJc_CharSeqJc_F(CharSeqObjJc const* ithiz, int32 from
 }
 
 
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 bool equals_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ObjectJc const* second, ThCxt* _thCxt) {
   StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   return false;  //TODO
 }
+#endif
 
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 StringJc toString_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ThCxt* _thCxt) {
   StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   StringJc ret = CONST_StringJc(thiz->s, thiz->length);
   return ret;
 }
+#endif
+
 
 void finalize_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ThCxt* _thCxt) {
 }
 
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 
 static Vtbl_CharSeqJc mtbl_StringJc_CharSeqJc =
 { { sign_Vtbl_CharSeqJc//J2C: Head of methodtable.
@@ -706,7 +721,7 @@ StringJc toString_CharSeqJc ( CharSeqJc thiz )
     StringJc ret = CONST_StringJc(buffer, nChars);
     STACKTRC_LEAVE; return ret;
   }
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
   else if(val & mIsCharSeqJcVtbl_CharSeqJc) {
     Vtbl_CharSeqJc const* mc = getVtbl_CharSeqJc(thiz, _thCxt);
     CharSeqObjJc const* othiz = C_CAST(CharSeqObjJc const*, thiz.addr.obj);
@@ -768,7 +783,7 @@ static CharSeqJc subSequence_StringBuilderJc_F(CharSeqObjJc const* othiz, int32 
 
 static const char sign_Vtbl_StringBufferJc[] = "StringBufferJc"; //to mark method tables of all implementations
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 const VtblDef_StringBufferJc mtblStringBufferJc = {
 {
   { sign_Vtbl_StringBufferJc //J2C: Head of methodtable of Part_StringPartJc
@@ -860,7 +875,7 @@ const ClassJc refl_StringBuilderJc =
 , null  //superclass
 , null  //interfaces
 , 0
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 , &mtblStringBufferJc.mtbl.head
 #endif
 };

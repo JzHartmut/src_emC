@@ -54,6 +54,11 @@ typedef struct StringJc_T {
 } StringJc;
 #endif
 
+#ifndef mLength_StringJc
+#define mLength_StringJc 0x00003fff
+#endif
+
+
 /**Counts the number of chars till a \0-char. 
  * In opposite to the C-standard strlen, this routine may not crash on undefined strings 
  * because the search length is limited by the application to a  convenient value.
@@ -345,7 +350,7 @@ extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
 
 
 /**Definition of masks and const for val element in StringJc and CharSeqJc: */
-#ifdef __NoCharSeqJcCapabilities__
+#ifndef DEF_CharSeqJcCapabilities
   #define mVtbl_CharSeqJc 0
   #define kIsCharSeqJc_CharSeqJc 0
   #define kMaxNrofChars_StringJc (mLength_StringJc -2)

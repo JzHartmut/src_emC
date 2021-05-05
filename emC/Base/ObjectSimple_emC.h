@@ -428,7 +428,7 @@ extern_C StringJc toString_ObjectJc ( ObjectJc const* thiz, ThCxt* _thCxt);
 * but uses the reflection instance for type detection
 * and maybe for offsets of data members for the InspectorTargetProxy. 
 * This type has different elements depending on compiler switch 
-* * DEF_NO_StringJcCapabilities and: The does not contain a name
+* * DEF_NO_StringUSAGE and: The does not contain a name
 * * DEF_REFLECTION_OFFS only then contains a reference to the offset array
 * * not DEF_REFLECTION_NO then contains a reference to one super class for type check. 
 */
@@ -459,7 +459,7 @@ typedef struct ClassJc_t
 * depending of the existing elements in ClassJc:
 */
 #ifndef NO_PARSE_ZbnfCheader
-#ifdef DEF_NO_StringUsage
+#ifdef DEF_NO_StringUSAGE
 //#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (uint32)(intptr_t)&(OBJ)}
 //#  ifdef DEF_ObjectJc_REFL...REF
 //#    define INIZ_ClassJc(OBJ, NAME) { 0 }
@@ -467,19 +467,19 @@ typedef struct ClassJc_t
 #    define INIZ_ClassJc(OBJ, NAME) { ID_##OBJ }
 //#  endif
 
-//#  ifdef DEF_REFLECTION_OFFS   //a field for reflOffs is given, but initialize with null
+#  ifdef DEF_REFLECTION_OFFS   //a field for reflOffs is given, but initialize with null
 //#    ifdef DEF_ObjectJc_REFL..REF
-#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, null, REFLSUPER }
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, null, REFLSUPER }  //null: Reflection offs info not given. 
 //#    else   //no field for superClass given
 //#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, null}
 //#    endif
-//#  else      //no field for reflOffs given
+#  else      //no field for reflOffs given
 //#    ifdef DEF_ObjectJc_REFL..REF
 //#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { 0, REFLSUPER }
 //#    else   //no field for superClass given
-//#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ }
+#      define INIZsuper_ClassJc(OBJ, NAME, REFLSUPER) { ID_##OBJ, REFLSUPER }
 //#    endif
-//#  endif
+#  endif
 #else
 //#  define INIZtypeOnly_ClassJc(OBJ, NAME) { (int)(intptr_t)&(OBJ), NAME}
 //#  ifdef DEF_ObjectJc_REFL..REF

@@ -51,13 +51,15 @@ extern_C void msgStartFileLine_testAssert_emC ( char const* msg, char const* fil
 /**Output always a test starting with "  ok " if cond==true*/
 extern_C bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line, ...);
 
-#ifdef DEFINED_Exception_emC  //else it is not available, for simple tests.
+//#ifdef DEFINED_Exception_emC  //else it is not available, for simple tests.
 extern_C bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, int line);
-#endif
+//#endif
 
 extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 
 #define TEST_START(MSG) bool bTESTok = true; msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
+
+#define TEST_TRY(MSG) TRY { bool bTESTok = true; msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__);
 
 /**Test, output ok MSG if ok, only on error with file and line. */
 #define TEST_TRUE(COND, MSG, ...) if(!expectMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__, ##__VA_ARGS__)) bTESTok = false;
@@ -67,7 +69,11 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 
 //#define EXPECTs_FALSE(COND, MSG) if((COND)) expectMsgFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
 
-#define TEST_END msgEndFileLine_testAssert_emC(bTESTok)
+#define TEST_END   msgEndFileLine_testAssert_emC(bTESTok); 
+
+#define _TEST_TRY_END  msgEndFileLine_testAssert_emC(bTESTok);} _TRY  CATCH(Exception, exc) { \
+    exceptionFileLine_testAssert_emC(exc, __FILE__, __LINE__); \
+  } END_TRY
 
 #define TEST_EXC(EXC) exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
 

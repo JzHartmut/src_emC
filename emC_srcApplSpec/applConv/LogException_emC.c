@@ -64,7 +64,7 @@ void log_Exception_emC(Exception_emC* exc, char const* sourceFile, int sourcelin
     //normal:
     Entry_LogException_emC* e = &exceptionStore.head.entries[ix];
     //copy the text in any case.
-    #ifndef DEF_NO_StringJcCapabilities
+    #ifdef DEF_StringJcCapabilities
     copyToBuffer_StringJc(exc->exceptionMsg, 0, -1, e->msg, sizeof(e->msg));
     e->exc.exceptionMsg = zMax_StringJc(e->msg, sizeof(e->msg)); //set the String in the exception to the own copied buffer.
     #endif

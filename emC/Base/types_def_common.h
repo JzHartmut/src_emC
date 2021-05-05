@@ -55,6 +55,11 @@
   #define DEF_ClassJc_Vtbl    //It is used in the inspector sources
 #endif
 
+#if defined(DEF_ClassJc_Vtbl) && !defined(DEF_CharSeqJcCapabilities)
+  //yet always defined with DEF_ClassJc_Vtbl, first one is necessary. 
+  #define DEF_CharSeqJcCapabilities
+#endif 
+
 
 
 #ifndef INT32_MAX            //This definition is given if stdint.h is included before
@@ -309,9 +314,12 @@ typedef struct Addr8_emC_T { int32 c[2]; } Addr8_emC;
 
 
 
+/**Default definition int32 as the type for the length or value 
+ * in a struct{ addr, val} defined with STRUCT_AddrVal_emC(...). */
 #ifndef VALTYPE_AddrVal_emC            //possible to define in applstdef_emC.h
   #define VALTYPE_AddrVal_emC int32    //the default
 #endif
+
 /**This macro defines a struct with a pointer to the given type and a integer number.
  * Usual it can be used to describe exactly an 1-dimensional array. The integer number is the number of elements,
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
@@ -361,8 +369,7 @@ extern AddrVal_emC null_AddrVal_emC;
 
 
 
-/**Defines Struct_charPtr_Value.
- */
+/**Defines a struct with a byte address and the length. */
 typedef STRUCT_AddrVal_emC(int8ARRAY, int8);
 
 typedef STRUCT_AddrVal_emC(int16ARRAY, int16);
@@ -448,16 +455,21 @@ static inline int dbgstop_emC(){ return -1; }
 //#endif
 
 
+
 //definition of StringJc to use this type before including emC/StringJc
 typedef struct StringJc_T { 
   union CharSeqTypes_T { 
     char const* str; 
     struct StringBuilderJc_t* bu; 
     struct ObjectJc_T const* obj; 
+    #ifdef __cplusplus
+    class CharSequenceJc* csq;
+    #endif
   } addr; 
   VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
 } StringJc;
 #define DEFINED_StringJc_emC
+
 //old: typedef STRUCT_AddrVal_emC(StringJc, char const);
 
 

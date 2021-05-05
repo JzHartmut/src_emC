@@ -532,8 +532,8 @@ INLINE_emC CharSeqJc toCharSeqJc_StringBuilderJc (struct StringBuilderJc_t const
 
 /*@CLASS_C CharSeqJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-//This routines are the basic for StringJc too, do not exclude with __NoCharSeqJcCapabilities__.
-//The implementing routines _...PRIV... are empty for __NoCharSeqJcCapabilities__ because there are never called.
+//This routines are the basic for StringJc too, do not exclude if not DEF_CharSeqJcCapabilities.
+//The implementing routines _...PRIV... are empty for not DEF_CharSeqJcCapabilities because there are never called.
 
 int _length_PRIV_CharSeqJc(CharSeqJc thiz, struct ThreadContext_emC_t* _thCxt);
 

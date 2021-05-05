@@ -206,7 +206,6 @@ typedef struct  ClassJc_t
   * This is a typed struct, starting with Vtbl_ObjectJc.
   */
   struct VtblHeadJc_T const* mtbl;
-  //Method_int_Object* mtbl;
   #endif
 
 } ClassJc;

@@ -55,7 +55,17 @@ bool XXXcheckMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const
 
 #ifdef DEFINED_Exception_emC
 bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, int line) {
-  printf("  EXCEPTION:\n");
+  #ifdef DEF_NO_StringUSAGE
+    printf("EXCEPTION %d (%d, %d) @%d: %s\n", exc->exceptionNr, exc->exceptionValue, exc->val2, exc->line, exc->file );
+  #else
+    char buffer[100];  //in stack
+    int nChars = copyToBuffer_StringJc(exc->exceptionMsg, 0, -1, buffer, sizeof(buffer)-1);
+    buffer[nChars] = 0;
+    printf("Test-EXCEPTION %d %s (%d, %d) @%d: %s\n", exc->exceptionNr, buffer, exc->exceptionValue, exc->val2, exc->line, exc->file );
+  #endif
+  #ifdef DEF_ThreadContext_STACKTRC
+    printStackTrace_Exception_emC(exc, null);
+  #endif
   return false;
 }
 #endif

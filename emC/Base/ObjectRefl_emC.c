@@ -336,7 +336,7 @@ bool checkStrict_OLD_ObjectJc(ObjectJc const* ythis, uint size, struct ClassJc_t
     #ifndef DEF_REFLECTION_NO
     if(clazzReflection != null && ythis->reflection !=null)
     { 
-      #ifdef DEF_NO_StringJcCapabilities
+      #ifdef DEF_NO_StringUSAGE
       if(true) {
       #else
       if(!instanceof_s_ObjectJc(ythis, clazzReflection->name)) {
@@ -424,7 +424,7 @@ static bool checkRefl(ClassJc const* refl, char const* reflectionName)
 
 
 
-#ifndef DEF_NO_StringJcCapabilities
+#ifndef DEF_NO_StringUSAGE
 
 
 int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName, int recursive)
@@ -517,7 +517,7 @@ int getIxVtbl_s_ClassJc(ClassJc const* reflectionObj, char const* reflectionName
 
 
 
-#if !defined(DEF_NO_StringJcCapabilities) && !defined(DEF_REFLECTION_NO)
+#if !defined(DEF_NO_StringUSAGE) && !defined(DEF_REFLECTION_NO)
 //TODO:
 bool instanceof_s_ObjectJc(ObjectJc const* ythis, char const* reflectionName)
 { if(ythis == null) return false;
@@ -850,7 +850,7 @@ void init_immediate_ObjectArrayJc(ObjectArrayJc* thiz, int nrofElements, int siz
 }
 
 
-#ifndef DEF_NO_StringJcCapabilities
+#ifndef DEF_NO_StringUSAGE
 StringJc name_ClassJc(ClassJc const* thiz) {
   int zz = strnlen_emC(thiz->name, sizeof(thiz->name));  //at leas the length of buffer
   return zI_StringJc(thiz->name, zz);

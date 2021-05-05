@@ -48,7 +48,7 @@
 
 #include <emC/Base/Exception_emC.h>
 
-#ifndef DEF_NO_StringJcCapabilities
+#ifndef DEF_NO_StringUSAGE
   #include <emC/Base/StringBase_emC.h>
   #include <emC/Base/MemC_emC.h>
 #endif
@@ -121,7 +121,7 @@ void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, cha
   exception->line = line;
   exception->exceptionNr = exceptionNr;
   //check the memory area where the msg is stored. Maybe in stack, then copy it.
-  #ifndef DEF_NO_StringJcCapabilities
+  #ifndef DEF_NO_StringUSAGE
   MemUnit* addrMsg = (MemUnit*)msg.addr.str;
   if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
     //The msg is in stack area, copy it in ThreadContext!
@@ -179,10 +179,10 @@ void throwCore_emC(ThCxt* _thCxt) {
 
 void throw_s0Jc ( int32 exceptionNr, const char* msgP, int value, char const* file, int line, ThCxt* _thCxt)
 {
-  #ifndef DEF_NO_StringJcCapabilities
-    StringJc msg = s0_StringJc(msgP);
-  #else
+  #ifdef DEF_NO_StringUSAGE
     char const* msg = msgP;
+  #else
+    StringJc msg = s0_StringJc(msgP);
   #endif
   throw_sJc(exceptionNr, msg, value, file, line, _thCxt);
 }
@@ -191,7 +191,7 @@ void throw_s0Jc ( int32 exceptionNr, const char* msgP, int value, char const* fi
 void throw_EJc ( int32 exceptionNr, Exception_emC* exc, int value, char const* file, int line, ThCxt* _thCxt)
 {
   //int exceptionNr = exc->exceptionNr;
-  #ifdef DEF_NO_StringJcCapabilities
+  #ifdef DEF_NO_StringUSAGE
     void const* msg = null;
   #else
     StringJc msg = exc->exceptionMsg;
@@ -204,7 +204,7 @@ void throw_EJc ( int32 exceptionNr, Exception_emC* exc, int value, char const* f
 
 
 void clearException ( Exception_emC* exc) {
-  #ifndef DEF_NO_StringJcCapabilities
+  #ifndef DEF_NO_StringUSAGE
   if(exc->exceptionMsg.addr.str!=null) { free_MemC(exc->exceptionMsg.addr.str); }
   #endif
   exc->exceptionNr = 0;
@@ -239,7 +239,7 @@ const char* getExceptionText_Exception_emC(int32 exceptionNr)
 }
 
 
-#ifndef DEF_NO_StringJcCapabilities
+#ifndef DEF_NO_StringUSAGE
 int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, ThCxt* _thCxt)
 {
   if(zbuffer == 0) { return 0; }

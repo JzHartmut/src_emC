@@ -439,7 +439,7 @@ StringJc readLine_BufferedReaderJc  (  BufferedReaderJc_s* ythis, ThCxt* _thCxt)
 #ifdef DEF_REFLECTION_FULL
   #include <emC/Jc/genRefl/FileIoJc.crefl>
 #elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_FileReaderJc)  //DEF_REFLECTION_OFFS but special with this classes
-  ClassJc const refl_FileIoJc = INIZ_ClassJc(refl_FileIoJc, "FileIoJc");
+  //ClassJc const refl_FileIoJc = INIZ_ClassJc(refl_FileIoJc, "FileIoJc");
   ClassJc const refl_FileJc = INIZ_ClassJc(refl_FileJc, "FileJc");
   ClassJc const refl_FileOutputStreamJc = INIZ_ClassJc(refl_FileOutputStreamJc, "FileOutputStreamJc");
   ClassJc const refl_FileWriterJc = INIZ_ClassJc(refl_FileWriterJc, "FileWriterJc");

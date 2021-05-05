@@ -903,14 +903,14 @@ inline CharSeqJc zI_CharSeqJc  (  char const* src, int len)
 
 
 
-#ifdef __NoCharSeqJcCapabilities__
+#if !defined(DEF_ClassJc_Vtbl) || !defined(DEF_CharSeqJcCapabilities)
 
 
 #define length_CharSeqJc(STR, _THCXT) length_StringJc(STR)
 
 #define subSequence_CharSeqJc(STR, FROM, TO, _THCXT) substring_StringJc(STR, FROM, TO, _THCXT)
 
-#define toString_CharSeqJc(STR) (STR)
+//#define toString_CharSeqJc(STR) (STR)
 
 #define CharSeqJc_Y StringJc_Y
 
@@ -1072,7 +1072,7 @@ METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 
 
-#endif //__NoCharSeqJcCapabilities__
+#endif //DEF_CharSeqJcCapabilities
 
 
 
@@ -1082,14 +1082,14 @@ METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 /*@CLASS_C StringBuilderJc_ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-#ifdef DEF_ClassJc_Vtbl
+#if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 
 
 typedef struct Vtbl_StringBufferJc_t 
 { VtblHeadJc head;
   Vtbl_ObjectJc ObjectJc; 
   //Method table of interfaces:
-  Vtbl_CharSeqJc CharSeqJc;
+  Vtbl_CharSeqJc vCharSeqJc;
 } Vtbl_StringBufferJc;
 
 

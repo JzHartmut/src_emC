@@ -65,8 +65,8 @@
 
 //#error Exception_emC.h A
 
-#ifdef DEF_NO_StringJcCapabilities
-  #define ARGTYPE_MSG_Exception_emC void const*    //only possible to use a string literal
+#ifdef DEF_NO_StringUSAGE
+  #define ARGTYPE_MSG_Exception_emC void const*    //emtpy argument to prevent using a string input
 #else
   #include <emC/Base/StringBase_emC.h>
   #define ARGTYPE_MSG_Exception_emC StringJc       //String with char const*, length and some specific bits
@@ -281,11 +281,11 @@ typedef struct Exception_emC_T
 extern_C void log_Exception_emC(Exception_emC* exc, char const* sFile, int line);
 
 
-
+#ifndef DEF_NO_StringUSAGE
 /**Fills a common text in the buffer. It should contain the exception message, the file and line of the exception 
  * the file and line of this routine (Arguments sFile, line and, if available, information from the thread context. */
 extern_C int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, struct ThreadContext_emC_t* _thCxt);
-
+#endif
 
 
 
@@ -350,7 +350,7 @@ int getMaxStackDepth_ThreadContext_emC(struct ThreadContext_emC_t* thiz);
 
 #define THROW1(EXC, TEXT, VAL) THROW(EXC, TEXT, VAL,0)
 
-#ifdef DEF_NO_StringJcCapabilities
+#ifdef DEF_NO_StringUSAGE
   #define THROW_s0f(EXCEPTION, TEXT, VAL1, VAL2, FILE, LINE)  THROWf(EXCEPTION, TEXT, VAL1, VAL2, FILE, LINE)
   #define THROW_s0(EXCEPTION, TEXT, VAL1, VAL2)  THROW(EXCEPTION, TEXT, VAL1, VAL2)
 #else
@@ -401,7 +401,7 @@ typedef struct Entry_LogException_emC_emC_t
 { Exception_emC exc;
   char const* file;
   int32 line;
-  #ifndef DEF_NO_StringJcCapabilities
+  #ifndef DEF_NO_StringUSAGE
     /**Because the text in the exc.exceptionMsg may not persistent, it is copied here. */
     char msg[104];
   #endif
@@ -965,7 +965,7 @@ extern_C void clearException(Exception_emC* exc);
   EXCEPTION_TRY
 
 
-#ifdef DEF_NO_StringJcCapabilities
+#ifdef DEF_NO_StringUSAGE
   #define MSG_SystemException_ExcpetionJc
 #else
   #define MSG_SystemException_ExcpetionJc _tryObject_emC.exc.exceptionMsg = z_StringJc("System exception");
@@ -1045,7 +1045,7 @@ extern_C void clearException(Exception_emC* exc);
       log_Exception_emC(&_thCxt->tryObject->exc, FILE, LINE); \
     }
   #else //both DEF_Exception_TRYCpp or longjmp:
-    #ifdef DEF_NO_StringJcCapabilities
+    #ifdef DEF_NO_StringUSAGE
       #define THROWf(EXCEPTION, MSG, VAL1, VAL2, FILE, LINE) \
         throw_sJc(ident_##EXCEPTION##_emC, null, VAL1, FILE, LINE, STACKTRC_THCXT)
       #define THROW(EXCEPTION, MSG, VAL1, VAL2) \
