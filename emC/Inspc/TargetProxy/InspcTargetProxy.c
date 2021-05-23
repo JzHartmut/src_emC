@@ -19,6 +19,7 @@
 #include <emC/OSAL/os_mem.h>
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_keyboard.h>
+#include <emC/HAL/Serial_HALemC.h>
 
 //#pragma comment(lib, "libMsc15_emC.lib")
 //#pragma comment(lib, "ws2_32.lib")
@@ -73,6 +74,8 @@ InspcTargetProxy_s data =
   typedef struct InterProcessCommMTB_t { struct Vtbl_InterProcessComm_t const* mtbl; struct InterProcessComm_t* ref; } InterProcessCommMTB;
 #endif
 
+Serial_HALemC_s serialComm = INIZ_Serial_HALemC(serialComm, 0, 0);  //for serial comm
+Serial_HALemC_s serialCon = INIZ_Serial_HALemC(serialComm, 0, 1);   //for console I/O
 
 extern_C const ClassJc refl_InspcTargetProxy;
 
@@ -252,7 +255,11 @@ static void initializeComPort(char const* sComPort) {
   asciiMoni.comPort = sComPort[0] - '0';
   asciiMoni.console = 0;
   int error;
-  error = open_Serial_HALemC(asciiMoni.comPort, toReadWrite_Serial_HALemC, 115200, ParityNoStop1_Serial_HALemC);
+  serialComm.baud = 115200;
+  serialComm.bytePattern = ParityNoStop1_Serial_HALemC;
+  serialComm.dir = toReadWrite_Serial_HALemC;
+  serialComm.channel = asciiMoni.comPort;
+  error = open_Com_HALemC(&serialComm.base.comm_HAL_emC);
   if(error ==0) {
     printf("target serial over COM%d\n", asciiMoni.comPort);
     //                                 //Prepare receiving from comPort, it is expected.
@@ -264,7 +271,10 @@ static void initializeComPort(char const* sComPort) {
 
     //prepareRx_Serial_HALemC(asciiMoni.comPort, asciiMoni.rxBuffer, asciiMoni.zRxBuffer, 0);
     //                                 //Open the console for debugging
-    error = open_Serial_HALemC(asciiMoni.console, toRead_Serial_HALemC, 0, ParityNoStop1_Serial_HALemC);
+    serialCon.bytePattern = ParityNoStop1_Serial_HALemC;
+    serialCon.channel = asciiMoni.console;
+    serialCon.dir = toRead_Serial_HALemC;
+    error = open_Com_HALemC(&serialCon.base.comm_HAL_emC);
     if(error ==0) {
       asciiMoni.zConsoleBuffer = 80;
       asciiMoni.consoleBuffer = (char*)malloc(asciiMoni.zConsoleBuffer);
@@ -549,7 +559,7 @@ int32 accessTarget_Inspc ( Cmd_InspcTargetProxy_e cmd, int device, uint32 addres
 { 
   int zRxAsciiMoni = -1;
   if(asciiMoni.comPort >0) {        //preserve up to now chars.
-    zRxAsciiMoni = stepRx_Serial_HALemC(asciiMoni.comPort);
+    //zRxAsciiMoni = stepRx_Serial_HALemC(asciiMoni.comPort);
     //                                           //in between use the serial com for Target Proxy
     //prepareRx_Serial_HALemC(asciiMoni.comPort, data.targetComm->target2proxy, sizeof(*data.targetComm->target2proxy), 0);
   }

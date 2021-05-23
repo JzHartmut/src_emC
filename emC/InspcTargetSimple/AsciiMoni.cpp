@@ -59,7 +59,7 @@ int AsciiMoni_emC::evalRx ( ) {
         if(this->zRx >0) {
           dbgStop();
         }
-        int zRx = getMem_Serial_HALemC (this->channelRx, &this->rxInspc, this->zRx, sizeof(this->rxInspc));
+        int zRx = getData_Serial_HALemC (this->channelRx, &this->rxInspc, this->zRx, sizeof(this->rxInspc));
         nChars -= zRx -1;              //do not repeat.
         if(zRx == 16) {
           this->w1 = this->rxInspc.length_seq_cmd;
@@ -67,7 +67,7 @@ int AsciiMoni_emC::evalRx ( ) {
             step_Target2Proxy_Inspc(&this->inspcAccess, this->mainData, this->reflMainData, reflectionOffsetArrays);
             this->initRx();
             int txBytes = sizeof(this->txInspc) * BYTE_IN_MemUnit;
-            this->test_txPendingAfterInspc = this->zPendingTx = tx_Serial_HALemC(this->channelTx, (MemUnit*)&this->txInspc, 0, txBytes);
+            this->test_txPendingAfterInspc = this->zPendingTx = txData_Serial_HALemC(this->channelTx, (MemUnit*)&this->txInspc, 0, txBytes);
             nWaitCharacters = txBytes;                 //wait till all is transmitted.
           } else {
             nWaitCharacters = 5;                      //faulty command, clear!

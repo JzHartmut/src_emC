@@ -3,6 +3,16 @@
 #include <applstdef_emC.h>
 #include <stdio.h>
 
+#ifdef XXDEF_REFLECTION_FULL
+  //#ifndef DEF_REFLECTION_NOXX
+  #include <emC/HAL/genRefl/Serial_HALemC.crefl>
+#elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Serial_HALemC) //may defined in the *.refloffs.c file
+  //Class definition only as type marker: Note the ID_refl... may be used and should be planned application-wide.
+  ClassJc const refl_Serial_HALemC = INIZ_ClassJc(refl_Serial_HALemC, "Serial_HALemC");
+#endif
+
+
+
 #undef INT32
 #undef UINT32
 #undef int64
@@ -26,8 +36,8 @@ static void writeTrc(int ix, char cc) {
 typedef struct InternalData_Serial_HALemC_T {
   int channel;
   //int volatile zBuffer;
-  int volatile ixBufferRd;
-  int volatile ixBufferWr;  //:index already transferred characters from FIFO (rxFIFO) to valueBuffer.
+  int volatile ixBufferRd;  //:used for ring buffer read and write 
+  int volatile ixBufferWr;  //:for receiving bytes -ReadFile(...)
   int volatile run;
   int ctException;
   OS_HandleThread hThread;
@@ -192,6 +202,22 @@ int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
 }
 
 
+
+int open_Com_HALemC(Com_HALemC_s* ithiz) {
+  STACKTRC_ENTRY("open_Comm_HALemC");
+  int ret = 0;
+  if(INSTANCEOF_ObjectJc(&ithiz->base.object, refl_Serial_HALemC)) {  //check which type
+    Serial_HALemC_s* thiz = C_CAST(Serial_HALemC_s*, ithiz);
+    ret = open_Serial_HALemC(thiz->channel, thiz->dir, thiz->baud, thiz->bytePattern);
+    thiz->base.comm_HAL_emC._handle_ = thiz->channel;
+  } else {
+    THROW(IllegalArgumentException, z_StringJc("not expected"), 0,0);
+  }
+  STACKTRC_RETURN ret;
+}
+
+
+
 static InternalData_Serial_HALemC* getThiz ( int channel) {
   if(channel <0 || channel >8) { 
     THROW_s0n(IllegalArgumentException, "faulty serial port", channel, 0); 
@@ -248,8 +274,7 @@ int stepRx_Serial_HALemC ( int channel ) {
     if(thiz->ixBufferWr >= thiz->ixBufferRd) {  //free till end | ___ rd 1111 wr ->--|
       zBytes = sizeof(thiz->valueBuffer) - thiz->ixBufferWr;
       ok = ReadFile(thiz->hPort, &thiz->valueBuffer[thiz->ixBufferWr], zBytes, &dwBytesTransferred, 0);
-      //ReadFile returns immediately with the number of transferred bytes because the timeout is switched off.
-      //see: 
+      //ReadFile returns immediately with the number of transferred bytes because the timeout is 0.
       if (ok && dwBytesTransferred > 0) {
         thiz->ixBufferWr += (int)(dwBytesTransferred);
         ASSERT_emC(thiz->ixBufferWr <= sizeof(thiz->valueBuffer), "internal", 0, 0);

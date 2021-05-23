@@ -163,7 +163,8 @@ int searchChar_emC ( char const* text, int zText, char cc);
  *     If non zero terminated strings should be compare, it is the max expected length of both strings.
  *     Note: If one String is longer, till zero termination, it is not detected here.
  *     In this case an expected zero termination should be tested additonally outside of this routine.
- * @return ==0 if both strings are equal till maxNrofChars or both have a '\0'.
+ * @return ==0 if both strings are equal till maxNrofChars 
+ *    or both have a '\0' on the same position and all characters before are equal.
  *    >0 if text2 > text1 (longer or character code higher) whereby the value is the position of the first difference.
  *    <0 if text1 > text2 (longer or character code higher) whereby the absolute value is the position of the first difference.
  */

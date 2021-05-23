@@ -61,6 +61,12 @@
 #endif 
 
 
+#ifndef VIRTUAL_emC  //empty definition, no virtual operations
+  #define VIRTUAL_emC
+#endif
+#ifndef OVERRIDE_VIRTUAL_emC
+  #define OVERRIDE_VIRTUAL_emC override
+#endif
 
 #ifndef INT32_MAX            //This definition is given if stdint.h is included before
 //define only the data types of stdint.h
