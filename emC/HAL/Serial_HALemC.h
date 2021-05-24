@@ -24,7 +24,7 @@ typedef struct Com_HALemC_T {
 #define INIZ_Com_HALemC(OBJ, REFL, ID) { { INIZ_ObjectJc(OBJ, REFL, ID) }, 0 }
 
 
-/**Initializes a pre-defined serial channel.
+/**Initializes a pre-defined communication channel.
 * The application does not determine the kind of the serial communication (async, sync etc),
 * that is determined by using a defined channel.
 * The hardware has some channels, due to its capabilities.
@@ -34,7 +34,7 @@ typedef struct Com_HALemC_T {
 * @return 0 if ok, else an internal error number (using in debug).
 *    If an existing channel is used, the 0 as return is expected.
 */
-extern_C int open_Com_HALemC(Com_HALemC_s* ithiz);
+extern_C int open_Com_HALemC ( Com_HALemC_s* ithiz);
 
 
 /**Sends some non packed characters. The character are stored one after another in the memory.
@@ -44,7 +44,8 @@ extern_C int open_Com_HALemC(Com_HALemC_s* ithiz);
 * @param text non packed characters
 * @return 0: Nothing done, transmit is not possible yet. >= number of set words.
 */
-extern_C int txChar_Com_HALemC(Com_HALemC_s* thiz, char const* const text, int const fromCharPos, int const zChars);
+extern_C int txChar_Com_HALemC ( Com_HALemC_s* thiz, char const* const text
+                               , int const fromCharPos, int const zChars, bool bCont);
 
 
 /**Sends memory content.
@@ -55,13 +56,14 @@ extern_C int txChar_Com_HALemC(Com_HALemC_s* thiz, char const* const text, int c
 *         It is especially for embedded hardware with limmited FIFO on hardware or limited DMA buffer size.
 * See [[step_TxSerial_HALemC(...)]]
 */
-extern_C int txData_Com_HALemC(Com_HALemC_s* thiz, void const* data, int fromBytePos, int zBytes);
+extern_C int txData_Com_HALemC ( Com_HALemC_s* thiz, void const* data
+                               , int fromBytePos, int zBytes, bool bCont);
 
 
 /**Cares to sending pending data.
 * @return 0 nothing still pending. >0 number of data still pending, <0 any error, value for debugging, unexpected.
 */
-extern_C int stepTx_Com_HALemC(Com_HALemC_s* thiz);
+extern_C int stepTx_Com_HALemC ( Com_HALemC_s* thiz);
 
 
 /**Handles received chars and returns the number of available chars.
@@ -69,13 +71,13 @@ extern_C int stepTx_Com_HALemC(Com_HALemC_s* thiz);
 * but the application should call this routine in a proper cycle matched to the buffer size.
 * It is adequate stepTx...().
 */
-extern_C int stepRx_Com_HALemC(Com_HALemC_s* thiz);
+extern_C int stepRx_Com_HALemC ( Com_HALemC_s* thiz);
 
 
 /**Reads one char or received word if it is available. Returns -1 if nothing is available.
 * Depending on a buffer (FIFO) this routine can be called one after another so long characters are buffered.
 */
-extern_C int getChar_Com_HALemC(Com_HALemC_s* thiz);
+extern_C int getChar_Com_HALemC ( Com_HALemC_s* thiz);
 
 
 /**Reads the received data and stores it to the given dst in memory as data words.
@@ -95,11 +97,11 @@ extern_C int getChar_Com_HALemC(Com_HALemC_s* thiz);
 *      Note: It is possible that a word in memory is not completed, for 16- or 32-bit memory addressing
 *      and on an odd return value. But this value is proper for the 'fromByte' argument of the next call.
 */
-extern_C int getData_Com_HALemC(Com_HALemC_s* thiz, void* dst, int fromByteInDst, int zDst);
+extern_C int getData_Com_HALemC ( Com_HALemC_s* thiz, void* dst, int fromByteInDst, int zDst);
 
 
 /**Deactivates usage of the channel. */
-extern_C void close_Com_HALemC(Com_HALemC_s* thiz);
+extern_C void close_Com_HALemC ( Com_HALemC_s* thiz);
 
 
 /**Definition of an common class for C++ which can be used as interface. 
@@ -114,12 +116,12 @@ class Com_HALemC  {
 
   VIRTUAL_emC int open ( ) { return open_Com_HALemC(thiz); }
 
-  VIRTUAL_emC int txChar ( char const* text, int fromCharPos, int zChars) {
-    return txChar_Com_HALemC(thiz, text, fromCharPos, zChars);
+  VIRTUAL_emC int txChar ( char const* text, int fromCharPos, int zChars, bool bCont) {
+    return txChar_Com_HALemC(thiz, text, fromCharPos, zChars, bCont);
   }
 
-  VIRTUAL_emC int txData ( void const* data, int fromCharPos, int zChars) {
-    return txData_Com_HALemC(thiz, data, fromCharPos, zChars);
+  VIRTUAL_emC int txData ( void const* data, int fromCharPos, int zChars, bool bCont) {
+    return txData_Com_HALemC(thiz, data, fromCharPos, zChars, bCont);
   }
 
   VIRTUAL_emC int stepTx() { return stepTx_Com_HALemC(thiz); }
@@ -129,7 +131,7 @@ class Com_HALemC  {
   VIRTUAL_emC int  getChar() { return getChar_Com_HALemC(thiz); }
 
   VIRTUAL_emC int getData(void* dst, int fromByteInDst, int zDst) {
-    getData_Com_HALemC(thiz, dst, fromByteInDst, zDst); 
+    return getData_Com_HALemC(thiz, dst, fromByteInDst, zDst);
   }
 
   VIRTUAL_emC void close ( ) { close_Com_HALemC(thiz); }
@@ -197,7 +199,7 @@ extern_C int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
  * @param text non packed characters
  * @return 0: Nothing done, transmit is not possible yet. >= number of set words.
  */
-extern_C int txChar_Serial_HALemC(int const channel, char const* const text, int const fromCharPos, int const zChars);
+extern_C int txChar_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars);
 
 /**Sends memory content.
 * @param zChars Number of 8-bit-portions to send (character-count, bytes).
@@ -213,7 +215,7 @@ extern_C int txData_Serial_HALemC ( int channel, void const* data, int fromByteP
 /**Cares to sending pending data.
 * @return 0 nothing still pending. >0 number of data still pending, <0 any error, value for debugging, unexpected.
 */
-extern_C int stepTx_Serial_HALemC( int channel);
+extern_C int stepTx_Serial_HALemC ( int channel);
 
 /**Handles received chars and returns the number of available chars.
 * It is problem of the implementation whether and how many characters are buffered,
@@ -259,7 +261,7 @@ extern_C void close_Serial_HAL_emC(int channel);
 /**It defines only the interface used in all comm classes. */
 class Serial_HALemC : public Com_HALemC, private Serial_HALemC_s {
   public:
-  Serial_HALemC(): Com_HALemC(&this->base.comm_HAL_emC) {}
+  Serial_HALemC ( ): Com_HALemC(&this->base.comm_HAL_emC) {}
 
   int openComm ( Direction_Serial_HALemC dir
   , int32 baud, ParityStop_Serial_HALemC bytePattern) {
@@ -292,8 +294,8 @@ class Serial_HALemC : public Com_HALemC, private Serial_HALemC_s {
    *      If >0 then txStep() should be invoked.
    *      < 0 then an error, especially -1 for: pending transmission.
    */
-  int txData(void const* data, int fromBytePos, int zBytes) OVERRIDE_VIRTUAL_emC {
-    txData_Serial_HALemC(this->channel, data, fromBytePos, zBytes);
+  int txData ( void const* data, int fromBytePos, int zBytes) OVERRIDE_VIRTUAL_emC {
+    return txData_Serial_HALemC(this->channel, data, fromBytePos, zBytes);
   }
 
   /**Activates a receiving order.
@@ -302,7 +304,7 @@ class Serial_HALemC : public Com_HALemC, private Serial_HALemC_s {
    * If DMA is not used, this stores only the order data to handle it in rxStep().
    */
   virtual int getData ( void* dst, int fromBytePos, int zBytes) OVERRIDE_VIRTUAL_emC {
-    getData_Serial_HALemC(this->channel, dst, fromBytePos, zBytes);
+    return getData_Serial_HALemC(this->channel, dst, fromBytePos, zBytes);
   }
 
   /**Processes and completes the receiving order
@@ -382,6 +384,8 @@ class Comm_UART_HALemC;
 class TargetSpec_Comm_SPI_HALemC;
 
 
+
+/**Old solution, TODO remove*/
 class Comm_SPI_HALemC //: public Comm_HALemC
 {
 

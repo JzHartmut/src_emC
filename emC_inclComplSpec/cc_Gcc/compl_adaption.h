@@ -129,11 +129,12 @@
 #define INT_NROFBITS   32
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
- * But the definition of INT_MAX is missing.
+ * But the definition of INT_MAX is missing. But better use _emC as suffix.
+ * For this compiler platform int is int32
  */
-//#define INT_MAX INT32_MAX 
-//#define INT_MIN INT32_MIN 
-//#define UINT_MAX UINT32_MAX 
+#define INT_MAX_emC INT32_MAX
+#define INT_MIN_emC INT32_MIN
+#define UINT_MAX_emC UINT32_MAX
 
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.

@@ -62,10 +62,18 @@
 
 
 #ifndef VIRTUAL_emC  //empty definition, no virtual operations
-  #define VIRTUAL_emC
+  #ifdef DEF_USEvirtual_emC
+    #define VIRTUAL_emC virtual
+  #else
+    #define VIRTUAL_emC
+  #endif
 #endif
 #ifndef OVERRIDE_VIRTUAL_emC
-  #define OVERRIDE_VIRTUAL_emC override
+  #ifdef DEF_USEvirtual_emC
+    #define OVERRIDE_VIRTUAL_emC override
+  #else
+    #define OVERRIDE_VIRTUAL_emC
+  #endif
 #endif
 
 #ifndef INT32_MAX            //This definition is given if stdint.h is included before

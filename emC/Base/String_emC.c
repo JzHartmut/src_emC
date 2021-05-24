@@ -60,67 +60,123 @@
 
 
 
-int parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars)
+int parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars, char const* addChars)
 { int val = 0;
-  bool bNegativ;
-  int digit;
-  char cc;
-	const char* src = srcP;
-  int maxDigit = (radix <=10) ? '0' + radix -1 : '9'; 
-  //int maxHexDigitLower = 'A' + radix - 11; 
-  //int maxHexDigitUpper = 'a' + radix - 11; 
-  if(*src == '-') { src+=1; size -=1; bNegativ = true; }
-  else { bNegativ = false; }
-  while(size > 0 && (digit = (cc = *src) - '0') >=0 
-       && (  cc <= maxDigit 
-          || (radix >10 && (  (cc >= 'A' && (digit = (cc - 'A'+ 10)) <=radix)
-                           || (cc >= 'a' && (digit = (cc - 'a'+ 10)) <=radix)
-       )  )  )             )
-  { val = radix * val + digit;
-    src+=1;
-    size -=1;
+  enum {
+    bNegativ=1,
+    checkNegative=2,
+    checkSign=4,
+    checkHex=8,
+    checkSpaceFirst=0x10,
+    checkWhitespaceFirst = 0x20,
+    checkSpaceAfterSign = 0x40
+  }; 
+  char st = 0;
+  
+  if(addChars !=null) {
+    int cc = *addChars;
+    if(cc==' ') { st|=checkSpaceFirst; cc = *(++addChars); }
+    else if(cc=='\n') { st|=checkWhitespaceFirst; cc = *(++addChars); }
+    if(cc=='-') { st|=checkNegative; cc = *(++addChars); }
+    else if(cc=='+') { st|=checkSign; cc = *(++addChars); }
+    if(cc==' ') { st|=checkSpaceAfterSign; cc = *(++addChars); }
+    if(cc=='x') { st|=checkHex; addChars +=1; }
   }
-  if(bNegativ){ val = -val; }
-  if(parsedChars !=null){
-		*parsedChars = (int)(src - srcP);
-	}
+  int digit = -1;  //set to 0 if 0 detected
+  char cc;
+  const char* src = srcP;
+  int maxDigit = (radix <=10) ? '0' + radix -1 : '9'; 
+  while(size != 0 && (cc = *src++) !=0) {
+    size -=1;
+    if(cc <=' ') {
+      if( (cc==' ' || cc=='\t') && st&(checkSpaceFirst|checkWhitespaceFirst|checkSpaceAfterSign) ) { cc=0; } //skipped
+      else if((cc=='\t' || cc=='\n' || cc=='\r' || cc=='\f') && st&checkWhitespaceFirst) { cc=0; } //skipped
+      //else: cc remains, test later in addChars
+      //else { break; }        //not accepted. breaks the while loop. 
+    }
+    else if(st&checkHex && (cc == 'x' || cc == 'X') && digit ==0 && val == 0) {
+      radix = 16;          //before: 0 is detected, no value before
+      st&= ~(checkHex|checkSpaceFirst|checkWhitespaceFirst|checkSpaceAfterSign);   // is detected
+      cc = 0;
+    } 
+    else if(cc=='-' && val ==0 && st&(checkNegative|checkSign)) {
+      st|=bNegativ;
+      st&= ~(checkNegative|checkSign|checkSpaceFirst|checkWhitespaceFirst);
+      cc = 0;
+    }
+    else if(cc=='+' && val ==0 && st&(checkSign)) {
+      st&= ~(checkNegative|checkSign|checkSpaceFirst|checkWhitespaceFirst);
+      cc = 0;
+    }
+    else if( (digit = cc - '0') >=0 
+           && (  cc <= maxDigit         // it is '9' for radix >=10
+              || (radix >10 && (  (cc >= 'A' && (digit = (cc - 'A'+ 10)) <=radix)
+                               || (cc >= 'a' && (digit = (cc - 'a'+ 10)) <=radix)
+           )  )  )             ) {     // digit is 10..15 for radix = 16      
+      val = radix * val + digit;
+      st&= ~(checkSpaceFirst|checkWhitespaceFirst|checkSpaceAfterSign);   // is detected
+      cc = 0;
+    }
+    if( cc !=0 ) {
+      if(addChars !=null) {
+        st&= ~(checkSpaceFirst|checkWhitespaceFirst|checkSpaceAfterSign|checkHex);   // is detected
+        digit = -1;             //do not detect 0 for 0x
+        char const* addChars1 = addChars;
+        char c1;                //check first addChars is "-" then accept "-" as sign
+        do {                    //skip all chars in addChars as separator inside the number
+          c1 = *addChars1++;
+          if(c1==cc) {
+            break;  //accepted
+          }
+        } while(c1 !=0);        //break addChars on 0-terminated
+        if(c1 == 0) { break; }  //breaks the scanning, cc is not accepted if not found in addChars
+      }
+      else {
+        break;                  //cc was not applicatble
+      }
+    }
+  }
+  if(st&bNegativ){ val = -val; }
+  if(parsedChars !=null){              // write nr of parsed chars only if desired.
+    *parsedChars = (int)(src - srcP) -1;  //note: src refers the next char after last because first read cc then check
+  }
   return( val);
 }
 
 
 float parseFloat_emC(const char* src, int size, int* parsedCharsP)
 {
-	int parsedChars = 0;
-	float ret;
-	int zParsed;
-  ret = (float)parseIntRadix_emC(src, size, 10, &zParsed);
-	parsedChars += zParsed;  //maybe 0 if .123 is written
+  int parsedChars = 0;
+  float ret;
+  int zParsed;
+  ret = (float)parseIntRadix_emC(src, size, 10, &zParsed, null);
+  parsedChars += zParsed;  //maybe 0 if .123 is written
   src += zParsed; size -= zParsed;
   if(*src=='.'){
-	  float fracPart = (float)parseIntRadix_emC(src+1, size-1, 10, &zParsed);
-		if(zParsed >0){
-			switch(zParsed){
+    float fracPart = (float)parseIntRadix_emC(src+1, size-1, 10, &zParsed, null);
+    if(zParsed >0){
+      switch(zParsed){
       case 1: fracPart *= 0.1f; break;
-			case 2: fracPart *= 0.01f; break;
-			case 3: fracPart *= 0.001f; break;
-			case 4: fracPart *= 0.0001f; break;
-			case 5: fracPart *= 1e-5f; break;
-			case 6: fracPart *= 1e-6f; break;
-			case 7: fracPart *= 1e-7f; break;
-			case 8: fracPart *= 1e-8f; break;
-			case 9: fracPart *= 1e-9f; break;
-			case 10: fracPart *= 1e-10f; break;
+      case 2: fracPart *= 0.01f; break;
+      case 3: fracPart *= 0.001f; break;
+      case 4: fracPart *= 0.0001f; break;
+      case 5: fracPart *= 1e-5f; break;
+      case 6: fracPart *= 1e-6f; break;
+      case 7: fracPart *= 1e-7f; break;
+      case 8: fracPart *= 1e-8f; break;
+      case 9: fracPart *= 1e-9f; break;
+      case 10: fracPart *= 1e-10f; break;
       }
-		  ret += fracPart;
-		}
-		parsedChars += zParsed+1;  //maybe 0 if .123 is written
-		src += zParsed+1; size -= zParsed-1;
-	}
+      ret += fracPart;
+    }
+    parsedChars += zParsed+1;  //maybe 0 if .123 is written
+    src += zParsed+1; size -= zParsed-1;
+  }
   //TODO exponent
   if(parsedCharsP !=null){
-		*parsedCharsP = parsedChars;
-	}
-	return ret;
+    *parsedCharsP = parsedChars;
+  }
+  return ret;
 }
 
 

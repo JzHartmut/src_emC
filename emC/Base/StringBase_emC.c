@@ -81,7 +81,7 @@ int strncmp_emC ( char const* const text1, char const* const text2, int maxNrofC
   while(--maxNrofChars1 >=0 && (c1 = *text1a++) == (c2 = *text2a++) && c1!=0 );
   //loop till end or till difference
   if(maxNrofChars1<0 || c1 == c2) return 0; //equal
-  else if(c2 > c1) return maxNrofChars - maxNrofChars1;  //positive number, it is the position.
+  else if(c1 > c2) return maxNrofChars - maxNrofChars1;  //positive number, it is the position.
   else return maxNrofChars1 - maxNrofChars;  //negativ Number, abs is position of difference. 
   //int maddr = sizeof(int)-1;  //0x1 if int16, 0x0 if int-address-count
   //TODO: compare in int-memory-content, access with memory-boundary 
@@ -218,6 +218,25 @@ int strcpy_emC  (  char* dst, char const* src, int sizeOrNegLength)
   } while (src1 < src9 && *src1 != 0);
   if(src1 == src9 && sizeOrNegLength >0){ *dst1 = 0; src1 +=1; } //guarantees end-0, counts \0
   return (int)(src1 - src);
+}
+
+
+
+int strpncpy_emC(char* dst, int posDst, int zDst, char const* src, int zSrc){
+  int maxChars = zDst - posDst;
+  if(maxChars > zSrc && zSrc >=0) { maxChars = zSrc; } //limit to zSrc to copy, no more; 
+  if(maxChars <=0) return posDst;     //no more space
+  char const* src1 = src - 1;         //note: use pre-increment
+  char const* src9 = src + maxChars;  //exclusive max end address to use for char copy
+  //src9 is the last used position to copy.
+  char* dst1 = dst + posDst-1;  //use pre-increment
+  //optimization: test only one pointer register, which is incremented too
+  char cc;
+  while (++src1 < src9) {
+    *(++dst1) = (cc = *(src1));
+    if(cc == 0) { dst1 -=1; break; }      //do not count the \0 as nrof copied chars. 
+  }
+  return (int)(dst1 + 1 - dst - posDst);  //note: subtract after last written pos from dst
 }
 
 

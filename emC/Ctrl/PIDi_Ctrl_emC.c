@@ -4,7 +4,6 @@
 
 
 #ifdef DEF_REFLECTION_FULL
-  //#ifndef DEF_REFLECTION_NOXX
   #include <emC/Ctrl/genRefl/PIDi_Ctrl_emC.crefl>
 #elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_PIDi_Ctrl_emC) //may defined in the *.refloffs.c file
   //Class definition only as type marker: Note the ID_refl... may be used and should be planned application-wide.

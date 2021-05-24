@@ -199,7 +199,7 @@ int AsciiMoni_emC::evalCmd ( int zCmd ) {
   }
   else if(strncmp_emC(this->rxBuffer, "dm ", 3) ==0) {
     //display memory
-    this->memaddr = parseIntRadix_emC(rxBuffer+3, zCmd -3, 16, null);
+    this->memaddr = parseIntRadix_emC(rxBuffer+3, zCmd -3, 16, null, " ");
     if(this->memaddr >=0 && this->memaddr < 0xfffff0) {
       //Note: snprintf uses a lot of memory, and does not work properly ...
       //snprintf(this->txCharBuffer, ARRAYLEN_emC(this->txCharBuffer), "\r\n%6.6X ....\r\n", addr);

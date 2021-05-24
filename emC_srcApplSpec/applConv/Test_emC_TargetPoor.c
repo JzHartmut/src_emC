@@ -14,11 +14,14 @@ void msgEndFileLine_testAssert_emC ( bool ok) {
 
 }
 
-bool checkMsgFileLine_testAssert_emC ( bool cond, int id, char const* msg, char const* file, int line, int32 val1, int32 val2) {
-  errorTab[ixErrorTab].id = id;
+bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line, ...) {
+  //va_list args;
+  //va_start(args, line);
+  //todo because of vargs description is necessary.
+  //errorTab[ixErrorTab].id = id;
   errorTab[ixErrorTab].line = line;
-  errorTab[ixErrorTab].val1 = val1;
-  errorTab[ixErrorTab].val2 = val2;
+  //todo errorTab[ixErrorTab].val1 = val1;
+  //errorTab[ixErrorTab].val2 = val2;
   if(++ixErrorTab >= ARRAYLEN_emC(errorTab)) { ixErrorTab = ARRAYLEN_emC(errorTab)-1; }
   return true;
 }

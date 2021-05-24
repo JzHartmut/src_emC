@@ -428,7 +428,7 @@ int parseInt_radix_IntegerJc(StringJc ythis, int radix)
   if(countThis == mLength_StringJc){
     countThis = strnlen_emC(strThis, mLength_StringJc);
   }
-  value = parseIntRadix_emC(strThis, countThis, radix, &nrofCharsParsed);
+  value = parseIntRadix_emC(strThis, countThis, radix, &nrofCharsParsed, null);
   if(nrofCharsParsed < countThis){
     STACKTRC_ENTRY("parseInt_IntegerJc");
     THROW1_s0(NumberFormatException, " rest:", countThis - nrofCharsParsed);

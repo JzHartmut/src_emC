@@ -74,23 +74,45 @@ extern_C int strnlen_emC ( char const* text, int maxNrofChars);
 
 
 
-/**Copies the src to the limited dst with preventing overflow and guaranteed 0-termination.
+/**Copies the src to the limited dst with preventing overflow and possible guaranteed 0-termination.
  * or copy a given number of characters without 0-termination.
  * 
  * This is a alternate implementation of strncpy (it does not guaranteed a 0-termination)
  * and a alternate implementation of strlcpy from BSD (it does count the maybe unused length of src).
  *
  * It guarantees both, 0-termination if necessary and strncpy-functionality without 0-termination.
- * * If sizeOrNegLength is positive, it should be the size of dst inclusively the end-0.
- * ** If the src is less than size, src is copied and a end-0 is appended. 
  * The routine returns the number of chars copied without the ending 0.
  * The rest of the buffer remains unchanged. (no squandering of calculation time for unsued things).
  * It means, if it contains invalid character, they remain invalid. But the C-String from dst has guaranteed its end-0.
- * If the buffer should be clean (to hide old informations), use setmem(dst, 0, size).
+ * If the buffer should be clean (to hide old informations), use memset(dst, 0, size).
  * ** If the length of src is >=size, then (size-1) characters are copied and a end-0 is appended.
  * The routine returns size itself. It is the number of chars copied with the end-0.
  * With comparison return value >= size the information about truncation is given (src is truncated in dst).
  *
+ * 
+ *
+ * To concatenate Strings one can write:
+ * char buffer[20] = {0};
+ * char* dst = buffer;
+ * int zdst = sizeof(buffer) -1;  //left place for one \0
+ * int pos = 0;
+ * pos += strpncpy_emC(dst, pos, zdst, src1, -1);
+ * //etc.
+ * dst[pos] = 0;  //a 0 termination is always possible if intended, but can be omitted if not necessary
+ */
+extern_C int strpncpy_emC(char* dst, int posDst, int zDst, char const* src, int zSrc);
+
+
+
+
+
+/**strcpy
+ * @param dst A buffer to hold either a 0-terminated C-string with at least sizeDst free bytes inclusive end-0
+ *    or a destination for a non-0-terminated String.
+ * @param src C-String maybe 0-terminiated
+ * @param sizeOrNegLength if positive then number of use-able bytes from dst inclusive terminating \0.
+ *        if negative, then the maximal or given number of chars to copy maybe without end-0 
+ * * If sizeOrNegLength is positive, it should be the size of dst inclusively the end-0.
  * * If sizeOrNegLength is negative (-length), then the 0-termination of dst is not guaranteed:
  * ** If the length of src is >= -length then -length characters of src are copied, without ending 0.
  * This mode can be used to replace some character in a longer String in dst with given -length of src 
@@ -99,29 +121,11 @@ extern_C int strnlen_emC ( char const* text, int maxNrofChars);
  * ** If the length of src till its end-0 is < -length, the end-0 is copied too, but the rest till -length is not filled with 0.
  * It is the same with remaining/hidden content. 
  * The behavior is similar but not equal strncpy, because strncpy fills the rest till length with 0.   
- *
- * 
- *
- * To concatenate Strings one can write:
- * char buffer[20];
- * char* dst = buffer;
- * int zdst = sizeof(buffer);
- * int zcpy = 0;
- * zdst -= zcpy = strcpy_emC(dst, src1, zdst);
- * zdst -= zcpy = strcpy_emC(dst += zcpy, src2, zdst);
- * zdst -= zcpy = strcpy_emC(dst += zcpy, src3, zdst);
- * //etc.
- * If zdst is 1, only the terminal \0 is written, maybe more as one time.
- *
- * @param dst A buffer to hold either a 0-terminated C-string with at least sizeDst free bytes inclusive end-0
- *    or a destination for a non-0-terminated String.
- * @param src C-String maybe 0-terminiated
- * @param sizeOrNegLength if positive then number of use-able bytes from dst inclusive terminating \0.
- *        if negative, then the maximal or given number of chars to copy maybe without end-0 
  * @return The number of characters copied without ending \0 .
  *   The user can check: if(returnedvalue >= sizeDst){ //set flag it is truncated ...
  *   The return value is anytime a value between 0 and <=sizeDst, never <0 and never > sizeDst.
  *   The return value is the strlen(dst) if it is < sizeDst.
+ *
  */
 extern_C int strcpy_emC ( char* dst, char const* src, int sizeOrNegLength);
 
@@ -223,7 +227,7 @@ extern_C int trimRightWhitespaces_emC ( char const* text, int maxNrofChars);
  * @throws never. All possible digits where scanned, the rest of non-scanable digits are returned.
  *  At example the String contains "-123.45" it returns -123, and the retSize is 3.
  */
-extern_C int parseIntRadix_emC ( const char* src, int size, int radix, int* parsedChars);
+extern_C int parseIntRadix_emC ( const char* src, int size, int radix, int* parsedChars, char const* addChars);
 
 extern_C float parseFloat_emC ( const char* src, int size, int* parsedChars);
 

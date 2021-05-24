@@ -227,7 +227,8 @@
 #define POINTER_NROFBITS 64
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
- * But the definition of INT_MAX is missing.
+ * But the definition of INT_MAX is missing.  But better use _emC as suffix.
+ * For this compiler platform int is int32
  */
 #define INT_MAX_emC INT32_MAX 
 #define INT_MIN_emC INT32_MIN 
