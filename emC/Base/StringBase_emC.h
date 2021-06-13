@@ -160,6 +160,17 @@ INLINE_emC int strncpy_emC ( char* dst, char const* src, int length){ return str
 int searchChar_emC ( char const* text, int zText, char cc);
 
 
+/**Searches any character from the given any arg inside a given string with terminated length.
+ * NOTE: The standard-C doesn't contain such simple methods.
+ * @param text do not need to be 0-terminated. A character after 0 is detect too depending on zText
+ * @param zText if <0 then a 0-terminated search is done, whereby -zText is the maximal checked length.
+ *     -1 checks only the first char. -0x7fff searches in 32767 chars if a '\0' was not found.
+ *     Note: The length should be determined in any case to prevent memory access errors on not terminated char arrays.
+ *     if zText >=0 this is the real number of chars to test independing of an 0-character.
+ * @param any a string containing chars to search.
+ * @return position of the first occurence of any char from any in text, or -1 if not found. 
+ */
+int searchAnyChar_emC ( char const* text, int zText, char const* any);
 
 
 /**Compares two strings till a given maximum of chars or till zero termination.

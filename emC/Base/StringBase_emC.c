@@ -34,7 +34,7 @@
 #include <string.h>  //C-standard
 
 //Note: Implementation to search \0 in an limited range. 
-int strnlen_emC  (  char const* text, int maxNrofChars)
+int strnlen_emC ( char const* text, int maxNrofChars)
 {
   char const* text1 = text;
   char const* text9 = text + maxNrofChars;
@@ -58,7 +58,7 @@ StringJc zI_StringJc ( char const* src, int len)
 
 
 
-StringJc zMax_StringJc  (  char const* src, int max)
+StringJc zMax_StringJc ( char const* src, int max)
 {
   StringJc ret;
   if(max > kMaxNrofChars_StringJc){ 
@@ -129,7 +129,7 @@ int searchCharBack_emC ( char const* const text, char cc, int fromIx)
 
 
 
-int searchChar_emC  (  char const* text, int zText, char cc)
+int searchChar_emC ( char const* text, int zText, char cc)
 {
   char const* text1 = text;
   char c1 = cc +1; //!=cc
@@ -147,10 +147,33 @@ int searchChar_emC  (  char const* text, int zText, char cc)
 
 
 
+int searchAnyChar_emC ( char const* text, int zText, char const* any)
+{
+  char const* text1 = text;
+  if (zText < 0) {
+    zText = strnlen_emC(text, -zText);
+  }
+  char const* text9 = text + zText;
+  //optimization: test only one pointer register, which is incremented too
+  while (text1 < text9) {
+    char c1 = *(text1++);
+    char c2;
+    char const* any1 = any;
+    while((c2 = *any1++) != 0) {
+      if(c2 ==c1) {
+        return (int)(text1 - text) -1;   //found, immediately return.
+    } }
+  }
+  return -1; //not found.
+}
+
+
+
+
 /**Searches a String inside a given string with terminated length.
 * NOTE: The standard-C doesn't contain such simple methods. strstr fails if the text isn't terminated with 0.
 */
-int searchString_emC  (  char const* text, int zText, char const* ssearch, int zsearch)
+int searchString_emC ( char const* text, int zText, char const* ssearch, int zsearch)
 {
   if (zText < 0) {
     zText = strnlen_emC(text, -zText);
@@ -206,7 +229,7 @@ int searchString_emC  (  char const* text, int zText, char const* ssearch, int z
 
 
 //Note: effective and safe implementation, better then strncpy and strlcpy.
-int strcpy_emC  (  char* dst, char const* src, int sizeOrNegLength)
+int strcpy_emC ( char* dst, char const* src, int sizeOrNegLength)
 { if(sizeOrNegLength ==0) return 0;
   char const* src1 = src - 1;  //use pre-increment
   char const* src9 = src + (sizeOrNegLength < 0 ? -sizeOrNegLength -1 : sizeOrNegLength -1);  //exclusive max end address to use for char copy
@@ -242,7 +265,7 @@ int strpncpy_emC(char* dst, int posDst, int zDst, char const* src, int zSrc){
 
 
 
-bool equals_zI_StringJc  (  const StringJc ythis, const char* strCmp, int valueCmp  )
+bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp  )
 { int countThis = VAL_StringJc(ythis) & mLength_StringJc; 
   int countCmp = valueCmp & mLength_StringJc;
   const char* strThis = PTR_StringJc(ythis);
@@ -266,7 +289,7 @@ bool equals_zI_StringJc  (  const StringJc ythis, const char* strCmp, int valueC
 
 
 
-int copyToBuffer_StringJc  (  const StringJc thiz, int start, int end, char* buffer, int sizeBuffer)
+int copyToBuffer_StringJc ( const StringJc thiz, int start, int end, char* buffer, int sizeBuffer)
 { //STACKTRC_ENTRY("copyToBuffer_StringJc");
   int nChars = VAL_StringJc(thiz) & mLength_StringJc;
   if (nChars == kIs_0_terminated_StringJc) {
@@ -299,7 +322,7 @@ int copyToBuffer_StringJc  (  const StringJc thiz, int start, int end, char* buf
 
 
 
-int skipWhitespaces_emC  (  char const* text, int maxNrofChars)
+int skipWhitespaces_emC ( char const* text, int maxNrofChars)
 {
   char const* text1 = text;
   char const* text9 = text + maxNrofChars;
@@ -311,7 +334,7 @@ int skipWhitespaces_emC  (  char const* text, int maxNrofChars)
 }
 
 
-int trimRightWhitespaces_emC  (  char const* text, int maxNrofChars)
+int trimRightWhitespaces_emC ( char const* text, int maxNrofChars)
 {
   char const* text1 = text + maxNrofChars - 1;
   //optimization: test only one pointer register, which is incremented too

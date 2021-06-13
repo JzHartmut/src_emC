@@ -18,11 +18,18 @@
 
 
 typedef struct SocketCmd_T {
+  
+  /**A socket for tx and rx. */
   OS_DatagramSocket soOwn;
   
+  /**The own socket address (IP v4 and port)*/
   OS_SOCKADDR addrOwn;
 
+  /**The partner socket address (IP v4 and port)*/
   OS_SOCKADDR addrDst;
+
+  /**The sender socket address (IP v4 and port) for received message*/
+  OS_SOCKADDR addrRx;
 
   /**The string given own address as cmdline argument. */
   char const* sAddrOwn;
@@ -30,11 +37,42 @@ typedef struct SocketCmd_T {
   /**The string given destination address as cmdline argument. */
   char const* sAddrDst;
   
+
+  /**False then should write infos only on error.*/
+  bool bInfo;
+
+
+  /**True than should transmit a message.*/
+  bool bShouldTx;
+
+  /**True than should receive a message.*/
+  bool bShouldRx;
+
+  int zToken;
+  char const* tokens[20];
+
   int zTxArgs;
-  char txArgs[200];  //reference to cmdArgs
+  char txArgs[1400];  //the command line which should be transmitted.
 } SocketCmd_s;
 
 SocketCmd_s dataAppl = {0};
+
+char const* help = "\
+socketcmd -own:127.0.0.1:12345 -dst:0x7f000001:0xaff1 [-cmd cmd {args}] [-info] [-rx [{token}]] \n\
+  transmits and receives strings via socket possible to use as cmd line \n\
+  made by Hartmut Schorrig, www.vishia.org\n\
+* -own and -dst are the ip addresses (IP V4) with port.\n\
+  ip address and port are possible also in hexa form, as shown for dst.\n\
+* -cmd if given, the command and some arguments are following. \n\
+  in the transmitted string the args are wrapped with \"arg\" if necessary\n\
+  proper for immediately use as cmd string.\n\
+* -info then should write some infos on transmitting, for debug, \n\
+  don't set it if a cmd is expected on stdout.\n\
+  NOTE: error messages are always written on stderr. \n\
+* -rx if given then waits for a received string and writes it to stdout. \n\
+* token if given then it checks the receive string and builds a exit level number\n\
+   starting from 0 for the first token. It helps to evaluate short received messages\n\
+";
 
 
 void prepAddr(char const* sAddr, OS_SOCKADDR* soAddr) {
@@ -104,6 +142,34 @@ void txCmd(SocketCmd_s* thiz) {
 
 
 
+int rxCmd(SocketCmd_s* thiz) {
+  STACKTRC_ENTRY("txCmd");
+  int token = thiz->zToken ==0 ? 0: 255;
+  //note: reuse the txArgs, it is transmitted already.
+  int lenTxArgs = ARRAYLEN_emC(thiz->txArgs);
+  memset(thiz->txArgs, 0, lenTxArgs);
+  //reuse
+  int ok = os_recvfrom(thiz->soOwn, thiz->txArgs, lenTxArgs, 0, &thiz->addrRx);
+  if(ok <0) THROW_s0(IllegalArgumentException, "tx via fails", ok, 0);
+    
+  printf(thiz->txArgs);  //the received string
+  if(thiz->addrRx.address1 != thiz->addrDst.address1 || thiz->addrRx.address2 != thiz->addrDst.address2) {
+    printf(" -rxsender:%d.%d.%d.%d.%d ", thiz->addrRx.address2>>24, (thiz->addrRx.address2 & 0x00ff0000) >>16 
+          , (thiz->addrRx.address2 & 0x0000ff00) >>8, thiz->addrRx.address2 & 0x000000ff, thiz->addrRx.address1);
+  }
+  for(int ix=0; ix < thiz->zToken; ++ix) {
+    int lenToken = strnlen_emC(thiz->tokens[ix], 50);
+    if(strncmp_emC(thiz->txArgs, thiz->tokens[ix], lenToken) ==0
+      && (thiz->txArgs[lenToken] ==0 || thiz->txArgs[lenToken] ==0)) {  //can start with token, after token space separator
+      token = ix;
+      break;      
+    }
+  }
+  STACKTRC_RETURN token;
+}
+
+
+
 
 
 
@@ -113,11 +179,15 @@ void main(int nArgs, char** argsCmd) {
   SocketCmd_s* thiz = &dataAppl;
   int erret = 0;
   TRY {
+    bool gatherCmd = false;
+    bool gatherToken = false;
     if(nArgs == 1) {
+      printf(help);
     } else {
       for(int ixArg = 1; ixArg < nArgs; ++ixArg) {           // == evaluate cmd args
         char const* argCmd = argsCmd[ixArg];
         if(strncmp(argCmd, "-dst", 4)==0) {                   // store the dst address -ip:192.168.3.4:12345
+          gatherCmd = gatherToken = false;
           if(strnlen_emC(argCmd, 30) >4) {                   // either with this argument
             thiz->sAddrDst = argCmd+5;  //after separator char
           } else {
@@ -125,34 +195,72 @@ void main(int nArgs, char** argsCmd) {
           }
         }
         else if(strncmp(argCmd, "-own", 4)==0) {                   // store the dst address -ip:192.168.3.4:12345
+          gatherCmd = gatherToken = false;
           if(strnlen_emC(argCmd, 30) >4) {                   // either with this argument
             thiz->sAddrOwn = argCmd+5;  //after separator char
           } else {
             thiz->sAddrOwn = argsCmd[++ixArg];               // or from next arg
           }
         }
-        else {
+        else if(strncmp(argCmd, "-info", 4)==0) {
+          thiz->bInfo = true;
+        }
+        else if(strncmp(argCmd, "-rx", 3)==0) {
+          gatherCmd = false;
+          gatherToken = true;
+          thiz->bShouldRx = true;
+        }
+        else if(strncmp(argCmd, "-cmd", 4)==0) {
+          gatherCmd = true;
+          gatherToken = false;
+          thiz->bShouldTx = true;
+        }
+        else if(gatherCmd) {
           //                                                 // it is an argument to forward to dst
           if(thiz->zTxArgs < sizeof(thiz->addrDst)-4) {      // copy as one string, 
-            thiz->txArgs[thiz->zTxArgs++] = '\"';            // always surrounded with "arg", maybe necessary.
+            if(thiz->zTxArgs >0) {
+              thiz->txArgs[thiz->zTxArgs++] = ' ';          //separator space between
+            }
+            bool addQuotion = searchAnyChar_emC(argCmd, -100, " =:>;\"\'\t")>=0;  //if contains one of this chars
+            if(addQuotion) { thiz->txArgs[thiz->zTxArgs++] = '\"'; }         //surrounded with "arg", maybe necessary.
             thiz->zTxArgs += strpncpy_emC(thiz->txArgs, thiz->zTxArgs, sizeof(thiz->addrDst)-2, argCmd, -1);
-            thiz->zTxArgs += strpncpy_emC(thiz->txArgs, thiz->zTxArgs, sizeof(thiz->addrDst)-2, "\" ", -1);
+            if(addQuotion) { thiz->txArgs[thiz->zTxArgs++] = '\"'; }
           }
+        }
+        else if(gatherToken) {
+          if(thiz->zToken < ARRAYLEN_emC(thiz->tokens)) {
+            thiz->tokens[thiz->zToken] = argCmd;
+            thiz->zToken +=1;
+          } else {
+            printf("warning, too many token after -rx, not used: ");
+            printf(argCmd); printf("\n");
+          }
+        }
+        else {
+          printf("unexpected:"); printf(argCmd);
+          printf("\nforgotten -cmd ?\n"); 
+          printf(help);
         }
       }
     }
     prepAddr(thiz->sAddrOwn, &thiz->addrOwn);
     prepAddr(thiz->sAddrDst, &thiz->addrDst);
     openSocket(thiz);
-    printf("ok open socket %s\n", thiz->sAddrOwn);
-    txCmd(thiz);
-    printf("ok tx to %s: %s\n", thiz->sAddrDst, thiz->txArgs);
+    if(thiz->bInfo) { printf("ok open socket %s\n", thiz->sAddrOwn); }
+    if(thiz->bShouldTx) {
+      txCmd(thiz);
+      if(thiz->bInfo) { printf("ok tx to %s: %s\n", thiz->sAddrDst, thiz->txArgs); }
+    }
+    if(thiz->bShouldRx) {
+      erret = rxCmd(thiz);
+    }
   }_TRY
   CATCH(Exception, exc) {
     printStackTrace_Exception_emC(exc, _thCxt);
   }
   END_TRY
-  STACKTRC_RETURN;
+  exit(erret);
+  //STACKTRC_RETURN;
 }
 
 
