@@ -104,6 +104,11 @@ It is not yet possible for nested options.
 */
 METHOD_C bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt);
 
+
+extern_C struct StringPartScanJc_t* scanChar_StringPartScanJc(StringPartScanJc_s* thiz, char cmp, ThCxt* _thCxt);
+
+
+
 /**scan next content, test the requested String.
 new since 2008-09: if sTest contains cEndOfText, test whether this is the end.
 skips over whitespaces and comments automatically, depends on the settings forced with
@@ -111,6 +116,10 @@ calling of {@link #seekNoWhitespaceOrComments()} .<br/>
 See global description of scanning methods.
 */
 METHOD_C struct StringPartScanJc_t* scan_Cs_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sTestP, ThCxt* _thCxt);
+
+INLINE_emC struct StringPartScanJc_t* scan_z_StringPartScanJc(StringPartScanJc_s* thiz, char const* text, ThCxt* _thCxt) {
+  return scan_Cs_StringPartScanJc(thiz, z_StringJc(text), _thCxt);
+}
 
 /*** */
 METHOD_C struct StringPartScanJc_t* scanQuotion_CsSSY_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sQuotionmarkStart, StringJc sQuotionMarkEnd, StringJc_Y* sResult, ThCxt* _thCxt);
@@ -295,6 +304,12 @@ class StringPartScanJc : public StringPartJc, private StringPartScanJc_s
   int64 getLastScannedIntegerNumber(){  return getLastScannedIntegerNumber_StringPartScanJc(this,  null/*_thCxt*/); }
 
   bool getLastScannedIntegerSign(){  return getLastScannedIntegerSign_StringPartScanJc(this,  null/*_thCxt*/); }
+
+  StringPartScanJc& scanChar(char cmp) { scanChar_StringPartScanJc(this, cmp, null/*_thCxt*/); return *this; } 
+
+  StringPartScanJc& scan(char const* cmp) { scan_z_StringPartScanJc(this, cmp, null/*_thCxt*/); return *this; } 
+
+
 
   //TODO CharSeqJc 
   Part_StringPartJc_s* getLastScannedString(){  return getLastScannedString_StringPartScanJc(this,  null/*_thCxt*/); }

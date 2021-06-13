@@ -296,6 +296,27 @@ bool scanOk_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt* _thCxt)
 }
 
 
+
+struct StringPartScanJc_t* scanChar_StringPartScanJc(StringPartScanJc_s* thiz, char cmp, ThCxt* _thCxt) {
+  STACKTRC_TENTRY("scanChar_StringPartScanJc");
+  if(scanEntry_StringPartScanJc(thiz, _thCxt)) {
+    if(  (thiz->base.super.begin + 1) < thiz->base.super.endMax) {
+      char cc = charAt_CharSeqJc(thiz->base.super.content/*J1cT2*/, thiz->base.super.begin, _thCxt);
+      if(cc == cmp) {
+        thiz->base.super.begin +=1;    //skip, ok
+      } else {
+        thiz->base.super.bCurrentOk = false;
+      }
+    } else {
+      thiz->base.super.bCurrentOk = false;
+    }
+    
+  }
+  STACKTRC_RETURN thiz;
+}
+
+
+
 /**scan next content, test the requested String.*/
 struct StringPartScanJc_t* scan_Cs_StringPartScanJc(StringPartScanJc_s* thiz, CharSeqJc sTestP, ThCxt* _thCxt)
 { 
