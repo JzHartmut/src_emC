@@ -11,6 +11,7 @@
 #include <applstdef_emC.h>
 #include <emC/OSAL/os_socket.h>
 #include <emC/J1c/StringPartScanJc.h>
+#include <emC/Base/Time_emC.h>
 #include <stdio.h>
 #include <stdlib.h>
  
@@ -38,6 +39,8 @@ typedef struct SocketCmd_T {
   char const* sAddrDst;
   
 
+  int timeoutAfterError;
+
   /**False then should write infos only on error.*/
   bool bInfo;
 
@@ -58,7 +61,7 @@ typedef struct SocketCmd_T {
 SocketCmd_s dataAppl = {0};
 
 char const* help = "\
-socketcmd -own:127.0.0.1:12345 -dst:0x7f000001:0xaff1 [-cmd cmd {args}] [-info] [-rx [{token}]] \n\
+socketcmd -own:127.0.0.1:12345 -dst:0x7f000001:0xaff1 [-cmd cmd {args}] [-info] [-to:1000] [-rx [{token}]]\n\
   transmits and receives strings via socket possible to use as cmd line \n\
   made by Hartmut Schorrig, www.vishia.org\n\
 * -own and -dst are the ip addresses (IP V4) with port.\n\
@@ -69,6 +72,7 @@ socketcmd -own:127.0.0.1:12345 -dst:0x7f000001:0xaff1 [-cmd cmd {args}] [-info] 
 * -info then should write some infos on transmitting, for debug, \n\
   don't set it if a cmd is expected on stdout.\n\
   NOTE: error messages are always written on stderr. \n\
+* -to: timeout after an error, or only one wait time if no cmd is given. \n\
 * -rx if given then waits for a received string and writes it to stdout. \n\
 * token if given then it checks the receive string and builds a exit level number\n\
    starting from 0 for the first token. It helps to evaluate short received messages\n\
@@ -135,7 +139,7 @@ void txCmd(SocketCmd_s* thiz) {
   STACKTRC_ENTRY("txCmd");
   
   int ok = os_sendto(thiz->soOwn, thiz->txArgs, thiz->zTxArgs, 0, &thiz->addrDst);
-  if(ok <0) THROW_s0(IllegalArgumentException, "tx via fails", ok, 0);
+  if(ok <0) THROW_s0(IllegalArgumentException, "tx fails", ok & ~0x80000000, 0);
   
   STACKTRC_RETURN;
 }
@@ -143,29 +147,43 @@ void txCmd(SocketCmd_s* thiz) {
 
 
 int rxCmd(SocketCmd_s* thiz) {
-  STACKTRC_ENTRY("txCmd");
-  int token = thiz->zToken ==0 ? 0: 255;
+  STACKTRC_ENTRY("rxCmd");
+  int ret = thiz->zToken ==0 ? 0: 99;
   //note: reuse the txArgs, it is transmitted already.
   int lenTxArgs = ARRAYLEN_emC(thiz->txArgs);
   memset(thiz->txArgs, 0, lenTxArgs);
   //reuse
   int ok = os_recvfrom(thiz->soOwn, thiz->txArgs, lenTxArgs, 0, &thiz->addrRx);
-  if(ok <0) THROW_s0(IllegalArgumentException, "tx via fails", ok, 0);
-    
-  printf(thiz->txArgs);  //the received string
-  if(thiz->addrRx.address1 != thiz->addrDst.address1 || thiz->addrRx.address2 != thiz->addrDst.address2) {
-    printf(" -rxsender:%d.%d.%d.%d.%d ", thiz->addrRx.address2>>24, (thiz->addrRx.address2 & 0x00ff0000) >>16 
-          , (thiz->addrRx.address2 & 0x0000ff00) >>8, thiz->addrRx.address2 & 0x000000ff, thiz->addrRx.address1);
-  }
-  for(int ix=0; ix < thiz->zToken; ++ix) {
-    int lenToken = strnlen_emC(thiz->tokens[ix], 50);
-    if(strncmp_emC(thiz->txArgs, thiz->tokens[ix], lenToken) ==0
-      && (thiz->txArgs[lenToken] ==0 || thiz->txArgs[lenToken] ==0)) {  //can start with token, after token space separator
-      token = ix;
-      break;      
+  if(ok <0) {
+    ok &= ~0x80000000;  //convention, set MSB for error
+    if(ok == 10054){    //This is, partner is not ready, it is only detect if somewhat was transmitted
+      if(thiz->bInfo) {
+        printf("on tx it was detected that the partner is not existing (error 10054), sleep %d ms, exit with 254\n", thiz->timeoutAfterError);
+      }
+      if(thiz->timeoutAfterError >0) {
+        sleep_Time_emC(thiz->timeoutAfterError);  //sleep till repeating, to prevent too many cpu load for spinning. 
+      }
+      ret = 254;
+    } else {
+      THROW_s0(IllegalArgumentException, "rx fails", ok, 0);
     }
   }
-  STACKTRC_RETURN token;
+  else {
+    printf(thiz->txArgs);  //the received string
+    if(thiz->addrRx.address1 != thiz->addrDst.address1 || thiz->addrRx.address2 != thiz->addrDst.address2) {
+      printf(" -rxsender:%d.%d.%d.%d.%d ", thiz->addrRx.address2>>24, (thiz->addrRx.address2 & 0x00ff0000) >>16 
+            , (thiz->addrRx.address2 & 0x0000ff00) >>8, thiz->addrRx.address2 & 0x000000ff, thiz->addrRx.address1);
+    }
+    for(int ix=0; ix < thiz->zToken; ++ix) {
+      int lenToken = strnlen_emC(thiz->tokens[ix], 50);
+      if(strncmp_emC(thiz->txArgs, thiz->tokens[ix], lenToken) ==0
+        && (thiz->txArgs[lenToken] ==0 || thiz->txArgs[lenToken] ==0)) {  //can start with token, after token space separator
+        ret = ix +1;
+        break;      
+      }
+    }
+  }
+  STACKTRC_RETURN ret;
 }
 
 
@@ -210,6 +228,10 @@ void main(int nArgs, char** argsCmd) {
           gatherToken = true;
           thiz->bShouldRx = true;
         }
+        else if(strncmp(argCmd, "-to", 3)==0) {
+          thiz->timeoutAfterError = parseIntRadix_emC(argCmd+4, 20, 10, null, null);
+          if(thiz->bInfo) { printf("  timeout=%d\n", thiz->timeoutAfterError); } 
+        }
         else if(strncmp(argCmd, "-cmd", 4)==0) {
           gatherCmd = true;
           gatherToken = false;
@@ -243,20 +265,36 @@ void main(int nArgs, char** argsCmd) {
         }
       }
     }
-    prepAddr(thiz->sAddrOwn, &thiz->addrOwn);
-    prepAddr(thiz->sAddrDst, &thiz->addrDst);
-    openSocket(thiz);
-    if(thiz->bInfo) { printf("ok open socket %s\n", thiz->sAddrOwn); }
-    if(thiz->bShouldTx) {
-      txCmd(thiz);
-      if(thiz->bInfo) { printf("ok tx to %s: %s\n", thiz->sAddrDst, thiz->txArgs); }
+    bool bDoneAny = false;
+    if(thiz->sAddrOwn !=null) {
+      prepAddr(thiz->sAddrOwn, &thiz->addrOwn);
+      prepAddr(thiz->sAddrDst, &thiz->addrDst);
+      openSocket(thiz);
+      if(thiz->bInfo) { printf("ok open socket %s\n", thiz->sAddrOwn); }
+      if(thiz->bShouldTx) {
+        bDoneAny = true;
+        txCmd(thiz);
+        if(thiz->bInfo) { printf("ok tx to %s: %s\n", thiz->sAddrDst, thiz->txArgs); }
+      }
+      if(thiz->bShouldRx) {
+        bDoneAny = true;
+        erret = rxCmd(thiz);
+      }
     }
-    if(thiz->bShouldRx) {
-      erret = rxCmd(thiz);
+    if(!bDoneAny && thiz->timeoutAfterError >0) {
+      if(thiz->bInfo) {
+        printf("sleep for %d ms\n", thiz->timeoutAfterError);
+      }
+      sleep_Time_emC(thiz->timeoutAfterError);
     }
   }_TRY
   CATCH(Exception, exc) {
     printStackTrace_Exception_emC(exc, _thCxt);
+    if(thiz->timeoutAfterError >0) {
+      printf("sleep for %d ms\n", thiz->timeoutAfterError);
+      sleep_Time_emC(thiz->timeoutAfterError);
+    }
+    erret = 255;
   }
   END_TRY
   exit(erret);
