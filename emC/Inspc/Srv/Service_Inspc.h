@@ -4,7 +4,7 @@
 #include <emC/Inspc/J2c/Inspector_Inspc.h>
 #include <emC/Base/Time_emC.h>
 
-#ifdef DEF_ClassJc_Vtbl
+//#ifdef DEF_ClassJc_Vtbl
 
 
 //extern_C ClassJc const refl_SimTime_Inspc;
@@ -56,7 +56,7 @@ void dtor_Service_Inspc(Service_Inspc* thiz);
  */
 void step_Service_Inspc(Service_Inspc* thiz, uint16* state_y, uint16* ctCheck_y);
 
-#endif //def DEF_ClassJc_Vtbl
+//#endif //def DEF_ClassJc_Vtbl
 
 
 #endif  // __Service_Inspc_h__

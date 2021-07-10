@@ -288,7 +288,8 @@ typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
 
-#define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+//NOTE: This is the std definition in emC/Base/types_def_common.h, There also SIZEOF_IN_STRUCT
+//#define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 
 /**Prevent process a NaN-value (not a number).
  * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h

@@ -796,14 +796,15 @@ static void updateInternal_DataStruct_Inspc(DataStruct_Inspc* thiz, va_list varg
   int32 mUpd = thiz->base.super.fBlockInfo->mInputUpd;
   VariableParam_DataStruct_Inspc_s* varParam = thiz->base.super.varParams;
   for (int ix = 0; ix < thiz->base.super.zVariable; ++ix) {
-    if(mUpd & mbit){
+    if(mUpd & mbit){                   // addr is from varg, it is the input addr for data (Simulink FB input)
       void const* addr = va_arg(varg, void const*); //vport_x[ix];
-      int dbg = *(int*)addr;  //only debug
-      float dbgf = *(float*)addr;  //only debug
+      int dbg = *(int*)addr;      //only debug
+      float dbgf = *(float*)addr; //only debug
       int nrofbytesInput = varParam->nrofBytesValue;
-      int ixInVal = varParam->ixInVal;
+      int ixInVal = varParam->ixInVal; // dst: Refers in one block for userdata. src: addr
       memcpy_MemC(&thiz->userData, &thiz->userData.addr->val[ixInVal], addr, nrofbytesInput);
-      //memcpy(&userData[ixInVal], addr, nrofbytesInput);
+      //The memcpy_MemC checks the dst range, it is userData as MemC {addr, size}
+      //removed: Simple memcpy, may be error sensitive: memcpy(&userData[ixInVal], addr, nrofbytesInput);
     }
     mbit <<=1;
     varParam +=1;  //Pointer to next array element.

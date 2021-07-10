@@ -48,9 +48,9 @@ typedef struct UserData_DataStructMng_Inspc_t
 
 #define zBaseVal_UserData_DataStructMng_Inspc 20
 
-  /**Input buffer for at least 12 different value (cluster), maybe a single float, or a float_comlex, or a vector etc.
-  * Correct view organized in the reflection.
-  */
+  /**Buffer for values, maybe a single float, or a float_comlex, or a vector etc.
+   * Correct view to this data is organized in the reflection depending on paramter. See: 
+   */
   int32 val[zBaseVal_UserData_DataStructMng_Inspc];
 } UserData_DataStructMng_Inspc;
 

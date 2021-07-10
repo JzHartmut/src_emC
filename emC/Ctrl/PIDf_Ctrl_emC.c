@@ -62,7 +62,7 @@ void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, 
     thiz->i.fIx = (float)(0x40000000L) / thiz->yMax;
     thiz->i.fI = thiz->Tn <=0 ? 0 : (int64)(thiz->i.fIx * (thiz->Tctrl / thiz->Tn)); // * (float)(0x100000000LL));
     thiz->i.fTsD = thiz->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tctrl / thiz->T1d);
-    thiz->i.fD = (thiz->Td / thiz->Tctrl) * thiz->kP;
+    thiz->i.fD = (thiz->Td / thiz->Tctrl); // * thiz->kP;
     thiz->dbgct_reparam +=1;
     lock_ObjectJc(&thiz->i.base.obj);
   }

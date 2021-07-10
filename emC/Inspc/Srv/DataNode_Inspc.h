@@ -3,7 +3,7 @@
 #include <emC/Base/Object_emC.h>
 #include <emC/Jc/ReflectionJc.h>
 
-#ifdef DEF_ClassJc_Vtbl
+//#ifdef DEF_ClassJc_Vtbl
 
 struct DataNode_Inspc_t;
 /**struct of references for Inspector access.
@@ -114,6 +114,6 @@ void XXXadd_DataNode_Inspc(DataNode_Inspc* thiz, StringJc name1_param, StringJc 
 bool registerRefl_DataNode_Inspc(DataNode_Inspc* thiz, void* obj, char const* name, struct ClassJc_t const* refl);
 #define registerRefl_FBaccessNode_Inspc registerRefl_DataNode_Inspc
 
-#endif //def DEF_ClassJc_Vtbl
+//#endif //def DEF_ClassJc_Vtbl
 
 #endif  //__DataNode_Inspc_h__

@@ -1,8 +1,9 @@
 /**This file is the only one which should be added to a simulink-mex library to register a S-function for reflection.
  * The whole inspector binaries are not necessary therefore. They should not need in a extra binary image.
  */
-#include <emC/Inspc/Srv/DataNode_Inspc.h>
+#include <applstdef_emC.h>
 #ifdef DEF_ClassJc_Vtbl
+#include <emC/Inspc/Srv/DataNode_Inspc.h>
 #include <emC/Inspc/Srv/CheckPwd_Inspc.h>
 
 #include <string.h>
