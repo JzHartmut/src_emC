@@ -13,7 +13,7 @@
 //static const int8 zPrimitive[] = { 8,4,8,4,2,1,4,2,1,1,1,16,8,16,8,4,2,1,1};
 
 
-void ctor_DataStructBase_Inspc  (  DataStructBase_Inspc_s* thiz, DefPortTypes_emC* fbInfo, int ixPort
+void ctor_DataStructBase_Inspc ( DataStructBase_Inspc_s* thiz, DefPortTypes_emC* fbInfo, int ixPort
   , int zVariable
   , char const* sVariableDef
 ){
@@ -23,7 +23,7 @@ void ctor_DataStructBase_Inspc  (  DataStructBase_Inspc_s* thiz, DefPortTypes_em
   thiz->varParams = (VariableParam_DataStruct_Inspc_s*) os_allocMem(zMem);
   //
   bool bOutputVariable = (ixPort > fbInfo->nrofInputs);
-  thiz->zVariable = (int16)analyzeVariableDef(z_StringJc(sVariableDef), thiz->varParams, zVariable, fbInfo, ixPort, bOutputVariable, kRun_EPropagatePortTypes_emC);
+  thiz->zVariable = (int16)analyzeVariableDef(z_StringJc(sVariableDef), thiz, fbInfo, ixPort, bOutputVariable, kRun_EPropagatePortTypes_emC);
   thiz->varParams_debugView = (VariableParam_DataStruct_Inspc_Array*) thiz->varParams;
 
 
@@ -178,16 +178,29 @@ int XXXanalyzeLineDef_DataStruct_Inspc  (  struct StringPartScanJc_t* sscan, Ent
 }
 
 
+static void parseSharedMemName_DataStructBase_Inspc ( DataStructBase_Inspc_s* thiz, StringPartJc_s*  spSrc) {
+  StringPartJc sp(spSrc);  //use C++ scan class internally
+  sp.seekPos(1).lentoIdentifier();
+  if(thiz !=null) { //It is null on only formally parsing or parsing for Port Info
+    sp.copyCurrentChars(thiz->nameSharedMem, sizeof(thiz->nameSharedMem)-1);
+  }
+  sp.fromEnd();
+}
+
+
+
 
 
 /**Analyzes the given parameter in the text area and sets port info about the signal inputs.
 */
 int analyzeVariableDef ( StringJc sVarDef
-, VariableParam_DataStruct_Inspc_s* const varArray, int zVarArray
+//, VariableParam_DataStruct_Inspc_s* const varArray
+, DataStructBase_Inspc_s* dataStructBase_FB
+//, int zVariables_NOT_USED
 , DefPortTypes_emC* fbInfo, int ixPortStart, bool bOutput
 , EDefPortTypes_emC cause
 ) {
-  STACKTRC_ENTRY("analyeInputDefinition");
+  STACKTRC_ENTRY("analyzeVariableDef");
   int ixVar = 0;
   int ixPort = ixPortStart;
   StringPartScanJc_s  sscan = { 0 };
@@ -195,21 +208,25 @@ int analyzeVariableDef ( StringJc sVarDef
   ctorO_Cs_StringPartScanJc(&sscan.base.object, sVarDef, _thCxt);
   setIgnoreEndlineComment_S_StringPartJc(sp, z_StringJc("//"), _thCxt);
   setIgnoreWhitespaces_StringPartJc(sp, true, _thCxt);
+  char cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt);
+  if(cc == '$') {  
+    parseSharedMemName_DataStructBase_Inspc(dataStructBase_FB, sp);
+  }                                              // Using shared mem area.
   //
   //loop over more as one entry.
   do {
-    char cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt); //first char is the end char of last line.
-    if(cc == ';' || cc == ',') {
-      seekPos_StringPartJc(sp, 1, _thCxt); //now skip over end char, but it is known.
+    cc = charAt_i_StringPartJc(&sp->base.CharSeqObjJc_ifc, 0, _thCxt); 
+    if(cc == ';' || cc == ',') {                 // first char may be thif(e end char of last line.
+      seekPos_StringPartJc(sp, 1, _thCxt);       // skip over it.
     }
-    seekNoWhitespaceOrComments_StringPartJc(sp, _thCxt);
-    if( length_StringPartJc(sp, _thCxt) > 0 ) {
+    seekNoWhitespaceOrComments_StringPartJc(sp, _thCxt);  //from start of a new entry:
+    if( length_StringPartJc(sp, _thCxt) > 0 ) {  // A new entry
       Entry_DefPortType_emC* portInfo = &fbInfo->entries[ixPort];
-      VariableParam_DataStruct_Inspc_s* varInfo = varArray == null ? null : &varArray[ixVar];
+      VariableParam_DataStruct_Inspc_s* varInfo = dataStructBase_FB == null ? null : &dataStructBase_FB->varParams[ixVar];
       if(varInfo) {
         varInfo->ePort = portInfo;
-        portInfo->sType = varInfo->typeRef;  //Reference to the nested char[32]
-        portInfo->sName = varInfo->name;     //Reference to the nested char[32]
+        portInfo->sType = varInfo->typeRef;      // Reference to the nested char[32]
+        portInfo->sName = varInfo->name;         // Reference to the nested char[32]
       } else { //used for definePortType
         portInfo->sType = null;
         portInfo->sName = "???";
@@ -222,8 +239,8 @@ int analyzeVariableDef ( StringJc sVarDef
       }
       if(cc == ',' && ixVar >0) {
         //Duplicate the information from the last entry because , as separator:
-        if(varArray) {
-          VariableParam_DataStruct_Inspc_s* varInfoLast = &varArray[ixVar-1];
+        if(dataStructBase_FB !=null) {
+          VariableParam_DataStruct_Inspc_s* varInfoLast = &dataStructBase_FB->varParams[ixVar-1];
           varInfo->accessRights = varInfoLast->accessRights;
           memcpy(varInfo->typeRef, varInfoLast->typeRef, sizeof(varInfo->typeRef));
         } else {
@@ -238,7 +255,7 @@ int analyzeVariableDef ( StringJc sVarDef
       // ===>
       parseLineDef_DataStruct_Inspc(sp, portInfo, varInfo, null, 0, cause, _thCxt);
       //
-      if(varArray==null) { //only in port initialization phase:
+      if(dataStructBase_FB ==null) { //only in port initialization phase:
         if(bOutput) {
           int32 mBit = 1 << (ixPort - fbInfo->nrofInputs);
           //The entry defines mInputInit if a '=' is contained:

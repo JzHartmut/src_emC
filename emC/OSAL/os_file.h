@@ -279,6 +279,10 @@ extern_C int os_fwrite(OS_HandleFile file, void const* buffer, int nrofbytes);
 /**Locks or unlocks a region or the whole file.
  * @param cmd ones of lock, sharedLock, checkLock, unlock TODO enum-def
  * @param len number of bytes to lock from the current position, or -1 for file-lock
+ * See for example https://gavv.github.io/articles/file-locks/  
+ * File locks may not be supported wide ranged (files in network etc.).
+ * It seems to be better using messages for data exchange (Sockets ...) as universal solution.
+ * The file locking mechanism were supported in the older systems, for processes on the same PC, etc.
  */
 extern_C int os_flock(OS_HandleFile file, struct FileLock_OSAL_t* lockObj);
 

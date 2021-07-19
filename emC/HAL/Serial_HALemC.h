@@ -1,5 +1,5 @@
-#ifndef HGUARD_serial_HALemC
-#define HGUARD_serial_HALemC
+#ifndef HGUARD_Serial_HALemC
+#define HGUARD_Serial_HALemC
 #include <applstdef_emC.h>
 #include <emC/Base/Object_emC.h>
 
@@ -436,4 +436,4 @@ class Comm_SPI_HALemC //: public Comm_HALemC
 
 
 
-#endif //HGUARD_serial_HALemC
+#endif //HGUARD_Serial_HALemC

@@ -7,6 +7,7 @@
 #include <emC/Jc/ReflectionJc.h>
 #include <emC/OSAL/os_file.h>
 #include <emC/base/MemC_emC.h>
+#include <emC/OSAL/os_sharedmem.h>
 #include <string.h> //memcpy
 
 struct DataStruct_Inspc_t;
@@ -83,7 +84,7 @@ typedef struct DataStruct_Inspc_t
   int32 ctInit;
 
   /**Reference to the data to get and set, derived from the mng at userDataBlock->data */
-  Mem_UserData_DataStructMng_Inspc userData;
+  Mem_UserData_DataStructMng_Inspc userData;  //contains addr and val as size information.
 
   /**Reference to the fields of the DataStructMng_Inspc */
   ClassJc const* clazz;
@@ -238,6 +239,9 @@ typedef struct DataStructMng_Inspc_t
 
   int ctGenSrc;
   
+  /**Management for the shared mem from OSAL. */
+  SharedMem_OSAL shMemMng;
+
   /**Registered Access_DataStruct_Inspc*/
   struct { 
     int zdata;

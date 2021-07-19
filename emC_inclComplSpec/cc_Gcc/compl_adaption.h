@@ -61,8 +61,8 @@
 
 //#include the standard header from the standard include path. 
 //stdint.h defines int8_t etc. via typedef. 
-//Because pragma once (or guard) the content of the files are not included again.
-//They should be included firstly to cover its typedef by the typedef of simulink.
+//For Cygwin Gcc this files should be used.
+//They are included elsewhere with conflicts if #include <stdio.h>
 #include <stdint.h>  //C99-int types
 #include <limits.h>  //proper to C99
 
@@ -140,14 +140,14 @@
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
  */
-#define int8      int8_t
-#define uint8     uint8_t
+#define int8      signed char
+#define uint8     unsigned char
 
-#define int16     int16_t
-#define uint16    uint16_t
+#define int16     short
+#define uint16    unsigned short
 
-#define int32     int32_t
-#define uint32    uint32_t
+#define int32     int
+#define uint32    unsigned int
 
 #define int64 long long
 #define uint64 unsigned long long
@@ -188,7 +188,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 /**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
-#define intPTR intptr_t
+#define intPTR long
 
 
 /**Definition of the really used types in variable argument lists. 

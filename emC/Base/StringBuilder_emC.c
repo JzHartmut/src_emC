@@ -677,7 +677,6 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, ThCx
   StringJc ret = NULL_StringJc;
   STACKTRC_TENTRY("toStringNonPersist_StringBuilderJc");
   { StringBuilderJc_s const* ythis = C_CAST(StringBuilderJc_s const*, othis);  //admissible because the method is only called for StringBuilderJc_s
-    StringBuilderJc_s* wthis = WR_CAST(StringBuilderJc_s*, ythis);  //wthis: write access necessary? TODO
     const char* s0 = ythis->size < 0 ? ythis->value.buffer : ythis->value.direct;
     int count = ythis->_count;
     /**Detect whether the buffer is found in the stack range. Than its memory address is
@@ -691,6 +690,7 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, ThCx
     }
     #ifdef DEF_ThreadContext_HEAP_emC
     if(ythis->_mode & _mThread_StringBuilderJc){
+      StringBuilderJc_s* wthis = WR_CAST(StringBuilderJc_s*, ythis);  //wthis: write access necessary? TODO
       nonPersistent |= mThreadContext__StringJc;
       int sizeInThCxt = _reduceCapacity_StringBuilderJc(wthis, (int16)(ythis->_count+1));
       reduceLastUserBuffer_ThreadContext_emC(wthis, sizeInThCxt, _thCxt);
@@ -759,16 +759,16 @@ StringJc toString_CharSeqJc ( CharSeqJc thiz )
 
 
 //Used for Vtbl for interface CharSeqJc
-static int32 length_StringBuilderJc_F(CharSeqObjJc const* thiz, ThCxt* _thCxt){ return ((StringBuilderJc_s const*)thiz)->_count; }
+int32 length_StringBuilderJc_F(CharSeqObjJc const* thiz, ThCxt* _thCxt){ return ((StringBuilderJc_s const*)thiz)->_count; }
 
-static char charAt_StringBuilderJc_F(CharSeqObjJc const* othiz, int32 ix, ThCxt* _thCxt){
+char charAt_StringBuilderJc_F(CharSeqObjJc const* othiz, int32 ix, ThCxt* _thCxt){
   StringBuilderJc_s const* thiz = (StringBuilderJc_s const*)othiz;
   char const* chars = chars_StringBuilderJc(thiz);
   if(ix < 0 || ix >= thiz->_count) { THROW1_s0(IndexOutOfBoundsException, "faulty indices", ix); return 0; }
   else return chars[ix];
 }
 
-static CharSeqJc subSequence_StringBuilderJc_F(CharSeqObjJc const* othiz, int32 from, int32 to, ThCxt* _thCxt)
+CharSeqJc subSequence_StringBuilderJc_F(CharSeqObjJc const* othiz, int32 from, int32 to, ThCxt* _thCxt)
 { StringBuilderJc_s const* thiz = (StringBuilderJc_s const*)othiz;
   CharSeqJc ret = {0};
   if(from > 0 && from <= to && to <= thiz->_count) {

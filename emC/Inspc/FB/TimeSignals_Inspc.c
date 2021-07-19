@@ -119,7 +119,7 @@ char const* definePortTypes_TimeSignals_Inspc  (  struct DefPortTypes_emC_t* fbI
   set_DefPortTypes_emC(fbInfo, 0, 'U', "error", null, "", 0, mOutputStep_Entry_DefPortType_emC);
   //
   // ===>
-  zEntries = analyzeVariableDef(z_StringJc(outputDefinition), null, zEntries, fbInfo, fbInfo->nrofInputs +1, true, cause);
+  zEntries = analyzeVariableDef(z_StringJc(outputDefinition), null, fbInfo, fbInfo->nrofInputs +1, true, cause);
   //
   fbInfo->mOutputInit |= fbInfo->mOutputVargInit;
   fbInfo->mOutputStep |= fbInfo->mOutputVargStep;

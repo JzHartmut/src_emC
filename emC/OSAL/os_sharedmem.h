@@ -64,6 +64,18 @@ extern_C MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int siz
  */
 extern_C MemC os_accessSharedMem(SharedMem_OSAL* thiz, const char* name);
 
+/**Opens a shared mem which may be existing or not.
+ * @param name the name of the shared memory. The rule for the name depends on the operation system possibilities.
+ * @param sizeUser the size of the user area. It is possible that a larger size will be created
+ *        to store some internal information.
+ * @param bNew true then this routine failes if the shared mem with this name already exists.
+ *             false then try to access an existing shared mem. If not existing then open it with the given size
+ * @changes all data in thiz.
+ * @return pointer to the user area of the shared memory with a size information which may be greater or equal sizeUser.
+ *         If it is greater then the shared memory was created with the greater size by another call in maybe another process.
+ *         It is possible that the shared memory contains derived data (more data) and only the base data here are used.
+ */
+extern_C void* os_openSharedMem(SharedMem_OSAL* thiz, const char* name, int sizeUser, bool bNew);
 
 extern_C bool os_isReadySharedMem(SharedMem_OSAL* thiz);
 

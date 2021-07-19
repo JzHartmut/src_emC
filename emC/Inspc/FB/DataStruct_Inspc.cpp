@@ -218,7 +218,7 @@ char const* definePortType_DataStructMng_Inspc(DefPortTypes_emC* fbInfo, EDefPor
   fbInfo->ixInputStep2 = 0;
   fbInfo->ixInputUpd = 0;
   fbInfo->mInputDataInit = 0;   //it is onyl defined by Tinit variable in analyzeVariableDef()
-  zEntries = analyzeVariableDef(z_StringJc(inputDefinition), null, zEntries, fbInfo, 0, false, cause);
+  zEntries = analyzeVariableDef(z_StringJc(inputDefinition), null, fbInfo, 0, false, cause);
   fbInfo->mInputInit |= fbInfo->mInputVargInit;
   fbInfo->mInputUpd |= fbInfo->mInputVargStep;
   fbInfo->nrofInputs = zEntries;
@@ -267,7 +267,7 @@ char const* definePortType_DataStruct_Inspc(DefPortTypes_emC* fbInfo, EDefPortTy
   fbInfo->ixInputStep = 0;
   fbInfo->ixInputStep2 = 0;
   fbInfo->ixInputUpd = 0;
-  zEntries = analyzeVariableDef(z_StringJc(inputDefinition), null, zEntries, fbInfo, 0, false, cause);
+  zEntries = analyzeVariableDef(z_StringJc(inputDefinition), null, fbInfo, 0, false, cause);
   fbInfo->mInputInit |= fbInfo->mInputVargInit;
   fbInfo->mInputUpd |= fbInfo->mInputVargStep;
   fbInfo->nrofInputs = zEntries;
@@ -385,7 +385,12 @@ void dtor_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
     CALLINE; os_freeMem(thiz->fields);
   }
   clearHandle_Handle2Ptr(thiz->hUserDataBlock); //*addr_thiz;
-  CALLINE; freeM_MemC(thiz->userDataBlock);
+  CALLINE;
+  if(os_isReadySharedMem(&thiz->shMemMng)) {  // using shardmem, close it:
+    os_closeSharedMem(&thiz->shMemMng);
+  } else {
+    freeM_MemC(thiz->userDataBlock);
+  }
   STACKTRC_RETURN;
 }
 
@@ -736,7 +741,13 @@ bool init_DataStructMng_Inspc(DataStructMng_Inspc* thiz
 
         if (nrofData < zBaseVal_UserData_DataStructMng_Inspc) { nrofData = zBaseVal_UserData_DataStructMng_Inspc; }
         int userDataBytes = sizeof(UserData_DataStructMng_Inspc) + sizeof(int32) * (nrofData - zBaseVal_UserData_DataStructMng_Inspc);
-        ALLOC_MemC(thiz->userDataBlock, userDataBytes);              // alloc
+        if(thiz->base.super.base.super.nameSharedMem[0] !=0) {       // Use the shared memory area.
+          void* addrSh = os_openSharedMem(&thiz->shMemMng, thiz->base.super.base.super.nameSharedMem, userDataBytes, false);  
+          thiz->userDataBlock.addr = (UserData_DataStructMng_Inspc*)  addrSh;
+          thiz->userDataBlock.val = userDataBytes;         
+        } else {
+          ALLOC_MemC(thiz->userDataBlock, userDataBytes);            // alloc
+        }
         thiz->hUserDataBlock = registerPtr_Handle2Ptr(thiz->userDataBlock.addr, "UserDataStruct_Inspc");
         //
         DataStructMng_Inspc* mng1 = thiz;  //start with thiz as sub mng                              

@@ -5,97 +5,128 @@
 //#error Uses applCpp32_emC/applstdef_emC.h
 
 
-/**The compiler switch __CPLUSPLUSJcpp should set only if you want to work with the C++ variantes of Java2C translated files.
- * It is recommended also using a C++ compiler with C sources. Then do not set that compiler switch.
- */
-//#define __CPLUSPLUSJcpp
-#undef __CPLUSPLUSJcpp
-//#define __cplusplus
+/**Define the granularity of the ObjectJc base class: */
+#define DEF_ObjectSimple_emC
+//#define DEF_ObjectJc_SYNCHANDLE
+//#define DEF_ObjectJcpp_REFLECTION
+//#define DEF_ObjectJc_OWNADDRESS
+//#define DEF_ObjectJc_LARGESIZE
 
-/**With this compiler switch the reflection should not be included, because they will not used. */
+/**Define of the offering of Reflection information: */
 #define DEF_REFLECTION_NO
+//#define DEF_REFLECTION_SIMPLE
+//#define DEF_REFLECTION_OFFS
+//#define DEF_REFLECTION_FULL
 
 
-
-//This block before <OSAL/types_def_common.h>
-/**The compl_adaption.h should contain the compiler (and platform-) specific definitions of some data types with defined bit widhts.*/
-#include <compl_adaption.h>
-
-/**Include this file always. It defines some types for C compilation compatible to C++. */
-#include <OSAL/types_def_common.h>
+/**If set then the target should not use string operations */
+//#define DEF_NO_StringUSAGE
+//#define DEF_CharSeqJcCapabilities
 
 
-/**Including this file the ObjectJc.h is not included, */
-#include <emC_srcApplSpec/applConv/ObjectJc_simple.h>
-
-
-#include <emC_srcApplSpec/applConv/assert_simpleStop.h>  //Note: after types_def_common because extern_C
-//#include <emC_srcApplSpec/applConv/assert_ignore.h>  //Note: after types_def_common because extern_C
-
-
-/**An EnhancedRef maybe necessary for BlockHeap concept. Here defines some macros in a simple form. */
-//Note: Include before fw_String.h because it is used there.
-#include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
-//#include <emC_srcApplSpec/applConv/EnhanceRef_Blockheap.h>
-
-/**Define __NoCharSeqJcCapabilities__ only for simple systems with simple StringJc usage. */
-#define __NoCharSeqJcCapabilities__
-#define DEF_NO_StringJcCapabilities
-
-
+/**If set, without complex thread context, without Stacktrace*/
+#define DEF_ThreadContext_HEAP_emC
+#define DEF_ThreadContext_STACKTRC
+//#define DEF_ThreadContext_STACKUSAGE
+//#define DEF_ThreadContext_STACKTRC_NO
 
 /**Use the exception handling header file - or define the macros TRY, by yourself. */
-/** If this define is setted, the TRY, CATCH and THROW makros use the C++ keywords
+/** If DEF_Exception_TRYCpp is setted, the TRY, CATCH and THROW makros use the C++ keywords
   * try, throw and catch. All sources, also the *.c-Sources of the CRuntimeJavalike,
   * may be compiled with a C++-Compiler.
   *
-  * If the macro is not setted, the TRY, CATCH and THROW makros use
-  * the longjmp version. See fw_Exception.h. 
+  * If DEF_Exception_longjmp is setted, the TRY, CATCH and THROW makros use
+  * the longjmp version.  
   * It is also possible to use longjmp in a C++ environment,
   * but destructors of local stack instances in skipped subroutines are ignored.
   * It must be secured that no critical destructors are used, or a FINALLY is used there.
   * Another reason for using C++ exception handling in a PC environment is: Operation system exceptions.
   * On visual studio C++ compiler you should set the option /EHa and /TP for C++ compilation of C sources.
   * The C variant with longjmp should only used if C++ is not available.
+  *
+  * If DEF_Exception_NO is set, is is for well tested systems. 
+  * Then THROW can create only a message in a runtime environment.
   */
 #define DEF_Exception_TRYCpp
-
-#include <emC_srcApplSpec/applConv/ThreadContextStacktrc_emC.h>
-#include <emC_srcApplSpec/applConv/Exception_emC.h>
-//#include <emC/Base/ExcStacktrcNo.h>
+//#define DEF_Exception_longjmp
+//#define DEF_Exception_NO
 
 
+//If set, no assertion is done:
+//#define ASSERT_IGNORE_emC
 
-/**Under Test conditions, the check of Stacktrace consistence should be activated. 
- * Because a forgotten STACKTRC_LEAVE-macro call won't be detected else,
- * and the stacktrace is corrupt for later usage.
- * Deactivate this macro in release versions.
+/**Selects working with Blockheap*/
+//#define USE_BlockHeap_emC
+//#define DEF_BlockHeap_GARBAGECOLLECTOR
+
+
+/**To work with handle instead pointer in data struct and
+ * It is especially for Simulink usage. 
  */
-#ifdef _DEBUG
-  #define TEST_STACKTRCJc 
-#else
-  #undef TEST_STACKTRCJc
-#endif	
-
-
-#define abs_complex(VAL) sqrtf( (VAL).re * (VAL).re + (VAL).im * (VAL).im )
-
-
-/**Use the <fw_handle_ptr64.h> to deal with 32-bit-handle instead pointer.*/
-//#define __HandlePtr64__
+//#define DEF_Type_HandleADDR_emC uint32
 //#define DEFINED_nrEntries_Handle2Ptr 1000
+//#define DEF_HandlePtr64
 
-//PRINTX
-//#include <emC_srcApplSpec/applConv/definePrintFileMakros.h>
-//#include <emC_srcApplSpec/applConv/definePrintfMakros.h>
-#include <emC_srcApplSpec/applConv/definePrintfMakrosEmpty.h>
-
-
-
-/**Maximal length of path in a FileDescription_OSAL-structure.
-* NOTE: old name kMaxPathLength_OS_FileDescription
-*/
-#define kMaxPathLength_FileDescription_OSAL 480
+//
+//What to start as main:
+//
+#ifndef DEF_MainAppl
+/**select only one of this to debug special tests: */
+//#define DEF_XYZ
+#define DEF_MainAppl
+#endif //ndef DEF_MainAppl
 
 
-#endif // HGUARD_applstdef_emC
+
+/**Defines the type for the length or value in a struct{ addr, val} defined with STRUCT_AddrVal_emC(...). */
+#define VALTYPE_AddrVal_emC int32
+
+
+/**Bits of length of constant string adequate to VALTYPE_AddrVal_emC. 
+ * It have to be a mask with set bits on right side (all last significant bits).
+ * The next 2 bits left are used internally for designation of String.
+ * see [[mNonPersists__StringJc]], [[mThreadContext__StringJc]].
+ * See also [[kIsCharSequence_StringJc]]
+ * The following bits left side are used for enhanced references, see kBitBackRef_ObjectJc and mBackRef_ObjectJc.
+ * If enhanced references are not used, a StringJc can occupy all bits, for example all 16 bits for 16-bit-integer systems.
+ */
+#define mLength_StringJc 0x00003fff
+
+
+
+
+/**This is to compile C++ classes of emC if __cplusplus is set.
+  For C compilation this is ineffective because __cplusplus is necessary too*/
+#define USE_cplusplus_emC
+#define DEF_cplusplus_emC
+#define DEF_CPP_COMPILE
+
+
+#define DEFINED_getVarAddrType_CalcExpr
+
+#define kMaxPathLength_FileDescription_OSAL 512
+#define sizeSafetyArea_allocMemC 256
+
+
+#include <compl_adaption.h>
+#include <emC/Base/Assert_emC.h>
+#include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
+#include <emC/Base/Exception_emC.h>
+
+
+
+//including the project specific reflOffs.h defines DEF_REFLECTION_OFFS 
+#ifdef DEF_REFLECTION_OFFS
+  //contains DEF_REFLOFFS_...for all defined ClassJc
+  #include <emC_Exmpl_Ctrl/genRefl/emC_Exmpl_Ctrl_reflOffs.cpp.h>
+  //Note: the adequate *.reloffs.c should be part of the project:
+#endif
+
+
+
+
+
+
+
+
+#endif //HGUARD_applstdef_emC

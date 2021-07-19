@@ -20,6 +20,9 @@ typedef struct DataStructBase_Inspc_t {
    * It is filled with analyzeVariableDef(...) and used in evalNamesCreateFields(...) */
   struct VariableParam_DataStruct_Inspc_t* varParams;
 
+  /**If sharedMem is used, this is the name. 0 if not used. */
+  char nameSharedMem[16];
+  
   /**Nr of entries in params. It is the number of assigend variables. */
   int16 zVariable;
 
@@ -154,7 +157,9 @@ int parseLineDef_DataStruct_Inspc  ( struct StringPartJc_t* spSrc
  * * Define the port properties. That is inside the [[definePortType_DataStruct_Inspc(...).]] There the varArray is null.
  * * Inside ctor. There informations about fields are stored in varArray. The fbInfo are not changed. 
  * @param sVarDef The content of the parameter text area with specified syntax.
- * @param varArray destination for the variable properties. Can be null, especially null for port initialization. Should have zVarArray Elements.
+ * @param varArray destination for the variable properties. Can be null.
+ *   It is not null in the ctor of ctor_DataStructBase_Inspc(...). 
+ *   Especially null for port initialization. Should have zVarArray Elements.
  *   If is not null, then fbInfo is complete and should not be changed. It is in ctor.
  *   If not null, then all elements will be initialized. The port from ixPortStart is associated to varArray[0].
  * @param zVarArray maximal number of slots for signals. At least one.
@@ -166,7 +171,9 @@ int parseLineDef_DataStruct_Inspc  ( struct StringPartJc_t* spSrc
  *        But the Entry_DefPortType_emC::name and sType is set, because it is not stored in fbInfo from the model level.
  */
 int analyzeVariableDef( StringJc sVarDef
-, VariableParam_DataStruct_Inspc_s* const varArray, int zVarArray
+//, VariableParam_DataStruct_Inspc_s* const varArray
+, DataStructBase_Inspc_s* dataStructBase_FB
+//, int zVariables
 , DefPortTypes_emC* fbInfo, int ixPortStart, bool bOutput
 , EDefPortTypes_emC cause);
 

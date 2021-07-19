@@ -33,6 +33,65 @@
 //If UTF16 is selected, the casting from LPCSTR to (char*) forces an compile error. 
 
 
+void* os_openSharedMem(SharedMem_OSAL* thiz, const char* name, int sizeUser, bool bNew){
+  SET_MemC(thiz->addrSize, null, 0);  //default on nonexisting mem.
+  HANDLE hMapFile;
+  MemUnit* addr = null;
+  thiz->nError = 0;
+  strncpy(thiz->name, name, sizeof(thiz->name));
+  //Always use 8 byte for the size information, align to 8 of the netto buffer, for 32 bit system too.
+  int sizeSharedMem = ((sizeUser +7) & ~0x07) + 8; //round up to 8-byte boundary and add 8
+  *(int32*)&thiz->data[6] = sizeSharedMem; //it may be the origin size of this sharedMem area.
+  hMapFile = OpenFileMapping(
+                   FILE_MAP_ALL_ACCESS,   // read/write access
+                   FALSE,                 // do not inherit the name
+                   thiz->name);               // name of mapping object
+
+  if (hMapFile == NULL)
+  {
+    int nError = GetLastError();
+    if(nError == 2) {  
+      hMapFile = CreateFileMapping(
+                   INVALID_HANDLE_VALUE,    // use paging file
+                   NULL,                    // default security
+                   PAGE_READWRITE,          // read/write access
+                   0,                       // maximum object size (high-order DWORD)
+                   sizeSharedMem,    // maximum object size (low-order DWORD), in this case requested size + size marker.
+                   thiz->name);                   // name of mapping object
+      if(hMapFile == null) {
+        thiz->nError = GetLastError();
+      }
+    } else {
+      thiz->nError = GetLastError();
+    }
+  } 
+  if(thiz->nError ==0)  {
+    addr =  (MemUnit*)MapViewOfFile(hMapFile, // handle to map object
+               FILE_MAP_ALL_ACCESS,  // read/write permission
+               0,
+               0,
+               0 );  //Comment in MS-Docu: " If this parameter is 0 (zero), the mapping extends from the specified offset to the end of the file mapping."  //*(int32*)&thiz->data[6]);
+    if (addr == NULL)
+    {
+      thiz->nError = GetLastError();
+      CloseHandle(hMapFile);
+    } else {
+      int32* pBufi = (int32*)(addr);
+      int32 sizeUser = *pBufi;  //The stored size on creation of the other side
+      SET_MemC(thiz->addrSize, (void*)(((intptr_t)pBufi) + 8), sizeUser);  //return the buffer after the size entry.
+      //      
+      *(HANDLE*)thiz->data = hMapFile; 
+      *(void**)&thiz->data[4] = addr;
+      //
+      thiz->nError = 0;
+    }
+  }
+  return addr;
+}
+
+
+
+
 MemC os_createSharedMem(SharedMem_OSAL* thiz, const char* name, int sizeUser){
    HANDLE hMapFile;
    MemUnit* pBuf;

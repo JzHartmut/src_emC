@@ -258,6 +258,14 @@ METHOD_C void init0p_MemC(void* ptr, int size);
 METHOD_C void* alloc_MemC_PRIV(int size, int sizeSafety);
 
 
+/**This is the best form to allocate data for a non-C++ data type (a struct type).
+ * It uses static_cast<...> in C++ via C_CAST to prevent warnings. 
+ * @param TYPE the data type itself, not as pointer
+ * @return data allocated for this type as pointer TYPE *
+ */
+#define allocDATA_MemC(TYPE) C_CAST(TYPE*, alloc_MemC(sizeof(TYPE)))
+
+
 
 static inline void* alloc_MemC(int size) {
   return alloc_MemC_PRIV(size, sizeSafetyArea_allocMemC);
