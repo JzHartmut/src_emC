@@ -126,6 +126,14 @@ typedef struct  ObjectJc_T
     struct ClassJc_t const* reflection;
   #endif
 } ObjectJc;
+
+
+/**This is for data exchange if the data uses a full ObjectJc data image. */
+typedef struct ObjectFullJc_T {
+  uint32 identSize;
+  int32 spare[7];  //The rest is not used here. 
+
+} ObjectFullJc;
 #endif
 
 #define ID_refl_ObjectJc 0x0FFE

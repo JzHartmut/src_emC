@@ -35,7 +35,7 @@
 //Dependencies: needs emC/StringBase_emC.c to link.
 
 #include <applstdef_emC.h>
-#include <emC/Base/String_emC.h>
+//#include <emC/Base/String_emC.h>
 
 #ifndef SIZEENTRIES_ExceptionLogStore
 #define SIZEENTRIES_ExceptionLogStore 100

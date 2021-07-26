@@ -377,4 +377,30 @@ int defTlcParams_TinitAccess_DataStruct_Inspc(DefPortTypes_emC* portInfo_tlcPara
   , buffer_tlcParam, zBuffer_tlcParam, header_param, typeName_param);
 }
 
+
+
+void wait_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, int32 us_wait_param, int32 ms_timeout_param, void* y_y) 
+{ 
+  ASSERT_emC(thiz->zBytes ==4, "wait_Access_DataStruct only available for int32", thiz->zBytes, 0);
+  int32* value = C_CAST(int32*, thiz->addr);
+  if(*value <=0) {
+    *value = 0;                 // wait request not currently hold on 0; do nothing
+  } else if (--(*value) ==0) {  // wait request reaches 0, wait for ever from simulink view
+    int ctTimeout = ms_timeout_param * 1000 / us_wait_param;  //0: wait forever till value !=0
+    while(*value ==0 && (ctTimeout ==0 || --ctTimeout >0)) {
+      //ctTimeout ==0 true: waits forever, ctTimeout >0: waits till ==0, aborts if it reaches 0 by predecrement.   
+      // value: only an access form outside (via inspector or shared mem) can change this value
+      sleepMicroSec_Time_emC(us_wait_param);   // yied other threads and processes.
+    }
+    if(*value ==0) {
+      *value = 1;               // comes from timeout. Wait again.
+    }
+  } else {
+    //                       //value >0, do nothing.
+  }
+  memcpy(y_y, value, thiz->zBytes);   // show the decremented value till wait. 
+}
+
+
+
 #endif //DEF_REFLECTION_FULL

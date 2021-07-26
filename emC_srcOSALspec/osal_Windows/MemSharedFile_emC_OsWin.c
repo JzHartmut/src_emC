@@ -16,6 +16,9 @@
 #include <winbase.h>
 #include <winerror.h>
 
+//docu common, see:
+//https://dzone.com/articles/myth-busting-memory-mapped-files-and-shared-memory
+
 typedef struct Internal_SharedMem_WindowsAdaptemC_T {
 
   char const* significance;

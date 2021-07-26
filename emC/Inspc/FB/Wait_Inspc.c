@@ -56,6 +56,7 @@ void step_Wait_Inspc(Wait_Inspc volatile* thiz)
   }
   else {
     if(--thiz->stepsTillWait == 0) {
+      //                               // the steps counter has reached the wait point.   
       if(thiz->delay_ms == 0) {
         while(thiz->stepsTillWait ==0) {  //only an access via inspector can set stepsTillWait to !=0
           thiz->isWaiting = 1;

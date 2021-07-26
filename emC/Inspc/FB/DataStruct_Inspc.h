@@ -232,7 +232,10 @@ typedef struct DataStructMng_Inspc_t
   /**Zähler falls irgendwas in config-File nicht stimmt, sollte auf 0 stehen. */
   int32 errorCfg;
 
-  int32 stateGen;
+  int16 stateGen;
+
+  /**It is inside the file path in filegen, start for #include <relPath/name.h>*/
+  int16 posRelatFilename;
 
   /**It contains the path from parameter.  */
   FileDescription_OSAL filegen;

@@ -193,6 +193,13 @@ char const* genSource_DataStructMng_Inspc(DataStructMng_Inspc* thiz, StringJc di
   if(zDirFile == 0) { 
     thiz->stateGen = 1; return "no file"; //no file path given.
   }
+  int posRelatFilename = searchChar_emC(sDirFile+2, zDirFile-2, ':'); //search path:relpath/name.h after "C:..."
+  if(posRelatFilename >=0) {
+    thiz->posRelatFilename = posRelatFilename +3;  //after ':' or '/'
+    WR_CAST(char*, sDirFile)[posRelatFilename +2] = '/';
+  } else {
+    thiz->posRelatFilename = -1;
+  }
   init_FileDescription_OSAL(&dir, 0, sDirFile, zDirFile);
   refresh_FileDescription_OSAL(&dir);
   if(!exists_FileDescription_OSAL(&dir)) { thiz->stateGen = 0xd; error = "directory faulty"; }
@@ -203,7 +210,7 @@ char const* genSource_DataStructMng_Inspc(DataStructMng_Inspc* thiz, StringJc di
     zpos += strcpy_emC(buffer + zpos, ".h", sizeof(buffer)-zpos);
     initDir_FileDescription_OSAL(&thiz->filegen, 0, &dir, buffer, zpos);
   }
-  return error;
+  return error;   //TODO: This error is not shown in Simulink yet, no error message. Show it. Better show the given path. 
 }
 
 
@@ -1111,6 +1118,11 @@ static void writeSetDataStructRoutine(DataStructMng_Inspc* thiz, StringBuilderJc
 
 void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
   STACKTRC_ENTRY("genSourceContent_DataStructMng_Inspc");
+  char pkgPathSrc[80] = {0};
+  if(thiz->posRelatFilename >0) {
+    char const* relatFilename = thiz->filegen.absPath + thiz->posRelatFilename;
+    strpncpy_emC(pkgPathSrc, 0, sizeof(pkgPathSrc), relatFilename, thiz->filegen.posNameInPath - thiz->posRelatFilename);
+  }
   StringBuilderJc200 line;
   char const* cline; int zline;
   OS_HandleFile fwr = os_fopenToWrite(thiz->filegen.absPath, false);
@@ -1121,8 +1133,9 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
     zline = !line + "#define __" + name_ClassJc(&thiz->clazz) + "_h__\n" >>= &cline; os_fwrite(fwr, cline, zline);
 
     os_fwrite(fwr, "#include <applstdef_emC.h>\n", -999);
+    os_fwrite(fwr, "#include <emC/Base/Object_emC.h>\n", -999);
     if (thiz->superTypeMng != null /*&& thiz->superTypeMng != thiz*/) { //has a super class:
-      zline = !line + "#include \"genSrcInspc/" + name_ClassJc(&thiz->superTypeMng->clazz) + ".h\"\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "#include \"" + pkgPathSrc + name_ClassJc(&thiz->superTypeMng->clazz) + ".h\"\n" >>= &cline; os_fwrite(fwr, cline, zline);
     }
     os_fwrite(fwr, "\n\n\n\n\n", -999);
     
@@ -1140,7 +1153,7 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
         setLength_StringBuilderJc(&sb.b, 0, _thCxt);
         append_z_StringBuilderJc(&sb.b, "struct ", _thCxt);
         append_s_StringBuilderJc(&sb.b, typeName, _thCxt);
-        append_z_StringBuilderJc(&sb.b, "_t;\n", _thCxt);   //a pointer
+        append_z_StringBuilderJc(&sb.b, "_T;\n", _thCxt);   //a pointer
         os_fwrite(fwr, chars_StringBuilderJc(&sb.b), length_StringBuilderJc(&sb.b));
       }
     }
@@ -1153,7 +1166,7 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
       append_s_StringBuilderJc(&sb.b, name_ClassJc(&thiz->superTypeMng->clazz), _thCxt);
       append_z_StringBuilderJc(&sb.b, "_s super; ", _thCxt);
     }
-    append_z_StringBuilderJc(&sb.b, "ObjectJc object; } base;\n", _thCxt);
+    append_z_StringBuilderJc(&sb.b, "ObjectJc_DataStruct object; } base;  //Note: #define ObjectJc_DataStruct ObjectJc ... or ObjectFullJc\n", _thCxt);
     os_fwrite(fwr, chars_StringBuilderJc(&sb.b), length_StringBuilderJc(&sb.b));
     //
     //write fields (struct ... attributes)
@@ -1233,7 +1246,7 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
     //
     writeSetDataStructRoutine(thiz, line, fwr);
     //
-    zline = !line + "#endif  //__" + name_ClassJc(&thiz->clazz) + "_h__\n" >>= &cline; os_fwrite(fwr, cline, zline);
+    zline = !line + "#endif  //__" + name_ClassJc(&thiz->clazz) + "_h__\n\n" >>= &cline; os_fwrite(fwr, cline, zline);
     //
     thiz->stateGen = 2;
     os_fclose(fwr); //h-file
@@ -1255,10 +1268,10 @@ void genSourceContent_DataStructMng_Inspc(DataStructMng_Inspc* thiz) {
       zline = !line + "//The content is controlled by the parameter of the Sfunction in its Simulink environment of the calling model. \n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "//Especially the name of the struct is the parameter 'Name Type' in this SFblock. \n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "//Do not modify. \n" >>= &cline; os_fwrite(fwr, cline, zline);
-      zline = !line + "#include <genSrcInspc/" + structName + ".h> \n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "#include <" + pkgPathSrc + structName + ".h> \n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "\n\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "#ifdef DEF_REFLECTION_FULL\n" >>= &cline; os_fwrite(fwr, cline, zline);
-      zline = !line + "  #include <genSrcInspc/" + structName + ".crefl>\n" >>= &cline; os_fwrite(fwr, cline, zline);
+      zline = !line + "  #include <" + pkgPathSrc + structName + ".crefl>\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "#elif !defined(DEFINED_refl_Test_Ctrl) && !defined(DEF_REFLECTION_NO)  //may defined in the *.refloffs.c file\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "  ClassJc const refl_" + structName + " = INIZ_ClassJc(refl_" + structName + ", \"" + structName + "\");\n" >>= &cline; os_fwrite(fwr, cline, zline);
       zline = !line + "#endif\n" >>= &cline; os_fwrite(fwr, cline, zline);

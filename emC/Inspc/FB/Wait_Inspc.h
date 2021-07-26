@@ -12,7 +12,10 @@
 struct DataNode_Inspc_t;
 
 
-
+/**This SFBlock was written to wait the Simulation till an information from the Inspector. 
+ * The Inspector may write initial data. Hence the simulation should be wait a little bit after start.
+ * But this functionality is not used a longer time. Should be activated again if the Inpector should be used. 
+ */
 typedef struct Wait_Inspc_t
 { ObjectJc base;
   

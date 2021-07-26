@@ -172,7 +172,7 @@ int defTlcParams_Access_DataStruct_Inspc(DefPortTypes_emC* portInfo_tlcParam
  * The parameter determines the type and size of the outport.
  * The simulation engine checks whether the output type is proper to the wired connection in the model.
  * @param y_y address to the output data, type and size is proper checked on init and by the model. 
- * @simulink Object-FB, no-thizInit, no-thizStep.
+ * @simulink Object-FB, step-in, no-thizInit, no-thizStep.
  */
 inline void get_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void* y_y) { 
   memcpy(y_y, thiz->addr, thiz->zBytes); 
@@ -181,17 +181,39 @@ inline void get_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void* y
 
 
 
-/**TODO
+/**Intializes for set data.
+ * The difference to init_Access_DataStruct_Inspc(...) is only: the data are marked with 'set'
+ * with the 'bSet' parameter of init_Access_DataStruct_Inspc(...)
+ * and the port properties come from the input. 
  * @simulink init.
  */
 inline bool initSet_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data) {
   return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixInputStep], true, typeName_param, data, null);
 }
 
-/**TODO
+/**Set a value to a field of DataStructMng_Inspc.
+ * The number of bytes (thiz->zBytes) and the address (thiz->addr) are determined in the (...) already.
+ * It means it is only necessary to memcpy the input bytes.
  * @simulink Object-FB, no-thizInit, no-thizStep.
  */
 inline void set_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, void const* x) { memcpy(thiz->addr, x, thiz->zBytes); }
+
+
+
+/**Intializes for wait.
+ * The difference to init_Access_DataStruct_Inspc(...) is only: the port properties come from the input. 
+ * @simulink init.
+ */
+inline bool initWait_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, StringJc typeName_param, struct UserHead_DataStructMng_Inspc_t* data) {
+  return init_Access_DataStruct_Inspc(thiz, &thiz->fblockInfo->entries[thiz->fblockInfo->ixOutputStep], false, typeName_param, data, null);
+}
+
+/**Set a value to a field of DataStructMng_Inspc.
+ * The number of bytes (thiz->zBytes) and the address (thiz->addr) are determined in the (...) already.
+ * It means it is only necessary to memcpy the input bytes.
+ * @simulink Object-FB, step-in, no-thizInit, no-thizStep.
+ */
+void wait_Access_DataStruct_Inspc(Access_DataStruct_Inspc_s* thiz, int32 us_wait_param, int32 ms_timeout_param, void* y_y);
 
 
 

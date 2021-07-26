@@ -74,7 +74,8 @@ bool measureClock_Time_emC(int meastime) {
 
 
 void init_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz) {
-  thiz->microSecondsPerClock = measureClock_Time_emC(1000);
+  //thiz->microSecondsPerClock = 
+  measureClock_Time_emC(1000);
 }
 
 
