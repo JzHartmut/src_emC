@@ -18,8 +18,9 @@ typedef struct ParFactors_PIDf_Ctrl_emC_T {
   /**Factor for D-Part including kP and Transformation to int32. */
   float fD;
 
-  /**Factor for wxP for Integrator adding. */
-  int64 fI;
+  /**Factor for wxP for Integrator adding. It is bit 63..32 of multiplication.
+   * Note fix point multiplication  */
+  int32 fI;
   
   /**Factor from float-x to int64 and to float-y-scale. */
   float fIx, fIy;
@@ -153,6 +154,8 @@ typedef struct PIDf_Ctrl_emC_t
   /**Currently used factors. */
   ParFactors_PIDf_Ctrl_emC_s f;
 
+  uint32 en;
+  
   /**Current limitation of output. */
   float lim;
 
@@ -220,6 +223,11 @@ extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC
  * @simulink Operation-FB.
  */
 extern_C void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
+
+/**Reset or enable PID controller 
+ * @simulink Operation-FB.
+ */
+extern_C void reset_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, bool reset);
 
 /**step of PID controller 
  * @simulink Object-FB.

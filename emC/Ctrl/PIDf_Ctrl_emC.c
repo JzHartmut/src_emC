@@ -59,8 +59,10 @@ void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, 
     thiz->i.kP = thiz->kP;
     thiz->i.yMax = thiz->yMax;
     thiz->i.fIy = thiz->yMax / (float)(0x40000000L);
-    thiz->i.fIx = (float)(0x40000000L) / thiz->yMax;
-    thiz->i.fI = thiz->Tn <=0 ? 0 : (int64)(thiz->i.fIx * (thiz->Tctrl / thiz->Tn)); // * (float)(0x100000000LL));
+    thiz->i.fIx = (float)(0x40000000L) / thiz->yMax;   //for yMax the value is 0x40000000
+    //fI is bit63..32 of multiplication. Stored as 32 bit. Related to yMax.                        
+    thiz->i.fI = thiz->Tn <=thiz->Tctrl ? 0 : (int32)(/*thiz->i.fIx * */(thiz->Tctrl / thiz->Tn)* 4*(float)(0x40000000)); // * (float)(0x100000000LL));
+    
     thiz->i.fTsD = thiz->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tctrl / thiz->T1d);
     thiz->i.fD = (thiz->Td / thiz->Tctrl); // * thiz->kP;
     thiz->dbgct_reparam +=1;
@@ -99,6 +101,7 @@ bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* par) 
     thiz->lim = par->yMax;
     unlock_ObjectJc(&par->base.obj);
     setInitialized_ObjectJc(&thiz->base.obj);
+    thiz->en = 1;
   }
   return bOk;
 }
@@ -117,6 +120,17 @@ void param_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* par)
   } else {
     unlock_ObjectJc(&par->base.obj); //should be unlocked, nobody does it elsewhere!
   }
+}
+
+
+void reset_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, bool reset) {
+  if(reset) {
+    thiz->en = 0;
+    thiz->qI = 0;
+    thiz->wxPD32 = 0;   //0 on reset, unchange on hold.
+  } else {
+    thiz->en = 1;
+  } 
 }
 
 
@@ -141,31 +155,36 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
   float dwxP = wxP - thiz->wxP;  //on limitation the dwxP is 0. It is better for increasing the process signal on max output.
   thiz->dwxP += (thiz->f.fTsD * (dwxP - thiz->dwxP));
   thiz->wxP = wxP;  //store for differenzial and to inspect
-  float wxPD = wxP + (thiz->f.fD * thiz->dwxP);  //+ D-Part.
+  if(!thiz->en) {
+    thiz->dwxP = 0;     //no differentiation on hold, 0 on reset
+  }
+  else {
+    float wxPD = wxP + (thiz->f.fD * thiz->dwxP);  //+ D-Part.
 
-  //limit P + D.
-  if (wxPD > thiz->lim) { wxPD = thiz->lim; }
-  else if (wxPD < -thiz->lim) { wxPD = -thiz->lim; }
-  else {} //remain wxPD
-  thiz->wxPD = wxPD;  //to inspect.
+    //limit P + D.
+    if (wxPD > thiz->lim) { wxPD = thiz->lim; }
+    else if (wxPD < -thiz->lim) { wxPD = -thiz->lim; }
+    else {} //remain wxPD
+    thiz->wxPD = wxPD;  //to inspect.
 
-  int32 wxP32 = (int32)(thiz->f.fIx * wxP);  //integer representation of wxP
+    int32 wxP32 = (int32)(thiz->f.fIx * wxP);  //integer representation of wxP
 
-  int32 wxPD32 = (int32)(thiz->f.fIx * wxPD);     //has never an overflow because wxPD is limited.
-  int32 yImin, yImax;
-  //limit it to 24 bit
-  if (wxP32 < 0) { yImin = -0x40000000L - wxP32; yImax =  0x40000000L; }  //
-  else {          yImax =  0x40000000L - wxP32; yImin = -0x40000000L; }
-  thiz->wxPD32 = wxPD32;  //to inspect
-  int64 xdI = wxP32 * thiz->f.fI;
-  int64 qI1 = thiz->qI + xdI;
-  int32 qIhi = (int32)(qI1 >> 32);
-  if (qIhi > yImax) { qIhi = yImax; qI1 = ((int64)qIhi) << 32; }
-  else if (qIhi < yImin) { qIhi = yImin; qI1 = ((int64)qIhi) << 32; }
-  else {} //remain qIhi
-  thiz->qI = qI1;
-  thiz->qIhi = qIhi;
+    int32 wxPD32 = (int32)(thiz->f.fIx * wxPD);     //has never an overflow because wxPD is limited.
+    int32 yImin, yImax;
+    //limit it to 24 bit
+    if (wxP32 < 0) { yImin = -0x40000000L - wxP32; yImax =  0x40000000L; }  //
+    else {          yImax =  0x40000000L - wxP32; yImin = -0x40000000L; }
+    thiz->wxPD32 = wxPD32;  //to inspect
+    int64 xdI = wxP32 * (((int64)thiz->f.fI));
+    int64 qI1 = thiz->qI + xdI;
+    int32 qIhi = (int32)(qI1 >> 32);
+    if (qIhi > yImax) { qIhi = yImax; qI1 = ((int64)qIhi) << 32; }
+    else if (qIhi < yImin) { qIhi = yImin; qI1 = ((int64)qIhi) << 32; }
+    else {} //remain qIhi
+    thiz->qI = qI1;
+    thiz->qIhi = qIhi;
 
-  *y_y = thiz->y = thiz->f.fIy * (wxPD32 + qIhi);  //use hi part of integrator for output.
+  }
+  *y_y = thiz->y = thiz->f.fIy * (thiz->wxPD32 + (int32)(thiz->qI >>32));  //use hi part of integrator for output.
 }
 
