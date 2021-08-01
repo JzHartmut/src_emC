@@ -64,8 +64,19 @@ typedef struct Par_PIDf_Ctrl_emC_T
   float T1d;
 
   /**Internal paramter depending factors. */
-  ParFactors_PIDf_Ctrl_emC_s i;
+  ParFactors_PIDf_Ctrl_emC_s i[2];
+  ParFactors_PIDf_Ctrl_emC_s* f;
 
+  //union { uint32 i32;
+    //struct 
+    //{ 
+      uint8 ixf;
+      uint32 en: 1;
+      uint32 open: 1;
+      uint32 noIntg: 1;
+      uint32 _spare_: 21;
+//    };
+//  } bits;
   int dbgct_reparam;
 
 
@@ -99,12 +110,12 @@ extern_C Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tste
  * @simulink init
  */
 extern_C bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param
-  , float kP, float Tn, float Td, float Tsd, ParFactors_PIDf_Ctrl_emC_s** parFactors_y );
+  , float kP, float Tn, float Td, float Tsd, bool reset, bool openLoop_param );
 
 /**step of parameter FBlock for the PID controller for actual changed parameter
  * @simulink Object-FB, no-thizStep.
  */
-extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn, float Td, float Tsd, ParFactors_PIDf_Ctrl_emC_s** parFactors_y );
+extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn, float Td, float Tsd, bool reset);
 
 
 #if defined(DEF_cplusplus_emC) && defined(__cplusplus)
@@ -117,8 +128,8 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
     ctor_Par_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
-  public: bool init (float Tstep, float yNom, float kP, float Tn_param, float Td_param, float Tsd_param ) {
-    return init_Par_PIDf_Ctrl_emC(this, Tstep, yNom, kP, Tn_param, Td_param, Tsd_param, null); //the initialized ObjectJc as arguement.
+  public: bool init (float Tstep, float yNom, float kP, float Tn_param, float Td_param, float Tsd_param, bool reset, bool openLoop ) {
+    return init_Par_PIDf_Ctrl_emC(this, Tstep, yNom, kP, Tn_param, Td_param, Tsd_param, reset, openLoop); //the initialized ObjectJc as arguement.
   }
 
   /**Constructs as base class of any inherited controller.
@@ -149,12 +160,11 @@ typedef struct PIDf_Ctrl_emC_t
 {
   union { ObjectJc obj; } base;
 
-  ParFactors_PIDf_Ctrl_emC_s* parNew;
+  //ParFactors_PIDf_Ctrl_emC_s* parNew;
   
-  /**Currently used factors. */
-  ParFactors_PIDf_Ctrl_emC_s f;
+  /**Aggregation to parameter. */
+  Par_PIDf_Ctrl_emC_s* par;
 
-  uint32 en;
   
   /**Current limitation of output. */
   float lim;
@@ -171,8 +181,24 @@ typedef struct PIDf_Ctrl_emC_t
   /**Stored for D-part, to view input. */
   float wxPD;
 
+  /**To view the control output in open loop state. It is the same value as y_ctrl arg of [[step_PIDf_Ctrl_emC(...)]]. */
+  float yctrl;
+
   /**To view output. It is the same value as y_y arg of [[step_PIDf_Ctrl_emC(...)]]. */
   float y;
+  
+  //union { uint32 i32;
+    //struct 
+    //{ 
+  //    uint32 en: 1;
+  //    uint32 open: 1;
+  //    uint32 noIntg: 1;
+  //    uint32 _spare_: 29;
+//    };
+//  } bits;
+  /**If not null then this referenced value will be added. */
+  void* yAdd;
+
 
   /**Value of the integrator. */
   int64 qI;
@@ -214,25 +240,22 @@ extern_C PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep);
 
 /**init of PID controller
  * @param par the parameter Object, should be not null
+ * @param openLoop_param: normally false, only true for tests. Then the y_y is not set, only ctrl_y.
+ *           
  * @return false if par == null, true if initialized. 
  * @simulink init.
  */
-extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* par);
+extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par);
 
 /**set Limitation of PID controller 
  * @simulink Operation-FB.
  */
 extern_C void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
 
-/**Reset or enable PID controller 
- * @simulink Operation-FB.
- */
-extern_C void reset_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, bool reset);
-
 /**step of PID controller 
  * @simulink Object-FB.
  */
-extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y);
+extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y, float* ctrl_y);
 
 
 /**Offers a new parameter set for this controller. 
@@ -241,9 +264,9 @@ extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y);
  *      or in a event data structure. The event data are freed or the parameter FBlock is unlocked
  *      in this routine for the possibility to reuse the location for new parameter or event preparation.
  *      If par == null this operation does nothing.  
- * @simulink Operation-FB.
+ * @s imulink Operation-FB.
  */
-extern_C void param_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* parNew);
+//extern_C void param_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* parNew);
 
 
 static inline void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y);
@@ -282,9 +305,9 @@ class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
     ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
-  public: void init(ParFactors_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
+  public: void init(Par_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
   
-  public: void step ( float wx, float* y_y){ step_PIDf_Ctrl_emC(this, wx, y_y); }
+  public: void step ( float wx, float* y_y, float* y_ctrl){ step_PIDf_Ctrl_emC(this, wx, y_y, y_ctrl); }
 
   //public: void reparam(Par_PIDf_Ctrl_emC_s* par){ reparam_PIDf_Ctrl_emC(this, par); }
 

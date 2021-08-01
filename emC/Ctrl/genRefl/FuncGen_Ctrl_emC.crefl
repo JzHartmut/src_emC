@@ -1,0 +1,221 @@
+
+
+#include <emC/Ctrl/FuncGen_Ctrl_emC.h>  
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_type_FuncGen_Ctrl_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_type_FuncGen_Ctrl_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+
+const struct Reflection_Fields_type_FuncGen_Ctrl_emC_t
+{ ObjectArrayJc head;
+  FieldJc data[4];
+} refl_Fields_type_FuncGen_Ctrl_emC =
+{ INIZ_ObjectArrayJc(refl_Fields_type_FuncGen_Ctrl_emC, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "i32"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type.i32) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_type_FuncGen_Ctrl_emC
+    }
+  , 
+    { "isParametrized"
+    , (uint16)(0 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
+    , REFLECTION_BITFIELD                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type.i32) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type) + SIZEOF_IN_STRUCT(FuncGen_Ctrl_emC_s, type.i32)/* offset on bitfield: offset of element before + sizeof(element before) */)
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_type_FuncGen_Ctrl_emC
+    }
+  , 
+    { "square"
+    , (uint16)(1 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
+    , REFLECTION_BITFIELD                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type.i32) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type) + SIZEOF_IN_STRUCT(FuncGen_Ctrl_emC_s, type.i32)/* offset on bitfield: offset of element before + sizeof(element before) */)
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_type_FuncGen_Ctrl_emC
+    }
+  , 
+    { "cos"
+    , (uint16)(2 + (1 << kBitNrofBitsInBitfield_FieldJc))                           
+    , REFLECTION_BITFIELD                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) | kBitfield_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type.i32) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type) + SIZEOF_IN_STRUCT(FuncGen_Ctrl_emC_s, type.i32)/* offset on bitfield: offset of element before + sizeof(element before) */)
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_type_FuncGen_Ctrl_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_type_FuncGen_Ctrl_emC    
+const ClassJc   refl_type_FuncGen_Ctrl_emC =
+{ INIZ_objReflId_ObjectJc(refl_type_FuncGen_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
+, "type_FuncGen_Ctrl_emC"
+, 0
+, sizeof(((FuncGen_Ctrl_emC_s*)0x1000)->type)
+, (FieldJcArray const*)&refl_Fields_type_FuncGen_Ctrl_emC  //attributes and associations
+, null  //method      
+, null  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
+
+
+//forward declaration of the following definition necessary because extern_C definition. 
+extern_C const ClassJc refl_FuncGen_Ctrl_emC;
+
+#ifdef DEF_REFLECTION_OFFS_FILE  //experience: ReflOffs h-file-related
+int32 const reflectionOffset_FuncGen_Ctrl_emC[] =
+{ 123  //< &nrClass>   //index of class in Offset data
+}; 
+    
+#else  //DEF_REFLECTION_FULL
+
+  
+
+extern_C const ClassJc refl_ObjectJc;  //the super class here used.
+const struct SuperClasses_FuncGen_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t  //Type for the super class
+{ ObjectArrayJc head;
+  ClassOffset_idxVtblJc data[1];
+}  superClasses_FuncGen_Ctrl_emC_s =   //reflection instance for the super class
+{ INIZ_ObjectArrayJc(superClasses_FuncGen_Ctrl_emC_s, 1, ClassOffset_idxVtblJc, refl_ClassOffset_idxVtblJc, ID_refl_ClassOffset_idxVtblJc)
+  , { &refl_ObjectJc                                   
+    , 0 //TODO Index of mtbl of superclass
+      //The field which presents the superclass data in inspector access.
+    , { "super"              
+      , 0 //arraysize
+      , &refl_ObjectJc  //type of super                                                                                         
+      , kEmbedded_Modifier_reflectJc //hint: embd helps to show the real type.
+        | (0<< kBitAccessLevel_Modifier_FieldJc)  //access level
+        | (7<< kBitChangeLevel_Modifier_FieldJc)  //never change
+      , 0 //offsetalways 0 (C++?)
+      , 0  //offsetToObjectifcBase
+      , &refl_ObjectJc  
+      }
+    }
+};                                                                                  
+
+const struct Reflection_Fields_FuncGen_Ctrl_emC_s_t
+{ ObjectArrayJc head;
+  FieldJc data[9];
+} refl_Fields_FuncGen_Ctrl_emC_s =
+{ INIZ_ObjectArrayJc(refl_Fields_FuncGen_Ctrl_emC_s, 9, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+, {  
+    { "Tstep"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, Tstep) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "fq"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, fq) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "magn"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, magn) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "offs"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, offs) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "type"
+    , 0   //no Array, no Bitfield                           
+    , &refl_type_FuncGen_Ctrl_emC                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, type) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "y"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, y) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "yAddr"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) | kReference_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, yAddr) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "angle"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, angle) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  , 
+    { "dangle"
+    , 0   //no Array, no Bitfield                           
+    , REFLECTION_int32                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, dangle) - OFFSET_IN_STRUCT(FuncGen_Ctrl_emC_s, base.obj))
+    , 0  //offsetToObjectifcBase                                                            
+    , &refl_FuncGen_Ctrl_emC
+    }
+  
+} }; 
+ 
+
+#define DEFINED_refl_FuncGen_Ctrl_emC    
+const ClassJc   refl_FuncGen_Ctrl_emC =
+{ INIZ_objReflId_ObjectJc(refl_FuncGen_Ctrl_emC, refl_ClassJc, ID_refl_ClassJc)
+, "FuncGen_Ctrl_emC"
+, 0
+, sizeof(FuncGen_Ctrl_emC_s)
+, (FieldJcArray const*)&refl_Fields_FuncGen_Ctrl_emC_s  //attributes and associations
+, null  //method      
+, &superClasses_FuncGen_Ctrl_emC_s.head.object  //superclass  
+, null  //interfaces  
+, 0   
+#ifdef DEF_ClassJc_Vtbl  
+, null  //virtual table
+#endif
+};
+
+#endif //DEF_REFLECTION_FULL
