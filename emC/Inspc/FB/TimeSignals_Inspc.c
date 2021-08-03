@@ -548,45 +548,50 @@ void values_TimeSignals_Inspc(TimeSignals_Inspc* thiz, float _simtime
       if (z > 6) { z = 1; }
       float* outAddr = (float*)addr;
       for (int ixv = 0; ixv < z; ++ixv) {
-        if (bStartSpline) {
-          float yb = curr->yt[ixv] + curr->dyt[ixv] * curr->stepsSplineStart;  //target point after end of spline.
-          curr->yd[ixv] = curr->ya[ixv] - yb;
-          curr->yb[ixv] = yb;
-          setSpline_TimeSignals_Inspc(thiz, curr, ixv, curr->dyt[ixv]);
+        if(curr->dyx[ixv] ==0) {
+          outAddr[ixv] = curr->ya[ixv];          // simple output the current value, no ramp no spline
         }
-        else if (calcdynew) {
-          //curr->ddya[ixv] = curr->dddya[ixv] = 0;
-          float y1 = curr->dyx[ixv] * (_simtime + thiz->par.stepsDynew * thiz->Tstep - curr->time_Start)
-                   + curr->ystart[ixv];
-          float dyaNew = (y1 - curr->ya[ixv]) / thiz->par.stepsDynew;
-          if(curr->stepsSpline == INT32_MAX || thiz->par.testNoJergLim){
-            curr->dya[ixv] = dyaNew;              //No spline in start point, then set dy immediately. 
-          } else { 
-            curr->stepsSpline = 100;              //spline in start point, use spline in curve after it too.
-            setSpline_TimeSignals_Inspc(thiz, curr, ixv, dyaNew);
+        else {
+          if (bStartSpline) {
+            float yb = curr->yt[ixv] + curr->dyt[ixv] * curr->stepsSplineStart;  //target point after end of spline.
+            curr->yd[ixv] = curr->ya[ixv] - yb;
+            curr->yb[ixv] = yb;
+            setSpline_TimeSignals_Inspc(thiz, curr, ixv, curr->dyt[ixv]);
           }
-          curr->yd[ixv] = curr->ya[ixv] - y1;
-          curr->yb[ixv] = y1;
-        }
+          else if (calcdynew) {
+            //curr->ddya[ixv] = curr->dddya[ixv] = 0;
+            float y1 = curr->dyx[ixv] * (_simtime + thiz->par.stepsDynew * thiz->Tstep - curr->time_Start)
+                     + curr->ystart[ixv];
+            float dyaNew = (y1 - curr->ya[ixv]) / thiz->par.stepsDynew;
+            if(curr->stepsSpline == INT32_MAX || thiz->par.testNoJergLim){
+              curr->dya[ixv] = dyaNew;              //No spline in start point, then set dy immediately. 
+            } else { 
+              curr->stepsSpline = 100;              //spline in start point, use spline in curve after it too.
+              setSpline_TimeSignals_Inspc(thiz, curr, ixv, dyaNew);
+            }
+            curr->yd[ixv] = curr->ya[ixv] - y1;
+            curr->yb[ixv] = y1;
+          }
+          //
+          //output and ramp.
+          outAddr[ixv] = curr->ya[ixv];     //firstly output the current value
+          if(bSplining) { //curr->dddya[ixv] !=0 || thiz->par.testNoJergLim && curr->ddya[ixv] !=0) { //spline runs for this ixv
+            if (curr->stepsSpline == 0) {
+              curr->dddya[ixv] *= -1.0f;      //acceleration down to 0
+            }
+            else if(bEndSpline) {
+              //new dya should be reached. ddya should be near 0.
+              curr->dddya[ixv] = curr->ddya[ixv] = 0;  //set change of dya to 0. constant growth (velocity). 
+            }
+            curr->ddya[ixv] += curr->dddya[ixv];
+            curr->dya[ixv] += curr->ddya[ixv];
+          }
+          curr->yd[ixv] += curr->dya[ixv];  //then add dya. It is always correct. If no ram, then dya[..] = 0.
+          if(curr->yd[ixv] !=0) {
+            curr->ya[ixv] = curr->yb[ixv] + curr->yd[ixv];
+          } //else: don't change ya, it can be changed by inspector user operations if the output is constant, no ramp.
         //
-        //output and ramp.
-        outAddr[ixv] = curr->ya[ixv];     //firstly output the current value
-        if(bSplining) { //curr->dddya[ixv] !=0 || thiz->par.testNoJergLim && curr->ddya[ixv] !=0) { //spline runs for this ixv
-          if (curr->stepsSpline == 0) {
-            curr->dddya[ixv] *= -1.0f;      //acceleration down to 0
-          }
-          else if(bEndSpline) {
-            //new dya should be reached. ddya should be near 0.
-            curr->dddya[ixv] = curr->ddya[ixv] = 0;  //set change of dya to 0. constant growth (velocity). 
-          }
-          curr->ddya[ixv] += curr->dddya[ixv];
-          curr->dya[ixv] += curr->ddya[ixv];
         }
-        curr->yd[ixv] += curr->dya[ixv];  //then add dya. It is always correct. If no ram, then dya[..] = 0.
-        if(curr->yd[ixv] !=0) {
-          curr->ya[ixv] = curr->yb[ixv] + curr->yd[ixv];
-        } //else: don't change ya, it can be changed by inspector user operations if the output is constant, no ramp.
-        //
       } //for ixv
     }
   }

@@ -101,7 +101,7 @@ PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
   //should be done outside! CTOR_ObjectJc(othiz, othiz, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);
   //inner ObjectJc-based struct:
   //CTOR_ObjectJc(&thiz->f.base.obj, &thiz->f, sizeof(thiz->f), refl_ParFactors_PIDf_Ctrl_emC, 1);
-  thiz->Tstep = Tstep;
+  thiz->yctrl = Tstep;  //park it here.
   thiz->lim = 1.0f;
   return thiz; 
 }
@@ -113,7 +113,9 @@ PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par) {
   bool bOk = par != null;
   if(bOk) {
-    thiz->par = par;  //it is a memcpy
+    thiz->par = par;  
+    //                                           // compare Tstep stored in yctrl with par->Tctrl, should be the same
+    ASSERTs_emC(par->Tctrl == thiz->yctrl, "faulty Tstep", (int)(par->Tctrl * 10000000), (int)(thiz->yctrl*1000000)); 
     //It cleans only a bit. The rest is done in another time slice.
     thiz->lim = par->yMax;
     unlock_ObjectJc(&par->base.obj);
@@ -187,7 +189,7 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y, float* ctrl
       thiz->qIhi = qIhi;
     }
   }
-  *ctrl_y = thiz->yctrl = f->fIy * (thiz->wxPD32 + (int32)(thiz->qI >>32));  //use hi part of integrator for output.
+  thiz->yctrl = f->fIy * (thiz->wxPD32 + thiz->qIhi);  //use hi part of integrator for output.
   if(thiz->par->open) 
   {
     if(thiz->yAdd !=null) {
@@ -204,5 +206,6 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y, float* ctrl
     }
   }
   *y_y = thiz->y;
+  if(ctrl_y !=null) { *ctrl_y = thiz->yctrl; }
 }
 

@@ -106,6 +106,8 @@
   #define true (!false)
 #endif
 
+#undef UNICODE  //don't use WString, if it may be defined by compiler call
+
 //#include the standard header from Visual studio firstly. 
 //stdint.h defines int8_t etc. via typedef. 
 //Because pragma once (or guard) the content of the files are not included again.

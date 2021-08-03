@@ -86,8 +86,7 @@ int parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars, c
   char cc;
   const char* src = srcP;
   int maxDigit = (radix <=10) ? '0' + radix -1 : '9'; 
-  while(size != 0 && (cc = *src++) !=0) {
-    size -=1;
+  while(size != 0 && (cc = *src) !=0) {  //hint: size=-1 as input is admissible, hence test !=0, not >0
     if(cc <=' ') {
       if( (cc==' ' || cc=='\t') && st&(checkSpaceFirst|checkWhitespaceFirst|checkSpaceAfterSign) ) { cc=0; } //skipped
       else if((cc=='\t' || cc=='\n' || cc=='\r' || cc=='\f') && st&checkWhitespaceFirst) { cc=0; } //skipped
@@ -125,20 +124,23 @@ int parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars, c
         char c1;                //check first addChars is "-" then accept "-" as sign
         do {                    //skip all chars in addChars as separator inside the number
           c1 = *addChars1++;
-          if(c1==cc) {
-            break;  //accepted
-          }
-        } while(c1 !=0);        //break addChars on 0-terminated
-        if(c1 == 0) { break; }  //breaks the scanning, cc is not accepted if not found in addChars
+        } while(c1 !=0 && c1 !=cc);   //search in addChars till 0-terminated or on found c1
+        if(c1 == 0) { 
+          size =0;              //cc was not applicable also in the addChars, break the while loop
+        }
       }
       else {
-        break;                  //cc was not applicatble
+        size =0;                //cc was not applicable, break the while loop
       }
+    }
+    if(size !=0) {
+      size -=1;
+      src +=1;                  //check next *src only if continue
     }
   }
   if(st&bNegativ){ val = -val; }
   if(parsedChars !=null){              // write nr of parsed chars only if desired.
-    *parsedChars = (int)(src - srcP) -1;  //note: src refers the next char after last because first read cc then check
+    *parsedChars = (int)(src - srcP);  //note: src refers the not used char after last used.
   }
   return( val);
 }

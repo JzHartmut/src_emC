@@ -69,25 +69,25 @@ C_TYPE typedef struct  FieldJc_t
   */
   int32     bitModifiers;  //Bits of Modifier_reflectJc.
 
-                           /**The bits 15..10 are not used in Java modifier for fields. Used for the access level. */
+  /**The bits 15..10 are not used in Java modifier for fields. Used for the access level. */
   #define mAccessLevel_Modifier_FieldJc 0x00001c00
   #define mChangeLevel_Modifier_FieldJc 0x00007000
   #define kBitAccessLevel_Modifier_FieldJc 10
   #define kBitChangeLevel_Modifier_FieldJc 13
 
-                           /** position of the field inside a object of the type of the declaring class.
-                           * The position is the offset from the ObjectJc base class to the field, not the offset from the total base.
-                           * Because it is possible that the object is known via interface reference. A interface reference
-                           * pointered the position of the pointer to the virtual table of the interface,
-                           * a call of obj->toObjectJc() is necessary to get the base for this offset.
-                           */
+  /**Position of the field inside a object of the type of the declaring class.
+   * The position is the offset from the ObjectJc base class to the field, not the offset from the total base.
+   * Because it is possible that the object is known via interface reference. A interface reference
+   * pointered the position of the pointer to the virtual table of the interface,
+   * a call of obj->toObjectJc() is necessary to get the base for this offset.
+   */
   int16     offsFieldInStruct;
 
   #define mOffsIsProxyIx4Target_FieldJc 0x8000
 
   /**Offset in a pointered class to the ObjectJcpp class structure if such base interface exists.
-  This value is 0 if it is not a pointer or if it is a pointer of not Object-derivated structures.
-  */
+   * This value is 0 if it is not a pointer or if it is a pointer of not Object-derivated structures.
+   */
   int16     offsetToObjectifcBase;
   /** The class object representing the class or interface that declares the field represented by this Field object. */
   struct ClassJc_t const* declaringClass;

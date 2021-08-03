@@ -30,12 +30,29 @@ typedef struct ParFactors_PIDf_Ctrl_emC_T {
    */
   float yMax;
 
+  float _sp_;  //Note: align to 8 bit.
+
 } ParFactors_PIDf_Ctrl_emC_s;
 
 #ifndef ID_refl_ParFactors_PIDf_Ctrl_emC
   #define ID_refl_ParFactors_PIDf_Ctrl_emC 0x0FC4
 #endif
 extern_C ParFactors_PIDf_Ctrl_emC_s* ctor_ParFactors_PIDf_Ctrl_emC(ObjectJc* othiz);
+
+
+#if 0
+typedef struct Bits_Par_PIDf_Ctrl_emC_T
+{
+      uint8 ixf :8;
+      uint32 en: 1;
+      uint32 open: 1;
+      uint32 noIntg: 1;
+    /**If set then changes from outside are disabled. For Inspector access. */
+    uint32 man: 1;
+      uint32 _spare_: 20;
+} Bits_Par_PIDf_Ctrl_emC_s;
+#endif
+
 
 
 /**Parameter of PID controller 
@@ -45,13 +62,30 @@ typedef struct Par_PIDf_Ctrl_emC_T
 
   union { ObjectJc obj; } base;
 
-  /**for debugging and check: The used step time for calcualation of the factors. */
-  float Tctrl;
+  //union { uint32 v; Bits_Par_PIDf_Ctrl_emC_s b; } bits;
+
+  //union { uint32 i32;
+    //struct 
+    //{ 
+      int32 ixf;
+      int32 en;
+      int32 open;
+      int32 noIntg;
+    /**If set then changes from outside are disabled. For Inspector access. */
+    int32 man;
+      int32 _spare_[2];
+  int32 dbgct_reparam;
+
+//    };
+//  } bits;
 
   /**Maximal value for the y output. The integrator in the PID uses fix point 64 bit for high accuracy.
    * This value is used to build the correct factors from float to fix point. 
    */
   float yMax;
+
+  /**for debugging and check: The used step time for calcualation of the factors. */
+  float Tctrl;
 
   /**Primary and used parameter: P-gain. */
   float kP;
@@ -64,24 +98,10 @@ typedef struct Par_PIDf_Ctrl_emC_T
   float T1d;
 
   /**Internal paramter depending factors. */
-  ParFactors_PIDf_Ctrl_emC_s i[2];
   ParFactors_PIDf_Ctrl_emC_s* f;
-
-  //union { uint32 i32;
-    //struct 
-    //{ 
-      uint8 ixf;
-      uint32 en: 1;
-      uint32 open: 1;
-      uint32 noIntg: 1;
-      uint32 _spare_: 21;
-//    };
-//  } bits;
-  int dbgct_reparam;
+  ParFactors_PIDf_Ctrl_emC_s i[2];
 
 
-  /**If set then changes from outside are disabled. For Inspector access. */
-  uint man: 1;
 
   //uint limPbeforeD: 1;
 
@@ -170,7 +190,7 @@ typedef struct PIDf_Ctrl_emC_t
   float lim;
 
 
-  float Tstep;
+  //float Tstep;
 
   /**Smoothed differential. */
   float dwxP;
@@ -211,8 +231,6 @@ typedef struct PIDf_Ctrl_emC_t
   
   /**Value of the differentiator. */
   float qD1;
-  
-  int32 dbgct_reparam;
 
 
 
@@ -295,14 +313,14 @@ class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
    */
   public: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par, int idObj){
     CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, idObj);  //should be initialized.
-    ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
+    ctor_PIDf_Ctrl_emC(&this->base.obj, 0.001f); //the initialized ObjectJc as arguement.
   }
 
   /**Constructs with given parameter reference.
   * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
   */
   protected: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par, ObjectJc* objectJc){
-    ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
+    ctor_PIDf_Ctrl_emC(&this->base.obj, 0.001f); //the initialized ObjectJc as arguement.
   }
 
   public: void init(Par_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
