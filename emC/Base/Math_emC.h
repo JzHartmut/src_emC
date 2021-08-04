@@ -244,6 +244,45 @@
 #endif
 
 
+/**Saturated additon of signed values. 
+ * It limits the result to 0x7fff or 0x8000.
+ * If the sign would be changed though both inputs has the same sign, the limitation is done.
+ * If both inputs have different sign, never an overflow occurs. 0 + 0x8000 is also correctly 0x8000.
+ * This macro should be used anytime an addition should not overflow.
+ */
+#ifndef adds32sat_emC
+  #define adds32sat_emC(R, A, B) { int32 a = (A); int32 b = (B); R = a + b; \
+  if(((a^b) &0x80000000)==0) { if((a ^ R)&0x80000000) { R = a & 0x80000000 ? (int32)(0x80000000): 0x7FFFFFFF; bSat_emC = true;}} \
+  }   
+#endif
+
+
+/**Saturated additon of unsigned values. 
+ * It limits the result to 0xffff.
+ * If the result is lesser as the input, the limitation is done.
+ * The result is always greater or equal as the input on unsigned addition.
+ * This macro should be used anytime an addition should not overflow.
+ */
+#ifndef addu32sat_emC
+  #define addu32sat_emC(R, A, B) { uint32 a = (A); uint32 b = (B);  R = (a + b); \
+  if(R < a || R < b) { R = 0xFFFFFFFF; bSat_emC = true; } \
+  }   
+#endif
+
+
+/**Saturated additon of unsigned values. 
+ * It limits the result to 0xffff.
+ * If the result is lesser as the input, the limitation is done.
+ * The result is always greater or equal as the input on unsigned addition.
+ * This macro should be used anytime an addition should not overflow.
+ */
+#ifndef subu32sat_emC
+  #define subu32sat_emC(R, A, B) { uint32 a = (A); uint32 b = (B);  R = (a - b); \
+  if(R > a ) { R = 0; bSat_emC = true; } \
+  }   
+#endif
+
+
 /**
  */
 #define PI_emC 3.141592653589793

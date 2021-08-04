@@ -15,23 +15,22 @@ typedef struct ParFactors_PIDf_Ctrl_emC_T {
   /**Smoothing time for D-Part.*/
   float fTsD;
 
+  int32 fTsDi;
+
+  int16 fTsDiSh;
+  int16 fDiSh;
+
   /**Factor for D-Part including kP and Transformation to int32. */
   float fD;
 
-  /**Factor for wxP for Integrator adding. It is bit 63..32 of multiplication.
+  int32 fDi;
+
+
+
+  /**Factor for wxP for Integrator adding. used for 64 bit multiplication result.
    * Note fix point multiplication  */
   int32 fI;
   
-  /**Factor from float-x to int64 and to float-y-scale. */
-  float fIx, fIy;
-
-  /**Maximal value for the y output. The integrator in the PID uses fix point 64 bit for high accuracy.
-   * This value is used to build the correct factors from float to fix point. 
-   */
-  float yMax;
-
-  float _sp_;  //Note: align to 8 bit.
-
 } ParFactors_PIDf_Ctrl_emC_s;
 
 #ifndef ID_refl_ParFactors_PIDf_Ctrl_emC
@@ -70,22 +69,26 @@ typedef struct Par_PIDf_Ctrl_emC_T
       int32 ixf;
       int32 en;
       int32 open;
-      int32 noIntg;
     /**If set then changes from outside are disabled. For Inspector access. */
     int32 man;
-      int32 _spare_[2];
+      int32 _spare_[3];
   int32 dbgct_reparam;
 
 //    };
 //  } bits;
+
+  /**for debugging and check: The used step time for calcualation of the factors. */
+  float Tctrl;
 
   /**Maximal value for the y output. The integrator in the PID uses fix point 64 bit for high accuracy.
    * This value is used to build the correct factors from float to fix point. 
    */
   float yMax;
 
-  /**for debugging and check: The used step time for calcualation of the factors. */
-  float Tctrl;
+    /**Factor from float-x to int64 and to float-y-scale. */
+  float fIx, fIy;
+
+
 
   /**Primary and used parameter: P-gain. */
   float kP;
@@ -187,19 +190,25 @@ typedef struct PIDf_Ctrl_emC_t
 
   
   /**Current limitation of output. */
-  float lim;
+  int32 limi; float limf;
 
 
   //float Tstep;
 
   /**Smoothed differential. */
   float dwxP;
+  int32 dwxPis;
 
   /**Stored for D-part, to view input. */
   float wxP;
 
+  int32 wxPi;
+
   /**Stored for D-part, to view input. */
   float wxPD;
+
+  /**Set value for the integrator used also as middle value for limitation. */
+  float yIntg;
 
   /**To view the control output in open loop state. It is the same value as y_ctrl arg of [[step_PIDf_Ctrl_emC(...)]]. */
   float yctrl;
@@ -229,10 +238,8 @@ typedef struct PIDf_Ctrl_emC_t
   /**Limited output from P and D fix point. To view. */
   int32 wxP32, wxPD32;
   
-  /**Value of the differentiator. */
-  float qD1;
-
-
+  int8 setIntg, disableIntg; 
+  int8 _sp_[2];
 
 } PIDf_Ctrl_emC_s;
 
@@ -268,12 +275,17 @@ extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par
 /**set Limitation of PID controller 
  * @simulink Operation-FB.
  */
+extern_C void setIntg_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float intg, bool set, bool hold, float* intg_y);
+
+/**set Limitation of PID controller 
+ * @simulink Operation-FB.
+ */
 extern_C void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
 
 /**step of PID controller 
  * @simulink Object-FB.
  */
-extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y, float* ctrl_y);
+extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y);
 
 
 /**Offers a new parameter set for this controller. 
@@ -325,7 +337,7 @@ class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
 
   public: void init(Par_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
   
-  public: void step ( float wx, float* y_y, float* y_ctrl){ step_PIDf_Ctrl_emC(this, wx, y_y, y_ctrl); }
+  public: void step ( float wx, float* y_y){ step_PIDf_Ctrl_emC(this, wx, y_y); }
 
   //public: void reparam(Par_PIDf_Ctrl_emC_s* par){ reparam_PIDf_Ctrl_emC(this, par); }
 

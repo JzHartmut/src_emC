@@ -34,6 +34,7 @@
  *
  ****************************************************************************/
 #include <emC/Base/Object_emC.h>
+#include <emC/Base/MemC_emC.h>
 #include <stdlib.h>   //malloc defined here
 #include <string.h>   //memset defined here
 
@@ -190,7 +191,7 @@ void setInitialized_ObjectJc(struct ObjectJc_T const* thiz) {
 
 #ifndef USE_BlockHeap_emC
 struct ObjectJc_T* allocRefl_ObjectJc ( uint size, struct ClassJc_t const* refl, uint id) {
-  ObjectJc* thiz = (ObjectJc*)malloc(size);
+  ObjectJc* thiz = C_CAST(ObjectJc*, alloc_MemC(size));
   ctor_ObjectJc(thiz, thiz, size, refl, id);
   return thiz;
 }
