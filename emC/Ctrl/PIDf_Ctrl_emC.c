@@ -66,13 +66,17 @@ void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, 
   } else {
     thiz->en = 1;
   } 
+  bool bChanged = false;
+  //man=1 is used to change the values direct with Inspector
   if(thiz->man == 0 && (thiz->kP != kP || thiz->Tn != Tn_param || thiz->Td != Td_param || thiz->T1d != Tsd_param )) 
   { // if one of this is changed, then calculate newly. 
-      thiz->kP = kP;
-      thiz->Tn = Tn_param;
-      thiz->Td = Td_param;
-      thiz->T1d = Tsd_param;
-      //thiz->limPbeforeD = 1;  //it is better to fast reach point with max controller output. 
+    thiz->kP = kP;
+    thiz->Tn = Tn_param;
+    thiz->Td = Td_param;
+    thiz->T1d = Tsd_param;
+    bChanged = true;
+  }
+  if(thiz->man || bChanged) {
     ParFactors_PIDf_Ctrl_emC_s* f = &thiz->i[thiz->ixf];
     f->kP = thiz->kP;
     //fI is bit63..32 of multiplication. Stored as 32 bit. Related to yMax.                        
@@ -81,15 +85,9 @@ void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, 
     float fTsD = thiz->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tctrl / thiz->T1d);
     f->fTsD = fTsD;
     //fTsd is a value in range 0.000... 1.0
-    int32 fTsD_IEEE754 = *(int32*)&fTsD;  //image float in integer
-    f->fTsDiSh = (uint8)((0x3f800000 - fTsD_IEEE754)>>23);
-    f->fTsDi = ((fTsD_IEEE754 & 0x007f8000) >> (23 -8)) | 0x80;  //Factor in range 128..255
     //
     float fD = (thiz->Td / thiz->Tctrl); // * thiz->kP;
     f->fD = fD;
-    int32 fD_IEEE754 = *(int32*)&fD;  //image float in integer
-    f->fDiSh = (uint8)((0x43800000 - fD_IEEE754)>>23);  //Factor 128: shift right 0 because was mult with 128
-    f->fDi = ((fD_IEEE754 & 0x007f8000) >> (23 -8)) | 0x80;  //Factor in range 128..255
      
     thiz->dbgct_reparam +=1;
     thiz->f = f;                       // use this set complete immediately after calculation. 
@@ -189,6 +187,9 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
   Par_PIDf_Ctrl_emC_s* par = thiz->par;
   ParFactors_PIDf_Ctrl_emC_s* f = par->f;
   float wxP = wx * f->kP;
+  if (wxP > thiz->limf) { wxP = thiz->limf; }
+  else if (wxP < -thiz->limf) { wxP = -thiz->limf; }
+  else {} //remain wxPD
   
   float dwxP = wxP - thiz->wxP;  
   thiz->dwxP += (f->fTsD * (dwxP - thiz->dwxP));
@@ -208,45 +209,28 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
     else {} //remain wxPD
     thiz->wxPD = wxPD;  //to inspect.
 
-    int32 wxP32 = (int32)(par->fIx * wxP);  //integer representation of wxP
+    thiz->wxP32 = (int32)(par->fIx * wxP);  //integer representation of wxP
 
-    int32 wxPD32 = (int32)(par->fIx * wxPD);     //has never an overflow because wxPD is limited.
-    //int32 yImin, yImax;
-    //limit it to 24 bit
-    //if (wxP32 < 0) { yImin = -0x40000000L - wxP32; yImax =  0x40000000L; }  //
-    //else {          yImax =  0x40000000L - wxP32; yImin = -0x40000000L; }
-    //thiz->wxPD32 = wxPD32;  //to inspect
-      int64 xdI = wxP32 * (((int64)f->fI));
-      int64 qI1 = thiz->qI + xdI;
-      int32 qIhi = (int32)(qI1 >> 32);
-      bool bSat_emC = false;
-      adds32sat_emC(yi, wxPD32, qIhi);
-      if(yi > thiz->limi) 
-      { //                                       ! limitation, prevent integration, set I to may possible value.
-        yi = thiz->limi; 
-        if(wxPD32 > thiz->limi) { 
-          qIhi = 0;
-        } else {
-          qIhi = yi - wxPD32;
-        }
-      }
-      else if(yi < -thiz->limi) 
-      { 
-        yi = -thiz->limi; 
-        if(wxPD32 < -thiz->limi) { 
-          qIhi = 0;
-        } else {
-          qIhi = yi - wxPD32;  //wxPDi is negative, means add
-        }
-      }
-      else if(thiz->disableIntg ==0) {
-      { //save the integrator values only if output is not limited
-        //hence prevent integration on limitation. 
-        thiz->qI = qI1;
-        thiz->qIhi = qIhi;
-        thiz->yIntg = thiz->par->fIy * qIhi; 
-      }
-
+    thiz->wxPD32 = (int32)(par->fIx * wxPD);     //has never an overflow because wxPD is limited.
+    int64 xdI = thiz->wxP32 * (((int64)f->fI));
+    int64 qI1 = thiz->qI + xdI;
+    int32 qIhi = (int32)(qI1 >> 32);
+    bool bSat_emC = false;
+    adds32sat_emC(yi, thiz->wxPD32, qIhi);
+    if(yi > thiz->limi) 
+    { //                                       ! limitation, prevent integration, set I to may possible value.
+      yi = thiz->limi; 
+    }
+    else if(yi < -thiz->limi) 
+    { 
+      yi = -thiz->limi; 
+    }
+    else if(thiz->disableIntg ==0) 
+    { //save the integrator values only if output is not limited
+      //hence prevent integration on limitation. 
+      thiz->qI = qI1;
+      thiz->qIhi = qIhi;
+      thiz->yIntg = thiz->par->fIy * qIhi; 
     }
   }
   thiz->yctrl = yi * par->fIy;
@@ -272,112 +256,4 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
 
 
 
-
-void stepTestI_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
-{
-  Par_PIDf_Ctrl_emC_s* par = thiz->par;
-  ParFactors_PIDf_Ctrl_emC_s* f = thiz->par->f;
-  float wxP = wx * f->kP;                        // kP can be high, result is an hi wxP outside of yLim
-  int32 wxPi;
-  if(wxP > par->yMax) { wxPi = 0x40000000; }     // limit to +- yMax firstly only because of internal overflow prevention.
-  else if(wxP < -par->yMax) { wxPi = -0x40000000; } // 0x40000000 is the appropirate value for yMax due to par->fIx
-  else { wxPi = (int32)(wxP * par->fIx); }       // up to now calculate in scaled integer.
-  //limit to max output.
-  bool holdIntgLim = false;
-  //                                             !  decision here: hold the integrator on limitation. 
-  //int32 pmax = thiz->limi - thiz->qIhi;          // min max for P-values is range from integrator to limits
-  //int32 pmin = -thiz->limi - thiz->qIhi;
-  //if(wxPi > pmax) { wxPi = pmax; holdIntgLim = true; }  //limit wxPi, hold integrator if limited.
-  //if(wxPi < pmin) { wxPi = pmin; holdIntgLim = true; }  //limit wxPi, hold integrator if limited.
-  
-  
-  //                                             ! build dwxPi from limited wxPi, on limit D-Part is not relevant, it is 0
-  int32 dwxPi = wxPi - thiz->wxPi;  //dwxPi can be in int-range till 0x7fffffff on step inputs
-  thiz->wxPi = wxPi;                // but typical lesser
-  int32 ddwxPis = ((f->fTsDi * ((dwxPi - thiz->dwxPis)>>8)))>>f->fTsDiSh;
-  int32 dwxPis = thiz->dwxPis + ddwxPis;  //dwxPis is lesser 0x7fffffff adequate smoothing factor
-  thiz->dwxPis = dwxPis;                  //or on continue increasing. Increasing per Tstep cannot be high.
-  
-  int32 yi;
-  
-  
-  if(thiz->par->en ==0) {
-    thiz->dwxP = 0;     //no differentiation on hold, 0 on reset
-    if(!thiz->setIntg) {
-      thiz->qI = thiz->qIhi = 0;
-    }
-    thiz->wxPD32 = 0;   //0 on reset, unchange on hold.
-    yi = 0;
-  }
-  else {
-    //The fDi is in range 0x80..ff, hence dwxPis should be lesser ~0x007ffffff to prevent overflow
-    if( dwxPis > 0x00808080) { dwxPis = 0x00808080; }          //prevent overflow while * 0xff (at least)
-    else if( dwxPis < -0x00808080) { dwxPis = -0x00808080; }
-    int32 wxDi = (dwxPis * f->fDi);   //the formal mult is < 0x7fffffff, the result is not limited if it is <0x3fffffff
-    //wxDi before shift is the value for Td/Tsd in range 128..255
-    wxDi >>= f->fDiSh;   //shift right for Td < 128 * Tstep             
-    bool bSat_emC = false;
-    int32 wxPDi; adds32sat_emC( wxPDi, wxPi , wxDi);        //with saturation arithmetic prevent overflow
-    //if(wxPDi > pmax) 
-    //{ wxPDi = pmax; holdIntgLim = true; }  //limit wxPi, hold integrator if limited.
-    //if(wxPDi < pmin) 
-    //{ wxPDi = pmin; holdIntgLim = true; }  //limit wxPi, hold integrator if limited.
-    
-    
-    thiz->wxPD32 = wxPDi;  //to inspect
-    if(!holdIntgLim && thiz->disableIntg ==0) {                  // do not change the integrator value if it is in hold.
-      int64 xdI = wxPi * (((int64)f->fI));
-      int64 qI1 = thiz->qI + xdI;                //note: overflow only possible on very small fI, < 3*Tstep
-      int32 qIhi = (int32)(qI1 >> 32);        
-      //                                         ! build yi and limit
-      adds32sat_emC(yi, wxPDi, qIhi);
-      if(yi > thiz->limi) 
-      { //                                       ! limitation, prevent integration, set I to may possible value.
-        yi = thiz->limi; 
-        if(wxPDi > thiz->limi) { 
-          qIhi = 0;
-        } else {
-          qIhi = yi - wxPDi;
-        }
-      }
-      else if(yi < -thiz->limi) 
-      { 
-        yi = -thiz->limi; 
-        if(wxPDi < -thiz->limi) { 
-          qIhi = 0;
-        } else {
-          qIhi = yi - wxPDi;  //wxPDi is negative, means add
-        }
-      }
-      else 
-      { //save the integrator values only if output is not limited
-        //hence prevent integration on limitation. 
-
-        //if (qIhi > yImax) { qIhi = yImax; qI1 = ((int64)qIhi) << 32; }
-        //else if (qIhi < yImin) { qIhi = yImin; qI1 = ((int64)qIhi) << 32; }
-        //else {} //remain qIhi                      // limit the integrator to (limi - wxP32), y is <= limit
-         thiz->qI = qI1;
-        thiz->qIhi = qIhi;
-        thiz->yIntg = thiz->par->fIy * qIhi; 
-      }
-    }
-  }                                              // limitation is already done. 
-  thiz->yctrl = thiz->par->fIy * yi;  //use hi part of integrator for output.
-  if(thiz->par->open) 
-  {
-    if(thiz->yAdd !=null) {
-      thiz->y = *(float*)thiz->yAdd;
-    }
-    else { //left thiz->y unchanged, manual change via Inspector is possible 
-    }
-  }
-  else 
-  {
-    thiz->y = thiz->yctrl;
-    if(thiz->yAdd !=null) {
-      thiz->y += *(float*)thiz->yAdd;
-    }
-  }
-  *y_y = thiz->y;
-}
 

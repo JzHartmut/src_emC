@@ -125,7 +125,7 @@ inline float rst2abn_Angle_Ctrl_emC(float rst[3], float_complex* ab) {
 /**This structure describes a complex signal value with its angle and magnitude.
  * @simulink bus
  */
-typedef struct Angle_abwmf_FB_CtrlemC_T
+typedef struct Angle_abwmf_FB_Ctrl_emC_T
 { 
   union { ObjectJc obj; } base;
 
@@ -147,15 +147,15 @@ typedef struct Angle_abwmf_FB_CtrlemC_T
   /**Frequency of the signal. It should be a middle value of the angle difference per step. */
   float fq;
 
-} Angle_abwmf_FB_CtrlemC;
+} Angle_abwmf_FB_Ctrl_emC;
 
 
-#ifndef ID_refl_Angle_abwmf_FB_CtrlemC
-  #define ID_refl_Angle_abwmf_FB_CtrlemC 0x0fC4
+#ifndef ID_refl_Angle_abwmf_FB_Ctrl_emC
+  #define ID_refl_Angle_abwmf_FB_Ctrl_emC 0x0fC4
 #endif
 
 #ifndef DEF_REFLECTION_NO
-  extern_C ClassJc const refl_Angle_abwmf_FB_CtrlemC;
+  extern_C ClassJc const refl_Angle_abwmf_FB_Ctrl_emC;
 #endif
 
 
@@ -166,7 +166,7 @@ typedef struct Angle_abwmf_FB_CtrlemC_T
  * @param input the angle
  * @simulink ctor
  */
-void ctor_Angle_abwmf_FB(Angle_abwmf_FB_CtrlemC* thiz, int32 identObj, float Tstep);
+void ctor_Angle_abwmf_FB(Angle_abwmf_FB_Ctrl_emC* thiz, int32 identObj, float Tstep);
 
 
 /**sets the angle values with given integer angle. 
@@ -176,7 +176,7 @@ void ctor_Angle_abwmf_FB(Angle_abwmf_FB_CtrlemC* thiz, int32 identObj, float Tst
  * @param fq associated frequency parameter.
  * @simulink Object-FB, accel-tlc
  */
-inline void set_Angle_abwmf_FB(Angle_abwmf_FB_CtrlemC* thiz, int32 wi, float fq, float m, float* wrad_y) //, float_complex* ab_y)
+inline void set_Angle_abwmf_FB(Angle_abwmf_FB_Ctrl_emC* thiz, int32 wi, float fq, float m, float* wrad_y) //, float_complex* ab_y)
 {
 #ifndef __reflectionHidden__ 
    thiz->wi = wi;
@@ -202,7 +202,7 @@ inline void set_Angle_abwmf_FB(Angle_abwmf_FB_CtrlemC* thiz, int32 wi, float fq,
 /**This structure describes a complex signal value with its angle and magnitude.
  * @simulink no-bus
  */
-typedef struct Angle_abgmf16_CtrlemC_T
+typedef struct Angle_abgmf16_Ctrl_emC_T
 { 
   union { ObjectJc obj; } base;
 
@@ -224,15 +224,15 @@ typedef struct Angle_abgmf16_CtrlemC_T
   /**Frequency of the signal. It should be a middle value of the angle difference per step. */
   float fq;
 
-} Angle_abgmf16_CtrlemC;
+} Angle_abgmf16_Ctrl_emC;
 
 
-#ifndef ID_refl_Angle_abgmf16_CtrlemC
-  #define ID_refl_Angle_abgmf16_CtrlemC 0x0fC5
+#ifndef ID_refl_Angle_abgmf16_Ctrl_emC
+  #define ID_refl_Angle_abgmf16_Ctrl_emC 0x0fC5
 #endif
 
 #ifndef DEF_REFLECTION_NO
-  extern_C ClassJc const refl_Angle_abgmf16_CtrlemC;
+  extern_C ClassJc const refl_Angle_abgmf16_Ctrl_emC;
 #endif
 
 
@@ -243,7 +243,7 @@ typedef struct Angle_abgmf16_CtrlemC_T
  * @param input the angle
  * @simulink ctor
  */
-void ctor_Angle_abgmf16_CtrlemC(Angle_abgmf16_CtrlemC* thiz, int32 identObj, float Tstep);
+void ctor_Angle_abgmf16_Ctrl_emC(Angle_abgmf16_Ctrl_emC* thiz, int32 identObj, float Tstep);
 
 
 /**sets the angle values with given integer angle. 
@@ -253,7 +253,7 @@ void ctor_Angle_abgmf16_CtrlemC(Angle_abgmf16_CtrlemC* thiz, int32 identObj, flo
  * @param fq associated frequency parameter.
  * @simulink Object-FB, accel-tlc
  */
-inline void set_Angle_abgmf16_CtrlemC(Angle_abgmf16_CtrlemC* thiz, int32 wi, float fq, float m, float* wrad_y) //, float_complex* ab_y)
+inline void set_Angle_abgmf16_Ctrl_emC(Angle_abgmf16_Ctrl_emC* thiz, int32 wi, float fq, float m, float* wrad_y) //, float_complex* ab_y)
 {
 #ifndef __reflectionHidden__ 
    thiz->wi = wi;

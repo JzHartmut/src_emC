@@ -15,17 +15,8 @@ typedef struct ParFactors_PIDf_Ctrl_emC_T {
   /**Smoothing time for D-Part.*/
   float fTsD;
 
-  int32 fTsDi;
-
-  int16 fTsDiSh;
-  int16 fDiSh;
-
   /**Factor for D-Part including kP and Transformation to int32. */
   float fD;
-
-  int32 fDi;
-
-
 
   /**Factor for wxP for Integrator adding. used for 64 bit multiplication result.
    * Note fix point multiplication  */
@@ -197,12 +188,9 @@ typedef struct PIDf_Ctrl_emC_t
 
   /**Smoothed differential. */
   float dwxP;
-  int32 dwxPis;
 
   /**Stored for D-part, to view input. */
   float wxP;
-
-  int32 wxPi;
 
   /**Stored for D-part, to view input. */
   float wxPD;
