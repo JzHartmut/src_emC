@@ -63,8 +63,8 @@
 #define rad_to_grad(RAD) ((RAD) * (180.0f / kPI_Angle_FB))
 
 #define mult_complex_FB(x1, x2, y) \
-{ y.re = x1.re * x2.re - x1.im * x2.im; \
-  y.im = x1.im * x2.re + x1.re * x2.im; \
+{ (y).re = x1.re * x2.re - x1.im * x2.im; \
+  (y).im = x1.im * x2.re + x1.re * x2.im; \
 }
 
 

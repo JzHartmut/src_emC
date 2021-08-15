@@ -19,7 +19,7 @@ typedef struct Param_OrthBandpassF_Ctrl_emC_T
 {
   ObjectJc obj;
 
-  /**Frquency and step time. */
+  /**Frequency and step time. */
   float tStepOrthi;
 
   /**The given frequency in step routine. Only for debug. 0.0 if nStepPeriod is given. */
@@ -28,21 +28,17 @@ typedef struct Param_OrthBandpassF_Ctrl_emC_T
   /**The given steps per period in step routine. Only for debug. 0.0 if fq is given. */
   float nStepsPeriod;
 
-  /**Nominal value for magnitude.*/
-  float nom_m;
+  /**Factor for magnitued regards the nominal value.
+   * It is 1/m_nom/2.
+   */
+  float fm;
 
-  /**Integrator values form same signal, from other.*/
-  //float fIa, fIb;
 
   /**Integrator factor from the other component.*/
   float fI_oth;
 
-  /**Integrator factor (1.0f - factor from same component). This factor is ~ 0.00..., subtract from own compn. */
+  /**Adjust for the own component in one step time. Less, ~ 0.00... */
   float fI_own;
-
-  /**Factors for magnitude and reciproce. */ 
-  float fm, fmr;
-
 
 } Param_OrthBandpassF_Ctrl_emC_s;
 
@@ -83,7 +79,8 @@ static inline void setPeriod_Param_OrthBandpassF_Ctrl_emC(Param_OrthBandpassF_Ct
 /**
  * @simulink Object-FB.
  */
-static inline void setFq_Param_OrthBandpassF_Ctrl_emC(Param_OrthBandpassF_Ctrl_emC_s* thiz, float fq)
+static inline void setFq_Param_OrthBandpassF_Ctrl_emC ( Param_OrthBandpassF_Ctrl_emC_s* thiz
+                                                      , float fq)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
   float fI1 = 2*PI_float_emC * thiz->tStepOrthi * fq;
@@ -111,28 +108,25 @@ class Param_OrthBandpassF_Ctrl_emC : private Param_OrthBandpassF_Ctrl_emC_s {
 
 
 
-/**Internal data of a OrthogonalOscillator.
+/**Internal data of a Orthogonal Bandpass.
  * @simulink no-bus 
  */
 typedef struct OrthBandpassF_Ctrl_emC_T
 {
   ObjectJc obj;  //:The base structure
   Param_OrthBandpassF_Ctrl_emC_s* par;  //:Reference to parameter, maybe calculated in other step time.
-  Angle_abwmf_FB_Ctrl_emC* anglep;  //:Reference to angle, null is admissable.
 
-  /**Couple factors. Note: kB should be negative for same difference B-X, A-X*/
+  /**Input coupling factors. Note: kB should be negative for same difference B-X, A-X*/
   float kA, kB;
 
   /**Stored values on step for evaluation. */
-  float xadiff, xbdiff;
+  float xadiff;
+
+  float m;        //:optional: Magnitude and its reciproke, if calculated
 
   float_complex yab;  //:Orthogonal components of oscillation. 
-  float_complex ypq;  //:optional: Orthogonal components as fundamental values, after park-transformation with angle.
-  float m, mr;        //:optional: Magnitude and its reciproke, if calculated
-  //
-  float b_;           //:internal b component
 
-  int32 __spare;   //:for 8 Byte align
+
 } OrthBandpassF_Ctrl_emC_s;
 
 
@@ -154,34 +148,29 @@ OrthBandpassF_Ctrl_emC_s* ctor_OrthBandpassF_Ctrl_emC(ObjectJc* othiz, float kA,
 /**Prepares the instance data. 
  * @param par aggregation to the parameter.
  * @param angle aggregation to instance which contains the angle of the signal.
- * @simulink init
+ * @simulink init.
  */
-bool initSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Param_OrthBandpassF_Ctrl_emC_s* par, Angle_abwmf_FB_Ctrl_emC* angle);
+bool init_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Param_OrthBandpassF_Ctrl_emC_s* par);
 
-
-bool init_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Param_OrthBandpassF_Ctrl_emC_s* par, Angle_abwmf_FB_Ctrl_emC* angle);
-
-/**Prepares the instance data. 
- * @param par aggregation to the parameter.
- */
-bool init_NoAngle_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Param_OrthBandpassF_Ctrl_emC_s* par);
 
 
 
 
 
 /**Step routine. It calulates the stored values of Orthogonal Oscillation.
- * @param xAdiff Difference between Input and yaz_y Signal
- * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+ * @param xAdiff Difference between Input and yab.re Signal
+ * @param xBdiff 0 for only single input, or orthogonal difference from the other component
  */
 static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float xAdiff, float xBdiff)
   {
 #ifndef __ignoreInCheader_zbnf__
   Param_OrthBandpassF_Ctrl_emC_s* par = thiz->par;
-  thiz->xadiff = xAdiff; thiz->xbdiff = xBdiff;    //store for evaluating (phase) and debug view
+  thiz->xadiff = xAdiff; //store for evaluating (phase) and debug view
   float a = thiz->yab.re;
-  thiz->yab.re += par->fI_oth * ( thiz->kA * xAdiff - thiz->yab.im) - par->fI_own * thiz->yab.re;
-  thiz->yab.im += par->fI_oth * ( thiz->kB * xBdiff + a           ) - par->fI_own * thiz->yab.im;
+  thiz->yab.re -= par->fI_own * thiz->yab.re;
+  thiz->yab.re += par->fI_oth * ( thiz->kA * xAdiff - thiz->yab.im);
+  thiz->yab.im -= par->fI_own * thiz->yab.im;
+  thiz->yab.im += par->fI_oth * ( thiz->kB * xBdiff + a); 
 #endif//__ignoreInCheader_zbnf__
 }
 
@@ -191,7 +180,7 @@ static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, f
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  * @param yaz_y variable to store the a-Output.
  * @param ab_Y variable to store the complex orthogonal output.. 
- * @simulink Object-FB, accel-tlc, step-in.
+ * @simulink Object-FB, accel-tlc.
  */
 static inline void stepSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
   { 
@@ -244,7 +233,7 @@ static inline void set_OrthBandpassF_Ctrl_emC ( OrthBandpassF_Ctrl_emC_s* thiz, 
 
 
 /**Outputs the current ab vector of this.
- * @s imulink Operation-FB, accel-tlc
+ * @simulink Operation-FB, accel-tlc
  */
 static inline void ab_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float run, float_complex* ab_y)
 { 
@@ -265,34 +254,44 @@ static inline void phase_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, 
 
 
 
-/**
- * @simulink Operation-FB, accel-tlc, step-in.
+/**Calculates the magnitude in an iteration algorithm. 
+ * Each step time is one iteration. 
+ * The input values are usual not far changed from one to the next step time.  
+ * @simulink Operation-FB, accel-tlc.
  */
 static inline void calcMagn_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float* m_y)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
-  float dm1 = thiz->par->fm * ((thiz->yab.re * thiz->yab.re) + (thiz->yab.im * thiz->yab.im) - (thiz->m * thiz->m));
-  if(dm1 <=1.0 && dm1 >= -1.0) {
-    //it is okay.
-  } else if(dm1 < 10000000000.0) {
-    dm1 = fminf(fmaxf(dm1, -1.0f), 1.0f);
-  } else {
-    //it is nan. Prevent problems. clear all.
-    thiz->yab.re = thiz->yab.im = thiz->m = thiz->mr = dm1 = 0;
+  //firstly calculate a estimation for the magnitude.
+  //The real value is between this and 1.0 of the sum. It means it has an error from max. -30%
+  //but this value is lesser than the real magnitude.
+  float fm = thiz->par->fm;
+  float mx = (fabsf(thiz->yab.re) + fabsf(thiz->yab.im)) * 0.707f;
+  float dmx = mx - thiz->m; 
+  if( (thiz->m * fm ) > 1.5f || fabsf(dmx) > thiz->m) {  //the difference is high in comparison to the magnitude,
+    //then do not iterate. It may be infinite.
+    thiz->m = mx;    //use the estimation. 
+  } 
+  else {   //the difference is < 0.5 * magnitude, then it is possible to iterate:
+    //divide by 2 is the nearest approximation for change, it regards the fact
+    //the derivation of sqrt is 1/2*x. Adding the derivation. 
+    float m2 = (thiz->m * thiz->m);
+    float ab2 = ((thiz->yab.re * thiz->yab.re) + (thiz->yab.im * thiz->yab.im));
+    float dm = fm * (ab2 - m2);
+    thiz->m += dm;   
   }
-  *m_y = thiz->m += dm1;
+  *m_y = thiz->m;
 #endif//__ignoreInCheader_zbnf__
 }
 
 
 /**
- * @simulink Operation-FB, accel-tlc, step-in.
+ * @simulink Operation-FB, accel-tlc.
  */
-static inline void calcpq_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float_complex* ypq_y)
+static inline void calcpq_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Angle_abwmf_FB_Ctrl_emC* anglep, float_complex* ypq_y)
 { 
-  if(thiz == null || thiz->anglep == null) return;
-  mult_complex_FB(thiz->yab, thiz->anglep->anb, thiz->ypq);
-  *ypq_y = thiz->ypq;  //offer result to extra output.
+  if(thiz == null || anglep == null) return;
+  mult_complex_FB(thiz->yab, anglep->anb, *ypq_y);
 }
 
 
@@ -304,16 +303,10 @@ class OrthBandpassF_Ctrl_emC : public OrthBandpassF_Ctrl_emC_s {
   
   OrthBandpassF_Ctrl_emC(float kA, float kB, int32 identObj, float Tstep);
 
-  /**Connect the association to par and angle.
-   */
-  bool init(Param_OrthBandpassF_Ctrl_emC* par, Angle_abwmf_FB_Ctrl_emC* angle) {
-    return init_OrthBandpassF_Ctrl_emC(this, par, angle);
-  }
-
   /**Connect the association only to par, angle remain null, then calcpq is not supported.
    */
   bool init(Param_OrthBandpassF_Ctrl_emC* par) {
-    return init_NoAngle_OrthBandpassF_Ctrl_emC(this, par); 
+    return init_OrthBandpassF_Ctrl_emC(this, par); 
   }
 
   void step(float xAdiff, float xBdiff) {
@@ -322,8 +315,8 @@ class OrthBandpassF_Ctrl_emC : public OrthBandpassF_Ctrl_emC_s {
 
 
 
-  void calcpq(float_complex* ypq_y) {
-    calcpq_OrthBandpassF_Ctrl_emC(this, ypq_y);
+  void calcpq(float_complex* ypq_y, Angle_abwmf_FB_Ctrl_emC* anglep) {
+    calcpq_OrthBandpassF_Ctrl_emC(this, anglep, ypq_y);
   }
 };
 #endif //__cplusplus
@@ -340,20 +333,11 @@ typedef struct Param_OrthBandpass16_Ctrl_emC_T
   /**Frquency and step time. */
   float tStepOrthi;
 
-  /**The given frequency in step routine. Only for debug. 0.0 if nStepPeriod is given. */
-  float fq;
-
-  /**The given steps per period in step routine. Only for debug. 0.0 if fq is given. */
+  /**The given steps per period in step routine. Only for debug.  */
   float nStepsPeriod;
 
-  /**Nominal value for magnitude.*/
-  float nom_m;
-
   /**Integrator values form same signal, from other.*/
-  uint16 fIcos, fIsin;
-
-  /**Factors for magnitude and reciproce. */ 
-  float fm, fmr;
+  uint16 fI_own, fI_oth;
 
 
 } Param_OrthBandpass16_Ctrl_emC_s;
@@ -374,20 +358,20 @@ typedef struct Param_OrthBandpass16_Ctrl_emC_T
  * @param Tstep
  * @simulink ctor
  */
-void ctor_Param_OrthBandpass16_Ctrl_emC(Param_OrthBandpass16_Ctrl_emC_s* thiz, int32 identObj, float Tstep, float tStepOrthi, float nom_m);
+void ctor_Param_OrthBandpass16_Ctrl_emC(Param_OrthBandpass16_Ctrl_emC_s* thiz, int32 identObj, float Tstep, float tStepOrthi);
 
 
 
 /**
- * @s imulink Object-FB
+ * @simulink Object-FB
  */
 static inline void setPeriod_Param_OrthBandpass16_Ctrl_emC(Param_OrthBandpass16_Ctrl_emC_s* thiz, float nStepsPeriod)
 { 
 #ifndef __ignoreInCheader_zbnf__
   float fI1 = 2*PI_float_emC / nStepsPeriod;
-  float fIcos = cosf(fI1);
-  //float fIcorr = (fIcos +3) /4;
-  //float fIcorr2 = (fIcos +11) /12;
+  float fI_own = cosf(fI1);
+  //float fIcorr = (fI_own +3) /4;
+  //float fIcorr2 = (fI_own +11) /12;
   //thiz->fq = 1.0f/ (thiz->tStepOrthi * nStepsPeriod);
   thiz->nStepsPeriod = nStepsPeriod;
   //thiz->fIa = fI1 * fIcorr2 / fIcorr;
@@ -397,19 +381,19 @@ static inline void setPeriod_Param_OrthBandpass16_Ctrl_emC(Param_OrthBandpass16_
 
 
 /**
- * @s imulink Object-FB
+ * @simulink Object-FB
  */
 static inline void setFq_Param_OrthBandpass16_Ctrl_emC(Param_OrthBandpass16_Ctrl_emC_s* thiz, float fq)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
+  thiz->nStepsPeriod = 1.0f / (fq * thiz->tStepOrthi); 
   float fI1 = 2*PI_float_emC * thiz->tStepOrthi * fq;  //rad of 1 Tstep
   //this value should be so exact as possible for feedback, sum of gain = 1.0, 
-  float fIcos = cosf(fI1);       //hence using float. cos16_emC is inaccurate.
-  float fIsin = sinf(fI1);
-  thiz->fIsin = (uint16)(65536 * fIsin);
-  thiz->fIcos = (uint16)(65536 * (1.0f - fIcos));
+  float fI_own = cosf(fI1);       //hence using float. cos16_emC is inaccurate.
+  float fI_oth = sinf(fI1);
+  thiz->fI_oth = (uint16)(65536 * fI_oth);
+  thiz->fI_own = (uint16)(-65536 * (1.0f - fI_own));  //Note: negative because subtract
 #endif//__ignoreInCheader_zbnf__
-
 }
 
 
@@ -418,7 +402,7 @@ class Param_OrthBandpass16_Ctrl_emC : public Param_OrthBandpass16_Ctrl_emC_s {
   friend class OrthBandpass16_Ctrl_emC;
   public: 
   
-  Param_OrthBandpass16_Ctrl_emC(int32 identObj, float Tstep, float tStepOrthi, float nom_m);
+  Param_OrthBandpass16_Ctrl_emC(int32 identObj, float Tstep, float tStepOrthi);
 
   void setPeriod(float nStepsPeriod) { setPeriod_Param_OrthBandpass16_Ctrl_emC(this, nStepsPeriod); }
   void setFq(float fq) { setFq_Param_OrthBandpass16_Ctrl_emC(this, fq); }
@@ -435,17 +419,11 @@ typedef struct OrthBandpass16_Ctrl_emC_T
 {
   ObjectJc obj;  //:The base structure
   Param_OrthBandpass16_Ctrl_emC_s* par;  //:Reference to parameter, maybe calculated in other step time.
-  Angle_abgmf16_Ctrl_emC* anglep;   //:Reference to angle, null is admissable.
 
   /**Couple factors. Note: kB should be negative for same difference B-X, A-X*/
   int16 kA, kB;
 
   int32_complex yab;    //:Orthogonal components of oscillation. 
-  //int16 m, mr;        //:optional: Magnitude and its reciproke, if calculated
-  //
-  //int16 b_;           //:internal b component
-
-  //int16 __spare;   //:for 8 Byte align
 } OrthBandpass16_Ctrl_emC_s;
 
 
@@ -465,38 +443,19 @@ OrthBandpass16_Ctrl_emC_s* ctor_OrthBandpass16_Ctrl_emC(ObjectJc* othiz, float k
 
 /**Prepares the instance data. 
  * @param par aggregation to the parameter.
- * @param angle aggregation to instance which contains the angle of the signal.
- * @simulink init
+ * @simulink init.
  */
-bool init_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, Param_OrthBandpass16_Ctrl_emC_s* par, Angle_abgmf16_Ctrl_emC* angle);
+bool init_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, Param_OrthBandpass16_Ctrl_emC_s* par);
 
 
 /**Sets the influence of input. 
  * @param kA kB
- * @s imulink Operation-FB.
+ * @simulink Operation-FB.
  */
 extern_C void setkAB_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, float kA, float kB);
 
 
 
-/**Step routine. It calulates the stored values of Orthogonal Oscillation.
- * @param xAdiff Difference between Input and yaz_y Signal
- * @param xBdiff same as xAdiff for only single input, or orthogonal difference
- */
-static inline void step1_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, int16 xAdiff, int16 xBdiff)
-  { 
-#ifndef __ignoreInCheader_zbnf__ 
-  Param_OrthBandpass16_Ctrl_emC_s* par = thiz->par;
-  int16 a1 = (int16)( ( (((thiz->kA * (int32)(xAdiff))>>12) - thiz->yab.im ) * par->fIsin ) >>16);
-  int16 a2 = thiz->yab.re - (int16)((((int32)((thiz->yab.re ))) * par->fIcos) >>16); 
-  int16 a = a1 + a2;
-  int16 b1 = (int16)( ( ( ( (thiz->kB * (int32)(xBdiff)) >>12) + thiz->yab.re ) * par->fIsin ) >>16);
-  int16 b2 = thiz->yab.im - (int16)((((int32)((thiz->yab.im ))) * par->fIcos) >>16);
-  int16 b = b1 + b2;
-  thiz->yab.re = a;         
-  thiz->yab.im = b;         
-#endif//__ignoreInCheader_zbnf__
-}
 
 
 
@@ -504,23 +463,23 @@ static inline void step1_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz
  * @param xAdiff Difference between Input and yaz_y Signal
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  */
-static inline void step2_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, int16 xAdiff, int16 xBdiff)
+static inline void step_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, int16 xAdiff, int16 xBdiff)
   { 
 #ifndef __ignoreInCheader_zbnf__ 
   Param_OrthBandpass16_Ctrl_emC_s* par = thiz->par;
   int32 ad; 
   muls16_emC(ad, thiz->kA, xAdiff);  //input diff * kA
   ad = (ad >>12) - ((thiz->yab.im>>16)&0xffff);     // - other comp (im)
-  muls16_emC(ad, (int16)(ad & 0xffff), par->fIsin);  //increment of own comp (re) from adiff and im
-  muls16add32_emC(ad, ((thiz->yab.re>>16) & 0xffff), -par->fIcos);    //sub the little bit for stability
+  muls16_emC(ad, (int16)(ad & 0xffff), par->fI_oth);  //increment of own comp (re) from adiff and im
+  muls16add32_emC(ad, ((thiz->yab.re>>16) & 0xffff), par->fI_own);    //sub the little bit for stability
   int16 a = ((thiz->yab.re>>16) & 0xffff);
   thiz->yab.re += ad; //(int16)((ad>>16) & 0xffff);
   //
   int32 bd; 
   muls16_emC(bd, thiz->kB, xBdiff);  //input diff * kA
   bd = (bd >>12) + a;     // - other comp (im)
-  muls16_emC(bd, (int16)(bd & 0xffff), par->fIsin);  //increment of own comp (re) from adiff and im
-  muls16add32_emC(bd, ((thiz->yab.im>>16) & 0xffff), -par->fIcos);    //sub the little bit for stability
+  muls16_emC(bd, (int16)(bd & 0xffff), par->fI_oth);  //increment of own comp (re) from adiff and im
+  muls16add32_emC(bd, ((thiz->yab.im>>16) & 0xffff), par->fI_own);    //sub the little bit for stability
   thiz->yab.im += bd; //(int16)((bd>>16) & 0xffff);
 #endif//__ignoreInCheader_zbnf__
 }
@@ -531,14 +490,14 @@ static inline void step2_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  * @param yaz_y variable to store the a-Output.
  * @param ab_Y variable to store the complex orthogonal output..
- * @s imulink Object-FB, accel-tlc, step-in.
+ * @simulink Object-FB, accel-tlc.
  */
-static inline void step_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y)
+static inline void stepSmlk_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y)
   {
 #ifndef __ignoreInCheader_zbnf__
   if(thiz == null) return;
   //int16 a = thiz->yab.re;
-  step2_OrthBandpass16_Ctrl_emC(thiz, xAdiff, xBdiff);
+  step_OrthBandpass16_Ctrl_emC(thiz, xAdiff, xBdiff);
   if(ab_y){  ab_y->re = (int16)((thiz->yab.re >>16) & 0xffff); ab_y->im = (int16)((thiz->yab.im >>16) & 0xffff); } 
   *yaz_y = (int16)((thiz->yab.re >>16) & 0xffff);
 #endif//__ignoreInCheader_zbnf__
@@ -546,31 +505,10 @@ static inline void step_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz,
 
 
 
-/**Prepares the instance data. 
- * The output bus from simulink will be allocated in simulink respectively in the generated code.
- * Use the pointer to the existing output data, that are the instance data.
- * @param identObj any indetification number. For debug.
- * @param par aggregation to the parameter.
- * @param angle aggregation to instance which contains the angle of the signal.
- * @param thizh_y thiz as pointer.
- * @s imulink init
- */
-bool init_NoAngle_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, Param_OrthBandpass16_Ctrl_emC_s* par);
-
-/**
- * @s imulink Object-FB, accel-tlc, step-in.
- */
-static inline void stepNoAngle_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
-{ 
-#ifndef __ignoreInCheader_zbnf__  
-#endif//__ignoreInCheader_zbnf__
-}
-
-
 /**Outputs the ab vector of this.
- * @s imulink Operation-FB, accel-tlc
+ * @simulink Operation-FB, accel-tlc
  */
-static inline void ab_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, float run, float_complex* ab_y)
+static inline void ab_OrthBandpass16_Ctrl_emC(OrthBandpass16_Ctrl_emC_s* thiz, float_complex* ab_y)
 { 
   ab_y->re = (int16)((thiz->yab.re >>16) & 0xffff);
   ab_y->im = (int16)((thiz->yab.im >>16) & 0xffff);
@@ -595,27 +533,16 @@ class OrthBandpass16_Ctrl_emC : public OrthBandpass16_Ctrl_emC_s {
 
   /**Connect the association to par and angle.
    */
-  bool init(Param_OrthBandpass16_Ctrl_emC* par, Angle_abgmf16_Ctrl_emC* angle) {
-    return init_OrthBandpass16_Ctrl_emC(this, par, angle);
-  }
-
-  /**Connect the association only to par, angle remain null, then calcpq is not supported.
-   */
   bool init(Param_OrthBandpass16_Ctrl_emC* par) {
-    return init_NoAngle_OrthBandpass16_Ctrl_emC(this, par); 
+    return init_OrthBandpass16_Ctrl_emC(this, par);
   }
 
   void setkAB(float kA, float kB) { setkAB_OrthBandpass16_Ctrl_emC(this, kA, kB); }
 
-  void step(int16 xAdiff, int16 xBdiff, int16* yaz_y, int16_complex* ab_y) {
-    step_OrthBandpass16_Ctrl_emC(this, xAdiff, xBdiff, yaz_y, ab_y);
-  }
-
-
-
   void step(int16 xAdiff, int16 xBdiff) {
-    step2_OrthBandpass16_Ctrl_emC(this, xAdiff, xBdiff);
+    step_OrthBandpass16_Ctrl_emC(this, xAdiff, xBdiff);
   }
+
 
 
 
@@ -625,7 +552,7 @@ class OrthBandpass16_Ctrl_emC : public OrthBandpass16_Ctrl_emC_s {
 
 //=====================Orth32
 
-/**Parameter set for int32 Orthogonal oscillator
+/**Parameter set for int32 Orthogonal band pass
  * @simulink no-bus
  */
 typedef struct Param_OrthBandpass32_Ctrl_emC_T
@@ -641,14 +568,10 @@ typedef struct Param_OrthBandpass32_Ctrl_emC_T
   /**The given steps per period in step routine. Only for debug. 0.0 if fq is given. */
   float nStepsPeriod;
 
-  /**Nominal value for magnitude.*/
-  float nom_m;
+  float _align8;
 
   /**Integrator values form same signal, from other.*/
-  int32 fIcos, fIsin;
-
-  /**Factors for magnitude and reciproce. */ 
-  float fm, fmr;
+  int32 fI_oth, fI_own;
 
 
 } Param_OrthBandpass32_Ctrl_emC_s;
@@ -669,24 +592,24 @@ typedef struct Param_OrthBandpass32_Ctrl_emC_T
  * @param Tstep
  * @simulink ctor
  */
-void ctor_Param_OrthBandpass32_Ctrl_emC(Param_OrthBandpass32_Ctrl_emC_s* thiz, int32 identObj, float Tstep, float tStepOrthi, float nom_m);
+void ctor_Param_OrthBandpass32_Ctrl_emC(Param_OrthBandpass32_Ctrl_emC_s* thiz, int32 identObj, float Tstep, float tStepOrthi);
 
 
 
 /**
- * @s imulink Object-FB
+ * @simulink Object-FB
  */
 static inline void setPeriod_Param_OrthBandpass32_Ctrl_emC(Param_OrthBandpass32_Ctrl_emC_s* thiz, float nStepsPeriod)
 { 
 #ifndef __ignoreInCheader_zbnf__
   float fI1 = 2*PI_float_emC / nStepsPeriod;
   //this value should be so exact as possible for feedback, sum of gain = 1.0,
-  float fIcos = cosf(fI1);       //hence using float. cos16_emC is inaccurate.
-  float fIsin = sinf(fI1);
-  thiz->fIsin = (int32)(65536.0f * 65536 * fIsin);
-  thiz->fIcos = (int32)(-65536.0f * 65536 * (1.0f - fIcos));
-  //float fIcorr = (fIcos +3) /4;
-  //float fIcorr2 = (fIcos +11) /12;
+  float fI_own = cosf(fI1);       //hence using float. cos16_emC is inaccurate.
+  float fI_oth = sinf(fI1);
+  thiz->fI_oth = (int32)(65536.0f * 65536 * fI_oth);
+  thiz->fI_own = (int32)(-65536.0f * 65536 * (1.0f - fI_own));
+  //float fIcorr = (fI_own +3) /4;
+  //float fIcorr2 = (fI_own +11) /12;
   //thiz->fq = 1.0f/ (thiz->tStepOrthi * nStepsPeriod);
   thiz->nStepsPeriod = nStepsPeriod;
   //thiz->fIa = fI1 * fIcorr2 / fIcorr;
@@ -696,7 +619,7 @@ static inline void setPeriod_Param_OrthBandpass32_Ctrl_emC(Param_OrthBandpass32_
 
 
 /**
- * @s imulink Object-FB
+ * @simulink Object-FB
  */
 extern_C void setFq_Param_OrthBandpass32_Ctrl_emC(Param_OrthBandpass32_Ctrl_emC_s* thiz, float fq);
 
@@ -709,7 +632,7 @@ class Param_OrthBandpass32_Ctrl_emC : public Param_OrthBandpass32_Ctrl_emC_s {
   friend class OrthBandpass16_Ctrl_emC;
   public: 
   
-  Param_OrthBandpass32_Ctrl_emC(int32 identObj, float Tstep, float tStepOrthi, float nom_m);
+  Param_OrthBandpass32_Ctrl_emC(int32 identObj, float Tstep, float tStepOrthi);
 
   void setPeriod(float nStepsPeriod) { setPeriod_Param_OrthBandpass32_Ctrl_emC(this, nStepsPeriod); }
   void setFq(float fq) { setFq_Param_OrthBandpass32_Ctrl_emC(this, fq); }
@@ -726,13 +649,15 @@ typedef struct OrthBandpass32_Ctrl_emC_T
 {
   ObjectJc obj;  //:The base structure
   Param_OrthBandpass32_Ctrl_emC_s* par;  //:Reference to parameter, maybe calculated in other step time.
-  Angle_abgmf16_Ctrl_emC* anglep;   //:Reference to angle, null is admissable.
+  //Angle_abgmf16_Ctrl_emC* anglep;   //:Reference to angle, null is admissable.
 
   /**Couple factors. Note: kB should be negative for same difference B-X, A-X*/
   int32 kA, kB;
 
   /**Stored from input step_... for ph_ output. */
-  int32 xAdiff, xBdiff;
+  int32 xAdiff;
+
+  int32 m;
 
   int32_complex yab;    //:Orthogonal components of oscillation. 
 
@@ -755,82 +680,43 @@ OrthBandpass32_Ctrl_emC_s* ctor_OrthBandpass32_Ctrl_emC(ObjectJc* othiz, float k
 
 /**Prepares the instance data. 
  * @param par aggregation to the parameter.
- * @param angle aggregation to instance which contains the angle of the signal.
  * @simulink init
  */
-bool init_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, Param_OrthBandpass32_Ctrl_emC_s* par, Angle_abgmf16_Ctrl_emC* angle);
+bool init_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, Param_OrthBandpass32_Ctrl_emC_s* par);
 
 
-/**Sets the influence of input. 
- * @param kA kB
- * @s imulink Operation-FB.
- */
-extern_C void setkAB_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, float kA, float kB);
-
-
-#define sh4 0
-#define sh4m 1
 
 /**Step routine. It calulates the stored values of Orthogonal Oscillation.
  * @param xAdiff Difference between Input and yaz_y Signal
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  */
-static inline void step_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, int32 xAdiff, int32 xBdiff)
+static inline void step_OrthBandpass32_Ctrl_emC ( OrthBandpass32_Ctrl_emC_s* thiz
+                                                , int32 xAdiff, int32 xBdiff)
 { 
 #ifndef __ignoreInCheader_zbnf__ 
   Param_OrthBandpass32_Ctrl_emC_s* par = thiz->par;
   int32 ad; 
-  thiz->xAdiff = xAdiff; thiz->xBdiff = xBdiff;
+  thiz->xAdiff = xAdiff;
   muls32hi_emC(ad, thiz->kA, xAdiff);  //input diff * kA
   if(ad < 0x04000000 && ad > -0x04000000) { ad <<=5; }
   else ad = ad <0 ? 0x80000000 : 0x7fffffff;  //limit it if too large.
-  ad -= thiz->yab.im;     // - other comp (im)
-  muls32hi_emC(ad, ad, par->fIsin);    // increment of own comp (re) from adiff and im
-  muls32addhi_emC(ad, thiz->yab.re, (par->fIcos));    //sub the little bit for stability
+  ad -= thiz->yab.im;                   // - other comp (im)
+  muls32hi_emC(ad, ad, par->fI_oth);    // increment of own comp (re) from adiff and im
+  muls32addhi_emC(ad, thiz->yab.re, (par->fI_own));    //sub the little bit for stability
   int32 a = thiz->yab.re;              
-  thiz->yab.re += (ad >>sh4); // + ((ad & 0x8) >>3);
+  thiz->yab.re += ad; 
   //
   int32 bd; 
-  muls32hi_emC(bd, thiz->kB, xBdiff);    // input diff * kA
+  muls32hi_emC(bd, thiz->kB, xBdiff);   // input diff * kB
   if(bd < 0x04000000 && bd > -0x04000000) { bd <<=5; }
   else bd = bd <0 ? 0x80000000 : 0x7fffffff;  //limit it if too large.
-  bd += a;                   // + other comp (re)
-  muls32hi_emC(bd, bd, par->fIsin);    // increment of own comp (re) from adiff and im
-  muls32addhi_emC(bd, thiz->yab.im, (par->fIcos));    //sub the little bit for stability
-  thiz->yab.im += (bd >>sh4); // + ((bd & 0x8) >>3);                  //note: fIcos is negative, hence sub
+  bd += a;                              // + other comp (re)
+  muls32hi_emC(bd, bd, par->fI_oth);    // increment of own comp (re) from adiff and im
+  muls32addhi_emC(bd, thiz->yab.im, (par->fI_own));    //sub the little bit for stability
+  thiz->yab.im += bd;                   
 #endif//__ignoreInCheader_zbnf__
 }
 
-
-/**Step routine. It calulates the stored values of Orthogonal Oscillation.
- * @param xAdiff Difference between Input and yaz_y Signal
- * @param xBdiff same as xAdiff for only single input, or orthogonal difference
- */
-static inline void XXXstep2_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, int32 xAdiff, int32 xBdiff)
-  { 
-#ifndef __ignoreInCheader_zbnf__ 
-  Param_OrthBandpass32_Ctrl_emC_s* par = thiz->par;
-  int32 ad; 
-  muls16_emC(ad, thiz->kA, xAdiff>>4);    // input diff * kA 
-  ad = (ad <<4) - thiz->yab.im;        // - other comp (im)
-  //muls32hi_emC(ad, ad, par->fIsin);    // increment of own comp (re) from adiff and im
-  { union II64 { int64 r64; struct II32 { int32 lo; uint32 hi; } r32;} R64;
-    R64.r64 = ((int64)(int32)(ad) * (int64)(int32)(par->fIsin));
-    ad = R64.r32.hi;
-  }
-
-  muls32addhi_emC(ad, thiz->yab.re, (par->fIcos));    //sub the little bit for stability
-  int32 a = thiz->yab.re;              //note: fIcos is negative, hence sub
-  thiz->yab.re += ad;                  // integrate first comp, re
-  //
-  int32 bd; 
-  muls16_emC(bd, thiz->kB, xBdiff);    // input diff * kA
-  bd = (bd <<4) + a;                   // - other comp (im)
-  muls32hi_emC(bd, bd, par->fIsin);    // increment of own comp (re) from adiff and im
-  muls32addhi_emC(bd, thiz->yab.im, (par->fIcos));    //sub the little bit for stability
-  thiz->yab.im += bd;                  //note: fIcos is negative, hence sub
-#endif//__ignoreInCheader_zbnf__
-}
 
 
 /**Step routine. It calulates the stored values of Orthogonal Oscillation.
@@ -838,9 +724,9 @@ static inline void XXXstep2_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* t
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  * @param yaz_y variable to store the a-Output.
  * @param ab_Y variable to store the complex orthogonal output..
- * @s imulink Object-FB, accel-tlc, step-in.
+ * @simulink Object-FB, accel-tlc.
  */
-static inline void stepSim_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, int32 xAdiff, int32 xBdiff, int32_complex* ab_y)
+static inline void stepSmlk_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, int32 xAdiff, int32 xBdiff, int32_complex* ab_y)
   {
 #ifndef __ignoreInCheader_zbnf__
   if(thiz == null) return;
@@ -851,31 +737,18 @@ static inline void stepSim_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* th
 
 
 
-/**Prepares the instance data. 
- * The output bus from simulink will be allocated in simulink respectively in the generated code.
- * Use the pointer to the existing output data, that are the instance data.
- * @param identObj any indetification number. For debug.
- * @param par aggregation to the parameter.
- * @param angle aggregation to instance which contains the angle of the signal.
- * @param thizh_y thiz as pointer.
- * @s imulink init
+/**Sets the influence of input. 
+ * @param kA kB
+ * @simulink Operation-FB.
  */
-bool init_NoAngle_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, Param_OrthBandpass32_Ctrl_emC_s* par);
+extern_C void setkAB_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, float kA, float kB);
 
-/**
- * @s imulink Object-FB, accel-tlc, step-in.
- */
-static inline void stepNoAngle_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
-{ 
-#ifndef __ignoreInCheader_zbnf__  
-#endif//__ignoreInCheader_zbnf__
-}
 
 
 
 
 /**Outputs the ab vector of this.
- * @s imulink Operation-FB, accel-tlc
+ * @simulink Operation-FB, accel-tlc
  */
 static inline void ab_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, float run, int32_complex* ab_y)
 { 
@@ -886,7 +759,7 @@ static inline void ab_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, f
 
 
 /**Outputs a value for phase error
- * @s imulink Operation-FB, accel-tlc
+ * @simulink Operation-FB, accel-tlc
  */
 static inline void phase_OrthBandpass32_Ctrl_emC(OrthBandpass32_Ctrl_emC_s* thiz, int32* ph_y)
 { 
@@ -912,14 +785,8 @@ class OrthBandpass32_Ctrl_emC : public OrthBandpass32_Ctrl_emC_s {
 
   /**Connect the association to par and angle.
    */
-  bool init(Param_OrthBandpass32_Ctrl_emC* par, Angle_abgmf16_Ctrl_emC* angle) {
-    return init_OrthBandpass32_Ctrl_emC(this, par, angle);
-  }
-
-  /**Connect the association only to par, angle remain null, then calcpq is not supported.
-   */
   bool init(Param_OrthBandpass32_Ctrl_emC* par) {
-    return init_NoAngle_OrthBandpass32_Ctrl_emC(this, par); 
+    return init_OrthBandpass32_Ctrl_emC(this, par);
   }
 
 

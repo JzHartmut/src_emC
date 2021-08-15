@@ -41,9 +41,9 @@ const struct SuperClasses_Param_OrthBandpassF_Ctrl_emC_s_ClassOffset_idxVtblJcAR
 
 const struct Reflection_Fields_Param_OrthBandpassF_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[8];
+  FieldJc data[6];
 } refl_Fields_Param_OrthBandpassF_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthBandpassF_Ctrl_emC_s, 8, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthBandpassF_Ctrl_emC_s, 6, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "tStepOrthi"
     , 0   //no Array, no Bitfield                           
@@ -72,11 +72,11 @@ const struct Reflection_Fields_Param_OrthBandpassF_Ctrl_emC_s_t
     , &refl_Param_OrthBandpassF_Ctrl_emC
     }
   , 
-    { "nom_m"
+    { "fm"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, nom_m) - OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, obj))
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, fm) - OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpassF_Ctrl_emC
     }
@@ -95,24 +95,6 @@ const struct Reflection_Fields_Param_OrthBandpassF_Ctrl_emC_s_t
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, fI_own) - OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpassF_Ctrl_emC
-    }
-  , 
-    { "fm"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, fm) - OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpassF_Ctrl_emC
-    }
-  , 
-    { "fmr"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, fmr) - OFFSET_IN_STRUCT(Param_OrthBandpassF_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpassF_Ctrl_emC
     }
@@ -154,11 +136,7 @@ extern_C const ClassJc refl_ObjectJc;  //used for field obj
 
 extern_C const ClassJc refl_Param_OrthBandpassF_Ctrl_emC;  //used for field par
 
-extern_C const ClassJc refl_Angle_abwmf_FB_Ctrl_emC;  //used for field anglep
-
 extern_C const ClassJc refl_float_complex;  //used for field yab
-
-extern_C const ClassJc refl_float_complex;  //used for field ypq
   
 
 extern_C const ClassJc refl_ObjectJc;  //the super class here used.
@@ -185,24 +163,15 @@ const struct SuperClasses_OrthBandpassF_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t 
 
 const struct Reflection_Fields_OrthBandpassF_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[10];
+  FieldJc data[6];
 } refl_Fields_OrthBandpassF_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_OrthBandpassF_Ctrl_emC_s, 10, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_OrthBandpassF_Ctrl_emC_s, 6, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "par"
     , 0   //no Array, no Bitfield                           
     , &refl_Param_OrthBandpassF_Ctrl_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, par) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthBandpassF_Ctrl_emC
-    }
-  , 
-    { "anglep"
-    , 0   //no Array, no Bitfield                           
-    , &refl_Angle_abwmf_FB_Ctrl_emC                                                                                            
-    , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, anglep) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_OrthBandpassF_Ctrl_emC
     }
@@ -225,20 +194,11 @@ const struct Reflection_Fields_OrthBandpassF_Ctrl_emC_s_t
     , &refl_OrthBandpassF_Ctrl_emC
     }
   , 
-    { "yab"
+    { "xadiff"
     , 0   //no Array, no Bitfield                           
-    , &refl_float_complex                                                                                            
-    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, yab) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthBandpassF_Ctrl_emC
-    }
-  , 
-    { "ypq"
-    , 0   //no Array, no Bitfield                           
-    , &refl_float_complex                                                                                            
-    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, ypq) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
+    , REFLECTION_float                                                                                            
+    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, xadiff) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_OrthBandpassF_Ctrl_emC
     }
@@ -252,29 +212,11 @@ const struct Reflection_Fields_OrthBandpassF_Ctrl_emC_s_t
     , &refl_OrthBandpassF_Ctrl_emC
     }
   , 
-    { "mr"
+    { "yab"
     , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, mr) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthBandpassF_Ctrl_emC
-    }
-  , 
-    { "b_"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, b_) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthBandpassF_Ctrl_emC
-    }
-  , 
-    { "__spare"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_int32                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, __spare) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
+    , &refl_float_complex                                                                                            
+    , 0|kEmbedded_Modifier_reflectJc //bitModifiers
+    , (int32)(OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, yab) - OFFSET_IN_STRUCT(OrthBandpassF_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_OrthBandpassF_Ctrl_emC
     }
@@ -339,24 +281,15 @@ const struct SuperClasses_Param_OrthBandpass16_Ctrl_emC_s_ClassOffset_idxVtblJcA
 
 const struct Reflection_Fields_Param_OrthBandpass16_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[8];
+  FieldJc data[4];
 } refl_Fields_Param_OrthBandpass16_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthBandpass16_Ctrl_emC_s, 8, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthBandpass16_Ctrl_emC_s, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "tStepOrthi"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, tStepOrthi) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpass16_Ctrl_emC
-    }
-  , 
-    { "fq"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, fq) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpass16_Ctrl_emC
     }
@@ -370,47 +303,20 @@ const struct Reflection_Fields_Param_OrthBandpass16_Ctrl_emC_s_t
     , &refl_Param_OrthBandpass16_Ctrl_emC
     }
   , 
-    { "nom_m"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, nom_m) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpass16_Ctrl_emC
-    }
-  , 
-    { "fIcos"
+    { "fI_own"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint16                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, fIcos) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, fI_own) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpass16_Ctrl_emC
     }
   , 
-    { "fIsin"
+    { "fI_oth"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_uint16                                                                                            
     , 0|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, fIsin) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpass16_Ctrl_emC
-    }
-  , 
-    { "fm"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, fm) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpass16_Ctrl_emC
-    }
-  , 
-    { "fmr"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, fmr) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, fI_oth) - OFFSET_IN_STRUCT(Param_OrthBandpass16_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpass16_Ctrl_emC
     }
@@ -452,8 +358,6 @@ extern_C const ClassJc refl_ObjectJc;  //used for field obj
 
 extern_C const ClassJc refl_Param_OrthBandpass16_Ctrl_emC;  //used for field par
 
-extern_C const ClassJc refl_Angle_abgmf16_Ctrl_emC;  //used for field anglep
-
 extern_C const ClassJc refl_int32_complex;  //used for field yab
   
 
@@ -481,24 +385,15 @@ const struct SuperClasses_OrthBandpass16_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t
 
 const struct Reflection_Fields_OrthBandpass16_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[5];
+  FieldJc data[4];
 } refl_Fields_OrthBandpass16_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_OrthBandpass16_Ctrl_emC_s, 5, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_OrthBandpass16_Ctrl_emC_s, 4, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "par"
     , 0   //no Array, no Bitfield                           
     , &refl_Param_OrthBandpass16_Ctrl_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int32)(OFFSET_IN_STRUCT(OrthBandpass16_Ctrl_emC_s, par) - OFFSET_IN_STRUCT(OrthBandpass16_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthBandpass16_Ctrl_emC
-    }
-  , 
-    { "anglep"
-    , 0   //no Array, no Bitfield                           
-    , &refl_Angle_abgmf16_Ctrl_emC                                                                                            
-    , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpass16_Ctrl_emC_s, anglep) - OFFSET_IN_STRUCT(OrthBandpass16_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_OrthBandpass16_Ctrl_emC
     }
@@ -590,9 +485,9 @@ const struct SuperClasses_Param_OrthBandpass32_Ctrl_emC_s_ClassOffset_idxVtblJcA
 
 const struct Reflection_Fields_Param_OrthBandpass32_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[8];
+  FieldJc data[6];
 } refl_Fields_Param_OrthBandpass32_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthBandpass32_Ctrl_emC_s, 8, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_Param_OrthBandpass32_Ctrl_emC_s, 6, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "tStepOrthi"
     , 0   //no Array, no Bitfield                           
@@ -621,47 +516,29 @@ const struct Reflection_Fields_Param_OrthBandpass32_Ctrl_emC_s_t
     , &refl_Param_OrthBandpass32_Ctrl_emC
     }
   , 
-    { "nom_m"
+    { "_align8"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, nom_m) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, _align8) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpass32_Ctrl_emC
     }
   , 
-    { "fIcos"
+    { "fI_oth"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, fIcos) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, fI_oth) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpass32_Ctrl_emC
     }
   , 
-    { "fIsin"
+    { "fI_own"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, fIsin) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpass32_Ctrl_emC
-    }
-  , 
-    { "fm"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, fm) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_Param_OrthBandpass32_Ctrl_emC
-    }
-  , 
-    { "fmr"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_float                                                                                            
-    , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, fmr) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
+    , (int32)(OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, fI_own) - OFFSET_IN_STRUCT(Param_OrthBandpass32_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Param_OrthBandpass32_Ctrl_emC
     }
@@ -703,8 +580,6 @@ extern_C const ClassJc refl_ObjectJc;  //used for field obj
 
 extern_C const ClassJc refl_Param_OrthBandpass32_Ctrl_emC;  //used for field par
 
-extern_C const ClassJc refl_Angle_abgmf16_Ctrl_emC;  //used for field anglep
-
 extern_C const ClassJc refl_int32_complex;  //used for field yab
   
 
@@ -732,24 +607,15 @@ const struct SuperClasses_OrthBandpass32_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t
 
 const struct Reflection_Fields_OrthBandpass32_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[7];
+  FieldJc data[6];
 } refl_Fields_OrthBandpass32_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_OrthBandpass32_Ctrl_emC_s, 7, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_OrthBandpass32_Ctrl_emC_s, 6, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "par"
     , 0   //no Array, no Bitfield                           
     , &refl_Param_OrthBandpass32_Ctrl_emC                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
     , (int32)(OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, par) - OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_OrthBandpass32_Ctrl_emC
-    }
-  , 
-    { "anglep"
-    , 0   //no Array, no Bitfield                           
-    , &refl_Angle_abgmf16_Ctrl_emC                                                                                            
-    , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, anglep) - OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_OrthBandpass32_Ctrl_emC
     }
@@ -781,11 +647,11 @@ const struct Reflection_Fields_OrthBandpass32_Ctrl_emC_s_t
     , &refl_OrthBandpass32_Ctrl_emC
     }
   , 
-    { "xBdiff"
+    { "m"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, xBdiff) - OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, obj))
+    , (int32)(OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, m) - OFFSET_IN_STRUCT(OrthBandpass32_Ctrl_emC_s, obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_OrthBandpass32_Ctrl_emC
     }
