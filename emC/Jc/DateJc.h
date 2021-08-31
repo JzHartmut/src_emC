@@ -38,6 +38,9 @@
 
 #ifndef __DateJc_h__
 #define __DateJc_h__
+#include <applstdef_emC.h>
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
+
 #include "emC/Jc/StringJc.h"
 #include "emC/OSAL/os_time.h"
 
@@ -244,7 +247,12 @@ METHOD_C void setTimeZone_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, struct
 
 METHOD_C void applyPattern_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, StringJc pattern, ThCxt* _thCxt);
 
+#ifdef DEF_ThreadContext_HEAP_emC
 METHOD_C StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, ThCxt* _thCxt);
+#endif
+
+METHOD_C StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, ThCxt* _thCxt);
+
 
 METHOD_C void format_u_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, DateJc_s* timeStamp, StringBuilderJc_s* sBuffer, struct TextFieldPositionJc_t* field, ThCxt* _thCxt);
 
@@ -290,5 +298,6 @@ class SimpleDateFormatJcpp: public SimpleDateFormatJc_s
 };
 
 #endif //__CPLUSPLUSJcpp
+#endif //DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #endif  //__DateJc_h__

@@ -40,7 +40,7 @@
 //#define USE_LoLevelFileIo
 
 #include <emC/OSAL/os_error.h>
-#include <emC/Base/String_emC.h>
+#include <emC/Base/StringBase_emC.h>
 #include <emC/OSAL/Environment_OSALemC.h>
 
 

@@ -38,7 +38,7 @@
 
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Jc/ReflectionJc.h>
-#include <emC/Jc/StringJc.h>
+#include <emC/Base/StringBase_emC.h>
 
 #include <string.h> //memset
 #include <emC/OSAL/os_file.h>
@@ -318,7 +318,7 @@ int open_FileReaderJcF  (  FileReaderJc_s* ythis, CharSeqJc sFileName, ThCxt* _t
   if(ythis->file_ != null)
   { THROW1_s0(IllegalArgumentException, "fault time of call, file is opened", ythis->lenFile_);
   }
-  len = copyToBuffer_CharSeqJc(sFileName, 0, -1, ssFileName, sizeof(ssFileName), _thCxt); 
+  len = copyToBuffer_StringJc(sFileName, 0, -1, ssFileName, sizeof(ssFileName)); 
   for(ii=0; ii<len; ii++){ if(ssFileName[ii] == '/'){ ssFileName[ii] = '\\'; } }
   ythis->file_ = os_fopenToRead(ssFileName);
   if(ythis->file_ != null)

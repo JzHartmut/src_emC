@@ -415,13 +415,16 @@ extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
 
 /**Designation of the String as 0-terminated. In this case the length is calculated
  * using [[strnlen_emC(...)]] before usage.
- * If mLength is defined with 0x3fff the value is 0x03fff. mLength is defined os- and platform-depended in os_types_def.h
+ * If mLength is defined with 0x3fff the value is 0x03fff. 
+ * mLength can be special defined in applstdef_emC.h
  */
 #define kIs_0_terminated_StringJc (mLength_StringJc)
 
-/**Designation of the String as StringBuilderJc_s-instance. In this case the reference refers a StringBuilderJc_s and the length
+/**Designation of the String as StringBuilderJc_s-instance. 
+ * In this case the reference refers a StringBuilderJc_s and the length
  * should be gotten by invocation of length_StringBuilderJc(ref)
- * If mLength is defined with 0x3fff the value is 0x03ffd. mLength is defined os- and platform-depended in os_types_def.h
+ * If mLength is defined with 0x3fff the value is 0x03ffe. 
+ * mLength can be special defined in applstdef_emC.h
  */
 #define kIsStringBuilder_CharSeqJc (mLength_StringJc -1)
 
@@ -439,28 +442,31 @@ extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
 
 //Note: INIZ_StringJc are now part of emC/Base/types_def_common.h because simple non 0-terminated Strings may be used overall.
 
-/** Initialize a StringJc instance with the reference to the given constant text.
-  * The up till now value inside DST is not respected. This method is usefull to initialize new instances
+//tag::z_StringJc[]
+/**Set a StringJc instance with the reference to the given constant text.
+  * This method is usefull to initialize new instances espacially inside the stack.
+  * @param src Any char-array. The src need not be 0-terminated, a 0-char is handled like a normal char.
+  * @param LEN Number of valid chars and persistent bit.. 
+  *            The number of chars should be less than ,,mLength_StringJc,, but it is not tested here.
+  *            The Bit ,,mNonPersists__StringJc,, may be set. The user is responsible to the persistence.
+  * @return void, don't use inside an expression.
+  */
+INLINE_emC void set_StringJc (StringJc* thiz, char const* src, int len) {
+  thiz->addr.str = src; thiz->val = len;
+}
+
+
+/**Macro form. THIZ is the instance, not the reference. 
+  * The up till now value inside THIZ is not respected. This method is usefull to initialize new instances
   * espacially inside the stack.
-  * @param DST The destination instance. The instance is used directly (it is a macro).
+  * @param THIZ The destination instance. The instance is used directly (it is a macro).
   * @param SRC Any char-array. The src need not be 0-terminated, a 0-char is handled like a normal char.
   * @param LEN Number of valid chars and persistent bit.. 
   *            The number of chars should be less than ,,mLength_StringJc,, but it is not tested here.
   *            The Bit ,,mNonPersists__StringJc,, may be set. The user is responsible to the persistence.
   * @return void, don't use inside an expression.
   */
-#define SET_StringJc(DST, SRC, LEN) { (DST).addr.str = SRC; (DST).val = LEN; }
-
-
-/** Initialize a StringJc instance with an other given StringJc.
-  * The up till now value inside DST is not respected. This method is usefull to initialize new instances
-  * espacially inside the stack. It is a simple copy.
-  * @param YTHIS The destination instance. The instance is used directly (it is a macro).
-  * @param src Any source StringJc
-  * @return void, don't use inside an expression.
-  */
-#define INIT_s_StringJc(YTHIS, src) copy_OS_PtrValue(YTHIS, src)
-
+#define SET_StringJc(THIZ, SRC, LEN) { (THIZ).addr.str = SRC; (THIZ).val = LEN; }
 
 
 /**Creates a StringJc-reference to the given zero terminated text (char array).
@@ -485,8 +491,6 @@ INLINE_emC StringJc z_StringJc ( char const* src)
   SET_StringJc(ret, src, size); 
   return ret;
 }
-
-
 #define s0_StringJc z_StringJc
 
 
@@ -496,10 +500,6 @@ INLINE_emC StringJc z_StringJc ( char const* src)
  * if the buffer is used till max.
  */
 extern_C StringJc zMax_StringJc ( char const* src, int max);
-
-
-
-
 
 
 /**Creates a StringJc reference to the given character string with given length.
@@ -517,8 +517,8 @@ extern_C StringJc zMax_StringJc ( char const* src, int max);
  * @return StringJc-instance per value, it is hold in 2 register by most of C-compilers and therefore effective.
  */
 extern_C StringJc zI_StringJc ( char const* src, int len);
-
 #define s0i_StringJc zI_StringJc
+//end::z_StringJc[]
 
 
 
@@ -588,17 +588,22 @@ extern_C char const* getCharConst_StringJc ( StringJc const thiz, char* const bu
   */
 #define lightCopy_StringJc(thiz, src) { *thiz = src; } //{(thiz)->s.refbase = (src).refbase; (thiz)->s.ref = (src).ref; }
 
-
+//tag::getCharsAndLength_StringJc[]
 /* Gets the char-pointer and the number of chars stored in a StringJc.
- * This is a common way to get a the content of a StringJc-Instance if a char-pointer is used.
- * It is a fast C-routine, because the StringJc is stored in CPU-registers, no memory is need.
- * The char-pointer is the same reference as in the StringJc. It may be persistent or not.
- * In generally, the user shouldn't store the reference persistently outside of the StringJc-concept.
- * The routine is given to support evaluating the chars in a C-like-way.
- * @param length destination variable (reference) to store the realy length. The destination variable will be set anytime.
+ * This is a common way to get a the content of a StringJc-Instance if a char-pointer is necessary.
+ * The char-pointer is either the immediately reference as stored in the StringJc,
+ * or it is a pointer to the content of a referenced StringBuilderJc.  
+ * The referenced character array may be persistent or not.
+ * In generally, the user should not store and use the return value persistently outside of the StringJc-concept.
+ * The routine is given to support evaluating the chars immediately in a C-like-way.
+ * @param length destination variable (reference) to store the realy length. 
+ *   The destination variable will be set anytime.
+ *   If it is -1 then the StringJc is a CharSequence interface. 
  * @return the pointer to the chars. It may be null if the StringJc contains a null-reference.
+ *   Or it is a CharSequence interface
  */
 extern_C char const* getCharsAndLength_StringJc ( StringJc const* thiz, int* length);
+//end::getCharsAndLength_StringJc[]
 
 
 
@@ -665,6 +670,29 @@ extern_C bool isZeroTerminated_StringJc ( StringJc const thiz);
 extern_C int copyToBuffer_StringJc ( const StringJc thiz, int start, int end, char* buffer, int maxSizeBuffer);
 
 //old: #define copyToBuffer_StringJc(THIZ, START, END, BUFFER, SIZE) copyToBuffer_CharSeqJc(THIZ, START, END, BUFFER, SIZE, null)
+
+
+
+/**Gets a zero-terminated String from a given String. 
+ * This routine needs a buffer to copy the string. But if the given String is zero-terminated already,
+ * It is used without copying. In this case some calculation time will be saved.
+ * Only if the given String is not zero-termintated, the given part of string will be copied 
+ * and terminated with a 0-character. 
+ * If the length of the given String is greater then zBuffer-1, either an exception will be thrown 
+ * or the String will be truncated.
+ *  
+ * @param buffer any buffer, where the content of thiz may be copied to.
+ * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
+ * @param exceptionOnLessBuffer true then an exception is thrown if (zBuffer -1) is less then the length of thiz and thiz is not zero-terminated.
+ *   If the string refered with thiz is zero terminated, an exception is never thrown.
+ *   If false, then the string will be truncated. The parameter _thCtx may be null then.
+ * @return The pointer to the zero terminated String. Either it is the String referenced in thiz, or it is buffer. 
+ */
+extern_C char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContext_emC_t* _thCxt);
+
+
+
+
 
 
 /* *****************************************************************************************

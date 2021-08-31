@@ -1,7 +1,7 @@
 #include <applstdef_emC.h>
 #include <emC/Base/ParseArgs_emC.h>
 //#include <emC/SimpleC_emC.h>
-#include <emC/Base/String_emC.h>
+#include <emC/Base/StringBase_emC.h>
 #include <stdio.h>
 #include <string.h>
 

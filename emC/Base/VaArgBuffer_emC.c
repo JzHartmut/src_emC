@@ -33,6 +33,8 @@
  * @version 0.83
  **This file is referenced to the java2c-translated MsgDispatcher_MSG.h/c */
 #include "emC/Base/VaArgBuffer_emC.h"
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
+
 //
 #include "emC/Base/Formatter_emC.h"
 #include <string.h>
@@ -191,4 +193,5 @@ METHOD_C void setArg_VaArgBuffer(VaArgBuffer* thiz, int32_t ix, int32_t val, ThC
 
 
 
+#endif  // DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 

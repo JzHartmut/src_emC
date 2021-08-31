@@ -36,7 +36,7 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-
+#ifndef DEF_NO_StringUSAGE
 #include "emC/Jc/StringJc_intern.h"
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Base/Formatter_emC.h> 
@@ -1050,4 +1050,4 @@ StringBuilderJcpp* new_StringBuilderJcpp(int size)
 
 //DEFINE_REFLECTION_REF(StringBuilderJc_s);
 
-
+#endif //DEF_NO_StringUSAGE

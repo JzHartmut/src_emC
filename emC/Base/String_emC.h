@@ -36,17 +36,14 @@
  * @changes
  * 2010-02-01 Hartmut new: _CHARS_StringJc(REF) to access the character pointer for internal access
  *************************************************************************************************/
+#ifndef HGUARD_emC_Base_String_emC
+#define HGUARD_emC_Base_String_emC
+
 #ifndef HGUARD_applstdef_emC
-  /**This file should be included in the applstdef_emC.h. 
-   * If this file is directly included, it needs the applstdef_emC.h. But the __guard__ 
-   * should not be set firstly to include the MemC.h in the given order in applstddef.h
-   */
   #include <applstdef_emC.h>
 #endif
-//The following include guard prevent twice include especially if applstdefJc.h includes this file already.
-#ifndef INCLUDED_emC_Base_String_emC_h
-#define INCLUDED_emC_Base_String_emC_h
 
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 //NOTE: struct ObjectJc should be known for the StringBuilderJc_s, defined here.
 //It is possible to include <emC_srcApplSpec/applConv/ObjectJc_simple.h> in the <applstdef_emC.h> for the simple concept.
@@ -404,6 +401,30 @@ extern_C void clear_StringBuilderJc (StringBuilderJc_s* thiz);
 extern_C int capacity_StringBuilderJc (StringBuilderJc_s* thiz);
 
 
+/**
+ * return the size of the StringBuilder with its immediate following text
+ * or -1 if the text is referenced.
+ */
+INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc_s* thiz, int16 size){
+  int sizepos = size >=0 ? size : -size;
+  if(sizepos <= thiz->size) {
+    if(thiz->size > 0) {
+      thiz->size = size;
+      return sizeof(StringBuilderJc_s)  - sizeof(thiz->value) + size;
+    } else {
+      //buffer referenced. 
+      thiz->size = (int16)(-size);
+      return -1;
+    }
+  }
+  else {
+    THROW_s0n(IllegalArgumentException, "_reduceCapacity_StringBuilderJc increases", size, thizs->size);
+    return 0;
+  }
+}
+
+
+
 /**Copies the text in the given buffer. Use the set mode of ,,setTruncateMode_StringBuilderJc(..),, 
  * to desire, whether an exception is thrown or the text will be truncated if the zBuffer is less.
  * @param buffer any buffer, where the content of thiz is copied to.
@@ -641,6 +662,5 @@ extern_C struct Vtbl_CharSeqJc_t const* getVtbl_CharSeqJc(CharSeqJc thiz, struct
 
 
 
-
-
-#endif //INCLUDED_emC_Base_String_emC_h
+#endif //DEF_NO_StringUSAGE
+#endif //HGUARD_emC_Base_String_emC

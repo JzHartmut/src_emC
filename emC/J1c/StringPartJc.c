@@ -3494,7 +3494,7 @@ int copyToBuffer_Part_StringPartJc(struct Part_StringPartJc_t* thiz, char* dst, 
 
 
 /**Builds a new Part without leading and trailing white spaces.*/
-struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s* thiz, ThCxt* _thCxt)
+void trim_Part_StringPartJc(Part_StringPartJc_s* thiz, struct Part_StringPartJc_t* dst, ThCxt* _thCxt)
 { 
   STACKTRC_TENTRY("trim_Part_StringPartJc");
   
@@ -3516,11 +3516,12 @@ struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s* thiz, Th
         
         e2 -= 1;
       }
-    
-    struct Part_StringPartJc_t*  ret = ctorO_Part_StringPartJc((struct StringPartJc_t * /*J2C chg access*/)(thiz)->outer, allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), "StringPart.Part.subSequence", _thCxt), b2, e2, _thCxt);
-    { STACKTRC_LEAVE;
-      return ret;
-    }
+  dst->outer = thiz->outer;
+  setPart_Part_StringPartJc(dst, b2, e2, _thCxt);  
+//    struct Part_StringPartJc_t*  ret = ctorO_Part_StringPartJc((struct StringPartJc_t * /*J2C chg access*/)(thiz)->outer, allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), "StringPart.Part.subSequence", _thCxt), b2, e2, _thCxt);
+//    { STACKTRC_LEAVE;
+//      return ret;
+//    }
   }
   STACKTRC_LEAVE;
 }

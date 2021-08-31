@@ -36,6 +36,8 @@
 #define __FormatterJc_h__
 
 #include <emC/Jc/ObjectJc.h>
+
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 #include <emC/Base/String_emC.h>
 #include "emC/Base/Va_list_emC.h" 
 
@@ -77,5 +79,6 @@ METHOD_C void format_a_FormatterJc(FormatterJc_s* ythis, StringJc text, char con
 /**Formats with variable arguments. */
 METHOD_C void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContext_emC_t* _thCxt);
 
+#endif //DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #endif  //__FormatterJc_h__

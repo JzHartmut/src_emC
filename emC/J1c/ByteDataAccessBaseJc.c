@@ -934,6 +934,7 @@ bool addChildFloat_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, float valu
 }
 
 
+#ifndef DEF_NO_StringUSAGE
 /**Adds a child with String value.*/
 bool addChildString_SSb_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc value, StringJc sEncoding, bool preventCtrlChars, ThCxt* _thCxt)
 { 
@@ -957,7 +958,10 @@ bool addChildString_SSb_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, Strin
   }
   STACKTRC_LEAVE;
 }
+#endif 
 
+
+#ifndef DEF_NO_StringUSAGE
 
 /**Adds a child with String value.*/
 bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, CharSeqJc valueCs, StringJc sEncoding, ThCxt* _thCxt)
@@ -990,6 +994,8 @@ bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, CharS
   }
   STACKTRC_LEAVE;
 }
+
+#endif //DEF_NO_StringUSAGE
 
 
 /**Adds a child for 1 short value without a child instance, returns the value as short.*/
@@ -1336,7 +1342,7 @@ StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx,
 #endif
 
 
-
+#ifndef DEF_NO_StringUSAGE
 /**Sets a String to the the given position inside the actual element .*/
 int32 setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nmax, StringJc ss, ThCxt* _thCxt)
 { 
@@ -1379,8 +1385,11 @@ int32 setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
   }
   STACKTRC_LEAVE;
 }
+#endif //DEF_NO_StringUSAGE
 
 
+
+#ifndef DEF_NO_StringUSAGE
 /**sets the content inside the actual element with the character bytes from the given String.*/
 void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, StringJc value, StringJc sEncoding, bool preventCtrlChars, ThCxt* _thCxt)
 { 
@@ -1432,7 +1441,7 @@ void _setString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, in
   }
   STACKTRC_LEAVE;
 }
-
+#endif //DEF_NO_StringUSAGE
 
 /**Gets a float value from the content of 4 byte. The float value is red*/
 float getFloat_i_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx)
@@ -1633,8 +1642,6 @@ int32 getUint32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
   STACKTRC_TENTRY("getUint32_iii_ByteDataAccessBaseJc");
   
   { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { 
       THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
@@ -1651,8 +1658,6 @@ int32 getInt32_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getInt32_iii_ByteDataAccessBaseJc");
   
   { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { 
       THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
@@ -1669,8 +1674,6 @@ int32 getInt16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getInt16_iii_ByteDataAccessBaseJc");
   
   { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { 
       THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
@@ -1687,8 +1690,6 @@ int32 getInt8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxBy
   STACKTRC_TENTRY("getInt8_iii_ByteDataAccessBaseJc");
   
   { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { 
       THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
@@ -1705,8 +1706,6 @@ int32 getUint16_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx
   STACKTRC_TENTRY("getUint16_iii_ByteDataAccessBaseJc");
   
   { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { 
       THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
@@ -1723,8 +1722,6 @@ int32 getUint8_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getUint8_iii_ByteDataAccessBaseJc");
   
   { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { 
       THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);
@@ -1741,8 +1738,6 @@ float getFloat_iii_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idxB
   STACKTRC_TENTRY("getFloat_iii_ByteDataAccessBaseJc");
   
   { 
-     /*J2C: temporary Stringbuffer for String concatenation*/
-    StringBuilderJc_s* _tempString2_1=null; 
     
     if(idxArray >= lengthArray || idxArray < 0) { 
       THROW_s0(IllegalArgumentException, "faulty ixArray %d", idxArray, 0);

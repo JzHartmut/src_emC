@@ -49,6 +49,7 @@
  ****************************************************************************/
 
 #include <emC/Base/Formatter_emC.h>
+#ifndef DEF_NO_StringUSAGE
 #include <emC/Base/SimpleC_emC.h>         //ARRAYLEN
 //       //STACKTRC_...
 //#include <emC/ThreadContext_emC.h>   //os_getCurrentStacktraceThreadContext_emC()
@@ -627,3 +628,4 @@ int format_Formatter_FW(struct ThreadContext_emC_t* _thCxt, const char* sFormat,
 
 }
 
+#endif //DEF_NO_StringUSAGE

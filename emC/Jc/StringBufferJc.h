@@ -67,13 +67,6 @@ typedef struct StringBuffer_r_t
 //#define null_StringBuffer() { 0, null}
 
 
-/** Copies the string-reference into a reference of a StringBuffer.
-  * Either, the given reference references a string in a StringBuffer, only the content
-  * of the reference will be copied. Or the string is a direct String or substring.
-  * Than a new StringBuffer-instance will be created.
-*/
-METHOD_C StringBufferJc* toStringBuffer_StringJc(StringJc const* src);
-
 //METHOD_C StringJc toString_StringBufferJc(StringBufferJc const* src);
 
 

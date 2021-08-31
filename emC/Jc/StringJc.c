@@ -41,6 +41,10 @@
  ****************************************************************************/
 
 #include "emC/Jc/StringJc_intern.h"
+
+#ifndef DEF_NO_StringUSAGE
+
+
 #include "emC/Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 #include <emC/Jc/ReflectionJc.h>
 
@@ -65,27 +69,6 @@
 
 
 
-
-char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContext_emC_t* _thCxt)
-{
-  int len;
-  char const* str = getCharsAndLength_StringJc(&thiz, &len);
-  if(str[len] == 0){ return str;
-  } else {
-    if(len >= zBuffer){
-      if(exceptionOnLessBuffer){
-        STACKTRC_TENTRY("substring_StringJc");
-        THROW1_s0(IndexOutOfBoundsException, "String too long", len); 
-        STACKTRC_LEAVE;
-      } else {
-        len = zBuffer -1;
-      }
-    }
-    memcpy(buffer, str, len);
-    buffer[len] = 0;
-    return buffer;
-  }
-}
 
 
 
@@ -486,4 +469,4 @@ double parseDouble_DoubleJc(StringJc src)
 }
 
 
-
+#endif //DEF_NO_StringUSAGE

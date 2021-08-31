@@ -47,6 +47,7 @@
 
 //Styleguide: Include the own header first, it should include all necessary depending headers itself. 
 #include <emC/Base/String_emC.h>
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
@@ -206,58 +207,8 @@ StringJc toStringFromPersist_zI_StringJc(char const* buffer, int nrofChars)
 
 
 
-char const* getCharsAndLength_StringJc(StringJc const* thiz, int* length)
-{ char const* chars = PTR_StringJc(*thiz);
-  if(chars == null){
-    *length = 0;
-  } else {
-    int val = thiz->val;
-    int nChars = val & mLength_StringJc;
-    if(nChars == kIs_0_terminated_StringJc) {
-      nChars = strnlen_emC(chars, kMaxNrofChars_StringJc);
-    }
-    if(nChars <= kMaxNrofChars_StringJc) {
-      *length = nChars;
-    } else {
-      //STACKTRC_ENTRY("getCharsAndLength_StringJc");
-      //THROW
-      *length = 0;  //not supported here: CharSeqJc
-      return null;
-    }
-  }
-  return(chars);  //may be null
-}
 
 
 
 
-bool isZeroTerminated_StringJc(StringJc const thiz)
-{ char const* chars = PTR_StringJc(thiz);
-  int nChars = VAL_StringJc(thiz) & mLength_StringJc;
-  if(nChars == mLength_StringJc) { nChars = strnlen_emC(chars, mLength_StringJc); }
-  return chars[nChars] == 0;
-}
-
-
-
-
-
-
-
-char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int const zBuffer)
-{
-  int len;
-  char const* str = getCharsAndLength_StringJc(&thiz, &len);
-  if(str[len] == 0){ return str;
-  } else {
-    if(len >= zBuffer){
-      len = zBuffer -2;
-      buffer[len-1] = '?';
-    }
-    memcpy(buffer, str, len);
-    buffer[len] = 0;
-    return buffer;
-  }
-}
-
-
+#endif //DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE

@@ -9,7 +9,7 @@
 
 //Styleguide: Include all necessities for implementation, the standard headers at least.
 #include <emC/Base/SimpleC_emC.h>
-#include <emC/Base/String_emC.h>
+#include <emC/Base/StringBase_emC.h>
 #include <string.h>
 
 void ctor_ReadLine_emC(ReadLine_emC* ythis)

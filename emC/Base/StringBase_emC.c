@@ -31,7 +31,10 @@
 #include <applstdef_emC.h>
 //#include <emC/Base/Object_emC.h>
 #include <emC/Base/StringBase_emC.h>
-#include <string.h>  //C-standard
+#ifndef DEF_NO_StringUSAGE
+  #include <emC/Base/String_emC.h>
+#endif
+#include <string.h>  //C-standard used only for memcpy
 
 //Note: Implementation to search \0 in an limited range. 
 int strnlen_emC ( char const* text, int maxNrofChars)
@@ -289,6 +292,39 @@ bool equals_zI_StringJc ( const StringJc ythis, const char* strCmp, int valueCmp
 
 
 
+char const* getCharsAndLength_StringJc ( StringJc const* thiz, int* length)
+{ char const* chars = PTR_StringJc(*thiz);
+  if(chars == null){
+    *length = 0;
+  } else {
+    int val = thiz->val;
+    int nChars = val & mLength_StringJc;
+    if(nChars == kIs_0_terminated_StringJc) {
+      nChars = strnlen_emC(chars, kMaxNrofChars_StringJc);
+    }
+    if(nChars <= kMaxNrofChars_StringJc) {   //not a StringBuillder or CharSeqJc
+      *length = nChars;
+    } else {
+      #ifdef DEF_NO_StringUSAGE
+        *length = 0;  //not supported here: CharSeqJc
+        return null;
+      #else  
+        if(val == kIsStringBuilder_CharSeqJc) {
+          chars = getCharsAndCount_StringBuilderJc(thiz->addr.bu, length);
+        }
+        else { //Only the StringBuilder is supported
+          chars = null;  //DEF_CharSeqJcCapabilities:
+          *length = -1;   //An really CharSequence cannot return a pointer to the String.
+        }
+      #endif
+    }
+  }
+  return(chars);  //may be null
+}
+
+
+
+
 int copyToBuffer_StringJc ( const StringJc thiz, int start, int end, char* buffer, int sizeBuffer)
 { //STACKTRC_ENTRY("copyToBuffer_StringJc");
   int nChars = VAL_StringJc(thiz) & mLength_StringJc;
@@ -319,6 +355,74 @@ int copyToBuffer_StringJc ( const StringJc thiz, int start, int end, char* buffe
     return 0;
   }
 }
+
+
+
+bool isZeroTerminated_StringJc(StringJc const thiz)
+{ char const* chars = PTR_StringJc(thiz);
+  int nChars = VAL_StringJc(thiz) & mLength_StringJc;
+  if(nChars == mLength_StringJc) { nChars = strnlen_emC(chars, mLength_StringJc); }
+  return chars[nChars] == 0;
+}
+
+
+
+
+
+
+
+char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int const zBuffer)
+{
+  int len;
+  char const* str = getCharsAndLength_StringJc(&thiz, &len);
+  if(str[len] == 0){ return str;
+  } else {
+    if(len >= zBuffer){
+      len = zBuffer -2;
+      buffer[len-1] = '?';
+    }
+    memcpy(buffer, str, len);
+    buffer[len] = 0;
+    return buffer;
+  }
+}
+
+
+
+
+char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContext_emC_t* _thCxt)
+{
+  int nChars = VAL_StringJc(thiz) & mLength_StringJc;
+  if (nChars == kIs_0_terminated_StringJc) {
+    return thiz.addr.str;
+  }
+  int len;
+  #ifdef DEF_NO_StringUSAGE
+  char const* str = thiz.addr.str;
+  len = nChars;
+  #else
+  //TODO regard the other StringJc possibilities 
+  char const* str = getCharsAndLength_StringJc(&thiz, &len);
+  #endif
+  if(str[len] == 0){ return str;
+  } else {
+    if(len >= zBuffer){
+      if(exceptionOnLessBuffer){
+        STACKTRC_TENTRY("substring_StringJc");
+        THROW1_s0(IndexOutOfBoundsException, "String too long", len); 
+        STACKTRC_LEAVE;
+      } else {
+        len = zBuffer -1;
+      }
+    }
+    memcpy(buffer, str, len);
+    buffer[len] = 0;
+    return buffer;
+  }
+}
+
+
+
 
 
 

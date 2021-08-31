@@ -327,22 +327,29 @@ typedef struct Addr8_emC_T { int32 c[2]; } Addr8_emC;
 
 
 
-
-/**Default definition int32 as the type for the length or value 
+//tag::VALTYPE_AddrVal_emC[]
+/**Default definition int32 as the type for the length or value
  * in a struct{ addr, val} defined with STRUCT_AddrVal_emC(...). */
 #ifndef VALTYPE_AddrVal_emC            //possible to define in applstdef_emC.h
   #define VALTYPE_AddrVal_emC int32    //the default
 #endif
+//end::VALTYPE_AddrVal_emC[]
 
+
+
+//tag::STRUCT_AddrVal_emC[]
 /**This macro defines a struct with a pointer to the given type and a integer number.
  * Usual it can be used to describe exactly an 1-dimensional array. The integer number is the number of elements,
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
  * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
-#define STRUCT_AddrVal_emC(NAME, TYPE) struct NAME##_T { TYPE* addr; VALTYPE_AddrVal_emC val; } NAME
+#define STRUCT_AddrVal_emC(NAME, TYPE) \
+struct NAME##_T { TYPE* addr; VALTYPE_AddrVal_emC val; } NAME
+//end::STRUCT_AddrVal_emC[]
 
 
 
+//tag::AddrVal_emC[]
 /**The type AddrVal_emC handles with a address (pointer) for a 8 byte alignment. */
 typedef STRUCT_AddrVal_emC(AddrVal_emC, Addr8_emC);
 
@@ -358,31 +365,19 @@ typedef STRUCT_AddrVal_emC(AddrVal_emC, Addr8_emC);
 
 #define SETVAL_AddrVal_emC(THIS, VAL) ( (THIS).val = VAL )
 
-
-
 //Compatibility:
 #define OS_PtrValue AddrVal_emC
 
 /**Compatibility with older typedef of OS_PtrValue. */
 //#define OS_PtrValue PtrVal_MemUnit
 
-
-#ifndef STRUCT_AddrVal_emC  //force deprecated compatibility
-  #define STRUCT_AddrVal_emC(NAME, TYPE) OS_PtrVal_DEF(NAME, TYPE)
-#endif
-
-#ifdef DEF_HandlePtr64
-  #define XXXXHandlePtr32Union_emC(TYPE) union {uint32 h; }
-#else
-  #define XXXXHandlePtr32Union_emC(TYPE) union {uint32 h; TYPE* p; }
-#endif
-
-
 /**An instance which contains null-values. */
 extern AddrVal_emC null_AddrVal_emC;
+//end::AddrVal_emC[]
 
 
 
+//tag::int8ARRAY[]
 /**Defines a struct with a byte address and the length. */
 typedef STRUCT_AddrVal_emC(int8ARRAY, int8);
 
@@ -395,6 +390,7 @@ typedef STRUCT_AddrVal_emC(int64ARRAY, int64);
 typedef STRUCT_AddrVal_emC(floatARRAY, float);
 
 typedef STRUCT_AddrVal_emC(doubleARRAY, double);
+//end::int8ARRAY[]
 
 
 /**Possibility to store characters (ASCII) in an uint32-value. It is especially for processors
@@ -470,23 +466,36 @@ static inline int dbgstop_emC(){ return -1; }
 
 
 
-//definition of StringJc to use this type before including emC/StringJc
+//Hint: definition of StringJc independent of an included emC/.../StringJc.h
+//tag::StringJc[]
+/**This is the defintion of a reference to a String and a value and state information. 
+ * It is similar as the defintion of AddrVal_emC  or the macro STRUCT_AddrVal_emC
+ * but the address is a union because of different capabilities. It is written in the same kind. 
+ * * First element is a pointer with different types in the union.
+ * * Second element is the length and flags, see in header emC/Base/StringBase_emC.h
+ */
 typedef struct StringJc_T { 
   union CharSeqTypes_T { 
     char const* str; 
-    struct StringBuilderJc_t* bu; 
-    struct ObjectJc_T const* obj; 
-    #ifdef __cplusplus
-    class CharSequenceJc* csq;
+    #ifndef DEF_NO_StringUSAGE 
+      struct StringBuilderJc_t* bu; 
+      #ifdef DEF_CharSeqJcCapabilities
+        struct ObjectJc_T const* obj; 
+        #ifdef __cplusplus
+          class CharSequenceJc* csq;
+        #endif
+      #endif
     #endif
   } addr; 
   VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
 } StringJc;
+//end::StringJc[]
+
 #define DEFINED_StringJc_emC
 
 //old: typedef STRUCT_AddrVal_emC(StringJc, char const);
 
-
+//tag::StringJc_Common[]
 /**StringJc object containing null-values. */
 extern_C StringJc const null_StringJc;
 
@@ -497,14 +506,21 @@ extern_C StringJc const empty_StringJc;
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
  * The length of the text
- * is not stored inside StringJc, the length bits are setted to there maximum 
- * (value of ,,mLength_StringJc,,, see ,,fw_Platform_conventions.h,,)
- * to detect this constellation.
+ * is not stored inside StringJc, the length bits are setted to kIs_0_terminated_StringJc 
+ * (it is the value of ,,mLength_StringJc,,), to detect this constellation.
  * @param TEXT should be a text-literal only. If it references a char-array, 
- *             a problem with persistence may existing.
+ *        a problem with persistence may existing.
  */
 #define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
 #define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
+
+/**Initializer-Macro for StringJc, initialize the StringJc-reference to a string literal.
+ * The length of the literal is calculated via sizeof("text").
+ * @param TEXT should only be a text-literal. 
+ * If it references a char-array, the size is faulty 
+ * and  problem with persistence may existing. 
+ */
+#define INIZ_text_StringJc(TEXT) { TEXT, (int)(sizeof(TEXT)-1) }
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
  * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
@@ -518,6 +534,7 @@ extern_C StringJc const empty_StringJc;
 #define INIZ_StringJc(TEXT, LEN) { {TEXT}, LEN }
 #define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
 #define NULL_StringJc { {null}, 0}
+//end::StringJc_Common[]
 
 
 

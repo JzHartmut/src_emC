@@ -477,7 +477,7 @@ METHOD_C bool addChildString_SSb_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* th
 /**Adds a child with String value.
 
 */
-METHOD_C bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, CharSeqJc valueCs, StringJc sEncoding, ThCxt* _thCxt);
+METHOD_C bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, StringJc valueCs, StringJc sEncoding, ThCxt* _thCxt);
 
 /**Adds a child with String value.
 

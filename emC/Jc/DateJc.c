@@ -249,7 +249,7 @@ void format_tu_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp time
 }
 
 
-
+#ifdef DEF_ThreadContext_HEAP_emC
 StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp timeStamp, ThCxt* _thCxt)
 { StringBuilderJc_s* buffer;
   STACKTRC_TENTRY("format_SimpleDateFormatJc");
@@ -257,6 +257,10 @@ StringJc format_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, OS_TimeStamp tim
   format_tu_SimpleDateFormatJc(ythis, timeStamp, buffer, null,_thCxt);
   STACKTRC_LEAVE; return toStringMarkPersist_StringBuilderJc(&buffer->base.object, _thCxt);
 }
+#endif
+
+
+
 
 
 extern_C struct ClassJc_t const refl_TextFieldPositionJc;

@@ -70,6 +70,8 @@
 #include <applstdef_emC.h>
 #ifndef __StringJc_h__
 #define __StringJc_h__
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
+
 #include "emC/Base/String_emC.h"    //based on the there defined type StringJc and the access macros.
 #include "emC/Base/Va_list_emC.h" 
 #include "emC/Jc/ObjectJc.h"      //Hint: Simple StringJc: use emC/Base/String_emC.h
@@ -275,25 +277,6 @@ StringJc declarePersist_StringJc(StringJc ythis);
  * @return StringJc-reference per value, it references the text in the thread context buffer.
  */
 METHOD_C StringJc copyToThreadCxt_StringJc(StringJc src, struct ThreadContext_emC_t* _thCxt);
-
-
-
-/**Gets a zero-terminated String from a given String. 
- * This routine needs a buffer to copy the string. But if the given String is zero-terminated already,
- * It is used without copying. In this case some calculation time will be saved.
- * Only if the given String is not zero-termintated, the given part of string will be copied 
- * and terminated with a 0-character. 
- * If the length of the given String is greater then zBuffer-1, either an exception will be thrown 
- * or the String will be truncated.
- *  
- * @param buffer any buffer, where the content of thiz may be copied to.
- * @param zBuffer size of the buffer. The size should be the really size. A \\0 is guaranted at end of buffer.
- * @param exceptionOnLessBuffer true then an exception is thrown if (zBuffer -1) is less then the length of thiz and thiz is not zero-terminated.
- *   If the string refered with thiz is zero terminated, an exception is never thrown.
- *   If false, then the string will be truncated. The parameter _thCtx may be null then.
- * @return The pointer to the zero terminated String. Either it is the String referenced in thiz, or it is buffer. 
- */
-METHOD_C char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zBuffer, bool exceptionOnLessBuffer, struct ThreadContext_emC_t* _thCxt);
 
 
 
@@ -1260,24 +1243,6 @@ bool wasTruncated_StringBuilderJc(StringBuilderJc_s* ythis);
 #define releaseStringBuilt_StringBuilderJc(YTHIS) ((YTHIS)->_mode &= ~_mStringBuilt_StringBuilderJc)
 
 
-/**
- * return the size of the StringBuilder with its immediate following text
- * or -1 if the text is referenced.
- */
-INLINE_emC int _reduceCapacity_StringBuilderJc(StringBuilderJc_s* thiz, int16 size){
-  ASSERT_emC(size < abs(thiz->size), "", size, thiz->size);
-  if(thiz->size > 0) {
-    thiz->size = size;
-    return sizeof(StringBuilderJc_s)  - sizeof(thiz->value) + size;
-  } else {
-    //buffer referenced. 
-    thiz->size = (int16)(-size);
-    return -1;
-  }
-}
-
-
-
 /**Returns a new string that is a substring from the content in the StringBuilder.
  * The substring begins at the specified beginIndex and extends to the character at index endIndex - 1.
  * Thus the length of the substring is endIndex-beginIndex.
@@ -1925,4 +1890,15 @@ StringBuilderJcpp* threadBuffer_s_StringBuilderJcpp(CharSeqJc src, struct Thread
 #endif //__CPLUSPLUSJcpp
 
 
+/** Copies the string-reference into a reference of a StringBuffer.
+  * Either, the given reference references a string in a StringBuffer, only the content
+  * of the reference will be copied. Or the string is a direct String or substring.
+  * Than a new StringBuffer-instance will be created.
+*/
+METHOD_C StringBufferJc* toStringBuffer_StringJc(StringJc const* src);
+
+
+
+
+#endif //DEF_NO_StringUSAGE
 #endif //__StringJc_h__

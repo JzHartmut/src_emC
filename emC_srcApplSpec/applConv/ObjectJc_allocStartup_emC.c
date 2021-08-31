@@ -36,7 +36,8 @@
  * 2010-04-02: Hartmut creation
  *
  ****************************************************************************/
-#include <emC/Base/String_emC.h>
+#include <emC/Base/Object_emC.h>
+
 #include <emC/Base/MemC_emC.h>
 
 #ifndef USE_BlockHeap_emC

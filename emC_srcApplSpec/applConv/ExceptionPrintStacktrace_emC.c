@@ -44,7 +44,7 @@
 #ifndef DEF_Exception_emC_NO
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
-#include <emC/Base/String_emC.h> 
+#include <emC/Base/StringBase_emC.h> 
 #include <emC/OSAL/os_error.h>
 //#include <fw_Platform_conventions.h>
 #include <stdlib.h>

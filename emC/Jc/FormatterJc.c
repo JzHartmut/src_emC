@@ -33,6 +33,9 @@
  * @version 0.83
  */
 #include <emC/Jc/FormatterJc.h>
+
+#ifndef DEF_NO_StringUSAGE
+
 #include <emC/Base/Formatter_emC.h>
 #include <emC/Jc/ReflectionJc.h>
 #include <emC/Jc/StringBufferJc.h>
@@ -106,3 +109,5 @@ void close_FormatterJc(FormatterJc_s* ythis, struct ThreadContext_emC_t* _thCxt)
 
 
 #endif
+
+#endif //DEF_NO_StringUSAGE

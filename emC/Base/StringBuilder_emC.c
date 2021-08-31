@@ -47,7 +47,7 @@
 
 //Styleguide: Include the own header first, it should include all necessary depending headers itself. 
 #include <emC/Base/String_emC.h>
-
+#ifndef DEF_NO_StringUSAGE
 
 #if defined(DEF_CharSeqJcCapabilities) || defined(DEF_ClassJc_Vtbl)  
   //contains any function declarations here called:
@@ -557,7 +557,7 @@ CharSeqJc subSequence_StringJc_CharSeqJc_F(CharSeqObjJc const* ithiz, int32 from
 
 #if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 bool equals_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ObjectJc const* second, ThCxt* _thCxt) {
-  StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
+  //StringJc_CharSeqJc* thiz = (StringJc_CharSeqJc*)ithiz;
   return false;  //TODO
 }
 #endif
@@ -577,6 +577,7 @@ void finalize_StringJc_CharSeqJc_F(ObjectJc const* ithiz, ThCxt* _thCxt) {
 
 #if defined(DEF_ClassJc_Vtbl) && defined(DEF_CharSeqJcCapabilities)
 
+#if 0 //TODO not used yet
 static Vtbl_CharSeqJc mtbl_StringJc_CharSeqJc =
 { { sign_Vtbl_CharSeqJc//J2C: Head of methodtable.
     , (struct Size_Vtbl_t*)((sizeof(Vtbl_CharSeqJc))) //size. NOTE: all elements are standard-pointer-types.
@@ -594,7 +595,7 @@ static Vtbl_CharSeqJc mtbl_StringJc_CharSeqJc =
     , toString_StringJc_CharSeqJc_F
     }
 };
-
+#endif
 
 
 
@@ -889,3 +890,4 @@ DEFINE_REFLECTION_REF(StringBuilderJc);
 
 #endif
 
+#endif //DEF_NO_StringUSAGE

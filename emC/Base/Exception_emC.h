@@ -696,10 +696,20 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 #elif defined(DEF_ThreadContext_STACKTRC_NO)
 
 //all STCKTRC macro are empty.
-#define STACKTRC_ROOT_ENTRY(NAME)
-#define STACKTRC_ROOT_TENTRY(NAME)
-#define STACKTRC_ENTRY(NAME)
+
+/**An empty macro instead Stacktrace entry.
+ * Note: the variable _thCxt may be used for some functions, but if not used, it should be optimized by compilation.
+ */
+#define STACKTRC_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
+#define STACKTRC_ROOT_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
+
+
+/**An empty macro instead Stacktrace entry.
+ * Here the _thCxt variable is given by argument list
+ */
 #define STACKTRC_TENTRY(NAME)
+#define STACKTRC_ROOT_TENTRY(NAME)
+
 #define STACKTRC_LEAVE
 #define STACKTRC_THCXT null              //null as parameter for _thCxt, get it internally
 #define GET_STACKTRC_THCXT ThreadContext_emC_s* _thCxt = getCurrent_ThreadContext_emC();

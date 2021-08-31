@@ -91,9 +91,11 @@ METHOD_C int copyToBuffer_Part_StringPartJc(struct Part_StringPartJc_t* thiz, ch
 
 
 /**Builds a new Part without leading and trailing white spaces.
-Without " \r\n\t"
-*/
-METHOD_C struct Part_StringPartJc_t* trim_Part_StringPartJc(Part_StringPartJc_s* thiz, ThCxt* _thCxt);
+ * Without " \r\n\t"
+ * @param dst a given empty instance to fill. Also the outer element will be assigned. 
+ * Possible to create it via allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), "StringPart.Part.subSequence", _thCxt)
+ */
+METHOD_C void trim_Part_StringPartJc(Part_StringPartJc_s* thiz, struct Part_StringPartJc_t* dst, ThCxt* _thCxt);
 
 #ifdef DEF_ClassJc_Vtbl
 /* J2C: Method table contains all dynamic linked (virtual) methods
