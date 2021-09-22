@@ -312,7 +312,12 @@ extern_C char* getCharsAndSize_StringBuilderJc (StringBuilderJc_s* thiz, int* si
  * @param count a ,,int*,, reference to a variable, into which the value of number of chars is stored.
  * @return ,,char*,,-pointer to the buffer.
  */
-extern_C char const* getCharsAndCount_StringBuilderJc (StringBuilderJc_s const* thiz, int* count);
+INLINE_emC char const* getCharsAndCount_StringBuilderJc (StringBuilderJc_s const* thiz, int* count) {
+  char const* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
+  //*count = (thiz->count < 0 ? -thiz->count : thiz->count);
+  *count = thiz->_count;
+  return(buffer);
+}
 
 /**Gets the buffer, the size and the actual nr of chars in the buffer.
  * @param size a ,,int*,, reference to a variable, into which the value of buffer-size is stored.

@@ -371,7 +371,7 @@ bool isZeroTerminated_StringJc(StringJc const thiz)
 
 
 
-char const* getCharConst_StringJc(StringJc const thiz, char* const buffer, int const zBuffer)
+char const* getCharConst_StringJc ( StringJc const thiz, char* const buffer, int const zBuffer)
 {
   int len;
   char const* str = getCharsAndLength_StringJc(&thiz, &len);

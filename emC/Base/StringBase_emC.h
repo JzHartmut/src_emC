@@ -555,7 +555,8 @@ INLINE_emC int length_StringJc(StringJc thiz)  //INLINE
 
 
 /**Gets a zero-terminated String from a given String. 
- * This routine uses a buffer to copy the string. This buffer is used only if the given String is not zero-terminated already.
+ * This routine may use the given buffer to copy the string. 
+ * This buffer is used only if the given String is not zero-terminated already.
  * If the String is zero-terminated in its original StringJc-reference, it is used without copying. 
  * In that case some calculation time will be saved.
  * Only if the given String is not zero-termintated, the given part of string will be copied 

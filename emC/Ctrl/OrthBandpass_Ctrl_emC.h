@@ -288,10 +288,10 @@ static inline void calcMagn_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thi
 /**
  * @simulink Operation-FB, accel-tlc.
  */
-static inline void calcpq_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Angle_abwmf_FB_Ctrl_emC* anglep, float_complex* ypq_y)
+static inline void calcdq_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Angle_abwmf_FB_Ctrl_emC* anglep, float_complex* ydq_y)
 { 
   if(thiz == null || anglep == null) return;
-  mult_complex_FB(thiz->yab, anglep->anb, *ypq_y);
+  mult_complex_FB(thiz->yab, anglep->anb, *ydq_y);
 }
 
 
@@ -303,7 +303,7 @@ class OrthBandpassF_Ctrl_emC : public OrthBandpassF_Ctrl_emC_s {
   
   OrthBandpassF_Ctrl_emC(float kA, float kB, int32 identObj, float Tstep);
 
-  /**Connect the association only to par, angle remain null, then calcpq is not supported.
+  /**Connect the association only to par, angle remain null, then calcdq is not supported.
    */
   bool init(Param_OrthBandpassF_Ctrl_emC* par) {
     return init_OrthBandpassF_Ctrl_emC(this, par); 
@@ -315,8 +315,8 @@ class OrthBandpassF_Ctrl_emC : public OrthBandpassF_Ctrl_emC_s {
 
 
 
-  void calcpq(float_complex* ypq_y, Angle_abwmf_FB_Ctrl_emC* anglep) {
-    calcpq_OrthBandpassF_Ctrl_emC(this, anglep, ypq_y);
+  void calcdq(float_complex* ydq_y, Angle_abwmf_FB_Ctrl_emC* anglep) {
+    calcdq_OrthBandpassF_Ctrl_emC(this, anglep, ydq_y);
   }
 };
 #endif //__cplusplus

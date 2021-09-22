@@ -217,14 +217,6 @@ char* XXXXXXXchars_StringBuilderJc(StringBuilderJc_s* thiz)
 }
 
 
-char const* getCharsAndCount_StringBuilderJc(StringBuilderJc_s const* thiz, int* count)
-{
-  char const* buffer = (thiz->size < 0 ? thiz->value.buffer : thiz->value.direct);
-  //*count = (thiz->count < 0 ? -thiz->count : thiz->count);
-  *count = thiz->_count;
-  ;
-  return(buffer);
-}
 
 char* getCharsSizeCount_StringBuilderJc(StringBuilderJc_s* thiz, int* size, int* count)
 {

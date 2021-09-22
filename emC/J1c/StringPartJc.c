@@ -3460,6 +3460,14 @@ CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc const* ithis, int32 from
   }
   STACKTRC_LEAVE;
 }
+#else 
+CharSeqJc subSequence_ii_Part_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 end, ThCxt* _thCxt)
+{ Part_StringPartJc_s* thiz = (Part_StringPartJc_s*)ithis;
+  STACKTRC_TENTRY("subSequence_ii_Part_StringPartJc");
+  CharSeqJc ret = empty_StringJc;
+  THROW1_s0(IllegalArgumentException, "not available without Heap management", 0);
+  STACKTRC_RETURN ret;
+}
 #endif //#ifdef DEF_ClassJc_Vtbl
 
 
