@@ -143,9 +143,9 @@ struct StringPartJc_t* ctorO_StringPartJc(ObjectJc* othis, ThCxt* _thCxt)
     thiz->bStartScan = true;
     thiz->bFound = true;
     thiz->bitMode = 0;
-    set_StringJc(&(thiz->sCommentStart), z_StringJc("/*"));
-    set_StringJc(&(thiz->sCommentEnd), z_StringJc("*/"));
-    set_StringJc(&(thiz->sCommentToEol), z_StringJc("//"));
+    set_s_StringJc(&(thiz->sCommentStart), z_StringJc("/*"));
+    set_s_StringJc(&(thiz->sCommentEnd), z_StringJc("*/"));
+    set_s_StringJc(&(thiz->sCommentToEol), z_StringJc("//"));
   }
   { 
     
@@ -171,9 +171,9 @@ struct StringPartJc_t* ctorO_Cs_StringPartJc(ObjectJc* othis, CharSeqJc src, ThC
     thiz->bStartScan = true;
     thiz->bFound = true;
     thiz->bitMode = 0;
-    set_StringJc(&(thiz->sCommentStart), z_StringJc("/*"));
-    set_StringJc(&(thiz->sCommentEnd), z_StringJc("*/"));
-    set_StringJc(&(thiz->sCommentToEol), z_StringJc("//"));
+    set_s_StringJc(&(thiz->sCommentStart), z_StringJc("/*"));
+    set_s_StringJc(&(thiz->sCommentEnd), z_StringJc("*/"));
+    set_s_StringJc(&(thiz->sCommentToEol), z_StringJc("//"));
   }
   { 
     
@@ -197,9 +197,9 @@ struct StringPartJc_t* ctorO_Csii_StringPartJc(ObjectJc* othis, CharSeqJc src, i
     thiz->bStartScan = true;
     thiz->bFound = true;
     thiz->bitMode = 0;
-    set_StringJc(&(thiz->sCommentStart), z_StringJc("/*"));
-    set_StringJc(&(thiz->sCommentEnd), z_StringJc("*/"));
-    set_StringJc(&(thiz->sCommentToEol), z_StringJc("//"));
+    set_s_StringJc(&(thiz->sCommentStart), z_StringJc("/*"));
+    set_s_StringJc(&(thiz->sCommentEnd), z_StringJc("*/"));
+    set_s_StringJc(&(thiz->sCommentToEol), z_StringJc("//"));
   }
   { 
     
@@ -221,7 +221,7 @@ void setInputfile_StringPartJc(StringPartJc_s* thiz, StringJc file, ThCxt* _thCx
   
   { 
     
-    set_StringJc(&(thiz->sFile), file);
+    set_s_StringJc(&(thiz->sFile), file);
   }
   STACKTRC_LEAVE;
 }
@@ -383,8 +383,8 @@ bool setIgnoreComment_SS_StringPartJc(StringPartJc_s* thiz, StringJc sStart, Str
     
     bool  bRet = (thiz->bitMode & mSkipOverCommentInsideText_mode_StringPartJc) != 0;
     thiz->bitMode |= mSkipOverCommentInsideText_mode_StringPartJc;
-    set_StringJc(&(thiz->sCommentStart), sStart);
-    set_StringJc(&(thiz->sCommentEnd), sEnd);
+    set_s_StringJc(&(thiz->sCommentStart), sStart);
+    set_s_StringJc(&(thiz->sCommentEnd), sEnd);
     { STACKTRC_LEAVE;
       return bRet;
     }
@@ -422,7 +422,7 @@ bool setIgnoreEndlineComment_S_StringPartJc(StringPartJc_s* thiz, StringJc sStar
     
     bool  bRet = (thiz->bitMode & mSkipOverCommentToEol_mode_StringPartJc) != 0;
     thiz->bitMode |= mSkipOverCommentToEol_mode_StringPartJc;
-    set_StringJc(&(thiz->sCommentToEol), sStart);
+    set_s_StringJc(&(thiz->sCommentToEol), sStart);
     { STACKTRC_LEAVE;
       return bRet;
     }

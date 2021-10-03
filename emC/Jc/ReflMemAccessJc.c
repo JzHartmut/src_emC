@@ -539,7 +539,7 @@ int32 accessTarget_Inspc(Cmd_InspcTargetProxy_e cmd, int device, uint32 address,
 
 /**Gets any info from a remoteCPU, which has max. 8 byte return value. */
 #ifndef DEF_INSPC_REMOTEACCESS
-int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, uint32 address, int64 input)
+int64 accessTarget64_Inspc(Cmd_InspcTargetProxy_e cmd, int device, uint64 address, int64 input)
 {
 	return 0;
 }	

@@ -48,6 +48,11 @@
 #include <stdlib.h>  //exit
 
 
+/**This file is meanwhile deprecated. The only one routine which an application should be defined is:
+ * errorSystem_emC_(...)
+ * This routine is declared in emC/Base/Exception_emC.h and should be implemented user/application specific. 
+ */
+#error do not use this source.
 
 
 /**Stops the execution of a thread because no error handling is possible.
@@ -104,19 +109,6 @@ void os_notifyError_FileLine  (  int errorCode, const char* description, int val
 
 
 
-
-void stopAssert_emC  (  void) {
-  //maybe set a breakpoint here
-  os_FatalError(-1, "stopAssert_emC", 0, 0);
-}
-
-
-
-bool stop_AssertJc  (  void) {
-  //maybe set a breakpoint here
-  os_FatalError(-1, "stopAssert_emC", 0, 0);
-  return false;
-}
 
 void uncatched_Exception_emC  (  Exception_emC* ythis, ThreadContext_emC_s* _thCxt)
 {

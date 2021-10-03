@@ -185,7 +185,6 @@ static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, f
 static inline void stepSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
   { 
 #ifndef __ignoreInCheader_zbnf__ 
-  if(thiz == null) return;
   step_OrthBandpassF_Ctrl_emC(thiz, xAdiff, xBdiff);
   *yaz_y = thiz->yab.re;
   *ab_y = thiz->yab; 

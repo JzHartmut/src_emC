@@ -413,7 +413,7 @@ StringJc toString_String(StringJc* ythis)
 
 
 
-void set_StringJc(StringJc* ythis, StringJc src)
+void set_s_StringJc(StringJc* ythis, StringJc src)
 { int valueSrc = VAL_AddrVal_emC(src);
   char const* sSrc = src.addr.str;
   int zSrc = valueSrc & mLength_StringJc;

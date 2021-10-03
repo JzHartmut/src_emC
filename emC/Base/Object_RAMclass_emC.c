@@ -41,7 +41,7 @@
 
 #ifdef DEF_REFLECTION_FULL  //Note: this feature is not able to use for ObjectJc simple
 
-void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super) {
+void ctor_Fields_super_ClassJc ( ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super) {
   memset(thiz, 0, sizeof(*thiz));
   iniz_ObjectJc(&thiz->object, thiz, sizeof(*thiz), &refl_ClassJc, ID_refl_ClassJc);
   copyToBuffer_StringJc(name, 0, -1, thiz->name, sizeof(thiz->name));
@@ -52,7 +52,7 @@ void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, Objec
 
 
 
-void ctor_ClassOffset_idxVtblJc(ClassOffset_idxVtblJc* thiz, ClassJc const* refl_super, int accessLevel, int ixVtbl)
+void ctor_ClassOffset_idxVtblJc ( ClassOffset_idxVtblJc* thiz, ClassJc const* refl_super, int accessLevel, int ixVtbl)
 {
   memset(thiz, 0, sizeof(*thiz));
   //thiz->clazz_super = refl_super;

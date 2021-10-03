@@ -125,7 +125,7 @@ const int nrofBytesScalarTypes_ClassJc[] =
 
 
 
-ClassJc const* really_ClassJc(ClassJc const* thiz) {
+ClassJc const* really_ClassJc ( ClassJc const* thiz) {
   ClassJc const* thizReally;
   if (((intptr_t)(thiz)) < kREFLECTION_LastConstant)
   {
@@ -140,7 +140,7 @@ ClassJc const* really_ClassJc(ClassJc const* thiz) {
 
 
 
-const FieldJc* getDeclaredField_ClassJc(ClassJc const* thiz, StringJc sName)
+const FieldJc* getDeclaredField_ClassJc ( ClassJc const* thiz, StringJc sName)
 { int ii;
   bool bFound = false;
   const FieldJc* field = null;
@@ -172,7 +172,7 @@ const FieldJc* getDeclaredField_ClassJc(ClassJc const* thiz, StringJc sName)
 /**Implementation hint: It is possible, that the type indent is a simple integer number,
    than return the correct representation!
  */
-ClassJc const* getType_FieldJc(FieldJc const* thiz)
+ClassJc const* getType_FieldJc ( FieldJc const* thiz)
 { ClassJc const* type = thiz->type_;
   if( ((intptr_t)(type)) < kREFLECTION_LastConstant )
   { type = simpleTypes_ClassJc[(int)(intptr_t)(type)];
@@ -180,7 +180,7 @@ ClassJc const* getType_FieldJc(FieldJc const* thiz)
   return type;
 }
 
-char typeChar_FieldJc(FieldJc const* thiz){
+char typeChar_FieldJc ( FieldJc const* thiz){
   if( ((intptr_t)(thiz->type_)) < kREFLECTION_LastConstant )
   { return typeCharsScalarTypes_ClassJc[(int)(intptr_t)(thiz->type_)];
   }

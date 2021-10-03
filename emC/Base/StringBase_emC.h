@@ -451,7 +451,7 @@ extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radi
   *            The Bit ,,mNonPersists__StringJc,, may be set. The user is responsible to the persistence.
   * @return void, don't use inside an expression.
   */
-INLINE_emC void set_StringJc (StringJc* thiz, char const* src, int len) {
+INLINE_emC void set_s0len_StringJc (StringJc* thiz, char const* src, int len) {
   thiz->addr.str = src; thiz->val = len;
 }
 

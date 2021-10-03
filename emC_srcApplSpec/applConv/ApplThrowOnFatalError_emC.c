@@ -112,19 +112,6 @@ void os_notifyError_FileLine  (  int errorCode, const char* description, int val
 
 
 
-void stopAssert_emC  (  void) {
-  //maybe set a breakpoint here
-  os_FatalError(-1, "stopAssert_emC", 0, 0);
-}
-
-
-
-bool stop_AssertJc  (  void) {
-  //maybe set a breakpoint here
-  os_FatalError(-1, "stopAssert_emC", 0, 0);
-  return false;
-}
-
 
 
 void uncatched_Exception_emC  (  Exception_emC* thiz, ThreadContext_emC_s* _thCxt)

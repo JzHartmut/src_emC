@@ -40,6 +40,7 @@ struct ObjectJc_t;
 
 /*@CLASS_C Inspector_Inspc @@@@@@@@@@@@@@@@@@@@@@@@*/
 
+//tag::Inspector_Inspc_s[]
 typedef struct Inspector_Inspc_t
 { 
   union { ObjectJc object; } base; 
@@ -47,7 +48,7 @@ typedef struct Inspector_Inspc_t
   CmdExecuter_Inspc_s cmdExecuter;   /*The main cmd executer. There may be more as one {@link CmdConsumer_ifc} */
   Comm_Inspc_s comm;   /*The communication class. */
 } Inspector_Inspc_s;
-  
+//end::Inspector_Inspc_s[]  
 
 #define sizeof_Inspector_Inspc_s sizeof(Inspector_Inspc_s)
 

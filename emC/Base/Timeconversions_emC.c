@@ -77,7 +77,7 @@ int32 timeToSeconds_TimeBytes_emC(TimeBytes_emC* ythis, int32 nBaseYear, int32 o
  * @changes 2010-01-19 Hartmut corr: algorithm corrected, adjusted from fw_Formatter.c and old time2nn.c
  * @changes 2010-07-02 Hartmut chg: add parameter for GPS and offsetJan, but GPS it isn't used yet, todo
  */
-void ctor_TimeBytes_emC(TimeBytes_emC* ythis, int32 nTime, int32 nBaseYear, int32 offsetJan, bool GPS)
+void ctor_TimeBytes_emC ( TimeBytes_emC* ythis, int32 nTime, int32 nBaseYear, int32 offsetJan, bool GPS)
 { static const uint16 aMonth[]    ={31,28,31,30,31,30,31,31,30,31,30,31};
   static const uint16 aMonthSkip[]={31,29,31,30,31,30,31,31,30,31,30,31};
   uint16 nYear4,nYear;

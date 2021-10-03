@@ -881,8 +881,11 @@ extern_C void printStackTraceFile_Exception_emC ( Exception_emC* ythis, struct O
  */
 //extern_C Exception_emC* manifest_Exception_emC ( Exception_emC* ythis, Exception_emC* dst, struct StacktraceElementJcARRAY_t* dstStacktrace);
 
-/**This routine is called in the THROW processing, if no TRY-level is found. The user should write this method.*/
-
+/**This routine is called in the THROW processing, if no TRY-level is found. The user should write this method.
+ * Note: The uncatched_Exception should be assigned to the application frame. It is not a part of a library.
+ * It should terminate the application, and some resources should be freed. 
+ * The application frame may known which resources.
+ */
 extern_C void uncatched_Exception_emC ( Exception_emC* ythis, ThreadContext_emC_s* _thCxt);
 //extern_C void uncatchedException ( int32 exceptionNr, StringJcRef*  msg, int value, StacktraceThreadContext_emC_s* stacktrcThCxt);
 

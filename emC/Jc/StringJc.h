@@ -125,7 +125,7 @@ METHOD_C void clear_StringJc(StringJc* ythis);
   *
   * If the src-text in not persistent, a new buffer will be created calling [[new_StringBuilderJc(...)]].
   * Note, that that operation causes an exception if no dynamically memory for the new_StringBuilderJc(...) operation
-  * is available. Because the routine tests whether the text is persistent, it sh�uld be used
+  * is available. Because the routine tests whether the text is persistent, it should be used
   * in a system without dynamically memory always, to increase the software-safety by runtime-test.
   *
   * If the string references any buffer in the block heap,
@@ -136,7 +136,7 @@ METHOD_C void clear_StringJc(StringJc* ythis);
            so direct output from StringJc-returning methods are useable as argument.
            The value consist of 2 processor registers.
   */
-METHOD_C void set_StringJc(StringJc* ythis, StringJc src);
+METHOD_C void set_s_StringJc(StringJc* ythis, StringJc src);
 
 
 

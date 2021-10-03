@@ -140,7 +140,7 @@ typedef struct MemSegmJc_T {
 #define setSegmAddr_MemSegmJc(THIS, SEGM, ADDR) SET_AddrVal_emC(THIS, ADDR, SEGM)
 
  /**Instance with null-pointer. */
-extern MemSegmJc null_MemSegmJc;
+extern_C MemSegmJc null_MemSegmJc;
 
 
 /*@CLASS_C MemAccessJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

@@ -115,9 +115,9 @@ StringJc name_FieldJc(FieldJc const* thiz);
 
 
 /**Returns the type char for especially primitive fields, J I S F D for long, int short float double, etc.*/ 
-char typeChar_FieldJc(FieldJc const* thiz);
+char typeChar_FieldJc ( FieldJc const* thiz);
 
-struct ClassJc_t const* getType_FieldJc(FieldJc const* ythis);
+struct ClassJc_t const* getType_FieldJc ( FieldJc const* ythis);
 
 #define getDeclaringClass_FieldJc(THIS) ((THIS)->declaringClass)
 
@@ -233,14 +233,14 @@ typedef struct  ClassJc_t
 * Hint: The name is not 0-terminated if the name uses the full length of the field name.
 * Therefore a StringJc presentation gives the exact information. Do not use thiz->name immediately.
 */
-StringJc name_ClassJc(ClassJc const* thiz);
+StringJc name_ClassJc ( ClassJc const* thiz);
 
 
 extern_C const ClassJc refl_ClassJc;
 
 /**Initializes a class in RAM for runtime reflection. 
 */
-extern_C void ctor_Fields_super_ClassJc(ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super);
+extern_C void ctor_Fields_super_ClassJc ( ClassJc* thiz, StringJc name, int sizeType, ObjectArrayJc const* fields, ObjectArrayJc const* super);
 
 //#define INIZ_ClassJc(OBJ, NAME) { INIZ_ObjectJc(OBJ, refl_ClassJc, 0), NAME }
 
@@ -564,7 +564,7 @@ extern_C ClassJc const refl_ClassOffset_idxVtblJc;
 * @param refl_super The reflection for this super class or interface.
 * @param ixVtbl The index of the virtual table part. Use 0 if the superclass or interface has not a Vtbl.  
 */
-extern_C void ctor_ClassOffset_idxVtblJc(ClassOffset_idxVtblJc* thiz, ClassJc const* refl_super, int accesLevel, int ixVtbl);
+extern_C void ctor_ClassOffset_idxVtblJc ( ClassOffset_idxVtblJc* thiz, ClassJc const* refl_super, int accesLevel, int ixVtbl);
 
 #endif  //#ifndef __ObjectJc_defined__
 
@@ -910,46 +910,46 @@ METHOD_C ClassJc* ctorM_ClassJc(MemC rawMem);
 /**initializes a ClassJc. 
 * All content is set to 0.
 */
-METHOD_C void ctorc_ClassJc(ClassJc* ythis);
+METHOD_C void ctorc_ClassJc ( ClassJc* ythis);
 
 
 #define getClass_ClassJc(OBJ) getClass_ObjectJc(OBJ)
 
 /** Methods from Class */
-METHOD_C struct FieldJc_Y_t const* getDeclaredFields_ClassJc(ClassJc const* ythis);//sss
+METHOD_C struct FieldJc_Y_t const* getDeclaredFields_ClassJc ( ClassJc const* ythis);//sss
 
-METHOD_C struct FieldJc_t const* getDeclaredField_ClassJc(ClassJc const* ythis, StringJc sName);
+METHOD_C struct FieldJc_t const* getDeclaredField_ClassJc ( ClassJc const* ythis, StringJc sName);
 
-METHOD_C struct MethodJcARRAY_t const* getDeclaredMethods_ClassJc(ClassJc const* ythis);
+METHOD_C struct MethodJcARRAY_t const* getDeclaredMethods_ClassJc ( ClassJc const* ythis);
 
-METHOD_C struct MethodJc_T const* getDeclaredMethod_ClassJc(ClassJc const* ythis, char const* sName);
+METHOD_C struct MethodJc_T const* getDeclaredMethod_ClassJc ( ClassJc const* ythis, char const* sName);
 
 
-METHOD_C ClassJc const* getEnclosingClass_ClassJc(ClassJc const* ythis);
+METHOD_C ClassJc const* getEnclosingClass_ClassJc ( ClassJc const* ythis);
 
 /**Returns the type of the super class for this class or null. */
-METHOD_C ClassJc const* getSuperClass_ClassJc(ClassJc const* thiz);
+METHOD_C ClassJc const* getSuperClass_ClassJc ( ClassJc const* thiz);
 
 /**Returns the field which describes the access to the super class data for this class or null. */
-METHOD_C struct FieldJc_t const* getSuperField_ClassJc(ClassJc const* thiz);
+METHOD_C struct FieldJc_t const* getSuperField_ClassJc ( ClassJc const* thiz);
 
 /**gets the Name of the class. It is a static method, because the argument class may be a constant for simple types.
 * @param class Either the class object or a constant to design simple types, see REFLECTION_xxx.
 * @deprecated use name_ClassJc(...) which returns a StringJc. Reason: If the name fills the whold field of ClassJc#_name_, it is not 0-terminated.
 */
-METHOD_C const char* getName_ClassJc(ClassJc const* clazz);
+METHOD_C const char* getName_ClassJc ( ClassJc const* clazz);
 
-METHOD_C ClassJc const* getSuperclass_ClassJc(ClassJc const* ythis);
+METHOD_C ClassJc const* getSuperclass_ClassJc ( ClassJc const* ythis);
 
 /**gets the modifiers for this class or interface, encoded in an integer.
 * They should be decoded using the methods of class ModifierJc.
 */
-METHOD_C int32 getModifiers_ClassJc(ClassJc const* ythis);
+METHOD_C int32 getModifiers_ClassJc ( ClassJc const* ythis);
 
 
 /** returns true if the type is a primitive Type, like java Class::isPrimitive()
 */
-METHOD_C bool isPrimitive_ClassJc(ClassJc const* ythis);
+METHOD_C bool isPrimitive_ClassJc ( ClassJc const* ythis);
 
 /** returns true if the type is a reference Type. Not javalike.
 */

@@ -208,7 +208,7 @@ SimpleDateFormatJc_s* ctorO_s_SimpleDateFormatJc(ObjectJc* othis, StringJc sForm
   SimpleDateFormatJc_s* ythis = (SimpleDateFormatJc_s*)othis;
   STACKTRC_TENTRY("ctorO_S_SimpleDateFormatJc");
   checkConsistence_ObjectJc(othis, sizeof(SimpleDateFormatJc_s), &refl_SimpleDateFormatJc, _thCxt); 
-  set_StringJc(&ythis->sFormat, sFormat);
+  set_s_StringJc(&ythis->sFormat, sFormat);
   STACKTRC_LEAVE; return ythis;
 }
 
@@ -222,7 +222,7 @@ void setTimeZone_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, TimeZoneJc_s* t
 void applyPattern_SimpleDateFormatJc(SimpleDateFormatJc_s* ythis, StringJc pattern, ThCxt* _thCxt)
 {
   STACKTRC_TENTRY("applyPattern_SimpleDateFormatJc");
-  set_StringJc(&ythis->sFormat, pattern);
+  set_s_StringJc(&ythis->sFormat, pattern);
   STACKTRC_LEAVE;
 }
 

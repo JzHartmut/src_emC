@@ -69,7 +69,7 @@ ThreadJc_s* ctorO_Runnable_s_ThreadJc(ObjectJc* othis, RunnableJc_s* pRunnable, 
   setReflection_ObjectJc(othis, &refl_ThreadJc, sizeof(ThreadJc_s));  
 
   ythis->hThread = null;
-  set_StringJc(&(ythis->name), pName);
+  set_s_StringJc(&(ythis->name), pName);
   
   ythis->nPriority = NORM_PRIORITY_ThreadJc;
   ythis->stackSize = 2000;
