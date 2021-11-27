@@ -1037,16 +1037,9 @@ extern_C struct ClassJc_t const refl_CharSeqJc;
 #define subSequence_CharSeqJc(THIZ, from, to, THC) (substring_StringJc(*(StringJc*)&(THIZ), from, to, THC ) )
 #endif //#ifdef DEF_ClassJc_Vtbl
 
-/**Converts a given CharSeqJc to a String. Reads all Chars and stores it in a buffer in ThreadContext. 
- * * If thiz is a really StringJc, it returns thiz.
- * * If thiz contains a StringBuilderJc_s-Reference (marked with [[StringJc#kIsStringBuilder_StringJc]]) 
- * then the pointer to the content of the StringBuilder is returned. It means the String may not persistent. 
- * Use [[toStringPersist_StringBuilderJc(...)]] to build a persistent String.
- * * If thiz contains a reference to any Object which implements CharSequence then a new buffer is build in the thread context. 
- * The characters are read with invocation of [[charAt_CharSeqJc(...)]] and written in the buffer. Therewith the string is prepared already.
- * The returned string is persistent, but not permanent.
- */
-METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
+
+#endif //DEF_CharSeqJcCapabilities
+
 
 #define SET_CharSeqJc(DST, SRC) { if(isValid_ObjectJc((SRC).addr)) { SETREFJc((DST), (SRC).addr, CharSeqJc); } else {  (DST) = (SRC); } }
 
@@ -1055,7 +1048,6 @@ METHOD_C StringJc toString_CharSeqJc(CharSeqJc thiz);
 
 
 
-#endif //DEF_CharSeqJcCapabilities
 
 
 

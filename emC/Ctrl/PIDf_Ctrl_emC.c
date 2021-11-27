@@ -212,26 +212,32 @@ void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
     thiz->wxP32 = (int32)(par->fIx * wxP);  //integer representation of wxP
 
     thiz->wxPD32 = (int32)(par->fIx * wxPD);     //has never an overflow because wxPD is limited.
-    int64 xdI = thiz->wxP32 * (((int64)f->fI));
-    int64 qI1 = thiz->qI + xdI;
-    int32 qIhi = (int32)(qI1 >> 32);
+    int32 qIhi = (int32)(thiz->qI >> 32);
     bool bSat_emC = false;
     adds32sat_emC(yi, thiz->wxPD32, qIhi);
+    int wxP32i;
     if(yi > thiz->limi) 
     { //                                       ! limitation, prevent integration, set I to may possible value.
       yi = thiz->limi; 
+      //set the integrator growth to the distance between limit and the current integrator.
+      //it forces integration down on limitation.
+      wxP32i = yi - thiz->wxPD32 - qIhi;
     }
     else if(yi < -thiz->limi) 
     { 
       yi = -thiz->limi; 
+
+      wxP32i = yi - thiz->wxPD32 - qIhi;
     }
     else if(thiz->disableIntg ==0) 
-    { //save the integrator values only if output is not limited
-      //hence prevent integration on limitation. 
-      thiz->qI = qI1;
-      thiz->qIhi = qIhi;
+    { thiz->qIhi = qIhi;
       thiz->yIntg = thiz->par->fIy * qIhi; 
+      //use the integrator growth only if output is not limited
+      //hence prevent integration on limitation. 
+      wxP32i = thiz->wxP32;
     }
+    int64 xdI = wxP32i * (((int64)f->fI));
+    thiz->qI += xdI;
   }
   thiz->yctrl = yi * par->fIy;
   if(thiz->par->open) 

@@ -109,6 +109,9 @@ typedef struct Par_PIDf_Ctrl_emC_T
   #define ID_refl_Par_PIDf_Ctrl_emC 0x0FC0
 #endif
 
+#define INIZ_Par_PIDf_Ctrl_emC(THIZ, ID) { { INIZ_ObjectJc(THIZ, refl_PIDf_Ctrl_emC, ID)}, 0} 
+
+
 /**ctor of Par_PID controller
  * @param Tstep it is necessary as Simulink parameter to define the association to a defined step time.
  *        It is the time to call the Operation-FB. It is [[set_Par_PIDf_Ctrl_emC(...)]].
@@ -238,6 +241,9 @@ typedef struct PIDf_Ctrl_emC_t
 #ifndef ID_refl_PIDf_Ctrl_emC  //may be defined in *.reflOffs.h
 #define ID_refl_PIDf_Ctrl_emC 0x0FC1
 #endif
+
+
+#define INIZ_PIDf_Ctrl_emC(THIZ, ID) { { INIZ_ObjectJc(THIZ, refl_PIDf_Ctrl_emC, ID)}, 0} 
 
 
 /**ctor of PID controller 
