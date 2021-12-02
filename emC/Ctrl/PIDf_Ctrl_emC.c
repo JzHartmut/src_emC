@@ -14,9 +14,9 @@
   extern_C ClassJc const refl_PIDf_Ctrl_emC;
 #elif !defined(DEF_REFLECTION_NO)
   //Class definition only as type marker: Note the ident should be planned application-wide and used for instances too.
-  ClassJc const refl_Par_PIDf_Ctrl_emC = INIZ_ClassJc(refl_Par_PIDf_Ctrl_emC, "Test_Ctrl");
-  ClassJc const refl_ParFactors_PIDf_Ctrl_emC = INIZ_ClassJc(refl_ParFactors_PIDf_Ctrl_emC, "Test_Ctrl");
-  ClassJc const refl_PIDf_Ctrl_emC = INIZ_ClassJc(refl_PIDf_Ctrl_emC, "Test_Ctrl");
+  ClassJc const refl_Par_PIDf_Ctrl_emC = INIZ_ClassJc(refl_Par_PIDf_Ctrl_emC, "Par_PIDf_Ctrl_emC");
+  //ClassJc const refl_ParFactors_PIDf_Ctrl_emC = INIZ_ClassJc(refl_ParFactors_PIDf_Ctrl_emC, "ParFactors_PIDf_Ctrl_emC");
+  ClassJc const refl_PIDf_Ctrl_emC = INIZ_ClassJc(refl_PIDf_Ctrl_emC, "PIDf_Ctrl_emC");
 //#else
 //  extern_C int const refl_Par_PID_Vtrl
 #endif
@@ -24,51 +24,46 @@
 
 
 
+//tag::ctor_Par_PIDf_Ctrl_emC[]
 Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 { //check before cast:
   ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(Par_PIDf_Ctrl_emC_s), refl_Par_PIDf_Ctrl_emC, 0), "faulty ObjectJc",0,0 );
   Par_PIDf_Ctrl_emC_s* thiz = (Par_PIDf_Ctrl_emC_s*)othiz;
-  //inner ObjectJc-based struct:
-  CTOR_ObjectJc(&thiz->i[0].base.obj, &thiz->i, sizeof(thiz->i), refl_ParFactors_PIDf_Ctrl_emC, 1);
-  CTOR_ObjectJc(&thiz->i[1].base.obj, &thiz->i, sizeof(thiz->i), refl_ParFactors_PIDf_Ctrl_emC, 1);
   return thiz;
 }
+//end::ctor_Par_PIDf_Ctrl_emC[]
 
 
+//tag::init_Par_PIDf_Ctrl_emC[]
 bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param
    , float kP, float Tn, float Td, float Tsd, bool reset, bool openLoop_param)
 { //check before cast:
   thiz->Tctrl = Tctrl_param;
   thiz->yMax = yMax_param;
-  thiz->fIy = thiz->yMax / (float)(0x40000000L);
-  thiz->fIx = (float)(0x40000000L) / thiz->yMax;   //for yMax the value is 0x40000000
-  thiz->ixf = 0;   // set to i[0]
-  if(openLoop_param) {               // default is 0, only for test set both 1 to reset manually
-    thiz->open = 1;
-  } else {
-    thiz->en = 1;               // default en=1 if reset FBlock is not used.
-  }
+  thiz->fIy = thiz->yMax / (float)(0x7800000L);
+  thiz->fIx = (float)(0x7800000L) / thiz->yMax;   //for yMax the value is 0x78000000 no overflow because limitation.
+  thiz->i[0].open = thiz->i[1].open = openLoop_param ? 1 : 0;
 
-  set_Par_PIDf_Ctrl_emC(thiz, kP, Tn, Td, Tsd, reset);
-  thiz->f = &thiz->i[0];                // use swap buffer 0
+  thiz->ixf = 0;   // set to i[0] to first usage
+  thiz->i[0].en = reset? 1 : 0;   //set to no reset, to detect anyway first change!
+  set_Par_PIDf_Ctrl_emC(thiz, kP, Tn, Td, Tsd, reset);  //note: initializes f := i[0]
   setInitialized_ObjectJc(&thiz->base.obj);
   return true;
 }
+//end::init_Par_PIDf_Ctrl_emC[]
 
 
-/**step of PID controller
-* @simulink Object-FB.
+//tag::set_Par_PIDf_Ctrl_emC[]
+/**set Parameter of PID controller
 */
-void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, float Td_param, float Tsd_param, bool reset) {
-  //if(!isLocked_ObjectJc(&thiz->i.base.obj)) { //do not change the current parameter yet. 
-  if(reset) {
-    thiz->en = 0;
-  } else {
-    thiz->en = 1;
-  } 
+void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz
+  , float kP, float Tn_param, float Td_param, float Tsd_param, bool reset) {
   bool bChanged = false;
   //man=1 is used to change the values direct with Inspector
-  if(thiz->man == 0 && (thiz->kP != kP || thiz->Tn != Tn_param || thiz->Td != Td_param || thiz->T1d != Tsd_param )) 
+  if(  thiz->man == 0 
+    && ( thiz->kP != kP || thiz->Tn != Tn_param || thiz->Td != Td_param || thiz->T1d != Tsd_param 
+       || !(thiz->f->en) != reset 
+       )) 
   { // if one of this is changed, then calculate newly. 
     thiz->kP = kP;
     thiz->Tn = Tn_param;
@@ -76,32 +71,30 @@ void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn_param, 
     thiz->T1d = Tsd_param;
     bChanged = true;
   }
-  if(thiz->man || bChanged) {
-    ParFactors_PIDf_Ctrl_emC_s* f = &thiz->i[thiz->ixf];
-    f->kP = thiz->kP;
-    //fI is bit63..32 of multiplication. Stored as 32 bit. Related to yMax.                        
-    f->fI = thiz->Tn <=thiz->Tctrl ? 0 : (int32)(/*f->fIx * */(thiz->Tctrl / thiz->Tn)* 4*(float)(0x40000000)); // * (float)(0x100000000LL));
-    
+  if(thiz->man || bChanged) {          //== calculate newly derived values only on change and notify the change.
+    ParFactors_PIDf_Ctrl_emC_s* f = &thiz->i[thiz->ixf];  //use the yet not active buffer of twice
+    f->en = reset? 0 : 1;
+    f->kP = thiz->kP;                  //A less value, especially 0 means "no integration" such as Tn very high.
+    f->fI = thiz->Tn <= 16*thiz->Tctrl ? 0 : thiz->fIx * (thiz->Tctrl / thiz->Tn);
+    //Note: Tn > 16*Tctrl because elsewhere an additional overflow check may be necessary in runtime. 
+    //Tn is usual > 16*Tctrl.
+    ASSERT_emC(thiz->Tn > 16*thiz->Tctrl || thiz->Tn ==0, "", (int)(thiz->Tn/thiz->Tctrl), (int)(thiz->Tctrl * 1000000));
     float fTsD = thiz->T1d <= 0 ? 1.0f : 1.0f - expf(-thiz->Tctrl / thiz->T1d);
     f->fTsD = fTsD;
     //fTsd is a value in range 0.000... 1.0
     //
-    float fD = (thiz->Td / thiz->Tctrl); // * thiz->kP;
-    f->fD = fD;
+    f->fPD = thiz->kP * (thiz->Td / thiz->Tctrl); // * thiz->kP;
      
     thiz->dbgct_reparam +=1;
     thiz->f = f;                       // use this set complete immediately after calculation. 
     thiz->ixf = thiz->ixf==1 ? 0 : 1;  // use the other one for next change of values.
-    //lock_ObjectJc(&f->base.obj);
   }
-  //Output the pointer anyway also in case of lock, it should be determined.
-  //if(parFactors_y){ *parFactors_y = thiz->f; }  //use the reference to the prepared inner data as event data reference
-    //if(man_y !=null) { *man_y = thiz->man ? 1 : 0; }
 }
+//end::set_Par_PIDf_Ctrl_emC[]
 
 
 
-
+//tag::ctor_PIDf_Ctrl_emC[]
 PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 {
   //check before cast:
@@ -110,56 +103,56 @@ PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
   //should be done outside! CTOR_ObjectJc(othiz, othiz, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, 0);
   //inner ObjectJc-based struct:
   //CTOR_ObjectJc(&thiz->f.base.obj, &thiz->f, sizeof(thiz->f), refl_ParFactors_PIDf_Ctrl_emC, 1);
-  thiz->yctrl = Tstep;  //park it here.
-  thiz->limi = 0x40000000;
+  thiz->Tstep = Tstep;  //park it here.
   return thiz; 
 }
+//end::ctor_PIDf_Ctrl_emC[]
 
 
 
 
 
+//tag::init_PIDf_Ctrl_emC[]
 bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par) {
-  bool bOk = par != null;
+  bool bOk = (par != null && isInitialized_ObjectJc(&par->base.obj));  //paramter should be already initialized
   if(bOk) {
+    ASSERT_TEST_emC(par->f !=null, "f should be set", 0, 0);
     thiz->par = par;  
     //                                           // compare Tstep stored in yctrl with par->Tctrl, should be the same
-    ASSERTs_emC(par->Tctrl == thiz->yctrl, "faulty Tstep", (int)(par->Tctrl * 10000000), (int)(thiz->yctrl*1000000)); 
+    ASSERT_emC(par->Tctrl == thiz->Tstep, "faulty Tstep", (int)(par->Tctrl * 10000000), (int)(thiz->yctrl*1000000)); 
     //It cleans only a bit. The rest is done in another time slice.
-    thiz->limf = par->yMax;
-    thiz->disableIntg = par->open ? 1 : 0;
+    thiz->limf = par->yMax;                      // initial value for limf, if setLim_PIDf_Ctrl_emC is not called
+    thiz->disableIntg = thiz->open = par->f->open ? 1 : 0;  //hint: f->open is only determined initially. 
     setInitialized_ObjectJc(&thiz->base.obj);
   }
   return bOk;
 }
+//end::init_PIDf_Ctrl_emC[]
 
 
 
+//tag::setLim_PIDf_Ctrl_emC[]
 void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float yLim) {
   if(yLim > thiz->par->yMax) { yLim = thiz->par->yMax; }
   else if(yLim <0) { yLim = 0; }
-  thiz->limf = yLim;
-  thiz->limi = (int32)(thiz->par->fIx * yLim);
-  if(thiz->qIhi > thiz->limi) {
-    thiz->qIhi = thiz->limi; thiz->qI = (int64)(thiz->limi)<<32;
-    thiz->yIntg = yLim;
-  } else if(thiz->qIhi < -thiz->limi) {
-    thiz->qIhi = -thiz->limi; thiz->qI = (int64)(-thiz->limi)<<32;
-    thiz->yIntg = -yLim;
+  if(yLim < thiz->limf) {              //== check the integrator only on lesser limit
+    //note: on increasing the integrator is never faulty. Save calc time.
+    if(thiz->yIntg > yLim) {     // limit the integrator if it is now out of limit
+      thiz->qI.qI32 = (int32)(thiz->par->fIx * yLim);
+      thiz->yIntg = yLim;
+    } else if(thiz->yIntg < -yLim) {
+      thiz->qI.qI32 = -(int32)(thiz->par->fIx * yLim);
+      thiz->yIntg = -yLim;
+    }
   }
+  thiz->limf = yLim;                   // now set it!
 }
+//end::setLim_PIDf_Ctrl_emC[]
 
 
-//void param_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* par) {
-//  if(par !=null && memcmp(par, &thiz->f, sizeof(thiz->f)) !=0) { //both have same type!
-//    //only if there is a difference, set the event.
-//    thiz->parNew = par;
-//  } else {
-//    unlock_ObjectJc(&par->base.obj); //should be unlocked, nobody does it elsewhere!
-//  }
-//}
 
 
+//tag::setIntg_PIDf_Ctrl_emC[]
 void setIntg_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float intg, bool set, bool hold, float* intg_y) 
 {
   if(set) {
@@ -167,96 +160,84 @@ void setIntg_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float intg, bool set, bool hol
     else if(intg < -thiz->limf) { intg = -thiz->limf; }
     thiz->yIntg = intg;
     int32 qI = (int32)(thiz->par->fIx * intg);            // set I part, convert float to int32
-    thiz->qIhi = qI;
-    thiz->qI = ((int64)qI)<<32;                // Note: The I part is not limited      
+    thiz->qI.qI32 = qI;                // Note: The I part is not limited      
     thiz->setIntg = 1;
     thiz->disableIntg = 1;
   } else {
     thiz->setIntg = 0;
     thiz->disableIntg = hold;
   }
-  if(intg_y !=null) { *intg_y = thiz->qIhi * thiz->par->fIy; }
+  if(intg_y !=null) { *intg_y = thiz->yIntg; }
 }
+//end::setIntg_PIDf_Ctrl_emC[]
 
 
 
 
+//tag::step_PIDf_Ctrl_emC[]
 
-void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y)
+void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd)
 {
-  Par_PIDf_Ctrl_emC_s* par = thiz->par;
-  ParFactors_PIDf_Ctrl_emC_s* f = par->f;
-  float wxP = wx * f->kP;
-  if (wxP > thiz->limf) { wxP = thiz->limf; }
-  else if (wxP < -thiz->limf) { wxP = -thiz->limf; }
-  else {} //remain wxPD
-  
-  float dwxP = wxP - thiz->wxP;  
-  thiz->dwxP += (f->fTsD * (dwxP - thiz->dwxP));
-  thiz->wxP = wxP;  //store for differenzial and to inspect
-  int yi = 0;
-  if(thiz->par->en ==0) {
-    thiz->dwxP = 0;     //no differentiation on hold, 0 on reset
-    thiz->qI = 0;
-    thiz->wxPD32 = 0;   //0 on reset, unchange on hold.
+  ParFactors_PIDf_Ctrl_emC_s* f = thiz->par->f;  //contains all parameter consistently
+  //
+  float wxP = wx * f->kP;              //== P-Part
+  thiz->wxP = wxP;
+  //                                   //== calculate D-Part
+  float dx = f->fTsD * (wxd - thiz->xds);  //get D part from smoothed input
+  thiz->xds += dx;                     // smooth the input
+  float dxP = f->fPD * dx;             // effective D part for control.
+  if (dxP > thiz->limf) {              // limit it.
+    dxP = thiz->limf;
   }
-  else {
-    float wxPD = wxP + (f->fD * thiz->dwxP);  //+ D-Part.
-
-    //limit P + D.
-    if (wxPD > thiz->limf) { wxPD = thiz->limf; }
-    else if (wxPD < -thiz->limf) { wxPD = -thiz->limf; }
-    else {} //remain wxPD
-    thiz->wxPD = wxPD;  //to inspect.
-
-    thiz->wxP32 = (int32)(par->fIx * wxP);  //integer representation of wxP
-
-    thiz->wxPD32 = (int32)(par->fIx * wxPD);     //has never an overflow because wxPD is limited.
-    int32 qIhi = (int32)(thiz->qI >> 32);
-    bool bSat_emC = false;
-    adds32sat_emC(yi, thiz->wxPD32, qIhi);
-    int wxP32i;
-    if(yi > thiz->limi) 
-    { //                                       ! limitation, prevent integration, set I to may possible value.
-      yi = thiz->limi; 
-      //set the integrator growth to the distance between limit and the current integrator.
-      //it forces integration down on limitation.
-      wxP32i = yi - thiz->wxPD32 - qIhi;
-    }
-    else if(yi < -thiz->limi) 
-    { 
-      yi = -thiz->limi; 
-
-      wxP32i = yi - thiz->wxPD32 - qIhi;
-    }
-    else if(thiz->disableIntg ==0) 
-    { thiz->qIhi = qIhi;
-      thiz->yIntg = thiz->par->fIy * qIhi; 
-      //use the integrator growth only if output is not limited
-      //hence prevent integration on limitation. 
-      wxP32i = thiz->wxP32;
-    }
-    int64 xdI = wxP32i * (((int64)f->fI));
-    thiz->qI += xdI;
+  else if (dxP < -thiz->limf) { 
+    dxP = -thiz->limf; 
   }
-  thiz->yctrl = yi * par->fIy;
-  if(thiz->par->open) 
-  {
-    if(thiz->yAdd !=null) {
-      thiz->y = *(float*)thiz->yAdd;
-    }
-    else { //left thiz->y unchanged, manual change via Inspector is possible 
-    }
+  thiz->dxP = dxP;                     // store for viewing
+  //
+  if(f->en ==0) {                      // if the controller is disabled, 
+    thiz->xds = wxd;                   // the xds follows input, no smoothing. D part smoothing will start with 0.
+    thiz->yIntg = 0;                   // set integrator states to 0
+    thiz->qI.qI32 = 0;
+    thiz->yctrl = 0;                   // set the output to 0                    
+    //                                 // but left thiz->wxP unchanged to view
   }
-  else 
-  {
-    thiz->y = thiz->yctrl;
-    if(thiz->yAdd !=null) {
-      thiz->y += *(float*)thiz->yAdd;
+  else {                               // controller is enabled, calculate all P + I +D
+    float y = wxP + dxP + thiz->yIntg + thiz->yAdd;
+    if(y >= thiz->limf)  {             // limitation
+      y = thiz->limf;                  // limit the output
     }
+    else if(y < -thiz->limf) {         // same for negative limit 
+      y = -thiz->limf; 
+    }
+    else if(thiz->disableIntg ==0) {   // integrate for next step only if not limited
+      int32 wxP32i = (int32)(f->fI * wxP); //growth for integrator
+      //Note: It is possible that a possible limitation was not detected just now, 
+      //but it is effective in the next step time.
+      //Then the following is true: 
+      //1) The max. value for qI32 in this moment is 0x7800 correspond to fIy and fIx.
+      //   An numeric overflow can never occur if Tn > 16 * Tstep (16 >= 0x7800/0x07ff)
+      //   That is a very less Tn, it is tested on parametrizing.
+      //2) An overdrive of the integrator for one step can occure 
+      //   because the integration is done after limit check. 
+      //   But this is only one time, only the integration of one Tstep.
+      //   It is not effective for wind-up because it is integrated back 
+      //   in the next step time after left limitation.
+      ASSERT_TEST_emC(wxP32 <= 0x07ff && wxP32 >= -0x07ff, "overflow possible", wxP, thiz->qI.qI32 );
+      thiz->qI.qI32 += wxP32i;         // use integer for exact integration.
+      thiz->yIntg = (int32)((thiz->qI.qI32)) * thiz->par->fIy;  // float used. 
+    } else { 
+      //                               // for test, manual changed yIntg is taken.
+      thiz->qI.qI32 = (int32)(thiz->par->fIx * thiz->yIntg);    // Note: The I part is not limited      
+    }
+    thiz->yctrl = y;                   // store output, after maybe limitation
   }
-  *y_y = thiz->y;
+  //
+  //
+  if(!thiz->open) {                // if the controller is losed, open loop only for test remains the y
+    thiz->y = thiz->yctrl;              // use the calculated for output
+  }
 }
+//end::step_PIDf_Ctrl_emC[]
 
 
 

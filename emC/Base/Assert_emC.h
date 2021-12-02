@@ -2,8 +2,9 @@
 #define HEADERGUARD_emC_Base_Assert_emC_h
 
 #ifdef ASSERT_IGNORE_emC
-   /**The assertion is fully ignored. An if-Block is always true.*/
-   #define ASSERT_emC(COND, TEXT, VAL1, VAL2)
+  /**The assertion is fully ignored. An if-Block is always true.*/
+  #define ASSERT_emC(COND, TEXT, VAL1, VAL2)
+  #define ASSERT_TEST_emC(COND, TEXT, VAL1, VAL2)
 
   /**This variant of assertion enables the execution of a following code only if the assertion mets.
    * Because the assertions are ignored here, the construct is simple:
@@ -20,15 +21,18 @@
 
   #define CHECK_ASSERT_emC(COND, TEXT, VAL1, VAL2) true
 
-#if 0
-  #define XXX_ASSERTJc_MIN(VAR, MIN) { if(VAR <(MIN)) VAR = MIN; }
 
-  #define XXX_ASSERTJc_MAX(VAR, MAX) { if(VAR >(MAX)) VAR = MAX; }
-
-  #define XXX_ASSERTJc_EXCLMAX(VAR, MAX) { if(VAR >=(MAX)) VAR = (MAX)-1; }
-#endif
 
 #else
+  #ifdef ASSERT_Test_emC
+    /**If assertion also for tests is actived, use it: */
+    #define ASSERT_TEST_emC(COND, TEXT, VAL1, VAL2) ASSERT_emC(COND, TEXT, VAL1, VAL2)
+  #else  //not ASSERT_Test_emC
+    /**If assertion is active, but not for basic tests, the following es empty. */
+    #define ASSERT_TEST_emC(COND, TEXT, VAL1, VAL2)
+  #endif
+
+
   /**Check the assertion.
    * It may be a target special implementation. It should be invoke THROW if Exception handling is used.
    * @return cond for if construct.

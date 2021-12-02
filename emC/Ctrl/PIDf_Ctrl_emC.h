@@ -3,48 +3,44 @@
 
 #include "emC/Base/Object_emC.h"
 
+
+//tag::ParFactors_PIDf_Ctrl_emC[]
 /**This struct contains the used factors for the PID control calculated from the parameters.
  * It is an internal data struct used for message transfer of factors. 
  */
 typedef struct ParFactors_PIDf_Ctrl_emC_T {
 
-  union{ ObjectJc obj;} base;
-  
+  /**Copied kP from input arguments. */
   float kP;
 
-  /**Smoothing time for D-Part.*/
+  /**Smoothing factor for D-Part.*/
   float fTsD;
 
   /**Factor for D-Part including kP and Transformation to int32. */
-  float fD;
+  float fPD;
 
   /**Factor for wxP for Integrator adding. used for 64 bit multiplication result.
    * Note fix point multiplication  */
-  int32 fI;
+  float fI;
+
+  /**0=disable or reset, 1=enable. 
+   * It is the negate reset argument of set_Par_PIDf_Ctrl_emC(..., reset); or reset_... */
+  int8 en;
+
+  /**Stored only initially for bout parameter sets */
+  int8 open;
+  
+  /**Notify a change*/
+  int8 chg;
+
+  int8 _spare_[sizeof(void*) -3];  //alignment to sizeof(ptr)
   
 } ParFactors_PIDf_Ctrl_emC_s;
-
-#ifndef ID_refl_ParFactors_PIDf_Ctrl_emC
-  #define ID_refl_ParFactors_PIDf_Ctrl_emC 0x0FC4
-#endif
-extern_C ParFactors_PIDf_Ctrl_emC_s* ctor_ParFactors_PIDf_Ctrl_emC(ObjectJc* othiz);
-
-
-#if 0
-typedef struct Bits_Par_PIDf_Ctrl_emC_T
-{
-      uint8 ixf :8;
-      uint32 en: 1;
-      uint32 open: 1;
-      uint32 noIntg: 1;
-    /**If set then changes from outside are disabled. For Inspector access. */
-    uint32 man: 1;
-      uint32 _spare_: 20;
-} Bits_Par_PIDf_Ctrl_emC_s;
-#endif
+//end::ParFactors_PIDf_Ctrl_emC[]
 
 
 
+//tag::Par_PIDf_Ctrl_emC[]
 /**Parameter of PID controller 
  */
 typedef struct Par_PIDf_Ctrl_emC_T
@@ -57,12 +53,10 @@ typedef struct Par_PIDf_Ctrl_emC_T
   //union { uint32 i32;
     //struct 
     //{ 
-      int32 ixf;
-      int32 en;
-      int32 open;
+      int8 ixf;
     /**If set then changes from outside are disabled. For Inspector access. */
-    int32 man;
-      int32 _spare_[3];
+    int8 man;
+      int8 _spare_[2];
   int32 dbgct_reparam;
 
 //    };
@@ -100,6 +94,7 @@ typedef struct Par_PIDf_Ctrl_emC_T
   //uint limPbeforeD: 1;
 
 } Par_PIDf_Ctrl_emC_s;
+//end::Par_PIDf_Ctrl_emC[]
 
 #ifndef DEF_REFLECTION_NO
   extern_C ClassJc const refl_Par_PIDf_Ctrl_emC;
@@ -109,7 +104,7 @@ typedef struct Par_PIDf_Ctrl_emC_T
   #define ID_refl_Par_PIDf_Ctrl_emC 0x0FC0
 #endif
 
-#define INIZ_Par_PIDf_Ctrl_emC(THIZ, ID) { { INIZ_ObjectJc(THIZ, refl_PIDf_Ctrl_emC, ID)}, 0} 
+#define INIZ_Par_PIDf_Ctrl_emC(THIZ, ID) { { INIZ_ObjectJc(THIZ, refl_Par_PIDf_Ctrl_emC, ID)}, 0} 
 
 
 /**ctor of Par_PID controller
@@ -134,7 +129,18 @@ extern_C bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_para
  */
 extern_C void set_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float kP, float Tn, float Td, float Tsd, bool reset);
 
+//tag::reset_Par_PIDf_Ctrl_emC[]
+/**Reset or run all controller which are related to this parameter FBlock. 
+ * This operation can be called in any thread. It takes effect immediately. 
+ * To combine reset with parameter values you can also use set_Par_PIDf_Ctrl_emC(...).
+ */
+INLINE_emC void reset_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, bool reset) {
+  thiz->f->en = reset? 0 : 1;
+}
+//end::reset_Par_PIDf_Ctrl_emC[]
 
+
+//tag::cpptor_Par_PIDf_Ctrl_emC[]
 #if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
 
@@ -144,6 +150,7 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
     CTOR_ObjectJc(&this->base.obj, this, sizeof(Par_PIDf_Ctrl_emC_s), refl_Par_PIDf_Ctrl_emC, idObj);  //should be initialized.
     ctor_Par_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
+  //end::cpptor_Par_PIDf_Ctrl_emC[]
 
   public: bool init (float Tstep, float yNom, float kP, float Tn_param, float Td_param, float Tsd_param, bool reset, bool openLoop ) {
     return init_Par_PIDf_Ctrl_emC(this, Tstep, yNom, kP, Tn_param, Td_param, Tsd_param, reset, openLoop); //the initialized ObjectJc as arguement.
@@ -169,7 +176,7 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
 
 
 
-
+//tag::PIDf_Ctrl_emC[]
 /**Main data of PID controller 
  * @simulink no-bus.
  */
@@ -177,62 +184,47 @@ typedef struct PIDf_Ctrl_emC_t
 {
   union { ObjectJc obj; } base;
 
-  //ParFactors_PIDf_Ctrl_emC_s* parNew;
-  
   /**Aggregation to parameter. */
   Par_PIDf_Ctrl_emC_s* par;
-
   
-  /**Current limitation of output. */
-  int32 limi; float limf;
+  /**Current limitation of output (state). */
+  float limf;
 
+  /**Smoothed differential (state). */
+  float xds;
 
-  //float Tstep;
-
-  /**Smoothed differential. */
-  float dwxP;
-
-  /**Stored for D-part, to view input. */
+  /**Non limited P part kP*wx. Interdediate value, not a state. */
   float wxP;
 
-  /**Stored for D-part, to view input. */
-  float wxPD;
+  /**Stored for D-part, to view input. Interdediate value, not a state. */
+  float dxP;
 
-  /**Set value for the integrator used also as middle value for limitation. */
+  /**float representation for the integrator (state if disableIntg). */
   float yIntg;
 
-  /**To view the control output in open loop state. It is the same value as y_ctrl arg of [[step_PIDf_Ctrl_emC(...)]]. */
+  /**To view the control output in open loop state. Interdediate value, not a state. */
   float yctrl;
 
-  /**To view output. It is the same value as y_y arg of [[step_PIDf_Ctrl_emC(...)]]. */
+  /**Value of the integrator (state). @boundary 8. Useable with 64 or 32 bit. */
+  union { int64 qI64; int32 qI32; } qI;
+
+  /*A space for a adding value maybe referred manually by pyAdd. */
+  float yAdd;
+  
+  int8 setIntg, disableIntg, open; 
+  int8 _sp_[1];   //at least 8 bit boundary
+
+  /**The current output of the controller, hold if open is set. */
   float y;
   
-  //union { uint32 i32;
-    //struct 
-    //{ 
-  //    uint32 en: 1;
-  //    uint32 open: 1;
-  //    uint32 noIntg: 1;
-  //    uint32 _spare_: 29;
-//    };
-//  } bits;
-  /**If not null then this referenced value will be added. */
-  void* yAdd;
+  /**This value is only set in construction, should inform about the step time. */
+  float Tstep;
 
-
-  /**Value of the integrator. */
-  int64 qI;
-
-  /**Limited output from I fix point. To view. */
-  int32 qIhi;
-
-  /**Limited output from P and D fix point. To view. */
-  int32 wxP32, wxPD32;
-  
-  int8 setIntg, disableIntg; 
-  int8 _sp_[2];
 
 } PIDf_Ctrl_emC_s;
+//end::PIDf_Ctrl_emC[]
+
+
 
 #ifndef DEF_REFLECTION_NO
   extern_C ClassJc const refl_PIDf_Ctrl_emC;
@@ -277,9 +269,21 @@ extern_C void setIntg_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float intg, bool set,
 extern_C void setLim_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
 
 /**step of PID controller 
+ */
+extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd);
+
+
+/**Gets the y result. */
+INLINE_emC float getY_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz) { return thiz->y; }
+
+/**step of PID controller especially to use in a Simulink S-Function. 
+ * Note: The S-Function needs the returned value as pointer.
  * @simulink Object-FB.
  */
-extern_C void step_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float* y_y);
+INLINE_emC void stepY_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd, float* y_y){
+  step_PIDf_Ctrl_emC(thiz, wx, wxd);
+  *y_y = thiz->y;
+}
 
 
 /**Offers a new parameter set for this controller. 
@@ -297,47 +301,56 @@ static inline void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y);
 
 INLINE_emC void get_wxP_PID_ctrl(PIDf_Ctrl_emC_s const* thiz, float* y) { *y = thiz->wxP;  }
 
+
+/**set Limitation of PID controller 
+ * @simulink Operation-FB.
+ */
+extern_C void setIntg64_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float intg, bool set, bool hold, float* intg_y);
+
+/**set Limitation of PID controller 
+ * @simulink Operation-FB.
+ */
+extern_C void setLim64_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float lim);
+
+/**step of PID controller 
+ * @simulink Object-FB.
+ */
+extern_C void step64_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float x, float* y_y);
+
+
+
+
+//tag::class_PIDf_Ctrl_emC[]
 #if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
 class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
 
   /**Constructs.
    */
-  public: PIDf_Ctrl_emC (int idObj ) {
+  public: PIDf_Ctrl_emC (int idObj, float Tstep) {
     CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, idObj);  //should be initialized.
-    ctor_PIDf_Ctrl_emC(&this->base.obj, 0.1234f); //the initialized ObjectJc as arguement.
+    ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
   /**Constructs as base class of any inherited controller.
    * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
    */
-  protected: PIDf_Ctrl_emC ( ObjectJc* objectJc ) {
-    ctor_PIDf_Ctrl_emC(&this->base.obj, 0.1234f); //the initialized ObjectJc as arguement.
+  protected: PIDf_Ctrl_emC ( ObjectJc* objectJc, float Tstep ) {
+    ctor_PIDf_Ctrl_emC(&this->base.obj, Tstep); //the initialized ObjectJc as arguement.
   }
 
-  /**Constructs with given parameter reference.
-   * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
-   */
-  public: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par, int idObj){
-    CTOR_ObjectJc(&this->base.obj, this, sizeof(PIDf_Ctrl_emC_s), refl_PIDf_Ctrl_emC, idObj);  //should be initialized.
-    ctor_PIDf_Ctrl_emC(&this->base.obj, 0.001f); //the initialized ObjectJc as arguement.
-  }
-
-  /**Constructs with given parameter reference.
-  * @arg objectJc forces calling CTOR_ObjectJc(...) in the inherited class ctor.
-  */
-  protected: PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s const* par, ObjectJc* objectJc){
-    ctor_PIDf_Ctrl_emC(&this->base.obj, 0.001f); //the initialized ObjectJc as arguement.
-  }
 
   public: void init(Par_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
   
-  public: void step ( float wx, float* y_y){ step_PIDf_Ctrl_emC(this, wx, y_y); }
+  public: void step ( float wx, float wxd){ step_PIDf_Ctrl_emC(this, wx, wxd); }
 
-  //public: void reparam(Par_PIDf_Ctrl_emC_s* par){ reparam_PIDf_Ctrl_emC(this, par); }
-
+  public: float y ( float wx){ return getY_PIDf_Ctrl_emC(this); }
 
 };
 #endif
+//end::class_PIDf_Ctrl_emC[]
+
+
+
 
 
 #endif //__Ctrl__pid_Ctrl_h__
