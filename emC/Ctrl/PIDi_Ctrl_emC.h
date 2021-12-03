@@ -3,6 +3,54 @@
 
 #include "emC/Base/Object_emC.h"
 
+
+//tag::ParFactors_PIDi_Ctrl_emC[]
+/**This struct contains the used factors for the PID control calculated from the parameters.
+ * It is an internal data struct used for message transfer of factors. 
+ */
+typedef struct ParFactors_PIDi_Ctrl_emC_T {
+  
+  int wxlim;  //new
+  
+  
+  
+  int kPi;
+
+  /**Smoothing time for D-Part.*/
+  int fTsD;
+
+  /**Factor for D-Part including kP and Transformation to int32. */
+  int fD;
+
+  /**number of Bit shift for adaption wx-input to internal data. */ 
+  int8 nShKp;
+
+  /**Number of right shift from the 32 bit representation to the y output.*/
+  int8 nSh32y;
+
+  /**Number of right shift for wxP proper to fTs*/
+  int8 nShfTs;
+
+  /**Number of right shift for wxP, (nShTD + nShfTD) == nSh32y */
+  int8 nShTs;
+
+  /**Number of right shift for dwxP proper to fTD*/
+  int8 nShfTD;
+
+  /**Number of right shift for yD, (nShTD + nShfTD) == nSh32y */
+  int8 nShyD;
+
+  int8 en, open;
+
+
+  /**Factor for wxP for Integrator adding. */
+  int32 fI;
+
+} ParFactors_PIDi_Ctrl_emC_s;
+//end::ParFactors_PIDi_Ctrl_emC[]
+
+
+//tag::Par_PIDi_Ctrl_emC[]
 /**Parameter of PID controller 
  * @simulink bus.
  */
@@ -11,8 +59,8 @@ typedef struct Par_PIDi_Ctrl_emC_t
 
   union { ObjectJc obj; } base;
 
-  /**for debugging and check: The used step time for calcualation of the factors. */
-  float Tstep;
+  /**Tstep of the controller, used step time for calcualation of the factors. */
+  float Tctrl;
 
   int xBits, yBits;
 
@@ -33,48 +81,19 @@ typedef struct Par_PIDi_Ctrl_emC_t
   int kBitTsd;
 
   /**Internal paramter depending factors. */
-  struct Internal_PIDi_Ctrl_emC_t {
+  ParFactors_PIDi_Ctrl_emC_s* f;
 
-    int kPi;
-
-    /**number of Bit shift for adaption wx-input to internal data. */ 
-    int nShKp;
-
-    /**Number of right shift from the 32 bit representation to the y output.*/
-    int nSh32y;
-
-    /**Number of right shift for wxP proper to fTs*/
-    int nShfTs;
-
-    /**Number of right shift for wxP, (nShTD + nShfTD) == nSh32y */
-    int nShTs;
-
-    /**Number of right shift for dwxP proper to fTD*/
-    int nShfTD;
-
-    /**Number of right shift for yD, (nShTD + nShfTD) == nSh32y */
-    int nShyD;
-
-    /**Smoothing time for D-Part.*/
-    int fTsD;
-
-    /**Factor for D-Part including kP and Transformation to int32. */
-    int fD;
-
-    /**Factor for wxP for Integrator adding. */
-    int32 fI;
-
-    /**Factor from float-x to int64 and to float-y-scale. */
-    //float fIx, fIy;
-
-    int dbgct_reparam;
-  } i;
-
+  ParFactors_PIDi_Ctrl_emC_s f12[2];
 
   /**If set then changes from outside are disabled. For Inspector access. */
-  uint man: 1;
+  uint8 man;
+  uint8 ixf;
+
 
 } Par_PIDi_Ctrl_emC_s;
+//end::Par_PIDi_Ctrl_emC[]
+
+
 
 #ifndef DEF_REFLECTION_NO
   extern_C ClassJc const refl_Par_PIDi_Ctrl_emC;
@@ -106,19 +125,20 @@ typedef struct Par_PIDi_Ctrl_emC_t
  */
 extern_C Par_PIDi_Ctrl_emC_s* ctor_Par_PIDi_Ctrl_emC(ObjectJc* othiz, float Tstep, int xBits, int yBits);
 
+/**init of parameter FBlock for the PID controller
+ * @param Tstep_param It is the Tstep time of the controller, which should be regard on calculation of the factors. 
+ * @simulink init
+ */
+extern_C bool init_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz, float Tctrl_param
+  , float kP, float Tn, float Td, float Tsd, bool reset, bool openLoop_param );
+
 /**step of PID controller
 * @simulink Object-FB, no-thizStep.
 */
-extern_C void set_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz, float kP, float Tn_param, float Td_param, float Tsd_param, bool* man_y);
-
-/**Takes new parameter and re-calculates internal values.
- * This routine is also called on [[init_PIDi_Ctrl_emC(...)]].
- * @simulink Operation-FB, step-in.
- */
-extern_C void reparam_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz);
+extern_C void set_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz, float kP, float Tn_param, float Td_param, float Tsd_param, bool reset);
 
 
-
+//tag::PIDi_Ctrl_emC[]
 /**Main data of PID controller 
  * @simulink no-bus.
  */
@@ -153,17 +173,19 @@ typedef struct PIDi_Ctrl_emC_t
   int32 qI;
 
 
+  #ifdef DEF_TestVal_PIDi_Ctrl_emC
+  int32 wxP;
+  #endif
+
   /**Limited output from P and D fix point. To view. */
   //int32 wxP32, wxPD32;
   
   /**Value of the differentiator. */
   //float qD1;
   
-  int32 dbgct_reparam;
-
-
 
 } PIDi_Ctrl_emC_s;
+//end::PIDi_Ctrl_emC[]
 
 #ifndef DEF_REFLECTION_NO
   extern_C ClassJc const refl_PIDi_Ctrl_emC;
@@ -201,7 +223,20 @@ extern_C void setLim_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int yLim);
 /**step of PID controller 
  * @simulink Object-FB.
  */
-extern_C void step_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int* y_y);
+extern_C int step_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int wxd);
+
+
+/**Gets the y result. */
+INLINE_emC int getY_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz) { return thiz->y; }
+
+
+/**step of PID controller 
+ * @simulink Object-FB.
+ */
+INLINE_emC void stepY_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int* y_y) {
+  step_PIDi_Ctrl_emC(thiz, wx, wx);
+  *y_y = thiz->y;
+}
 
 static void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, int* y);
 
@@ -219,7 +254,7 @@ class PIDi_Ctrl_emC : public PIDi_Ctrl_emC_s { //, public ObjectifcBaseJcpp {
 
   public: void setParam ( Par_PIDi_Ctrl_emC_s* par) { setParam_PIDi_Ctrl_emC(this, par); }
   
-  public: void step ( int wx, int* y_y){ step_PIDi_Ctrl_emC(this, wx, y_y); }
+  public: void step ( int wx, int* y_y){ step_PIDi_Ctrl_emC(this, wx, wx); }
 
   //public: void reparam(Par_PIDi_Ctrl_emC_s* par){ reparam_PIDi_Ctrl_emC(this, par); }
 
