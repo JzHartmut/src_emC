@@ -80,7 +80,8 @@ void set_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz
     }
     f->nShTs = nShTs; //this 4 regards fT1 <= 16
     f->nShfTs = nShfTs;  //fTs is lesser 16 but >=8. 
-    f->fTsD = (int)( fTs + 0.5f);
+    f->fTsD1 = (int)( fTs + 0.5f);
+    f->fTsD2 = (int)( fTs + 0.5f);
     int fD = (int)(thiz->Td / thiz->Tctrl); // * ( ((uint32)1)<<f->nShKp);
     int nShyD = f->nSh32y;
     while(fD > 31) { //solution of fD versus solution of dwxPD, fD has at least 6% step width
@@ -141,25 +142,52 @@ RAMFUNC_emC int step_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int wxd)
   ParFactors_PIDi_Ctrl_emC_s* f = thiz->par->f;  //contains all parameter consistently
   int y;
   
-  int wx1 = wx;                        //== Limit the input to prevent overflow for kPi
-  int wxP;
-  if(wx > f->wxlim) {
-    wx1 = f->wxlim;
-    wxP = f->wxlim * f->kPi;
-  } else if (wx < -f->wxlim) {
-    wx1 = - f->wxlim;
+  int wxP;                             //== Build wxP in limited form, base for P + I + D
+  if(wx > f->wxlim) {                  // limit the input, should not cause overflow for kPi multiplication
+    wxP = f->wxlim * f->kPi;           // use the max. able to present value
+  } else if (wx < -f->wxlim) {         // wxlim is ~ max int value/kPi
     wxP = - f->wxlim * f->kPi;
   }
   else {
-    wxP = wx * f->kPi;                //== P part mult can never overflow because tuned wxlim, kPi
+    wxP = wx * f->kPi;                 //== P part mult can never overflow because checked against wxlim
   }
   //
   #ifdef DEF_TestVal_PIDi_Ctrl_emC
     thiz->wxP = wxP;
   #endif
+  //
+  if(wxd !=0) {
+    wxd +=0;
+  }
+  //if wxPs has lesser bits as int16, then always this does not overflow
+  //because wxs is 32 bit, the same value as wxd is mapped to wxs(31..16). 
+  int32 dwxd1 = f->fTsD1 * (( ((int32)(wxd)<<16) - (thiz->wxds1))>>8); 
+  thiz->wxds1 += dwxd1; 
+  int dwxd = wxd - thiz->wxd;
+  thiz->wxd = wxd; 
+  thiz->wxPs += f->fTsD2 * (( ((int32)(dwxd)<<16) - (thiz->wxPs))>>8);  //smooth the dwxd
+  int32 dx = thiz->wxPs;
+  
+  //f->fTsD * ( (((int32)wxd)<<16) - (thiz->wxPs))>>8;  //get D part from smoothed input
+  //thiz->wxPs += dx;                     // smooth the input
+  //On step response the highest value of dx is less. 
+  //f->fTsDf * fDf (floats) should be < 1.0, then it does never overflow.
+  //if lesser bytes as 16 are used for y, it can be used for more range. 
+  int32 dxP;
+  if(dx >= f->dxlim) {                  // limit the input, should not cause overflow for kPi multiplication
+    dxP = f->dxlim * f->fD;            // use the max. able to present value
+  } else if(dx <= -f->dxlim) {                  // limit the input, should not cause overflow for kPi multiplication
+    dxP = - f->dxlim * f->fD;            // use the max. able to present value
+  }
+  else {
+    dxP = f->fD * dx;                 //== P part mult can never overflow because checked against wxlim
+  }
+  #ifdef DEF_TestVal_PIDi_Ctrl_emC
+    thiz->dxP = dxP;                     // store for viewing
+  #endif
   //I-Part
   int yI = thiz->qI >> 16; //f->nSh32y;
-  y = wxP + yI;
+  y = ((wxP + yI) >> f->nSh32y) + (dxP>>16);
   if(y >= thiz->yLim) {
     y = thiz->yLim;
   } 
@@ -172,70 +200,9 @@ RAMFUNC_emC int step_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int wxd)
   }  
   //y += thiz->yD;  //add after limitation, does never force overflow. 
   //ASSERT_emC(y <= thiz->yLim && y >= -thiz->yLim, "faulty output PIDi", y, thiz->yLim);
-  return thiz->y = y >> f->nSh32y;  //use hi part of integrator for output.
+  return thiz->y = y;  //use hi part of integrator for output.
 }
 //end::step_PIDi_Ctrl_emC[]
 
 
-
-//Note: this routine is copied to RAM and runs in RAM in embedded target, sometimes faster.
-RAMFUNC_emC int oldstep_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, int wx, int wxd)
-{
-  ParFactors_PIDi_Ctrl_emC_s* f = thiz->par->f;  //contains all parameter consistently
-  int y;
-  int32 wxP = 0;
-  //Note: necessary to use int32 for wxP becauuse multiply is not limited yet.
-  //The wx can use the full xBit range, kPi may be large.
-  //old int32 wxP = ((int32)wx) * f->kPi;  //P-Part not limited does not overflow because check before.
-  //The smoothed wxP has the full 32 bit range. It is used for differtiation, 
-  //maybe used too for monitoring or for evaluation of the controller accuracy.
-  //fTsD is a positive value. 
-  //wxPs does never overflow because it is subtract before and muliplied with a enough less factor.
-  thiz->wx = wx;  //only for debug.
-  if(wxP > thiz->yLim) {
-    y = thiz->yLim;
-    thiz->qI = 0;
-    thiz->yD = 0;
-    //                              !-- use limited wxP == y for wxPs
-    thiz->dwxPs = (f->fTsD * ( (y << f->nShTs) - (thiz->wxPs >> f->nShfTs)));  //wxPs is nShTsD bits more left.
-    thiz->wxPs += thiz->dwxPs;
-  }
-  else if(wxP < -thiz->yLim) {
-    y= -thiz->yLim;
-    thiz->qI = 0;
-    thiz->yD = 0;
-    //                              !-- use limited wxP == y for wxPs
-    thiz->dwxPs = (f->fTsD * ( (y << f->nShTs) - (thiz->wxPs >> f->nShfTs)));  //wxPs is nShTsD bits more left.
-    thiz->wxPs += thiz->dwxPs;
-  }
-  else {
-    //The pure D part without D-gain can be upto 32 bit width 
-    thiz->dwxPs = (f->fTsD * ( (wxP << f->nShTs) - (thiz->wxPs >> f->nShfTs)));  //wxPs is nShTsD bits more left.
-    thiz->wxPs += thiz->dwxPs; //store it for next step
-    thiz->yD = ( (thiz->dwxPs >> f->nShfTD) * f->fD) >> f->nShyD;  //D-Part multiplied
-    //I-Part
-    thiz->qI += (wxP * f->fI);
-    int yI = thiz->qI >> f->nSh32y;
-    y = wxP;
-    if(yI > (thiz->yLim - y)) {
-      yI = thiz->yLim - y; 
-      thiz->qI = yI << f->nSh32y;
-    } 
-    else if(yI < (-thiz->yLim - y)) {
-      yI = -thiz->yLim - y; 
-      thiz->qI = yI << f->nSh32y;
-    } 
-    else {}
-    y += yI;
-    if(thiz->yD > (thiz->yLim - y)) {
-      thiz->yD = thiz->yLim - y; 
-    } 
-    else if(thiz->yD < (-thiz->yLim - y)) {
-      thiz->yD = -thiz->yLim - y; 
-    }
-    y += thiz->yD;  //add after limitation, does never force overflow. 
-    ASSERT_emC(y <= thiz->yLim && y >= -thiz->yLim, "faulty output PIDi", y, thiz->yLim);
-  }
-  return thiz->y = y;  //use hi part of integrator for output.
-}
 

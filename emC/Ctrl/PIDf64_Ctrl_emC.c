@@ -52,7 +52,7 @@ void step64_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd, float* y_y
   float wxP = wx * f->kP;
   thiz->wxP = wxP;
   //                                   // == calculate D-Part
-  float dx = f->fTsD * (wxd - thiz->xds);            // the D part from smoothed input
+  float dx = f->fTsD1 * (wxd - thiz->xds);            // the D part from smoothed input
   thiz->xds += dx;   // smooth the input
   float dxP = f->fPD * dx;             // effective D part for control.
   if (dxP > thiz->limf) {              //limit it.

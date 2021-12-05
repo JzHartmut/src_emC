@@ -12,12 +12,13 @@ typedef struct ParFactors_PIDi_Ctrl_emC_T {
   
   int wxlim;  //new
   
+  int32 dxlim;
   
   
   int kPi;
 
-  /**Smoothing time for D-Part.*/
-  int fTsD;
+  /**Smoothing factors for D-Part.*/
+  int32 fTsD1, fTsD2;
 
   /**Factor for D-Part including kP and Transformation to int32. */
   int fD;
@@ -154,9 +155,11 @@ typedef struct PIDi_Ctrl_emC_t
 
   int wx;
 
+  int wxd;
+
   /**Stored smoothed P-Part, to view input and calculate D.
    * It is possible that it is other normed. */
-  int32 wxPs;
+  int32 wxds1, wxPs;
 
   /**Only for view, current raw dwx related to wxPs norming.*/
   int32 dwxPs;
@@ -174,7 +177,8 @@ typedef struct PIDi_Ctrl_emC_t
 
 
   #ifdef DEF_TestVal_PIDi_Ctrl_emC
-  int32 wxP;
+  int wxP;
+  int dxP;
   #endif
 
   /**Limited output from P and D fix point. To view. */
