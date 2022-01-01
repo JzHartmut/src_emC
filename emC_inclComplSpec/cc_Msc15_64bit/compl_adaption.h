@@ -246,6 +246,7 @@
 #define int16     short
 #define uint16    unsigned short
 
+
 //int32 should be int because conversion from int to int32 should be possible.
 #define int32     int
 #define uint32    unsigned int

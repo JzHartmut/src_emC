@@ -216,6 +216,9 @@ extern_C OS_HandleFile os_getStdErr();
 extern_C OS_HandleFile os_getStdIn();
 
 
+#define getFILE_os_file_emC(HANDLE) ((FILE*)HANDLE)
+
+
 extern_C int os_fclose(OS_HandleFile file);
 
 

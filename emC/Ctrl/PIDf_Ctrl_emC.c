@@ -36,17 +36,17 @@ Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep)
 
 //tag::init_Par_PIDf_Ctrl_emC[]
 bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param
-   , float kP, float Tn, float Td, float Tsd1, float Tsd2, bool reset, bool openLoop_param)
+   , float kP, float Tn, float Td, float dt, bool reset, bool openLoop_param)
 { //check before cast:
   thiz->Tctrl = Tctrl_param;
   thiz->yMax = yMax_param;
-  thiz->fIy = thiz->yMax / (float)(0x7800000L);
-  thiz->fIx = (float)(0x7800000L) / thiz->yMax;   //for yMax the value is 0x78000000 no overflow because limitation.
+  thiz->fIy = thiz->yMax / (float)(0x78000000L);
+  thiz->fIx = (float)(0x78000000L) / thiz->yMax;   //for yMax the value is 0x78000000 no overflow because limitation.
   thiz->i[0].open = thiz->i[1].open = openLoop_param ? 1 : 0;
 
   thiz->ixf = 0;   // set to i[0] to first usage
   thiz->i[0].en = reset? 1 : 0;   //set to no reset, to detect anyway first change!
-  set_Par_PIDf_Ctrl_emC(thiz, kP, Tn, Td, Tsd1, Tsd2, reset);  //note: initializes f := i[0]
+  set_Par_PIDf_Ctrl_emC(thiz, kP, Tn, Td, dt, reset);  //note: initializes f := i[0]
   setInitialized_ObjectJc(&thiz->base.obj);
   return true;
 }
@@ -57,19 +57,18 @@ bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float 
 /**set Parameter of PID controller
 */
 void set_Par_PIDf_Ctrl_emC ( Par_PIDf_Ctrl_emC_s* thiz
-  , float kP, float Tn, float Td, float Tsd1, float Tsd2, bool reset ) {
+  , float kP, float Tn, float Td, float dt, bool reset ) {
   bool bChanged = false;
   //man=1 is used to change the values direct with Inspector
   if(  thiz->man == 0 
-    && ( thiz->kP != kP || thiz->Tn != Tn || thiz->Td != Td || thiz->Tsd1 != Tsd1 || thiz->Tsd2 != Tsd2 
+    && ( thiz->kP != kP || thiz->Tn != Tn || thiz->Td != Td || thiz->dt != dt  
        || !(thiz->f->en) != reset 
        )) 
   { // if one of this is changed, then calculate newly. 
     thiz->kP = kP;
     thiz->Tn = Tn;
     thiz->Td = Td;
-    thiz->Tsd1 = Tsd1;
-    thiz->Tsd2 = Tsd2;
+    thiz->dt = dt;
     bChanged = true;
   }
   if(thiz->man || bChanged) {          //== calculate newly derived values only on change and notify the change.
@@ -80,14 +79,9 @@ void set_Par_PIDf_Ctrl_emC ( Par_PIDf_Ctrl_emC_s* thiz
     //Note: Tn > 16*Tctrl because elsewhere an additional overflow check may be necessary in runtime. 
     //Tn is usual > 16*Tctrl.
     ASSERT_emC(thiz->Tn > 16*thiz->Tctrl || thiz->Tn ==0, "", (int)(thiz->Tn/thiz->Tctrl), (int)(thiz->Tctrl * 1000000));
-    float fTsD1 = thiz->Tsd1 <= 0 ? 1.0f : 1.0f - expf(-thiz->Tctrl / thiz->Tsd1);
-    f->fTsD1 = fTsD1;
-    float fTsD2 = thiz->Tsd2 <= 0 ? 1.0f : 1.0f - expf(-thiz->Tctrl / thiz->Tsd2);
-    f->fTsD2 = fTsD2;
+    f->fD = thiz->kP * (thiz->Td / thiz->dt);
     //fTsd is a value in range 0.000... 1.0
     //
-    f->fPD = thiz->kP * (thiz->Td / thiz->Tctrl); // * thiz->kP;
-     
     thiz->dbgct_reparam +=1;
     thiz->f = f;                       // use this set complete immediately after calculation. 
     thiz->ixf = thiz->ixf==1 ? 0 : 1;  // use the other one for next change of values.
@@ -175,66 +169,74 @@ void setIntg_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float intg, bool set, bool hol
 //end::setIntg_PIDf_Ctrl_emC[]
 
 
-static float stepCore_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_emC_s* f, float wx, float wxd, float dx)
+
+//tag::step_PIDf_Ctrl_emC[]
+/**This is the core routine for PIDf ctrl, getting the built dx as value. 
+ * It is static also to enable compiler optimization. 
+ * @param wx Input for P and I
+ * @param dx Input for D-part as already built and smoothed differential
+ * @return y value. 
+ */
+float step_PIDf_Ctrl_emC ( PIDf_Ctrl_emC_s* thiz, float wx, float dx)
 {
+  ParFactors_PIDf_Ctrl_emC_s* f = thiz->par->f;
   float wxP = wx * f->kP;              //== P-Part
   thiz->wxP = wxP;
 
-  float dxP = f->fPD * dx;             // effective D part for control with kP and Td/Tstep.
+  float dxP = f->fD * dx;             // effective D part for control with kP and Td/Tstep.
   if (dxP > thiz->limf) {              // limit it.
     dxP = thiz->limf;
   }
   else if (dxP < -thiz->limf) { 
     dxP = -thiz->limf; 
   }
+
   float y;
   //end::stepD_PIDf_Ctrl_emC[]
   if(f->en ==0) {                      // if the controller is disabled, 
-    thiz->xds = wxd;                   // the xds follows input, no smoothing. D part smoothing will start with 0.
     thiz->yIntg = 0;                   // set integrator states to 0
     thiz->qI.qI32 = 0;
     thiz->yctrl = y = 0;               // set the output to 0                    
     //                                 // but left thiz->wxP unchanged to view
   }
   else {                               // controller is enabled, calculate all P + I +D
+    //tag::Intg_step_PIDf_Ctrl_emC[]
     y = wxP + dxP + thiz->yIntg + thiz->yAdd;
-    //tag::stepLimit_PIDf_Ctrl_emC[]
-    if(y >= thiz->limf)  {             // limitation
+    if(y >= thiz->limf)  {             // limitation necessary:
       y = thiz->limf;                  // limit the output
-      if(f->setD0onPlimit) {
-        dxP = 0;
-        //thiz->xds = thiz->xds2;          // start build smoothed D-part from 0
+      if(thiz->qI.qI32 > 0x3F000000) {
+        thiz->qI.qI32 = 0x3F000000;        // limit the integrator, 
+      }
+      else if(thiz->qI.qI32 < -0x3f000000) {
+        thiz->qI.qI32 = -0x3f000000;
       }
     }
-    //end::stepLimit_PIDf_Ctrl_emC[]
     else if(y < -thiz->limf) {         // same for negative limit 
       y = -thiz->limf; 
-      if(f->setD0onPlimit) {
-        dxP = 0;
-        //thiz->xds = thiz->xds2;          // start build smoothed D-part from 0
-      }
     }
     else if(thiz->disableIntg ==0) {   // integrate for next step only if not limited
       int32 wxP32i = (int32)(f->fI * wxP); //growth for integrator
       //Note: It is possible that a possible limitation was not detected just now, 
       //but it is effective in the next step time.
       //Then the following is true: 
-      //1) The max. value for qI32 in this moment is 0x7800 correspond to fIy and fIx.
-      //   An numeric overflow can never occur if Tn > 16 * Tstep (16 >= 0x7800/0x07ff)
+      //1) The max. value for qI32 in this moment is 0x3f00 correspond to fIy and fIx.
+      //   An numeric overflow can never occur if Tn > 32 * Tstep (16 >= 0x7e00/0x01ff)
       //   That is a very less Tn, it is tested on parametrizing.
       //2) An overdrive of the integrator for one step can occure 
       //   because the integration is done after limit check. 
       //   But this is only one time, only the integration of one Tstep.
       //   It is not effective for wind-up because it is integrated back 
       //   in the next step time after left limitation.
-      ASSERT_TEST_emC(wxP32i <= 0x07ffffff && wxP32i >= -0x07ffffff, "overflow possible", wxP32i, thiz->qI.qI32 );
+      ASSERT_TEST_emC(wxP32i <= 0x01ffffff && wxP32i >= -0x01ffffff, "overflow possible", wxP32i, thiz->qI.qI32 );
       thiz->qI.qI32 += wxP32i;         // use integer for exact integration.
       thiz->yIntg = (int32)((thiz->qI.qI32)) * thiz->par->fIy;  // float used. 
-    } else { 
+    } 
+    else { 
       //                               // for test, manual changed yIntg is taken.
       thiz->qI.qI32 = (int32)(thiz->par->fIx * thiz->yIntg);    // Note: The I part is not limited      
     }
-    thiz->yctrl = y;                   // store output, after maybe limitation
+    thiz->yctrl = y;                   // store output, after maybe limited
+    //end::Intg_step_PIDf_Ctrl_emC[]
   }
   thiz->dxP = dxP;                     // store for viewing
   //
@@ -248,34 +250,5 @@ static float stepCore_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, ParFactors_PIDf_Ctrl_
 //end::step_PIDf_Ctrl_emC[]
 
 
-float step_dxs_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd)
-{
-  ParFactors_PIDf_Ctrl_emC_s* f = thiz->par->f;  //contains all parameter consistently
-  //
-  //tag::stepD_PIDf_Ctrl_emC[]         //== calculate D-Part
-  float xds2 = (thiz->xds2 += f->fTsD1 * (wxd - thiz->xds2)); //smooth the input
-  float dx = f->fTsD2 * (xds2 - thiz->xds);  //get D part as change of second smoothing
-  thiz->xds += dx;                     // second smoothing
-  
-  return stepCore_PIDf_Ctrl_emC(thiz, f, wx, wxd, dx);
-}  
-
-//tag::step_PIDf_Ctrl_emC[]
-
-
-
-
-
-/**step of PID controller 
- */
-float step_dxavg_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd, float wxdz) {
-
-  ParFactors_PIDf_Ctrl_emC_s* f = thiz->par->f;  //contains all parameter consistently
-//  thiz->wxavgbuf[thiz->ixAvg] = wxd;
-//  dx = (wxd - thiz->wxavgbuf[(thiz->ixAvg-12) & 0x001f]) / 12.0f;
-//  thiz->ixAvg = (thiz->ixAvg+1) & 0x001f;
-  return stepCore_PIDf_Ctrl_emC(thiz, f, wx, wxd, wxd - wxdz);
-
-}
 
 

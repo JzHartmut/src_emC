@@ -22,7 +22,7 @@ Fileset headers =
 main()                                                                                                  
 {
   //mkdir T:/header;
-  zmake "genRefl/*.crefl" := genReflection(../../:&headers); //, html="T:/header");
+  zmake "genRefl/*.crefl" := genReflection(../..:&headers); //, html="T:/header");
   <+out>success<.+n>
 
 }

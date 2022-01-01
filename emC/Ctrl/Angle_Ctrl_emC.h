@@ -70,7 +70,7 @@
 
 
 
-/* Alpha Beta Transformation (RST->AB)*/
+/* Backward Clarke Transformation (RST->AB)*/
 //inline void rst2ab_i32_Angle_Ctrl_enC(int32* rst, int32_complex* ab) {
 //  ab->re = 2/3.0f * (rst[0] - 0.5f * (rst[1] + rst[2]));
 //  ab->im = 0.5773502692f * (rst[1] - rst[2]);
@@ -108,7 +108,7 @@ inline int16 rst2abn16_Angle_Ctrl_emC(int16 rst[3], int16_complex* ab) {
 
 
 
-/**Converts 3~ voltages to ab-vector,
+/**Converts 3~ voltages to ab-vector, Clark transformation
  * ab->re = 2/3*r - 1/3*s - 1/3*t;
  * ab->im = (s - t) * 1/sqrt(3)
  * @return (r+s+t)/3

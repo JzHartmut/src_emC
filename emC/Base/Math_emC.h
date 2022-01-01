@@ -2,6 +2,24 @@
 #define HGUARD_emC_Base__Math_emC
 #include <compl_adaption.h>
 
+
+
+/**This type is introduced because some processors (Texas Instruments) have 32 bit capabillity 
+ * but presents the int type with 16 bit. 
+ * The intnum is that type which is fast for numeric operations of the target controller. 
+ */  
+#ifndef INT_NUM_emC
+#define INT_NUM_emC  int16
+#define INT_NUM_NROFBITS 16
+#endif
+
+#if (INT_NUM_NROFBITS == 16)
+  #define refl_INT_NUM_emC refl__int16Jc
+#else
+  #define refl_INT_NUM_emC (&REFLECTION_int32)
+#endif
+
+
 /**General scaling for fix point numbers 16 bit:
  * Often the nominal value of physical values is 1.0. Usual some overdrive exists. 
  * Hence it is not proper to use only a range from -1.0 .. 0.9999 as 0x8000 .. 0x7FFF. 
@@ -48,7 +66,9 @@
  * This is the common solution. It is possible that in compl_adaption.h is an __asm(...)-optimized version via #define.
  * The compiler may recognize, it is expected that (int32)(int16)((A) & 0xffff) is a 16 bit register access 
  * and it should use the 16 * 16 =>32 bit multiplication etc.
- * Hint: Mask with 0xffff is necessary, elsewhere the MS-Visual Studio may produce a runtime error depending on the type of A and B 
+ * Hint: Mask with 0xffff is necessary, elsewhere it is seen that the MS-Visual Studio may produce 
+ *       a runtime error depending on the type of A and B. This is commonly, the optimizing compiler detects the mask
+ *       and uses maybe only the mask part as proper register operation.  
  * @param A any value (not necessary a left value) with int16 content
  * @param B second multiplicant beside A
  * @param R an int32 type left value (a variable).

@@ -1,9 +1,16 @@
 #ifndef HGUARD_emC_Ctrl_T1ish_Ctrl_emC
 #define HGUARD_emC_Ctrl_T1ish_Ctrl_emC
 
-#include <applstdef_emC.h>
+#include <emC/Base/Object_emC.h>
 #include <emC/Base/Math_emC.h>
 #include <emC/Base/Endianness_emC.h>
+#include <math.h>
+
+
+
+
+
+
 
 /*@CLASS_C T1i_Ctrl_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  * T1-Functionality in 16-bit integer for x and y and 32-bit-integer for q.
@@ -186,7 +193,10 @@ extern_C void param_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float Ts_param, float Tst
 
 static float step_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float x);
 
+static float get_dx_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz);
 
+
+//tag::step_T1f_Ctrl_emC[]
 static inline float step_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float x) {
   thiz->dx = (thiz->fTs * ( x - thiz->q));  //
   thiz->q += thiz->dx;
@@ -194,5 +204,206 @@ static inline float step_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz, float x) {
 }
 
 
+static inline float get_dx_T1f_Ctrl_emC(T1f_Ctrl_emC_s* thiz) {
+  return thiz->dx;  //regard step is executed before!
+}
+//end::step_T1f_Ctrl_emC[]
+
+
+typedef struct T2f_Ctrl_emC_T {
+
+  float Ts1, Ts2;
+
+  float dx;
+  float q1, y;
+
+  float fTs1, fTs2;
+
+
+} T2f_Ctrl_emC_s;
+
+
+extern_C T2f_Ctrl_emC_s* ctor_T2f_Ctrl_emC(void* addr);
+
+extern_C void param_T2f_Ctrl_emC(T2f_Ctrl_emC_s* thiz, float Ts1_param, float Ts2_param, float Tstep);
+
+static float step_T2f_Ctrl_emC(T2f_Ctrl_emC_s* thiz, float x);
+
+static float get_dx_T2f_Ctrl_emC(T2f_Ctrl_emC_s* thiz);
+
+//tag::step_T2f_Ctrl_emC[]
+static inline float step_T2f_Ctrl_emC(T2f_Ctrl_emC_s* thiz, float x) {
+  float dx1 = (thiz->fTs1 * ( x - thiz->q1));  //
+  thiz->q1 += dx1;
+  thiz->dx = (thiz->fTs2 * ( thiz->q1 - thiz->y));  //
+  thiz->y += thiz->dx;
+  return thiz->y;
+}
+
+
+static inline float get_dx_T2f_Ctrl_emC(T2f_Ctrl_emC_s* thiz) {
+  return thiz->dx;  //regard step is executed before!
+}
+//end::step_T2f_Ctrl_emC[]
+
+
+
+
+//==========================================================================================
+//  Delayf_Ctrl_emC
+
+//tag::Delayf_Ctrl_emC[]
+/**Data for simple delay of a float value. 
+ * It should be used to built a differential of a signal using a greater distance.
+ * This is the same as built a differential between two averaged values.
+ * 
+ */
+typedef struct Delayf_Ctrl_emC_T {
+  union { ObjectJc obj; } base;
+  
+  /**Currently wrapping index, after step it refers to the new given value.*/
+  int ix;
+  
+  /**Number of stored float values in values[]. */
+  int nsize;
+
+  /**This is the array to store values. The array is continued after the structure data
+   * by offering a greater memory area is defined here. This is checked in the constructor.
+   */
+  float values[2];
+
+} Delayf_Ctrl_emC_s;
+
+
+#define INIZ_Delayf_Ctrl_emC(THIZ, ID) { { INIZ_ObjectJc(THIZ, refl_Delayf_Ctrl_emC, ID)}, 0} 
+
+
+/**Constructor for Delayf_Ctrl_emC.
+ * It presumes initialized memory of the ObjectJc base struct, see also the C++ constructor 
+ * and the INIZ_Delayf_Ctrl_emC(...) macro for static intialization. 
+ * To get dynamic memory for C-only data you can also use ALLOC_ObjectJc(...).
+ * @param size Number of elements in the delay-array, max. possible delay.
+ * @param sizeMem The size of the associated data structure which is referred by othiz. 
+ *        It is tested and should match to the size parameter. 
+ */
+INLINE_emC Delayf_Ctrl_emC_s* ctor_Delayf_Ctrl_emC ( ObjectJc* othiz, int size, int sizeMem ) {
+#ifndef __ignoreInCheader_zbnf__
+  ASSERT_emC(sizeMem >= (size-2) * sizeof(float) + sizeof(Delayf_Ctrl_emC_s), "faulty size on Delayf_Ctrl_emC", size, sizeMem); 
+  Delayf_Ctrl_emC_s* thiz = C_CAST(Delayf_Ctrl_emC_s*, othiz);
+  thiz->nsize = size;
+  return thiz;
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+
+//tag::step_Delayf_Ctrl_emC[]
+/**Get the delayed value of a input in the past, put the new value for delay.
+ * This routine should only be called one time per step time. 
+ * @param delay number of step times to the past for the output
+ * @param x the new input 
+ * @return the value from past due to delay. 
+ */
+INLINE_emC float step_Delayf_Ctrl_emC ( Delayf_Ctrl_emC_s* thiz, int delay, float x ) {
+#ifndef __ignoreInCheader_zbnf__
+  ASSERT_emC(delay >0 && delay < thiz->nsize, "faulty delay value", delay, thiz->nsize);
+  int ixold = thiz->ix - delay + 1;
+  if(ixold <0) { ixold += thiz->nsize; }
+  float val = thiz->values[ixold];
+  int ixnew = thiz->ix +1;
+  if(ixnew >= thiz->nsize) { ixnew = 0; }  // wrap arround 0
+  thiz->ix = ixnew;
+  thiz->values[ixnew] = x;
+  return val;
+#endif//__ignoreInCheader_zbnf__
+}
+//end::step_Delayf_Ctrl_emC[]
+//end::Delayf_Ctrl_emC[]
+
+
+//==========================================================================================
+//  Delayi_Ctrl_emC
+
+//tag::Delayi_Ctrl_emC[]
+typedef struct Delayi_Ctrl_emC_T {
+  union { ObjectJc obj; } base;
+  int ix;
+  int nsize;
+
+  int values[2];
+
+} Delayi_Ctrl_emC_s;
+
+
+#define INIZ_Delayi_Ctrl_emC(THIZ, ID) { { INIZ_ObjectJc(THIZ, refl_Delayi_Ctrl_emC, ID)}, 0} 
+
+
+
+INLINE_emC Delayi_Ctrl_emC_s* ctor_Delayi_Ctrl_emC ( ObjectJc* othiz, int size, int sizeMem ) {
+#ifndef __ignoreInCheader_zbnf__
+  ASSERT_emC(sizeMem >= (size-2) * sizeof(int) + sizeof(Delayi_Ctrl_emC_s), "faulty size on Delayi_Ctrl_emC", size, sizeMem); 
+  Delayi_Ctrl_emC_s* thiz = C_CAST(Delayi_Ctrl_emC_s*, othiz);
+  thiz->nsize = size;
+  return thiz;
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+
+//tag::step_Delayi_Ctrl_emC[]
+INLINE_emC int step_Delayi_Ctrl_emC ( Delayi_Ctrl_emC_s* thiz, int delay, int x ) {
+#ifndef __ignoreInCheader_zbnf__
+  ASSERT_emC(delay >0 && delay < thiz->nsize, "faulty delay value", delay, thiz->nsize);
+  int ixold = thiz->ix - delay + 1;
+  if(ixold <0) { ixold += thiz->nsize; }
+  int val = thiz->values[ixold];
+  int ixnew = thiz->ix +1;
+  if(ixnew >= thiz->nsize) { ixnew = 0; }  // wrap arround 0
+  thiz->ix = ixnew;
+  thiz->values[ixnew] = x;
+  return val;
+#endif//__ignoreInCheader_zbnf__
+}
+//end::step_Delayi_Ctrl_emC[]
+//end::Delayi_Ctrl_emC[]
+
+
+
+//tag::SmoothGainf_Ctrl_emC[]
+typedef struct SmoothGainf_Ctrl_emC_T {
+  union { ObjectJc obj; } base;
+  float gq;
+  float fTslow, fTshigh;
+
+  /**Value for test. If the x value is lesser, than the gain is smoothed to the lower gain. 
+   * If one time the value is greater, the higher gain is used immediately. 
+   */
+  float xmin;
+} SmoothGainf_Ctrl_emC_s;
+
+#define INIZ_SmoothGainf_Ctrl_emC(THIZ, ID) { { INIZ_ObjectJc(THIZ, refl_SmoothGainf_Ctrl_emC, ID)}, 0} 
+
+
+extern_C SmoothGainf_Ctrl_emC_s* ctor_SmoothGainf_Ctrl_emC ( ObjectJc* othiz, float Tslow, float Tshigh, float Tstep );
+
+
+
+INLINE_emC void param_SmoothGainf_Ctrl_emC ( SmoothGainf_Ctrl_emC_s* thiz, float Tslow, float Tshigh, float Tstep ) {
+  thiz->fTslow = Tslow < Tstep ? 1.0f: Tstep / Tslow;
+  thiz->fTshigh = Tshigh < Tstep ? 1.0f: Tstep / Tshigh;
+}
+
+//tag::step_SmoothGainf_Ctrl_emC[]
+INLINE_emC float step_SmoothGainf_Ctrl_emC ( SmoothGainf_Ctrl_emC_s* thiz, float x, float gainhigh, float gainlow, float minx ) {
+  if (fabsf(x) < minx) {
+    thiz->gq += thiz->fTslow * (gainlow - thiz->gq);      // smooth it down to gainlow
+  }
+  else {
+    thiz->gq += thiz->fTshigh * (gainhigh - thiz->gq);      // smooth it down to gainlow
+  }
+  return x * thiz->gq;
+}
+//end::step_SmoothGainf_Ctrl_emC[]
+//end::SmoothGainf_Ctrl_emC[]
 
 #endif //HGUARD_emC_Ctrl_T1ish_Ctrl_emC

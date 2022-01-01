@@ -13,11 +13,8 @@ typedef struct ParFactors_PIDf_Ctrl_emC_T {
   /**Copied kP from input arguments. */
   float kP;
 
-  /**Smoothing factors for D-Part.*/
-  float fTsD1, fTsD2;
-
   /**Factor for D-Part including kP and Transformation to int32. */
-  float fPD;
+  float fD;
 
   /**Factor for wxP for Integrator adding. used for 64 bit multiplication result.
    * Note fix point multiplication  */
@@ -27,15 +24,13 @@ typedef struct ParFactors_PIDf_Ctrl_emC_T {
    * It is the negate reset argument of set_Par_PIDf_Ctrl_emC(..., reset); or reset_... */
   int8 en;
 
-  int8 setD0onPlimit;
-  
   /**Stored only initially for bout parameter sets */
   int8 open;
   
   /**Notify a change*/
   int8 chg;
 
-  int8 _spare_[sizeof(void*) -3];  //alignment to sizeof(ptr)
+  int8 _spare_[8/*sizeof(void*)*/ -3];  //alignment to sizeof(ptr)
   
 } ParFactors_PIDf_Ctrl_emC_s;
 //end::ParFactors_PIDf_Ctrl_emC[]
@@ -58,7 +53,7 @@ typedef struct Par_PIDf_Ctrl_emC_T
       int8 ixf;
     /**If set then changes from outside are disabled. For Inspector access. */
     int8 man;
-      int8 _spare_[sizeof(void*) -3];  //alignment to sizeof(ptr)
+      int8 _spare_[8/*sizeof(void*)*/ -3];  //alignment to sizeof(ptr)
 
   int32 dbgct_reparam;
 
@@ -85,9 +80,9 @@ typedef struct Par_PIDf_Ctrl_emC_T
   float Tn;
   
   float Td;
-  
-  float Tsd1, Tsd2;
 
+  float dt;
+  
   /**Internal paramter depending factors. */
   ParFactors_PIDf_Ctrl_emC_s* f;
   ParFactors_PIDf_Ctrl_emC_s i[2];
@@ -121,24 +116,52 @@ typedef struct Par_PIDf_Ctrl_emC_T
  */
 extern_C Par_PIDf_Ctrl_emC_s* ctor_Par_PIDf_Ctrl_emC ( ObjectJc* othiz, float Tstep);
 
-/**init of parameter FBlock for the PID controller
- * @param Tstep_param It is the Tstep time of the controller, which should be regard on calculation of the factors. 
+/**init of parameter FBlock for the PID controller.
+ * This operation calls set_Par_PIDf_Ctrl_emC(...) with the given parameter. 
+ * The initialization is unconditionally done
+ * @param Tctrl_param The Tstep time of the controller, which should be regard on calculation of the factors. 
+ * @param yMax_param Value for scaling of the integer integrator. The maximal value for control must not be greater.
+ *        see limit_PIDf_ctrl_emC(...)
+ * @param kP init value for P-gain. It is changable, see set_Par_PIDf_Ctrl_emC(...)
+ * @param Tn init value for Integration time. 
+ *        It is the time where in step response the same value is reached as given from P-part. 
+ *        It is changable, see set_Par_PIDf_Ctrl_emC(...)
+ * @param Td init value for Differential time. 
+ *        It is the time of growth of a ramp where the same value is produced as from P-part. 
+ *        It is changable, see set_Par_PIDf_Ctrl_emC(...)
+ * @param dt time related to the dx input, describes which period is used for tx.
+ *        Note: Use Tctrl for immediately or smoothed dx, use n*Tctrl for delayed dx.
+ * @param reset true then the controller is initial resetted. reset state can be changed with reset_PIDf_Ctrl_emC(...)
+ * @param openLoop_parem true then the PID controller values are calculated but the output is hold, intially on 0.
+ *        This is especially and only for manually evaluation of the controlling. 
+ *        The openLoop state can only be changed for each controller by debug access.
+ *
  * @simulink init
  */
 extern_C bool init_Par_PIDf_Ctrl_emC ( Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float yMax_param
-  , float kP, float Tn, float Td, float Tsd1, float Tsd2, bool reset, bool openLoop_param );
+  , float kP, float Tn, float Td, float dt, bool reset, bool openLoop_param );
 
 /**step of parameter FBlock for the PID controller for actual changed parameter
+ * @param kP P-gain. It is changable
+ * @param Tn Integration time. 
+ *        It is the time where in step response the same value is reached as given from P-part. 
+ * @param Td init value for Differential time. 
+ *        It is the time of growth of a ramp where the same value is produced as from P-part. 
+ * @param dt time related to the dx input, describes which period is used for tx.
+ *        Note: Use Tctrl for immediately or smoothed dx, use n*Tctrl for delayed dx.
+ * @param reset true then the controller is initial resetted. reset state can be changed with reset_PIDf_Ctrl_emC(...)
+ *
  * @simulink Object-FB, no-thizStep.
  */
 extern_C void set_Par_PIDf_Ctrl_emC ( Par_PIDf_Ctrl_emC_s* thiz
-  , float kP, float Tn, float Td, float Tsd1, float Tsd2, bool reset);
+  , float kP, float Tn, float Td, float dt, bool reset);
 
 //end::Par_PIDf_Ctrl_emC_ObjectFB[]
 
 //tag::reset_Par_PIDf_Ctrl_emC[]
 /**Reset or run all controller which are related to this parameter FBlock. 
- * This operation can be called in any thread. It takes effect immediately. 
+ * This operation can be called in any thread. 
+ * It takes effect on the next step_PIDf_Ctrl_emC(...) on all related controller. 
  * To combine reset with parameter values you can also use set_Par_PIDf_Ctrl_emC(...).
  */
 INLINE_emC void reset_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, bool reset) {
@@ -159,8 +182,8 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
   }
   //end::cpptor_Par_PIDf_Ctrl_emC[]
 
-  public: bool init (float Tstep, float yNom, float kP, float Tn_param, float Td_param, float Tsd1, float Tsd2, bool reset, bool openLoop ) {
-    return init_Par_PIDf_Ctrl_emC(this, Tstep, yNom, kP, Tn_param, Td_param, Tsd1, Tsd2, reset, openLoop); //the initialized ObjectJc as arguement.
+  public: bool init (float Tstep, float yNom, float kP, float Tn_param, float Td_param, float td, bool reset, bool openLoop ) {
+    return init_Par_PIDf_Ctrl_emC(this, Tstep, yNom, kP, Tn_param, Td_param, td, reset, openLoop); //the initialized ObjectJc as arguement.
   }
 
   /**Constructs as base class of any inherited controller.
@@ -171,8 +194,8 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
   }
 
 
-  public: void set(float kP, float Tn_param, float Td_param, float Tsd1, float Tsd2, bool* man_y) {
-    set_Par_PIDf_Ctrl_emC(this, kP, Tn_param, Td_param, Tsd1, Tsd2, null);
+  public: void set(float kP, float Tn, float Td, float td, bool* man_y) {
+    set_Par_PIDf_Ctrl_emC(this, kP, Tn, Td, td, null);
   }
 
 
@@ -180,36 +203,6 @@ class Par_PIDf_Ctrl_emC : public Par_PIDf_Ctrl_emC_s {
 };
 #endif
 
-
-
-
-typedef struct Delayf_Ctrl_emC_T {
-
-  int ix;
-  int nsize;
-
-  float values[2];
-
-} Delayf_Ctrl_emC_s;
-
-
-INLINE_emC void ctor_Delayf_Ctrl_emC ( Delayf_Ctrl_emC_s* thiz, int size, int sizeMem ) {
-  ASSERT_emC(sizeMem >= (size-2) * sizeof(float) + sizeof(Delayf_Ctrl_emC_s), "faulty size on Delayf_Ctrl_emC", size, sizeMem); 
-  thiz->nsize = size;
-}
-
-
-
-INLINE_emC float delay_Ctrl_emC ( Delayf_Ctrl_emC_s* thiz, int delay, float x ) {
-  int ixold = thiz->ix - delay;
-  if(ixold <0) { ixold += thiz->nsize; }
-  float val = thiz->values[ixold];
-  int ixnew = thiz->ix +1;
-  if(ixnew >= thiz->nsize) { ixnew = 0; }  // wrap arround 0
-  thiz->ix = ixnew;
-  thiz->values[ixnew] = x;
-  return val;
-}
 
 
 
@@ -303,20 +296,22 @@ extern_C PIDf_Ctrl_emC_s* ctor_PIDf_Ctrl_emC(ObjectJc* othiz, float Tstep);
  */
 extern_C bool init_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, Par_PIDf_Ctrl_emC_s* par);
 
-/**step of PID controller 
+/**This is the core routine for PIDf ctrl, getting the built dx as value. 
+ * It is static also to enable compiler optimization. 
+ * @param wx Input for P and I
+ * @param dx Input for D-part as already built and smoothed differential
+ * @return y value. 
  */
-extern_C float step_dxs_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd);
+extern_C float step_PIDf_Ctrl_emC ( PIDf_Ctrl_emC_s* thiz, float wx, float dx);
 
-/**step of PID controller 
- */
-extern_C float step_dxavg_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd, float wxdz);
+
 
 /**step of PID controller especially to use in a Simulink S-Function. 
  * Note: The S-Function needs the returned value as pointer.
  * @simulink Object-FB.
  */
 INLINE_emC void stepY_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float wxd, float* y_y){
-  float y = step_dxs_PIDf_Ctrl_emC(thiz, wx, wxd);
+  float y = step_PIDf_Ctrl_emC(thiz, wx, wxd);
   *y_y = y;
 }
 //end::PIDf_Ctrl_emC_ObjectFB[]
@@ -383,7 +378,7 @@ class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
 
   public: void init(Par_PIDf_Ctrl_emC_s* par) { init_PIDf_Ctrl_emC(this, par); }
   
-  public: void step ( float wx, float wxd){ step_dxs_PIDf_Ctrl_emC(this, wx, wxd); }
+  public: void step ( float wx, float dx){ step_PIDf_Ctrl_emC(this, wx, dx); }
 
   public: float y ( float wx){ return getY_PIDf_Ctrl_emC(this); }
 
