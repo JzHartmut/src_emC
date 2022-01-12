@@ -209,20 +209,16 @@ typedef struct PIDi_Ctrl_emC_t
   /**Value of the integrator. */
   int32 qI;
 
-  uint8 disableIntg;
+  //uint8 disableIntg;
   
   
-  #ifdef DEF_TestVal_PIDi_Ctrl_emC
+  #ifndef DEF_NO_TestValInspc_emC
+  /**Only for inspect: the P part. */
   INT_NUM_emC wxP;
+  /**Only for inspect: the D part. */
   INT_NUM_emC dxP;
   #endif
 
-  /**Limited output from P and D fix point. To view. */
-  //int32 wxP32, wxPD32;
-  
-  /**Value of the differentiator. */
-  //float qD1;
-  
 
 } PIDi_Ctrl_emC_s;
 //end::PIDi_Ctrl_emC[]

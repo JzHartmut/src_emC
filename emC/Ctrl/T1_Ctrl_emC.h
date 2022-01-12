@@ -87,7 +87,8 @@ static inline int16 dx_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
 
 
 /**Step routine wrapper for simulink for 16 bit T1 smoothing FBlock. 
- * @simulink Object-FB, no-thizInit, no-thizStep.
+ *                      no-thizInit, 
+ * @simulink Object-FB, no-thizStep.
  */
 static inline void stepY_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x, int16* y_y) {
   *y_y = step_T1i_Ctrl_emC(thiz, x);
@@ -339,9 +340,9 @@ typedef struct Delayi_Ctrl_emC_T {
 
 
 
-INLINE_emC Delayi_Ctrl_emC_s* ctor_Delayi_Ctrl_emC ( ObjectJc* othiz, int size, int sizeMem ) {
+INLINE_emC Delayi_Ctrl_emC_s* ctor_Delayi_Ctrl_emC ( ObjectJc* othiz, int size, uint sizeMem ) {
 #ifndef __ignoreInCheader_zbnf__
-  ASSERT_emC(sizeMem >= (size-2) * sizeof(int) + sizeof(Delayi_Ctrl_emC_s), "faulty size on Delayi_Ctrl_emC", size, sizeMem); 
+  ASSERT_emC(sizeMem >= (size-2) * (uint)sizeof(int) + (uint)sizeof(Delayi_Ctrl_emC_s), "faulty size on Delayi_Ctrl_emC", size, sizeMem); 
   Delayi_Ctrl_emC_s* thiz = C_CAST(Delayi_Ctrl_emC_s*, othiz);
   thiz->nsize = size;
   return thiz;

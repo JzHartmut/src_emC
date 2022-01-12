@@ -9,14 +9,14 @@
  * The intnum is that type which is fast for numeric operations of the target controller. 
  */  
 #ifndef INT_NUM_emC
-#define INT_NUM_emC  int16
-#define INT_NUM_NROFBITS 16
+#define INT_NUM_emC  int
+#define INT_NUM_NROFBITS INT_NROFBITS 
 #endif
 
 #if (INT_NUM_NROFBITS == 16)
   #define refl_INT_NUM_emC refl__int16Jc
 #else
-  #define refl_INT_NUM_emC (&REFLECTION_int32)
+  #define refl_INT_NUM_emC refl__int32Jc
 #endif
 
 

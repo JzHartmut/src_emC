@@ -232,7 +232,7 @@ RAMFUNC_emC INT_NUM_emC step16_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, INT_NUM_emC 
     else if (y <=  -thiz->yLim) {
       y = -thiz->yLim;
     }
-    else if(thiz->disableIntg ==0) {   // only if output is not limited, integrate the I-Part.
+    else { //if(thiz->disableIntg ==0) {   // only if output is not limited, integrate the I-Part.
       int32 wxId;                      // nShKI is 0 in width range, only >0 for Tn >= 5000 * Tctrl
       muls16_emC(wxId, wxP >> f->nShKI, f->fI);   // growth for integrator in 32 bit width.
       thiz->qI += wxId;                // integrate
@@ -307,7 +307,7 @@ RAMFUNC_emC INT_NUM_emC step32_PIDi_Ctrl_emC(PIDi_Ctrl_emC_s* thiz, INT_NUM_emC 
     else if (y <=  -thiz->yLim) {
       y = -thiz->yLim;
     }
-    else if(thiz->disableIntg ==0) {   // do integration, because not in limitaiton
+    else { //if(thiz->disableIntg ==0) {   // do integration, because not in limitaiton
       // growth for integrator. Because of tuning nShKI, fI it does never overflow in 32 bit.
       // It is important first shift the wxP, then multiply. The lost of precession is not so important.
       // Elsewhere it needs evaluation of 64 bit result, not proper for cheap processors. 

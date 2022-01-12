@@ -40,6 +40,21 @@
 #include <emC/Base/Object_emC.h>
 //#include <OSAL/os_time.h>
 
+/**This type is introduced because some processors (Texas Instruments) have 32 bit capabillity
+ * but presents the int type with 16 bit.
+ * The INT_shortTIME_emC is that type which is used for short times, the width of the internal clock counter.
+ */
+#ifndef INT_shortTIME_emC
+  #define INT_shortTIME_emC  int32
+  #define INT_shortTIME_NROFBITS_emC 32
+#endif
+
+#if (INT_shortTIME_NROFBITS_emC == 16)
+  #define refl_INT_shortTIME_emC refl__int16Jc
+#else
+  #define refl_INT_shortTIME_emC refl__int32Jc
+#endif
+
 
 typedef struct TimeAbs_emC_T
 {   /**Sekunden, gez?hlt seit dem 1. Januar 0:00 Uhr des Jahres 1970.
@@ -169,7 +184,7 @@ extern float clocksFloatPerMicro_Time_emC;
  * Example: If the clock counts with 10 nanoseconds, a difference is valid in 20 seconds 
  */
 #ifndef getClockCnt_Time_emC  //it may be a macro for fast access in special targets
-  extern_C int32 getClockCnt_Time_emC ( void );
+  extern_C INT_shortTIME_emC getClockCnt_Time_emC ( void );
 #endif
 
 
@@ -178,7 +193,7 @@ extern float clocksFloatPerMicro_Time_emC;
 * @param meastime in ms, determines the accuracy
 * @return true if it has measured exactly 1 second.  
 */ 
-extern_C bool measureClock_Time_emC(int meastime);
+extern_C bool measureClock_Time_emC(INT_shortTIME_emC meastime);
 
 
 extern_C void waitClock_Time_emC(int32 tillClockCt);
@@ -249,9 +264,9 @@ typedef struct MinMaxCalcTime_emC_T
 
 typedef struct MinMaxTime_emC_t
 {
-  int ct;
+    INT_shortTIME_emC ct;
 
-  int _lastTime;
+  INT_shortTIME_emC _lastTime;
   //uint minminCyclTime;
 
   uint minCyclTime;
@@ -270,9 +285,9 @@ typedef struct MinMaxTime_emC_t
 
 
 
-static void ctor_MinMaxTime_emC(MinMaxTime_emC* thiz);
+static void ctor_MinMaxTime_emC(MinMaxTime_emC volatile* thiz);
 
-INLINE_emC void ctor_MinMaxTime_emC(MinMaxTime_emC* thiz)
+INLINE_emC void ctor_MinMaxTime_emC(MinMaxTime_emC volatile* thiz)
 { thiz->maxCyclTime = 0;  
   //thiz->maxmaxCyclTime = 0;  
   thiz->calc.maxCalcTime = 0;  
@@ -290,9 +305,9 @@ INLINE_emC void ctor_MinMaxTime_emC(MinMaxTime_emC* thiz)
 /**
 * invoke with (..., getClockCnt_Time_emC()) 
 */
-static void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time);
+static void cyclTime_MinMaxTime_emC ( MinMaxTime_emC volatile* thiz, INT_shortTIME_emC time);
 
-INLINE_emC void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
+INLINE_emC void cyclTime_MinMaxTime_emC(MinMaxTime_emC volatile* thiz, INT_shortTIME_emC time)
 { uint cyclTime = (uint)(time - thiz->_lastTime);
   thiz->ct +=1;  
   thiz->actCyclTime = cyclTime;  
@@ -303,8 +318,8 @@ INLINE_emC void cyclTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 }
 
 /**With given time. */
-static void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time);
-INLINE_emC void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)        
+static void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC volatile* thiz, INT_shortTIME_emC time);
+INLINE_emC void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC volatile* thiz, INT_shortTIME_emC time)
 { uint cyclTime = (uint)((time) - thiz->_lastTime); 
   thiz->ct +=1; 
   thiz->actCyclTime = cyclTime;  
@@ -318,9 +333,9 @@ INLINE_emC void cyclTime_fast_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
 
 
 /**With given time. */
-static void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time);
+static void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC volatile* thiz, INT_shortTIME_emC timeStart, INT_shortTIME_emC time);
 
-INLINE_emC void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time)
+INLINE_emC void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC volatile* thiz, INT_shortTIME_emC timeStart, INT_shortTIME_emC time)
 { uint calcTime = (uint)(time - timeStart); 
   thiz->actCalcTime = calcTime;  
   if(calcTime > thiz->maxCalcTime) { thiz->maxCalcTime = calcTime; }  
@@ -329,7 +344,7 @@ INLINE_emC void set_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, 
 }
 
 
-INLINE_emC void setPreventSpikes_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, int timeStart, int time)
+INLINE_emC void setPreventSpikes_MinMaxCalcTime_emC(MinMaxCalcTime_emC volatile* thiz, INT_shortTIME_emC timeStart, INT_shortTIME_emC time)
 { uint calcTime = (uint)(time - timeStart); 
   thiz->actCalcTime = calcTime;  
   if(calcTime > thiz->maxCalcTime) { thiz->maxCalcTime = calcTime; }  
@@ -346,8 +361,8 @@ INLINE_emC void setPreventSpikes_MinMaxCalcTime_emC(MinMaxCalcTime_emC* thiz, in
 }
 
 /**With given time. */
-static void calcTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time);
-INLINE_emC void calcTime_MinMaxTime_emC(MinMaxTime_emC* thiz, int time)
+static void calcTime_MinMaxTime_emC(MinMaxTime_emC volatile* thiz, INT_shortTIME_emC time);
+INLINE_emC void calcTime_MinMaxTime_emC(MinMaxTime_emC volatile* thiz, INT_shortTIME_emC time)
 {
   set_MinMaxCalcTime_emC(&thiz->calc, thiz->_lastTime, time);
 }

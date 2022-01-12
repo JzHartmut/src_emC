@@ -459,8 +459,8 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
 {
   char cc;
   /**Array of values to test the position in digit. Fill it with 10, 100 etc if radix = 10;*/
-  uint32 testValues[32]; //max 32
-  uint32 uvalue;
+  uint32 testValues[32]; //max 32, will be filled with 10, 100, 1000 etc. for radix = 10, or 16, 256, 4096 etc. for radix = 16
+  uint32 uvalue;         //         or even 2,4,8,16 ... for radix = 2. Only for that the 32 are used.
 
   int idxTestValues = 0;
   int nChars = 0;
@@ -491,25 +491,25 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
   //
   //idxTestValues is the number of digits -1, because testValues[0] contains 10.  
   { int nrofZero = minNrofChars - idxTestValues - 1;
-  while (--nrofZero >= 0 && nChars < zBuffer) buffer[nChars++] = '0';
+    while (--nrofZero >= 0 && nChars < zBuffer) buffer[nChars++] = '0';
   }
   //test input digit
   { uint32 test;
-  while (--idxTestValues >= 0 && nChars < zBuffer)
-  {
-    cc = '0';
-    test = testValues[idxTestValues];
-    while (uvalue >= test)
+    while (--idxTestValues >= 0 && nChars < zBuffer)
     {
-      cc += 1;
-      uvalue -= test;
+      cc = '0';
+      test = testValues[idxTestValues];  //starts on the highest digit position (for ex. 1000 if the value is >=1000 but <10000
+      while (uvalue >= test)
+      {
+        cc += 1;
+        uvalue -= test;
+      }
+      if (cc > '9')
+      {
+        cc += ('a' - '9' - 1);
+      }
+      buffer[nChars++] = cc;
     }
-    if (cc > '9')
-    {
-      cc += ('a' - '9' - 1);
-    }
-    buffer[nChars++] = cc;
-  }
   }
   cc = (char)('0' + uvalue); //last digit
   if (cc > '9')

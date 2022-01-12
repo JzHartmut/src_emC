@@ -1,4 +1,5 @@
 #include <emC/Base/Time_emC.h>
+#include <emC/Base/MemC_emC.h>
 
 #ifdef DEF_REFLECTION_FULL
   //Note: only for full reflection the const ClassJc refl_... should be compiled 
@@ -29,7 +30,7 @@ OS_TimeStamp* ctorM_OS_TimeStamp  (  MemC mem)
     return null;
   }
   else {
-    OS_TimeStamp* ythis = ADDR_MemC(mem, OS_TimeStamp);
+    OS_TimeStamp* ythis = ADDR_MemC(mem, TimeAbs_emC);
     ythis->time_sec = 0;
     ythis->time_nsec = 0;
     return ythis;

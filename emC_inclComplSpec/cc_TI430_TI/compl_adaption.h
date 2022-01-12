@@ -41,9 +41,22 @@
 #define   __compl_adaption_h__
 #include <msp430.h>
 
+//Maybe do not use stdint.h, it is too complex
+//The important disadvantage is that the types are defined via typedef,
+//this causes incompatibility with other defined types
+//#include <stdint.h>  //C99-int types
+#define int8_t char
+#define int16_t int
+#define int32_t long
+#define int64_t long long
+#define uint8_t unsigned char
+#define uint16_t unsigned int
+#define uint32_t unsigned long
+#define uint64_t unsigned long long
+#define intptr_t int
+#define uintptr_t unsigned int
 
-#include <stdint.h>  //C99-int types
-#include <limits.h>  //proper to C99
+//#include <limits.h>  //proper to C99
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
@@ -93,8 +106,7 @@
  * The long variant guarantees it independent of the compiler. The short variant can be used if the compiler guarantees 
  * a value of 1 for boolean true.
  */
-#define OSAL_bool1(COND) ((COND) ? 1 : 0) 
-//#define OSAL_bool1(COND) (COND)
+#define bool1_emC(COND) ((COND) ? 1 : 0) 
 
 
 
@@ -107,21 +119,20 @@
  */
 //#define OSAL_MEMWORDBOUND
 
-//This functions may be platform dependend but for all our platforms identical, also in C-Standard.
-//do nut use platform specific headers. 
-#define FW_OFFSET_OF(element, Type) (((int) &(((Type*)0x1000)->element))-0x1000)
-
-//The following switch select the operation system in some sources.
-#define __OS_IS_WINDOWS__
 
 //The following switch select the compiler in some sources.
-#define __COMPILER_IS_MSC15__
+#define __COMPILER_IS_MSP430__
 
 
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
-#define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
+#define BYTE_IN_MemUnit 2       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
+/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
+#define intPTR long
+#define uintPTR unsigned long
+#define INT_HAS16BIT
+
 
 
 /**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
@@ -130,34 +141,49 @@
  * Note: The number of bits for an int16_t may not 16 in all platforms. 
  * There are platforms which only knows 32 bit data (for example DSP processors from Analog Devices).
  */
-#define INT8_NROFBITS  8
+#define INT8_NROFBITS  16
 #define INT16_NROFBITS 16
 #define INT32_NROFBITS 32
 #define INT64_NROFBITS 64
 #define INT_NROFBITS   32
+#define POINTER_NROFBITS 16
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
- * But the definition of INT_MAX is missing.
+ * But the definition of INT_MAX is missing.  But better use _emC as suffix.
+ * For this compiler platform int is int16
  */
-//#define INT_MAX INT32_MAX 
-//#define INT_MIN INT32_MIN 
-//#define UINT_MAX UINT32_MAX 
+#define INT_MAX_emC INT16_MAX 
+#define INT_MIN_emC INT16_MIN 
+#define UINT_MAX_emC UINT16_MAX 
 
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
  */
-#define int8      int8_t
-#define uint8     uint8_t
+#define int8      char  //NOTE: int8_t not defined.
+#define uint8     unsigned char //NOTE: int16_t not defined.
 
-#define int16     int16_t
-#define uint16    uint16_t
+#define int16     int
+#define uint16    unsigned int
 
-#define int32     int32_t
-#define uint32    uint32_t
+#define int32     long
+#define uint32    unsigned long
 
 #define int64 int64_t
 #define uint64 int64_t
+
+#define uint unsigned int
+
+#define INT_shortTIME_emC  int16
+#define INT_shortTIME_NROFBITS_emC 16
+
+#define INT_NUM_emC  int16
+#define INT_NUM_NROFBITS_emC 16
+
+
+/**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
+typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
+
 
 #define bool8    unsigned char
 #define bool8_t  unsigned char
@@ -171,14 +197,6 @@
 #define float32  float
 
 
-
-/**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
-typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
-
-/**Union of int64 and its fractions. */
-typedef union int64_uhilo_t{ int64 v; int64_hilo hilo; } int64_uhilo;
-
-
 #define DEFINED_float_complex     
 //#define float_complex creal32_T
 typedef struct float_complex_t { float re; float im; } float_complex; 
@@ -190,10 +208,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 
 
 
-
-
-/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
-#define intPTR intptr_t
 
 
 /**Definition of the really used types in variable argument lists. 
@@ -213,9 +227,17 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 #undef null
 #define null 0
 
-// Folgendes Define wird nach einer Struktur insbesondere für GNU-Compiler verwendet. Es ist für MSC6 leer,
+// Folgendes Define wird nach einer Struktur insbesondere for the GNU-Compiler verwendet. Es ist fï¿½r MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
+
+#define MAYBE_UNUSED_emC  __attribute__((unused))
+
+#define USED_emC __attribute__((used))
+
+#define RAMFUNC_emC __attribute__((ramfunc))
+
+
 
 #define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
 
@@ -260,7 +282,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * but there may be some segmentation and other designations.
  * Using this type, the programming expresses what it is meaned.
  */
-#define OS_intPTR int32
+//#define OS_intPTR int32
 
 
 
@@ -269,7 +291,9 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  * the size in memory is (sizeof(TYPE) * numberOfElements). 
  * This struct should pass with 2 register for call by value or return by value, usual supported by the compiler.
  */
-#define VALTYPE_AddrVal_emC int
+#ifndef VALTYPE_AddrVal_emC
+  #define VALTYPE_AddrVal_emC int
+#endif
 #define STRUCT_AddrVal_emC(NAME, TYPE) struct NAME##_T { TYPE* addr; VALTYPE_AddrVal_emC val; } NAME
 
 
@@ -299,12 +323,52 @@ typedef struct double_complex_t { double re; double im; } double_complex;
  */
 #define mLength_StringJc                 0x00003fff
 
-
-
 #ifndef TRUE
   #define TRUE true
   #define FALSE false
 #endif
+
+
+#define DEF_compareAndSet_AtomicInteger
+INLINE_emC bool compareAndSet_AtomicInteger(int volatile* reference, int expect, int update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
+INLINE_emC bool compareAndSet_AtomicInt32(int32 volatile* reference, int32 expect, int32 update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
+INLINE_emC bool compareAndSet_AtomicInt64(int64 volatile* reference, int64 expect, int64 update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+INLINE_emC bool compareAndSet_AtomicInt16(int volatile* reference, int16 expect, int16 update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
+INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect, void* update){
+  //simple implementation, not atomic, but able to test. TODO ASM-Instructions with Disable Interrupt necessary.
+  bool bUpdated;
+  bUpdated = *reference == expect; if(bUpdated){ *reference = update; }  //This line should be atomic.
+  return bUpdated;
+}
+
+
 
 
 
@@ -314,7 +378,7 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 /*---------------------------------------------------------------------------*/
 //void             __disable_interrupt(void);
 //void             __enable_interrupt(void);
-#include <intrinsics.h>  //compiler-specific definitions
+//#include <intrinsics.h>  //compiler-specific definitions
 #define os_createMutex(NAME) null
 #define os_lockMutex(M, TIME) (__disable_interrupt(), true)
 #define os_unlockMutex(M) __enable_interrupt()
@@ -323,6 +387,6 @@ typedef struct double_complex_t { double re; double im; } double_complex;
 /**Use the TA0R for MC_2: Mode 2: continues from 0 to 0xffff->0 */
 #define os_getClockCnt() ((int16)TA0R)
 
-#include <emC/OSAL/types_def_common.h>
+#include <emC/Base/types_def_common.h>
 
 #endif  //__compl_adaption_h__

@@ -102,7 +102,7 @@ struct ThreadContext_emC_t;
 
 /**Calculates the offset of an element within the given structure type.
  */
-/* NOTE: offsetof in stddef.h works insufficient.
+/* NOTE: offsetof in stddef.h may work insufficient.
  * NOTE: The pointer to 0x1000 is used because any compiler generates an error if a 0-pointer is used. 
  */
 #define OFFSETinTYPE_MemUnit(TYPE, ELEMENT)  ( (MemUnit*)( &( ((TYPE*)0x1000)->ELEMENT) )  - (MemUnit*)0x1000)

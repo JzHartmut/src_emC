@@ -160,7 +160,7 @@
 #define int64 int64_t
 #define uint64 int64_t
 
-#define uint uint32_t
+#define uint uint16
 
 
 #define bool8    unsigned char

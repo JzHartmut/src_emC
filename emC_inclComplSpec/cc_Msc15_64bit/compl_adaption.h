@@ -179,8 +179,7 @@
  * The long variant guarantees it independent of the compiler. The short variant can be used if the compiler guarantees 
  * a value of 1 for boolean true.
  */
-#define OSAL_bool1(COND) ((COND) ? 1 : 0) 
-//#define OSAL_bool1(COND) (COND)
+#define bool1_emC(COND) ((COND) ? 1 : 0) 
 
 
 

@@ -76,23 +76,6 @@
   #endif
 #endif
 
-#ifndef INT32_MAX            //This definition is given if stdint.h is included before
-//define only the data types of stdint.h
-#define int8_t int8
-#define uint8_t uint8
-#define int16_t int16
-#define uint16_t uint16
-#define int32_t int32
-#define uint32_t uint32
-#define int64_t int64
-#define uint64_t uint64
-#ifndef DEF_DONOTDEF_intPTR
-  #define intptr_t intPTR
-#endif
-#ifndef DEF_DONOTDEF_uintPTR
-  #define uintptr_t uintPTR
-#endif
-#endif  //INT32_MAX, stdint is included
 
 
 //plattformunabhaengige Ergaenzungen
