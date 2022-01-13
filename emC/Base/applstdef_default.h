@@ -40,6 +40,87 @@
 #define HGUARD_emCBase_applstdef_default
 
 
+//Hint: definition of StringJc independent of an included emC/.../StringJc.h
+//tag::StringJc[]
+/**This is the defintion of a reference to a String and a value and state information. 
+ * It is similar as the defintion of AddrVal_emC  or the macro STRUCT_AddrVal_emC
+ * but the address is a union because of different capabilities. It is written in the same kind. 
+ * * First element is a pointer with different types in the union.
+ * * Second element is the length and flags, see in header emC/Base/StringBase_emC.h
+ */
+typedef struct StringJc_T { 
+  union CharSeqTypes_T { 
+    char const* str; 
+    #ifndef DEF_NO_StringUSAGE 
+      struct StringBuilderJc_t* bu; 
+      #ifdef DEF_CharSeqJcCapabilities
+        struct ObjectJc_T const* obj; 
+        #ifdef __cplusplus
+          class CharSequenceJc* csq;
+        #endif
+      #endif
+    #endif
+  } addr; 
+  VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
+} StringJc;
+//end::StringJc[]
+
+#define DEFINED_StringJc_emC
+
+//old: typedef STRUCT_AddrVal_emC(StringJc, char const);
+
+//tag::StringJc_Common[]
+/**StringJc object containing null-values. */
+extern_C StringJc const null_StringJc;
+
+/**StringJc object containing an empty String, ref to  "", lenght = 0 */
+extern_C StringJc const empty_StringJc;
+
+
+
+/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
+ * The length of the text
+ * is not stored inside StringJc, the length bits are setted to kIs_0_terminated_StringJc 
+ * (it is the value of ,,mLength_StringJc,,), to detect this constellation.
+ * @param TEXT should be a text-literal only. If it references a char-array, 
+ *        a problem with persistence may existing.
+ */
+#define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
+#define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
+
+/**Initializer-Macro for StringJc, initialize the StringJc-reference to a string literal.
+ * The length of the literal is calculated via sizeof("text").
+ * @param TEXT should only be a text-literal. 
+ * If it references a char-array, the size is faulty 
+ * and  problem with persistence may existing. 
+ */
+#define INIZ_text_StringJc(TEXT) { TEXT, (int)(sizeof(TEXT)-1) }
+
+/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
+ * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
+ * @param TEXT should be a text-literal only. If it references a char-array, 
+ *             a problem with persistence may existing.
+ * @param LEN The length as number. Do not use methods like strlen(...)
+ *            to determine the length, because this is a const-initializing-macro.
+ *            In C++, methods are syntaxtically able to use, but it produces more machine code
+ *            and the definition cannot store in a const segment. In C it is an error.
+ */
+#define INIZ_StringJc(TEXT, LEN) { {TEXT}, LEN }
+#define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
+#define NULL_StringJc { {null}, 0}
+//end::StringJc_Common[]
+
+#ifdef __cplusplus
+  #ifdef DEF_CPP_COMPILE  //If the apropriate C-sources are compiled as C++
+    /**C-Sources are compiled with C++, C++ linker label is desired.*/
+    #define extern_CCpp extern
+  #else                   //If all C-Sources are compiled with C
+    /**C-Sources are compiled with C*/
+    #define extern_CCpp extern "C"
+  #endif
+#else
+  #define extern_CCpp extern
+#endif
 
 #ifdef DEF_NO_ObjectJc_emC
   #define BASED_ON_ObjectJc_emC union{ObjectJc obj; } base;
@@ -57,6 +138,8 @@
   #define setReflection_ObjectJc(OTHIZ, REFL, ID) (OTHIZ)->id = ID
   #define setInitialized_ObjectJc(OTHIZ)
   #define isInitialized_ObjectJc(OTHIZ) true  //no information, default: It is initialized
+  #define getID_ObjectJc(THIZ) ((THIZ)->id)
+  #define getClass_ObjectJc(OTZHIZ) null
   #define lock_ObjectJc(OBJ)
   #define isLocked_ObjectJc(OBJ) true
   #define finalize_ObjectJc_F(OBJ, THCXT)
@@ -90,23 +173,25 @@
 
 
 
-
+ 
 #ifdef DEF_ThreadContext_STACKTRC_NO
-  #define DEF_NO_ThreadContext_STACKTRC_emC
+  #define DEF_ThreadContext_NOSTACKTRC_emC
 #endif
 
 #ifdef DEF_Exception_NO
   #define DEF_NO_Exception_emC
 #endif
 
-#if !defined(DEF_NO_ThreadContext_STACKTRC_emC) || !defined(DEF_NO_Exception_emC) 
+#if !defined(DEF_NO_THCXT_STACKTRC_EXC_emC) 
   #include <emC/Base/Assert_emC.h>
   #include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
   #include <emC/Base/Exception_emC.h>
 #else
   //This is for a system without including Base/Exception_emC.h
+  
+  #define ASSERT_IGNORE_emC     //emC assertions not possible with that situation.
+  
   //all STCKTRC macro are empty. Not necessary to include emC/Base/Exception_emC.h
-
   #define HGUARD_emC_Base_Exception_emC    //Prevents including Base/Exception_emC.h
   //#define DEF_DONOTCOMPILE_Base_Exception_emC
 
@@ -221,86 +306,5 @@
 #endif
 
 
-//Hint: definition of StringJc independent of an included emC/.../StringJc.h
-//tag::StringJc[]
-/**This is the defintion of a reference to a String and a value and state information. 
- * It is similar as the defintion of AddrVal_emC  or the macro STRUCT_AddrVal_emC
- * but the address is a union because of different capabilities. It is written in the same kind. 
- * * First element is a pointer with different types in the union.
- * * Second element is the length and flags, see in header emC/Base/StringBase_emC.h
- */
-typedef struct StringJc_T { 
-  union CharSeqTypes_T { 
-    char const* str; 
-    #ifndef DEF_NO_StringUSAGE 
-      struct StringBuilderJc_t* bu; 
-      #ifdef DEF_CharSeqJcCapabilities
-        struct ObjectJc_T const* obj; 
-        #ifdef __cplusplus
-          class CharSequenceJc* csq;
-        #endif
-      #endif
-    #endif
-  } addr; 
-  VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
-} StringJc;
-//end::StringJc[]
-
-#define DEFINED_StringJc_emC
-
-//old: typedef STRUCT_AddrVal_emC(StringJc, char const);
-
-//tag::StringJc_Common[]
-/**StringJc object containing null-values. */
-extern_C StringJc const null_StringJc;
-
-/**StringJc object containing an empty String, ref to  "", lenght = 0 */
-extern_C StringJc const empty_StringJc;
-
-
-
-/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
- * The length of the text
- * is not stored inside StringJc, the length bits are setted to kIs_0_terminated_StringJc 
- * (it is the value of ,,mLength_StringJc,,), to detect this constellation.
- * @param TEXT should be a text-literal only. If it references a char-array, 
- *        a problem with persistence may existing.
- */
-#define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
-#define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
-
-/**Initializer-Macro for StringJc, initialize the StringJc-reference to a string literal.
- * The length of the literal is calculated via sizeof("text").
- * @param TEXT should only be a text-literal. 
- * If it references a char-array, the size is faulty 
- * and  problem with persistence may existing. 
- */
-#define INIZ_text_StringJc(TEXT) { TEXT, (int)(sizeof(TEXT)-1) }
-
-/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
- * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
- * @param TEXT should be a text-literal only. If it references a char-array, 
- *             a problem with persistence may existing.
- * @param LEN The length as number. Do not use methods like strlen(...)
- *            to determine the length, because this is a const-initializing-macro.
- *            In C++, methods are syntaxtically able to use, but it produces more machine code
- *            and the definition cannot store in a const segment. In C it is an error.
- */
-#define INIZ_StringJc(TEXT, LEN) { {TEXT}, LEN }
-#define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
-#define NULL_StringJc { {null}, 0}
-//end::StringJc_Common[]
-
-#ifdef __cplusplus
-  #ifdef DEF_CPP_COMPILE  //If the apropriate C-sources are compiled as C++
-    /**C-Sources are compiled with C++, C++ linker label is desired.*/
-    #define extern_CCpp extern
-  #else                   //If all C-Sources are compiled with C
-    /**C-Sources are compiled with C*/
-    #define extern_CCpp extern "C"
-  #endif
-#else
-  #define extern_CCpp extern
-#endif
 
 #endif //HGUARD_emCBase_applstdef_default

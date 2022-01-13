@@ -86,7 +86,7 @@ typedef struct OS_ThreadContext_t
   /**Name of the thread.*/
   const char* name; 
 
-  #ifndef DEF_NO_ThreadContext_STACKTRC_emC
+  #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
   /**The user ThreadContext is part of the thread specific data. 
    * It is defined application-specific via the included applstdef_emC.h */
   ThreadContext_emC_s userThreadContext;
@@ -172,7 +172,7 @@ static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName, void* top
   int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
   threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
   memset(threadContext, 0, sizeThreadContext);
-  #ifndef DEF_NO_ThreadContext_STACKTRC_emC
+  #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
   ctor_ThreadContext_emC(&threadContext->userThreadContext, topAddrStack);   //This constructor depends of the settings in <applstdef_emC.h>. There it is defined which type of ThreadContext is used.
 	#endif
   return threadContext; 
@@ -186,7 +186,7 @@ int init_OSAL()
   else {
   	  int idxThreadPool = 0;
 	  HANDLE hMainHandle, hDupMainHandle;
-    #ifndef DEF_NO_ThreadContext_STACKTRC_emC
+    #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
     OS_ThreadContext* mainThreadContext;
     #endif	  
 	  // Allocate the global TLS index (valid for all threads when they are running (current thread)). 
@@ -206,7 +206,7 @@ int init_OSAL()
 						  DUPLICATE_SAME_ACCESS );
 
 	  // store thread parameters in thread pool (first thread, no thread protection)
-    #ifndef DEF_NO_ThreadContext_STACKTRC_emC
+    #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
       mainThreadContext = new_OS_ThreadContext("main", &idxThreadPool);
 	  
 	    if (mainThreadContext != null){
@@ -228,7 +228,7 @@ int init_OSAL()
       }
     #else
       return 0;
-    #endif //DEF_NO_ThreadContext_STACKTRC_emC
+    #endif //DEF_NO_THCXT_STACKTRC_EXC_emC
 
 
   }
@@ -574,7 +574,7 @@ char const* os_getTextOfOsError(int nError)
 
 
 
-#ifndef DEF_NO_ThreadContext_STACKTRC_emC
+#ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
 ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 {
   OS_ThreadContext* os_thCxt = getCurrent_OS_ThreadContext();

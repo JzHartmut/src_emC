@@ -162,7 +162,7 @@ void throwCore_emC(ThCxt* _thCxt) {
         #error to use C++ exception handing you should compile this source with C++
       #endif
       throw _thCxt->tryObject->exc.exceptionNr;
-    #elif defined(DEF_Exception_longjmp
+    #elif defined(DEF_Exception_longjmp)
       longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->tryObject->exc.exceptionNr);
     #else 
       //Only log, the program continues after THROW

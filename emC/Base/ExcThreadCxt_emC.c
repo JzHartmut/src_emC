@@ -74,7 +74,7 @@ void ctor_StacktraceThreadContext_emC ( StacktraceThreadContext_emC_s* thiz)
 #endif
 
 
-#ifdef DEF_ThreadContext_STACKTRC
+#ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
 void ctor_ThreadContext_emC  (  ThreadContext_emC_s* thiz, void const* topAddrStack)
 { //int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktrc);
   

@@ -17,7 +17,7 @@
 
 RingBuffer_emC_s* ctor_RingBuffer_emC ( ObjectJc* othiz, int nrofEntries ) {
   ASSERT_emC(CHECKstrict_ObjectJc(othiz, sizeof(RingBuffer_emC_s), refl_RingBuffer_emC, 0)
-      , "RingBuffer_emC_s not correct initialized", othiz->identSize, (int)(intPTR)getClass_ObjectJc(othiz) );
+      , "RingBuffer_emC_s not correct initialized", getID_ObjectJc(othiz), (int)(intPTR)getClass_ObjectJc(othiz) );
   RingBuffer_emC_s* thiz = (RingBuffer_emC_s*) othiz;
   thiz->nrofEntries = nrofEntries;
   thiz->ixRd = thiz->ixWr = 0;

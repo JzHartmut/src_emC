@@ -274,6 +274,10 @@ Get operations for core properties          */
   #define getTypeId_ObjectJc(THIZ){ ((THIZ)->identSize & mInstanceType_ObjectJc) >> kBitInstanceType_ObjectJc)
 #endif
 
+
+/**Returns the whole info in identSize especially for showing in Exception messages. */
+#define getID_ObjectJc(THIZ) ((THIZ)->identSize)
+
 #ifndef DEF_ObjectJc_LARGESIZE
   /**Builds the size of the whole instance, for C++ usage inclusively the C++ parts. */
   #define getSizeInfo_ObjectJc(THIZ) ((THIZ)->identSize & mSize_ObjectJc)

@@ -1189,7 +1189,7 @@ void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct By
   
   { 
     
-    if(REFJc(child->parent)!= thiz) { THROW_s0(ident_IllegalArgumentException_emC, "programming error - child is not parent of this.", 0, 0); };
+    if(REFJc(child->parent)!= thiz) { THROW_s0(IllegalArgumentException, "programming error - child is not parent of this.", 0, 0); };
     thiz->ixNextChild = child->ixBegin;/*set end index to the child's start*/
     
     if(thiz->bExpand) 

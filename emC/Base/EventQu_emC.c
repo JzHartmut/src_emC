@@ -52,7 +52,7 @@ EvQueue_emC_s* ctor_EvQueue_emC(ObjectJc* othiz, float Tstep, int sizeQueue){
   STACKTRC_ENTRY("ctor_EvQueue_emC");
   EvQueue_emC_s* thiz = null;
   ASSERT_emC( CHECKstrict_ObjectJc(othiz, sizeof(EvQueue_emC_s), refl_EvQueue_emC, 0)
-    , "EvQueue_emC_s not correct initialized", othiz->identSize, (int)(intPTR)getClass_ObjectJc(othiz) );
+    , "EvQueue_emC_s not correct initialized", getID_ObjectJc(othiz), (int)(intPTR)getClass_ObjectJc(othiz) );
   thiz = (EvQueue_emC_s*)othiz;
   ctor_RingBuffer_emC(&thiz->base.obj, sizeQueue);
   thiz->entries.a = (EventData_emC_s**)alloc_MemC(sizeof(EventData_emC_s**) * sizeQueue);

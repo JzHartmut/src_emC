@@ -37,6 +37,7 @@
  ****************************************************************************/
 #include "emC/Base/Timeconversions_emC.h"
 #include <stdio.h>
+#include <string.h>
 
 /**
  * @changes 2010-01-19 Hartmut corr: taken from old time2nn.c
