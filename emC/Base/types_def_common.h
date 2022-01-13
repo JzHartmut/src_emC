@@ -38,45 +38,6 @@
 #define HGUARD_emCBase_types_def_common
 
 
-//If no reflection are used, anyway DEF_REFLECTION_NO should be defined. 
-#if !defined(DEF_REFLECTION_SIMPLE) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_NO)
-  #define DEF_REFLECTION_NO
-#endif
-
-//If reflection are given Object has Reflection. TODO remove DEF_ObjectJc_REFL..REF against immediately usage ifndef DEF_REFLECTION_NO
-//#if !defined(DEF_REFLECTION_NO) && !!defined(DEF_REFLECTION_NO)
-//  #define DEF_ObjectJc_REFL..REF
-//  #undef DEF_ObjectJc_..SIMPLE
-//#endif
-
-
-//Yet always defined with the reflection, TODO maybe a variant if using virtual C++
-#if defined(DEF_REFLECTION_FULL) && !defined(DEF_ClassJc_Vtbl)
-  #define DEF_ClassJc_Vtbl    //It is used in the inspector sources
-#endif
-
-#if defined(DEF_ClassJc_Vtbl) && !defined(DEF_CharSeqJcCapabilities)
-  //yet always defined with DEF_ClassJc_Vtbl, first one is necessary. 
-  #define DEF_CharSeqJcCapabilities
-#endif 
-
-
-#ifndef VIRTUAL_emC  //empty definition, no virtual operations
-  #ifdef DEF_USEvirtual_emC
-    #define VIRTUAL_emC virtual
-  #else
-    #define VIRTUAL_emC
-  #endif
-#endif
-#ifndef OVERRIDE_VIRTUAL_emC
-  #ifdef DEF_USEvirtual_emC
-    #define OVERRIDE_VIRTUAL_emC override
-  #else
-    #define OVERRIDE_VIRTUAL_emC
-  #endif
-#endif
-
-
 
 //plattformunabhaengige Ergaenzungen
 //folgende Typen sind besser schreib- und lesbar
@@ -147,13 +108,6 @@ inline int unused_emC(int arg){ return arg; }
 //NOTE: This part cannot be parsed by Cheader.zbnf because it defines the special keywords itself. Note: It should not be parsed by Cheader.zbnf
 //#ifndef __NoReflection__
 #ifdef __cplusplus
-  #ifdef DEF_CPP_COMPILE  //If the apropriate C-sources are compiled as C++
-    /**C-Sources are compiled with C++, C++ linker label is desired.*/
-    #define extern_CCpp extern
-  #else                   //If all C-Sources are compiled with C
-    /**C-Sources are compiled with C*/
-    #define extern_CCpp extern "C"
-  #endif
   #define extern_C extern "C"
   #define C_TYPE extern "C"
   #define METHOD_C extern "C"
@@ -169,7 +123,6 @@ inline int unused_emC(int arg){ return arg; }
   /**Use this macro for extern declarations and function prototypes which are implemented in a C-Source
    * which may be compiled as C++, and the C++ linker label is desired. 
    */
-  #define extern_CCpp extern
   #define C_TYPE
   #define METHOD_C
   #define extern_C_BLOCK_ 
@@ -439,86 +392,13 @@ typedef struct double_complex_t{
 
 static inline int dbgstop_emC(){ return -1; }
 
-//#if defined(DEF_ObjectJc_..SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
-//# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)
-//#   error DEF_ObjectJc_..SIMPLE was defined together with one of the other DEF_ObjectJc...
-//# endif
-//#elif !!defined(DEF_REFLECTION_NO) 
-//#  define DEF_ObjectJc_REFL..REF
-//#endif
 
 
-
-//Hint: definition of StringJc independent of an included emC/.../StringJc.h
-//tag::StringJc[]
-/**This is the defintion of a reference to a String and a value and state information. 
- * It is similar as the defintion of AddrVal_emC  or the macro STRUCT_AddrVal_emC
- * but the address is a union because of different capabilities. It is written in the same kind. 
- * * First element is a pointer with different types in the union.
- * * Second element is the length and flags, see in header emC/Base/StringBase_emC.h
+/**This is a message on start of threads, essential os calls etc. which prevent running of the system. 
+ * It can replace the uncatched_Exception_emC(), to simplificate the user necessities. 
  */
-typedef struct StringJc_T { 
-  union CharSeqTypes_T { 
-    char const* str; 
-    #ifndef DEF_NO_StringUSAGE 
-      struct StringBuilderJc_t* bu; 
-      #ifdef DEF_CharSeqJcCapabilities
-        struct ObjectJc_T const* obj; 
-        #ifdef __cplusplus
-          class CharSequenceJc* csq;
-        #endif
-      #endif
-    #endif
-  } addr; 
-  VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
-} StringJc;
-//end::StringJc[]
-
-#define DEFINED_StringJc_emC
-
-//old: typedef STRUCT_AddrVal_emC(StringJc, char const);
-
-//tag::StringJc_Common[]
-/**StringJc object containing null-values. */
-extern_C StringJc const null_StringJc;
-
-/**StringJc object containing an empty String, ref to  "", lenght = 0 */
-extern_C StringJc const empty_StringJc;
-
-
-
-/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
- * The length of the text
- * is not stored inside StringJc, the length bits are setted to kIs_0_terminated_StringJc 
- * (it is the value of ,,mLength_StringJc,,), to detect this constellation.
- * @param TEXT should be a text-literal only. If it references a char-array, 
- *        a problem with persistence may existing.
- */
-#define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
-#define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
-
-/**Initializer-Macro for StringJc, initialize the StringJc-reference to a string literal.
- * The length of the literal is calculated via sizeof("text").
- * @param TEXT should only be a text-literal. 
- * If it references a char-array, the size is faulty 
- * and  problem with persistence may existing. 
- */
-#define INIZ_text_StringJc(TEXT) { TEXT, (int)(sizeof(TEXT)-1) }
-
-/**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
- * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
- * @param TEXT should be a text-literal only. If it references a char-array, 
- *             a problem with persistence may existing.
- * @param LEN The length as number. Do not use methods like strlen(...)
- *            to determine the length, because this is a const-initializing-macro.
- *            In C++, methods are syntaxtically able to use, but it produces more machine code
- *            and the definition cannot store in a const segment. In C it is an error.
- */
-#define INIZ_StringJc(TEXT, LEN) { {TEXT}, LEN }
-#define CONST_StringJc(TEXT, LEN) INIZ_StringJc(TEXT, LEN)
-#define NULL_StringJc { {null}, 0}
-//end::StringJc_Common[]
-
+extern_C void errorSystem_emC_  (  int errorCode, const char* description, int value1, int value2, char const* file, int line);
+#define ERROR_SYSTEM_emC(ERR, TEXT, VAL1, VAL2) errorSystem_emC_(ERR, TEXT, VAL1, VAL2, __FILE__, __LINE__)
 
 
 //NOTE: do nothing include here additinally, the user should decide what is included in its applstdef_emC.h!

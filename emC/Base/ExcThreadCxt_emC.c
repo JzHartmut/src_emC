@@ -74,6 +74,7 @@ void ctor_StacktraceThreadContext_emC ( StacktraceThreadContext_emC_s* thiz)
 #endif
 
 
+#ifdef DEF_ThreadContext_STACKTRC
 void ctor_ThreadContext_emC  (  ThreadContext_emC_s* thiz, void const* topAddrStack)
 { //int offsStacktraceThCxt = OFFSETinDATA_MemUnit(ythis, stacktrc);
   
@@ -89,6 +90,7 @@ void ctor_ThreadContext_emC  (  ThreadContext_emC_s* thiz, void const* topAddrSt
     ctor_StacktraceThreadContext_emC(&thiz->stacktrc);
   #endif
 }
+#endif
 
 #ifdef DEF_ThreadContext_HEAP_emC
 /**Sets a new buffer in Threadcontext.
@@ -246,7 +248,7 @@ bool isOptimizeString_ThCxt  (  ThreadContext_emC_s* ythis)
 #endif //DEF_ThreadContext_HEAP_emC
 
 
-
+#ifdef DEF_Exception_Log_emC
 ExceptionStore exceptionStore_g = {0};
 
 void logSimple_Exception_emC(int exc, StringJc msg, int32 value, int val2, char const* file, int line) {
@@ -267,7 +269,7 @@ void logSimple_Exception_emC(int exc, StringJc msg, int32 value, int val2, char 
   }
 
 }
-
+#endif
 
 
 

@@ -155,7 +155,7 @@ void doExitComposite_StateMFnCall_emC(struct StateFnCall_StateM_emC_T const* thi
     } else {
       //search the most inner state:
       StateMPartFnCall_StateM_emC* stmnPart = &stmn->substmn[ixNestedStmn];
-      ASSERTs_emC(stmnPart->state->parentState == state, "faulty parent-child-state",0,0);
+      ASSERT_emC(stmnPart->state->parentState == state, "faulty parent-child-state",0,0);
       state = stmnPart->state; 
       ctNested +=1;  //counts the nested levels.
     }

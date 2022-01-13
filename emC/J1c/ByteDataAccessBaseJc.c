@@ -1158,7 +1158,7 @@ double getChildDouble_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* 
 }
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 /**Adds a child for a String value without a child instance, but returns the value as String.*/
 StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, ThCxt* _thCxt)
 { 
@@ -1189,7 +1189,7 @@ void removeChild_XX_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct By
   
   { 
     
-    if(REFJc(child->parent)!= thiz) { throw_s0Jc(ident_IllegalArgumentException_emC, "programming error - child is not parent of this.", 0, __FILE__, __LINE__, _thCxt); };
+    if(REFJc(child->parent)!= thiz) { THROW_s0(ident_IllegalArgumentException_emC, "programming error - child is not parent of this.", 0, 0); };
     thiz->ixNextChild = child->ixBegin;/*set end index to the child's start*/
     
     if(thiz->bExpand) 
@@ -1286,7 +1286,7 @@ void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct Byte
 }
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 /**copies some data to a int[], primarily to debug a content. */
 void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, ThCxt* _thCxt)
 { 
@@ -1311,7 +1311,7 @@ void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, T
 }
 #endif
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 /**Returns a String from the given position inside the actual element .*/
 StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt)
 { 

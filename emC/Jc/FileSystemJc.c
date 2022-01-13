@@ -83,7 +83,7 @@ MemC readBinFile_FileSystemJc(FileJc_s* file, MemC buffer)
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 int writeBinFile_FileSystemJc(FileJc_s* file, int8_Y* buffer, struct ThreadContext_emC_t* _thCxt)
 {
   OS_HandleFile f1;

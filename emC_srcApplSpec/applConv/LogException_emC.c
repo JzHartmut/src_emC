@@ -35,7 +35,9 @@
 //Dependencies: needs emC/StringBase_emC.c to link.
 
 #include <applstdef_emC.h>
+
 //#include <emC/Base/String_emC.h>
+#ifdef DEF_Exception_Log_emC
 
 #ifndef SIZEENTRIES_ExceptionLogStore
 #define SIZEENTRIES_ExceptionLogStore 100
@@ -74,6 +76,7 @@ void log_Exception_emC(Exception_emC* exc, char const* sourceFile, int sourcelin
   }
 }
 
+#endif //DEF_Exception_Log_emC
 
 
 

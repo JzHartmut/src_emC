@@ -409,7 +409,7 @@ char const* gets0_StringJc(StringJc const thiz, char* const buffer, int const zB
     if(len >= zBuffer){
       if(exceptionOnLessBuffer){
         STACKTRC_TENTRY("substring_StringJc");
-        THROW1_s0(IndexOutOfBoundsException, "String too long", len); 
+        THROW_s0(IndexOutOfBoundsException, "String too long", len, 0);
         STACKTRC_LEAVE;
       } else {
         len = zBuffer -1;
@@ -523,6 +523,11 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
   return nChars;
 }
 
+
+StringJc const null_StringJc = NULL_StringJc;
+
+
+StringJc const empty_StringJc = INIZ_StringJc("", 0);
 
 
 

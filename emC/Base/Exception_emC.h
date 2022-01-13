@@ -53,14 +53,14 @@
 #define HGUARD_emC_Base_Exception_emC
 
 
-#if !defined(DEF_Exception_longjmp) && !defined(DEF_Exception_NO) && !defined(DEF_Exception_TRYCpp)
+#if !defined(DEF_Exception_longjmp) && !defined(DEF_NO_Exception_emC) && !defined(DEF_Exception_Log_emC) && !defined(DEF_Exception_TRYCpp)
 #  define   DEF_Exception_TRYCpp
 #endif
 
 #if !defined(__cplusplus) && defined(DEF_Exception_TRYCpp)
   //for C-compiled sources TRYCpp cannot be used, then SIMPLE only for C sources.
 #  undef DEF_Exception_TRYCpp
-#  define DEF_Exception_NO
+#  define DEF_NO_Exception_emC
 #endif
 
 //#error Exception_emC.h A
@@ -693,33 +693,12 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 
 #define CALLINE
 
-#elif defined(DEF_ThreadContext_STACKTRC_NO)
-
-//all STCKTRC macro are empty.
-
-/**An empty macro instead Stacktrace entry.
- * Note: the variable _thCxt may be used for some functions, but if not used, it should be optimized by compilation.
- */
-#define STACKTRC_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
-#define STACKTRC_ROOT_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
-
-
-/**An empty macro instead Stacktrace entry.
- * Here the _thCxt variable is given by argument list
- */
-#define STACKTRC_TENTRY(NAME)
-#define STACKTRC_ROOT_TENTRY(NAME)
-
-#define STACKTRC_LEAVE
-#define STACKTRC_THCXT null              //null as parameter for _thCxt, get it internally
-#define GET_STACKTRC_THCXT ThreadContext_emC_s* _thCxt = getCurrent_ThreadContext_emC();
-#define CALLINE
-#define THCXT null
+#elif defined(DEF_NO_ThreadContext_STACKTRC_emC)
 
 
 #else
 
-#error one of DEF_ThreadContext_STACKTRC_NO, DEF_ThreadContext_STACKTRC or DEF_ThreadContext_STACKUSAGE should be set.
+#error one of DEF_ThreadContext_STACKTRC_emC, DEF_NO_ThreadContext_STACKTRC_emC or DEF_ThreadContext_STACKUSAGE should be set.
 
 #endif  //DEF_ThreadContext_STACKTRC
 
@@ -892,12 +871,6 @@ extern_C void uncatched_Exception_emC ( Exception_emC* ythis, ThreadContext_emC_
 #define getMessage_Exception_emC(YTHIS, THC) ((YTHIS)->exceptionMsg)
 
 
-/**This is a message on start of threads, essential os calls etc. which prevent running of the system. 
- * It can replace the uncatched_Exception_emC(), to simplificate the user necessities. 
- */
-extern_C void errorSystem_emC_  (  int errorCode, const char* description, int value1, int value2, char const* file, int line);
-#define ERROR_SYSTEM_emC(ERR, TEXT, VAL1, VAL2) errorSystem_emC_(ERR, TEXT, VAL1, VAL2, __FILE__, __LINE__)
-
 //#define null_Exception_emC() {0}
 
 /*@CLASS_C IxStacktrace_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
@@ -948,17 +921,17 @@ extern_C void clearException(Exception_emC* exc);
 
 
 
-#if defined(DEF_Exception_NO)
-  #define EXCEPTION_TRY
-  #define EXCEPTION_CATCH if(_thCxt->tryObject->exc.exceptionNr !=0)
-#elif defined(DEF_Exception_longjmp)
+#if defined(DEF_Exception_longjmp)
   #define EXCEPTION_TRY \
   if( setjmp(_tryObject_emC.longjmpBuffer) ==0) {
   #define EXCEPTION_CATCH \
    } else  /*longjmp cames to here on THROW */
-#else
+#elif defined(DEF_Exception__TRYCpp)
   #define EXCEPTION_TRY try
   #define EXCEPTION_CATCH catch(...)
+#else
+  #define EXCEPTION_TRY
+  #define EXCEPTION_CATCH if(_thCxt->tryObject->exc.exceptionNr !=0)
 #endif
 
 
@@ -1021,7 +994,7 @@ extern_C void clearException(Exception_emC* exc);
     _tryObjectPrev_emC->exc = _tryObject_emC.exc; /*Copy all exception info, it's a memcpy*/ \
     _thCxt->tryObject = _tryObjectPrev_emC; \
     throwCore_emC(_thCxt); \
-  } else { /*remain exception for prev level on throwCore_emC if DEF_Exception_NO */\
+  } else { /*remain exception for prev level on throwCore_emC if DEF_NO_Exception_emC */\
     _thCxt->tryObject = _tryObjectPrev_emC; \
   } /*remove the validy of _ixStacktrace_ entries of the deeper levels. */ \
   RESTORE_STACKTRACE_DEEPNESS \
@@ -1036,7 +1009,7 @@ extern_C void clearException(Exception_emC* exc);
  * @param VAL a int value
  */
 #ifndef THROW
-  #ifdef DEF_Exception_NO
+  #ifdef DEF_NO_Exception_emC
      /**All THROW() macros writes the exception into the ThreadContext_emC,
       * but the calling routine is continued.
       * It should check itself for sufficient conditions to work.

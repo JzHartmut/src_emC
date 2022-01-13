@@ -42,7 +42,7 @@
 
 #include "emC/Jc/ComparatorJc.h"
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 /**@deprecated */
 int binarySearch_Object_ArraysJc(const void* a, const void* key, ComparatorJcpp* c) //ComparatorJcRefp c)
 {
@@ -88,8 +88,8 @@ METHOD_C void rangeCheck_ArrayJc(int length, int fromIndex, int toIndex, ThCxt* 
 {
   STACKTRC_TENTRY("rangeCheck_ArraysJc");
 
-  if(fromIndex > toIndex || fromIndex < 0) { THROW1_s0(IllegalArgumentException, "", fromIndex); }
-  if(toIndex > length-1)  { THROW1_s0(ArrayIndexOutOfBoundsException, "", toIndex); }
+  if(fromIndex > toIndex || fromIndex < 0) { THROW_s0(IllegalArgumentException, "", fromIndex, 0); }
+  if(toIndex > length-1)  { THROW_s0(ArrayIndexOutOfBoundsException, "", toIndex, 0); }
 
   STACKTRC_LEAVE;
 
@@ -97,7 +97,7 @@ METHOD_C void rangeCheck_ArrayJc(int length, int fromIndex, int toIndex, ThCxt* 
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt* _thCxt)
 {
   int max = array->head.length;
@@ -115,8 +115,9 @@ void fill_mB_ArraysJc(int8ARRAY array, int fromIndex, int toIndex, int value, Th
 {
   int max = VAL_AddrVal_emC(array);
   int8* data;
-  if(toIndex > max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0)
-    THROW1_s0(ArrayIndexOutOfBoundsException, "index error", max);
+  if(toIndex > max || fromIndex > toIndex || fromIndex < 0 || toIndex < 0) {
+    THROW_s0(ArrayIndexOutOfBoundsException, "index error", max, 0);
+  }
   data = array.addr + fromIndex;
   while(++fromIndex < toIndex){
     *data++ = (int8)value;
@@ -124,7 +125,7 @@ void fill_mB_ArraysJc(int8ARRAY array, int fromIndex, int toIndex, int value, Th
 }
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, ThCxt* _thCxt)
 {
   int max = array->head.length;
@@ -141,14 +142,14 @@ void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, Th
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 METHOD_C int binarySearch_STRC_int_ii_ArraysJc(int32_ObjArray const* a, int fromIndex, int toIndex, int32 key, ThCxt* stacktraceThreadContext)
 { rangeCheck_ArrayJc(a->head.length, fromIndex, toIndex, stacktraceThreadContext);
   return binarySearch_int(a->data, fromIndex, toIndex, key);
 }
 #endif
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 int binarySearch0_int_ii_ArraysJc(const int32_Y* a, int fromIndex, int toIndex, int32 key)
 { int low = fromIndex;
 	int high = toIndex -1;
@@ -173,14 +174,14 @@ int binarySearch0_int_ii_ArraysJc(const int32_Y* a, int fromIndex, int toIndex, 
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 int binarySearch_int_ii_ArraysJc(const int32_Y* a, int fromIndex, int toIndex, int32 key, ThCxt* _thCxt)
 { rangeCheck_ArrayJc(a->head.length, fromIndex, toIndex, _thCxt);
   return binarySearch0_int_ii_ArraysJc(a, fromIndex, toIndex, key);
 }
 #endif
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 int binarySearch0_int64_ii_ArraysJc(const int64_Y* a, int fromIndex, int toIndex, int64 key)
 { int low = fromIndex;
 	int high = toIndex -1;
@@ -205,7 +206,7 @@ int binarySearch0_int64_ii_ArraysJc(const int64_Y* a, int fromIndex, int toIndex
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 int binarySearch_int64_ii_ArraysJc(const int64_Y* a, int fromIndex, int toIndex, int64 key, ThCxt* _thCxt)
 { rangeCheck_ArrayJc(a->head.length, fromIndex, toIndex, _thCxt);
   return binarySearch0_int64_ii_ArraysJc(a, fromIndex, toIndex, key);

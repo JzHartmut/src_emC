@@ -41,6 +41,8 @@
 
 #include <applstdef_emC.h>
 
+#ifdef DEFINED_Exception_emC
+
 //Check if DEF_Exception_TRYCpp is set it needs C++ compilation.
 //Then this file is included in compilation of ExceptionCpp_emC.cpp to assert C++ compilation anyway. 
 //
@@ -155,18 +157,18 @@ void throwCore_emC(ThCxt* _thCxt) {
 
   if(_thCxt->tryObject !=null) {
     //tryObject->excNrTestCatch = exception->exceptionNr;
-    #ifdef DEF_Exception_NO
-      //Only log, the program continues after THROW
-      //Note: The compilation does not call this operation because THROW is defined
-      //with immediately call of log_Exception usually
-      log_Exception_emC(&_thCxt->tryObject->exc, _thCxt->tryObject->exc.file, _thCxt->tryObject->exc.line);
-    #elif defined(DEF_Exception_TRYCpp) || defined(DEF_Exception_TRYCpp)
+    #if defined(DEF_Exception_TRYCpp)
       #ifndef __cplusplus
         #error to use C++ exception handing you should compile this source with C++
       #endif
       throw _thCxt->tryObject->exc.exceptionNr;
-    #else
+    #elif defined(DEF_Exception_longjmp
       longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->tryObject->exc.exceptionNr);
+    #else 
+      //Only log, the program continues after THROW
+      //Note: The compilation does not call this operation because THROW is defined
+      //with immediately call of log_Exception usually
+      log_Exception_emC(&_thCxt->tryObject->exc, _thCxt->tryObject->exc.file, _thCxt->tryObject->exc.line);
     #endif
 
   }
@@ -363,3 +365,6 @@ bool test_StacktraceJc(StacktraceJc* ythis)
 #endif //not __NOT_SUPPORTED_ThreadContext_emC__
 
 #endif //__cplusplus or DEF_ExceptionCpp_INCLUDED
+
+#endif //DEFINED_Exception_emC
+

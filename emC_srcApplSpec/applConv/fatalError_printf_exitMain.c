@@ -51,6 +51,7 @@ void errorSystem_emC_  (  int errorCode, const char* description, int value1, in
 
 
 
+#ifndef DEF_NO_Exception_emC
 /**Handling of an uncatched exception (CATCH block was not found).
  * Then the application should be aborted.
  * But before the exception is written on console with printf.
@@ -67,3 +68,4 @@ void uncatched_Exception_emC  (  Exception_emC* thiz, ThreadContext_emC_s* _thCx
   ERROR_SYSTEM_emC(thiz->exceptionNr, "program abort", 0,0);
 #endif
 }
+#endif

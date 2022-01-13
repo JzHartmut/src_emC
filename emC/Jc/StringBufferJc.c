@@ -488,7 +488,7 @@ StringJc copyToThreadCxt_StringJc(StringJc src, ThCxt* _thCxt)
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 /* Implementation notes: The functionallity of conversion from a given charset is ignored yet.
    Only the copiing of  bytes is done.
  */
@@ -526,7 +526,7 @@ StringJc new_mBYIIEncoding_StringJc(int8ARRAY bytes, int offset, int length, str
 }
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 StringJc new_CY_StringJc(char_Y* chars, ThCxt* _thCxt)
 {
   StringJc ret; 
@@ -545,7 +545,7 @@ StringJc new_CY_StringJc(char_Y* chars, ThCxt* _thCxt)
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 StringJc new_CYI_StringJc(char_Y* chars, int offset, int count, ThCxt* _thCxt)
 {
   StringJc ret; 
@@ -772,7 +772,7 @@ StringBuilderJc_s* insert_C_StringBuilderJc(StringBuilderJc_s* ythis, int offset
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 StringBuilderJc_s* insert_CYII_StringBuilderJc(StringBuilderJc_s* ythis, int pos, char_Y* src, int offset, int len, ThCxt* _thCxt)
 { //NOTE: a macro isn't able to use because add should be a left value, the actual parameter add doesn't may it.
   int lenSrc = src->head.length;

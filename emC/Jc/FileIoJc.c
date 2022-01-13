@@ -52,7 +52,7 @@
 FileJc_s* ctorO_FileJc  (  ObjectJc* othis, StringJc name, ThCxt* _thCxt)
 {
   FileJc_s* ythis = (FileJc_s*)othis;
-  int sizeObj = getSizeInfo_ObjectJc(othis);
+  //int sizeObj = getSizeInfo_ObjectJc(othis);
   extern const ClassJc refl_FileJc;
   STACKTRC_TENTRY("ctorO_FileJc");
   CHECKinit_ObjectJc(othis, sizeof(FileJc_s), refl_FileJc, 0);  
@@ -161,7 +161,7 @@ void finalize_FileOutputStreamJc_F  (  ObjectJc* othis, ThCxt* _thCxt)
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 void write_BY_FileOutputStreamJc  (  FileOutputStreamJc_s* ythis, int8_Y* data, ThCxt* _thCxt)
 {
 }
@@ -298,7 +298,7 @@ void close_FileWriterJc  (  FileWriterJc_s* ythis, ThCxt* _thCxt)
 FileReaderJc_s* ctorO_FileReaderJc  (  ObjectJc* othis, OS_HandleFile file, ThCxt* _thCxt)
 { 
   FileReaderJc_s* ythis = (FileReaderJc_s*)othis;
-  int sizeObj = getSizeInfo_ObjectJc(othis);
+  //int sizeObj = getSizeInfo_ObjectJc(othis);
   extern const ClassJc refl_FileReaderJc_s;
   STACKTRC_TENTRY("ctor_FileReaderJcF");
   CHECKinit_ObjectJc(othis, sizeof(FileReaderJc_s), refl_FileReaderJc, 0); 
@@ -362,7 +362,7 @@ int close_FileReaderJcF  (  FileReaderJc_s* ythis, ThCxt* _thCxt)
 BufferedReaderJc_s* ctorO_BufferedReaderJc  (  ObjectJc* othis, FileReaderJc_s* inputReader, MemC buffer, ThCxt* _thCxt)
 { 
   BufferedReaderJc_s* ythis = (BufferedReaderJc_s*)othis;
-  int sizeObj = getSizeInfo_ObjectJc(othis);
+  //int sizeObj = getSizeInfo_ObjectJc(othis);
   extern const ClassJc refl_BufferedReaderJc_s;
   STACKTRC_TENTRY("ctorO_BufferedReaderJc");
   CHECKinit_ObjectJc(othis, sizeof(BufferedReaderJc_s), refl_BufferedReaderJc, 0);  

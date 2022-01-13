@@ -38,10 +38,10 @@
 //It needs for link:
 //os_file.c
 //copyToBuffer_CharSeqJc: emC/String_emC.c
+#include <applstdef_emC.h>
 
 
-
-#ifndef DEF_Exception_emC_NO
+#ifndef DEF_NO_Exception_emC
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/Base/StringBase_emC.h> 
@@ -51,7 +51,6 @@
 #include <string.h>  //strlen
 #include <emC/OSAL/os_file.h>
 #include <stdio.h>
-
 
 
 

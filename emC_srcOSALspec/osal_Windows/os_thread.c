@@ -86,9 +86,11 @@ typedef struct OS_ThreadContext_t
   /**Name of the thread.*/
   const char* name; 
 
+  #ifndef DEF_NO_ThreadContext_STACKTRC_emC
   /**The user ThreadContext is part of the thread specific data. 
    * It is defined application-specific via the included applstdef_emC.h */
   ThreadContext_emC_s userThreadContext;
+  #endif
 
 }OS_ThreadContext;
 
@@ -170,8 +172,10 @@ static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName, void* top
   int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
   threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
   memset(threadContext, 0, sizeThreadContext);
+  #ifndef DEF_NO_ThreadContext_STACKTRC_emC
   ctor_ThreadContext_emC(&threadContext->userThreadContext, topAddrStack);   //This constructor depends of the settings in <applstdef_emC.h>. There it is defined which type of ThreadContext is used.
-	return threadContext; 
+	#endif
+  return threadContext; 
 }
 
 
@@ -179,12 +183,12 @@ static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName, void* top
 int init_OSAL()
 {
   if(bOSALInitialized){ return OS_UNEXPECTED_CALL; }
-  else
-  {
-	  int idxThreadPool = 0;
+  else {
+  	  int idxThreadPool = 0;
 	  HANDLE hMainHandle, hDupMainHandle;
+    #ifndef DEF_NO_ThreadContext_STACKTRC_emC
     OS_ThreadContext* mainThreadContext;
-    	  
+    #endif	  
 	  // Allocate the global TLS index (valid for all threads when they are running (current thread)). 
 	  if ((dwTlsIndex = TlsAlloc()) == TLS_OUT_OF_INDEXES){
 		  printf("init_OSAL: ERROR: TlsAlloc failed!\n"); 
@@ -202,25 +206,31 @@ int init_OSAL()
 						  DUPLICATE_SAME_ACCESS );
 
 	  // store thread parameters in thread pool (first thread, no thread protection)
-    mainThreadContext = new_OS_ThreadContext("main", &idxThreadPool);
+    #ifndef DEF_NO_ThreadContext_STACKTRC_emC
+      mainThreadContext = new_OS_ThreadContext("main", &idxThreadPool);
 	  
-	  if (mainThreadContext != null){
-		  mainThreadContext->uTID = GetCurrentThreadId();
-		  mainThreadContext->THandle = (OS_HandleThread) hDupMainHandle;
-		  /* create an event for this thread (for use in eventFlag functions) */
-		  //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
-      bOSALInitialized = true;
-	    { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
-        if (!ok  ){ 
-          printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
+	    if (mainThreadContext != null){
+		    mainThreadContext->uTID = GetCurrentThreadId();
+		    mainThreadContext->THandle = (OS_HandleThread) hDupMainHandle;
+		    /* create an event for this thread (for use in eventFlag functions) */
+		    //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
+        bOSALInitialized = true;
+	      { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
+          if (!ok  ){ 
+            printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
+          }
         }
+        return 0; 
+	    }
+      else
+      { printf("too many threads");
+        return OS_SYSTEM_ERROR;
       }
-      return 0; 
-	  }
-    else
-    { printf("too many threads");
-      return OS_SYSTEM_ERROR;
-    }
+    #else
+      return 0;
+    #endif //DEF_NO_ThreadContext_STACKTRC_emC
+
+
   }
 }
 
@@ -564,7 +574,7 @@ char const* os_getTextOfOsError(int nError)
 
 
 
-
+#ifndef DEF_NO_ThreadContext_STACKTRC_emC
 ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 {
   OS_ThreadContext* os_thCxt = getCurrent_OS_ThreadContext();
@@ -578,5 +588,5 @@ ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
   }
   return &os_thCxt->userThreadContext;  //it is a embedded struct inside the whole ThreadContext.
 }
-
+#endif
 

@@ -50,7 +50,7 @@
 
 #include <string.h>
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, int length, ThCxt* _thCxt)
 { ObjectArrayJc* srcArray = (ObjectArrayJc*)src;  //TODO test whether it is admissible
   ObjectArrayJc* dstArray = (ObjectArrayJc*)dst;  //TODO test whether it is admissible
@@ -82,7 +82,7 @@ void arraycopy_SystemJc(ObjectJc* src, int srcPos, ObjectJc* dst, int dstPos, in
 
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 void arraycopy_v_SystemJc(ByteStringJc src, int srcPos, ObjectJc* dst, int dstPos, int length, ThCxt* _thCxt)
 { ObjectArrayJc* dstArray = (ObjectArrayJc*)dst;  //TODO test whether it is admissible
   int srclen = length_ByteStringJc(src);
@@ -119,9 +119,9 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, int8ARRAY dst, int dstP
 { int srclen = length_ByteStringJc(src);
   int8* srcPtr = data_ByteStringJc(src);
   STACKTRC_TENTRY("arraycopy_SystemJc");
-  if(srcPos < 0 || srcPos > srclen) THROW1_s0(IndexOutOfBoundsException, "srcPos failed", srcPos);
-  if(dstPos < 0 || dstPos > VAL_AddrVal_emC(dst)) THROW1_s0(IndexOutOfBoundsException, "dstPos failed", dstPos);
-  if(srcPos +length > srclen || dstPos +length > VAL_AddrVal_emC(dst)) THROW1_s0(IndexOutOfBoundsException, "length failed", length);
+  if(srcPos < 0 || srcPos > srclen) THROW_s0(IndexOutOfBoundsException, "srcPos failed", srcPos, 0);
+  if(dstPos < 0 || dstPos > VAL_AddrVal_emC(dst)) THROW_s0(IndexOutOfBoundsException, "dstPos failed", dstPos, 0);
+  if(srcPos +length > srclen || dstPos +length > VAL_AddrVal_emC(dst)) THROW_s0(IndexOutOfBoundsException, "length failed", length, 0);
   { int sizeElement = 1; 
     int nrofBytes = sizeElement * length;
     int srcPosBytes = sizeElement * srcPos;
@@ -129,9 +129,9 @@ void arraycopy_vm_SystemJc(ByteStringJc src, int srcPos, int8ARRAY dst, int dstP
     //TODO test whehter it is in the size of ObjectJc, use objectIdentSize
     int srcMaxNrofBytes = srclen;
     int dstMaxNrofBytes = VAL_AddrVal_emC(dst);
-    if(sizeElement < 0) THROW1_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement);
-    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW1_s0(ArrayStoreException, "src-consistence failed", (int)(intptr_t)(srcPtr));
-    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW1_s0(ArrayStoreException, "dst-consistence failed", (int)(intptr_t)ADDR_AddrVal_emC(dst, MemUnit));
+    if(sizeElement < 0) THROW_s0(ArrayStoreException, "src/dst-consistence failed, sizeElement negative", sizeElement, 0);
+    if(srcPosBytes + nrofBytes > srcMaxNrofBytes) THROW_s0(ArrayStoreException, "src-consistence failed", (int)(intptr_t)(srcPtr), 0);
+    if(dstPosBytes + nrofBytes > dstMaxNrofBytes) THROW_s0(ArrayStoreException, "dst-consistence failed", (int)(intptr_t)ADDR_AddrVal_emC(dst, MemUnit), 0);
     //all is tested.
     { MemUnit* dst1 = ADDR_AddrVal_emC(dst, MemUnit);   
       MemUnit* src1 = (MemUnit*)srcPtr;

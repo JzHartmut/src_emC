@@ -45,7 +45,7 @@
 #define __os_time_h__
 
 #include <applstdef_emC.h>
-#include <emC/Base/MemC_emC.h>
+//#include <emC/Base/MemC_emC.h>
 #include <emC/Base/Time_emC.h>
 
 extern_C_BLOCK_
@@ -59,7 +59,7 @@ extern_C_BLOCK_
 #define OS_TimeStruct OS_TimeStamp
 
 /**Initializes the timestamp with 0, it is a time 1. 1. 1970. */
-OS_TimeStamp* ctorM_TimeAbs_emC(MemC mem);
+//TimeAbs_emC* ctorM_TimeAbs_emC(MemC mem);
 
 /**Initializes the timestamp with 0, it is a time 1. 1. 1970. */
 #define INIT_TimeAbs_emC(THIS) (memset(&THIS, 0, sizeof(THIS)))

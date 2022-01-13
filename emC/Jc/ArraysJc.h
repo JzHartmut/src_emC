@@ -54,7 +54,7 @@ METHOD_C int binarySearch_Object_ArraysJc(const void* a, const void* key, Compar
 
 #define binarySearch_int_ArraysJc(ARRAY, value, _thCxt) binarySearch_int_ii_ArraysJc(ARRAY, value, 0, ARRAY->head.length, _thCxt)
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 METHOD_C int binarySearch_int_ii_ArraysJc(const int32_Y* a, int fromIndex, int toIndex, int32 key, ThCxt* _thCxt);
 
 /**Search without check of bounds. It is for internal use, like in Java. */
@@ -69,7 +69,7 @@ METHOD_C int binarySearch0_int_ArraysJc(int32 const* data, int fromIndex, int to
 #define binarySearch_int64_ArraysJc(ARRAY, KEY, _thCxt) binarySearch_int64_ii_ArraysJc(ARRAY, 0, ARRAY->head.length, KEY, _thCxt)
 
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 METHOD_C int binarySearch_int64_ii_ArraysJc(int64_Y const* data, int fromIndex, int toIndex, int64 key, ThCxt* _thCxt);
 METHOD_C int binarySearch0_int64_ii_ArraysJc(int64_Y const* data, int fromIndex, int toIndex, int64 key);
 #endif
@@ -85,7 +85,7 @@ METHOD_C int binarySearch0_int64_ii_ArraysJc(int64_Y const* data, int fromIndex,
  */
 METHOD_C void fill_mB_ArraysJc(int8ARRAY array, int fromIndex, int toIndex, int value, ThCxt* _thCxt);
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 METHOD_C void fill_B_ArraysJc(int8_Y* array, int fromIndex, int toIndex, int value, ThCxt* _thCxt);
 
 METHOD_C void fill_I_ArraysJc(int32_Y* array, int fromIndex, int toIndex, int32 value, ThCxt* _thCxt);

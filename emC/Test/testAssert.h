@@ -51,9 +51,11 @@ extern_C void msgStartFileLine_testAssert_emC ( char const* msg, char const* fil
 /**Output always a test starting with "  ok " if cond==true*/
 extern_C bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line, ...);
 
-//#ifdef DEFINED_Exception_emC  //else it is not available, for simple tests.
-extern_C bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, int line);
-//#endif
+#ifdef DEFINED_Exception_emC  //else it is not available, for simple tests.
+  extern_C bool exceptionFileLine_testAssert_emC ( Exception_emC* exc, char const* file, int line);
+#else
+  #define exceptionFileLine_testAssert_emC(EXC, FILE, LINE)
+#endif
 
 extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 

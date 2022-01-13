@@ -37,7 +37,6 @@
 #ifndef __emC_fw_Time_h__
 #define __emC_fw_Time_h__
 #include <applstdef_emC.h>
-#include <emC/Base/Object_emC.h>
 //#include <OSAL/os_time.h>
 
 /**This type is introduced because some processors (Texas Instruments) have 32 bit capabillity
@@ -391,7 +390,7 @@ INLINE_emC void calcTime_MinMaxTime_emC(MinMaxTime_emC volatile* thiz, INT_short
 
 typedef struct Clock_MinMaxTime_emC_T {
 
-  union { ObjectJc object; } base;
+  BASED_ON_ObjectJc_emC
 
   float microSecondsPerClock;
 
@@ -401,7 +400,7 @@ typedef struct Clock_MinMaxTime_emC_T {
   MinMaxTime_emC times[3];
 } Clock_MinMaxTime_emC;
 
-#ifndef DEF_REFLECTION_NO
+#if !defined(DEF_NO_ObjectJc_emC) && !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Clock_MinMaxTime_emC)
   extern_C ClassJc const refl_Clock_MinMaxTime_emC;
   #define reflection_Clock_MinMaxTime_emC refl_Clock_MinMaxTime_emC
 #endif

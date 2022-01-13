@@ -65,7 +65,7 @@ typedef struct ByteDataAccessBaseJc_t
   typedef  DEFINE_EnhancedRefJc(ByteDataAccessBaseJc);
 #endif
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
 typedef struct ByteDataAccessBaseJc_X_t { ObjectArrayJc head; ByteDataAccessBaseJcREF data[50]; } ByteDataAccessBaseJc_X;
 typedef struct ByteDataAccessBaseJc_Y_t { ObjectArrayJc head; ByteDataAccessBaseJc_s data[50]; } ByteDataAccessBaseJc_Y;
@@ -605,7 +605,7 @@ Note this method is never used in actual implementations of vishia. Check whethe
 */
 METHOD_C void copyDataFrom_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, struct ByteDataAccessBaseJc_t* src, ThCxt* _thCxt);
 
-#ifndef DEF_ObjectSimple_emC
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
 /**copies some data to a int[], primarily to debug a content. 
 */
 METHOD_C void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, ThCxt* _thCxt);

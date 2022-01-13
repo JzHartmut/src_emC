@@ -7,7 +7,7 @@
   //They are unecessary for initializations because of the data instances do not based on ObjectJc.
   #include <emC/Base/genRefl/Time_emC.crefl>
   #include <emC/OSAL/genRefl/os_time.crefl>  //include here, different Implementations on osal level.
-#elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Clock_MinMaxTime_emC)
+#elif !defined(DEF_NO_ObjectJc_emC) && !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Clock_MinMaxTime_emC)
   ClassJc const refl_Clock_MinMaxTime_emC = INIZ_ClassJc(refl_Clock_MinMaxTime_emC, "Clock_MinMaxTime_emC");
 #endif
 
@@ -41,7 +41,7 @@ OS_TimeStamp* ctorM_OS_TimeStamp  (  MemC mem)
 void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries) {
   
   //int size = sizeof(*thiz) + sizeof(thiz->times) * (nrofEntries - ARRAYLEN_emC(thiz->times));
-  CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), refl_Clock_MinMaxTime_emC, 0);
+  CTOR_ObjectJc(&thiz->base.obj, thiz, sizeof(*thiz), refl_Clock_MinMaxTime_emC, 0);
   thiz->nrofSlices = nrofEntries;
 }
 

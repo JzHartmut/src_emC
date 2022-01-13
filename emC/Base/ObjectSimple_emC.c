@@ -34,6 +34,9 @@
  *
  ****************************************************************************/
 #include <emC/Base/Object_emC.h>
+
+#ifndef DEF_NO_ObjectJc_emC
+
 #include <emC/Base/MemC_emC.h>
 #include <stdlib.h>   //malloc defined here
 #include <string.h>   //memset defined here
@@ -204,8 +207,4 @@ void finalize_ObjectJc_F(ObjectJc const* ythis, ThCxt* _thCxt)
 
 
 
-StringJc const null_StringJc = NULL_StringJc;
-
-
-StringJc const empty_StringJc = INIZ_StringJc("", 0);
-
+#endif //DEF_NO_ObjectJc_emC
