@@ -155,7 +155,7 @@ bool sendMsgVaList_LogMessageStream_FW
   int maxBuffer = sizeof(ythis->buffer);
   STACKTRC_TENTRY("sendMsgVaList_LogMessageStream_FW");
   
-  nChars = posBuffer = toStringFormat_Fw(ythis->buffer, maxBuffer, &timestamp, "\nYY-MM-dd-hh:mm:ss.SSS: ", 2);
+  nChars = posBuffer = toString_TimeAbs_emC(ythis->buffer, maxBuffer, &timestamp, "\nYY-MM-dd-hh:mm:ss.SSS: ", 2);
   buffer2 = ythis->buffer + posBuffer;
   maxBuffer -= posBuffer;
 

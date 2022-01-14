@@ -95,6 +95,8 @@ typedef struct ConcurrentLinkedQueueJc_t
 
 #define sizeof_ConcurrentLinkedQueueJc_s sizeof(ConcurrentLinkedQueueJc_s)
 
+#define ID_refl_ConcurrentLinkedQueueJc 0xee
+
 #ifndef ConcurrentLinkedQueueJcREFDEF
   #define ConcurrentLinkedQueueJcREFDEF
   typedef TYPE_EnhancedRefJc(ConcurrentLinkedQueueJc);

@@ -65,8 +65,8 @@ ObjectJc* XXXallocRefl_ObjectJc ( const int size, struct ClassJc_t const* refl, 
       THROW1_s0(RuntimeException, "to much memory to allocate. ", size);
     }
     ALLOC_MemC(mem, size2);
-    othis = PTR_MemC(mem, ObjectJc);
-    CTOR_ObjectJc(othis, othis, size, refl, typeInstanceIdent);
+    othis = PTR_MemC(mem, ObjectJc);    //Hint: do not use the CTOR macro because refl argument
+    ctor_ObjectJc(othis, othis, size, refl, typeInstanceIdent);
   }
   else {
     THROW1_s0(RuntimeException, "no memory because it is runtime. ", 0);

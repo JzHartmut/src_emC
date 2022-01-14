@@ -40,13 +40,63 @@
 #define HGUARD_emCBase_applstdef_default
 
 
-//Hint: definition of StringJc independent of an included emC/.../StringJc.h
+/**Adaption and test of some settings in the user's applstdef_emC.h */
+//If no reflection are used, anyway DEF_REFLECTION_NO should be defined. 
+#if !defined(DEF_REFLECTION_SIMPLE) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_NO)
+  #define DEF_REFLECTION_NO
+#endif
+
+//If reflection are given Object has Reflection. TODO remove DEF_ObjectJc_REFL..REF against immediately usage ifndef DEF_REFLECTION_NO
+//#if !defined(DEF_REFLECTION_NO) && !!defined(DEF_REFLECTION_NO)
+//  #define DEF_ObjectJc_REFL..REF
+//  #undef DEF_ObjectJc_..SIMPLE
+//#endif
+
+
+//Yet always defined with the reflection, TODO maybe a variant if using virtual C++
+#if defined(DEF_REFLECTION_FULL) && !defined(DEF_ClassJc_Vtbl)
+  #define DEF_ClassJc_Vtbl    //It is used in the inspector sources
+#endif
+
+#if defined(DEF_ClassJc_Vtbl) && !defined(DEF_CharSeqJcCapabilities)
+  //yet always defined with DEF_ClassJc_Vtbl, first one is necessary. 
+  #define DEF_CharSeqJcCapabilities
+#endif 
+
+#ifdef DEF_ThreadContext_STACKTRC_NO
+  #define DEF_ThreadContext_NOSTACKTRC_emC
+#endif
+
+#ifdef DEF_Exception_NO
+  #define DEF_NO_Exception_emC
+#endif
+
+#ifndef VIRTUAL_emC  //empty definition, no virtual operations
+  #ifdef DEF_USEvirtual_emC
+    #define VIRTUAL_emC virtual
+  #else
+    #define VIRTUAL_emC
+  #endif
+#endif
+#ifndef OVERRIDE_VIRTUAL_emC
+  #ifdef DEF_USEvirtual_emC
+    #define OVERRIDE_VIRTUAL_emC override
+  #else
+    #define OVERRIDE_VIRTUAL_emC
+  #endif
+#endif
+
+
+
 //tag::StringJc[]
 /**This is the defintion of a reference to a String and a value and state information. 
  * It is similar as the defintion of AddrVal_emC  or the macro STRUCT_AddrVal_emC
  * but the address is a union because of different capabilities. It is written in the same kind. 
  * * First element is a pointer with different types in the union.
  * * Second element is the length and flags, see in header emC/Base/StringBase_emC.h
+ * Hint: definition of StringJc independent of an included emC/.../StringJc.h 
+ * because it is used for example also in Exception_emC.h. 
+ * It is a simple data struct and some macros, commonly usable. 
  */
 typedef struct StringJc_T { 
   union CharSeqTypes_T { 
@@ -110,6 +160,8 @@ extern_C StringJc const empty_StringJc;
 #define NULL_StringJc { {null}, 0}
 //end::StringJc_Common[]
 
+
+
 #ifdef __cplusplus
   #ifdef DEF_CPP_COMPILE  //If the apropriate C-sources are compiled as C++
     /**C-Sources are compiled with C++, C++ linker label is desired.*/
@@ -122,65 +174,6 @@ extern_C StringJc const empty_StringJc;
   #define extern_CCpp extern
 #endif
 
-#ifdef DEF_NO_ObjectJc_emC
-  #define BASED_ON_ObjectJc_emC union{ObjectJc obj; } base;
-  typedef struct  ObjectJc_T { int id; } ObjectJc;
-  typedef struct  ClassJc_T { int id; } ClassJc;
-  extern_C ObjectJc* alloc_ObjectJc_verySimple_emC(int size, int id);
-  #define ALLOC_ObjectJc(SIZE, REFL, ID) alloc_ObjectJc_verySimple_emC(SIZE, ID)
-  #define INIZ_ObjectJc(OTHIZ, REFL, ID) {ID}  
-  #define INIZ_ClassJc(THIZ, NAME) { *(NAME)}  //store first char only, do not use space for text  
-  #define INIZsuper_ClassJc(THIZ, NAME, BASE) { 0 }  //store nothing, do not use space for text  
-  #define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ((OTHIZ)->id = ID, OTHIZ)  
-  #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, ID) true
-  #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, ID) { (OTHIZ)->id = ID; }
-  #define INSTANCEOF_ObjectJc(OZHIZ, REFL) true
-  #define setReflection_ObjectJc(OTHIZ, REFL, ID) (OTHIZ)->id = ID
-  #define setInitialized_ObjectJc(OTHIZ)
-  #define isInitialized_ObjectJc(OTHIZ) true  //no information, default: It is initialized
-  #define getID_ObjectJc(THIZ) ((THIZ)->id)
-  #define getClass_ObjectJc(OTZHIZ) null
-  #define lock_ObjectJc(OBJ)
-  #define isLocked_ObjectJc(OBJ) true
-  #define finalize_ObjectJc_F(OBJ, THCXT)
-  #define unlock_ObjectJc(OBJ)
-
-#else
-  #include <emC/Base/Object_emC.h>
-#endif
-
-
-//The same definitions are also contained in EnhancedRef_simple.h, see concept of BlocKMem
-#ifndef TYPE_EnhancedRefJc
-  #define TYPE_EnhancedRefJc(TYPE) struct TYPE##_t* TYPE##REF
-  #define NULL_REFJc null 
-  #define SETREFJc(REF, OBJP, REFTYPE) (REF) = (OBJP);
-  #define CLEAR_REFJc(REF) ((REF) = null)
-  #define CLEARREF_Jc(REF) ((REF) = null)
-  #define CLEARREFJc(REF) ((REF) = null)
-  #define REFJc(REF)  (REF) 
-#endif
-
-
-
-//#if defined(DEF_ObjectJc_..SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
-//# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)
-//#   error DEF_ObjectJc_..SIMPLE was defined together with one of the other DEF_ObjectJc...
-//# endif
-//#elif !!defined(DEF_REFLECTION_NO) 
-//#  define DEF_ObjectJc_REFL..REF
-//#endif
-
-
-
- 
-#ifdef DEF_ThreadContext_STACKTRC_NO
-  #define DEF_ThreadContext_NOSTACKTRC_emC
-#endif
-
-#ifdef DEF_Exception_NO
-  #define DEF_NO_Exception_emC
-#endif
 
 #if !defined(DEF_NO_THCXT_STACKTRC_EXC_emC) 
   #include <emC/Base/Assert_emC.h>
@@ -267,44 +260,65 @@ extern_C StringJc const empty_StringJc;
 
 
 
-//If no reflection are used, anyway DEF_REFLECTION_NO should be defined. 
-#if !defined(DEF_REFLECTION_SIMPLE) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_NO)
-  #define DEF_REFLECTION_NO
+
+
+#ifdef DEF_NO_ObjectJc_emC
+  #ifndef BASED_ON_ObjectJc_emC
+    #define BASED_ON_ObjectJc_emC union{ObjectJc obj; } base;
+  #endif
+  typedef struct  ObjectJc_T { int id; } ObjectJc;
+  typedef struct  ClassJc_T { int id; } ClassJc;
+  extern_C ObjectJc* alloc_ObjectJc_verySimple_emC(int size, int id);
+  #define ALLOC_ObjectJc(SIZE, REFL, ID) alloc_ObjectJc_verySimple_emC(SIZE, ID)
+  #define INIZ_ObjectJc(OTHIZ, REFL, ID) {ID}  
+  #define INIZ_ClassJc(THIZ, NAME) { *(NAME)}  //store first char only, do not use space for text  
+  #define INIZsuper_ClassJc(THIZ, NAME, BASE) { 0 }  //store nothing, do not use space for text  
+  #define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ((OTHIZ)->id = ID, OTHIZ)  
+  #define ctor_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ((OTHIZ)->id = ID, OTHIZ)  
+  #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, ID) true
+  #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, ID) { (OTHIZ)->id = ID; }
+  #define INSTANCEOF_ObjectJc(OZHIZ, REFL) true
+  #define setReflection_ObjectJc(OTHIZ, REFL, ID) (OTHIZ)->id = ID
+  #define setInitialized_ObjectJc(OTHIZ)
+  #define isInitialized_ObjectJc(OTHIZ) true  //no information, default: It is initialized
+  #define getID_ObjectJc(THIZ) ((THIZ)->id)
+  #define getClass_ObjectJc(OTZHIZ) null
+  #define lock_ObjectJc(OBJ)
+  #define isLocked_ObjectJc(OBJ) true
+  #define finalize_ObjectJc_F(OBJ, THCXT)
+  #define unlock_ObjectJc(OBJ)
+
+#else
+  #ifndef BASED_ON_ObjectJc_emC
+    #define BASED_ON_ObjectJc_emC union{ObjectJc obj; } base;
+  #endif
+  #include <emC/Base/Object_emC.h>
 #endif
 
-//If reflection are given Object has Reflection. TODO remove DEF_ObjectJc_REFL..REF against immediately usage ifndef DEF_REFLECTION_NO
-//#if !defined(DEF_REFLECTION_NO) && !!defined(DEF_REFLECTION_NO)
-//  #define DEF_ObjectJc_REFL..REF
-//  #undef DEF_ObjectJc_..SIMPLE
+
+//The same definitions are also contained in EnhancedRef_simple.h, see concept of BlocKMem
+#ifndef TYPE_EnhancedRefJc
+  #define TYPE_EnhancedRefJc(TYPE) struct TYPE##_t* TYPE##REF
+  #define NULL_REFJc null 
+  #define SETREFJc(REF, OBJP, REFTYPE) (REF) = (OBJP);
+  #define CLEAR_REFJc(REF) ((REF) = null)
+  #define CLEARREF_Jc(REF) ((REF) = null)
+  #define CLEARREFJc(REF) ((REF) = null)
+  #define REFJc(REF)  (REF) 
+#endif
+
+
+
+//#if defined(DEF_ObjectJc_..SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
+//# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)
+//#   error DEF_ObjectJc_..SIMPLE was defined together with one of the other DEF_ObjectJc...
+//# endif
+//#elif !!defined(DEF_REFLECTION_NO) 
+//#  define DEF_ObjectJc_REFL..REF
 //#endif
 
 
-//Yet always defined with the reflection, TODO maybe a variant if using virtual C++
-#if defined(DEF_REFLECTION_FULL) && !defined(DEF_ClassJc_Vtbl)
-  #define DEF_ClassJc_Vtbl    //It is used in the inspector sources
-#endif
 
-#if defined(DEF_ClassJc_Vtbl) && !defined(DEF_CharSeqJcCapabilities)
-  //yet always defined with DEF_ClassJc_Vtbl, first one is necessary. 
-  #define DEF_CharSeqJcCapabilities
-#endif 
-
-
-#ifndef VIRTUAL_emC  //empty definition, no virtual operations
-  #ifdef DEF_USEvirtual_emC
-    #define VIRTUAL_emC virtual
-  #else
-    #define VIRTUAL_emC
-  #endif
-#endif
-#ifndef OVERRIDE_VIRTUAL_emC
-  #ifdef DEF_USEvirtual_emC
-    #define OVERRIDE_VIRTUAL_emC override
-  #else
-    #define OVERRIDE_VIRTUAL_emC
-  #endif
-#endif
-
-
+ 
 
 #endif //HGUARD_emCBase_applstdef_default

@@ -1,4 +1,5 @@
 #include <emC/Base/Math_emC.h>
+#include <applstdef_emC.h>
 #include <math.h>
 #include <stdio.h>
 

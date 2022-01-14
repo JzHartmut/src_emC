@@ -696,7 +696,7 @@ extern_C ThreadContext_emC_s* getCurrent_ThreadContext_emC ();
 #elif defined(DEF_ThreadContext_NO_STACKTRC_emC)
 
 //all STCKTRC macro are empty. But the ThreadContext exists, independent from STACKTRC.
-//compare to DEF_NO_THCXT_STACKTRC_EXC_emC, then this file is not included and similar infos are in applstdef_default.h
+//compare to DEF_NO_THCXT_STACKTRC_EXC_emC, then this file is not included and similar infos are in applstdef_common.h
 
 /**An empty macro instead Stacktrace entry.
  * Note: the variable _thCxt may be used for some functions, but if not used, it should be optimized by compilation.
@@ -948,7 +948,7 @@ extern_C void clearException(Exception_emC* exc);
   if( setjmp(_tryObject_emC.longjmpBuffer) ==0) {
   #define EXCEPTION_CATCH \
    } else  /*longjmp cames to here on THROW */
-#elif defined(DEF_Exception__TRYCpp)
+#elif defined(DEF_Exception_TRYCpp)
   #define EXCEPTION_TRY try
   #define EXCEPTION_CATCH catch(...)
 #else

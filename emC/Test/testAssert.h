@@ -77,7 +77,7 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
     exceptionFileLine_testAssert_emC(exc, __FILE__, __LINE__); \
   } END_TRY
 
-#define TEST_EXC(EXC) exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
+#define TEST_EXC(EXC) bTESTok = false; exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
 
 
 static inline bool check_testAssert(float val, float cmp, float accuracy) {

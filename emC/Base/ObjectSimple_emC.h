@@ -520,8 +520,8 @@ extern_C ClassJc const refl_ClassJc;
 /**Identifier for ObjectJc to describe: It's a ClassJc. This type is used in Plain Old Data-images of reflections. */
 #define ID_refl_ClassJc 0x0FFC
 
-//extern_C ClassJc const refl_null;
-//#define ID_refl_null 0
+//If null is given as refl_Type...:
+#define ID_null 0
 
 
 

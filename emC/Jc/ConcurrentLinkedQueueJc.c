@@ -45,6 +45,10 @@
 #include "emC/Jc/ConcurrentLinkedQueueJc.h"
 #include "emC/OSAL/os_AtomicAccess.h"
 
+#ifdef DEF_REFLECTION_FULL
+  #include <emC/Jc/genRefl/ConcurrentLinkedQueueJc.crefl>
+#endif
+
 
 //package java.util.concurrent;
 //import java.util.*;
@@ -216,7 +220,7 @@ void ctorc_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis)
 ConcurrentLinkedQueueJc_s* ctorO_MemC_ConcurrentLinkedQueueJc(ObjectJc* othis, MemC memNodes, ThCxt* _thCxt)
 { ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_MemC_ConcurrentLinkedQueueJc");
-  CHECKstrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, 0); 
+  CHECKstrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), refl_ConcurrentLinkedQueueJc, 0); 
   ctorcMn_ConcurrentLinkedQueueJc(ythis, memNodes);
   STACKTRC_LEAVE;
   return ythis;
@@ -243,7 +247,7 @@ void ctorcMn_ConcurrentLinkedQueueJc(ConcurrentLinkedQueueJc_s* ythis, MemC memN
 ConcurrentLinkedQueueJc_s* ctorO_Clq_ConcurrentLinkedQueueJc(ObjectJc* othis, ConcurrentLinkedQueueJc_s* srcNodeShare, ThCxt* _thCxt)
 { ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Clq_ConcurrentLinkedQueueJc");
-  CHECKstrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, 0); 
+  CHECKstrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s),refl_ConcurrentLinkedQueueJc, 0); 
   ctorcSn_ConcurrentLinkedQueueJc(ythis, srcNodeShare);
   STACKTRC_LEAVE;
   return ythis;
@@ -271,7 +275,7 @@ METHOD_C ConcurrentLinkedQueueJc_s* ctorO_init_ConcurrentLinkedQueueJc(ObjectJc*
 {
   ConcurrentLinkedQueueJc_s* ythis = (ConcurrentLinkedQueueJc_s*)othis;
   STACKTRC_TENTRY("ctorO_Clq_ConcurrentLinkedQueueJc");
-  CHECKstrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), null/*&refl_ConcurrentLinkedQueueJc_s*/, 0); 
+  CHECKstrict_ObjectJc(othis, sizeof(ConcurrentLinkedQueueJc_s), refl_ConcurrentLinkedQueueJc, 0); 
   return ythis; 
 }
 
@@ -653,10 +657,6 @@ void restitute_Node_ConcurrentLinkedQueueJcF(ConcurrentLinkedQueueJc_s* ythis, N
   }
   STACKTRC_LEAVE;
 }
-
-#ifdef DEF_REFLECTION_FULL
-#include <emC/Jc/genRefl/ConcurrentLinkedQueueJc.crefl>
-#endif
 
 /**
  * Not in Java, extension for C embedded systems.

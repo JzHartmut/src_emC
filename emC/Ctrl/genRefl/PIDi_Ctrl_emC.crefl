@@ -393,7 +393,7 @@ const struct SuperClasses_PIDi_Ctrl_emC_s_ClassOffset_idxVtblJcARRAY_t  //Type f
 
 const struct Reflection_Fields_PIDi_Ctrl_emC_s_t
 { ObjectArrayJc head;
-  FieldJc data[11];
+  FieldJc data[10];
 } refl_Fields_PIDi_Ctrl_emC_s =
 { INIZ_ObjectArrayJc(refl_Fields_PIDi_Ctrl_emC_s, 11, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
@@ -483,15 +483,6 @@ const struct Reflection_Fields_PIDi_Ctrl_emC_s_t
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
     , (int32)(OFFSET_IN_STRUCT(PIDi_Ctrl_emC_s, qI) - OFFSET_IN_STRUCT(PIDi_Ctrl_emC_s, base.obj))
-    , 0  //offsetToObjectifcBase                                                            
-    , &refl_PIDi_Ctrl_emC
-    }
-  , 
-    { "disableIntg"
-    , 0   //no Array, no Bitfield                           
-    , REFLECTION_uint8                                                                                            
-    , (1<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(PIDi_Ctrl_emC_s, disableIntg) - OFFSET_IN_STRUCT(PIDi_Ctrl_emC_s, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_PIDi_Ctrl_emC
     }

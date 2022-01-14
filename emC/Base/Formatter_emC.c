@@ -63,10 +63,10 @@ char const typedVaArg_VaArgBuffer[] = "typedVariableArgumentList_ObjectJc";
 
 
 
-int toStringFormat_Fw(char* buffer, int sizeBuffer, TimeAbs_emC const* time, char const* sFormat, int timeZoneAdjustHours)
-{
-  return toString_TimeAbs_emC(buffer, sizeBuffer, time, sFormat, timeZoneAdjustHours);
-}
+//int toStringFormat_Fw(char* buffer, int sizeBuffer, TimeAbs_emC const* time, char const* sFormat, int timeZoneAdjustHours)
+//{
+//  return toString_TimeAbs_emC(buffer, sizeBuffer, time, sFormat, timeZoneAdjustHours);
+//}
 
 int parsePrinfStyleString_fwFormatter(ParseResultPrintfStyle_fwFormatter* dst, int zDst, char const* src, int* zSrc)
 { //int iDst = 0;
