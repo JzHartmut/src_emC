@@ -36,8 +36,8 @@
 
 #include <emC/Base/StringBase_emC.h>
 
-const TimeZoneJc_s GMT_TimeZoneJc = CONST_TimeZoneJc( &GMT_TimeZoneJc, CONST_StringJc("GMT",3), 0, 0, false);
-const TimeZoneJc_s MST_TimeZoneJc = CONST_TimeZoneJc( &MST_TimeZoneJc, CONST_StringJc("MST",3), 1, 0, true);
+const TimeZoneJc_s GMT_TimeZoneJc = INIZ_TimeZoneJc( GMT_TimeZoneJc, CONST_StringJc("GMT",3), 0, 0, false);
+const TimeZoneJc_s MST_TimeZoneJc = INIZ_TimeZoneJc( MST_TimeZoneJc, CONST_StringJc("MST",3), 1, 0, true);
 
 
 TimeZoneJc_s* getTimeZone_TimeZoneJc(StringJc name, ThCxt* _thCxt)

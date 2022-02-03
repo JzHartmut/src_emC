@@ -81,17 +81,69 @@ typedef STRUCT_AddrVal_emC(MemC, Addr8_emC);
   #define HGUARDRefl_Object_emC  
 #endif
 
-#ifdef DEF_REFLECTION_NO
-  #if !defined(DEF_REFLECTION_NO) || defined(DEF_ObjectJcpp_REFLECTION)
-    #error if ObjectJc needs reflection information, it cannot select DEF_REFLECTION_NO. Select at least DEF_REFLECTION_SIMPLE.
+
+
+/**This is related to the element handleBits and offsetToInstanceAddr. Both are only together. 
+ * Also if DEF_ObjectJc_LARGESIZE is defined, the lock- and handleBits are extra, hence should be defined. 
+ */
+#if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_LARGESIZE)
+  #ifndef DEF_ObjectJc_SYNCHANDLE
+    #define DEF_ObjectJc_SYNCHANDLE
   #endif
+  #if !defined(DEF_REFLECTION_NO) && !defined(DEF_ObjectJcpp_REFLECTION)
+    #define DEF_ObjectJcpp_REFLECTION
+  #endif
+  #define mLockedSyncHandle_ObjetJc 0x8000
+  #define mSyncHandle_ObjectJc 0x0fff
+  #define kNoSyncHandles_ObjectJc 0x0fff
+#else
+  //the bits are part of identSize, see next definition block.
 #endif
 
 
-//#include <emC/Base/MemC_emC.h>
+
+
+
+#ifndef DEF_ObjectJc_LARGESIZE
+//Note: If only ObjectSimple_emC is included, this should be never defined. 
+//But if not DEF_ObjectSimple_emC, it is also necessary:
+//internal Definitions related to identSize:
+  #define mInitialized_ObjectJc  0x80000000
+  #define mArray_ObjectJc        0x40000000
+
+  #ifdef DEF_ObjectJc_SYNCHANDLE
+    //It has an own 16 bit dataword for some stuff:
+    #define mInstanceType_ObjectJc   0x3fff0000
+    #define mIdentSmall_ObjectJc     0x3fff0000
+    #define mSize_ObjectJc           0x0000ffff   //size in memory words, max, 64 kByte
+  #else
+    //Lock in the identSize is only valid for a small ObjectJc 
+    #define mSyncHandle_ObjectJc    0x30000000
+    #define kNoSyncHandles_ObjectJc 0x00000000
+    #define mInstanceType_ObjectJc 0x0fff0000
+    #define mIdentSmall_ObjectJc   0x0fff0000
+    #define mLocked_ObjectJc       0x00008000
+    #define mSize_ObjectJc         0x00007fff   //size in memory words, max, 64 kByte
+  #endif
+
+  #ifndef DEF_REFLECTION_NO        //in case of Reflection given, the identSize is the instance Id, not the type.
+    #define mInstance_ObjectJc     mInstanceType_ObjectJc
+    #define kBitInstance_ObjectJc 16
+  #endif    
+
+  #define kBitInstanceType_ObjectJc 16
+  #define kBitIdentSmall_ObjectJc   16
+  #define mSizeSmall_ObjectJc    mSize_ObjectJc  //used for INIZ_ObjectJc
+  #define kIsSmallSize_ObjectJc  0x00000000  //not used, 0 ok
+  //
+  /**Array bit in a given ID. */
+  #define mArrayId_ObjectJc        0x4000
+#endif //DEF_ObjectJc_LARGESIZE
+
 
 
 struct ClassJc_t;
+
 
 
 /**Object is the superclass of all superclasses. In C-like manner it is a struct
@@ -107,23 +159,22 @@ typedef struct  ObjectJc_T
   /**The identSize is helpfull to recognize the instance. 
   * The bit31 is used to detect whether it is initialized or not. */
   uint32 identSize;
-  #define mInitialized_ObjectJc  0x80000000
-  #define mArray_ObjectJc        0x40000000
-  #define mLocked_ObjectJc       0x20000000
-  #define mInstanceType_ObjectJc 0x1fff0000  
-  #define mIdentSmall_ObjectJc   0x1fff0000
-  #define kBitInstanceType_ObjectJc 16
-  #define kBitIdentSmall_ObjectJc   16
-  #define mSize_ObjectJc         0x0000ffff   //size in memory words, max, 64 kByte
-  //
-  /**Array bit in a given ID. */
-  #define mArrayId_ObjectJc        0x4000
+
+  #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE)
+    /**Offset from the data-instance start address to the ObjectJc part. 
+     * It is especially for symbolic field access (reflection) in C++. */
+    uint16 offsetToInstanceAddr;
+    /**Some handle bits to use an ObjectJc for lock (mutex). */
+    uint16 handleBits;
+  #endif
 
   #ifndef DEF_REFLECTION_NO
-    #define mInstance_ObjectJc   0x1fff0000
-    #define kBitInstance_ObjectJc 16
     /**The reference to the type information. */
     struct ClassJc_t const* reflection;
+  #endif
+
+  #ifdef DEF_ObjectJc_OWNADDRESS
+    void const* ownAddress;
   #endif
 } ObjectJc;
 
@@ -145,15 +196,60 @@ extern_C const struct ClassJc_t refl_ObjectJc;
 const Initialization                         */
 
 /**Initializing of a simple object.  */
-#ifdef DEF_REFLECTION_NO
+#ifdef DEF_NO_ObjectJc_emC 
   #define INIZ_ObjectJc(OBJ, REFL, ID)  { ((((uint32)(ID_##REFL))<<kBitInstanceType_ObjectJc) & mInstanceType_ObjectJc)  | (uint32)(sizeof(OBJ) & mSize_ObjectJc) }
-#elif !defined(DEF_ObjectJcpp_REFLECTION)  //for that, definition in Object_emC.h
-  #define INIZ_ObjectJc(OBJ, REFL, ID)  \
-   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \
-       & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+#elif !defined(DEF_ObjectJc_SYNCHANDLE) && defined(DEF_REFLECTION_NO) && ! defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   }
+#elif  defined(DEF_ObjectJc_SYNCHANDLE) && defined(DEF_REFLECTION_NO) && ! defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , 0, kNoSyncHandles_ObjectJc \
+   }
+#elif !defined(DEF_ObjectJc_SYNCHANDLE) && !defined(DEF_REFLECTION_NO) && ! defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
      ) | sizeof(OBJ) \
    , &(REFL) \
    }
+#elif  defined(DEF_ObjectJc_SYNCHANDLE) && !defined(DEF_REFLECTION_NO) && ! defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , 0, kNoSyncHandles_ObjectJc \
+   , &(REFL) \
+   }
+#elif !defined(DEF_ObjectJc_SYNCHANDLE) &&  defined(DEF_REFLECTION_NO) && defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , &(OBJ) \
+   }
+#elif  defined(DEF_ObjectJc_SYNCHANDLE) &&  defined(DEF_REFLECTION_NO) && defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , 0, kNoSyncHandles_ObjectJc\
+   , &(OBJ) \
+   }
+#elif !defined(DEF_ObjectJc_SYNCHANDLE) && !defined(DEF_REFLECTION_NO) && defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , &(REFL), &(OBJ) \
+   }
+#elif  defined(DEF_ObjectJc_SYNCHANDLE) && !defined(DEF_REFLECTION_NO) && defined(DEF_ObjectJc_OWNADDRESS)
+  #define INIZ_ObjectJc(OBJ, REFL, ID) \
+   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
+     ) | sizeof(OBJ) \
+   , 0, kNoSyncHandles_ObjectJc\
+   , &(REFL), &(OBJ) \
+   }
+#else
+  #error unexpected, not possible
 #endif
 /*---------------------------------------------
 Initialization and check operations                         */
@@ -323,7 +419,15 @@ static inline bool isLocked_ObjectJc ( ObjectJc* thiz) { return (thiz->identSize
 
 static inline void unlock_ObjectJc ( ObjectJc* thiz)  { thiz->identSize &= ~mLocked_ObjectJc; }
 
-#endif
+#else 
+static inline void lock_ObjectJc ( ObjectJc* thiz) { thiz->handleBits |= mLockedSyncHandle_ObjetJc; }
+
+static inline bool isLocked_ObjectJc ( ObjectJc* thiz) { return (thiz->handleBits & mLockedSyncHandle_ObjetJc) !=0; }
+
+static inline void unlock_ObjectJc ( ObjectJc* thiz)  { thiz->handleBits &= ~mLockedSyncHandle_ObjetJc; }
+
+#endif //ifdef DEF_ObjectJc_SYNCHANDLE
+
 
 
 

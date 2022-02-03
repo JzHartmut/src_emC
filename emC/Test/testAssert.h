@@ -61,7 +61,7 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 
 #define TEST_START(MSG) bool bTESTok = true; msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
 
-#define TEST_TRY(MSG) TRY { bool bTESTok = true; msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__);
+#define TEST_TRY(MSG) bool bTESTok = true; TRY { msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__);
 
 /**Test, output ok MSG if ok, only on error with file and line. */
 #define TEST_TRUE(COND, MSG, ...) if(!expectMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__, ##__VA_ARGS__)) bTESTok = false;
@@ -73,9 +73,10 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 
 #define TEST_END   msgEndFileLine_testAssert_emC(bTESTok); 
 
-#define _TEST_TRY_END  msgEndFileLine_testAssert_emC(bTESTok);} _TRY  CATCH(Exception, exc) { \
-    exceptionFileLine_testAssert_emC(exc, __FILE__, __LINE__); \
-  } END_TRY
+#define _TEST_TRY_END  } _TRY  CATCH(Exception, exc) { \
+    bTESTok = false; exceptionFileLine_testAssert_emC(exc, __FILE__, __LINE__); \
+  } END_TRY  msgEndFileLine_testAssert_emC(bTESTok); 
+
 
 #define TEST_EXC(EXC) bTESTok = false; exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
 

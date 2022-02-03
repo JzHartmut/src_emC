@@ -3,7 +3,7 @@
  **copyright***************************************************************
  *************************************************************************/
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#if defined(DEF_ObjectJcpp_REFLECTION) && ! defined(DEF_NO_StringUSAGE)  //only possible with reflection because Vtable is need
 
 
 #include "emC/J1c/StringPartScanJc.h"
@@ -522,7 +522,7 @@ struct StringPartScanJc_t* scanPositivInteger_StringPartScanJc(StringPartScanJc_
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = false;
         }
-        else { throw_s0Jc(ident_ParseException_emC, "to much scanned integers", 0, __FILE__, __LINE__, _thCxt); return 0; };
+        else { THROW_s0(ParseException, "to much scanned integers", 0, 0); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -567,7 +567,7 @@ struct StringPartScanJc_t* scanInteger_StringPartScanJc(StringPartScanJc_s* thiz
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = bNegativValue;
         }
-        else { throw_s0Jc(ident_ParseException_emC, "to much scanned integers", 0, __FILE__, __LINE__, _thCxt); return 0; };
+        else { THROW_s0(ParseException, "to much scanned integers", 0, 0); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -641,7 +641,7 @@ struct StringPartScanJc_t* scanFloatNumber_StringPartScanJc(StringPartScanJc_s* 
             
             thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = (double /*J2C_cast*/)nInteger;
           }
-          else { throw_s0Jc(ident_ParseException_emC, "to much scanned floats", 0, __FILE__, __LINE__, _thCxt); return 0; };
+          else { THROW_s0(ParseException, "to much scanned floats", 0, 0); return 0; };
         }
       }
     }
@@ -779,7 +779,7 @@ struct StringPartScanJc_t* scanFractionalNumber_StringPartScanJc(StringPartScanJ
           
           thiz->nLastFloatNumber.data[++thiz->idxLastFloatNumber] = result;
         }
-        else { throw_s0Jc(ident_ParseException_emC, "to much scanned floats", 0, __FILE__, __LINE__, _thCxt); return 0; };
+        else { THROW_s0(ParseException, "to much scanned floats", 0, 0); return 0; };
       }
       else 
       { /*:whetter '.' nor 'E' found:*/
@@ -817,7 +817,7 @@ struct StringPartScanJc_t* scanHex_StringPartScanJc(StringPartScanJc_s* thiz, in
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = false;
         }
-        else { throw_s0Jc(ident_ParseException_emC, "to much scanned integers", 0, __FILE__, __LINE__, _thCxt); return 0; };
+        else { THROW_s0(ParseException, "to much scanned integers", 0, 0); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -860,7 +860,7 @@ struct StringPartScanJc_t* scanHexOrDecimal_StringPartScanJc(StringPartScanJc_s*
           thiz->nLastIntegerNumber.data[++thiz->idxLastIntegerNumber] = value;
           thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber] = false;
         }
-        else { throw_s0Jc(ident_ParseException_emC, "to much scanned integers", 0, __FILE__, __LINE__, _thCxt); return 0; };
+        else { THROW_s0(ParseException, "to much scanned integers", 0, 0); return 0; };
       }
     }
     { STACKTRC_LEAVE;
@@ -933,7 +933,7 @@ bool getLastScannedIntegerSign_StringPartScanJc(StringPartScanJc_s* thiz, ThCxt*
         return thiz->nLastIntegerSign.data[thiz->idxLastIntegerNumber];
       }
     }
-    else { throw_s0Jc(ident_ParseException_emC, "no integer number scanned.", 0, __FILE__, __LINE__, _thCxt); return 0; };
+    else { THROW_s0(ParseException, "no integer number scanned.", 0, 0); return 0; };
   }
   STACKTRC_LEAVE;
 }
@@ -953,7 +953,7 @@ int64 getLastScannedIntegerNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThC
         return thiz->nLastIntegerNumber.data[thiz->idxLastIntegerNumber--];
       }
     }
-    else { throw_s0Jc(ident_ParseException_emC, "no integer number scanned.", 0, __FILE__, __LINE__, _thCxt); return 0; };
+    else { THROW_s0(ParseException, "no integer number scanned.", 0, 0); return 0; };
   }
   STACKTRC_LEAVE;
 }
@@ -973,7 +973,7 @@ double getLastScannedFloatNumber_StringPartScanJc(StringPartScanJc_s* thiz, ThCx
         return thiz->nLastFloatNumber.data[thiz->idxLastFloatNumber--];
       }
     }
-    else { throw_s0Jc(ident_ParseException_emC, "no float number scanned.", 0, __FILE__, __LINE__, _thCxt); return 0; };
+    else { THROW_s0(ParseException, "no float number scanned.", 0, 0); return 0; };
   }
   STACKTRC_LEAVE;
 }

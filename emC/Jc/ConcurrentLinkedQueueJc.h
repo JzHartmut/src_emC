@@ -91,11 +91,16 @@ typedef struct ConcurrentLinkedQueueJc_t
   struct Node_ConcurrentLinkedQueueJc_t* volatile theFreeNodePool;
 
   
-}ConcurrentLinkedQueueJc_s;
+} ConcurrentLinkedQueueJc_s;
 
 #define sizeof_ConcurrentLinkedQueueJc_s sizeof(ConcurrentLinkedQueueJc_s)
 
-#define ID_refl_ConcurrentLinkedQueueJc 0xee
+#ifndef DEF_REFLECTION_NO
+  extern_C ClassJc const refl_ConcurrentLinkedQueueJc;
+#endif
+#ifndef ID_refl_ConcurrentLinkedQueueJc
+  #define ID_refl_ConcurrentLinkedQueueJc 0xee
+#endif
 
 #ifndef ConcurrentLinkedQueueJcREFDEF
   #define ConcurrentLinkedQueueJcREFDEF

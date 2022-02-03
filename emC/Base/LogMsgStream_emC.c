@@ -289,7 +289,7 @@ static struct interfaces_LogMessageStream_FW_t
   ObjectArrayJc head;
   ClassOffset_idxVtblJc data[1];
 }interfaces_LogMessageStream_FW =
-{ CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, null)
+{ CONST_ObjectArrayJc(ClassOffset_idxVtblJc, 1, OBJTYPE_ClassOffset_idxVtblJc, null, &interfaces_LogMessageStream_FW)
 , { {&refl_LogMessageFW, OFFSET_Vtbl(struct Vtbl_LogMessageStream_FW_t, LogMessage_FW_i) }
   }
 };

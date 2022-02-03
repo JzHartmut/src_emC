@@ -483,23 +483,8 @@ METHOD_C bool addChildString_CsS_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* th
 
  */
 #define addChildString_Cs_ByteDataAccessBaseJc(THIZ, value) \
-\
-{ \
-  \
-  TRY\
-  { \
-    \
-    addChildString_CsS_ByteDataAccessBaseJc((THIZ), value, null_StringJc /*J2C: mem assignment*/, _thCxt);\
-  }_TRY\
-  CATCH(UnsupportedEncodingException, exc)\
-  \
-    { \
-      \
-      { throw_EJc(ident_RuntimeException_emC, exc, 0, __FILE__, __LINE__, _thCxt); };\
-    }\
-  END_TRY/*it isn't able.*/\
-  \
-}
+  addChildString_CsS_ByteDataAccessBaseJc((THIZ), value, null_StringJc /*J2C: mem assignment*/, _thCxt)
+
 
 /**Adds a child for 1 short value without a child instance, returns the value as short.
 

@@ -390,7 +390,7 @@ INLINE_emC void calcTime_MinMaxTime_emC(MinMaxTime_emC volatile* thiz, INT_short
 
 typedef struct Clock_MinMaxTime_emC_T {
 
-  BASED_ON_ObjectJc_emC
+  union{ObjectJc obj; } base;
 
   float microSecondsPerClock;
 
@@ -400,7 +400,7 @@ typedef struct Clock_MinMaxTime_emC_T {
   MinMaxTime_emC times[3];
 } Clock_MinMaxTime_emC;
 
-#if !defined(DEF_NO_ObjectJc_emC) && !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_Clock_MinMaxTime_emC)
+#if !defined(DEF_NO_ObjectJc_emC) && !defined(DEF_REFLECTION_NO) //&& !defined(DEFINED_refl_Clock_MinMaxTime_emC)
   extern_C ClassJc const refl_Clock_MinMaxTime_emC;
   #define reflection_Clock_MinMaxTime_emC refl_Clock_MinMaxTime_emC
 #endif

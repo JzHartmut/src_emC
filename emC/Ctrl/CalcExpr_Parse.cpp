@@ -1,6 +1,7 @@
 
 #include <emC/Base/Object_emC.h>
 #ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #include "emC/Ctrl/CalcExpr_Parse.h"
 #include "emC/Ctrl/CalcExpr.h"
@@ -228,5 +229,6 @@ void parse_CalcExpr(StringJc expr
   STACKTRC_LEAVE;
 }
 
+#endif //ndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #endif //DEF_ObjectJcpp_REFLECTION

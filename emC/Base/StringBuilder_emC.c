@@ -135,7 +135,7 @@ void ctor_addSize_StringBuilderJc ( StringBuilderJc_s* thiz, int addSize)
 { STACKTRC_ENTRY("ctor_addSize_StringBuilderJc");
   CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz) + addSize, refl_StringBuilderJc, 0);
   int size1 = sizeof(thiz->value) + addSize;
-  ASSERTs_emC(size1 >=0 && size1 < 0x7fff, "faulty size for StringBuilder", size1, 0);
+  ASSERT_emC(size1 >=0 && size1 < 0x7fff, "faulty size for StringBuilder", size1, 0);
   thiz->size = (int16)(size1);
   thiz->_mode = 0;  //no mode bits yet initialize
   thiz->_count = 0;
@@ -146,7 +146,7 @@ void ctor_addSize_StringBuilderJc ( StringBuilderJc_s* thiz, int addSize)
 void ctor_Buffer_StringBuilderJc ( StringBuilderJc_s* thiz, char* buffer, int size)
 { STACKTRC_ENTRY("ctor_Buffer_StringBuilderJc");
   CTOR_ObjectJc(&thiz->base.object, thiz, sizeof(*thiz), refl_StringBuilderJc, 0);
-  ASSERTs_emC(size >=0 && size < 0x7fff, "faulty size for StringBuilder", size, 0);
+  ASSERT_emC(size >=0 && size < 0x7fff, "faulty size for StringBuilder", size, 0);
   thiz->size = (int16)(-size);
   thiz->_mode = 0;  //no mode bits yet initialize
   thiz->_count = 0;
@@ -674,7 +674,11 @@ METHOD_C StringJc toStringNonPersist_StringBuilderJc(ObjectJc const* othis, ThCx
     int count = ythis->_count;
     /**Detect whether the buffer is found in the stack range. Than its memory address is
      * between any address of a local variable and the Thread-Context pointer. */
-    bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0);
+    #ifdef DEFINED_ThreadContext_emC
+      bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0);
+    #else
+      bool bufferInStack = true;  //no answer possible, suppose non persistent
+    #endif
     int nonPersistent = 0;
     /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
     //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;

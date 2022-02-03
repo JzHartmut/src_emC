@@ -51,7 +51,7 @@ void errorSystem_emC_  (  int errorCode, const char* description, int value1, in
 
 
 
-#ifndef DEF_NO_Exception_emC
+#ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
 /**Handling of an uncatched exception (CATCH block was not found).
  * Then the application should be aborted.
  * But before the exception is written on console with printf.

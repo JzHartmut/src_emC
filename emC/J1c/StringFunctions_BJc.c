@@ -3,7 +3,7 @@
  **copyright***************************************************************
  *************************************************************************/
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#if defined(DEF_ObjectJcpp_REFLECTION) && ! defined(DEF_NO_StringUSAGE)  //only possible with reflection because Vtable is need
 
 
 #include "emC/J1c/StringFunctions_BJc.h"

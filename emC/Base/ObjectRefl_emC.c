@@ -123,26 +123,6 @@ bool XXXcheckStrictReflid_ObjectJc ( ObjectJc const* thiz, uint size, uint id_re
 #endif
 
 
-#if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_OWNADDRESS)
-ObjectJc* ctor_ObjectJc ( ObjectJc* othiz, void* ptr, uint size, struct ClassJc_t const* refl, uint idObj) {
-  //removed 2020-12-02: size is the whole C++ instance, memset will set too much. 
-  //instead: The data ctor is responsible to clear of data. Commonly: prevent using memset. 
-  //removed: memset(othiz, 0, size);
-  //
-  //Set all data of ObjectJc adequat to its specific definition:
-  setSizeAndIdent_ObjectJc(othiz, size, idObj);
-  #ifdef DEF_ObjectJcpp_REFLECTION
-    othiz->handleBits = kNoSyncHandles_ObjectJc;
-    othiz->offsetToInstanceAddr = (int16)(((MemUnit*)(othiz)) - ((MemUnit*)(ptr)));
-  #endif
-  othiz->reflection = refl;
-  #ifdef DEF_ObjectJc_OWNADDRESS
-    othiz->ownAddress = ptr;
-  #endif
-  return othiz;
-}
-#endif  //#else  contained in ObjectSimple_emC
-
 
 
 

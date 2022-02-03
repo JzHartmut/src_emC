@@ -41,7 +41,7 @@
 #include <applstdef_emC.h>
 
 
-#ifndef DEF_NO_Exception_emC
+#ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
 
 #include <emC/Base/SimpleC_emC.h>     //ARRAYLEN
 #include <emC/Base/StringBase_emC.h> 

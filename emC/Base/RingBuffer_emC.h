@@ -22,11 +22,11 @@
  */
 typedef struct RingBuffer_emC_T {
 
-  BASED_ON_ObjectJc_emC
-  
+  union{ObjectJc obj; } base;
+
   uint16 nrofEntries;
 
-  int volatile ctModify;
+  int16 volatile ctModify;
   
 
 

@@ -71,7 +71,7 @@ Data_ExtReflectionJc* correctContent_ExtReflectionJc(ExtReflectionJc_s* ythis, M
           /**The new value at memory location is the location itself + its content (the relative address value): */
           intptr_t addrdst = (intptr_t)addOffset_MemAreaC(addrReloc, offsReloc); //The address of the really destination
           if (inRange_MemAreaC(addrdst, minAddr, maxAddr)) {
-            *addrReloc = addrdst;
+            *addrReloc = (int)addrdst;
           } else {
             /**Because the ixInClassDatas is checked already, this conditions shouldn't met any time: */
             bOk = false;

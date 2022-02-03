@@ -144,6 +144,7 @@ StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
   CHECKinit_ObjectJc(othis, sizeObj, refl_StringBuilderJc, 0); 
   if(sizeBuffer <=4)
   { /**The StringBuffer has not a direct Buffer: */
+    #ifdef USE_BlockHeap_emC
     MemC mem = getRestBlock_ObjectJc(othis, -2, _thCxt);  //possible it may be inside a block of a BlockHeap
     sizeBuffer = size_MemC(mem);
     if(sizeBuffer >0)
@@ -151,6 +152,7 @@ StringBuilderJc_s* ctorO_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt)
       ythis->size = (int16)(-sizeBuffer); //negative value because immediately String  
     }
     else
+    #endif
     { THROW1_s0(IllegalArgumentException, "initial Buffer size necessary", sizeBuffer);
     } 
   }
@@ -312,7 +314,11 @@ METHOD_C StringJc toStringPersist_StringBuilderJc(ObjectJc* othis, ThCxt* _thCxt
   int count = ythis->_count;
   /**Detect whether the buffer is found in the stack range. Than its memory address is
    * between any address of a local variable and the Thread-Context pointer. */
-  bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0); 
+  #ifdef DEFINED_ThreadContext_emC
+    bool bufferInStack = ADDR_IN_STACK_ThreadContext_emC(s0); 
+  #else
+      bool bufferInStack = true;  //no answer possible, suppose non persistent
+  #endif
   //int nonPersistent = 0;
   /**A StringJc is designated as non-persistence, if the StringJc referes a location in a change-able buffer. */
   //xx int nonPersistent = ythis->_mode & _mTemporary_StringBuilderJc ? 0 : mNonPersists__StringJc;
@@ -431,7 +437,9 @@ void set_s_StringJc(StringJc* ythis, StringJc src)
     //without copy to a new buffer
     SET_StringJc(*ythis, sSrc, zSrc);
   }
+  #ifdef USE_BlockHeap_emC
   setBackRefJc(&VAL_AddrVal_emC(*ythis), ythis->addr.str);
+  #endif
   STACKTRC_LEAVE;
 }
 

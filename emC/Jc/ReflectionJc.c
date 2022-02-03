@@ -1057,8 +1057,8 @@ intptr_t getMemoryIdent_V_FieldJc(FieldJc const* thiz, MemSegmJc instance, char 
     //the field is a reference field, get the reference value instead the address. The reference value
     //addresses the real target value.
     if ((thiz->bitModifiers & mPrimitiv_Modifier_reflectJc) == kHandlePtr_Modifier_reflectJc) {
-      uint32* addrfield = ADDR_MemSegmJc(adr, uint32);
-      uint32 handle = *addrfield;
+      intptr_t* addrfield = ADDR_MemSegmJc(adr, intptr_t);
+      intptr_t handle = *addrfield;
       void* addr = ptr_Handle2Ptr(handle);  //TODO what about Handle2Ptr-table. This branch is only used in Simulink, than Hande2Ptr-Table exists. 
       setADDR_MemSegmJc(adr, addr);
     } else {

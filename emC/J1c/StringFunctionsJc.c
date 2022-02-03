@@ -3,7 +3,7 @@
  **copyright***************************************************************
  *************************************************************************/
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#if defined(DEF_ObjectJcpp_REFLECTION) && ! defined(DEF_NO_StringUSAGE)  //only possible with reflection because Vtable is need
 
 
 #include "emC/J1c/StringFunctionsJc.h"
@@ -785,13 +785,13 @@ int32 lastIndexOfAnyChar_StringFunctionsJc(/*J2C:static method*/ CharSeqJc sq, i
     int32  zsq = length_CharSeqJc(sq/*J1cT2*/, _thCxt);
     
     int32  ii = to > zsq ? zsq : to;
-    if(from < 0) { throw_sJc(ident_IndexOutOfBoundsException_emC, 
+    if(from < 0) { THROW(IndexOutOfBoundsException, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
       , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
       , append_z_StringBuilderJc(_tempString2_1, "StringFunctions.lastIndexOfAnyChar - form <0; ", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, from, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); return 0; };
+      ), 0, 0); return 0; };
     
     while(--ii >= from && indexOf_Csc_StringFunctionsJc(/*J2C:static method call*/chars, charAt_CharSeqJc(sq/*J1cT2*/, ii, _thCxt), _thCxt) < 0)
       { }/*pre-decrement.*/

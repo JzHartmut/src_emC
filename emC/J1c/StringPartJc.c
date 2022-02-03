@@ -3,7 +3,7 @@
  **copyright***************************************************************
  *************************************************************************/
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#if defined(DEF_ObjectJcpp_REFLECTION) && ! defined(DEF_NO_StringUSAGE)  //only possible with reflection because Vtable is need
 
 
 #include "emC/J1c/StringPartJc.h"
@@ -527,7 +527,7 @@ bool checkCharAt_StringPartJc(StringPartJc_s* thiz, int32 pos, StringJc chars, T
 }
 
 
-#if defined( DEF_ClassJc_Vtbl) && defined(DEF_ThreadContext_HEAP_emC)
+#if defined( DEF_ClassJc_Vtbl)
 /**Returns a volatile CharSequence from the range inside the current part.*/
 CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 to, ThCxt* _thCxt)
 { StringPartJc_s* thiz = (StringPartJc_s*)ithis;
@@ -545,11 +545,15 @@ CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 from, int
       }/*It is used for Java2C without throw mechanism.*/
       
     }
-    
+    #ifdef DEF_ThreadContext_HEAP_emC
     struct Part_StringPartJc_t*  ret = ctorO_Part_StringPartJc(thiz, allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), "StringPart.subSequence", _thCxt), thiz->begin + from, thiz->begin + to, _thCxt);
     { STACKTRC_LEAVE;
       return fromObjectJc_CharSeqJc(&(* (ret)).base.object);
     }
+    #else
+      THROW_s0(IllegalArgumentException, "only possible if Heap on thread exists", 0,0);
+      return null_StringJc;
+    #endif
   }
   STACKTRC_LEAVE;
 }
@@ -565,13 +569,13 @@ void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, 
      /*J2C: temporary Stringbuffer for String concatenation*/
     StringBuilderJc_s* _tempString2_1=null; 
     
-    { throw_sJc(ident_IllegalArgumentException_emC, 
+    { THROW(IllegalArgumentException, 
       ( _tempString2_1 = new_StringBuilderJc(-1, _thCxt)
       , setStringConcatBuffer_StringBuilderJc(_tempString2_1)
       , append_z_StringBuilderJc(_tempString2_1, "StringPartBase.subString - faulty;", _thCxt)
       , append_I_StringBuilderJc(_tempString2_1, from, _thCxt)
       , toStringMarkPersist_StringBuilderJc(&(_tempString2_1)->base.object, _thCxt)
-      ), 0, __FILE__, __LINE__, _thCxt); };
+      ), 0, 0); };
     activateGC_ObjectJc(&_tempString2_1->base.object, null, _thCxt);
   }
   STACKTRC_LEAVE;
@@ -2725,7 +2729,6 @@ StringJc getInputfile_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 }
 
 
-#ifdef DEF_ThreadContext_HEAP_emC
 /**Returns the actual part of the string.*/
 struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, ThCxt* _thCxt)
 { 
@@ -2735,15 +2738,17 @@ struct Part_StringPartJc_t* getCurrentPart_StringPartJc(StringPartJc_s* thiz, Th
     
     
     struct Part_StringPartJc_t*  ret_1;/*no initvalue*/
-    if(thiz->end > thiz->begin) ret_1 = ctorO_Part_StringPartJc(thiz, allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), null, _thCxt), thiz->begin, thiz->end, _thCxt);
-    else ret_1 = ctorO_Part_StringPartJc(thiz, allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), null, _thCxt), thiz->begin, thiz->begin, _thCxt);
-    { STACKTRC_LEAVE;
-      return ret_1;
-    }
+    #ifdef DEF_ThreadContext_HEAP_emC
+      if(thiz->end > thiz->begin) ret_1 = ctorO_Part_StringPartJc(thiz, allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), null, _thCxt), thiz->begin, thiz->end, _thCxt);
+      else ret_1 = ctorO_Part_StringPartJc(thiz, allocInThreadCxt_ObjectJc(sizeof(Part_StringPartJc_s), null, _thCxt), thiz->begin, thiz->begin, _thCxt);
+    #else
+      THROW_s0(IllegalArgumentException, "not possible without Heap in Thread", 0,0);
+      ret_1 = null;
+    #endif
+    STACKTRC_RETURN ret_1;
   }
   STACKTRC_LEAVE;
 }
-#endif //def DEF_ThreadContext_HEAP_emC
 
 
 
@@ -2986,7 +2991,7 @@ void throwIndexOutOfBoundsException_StringPartJc(StringPartJc_s* thiz, StringJc 
   
   { 
     
-    { throw_sJc(ident_IndexOutOfBoundsException_emC, sMsg, 0, __FILE__, __LINE__, _thCxt); };
+    { THROW(IndexOutOfBoundsException, sMsg, 0, 0); };
   }
   STACKTRC_LEAVE;
 }
@@ -2997,7 +3002,7 @@ void throwIllegalArgumentException_StringPartJc(/*J2C:static method*/ StringJc m
   
   { 
     
-    { throw_sJc(ident_IllegalArgumentException_emC, msg, value, __FILE__, __LINE__, _thCxt); };
+    { THROW(IllegalArgumentException, msg, value, 0); };
   }
   STACKTRC_LEAVE;
 }

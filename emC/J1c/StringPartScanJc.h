@@ -12,6 +12,7 @@
 #include "emC/Jc/StringJc.h"        //used often
 
    //basic concept
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -354,5 +355,7 @@ class StringPartScanJc : public StringPartJc, private StringPartScanJc_s
 };
 
 #endif /*__CPLUSPLUSJcpp*/
+
+#endif //ndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #endif //__J1c_StringPartScanJc_h__

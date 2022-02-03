@@ -42,7 +42,7 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC) && !defined(DEF_NO_StringUSAGE)
 
 #include "emC/Jc/PrintStreamJc.h"
 #include "emC/Jc/FileIoJc.h"

@@ -5,6 +5,7 @@
 #ifndef __J1c_StringFunctions_BJc_h__
 #define __J1c_StringFunctions_BJc_h__
 #include <applstdef_emC.h>
+#if ! defined(DEF_NO_StringUSAGE)  //only possible with reflection because Vtable is need
 #include "emC/Base/MemC_emC.h"        //basic concept
 
 #include "emC/Jc/ObjectJc.h"        //basic concept
@@ -102,5 +103,7 @@ class StringFunctions_BJc : private StringFunctions_BJc_s
 };
 
 #endif /*__CPLUSPLUSJcpp*/
+#endif //! defined(DEF_NO_StringUSAGE)  //only possible with reflection because Vtable is need
+
 
 #endif //__J1c_StringFunctions_BJc_h__

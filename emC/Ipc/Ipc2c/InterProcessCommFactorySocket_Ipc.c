@@ -143,7 +143,7 @@ struct InterProcessComm_t* create_AddrIpc_InterProcessCommFactorySocket_Ipc_F(In
     else 
     { 
       
-      { throw_s0Jc(ident_IllegalArgumentException_emC, "only Socket-Implementation, fault type of address:", 0, __FILE__, __LINE__, _thCxt); return 0; };
+      { THROW_s0(IllegalArgumentException, "only Socket-Implementation, fault type of address:", 0, 0); return 0; };
     }
   }
   STACKTRC_LEAVE;
@@ -252,7 +252,7 @@ struct Address_InterProcessComm_t* createAddressSocket_InterProcessCommFactorySo
       
       
       int32  posPort = indexOf_C_StringJc(addr, ':');
-      if(posPort < 0) { throw_s0Jc(ident_IllegalArgumentException_emC, "param addr needs a port in form \"URL:port\" where port is a number or hexNumber with \"0x\"-prefix.", 0, __FILE__, __LINE__, _thCxt); return 0; };
+      if(posPort < 0) { THROW_s0(IllegalArgumentException, "param addr needs a port in form \"URL:port\" where port is a number or hexNumber with \"0x\"-prefix.", 0, 0); return 0; };
       if(
         ( _temp3_1= substring_I_StringJc(addr, posPort + 1, _thCxt)
         , startsWith_StringJc(_temp3_1, s0_StringJc("0x"))

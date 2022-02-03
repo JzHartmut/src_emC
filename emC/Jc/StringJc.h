@@ -1168,7 +1168,7 @@ METHOD_C StringBuilderJc_s* ctorO_cs_StringBuilderJc(ObjectJc* othis, CharSeqJc 
  * @throws Exception if no dynamically memory is available.
  * @javalike call of ,,new StringBuilder(size),,
  */
-#define new_StringBuilderJc(SIZE, _thCxt) ctorO_StringBuilderJc(alloc_ObjectJc(-1, 0, _thCxt), _thCxt)
+#define new_StringBuilderJc(SIZE, _thCxt) ctorO_StringBuilderJc(ALLOC_ObjectJc(SIZE, refl_StringBuilderJc, 0), _thCxt)
 #define new_StringBufferJc new_StringBuilderJc
 
 

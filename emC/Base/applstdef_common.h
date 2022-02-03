@@ -30,14 +30,12 @@
  **copyright***************************************************************************************
  *
  * @content Definitions for basics, which maybe identical for all operation systems and compilers,
- * This file is include in <os_types_def.h>. Because that file is able to adjust in a project specific way,
- * the inclusion of this file can be changed. In that way the definitions in this file can be adapted.
- * Therefor it is not recommended to include this file directly in a users file. 
+ * This file should be always include in the user's <applstdef_emC.h> after definition of the common compiler switches.
  *
  * @author Hartmut Schorrig
  */
-#ifndef HGUARD_emCBase_applstdef_default
-#define HGUARD_emCBase_applstdef_default
+#ifndef HGUARD_emCBase_applstdef_common
+#define HGUARD_emCBase_applstdef_common
 
 
 /**Adaption and test of some settings in the user's applstdef_emC.h */
@@ -46,12 +44,9 @@
   #define DEF_REFLECTION_NO
 #endif
 
-//If reflection are given Object has Reflection. TODO remove DEF_ObjectJc_REFL..REF against immediately usage ifndef DEF_REFLECTION_NO
-//#if !defined(DEF_REFLECTION_NO) && !!defined(DEF_REFLECTION_NO)
-//  #define DEF_ObjectJc_REFL..REF
-//  #undef DEF_ObjectJc_..SIMPLE
-//#endif
-
+#if defined(DEF_REFLECTION_FULL) && defined(DEF_NO_StringUSAGE)
+  #error DEF_REFLECTION_FULL cannot work with DEF_NO_StringUSAGE
+#endif
 
 //Yet always defined with the reflection, TODO maybe a variant if using virtual C++
 #if defined(DEF_REFLECTION_FULL) && !defined(DEF_ClassJc_Vtbl)
@@ -218,6 +213,7 @@ extern_C StringJc const empty_StringJc;
   #define FINALLY
   #define END_TRY
   #define printStackTrace_Exception_emC(EXC, THCXT)  //it is empty, not used
+  #define printStackTrace_P_Exception_emC(EXC, CHN, THCXT)  //it is empty, not used
 
   #ifndef THROW                      // It may be possible to define a special log out
     #define THROW(ID, MSG, VAL1, VAL2)  {}
@@ -263,36 +259,54 @@ extern_C StringJc const empty_StringJc;
 
 
 #ifdef DEF_NO_ObjectJc_emC
-  #ifndef BASED_ON_ObjectJc_emC
-    #define BASED_ON_ObjectJc_emC union{ObjectJc obj; } base;
+  //This is the simple usage, without Object_emC.h etc. files. 
+  //But given simple basic features for ObjectJc
+  //
+  //Check whether Reflection usage should also be prevented:
+  #if defined(DEF_REFLECTION_SIMPLE) || defined(DEF_REFLECTION_OFFS) || defined(DEF_REFLECTION_FULL)
+    #error If DEF_NO_ObjectJc_emC is set, you cannot use reflections. Set also DEF_REFLECTION_NO
   #endif
-  typedef struct  ObjectJc_T { int id; } ObjectJc;
-  typedef struct  ClassJc_T { int id; } ClassJc;
+  //
+  typedef struct  ObjectJc_T { int identSize; } ObjectJc;  // define a simple struct with only 16/32 bit int
+  //
+  //use only 16 bit here, for typical 16 bit int application in embedded control.
+  #define mId_ObjectJc           0x07FF    //2046 instance id possible for manually debug
+  #define mInitialized_ObjectJc  0x8000    // setInitialized_ObjectJc(...) supported
+  #define mArray_ObjectJc        0x4000    // formally defined, should be 0 anytime. 
+  #define mLocked_ObjectJc       0x2000    // lock_ObjectJc() feature supported
+  #define mSyncHandle_ObjectJc   0x1800    // max. 3 synchandle for lock only for basic features
+  #define kNoSyncHandles_ObjectJc 0        // 0 is default, no handle.
+  //
+  typedef struct  ClassJc_t { int id; } ClassJc;           // define a simple struct with only 16/32 bit int
+  //
+  //define all basic capabilities of ObjectJc, useable or empty.
   extern_C ObjectJc* alloc_ObjectJc_verySimple_emC(int size, int id);
   #define ALLOC_ObjectJc(SIZE, REFL, ID) alloc_ObjectJc_verySimple_emC(SIZE, ID)
-  #define INIZ_ObjectJc(OTHIZ, REFL, ID) {ID}  
-  #define INIZ_ClassJc(THIZ, NAME) { *(NAME)}  //store first char only, do not use space for text  
+  #define INIZ_ObjectJc(THIZ, REFL, ID) {ID}     // supported, set only the ID, 0..0x07FF
+  #define INIZ_ClassJc(THIZ, NAME) { *(NAME)}    // store first char only, do not use space for text  
   #define INIZsuper_ClassJc(THIZ, NAME, BASE) { 0 }  //store nothing, do not use space for text  
-  #define CTOR_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ((OTHIZ)->id = ID, OTHIZ)  
-  #define ctor_ObjectJc(OTHIZ, ADDR, SIZE, REFL, ID) ((OTHIZ)->id = ID, OTHIZ)  
-  #define CHECKstrict_ObjectJc(OTHIZ, SIZE, REFL, ID) true
-  #define CHECKinit_ObjectJc(OTHIZ, SIZE, REFL, ID) { (OTHIZ)->id = ID; }
-  #define INSTANCEOF_ObjectJc(OZHIZ, REFL) true
-  #define setReflection_ObjectJc(OTHIZ, REFL, ID) (OTHIZ)->id = ID
-  #define setInitialized_ObjectJc(OTHIZ)
-  #define isInitialized_ObjectJc(OTHIZ) true  //no information, default: It is initialized
-  #define getID_ObjectJc(THIZ) ((THIZ)->id)
-  #define getClass_ObjectJc(OTZHIZ) null
-  #define lock_ObjectJc(OBJ)
-  #define isLocked_ObjectJc(OBJ) true
-  #define finalize_ObjectJc_F(OBJ, THCXT)
-  #define unlock_ObjectJc(OBJ)
-
+  #define CTOR_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) ((THIZ)->identSize = ID, THIZ)  
+  #define ctor_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) ((THIZ)->identSize = ID, THIZ)  
+  //the important things SIZE and REFL are not supported! Check only a given ID, return true on ID=0
+  #define CHECKstrict_ObjectJc(THIZ, SIZE, REFL, ID) ( (ID) == 0 || ((THIZ)->identSize & mId_ObjectJc) == (ID) )
+  #define CHECKinit_ObjectJc(THIZ, SIZE, REFL, ID) ( ((THIZ)->identSize & mId_ObjectJc)==0 ? (THIZ)->identSize = ID, true : (ID)==0 || ((THIZ)->identSize & mId_ObjectJc) == ID )
+  #define INSTANCEOF_ObjectJc(ZHIZ, REFL) true   // not supported, returns always true
+  #define setReflection_ObjectJc(THIZ, REFL, ID) (THIZ)->identSize = ID
+  #define setInitialized_ObjectJc(THIZ) { (THIZ)->identSize |= mInitialized_ObjectJc; }     // full supported
+  #define isInitialized_ObjectJc(THIZ) ( ((THIZ)->identSize & mInitialized_ObjectJc )!=0)   // full supported
+  #define getID_ObjectJc(THIZ) ((THIZ)->identSize & mId_ObjectJc)
+  #define getSizeInfo_ObjectJc(THIZ) 0           // not supported, size is not available
+  #define getClass_ObjectJc(OTZHIZ) null         // not supported, no information
+  #define finalize_ObjectJc_F(OBJ, THCXT)        // not supported
+  //the simple polling lock mechanism is fully supported. See https://vishia.org/emc/html/Base/ObjectJc_en.html#lock
+  static inline void lock_ObjectJc ( ObjectJc* thiz) { thiz->identSize |= mLocked_ObjectJc; }
+  static inline bool isLocked_ObjectJc ( ObjectJc* thiz) { return (thiz->identSize & mLocked_ObjectJc) !=0; }
+  static inline void unlock_ObjectJc ( ObjectJc* thiz)  { thiz->identSize &= ~mLocked_ObjectJc; }
+#elif defined(DEF_ObjectSimple_emC)
+  #include <emC/Base/ObjectSimple_emC.h>
 #else
-  #ifndef BASED_ON_ObjectJc_emC
-    #define BASED_ON_ObjectJc_emC union{ObjectJc obj; } base;
-  #endif
-  #include <emC/Base/Object_emC.h>
+  #define DEF_ObjectJc_FULLCAPABILITY   //to compile content of ObjectRefl_emC.c
+  #include <emC/Base/ObjectRefl_emC.h>
 #endif
 
 
@@ -306,19 +320,24 @@ extern_C StringJc const empty_StringJc;
   #define CLEARREFJc(REF) ((REF) = null)
   #define REFJc(REF)  (REF) 
 #endif
+//Reflection definition of the enhanced ref, used formally
+#ifndef DEFINE_REFLECTION_REF
+#define DEFINE_REFLECTION_REF(TYPE) \
+  extern_C struct ClassJc_t const refl_##TYPE; \
+  extern_C struct ClassJc_t const refl_##TYPE##REF; \
+  const struct Reflection_Fields_##TYPE##REF_t{ ObjectArrayJc head; FieldJc data[2];} refl_Fields_##TYPE##REF = \
+  { CONST_ObjectArrayJc(FieldJc, 1, OBJTYPE_FieldJc, null, &refl_Fields_##TYPE##REF) \
+  , { { "ref", 0 , &refl_##TYPE, 0, 0, 0, &refl_##TYPE##REF } \
+  } }; \
+  const ClassJc refl_##TYPE##REF =\
+  { CONST_ObjectJc(OBJTYPE_ClassJc + sizeof(ClassJc), &refl_##TYPE##REF, null) \
+  , "Ptr", 0, sizeof(TYPE##REF), (FieldJcArray const*)&refl_Fields_##TYPE##REF \
+  }
+#endif
 
-
-
-//#if defined(DEF_ObjectJc_..SIMPLE) || !defined(DEF_ObjectJc_FULLCAPABILITY)
-//# if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE) || defined(DEF_ObjectJc_OWNADDRESS)
-//#   error DEF_ObjectJc_..SIMPLE was defined together with one of the other DEF_ObjectJc...
-//# endif
-//#elif !!defined(DEF_REFLECTION_NO) 
-//#  define DEF_ObjectJc_REFL..REF
-//#endif
 
 
 
  
 
-#endif //HGUARD_emCBase_applstdef_default
+#endif //HGUARD_emCBase_applstdef_common

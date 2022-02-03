@@ -49,9 +49,10 @@
 
 
 #include "emC/Jc/OsWrapperJc.h"
-#ifdef DEF_ObjectJc_SYNCHANDLE
+//#ifdef DEF_ObjectJc_SYNCHANDLE
 
 #include <emC/Base/SimpleC_emC.h>
+#include <emC/Base/StringBase_emC.h>
 //#include <Jc/ObjectJc.h>
 
 #include <emC/OSAL/os_thread.h>
@@ -185,6 +186,11 @@ void releaseHandleEntry  (  int16 idx)
 /* Implementations of ObjectJc.h
 */
 
+#ifndef DEF_ObjectJc_SYNCHANDLE
+  //use instead identSize
+  //Note: do not define such one on header file level! Should only visible locally
+  #define handleBits identSize
+#endif
 
 /**This is the only one routine which changed the ObjectJc data, 
  * but only one time if the handle is not set. 
@@ -198,9 +204,11 @@ INLINE_emC HandleItem* getHandle_ObjectJc ( ObjectJc const* thiz) {
     if(ixHandle > 0) {
       int32 newValue, oldValue;
       int tryCt = 1000;
-      strcpy_emC(handle->name, "Jc_00", sizeof(handle->name));
-      handle->name[5] = (char)(((ixHandle >>6)  & 0x3f) + '0');
-      handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
+      #ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
+        strcpy_emC(handle->name, "Jc_00", sizeof(handle->name));
+        handle->name[5] = (char)(((ixHandle >>6)  & 0x3f) + '0');
+        handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
+      #endif
       handle->handleMutex = os_createMutex(handle->name);
       while(--tryCt > 0) {
         oldValue = thiz->handleBits; //Note: read only one time, test the same as in compareAndSet
@@ -361,4 +369,4 @@ void sleep_Thread_Jc  (  int32 millisecond)
   os_delayThread(millisecond);
   STACKTRC_LEAVE;
 }
-#endif //DEF_ObjectJc_SYNCHANDLE
+//#endif //DEF_ObjectJc_SYNCHANDLE

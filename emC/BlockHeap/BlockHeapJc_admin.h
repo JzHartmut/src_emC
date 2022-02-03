@@ -159,7 +159,9 @@ METHOD_C void setRunMode_BlockHeap_emC(BlockHeap_emC_s* ythis, struct LogMessage
  * @param buffer The Buffer to put the info into. The buffer will be cleared before.
  * @return content of buffer as String or null if the idxBlock is invalid.
  */
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 METHOD_C StringJc report_BheapJc(BlockHeap_emC_s* ythis, int* idxBlockP, StringBuilderJc_s* buffer);
+#endif //ndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 
 

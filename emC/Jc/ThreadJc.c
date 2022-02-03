@@ -105,8 +105,8 @@ static int root_ThreadJc(void* data)
 		//threadContextInStack.blockHeap = first_BlockHeap_emC();
 #endif  
   /**This is the first StackEntry of this thread. It allocates memory. */
-  { ThCxt* _thCxt = getCurrent_ThreadContext_emC();
-    STACKTRC_TENTRY("root_ThreadJc");
+  { //ThCxt* _thCxt = getCurrent_ThreadContext_emC();
+    STACKTRC_ENTRY("root_ThreadJc");
     /**The data is a reference to the instance, which implements the interface RunnableJc.
      * It is either the associated class target of TreadJc, or ThreadJc itself.
      * A dynamic call is executed, it checks the consistence of oRunnable.

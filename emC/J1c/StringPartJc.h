@@ -22,6 +22,7 @@ struct StringPartJc_t;
 #include "emC/Jc/ObjectJc.h"  //interface
 #include "emC/Jc/StringJc.h"  //interface
 
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 /*@CLASS_C Part_StringPartJc @@@@@@@@@@@@@@@@@@@@@@@@*/
 
@@ -360,7 +361,9 @@ The Java2C-translator does that automatically.
 
 @see java.lang.CharSequence#subSequence(int, int)
 */
-METHOD_C CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 to, ThCxt* _thCxt);
+#if defined(DEF_ClassJc_Vtbl)
+  METHOD_C CharSeqJc subSequence_ii_StringPartJc(CharSeqObjJc const* ithis, int32 from, int32 to, ThCxt* _thCxt);
+#endif
 
 METHOD_C void throwSubSeqFaulty_StringPartJc(StringPartJc_s* thiz, int32 from, int32 to, ThCxt* _thCxt);
 
@@ -1357,7 +1360,9 @@ class StringPartJc
 
   bool startsWith(CharSeqJc sCmp){  return startsWith_StringPartJc(thisp, sCmp,  null/*_thCxt*/); }
 
-  CharSeqJc subSequence(int32 from, int32 to){  return subSequence_ii_StringPartJc(C_CAST(CharSeqObjJc*, &thisp->base.object), from, to,  null/*_thCxt*/); }
+  #if defined(DEF_ClassJc_Vtbl)
+    CharSeqJc subSequence(int32 from, int32 to){  return subSequence_ii_StringPartJc(C_CAST(CharSeqObjJc*, &thisp->base.object), from, to,  null/*_thCxt*/); }
+  #endif
 
   struct Part_StringPartJc_t* substring(int32 pos, int32 posendP){  return substring_StringPartJc(thisp, pos, posendP,  null/*_thCxt*/); }
 
@@ -1379,5 +1384,8 @@ class StringPartJc
 };
 
 #endif /*__CPLUSPLUSJcpp*/
+
+#endif //ndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
+
 
 #endif //__J1c_StringPartJc_h__

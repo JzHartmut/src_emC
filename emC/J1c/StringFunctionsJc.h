@@ -15,6 +15,7 @@
 #include "emC/Jc/StringJc.h"        //used often
 
    //basic concept
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 
 /* J2C: Forward declaration of struct ***********************************************/
@@ -386,5 +387,6 @@ class StringFunctionsJc : private StringFunctionsJc_s
 
 #endif //__J1c_StringFunctionsJc_h__
 
+#endif //ndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #endif //#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need

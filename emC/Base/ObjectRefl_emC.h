@@ -189,86 +189,6 @@ There are only 5 bits useable for 31 large instances.
 
 
 
-
-/**Object is the superclass of all superclasses. In C-like manner it is a struct
-* at begin of any class-like struct.
-*
-* This definition is a small variant for only simple capabilities 
-* especially for less footprint or non-String-using target systems with usual 16 or 32 bit memory addresses.
-* Some definitions and methods are common use-able, that methods are contained here too. 
-*/
-typedef struct  ObjectJc_T
-{
-  #define DEFINED_ObjectJc  //to prevent twice definition in ObjectSimple_emC
-
-  /**The identSize is helpfull to recognize the instance.
-   * Note: The size is from the whole instance, memory area starting from the ownAdress
-   * respectively thiz - offsetToInstanceAddr. It is not the size of the plain data. 
-   * The size helps to check memory usage.  
-   * The bit31 is used to detect whether it is initialized or not. */
-  uint32 identSize;
-  #define mInitialized_ObjectJc  0x80000000
-  #define mArray_ObjectJc        0x40000000
-  #ifndef DEF_ObjectJc_SYNCHANDLE
-    //Lock in the identSize is only valid for a small ObjectJc 
-    #define mLocked_ObjectJc     0x20000000
-  #endif
-  /**If the array bit is given with the ID, use this: */
-  #define mArrayId_ObjectJc 0x4000
-
-  #ifndef DEF_ObjectJc_LARGESIZE
-    //This definitions are only available in application for not LARGESIZE
-    #define mInstanceType_ObjectJc 0x1fff0000  
-    #define kBitInstanceType_ObjectJc 16
-    #define mSize_ObjectJc         0x0000ffff   //size in memory words, max, 64 kByte
-    //
-    //The small... definitions are present too because INIZ_ObjectJc(...) use this.
-    //INIZ_ObjectJc can only initialize small size Objects, with 12 bit ident.
-    //But it is really only for const in ROM.
-    //The small size definitions can be used anyway.
-    #define mIdentSmall_ObjectJc  0x0fff0000
-    #define kBitIdentSmall_ObjectJc 16
-    #define mSizeSmall_ObjectJc  0x0000ffff
-    #define kIsSmallSize_ObjectJc  0x00000000  //not used, 0 ok
-  #endif  //else: See definitions above, 
-  //
-  #if defined(DEF_ObjectJcpp_REFLECTION) || defined(DEF_ObjectJc_SYNCHANDLE)
-    #ifndef DEF_ObjectJc_SYNCHANDLE
-      #define DEF_ObjectJc_SYNCHANDLE
-    #endif
-    #if !defined(DEF_REFLECTION_NO) && !defined(DEF_ObjectJcpp_REFLECTION)
-      #define DEF_ObjectJcpp_REFLECTION
-    #endif
-  /**Offset from the data-instance start address to the ObjectJc part. 
-     * It is especially for symbolic field access (reflection) in C++. */
-    uint16 offsetToInstanceAddr;
-    /**Some handle bits to use an ObjectJc for lock (mutex). */
-    uint16 handleBits;
-    #define mLockedSyncHandle_ObjetJc 0x8000
-    #define mSyncHandle_ObjectJc 0x0fff
-    #define kNoSyncHandles_ObjectJc 0x0fff
-  #endif
-
-  #ifndef DEF_REFLECTION_NO
-    #ifndef DEF_ObjectJc_LARGESIZE
-      #ifdef DEF_ObjectJc_SYNCHANDLE
-        #define mInstance_ObjectJc   0x3fff0000
-      #else 
-        #define mInstance_ObjectJc   0x1fff0000  //need the bit 0x2000 for lock
-      #endif
-      #define kBitInstance_ObjectJc 16
-    #endif
-    /**The reference to the type information. */
-    struct ClassJc_t const* reflection;
-  #endif
-
-  #ifdef DEF_ObjectJc_OWNADDRESS
-    void const* ownAddress;
-  #endif
-
-} ObjectJc;
-
-
 //Include some definitions from this file, it is used anyway. But its own Definition of ObjectJc is not used. 
 #include <emC/Base/ObjectSimple_emC.h>
 
@@ -277,25 +197,11 @@ typedef struct  ObjectJc_T
   const Initialization                         */
 
 /**Initializing of a simple object. 
- * Note: The CONST_ObjectJc macro is yet necessary for generated Reflection. It is adequate INIZ_idSize_ObjectJc(...)
+ * Note: The CONST_ObjectJc macro is yet necessary for legacy code, Reflection. It is adequate INIZ_idSize_ObjectJc(...)
+ * It is not proper for all cases. Deprecated! 
  */
 #ifdef DEF_ObjectJcpp_REFLECTION
-  #define INIZ_ObjectJc(OBJ, REFL, ID) \
-   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \
-       & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
-     ) | sizeof(OBJ) \
-   , 0, kNoSyncHandles_ObjectJc, &(REFL) \
-   }
-  /**Initialize with Reflection especially for a primitive data type given in REFL. 
-   * In this case REFL is a pointer which's value is in range 1..0x60 to designate the primitive type.
-   */
-  #define INIZ_ReflRef_ObjectJc(OBJ, REFL, ID) \
-   { ( (((uint32)(ID))<<kBitIdentSmall_ObjectJc) \
-       & (mIdentSmall_ObjectJc | mArray_ObjectJc) \
-     ) | sizeof(OBJ) \
-   , 0, kNoSyncHandles_ObjectJc, REFL \
-   }
-//#  define INIZ_idSize_ObjectJc(OBJ, REFL, IDSIZE)  { (IDSIZE), 0,  kNoSyncHandles_ObjectJc, REFL }
+#  define INIZ_idSize_ObjectJc(OBJ, REFL, IDSIZE)  { (IDSIZE), 0,  kNoSyncHandles_ObjectJc, REFL }
 #  define CONST_ObjectJc(TYPESIZEOF, OWNADDRESS, REFLECTION) { TYPESIZEOF, 0,  kNoSyncHandles_ObjectJc, REFLECTION }
 #elif !defined(DEF_REFLECTION_NO)
   //Note: INIZ_ObjectJc(OBJ, REFL, ID)  defined in ObjectSimple_emC.h
@@ -303,19 +209,6 @@ typedef struct  ObjectJc_T
 #else
   //already contained in ObjectSimple_emC, not DEF_REFLECTION_NO without DEF_ObjectJcpp_REFLECTION
 #endif
-
- //Note: the & 0xffff forces error in C 'is not a contant' in VS15
- //the following line does not compile in C! because it uses another defined data.
- //#define INIZ_ObjectJc(OBJ, REFL, ID)  { ((ID)<<16) + (((REFL)->idType) & mType_ObjectJc) } //, { (char const*)(REFL)} }
-
-/*---------------------------------------------
-  Initialization operations                         */
-
-//See also ObjectSimple_emC.h
-
-
-/*---------------------------------------------
-  Get operations for core properties          */
 
 
 #ifdef DEF_ObjectJc_LARGESIZE
@@ -325,16 +218,6 @@ typedef struct  ObjectJc_T
   uint getSizeData_ObjectJc ( ObjectJc const* ythis);
 #endif
 
-
-#ifdef DEF_ObjectJc_SYNCHANDLE
-static inline void lock_ObjectJc ( ObjectJc* thiz) { thiz->handleBits |= mLockedSyncHandle_ObjetJc; }
-
-static inline bool isLocked_ObjectJc ( ObjectJc* thiz) { return (thiz->handleBits & mLockedSyncHandle_ObjetJc) !=0; }
-
-static inline void unlock_ObjectJc ( ObjectJc* thiz)  { thiz->handleBits &= ~mLockedSyncHandle_ObjetJc; }
-
-
-#endif //ifdef DEF_ObjectJc_SYNCHANDLE
 
 
 
@@ -374,13 +257,6 @@ class  ObjectJcpp
 };
 
 #endif //defined(__CPLUSPLUSJcpp) && defined(__cplusplus)
-
-//#elif !defined(DEF_ObjectJc_NO)
-//  #include <emC_srcApplSpec/applConv/ObjectJc_full.h>  //use this
-//#endif
-
-
-
 
 
 
@@ -561,7 +437,7 @@ typedef struct  ObjectArrayJc_t
  *              All initializations with given type of element reflection should use INIZ_ObjectArrayJc(...)
  */
 #define CONST_ObjectArrayJc(TYPE, NROF_ELEM, ID, REFL_ELEM, OBJ) \
-  { INIZ_ObjectJc(OBJ, refl_ObjectJc, (ID) | mArrayId_ObjectJc ), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
+  { CONST_ObjectJc((ID) | mArrayId_ObjectJc, OBJ, &refl_ObjectJc ), sizeof(TYPE), 1<<kBitDimension_ObjectArrayJc, NROF_ELEM }
 
 
 

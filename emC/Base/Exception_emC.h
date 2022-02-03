@@ -57,11 +57,24 @@
 #  define   DEF_Exception_TRYCpp
 #endif
 
+#if defined(DEF_Exception_Log_emC) && !defined(DEF_Exception_longjmp) && !defined(DEF_NO_Exception_emC) && !defined(DEF_Exception_TRYCpp)
+//DEF_Exception_Log_emC is the same as DEF_NO_Exception_emC currently, if this file is included.
+//But DEF_Exception_Log_emC may be used furthermore additional for log also on the other exception types.
+#  define   DEF_NO_Exception_emC
+#endif
+
+//yet always, do compile the log call and the log operations.
+#ifndef DEF_Exception_Log_emC
+  #define DEF_Exception_Log_emC
+#endif
+
 #if !defined(__cplusplus) && defined(DEF_Exception_TRYCpp)
   //for C-compiled sources TRYCpp cannot be used, then SIMPLE only for C sources.
 #  undef DEF_Exception_TRYCpp
 #  define DEF_NO_Exception_emC
 #endif
+
+
 
 //#error Exception_emC.h A
 
@@ -599,6 +612,9 @@ typedef struct ThreadContext_emC_t {
   #endif
 
 } ThreadContext_emC_s;
+
+
+#define DEFINED_ThreadContext_emC
 
 #define ThCxt ThreadContext_emC_s
 

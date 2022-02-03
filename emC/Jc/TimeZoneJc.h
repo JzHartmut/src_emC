@@ -70,7 +70,7 @@ typedef struct TimeZoneJc_t
 
 
 
-#define CONST_TimeZoneJc(OBJP, name, diffHour, diffMinute, bDayligthSaving) { { INIZ_ObjectJc(OBJP, refl_TimeZoneJc, sizeof(TimeZoneJc_s)) }, diffHour, diffMinute, name}
+#define INIZ_TimeZoneJc(OBJ, name, diffHour, diffMinute, bDayligthSaving) { { INIZ_ObjectJc(OBJ, refl_TimeZoneJc, sizeof(TimeZoneJc_s)) }, diffHour, diffMinute, name}
 
 
 METHOD_C TimeZoneJc_s* getTimeZone_TimeZoneJc(StringJc name, ThCxt* _thCxt);

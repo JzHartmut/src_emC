@@ -360,7 +360,7 @@ const struct Reflection_Fields_Clock_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_float                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, microSecondsPerClock) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.object))
+    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, microSecondsPerClock) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Clock_MinMaxTime_emC
     }
@@ -369,7 +369,7 @@ const struct Reflection_Fields_Clock_MinMaxTime_emC_t
     , 0   //no Array, no Bitfield                           
     , REFLECTION_int32                                                                                            
     , (4<<kBitPrimitiv_Modifier_reflectJc) //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, nrofSlices) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.object))
+    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, nrofSlices) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Clock_MinMaxTime_emC
     }
@@ -378,7 +378,7 @@ const struct Reflection_Fields_Clock_MinMaxTime_emC_t
     , 3 //nrofArrayElements                           
     , &refl_MinMaxTime_emC                                                                                            
     , 0 | kStaticArray_Modifier_reflectJc|kEmbedded_Modifier_reflectJc //bitModifiers
-    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, times) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.object))
+    , (int32)(OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, times) - OFFSET_IN_STRUCT(Clock_MinMaxTime_emC, base.obj))
     , 0  //offsetToObjectifcBase                                                            
     , &refl_Clock_MinMaxTime_emC
     }

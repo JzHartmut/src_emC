@@ -47,8 +47,10 @@
 
 #ifdef DEF_REFLECTION_FULL
   #include <emC/Jc/genRefl/ConcurrentLinkedQueueJc.crefl>
+#elif !defined(DEF_REFLECTION_NO) && !defined(DEFINED_refl_ConcurrentLinkedQueueJc)
+ //Not defined with DEF_REFLECTION_OFFS but necessary, only as type marker:
+ ClassJc const refl_ConcurrentLinkedQueueJc = INIZ_ClassJc( refl_ConcurrentLinkedQueueJc, "ConcurrentLinkedQueueJc");
 #endif
-
 
 //package java.util.concurrent;
 //import java.util.*;

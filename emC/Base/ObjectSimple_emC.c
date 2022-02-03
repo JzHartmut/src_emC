@@ -52,7 +52,6 @@
 
 
 
-#if !defined(DEF_ObjectJcpp_REFLECTION) && ! defined(DEF_ObjectJc_OWNADDRESS)
 struct ObjectJc_T * ctor_ObjectJc ( struct ObjectJc_T * othiz, void* ptr, uint size, struct ClassJc_t const* refl, uint idObj) {
   //removed 2020-12-02: size is the whole C++ instance, memset will set too much. 
   //instead: The data ctor is responsible to clear of data. Commonly: prevent using memset. 
@@ -66,9 +65,15 @@ struct ObjectJc_T * ctor_ObjectJc ( struct ObjectJc_T * othiz, void* ptr, uint s
     int id = refl == null ? idObj : (refl->idType | (idObj & mArrayId_ObjectJc));
   #endif
   setSizeAndIdent_ObjectJc(othiz, size, id);
+  #ifdef DEF_ObjectJcpp_REFLECTION
+    othiz->handleBits = kNoSyncHandles_ObjectJc;
+    othiz->offsetToInstanceAddr = (int16)(((MemUnit*)(othiz)) - ((MemUnit*)(ptr)));
+  #endif
+  #ifdef DEF_ObjectJc_OWNADDRESS
+    othiz->ownAddress = ptr;
+  #endif
   return othiz;
 }
-#endif
 
 
 #ifndef DEF_REFLECTION_NO

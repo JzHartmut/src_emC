@@ -28,7 +28,7 @@ extern_C ClassJc const refl_Clock_MinMaxTime_emC;
 void startTime_Clock_MinMaxTime(int slice_param, float* time_y) {
   STACKTRC_ENTRY("startTime_Clock_MinNaxTime");
   Clock_MinMaxTime_emC* thiz = (Clock_MinMaxTime_emC*)ptr_Handle2Ptr(1);
-  CHECKstrict_ObjectJc(&thiz->base.object, 0, &refl_Clock_MinMaxTime_emC, 0);
+  CHECKstrict_ObjectJc(&thiz->base.obj, 0, refl_Clock_MinMaxTime_emC, 0);
   if (thiz->microSecondsPerClock == 0) {
     init_Clock_MinMaxTime_emC(thiz);
   }

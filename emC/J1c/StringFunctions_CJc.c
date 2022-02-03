@@ -3,7 +3,8 @@
  **copyright***************************************************************
  *************************************************************************/
 #include <applstdef_emC.h>
-#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+//#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 
 #include "emC/J1c/StringFunctions_CJc.h"
@@ -35,7 +36,7 @@ StringJc version_StringFunctions_CJc = CONST_z_StringJc("2015-11-07"); //J2C:sta
 struct StringFunctions_CJc_t* ctorO_StringFunctions_CJc(ObjectJc* othis, ThCxt* _thCxt)
 { StringFunctions_CJc_s* thiz = (StringFunctions_CJc_s*)othis;  //upcasting to the real class.
   STACKTRC_TENTRY("ctorO_StringFunctions_CJc");
-  checkConsistence_ObjectJc(othis, sizeof(StringFunctions_CJc_s), null, _thCxt);  
+  CHECKinit_ObjectJc(othis, sizeof(StringFunctions_CJc_s), refl_StringFunctions_CJc_s, 0);  
   //TODO: setReflection_ObjectJc(othis, &refl_StringFunctions_CJc_s, sizeof(StringFunctions_CJc_s));
   //j2c: Initialize all class variables:
   {
@@ -436,5 +437,6 @@ const ClassJc refl_StringFunctions_CJc_s =
 
 #endif //DEF_REFLECTION_FULL
 
+#endif //ndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
-#endif //#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need
+//#endif //#ifdef DEF_ObjectJcpp_REFLECTION  //only possible with reflection because Vtable is need

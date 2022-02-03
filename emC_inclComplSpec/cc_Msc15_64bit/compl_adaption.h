@@ -311,8 +311,15 @@ typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
 #define GNU_PACKED
 
+
+/**To mark variables which are calculated but not used in any kind. 
+ * Sometimes they may be part of an assertions which is switched off,
+ * But also sometimes only for information on debugging. 
+ * This is a pragma for gcc to prevent a warning. In visual studio not regarded.
+ */
 #define MAYBE_UNUSED_emC
 
+/**Hint that this variable always is used. */
 #define USED_emC
 
 /**It is an attribute before a function definition to determine

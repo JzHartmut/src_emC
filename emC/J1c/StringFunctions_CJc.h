@@ -4,6 +4,8 @@
  *************************************************************************/
 #ifndef __J1c_StringFunctions_CJc_h__
 #define __J1c_StringFunctions_CJc_h__
+#include <applstdef_emC.h>
+#ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #include "emC/Base/MemC_emC.h"        //basic concept
 
@@ -40,10 +42,11 @@ typedef struct StringFunctions_CJc_t
   typedef TYPE_EnhancedRefJc(StringFunctions_CJc);
 #endif
 
+#ifdef DEF_ObjectJc_FULLCAPABILITY
 /**J2c: Definitions of the array forms. NOTE: The number of elements are a helper for debug, the really used number depends on the memory size! */
 typedef struct StringFunctions_CJc_X_t { ObjectArrayJc head; StringFunctions_CJcREF data[50]; } StringFunctions_CJc_X;
 typedef struct StringFunctions_CJc_Y_t { ObjectArrayJc head; StringFunctions_CJc_s data[50]; } StringFunctions_CJc_Y;
-
+#endif
  extern_C struct ClassJc_t const refl_StringFunctions_CJc_s;
   
 
@@ -131,5 +134,6 @@ class StringFunctions_CJc : private StringFunctions_CJc_s
 };
 
 #endif /*__CPLUSPLUSJcpp*/
+#endif  //ndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 #endif //__J1c_StringFunctions_CJc_h__

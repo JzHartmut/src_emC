@@ -41,6 +41,7 @@
 #include <applstdef_emC.h>
 #ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
+#include "emC/Base/MemC_emC.h"
 #include "emC/Jc/StringJc.h"
 #include "emC/OSAL/os_time.h"
 

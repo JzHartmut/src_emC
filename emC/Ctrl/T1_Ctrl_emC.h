@@ -289,7 +289,7 @@ typedef struct Delayf_Ctrl_emC_T {
  */
 INLINE_emC Delayf_Ctrl_emC_s* ctor_Delayf_Ctrl_emC ( ObjectJc* othiz, int size, int sizeMem ) {
 #ifndef __ignoreInCheader_zbnf__
-  ASSERT_emC(sizeMem >= (size-2) * sizeof(float) + sizeof(Delayf_Ctrl_emC_s), "faulty size on Delayf_Ctrl_emC", size, sizeMem); 
+  ASSERT_emC(sizeMem >= (int)((size-2) * sizeof(float) + sizeof(Delayf_Ctrl_emC_s)), "faulty size on Delayf_Ctrl_emC", size, sizeMem); 
   Delayf_Ctrl_emC_s* thiz = C_CAST(Delayf_Ctrl_emC_s*, othiz);
   thiz->nsize = size;
   return thiz;

@@ -1158,7 +1158,7 @@ double getChildDouble_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, ThCxt* 
 }
 
 
-#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC) && !defined(DEF_NO_StringUSAGE)
 /**Adds a child for a String value without a child instance, but returns the value as String.*/
 StringJc getChildString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 nrofBytes, ThCxt* _thCxt)
 { 
@@ -1311,7 +1311,7 @@ void copyData_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32_Y* dst, T
 }
 #endif
 
-#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC)
+#if !defined(DEF_ObjectSimple_emC) && !defined(DEF_NO_ObjectJc_emC) && !defined(DEF_NO_StringUSAGE)
 /**Returns a String from the given position inside the actual element .*/
 StringJc getString_ByteDataAccessBaseJc(ByteDataAccessBaseJc_s* thiz, int32 idx, int32 nrofBytes, ThCxt* _thCxt)
 { 
