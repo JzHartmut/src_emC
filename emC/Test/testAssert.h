@@ -59,26 +59,41 @@ extern_C bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, cha
 
 extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 
-#define TEST_START(MSG) bool bTESTok = true; msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
+//tag::TEST_TRY[]
+#define TEST_TRY(MSG) bool bTESTok = true; \
+  TRY { msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__);
+//end::TEST_TRY[]
 
-#define TEST_TRY(MSG) bool bTESTok = true; TRY { msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__);
+//tag::TEST_FRAME[]
+#define TEST_START(MSG) bool bTESTok = true; \
+  msgStartFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
 
-/**Test, output ok MSG if ok, only on error with file and line. */
-#define TEST_TRUE(COND, MSG, ...) if(!expectMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__, ##__VA_ARGS__)) bTESTok = false;
-
-/**Checks only, output only if error*/
-#define CHECK_TRUE(COND, MSG, ...) if(!(COND)) { expectMsgFileLine_testAssert_emC(false, MSG, __FILE__, __LINE__, ##__VA_ARGS__); bTESTok = false; }
-
-//#define EXPECTs_FALSE(COND, MSG) if((COND)) expectMsgFileLine_testAssert_emC(MSG, __FILE__, __LINE__)
+#define TEST_EXC(EXC) bTESTok = false; \
+  exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
 
 #define TEST_END   msgEndFileLine_testAssert_emC(bTESTok); 
+//end::TEST_FRAME[]
 
+//tag::TEST_TRY_END[]
 #define _TEST_TRY_END  } _TRY  CATCH(Exception, exc) { \
-    bTESTok = false; exceptionFileLine_testAssert_emC(exc, __FILE__, __LINE__); \
+    bTESTok = false; \
+    exceptionFileLine_testAssert_emC(exc, __FILE__, __LINE__); \
   } END_TRY  msgEndFileLine_testAssert_emC(bTESTok); 
+//end::TEST_TRY_END[]
 
 
-#define TEST_EXC(EXC) bTESTok = false; exceptionFileLine_testAssert_emC(EXC, __FILE__, __LINE__)
+//tag::TEST_TRUE[]
+/**Test, output ok MSG if ok, only on error with file and line. */
+#define TEST_TRUE(COND, MSG, ...) \
+  if(!expectMsgFileLine_testAssert_emC(COND, MSG, __FILE__, __LINE__, ##__VA_ARGS__)) bTESTok = false;
+//end::TEST_TRUE[]
+
+//tag::CHECK_TRUE[]
+/**Checks only, output only if error*/
+#define CHECK_TRUE(COND, MSG, ...) \
+  if(!(COND)) { expectMsgFileLine_testAssert_emC(false, MSG, __FILE__, __LINE__, ##__VA_ARGS__); bTESTok = false; }
+//end::CHECK_TRUE[]
+
 
 
 static inline bool check_testAssert(float val, float cmp, float accuracy) {

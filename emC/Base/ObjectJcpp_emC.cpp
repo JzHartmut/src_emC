@@ -1,6 +1,6 @@
 #include <emC/Base/Object_emC.h>
 
-#if defined(DEF_ObjectJc_FULLCAPABILITY) && defined(USE_cplusplus_emC)
+#if defined(DEF_ObjectJc_FULLCAPABILITY) && defined(DEF_cplusplus_emC)
 ObjectJcpp::ObjectJcpp()
 #ifdef DEF_ObjectJc_OWNADDRESS
   //: significance_ObjectifcBase(kSignificance_ObjectifcBase)

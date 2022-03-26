@@ -46,7 +46,7 @@
 
 MemC null_MemC = {0};
 
-
+#ifdef SIZE_SafetyArea_allocMemC
 /**It is a small additinal head structure to the allocated data for debug and management. */
 typedef struct Alloc_MemC_t
 {
@@ -74,14 +74,29 @@ void* alloc_MemC_PRIV(int size, int sizeSafety) {
   }
   else return null; 
 }
+#endif //def SIZE_SafetyArea_allocMemC
 
+
+
+
+/**Ordinary alloc routine without storing of the size. This routine is used inside ALLOC_MemC(...). */
+
+void* alloc_MemC(int size) {
+  #ifdef SIZE_SafetyArea_allocMemC
+    return alloc_MemC_PRIV(size, SIZE_SafetyArea_allocMemC);
+  #else
+    return os_allocMem(size);             
+  #endif  //ndef SIZE_SafetyArea_allocMemC
+}
 
 
 
 
 
 int free_MemC  (  void const* addr)
-{ if(addr == null) return 0;
+{ if(addr == null) {
+    return 0;
+  }
   //
   MemUnit* ptr = (MemUnit*)addr;
   STACKTRC_ENTRY("free_MemC");
@@ -111,6 +126,7 @@ int free_MemC  (  void const* addr)
       STACKTRC_RETURN 2;
     }
   #endif
+  #ifdef SIZE_SafetyArea_allocMemC
   //Note: At least 1 empty if before, the different memory locations.  
   else { //seems to be a os_alloc
     Alloc_MemC_s* ptrAlloc = ((Alloc_MemC_s*) ptr)-1;
@@ -130,7 +146,12 @@ int free_MemC  (  void const* addr)
       STACKTRC_RETURN 4;
     }
   }
-
+  #else  //ndef SIZE_SafetyArea_allocMemC
+  else {
+    os_freeMem(addr);
+    STACKTRC_RETURN 1;
+  }
+  #endif //ndef SIZE_SafetyArea_allocMemC
 }
 
 

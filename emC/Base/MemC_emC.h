@@ -254,9 +254,6 @@ METHOD_C void init0p_MemC(void* ptr, int size);
 
 
 
-/**Ordinary alloc routine without storing of the size. This routine is used inside ALLOC_MemC(...). */
-METHOD_C void* alloc_MemC_PRIV(int size, int sizeSafety);
-
 
 /**This is the best form to allocate data for a non-C++ data type (a struct type).
  * It uses static_cast<...> in C++ via C_CAST to prevent warnings. 
@@ -266,10 +263,6 @@ METHOD_C void* alloc_MemC_PRIV(int size, int sizeSafety);
 #define allocDATA_MemC(TYPE) C_CAST(TYPE*, alloc_MemC(sizeof(TYPE)))
 
 
-
-static inline void* alloc_MemC(int size) {
-  return alloc_MemC_PRIV(size, sizeSafetyArea_allocMemC);
-}
 
 /**Macro to set an given embedded instance to 0. */
 #define setNull_MemC(THIS) { (THIS).addr = null; (THIS).val = 0; }
@@ -289,7 +282,7 @@ static inline void* alloc_MemC(int size) {
  * * since 2016-05: Only the memory address is necessary.
  * * since 2016-05: It can also free memory in the Thread Context or in the Block Heap, see [[CRJT:_ThreadContext_emC_s.getUserBuffer_ThreadContext_emC(...)]]
  */
-METHOD_C int free_MemC(void const* addr);
+//see applstdef_common.h
 
 
 INLINE_emC int freeMemC_MemC(MemC* mem) {

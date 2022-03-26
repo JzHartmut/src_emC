@@ -49,6 +49,7 @@
  ****************************************************************************/
 
 #include <emC/Base/Formatter_emC.h>
+#include <emC/Base/StringNum_emC.h>
 #ifndef DEF_NO_StringUSAGE
 #include <emC/Base/SimpleC_emC.h>         //ARRAYLEN
 //       //STACKTRC_...

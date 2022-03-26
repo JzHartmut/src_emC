@@ -20,7 +20,7 @@
  *    modified sources likewise under this LGPL Lesser General Public License.
  *    You mustn't delete this Copyright/Copyleft inscription in this source file.
  *
- * This source may be used also with another licence, if the author 
+ * This source may be used also with another licence, if the author
  * and all other here named co-authors have agreed to this contract.
  * Especially a company can use a copy of this sources in its products without publishing.
  * The user should have a underwritten contract therefore.
@@ -39,7 +39,7 @@
 
 
 /**Adaption and test of some settings in the user's applstdef_emC.h */
-//If no reflection are used, anyway DEF_REFLECTION_NO should be defined. 
+//If no reflection are used, anyway DEF_REFLECTION_NO should be defined.
 #if !defined(DEF_REFLECTION_SIMPLE) && !defined(DEF_REFLECTION_OFFS) && !defined(DEF_REFLECTION_FULL) && !defined(DEF_REFLECTION_NO)
   #define DEF_REFLECTION_NO
 #endif
@@ -54,9 +54,9 @@
 #endif
 
 #if defined(DEF_ClassJc_Vtbl) && !defined(DEF_CharSeqJcCapabilities)
-  //yet always defined with DEF_ClassJc_Vtbl, first one is necessary. 
+  //yet always defined with DEF_ClassJc_Vtbl, first one is necessary.
   #define DEF_CharSeqJcCapabilities
-#endif 
+#endif
 
 #ifdef DEF_ThreadContext_STACKTRC_NO
   #define DEF_ThreadContext_NOSTACKTRC_emC
@@ -83,30 +83,32 @@
 
 
 
+
+
 //tag::StringJc[]
-/**This is the defintion of a reference to a String and a value and state information. 
+/**This is the defintion of a reference to a String and a value and state information.
  * It is similar as the defintion of AddrVal_emC  or the macro STRUCT_AddrVal_emC
- * but the address is a union because of different capabilities. It is written in the same kind. 
+ * but the address is a union because of different capabilities. It is written in the same kind.
  * * First element is a pointer with different types in the union.
  * * Second element is the length and flags, see in header emC/Base/StringBase_emC.h
- * Hint: definition of StringJc independent of an included emC/.../StringJc.h 
- * because it is used for example also in Exception_emC.h. 
- * It is a simple data struct and some macros, commonly usable. 
+ * Hint: definition of StringJc independent of an included emC/.../StringJc.h
+ * because it is used for example also in Exception_emC.h.
+ * It is a simple data struct and some macros, commonly usable.
  */
-typedef struct StringJc_T { 
-  union CharSeqTypes_T { 
-    char const* str; 
-    #ifndef DEF_NO_StringUSAGE 
-      struct StringBuilderJc_t* bu; 
+typedef struct StringJc_T {
+  union CharSeqTypes_T {
+    char const* str;
+    #ifndef DEF_NO_StringUSAGE
+      struct StringBuilderJc_t* bu;
       #ifdef DEF_CharSeqJcCapabilities
-        struct ObjectJc_T const* obj; 
+        struct ObjectJc_T const* obj;
         #ifdef __cplusplus
           class CharSequenceJc* csq;
         #endif
       #endif
     #endif
-  } addr; 
-  VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC 
+  } addr;
+  VALTYPE_AddrVal_emC val;    //Note: Use same type as in STRUCT_AddrVal_emC
 } StringJc;
 //end::StringJc[]
 
@@ -125,9 +127,9 @@ extern_C StringJc const empty_StringJc;
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a zero-terminated text.
  * The length of the text
- * is not stored inside StringJc, the length bits are setted to kIs_0_terminated_StringJc 
+ * is not stored inside StringJc, the length bits are setted to kIs_0_terminated_StringJc
  * (it is the value of ,,mLength_StringJc,,), to detect this constellation.
- * @param TEXT should be a text-literal only. If it references a char-array, 
+ * @param TEXT should be a text-literal only. If it references a char-array,
  *        a problem with persistence may existing.
  */
 #define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
@@ -135,15 +137,15 @@ extern_C StringJc const empty_StringJc;
 
 /**Initializer-Macro for StringJc, initialize the StringJc-reference to a string literal.
  * The length of the literal is calculated via sizeof("text").
- * @param TEXT should only be a text-literal. 
- * If it references a char-array, the size is faulty 
- * and  problem with persistence may existing. 
+ * @param TEXT should only be a text-literal.
+ * If it references a char-array, the size is faulty
+ * and  problem with persistence may existing.
  */
 #define INIZ_text_StringJc(TEXT) { TEXT, (int)(sizeof(TEXT)-1) }
 
 /**Initializer-Macro for constant StringJc, initialize the StringJc-reference to a text with known length.
  * Using this macro instead ,,CONST_StringJc(...),, saves calculation time to calculate the ,,strlen(),,.
- * @param TEXT should be a text-literal only. If it references a char-array, 
+ * @param TEXT should be a text-literal only. If it references a char-array,
  *             a problem with persistence may existing.
  * @param LEN The length as number. Do not use methods like strlen(...)
  *            to determine the length, because this is a const-initializing-macro.
@@ -158,7 +160,7 @@ extern_C StringJc const empty_StringJc;
 
 
 #ifdef __cplusplus
-  #ifdef DEF_CPP_COMPILE  //If the apropriate C-sources are compiled as C++
+  #ifdef DEF_cplusplus_emC  //If the apropriate C-sources are compiled as C++
     /**C-Sources are compiled with C++, C++ linker label is desired.*/
     #define extern_CCpp extern
   #else                   //If all C-Sources are compiled with C
@@ -169,16 +171,20 @@ extern_C StringJc const empty_StringJc;
   #define extern_CCpp extern
 #endif
 
+// offer a prototype for allocation and free additional to malloc,
+//either implemented in emC/Base/MemC_emC.c or simple specific (using malloc/free)
+void* alloc_MemC(int size);
+extern_C int free_MemC(void const* addr);
 
-#if !defined(DEF_NO_THCXT_STACKTRC_EXC_emC) 
+
+
+#if !defined(DEF_NO_THCXT_STACKTRC_EXC_emC)
   #include <emC/Base/Assert_emC.h>
   #include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
   #include <emC/Base/Exception_emC.h>
 #else
   //This is for a system without including Base/Exception_emC.h
-  
-  #define ASSERT_IGNORE_emC     //emC assertions not possible with that situation.
-  
+
   //all STCKTRC macro are empty. Not necessary to include emC/Base/Exception_emC.h
   #define HGUARD_emC_Base_Exception_emC    //Prevents including Base/Exception_emC.h
   //#define DEF_DONOTCOMPILE_Base_Exception_emC
@@ -189,6 +195,7 @@ extern_C StringJc const empty_StringJc;
    */
   #define STACKTRC_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
   #define STACKTRC_ROOT_ENTRY(NAME) MAYBE_UNUSED_emC struct ThreadContext_emC_t* _thCxt = null;
+  struct ThreadContext_emC_t;               //necessary: forward declaration.
   #define ThCxt struct ThreadContext_emC_t
 
   /**An empty macro instead Stacktrace entry.
@@ -250,6 +257,8 @@ extern_C StringJc const empty_StringJc;
   #ifndef ASSERT
     #define ASSERT(COND) ASSERT_emC(COND, "Assertion", 0,0)
   #endif
+#else
+  #include <emC/Base/Assert_emC.h>
 #endif
 
 
@@ -259,7 +268,7 @@ extern_C StringJc const empty_StringJc;
 
 
 #ifdef DEF_NO_ObjectJc_emC
-  //This is the simple usage, without Object_emC.h etc. files. 
+  //This is the simple usage, without Object_emC.h etc. files.
   //But given simple basic features for ObjectJc
   //
   //Check whether Reflection usage should also be prevented:
@@ -272,7 +281,7 @@ extern_C StringJc const empty_StringJc;
   //use only 16 bit here, for typical 16 bit int application in embedded control.
   #define mId_ObjectJc           0x07FF    //2046 instance id possible for manually debug
   #define mInitialized_ObjectJc  0x8000    // setInitialized_ObjectJc(...) supported
-  #define mArray_ObjectJc        0x4000    // formally defined, should be 0 anytime. 
+  #define mArray_ObjectJc        0x4000    // formally defined, should be 0 anytime.
   #define mLocked_ObjectJc       0x2000    // lock_ObjectJc() feature supported
   #define mSyncHandle_ObjectJc   0x1800    // max. 3 synchandle for lock only for basic features
   #define kNoSyncHandles_ObjectJc 0        // 0 is default, no handle.
@@ -283,10 +292,10 @@ extern_C StringJc const empty_StringJc;
   extern_C ObjectJc* alloc_ObjectJc_verySimple_emC(int size, int id);
   #define ALLOC_ObjectJc(SIZE, REFL, ID) alloc_ObjectJc_verySimple_emC(SIZE, ID)
   #define INIZ_ObjectJc(THIZ, REFL, ID) {ID}     // supported, set only the ID, 0..0x07FF
-  #define INIZ_ClassJc(THIZ, NAME) { *(NAME)}    // store first char only, do not use space for text  
-  #define INIZsuper_ClassJc(THIZ, NAME, BASE) { 0 }  //store nothing, do not use space for text  
-  #define CTOR_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) ((THIZ)->identSize = ID, THIZ)  
-  #define ctor_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) ((THIZ)->identSize = ID, THIZ)  
+  #define INIZ_ClassJc(THIZ, NAME) { *(NAME)}    // store first char only, do not use space for text
+  #define INIZsuper_ClassJc(THIZ, NAME, BASE) { 0 }  //store nothing, do not use space for text
+  #define CTOR_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) ((THIZ)->identSize = ID, THIZ)
+  #define ctor_ObjectJc(THIZ, ADDR, SIZE, REFL, ID) ((THIZ)->identSize = ID, THIZ)
   //the important things SIZE and REFL are not supported! Check only a given ID, return true on ID=0
   #define CHECKstrict_ObjectJc(THIZ, SIZE, REFL, ID) ( (ID) == 0 || ((THIZ)->identSize & mId_ObjectJc) == (ID) )
   #define CHECKinit_ObjectJc(THIZ, SIZE, REFL, ID) ( ((THIZ)->identSize & mId_ObjectJc)==0 ? (THIZ)->identSize = ID, true : (ID)==0 || ((THIZ)->identSize & mId_ObjectJc) == ID )
@@ -313,12 +322,12 @@ extern_C StringJc const empty_StringJc;
 //The same definitions are also contained in EnhancedRef_simple.h, see concept of BlocKMem
 #ifndef TYPE_EnhancedRefJc
   #define TYPE_EnhancedRefJc(TYPE) struct TYPE##_t* TYPE##REF
-  #define NULL_REFJc null 
+  #define NULL_REFJc null
   #define SETREFJc(REF, OBJP, REFTYPE) (REF) = (OBJP);
   #define CLEAR_REFJc(REF) ((REF) = null)
   #define CLEARREF_Jc(REF) ((REF) = null)
   #define CLEARREFJc(REF) ((REF) = null)
-  #define REFJc(REF)  (REF) 
+  #define REFJc(REF)  (REF)
 #endif
 //Reflection definition of the enhanced ref, used formally
 #ifndef DEFINE_REFLECTION_REF
@@ -337,7 +346,22 @@ extern_C StringJc const empty_StringJc;
 
 
 
+/**This type is introduced because some processors (Texas Instruments) have 32 bit capabillity
+ * but presents the int type with 16 bit.
+ * The intnum is that type which is fast for numeric operations of the target controller.
+ */
+#ifndef INT_NUM_emC
+#define INT_NUM_emC  int
+#define INT_NUM_NROFBITS INT_NROFBITS
+#endif
 
- 
+#if (INT_NUM_NROFBITS == 16)
+  #define refl_INT_NUM_emC refl__int16Jc
+#else
+  #define refl_INT_NUM_emC refl__int32Jc
+#endif
+
+
+
 
 #endif //HGUARD_emCBase_applstdef_common

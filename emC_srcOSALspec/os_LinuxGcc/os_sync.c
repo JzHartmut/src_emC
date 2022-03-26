@@ -39,7 +39,7 @@
 //needed from os_adaption itself
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_mem.h>
-#include "os_internal.h"
+#include <emC_srcOSALspec/os_LinuxGcc/os_internal.h>
 
 //Needed includes from os:
 #include <pthread.h>
@@ -80,7 +80,7 @@ int os_wait(
   OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
   OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
-  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   struct timespec time;
   /*
     if(pThread != mutex->threadOwner)
@@ -123,7 +123,7 @@ int os_wait(
 
 /** Notifies all waiting thread to continue.
  */
-int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex hMutex)
+int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex_s hMutex)
 {
   return -1;
 
@@ -132,14 +132,14 @@ int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex hMutex)
 
 /** Notifies only one waiting thread to continue.
  */
-int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex mutexP)
+int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex_s* mutexP)
 { bool shouldNotify;
   int error = 0xbaadf00d;
   //cast it from const to non-const. const is only outside!
   OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
-  OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
+  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
-  struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
     /*
   if(pThread != mutex->threadOwner)
   { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);

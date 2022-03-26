@@ -452,76 +452,26 @@ int trimRightWhitespaces_emC ( char const* text, int maxNrofChars)
 
 
 
-/** found an algorithm unusing division, because some divisions may be expensive in time
-* at some processors.
-*/
-int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative)
-{
-  char cc;
-  /**Array of values to test the position in digit. Fill it with 10, 100 etc if radix = 10;*/
-  uint32 testValues[32]; //max 32, will be filled with 10, 100, 1000 etc. for radix = 10, or 16, 256, 4096 etc. for radix = 16
-  uint32 uvalue;         //         or even 2,4,8,16 ... for radix = 2. Only for that the 32 are used.
-
-  int idxTestValues = 0;
-  int nChars = 0;
-  int minNrofChars;
-  if (minNrofCharsAndNegative < 0 && value < 0)
-  {
-    uvalue = -value; //may be -0x80000000
-    buffer[nChars++] = '-';
-  }
-  else
-  {
-    uvalue = value;
-  }
-  minNrofChars = minNrofCharsAndNegative < 0 ? -minNrofCharsAndNegative : minNrofCharsAndNegative;
-  //
-  { //fill in digigts to detect positions in digit
-    uint32 powerRadix = radix;
-    uint32 powerRadixLast = 0;
-    while (uvalue >= powerRadix
-      && powerRadix > powerRadixLast  //prevent overflow.
-      )
-    {
-      testValues[idxTestValues++] = powerRadix;
-      powerRadixLast = powerRadix;
-      powerRadix *= radix;
-    }
-  }
-  //
-  //idxTestValues is the number of digits -1, because testValues[0] contains 10.  
-  { int nrofZero = minNrofChars - idxTestValues - 1;
-    while (--nrofZero >= 0 && nChars < zBuffer) buffer[nChars++] = '0';
-  }
-  //test input digit
-  { uint32 test;
-    while (--idxTestValues >= 0 && nChars < zBuffer)
-    {
-      cc = '0';
-      test = testValues[idxTestValues];  //starts on the highest digit position (for ex. 1000 if the value is >=1000 but <10000
-      while (uvalue >= test)
-      {
-        cc += 1;
-        uvalue -= test;
-      }
-      if (cc > '9')
-      {
-        cc += ('a' - '9' - 1);
-      }
-      buffer[nChars++] = cc;
-    }
-  }
-  cc = (char)('0' + uvalue); //last digit
-  if (cc > '9')
-  {
-    cc += ('a' - '9' - 1);
-  }
-  if (nChars < zBuffer)
-  {
-    buffer[nChars++] = cc;
-  }
-  return nChars;
+const char* getConstChar_StringJc(const StringJc* thiz)
+{ //int count;
+  //const char* sRet = getCharsAndLength_StringJc(thiz, &count);
+  const char* sRet = PTR_StringJc(*thiz);
+  return sRet;
 }
+
+
+
+
+/**This method is adequat zI_StringJc, but it dedicated the String as persistent. */
+StringJc toStringFromPersist_zI_StringJc(char const* buffer, int nrofChars)
+{ StringJc ret;
+  SET_StringJc(ret, buffer, (nrofChars & mLength_StringJc)); 
+  return ret;
+}
+
+
+
+
 
 
 StringJc const null_StringJc = NULL_StringJc;

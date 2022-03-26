@@ -37,7 +37,8 @@
  ****************************************************************************/
 #include <applstdef_emC.h>
 #ifndef DEF_NO_StringUSAGE
-#include "emC/Jc/StringJc_intern.h"
+#include <emC/Base/StringNum_emC.h>
+#include <emC/Jc/StringJc_intern.h>
 #include <emC/Jc/ObjectJc.h>
 #include <emC/Base/Formatter_emC.h> 
 #include <emC/Jc/ReflectionJc.h>

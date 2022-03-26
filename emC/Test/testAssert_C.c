@@ -31,7 +31,7 @@ void msgEndFileLine_testAssert_emC ( bool ok){
 }
 
 
-
+//tag::expectMsg[]
 bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line, ...) {
   char text[200];
   va_list args;
@@ -45,6 +45,8 @@ bool expectMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* 
   }
   return cond;
 }
+//end::expectMsg[]
+
 
 bool XXXcheckMsgFileLine_testAssert_emC ( bool cond, char const* msg, char const* file, int line, int32 val1, int32 val2) {
   if(!cond) {

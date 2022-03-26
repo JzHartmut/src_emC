@@ -33,11 +33,11 @@
  *
  *
  ****************************************************************************/
-#include <emC/Base/Object_emC.h>
+#include <emC/Base/ObjectSimple_emC.h>
 
 #ifndef DEF_NO_ObjectJc_emC
 
-#include <emC/Base/MemC_emC.h>
+//#include <emC/Base/MemC_emC.h>
 #include <stdlib.h>   //malloc defined here
 #include <string.h>   //memset defined here
 
@@ -163,7 +163,7 @@ bool instanceofReflid_ObjectJc ( struct ObjectJc_T const* thiz, uint reflId) {
 
 #if !defined(DEF_REFLECTION_FULL)
 bool instanceof_ObjectJc ( struct ObjectJc_T const* thiz, struct ClassJc_t const* reflection) {
-  bool reflOk = reflection == null; //true if the argument is null, special case 
+  bool reflOk = (reflection == null); //true if the argument is null, special case 
   if(!reflOk) {
     #if defined (DEF_REFLECTION_NO)
       //The mInstanceType_ObjectJc have to be contain the same type Id as in reflection.

@@ -287,7 +287,7 @@ typedef struct Vtbl_StringPartScanJc_t
 
 
 
-#if defined(USE_cplusplus_emC) && defined(__cplusplus)
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
 class StringPartScanJc : public StringPartJc, private StringPartScanJc_s
 { public:

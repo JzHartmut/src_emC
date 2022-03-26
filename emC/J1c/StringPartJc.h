@@ -1137,7 +1137,7 @@ typedef struct Vtbl_StringPartJc_t
 
 
 
-#if defined(USE_cplusplus_emC) && defined(__cplusplus)
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 /* J2C: The C++-class-definition. */
 class StringPartJc
 { 

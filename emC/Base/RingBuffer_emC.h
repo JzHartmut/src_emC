@@ -198,7 +198,7 @@ extern_C void status_RingBuffer_emC(RingBuffer_emC_s* thiz, int16* nrofEntries_y
 
 
 
-#if defined(USE_cplusplus_emC) && defined(__cplusplus)
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 class RingBuffer_emC: private RingBuffer_emC_s {
   
   public: RingBuffer_emC(int nrofEntries, int id) {
@@ -218,6 +218,6 @@ class RingBuffer_emC: private RingBuffer_emC_s {
   public: void quitNext(int ixRd) { quitNext_RingBuffer_emC(this, ixRd); }
 
 };
-#endif //USE_cplusplus_emC  
+#endif //DEF_cplusplus_emC  
 
 #endif //HGUARD_emC_Base__RingBuffer_emC

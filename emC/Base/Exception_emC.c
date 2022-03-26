@@ -52,6 +52,7 @@
 
 #ifndef DEF_NO_StringUSAGE
   #include <emC/Base/StringBase_emC.h>
+  #include <emC/Base/StringNum_emC.h>
   #include <emC/Base/MemC_emC.h>
 #endif
 
@@ -118,64 +119,62 @@ const char* exceptionTexts [33] =
 void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, char const* file, int line, ThCxt* _thCxt)
 { //find stack level with try entry:
   if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
-  Exception_emC* exception = &_thCxt->tryObject->exc;        //locate in stack of the try level.
-  exception->file = file;
-  exception->line = line;
-  exception->exceptionNr = exceptionNr;
-  //check the memory area where the msg is stored. Maybe in stack, then copy it.
-  #ifndef DEF_NO_StringUSAGE
-  MemUnit* addrMsg = (MemUnit*)msg.addr.str;
-  if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
-    //The msg is in stack area, copy it in ThreadContext!
-    int zMsg = length_StringJc(msg);
-    if(zMsg >0){
-      #ifdef DEF_ThreadContext_HEAP_emC
-        MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
-        char* b = PTR_MemC(memb, char);
-        if(b !=null) {
-          copyToBuffer_StringJc(msg, 0, -1, b, zMsg);
-          SET_StringJc(exception->exceptionMsg, b, zMsg);
-        }
-        else {
-          exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
-        }
-      #else //no DEF_ThreadContext_HEAP_emC
-        exception->exceptionMsg = z_StringJc("Exception message in stack, but no ThreadHeap, cannot be used.");
-      #endif
-    }
-  }
-  else {
-    lightCopy_StringJc(&exception->exceptionMsg, msg);
-  }
-  #endif
-  exception->exceptionValue = value;
-  throwCore_emC(_thCxt);
-}
-
-
-void throwCore_emC(ThCxt* _thCxt) {
-
   if(_thCxt->tryObject !=null) {
-    //tryObject->excNrTestCatch = exception->exceptionNr;
-    #if defined(DEF_Exception_TRYCpp)
-      #ifndef __cplusplus
-        #error to use C++ exception handing you should compile this source with C++
-      #endif
-      throw _thCxt->tryObject->exc.exceptionNr;
-    #elif defined(DEF_Exception_longjmp)
-      longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->tryObject->exc.exceptionNr);
-    #else 
-      //Only log, the program continues after THROW
-      //Note: The compilation does not call this operation because THROW is defined
-      //with immediately call of log_Exception usually
-      log_Exception_emC(&_thCxt->tryObject->exc, _thCxt->tryObject->exc.file, _thCxt->tryObject->exc.line);
+    Exception_emC* exception = &_thCxt->tryObject->exc;        //locate in stack of the try level.
+    exception->file = file;
+    exception->line = line;
+    exception->exceptionNr = exceptionNr;
+    //check the memory area where the msg is stored. Maybe in stack, then copy it.
+    #ifndef DEF_NO_StringUSAGE
+    MemUnit* addrMsg = (MemUnit*)msg.addr.str;
+    if (addrMsg < _thCxt->topmemAddrOfStack && addrMsg >((MemUnit*)&exception)) {
+      //The msg is in stack area, copy it in ThreadContext!
+      int zMsg = length_StringJc(msg);
+      if(zMsg >0){
+        #ifdef DEF_ThreadContext_HEAP_emC
+          MemC memb = getUserBuffer_ThreadContext_emC(zMsg +1, "throw_sJc", _thCxt);
+          char* b = PTR_MemC(memb, char);
+          if(b !=null) {
+            copyToBuffer_StringJc(msg, 0, -1, b, zMsg);
+            SET_StringJc(exception->exceptionMsg, b, zMsg);
+          }
+          else {
+            exception->exceptionMsg = z_StringJc("unexpected: No space in ThreadCxt");
+          }
+        #else //no DEF_ThreadContext_HEAP_emC
+          exception->exceptionMsg = z_StringJc("Exception message in stack, but no ThreadHeap, cannot be used.");
+        #endif
+      }
+    }
+    else {
+      lightCopy_StringJc(&exception->exceptionMsg, msg);
+    }
     #endif
-
+    exception->exceptionValue = value;
+    throwCore_emC(_thCxt);
   }
   else
   { //no TRYJc-level found,
     uncatched_Exception_emC(&_thCxt->tryObject->exc, _thCxt);
   }
+}
+
+
+void throwCore_emC(ThCxt* _thCxt) {
+  //tryObject->excNrTestCatch = exception->exceptionNr;
+  #if defined(DEF_Exception_TRYCpp)
+    #ifndef __cplusplus
+      #error to use C++ exception handing you should compile this source with C++
+    #endif
+    throw _thCxt->tryObject->exc.exceptionNr;
+  #elif defined(DEF_Exception_longjmp)
+    longjmp(_thCxt->tryObject->longjmpBuffer, _thCxt->tryObject->exc.exceptionNr);
+  #else 
+    //Only log, the program continues after THROW
+    //Note: The compilation does not call this operation because THROW is defined
+    //with immediately call of log_Exception usually
+    log_Exception_emC(&_thCxt->tryObject->exc, _thCxt->tryObject->exc.file, _thCxt->tryObject->exc.line);
+  #endif
 }
 
 

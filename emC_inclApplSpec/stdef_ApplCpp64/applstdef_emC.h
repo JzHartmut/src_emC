@@ -107,7 +107,6 @@
 
 /**This is to compile C++ classes of emC if __cplusplus is set.
   For C compilation this is ineffective because __cplusplus is necessary too*/
-#define USE_cplusplus_emC
 #define DEF_cplusplus_emC
 #define DEF_CPP_COMPILE
 

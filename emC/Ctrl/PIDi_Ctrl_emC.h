@@ -286,7 +286,7 @@ static void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, INT_NUM_emC* y);
 
 static inline void get_wxP_PID_ctrl(PIDi_Ctrl_emC_s const* thiz, INT_NUM_emC* y) { *y = thiz->wxPs;  }
 
-#if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 class PIDi_Ctrl_emC : public PIDi_Ctrl_emC_s { //, public ObjectifcBaseJcpp {
 
 

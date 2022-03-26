@@ -256,7 +256,7 @@ extern_C int getData_Serial_HALemC ( int channel, void* dst, int fromByteInDst, 
 extern_C void close_Serial_HAL_emC(int channel);
 
 
-#if defined(USE_cplusplus_emC) && defined(__cplusplus)
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 
 /**It defines only the interface used in all comm classes. */
 class Serial_HALemC : public Com_HALemC, private Serial_HALemC_s {
@@ -431,7 +431,7 @@ class Comm_SPI_HALemC //: public Comm_HALemC
 };
 
 
-#endif //USE_cplusplus_emC
+#endif //DEF_cplusplus_emC
 
 
 

@@ -4,21 +4,6 @@
 
 
 
-/**This type is introduced because some processors (Texas Instruments) have 32 bit capabillity 
- * but presents the int type with 16 bit. 
- * The intnum is that type which is fast for numeric operations of the target controller. 
- */  
-#ifndef INT_NUM_emC
-#define INT_NUM_emC  int
-#define INT_NUM_NROFBITS INT_NROFBITS 
-#endif
-
-#if (INT_NUM_NROFBITS == 16)
-  #define refl_INT_NUM_emC refl__int16Jc
-#else
-  #define refl_INT_NUM_emC refl__int32Jc
-#endif
-
 
 /**General scaling for fix point numbers 16 bit:
  * Often the nominal value of physical values is 1.0. Usual some overdrive exists. 

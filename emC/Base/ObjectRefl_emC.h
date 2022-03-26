@@ -222,7 +222,7 @@ There are only 5 bits useable for 31 large instances.
 
 
 
-#if defined(__cplusplus) && defined(USE_cplusplus_emC)
+#if defined(__cplusplus) && defined(DEF_cplusplus_emC)
 
 
 

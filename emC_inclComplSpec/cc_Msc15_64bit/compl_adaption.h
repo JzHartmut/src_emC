@@ -62,8 +62,6 @@
 //#pragma warning(disable:4068) //unknown pragma
 
 //#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
-//#pragma warning(disable:4127) //conditional expression is constant
-//#pragma warning(disable:4189) //local variable is initialized but not referenced
 //#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
 //#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
 //#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
@@ -82,8 +80,12 @@
 //#pragma warning(error:4028) //formal parameter 1 different from declaration
 //#pragma warning(error:4033) //incompatible types (pointer casting)
 //#pragma warning(error:4133) //incompatible types (pointer casting)
-#pragma warning(disable:4996) //Microsoft's specific dialect of some deprecated operation, strncpy etc. 
 
+//tag::pragma[]
+//#pragma warning(disable:4127) //conditional expression is constant
+//#pragma warning(disable:4189) //local variable is initialized but not referenced
+#pragma warning(disable:4996) //Microsoft's specific dialect of some deprecated operation, strncpy etc. 
+//end::pragma[]
 
 /**Defintion of bool, false, true for C usage. */
 #ifdef __cplusplus

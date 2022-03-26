@@ -47,12 +47,12 @@ typedef struct StringFunctions_CJc_t
 typedef struct StringFunctions_CJc_X_t { ObjectArrayJc head; StringFunctions_CJcREF data[50]; } StringFunctions_CJc_X;
 typedef struct StringFunctions_CJc_Y_t { ObjectArrayJc head; StringFunctions_CJc_s data[50]; } StringFunctions_CJc_Y;
 #endif
- extern_C struct ClassJc_t const refl_StringFunctions_CJc_s;
+ extern_C struct ClassJc_t const refl_StringFunctions_CJc;
   
 
 
 /**CONST_Type useable as initializer for embedded/stack-instances*/
-#define CONST_StringFunctions_CJc(OBJP) { CONST_ObjectJc(sizeof(StringFunctions_CJc_s), OBJP, &refl_StringFunctions_CJc_s), 0 }
+#define CONST_StringFunctions_CJc(OBJP) { CONST_ObjectJc(sizeof(StringFunctions_CJc_s), OBJP, &refl_StringFunctions_CJc), 0 }
 
 /**J2C: finalize declaration. It is called by Garbage collector and inside other finalized methods.
  * It should be called by the user if the instance is removed. */
@@ -118,7 +118,7 @@ typedef struct Vtbl_StringFunctions_CJc_t
 class StringFunctions_CJc : private StringFunctions_CJc_s
 { public:
 
-  StringFunctions_CJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctions_CJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringFunctions_CJc_s, 0); ctorO_StringFunctions_CJc(&this->base.object,  null/*_thCxt*/); }
+  StringFunctions_CJc(){ init_ObjectJc(&this->base.object, sizeof(StringFunctions_CJc_s), 0); setReflection_ObjectJc(&this->base.object, &refl_StringFunctions_CJc, 0); ctorO_StringFunctions_CJc(&this->base.object,  null/*_thCxt*/); }
 
   float parseFloat(CharSeqJc src, int32 pos, int32 sizeP, char decimalpoint, int32* parsedCharsP){  return parseFloat_CsiiciY_StringFunctions_CJc(src, pos, sizeP, decimalpoint, parsedCharsP,  null/*_thCxt*/); }
 

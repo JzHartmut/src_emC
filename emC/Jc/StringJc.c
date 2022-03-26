@@ -47,6 +47,7 @@
 
 #include "emC/Jc/ObjectJc.h"      //It is a concept of CRuntimeJavalike
 #include <emC/Jc/ReflectionJc.h>
+#include <emC/Base/StringNum_emC.h>
 
 //#include "fw_ThreadContext.h"
 

@@ -358,7 +358,7 @@ extern_C void step64_PIDf_Ctrl_emC(PIDf_Ctrl_emC_s* thiz, float wx, float x, flo
 
 
 //tag::class_PIDf_Ctrl_emC[]
-#if defined(DEF_CPP_COMPILE) && defined(__cplusplus)
+#if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 class PIDf_Ctrl_emC : public PIDf_Ctrl_emC_s {
 
   /**Constructs.

@@ -46,6 +46,7 @@
 #ifndef HGUARD_ObjectSimple_emC
 #define HGUARD_ObjectSimple_emC
 
+#ifndef DEF_NO_ObjectJc_emC
 
 #ifndef DEFINED_MemC
 #define DEFINED_MemC
@@ -627,6 +628,7 @@ extern_C ClassJc const refl_ClassJc;
 //If null is given as refl_Type...:
 #define ID_null 0
 
+#endif //ndef DEF_NO_ObjectJc_emC
 
 
 #endif //HGUARD_ObjectSimple_emC
