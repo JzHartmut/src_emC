@@ -367,7 +367,7 @@ int txData_Serial_HALemC ( int const channel, void const* const data, int const 
     MemUnit const* dataCurr = data0 + fromCharPos;
     int zCharsCt = zChars;
     BOOL retVal;
-    while( --zCharsCt >=0) {
+    while( --zCharsCt >=0) {     // writes byte for byte.
       retVal = WriteFile(thiz->hPort, dataCurr, 1, &byteswritten, NULL);
       dataCurr +=1;
       if(!retVal) {break; } 
@@ -383,7 +383,9 @@ int txData_Serial_HALemC ( int const channel, void const* const data, int const 
 
 
 
-int txChar_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars) {
+int busyTx_Serial_HAL_emC ( int channel) { return 0; }  // never busy. chars are transmitted.
+
+int txChars_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars) {
   return txData_Serial_HALemC(channel, text, fromCharPos, zChars);
 }
 

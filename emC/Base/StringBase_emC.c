@@ -30,10 +30,10 @@
 */
 #include <applstdef_emC.h>
 //#include <emC/Base/Object_emC.h>
-#include <emC/Base/StringBase_emC.h>
 #ifndef DEF_NO_StringUSAGE
-  #include <emC/Base/String_emC.h>
+  //#include <emC/Base/String_emC.h>
 #endif
+#include <emC/Base/StringBase_emC.h>
 #include <string.h>  //C-standard used only for memcpy
 
 //Note: Implementation to search \0 in an limited range. 
@@ -305,7 +305,7 @@ char const* getCharsAndLength_StringJc ( StringJc const* thiz, int* length)
     if(nChars <= kMaxNrofChars_StringJc) {   //not a StringBuillder or CharSeqJc
       *length = nChars;
     } else {
-      #ifdef DEF_NO_StringUSAGE
+      #if defined(DEF_NO_StringUSAGE) || !defined(DEF_String_emC)  //if emC/Base/String_emC.h is not included before
         *length = 0;  //not supported here: CharSeqJc
         return null;
       #else  

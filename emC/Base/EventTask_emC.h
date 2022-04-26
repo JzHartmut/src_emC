@@ -215,7 +215,7 @@ typedef struct TaskConstData_emC_T {
 } TaskConstData_emC;
 //end::TaskConstData_emC[]
 
-extern_C char const* const signatureString_TaskConstData_emC;
+extern_C char const signatureString_TaskConstData_emC[];
 //extern_C char const signatureString_TaskConstData[];
 
 

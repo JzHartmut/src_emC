@@ -1,7 +1,7 @@
 #ifndef HGUARD_Serial_HALemC
 #define HGUARD_Serial_HALemC
 #include <applstdef_emC.h>
-#include <emC/Base/Object_emC.h>
+//#include <emC/Base/Object_emC.h>
 
 
 
@@ -44,7 +44,7 @@ extern_C int open_Com_HALemC ( Com_HALemC_s* ithiz);
 * @param text non packed characters
 * @return 0: Nothing done, transmit is not possible yet. >= number of set words.
 */
-extern_C int txChar_Com_HALemC ( Com_HALemC_s* thiz, char const* const text
+extern_C int txChars_Com_HALemC ( Com_HALemC_s* thiz, char const* const text
                                , int const fromCharPos, int const zChars, bool bCont);
 
 
@@ -103,7 +103,7 @@ extern_C int getData_Com_HALemC ( Com_HALemC_s* thiz, void* dst, int fromByteInD
 /**Deactivates usage of the channel. */
 extern_C void close_Com_HALemC ( Com_HALemC_s* thiz);
 
-
+#if defined(__cplusplus) && defined(DEF_cplusplus_emC)
 /**Definition of an common class for C++ which can be used as interface. 
  * The inline called C routines need not be existent if the routines are not called
  * instead the routines are overridden as virtual ones.
@@ -116,8 +116,8 @@ class Com_HALemC  {
 
   VIRTUAL_emC int open ( ) { return open_Com_HALemC(thiz); }
 
-  VIRTUAL_emC int txChar ( char const* text, int fromCharPos, int zChars, bool bCont) {
-    return txChar_Com_HALemC(thiz, text, fromCharPos, zChars, bCont);
+  VIRTUAL_emC int txChars ( char const* text, int fromCharPos, int zChars, bool bCont) {
+    return txChars_Com_HALemC(thiz, text, fromCharPos, zChars, bCont);
   }
 
   VIRTUAL_emC int txData ( void const* data, int fromCharPos, int zChars, bool bCont) {
@@ -136,6 +136,7 @@ class Com_HALemC  {
 
   VIRTUAL_emC void close ( ) { close_Com_HALemC(thiz); }
 }; //class Com_HALemC
+#endif //#if defined(__cplusplus) && defined(DEF_cplusplus_emC)
 
 
 
@@ -144,25 +145,25 @@ class Com_HALemC  {
 * Definition of serial communication according to the common pattern
 */
 
-enum Direction_Serial_HALemC {
+typedef enum Direction_Serial_HALemC_T {
   toRead_Serial_HALemC = 1    //Note can be used as mask for int too.
 , toWrite_Serial_HALemC = 2
 , toReadWrite_Serial_HALemC = 3  //contains 1 and 2 as mask.
-};
+} Direction_Serial_HALemC;
 
-enum ParityStop_Serial_HALemC {
+typedef enum ParityStop_Serial_HALemC_T {
   ParityOddStop1_Serial_HALemC = 2    //Note can be used as mask for int too.
 , ParityOddStop2_Serial_HALemC = 3
 , ParityEvenStop1_Serial_HALemC = 4    //Note can be used as mask for int too.
 , ParityEvenStop2_Serial_HALemC = 5
 , ParityNoStop1_Serial_HALemC = 0
 , ParityNoStop2_Serial_HALemC = 1  //Note can be used as mask for int too.
-};
+} ParityStop_Serial_HALemC;
 
 typedef struct Serial_HALemC_T {
   union{ Com_HALemC_s comm_HAL_emC; ObjectJc object;} base;
   int channel; 
-  Direction_Serial_HALemC dir;
+  enum Direction_Serial_HALemC_T dir;
   uint32 baud; 
   ParityStop_Serial_HALemC bytePattern;
 } Serial_HALemC_s;
@@ -189,7 +190,7 @@ typedef struct Serial_HALemC_T {
 * @return 0 if ok, else an internal error number (using in debug).
 *    If an existing channel is used, the 0 as return is expected.
 */
-extern_C int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
+extern_C int open_Serial_HALemC ( int channel, enum Direction_Serial_HALemC_T dir
   , int32 baud, ParityStop_Serial_HALemC bytePattern);
 
 /**Sends some non packed characters. The character are stored one after another in the memory.
@@ -199,7 +200,7 @@ extern_C int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
  * @param text non packed characters
  * @return 0: Nothing done, transmit is not possible yet. >= number of set words.
  */
-extern_C int txChar_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars);
+extern_C int txChars_Serial_HALemC ( int const channel, char const* const text, int const fromCharPos, int const zChars);
 
 /**Sends memory content.
 * @param zChars Number of 8-bit-portions to send (character-count, bytes).
@@ -213,9 +214,14 @@ extern_C int txData_Serial_HALemC ( int channel, void const* data, int fromByteP
 
 
 /**Cares to sending pending data.
-* @return 0 nothing still pending. >0 number of data still pending, <0 any error, value for debugging, unexpected.
-*/
+ * @return =0 nothing still pending. >0 number of data still pending, <0 any error, value for debugging, unexpected.
+ */
 extern_C int stepTx_Serial_HALemC ( int channel);
+
+/**Checkes whether the transmission is busy or ready.
+ * @return =0 nothing still pending. >0 number of data still pending, <0 any error, value for debugging, unexpected.
+ */
+extern_C int busyTx_Serial_HAL_emC ( int channel);
 
 /**Handles received chars and returns the number of available chars.
 * It is problem of the implementation whether and how many characters are buffered,
@@ -234,6 +240,17 @@ extern_C int getChar_Serial_HALemC ( int channel );
 /**Reads the received data and stores it to the given dst in memory as data words.
 * If lesser data are available the routine returns with the number of copied bytes.
 * It should be invoked later again with the same dst and the number of read bytes before as fromByte.
+*
+* For a simple controller this routine may force writing received chars on the fly immediately in this given dst buffer.
+* In opposite in a system which has a separate kernel, this routine copies the data from the kernel where they are stored firstly.
+* The difference should not be present in usage.
+* It means after calling this routine an return a given number of chars it is possible that the dst will be filled furthermore.
+* A second call then returns only the new number of available chars, without change the conditions for receiving.
+* In that case the formByteInDst argument is usual equal or increased in comparison to the last call.
+*
+* A simple possibility to clean is, apply a null pointer to dst, and afterwards the (same) dst pointer.
+* If the dst is different from one call to the next, a clean respectively set the new index is to be done anyway.
+*
 * @arg dst the buffer to store
 * @arg fromByte It is a byte position, not a memory index. Usual 0, >0 if some bytes were received before
 *      and the receiving should be continued.
@@ -242,7 +259,7 @@ extern_C int getChar_Serial_HALemC ( int channel );
 *      Then sizeof(int) ==1 usual, and a byte data definition in memory is not possible.
 * @arg zDst sizeof(*dst). It is not the number of expected character, it is the maximum of the memory.
 *      But if only a part of characters should be evaluated, this value can be used to reduce
-*      the number of copied bytes.
+*      the number of copied bytes. This argument should any time applied also in cheap systems for immediately used buffer.
 *      Note: The number of copied bytes is at max BYTE_in_Memword * this value.
 * @return number of copied bytes to dst. 0 if no data are available.
 *      Note: It is possible that a word in memory is not completed, for 16- or 32-bit memory addressing

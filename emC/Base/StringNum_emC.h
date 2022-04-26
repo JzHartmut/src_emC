@@ -41,11 +41,16 @@ int toString_float_emC(char* buffer, int zBuffer, float value, char const* forma
  * @param size The number of chars of the String.
  * @param radix The radix of the number, typical 2, 10 or 16, max 36.
  * @param parsedChars number of chars which is used to parse the integer. The pointer may be null if not necessary.
+ * @param ctrlChars Some control chars: ' ' skip over space first, '\n' skip over whitespace first.
+ *   '-' check and process negative sign, '+' check also positive sign, ' ' after '+' or '-': check space after sign.
+ *   'x' check x or 0x designation to parse hex also if radix = 10 is given.
+ *   For example: "\n+ x": skip over whitespace, check '+' or '-' as sign, skip over space after sign,
+ *   accept "0x" of "x" for hexa value, return the negative hexa value if - is detected.
  * @return the Number.
  * @throws never. All possible digits where scanned, the rest of non-scanable digits are returned.
- *  At example the String contains "-123.45" it returns -123, and the retSize is 3.
+ *  For example the String contains "-123.45" it returns -123, and the retSize is 3.
  */
-extern_C INT_NUM_emC parseIntRadix_emC ( const char* src, int size, int radix, int* parsedChars, char const* addChars);
+extern_C int parseIntRadix_emC ( const char* src, int size, int radix, int* parsedChars, char const* ctrlChars);
 
 extern_C float parseFloat_emC ( const char* src, int size, int* parsedChars);
 

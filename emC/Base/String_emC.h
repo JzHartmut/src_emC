@@ -44,7 +44,6 @@
 #endif
 
 #ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
-
 //NOTE: struct ObjectJc should be known for the StringBuilderJc_s, defined here.
 //It is possible to include <emC_srcApplSpec/applConv/ObjectJc_simple.h> in the <applstdef_emC.h> for the simple concept.
 //instead. See usage of guards there.
@@ -58,7 +57,11 @@ struct Vtbl_CharSeqJc_t;
 
 
 #ifndef HGUARD_emC_Base_StringBase_emC
+  #define DEF_String_emC
   #include <emC/Base/StringBase_emC.h>
+#else
+  //#error The application should not #include <emC/Base/StringBase_emC.h> before this file: #include <emC/Base/String_emC.h>
+  //This is because features of inline codes depends on definition of DEF_String_emC,
 #endif
 
 

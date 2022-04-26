@@ -69,6 +69,8 @@
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
 #pragma diag_suppress 2553  //Array index of type "int". Recommend using "unsigned int. This is false. Because the index may use also for other reason. It is not helpful.
+#pragma diag_suppress 1107  //1107-D conversion from integer to smaller pointer not relevant, it cannot be distinguish which addresses are used for the common intPTR
+//Hint: Some addresses are 16 bit, some are 24 bit for the MSP430. General the intPTR or int_ptr_t is a long int with 32 bit. It should be filled proper to the used address.
 
 
 

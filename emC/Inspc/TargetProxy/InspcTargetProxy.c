@@ -149,7 +149,7 @@ void txCmdsFromFile ( InspcTargetProxy_s* thiz, char const* filepath) {
         if(cc == '\n' || cc == '\r') {
           buffer[ix-1] = '\r';           // serial comm need \r for cmd termination
           if(ix >0) {
-            txChar_Serial_HALemC(asciiMoni.comPort, buffer, 0, ix); //incl 'r'
+            txChars_Serial_HALemC(asciiMoni.comPort, buffer, 0, ix); //incl 'r'
             asciiMoni.nrRxTelg = 0;    // 0 after transmit
             buffer[ix-1] = 0;          //terminate for printf
             printf("   >"); printf(buffer); printf("\n");
@@ -447,7 +447,7 @@ static void mainloop(InspcTargetProxy_s* thiz) {
               asciiMoni.consoleBuffer[ix] =0;      // terminate the file name
               txCmdsFromFile(thiz, asciiMoni.consoleBuffer +8);
             } else {  
-              txChar_Serial_HALemC(asciiMoni.comPort, asciiMoni.consoleBuffer, 0, ix + 1); //incl 'r'
+              txChars_Serial_HALemC(asciiMoni.comPort, asciiMoni.consoleBuffer, 0, ix + 1); //incl 'r'
               asciiMoni.nrRxTelg = 0;            // 0 after transmit
               //printf("\n");                      //echo newline 
             }

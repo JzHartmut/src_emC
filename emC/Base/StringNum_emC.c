@@ -96,7 +96,7 @@ int toString_float_emC(char* buffer, int zBuffer, float value, char const* forma
 
 
 
-INT_NUM_emC parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars, char const* addChars)
+INT_NUM_emC parseIntRadix_emC(const char* srcP, int size, int radix, int* parsedChars, char const* ctrlChars)
 { INT_NUM_emC val = 0;
   enum {
     bNegativ=1,
@@ -109,14 +109,14 @@ INT_NUM_emC parseIntRadix_emC(const char* srcP, int size, int radix, int* parsed
   }; 
   char st = 0;
   
-  if(addChars !=null) {
-    int cc = *addChars;
-    if(cc==' ') { st|=checkSpaceFirst; cc = *(++addChars); }
-    else if(cc=='\n') { st|=checkWhitespaceFirst; cc = *(++addChars); }
-    if(cc=='-') { st|=checkNegative; cc = *(++addChars); }
-    else if(cc=='+') { st|=checkSign; cc = *(++addChars); }
-    if(cc==' ') { st|=checkSpaceAfterSign; cc = *(++addChars); }
-    if(cc=='x') { st|=checkHex; addChars +=1; }
+  if(ctrlChars !=null) {
+    int cc = *ctrlChars;
+    if(cc==' ') { st|=checkSpaceFirst; cc = *(++ctrlChars); }
+    else if(cc=='\n') { st|=checkWhitespaceFirst; cc = *(++ctrlChars); }
+    if(cc=='-') { st|=checkNegative; cc = *(++ctrlChars); }
+    else if(cc=='+') { st|=checkSign; cc = *(++ctrlChars); }
+    if(cc==' ') { st|=checkSpaceAfterSign; cc = *(++ctrlChars); }
+    if(cc=='x') { st|=checkHex; ctrlChars +=1; }
   }
   int digit = -1;  //set to 0 if 0 detected
   char cc;
@@ -126,7 +126,7 @@ INT_NUM_emC parseIntRadix_emC(const char* srcP, int size, int radix, int* parsed
     if(cc <=' ') {
       if( (cc==' ' || cc=='\t') && st&(checkSpaceFirst|checkWhitespaceFirst|checkSpaceAfterSign) ) { cc=0; } //skipped
       else if((cc=='\t' || cc=='\n' || cc=='\r' || cc=='\f') && st&checkWhitespaceFirst) { cc=0; } //skipped
-      //else: cc remains, test later in addChars
+      //else: cc remains, test later in ctrlChars
       //else { break; }        //not accepted. breaks the while loop. 
     }
     else if(st&checkHex && (cc == 'x' || cc == 'X') && digit ==0 && val == 0) {
@@ -153,16 +153,16 @@ INT_NUM_emC parseIntRadix_emC(const char* srcP, int size, int radix, int* parsed
       cc = 0;
     }
     if( cc !=0 ) {
-      if(addChars !=null) {
+      if(ctrlChars !=null) {
         st&= ~(checkSpaceFirst|checkWhitespaceFirst|checkSpaceAfterSign|checkHex);   // is detected
         digit = -1;             //do not detect 0 for 0x
-        char const* addChars1 = addChars;
-        char c1;                //check first addChars is "-" then accept "-" as sign
-        do {                    //skip all chars in addChars as separator inside the number
+        char const* addChars1 = ctrlChars;
+        char c1;                //check first ctrlChars is "-" then accept "-" as sign
+        do {                    //skip all chars in ctrlChars as separator inside the number
           c1 = *addChars1++;
-        } while(c1 !=0 && c1 !=cc);   //search in addChars till 0-terminated or on found c1
+        } while(c1 !=0 && c1 !=cc);   //search in ctrlChars till 0-terminated or on found c1
         if(c1 == 0) { 
-          size =0;              //cc was not applicable also in the addChars, break the while loop
+          size =0;              //cc was not applicable also in the ctrlChars, break the while loop
         }
       }
       else {

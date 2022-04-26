@@ -24,7 +24,7 @@
 #endif
 
 
-char const* const signatureString_TaskConstData_emC = "signatureString_TaskConstData_emC";
+char const signatureString_TaskConstData_emC[] = "signatureString_TaskConstData_emC";
 
 void ctor_EventTask_emC(EventTask_emC_s* thiz, char const* idString) {
   release_EventTask_emC(thiz);
