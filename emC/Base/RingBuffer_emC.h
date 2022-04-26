@@ -1,6 +1,6 @@
 #ifndef HGUARD_emC_Base__RingBuffer_emC
 #define HGUARD_emC_Base__RingBuffer_emC
-#include <emC/Base/Object_emC.h>
+#include <applstdef_emC.h>
 #include <emC/Base/Atomic_emC.h> //implementations for lockfree mutex
 
 //#define bitsInt  (sizeof(int) * BYTE_IN_MemUnit * 8) //a const compiler calculated.
@@ -14,36 +14,90 @@
 #endif
 
 
-
-/**A universal ring buffer (circular buffer) to store any data.
- * Important property: An active entry of the RingBuffer must not have 0 in the first 32 bit. 
- * An entry with 0 is designated as free. If an entry consist of a pointer, a null pointer is not admissible.
+/**A universal index management for a ring buffer (circular buffer) to store any data.
+ * The buffer itself with any specific type for the entries is located outside, extra, not here.
+ * This class manages only the indices for reading and writing, currently from 0 till the max value, 
+ * as the index to access the array for the data used as ring buffer information.
+ * <br>
+ * This management functionality can be used either for exactly one writing source, using addSingle_RingBuffer_emC(...)
+ * or from more as one thread or interrupt which writes data, using add_RingBuffer_emC(...).
+ * This last operation works with atomic compare and swap, also applicable for simple controller, 
+ * see www.vishia/emc/html/Base/Intr_vsRTOS.html
+ * With this second variant it is possible for example for an message queue for event processing
+ * to write events in different interrupts as also in the back loop, or of course using a RTOS with multi threading. 
+ * <br>
+ * But the reading source should be only one thread. This is typically for a message queue which can be written 
+ * from different sources but processed from only one thread. It is also typically for and data processing,
+ * if the data comes from several sources (several interrupts or threads) and should be processed even
+ * in exactly one thread or in the back loop for an interrupt using system without RTOS.    
+ * <br>
+ * The following property is recommended: An active entry in the array for the RingBuffer data 
+ * should be marked as "valid" or not "valid". This is necessary because for multi threading for writing. 
+ * Only with this rule atomic compare and swap can be used because it needs one operation to set.
+ * It is also more simple for a single writing thread or interrupt.
+ * Elsewhere a second index for 'available data' will be necessary.
+ * <br>
+ * The writing thread gets the next free entry, and immediately this entry is marked as used 
+ * in this ringbuffer structure because the writing index is incremented. 
+ * That is important because the next access can get immediately the next writing position.
  *
- */
+ * Now, on read access, the location is marked as "written" from the view point of this index management structure. 
+ * But the data may not be written till now if the read access is executed immediately.
+ * In a system: Writing in interrupt, process in the back loop, of course the writing may be done 
+ * completely in the interrupt before finish the interrupt and switch to the back loop. Then it is not a problem.
+ * But if multiple threads access and the read access may be higher prior, or the writing needs more time,
+ * for example more as one interrupt cycle, then this problem is present.
+ * That's why firstly the data for the entry should be written in its intrinsic timing. 
+ * The last action of writing should be: declare the data as valid. 
+ *
+ * Then a read access get the index, to read, but detect, there are not valid data. 
+ * This is to do in the using algorithm, for example even in the message queue functionality. 
+ * Then the read access should try get data later.
+ * That's why getting the read index is divided in two operations:
+ *
+ * * next_RingBuffer_emC(...) to get the next read index.
+ * * ... test the location whether the data are valid
+ * * ... set the processed data as 'invalid' for a next usage.
+ * * quitNext_RingBuffer_emC(...) to advertise that the postion was used, only if data were valid. 
+ *
+ * In that manner the next call of next_RingBuffer_emC(...) returns the same position again 
+ * to test for valid data if quitNext_RingBuffer_emC(...) was not invoked. 
+ * <br>
+ * The simplest possibility to mark invalid is a null pointer in the ring buffer (pointer) array. 
+ * If the ring buffer array is a array of embedded struct members, then the validy should be marked 
+ * in a special kind clarified by usage. 
+ */  //tag::RingBuffer_emC[]
 typedef struct RingBuffer_emC_T {
 
   union{ObjectJc obj; } base;
 
+  /**Number of entries in the Ringbuffer struct, range of the index 0 till nrofEntries -1. 
+   * Note: The size of the queue is limited to 65535 entries because of int16 usage, seems to be really enough.
+   */
   uint16 nrofEntries;
 
+  /**A counter to detect access. Incremented on any change. 
+   * Also int16 because of a proper memory layout for alignment see www.vishia/emc/html/Base/int_pack_endian.html
+   */ 
   int16 volatile ctModify;
-  
 
-
-  /**Index to read from queue.a[thiz->ixRd].
+  /**Index to read from queue.array[thiz->ixRd].
    * ** If ixRd==ixWr, then the queue is empty.
-   * ** If queue.a[thiz->ixRd].evIdent ==0 a write is pending on this position, the queue is empty yet at the moment.
-   * ** If ixRd!=ixWr and queue.a[thiz->ixRd].evIdent !=0, it is the current entry.
-   * ** ixRd can be increment without lock.
+   * ** If queue.array[thiz->ixRd].evIdent ==0 (invalid), a write is pending on this position
+   *    and the queue is empty yet at the moment.
+   * ** If ixRd!=ixWr and queue.array[thiz->ixRd].evIdent !=0, it is the current entry.
+   * ** ixRd can be increment without lock. 
+   * But use the access operations next_RingBuffer_emC(...) and quitNext_RingBuffer_emC(...)  
    */
   int volatile ixRd;  //use signed because difference building.
 
   /**Index of the next write position.
    * ** if (ixWr+1) modulo sizeQueue == ixRd, then the queue is full. Add will be prevented.
-   * **+ It means the last position in queue.a[..] will be never used. 
+   * **+ It conclusion, the last position in queue.array[..] will never be used, a really little disadvantage of this simple rule. 
    * ** ixWr is firstly incremented with atomicAccess to get a reservation for this position in ixWrCurr
-   * ** after them the position is filled, but queue.a[ixWrCurrent].evIdent = x is set at last to confirm the completion.
-   * ** The width is int32 for 32-bit-Systems and 16 for 16-bit-Systems to use atomic access to memory.
+   * ** after them the position should be filled and then marked as valid.
+   * Note that the int data type for the indices is the platform-intrinsic type of memory access,
+   * Usual better for compareAndSwap. The really used range is usual less, int16 may be sufficient. 
    */
   int volatile ixWr; //+rd and wr-pointer
 
@@ -51,6 +105,7 @@ typedef struct RingBuffer_emC_T {
   int repeatCtMax;
 
 } RingBuffer_emC_s;
+//end::RingBuffer_emC[]
 
 
 #define ID_refl_RingBuffer_emC 0x0fe4
@@ -77,7 +132,7 @@ extern_C void status_RingBuffer_emC(RingBuffer_emC_s* thiz, int16* nrofEntries_y
 
 extern_C int16 info_RingBuffer_emC(RingBuffer_emC_s* thiz, int16* ctEvents_y);
 
-
+//tag::addSingle_RingBuffer_emC
 /**Adds an entry to the ring buffer as only one (single) thread or interrupt.
  * It returns the current ixWr if a new ixWr position is possible.
  * A new ixWr position is possible if the new ixWr position does not touch the ixRd position. 
@@ -100,49 +155,44 @@ static inline int addSingle_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
   }
   #endif//NO_PARSE_ZbnfCheader
 }
+//end::addSingle_RingBuffer_emC
 
 
 
-
+//tag::add_RingBuffer_emC[]
 /**Adds an entry to the ring buffer with atomic lockfree mutex.
  * This operation can be invoked from any thread or interrupt.
  * It works with atomic cmpAndSwap to access.
- * It returns the current ixWr if a new ixWr position is possible.
- * A new ixWr position is possible if the new ixWr position does not touch the ixRd position. 
- * It means the buffer cannot be filled with its whole capacity, on element remains empty. 
- * The incremenation of ixWr for the new position os only done 
- * if the position before is not change by a concurrent call of this routine. 
- * This is assured by the cmpAndSwap mechanism. 
- * The access to get the last position and write the next position is repeated
- * till it can be done successfully. It can be done successfully in any case
- * if another thread or interrupt does not interrupt this procedure.
+ * It returns the current ixWr if a new ixWr position is possible
+ * but has set the new ixWr position for a next add access in another thread.
  *
- * @return -1 if no more space in queue. pointer to the free entry on success.
- *     else return the index to write in the application definied ring buffer array.
+ * @return the index to write in the application definied ring buffer array.
+ *    or -1 if no more space is in the queue. 
+ *    This is if the new ixWr position would touch the ixRd position 
  */
 static inline int add_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
   #ifndef NO_PARSE_ZbnfCheader
   #ifdef DISABLE_INTR_POSSIBLE_emC
     disable_interrupt_emC();
-    int ixWr = addSingle_RingBuffer_emC();
+    int ixWr = addSingle_RingBuffer_emC(thiz);
     enable_interrupt_emC();
     return ixWr;
   #else
   int repeatCt = 0;
   int volatile* ptr = &thiz->ixWr; //address of the ixWr
-  int ixWrLast = thiz->ixWr; //The position where the event should be written to the queue.
-  int ixWrExpect;  //to compare
+  int ixWrLast = thiz->ixWr;       //The position where the event should be written to the queue.
+  int ixWrExpect;                  //to compare
   do {
     ixWrExpect = ixWrLast;
     int ixWrNext = ixWrLast + 1;
     if(ixWrNext >= thiz->nrofEntries) { ixWrNext =0; } //modulo
     if(ixWrNext == thiz->ixRd) { 
-      return -1;    //RETURN: no more space in queue
+      return -1;                   //RETURN: no more space in queue
     }
-    TEST_INTR1_RingBuffer_emC
+    TEST_INTR1_RingBuffer_emC      //This macro is normally empty, only used for specific test to interrupt the access.
     ixWrLast = compareAndSwap_AtomicInt(ptr, ixWrExpect, ixWrNext); //set for next access.
-  } while( ixWrLast != ixWrExpect && ++repeatCt < 100); //repeat if another thread has changed thiz->ixWr.
-  if(repeatCt >=100) {
+  } while( ixWrLast != ixWrExpect && ++repeatCt < 1000); //repeat if another thread has changed thiz->ixWr.
+  if(repeatCt >=1000) {
     //it is a problem of thread workload, compareAndSet does not work.
     THROW_s0n(IllegalStateException, "thread compareAndSwap problem", 0, 0);
     return -1; //RETURN for non-exception handling, THROW writes a log entry only.
@@ -154,6 +204,7 @@ static inline int add_RingBuffer_emC ( RingBuffer_emC_s* thiz ) {
   return ixWrLast;
   #endif//NO_PARSE_ZbnfCheader
 }
+//end::add_RingBuffer_emC[]
 
 
 

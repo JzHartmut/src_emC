@@ -47,6 +47,14 @@
 #define DEF_Cpp11_supported
 
 
+/**It seems to be a specifica in Visual Studio.
+ * The VS-File Microsoft Visual Studio 14.0\VC\include\yvals.h
+ * contains a assert-message with is prevented with this define.
+ * What ist it, what means it? not clarified yet.
+ * Note: This applstdef_emC.h is only for the visual studio project.
+ */
+#define _ALLOW_RTCc_IN_STL  //what is it? a specialism of Visual Studio??
+
 
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
@@ -87,6 +95,7 @@
 #pragma warning(disable:4996) //Microsoft's specific dialect of some deprecated operation, strncpy etc. 
 //end::pragma[]
 
+//tag::inlineBool[]
 /**Defintion of bool, false, true for C usage. */
 #ifdef __cplusplus
   #define INLINE_emC inline
@@ -107,15 +116,20 @@
   #define false 0
   #define true (!false)
 #endif
+//end::inlineBool[]
 
+
+//tag::UNICODE[]
 #undef UNICODE  //don't use WString, if it may be defined by compiler call
+//end::UNICODE[]
 
+//tag::int32_t[]
 //#include the standard header from Visual studio firstly. 
 //stdint.h defines int8_t etc. via typedef. 
 //Because pragma once (or guard) the content of the files are not included again.
-//They should be included firstly to cover its typedef by the typedef of simulink.
 //Note: The stdint.h includes sum unecessary stuff
 #include <stdint.h>  //C99-int types
+
 //define instead the important type definitions immediately compiler specific.
 //#define int8_t signed char
 //#define int16_t short
@@ -125,6 +139,9 @@
 //#define uint16_t unsigned short
 //#define uint32_t unsigned int
 //#define uint64_t unsigned long long
+//.... more
+//end::int32_t[]
+
 //#define intptr_t int
 //#define INT8_MIN         (-127i8 - 1)
 //#define INT16_MIN        (-32767i16 - 1)
@@ -215,7 +232,7 @@
 
 
 
-
+//tag::NROFBITS[]
 /**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
  * Only the sizes are defined there, but from sizes to bits it is not able to calculate.
  * The number of bits are necessary for shift operations. 
@@ -228,6 +245,7 @@
 #define INT64_NROFBITS 64
 #define INT_NROFBITS   32
 #define POINTER_NROFBITS 64
+//end::NROFBITS[]
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
  * But the definition of INT_MAX is missing.  But better use _emC as suffix.
@@ -237,9 +255,9 @@
 #define INT_MIN_emC INT32_MIN 
 #define UINT_MAX_emC UINT32_MAX 
 
+
+//tag::int32[]
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
- * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
- * Note: C99-compatible declaration is: u_TYPE_t
  */
 #define int8      char
 #define uint8     unsigned char
@@ -256,7 +274,7 @@
 
 #define int64     long long
 #define uint64    unsigned long long
-
+//end::int32[]
 /**The division of an int64-integer to its hi and lo part is platform depending. Big/little endian. */
 typedef struct int64_hilo_T { int32 lo; int32 hi; } int64_hilo;
 

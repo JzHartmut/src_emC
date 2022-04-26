@@ -5,15 +5,30 @@
 #ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
 
 
+
+/**Bit in last argument of toString_int32_emC: Show space instead leading 0. */
+#define m_leadingSpace_toString_int32_emC 0x0800
+
+/**Bits in last argument of toString_int32_emC: Check value, if negative, negate and show leading "-". */
+#define m_showNegative_toString_int32_emC 0x3000
+
+/**Bits in last argument of toString_int32_emC: Check value, if negative, negate and show leading "-". */
+#define k_showPositiveSpace_toString_int32_emC 0x2000
+
+/**Bits in last argument of toString_int32_emC: Check value, if negative, negate and show leading "-". */
+#define k_showPositivePlus_toString_int32_emC 0x1000
+
+
 /**Converts the value into a String representation.
 * @param zBuffer size of the buffer. If the string representation will be longer, only the left character are written.
 * @param radix of the conversion, typically 10 or 16 for hexa conversion. A value between 1..16.
-* @param minNrofCharsAndNegative If this value is negativ, and the value is negativ, a ,,-,, is written first and the value is negated before conversion.
-*                                The absolute value is the minimum of numbers, If the number will be less, left 0 are written.
-* @return number of written chars. A 0 after the string won't be written!
-If the return value is equal zBuffer, the string representation may be incomplete because clipping of following chars.
+* @param minNrofCharsAndFlags If this value is negativ, and the value is negativ, a ,,-,, is written first and the value is negated before conversion.
+*  The absolute value is the minimum of numbers, If the number will be less, left 0 are written.
+*  Additional the both flag bits leadingSpace_toString_int32_emC and showNegative_toString_int32_emC are accepted.
+* @return number of written chars. A terminating '\0' after the string won't be written! Should be done outside.
+* If the return value is equal zBuffer, the string representation may be incomplete because clipping of following chars.
 */
-extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative);
+extern_C int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndFlags);
 
 int toString_float_emC(char* buffer, int zBuffer, float value, char const* format);
 
@@ -30,7 +45,7 @@ int toString_float_emC(char* buffer, int zBuffer, float value, char const* forma
  * @throws never. All possible digits where scanned, the rest of non-scanable digits are returned.
  *  At example the String contains "-123.45" it returns -123, and the retSize is 3.
  */
-extern_C int parseIntRadix_emC ( const char* src, int size, int radix, int* parsedChars, char const* addChars);
+extern_C INT_NUM_emC parseIntRadix_emC ( const char* src, int size, int radix, int* parsedChars, char const* addChars);
 
 extern_C float parseFloat_emC ( const char* src, int size, int* parsedChars);
 

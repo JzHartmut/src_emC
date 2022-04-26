@@ -93,9 +93,12 @@
 
 
 #include <compl_adaption.h>
-#include <emC/Base/Assert_emC.h>
-#include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
-#include <emC/Base/Exception_emC.h>
+#ifndef HGUARD_emCBase_types_def_common
+  #include <emC/Base/types_def_common.h>    // should be normally included in compl_adaption.h
+#endif
+
+//This header defines all basics derived from the settings here:
+#include <emC/Base/applstdef_common.h>
 
 
 

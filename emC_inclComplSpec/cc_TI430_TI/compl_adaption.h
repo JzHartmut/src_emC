@@ -39,7 +39,10 @@
 
 #ifndef   __compl_adaption_h__
 #define   __compl_adaption_h__
-#include <msp430.h>
+
+//tag::int32_t[]
+//Note: do NOT include platform specific files here!
+//#include <msp430.h>
 
 //Maybe do not use stdint.h, it is too complex
 //The important disadvantage is that the types are defined via typedef,
@@ -57,12 +60,15 @@
 #define uintptr_t unsigned int
 
 //#include <limits.h>  //proper to C99
+//end::int32_t[]
+
 
 /**Some warnings should be disabled in default, because there are not the source of errors,
  * but present in normal software development.
  */
 //#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
 
+#pragma diag_suppress 2553  //Array index of type "int". Recommend using "unsigned int. This is false. Because the index may use also for other reason. It is not helpful.
 
 
 
@@ -79,17 +85,13 @@
 
 //C++
 
+//tag::inlineBool[]
 /**Defintion of bool, false, true for C usage. */
 #ifdef __cplusplus
   #define INLINE_emC inline
   #define CONSTMember_emC
 #else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
   #define CONSTMember_emC const
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
-     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
-  */
-  //#define inline static
   //#define INLINE_emC static
   #define INLINE_emC inline
   //If C-compiling is used, define the C++-keywords for C
@@ -99,6 +101,7 @@
   #define false 0
   #define true (!false)
 #endif
+//end::inlineBool[]
 
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
@@ -126,7 +129,7 @@
 
 
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
-#define BYTE_IN_MemUnit 2       //im PC gilt: 1 MemUnit = 1 Byte
+#define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
 /**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
 #define intPTR long
@@ -134,19 +137,20 @@
 #define INT_HAS16BIT
 
 
-
+//#tag::NROFBITS[]
 /**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
  * Only the sizes are defined there, but from sizes to bits it is not able to calculate.
  * The number of bits are necessary for shift operations. 
  * Note: The number of bits for an int16_t may not 16 in all platforms. 
  * There are platforms which only knows 32 bit data (for example DSP processors from Analog Devices).
  */
-#define INT8_NROFBITS  16
+#define INT8_NROFBITS  8
 #define INT16_NROFBITS 16
 #define INT32_NROFBITS 32
 #define INT64_NROFBITS 64
-#define INT_NROFBITS   32
+#define INT_NROFBITS   16
 #define POINTER_NROFBITS 16
+//#end::NROFBITS[]
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
  * But the definition of INT_MAX is missing.  But better use _emC as suffix.
@@ -160,8 +164,8 @@
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
  * Note: C99-compatible declaration is: u_TYPE_t
  */
-#define int8      char  //NOTE: int8_t not defined.
-#define uint8     unsigned char //NOTE: int16_t not defined.
+#define int8      char
+#define uint8     unsigned char
 
 #define int16     int
 #define uint16    unsigned int
@@ -368,6 +372,9 @@ INLINE_emC bool compareAndSet_AtomicRef(void* volatile* reference, void* expect,
   return bUpdated;
 }
 
+
+/**Gets the clock, with full int resolution. Should be a #define to recognize it in emC/Base/Time_emC.h*/
+#define getClockCnt_Time_emC() ( (*addrTimer0_TICPU) )
 
 
 

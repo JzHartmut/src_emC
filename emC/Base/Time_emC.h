@@ -238,6 +238,19 @@ typedef struct SimTime_emC_t
 
 //extern_C ClassJc const refl_SimTime_emC;
 
+/*@CLASS_C TimeShortStepCycle_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+#ifndef timeShortStepCycle_emC  //may be defined application specific and simple in applstdef_emC.h
+
+//tag::timeShortStepCycle_emC[]
+/**Returns a wrapping short time counting with the fast interrupt cycle. 
+ * This operation must be defined in a target- and application specific way, 
+ * it means usual in the organization of main, interrupts and threads.
+ */
+int timeShortStepCycle_emC ( );
+//end::timeShortStepCycle_emC[]
+
+#endif //timeShortStepCycle_emC
 
 /*@CLASS_C MinMaxTime_emC @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 

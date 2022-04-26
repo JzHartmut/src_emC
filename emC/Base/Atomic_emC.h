@@ -1,5 +1,6 @@
 #ifndef HGUARD_emC_Base__Atomic_emC
 #define HGUARD_emC_Base__Atomic_emC
+#include <applstdef_emC.h>
 
 #ifndef DEF_compareAndSwap_Atomic  //maybe already defined as macro or inline in HAL adaption or OSAL
 

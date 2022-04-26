@@ -1,6 +1,6 @@
 #include <emC/Base/RingBuffer_emC.h>
 #include <emC/Base/Assert_emC.h>
-#include <emC/Base/MemC_emC.h>
+//#include <emC/Base/MemC_emC.h>
 #include <stdlib.h>  //malloc
 
 

@@ -4,29 +4,32 @@
 
 
 
-/** found an algorithm unusing division, because some divisions may be expensive in time
-* at some processors.
-*/
-int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndNegative)
+/**found an algorithm unusing division, because some divisions may be expensive in time
+ * at some processors.
+ */
+int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int minNrofCharsAndFlags)
 {
   char cc;
-  /**Array of values to test the position in digit. Fill it with 10, 100 etc if radix = 10;*/
-  uint32 testValues[32]; //max 32, will be filled with 10, 100, 1000 etc. for radix = 10, or 16, 256, 4096 etc. for radix = 16
-  uint32 uvalue;         //         or even 2,4,8,16 ... for radix = 2. Only for that the 32 are used.
+  ASSERT_emC(radix >=8, "radix should be >=8", radix, 0);
+  //Array of values to test the position in digit. Fill it with 10, 100 etc if radix = 10
+  //or 16, 256, 4096 etc. for radix = 16, or 8, 64 ,... for radix 8
+  uint32 testValues[11];    //11 position necessary for radix = 8. It is in stack.
+  uint32 uvalue = (uint32)value;
 
   int idxTestValues = 0;
   int nChars = 0;
-  int minNrofChars;
-  if (minNrofCharsAndNegative < 0 && value < 0)
-  {
-    uvalue = -value; //may be -0x80000000
-    buffer[nChars++] = '-';
+  int minNrofChars = (minNrofCharsAndFlags < 0 ? -minNrofCharsAndFlags : minNrofCharsAndFlags) & 0x1f;  //max. 16 char possible
+  int showSign = minNrofCharsAndFlags & m_showNegative_toString_int32_emC;
+  if (minNrofCharsAndFlags < 0 || showSign) {
+    if(value < 0) {
+      uvalue = -value; //may be -0x80000000
+      buffer[nChars++] = '-';
+    } else if(showSign == k_showPositiveSpace_toString_int32_emC) {
+      buffer[nChars++] = ' ';
+    } else if(showSign == k_showPositivePlus_toString_int32_emC) {
+      buffer[nChars++] = '+';
+    }
   }
-  else
-  {
-    uvalue = value;
-  }
-  minNrofChars = minNrofCharsAndNegative < 0 ? -minNrofCharsAndNegative : minNrofCharsAndNegative;
   //
   { //fill in digigts to detect positions in digit
     uint32 powerRadix = radix;
@@ -42,8 +45,9 @@ int toString_int32_emC(char* buffer, int zBuffer, int32 value, int radix, int mi
   }
   //
   //idxTestValues is the number of digits -1, because testValues[0] contains 10.  
+  char cLeading0 = minNrofCharsAndFlags & m_leadingSpace_toString_int32_emC ? ' ' : '0';
   { int nrofZero = minNrofChars - idxTestValues - 1;
-    while (--nrofZero >= 0 && nChars < zBuffer) buffer[nChars++] = '0';
+    while (--nrofZero >= 0 && nChars < zBuffer) buffer[nChars++] = cLeading0;
   }
   //test input digit
   { uint32 test;

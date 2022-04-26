@@ -103,14 +103,16 @@ typedef STRUCT_AddrVal_emC(MemC, Addr8_emC);
 
 
 
+#define mInitialized_ObjectJc  0x80000000
+#define mArray_ObjectJc        0x40000000
+/**Array bit in a given ID. */
+#define mArrayId_ObjectJc        0x4000
 
 
 #ifndef DEF_ObjectJc_LARGESIZE
 //Note: If only ObjectSimple_emC is included, this should be never defined. 
 //But if not DEF_ObjectSimple_emC, it is also necessary:
 //internal Definitions related to identSize:
-  #define mInitialized_ObjectJc  0x80000000
-  #define mArray_ObjectJc        0x40000000
 
   #ifdef DEF_ObjectJc_SYNCHANDLE
     //It has an own 16 bit dataword for some stuff:
@@ -137,8 +139,6 @@ typedef STRUCT_AddrVal_emC(MemC, Addr8_emC);
   #define mSizeSmall_ObjectJc    mSize_ObjectJc  //used for INIZ_ObjectJc
   #define kIsSmallSize_ObjectJc  0x00000000  //not used, 0 ok
   //
-  /**Array bit in a given ID. */
-  #define mArrayId_ObjectJc        0x4000
 #endif //DEF_ObjectJc_LARGESIZE
 
 

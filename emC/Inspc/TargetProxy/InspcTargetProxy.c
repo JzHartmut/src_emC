@@ -5,6 +5,8 @@
 #include <emC/Base/StringPacked_emC.h>
 #include "emC/Jc/ObjectJc.h"
 #include "emC/Jc/ReflectionJc.h"
+#include <emC/OSAL/os_file.h>
+
 //#include <emC/AsciiMoni/AsciiMoni.h>
 //#include <emC/Inspc/TargetProxy/AsciiMoniToTarget.h>
 
@@ -46,10 +48,18 @@ typedef struct Serial_InspcTargetProxy_T {
   char* rxBuffer; 
   int zRxBuffer;
   int ixRxBufferWritten;
+  int nrRxTelg;         //number of rx telegrams after one command. 
   /**Receive buffer from target for a InspcTargetProxy communication. */
   TelgTarget2Proxy_Inspc_s* rxInspcFromTarget;
         
 } Serial_InspcTargetProxy_s;
+
+
+
+//Operation prototypes
+extern void txCmdsFromFile(InspcTargetProxy_s* thiz, char const* filepath);
+
+extern void processReceivedComport(Serial_InspcTargetProxy_s* thiz, int32 timeoutRxTargetPrx);
 
 static Serial_InspcTargetProxy_s asciiMoni = { -1, -1};
 
@@ -83,6 +93,8 @@ extern_C const ClassJc refl_InspcTargetProxy;
 bool bOnlyTarget_g = false;
 
 
+
+
 /**Receive routine for target communication. */
 METHOD_C static void execRxData_TargetRx(InterProcessCommRx_ifc_Ipc_s* thiz
   , int8ARRAY buffer, int32 nrofBytesReceived
@@ -107,6 +119,57 @@ METHOD_C static void execRxData_TargetRx(InterProcessCommRx_ifc_Ipc_s* thiz
     printf("error execRxData_TargetRx\n");
   }
   STACKTRC_LEAVE;
+}
+
+
+
+void txCmdsFromFile ( InspcTargetProxy_s* thiz, char const* filepath) {
+  STACKTRC_ENTRY("txCmdsFromFile");
+  OS_HandleFile fh = os_fopenToRead(filepath);
+  if(fh ==null) {
+    printf("\ncannot read the file\n");
+  } else {
+    char buffer[128] = {0};
+    int zBuffer = sizeof(buffer);
+    bool eof = false;
+    int zChars = 0;
+    int ix = 0;
+    do {
+      if(!eof) {
+        int zread = os_fread(fh, buffer, zBuffer - ix);
+        if(zread >0) { zChars += zread; }
+        else { eof = true; }
+      }
+      while(ix < zChars) {
+        char cc = buffer[ix++];
+        if(cc != '\n' && cc != '\r' && ix == zChars && zChars < zBuffer) {  // end of buffer reached.
+          buffer[ix] = cc = '\r';               // terminate anyway the last line.
+          ix +=1;
+        }
+        if(cc == '\n' || cc == '\r') {
+          buffer[ix-1] = '\r';           // serial comm need \r for cmd termination
+          if(ix >0) {
+            txChar_Serial_HALemC(asciiMoni.comPort, buffer, 0, ix); //incl 'r'
+            asciiMoni.nrRxTelg = 0;    // 0 after transmit
+            buffer[ix-1] = 0;          //terminate for printf
+            printf("   >"); printf(buffer); printf("\n");
+            ASSERT_emC(zChars >=0 && zChars < zBuffer, "assert", 0,0); 
+            while( ix < zChars && ((cc = buffer[ix]) == '\n' || cc=='\r')) { ix +=1; }  //skip over further \r\n 
+            memcpy(buffer, buffer+ix, zChars-ix); // shift content to begin.
+            zChars -= ix;
+            ix = 0;
+            //
+            sleep_ThreadJc(10, _thCxt);          // show response from the target:
+            if (asciiMoni.comPort >= 0 && thiz->targetComm->ms_LastTimeTx == 0) { //only if no comm pending from Inspc
+              processReceivedComport(&asciiMoni, thiz->targetComm->ms_LastTimeTx); //note: forceComm_Proxy2Target_Inspc calls this also
+            }
+          }
+        }
+      } //while to search line end.
+    } while(zChars >0);  //while over file
+  }
+  os_fclose(fh);
+  STACKTRC_RETURN;
 }
 
 
@@ -276,7 +339,7 @@ static void initializeComPort(char const* sComPort) {
     serialCon.dir = toRead_Serial_HALemC;
     error = open_Com_HALemC(&serialCon.base.comm_HAL_emC);
     if(error ==0) {
-      asciiMoni.zConsoleBuffer = 80;
+      asciiMoni.zConsoleBuffer = 200;  //path for file should match
       asciiMoni.consoleBuffer = (char*)malloc(asciiMoni.zConsoleBuffer);
       //prepareRx_Serial_HALemC(asciiMoni.console, asciiMoni.consoleBuffer, asciiMoni.zConsoleBuffer, 0); 
           
@@ -296,15 +359,19 @@ void processReceivedComport(Serial_InspcTargetProxy_s* thiz
     , int32 timeoutRxTargetPrx) {
 
   int zRx = stepRx_Serial_HALemC(thiz->comPort);
-  if(zRx >0) {
-    char cc;
+  if(zRx >0) {                         // Some character stored.
+    bool bNewline = false;
+    char cc;                           // get all character one after another which are stored in the serial buffer
     while( (cc = getChar_Serial_HALemC(thiz->comPort))>=0) {
     //int ix = thiz->ixRxBufferWritten;
       bool rxNew = false;
-    //while(ix < zRx && !rxNew) {
-      //char cc = getCharPacked(thiz->rxBuffer, ix);
       if(cc == '\r') {
-        printf("\n");                            //output new line to console.
+        if(++thiz->nrRxTelg >1) {
+          putchar('\n');                  // if newline was read in this loop, it is in the currently output, write it. 
+        } else {
+          bNewline = true;
+        }
+        //printf("\n");                            //output new line to console.
         zRx -=1;
         //ix +=1;
         rxNew = true;
@@ -315,6 +382,10 @@ void processReceivedComport(Serial_InspcTargetProxy_s* thiz
         rxNew = true;
       } 
       else if(cc >= ' ') {
+        if(bNewline) {
+          putchar('\n');                  // if newline was read in this loop, it is in the currently output, write it. 
+          bNewline = false;              // but do not write the last newline.
+        }
         putchar(cc);                             //output to console
         zRx -=1;
         //ix +=1;
@@ -340,6 +411,9 @@ void processReceivedComport(Serial_InspcTargetProxy_s* thiz
         printf("? %2.2x\n", cc);  //unexpected
         rxNew = true;
       }
+    } //while
+    if(bNewline) {
+      printf("   >");                    //output after written line because console creates the newline.
     }
     //if(rxNew) {
       //                                         //preserve furthermore containing chars using ix.
@@ -366,11 +440,17 @@ static void mainloop(InspcTargetProxy_s* thiz) {
           || ix == (asciiMoni.zConsoleBuffer - 1)                 //all full
           ) {
           asciiMoni.consoleBuffer[ix + 1] = 0;
-          printf(asciiMoni.consoleBuffer);   //echo    
+          //printf(asciiMoni.consoleBuffer);   //echo    
                                              //                                 //send the command to target: 
           if (cc == '\r') {
-            txChar_Serial_HALemC(asciiMoni.comPort, asciiMoni.consoleBuffer, 0, ix + 1); //incl 'r'
-            printf("\n");                      //echo newline 
+            if(strncmp_emC("cmdfile:", asciiMoni.consoleBuffer, 8)==0) {
+              asciiMoni.consoleBuffer[ix] =0;      // terminate the file name
+              txCmdsFromFile(thiz, asciiMoni.consoleBuffer +8);
+            } else {  
+              txChar_Serial_HALemC(asciiMoni.comPort, asciiMoni.consoleBuffer, 0, ix + 1); //incl 'r'
+              asciiMoni.nrRxTelg = 0;            // 0 after transmit
+              //printf("\n");                      //echo newline 
+            }
           }
           else {
             printf(" ???\n");                  //echo error too long line 
@@ -387,6 +467,7 @@ static void mainloop(InspcTargetProxy_s* thiz) {
   if (asciiMoni.comPort >= 0 && thiz->targetComm->ms_LastTimeTx == 0) { //only if no comm pending from Inspc
     processReceivedComport(&asciiMoni, thiz->targetComm->ms_LastTimeTx); //note: forceComm_Proxy2Target_Inspc calls this also
   }
+  #if 0
   if (os_keyState('A')) {
     printf("A");
   }
@@ -396,6 +477,7 @@ static void mainloop(InspcTargetProxy_s* thiz) {
   else if (os_keyState(0x71)) {  //in Windows: F2
     thiz->targetComm->modeShowComm = !thiz->targetComm->modeShowComm;
   }
+  #endif
   //  for (iTime = 0; iTime < 50; iTime++)
   { //TODO capture_ProgressionValue_Inspc(data.progrValue1);
   }
