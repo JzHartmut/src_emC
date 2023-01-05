@@ -41,7 +41,7 @@
 #ifndef __NOT_SUPPORTED_ThreadContext_emC__  //then ignore whole file
 #ifdef DEF_ClassJc_Vtbl
 
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 #include <emC/OSAL/os_time.h>
 //TODO conditional compilation or using commonly approach:
 #ifndef NO_DYNAMICALLY_MEMORY

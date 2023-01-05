@@ -95,6 +95,39 @@ typedef struct TimeAbs_emC_T
 } TimeAbs_emC;
 
 
+/**Another possibility to deal with the time.
+ * The timeAbs is Java-related in milliseconds since 1970, hence sufficient for the next centuries.
+ * The timeShort is currently incremented in a application specific time unit.
+ * The time unit is the cycle of the fastest interrupt in embedded control
+ * and maybe for example 50 µs or 1 ms. It is never adjusted,
+ * so that time differences are always proper in the possible range.
+ *
+ */
+typedef struct TimeAbsShort_emC_T {
+  /**this is the absolute time from 1970-01-01 in milliseconds
+   * which is related to the incremental shortTime for the given value.
+   * This value should be proper in second ranges, updated after ~ 1 second.
+   */
+  int64 timeAbs;       //
+
+  /**ShortTime value association to the given timeAbs. */
+  int32 timeShortAbs;
+
+  /**Short time to work for example in milliseconds sufficient for +- 23 days
+   * or in 50 µs sufficient for one day. .
+   * Note: int16 can only mapped to 30 seconds for 1 ms period, too less.
+   * The currently short time has the advantage that it is not corrected
+   * if the absolute time is adjusted.
+   * Time differences with the shortTime are unconditionally correct. */
+  int32 timeShort;
+
+} TimeAbsShort_emC_s;
+
+
+
+
+
+
 /**Sets from the current computer time so exact as possible. */
 void setCurrent_TimeAbs_emC ( TimeAbs_emC* time);
 

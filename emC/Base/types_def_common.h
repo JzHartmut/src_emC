@@ -135,7 +135,7 @@ inline int unused_emC(int arg){ return arg; }
 
 
 #ifndef OFFSET_IN_STRUCT
-#define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+#define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(uintPTR)&(((TYPE*)0)->FIELD))
 #define SIZEOF_IN_STRUCT(TYPE, FIELD) ((int)(sizeof((TYPE*)0)->FIELD))
 #endif
 

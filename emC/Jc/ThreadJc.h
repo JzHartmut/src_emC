@@ -40,7 +40,7 @@
 
 #include "StringJc.h"
 #include "ReflectionJc.h"
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 
 
 
@@ -103,7 +103,7 @@ typedef struct ThreadJc_t
   union { ObjectJc object; RunnableJc_s RunnableJc;} base; 
 
   /**Ident of the thread, to check the correctnis (debugmodi). @refl:void*.*/
-  OS_HandleThread hThread;
+  HandleThread_OSemC hThread;
 
   /**Name of the thread. */
   StringJc name;

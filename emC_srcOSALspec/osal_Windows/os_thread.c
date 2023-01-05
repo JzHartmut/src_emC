@@ -26,7 +26,7 @@
  *
  **copyright***************************************************************************************
  *
- * @content This file contains the implementation of os_thread.h for MS-Windows.
+ * @content This file contains the implementation of thread_OSemC.h for MS-Windows.
  * @author Hartmut Schorrig, Pinzberg, Germany and Marcos Rodriguez
  * @version 0.81ad
  * list of changes:
@@ -37,10 +37,10 @@
  *
  ****************************************************************************/
 #include <applstdef_emC.h>
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 #include <emC/OSAL/os_mem.h>
 #include <emC/OSAL/os_error.h>
-#include <emC/OSAL/os_sync.h>
+#include <emC/OSAL/sync_OSemC.h>
 
 
 #undef boolean
@@ -71,12 +71,12 @@ typedef struct OS_ThreadContext_t
 
   //bool bInUse;                         /* structure in use */
 	
-  OS_HandleThread THandle;             /* handle des Threads */
+  HandleThread_OSemC THandle;             /* handle des Threads */
 	
   uint32 uTID;                  /* ID des threads */
 	
   //QueueStruct *pMessageQueue;		 /* Pointer to The MessageQueue Structure */
-	//OS_HandleThread TDupHandle;          /* to be filled by the child */
+	//HandleThread_OSemC TDupHandle;          /* to be filled by the child */
   
   /**The thread run routine used for start the thread. */
   OS_ThreadRoutine* ThreadRoutine;     
@@ -110,7 +110,7 @@ typedef struct OS_ThreadContext_t
 uint XXXuThreadCounter = 0;               
 
 /* Thread protection to access the handle pool.  */
-struct OS_Mutex_t* XXXuThreadPoolSema = 0;              
+struct Mutex_OSemC_T const* XXXuThreadPoolSema = 0;              
 
 static bool bOSALInitialized = false;
 
@@ -194,7 +194,7 @@ int init_OSAL()
 		  printf("init_OSAL: ERROR: TlsAlloc failed!\n"); 
 	  }
 
-    //os_createMutex("os_Threadpool", &uThreadPoolSema);
+    //createMutex_OSemC("os_Threadpool", &uThreadPoolSema);
 	  hMainHandle = GetCurrentThread();
 	  // get a pseudo handle for the main thread to be referenced by other threads
 	  DuplicateHandle(    GetCurrentProcess(), 
@@ -211,7 +211,7 @@ int init_OSAL()
 	  
 	    if (mainThreadContext != null){
 		    mainThreadContext->uTID = GetCurrentThreadId();
-		    mainThreadContext->THandle = (OS_HandleThread) hDupMainHandle;
+		    mainThreadContext->THandle = (HandleThread_OSemC) hDupMainHandle;
 		    /* create an event for this thread (for use in eventFlag functions) */
 		    //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
         bOSALInitialized = true;
@@ -260,7 +260,7 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
   // execute user routine
   STACKTRC_ROOT_ENTRY("os_wrapperThread");
   fpStart = threadContext->ThreadRoutine;
-  fpStart(threadContext->pUserData); //&threadContext->stacktraceThreadContext);		// execute user routine
+  fpStart(threadContext->pUserData); 		//=============== execute user routine
     
   STACKTRC_LEAVE;	
   ExitThread(0);
@@ -270,7 +270,7 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
 
 
 int os_createThread
-( OS_HandleThread* pHandle, 
+( HandleThread_OSemC* pHandle, 
   OS_ThreadRoutine routine, 
   void* pUserData, 
   char const* sThreadName, 
@@ -334,7 +334,7 @@ int os_createThread
     );
 
     threadContext->uTID = uThreadID;
-	  threadContext->THandle = (OS_HandleThread)hDupChildHandle;
+	  threadContext->THandle = (HandleThread_OSemC)hDupChildHandle;
 
 	  // set the thread prio
 	  { long uWinPrio = os_getRealThreadPriority( abstactPrio );
@@ -375,7 +375,7 @@ int os_createThread
  * @Datum/Autor/Änderungen
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  */
-//int os_deleteThread(OS_HandleThread handle)
+//int os_deleteThread(HandleThread_OSemC handle)
 //{
 //	HANDLE ThreadHandle = GetCurrentThread();
 //	if(ThreadHandle == (HANDLE)handle){
@@ -402,7 +402,7 @@ int os_createThread
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
-int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
+int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
 {   
   int ret_ok;
 	long uWinPrio = os_getRealThreadPriority( abstractPrio );
@@ -441,7 +441,7 @@ int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
  * @18.06.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
-int os_suspendThread(OS_HandleThread handle)
+int os_suspendThread(HandleThread_OSemC handle)
 {
 
 	if (!bOSALInitialized){
@@ -474,7 +474,7 @@ int os_suspendThread(OS_HandleThread handle)
  * @Datum/Autor/Änderungen
  * @18.06.2008 / Rodriguez / Erste Implementierung.
  */
-int os_resumeThread(OS_HandleThread handle)
+int os_resumeThread(HandleThread_OSemC handle)
 {
 
 	if (!bOSALInitialized){
@@ -504,9 +504,9 @@ int os_resumeThread(OS_HandleThread handle)
  * @Datum/Autor/Änderungen
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  */
-OS_HandleThread os_getCurrentThreadHandle(void)
+HandleThread_OSemC os_getCurrentThreadHandle(void)
 { 
-	OS_HandleThread currHandle;
+	HandleThread_OSemC currHandle;
 	OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
   if (!bOSALInitialized){
 		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
@@ -514,14 +514,14 @@ OS_HandleThread os_getCurrentThreadHandle(void)
   }
   currHandle = threadContext->THandle;
 	if (currHandle==0){
-		return (OS_HandleThread) GetCurrentThread();	// in worst case return constant handle (0xfffffffe)
+		return (HandleThread_OSemC) GetCurrentThread();	// in worst case return constant handle (0xfffffffe)
 	}
 	return currHandle;
 }
 
 
 
-int os_getOsThreadPriority(OS_HandleThread handle) {
+int os_getOsThreadPriority(HandleThread_OSemC handle) {
   return GetThreadPriority((HANDLE)handle);
 }
 

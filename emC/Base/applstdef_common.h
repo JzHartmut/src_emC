@@ -180,7 +180,7 @@ extern_C int free_MemC(void const* addr);
 
 #if !defined(DEF_NO_THCXT_STACKTRC_EXC_emC)
   #include <emC/Base/Assert_emC.h>
-  #include <emC_srcApplSpec/applConv/EnhanceRef_simple.h>
+  #include <emC/Base/EnhanceRef_simple.h>
   #include <emC/Base/Exception_emC.h>
 #else
   //This is for a system without including Base/Exception_emC.h

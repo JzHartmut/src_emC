@@ -47,17 +47,16 @@
 
 #include <emC/Jc/ObjectJc.h>
 
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 #include <emC/OSAL/os_time.h>
-#include <emC/OSAL/os_sync.h>
-#include <emC/OSAL/os_waitnotify.h>
+#include <emC/OSAL/sync_OSemC.h>
 
 /**Version and History.
  * 2015-08-16 JcHartmut: There is a mistake while creating a new [[synchronized(...)]]:
  *  The new id for a ObjectJc::idSyncHandles was stored before the handleMutex was set in the referred struct.
  *  That is not a problem on a single core processor because there is no reason to swith the thread context in this time.
  *  But on multicore processing it is possible that a second core runs a thread similar and uses the new stored idSyncHandles
- *  while the handleMutex is not set yet. Then a Nullpointer is given for [[os_lockMutex(...)]] and it crashed.
+ *  while the handleMutex is not set yet. Then a Nullpointer is given for [[lockMutex_OSemC(...)]] and it crashed.
  *  A fast workarround is: wait 1 ms if the handleMutex==null to give time to finish the creation in the other thread.
  *  Correct fix is: firstly finish the structure for idSyncHandles, then set it to Object::idSyncHandles with an atomic testAndSet.
  *  If it is set already (from another thread in the same time), delete the own created structure data and use the alredy set data instead.
@@ -70,15 +69,15 @@
 typedef struct HandleItem_t
 { /**union of several handles, all are pointers. */
   union
-  { struct OS_HandleWaitNotify_t const* wait;
-    struct OS_HandleThread_t const* thread_xxx;
+  { struct HandleWaitNotify_OSemC_T const* wait;
+    struct HandleThread_OSemC_T const* thread_xxx;
     /**If it is a free handle, the pointer to the next free. */
     struct HandleItem_t* nextFree;
   }handle;
 
 
   //struct OS_HandleMutex_t const* handleMutex;
-  struct OS_Mutex_t* handleMutex;
+  struct Mutex_OSemC_T const* handleMutex;
 
   /**Name for the handle, derived from index. */
   char name[8];
@@ -89,7 +88,7 @@ typedef struct HandleItem_t
 typedef struct OsWrapperJc_t
 {
 
-  struct OS_Mutex_t* mutexInitHandle;
+  struct Mutex_OSemC_T const* mutexInitHandle;
 
   /**This handle addresses the next free handles, all free handles are queued. */
   HandleItem* volatile freeHandle;

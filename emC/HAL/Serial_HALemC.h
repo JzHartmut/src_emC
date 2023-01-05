@@ -13,11 +13,31 @@
 /**Base data of a communication. */
 typedef struct Com_HALemC_T {
   union{ ObjectJc object;} base;
-  /**It is an internal used handle to detect which functionality should be used, 
-   * contains for example also a channel number. 
-   * The meaning depends on the implemenation, only used internally. 
+
+  /**This is the pointer to a buffer used on [[stepRx_Com_HALemC(...)]]
+   * If null then stepRx(...) should write to an internal buffer or can throw.
+   * It is set on [[getData_Com_HALemC(...)]]
    */
-  int _handle_;
+  MemUnit* rxDst;
+
+  /**Size of the buffer used on [[stepRx_Com_HALemC(...)]]
+   * It is set on [[getData_Com_HALemC(...)]]
+   */
+  int zRxData;
+
+  /**Current position in the buffer used on [[stepRx_Com_HALemC(...)]]
+   * It is incremented in on stepRx_Com_HALemC(...).
+   */
+  int ixRxData;
+
+  /**It is an internal used handle or pointer to additional data or hardware access info
+   * to clarify which functionality should be used,
+   * contains for example also a channel number. 
+   * The meaning depends on the implementation, only used internally.
+   * It is constant seen from outside and may also reference to a ROM address.
+   */
+  void const* _handle_;
+
 } Com_HALemC_s;
 
 
@@ -162,7 +182,7 @@ typedef enum ParityStop_Serial_HALemC_T {
 
 typedef struct Serial_HALemC_T {
   union{ Com_HALemC_s comm_HAL_emC; ObjectJc object;} base;
-  int channel; 
+  uintPTR channel; 
   enum Direction_Serial_HALemC_T dir;
   uint32 baud; 
   ParityStop_Serial_HALemC bytePattern;
@@ -282,13 +302,13 @@ class Serial_HALemC : public Com_HALemC, private Serial_HALemC_s {
 
   int openComm ( Direction_Serial_HALemC dir
   , int32 baud, ParityStop_Serial_HALemC bytePattern) {
-    this->base.comm_HAL_emC._handle_ = channel;
+    this->base.comm_HAL_emC._handle_ = C_CAST(void*, channel);
     this->channel = channel;
     this->dir = dir;
     this->baud = baud;
     this->bytePattern = bytePattern;
     
-    return open_Serial_HALemC(channel, dir, baud, bytePattern);
+    return (int)open_Serial_HALemC(channel, dir, baud, bytePattern);
   }
 
   /**Activates ad hoc a sending process.

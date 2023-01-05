@@ -40,10 +40,10 @@
  ****************************************************************************/
 #include <applstdef_emC.h>
 
-//#include <emC/Base/SimpleC_emC.h>
-#include <emC/OSAL/os_thread.h>
-#include <emC/Base/MemC_emC.h>
-
+//#include <emC/OSAL/thread_OSemC.h>
+#ifndef DEF_NO_HEAP
+  #include <emC/Base/MemC_emC.h>
+#endif
 #include <string.h>
 
 //dependencies:

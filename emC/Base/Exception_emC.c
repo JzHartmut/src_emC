@@ -53,7 +53,9 @@
 #ifndef DEF_NO_StringUSAGE
   #include <emC/Base/StringBase_emC.h>
   #include <emC/Base/StringNum_emC.h>
-  #include <emC/Base/MemC_emC.h>
+  #ifndef DEF_NO_HEAP
+    #include <emC/Base/MemC_emC.h>
+  #endif
 #endif
 
 #ifdef DEF_Exception_emC_NO
@@ -205,7 +207,7 @@ void throw_EJc ( int32 exceptionNr, Exception_emC* exc, int value, char const* f
 
 
 void clearException ( Exception_emC* exc) {
-  #ifndef DEF_NO_StringUSAGE
+  #if ! defined(DEF_NO_StringUSAGE) && ! defined(DEF_NO_HEAP)
   if(exc->exceptionMsg.addr.str!=null) { free_MemC(exc->exceptionMsg.addr.str); }
   #endif
   exc->exceptionNr = 0;

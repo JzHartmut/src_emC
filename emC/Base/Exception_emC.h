@@ -345,7 +345,7 @@ typedef struct TryObject_emC_T
  * A ThreadContext at least in minimalistic form should be existent in any application. 
  * It should hold an thread safe exception number for exception handling (adequate errno of C-Standard, but threadsafe). 
  * For implementations in an simple main / interrupt system see .../emc/source/emC_srcApplSpec/applConv/ThreadContextInterrTpl.c
- * For implementation in multithreading environment with OSAL/os_thread.h capabilities see .../emc/source/emC_srcApplSpec/applConv/ThreadContextInterrTpl.c
+ * For implementation in multithreading environment with OSAL/thread_OSemC.h capabilities see .../emc/source/emC_srcApplSpec/applConv/ThreadContextInterrTpl.c
  */
 //Note: Because of cpp and c may be compiled, it should be unique a C function.
 extern_C struct ThreadContext_emC_t* getCurrent_ThreadContext_emC();

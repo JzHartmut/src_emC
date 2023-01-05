@@ -35,7 +35,7 @@
  ****************************************************************************/
 
 
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 
 #undef BOOL
 #undef PBOOL
@@ -43,14 +43,14 @@
 
 
 //#include <OSAL/os_waitnotify.h>
-#include <emC/OSAL/os_sync.h>
+#include <emC/OSAL/sync_OSemC.h>
 
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_mem.h>
 #include "os_internal.h"
 
 
-int os_createWaitNotifyObject  (  char const* name, OS_HandleWaitNotify_s const** waitObjectP)
+int createWaitNotifyObj_OSemC  (  char const* name, HandleWaitNotify_OSemC_s const** waitObjectP)
 { //folg. Mechanismus ist nicht verfügbar unter Win2000, wäre aber richtiger:
   //PCONDITION_VARIABLE var;
   //InitializeConditionVariable(&var);
@@ -68,7 +68,7 @@ int os_createWaitNotifyObject  (  char const* name, OS_HandleWaitNotify_s const*
     *waitObjectP = null;
   }
   else
-  { OS_HandleWaitNotify_s* waitObject = (OS_HandleWaitNotify_s*)os_allocMem(sizeof(OS_HandleWaitNotify_s));
+  { HandleWaitNotify_OSemC_s* waitObject = (HandleWaitNotify_OSemC_s*)os_allocMem(sizeof(HandleWaitNotify_OSemC_s));
     waitObject->winHandleWaitNotify = semaphor;
     waitObject->threadWait = null;
     *waitObjectP = waitObject;
@@ -79,8 +79,8 @@ int os_createWaitNotifyObject  (  char const* name, OS_HandleWaitNotify_s const*
 
 /**removes a object for wait-notify.
  */
-int os_removeWaitNotifyObject  (  struct OS_HandleWaitNotify_t const* waitObj)
-{ STACKTRC_ENTRY("os_removeWaitNotifyObject");
+int removeWaitNotifyObj_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObj)
+{ STACKTRC_ENTRY("removeWaitNotifyObj_OSemC");
   HANDLE winHandleWaitNotify = waitObj->winHandleWaitNotify;
   os_freeMem((void*)waitObj);
   if ( CloseHandle( winHandleWaitNotify ) == 0 ) 
@@ -100,14 +100,14 @@ int os_removeWaitNotifyObject  (  struct OS_HandleWaitNotify_t const* waitObj)
 }
 
 
-int os_wait  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex, uint32 milliseconds)
+int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T const* mutex, uint32 milliseconds)
 { //HANDLE semaphor = (HANDLE)handle;
   int error;
-  struct OS_HandleWaitNotify_t* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
+  struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
   struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   /*
     if(pThread != mutex->threadOwner)
-    { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);
+    { os_Error("notify: it is necessary to have a lockMutex_OSemC in the current thread", (int)mutex->threadOwner);
       return OS_INVALID_PARAMETER;
     }
   */
@@ -119,8 +119,8 @@ int os_wait  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t*
   else
   { //build a queue of waiting threads. TODO
   }
-  /**but now the mutex should be release, after storing the thread, os_notify should not test it before. */ 
-  os_unlockMutex(mutex);
+  /**but now the mutex should be release, after storing the thread, notify_OSemC should not test it before. */ 
+  unlockMutex_OSemC(mutex);
   //ab hier kann die Bedingungen geändert werden und notify wird gerufen, 
   //notify increments the semaphore, so that wait returns immediately. 
   //Here normally a thread change should be done:
@@ -133,7 +133,7 @@ int os_wait  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t*
   }
   //if the thread is revived:
   //The mutex is relocked 
-  os_lockMutex(mutex,  0);  //should be locked, the caller unlocks.
+  lockMutex_OSemC(mutex,  0);  //should be locked, the caller unlocks.
   waitObj->threadWait = null; 
   //
   //the user have to be unlock.
@@ -143,7 +143,7 @@ int os_wait  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t*
 
 /** Notifies all waiting thread to continue.
  */
-int os_notifyAll  (  OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex)
+int notifyAll_OSemC  (  HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T const* hMutex)
 {
   return -1;
 
@@ -152,15 +152,15 @@ int os_notifyAll  (  OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex)
 
 /** Notifies only one waiting thread to continue.
  */
-int os_notify  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_t* mutex)
-{ struct OS_HandleWaitNotify_t* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
+int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T const* mutex)
+{ struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
   LONG prevCount;
   bool shouldNotify;
   int error = 0xbaadf00d;
   struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   /*
   if(pThread != mutex->threadOwner)
-  { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);
+  { os_Error("notify: it is necessary to have a lockMutex_OSemC in the current thread", (int)mutex->threadOwner);
     error = OS_UNEXPECTED_CALL;
   }
   else
@@ -171,7 +171,7 @@ int os_notify  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_
     if(shouldNotify)
     { int ok;
       //unlock, because ReleaseSemaphore() mustn_t call in a critical section, threadchange possible 
-      os_unlockMutex(mutex);
+      unlockMutex_OSemC(mutex);
       ok = ReleaseSemaphore(waitObj->winHandleWaitNotify, 1, &prevCount);
       if(ok == 0) 
       { //If the function fails, the return value is zero. To get extended error information, call GetLastError.
@@ -186,7 +186,7 @@ int os_notify  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_
         error = 0; 
       }
       //lock before return.
-      os_lockMutex(mutex, 0);  //should be locked, the caller unlocks.
+      lockMutex_OSemC(mutex, 0);  //should be locked, the caller unlocks.
     }
     else
     { error = OS_WARNING_NOTIFY_NothingIsWaiting;
@@ -197,7 +197,7 @@ int os_notify  (  struct OS_HandleWaitNotify_t const* waitObjP, struct OS_Mutex_
 
 
 #if 0
-int os_createMutex(struct OS_HandleMutex_t const** handle)
+int createMutex_OSemC(struct OS_HandleMutex_t const** handle)
 { CRITICAL_SECTION* semaphore = (CRITICAL_SECTION*)malloc(sizeof(CRITICAL_SECTION));
   InitializeCriticalSection(semaphore);
   *handle = (struct OS_HandleMutex_t const*)semaphore;

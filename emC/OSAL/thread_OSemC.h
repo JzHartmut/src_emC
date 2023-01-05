@@ -50,9 +50,9 @@ extern_C_BLOCK_
 
 
 /**Handle to a thread. The internal data structure is not known here. 
- * A ,,OS_HandleThread,, may also be a simple integer, which is converted to this pointer type.
+ * A ,,HandleThread_OSemC,, may also be a simple integer, which is converted to this pointer type.
  */
-typedef struct OS_HandleThread_t const* OS_HandleThread;
+typedef struct HandleThread_OSemC_T const* HandleThread_OSemC;
 
 /**The thread routine should have the followed prototype.
  * @param data Pointer to data. Mostly it is a class structure. 
@@ -95,7 +95,7 @@ int os_getRealThreadPriority(int abstractPrio);
  * @return 0 if ok, negativ value on error.
  */ 
 int os_createThread
-( OS_HandleThread* pHandle
+( HandleThread_OSemC* pHandle
 , OS_ThreadRoutine routine
 , void* pUserData
 , char const* sThreadName
@@ -105,25 +105,25 @@ int os_createThread
 
 /**Changes the thread priority.
 */
-int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio);
+int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio);
 
 /**Returns the priority of the given thread in the operation system's kind.
  * This is to compare priorities and for showing (in debug)
  */
-int os_getOsThreadPriority(OS_HandleThread handle);
+int os_getOsThreadPriority(HandleThread_OSemC handle);
 
 
 /**NOTE: suspend and resumed must not called from another thread. Therefore this routines
  * are not defined here!!! 
  * If a thread is suspended from outside, and it is the owner of a ressource, the system may hang.
  */
-//do not use: int os_suspendThread(OS_HandleThread handle);
-//do not use: int os_resumeThread(OS_HandleThread handle);
+//do not use: int os_suspendThread(HandleThread_OSemC handle);
+//do not use: int os_resumeThread(HandleThread_OSemC handle);
 
 
 /**Gets the current thread handle. This routine should have a short calculation time.
  */
-OS_HandleThread os_getCurrentThreadHandle(void);
+HandleThread_OSemC os_getCurrentThreadHandle(void);
 
 
 

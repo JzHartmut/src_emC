@@ -1,5 +1,7 @@
 #include <emC/Base/Time_emC.h>
-#include <emC/Base/MemC_emC.h>
+#ifndef DEF_NO_HEAP
+  #include <emC/Base/MemC_emC.h>
+#endif
 
 #ifdef DEF_REFLECTION_FULL
   //Note: only for full reflection the const ClassJc refl_... should be compiled 
@@ -22,7 +24,7 @@ int clocksPerMicro_Time_emC = 0;
 float clocksFloatPerMicro_Time_emC = 0;
 #endif
 
-
+#ifndef DEF_NO_HEAP
 OS_TimeStamp* ctorM_OS_TimeStamp  (  MemC mem)
 { int size = mem.val;
   if (size < (int)sizeof(OS_TimeStamp))
@@ -36,6 +38,7 @@ OS_TimeStamp* ctorM_OS_TimeStamp  (  MemC mem)
     return ythis;
   }
 }
+#endif //DEF_NO_HEAP
 
 
 void ctor_Clock_MinMaxTime_emC(Clock_MinMaxTime_emC* thiz, int nrofEntries) {

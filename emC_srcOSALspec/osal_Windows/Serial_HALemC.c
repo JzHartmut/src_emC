@@ -1,5 +1,5 @@
 #include <emC/HAL/Serial_HALemC.h>
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 #include <applstdef_emC.h>
 #include <stdio.h>
 
@@ -40,7 +40,7 @@ typedef struct InternalData_Serial_HALemC_T {
   int volatile ixBufferWr;  //:for receiving bytes -ReadFile(...)
   int volatile run;
   int ctException;
-  OS_HandleThread hThread;
+  HandleThread_OSemC hThread;
   HANDLE hPort;
   MemUnit valueBuffer[200];   //:the user buffer to get the data.
 } InternalData_Serial_HALemC;
@@ -209,7 +209,7 @@ int open_Com_HALemC(Com_HALemC_s* ithiz) {
   if(INSTANCEOF_ObjectJc(&ithiz->base.object, refl_Serial_HALemC)) {  //check which type
     Serial_HALemC_s* thiz = C_CAST(Serial_HALemC_s*, ithiz);
     ret = open_Serial_HALemC(thiz->channel, thiz->dir, thiz->baud, thiz->bytePattern);
-    thiz->base.comm_HAL_emC._handle_ = thiz->channel;
+    thiz->base.comm_HAL_emC._handle_ = (const void*)thiz->channel;
   } else {
     THROW(IllegalArgumentException, z_StringJc("not expected"), 0,0);
   }

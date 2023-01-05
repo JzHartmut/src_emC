@@ -1,10 +1,15 @@
 
+#include <applstdef_emC.h>
+#ifndef DEF_NO_StringUSAGE
 
 #include <emC/Base/StringBase_emC.h>
 #include <emC/Base/StringNum_emC.h>
 #include <emC/HAL/Serial_HALemC.h>
 #include <emC/Base/EventTask_emC.h>
 #include <emC/InspcTargetSimple/AsciiMoni_emC.h>
+
+
+
 
 // private encapsulated operations:
 
@@ -271,3 +276,4 @@ void execCmd_AsciiMoni_emC ( AsciiMoni_emC_s* thiz, int zChars ) {
 
 }
 
+#endif  //ndef DEF_NO_StringUSAGE

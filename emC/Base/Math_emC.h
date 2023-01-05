@@ -192,7 +192,7 @@
  * For using optimized assembler statements this macro can be left empty. No effort.
  */
 #ifndef DEFsatCheck_emC
-  #define DEFsatCheck_emC bool bSat_emC = false;
+  #define DEFsatCheck_emC MAYBE_UNUSED_emC bool bSat_emC = false;
 #endif
 
 /**This macro can be used to clear the saturation flag after some saturating operation.

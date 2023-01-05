@@ -37,41 +37,40 @@
  * @version sf-0.93
  * list of changes:
  * 2009-11-25 Hartmut:
- *   chg: os_createMutex(...) with char const* name
- *   chg: os_createWaitNotifyObject with char const* name
+ *   chg: createMutex_OSemC(...) with char const* name
+ *   chg: createWaitNotifyObj_OSemC with char const* name
  * 2007-01-00: Hartmut creation
  *
  ************************************************************************************************/
-#ifndef __os_sync_h__
-#define __os_sync_h__
+#ifndef HGUARD_sync_OSemC
+#define HGUARD_sync_OSemC
 #include <applstdef_emC.h>
 
 extern_C_BLOCK_
 
 /**Version and History.
- * 2015-08-16 JcHartmut: The definition of OS_Mutex as pointer type is wrong, because it is not obvious what's that in C.
- *                       Therefore it is replaced by the struct OS_Mutex_t like usual for such. It is a reference (memory address) in any case.
+ * 2015-08-16 JcHartmut: The definition of Mutex_OSemC as pointer type is wrong, because it is not obvious what's that in C.
+ *                       Therefore it is replaced by the struct Mutex_OSemC_T like usual for such. It is a reference (memory address) in any case.
  * 2006-00-00 JcHartmut created.
  */
-static const int32 version_OS_sync = 0x20180816;
+static const int32 version_sync_OSemC = 0x20230105;
 
 
 
 
-/**The type of a OS_Mutex is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
-struct OS_Mutex_t;
-//typedef struct OS_Mutex_t* OS_Mutex;
+/**The type of a Mutex_OSemC is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
+struct Mutex_OSemC_T;
+typedef struct Mutex_OSemC_T const* HandleMutex_OSemC;
 
 #include <applstdef_emC.h>
-//#include "fw_MemC.h"
 
 
-/**The type of a OS_HandleWaitNotify is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
-typedef struct OS_HandleWaitNotify_t const* OS_HandleWaitNotify;
+/**The type of a HandleWaitNotify_OSemC is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
+typedef struct HandleWaitNotify_OSemC_T const* HandleWaitNotify_OSemC;
 
 
 
-#ifndef  os_lockMutex 
+#ifndef  lockMutex_OSemC 
 //Note: for simple processors without multithreading but with interrupt this identifier may define as macro in the compl_adaption.h or in the applstdef_emC.h
 //Then it are not defined here.
 
@@ -79,28 +78,28 @@ typedef struct OS_HandleWaitNotify_t const* OS_HandleWaitNotify;
  * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
-struct OS_Mutex_t* os_createMutex(char const* name);
+struct Mutex_OSemC_T const* createMutex_OSemC(char const* name);
  
  
 /**Deletes a mutex object.
  */
-void os_deleteMutex(struct OS_Mutex_t* mutexID);
+void deleteMutex_OSemC(struct Mutex_OSemC_T const* mutexID);
  
 
 /**locks a mutex. 
  * The contract is: 
  * * If the same thread tries to lock a mutex, it is okay. 
- * * Another thread waits until the owner thread calls os_unlockMutex(...).
+ * * Another thread waits until the owner thread calls unlockMutex_OSemC(...).
  */
-bool os_lockMutex(struct OS_Mutex_t* mutexID, int timeout_millisec);
+bool lockMutex_OSemC(struct Mutex_OSemC_T const* mutexID, int timeout_millisec);
 
 /**Unlocks the mutex. It is possible that a thread switch occurs, 
  * if another thread waits and it has a higher priority. 
  * In some implementations it is possible that the thread is checked. 
- * The same thread which calls os_lockMutex(...) should call os_unlockMutex(...).
+ * The same thread which calls lockMutex_OSemC(...) should call unlockMutex_OSemC(...).
  * If another thread unlocks, it is an error and an exception may be thrown.
  */
-void os_unlockMutex(struct OS_Mutex_t* mutexID);
+void unlockMutex_OSemC(struct Mutex_OSemC_T const* mutexID);
 #endif
 
 
@@ -116,12 +115,12 @@ void os_unlockMutex(struct OS_Mutex_t* mutexID);
  * Here only a forward declared struct pointer is knwon.
  * @return 0 if no error, or an error code.
  */
-METHOD_C int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify* pWaitObject);
+METHOD_C int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC* pWaitObject);
 
 
 /**removes a object for wait-notify.
  */
-METHOD_C int os_removeWaitNotifyObject(OS_HandleWaitNotify waitObject);
+METHOD_C int removeWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
 
 
 
@@ -130,7 +129,7 @@ METHOD_C int os_removeWaitNotifyObject(OS_HandleWaitNotify waitObject);
 /** Waits for a notification.
  */
 
-METHOD_C int os_wait(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex, uint32 milliseconds);
+METHOD_C int wait_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T const* hMutex, uint32 milliseconds);
 
 
 /** Notifies all waiting thread to continue.
@@ -138,15 +137,15 @@ METHOD_C int os_wait(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex, 
              >0 if notified with warning (possible notified but nobody waits).
              <0 if an system error occurs. This should not occur in a tested system.
  */
-METHOD_C int os_notifyAll(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex);
+METHOD_C int notifyAll_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T const* hMutex);
 
 
 /** Notifies only one waiting thread to continue.
  */
-METHOD_C int os_notify(OS_HandleWaitNotify waitObject, struct OS_Mutex_t* hMutex);
+METHOD_C int notify_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T const* hMutex);
 
 
 _END_extern_C_BLOCK
 
 
-#endif  // __os_sync_h__
+#endif  // HGUARD_sync_OSemC

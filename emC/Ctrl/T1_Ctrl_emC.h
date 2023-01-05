@@ -1,7 +1,7 @@
 #ifndef HGUARD_emC_Ctrl_T1ish_Ctrl_emC
 #define HGUARD_emC_Ctrl_T1ish_Ctrl_emC
 
-#include <emC/Base/Object_emC.h>
+//#include <emC/Base/Object_emC.h>
 #include <emC/Base/Math_emC.h>
 #include <emC/Base/Endianness_emC.h>
 #include <math.h>
@@ -72,7 +72,7 @@ static inline int16 step_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
 }
 
 static inline int16 step32_T1i_Ctrl_emC(T1i_Ctrl_emC_s* thiz, int16 x) {
-  thiz->dx.v32 = (int32)(((uint64)(thiz->fTs.v32) * (uint64)( (int32)(x<<16) - thiz->q.v32))>>32);
+  thiz->dx.v32 = (int32)( ((uint64)((uint64)(thiz->fTs.v32) * (uint64)( (((int32)x)<<16) - thiz->q.v32 ) ))>>32);
   thiz->q.v32 += thiz->dx.v32;
   return thiz->q.v16.hi; //hi part 16 bit
 }

@@ -72,7 +72,7 @@
 #define OS_INVALID_POINTER   -116	// Zeiger zu Resource ungültig.
 #define OS_UNEXPECTED_CALL   -117	// Aufruf an dieser Stelle nicht erwartet/statthaft.
 #define OSAL_Wait_FaultMutex -120	
-#define OSAL_TEXT_Wait_FaultMutex "Fault mutex while calling os_wait."	
+#define OSAL_TEXT_Wait_FaultMutex "Fault mutex while calling wait_OSemC."	
 #define OS_UNKNOWN_ERROR     -200	// Undefinierte Fehlermeldung
 #define OS_TEXT_UNKNOWN_ERROR     "error from operation system"
 #define OS_NOT_IMPLEMENTED   -201	

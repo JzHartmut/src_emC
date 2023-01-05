@@ -224,7 +224,7 @@
 #define BYTE_IN_MemUnit_sizeof 1
 /**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
 #define intPTR long long
-#define uintPTR unsigned_long_long
+#define uintPTR unsigned long long
 #define INT_HAS32BIT
 #define DEF_DONOTDEF_intPTR  //intptr_t is defined unconditional in vcruntime.h of MS-VisualStudio.
 //Application hint: do not use intptr_t in the application. 
