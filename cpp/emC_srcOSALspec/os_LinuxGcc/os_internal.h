@@ -10,19 +10,19 @@
 struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
 
 
-typedef struct OS_Mutex_t{
+typedef struct Mutex_OSemC_T{
   pthread_mutex_t mutex;
   pthread_mutexattr_t attr;
   const char* name;
 
-}OS_Mutex_s;
+}Mutex_OSemC_s;
 
 
 //#include "fw_MemC.h"
 
 
 /**The type of a OS_HandleWaitNotify is represented . */
-typedef struct OS_HandleWaitNotify_t 
+typedef struct HandleWaitNotify_OSemC_T
 {
   /**The owner of the mutex. */
   /**null if nobody waits. elsewhere the queue of waiting threads.*/
@@ -30,7 +30,7 @@ typedef struct OS_HandleWaitNotify_t
 
   /**see http://linux.die.net/man/3/pthread_cond_wait. */
   pthread_cond_t waitCondition;
-} OS_HandleWaitNotify_s;
+} HandleWaitNotify_OSemC_s;
 
 
 

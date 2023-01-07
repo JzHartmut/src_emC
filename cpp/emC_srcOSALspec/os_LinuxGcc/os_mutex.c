@@ -40,7 +40,7 @@
  *
  ************************************************************************************************/
 //the own include file firstly
-#include <emC/OSAL/os_sync.h>
+#include <emC/OSAL/sync_OSemC.h>
 
 //needed from os_adaption itself
 #include <emC/OSAL/os_error.h>
@@ -52,12 +52,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-OS_Mutex_s* os_createMutex(char const* pName) //, struct OS_Mutex_t** pMutex)
+Mutex_OSemC_s const* createMutex_OSemC(char const* pName) //, struct OS_Mutex_t** pMutex)
 {
-    OS_Mutex_s* mutex;
-    const int zMutex = sizeof(struct OS_Mutex_t);
+    Mutex_OSemC_s* mutex;
+    const int zMutex = sizeof(Mutex_OSemC_s);
     
-    mutex = (OS_Mutex_s*)malloc(zMutex);
+    mutex = (Mutex_OSemC_s*)malloc(zMutex);
     mutex->name = pName;             //assume that the name-parameter is persistent! A simple "string literal"
     pthread_mutexattr_init (&mutex->attr);
     //special? pthread_mutexattr_settype(&mutex->attr, PTHREAD_MUTEX_RECURSIVE_NP);
@@ -71,18 +71,18 @@ OS_Mutex_s* os_createMutex(char const* pName) //, struct OS_Mutex_t** pMutex)
 }
 
 
-void os_deleteMutex(OS_Mutex_s* mutex)
+void deleteMutex_OSemC(Mutex_OSemC_s const* mutex)
 {   //TODO
-  free(mutex);
+  free(WR_CAST(Mutex_OSemC_s*,mutex));
 
 }
 
 
 
 
-bool os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
+bool lockMutex_OSemC(Mutex_OSemC_s const* mutexP, int timeout_millisec)
 { //TODO timeout
-  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
+  Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP; //the non-const variant.
   int error;
   if (timeout_millisec != 0) {
     struct timespec timeoutTime;
@@ -112,9 +112,9 @@ bool os_lockMutex(OS_Mutex_s* mutexP, int timeout_millisec)
 }
 
 
-void os_unlockMutex(OS_Mutex_s* mutexP)
+void unlockMutex_OSemC(Mutex_OSemC_s const* mutexP)
 {
-  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP; //the non-const variant.
+  Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP; //the non-const variant.
   int error = pthread_mutex_unlock(&mutex->mutex);
   if(error != 0){
     THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);

@@ -196,6 +196,113 @@ int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mut
 }
 
 
+
+
+/**Creates a mutex object.
+ * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
+ * The mutex Object contains the necessary data for example a HANDLE etc.
+ */
+struct Mutex_OSemC_T const* createMutex_OSemC  (  char const* pName)
+{
+
+    HANDLE    hIOMutex;
+    DWORD err;
+    Mutex_OSemC_s* pMutex;
+    const int zMutex = sizeof(Mutex_OSemC_s);
+    
+    hIOMutex = CreateMutex (NULL, FALSE, NULL);  // initially not owned
+    if ( hIOMutex == NULL )
+    {
+		  err = GetLastError();
+      STACKTRC_ENTRY("createMutex_OSemC");
+      THROW_s0(IllegalStateException, "createMutex_OSemC: ERROR: create mutex failed with Win err", err, 0 );
+      STACKTRC_RETURN null;
+    }
+	  pMutex = (Mutex_OSemC_s*)(os_allocMem(zMutex));
+    //memset(pMutex, 0, zMutex); //already done in os_allocMem(...)
+    pMutex->winHandleMutex  = hIOMutex;
+    return pMutex;                         // returns a const*, automatically regarded.
+}
+
+
+void deleteMutex_OSemC  (  struct Mutex_OSemC_T const* pMutex)
+{
+  if (pMutex == null) return; //no THROW, it should be shown in lockMutex already.
+
+  HANDLE winHandleMutex = pMutex->winHandleMutex;
+  os_freeMem(pMutex);
+  if( !CloseHandle( winHandleMutex ) )  //returns BOOL false on error 
+  {
+    DWORD err = GetLastError();
+    STACKTRC_ENTRY("createMutex_OSemC");
+    THROW_s0(IllegalStateException, "deleteMutex_OSemC: ERROR: CloseHandle failed with Win err", err, (int)(intPTR)winHandleMutex);
+    STACKTRC_RETURN;
+  }
+}
+
+
+bool lockMutex_OSemC  (  Mutex_OSemC_s const* pMutex, int timeout_millisec)
+{
+	DWORD WinRet;
+  if(timeout_millisec ==0){ timeout_millisec = INFINITE; }
+  if(pMutex !=null) {
+    WinRet = WaitForSingleObject( pMutex->winHandleMutex, timeout_millisec );
+    if (WinRet == WAIT_ABANDONED)
+    { STACKTRC_ENTRY("lockMutex_OSemC");
+      THROW_s0(IllegalStateException, "lockMutex_OSemC: ERROR: Mutex is blocked because a killed thread", (int32)(intptr_t)pMutex->winHandleMutex, 0);
+      STACKTRC_RETURN false;
+    }
+    if (WinRet == WAIT_FAILED) {
+      DWORD err = GetLastError();
+      STACKTRC_ENTRY("lockMutex_OSemC");
+      THROW_s0(IllegalStateException, "lockMutex_OSemC: ERROR: Mutex, debug necessary ", (int32)(intptr_t)pMutex->winHandleMutex, err);
+      STACKTRC_RETURN false;
+    }
+    else {
+      return (WinRet == WAIT_OBJECT_0 ? true : false); //true if signaled, false especially on WAIT_TIMEOUT
+    }
+  } else {
+    STACKTRC_ENTRY("lockMutex_OSemC");
+    THROW_s0(Exception, "mutex pointer is null", 0,0);
+    STACKTRC_RETURN false;
+  }
+}
+
+
+void unlockMutex_OSemC  (  struct Mutex_OSemC_T const* pMutex)
+{
+  if(pMutex == null) return; //no THROW, it should be shown in lockMutex already.
+  /*
+    struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
+    struct OS_ThreadContext_t const* threadOwner = mutex->threadOwner;
+    //it is neccesary to test whether the unlocker is the correct thread.
+    if(pThread != threadOwner)
+    { os_Error("faut thread", (int)pThread);
+    }
+    //first write null for locking thread, than release,
+    //because anther thread may be locked immediately and will found an empty threadOwner!
+    mutex->threadOwner = null;
+  */
+  if ( !ReleaseMutex( pMutex->winHandleMutex ) ) { //returns BOOL false on error 
+    int32 err;
+    STACKTRC_ENTRY("unlockMutex_OSemC");
+    //revert infos because the unlock isn't valid! It is important for debug
+    //mutex->threadOwner = threadOwner;
+    err = GetLastError();
+    if (err == ERROR_NOT_OWNER)
+    { /**It is helpfull to produce another error message if another thread release the mutex,
+       * because it is a users programming error. */
+      THROW_s0(Exception, "unlockMutex_OSemC: ERROR: Faild thread releases the mutex, win-error", err, (int)(intPTR)pMutex);		
+    }
+    else
+    {
+      THROW_s0(Exception, "unlockMutex_OSemC: ERROR: ReleaseMutex failed with win-error", err, (int)(intPTR)pMutex);
+	  }
+    STACKTRC_LEAVE;
+  }
+}
+
+
 #if 0
 int createMutex_OSemC(struct OS_HandleMutex_t const** handle)
 { CRITICAL_SECTION* semaphore = (CRITICAL_SECTION*)malloc(sizeof(CRITICAL_SECTION));

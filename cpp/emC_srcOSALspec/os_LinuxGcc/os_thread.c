@@ -35,12 +35,12 @@
  *
  ****************************************************************************/
 //the own include file firstly
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 
 //needed from os_adaption itself
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_mem.h>
-#include <emC/OSAL/os_sync.h>
+#include <emC/OSAL/sync_OSemC.h>
 #include <emC_srcOSALspec/os_LinuxGcc/os_internal.h>
 
 //Needed includes from os:
@@ -112,7 +112,7 @@ typedef struct OS_ThreadContext_t
 uint uThreadCounter = 0;               
 
 /* Thread protection to access the handle pool.  */
-OS_Mutex_s* uThreadPoolSema = null;
+Mutex_OSemC_s const* uThreadPoolSema = null;
 
 bool bLibIsInitialized = false;
 
@@ -322,7 +322,7 @@ void* os_wrapperFunction(void* data)
 
 
 int os_createThread
-( OS_HandleThread* pHandle, 
+( HandleThread_OSemC* pHandle,
   OS_ThreadRoutine routine, 
   void* pUserData, 
   char const* sThreadName, 
@@ -413,7 +413,7 @@ int os_getRealThreadPriority(int abstractPrio)
 
 
 
-int os_setThreadPriority(OS_HandleThread handle, uint abstractPrio)
+int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
 {   
   //int ret_ok = 0;
   return OS_OK;

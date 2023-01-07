@@ -34,7 +34,7 @@
  *
  ****************************************************************************/
 //the own include file firstly
-#include <emC/OSAL/os_sync.h>
+#include <emC/OSAL/sync_OSemC.h>
 
 //needed from os_adaption itself
 #include <emC/OSAL/os_error.h>
@@ -49,11 +49,11 @@
 
 
 
-int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** waitObjectP)
+int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC_s const** waitObjectP)
 { int error = 0;
-  OS_HandleWaitNotify_s* waitObject;
+  HandleWaitNotify_OSemC_s* waitObject;
 
-  waitObject = (OS_HandleWaitNotify_s*)malloc(sizeof(OS_HandleWaitNotify_s*));
+  waitObject = (HandleWaitNotify_OSemC_s*)malloc(sizeof(HandleWaitNotify_OSemC_s*));
   //init anything?
 
   *waitObjectP = waitObject;
@@ -63,22 +63,22 @@ int os_createWaitNotifyObject(char const* name, OS_HandleWaitNotify_s const** wa
 
 /**removes a object for wait-notify.
  */
-int os_removeWaitNotifyObject(struct OS_HandleWaitNotify_t const* waitObj)
+int removeWaitNotifyObject_OSemC(struct HandleWaitNotify_OSemC_T const* waitObj)
 { //TODO
   return 0;
 }
 
 
-int os_wait(
-    struct OS_HandleWaitNotify_t const* waitObjP
-  , struct OS_Mutex_t const* mutexP
+int wait_OSemC(
+    struct HandleWaitNotify_OSemC_T const* waitObjP
+  , struct Mutex_OSemC_T const* mutexP
   , uint32 milliseconds
 )
 {
   int error;
   //cast it from const to non-const. const is only outside!
-  OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
-  OS_Mutex_s* mutex = (struct OS_Mutex_t*)mutexP;
+  HandleWaitNotify_OSemC_s* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
+  Mutex_OSemC_s* mutex = (struct Mutex_OSemC_T*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
   struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
   struct timespec time;
@@ -123,7 +123,7 @@ int os_wait(
 
 /** Notifies all waiting thread to continue.
  */
-int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex_s hMutex)
+int notifyAll_OSemC(HandleWaitNotify_OSemC waitObject, Mutex_OSemC_s hMutex)
 {
   return -1;
 
@@ -132,12 +132,12 @@ int os_notifyAll(OS_HandleWaitNotify waitObject, OS_Mutex_s hMutex)
 
 /** Notifies only one waiting thread to continue.
  */
-int os_notify(struct OS_HandleWaitNotify_t const* waitObjP, OS_Mutex_s* mutexP)
+int notify_OSemC(struct HandleWaitNotify_OSemC_T const* waitObjP, Mutex_OSemC_s const* mutexP)
 { bool shouldNotify;
   int error = 0xbaadf00d;
   //cast it from const to non-const. const is only outside!
-  OS_HandleWaitNotify_s* waitObj = (struct OS_HandleWaitNotify_t*)waitObjP;
-  OS_Mutex_s* mutex = (OS_Mutex_s*)mutexP;
+  HandleWaitNotify_OSemC_s* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
+  Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
   struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
     /*

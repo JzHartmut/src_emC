@@ -47,7 +47,8 @@ typedef struct StringFunctions_CJc_t
 typedef struct StringFunctions_CJc_X_t { ObjectArrayJc head; StringFunctions_CJcREF data[50]; } StringFunctions_CJc_X;
 typedef struct StringFunctions_CJc_Y_t { ObjectArrayJc head; StringFunctions_CJc_s data[50]; } StringFunctions_CJc_Y;
 #endif
- extern_C struct ClassJc_t const refl_StringFunctions_CJc;
+#define ID_refl_StringFunctions_CJc 0x0Fd1
+extern_C struct ClassJc_t const refl_StringFunctions_CJc;
   
 
 
