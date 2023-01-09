@@ -269,9 +269,9 @@ bool lockMutex_OSemC  (  Mutex_OSemC_s const* pMutex, int timeout_millisec)
 }
 
 
-void unlockMutex_OSemC  (  struct Mutex_OSemC_T const* pMutex)
+bool unlockMutex_OSemC  (  struct Mutex_OSemC_T const* pMutex)
 {
-  if(pMutex == null) return; //no THROW, it should be shown in lockMutex already.
+  if(pMutex == null) return true; //no THROW, it should be shown in lockMutex already.
   /*
     struct OS_ThreadContext_t const* pThread = os_getCurrentThreadContext();
     struct OS_ThreadContext_t const* threadOwner = mutex->threadOwner;
@@ -293,13 +293,16 @@ void unlockMutex_OSemC  (  struct Mutex_OSemC_T const* pMutex)
     { /**It is helpfull to produce another error message if another thread release the mutex,
        * because it is a users programming error. */
       THROW_s0(Exception, "unlockMutex_OSemC: ERROR: Faild thread releases the mutex, win-error", err, (int)(intPTR)pMutex);		
+	    STACKTRC_RETURN false;
     }
     else
     {
       THROW_s0(Exception, "unlockMutex_OSemC: ERROR: ReleaseMutex failed with win-error", err, (int)(intPTR)pMutex);
-	  }
+	    STACKTRC_RETURN false;
+    }
     STACKTRC_LEAVE;
   }
+  return true;
 }
 
 

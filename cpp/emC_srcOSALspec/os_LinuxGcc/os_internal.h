@@ -1,8 +1,9 @@
-#ifndef __os_internWin_h__
-#define __os_internWin_h__
-
+#ifndef __os_internLinux_h__
+#define __os_internLinux_h__
 
 #include <applstdef_emC.h>
+#include <emC/OSAL/sync_OSemC.h>
+#include <emC/OSAL/thread_OSemC.h>
 
 #include <pthread.h>
 
@@ -14,7 +15,10 @@ typedef struct Mutex_OSemC_T{
   pthread_mutex_t mutex;
   pthread_mutexattr_t attr;
   const char* name;
-
+  /**null then the mutex is not locked. Else: handle of the locking thread. */
+  HandleThread_OSemC lockingThread;
+  /**Number of lock calls of the mutex in the SAME thread. Reentrant lock should be supported. */
+  int ctLock;
 }Mutex_OSemC_s;
 
 
@@ -28,8 +32,10 @@ typedef struct HandleWaitNotify_OSemC_T
   /**null if nobody waits. elsewhere the queue of waiting threads.*/
   struct OS_ThreadContext_t const* threadWait;
 
+  /**The number of recursively lock should be stored to restore. */
+  int ctLockMutex;
   /**see http://linux.die.net/man/3/pthread_cond_wait. */
-  pthread_cond_t waitCondition;
+  pthread_cond_t waitCondition;             //: the pthread handle of the waitCond
 } HandleWaitNotify_OSemC_s;
 
 

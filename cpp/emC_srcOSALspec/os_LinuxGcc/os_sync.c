@@ -50,13 +50,15 @@
 
 
 int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC_s const** waitObjectP)
-{ int error = 0;
-  HandleWaitNotify_OSemC_s* waitObject;
+{ HandleWaitNotify_OSemC_s* thiz;
 
-  waitObject = (HandleWaitNotify_OSemC_s*)malloc(sizeof(HandleWaitNotify_OSemC_s*));
+  thiz = (HandleWaitNotify_OSemC_s*)malloc(sizeof(HandleWaitNotify_OSemC_s*));
   //init anything?
-
-  *waitObjectP = waitObject;
+  int error = pthread_cond_init(&thiz->waitCondition, null);   // use null aus attribute for default behavior
+  if(error !=null) {
+    ERROR_SYSTEM_emC(error, "pthread_cond_init fails", error,0);
+  }
+  *waitObjectP = thiz;
   return error;
 }
 
@@ -80,8 +82,16 @@ int wait_OSemC(
   HandleWaitNotify_OSemC_s* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
   Mutex_OSemC_s* mutex = (struct Mutex_OSemC_T*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
-  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
-  struct timespec time;
+  struct OS_ThreadContext_t const* threadContextWait = getCurrent_OS_ThreadContext();
+  pthread_t hThread = pthread_self();
+  //The mutex should be locked, check it:
+  if(! pthread_equal((pthread_t)mutex->lockingThread, hThread)){   // should be same
+    //This is a user error, try to THROW an excption or ignore it.
+    THROW_s0n(RuntimeException, "wait_OSemC should be called under mutex ", (int)(intPTR)hThread, (int)(intPTR)mutex->lockingThread);
+  }
+  waitObj->ctLockMutex = mutex->ctLock;          // save for restoring
+  mutex->ctLock = 0;                             //necessary because the mutex will be free inside wait
+  mutex->lockingThread = null;
   /*
     if(pThread != mutex->threadOwner)
     { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);
@@ -91,12 +101,13 @@ int wait_OSemC(
   /**note the waiting thread, because notify weaks up only if a thread waits.
    */
   if(waitObj->threadWait == null)
-  { waitObj->threadWait = pThread;
+  { waitObj->threadWait = threadContextWait;
   }
   else
   { //build a queue of waiting threads. TODO
   }
   if(milliseconds >0){
+    struct timespec time;
     clock_gettime(CLOCK_REALTIME, &time);
     { uint32 sec = milliseconds / 1000;
       milliseconds -= 1000*sec;  //rest is millisec
@@ -113,7 +124,13 @@ int wait_OSemC(
   } else { //milliseconds == 0:
     error = pthread_cond_wait(&waitObj->waitCondition, &mutex->mutex);
   }
-  //os_lockMutex(mutex) will be executed in cond_relative_timed_wait(...)
+  if(error !=0){
+    ERROR_SYSTEM_emC(99, "error in pthread_cond_wait", error, (int)(intPTR)waitObj);
+  }
+  //----------------------------------------------- the mutex is already locked after wait:
+  mutex->lockingThread = (HandleThread_OSemC)hThread;
+  mutex->ctLock = waitObj->ctLockMutex;          // restore state before wait for the mutex.
+  waitObj->ctLockMutex = 0;
   waitObj->threadWait = null; 
   //
   //the user have to be unlock.

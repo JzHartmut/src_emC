@@ -60,6 +60,7 @@ Mutex_OSemC_s const* createMutex_OSemC(char const* pName) //, struct OS_Mutex_t*
     mutex = (Mutex_OSemC_s*)malloc(zMutex);
     mutex->name = pName;             //assume that the name-parameter is persistent! A simple "string literal"
     pthread_mutexattr_init (&mutex->attr);
+    //special: It does not compile, not commonly available
     //special? pthread_mutexattr_settype(&mutex->attr, PTHREAD_MUTEX_RECURSIVE_NP);
     //special? pthread_mutexattr_setprotocol (&mutex->attr, PTHREAD_PRIO_INHERIT);
     pthread_mutex_init (&mutex->mutex, &mutex->attr);
@@ -82,42 +83,66 @@ void deleteMutex_OSemC(Mutex_OSemC_s const* mutex)
 
 bool lockMutex_OSemC(Mutex_OSemC_s const* mutexP, int timeout_millisec)
 { //TODO timeout
-  Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP; //the non-const variant.
+  Mutex_OSemC_s* thiz = (Mutex_OSemC_s*)mutexP; //the non-const variant.
   int error;
-  if (timeout_millisec != 0) {
-    struct timespec timeoutTime;
-    clock_gettime(CLOCK_REALTIME, &timeoutTime);
-    int sec = timeout_millisec / 1000;
-    timeout_millisec -= sec*1000;  //module 1000
-    timeoutTime.tv_nsec += 1000000 * timeout_millisec;
-    if (timeoutTime.tv_nsec >= 1000000000) {
-      timeoutTime.tv_nsec -= 1000000000;
-      timeoutTime.tv_sec +=1;
-    }
-    timeoutTime.tv_sec += sec;
-    error = pthread_mutex_timedlock(&mutex->mutex, &timeoutTime);
-    if (error == 0) { //check wether the  mutex is locked
-    //#error
-    //this is not ready yet. Problem see https://stackoverflow.com/questions/2821263/lock-a-mutex-multiple-times-in-the-same-thread
-    }
-  }
-  error = pthread_mutex_lock(&mutex->mutex);
-  if(error != 0){
-    THROW_s0n(RuntimeException, "unknown error in pthread_mutex_lock ", error, 0);
-    //os_notifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
-    return false;
+  HandleThread_OSemC hthread = os_getCurrentThreadHandle();
+  if(thiz->lockingThread == hthread) {
+    thiz->ctLock +=1;                            // reentrant lock, accept it, do not lock really
+    return true;                                 // but count the number of locks.
   } else {
+    // not returned on multiple reentrants (ctLock):
+    if (timeout_millisec != 0) {
+      struct timespec timeoutTime;
+      clock_gettime(CLOCK_REALTIME, &timeoutTime);
+      int sec = timeout_millisec / 1000;
+      timeout_millisec -= sec*1000;  //module 1000
+      timeoutTime.tv_nsec += 1000000 * timeout_millisec;
+      if (timeoutTime.tv_nsec >= 1000000000) {
+        timeoutTime.tv_nsec -= 1000000000;
+        timeoutTime.tv_sec +=1;
+      }
+      timeoutTime.tv_sec += sec;
+      error = pthread_mutex_timedlock(&thiz->mutex, &timeoutTime);
+      if (error == 0) {
+        //check wether the  mutex is locked ... it is unnecessary, overengineered:
+        //Problem see https://stackoverflow.com/questions/2821263/lock-a-mutex-multiple-times-in-the-same-thread
+      }
+    } else {
+      error = pthread_mutex_lock(&thiz->mutex);
+    }
+    if(error != 0){                                // error should be 0.
+      THROW_s0n(RuntimeException, "unknown error in pthread_mutex_lock ", error, 0);
+      //os_notifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
+      return false;
+    } else {
+      if(thiz->lockingThread != null) {
+        ERROR_SYSTEM_emC(0, "lockMutex_OSemC htread not 0", 0,0);
+      }
+      thiz->lockingThread = hthread;
+      thiz->ctLock = 1;                            // assert that the mutex should be free. But it cannot be tested.
       return true;
+    }
   }
 }
 
 
-void unlockMutex_OSemC(Mutex_OSemC_s const* mutexP)
+bool unlockMutex_OSemC(Mutex_OSemC_s const* thizP)
 {
-  Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP; //the non-const variant.
-  int error = pthread_mutex_unlock(&mutex->mutex);
-  if(error != 0){
-    THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);
-    //os_notifyError(OS_UNKNOWN_ERROR, "os_unlockMutex: ERROR: Faild thread releases the mutex, win-error=%d\n", error, 0);
+  Mutex_OSemC_s* thiz = WR_CAST(Mutex_OSemC_s*,thizP); //the non-const variant.
+  HandleThread_OSemC thread = os_getCurrentThreadHandle();
+  if(thread != thiz->lockingThread) {
+    THROW_s0n(RuntimeException, "faulty thread_un unlock ", (int)(intPTR)thread, 0);
+    return false;
   }
+  if(--thiz->ctLock >0) {
+    return true;                       // successfully unlock of an reentrant lock of the same thread.
+  } else {
+    thiz->lockingThread = null;        // now it is unlocked (set lockingThread = null before unlock, under mutex!)
+    int error = pthread_mutex_unlock(&thiz->mutex);
+    if(error != 0){
+      THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);
+      return false;
+    }
+  }
+  return true;
 }

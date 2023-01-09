@@ -99,7 +99,7 @@ bool lockMutex_OSemC(struct Mutex_OSemC_T const* mutexID, int timeout_millisec);
  * The same thread which calls lockMutex_OSemC(...) should call unlockMutex_OSemC(...).
  * If another thread unlocks, it is an error and an exception may be thrown.
  */
-void unlockMutex_OSemC(struct Mutex_OSemC_T const* mutexID);
+bool unlockMutex_OSemC(struct Mutex_OSemC_T const* mutexID);
 #endif
 
 

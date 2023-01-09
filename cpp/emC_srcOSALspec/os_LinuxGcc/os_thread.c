@@ -286,6 +286,12 @@ void* os_wrapperFunction(void* data)
 {
 
   OS_ThreadContext* threadContext = (OS_ThreadContext*) data;
+  pthread_t h2 = pthread_self();                                     // check whether this thread has the same handle as stored in threadContext!
+  if(! pthread_equal(threadContext->handleThread, h2)){   // should be same
+    ERROR_SYSTEM_emC(0, "pthread_self fails", 0,0);
+  } else {
+    h2 = 0;
+  }
 
   if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
   { ERROR_SYSTEM_emC(-1, "FATAL: threadContext incorrect: %p\n", (int)(intPTR)threadContext, 0);
@@ -359,8 +365,8 @@ int os_createThread
   { threadContext->ThreadRoutine = routine;  // user routine
     threadContext->pUserData = pUserData;    // user data
     threadContext->sSignificanceText = sSignificanceText_OS_ThreadContext;
-    //threadContext->callParams.TDupHandle = 0;        // to be filled by the child thread in the wrapper
-    ret_ok = pthread_create(&threadId, null, os_wrapperFunction, threadContext);
+    // use immediately the handleThread, the thread starts immediately.
+    ret_ok = pthread_create(&threadContext->handleThread, null, os_wrapperFunction, threadContext);
     /*
     threadHandle = CreateThread(
                             NULL,
@@ -372,7 +378,7 @@ int os_createThread
     */
 
     threadContext->uTID = null; //TODO
-    threadContext->handleThread = threadId;
+    threadId = threadContext->handleThread;
 
     // set the thread prio
     { long uWinPrio = os_getRealThreadPriority( abstractPrio );
@@ -381,7 +387,7 @@ int os_createThread
 
       //ResumeThread(threadHandle);        // start thread
     }
-    //*pHandle = threadContext->THandle;  // return the pseudo handle
+    *pHandle = (HandleThread_OSemC)threadContext->handleThread;  // return the pseudo handle
     return OS_OK;
   }
   else 
@@ -419,6 +425,13 @@ int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
   return OS_OK;
 }
 
+//see also https://stackoverflow.com/questions/43471743/pthread-self-on-linux
+//https://man7.org/linux/man-pages/man3/pthread_self.3.html
+// returns the thread_id, which is also stored in the OS_ThreadContext
+HandleThread_OSemC os_getCurrentThreadHandle ( void ){
+  pthread_t h = pthread_self();
+  return (HandleThread_OSemC) h;   // present it outside to a specific pointer type, OS-independent.
+}
 
 
 ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()

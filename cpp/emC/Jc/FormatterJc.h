@@ -63,8 +63,11 @@ typedef struct FormatterJc_t
 
 }FormatterJc_s;
 
-extern_C ClassJc const refl_FormatterJc;
-
+#ifdef DEF_REFLECTION_NO
+  #define ID_refl_FormatterJc 0x0FD0
+#else
+  extern_C ClassJc const refl_FormatterJc;
+#endif
 
 METHOD_C FormatterJc_s* ctorO_Sb_FormatterJc(ObjectJc* othis, struct StringBuilderJc_t* buffer, struct ThreadContext_emC_t* _thCxt);
 
