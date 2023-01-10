@@ -41,6 +41,8 @@
 #define __os_thread_h__
 
 #include <applstdef_emC.h>
+                             // OS-specific files must not included here!
+#include <specific_OSemc.h>  //This is for OS-specific stuct definition, but commonly given elements
 
 #ifdef __cplusplus
 // extern "C" {

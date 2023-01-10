@@ -11,15 +11,6 @@
 struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
 
 
-typedef struct Mutex_OSemC_T{
-  pthread_mutex_t mutex;
-  pthread_mutexattr_t attr;
-  const char* name;
-  /**null then the mutex is not locked. Else: handle of the locking thread. */
-  HandleThread_OSemC lockingThread;
-  /**Number of lock calls of the mutex in the SAME thread. Reentrant lock should be supported. */
-  int ctLock;
-}Mutex_OSemC_s;
 
 
 //#include "fw_MemC.h"

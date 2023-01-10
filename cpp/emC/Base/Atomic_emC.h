@@ -5,7 +5,12 @@
 #ifndef DEF_compareAndSwap_Atomic  //maybe already defined as macro or inline in HAL adaption or OSAL
 
 /**Set a reference with update if it contains the expect value, returns the up to now current value.
- * The operation is performed if return == expect. */
+ * The operation is performed if return == expect. 
+ * @param reference the reference to set
+ * @param expect the exepected value there
+ * @parem update the value to update, only if expect is given on the reference
+ * @return the value what is found before update. It is the expect if update was done. 
+ */
 extern_C void* compareAndSwap_AtomicRef(void* volatile* reference, void* expect, void* update);
 
 /**Set an integer with update if it contains the expect value, returns the up to now current value.

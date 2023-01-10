@@ -73,7 +73,7 @@ int removeWaitNotifyObject_OSemC(struct HandleWaitNotify_OSemC_T const* waitObj)
 
 int wait_OSemC(
     struct HandleWaitNotify_OSemC_T const* waitObjP
-  , struct Mutex_OSemC_T const* mutexP
+  , struct Mutex_OSemC_T* mutexP
   , uint32 milliseconds
 )
 {
@@ -120,15 +120,15 @@ int wait_OSemC(
     }
 
 
-    error = pthread_cond_timedwait(&waitObj->waitCondition, &mutex->mutex, &time);
+    error = pthread_cond_timedwait(&waitObj->waitCondition, (__pthread_mutex_t**)&mutex->osHandleMutex, &time);
   } else { //milliseconds == 0:
-    error = pthread_cond_wait(&waitObj->waitCondition, &mutex->mutex);
+    error = pthread_cond_wait(&waitObj->waitCondition, (__pthread_mutex_t**)&mutex->osHandleMutex);
   }
   if(error !=0){
     ERROR_SYSTEM_emC(99, "error in pthread_cond_wait", error, (int)(intPTR)waitObj);
   }
   //----------------------------------------------- the mutex is already locked after wait:
-  mutex->lockingThread = (HandleThread_OSemC)hThread;
+  mutex->lockingThread = (void*)hThread;
   mutex->ctLock = waitObj->ctLockMutex;          // restore state before wait for the mutex.
   waitObj->ctLockMutex = 0;
   waitObj->threadWait = null; 
@@ -149,7 +149,7 @@ int notifyAll_OSemC(HandleWaitNotify_OSemC waitObject, Mutex_OSemC_s hMutex)
 
 /** Notifies only one waiting thread to continue.
  */
-int notify_OSemC(struct HandleWaitNotify_OSemC_T const* waitObjP, Mutex_OSemC_s const* mutexP)
+int notify_OSemC(struct HandleWaitNotify_OSemC_T const* waitObjP, Mutex_OSemC_s* mutexP)
 { bool shouldNotify;
   int error = 0xbaadf00d;
   //cast it from const to non-const. const is only outside!

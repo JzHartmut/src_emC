@@ -77,7 +77,7 @@ typedef struct HandleItem_t
 
 
   //struct OS_HandleMutex_t const* handleMutex;
-  struct Mutex_OSemC_T const* handleMutex;
+  Mutex_OSemC_s handleMutex;
 
   /**Name for the handle, derived from index. */
   char name[8];
@@ -88,7 +88,7 @@ typedef struct HandleItem_t
 typedef struct OsWrapperJc_t
 {
 
-  struct Mutex_OSemC_T const* mutexInitHandle;
+  Mutex_OSemC_s mutexInitHandle;
 
   /**This handle addresses the next free handles, all free handles are queued. */
   HandleItem* volatile freeHandle;

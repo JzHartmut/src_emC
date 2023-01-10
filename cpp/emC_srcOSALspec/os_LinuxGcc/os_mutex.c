@@ -52,38 +52,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Mutex_OSemC_s const* createMutex_OSemC(char const* pName) //, struct OS_Mutex_t** pMutex)
-{
-    Mutex_OSemC_s* mutex;
-    const int zMutex = sizeof(Mutex_OSemC_s);
-    
-    mutex = (Mutex_OSemC_s*)malloc(zMutex);
-    mutex->name = pName;             //assume that the name-parameter is persistent! A simple "string literal"
-    pthread_mutexattr_init (&mutex->attr);
+int createMutex_OSemC ( Mutex_OSemC_s* thiz, char const* pName) //, struct OS_Mutex_t** pMutex)
+{  int err = 0;
+    thiz->name = pName;             //assume that the name-parameter is persistent! A simple "string literal"
+    pthread_mutexattr_init (C_CAST(__pthread_mutexattr_t**, &thiz->attr));
     //special: It does not compile, not commonly available
     //special? pthread_mutexattr_settype(&mutex->attr, PTHREAD_MUTEX_RECURSIVE_NP);
     //special? pthread_mutexattr_setprotocol (&mutex->attr, PTHREAD_PRIO_INHERIT);
-    pthread_mutex_init (&mutex->mutex, &mutex->attr);
+    pthread_mutex_init (C_CAST(__pthread_mutex_t**, &thiz->osHandleMutex), C_CAST(__pthread_mutexattr_t**, &thiz->attr));
 
     //any error possible?
 
     //*pMutex = mutex;  //set the address of the mutex object in the reference variable to return
-    return mutex;
+    return err;
 }
 
 
-void deleteMutex_OSemC(Mutex_OSemC_s const* mutex)
-{   //TODO
-  free(WR_CAST(Mutex_OSemC_s*,mutex));
-
+int deleteMutex_OSemC(Mutex_OSemC_s* thiz) {
+  pthread_mutex_t hmutex = C_CAST(pthread_mutex_t, thiz->osHandleMutex);
+  int err = pthread_mutex_destroy(&hmutex);
+  return err;
 }
 
 
 
 
-bool lockMutex_OSemC(Mutex_OSemC_s const* mutexP, int timeout_millisec)
-{ //TODO timeout
-  Mutex_OSemC_s* thiz = (Mutex_OSemC_s*)mutexP; //the non-const variant.
+bool lockMutex_OSemC(Mutex_OSemC_s* thiz, int timeout_millisec) {
+  pthread_mutex_t hmutex = C_CAST(pthread_mutex_t, thiz->osHandleMutex);
   int error;
   HandleThread_OSemC hthread = os_getCurrentThreadHandle();
   if(thiz->lockingThread == hthread) {
@@ -102,13 +97,13 @@ bool lockMutex_OSemC(Mutex_OSemC_s const* mutexP, int timeout_millisec)
         timeoutTime.tv_sec +=1;
       }
       timeoutTime.tv_sec += sec;
-      error = pthread_mutex_timedlock(&thiz->mutex, &timeoutTime);
+      error = pthread_mutex_timedlock(&hmutex, &timeoutTime);
       if (error == 0) {
         //check wether the  mutex is locked ... it is unnecessary, overengineered:
         //Problem see https://stackoverflow.com/questions/2821263/lock-a-mutex-multiple-times-in-the-same-thread
       }
     } else {
-      error = pthread_mutex_lock(&thiz->mutex);
+      error = pthread_mutex_lock(&hmutex);
     }
     if(error != 0){                                // error should be 0.
       THROW_s0n(RuntimeException, "unknown error in pthread_mutex_lock ", error, 0);
@@ -118,7 +113,7 @@ bool lockMutex_OSemC(Mutex_OSemC_s const* mutexP, int timeout_millisec)
       if(thiz->lockingThread != null) {
         ERROR_SYSTEM_emC(0, "lockMutex_OSemC htread not 0", 0,0);
       }
-      thiz->lockingThread = hthread;
+      thiz->lockingThread = (void*)hthread;
       thiz->ctLock = 1;                            // assert that the mutex should be free. But it cannot be tested.
       return true;
     }
@@ -126,9 +121,8 @@ bool lockMutex_OSemC(Mutex_OSemC_s const* mutexP, int timeout_millisec)
 }
 
 
-bool unlockMutex_OSemC(Mutex_OSemC_s const* thizP)
-{
-  Mutex_OSemC_s* thiz = WR_CAST(Mutex_OSemC_s*,thizP); //the non-const variant.
+bool unlockMutex_OSemC(Mutex_OSemC_s* thiz) {
+  pthread_mutex_t hmutex = C_CAST(pthread_mutex_t, thiz->osHandleMutex);
   HandleThread_OSemC thread = os_getCurrentThreadHandle();
   if(thread != thiz->lockingThread) {
     THROW_s0n(RuntimeException, "faulty thread_un unlock ", (int)(intPTR)thread, 0);
@@ -138,7 +132,7 @@ bool unlockMutex_OSemC(Mutex_OSemC_s const* thizP)
     return true;                       // successfully unlock of an reentrant lock of the same thread.
   } else {
     thiz->lockingThread = null;        // now it is unlocked (set lockingThread = null before unlock, under mutex!)
-    int error = pthread_mutex_unlock(&thiz->mutex);
+    int error = pthread_mutex_unlock(&hmutex);
     if(error != 0){
       THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);
       return false;

@@ -1,5 +1,7 @@
-#ifndef __os_internWin_h__
-#define __os_internWin_h__
+#ifndef HGUARD_os_internal
+#define HGUARD_os_internal
+//tag::start[]
+#include <applstdef_emC.h>
 
 #undef BOOL
 #undef PBOOL
@@ -12,19 +14,11 @@
 #include <wtypes.h>
 #include <Winbase.h>
 
-#include <applstdef_emC.h>
 
 /**Informations about the current thread, more as an simple id. */
 struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
+//end::start[]
 
-
-typedef struct Mutex_OSemC_T{
-  /**The owner of the mutex. Not necessary in Windows because Win_API check it.*/
-  //struct OS_ThreadContext_t const* threadOwner;
-  
-  /**The system use an handle mostly. It is 32 or 64 bit (on 64-bit-Windows-Version).*/
-  HANDLE winHandleMutex;
-} Mutex_OSemC_s;
 
 
 
@@ -42,4 +36,4 @@ typedef struct HandleWaitNotify_OSemC_T
 
 
 
-#endif //__os_internWin_h__
+#endif //HGUARD_os_internal
