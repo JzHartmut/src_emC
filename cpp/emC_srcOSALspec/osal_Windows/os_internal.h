@@ -31,7 +31,7 @@ typedef struct HandleWaitNotify_OSemC_T
   /**The owner of the mutex. */
   struct OS_ThreadContext_t const* threadWait;
   /**The system use an handle. */
-  HANDLE winHandleWaitNotify;
+  void* osHandleWaitNotify;
 } HandleWaitNotify_OSemC_s;
 
 

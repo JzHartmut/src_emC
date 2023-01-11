@@ -46,7 +46,7 @@
 #define HGUARD_sync_OSemC
 #include <applstdef_emC.h>
                              // OS-specific files must not included here!
-#include <specific_OSemc.h>  //This is for OS-specific stuct definition, but commonly given elements
+#include <specific_OSemc.h>  //This is for OS-specific struct definition, but commonly given elements
 
 extern_C_BLOCK_
 
@@ -123,7 +123,7 @@ METHOD_C int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC*
 
 /**removes a object for wait-notify.
  */
-METHOD_C int removeWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
+METHOD_C int deleteWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
 
 
 

@@ -65,7 +65,7 @@ int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC_s const**
 
 /**removes a object for wait-notify.
  */
-int removeWaitNotifyObject_OSemC(struct HandleWaitNotify_OSemC_T const* waitObj)
+int deleteWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObj)
 { //TODO
   return 0;
 }

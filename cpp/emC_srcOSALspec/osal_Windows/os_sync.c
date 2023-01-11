@@ -54,21 +54,38 @@
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
 extern_C int createMutex_OSemC ( struct Mutex_OSemC_T* thiz, char const* name) {
-    HANDLE    hIOMutex;
-    DWORD err = 0;
-    hIOMutex = CreateMutex (NULL, FALSE, NULL);  // initially not owned
-    if ( hIOMutex == NULL ){
-		  err = GetLastError();
-      STACKTRC_ENTRY("createMutex_OSemC");
-      THROW_s0(IllegalStateException, "createMutex_OSemC: ERROR: create mutex failed with Win err", err, 0 );
-      STACKTRC_RETURN null;
-    }
-    thiz->osHandleMutex  = hIOMutex;
-    return err;                   // 0 on success                         
+    //HANDLE    hIOMutex;
+    //DWORD err = 0;
+    CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,malloc(sizeof(CRITICAL_SECTION)));
+    InitializeCriticalSection(cs);
+    thiz->osHandleMutex  = cs;
+    return 0;
+//    CONDITION_VARIABLE cond22;
+//    SleepConditionVariableCS(&cond22, cs, 0);
+
+
+
+    //hIOMutex = CreateMutex (NULL, FALSE, NULL);  // initially not owned
+    //if ( hIOMutex == NULL ){
+		  //err = GetLastError();
+    //  STACKTRC_ENTRY("createMutex_OSemC");
+    //  THROW_s0(IllegalStateException, "createMutex_OSemC: ERROR: create mutex failed with Win err", err, 0 );
+    //  STACKTRC_RETURN null;
+    //}
+    //thiz->osHandleMutex  = hIOMutex;
+    //return err;                   // 0 on success                         
 }
 
 
-int deleteMutex_OSemC ( struct Mutex_OSemC_T* pMutex) {
+int deleteMutex_OSemC ( struct Mutex_OSemC_T* thiz) {
+  CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
+  DeleteCriticalSection(cs);
+  free(cs);
+  thiz->osHandleMutex = null;
+  return true;
+}
+
+int XXXdeleteMutex_OSemC ( struct Mutex_OSemC_T* pMutex) {
   int err = 0;
   HANDLE winHandleMutex = pMutex->osHandleMutex;
   if( winHandleMutex !=0 && !CloseHandle( winHandleMutex ) ) {  //returns BOOL false on error 
@@ -81,7 +98,29 @@ int deleteMutex_OSemC ( struct Mutex_OSemC_T* pMutex) {
 }
 
 
-bool lockMutex_OSemC  (  Mutex_OSemC_s* pMutex, int timeout_millisec)
+bool lockMutex_OSemC  (  Mutex_OSemC_s* thiz, int timeout_millisec) {
+  CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
+  if(thiz->timeoutOrder !=null) {
+    //there is another thread already waiting, because on release, the timeOrder will be removed.
+  } else if(timeout_millisec >0) {
+    //TODO timeout is not supported by EnterCriticalSection.
+    //It is possible to start a time order which calls DeleteCriticalSection to timeout,
+    //and after them newly InitializeCriticalSection.
+    // set timeOrder with compareAndSwap to prevent removing another timeorder. 
+  }
+  //int32 abortedTimeout = thiz->aborted_timeout;
+  //
+  EnterCriticalSection(cs);            // reenter in the same thread is supported be OS-Windows
+  //
+  if(thiz->timeoutOrder !=null) {
+    //check whether the timeorder has executed, then
+    return false;                      // return with timeout
+  }
+  return true;                         // true if no timeout was done.
+}
+
+
+bool XXXlockMutex_OSemC  (  Mutex_OSemC_s* pMutex, int timeout_millisec)
 {
 	DWORD WinRet;
   if(timeout_millisec ==0){ timeout_millisec = INFINITE; }
@@ -109,7 +148,18 @@ bool lockMutex_OSemC  (  Mutex_OSemC_s* pMutex, int timeout_millisec)
 }
 
 
-bool unlockMutex_OSemC  (  struct Mutex_OSemC_T* pMutex)
+bool unlockMutex_OSemC  (  struct Mutex_OSemC_T* thiz){
+  CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
+  if(thiz->timeoutOrder !=null) {
+    //remove the time order 
+    thiz->timeoutOrder = null;
+  }
+  LeaveCriticalSection(cs);
+  return true;
+}
+
+
+bool XXXunlockMutex_OSemC  (  struct Mutex_OSemC_T* pMutex)
 {
   if(pMutex == null) return true; //no THROW, it should be shown in lockMutex already.
   /*
@@ -173,6 +223,22 @@ int os_releaseMutex(struct OS_HandleMutex_t const* handle)
 #endif
 
 
+
+int createWaitNotifyObj_OSemC  (  char const* name, HandleWaitNotify_OSemC_s const** waitObjectP)
+{ //folg. Mechanismus ist nicht verfügbar unter Win2000
+ 
+  CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, malloc(sizeof(CONDITION_VARIABLE)));
+  InitializeConditionVariable(cv);
+  
+  HandleWaitNotify_OSemC_s* waitObject = (HandleWaitNotify_OSemC_s*)os_allocMem(sizeof(HandleWaitNotify_OSemC_s));
+  waitObject->osHandleWaitNotify = cv;
+  waitObject->threadWait = null;
+  *waitObjectP = waitObject;
+  return 0;
+}
+
+
+#if 0
 int createWaitNotifyObj_OSemC  (  char const* name, HandleWaitNotify_OSemC_s const** waitObjectP)
 { //folg. Mechanismus ist nicht verfügbar unter Win2000, wäre aber richtiger:
   //PCONDITION_VARIABLE var;
@@ -180,6 +246,7 @@ int createWaitNotifyObj_OSemC  (  char const* name, HandleWaitNotify_OSemC_s con
   //HANDLE semaphor;
   int error = 0;
 
+ 
   HANDLE semaphor = CreateSemaphore
   ( null /*LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,*/
   , 0    /*__in      LONG lInitialCount, */
@@ -198,31 +265,20 @@ int createWaitNotifyObj_OSemC  (  char const* name, HandleWaitNotify_OSemC_s con
   }
   return error;
 }
-
+#endif
 
 /**removes a object for wait-notify.
  */
-int removeWaitNotifyObj_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObj)
-{ STACKTRC_ENTRY("removeWaitNotifyObj_OSemC");
-  HANDLE winHandleWaitNotify = waitObj->winHandleWaitNotify;
+int deleteWaitNotifyObj_OSemC  (  struct HandleWaitNotify_OSemC_T const* thiz) { 
+  struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)thiz;
+  CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, thiz->osHandleWaitNotify);
+  free(cv);
+
   os_freeMem((void*)waitObj);
-  if ( CloseHandle( winHandleWaitNotify ) == 0 ) 
-  {
-    DWORD err = GetLastError();
-    THROW_s0(RuntimeException, "os_removeWaitNotifyObj: ERROR: CloseHandle failed with Win err=%d\n", err, 0);
-	  if (err==ERROR_INVALID_HANDLE)
-    {	STACKTRC_RETURN OS_INVALID_HANDLE;
-	  }
-    else
-	  { STACKTRC_RETURN OS_SYSTEM_ERROR;
-    }
-  }
-  else
-  { STACKTRC_RETURN OS_OK;
-  } 
+  return 0;
 }
 
-
+#if 0
 int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex, uint32 milliseconds)
 { //HANDLE semaphor = (HANDLE)handle;
   int error;
@@ -247,7 +303,11 @@ int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex
   //ab hier kann die Bedingungen geändert werden und notify wird gerufen, 
   //notify increments the semaphore, so that wait returns immediately. 
   //Here normally a thread change should be done:
-  error = WaitForSingleObject(waitObj->winHandleWaitNotify, milliseconds);
+  if(milliseconds <=0) {
+    error = WaitForSingleObject(waitObj->winHandleWaitNotify, milliseconds);
+  } else {
+    error = WaitForSingleObject(waitObj->winHandleWaitNotify, milliseconds);
+  }
   if(error == WAIT_FAILED)
   { error = GetLastError();
   }
@@ -264,18 +324,10 @@ int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex
 }
 
 
-/** Notifies all waiting thread to continue.
- */
-int notifyAll_OSemC  (  HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T const* hMutex)
-{
-  return -1;
-
-}
-
 
 /** Notifies only one waiting thread to continue.
  */
-int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex)
+int XXXnotify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex)
 { struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
   LONG prevCount;
   bool shouldNotify;
@@ -316,8 +368,80 @@ int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mut
     }
   }
   return error;  //the mutex is locked.
+#endif
+
+
+int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex, uint32 milliseconds) {
+ //HANDLE semaphor = (HANDLE)handle;
+  struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
+  CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, waitObjP->osHandleWaitNotify);
+  CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*, mutex->osHandleMutex);
+  /*
+    if(pThread != mutex->threadOwner)
+    { os_Error("notify: it is necessary to have a lockMutex_OSemC in the current thread", (int)mutex->threadOwner);
+      return OS_INVALID_PARAMETER;
+    }
+  */
+  /**note the waiting thread, because notify weaks up only if a thread waits.
+   */
+  if(waitObj->threadWait == null)
+  { waitObj->threadWait = pThread;
+  }
+  else
+  { //build a queue of waiting threads. TODO
+  }
+  if(milliseconds ==0) { milliseconds = INFINITE; } 
+  //
+  //inside Sleep, the lock is free, wait for timeout or notify
+  int error = SleepConditionVariableCS(cv, cs, milliseconds);
+  //after sleep, the lock is given:
+  waitObj->threadWait = null; 
+  if(error ==0) {
+    error = GetLastError();
+    return false;                    // time elapsed or any other error
+  } else { 
+    return true;                     // return >0, it is ok
+  }
+  //
+  //the user have to be unlock.
 }
 
+
+/** Notifies all waiting thread to continue.
+ */
+int notifyAll_OSemC  (  HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T const* hMutex)
+{
+  return -1;
+
+}
+
+
+/** Notifies only one waiting thread to continue.
+ */
+int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex) { 
+  struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
+  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
+  CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, waitObjP->osHandleWaitNotify);
+  CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*, mutex->osHandleMutex);
+  int error = 0xbaadf00d;
+  /*
+  if(pThread != mutex->threadOwner)
+  { os_Error("notify: it is necessary to have a lockMutex_OSemC in the current thread", (int)mutex->threadOwner);
+    error = OS_UNEXPECTED_CALL;
+  }
+  else
+  */
+  {
+    boolean shouldNotify = (waitObj->threadWait != null); //notify only if a thread waits, test under mutex!
+    //see http://msdn.microsoft.com/en-us/library/ms685071(VS.85).aspx
+    if(shouldNotify)
+    { 
+      WakeConditionVariable(cv);
+    }
+  }
+  return true;  //the mutex is locked.
+}
 
 
 

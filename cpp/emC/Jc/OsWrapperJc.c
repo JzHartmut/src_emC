@@ -167,7 +167,7 @@ void releaseHandleEntry  (  int16 idx)
     deleteMutex_OSemC(&releaseHandle->handleMutex);
   }
   if(releaseHandle->handle.wait) {
-    removeWaitNotifyObj_OSemC(releaseHandle->handle.wait);
+    deleteWaitNotifyObj_OSemC(releaseHandle->handle.wait);
   }
   int tryCt = 10000;
   while(--tryCt > 0) {
@@ -275,7 +275,7 @@ void wait_ObjectJc  (  ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
     }
     if(compareAndSwap_AtomicRef((void* volatile*)&(handle->handle.wait), null, (void*)handleWait) != null) {
       //a wait handle is existing from another thread,
-      removeWaitNotifyObj_OSemC(handleWait);  //remove it again.
+      deleteWaitNotifyObj_OSemC(handleWait);  //remove it again.
     }
   }
   wait_OSemC(handle->handle.wait, &handle->handleMutex, milliseconds);
