@@ -7,9 +7,6 @@
 
 #include <pthread.h>
 
-/**Informations about the current thread, more as an simple id. */
-struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
-
 
 
 
@@ -21,7 +18,7 @@ typedef struct HandleWaitNotify_OSemC_T
 {
   /**The owner of the mutex. */
   /**null if nobody waits. elsewhere the queue of waiting threads.*/
-  struct OS_ThreadContext_t const* threadWait;
+  struct Thread_OSemC_T const* threadWait;
 
   /**The number of recursively lock should be stored to restore. */
   int ctLockMutex;

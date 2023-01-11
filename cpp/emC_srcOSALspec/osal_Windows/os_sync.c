@@ -54,26 +54,10 @@
  * The mutex Object contains the necessary data for example a HANDLE etc.
  */
 extern_C int createMutex_OSemC ( struct Mutex_OSemC_T* thiz, char const* name) {
-    //HANDLE    hIOMutex;
-    //DWORD err = 0;
     CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,malloc(sizeof(CRITICAL_SECTION)));
     InitializeCriticalSection(cs);
     thiz->osHandleMutex  = cs;
     return 0;
-//    CONDITION_VARIABLE cond22;
-//    SleepConditionVariableCS(&cond22, cs, 0);
-
-
-
-    //hIOMutex = CreateMutex (NULL, FALSE, NULL);  // initially not owned
-    //if ( hIOMutex == NULL ){
-		  //err = GetLastError();
-    //  STACKTRC_ENTRY("createMutex_OSemC");
-    //  THROW_s0(IllegalStateException, "createMutex_OSemC: ERROR: create mutex failed with Win err", err, 0 );
-    //  STACKTRC_RETURN null;
-    //}
-    //thiz->osHandleMutex  = hIOMutex;
-    //return err;                   // 0 on success                         
 }
 
 
@@ -374,7 +358,7 @@ int XXXnotify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct 
 int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex, uint32 milliseconds) {
  //HANDLE semaphor = (HANDLE)handle;
   struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
-  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
+  struct Thread_OSemC_T const* pThread = getCurrent_Thread_OSemC();
   CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, waitObjP->osHandleWaitNotify);
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*, mutex->osHandleMutex);
   /*
@@ -421,7 +405,7 @@ int notifyAll_OSemC  (  HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T 
  */
 int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex) { 
   struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
-  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
+  struct Thread_OSemC_T const* pThread = getCurrent_Thread_OSemC();
   CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, waitObjP->osHandleWaitNotify);
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*, mutex->osHandleMutex);
   int error = 0xbaadf00d;

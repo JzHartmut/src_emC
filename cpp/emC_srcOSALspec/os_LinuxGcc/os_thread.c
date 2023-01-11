@@ -61,40 +61,6 @@
 
 /* Internal structures *******************************************************************/
 
-typedef struct OS_ThreadContext_t
-{                    /* Structure for thread-eventFlags */
-
-  /**This is a constant text, to test whether a reference to OS_ThreadContext is correct.
-   * It will be initialized with pointer to "OS_ThreadContext".
-   */
-  const char* sSignificanceText;
-
-  //bool bInUse;                         /* structure in use */
-
-  pthread_t handleThread;             /* handle des Threads */
-
-  pthread_t uTID;                  /* ID des threads */
-
-  OS_HandleEvent EvHandle;                     /* Event des threads */
-
-  uint uFlagRegister;                  /* Actual flag status (32 bits) */
-  
-  //QueueStruct *pMessageQueue;     /* Pointer to The MessageQueue Structure */
-  //OS_HandleThread TDupHandle;          /* to be filled by the child */
-
-  /**The thread run routine used for start the thread. */
-  OS_ThreadRoutine* ThreadRoutine;
-  /** to be passed to the child wrapper routine */
-  void*  pUserData;
-
-  /**Name of the thread.*/
-  const char* name; 
-
-  /**The user ThreadContext is part of the thread specific data.
-   * It is defined application-specific via the included applstdef_emC.h */
-  ThreadContext_emC_s userThreadContext;
-
-}OS_ThreadContext;
 
 /* CONSTANTS *************************************************************************************/
 /**this value defines the max num of threads with an attached EventFlag, if more threads are
@@ -106,7 +72,7 @@ typedef struct OS_ThreadContext_t
 /* GLOBAL VARIABLES ******************************************************************************/
 
 /**The pool of all thread contexts. It is a staticly amount of data. */
-//OS_ThreadContext* ThreadPool[OS_maxNrofThreads] = {0};
+//Thread_OSemC* ThreadPool[OS_maxNrofThreads] = {0};
 
 /* actual number of threads */
 uint uThreadCounter = 0;               
@@ -114,12 +80,17 @@ uint uThreadCounter = 0;
 /* Thread protection to access the handle pool.  */
 Mutex_OSemC_s const* uThreadPoolSema = null;
 
+/**This variable is initialized in os_init(). The main thread runs by itself
+ * and it gets there its emC-defined data.
+ */
+static Thread_OSemC* mainThread = null;
+
 bool bLibIsInitialized = false;
 
-/**A pointer to test whether a void*-given data is really a OS_ThreadContext.
+/**A pointer to test whether a void*-given data is really a Thread_OSemC.
  * The content of variable isn't meanfull. The comarision of pointer is significant.
  */
-const char* sSignificanceText_OS_ThreadContext = "OS_ThreadContext";
+const char* sSignificanceText_Thread_OSemC = "Thread_OSemC";
 
 
 
@@ -141,13 +112,13 @@ static pthread_key_t keyThreadContext;
 /**Searches a free slot in ThreadPool and returns it.
  * @return null if no slot free, it is a system exception.
  */
-static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
+static Thread_OSemC* new_Thread_OSemC(const char* sThreadName)
 { //int idxThreadPool;
   //int ok = 0;
-  OS_ThreadContext* threadContext = null;  //default if not found.
-  threadContext = (OS_ThreadContext*)os_allocMem(sizeof(*threadContext));  //
+  Thread_OSemC* threadContext = null;  //default if not found.
+  threadContext = (Thread_OSemC*)os_allocMem(sizeof(*threadContext));  //
   memset(threadContext, 0, sizeof(*threadContext));
-  threadContext->sSignificanceText = sSignificanceText_OS_ThreadContext;
+  threadContext->sSignificanceText = sSignificanceText_Thread_OSemC;
   threadContext->name = sThreadName;
   return threadContext;
   #if 0
@@ -164,16 +135,16 @@ static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName)
   { for (idxThreadPool=1; idxThreadPool<OS_maxNrofThreads; idxThreadPool++)
     {
       if ( ThreadPool[idxThreadPool] == null )
-      { int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
-        threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
+      { int sizeThreadContext = sizeof(Thread_OSemC); // + nrofBytesUserThreadContext_os_thread;
+        threadContext = (Thread_OSemC*)os_allocMem(sizeThreadContext);
         memset(threadContext, 0, sizeThreadContext); 
-        ThreadPool[idxThreadPool] = threadContext; // = ctorc_OS_ThreadContext(threadContext, sThreadName, 250);
+        ThreadPool[idxThreadPool] = threadContext; // = ctorc_Thread_OSemC(threadContext, sThreadName, 250);
         break;
       }
     }
   }
   os_unlockMutex( uThreadPoolSema );
-  //if(ok < 0) os_NotifyError( -1, "os_unlockMutex: Problem after getting a new OS_ThreadContext err=%d", ok,0 );
+  //if(ok < 0) os_NotifyError( -1, "os_unlockMutex: Problem after getting a new Thread_OSemC err=%d", ok,0 );
   return threadContext; 
 #endif
 }
@@ -187,13 +158,13 @@ static void init_OSAL()
     int ok = pthread_key_create(&keyThreadContext, null);               //The key for all threads to get Thread Related Data
     ASSERT_emC(ok==0, "key for thread context fault", ok, 0);
 
-    OS_ThreadContext* mainThreadContext;
+    Thread_OSemC* mainThreadContext;
 
 
     //uThreadPoolSema = os_createMutex("os_Threadpool");
 
     // store thread parameters in thread pool (first thread, no thread protection)
-    mainThreadContext = new_OS_ThreadContext("main");
+    mainThreadContext = new_Thread_OSemC("main");
     void* topStackAddr = &mainThreadContext;  //maybe a proper value
     ctor_ThreadContext_emC(&mainThreadContext->userThreadContext, topStackAddr);
 
@@ -202,7 +173,6 @@ static void init_OSAL()
       mainThreadContext->handleThread = pthread_self();
       /* create an event for this thread (for use in eventFlag functions) */
       //automatically resets the event state to nonsignaled after a single waiting thread has been released.
-      mainThreadContext->uFlagRegister = 0;
       bLibIsInitialized = true;
     }
     else
@@ -252,26 +222,26 @@ void os_userError(const char* text, int value)
 #ifdef NOT_TlsGetValue
 //#error
   #include <emC/OSAL/os_ThreadContextInTable.ci>
-  //#define setCurrent_OS_ThreadContext(context) (0 == os_setThreadContextInTable((int)pthread_self(), context))
-  //#define getCurrent_OS_ThreadContext() os_getThreadContextInTable((int)pthread_self())
+  //#define setCurrent_Thread_OSemC(context) (0 == os_setThreadContextInTable((int)pthread_self(), context))
+  //#define getCurrent_Thread_OSemC() os_getThreadContextInTable((int)pthread_self())
 #elif defined(TEST_ThreadContext_IMMEDIATE)
   //this TEST case is only possible if only one thread is used. Only for timing testing.
-  OS_ThreadContext* current_OS_ThreadContext = null;
-  #define setCurrent_OS_ThreadContext(context) (current_OS_ThreadContext = context)
-  #define getCurrent_OS_ThreadContext() current_OS_ThreadContext
+  Thread_OSemC* current_Thread_OSemC = null;
+  #define setCurrent_Thread_OSemC(context) (current_Thread_OSemC = context)
+  #define getCurrent_Thread_OSemC() current_Thread_OSemC
 #else
 //#error
-  #define setCurrent_OS_ThreadContext(context) TlsSetValue(dwTlsIndex, context)
-  #define getCurrent_OS_ThreadContext() (OS_ThreadContext*)TlsGetValue(dwTlsIndex)
+  #define setCurrent_Thread_OSemC(context) TlsSetValue(dwTlsIndex, context)
+  #define getCurrent_Thread_OSemC() (Thread_OSemC*)TlsGetValue(dwTlsIndex)
 #endif
 
 
 //invokes init_OSAL() on first call.
-OS_ThreadContext* getCurrent_OS_ThreadContext(){                          //getCurrent_OS_ThreadContext(...)
+Thread_OSemC* getCurrent_Thread_OSemC(){                          //getCurrent_Thread_OSemC(...)
   if(keyThreadContext ==null){
     init_OSAL();
   }
-  OS_ThreadContext* threadContext = (OS_ThreadContext*) pthread_getspecific(keyThreadContext);
+  Thread_OSemC* threadContext = (Thread_OSemC*) pthread_getspecific(keyThreadContext);
   if(threadContext == null) { //it should be not null if init_OSAL() is
     ERROR_SYSTEM_emC(-1, "os_getCurrentThreadContext() - no ThreadContext found, error creating ThreadContext. ", 0, 0);
   }
@@ -285,15 +255,15 @@ OS_ThreadContext* getCurrent_OS_ThreadContext(){                          //getC
 void* os_wrapperFunction(void* data)
 {
 
-  OS_ThreadContext* threadContext = (OS_ThreadContext*) data;
+  Thread_OSemC* threadContext = (Thread_OSemC*) data;
   pthread_t h2 = pthread_self();                                     // check whether this thread has the same handle as stored in threadContext!
-  if(! pthread_equal(threadContext->handleThread, h2)){   // should be same
+  if(! pthread_equal((pthread_t)threadContext->handleThread, h2)){   // should be same
     ERROR_SYSTEM_emC(0, "pthread_self fails", 0,0);
   } else {
     h2 = 0;
   }
 
-  if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
+  if(threadContext->sSignificanceText != sSignificanceText_Thread_OSemC)
   { ERROR_SYSTEM_emC(-1, "FATAL: threadContext incorrect: %p\n", (int)(intPTR)threadContext, 0);
   }
   else {
@@ -301,7 +271,6 @@ void* os_wrapperFunction(void* data)
     //complete threadContext
     void* topStackAddr = &threadContext;  //The first variable in stack, cast to pointer forces a real stack location.
     ctor_ThreadContext_emC(&threadContext->userThreadContext, topStackAddr);
-    threadContext->uFlagRegister = 0;
 
     {
        /* create an event for this thread (for use in eventFlag functions) */
@@ -325,25 +294,34 @@ void* os_wrapperFunction(void* data)
 }
 
 
+Thread_OSemC* main_Thread_OSemC ( ) {
+  if(mainThread ==null) {
+    init_OSAL();
+  }
+  return mainThread;
+}
 
 
-int os_createThread
-( HandleThread_OSemC* pHandle,
+
+Thread_OSemC* alloc_Thread_OSemC ( char const* sThreadName
+, OS_ThreadRoutine routine,  void* pUserData
+, int abstractPrio, int stackSize ) {
+
+  Thread_OSemC* thiz = C_CAST(Thread_OSemC*, os_allocMem(sizeof(Thread_OSemC)));
+  create_Thread_OSemC(thiz, sThreadName, routine, pUserData, abstractPrio, stackSize);
+  return thiz;
+}
+
+
+int create_Thread_OSemC
+( Thread_OSemC* thiz,
+  char const* sThreadName,
   OS_ThreadRoutine routine, 
   void* pUserData, 
-  char const* sThreadName, 
-  int abstractPrio, 
+  int abstractPrio,
   int stackSize )
 {
-  //int iWinRet = 0;
-  pthread_t threadId;
-  //HANDLE hDupChildHandle;
   int ret_ok;
-  //int idxThreadPool = 0;
-  OS_ThreadContext* threadContext = null;
-  //WraperParamStruct ThreadWraperStr;
-  
-  //HANDLE threadHandle;
     
   if (!bLibIsInitialized)
   { init_OSAL();
@@ -360,42 +338,41 @@ int os_createThread
     abstractPrio = 128;
   }
 
-  threadContext = new_OS_ThreadContext(sThreadName);
-  if(threadContext != null)
-  { threadContext->ThreadRoutine = routine;  // user routine
-    threadContext->pUserData = pUserData;    // user data
-    threadContext->sSignificanceText = sSignificanceText_OS_ThreadContext;
+  { thiz->ThreadRoutine = routine;  // user routine
+    thiz->pUserData = pUserData;    // user data
+    thiz->sSignificanceText = sSignificanceText_Thread_OSemC;
     // use immediately the handleThread, the thread starts immediately.
-    ret_ok = pthread_create(&threadContext->handleThread, null, os_wrapperFunction, threadContext);
-    /*
-    threadHandle = CreateThread(
-                            NULL,
-                            stackSize,
-                            (LPTHREAD_START_ROUTINE)(os_wrapperFunction),
-                            (void*)threadContext,
-                            CREATE_SUSPENDED,      //wait because some values should be initialized
-                            &uThreadID);       
-    */
-
-    threadContext->uTID = null; //TODO
-    threadId = threadContext->handleThread;
-
-    // set the thread prio
-    { long uWinPrio = os_getRealThreadPriority( abstractPrio );
-      //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
-        ret_ok = pthread_setschedprio(threadId, uWinPrio);
-
-      //ResumeThread(threadHandle);        // start thread
-    }
-    *pHandle = (HandleThread_OSemC)threadContext->handleThread;  // return the pseudo handle
+    thiz->state = mCreated_Thread_OSemC;
     return OS_OK;
   }
-  else 
-  { //no space in threadpool, no threadContext
-    
-    return OS_SYSTEM_ERROR;
-  }
+}
 
+
+bool start_Thread_OSemC ( Thread_OSemC* thiz) {
+  int ret_ok = pthread_create((pthread_t*)&thiz->handleThread, null, os_wrapperFunction, thiz);
+  /*
+  threadHandle = CreateThread(
+                          NULL,
+                          stackSize,
+                          (LPTHREAD_START_ROUTINE)(os_wrapperFunction),
+                          (void*)thiz,
+                          CREATE_SUSPENDED,      //wait because some values should be initialized
+                          &uThreadID);
+  */
+
+  thiz->nThreadID = 0; //TODO
+
+  // set the thread prio
+//  { long uWinPrio = os_getRealThreadPriority( thiz-> );
+//      ret_ok = pthread_setschedprio((pthread_t)thiz->handleThread, uWinPrio);
+//
+//    //ResumeThread(threadHandle);        // start thread
+//  }
+}
+
+/**remove a thread handle.
+ */
+bool delete_Thread_OSemC(Thread_OSemC* thiz) {
 }
 
 
@@ -427,7 +404,7 @@ int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
 
 //see also https://stackoverflow.com/questions/43471743/pthread-self-on-linux
 //https://man7.org/linux/man-pages/man3/pthread_self.3.html
-// returns the thread_id, which is also stored in the OS_ThreadContext
+// returns the thread_id, which is also stored in the Thread_OSemC
 HandleThread_OSemC os_getCurrentThreadHandle ( void ){
   pthread_t h = pthread_self();
   return (HandleThread_OSemC) h;   // present it outside to a specific pointer type, OS-independent.
@@ -436,11 +413,11 @@ HandleThread_OSemC os_getCurrentThreadHandle ( void ){
 
 ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 {
-  OS_ThreadContext* os_threadContext = getCurrent_OS_ThreadContext();
-  if(os_threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext) {
-    ERROR_SYSTEM_emC(-1, "OS_ThreadContext faulty", 0,0);
+  Thread_OSemC* Thread_OSemC = getCurrent_Thread_OSemC();
+  if(Thread_OSemC->sSignificanceText != sSignificanceText_Thread_OSemC) {
+    ERROR_SYSTEM_emC(-1, "Thread_OSemC faulty", 0,0);
   }
-  ThreadContext_emC_s* thCxt = &os_threadContext->userThreadContext;
+  ThreadContext_emC_s* thCxt = &Thread_OSemC->userThreadContext;
   return thCxt;
 }
 

@@ -54,7 +54,7 @@ extern_C_BLOCK_
 /**Handle to a thread. The internal data structure is not known here. 
  * A ,,HandleThread_OSemC,, may also be a simple integer, which is converted to this pointer type.
  */
-typedef struct HandleThread_OSemC_T const* HandleThread_OSemC;
+#define HandleThread_OSemC struct Thread_OSemC_T*
 
 /**The thread routine should have the followed prototype.
  * @param data Pointer to data. Mostly it is a class structure. 
@@ -66,6 +66,49 @@ typedef int OS_ThreadRoutine(void* data);
 
 
 
+typedef struct Thread_OSemC_T
+{
+  /**This is a constant text, to test whether a reference to Thread_OSemC is correct.
+   * It will be initialized with pointer to "Thread_OSemC".
+   */
+  const char* sSignificanceText;
+
+
+  /**Name of the thread.*/
+  const char* name;
+
+  //bool bInUse;                         /* structure in use */
+
+  void* handleThread;             /* handle des Threads */
+
+  int nThreadID;                  /* ID des threads */
+
+  /**State of the thread: 
+   * 0 = not created 
+   * 1 = created in OS, not started
+   * 2 = started, not running
+   * 4 = running
+   * 8 = finished. 
+   */
+  int state;
+  #define mState_Thread_OSemC 0x000f
+  #define mCreated_Thread_OSemC 0x0001
+  #define mStarted_Thread_OSemC 0x0002
+  #define mRunning_Thread_OSemC 0x0004
+  #define mFinished_Thread_OSemC 0x0008
+
+
+  /**The thread run routine used for start the thread. */
+  OS_ThreadRoutine* ThreadRoutine;
+
+  /**to be initial passed to the wrapper routine, thread specific user data */
+  void*  pUserData;
+
+  /**The user ThreadContext is part of the thread specific data.
+   * It is defined application-specific via the included applstdef_emC.h */
+  ThreadContext_emC_s userThreadContext;
+
+}Thread_OSemC;
 
 
 
@@ -76,16 +119,25 @@ typedef int OS_ThreadRoutine(void* data);
  */
 int os_getRealThreadPriority(int abstractPrio);
 
+/**Returns the info about the main thread. */
+Thread_OSemC* main_Thread_OSemC ();
 
-/**Creates and starts a thread.
- * The thread will be end if the thread routine returns.
- * @param pHandle reference to a numerical identificator of the thread.
- *        Note: all internal management data of the thread are stored os-internally.
+
+/**Allocates data for a new Thread. */
+Thread_OSemC* alloc_Thread_OSemC ( char const* sThreadName 
+, OS_ThreadRoutine routine,  void* pUserData 
+, int abstactPrio, int stackSize );
+
+/**Creates a thread in the operation system. 
+ * The thread is not started here. This is changed in 2023-01. Call start_Thread_OSemC() after creation.
+ * @param thiz instance for emC-Thread data. This instance can be statically defined, or allocated.
+ *   The user is responsible to management this threat data storage. 
+ *   Referencing allows using non-allocation approaches. 
+ * @param sThreadName A textual identification for the operation system.
  * @param routine Pointer to the thread routine, which is started.
  * @param pUserData This value will be transported to the first parameter of the user routine.
  *        Typically it are the user instance data of the thread method.
- * @param sThreadName A textual identification for the operation system.
- * @param abstractPrio Priority between 1 (lowest) and 255 (highest).
+ * @param abstractPrio Priority between 1 (lowest) and 10 (highest).
  *        Note: The opeation system may assign different abstract priorities 
  *        to the same real priority. It is not guaranteed, that such threads have different priorities. 
  * @param stackSize The necessary size of stack. If 0 or -1,than the default stack size is used.
@@ -96,14 +148,30 @@ int os_getRealThreadPriority(int abstractPrio);
  *        Note, that interrupt handlers uses the stack also. 
  * @return 0 if ok, negativ value on error.
  */ 
-int os_createThread
-( HandleThread_OSemC* pHandle
+int create_Thread_OSemC
+( Thread_OSemC* thiz
+, char const* sThreadName
 , OS_ThreadRoutine routine
 , void* pUserData
-, char const* sThreadName
 , int abstactPrio
 , int stackSize
 );
+
+
+/**Start a thread after construction. 
+ * A thread can be started only once after construction. 
+ * The thread will be end if the thread routine returns.
+ * If the thread has ending, restart is not possible. 
+ * This is the same behavior as for java.lang.Thread.
+ * A thread is either created, or running, or even finished.
+ */
+extern_C bool start_Thread_OSemC ( Thread_OSemC* thiz);
+
+/**Delete or release a Thread handle. 
+ * The thread should either in state not started, or finished. 
+ */
+extern_C bool delete_Thread_OSemC(Thread_OSemC* thiz);
+
 
 /**Changes the thread priority.
 */
@@ -125,9 +193,13 @@ int os_getOsThreadPriority(HandleThread_OSemC handle);
 
 /**Gets the current thread handle. This routine should have a short calculation time.
  */
-HandleThread_OSemC os_getCurrentThreadHandle(void);
+//HandleThread_OSemC os_getCurrentThreadHandle(void);
 
-
+/**Returns the Thread_OSemC as reference to the emC specific thread data of the current thread.
+ * This reference can be used as thread identification (only compare the pointer value).
+ * Internally it contains the OS-specific thread handle.
+ */ 
+struct Thread_OSemC_T* getCurrent_Thread_OSemC();
 
 
 

@@ -182,7 +182,7 @@ int open_Serial_HALemC ( int channel, Direction_Serial_HALemC dir
           //thdata->zBuffer = 0;
           //thdata->ixFIFOrd = 0;
           //thdata->ixFIFOwr = 0;
-          os_createThread(&thdata->hThread, rxThreadRoutine, thdata, sPort, 128, 0);
+          thdata->hThread = alloc_Thread_OSemC(sPort, rxThreadRoutine, thdata, 128, 0);
         }
         thdata_g[channel] = thdata;                          //yet allow access to received data.
       }

@@ -82,10 +82,10 @@ int wait_OSemC(
   HandleWaitNotify_OSemC_s* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
   Mutex_OSemC_s* mutex = (struct Mutex_OSemC_T*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
-  struct OS_ThreadContext_t const* threadContextWait = getCurrent_OS_ThreadContext();
+  Thread_OSemC const* threadContextWait = getCurrent_Thread_OSemC();
   pthread_t hThread = pthread_self();
   //The mutex should be locked, check it:
-  if(! pthread_equal((pthread_t)mutex->lockingThread, hThread)){   // should be same
+  if(! pthread_equal((pthread_t)mutex->lockingThread->handleThread, hThread)){   // should be same
     //This is a user error, try to THROW an excption or ignore it.
     THROW_s0n(RuntimeException, "wait_OSemC should be called under mutex ", (int)(intPTR)hThread, (int)(intPTR)mutex->lockingThread);
   }
@@ -128,7 +128,7 @@ int wait_OSemC(
     ERROR_SYSTEM_emC(99, "error in pthread_cond_wait", error, (int)(intPTR)waitObj);
   }
   //----------------------------------------------- the mutex is already locked after wait:
-  mutex->lockingThread = (void*)hThread;
+  mutex->lockingThread = threadContextWait;
   mutex->ctLock = waitObj->ctLockMutex;          // restore state before wait for the mutex.
   waitObj->ctLockMutex = 0;
   waitObj->threadWait = null; 
@@ -156,7 +156,7 @@ int notify_OSemC(struct HandleWaitNotify_OSemC_T const* waitObjP, Mutex_OSemC_s*
   HandleWaitNotify_OSemC_s* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
   Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
-  struct OS_ThreadContext_t const* pThread = getCurrent_OS_ThreadContext();
+  Thread_OSemC const* pThread = getCurrent_Thread_OSemC();
     /*
   if(pThread != mutex->threadOwner)
   { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);

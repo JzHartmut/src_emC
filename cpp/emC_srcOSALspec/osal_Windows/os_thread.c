@@ -28,8 +28,10 @@
  *
  * @content This file contains the implementation of thread_OSemC.h for MS-Windows.
  * @author Hartmut Schorrig, Pinzberg, Germany and Marcos Rodriguez
- * @version 0.81ad
+ * @version 2023-01-11
  * list of changes:
+ * 2023-01-11 refactored due to new documentation. 
+ * 201x some usage and adaption
  * 2010-01-15 Hartmut adap, corr: einige details
  * 2010-01-15 Hartmut corr: Fehlerbehandlung, muss noch weiter geführt werden, Nutzung os_error.c, printf auf file? Vorversion im KM anschauen!
  * 2007-10-01: Hartmut creation
@@ -43,7 +45,7 @@
 #include <emC/OSAL/sync_OSemC.h>
 
 
-#undef boolean
+#undef boolean    // undef this, it is conflicting with windows-system headers.
 #undef INT32
 #undef UINT32
 #undef int64
@@ -59,82 +61,40 @@
 //#define TEST_ThreadContext_IMMEDIATE
 
 
-/* Internal structures *******************************************************************/
 
-typedef struct OS_ThreadContext_t
-{                    /* Structure for thread-eventFlags */
-	
-  /**This is a constant text, to test whether a reference to OS_ThreadContext is correct.
-   * It will be initialized with pointer to "OS_ThreadContext".
-   */
-  const char* sSignificanceText;
-
-  //bool bInUse;                         /* structure in use */
-	
-  HandleThread_OSemC THandle;             /* handle des Threads */
-	
-  uint32 uTID;                  /* ID des threads */
-	
-  //QueueStruct *pMessageQueue;		 /* Pointer to The MessageQueue Structure */
-	//HandleThread_OSemC TDupHandle;          /* to be filled by the child */
-  
-  /**The thread run routine used for start the thread. */
-  OS_ThreadRoutine* ThreadRoutine;     
-	/** to be passed to the child wrapper routine */
-  void*	pUserData;                     
-
-  /**Name of the thread.*/
-  const char* name; 
-
-  #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
-  /**The user ThreadContext is part of the thread specific data. 
-   * It is defined application-specific via the included applstdef_emC.h */
-  ThreadContext_emC_s userThreadContext;
-  #endif
-
-}OS_ThreadContext;
 
 /* CONSTANTS *************************************************************************************/
-/**this value defines the max num of threads with an attached EventFlag, if more threads are
-   created in the same process, they will have no attached EventFlag and flag related functions 
-   will not work on these threads 
-*/
-#define XXXOS_maxNrofThreads	256
 
 /**For PC-application: use 32k Stack per thread. */
 #define OS_DEFAULT_STACK 0x8000
 
 /* GLOBAL VARIABLES ******************************************************************************/
 
-/* actual number of threads */
-uint XXXuThreadCounter = 0;               
+/**This variable is initialized in os_init(). The main thread runs by itself
+ * and it gets there its emC-defined data. 
+ */
+static Thread_OSemC* mainThread = null;
 
-/* Thread protection to access the handle pool.  */
-struct Mutex_OSemC_T const* XXXuThreadPoolSema = 0;              
-
+//yet unnecessary, use mainThread ==null check
 static bool bOSALInitialized = false;
 
-/**A pointer to test whether a void*-given data is really a OS_ThreadContext.
+/**A pointer to test whether a void*-given data is really a Thread_OSemC.
  * The content of variable isn't meanfull. The comarision of pointer is significant.
  */
-static const char* sSignificanceText_OS_ThreadContext = "OS_ThreadContext";
+static const char* sSignificanceText_Thread_OSemC = "Thread_OSemC";
 
 
-/** TLS index to store pseudo thread-handles as unique identifiers of threads 
- * (index is valid inside current thread if it was previously initialized)
+/** TLS index to store a handle as unique identifiers of values 
+ * (index is valid inside any current thread as key for "Thread Specific Values"
+ * It is initialized in os_init()
  */
 static DWORD dwTlsIndex;
 
-/* EXTERNALS *************************************************************************************/
 
-/* PROTOTYPES ************************************************************************************/
+#define setCurrent_Thread_OSemC(context) TlsSetValue(dwTlsIndex, context) 
 
-
-/* IMPLEMENTATION ********************************************************************************/
-
-
-  #define setCurrent_OS_ThreadContext(context) TlsSetValue(dwTlsIndex, context) 
-OS_ThreadContext* getCurrent_OS_ThreadContext() { return (OS_ThreadContext*)TlsGetValue(dwTlsIndex); }
+//definition see thread_OSemC.h:
+Thread_OSemC* getCurrent_Thread_OSemC() { return (Thread_OSemC*)TlsGetValue(dwTlsIndex); }
 
 
 int os_getRealThreadPriority(int abstractPrio)
@@ -164,13 +124,11 @@ int os_getRealThreadPriority(int abstractPrio)
 }
 
 
-
-
-
-static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName, void* topAddrStack)
-{ OS_ThreadContext* threadContext = null;  //default if not found.
-  int sizeThreadContext = sizeof(OS_ThreadContext); // + nrofBytesUserThreadContext_os_thread;
-  threadContext = (OS_ThreadContext*)os_allocMem(sizeThreadContext);
+//creates the emC specific thread data, only used in os_init().
+static Thread_OSemC* new_Thread_OSemC(const char* sThreadName, void* topAddrStack)
+{ Thread_OSemC* threadContext = null;  //default if not found.
+  int sizeThreadContext = sizeof(Thread_OSemC); // + nrofBytesUserThreadContext_os_thread;
+  threadContext = (Thread_OSemC*)os_allocMem(sizeThreadContext);
   memset(threadContext, 0, sizeThreadContext);
   #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
   ctor_ThreadContext_emC(&threadContext->userThreadContext, topAddrStack);   //This constructor depends of the settings in <applstdef_emC.h>. There it is defined which type of ThreadContext is used.
@@ -179,15 +137,15 @@ static OS_ThreadContext* new_OS_ThreadContext(const char* sThreadName, void* top
 }
 
 
-// init adapter, to be called from main thread before calling any other function (only Windows)
-int init_OSAL()
+// this should be called one time if any of thread data are necessary. 
+static int init_OSAL()
 {
   if(bOSALInitialized){ return OS_UNEXPECTED_CALL; }
   else {
   	  int idxThreadPool = 0;
 	  HANDLE hMainHandle, hDupMainHandle;
     #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
-    OS_ThreadContext* mainThreadContext;
+    //Thread_OSemC* mainThreadContext;
     #endif	  
 	  // Allocate the global TLS index (valid for all threads when they are running (current thread)). 
 	  if ((dwTlsIndex = TlsAlloc()) == TLS_OUT_OF_INDEXES){
@@ -207,15 +165,15 @@ int init_OSAL()
 
 	  // store thread parameters in thread pool (first thread, no thread protection)
     #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
-      mainThreadContext = new_OS_ThreadContext("main", &idxThreadPool);
+      mainThread = new_Thread_OSemC("main", &idxThreadPool);
 	  
-	    if (mainThreadContext != null){
-		    mainThreadContext->uTID = GetCurrentThreadId();
-		    mainThreadContext->THandle = (HandleThread_OSemC) hDupMainHandle;
+	    if (mainThread != null){
+		    mainThread->nThreadID = GetCurrentThreadId();
+		    mainThread->handleThread = hDupMainHandle;
 		    /* create an event for this thread (for use in eventFlag functions) */
 		    //automatically resets the event state to nonsignaled after a single waiting thread has been released. 
         bOSALInitialized = true;
-	      { bool ok = setCurrent_OS_ThreadContext(mainThreadContext)!=0; 
+	      { bool ok = setCurrent_Thread_OSemC(mainThread)!=0; 
           if (!ok  ){ 
             printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
           }
@@ -238,19 +196,14 @@ int init_OSAL()
 
 
 // Wrapper thread function for thread creation and parameter initialization
-void os_wrapperFunction(OS_ThreadContext* threadContext)
+// This function is used anytime for the start thread function. 
+void os_wrapperFunction(Thread_OSemC* threadContext)
 {
-  //HANDLE hChildHandle;
-	
-	//hChildHandle = GetCurrentThread();
-	// get a pseudo handle for this thread to be referenced by other threads
-	// Initialize the TLS index for this thread (store pseudo-handle). 
-  OS_ThreadRoutine* fpStart;
-	if(threadContext->sSignificanceText != sSignificanceText_OS_ThreadContext)
+	if(threadContext->sSignificanceText != sSignificanceText_Thread_OSemC)
 	{ printf("FATAL: threadContext incorrect: %p\n", threadContext);
 	  ERROR_SYSTEM_emC(-1, "FATAL: threadContext incorrect: %p\n", (int)(intptr_t)threadContext, 0);
 	}
-	{ bool ok = setCurrent_OS_ThreadContext(threadContext)!=0; 
+	{ bool ok = setCurrent_Thread_OSemC(threadContext)!=0; 
     if (!ok  )
     { 
       printf("init_OSAL: ERROR: TlsSetValue for child failed!\n"); 
@@ -259,22 +212,44 @@ void os_wrapperFunction(OS_ThreadContext* threadContext)
 
   // execute user routine
   STACKTRC_ROOT_ENTRY("os_wrapperThread");
-  fpStart = threadContext->ThreadRoutine;
+  threadContext->state = mRunning_Thread_OSemC;
+  OS_ThreadRoutine* fpStart = threadContext->ThreadRoutine;
+  //======>>>>>>
   fpStart(threadContext->pUserData); 		//=============== execute user routine
     
   STACKTRC_LEAVE;	
+  threadContext->state = mFinished_Thread_OSemC;
   ExitThread(0);
   	
 }
 
 
 
-int os_createThread
-( HandleThread_OSemC* pHandle, 
+Thread_OSemC* main_Thread_OSemC ( ) {
+  if(mainThread ==null) {
+    init_OSAL();
+  }
+  return mainThread;
+}
+
+
+Thread_OSemC* alloc_Thread_OSemC ( char const* sThreadName 
+, OS_ThreadRoutine routine,  void* pUserData 
+, int abstractPrio, int stackSize ) {
+
+  Thread_OSemC* thiz = C_CAST(Thread_OSemC*, os_allocMem(sizeof(Thread_OSemC)));
+  create_Thread_OSemC(thiz, sThreadName, routine, pUserData, abstractPrio, stackSize);
+  return thiz;
+}
+
+
+
+int create_Thread_OSemC
+( Thread_OSemC* thiz, 
+  char const* sThreadName, 
   OS_ThreadRoutine routine, 
   void* pUserData, 
-  char const* sThreadName, 
-  int abstactPrio, 
+  int abstractPrio, 
   int stackSize )
 {
   int iWinRet = 0;
@@ -282,8 +257,6 @@ int os_createThread
   HANDLE hDupChildHandle;
   int ret_ok;
 	int idxThreadPool = 0;
-  OS_ThreadContext* threadContext = null;
-	//WraperParamStruct ThreadWraperStr;
   
   HANDLE threadHandle;
     
@@ -297,85 +270,94 @@ int os_createThread
     stackSize = OS_DEFAULT_STACK;
   }
 
-  if(abstactPrio <= 0 || abstactPrio > 255)
+  if(abstractPrio <= 0 || abstractPrio > 255)
   {
-    abstactPrio = 128;
+    abstractPrio = 128;
   }
+  ctor_ThreadContext_emC(&thiz->userThreadContext, null);   //This constructor depends of the settings in <applstdef_emC.h>. There it is defined which type of ThreadContext is used.
 
-  threadContext = new_OS_ThreadContext(sThreadName, null);
-	if(threadContext != null)
-  { threadContext->ThreadRoutine = routine;	// user routine
-	  threadContext->pUserData = pUserData;		// user data
-	  threadContext->sSignificanceText = sSignificanceText_OS_ThreadContext;
-    //threadContext->callParams.TDupHandle = 0;				// to be filled by the child thread in the wrapper
-    threadHandle = CreateThread(
-                            NULL,
-                            stackSize,
-                            (LPTHREAD_START_ROUTINE)(os_wrapperFunction),
-                            (void*)threadContext,
-                            CREATE_SUSPENDED,			//wait because some values should be initialized
-                            &uThreadID);       
-    if ( threadHandle == NULL ) {
-        DWORD err = GetLastError();
-        printf( "os_createThread: ERROR: CreateThread failed with Win errorCode= %d\n", (int)err );
-        if (err==ERROR_INVALID_PARAMETER){
-        	return OS_INVALID_PARAMETER;
-        	}
-        return OS_SYSTEM_ERROR;
-    }
-	  DuplicateHandle
-    ( GetCurrentProcess(), 
-			threadHandle, 
-			GetCurrentProcess(),
-			&hDupChildHandle, 
-			0,
-			FALSE,
-			DUPLICATE_SAME_ACCESS 
-    );
-
-    threadContext->uTID = uThreadID;
-	  threadContext->THandle = (HandleThread_OSemC)hDupChildHandle;
-
-	  // set the thread prio
-	  { long uWinPrio = os_getRealThreadPriority( abstactPrio );
-	    //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstactPrio, uWinPrio);
-        ret_ok = SetThreadPriority(threadHandle, uWinPrio);
-        if ( ret_ok == 0 ) {
-            DWORD err = GetLastError();
-            printf( "os_createThread: ERROR: failed to set prio with Win errorCode= %d\n", (int)err );
-            if (err==ERROR_INVALID_PARAMETER){
-        	    return OS_INVALID_PARAMETER;
-        	    }
-            return OS_SYSTEM_ERROR;
+  thiz->ThreadRoutine = routine;	// user routine
+	thiz->pUserData = pUserData;		// user data
+	thiz->sSignificanceText = sSignificanceText_Thread_OSemC;
+  //thiz->callParams.TDupHandle = 0;				// to be filled by the child thread in the wrapper
+  threadHandle = CreateThread(
+                          NULL,
+                          stackSize,
+                          (LPTHREAD_START_ROUTINE)(os_wrapperFunction),
+                          (void*)thiz,
+                          CREATE_SUSPENDED,			//wait because some values should be initialized
+                          &uThreadID);       
+  if ( threadHandle == NULL ) {
+      DWORD err = GetLastError();
+      printf( "os_createThread: ERROR: CreateThread failed with Win errorCode= %d\n", (int)err );
+      if (err==ERROR_INVALID_PARAMETER){
+        return OS_INVALID_PARAMETER;
         }
-	    ResumeThread(threadHandle);				// start thread
-    }
-    *pHandle = threadContext->THandle;	// return the pseudo handle
-    return OS_OK;
+      return OS_SYSTEM_ERROR;
   }
-  else 
-  { //no space in threadpool, no threadContext
-    *pHandle = null;
-    return OS_SYSTEM_ERROR;
+	DuplicateHandle
+  ( GetCurrentProcess(), 
+		threadHandle, 
+		GetCurrentProcess(),
+		&hDupChildHandle, 
+		0,
+		FALSE,
+		DUPLICATE_SAME_ACCESS 
+  );
+
+  thiz->nThreadID = uThreadID;
+	thiz->handleThread = hDupChildHandle;
+
+	// set the thread prio
+	{ long uWinPrio = os_getRealThreadPriority( abstractPrio );
+	  //printf("DEBUG: os_createThread: abstrPrio=%d, WinPrio=%d\n", abstractPrio, uWinPrio);
+      ret_ok = SetThreadPriority(threadHandle, uWinPrio);
+      if ( ret_ok == 0 ) {
+          DWORD err = GetLastError();
+          printf( "os_createThread: ERROR: failed to set prio with Win errorCode= %d\n", (int)err );
+          if (err==ERROR_INVALID_PARAMETER){
+        	  return OS_INVALID_PARAMETER;
+        	  }
+          return OS_SYSTEM_ERROR;
+      }
   }
+  thiz->state = mCreated_Thread_OSemC;
+
+  return OS_OK;
 	
 }
 
 
 
+bool start_Thread_OSemC ( Thread_OSemC* thiz) {
+	HANDLE h = thiz->handleThread;
+  if(h ==null || thiz->state != mCreated_Thread_OSemC ) {
+    THROW_s0(IllegalStateException, "Thread finished or not initialized", 0, 0);
+  }
+  thiz->state = mStarted_Thread_OSemC;
+  int err = ResumeThread(h);				// start thread
+  return err >=0;
+}
 
-/**@Beschreibung:
- * Mit dieser Funktion wird einen Thread beendet.
- * @Rückgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthält der 
- * Rückgabewert einen detaillierten Fehlercode.
- * @handle Handle des Ziel-Threads.
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @Änderungsübersicht: 
- * @Datum/Autor/Änderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
+
+
+
+/**remove a thread handle.
  */
-//int os_deleteThread(HandleThread_OSemC handle)
+bool delete_Thread_OSemC(Thread_OSemC* thiz) {
+	HANDLE h = thiz->handleThread;
+  if(h ==null || (thiz->state & (mCreated_Thread_OSemC | mFinished_Thread_OSemC))==0 ) {
+    THROW_s0n(IllegalStateException, "Thread running or not exisiting", 0, 0);
+    return false;
+  }
+  BOOL ok = CloseHandle(h);
+  if(ok ==0) {
+    uint err = GetLastError();
+    THROW_s0n(IllegalStateException, "Thread CloseHandle error", err, 0);
+    return false;
+  }
+  return true;
+}
 //{
 //	HANDLE ThreadHandle = GetCurrentThread();
 //	if(ThreadHandle == (HANDLE)handle){
@@ -495,31 +477,6 @@ int os_resumeThread(HandleThread_OSemC handle)
 	return OS_OK;
 }
 
-/**@Beschreibung:
- * Diese Funktion liefert das Handle des laufenden Threads zurück.
- * @Rückgabewert: Handle des laufenden Threads.
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @Änderungsübersicht: 
- * @Datum/Autor/Änderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- */
-HandleThread_OSemC os_getCurrentThreadHandle(void)
-{ 
-	HandleThread_OSemC currHandle;
-	OS_ThreadContext* threadContext = getCurrent_OS_ThreadContext();
-  if (!bOSALInitialized){
-		printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
-    return 0;
-  }
-  currHandle = threadContext->THandle;
-	if (currHandle==0){
-		return (HandleThread_OSemC) GetCurrentThread();	// in worst case return constant handle (0xfffffffe)
-	}
-	return currHandle;
-}
-
-
 
 int os_getOsThreadPriority(HandleThread_OSemC handle) {
   return GetThreadPriority((HANDLE)handle);
@@ -531,56 +488,21 @@ int os_getOsThreadPriority(HandleThread_OSemC handle) {
 
 
 
-/**@Beschreibung:
- * Diese Funktion liefert die Beschreibung in Klartext einer Fehlermeldung der OS-Funktionen.
- * @Rückgabewert: Ergebnis der Operation, 0 bei erfolgreicher Operation, ansonsten enthält der 
- * Rückgabewert einen detaillierten Fehlercode.
- * @nError Fehlermeldungsnummer.
- * @Autor Rodriguez
- * @Datum 30.05.2008
- * @Änderungsübersicht: 
- * @Datum/Autor/Änderungen
- * @30.05.2008 / Rodriguez / Erste Implementierung.
- * @since 2008-09-30 redesign Hartmut
- */
-char const* os_getTextOfOsError(int nError)
-{
-	switch (nError){
-	case OS_SYSTEM_ERROR:        return "System Fehler.";
-/*
-	case OS_INVALID_PARAMETER:   return "in Parameter war ungültig.";
-	case OS_INVALID_STRING:      return  "Ein String ist nicht innerhalb der vorgegebenen Größe.";
-	case OS_INVALID_HANDLE:      return "Das Objekt-Handle ist ungültig.";
-	case OS_INVALID_STATE:       return "Der Objekt-Sustand ist ungültig für diese Operation.";
-	case OS_TEST_NOT_OK:         return "Testbedingungen nicht erfüllt.";
-	case OS_GOT_TIMEOUT:         return "Der Aufruf wurde nach dem eingestellten Timeout abgebrochen.";
-	case OS_QUEUE_EXIST:         return "Die Message-Queue existiert bereits für diesen Thread.";
-	case OS_QUEUE_NOT_EXIST:     return "Die Message-Queue dieses Thread existiert nicht.";
-	case OS_RESOURCE_BUSY:       return "In diesem Objekt stehen noch Nachrichten, oder ein Thread wartet.";
-	case OS_QUEUE_FULL:          return "Die Message–Queue ist voll.";
-	case OS_QUEUE_EMPTY:         return "Die Message-Queue enthält keine Nachricht.";
-	case OS_NAME_EXIST:          return "Der Name existiert bereits.";
-	case OS_NAME_NOT_EXIST:      return "Der angegebene Name existiert im System nicht.";
-	case OS_MAILBOX_FULL:        return "Die Anforderung überschreitet die eingetragene Grenze der Mailbox.";
-	case OS_MAILBOX_EMPTY:       return "Die Mailbox enthält keine Nachricht (wenn timeOut = 0).";
-	case OS_INVALID_POINTER:     return "Zeiger zu Resource ungültig.";
-	case OS_UNKNOWN_ERROR:       return "Undefinierte Fehlermeldung.";
-*/
-	default:                     return "Unknown error-code.";
-	}
-}
-
 
 
 
 
 #ifndef DEF_NO_THCXT_STACKTRC_EXC_emC
+/**Implementation of definition in emC/Base/Exception_emC.h:
+ * The Exception used thread context is part of the thread data of the operation system,
+ * hence defined here. 
+ */
 ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
 {
-  OS_ThreadContext* os_thCxt = getCurrent_OS_ThreadContext();
+  Thread_OSemC* os_thCxt = getCurrent_Thread_OSemC();
   if(os_thCxt == null){ //only on startup in main without multithreading 
     init_OSAL();  //only 1 cause if the ThreadContext haven't set.
-    os_thCxt = getCurrent_OS_ThreadContext();  //repeat it
+    os_thCxt = getCurrent_Thread_OSemC();  //repeat it
     if (os_thCxt == null) {
       ERROR_SYSTEM_emC(-1, "init_OSAL failed, no ThreadConect", 0,0);
       return null;

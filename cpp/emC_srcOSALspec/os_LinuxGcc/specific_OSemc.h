@@ -1,6 +1,7 @@
 #ifndef HGUARD_specific_OSemC
 #define HGUARD_specific_OSemC
 
+struct Thread_OSemC_T;
 
 //tag::Mutex[]
 typedef struct Mutex_OSemC_T{
@@ -12,7 +13,7 @@ typedef struct Mutex_OSemC_T{
   void* attr;
   const char* name;
   /**null then the mutex is not locked. Else: handle of the locking thread. */
-  void* lockingThread;
+  struct Thread_OSemC_T const* lockingThread;
   /**Number of lock calls of the mutex in the SAME thread. Reentrant lock should be supported. */
   int ctLock;
 }Mutex_OSemC_s;

@@ -47,7 +47,7 @@ typedef struct AllThreadContext_t
   int32 id[OS_maxNrofThreads];
 
   /**Array of ThreadContext referenes, same size as id. */
-  OS_ThreadContext* context[OS_maxNrofThreads];
+  Thread_OSemC* context[OS_maxNrofThreads];
 
 
 
@@ -95,8 +95,8 @@ static int binarySearch_int_ThreadContextInTable(int32 const* data, int fromInde
 
 
 /*The implementiation uses binary search to assign the idThread to the threadContext. */
-METHOD_C OS_ThreadContext* os_getThreadContextInTable(int idThread)
-{ OS_ThreadContext* current;
+METHOD_C Thread_OSemC* os_getThreadContextInTable(int idThread)
+{ Thread_OSemC* current;
   int idxContext;
   idxContext = binarySearch_int_ThreadContextInTable(allThreads_Rtos.id, 0, allThreads_Rtos.actNrofThreads, idThread);
   if(idxContext >=0)
@@ -110,7 +110,7 @@ METHOD_C OS_ThreadContext* os_getThreadContextInTable(int idThread)
 
 
 /*The implementiation uses binary search to assign the idThread to the threadContext. */
-int os_setThreadContextInTable(int idThread, OS_ThreadContext* threadContext)
+int os_setThreadContextInTable(int idThread, Thread_OSemC* threadContext)
 { int idxContext;
   int error = 0;
   idxContext = binarySearch_int_ThreadContextInTable(allThreads_Rtos.id, 0, allThreads_Rtos.actNrofThreads, idThread);

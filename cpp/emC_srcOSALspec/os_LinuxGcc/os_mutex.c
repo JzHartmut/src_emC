@@ -80,7 +80,7 @@ int deleteMutex_OSemC(Mutex_OSemC_s* thiz) {
 bool lockMutex_OSemC(Mutex_OSemC_s* thiz, int timeout_millisec) {
   pthread_mutex_t hmutex = C_CAST(pthread_mutex_t, thiz->osHandleMutex);
   int error;
-  HandleThread_OSemC hthread = os_getCurrentThreadHandle();
+  Thread_OSemC const* hthread = getCurrent_Thread_OSemC();
   if(thiz->lockingThread == hthread) {
     thiz->ctLock +=1;                            // reentrant lock, accept it, do not lock really
     return true;                                 // but count the number of locks.
@@ -113,7 +113,7 @@ bool lockMutex_OSemC(Mutex_OSemC_s* thiz, int timeout_millisec) {
       if(thiz->lockingThread != null) {
         ERROR_SYSTEM_emC(0, "lockMutex_OSemC htread not 0", 0,0);
       }
-      thiz->lockingThread = (void*)hthread;
+      thiz->lockingThread = hthread;
       thiz->ctLock = 1;                            // assert that the mutex should be free. But it cannot be tested.
       return true;
     }
@@ -123,9 +123,9 @@ bool lockMutex_OSemC(Mutex_OSemC_s* thiz, int timeout_millisec) {
 
 bool unlockMutex_OSemC(Mutex_OSemC_s* thiz) {
   pthread_mutex_t hmutex = C_CAST(pthread_mutex_t, thiz->osHandleMutex);
-  HandleThread_OSemC thread = os_getCurrentThreadHandle();
-  if(thread != thiz->lockingThread) {
-    THROW_s0n(RuntimeException, "faulty thread_un unlock ", (int)(intPTR)thread, 0);
+  Thread_OSemC const* hthread = getCurrent_Thread_OSemC();
+  if(hthread != thiz->lockingThread) {
+    THROW_s0n(RuntimeException, "faulty thread_un unlock ", (int)(intPTR)hthread, 0);
     return false;
   }
   if(--thiz->ctLock >0) {

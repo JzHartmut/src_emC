@@ -16,7 +16,7 @@
 
 
 /**Informations about the current thread, more as an simple id. */
-struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
+//struct OS_ThreadContext_t* getCurrent_OS_ThreadContext();
 //end::start[]
 
 
@@ -29,7 +29,7 @@ typedef struct HandleWaitNotify_OSemC_T
   //int threadOwner;
   /**null if nobody waits. elsewhere the queue of waiting threads.*/
   /**The owner of the mutex. */
-  struct OS_ThreadContext_t const* threadWait;
+  struct Thread_OSemC_T const* threadWait;
   /**The system use an handle. */
   void* osHandleWaitNotify;
 } HandleWaitNotify_OSemC_s;

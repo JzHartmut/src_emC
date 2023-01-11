@@ -618,7 +618,7 @@ typedef struct ThreadContext_emC_t {
 
 #define ThCxt ThreadContext_emC_s
 
-/**Gets the ThreadContext of the current Thread.
+/**Gets the User ThreadContext of the current Thread.
  * How it is done depends deeply from the Operation system. Hence it is a function call.
  * It is possible that a simple access to a global pointer is done, possible on non-preemptive threads
  * Or simple interrupt systems. 

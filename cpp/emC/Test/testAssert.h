@@ -75,7 +75,7 @@ extern_C void msgEndFileLine_testAssert_emC ( bool ok);
 //end::TEST_FRAME[]
 
 //tag::TEST_TRY_END[]
-#define _TEST_TRY_END  } _TRY  CATCH(Exception, exc) { \
+#define TEST_TRY_END } _TRY  CATCH(Exception, exc) { \
     bTESTok = false; \
     exceptionFileLine_testAssert_emC(exc, __FILE__, __LINE__); \
   } END_TRY  msgEndFileLine_testAssert_emC(bTESTok); 
