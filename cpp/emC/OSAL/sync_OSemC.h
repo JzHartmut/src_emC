@@ -94,7 +94,7 @@ extern_C int deleteMutex_OSemC(struct Mutex_OSemC_T* thiz);
  * * If the same thread tries to lock a mutex, it is okay. 
  * * Another thread waits until the owner thread calls unlockMutex_OSemC(...).
  */
-extern_C bool lockMutex_OSemC(struct Mutex_OSemC_T* thiz, int timeout_millisec);
+extern_C bool lockMutex_OSemC(struct Mutex_OSemC_T* thiz);
 
 /**Unlocks the mutex. It is possible that a thread switch occurs, 
  * if another thread waits and it has a higher priority. 

@@ -84,6 +84,15 @@ int32 compareAndSwap_AtomicInt32(int32 volatile* reference, int32 expect, int32 
 }
 
 
+void* compareAndSwap_AtomicRef(void* volatile* reference, void* expect, void* update)
+{ __typeof (*reference) ret;
+  __asm __volatile ( "lock cmpxchg %2, %1"
+           : "=a" (ret), "=m" (*reference)
+           : "r" (update), "m" (*reference), "0" (expect));
+  return ret;
+}
+
+
 
 
 

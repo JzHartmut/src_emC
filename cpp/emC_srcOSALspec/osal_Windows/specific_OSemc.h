@@ -11,12 +11,10 @@ typedef struct Mutex_OSemC_T {
    * The name need be osHandleMutex for compatibility.
    */
   void* osHandleMutex;
-  /**Supports a timeout: If a timeout is necessary, an independent time order thread
-   * should call DeleteCriticalSection and increment this value.
-   * Note: Do not use a boolean variable, its size if not clarified. 
-   */
-  struct TimeOrder_emC_T* timeoutOrder;
-//  int32 aborted_timeout;
+
+  struct Thread_OSemC_T* lockingThread;
+
+  int32 ctLock;
 } Mutex_OSemC_s;
 //end::Mutex[]
 

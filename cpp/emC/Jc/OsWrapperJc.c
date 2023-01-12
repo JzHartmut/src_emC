@@ -106,7 +106,7 @@ HandleItem* getFreeHandleEntry  (  int16* idx)
       memcpy(&data_OsWrapperJc.mutexInitHandle, &mutexInitHandle, sizeof(data_OsWrapperJc.mutexInitHandle));
     }
     //There is only one determined mutex instance 
-    { lockMutex_OSemC(&data_OsWrapperJc.mutexInitHandle, 0);  
+    { lockMutex_OSemC(&data_OsWrapperJc.mutexInitHandle);  
       //repeat the quest and the initialization under mutex.
       if(data_OsWrapperJc.nrofHandle == 0) {
         data_OsWrapperJc.nrofHandle = initFreeHandleEntry();
@@ -337,7 +337,7 @@ void synchronized  (  ObjectJc* obj)
     STACKTRC_LEAVE;
     return;
   }
-  lockMutex_OSemC(&handle->handleMutex, 0);
+  lockMutex_OSemC(&handle->handleMutex);
 }
 
 

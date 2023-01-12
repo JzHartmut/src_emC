@@ -45,6 +45,7 @@
 //needed from os_adaption itself
 #include <emC/OSAL/os_error.h>
 #include <emC/OSAL/os_mem.h>
+#include <emC/Base/Atomic_emC.h>
 #include "emC_srcOSALspec/os_LinuxGcc/os_internal.h"
 
 //Needed includes from os:
@@ -77,44 +78,27 @@ int deleteMutex_OSemC(Mutex_OSemC_s* thiz) {
 
 
 
-bool lockMutex_OSemC(Mutex_OSemC_s* thiz, int timeout_millisec) {
+bool lockMutex_OSemC(Mutex_OSemC_s* thiz) {
   pthread_mutex_t hmutex = C_CAST(pthread_mutex_t, thiz->osHandleMutex);
   int error;
-  Thread_OSemC const* hthread = getCurrent_Thread_OSemC();
+  Thread_OSemC* hthread = getCurrent_Thread_OSemC();
   if(thiz->lockingThread == hthread) {
     thiz->ctLock +=1;                            // reentrant lock, accept it, do not lock really
     return true;                                 // but count the number of locks.
   } else {
-    // not returned on multiple reentrants (ctLock):
-    if (timeout_millisec != 0) {
-      struct timespec timeoutTime;
-      clock_gettime(CLOCK_REALTIME, &timeoutTime);
-      int sec = timeout_millisec / 1000;
-      timeout_millisec -= sec*1000;  //module 1000
-      timeoutTime.tv_nsec += 1000000 * timeout_millisec;
-      if (timeoutTime.tv_nsec >= 1000000000) {
-        timeoutTime.tv_nsec -= 1000000000;
-        timeoutTime.tv_sec +=1;
-      }
-      timeoutTime.tv_sec += sec;
-      error = pthread_mutex_timedlock(&hmutex, &timeoutTime);
-      if (error == 0) {
-        //check wether the  mutex is locked ... it is unnecessary, overengineered:
-        //Problem see https://stackoverflow.com/questions/2821263/lock-a-mutex-multiple-times-in-the-same-thread
-      }
-    } else {
-      error = pthread_mutex_lock(&hmutex);
-    }
-    if(error != 0){                                // error should be 0.
-      THROW_s0n(RuntimeException, "unknown error in pthread_mutex_lock ", error, 0);
-      //os_notifyError(OS_UNKNOWN_ERROR, OS_TEXT_UNKNOWN_ERROR, error, 0);
+    error = pthread_mutex_lock(&hmutex);         // it was not locked by the own thread, lock or wait for lock
+    //--------------------------------------------> now it is locked, or we have an error
+    //                                           // write the own thread, under lock, using compareAndSwap to write it back to core RAM
+    void*volatile* refThread = WR_CAST(void*volatile*,C_CAST(void const**, &thiz->lockingThread)); //Note: to execute atomic, should be volatile*
+    void* givenThread = compareAndSwap_AtomicRef(refThread, null, hthread);   // expect null, then write
+    if(error != 0){                              // error should be 0.
+      ERROR_SYSTEM_emC(0, "unknown error in pthread_mutex_lock ", error, 0);  // Note: the thread should be noted for debugging
+      return false;
+    } else if(givenThread != null) {             // then also compareAndSwap has failed
+      ERROR_SYSTEM_emC(0, "lockMutex_OSemC htread not 0", 0,0);
       return false;
     } else {
-      if(thiz->lockingThread != null) {
-        ERROR_SYSTEM_emC(0, "lockMutex_OSemC htread not 0", 0,0);
-      }
-      thiz->lockingThread = hthread;
-      thiz->ctLock = 1;                            // assert that the mutex should be free. But it cannot be tested.
+      thiz->ctLock = 1;                          // assert that the mutex should be free. But it cannot be tested.
       return true;
     }
   }
@@ -124,17 +108,18 @@ bool lockMutex_OSemC(Mutex_OSemC_s* thiz, int timeout_millisec) {
 bool unlockMutex_OSemC(Mutex_OSemC_s* thiz) {
   pthread_mutex_t hmutex = C_CAST(pthread_mutex_t, thiz->osHandleMutex);
   Thread_OSemC const* hthread = getCurrent_Thread_OSemC();
-  if(hthread != thiz->lockingThread) {
-    THROW_s0n(RuntimeException, "faulty thread_un unlock ", (int)(intPTR)hthread, 0);
+  //----------------------------------------------- Expect, we are under lock, all other is faulty
+  if(hthread != thiz->lockingThread) {           // check if the thread is correct, do not unlock the faulty mutex
+    THROW_s0n(RuntimeException, "faulty thread_un unlock ", (int)(intPTR)hthread, 0);  // not an ERROR_SYSTEM, a user error
     return false;
   }
   if(--thiz->ctLock >0) {
-    return true;                       // successfully unlock of an reentrant lock of the same thread.
+    return true;                                 // successfully unlock of an reentrant lock of the same thread. Locking is still active.
   } else {
-    thiz->lockingThread = null;        // now it is unlocked (set lockingThread = null before unlock, under mutex!)
+    thiz->lockingThread = null;                  // now it will be really unlocked (set lockingThread = null before unlock, under mutex!)
     int error = pthread_mutex_unlock(&hmutex);
     if(error != 0){
-      THROW_s0n(RuntimeException, "unknown error in pthread_mutex_unlock ", error, 0);
+      ERROR_SYSTEM_emC(0, "unknown error in pthread_mutex_unlock ", error, 0);
       return false;
     }
   }
