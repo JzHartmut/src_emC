@@ -128,6 +128,10 @@ int32 getClockCnt_Time_emC ( void)
   }
 }
 
+
+int32 milliTime_emC ( ) { return GetTickCount(); } // Win API https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount
+
+
 #if 0
 /**Gets a circular time information in clocks of the system.
 * @return a relativ value, the value can be used only for differnces.

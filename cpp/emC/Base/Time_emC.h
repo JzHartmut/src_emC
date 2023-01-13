@@ -172,6 +172,11 @@ static inline int32 diffMicroSec_TimeAbs_emC ( TimeAbs_emC* thiz, TimeAbs_emC* c
 }
 
 
+/**Returns a millisecond timer for relative times till +/- 24 days. 
+ * This should be enough for most time differences with millisecond resolution and only 32 bit resolution. 
+ */ 
+extern_C int32 milliTime_emC ( );
+
 
 /**Delays the execution of this thread with yield to other for given number of milliseconds.
  * This operation have to be implemented os-specific( (os_time.c)

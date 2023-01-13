@@ -45,10 +45,13 @@
 #ifndef HGUARD_sync_OSemC
 #define HGUARD_sync_OSemC
 #include <applstdef_emC.h>
-                             // OS-specific files must not included here!
-#include <specific_OSemc.h>  //This is for OS-specific struct definition, but commonly given elements
+//tag::specific_OSemc[]
+//The <specific_OSemc.h> should define the peculiarities of the following types:
+// typedef struct Mutex_OSemC_T { ... } Mutex_OSemC_s;
+// typedef struct WaitNotify_OSemC_T { ... } WaitNotify_OSemC_s;
+#include <specific_OSemc.h>
+//end::specific_OSemc[]
 
-extern_C_BLOCK_
 
 /**Version and History.
  * 2015-08-16 JcHartmut: The definition of Mutex_OSemC as pointer type is wrong, because it is not obvious what's that in C.
@@ -62,7 +65,7 @@ static const int32 version_sync_OSemC = 0x20230105;
 
 /**The type of a Mutex_OSemC is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
 struct Mutex_OSemC_T;
-typedef struct Mutex_OSemC_T const* HandleMutex_OSemC;
+//typedef struct Mutex_OSemC_T const* HandleMutex_OSemC;
 
 #include <applstdef_emC.h>
 
@@ -71,28 +74,38 @@ typedef struct Mutex_OSemC_T const* HandleMutex_OSemC;
 typedef struct HandleWaitNotify_OSemC_T const* HandleWaitNotify_OSemC;
 
 
-
+//tag::createMutex[]
 #ifndef  lockMutex_OSemC 
 //Note: for simple processors without multithreading but with interrupt this identifier may define as macro in the compl_adaption.h or in the applstdef_emC.h
 //Then it are not defined here.
 
-/**Creates a mutex object.
- * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
- * The mutex Object contains the necessary data for example a HANDLE etc.
+/**Creates a mutex object on OS-level.
+ * @param thiz reference to data space, can be statically, or also allocated.
+ *    It will be cleaned here (set to 0 before usage).
+ *    The struct type is usual OS-specific. It contains the necessary data for example a HANDLE etc.
+ * @param name Name of the Mutex Object. 
+ *  In some operation systems this name should be unique.
  */
-//struct Mutex_OSemC_T const* createMutex_OSemC(char const* name);
 extern_C int createMutex_OSemC ( struct Mutex_OSemC_T* thiz, char const* name);
+//end::createMutex[]
  
  
-/**Deletes a mutex object.
+//tag::deleteMutex[]
+/**Deletes the OS mutex object.
+ * @param thiz reference to data space as given also by the other mutex operations.
+ *   After deletion of the OS-specific Mutex the handle is set to null here also.
  */
 extern_C int deleteMutex_OSemC(struct Mutex_OSemC_T* thiz);
+//end::deleteMutex[]
  
 
+//tag::lockMutex[]
 /**locks a mutex. 
  * The contract is: 
- * * If the same thread tries to lock a mutex, it is okay. 
+ * * If the same thread tries to lock a mutex again, it is okay. It is reenterable for the same thread.
  * * Another thread waits until the owner thread calls unlockMutex_OSemC(...).
+ * A timeout is not supported. Timeouts are only a result of programming errors which causes deadlocks.
+ * This should be able to found by debugging and monitoring all mutexes.
  */
 extern_C bool lockMutex_OSemC(struct Mutex_OSemC_T* thiz);
 
@@ -104,6 +117,7 @@ extern_C bool lockMutex_OSemC(struct Mutex_OSemC_T* thiz);
  */
 extern_C bool unlockMutex_OSemC(struct Mutex_OSemC_T* thiz);
 #endif
+//end::lockMutex[]
 
 
 
@@ -118,12 +132,12 @@ extern_C bool unlockMutex_OSemC(struct Mutex_OSemC_T* thiz);
  * Here only a forward declared struct pointer is knwon.
  * @return 0 if no error, or an error code.
  */
-METHOD_C int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC* pWaitObject);
+extern_C int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC* pWaitObject);
 
 
 /**removes a object for wait-notify.
  */
-METHOD_C int deleteWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
+extern_C int deleteWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
 
 
 
@@ -132,7 +146,7 @@ METHOD_C int deleteWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
 /** Waits for a notification.
  */
 
-METHOD_C int wait_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex, uint32 milliseconds);
+extern_C int wait_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex, uint32 milliseconds);
 
 
 /** Notifies all waiting thread to continue.
@@ -140,15 +154,14 @@ METHOD_C int wait_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T*
              >0 if notified with warning (possible notified but nobody waits).
              <0 if an system error occurs. This should not occur in a tested system.
  */
-METHOD_C int notifyAll_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex);
+extern_C int notifyAll_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex);
 
 
 /** Notifies only one waiting thread to continue.
  */
-METHOD_C int notify_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex);
+extern_C int notify_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex);
 
 
-_END_extern_C_BLOCK
 
 
 #endif  // HGUARD_sync_OSemC

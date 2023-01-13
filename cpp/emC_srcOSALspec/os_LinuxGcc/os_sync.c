@@ -52,7 +52,7 @@
 int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC_s const** waitObjectP)
 { HandleWaitNotify_OSemC_s* thiz;
 
-  thiz = (HandleWaitNotify_OSemC_s*)malloc(sizeof(HandleWaitNotify_OSemC_s*));
+  thiz = (HandleWaitNotify_OSemC_s*)malloc(sizeof(HandleWaitNotify_OSemC_s));
   //init anything?
   int error = pthread_cond_init(&thiz->waitCondition, null);   // use null aus attribute for default behavior
   if(error !=null) {
@@ -106,6 +106,7 @@ int wait_OSemC(
   else
   { //build a queue of waiting threads. TODO
   }
+  MutexData_pthread* hmutex = C_CAST(MutexData_pthread*, mutex->osHandleMutex);
   if(milliseconds >0){
     struct timespec time;
     clock_gettime(CLOCK_REALTIME, &time);
@@ -119,10 +120,9 @@ int wait_OSemC(
       }
     }
 
-
-    error = pthread_cond_timedwait(&waitObj->waitCondition, (__pthread_mutex_t**)&mutex->osHandleMutex, &time);
+    error = pthread_cond_timedwait(&waitObj->waitCondition, &hmutex->m, &time);
   } else { //milliseconds == 0:
-    error = pthread_cond_wait(&waitObj->waitCondition, (__pthread_mutex_t**)&mutex->osHandleMutex);
+    error = pthread_cond_wait(&waitObj->waitCondition, &hmutex->m);
   }
   if(error !=0){
     ERROR_SYSTEM_emC(99, "error in pthread_cond_wait", error, (int)(intPTR)waitObj);
@@ -154,9 +154,9 @@ int notify_OSemC(struct HandleWaitNotify_OSemC_T const* waitObjP, Mutex_OSemC_s*
   int error = 0xbaadf00d;
   //cast it from const to non-const. const is only outside!
   HandleWaitNotify_OSemC_s* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
-  Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP;
+  MAYBE_UNUSED_emC Mutex_OSemC_s* mutex = (Mutex_OSemC_s*)mutexP;
   //the current threadcontext is nice to have for debugging - get the name of the thread.
-  Thread_OSemC const* pThread = getCurrent_Thread_OSemC();
+  MAYBE_UNUSED_emC Thread_OSemC const* pThread = getCurrent_Thread_OSemC();
     /*
   if(pThread != mutex->threadOwner)
   { os_Error("notify: it is necessary to have a os_lockMutex in the current thread", (int)mutex->threadOwner);

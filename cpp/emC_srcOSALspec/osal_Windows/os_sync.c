@@ -37,6 +37,7 @@
 
 #include <emC/OSAL/sync_OSemC.h>
 #include <emC/OSAL/thread_OSemC.h>
+#include <emC/Base/Time_emC.h>
 
 #undef BOOL
 #undef PBOOL
@@ -49,39 +50,46 @@
 #include <emC/OSAL/os_mem.h>
 #include "os_internal.h"
 
-/**Creates a mutex object.
- * @param name Name of the Mutex Object. In some operation systems this name should be unique. Please regard it, also in windows.
- * The mutex Object contains the necessary data for example a HANDLE etc.
- */
+//It allocates a CRITICAL_SECTION data and calla InitializeCriticalSection(cs) 
+//tag::createMutex[]
 extern_C int createMutex_OSemC ( struct Mutex_OSemC_T* thiz, char const* name) {
+    memset(thiz, 0, sizeof(*thiz));
     CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,malloc(sizeof(CRITICAL_SECTION)));
     InitializeCriticalSection(cs);
     thiz->osHandleMutex  = cs;
+    thiz->name = name;
     return 0;
 }
+//end::createMutex[]
 
 
+//tag::deleteMutex[]
 int deleteMutex_OSemC ( struct Mutex_OSemC_T* thiz) {
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
   DeleteCriticalSection(cs);
-  free(cs);
+  free(cs);                        // deallocates
   thiz->osHandleMutex = null;
-  return true;
+  return 0;
 }
+//end::deleteMutex[]
 
 
 
+//tag::lockMutex[]
 bool lockMutex_OSemC  ( struct Mutex_OSemC_T* thiz) {
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
-  EnterCriticalSection(cs);            // reenter in the same thread is supported be OS-Windows
+  EnterCriticalSection(cs);            // EnterCriticalSection reenter in the same thread is supported be OS-Windows
   thiz->lockingThread = getCurrent_Thread_OSemC(); //Hint: do it after lock!
-  thiz->ctLock +=1;                    // MS-Windows in EnterCriticalSection allows reenter in the same thread
-  return true;                         // true if no timeout was done.
+  thiz->ctLock +=1;                    // count only for debug
+  thiz->millisecLock = milliTime_emC();// milliseconds relative system time.
+  return true;                         // true always
 }
+//end::lockMutex[]
 
 
 
 
+//tag::unlockMutex[]
 bool unlockMutex_OSemC  (  struct Mutex_OSemC_T* thiz){
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
   if(--thiz->ctLock <=0) {             // Hint: do it before unlock
@@ -91,10 +99,12 @@ bool unlockMutex_OSemC  (  struct Mutex_OSemC_T* thiz){
   LeaveCriticalSection(cs);
   return true;
 }
+//end::unlockMutex[]
 
 
 
 
+//tag::createWaitNotify[]
 int createWaitNotifyObj_OSemC  (  char const* name, HandleWaitNotify_OSemC_s const** waitObjectP)
 { //folg. Mechanismus ist nicht verfügbar unter Win2000
  
@@ -107,11 +117,13 @@ int createWaitNotifyObj_OSemC  (  char const* name, HandleWaitNotify_OSemC_s con
   *waitObjectP = waitObject;
   return 0;
 }
+//end::createWaitNotify[]
 
 
 
 /**removes a object for wait-notify.
  */
+//tag::deleteWaitNotify[]
 int deleteWaitNotifyObj_OSemC  (  struct HandleWaitNotify_OSemC_T const* thiz) { 
   struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)thiz;
   CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, thiz->osHandleWaitNotify);
@@ -120,8 +132,10 @@ int deleteWaitNotifyObj_OSemC  (  struct HandleWaitNotify_OSemC_T const* thiz) {
   os_freeMem((void*)waitObj);
   return 0;
 }
+//end::deleteWaitNotify[]
 
 
+//tag::wait[]
 int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex, uint32 milliseconds) {
  //HANDLE semaphor = (HANDLE)handle;
   struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
@@ -157,19 +171,23 @@ int wait_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex
   //
   //the user have to be unlock.
 }
+//end::wait[]
 
 
 /** Notifies all waiting thread to continue.
  */
+//tag::notifyAll[]
 int notifyAll_OSemC  (  HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T const* hMutex)
 {
   return -1;
 
 }
+//end::notifyAll[]
 
 
 /** Notifies only one waiting thread to continue.
  */
+//tag::notify[]
 int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mutex_OSemC_T* mutex) { 
   struct HandleWaitNotify_OSemC_T* waitObj = (struct HandleWaitNotify_OSemC_T*)waitObjP;
   struct Thread_OSemC_T const* pThread = getCurrent_Thread_OSemC();
@@ -193,6 +211,7 @@ int notify_OSemC  (  struct HandleWaitNotify_OSemC_T const* waitObjP, struct Mut
   }
   return true;  //the mutex is locked.
 }
+//end::notify[]
 
 
 

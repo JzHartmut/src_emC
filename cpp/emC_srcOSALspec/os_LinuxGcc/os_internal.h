@@ -8,6 +8,10 @@
 #include <pthread.h>
 
 
+typedef struct {                    // for internal use
+  pthread_mutexattr_t attr;         // this is not a pointer, it is a specific struct
+  pthread_mutex_t m;
+} MutexData_pthread;
 
 
 //#include "fw_MemC.h"

@@ -14,7 +14,13 @@ typedef struct Mutex_OSemC_T {
 
   struct Thread_OSemC_T* lockingThread;
 
+  /**For MS-Windows this is only a debug information, 
+   * because the CRITICAL_SECTION mutex is reentrant for the same Thread. */
   int32 ctLock;
+
+  /**Time of last entering the mutex. Only for debug. */
+  int32 millisecLock;
+
 } Mutex_OSemC_s;
 //end::Mutex[]
 

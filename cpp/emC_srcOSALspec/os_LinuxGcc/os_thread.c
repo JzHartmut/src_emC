@@ -170,7 +170,7 @@ static void init_OSAL()
 
     if (mainThreadContext != null){
       pthread_setspecific(keyThreadContext, mainThreadContext);
-      mainThreadContext->handleThread = pthread_self();
+      mainThreadContext->handleThread = C_CAST(void*, pthread_self());
       /* create an event for this thread (for use in eventFlag functions) */
       //automatically resets the event state to nonsignaled after a single waiting thread has been released.
       bLibIsInitialized = true;
@@ -257,7 +257,7 @@ void* os_wrapperFunction(void* data)
 
   Thread_OSemC* threadContext = (Thread_OSemC*) data;
   pthread_t h2 = pthread_self();                                     // check whether this thread has the same handle as stored in threadContext!
-  if(! pthread_equal((pthread_t)threadContext->handleThread, h2)){   // should be same
+  if(! pthread_equal(C_CAST(pthread_t, threadContext->handleThread), h2)){   // should be same
     ERROR_SYSTEM_emC(0, "pthread_self fails", 0,0);
   } else {
     h2 = 0;
@@ -288,7 +288,7 @@ void* os_wrapperFunction(void* data)
     //If the thread routine is finished, the thread will be removed.
     //Hence free the threadContext. Nobody outside should use it!
     //The return value is also unused. The thread should say all internally.
-    free(threadContext);
+    //free(threadContext);
   }
   return null;
 }
@@ -321,7 +321,7 @@ int create_Thread_OSemC
   int abstractPrio,
   int stackSize )
 {
-  int ret_ok;
+  //int ret_ok;
     
   if (!bLibIsInitialized)
   { init_OSAL();
@@ -349,18 +349,10 @@ int create_Thread_OSemC
 
 
 bool start_Thread_OSemC ( Thread_OSemC* thiz) {
-  int ret_ok = pthread_create((pthread_t*)&thiz->handleThread, null, os_wrapperFunction, thiz);
-  /*
-  threadHandle = CreateThread(
-                          NULL,
-                          stackSize,
-                          (LPTHREAD_START_ROUTINE)(os_wrapperFunction),
-                          (void*)thiz,
-                          CREATE_SUSPENDED,      //wait because some values should be initialized
-                          &uThreadID);
-  */
-
-  thiz->nThreadID = 0; //TODO
+  // Note: write the handle to the thread immediately in the destination address.
+  // It should be seen immediately by other threads, respectively be the own immeditately started thread.
+  int ret_ok = pthread_create(C_CAST(pthread_t*,&thiz->handleThread), null, os_wrapperFunction, thiz);
+  thiz->nThreadID = 0; //not necessary? todo
 
   // set the thread prio
 //  { long uWinPrio = os_getRealThreadPriority( thiz-> );
@@ -368,11 +360,18 @@ bool start_Thread_OSemC ( Thread_OSemC* thiz) {
 //
 //    //ResumeThread(threadHandle);        // start thread
 //  }
+  if(ret_ok !=0){
+    THROW_s0n(RuntimeException, "anything faulty on pthread_create: ", ret_ok, (int)(intPTR)handleThread);  // not an ERROR_SYSTEM, a user error
+  }
+  return ret_ok ==0;
 }
 
 /**remove a thread handle.
  */
 bool delete_Thread_OSemC(Thread_OSemC* thiz) {
+  //pthread_t h = C_CAST(pthread_t, thiz->handleThread);
+  //int err = pthread_destroy   //seems to be not necessary
+  return true;
 }
 
 

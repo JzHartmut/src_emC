@@ -77,9 +77,8 @@ typedef struct Thread_OSemC_T
   /**Name of the thread.*/
   const char* name;
 
-  //bool bInUse;                         /* structure in use */
-
-  void* handleThread;             /* handle des Threads */
+  /**The handle of the thread may be no longer as a pointer. It is a os-specific value.*/
+  void* handleThread;
 
   int nThreadID;                  /* ID des threads */
 
