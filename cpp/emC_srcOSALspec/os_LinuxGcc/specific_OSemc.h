@@ -6,9 +6,10 @@ struct Thread_OSemC_T;
 //tag::Mutex[]
 typedef struct Mutex_OSemC_T{
   const char* name;
-  /**The system use usually a handle. It is 32 or 64 bit (on 64-bit-Windows-Version).
-   * In the Win environment a HANDLE is defined as void*, this is standard C and also used here.
-   * The name need be osHandleMutex for compatibility.
+  /**This refers OS-internal data for MUTEX allocated on createMutex and removed on deleteMutex_OSemC.
+   * The internal type for pthread usage is defined in os_internals.h,
+   * included only in the implementation file (os_mutex.h)
+   * because OS-specific files should not be part of the user sources.
    */
   void* osHandleMutex;
   void* attr;
@@ -21,7 +22,7 @@ typedef struct Mutex_OSemC_T{
 
   /**Time of the last access.*/
   int32 millisecLock;
-}Mutex_OSemC_s;
+} Mutex_OSemC_s;
 //end::Mutex[]
 
 

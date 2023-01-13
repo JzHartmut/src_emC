@@ -59,9 +59,9 @@
 //tag::createMutex[]
 int createMutex_OSemC ( Mutex_OSemC_s* thiz, char const* pName) {
   int err = 0;
-  MutexData_pthread* h = C_CAST(MutexData_pthread*, malloc(sizeof(MutexData_pthread)));
-
   thiz->name = pName;                //assume that the name-parameter is persistent! A simple "string literal"
+  //
+  MutexData_pthread* h = C_CAST(MutexData_pthread*, malloc(sizeof(MutexData_pthread)));
   err = pthread_mutexattr_init (&h->attr);
   //special: It does not compile, not commonly available
   //special? pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
@@ -82,6 +82,7 @@ int createMutex_OSemC ( Mutex_OSemC_s* thiz, char const* pName) {
 //tag::deleteMutex[]
 int deleteMutex_OSemC(Mutex_OSemC_s* thiz) {
   MutexData_pthread* hmutex = C_CAST(MutexData_pthread*, thiz->osHandleMutex);
+  free(hmutex);
   thiz->osHandleMutex = null;                     // set it to null before destroy and:
   if(thiz->lockingThread !=null) {
     THROW_s0n(RuntimeException, "mutex is locked while deleting ", (int)(intPTR)thiz->lockingThread, (int)(intPTR)hmutex);  // not an ERROR_SYSTEM, a user error
