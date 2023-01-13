@@ -132,12 +132,12 @@ extern_C bool unlockMutex_OSemC(struct Mutex_OSemC_T* thiz);
  * Here only a forward declared struct pointer is knwon.
  * @return 0 if no error, or an error code.
  */
-extern_C int createWaitNotifyObj_OSemC(char const* name, HandleWaitNotify_OSemC* pWaitObject);
+extern_C bool createWaitNotifyObj_OSemC ( char const* name, WaitNotify_OSemC_s* thiz);
 
 
 /**removes a object for wait-notify.
  */
-extern_C int deleteWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
+extern_C bool deleteWaitNotifyObj_OSemC ( WaitNotify_OSemC_s* thiz);
 
 
 
@@ -146,7 +146,7 @@ extern_C int deleteWaitNotifyObj_OSemC(HandleWaitNotify_OSemC waitObject);
 /** Waits for a notification.
  */
 
-extern_C int wait_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex, uint32 milliseconds);
+extern_C bool wait_OSemC(WaitNotify_OSemC_s* thiz, struct Mutex_OSemC_T* hMutex, uint32 milliseconds);
 
 
 /** Notifies all waiting thread to continue.
@@ -154,12 +154,12 @@ extern_C int wait_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T*
              >0 if notified with warning (possible notified but nobody waits).
              <0 if an system error occurs. This should not occur in a tested system.
  */
-extern_C int notifyAll_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex);
+extern_C bool notifyAll_OSemC(WaitNotify_OSemC_s* thiz, struct Mutex_OSemC_T* hMutex);
 
 
 /** Notifies only one waiting thread to continue.
  */
-extern_C int notify_OSemC(HandleWaitNotify_OSemC waitObject, struct Mutex_OSemC_T* hMutex);
+extern_C bool notify_OSemC(WaitNotify_OSemC_s* thiz, struct Mutex_OSemC_T* hMutex);
 
 
 

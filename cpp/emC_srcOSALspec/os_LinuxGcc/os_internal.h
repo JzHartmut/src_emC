@@ -17,17 +17,11 @@ typedef struct {                    // for internal use
 
 /**The type of a OS_HandleWaitNotify is represented . */
 //tag::WaitNotify_pthread[]
-typedef struct HandleWaitNotify_OSemC_T
+typedef struct WaitNotify_pthread_T
 {
-  /**The owner of the mutex. */
-  /**null if nobody waits. elsewhere the queue of waiting threads.*/
-  struct Thread_OSemC_T const* threadWait;
-
-  /**The number of recursively lock should be stored to restore. */
-  int ctLockMutex;
   /**see http://linux.die.net/man/3/pthread_cond_wait. */
   pthread_cond_t waitCondition;             //: the pthread handle of the waitCond
-} HandleWaitNotify_OSemC_s;
+} WaitNotify_pthread;
 //end::WaitNotify_pthread[]
 
 

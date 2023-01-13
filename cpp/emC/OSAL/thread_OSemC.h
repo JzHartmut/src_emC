@@ -44,6 +44,8 @@
                              // OS-specific files must not included here!
 #include <specific_OSemc.h>  //This is for OS-specific stuct definition, but commonly given elements
 
+struct WaitNotify_OS_emC_T;
+
 #ifdef __cplusplus
 // extern "C" {
 #endif
@@ -96,6 +98,12 @@ typedef struct Thread_OSemC_T
   #define mRunning_Thread_OSemC 0x0004
   #define mFinished_Thread_OSemC 0x0008
 
+  /**It is for debugging: If the thread is waiting, this reference is set. */
+  struct WaitNotify_OSemC_T* waitObj;
+  /**To build a queue on the same wait for more as one thread: Next thread also waiting.
+   * null if it is the last waiting thread.
+   * For debugging to see which threads are wait on given WaitNotify_OSemC*/
+  struct Thread_OSemC_T const* nextWaitingThread;
 
   /**The thread run routine used for start the thread. */
   OS_ThreadRoutine* ThreadRoutine;

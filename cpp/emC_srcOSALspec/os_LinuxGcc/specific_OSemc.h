@@ -4,7 +4,7 @@
 struct Thread_OSemC_T;
 
 //tag::Mutex[]
-typedef struct Mutex_OSemC_T{
+typedef struct Mutex_OSemC_T {
   const char* name;
   /**This refers OS-internal data for MUTEX allocated on createMutex and removed on deleteMutex_OSemC.
    * The internal type for pthread usage is defined in os_internals.h,
@@ -12,7 +12,6 @@ typedef struct Mutex_OSemC_T{
    * because OS-specific files should not be part of the user sources.
    */
   void* osHandleMutex;
-  void* attr;
 
   /**null then the mutex is not locked. Else: handle of the locking thread. */
   struct Thread_OSemC_T const* lockingThread;
@@ -25,7 +24,25 @@ typedef struct Mutex_OSemC_T{
 } Mutex_OSemC_s;
 //end::Mutex[]
 
+//tag::WaitNotify[]
+typedef struct WaitNotify_OSemC_T {
+  const char* name;
 
+  /**The waiting thread, and also the owner of the mutex:
+    *null if nobody waits. elsewhere a possible queue of waiting threads.*/
+  struct Thread_OSemC_T const* threadWait;
 
+  /**If the waitObj is also called by another thread, it should use the same mutex.
+   * If the same waitObj is used in another situation, another mutex is possible.
+   * null if nobody uses this waitObj. */
+  struct Mutex_OSemC_T* mutex;
+
+  /**The number of recursively lock should be stored to restore. */
+  int ctLockMutex;
+
+  void* osHandleWaitNotify;  // in Linux type of WaitNotify_pthread* respectively pthread_cond_t*
+
+} WaitNotify_OSemC_s;
+//end::WaitNotify[]
 
 #endif //HGUARD_specific_OSemC

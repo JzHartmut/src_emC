@@ -332,7 +332,7 @@ int create_Thread_OSemC
 bool start_Thread_OSemC ( Thread_OSemC* thiz) {
 	HANDLE h = thiz->handleThread;
   if(h ==null || thiz->state != mCreated_Thread_OSemC ) {
-    THROW_s0(IllegalStateException, "Thread finished or not initialized", 0, 0);
+    THROW_s0n(IllegalStateException, "Thread finished or not initialized", 0, 0);
   }
   thiz->state = mStarted_Thread_OSemC;
   int err = ResumeThread(h);				// start thread

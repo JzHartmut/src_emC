@@ -35,9 +35,9 @@
  * 2009-11-25 Hartmut Schorrig
  *   corr: Weitere Fehlercodes
  *   new: Socket-Fehlercodes: Hier sollten nicht alle betriebssystemspezifischen Codes auf allgemeine umgesetzt werden, 
- *     sondern nur die allgemeingültigen. Alle anderen Fehlercodes als Sub-code nicht umgesetzt melden,
+ *     sondern nur die allgemeingï¿½ltigen. Alle anderen Fehlercodes als Sub-code nicht umgesetzt melden,
  *     die Software sollte direkt darauf nicht reagieren. Das ganze ist noch nicht richtig durchdesignet.
- *   new: Fehlermeldung mit Routinen ähnlich wie es in der Hynet-OS-Schale getan wird, aber hier über Funktionspointer,
+ *   new: Fehlermeldung mit Routinen ï¿½hnlich wie es in der Hynet-OS-Schale getan wird, aber hier ï¿½ber Funktionspointer,
  *     dazu gibt es:
  *   new: os_setErrorRoutine(..) (zuvor in os_thread.c vordefiniert)
  *   new: Routine, um aus Anwendersicht dem OS einen fatalen error zu melden:
@@ -54,22 +54,22 @@
 //Funktion-Fehlercode
 #define OS_OK                  0
 #define OS_SYSTEM_ERROR      -100	// System Fehler.
-#define OS_INVALID_PARAMETER -101	// Ein Parameter war ungültig.
-#define OS_INVALID_STRING	   -102	// Ein String ist nicht innerhalb der vorgegebenen Größe.
-#define OS_INVALID_HANDLE    -103	// Das Objekt-Handle ist ungültig.
-//#define OS_INVALID_STATE     -104	// Der Objekt-Sustand ist ungültig für diese Operation.
-//#define OS_TEST_NOT_OK       -105	// Testbedingungen nicht erfüllt.
+#define OS_INVALID_PARAMETER -101	// Ein Parameter war ungï¿½ltig.
+#define OS_INVALID_STRING	   -102	// Ein String ist nicht innerhalb der vorgegebenen Grï¿½ï¿½e.
+#define OS_INVALID_HANDLE    -103	// Das Objekt-Handle ist ungï¿½ltig.
+//#define OS_INVALID_STATE     -104	// Der Objekt-Sustand ist ungï¿½ltig fï¿½r diese Operation.
+//#define OS_TEST_NOT_OK       -105	// Testbedingungen nicht erfï¿½llt.
 #define OS_GOT_TIMEOUT       -106	// Der Aufruf wurde nach dem eingestellten Timeout abgebrochen.
-//#define OS_QUEUE_EXIST       -107	// Die Message-Queue existiert bereits für diesen Thread.
+//#define OS_QUEUE_EXIST       -107	// Die Message-Queue existiert bereits fï¿½r diesen Thread.
 //#define OS_QUEUE_NOT_EXIST   -108	// Die Message-Queue dieses Thread existiert nicht.
 #define OS_RESOURCE_BUSY     -109	// In diesem Objekt stehen noch Nachrichten, oder ein Thread wartet.
-//#define OS_QUEUE_FULL        -110	// Die Message–Queue ist voll.
-//#define OS_QUEUE_EMPTY       -111	// Die Message-Queue enthält keine Nachricht
+//#define OS_QUEUE_FULL        -110	// Die Messageï¿½Queue ist voll.
+//#define OS_QUEUE_EMPTY       -111	// Die Message-Queue enthï¿½lt keine Nachricht
 //#define OS_NAME_EXIST        -112	// Der Name existiert bereits.
 #define OS_NAME_NOT_EXIST    -113	// Der angegebene Name existiert im System nicht.
-//#define OS_MAILBOX_FULL      -114	// Die Anforderung überschreitet die eingetragene Grenze der Mailbox.
-//#define OS_MAILBOX_EMPTY     -115	// Die Mailbox enthält keine Nachricht (wenn timeOut = 0).
-#define OS_INVALID_POINTER   -116	// Zeiger zu Resource ungültig.
+//#define OS_MAILBOX_FULL      -114	// Die Anforderung ï¿½berschreitet die eingetragene Grenze der Mailbox.
+//#define OS_MAILBOX_EMPTY     -115	// Die Mailbox enthï¿½lt keine Nachricht (wenn timeOut = 0).
+#define OS_INVALID_POINTER   -116	// Zeiger zu Resource ungï¿½ltig.
 #define OS_UNEXPECTED_CALL   -117	// Aufruf an dieser Stelle nicht erwartet/statthaft.
 #define OSAL_Wait_FaultMutex -120	
 #define OSAL_TEXT_Wait_FaultMutex "Fault mutex while calling wait_OSemC."	
@@ -85,13 +85,6 @@
 #define OS_SOCKETERROR       -280
 #define OS_TEXT_SOCKETERROR       "Any unexpected socket error, param1=os-specific error-code, param1=socket-id"
 
-/**All Warnings can be ignored by user. They mustn't be used in software algorithm.
- * In debug situations it is possible to evaluate it.
- */
-typedef enum OS_ReturnCodes_t
-{ OS_WARNING_NOTIFY_TooManyPosts =     10001
-, OS_WARNING_NOTIFY_NothingIsWaiting = 10002
-}OS_ReturnCodes;  
 
 
 /**Type of routine to present non-fatal or fatal errors in a deep system level. 
