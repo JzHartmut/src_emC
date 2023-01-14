@@ -22,18 +22,4 @@
 
 
 
-
-/**The type of a HandleWaitNotify_OSemC is represented by a pointer to a not far defined struct. */ 
-typedef struct HandleWaitNotify_OSemC_T 
-{ /**The owner of the mutex. */
-  //int threadOwner;
-  /**null if nobody waits. elsewhere the queue of waiting threads.*/
-  /**The owner of the mutex. */
-  struct Thread_OSemC_T const* threadWait;
-  /**The system use an handle. */
-  void* osHandleWaitNotify;
-} HandleWaitNotify_OSemC_s;
-
-
-
 #endif //HGUARD_os_internal

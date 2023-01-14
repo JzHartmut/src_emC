@@ -45,12 +45,6 @@
 #ifndef HGUARD_sync_OSemC
 #define HGUARD_sync_OSemC
 #include <applstdef_emC.h>
-//tag::specific_OSemc[]
-//The <specific_OSemc.h> should define the peculiarities of the following types:
-// typedef struct Mutex_OSemC_T { ... } Mutex_OSemC_s;
-// typedef struct WaitNotify_OSemC_T { ... } WaitNotify_OSemC_s;
-#include <specific_OSemc.h>
-//end::specific_OSemc[]
 
 
 /**Version and History.
@@ -64,14 +58,34 @@ static const int32 version_sync_OSemC = 0x20230105;
 
 
 /**The type of a Mutex_OSemC is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
-struct Mutex_OSemC_T;
+struct Thread_OSemC_T;
+
 //typedef struct Mutex_OSemC_T const* HandleMutex_OSemC;
 
-#include <applstdef_emC.h>
 
 
-/**The type of a HandleWaitNotify_OSemC is represented by a pointer to a not far defined struct which is defined OS-specific. */ 
-typedef struct HandleWaitNotify_OSemC_T const* HandleWaitNotify_OSemC;
+//tag::Mutex[]
+#ifndef DEF_Mutex_OSemC            //maybe specific defintions may be existing. Defined in compl_adaption.h or via applstdef_emC.h
+typedef struct Mutex_OSemC_T {
+  const char* name;
+  /**This refers OS-internal data for MUTEX allocated on createMutex and removed on deleteMutex_OSemC.
+   * The internal type for pthread usage is defined in os_internals.h,
+   * included only in the implementation file (os_mutex.h)
+   * because OS-specific files should not be part of the user sources.
+   */
+  void* osHandleMutex;
+
+  /**null then the mutex is not locked. Else: handle of the locking thread. */
+  struct Thread_OSemC_T const* lockingThread;
+
+  /**Number of lock calls of the mutex in the SAME thread. Reentrant lock should be supported. */
+  int32 ctLock;
+
+  /**Time of the last access.*/
+  int32 millisecLock;
+} Mutex_OSemC_s;
+#endif //DEF_Mutex_OSemC
+//end::Mutex[]
 
 
 //tag::createMutex[]
@@ -121,6 +135,28 @@ extern_C bool unlockMutex_OSemC(struct Mutex_OSemC_T* thiz);
 
 
 
+//tag::WaitNotify[]
+#ifndef DEF_WaitNotify_OSemC   // it may have a specific defintiion for specific situations, containd in compl_adaption.h
+typedef struct WaitNotify_OSemC_T {
+  const char* name;
+
+  /**The waiting thread, and also the owner of the mutex:
+    *null if nobody waits. elsewhere a possible queue of waiting threads.*/
+  struct Thread_OSemC_T const* threadWait;
+
+  /**If the waitObj is also called by another thread, it should use the same mutex.
+   * If the same waitObj is used in another situation, another mutex is possible.
+   * null if nobody uses this waitObj. */
+  struct Mutex_OSemC_T* mutex;
+
+  /**The number of recursively lock should be stored to restore. */
+  int ctLockMutex;
+
+  void* osHandleWaitNotify;  // in Linux type of WaitNotify_pthread* respectively pthread_cond_t*
+
+} WaitNotify_OSemC_s;
+#endif  // DEF_WaitNotify_OSemC
+//end::WaitNotify[]
 
 
 

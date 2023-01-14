@@ -266,8 +266,8 @@ void wait_ObjectJc  (  ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
   }
   if(handle->handle.wait == null)
   { //TODO set
-    struct HandleWaitNotify_OSemC_T const* handleWait;
-    int error = createWaitNotifyObj_OSemC(handle->name, &handleWait);
+    struct WaitNotify_OSemC_T* handleWait = null;
+    int error = createWaitNotifyObj_OSemC(handle->name, handleWait);
     if(error != 0)
     { //it may be throwable
       THROW1_s0(RuntimeException, "error createWaitNotifyObj_OSemC", error);

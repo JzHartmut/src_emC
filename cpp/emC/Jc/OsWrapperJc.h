@@ -69,8 +69,8 @@
 typedef struct HandleItem_t
 { /**union of several handles, all are pointers. */
   union
-  { struct HandleWaitNotify_OSemC_T const* wait;
-    struct HandleThread_OSemC_T const* thread_xxx;
+  { struct WaitNotify_OSemC_T* wait;
+    struct Thread_OSemC_T const* thread_xxx;
     /**If it is a free handle, the pointer to the next free. */
     struct HandleItem_t* nextFree;
   }handle;

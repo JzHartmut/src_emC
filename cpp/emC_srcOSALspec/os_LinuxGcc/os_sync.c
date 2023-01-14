@@ -67,8 +67,7 @@ bool createWaitNotifyObj_OSemC(char const* name, WaitNotify_OSemC_s* thiz)
 /**removes a object for wait-notify.
  */
 //tag::deleteWaitNotify[]
-bool deleteWaitNotifyObj_OSemC(WaitNotify_OSemC_s* thiz)
-{ //TODO
+bool deleteWaitNotifyObj_OSemC(WaitNotify_OSemC_s* thiz) {
   WaitNotify_pthread* h = C_CAST(WaitNotify_pthread*, thiz->osHandleWaitNotify);
   int err = pthread_cond_destroy(&h->waitCondition);
   if(err !=0) {
@@ -101,15 +100,14 @@ bool wait_OSemC(
   if(thiz->mutex !=null && thiz->mutex != mutex) {
     THROW_s0n(RuntimeException, "more wait_OSemC with this Obj uses different mutexes ", (int)(intPTR)hThread, (int)(intPTR)mutex->lockingThread);
   }
+  if(threadWait->waitObj !=null || threadWait->nextWaitingThread !=null) {
+    THROW_s0n(RuntimeException, "wait_OSemC mismatch in waiting Thread ", (int)(intPTR)hThread, (int)(intPTR)threadWait);
+  }
   thiz->mutex = mutex;
   thiz->ctLockMutex = mutex->ctLock;             // save for restoring
   mutex->ctLock = 0;                             // necessary because the mutex will be free inside wait
   mutex->lockingThread = null;
-  /**note the waiting thread, because notify weaks up only if a thread waits.
-   */
-  if(threadWait->waitObj !=null || threadWait->nextWaitingThread !=null) {
-    THROW_s0n(RuntimeException, "wait_OSemC mismatch in waiting Thread ", (int)(intPTR)hThread, (int)(intPTR)threadWait);
-  }
+  //
   threadWait->nextWaitingThread = thiz->threadWait;  // maybe null if the waitObj is not used for wait till now
   thiz->threadWait = threadWait;                 // build a queue of waiting threads.
   threadWait->waitObj = thiz;
@@ -153,7 +151,7 @@ bool wait_OSemC(
 
 /** Notifies all waiting thread to continue.
  */
-bool notifyAll_OSemC(HandleWaitNotify_OSemC waitObject, Mutex_OSemC_s hMutex)
+bool notifyAll_OSemC(WaitNotify_OSemC_s* thiz, Mutex_OSemC_s hMutex)
 {
   return false;
 
