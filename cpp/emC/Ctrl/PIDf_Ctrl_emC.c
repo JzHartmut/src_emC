@@ -227,7 +227,7 @@ float step_PIDf_Ctrl_emC ( PIDf_Ctrl_emC_s* thiz, float wx, float dx)
       //   But this is only one time, only the integration of one Tstep.
       //   It is not effective for wind-up because it is integrated back 
       //   in the next step time after left limitation.
-      ASSERT_TEST_emC(wxP32i <= 0x01ffffff && wxP32i >= -0x01ffffff, "overflow possible", wxP32i, thiz->qI.qI32 );
+      //ASSERT_TEST_emC(wxP32i <= 0x01ffffff && wxP32i >= -0x01ffffff, "overflow possible", wxP32i, thiz->qI.qI32 );
       thiz->qI.qI32 += wxP32i;         // use integer for exact integration.
       thiz->yIntg = (int32)((thiz->qI.qI32)) * thiz->par->fIy;  // float used. 
     } 

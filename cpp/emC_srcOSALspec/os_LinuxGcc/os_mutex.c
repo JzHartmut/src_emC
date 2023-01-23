@@ -124,13 +124,17 @@ bool lockMutex_OSemC(Mutex_OSemC_s* thiz) {
 //end::lockMutex[]
 
 
+
+
+
+
 //tag::unlockMutex[]
 bool unlockMutex_OSemC(Mutex_OSemC_s* thiz) {
   MutexData_pthread* hmutex = C_CAST(MutexData_pthread*, thiz->osHandleMutex);
   Thread_OSemC const* hthread = getCurrent_Thread_OSemC();
   //----------------------------------------------- Expect, we are under lock, all other is faulty
   if(hthread != thiz->lockingThread) {           // check if the thread is correct, do not unlock the faulty mutex
-    THROW_s0n(RuntimeException, "faulty thread_un unlock ", (int)(intPTR)hthread, 0);  // not an ERROR_SYSTEM, a user error
+    THROW_s0n(RuntimeException, "faulty thread on unlock ", (int)(intPTR)hthread, 0);  // not an ERROR_SYSTEM, a user error
     return false;
   }
   if(--thiz->ctLock >0) {
@@ -146,3 +150,20 @@ bool unlockMutex_OSemC(Mutex_OSemC_s* thiz) {
   return true;
 }
 //end::unlockMutex[]
+
+
+//tag::lockFirst[]
+bool lockMutexFirst_OSemC  ( struct Mutex_OSemC_T* thiz) {
+  bool ok = lockMutex_OSemC(thiz);
+  ASSERT_emC(thiz->ctLock ==1, "unlockMutexFirst ctLock !=1", thiz->ctLock, 0);
+  return ok;
+}
+
+
+bool unlockMutexFirst_OSemC  ( struct Mutex_OSemC_T* thiz) {
+  ASSERT_emC(thiz->ctLock ==1, "unlockMutexFirst ctLock !=1", thiz->ctLock, 0);
+  return unlockMutex_OSemC(thiz);
+}
+//end::lockFirst[]
+
+

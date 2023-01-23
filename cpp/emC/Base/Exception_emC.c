@@ -44,7 +44,7 @@
 #ifdef DEFINED_Exception_emC
 
 //Check if DEF_Exception_TRYCpp is set it needs C++ compilation.
-//Then this file is included in compilation of ExceptionCpp_emC.cpp to assert C++ compilation anyway. 
+//Then this file may be included in compilation of ExceptionCpp_emC.cpp to assert C++ compilation anyway. 
 //
 #if !defined(DEF_Exception_TRYCpp) || defined(DEF_ExceptionCpp_INCLUDED)
 
@@ -118,11 +118,7 @@ const char* exceptionTexts [33] =
 };
 
 
-void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, char const* file, int line, ThCxt* _thCxt)
-{ //find stack level with try entry:
-  if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
-  if(_thCxt->tryObject !=null) {
-    Exception_emC* exception = &_thCxt->tryObject->exc;        //locate in stack of the try level.
+static inline void fillInException ( Exception_emC* exception, int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, char const* file, int line, ThCxt* _thCxt ){
     exception->file = file;
     exception->line = line;
     exception->exceptionNr = exceptionNr;
@@ -153,11 +149,26 @@ void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, cha
     }
     #endif
     exception->exceptionValue = value;
+
+}
+
+
+
+
+
+void throw_sJc (int32 exceptionNr, ARGTYPE_MSG_Exception_emC msg, int value, char const* file, int line, ThCxt* _thCxt)
+{ //find stack level with try entry:
+  if(_thCxt ==null) { _thCxt = getCurrent_ThreadContext_emC(); }
+  if(_thCxt->tryObject !=null) {
+    Exception_emC* exception = &_thCxt->tryObject->exc;        //locate in stack of the try level.
+    fillInException(exception, exceptionNr, msg, value, file, line, _thCxt);
     throwCore_emC(_thCxt);
   }
   else
   { //no TRYJc-level found,
-    uncatched_Exception_emC(&_thCxt->tryObject->exc, _thCxt);
+    Exception_emC exc = {0};    // local exception object to work with
+    fillInException(&exc, exceptionNr, msg, value, file, line, _thCxt);
+    uncatched_Exception_emC(&exc, _thCxt);
   }
 }
 

@@ -54,6 +54,7 @@
 //tag::createMutex[]
 extern_C int createMutex_OSemC ( struct Mutex_OSemC_T* thiz, char const* name) {
     memset(thiz, 0, sizeof(*thiz));
+    thiz->name = name;
     CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,malloc(sizeof(CRITICAL_SECTION)));
     InitializeCriticalSection(cs);
     thiz->osHandleMutex  = cs;
@@ -79,39 +80,60 @@ int deleteMutex_OSemC ( struct Mutex_OSemC_T* thiz) {
 bool lockMutex_OSemC  ( struct Mutex_OSemC_T* thiz) {
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
   EnterCriticalSection(cs);            // EnterCriticalSection reenter in the same thread is supported be OS-Windows
+  if(thiz->ctLock ==0 && thiz->lockingThread !=null) {
+    THROW_s0n(RuntimeException, "on lock the lockingThread should be 0", thiz->ctLock, 0);
+  }
   thiz->lockingThread = getCurrent_Thread_OSemC(); //Hint: do it after lock!
   thiz->ctLock +=1;                    // count only for debug
   thiz->millisecLock = milliTime_emC();// milliseconds relative system time.
   return true;                         // true always
 }
+
 //end::lockMutex[]
 
 
+bool lockMutexFirst_OSemC  ( struct Mutex_OSemC_T* thiz) {
+  bool ok = lockMutex_OSemC(thiz);
+  ASSERT_emC(thiz->ctLock ==1, "unlockMutexFirst ctLock !=1", thiz->ctLock, 0);
+  return ok;
+}
 
 
 //tag::unlockMutex[]
 bool unlockMutex_OSemC  (  struct Mutex_OSemC_T* thiz){
+  bool ok = true;
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,thiz->osHandleMutex);
+  Thread_OSemC* currThread = getCurrent_Thread_OSemC();
+  if(thiz->lockingThread != currThread) {
+    THROW_s0n(RuntimeException, "faulty thread on unlock ", (int)(intPTR)currThread, 0);  // not an ERROR_SYSTEM, a user error
+    return false;                      // do not unlock, the thread is not authorized. bug to debug.
+  }
   if(--thiz->ctLock <=0) {             // Hint: do it before unlock
     thiz->lockingThread = null;        // it is only for debugging
     thiz->ctLock = 0;
+  } else {
+    thiz->ctLock +=0;
   }
   LeaveCriticalSection(cs);
   return true;
 }
 //end::unlockMutex[]
 
+bool unlockMutexFirst_OSemC  ( struct Mutex_OSemC_T* thiz) {
+  ASSERT_emC(thiz->ctLock ==1, "unlockMutexFirst ctLock !=1", thiz->ctLock, 0);
+  return unlockMutex_OSemC(thiz);
+}
 
 
 
 //tag::createWaitNotify[]
 bool createWaitNotifyObj_OSemC  (  char const* name, WaitNotify_OSemC_s* thiz) { 
   memset(thiz, 0, sizeof(*thiz));
+  thiz->name = name;
+
   //the following. mechanisms is not available in Win2000
- 
   CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, malloc(sizeof(CONDITION_VARIABLE)));
   InitializeConditionVariable(cv);
-  
   thiz->osHandleWaitNotify = cv;
   return true;
 }
@@ -133,38 +155,53 @@ bool deleteWaitNotifyObj_OSemC  (  struct WaitNotify_OSemC_T* thiz) {
 
 //tag::wait[]
 bool wait_OSemC  (  struct WaitNotify_OSemC_T* thiz, struct Mutex_OSemC_T* mutex, uint32 milliseconds) {
- //HANDLE semaphor = (HANDLE)handle;
-  struct Thread_OSemC_T const* pThread = getCurrent_Thread_OSemC();
+  //HANDLE semaphor = (HANDLE)handle;
+  struct Thread_OSemC_T* threadWait = getCurrent_Thread_OSemC();
   CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, thiz->osHandleWaitNotify);
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*, mutex->osHandleMutex);
-  /*
-    if(pThread != mutex->threadOwner)
-    { os_Error("notify: it is necessary to have a lockMutex_OSemC in the current thread", (int)mutex->threadOwner);
-      return OS_INVALID_PARAMETER;
-    }
-  */
+  if(threadWait != mutex->lockingThread) {
+    THROW_s0n(RuntimeException, "notify: it is necessary to have a lockMutex_OSemC in the current thread", (int)(intPTR)mutex->lockingThread, 0);
+    return false;
+  }
   /**note the waiting thread, because notify weaks up only if a thread waits.
    */
   if(thiz->threadWait == null)
-  { thiz->threadWait = pThread;
+  { thiz->threadWait = threadWait;
   }
   else
   { //build a queue of waiting threads. TODO
   }
+  thiz->mutex = mutex;
+  thiz->ctLockMutex = mutex->ctLock;             // save for restoring
+  mutex->ctLock = 0;                             // necessary because the mutex will be free inside wait
+  mutex->lockingThread = null;
+  //
+  threadWait->nextWaitingThread = thiz->threadWait;  // maybe null if the waitObj is not used for wait till now
+  thiz->threadWait = threadWait;                 // build a queue of waiting threads.
+  threadWait->waitObj = thiz;
+  //
   if(milliseconds ==0) { milliseconds = INFINITE; } 
   //
   //inside Sleep, the lock is free, wait for timeout or notify
   int error = SleepConditionVariableCS(cv, cs, milliseconds);
   //after sleep, the lock is given:
-  thiz->threadWait = null; 
   if(error ==0) {
     error = GetLastError();
     return false;                    // time elapsed or any other error
-  } else { 
-    return true;                     // return >0, it is ok
+  }
+  mutex->lockingThread = threadWait;             // restore state before wait for the mutex.
+  mutex->ctLock = thiz->ctLockMutex;
+  thiz->ctLockMutex = 0;
+  thiz->threadWait = threadWait->nextWaitingThread;
+  threadWait->nextWaitingThread = null;
+  threadWait->waitObj = null;
+  if(thiz->threadWait == null) {                 // only if nobody else waits
+    thiz->mutex = null;                          // set the mutex to null, other mutex can be used.
+  } else {
+    thiz->ctLockMutex += 0;
   }
   //
-  //the user have to be unlock.
+  return true;                                   //the user have to be unlock.
 }
 //end::wait[]
 
@@ -183,7 +220,7 @@ bool notifyAll_OSemC  ( struct WaitNotify_OSemC_T* thiz, struct Mutex_OSemC_T co
 /** Notifies only one waiting thread to continue.
  */
 //tag::notify[]
-bool notify_OSemC  (  struct WaitNotify_OSemC_T* thiz, struct Mutex_OSemC_T* mutex) { 
+bool notify_OSemC  (  WaitNotify_OSemC_s* thiz, struct Mutex_OSemC_T* mutex) { 
   struct Thread_OSemC_T const* pThread = getCurrent_Thread_OSemC();
   CONDITION_VARIABLE* cv = C_CAST(CONDITION_VARIABLE*, thiz->osHandleWaitNotify);
   CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*, mutex->osHandleMutex);

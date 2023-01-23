@@ -142,6 +142,9 @@ bool wait_OSemC(
   threadWait->waitObj = null;
   if(thiz->threadWait == null) {                 // only if nobody else waits
     thiz->mutex = null;                          // set the mutex to null, other mutex can be used.
+  } else {
+    thiz->ctLockMutex += 0;
+
   }
   return error ==0;                              // false if timeout or any other error
   //the user have to be unlock the mutex.

@@ -122,6 +122,7 @@ extern_C int deleteMutex_OSemC(struct Mutex_OSemC_T* thiz);
  * This should be able to found by debugging and monitoring all mutexes.
  */
 extern_C bool lockMutex_OSemC(struct Mutex_OSemC_T* thiz);
+extern_C bool lockMutexFirst_OSemC(struct Mutex_OSemC_T* thiz);
 
 /**Unlocks the mutex. It is possible that a thread switch occurs, 
  * if another thread waits and it has a higher priority. 
@@ -130,6 +131,7 @@ extern_C bool lockMutex_OSemC(struct Mutex_OSemC_T* thiz);
  * If another thread unlocks, it is an error and an exception may be thrown.
  */
 extern_C bool unlockMutex_OSemC(struct Mutex_OSemC_T* thiz);
+extern_C bool unlockMutexFirst_OSemC(struct Mutex_OSemC_T* thiz);
 #endif
 //end::lockMutex[]
 

@@ -265,6 +265,7 @@ int create_Thread_OSemC
     	//printf("/nos_createThread: init_OSAL() has to be called first in order to use Windows-Threads!");
     	//return OS_SYSTEM_ERROR;
   }
+  thiz->name = sThreadName;
   if (stackSize == 0 || stackSize == -1)
   {
     stackSize = OS_DEFAULT_STACK;

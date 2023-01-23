@@ -276,6 +276,7 @@ typedef struct Exception_emC_T
 
 } Exception_emC;
 
+
 #define DEFINED_Exception_emC
 
 
@@ -599,10 +600,11 @@ typedef struct ThreadContext_emC_t {
   /**This is the maximal found value of the stack size which is evaluated on [[getCurrentStackDepth_ThreadContext_emC(...)]] . */
   int stacksizeMax;
 
-  /**Reference to the current TryObject in Stack.
-  * It is possible to access in deeper stack frames.
-  * This reference is removed for the outer stack frames.
-  */
+  /**Reference to the current TryObject in Stack in the current level or in levels before.
+   * On TRY a TryObject_emC is defined in local (Stack-) context, 
+   * the current tryObject reference due to the TRY block before is saved locally. 
+   * On _TRY (end of TRY block) the saved reference to TRY before is restored. 
+   */
   TryObject_emC* tryObject;
 
   #ifdef DEF_ThreadContext_STACKTRC
