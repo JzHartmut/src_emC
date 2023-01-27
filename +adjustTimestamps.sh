@@ -1,2 +1,7 @@
 echo touch all files with the timestamp in emC.filelist:
-~/cmds/javavishia.sh org.vishia.util.FileList T -l:.filelist -d:.
+currdir="$(dirname $0)"
+if test -f $currdir/../../tools/vishiaBase.jar; then 
+  java -cp $currdir/../../tools/vishiaBase.jar org.vishia.util.FileList T -l:$currdir/.filelist -d:$currdir
+else  
+  ~/cmds/javavishia.sh org.vishia.util.FileList T -l:$currdir/.filelist -d:$currdir
+fi
