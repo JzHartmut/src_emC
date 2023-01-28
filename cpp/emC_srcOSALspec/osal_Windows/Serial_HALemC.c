@@ -40,7 +40,7 @@ typedef struct InternalData_Serial_HALemC_T {
   int volatile ixBufferWr;  //:for receiving bytes -ReadFile(...)
   int volatile run;
   int ctException;
-  HandleThread_OSemC hThread;
+  Thread_OSemC* hThread;
   HANDLE hPort;
   MemUnit valueBuffer[200];   //:the user buffer to get the data.
 } InternalData_Serial_HALemC;

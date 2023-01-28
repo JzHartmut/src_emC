@@ -56,7 +56,7 @@ extern_C_BLOCK_
 /**Handle to a thread. The internal data structure is not known here. 
  * A ,,HandleThread_OSemC,, may also be a simple integer, which is converted to this pointer type.
  */
-#define HandleThread_OSemC struct Thread_OSemC_T*
+//#define HandleThread_OSemC struct Thread_OSemC_T*
 
 /**The thread routine should have the followed prototype.
  * @param data Pointer to data. Mostly it is a class structure. 
@@ -182,12 +182,12 @@ extern_C bool delete_Thread_OSemC(Thread_OSemC* thiz);
 
 /**Changes the thread priority.
 */
-int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio);
+int os_setThreadPriority(Thread_OSemC* handle, uint abstractPrio);
 
 /**Returns the priority of the given thread in the operation system's kind.
  * This is to compare priorities and for showing (in debug)
  */
-int os_getOsThreadPriority(HandleThread_OSemC handle);
+int os_getOsThreadPriority(Thread_OSemC* handle);
 
 
 /**NOTE: suspend and resumed must not called from another thread. Therefore this routines

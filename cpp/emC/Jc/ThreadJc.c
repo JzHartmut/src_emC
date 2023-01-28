@@ -68,7 +68,7 @@ ThreadJc_s* ctorO_Runnable_s_ThreadJc(ObjectJc* othis, RunnableJc_s* pRunnable, 
   checkConsistence_ObjectJc(othis, sizeof(ThreadJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &refl_ThreadJc, sizeof(ThreadJc_s));  
 
-  ythis->hThread = null;
+  ythis->hThread.handleThread = null;
   set_s_StringJc(&(ythis->name), pName);
   
   ythis->nPriority = NORM_PRIORITY_ThreadJc;
@@ -142,11 +142,11 @@ void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt)
   /**Create and start: */
   ythis->stackSize = stackSize;
   //PRINTX2(0, "start_ThreadJc:\n",0); 
-  ok = os_createThread(&ythis->hThread, root_ThreadJc, data, nameBuffer, ythis->nPriority, ythis->stackSize);
+  ok = create_Thread_OSemC(&ythis->hThread, nameBuffer, root_ThreadJc, data, ythis->nPriority, ythis->stackSize);
   if(ok < 0){
-
     THROW1_s0(RuntimeException, "Error creating thread", -ok);
   }
+
   STACKTRC_LEAVE;
 }
 

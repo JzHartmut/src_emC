@@ -103,7 +103,7 @@ typedef struct ThreadJc_t
   union { ObjectJc object; RunnableJc_s RunnableJc;} base; 
 
   /**Ident of the thread, to check the correctnis (debugmodi). @refl:void*.*/
-  HandleThread_OSemC hThread;
+  Thread_OSemC hThread;
 
   /**Name of the thread. */
   StringJc name;

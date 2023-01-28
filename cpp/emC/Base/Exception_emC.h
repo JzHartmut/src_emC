@@ -295,11 +295,11 @@ typedef struct Exception_emC_T
 extern_C void log_Exception_emC(Exception_emC* exc, char const* sFile, int line);
 
 
-#ifndef DEF_NO_StringUSAGE
+//#ifndef DEF_NO_StringUSAGE
 /**Fills a common text in the buffer. It should contain the exception message, the file and line of the exception 
  * the file and line of this routine (Arguments sFile, line and, if available, information from the thread context. */
-extern_C int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, struct ThreadContext_emC_t* _thCxt);
-#endif
+extern_C int writeException ( char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, struct ThreadContext_emC_t* _thCxt);
+//#endif
 
 
 

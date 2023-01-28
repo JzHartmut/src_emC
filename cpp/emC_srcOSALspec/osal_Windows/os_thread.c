@@ -385,7 +385,7 @@ bool delete_Thread_OSemC(Thread_OSemC* thiz) {
  * @30.05.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
-int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
+int os_setThreadPriority(Thread_OSemC* handle, uint abstractPrio)
 {   
   int ret_ok;
 	long uWinPrio = os_getRealThreadPriority( abstractPrio );
@@ -424,7 +424,7 @@ int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
  * @18.06.2008 / Rodriguez / Erste Implementierung.
  * @since 2008-09-30 redesign Hartmut
  */
-int os_suspendThread(HandleThread_OSemC handle)
+int os_suspendThread(Thread_OSemC* handle)
 {
 
 	if (!bOSALInitialized){
@@ -457,7 +457,7 @@ int os_suspendThread(HandleThread_OSemC handle)
  * @Datum/Autor/Änderungen
  * @18.06.2008 / Rodriguez / Erste Implementierung.
  */
-int os_resumeThread(HandleThread_OSemC handle)
+int os_resumeThread(Thread_OSemC* handle)
 {
 
 	if (!bOSALInitialized){
@@ -479,8 +479,8 @@ int os_resumeThread(HandleThread_OSemC handle)
 }
 
 
-int os_getOsThreadPriority(HandleThread_OSemC handle) {
-  return GetThreadPriority((HANDLE)handle);
+int os_getOsThreadPriority(Thread_OSemC* thiz) {
+  return GetThreadPriority((HANDLE)(thiz->handleThread));
 }
 
 

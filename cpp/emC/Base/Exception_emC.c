@@ -253,7 +253,12 @@ const char* getExceptionText_Exception_emC(int32 exceptionNr)
 }
 
 
-#ifndef DEF_NO_StringUSAGE
+#ifdef DEF_NO_StringUSAGE
+int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, ThCxt* _thCxt)
+{
+  return 0;
+}
+#else //not DEF_NO_StringUSAGE
 int writeException(char* buffer, int zbuffer, Exception_emC* exc, char const* sFile, int line, ThCxt* _thCxt)
 {
   if(zbuffer == 0) { return 0; }
