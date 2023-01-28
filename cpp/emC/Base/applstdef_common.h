@@ -132,7 +132,7 @@ extern_C StringJc const empty_StringJc;
  * @param TEXT should be a text-literal only. If it references a char-array,
  *        a problem with persistence may existing.
  */
-#define INIZ_z_StringJc(TEXT) { TEXT, kIs_0_terminated_StringJc}
+#define INIZ_z_StringJc(TEXT) { TEXT, mLength_StringJc } // it is kIs_0_terminated_StringJc}
 #define CONST_z_StringJc(TEXT) INIZ_z_StringJc(TEXT)
 
 /**Initializer-Macro for StringJc, initialize the StringJc-reference to a string literal.

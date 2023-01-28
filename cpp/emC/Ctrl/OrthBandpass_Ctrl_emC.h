@@ -367,8 +367,8 @@ void ctor_Param_OrthBandpass16_Ctrl_emC(Param_OrthBandpass16_Ctrl_emC_s* thiz, i
 static inline void setPeriod_Param_OrthBandpass16_Ctrl_emC(Param_OrthBandpass16_Ctrl_emC_s* thiz, float nStepsPeriod)
 { 
 #ifndef __ignoreInCheader_zbnf__
-  float fI1 = 2*PI_float_emC / nStepsPeriod;
-  float fI_own = cosf(fI1);
+  //float fI1 = 2*PI_float_emC / nStepsPeriod;
+  //float fI_own = cosf(fI1);
   //float fIcorr = (fI_own +3) /4;
   //float fIcorr2 = (fI_own +11) /12;
   //thiz->fq = 1.0f/ (thiz->tStepOrthi * nStepsPeriod);

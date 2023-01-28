@@ -295,7 +295,7 @@ int _prepareOutputText_LogMessageFW
 //, char const* typeArgs, va_list args
 {
   int nrofChars =0;   //TODO
-  int zText = (int)strlen(sText);
+  MAYBE_UNUSED_emC int zText = (int)strlen(sText);
   //char const* sText = getCharsAndLength_StringJc(&text, &zText);
   //const char* text1 = text.ref; 
   //char const* arg1 = *(char const**)(&args->v[0]);

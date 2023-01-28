@@ -149,7 +149,6 @@ void ctor_Param_OrthBandpass32_Ctrl_emC(Param_OrthBandpass32_Ctrl_emC_s* thiz, i
   CTOR_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), refl_Param_OrthBandpass32_Ctrl_emC, identObj);
   setInitialized_ObjectJc(&thiz->obj); //no init routine exists.
   thiz->tStepOrthi = tStepOrthi;
-  float f = 0.5f;
 }
 
 
@@ -161,20 +160,20 @@ Param_OrthBandpass32_Ctrl_emC::Param_OrthBandpass32_Ctrl_emC(int32 identObj, flo
 #endif //__cplusplus
 
 
-static void XXXXXXXcalcKABOrthBandpass32_Ctrl_emC (OrthBandpass32_Ctrl_emC_s* thiz,  float kA, float kB) 
-{
-  int32 kA_IEEE754 = *(int32*)&kA;
-  int32 kB_IEEE754 = *(int32*)&kB;
-  int32 exp_kAB_IEEE754 = kA_IEEE754 & 0x7F800000; 
-  //int32 recexp_kAB_IEEE754 = (0x3F800000 - exp_kAB_IEEE754) + 0x3F000000;
-  int sh = (exp_kAB_IEEE754 - 0x3f800000) >>23;  //0 for 0.5..1, max
-  //float normKAB = *(float*) &recexp_kAB_IEEE754;
-  int32 kAi = ((kA_IEEE754 & 0x007FFFFF) << 6);
-  kAi |= 0x40000000;
-  if(kA <0) kAi = -kAi;
-  thiz->kA = kAi;
-
-}
+//static void XXXXXXXcalcKABOrthBandpass32_Ctrl_emC (OrthBandpass32_Ctrl_emC_s* thiz,  float kA, float kB)
+//{
+//  int32 kA_IEEE754 = *(int32*)&kA;
+//  int32 kB_IEEE754 = *(int32*)&kB;
+//  int32 exp_kAB_IEEE754 = kA_IEEE754 & 0x7F800000;
+//  //int32 recexp_kAB_IEEE754 = (0x3F800000 - exp_kAB_IEEE754) + 0x3F000000;
+//  int sh = (exp_kAB_IEEE754 - 0x3f800000) >>23;  //0 for 0.5..1, max
+//  //float normKAB = *(float*) &recexp_kAB_IEEE754;
+//  int32 kAi = ((kA_IEEE754 & 0x007FFFFF) << 6);
+//  kAi |= 0x40000000;
+//  if(kA <0) kAi = -kAi;
+//  thiz->kA = kAi;
+//
+//}
 
 
 OrthBandpass32_Ctrl_emC_s* ctor_OrthBandpass32_Ctrl_emC(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep)

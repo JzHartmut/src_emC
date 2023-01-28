@@ -395,7 +395,7 @@ int os_getRealThreadPriority(int abstractPrio)
 
 
 
-int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
+int os_setThreadPriority(Thread_OSemC* handle, uint abstractPrio)
 {   
   //int ret_ok = 0;
   return OS_OK;
@@ -404,10 +404,10 @@ int os_setThreadPriority(HandleThread_OSemC handle, uint abstractPrio)
 //see also https://stackoverflow.com/questions/43471743/pthread-self-on-linux
 //https://man7.org/linux/man-pages/man3/pthread_self.3.html
 // returns the thread_id, which is also stored in the Thread_OSemC
-HandleThread_OSemC os_getCurrentThreadHandle ( void ){
-  pthread_t h = pthread_self();
-  return (HandleThread_OSemC) h;   // present it outside to a specific pointer type, OS-independent.
-}
+//Thread_OSemC* os_getCurrentThreadHandle ( void ){
+//  pthread_t h = pthread_self();
+//  return (HandleThread_OSemC) h;   // present it outside to a specific pointer type, OS-independent.
+//}
 
 
 ThreadContext_emC_s* getCurrent_ThreadContext_emC  ()
