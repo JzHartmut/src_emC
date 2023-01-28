@@ -148,7 +148,7 @@ int free_MemC  (  void const* addr)
   }
   #else  //ndef SIZE_SafetyArea_allocMemC
   else {
-    os_freeMem(addr);
+    os_freeMem(ptr);    //Note use ptr not addr do prevent compiler warning "unused ptr"
     STACKTRC_RETURN 1;
   }
   #endif //ndef SIZE_SafetyArea_allocMemC
