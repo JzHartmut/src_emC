@@ -209,7 +209,7 @@ int open_Com_HALemC(Com_HALemC_s* ithiz) {
   if(INSTANCEOF_ObjectJc(&ithiz->base.object, refl_Serial_HALemC)) {  //check which type
     Serial_HALemC_s* thiz = C_CAST(Serial_HALemC_s*, ithiz);
     ret = open_Serial_HALemC(thiz->channel, thiz->dir, thiz->baud, thiz->bytePattern);
-    thiz->base.comm_HAL_emC._handle_ = (const void*)thiz->channel;
+    thiz->base.comm_HAL_emC._handle_ = (const void*)(uintPTR)thiz->channel;
   } else {
     THROW(IllegalArgumentException, z_StringJc("not expected"), 0,0);
   }

@@ -161,11 +161,11 @@ const struct Reflection_Fields_ThreadJc_s_t
 } refl_Fields_ThreadJc_s =
 { INIZ_ObjectArrayJc(refl_Fields_ThreadJc_s, 7, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
-    { "hThread"
+    { "osThread"
     , 0   //no Array, no Bitfield                           
     , REFLECTION_void                                                                                            
     , 0 | kReference_Modifier_reflectJc //bitModifiers
-    , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->hThread)) -0x1000 )
+    , (int16)( ((intptr_t)(&((ThreadJc_s*)(0x1000))->osThread)) -0x1000 )
     , 0  //offsetToObjectifcBase                                                            
     , &refl_ThreadJc
     }

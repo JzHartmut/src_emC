@@ -84,7 +84,7 @@ void set_Par_PIDi_Ctrl_emC(Par_PIDi_Ctrl_emC_s* thiz
     float maxPIDf = 10000.0f * (1<<(thiz->numBits -16)); 
     if(thiz->numBits > INT_NUM_NROFBITS) {       //== 32 bit internal calculation with 16 bit int
       MAYBE_UNUSED_emC int maxfP = 1<<(INT_NUM_NROFBITS -2);      // this is anytime 0x4000
-      int kPi = int(kP * 0x4 * (1 << (f->nShy -16)));                // kP 1.0 =: 4  
+      int kPi = (int)(kP * 0x4 * (1 << (f->nShy -16)));                // kP 1.0 =: 4  
       while( kPi !=0) {
         f->nShP +=1; kPi >>=1;                   // shift 2 for kP = 1.0, shift 5 for kP = 8.0...15.999
       }

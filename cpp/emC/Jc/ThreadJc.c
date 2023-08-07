@@ -26,11 +26,14 @@
  *
  **copyright***************************************************************************************
  *
- * @content some methods to implement ThreadJc.
+ * @content some operations to implement ThreadJc.
+ * This operations are only used if the Java-like ThreadJc is used, especially for sources translated from Java.
+ * It is not used for thread functionality only with emC/OSAL/thread_OSemC.h
  *
  * @author Hartmut Schorrig
  * @version 0.91
  * list of changes:
+ * 2023-07-03 after refactoring the os thread_OSemC the ThreadJc does not start, because start_Thread_OSemC(...) was missing. 
  * 2009-10-08: Hartmut creation from older source
  *
  ****************************************************************************/
@@ -68,7 +71,7 @@ ThreadJc_s* ctorO_Runnable_s_ThreadJc(ObjectJc* othis, RunnableJc_s* pRunnable, 
   checkConsistence_ObjectJc(othis, sizeof(ThreadJc_s), null, _thCxt);  
   setReflection_ObjectJc(othis, &refl_ThreadJc, sizeof(ThreadJc_s));  
 
-  ythis->hThread.handleThread = null;
+  ythis->osThread.handleThread = null;
   set_s_StringJc(&(ythis->name), pName);
   
   ythis->nPriority = NORM_PRIORITY_ThreadJc;
@@ -138,15 +141,16 @@ void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt)
   /**either given target or the Thread class itself. It is the instance which contains the appopriate run method.*/
   data = target == null ? (void*)ythis : (void*)target;  
   /**The name is given as StringJc, it doesn't may be zero-terminated, therefore use a copy-buffer in Stack. */
-  copyToBuffer_StringJc(ythis->name, 0, -1, nameBuffer, sizeof(nameBuffer));
+  int zNameBuffer = copyToBuffer_StringJc(ythis->name, 0, -1, nameBuffer, sizeof(nameBuffer)-1);
+  nameBuffer[zNameBuffer] = 0;
   /**Create and start: */
   ythis->stackSize = stackSize;
   //PRINTX2(0, "start_ThreadJc:\n",0); 
-  ok = create_Thread_OSemC(&ythis->hThread, nameBuffer, root_ThreadJc, data, ythis->nPriority, ythis->stackSize);
+  ok = create_Thread_OSemC(&ythis->osThread, nameBuffer, root_ThreadJc, data, ythis->nPriority, ythis->stackSize);
   if(ok < 0){
     THROW1_s0(RuntimeException, "Error creating thread", -ok);
   }
-
+  start_Thread_OSemC(&ythis->osThread);
   STACKTRC_LEAVE;
 }
 

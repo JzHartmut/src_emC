@@ -95,8 +95,12 @@ typedef struct Mutex_OSemC_T {
 
 /**Creates a mutex object on OS-level.
  * @param thiz reference to data space, can be statically, or also allocated.
- *    It will be cleaned here (set to 0 before usage).
  *    The struct type is usual OS-specific. It contains the necessary data for example a HANDLE etc.
+ *    This data space should be initialized with 0 already before first call of this operation!
+ *    A accidently initial content (non initialized) forces errors!
+ *    It should be regarded, that the mutex object may be created before already,
+ *    or another thread has done it similar. Then the existing one should be used.
+ *    This situation can be occur especially if two threads will be locked simultaneously
  * @param name Name of the Mutex Object. 
  *  In some operation systems this name should be unique.
  */

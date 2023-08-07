@@ -547,12 +547,14 @@ int close_InterProcessCommSocket(ObjectJc* xthis)
  	if (ythis->m_nSocketType == kStream_InterProcessCommSocket)
   {	os_shutdown( ythis->myStreamSocket.socket, SO_BOTH_DOWN);
   }
-	if (os_close( ythis->mySocket.socket ) != 0)
-  { nRetVal = socketError_InterProcessComm(); //negative return value
+	if(ythis->mySocket.socket.socket !=0) {     // only if socket is existing (chg2023-07-02)
+    if (os_close( ythis->mySocket.socket ) != 0)
+    { nRetVal = socketError_InterProcessComm(); //negative return value
+    }
   }
   else
   { ythis->mySocket.socket.socket = 0;
-	  ythis->adrDest = NULL;
+	    ythis->adrDest = NULL;
   }
   return nRetVal;
 }

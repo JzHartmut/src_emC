@@ -89,6 +89,7 @@ METHOD_C int setRunMode_ObjectJc(ThCxt* _thCxt);
  * Methods for thread synchronization
  */
 
+#ifdef DEF_ObjectJc_SYNCHANDLE
 
 /**The synchronized(obj) keyword from Java. */
 METHOD_C void synchronized(ObjectJc* obj);
@@ -121,6 +122,7 @@ METHOD_C void notify_ObjectJc(ObjectJc* obj, ThCxt* _thCxt);
  */
 METHOD_C void notifyAll_ObjectJc(ObjectJc* obj, ThCxt* _thCxt);
 
+#endif  // DEF_ObjectJc_SYNCHANDLE
 
 
 /*@CLASS_C ObjectArrayJc @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/

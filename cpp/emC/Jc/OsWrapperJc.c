@@ -63,6 +63,10 @@
 #include <string.h>
 
 
+#ifdef DEF_ObjectJc_SYNCHANDLE
+//It works only if the ObjectJc has the SyncHandle.
+//Yet 2023-07-03 refactored but not tested. Not used yet.
+
 OsWrapperJc_s data_OsWrapperJc = { 0 };
 
 
@@ -71,12 +75,12 @@ OsWrapperJc_s data_OsWrapperJc = { 0 };
 int initFreeHandleEntry  (  )
 { int zHandleItems = ARRAYLEN_emC(data_OsWrapperJc.handleItemsJc);
   int ii;
-  data_OsWrapperJc.handleItemsJc[0].handle.nextFree = kNoFreeHandleItem;  //let the first unused, no using of index 0!
+  data_OsWrapperJc.handleItemsJc[0].nextFree = kNoFreeHandleItem;  //let the first unused, no using of index 0!
   data_OsWrapperJc.freeHandle = &data_OsWrapperJc.handleItemsJc[1];
   for(ii = 1; ii < zHandleItems -1; ii++)
-  { data_OsWrapperJc.handleItemsJc[ii].handle.nextFree = &(data_OsWrapperJc.handleItemsJc[ii+1]);
+  { data_OsWrapperJc.handleItemsJc[ii].nextFree = &(data_OsWrapperJc.handleItemsJc[ii+1]);
   }
-  data_OsWrapperJc.handleItemsJc[ii].handle.nextFree = kNoFreeHandleItem;  //the last one.
+  data_OsWrapperJc.handleItemsJc[ii].nextFree = kNoFreeHandleItem;  //the last one.
   return zHandleItems;
 }
 
@@ -121,7 +125,7 @@ HandleItem* getFreeHandleEntry  (  int16* idx)
     { *idx = -2;  //TODO passenden Win-error
       return null;
     }
-    HandleItem* nextFree = theHandleItem->handle.nextFree;  //it may be null if there is no more handle.
+    HandleItem* nextFree = theHandleItem->nextFree;  //it may be null if there is no more handle.
     if(compareAndSwap_AtomicRef((void* volatile*)&(data_OsWrapperJc.freeHandle), theHandleItem, nextFree) == theHandleItem ) {
       break;  //if succeeded
     }
@@ -166,13 +170,13 @@ void releaseHandleEntry  (  int16 idx)
   if(releaseHandle->handleMutex.osHandleMutex) {
     deleteMutex_OSemC(&releaseHandle->handleMutex);
   }
-  if(releaseHandle->handle.wait) {
-    deleteWaitNotifyObj_OSemC(releaseHandle->handle.wait);
+  if(releaseHandle->handleWaitNotify.osHandleWaitNotify) {
+    deleteWaitNotifyObj_OSemC(&releaseHandle->handleWaitNotify);
   }
   int tryCt = 10000;
   while(--tryCt > 0) {
     currNextFree = data_OsWrapperJc.freeHandle;
-    releaseHandle->handle.nextFree = currNextFree;  //referes the next next then 
+    releaseHandle->nextFree = currNextFree;  //referes the next next then 
     if(compareAndSwap_AtomicRef((void* volatile*)&(data_OsWrapperJc.freeHandle), currNextFree, releaseHandle) == currNextFree) {
       break;  //if succeeded
     }
@@ -195,6 +199,24 @@ void releaseHandleEntry  (  int16 idx)
   #define handleBits identSize
 #endif
 
+
+/**This is the only one routine which changed the ObjectJc data, 
+ * but only one time if the handle is not set. 
+ * Hint: thiz is changed in handleBits if they are not used till now.
+ */
+INLINE_emC HandleItem* getHandleExist_ObjectJc ( ObjectJc const* thiz) {
+  HandleItem* handle = null;
+  int err = 0;
+  int16 ixHandle = thiz->handleBits & mSyncHandle_ObjectJc;
+  if(ixHandle == kNoSyncHandles_ObjectJc) {
+    return null;
+  } else {
+    handle = getHandleEntry(ixHandle);
+    return handle;
+  }
+}
+
+
 /**This is the only one routine which changed the ObjectJc data, 
  * but only one time if the handle is not set. 
  * Hint: thiz is changed in handleBits if they are not used till now.
@@ -204,45 +226,51 @@ INLINE_emC HandleItem* getHandle_ObjectJc ( ObjectJc const* thiz) {
   int16 ixHandle = thiz->handleBits & mSyncHandle_ObjectJc;
   if(ixHandle == kNoSyncHandles_ObjectJc) {
     handle = getFreeHandleEntry(&ixHandle);  //ixHandle set with valid index.
-    if(ixHandle > 0) {
-      int32 newValue, oldValue;
+    if(ixHandle <= 0) {
+      STACKTRC_ENTRY("getHandleAndLock_ObjectJc");
+      THROW1_s0(RuntimeException, "error no handle", 0);
+      STACKTRC_LEAVE;
+      return null; //no handle available
+    } else {
+      int16 newValue, oldValue;
       int tryCt = 1000;
       #ifndef DEF_NO_StringUSAGE  //Note: this capabilities should not be used on DEF_NO_StringUSAGE
         strcpy_emC(handle->name, "Jc_00", sizeof(handle->name));
         handle->name[5] = (char)(((ixHandle >>6)  & 0x3f) + '0');
         handle->name[6] = (char)(((ixHandle    )  & 0x3f) + '0');
       #endif
-      int err = createMutex_OSemC(&handle->handleMutex, handle->name);
+      bool bAnyOtherHasAlreadyLocked = false;
       while(--tryCt > 0) {
-        oldValue = thiz->handleBits; //Note: read only one time, test the same as in compareAndSet
-        if((oldValue & mSyncHandle_ObjectJc) != (kNoSyncHandles_ObjectJc)) { 
-          //Another thread has set the ixHandle already in this short time
-          releaseHandleEntry(ixHandle); //release the yet gotten one
-          handle = null;
-          ixHandle = thiz->handleBits & mSyncHandle_ObjectJc; //Take the current
-          break;  //no action necessary
-        }
         //composite the newValue with the changed ixHandle and the unchanged other bits:
+        oldValue = thiz->handleBits | mSyncHandle_ObjectJc;
         newValue = (oldValue & ~mSyncHandle_ObjectJc) | ixHandle;  
         //cast from uint16* to int16*
-        if(compareAndSwap_AtomicInt16((int16*)&thiz->handleBits, oldValue, newValue) == oldValue){
-          break;  //success
+        int16 currentValue = compareAndSwap_AtomicInt16((int16*)&thiz->handleBits, oldValue, newValue); 
+        if(currentValue == oldValue){
+          break;  //success, the current value was the old value as expected.
+        }
+        bAnyOtherHasAlreadyLocked = (currentValue & mSyncHandle_ObjectJc ) != mSyncHandle_ObjectJc;
+        if(bAnyOtherHasAlreadyLocked) {
+          break;                           // the value cannot be written because another thread has written.
         }
       }
       if(tryCt ==-1) {
-        STACKTRC_ENTRY("getHandle_ObjectJc");
+        STACKTRC_ENTRY("getHandleAndLock_ObjectJc");
         THROW1_s0(RuntimeException, "error set idSyncHandle", 0);
         STACKTRC_LEAVE;
         return null;
       }
-    } else {
-      STACKTRC_ENTRY("getHandle_ObjectJc");
-      THROW1_s0(RuntimeException, "error no handle", 0);
-      STACKTRC_LEAVE;
-      return null; //no handle available
+      if(bAnyOtherHasAlreadyLocked) {
+        //Another thread has set the ixHandle already in this short time
+        //this thread has also already locked the mutex, elsewhere the index was not gotten.
+        releaseHandleEntry(ixHandle);                                // push back the current gotten handle.
+        ixHandle = thiz->handleBits & mSyncHandle_ObjectJc;          //Take the current
+        handle = getHandleEntry(ixHandle);  //the existing handle.
+        // hence it waits here to lock.
+      }
     }
   }
-  if(handle == null && ixHandle >=0) {
+  else if(ixHandle >0) {
     handle = getHandleEntry(ixHandle);  //the existing handle.
   }
   return handle;
@@ -257,28 +285,18 @@ INLINE_emC HandleItem* getHandle_ObjectJc ( ObjectJc const* thiz) {
 /**implements from ObjectJc.h. */
 void wait_ObjectJc  (  ObjectJc* obj, int milliseconds, ThCxt* _thCxt)
 { //TODO test wether the thread has the monitor.
+  // wait should only be called if lock is given, see Java.
   HandleItem* handle;
   STACKTRC_TENTRY("wait_ObjectJc");
-  handle = getHandle_ObjectJc(obj);
-  if(handle == null) {
-    THROW1_s0(RuntimeException, "error get Handle", 0);
+  handle = getHandleExist_ObjectJc(obj);                   //the existing handle.
+  if(handle == null) {                                     // the handle should be given because thiz should be locked.
+    THROW1_s0(RuntimeException, "wait should be called under mutex", 0);
     return;
   }
-  if(handle->handle.wait == null)
-  { //TODO set
-    struct WaitNotify_OSemC_T* handleWait = null;
-    int error = createWaitNotifyObj_OSemC(handle->name, handleWait);
-    if(error != 0)
-    { //it may be throwable
-      THROW1_s0(RuntimeException, "error createWaitNotifyObj_OSemC", error);
-      return;
-    }
-    if(compareAndSwap_AtomicRef((void* volatile*)&(handle->handle.wait), null, (void*)handleWait) != null) {
-      //a wait handle is existing from another thread,
-      deleteWaitNotifyObj_OSemC(handleWait);  //remove it again.
-    }
+  if(handle->handleWaitNotify.osHandleWaitNotify ==0) {
+    createWaitNotifyObj_OSemC(handle->name, &handle->handleWaitNotify);
   }
-  wait_OSemC(handle->handle.wait, &handle->handleMutex, milliseconds);
+  wait_OSemC(&handle->handleWaitNotify, &handle->handleMutex, milliseconds);
   STACKTRC_LEAVE;
 }
 
@@ -289,14 +307,9 @@ void notify_ObjectJc  (  ObjectJc* obj, ThCxt* _thCxt)
 { //TODO it is possible that more as one thread waits, implement a list of threads.
   STACKTRC_TENTRY("notify_ObjectJc");
   uint16 handleObj = (obj->handleBits & mSyncHandle_ObjectJc);
-  if(handleObj != kNoSyncHandles_ObjectJc)
-  { HandleItem* handle = getHandleEntry(handleObj);
-    if(handle->handle.wait != null && handle->handleMutex.osHandleMutex != null)
-    {
-      notify_OSemC(handle->handle.wait, &handle->handleMutex);
-    }
-  } else {
-    //the Object has not a handle, ergo it does not wait. Do nothing.
+  if(handleObj != kNoSyncHandles_ObjectJc) {
+    HandleItem* handle = getHandleEntry(handleObj);
+    notify_OSemC(&handle->handleWaitNotify, &handle->handleMutex);
   }
   STACKTRC_LEAVE;
 }
@@ -309,10 +322,7 @@ void notifyAll_ObjectJc  (  ObjectJc* obj, ThCxt* _thCxt)
   uint16 handleObj = (obj->handleBits & mSyncHandle_ObjectJc);
   if(handleObj != kNoSyncHandles_ObjectJc)
   { HandleItem* handle = getHandleEntry(handleObj);
-    if(handle->handle.wait != null && handle->handleMutex.osHandleMutex != null)
-    {
-      notify_OSemC(handle->handle.wait, &handle->handleMutex);
-    }
+    notifyAll_OSemC(&handle->handleWaitNotify, &handle->handleMutex);
   }
   STACKTRC_LEAVE;
 }
@@ -336,8 +346,10 @@ void synchronized  (  ObjectJc* obj)
     THROW1_s0(RuntimeException, "error get Handle", 0);
     STACKTRC_LEAVE;
     return;
+  } else {
+    createMutex_OSemC(&handle->handleMutex, handle->name);   // create only if not yet created.
+    lockMutex_OSemC(&handle->handleMutex);                   // either lock as first or wait for lock here. 
   }
-  lockMutex_OSemC(&handle->handleMutex);
 }
 
 
@@ -351,12 +363,14 @@ void synchronizedEnd  (  ObjectJc* obj)
 {
   HandleItem* handle;
   STACKTRC_ENTRY("synchronizedEnd");
-  handle = getHandle_ObjectJc(obj);
+  handle = getHandleExist_ObjectJc(obj);
   if(handle == null) {
-    THROW1_s0(RuntimeException, "error get Handle",0);
+    THROW1_s0(RuntimeException, "synchronizedEnd, it is not synchronized",0);
     return;
   }
   unlockMutex_OSemC(&handle->handleMutex);
+  //Now it is possible to give the handleData back to the handleItems resource
+  // because it is no more used. ... todo later
   STACKTRC_LEAVE;
 }
 
@@ -372,4 +386,6 @@ void sleep_Thread_Jc  (  int32 millisecond)
   os_delayThread(millisecond);
   STACKTRC_LEAVE;
 }
-//#endif //DEF_ObjectJc_SYNCHANDLE
+
+
+#endif //DEF_ObjectJc_SYNCHANDLE

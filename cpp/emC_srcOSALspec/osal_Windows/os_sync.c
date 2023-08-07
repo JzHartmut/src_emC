@@ -38,6 +38,7 @@
 #include <emC/OSAL/sync_OSemC.h>
 #include <emC/OSAL/thread_OSemC.h>
 #include <emC/Base/Time_emC.h>
+#include <emC/OSAL/os_AtomicAccess.h>
 
 #undef BOOL
 #undef PBOOL
@@ -53,13 +54,21 @@
 //It allocates a CRITICAL_SECTION data and calla InitializeCriticalSection(cs) 
 //tag::createMutex[]
 extern_C int createMutex_OSemC ( struct Mutex_OSemC_T* thiz, char const* name) {
-    memset(thiz, 0, sizeof(*thiz));
+  void* handleOld = thiz->osHandleMutex;
+  if(handleOld == null) {                      // create only if not given. 
     thiz->name = name;
     CRITICAL_SECTION* cs = C_CAST(CRITICAL_SECTION*,malloc(sizeof(CRITICAL_SECTION)));
     InitializeCriticalSection(cs);
-    thiz->osHandleMutex  = cs;
-    thiz->name = name;
-    return 0;
+    int repeat = 20;
+    void volatile* handleRead = compareAndSwap_AtomicRef( &thiz->osHandleMutex, null, cs);
+    if(handleRead != null) {                   // another thread has written also meanwhile
+      DeleteCriticalSection(cs);               // forget the work, all is done by the other thread.
+      free(cs);                                // deallocates
+    } else {
+      thiz->name = name;
+    }
+  }
+  return 0;
 }
 //end::createMutex[]
 
@@ -209,7 +218,7 @@ bool wait_OSemC  (  struct WaitNotify_OSemC_T* thiz, struct Mutex_OSemC_T* mutex
 /** Notifies all waiting thread to continue.
  */
 //tag::notifyAll[]
-bool notifyAll_OSemC  ( struct WaitNotify_OSemC_T* thiz, struct Mutex_OSemC_T const* hMutex)
+bool notifyAll_OSemC  ( WaitNotify_OSemC_s* thiz, struct Mutex_OSemC_T* hMutex)
 {
   return false;
 

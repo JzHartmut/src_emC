@@ -319,7 +319,7 @@ inline void stepC_WaveData_FB(WaveData_FB* thiz)
  * This method should be called one time in the step time of calculation.
  * The value should be store in thiz->X before. 
  * Note: That is more proper because the value is often calculated and can be viewed via Inspector. date:2016-0517
- * @simulink Object-FB, step-in, step-out, no-thizStep.
+ * @simulink Object-FB, step-in.  //Note: use thiz-step for step-out
  */
 inline void step_WaveData_FB(WaveData_FB* thiz, float X) 
 { thiz->X = X;

@@ -44,7 +44,7 @@
 #include <applstdef_emC.h>
 #include <emC/OSAL/os_time.h>
 #include <emC/OSAL/os_error.h>
-#include <emC/OSAL/os_thread.h>
+#include <emC/OSAL/thread_OSemC.h>
 //
 #include <stdio.h>
 #include <stdlib.h>  //exit

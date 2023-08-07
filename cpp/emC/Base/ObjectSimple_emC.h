@@ -165,7 +165,10 @@ typedef struct  ObjectJc_T
     /**Offset from the data-instance start address to the ObjectJc part. 
      * It is especially for symbolic field access (reflection) in C++. */
     uint16 offsetToInstanceAddr;
-    /**Some handle bits to use an ObjectJc for lock (mutex). */
+    /**Some handle bits to use an ObjectJc for lock (mutex) and wait-notify. 
+     * Initially set to -1 (0x0fff). An instance is allocated only if necessary.
+     * See mSyncHandle_ObjectJc, mLockedSyncHandle_ObjetJc
+     */
     uint16 handleBits;
   #endif
 

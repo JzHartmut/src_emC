@@ -63,24 +63,22 @@
  */
 #define VERSION_OsWrapperJc 0x20150816
 
-/**Because only a int16 value is used in Object_Jc for wait and threading, but some operation systems uses 32 bit-handles,
+/**This is a structure to reference mutex and wait/notify ressources from the operation system.
+ * The Jc adapter uses an array of this data. The index to the array will be written in ObjectJc#handleBits
+ * if it is allocated.
+ * Because only a int16 value is used in Object_Jc for wait and threading, but some operation systems uses 32 bit-handles,
  * a translation of handle to index is necessary. This type stores several types of OS_Handle.
  */
-typedef struct HandleItem_t
-{ /**union of several handles, all are pointers. */
-  union
-  { struct WaitNotify_OSemC_T* wait;
-    struct Thread_OSemC_T const* thread_xxx;
-    /**If it is a free handle, the pointer to the next free. */
-    struct HandleItem_t* nextFree;
-  }handle;
-
-
-  //struct OS_HandleMutex_t const* handleMutex;
+typedef struct HandleItem_t { 
+  
+  WaitNotify_OSemC_s handleWaitNotify;
+  
   Mutex_OSemC_s handleMutex;
 
   /**Name for the handle, derived from index. */
   char name[8];
+  /**Possible to build a queue of free handles. */
+  struct HandleItem_t* nextFree;
 } HandleItem;
 
 

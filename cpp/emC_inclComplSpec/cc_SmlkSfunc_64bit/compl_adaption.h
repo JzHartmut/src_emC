@@ -1,3 +1,5 @@
+#ifndef HGUARD_compl_adaption
+#define HGUARD_compl_adaption
 /************************************************************************************************
  * Copyright/Copyleft:
  *
@@ -33,8 +35,6 @@
  * @author Hartmut Schorrig
  *************************************************************************************************/
 
-#ifndef   __compl_adaption_h__
-#define   __compl_adaption_h__
 
 //uncomment that to check whether this file is used for include:
 //#error used_emC_cc_SmlkSfunc
@@ -55,6 +55,71 @@
 
 
 
+
+
+
+
+/**Some warnings should be disabled in default, because there are not the source of errors,
+ * but present in normal software development.
+ */
+//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
+
+
+
+
+
+
+/**Some warnings should be disabled in default, because there are not the source of errors,
+ * but present in normal software development.
+ */
+//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
+
+
+//C++
+//#pragma warning(disable:4100) //unused argument
+
+//C++
+#pragma warning(disable:4068) //unknown pragma
+
+#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
+#pragma warning(disable:4127) //conditional expression is constant
+#pragma warning(disable:4189) //local variable is initialized but not referenced
+#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
+#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
+#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
+#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
+#pragma warning(disable:4310) //cast truncates constant value
+#pragma warning(disable:4505) //unreferenced local function has been removed
+#pragma warning(disable:4514) //unreferenced inline function has been removed
+//#pragma warning(disable:4512) //assignment operator could not be generated
+#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
+
+#pragma warning(error:4002) //too many actual parameters for macro
+#pragma warning(error:4003) //not enough actual parameters for macro
+#pragma warning(error:4020) //too many actual parameters
+//#pragma warning(disable:9025) //Command line warning D9025 : overriding '/EHs' with '/EHa'
+
+
+/**Defintion of bool, false, true for C usage. */
+#ifdef __cplusplus
+  #define INLINE_emC inline
+  #define CONSTMember_emC
+#else
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
+  #define CONSTMember_emC const
+  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
+     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
+  */
+  //#define inline static
+  //#define INLINE_emC static
+  #define INLINE_emC inline
+  //If C-compiling is used, define the C++-keywords for C
+  #define bool int
+  #undef false
+  #undef true
+  #define false 0
+  #define true (!false)
+#endif
 //#include the standard header from Visual studio firstly. 
 //stdint.h defines int8_t etc. via typedef. 
 //Because pragma once (or guard) the content of the files are not included again.
@@ -123,77 +188,13 @@
 
 
 
-
-
-/**Some warnings should be disabled in default, because there are not the source of errors,
- * but present in normal software development.
- */
-//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-
-
-
-
-/**Some warnings should be disabled in default, because there are not the source of errors,
- * but present in normal software development.
- */
-//#pragma warning(disable:4204) //nonstandard extension used : non-constant aggregate initializer TODO prevent
-
-
-//C++
-//#pragma warning(disable:4100) //unused argument
-
-//C++
-#pragma warning(disable:4068) //unknown pragma
-
-#pragma warning(disable:4100) //4100: 'type' : unreferenced formal parameter
-#pragma warning(disable:4127) //conditional expression is constant
-#pragma warning(disable:4189) //local variable is initialized but not referenced
-#pragma warning(disable:4201) //nonstandard extension used : nameless struct/union
-#pragma warning(disable:4214) //nonstandard extension used : bit field types other than int
-#pragma warning(disable:4244) //conversion from 'int' to 'char', possible loss of data specific for energy inits
-#pragma warning(disable:4268) //'const' static/global data initialized with compiler generated default constructor fills the object with zeros
-#pragma warning(disable:4310) //cast truncates constant value
-#pragma warning(disable:4505) //unreferenced local function has been removed
-#pragma warning(disable:4514) //unreferenced inline function has been removed
-//#pragma warning(disable:4512) //assignment operator could not be generated
-#pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
-
-#pragma warning(error:4002) //too many actual parameters for macro
-#pragma warning(error:4003) //not enough actual parameters for macro
-#pragma warning(error:4020) //too many actual parameters
-//#pragma warning(disable:9025) //Command line warning D9025 : overriding '/EHs' with '/EHa'
-
-
-/**Defintion of bool, false, true for C usage. */
-#ifdef __cplusplus
-  #define INLINE_emC inline
-  #define CONSTMember_emC
-#else
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. */
-  #define CONSTMember_emC const
-  /**For C-compiling: build static routines, maybe the compiler optimized it to inline. 
-     It is for Visual Studio 6 from 1998. The C99-Standard declares inline features.
-  */
-  //#define inline static
-  //#define INLINE_emC static
-  #define INLINE_emC inline
-  //If C-compiling is used, define the C++-keywords for C
-  #define bool int
-  #undef false
-  #undef true
-  #define false 0
-  #define true (!false)
-#endif
-
-
 /**This macro guarantees that a boolean true value is represented by the value 1. Most of compilers realizes that, 
  * but it is not guaranteed in C or C++ standard.
  * The value 1 is necessary to represent a boolean value in an integer or bitfield in a defined kind.
  * The long variant guarantees it independent of the compiler. The short variant can be used if the compiler guarantees 
  * a value of 1 for boolean true.
  */
+#define bool1_emC(COND) ((COND) ? 1 : 0) 
 #define OSAL_bool1(COND) ((COND) ? 1 : 0) 
 //#define OSAL_bool1(COND) (COND)
 
@@ -214,9 +215,21 @@
 
 
 
+/**Definition of the kind of memory addressing. 
+ * MemUnit is the access to one memory cell with 1 address step.
+ * One address step can address more as 8 bit for some embedded processors, 16 or 32 bit.
+ */
 #define MemUnit char            //sizeof(MemUnit) muss 1 sein!
 #define BYTE_IN_MemUnit 1       //im PC gilt: 1 MemUnit = 1 Byte
 #define BYTE_IN_MemUnit_sizeof 1
+/**int-type which can represent a standard pointer. It is signed to support address difference calculation. */
+#define intPTR long long
+#define uintPTR unsigned long long
+#define INT_HAS32BIT
+#define DEF_DONOTDEF_intPTR  //intptr_t is defined unconditional in vcruntime.h of MS-VisualStudio.
+//Application hint: do not use intptr_t in the application. 
+#define _UINTPTR_T_DEFINED  //MS VS: prevent twice definition of uintptr_t in vadefs.h
+
 
 
 /**The definition of the real number of bits for the intxx_t and uintxx_t is missing in the stdint.h, limits.h and in the C99 standard.
@@ -232,11 +245,12 @@
 #define INT_NROFBITS   32
 
 /**The definition of INTxx_MAX etc. is part of C99 and stdint.h (limits.h) 
- * But the definition of INT_MAX is missing.
+ * But the definition of INT_MAX is missing.  But better use _emC as suffix.
+ * For this compiler platform int is int32
  */
-//#define INT_MAX INT32_MAX 
-//#define INT_MIN INT32_MIN 
-//#define UINT_MAX UINT32_MAX 
+#define INT_MAX_emC INT32_MAX 
+#define INT_MIN_emC INT32_MIN 
+#define UINT_MAX_emC UINT32_MAX 
 
 /**All types with fix byte-wide should be defined in a platform-valid form. It is the C99-standard here. 
  * Use the Simulink types from tmwtypes.h to aware compatibility with Simulink code.
@@ -260,13 +274,6 @@ typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 
 
 
-
-
-
-/**int-type which can represent a standard pointer. */
-#define intPTR uint64
-
-
 /**Definition of the really used types in variable argument lists. 
  * The GNU-Compiler uses abbreviated types, for example always int32 instead int16 and double instead float.
  * Especially in va_arg(..,TYP)-Makro.
@@ -280,9 +287,14 @@ typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 //NULL soll nach wie vor fuer einen 0-Zeiger verwendet werden duerfen.
 //Hinweis: In C++ kann (void*)(0) nicht einem typisiertem Zeiger zugewiesen werden, wohl aber 0
 #undef  NULL
-#define NULL 0
 #undef null
+#ifdef __cplusplus
+#define NULL 0
 #define null 0
+#else  //C-compiler
+  #define NULL ((void*)0)
+  #define null ((void*)0)
+#endif 
 
 // Folgendes Define wird nach einer Struktur insbesondere f�r GNU-Compiler verwendet. Es ist f�r MSC6 leer,
 // weil stattdessen ein pragma pack(1) verwendet werden muss.
@@ -290,6 +302,26 @@ typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
 
 //NOTE: This is the std definition in emC/Base/types_def_common.h, There also SIZEOF_IN_STRUCT
 //#define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+/**To mark variables which are calculated but not used in any kind. 
+ * Sometimes they may be part of an assertions which is switched off,
+ * But also sometimes only for information on debugging. 
+ * This is a pragma for gcc to prevent a warning. In visual studio not regarded.
+ */
+#define MAYBE_UNUSED_emC
+
+/**Hint that this variable always is used. */
+#define USED_emC
+
+/**It is an attribute before a function definition to determine
+ * that the function should be placed in a section which is linked
+ * to a RAM location but load into the FLASH memory.
+ * This section must be copied on startup to run successfully.
+ * It is a designation for embedded hardware with lesser but fast RAM.
+ */
+#define RAMFUNC_emC
+
+#define OFFSET_IN_STRUCT(TYPE, FIELD) ((int)(intptr_t)&(((TYPE*)0)->FIELD))
+#define SIZEOF_IN_STRUCT(TYPE, FIELD) ((int)(sizeof((TYPE*)0)->FIELD))
 
 /**Prevent process a NaN-value (not a number).
  * The NaN-check should be done processor-specific. Therefore this is a part of os_types_def.h
@@ -324,19 +356,10 @@ typedef struct int64_hilo_t{ int32 lo; int32 hi; } int64_hilo;
  * The user should not include windows.h or such. 
  */
 #define OS_HandleEvent void*   
-#define MAYBE_UNUSED_emC
-
-#define USED_emC
-
-/**It is an attribute before a function definition to determine
- * that the function should be placed in a section which is linked
- * to a RAM location but load into the FLASH memory.
- * This section must be copied on startup to run successfully.
- * It is a designation for embedded hardware with lesser but fast RAM.
- */
-#define RAMFUNC_emC
 
 
+//It is for math.h of Visual Studio, elsewhere M_PI is not defined (special incompatibility of VS)
+#define _USE_MATH_DEFINES
 
 /**A OS_intPTR is the representation of a pointer in a int variable. 
  * Often a pointer is representable in a normal int, 
@@ -464,4 +487,4 @@ INLINE_emC bool compareAndSet_AtomicInt16(int16 volatile* reference, int16 expec
 
 
 
-#endif  //__compl_adaption_h__
+#endif  //HGUARD_compl_adaption

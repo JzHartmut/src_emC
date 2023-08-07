@@ -182,7 +182,7 @@ typedef enum ParityStop_Serial_HALemC_T {
 
 typedef struct Serial_HALemC_T {
   union{ Com_HALemC_s comm_HAL_emC; ObjectJc object;} base;
-  uintPTR channel; 
+  int channel; 
   enum Direction_Serial_HALemC_T dir;
   uint32 baud; 
   ParityStop_Serial_HALemC bytePattern;
@@ -302,13 +302,13 @@ class Serial_HALemC : public Com_HALemC, private Serial_HALemC_s {
 
   int openComm ( Direction_Serial_HALemC dir
   , int32 baud, ParityStop_Serial_HALemC bytePattern) {
-    this->base.comm_HAL_emC._handle_ = C_CAST(void*, channel);
+    this->base.comm_HAL_emC._handle_ = C_CAST(void*, (uintPTR)channel);
     this->channel = channel;
     this->dir = dir;
     this->baud = baud;
     this->bytePattern = bytePattern;
     
-    return (int)open_Serial_HALemC(channel, dir, baud, bytePattern);
+    return open_Serial_HALemC(channel, dir, baud, bytePattern);
   }
 
   /**Activates ad hoc a sending process.

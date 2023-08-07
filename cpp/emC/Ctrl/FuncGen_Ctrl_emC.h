@@ -91,3 +91,4 @@ inline void step_FuncGen_Ctrl_emC(FuncGen_Ctrl_emC_s* thiz, float* y_y) {
 
 
 #endif //HGUARD_FunGen_Ctrl_emC
+

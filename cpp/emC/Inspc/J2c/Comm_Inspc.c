@@ -187,14 +187,14 @@ void run_Comm_Inspc_F(ObjectJc* ithis, ThCxt* _thCxt)
         }
       }//while !=0xd
     
-    synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
+    //synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
       
       { 
         
         thiz->state = 0xf;
-        notify_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), _thCxt);
+        //notify_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), _thCxt);
       }
-    } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
+    //} endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
   }
   }_TRY
   CATCH(Exception, exc) {
@@ -227,7 +227,7 @@ void receiveAndExecute_Comm_Inspc(Comm_Inspc_s* thiz, ThCxt* _thCxt)
     
     InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, thiz->ipc, InterProcessComm);
     
-    while(thiz->state != 0xd)
+    while(thiz->state != 0xd)   // 0xd is the state for delete, end the thread
       { /*:0xd to terminate*/
         /*:chgData_TestData_Inspc(ythis->testInspc);   //only for test.*/
         
@@ -342,19 +342,19 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
     InterProcessCommMTB ipcVtbl ; SETMTBJc(ipcVtbl, thiz->ipc, InterProcessComm);
     ipcVtbl.mtbl->close(&(( (ipcVtbl.ref))->base.object));/*breaks waiting in receive socket*/
     
-    
-    while(thiz->state != 0xf)
-      { 
+    int ctWait = 100;    // wait at least one second
+    while(--ctWait >0 && thiz->state != 0xf) { 
         
+      sleep_Time_emC(10);       // let other thread react, because of close socket it should finish.
         
-        synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
+        //synchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object)); {
           
           { 
             
             TRY
             { 
               
-              wait_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), 100, _thCxt);
+              //wait_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object), 100, _thCxt);
             }_TRY
             CATCH(InterruptedException, exc)
             
@@ -364,8 +364,12 @@ void shutdown_Comm_Inspc_F(Comm_Inspc_s* thiz, ThCxt* _thCxt)
               }
             END_TRY
           }
-        } endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
+        //} endSynchronized_ObjectJc(& ((* (thiz)).base.RunnableJc.base.object));
       }
+    if(ctWait ==0) {
+      THROW_s0(IllegalStateException, "socket receive thread does not end", 0,0);
+
+    }
   }
   STACKTRC_LEAVE;
 }

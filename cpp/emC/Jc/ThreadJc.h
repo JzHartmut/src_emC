@@ -103,7 +103,7 @@ typedef struct ThreadJc_t
   union { ObjectJc object; RunnableJc_s RunnableJc;} base; 
 
   /**Ident of the thread, to check the correctnis (debugmodi). @refl:void*.*/
-  Thread_OSemC hThread;
+  Thread_OSemC osThread;
 
   /**Name of the thread. */
   StringJc name;
@@ -175,7 +175,8 @@ METHOD_C void setPriority_ThreadJc(ThreadJc_s* ythis, int newPriority);
 
 METHOD_C int getPriority_ThreadJc(ThreadJc_s* ythis);
 
-
+/**This is adequate java.lang.Thread.start();
+ */
 METHOD_C void start_ThreadJc(ThreadJc_s* ythis, int stackSize, ThCxt* _thCxt);
 
 /** The original virtual method run of class Thread, used for an immediate non-dynamic call.

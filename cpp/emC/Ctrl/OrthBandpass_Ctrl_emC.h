@@ -180,12 +180,31 @@ static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, f
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  * @param yaz_y variable to store the a-Output.
  * @param ab_Y variable to store the complex orthogonal output.. 
- * @simulink Object-FB, accel-tlc.
+ * @simulink accel-tlc, update.
  */
-static inline void stepSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float xAdiff, float xBdiff, float* yaz_y, float_complex* ab_y)
+static inline void updateSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float xAdiff, float xBdiff)
   { 
 #ifndef __ignoreInCheader_zbnf__ 
   step_OrthBandpassF_Ctrl_emC(thiz, xAdiff, xBdiff);
+  //*yaz_y = thiz->yab.re;
+  //*ab_y = thiz->yab; 
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+
+
+/**Step routine. for simulink S-Function with outputs. 
+ * @param xAdiff Difference between Input and yaz_y Signal
+ * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+ * @param yaz_y variable to store the a-Output.
+ * @param ab_Y variable to store the complex orthogonal output.. 
+ * @simulink Object-FB, accel-tlc.
+ */
+static inline void stepSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float* yaz_y, float_complex* ab_y)
+  { 
+#ifndef __ignoreInCheader_zbnf__ 
+  //step_OrthBandpassF_Ctrl_emC(thiz, xAdiff, xBdiff);
   *yaz_y = thiz->yab.re;
   *ab_y = thiz->yab; 
 #endif//__ignoreInCheader_zbnf__

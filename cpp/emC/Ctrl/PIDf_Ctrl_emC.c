@@ -21,7 +21,11 @@
 //  extern_C int const refl_Par_PID_Vtrl
 #endif
 
-
+//This is the max used value for the integrator. 
+//Par_PIDf_Ctrl_emC_s.fIy is set so that this maps the given yMax for the output of the controller.
+//Note that a range should be reserved (0x07ffffff) for adding one value to the integrator. 
+//It means ParFactors_PIDf_Ctrl_emC_s.fI shold be <= 0x07fffffff/0x78000000, that is <= 1/16. Tn >= 16*Tstep. This is tested.
+#define INTG_MAX 0x78000000L
 
 
 //tag::ctor_Par_PIDf_Ctrl_emC[]
@@ -40,8 +44,8 @@ bool init_Par_PIDf_Ctrl_emC(Par_PIDf_Ctrl_emC_s* thiz, float Tctrl_param, float 
 { //check before cast:
   thiz->Tctrl = Tctrl_param;
   thiz->yMax = yMax_param;
-  thiz->fIy = thiz->yMax / (float)(0x78000000L);
-  thiz->fIx = (float)(0x78000000L) / thiz->yMax;   //for yMax the value is 0x78000000 no overflow because limitation.
+  thiz->fIy = thiz->yMax / (float)(INTG_MAX);
+  thiz->fIx = (float)(INTG_MAX) / thiz->yMax;   //for yMax the value is INTG_MAX no overflow because limitation.
   thiz->i[0].open = thiz->i[1].open = openLoop_param ? 1 : 0;
 
   thiz->ixf = 0;   // set to i[0] to first usage
@@ -76,7 +80,8 @@ void set_Par_PIDf_Ctrl_emC ( Par_PIDf_Ctrl_emC_s* thiz
     f->en = reset? 0 : 1;
     f->kP = thiz->kP;                  //A less value, especially 0 means "no integration" such as Tn very high.
     f->fI = thiz->Tn <= 16*thiz->Tctrl ? 0 : thiz->fIx * (thiz->Tctrl / thiz->Tn);
-    //Note: Tn > 16*Tctrl because elsewhere an additional overflow check may be necessary in runtime. 
+    //Note: Tn > 16*Tctrl because elsewhere an additional overflow check may be necessary in runtime.
+    // It depends on the definition of INTG_MAX. 16 is tuned to 0x78000000 
     //Tn is usual > 16*Tctrl.
     ASSERT_emC(thiz->Tn > 16*thiz->Tctrl || thiz->Tn ==0, "", (int)(thiz->Tn/thiz->Tctrl), (int)(thiz->Tctrl * 1000000));
     f->fD = thiz->kP * (thiz->Td / thiz->dt);
@@ -204,23 +209,23 @@ float step_PIDf_Ctrl_emC ( PIDf_Ctrl_emC_s* thiz, float wx, float dx)
     y = wxP + dxP + thiz->yIntg + thiz->yAdd;
     if(y >= thiz->limf)  {             // limitation necessary:
       y = thiz->limf;                  // limit the output
-      if(thiz->qI.qI32 > 0x3F000000) {
-        thiz->qI.qI32 = 0x3F000000;        // limit the integrator, 
-      }
-      else if(thiz->qI.qI32 < -0x3f000000) {
-        thiz->qI.qI32 = -0x3f000000;
+      if(thiz->qI.qI32 > INTG_MAX) {
+        thiz->qI.qI32 = INTG_MAX;        // limit the integrator, 
       }
     }
     else if(y < -thiz->limf) {         // same for negative limit 
       y = -thiz->limf; 
+      if (thiz->qI.qI32 < -INTG_MAX) {
+          thiz->qI.qI32 = -INTG_MAX;
+      }
     }
     else if(thiz->disableIntg ==0) {   // integrate for next step only if not limited
       int32 wxP32i = (int32)(f->fI * wxP); //growth for integrator
       //Note: It is possible that a possible limitation was not detected just now, 
       //but it is effective in the next step time.
       //Then the following is true: 
-      //1) The max. value for qI32 in this moment is 0x3f00 correspond to fIy and fIx.
-      //   An numeric overflow can never occur if Tn > 32 * Tstep (16 >= 0x7e00/0x01ff)
+      //1) The max. value for qI32 in this moment is INTG_MAX correspond to fIy and fIx.
+      //   An numeric overflow can never occur if Tn > 32 * Tstep (16 >= INTG_MAX/(0x7fffffff-INTG_MAX) 0x7e00/0x01ff)
       //   That is a very less Tn, it is tested on parametrizing.
       //2) An overdrive of the integrator for one step can occure 
       //   because the integration is done after limit check. 
