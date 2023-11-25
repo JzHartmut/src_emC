@@ -93,6 +93,7 @@
 #pragma warning(disable:4514) //unreferenced inline function has been removed
 //#pragma warning(disable:4512) //assignment operator could not be generated
 #pragma warning(disable:4786) //identifier was truncated to '255' characters in the browser information
+#pragma warning(disable:4996) //'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 
 #pragma warning(error:4002) //too many actual parameters for macro
 #pragma warning(error:4003) //not enough actual parameters for macro

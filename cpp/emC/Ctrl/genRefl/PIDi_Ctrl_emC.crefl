@@ -395,7 +395,7 @@ const struct Reflection_Fields_PIDi_Ctrl_emC_s_t
 { ObjectArrayJc head;
   FieldJc data[10];
 } refl_Fields_PIDi_Ctrl_emC_s =
-{ INIZ_ObjectArrayJc(refl_Fields_PIDi_Ctrl_emC_s, 11, FieldJc, refl_FieldJc, ID_refl_FieldJc)
+{ INIZ_ObjectArrayJc(refl_Fields_PIDi_Ctrl_emC_s, 10, FieldJc, refl_FieldJc, ID_refl_FieldJc)
 , {  
     { "par"
     , 0   //no Array, no Bitfield                           
