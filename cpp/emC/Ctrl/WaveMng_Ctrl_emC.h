@@ -26,7 +26,9 @@ typedef struct WaveMngIx_FB_t
   /**This index refers that element where the newest value was written in after [[fillIn_WaveData_FB(...)]]. */
 	int ixNew;
 
-} WaveMngIx_FB;
+} WaveMngIx_FB_s;
+
+#define WaveMngIx_FB WaveMngIx_FB_s
 
 typedef WaveMngIx_FB* P_WaveMngIx_FB; 
 
@@ -39,8 +41,8 @@ extern_C struct ClassJc_t const refl_WaveMngIx_FB;
  */
 void ctor_WaveMngIx_FB(WaveMngIx_FB* thiz, int identObj, int32 size, float Tstep);
 
-
-
+/**init is not necessary, supplement it. */
+#define init_WaveMngIx_FB(THIZ) true
 
 
 /**Counts the index, should be called in any step time. 
@@ -184,9 +186,11 @@ typedef struct WaveMng_FB_t
 
   WaveMngIx_FB* waveIx;
 
-} WaveMng_FB;
+} WaveMng_FB_s;
 
-typedef WaveMng_FB* P_WaveMng_FB; 
+typedef WaveMng_FB_s* P_WaveMng_FB; 
+
+#define WaveMng_FB WaveMng_FB_s 
 
 extern_C struct ClassJc_t const refl_WaveMng_FB;
 
@@ -210,6 +214,7 @@ bool init_WaveMng_FB(WaveMng_FB* thiz, WaveMngIx_FB* waveIx);
  *  If that number is out of range, it is set to 1 or its maximum.
  * @simulink Object-FB, step-in, step-out, no-thizStep.
  */
+void step_WaveMng_FB(WaveMng_FB* thiz, float nrofValues);
 void step_WaveMng_FB(WaveMng_FB* thiz, float nrofValues);
 
 
@@ -241,10 +246,11 @@ typedef struct WaveData_FB_t
   /**The size of data are here as information. The waveIx.[[WaveMngIx_IB.sizeData]] are used for indexing. 
    * If sizeData is negativ, it will be set with an given instance. It it is positive, it is allocatated. */ 
   int32 sizeDataAllocPos;
-} WaveData_FB;
+} WaveData_FB_s;
 
-typedef WaveData_FB* P_WaveData_FB; 
+typedef WaveData_FB_s* P_WaveData_FB; 
 
+#define WaveData_FB WaveData_FB_s
 
 extern_C struct ClassJc_t const refl_WaveData_FB;
 
@@ -380,6 +386,7 @@ inline void getPastIx_WaveData_FB(WaveData_FB* thiz, int ixPast_param, float* ds
 
 
 /**Class to calculate any sliding averaging sum.
+/**Class to calculate any sliding averaging sum.
  * This class have an aggregation to a WaveBuffer_FB which stores the value.
  *
  * Dieser FB dient der Berechnung des Mittelwert ab dem aktuellen Wert in die Vergangenheit mit einer festen Länge von Werten. 
@@ -397,14 +404,16 @@ typedef struct AvgWave_FB_t
   /**The sum of that values, which builds the average. */
   float sum_;
 
-  WaveData_FB* data_;
+  WaveData_FB_s* data_;
 
   /**Association to the wave manager. */
-  WaveMng_FB* wu_;
-}AvgWave_FB;
+  WaveMng_FB_s* wu_;
+} AvgWave_FB_s;
 
+#define AvgWave_FB AvgWave_FB_s
 
-typedef AvgWave_FB* P_AvgWave_FB; 
+typedef AvgWave_FB_s* P_AvgWave_FB; 
+
 
 
 extern_C struct ClassJc_t const refl_AvgWave_FB;
@@ -430,6 +439,10 @@ inline bool init_AvgWave_FB(AvgWave_FB* thiz, WaveMng_FB* wu, WaveData_FB* data)
   }
   return true;
 }
+
+
+inline void step1_AvgWave_FB(AvgWave_FB* thiz)
+{  } // do nothing in step
 
 
 /**Returns the average value, core operation. */
@@ -467,7 +480,7 @@ typedef struct AvgWaveCint_FB_t
   /**The sum of that values, which builds the average. */
   float sum_;
 
-  WaveData_FB* data_;
+  WaveData_FB_s* data_;
 
   /**Association to the wave manager. */
   WaveMngCint_FB* wu_;

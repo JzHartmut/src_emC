@@ -119,7 +119,9 @@ inline float rst2abn_Angle_Ctrl_emC(float rst[3], float_complex* ab) {
 }
 
 
-
+static inline float atan2fcplx(float_complex ab) {
+  return atan2f(ab.im, ab.re);
+} 
 
 /**This structure describes a complex signal value with its angle and magnitude.
  * @simulink bus

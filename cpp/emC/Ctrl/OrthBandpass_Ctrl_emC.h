@@ -35,10 +35,12 @@ typedef struct Param_OrthBandpassF_Ctrl_emC_T
 
 
   /**Integrator factor from the other component.*/
-  float fI_oth;
+  float foth;
 
-  /**Adjust for the own component in one step time. Less, ~ 0.00... */
-  float fI_own;
+  /**Adjust for the own component in one step time.near ~ 0.98... */
+  float fown;
+
+  bool initOk;  //Note: necessary for odg graphic 2024-01
 
 } Param_OrthBandpassF_Ctrl_emC_s;
 
@@ -57,7 +59,7 @@ typedef struct Param_OrthBandpassF_Ctrl_emC_T
  * @param Tstep
  * @simulink ctor.
  */
-void ctor_Param_OrthBandpassF_Ctrl_emC(Param_OrthBandpassF_Ctrl_emC_s* thiz, int32 identObj, float Tstep, float tStepOrthi, float nom_m);
+Param_OrthBandpassF_Ctrl_emC_s* ctor_Param_OrthBandpassF_Ctrl_emC(ObjectJc* othiz, int32 identObj, float Tstep, float tStepOrthi, float nom_m);
 
 
 
@@ -69,12 +71,14 @@ static inline void setPeriod_Param_OrthBandpassF_Ctrl_emC(Param_OrthBandpassF_Ct
 #ifndef __ignoreInCheader_zbnf__
   float fI1 = 2*PI_float_emC / nStepsPeriod;
   thiz->fq = 1.0f / (nStepsPeriod * thiz->tStepOrthi);
-  thiz->fI_own = 1.0f - cosf(fI1); //the little rest to subtract
-  thiz->fI_oth = sinf(fI1);    //forward gain from other compn, determines fq
+  thiz->fown = cosf(fI1); //the little rest to subtract
+  thiz->foth = sinf(fI1);    //forward gain from other compn, determines fq
   thiz->nStepsPeriod = nStepsPeriod;
 #endif//__ignoreInCheader_zbnf__
 }
 
+//only to adapt yet used odg graphic:
+#define step_Param_OrthBandpassF_Ctrl_emC(THIZ, FQ) setFq_Param_OrthBandpassF_Ctrl_emC(THIZ, FQ) 
 
 /**
  * @simulink Object-FB.
@@ -84,13 +88,24 @@ static inline void setFq_Param_OrthBandpassF_Ctrl_emC ( Param_OrthBandpassF_Ctrl
 { 
 #ifndef __ignoreInCheader_zbnf__ 
   float fI1 = 2*PI_float_emC * thiz->tStepOrthi * fq;
-  thiz->fI_own = 1.0f - cosf(fI1); //the little rest to subtract
-  thiz->fI_oth = sinf(fI1);    //forward gain from other compn, determines fq
+  thiz->fown = cosf(fI1); //the little rest to subtract
+  thiz->foth = sinf(fI1);    //forward gain from other cmpn, determines fq
   thiz->fq = fq;
   thiz->nStepsPeriod = 1.0f / (fq * thiz->tStepOrthi); 
 #endif//__ignoreInCheader_zbnf__
 
 }
+
+
+/**Initializes the instance data. 
+ * @param fq initial frequency
+ * @xxx simulink init.
+ */
+static inline bool init_Param_OrthBandpassF_Ctrl_emC(Param_OrthBandpassF_Ctrl_emC_s* thiz, float fq) {
+  setFq_Param_OrthBandpassF_Ctrl_emC(thiz, fq);
+  return true;
+}
+
 
 
 #if defined(DEF_cplusplus_emC) && defined(__cplusplus)
@@ -124,7 +139,7 @@ typedef struct OrthBandpassF_Ctrl_emC_T
 
   float m;        //:optional: Magnitude and its reciproke, if calculated
 
-  float_complex yab;  //:Orthogonal components of oscillation. 
+  float_complex yabz, yab;  //:Orthogonal components of oscillation old and current values. 
 
 
 } OrthBandpassF_Ctrl_emC_s;
@@ -145,7 +160,7 @@ typedef struct OrthBandpassF_Ctrl_emC_T
 OrthBandpassF_Ctrl_emC_s* ctor_OrthBandpassF_Ctrl_emC(ObjectJc* othiz, float kA, float kB, int32 identObj, float Tstep);
 
 
-/**Prepares the instance data. 
+/**Initializes the instance data. 
  * @param par aggregation to the parameter.
  * @param angle aggregation to instance which contains the angle of the signal.
  * @simulink init.
@@ -157,25 +172,38 @@ bool init_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, Param_OrthBandp
 
 
 
-/**Step routine. It calulates the stored values of Orthogonal Oscillation.
+/**Step routine. It calulates the new values of Orthogonal Oscillation.
  * @param xAdiff Difference between Input and yab.re Signal
  * @param xBdiff 0 for only single input, or orthogonal difference from the other component
  */
-static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float xAdiff, float xBdiff)
-  {
+static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz
+, float xAdiff, float xBdiff
+) {
 #ifndef __ignoreInCheader_zbnf__
   Param_OrthBandpassF_Ctrl_emC_s* par = thiz->par;
-  thiz->xadiff = xAdiff; //store for evaluating (phase) and debug view
-  float a = thiz->yab.re;
-  thiz->yab.re -= par->fI_own * thiz->yab.re;
-  thiz->yab.re += par->fI_oth * ( thiz->kA * xAdiff - thiz->yab.im);
-  thiz->yab.im -= par->fI_own * thiz->yab.im;
-  thiz->yab.im += par->fI_oth * ( thiz->kB * xBdiff + a); 
+  thiz->xadiff = xAdiff;                         //store for evaluating (phase) and debug view
+  thiz->yab.re = par->fown * thiz->yabz.re + par->foth * ( thiz->kA * xAdiff - thiz->yabz.im);
+  thiz->yab.im = par->fown * thiz->yabz.im + par->foth * ( thiz->kB * xBdiff + thiz->yabz.re); 
 #endif//__ignoreInCheader_zbnf__
 }
 
 
-/**Step routine. for simulink S-Function with outputs. 
+static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float_complex xdiff){
+  return step_OrthBandpassF_Ctrl_emC(thiz, xdiff.re, xdiff.im);
+}
+
+
+/**Update routine. It takes the new values of Orthogonal Oscillation and stores in the state values.
+ */
+static inline void upd_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz)
+  {
+#ifndef __ignoreInCheader_zbnf__
+  thiz->yabz = thiz->yab;                        // hint: memcpy of the struct data.
+#endif//__ignoreInCheader_zbnf__
+}
+
+
+/**Update routine. for simulink S-Function called after output 
  * @param xAdiff Difference between Input and yaz_y Signal
  * @param xBdiff same as xAdiff for only single input, or orthogonal difference
  * @param yaz_y variable to store the a-Output.
@@ -185,27 +213,24 @@ static inline void step_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, f
 static inline void updateSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float xAdiff, float xBdiff)
   { 
 #ifndef __ignoreInCheader_zbnf__ 
-  step_OrthBandpassF_Ctrl_emC(thiz, xAdiff, xBdiff);
-  //*yaz_y = thiz->yab.re;
-  //*ab_y = thiz->yab; 
-#endif//__ignoreInCheader_zbnf__
+  upd_OrthBandpassF_Ctrl_emC(thiz);                   // executes update first
+  step_OrthBandpassF_Ctrl_emC(thiz, xAdiff, xBdiff);  // calls step here because it has the input values.
+#endif//__ignoreInCheader_zbnf__                      // in Simulink there are not ssSetInputPortDirectFeedThrough
 }
 
 
 
 
-/**Step routine. for simulink S-Function with outputs. 
- * @param xAdiff Difference between Input and yaz_y Signal
- * @param xBdiff same as xAdiff for only single input, or orthogonal difference
+/**Output routine. for simulink S-Function which determines the name of the S-Function. 
+ * The output routine is called firstly and may have input arguments, but not here.
  * @param yaz_y variable to store the a-Output.
  * @param ab_Y variable to store the complex orthogonal output.. 
- * @simulink Object-FB, accel-tlc.
+ * @simulink Object-FB, accel-tlc. Invokes the Smlk_Output and determines the name.
  */
 static inline void stepSmlk_OrthBandpassF_Ctrl_emC(OrthBandpassF_Ctrl_emC_s* thiz, float* yaz_y, float_complex* ab_y)
   { 
 #ifndef __ignoreInCheader_zbnf__ 
-  //step_OrthBandpassF_Ctrl_emC(thiz, xAdiff, xBdiff);
-  *yaz_y = thiz->yab.re;
+  *yaz_y = thiz->yab.re;            // output the current values calculate in the update operation.
   *ab_y = thiz->yab; 
 #endif//__ignoreInCheader_zbnf__
 }

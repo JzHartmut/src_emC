@@ -16,20 +16,22 @@
 
 
 
-void ctor_Param_OrthBandpassF_Ctrl_emC(Param_OrthBandpassF_Ctrl_emC_s* thiz, int32 identObj, float Tstep, float tStepOrthi, float nom_m)
+Param_OrthBandpassF_Ctrl_emC_s* ctor_Param_OrthBandpassF_Ctrl_emC(ObjectJc* othiz, int32 identObj, float Tstep, float tStepOrthi, float nom_m)
 { 
   //Param_OrthBandpassF_Ctrl_emC_s* thiz = thiz_y;  //use the output data as this. Initialize *this
-  CTOR_ObjectJc(&thiz->obj, thiz, sizeof(*thiz), refl_Param_OrthBandpassF_Ctrl_emC, identObj);
-  setInitialized_ObjectJc(&thiz->obj); //no init routine exists.
+  CTOR_ObjectJc(othiz, othiz, sizeof(*othiz), refl_Param_OrthBandpassF_Ctrl_emC, identObj);
+  Param_OrthBandpassF_Ctrl_emC_s* thiz = (Param_OrthBandpassF_Ctrl_emC_s*) othiz;
+  setInitialized_ObjectJc(othiz); //no init routine exists.
   thiz->tStepOrthi = tStepOrthi;
   thiz->fm = 0.5f / nom_m;
+  return thiz;
 }
 
 
 
 #if defined(DEF_cplusplus_emC) && defined(__cplusplus)
 Param_OrthBandpassF_Ctrl_emC::Param_OrthBandpassF_Ctrl_emC(int32 identObj, float Tstep, float tStepOrthi, float m_nom) {
-  ctor_Param_OrthBandpassF_Ctrl_emC(this, identObj, Tstep, tStepOrthi, m_nom);
+  ctor_Param_OrthBandpassF_Ctrl_emC(&this->obj, identObj, Tstep, tStepOrthi, m_nom);
 }
 #endif //__cplusplus
 
@@ -46,6 +48,8 @@ OrthBandpassF_Ctrl_emC_s* ctor_OrthBandpassF_Ctrl_emC(ObjectJc* othiz, float kA,
   thiz->m = 0;
   return thiz;
 }
+
+
 
 
 
