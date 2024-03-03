@@ -239,6 +239,10 @@ METHOD_C int os_accept(OS_ServerSocket so, OS_SOCKADDR* dstAddr, OS_StreamSocket
  */
 METHOD_C int os_bind(OS_Socket so, OS_SOCKADDR const* ownAddr);
 
+/**Newer form with or without rx timeout
+ * rxTimeout_us 0 then no timeout, 1...999999 timeout for receive in microseconds
+ */
+METHOD_C int bind_OS_Socket  (  OS_Socket so, OS_SOCKADDR const* addr, int rxTimeout_us);
 
 
 /**Close the socket. Frees the memory for this socket in the operation system.

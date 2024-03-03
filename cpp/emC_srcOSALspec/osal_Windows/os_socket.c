@@ -216,7 +216,26 @@ int os_bind  (  OS_Socket so, OS_SOCKADDR const* name)
 }
 
 
-
+//instead os_bind, new version with or without rx timeout
+int bind_OS_Socket  (  OS_Socket so, OS_SOCKADDR const* addr, int rxTimeout_us) {
+  int error = os_bind(so, addr);
+  if(error == 0 && rxTimeout_us >0) {   // see https://stackoverflow.com/questions/15941005/making-recvfrom-function-non-blocking
+    DWORD read_timeout = rxTimeout_us/1000;
+    //struct timeval read_timeout;
+    //read_timeout.tv_sec = 0;
+    //read_timeout.tv_usec = rxTimeout_us;
+    error = setsockopt(so.socket, SOL_SOCKET, SO_RCVTIMEO, (char const*)&read_timeout, sizeof read_timeout);
+  }
+	if (error  == SOCKET_ERROR){
+  	error = WSAGetLastError();
+    if(error >0){
+      error |= negativeSign;  //mark with negativ sign! Keep the rest of hex-readable value.
+    }
+  } else {
+    error = 0;
+  }
+  return error;
+}
 
 
 
@@ -501,6 +520,9 @@ int os_recvfrom  (  OS_DatagramSocket so, void* buffer, int len, int flags, OS_S
 	int iRetVal = recvfrom( (SOCKET)so.socket.socket, (char*)buffer, len, flags, (SOCKADDR*) &socketaddr, &nFromlenWin); 
 	if (iRetVal == SOCKET_ERROR ){
   	iRetVal = WSAGetLastError();
+    if(iRetVal == WSAETIMEDOUT) {
+      iRetVal = 0;                   // it is not an error, received 0 bytes.
+    }
     if(iRetVal >0){
       iRetVal |= negativeSign;  //mark with negativ sign! Keep the rest of hex-readable value.
     }

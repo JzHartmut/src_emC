@@ -386,7 +386,6 @@ inline void getPastIx_WaveData_FB(WaveData_FB* thiz, int ixPast_param, float* ds
 
 
 /**Class to calculate any sliding averaging sum.
-/**Class to calculate any sliding averaging sum.
  * This class have an aggregation to a WaveBuffer_FB which stores the value.
  *
  * Dieser FB dient der Berechnung des Mittelwert ab dem aktuellen Wert in die Vergangenheit mit einer festen Länge von Werten. 
@@ -441,12 +440,12 @@ inline bool init_AvgWave_FB(AvgWave_FB* thiz, WaveMng_FB* wu, WaveData_FB* data)
 }
 
 
-inline void step1_AvgWave_FB(AvgWave_FB* thiz)
+inline void upd_AvgWave_FB(AvgWave_FB* thiz)
 {  } // do nothing in step
 
 
 /**Returns the average value, core operation. */
-extern_C float stepR_AvgWave_FB(AvgWave_FB* thiz);
+extern_C float step_AvgWave_FB(AvgWave_FB* thiz);
 
 
 /**Calculates the average from current value to deepness of aggregated WaveMng_FB
@@ -456,7 +455,7 @@ extern_C float stepR_AvgWave_FB(AvgWave_FB* thiz);
  * @simulink Object-FB, step-in, no-thizStep.
  */
 inline void step_AvgWave_FB(AvgWave_FB* thiz, float* avg_y)
-{ *avg_y = stepR_AvgWave_FB(thiz); }
+{ *avg_y = step_AvgWave_FB(thiz); }
 
 
 

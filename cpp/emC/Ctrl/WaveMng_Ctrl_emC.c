@@ -195,7 +195,7 @@ void ctor_AvgWaveCint_FB(AvgWaveCint_FB* thiz, WaveMngCint_FB* wu, WaveData_FB* 
 
 
 
-float stepR_AvgWave_FB(AvgWave_FB* thiz)
+float step_AvgWave_FB(AvgWave_FB* thiz)
 {
   float const* data = thiz->data_->data;
   WaveMng_FB const* wu = thiz->wu_;
